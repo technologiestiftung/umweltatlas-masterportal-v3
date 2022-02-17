@@ -70,7 +70,8 @@ export default {
             enableZoom: true,
             isFeatureLoaded: false,
             snippets: [],
-            postSnippetKey: ""
+            postSnippetKey: "",
+            isShowResultCounts: false
         };
     },
     computed: {
@@ -112,6 +113,7 @@ export default {
         this.checkSnippetType(this.snippets);
     },
     methods: {
+        translateKeyWithPlausibilityCheck,
         /**
          * Checking if the type of snippet is already defined
          * @param {Object[]} snippets the snippet object in array list
@@ -427,6 +429,14 @@ export default {
             this.showStop = value;
         },
         /**
+         * Showing or not showing filtered result counts
+         * @param {Boolean} value true/false to en/disable to filtered result counts
+         * @returns {void}
+         */
+        showResultCounts (value) {
+            this.isShowResultCounts = value;
+        },
+        /**
          * Activating the layer for filtering
          * @param {String} layerId the layer Id from config
          * @returns {Object} the activated layer model
@@ -545,6 +555,7 @@ export default {
             this.setZoom(true);
             this.setFormDisable(true);
             this.showStopButton(true);
+            this.showResultCounts(true);
 
             if (isObject(this.layerModel)) {
                 this.layerModel.set("isSelected", true);
@@ -624,6 +635,12 @@ export default {
         class="panel-body"
     >
         <div
+            v-if="layerConfig.description"
+            class="layerInfoText"
+        >
+            {{ translateKeyWithPlausibilityCheck(layerConfig.description, key => $t(key)) }}
+        </div>
+        <div
             v-if="layerConfig.snippetTags !== false"
             class="snippetTags"
         >
@@ -653,6 +670,17 @@ export default {
                     @deleteRule="deleteRule"
                 />
             </div>
+        </div>
+        <div
+            v-if="isShowResultCounts"
+            class="filter-result"
+        >
+            <span>
+                {{ $t("modules.tools.filterGeneral.filterResult.label") }}
+            </span>
+            <span>
+                {{ filteredFeatureIds.length + " " + $t("modules.tools.filterGeneral.filterResult.unit") }}
+            </span>
         </div>
         <div
             v-if="Object.prototype.hasOwnProperty.call(layerConfig, 'searchInMapExtent') && layerConfig.searchInMapExtent"
@@ -859,9 +887,26 @@ export default {
     .panel-heading {
         padding: 5px;
     }
+    .filter-result {
+        font-size: 16px;
+        color: #E10019;
+        margin-top: 10px;
+        display: inline-block;
+        width: 100%;
+        span {
+            width: 50%;
+            display: inline-block;
+            float: left;
+            &:last-child {
+                text-align: right;
+                padding-right: 10px;
+            }
+        }
+    }
     .snippet {
         display: inline-block;
         margin-bottom: 20px;
+        position: relative;
         &:last-child {
             margin-bottom: 10px;
         }
@@ -878,5 +923,16 @@ export default {
     }
     .form-group {
         clear: both;
+    }
+    .table-filter-container {
+        #tool-general-filter {
+            .panel-body {
+                max-height: 480px;
+                overflow-y: scroll;
+                .snippet {
+                    max-width: 288px;
+                }
+            }
+        }
     }
 </style>
