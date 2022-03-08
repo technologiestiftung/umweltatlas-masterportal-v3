@@ -3,11 +3,13 @@ import Multiselect from "vue-multiselect";
 import {translateKeyWithPlausibilityCheck} from "../../../../utils/translateKeyWithPlausibilityCheck.js";
 import {getStyleModel, getIconListFromLegend} from "../utils/getIconListFromLegend.js";
 import isObject from "../../../../utils/isObject.js";
+import SnippetInfo from "./SnippetInfo.vue";
 
 export default {
     name: "SnippetDropdown",
     components: {
-        Multiselect
+        Multiselect,
+        SnippetInfo
     },
     props: {
         api: {
@@ -50,7 +52,7 @@ export default {
             required: false,
             default: false
         },
-        label: {
+        title: {
             type: [String, Boolean],
             required: false,
             default: true
@@ -106,31 +108,22 @@ export default {
             disable: true,
             isInitializing: true,
             isAdjusting: false,
-            showInfo: false,
             dropdownValue: [],
             dropdownSelected: [],
             styleModel: {},
             legendsInfo: [],
             iconList: {},
-            allSelected: false
+            allSelected: false,
+            translationKey: "snippetDropdown"
         };
     },
     computed: {
-        labelText () {
-            if (this.label === true) {
+        titleText () {
+            if (this.title === true) {
                 return this.attrName;
             }
-            else if (typeof this.label === "string") {
-                return this.translateKeyWithPlausibilityCheck(this.label, key => this.$t(key));
-            }
-            return "";
-        },
-        infoText () {
-            if (this.info === true) {
-                return this.$t("common:modules.tools.filterGeneral.info.snippetDropdown");
-            }
-            else if (typeof this.info === "string") {
-                return this.translateKeyWithPlausibilityCheck(this.info, key => this.$t(key));
+            else if (typeof this.title === "string") {
+                return this.translateKeyWithPlausibilityCheck(this.title, key => this.$t(key));
             }
             return "";
         },
@@ -143,13 +136,13 @@ export default {
         dropdownValueComputed () {
             if (this.multiselect && this.addSelectAll) {
                 return [{
-                    selectAllLabel: this.selectAllLabel,
+                    selectAllTitle: this.selectAllTitle,
                     list: this.dropdownValue
                 }];
             }
             return this.dropdownValue;
         },
-        selectAllLabel () {
+        selectAllTitle () {
             return !this.allSelected ? this.$t("modules.tools.filterGeneral.dropdown.selectAll") : this.$t("modules.tools.filterGeneral.dropdown.deselectAll");
         }
     },
@@ -174,9 +167,10 @@ export default {
                 this.isAdjusting = true;
                 this.dropdownValue = [];
             }
+
             if (isObject(adjusting?.adjust) && Array.isArray(adjusting.adjust?.value)) {
                 adjusting.adjust.value.forEach(value => {
-                    if (!this.dropdownValue.includes(value)) {
+                    if (!this.dropdownValue.includes(value) && (!Array.isArray(this.value) || this.value.includes(value))) {
                         this.dropdownValue.push(value);
                     }
                 });
@@ -243,6 +237,10 @@ export default {
                 this.disable = false;
             });
         }
+
+        if (this.visible && Array.isArray(this.prechecked) && this.prechecked.length) {
+            this.emitCurrentRule(this.prechecked, true);
+        }
     },
     mounted () {
         if (this.renderIcons === "fromLegend") {
@@ -258,6 +256,8 @@ export default {
         else if (isObject(this.renderIcons)) {
             this.iconList = this.renderIcons;
         }
+
+        this.$emit("setSnippetPrechecked", this.visible && Array.isArray(this.prechecked) && this.prechecked.length);
     },
     methods: {
         translateKeyWithPlausibilityCheck,
@@ -278,11 +278,11 @@ export default {
             return Object.keys(this.iconList).length > 0;
         },
         /**
-         * Returns the label to use in the gui.
-         * @returns {String} the label to use
+         * Returns the title to use in the gui.
+         * @returns {String} the title to use
          */
-        getLabel () {
-            return this.label || this.attrName;
+        getTitle () {
+            return this.title || this.attrName;
         },
         /**
          * Emits the current rule to whoever is listening.
@@ -338,13 +338,6 @@ export default {
             });
         },
         /**
-         * Toggles the info.
-         * @returns {void}
-         */
-        toggleInfo () {
-            this.showInfo = !this.showInfo;
-        },
-        /**
          * Select all items
          * @returns {void}
          */
@@ -373,31 +366,31 @@ export default {
         class="snippetDropdownContainer"
     >
         <div
+            v-if="info"
+            class="right"
+        >
+            <SnippetInfo
+                :info="info"
+                :translation-key="translationKey"
+            />
+        </div>
+        <div
             v-if="display === 'default'"
             class="snippetDefaultContainer"
         >
             <div
-                v-if="info !== false"
-                class="right"
-            >
-                <div class="info-icon">
-                    <span
-                        :class="['glyphicon glyphicon-info-sign', showInfo ? 'opened' : '']"
-                        @click="toggleInfo()"
-                        @keydown.enter="toggleInfo()"
-                    >&nbsp;</span>
-                </div>
-            </div>
-            <div
-                v-if="label !== false"
+                v-if="title !== false"
                 class="left"
             >
                 <label
                     class="select-box-label"
                     :for="'snippetSelectBox-' + snippetId"
-                >{{ labelText }}</label>
+                >{{ titleText }}</label>
             </div>
-            <div class="select-box-container">
+            <div
+                ref="selectBoxContainer"
+                class="select-box-container"
+            >
                 <Multiselect
                     :id="'snippetSelectBox-' + snippetId"
                     v-model="dropdownSelected"
@@ -414,114 +407,85 @@ export default {
                     :loading="disable"
                     :group-select="multiselect && addSelectAll"
                     :group-values="(multiselect && addSelectAll) ? 'list' : ''"
-                    :group-label="(multiselect && addSelectAll) ? 'selectAllLabel' : ''"
+                    :group-label="(multiselect && addSelectAll) ? 'selectAllTitle' : ''"
                 >
                     <span slot="noOptions">{{ emptyList }}</span>
                     <span slot="noResult">{{ noElements }}</span>
                 </Multiselect>
-            </div>
-            <div
-                v-show="showInfo"
-                class="bottom"
-            >
-                <div class="info-text">
-                    <span>{{ infoText }}</span>
-                </div>
             </div>
         </div>
         <div
             v-if="display === 'list'"
             class="snippetListContainer"
         >
-            <div class="table-responsive">
+            <div class="grid-container">
                 <div
-                    v-if="info"
-                    class="right"
+                    class="grid-item"
                 >
-                    <div class="info-icon">
-                        <span
-                            :class="['glyphicon glyphicon-info-sign', showInfo ? 'opened' : '']"
-                            @click="toggleInfo()"
-                            @keydown.enter="toggleInfo()"
-                        >&nbsp;</span>
-                    </div>
+                    {{ titleText }}
                 </div>
-                <table :class="['table table-sm table-hover table-bordered table-striped', info ? 'left': '']">
-                    <thead
-                        v-if="label !== false"
-                    >
-                        <tr>
-                            <th
-                                :colspan="anyIconExists() ? 3 : 2"
-                            >
-                                <div
-                                    class="pull-left"
-                                >
-                                    {{ labelText }}
-                                </div>
-                                <div
-                                    v-if="multiselect && addSelectAll"
-                                    class="pull-right"
-                                >
-                                    <a
-                                        href="#"
-                                        class="link-secondary"
-                                        @click="!allSelected ? selectAll() : deselectAll()"
-                                    >
-                                        {{ selectAllLabel }}
-                                    </a>
-                                </div>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr
-                            v-for="val in dropdownValue"
-                            :key="val"
-                        >
-                            <td
-                                v-if="anyIconExists()"
-                            >
-                                <label
-                                    for="'snippetRadioCheckbox-' + snippetId + '-' + val"
-                                >
-                                    <img
-                                        v-show="iconExists(val)"
-                                        class="snippetListContainerIcon"
-                                        :src="iconList[val]"
-                                        :alt="val"
-                                    >
-                                </label>
-                            </td>
-                            <td>
-                                <label
-                                    for="'snippetRadioCheckbox-' + snippetId + '-' + val"
-                                    class="hidden"
-                                />
-                                <input
-                                    :id="'snippetRadioCheckbox-' + snippetId + '-' + val"
-                                    v-model="dropdownSelected"
-                                    :class="multiselect ? 'checkbox': 'radio'"
-                                    :type="multiselect ? 'checkbox': 'radio'"
-                                    :value="val"
-                                >
-                            </td>
-                            <td>
-                                <label
-                                    class="check-box-label"
-                                    :for="'snippetRadioCheckbox-' + snippetId + '-' + val"
-                                >{{ val }}</label>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
                 <div
-                    v-show="showInfo"
-                    class="bottom"
+                    v-if="multiselect && addSelectAll"
+                    class="grid-item"
                 >
-                    <div class="info-text">
-                        <span>{{ infoText }}</span>
-                    </div>
+                    <a
+                        href="#"
+                        class="link-secondary"
+                        @click="!allSelected ? selectAll() : deselectAll()"
+                    >
+                        {{ selectAllTitle }}
+                    </a>
+                </div>
+                <div
+                    v-for="val in dropdownValue"
+                    :key="val"
+                    class="grid-item"
+                >
+                    <span
+                        v-if="anyIconExists()"
+                        class="subItem"
+                    >
+                        <label
+                            :for="'snippetRadioCheckbox-' + snippetId + '-' + val"
+                        >
+                            <img
+                                v-show="iconExists(val)"
+                                class="snippetListContainerIcon"
+                                :src="iconList[val]"
+                                :alt="val"
+                            >
+                        </label>
+                    </span>
+                    <span
+                        class="subItem"
+                    >
+                        <input
+                            v-if="multiselect"
+                            :id="'snippetRadioCheckbox-' + snippetId + '-' + val"
+                            v-model="dropdownSelected"
+                            :aria-label="'snippetRadioCheckbox-' + snippetId + '-' + val"
+                            class="checkbox"
+                            type="checkbox"
+                            :value="val"
+                        >
+                        <input
+                            v-else
+                            :id="'snippetRadioCheckbox-' + snippetId + '-' + val"
+                            v-model="dropdownSelected[0]"
+                            :aria-label="'snippetRadioCheckbox-' + snippetId + '-' + val"
+                            class="radio"
+                            type="radio"
+                            :value="val"
+                        >
+                    </span>
+                    <span
+                        class="subItem"
+                    >
+                        <label
+                            class="check-box-label"
+                            :for="'snippetRadioCheckbox-' + snippetId + '-' + val"
+                        >{{ val }}</label>
+                    </span>
                 </div>
             </div>
         </div>
@@ -554,6 +518,7 @@ export default {
         position: relative;
         cursor: pointer;
         white-space: nowrap;
+        font-size: 14px;
     }
     .select-box-container .multiselect .multiselect__option--highlight {
         background: #3177b1;
@@ -578,6 +543,12 @@ export default {
         max-width: 100%;
         text-overflow: ellipsis;
     }
+    .select-box-container .multiselect .multiselect__tags:focus-within {
+        border-color: #66afe9;
+        outline: 0;
+        -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%), 0 0 8px rgb(102 175 233 / 60%);
+        box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%), 0 0 8px rgb(102 175 233 / 60%);
+    }
     .select-box-container .multiselect .multiselect__option--highlight:after {
         content: attr(data-select);
         background: #a1d0ff;
@@ -594,16 +565,55 @@ export default {
     .select-box-container .multiselect .multiselect__placeholder {
         color: #adadad;
         display: inline-block;
-        margin-bottom: 10px;
-        padding-top: 2px;
+        margin-bottom: 0px;
+        padding-top: 0px;
     }
     .select-box-container .multiselect .multiselect__tag-icon:focus, .multiselect__tag-icon:hover {
         background: #ddd;
+    }
+    .select-box-container .multiselect__select {
+        height: 34px;
+        line-height: 14px;
+    }
+    .select-box-container .multiselect .multiselect__tags {
+        min-height: 34px;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #555555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 0;
+        -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+        box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+        -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+        -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+        transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
     }
 </style>
 
 <style lang="scss" scoped>
     @import "~/css/mixins.scss";
+    .snippetListContainer .check-box-label {
+        margin-top: 2px;
+    }
+    .snippetListContainer .subItem {
+        padding: 0 5px 0 0;
+        vertical-align: middle;
+    }
+    .snippetListContainer .grid-container {
+        display: grid;
+        grid-template-columns: auto;
+        padding: 5px;
+    }
+    .snippetListContainer .grid-item {
+        padding: 5px;
+        text-align: left;
+    }
+    .snippetListContainer .grid-container > div {
+        text-align: left;
+        padding: 5px 0;
+    }
     select {
         box-sizing: border-box;
         outline: 0;
@@ -622,44 +632,15 @@ export default {
     .snippetDropdownContainer {
         height: auto;
     }
-    .snippetDropdownContainer input[type=radio], input[type=checkbox] {
-        margin: 0;
-    }
     .snippetDropdownContainer .radio, .snippetDropdownContainer .checkbox {
         display: inline-block;
     }
     .snippetDropdownContainer label {
         margin-bottom: 0;
-    }
-    .snippetDropdownContainer .table > thead > tr > th, .table > thead > tr > td, .table > tbody > tr > th, .table > tbody > tr > td, .table > tfoot > tr > th, .table > tfoot > tr > td {
-        padding: 4px;
-        line-height: 1.428571429;
-        vertical-align: middle;
-        border-top: 1px solid #ddd;
-    }
-    .snippetDropdownContainer .info-icon {
-        float: right;
-        font-size: 16px;
-        color: #ddd;
-    }
-    .snippetDropdownContainer .info-icon .opened {
-        color: #000;
-    }
-    .snippetDropdownContainer .info-icon:hover {
-        cursor: pointer;
-        color: #a5a09e;
-    }
-    .snippetDropdownContainer .info-text {
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        font-size: 10px;
-        padding: 15px 10px;
+        text-transform: capitalize;
     }
     .snippetListContainer .snippetListContainerIcon {
         width: 25px;
-    }
-    .glyphicon-info-sign:before {
-        content: "\E086";
     }
     .snippetDropdownContainer select {
         clear: left;
@@ -669,21 +650,11 @@ export default {
         clear: left;
         width: 100%;
     }
-    .snippetDropdownContainer .table-responsive .right {
+    .panel .snippetDropdownContainer .right,  .snippetDropdownContainer .right {
         position: absolute;
-        right: -33px;
-    }
-    .panel .snippetDropdownContainer .right,  .snippetDropdownContainer .right{
-        position: absolute;
-        right: -33px;
+        right: 0;
     }
     .category-layer .panel .right {
         right: 30px;
-    }
-    .category-layer .panel .table-responsive .right {
-        right: 24px;
-    }
-    .table {
-        margin-bottom: 10px;
     }
 </style>

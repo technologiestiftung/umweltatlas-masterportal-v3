@@ -2,7 +2,7 @@ import Vue from "vue";
 import App from "../src/App.vue";
 import store from "../src/app-store";
 import loadAddons from "../src/addons";
-import RestReaderList from "../modules/restReader/collection";
+import "../modules/restReader/RadioBridge";
 import Autostarter from "../modules/core/autostarter";
 import Util from "../modules/core/util";
 import StyleList from "../modules/vectorStyle/list";
@@ -28,6 +28,13 @@ import RemoteInterfaceVue from "../src/plugins/remoteInterface/RemoteInterface";
 import {initiateVueI18Next} from "./vueI18Next";
 import {handleUrlParamsBeforeVueMount, readUrlParamEarly} from "../src/utils/parametricUrl/ParametricUrlBridge";
 import {createMaps} from "../src/core/maps/maps.js";
+
+/**
+ * Vuetify
+ * @description Test vuetify as main UI framework
+ * @external
+ */
+import {instantiateVuetify} from "../src/plugins/vuetify/vuetify";
 
 /**
  * WFSFeatureFilterView
@@ -71,7 +78,11 @@ async function loadApp () {
     const legacyAddons = Object.is(ADDONS, {}) ? {} : ADDONS,
         utilConfig = {},
         style = Radio.request("Util", "getUiStyle"),
-        vueI18Next = initiateVueI18Next();
+        vueI18Next = initiateVueI18Next(),
+        // instantiate Vue with Vuetify Plugin if the "vuetify" flag is set in the config.js
+        // returns undefined if not
+        vuetify = await instantiateVuetify();
+
     /* eslint-disable no-undef */
     let app = {},
         searchbarAttributes = {};
@@ -96,7 +107,7 @@ async function loadApp () {
     // import and register Vue addons according the config.js
     await loadAddons(Config.addons);
 
-    store.commit("setConfigJs", Config);
+    await store.dispatch("loadConfigJs", Config);
 
     // must be done here, else it is done too late
     readUrlParamEarly();
@@ -106,7 +117,8 @@ async function loadApp () {
         name: "VueApp",
         render: h => h(App),
         store,
-        i18n: vueI18Next
+        i18n: vueI18Next,
+        vuetify
     });
 
 
@@ -118,7 +130,6 @@ async function loadApp () {
     }
 
     // Pass null to create an empty Collection with options
-    new RestReaderList(null, {url: Config.restConf});
     new Preparser(null, {url: Config.portalConf});
     handleUrlParamsBeforeVueMount(window.location.search);
 

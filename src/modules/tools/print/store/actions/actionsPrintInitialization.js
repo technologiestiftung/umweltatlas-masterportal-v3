@@ -26,11 +26,11 @@ export default {
      * @param {Object} param.commit the commit
      * @returns {void}
      */
-    retrieveCapabilites: function ({state, dispatch, commit}) {
+    retrieveCapabilites: function ({state, dispatch, rootGetters, commit}) {
         let serviceUrl;
 
         if (state.serviceId !== "") {
-            serviceUrl = Radio.request("RestReader", "getServiceById", state.serviceId).get("url");
+            serviceUrl = rootGetters.getRestServiceById(state.serviceId).url;
 
             if (!serviceUrl.includes("/print/")) {
                 serviceUrl = serviceUrl + "print/";
@@ -297,7 +297,7 @@ export default {
      * @param {ol.render.Event} evt - postrender
      * @returns {void}
      */
-    createPrintMask: function ({dispatch, commit, state}, evt) {
+    createPrintMask: function ({dispatch, state}, evt) {
         dispatch("getPrintMapSize");
         dispatch("getPrintMapScales");
 
@@ -324,20 +324,21 @@ export default {
 
         if (state.isScaleSelectedManually) {
             canvasPrintOptions.scale = state.currentScale;
-            commit("setIsScaleSelectedManually", false);
         }
-        else {
+        else if (state.autoAdjustScale) {
             dispatch("getOptimalScale", canvasOptions);
             canvasPrintOptions.scale = state.optimalScale;
         }
-
+        else {
+            canvasPrintOptions.scale = state.currentScale;
+        }
 
         dispatch("drawMask", drawMaskOpt);
         dispatch("drawPrintPage", canvasPrintOptions);
         context.fillStyle = "rgba(0, 5, 25, 0.55)";
         context.fill();
 
-        dispatch("setPrintLayers", state.optimalScale);
+        dispatch("setPrintLayers", canvasPrintOptions.scale);
     },
     /**
      * gets the optimal print scale for a map
