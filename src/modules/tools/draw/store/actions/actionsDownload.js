@@ -6,6 +6,7 @@ import {convertJsonToCsv} from "../../../../../utils/convertJsonToCsv";
 import {setCsvAttributes} from "../../utils/setCsvAttributes.js";
 
 import {transform, transformPoint, transformGeometry} from "../../utils/download/transformGeometry";
+import isInternetExplorer from "../../../../../utils/isInternetExplorer";
 
 /**
  * Converts the features from OpenLayers Features to features in the chosen format.
@@ -83,7 +84,7 @@ function prepareDownload ({state, commit, dispatch}) {
     dispatch("validateFileName").then(fileName => {
         if (fileName && fileName !== "") {
             const dataString = state.download.dataString,
-                isIE = Radio.request("Util", "isInternetExplorer");
+                isIE = isInternetExplorer();
 
             commit("setDownloadFile", fileName);
 

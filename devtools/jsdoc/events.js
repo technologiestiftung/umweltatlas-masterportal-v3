@@ -959,85 +959,10 @@
  */
 
 /**
- * @event Core#RadioTriggerUtilShowLoader
- * @example Radio.trigger("Util", "showLoader")
- * @description Shows loading gif
- */
-
-/**
- * @event Core#RadioTriggerUtilHideLoader
- * @example Radio.trigger("Util", "hideLoader")
- * @description Shows loading gif
- */
-
-/**
  * @event Core#RadioRequestUtilGetUiStyle
  * @description returns the ignoredKeys
  * @returns {string} - Style of the ui. Possible values are "DEFAULT" or "TABLE"
  * @example Radio.request("Util", "getUiStyle");
- */
-
-/**
- * @event Core#RadioRequestUtilIsAny
- * @description returns if the device type is mobile
- * @returns {string} - Mobile Device. Possible values are "true", "false" or "null"
- * @example Radio.request("Util", "isAny");
- */
-
-/**
- * @event Core#RadioRequestUtilIsApple
- * @description returns if the device type is an iphone, ipod or ipad
- * @returns {string} - Apple Device. Possible values are "true", "false" or "null"
- * @example Radio.request("Util", "isApple");
- */
-
-/**
- * @event Core#RadioRequestUtilIsAndroid
- * @description returns if the device type is android
- * @returns {string} - Android Device. Possible values are "true", "false" or "null"
- * @example Radio.request("Util", "isAndroid");
- */
-
-/**
- * @event Core#RadioRequestUtilIsOpera
- * @description returns if the browser type is opera
- * @returns {string} - Opera Device. Possible values are "true", "false" or "null"
- * @example Radio.request("Util", "isOpera");
- */
-
-/**
- * @event Core#RadioRequestUtilIsOpera
- * @description returns if the browser type is opera
- * @returns {string} - Opera Device. Possible values are "true", "false" or "null"
- * @example Radio.request("Util", "isOpera");
- */
-
-/**
- * @event Core#RadioRequestUtilIsOpera
- * @description returns if the browser type is opera
- * @returns {string} - Opera Browser. Possible values are "true", "false" or "null"
- * @example Radio.request("Util", "isOpera");
- */
-
-/**
- * @event Core#RadioRequestUtilIsWindows
- * @description returns if the browser type is Windows
- * @returns {string} - Opera Browser. Possible values are "true", "false" or "null"
- * @example Radio.request("Util", "isWindows");
- */
-
-/**
- * @event Core#RadioRequestUtilIsChrome
- * @description returns if the browser type is chrome
- * @returns {string} - Chrome Browser. Possible values are "true", "false" or "null"
- * @example Radio.request("Util", "isChrome");
- */
-
-/**
- * @event Core#RadioRequestUtilIsInternetExplorer
- * @description returns if the browser type is Internet Explorer
- * @returns {string} - Internet Explorer Browser. Possible values are "true", "false" or "null"
- * @example Radio.request("Util", "isInternetExplorer");
  */
 
 /**
@@ -1049,24 +974,6 @@
  * @param {String} second Name of second Attribute to be sorted. Only if type!== "address".
  * @returns {string[] | Object[]} - Sorted Array
  * @example Radio.request("Util", "sort", type, values, first, second);
- */
-
-
-/**
- * @event Core#RadioRequestUtilGetMasterPortalVersionNumber
- * @description returns the masterportal version number
- * @returns {String} - masterportal version number
- * @example Radio.request("Util", "getMasterPortalVersionNumber");
- */
-
-/**
- * @event Core#RadioRequestUtilSortBy
- * @description This sort function sorts arrays, objects and strings. This is a replacement for underscores sortBy
- * @param {(Array|Object|String)} [list=undefined] the array, object or string to sort
- * @param {(String|Number|Function)} [iteratee=undefined] may be a function (value, key, list) returning a number to sort by or the name of the key to sort objects with
- * @param {Object} [context=undefined] the context to be used for iteratee, if iteratee is a function
- * @returns {Array}  a new list as array
- * @example Radio.request("Util", "sortBy", [3, 2, 1], (num) => num, this);
  */
 
 /**

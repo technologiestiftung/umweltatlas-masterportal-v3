@@ -1,4 +1,7 @@
 import Tool from "../core/modelList/tool/model";
+import sortBy from "../../src/utils/sortBy";
+import LoaderOverlay from "../../src/utils/loaderOverlay";
+import isEmpty from "../../src/utils/isEmpty";
 
 const TreeFilter = Tool.extend({
     defaults: Object.assign({}, Tool.prototype.defaults, {
@@ -100,13 +103,13 @@ const TreeFilter = Tool.extend({
             });
 
             // Arten nach den deutschen Namen sortierien
-            tree.Arten = Radio.request("Util", "sortBy", treeArray, function (type) {
+            tree.Arten = sortBy(treeArray, function (type) {
                 return type.display;
             });
 
         });
         // Bäume nach Gattung sortieren
-        this.set("trees", Radio.request("Util", "sortBy", this.get("trees"), function (tree) {
+        this.set("trees", sortBy(this.get("trees"), function (tree) {
             return tree.displayGattung;
         }));
     },
@@ -183,7 +186,7 @@ const TreeFilter = Tool.extend({
             }
         }
         this.set("errors", errors);
-        if (Radio.request("Util", "isEmpty", errors) === false) {
+        if (isEmpty(errors) === false) {
             return errors;
         }
         return false;
@@ -351,7 +354,7 @@ const TreeFilter = Tool.extend({
         this.set("SLDBody", header + filter + symbolizer + footer);
     },
     getFilterHits: function () {
-        Radio.trigger("Util", "showLoader");
+        LoaderOverlay.show();
         $.ajax({
             url: "/geodienste_hamburg_de/HH_WFS_Strassenbaumkataster",
             data: "<?xml version='1.0' encoding='UTF-8'?><wfs:GetFeature service='WFS' version='1.1.0' resultType='hits' xmlns:app='http://www.deegree.org/app' xmlns:wfs='http://www.opengis.net/wfs' xmlns:gml='http://www.opengis.net/gml' xmlns:ogc='http://www.opengis.net/ogc' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd'><wfs:Query typeName='app:strassenbaumkataster'>" + this.get("filter") + "</wfs:Query></wfs:GetFeature>",
@@ -370,10 +373,10 @@ const TreeFilter = Tool.extend({
                     hits = data.getElementsByTagName("FeatureCollection")[0].getAttribute("numberOfFeatures");
                 }
                 this.set("filterHits", hits);
-                Radio.trigger("Util", "hideLoader");
+                LoaderOverlay.hide();
             },
             error: function () {
-                Radio.trigger("Util", "hideLoader");
+                LoaderOverlay.hide();
             }
         });
     },

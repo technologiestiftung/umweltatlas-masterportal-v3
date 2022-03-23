@@ -1,4 +1,5 @@
 import store from "../../src/app-store";
+import {sort} from "../../src/utils/sort.js";
 
 const SearchbarModel = Backbone.Model.extend(/** @lends SearchbarModel.prototype */{
     defaults: {
@@ -334,6 +335,13 @@ const SearchbarModel = Backbone.Model.extend(/** @lends SearchbarModel.prototype
             typeList = this.prepareTypeList(finalHitList);
         let recommendedList = [];
 
+        if (this.get("sortByName")) {
+            hitList = sort("address", hitList, "name");
+        }
+
+        finalHitList = hitList.concat(originalOrderHitList);
+
+        this.setHitList(hitList);
         this.setFinalHitList(finalHitList);
         this.setTypeList(typeList);
 
@@ -341,8 +349,11 @@ const SearchbarModel = Backbone.Model.extend(/** @lends SearchbarModel.prototype
             recommendedList = this.getRandomEntriesOfEachType(finalHitList, max);
         }
         else {
-            recommendedList = this.chooseRecommendedHits(typeList, max);
-            recommendedList = this.sortRecommendedList(typeList, recommendedList);
+            recommendedList = finalHitList;
+        }
+
+        if (this.get("sortByName")) {
+            recommendedList = sort("address", recommendedList, "name");
         }
 
         this.setRecommendedList(recommendedList);

@@ -1,5 +1,6 @@
 import Tool from "../../core/modelList/tool/model";
 import store from "../../../src/app-store";
+import LoaderOverlay from "../../../src/utils/loaderOverlay";
 
 const ParcelSearch = Tool.extend(/** @lends ParcelSearch.prototype */{
     defaults: Object.assign({}, Tool.prototype.defaults, {
@@ -151,10 +152,10 @@ const ParcelSearch = Tool.extend(/** @lends ParcelSearch.prototype */{
                 Radio.trigger("Alert", "alert", this.get("districtsLoadFailed") + " (" + this.get("name") + ")");
             },
             complete: function () {
-                Radio.trigger("Util", "hideLoader");
+                LoaderOverlay.hide();
             },
             beforeSend: function () {
-                Radio.trigger("Util", "showLoader");
+                LoaderOverlay.show();
             }
         });
     },
@@ -261,10 +262,10 @@ const ParcelSearch = Tool.extend(/** @lends ParcelSearch.prototype */{
                 Radio.trigger("Alert", "alert", {text: "<strong>" + this.get("parcelSearchImpossible") + "</strong> " + this.get("tryAgainLater"), kategorie: "alert-danger"});
             },
             complete: function () {
-                Radio.trigger("Util", "hideLoader");
+                LoaderOverlay.hide();
             },
             beforeSend: function () {
-                Radio.trigger("Util", "showLoader");
+                LoaderOverlay.show();
             }
         });
     },
