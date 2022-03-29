@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import {sort, sortObjectsAsAddress, splitAddressString, isValidAddressString} from "../../sort.js";
 
-describe.only("src/utils/sort.js", () => {
+describe("src/utils/sort.js", () => {
 
     describe("sort", function () {
         // undefined

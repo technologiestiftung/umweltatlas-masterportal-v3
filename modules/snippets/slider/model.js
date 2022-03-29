@@ -1,6 +1,7 @@
 import SnippetModel from "../model";
 import ValueModel from "./valueModel";
 import moment from "moment";
+import {sort} from "../../../src/utils/sort";
 
 const SliderModel = SnippetModel.extend(/** @lends SliderModel.prototype */{
     defaults: Object.assign({}, SnippetModel.prototype.defaults, {
@@ -178,7 +179,6 @@ const SliderModel = SnippetModel.extend(/** @lends SliderModel.prototype */{
 
     /**
      * Change the values by input from inputfields. Render change if enter is pressed
-     * @fires Util#RadioRequestUtilSort
      * @param {Number} minValue - input value min
      * @param {Number} maxValue - input value max
      * @returns {void}
@@ -208,8 +208,7 @@ const SliderModel = SnippetModel.extend(/** @lends SliderModel.prototype */{
         }
 
         values = [min, max];
-        values = Radio.request("Util", "sort", "", values);
-
+        values = sort("", values);
         this.updateValues(values);
 
         return values;
