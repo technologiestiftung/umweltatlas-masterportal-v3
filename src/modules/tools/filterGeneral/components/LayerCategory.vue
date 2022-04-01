@@ -204,6 +204,12 @@ export default {
     </div>
 </template>
 
+<style>
+    #tool-general-filter .panel-heading .panel-title a[tabindex="0"]:focus {
+        padding: 5px;
+    }
+</style>
+
 <style lang="scss" scoped>
     .panel-group .panel + .panel {
         margin-top: 10px;

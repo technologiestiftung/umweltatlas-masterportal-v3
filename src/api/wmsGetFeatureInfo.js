@@ -2,7 +2,7 @@ import WMSGetFeatureInfo from "ol/format/WMSGetFeatureInfo.js";
 import Feature from "ol/Feature";
 import axios from "axios";
 import handleAxiosResponse from "../utils/handleAxiosResponse.js";
-import {getLayerWhere} from "masterportalAPI/src/rawLayerList";
+import {getLayerWhere} from "masterportalapi/src/rawLayerList";
 
 /**
  * Handles the GetFeatureInfo request.
@@ -24,10 +24,15 @@ export function requestGfi (mimeType, url, layer) {
         withCredentials: layerIsSecured,
         url})
         .then(response => handleAxiosResponse(response, "requestGfi"))
-        .then(docString => {
-            const parsedDocument = parseDocumentString(docString, mimeType);
+        .then(responseData => {
+            let parsedDocument = null;
 
-            if (mimeType === "text/html") {
+            if (mimeType === "text/xml") {
+                parsedDocument = parseDocumentString(responseData, mimeType);
+            }
+            else if (mimeType === "text/html") {
+                parsedDocument = parseDocumentString(responseData, mimeType);
+
                 if (parsedDocument.childNodes.length > 0 &&
                     (
                         !parsedDocument.getElementsByTagName("body")[0] ||
@@ -37,10 +42,13 @@ export function requestGfi (mimeType, url, layer) {
                         !parsedDocument.getElementsByTagName("tbody")[0] ||
                         parsedDocument.getElementsByTagName("tbody")[0].children.length > 0
                     )) {
-                    return docString;
+                    return responseData;
                 }
 
                 return null;
+            }
+            else if (mimeType === "application/json") {
+                parsedDocument = responseData;
             }
 
             return parsedDocument;
@@ -128,14 +136,14 @@ function parseOgcConformFeatures (doc) {
 function parseEsriFeatures (doc) {
     const features = [];
 
-    doc.getElementsByTagName("FIELDS").forEach(element => {
+    for (const element of doc.getElementsByTagName("FIELDS")) {
         const feature = new Feature();
 
-        element.attributes.forEach(attribute => {
+        for (const attribute of element.attributes) {
             feature.set(attribute.localName, attribute.value);
-        });
+        }
         features.push(feature);
-    });
+    }
 
     return features;
 }

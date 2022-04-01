@@ -1,6 +1,6 @@
 import Backbone from "backbone";
 import ModelList from "../modelList/list";
-import {getLayerList} from "masterportalAPI/src/rawLayerList";
+import {getLayerList} from "masterportalapi/src/rawLayerList";
 import store from "../../../src/app-store/index";
 
 const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
@@ -116,16 +116,6 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
 
         this.listenTo(this, {
             "change:category": function () {
-                const modelList = Radio.request("ModelList", "getCollection"),
-                    modelListToRemove = modelList.filter(function (model) {
-                        // Alle Fachdaten Layer
-                        return model.get("type") === "layer" && model.get("parentId") !== "Baselayer";
-                    });
-
-                modelListToRemove.forEach(model => {
-                    model.setIsSelected(false);
-                });
-                modelList.remove(modelListToRemove);
                 this.setItemList([]);
                 this.addTreeMenuItems();
                 this.parseTree(getLayerList());
