@@ -1,6 +1,7 @@
 import "../model";
 import crs from "@masterportal/masterportalapi/src/crs";
 import store from "../../../src/app-store";
+import uniqueId from "../../../src/utils/uniqueId";
 
 const OsmModel = Backbone.Model.extend(/** @lends OsmModel.prototype */{
     defaults: {
@@ -172,7 +173,7 @@ const OsmModel = Backbone.Model.extend(/** @lends OsmModel.prototype */{
                         type: "OpenStreetMap",
                         osm: true,
                         icon: "bi-signpost-2-fill",
-                        id: Radio.request("Util", "uniqueId", "osmSuggest"),
+                        id: uniqueId("osmSuggest"),
                         marker: hit.class === "building",
                         coordinate: center
                     });

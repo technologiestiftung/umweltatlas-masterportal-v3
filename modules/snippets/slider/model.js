@@ -36,7 +36,6 @@ const SliderModel = SnippetModel.extend(/** @lends SliderModel.prototype */{
      * @property {ticks} ticks=slider ticks
      * @property {boolean} withLabel=true Flag to show label
      * @param {object} attributes Model to be used in this view
-     * @fires Util#RadioRequestUtilSort
      * @listens Alerting#RadioTriggerAlertAlert
      */
     initialize: function (attributes) {

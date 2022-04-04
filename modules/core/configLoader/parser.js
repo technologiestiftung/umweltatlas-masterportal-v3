@@ -2,6 +2,7 @@ import Backbone from "backbone";
 import ModelList from "../modelList/list";
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 import store from "../../../src/app-store/index";
+import uniqueId from "../../../src/utils/uniqueId";
 
 const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
     defaults: {
@@ -195,13 +196,13 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
             }
             else if (key.search("staticlinks") !== -1) {
                 value.forEach(staticlink => {
-                    toolitem = Object.assign(staticlink, {type: "staticlink", parentId: parentId, id: Radio.request("Util", "uniqueId", key + "_")});
+                    toolitem = Object.assign(staticlink, {type: "staticlink", parentId: parentId, id: uniqueId(key + "_")});
 
                     this.addItem(toolitem);
                 });
             }
             else if (value?.type && value.type === "viewpoint") {
-                ansicht = Object.assign(value, {parentId: parentId, id: Radio.request("Util", "uniqueId", key + "_")});
+                ansicht = Object.assign(value, {parentId: parentId, id: uniqueId(key + "_")});
                 this.addItem(ansicht);
             }
             else {
@@ -875,7 +876,7 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
     createUniqId: function (value) {
         const trimmedValue = value.replace(/[^a-zA-Z0-9]/g, "");
 
-        return Radio.request("Util", "uniqueId", trimmedValue);
+        return uniqueId(trimmedValue);
     },
 
     /**
