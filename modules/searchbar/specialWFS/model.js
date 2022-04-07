@@ -2,7 +2,6 @@ import WFS from "ol/format/WFS";
 
 import "../model";
 import store from "../../../src/app-store";
-import uniqueId from "../../../src/utils/uniqueId";
 
 const SpecialWFSModel = Backbone.Model.extend({
     defaults: {
@@ -302,7 +301,7 @@ const SpecialWFSModel = Backbone.Model.extend({
     */
     pushHitListObjects: function (type, identifier, firstChildNameUpperCase, geometry, icon) {
         Radio.trigger("Searchbar", "pushHits", "hitList", {
-            id: uniqueId(type.toString()),
+            id: Radio.request("Util", "uniqueId", type.toString()),
             name: identifier.trim(),
             geometryType: firstChildNameUpperCase,
             type: type,

@@ -2,6 +2,7 @@
 import {mapGetters} from "vuex";
 import ControlIcon from "../../ControlIcon.vue";
 import TableStyleControl from "../../TableStyleControl.vue";
+import uiStyle from "../../../../utils/uiStyle";
 
 /**
  * Enables fullscreen using browser tools.
@@ -85,7 +86,7 @@ export default {
         ...mapGetters(["uiStyle"]),
 
         component () {
-            return this.uiStyle === "TABLE" ? TableStyleControl : ControlIcon;
+            return uiStyle.getUiStyle() === "TABLE" ? TableStyleControl : ControlIcon;
         }
     },
     mounted () {

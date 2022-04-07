@@ -2,6 +2,7 @@
 import {mapGetters, mapActions} from "vuex";
 import ControlIcon from "../../ControlIcon.vue";
 import TableStyleControl from "../../TableStyleControl.vue";
+import uiStyle from "../../../../utils/uiStyle";
 
 /**
  * TotalView adds a control that lets the user reset the
@@ -26,10 +27,10 @@ export default {
         ...mapGetters("Maps", ["initialCenter", "initialZoomLevel", "center", "zoom"]),
 
         component () {
-            return this.uiStyle === "TABLE" ? TableStyleControl : ControlIcon;
+            return uiStyle.getUiStyle() === "TABLE" ? TableStyleControl : ControlIcon;
         },
-        iconToUse () {
-            return this.uiStyle === "TABLE" ? this.tableIcon : this.icon;
+        glyphiconToUse () {
+            return uiStyle.getUiStyle() === "TABLE" ? this.tableGlyphicon : this.glyphicon;
         },
         /**
          * Map was moved.

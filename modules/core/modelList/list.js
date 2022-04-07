@@ -21,6 +21,7 @@ import Tool from "./tool/model";
 import StaticLink from "./staticlink/model";
 import Dropdown from "bootstrap/js/dist/dropdown";
 import Collapse from "bootstrap/js/dist/collapse";
+import uiStyle from "../../../src/utils/uiStyle";
 
 /**
  * WfsFeatureFilter
@@ -1036,7 +1037,7 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
         }
 
         // für DIPAS Table Ansicht
-        if (isTable) {
+        if (uiStyle.getUiStyle() === "TABLE") {
             Radio.request("ModelList", "getModelByAttributes", {id: modelId}).setIsJustAdded(true);
 
             const collapseElement = document.querySelector("#table-nav-layers-panel"),

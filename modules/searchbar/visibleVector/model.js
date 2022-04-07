@@ -1,7 +1,6 @@
 
 import "../model";
 import {Icon} from "ol/style.js";
-import uniqueId from "../../../src/utils/uniqueId";
 
 const VisibleVectorModel = Backbone.Model.extend(/** @lends VisibleVectorModel.prototype */{
     defaults: {
@@ -215,7 +214,7 @@ const VisibleVectorModel = Backbone.Model.extend(/** @lends VisibleVectorModel.p
                 type: model.get("name"),
                 coordinate: this.getCentroidPoint(feature.getGeometry()),
                 imageSrc: this.getImageSource(feature, model),
-                id: uniqueId(model.get("name")),
+                id: Radio.request("Util", "uniqueId", model.get("name")),
                 layer_id: model.get("id"),
                 additionalInfo: this.getAdditionalInfo(model, feature),
                 feature: feature,
