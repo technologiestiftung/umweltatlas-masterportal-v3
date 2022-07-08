@@ -111,6 +111,17 @@ describe("src/core/maps/actions/actionsMapLayers.js", () => {
         });
     });
 
+    describe("createLayer", () => {
+        /* eslint-disable new-cap */
+        it("Should create a new layer with ID and add it to the map", () => {
+            const id = "new-layer";
+
+            store.dispatch("Maps/createLayer", id);
+
+            expect(store.getters["Maps/getLayerById"]({layerId: id})).to.not.equal(null);
+        });
+    });
+
     describe.skip("getLayerById", () => {
         /* eslint-disable new-cap */
         it("Returns the layer with the correct id", () => {
