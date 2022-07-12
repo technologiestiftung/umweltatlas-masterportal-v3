@@ -26,8 +26,7 @@ export default {
         resultLayer = new VectorLayer({
             id: name,
             name: name,
-            source: new VectorSource(),
-            zIndex: 999
+            source: new VectorSource()
         });
         dispatch("addLayer", resultLayer);
         return resultLayer;

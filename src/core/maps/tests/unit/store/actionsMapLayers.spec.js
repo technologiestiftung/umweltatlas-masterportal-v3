@@ -118,7 +118,8 @@ describe("src/core/maps/actions/actionsMapLayers.js", () => {
 
             store.dispatch("Maps/createLayer", id);
 
-            expect(store.getters["Maps/getLayerById"]({layerId: id})).to.not.equal(null);
+            expect(mapCollection.getMap("2D").getLayers().getLength()).to.equal(1);
+            expect(mapCollection.getMap("2D").getLayers().item(0).get("id")).to.equal(id);
         });
     });
 
