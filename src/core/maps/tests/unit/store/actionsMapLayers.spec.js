@@ -112,14 +112,14 @@ describe("src/core/maps/actions/actionsMapLayers.js", () => {
     });
 
     describe("createLayer", () => {
-        /* eslint-disable new-cap */
-        it("Should create a new layer with ID and add it to the map", () => {
-            const id = "new-layer";
+        it("Should create a new layer with ID and add it to the map", async () => {
+            const
+                id = "new-layer",
+                layer = await store.dispatch("Maps/createLayer", id);
 
-            store.dispatch("Maps/createLayer", id);
-
-            expect(mapCollection.getMap("2D").getLayers().getLength()).to.equal(1);
-            expect(mapCollection.getMap("2D").getLayers().item(0).get("id")).to.equal(id);
+            expect(layer.get("id")).to.equal(id);
+            expect(store.getters["Maps/getLayerList"].length).to.equal(1);
+            expect(store.getters["Maps/getLayerList"][0]).to.equal(layer);
         });
     });
 
