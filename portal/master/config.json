@@ -625,6 +625,9 @@
     "Fachdaten": {
       "Layer": [
         {
+          "id": "webgl"
+        },
+        {
           "id": "1132",
           "styleId": "1132",
           "name": "100 Jahre Stadtgruen POIs",

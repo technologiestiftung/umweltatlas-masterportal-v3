@@ -4,7 +4,9 @@ import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import LayerGroup from "ol/layer/Group";
 import store from "../../../../../app-store";
+import actionsMapLayers from "../../../store/actions/actionsMapLayers";
 import {expect} from "chai";
+import Sinon from "sinon";
 
 describe("src/core/maps/actions/actionsMapLayers.js", () => {
     const layer1 = new VectorLayer({
@@ -99,7 +101,6 @@ describe("src/core/maps/actions/actionsMapLayers.js", () => {
             const zIndexes = [0, 3, 2],
                 ids = ["Donald", "Dagobert", "Darkwing"];
 
-
             store.dispatch("Maps/addLayer", layer1, 0);
             store.dispatch("Maps/addLayer", layer2, 3);
             store.dispatch("Maps/addLayer", layer3, 2);
@@ -108,6 +109,30 @@ describe("src/core/maps/actions/actionsMapLayers.js", () => {
                 expect(layer.getZIndex()).equals(zIndexes[index]);
                 expect(layer.get("id")).equals(ids[index]);
             });
+        });
+    });
+
+    describe("createLayer", () => {
+        it("Should create a new layer with ID and add it to the map", () => {
+            const
+                dispatch = Sinon.spy(),
+                getters = {getLayerList: []},
+                layer = actionsMapLayers.createLayer({dispatch, getters}, "Goofy");
+
+            expect(layer.constructor).to.equal(VectorLayer);
+            expect(layer.get("id")).to.equal("Goofy");
+            expect(dispatch.calledOnceWith("addLayer", layer));
+        });
+        it("Should return an existing layer, if already exists", () => {
+            const
+                dispatch = Sinon.spy(),
+                getters = {getLayerList: [layer1]},
+                layer = actionsMapLayers.createLayer({dispatch, getters}, "Duck1");
+
+            expect(layer).to.equal(layer1);
+            expect(layer.get("id")).to.equal("Donald");
+            expect(layer.get("name")).to.equal("Duck1");
+            expect(dispatch.called).to.equal(false);
         });
     });
 
