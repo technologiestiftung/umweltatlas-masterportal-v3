@@ -4,7 +4,9 @@ import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import LayerGroup from "ol/layer/Group";
 import store from "../../../../../app-store";
+import actionsMapLayers from "../../../store/actions/actionsMapLayers";
 import {expect} from "chai";
+import Sinon from "sinon";
 
 describe("src/core/maps/actions/actionsMapLayers.js", () => {
     const layer1 = new VectorLayer({
@@ -112,18 +114,25 @@ describe("src/core/maps/actions/actionsMapLayers.js", () => {
 
     describe("createLayer", () => {
         it("Should create a new layer with ID and add it to the map", () => {
-            store.dispatch("Maps/createLayer", "Goofy")
-                .then(layer => {
-                    expect(mapCollection.getMap("2D").getLayers().item(0)).equals(layer);
-                });
+            const
+                dispatch = Sinon.spy(),
+                getters = {getLayerList: []},
+                layer = actionsMapLayers.createLayer({dispatch, getters}, "Goofy");
+
+            expect(layer.constructor).to.equal(VectorLayer);
+            expect(layer.get("id")).to.equal("Goofy");
+            expect(dispatch.calledOnceWith("addLayer", layer));
         });
         it("Should return an existing layer, if already exists", () => {
-            store.dispatch("Maps/addLayer", layer1, 0)
-                .then(() => store.dispatch("Maps/createLayer", "Donald"))
-                .then(layer => {
-                    expect(store.getters["Maps/getLayerList"].length).to.equal(2);
-                    expect(store.getters["Maps/getLayerList"][1].get("id")).to.equal(layer.get("id"));
-                });
+            const
+                dispatch = Sinon.spy(),
+                getters = {getLayerList: [layer1]},
+                layer = actionsMapLayers.createLayer({dispatch, getters}, "Duck1");
+
+            expect(layer).to.equal(layer1);
+            expect(layer.get("id")).to.equal("Donald");
+            expect(layer.get("name")).to.equal("Duck1");
+            expect(dispatch.called).to.equal(false);
         });
     });
 
