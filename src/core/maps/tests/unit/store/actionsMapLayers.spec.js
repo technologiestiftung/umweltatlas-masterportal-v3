@@ -99,7 +99,6 @@ describe("src/core/maps/actions/actionsMapLayers.js", () => {
             const zIndexes = [0, 3, 2],
                 ids = ["Donald", "Dagobert", "Darkwing"];
 
-
             store.dispatch("Maps/addLayer", layer1, 0);
             store.dispatch("Maps/addLayer", layer2, 3);
             store.dispatch("Maps/addLayer", layer3, 2);
@@ -112,14 +111,19 @@ describe("src/core/maps/actions/actionsMapLayers.js", () => {
     });
 
     describe("createLayer", () => {
-        it("Should create a new layer with ID and add it to the map", async () => {
-            const
-                id = "new-layer",
-                layer = await store.dispatch("Maps/createLayer", id);
-
-            expect(layer.get("id")).to.equal(id);
-            expect(store.getters["Maps/getLayerList"].length).to.equal(1);
-            expect(store.getters["Maps/getLayerList"][0]).to.equal(layer);
+        it("Should create a new layer with ID and add it to the map", () => {
+            store.dispatch("Maps/createLayer", "Goofy")
+                .then(layer => {
+                    expect(mapCollection.getMap("2D").getLayers().item(0)).equals(layer);
+                });
+        });
+        it("Should return an existing layer, if already exists", () => {
+            store.dispatch("Maps/addLayer", layer1, 0)
+                .then(() => store.dispatch("Maps/createLayer", "Donald"))
+                .then(layer => {
+                    expect(store.getters["Maps/getLayerList"].length).to.equal(2);
+                    expect(store.getters["Maps/getLayerList"][1].get("id")).to.equal(layer.get("id"));
+                });
         });
     });
 
