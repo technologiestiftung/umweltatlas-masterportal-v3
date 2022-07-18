@@ -43,6 +43,10 @@ WebGLLayer.prototype.createLayer = function (attrs) {
             disableHitDetection: false
         });
 
+    console.log(source);
+    console.log(layer);
+    console.log(mapCollection);
+
     this.layer = layer;
 };
 

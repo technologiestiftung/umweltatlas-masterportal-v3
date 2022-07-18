@@ -22,6 +22,7 @@
 ### Fixed
 - fix unix-related path issue in findWhereJs.js
 - fix actionsMapLayers/createLayer tried to access non-existent reference
+- Issue #804: Legend window will not be cut off when width changes to a maximum. 
 
 ---
 
