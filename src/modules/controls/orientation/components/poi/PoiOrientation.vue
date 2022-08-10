@@ -186,7 +186,7 @@ export default {
                             imagePath = this.createLineSVG(legendInfo.styleObject);
                         }
                         else if (legendInfo.geometryType === "Polygon") {
-                            imagePath = this.createPolygonSVG(legendInfo.styleObject);
+                            imagePath = this.createPolygonGraphic(legendInfo.styleObject);
                         }
                     });
                 }
@@ -273,17 +273,22 @@ export default {
         },
 
         /**
-         * Creating the polygon svg
+         * Creating the polygon graphic
          * @param  {ol/style} style ol style
-         * @return {string} SVG
+         * @return {string} SVG or data URL
          */
-        createPolygonSVG (style) {
+        createPolygonGraphic (style) {
             let svg = "";
-            const fillColor = style.returnColor(style.attributes.polygonFillColor, "hex"),
+            const fillColor = style.returnColor(style.attributes.polygonFillColor || "black", "hex"),
                 strokeColor = style.returnColor(style.attributes.polygonStrokeColor, "hex"),
                 strokeWidth = parseInt(style.attributes.polygonStrokeWidth, 10),
-                fillOpacity = style.attributes.polygonFillColor[3].toString() || 0,
-                strokeOpacity = style.attributes.polygonStrokeColor[3].toString() || 0;
+                fillOpacity = style.attributes.polygonFillColor?.[3]?.toString() || 0,
+                strokeOpacity = style.attributes.polygonStrokeColor[3].toString() || 0,
+                fillHatch = style.attributes.polygonFillHatch;
+
+            if (fillHatch) {
+                return style.getPolygonFillHatchLegendDataUrl();
+            }
 
             svg += "<svg height='35' width='35'>";
             svg += "<polygon points='5,5 30,5 30,30 5,30' style='fill:";
