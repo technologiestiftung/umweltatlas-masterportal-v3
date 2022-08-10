@@ -89,6 +89,7 @@
     "jquery": "^3.6.0",
     "jquery-ui": "^1.13.0",
     "jsts": "^2.8.1",
+    "masterportalapi": "file:../masterportalapi",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.34",
     "mqtt": "^4.3.4",

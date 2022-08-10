@@ -5,7 +5,8 @@ import loadAddons from "../src/addons";
 import "../modules/restReader/RadioBridge";
 import Autostarter from "../modules/core/autostarter";
 import Util from "../modules/core/util";
-import StyleList from "../modules/vectorStyle/list";
+// import StyleList from "../modules/vectorStyle/list";
+import {initializeStyleList} from "masterportalapi/src/vectorStyle/styleList";
 import Preparser from "../modules/core/configLoader/preparser";
 import RemoteInterface from "../modules/remoteInterface/model";
 import RadioMasterportalAPI from "../modules/remoteInterface/radioMasterportalAPI";
@@ -52,6 +53,14 @@ import ButtonObliqueView from "../modules/controls/buttonOblique/view";
 import Orientation3DView from "../modules/controls/orientation3d/view";
 import VirtualcityModel from "../modules/tools/virtualCity/model";
 import LoaderOverlay from "../src/utils/loaderOverlay";
+
+const styleGetters = {
+    mapMarkerPointStyleId: store.getters["MapMarker/pointStyleId"],
+    mapMarkerPolygonStyleId: store.getters["MapMarker/polygonStyleId"],
+    highlightFeaturesPointStyleId: store.getters["HighlightFeatures/pointStyleId"],
+    highlightFeaturesPolygonStyleId: store.getters["HighlightFeatures/polygonStyleId"],
+    highlightFeaturesLineStyleId: store.getters["HighlightFeatures/lineStyleId"]
+};
 
 let sbconfig,
     controls,
@@ -130,7 +139,17 @@ async function loadApp () {
     new Preparser(null, {url: Config.portalConf});
     handleUrlParamsBeforeVueMount(window.location.search);
 
-    new StyleList();
+    // new StyleList();
+    initializeStyleList(styleGetters, Config, Radio.request("Parser", "getItemsByAttributes", {type: "layer"}), Radio.request("Parser", "getItemsByAttributes", {type: "tool"}),
+        (styleList, error) => {
+            if (error) {
+                Radio.trigger("Alert", "alert", {
+                    text: "<strong>Die Datei '" + Config.styleConf + "' konnte nicht geladen werden!</strong>",
+                    kategorie: "alert-warning"
+                });
+            }
+            return styleList;
+        });
     createMaps(Config, Radio.request("Parser", "getPortalConfig").mapView);
     new WindowView();
 

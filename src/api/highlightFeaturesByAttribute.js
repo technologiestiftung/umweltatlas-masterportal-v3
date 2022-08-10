@@ -1,6 +1,8 @@
 import {WFS} from "ol/format.js";
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
+import {returnStyleObject} from "masterportalapi/src/vectorStyle/styleList";
+import {createStyle} from "masterportalapi/src/vectorStyle/createStyle";
 import {Style} from "ol/style.js";
 import Point from "ol/geom/Point.js";
 import Feature from "ol/Feature.js";
@@ -53,20 +55,20 @@ export default {
      * @returns {void}
     */
     highlightPointFeature: function (modelId, styleId, name, gfiAttributes, features, dispatch) {
-        const styleListModel = Radio.request("StyleList", "returnModelById", modelId),
+        const styleObject = returnStyleObject(styleId),
             highlightLayer = this.createVectorLayer(modelId, styleId, name, gfiAttributes);
         let hadPoint = false;
 
         features.forEach(feature => {
             const geometry = feature.getGeometry();
 
-            if (styleListModel && geometry.getType() === "Point") {
+            if (styleObject && geometry.getType() === "Point") {
                 hadPoint = true;
                 const coordinate = geometry.getCoordinates(),
                     iconFeature = new Feature({
                         geometry: new Point(coordinate)
                     }),
-                    featureStyle = styleListModel.createStyle(iconFeature, false);
+                    featureStyle = createStyle(styleObject, feature, false, Config.wfsImgPath);
 
                 iconFeature.setProperties(feature.getProperties());
                 iconFeature.setStyle(featureStyle);
@@ -93,19 +95,19 @@ export default {
      * @returns {void}
     */
     highlightLineOrPolygonFeature: function (modelId, styleId, name, geometryRequested, gfiAttributes, features, dispatch) {
-        const styleListModel = Radio.request("StyleList", "returnModelById", modelId),
+        const styleObject = returnStyleObject(styleId),
             highlightLayer = this.createVectorLayer(modelId, styleId, name, gfiAttributes);
         let hadGeometry = false;
 
         features.forEach(feature => {
             const geometry = feature.getGeometry();
 
-            if (styleListModel && geometry.getType() === geometryRequested) {
+            if (styleObject && geometry.getType() === geometryRequested) {
                 hadGeometry = true;
                 const newFeature = new Feature({
                         geometry: geometry
                     }),
-                    featureStyle = styleListModel.createStyle(newFeature, false);
+                    featureStyle = createStyle(styleObject, newFeature, false, Config.wfsImgPath);
 
                 newFeature.setProperties(feature.getProperties());
                 newFeature.setStyle(featureStyle);

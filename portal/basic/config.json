@@ -153,7 +153,8 @@
 				},
 				{
 				  "id": "1132",
-          "name": "WFS Point (Default Style)"
+          "name": "WFS Point (Default Style)",
+		  "clusterDistance": 20
 				},
 				{
 				  "id": "1133",

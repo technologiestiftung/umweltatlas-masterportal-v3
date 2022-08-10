@@ -114,6 +114,7 @@ const initialState = JSON.parse(JSON.stringify(stateDraw)),
             if (featureType === "LineString") {
                 if (targetProjection !== undefined) {
                     centerPointCoords = transform(getMapProjection(map), targetProjection, feature.getGeometry().getCoordinateAt(0.5));
+                    console.log(feature.getGeometry().getCoordinateAt(0.5));
                 }
                 else {
                     centerPointCoords = feature.getGeometry().getCoordinateAt(0.5);

@@ -1,5 +1,7 @@
 import Layer from "./layer";
 import LoaderOverlay from "../../utils/loaderOverlay";
+import {returnStyleObject} from "masterportalapi/src/vectorStyle/styleList";
+import {createStyle, returnLegends} from "masterportalapi/src/vectorStyle/createStyle";
 import * as bridge from "./RadioBridge";
 import Cluster from "ol/source/Cluster";
 import VectorLayer from "ol/layer/Vector";
@@ -205,14 +207,14 @@ STALayer.prototype.getPropertyname = function (attrs) {
  */
 STALayer.prototype.getStyleFunction = function (attrs) {
     const styleId = attrs?.styleId,
-        styleModel = bridge.getStyleModelById(styleId);
+        styleObject = returnStyleObject(styleId);
 
-    if (typeof styleModel !== "undefined") {
+    if (typeof styleObject !== "undefined") {
         return function (feature) {
             const feat = typeof feature !== "undefined" ? feature : this,
                 isClusterFeature = typeof feat.get("features") === "function" || typeof feat.get("features") === "object" && Boolean(feat.get("features"));
 
-            return styleModel.createStyle(feat, isClusterFeature);
+            return createStyle(styleObject, feat, isClusterFeature, Config.wfsImgPath);
         };
     }
     console.error(i18next.t("common:modules.core.modelList.layer.wrongStyleId", {styleId}));
@@ -236,7 +238,8 @@ STALayer.prototype.updateSource = function () {
  * @returns {void}
  */
 STALayer.prototype.createLegend = function () {
-    const styleModel = bridge.getStyleModelById(this.get("styleId"));
+    const styleObject = returnStyleObject(this.attributes.styleId),
+        legendInfos = returnLegends();
     let legend = this.get("legend");
 
     /**
@@ -252,8 +255,14 @@ STALayer.prototype.createLegend = function () {
     if (Array.isArray(legend)) {
         this.set("legend", legend);
     }
-    else if (styleModel && legend === true) {
-        this.set("legend", styleModel.getLegendInfos());
+    else if (styleObject && legend === true) {
+        setTimeout(() => {
+            const selected = legendInfos.find(element => element.id === styleObject.styleId);
+
+            if (selected) {
+                this.setLegend(selected.legendInformation);
+            }
+        }, 4000);
     }
     else if (typeof legend === "string") {
         this.set("legend", [legend]);

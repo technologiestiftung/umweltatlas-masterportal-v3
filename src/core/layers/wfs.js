@@ -1,6 +1,8 @@
 import {wfs} from "@masterportal/masterportalapi";
 import LoaderOverlay from "../../utils/loaderOverlay";
 import Layer from "./layer";
+import {returnStyleObject} from "masterportalapi/src/vectorStyle/styleList";
+import {createStyle, getGeometryTypeFromWFS, getGeometryTypeFromSecuredWFS, returnLegends} from "masterportalapi/src/vectorStyle/createStyle";
 import * as bridge from "./RadioBridge.js";
 import Cluster from "ol/source/Cluster";
 import {bbox, all} from "ol/loadingstrategy.js";
@@ -26,7 +28,7 @@ export default function WFSLayer (attrs) {
     Layer.call(this, Object.assign(defaults, attrs), this.layer, !attrs.isChildLayer);
     this.set("style", this.getStyleFunction(attrs));
     this.prepareFeaturesFor3D(this.layer.getSource().getFeatures());
-    this.createLegend();
+    // TODO: muss überprüft werden:  this.createLegend();
 }
 // Link prototypes and add prototype methods, means WFSLayer uses all methods and properties of Layer
 WFSLayer.prototype = Object.create(Layer.prototype);
@@ -132,6 +134,7 @@ WFSLayer.prototype.getPropertyname = function (attrs) {
     }
     return propertyname;
 };
+
 /**
  * Sets Style for layer.
  * @param {Object} attrs  params of the raw layer
@@ -139,22 +142,22 @@ WFSLayer.prototype.getPropertyname = function (attrs) {
  */
 WFSLayer.prototype.getStyleFunction = function (attrs) {
     const styleId = attrs.styleId,
-        styleModel = bridge.getStyleModelById(styleId);
+        styleObject = returnStyleObject(styleId);
     let isClusterFeature = false,
         style = null;
 
-    if (styleModel !== undefined) {
-        style = function (feature) {
+    if (styleObject !== undefined) {
+        style = (feature) => {
             const feat = feature !== undefined ? feature : this;
 
+            this.createLegend();
             isClusterFeature = typeof feat.get("features") === "function" || typeof feat.get("features") === "object" && Boolean(feat.get("features"));
-            return styleModel.createStyle(feat, isClusterFeature);
+            return createStyle(styleObject, feat, isClusterFeature, Config.wfsImgPath);
         };
     }
     else {
         console.error(i18next.t("common:modules.core.modelList.layer.wrongStyleId", {styleId}));
     }
-
     return style;
 };
 /**
@@ -172,8 +175,10 @@ WFSLayer.prototype.updateSource = function () {
  * @returns {void}
  */
 WFSLayer.prototype.createLegend = function () {
-    const styleModel = bridge.getStyleModelById(this.get("styleId")),
-        isSecured = this.attributes.isSecured;
+    const styleObject = returnStyleObject(this.attributes.styleId),
+        isSecured = this.attributes.isSecured,
+        isDefault = this.attributes.styleId,
+        legendInfos = returnLegends();
     let legend = this.get("legend");
 
     /**
@@ -194,14 +199,57 @@ WFSLayer.prototype.createLegend = function () {
     if (Array.isArray(legend)) {
         this.setLegend(legend);
     }
-    else if (styleModel && legend === true) {
-        if (!isSecured) {
-            styleModel.getGeometryTypeFromWFS(this.get("url"), this.get("version"), this.get("featureType"), this.get("styleGeometryType"), this.get("useProxy"));
-        }
-        else if (isSecured) {
-            styleModel.getGeometryTypeFromSecuredWFS(this.get("url"), this.get("version"), this.get("featureType"), this.get("styleGeometryType"));
-        }
-        this.setLegend(styleModel.getLegendInfos());
+    else if (styleObject && legend === true && legendInfos) {
+        // TODO: auskommentiert, da nie etwas gefunden wurde und alerts abgestellt werden mussten.
+        // if (!isSecured) {
+        //     getGeometryTypeFromWFS(this.get("url"), this.get("version"), this.get("featureType"), this.get("styleGeometryType"), this.get("useProxy"),
+        //         (error) => {
+        //             if (error) {
+        //                 Radio.trigger("Alert", "alert", {
+        //                     text: "<strong>" + i18next.t("common:modules.vectorStyle.styleModel.getGeometryTypeFromWFSFetchfailed") + "</strong> <br>"
+        //                         + "<small>" + i18next.t("common:modules.vectorStyle.styleModel.getGeometryTypeFromWFSFetchfailedMessage") + "</small>",
+        //                     kategorie: "alert-warning"
+        //                 });
+        //             }
+        //         });
+        // }
+        // else if (isSecured) {
+        //     getGeometryTypeFromSecuredWFS(this.get("url"), this.get("version"), this.get("featureType"), this.get("styleGeometryType"),
+        //         (error) => {
+        //             if (error) {
+        //                 Radio.trigger("Alert", "alert", {
+        //                     text: "<strong>" + i18next.t("common:modules.vectorStyle.styleModel.getGeometryTypeFromWFSFetchfailed") + "</strong> <br>"
+        //                         + "<small>" + i18next.t("common:modules.vectorStyle.styleModel.getGeometryTypeFromWFSFetchfailedMessage") + "</small>",
+        //                     kategorie: "alert-warning"
+        //                 });
+        //             }
+        //         });
+        // }
+        setTimeout(() => {
+            if (styleObject.styleId === "default") {
+                const defaultLegends = legendInfos.find(element => element.id === "default"),
+                    type = this.layer.getSource().getFeatures()[0].getGeometry().getType(),
+                    typeSpecificLegends = [];
+
+                if (defaultLegends) {
+                    if (type === "MultiLineString") {
+                        typeSpecificLegends.push(defaultLegends.legendInformation.find(element => element.geometryType === "LineString"));
+                        this.setLegend(typeSpecificLegends);
+                    }
+                    else {
+                        typeSpecificLegends.push(defaultLegends.legendInformation.find(element => element.geometryType === type));
+                        this.setLegend(typeSpecificLegends);
+                    }
+                }
+            }
+            else {
+                const selected = legendInfos.find(element => element.id === styleObject.styleId);
+
+                if (selected) {
+                    this.setLegend(selected.legendInformation);
+                }
+            }
+        }, 100);
     }
     else if (typeof legend === "string") {
         this.setLegend([legend]);

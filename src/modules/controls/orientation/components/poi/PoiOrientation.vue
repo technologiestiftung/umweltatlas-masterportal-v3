@@ -1,9 +1,10 @@
 <script>
+import {returnStyleObject} from "masterportalapi/src/vectorStyle/styleList";
+import {createStyle, returnLegends, getGeometryStyle} from "masterportalapi/src/vectorStyle/createStyle";
 import {mapGetters, mapMutations, mapActions} from "vuex";
 import getters from "../../store/gettersOrientation";
 import mutations from "../../store/mutationsOrientation";
 import {extractEventCoordinates} from "../../../../../../src/utils/extractEventCoordinates";
-import Icon from "ol/style/Icon";
 import LoaderOverlay from "../../../../../utils/loaderOverlay";
 
 export default {
@@ -166,17 +167,19 @@ export default {
          */
         getImgPath (feat) {
             let imagePath = "";
-            const style = Radio.request("StyleList", "returnModelById", feat.styleId);
+            const styleObject = returnStyleObject(feat.styleId);
 
-            if (style) {
-                const featureStyle = style.createStyle(feat, false);
+            if (styleObject) {
+                const featureStyleObject = Array.isArray(getGeometryStyle(feat, styleObject.rules, false, Config.wfsImgPath)) ? getGeometryStyle(feat, styleObject.rules, false, Config.wfsImgPath)[0] : getGeometryStyle(feat, styleObject.rules, false, Config.wfsImgPath),
+                    featureStyle = featureStyleObject.getStyle(),
+                    featureLegend = featureStyleObject.legendInfos;
 
-                if (featureStyle?.getImage() instanceof Icon) {
+                if (featureStyleObject.attributes.type === "icon") {
                     imagePath = featureStyle.getImage()?.getSrc() ? featureStyle.getImage()?.getSrc() : "";
                 }
                 else {
-                    style.getLegendInfos().forEach(legendInfo => {
-                        if (legendInfo.geometryType === "Point" && legendInfo.styleObject.get("type") === "circle") {
+                    featureLegend.forEach(legendInfo => {
+                        if (legendInfo.geometryType === "Point" && legendInfo.styleObject.attributes.type === "circle") {
                             imagePath = this.createCircleSVG(legendInfo.styleObject);
                         }
                         else if (legendInfo.geometryType === "LineString") {
@@ -188,7 +191,6 @@ export default {
                     });
                 }
             }
-
             return imagePath;
         },
 
@@ -223,11 +225,11 @@ export default {
          */
         createCircleSVG (style) {
             let svg = "";
-            const circleStrokeColor = style.returnColor(style.get("circleStrokeColor"), "hex"),
-                circleStrokeOpacity = style.get("circleStrokeColor")[3].toString() || 0,
-                circleStrokeWidth = style.get("circleStrokeWidth"),
-                circleFillColor = style.returnColor(style.get("circleFillColor"), "hex"),
-                circleFillOpacity = style.get("circleFillColor")[3].toString() || 0;
+            const circleStrokeColor = style.returnColor(style.attributes.circleStrokeColor, "hex"),
+                circleStrokeOpacity = style.attributes.circleStrokeColor[3].toString() || 0,
+                circleStrokeWidth = style.attributes.circleStrokeWidth,
+                circleFillColor = style.returnColor(style.attributes.circleFillColor, "hex"),
+                circleFillOpacity = style.attributes.circleFillColor[3].toString() || 0;
 
             svg += "<svg height='35' width='35'>";
             svg += "<circle cx='17.5' cy='17.5' r='15' stroke='";
@@ -253,9 +255,9 @@ export default {
          */
         createLineSVG (style) {
             let svg = "";
-            const strokeColor = style.returnColor(style.get("lineStrokeColor"), "hex"),
-                strokeWidth = parseInt(style.get("lineStrokeWidth"), 10),
-                strokeOpacity = style.get("lineStrokeColor")[3].toString() || 0;
+            const strokeColor = style.returnColor(style.attributes.lineStrokeColor, "hex"),
+                strokeWidth = parseInt(style.attributes.lineStrokeWidth, 10),
+                strokeOpacity = style.attributes.lineStrokeColor[3].toString() || 0;
 
             svg += "<svg height='35' width='35'>";
             svg += "<path d='M 05 30 L 30 05' stroke='";
@@ -277,11 +279,11 @@ export default {
          */
         createPolygonSVG (style) {
             let svg = "";
-            const fillColor = style.returnColor(style.get("polygonFillColor"), "hex"),
-                strokeColor = style.returnColor(style.get("polygonStrokeColor"), "hex"),
-                strokeWidth = parseInt(style.get("polygonStrokeWidth"), 10),
-                fillOpacity = style.get("polygonFillColor")[3].toString() || 0,
-                strokeOpacity = style.get("polygonStrokeColor")[3].toString() || 0;
+            const fillColor = style.returnColor(style.attributes.polygonFillColor, "hex"),
+                strokeColor = style.returnColor(style.attributes.polygonStrokeColor, "hex"),
+                strokeWidth = parseInt(style.attributes.polygonStrokeWidth, 10),
+                fillOpacity = style.attributes.polygonFillColor[3].toString() || 0,
+                strokeOpacity = style.attributes.polygonStrokeColor[3].toString() || 0;
 
             svg += "<svg height='35' width='35'>";
             svg += "<polygon points='5,5 30,5 30,30 5,30' style='fill:";
