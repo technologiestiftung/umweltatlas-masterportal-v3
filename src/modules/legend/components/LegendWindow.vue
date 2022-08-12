@@ -1,5 +1,6 @@
 <script>
 import Feature from "ol/Feature.js";
+import {getPolygonFillHatchLegendDataUrl} from "masterportalapi/src/vectorStyle/createStyle";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import getters from "../store/gettersLegend";
 import mutations from "../store/mutationsLegend";
@@ -367,7 +368,7 @@ export default {
          * @return {ol.Style} style
          */
         drawNominalStyle (style) {
-            const scalingShape = style.attributes.scalingShape.toLowerCase();
+            const scalingShape = style.scalingShape.toLowerCase();
             let nominalStyle = [];
 
             if (scalingShape === "circlesegments") {
@@ -382,8 +383,8 @@ export default {
          * @returns {Array} - style as Array of objects.
          */
         drawNominalCircleSegments: function (style) {
-            const scalingAttribute = style.attributes.scalingAttribute,
-                scalingValues = style.attributes.scalingValues,
+            const scalingAttribute = style.scalingAttribute,
+                scalingValues = style.scalingValues,
                 nominalCircleSegments = [];
             let olStyle = null;
 
@@ -523,7 +524,7 @@ export default {
                 strokeOpacity = style.polygonStrokeColor[3] || 0;
 
             if (fillHatch) {
-                legendObj.graphic = style.getPolygonFillHatchLegendDataUrl();
+                legendObj.graphic = getPolygonFillHatchLegendDataUrl(style);
             }
             else {
                 let svg = "data:image/svg+xml;charset=utf-8,";

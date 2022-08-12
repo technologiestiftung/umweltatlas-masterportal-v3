@@ -1,6 +1,6 @@
 <script>
 import {returnStyleObject} from "masterportalapi/src/vectorStyle/styleList";
-import {createStyle, returnLegends, getGeometryStyle} from "masterportalapi/src/vectorStyle/createStyle";
+import {getGeometryStyle, returnColor, getPolygonFillHatchLegendDataUrl} from "masterportalapi/src/vectorStyle/createStyle";
 import {mapGetters, mapMutations, mapActions} from "vuex";
 import getters from "../../store/gettersOrientation";
 import mutations from "../../store/mutationsOrientation";
@@ -225,10 +225,10 @@ export default {
          */
         createCircleSVG (style) {
             let svg = "";
-            const circleStrokeColor = style.returnColor(style.attributes.circleStrokeColor, "hex"),
+            const circleStrokeColor = returnColor(style.attributes.circleStrokeColor, "hex"),
                 circleStrokeOpacity = style.attributes.circleStrokeColor[3].toString() || 0,
                 circleStrokeWidth = style.attributes.circleStrokeWidth,
-                circleFillColor = style.returnColor(style.attributes.circleFillColor, "hex"),
+                circleFillColor = returnColor(style.attributes.circleFillColor, "hex"),
                 circleFillOpacity = style.attributes.circleFillColor[3].toString() || 0;
 
             svg += "<svg height='35' width='35'>";
@@ -255,7 +255,7 @@ export default {
          */
         createLineSVG (style) {
             let svg = "";
-            const strokeColor = style.returnColor(style.attributes.lineStrokeColor, "hex"),
+            const strokeColor = returnColor(style.attributes.lineStrokeColor, "hex"),
                 strokeWidth = parseInt(style.attributes.lineStrokeWidth, 10),
                 strokeOpacity = style.attributes.lineStrokeColor[3].toString() || 0;
 
@@ -279,15 +279,15 @@ export default {
          */
         createPolygonGraphic (style) {
             let svg = "";
-            const fillColor = style.returnColor(style.attributes.polygonFillColor || "black", "hex"),
-                strokeColor = style.returnColor(style.attributes.polygonStrokeColor, "hex"),
-                strokeWidth = parseInt(style.attributes.polygonStrokeWidth, 10),
-                fillOpacity = style.attributes.polygonFillColor?.[3]?.toString() || 0,
-                strokeOpacity = style.attributes.polygonStrokeColor[3].toString() || 0,
-                fillHatch = style.attributes.polygonFillHatch;
+            const fillColor = returnColor(style.polygonFillColor || "black", "hex"),
+                strokeColor = returnColor(style.polygonStrokeColor, "hex"),
+                strokeWidth = parseInt(style.polygonStrokeWidth, 10),
+                fillOpacity = style.polygonFillColor?.[3]?.toString() || 0,
+                strokeOpacity = style.polygonStrokeColor[3].toString() || 0,
+                fillHatch = style.polygonFillHatch;
 
             if (fillHatch) {
-                return style.getPolygonFillHatchLegendDataUrl();
+                return getPolygonFillHatchLegendDataUrl(style);
             }
 
             svg += "<svg height='35' width='35'>";
