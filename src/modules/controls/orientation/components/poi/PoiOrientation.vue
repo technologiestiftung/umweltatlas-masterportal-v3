@@ -1,6 +1,6 @@
 <script>
 import {returnStyleObject} from "masterportalapi/src/vectorStyle/styleList";
-import {getGeometryStyle, returnColor, getPolygonFillHatchLegendDataUrl} from "masterportalapi/src/vectorStyle/createStyle";
+import {createStyle, getGeometryStyle, returnColor, getPolygonFillHatchLegendDataUrl, returnLegends} from "masterportalapi/src/vectorStyle/createStyle";
 import {mapGetters, mapMutations, mapActions} from "vuex";
 import getters from "../../store/gettersOrientation";
 import mutations from "../../store/mutationsOrientation";
@@ -170,22 +170,24 @@ export default {
             const styleObject = returnStyleObject(feat.styleId);
 
             if (styleObject) {
-                const featureStyleObject = Array.isArray(getGeometryStyle(feat, styleObject.rules, false, Config.wfsImgPath)) ? getGeometryStyle(feat, styleObject.rules, false, Config.wfsImgPath)[0] : getGeometryStyle(feat, styleObject.rules, false, Config.wfsImgPath),
-                    featureStyle = featureStyleObject.getStyle(),
-                    featureLegend = featureStyleObject.legendInfos;
+                const featureStyleObject = getGeometryStyle(feat, styleObject.rules, false, Config.wfsImgPath),
+                    featureStyle = createStyle(styleObject, feat, false, Config.wfsImgPath),
+                    layerLegends = returnLegends().find(legend => legend.id === feat.styleId),
+                    featureLegend = layerLegends.legendInformation;
 
-                if (featureStyleObject.attributes.type === "icon") {
+                if (featureStyleObject.attributes?.type === "icon") {
                     imagePath = featureStyle.getImage()?.getSrc() ? featureStyle.getImage()?.getSrc() : "";
                 }
+
                 else {
                     featureLegend.forEach(legendInfo => {
-                        if (legendInfo.geometryType === "Point" && legendInfo.styleObject.attributes.type === "circle") {
+                        if (legendInfo.geometryType === "Point" && legendInfo.styleObject.attributes.type === "circle" && legendInfo.label === feat.legendValue) {
                             imagePath = this.createCircleSVG(legendInfo.styleObject);
                         }
-                        else if (legendInfo.geometryType === "LineString") {
+                        else if (legendInfo.geometryType === "LineString" && legendInfo.label === feat.legendValue) {
                             imagePath = this.createLineSVG(legendInfo.styleObject);
                         }
-                        else if (legendInfo.geometryType === "Polygon") {
+                        else if (legendInfo.geometryType === "Polygon" && legendInfo.label === feat.legendValue) {
                             imagePath = this.createPolygonGraphic(legendInfo.styleObject);
                         }
                     });
