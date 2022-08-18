@@ -552,7 +552,6 @@ const Layer = Item.extend(/** @lends Layer.prototype */{
      */
     toggleLayerOnMap: function () {
         if (Radio.request("Parser", "getTreeType") !== "light") {
-            console.log(this);
             if (this.get("isSelected") === true) {
                 Radio.trigger("Map", "addLayerToIndex", [this.get("layer"), this.get("selectionIDX")]);
             }

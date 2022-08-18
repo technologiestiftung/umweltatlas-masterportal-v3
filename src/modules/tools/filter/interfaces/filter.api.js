@@ -12,6 +12,7 @@ import InterfaceOafIntern from "./interface.oaf.intern.js";
 import InterfaceOafExtern from "./interface.oaf.extern.js";
 import InterfaceGeojsonIntern from "./interface.geojson.intern.js";
 import InterfaceGeojsonExtern from "./interface.geojson.extern.js";
+import {getLayerWhere} from "@masterportal/masterportalapi/src/rawLayerList";
 
 /**
  * FilterApi is the api to use in vue environment. It encapsulates the filter interfaces.
@@ -62,21 +63,34 @@ export default class FilterApi {
         if (!layerModel) {
             return;
         }
-        const type = layerModel.get("typ").toLowerCase(),
-            featureNS = layerModel.get("featureNS");
+        let type = layerModel.get("typ").toLowerCase(),
+            featureNS = layerModel.get("featureNS"),
+            url = layerModel.get("url"),
+            featureType = layerModel.get("featureType");
+
+        if (type === "webgl") {
+            const rawLayer = getLayerWhere({id: layerModel.get("sourceId")});
+
+            if (rawLayer) {
+                type = rawLayer.typ.toLowerCase();
+                featureNS = rawLayer.featureNS;
+                url = rawLayer.url;
+                featureType = rawLayer.featureType;
+            }
+        }
 
         if (type === "wfs") {
             this.service = {
                 type,
                 extern,
                 layerId,
-                url: layerModel.get("url"),
-                typename: layerModel.get("featureType"),
+                url,
+                typename: featureType,
                 namespace: featureNS,
                 srsName: getMapProjection(),
                 featureNS: featureNS.substr(0, featureNS.lastIndexOf("/")),
                 featurePrefix: featureNS.substr(featureNS.lastIndexOf("/") + 1),
-                featureTypes: [layerModel.get("featureType")]
+                featureTypes: [featureType]
             };
         }
         else if (type === "oaf") {
@@ -85,7 +99,7 @@ export default class FilterApi {
                     type,
                     extern,
                     layerId,
-                    url: layerModel.get("url"),
+                    url,
                     collection: layerModel.get("collection"),
                     namespace: featureNS
                 };
@@ -100,7 +114,7 @@ export default class FilterApi {
                     type,
                     extern,
                     layerId,
-                    url: layerModel.get("url")
+                    url
                 };
             }
             else {

@@ -5,6 +5,8 @@ import {getGfiFeaturesByTileFeature} from "../../../api/gfi/getGfiFeaturesByTile
 import thousandsSeparator from "../../../utils/thousandsSeparator.js";
 import {transformFromMapProjection} from "@masterportal/masterportalapi/src/crs";
 import {Group as LayerGroup} from "ol/layer.js";
+import Point from "ol/geom/Point";
+import {buffer} from "ol/extent";
 
 const getters = {
     ...generateSimpleGetters(initialState),
@@ -23,7 +25,7 @@ const getters = {
      * @param {String} state.mode - the current map mode
      * @returns {Object[]} gfi features
      */
-    gfiFeaturesAtPixel: (state, {clickPixel, clickCartesianCoordinate, mode}) => {
+    gfiFeaturesAtPixel: (state, {clickPixel, clickCoordinate, clickCartesianCoordinate, mode, getVisibleLayerList}) => {
         const featuresAtPixel = [];
 
         if (clickPixel && mode === "2D") {
@@ -46,7 +48,32 @@ const getters = {
                         ));
                     }
                 }
+            }, {
+                // filter WebGL layers and look at them individually
+                layerFilter: layer => layer.get("typ") !== "WebGL"
             });
+            /** check WebGL Layers
+            * use buffered coord instead of pixel for hitTolerance
+            * @todo refactor?
+            */
+            getVisibleLayerList
+                .filter(layer => layer.get("typ") === "WebGL")
+                .forEach(layer => {
+                    if (layer.get("gfiAttributes") && layer.get("gfiAttributes") !== "ignore") {
+                        const hitBox = buffer(
+                            new Point(clickCoordinate).getExtent(),
+                            layer.get("hitTolerance") * mapCollection.getMapView("2D").getResolution()
+                        );
+
+                        layer.getSource().forEachFeatureInExtent(hitBox, feature => {
+                            featuresAtPixel.push(createGfiFeature(
+                                layer,
+                                "",
+                                feature
+                            ));
+                        });
+                    }
+                });
         }
         if (mode === "3D" && Array.isArray(clickCartesianCoordinate) && clickCartesianCoordinate.length === 2) {
             // add features from map3d
