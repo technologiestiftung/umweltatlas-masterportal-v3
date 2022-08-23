@@ -1,6 +1,8 @@
 <script>
 import {returnStyleObject} from "masterportalapi/src/vectorStyle/styleList";
-import {createStyle, getGeometryStyle, returnColor, getPolygonFillHatchLegendDataUrl, returnLegends} from "masterportalapi/src/vectorStyle/createStyle";
+import {createStyle, getGeometryStyle, returnLegends} from "masterportalapi/src/vectorStyle/createStyle";
+import StylePolygon from "masterportalapi/src/vectorStyle/styles/polygon/stylePolygon";
+import {returnColor} from "masterportalapi/src/vectorStyle/lib/colorConvertions";
 import {mapGetters, mapMutations, mapActions} from "vuex";
 import getters from "../../store/gettersOrientation";
 import mutations from "../../store/mutationsOrientation";
@@ -289,7 +291,7 @@ export default {
                 fillHatch = style.polygonFillHatch;
 
             if (fillHatch) {
-                return getPolygonFillHatchLegendDataUrl(style);
+                return StylePolygon.prototype.getPolygonFillHatchLegendDataUrl(style);
             }
 
             svg += "<svg height='35' width='35'>";

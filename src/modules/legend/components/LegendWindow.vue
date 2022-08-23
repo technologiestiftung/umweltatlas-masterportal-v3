@@ -1,6 +1,6 @@
 <script>
 import Feature from "ol/Feature.js";
-import {getPolygonFillHatchLegendDataUrl} from "masterportalapi/src/vectorStyle/createStyle";
+import StylePolygon from "masterportalapi/src/vectorStyle/styles/polygon/stylePolygon";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import getters from "../store/gettersLegend";
 import mutations from "../store/mutationsLegend";
@@ -524,7 +524,7 @@ export default {
                 strokeOpacity = style.polygonStrokeColor[3] || 0;
 
             if (fillHatch) {
-                legendObj.graphic = getPolygonFillHatchLegendDataUrl(style);
+                legendObj.graphic = StylePolygon.prototype.getPolygonFillHatchLegendDataUrl(style);
             }
             else {
                 let svg = "data:image/svg+xml;charset=utf-8,";
