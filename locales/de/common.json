@@ -358,6 +358,7 @@
                 "titlePlaceholder": "Mein Titel",
                 "layoutLabel": "Layout",
                 "formatLabel": "Format",
+                "dpiLabel": "DPI",
                 "scaleLabel": "Druckmaßstab",
                 "withLegendLabel": "Mit Legende",
                 "autoAdjustScale": "Druckmaßstab automatisch anpassen",
@@ -466,6 +467,23 @@
                 "filterResult": {
                     "label": "Alle Filter-Treffer",
                     "unit": "{{amountOfFilteredItems}} Treffer"
+                },
+                "geometryFilter": {
+                    "activate": "Gebiet für Filterung setzen",
+                    "help": "Wählen Sie auf der Karte ein Gebiet aus um nur innerhalb dieses Gebietes zu filtern.",
+                    "selectGeometry": "Wählen Sie eine Geometrie aus.",
+                    "buffer": "Puffer [m]",
+                    "removeGeometry": "Gebiet entfernen",
+                    "geometries": {
+                        "polygon": "Fläche",
+                        "rectangle": "Rechteck",
+                        "circle": "Kreis",
+                        "lineString": "Linie + Puffer"
+                    }
+                },
+                "download": {
+                    "label": "Gefilterte Daten herunterladen",
+                    "labelBtn": "Herunterladen"
                 }
             },
             "pendler": {
@@ -524,6 +542,10 @@
                     "limitReached": "Die maximale Anzahl an Objekten in der Vergleichsliste wurde erreicht.",
                     "removeObjects": "Bitte entfernen Sie zuerst mindestens ein Objekt bevor Sie fortfahren.",
                     "goToComparisonlist": "Zur Vergleichsliste"
+                },
+                "trueFalse": {
+                  "true": "Ja",
+                  "false": "Nein"
                 }
             },
             "saveSelection": {
@@ -695,6 +717,7 @@
                 }
             },
             "draw": {
+                "drawLayerVisible": "Zeichnung ein-/ausblenden",
                 "clickToPlaceText": "Klicken Sie auf die Karte um den Text zu platzieren",
                 "download": {
                   "createFirst": "Bitte erstellen Sie zuerst eine Zeichnung oder einen Text!",
@@ -749,6 +772,7 @@
                     "saveDrawing": "Zeichnung speichern"
                 },
                 "symbol": "Symbol",
+                "geometry": "Geometrie",
                 "iconList": {
                     "iconPoint": "Punkt",
                     "iconLeaf": "Blatt",
@@ -803,7 +827,9 @@
                     "or": "oder",
                     "label": "Informationen bezüglich der Suchergebnisse",
                     "text": "Die Ergebnisse der Suche werden die Bedingungen / Klauseln {{userHelp}} erfüllen. <br /> *Pflichtfeld"
-                }
+                },
+                "district": "Gemarkung",
+                "parcelNumber": "Flurstücksnummer"
             },
             "routing": {
                 "coordinateInputHelp": "Suchen Sie einen Ort oder fügen Sie einen Punkt durch Klick in die Karte hinzu",
@@ -878,6 +904,7 @@
                             "profile": "Profil"
                         }
                     },
+                    "preferenceLabel": "Präferenz",
                     "preference": {
                         "RECOMMENDED": "Empfohlene Route",
                         "SHORTEST": "Kürzeste Route"
@@ -1159,6 +1186,21 @@
             "zoomToResults": "Zur Auswahl zoomen",
             "pagination": "Ergebnisseite",
             "selection": "Zeilenauswahl"
+        }
+    },
+    "libraries": {
+        "vue2-datepicker": {
+            "lang": {
+                "formatLocale": {
+                    "months": ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"],
+                    "monthsShort": ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"],
+                    "weekdays": ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"],
+                    "weekdaysShort": ["Son", "Mon", "Die", "Mit", "Don", "Fre", "Sam"],
+                    "weekdaysMin": ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
+                    "firstDayOfWeek": 1,
+                    "firstWeekContainsDate": 4
+                }
+            }
         }
     }
 }

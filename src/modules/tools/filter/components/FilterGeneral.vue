@@ -11,7 +11,8 @@ import {
     getLayerByLayerId,
     showFeaturesByIds,
     createLayerIfNotExists,
-    liveZoom,
+    zoomToFilteredFeatures,
+    zoomToExtent,
     addLayerByLayerId,
     setParserAttributeByLayerId,
     getLayers,
@@ -21,11 +22,13 @@ import {
 } from "../utils/openlayerFunctions.js";
 import LayerCategory from "./LayerCategory.vue";
 import isObject from "../../../../utils/isObject.js";
+import GeometryFilter from "./GeometryFilter.vue";
 
 export default {
     name: "FilterGeneral",
     components: {
         ToolTemplate,
+        GeometryFilter,
         LayerFilterSnippet,
         LayerCategory
     },
@@ -36,7 +39,8 @@ export default {
                 getLayerByLayerId,
                 showFeaturesByIds,
                 createLayerIfNotExists,
-                liveZoom,
+                zoomToFilteredFeatures,
+                zoomToExtent,
                 addLayerByLayerId,
                 setParserAttributeByLayerId,
                 getLayers
@@ -44,7 +48,8 @@ export default {
             layerConfigs: [],
             selectedLayers: [],
             layerLoaded: {},
-            layerFilterSnippetPostKey: ""
+            layerFilterSnippetPostKey: "",
+            filterGeometry: false
         };
     },
     computed: {
@@ -131,7 +136,7 @@ export default {
          * @param {String} filterId filterId to check
          * @returns {Boolean} true if should be displayed false if not
          */
-        showLayerSnippet (filterId) {
+        isLayerFilterSelected (filterId) {
             if (!Array.isArray(this.selectedLayers)) {
                 return false;
             }
@@ -162,6 +167,32 @@ export default {
          */
         setLayerFilterSnippetPostKey (value) {
             this.layerFilterSnippetPostKey = value;
+        },
+        /**
+         * Sets the geometry/area to filter in.
+         * @param {ol/geom/Geometry|Boolean} geometry The geometry (polygon, cycle, etc.) or false.
+         * @returns {void}
+         */
+        updateFilterGeometry (geometry) {
+            this.filterGeometry = geometry;
+        },
+        /**
+         * Checks if the geometry selector should be visible.
+         * @returns {Boolean} true if the geometry selector should be visible.
+         */
+        isGeometrySelectorVisible () {
+            return isObject(this.geometrySelectorOptions) && this.geometrySelectorOptions.visible !== false;
+        },
+        /**
+         * Sets the active state of the gfi based on the given param.
+         * @param {Boolean} active True to enable it, false to disable it
+         * @returns {void}
+         */
+        setGfiActive (active) {
+            if (typeof active !== "boolean") {
+                return;
+            }
+            this.$store.commit("Tools/Gfi/setActive", active);
         }
     }
 };
@@ -182,6 +213,18 @@ export default {
                 v-if="active"
                 id="tool-general-filter"
             >
+                <GeometryFilter
+                    v-if="isGeometrySelectorVisible()"
+                    :circle-sides="geometrySelectorOptions.circleSides"
+                    :default-buffer="geometrySelectorOptions.defaultBuffer"
+                    :geometries="geometrySelectorOptions.geometries"
+                    :invert-geometry="geometrySelectorOptions.invertGeometry"
+                    :fill-color="geometrySelectorOptions.fillColor"
+                    :stroke-color="geometrySelectorOptions.strokeColor"
+                    :stroke-width="geometrySelectorOptions.strokeWidth"
+                    @updateFilterGeometry="updateFilterGeometry"
+                    @setGfiActive="setGfiActive"
+                />
                 <LayerCategory
                     v-if="Array.isArray(layerConfigs) && layerConfigs.length && layerSelectorVisible"
                     class="layerSelector"
@@ -196,11 +239,11 @@ export default {
                         #default="slotProps"
                     >
                         <div
-                            :class="['accordion-collapse', 'collapse', showLayerSnippet(slotProps.layer.filterId) ? 'show' : '']"
+                            :class="['accordion-collapse', 'collapse', isLayerFilterSelected(slotProps.layer.filterId) ? 'show' : '']"
                             role="tabpanel"
                         >
                             <LayerFilterSnippet
-                                v-if="showLayerSnippet(slotProps.layer.filterId) || layerLoaded[slotProps.layer.filterId]"
+                                v-if="isLayerFilterSelected(slotProps.layer.filterId) || layerLoaded[slotProps.layer.filterId]"
                                 :api="slotProps.layer.api"
                                 :layer-config="slotProps.layer"
                                 :map-handler="mapHandler"
@@ -208,6 +251,8 @@ export default {
                                 :live-zoom-to-features="liveZoomToFeatures"
                                 :filter-rules="filters[slotProps.layer.filterId]"
                                 :filter-hits="filtersHits[slotProps.layer.filterId]"
+                                :filter-geometry="filterGeometry"
+                                :is-layer-filter-selected="isLayerFilterSelected"
                                 @updateRules="updateRules"
                                 @deleteAllRules="deleteAllRules"
                                 @updateFilterHits="updateFilterHits"
@@ -226,6 +271,8 @@ export default {
                         :live-zoom-to-features="liveZoomToFeatures"
                         :filter-rules="filters[layerConfig.filterId]"
                         :filter-hits="filtersHits[layerConfig.filterId]"
+                        :filter-geometry="filterGeometry"
+                        :is-layer-filter-selected="true"
                         @updateRules="updateRules"
                         @deleteAllRules="deleteAllRules"
                         @updateFilterHits="updateFilterHits"

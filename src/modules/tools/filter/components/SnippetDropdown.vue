@@ -186,12 +186,12 @@ export default {
         dropdownValueComputed () {
             const dropdownValue = [];
 
-            if (Array.isArray(this.dropdownValue)) {
-                this.dropdownValue.forEach(value => {
-                    dropdownValue.push(value);
-                });
-            }
             if (!Array.isArray(this.value)) {
+                if (Array.isArray(this.dropdownValue)) {
+                    this.dropdownValue.forEach(value => {
+                        dropdownValue.push(value);
+                    });
+                }
                 dropdownValue.sort((a, b) => {
                     if (typeof this.localeCompareParams === "string") {
                         return localeCompare(a, b, this.localeCompareParams);
@@ -200,6 +200,13 @@ export default {
                         return localeCompare(a, b, this.localeCompareParams.locale, this.localeCompareParams.options);
                     }
                     return localeCompare(a, b);
+                });
+            }
+            else {
+                this.value.forEach(key => {
+                    if (this.dropdownValue.includes(key)) {
+                        dropdownValue.push(key);
+                    }
                 });
             }
 
@@ -721,8 +728,8 @@ export default {
     .filter-select-box-container .multiselect .multiselect__placeholder {
         color: $light_grey;
         display: inline-block;
-        margin-bottom: 0px;
-        padding-top: 0px;
+        margin-bottom: 0;
+        padding-top: 0;
         font-size: 14px;
     }
     .filter-select-box-container .multiselect .multiselect__tag-icon:focus, .multiselect__tag-icon:hover {

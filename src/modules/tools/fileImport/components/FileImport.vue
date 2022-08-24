@@ -51,6 +51,7 @@ export default {
     methods: {
         ...mapActions("Tools/FileImport", [
             "importKML",
+            "importGeoJSON",
             "setSelectedFiletype"
         ]),
         ...mapActions("Maps", ["addNewLayerIfNotExists"]),
@@ -91,13 +92,20 @@ export default {
             }
         },
         addFile (files) {
-            files.forEach(file => {
+            Array.from(files).forEach(file => {
                 const reader = new FileReader();
 
                 reader.onload = async f => {
-                    const vectorLayer = await this.addNewLayerIfNotExists("import_draw_layer");
+                    const vectorLayer = await this.addNewLayerIfNotExists("importDrawLayer"),
+                        fileNameSplit = file.name.split("."),
+                        fileExtension = fileNameSplit.length > 0 ? fileNameSplit[fileNameSplit.length - 1].toLowerCase() : "";
 
-                    this.importKML({raw: f.target.result, layer: vectorLayer, filename: file.name});
+                    if (fileExtension === "geojson" || fileExtension === "json") {
+                        this.importGeoJSON({raw: f.target.result, layer: vectorLayer, filename: file.name});
+                    }
+                    else {
+                        this.importKML({raw: f.target.result, layer: vectorLayer, filename: file.name});
+                    }
                 };
 
                 reader.readAsText(file);

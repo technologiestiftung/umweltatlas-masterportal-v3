@@ -34,9 +34,14 @@ export default class MapHandler {
                 onerror(new Error("Filter MapHandler.constructor: The given handler needs a function 'createLayerIfNotExists'"));
             }
         }
-        if (typeof this.handlers?.liveZoom !== "function") {
+        if (typeof this.handlers?.zoomToFilteredFeatures !== "function") {
             if (typeof onerror === "function") {
-                onerror(new Error("Filter MapHandler.constructor: The given handler needs a function 'liveZoom'"));
+                onerror(new Error("Filter MapHandler.constructor: The given handler needs a function 'zoomToFilteredFeatures'"));
+            }
+        }
+        if (typeof this.handlers?.zoomToExtent !== "function") {
+            if (typeof onerror === "function") {
+                onerror(new Error("Filter MapHandler.constructor: The given handler needs a function 'zoomToExtent'"));
             }
         }
         if (typeof this.handlers?.addLayerByLayerId !== "function") {
@@ -74,6 +79,10 @@ export default class MapHandler {
         if (extern) {
             this.handlers.setParserAttributeByLayerId(layerId, "doNotLoadInitially", true);
         }
+        else {
+            this.handlers.setParserAttributeByLayerId(layerId, "loadingStrategy", "all");
+        }
+
         if (Array.isArray(visibleLayer) && !visibleLayer.length) {
             this.handlers.addLayerByLayerId(layerId);
         }
@@ -182,14 +191,15 @@ export default class MapHandler {
      * @returns {void}
      */
     activateLayer (filterId, onActivated) {
-        const layerModel = this.getLayerModelByFilterId(filterId);
+        const layerModel = this.getLayerModelByFilterId(filterId),
+            layerSource = typeof layerModel?.layer?.getSource()?.getSource === "function" && layerModel.get("clusterDistance") > 0 ? layerModel.layer.getSource().getSource() : layerModel?.layer?.getSource();
 
         if (!isObject(layerModel)) {
             return;
         }
 
         if (!this.isLayerActivated(filterId) && !this.isSourceUpdated(filterId)) {
-            layerModel.layer.getSource().once("featuresloadend", () => {
+            layerSource.once("featuresloadend", () => {
                 if (typeof onActivated === "function") {
                     onActivated();
                 }
@@ -334,7 +344,7 @@ export default class MapHandler {
         }
         else if (typeof minScale !== "number") {
             if (typeof onerror === "function") {
-                onerror(new Error("Filter MapHandler.zoomToFilteredFeature: The format of minScale is not right"));
+                onerror(new Error("Filter MapHandler.zoomToFilteredFeature: The format of minScale should be number."));
             }
             return;
         }
@@ -343,9 +353,75 @@ export default class MapHandler {
 
         if (isObject(layerModel) && Array.isArray(filteredFeatureIds) && filteredFeatureIds.length) {
             this.isZooming = true;
-            this.handlers.liveZoom(minScale, filteredFeatureIds, layerModel.get("id"), () => {
+            this.handlers.zoomToFilteredFeatures(minScale, filteredFeatureIds, layerModel.get("id"), () => {
                 this.isZooming = false;
             });
         }
+    }
+
+    /**
+     * Zoom to given geometry.
+     * @param {ol/geom/Geometry} geometry The geometry to zoom to.
+     * @param {Number} minScale The minimum scale.
+     * @param {Function} onerror A function(error) with error of type Error to call on error .
+     * @returns {void}
+     */
+    zoomToGeometry (geometry, minScale, onerror) {
+        if (this.isZooming) {
+            return;
+        }
+        else if (typeof minScale !== "number") {
+            if (typeof onerror === "function") {
+                onerror(new Error("Filter MapHandler.zoomToGeometry: The format of minScale should be number."));
+            }
+            return;
+        }
+        else if (typeof geometry?.getExtent !== "function") {
+            if (typeof onerror === "function") {
+                onerror(new Error("Filter MapHandler.zoomToGeometry: The given geometry has not function to get the extent."));
+            }
+            return;
+        }
+
+        this.isZooming = true;
+        this.handlers.zoomToExtent(geometry.getExtent(), minScale, () => {
+            this.isZooming = false;
+        });
+    }
+
+    /**
+     * Activate or deactivate the wms layer
+     * @param {String} wmsRefId the wms layer id
+     * @param {Boolean} active true as active or false as deactive
+     * @param {Boolean} isNeverVisibleInTree true as invisible false as visible in tree
+     * @returns {void}
+     */
+    toggleWMSLayer (wmsRefId, active, isNeverVisibleInTree = false) {
+        let wmsLayerModel = this.handlers.getLayerByLayerId(wmsRefId);
+
+        if (!isObject(wmsLayerModel) || typeof wmsLayerModel.get !== "function") {
+            Radio.trigger("ModelList", "addModelsByAttributes", {id: wmsRefId});
+            wmsLayerModel = this.handlers.getLayerByLayerId(wmsRefId);
+        }
+
+        wmsLayerModel.set("isNeverVisibleInTree", isNeverVisibleInTree);
+        wmsLayerModel.setIsSelected(active);
+    }
+
+    /**
+     * Activate or deactivate the wms layer
+     * @param {Number} filterId the filter id
+     * @param {Boolean} active true or false to decide if it is isNeverVisibleInTree
+     * @returns {void}
+     */
+    toggleWFSLayerInTree (filterId, active) {
+        const wfsLayerModel = this.getLayerModelByFilterId(filterId);
+
+        if (!isObject(wfsLayerModel) || typeof wfsLayerModel.get !== "function") {
+            return;
+        }
+
+        wfsLayerModel.set("isNeverVisibleInTree", !active);
+        Radio.trigger("ModelList", "closeAllExpandedFolder");
     }
 }

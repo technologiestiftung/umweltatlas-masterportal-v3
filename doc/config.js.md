@@ -51,6 +51,7 @@ In the following, all configuration options are described. For all configuration
 |zoomTo|no|**[zoomTo](#markdown-header-zoomto)**[]|Configuration for the URL query parameters `zoomToFeatureId` and `zoomToGeometry`.||
 |layerInformation|no|**[layerInformation](#markdown-header-layerinformation)**||Configuration for the layerInformation window.||
 |vuetify|no|String|undefined|Path to the optional instance of the vuetify UI library. e.g. portal or addon specific.|`addons/cosi/vuetify/index.js`|
+|layerSequence|no|**[layerSequence](#markdown-header-layersequence)**||Configuration for layerSequence.||
 
 ***
 
@@ -185,6 +186,7 @@ For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Glob
 |----|--------|----|-------|-----------|
 |urls|no|**[urls](#markdown-header-footerurls)**[]||Array of URL configuration objects.|
 |showVersion|no|Boolean|`false`|If `true`, the Masterportal version number is included in the footer.|
+|footerInfo|no|**[footerInfo](#markdown-header-footerfooterInfo)**[]||Array of information configuration objects.|
 
 ***
 
@@ -226,6 +228,54 @@ For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Glob
 }
 ```
 
+***
+
+### footer.footerInfo
+|Name|Required|Type|Default|Description|
+|----|-------------|---|-------|------------|
+|title|yes|String||Title of the information tab.|
+|description|no|String||Text displayed under the title.|
+|subtexts|no|**[subtexts](#markdown-header-footerfooterInfosubtexts)**[]||Array of subtext configuration objects.|
+
+***
+
+### footer.footerInfo.subtexts
+|Name|Required|Type|Default|Description|
+|----|-------------|---|-------|------------|
+|subtitle|yes|String||Subtitle of the subtext.|
+|text|no|String||Text displayed under the subtitle.|
+
+**Beispiel:**
+
+```json
+{
+    "footerInfo": [
+        {
+            "title": "Contact",
+            "description": "Text under the titel",
+            "subtexts": [
+                {
+                    "subtitle": "Postal address",
+                    "text": "Max-Mustermann-Str. 1 <br> 12345 City <br> Germany"
+                },
+                {
+                    "subtitle": "Phone and fax",
+                    "text": "Tel: +49 (0) 1234 56789 <br> Fax: +49 (0) 1234 5678910"
+                }
+            ]
+        },
+        {
+            "title": "Privacy",
+            "subtexts": [
+                {
+                    "subtitle": "Subtitle",
+                    "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt..."
+                }
+            ]
+        }
+    ]
+}
+```
 ***
 
 ## mapMarker
@@ -677,6 +727,27 @@ Configuration for the layerInformation window.
     "layerInformation": {
         "showUrlGlobal": true
     },
+}
+```
+
+***
+
+## layerSequence
+
+Configuration for the layerSequence.
+
+|Name|Required|Type|Default|Description|
+|----|--------|----|-------|-----------|
+|moveModelInTree|no|Boolean|true|Flag whether it should be possible to move a layer in the topic tree despite a defined LayerSequence.|
+
+
+**Example:**
+
+```json
+{
+    "layerSequence": {
+        "moveModelInTree": true
+    }
 }
 ```
 

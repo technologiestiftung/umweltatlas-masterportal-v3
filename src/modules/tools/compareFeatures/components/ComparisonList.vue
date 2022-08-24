@@ -88,6 +88,16 @@ export default {
                                     target="_blank"
                                 >{{ value }}</a>
                             </p>
+                            <p
+                                v-else-if="value && value.toLowerCase() === 'true'"
+                            >
+                                <span>{{ $t('common:modules.tools.compareFeatures.trueFalse.true') }}</span>
+                            </p>
+                            <p
+                                v-else-if="value && (value.toLowerCase() === 'false' || value.toLowerCase() === 'no')"
+                            >
+                                <span>{{ $t('common:modules.tools.compareFeatures.trueFalse.false') }}</span>
+                            </p>
                             <p v-else-if="isPhoneNumber(value)">
                                 <a :href="getPhoneNumberAsWebLink(value)">{{ value }}</a>
                             </p>
@@ -140,6 +150,16 @@ export default {
                                     :href="value"
                                     target="_blank"
                                 >{{ value }}</a>
+                            </p>
+                            <p
+                                v-else-if="value && value.toLowerCase() === 'true'"
+                            >
+                                <span>{{ $t('common:modules.tools.compareFeatures.trueFalse.true') }}</span>
+                            </p>
+                            <p
+                                v-else-if="value && (value.toLowerCase() === 'false' || value.toLowerCase() === 'no')"
+                            >
+                                <span>{{ $t('common:modules.tools.compareFeatures.trueFalse.false') }}</span>
                             </p>
                             <p v-else-if="isPhoneNumber(value)">
                                 <a :href="getPhoneNumberAsWebLink(value)">{{ value }}</a>
@@ -205,6 +225,16 @@ export default {
                                     target="_blank"
                                 >{{ value }}</a>
                             </p>
+                            <p
+                                v-else-if="value && value.toLowerCase() === 'true'"
+                            >
+                                <span>{{ $t('common:modules.tools.compareFeatures.trueFalse.true') }}</span>
+                            </p>
+                            <p
+                                v-else-if="value && (value.toLowerCase() === 'false' || value.toLowerCase() === 'no')"
+                            >
+                                <span>{{ $t('common:modules.tools.compareFeatures.trueFalse.false') }}</span>
+                            </p>
                             <p v-else-if="isPhoneNumber(value)">
                                 <a :href="getPhoneNumberAsWebLink(value)">{{ value }}</a>
                             </p>
@@ -260,6 +290,16 @@ export default {
                                     target="_blank"
                                 >{{ value }}</a>
                             </p>
+                            <p
+                                v-else-if="value && value.toLowerCase() === 'true'"
+                            >
+                                <span>{{ $t('common:modules.tools.compareFeatures.trueFalse.true') }}</span>
+                            </p>
+                            <p
+                                v-else-if="value && (value.toLowerCase() === 'false' || value.toLowerCase() === 'no')"
+                            >
+                                <span>{{ $t('common:modules.tools.compareFeatures.trueFalse.false') }}</span>
+                            </p>
                             <p v-else-if="isPhoneNumber(value)">
                                 <a :href="getPhoneNumberAsWebLink(value)">{{ value }}</a>
                             </p>
@@ -300,6 +340,7 @@ export default {
 
 <style lang="scss" scoped>
     @import "~/css/mixins.scss";
+    @import "~variables";
 
     #tool-compareFeatures {
         z-index: -1;
@@ -307,8 +348,8 @@ export default {
         width: 100%;
     }
     .remove-feature {
-        top: 0px !important;
-        left: 0px;
+        top: 0 !important;
+        left: 0;
         &:focus {
             @include primary_action_focus;
         }
@@ -351,6 +392,7 @@ export default {
         }
         p {
             overflow-wrap: break-word;
+            color: $black;
         }
     }
     .close {

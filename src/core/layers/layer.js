@@ -503,10 +503,9 @@ Layer.prototype.moveUp = function () {
 function handleSingleBaseLayer (isSelected, layer) {
     const id = layer.get("id"),
         layerGroup = bridge.getLayerModelsByAttributes({parentId: layer.get("parentId")}),
-        singleBaselayer = layer.get("singleBaselayer") && layer.get("parentId") === "Baselayer";
+        singleBaselayer = layer.get("singleBaselayer") && layer.get("isBaseLayer") === true;
 
     if (isSelected) {
-        // This only works for treeType 'custom', otherwise the parentId is not set on the layer
         if (singleBaselayer) {
             const map2D = mapCollection.getMap("2D");
 
@@ -560,7 +559,7 @@ export function handleSingleTimeLayer (isSelected, layer, model) {
             store.commit("WmsTime/setTimeSliderActive", {
                 active: true,
                 currentLayerId: id,
-                playbackDelay: timeLayer?.get("time")?.playbackDelay
+                playbackDelay: timeLayer?.get("time")?.playbackDelay || 1
             });
         }
         else {

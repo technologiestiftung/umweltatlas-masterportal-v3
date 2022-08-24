@@ -30,11 +30,6 @@ export default {
             }
         }
     },
-    mounted () {
-        this.$nextTick(() => {
-            this.emitCurrentCommand(this.checked);
-        });
-    },
     methods: {
         /**
          * Emits the current command to whoever is listening.
@@ -103,6 +98,6 @@ export default {
     }
     .snippetCheckboxContainer .right {
         position: absolute;
-        right: 0px;
+        right: 0;
     }
 </style>

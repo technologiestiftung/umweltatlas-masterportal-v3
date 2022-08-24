@@ -34,7 +34,7 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
 
             expect(lastError).to.be.an.instanceof(Error);
         });
-        it("should pipe an error if function liveZoom is missing with the given handlers", () => {
+        it("should pipe an error if function zoomToFilteredFeatures is missing with the given handlers", () => {
             new MapHandler({
                 getLayerByLayerId: () => false,
                 showFeaturesByIds: () => false,
@@ -48,7 +48,7 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
                 getLayerByLayerId: () => false,
                 showFeaturesByIds: () => false,
                 createLayerIfNotExists: () => false,
-                liveZoom: () => false
+                zoomToFilteredFeatures: () => false
             }, onerror.call);
 
             expect(lastError).to.be.an.instanceof(Error);
@@ -58,7 +58,19 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
                 getLayerByLayerId: () => false,
                 showFeaturesByIds: () => false,
                 createLayerIfNotExists: () => false,
-                liveZoom: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => false
+            }, onerror.call);
+
+            expect(lastError).to.be.an.instanceof(Error);
+        });
+        it("should pipe an error if function getLayers is missing with the given handlers", () => {
+            new MapHandler({
+                getLayerByLayerId: () => false,
+                showFeaturesByIds: () => false,
+                createLayerIfNotExists: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => false,
                 addLayerByLayerId: () => false
             }, onerror.call);
 
@@ -69,7 +81,8 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
                 getLayerByLayerId: () => false,
                 showFeaturesByIds: () => false,
                 createLayerIfNotExists: () => false,
-                liveZoom: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => false,
                 addLayerByLayerId: () => false,
                 getLayers: () => false
             }, onerror.call);
@@ -81,7 +94,8 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
                 getLayerByLayerId: () => false,
                 showFeaturesByIds: () => false,
                 createLayerIfNotExists: () => false,
-                liveZoom: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => false,
                 addLayerByLayerId: () => false,
                 getLayers: () => false,
                 setParserAttributeByLayerId: () => false
@@ -95,7 +109,8 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
                 getLayerByLayerId: () => false,
                 showFeaturesByIds: () => false,
                 createLayerIfNotExists: () => false,
-                liveZoom: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => false,
                 addLayerByLayerId: () => false,
                 getLayers: () => false,
                 setParserAttributeByLayerId: () => false
@@ -112,7 +127,8 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
                 getLayerByLayerId: () => false,
                 showFeaturesByIds: () => false,
                 createLayerIfNotExists: () => false,
-                liveZoom: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => false,
                 addLayerByLayerId: layerId => {
                     called_addLayerByLayerId = layerId;
                 },
@@ -128,12 +144,16 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
             expect(called_addLayerByLayerId).to.equal("layerId");
         });
         it("should set the internal layers and filteredIds for the given filter id and layer id", () => {
-            let called_addLayerByLayerId = false;
+            let called_addLayerByLayerId = false,
+                called_layerId = false,
+                called_key = false,
+                called_value = false;
             const map = new MapHandler({
                 getLayerByLayerId: () => "layerModel",
                 showFeaturesByIds: () => false,
                 createLayerIfNotExists: () => false,
-                liveZoom: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => false,
                 addLayerByLayerId: layerId => {
                     called_addLayerByLayerId = layerId;
                 },
@@ -145,7 +165,11 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
                         }]
                     };
                 },
-                setParserAttributeByLayerId: () => false
+                setParserAttributeByLayerId: (layerId, key, value) => {
+                    called_layerId = layerId;
+                    called_key = key;
+                    called_value = value;
+                }
             }, onerror.call);
 
             map.initializeLayer("filterId", "layerId", false, onerror.call);
@@ -154,6 +178,9 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
             expect(called_addLayerByLayerId).to.be.false;
             expect(map.layers.filterId).to.equal("layerModel");
             expect(map.filteredIds.filterId).to.be.an("array").and.to.be.empty;
+            expect(called_layerId).to.equal("layerId");
+            expect(called_key).to.equal("loadingStrategy");
+            expect(called_value).to.equal("all");
         });
         it("should set doNotLoadInitially to true if extern is set", () => {
             let called_layerId = false,
@@ -163,7 +190,8 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
                 getLayerByLayerId: () => false,
                 showFeaturesByIds: () => false,
                 createLayerIfNotExists: () => false,
-                liveZoom: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => false,
                 addLayerByLayerId: () => false,
                 getLayers: () => {
                     return {};
@@ -189,7 +217,8 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
                 getLayerByLayerId: () => false,
                 showFeaturesByIds: () => false,
                 createLayerIfNotExists: () => false,
-                liveZoom: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => false,
                 addLayerByLayerId: () => false,
                 getLayers: () => false,
                 setParserAttributeByLayerId: () => false
@@ -205,7 +234,8 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
                 getLayerByLayerId: () => false,
                 showFeaturesByIds: () => false,
                 createLayerIfNotExists: () => false,
-                liveZoom: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => false,
                 addLayerByLayerId: () => false,
                 getLayers: () => false,
                 setParserAttributeByLayerId: () => false
@@ -223,7 +253,8 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
                 getLayerByLayerId: () => false,
                 showFeaturesByIds: () => false,
                 createLayerIfNotExists: () => false,
-                liveZoom: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => false,
                 addLayerByLayerId: () => false,
                 getLayers: () => false,
                 setParserAttributeByLayerId: () => false
@@ -242,7 +273,8 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
                 getLayerByLayerId: () => false,
                 showFeaturesByIds: () => false,
                 createLayerIfNotExists: () => false,
-                liveZoom: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => false,
                 addLayerByLayerId: () => false,
                 getLayers: () => false,
                 setParserAttributeByLayerId: () => false
@@ -260,7 +292,8 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
                 getLayerByLayerId: () => false,
                 showFeaturesByIds: () => false,
                 createLayerIfNotExists: () => false,
-                liveZoom: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => false,
                 addLayerByLayerId: () => false,
                 getLayers: () => false,
                 setParserAttributeByLayerId: () => false
@@ -303,7 +336,8 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
                 getLayerByLayerId: () => false,
                 showFeaturesByIds: () => false,
                 createLayerIfNotExists: () => false,
-                liveZoom: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => false,
                 addLayerByLayerId: () => false,
                 getLayers: () => false,
                 setParserAttributeByLayerId: () => false
@@ -336,7 +370,8 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
                 getLayerByLayerId: () => false,
                 showFeaturesByIds: () => false,
                 createLayerIfNotExists: () => false,
-                liveZoom: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => false,
                 addLayerByLayerId: () => false,
                 getLayers: () => false,
                 setParserAttributeByLayerId: () => false
@@ -373,7 +408,8 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
                 getLayerByLayerId: () => false,
                 showFeaturesByIds: () => false,
                 createLayerIfNotExists: () => false,
-                liveZoom: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => false,
                 addLayerByLayerId: () => false,
                 getLayers: () => false,
                 setParserAttributeByLayerId: () => false
@@ -411,7 +447,8 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
                 getLayerByLayerId: () => false,
                 showFeaturesByIds: () => false,
                 createLayerIfNotExists: () => false,
-                liveZoom: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => false,
                 addLayerByLayerId: () => false,
                 getLayers: () => false,
                 setParserAttributeByLayerId: () => false
@@ -440,7 +477,8 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
                     called_ids = ids;
                 },
                 createLayerIfNotExists: () => false,
-                liveZoom: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => false,
                 addLayerByLayerId: () => false,
                 getLayers: () => false,
                 setParserAttributeByLayerId: () => false
@@ -462,7 +500,8 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
                 getLayerByLayerId: () => false,
                 showFeaturesByIds: () => false,
                 createLayerIfNotExists: () => false,
-                liveZoom: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => false,
                 addLayerByLayerId: () => false,
                 getLayers: () => false,
                 setParserAttributeByLayerId: () => false
@@ -499,7 +538,8 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
                     called_showFeaturesByIds = true;
                 },
                 createLayerIfNotExists: () => false,
-                liveZoom: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => false,
                 addLayerByLayerId: () => false,
                 getLayers: () => false,
                 setParserAttributeByLayerId: () => false
@@ -517,7 +557,8 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
                     called_showFeaturesByIds = true;
                 },
                 createLayerIfNotExists: () => false,
-                liveZoom: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => false,
                 addLayerByLayerId: () => false,
                 getLayers: () => false,
                 setParserAttributeByLayerId: () => false
@@ -536,7 +577,8 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
                     called_showFeaturesByIds = true;
                 },
                 createLayerIfNotExists: () => false,
-                liveZoom: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => false,
                 addLayerByLayerId: () => false,
                 getLayers: () => false,
                 setParserAttributeByLayerId: () => false
@@ -556,7 +598,8 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
                     called_showFeaturesByIds = ids;
                 },
                 createLayerIfNotExists: () => false,
-                liveZoom: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => false,
                 addLayerByLayerId: () => false,
                 getLayers: () => false,
                 setParserAttributeByLayerId: () => false
@@ -581,7 +624,8 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
                 getLayerByLayerId: () => false,
                 showFeaturesByIds: () => false,
                 createLayerIfNotExists: () => false,
-                liveZoom: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => false,
                 addLayerByLayerId: () => false,
                 getLayers: () => false,
                 setParserAttributeByLayerId: () => false
@@ -611,15 +655,16 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
         });
     });
     describe("zoomToFilteredFeature", () => {
-        it("should not pass an error or start liveZoom if isZooming is flagged", () => {
-            let called_liveZoom = false;
+        it("should not pass an error or start zoomToFilteredFeatures if isZooming is flagged", () => {
+            let called_zoomToFilteredFeatures = false;
             const map = new MapHandler({
                 getLayerByLayerId: () => false,
                 showFeaturesByIds: () => false,
                 createLayerIfNotExists: () => false,
-                liveZoom: () => {
-                    called_liveZoom = true;
+                zoomToFilteredFeatures: () => {
+                    called_zoomToFilteredFeatures = true;
                 },
+                zoomToExtent: () => false,
                 addLayerByLayerId: () => false,
                 getLayers: () => false,
                 setParserAttributeByLayerId: () => false
@@ -629,18 +674,19 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
 
             map.zoomToFilteredFeature("filterId", "minScale", onerror.call);
             expect(lastError).to.not.be.an.instanceof(Error);
-            expect(called_liveZoom).to.be.false;
+            expect(called_zoomToFilteredFeatures).to.be.false;
             expect(map.isZooming).to.be.true;
         });
         it("should pass an error if minScale is not a number", () => {
-            let called_liveZoom = false;
+            let called_zoomToFilteredFeatures = false;
             const map = new MapHandler({
                 getLayerByLayerId: () => false,
                 showFeaturesByIds: () => false,
                 createLayerIfNotExists: () => false,
-                liveZoom: () => {
-                    called_liveZoom = true;
+                zoomToFilteredFeatures: () => {
+                    called_zoomToFilteredFeatures = true;
                 },
+                zoomToExtent: () => false,
                 addLayerByLayerId: () => false,
                 getLayers: () => false,
                 setParserAttributeByLayerId: () => false
@@ -648,18 +694,19 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
 
             map.zoomToFilteredFeature("filterId", "minScale", onerror.call);
             expect(lastError).to.be.an.instanceof(Error);
-            expect(called_liveZoom).to.be.false;
+            expect(called_zoomToFilteredFeatures).to.be.false;
             expect(map.isZooming).to.be.false;
         });
         it("should try to zoom", () => {
-            let called_liveZoom = false;
+            let called_zoomToFilteredFeatures = false;
             const map = new MapHandler({
                 getLayerByLayerId: () => false,
                 showFeaturesByIds: () => false,
                 createLayerIfNotExists: () => false,
-                liveZoom: () => {
-                    called_liveZoom = true;
+                zoomToFilteredFeatures: () => {
+                    called_zoomToFilteredFeatures = true;
                 },
+                zoomToExtent: () => false,
                 addLayerByLayerId: () => false,
                 getLayers: () => false,
                 setParserAttributeByLayerId: () => false
@@ -673,7 +720,7 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
             map.zoomToFilteredFeature("filterId", 0, onerror.call);
 
             expect(lastError).to.not.be.an.instanceof(Error);
-            expect(called_liveZoom).to.be.true;
+            expect(called_zoomToFilteredFeatures).to.be.true;
             expect(map.isZooming).to.be.true;
         });
         it("should try to zoom with the expected parameters", () => {
@@ -685,12 +732,13 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
                 getLayerByLayerId: () => false,
                 showFeaturesByIds: () => false,
                 createLayerIfNotExists: () => false,
-                liveZoom: (minScale, filteredFeatureIds, layerId, callback) => {
+                zoomToFilteredFeatures: (minScale, filteredFeatureIds, layerId, callback) => {
                     called_minScale = minScale;
                     called_filteredFeatureIds = filteredFeatureIds;
                     called_layerId = layerId;
                     called_callback = callback;
                 },
+                zoomToExtent: () => false,
                 addLayerByLayerId: () => false,
                 getLayers: () => false,
                 setParserAttributeByLayerId: () => false
@@ -716,6 +764,123 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
             expect(map.isZooming).to.be.false;
         });
     });
+    describe("zoomToGeometry", () => {
+        it("should not pass an error or start zoomToExtent if isZooming is flagged", () => {
+            let called_zoomToExtent = false;
+            const map = new MapHandler({
+                getLayerByLayerId: () => false,
+                showFeaturesByIds: () => false,
+                createLayerIfNotExists: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => {
+                    called_zoomToExtent = true;
+                },
+                addLayerByLayerId: () => false,
+                getLayers: () => false,
+                setParserAttributeByLayerId: () => false
+            }, onerror.call);
+
+            map.isZooming = true;
+
+            map.zoomToGeometry("geometry", "minScale", onerror.call);
+            expect(lastError).to.not.be.an.instanceof(Error);
+            expect(called_zoomToExtent).to.be.false;
+            expect(map.isZooming).to.be.true;
+        });
+        it("should pass an error if minScale is not a number", () => {
+            let called_zoomToExtent = false;
+            const map = new MapHandler({
+                getLayerByLayerId: () => false,
+                showFeaturesByIds: () => false,
+                createLayerIfNotExists: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => {
+                    called_zoomToExtent = true;
+                },
+                addLayerByLayerId: () => false,
+                getLayers: () => false,
+                setParserAttributeByLayerId: () => false
+            }, onerror.call);
+
+            map.zoomToGeometry("geometry", "minScale", onerror.call);
+            expect(lastError).to.be.an.instanceof(Error);
+            expect(called_zoomToExtent).to.be.false;
+            expect(map.isZooming).to.be.false;
+        });
+        it("should pass an error if geometry has no function getExtent", () => {
+            let called_zoomToExtent = false;
+            const map = new MapHandler({
+                getLayerByLayerId: () => false,
+                showFeaturesByIds: () => false,
+                createLayerIfNotExists: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => {
+                    called_zoomToExtent = true;
+                },
+                addLayerByLayerId: () => false,
+                getLayers: () => false,
+                setParserAttributeByLayerId: () => false
+            }, onerror.call);
+
+            map.zoomToGeometry({getExtent: false}, "minScale", onerror.call);
+            expect(lastError).to.be.an.instanceof(Error);
+            expect(called_zoomToExtent).to.be.false;
+            expect(map.isZooming).to.be.false;
+        });
+        it("should try to zoom", () => {
+            let called_zoomToExtent = false;
+            const map = new MapHandler({
+                getLayerByLayerId: () => false,
+                showFeaturesByIds: () => false,
+                createLayerIfNotExists: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => {
+                    called_zoomToExtent = true;
+                },
+                addLayerByLayerId: () => false,
+                getLayers: () => false,
+                setParserAttributeByLayerId: () => false
+            }, onerror.call);
+
+            map.zoomToGeometry({getExtent: () => false}, 0, onerror.call);
+
+            expect(lastError).to.not.be.an.instanceof(Error);
+            expect(called_zoomToExtent).to.be.true;
+            expect(map.isZooming).to.be.true;
+        });
+        it("should try to zoom with the expected parameters", () => {
+            let called_extent = false,
+                called_minScale = false,
+                called_callback = false;
+            const map = new MapHandler({
+                getLayerByLayerId: () => false,
+                showFeaturesByIds: () => false,
+                createLayerIfNotExists: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: (extent, minScale, callback) => {
+                    called_extent = extent;
+                    called_minScale = minScale;
+                    called_callback = callback;
+                },
+                addLayerByLayerId: () => false,
+                getLayers: () => false,
+                setParserAttributeByLayerId: () => false
+            }, onerror.call);
+
+            expect(map.isZooming).to.be.false;
+
+            map.zoomToGeometry({getExtent: () => "extent"}, 10, onerror.call);
+
+            expect(lastError).to.not.be.an.instanceof(Error);
+            expect(called_extent).to.equal("extent");
+            expect(called_minScale).to.equal(10);
+            expect(map.isZooming).to.be.true;
+
+            expect(called_callback).to.be.a("function");
+            called_callback();
+            expect(map.isZooming).to.be.false;
+        });
+    });
     describe("setObserverAutoInterval", () => {
         it("should set the given handler as observer", () => {
             let last_observer = false;
@@ -723,7 +888,8 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
                 getLayerByLayerId: () => false,
                 showFeaturesByIds: () => false,
                 createLayerIfNotExists: () => false,
-                liveZoom: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => false,
                 addLayerByLayerId: () => false,
                 getLayers: () => false,
                 setParserAttributeByLayerId: () => false
@@ -745,7 +911,8 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
                 getLayerByLayerId: () => false,
                 showFeaturesByIds: () => false,
                 createLayerIfNotExists: () => false,
-                liveZoom: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => false,
                 addLayerByLayerId: () => false,
                 getLayers: () => false,
                 setParserAttributeByLayerId: () => false
@@ -764,7 +931,8 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
                 getLayerByLayerId: () => false,
                 showFeaturesByIds: () => false,
                 createLayerIfNotExists: () => false,
-                liveZoom: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => false,
                 addLayerByLayerId: () => false,
                 getLayers: () => false,
                 setParserAttributeByLayerId: () => false

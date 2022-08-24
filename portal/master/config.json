@@ -251,7 +251,7 @@
                         {
                           "field": {
                             "type": "equal",
-                            "inputLabel": "Gemarkung",
+                            "inputLabel": "common:modules.tools.wfsSearch.district",
                             "fieldName": "gemarkung",
                             "usesId": true,
                             "options": "",
@@ -261,7 +261,7 @@
                         {
                           "field": {
                             "type": "equal",
-                            "inputLabel": "Flurstücksnummer",
+                            "inputLabel": "common:modules.tools.wfsSearch.parcelNumber",
                             "fieldName": "flurstuecksnummer",
                             "required": true
                           }
@@ -344,6 +344,7 @@
           "draw": {
             "name": "translate#common:menu.tools.draw",
             "icon": "bi-pencil-fill",
+            "addIconsOfActiveLayers": true,
             "iconList": [
               {
                 "id": "iconPoint",
@@ -767,7 +768,8 @@
             "kapitelbezeichnung"
           ],
           "gfiTheme": "schulinfo",
-          "additionalInfoField": "adresse_strasse_hausnr"
+          "additionalInfoField": "adresse_strasse_hausnr",
+          "loadingStrategy": "all"
         },
         {
           "id": "753",
