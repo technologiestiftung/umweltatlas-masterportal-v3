@@ -1,4 +1,3 @@
-import {Circle as CircleStyle, Icon} from "ol/style.js";
 import {Point} from "ol/geom.js";
 import {fromCircle} from "ol/geom/Polygon.js";
 import Feature from "ol/Feature.js";
@@ -15,6 +14,8 @@ import {convertColor} from "../../../../utils/convertColor";
 import {MVTEncoder} from "@geoblocks/print";
 import VectorTileLayer from "ol/layer/VectorTile";
 import {getLastPrintedExtent} from "../store/actions/actionsPrintInitialization";
+import {returnStyleObject} from "masterportalapi/src/vectorStyle/styleList";
+import {getRulesForFeature} from "masterportalapi/src/vectorStyle/lib/getRuleForIndex";
 
 
 const BuildSpecModel = {
@@ -628,10 +629,10 @@ const BuildSpecModel = {
      * @returns {Object} - Point Style for mapfish print.
      */
     buildPointStyle: function (style, layer) {
-        if (style.getImage() instanceof CircleStyle) {
+        if (style.getImage().constructor.name === "CircleStyle") {
             return this.buildPointStyleCircle(style.getImage());
         }
-        else if (style.getImage() instanceof Icon && style.getImage().getScale() > 0) {
+        else if (style.getImage().constructor.name === "Icon" && style.getImage().getScale() > 0) {
             return this.buildPointStyleIcon(style.getImage(), layer);
         }
         return this.buildTextStyle(style.getText());
@@ -1118,7 +1119,7 @@ const BuildSpecModel = {
      */
     getStyleAttributes: function (layer, feature) {
         const layerId = layer.get("id"),
-            styleList = this.getStyleModel(layer, layerId);
+            styleList = returnStyleObject(layerId);
         let styleFields = ["styleId"],
             layerModel = Radio.request("ModelList", "getModelByAttributes", {id: layer.get("id")});
 
@@ -1126,7 +1127,7 @@ const BuildSpecModel = {
             layerModel = this.getChildModelIfGroupLayer(layerModel, layerId);
 
             if (layerModel.get("styleId")) {
-                const featureRules = styleList.getRulesForFeature(feature);
+                const featureRules = getRulesForFeature(styleList, feature);
 
                 styleFields = featureRules?.[0]?.conditions ? Object.keys(featureRules[0].conditions.properties) : [""];
             }
