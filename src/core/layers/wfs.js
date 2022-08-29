@@ -3,7 +3,6 @@ import LoaderOverlay from "../../utils/loaderOverlay";
 import Layer from "./layer";
 import {returnStyleObject} from "masterportalapi/src/vectorStyle/styleList";
 import {createStyle, returnLegends} from "masterportalapi/src/vectorStyle/createStyle";
-import {getGeometryTypeFromWFS, getGeometryTypeFromSecuredWFS} from "masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
 import * as bridge from "./RadioBridge.js";
 import Cluster from "ol/source/Cluster";
 import {bbox, all} from "ol/loadingstrategy.js";
@@ -177,8 +176,6 @@ WFSLayer.prototype.updateSource = function () {
  */
 WFSLayer.prototype.createLegend = function () {
     const styleObject = returnStyleObject(this.attributes.styleId),
-        isSecured = this.attributes.isSecured,
-        isDefault = this.attributes.styleId,
         legendInfos = returnLegends();
     let legend = this.get("legend");
 
@@ -201,31 +198,6 @@ WFSLayer.prototype.createLegend = function () {
         this.setLegend(legend);
     }
     else if (styleObject && legend === true && legendInfos) {
-        // TODO: auskommentiert, da nie etwas gefunden wurde und alerts abgestellt werden mussten.
-        // if (!isSecured) {
-        //     getGeometryTypeFromWFS(this.get("url"), this.get("version"), this.get("featureType"), this.get("styleGeometryType"), this.get("useProxy"),
-        //         (error) => {
-        //             if (error) {
-        //                 Radio.trigger("Alert", "alert", {
-        //                     text: "<strong>" + i18next.t("common:modules.vectorStyle.styleModel.getGeometryTypeFromWFSFetchfailed") + "</strong> <br>"
-        //                         + "<small>" + i18next.t("common:modules.vectorStyle.styleModel.getGeometryTypeFromWFSFetchfailedMessage") + "</small>",
-        //                     kategorie: "alert-warning"
-        //                 });
-        //             }
-        //         });
-        // }
-        // else if (isSecured) {
-        //     getGeometryTypeFromSecuredWFS(this.get("url"), this.get("version"), this.get("featureType"), this.get("styleGeometryType"),
-        //         (error) => {
-        //             if (error) {
-        //                 Radio.trigger("Alert", "alert", {
-        //                     text: "<strong>" + i18next.t("common:modules.vectorStyle.styleModel.getGeometryTypeFromWFSFetchfailed") + "</strong> <br>"
-        //                         + "<small>" + i18next.t("common:modules.vectorStyle.styleModel.getGeometryTypeFromWFSFetchfailedMessage") + "</small>",
-        //                     kategorie: "alert-warning"
-        //                 });
-        //             }
-        //         });
-        // }
         setTimeout(() => {
             if (styleObject.styleId === "default") {
                 const defaultLegends = legendInfos.find(element => element.id === "default"),
