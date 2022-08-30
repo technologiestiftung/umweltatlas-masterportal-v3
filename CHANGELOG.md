@@ -77,6 +77,7 @@
 - fileImport: the styles of geoJsons are now retained on reimport of a previously in MP created file
 
 ### Deprecated
+- The GeoJson-Layer subTyp: `OpenSenseMap` is deprecated. It will be removed in the next Major-Release!
 
 ### Removed
 The following NPM package is removed:
@@ -85,6 +86,8 @@ The following NPM package is removed:
 ### Fixed
 - Issue #808: Fix geometry polygon-with-hole for searchBar/specialWfs.
 - Issue #813: Fix various WMS-T bugs and styling.
+- Save Selection: takes over the transparency of the layer again.
+- Issue #823: Fix tree search.
 
 ---
 ## v2.24.1 - 2022-08-19
