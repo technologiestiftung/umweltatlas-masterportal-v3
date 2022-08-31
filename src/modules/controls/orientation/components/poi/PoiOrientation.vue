@@ -283,12 +283,12 @@ export default {
          */
         createPolygonGraphic (style) {
             let svg = "";
-            const fillColor = returnColor(style.polygonFillColor || "black", "hex"),
-                strokeColor = returnColor(style.polygonStrokeColor, "hex"),
-                strokeWidth = parseInt(style.polygonStrokeWidth, 10),
-                fillOpacity = style.polygonFillColor?.[3]?.toString() || 0,
-                strokeOpacity = style.polygonStrokeColor[3].toString() || 0,
-                fillHatch = style.polygonFillHatch;
+            const fillColor = returnColor(style.attributes.polygonFillColor || "black", "hex"),
+                strokeColor = returnColor(style.attributes.polygonStrokeColor, "hex"),
+                strokeWidth = parseInt(style.attributes.polygonStrokeWidth, 10),
+                fillOpacity = style.attributes.polygonFillColor?.[3]?.toString() || 0,
+                strokeOpacity = style.attributes.polygonStrokeColor[3].toString() || 0,
+                fillHatch = style.attributes.polygonFillHatch;
 
             if (fillHatch) {
                 return StylePolygon.prototype.getPolygonFillHatchLegendDataUrl(style);
