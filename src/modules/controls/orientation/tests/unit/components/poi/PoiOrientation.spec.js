@@ -5,7 +5,6 @@ import PoiOrientationComponent from "../../../../components/poi/PoiOrientation.v
 import LinestringStyle from "masterportalapi/src/vectorStyle/styles/styleLine";
 import PointStyle from "masterportalapi/src/vectorStyle/styles/point/stylePoint";
 import PolygonStyle from "masterportalapi/src/vectorStyle/styles/polygon/stylePolygon";
-import * as styleList from "masterportalapi/src/vectorStyle/styleList";
 import Feature from "ol/Feature.js";
 import {Circle} from "ol/geom.js";
 import sinon from "sinon";
