@@ -1442,7 +1442,7 @@ A tool's attribute key defines which tool is loaded. Each tool provides at least
 |active|no|Boolean|false|Whether the tool is open initially.|false|
 |icon|no|String||CSS icon class. Icon is shown before the tool name.|false|
 |isVisibleInMenu|no|Boolean|true|If true, the tool is listed in the menu.|false|
-|keepOpen|no|Boolean|false|Whether the tool remains open parallel to other tools.|false|
+|keepOpen|no|Boolean|false|Whether the tool remains open parallel to other tools. Only works if it is used for one tool and if tool is rendered to sidebar, other tools should be rendered to window.|false|
 |name|yes|String||Name displayed in the menu.|false|
 |onlyDesktop|no|Boolean|false|Whether the tool should only be visible in desktop mode.|false|
 |renderToWindow|no|Boolean|true|Whether the tool should be displayed in the movable widget element.|false|
@@ -1706,7 +1706,7 @@ An object to define a layer to filter with.
 |searchInMapExtentProactive|no|Boolean|true|The checkbox for filtering in the browser extent triggers direct filtering in the current browser extent under `strategy`: `active`. This can be disabled by setting `searchInMapExtentProactive`: `false`.|false|
 |showHits|no|Boolean|true|After filtering, the hits are displayed. Set to `false` to not show the hits.|false|
 |clearAll|no|Boolean|false|After clicking button Reset all, all the features will be shown. Set to `true` to clear all the features after clicking Reselt all button.|false|
-|wmsRefId|no|String|""|If the layer is filtered, the WMS layer with `wmsRefId` will be invisible and deactivated from Tree. After resetting the layer, the WMS layer will be activated and visible again.|false|
+|wmsRefId|no|String/String[]|""|If the layer is filtered, the WMS layer with `wmsRefId` will be invisible and deactivated from Tree. After resetting the layer, the WMS layer will be activated and visible again.|false|
 |snippetTags|no|Boolean|true|After filtering the current setting is displayed as tags. Set to `false` to turn of this feature.|false|
 |labelFilterButton|no|String|"common:modules.tools.filter.filterButton"|If strategy is set to `passive` only: The text of the filter button. Can be a translation key.|false|
 |download|no|Boolean|""|Enter true for a file here to activate the download of the data filtered on this layer. A download area will appear at the end of the filter.|false|

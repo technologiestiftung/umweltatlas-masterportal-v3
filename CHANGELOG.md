@@ -11,6 +11,8 @@
 ### __Breaking Changes__
 
 ### Added
+- KeepOpen attribute for tools:
+    - Allows to keep a tool open (that is rendered in a sidebar) when other tools (that are rendered to the window) are used.
 - The following NPM packages are added:
     - dependencies:
         - "vue2-datepicker"
@@ -18,6 +20,7 @@
 - Possibility for development with self-signed SSL-certificates. See [wiki-doc](https://bitbucket.org/geowerkstatt-hamburg/masterportal/wiki/Entwicklungsumgebung%20mit%20selbstsignierten%20SSL-Zertifikat%20einrichten)
 - Filter:
     - Added an option to activate a csv download button for filtered data.
+    - wmsRefId is also for type array implemented so that multiple wms Layers can be activated or deactivated.
 - Draw-Tool:
     - A new checkbox has been added to the Draw tool that can be used to hide and retrieve the drawing.
     - New Flag `addIconsOfActiveLayers`. Set to `true` to be able to select the icons and symbols of all WFS layers activated in the topic tree as additional symbols besides the icons configured under `drawSymbolSettings`.
@@ -75,6 +78,7 @@
 - WfsSearch: `inputLabel` are now translated.
 - In the `light` topic tree, the `singleBaselayer` attribute can now also be used.
 - fileImport: the styles of geoJsons are now retained on reimport of a previously in MP created file
+- drawTool: previously set styles are now reflected in the drawTool and can be changed there.
 
 ### Deprecated
 - The GeoJson-Layer subTyp: `OpenSenseMap` is deprecated. It will be removed in the next Major-Release!
@@ -84,6 +88,7 @@ The following NPM package is removed:
     - @intlify/vue-i18n-loader
 
 ### Fixed
+- Issue #818: Back to InitialView works again
 - Issue #808: Fix geometry polygon-with-hole for searchBar/specialWfs.
 - Issue #813: Fix various WMS-T bugs and styling.
 - Save Selection: takes over the transparency of the layer again.
