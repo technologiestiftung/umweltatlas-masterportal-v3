@@ -28,7 +28,6 @@ export default function WFSLayer (attrs) {
     Layer.call(this, Object.assign(defaults, attrs), this.layer, !attrs.isChildLayer);
     this.set("style", this.getStyleFunction(attrs));
     this.prepareFeaturesFor3D(this.layer.getSource().getFeatures());
-    // TODO: muss überprüft werden:  this.createLegend();
 }
 // Link prototypes and add prototype methods, means WFSLayer uses all methods and properties of Layer
 WFSLayer.prototype = Object.create(Layer.prototype);

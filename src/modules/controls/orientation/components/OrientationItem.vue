@@ -378,8 +378,6 @@ export default {
 
             visibleWFSLayers.forEach(layer => {
                 if (layer.has("layerSource") === true) {
-                    // TODO: alle Feature weisen andere Attribute auf, am Ende ist es aber z.B. für alle feature im extent das
-                    // Grundschulsymbol console.log(layer.get("layerSource").getFeatures());
                     features = layer.get("layerSource").getFeaturesInExtent(circleExtent);
                     features.forEach(function (feat) {
                         Object.assign(feat, {
