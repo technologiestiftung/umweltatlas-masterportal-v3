@@ -3,8 +3,6 @@ import initialState from "./stateMap";
 import thousandsSeparator from "../../../utils/thousandsSeparator.js";
 import {transformFromMapProjection} from "@masterportal/masterportalapi/src/crs";
 import {Group as LayerGroup} from "ol/layer.js";
-import Point from "ol/geom/Point";
-import {buffer} from "ol/extent";
 
 const getters = {
     ...generateSimpleGetters(initialState),

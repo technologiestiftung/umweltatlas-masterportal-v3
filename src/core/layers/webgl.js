@@ -3,10 +3,14 @@ import WFSLayer from "./wfs";
 import {geojson, wfs} from "@masterportal/masterportalapi";
 import {getLayerWhere} from "@masterportal/masterportalapi/src/rawLayerList";
 import WebGLPointsLayer from "ol/layer/WebGLPoints";
+import WebGLVectorLayerRenderer from "ol/renderer/webgl/VectorLayer";
+import VectorLayer from "ol/layer/Layer";
 import LoaderOverlay from "../../utils/loaderOverlay";
 import VectorSource from "ol/source/Vector.js";
 import * as bridge from "./RadioBridge.js";
 import {bbox, all} from "ol/loadingstrategy.js";
+import {asArray} from "ol/color";
+import {packColor} from "ol/renderer/webgl/shaders";
 
 const defaultStyle = {
     symbol: {
@@ -18,6 +22,53 @@ const defaultStyle = {
         opacity: 0.6
     }
 };
+
+/**
+ * 
+ * @param {*} attrs 
+ * @returns 
+ */
+function createVectorLayerRenderer (attrs) {
+    /**
+     * @class LocalWebGLLayer
+     * @description the temporary class with a custom renderer to render the vector data with WebGL
+     */
+    class LocalWebGLLayer extends VectorLayer {
+        /**
+         * Creates a new renderer that takes the defined style of the new layer as an input
+         * @returns {module:ol/renderer/webgl/WebGLVectorLayerRenderer} the custom renderer
+         * @experimental
+         */
+        createRenderer () {
+            return new WebGLVectorLayerRenderer(this, {
+                fill: {
+                    attributes: {
+                        color: () => packColor("#006688"),
+                        opacity: () => 0.8
+                    }
+                },
+                stroke: {
+                    attributes: {
+                        color: () => packColor("#006688"),
+                        width: () => 1.5,
+                        opacity: () => 1
+                    }
+                },
+                point: {
+                    attributes: {
+                        color: () => packColor("#006688"),
+                        size: () => 20,
+                        opacity: () => 0.8,
+                        type: () => "circle",
+                        symbolType: () => "circle"
+                    }
+                }
+            });
+        }
+    }
+
+    return LocalWebGLLayer;
+}
 
 /**
  * Creates a layer of type WebGL (point geometries only).
@@ -136,13 +187,37 @@ WebGLLayer.prototype.createLayerSource = function (rawLayer, options) {
  * @returns {module:ol/layer/Vector} returns the layer instance
  */
 WebGLLayer.prototype.createLayerInstance = function (attrs) {
-    return new WebGLPointsLayer({
-        id: attrs.id,
-        source: this.source,
-        style: attrs.style,
-        disableHitDetection: false,
+    let LayerConstructor = WebGLPointsLayer;
+    const isPointLayer = attrs.source.getFeatures().every(feature => {
+        const geomType = feature.getGeometry().getType();
+
+        return geomType === "Point" || geomType === "MultiPoint";
+    });
+
+    if (isPointLayer) {
+        /**
+         * @deprecated
+         * @todo will be replaced in the next OL release and incorporated in the WebGLVectorLayerRenderer
+         */
+        return new LayerConstructor({
+            id: attrs.id,
+            source: this.source,
+            style: attrs.style,
+            disableHitDetection: false,
+            name: attrs.name,
+            typ: attrs.typ,
+            gfiAttributes: attrs.gfiAttributes,
+            gfiTheme: attrs.gfiTheme,
+            hitTolerance: attrs.hitTolerance
+        });
+    }
+
+    LayerConstructor = createVectorLayerRenderer(attrs);
+    return new LayerConstructor({
         name: attrs.name,
         typ: attrs.typ,
+        id: attrs.id,
+        source: this.source,
         gfiAttributes: attrs.gfiAttributes,
         gfiTheme: attrs.gfiTheme,
         hitTolerance: attrs.hitTolerance

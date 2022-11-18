@@ -2,6 +2,8 @@ import {generateSimpleGetters} from "../../../../app-store/utils/generators";
 import stateGfi from "./stateGfi";
 import {createGfiFeature} from "../../../../api/gfi/getWmsFeaturesByMimeType";
 import {getGfiFeaturesByTileFeature} from "../../../../api/gfi/getGfiFeaturesByTileFeature";
+import Point from "ol/geom/Point";
+import {buffer} from "ol/extent";
 
 const getters = {
     ...generateSimpleGetters(stateGfi),
@@ -14,7 +16,7 @@ const getters = {
      * @param {String} mode The current map mode
      * @returns {Object[]} gfi features
      */
-    gfiFeaturesAtPixel: () => (clickPixel, clickCoordinate, clickCartesianCoordinate, mode, ) => {
+    gfiFeaturesAtPixel: () => (clickPixel, clickCoordinate, clickCartesianCoordinate, mode) => {
         const featuresAtPixel = [];
 
         if (clickPixel && mode === "2D") {
@@ -45,7 +47,7 @@ const getters = {
             * use buffered coord instead of pixel for hitTolerance
             * @todo refactor?
             */
-             mapCollection.getMap("2D").getLayers().getArray()
+            mapCollection.getMap("2D").getLayers().getArray()
                 .filter(layer => layer.get("typ") === "WebGL")
                 .forEach(layer => {
                     if (layer.get("gfiAttributes") && layer.get("gfiAttributes") !== "ignore") {

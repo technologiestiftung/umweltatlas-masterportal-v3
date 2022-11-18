@@ -67,11 +67,7 @@
     }
   ],
   "dependencies": {
-<<<<<<< HEAD
-    "@masterportal/masterportalapi": "git+https://dasc3290@bitbucket.org/dasc3290/masterportalapi-csl.git#v2.5.1",
-=======
-    "@masterportal/masterportalapi": "^2.5.1",
->>>>>>> dev
+    "@masterportal/masterportalapi": "git+https://dasc3290@bitbucket.org/dasc3290/masterportalapi-csl.git",
     "@panter/vue-i18next": "^0.15.2",
     "@popperjs/core": "^2.11.5",
     "axios": "^0.27.2",
