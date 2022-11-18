@@ -1,6 +1,5 @@
 import {expect} from "chai";
-import * as crs from "@masterportal/masterportalapi/src/crs";
-import {getProjections} from "@masterportal/masterportalapi/src/crs";
+import crs from "@masterportal/masterportalapi/src/crs";
 import mutations from "../../../store/mutationsCoordToolkit";
 
 const {setProjections, setExample} = mutations,
@@ -23,7 +22,7 @@ describe("src/modules/tools/coordToolkit/store/mutationsCoordToolkit.js", () => 
                     projections: [],
                     currentProjection: {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm"}
                 },
-                pr = getProjections();
+                pr = crs.getProjections();
 
             pr.forEach(proj => {
                 proj.id = proj.name;
@@ -39,7 +38,7 @@ describe("src/modules/tools/coordToolkit/store/mutationsCoordToolkit.js", () => 
                     projections: [],
                     currentProjection: {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm"}
                 },
-                projections = getProjections().filter(proj => proj.name !== "http://www.opengis.net/gml/srs/epsg.xml#25832");
+                projections = crs.getProjections().filter(proj => proj.name !== "http://www.opengis.net/gml/srs/epsg.xml#25832");
 
             projections.forEach(proj => {
                 proj.id = proj.name;
@@ -88,7 +87,7 @@ describe("src/modules/tools/coordToolkit/store/mutationsCoordToolkit.js", () => 
         });
         it("Sets the example values according to the WGS84 coordinate system", () => {
             const state = {
-                currentProjection: {id: "EPSG:4326", name: "EPSG:4326"}
+                currentProjection: {id: "http://www.opengis.net/gml/srs/epsg.xml#4326", name: "EPSG:4326"}
             };
 
             setExample(state);
@@ -98,7 +97,7 @@ describe("src/modules/tools/coordToolkit/store/mutationsCoordToolkit.js", () => 
         });
         it("Sets the example values according to the WGS84(Dezimalgrad) coordinate system", () => {
             const state = {
-                currentProjection: {id: "EPSG:4326-DG", name: "EPSG:4326"}
+                currentProjection: {id: "http://www.opengis.net/gml/srs/epsg.xml#4326-DG", name: "EPSG:4326"}
             };
 
             setExample(state);

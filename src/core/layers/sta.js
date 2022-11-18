@@ -64,6 +64,9 @@ export default function STALayer (attrs) {
         ]
     };
 
+    this.onceEvents = {
+        "featuresloadend": []
+    };
     this.mqttClient = null;
     this.options = {};
 
@@ -124,6 +127,9 @@ STALayer.prototype.createLayer = function (attrs) {
                 this.featuresLoaded(attrs.id, features);
                 if (this.get("isSelected") || attrs.isSelected) {
                     LoaderOverlay.hide();
+                }
+                while (this.onceEvents.featuresloadend.length) {
+                    this.onceEvents.featuresloadend.shift()();
                 }
             },
             onLoadingError: error => {
@@ -1223,30 +1229,33 @@ STALayer.prototype.stopSubscription = function () {
  * @returns {void}
  */
 STALayer.prototype.updateSubscription = function () {
-    const datastreamIds = this.getDatastreamIdsInCurrentExtent(this.get("layer").getSource().getFeatures(), store.getters["Maps/getCurrentExtent"]),
-        subscriptionTopics = this.get("subscriptionTopics"),
-        version = this.get("version"),
-        isVisibleInMap = this.get("isVisibleInMap"),
-        mqttClient = this.mqttClient,
-        rh = this.get("mqttRh"),
-        qos = this.get("mqttQos");
+    // Timout to avoid display issues with url params see FLS-299 ticket. Issue has to be resolved without timeout.
+    setTimeout(() =>{
+        const datastreamIds = this.getDatastreamIdsInCurrentExtent(this.get("layer").getSource().getFeatures(), store.getters["Maps/getCurrentExtent"]),
+            subscriptionTopics = this.get("subscriptionTopics"),
+            version = this.get("version"),
+            isVisibleInMap = this.get("isVisibleInMap"),
+            mqttClient = this.mqttClient,
+            rh = this.get("mqttRh"),
+            qos = this.get("mqttQos");
 
-    if (!this.get("loadThingsOnlyInCurrentExtent")) {
-        this.unsubscribeFromSensorThings(datastreamIds, subscriptionTopics, version, isVisibleInMap, mqttClient);
-        this.subscribeToSensorThings(datastreamIds, subscriptionTopics, version, mqttClient, {rh, qos});
-    }
-    else {
-        this.unsubscribeFromSensorThings(datastreamIds, subscriptionTopics, version, isVisibleInMap, mqttClient);
-        this.initializeConnection(() => {
-            this.subscribeToSensorThings(
-                this.getDatastreamIdsInCurrentExtent(this.get("layer").getSource().getFeatures(), store.getters["Maps/getCurrentExtent"]),
-                subscriptionTopics,
-                version,
-                mqttClient,
-                {rh, qos}
-            );
-        });
-    }
+        if (!this.get("loadThingsOnlyInCurrentExtent")) {
+            this.unsubscribeFromSensorThings(datastreamIds, subscriptionTopics, version, isVisibleInMap, mqttClient);
+            this.subscribeToSensorThings(datastreamIds, subscriptionTopics, version, mqttClient, {rh, qos});
+        }
+        else {
+            this.unsubscribeFromSensorThings(datastreamIds, subscriptionTopics, version, isVisibleInMap, mqttClient);
+            this.initializeConnection(() => {
+                this.subscribeToSensorThings(
+                    this.getDatastreamIdsInCurrentExtent(this.get("layer").getSource().getFeatures(), store.getters["Maps/getCurrentExtent"]),
+                    subscriptionTopics,
+                    version,
+                    mqttClient,
+                    {rh, qos}
+                );
+            });
+        }
+    }, 2000);
 };
 
 /**
@@ -1490,4 +1499,20 @@ STALayer.prototype.replaceValueInArrayByReference = function (result, referenceA
         }
     }
     return true;
+};
+
+/**
+ * Once function which registers given handler by event name.
+ * @param {String} eventName The event name.
+ * @param {Function} handler The handler.
+ * @returns {void}
+ */
+STALayer.prototype.once = function (eventName, handler) {
+    if (typeof handler !== "function") {
+        return;
+    }
+
+    if (eventName === "featuresloadend") {
+        this.onceEvents.featuresloadend.push(handler);
+    }
 };

@@ -1,8 +1,8 @@
 <script>
-import * as moment from "moment";
+import moment from "moment";
 import axios from "axios";
 
-import getComponent from "../../../../../../../utils/getComponent";
+import {getComponent} from "../../../../../../../utils/getComponent";
 import SensorThemeChartsData from "./SensorThemeData.vue";
 import SensorThemeChartsBarChart from "./SensorThemeBarChart.vue";
 import {processHistoricalDataByWeekdays} from "../utils/processHistoricalDataByWeekdays";
@@ -58,7 +58,7 @@ export default {
 
             // "useConfigName" is set in the preparser, should be removed, with the refactoring of the core
             if (header?.useConfigName) {
-                delete this.header.useConfigName;
+                delete header.useConfigName;
             }
 
             return header;

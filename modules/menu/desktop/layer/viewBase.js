@@ -1,6 +1,5 @@
 import axios from "axios";
 import store from "../../../../src/app-store";
-import Dropdown from "bootstrap/js/dist/dropdown";
 
 /**
  * Base class for layer view that provides common functionality.
@@ -15,7 +14,7 @@ const LayerBaseView = Backbone.View.extend(/** @lends LayerBaseView.prototype */
      * @returns {void}
      */
     initializeDomId: function (prefix) {
-        let idPrefix = "layer-list-group-item-";
+        let idPrefix = "layer-dropdown-item-";
 
         if (prefix) {
             idPrefix = prefix;
@@ -95,6 +94,9 @@ const LayerBaseView = Backbone.View.extend(/** @lends LayerBaseView.prototype */
             // close navigation
             this.$("div.collapse.navbar-collapse").removeClass("show");
         }
+    },
+    toggleFilter: function () {
+        this.model.toggleFilter();
     },
 
     /**
@@ -199,7 +201,12 @@ const LayerBaseView = Backbone.View.extend(/** @lends LayerBaseView.prototype */
             focusElementSelector = this.$el.find(selector);
         }
         else {
-            focusElementSelector = this.$el.find("#" + this.model.get("domId"));
+            try {
+                focusElementSelector = this.$el.find("#" + this.model.get("domId"));
+            }
+            catch (e) {
+                focusElementSelector = document.getElementById(this.model.get("domId"));
+            }
         }
         if (focusElementSelector) {
             focusElementSelector.focus();
@@ -212,11 +219,14 @@ const LayerBaseView = Backbone.View.extend(/** @lends LayerBaseView.prototype */
      * @returns {void}
      */
     disableComponent: function (text) {
-        const statusCheckbox = this.$el.find("span.bootstrap-icon > .bi-square").length;
+        const statusCheckbox = this.$el.find("span.bootstrap-icon > .bi-square").length,
+            showScaleTooltip = store?.getters?.portalConfig?.tree?.showScaleTooltip;
 
         this.$el.addClass("disabled");
         this.$el.find("*").css("cursor", "not-allowed");
-        this.$el.find("*").css("pointer-events", "none");
+        if (!showScaleTooltip) {
+            this.$el.find("*").css("pointer-events", "none");
+        }
         if (statusCheckbox === 0) {
             this.$el.find("span.float-start").css({"pointer-events": "auto", "cursor": "pointer"});
         }
@@ -312,23 +322,6 @@ const LayerBaseView = Backbone.View.extend(/** @lends LayerBaseView.prototype */
      */
     decTransparency: function () {
         this.model.decTransparency(10);
-    },
-
-    /**
-     * Triggers the styleWMS tool to open
-     * Closes dropdown menu"
-     * @fires StyleWMS#RadioTriggerStyleWMSOpenStyleWMS
-     * @returns {void}
-     */
-    openStyleWMS: function () {
-        Radio.trigger("StyleWMS", "openStyleWMS", this.model);
-        // Upgrade to BT5, use JS method instead of class removal
-        const dropdown = Dropdown.getInstance(".nav li:first-child > .dropdown-toggle");
-
-        dropdown.hide();
-        $(".dropdown-menu.fixed").removeClass("fixed");
-        $(".bi-pin-angle-fill").parent(".bootstrap-icon").removeClass("rotate-pin");
-        $(".bi-pin-angle-fill").parent(".bootstrap-icon").addClass("rotate-pin-back");
     },
 
     /**

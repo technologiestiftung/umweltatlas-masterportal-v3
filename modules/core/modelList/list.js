@@ -34,13 +34,10 @@ import TreeFilter from "../../treeFilter/model";
  * @deprecated in 3.0.0
  */
 import ExtendedFilter from "../../tools/extendedFilter/model";
-import Shadow from "../../tools/shadow/model";
 import ParcelSearch from "../../tools/parcelSearch/model";
-import StyleWMS from "../../tools/styleWMS/model";
 import Viewpoint from "./viewPoint/model";
 import VirtualCityModel from "../../tools/virtualCity/model";
 import store from "../../../src/app-store/index";
-import WfstModel from "../../tools/wfst/model";
 
 const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
     /**
@@ -84,6 +81,7 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
      * @fires ModelList#updateOverlayerView
      * @fires ModelList#UpdateOverlayerView
      * @fires ModelList#UpdateSelection
+     * @fires ModelList#OpenFolderInTree
      */
     initialize: function () {
         const channel = Radio.channel("ModelList");
@@ -106,7 +104,7 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
             "removeModelsByParentId": this.removeModelsByParentId,
             "removeModelsById": this.removeModelsById,
             "replaceModelById": this.replaceModelById,
-            // Initial sichtbare Layer etc.
+            // shown layer
             "addInitiallyNeededModels": this.addInitiallyNeededModels,
             "addModelsByAttributes": this.addModelsByAttributes,
             "addModel": this.addModel,
@@ -129,7 +127,12 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
             "updateSelection": function (model) {
                 this.trigger("updateSelection", model);
             },
-            "selectedChanged": this.selectedChanged
+            "selectedChanged": this.selectedChanged,
+            "transparencyChanged": function () {
+                channel.trigger("updatedSelectedLayerList", this.where({isSelected: true, type: "layer"}));
+                store.dispatch("Tools/SaveSelection/createUrlParams", filterAndReduceLayerList(this.where({isSelected: true, type: "layer"})));
+            },
+            "openFolderInTree": this.openFolderInTree
         }, this);
 
         this.listenTo(this, {
@@ -149,10 +152,6 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
                 channel.trigger("updatedSelectedLayerList", this.where({isSelected: true, type: "layer"}));
             },
             "change:isSelected": this.selectedChanged,
-            "change:transparency": function () {
-                channel.trigger("updatedSelectedLayerList", this.where({isSelected: true, type: "layer"}));
-                store.dispatch("Tools/SaveSelection/createUrlParams", filterAndReduceLayerList(this.where({isSelected: true, type: "layer"})));
-            },
             "change:selectionIDX": function () {
                 channel.trigger("updatedSelectedLayerList", this.where({isSelected: true, type: "layer"}));
             }
@@ -239,12 +238,6 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
             if (attrs.id === "parcelSearch") {
                 return new ParcelSearch(attrs, options);
             }
-            else if (attrs.id === "styleWMS") {
-                return new StyleWMS(attrs, options);
-            }
-            else if (attrs.id === "shadow") {
-                return new Shadow(attrs, options);
-            }
             else if (attrs.id === "treeFilter") {
                 return new TreeFilter(Object.assign(attrs, Object.prototype.hasOwnProperty.call(Config, "treeConf") ? {treeConf: Config.treeConf} : {}), options);
             }
@@ -263,9 +256,6 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
             else if (attrs.id === "extendedFilter") {
                 console.warn("Tool: 'extendedFilter' is deprecated. Please use 'filter' instead.");
                 return new ExtendedFilter(Object.assign(attrs, Object.prototype.hasOwnProperty.call(Config, "ignoredKeys") ? {ignoredKeys: Config.ignoredKeys} : {}), options);
-            }
-            else if (attrs.id === "wfst") {
-                return new WfstModel(attrs, options);
             }
             else if (attrs.id === "virtualcity") {
                 return new VirtualCityModel(attrs, options);
@@ -492,7 +482,7 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
                 : activatedToolModel.deactivateGFI;
         let activeToolsToDeactivate = [];
 
-        if (!deactivateGFI) {
+        if (!deactivateGFI && deactivateGFI !== undefined) {
             alwaysActiveTools.push(this.findWhere({id: "gfi"}));
         }
 
@@ -1015,12 +1005,17 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
     showModelInTree: function (modelId) {
         const mode = Radio.request("Map", "getMapMode"),
             lightModel = Radio.request("Parser", "getItemByAttributes", {id: modelId}),
-            dropdown = Dropdown.getInstance("#root li:first-child > .dropdown-toggle");
+            isMobile = Radio.request("Util", "isViewMobile");
 
+        let dropdown;
+
+        if (!isMobile) {
+            dropdown = Dropdown.getInstance("#root li:first-child > .dropdown-toggle");
+            // open the layerTree
+            dropdown.show();
+        }
         this.closeAllExpandedFolder();
-        // open the layerTree
-        // Upgrade to BT5, use JS method instead of class addition
-        dropdown.show();
+
         // Parent and possible siblings are added
         this.addAndExpandModelsRecursive(lightModel.parentId);
         if (this.get(modelId).get("supported").indexOf(mode) >= 0) {
@@ -1034,12 +1029,25 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
         // für DIPAS Table Ansicht
         if (Radio.request("Util", "getUiStyle") === "TABLE") {
             Radio.request("ModelList", "getModelByAttributes", {id: modelId}).setIsJustAdded(true);
-            // Upgrade to BT5
-            const collapse = Collapse.getInstance($("#table-nav-layers-panel").get(0));
+
+            const collapseElement = document.querySelector("#table-nav-layers-panel"),
+                collapse = new Collapse(collapseElement);
 
             collapse.show();
 
         }
+    },
+
+    /**
+     * Opens the folder with the given id in the layetree
+     * @param {string} id - id of the folder to open
+     * @return {void}
+     */
+    openFolderInTree: function (id) {
+        const dropdown = Dropdown.getInstance("#root li:first-child > .dropdown-toggle");
+
+        dropdown.show();
+        this.addAndExpandModelsRecursive(id);
     },
 
     /**

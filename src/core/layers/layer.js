@@ -41,9 +41,12 @@ export default function Layer (attrs, layer, initialize = true) {
         levelDownText: i18next.t("common:tree.levelDown"),
         settingsText: i18next.t("common:tree.settings"),
         infosAndLegendText: i18next.t("common:tree.infosAndLegend"),
+        filterIconText: i18next.t("common:tree.filterIconText"),
         isAutoRefreshing: false,
         intervalAutoRefresh: -1,
-        isClustered: false
+        isClustered: false,
+        filterRefId: undefined,
+        scaleText: ""
     };
 
     this.layer = layer;
@@ -62,6 +65,7 @@ export default function Layer (attrs, layer, initialize = true) {
     this.checkForScale({scale: store.getters["Maps/scale"]});
     this.registerInteractionMapViewListeners();
     this.onMapModeChanged(this);
+    this.handleScaleRange();
     bridge.onLanguageChanged(this);
     this.changeLang();
 }
@@ -235,10 +239,15 @@ Layer.prototype.setIsVisibleInMap = function (newValue) {
  */
 Layer.prototype.setTransparency = function (newValue) {
     const transparency = parseInt(newValue, 10),
-        opacity = (100 - transparency) / 100;
+        opacity = (100 - transparency) / 100,
+        lastValue = this.get("transparency");
 
     this.set("transparency", transparency);
     this.layer.setOpacity(opacity);
+
+    if (lastValue !== newValue) {
+        bridge.layerTransparencyChanged(this, this.get("transparency"));
+    }
 };
 /**
  * Decreases layer transparency by 10 percent
@@ -461,6 +470,24 @@ Layer.prototype.setAutoRefreshEvent = function (layer) {
         });
     });
 };
+
+/**
+ * creates the text for the scale part in the layer tooltip
+ * @returns {void}
+ */
+Layer.prototype.handleScaleRange = function () {
+    if (store?.getters?.portalConfig?.tree?.showScaleTooltip) {
+        const maxScale = this.attributes.maxScale,
+            minScale = this.attributes.minScale,
+            minScaleText = minScale === "0" ? "1:1" : "1:" + minScale,
+            maxScaleText = "1:" + maxScale,
+            scaleRange = minScaleText + " - " + maxScaleText,
+            scaleText = i18next.t("common:tree.scaleText") + scaleRange;
+
+        this.attributes.scaleText = scaleText;
+    }
+};
+
 /**
  * Change language - sets default values for the language
  * @returns {void}
@@ -479,6 +506,7 @@ Layer.prototype.changeLang = function () {
     this.attributes.levelUpText = i18next.t("common:tree.levelUp");
     this.attributes.levelDownText = i18next.t("common:tree.levelDown");
     this.attributes.transparencyText = i18next.t("common:tree.transparency");
+    this.attributes.filterIconText = i18next.t("common:tree.filterIconText");
 };
 /**
  * Calls Collection function moveModelDown
@@ -558,9 +586,16 @@ export function handleSingleTimeLayer (isSelected, layer, model) {
 
             store.commit("WmsTime/setTimeSliderActive", {
                 active: true,
-                currentLayerId: id,
+                currentLayerId: timeLayer.get("id"),
                 playbackDelay: timeLayer?.get("time")?.playbackDelay || 1
             });
+
+            store.commit("WmsTime/setTimeSliderDefaultValue", {
+                currentLayerId: timeLayer.get("id")
+            });
+
+
+            store.commit("WmsTime/setVisibility", true);
         }
         else {
             timeLayer.removeLayer(timeLayer.get("id"));
@@ -643,6 +678,18 @@ Layer.prototype.getPointCoordinatesWithAltitude = function (coord) {
         }
     }
     return coord;
+};
+
+/**
+ * Toggles the matching filter. filterRefId is used as reference.
+ * @returns {void}
+ */
+Layer.prototype.toggleFilter = function () {
+    const id = this.get("filterRefId");
+
+    if (typeof id === "number") {
+        store.dispatch("Tools/Filter/jumpToFilter", {filterId: id}, {root: true});
+    }
 };
 
 /**

@@ -1,12 +1,12 @@
 <script>
 import {mapGetters, mapMutations} from "vuex";
 import getters from "../store/gettersAddWMS";
-import getComponent from "../../../../utils/getComponent";
+import {getComponent} from "../../../../utils/getComponent";
 import ToolTemplate from "../../ToolTemplate.vue";
 import mutations from "../store/mutationsAddWMS";
 import {WMSCapabilities} from "ol/format.js";
 import {intersects} from "ol/extent";
-import {transform as transformCoord, getProjection} from "@masterportal/masterportalapi/src/crs";
+import crs from "@masterportal/masterportalapi/src/crs";
 import axios from "axios";
 import LoaderOverlay from "../../../../utils/loaderOverlay";
 
@@ -206,7 +206,10 @@ export default {
                 Radio.trigger("Parser", "addFolder", object.Title, this.getParsedTitle(object.Title), parentId, level, false, false, object.invertLayerOrder);
             }
             else {
-                Radio.trigger("Parser", "addLayer", object.Title, this.getParsedTitle(object.Title), parentId, level, object.Name, this.wmsUrl, this.version, {});
+                Radio.trigger("Parser", "addLayer", object.Title, this.getParsedTitle(object.Title), parentId, level, object.Name, this.wmsUrl, this.version, {
+                    maxScale: object?.MaxScaleDenominator?.toString(),
+                    minScale: object?.MinScaleDenominator?.toString()
+                });
             }
         },
 
@@ -240,7 +243,7 @@ export default {
          */
         getIfInExtent: function (capability, currentExtent) {
             const layer = capability?.Capability?.Layer?.BoundingBox?.filter(bbox => {
-                return bbox?.crs && bbox?.crs.includes("EPSG") && getProjection(bbox?.crs) !== undefined && Array.isArray(bbox?.extent) && bbox?.extent.length === 4;
+                return bbox?.crs && bbox?.crs.includes("EPSG") && crs.getProjection(bbox?.crs) !== undefined && Array.isArray(bbox?.extent) && bbox?.extent.length === 4;
             });
             let layerExtent;
 
@@ -261,8 +264,8 @@ export default {
                 });
 
                 if (!firstLayerExtent.length && !secondLayerExtent.length) {
-                    firstLayerExtent = transformCoord(layer[0].crs, this.projection.getCode(), [layer[0].extent[0], layer[0].extent[1]]);
-                    secondLayerExtent = transformCoord(layer[0].crs, this.projection.getCode(), [layer[0].extent[2], layer[0].extent[3]]);
+                    firstLayerExtent = crs.transform(layer[0].crs, this.projection.getCode(), [layer[0].extent[0], layer[0].extent[1]]);
+                    secondLayerExtent = crs.transform(layer[0].crs, this.projection.getCode(), [layer[0].extent[2], layer[0].extent[3]]);
                 }
 
                 layerExtent = [firstLayerExtent[0], firstLayerExtent[1], secondLayerExtent[0], secondLayerExtent[1]];
@@ -378,7 +381,7 @@ export default {
         width: 50%;
     }
     .addwms_error {
-        font-size: 16px;
+        font-size: $font-size-lg;
         color: $light_red;
         margin-bottom: 10px;
     }

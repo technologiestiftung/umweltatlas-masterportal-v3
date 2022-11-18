@@ -1,6 +1,6 @@
 <script>
 import ToolTemplate from "../../ToolTemplate.vue";
-import getComponent from "../../../../utils/getComponent";
+import {getComponent} from "../../../../utils/getComponent";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import getters from "../store/gettersFilter";
 import mutations from "../store/mutationsFilter";
@@ -20,9 +20,13 @@ import {
     setFilterInTableMenu,
     getSnippetInfos
 } from "../utils/openlayerFunctions.js";
-import LayerCategory from "./LayerCategory.vue";
+import FilterList from "./FilterList.vue";
 import isObject from "../../../../utils/isObject.js";
 import GeometryFilter from "./GeometryFilter.vue";
+import {getFeaturesOfAdditionalGeometries} from "../utils/getFeaturesOfAdditionalGeometries.js";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
+import {getFeatureGET} from "../../../../api/wfs/getFeature";
+import {WFS} from "ol/format.js";
 
 export default {
     name: "FilterGeneral",
@@ -30,7 +34,7 @@ export default {
         ToolTemplate,
         GeometryFilter,
         LayerFilterSnippet,
-        LayerCategory
+        FilterList
     },
     data () {
         return {
@@ -46,35 +50,32 @@ export default {
                 getLayers
             }),
             layerConfigs: [],
-            selectedLayers: [],
+            selectedLayerGroups: [],
+            preparedLayerGroups: [],
+            flattenPreparedLayerGroups: [],
             layerLoaded: {},
-            layerFilterSnippetPostKey: "",
-            filterGeometry: false
+            layerFilterSnippetPostKey: ""
         };
     },
     computed: {
         ...mapGetters("Tools/Filter", Object.keys(getters)),
         console: () => console,
-        filtersOnly () {
-            return this.layerConfigs.filter(layer => {
-                return isObject(layer) && !Object.prototype.hasOwnProperty.call(layer, "category");
-            });
-        },
-        categoriesOnly () {
-            return this.layerConfigs.filter(layer => {
-                return isObject(layer) && Object.prototype.hasOwnProperty.call(layer, "category");
+        filters () {
+            return this.layerConfigs.layers.filter(layer => {
+                return isObject(layer);
             });
         }
     },
     created () {
         this.$on("close", this.close);
+        getFeaturesOfAdditionalGeometries(this.geometrySelectorOptions.additionalGeometries);
     },
     mounted () {
         this.convertConfig({
             snippetInfos: getSnippetInfos()
         });
 
-        this.layerConfigs = compileLayers(this.layers);
+        this.layerConfigs = compileLayers(this.layerGroups, this.layers);
 
         this.$nextTick(() => {
             if (isUiStyleTable()) {
@@ -82,6 +83,34 @@ export default {
                 this.$el.remove();
             }
         });
+
+        if (Array.isArray(this.layerConfigs.groups) && this.layerConfigs.groups.length > 0) {
+            this.layerConfigs.groups.forEach(layerGroup => {
+                if (isObject(layerGroup)) {
+                    this.preparedLayerGroups.push(layerGroup);
+                }
+            });
+            if (Array.isArray(this.preparedLayerGroups) && this.preparedLayerGroups.length > 0) {
+                this.preparedLayerGroups.forEach(group => {
+                    group.layers.forEach(layer => {
+                        this.flattenPreparedLayerGroups.push(layer);
+                    });
+                });
+            }
+        }
+
+        if (Array.isArray(this.layerConfigs?.layers) && this.layerConfigs.layers.length > 0) {
+            const selectedFilterIds = [];
+
+            this.layerConfigs.layers.forEach(config => {
+                if (typeof config?.active === "boolean" && config.active && config?.filterId) {
+                    selectedFilterIds.push(config.filterId);
+                }
+            });
+            if (selectedFilterIds.length > 0) {
+                this.setSelectedAccordions(this.transformLayerConfig(this.layerConfigs.layers, selectedFilterIds));
+            }
+        }
     },
     methods: {
         ...mapMutations("Tools/Filter", Object.keys(mutations)),
@@ -101,35 +130,91 @@ export default {
                 model.set("isActive", false);
             }
         },
+
         /**
-         * Update selectedLayers array.
-         * @param {String[]|String} filterIds ids which should be added or removed
-         * @returns {Object[]} selected layer fetched from config
+         * Gets the features of the additional geometries by the given layer id.
+         * @param {Object[]} additionalGeometries - The additional geometries.
+         * @param {String} additionalGeometries[].layerId - The id of the layer.
+         * @returns {void}
          */
-        updateSelectedLayers (filterIds) {
-            if (!Array.isArray(filterIds) && typeof filterIds !== "number") {
-                return;
-            }
-            const confLayers = this.layerConfigs.filter(layer => {
-                return Array.isArray(filterIds) ? filterIds.includes(layer.filterId) : layer.filterId === filterIds;
-            });
+        async getFeaturesOfAdditionalGeometries (additionalGeometries) {
+            if (additionalGeometries) {
+                const wfsReader = new WFS();
 
-            for (const layer of this.layerConfigs) {
-                if (layer?.category) {
-                    const filteredSubLayer = layer.layers.filter(subLayer => {
-                        return Array.isArray(filterIds) ? filterIds.includes(subLayer.filterId) : subLayer.filterId === filterIds;
-                    });
+                for (const additionalGeometry of additionalGeometries) {
+                    const rawLayer = rawLayerList.getLayerWhere({id: additionalGeometry.layerId}),
+                        features = await getFeatureGET(rawLayer.url, {version: rawLayer.version, featureType: rawLayer.featureType});
 
-                    if (filteredSubLayer.length === 0) {
-                        continue;
-                    }
-                    confLayers.push({
-                        category: layer.category,
-                        layers: filteredSubLayer
-                    });
+                    additionalGeometry.features = wfsReader.readFeatures(features);
                 }
             }
-            this.selectedLayers = confLayers;
+        },
+
+        /**
+         * Update selected layer group.
+         * @param {Number} layerGroupIndex index of the layer group
+         * @returns {void}
+         */
+        updateSelectedLayerGroups (layerGroupIndex) {
+            const index = this.selectedLayerGroups.indexOf(layerGroupIndex);
+
+            if (index >= 0) {
+                this.selectedLayerGroups.splice(index, 1);
+            }
+            else {
+                this.selectedLayerGroups.push(layerGroupIndex);
+            }
+        },
+        /**
+         * Update selectedAccordions array in groups.
+         * @param {Number} filterId id which should be added or removed
+         * @returns {void|undefined} returns undefinied, if filterIds is not an array and not a number.
+         */
+        updateSelectedAccordions (filterId) {
+            let selectedFilterIds = [];
+
+            if (!this.multiLayerSelector) {
+                selectedFilterIds = this.selectedAccordions.some(accordion => accordion.filterId === filterId) ? [] : [filterId];
+                this.setSelectedAccordions(this.transformLayerConfig([...this.layerConfigs.layers, ...this.flattenPreparedLayerGroups], selectedFilterIds));
+                return;
+            }
+
+            this.preparedLayerGroups.forEach((layerGroup, groupIdx) => {
+                if (layerGroup.layers.some(layer => layer.filterId === filterId) && !this.selectedLayerGroups.includes(groupIdx)) {
+                    this.selectedLayerGroups.push(groupIdx);
+                }
+            });
+
+            const filterIdsOfAccordions = [],
+                index = this.selectedAccordions.findIndex(accordion => accordion.filterId === filterId);
+
+            this.selectedAccordions.forEach(accordion => filterIdsOfAccordions.push(accordion.filterId));
+            if (index >= 0) {
+                filterIdsOfAccordions.splice(index, 1);
+            }
+            else {
+                filterIdsOfAccordions.push(filterId);
+            }
+            this.setSelectedAccordions(this.transformLayerConfig([...this.layerConfigs.layers, ...this.flattenPreparedLayerGroups], filterIdsOfAccordions));
+        },
+        /**
+         * Transform given layer config to an lightweight array of layerIds and filterIds.
+         * @param {Object[]} configs The layer configs.
+         * @param {String[]} filterIds The filter ids.
+         * @returns {Object[]} array of lightweight filter objects which includes filterId and layerId.
+         */
+        transformLayerConfig (configs, filterIds) {
+            const layers = [];
+
+            configs.forEach(layerConfig => {
+                if (Array.isArray(filterIds) && filterIds.includes(layerConfig.filterId)) {
+                    layers.push({
+                        layerId: layerConfig.layerId,
+                        filterId: layerConfig.filterId
+                    });
+                }
+            });
+            return layers;
         },
         /**
          * Check if layer filter should be displayed.
@@ -137,20 +222,25 @@ export default {
          * @returns {Boolean} true if should be displayed false if not
          */
         isLayerFilterSelected (filterId) {
-            if (!Array.isArray(this.selectedLayers)) {
+            if (!Array.isArray(this.selectedAccordions)) {
                 return false;
             }
             if (!this.layerSelectorVisible) {
                 return true;
             }
-            return this.selectedLayers.filter(selectedLayer => {
-                if (selectedLayer.category) {
-                    return selectedLayer.layers.filter(subLayer => {
-                        return subLayer.filterId === filterId;
-                    }).length > 0;
+
+            let selected = false;
+
+            this.selectedAccordions.forEach(selectedLayer => {
+                if (selectedLayer.filterId === filterId) {
+                    if (!this.layerLoaded[filterId]) {
+                        this.setLayerLoaded(filterId);
+                    }
+                    selected = true;
                 }
-                return selectedLayer.filterId === filterId;
-            }).length > 0;
+            });
+
+            return selected;
         },
         /**
          * Setting the layer loaded true if the layer is clicked from the filter Id
@@ -161,20 +251,28 @@ export default {
             this.layerLoaded[filterId] = true;
         },
         /**
-         * Setting the post key for layerFilterSnippet
-         * @param {String} value the post key of layerFilterSnippet
-         * @returns {void}
-         */
-        setLayerFilterSnippetPostKey (value) {
-            this.layerFilterSnippetPostKey = value;
-        },
-        /**
          * Sets the geometry/area to filter in.
          * @param {ol/geom/Geometry|Boolean} geometry The geometry (polygon, cycle, etc.) or false.
          * @returns {void}
          */
         updateFilterGeometry (geometry) {
-            this.filterGeometry = geometry;
+            this.setFilterGeometry(geometry);
+        },
+        /**
+         * Sets the geometry feature
+         * @param {ol/Feature} feature The geometry feature.
+         * @returns {void}
+         */
+        updateGeometryFeature (feature) {
+            this.setGeometryFeature(feature);
+        },
+        /**
+         * Sets the geometry selector options
+         * @param {Object} options The geometry select options
+         * @returns {void}
+         */
+        updateGeometrySelectorOptions (options) {
+            this.setGeometrySelectorOptions(Object.assign({}, this.geometrySelectorOptions, options));
         },
         /**
          * Checks if the geometry selector should be visible.
@@ -193,6 +291,13 @@ export default {
                 return;
             }
             this.$store.commit("Tools/Gfi/setActive", active);
+        },
+        /**
+         * Resets the jumpToId state property.
+         * @returns {void}
+         */
+        resetJumpToId () {
+            this.setJumpToId(undefined);
         }
     }
 };
@@ -218,21 +323,129 @@ export default {
                     :circle-sides="geometrySelectorOptions.circleSides"
                     :default-buffer="geometrySelectorOptions.defaultBuffer"
                     :geometries="geometrySelectorOptions.geometries"
+                    :additional-geometries="geometrySelectorOptions.additionalGeometries"
                     :invert-geometry="geometrySelectorOptions.invertGeometry"
                     :fill-color="geometrySelectorOptions.fillColor"
                     :stroke-color="geometrySelectorOptions.strokeColor"
                     :stroke-width="geometrySelectorOptions.strokeWidth"
+                    :filter-geometry="filterGeometry"
+                    :geometry-feature="geometryFeature"
+                    :init-selected-geometry-index="geometrySelectorOptions.selectedGeometry"
                     @updateFilterGeometry="updateFilterGeometry"
-                    @setGfiActive="setGfiActive"
+                    @updateGeometryFeature="updateGeometryFeature"
+                    @updateGeometrySelectorOptions="updateGeometrySelectorOptions"
                 />
-                <LayerCategory
-                    v-if="Array.isArray(layerConfigs) && layerConfigs.length && layerSelectorVisible"
+                <div v-if="Array.isArray(layerGroups) && layerGroups.length && layerSelectorVisible">
+                    <div
+                        v-for="(layerGroup, key) in layerGroups"
+                        :key="key"
+                        class="layerGroupContainer"
+                    >
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <h2
+                                    class="panel-title"
+                                >
+                                    <a
+                                        role="button"
+                                        data-toggle="collapse"
+                                        data-parent="#accordion"
+                                        tabindex="0"
+                                        @click="updateSelectedLayerGroups(layerGroups.indexOf(layerGroup))"
+                                        @keydown.enter="updateSelectedLayerGroups(layerGroups.indexOf(layerGroup))"
+                                    >
+                                        {{ layerGroup.title ? layerGroup.title : key }}
+                                        <span
+                                            v-if="!selectedLayerGroups.includes(layerGroups.indexOf(layerGroup))"
+                                            class="bi bi-chevron-down float-end"
+                                        />
+                                        <span
+                                            v-else
+                                            class="bi bi-chevron-up float-end"
+                                        />
+                                    </a>
+                                </h2>
+                                <div
+                                    role="tabpanel"
+                                    :class="['accordion-collapse', 'collapse', selectedLayerGroups.includes(layerGroups.indexOf(layerGroup)) ? 'show' : '']"
+                                >
+                                    <FilterList
+                                        v-if="Array.isArray(preparedLayerGroups) && preparedLayerGroups.length && layerSelectorVisible"
+                                        class="layerSelector"
+                                        :filters="preparedLayerGroups[layerGroups.indexOf(layerGroup)].layers"
+                                        :selected-layers="selectedAccordions"
+                                        :multi-layer-selector="multiLayerSelector"
+                                        :jump-to-id="jumpToId"
+                                        @resetJumpToId="resetJumpToId"
+                                        @selectedaccordions="updateSelectedAccordions"
+                                        @setLayerLoaded="setLayerLoaded"
+                                    >
+                                        <template
+                                            #default="slotProps"
+                                        >
+                                            <div
+                                                :class="['accordion-collapse', 'collapse', isLayerFilterSelected(slotProps.layer.filterId) ? 'show' : '']"
+                                                role="tabpanel"
+                                            >
+                                                <LayerFilterSnippet
+                                                    v-if="isLayerFilterSelected(slotProps.layer.filterId) || layerLoaded[slotProps.layer.filterId]"
+                                                    :api="slotProps.layer.api"
+                                                    :layer-config="slotProps.layer"
+                                                    :map-handler="mapHandler"
+                                                    :min-scale="minScale"
+                                                    :live-zoom-to-features="liveZoomToFeatures"
+                                                    :filter-rules="rulesOfFilters[slotProps.layer.filterId]"
+                                                    :filter-hits="filtersHits[slotProps.layer.filterId]"
+                                                    :filter-geometry="filterGeometry"
+                                                    :is-layer-filter-selected="isLayerFilterSelected"
+                                                    @updateRules="updateRules"
+                                                    @deleteAllRules="deleteAllRules"
+                                                    @updateFilterHits="updateFilterHits"
+                                                />
+                                            </div>
+                                        </template>
+                                    </FilterList>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div v-else-if="Array.isArray(layerGroups) && layerGroups.length">
+                    <div
+                        v-for="(layerGroup, key) in layerGroups"
+                        :key="key"
+                    >
+                        <template v-for="(layerConfig, indexLayer) in preparedLayerGroups[layerGroups.indexOf(layerGroup)].layers">
+                            <h2 :key="'layer-title' + key + indexLayer + layerFilterSnippetPostKey">
+                                <u>{{ layerConfig.title }}</u>
+                            </h2>
+                            <LayerFilterSnippet
+                                :key="'layer-' + key + indexLayer + layerFilterSnippetPostKey"
+                                :api="layerConfig.api"
+                                :layer-config="layerConfig"
+                                :map-handler="mapHandler"
+                                :min-scale="minScale"
+                                :live-zoom-to-features="liveZoomToFeatures"
+                                :filter-rules="rulesOfFilters[layerConfig.filterId]"
+                                :filter-hits="filtersHits[layerConfig.filterId]"
+                                :filter-geometry="filterGeometry"
+                                :is-layer-filter-selected="true"
+                                @updateRules="updateRules"
+                                @deleteAllRules="deleteAllRules"
+                                @updateFilterHits="updateFilterHits"
+                            />
+                        </template>
+                    </div>
+                </div>
+                <FilterList
+                    v-if="(Array.isArray(layerConfigs.layers) && layerConfigs.layers.length) && layerSelectorVisible || (Array.isArray(layerConfigs.groups) && layerConfigs.groups.length) && layerSelectorVisible"
                     class="layerSelector"
-                    :filters-only="filtersOnly"
-                    :categories-only="categoriesOnly"
-                    :changed-selected-layers="selectedLayers"
+                    :filters="filters"
+                    :selected-layers="selectedAccordions"
                     :multi-layer-selector="multiLayerSelector"
-                    @updateselectedlayers="updateSelectedLayers"
+                    :jump-to-id="jumpToId"
+                    @resetJumpToId="resetJumpToId"
+                    @selectedaccordions="updateSelectedAccordions"
                     @setLayerLoaded="setLayerLoaded"
                 >
                     <template
@@ -249,7 +462,7 @@ export default {
                                 :map-handler="mapHandler"
                                 :min-scale="minScale"
                                 :live-zoom-to-features="liveZoomToFeatures"
-                                :filter-rules="filters[slotProps.layer.filterId]"
+                                :filter-rules="rulesOfFilters[slotProps.layer.filterId]"
                                 :filter-hits="filtersHits[slotProps.layer.filterId]"
                                 :filter-geometry="filterGeometry"
                                 :is-layer-filter-selected="isLayerFilterSelected"
@@ -259,24 +472,28 @@ export default {
                             />
                         </div>
                     </template>
-                </LayerCategory>
-                <div v-else-if="Array.isArray(layerConfigs) && layerConfigs.length">
-                    <LayerFilterSnippet
-                        v-for="(layerConfig, indexLayer) in filtersOnly"
-                        :key="'layer-' + indexLayer + layerFilterSnippetPostKey"
-                        :api="layerConfig.api"
-                        :layer-config="layerConfig"
-                        :map-handler="mapHandler"
-                        :min-scale="minScale"
-                        :live-zoom-to-features="liveZoomToFeatures"
-                        :filter-rules="filters[layerConfig.filterId]"
-                        :filter-hits="filtersHits[layerConfig.filterId]"
-                        :filter-geometry="filterGeometry"
-                        :is-layer-filter-selected="true"
-                        @updateRules="updateRules"
-                        @deleteAllRules="deleteAllRules"
-                        @updateFilterHits="updateFilterHits"
-                    />
+                </FilterList>
+                <div v-else-if="(Array.isArray(layerConfigs.layers) && layerConfigs.layers.length) || (Array.isArray(layerConfigs.groups) && layerConfigs.groups.length)">
+                    <template v-for="(layerConfig, indexLayer) in filters">
+                        <h2 :key="'layer-title' + indexLayer + layerFilterSnippetPostKey">
+                            <u>{{ layerConfig.title }}</u>
+                        </h2>
+                        <LayerFilterSnippet
+                            :key="'layer-' + indexLayer + layerFilterSnippetPostKey"
+                            :api="layerConfig.api"
+                            :layer-config="layerConfig"
+                            :map-handler="mapHandler"
+                            :min-scale="minScale"
+                            :live-zoom-to-features="liveZoomToFeatures"
+                            :filter-rules="rulesOfFilters[layerConfig.filterId]"
+                            :filter-hits="filtersHits[layerConfig.filterId]"
+                            :filter-geometry="filterGeometry"
+                            :is-layer-filter-selected="true"
+                            @updateRules="updateRules"
+                            @deleteAllRules="deleteAllRules"
+                            @updateFilterHits="updateFilterHits"
+                        />
+                    </template>
                 </div>
             </div>
         </template>
@@ -285,4 +502,10 @@ export default {
 
 <style lang="scss" scoped>
     @import "~/css/mixins.scss";
+    .layerGroupContainer {
+        background-color: #f5f5f5;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+    }
 </style>

@@ -81,6 +81,7 @@ export default class MapHandler {
         }
         else {
             this.handlers.setParserAttributeByLayerId(layerId, "loadingStrategy", "all");
+            this.handlers.setParserAttributeByLayerId(layerId, "loadThingsOnlyInCurrentExtent", false);
         }
 
         if (Array.isArray(visibleLayer) && !visibleLayer.length) {
@@ -199,7 +200,7 @@ export default class MapHandler {
         }
 
         if (!this.isLayerActivated(filterId) && !this.isSourceUpdated(filterId)) {
-            layerSource.once("featuresloadend", () => {
+            (layerModel.get("typ") === "SensorThings" ? layerModel : layerSource).once("featuresloadend", () => {
                 if (typeof onActivated === "function") {
                     onActivated();
                 }
@@ -376,36 +377,45 @@ export default class MapHandler {
             }
             return;
         }
-        else if (typeof geometry?.getExtent !== "function") {
+        else if (typeof geometry?.getExtent !== "function" && !Array.isArray(geometry?.extent_)) {
             if (typeof onerror === "function") {
                 onerror(new Error("Filter MapHandler.zoomToGeometry: The given geometry has not function to get the extent."));
             }
             return;
         }
 
+        const extent = typeof geometry?.getExtent === "function" ? geometry.getExtent() : geometry?.extent_;
+
         this.isZooming = true;
-        this.handlers.zoomToExtent(geometry.getExtent(), minScale, () => {
+        this.handlers.zoomToExtent(extent, minScale, () => {
             this.isZooming = false;
         });
     }
 
     /**
-     * Activate or deactivate the wms layer
-     * @param {String} wmsRefId the wms layer id
-     * @param {Boolean} active true as active or false as deactive
+     * Activate or deactivate the wms layer(s)
+     * @param {String|String[]} wmsRefId the wms layer id or ids in an array
+     * @param {Boolean} active true as active or false as inactive
      * @param {Boolean} isNeverVisibleInTree true as invisible false as visible in tree
      * @returns {void}
      */
     toggleWMSLayer (wmsRefId, active, isNeverVisibleInTree = false) {
-        let wmsLayerModel = this.handlers.getLayerByLayerId(wmsRefId);
+        if (typeof wmsRefId === "string") {
+            let wmsLayerModel = this.handlers.getLayerByLayerId(wmsRefId);
 
-        if (!isObject(wmsLayerModel) || typeof wmsLayerModel.get !== "function") {
-            Radio.trigger("ModelList", "addModelsByAttributes", {id: wmsRefId});
-            wmsLayerModel = this.handlers.getLayerByLayerId(wmsRefId);
+            if (!isObject(wmsLayerModel) || typeof wmsLayerModel.get !== "function") {
+                Radio.trigger("ModelList", "addModelsByAttributes", {id: wmsRefId});
+                wmsLayerModel = this.handlers.getLayerByLayerId(wmsRefId);
+            }
+
+            if (typeof wmsLayerModel !== "undefined") {
+                wmsLayerModel.set("isNeverVisibleInTree", isNeverVisibleInTree);
+                wmsLayerModel.setIsSelected(active);
+            }
         }
-
-        wmsLayerModel.set("isNeverVisibleInTree", isNeverVisibleInTree);
-        wmsLayerModel.setIsSelected(active);
+        else if (Array.isArray(wmsRefId) && wmsRefId.length) {
+            wmsRefId.forEach(id => this.toggleWMSLayer(id, active, isNeverVisibleInTree));
+        }
     }
 
     /**
@@ -422,6 +432,7 @@ export default class MapHandler {
         }
 
         wfsLayerModel.set("isNeverVisibleInTree", !active);
+        wfsLayerModel.set("isSelected", active);
         Radio.trigger("ModelList", "closeAllExpandedFolder");
     }
 }

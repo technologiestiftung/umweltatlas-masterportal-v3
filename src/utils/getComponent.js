@@ -3,8 +3,7 @@
  * @param {String} componentId - Id of the component.
  * @returns {Object} the Component
  */
-function getComponent (componentId) {
+export function getComponent (componentId) {
     return Radio.request("ModelList", "getModelByAttributes", {id: componentId});
 }
 
-export default getComponent;

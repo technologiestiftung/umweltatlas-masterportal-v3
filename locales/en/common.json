@@ -35,6 +35,9 @@
     "mouseHover": {
         "infoText": "(more objects. Please zoom.)"
     },
+    "mapRegion": {
+      "twoFingerPanAlert": "Please use two fingers to pan and zoom in the map."
+   },
     "menu": {
         "topics": "Issues & Topics",
         "name": "Menu",
@@ -57,7 +60,6 @@
             "routing": "Route planner",
             "draw": "Drawing / writing",
             "shadow": "Shadows",
-            "styleWMS": "Style WMS",
             "commuterLines": "Commuter (Lines)",
             "commuterAnimation": "Commuter (Animation)",
             "layerSlider": "Time series",
@@ -104,7 +106,10 @@
         "removeLayer": "Remove Layer",
         "levelUp": "Level up",
         "levelDown": "Level down",
-        "externalTechnicalData": "External technical data"
+        "externalTechnicalData": "External technical data",
+        "selectedFeatures": "Selection:",
+        "filterIconText": "Open filter",
+        "scaleText": "Displayed in the following scale range: "
     },
     "date": "Date",
     "time": "Time",
@@ -360,6 +365,8 @@
                 "formatLabel": "Format",
                 "dpiLabel": "DPI",
                 "scaleLabel": "Printing scale",
+                "outputfileTitleLabel": "Filename",
+                "validationWarning": "The file name may only contain letters and the special characters '-' and '_'.",
                 "withLegendLabel": "With legend",
                 "autoAdjustScale": "Adjust printing scale automatically",
                 "printLabel": "Create file",
@@ -379,7 +386,10 @@
                 "invisibleLayer": "The following topics cannot be printed in the selected print scale {{scale}}:"
             },
             "shadow": {
-                "shadowDisplay": "Shadow display"
+                "shadowDisplay": "Shadow display:",
+                "pickDate": "Select a date:",
+                "slideHour": "Select time:",
+                "slideDate": "Select a date:"
               },
             "styleVT": {
               "introText": "Various predefined styles can be applied to VectorTile layers to optimize the view to match your requirements.",
@@ -387,24 +397,6 @@
               "theme": "Theme",
               "chooseTheme": "Please choose active theme",
               "style": "Style"
-            },
-            "styleWMS": {
-                "noStyleableLayers": "There are currently no classifiable topics to which this tool could be applied.",
-                "theme": "Theme",
-                "chooseTheme": "Please choose theme",
-                "attribute": "Attribute",
-                "chooseAttribute": "Please choose Attribute",
-                "countOfClasses": "Number of classes",
-                "chooseNumberOfClasses": "Please select number of classes",
-                "rangeOfValues": "Range of values class",
-                "from": "from",
-                "to": "to",
-                "reset": "Reset",
-                "apply": "Apply",
-                "pleaseEnterInteger": "Please enter an integer.",
-                "pleaseChooseColor": "Please choose a color.",
-                "checkTheValues": "Check the values.",
-                "overlappingValueRanges": "Check the values. Values ranges are not allowed to overlap."
             },
             "featureLister": {
                 "chooseTheme": "Choose theme",
@@ -426,6 +418,9 @@
                 "serviceFour": "Service 4"
             },
             "filter": {
+                "alertingMessages": {
+                    "noMatchingFilterId": "The configured filter id does not exist."
+                },
                 "filterButton": "Filter",
                 "searchInMapExtent": "Search in current map extent",
                 "snippetTags": {
@@ -484,6 +479,9 @@
                 "download": {
                     "label": "Download filtered data",
                     "labelBtn": "Download"
+                },
+                "upload": {
+                    "geometryParseError": "Could not parse given geometry"
                 }
             },
             "pendler": {
@@ -579,7 +577,9 @@
                     "featureError": "A feature in this file could not be read."
                 },
                 "successfullyImportedLabel": "Successfully imported:",
-                "title": "Import file"
+                "title": "Import file",
+                "zoom": "Zoom",
+                "fileZoom": "Zoom to features of this file \"{{filename}}\""
             },
             "parcelSearch": {
                 "wrongConfig": "Invalid or incomplete configuration",
@@ -767,6 +767,7 @@
                     "undo": "Undo",
                     "redo": "Redo",
                     "edit": "Edit geometry",
+                    "editAttributes": "Attribute bearbeiten",
                     "delete": "Delete geometry / text",
                     "deleteAll": "Delete all",
                     "saveDrawing": "Save drawing"
@@ -779,6 +780,17 @@
                     "iconCloud": "Cloud",
                     "iconMeadow": "Meadow",
                     "gelber Pin": "yellow Pin"
+                },
+                "attributeSelect": {
+                    "attributeKeyError": "Attribute key must be set!",
+                    "attributeDuplicatedKeyError": "Key already exists!",
+                    "noFeatureSelected": "Please select a feature!",
+                    "save": "Save",
+                    "remove": "Delete",
+                    "input": {
+                        "key": "New attribute key",
+                        "value": "New attribute value"
+                    }
                 }
             },
             "measure": {
@@ -830,6 +842,54 @@
                 },
                 "district": "District",
                 "parcelNumber": "Parcel number"
+            },
+            "wfsTransaction": {
+                "layerSelectLabel": "Current layer:",
+                "polygonHint": "To move a polygon, hold down the Ctrl key and move your mouse while holding the mouse button down.",
+                "interactionSelect": {
+                    "edit": "Edit geometry",
+                    "delete": "Delete geometry",
+                    "line": "Add line",
+                    "point": "Add point",
+                    "polygon": "Add area"
+                },
+                "error": {
+                    "allLayersNotSelected": "No for this tool configured WFS-T layer has been set to visible in the layer tree.",
+                    "geometryOutOfRange": "The drawn geometry is out of range of the allowed region of the layer.",
+                    "layerNotConfiguredCorrectly": "The selected layer has not been configured correctly to be used with this tool; it might be missing the parameter 'featurePrefix'.",
+                    "layerNotSelected": "The selected layer has not been set to visible in the layer tree.",
+                    "noFeature": "Please draw a geometry for your added properties.",
+                    "onlyNumbersAllowed": "The input only allows numbers.",
+                    "requiredPropertiesNotSet": "Please enter a valid value for the required properties {{properties}}."
+                },
+                "transaction": {
+                    "success": {
+                        "baseSuccess": "{{transaction}} the geometry and its parameters was successful.",
+                        "delete": "$t(common:modules.tools.wfsTransaction.transaction.success.baseSuccess, {\"transaction\": 'Deletion of'})",
+                        "insert": "$t(common:modules.tools.wfsTransaction.transaction.success.baseSuccess, {\"transaction\": 'Insertion of'})",
+                        "selectedUpdate" : "$t(common:modules.tools.wfsTransaction.transaction.success.baseSuccess, {\"transaction\": 'Updating'})"
+                    },
+                    "error": {
+                        "genericFailedTransaction": "An error occurred while saving / deleting the geometry and its parameters. Please contact the administrator.",
+                        "axios": "$t(common:modules.tools.wfsTransaction.transaction.error.genericFailedTransaction)",
+                        "baseError": "An error occurred while saving the geometry and its parameters",
+                        "InvalidValue": "$t(common:modules.tools.wfsTransaction.transaction.error.baseError) One of the entries is not valid or in the correct format.",
+                        "InvalidParameterValue": "$t(common:modules.tools.wfsTransaction.transaction.error.InvalidValue)",
+                        "MissingParameterValue": "$t(common:modules.tools.wfsTransaction.transaction.error.baseError) One or more parameter didn't receive an input and the service does not provide default values.",
+                        "OperationNotSupported": "$t(common:modules.tools.wfsTransaction.transaction.error.baseError) The requested operation is not supported by the service.",
+                        "OperationParsingFailed": "$t(common:modules.tools.wfsTransaction.transaction.error.baseError) The service could not process the transaction. Please contact the administrator.",
+                        "OperationProcessingFailed": "$t(common:modules.tools.wfsTransaction.transaction.error.baseError) An error occurred during the transaction."
+                    }
+                },
+                "deleteInteraction": {
+                    "confirm": "Delete",
+                    "headline": "Caution",
+                    "text": "Are you sure about deleting the selected feature?"
+                },
+                "form": {
+                    "discard": "Discard",
+                    "save": "Save"
+                }
             },
             "routing": {
                 "coordinateInputHelp": "Finde a place or add a point by clicking on the map",
@@ -981,7 +1041,8 @@
             "3d": {
                 "buttonTitle": "3D",
                 "openView3d": "Start view",
-                "closeView3d": "Close view"
+                "closeView3d": "Close view",
+                "noCesium": "Cesium/3D-Functionality could not be loaded - Please inform the service provider"
             },
             "oblique": {
                 "buttonTitle": "Oblique aerial photos",
@@ -1038,7 +1099,8 @@
                 "location": "location",
                 "subject": "subject (external topics)",
                 "topic": "issues & topics",
-                "general": "topics"
+                "general": "topics",
+                "folder": "folder (topics)"
             },
             "specialWFS": {
                 "ongoing": "in process",
@@ -1135,6 +1197,7 @@
             "newYearsEve": "New Year's Eve"
         },
         "parametricURL": {
+            "name": "URL-parameter",
             "alertWrongLayerIds": "The called link contains topics that can no longer be found.</br> To avoid receiving this error message in the future, please take the following steps:<ul> <li>Check your desired map section for missing content.</li> <li>Save your selection again with the tool \"Save selection\".</li></ul>",
             "alertWrongAmountVisibility": "<strong>Parameterized call incorrect!</strong></br>The specifications for <b>layerIds</b> do not match <b>visibility</b> or <b>transparency</b>. They must be specified in the same number in each case.",
             "errorLoadConfig": "The requested configuration file could not be loaded under the following path: {{url}}<br>The URL paramater <strong>configJson</strong> requests a file with the extension \".json\".<br>An attempt is made to load the config.json under the default path.",

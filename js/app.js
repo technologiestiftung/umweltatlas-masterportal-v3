@@ -9,16 +9,13 @@ import StyleList from "../modules/vectorStyle/list";
 import Preparser from "../modules/core/configLoader/preparser";
 import RemoteInterface from "../modules/remoteInterface/model";
 import RadioMasterportalAPI from "../modules/remoteInterface/radioMasterportalAPI";
-import WFSTransactionModel from "../modules/wfsTransaction/model";
 import MenuLoader from "../modules/menu/menuLoader";
 import featureViaURL from "../src/utils/featureViaURL";
 import SliderView from "../modules/snippets/slider/view";
 import SliderRangeView from "../modules/snippets/slider/range/view";
 import WindowView from "../modules/window/view";
 import SidebarView from "../modules/sidebar/view";
-import ShadowView from "../modules/tools/shadow/view";
 import ParcelSearchView from "../modules/tools/parcelSearch/view";
-import StyleWMSView from "../modules/tools/styleWMS/view";
 import RemoteInterfaceVue from "../src/plugins/remoteInterface/RemoteInterface";
 import {initiateVueI18Next} from "./vueI18Next";
 import {handleUrlParamsBeforeVueMount, readUrlParamEarly} from "../src/utils/parametricUrl/ParametricUrlBridge";
@@ -43,12 +40,10 @@ import WFSFeatureFilterView from "../modules/wfsFeatureFilter/view";
  */
 import ExtendedFilterView from "../modules/tools/extendedFilter/view";
 import TreeFilterView from "../modules/treeFilter/view";
-import WfstView from "../modules/tools/wfst/view";
 // controls
 import ControlsView from "../modules/controls/view";
 import SearchbarView from "../modules/searchbar/view";
 import Button3DView from "../modules/controls/button3d/view";
-import ButtonObliqueView from "../modules/controls/buttonOblique/view";
 import Orientation3DView from "../modules/controls/orientation3d/view";
 import VirtualcityModel from "../modules/tools/virtualCity/model";
 import LoaderOverlay from "../src/utils/loaderOverlay";
@@ -136,7 +131,6 @@ async function loadApp () {
 
     app.$mount();
 
-    new WFSTransactionModel();
     new MenuLoader();
 
     if (Object.prototype.hasOwnProperty.call(Config, "featureViaURL")) {
@@ -167,10 +161,6 @@ async function loadApp () {
 
     Radio.request("ModelList", "getModelsByAttributes", {type: "tool"}).forEach(tool => {
         switch (tool.id) {
-            case "shadow": {
-                new ShadowView({model: tool});
-                break;
-            }
             case "parcelSearch": {
                 new ParcelSearchView({model: tool});
                 break;
@@ -195,14 +185,6 @@ async function loadApp () {
                 new TreeFilterView({model: tool});
                 break;
             }
-            case "styleWMS": {
-                new StyleWMSView({model: tool});
-                break;
-            }
-            case "wfst": {
-                new WfstView({model: tool});
-                break;
-            }
             case "virtualCity": {
                 new VirtualcityModel(tool.attributes);
                 break;
@@ -225,13 +207,6 @@ async function loadApp () {
                     if (control.attr === true) {
                         element = controlsView.addRowTR(control.id);
                         new Button3DView({el: element});
-                    }
-                    break;
-                }
-                case "buttonOblique": {
-                    if (control.attr === true) {
-                        element = controlsView.addRowTR(control.id);
-                        new ButtonObliqueView({el: element});
                     }
                     break;
                 }

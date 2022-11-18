@@ -6,6 +6,11 @@
       "link": "https://geoinfo.hamburg.de",
       "toolTip": "Landesbetrieb Geoinformation und Vermessung"
     },
+    "tree":{
+			"highlightedFeatures": {
+				"active": true
+			}
+		},
     "quickHelp": {
       "configs": {
         "search": true,
@@ -21,7 +26,8 @@
         "searchHouseNumbers": true,
         "searchDistricts": true,
         "searchParcels": true,
-        "searchStreetKey": true
+        "searchStreetKey": true,
+        "gfiOnClick": true
       },
       "elasticSearch": {
         "minChars": 3,
@@ -365,10 +371,6 @@
               }
             ]
           },
-          "styleWMS": {
-            "name": "translate#common:menu.tools.styleWMS",
-            "icon": "bi-paint-bucket"
-          },
           "featureLister": {
             "name": "translate#common:menu.tools.featureLister",
             "maxFeatures": 10,
@@ -438,11 +440,18 @@
             "filename": "Ausdruck",
             "title": "Mein Titel",
             "currentLayoutName": "A4 Hochformat",
-            "dpiForPdf": 120
+            "dpiForPdf": 120,
+            "printMapMarker": true
           },
           "scaleSwitcher": {
             "name": "translate#common:menu.tools.scaleSwitcher",
             "icon": "bi-arrows-angle-contract"
+          },
+          "obliqueViewer": {
+            "name": "translate#additional:modules.tools.obliqueViewer.title",
+            "icon": "bi-image",
+            "styleId": "obliqueViewer",
+            "isVisibleInMenu": false
           }
         }
       },
@@ -513,10 +522,10 @@
       "freeze": true,
       "backForward": true,
       "button3d": true,
-      "obliqueControl": {
-        "title": "additional:modules.controls.oblique.title",
-        "hiddenMobile": true,
-        "bottomControl": false
+      "startTool": {
+        "tools": [
+          "obliqueViewer"
+        ]
       }
     },
     "layersRemovable": true

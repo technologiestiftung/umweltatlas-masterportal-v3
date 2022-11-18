@@ -11,6 +11,10 @@ const LayerView = LayerBaseView.extend(/** @lends LayerView.prototype */{
                 this.setFocus();
             }
         },
+        "click .filter-icon": "toggleFilter",
+        "keydown .filter-icon": function (event) {
+            this.handleKeyboardTriggeredAction(event, "toggleFilter");
+        },
         "click .info-icon": "toggleLayerInformation",
         "keydown .info-icon": function (event) {
             this.handleKeyboardTriggeredAction(event, "toggleLayerInformation");
@@ -47,12 +51,6 @@ const LayerView = LayerBaseView.extend(/** @lends LayerView.prototype */{
         "keydown .decrease-icon": function (event) {
             if (this.handleKeyboardTriggeredAction(event, "decTransparency")) {
                 this.setFocus(".transparency .decrease-icon");
-            }
-        },
-        "click .style-icon": "openStyleWMS",
-        "keydown .style-icon": function (event) {
-            if (this.handleKeyboardTriggeredAction(event, "openStyleWMS")) {
-                this.setFocus(".styleWMS");
             }
         },
         "click .remove-layer": "removeLayer",
@@ -94,7 +92,7 @@ const LayerView = LayerBaseView.extend(/** @lends LayerView.prototype */{
         this.toggleColor(this.model, this.model.get("isOutOfRange"));
     },
     tagName: "li",
-    className: "layer-item list-group-item",
+    className: "layer-item dropdown-item",
     template: _.template(Template),
     templateSettings: _.template(TemplateSettings),
 

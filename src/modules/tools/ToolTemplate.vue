@@ -60,7 +60,16 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["uiStyle"]),
+        ...mapGetters(["mobile", "uiStyle"]),
+
+        /**
+         * Mobile mode always renders in window.
+         * @returns {Boolean} Render to window.
+         */
+        renderToWindowMobile () {
+            return this.mobile || this.renderToWindow;
+        },
+
         /**
          * Calculates initial width of sidebar or window for Desktop and Mobile (if props are given).
          * @returns {Array} initialToolWidth and initialToolWidthMobile for CSS
@@ -88,6 +97,17 @@ export default {
                 if (newValue && this.focusToCloseIcon) {
                     if (this.$refs["close-icon"]) {
                         this.$refs["close-icon"].focus();
+                    }
+                }
+
+                if (this.uiStyle === "TABLE") {
+                    const el = this.$refs["tool-div"];
+
+                    if (newValue && el) {
+                        el.style.display = "block";
+                    }
+                    else if (el) {
+                        el.style.display = "none";
                     }
                 }
             });
@@ -154,7 +174,7 @@ export default {
          * @return {void}
          */
         updateMap (event) {
-            if (this.renderToWindow) {
+            if (this.renderToWindowMobile) {
                 return;
             }
             mapCollection.getMap("2D").updateSize();
@@ -178,16 +198,17 @@ export default {
 <template>
     <div
         v-if="active"
-        :id="renderToWindow ? '' : 'tool-sidebar-vue'"
+        :id="renderToWindowMobile ? '' : 'tool-sidebar-vue'"
+        ref="tool-div"
         :class="{
-            'tool-window-vue': renderToWindow,
+            'tool-window-vue': renderToWindowMobile,
             'table-tool-win-all-vue': uiStyle === 'TABLE',
             'is-minified': isMinified
         }"
         :style="widths"
     >
         <BasicResizeHandle
-            v-if="resizableWindow && !renderToWindow"
+            v-if="resizableWindow && !renderToWindowMobile"
             id="basic-resize-handle-sidebar"
             h-pos="l"
             :min-w="200"
@@ -205,7 +226,7 @@ export default {
             </div>
 
             <div
-                v-if="!renderToWindow"
+                v-if="!renderToWindowMobile"
                 class="heading-element flex-grow"
             >
                 <h2 class="title">
@@ -214,7 +235,7 @@ export default {
             </div>
 
             <BasicDragHandle
-                v-if="renderToWindow"
+                v-if="renderToWindowMobile"
                 target-sel=".tool-window-vue"
                 :margin-bottom="resizableWindow ? 25 : 0"
                 class="heading-element flex-grow"
@@ -225,7 +246,7 @@ export default {
             </BasicDragHandle>
 
             <div
-                v-if="renderToWindow"
+                v-if="renderToWindowMobile"
                 class="heading-element"
             >
                 <span
@@ -268,7 +289,7 @@ export default {
         >
             <slot name="toolBody" />
         </div>
-        <div v-if="resizableWindow && renderToWindow">
+        <div v-if="resizableWindow && renderToWindowMobile">
             <BasicResizeHandle
                 v-for="hPos in ['tl', 'tr', 'br', 'bl']"
                 :id="'basic-resize-handle-' + hPos"
@@ -307,7 +328,7 @@ export default {
         .heading-element {
             white-space: nowrap;
             color: $secondary_contrast;
-            font-size: 14px;
+            font-size: $font_size_big;
 
             &.flex-grow {
                 flex-grow:99;
@@ -399,15 +420,22 @@ export default {
     }
 
     .table-tool-win-all-vue {
+        display:none;
         border-radius: 12px;
         margin-bottom: 30px;
         .win-heading {
-            font-size: 14px;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            font-size: $font_size_big;
             background-color: $dark_grey;
             .heading-element {
+                border-top-right-radius: 12px;
+                :last-child:hover {
+                    border-top-right-radius: 12px;
+                }
                 > .title {
                     color: $white;
-                    font-size: 14px;
+                    font-size: $font_size_big;
                 }
                 > .buttons { color: $white; }
                 > .bootstrap-icon { color: $white; }

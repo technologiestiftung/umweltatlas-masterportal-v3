@@ -1,6 +1,6 @@
 import addGeoJSON from "../addGeoJSON.js";
 import store from "../../app-store";
-import {transform} from "@masterportal/masterportalapi/src/crs";
+import crs from "@masterportal/masterportalapi/src/crs";
 
 // All functions are exported, this is only for unit testing.
 // Usually, you'll want to use the default export.
@@ -38,7 +38,7 @@ export function createGeoJSON (features, geometryType, epsg = 4326) {
         flag = false;
 
     features.forEach(feature => {
-        coordinates = epsg === 4326 ? feature.coordinates : transform("EPSG:" + epsg, "EPSG:4326", feature.coordinates);
+        coordinates = epsg === 4326 ? feature.coordinates : crs.transform("EPSG:" + epsg, "EPSG:4326", feature.coordinates);
         if (!coordinates || !Array.isArray(coordinates) || coordinates.length === 0 || !feature.label) {
             flag = true;
             return;
@@ -134,12 +134,12 @@ export default function ({layers, epsg, zoomTo}) {
                 return;
             }
             if (!features || !Array.isArray(features) || features.length === 0) {
-                store.dispatch("Alerting/addSingleAlert", {content: i18next.t("common:modules.featureViaURL.messages.featureParsingAll")});
+                store.dispatch("Alerting/addSingleAlert", {content: i18next.t("common:modules.featureViaURL.messages.featureParsingAll"), "multipleAlert": true});
                 return;
             }
             geoJSON = createGeoJSON(features, geometryType, epsg);
             if (geoJSON.features.length === 0) {
-                store.dispatch("Alerting/addSingleAlert", {content: i18next.t("common:modules.featureViaURL.messages.featureParsingNoneAdded")});
+                store.dispatch("Alerting/addSingleAlert", {content: i18next.t("common:modules.featureViaURL.messages.featureParsingNoneAdded"), "multipleAlert": true});
             }
             layerIds.push(layerId);
             if (parentId !== undefined) {
@@ -147,7 +147,7 @@ export default function ({layers, epsg, zoomTo}) {
                 Radio.trigger("Util", "refreshTree");
             }
             else {
-                store.dispatch("Alerting/addSingleAlert", {content: i18next.t("common:modules.featureViaURL.messages.defaultTreeNotSupported")});
+                store.dispatch("Alerting/addSingleAlert", {content: i18next.t("common:modules.featureViaURL.messages.defaultTreeNotSupported"), "multipleAlert": true});
                 return;
             }
             if (typeof zoomTo !== "undefined" && (zoomTo === layerId || zoomTo.indexOf(layerId) !== -1)) {

@@ -10,11 +10,14 @@
         <% if (isSecured) { %>
             <span class="bootstrap-icon" title="<%=securedTopicText%>"><i class="bi-lock-fill"></i></span>
         <% } %>
-        <span class="title" title="<%= name %>"><%= name %></span>
+        <span class="title" title="<%= name + '\n' + scaleText%>"><%= name %></span>
     </a>
 
     <% if (typeof treeType === "undefined") { %>
         <div class="layer-info-item last-item">
+        <% if (typeof filterRefId === "number") { %>
+            <span class="bootstrap-icon filter-icon tabable" tabindex="0" title="<%=filterIconText%>"><i class="bi-funnel-fill"></i></span>
+        <% } %>
         <% if (typeof datasets !== "undefined" && datasets !== false) { %>
             <span class="bootstrap-icon info-icon tabable" tabindex="0" title="<%=infosAndLegendText%>"><i class="bi-info-circle-fill"></i></span>
         <% } %>

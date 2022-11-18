@@ -1,6 +1,6 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import getComponent from "../../../../utils/getComponent";
+import {getComponent} from "../../../../utils/getComponent";
 import ToolTemplate from "../../ToolTemplate.vue";
 import constants from "../store/constantsSaveSelection";
 
@@ -118,7 +118,7 @@ export default {
     }
 }
 span {
-    font-size: 11px;
+    font-size: $font-size-sm;
 }
 
 </style>

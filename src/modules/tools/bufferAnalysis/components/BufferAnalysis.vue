@@ -1,6 +1,6 @@
 <script>
 import ToolTemplate from "../../ToolTemplate.vue";
-import getComponent from "../../../../utils/getComponent";
+import {getComponent} from "../../../../utils/getComponent";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import getters from "../store/gettersBufferAnalysis";
 import mutations from "../store/mutationsBufferAnalysis";
@@ -313,6 +313,7 @@ export default {
         border-radius: 4px;
         border: none;
         height: 12px;
+        min-height: 12px;
         margin-top: 19px;
         background: #cbcbcb;
     }

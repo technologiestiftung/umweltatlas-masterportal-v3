@@ -53,7 +53,7 @@ export default {
          */
         createInteractions: function () {
             const select = new Select({
-                    // select works indirectly via DragBox results - never updates itself
+                // select works indirectly via DragBox results - never updates itself
                     addCondition: never,
                     removeCondition: never,
                     toggleCondition: never,
@@ -96,6 +96,7 @@ export default {
         removeInteractions: function () {
             this.removeInteractionFromMap(this.selectInteraction);
             this.removeInteractionFromMap(this.dragBoxInteraction);
+            this.selectedFeaturesWithRenderInformation.length = 0;
         },
 
         /**
@@ -109,10 +110,12 @@ export default {
                 .getArray()
                 .filter(layer => layer.get("visible") && layer.get("source") instanceof VectorSource)
                 .forEach(
-                    layer => layer.get("source").forEachFeatureIntersectingExtent(
-                        extent,
-                        feature => this.prepareFeature(layer, feature)
-                    )
+                    layer => {
+                        layer.get("source").forEachFeatureIntersectingExtent(
+                            extent,
+                            feature => this.prepareFeature(layer, feature)
+                        );
+                    }
                 );
         },
 
@@ -297,7 +300,7 @@ export default {
                 selected = this.selectedFeaturesWithRenderInformation[featureIndex];
 
             mapCollection.getMap(this.$store.state.Maps.mode).getView().fit(selected.item.getGeometry());
-            this.highlightFeature({featureId: selected.item, layerId: selected.layerId});
+            this.highlightFeature({feature: selected.item, layerId: selected.layerId});
         },
 
         /**
@@ -344,9 +347,7 @@ export default {
                     ref="select-features-tables"
                     class="select-features-tables"
                 >
-                    <template
-                        v-for="(selectedFeature, index) in selectedFeaturesWithRenderInformation"
-                    >
+                    <template v-for="(selectedFeature, index) in selectedFeaturesWithRenderInformation">
                         <table
                             v-if="selectedFeature.properties.length > 0"
                             :key="index"
@@ -357,9 +358,7 @@ export default {
                                     v-for="(property, propIndex) in selectedFeature.properties"
                                     :key="propIndex"
                                 >
-                                    <td
-                                        class="featureName"
-                                    >
+                                    <td class="featureName">
                                         {{ property[0] }}
                                     </td>
                                     <td
@@ -390,7 +389,7 @@ export default {
                         </table>
                         <p
                             v-else
-                            :key="index"
+                            :key="index + 'z'"
                         >
                             {{ translate("common:modules.tools.selectFeatures.propertylessFeature") }}
                         </p>
@@ -416,16 +415,19 @@ export default {
 
 <style type="scss" scoped>
 .selectFeatures {
-    max-width:600px;
-    max-height:745px;
+    max-width: 600px;
+    max-height: 745px;
 }
+
 .select-features-tables p {
     margin: 8px 0;
 }
+
 td.featureName {
-    width:30%;
+    width: 30%;
 }
+
 td.featureValue {
-    width:70%;
+    width: 70%;
 }
 </style>

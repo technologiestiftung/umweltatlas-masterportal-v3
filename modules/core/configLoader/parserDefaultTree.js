@@ -150,14 +150,30 @@ const DefaultTreeParser = Parser.extend(/** @lends DefaultTreeParser.prototype *
                 }
                 return baseLayerIds.includes(layer.id) ? "baselayers" : "overlays";
             });
+        let overlayList = [];
+
+        if (typeGroup.overlays) {
+            overlayList = typeGroup.overlays;
+        }
+        if (typeGroup.timeLayer) {
+            overlayList = overlayList.concat(typeGroup.timeLayer);
+        }
 
         // Models für die Hintergrundkarten erzeugen
         this.createBaselayer(layerList);
+        // Models für die ZeitreihenLayer erzeugen
+        if (store.state.configJson?.Themenconfig) {
+            if ("Fachdaten_Zeit" in store.state.configJson.Themenconfig) {
+                this.createTimeLayer(typeGroup.timeLayer, timeLayerList);
+                overlayList = typeGroup.overlays;
+            }
+        }
+
         // Models für die Fachdaten erzeugen
-        this.groupDefaultTreeOverlays(typeGroup.overlays);
+        this.groupDefaultTreeOverlays(overlayList);
         // Models für 3D Daten erzeugen
         this.create3dLayer(typeGroup.layer3d, layer3dList);
-        this.createTimeLayer(typeGroup.timeLayer, timeLayerList);
+
         // Models für Oblique Daten erzeugen
         this.createObliqueLayer(typeGroup.oblique);
     },
@@ -247,14 +263,26 @@ const DefaultTreeParser = Parser.extend(/** @lends DefaultTreeParser.prototype *
             let newLayer;
 
             if (Array.isArray(layer.id)) {
-                newLayer = Object.assign(this.mergeObjectsByIds(layer.id, layerList), Radio.request("Util", "omit", layer, ["id"]));
+                const mergedLayer = this.mergeObjectsByIds(layer.id, layerList);
+
+                if (mergedLayer) {
+                    newLayer = Object.assign(mergedLayer, Radio.request("Util", "omit", layer, ["id"]));
+                }
+                else {
+                    console.error("Background-layer with ids: " + layer.id + " was not created. Not all ids are contained in services.json.");
+                    return;
+                }
             }
             else {
-                newLayer = Object.assign(layerList.find(singleLayer => singleLayer.id === layer.id), Radio.request("Util", "omit", layer, ["id"]));
+                const rawLayer = layerList.find(singleLayer => singleLayer.id === layer.id);
+
+                if (rawLayer) {
+                    newLayer = Object.assign(rawLayer, Radio.request("Util", "omit", layer, ["id"]));
+                }
             }
 
             if (newLayer === undefined) {
-                console.error("Layer with id: " + layer.id + " cannot be found in layerlist. Possible error: layer got removed in function 'deleteLayersIncludeCache'.");
+                console.error("Layer with id: " + layer.id + " cannot be found in services.json and is not displayed.");
             }
             else {
                 this.addItem(Object.assign({

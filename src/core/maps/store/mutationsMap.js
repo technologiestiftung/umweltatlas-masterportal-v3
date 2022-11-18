@@ -8,6 +8,26 @@ const mutations = {
     ...generateSimpleMutations(initialState),
 
     /**
+     * Adds the given feature to highlightedFeatures.
+     * @param {Object} state the state.
+     * @param {module:ol/Feature} feature - The given feature.
+     * @returns {void}
+     */
+    addHighlightedFeature (state, feature) {
+        state.highlightedFeatures.push(feature);
+    },
+
+    /**
+     * Adds the given style to highlightedFeatureStyles.
+     * @param {Object} state the state.
+     * @param {Object} style - The given style.
+     * @returns {void}
+     */
+    addHighlightedFeatureStyle (state, style) {
+        state.highlightedFeatureStyles.push(style);
+    },
+
+    /**
      * Adds the given layer to the top of this map.
      * @param {Object} state the state.
      * @param {module:ol/layer/Base} layer - The given layer.
@@ -109,6 +129,15 @@ const mutations = {
      */
     setSize (state, evt) {
         state.size = evt.target.getSize();
+    },
+    /**
+     * Set status of the two fingers pan event.
+     * @param {Object} state The state.
+     * @param {Boolean} value Value indicating if the 2-Finger-Pan is active.
+     * @returns {void}
+     */
+    setTwoFingerPanStart (state, value) {
+        state.twoFingerPanStart = value;
     }
 };
 
