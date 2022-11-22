@@ -1,6 +1,6 @@
 <script>
 import isObject from "../../../../utils/isObject";
-import thousandsSeparator from "../../../../utils/thousandsSeparator";
+import thousandsSeparator from "masterportalapi/src/lib/thousandsSeparator";
 import {translateKeyWithPlausibilityCheck} from "../../../../utils/translateKeyWithPlausibilityCheck.js";
 import {getDefaultOperatorBySnippetType} from "../utils/compileSnippets.js";
 import SnippetInfo from "./SnippetInfo.vue";
