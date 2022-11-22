@@ -18,6 +18,10 @@ const LayerView = LayerBaseView.extend(/** @lends LayerView.prototype */{
         "keydown .layer-info-item": function (event) {
             this.handleKeyboardTriggeredAction(event, "toggleLayerInformation");
         },
+        "click .layer-info-item > .filter-icon": "toggleFilter",
+        "keydown .layer-info-item > .filter-icon": function (event) {
+            this.handleKeyboardTriggeredAction(event, "toggleFilter");
+        },
         "click .layer-info-item > .settings-icon": "toggleIsSettingVisible",
         "keydown .layer-info-item > .settings-icon": function (event) {
             this.handleKeyboardTriggeredAction(event, "toggleIsSettingVisible");
@@ -94,7 +98,7 @@ const LayerView = LayerBaseView.extend(/** @lends LayerView.prototype */{
         this.toggleColor(this.model, this.model.get("isOutOfRange"));
     },
     tagName: "li",
-    className: "layer list-group-item",
+    className: "layer dropdown-item",
     template: _.template(Template),
     templateSettings: _.template(templateSettingsTransparency),
 

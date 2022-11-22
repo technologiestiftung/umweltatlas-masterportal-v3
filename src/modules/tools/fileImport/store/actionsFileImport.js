@@ -6,6 +6,8 @@ import Fill from "ol/style/Fill";
 import Stroke from "ol/style/Stroke";
 import Icon from "ol/style/Icon";
 import {createDrawStyle} from "../../draw/utils/style/createDrawStyle";
+import isObject from "../../../../utils/isObject";
+import {createEmpty as createEmptyExtent, extend} from "ol/extent";
 
 const supportedFormats = {
     kml: new KML({extractStyles: true, iconUrlFunction: (url) => proxyGstaticUrl(url)}),
@@ -15,7 +17,6 @@ const supportedFormats = {
 
 /**
  * Change the URL for gstatic.com so that it request through a reverse proxy.
- *
  * Note: When exporting a kml from google-maps or -earth, references to the images are specified.
  * These currently do not allow CORS.
  * @param {String} url The image url.
@@ -139,10 +140,60 @@ function checkIsVisibleSetting (features) {
     return resFeatures;
 }
 
+/**
+ * Gets custom attributes from feature by parsing given feature keys.
+ * @param {ol/Feature} feature The feature.
+ * @returns {Object} The parsed attributes.
+ */
+function getParsedCustomAttributes (feature) {
+    if (typeof feature.getKeys !== "function" || !Array.isArray(feature.getKeys())) {
+        return {};
+    }
+
+    let attributes = feature.get("attributes");
+
+    if (!isObject(attributes)) {
+        attributes = {};
+    }
+    feature.getKeys().forEach(key => {
+        if (typeof key.split === "function" && key.split("custom-attribute____").length > 1) {
+            const parsedKey = key.split("custom-attribute____")[1];
+
+            attributes[parsedKey] = feature.get(key);
+        }
+    });
+    return attributes;
+}
+
 export default {
+    /**
+     * Sets the selected file type
+     * @param {Object} param.commit the commit
+     * @param {String} newFiletype the file type
+     * @returns {void}
+     */
     setSelectedFiletype: ({commit}, newFiletype) => {
         commit("setSelectedFiletype", newFiletype);
+    },
 
+    /**
+     * Sets the featureExtents
+     * @param {Object} param.state the state
+     * @param {Object} param.commit the commit
+     * @param {ol/Feature[]} payload.features the parsed features
+     * @param {String} payload.fileName the file name
+     * @returns {void}
+     */
+    setFeatureExtents: ({state, commit}, {features, fileName}) => {
+        const extents = state.featureExtents,
+            extent = createEmptyExtent();
+
+        for (let i = 0; i < features.length; i++) {
+            extend(extent, features[i].getGeometry().getExtent());
+        }
+
+        extents[fileName] = extent;
+        commit("setFeatureExtents", extents);
     },
 
     /**
@@ -156,8 +207,10 @@ export default {
     importKML: ({state, dispatch, rootGetters}, datasrc) => {
         const
             vectorLayer = datasrc.layer,
-            format = getFormat(datasrc.filename, state.selectedFiletype, state.supportedFiletypes, supportedFormats),
-            crsPropName = getCrsPropertyName(datasrc.raw);
+            fileName = datasrc.filename,
+            format = getFormat(fileName, state.selectedFiletype, state.supportedFiletypes, supportedFormats),
+            crsPropName = getCrsPropertyName(datasrc.raw),
+            customAttributes = {};
 
         let
             featureError = false,
@@ -169,7 +222,7 @@ export default {
         }
 
         if (format === false) {
-            const fileNameSplit = datasrc.filename.split("."),
+            const fileNameSplit = fileName.split("."),
                 fileFormat = fileNameSplit.length > 0 ? "*." + fileNameSplit[fileNameSplit.length - 1] : "unknown";
 
             alertingMessage = {
@@ -214,7 +267,7 @@ export default {
             console.warn(ex);
             alertingMessage = {
                 category: i18next.t("common:modules.alerting.categories.error"),
-                content: i18next.t("common:modules.tools.fileImport.alertingMessages.formatError", {filename: datasrc.filename})
+                content: i18next.t("common:modules.tools.fileImport.alertingMessages.formatError", {filename: fileName})
             };
 
             dispatch("Alerting/addSingleAlert", alertingMessage, {root: true});
@@ -224,7 +277,7 @@ export default {
         if (!Array.isArray(features) || features.length === 0) {
             alertingMessage = {
                 category: i18next.t("common:modules.alerting.categories.error"),
-                content: i18next.t("common:modules.tools.fileImport.alertingMessages.missingFileContent", {filename: datasrc.filename})
+                content: i18next.t("common:modules.tools.fileImport.alertingMessages.missingFileContent", {filename: fileName})
             };
 
             dispatch("Alerting/addSingleAlert", alertingMessage, {root: true});
@@ -232,7 +285,16 @@ export default {
         }
 
         features.forEach(feature => {
+            const featureAttributes = getParsedCustomAttributes(feature);
             let geometries;
+
+            feature.set("attributes", featureAttributes);
+            feature.setProperties(featureAttributes);
+            Object.keys(featureAttributes).forEach(key => {
+                if (!Object.prototype.hasOwnProperty.call(customAttributes, key)) {
+                    customAttributes[key] = key;
+                }
+            });
 
             if (feature.get("isGeoCircle")) {
                 const circleCenter = feature.get("geoCircleCenter").split(",").map(parseFloat),
@@ -275,28 +337,34 @@ export default {
                     }
 
                     geometry.transform(mappedCrsPropName, rootGetters["Maps/projectionCode"]);
+                    feature.set("source", fileName);
                 });
             }
         });
         features = checkIsVisibleSetting(features);
 
         vectorLayer.getSource().addFeatures(features);
+        vectorLayer.set("gfiAttributes", customAttributes);
 
         if (featureError) {
             alertingMessage = {
                 category: i18next.t("common:modules.alerting.categories.info"),
-                content: i18next.t("common:modules.tools.fileImport.alertingMessages.successPartly", {filename: datasrc.filename})
+                content: i18next.t("common:modules.tools.fileImport.alertingMessages.successPartly", {filename: fileName})
             };
         }
         else {
             alertingMessage = {
                 category: i18next.t("common:modules.alerting.categories.info"),
-                content: i18next.t("common:modules.tools.fileImport.alertingMessages.success", {filename: datasrc.filename})
+                content: i18next.t("common:modules.tools.fileImport.alertingMessages.success", {filename: fileName})
             };
         }
 
         dispatch("Alerting/addSingleAlert", alertingMessage, {root: true});
-        dispatch("addImportedFilename", datasrc.filename);
+        dispatch("addImportedFilename", fileName);
+
+        if (state.enableZoomToExtend && features.length) {
+            dispatch("setFeatureExtents", {features: features, fileName: fileName});
+        }
     },
 
     /**
@@ -308,16 +376,17 @@ export default {
      * @returns {void}
      */
     importGeoJSON: ({state, dispatch, rootGetters}, datasrc) => {
-        const
-            vectorLayer = datasrc.layer,
-            format = getFormat(datasrc.filename, state.selectedFiletype, state.supportedFiletypes, supportedFormats);
+        const vectorLayer = datasrc.layer,
+            fileName = datasrc.filename,
+            format = getFormat(fileName, state.selectedFiletype, state.supportedFiletypes, supportedFormats),
+            gfiAttributes = {};
 
         let
             alertingMessage,
             features;
 
         if (format === false) {
-            const fileNameSplit = datasrc.filename.split("."),
+            const fileNameSplit = fileName.split("."),
                 fileFormat = fileNameSplit.length > 0 ? "*." + fileNameSplit[fileNameSplit.length - 1] : "unknown";
 
             alertingMessage = {
@@ -336,7 +405,7 @@ export default {
             console.warn(ex);
             alertingMessage = {
                 category: i18next.t("common:modules.alerting.categories.error"),
-                content: i18next.t("common:modules.tools.fileImport.alertingMessages.formatError", {filename: datasrc.filename})
+                content: i18next.t("common:modules.tools.fileImport.alertingMessages.formatError", {filename: fileName})
             };
 
             dispatch("Alerting/addSingleAlert", alertingMessage, {root: true});
@@ -346,7 +415,7 @@ export default {
         if (!Array.isArray(features) || features.length === 0) {
             alertingMessage = {
                 category: i18next.t("common:modules.alerting.categories.error"),
-                content: i18next.t("common:modules.tools.fileImport.alertingMessages.missingFileContent", {filename: datasrc.filename})
+                content: i18next.t("common:modules.tools.fileImport.alertingMessages.missingFileContent", {filename: fileName})
             };
 
             dispatch("Alerting/addSingleAlert", alertingMessage, {root: true});
@@ -469,6 +538,12 @@ export default {
         features.forEach(feature => {
             let geometries;
 
+            if (isObject(feature.get("attributes"))) {
+                Object.keys(feature.get("attributes")).forEach(key => {
+                    gfiAttributes[key] = key;
+                });
+            }
+
             if (vectorLayer.getStyleFunction()(feature) !== undefined) {
                 feature.setStyle(vectorLayer.getStyleFunction()(feature));
             }
@@ -491,16 +566,25 @@ export default {
                 geometry.transform("EPSG:4326", rootGetters["Maps/projectionCode"]);
             });
 
+            feature.set("source", fileName);
             vectorLayer.getSource().addFeature(feature);
         });
 
+        if (!vectorLayer.get("gfiAttributes")) {
+            vectorLayer.set("gfiAttributes", gfiAttributes);
+        }
+
         alertingMessage = {
             category: i18next.t("common:modules.alerting.categories.info"),
-            content: i18next.t("common:modules.tools.fileImport.alertingMessages.success", {filename: datasrc.filename})
+            content: i18next.t("common:modules.tools.fileImport.alertingMessages.success", {filename: fileName})
         };
 
         dispatch("Alerting/addSingleAlert", alertingMessage, {root: true});
-        dispatch("addImportedFilename", datasrc.filename);
+        dispatch("addImportedFilename", fileName);
+
+        if (state.enableZoomToExtend && features.length) {
+            dispatch("setFeatureExtents", {features: features, fileName: fileName});
+        }
     },
     /**
      * Adds the name of a successfully imported file to list of imported filenames

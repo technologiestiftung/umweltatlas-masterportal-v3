@@ -1,4 +1,5 @@
 import {transform, get} from "ol/proj.js";
+import store from "../../../../app-store";
 
 export default {
     /**
@@ -18,6 +19,11 @@ export default {
         dispatch("registerListener", {type: "moveend", listener: "updateAttributes", listenerType: "dispatch"});
         dispatch("registerListener", {type: "click", listener: "updateClick", listenerType: "dispatch"});
 
+        if (rootState.configJson.Portalconfig.mapView?.twoFingerPan) {
+            window.addEventListener("touchmove", (event) => dispatch("oneFingerDragMessage", event));
+            window.addEventListener("touchend", (event) => dispatch("oneFingerDragMessageEnd", event));
+        }
+
         dispatch("setViewAttributes", map.getView());
 
         const layerIds = await dispatch("normalizeLayers", await map.getLayers().getArray()),
@@ -26,8 +32,8 @@ export default {
         // listen to featuresLoaded event to be able to determine if all features of a layer are completely loaded
         channel.on({"featuresLoaded": id => {
             commit("addLoadedLayerId", id);
-            if (rootState.urlParams["Map/highlightFeature"]) {
-                dispatch("highlightFeature", {type: "viaLayerIdAndFeatureId", layerIdAndFeatureId: rootState.urlParams["Map/highlightFeature"]});
+            if (rootState.urlParams["Maps/highlightFeature"]) {
+                dispatch("highlightFeature", {type: "viaLayerIdAndFeatureId", layerIdAndFeatureId: rootState.urlParams["Maps/highlightFeature"]});
             }
         }});
 
@@ -189,5 +195,41 @@ export default {
             layers,
             layerIds
         ];
+    },
+    /**
+     * Opens an alert Window to inform the user to use two fingers for panning
+     * @param {Object} param.state the state
+     * @param {Object} param.commit the commit
+     * @param {Event} event touchstart
+     * @returns {void}
+    */
+    oneFingerDragMessage ({state, commit}, event) {
+        if (!event) {
+            return;
+        }
+
+        if (event && event.targetTouches.length === 1 && !state.twoFingerPanStart) {
+            store.dispatch("Alerting/addSingleAlert", i18next.t("common:mapRegion.twoFingerPanAlert"));
+        }
+        else if (event.targetTouches.length === 2) {
+            commit("setTwoFingerPanStart", true);
+        }
+    },
+    /**
+     * Removes the touchmove and touchend event listeners added for the two finger pan alert message
+     * @param {Object} param.dispatch the dispatch
+     * @param {Object} param.commit the commit
+     * @param {Event} event touchend
+     * @returns {void}
+     */
+    oneFingerDragMessageEnd ({dispatch, commit}, event) {
+        if (!event) {
+            return;
+        }
+        if (event.targetTouches?.length === 0) {
+            commit("setTwoFingerPanStart", false);
+        }
+        window.removeEventListener("touchmove", dispatch("oneFingerDragMessage"));
+        window.removeEventListener("touchend", dispatch("oneFingerDragMessageEnd"));
     }
 };

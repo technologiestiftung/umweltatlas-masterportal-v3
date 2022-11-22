@@ -27,9 +27,12 @@ export default {
     minScale: 5000,
     saveTo: "void",
     layers: [],
+    layerGroups: [],
     rulesOfFilters: [],
     serializedString: "",
     selectedAccordions: [],
-    selectedCategories: [],
-    filtersHits: []
+    filtersHits: [],
+    filterGeometry: false,
+    geometryFeature: undefined,
+    jumpToId: undefined
 };

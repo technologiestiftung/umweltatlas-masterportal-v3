@@ -1,5 +1,6 @@
-import {getLayerWhere} from "@masterportal/masterportalapi/src/rawLayerList";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 import {getCenter} from "ol/extent";
+import createLayerAddToTreeModule from "../../../../utils/createLayerAddToTree";
 
 export default {
     /**
@@ -30,7 +31,7 @@ export default {
      * @param {String} featureIndex index of the clicked Feature
      * @returns {void}
      */
-    clickOnFeature ({state, commit, dispatch}, featureIndex) {
+    clickOnFeature ({state, commit, dispatch, rootGetters}, featureIndex) {
         if (featureIndex !== "" && featureIndex >= 0 && featureIndex <= state.shownFeatures) {
             const feature = state.gfiFeaturesOfLayer[featureIndex],
                 featureGeometry = state.rawFeaturesOfLayer[featureIndex].getGeometry(),
@@ -50,6 +51,9 @@ export default {
                     }
                     dispatch("Maps/setZoomLevel", styleObj.zoomLevel, {root: true});
                 }
+            }
+            if (rootGetters.treeHighlightedFeatures?.active) {
+                createLayerAddToTreeModule.createLayerAddToTree(state.layerId, [state.layer.features[featureIndex]], rootGetters.treeType, rootGetters.treeHighlightedFeatures);
             }
         }
     },
@@ -83,7 +87,7 @@ export default {
                 featureGeometryType = feat.getGeometry().getType();
                 return feat.getId().toString() === featureId;
             }),
-            rawLayer = getLayerWhere({id: state.layer.id}),
+            rawLayer = rawLayerList.getLayerWhere({id: state.layer.id}),
             styleObj = state.layer.geometryType.toLowerCase().indexOf("polygon") > -1 ? state.highlightVectorRulesPolygon : state.highlightVectorRulesPointLine,
             highlightObject = {
                 type: featureGeometryType === "Point" || featureGeometryType === "MultiPoint" ? "increase" : "highlightPolygon",

@@ -4,7 +4,7 @@ import getters from "../store/gettersFeatureLister";
 import actions from "../store/actionsFeatureLister";
 import mutations from "../store/mutationsFeatureLister";
 import ToolTemplate from "../../ToolTemplate.vue";
-import getComponent from "../../../../utils/getComponent";
+import {getComponent} from "../../../../utils/getComponent";
 import VectorLayer from "ol/layer/Vector.js";
 import {isPhoneNumber, getPhoneNumberAsWebLink} from "../../../../utils/isPhoneNumber.js";
 import beautifyKey from "../../../../utils/beautifyKey";
@@ -106,8 +106,8 @@ export default {
             const tableHeaders = await document.getElementsByClassName("feature-lister-list-table-th");
 
             try {
-                if (tableHeaders && typeof tableHeaders.forEach === "function") {
-                    tableHeaders.forEach(th_elem => {
+                if (tableHeaders?.length) {
+                    for (const th_elem of tableHeaders) {
                         let asc = true;
                         const index = Array.from(th_elem.parentNode.children).indexOf(th_elem);
 
@@ -129,7 +129,7 @@ export default {
                             });
                             asc = !asc;
                         });
-                    });
+                    }
                 }
             }
             catch (error) {
@@ -235,7 +235,7 @@ export default {
                         class="panel panel-default feature-lister-list"
                     >
                         <div
-                            class="table-responsive  feature-lister-list-table-container"
+                            class="table-responsive feature-lister-list-table-container"
                         >
                             <table
                                 id="feature-lister-list-table"
@@ -279,8 +279,7 @@ export default {
                         >
                             <button
                                 type="button"
-                                class="btn btn-default navbar-btn feature-lister-list-button"
-                                aria-label="Left Align"
+                                class="btn btn-primary navbar-btn feature-lister-list-button"
                                 :disabled="featureCount <= maxFeatures || shownFeatures === featureCount"
                                 @click="showMore()"
                             >

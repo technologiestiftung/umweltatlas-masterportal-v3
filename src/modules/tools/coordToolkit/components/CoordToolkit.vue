@@ -1,8 +1,8 @@
 <script>
 import ToolTemplate from "../../ToolTemplate.vue";
-import getComponent from "../../../../utils/getComponent";
+import {getComponent} from "../../../../utils/getComponent";
 import {Pointer} from "ol/interaction.js";
-import {getProjections} from "@masterportal/masterportalapi/src/crs";
+import crs from "@masterportal/masterportalapi/src/crs";
 import {mapGetters, mapActions, mapMutations} from "vuex";
 import getters from "../store/gettersCoordToolkit";
 import mutations from "../store/mutationsCoordToolkit";
@@ -138,7 +138,7 @@ export default {
          * @returns {void}
          */
         initProjections () {
-            const pr = getProjections(),
+            const pr = crs.getProjections(),
                 wgs84Proj = [];
 
             if (this.projections.length) {
@@ -157,12 +157,16 @@ export default {
                     const code = proj.name.substring(proj.name.indexOf("#") + 1, proj.name.length);
 
                     proj.title = proj.title + " (EPSG:" + code + ")";
+                    proj.epsg = "EPSG:" + code;
                 }
                 else if (typeof proj.title !== "undefined") {
                     proj.title = proj.title + " (" + proj.name + ")";
                 }
                 else {
                     proj.title = proj.name;
+                }
+                if (proj.id === this.currentProjection.id) {
+                    this.setCurrentProjection(proj);
                 }
             });
             if (wgs84Proj.length > 0) {
@@ -185,9 +189,11 @@ export default {
                 wgs84ProjDez[key] = wgs84Proj[0][key];
             }
 
-            wgs84ProjDez.name = "EPSG:4326";
-            wgs84ProjDez.id = "EPSG:4326-DG";
+            wgs84ProjDez.name = "EPSG:4326-DG";
+            wgs84ProjDez.epsg = "EPSG:4326";
+            wgs84ProjDez.id = "http://www.opengis.net/gml/srs/epsg.xml#4326-DG";
             wgs84ProjDez.title = "WGS 84 (Dezimalgrad) (EPSG:4326)";
+            wgs84ProjDez.getCode = () => "EPSG:4326-DG";
             projections.splice(index + 1, 0, wgs84ProjDez);
         },
         /**
@@ -200,7 +206,7 @@ export default {
                 this.removeInteractionFromMap(this.selectPointerMove);
                 this.setSelectPointerMove(null);
             }
-            if (this.mapMode === "3D" && this.eventHandler) {
+            if (this.mapMode === "3D" && this.eventHandler && typeof this.eventHandler.removeInputAction === "function") {
                 this.eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
             }
         },
@@ -683,7 +689,7 @@ export default {
 
     @media (max-width: 767px) {
         .checkbox-container .form-inline {
-            font-size: 12px;
+            font-size: $font-size-base;
         }
     }
     .radio-container{
@@ -737,7 +743,7 @@ export default {
         transform: translate(0px, -75px)
     }
     #copyCoordsPairBtn{
-        height: 85px;
+        height: 91px;
         position: absolute;
     }
     .copyBtn{
@@ -752,6 +758,9 @@ export default {
         .northingToTopNoError{
             transform: translate(0px, -70px)
         }
+    }
+    .form-control[readonly] {
+        background-color: $light-grey;
     }
 </style>
 

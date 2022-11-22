@@ -1,5 +1,5 @@
 import {fetchFirstModuleConfig} from "../../utils/fetchFirstModuleConfig";
-import getComponent from "../../utils/getComponent";
+import {getComponent} from "../../utils/getComponent";
 import upperFirst from "../../utils/upperFirst";
 
 
@@ -24,7 +24,7 @@ const actions = {
                 dispatch("activateToolInModelList", {tool: "Gfi", active: !state[toolId].deactivateGFI});
             }
         }
-        else if (toolId === keepOpenToolId) {
+        else if (toolId !== undefined && toolId === keepOpenToolId) {
             dispatch("controlActivationOfTools", {id: state[toolId].id, name: state[toolId].name, active: true});
             commit(toolId + "/setActive", true);
         }

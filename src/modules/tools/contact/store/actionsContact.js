@@ -1,7 +1,7 @@
 import {createMessage, createSubject, createTicketId} from "../utils/createFunctions";
-import httpClient from "../utils/httpClient";
+import {getComponent} from "../../../../utils/getComponent";
+import httpClientModule from "../utils/httpClient";
 import getSystemInfo from "../utils/getSystemInfo";
-import getComponent from "../../../../utils/getComponent";
 
 const actions = {
     /**
@@ -84,7 +84,7 @@ const actions = {
         }
 
         // Show the loader when the dispatch of the e-mail is initiated.
-        httpClient(
+        httpClientModule.httpClient(
             mailServiceUrl,
             {
                 from,

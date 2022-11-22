@@ -92,6 +92,8 @@ const symbol = {
      * @property {Number} writeTextSettings.opacity The opacity of the color of the drawn features. NOTE: The values of the transparencySettings are opacity values.
      * @property {Number} initialWidth Size of the sidebar when opening.
      * @property {Number} initialWidthMobile Mobile size of the sidebar when opening.
+     * @property {String[]} attributesKeyList the attributes' key list
+     * @property {Boolean} semicolonCSVDelimiter to decide if semicolon is used as downloaded csv delimiter.
      */
     state = {
         active: false,
@@ -109,7 +111,7 @@ const symbol = {
             file: "",
             fileName: "",
             fileUrl: "",
-            formats: ["KML", "GEOJSON", "GPX"], // NOTE(roehlipa): If this can't be configured, then it may be moved out of the state IMO.
+            formats: ["KML", "GEOJSON", "GPX", "CSV"], // NOTE(roehlipa): If this can't be configured, then it may be moved out of the state IMO.
             preSelectedFormat: "",
             selectedFormat: ""
         },
@@ -119,6 +121,7 @@ const symbol = {
             id: "drawSymbol",
             geometry: "Point"
         },
+        enableAttributesSelector: false,
         fId: 0,
         filterList: null,
         freeHand: false,
@@ -138,6 +141,7 @@ const symbol = {
         isVisibleInMenu: true,
         layer: null,
         modifyInteraction: null,
+        modifyAttributesInteraction: null,
         outerBorderColor: "",
         pointSize: 16,
         redoArray: [],
@@ -146,6 +150,7 @@ const symbol = {
         resizableWindow: true,
         selectInteraction: null,
         selectInteractionModify: null,
+        selectInteractionModifyAttributes: null,
         selectedFeature: null,
         symbol,
         tooltipCircleRadiusNode: null,
@@ -214,7 +219,10 @@ const symbol = {
             opacity: 1
         },
         initialWidth: 500,
-        initialWidthMobile: 300
+        initialWidthMobile: 300,
+        attributesKeyList: [],
+        semicolonCSVDelimiter: true,
+        oldStyle: undefined
     };
 
 export default state;

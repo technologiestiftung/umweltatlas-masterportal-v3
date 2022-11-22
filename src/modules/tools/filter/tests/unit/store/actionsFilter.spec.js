@@ -8,7 +8,8 @@ const {
     updateFilterHits,
     serializeState,
     setRulesArray,
-    deserializeState
+    deserializeState,
+    jumpToFilter
 } = actions;
 
 describe("tools/filter/store/actionsFilter", () => {
@@ -85,12 +86,14 @@ describe("tools/filter/store/actionsFilter", () => {
     describe("serializeState", () => {
         it("serialize the state", done => {
             const rulesOfFilters = state.rulesOfFilters,
-                selectedCategories = state.selectedCategories,
                 selectedAccordions = state.selectedAccordions,
+                geometryFeature = {},
+                geometrySelectorOptions = state.geometrySelectorOptions,
                 result = {
                     rulesOfFilters,
-                    selectedCategories,
-                    selectedAccordions
+                    selectedAccordions,
+                    geometryFeature,
+                    geometrySelectorOptions
                 },
                 serializiedString = JSON.stringify(result);
 
@@ -105,18 +108,33 @@ describe("tools/filter/store/actionsFilter", () => {
         it("deserialize the state", done => {
             const rulesOfFilters = [],
                 selectedAccordions = [],
-                selectedCategories = [],
+                geometryFeature = {},
+                geometrySelectorOptions = {
+                    invertGeometry: true
+                },
                 payload = {
                     rulesOfFilters,
-                    selectedCategories,
-                    selectedAccordions
+                    selectedAccordions,
+                    geometryFeature,
+                    geometrySelectorOptions
                 };
 
             testAction(deserializeState, payload, state, {}, [
                 {type: "setRulesArray", payload: {rulesOfFilters}, dispatch: true},
-                {type: "setSelectedCategories", payload: selectedCategories, commit: true},
                 {type: "setSelectedAccordions", payload: selectedAccordions, commit: true},
+                {type: "setGeometryFilterByFeature", payload: {jsonFeature: geometryFeature, invert: true}, dispatch: true},
+                {type: "setGeometrySelectorOptions", payload: geometrySelectorOptions, commit: true},
                 {type: "setActive", payload: true, commit: true}
+            ], {}, done);
+        });
+    });
+    describe("jumpToFilter", () => {
+        it("sets the jumpToId property", done => {
+            const payload = {filterId: 0};
+
+            testAction(jumpToFilter, payload, state, {}, [
+                {type: "setActive", payload: true, commit: true},
+                {type: "setJumpToId", payload: payload.filterId, commit: true}
             ], {}, done);
         });
     });

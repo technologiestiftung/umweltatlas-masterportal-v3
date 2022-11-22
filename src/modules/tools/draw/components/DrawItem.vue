@@ -2,8 +2,9 @@
 import * as constants from "../store/constantsDraw";
 import DownloadItem from "../components/DownloadItem.vue";
 import DrawItemFeaturesFilter from "./DrawItemFeaturesFilter.vue";
+import DrawItemAttributes from "./DrawItemAttributes.vue";
 
-import getComponent from "../../../../utils/getComponent";
+import {getComponent} from "../../../../utils/getComponent";
 import {listenToUpdatedSelectedLayerList} from "../utils/RadioBridge";
 
 import {mapActions, mapGetters, mapMutations} from "vuex";
@@ -13,6 +14,7 @@ export default {
     name: "DrawItem",
     components: {
         DrawItemFeaturesFilter,
+        DrawItemAttributes,
         DownloadItem,
         ToolTemplate
     },
@@ -399,7 +401,7 @@ export default {
             this.mapElement.onmouseup = this.onMouseUp;
         },
         setCanvasCursorByInteraction (interaction) {
-            if (interaction === "modify" || interaction === "delete") {
+            if (interaction === "modify" || interaction === "delete" || interaction === "modifyAttributes") {
                 this.setCanvasCursor("pointer");
             }
             else {
@@ -430,6 +432,14 @@ export default {
                 return option.id;
             }
             return "noName";
+        },
+        /**
+         * Updates the attributes' key list.
+         * @param {String[]} keyList The attributes' key list
+         * @returns {void}
+         */
+        updateAttributesKeyList (keyList) {
+            this.setAttributesKeyList(keyList);
         }
     }
 };
@@ -467,8 +477,11 @@ export default {
                     </div>
                 </div>
             </div>
-            <hr>
-            <div class="form-group form-group-sm">
+            <div
+                v-if="currentInteraction !== 'modifyAttributes'"
+                class="form-group form-group-sm"
+            >
+                <hr>
                 <div class="row">
                     <label
                         for="tool-draw-drawType"
@@ -506,7 +519,18 @@ export default {
                     :features="featuresFromDrawTool"
                 />
             </template>
+            <template
+                v-if="enableAttributesSelector && currentInteraction === 'modifyAttributes'"
+            >
+                <DrawItemAttributes
+                    :selected-feature="selectedFeature"
+                    :layer="layer"
+                    :attributes-key-list="attributesKeyList"
+                    @updateAttributesKeyList="updateAttributesKeyList"
+                />
+            </template>
             <form
+                v-if="currentInteraction !== 'modifyAttributes'"
                 class="form-horizontal"
                 role="form"
                 @submit.prevent
@@ -991,6 +1015,25 @@ export default {
                         </button>
                     </div>
                 </div>
+                <div
+                    v-if="enableAttributesSelector"
+                    class="form-group form-group-sm row"
+                >
+                    <div class="col-12 d-grid gap-2">
+                        <button
+                            id="tool-draw-editInteraction"
+                            class="btn btn-sm"
+                            :class="currentInteraction === 'modifyAttributes' ? 'btn-primary' : 'btn-secondary'"
+                            :disabled="!drawLayerVisible || currentInteraction === 'modifyAttributes'"
+                            @click="toggleInteraction('modifyAttributes'); setCanvasCursorByInteraction('modifyAttributes')"
+                        >
+                            <span class="bootstrap-icon">
+                                <i class="bi-wrench" />
+                            </span>
+                            {{ $t("common:modules.tools.draw.button.editAttributes") }}
+                        </button>
+                    </div>
+                </div>
                 <div class="form-group form-group-sm row">
                     <div class="col-12 d-grid gap-2">
                         <button
@@ -1035,5 +1078,8 @@ export default {
     }
     .cursor-crosshair {
         cursor: crosshair;
+    }
+    .btn-sm {
+        font-size: $font-size-base;
     }
 </style>

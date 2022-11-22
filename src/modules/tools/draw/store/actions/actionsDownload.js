@@ -2,6 +2,8 @@ import {Circle} from "ol/geom.js";
 import {fromCircle} from "ol/geom/Polygon.js";
 import {GeoJSON, GPX} from "ol/format.js";
 import convertFeaturesToKml from "../../../../../../src/utils/convertFeaturesToKml.js";
+import {convertJsonToCsv} from "../../../../../utils/convertJsonToCsv";
+import {setCsvAttributes} from "../../utils/setCsvAttributes.js";
 
 import {transform, transformPoint, transformGeometry} from "../../utils/download/transformGeometry";
 
@@ -43,7 +45,7 @@ function fileDownloaded ({state, commit}) {
  *
  * @returns {void}
  */
-async function prepareData ({state, commit, dispatch}) {
+async function prepareData ({state, commit, dispatch, rootGetters}) {
     let features = "";
 
     switch (state.download.selectedFormat) {
@@ -55,6 +57,11 @@ async function prepareData ({state, commit, dispatch}) {
             break;
         case "KML":
             features = await convertFeaturesToKml(state.download.features);
+            break;
+        case "CSV":
+            features = setCsvAttributes(state.download.features, rootGetters["Maps/projection"].getCode());
+
+            features = Array.isArray(features) ? convertJsonToCsv(features.map(feature => feature.get("attributes")), false, state.semicolonCSVDelimiter) : "";
             break;
         case "none":
             commit("setDownloadSelectedFormat", "");
@@ -112,6 +119,13 @@ function setDownloadFeatures ({state, commit, dispatch, rootGetters}) {
         // If the feature is invisible from filter, the style will be reset by printing.
         if (!feature.get("isVisible") && feature.get("invisibleStyle")) {
             feature.setStyle(feature.get("invisibleStyle"));
+        }
+
+        if (state.oldStyle && typeof state.selectedFeature?.get === "function"
+            && drawnFeature.get("styleId") === state.selectedFeature.get("styleId")
+            && (typeof drawnFeature.get("styleId") === "number" || typeof drawnFeature.get("styleId") === "string")
+        ) {
+            feature.setStyle(state.oldStyle);
         }
 
         if (geometry instanceof Circle) {

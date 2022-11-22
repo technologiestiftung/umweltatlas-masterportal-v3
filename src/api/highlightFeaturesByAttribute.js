@@ -7,7 +7,8 @@ import {Style} from "ol/style.js";
 import Point from "ol/geom/Point.js";
 import Feature from "ol/Feature.js";
 import axios from "axios";
-import {getLayerList} from "@masterportal/masterportalapi/src/rawLayerList";
+import createLayerAddToTreeModule from "../utils/createLayerAddToTree";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 
 export default {
     /**
@@ -46,12 +47,13 @@ export default {
 
     /**
      * highlight Features for Points
-     * @param {String} modelId The model Id
-     * @param {String} styleId The style Id
-     * @param {String} name Layer name
-     * @param {Object} gfiAttributes GFI attributes configuration
+     * @param {String} styleId The styleId of the highlight-layer to create
+     * @param {String} layerId The id of the highlight-layer to create
+     * @param {String} name The name of the highlight-layer to create
+     * @param {Object} rawLayer the raw layer
      * @param {Array} features The loaded WFS features
      * @param {Function} dispatch dispatch function
+     * @param {Function} rootGetters rootGetters function
      * @returns {void}
     */
     highlightPointFeature: function (modelId, styleId, name, gfiAttributes, features, dispatch) {
@@ -75,23 +77,40 @@ export default {
                 highlightLayer.getSource().addFeature(iconFeature);
             }
         });
-
         if (hadPoint) {
-            highlightLayer.setVisible(true);
-            dispatch("Maps/addLayerOnTop", highlightLayer, {root: true});
-            dispatch("Maps/zoomToExtent", {extent: highlightLayer.getSource().getExtent()}, {root: true});
+            this.showLayer(rawLayer, highlightLayer, dispatch, rootGetters);
         }
     },
 
     /**
+     * Creates a new layer with features and shows it in tree.
+     * @param {Object} rawLayer the raw layer
+     * @param {Object} highlightLayer new layer containing features to highlight
+     * @param {Function} dispatch dispatch function
+     * @param {Function} rootGetters rootGetters function
+     * @returns {void}
+     */
+    showLayer: function (rawLayer, highlightLayer, dispatch, rootGetters) {
+        if (rootGetters.treeHighlightedFeatures?.active) {
+            createLayerAddToTreeModule.createLayerAddToTree(rawLayer.id, highlightLayer.getSource().getFeatures(), rootGetters.treeType, rootGetters.treeHighlightedFeatures);
+        }
+        else {
+            highlightLayer.setVisible(true);
+        }
+        dispatch("Maps/addLayerOnTop", highlightLayer, {root: true});
+        dispatch("Maps/zoomToExtent", {extent: highlightLayer.getSource().getExtent()}, {root: true});
+    },
+
+    /**
      * highlight Features / Line and Polygon
-     * @param {String} modelId The model Id
-     * @param {String} styleId The style Id
-     * @param {String} name Layer name
+     * @param {String} styleId The styleId of the highlight-layer to create
+     * @param {String} layerId The id of the highlight-layer to create
+     * @param {String} name The name of the highlight-layer to create
      * @param {String} geometryRequested Polygon or LineString
-     * @param {Object} gfiAttributes GFI attributes configuration
+     * @param {Object} rawLayer the raw layer
      * @param {Array} features The loaded WFS features
      * @param {Function} dispatch dispatch function
+     * @param {Function} rootGetters rootGetters function
      * @returns {void}
     */
     highlightLineOrPolygonFeature: function (modelId, styleId, name, geometryRequested, gfiAttributes, features, dispatch) {
@@ -116,9 +135,7 @@ export default {
         });
 
         if (hadGeometry) {
-            highlightLayer.setVisible(true);
-            dispatch("Maps/addLayerOnTop", highlightLayer, {root: true});
-            dispatch("Maps/zoomToExtent", {extent: highlightLayer.getSource().getExtent()}, {root: true});
+            this.showLayer(rawLayer, highlightLayer, dispatch, rootGetters);
         }
     },
 
@@ -136,11 +153,12 @@ export default {
     /**
      * handles the response from a wfs get feature request
      * @param {Function} dispatch dispatch function
+     * @param {Function} rootGetters rootGetters function
      * @param {string} response - XML to be sent as String
      * @param {Object} highlightFeaturesLayer The configuration for the Layer.
      * @returns {void}
     */
-    handleGetFeatureResponse: function (dispatch, response, highlightFeaturesLayer) {
+    handleGetFeatureResponse: function (dispatch, rootGetters, response, highlightFeaturesLayer) {
         if (response.status !== 200) {
             console.warn(response.status);
             dispatch("Alerting/addSingleAlert", i18next.t("common:modules.highlightFeaturesByAttribute.messages.requestFailed"), {root: true});
@@ -160,9 +178,9 @@ export default {
             }
         }
 
-        this.highlightPointFeature(this.settings.pointStyleId, "highlight_point_layer", "highlightPoint", highlightFeaturesLayer.gfiAttributes, features, dispatch);
-        this.highlightLineOrPolygonFeature(this.settings.polygonStyleId, "highlight_polygon_layer", "highlightPolygon", "Polygon", highlightFeaturesLayer.gfiAttributes, features, dispatch);
-        this.highlightLineOrPolygonFeature(this.settings.lineStyleId, "highlight_line_layer", "highlightLine", "LineString", highlightFeaturesLayer.gfiAttributes, features, dispatch);
+        this.highlightPointFeature(this.settings.pointStyleId, "highlight_point_layer", "highlightPoint", highlightFeaturesLayer, features, dispatch, rootGetters);
+        this.highlightLineOrPolygonFeature(this.settings.polygonStyleId, "highlight_polygon_layer", "highlightPolygon", "Polygon", highlightFeaturesLayer, features, dispatch, rootGetters);
+        this.highlightLineOrPolygonFeature(this.settings.lineStyleId, "highlight_line_layer", "highlightLine", "LineString", highlightFeaturesLayer, features, dispatch, rootGetters);
     },
 
     /**
@@ -191,6 +209,43 @@ export default {
                 <ogc:Literal>${wildCard}${propValue}${wildCard}</ogc:Literal>
             </ogc:PropertyIsLike>`;
         }
+        return result;
+    },
+
+    /**
+     * builds the filter snippet for isin property searching
+     * @param {String} valueDelimiter the configured value delimiter character
+     * @param {String} wildCard the configured wildCard character
+     * @param {String} singleChar the configured singleChar character
+     * @param {String} escapeChar the configured escapeChar character
+     * @param {String} propPrefix the configured search prefix (e.g. app:)
+     * @param {String} propName the property/type-Name
+     * @param {String} propValue the value to search for (,-separated)
+     * @returns {String} query snippet
+    */
+    getOGCFilterSnippetIn: function (valueDelimiter, wildCard, singleChar, escapeChar, propPrefix, propName, propValue) {
+        let result = "",
+            value = "",
+            delimiter = ";";
+
+        if (valueDelimiter !== undefined && valueDelimiter.length === 1) {
+            delimiter = valueDelimiter;
+        }
+        const valueItems = propValue.split(delimiter);
+
+        if (valueItems.length >= 2) {
+            result += "<ogc:Or>";
+        }
+        for (value of valueItems) {
+            result += `<ogc:PropertyIsEqualTo matchCase='false' wildCard='${wildCard}' singleChar='${singleChar}' escapeChar='${escapeChar}'>
+                <ogc:PropertyName>${propPrefix}${propName}</ogc:PropertyName>
+                <ogc:Literal>${value}</ogc:Literal>
+            </ogc:PropertyIsEqualTo>`;
+        }
+        if (valueItems.length >= 2) {
+            result += "</ogc:Or>";
+        }
+
         return result;
     },
 
@@ -248,25 +303,38 @@ export default {
     /**
      * highlight Features by Attributes
      * @param {Object} dispatch dispatch function
+     * @param {Object} rootGetters rootGetters function
      * @param {String} wfsId the WFS Id
      * @param {String} propName the queried property name
      * @param {String} propValue the queried property value
      * @param {String} queryType the query type
      * @returns {void}
     */
-    highlightFeaturesByAttribute: function (dispatch, wfsId, propName, propValue, queryType) {
-        const layerList = getLayerList(),
+    highlightFeaturesByAttribute: function (dispatch, rootGetters, wfsId, propName, propValue, queryType) {
+        const layerList = rawLayerList.getLayerList(),
             layer = layerList.find(layerConf => layerConf.id === wfsId),
             isEqual = queryType && queryType.toLowerCase() === "isequal",
+            isIn = queryType && queryType.toLowerCase() === "isin",
             filterSnippet = this.getOGCFilterSnippet(isEqual,
                 layer?.wildCard,
                 layer?.singleChar,
                 layer?.escapeChar,
                 layer?.featurePrefix,
                 propName,
-                propValue),
-            requestBody = this.getWFSQuery(layer?.featureType, layer?.version, filterSnippet);
+                propValue);
+        let requestBody = this.getWFSQuery(layer?.featureType, layer?.version, filterSnippet);
 
+        if (isIn) {
+            const filterSnippetIn = this.getOGCFilterSnippetIn(layer?.valueDelimiter,
+                layer?.wildCard,
+                layer?.singleChar,
+                layer?.escapeChar,
+                layer?.featurePrefix,
+                propName,
+                propValue);
+
+            requestBody = this.getWFSQuery(layer?.featureType, layer?.version, filterSnippetIn);
+        }
         if (this.configHasErrors(layer, wfsId)) {
             dispatch("Alerting/addSingleAlert", i18next.t("common:modules.highlightFeaturesByAttribute.messages.configurationError"), {root: true});
             return;
@@ -278,7 +346,7 @@ export default {
             timeout: layer?.timeout
         })
             .then(response => {
-                this.handleGetFeatureResponse(dispatch, response, layer);
+                this.handleGetFeatureResponse(dispatch, rootGetters, response, layer);
             })
             .catch(error => this.handleGetFeatureError(dispatch, error));
     }

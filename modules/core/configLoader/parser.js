@@ -1,6 +1,6 @@
 import Backbone from "backbone";
 import ModelList from "../modelList/list";
-import {getLayerList} from "@masterportal/masterportalapi/src/rawLayerList";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 import store from "../../../src/app-store/index";
 
 const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
@@ -51,6 +51,7 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
      * @listens Core.ConfigLoader#RadioRequestParserGetItemsByMetaID
      * @listens Core.ConfigLoader#RadioRequestParserGetSnippetInfos
      * @listens Core.ConfigLoader#RadioRequestParserGetInitVisibBaselayer
+     * @listens Core.ConfigLoader#RadioRequestParserGetOverlayer
      * @listens Core.ConfigLoader#RadioTriggerParsersetCategory
      * @listens Core.ConfigLoader#RadioTriggerParserAddItem
      * @listens Core.ConfigLoader#RadioTriggerParserAddItemAtTop
@@ -98,6 +99,9 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
                     return this.get("extendedLayerIdAssoc")[layerId];
                 }
                 return layerId;
+            },
+            "getOverlayer": function () {
+                return this.get("overlayer");
             }
         }, this);
 
@@ -118,7 +122,7 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
             "change:category": function () {
                 this.setItemList([]);
                 this.addTreeMenuItems();
-                this.parseTree(getLayerList());
+                this.parseTree(rawLayerList.getLayerList());
                 Radio.trigger("ModelList", "removeModelsByParentId", "tree");
                 Radio.trigger("ModelList", "renderTree");
                 Radio.trigger("ModelList", "setModelAttributesById", "Overlayer", {isExpanded: true});
@@ -155,7 +159,7 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
         }
         else {
             this.addTreeMenuItems();
-            this.parseTree(getLayerList(), this.get("overlayer_3d"), this.get("overlayer_time"));
+            this.parseTree(rawLayerList.getLayerList(), this.get("overlayer_3d"), this.get("overlayer_time"));
         }
         this.createModelList();
     },
@@ -360,7 +364,8 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
      * @returns {void}
      */
     addLayer: function (name, id, parentId, level, layers, url, version, {transparent = true, isSelected = false, time = false,
-        styles = "", legendURL = "", gfiAttributes = "showAll", featureCount = 3}) {
+        styles = "", legendURL = "", gfiAttributes = "showAll", featureCount = 3, maxScale = "2500000",
+        minScale = "0"}) {
         const layer = {
             id,
             name,
@@ -382,8 +387,8 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
             gutter: "0",
             isBaseLayer: false,
             layerAttribution: "nicht vorhanden",
-            maxScale: "2500000",
-            minScale: "0",
+            maxScale,
+            minScale,
             singleTile: false,
             supported: ["2D", "3D"],
             tilesize: "512",

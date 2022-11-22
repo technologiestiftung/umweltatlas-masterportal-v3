@@ -34,12 +34,6 @@
  */
 
 /**
- * @namespace ButtonOblique
- * @memberof Controls
- * @description Button to activate oblique pictures.
- */
-
-/**
  * @namespace Freeze
  * @memberof Controls
  * @description Button to freeze the current view of the application. Useful to avoid accidentally change of map e.g. on a touch table.
@@ -481,12 +475,6 @@
  */
 
 /**
- * @namespace StyleWMS
- * @memberof Tools
- * @description Tool that can modify wms tiles on request using an SLD-BODY
- */
-
-/**
  * @namespace StyleVT
  * @memberof Tools
  * @description Tool that can modify vtl styles with external style documents
@@ -523,11 +511,6 @@
 /**
  * @namespace WfsFeatureFilter
  * @description Filters features of included WFS-layers
- */
-
-/**
- * @namespace WfsTransaction
- * @description Serves transactional WFS (WFS-T).
  */
 
 /**

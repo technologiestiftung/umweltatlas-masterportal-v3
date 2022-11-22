@@ -6,7 +6,7 @@ import ScaleLine from "../../scaleLine/components/ScaleLine.vue";
 import LanguageItem from "../../language/components/LanguageItem.vue";
 import MousePosition from "../../controls/mousePosition/components/MousePosition.vue";
 import store from "../../../app-store/index";
-import getComponent from "../../../utils/getComponent";
+import {getComponent} from "../../../utils/getComponent";
 
 /**
  * Footer that is displayed below the map. The version of the masterportal and links can be displayed here.
@@ -53,13 +53,14 @@ export default {
          * @returns {void}
          */
         toggleTool (toolModelId, event) {
-            let model;
+            let model, active;
 
             if (toolModelId) {
                 if (store.state.Tools[toolModelId]) {
                     model = getComponent(store.state.Tools[toolModelId].id);
+                    active = store.getters["Tools/" + toolModelId + "/active"];
                     Radio.trigger("ModelList", "setActiveToolsToFalse", store.getters["Tools/getActiveToolNames"]);
-                    store.dispatch("Tools/setToolActive", {id: toolModelId, active: !model.attributes.isActive});
+                    store.commit("Tools/" + toolModelId + "/setActive", !active);
                 }
                 else {
                     model = Radio.request("ModelList", "getModelByAttributes", {id: toolModelId});
@@ -68,7 +69,7 @@ export default {
                     if (event) {
                         event.preventDefault();
                     }
-                    model.setIsActive(!model.attributes.isActive);
+                    model.setIsActive(!active);
                 }
             }
         },
@@ -305,7 +306,7 @@ export default {
 
         font-family: $font_family_narrow;
         color: $secondary_contrast;
-        font-size: $font_size_tiny;
+        font-size: $font-size-sm;
 
         box-shadow: 0 -6px 12px $shadow;
         padding: 4px 10px;
@@ -370,13 +371,13 @@ export default {
 
                 p.info-top-titel {
                     color: $light_grey_inactive_contrast;
-                    font-size: $font_size_huge;
+                    font-size: $font-size-lg;
                     margin-bottom: 1rem;
                 }
                 p.info-top-text {
                     color: $light_grey_inactive_contrast;
                     margin-bottom: 1rem;
-                    font-size: $font_size_default;
+                    font-size: $font-size-base;
                 }
             }
             .info-bottom {
@@ -397,7 +398,7 @@ export default {
                 }
                 p.info-bottom-text {
                     color: $light_grey_inactive_contrast;
-                    font-size: $font_size_default;
+                    font-size: $font-size-base;
                     line-height: inherit;
                 }
             }

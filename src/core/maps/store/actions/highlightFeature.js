@@ -78,8 +78,8 @@ function highlightLine (commit, dispatch, highlightObject) {
         if (originalStyle) {
             const clonedStyle = Array.isArray(originalStyle) ? originalStyle[0].clone() : originalStyle.clone();
 
-            commit("addHighlightedFeature", feature);
-            commit("addHighlightedFeatureStyle", feature.getStyle());
+            commit("Maps/addHighlightedFeature", feature, {root: true});
+            commit("Maps/addHighlightedFeatureStyle", feature.getStyle(), {root: true});
 
             if (newStyle.stroke?.width) {
                 clonedStyle.getStroke().setWidth(newStyle.stroke.width);
@@ -125,7 +125,7 @@ function highlightViaParametricUrl (dispatch, getters, layerIdAndFeatureId) {
  * @returns {ol/feature} feature to highlight
  */
 function getHighlightFeature (layerId, featureId, getters) {
-    const layer = getters.getLayerById(layerId)?.olLayer;
+    const layer = getters.getLayerById({layerId});
 
     if (layer) {
         return layer.getSource().getFeatureById(featureId)
@@ -146,9 +146,19 @@ function increaseFeature (commit, getters, highlightObject) {
     const scaleFactor = highlightObject.scale ? highlightObject.scale : 1.5,
         feature = highlightObject.feature // given already
             ? highlightObject.feature
-            : getHighlightFeature(highlightObject.layer?.id, highlightObject.id, getters), // get feature from layersource, incl. check against clustered features
-        clonedStyle = styleObject(highlightObject, feature) ? styleObject(highlightObject, feature).clone() : feature.getStyle()?.clone(),
-        clonedImage = clonedStyle ? clonedStyle.getImage() : undefined;
+            : getHighlightFeature(highlightObject.layer?.id, highlightObject.id, getters); // get feature from layersource, incl. check against clustered features
+    let clonedStyle = styleObject(highlightObject, feature) ? styleObject(highlightObject, feature).clone() : null,
+        clonedImage = null;
+
+    if (!clonedStyle) {
+        if (typeof feature.getStyle()?.clone === "function") {
+            clonedStyle = feature.getStyle()?.clone();
+        }
+        else {
+            clonedStyle = {...feature.getStyle()};
+        }
+    }
+    clonedImage = clonedStyle && typeof clonedStyle.getImage === "function" ? clonedStyle.getImage() : undefined;
 
     if (clonedImage) {
         commit("Maps/setHighlightedFeatures", [feature], {root: true});
@@ -158,7 +168,7 @@ function increaseFeature (commit, getters, highlightObject) {
             clonedStyle.getText().setScale(scaleFactor);
         }
         clonedImage.setScale(clonedImage.getScale() * scaleFactor);
-        if (highlightObject.highlightStyle.fill && highlightObject.highlightStyle.fill.color) {
+        if (highlightObject?.highlightStyle?.fill && highlightObject?.highlightStyle?.fill?.color) {
             clonedImage.getFill().setColor(highlightObject.highlightStyle.fill.color);
         }
         feature.setStyle(clonedStyle);

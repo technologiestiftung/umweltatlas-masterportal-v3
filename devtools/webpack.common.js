@@ -74,30 +74,18 @@ module.exports = function () {
         stats: {
             all: false,
             colors: true,
+            warnings: true,
             errors: true,
             errorDetails: true
-            // assets: true
-            // chunkModules: true
+            // comment in for detailed logging in console
+            // logging: "verbose",
+            // modules: true,
+            // moduleTrace: true,
+            // reasons: true,
+            // performance: true,
+            // timings: true,
             // entrypoints: true
-            // modules: true
-            // outputPath: true
         },
-        /*
-        optimization: {
-            splitChunks: {
-                minSize: 0,
-                maxInitialRequests: Infinity,
-                cacheGroups: {
-                    vendor: {
-                        test: /node_modules/,
-                        chunks: "all",
-                        name: "vendor"
-                        enforce: true
-                    }
-                }
-            }
-        },
-        */
         output: {
             path: path.resolve(__dirname, "../build/"),
             filename: "js/[name].js",
@@ -111,6 +99,21 @@ module.exports = function () {
         },
         module: {
             rules: [
+                // replace untransformable code in olcs-package
+                {
+                    test: /\.js$/,
+                    include: [
+                        path.resolve(__dirname, "../node_modules/olcs/util"),
+                        path.resolve(__dirname, "../node_modules/olcs/core")
+                    ],
+                    use: {
+                        loader: "string-replace-loader",
+                        options: {
+                            search: "const exports = {};",
+                            replace: "var exports = {};"
+                        }
+                    }
+                },
                 // ignore all files ending with ".test.js".
                 {
                     test: /\.(test|spec)\.js$/,
@@ -118,12 +121,19 @@ module.exports = function () {
                         loader: "null-loader"
                     }
                 },
-                // take all files ending with ".js" but not with ".test.js".
+                // take all files ending with ".js" but not with ".test.js" or ".spec.js"
                 {
                     test: /\.js$/,
-                    exclude: /\bcore-js\b|\.(test|spec)\.js$/,
+                    exclude: /\.(test|spec)\.js$/,
                     use: {
-                        loader: "babel-loader"
+                        loader: "esbuild-loader",
+                        options: {
+                            loader: "js",
+                            sourcemap: true,
+                            target: "es2015",
+                            format: "cjs",
+                            platform: "node"
+                        }
                     }
                 },
                 {
@@ -151,7 +161,7 @@ module.exports = function () {
                     loader: "vue-loader",
                     options: {
                         loaders: {
-                            js: "babel-loader?presets[]=env"
+                            js: "esbuild-loader?"
                         }
                     }
                 },
