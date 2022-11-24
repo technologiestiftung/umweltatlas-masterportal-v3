@@ -218,7 +218,7 @@ STALayer.prototype.getStyleFunction = function (attrs) {
     if (typeof styleObject !== "undefined") {
         return function (feature) {
             const feat = typeof feature !== "undefined" ? feature : this,
-                isClusterFeature = typeof feat.get("features") === "function" || typeof feat.get("features") === "object" && Boolean(feat.get("features"));
+                isClusterFeature = typeof feat.get("features") === "function" || typeof feat.get("features") === "object" && Boolean(feat.get("features").length > 1);
 
             return createStyle(styleObject, feat, isClusterFeature, Config.wfsImgPath);
         };
