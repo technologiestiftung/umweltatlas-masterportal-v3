@@ -11,6 +11,7 @@
 - Adds a new column epsg for exported CSV file.
 - layerTree: Adds a new parameter in portalconfig.tree to decide whether the scale is displayed in the layer tooltip in addition to the name of the corresponding layer
 - print: possibility to edit the output file name in print mode 'plotservice'.
+- wfsSearch: config parameter 'responseProjection' to make it possible to convert the projection of the coordinates in the requested service response.
 
 ### Changed
 - fileImport: If the features of the imported file are removed from MP, the imported file name will be removed from the "Successfully imported" list
@@ -24,12 +25,15 @@
 ### Fixed
 - Fix some vulnerabilities in dependencies
 - Issue #821: Sorting the table in featureLister tool now works again
+- Issue #844: fileImport now converts the projection of geoJSON if necessary
 - Issue #845: The buffer analysis tool now shows results correctly again
-- Fix the position of the unfreeze button which should be over the menu on the touch table view
-- After a layer is selected from the search results it is now getting added to the layer tree again
+- Issue #846: The featureLister now shows features of initial visible WFS again
 - Issue #851: Filter - When the multiLayerSelector attribute is set to false, it no longer prevents the accordions from opening.
 - Issue #853: The quickHelp tool is now configurable for the layer tree
+- Fix the position of the unfreeze button which should be over the menu on the touch table view
+- After a layer is selected from the search results it is now getting added to the layer tree again
 - Do not show alert message to use 2 Fingers on GFI Window or any other div apart from map if twoFingerPan is configured to true
+- Issue #820: CoordToolkit - Space inserted between 84 and (Dezimalgrad)
 
 ---
 
