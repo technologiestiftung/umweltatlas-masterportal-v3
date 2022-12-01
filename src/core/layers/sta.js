@@ -268,7 +268,7 @@ STALayer.prototype.createLegend = function () {
             if (selected) {
                 this.setLegend(selected.legendInformation);
             }
-        }, 4000);
+        }, 8000);
     }
     else if (typeof legend === "string") {
         this.set("legend", [legend]);

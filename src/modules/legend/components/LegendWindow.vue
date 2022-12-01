@@ -1,6 +1,8 @@
 <script>
 import Feature from "ol/Feature.js";
 import StylePolygon from "masterportalapi/src/vectorStyle/styles/polygon/stylePolygon";
+import {createNominalCircleSegments} from "masterportalapi/src/vectorStyle/styles/point/stylePointNominal";
+import {createSVGStyle} from "masterportalapi/src/vectorStyle/styles/point/stylePointIcon";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import getters from "../store/gettersLegend";
 import mutations from "../store/mutationsLegend";
@@ -364,50 +366,49 @@ export default {
 
         /**
          * Creates nominal scaled advanced style for pointFeatures
-         * @param {Object} style The styleModel.
+         * @param {Object} styleObject The styleObject.
          * @return {ol.Style} style
          */
-        drawNominalStyle (style) {
-            const scalingShape = style.scalingShape.toLowerCase();
+        drawNominalStyle (styleObject) {
+            const scalingShape = styleObject.attributes.scalingShape.toLowerCase();
             let nominalStyle = [];
 
             if (scalingShape === "circlesegments") {
-                nominalStyle = this.drawNominalCircleSegments(style);
+                nominalStyle = this.drawNominalCircleSegments(styleObject);
             }
 
             return nominalStyle;
         },
         /**
          * Creats an SVG for nominal circle segment style.
-         * @param {ol.style} style style.
+         * @param {ol.style} styleObject The styleObject.
          * @returns {Array} - style as Array of objects.
          */
-        drawNominalCircleSegments: function (style) {
-            const scalingAttribute = style.scalingAttribute,
-                scalingValues = style.scalingValues,
+        drawNominalCircleSegments: function (styleObject) {
+            const scalingAttribute = styleObject.attributes.scalingAttribute,
+                scalingValues = styleObject.attributes.scalingValues,
                 nominalCircleSegments = [];
-            let olStyle = null;
 
             Object.keys(scalingValues).forEach(key => {
-                const clonedStyle = style.clone(),
-                    olFeature = new Feature(),
-                    imageScale = clonedStyle.imageScale;
+                const olFeature = new Feature(),
+                    imageScale = styleObject.attributes.imageScale;
                 let svg,
                     svgSize,
                     image,
                     imageSize,
-                    imageSizeWithScale;
+                    imageSizeWithScale,
+                    svgPath;
 
                 olFeature.set(scalingAttribute, key);
-                clonedStyle.setFeature(olFeature);
-                clonedStyle.setIsClustered(false);
-                olStyle = clonedStyle.getStyle();
-                if (Array.isArray(olStyle)) {
-                    svg = olStyle[0].getImage().getSrc();
-                    svgSize = olStyle[0].getImage().getSize();
-                    image = olStyle[1].getImage().getSrc();
-                    imageSize = olStyle[1].getImage().getSize();
+
+                if (Array.isArray(styleObject.style)) {
+                    svgPath = createNominalCircleSegments(olFeature, styleObject.attributes);
+                    svg = createSVGStyle(svgPath, 5).getImage().getSrc();
+                    svgSize = styleObject.style[0].getImage().getSize();
+                    image = styleObject.style[1].getImage().getSrc();
+                    imageSize = svgSize;
                     imageSizeWithScale = [imageSize[0] * imageScale, imageSize[1] * imageScale];
+
                     nominalCircleSegments.push({
                         name: key,
                         graphic: [svg, image],
@@ -418,7 +419,7 @@ export default {
                 else {
                     nominalCircleSegments.push({
                         name: key,
-                        graphic: olStyle.getImage().getSrc()
+                        graphic: styleObject.style.getImage().getSrc()
                     });
                 }
             });
