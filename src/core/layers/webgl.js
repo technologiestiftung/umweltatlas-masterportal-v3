@@ -1,7 +1,7 @@
 import Layer from "./layer";
 import WFSLayer from "./wfs";
 import {geojson, wfs} from "@masterportal/masterportalapi";
-import {getLayerWhere} from "@masterportal/masterportalapi/src/rawLayerList";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 import WebGLPointsLayer from "ol/layer/WebGLPoints";
 import WebGLVectorLayerRenderer from "ol/renderer/webgl/VectorLayer";
 import VectorLayer from "ol/layer/Layer";
@@ -9,7 +9,7 @@ import LoaderOverlay from "../../utils/loaderOverlay";
 import VectorSource from "ol/source/Vector.js";
 import * as bridge from "./RadioBridge.js";
 import {bbox, all} from "ol/loadingstrategy.js";
-import {asArray} from "ol/color";
+// import {asArray} from "ol/color";
 import {packColor} from "ol/renderer/webgl/shaders";
 
 const defaultStyle = {
@@ -23,56 +23,149 @@ const defaultStyle = {
     }
 };
 
-/**
- * 
- * @param {*} attrs 
- * @returns 
- */
-function createVectorLayerRenderer (attrs) {
-    /**
-     * @class LocalWebGLLayer
-     * @description the temporary class with a custom renderer to render the vector data with WebGL
-     */
-    class LocalWebGLLayer extends VectorLayer {
-        /**
-         * Creates a new renderer that takes the defined style of the new layer as an input
-         * @returns {module:ol/renderer/webgl/WebGLVectorLayerRenderer} the custom renderer
-         * @experimental
-         */
-        createRenderer () {
-            return new WebGLVectorLayerRenderer(this, {
-                fill: {
-                    attributes: {
-                        color: () => packColor("#006688"),
-                        opacity: () => 0.8
-                    }
-                },
-                stroke: {
-                    attributes: {
-                        color: () => packColor("#006688"),
-                        width: () => 1.5,
-                        opacity: () => 1
-                    }
-                },
-                point: {
-                    attributes: {
-                        color: () => packColor("#006688"),
-                        size: () => 20,
-                        opacity: () => 0.8,
-                        type: () => "circle",
-                        symbolType: () => "circle"
-                    }
-                }
-            });
-        }
-    }
+// /**
+//  * @todo an vectorStyles.js anpassen!
+//  * @param {Object} conditions - the condition definition
+//  * @returns {Boolean} are the conditions met?
+//  */
+// function parseCondition (conditions) {
+//     // if no condition is given, always return true
+//     if (!conditions) {
+//         return () => true;
+//     }
 
-    return LocalWebGLLayer;
+//     // build check function from the conditions
+//     // todo: simplify, consolidtate with original vectorStyles
+//     return (feature) => {
+//         const properties = conditions.properties || {};
+        
+//         console.log(properties);
+//         for (const attr in properties) {
+//             const {val, isNumber} = !isNaN(parseFloat(feature.get(attr))) ?
+//                 {val: parseFloat(feature.get(attr)), isNumber: true} :
+//                 {val: feature.get(attr), isNumber: false};
+
+//             console.log(val, properties[attr], attr)
+//             // if literal value, compare for EQ
+//             if (!Array.isArray(properties[attr])) {
+//                 console.log(val, isNumber ? parseFloat(properties[attr]) : properties[attr])
+//                 if (val !== isNumber ? parseFloat(properties[attr]) : properties[attr]) {
+//                     return false;
+//                 }
+//             }
+//             // if value is interval [number, number], compare for BETWEEN
+//             else if (properties[attr].length === 2) {
+//                 // if bounds are null, compare for >= or <=
+//                 if (properties[attr][0] === null) {
+//                     properties[attr][0] = -Infinity;
+//                 }
+//                 if (properties[attr][1] === null) {
+//                     properties[attr][1] = Infinity;
+//                 }
+//                 if (
+//                     feature.get(attr) >= (isNumber ? parseFloat(properties[attr][0]) : properties[attr][0]) &&
+//                     feature.get(attr) <= (isNumber ? parseFloat(properties[attr][1]) : properties[attr][1])
+//                 ) {
+//                     return false;
+//                 }
+//             }
+//         }
+
+//         return true;
+//     };
+// }
+
+// /**
+//  * finds a matching rule from style.json
+//  * @todo consolidate with original vectorStyles.js
+//  * @param {module:ol/Feature} feature - the feature to check
+//  * @param {module:Backbone/Model} styleModel - the style model from StyleList
+//  * @returns {Object} the matching rule
+//  */
+// function getRule (feature, styleModel) {
+//     // console.log(styleModel)
+//     return styleModel?.getRulesForFeature(feature)[0];
+//     // return styleDef?.rules?.find(r => parseCondition(r.conditions)(feature));
+// }
+
+/**
+ * parses the styling rules for the renderer
+ * @returns {Object} the style options object with conditional functions
+ */
+function getStyleFunctions () {
+    return {
+        fill: {
+            attributes: {
+                color: (feature) => {
+                    if (!feature._styleRule) {
+                        return packColor("#006688");
+                    }
+                    return packColor(feature._styleRule.style.polygonFillColor);
+                },
+                opacity: (feature) => {
+                    if (!feature._styleRule) {
+                        return 0.8;
+                    }
+                    return feature._styleRule.style.polygonFillColor[3] || 1;
+                }
+            }
+        },
+        stroke: {
+            attributes: {
+                color: (feature) => {
+                    if (!feature._styleRule) {
+                        return packColor("#006688");
+                    }
+                    return packColor(feature._styleRule.style.polygonStrokeColor);
+                },
+                width: (feature) => {
+                    if (!feature._styleRule) {
+                        return packColor("#006688");
+                    }
+                    return feature._styleRule.style.polygonStrokeWidth;
+                },
+                opacity: (feature) => {
+                    if (!feature._styleRule) {
+                        return packColor("#006688");
+                    }
+                    return feature._styleRule.style.polygonStrokeColor[3] || 1;
+                }
+            }
+        },
+        point: {
+            attributes: {
+                color: (feature) => {
+                    if (!feature._styleRule) {
+                        return packColor("#006688");
+                    }
+                    return packColor(feature._styleRule.style.circleFillColor);
+                },
+                size: (feature) => {
+                    if (!feature._styleRule) {
+                        return 20;
+                    }
+                    return packColor(feature._styleRule.style.circleRadius);
+                },
+                opacity: (feature) => {
+                    if (!feature._styleRule) {
+                        return 0.8;
+                    }
+                    return feature._styleRule.style.circleFillColor[3] || 1;
+                },
+                type: () => "circle",
+                symbolType: () => "circle"
+            }
+        }
+    };
 }
 
 /**
  * Creates a layer of type WebGL (point geometries only).
  * @param {Object} attrs  attributes of the layer
+ * @property {module:ol/Feature[]} features the OL features
+ * @property {module:ol/source/Vector} source the OL source object
+ * @property {module:ol/layer/Layer} layer the OL layer object
+ * @property {Boolean} _isPointLayer (private) whether the layer consists only of points
  * @returns {void}
  */
 export default function WebGLLayer (attrs) {
@@ -101,7 +194,7 @@ WebGLLayer.prototype = Object.create(Layer.prototype);
  */
 WebGLLayer.prototype.createLayer = function (attrs) {
     const
-        sourceLayer = getLayerWhere({id: attrs.sourceId}),
+        sourceLayer = rawLayerList.getLayerWhere({id: attrs.sourceId}),
         options = {
             map: mapCollection.getMap("2D"),
             featuresFilter: this.getFeaturesFilterFunction(attrs),
@@ -111,13 +204,16 @@ WebGLLayer.prototype.createLayer = function (attrs) {
                 }
             }.bind(this),
             afterLoading: function (features) {
+                const styleModel = bridge.getStyleModelById(attrs.styleId); // load styleModel to extract rules per feature
+
                 if (Array.isArray(features)) {
                     features.forEach((feature, idx) => {
                         if (typeof feature?.getId === "function" && typeof feature.getId() === "undefined") {
                             feature.setId("webgl-" + attrs.id + "-feature-id-" + idx);
                         }
+                        this.formatFeatureGeometry(feature); /** @deprecated will propbably not be necessary anymore in release version */
+                        this.formatFeatureStyles(feature, styleModel); /** @todo needs refactoring for production  */
                         this.formatFeatureData(feature, attrs.excludeTypesFromParsing);
-
                     });
                 }
                 this.featuresLoaded(attrs.id, features);
@@ -161,6 +257,30 @@ WebGLLayer.prototype.getFeaturesFilterFunction = function (attrs) {
 };
 
 /**
+ * Creates a layer object to extend from.
+ * @param {Object} attrs attributes of the layer
+ * @returns {module:ol/layer/Layer} the LocalWebGLLayer with a custom renderer for WebGL styling
+ */
+WebGLLayer.prototype.createVectorLayerRenderer = function () {
+    /**
+     * @class LocalWebGLLayer
+     * @description the temporary class with a custom renderer to render the vector data with WebGL
+     */
+    class LocalWebGLLayer extends VectorLayer {
+        /**
+         * Creates a new renderer that takes the defined style of the new layer as an input
+         * @returns {module:ol/renderer/webgl/WebGLVectorLayerRenderer} the custom renderer
+         * @experimental
+         */
+        createRenderer () {
+            return new WebGLVectorLayerRenderer(this, getStyleFunctions());
+        }
+    }
+
+    return LocalWebGLLayer;
+};
+
+/**
  * Creates a VectorSource. Either from WFS or GeoJSON.
  * @param {Object} rawLayer layer specification as in services.json
  * @param {Object} options - options of the target layer
@@ -188,39 +308,33 @@ WebGLLayer.prototype.createLayerSource = function (rawLayer, options) {
  */
 WebGLLayer.prototype.createLayerInstance = function (attrs) {
     let LayerConstructor = WebGLPointsLayer;
-    const isPointLayer = attrs.source.getFeatures().every(feature => {
-        const geomType = feature.getGeometry().getType();
+    const opts = {
+        id: attrs.id,
+        source: this.source,
+        disableHitDetection: false,
+        name: attrs.name,
+        typ: attrs.typ,
+        gfiAttributes: attrs.gfiAttributes,
+        gfiTheme: attrs.gfiTheme,
+        hitTolerance: attrs.hitTolerance,
+        opacity: attrs.transparency ? (100 - attrs.transparency) / 100 : attrs.opacity
+    };
 
-        return geomType === "Point" || geomType === "MultiPoint";
-    });
-
-    if (isPointLayer) {
+    if (this.isPointLayer(attrs.isPointLayer)) {
         /**
          * @deprecated
          * @todo will be replaced in the next OL release and incorporated in the WebGLVectorLayerRenderer
          */
         return new LayerConstructor({
-            id: attrs.id,
-            source: this.source,
             style: attrs.style,
             disableHitDetection: false,
-            name: attrs.name,
-            typ: attrs.typ,
-            gfiAttributes: attrs.gfiAttributes,
-            gfiTheme: attrs.gfiTheme,
-            hitTolerance: attrs.hitTolerance
+            ...opts
         });
     }
 
-    LayerConstructor = createVectorLayerRenderer(attrs);
+    LayerConstructor = this.createVectorLayerRenderer(attrs);
     return new LayerConstructor({
-        name: attrs.name,
-        typ: attrs.typ,
-        id: attrs.id,
-        source: this.source,
-        gfiAttributes: attrs.gfiAttributes,
-        gfiTheme: attrs.gfiTheme,
-        hitTolerance: attrs.hitTolerance
+        ...opts
     });
 };
 
@@ -274,6 +388,32 @@ WebGLLayer.prototype.updateSource = function () {
  */
 WebGLLayer.prototype.clearSource = function () {
     this.source.clear();
+};
+
+/**
+ * Parses the vectorStyle from style.json to the feature
+ * to reduce processing on runtime
+ * @param {module:ol/Feature} feature - the feature to check
+ * @param {module:Backbone/Model} [styleModel] - (optional) the style model from StyleList
+ * @returns {void}
+ */
+WebGLLayer.prototype.formatFeatureStyles = function (feature, styleModel) {
+    const rule = styleModel?.getRulesForFeature(feature)[0];
+
+    // don't set on properties to avoid GFI issues
+    // undefined if no match
+    feature._styleRule = rule;
+};
+
+/**
+ * Layouts the geometry coordinates, removes the Z component
+ * @deprecated Will be removed in release
+ * @param {module:ol/Feature} feature - the feature to format
+ * @returns {void}
+ */
+WebGLLayer.prototype.formatFeatureGeometry = function (feature) {
+    feature.getGeometry()
+        .setCoordinates(feature.getGeometry().getCoordinates(), "XY");
 };
 
 /**
@@ -357,4 +497,27 @@ WebGLLayer.prototype.isDisposed = function () {
     return this.layer ? this.layer.disposed : true;
 };
 
+/**
+ * Returns whether the layer consists only of points
+ * @deprecated Will be removed as soon as OL WebGL features are consolidated
+ * @param {Boolean} [isPointLayer] boolean flag set in config/service
+ * @returns {Boolean} true / false
+ */
+WebGLLayer.prototype.isPointLayer = function (isPointLayer) {
+    if (this._isPointLayer === undefined) {
+        // if provided, set flag hard
+        if (typeof isPointLayer === "boolean") {
+            this._isPointLayer = isPointLayer;
+        }
+        else {
+            this._isPointLayer = this.source.getFeatures().every(feature => {
+                const geomType = feature.getGeometry().getType();
+
+                return geomType === "Point" || geomType === "MultiPoint";
+            });
+        }
+    }
+
+    return this._isPointLayer;
+};
 

@@ -56,7 +56,7 @@ const getters = {
                             layer.get("hitTolerance") * mapCollection.getMapView("2D").getResolution()
                         );
 
-                        layer.getSource().forEachFeatureInExtent(hitBox, feature => {
+                        layer.getSource()?.forEachFeatureInExtent(hitBox, feature => {
                             featuresAtPixel.push(createGfiFeature(
                                 layer,
                                 "",

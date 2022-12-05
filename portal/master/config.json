@@ -222,7 +222,23 @@
                 "delimitor": "|"
               } 
             ]
-          }
+          },
+          {
+            "layerId": "webgl_gruenflaechen",
+            "strategy": "active",
+            "showHits": true,
+            "shortDescription": "Verzeichnis Öffentlicher Grünanlagen",
+            "searchInMapExtent": false,
+            "title": "Grünflächen",
+            "snippets": [
+              {"attrName": "bezirk"},
+              {"attrName": "stadtteil"},
+              {"attrName": "nutzung"},
+              {"attrName": "verwaltungsvermoegen"},
+              {"attrName": "flaeche_ha", "type": "sliderRange", "operator": "BETWEEN"},
+              {"attrName": "flaeche_qm", "type": "sliderRange", "operator": "BETWEEN"}
+            ]
+        }
         ]
       },
       "tools": {
@@ -446,12 +462,6 @@
           "scaleSwitcher": {
             "name": "translate#common:menu.tools.scaleSwitcher",
             "icon": "bi-arrows-angle-contract"
-          },
-          "obliqueViewer": {
-            "name": "translate#additional:modules.tools.obliqueViewer.title",
-            "icon": "bi-image",
-            "styleId": "obliqueViewer",
-            "isVisibleInMenu": false
           }
         }
       },
@@ -521,12 +531,7 @@
       "mousePosition": true,
       "freeze": true,
       "backForward": true,
-      "button3d": true,
-      "startTool": {
-        "tools": [
-          "obliqueViewer"
-        ]
-      }
+      "button3d": true
     },
     "layersRemovable": true
   },
@@ -599,6 +604,10 @@
     },
     "Fachdaten": {
       "Layer": [
+        {
+          "id": "webgl_gruenflaechen",
+          "styleId": "1534"
+        },
         {
           "id": "webgl_dipas"
         },

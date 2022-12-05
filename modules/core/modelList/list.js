@@ -792,9 +792,11 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
     updateLayerView: function () {
         const sortedLayers = this.getSortedTreeLayers();
 
-        sortedLayers.forEach(layer => {
-            Radio.trigger("Map", "addLayerToIndex", [layer.get("layer"), layer.get("selectionIDX"), layer.get("layerSequence")]);
-        });
+        sortedLayers
+            .filter(layer => layer.get("isVisibleInMap")) // only add the layer to the map, if set to be visible
+            .forEach((layer) => {
+                Radio.trigger("Map", "addLayerToIndex", [layer.get("layer"), layer.get("selectionIDX"), layer.get("layerSequence")]);
+            });
     },
 
     /**
