@@ -9,9 +9,14 @@ import LoaderOverlay from "../../utils/loaderOverlay";
 import VectorSource from "ol/source/Vector.js";
 import * as bridge from "./RadioBridge.js";
 import {bbox, all} from "ol/loadingstrategy.js";
-// import {asArray} from "ol/color";
 import {packColor} from "ol/renderer/webgl/shaders";
 
+
+/**
+ * The default style for OpenLayers WebGLPoints class
+ * @see https://openlayers.org/en/latest/examples/webgl-points-layer.html
+ * @private
+ */
 const defaultStyle = {
     symbol: {
         symbolType: "circle",
@@ -23,77 +28,19 @@ const defaultStyle = {
     }
 };
 
-// /**
-//  * @todo an vectorStyles.js anpassen!
-//  * @param {Object} conditions - the condition definition
-//  * @returns {Boolean} are the conditions met?
-//  */
-// function parseCondition (conditions) {
-//     // if no condition is given, always return true
-//     if (!conditions) {
-//         return () => true;
-//     }
-
-//     // build check function from the conditions
-//     // todo: simplify, consolidtate with original vectorStyles
-//     return (feature) => {
-//         const properties = conditions.properties || {};
-        
-//         console.log(properties);
-//         for (const attr in properties) {
-//             const {val, isNumber} = !isNaN(parseFloat(feature.get(attr))) ?
-//                 {val: parseFloat(feature.get(attr)), isNumber: true} :
-//                 {val: feature.get(attr), isNumber: false};
-
-//             console.log(val, properties[attr], attr)
-//             // if literal value, compare for EQ
-//             if (!Array.isArray(properties[attr])) {
-//                 console.log(val, isNumber ? parseFloat(properties[attr]) : properties[attr])
-//                 if (val !== isNumber ? parseFloat(properties[attr]) : properties[attr]) {
-//                     return false;
-//                 }
-//             }
-//             // if value is interval [number, number], compare for BETWEEN
-//             else if (properties[attr].length === 2) {
-//                 // if bounds are null, compare for >= or <=
-//                 if (properties[attr][0] === null) {
-//                     properties[attr][0] = -Infinity;
-//                 }
-//                 if (properties[attr][1] === null) {
-//                     properties[attr][1] = Infinity;
-//                 }
-//                 if (
-//                     feature.get(attr) >= (isNumber ? parseFloat(properties[attr][0]) : properties[attr][0]) &&
-//                     feature.get(attr) <= (isNumber ? parseFloat(properties[attr][1]) : properties[attr][1])
-//                 ) {
-//                     return false;
-//                 }
-//             }
-//         }
-
-//         return true;
-//     };
-// }
-
-// /**
-//  * finds a matching rule from style.json
-//  * @todo consolidate with original vectorStyles.js
-//  * @param {module:ol/Feature} feature - the feature to check
-//  * @param {module:Backbone/Model} styleModel - the style model from StyleList
-//  * @returns {Object} the matching rule
-//  */
-// function getRule (feature, styleModel) {
-//     // console.log(styleModel)
-//     return styleModel?.getRulesForFeature(feature)[0];
-//     // return styleDef?.rules?.find(r => parseCondition(r.conditions)(feature));
-// }
-
 /**
  * parses the styling rules for the renderer
+ * @static
+ * @private
  * @returns {Object} the style options object with conditional functions
  */
 function getStyleFunctions () {
     return {
+        /**
+         * Used for polygon fills
+            * Reads the relevant properties from the Masterportal style object
+            * @see https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/style.json.md
+         */
         fill: {
             attributes: {
                 color: (feature) => {
@@ -111,6 +58,11 @@ function getStyleFunctions () {
             }
         },
         stroke: {
+            /**
+             * Used for polygon edges and lineStrings
+             * Reads the relevant properties from the Masterportal style object
+             * @see https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/style.json.md
+             */
             attributes: {
                 color: (feature) => {
                     if (!feature._styleRule) {
@@ -133,6 +85,13 @@ function getStyleFunctions () {
             }
         },
         point: {
+            /**
+             * As of now, the generic VectorLayerRenderer only supports points rendered as quads
+             * available attributes: color, size, opacity
+             * Due to that, we use WebGLPoints Layer Class for point geom types
+             * Reads the relevant properties from the Masterportal style object
+             * @see https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/style.json.md
+             */
             attributes: {
                 color: (feature) => {
                     if (!feature._styleRule) {
@@ -144,16 +103,14 @@ function getStyleFunctions () {
                     if (!feature._styleRule) {
                         return 20;
                     }
-                    return packColor(feature._styleRule.style.circleRadius);
+                    return feature._styleRule.style.circleRadius;
                 },
                 opacity: (feature) => {
                     if (!feature._styleRule) {
                         return 0.8;
                     }
                     return feature._styleRule.style.circleFillColor[3] || 1;
-                },
-                type: () => "circle",
-                symbolType: () => "circle"
+                }
             }
         }
     };
@@ -161,6 +118,8 @@ function getStyleFunctions () {
 
 /**
  * Creates a layer of type WebGL (point geometries only).
+ * @augments Layer
+ * @class
  * @param {Object} attrs  attributes of the layer
  * @property {module:ol/Feature[]} features the OL features
  * @property {module:ol/source/Vector} source the OL source object
@@ -171,7 +130,7 @@ function getStyleFunctions () {
 export default function WebGLLayer (attrs) {
     const defaults = {
         style: defaultStyle,
-        hitTolerance: 20
+        hitTolerance: 10
     };
 
     this.features = [];
@@ -179,8 +138,6 @@ export default function WebGLLayer (attrs) {
 
     Layer.call(this, {...defaults, ...attrs}, this.layer, !attrs.isChildLayer);
     this.createLegend(attrs);
-
-    console.log(this);
 }
 
 // Link prototypes and add prototype methods, means WFSLayer uses all methods and properties of Layer
@@ -188,6 +145,8 @@ WebGLLayer.prototype = Object.create(Layer.prototype);
 
 /**
  * Triggert by Layer to create a ol/layer/Vector
+ * @memberof WebGLLayer
+ * @override
  * @param {Object} attrs  attributes of the layer
  * @fires MapView#RadioRequestGetProjection
  * @returns {void}
@@ -211,9 +170,9 @@ WebGLLayer.prototype.createLayer = function (attrs) {
                         if (typeof feature?.getId === "function" && typeof feature.getId() === "undefined") {
                             feature.setId("webgl-" + attrs.id + "-feature-id-" + idx);
                         }
-                        this.formatFeatureGeometry(feature); /** @deprecated will propbably not be necessary anymore in release version */
-                        this.formatFeatureStyles(feature, styleModel); /** @todo needs refactoring for production  */
-                        this.formatFeatureData(feature, attrs.excludeTypesFromParsing);
+                        this._formatFeatureGeometry(feature); /** @deprecated will propbably not be necessary anymore in release version */
+                        this._formatFeatureStyles(feature, styleModel); /** @todo needs refactoring for production  */
+                        this._formatFeatureData(feature, attrs.excludeTypesFromParsing);
                     });
                 }
                 this.featuresLoaded(attrs.id, features);
@@ -241,6 +200,7 @@ WebGLLayer.prototype.createLayer = function (attrs) {
 
 /**
  * Returns a function to filter features with.
+ * @memberof WebGLLayer
  * @param {Object} attrs  params of the raw layer
  * @returns {Function} to filter features with
  */
@@ -258,12 +218,16 @@ WebGLLayer.prototype.getFeaturesFilterFunction = function (attrs) {
 
 /**
  * Creates a layer object to extend from.
+ * @memberof WebGLLayer
+ * @augments VectorLayer
+ * @implements {WebGLVectorLayerRenderer}
  * @param {Object} attrs attributes of the layer
  * @returns {module:ol/layer/Layer} the LocalWebGLLayer with a custom renderer for WebGL styling
  */
 WebGLLayer.prototype.createVectorLayerRenderer = function () {
     /**
      * @class LocalWebGLLayer
+     * @see https://openlayers.org/en/latest/examples/webgl-vector-layer.html
      * @description the temporary class with a custom renderer to render the vector data with WebGL
      */
     class LocalWebGLLayer extends VectorLayer {
@@ -282,11 +246,15 @@ WebGLLayer.prototype.createVectorLayerRenderer = function () {
 
 /**
  * Creates a VectorSource. Either from WFS or GeoJSON.
+ * @memberof WebGLLayer
  * @param {Object} rawLayer layer specification as in services.json
  * @param {Object} options - options of the target layer
  * @returns {module:ol/source/Vector} returns the VectorSource
  */
 WebGLLayer.prototype.createLayerSource = function (rawLayer, options) {
+    /** create layer source with WFS loader, if source layer is WFS
+     * @external masterportalapi
+     */
     if (rawLayer.typ === "WFS") {
         const wfsSource = wfs.createLayerSource(rawLayer, options);
 
@@ -294,15 +262,20 @@ WebGLLayer.prototype.createLayerSource = function (rawLayer, options) {
         wfsSource.on("featuresloadstart", this.clearSource.bind(this));
         return wfsSource;
     }
+
+    /** create layer source with GeoJSON loader, if source layer is GeoJSON
+     *  @external masterportalapi
+     */
     if (rawLayer.typ === "GeoJSON") {
         return geojson.createLayerSource({url: rawLayer.url, features: rawLayer.features}, options);
     }
 
-    return new VectorSource();
+    return new VectorSource(); // else return empty VectorSource
 };
 
 /**
  * Creates the OL Layer instance, used to rebuild the layer when shown again after layer has been disposed
+ * @memberof WebGLLayer
  * @param {Object} attrs - the attributes of the layer
  * @returns {module:ol/layer/Vector} returns the layer instance
  */
@@ -320,6 +293,7 @@ WebGLLayer.prototype.createLayerInstance = function (attrs) {
         opacity: attrs.transparency ? (100 - attrs.transparency) / 100 : attrs.opacity
     };
 
+    /** @see https://openlayers.org/en/latest/examples/webgl-points-layer.html */
     if (this.isPointLayer(attrs.isPointLayer)) {
         /**
          * @deprecated
@@ -332,6 +306,7 @@ WebGLLayer.prototype.createLayerInstance = function (attrs) {
         });
     }
 
+    // use ol/renderer/webgl/WebGLVectorLayerRenderer if not point layer
     LayerConstructor = this.createVectorLayerRenderer(attrs);
     return new LayerConstructor({
         ...opts
@@ -340,26 +315,32 @@ WebGLLayer.prototype.createLayerInstance = function (attrs) {
 
 /**
  * Creates the legend
+ * @override
+ * @memberof WebGLLayer
  * @param {Object} attrs  attributes of the layer
  * @returns {void}
  */
 WebGLLayer.prototype.createLegend = function (attrs) {
-    const styleId = attrs.styleId,
+    const
+        sourceLayer = rawLayerList.getLayerWhere({id: attrs.sourceId}),
+        styleId = attrs.styleId || sourceLayer.styleId,
+        legendURL = this.get("legendURL") || sourceLayer.legendURL,
         styleModel = bridge.getStyleModelById(styleId);
-    let legend = this.get("legend");
+    let
+        legend = this.get("legend");
 
     /**
      * @deprecated in 3.0.0
      */
-    if (this.get("legendURL")) {
-        if (this.get("legendURL") === "") {
+    if (legendURL) {
+        if (legendURL === "") {
             legend = true;
         }
-        else if (this.get("legendURL") === "ignore") {
+        else if (legendURL === "ignore") {
             legend = false;
         }
         else {
-            legend = this.get("legendURL");
+            legend = legendURL;
         }
     }
 
@@ -367,6 +348,26 @@ WebGLLayer.prototype.createLegend = function (attrs) {
         this.setLegend(legend);
     }
     else if (styleModel && legend === true) {
+        // run styleModel functions for WFS source
+        if (sourceLayer.typ === "WFS") {
+            if (!sourceLayer.isSecured) {
+                styleModel.getGeometryTypeFromWFS(
+                    sourceLayer.url,
+                    sourceLayer.version,
+                    sourceLayer.featureType,
+                    sourceLayer.styleGeometryType,
+                    sourceLayer.useProxy
+                );
+            }
+            else if (sourceLayer.isSecured) {
+                styleModel.getGeometryTypeFromSecuredWFS(
+                    sourceLayer.url,
+                    sourceLayer.version,
+                    sourceLayer.featureType,
+                    sourceLayer.styleGeometryType
+                );
+            }
+        }
         this.setLegend(styleModel.getLegendInfos());
     }
     else if (typeof legend === "string") {
@@ -376,6 +377,8 @@ WebGLLayer.prototype.createLegend = function (attrs) {
 
 /**
  * Updates the layers source by calling refresh at source.
+ * @override
+ * @memberof WebGLLayer
  * @returns {void}
  */
 WebGLLayer.prototype.updateSource = function () {
@@ -384,6 +387,7 @@ WebGLLayer.prototype.updateSource = function () {
 
 /**
  * Clears the layer' source.
+ * @memberof WebGLLayer
  * @returns {void}
  */
 WebGLLayer.prototype.clearSource = function () {
@@ -393,11 +397,13 @@ WebGLLayer.prototype.clearSource = function () {
 /**
  * Parses the vectorStyle from style.json to the feature
  * to reduce processing on runtime
+ * @memberof WebGLLayer
+ * @private
  * @param {module:ol/Feature} feature - the feature to check
  * @param {module:Backbone/Model} [styleModel] - (optional) the style model from StyleList
  * @returns {void}
  */
-WebGLLayer.prototype.formatFeatureStyles = function (feature, styleModel) {
+WebGLLayer.prototype._formatFeatureStyles = function (feature, styleModel) {
     const rule = styleModel?.getRulesForFeature(feature)[0];
 
     // don't set on properties to avoid GFI issues
@@ -408,10 +414,12 @@ WebGLLayer.prototype.formatFeatureStyles = function (feature, styleModel) {
 /**
  * Layouts the geometry coordinates, removes the Z component
  * @deprecated Will be removed in release
+ * @memberof WebGLLayer
+ * @private
  * @param {module:ol/Feature} feature - the feature to format
  * @returns {void}
  */
-WebGLLayer.prototype.formatFeatureGeometry = function (feature) {
+WebGLLayer.prototype._formatFeatureGeometry = function (feature) {
     feature.getGeometry()
         .setCoordinates(feature.getGeometry().getCoordinates(), "XY");
 };
@@ -419,11 +427,13 @@ WebGLLayer.prototype.formatFeatureGeometry = function (feature) {
 /**
  * Automatically cleans the data by automatically parsing data provided as strings to the accurate data type
  * @todo Extend to Date types
+ * @memberof WebGLLayer
+ * @private
  * @param {module:ol/Feature} feature - the feature to format
  * @param {Array<String>} [excludeTypes=["boolean"]] - types that should not be parsed from strings
  * @returns {void}
  */
-WebGLLayer.prototype.formatFeatureData = function (feature, excludeTypes = ["boolean"]) {
+WebGLLayer.prototype._formatFeatureData = function (feature, excludeTypes = ["boolean"]) {
     for (const key in feature.getProperties()) {
         const
             valueAsNumber = parseFloat(feature.get(key)),
@@ -445,6 +455,8 @@ WebGLLayer.prototype.formatFeatureData = function (feature, excludeTypes = ["boo
 /**
  * Sets the attribute isSelected and sets the layers visibility. If newValue is false, the layer is removed from map.
  * Calls the layer super, disposes WebGL resources if layer is set invisible
+ * @override
+ * @memberof WebGLLayer
  * @param {Boolean} newValue true, if layer is selected
  * @returns {void}
  */
@@ -462,6 +474,7 @@ WebGLLayer.prototype.setIsSelected = function (newValue) {
 
 /**
  * Hides all features by removing them from the layer source.
+ * @memberof WebGLLayer
  * @returns {void}
  */
 WebGLLayer.prototype.hideAllFeatures = function () {
@@ -470,6 +483,7 @@ WebGLLayer.prototype.hideAllFeatures = function () {
 
 /**
  * sets the layerSource to have the inital features array
+ * @memberof WebGLLayer
  * @returns {void}
  */
 WebGLLayer.prototype.showAllFeatures = function () {
@@ -479,6 +493,7 @@ WebGLLayer.prototype.showAllFeatures = function () {
 
 /**
  * Filters the visibility of features by ids.
+ * @memberof WebGLLayer
  * @param  {String[]} featureIdList Feature ids to be shown.
  * @return {void}
  */
@@ -491,6 +506,9 @@ WebGLLayer.prototype.showFeaturesByIds = function (featureIdList) {
 
 /**
  * Returns whether the WebGL resources have been disposed
+ * @memberof WebGLLayer
+ * @public
+ * @readonly
  * @returns {Boolean} true / false
  */
 WebGLLayer.prototype.isDisposed = function () {
@@ -500,6 +518,9 @@ WebGLLayer.prototype.isDisposed = function () {
 /**
  * Returns whether the layer consists only of points
  * @deprecated Will be removed as soon as OL WebGL features are consolidated
+ * @memberof WebGLLayer
+ * @public
+ * @readonly
  * @param {Boolean} [isPointLayer] boolean flag set in config/service
  * @returns {Boolean} true / false
  */

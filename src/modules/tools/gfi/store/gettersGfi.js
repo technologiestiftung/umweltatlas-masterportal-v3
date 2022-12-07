@@ -51,12 +51,15 @@ const getters = {
                 .filter(layer => layer.get("typ") === "WebGL")
                 .forEach(layer => {
                     if (layer.get("gfiAttributes") && layer.get("gfiAttributes") !== "ignore") {
+                        /**
+                         * use OL resolution based buffer to adjust the hitTolerance (in m) for lower zoom levels
+                         */
                         const hitBox = buffer(
                             new Point(clickCoordinate).getExtent(),
-                            layer.get("hitTolerance") * mapCollection.getMapView("2D").getResolution()
+                            (layer.get("hitTolerance") || 1) * Math.sqrt(mapCollection.getMapView("2D").getResolution())
                         );
 
-                        layer.getSource()?.forEachFeatureInExtent(hitBox, feature => {
+                        layer.getSource()?.forEachFeatureIntersectingExtent(hitBox, feature => {
                             featuresAtPixel.push(createGfiFeature(
                                 layer,
                                 "",
