@@ -61,7 +61,6 @@ export default {
         }))
             .then(gfiFeatures => {
                 const clickPixel = rootGetters["Maps/clickPixel"],
-                    clickCoordinate = rootGetters["Maps/clickCoordinate"],
                     clickCartesianCoordinate = rootGetters["Maps/clickCartesianCoordinate"],
                     mode = rootGetters["Maps/mode"],
                     allGfiFeatures = gfiFeaturesAtPixel(clickPixel, clickCoordinate, clickCartesianCoordinate, mode).concat(...gfiFeatures);
