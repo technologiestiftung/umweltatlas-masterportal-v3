@@ -130,7 +130,7 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
             "selectedChanged": this.selectedChanged,
             "transparencyChanged": function () {
                 channel.trigger("updatedSelectedLayerList", this.where({isSelected: true, type: "layer"}));
-                store.dispatch("Tools/SaveSelection/createUrlParams", filterAndReduceLayerList(this.where({isSelected: true, type: "layer"})));
+                store.dispatch("Tools/SaveSelection/createUrlParams", filterAndReduceLayerList(store.getters["Maps/mode"], this.where({isSelected: true, type: "layer"})));
             },
             "openFolderInTree": this.openFolderInTree
         }, this);
@@ -139,7 +139,7 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
             "change:isVisibleInMap": function () {
                 channel.trigger("updateVisibleInMapList");
                 channel.trigger("updatedSelectedLayerList", this.where({isSelected: true, type: "layer"}));
-                store.dispatch("Tools/SaveSelection/createUrlParams", filterAndReduceLayerList(this.where({isSelected: true, type: "layer"})));
+                store.dispatch("Tools/SaveSelection/createUrlParams", filterAndReduceLayerList(store.getters["Maps/mode"], this.where({isSelected: true, type: "layer"})));
                 // this.sortLayersAndSetIndex();
             },
             "change:isExpanded": function (model) {
@@ -543,6 +543,7 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
         this.trigger("updateLightTree");
         // Trigger for mobile
         this.trigger("changeSelectedList");
+        store.dispatch("Tools/SaveSelection/createUrlParams", filterAndReduceLayerList(store.getters["Maps/mode"], this.where({isSelected: true, type: "layer"})));
     },
 
     /**
@@ -581,6 +582,15 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
                 else {
                     baseLayerModels.push(layer);
                 }
+            });
+            baseLayerModels.sort(function (a, b) {
+                const indexA = paramLayers.findIndex(param => a.id === param.id),
+                    indexB = paramLayers.findIndex(param => b.id === param.id);
+
+                if (indexA === -1 || indexB === -1) {
+                    return 0;
+                }
+                return indexA - indexB;
             });
             initialLayers = baseLayerModels;
         }
@@ -1007,11 +1017,12 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
     showModelInTree: function (modelId) {
         const mode = Radio.request("Map", "getMapMode"),
             lightModel = Radio.request("Parser", "getItemByAttributes", {id: modelId}),
-            isMobile = Radio.request("Util", "isViewMobile");
+            isMobile = Radio.request("Util", "isViewMobile"),
+            isTable = Radio.request("Util", "getUiStyle") === "TABLE";
 
         let dropdown;
 
-        if (!isMobile) {
+        if (!isMobile && !isTable) {
             dropdown = Dropdown.getInstance("#root li:first-child > .dropdown-toggle");
             // open the layerTree
             dropdown.show();
@@ -1029,7 +1040,7 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
         }
 
         // für DIPAS Table Ansicht
-        if (Radio.request("Util", "getUiStyle") === "TABLE") {
+        if (isTable) {
             Radio.request("ModelList", "getModelByAttributes", {id: modelId}).setIsJustAdded(true);
 
             const collapseElement = document.querySelector("#table-nav-layers-panel"),
@@ -1323,7 +1334,7 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
             selectedLayers.push(model);
         }
 
-        store.dispatch("Tools/SaveSelection/createUrlParams", filterAndReduceLayerList(selectedLayers));
+        store.dispatch("Tools/SaveSelection/createUrlParams", filterAndReduceLayerList(store.getters["Maps/mode"], selectedLayers));
     }
 });
 

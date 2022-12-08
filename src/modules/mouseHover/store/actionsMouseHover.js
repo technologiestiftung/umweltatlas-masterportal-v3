@@ -22,6 +22,9 @@ export default {
             commit("setInfoText", infoText);
         }
         map.on("pointermove", (evt) => {
+            if (!state.isActive || evt.originalEvent.pointerType === "touch") {
+                return;
+            }
             featuresAtPixel = [];
             commit("setHoverPosition", evt.coordinate);
             map.forEachFeatureAtPixel(evt.pixel, (feature, layer) => {

@@ -3,44 +3,95 @@
 
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
+
 ## Unreleased - in development
 ### __Breaking Changes__
 
 ### Added
-- Draw: Adds a new attribute semicolonCSVDelimiter to decide the semicolon is used as the delimiter for exported CSV file. The default value is true.
-- layerTree: Adds a new parameter in portalconfig.tree to decide whether the scale is displayed in the layer tooltip in addition to the name of the corresponding layer
-- print: possibility to edit the output file name in print mode 'plotservice'.
 
 ### Changed
-- fileImport: If the features of the imported file are removed from MP, the imported file name will be removed from the "Successfully imported" list
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
-- Issue #821: Sorting the table in featureLister tool now works again
-- Issue #845: The buffer analysis tool now shows results correctly again
 
 ---
 
-## Unreleased - in development
-### __Breaking Changes__
-
+## v2.28.0 - 2022-12-07
 ### Added
-- Draw:
-  - Adds a new attribute semicolonCSVDelimiter to decide the semicolon is used as the delimiter for exported CSV file. The default value is true.
-  - Adds a new column epsg for exported CSV file.
+- Draw: Adds a new attribute semicolonCSVDelimiter to decide the semicolon is used as the delimiter for exported CSV file. The default value is true.
+- Adds a new column epsg for exported CSV file.
+- layerTree: Adds a new parameter in portalconfig.tree to decide whether the scale is displayed in the layer tooltip in addition to the name of the corresponding layer
+- print: possibility to edit the output file name in print mode 'plotservice'.
+- wfsSearch: config parameter 'responseProjection' to make it possible to convert the projection of the coordinates in the requested service response.
+- Bootstrap grid-breakpoints are now configurable in `variables.scss`. For switching between mobile and desktop the grid-breakpoint `md` is used.
+- The attribute `onlyDesktop` can now be used to display tools mobile by setting it to `false` for a tool.
+- Filter: New parameter 'searchInMapExtentPreselected' was added. It will preselect the checkbox searchInMapExtent if configured.
+- Missing changelog details to v2.26.0 considering oblique viewer possibilities.
 
 ### Changed
-
-### Deprecated
-
-### Removed
+- fileImport: If the features of the imported file are removed from MP, the imported file name will be removed from the "Successfully imported" list
+- package.json test:vue: excluded /cosi/node_modules from test paths (now matching masterportal root packages that are not tested)
+- layerSelector: update function calls and bootstrap usage
+- drawTool: removed default config for yellow pin and replaced the google yellow pushpin with bootstrap geo-fill in yellow
+- The version of node was updated, must be >= 16.13.2 <= 16.18.1
+- The following NPM packages have been updated:
+    - dependencies:
+        - @masterportal/masterportalapi: 2.9.0 to 2.11.0
+        - axios: 0.27.2 to 1.2.0
+        - bootstrap: 5.2.2 to 5.2.3
+        - bootstrap-icons: 1.9.1 to 1.10.2
+        - i18next: 21.8.16 to 22.0.6
+        - i18next-browser-languagedetector: 6.1.4 to 7.0.1
+        - i18next-http-backend: 1.4.1 to 2.0.2
+        - jquery: 3.6.0 to 3.6.1
+        - jsts: 2.9.1 to 2.9.2
+        - moment-timezone: 0.5.37 to 0.5.39
+        - vue: 2.7.8 to 2.7.14
+        - vue-template-compiler: 2.7.8 to 2.7.14
+    - devDependencies
+        - @sinonjs/fake-timers: 9.1.2 to 10.0.0
+        - canvas: 2.9.3 to 2.10.2
+        - chai: 4.3.6 to 4.3.7
+        - dotenv: 16.0.1 to 16.0.3
+        - eslint: 8.21.0 to 8.28.0
+        - eslint-plugin-vue: 9.3.0 to 9.8.0
+        - eslint-plugin-vuejs-accessibility: 1.2.0 to 2.0.0
+        - husky: 8.0.1 to 8.0.2
+        - jsdoc: 3.6.11 to 4.0.0
+        - mocha: 10.0.0 to 10.1.0
+        - node-fetch: 3.2.10 to 3.3.0
+        - regenerator-runtime: 0.13.9 to 0.13.11
+        - sass: 1.54.0 to 1.56.1
+        - selenium-webdriver: 4.3.1 to 4.6.1
+        - sinon: 14.0.0 to 14.0.2
 
 ### Fixed
+- Issue #813: following fixes regarding wmsTime
+  - the layer on the left side is no longer visible on the right
+  - when the animation is finished, the icon of the play button displays now immediately the play icon again
+  - moving the swiper after the playback ended updates the view correctly now
+  - if the last slider position is clicked, the playing status becomes false
+  - added a loading spinner and disabled all inputs while the layer is not fully loaded
+  - setting the target layer for the swiper directly instead of retrieving it in mounted hook to prevent load time issues
+- Issue #820: CoordToolkit - Space inserted between 84 and (Dezimalgrad)
 - Issue #821: Sorting the table in featureLister tool now works again
+- Issue #844: fileImport now converts the projection of geoJSON if necessary
 - Issue #845: The buffer analysis tool now shows results correctly again
+- Issue #846: The featureLister now shows features of initial visible WFS again
+- Issue #848: Drawing tool Export of circles to KML gives correct coordinates.
+- Issue #851: Filter - When the multiLayerSelector attribute is set to false, it no longer prevents the accordions from opening.
+- Issue #852: MouseoverHover: change mouseover text information color from light to dark grey.
+- Issue #853: The quickHelp tool is now configurable for the layer tree
+- Issue #854: The save selection tool takes into account the order of layers.
+- Fix some vulnerabilities in dependencies
+- Filter throws error when a layerGroup has an empty layers list
+- Fix the position of the unfreeze button which should be over the menu on the touch table view
+- After a layer is selected from the search results it is now getting added to the layer tree again
+- Do not show alert message to use 2 Fingers on GFI Window or any other div apart from map if twoFingerPan is configured to true
+- MouseHover: Fix the MouseHover to work in smaller iframes
 
 ---
 
@@ -66,6 +117,7 @@
     - showMetaDataRevision: Adds a new parameter with boolean format in layerInformation to decide if to show "Letzte Änderung" in Meta data of layer information.
 - Theme Tree: added a new parameter `filterRefId` in layer as an Index of a configured filter Layer
 - DPS-1313: Add alert message if 2-Finger-Pan is configured and 1-Finger-Pan is used on mobile devices
+
 ### Changed
 - The version of node was updated, must be >= 16.13.2 <= 16.18.0 and the version of npm was updated, must be >= 8.1.2 <=8.19.2.
 - The following NPM packages have been updated:
@@ -114,6 +166,8 @@
 ---
 
 ## v2.26.0 - 2022-10-05
+### __Breaking Changes__
+The control `buttonOblique` was removed. From now, the new addon [obliqueViewer](https://bitbucket.org/geowerkstatt-hamburg/addons/src/dev/obliqueViewer/) allows to configure oblique viewer. Further details: [obliqueViewer documentation](https://bitbucket.org/geowerkstatt-hamburg/addons/src/dev/obliqueViewer/doc/config.json.md)
 ### Added
 - Draw-Tool:
     - if there are attributes set on the feature of drawn layer, after clicking on the feature, the attributes will be shown in standard gfi theme.
@@ -148,6 +202,7 @@
 
 ### Removed
 - The image of the default MapMarker was removed from img folder.
+- The control `buttonOblique` was removed.
 
 ### Fixed
 - Issue #765: mobile: order of menu entries at first level does no longer change after selected an entry and went back to menu.

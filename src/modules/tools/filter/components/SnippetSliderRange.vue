@@ -782,14 +782,11 @@ export default {
 
     .snippetSliderRangeContainer {
         height: auto;
-
         .titleWrapper {
-            position: relative;
-            height: 16px;
             .title {
-                position: absolute;
+                float: left;
                 left: 0;
-                width: 90%;
+                padding-right: 15px;
             }
             .info {
                 position: absolute;
@@ -797,6 +794,7 @@ export default {
             }
         }
         .inputWrapper {
+            clear: both;
             position: relative;
             margin-top: 5px;
             height: 24px;

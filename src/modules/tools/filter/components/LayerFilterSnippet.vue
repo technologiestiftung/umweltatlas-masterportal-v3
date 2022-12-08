@@ -303,7 +303,7 @@ export default {
         setSearchInMapExtent (value) {
             this.searchInMapExtent = value;
 
-            if (this.layerConfig?.searchInMapExtentProactive !== false && this.isStrategyActive()) {
+            if (value === true && this.layerConfig?.searchInMapExtentProactive !== false && !this.layerConfig?.searchInMapExtentPreselected && this.isStrategyActive()) {
                 this.handleActiveStrategy();
             }
         },
@@ -437,7 +437,7 @@ export default {
             this.deleteRulesOfChildren(this.getSnippetById(snippetId));
             if (this.isStrategyActive() || this.isParentSnippet(snippetId)) {
                 this.$nextTick(() => {
-                    this.handleActiveStrategy(snippetId, !this.hasUnfixedRules(this.filterRules) && this.layerConfig.resetLayer ? true : undefined);
+                    this.handleActiveStrategy(snippetId, !this.hasUnfixedRules(this.filterRules) && this.layerConfig.resetLayer && !this.layerConfig.clearAll ? true : undefined);
                 });
             }
         },
@@ -477,7 +477,7 @@ export default {
             if (this.isStrategyActive()) {
                 this.$nextTick(() => {
                     this.isLockedHandleActiveStrategy = false;
-                    this.handleActiveStrategy(undefined, this.layerConfig.resetLayer ? true : undefined);
+                    this.handleActiveStrategy(undefined, this.layerConfig.resetLayer && !this.layerConfig.clearAll ? true : undefined);
                 });
             }
         },
@@ -849,6 +849,7 @@ export default {
             <SnippetCheckboxFilterInMapExtent
                 :info="layerConfig.searchInMapExtentInfo"
                 :filter-id="layerConfig.filterId"
+                :preselected="layerConfig.searchInMapExtentPreselected"
                 @commandChanged="setSearchInMapExtent"
             />
         </div>
