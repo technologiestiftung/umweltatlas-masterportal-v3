@@ -56,9 +56,9 @@ export default {
      * @param {Function} rootGetters rootGetters function
      * @returns {void}
     */
-    highlightPointFeature: function (modelId, styleId, name, gfiAttributes, features, dispatch) {
+    highlightPointFeature: function (styleId, layerId, name, rawLayer, features, dispatch, rootGetters) {
         const styleObject = returnStyleObject(styleId),
-            highlightLayer = this.createVectorLayer(modelId, styleId, name, gfiAttributes);
+            highlightLayer = this.createVectorLayer(styleId, layerId, name, rawLayer.gfiAttributes);
         let hadPoint = false;
 
         features.forEach(feature => {
@@ -113,9 +113,9 @@ export default {
      * @param {Function} rootGetters rootGetters function
      * @returns {void}
     */
-    highlightLineOrPolygonFeature: function (modelId, styleId, name, geometryRequested, gfiAttributes, features, dispatch) {
+    highlightLineOrPolygonFeature: function (styleId, layerId, name, geometryRequested, rawLayer, features, dispatch, rootGetters) {
         const styleObject = returnStyleObject(styleId),
-            highlightLayer = this.createVectorLayer(modelId, styleId, name, gfiAttributes);
+            highlightLayer = this.createVectorLayer(styleId, layerId, name, rawLayer.gfiAttributes);
         let hadGeometry = false;
 
         features.forEach(feature => {
