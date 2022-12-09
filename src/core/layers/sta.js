@@ -13,6 +13,7 @@ import getProxyUrl from "../../utils/getProxyUrl";
 import isObject from "../../utils/isObject";
 import {SensorThingsMqtt} from "../../utils/sensorThingsMqtt";
 import {SensorThingsHttp} from "../../utils/sensorThingsHttp";
+import crs from "@masterportal/masterportalapi/src/crs";
 import store from "../../app-store";
 import moment from "moment";
 import "moment-timezone";
@@ -420,6 +421,9 @@ STALayer.prototype.createMqttConnectionToSensorThings = function (url, mqttOptio
             phenomenonTime = this.getLocalTimeFormat(observation.phenomenonTime, timezone);
 
         this.updateObservationForDatastreams(feature, datastreamId, observation);
+        if (this.get("observeLocation")) {
+            this.updateFeatureLocation(feature, observation);
+        }
         this.updateFeatureProperties(feature, datastreamId, observation.result, phenomenonTime, showNoDataValue, noDataValue, bridge.changeFeatureGFI);
     });
 };
@@ -1374,6 +1378,9 @@ STALayer.prototype.unsubscribeFromSensorThings = function (datastreamIdsNotToUns
     Object.entries(subscriptionTopics).forEach(([id, isTopicSubscribed]) => {
         if (isVisibleInMap === false || isVisibleInMap === true && isTopicSubscribed === true && !Object.prototype.hasOwnProperty.call(datastreamIdsAssoc, id)) {
             mqttClient.unsubscribe("v" + version + "/Datastreams(" + id + ")/Observations");
+            if (this.get("observeLocation")) {
+                mqttClient.unsubscribe("v" + version + "/Datastreams(" + id + ")/Thing/Locations");
+            }
             subscriptionTopics[id] = false;
         }
     });
@@ -1398,6 +1405,9 @@ STALayer.prototype.subscribeToSensorThings = function (dataStreamIds, subscripti
     dataStreamIds.forEach(id => {
         if (id && !subscriptionTopics[id]) {
             mqttClient.subscribe("v" + version + "/Datastreams(" + id + ")/Observations", mqttSubscribeOptions);
+            if (this.get("observeLocation")) {
+                mqttClient.subscribe("v" + version + "/Datastreams(" + id + ")/Thing/Locations", mqttSubscribeOptions);
+            }
             subscriptionTopics[id] = true;
         }
     });
@@ -1422,6 +1432,22 @@ STALayer.prototype.updateObservationForDatastreams = function (feature, dataStre
             datastream.Observations = [observation];
         }
     });
+};
+
+/**
+ * Updates the location of a feature.
+ * @param {ol/Feature} feature feature to be updated
+ * @param {Object} observation the observation to update the old coordinates with
+ * @returns {void}
+ */
+STALayer.prototype.updateFeatureLocation = function (feature, observation) {
+    if (typeof feature?.getGeometry !== "function" || !Array.isArray(observation?.location?.geometry?.coordinates) || !observation.location.geometry.coordinates.length) {
+        return;
+    }
+    const mapProjection = store.getters["Maps/projection"].getCode(),
+        coordinates = this.get("epsg") !== mapProjection ? crs.transform(this.get("epsg"), mapProjection, observation.location.geometry.coordinates) : observation.location.geometry.coordinates;
+
+    feature.getGeometry().setCoordinates(coordinates);
 };
 
 /**
