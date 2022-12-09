@@ -87,7 +87,7 @@
     "i18next-http-backend": "^2.0.2",
     "jquery": "^3.6.1",
     "jquery-ui": "^1.13.2",
-    "jsts": "^2.9.2",
+    "jsts": "2.9.2",
     "masterportalapi": "file:../masterportalapi",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.39",
