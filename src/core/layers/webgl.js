@@ -11,7 +11,6 @@ import * as bridge from "./RadioBridge.js";
 import {bbox, all} from "ol/loadingstrategy.js";
 import {packColor} from "ol/renderer/webgl/shaders";
 
-
 /**
  * The default style for OpenLayers WebGLPoints class
  * @see https://openlayers.org/en/latest/examples/webgl-points-layer.html
@@ -29,95 +28,8 @@ const defaultStyle = {
 };
 
 /**
- * parses the styling rules for the renderer
- * @static
- * @private
- * @returns {Object} the style options object with conditional functions
- */
-function getStyleFunctions () {
-    return {
-        /**
-         * Used for polygon fills
-            * Reads the relevant properties from the Masterportal style object
-            * @see https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/style.json.md
-         */
-        fill: {
-            attributes: {
-                color: (feature) => {
-                    if (!feature._styleRule) {
-                        return packColor("#006688");
-                    }
-                    return packColor(feature._styleRule.style.polygonFillColor);
-                },
-                opacity: (feature) => {
-                    if (!feature._styleRule) {
-                        return 0.8;
-                    }
-                    return feature._styleRule.style.polygonFillColor[3] || 1;
-                }
-            }
-        },
-        stroke: {
-            /**
-             * Used for polygon edges and lineStrings
-             * Reads the relevant properties from the Masterportal style object
-             * @see https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/style.json.md
-             */
-            attributes: {
-                color: (feature) => {
-                    if (!feature._styleRule) {
-                        return packColor("#006688");
-                    }
-                    return packColor(feature._styleRule.style.polygonStrokeColor);
-                },
-                width: (feature) => {
-                    if (!feature._styleRule) {
-                        return packColor("#006688");
-                    }
-                    return feature._styleRule.style.polygonStrokeWidth;
-                },
-                opacity: (feature) => {
-                    if (!feature._styleRule) {
-                        return packColor("#006688");
-                    }
-                    return feature._styleRule.style.polygonStrokeColor[3] || 1;
-                }
-            }
-        },
-        point: {
-            /**
-             * As of now, the generic VectorLayerRenderer only supports points rendered as quads
-             * available attributes: color, size, opacity
-             * Due to that, we use WebGLPoints Layer Class for point geom types
-             * Reads the relevant properties from the Masterportal style object
-             * @see https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/style.json.md
-             */
-            attributes: {
-                color: (feature) => {
-                    if (!feature._styleRule) {
-                        return packColor("#006688");
-                    }
-                    return packColor(feature._styleRule.style.circleFillColor);
-                },
-                size: (feature) => {
-                    if (!feature._styleRule) {
-                        return 20;
-                    }
-                    return feature._styleRule.style.circleRadius;
-                },
-                opacity: (feature) => {
-                    if (!feature._styleRule) {
-                        return 0.8;
-                    }
-                    return feature._styleRule.style.circleFillColor[3] || 1;
-                }
-            }
-        }
-    };
-}
-
-/**
- * Creates a layer of type WebGL (point geometries only).
+ * Creates a layer of type WebGL
+ * Uses different render pipelines for point geometries vs. linestring/polygon geometries
  * @augments Layer
  * @class
  * @param {Object} attrs  attributes of the layer
@@ -130,7 +42,8 @@ function getStyleFunctions () {
 export default function WebGLLayer (attrs) {
     const defaults = {
         style: defaultStyle,
-        hitTolerance: 10
+        hitTolerance: 10,
+        sourceUpdated: false // necessary if source layer is WFS
     };
 
     this.features = [];
@@ -145,6 +58,8 @@ WebGLLayer.prototype = Object.create(Layer.prototype);
 
 /**
  * Triggert by Layer to create a ol/layer/Vector
+ * Sets all needed attributes at the layer and the layer source.
+ * Based on WFSLayer.createLayer
  * @memberof WebGLLayer
  * @override
  * @param {Object} attrs  attributes of the layer
@@ -153,7 +68,7 @@ WebGLLayer.prototype = Object.create(Layer.prototype);
  */
 WebGLLayer.prototype.createLayer = function (attrs) {
     const
-        sourceLayer = rawLayerList.getLayerWhere({id: attrs.sourceId}),
+        sourceLayer = rawLayerList.getLayerWhere({id: attrs.sourceId}) || attrs,
         options = {
             map: mapCollection.getMap("2D"),
             featuresFilter: this.getFeaturesFilterFunction(attrs),
@@ -237,7 +152,7 @@ WebGLLayer.prototype.createVectorLayerRenderer = function () {
          * @experimental
          */
         createRenderer () {
-            return new WebGLVectorLayerRenderer(this, getStyleFunctions());
+            return new WebGLVectorLayerRenderer(this, WebGLLayer.prototype._getRenderFunctions());
         }
     }
 
@@ -270,7 +185,7 @@ WebGLLayer.prototype.createLayerSource = function (rawLayer, options) {
         return geojson.createLayerSource({url: rawLayer.url, features: rawLayer.features}, options);
     }
 
-    return new VectorSource(); // else return empty VectorSource
+    return new VectorSource({features: rawLayer.features}); // else return VectorSource, potentially with features
 };
 
 /**
@@ -323,8 +238,8 @@ WebGLLayer.prototype.createLayerInstance = function (attrs) {
 WebGLLayer.prototype.createLegend = function (attrs) {
     const
         sourceLayer = rawLayerList.getLayerWhere({id: attrs.sourceId}),
-        styleId = attrs.styleId || sourceLayer.styleId,
-        legendURL = this.get("legendURL") || sourceLayer.legendURL,
+        styleId = attrs.styleId || sourceLayer?.styleId,
+        legendURL = this.get("legendURL") || sourceLayer?.legendURL,
         styleModel = bridge.getStyleModelById(styleId);
     let
         legend = this.get("legend");
@@ -378,11 +293,12 @@ WebGLLayer.prototype.createLegend = function (attrs) {
 /**
  * Updates the layers source by calling refresh at source.
  * @override
+ * @implements {WFSLayer.updateSource}
  * @memberof WebGLLayer
  * @returns {void}
  */
 WebGLLayer.prototype.updateSource = function () {
-    this.source.refresh();
+    WFSLayer.prototype.updateSource.call(this);
 };
 
 /**
@@ -404,6 +320,7 @@ WebGLLayer.prototype.clearSource = function () {
  * @returns {void}
  */
 WebGLLayer.prototype._formatFeatureStyles = function (feature, styleModel) {
+    // extract first matching rule only
     const rule = styleModel?.getRulesForFeature(feature)[0];
 
     // don't set on properties to avoid GFI issues
@@ -453,21 +370,115 @@ WebGLLayer.prototype._formatFeatureData = function (feature, excludeTypes = ["bo
 };
 
 /**
+ * parses the styling rules for the renderer
+ * @static
+ * @private
+ * @returns {Object} the style options object with conditional functions
+ */
+WebGLLayer.prototype._getRenderFunctions = function () {
+    return {
+        /**
+         * Used for polygon fills
+         * Reads the relevant properties from the Masterportal style object
+         * @see https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/style.json.md
+         */
+        fill: {
+            attributes: {
+                color: (feature) => {
+                    if (!feature._styleRule) {
+                        return packColor("#006688");
+                    }
+                    return packColor(feature._styleRule.style.polygonFillColor);
+                },
+                opacity: (feature) => {
+                    if (!feature._styleRule) {
+                        return 0.8;
+                    }
+                    return feature._styleRule.style.polygonFillColor[3] || 1;
+                }
+            }
+        },
+        stroke: {
+            /**
+             * Used for polygon edges and lineStrings
+             * Reads the relevant properties from the Masterportal style object
+             * @see https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/style.json.md
+             */
+            attributes: {
+                color: (feature) => {
+                    if (!feature._styleRule) {
+                        return packColor("#006688");
+                    }
+                    return packColor(feature._styleRule.style.polygonStrokeColor);
+                },
+                width: (feature) => {
+                    if (!feature._styleRule) {
+                        return 1;
+                    }
+                    return feature._styleRule.style.polygonStrokeWidth;
+                },
+                opacity: (feature) => {
+                    if (!feature._styleRule) {
+                        return 1;
+                    }
+                    return feature._styleRule.style.polygonStrokeColor[3] || 1;
+                }
+            }
+        },
+        point: {
+            /**
+             * As of now, the generic VectorLayerRenderer only supports points rendered as quads
+             * available attributes: color, size, opacity
+             * Due to that, we use WebGLPoints Layer Class for point geom types
+             * Reads the relevant properties from the Masterportal style object
+             * @see https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/style.json.md
+             */
+            attributes: {
+                color: (feature) => {
+                    if (!feature._styleRule) {
+                        return packColor("#006688");
+                    }
+                    return packColor(feature._styleRule.style.circleFillColor);
+                },
+                size: (feature) => {
+                    if (!feature._styleRule) {
+                        return 20;
+                    }
+                    return feature._styleRule.style.circleRadius;
+                },
+                opacity: (feature) => {
+                    if (!feature._styleRule) {
+                        return 0.8;
+                    }
+                    return feature._styleRule.style.circleFillColor[3] || 1;
+                }
+            }
+        }
+    };
+};
+
+/**
  * Sets the attribute isSelected and sets the layers visibility. If newValue is false, the layer is removed from map.
  * Calls the layer super, disposes WebGL resources if layer is set invisible
  * @override
  * @memberof WebGLLayer
+ * @implements {Layer.setIsSelected}
  * @param {Boolean} newValue true, if layer is selected
+ * @todo rerender map after canvas render complete
+ *       necessary for GPU rendering, since no map/layer event catches the rendering correctly
+ *       otherwise icons will be rendered as black quads
  * @returns {void}
  */
-WebGLLayer.prototype.setIsSelected = function (newValue) {
+WebGLLayer.prototype.setIsSelected = async function (newValue) {
     if (this.isDisposed()) {
+        // recreate layer instance if buffer has been disposed
         this.layer = this.createLayerInstance(this.attributes);
     }
 
     Layer.prototype.setIsSelected.call(this, newValue);
 
     if (!this.get("isVisibleInMap")) {
+        // dispose WebGL buffer if layer removed
         this.layer.dispose();
     }
 };
@@ -532,7 +543,7 @@ WebGLLayer.prototype.isPointLayer = function (isPointLayer) {
         }
         else {
             this._isPointLayer = this.source.getFeatures().every(feature => {
-                const geomType = feature.getGeometry().getType();
+                const geomType = feature.getGeometry()?.getType();
 
                 return geomType === "Point" || geomType === "MultiPoint";
             });
