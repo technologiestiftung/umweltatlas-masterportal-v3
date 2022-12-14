@@ -143,6 +143,8 @@ describe("src/core/layers/webgl.js", () => {
             const webglLayer = new WebGLLayer(layerAttrs);
 
             expect(webglLayer.layer).to.be.instanceof(WebGLPointsLayer);
+            expect(webglLayer.layer.get("isPointLayer")).to.equal(true);
+            expect(webglLayer._isPointLayer).to.equal(true);
         });
         it("should return a custom Layer", () => {
             layerAttrs.isPointLayer = false;
@@ -150,6 +152,8 @@ describe("src/core/layers/webgl.js", () => {
 
             expect(webglLayer.layer).to.be.instanceof(Layer);
             expect(webglLayer.layer).to.not.be.instanceof(WebGLPointsLayer);
+            expect(webglLayer.layer.get("isPointLayer")).to.equal(false);
+            expect(webglLayer._isPointLayer).to.equal(false);
         });
         it("should return a WebGLPointsLayer, based on features", () => {
             layerAttrs.sourceId = undefined;
@@ -157,6 +161,8 @@ describe("src/core/layers/webgl.js", () => {
             const webglLayer = new WebGLLayer(layerAttrs);
 
             expect(webglLayer.layer).to.be.instanceof(WebGLPointsLayer);
+            expect(webglLayer.layer.get("isPointLayer")).to.equal(true);
+            expect(webglLayer._isPointLayer).to.equal(true);
         });
         it("should return a custom Layer, based on features", () => {
             layerAttrs.sourceId = undefined;
@@ -165,6 +171,8 @@ describe("src/core/layers/webgl.js", () => {
 
             expect(webglLayer.layer).to.be.instanceof(Layer);
             expect(webglLayer.layer).to.not.be.instanceof(WebGLPointsLayer);
+            expect(webglLayer.layer.get("isPointLayer")).to.equal(false);
+            expect(webglLayer._isPointLayer).to.equal(false);
         });
     });
     describe("getFeaturesFilterFunction", () => {

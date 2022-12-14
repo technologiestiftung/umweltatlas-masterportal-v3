@@ -2,9 +2,8 @@ import {expect} from "chai";
 import sinon from "sinon";
 import FilterApi from "../../../interfaces/filter.api";
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
-import olFunctions from "../../../utils/openlayerFunctions";
 
-describe.only("src/modules/tools/filter/interfaces/filter.api.js", () => {
+describe("src/modules/tools/filter/interfaces/filter.api.js", () => {
 
     describe("setServiceByLayerModel", () => {
         let layerId, layerModel, sourceLayerList, onerror;
@@ -39,25 +38,18 @@ describe.only("src/modules/tools/filter/interfaces/filter.api.js", () => {
             };
             sourceLayerList = [{
                 id: "123",
-                typ: "WFS",
-                featureNS: "namespace/xyz",
-                url: "www.abc.xyz",
-                featureType: "feature-type"
+                typ: "GeoJSON",
+                url: "www.abc.xyz"
             }];
-
-            sinon.stub(olFunctions, "getMapProjection").returns("EPSG:25832");
 
             const filterApi = new FilterApi();
 
-            filterApi.setServiceByLayerModel(layerId, layerModel, true, onerror);
+            filterApi.setServiceByLayerModel(layerId, layerModel, false, onerror);
             expect(filterApi.service).to.deep.equal({
-                type: "wfs",
-                extern: true,
+                type: "geojson",
+                extern: false,
                 layerId: "webgl",
-                url: "www.abc.xyz",
-                featureNS: "namespace",
-                featurePrefix: "xyz",
-                featureTypes: ["feature-type"]
+                url: "www.abc.xyz"
             });
         });
         it("should use original WebGL layer no source layer provided", () => {

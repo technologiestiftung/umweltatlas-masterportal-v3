@@ -218,14 +218,16 @@ WebGLLayer.prototype.createLayerInstance = function (attrs) {
         return new LayerConstructor({
             style: attrs.style,
             disableHitDetection: false,
-            ...opts
+            ...opts,
+            isPointLayer: this._isPointLayer
         });
     }
 
     // use ol/renderer/webgl/WebGLVectorLayerRenderer if not point layer
     LayerConstructor = this.createVectorLayerRenderer(attrs);
     return new LayerConstructor({
-        ...opts
+        ...opts,
+        isPointLayer: this._isPointLayer
     });
 };
 

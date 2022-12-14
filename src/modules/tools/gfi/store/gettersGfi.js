@@ -20,6 +20,7 @@ const getters = {
         const featuresAtPixel = [];
 
         if (clickPixel && mode === "2D") {
+            // doesn't work for WebGL layers, behavior is different from mouseHover, reason unclear, same method
             mapCollection.getMap("2D").forEachFeatureAtPixel(clickPixel, (feature, layer) => {
                 if (layer?.getVisible() && layer?.get("gfiAttributes") && layer?.get("gfiAttributes") !== "ignore") {
                     if (feature.getProperties().features) {
