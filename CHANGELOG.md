@@ -13,6 +13,7 @@ Core/Layers/WebGLLayer: New layer-type for rendering WFS, GeoJSON or VectorBase 
 filter/filter.api: Unittests for WebGL use cases
 
 ### Changed
+Routing: changed isochrones url from '/v2/isochrones/$SpeedProfile' to '/v2/isochrones/$SpeedProfile/geojson' to fit to new routing service version.
 ModelList/updateLayerView: Only add layers to index if they are actually being displayed on the map (removes unnecessary calls)
 configLoader/parserCustomTree/parseTree: don't skip layers without matching rawLayer from services.json, that have a sourceId provided (no checkup on existing source layers yet)
 actionsMapLayers/addLayerOnTop: Use the ModelList for the length of the layer list, not the map, as layer that are not visible or have been disposed (WebGL) might not be on the map
