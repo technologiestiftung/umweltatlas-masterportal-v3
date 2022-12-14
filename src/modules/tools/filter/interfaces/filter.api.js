@@ -81,11 +81,16 @@ export default class FilterApi {
         if (type === "webgl") {
             const rawLayer = rawLayerList.getLayerWhere({id: layerModel.get("sourceId")});
 
+            // if source layer exists use its information
             if (rawLayer) {
                 type = rawLayer.typ.toLowerCase();
                 featureNS = rawLayer.featureNS;
                 url = rawLayer.url;
                 featureType = rawLayer.featureType;
+            }
+            // use type provided through sourceId attr alternatively
+            else {
+                type = layerModel.get("sourceId").toLowerCase();
             }
         }
 

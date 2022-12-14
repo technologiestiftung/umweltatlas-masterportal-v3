@@ -7,7 +7,7 @@ import isObject from "../../../../utils/isObject";
  * Returns the map projection.
  * @returns {String} the projection
  */
-function getMapProjection () {
+export function getMapProjection () {
     return store.getters["Maps/projection"].getCode();
 }
 
@@ -16,7 +16,7 @@ function getMapProjection () {
  * @param {String} layerId the id of the layer
  * @returns {ol/Feature[]} the features
  */
-function getFeaturesByLayerId (layerId) {
+export function getFeaturesByLayerId (layerId) {
     let layer = Radio.request("ModelList", "getModelByAttributes", {id: layerId});
 
     if (!layer || !layer?.has("layer")) {
@@ -57,7 +57,7 @@ function getFeaturesByLayerId (layerId) {
  * Returns the current browser extent.
  * @returns {ol/Extent} The current browser extent.
  */
-function getCurrentExtent () {
+export function getCurrentExtent () {
     return store.getters["Maps/getCurrentExtent"];
 }
 
@@ -66,7 +66,7 @@ function getCurrentExtent () {
  * @param {ol/Feature} feature the feature to check
  * @returns {Boolean} true if the feature is in the current map extent of the browser
  */
-function isFeatureInMapExtent (feature) {
+export function isFeatureInMapExtent (feature) {
     const mapExtent = getCurrentExtent();
 
     return intersects(mapExtent, feature.getGeometry().getExtent());
@@ -78,7 +78,7 @@ function isFeatureInMapExtent (feature) {
  * @param {ol/Geometry} geometry the geometry to intersect with
  * @returns {Boolean} true if the feature intersects the geometry
  */
-function isFeatureInGeometry (feature, geometry) {
+export function isFeatureInGeometry (feature, geometry) {
     if (typeof geometry?.intersectsExtent !== "function" || !isObject(feature)) {
         return false;
     }
@@ -90,7 +90,7 @@ function isFeatureInGeometry (feature, geometry) {
  * @param {String} layerId the id of the layer
  * @returns {ol/Layer} the layer
  */
-function getLayerByLayerId (layerId) {
+export function getLayerByLayerId (layerId) {
     return Radio.request("ModelList", "getModelByAttributes", {id: layerId});
 }
 
@@ -100,7 +100,7 @@ function getLayerByLayerId (layerId) {
  * @param {String[]} ids a list of feature ids
  * @returns {void}
  */
-function showFeaturesByIds (layerId, ids) {
+export function showFeaturesByIds (layerId, ids) {
     Radio.trigger("ModelList", "showFeaturesById", layerId, ids);
 }
 
@@ -109,7 +109,7 @@ function showFeaturesByIds (layerId, ids) {
  * @param {String} layername the id of the new layer
  * @returns {ol/Layer} the layer
  */
-function createLayerIfNotExists (layername) {
+export function createLayerIfNotExists (layername) {
     return Radio.request("Map", "createLayerIfNotExists", layername);
 }
 
@@ -121,7 +121,7 @@ function createLayerIfNotExists (layername) {
  * @param {Function} callback the callback to call when zoom has finished
  * @returns {void}
  */
-function zoomToFilteredFeatures (minScale, featureIds, layerId, callback) {
+export function zoomToFilteredFeatures (minScale, featureIds, layerId, callback) {
     // eslint-disable-next-line new-cap
     const minResolution = store.getters["Maps/getResolutionByScale"](minScale);
 
@@ -138,7 +138,7 @@ function zoomToFilteredFeatures (minScale, featureIds, layerId, callback) {
  * @param {Function} callback the callback to call when zoom has finished
  * @returns {void}
  */
-function zoomToExtent (extent, minScale, callback) {
+export function zoomToExtent (extent, minScale, callback) {
     // eslint-disable-next-line new-cap
     const minResolution = store.getters["Maps/getResolutionByScale"](minScale);
 
@@ -153,7 +153,7 @@ function zoomToExtent (extent, minScale, callback) {
  * @param {String} layerId the layer Id
  * @returns {void}
  */
-function addLayerByLayerId (layerId) {
+export function addLayerByLayerId (layerId) {
     Radio.trigger("ModelList", "addModelsByAttributes", {id: layerId});
 }
 
@@ -166,7 +166,7 @@ function addLayerByLayerId (layerId) {
  * @param {*} value the value to change the old value to
  * @returns {void}
  */
-function setParserAttributeByLayerId (layerId, key, value) {
+export function setParserAttributeByLayerId (layerId, key, value) {
     const lightModels = Radio.request("Parser", "getItemsByAttributes", {id: layerId});
 
     if (Array.isArray(lightModels) && lightModels.length === 1) {
@@ -178,7 +178,7 @@ function setParserAttributeByLayerId (layerId, key, value) {
  * Returns all current layers.
  * @returns {ol/Layer[]} a list of layers
  */
-function getLayers () {
+export function getLayers () {
     return mapCollection.getMap("2D").getLayers();
 }
 
@@ -186,7 +186,7 @@ function getLayers () {
  * Check if current ui style is table
  * @returns {Boolean} true/false if current ui style of portal is table
  */
-function isUiStyleTable () {
+export function isUiStyleTable () {
     return store.getters.uiStyle === "TABLE";
 }
 
@@ -195,7 +195,7 @@ function isUiStyleTable () {
  * @param {Object} element the html element in Object
  * @returns {void}
  */
-function setFilterInTableMenu (element) {
+export function setFilterInTableMenu (element) {
     Radio.trigger("TableMenu", "appendFilter", element);
 }
 
@@ -203,11 +203,11 @@ function setFilterInTableMenu (element) {
  * Returns the infos from info.json.
  * @returns {Object} an object with key value pairs as attrName and text content
  */
-function getSnippetInfos () {
+export function getSnippetInfos () {
     return Radio.request("Parser", "getSnippetInfos");
 }
 
-export {
+export default {
     getMapProjection,
     createLayerIfNotExists,
     getFeaturesByLayerId,

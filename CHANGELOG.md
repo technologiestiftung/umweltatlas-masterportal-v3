@@ -9,14 +9,22 @@
 
 ### Added
 StyleModel: attribute "rotation" is added to text style.
+Core/Layers/WebGLLayer: New layer-type for rendering WFS, GeoJSON or VectorBase layers using OL7's WebGL render pipelines
+filter/filter.api: Unittests for WebGL use cases
 
 ### Changed
+ModelList/updateLayerView: Only add layers to index if they are actually being displayed on the map (removes unnecessary calls)
+configLoader/parserCustomTree/parseTree: don't skip layers without matching rawLayer from services.json, that have a sourceId provided (no checkup on existing source layers yet)
+actionsMapLayers/addLayerOnTop: Use the ModelList for the length of the layer list, not the map, as layer that are not visible or have been disposed (WebGL) might not be on the map
+filter/filter.api: lookup source layer info for WebGL layers
+
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+actionsMapLayers/addLayer: don't set zIndex by default, otherwise addLayerOnTop and addLayerToIndex have no effect
 
 ---
 

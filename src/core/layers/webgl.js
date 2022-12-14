@@ -68,7 +68,8 @@ WebGLLayer.prototype = Object.create(Layer.prototype);
  */
 WebGLLayer.prototype.createLayer = function (attrs) {
     const
-        sourceLayer = rawLayerList.getLayerWhere({id: attrs.sourceId}) || attrs,
+        // use referenced source layer or local layer if sourceId is layerType ("GeoJson", "WFS")
+        sourceLayer = rawLayerList.getLayerWhere({id: attrs.sourceId}) || {...attrs, typ: attrs.sourceId},
         options = {
             map: mapCollection.getMap("2D"),
             featuresFilter: this.getFeaturesFilterFunction(attrs),
@@ -237,7 +238,7 @@ WebGLLayer.prototype.createLayerInstance = function (attrs) {
  */
 WebGLLayer.prototype.createLegend = function (attrs) {
     const
-        sourceLayer = rawLayerList.getLayerWhere({id: attrs.sourceId}),
+        sourceLayer = rawLayerList.getLayerWhere({id: attrs.sourceId}) || {...attrs, typ: attrs.sourceId},
         styleId = attrs.styleId || sourceLayer?.styleId,
         legendURL = this.get("legendURL") || sourceLayer?.legendURL,
         styleModel = bridge.getStyleModelById(styleId);

@@ -149,96 +149,115 @@
         "deactivateGFI": false,
         "isGeneric": false,
         "isInitOpen": false,
-        "layers": [
+        "allowMultipleQueriesPerLayer": false,
+        "predefinedQueries": [
           {
-            "layerId": "webgl_dipas",
-            "title": "DIPAS contributions",
-            "strategy": "active",
-            "showHits": true,
-            "shortDescription": "DIPAS contributions, incl. NLP results.",
-            "snippetTags": true,
-            "paging": 100,
-            "snippets": [
+            "layerId": "8712",
+            "isActive": false,
+            "isSelected": false,
+            "name": "Grundschulen",
+            "predefinedRules": [
               {
-                "title": "Total Votes",
-                "attrName": "Total_votes",
-                "type": "sliderRange"
-              },
-              {
-                "title": "NLP Sentiment Result",
-                "attrName": "compound",
-                "type": "sliderRange"
-              },
-              {
-                "title": "Thema",
-                "attrName": "Value"
-              },
-              {
-                "title": "Category",
-                "attrName": "Category"
-              },
-              {
-                "attrName": "Contributiontext",
-                "operator": "IN",
-                "type": "text",
-                "placeholder": "Search in Text..."
-              },
-              {
-                "attrName": "Created (UTC)",
-                "type": "dateRange"
-              }
-            ]
-          },
-          {
-            "layerId": "webgl_schulen_1",
-            "title": "Schools",
-            "strategy": "active",
-            "showHits": true,
-            "shortDescription": "School master data and pupil numbers of Hamburg schools",
-            "description": "School master data and pupil numbers of Hamburg schools",
-            "snippetTags": true,
-            "paging": 100,
-            "snippets": [
-              {
-                "title": "Kapitelbezeichnung",
                 "attrName": "kapitelbezeichnung",
-                "type": "dropdown"
-              },
-              {
-                "title": "Kantine",
-                "attrName": "kantine_vorh",
-                "type": "checkbox",
-                "operator": "EQ"
-              },
-              {
-                "title": "Schülerzahl",
-                "attrName": "anzahl_schueler",
-                "type": "sliderRange"
-              },
-              {
-                "title": "Fremdsprachen",
-                "attrName": "fremdsprache",
-                "type": "dropdown",
-                "delimitor": "|"
-              } 
-            ]
+                "values": [
+                  "Grundschulen",
+                  "Langformschulen"
+                ]
+              }
+            ],
+            "attributeWhiteList": {
+              "bezirk": "Bezirk",
+              "stadtteil": "Stadtteil",
+              "schulform": "Schulform",
+              "ganztagsform": "Ganztagsform",
+              "anzahl_schueler": "Anzahl Schüler",
+              "schwerpunktschule": "Schwerpunktschule",
+              "bilingual": "Bilingual"
+            }
           },
           {
-            "layerId": "webgl_gruenflaechen",
-            "strategy": "active",
-            "showHits": true,
-            "shortDescription": "Verzeichnis Öffentlicher Grünanlagen",
-            "searchInMapExtent": false,
-            "title": "Grünflächen",
-            "snippets": [
-              {"attrName": "bezirk"},
-              {"attrName": "stadtteil"},
-              {"attrName": "nutzung"},
-              {"attrName": "verwaltungsvermoegen"},
-              {"attrName": "flaeche_ha", "type": "sliderRange", "operator": "BETWEEN"},
-              {"attrName": "flaeche_qm", "type": "sliderRange", "operator": "BETWEEN"}
-            ]
-        }
+            "layerId": "8712",
+            "isActive": false,
+            "isSelected": false,
+            "name": "Stadtteilschulen",
+            "predefinedRules": [
+              {
+                "attrName": "kapitelbezeichnung",
+                "values": [
+                  "Stadtteilschulen",
+                  "Langformschulen"
+                ]
+              }
+            ],
+            "attributeWhiteList": {
+              "bezirk": "Bezirk",
+              "stadtteil": "Stadtteil",
+              "schulform": "Schulform",
+              "ganztagsform": "Ganztagsform",
+              "anzahl_schueler": "Schülerzahl",
+              "schwerpunktschule": "Schwerpunktschule Inklusion",
+              "fremdsprache": "Fremdsprachen",
+              "fremdsprache_mit_klasse": "Fremdsprachen ab Klassenstufe",
+              "schulische_ausrichtung": "Schwerpunkte in den Angeboten"
+            }
+          },
+          {
+            "layerId": "8712",
+            "isActive": false,
+            "isSelected": false,
+            "name": "Gymnasien",
+            "info": "Sie finden berufliche Gymnasien ab der Klassenstufe 11 bei den Beruflichen Schulen.",
+            "predefinedRules": [
+              {
+                "attrName": "kapitelbezeichnung",
+                "values": [
+                  "Gymnasien"
+                ]
+              }
+            ],
+            "attributeWhiteList": {
+              "bezirk": "Bezirk",
+              "stadtteil": "Stadtteil",
+              "schulform": "Schulform",
+              "ganztagsform": "Ganztagsform",
+              "anzahl_schueler": "Schülerzahl",
+              "fremdsprache": "Fremdsprachen",
+              "fremdsprache_mit_klasse": "Fremdsprachen ab Klassenstufe",
+              "schulische_ausrichtung": "Schwerpunkte in den Angeboten"
+            }
+          },
+          {
+            "layerId": "8712",
+            "isActive": false,
+            "isSelected": false,
+            "name": "Sonderschulen",
+            "predefinedRules": [
+              {
+                "attrName": "kapitelbezeichnung",
+                "values": [
+                  "Sonderschulen"
+                ]
+              }
+            ],
+            "attributeWhiteList": {
+              "bezirk": "Bezirk",
+              "stadtteil": "Stadtteil",
+              "ganztagsform": "Ganztagsform",
+              "foerderart": "Förderart",
+              "abschluss": "Abschluss"
+            }
+          },
+          {
+            "layerId": "1711",
+            "isActive": true,
+            "isSelected": true,
+            "name": "Krankenhäuser",
+            "predefinedRules": [],
+            "attributeWhiteList": {
+              "teilnahme_geburtsklinik": "Geburtshilfe",
+              "teilnahme_notversorgung": "Not- und Unfallversorgung"
+            }
+          }
         ]
       },
       "tools": {
@@ -462,6 +481,12 @@
           "scaleSwitcher": {
             "name": "translate#common:menu.tools.scaleSwitcher",
             "icon": "bi-arrows-angle-contract"
+          },
+          "obliqueViewer": {
+            "name": "translate#additional:modules.tools.obliqueViewer.title",
+            "icon": "bi-image",
+            "styleId": "obliqueViewer",
+            "isVisibleInMenu": false
           }
         }
       },
@@ -531,7 +556,12 @@
       "mousePosition": true,
       "freeze": true,
       "backForward": true,
-      "button3d": true
+      "button3d": true,
+      "startTool": {
+        "tools": [
+          "obliqueViewer"
+        ]
+      }
     },
     "layersRemovable": true
   },
@@ -605,23 +635,6 @@
     "Fachdaten": {
       "Layer": [
         {
-          "id": "webgl_gruenflaechen",
-          "styleId": "1534"
-        },
-        {
-          "id": "webgl_dipas"
-        },
-        {
-          "id": "webgl_hvv"
-        },
-        {
-          "id": "webgl_schulen_0"
-        },
-        {
-          "id": "webgl_schulen_1",
-          "styleId": "8712"
-        },
-        {
           "id": "1132",
           "styleId": "1132",
           "name": "100 Jahre Stadtgruen POIs",
@@ -630,6 +643,7 @@
         {
           "id": "16100",
           "name": "Hauptkirchen",
+          "visibility": true,
           "isVisibleInTree": false,
           "hiddenFeatures": [
             "DEHH_8aeaf0d5-9f1a-4331-80fd-93b5dd5d8893",
@@ -679,6 +693,7 @@
         {
           "id": "4561",
           "infoFormat": "text/html",
+          "visibility": false,
           "urlIsVisible": false
         },
         {
@@ -710,6 +725,7 @@
         {
           "id": "13765",
           "name": "Err. Arbeitsplätze deegree",
+          "visibility": false,
           "styleable": true,
           "geomType": "Polygon",
           "attributesToStyle": [
@@ -767,6 +783,7 @@
         {
           "id": "1711",
           "styleId": "1711",
+          "visibility": true,
           "layerAttribution": "<span>Attributierung für Fachlayer</span>",
           "mouseHoverField": [
             "name",
@@ -778,6 +795,7 @@
         },
         {
           "id": "8712",
+          "visibility": true,
           "name": "Schulinfosystem",
           "styleId": "8712",
           "searchField": "schulname",
