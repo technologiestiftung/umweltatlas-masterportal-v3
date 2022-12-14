@@ -9,7 +9,7 @@ import mutations from "../../../store/mutationsMap";
 import {expect} from "chai";
 import sinon from "sinon";
 
-describe.only("src/core/maps/actions/actionsMapLayers.js", () => {
+describe("src/core/maps/actions/actionsMapLayers.js", () => {
     const layer1 = new VectorLayer({
             id: "Donald",
             name: "Duck1",
