@@ -397,7 +397,8 @@ WebGLLayer.prototype._getRenderFunctions = function () {
                     if (!feature._styleRule) {
                         return 0.8;
                     }
-                    return feature._styleRule.style.polygonFillColor[3] || 1;
+                    return typeof feature._styleRule.style.polygonFillColor[3] === "number" ?
+                        feature._styleRule.style.polygonFillColor[3] : 1;
                 }
             }
         },
@@ -424,7 +425,8 @@ WebGLLayer.prototype._getRenderFunctions = function () {
                     if (!feature._styleRule) {
                         return 1;
                     }
-                    return feature._styleRule.style.polygonStrokeColor[3] || 1;
+                    return typeof feature._styleRule.style.polygonStrokeColor[3] === "number" ?
+                        feature._styleRule.style.polygonStrokeColor[3] : 1;
                 }
             }
         },
@@ -453,7 +455,8 @@ WebGLLayer.prototype._getRenderFunctions = function () {
                     if (!feature._styleRule) {
                         return 0.8;
                     }
-                    return feature._styleRule.style.circleFillColor[3] || 1;
+                    return typeof feature._styleRule.style.circleFillColor[3] === "number" ?
+                        feature._styleRule.style.circleFillColor[3] : 1;
                 }
             }
         }
