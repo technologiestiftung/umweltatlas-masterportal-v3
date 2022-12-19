@@ -1,7 +1,7 @@
 import {geojson} from "@masterportal/masterportalapi";
 import {GeoJSON} from "ol/format.js";
 import {returnStyleObject} from "masterportalapi/src/vectorStyle/styleList";
-import {createStyle, returnLegends} from "masterportalapi/src/vectorStyle/createStyle";
+import {createStyle, returnLegendByStyleId} from "masterportalapi/src/vectorStyle/createStyle";
 import getProxyUrl from "../../utils/getProxyUrl";
 import Layer from "./layer";
 import store from "../../app-store";
@@ -280,8 +280,7 @@ GeoJSONLayer.prototype.setOpenSenseMapSensorValues = function (feature, response
  * @returns {void}
  */
 GeoJSONLayer.prototype.createLegend = function (attrs) {
-    const styleObject = returnStyleObject(attrs.styleId),
-        legendInfos = returnLegends();
+    const styleObject = returnStyleObject(attrs.styleId);
     let legend = this.get("legend");
 
     /**
@@ -303,13 +302,9 @@ GeoJSONLayer.prototype.createLegend = function (attrs) {
         this.setLegend(legend);
     }
     else if (styleObject && legend === true) {
-        setTimeout(() => {
-            const selected = legendInfos.find(element => element.id === styleObject.styleId);
-
-            if (selected) {
-                this.setLegend(selected.legendInformation);
-            }
-        }, 100);
+        returnLegendByStyleId(styleObject.styleId).then(legendInfos => {
+            this.setLegend(legendInfos.legendInformation);
+        });
     }
     else if (typeof legend === "string") {
         this.setLegend([legend]);

@@ -1,7 +1,7 @@
 import {oaf} from "@masterportal/masterportalapi";
 import LoaderOverlay from "../../utils/loaderOverlay";
 import {returnStyleObject} from "masterportalapi/src/vectorStyle/styleList";
-import {createStyle, returnLegends} from "masterportalapi/src/vectorStyle/createStyle";
+import {createStyle, returnLegendByStyleId} from "masterportalapi/src/vectorStyle/createStyle";
 import {getGeometryTypeFromOAF} from "masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
 import Layer from "./layer";
 import * as bridge from "./RadioBridge.js";
@@ -181,7 +181,6 @@ OAFLayer.prototype.updateSource = function () {
  */
 OAFLayer.prototype.createLegend = function () {
     const styleObject = returnStyleObject(this.attributes.styleId),
-        legendInfos = returnLegends(),
         legend = this.get("legend");
 
     if (Array.isArray(legend)) {
@@ -198,13 +197,9 @@ OAFLayer.prototype.createLegend = function () {
                     });
                 }
             });
-        setTimeout(() => {
-            const selected = legendInfos.find(element => element.id === styleObject.styleId);
-
-            if (selected) {
-                this.setLegend(selected.legendInformation);
-            }
-        }, 4000);
+        returnLegendByStyleId(styleObject.styleId).then(legendInfos => {
+            this.setLegend(legendInfos.legendInformation);
+        });
     }
     else if (typeof legend === "string") {
         this.setLegend([legend]);

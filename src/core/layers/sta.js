@@ -1,7 +1,7 @@
 import Layer from "./layer";
 import LoaderOverlay from "../../utils/loaderOverlay";
 import {returnStyleObject} from "masterportalapi/src/vectorStyle/styleList";
-import {createStyle, returnLegends} from "masterportalapi/src/vectorStyle/createStyle";
+import {createStyle, returnLegendByStyleId} from "masterportalapi/src/vectorStyle/createStyle";
 import * as bridge from "./RadioBridge";
 import Cluster from "ol/source/Cluster";
 import VectorLayer from "ol/layer/Vector";
@@ -245,8 +245,7 @@ STALayer.prototype.updateSource = function () {
  * @returns {void}
  */
 STALayer.prototype.createLegend = function () {
-    const styleObject = returnStyleObject(this.attributes.styleId),
-        legendInfos = returnLegends();
+    const styleObject = returnStyleObject(this.attributes.styleId);
     let legend = this.get("legend");
 
     /**
@@ -263,13 +262,9 @@ STALayer.prototype.createLegend = function () {
         this.set("legend", legend);
     }
     else if (styleObject && legend === true) {
-        setTimeout(() => {
-            const selected = legendInfos.find(element => element.id === styleObject.styleId);
-
-            if (selected) {
-                this.setLegend(selected.legendInformation);
-            }
-        }, 8000);
+        returnLegendByStyleId(styleObject.styleId).then(legendInfos => {
+            this.setLegend(legendInfos.legendInformation);
+        });
     }
     else if (typeof legend === "string") {
         this.set("legend", [legend]);

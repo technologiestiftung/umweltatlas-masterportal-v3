@@ -1,6 +1,10 @@
 <script>
 import {returnStyleObject} from "masterportalapi/src/vectorStyle/styleList";
-import {createStyle, getGeometryStyle, returnLegends} from "masterportalapi/src/vectorStyle/createStyle";
+import {
+    createStyle,
+    getGeometryStyle,
+    returnLegendByStyleId
+} from "masterportalapi/src/vectorStyle/createStyle";
 import StylePolygon from "masterportalapi/src/vectorStyle/styles/polygon/stylePolygon";
 import {returnColor} from "masterportalapi/src/vectorStyle/lib/colorConvertions";
 import {mapGetters, mapMutations, mapActions} from "vuex";
@@ -170,25 +174,25 @@ export default {
 
             if (styleObject) {
                 const featureStyleObject = getGeometryStyle(feat, styleObject.rules, false, Config.wfsImgPath),
-                    featureStyle = createStyle(styleObject, feat, false, Config.wfsImgPath),
-                    layerLegends = returnLegends().find(legend => legend.id === feat.styleId),
-                    featureLegend = layerLegends.legendInformation;
+                    featureStyle = createStyle(styleObject, feat, false, Config.wfsImgPath);
 
                 if (featureStyleObject.attributes?.type === "icon") {
                     imagePath = featureStyle.getImage()?.getSrc() ? featureStyle.getImage()?.getSrc() : "";
                 }
 
                 else {
-                    featureLegend.forEach(legendInfo => {
-                        if (legendInfo.geometryType === "Point" && legendInfo.styleObject.attributes.type === "circle" && legendInfo.label === feat.legendValue) {
-                            imagePath = this.createCircleSVG(legendInfo.styleObject);
-                        }
-                        else if (legendInfo.geometryType === "LineString" && legendInfo.label === feat.legendValue) {
-                            imagePath = this.createLineSVG(legendInfo.styleObject);
-                        }
-                        else if (legendInfo.geometryType === "Polygon" && legendInfo.label === feat.legendValue) {
-                            imagePath = this.createPolygonGraphic(legendInfo.styleObject);
-                        }
+                    returnLegendByStyleId(feat.styleId).then(layerLegends => {
+                        layerLegends.legendInformation.forEach(legendInfo => {
+                            if (legendInfo.geometryType === "Point" && legendInfo.styleObject.attributes.type === "circle" && legendInfo.label === feat.legendValue) {
+                                imagePath = this.createCircleSVG(legendInfo.styleObject);
+                            }
+                            else if (legendInfo.geometryType === "LineString" && legendInfo.label === feat.legendValue) {
+                                imagePath = this.createLineSVG(legendInfo.styleObject);
+                            }
+                            else if (legendInfo.geometryType === "Polygon" && legendInfo.label === feat.legendValue) {
+                                imagePath = this.createPolygonGraphic(legendInfo.styleObject);
+                            }
+                        });
                     });
                 }
             }

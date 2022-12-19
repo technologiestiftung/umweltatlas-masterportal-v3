@@ -2,7 +2,7 @@ import {wfs} from "@masterportal/masterportalapi";
 import LoaderOverlay from "../../utils/loaderOverlay";
 import Layer from "./layer";
 import {returnStyleObject} from "masterportalapi/src/vectorStyle/styleList";
-import {createStyle, returnLegends} from "masterportalapi/src/vectorStyle/createStyle";
+import {createStyle, returnLegendByStyleId} from "masterportalapi/src/vectorStyle/createStyle";
 import * as bridge from "./RadioBridge.js";
 import Cluster from "ol/source/Cluster";
 import {bbox, all} from "ol/loadingstrategy.js";
@@ -174,8 +174,7 @@ WFSLayer.prototype.updateSource = function () {
  * @returns {void}
  */
 WFSLayer.prototype.createLegend = function () {
-    const styleObject = returnStyleObject(this.attributes.styleId),
-        legendInfos = returnLegends();
+    const styleObject = returnStyleObject(this.attributes.styleId);
     let legend = this.get("legend");
 
     /**
@@ -196,8 +195,8 @@ WFSLayer.prototype.createLegend = function () {
     if (Array.isArray(legend)) {
         this.setLegend(legend);
     }
-    else if (styleObject && legend === true && legendInfos) {
-        setTimeout(() => {
+    else if (styleObject && legend === true) {
+        returnLegendByStyleId(styleObject.styleId).then(legendInfos => {
             if (styleObject.styleId === "default") {
                 const defaultLegends = legendInfos.find(element => element.id === "default"),
                     type = this.layer.getSource().getFeatures()[0].getGeometry().getType(),
@@ -215,13 +214,9 @@ WFSLayer.prototype.createLegend = function () {
                 }
             }
             else {
-                const selected = legendInfos.find(element => element.id === styleObject.styleId);
-
-                if (selected) {
-                    this.setLegend(selected.legendInformation);
-                }
+                this.setLegend(legendInfos.legendInformation);
             }
-        }, 100);
+        });
     }
     else if (typeof legend === "string") {
         this.setLegend([legend]);
