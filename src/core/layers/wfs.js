@@ -198,19 +198,16 @@ WFSLayer.prototype.createLegend = function () {
     else if (styleObject && legend === true) {
         returnLegendByStyleId(styleObject.styleId).then(legendInfos => {
             if (styleObject.styleId === "default") {
-                const defaultLegends = legendInfos.find(element => element.id === "default"),
-                    type = this.layer.getSource().getFeatures()[0].getGeometry().getType(),
+                const type = this.layer.getSource().getFeatures()[0].getGeometry().getType(),
                     typeSpecificLegends = [];
 
-                if (defaultLegends) {
-                    if (type === "MultiLineString") {
-                        typeSpecificLegends.push(defaultLegends.legendInformation.find(element => element.geometryType === "LineString"));
-                        this.setLegend(typeSpecificLegends);
-                    }
-                    else {
-                        typeSpecificLegends.push(defaultLegends.legendInformation.find(element => element.geometryType === type));
-                        this.setLegend(typeSpecificLegends);
-                    }
+                if (type === "MultiLineString") {
+                    typeSpecificLegends.push(legendInfos.legendInformation.find(element => element.geometryType === "LineString"));
+                    this.setLegend(typeSpecificLegends);
+                }
+                else {
+                    typeSpecificLegends.push(legendInfos.legendInformation.find(element => element.geometryType === type));
+                    this.setLegend(typeSpecificLegends);
                 }
             }
             else {
