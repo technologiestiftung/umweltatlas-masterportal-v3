@@ -952,20 +952,6 @@
  */
 
 /**
- * @event Core#RadioRequestUtilGetIgnoredKeys
- * @description returns the ignoredKeys
- * @returns {string[]} ignoredKeys
- * @example Radio.request("Util", "getIgnoredKeys");
- */
-
-/**
- * @event Core#RadioRequestUtilGetUiStyle
- * @description returns the ignoredKeys
- * @returns {string} - Style of the ui. Possible values are "DEFAULT" or "TABLE"
- * @example Radio.request("Util", "getUiStyle");
- */
-
-/**
  * @event Core#RadioRequestUtilUniqueId
  * @description Generate a globally-unique id for client-side models or DOM elements that need one.
  * @param {String} [prefix=""] prefix for the id
@@ -980,12 +966,6 @@
  * @param {array} b - elements to check
  * @returns {array} - returns diffrence between array a and b
  * @example Radio.request("Util", "DifferenceJs", array-a, array-b);
- */
-
-/**
- * @event Core#RadioRequestUtilSetUiStyle
- * @description sets the ui style
- * @example Radio.request("Util", "setUiStyle");
  */
 
 /**

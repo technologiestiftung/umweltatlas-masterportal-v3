@@ -238,13 +238,5 @@ describe("src/utils/parametricUrl/ParametricUrlBridge.js", () => {
             expect(mapView.getCenter()).to.deep.equal([565874, 5934140]);
             expect(Math.round(mapView.getZoom())).equals(2);
         });
-        it("test url param key 'style'", () => {
-            const radioTrigger = sinon.spy(Radio, "trigger"),
-                key = "style",
-                value = "simple";
-
-            doSpecialBackboneHandling(key, value);
-            expect(radioTrigger.calledOnceWithExactly("Util", "setUiStyle", value.toUpperCase())).to.be.true;
-        });
     });
 });

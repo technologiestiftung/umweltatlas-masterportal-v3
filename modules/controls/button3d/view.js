@@ -21,7 +21,6 @@ const Button3dView = Backbone.View.extend(/** @lends Button3dView.prototype */{
      * @memberof Controls.Button3D
      * @constructs
      * @description This control gives a user the 3D interface in the map.
-     * @fires Core#RadioRequestUtilGetUiStyle
      * @fires Core#RadioRequestMapIsMap3d
      * @fires Core.ModelList#RadioTriggerModelListToggleWfsCluster
      * @fires Alerting#RadioTriggerAlertAlertRemove

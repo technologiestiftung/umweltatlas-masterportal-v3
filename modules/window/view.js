@@ -37,7 +37,6 @@ const WindowView = Backbone.View.extend(/** @lends WindowView.prototype */{
      * @memberof Window
      * @constructs
      * @fires Core.ModelList#RadioTriggerModelListToggleDefaultTool
-     * @fires Core#RadioRequestUtilGetUiStyle
      * @fires Core.ModelList#RadioRequestModelListGetModelByAttributes
      * @fires Core.ModelList#RadioTriggerModelListToggleDefaultTool
      * @listens WindowView#changeIsVisible
@@ -108,7 +107,6 @@ const WindowView = Backbone.View.extend(/** @lends WindowView.prototype */{
 
     /**
      * Renders the Window.
-     * @fires Core#RadioRequestUtilGetUiStyle
      * @return {Backbone.View} this context.
      */
     render: function () {

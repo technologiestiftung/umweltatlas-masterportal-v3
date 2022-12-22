@@ -96,7 +96,7 @@ export function sortObjectsAsAddress (input) {
  * Sorting Function to sort address.
  * Expected string format to be "STREETNAME HOUSENUMBER_WITH_OR_WITHOUT_SUFFIX, *"
  * @param {String} aObj First comparator.
- * @param {String} bObj Secons comparator.
+ * @param {String} bObj Second comparator.
  * @returns {Number} Sorting index.
  */
 export function sortAddress (aObj, bObj) {
@@ -167,7 +167,7 @@ export function isValidAddressString (string, separator, lastOccurrenceChar) {
 /**
 * Sorting function for numalpha sorting. First sorts numerically, then alphabetically.
 * @param {*} a First comparator.
-* @param {*} b Secons comparator.
+* @param {*} b Second comparator.
 * @returns {Number} Sorting index.
 */
 export function sortNumAlpha (a, b) {

@@ -131,13 +131,6 @@ export function doSpecialBackboneHandling (key, value) {
             projection: store.state.urlParams?.projection || store.state.Maps?.projection?.getCode()
         }});
     }
-    else if (key === "style") {
-        const resultUpperCase = value.toUpperCase();
-
-        if (resultUpperCase === "TABLE" || resultUpperCase === "SIMPLE") {
-            Radio.trigger("Util", "setUiStyle", resultUpperCase);
-        }
-    }
 }
 
 /**
