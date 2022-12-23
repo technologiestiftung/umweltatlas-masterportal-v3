@@ -1,4 +1,3 @@
-import uniqueId from "../../src/utils/uniqueId";
 import LoaderOverlay from "../../src/utils/loaderOverlay";
 import findWhereJs from "../../src/utils/findWhereJs";
 import isMobile from "../../src/utils/isMobile";
@@ -26,7 +25,6 @@ const Util = Backbone.Model.extend(/** @lends Util.prototype */{
      * @listens Core#RadioRequestUtilRenameValues
      * @listens Core#RadioRequestUtilDifferenceJs
      * @listens Core#RadioRequestUtilSortBy
-     * @listens Core#RadioRequestUtilUniqueId
      * @listens Core#RadioTriggerUtilHideLoader
      * @listens Core#RadioTriggerUtilShowLoader
      * @listens Core#event:changeIsViewMobile
@@ -49,7 +47,6 @@ const Util = Backbone.Model.extend(/** @lends Util.prototype */{
             "pickKeyValuePairs": this.pickKeyValuePairs,
             "groupBy": this.groupBy,
             "sortBy": this.sortBy,
-            "uniqueId": this.uniqueId,
             "pick": this.pick,
             "omit": this.omit,
             "findWhereJs": this.findWhereJs,
@@ -301,15 +298,6 @@ const Util = Backbone.Model.extend(/** @lends Util.prototype */{
             acc[val] = (acc[val] || []).concat(arr[i]);
             return acc;
         }, {});
-    },
-
-    /**
-     * Generate a globally-unique id for client-side models or DOM elements that need one. If prefix is passed, the id will be appended to it.
-     * @param {String} [prefix=""] prefix for the id
-     * @returns {String}  a globally-unique id
-     */
-    uniqueId: function (prefix) {
-        return uniqueId(prefix);
     },
 
     /**
