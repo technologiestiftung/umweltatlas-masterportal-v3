@@ -81,6 +81,7 @@ export default function STALayer (attrs) {
     this.intervallRequest = null;
     this.keepUpdating = false;
     this.moveLayerRevisible = "";
+    this.subscribedDataStreamIds = {};
 
     moment.locale("de");
 }
@@ -439,6 +440,9 @@ STALayer.prototype.createMqttConnectionToSensorThings = function (url, mqttOptio
                 feature.get("historicalFeatureIds").forEach((id, index) => {
                     const scale = this.getScale(index, feature.get("historicalFeatureIds").length);
 
+                    if (!isObject(layerSource.getFeatureById(id))) {
+                        return;
+                    }
                     this.setStyleOfHistoricalFeature(layerSource.getFeatureById(id), scale, this.styleRule);
                 });
             }
@@ -546,7 +550,15 @@ STALayer.prototype.initializeConnection = function (onsuccess, updateOnly = fals
     this.callSensorThingsAPI(url, version, urlParams, currentExtent, intersect, sensorData => {
         const filteredSensorData = !updateOnly ? sensorData : sensorData.filter(data => !datastreamIds.includes(data?.properties?.dataStreamId)),
             features = this.createFeaturesFromSensorData(filteredSensorData, mapProjection, epsg, gfiTheme, utc),
-            layerSource = this.get("layerSource") instanceof Cluster ? this.get("layerSource").getSource() : this.get("layerSource");
+            layerSource = this.get("layerSource") instanceof Cluster ? this.get("layerSource").getSource() : this.get("layerSource"),
+            oldHistoricalFeatures = layerSource.getFeatures().filter(f => typeof f.get("dataStreamId") === "undefined"),
+            copyFeatures = {};
+
+        if (this.get("loadThingsOnlyInCurrentExtent")) {
+            oldHistoricalFeatures.forEach(oldFeature => {
+                copyFeatures[oldFeature.getId()] = oldFeature.clone();
+            });
+        }
 
         if (!updateOnly) {
             layerSource.clear();
@@ -577,6 +589,20 @@ STALayer.prototype.initializeConnection = function (onsuccess, updateOnly = fals
         }
 
         if (typeof this.get("historicalLocations") === "number") {
+            if (this.get("loadThingsOnlyInCurrentExtent")) {
+                features.forEach(feature => {
+                    const dataStreamIdFeature = feature.get("dataStreamId");
+
+                    if (this.subscribedDataStreamIds[dataStreamIdFeature]?.subscribed && Array.isArray(this.subscribedDataStreamIds[dataStreamIdFeature].historicalFeatureIds)) {
+                        feature.set("subscribed", true);
+                        feature.set("historicalFeatureIds", this.subscribedDataStreamIds[dataStreamIdFeature].historicalFeatureIds);
+                    }
+                });
+                Object.entries(copyFeatures).forEach(([id, feature]) => {
+                    feature.setId(id);
+                    layerSource.addFeature(feature);
+                });
+            }
             this.getHistoricalLocationsOfFeatures();
         }
     }, error => {
@@ -1513,6 +1539,13 @@ STALayer.prototype.unsubscribeFromSensorThings = function (datastreamIdsNotToUns
                 if (typeof this.get("historicalLocations") === "number") {
                     this.resetHistoricalLocations(id);
                 }
+                const layerSource = this.get("layerSource") instanceof Cluster ? this.get("layerSource").getSource() : this.get("layerSource"),
+                    feature = this.getFeatureByDatastreamId(layerSource.getFeatures(), id);
+
+                if (typeof feature?.set === "function") {
+                    feature.set("subscribed", false);
+                }
+                this.subscribedDataStreamIds[id] = false;
             }
             subscriptionTopics[id] = false;
         }
@@ -1542,6 +1575,16 @@ STALayer.prototype.subscribeToSensorThings = function (dataStreamIds, subscripti
                 mqttClient.subscribe("v" + version + "/Datastreams(" + id + ")/Thing/Locations", mqttSubscribeOptions);
             }
             subscriptionTopics[id] = true;
+            const layerSource = this.get("layerSource") instanceof Cluster ? this.get("layerSource").getSource() : this.get("layerSource"),
+                feature = this.getFeatureByDatastreamId(layerSource.getFeatures(), id);
+
+            if (!isObject(feature)) {
+                return;
+            }
+            feature.set("subscribed", true);
+            this.subscribedDataStreamIds[id] = {
+                subscribed: true
+            };
         }
     });
 
@@ -1745,9 +1788,17 @@ STALayer.prototype.getHistoricalLocationsOfFeatures = function () {
             urlParam.root = `Datastreams(${datastreamId})/Thing/HistoricalLocations`;
             urlParam.top = amount + 1;
         }
+        const feature = this.getFeatureByDatastreamId(allFeatures, datastreamId);
+
+        if (this.subscribedDataStreamIds[datastreamId]?.subscribed && feature.get("historicalFeatureIds")) {
+            return;
+        }
         this.fetchHistoricalLocations(url, urlParam, version, historicalSensorData => {
             this.resetHistoricalLocations(datastreamId);
-            this.parseSensorDataToFeature(this.getFeatureByDatastreamId(allFeatures, datastreamId), historicalSensorData, urlParam, url, version);
+            this.parseSensorDataToFeature(feature, historicalSensorData, urlParam, url, version);
+            Object.assign(this.subscribedDataStreamIds[datastreamId], {
+                historicalFeatureIds: feature.get("historicalFeatureIds")
+            });
         });
     });
 };
