@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import uiStyle from "../../uiStyle";
 
-describe.only("src/utils/uiStyle.js", () => {
+describe("src/utils/uiStyle.js", () => {
     describe("uiStyle", function () {
         it("uiStyle should be an object", function () {
             expect(uiStyle).to.be.an("Object");
