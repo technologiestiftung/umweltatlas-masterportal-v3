@@ -29,8 +29,8 @@ export default {
         component () {
             return uiStyle.getUiStyle() === "TABLE" ? TableStyleControl : ControlIcon;
         },
-        glyphiconToUse () {
-            return uiStyle.getUiStyle() === "TABLE" ? this.tableGlyphicon : this.glyphicon;
+        iconToUse () {
+            return uiStyle.getUiStyle() === "TABLE" ? this.tableIcon : this.icon;
         },
         /**
          * Map was moved.
