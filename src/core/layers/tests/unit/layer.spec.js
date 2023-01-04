@@ -22,7 +22,8 @@ describe("src/core/layers/layer.js", () => {
         getSource: () => {
             return {
                 refresh: () => sinon.spy,
-                getFeatures: () => featureList
+                getFeatures: () => featureList,
+                on: () => sinon.spy
             };
         },
         setSource: () => {
