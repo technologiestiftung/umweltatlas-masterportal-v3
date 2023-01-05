@@ -143,7 +143,7 @@ Layer.prototype.errorHandling = function (errorCode, layerName) {
             });
     }
     if (errorCode === 403) {
-        alertingContent = i18next.t("common:modules:core:modelList:layer.errorHandling:403",
+        alertingContent = i18next.t("common:modules.core.modelList.layer.errorHandling.403",
             {
                 layerName: layerName
             })
