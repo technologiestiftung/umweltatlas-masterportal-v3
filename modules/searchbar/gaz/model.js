@@ -1,6 +1,7 @@
 import "../model";
 import store from "../../../src/app-store";
 import {search, setGazetteerUrl, setShowGeographicIdentifier} from "@masterportal/masterportalapi/src/searchAddress";
+import uniqueId from "../../../src/utils/uniqueId";
 
 const GazetteerModel = Backbone.Model.extend({
     defaults: {
@@ -139,7 +140,7 @@ const GazetteerModel = Backbone.Model.extend({
             type: translatedType,
             coordinate: searchResult.geometry.coordinates,
             icon: "bi-signpost-split-fill",
-            id: searchResult.name.replace(/ /g, "") + translatedType,
+            id: uniqueId("gazSuggest"),
             properties: searchResult.properties,
             storedQuery: searchResult.type
         }, evtType);

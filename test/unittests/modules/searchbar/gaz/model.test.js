@@ -1,6 +1,7 @@
 import Model from "@modules/searchbar/gaz/model.js";
 import {expect} from "chai";
 import sinon from "sinon";
+import uniqueId from "../../../../../src/utils/uniqueId";
 
 describe("modules/searchbar/gaz", () => {
     let model;
@@ -143,7 +144,7 @@ describe("modules/searchbar/gaz", () => {
                 type: "modules.searchbar.type.street",
                 coordinate: searchResult.geometry.coordinates,
                 icon: "bi-signpost-split-fill",
-                id: searchResult.name.replace(/ /g, "") + "modules.searchbar.type.street",
+                id: "gazSuggest" + (parseInt(uniqueId(), 10) - 1),
                 properties: {
                     name: "abc"
                 },

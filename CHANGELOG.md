@@ -15,6 +15,7 @@
 ### Removed
 
 ### Fixed
+- Issue #847: the gazetteer search now shows the correct positions of duplicate results in different cities
 
 ---
 
