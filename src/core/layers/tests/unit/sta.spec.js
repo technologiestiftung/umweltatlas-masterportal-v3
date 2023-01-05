@@ -8,7 +8,7 @@ import sinon from "sinon";
 import STALayer from "../../sta";
 import store from "../../../../app-store";
 import Collection from "ol/Collection";
-import {Circle} from "ol/style.js";
+import {Circle, Style} from "ol/style.js";
 
 describe("src/core/layers/sta.js", () => {
     const consoleWarn = console.warn;
@@ -292,7 +292,7 @@ describe("src/core/layers/sta.js", () => {
                     if (arg === "returnModelById") {
                         ret = {
                             id: "id",
-                            createStyle: () => sinon.stub(),
+                            createStyle: () => new Style(),
                             getGeometryTypeFromWFS: () => sinon.stub(),
                             getLegendInfos: () => sinon.stub()
                         };
@@ -300,6 +300,12 @@ describe("src/core/layers/sta.js", () => {
                 });
                 return ret;
             });
+            store.getters = {
+                "Maps/getView": {
+                    getZoomForResolution: () => 1,
+                    getResolutions: () => 10
+                }
+            };
             const staLayer = new STALayer(attributes),
                 layer = staLayer.get("layer");
 
@@ -307,12 +313,12 @@ describe("src/core/layers/sta.js", () => {
             staLayer.showAllFeatures();
 
             expect(staLayer.get("layer").getSource().getFeatures().length).to.be.equals(3);
-            expect(typeof style1).to.be.equals("function");
-            expect(style1()).not.to.be.null;
-            expect(typeof style2).to.be.equals("function");
-            expect(style2()).not.to.be.null;
-            expect(typeof style3).to.be.equals("function");
-            expect(style3()).not.to.be.null;
+            expect(typeof style1).to.be.equals("object");
+            expect(style1).not.to.be.null;
+            expect(typeof style2).to.be.equals("object");
+            expect(style2).not.to.be.null;
+            expect(typeof style3).to.be.equals("object");
+            expect(style3).not.to.be.null;
 
         });
         it("showFeaturesByIds", () => {
@@ -323,7 +329,7 @@ describe("src/core/layers/sta.js", () => {
                     if (arg === "returnModelById") {
                         ret = {
                             id: "id",
-                            createStyle: () => sinon.stub(),
+                            createStyle: () => new Style(),
                             getGeometryTypeFromWFS: () => sinon.stub(),
                             getLegendInfos: () => sinon.stub()
                         };
@@ -331,6 +337,12 @@ describe("src/core/layers/sta.js", () => {
                 });
                 return ret;
             });
+            store.getters = {
+                "Maps/getView": {
+                    getZoomForResolution: () => 1,
+                    getResolutions: () => 10
+                }
+            };
             const staLayer = new STALayer(attributes),
                 layer = staLayer.get("layer"),
                 clearStub = sinon.stub(layer.getSource(), "clear");
@@ -341,8 +353,8 @@ describe("src/core/layers/sta.js", () => {
             staLayer.showFeaturesByIds(["1"]);
 
             expect(staLayer.get("layer").getSource().getFeatures().length).to.be.equals(3);
-            expect(typeof style1).to.be.equals("function");
-            expect(style1()).not.to.be.null;
+            expect(typeof style1).to.be.equals("object");
+            expect(style1).not.to.be.null;
             expect(typeof style2).to.be.equals("function");
             expect(style2()).to.be.null;
             expect(typeof style3).to.be.equals("function");
@@ -2315,6 +2327,30 @@ describe("src/core/layers/sta.js", () => {
             expect(staLayer.getScale(3, 4).toFixed(2)).to.be.equal("0.32");
             expect(staLayer.getScale(4, 4).toFixed(1)).to.be.equal("0.2");
 
+        });
+
+        it("should returns the correct scale if zoomLevel ignore", () => {
+            const staLayer = new STALayer(attributes),
+                zoomLevel = 2;
+
+            expect(staLayer.getScale(0, 4, false, zoomLevel)).to.be.equal(0.7);
+
+        });
+
+        it("should returns the correct scale by the given zoomLevel", () => {
+            const staLayer = new STALayer(attributes),
+                zoomLevel = 2;
+
+            expect(staLayer.getScale(0, 4, true, zoomLevel)).to.be.equal(1.4);
+
+        });
+
+        it("should returns the correct scale by the give zoomLevel and zoomLevelCount", () => {
+            const staLayer = new STALayer(attributes),
+                zoomLevel = 3,
+                zoomLevelCount = 7;
+
+            expect(staLayer.getScale(0, 4, true, zoomLevel, zoomLevelCount).toFixed(2)).to.be.equal("0.30");
         });
     });
 

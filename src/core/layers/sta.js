@@ -227,11 +227,18 @@ STALayer.prototype.getStyleFunction = function (attrs) {
     }
 
     if (typeof styleModel !== "undefined") {
-        return function (feature) {
+        return function (feature, resolution) {
             const feat = typeof feature !== "undefined" ? feature : this,
-                isClusterFeature = typeof feat.get("features") === "function" || typeof feat.get("features") === "object" && Boolean(feat.get("features"));
+                isClusterFeature = typeof feat.get("features") === "function" || typeof feat.get("features") === "object" && Boolean(feat.get("features")),
+                style = styleModel.createStyle(feat, isClusterFeature),
+                zoomLevel = store.getters["Maps/getView"].getZoomForResolution(resolution) + 1,
+                zoomLevelCount = store.getters["Maps/getView"].getResolutions().length;
 
-            return styleModel.createStyle(feat, isClusterFeature);
+            if (style.getImage() !== null && attrs.scaleStyleByZoom) {
+                style.getImage().setScale(style.getImage().getScale() * zoomLevel / zoomLevelCount);
+            }
+
+            return style;
         };
     }
     console.error(i18next.t("common:modules.core.modelList.layer.wrongStyleId", {styleId}));
@@ -428,7 +435,6 @@ STALayer.prototype.createMqttConnectionToSensorThings = function (url, mqttOptio
         this.updateObservationForDatastreams(feature, datastreamId, observation);
         if (this.get("observeLocation") && isObject(feature)) {
             clonedFeature = feature.clone();
-
             this.updateFeatureLocation(feature, observation);
             if (typeof feature?.get === "function" && Array.isArray(feature.get("historicalFeatureIds")) && feature.get("historicalFeatureIds").length && isObject(observation?.location)) {
                 removedFeature = feature.get("historicalFeatureIds").pop();
@@ -438,7 +444,7 @@ STALayer.prototype.createMqttConnectionToSensorThings = function (url, mqttOptio
                 feature.get("historicalFeatureIds").unshift(clonedFeature.getId());
                 layerSource.addFeature(clonedFeature);
                 feature.get("historicalFeatureIds").forEach((id, index) => {
-                    const scale = this.getScale(index, feature.get("historicalFeatureIds").length);
+                    const scale = this.getScale(index, feature.get("historicalFeatureIds").length, this.get("scaleStyleByZoom"), store.getters["Maps/getView"].getZoom() + 1, store.getters["Maps/getView"].getResolutions().length);
 
                     if (!isObject(layerSource.getFeatureById(id))) {
                         return;
@@ -1150,7 +1156,7 @@ STALayer.prototype.createFeaturesFromSensorData = function (sensorData, mapProje
         }
         feature.set("utc", utc, true);
         if (isHistorical) {
-            feature.set("scale", this.getScale(index - 1, sensorData.length - 1));
+            feature.set("scale", this.getScale(index - 1, sensorData.length - 1, this.get("scaleStyleByZoom"), store.getters["Maps/getView"].getZoom() + 1, store.getters["Maps/getView"].getResolutions().length));
         }
         feature = this.aggregateDataStreamValue(feature);
         feature = this.aggregateDataStreamPhenomenonTime(feature);
@@ -1855,9 +1861,15 @@ STALayer.prototype.resetHistoricalLocations = function (datastreamId) {
  * The first historical fature has a scale 0.8 and the last one has a scale 0.2.
  * @param {Number} index The index of the historical feature
  * @param {Number} amount The amount of the historical features
+ * @param {Boolean} scaleStyleByZoom - Flag for the style to be dependent on the zoom level.
+ * @param {Number} [zoomLevel=1] - The current zoom level.
+ * @param {Number} [zoomLevelCount=1] - The number of zoom levels.
  * @returns {Number} scale
  */
-STALayer.prototype.getScale = function (index, amount) {
+STALayer.prototype.getScale = function (index, amount, scaleStyleByZoom = false, zoomLevel = 1, zoomLevelCount = 1) {
+    if (scaleStyleByZoom) {
+        return (0.7 - 0.5 * index / amount) * zoomLevel / zoomLevelCount;
+    }
     return 0.7 - 0.5 * index / amount;
 };
 /**

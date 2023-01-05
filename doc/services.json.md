@@ -529,6 +529,7 @@ For more details, consider reading the [extensive SensorThings-API documentation
 |factor|no|Number|10|Is used for the calculation of the buffer around the extent. Ignored if maxSpeedKmh is not defined.|
 |historicalLocations|no|Number||Set to an amount to enable historical locations for each moveable feature. The given amount of historical locations will be displayed on the map.|`5`|
 |enableContinuousRequest|no|Boolean||Set true to enable continuous requests in an interval based on the configured `factor`. Will be ignored if no `factor` is configured.|`true`|
+|scaleStyleByZoom|no|Boolean|Scales the style depending on the zoom level. Works only for image styles and subclasses.|'true'|
 
 **Sensor example:**
 
