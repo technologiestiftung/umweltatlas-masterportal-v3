@@ -1858,7 +1858,7 @@ STALayer.prototype.resetHistoricalLocations = function (datastreamId) {
  * @returns {Number} scale
  */
 STALayer.prototype.getScale = function (index, amount) {
-    return 0.8 - 0.6 * index / amount;
+    return 0.7 - 0.5 * index / amount;
 };
 /**
  * Sets the style of historical feature

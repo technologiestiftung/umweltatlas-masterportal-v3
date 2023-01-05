@@ -2309,10 +2309,10 @@ describe("src/core/layers/sta.js", () => {
         it("returns the scale", () => {
             const staLayer = new STALayer(attributes);
 
-            expect(staLayer.getScale(0, 4)).to.be.equal(0.8);
-            expect(staLayer.getScale(1, 4)).to.be.equal(0.65);
-            expect(staLayer.getScale(2, 4)).to.be.equal(0.5);
-            expect(staLayer.getScale(3, 4).toFixed(2)).to.be.equal("0.35");
+            expect(staLayer.getScale(0, 4)).to.be.equal(0.7);
+            expect(staLayer.getScale(1, 4)).to.be.equal(0.575);
+            expect(staLayer.getScale(2, 4).toFixed(2)).to.be.equal("0.45");
+            expect(staLayer.getScale(3, 4).toFixed(2)).to.be.equal("0.32");
             expect(staLayer.getScale(4, 4).toFixed(1)).to.be.equal("0.2");
 
         });
