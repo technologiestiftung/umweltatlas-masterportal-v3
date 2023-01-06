@@ -2401,4 +2401,47 @@ describe("src/core/layers/sta.js", () => {
             expect(sensorLayer.intervallRequest).to.be.null;
         });
     });
+
+    describe("setDynamicalScaleOfHistoricalFeatures", () => {
+        it("should not change the scale of feature", () => {
+            const staLayer = new STALayer(attributes),
+                style = new Style({
+                    image: new Circle({
+                        scale: 1
+                    })
+                }),
+                feature = new Feature();
+
+            feature.setStyle(() => style);
+
+            staLayer.setDynamicalScaleOfHistoricalFeatures([feature], undefined, 10, true, true);
+            expect(feature.getStyle()(feature).getImage().getScale()).to.equal(1);
+            staLayer.setDynamicalScaleOfHistoricalFeatures([feature], 2, 0, true, true);
+            expect(feature.getStyle()(feature).getImage().getScale()).to.equal(1);
+            staLayer.setDynamicalScaleOfHistoricalFeatures([feature], 2, 10, false, true);
+            expect(feature.getStyle()(feature).getImage().getScale()).to.equal(1);
+            staLayer.setDynamicalScaleOfHistoricalFeatures([feature], 2, 10, true, false);
+            expect(feature.getStyle()(feature).getImage().getScale()).to.equal(1);
+        });
+
+        it("should change the scale of feature", () => {
+            const staLayer = new STALayer(attributes),
+                style = new Style({
+                    image: new Circle({
+                        scale: 1
+                    })
+                }),
+                feature = new Feature();
+
+            feature.setStyle(() => style);
+            feature.set("originScale", 1);
+
+            staLayer.setDynamicalScaleOfHistoricalFeatures([feature], 1, 10, true, true);
+            expect(feature.getStyle()(feature).getImage().getScale()).to.equal(0.1);
+            staLayer.setDynamicalScaleOfHistoricalFeatures([feature], 2, 10, true, true);
+            expect(feature.getStyle()(feature).getImage().getScale()).to.equal(0.2);
+            staLayer.setDynamicalScaleOfHistoricalFeatures([feature], 5, 10, true, true);
+            expect(feature.getStyle()(feature).getImage().getScale()).to.equal(0.5);
+        });
+    });
 });

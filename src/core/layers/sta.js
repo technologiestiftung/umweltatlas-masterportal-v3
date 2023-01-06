@@ -83,6 +83,8 @@ export default function STALayer (attrs) {
     this.moveLayerRevisible = "";
     this.subscribedDataStreamIds = {};
 
+    this.registerInteractionMapResolutionListeners(this.get("scaleStyleByZoom"));
+
     moment.locale("de");
 }
 // Link prototypes and add prototype methods, means STALayer uses all methods and properties of Layer
@@ -449,6 +451,7 @@ STALayer.prototype.createMqttConnectionToSensorThings = function (url, mqttOptio
                     if (!isObject(layerSource.getFeatureById(id))) {
                         return;
                     }
+                    layerSource.getFeatureById(id).set("originScale", this.getScale(index, feature.get("historicalFeatureIds").length));
                     this.setStyleOfHistoricalFeature(layerSource.getFeatureById(id), scale, this.styleRule);
                 });
             }
@@ -1157,6 +1160,7 @@ STALayer.prototype.createFeaturesFromSensorData = function (sensorData, mapProje
         feature.set("utc", utc, true);
         if (isHistorical) {
             feature.set("scale", this.getScale(index - 1, sensorData.length - 1, this.get("scaleStyleByZoom"), store.getters["Maps/getView"].getZoom() + 1, store.getters["Maps/getView"].getResolutions().length));
+            feature.set("originScale", this.getScale(index - 1, sensorData.length - 1));
         }
         feature = this.aggregateDataStreamValue(feature);
         feature = this.aggregateDataStreamPhenomenonTime(feature);
@@ -1891,7 +1895,7 @@ STALayer.prototype.setStyleOfHistoricalFeature = function (feature, scale, style
         console.error("There are not right style format for historical feature");
         return;
     }
-    feature.setStyle(style);
+    feature.setStyle(() => style);
 };
 
 /**
@@ -1934,5 +1938,48 @@ STALayer.prototype.getStyleOfHistoricalFeature = function (style, scale) {
             }),
             scale: scale
         })
+    });
+};
+
+/**
+ * Sets the scale of style for historical feature dynamically according to the zoom level
+ * @param {ol/Feature[]} features the historical features
+ * @param {Number} zoomLevel the current zoom level
+ * @param {Number} zoomLevelCount the count of zoom level
+ * @param {Boolean} observeLocation if the location is observed
+ * @param {Boolean} scaleStyleByZoom if the scale of style is reset by zoom
+ * @returns {void}
+ */
+STALayer.prototype.setDynamicalScaleOfHistoricalFeatures = function (features, zoomLevel, zoomLevelCount, observeLocation, scaleStyleByZoom) {
+    if (!observeLocation || !scaleStyleByZoom || typeof zoomLevel !== "number" || zoomLevelCount < 1) {
+        return;
+    }
+    features.forEach(feature => {
+        const style = feature.getStyle()(feature);
+
+        if (style.getImage() !== null) {
+            style.getImage().setScale(feature.get("originScale") * zoomLevel / zoomLevelCount);
+            feature.setStyle(() => style);
+        }
+    });
+};
+
+/**
+ * Register interaction of resolution in map view.
+ * @param {Boolean} scaleStyleByZoom if the scale of style is reset by zoom
+ * @returns {void}
+ */
+STALayer.prototype.registerInteractionMapResolutionListeners = function (scaleStyleByZoom) {
+    if (!scaleStyleByZoom) {
+        return;
+    }
+    store.watch((state, getters) => getters["Maps/resolution"], resolution => {
+        const layerSource = this.get("layerSource") instanceof Cluster ? this.get("layerSource").getSource() : this.get("layerSource"),
+            allFeatures = layerSource.getFeatures(),
+            historicalFeatures = allFeatures.filter(feature => typeof feature.get("dataStreamId") === "undefined" && typeof feature.get("originScale") !== "undefined"),
+            zoomLevel = store.getters["Maps/getView"].getZoomForResolution(resolution) + 1,
+            zoomLevelCount = store.getters["Maps/getView"].getResolutions().length;
+
+        this.setDynamicalScaleOfHistoricalFeatures(historicalFeatures, zoomLevel, zoomLevelCount, this.get("observeLocation"), scaleStyleByZoom);
     });
 };
