@@ -82,10 +82,12 @@ export default function STALayer (attrs) {
     this.keepUpdating = false;
     this.moveLayerRevisible = "";
     this.subscribedDataStreamIds = {};
+    this.showHistoricalFeatures = true;
 
     this.registerInteractionMapResolutionListeners(this.get("scaleStyleByZoom"));
 
     moment.locale("de");
+    this.registerInteractionMapScaleListeners();
 }
 // Link prototypes and add prototype methods, means STALayer uses all methods and properties of Layer
 STALayer.prototype = Object.create(Layer.prototype);
@@ -396,6 +398,9 @@ STALayer.prototype.initializeSensorThings = function () {
     if (this.get("isVisibleInMap")) {
         this.toggleSubscriptionsOnMapChanges();
     }
+    if (store.getters["Maps/scale"] > this.get("maxScaleForHistoricalFeatures")) {
+        this.showHistoricalFeatures = true;
+    }
 };
 
 /**
@@ -438,7 +443,8 @@ STALayer.prototype.createMqttConnectionToSensorThings = function (url, mqttOptio
         if (this.get("observeLocation") && isObject(feature)) {
             clonedFeature = feature.clone();
             this.updateFeatureLocation(feature, observation);
-            if (typeof feature?.get === "function" && Array.isArray(feature.get("historicalFeatureIds")) && feature.get("historicalFeatureIds").length && isObject(observation?.location)) {
+            if (this.showHistoricalFeatures && typeof feature?.get === "function" && Array.isArray(feature.get("historicalFeatureIds")) &&
+                feature.get("historicalFeatureIds").length && isObject(observation?.location)) {
                 removedFeature = feature.get("historicalFeatureIds").pop();
                 layerSource.removeFeature(layerSource.getFeatureById(removedFeature));
                 clonedFeature.set("dataStreamId", undefined);
@@ -597,8 +603,8 @@ STALayer.prototype.initializeConnection = function (onsuccess, updateOnly = fals
             this.options.afterLoading(features);
         }
 
-        if (typeof this.get("historicalLocations") === "number") {
-            if (this.get("loadThingsOnlyInCurrentExtent")) {
+        if (typeof this.get("historicalLocations") === "number" && this.showHistoricalFeatures) {
+            if (this.get("loadThingsOnlyInCurrentExtent") && Object.entries(copyFeatures).length) {
                 features.forEach(feature => {
                     const dataStreamIdFeature = feature.get("dataStreamId");
 
@@ -1382,7 +1388,7 @@ STALayer.prototype.updateSubscription = function () {
         if (!this.get("loadThingsOnlyInCurrentExtent") && !this.moveLayerRevisible) {
             this.unsubscribeFromSensorThings(datastreamIds, subscriptionTopics, version, isVisibleInMap, mqttClient);
             this.subscribeToSensorThings(datastreamIds, subscriptionTopics, version, mqttClient, {rh, qos});
-            if (typeof this.get("historicalLocations") === "number") {
+            if (typeof this.get("historicalLocations") === "number" && this.showHistoricalFeatures) {
                 this.getHistoricalLocationsOfFeatures();
             }
         }
@@ -1546,7 +1552,7 @@ STALayer.prototype.unsubscribeFromSensorThings = function (datastreamIdsNotToUns
             mqttClient.unsubscribe("v" + version + "/Datastreams(" + id + ")/Observations");
             if (this.get("observeLocation")) {
                 mqttClient.unsubscribe("v" + version + "/Datastreams(" + id + ")/Thing/Locations");
-                if (typeof this.get("historicalLocations") === "number") {
+                if (typeof this.get("historicalLocations") === "number" && this.showHistoricalFeatures) {
                     this.resetHistoricalLocations(id);
                 }
                 const layerSource = this.get("layerSource") instanceof Cluster ? this.get("layerSource").getSource() : this.get("layerSource"),
@@ -1678,6 +1684,41 @@ STALayer.prototype.updateFeatureProperties = function (feature, dataStreamId, re
     }
 
     return true;
+};
+
+/**
+ * Register interaction with map view. Listens to change of scale and call removeHistoricalFeatures,
+ * if actual scale is less than configured maxScaleForHistoricalFeatures
+ * @returns {void}
+ */
+STALayer.prototype.registerInteractionMapScaleListeners = function () {
+    store.watch((state, getters) => getters["Maps/scale"], scale => {
+        if (scale > this.get("maxScaleForHistoricalFeatures")) {
+            this.showHistoricalFeatures = false;
+
+            this.removeHistoricalFeatures();
+        }
+        else {
+            this.showHistoricalFeatures = true;
+        }
+    });
+};
+
+/**
+ * Removes the historical Features
+ * @returns {void}
+ */
+STALayer.prototype.removeHistoricalFeatures = function () {
+    const layerSource = this.get("layerSource") instanceof Cluster ? this.get("layerSource").getSource() : this.get("layerSource"),
+        allFeatures = layerSource.getFeatures(),
+        featuresWithHistoricalIds = allFeatures.filter(feature => typeof feature.get("dataStreamId") !== "undefined" && Array.isArray(feature.get("historicalFeatureIds")));
+
+    featuresWithHistoricalIds.forEach(feature => {
+        if (typeof feature?.get === "function") {
+            feature.get("historicalFeatureIds").forEach(featureId => layerSource.removeFeature(layerSource.getFeatureById(featureId)));
+            feature.unset("historicalFeatureIds");
+        }
+    });
 };
 
 /**
