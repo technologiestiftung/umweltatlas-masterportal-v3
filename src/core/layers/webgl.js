@@ -78,25 +78,6 @@ WebGLLayer.prototype.createLayer = function (attrs, sourceLayer) {
             }
         }.bind(this),
         afterLoading: this.afterLoading.bind({attributes: attrs, ...this}),
-        // afterLoading: function (features) {
-        //     const styleModel = bridge.getStyleModelById(attrs.styleId); // load styleModel to extract rules per feature
-
-        //     if (Array.isArray(features)) {
-        //         features.forEach((feature, idx) => {
-        //             if (typeof feature?.getId === "function" && typeof feature.getId() === "undefined") {
-        //                 feature.setId("webgl-" + attrs.id + "-feature-id-" + idx);
-        //             }
-        //             this.formatFeatureGeometry(feature); /** @deprecated will propbably not be necessary anymore in release version */
-        //             this.formatFeatureStyles(feature, styleModel); /** @todo needs refactoring for production  */
-        //             this.formatFeatureData(feature, attrs.excludeTypesFromParsing);
-        //         });
-        //     }
-        //     this.featuresLoaded(attrs.id, features);
-        //     this.features = features;
-        //     if (this.get("isSelected") || attrs.isSelected) {
-        //         LoaderOverlay.hide();
-        //     }
-        // }.bind(this),
         onLoadingError: (error) => {
             console.error("masterportal wfs loading error:", error);
         },
@@ -561,6 +542,7 @@ WebGLLayer.prototype.isPointLayer = function (isPointLayer) {
 /**
  * feature transformations called after loading
  * called by the layer source loader, binds the instance of the layer model
+ * should be called on each source refresh
  * @param {module:ol/Feature[]} features - the features list
  * @returns {void}
  */
