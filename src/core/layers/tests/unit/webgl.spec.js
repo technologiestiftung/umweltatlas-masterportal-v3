@@ -253,42 +253,42 @@ describe("src/core/layers/webgl.js", () => {
             });
         let _feature;
 
-        describe("_formatFeatureGeometry", () => {
+        describe("formatFeatureGeometry", () => {
             it("should remove any Z components from the geometry", () => {
                 _feature = feature.clone();
-                WebGLLayer.prototype._formatFeatureGeometry(_feature);
+                WebGLLayer.prototype.formatFeatureGeometry(_feature);
                 expect(_feature.getGeometry().getCoordinates()[0].every(coord => coord.length === 2)).to.be.true;
             });
         });
-        describe("_formatFeatureData", () => {
+        describe("formatFeatureData", () => {
             it("should not format excluded formats 'number' and 'boolean", () => {
                 _feature = feature.clone();
-                WebGLLayer.prototype._formatFeatureData(_feature, ["number", "boolean"]);
+                WebGLLayer.prototype.formatFeatureData(_feature, ["number", "boolean"]);
                 expect(typeof _feature.get("apple")).to.equal("string");
                 expect(typeof _feature.get("pear")).to.equal("string");
                 expect(typeof _feature.get("pumpkin")).to.equal("string");
             });
             it("should format numbers and booleans", () => {
                 _feature = feature.clone();
-                WebGLLayer.prototype._formatFeatureData(_feature, []);
+                WebGLLayer.prototype.formatFeatureData(_feature, []);
                 expect(typeof _feature.get("apple")).to.equal("number");
                 expect(typeof _feature.get("pear")).to.equal("boolean");
                 expect(typeof _feature.get("pumpkin")).to.equal("boolean");
             });
         });
-        describe("_formatFeatureStyles", () => {
+        describe("formatFeatureStyles", () => {
             it("bind the styling rule from the styleModel to each feature", () => {
                 _feature = feature.clone();
-                WebGLLayer.prototype._formatFeatureStyles(_feature, styleModel);
+                WebGLLayer.prototype.formatFeatureStyles(_feature, styleModel);
                 expect(_feature._styleRule).to.equal(styleRule);
             });
         });
         describe("getStyleFunctions", () => {
             it("should read the style from styleRule and pack them to single float", () => {
-                const renderFunctions = WebGLLayer.prototype._getRenderFunctions();
+                const renderFunctions = WebGLLayer.prototype.getRenderFunctions();
 
                 _feature = feature.clone();
-                WebGLLayer.prototype._formatFeatureStyles(_feature, styleModel);
+                WebGLLayer.prototype.formatFeatureStyles(_feature, styleModel);
                 expect(renderFunctions.fill.attributes.color(_feature)).to.equal(packColor(styleRule.style.polygonFillColor));
                 expect(renderFunctions.fill.attributes.opacity(_feature)).to.equal(styleRule.style.polygonFillColor[3]);
                 expect(renderFunctions.stroke.attributes.color(_feature)).to.equal(packColor(styleRule.style.polygonStrokeColor));
@@ -299,7 +299,7 @@ describe("src/core/layers/webgl.js", () => {
                 expect(renderFunctions.point.attributes.opacity(_feature)).to.equal(styleRule.style.circleFillColor[3]);
             });
             it("should return default values if no style rule is found", () => {
-                const renderFunctions = WebGLLayer.prototype._getRenderFunctions();
+                const renderFunctions = WebGLLayer.prototype.getRenderFunctions();
 
                 _feature = feature.clone();
                 expect(feature._styleRule).to.be.undefined;

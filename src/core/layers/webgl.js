@@ -41,16 +41,18 @@ const defaultStyle = {
  */
 export default function WebGLLayer (attrs) {
     const defaults = {
-        style: defaultStyle,
-        hitTolerance: 10,
-        sourceUpdated: false // necessary if source layer is WFS
-    };
+            style: defaultStyle,
+            hitTolerance: 10,
+            sourceUpdated: false // necessary if source layer is WFS
+        },
+        // use referenced source layer or local layer if sourceId is layerType ("GeoJson", "WFS")
+        rawLayer = rawLayerList.getLayerWhere({id: attrs.sourceId}) || {...attrs, typ: attrs.sourceId};
 
     this.features = [];
-    this.createLayer({...defaults, ...attrs});
+    this.createLayer({...defaults, ...attrs}, rawLayer);
 
-    Layer.call(this, {...defaults, ...attrs}, this.layer, !attrs.isChildLayer);
-    this.createLegend(attrs);
+    Layer.call(this, {...defaults, ...attrs, rawLayer}, this.layer, !attrs.isChildLayer);
+    this.createLegend(attrs, rawLayer);
 }
 
 // Link prototypes and add prototype methods, means WFSLayer uses all methods and properties of Layer
@@ -66,49 +68,47 @@ WebGLLayer.prototype = Object.create(Layer.prototype);
  * @fires MapView#RadioRequestGetProjection
  * @returns {void}
  */
-WebGLLayer.prototype.createLayer = function (attrs) {
-    const
-        // use referenced source layer or local layer if sourceId is layerType ("GeoJson", "WFS")
-        sourceLayer = rawLayerList.getLayerWhere({id: attrs.sourceId}) || {...attrs, typ: attrs.sourceId},
-        options = {
-            map: mapCollection.getMap("2D"),
-            featuresFilter: this.getFeaturesFilterFunction(attrs),
-            beforeLoading: function () {
-                if (this.get("isSelected") || attrs.isSelected) {
-                    LoaderOverlay.show();
-                }
-            }.bind(this),
-            afterLoading: function (features) {
-                const styleModel = bridge.getStyleModelById(attrs.styleId); // load styleModel to extract rules per feature
+WebGLLayer.prototype.createLayer = function (attrs, sourceLayer) {
+    const options = {
+        map: mapCollection.getMap("2D"),
+        featuresFilter: this.getFeaturesFilterFunction(attrs),
+        beforeLoading: function () {
+            if (this.get("isSelected") || attrs.isSelected) {
+                LoaderOverlay.show();
+            }
+        }.bind(this),
+        afterLoading: this.afterLoading.bind({attributes: attrs, ...this}),
+        // afterLoading: function (features) {
+        //     const styleModel = bridge.getStyleModelById(attrs.styleId); // load styleModel to extract rules per feature
 
-                if (Array.isArray(features)) {
-                    features.forEach((feature, idx) => {
-                        if (typeof feature?.getId === "function" && typeof feature.getId() === "undefined") {
-                            feature.setId("webgl-" + attrs.id + "-feature-id-" + idx);
-                        }
-                        this._formatFeatureGeometry(feature); /** @deprecated will propbably not be necessary anymore in release version */
-                        this._formatFeatureStyles(feature, styleModel); /** @todo needs refactoring for production  */
-                        this._formatFeatureData(feature, attrs.excludeTypesFromParsing);
-                    });
-                }
-                this.featuresLoaded(attrs.id, features);
-                this.features = features;
-                if (this.get("isSelected") || attrs.isSelected) {
-                    LoaderOverlay.hide();
-                }
-            }.bind(this),
-            onLoadingError: (error) => {
-                console.error("masterportal wfs loading error:", error);
-            },
-            wfsFilter: sourceLayer.wfsFilter,
-            loadingParams: {
-                xhrParameters: sourceLayer.isSecured ? {credentials: "include"} : undefined,
-                propertyname: WFSLayer.prototype.getPropertyname(sourceLayer) || undefined,
-                // only used if loading strategy is all
-                bbox: attrs.bboxGeometry ? attrs.bboxGeometry.getExtent().toString() : undefined
-            },
-            loadingStrategy: attrs.loadingStrategy === "all" ? all : bbox
-        };
+        //     if (Array.isArray(features)) {
+        //         features.forEach((feature, idx) => {
+        //             if (typeof feature?.getId === "function" && typeof feature.getId() === "undefined") {
+        //                 feature.setId("webgl-" + attrs.id + "-feature-id-" + idx);
+        //             }
+        //             this.formatFeatureGeometry(feature); /** @deprecated will propbably not be necessary anymore in release version */
+        //             this.formatFeatureStyles(feature, styleModel); /** @todo needs refactoring for production  */
+        //             this.formatFeatureData(feature, attrs.excludeTypesFromParsing);
+        //         });
+        //     }
+        //     this.featuresLoaded(attrs.id, features);
+        //     this.features = features;
+        //     if (this.get("isSelected") || attrs.isSelected) {
+        //         LoaderOverlay.hide();
+        //     }
+        // }.bind(this),
+        onLoadingError: (error) => {
+            console.error("masterportal wfs loading error:", error);
+        },
+        wfsFilter: sourceLayer.wfsFilter,
+        loadingParams: {
+            xhrParameters: sourceLayer.isSecured ? {credentials: "include"} : undefined,
+            propertyname: WFSLayer.prototype.getPropertyname(sourceLayer) || undefined,
+            // only used if loading strategy is all
+            bbox: attrs.bboxGeometry ? attrs.bboxGeometry.getExtent().toString() : undefined
+        },
+        loadingStrategy: attrs.loadingStrategy === "all" ? all : bbox
+    };
 
     this.source = this.createLayerSource(sourceLayer, options);
     this.layer = this.createLayerInstance(attrs);
@@ -153,7 +153,7 @@ WebGLLayer.prototype.createVectorLayerRenderer = function () {
          * @experimental
          */
         createRenderer () {
-            return new WebGLVectorLayerRenderer(this, WebGLLayer.prototype._getRenderFunctions());
+            return new WebGLVectorLayerRenderer(this, WebGLLayer.prototype.getRenderFunctions());
         }
     }
 
@@ -238,9 +238,8 @@ WebGLLayer.prototype.createLayerInstance = function (attrs) {
  * @param {Object} attrs  attributes of the layer
  * @returns {void}
  */
-WebGLLayer.prototype.createLegend = function (attrs) {
+WebGLLayer.prototype.createLegend = function (attrs, sourceLayer) {
     const
-        sourceLayer = rawLayerList.getLayerWhere({id: attrs.sourceId}) || {...attrs, typ: attrs.sourceId},
         styleId = attrs.styleId || sourceLayer?.styleId,
         legendURL = this.get("legendURL") || sourceLayer?.legendURL,
         styleModel = bridge.getStyleModelById(styleId);
@@ -322,7 +321,7 @@ WebGLLayer.prototype.clearSource = function () {
  * @param {module:Backbone/Model} [styleModel] - (optional) the style model from StyleList
  * @returns {void}
  */
-WebGLLayer.prototype._formatFeatureStyles = function (feature, styleModel) {
+WebGLLayer.prototype.formatFeatureStyles = function (feature, styleModel) {
     // extract first matching rule only
     const rule = styleModel?.getRulesForFeature(feature)[0];
 
@@ -339,7 +338,7 @@ WebGLLayer.prototype._formatFeatureStyles = function (feature, styleModel) {
  * @param {module:ol/Feature} feature - the feature to format
  * @returns {void}
  */
-WebGLLayer.prototype._formatFeatureGeometry = function (feature) {
+WebGLLayer.prototype.formatFeatureGeometry = function (feature) {
     feature.getGeometry()
         .setCoordinates(feature.getGeometry().getCoordinates(), "XY");
 };
@@ -353,7 +352,7 @@ WebGLLayer.prototype._formatFeatureGeometry = function (feature) {
  * @param {Array<String>} [excludeTypes=["boolean"]] - types that should not be parsed from strings
  * @returns {void}
  */
-WebGLLayer.prototype._formatFeatureData = function (feature, excludeTypes = ["boolean"]) {
+WebGLLayer.prototype.formatFeatureData = function (feature, excludeTypes = ["boolean"]) {
     for (const key in feature.getProperties()) {
         const
             valueAsNumber = parseFloat(feature.get(key)),
@@ -378,7 +377,7 @@ WebGLLayer.prototype._formatFeatureData = function (feature, excludeTypes = ["bo
  * @private
  * @returns {Object} the style options object with conditional functions
  */
-WebGLLayer.prototype._getRenderFunctions = function () {
+WebGLLayer.prototype.getRenderFunctions = function () {
     return {
         /**
          * Used for polygon fills
@@ -397,7 +396,8 @@ WebGLLayer.prototype._getRenderFunctions = function () {
                     if (!feature._styleRule) {
                         return 0.8;
                     }
-                    return feature._styleRule.style.polygonFillColor[3] || 1;
+                    return typeof feature._styleRule.style.polygonFillColor[3] === "number" ?
+                        feature._styleRule.style.polygonFillColor[3] : 1;
                 }
             }
         },
@@ -424,7 +424,8 @@ WebGLLayer.prototype._getRenderFunctions = function () {
                     if (!feature._styleRule) {
                         return 1;
                     }
-                    return feature._styleRule.style.polygonStrokeColor[3] || 1;
+                    return typeof feature._styleRule.style.polygonStrokeColor[3] === "number" ?
+                        feature._styleRule.style.polygonStrokeColor[3] : 1;
                 }
             }
         },
@@ -453,7 +454,8 @@ WebGLLayer.prototype._getRenderFunctions = function () {
                     if (!feature._styleRule) {
                         return 0.8;
                     }
-                    return feature._styleRule.style.circleFillColor[3] || 1;
+                    return typeof feature._styleRule.style.circleFillColor[3] === "number" ?
+                        feature._styleRule.style.circleFillColor[3] : 1;
                 }
             }
         }
@@ -556,3 +558,28 @@ WebGLLayer.prototype.isPointLayer = function (isPointLayer) {
     return this._isPointLayer;
 };
 
+/**
+ * feature transformations called after loading
+ * called by the layer source loader, binds the instance of the layer model
+ * @param {module:ol/Feature[]} features - the features list
+ * @returns {void}
+ */
+WebGLLayer.prototype.afterLoading = function (features) {
+    const styleModel = bridge.getStyleModelById(this.attributes.styleId); // load styleModel to extract rules per feature
+
+    if (Array.isArray(features)) {
+        features.forEach((feature, idx) => {
+            if (typeof feature?.getId === "function" && typeof feature.getId() === "undefined") {
+                feature.setId("webgl-" + this.attributes.id + "-feature-id-" + idx);
+            }
+            this.formatFeatureGeometry(feature); /** @deprecated will propbably not be necessary anymore in release version */
+            this.formatFeatureStyles(feature, styleModel); /** @todo needs refactoring for production  */
+            this.formatFeatureData(feature, this.attributes.excludeTypesFromParsing);
+        });
+    }
+    this.featuresLoaded(this.attributes.id, features);
+    this.features = features;
+    if (this.get("isSelected") || this.attributes.isSelected) {
+        LoaderOverlay.hide();
+    }
+};
