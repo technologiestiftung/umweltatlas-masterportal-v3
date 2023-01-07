@@ -1,6 +1,6 @@
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
-
+import {getLayerModelsByAttributes} from "../../../layers/RadioBridge";
 
 export default {
     /**
@@ -25,7 +25,7 @@ export default {
     setLayersAlwaysOnTop (_, layers) {
         layers.forEach(layer => {
             if (layer.get("alwaysOnTop") === true) {
-                layer.setZIndex(Radio.request("ModelList", "getModelsByAttributes", {type: "layer"}).length);
+                layer.setZIndex(getLayerModelsByAttributes({type: "layer"}).length);
             }
         });
     },
@@ -57,7 +57,7 @@ export default {
      * @returns {void}
      */
     addLayerOnTop ({dispatch}, layer) {
-        dispatch("addLayerToIndex", {layer: layer, zIndex: Radio.request("ModelList", "getModelsByAttributes", {type: "layer"}).length});
+        dispatch("addLayerToIndex", {layer: layer, zIndex: getLayerModelsByAttributes({type: "layer"}).length});
     },
 
     /**
