@@ -3,30 +3,58 @@
 
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
-
 ## Unreleased - in development
 ### __Breaking Changes__
 
 ### Added
-StyleModel: attribute "rotation" is added to text style.
 Core/Layers/WebGLLayer: New layer-type for rendering WFS, GeoJSON or VectorBase layers using OL7's WebGL render pipelines
 filter/filter.api: Unittests for WebGL use cases
 
 ### Changed
-Routing: changed isochrones url from '/v2/isochrones/$SpeedProfile' to '/v2/isochrones/$SpeedProfile/geojson' to fit to new routing service version.
 ModelList/updateLayerView: Only add layers to index if they are actually being displayed on the map (removes unnecessary calls)
 configLoader/parserCustomTree/parseTree: don't skip layers without matching rawLayer from services.json, that have a sourceId provided (no checkup on existing source layers yet)
 actionsMapLayers/addLayerOnTop: Use the ModelList for the length of the layer list, not the map, as layer that are not visible or have been disposed (WebGL) might not be on the map
 filter/filter.api: lookup source layer info for WebGL layers
 moverHover/actionsMouseHover: collect webgl features for mouseHoverInfo
 GFI/gettersGfi: collect  webgl features for GFI
+=======
 
-### Deprecated
 
 ### Removed
 
 ### Fixed
 actionsMapLayers/addLayer: don't set zIndex by default, otherwise addLayerOnTop and addLayerToIndex have no effect
+
+---
+
+## v2.29.0 - 2023-01-04
+### __Breaking Changes__
+- Addon `obliqueViewer` was renamed to `vcOblique`. Please check and update portal configuration files if necessary. See [documentation](https://bitbucket.org/geowerkstatt-hamburg/addons/src/dev/vcOblique/doc/config.json.md)
+
+### Added
+- StyleModel:
+    - A new Style type RegularShape is implemented so that more styles like triangle can be used in MP.
+    - Attribute "rotation" is added to text style.
+- STA:
+    - A new feature property rotation is implemented for animated features.
+    - A new parameter "rotationUnit" is implemented for defining the rotation unit for feature.
+    - A new parameter "historicalLocations" is implemented for displaying the given amount of the historical locations.
+    - A new parameter "enableContinuousRequest" has been implemented which ensures that the STA API is continuously requested to load new features of the extends.
+- i18n:
+    - Update italian language support
+
+### Changed
+- Routing: changed isochrones url from '/v2/isochrones/$SpeedProfile' to '/v2/isochrones/$SpeedProfile/geojson' to fit to new routing service version.
+
+### Fixed
+- Issue #858: layerTree: layers in mobile are now toggleable when scale change
+- layerSequence: Use of LayerSequence during initial creation of topic tree was not observed.
+
+---
+
+## v2.28.1 - 2022-12-16
+### Fixed
+- Filter: Now only the filtered values are displayed in the dropdowns.
 
 ---
 
