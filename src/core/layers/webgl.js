@@ -10,6 +10,7 @@ import VectorSource from "ol/source/Vector.js";
 import * as bridge from "./RadioBridge.js";
 import {bbox, all} from "ol/loadingstrategy.js";
 import {packColor} from "ol/renderer/webgl/shaders";
+import {getCenter} from "ol/extent";
 
 /**
  * The default style for OpenLayers WebGLPoints class
@@ -77,7 +78,9 @@ WebGLLayer.prototype.createLayer = function (attrs, sourceLayer) {
                 LoaderOverlay.show();
             }
         }.bind(this),
-        afterLoading: this.afterLoading.bind({attributes: attrs, ...this}),
+        afterLoading: function (features) {
+            this.afterLoading(features, attrs);
+        }.bind(this),
         onLoadingError: (error) => {
             console.error("masterportal wfs loading error:", error);
         },
@@ -98,7 +101,7 @@ WebGLLayer.prototype.createLayer = function (attrs, sourceLayer) {
 /**
  * Returns a function to filter features with.
  * @memberof WebGLLayer
- * @param {Object} attrs  params of the raw layer
+ * @param {Object} attrs params of the raw layer
  * @returns {Function} to filter features with
  */
 WebGLLayer.prototype.getFeaturesFilterFunction = function (attrs) {
@@ -107,7 +110,7 @@ WebGLLayer.prototype.getFeaturesFilterFunction = function (attrs) {
         let filteredFeatures = features.filter(feature => feature.getGeometry() !== undefined);
 
         if (attrs.bboxGeometry) {
-            filteredFeatures = filteredFeatures.filter((feature) => attrs.bboxGeometry.intersectsExtent(feature.getGeometry().getExtent()));
+            filteredFeatures = filteredFeatures.filter((feature) => attrs.bboxGeometry.intersectsCoordinate(getCenter(feature.getGeometry().getExtent())));
         }
         return filteredFeatures;
     };
@@ -157,6 +160,7 @@ WebGLLayer.prototype.createLayerSource = function (rawLayer, options) {
 
         // clean the old data if WFS is reloaded, or BBOX loading strategy is used
         wfsSource.on("featuresloadstart", this.clearSource.bind(this));
+        wfsSource.on("featuresloadend", this.clearSource.bind(this));
         return wfsSource;
     }
 
@@ -320,12 +324,11 @@ WebGLLayer.prototype.formatFeatureStyles = function (feature, styleModel) {
  * @returns {void}
  */
 WebGLLayer.prototype.formatFeatureGeometry = function (feature) {
-    feature.getGeometry()
-        .setCoordinates(feature.getGeometry().getCoordinates(), "XY");
+    feature.getGeometry()?.setCoordinates?.(feature.getGeometry().getCoordinates(), "XY");
 };
 
 /**
- * Automatically cleans the data by automatically parsing data provided as strings to the accurate data type
+ * Cleans the data by automatically parsing data provided as strings to the accurate data type
  * @todo Extend to Date types
  * @memberof WebGLLayer
  * @private
@@ -544,24 +547,25 @@ WebGLLayer.prototype.isPointLayer = function (isPointLayer) {
  * called by the layer source loader, binds the instance of the layer model
  * should be called on each source refresh
  * @param {module:ol/Feature[]} features - the features list
+ * @param {object} attrs - the layers attributes object
  * @returns {void}
  */
-WebGLLayer.prototype.afterLoading = function (features) {
-    const styleModel = bridge.getStyleModelById(this.attributes.styleId); // load styleModel to extract rules per feature
+WebGLLayer.prototype.afterLoading = function (features, attrs) {
+    const styleModel = bridge.getStyleModelById(attrs.styleId); // load styleModel to extract rules per feature
 
     if (Array.isArray(features)) {
         features.forEach((feature, idx) => {
             if (typeof feature?.getId === "function" && typeof feature.getId() === "undefined") {
-                feature.setId("webgl-" + this.attributes.id + "-feature-id-" + idx);
+                feature.setId("webgl-" + attrs.id + "-feature-id-" + idx);
             }
             this.formatFeatureGeometry(feature); /** @deprecated will propbably not be necessary anymore in release version */
             this.formatFeatureStyles(feature, styleModel); /** @todo needs refactoring for production  */
-            this.formatFeatureData(feature, this.attributes.excludeTypesFromParsing);
+            this.formatFeatureData(feature, attrs.excludeTypesFromParsing);
         });
     }
-    this.featuresLoaded(this.attributes.id, features);
+    this.featuresLoaded(attrs.id, features);
     this.features = features;
-    if (this.get("isSelected") || this.attributes.isSelected) {
+    if (this.get("isSelected") || attrs.isSelected) {
         LoaderOverlay.hide();
     }
 };
