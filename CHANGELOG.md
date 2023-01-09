@@ -17,8 +17,6 @@ actionsMapLayers/addLayerOnTop: Use the ModelList for the length of the layer li
 filter/filter.api: lookup source layer info for WebGL layers
 moverHover/actionsMouseHover: collect webgl features for mouseHoverInfo
 GFI/gettersGfi: collect  webgl features for GFI
-=======
-
 
 ### Removed
 
