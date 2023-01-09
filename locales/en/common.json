@@ -141,8 +141,8 @@
                 "warningTimeLayerQuantity": "<strong>Warning:</strong> More than one TimeLayer was initially selected. </br>Only <strong>{{name}} </strong>is displayed."
               },
               "errorHandling": {
-                "403": "<strong>Access denied to {{layerName}}!</strong> </br> You are not authorised to view the data for {{layerName}}.  Please contact the person responsible for this data first to obtain authorisation. </br> </br>" ,
-                "LinkMetadata": "Further information can be found <a href={{linkMetadata}} target=\"_blank\">here</a>."
+                "403": "<strong>Access to {{layerName}} not possible!</strong> </br> Unfortunately, you are not authorised to view the data for {{layerName}}.  Please contact the office responsible for this data for access authorisation. </br> </br>" ,
+                "LinkMetadata": "Contact details and further information can be found <a href={{linkMetadata}} target=\"_blank\">here</a>."
               }
             }
           }

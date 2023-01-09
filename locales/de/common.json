@@ -129,8 +129,8 @@
                 "warningTimeLayerQuantity": "<strong>Achtung:</strong> Es wurden mehr als ein Timelayer initial ausgewählt. </br>Es wird nur <strong> {{name}} </strong>angezeigt."
               },
               "errorHandling": {
-                "403": "<strong>Zugriff auf {{layerName}} verweigert!</strong> </br> Sie sind leider nicht berechtigt die Daten für {{layerName}} anzuzeigen. Bitte wenden sie sich zunächst an die für diese Daten Verantwortlichen um die Berechtigung zu erhalten. </br> </br>" ,
-                "LinkMetadata": "Weitere Informationen dazu finden sie <a href={{linkMetadata}} target=\"_blank\">hier</a>."
+                "403": "<strong>Zugriff auf {{layerName}} nicht möglich!</strong> </br> Sie sind leider nicht berechtigt die Daten für {{layerName}} anzuzeigen. Bitte wenden sie sich für eine Zugriffsberechtigung an die für diese Daten verantwortliche Stelle. </br> </br>" ,
+                "LinkMetadata": "Kontaktdaten und weitere Informationen finden sie <a href={{linkMetadata}} target=\"_blank\">hier</a>."
               }
             }
           }
