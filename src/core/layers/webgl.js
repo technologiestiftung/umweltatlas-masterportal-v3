@@ -160,7 +160,6 @@ WebGLLayer.prototype.createLayerSource = function (rawLayer, options) {
 
         // clean the old data if WFS is reloaded, or BBOX loading strategy is used
         wfsSource.on("featuresloadstart", this.clearSource.bind(this));
-        wfsSource.on("featuresloadend", this.clearSource.bind(this));
         return wfsSource;
     }
 
