@@ -1015,7 +1015,7 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
         const mode = Radio.request("Map", "getMapMode"),
             lightModel = Radio.request("Parser", "getItemByAttributes", {id: modelId}),
             isMobile = Radio.request("Util", "isViewMobile"),
-            isTable = Radio.request("Util", "getUiStyle") === "TABLE";
+            isTable = uiStyle.getUiStyle() === "TABLE";
 
         let dropdown;
 

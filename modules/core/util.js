@@ -1,6 +1,12 @@
 import LoaderOverlay from "../../src/utils/loaderOverlay";
 import findWhereJs from "../../src/utils/findWhereJs";
 import isMobile from "../../src/utils/isMobile";
+import uniqueId from "../../src/utils/uniqueId";
+import {isAny, isAndroid, isApple, isOpera, isWindows} from "../../src/utils/isAny";
+import getMasterPortalVersionNumber from "../../src/utils/getMasterPortalVersionNumber";
+import uiStyle from "../../src/utils/uiStyle";
+import {sort} from "../../src/utils/sort";
+import isInternetExplorer from "../../src/utils/isInternetExplorer";
 
 const Util = Backbone.Model.extend(/** @lends Util.prototype */{
     defaults: {
@@ -40,13 +46,22 @@ const Util = Backbone.Model.extend(/** @lends Util.prototype */{
             "isViewMobile": function () {
                 return this.get("isViewMobile");
             },
-            "isInternetExplorer": this.isInternetExplorer, // TODO: addons
+            "getMasterPortalVersionNumber": getMasterPortalVersionNumber,
+            "isApple": isApple,
+            "isAndroid": isAndroid,
+            "isOpera": isOpera,
+            "isWindows": isWindows,
+            "isAny": isAny,
+            "getUiStyle": uiStyle.getUiStyle,
+            "sort": sort,
+            "isInternetExplorer": isInternetExplorer,
             "convertArrayElementsToString": this.convertArrayElementsToString,
             "renameKeys": this.renameKeys,
             "renameValues": this.renameValues,
             "pickKeyValuePairs": this.pickKeyValuePairs,
             "groupBy": this.groupBy,
             "sortBy": this.sortBy,
+            "uniqueId": uniqueId,
             "pick": this.pick,
             "omit": this.omit,
             "findWhereJs": this.findWhereJs,
@@ -60,7 +75,8 @@ const Util = Backbone.Model.extend(/** @lends Util.prototype */{
         channel.on({
             "hideLoader": this.hideLoader,
             "refreshTree": this.refreshTree,
-            "showLoader": this.showLoader
+            "showLoader": this.showLoader,
+            "setUiStyle": uiStyle.setUiStyle
         }, this);
 
         // initial isMobileView setzen
@@ -167,25 +183,6 @@ const Util = Backbone.Model.extend(/** @lends Util.prototype */{
         return mapToSort.map((value) => {
             return value.obj;
         });
-    },
-
-    /**
-     * Searches the userAgent for the string internet explorer.
-     * @return {Array|null} Returns an array with the results. Returns zero if nothing is found.
-     */
-    isInternetExplorer: function () {
-        let ie = false;
-
-        if ((/MSIE 9/i).test(navigator.userAgent)) {
-            ie = "IE9";
-        }
-        else if ((/MSIE 10/i).test(navigator.userAgent)) {
-            ie = "IE10";
-        }
-        else if ((/rv:11.0/i).test(navigator.userAgent)) {
-            ie = "IE11";
-        }
-        return ie;
     },
 
     /**

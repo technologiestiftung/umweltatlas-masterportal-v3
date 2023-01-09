@@ -2,17 +2,15 @@
  * @description returns if the device type is mobile
  * @returns {*} todo
  */
-function isAny () {
+export function isAny () {
     return isAndroid() || isApple() || isOpera() || isWindows();
 }
-
-export default isAny;
 
 /**
  * Searches the userAgent for the string android.
  * @return {Array|null} Returns an array with the results. Returns zero if nothing is found.
  */
-function isAndroid () {
+export function isAndroid () {
     return navigator.userAgent.match(/Android/i);
 }
 
@@ -20,7 +18,7 @@ function isAndroid () {
  * Searches the userAgent for the string iPhone, iPod or iPad.
  * @return {Array|null} Returns an array with the results. Returns zero if nothing is found.
  */
-function isApple () {
+export function isApple () {
     return navigator.userAgent.match(/iPhone|iPod|iPad/i);
 }
 
@@ -28,7 +26,7 @@ function isApple () {
  * Searches the userAgent for the string opera.
  * @return {Array|null} Returns an array with the results. Returns zero if nothing is found.
  */
-function isOpera () {
+export function isOpera () {
     return navigator.userAgent.match(/Opera Mini/i);
 }
 
@@ -36,6 +34,6 @@ function isOpera () {
  * Searches the userAgent for the string windows.
  * @return {Array|null} Returns an array with the results. Returns zero if nothing is found.
  */
-function isWindows () {
+export function isWindows () {
     return navigator.userAgent.match(/IEMobile/i);
 }
