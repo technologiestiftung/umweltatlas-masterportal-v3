@@ -18,6 +18,8 @@ import store from "../../app-store";
 import moment from "moment";
 import "moment-timezone";
 import uniqueId from "../../utils/uniqueId";
+import {Circle as CircleStyle, Fill, Stroke, Style} from "ol/style.js";
+
 /**
  * Creates a layer for the SensorThings API.
  * @param {Object} attrs attributes of the layer
@@ -76,6 +78,14 @@ export default function STALayer (attrs) {
     this.createLayer(Object.assign(defaults, attrs));
     Layer.call(this, Object.assign(defaults, attrs), this.layer, !attrs.isChildLayer);
     this.set("style", this.getStyleFunction(attrs));
+    this.styleRules = [];
+
+    this.intervallRequest = null;
+    this.keepUpdating = false;
+    this.moveLayerRevisible = "";
+    this.subscribedDataStreamIds = {};
+
+    this.registerInteractionMapResolutionListeners(this.get("scaleStyleByZoom"));
 
     moment.locale("de");
 }
@@ -216,12 +226,21 @@ STALayer.prototype.getStyleFunction = function (attrs) {
     const styleId = attrs?.styleId,
         styleObject = returnStyleObject(styleId);
 
-    if (typeof styleObject !== "undefined") {
-        return function (feature) {
-            const feat = typeof feature !== "undefined" ? feature : this,
-                isClusterFeature = typeof feat.get("features") === "function" || typeof feat.get("features") === "object" && Boolean(feat.get("features").length > 1);
 
-            return createStyle(styleObject, feat, isClusterFeature, Config.wfsImgPath);
+    if (typeof styleObject !== "undefined") {
+        this.styleRule = styleObject.rules ? styleObject.rules : null;
+        return function (feature, resolution) {
+            const feat = typeof feature !== "undefined" ? feature : this,
+                isClusterFeature = typeof feat.get("features") === "function" || typeof feat.get("features") === "object" && Boolean(feat.get("features").length > 1),
+                style = createStyle(styleObject, feat, isClusterFeature, Config.wfsImgPath),
+                styler = Array.isArray(style) ? style[0] : style,
+                zoomLevel = store.getters["Maps/getView"].getZoomForResolution(resolution) + 1,
+                zoomLevelCount = store.getters["Maps/getView"].getResolutions().length;
+
+            if (styler.getImage() !== null && attrs.scaleStyleByZoom) {
+                styler.getImage().setScale(styler.getImage().getScale() * zoomLevel / zoomLevelCount);
+            }
+            return style;
         };
     }
     console.error(i18next.t("common:modules.core.modelList.layer.wrongStyleId", {styleId}));
@@ -420,7 +439,6 @@ STALayer.prototype.createMqttConnectionToSensorThings = function (url, mqttOptio
         this.updateObservationForDatastreams(feature, datastreamId, observation);
         if (this.get("observeLocation") && isObject(feature)) {
             clonedFeature = feature.clone();
-
             this.updateFeatureLocation(feature, observation);
             if (typeof feature?.get === "function" && Array.isArray(feature.get("historicalFeatureIds")) && feature.get("historicalFeatureIds").length && isObject(observation?.location)) {
                 removedFeature = feature.get("historicalFeatureIds").pop();
@@ -429,6 +447,15 @@ STALayer.prototype.createMqttConnectionToSensorThings = function (url, mqttOptio
                 clonedFeature.setId(uniqueId("historicalFeature-"));
                 feature.get("historicalFeatureIds").unshift(clonedFeature.getId());
                 layerSource.addFeature(clonedFeature);
+                feature.get("historicalFeatureIds").forEach((id, index) => {
+                    const scale = this.getScale(index, feature.get("historicalFeatureIds").length, this.get("scaleStyleByZoom"), store.getters["Maps/getView"].getZoom() + 1, store.getters["Maps/getView"].getResolutions().length);
+
+                    if (!isObject(layerSource.getFeatureById(id))) {
+                        return;
+                    }
+                    layerSource.getFeatureById(id).set("originScale", this.getScale(index, feature.get("historicalFeatureIds").length));
+                    this.setStyleOfHistoricalFeature(layerSource.getFeatureById(id), scale, this.styleRule);
+                });
             }
         }
         this.updateFeatureProperties(feature, datastreamId, observation.result, phenomenonTime, showNoDataValue, noDataValue, bridge.changeFeatureGFI);
@@ -505,10 +532,11 @@ STALayer.prototype.getFeatureByDatastreamId = function (features, id) {
 /**
  * Initial loading of sensor data
  * @param {Function} onsuccess a function to call on success
+ * @param {Boolean} updateOnly set to true to avoid clearing the source
  * @fires Core#RadioRequestUtilGetProxyURL
  * @returns {void}
  */
-STALayer.prototype.initializeConnection = function (onsuccess) {
+STALayer.prototype.initializeConnection = function (onsuccess, updateOnly = false) {
     /**
      * @deprecated in the next major-release!
      * useProxy
@@ -527,13 +555,25 @@ STALayer.prototype.initializeConnection = function (onsuccess) {
         epsg = this.get("epsg"),
         gfiTheme = this.get("gfiTheme"),
         utc = this.get("utc"),
-        isClustered = this.has("clusterDistance");
+        isClustered = this.has("clusterDistance"),
+        datastreamIds = this.getDatastreamIdsInCurrentExtent(this.get("layer").getSource().getFeatures(), store.getters["Maps/getCurrentExtent"]);
 
     this.callSensorThingsAPI(url, version, urlParams, currentExtent, intersect, sensorData => {
-        const features = this.createFeaturesFromSensorData(sensorData, mapProjection, epsg, gfiTheme, utc),
-            layerSource = this.get("layerSource") instanceof Cluster ? this.get("layerSource").getSource() : this.get("layerSource");
+        const filteredSensorData = !updateOnly ? sensorData : sensorData.filter(data => !datastreamIds.includes(data?.properties?.dataStreamId)),
+            features = this.createFeaturesFromSensorData(filteredSensorData, mapProjection, epsg, gfiTheme, utc),
+            layerSource = this.get("layerSource") instanceof Cluster ? this.get("layerSource").getSource() : this.get("layerSource"),
+            oldHistoricalFeatures = layerSource.getFeatures().filter(f => typeof f.get("dataStreamId") === "undefined"),
+            copyFeatures = {};
 
-        layerSource.clear();
+        if (this.get("loadThingsOnlyInCurrentExtent")) {
+            oldHistoricalFeatures.forEach(oldFeature => {
+                copyFeatures[oldFeature.getId()] = oldFeature.clone();
+            });
+        }
+
+        if (!updateOnly) {
+            layerSource.clear();
+        }
 
         if (Array.isArray(features) && features.length) {
             layerSource.addFeatures(features);
@@ -550,19 +590,30 @@ STALayer.prototype.initializeConnection = function (onsuccess) {
 
         features.forEach(feature => {
             bridge.changeFeatureGFI(feature);
-            if (typeof feature?.get === "function" && Array.isArray(feature.get("historicalFeatureIds"))) {
-                feature.unset("historicalFeatureIds");
-            }
         });
 
         if (typeof onsuccess === "function") {
-            onsuccess();
+            onsuccess(features);
         }
         if (typeof this.options.afterLoading === "function") {
             this.options.afterLoading(features);
         }
 
         if (typeof this.get("historicalLocations") === "number") {
+            if (this.get("loadThingsOnlyInCurrentExtent")) {
+                features.forEach(feature => {
+                    const dataStreamIdFeature = feature.get("dataStreamId");
+
+                    if (this.subscribedDataStreamIds[dataStreamIdFeature]?.subscribed && Array.isArray(this.subscribedDataStreamIds[dataStreamIdFeature].historicalFeatureIds)) {
+                        feature.set("subscribed", true);
+                        feature.set("historicalFeatureIds", this.subscribedDataStreamIds[dataStreamIdFeature].historicalFeatureIds);
+                    }
+                });
+                Object.entries(copyFeatures).forEach(([id, feature]) => {
+                    feature.setId(id);
+                    layerSource.addFeature(feature);
+                });
+            }
             this.getHistoricalLocationsOfFeatures();
         }
     }, error => {
@@ -1080,9 +1131,10 @@ STALayer.prototype.aggregatePropertiesOfOneThing = function (thing, result) {
  * @param {String} epsg the epsg of sensortype
  * @param {String|Object} gfiTheme The name of the gfiTheme or an object of gfiTheme
  * @param {String} utc="+1" UTC-Timezone to calculate correct time.
+ * @param {Boolean} isHistorical if it is historical data
  * @returns {ol/Feature[]} feature to draw
  */
-STALayer.prototype.createFeaturesFromSensorData = function (sensorData, mapProjection, epsg, gfiTheme, utc) {
+STALayer.prototype.createFeaturesFromSensorData = function (sensorData, mapProjection, epsg, gfiTheme, utc, isHistorical = false) {
     if (!Array.isArray(sensorData) || typeof epsg === "undefined") {
         return [];
     }
@@ -1108,6 +1160,10 @@ STALayer.prototype.createFeaturesFromSensorData = function (sensorData, mapProje
             feature.set("gfiParams", gfiTheme?.params, true);
         }
         feature.set("utc", utc, true);
+        if (isHistorical) {
+            feature.set("scale", this.getScale(index - 1, sensorData.length - 1, this.get("scaleStyleByZoom"), store.getters["Maps/getView"].getZoom() + 1, store.getters["Maps/getView"].getResolutions().length));
+            feature.set("originScale", this.getScale(index - 1, sensorData.length - 1));
+        }
         feature = this.aggregateDataStreamValue(feature);
         feature = this.aggregateDataStreamPhenomenonTime(feature);
         features.push(feature);
@@ -1204,6 +1260,10 @@ STALayer.prototype.toggleSubscriptionsOnMapChanges = function () {
     if (state === true) {
         this.createLegend();
         this.startSubscription(this.get("layer").getSource().getFeatures());
+
+        if (this.get("observeLocation") && this.moveLayerRevisible === false) {
+            this.moveLayerRevisible = state;
+        }
     }
     else if (state === false) {
         this.stopSubscription();
@@ -1238,11 +1298,19 @@ STALayer.prototype.startSubscription = function (features) {
         this.initializeConnection(function () {
             this.updateSubscription();
             store.dispatch("Maps/registerListener", {type: "moveend", listener: this.updateSubscription.bind(this)});
+            this.keepUpdating = true;
+            if (this.get("enableContinuousRequest")) {
+                this.startIntervalUpdate(typeof this.get("factor") === "number" ? this.get("factor") * 1000 : undefined);
+            }
         }.bind(this));
     }
     else {
         this.updateSubscription();
         store.dispatch("Maps/registerListener", {type: "moveend", listener: this.updateSubscription.bind(this)});
+        this.keepUpdating = true;
+        if (this.get("enableContinuousRequest")) {
+            this.startIntervalUpdate(typeof this.get("factor") === "number" ? this.get("factor") * 1000 : undefined);
+        }
     }
 };
 
@@ -1259,6 +1327,43 @@ STALayer.prototype.stopSubscription = function () {
     this.set("isSubscribed", false);
     store.dispatch("Maps/unregisterListener", {type: "moveend", listener: this.updateSubscription.bind(this)});
     this.unsubscribeFromSensorThings([], subscriptionTopics, version, isVisibleInMap, mqttClient);
+    clearInterval(this.intervallRequest);
+    this.keepUpdating = false;
+};
+
+/**
+ * Starts the interval for continous updating the features in the current extent.
+ * @param {Number} timeout The timeout in milliseconds.
+ * @returns {void}
+ */
+STALayer.prototype.startIntervalUpdate = function (timeout) {
+    if (!this.keepUpdating || typeof timeout !== "number") {
+        return;
+    }
+    if (this.intervallRequest !== null) {
+        clearInterval(this.intervallRequest);
+    }
+    this.intervallRequest = setTimeout(() => {
+        const datastreamIds = this.getDatastreamIdsInCurrentExtent(this.get("layer").getSource().getFeatures(), store.getters["Maps/getCurrentExtent"]),
+            subscriptionTopics = this.get("subscriptionTopics"),
+            version = this.get("version"),
+            isVisibleInMap = this.get("isVisibleInMap"),
+            mqttClient = this.mqttClient,
+            rh = this.get("mqttRh"),
+            qos = this.get("mqttQos");
+
+        this.unsubscribeFromSensorThings(datastreamIds, subscriptionTopics, version, isVisibleInMap, mqttClient);
+        this.initializeConnection(features => {
+            this.subscribeToSensorThings(
+                this.getDatastreamIdsInCurrentExtent(features, store.getters["Maps/getCurrentExtent"]),
+                subscriptionTopics,
+                version,
+                mqttClient,
+                {rh, qos}
+            );
+        }, true);
+        this.startIntervalUpdate(timeout);
+    }, timeout);
 };
 
 /**
@@ -1276,7 +1381,7 @@ STALayer.prototype.updateSubscription = function () {
             rh = this.get("mqttRh"),
             qos = this.get("mqttQos");
 
-        if (!this.get("loadThingsOnlyInCurrentExtent")) {
+        if (!this.get("loadThingsOnlyInCurrentExtent") && !this.moveLayerRevisible) {
             this.unsubscribeFromSensorThings(datastreamIds, subscriptionTopics, version, isVisibleInMap, mqttClient);
             this.subscribeToSensorThings(datastreamIds, subscriptionTopics, version, mqttClient, {rh, qos});
             if (typeof this.get("historicalLocations") === "number") {
@@ -1293,11 +1398,9 @@ STALayer.prototype.updateSubscription = function () {
                     mqttClient,
                     {rh, qos}
                 );
-                if (typeof this.get("historicalLocations") === "number") {
-                    this.getHistoricalLocationsOfFeatures();
-                }
             });
         }
+        this.moveLayerRevisible = false;
     }, 2000);
 };
 
@@ -1448,6 +1551,13 @@ STALayer.prototype.unsubscribeFromSensorThings = function (datastreamIdsNotToUns
                 if (typeof this.get("historicalLocations") === "number") {
                     this.resetHistoricalLocations(id);
                 }
+                const layerSource = this.get("layerSource") instanceof Cluster ? this.get("layerSource").getSource() : this.get("layerSource"),
+                    feature = this.getFeatureByDatastreamId(layerSource.getFeatures(), id);
+
+                if (typeof feature?.set === "function") {
+                    feature.set("subscribed", false);
+                }
+                this.subscribedDataStreamIds[id] = false;
             }
             subscriptionTopics[id] = false;
         }
@@ -1477,6 +1587,16 @@ STALayer.prototype.subscribeToSensorThings = function (dataStreamIds, subscripti
                 mqttClient.subscribe("v" + version + "/Datastreams(" + id + ")/Thing/Locations", mqttSubscribeOptions);
             }
             subscriptionTopics[id] = true;
+            const layerSource = this.get("layerSource") instanceof Cluster ? this.get("layerSource").getSource() : this.get("layerSource"),
+                feature = this.getFeatureByDatastreamId(layerSource.getFeatures(), id);
+
+            if (!isObject(feature)) {
+                return;
+            }
+            feature.set("subscribed", true);
+            this.subscribedDataStreamIds[id] = {
+                subscribed: true
+            };
         }
     });
 
@@ -1665,7 +1785,8 @@ STALayer.prototype.fetchHistoricalLocations = function (url, urlParams, version,
  */
 STALayer.prototype.getHistoricalLocationsOfFeatures = function () {
     const allFeatures = (this.get("layerSource") instanceof Cluster ? this.get("layerSource").getSource() : this.get("layerSource")).getFeatures(),
-        datastreamIds = this.getDatastreamIdsInCurrentExtent(allFeatures, store.getters["Maps/getCurrentExtent"]),
+        featuresWithoutHistoricalIds = allFeatures.filter(feature => typeof feature.get("dataStreamId") !== "undefined" && !Array.isArray(feature.get("historicalFeatureIds"))),
+        datastreamIds = this.getDatastreamIdsInCurrentExtent(featuresWithoutHistoricalIds, store.getters["Maps/getCurrentExtent"]),
         url = this.get("url"),
         urlParam = {
             orderby: "time+desc",
@@ -1679,9 +1800,17 @@ STALayer.prototype.getHistoricalLocationsOfFeatures = function () {
             urlParam.root = `Datastreams(${datastreamId})/Thing/HistoricalLocations`;
             urlParam.top = amount + 1;
         }
+        const feature = this.getFeatureByDatastreamId(allFeatures, datastreamId);
+
+        if (this.subscribedDataStreamIds[datastreamId]?.subscribed && feature.get("historicalFeatureIds")) {
+            return;
+        }
         this.fetchHistoricalLocations(url, urlParam, version, historicalSensorData => {
             this.resetHistoricalLocations(datastreamId);
-            this.parseSensorDataToFeature(this.getFeatureByDatastreamId(allFeatures, datastreamId), historicalSensorData, urlParam, url, version);
+            this.parseSensorDataToFeature(feature, historicalSensorData, urlParam, url, version);
+            Object.assign(this.subscribedDataStreamIds[datastreamId], {
+                historicalFeatureIds: feature.get("historicalFeatureIds")
+            });
         });
     });
 };
@@ -1706,12 +1835,13 @@ STALayer.prototype.parseSensorDataToFeature = function (feature, sensorData, url
         gfiTheme = this.get("gfiTheme"),
         utc = this.get("utc"),
         things = this.getAllThings(sensorData, urlParam, url, version),
-        historicalFeatures = this.createFeaturesFromSensorData(things, mapProjection, epsg, gfiTheme, utc),
+        historicalFeatures = this.createFeaturesFromSensorData(things, mapProjection, epsg, gfiTheme, utc, true),
         historicalFeatureIds = [];
 
     historicalFeatures.shift();
     historicalFeatures.forEach(hFeature => {
         historicalFeatureIds.push(hFeature.getId());
+        this.setStyleOfHistoricalFeature(hFeature, hFeature.get("scale"), this.styleRule);
     });
     layerSource.addFeatures(historicalFeatures);
     feature.set("historicalFeatureIds", historicalFeatureIds);
@@ -1730,4 +1860,128 @@ STALayer.prototype.resetHistoricalLocations = function (datastreamId) {
         feature.get("historicalFeatureIds").forEach(featureId => layerSource.removeFeature(layerSource.getFeatureById(featureId)));
         feature.unset("historicalFeatureIds");
     }
+};
+
+/**
+ * Gets the individual scale of the feature according to the index of historical feature and amount of historical features.
+ * The first historical fature has a scale 0.8 and the last one has a scale 0.2.
+ * @param {Number} index The index of the historical feature
+ * @param {Number} amount The amount of the historical features
+ * @param {Boolean} scaleStyleByZoom - Flag for the style to be dependent on the zoom level.
+ * @param {Number} [zoomLevel=1] - The current zoom level.
+ * @param {Number} [zoomLevelCount=1] - The number of zoom levels.
+ * @returns {Number} scale
+ */
+STALayer.prototype.getScale = function (index, amount, scaleStyleByZoom = false, zoomLevel = 1, zoomLevelCount = 1) {
+    if (scaleStyleByZoom) {
+        return (0.7 - 0.5 * index / amount) * zoomLevel / zoomLevelCount;
+    }
+    return 0.7 - 0.5 * index / amount;
+};
+/**
+ * Sets the style of historical feature
+ * @param {ol/Feature} feature The feature.
+ * @param {Number} scale the icon scale in style
+ * @param {Object[]} styleRule the style rule of the sta features
+ * @returns {void}
+ */
+STALayer.prototype.setStyleOfHistoricalFeature = function (feature, scale, styleRule) {
+    if (!Array.isArray(styleRule) || !styleRule.length || !styleRule[0].style) {
+        console.error("The style rule is not right");
+        return;
+    }
+
+    const style = this.getStyleOfHistoricalFeature(styleRule[0].style, scale);
+
+    if (!style) {
+        console.error("There are not right style format for historical feature");
+        return;
+    }
+    feature.setStyle(() => style);
+};
+
+/**
+ * Parses and gets the style of historical feature.
+ * @param {Object} style The style object of current feature.
+ * @param {Number} scale the icon scale in style
+ * @returns {void}
+ */
+STALayer.prototype.getStyleOfHistoricalFeature = function (style, scale) {
+    let circleRadius,
+        circleFillColor,
+        circleStrokeColor,
+        circleStrokeWidth;
+
+    if (style.type === "regularShape") {
+        circleRadius = style.rsRadius;
+        circleFillColor = style.rsFillColor;
+        circleStrokeColor = style.rsStrokeColor;
+        circleStrokeWidth = style.rsStrokeWidth;
+    }
+    else if (style.type === "circle") {
+        circleRadius = style.circleRadius;
+        circleFillColor = style.circleFillColor;
+        circleStrokeColor = style.circleStrokeColor;
+        circleStrokeWidth = style.circleStrokeWidth;
+    }
+    else {
+        return false;
+    }
+
+    return new Style({
+        image: new CircleStyle({
+            radius: circleRadius,
+            fill: new Fill({
+                color: circleFillColor
+            }),
+            stroke: new Stroke({
+                color: circleStrokeColor,
+                width: circleStrokeWidth
+            }),
+            scale: scale
+        })
+    });
+};
+
+/**
+ * Sets the scale of style for historical feature dynamically according to the zoom level
+ * @param {ol/Feature[]} features the historical features
+ * @param {Number} zoomLevel the current zoom level
+ * @param {Number} zoomLevelCount the count of zoom level
+ * @param {Boolean} observeLocation if the location is observed
+ * @param {Boolean} scaleStyleByZoom if the scale of style is reset by zoom
+ * @returns {void}
+ */
+STALayer.prototype.setDynamicalScaleOfHistoricalFeatures = function (features, zoomLevel, zoomLevelCount, observeLocation, scaleStyleByZoom) {
+    if (!observeLocation || !scaleStyleByZoom || typeof zoomLevel !== "number" || zoomLevelCount < 1) {
+        return;
+    }
+    features.forEach(feature => {
+        const style = feature.getStyle()(feature);
+
+        if (style.getImage() !== null) {
+            style.getImage().setScale(feature.get("originScale") * zoomLevel / zoomLevelCount);
+            feature.setStyle(() => style);
+        }
+    });
+};
+
+/**
+ * Register interaction of resolution in map view.
+ * @param {Boolean} scaleStyleByZoom if the scale of style is reset by zoom
+ * @returns {void}
+ */
+STALayer.prototype.registerInteractionMapResolutionListeners = function (scaleStyleByZoom) {
+    if (!scaleStyleByZoom) {
+        return;
+    }
+    store.watch((state, getters) => getters["Maps/resolution"], resolution => {
+        const layerSource = this.get("layerSource") instanceof Cluster ? this.get("layerSource").getSource() : this.get("layerSource"),
+            allFeatures = layerSource.getFeatures(),
+            historicalFeatures = allFeatures.filter(feature => typeof feature.get("dataStreamId") === "undefined" && typeof feature.get("originScale") !== "undefined"),
+            zoomLevel = store.getters["Maps/getView"].getZoomForResolution(resolution) + 1,
+            zoomLevelCount = store.getters["Maps/getView"].getResolutions().length;
+
+        this.setDynamicalScaleOfHistoricalFeatures(historicalFeatures, zoomLevel, zoomLevelCount, this.get("observeLocation"), scaleStyleByZoom);
+    });
 };

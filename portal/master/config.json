@@ -482,8 +482,8 @@
             "name": "translate#common:menu.tools.scaleSwitcher",
             "icon": "bi-arrows-angle-contract"
           },
-          "obliqueViewer": {
-            "name": "translate#additional:modules.tools.obliqueViewer.title",
+          "vcOblique": {
+            "name": "translate#additional:modules.tools.vcOblique.title",
             "icon": "bi-image",
             "styleId": "obliqueViewer",
             "isVisibleInMenu": false
@@ -559,7 +559,7 @@
       "button3d": true,
       "startTool": {
         "tools": [
-          "obliqueViewer"
+          "vcOblique"
         ]
       }
     },

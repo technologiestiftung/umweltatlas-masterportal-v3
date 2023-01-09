@@ -8,6 +8,7 @@ import sinon from "sinon";
 import STALayer from "../../sta";
 import store from "../../../../app-store";
 import Collection from "ol/Collection";
+import {Circle, Style} from "ol/style.js";
 
 describe("src/core/layers/sta.js", () => {
     const consoleWarn = console.warn;
@@ -291,7 +292,7 @@ describe("src/core/layers/sta.js", () => {
                     if (arg === "returnModelById") {
                         ret = {
                             id: "id",
-                            createStyle: () => sinon.stub(),
+                            createStyle: () => new Style(),
                             getGeometryTypeFromWFS: () => sinon.stub(),
                             getLegendInfos: () => sinon.stub()
                         };
@@ -299,6 +300,12 @@ describe("src/core/layers/sta.js", () => {
                 });
                 return ret;
             });
+            store.getters = {
+                "Maps/getView": {
+                    getZoomForResolution: () => 1,
+                    getResolutions: () => 10
+                }
+            };
             const staLayer = new STALayer(attributes),
                 layer = staLayer.get("layer");
 
@@ -306,12 +313,12 @@ describe("src/core/layers/sta.js", () => {
             staLayer.showAllFeatures();
 
             expect(staLayer.get("layer").getSource().getFeatures().length).to.be.equals(3);
-            expect(typeof style1).to.be.equals("function");
-            expect(style1()).not.to.be.null;
-            expect(typeof style2).to.be.equals("function");
-            expect(style2()).not.to.be.null;
-            expect(typeof style3).to.be.equals("function");
-            expect(style3()).not.to.be.null;
+            expect(typeof style1).to.be.equals("object");
+            expect(style1).not.to.be.null;
+            expect(typeof style2).to.be.equals("object");
+            expect(style2).not.to.be.null;
+            expect(typeof style3).to.be.equals("object");
+            expect(style3).not.to.be.null;
 
         });
         it("showFeaturesByIds", () => {
@@ -322,7 +329,7 @@ describe("src/core/layers/sta.js", () => {
                     if (arg === "returnModelById") {
                         ret = {
                             id: "id",
-                            createStyle: () => sinon.stub(),
+                            createStyle: () => new Style(),
                             getGeometryTypeFromWFS: () => sinon.stub(),
                             getLegendInfos: () => sinon.stub()
                         };
@@ -330,6 +337,12 @@ describe("src/core/layers/sta.js", () => {
                 });
                 return ret;
             });
+            store.getters = {
+                "Maps/getView": {
+                    getZoomForResolution: () => 1,
+                    getResolutions: () => 10
+                }
+            };
             const staLayer = new STALayer(attributes),
                 layer = staLayer.get("layer"),
                 clearStub = sinon.stub(layer.getSource(), "clear");
@@ -340,8 +353,8 @@ describe("src/core/layers/sta.js", () => {
             staLayer.showFeaturesByIds(["1"]);
 
             expect(staLayer.get("layer").getSource().getFeatures().length).to.be.equals(3);
-            expect(typeof style1).to.be.equals("function");
-            expect(style1()).not.to.be.null;
+            expect(typeof style1).to.be.equals("object");
+            expect(style1).not.to.be.null;
             expect(typeof style2).to.be.equals("function");
             expect(style2()).to.be.null;
             expect(typeof style3).to.be.equals("function");
@@ -2301,6 +2314,134 @@ describe("src/core/layers/sta.js", () => {
             }]);
             sensorLayer.resetHistoricalLocations(0);
             expect(removeFeatureStub.called).to.be.true;
+        });
+    });
+
+    describe("getScale", () => {
+        it("returns the scale", () => {
+            const staLayer = new STALayer(attributes);
+
+            expect(staLayer.getScale(0, 4)).to.be.equal(0.7);
+            expect(staLayer.getScale(1, 4)).to.be.equal(0.575);
+            expect(staLayer.getScale(2, 4).toFixed(2)).to.be.equal("0.45");
+            expect(staLayer.getScale(3, 4).toFixed(2)).to.be.equal("0.32");
+            expect(staLayer.getScale(4, 4).toFixed(1)).to.be.equal("0.2");
+
+        });
+
+        it("should returns the correct scale if zoomLevel ignore", () => {
+            const staLayer = new STALayer(attributes),
+                zoomLevel = 2;
+
+            expect(staLayer.getScale(0, 4, false, zoomLevel)).to.be.equal(0.7);
+
+        });
+
+        it("should returns the correct scale by the given zoomLevel", () => {
+            const staLayer = new STALayer(attributes),
+                zoomLevel = 2;
+
+            expect(staLayer.getScale(0, 4, true, zoomLevel)).to.be.equal(1.4);
+
+        });
+
+        it("should returns the correct scale by the give zoomLevel and zoomLevelCount", () => {
+            const staLayer = new STALayer(attributes),
+                zoomLevel = 3,
+                zoomLevelCount = 7;
+
+            expect(staLayer.getScale(0, 4, true, zoomLevel, zoomLevelCount).toFixed(2)).to.be.equal("0.30");
+        });
+    });
+
+    describe("getStyleOfHistoricalFeature", () => {
+        it("get style from type regularShape", () => {
+            const staLayer = new STALayer(attributes),
+                originStyle = {
+                    type: "regularShape",
+                    rsRadius: 10,
+                    rsFillColor: [0, 72, 153, 0.7],
+                    rsStrokeColor: [0, 72, 153, 1],
+                    rsStrokeWidth: 2
+                },
+                scale = 0.8,
+                style = staLayer.getStyleOfHistoricalFeature(originStyle, scale);
+
+            expect(style.getImage()).to.be.an.instanceof(Circle);
+            expect(style.getImage().getRadius()).to.equal(10);
+            expect(style.getImage().getScale()).to.equal(0.8);
+        });
+
+        it("get style from type circle", () => {
+            const staLayer = new STALayer(attributes),
+                originStyle = {
+                    type: "circle",
+                    circleRadius: 10,
+                    circleFillColor: [0, 72, 153, 0.7],
+                    circleStrokeColor: [0, 72, 153, 1],
+                    circleStrokeWidth: 2
+                },
+                scale = 0.8,
+                style = staLayer.getStyleOfHistoricalFeature(originStyle, scale);
+
+            expect(style.getImage()).to.be.an.instanceof(Circle);
+            expect(style.getImage().getRadius()).to.equal(10);
+            expect(style.getImage().getScale()).to.equal(0.8);
+        });
+    });
+
+    describe("startIntervalUpdate", () => {
+        it("should do not set timeout", () => {
+            sensorLayer.startIntervalUpdate(1);
+            expect(sensorLayer.intervallRequest).to.be.null;
+        });
+        it("should do not set the timeout if no timeout is passed", () => {
+            sensorLayer.keepUpdating = true;
+            sensorLayer.startIntervalUpdate();
+            expect(sensorLayer.intervallRequest).to.be.null;
+        });
+    });
+
+    describe("setDynamicalScaleOfHistoricalFeatures", () => {
+        it("should not change the scale of feature", () => {
+            const staLayer = new STALayer(attributes),
+                style = new Style({
+                    image: new Circle({
+                        scale: 1
+                    })
+                }),
+                feature = new Feature();
+
+            feature.setStyle(() => style);
+
+            staLayer.setDynamicalScaleOfHistoricalFeatures([feature], undefined, 10, true, true);
+            expect(feature.getStyle()(feature).getImage().getScale()).to.equal(1);
+            staLayer.setDynamicalScaleOfHistoricalFeatures([feature], 2, 0, true, true);
+            expect(feature.getStyle()(feature).getImage().getScale()).to.equal(1);
+            staLayer.setDynamicalScaleOfHistoricalFeatures([feature], 2, 10, false, true);
+            expect(feature.getStyle()(feature).getImage().getScale()).to.equal(1);
+            staLayer.setDynamicalScaleOfHistoricalFeatures([feature], 2, 10, true, false);
+            expect(feature.getStyle()(feature).getImage().getScale()).to.equal(1);
+        });
+
+        it("should change the scale of feature", () => {
+            const staLayer = new STALayer(attributes),
+                style = new Style({
+                    image: new Circle({
+                        scale: 1
+                    })
+                }),
+                feature = new Feature();
+
+            feature.setStyle(() => style);
+            feature.set("originScale", 1);
+
+            staLayer.setDynamicalScaleOfHistoricalFeatures([feature], 1, 10, true, true);
+            expect(feature.getStyle()(feature).getImage().getScale()).to.equal(0.1);
+            staLayer.setDynamicalScaleOfHistoricalFeatures([feature], 2, 10, true, true);
+            expect(feature.getStyle()(feature).getImage().getScale()).to.equal(0.2);
+            staLayer.setDynamicalScaleOfHistoricalFeatures([feature], 5, 10, true, true);
+            expect(feature.getStyle()(feature).getImage().getScale()).to.equal(0.5);
         });
     });
 });
