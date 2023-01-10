@@ -80,13 +80,13 @@ export default function STALayer (attrs) {
     this.styleRules = [];
 
     this.intervallRequest = null;
-    this.updateSubscriptionTimeout = null;
     this.keepUpdating = false;
     this.moveLayerRevisible = "";
     this.subscribedDataStreamIds = {};
     this.showHistoricalFeatures = true;
     this.locationUpdating = {};
     this.eventKeys = {};
+    this.lastScale = null;
 
     this.registerInteractionMapResolutionListeners(this.get("scaleStyleByZoom"));
 
@@ -452,19 +452,7 @@ STALayer.prototype.createMqttConnectionToSensorThings = function (url, mqttOptio
                 return;
             }
             this.updateFeatureLocation(feature, observation, () => {
-                if (this.showHistoricalFeatures && !Array.isArray(feature.get("historicalFeatureIds"))) {
-                    this.fetchHistoricalLocationsByDatastreamId(
-                        features,
-                        feature.get("dataStreamId"),
-                        parseInt(this.get("historicalLocations"), 10),
-                        this.get("url"),
-                        {orderby: "time+desc", expand: "Locations"},
-                        this.get("version"),
-                        () => {
-                            this.updateHistoricalFeatures(feature, clonedFeature, layerSource);
-                        }
-                    );
-                }
+                this.locationUpdating[feature.get("dataStreamId")] = false;
             });
             if (this.showHistoricalFeatures && Array.isArray(feature.get("historicalFeatureIds")) && feature.get("historicalFeatureIds").length) {
                 this.updateHistoricalFeatures(feature, clonedFeature, layerSource);
@@ -655,6 +643,8 @@ STALayer.prototype.initializeConnection = function (onsuccess, updateOnly = fals
                     layerSource.addFeature(feature);
                 });
             }
+        }
+        if (this.get("observeLocation") && this.get("loadThingsOnlyInCurrentExtent")) {
             this.getHistoricalLocationsOfFeatures();
         }
     }, error => {
@@ -1425,9 +1415,6 @@ STALayer.prototype.updateSubscription = function () {
         if (!this.get("loadThingsOnlyInCurrentExtent") && !this.moveLayerRevisible) {
             this.unsubscribeFromSensorThings(datastreamIds, subscriptionTopics, version, isVisibleInMap, mqttClient);
             this.subscribeToSensorThings(datastreamIds, subscriptionTopics, version, mqttClient, {rh, qos});
-            if (typeof this.get("historicalLocations") === "number" && this.showHistoricalFeatures) {
-                this.getHistoricalLocationsOfFeatures();
-            }
         }
         else {
             this.unsubscribeFromSensorThings(datastreamIds, subscriptionTopics, version, isVisibleInMap, mqttClient);
@@ -1621,15 +1608,31 @@ STALayer.prototype.subscribeToSensorThings = function (dataStreamIds, subscripti
         return false;
     }
 
+    const layerSource = this.get("layerSource") instanceof Cluster ? this.get("layerSource").getSource() : this.get("layerSource");
+
     dataStreamIds.forEach(id => {
         if (id && !subscriptionTopics[id]) {
             mqttClient.subscribe("v" + version + "/Datastreams(" + id + ")/Observations", mqttSubscribeOptions);
             if (this.get("observeLocation")) {
-                mqttClient.subscribe("v" + version + "/Datastreams(" + id + ")/Thing/Locations", mqttSubscribeOptions);
+                mqttClient.subscribe("v" + version + "/Datastreams(" + id + ")/Thing/Locations", mqttSubscribeOptions, () => {
+                    if (this.get("loadThingsOnlyInCurrentExtent")) {
+                        return;
+                    }
+                    this.fetchHistoricalLocationsByDatastreamId(
+                        layerSource.getFeatures(),
+                        id,
+                        parseInt(this.get("historicalLocations"), 10),
+                        this.get("url"),
+                        {orderby: "time+desc", expand: "Locations"},
+                        this.get("version"),
+                        () => {
+                            this.locationUpdating[id] = false;
+                        }
+                    );
+                });
             }
             subscriptionTopics[id] = true;
-            const layerSource = this.get("layerSource") instanceof Cluster ? this.get("layerSource").getSource() : this.get("layerSource"),
-                feature = this.getFeatureByDatastreamId(layerSource.getFeatures(), id);
+            const feature = this.getFeatureByDatastreamId(layerSource.getFeatures(), id);
 
             if (!isObject(feature)) {
                 return;
@@ -1681,7 +1684,6 @@ STALayer.prototype.updateFeatureLocation = function (feature, observation, onsuc
         this.locationUpdating[feature.get("dataStreamId")] = true;
         this.eventKeys[feature.get("dataStreamId")] = feature.getGeometry().once("change", () => {
             onsuccess();
-            this.locationUpdating[feature.get("dataStreamId")] = true;
         });
     }
     feature.getGeometry().setCoordinates(coordinates);
@@ -1740,11 +1742,14 @@ STALayer.prototype.registerInteractionMapScaleListeners = function () {
     store.watch((state, getters) => getters["Maps/scale"], scale => {
         if (scale > this.get("maxScaleForHistoricalFeatures")) {
             this.showHistoricalFeatures = false;
-
             this.removeHistoricalFeatures();
+            this.lastScale = scale;
+            return;
         }
-        else {
-            this.showHistoricalFeatures = true;
+        this.showHistoricalFeatures = true;
+        if (scale <= this.get("maxScaleForHistoricalFeatures") && this.lastScale >= this.get("maxScaleForHistoricalFeatures")) {
+            this.getHistoricalLocationsOfFeatures();
+            this.lastScale = scale;
         }
     });
 };
@@ -1920,6 +1925,7 @@ STALayer.prototype.fetchHistoricalLocationsByDatastreamId = function (allFeature
             if (typeof onsuccess === "function") {
                 onsuccess();
             }
+            this.locationUpdating[feature.get("dataStreamId")] = false;
         });
     });
 };
