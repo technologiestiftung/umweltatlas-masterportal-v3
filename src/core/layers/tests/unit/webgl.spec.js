@@ -90,7 +90,7 @@ describe("src/core/layers/webgl.js", () => {
             expect(features).to.be.an.instanceof(Array);
             expect(layer.get("id")).to.be.equals(layerAttrs.id);
             expect(layer.get("name")).to.be.equals(layerAttrs.name);
-            expect(layer.get("gfiTheme")).to.be.equals(layerAttrs.gfiTheme);
+            expect(layer.get("gfiTheme")).to.be.equals(sourceLayerAttrs.gfiTheme);
         });
         it("should set layer visible when isSelected=true", function () {
             layerAttrs.isSelected = true;
@@ -194,13 +194,13 @@ describe("src/core/layers/webgl.js", () => {
         });
         it("getFeaturesFilterFunction shall filter bboxGeometry", function () {
             layerAttrs.bboxGeometry = {
-                intersectsExtent: (extent) => {
-                    if (extent.includes("1")) {
+                intersectsCoordinate: (coord) => {
+                    if (coord[0] === 0.5 && coord[1] === 0.5) {
                         return true;
                     }
                     return false;
                 },
-                getExtent: () => ["1"]
+                getExtent: () => [0, 0, 1, 1]
             };
             const webglLayer = new WebGLLayer(layerAttrs),
                 featuresFilterFunction = webglLayer.getFeaturesFilterFunction(layerAttrs),
@@ -208,7 +208,7 @@ describe("src/core/layers/webgl.js", () => {
                     id: "1",
                     getGeometry: () => {
                         return {
-                            getExtent: () => ["1"]
+                            getExtent: () => [0, 0, 1, 1]
                         };
 
                     }
@@ -221,7 +221,7 @@ describe("src/core/layers/webgl.js", () => {
                     id: "3",
                     getGeometry: () => {
                         return {
-                            getExtent: () => ["2"]
+                            getExtent: () => [1, 1, 2, 2]
                         };
                     }
                 }];
@@ -232,34 +232,30 @@ describe("src/core/layers/webgl.js", () => {
         });
     });
     describe("afterLoading", () => {
-        sinon.stub(Radio, "request").returns("foo");
-
-        const
-            features = [
-                new Feature()
-            ],
-            webglLayer = new WebGLLayer(layerAttrs);
+        const features = [new Feature()];
 
         it("should call the format functions for features", () => {
             const
+                webglLayer = new WebGLLayer(layerAttrs),
                 formatGeomSpy = sinon.stub(webglLayer, "formatFeatureGeometry"),
                 formatStylesSpy = sinon.stub(webglLayer, "formatFeatureStyles"),
                 formatDataSpy = sinon.stub(webglLayer, "formatFeatureData");
 
             webglLayer.afterLoading(features, layerAttrs);
             expect(formatGeomSpy.calledOnceWith(features[0])).to.be.true;
-            expect(formatStylesSpy.calledOnceWith(features[0], "foo")).to.be.true;
+            expect(formatStylesSpy.calledOnceWith(features[0], undefined)).to.be.true;
             expect(formatDataSpy.calledOnceWith(features[0], undefined)).to.be.true;
         });
         it("should add feature IDs", () => {
+            const webglLayer = new WebGLLayer(layerAttrs);
+
             webglLayer.afterLoading(features, layerAttrs);
             expect(features[0].getId()).to.equal("webgl-" + layerAttrs.id + "-feature-id-" + 0);
         });
         it("should set features prop and call featuresLoaded", () => {
             const
-                newFeatures = [
-                    new Feature({id: "bar"})
-                ],
+                webglLayer = new WebGLLayer(layerAttrs),
+                newFeatures = [new Feature({id: "bar"})],
                 featuresLoadedSpy = sinon.stub(webglLayer, "featuresLoaded");
 
             webglLayer.afterLoading(newFeatures, layerAttrs);
