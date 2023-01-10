@@ -47,13 +47,13 @@ export default function WebGLLayer (attrs) {
             sourceUpdated: false // necessary if source layer is WFS
         },
         // use referenced source layer or local layer if sourceId is layerType ("GeoJson", "WFS")
-        rawLayer = rawLayerList.getLayerWhere({id: attrs.sourceId}) || {...attrs, typ: attrs.sourceId};
+        sourceLayer = rawLayerList.getLayerWhere({id: attrs.sourceId}) || {...attrs, typ: attrs.sourceId};
 
     this.features = [];
-    this.createLayer({...defaults, ...attrs}, rawLayer);
+    this.createLayer({...defaults, ...attrs}, sourceLayer);
 
-    Layer.call(this, {...defaults, ...attrs, rawLayer}, this.layer, !attrs.isChildLayer);
-    this.createLegend(attrs, rawLayer);
+    Layer.call(this, {...sourceLayer, ...defaults, ...attrs}, this.layer, !attrs.isChildLayer);
+    this.createLegend(attrs, sourceLayer);
 }
 
 // Link prototypes and add prototype methods, means WFSLayer uses all methods and properties of Layer
@@ -95,7 +95,7 @@ WebGLLayer.prototype.createLayer = function (attrs, sourceLayer) {
     };
 
     this.source = this.createLayerSource(sourceLayer, options);
-    this.layer = this.createLayerInstance(attrs);
+    this.layer = this.createLayerInstance({...sourceLayer, ...attrs});
 };
 
 /**
