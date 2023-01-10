@@ -231,6 +231,42 @@ describe("src/core/layers/webgl.js", () => {
             expect(featuresFilterFunction(features)[0].id).to.be.equals("1");
         });
     });
+    describe("afterLoading", () => {
+        sinon.stub(Radio, "request").returns("foo");
+
+        const
+            features = [
+                new Feature()
+            ],
+            webglLayer = new WebGLLayer(layerAttrs);
+
+        it("should call the format functions for features", () => {
+            const
+                formatGeomSpy = sinon.stub(webglLayer, "formatFeatureGeometry"),
+                formatStylesSpy = sinon.stub(webglLayer, "formatFeatureStyles"),
+                formatDataSpy = sinon.stub(webglLayer, "formatFeatureData");
+
+            webglLayer.afterLoading(features, layerAttrs);
+            expect(formatGeomSpy.calledOnceWith(features[0])).to.be.true;
+            expect(formatStylesSpy.calledOnceWith(features[0], "foo")).to.be.true;
+            expect(formatDataSpy.calledOnceWith(features[0], undefined)).to.be.true;
+        });
+        it("should add feature IDs", () => {
+            webglLayer.afterLoading(features, layerAttrs);
+            expect(features[0].getId()).to.equal("webgl-" + layerAttrs.id + "-feature-id-" + 0);
+        });
+        it("should set features prop and call featuresLoaded", () => {
+            const
+                newFeatures = [
+                    new Feature({id: "bar"})
+                ],
+                featuresLoadedSpy = sinon.stub(webglLayer, "featuresLoaded");
+
+            webglLayer.afterLoading(newFeatures, layerAttrs);
+            expect(webglLayer.features).to.equal(newFeatures);
+            expect(featuresLoadedSpy.calledOnceWith(layerAttrs.id, newFeatures)).to.be.true;
+        });
+    });
     describe("private format and style functions", () => {
         const
             styleRule = {style: {
