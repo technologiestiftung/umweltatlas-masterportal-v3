@@ -403,7 +403,7 @@ STALayer.prototype.initializeSensorThings = function () {
         this.toggleSubscriptionsOnMapChanges();
     }
     if (store.getters["Maps/scale"] > this.get("maxScaleForHistoricalFeatures")) {
-        this.showHistoricalFeatures = true;
+        this.showHistoricalFeatures = false;
     }
 };
 
