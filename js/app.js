@@ -5,7 +5,6 @@ import loadAddons from "../src/addons";
 import "../modules/restReader/RadioBridge";
 import Autostarter from "../modules/core/autostarter";
 import Util from "../modules/core/util";
-// import StyleList from "../modules/vectorStyle/list";
 import {initializeStyleList} from "masterportalapi/src/vectorStyle/styleList";
 import Preparser from "../modules/core/configLoader/preparser";
 import RemoteInterface from "../modules/remoteInterface/model";
