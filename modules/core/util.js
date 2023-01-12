@@ -200,6 +200,7 @@ const Util = Backbone.Model.extend(/** @lends Util.prototype */{
      */
     isChrome: function () {
         let isChrome = false;
+
         if ((/Chrome/i).test(navigator.userAgent)) {
             isChrome = true;
         }
@@ -552,6 +553,7 @@ const Util = Backbone.Model.extend(/** @lends Util.prototype */{
      */
     searchNestedObject: function (obj, key) {
         let result;
+
         if (obj instanceof Array) {
             for (let i = 0; i < obj.length; i++) {
                 result = this.searchNestedObject(obj[i], key);
