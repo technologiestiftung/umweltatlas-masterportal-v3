@@ -11,6 +11,7 @@ import isInternetExplorer from "../../src/utils/isInternetExplorer";
 const Util = Backbone.Model.extend(/** @lends Util.prototype */{
     defaults: {
         config: "",
+        ignoredKeys: ["BOUNDEDBY", "SHAPE", "SHAPE_LENGTH", "SHAPE_AREA", "OBJECTID", "GLOBALID", "GEOMETRY", "SHP", "SHP_AREA", "SHP_LENGTH", "GEOM"],
         loaderOverlayTimeoutReference: null,
         loaderOverlayTimeout: 40,
         // the loaderOverlayCounter has to be set to 1 initialy, because it is shown on start and hidden at the end of app.js
@@ -23,10 +24,12 @@ const Util = Backbone.Model.extend(/** @lends Util.prototype */{
      * @memberof Core
      * @constructs
      * @property {String} config="" todo
+     * @property {String[]} ignoredKeys=["BOUNDEDBY", "SHAPE", "SHAPE_LENGTH", "SHAPE_AREA", "OBJECTID", "GLOBALID", "GEOMETRY", "SHP", "SHP_AREA", "SHP_LENGTH", "GEOM"] List of ignored attribute names when displaying attribute information of all layer types.
      * @property {String} loaderOverlayTimeoutReference=null todo
      * @property {String} loaderOverlayTimeout="20" Timeout for the loadergif.
      * @listens Core#RadioRequestUtilIsViewMobile
      * @listens Core#RadioRequestUtilIsInternetExplorer
+     * @listens Core#RadioRequestUtilGetIgnoredKeys
      * @listens Core#RadioRequestUtilRenameKeys
      * @listens Core#RadioRequestUtilRenameValues
      * @listens Core#RadioRequestUtilDifferenceJs
@@ -51,8 +54,12 @@ const Util = Backbone.Model.extend(/** @lends Util.prototype */{
             "isAndroid": isAndroid,
             "isOpera": isOpera,
             "isWindows": isWindows,
+            "isChrome": this.isChrome,
             "isAny": isAny,
             "getUiStyle": uiStyle.getUiStyle,
+            "getIgnoredKeys": function () {
+                return this.get("ignoredKeys");
+            },
             "sort": sort,
             "isInternetExplorer": isInternetExplorer,
             "convertArrayElementsToString": this.convertArrayElementsToString,
@@ -69,7 +76,8 @@ const Util = Backbone.Model.extend(/** @lends Util.prototype */{
             "isEqual": this.isEqual,
             "differenceJs": this.differenceJs,
             "toObject": this.toObject,
-            "isEmpty": this.isEmpty
+            "isEmpty": this.isEmpty,
+            "searchNestedObject": this.searchNestedObject
         }, this);
 
         channel.on({
@@ -183,6 +191,19 @@ const Util = Backbone.Model.extend(/** @lends Util.prototype */{
         return mapToSort.map((value) => {
             return value.obj;
         });
+    },
+
+    /**
+     * Searches the userAgent for the string chrome.
+     * @return {Array|null} Returns an array with the results. Returns zero if nothing is found.
+     * @deprecated in 3.0.0
+     */
+    isChrome: function () {
+        let isChrome = false;
+        if ((/Chrome/i).test(navigator.userAgent)) {
+            isChrome = true;
+        }
+        return isChrome;
     },
 
     /**
@@ -520,6 +541,39 @@ const Util = Backbone.Model.extend(/** @lends Util.prototype */{
      */
     isEmpty: function (obj) {
         return [Object, Array].includes((obj || {}).constructor) && !Object.entries(obj || {}).length;
+    },
+
+    /**
+     * helper function to find a key in nested object
+     * @param {object} obj object to search
+     * @param {string} key name of key to search for
+     * @return {mixed} returns value for the given key or null if not found
+     * @deprecated in 3.0.0
+     */
+    searchNestedObject: function (obj, key) {
+        let result;
+        if (obj instanceof Array) {
+            for (let i = 0; i < obj.length; i++) {
+                result = this.searchNestedObject(obj[i], key);
+                if (result) {
+                    break;
+                }
+            }
+        }
+        else {
+            for (const prop in obj) {
+                if (prop === key) {
+                    return obj;
+                }
+                if (obj[prop] instanceof Object || obj[prop] instanceof Array) {
+                    result = this.searchNestedObject(obj[prop], key);
+                    if (result) {
+                        break;
+                    }
+                }
+            }
+        }
+        return result;
     }
 });
 
