@@ -130,7 +130,7 @@ Layer.prototype.initialize = function (attrs) {
 /**
  * Error handling for secure services when error 403 is thrown .
  * @param {Number} errorCode Error Number of the request
- * @param {String}layerName Name of the layer
+ * @param {String} layerName Name of the layer
  * @returns {void}
  */
 Layer.prototype.errorHandling = function (errorCode, layerName) {
@@ -149,9 +149,11 @@ Layer.prototype.errorHandling = function (errorCode, layerName) {
             })
             + linkMetadata;
 
-        store.dispatch("Alerting/addSingleAlert", {content: alertingContent,
-            multipleAlert: true});
+        store.dispatch("Alerting/addSingleAlert", {content: alertingContent, multipleAlert: true});
     }
+    store.watch((state, getters) => getters["Alerting/showTheModal"], showTheModal => {
+        this.setIsSelected(showTheModal);
+    });
 
 
 };
