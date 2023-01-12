@@ -2536,6 +2536,36 @@ describe("src/core/layers/sta.js", () => {
             expect(style.getImage().getRadius()).to.equal(10);
             expect(style.getImage().getScale()).to.equal(0.8);
         });
+
+        it("get style from type icon", () => {
+            const staLayer = new STALayer(attributes),
+                originStyle = {
+                    type: "icon",
+                    circleRadius: 10,
+                    circleFillColor: [0, 72, 153, 0.7],
+                    circleStrokeColor: [0, 72, 153, 1],
+                    circleStrokeWidth: 2
+                },
+                scale = 0.8,
+                style = staLayer.getStyleOfHistoricalFeature(originStyle, scale);
+
+            expect(style.getImage()).to.be.an.instanceof(Circle);
+            expect(style.getImage().getRadius()).to.equal(10);
+            expect(style.getImage().getScale()).to.equal(0.8);
+        });
+
+        it("get default circle style", () => {
+            const staLayer = new STALayer(attributes),
+                originStyle = {
+                    type: "icon"
+                },
+                scale = 0.8,
+                style = staLayer.getStyleOfHistoricalFeature(originStyle, scale);
+
+            expect(style.getImage()).to.be.an.instanceof(Circle);
+            expect(style.getImage().getRadius()).to.equal(10);
+            expect(style.getImage().getScale()).to.equal(0.8);
+        });
     });
 
     describe("startIntervalUpdate", () => {

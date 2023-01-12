@@ -2012,10 +2012,6 @@ STALayer.prototype.setStyleOfHistoricalFeature = function (feature, scale, style
 
     const style = this.getStyleOfHistoricalFeature(styleRule[0].style, scale);
 
-    if (!style) {
-        console.error("There are not right style format for historical feature");
-        return;
-    }
     feature.setStyle(() => style);
 };
 
@@ -2037,14 +2033,11 @@ STALayer.prototype.getStyleOfHistoricalFeature = function (style, scale) {
         circleStrokeColor = style.rsStrokeColor;
         circleStrokeWidth = style.rsStrokeWidth;
     }
-    else if (style.type === "circle") {
-        circleRadius = style.circleRadius;
-        circleFillColor = style.circleFillColor;
-        circleStrokeColor = style.circleStrokeColor;
-        circleStrokeWidth = style.circleStrokeWidth;
-    }
     else {
-        return false;
+        circleRadius = style.circleRadius ? style.circleRadius : 10;
+        circleFillColor = style.circleFillColor ? style.circleFillColor : [0, 153, 255, 1];
+        circleStrokeColor = style.circleStrokeColor ? style.circleStrokeColor : [0, 0, 0, 1];
+        circleStrokeWidth = style.circleStrokeWidth ? style.circleStrokeWidth : 2;
     }
 
     return new Style({
