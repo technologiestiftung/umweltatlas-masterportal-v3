@@ -3,6 +3,7 @@ import LoaderOverlay from "../../utils/loaderOverlay";
 import Layer from "./layer";
 import {returnStyleObject} from "masterportalapi/src/vectorStyle/styleList";
 import {createStyle, returnLegendByStyleId} from "masterportalapi/src/vectorStyle/createStyle";
+import {getGeometryTypeFromWFS} from "masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
 import * as bridge from "./RadioBridge.js";
 import Cluster from "ol/source/Cluster";
 import {bbox, all} from "ol/loadingstrategy.js";
@@ -174,7 +175,8 @@ WFSLayer.prototype.updateSource = function () {
  * @returns {void}
  */
 WFSLayer.prototype.createLegend = function () {
-    const styleObject = returnStyleObject(this.attributes.styleId);
+    const styleObject = returnStyleObject(this.attributes.styleId),
+        isSecured = this.attributes.isSecured;
     let legend = this.get("legend");
 
     /**
@@ -211,6 +213,19 @@ WFSLayer.prototype.createLegend = function () {
                 }
             }
             else {
+                if (!isSecured) {
+                    getGeometryTypeFromWFS(this.get("url"), this.get("version"), this.get("featureType"), this.get("styleGeometryType"), isSecured,
+                        (geometryTypes, error) => {
+                            if (error) {
+                                Radio.trigger("Alert", "alert", {
+                                    text: "<strong>" + i18next.t("common:modules.vectorStyle.styleModel.getGeometryTypeFromWFSFetchfailed") + "</strong> <br>"
+                                        + "<small>" + i18next.t("common:modules.vectorStyle.styleModel.getGeometryTypeFromWFSFetchfailedMessage") + "</small>",
+                                    kategorie: "alert-warning"
+                                });
+                            }
+                            return geometryTypes;
+                        });
+                }
                 this.setLegend(legendInfos.legendInformation);
             }
         });
