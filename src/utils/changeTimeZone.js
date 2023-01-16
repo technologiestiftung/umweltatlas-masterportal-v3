@@ -1,4 +1,8 @@
 import moment from "moment";
+import dayjs from "dayjs";
+import dayjsUtc from "dayjs/plugin/utc";
+
+dayjs.extend(dayjsUtc);
 
 /**
 * Change the timzone for the phenomenonTime into a target utc.
@@ -14,16 +18,16 @@ function changeTimeZone (phenomenonTime, utc = "+1") {
 
     if (utc.length === 2) {
         utcSub = parseInt(utc.substring(1, 2), 10);
-        utcSub = moment(phenomenonTime).isDST() ? utcSub + 1 : utcSub;
+        // utcSub = moment(phenomenonTime).isDST() ? utcSub + 1 : utcSub;
         utcNumber = "0" + utcSub + "00";
     }
     else if (utc.length > 2) {
         utcSub = parseInt(utc.substring(1, 3), 10);
-        utcSub = moment(phenomenonTime).isDST() ? utcSub + 1 : utcSub;
+        // utcSub = moment(phenomenonTime).isDST() ? utcSub + 1 : utcSub;
         utcNumber = utcSub + "00";
     }
 
-    return moment(phenomenonTime).utcOffset(utcAlgebraicSign + utcNumber).format("YYYY-MM-DDTHH:mm:ss");
+    return dayjs(phenomenonTime).utcOffset(utcAlgebraicSign + utcNumber).format("YYYY-MM-DDTHH:mm:ss");
 }
 
 export default changeTimeZone;

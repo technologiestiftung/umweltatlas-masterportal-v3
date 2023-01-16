@@ -1,5 +1,5 @@
 import axios from "axios";
-import moment from "moment";
+import dayjs from "dayjs";
 import xml2json from "../utils/xml2json";
 import getNestedValues from "../../utils/getNestedValues";
 import handleAxiosErrorModule from "../utils/handleAxiosError.js";
@@ -135,7 +135,7 @@ function parseDate (json, dateType) {
         dateValue = dates.CI_Date?.date?.DateTime?.getValue() || dates.CI_Date?.date?.Date?.getValue();
     }
 
-    return typeof dateValue !== "undefined" ? moment(dateValue).format("DD.MM.YYYY") : dateValue;
+    return typeof dateValue !== "undefined" ? dayjs(dateValue).format("DD.MM.YYYY") : dateValue;
 }
 
 /**

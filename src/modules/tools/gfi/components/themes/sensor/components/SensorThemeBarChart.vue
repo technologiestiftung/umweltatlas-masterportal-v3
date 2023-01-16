@@ -1,6 +1,9 @@
 <script>
 import Chart from "chart.js";
-import moment from "moment";
+import dayjs from "dayjs";
+import localeData from "dayjs/plugin/localeData";
+
+dayjs.extend(localeData);
 
 import {calculateWorkloadForOneWeekday} from "../utils/calculateWorkloadForOneWeekday";
 import {calculateArithmeticMean} from "../utils/mathematicalOperations";
@@ -38,8 +41,9 @@ export default {
         }
     },
     data: () => {
+        require("dayjs/locale/" + i18next.language + ".js");
         return {
-            momentLocale: moment().locale(i18next.language),
+            momentLocale: dayjs().locale(i18next.language),
             weekdayIndex: 0,
             chart: null,
             hoverBackgroundColor: "rgba(0, 0, 0, 0.8)",
@@ -56,7 +60,7 @@ export default {
          * @returns {String} The weekday.
          */
         weekday: function () {
-            return this.momentLocale.localeData().weekdays(moment().add(this.weekdayIndex, "days"));
+            return this.momentLocale.localeData().weekdays(dayjs().add(this.weekdayIndex, "day"));
         }
     },
     watch: {

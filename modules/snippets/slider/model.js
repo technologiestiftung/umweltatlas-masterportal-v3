@@ -1,7 +1,7 @@
 import SnippetModel from "../model";
 import ValueModel from "./valueModel";
-import moment from "moment";
 import {sort} from "../../../src/utils/sort";
+import dayjs from "dayjs";
 
 const SliderModel = SnippetModel.extend(/** @lends SliderModel.prototype */{
     defaults: Object.assign({}, SnippetModel.prototype.defaults, {
@@ -90,7 +90,7 @@ const SliderModel = SnippetModel.extend(/** @lends SliderModel.prototype */{
                 attr: this.get("name"),
                 displayName: this.get("displayName") + this.get("from"),
                 value: min,
-                displayValue: moment(min).format(this.get("format")),
+                displayValue: dayjs(min).format(this.get("format")),
                 type: this.get("type"),
                 isMin: true
             }),
@@ -98,7 +98,7 @@ const SliderModel = SnippetModel.extend(/** @lends SliderModel.prototype */{
                 attr: this.get("name"),
                 displayName: this.get("displayName") + this.get("to"),
                 value: max,
-                displayValue: moment(max).format(this.get("format")),
+                displayValue: dayjs(max).format(this.get("format")),
                 type: this.get("type"),
                 isMin: false
             })
@@ -268,20 +268,21 @@ const SliderModel = SnippetModel.extend(/** @lends SliderModel.prototype */{
      * Returns a parsed string of the given value according to the slider type.
      * Only used with editableValueBox=true.
      * @param {Number} value Value to be parsed
-     * @param {String} [format=false] the format to use for moment
+     * @param {String} [format=false] the format to use for dayjs
      * @returns {String} text Beautified text of the value according to it's type.
      */
     getValueText: function (value, format = false) {
         const type = this.get("type");
 
         if (format) {
-            return moment(value).format(format);
+            return dayjs(value).format(format);
         }
         else if (type === "time") {
-            return moment(value).format("HH:mm");
+            return dayjs(value).format("HH:mm");
         }
         else if (type === "date") {
-            return moment(value).locale(this.get("currentLng")).format("D. MMMM YYYY");
+            require("dayjs/locale/" + this.get("currentLng") + ".js");
+            return dayjs(value).locale(this.get("currentLng")).format("D. MMMM YYYY");
         }
         return value.toString();
     },

@@ -1,5 +1,5 @@
 import {getValueFromObjectByPath} from "./getValueFromObjectByPath.js";
-import moment from "moment";
+import dayjs from "dayjs";
 import thousandsSeparator from "./thousandsSeparator";
 /**
  * Maps the feature properties by the given object.
@@ -84,7 +84,7 @@ function prepareValueFromObject (key, mappingObj, properties) {
     }
     switch (type) {
         case "date": {
-            date = moment(String(preparedValue));
+            date = dayjs(String(preparedValue));
             if (date.isValid()) {
                 preparedValue = date.format(format);
             }

@@ -1,11 +1,13 @@
 import axios from "axios";
-import moment from "moment";
-
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import handleAxiosResponse from "../../utils/handleAxiosResponse";
 import store from "../../app-store";
 import detectIso8601Precision from "../../utils/detectIso8601Precision";
 import WMSLayer from "./wms";
 import Layer from "./layer";
+
+dayjs.extend(utc);
 
 /**
  * Creates a layer of type WMSTime.
@@ -87,9 +89,9 @@ WMSTimeLayer.prototype.determineDefault = function (timeRange, extentDefault, co
     }
 
     if (configuredDefault === "current" || extentDefault === "current") {
-        const now = moment(),
+        const now = dayjs(),
             firstGreater = timeRange.find(
-                timestamp => moment(timestamp).diff(now) >= 0
+                timestamp => dayjs(timestamp).diff(now) >= 0
             );
 
         return firstGreater || timeRange[timeRange.length - 1];
@@ -299,8 +301,8 @@ WMSTimeLayer.prototype.getIncrementsFromResolution = function (resolution) {
  */
 WMSTimeLayer.prototype.createTimeRange = function (min, max, increment) {
     const increments = Object.entries(increment),
-        start = moment.utc(min),
-        end = moment.utc(max),
+        start = dayjs.utc(min),
+        end = dayjs.utc(max),
         timeRange = [],
         format = detectIso8601Precision(min),
         suffix = min.endsWith("Z") ? "Z" : "";

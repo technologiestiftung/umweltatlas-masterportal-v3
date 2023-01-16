@@ -1,7 +1,7 @@
 import Vuex from "vuex";
 import {config, shallowMount, createLocalVue} from "@vue/test-utils";
 import SnippetDateRange from "../../../components/SnippetDateRange.vue";
-import moment from "moment";
+import dayjs from "dayjs";
 import {expect} from "chai";
 import sinon from "sinon";
 
@@ -755,8 +755,8 @@ describe("src/module/tools/filter/components/SnippetDateRange.vue", () => {
                     "DD.MM.YYYY",
                     true,
                     true,
-                    moment("11.08.2022", "DD.MM.YYYY"),
-                    moment("29.08.2022", "DD.MM.YYYY"),
+                    dayjs("11.08.2022", "DD.MM.YYYY"),
+                    dayjs("29.08.2022", "DD.MM.YYYY"),
                     result
                 )).to.be.true;
                 expect(result).to.be.an("object").that.is.not.empty;

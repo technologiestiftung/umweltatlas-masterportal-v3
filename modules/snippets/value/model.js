@@ -1,4 +1,4 @@
-import moment from "moment";
+import dayjs from "dayjs";
 
 const SnippetValueModel = Backbone.Model.extend({
     defaults: {
@@ -40,7 +40,7 @@ const SnippetValueModel = Backbone.Model.extend({
                 break;
             }
             case "date": {
-                displayString += (this.get("displayName") ? this.get("displayName") + " " : "") + moment(this.get("value")).format("DD.MM.YYYY");
+                displayString += (this.get("displayName") ? this.get("displayName") + " " : "") + dayjs(this.get("value")).format("DD.MM.YYYY");
                 break;
             }
             case "integer": {
