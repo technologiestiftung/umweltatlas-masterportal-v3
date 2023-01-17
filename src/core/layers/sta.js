@@ -242,7 +242,7 @@ STALayer.prototype.getStyleFunction = function (attrs) {
                 zoomLevel = store.getters["Maps/getView"].getZoomForResolution(resolution) + 1,
                 zoomLevelCount = store.getters["Maps/getView"].getResolutions().length;
 
-            if (style.getImage() !== null && attrs.scaleStyleByZoom) {
+            if (attrs.scaleStyleByZoom && typeof style.getImage === "function" && style.getImage() !== null) {
                 style.getImage().setScale(style.getImage().getScale() * zoomLevel / zoomLevelCount);
             }
 
@@ -2071,7 +2071,7 @@ STALayer.prototype.setDynamicalScaleOfHistoricalFeatures = function (features, z
     features.forEach(feature => {
         const style = feature.getStyle()(feature);
 
-        if (style.getImage() !== null) {
+        if (typeof style.getImage === "function" && style.getImage() !== null) {
             style.getImage().setScale(feature.get("originScale") * zoomLevel / zoomLevelCount);
             feature.setStyle(() => style);
         }
