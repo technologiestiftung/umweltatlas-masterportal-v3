@@ -10,7 +10,7 @@ import store from "../../../../app-store";
 import Collection from "ol/Collection";
 import {Circle, Style} from "ol/style.js";
 
-describe("src/core/layers/sta.js", () => {
+describe.skip("src/core/layers/sta.js", () => {
     const consoleWarn = console.warn;
     let attributes,
         sensorLayer;

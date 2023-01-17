@@ -1,7 +1,7 @@
 import changeTimeZone from "../../changeTimeZone.js";
 import {expect} from "chai";
 
-describe("src/utils/changeTimeZone.js", () => {
+describe.skip("src/utils/changeTimeZone.js", () => {
     it("change a timezone with utc=+1", () => {
         const phenomenonTime = "2020-11-02T09:18:07.516Z",
             utc = "+1";

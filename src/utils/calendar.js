@@ -1,6 +1,8 @@
 import dayjs from "dayjs";
 import isoWeek from "dayjs/plugin/isoWeek";
+import customParseFormat from "dayjs/plugin/CustomParseFormat";
 
+dayjs.extend(customParseFormat);
 dayjs.extend(isoWeek);
 
 /**
@@ -180,7 +182,7 @@ export function hasHolidayInWeek (date, holidayKeys = false, format = false) {
     if (!(date instanceof Date) && typeof date !== "string") {
         return false;
     }
-    const givenMoment = dayjs(date, format).startOf("isoWeek");
+    let givenMoment = dayjs(date, format, true).startOf("isoWeek");
 
     if (!givenMoment.isValid()) {
         return false;
@@ -190,7 +192,7 @@ export function hasHolidayInWeek (date, holidayKeys = false, format = false) {
         if (getPublicHoliday(givenMoment, holidayKeys)) {
             return true;
         }
-        givenMoment.add(1, "day");
+        givenMoment = givenMoment.add(1, "day");
     }
     return false;
 }
@@ -203,7 +205,7 @@ export function hasHolidayInWeek (date, holidayKeys = false, format = false) {
  * @returns {CalendarMoment|Boolean} a CalendarMoment or false if the given date is not a holiday
  */
 function getPublicHoliday (date, holidayKeys = false, format = false) {
-    const givenMoment = dayjs(date, format),
+    const givenMoment = dayjs(date, format, true),
         year = givenMoment.format("YYYY"),
         easterMoment = getGaussianEasterMoment(year),
         adventMoment = getFirstAdventMoment(year),
@@ -214,7 +216,6 @@ function getPublicHoliday (date, holidayKeys = false, format = false) {
 
     for (let i = 0; i < len; i++) {
         holidayKey = keys[i];
-
         if (!isCalendarMoment(publicHolidayMatrix[holidayKey])) {
             continue;
         }
@@ -230,7 +231,6 @@ function getPublicHoliday (date, holidayKeys = false, format = false) {
             translationKey: publicHolidayMatrix[holidayKey].translationKey
         };
     }
-
     return false;
 }
 

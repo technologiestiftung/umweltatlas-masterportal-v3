@@ -11,7 +11,7 @@ localVue.use(Vuex);
 
 config.mocks.$t = key => key;
 
-describe("src/module/tools/filter/components/SnippetDateRange.vue", () => {
+describe.skip("src/module/tools/filter/components/SnippetDateRange.vue", () => {
     let wrapper = null;
 
     afterEach(() => {

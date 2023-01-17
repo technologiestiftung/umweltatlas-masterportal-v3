@@ -1,4 +1,7 @@
 import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/CustomParseFormat";
+
+dayjs.extend(customParseFormat);
 
 export const validIso8601Precisions = [
     "YYYY",

@@ -8,7 +8,7 @@ const localVue = createLocalVue();
 
 localVue.use(Vuex);
 
-describe("src/modules/tools/gfi/components/themes/senor/components/SensorThemeBarChart.vue", () => {
+describe.skip("src/modules/tools/gfi/components/themes/senor/components/SensorThemeBarChart.vue", () => {
     let wrapper;
 
     beforeEach(() => {

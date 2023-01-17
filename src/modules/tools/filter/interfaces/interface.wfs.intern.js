@@ -253,6 +253,7 @@ export default class InterfaceWfsIntern {
             || !Object.prototype.hasOwnProperty.call(rule, "operator")
             || !Object.prototype.hasOwnProperty.call(rule, "value")
         ) {
+
             return false;
         }
         let ruleValueA = Array.isArray(rule.value) ? rule.value[0] : rule.value,

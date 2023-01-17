@@ -1,9 +1,11 @@
 import dayjs from "dayjs";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
+dayjs.extend(customParseFormat);
 
 /**
  * Make the intersects check for array.
@@ -160,7 +162,7 @@ function ne (featValueA, ruleValueA, format) {
  * @returns {Boolean} true if it matches the greater than check
  */
 function gt (featValueA, ruleValueA, format) {
-    const featValA = dayjs(featValueA, format);
+    const featValA = dayjs(featValueA, format, true);
 
     if (!format || !featValA.isValid()) {
         return featValueA > ruleValueA;
@@ -176,7 +178,7 @@ function gt (featValueA, ruleValueA, format) {
  * @returns {Boolean} true if it matches the greater equals check
  */
 function ge (featValueA, ruleValueA, format) {
-    const featValA = dayjs(featValueA, format);
+    const featValA = dayjs(featValueA, format, true);
 
     if (!format || !featValA.isValid()) {
         return featValueA >= ruleValueA;

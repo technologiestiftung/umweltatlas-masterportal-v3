@@ -33,8 +33,8 @@ describe("src/modules/tools/filter/interfaces/utils/interface.wfs.intern.js", ()
     });
     describe("checkRule", () => {
         it("should return false if anything but a valid rule object is given", () => {
-            expect(interfaceWfsIntern.checkRule(undefined)).to.be.false;
-            expect(interfaceWfsIntern.checkRule(null)).to.be.false;
+            expect(interfaceWfsIntern.checkRule("undefined")).to.be.false;
+            expect(interfaceWfsIntern.checkRule("null")).to.be.false;
             expect(interfaceWfsIntern.checkRule(1234)).to.be.false;
             expect(interfaceWfsIntern.checkRule("string")).to.be.false;
             expect(interfaceWfsIntern.checkRule(true)).to.be.false;

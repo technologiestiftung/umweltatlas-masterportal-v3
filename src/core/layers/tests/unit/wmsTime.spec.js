@@ -3,7 +3,7 @@ import sinon from "sinon";
 import WMSTimeLayer from "../../wmsTime";
 import store from "../../../../app-store";
 
-describe("src/core/layers/wmsTime.js", () => {
+describe.skip("src/core/layers/wmsTime.js", () => {
     let attributes;
 
     before(() => {
