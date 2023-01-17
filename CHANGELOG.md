@@ -7,8 +7,11 @@
 ### __Breaking Changes__
 
 ### Added
-
+- layers:
+    - Errorhandling for secure services.
 ### Changed
+- Layers:
+  - Sta: setting the default style of historical features if there are no style defined.
 
 ### Deprecated
 

@@ -391,6 +391,59 @@ describe("src/core/layers/sta.js", () => {
         });
     });
 
+    describe("updateHistoricalFeatures", () => {
+        it("should do nothing if first param is no object with 'get' method", () => {
+            const removeFeatureStub = sinon.stub(sensorLayer.get("layer").getSource(), "removeFeature"),
+                feature = {};
+
+            sensorLayer.updateHistoricalFeatures(feature);
+            expect(removeFeatureStub.called).to.be.false;
+        });
+        it("should do nothing if the get('historicalFeatureIds') function on the first param does not return an array", () => {
+            const removeFeatureStub = sinon.stub(sensorLayer.get("layer").getSource(), "removeFeature"),
+                feature = {
+                    get: () => undefined
+                };
+
+            sensorLayer.updateHistoricalFeatures(feature, feature);
+            expect(removeFeatureStub.called).to.be.false;
+        });
+        it("should do nothing if third param is no object with 'set' method", () => {
+            const removeFeatureStub = sinon.stub(sensorLayer.get("layer").getSource(), "removeFeature"),
+                feature = {
+                    get: () => undefined
+                };
+
+            sensorLayer.updateHistoricalFeatures(feature, feature);
+            expect(removeFeatureStub.called).to.be.false;
+        });
+        it("should call all expected functions", () => {
+            const removeFeatureStub = sinon.stub(sensorLayer.get("layer").getSource(), "removeFeature"),
+                getFeatureByIdStub = sinon.stub(sensorLayer.get("layer").getSource(), "getFeatureById"),
+                addFeatureStub = sinon.stub(sensorLayer.get("layer").getSource(), "addFeature"),
+                getScaleStub = sinon.stub(sensorLayer, "getScale"),
+                feature = {
+                    get: () => [0],
+                    getId: sinon.stub(),
+                    set: sinon.stub(),
+                    setId: sinon.stub()
+                };
+
+            store.getters = {
+                "Maps/getView": {
+                    getZoom: () => 0,
+                    getResolutions: () => []
+                }
+            };
+
+            sensorLayer.updateHistoricalFeatures(feature, feature, sensorLayer.get("layer").getSource());
+            expect(removeFeatureStub.called).to.be.true;
+            expect(getFeatureByIdStub.called).to.be.true;
+            expect(addFeatureStub.called).to.be.true;
+            expect(getScaleStub.called).to.be.true;
+        });
+    });
+
     describe("getMqttHostFromUrl", () => {
         it("should call the error handler if anything but a string is given as first parameter and should return an empty string", () => {
             let lastError = null;
@@ -2230,17 +2283,112 @@ describe("src/core/layers/sta.js", () => {
 
     describe("getHistoricalLocationsOfFeatures", () => {
         it("should do nothing", () => {
-            const fetchHistoricalLocationsStub = sinon.stub(sensorLayer, "fetchHistoricalLocations");
+            const fetchHistoricalLocationsByDatastreamIdStub = sinon.stub(sensorLayer, "fetchHistoricalLocationsByDatastreamId");
 
             sinon.stub(sensorLayer, "getDatastreamIdsInCurrentExtent").returns([]);
             sensorLayer.getHistoricalLocationsOfFeatures();
-            expect(fetchHistoricalLocationsStub.called).to.be.false;
+            expect(fetchHistoricalLocationsByDatastreamIdStub.called).to.be.false;
         });
         it("should call fetchHistoricalLocations if datastream id's are found in current extent", () => {
-            const fetchHistoricalLocationsStub = sinon.stub(sensorLayer, "fetchHistoricalLocations");
+            const fetchHistoricalLocationsByDatastreamIdStub = sinon.stub(sensorLayer, "fetchHistoricalLocationsByDatastreamId");
 
             sinon.stub(sensorLayer, "getDatastreamIdsInCurrentExtent").returns([0]);
             sensorLayer.getHistoricalLocationsOfFeatures();
+            expect(fetchHistoricalLocationsByDatastreamIdStub.called).to.be.true;
+        });
+    });
+
+    describe("fetchHistoricalLocationsByDatastreamId", () => {
+        it("should do nothing if first param is no array", () => {
+            const getFeatureByDatastreamIdStub = sinon.stub(sensorLayer, "getFeatureByDatastreamId");
+
+            sensorLayer.fetchHistoricalLocationsByDatastreamId({});
+            expect(getFeatureByDatastreamIdStub.called).to.be.false;
+            sensorLayer.fetchHistoricalLocationsByDatastreamId("");
+            expect(getFeatureByDatastreamIdStub.called).to.be.false;
+            sensorLayer.fetchHistoricalLocationsByDatastreamId(1234);
+            expect(getFeatureByDatastreamIdStub.called).to.be.false;
+            sensorLayer.fetchHistoricalLocationsByDatastreamId(true);
+            expect(getFeatureByDatastreamIdStub.called).to.be.false;
+            sensorLayer.fetchHistoricalLocationsByDatastreamId(false);
+            expect(getFeatureByDatastreamIdStub.called).to.be.false;
+            sensorLayer.fetchHistoricalLocationsByDatastreamId(undefined);
+            expect(getFeatureByDatastreamIdStub.called).to.be.false;
+            sensorLayer.fetchHistoricalLocationsByDatastreamId(null);
+            expect(getFeatureByDatastreamIdStub.called).to.be.false;
+        });
+        it("should do nothing if second param is no undefined", () => {
+            const getFeatureByDatastreamIdStub = sinon.stub(sensorLayer, "getFeatureByDatastreamId");
+
+            sensorLayer.fetchHistoricalLocationsByDatastreamId([], undefined);
+            expect(getFeatureByDatastreamIdStub.called).to.be.false;
+        });
+        it("should do nothing if third param is NaN", () => {
+            const getFeatureByDatastreamIdStub = sinon.stub(sensorLayer, "getFeatureByDatastreamId");
+
+            sensorLayer.fetchHistoricalLocationsByDatastreamId([], 0, NaN);
+            expect(getFeatureByDatastreamIdStub.called).to.be.false;
+        });
+        it("should do nothing if fourth param is not a string", () => {
+            const getFeatureByDatastreamIdStub = sinon.stub(sensorLayer, "getFeatureByDatastreamId");
+
+            sensorLayer.fetchHistoricalLocationsByDatastreamId([], 0, 0, undefined);
+            expect(getFeatureByDatastreamIdStub.called).to.be.false;
+            sensorLayer.fetchHistoricalLocationsByDatastreamId([], 0, 0, true);
+            expect(getFeatureByDatastreamIdStub.called).to.be.false;
+            sensorLayer.fetchHistoricalLocationsByDatastreamId([], 0, 0, false);
+            expect(getFeatureByDatastreamIdStub.called).to.be.false;
+            sensorLayer.fetchHistoricalLocationsByDatastreamId([], 0, 0, {});
+            expect(getFeatureByDatastreamIdStub.called).to.be.false;
+            sensorLayer.fetchHistoricalLocationsByDatastreamId([], 0, 0, []);
+            expect(getFeatureByDatastreamIdStub.called).to.be.false;
+            sensorLayer.fetchHistoricalLocationsByDatastreamId([], 0, 0, null);
+            expect(getFeatureByDatastreamIdStub.called).to.be.false;
+            sensorLayer.fetchHistoricalLocationsByDatastreamId([], 0, 0, 1234);
+            expect(getFeatureByDatastreamIdStub.called).to.be.false;
+        });
+        it("should do nothing if fifht param is not an object", () => {
+            const getFeatureByDatastreamIdStub = sinon.stub(sensorLayer, "getFeatureByDatastreamId");
+
+            sensorLayer.fetchHistoricalLocationsByDatastreamId([], 0, 0, "string", undefined);
+            expect(getFeatureByDatastreamIdStub.called).to.be.false;
+            sensorLayer.fetchHistoricalLocationsByDatastreamId([], 0, 0, "string", null);
+            expect(getFeatureByDatastreamIdStub.called).to.be.false;
+            sensorLayer.fetchHistoricalLocationsByDatastreamId([], 0, 0, "string", true);
+            expect(getFeatureByDatastreamIdStub.called).to.be.false;
+            sensorLayer.fetchHistoricalLocationsByDatastreamId([], 0, 0, "string", false);
+            expect(getFeatureByDatastreamIdStub.called).to.be.false;
+            sensorLayer.fetchHistoricalLocationsByDatastreamId([], 0, 0, "string", 1234);
+            expect(getFeatureByDatastreamIdStub.called).to.be.false;
+            sensorLayer.fetchHistoricalLocationsByDatastreamId([], 0, 0, "string", "string");
+            expect(getFeatureByDatastreamIdStub.called).to.be.false;
+            sensorLayer.fetchHistoricalLocationsByDatastreamId([], 0, 0, "string", []);
+            expect(getFeatureByDatastreamIdStub.called).to.be.false;
+        });
+        it("should do nothing if sixht param is not a string", () => {
+            const getFeatureByDatastreamIdStub = sinon.stub(sensorLayer, "getFeatureByDatastreamId");
+
+            sensorLayer.fetchHistoricalLocationsByDatastreamId([], 0, 0, "string", {}, undefined);
+            expect(getFeatureByDatastreamIdStub.called).to.be.false;
+            sensorLayer.fetchHistoricalLocationsByDatastreamId([], 0, 0, "string", {}, null);
+            expect(getFeatureByDatastreamIdStub.called).to.be.false;
+            sensorLayer.fetchHistoricalLocationsByDatastreamId([], 0, 0, "string", {}, {});
+            expect(getFeatureByDatastreamIdStub.called).to.be.false;
+            sensorLayer.fetchHistoricalLocationsByDatastreamId([], 0, 0, "string", {}, []);
+            expect(getFeatureByDatastreamIdStub.called).to.be.false;
+            sensorLayer.fetchHistoricalLocationsByDatastreamId([], 0, 0, "string", {}, true);
+            expect(getFeatureByDatastreamIdStub.called).to.be.false;
+            sensorLayer.fetchHistoricalLocationsByDatastreamId([], 0, 0, "string", {}, false);
+            expect(getFeatureByDatastreamIdStub.called).to.be.false;
+            sensorLayer.fetchHistoricalLocationsByDatastreamId([], 0, 0, "string", {}, 1234);
+            expect(getFeatureByDatastreamIdStub.called).to.be.false;
+        });
+        it("should call fetchHistoricalLocations", () => {
+            const getFeatureByDatastreamIdStub = sinon.stub(sensorLayer, "getFeatureByDatastreamId"),
+                fetchHistoricalLocationsStub = sinon.stub(sensorLayer, "fetchHistoricalLocations");
+
+            sensorLayer.fetchHistoricalLocationsByDatastreamId([], 0, 0, "string", {}, "string");
+            expect(getFeatureByDatastreamIdStub.called).to.be.true;
             expect(fetchHistoricalLocationsStub.called).to.be.true;
         });
     });
@@ -2380,6 +2528,36 @@ describe("src/core/layers/sta.js", () => {
                     circleFillColor: [0, 72, 153, 0.7],
                     circleStrokeColor: [0, 72, 153, 1],
                     circleStrokeWidth: 2
+                },
+                scale = 0.8,
+                style = staLayer.getStyleOfHistoricalFeature(originStyle, scale);
+
+            expect(style.getImage()).to.be.an.instanceof(Circle);
+            expect(style.getImage().getRadius()).to.equal(10);
+            expect(style.getImage().getScale()).to.equal(0.8);
+        });
+
+        it("get style from type icon", () => {
+            const staLayer = new STALayer(attributes),
+                originStyle = {
+                    type: "icon",
+                    circleRadius: 10,
+                    circleFillColor: [0, 72, 153, 0.7],
+                    circleStrokeColor: [0, 72, 153, 1],
+                    circleStrokeWidth: 2
+                },
+                scale = 0.8,
+                style = staLayer.getStyleOfHistoricalFeature(originStyle, scale);
+
+            expect(style.getImage()).to.be.an.instanceof(Circle);
+            expect(style.getImage().getRadius()).to.equal(10);
+            expect(style.getImage().getScale()).to.equal(0.8);
+        });
+
+        it("get default circle style", () => {
+            const staLayer = new STALayer(attributes),
+                originStyle = {
+                    type: "icon"
                 },
                 scale = 0.8,
                 style = staLayer.getStyleOfHistoricalFeature(originStyle, scale);
