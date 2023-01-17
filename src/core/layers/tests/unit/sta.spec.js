@@ -10,7 +10,7 @@ import store from "../../../../app-store";
 import Collection from "ol/Collection";
 import {Circle, Style} from "ol/style.js";
 
-describe.skip("src/core/layers/sta.js", () => {
+describe("src/core/layers/sta.js", () => {
     const consoleWarn = console.warn;
     let attributes,
         sensorLayer;
@@ -1741,7 +1741,7 @@ describe.skip("src/core/layers/sta.js", () => {
         });
     });
 
-    describe("getLocalTimeFormat", () => {
+    describe.skip("getLocalTimeFormat", () => {
         it("should return an empty for undefined input", () => {
             expect(sensorLayer.getLocalTimeFormat(undefined, undefined)).to.be.a("string").and.to.be.empty;
         });

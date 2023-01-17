@@ -4,11 +4,12 @@ import dayjs from "dayjs";
 import {expect} from "chai";
 import SensorThemeBartChart from "../../../components/SensorThemeBarChart.vue";
 
+
 const localVue = createLocalVue();
 
 localVue.use(Vuex);
 
-describe.skip("src/modules/tools/gfi/components/themes/senor/components/SensorThemeBarChart.vue", () => {
+describe("src/modules/tools/gfi/components/themes/senor/components/SensorThemeBarChart.vue", () => {
     let wrapper;
 
     beforeEach(() => {

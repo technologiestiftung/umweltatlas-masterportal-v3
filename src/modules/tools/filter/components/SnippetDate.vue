@@ -5,10 +5,12 @@ import {getDefaultOperatorBySnippetType} from "../utils/getDefaultOperatorBySnip
 import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+import customParseFormat from "dayjs/plugin/CustomParseFormat";
 import SnippetInfo from "./SnippetInfo.vue";
 
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
+dayjs.extend(customParseFormat);
 
 export default {
     name: "SnippetDate",
@@ -136,7 +138,7 @@ export default {
             get () {
                 const momentMinimum = dayjs(this.minimumValue, this.internalFormat),
                     momentMaximum = dayjs(this.maximumValue, this.internalFormat),
-                    momentValue = dayjs(this.value, this.internalFormat);
+                    momentValue = dayjs(this.value, this.internalFormat, true);
 
                 if (!momentValue.isValid()) {
                     return "";
@@ -187,9 +189,9 @@ export default {
     },
     mounted () {
         this.$nextTick(() => {
-            const momentPrechecked = dayjs(this.prechecked, this.format),
-                momentMin = dayjs(this.minValue, this.format),
-                momentMax = dayjs(this.maxValue, this.format);
+            const momentPrechecked = dayjs(this.prechecked, this.format, true),
+                momentMin = dayjs(this.minValue, this.format, true),
+                momentMax = dayjs(this.maxValue, this.format, true);
 
             this.precheckedIsValid = momentPrechecked.isValid();
 

@@ -41,7 +41,9 @@ export default {
         }
     },
     data: () => {
-        require("dayjs/locale/" + i18next.language + ".js");
+        if (i18next.language !== "cimode") {
+            require("dayjs/locale/" + i18next.language + ".js");
+        }
         return {
             momentLocale: dayjs().locale(i18next.language),
             weekdayIndex: 0,

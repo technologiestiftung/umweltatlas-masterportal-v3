@@ -9,7 +9,7 @@ localVue.use(Vuex);
 
 config.mocks.$t = key => key;
 
-describe.skip("src/modules/tools/generalFilter/components/SnippetDate.vue", () => {
+describe("src/modules/tools/generalFilter/components/SnippetDate.vue", () => {
     describe("constructor", () => {
         it("should have correct default values", () => {
             const wrapper = shallowMount(SnippetDate, {localVue});

@@ -1,7 +1,9 @@
 import isObject from "../../../../utils/isObject.js";
 import dayjs from "dayjs";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+import customParseFormat from "dayjs/plugin/CustomParseFormat";
 
+dayjs.extend(customParseFormat);
 dayjs.extend(isSameOrBefore);
 
 /**
@@ -99,8 +101,8 @@ function getAttrValuesOfItemsGroupedByAttrNames (items, relevantAttrNames) {
  * @returns {Number} 1 to move first element down, -1 to move first element up
  */
 function snippetDateCompareFunction (a, b, format) {
-    const momentA = dayjs(a, format),
-        momentB = dayjs(b, format);
+    const momentA = dayjs(a, format, true),
+        momentB = dayjs(b, format, true);
 
     if (!momentA.isValid()) {
         return 1;
