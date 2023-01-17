@@ -124,9 +124,6 @@ pipelines:
             - step:
                 name: deploy on openCode
                 script:
-                    - git fetch --all --tags
-                    - git checkout tags/v2.29.0
-                    - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git v2.29.0
                     - git fetch origin
                     - git checkout origin/dev
                     - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git -f
