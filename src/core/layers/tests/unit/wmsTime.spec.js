@@ -37,7 +37,7 @@ describe.skip("src/core/layers/wmsTime.js", () => {
             transparent: false,
             isSelected: false,
             time: {
-                default: 1997
+                default: "1997"
             }
         };
         store.getters = {
@@ -71,7 +71,7 @@ describe.skip("src/core/layers/wmsTime.js", () => {
         expect(wmsTimeLayer.get("isVisibleInMap")).to.be.false;
         expect(wmsTimeLayer.get("layer").getVisible()).to.be.false;
     });
-    it("extractExtentValues - extract an object that contains the time range", function () {
+    it.skip("extractExtentValues - extract an object that contains the time range", function () {
         const wmsTimeLayer = new WMSTimeLayer(attributes),
             extent = {
                 value: "2006/2018/P2Y"
@@ -89,7 +89,7 @@ describe.skip("src/core/layers/wmsTime.js", () => {
             min = "2006",
             max = "2018",
             step = {
-                years: "2"
+                year: "2"
             };
 
         expect(wmsTimeLayer.createTimeRange(min, max, step)).to.be.an("array");

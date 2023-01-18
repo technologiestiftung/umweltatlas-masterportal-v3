@@ -145,8 +145,8 @@ export default {
             if (!isObject(adjusting) || this.visible === false || this.isParent) {
                 return;
             }
-            const mindayjs = dayjs(adjusting?.adjust?.min, this.getFormat("from"), true),
-                maxdayjs = dayjs(adjusting?.adjust?.max, this.getFormat("until"), true);
+            const minMoment = dayjs(adjusting?.adjust?.min, this.getFormat("from"), true),
+                maxMoment = dayjs(adjusting?.adjust?.max, this.getFormat("until"), true);
 
 
             if (adjusting.start) {
@@ -154,11 +154,11 @@ export default {
                 this.adjustMinMax = [];
             }
 
-            if (mindayjs.isValid() && (typeof this.adjustMinMax[0] === "undefined" || this.adjustMinMax[0].isBefore(mindayjs))) {
-                this.adjustMinMax[0] = mindayjs;
+            if (minMoment.isValid() && (typeof this.adjustMinMax[0] === "undefined" || this.adjustMinMax[0].isBefore(minMoment))) {
+                this.adjustMinMax[0] = minMoment;
             }
-            if (maxdayjs.isValid() && (typeof this.adjustMinMax[1] === "undefined" || this.adjustMinMax[1].isAfter(maxdayjs))) {
-                this.adjustMinMax[1] = maxdayjs;
+            if (maxMoment.isValid() && (typeof this.adjustMinMax[1] === "undefined" || this.adjustMinMax[1].isAfter(maxMoment))) {
+                this.adjustMinMax[1] = maxMoment;
             }
 
             if (adjusting.finish) {
@@ -331,7 +331,7 @@ export default {
                 return this.prechecked[0] + " - " + this.prechecked[1];
             }
 
-            return (this.dateFromComputed, this.internalFormat).format(this.getFormat("from")) + " - " + dayjs(this.dateUntilComputed, this.internalFormat).format(this.getFormat("until"));
+            return dayjs(this.dateFromComputed, this.internalFormat).format(this.getFormat("from")) + " - " + dayjs(this.dateUntilComputed, this.internalFormat).format(this.getFormat("until"));
         },
         /**
          * Returns the riskless attrName to use for from.
@@ -418,16 +418,16 @@ export default {
                 unixAssoc = {},
                 formatFrom = this.getFormat("from"),
                 formatUntil = this.getFormat("until"),
-                mindayjs = dayjs(Array.isArray(this.value) ? this.value[0] : undefined, formatFrom),
-                minValid = mindayjs.isValid(),
-                maxdayjs = dayjs(Array.isArray(this.value) ? this.value[1] : undefined, formatUntil),
-                maxValid = maxdayjs.isValid();
+                minMoment = dayjs(Array.isArray(this.value) ? this.value[0] : undefined, formatFrom),
+                minValid = minMoment.isValid(),
+                maxMoment = dayjs(Array.isArray(this.value) ? this.value[1] : undefined, formatUntil),
+                maxValid = maxMoment.isValid();
 
-            this.addListToUnixAssoc(listFrom, formatFrom, minValid, maxValid, mindayjs, maxdayjs, unixAssoc);
-            this.addListToUnixAssoc(listUntil, formatUntil, minValid, maxValid, mindayjs, maxdayjs, unixAssoc);
+            this.addListToUnixAssoc(listFrom, formatFrom, minValid, maxValid, minMoment, maxMoment, unixAssoc);
+            this.addListToUnixAssoc(listUntil, formatUntil, minValid, maxValid, minMoment, maxMoment, unixAssoc);
 
-            Object.values(unixAssoc).forEach(dayjsDate => {
-                const key = dayjsDate.format(this.internalFormat);
+            Object.values(unixAssoc).forEach(momentDate => {
+                const key = momentDate.format(this.internalFormat);
 
                 if (!Object.prototype.hasOwnProperty.call(displayAssoc, key)) {
                     result.push(key);
@@ -438,39 +438,39 @@ export default {
             return result;
         },
         /**
-         * Adds all entries of list into result, that are recognized and between given min and max dayjs.
+         * Adds all entries of list into result, that are recognized and between given min and max moment.
          * @param {String[]} list A list of string dates to check and add.
          * @param {String} format The format to translate entries of list into date with.
-         * @param {Boolean} minValid true if the given mindayjs is a valid date.
-         * @param {Boolean} maxValid true if the given maxdayjs is a valid date.
-         * @param {Object} mindayjs The lower boundary as dayjs.
-         * @param {Object} maxdayjs The higher boundary as dayjs.
+         * @param {Boolean} minValid true if the given minMoment is a valid date.
+         * @param {Boolean} maxValid true if the given maxMoment is a valid date.
+         * @param {Object} minMoment The lower boundary as moment.
+         * @param {Object} maxMoment The higher boundary as moment.
          * @param {Object} result The reference to the result object.
          * @returns {Boolean} true if result was altered, false if something went wrong.
          */
-        addListToUnixAssoc (list, format, minValid, maxValid, mindayjs, maxdayjs, result) {
+        addListToUnixAssoc (list, format, minValid, maxValid, minMoment, maxMoment, result) {
             if (
                 !Array.isArray(list)
                 || typeof format !== "string"
                 || typeof minValid !== "boolean"
                 || typeof maxValid !== "boolean"
-                || typeof mindayjs?.isValid !== "function"
-                || typeof maxdayjs?.isValid !== "function"
+                || typeof minMoment?.isValid !== "function"
+                || typeof maxMoment?.isValid !== "function"
                 || !isObject(result)
             ) {
                 return false;
             }
             list.forEach(rawDate => {
-                const dayjsDate = dayjs(rawDate, format, true);
+                const momentDate = dayjs(rawDate, format, true);
 
                 if (
-                    !dayjsDate.isValid()
-                    || minValid && dayjsDate.isBefore(mindayjs)
-                    || maxValid && dayjsDate.isAfter(maxdayjs)
+                    !momentDate.isValid()
+                    || minValid && momentDate.isBefore(minMoment)
+                    || maxValid && momentDate.isAfter(maxMoment)
                 ) {
                     return;
                 }
-                result[dayjs.unix()] = dayjsDate;
+                result[momentDate.unix()] = momentDate;
             });
             return true;
         },

@@ -11,7 +11,7 @@ localVue.use(Vuex);
 
 config.mocks.$t = key => key;
 
-describe.skip("src/module/tools/filter/components/SnippetDateRange.vue", () => {
+describe("src/module/tools/filter/components/SnippetDateRange.vue", () => {
     let wrapper = null;
 
     afterEach(() => {
@@ -234,6 +234,7 @@ describe.skip("src/module/tools/filter/components/SnippetDateRange.vue", () => {
                             format: "DD.MM.YYYY"
                         }});
                         await wrapper.vm.$nextTick();
+
                         expect(wrapper.find(".datepickerWrapper").find(".from").find("input").attributes("min")).to.equal("2022-08-10");
                         expect(wrapper.find(".datepickerWrapper").find(".from").find("input").attributes("max")).to.equal("2022-08-30");
                         expect(wrapper.find(".datepickerWrapper").find(".until").find("input").attributes("min")).to.equal("2022-08-10");
@@ -697,7 +698,7 @@ describe.skip("src/module/tools/filter/components/SnippetDateRange.vue", () => {
                 expect(wrapper.vm.addListToUnixAssoc([], "format", true, {})).to.be.false;
                 expect(wrapper.vm.addListToUnixAssoc([], "format", true, [])).to.be.false;
             });
-            it("should return false if mindayjs is not recognized as dayjs object", () => {
+            it("should return false if minMoment is not recognized as dayjs object", () => {
                 wrapper = shallowMount(SnippetDateRange, {localVue});
                 expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, undefined)).to.be.false;
                 expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, null)).to.be.false;
@@ -708,39 +709,39 @@ describe.skip("src/module/tools/filter/components/SnippetDateRange.vue", () => {
                 expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, {})).to.be.false;
                 expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, [])).to.be.false;
             });
-            it("should return false if maxdayjs is not recognized as dayjs object", () => {
-                const mindayjs = {
+            it("should return false if maxMoment is not recognized as dayjs object", () => {
+                const minMoment = {
                     isValid: () => false
                 };
 
                 wrapper = shallowMount(SnippetDateRange, {localVue});
-                expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, mindayjs, undefined)).to.be.false;
-                expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, mindayjs, null)).to.be.false;
-                expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, mindayjs, 1234)).to.be.false;
-                expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, mindayjs, "string")).to.be.false;
-                expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, mindayjs, true)).to.be.false;
-                expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, mindayjs, false)).to.be.false;
-                expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, mindayjs, {})).to.be.false;
-                expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, mindayjs, [])).to.be.false;
+                expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, minMoment, undefined)).to.be.false;
+                expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, minMoment, null)).to.be.false;
+                expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, minMoment, 1234)).to.be.false;
+                expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, minMoment, "string")).to.be.false;
+                expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, minMoment, true)).to.be.false;
+                expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, minMoment, false)).to.be.false;
+                expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, minMoment, {})).to.be.false;
+                expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, minMoment, [])).to.be.false;
             });
             it("should return false if result is not an object", () => {
-                const mindayjs = {
+                const minMoment = {
                         isValid: () => false
                     },
-                    maxdayjs = {
+                    maxMoment = {
                         isValid: () => false
                     };
 
                 wrapper = shallowMount(SnippetDateRange, {localVue});
-                expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, mindayjs, maxdayjs, undefined)).to.be.false;
-                expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, mindayjs, maxdayjs, null)).to.be.false;
-                expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, mindayjs, maxdayjs, 1234)).to.be.false;
-                expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, mindayjs, maxdayjs, "string")).to.be.false;
-                expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, mindayjs, maxdayjs, true)).to.be.false;
-                expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, mindayjs, maxdayjs, false)).to.be.false;
-                expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, mindayjs, maxdayjs, [])).to.be.false;
+                expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, minMoment, maxMoment, undefined)).to.be.false;
+                expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, minMoment, maxMoment, null)).to.be.false;
+                expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, minMoment, maxMoment, 1234)).to.be.false;
+                expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, minMoment, maxMoment, "string")).to.be.false;
+                expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, minMoment, maxMoment, true)).to.be.false;
+                expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, minMoment, maxMoment, false)).to.be.false;
+                expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, minMoment, maxMoment, [])).to.be.false;
             });
-            it("should alter the result by list for all entries between mindayjs and maxdayjs", () => {
+            it("should alter the result by list for all entries between minMoment and maxMoment", () => {
                 const result = {};
 
                 wrapper = shallowMount(SnippetDateRange, {localVue});
