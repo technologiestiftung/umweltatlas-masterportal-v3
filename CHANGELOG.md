@@ -9,6 +9,8 @@
 ### Added
 Core/Layers/WebGLLayer: New layer-type for rendering WFS, GeoJSON or VectorBase layers using OL7's WebGL render pipelines
 filter/filter.api: Unittests for WebGL use cases
+- layers:
+    - Errorhandling for secure services.
 
 ### Changed
 ModelList/updateLayerView: Only add layers to index if they are actually being displayed on the map (removes unnecessary calls)
@@ -17,6 +19,11 @@ actionsMapLayers/addLayerOnTop: Use the ModelList for the length of the layer li
 filter/filter.api: lookup source layer info for WebGL layers
 moverHover/actionsMouseHover: collect webgl features for mouseHoverInfo
 GFI/gettersGfi: collect  webgl features for GFI
+### Changed
+- Layers:
+  - Sta: setting the default style of historical features if there are no style defined.
+
+### Deprecated
 
 ### Removed
 
