@@ -249,7 +249,6 @@ WMSTimeLayer.prototype.extractExtentValues = function (extent) {
                 if (!step || this.incrementIsSmaller(step, increment)) {
                     step = increment;
                 }
-
                 return singleTimeRange;
             })
             .flat(1)
@@ -268,14 +267,14 @@ WMSTimeLayer.prototype.extractExtentValues = function (extent) {
 WMSTimeLayer.prototype.getIncrementsFromResolution = function (resolution) {
     const increments = {},
         shorthandsLeft = {
-            Y: "years",
-            M: "months",
-            D: "days"
+            Y: "year",
+            M: "month",
+            D: "day"
         },
         shorthandsRight = {
-            H: "hours",
-            M: "minutes",
-            S: "seconds"
+            H: "hour",
+            M: "minute",
+            S: "second"
         },
         [leftHand, rightHand] = resolution.split("T");
 
@@ -288,7 +287,6 @@ WMSTimeLayer.prototype.getIncrementsFromResolution = function (resolution) {
             increments[shorthandsRight[hit.slice(-1)]] = increment;
         });
     }
-
     return increments;
 };
 
@@ -300,8 +298,8 @@ WMSTimeLayer.prototype.getIncrementsFromResolution = function (resolution) {
  * @returns {object} Steps and step increments.
  */
 WMSTimeLayer.prototype.createTimeRange = function (min, max, increment) {
+    let start = dayjs.utc(min);
     const increments = Object.entries(increment),
-        start = dayjs.utc(min),
         end = dayjs.utc(max),
         timeRange = [],
         format = detectIso8601Precision(min),
@@ -309,11 +307,12 @@ WMSTimeLayer.prototype.createTimeRange = function (min, max, increment) {
 
     while (start.valueOf() <= end.valueOf()) {
         timeRange.push(start.format(format) + suffix);
+        /* eslint-disable no-loop-func */
         increments.forEach(([units, difference]) => {
-            start.add(Number(difference), units);
+            start = start.add(Number(difference), units);
         });
+        /* eslint-enable no-loop-func */
     }
-
     return timeRange;
 };
 

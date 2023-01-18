@@ -3,7 +3,7 @@ import sinon from "sinon";
 import WMSTimeLayer from "../../wmsTime";
 import store from "../../../../app-store";
 
-describe.skip("src/core/layers/wmsTime.js", () => {
+describe("src/core/layers/wmsTime.js", () => {
     let attributes;
 
     before(() => {
@@ -13,7 +13,17 @@ describe.skip("src/core/layers/wmsTime.js", () => {
             mode: "2D",
             addInteraction: sinon.stub(),
             removeInteraction: sinon.stub(),
-            addLayer: () => sinon.stub(),
+            addLayer: sinon.spy(),
+            getLayers: () => {
+                return {
+                    getArray: () => [{
+                        getVisible: () => true,
+                        get: () => "layerId"
+                    }],
+                    getLength: sinon.spy(),
+                    forEach: sinon.spy()
+                };
+            },
             getView: () => {
                 return {
                     getResolutions: () => [2000, 1000]
@@ -37,7 +47,7 @@ describe.skip("src/core/layers/wmsTime.js", () => {
             transparent: false,
             isSelected: false,
             time: {
-                default: "1997"
+                default: 1997
             }
         };
         store.getters = {
@@ -58,9 +68,10 @@ describe.skip("src/core/layers/wmsTime.js", () => {
     });
     it("createLayer with isSelected=true shall add layer to map", function () {
         attributes.isSelected = true;
-        const wmsTimeLayer = new WMSTimeLayer(attributes);
+        const wmsTimeLayer = new WMSTimeLayer(attributes),
+            layer = wmsTimeLayer.get("layer");
 
-        expect(wmsTimeLayer.get("layer")).not.to.be.undefined;
+        expect(layer).not.to.be.undefined;
         expect(wmsTimeLayer.get("isVisibleInMap")).to.be.true;
         expect(wmsTimeLayer.get("layer").getVisible()).to.be.true;
     });
@@ -71,17 +82,17 @@ describe.skip("src/core/layers/wmsTime.js", () => {
         expect(wmsTimeLayer.get("isVisibleInMap")).to.be.false;
         expect(wmsTimeLayer.get("layer").getVisible()).to.be.false;
     });
-    it.skip("extractExtentValues - extract an object that contains the time range", function () {
+    it("extractExtentValues - extract an object that contains the time range", function () {
         const wmsTimeLayer = new WMSTimeLayer(attributes),
             extent = {
                 value: "2006/2018/P2Y"
             };
 
         expect(wmsTimeLayer.extractExtentValues(extent)).deep.equals({
+            timeRange: ["2006", "2008", "2010", "2012", "2014", "2016", "2018"],
             step: {
-                years: "2"
-            },
-            timeRange: ["2006", "2008", "2010", "2012", "2014", "2016", "2018"]
+                year: "2"
+            }
         });
     });
     it("createTimeRange - create an array with the time range", function () {
@@ -89,7 +100,7 @@ describe.skip("src/core/layers/wmsTime.js", () => {
             min = "2006",
             max = "2018",
             step = {
-                year: "2"
+                years: "2"
             };
 
         expect(wmsTimeLayer.createTimeRange(min, max, step)).to.be.an("array");
