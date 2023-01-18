@@ -1741,7 +1741,7 @@ describe("src/core/layers/sta.js", () => {
         });
     });
 
-    describe.skip("getLocalTimeFormat", () => {
+    describe("getLocalTimeFormat", () => {
         it("should return an empty for undefined input", () => {
             expect(sensorLayer.getLocalTimeFormat(undefined, undefined)).to.be.a("string").and.to.be.empty;
         });

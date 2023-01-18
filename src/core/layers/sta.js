@@ -15,11 +15,13 @@ import crs from "@masterportal/masterportalapi/src/crs";
 import store from "../../app-store";
 import dayjs from "dayjs";
 import dayjsTimezone from "dayjs/plugin/timezone";
+import localizedFormat from "dayjs/plugin/localizedFormat";
 import uniqueId from "../../utils/uniqueId";
 import {unByKey} from "ol/Observable";
 import {Circle as CircleStyle, Fill, Stroke, Style} from "ol/style.js";
 
 dayjs.extend(dayjsTimezone);
+dayjs.extend(localizedFormat);
 
 /**
  * Creates a layer for the SensorThings API.
