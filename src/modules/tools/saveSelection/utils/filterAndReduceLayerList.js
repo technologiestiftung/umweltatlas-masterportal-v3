@@ -37,7 +37,9 @@ export default function filterAndReduceLayerList (mapMode, layerList) {
         reducedLayerList.push(Object.freeze({
             transparency: layer.get("transparency"),
             isVisibleInMap: layer.get("isVisibleInMap"),
-            id: layer.get("id")
+            id: layer.get("id"),
+            selectionIDX: typeof layer.get("selectionIDX") === "number" ? layer.get("selectionIDX") : 0,
+            isBaseLayer: layer.get("isBaseLayer")
         }));
     });
     return reducedLayerList;

@@ -21,6 +21,12 @@ describe("src/modules/tools/saveSelection/utils/filterAndReduceLayerList.js", ()
                     if (key === "typ") {
                         return "WFS";
                     }
+                    if (key === "isBaseLayer") {
+                        return true;
+                    }
+                    if (key === "selectionIDX") {
+                        return 0;
+                    }
                     return true;
                 }
             };
@@ -36,6 +42,12 @@ describe("src/modules/tools/saveSelection/utils/filterAndReduceLayerList.js", ()
                     if (key === "typ") {
                         return "WMS";
                     }
+                    if (key === "isBaseLayer") {
+                        return false;
+                    }
+                    if (key === "selectionIDX") {
+                        return 1;
+                    }
                     return true;
                 }
             };
@@ -50,6 +62,12 @@ describe("src/modules/tools/saveSelection/utils/filterAndReduceLayerList.js", ()
                     }
                     if (key === "typ") {
                         return "Terrain3D";
+                    }
+                    if (key === "isBaseLayer") {
+                        return false;
+                    }
+                    if (key === "selectionIDX") {
+                        return 11;
                     }
                     return true;
                 }
@@ -78,12 +96,16 @@ describe("src/modules/tools/saveSelection/utils/filterAndReduceLayerList.js", ()
             expect(result[0]).to.be.deep.equals({
                 isVisibleInMap: true,
                 transparency: true,
-                id: "1"
+                id: "1",
+                selectionIDX: 0,
+                isBaseLayer: true
             });
             expect(result[1]).to.be.deep.equals({
                 isVisibleInMap: true,
                 transparency: true,
-                id: "2"
+                id: "2",
+                selectionIDX: 1,
+                isBaseLayer: false
             });
         });
         it("shall return reduced layers without layer defined in featureViaURL, mapMode 2D", () => {
@@ -102,7 +124,8 @@ describe("src/modules/tools/saveSelection/utils/filterAndReduceLayerList.js", ()
             expect(result[0]).to.be.deep.equals({
                 isVisibleInMap: true,
                 transparency: true,
-                id: "2"
+                id: "2", selectionIDX: 1,
+                isBaseLayer: false
             });
             Config.featureViaURL = undefined;
         });
@@ -119,17 +142,23 @@ describe("src/modules/tools/saveSelection/utils/filterAndReduceLayerList.js", ()
             expect(result[0]).to.be.deep.equals({
                 isVisibleInMap: true,
                 transparency: true,
-                id: "1"
+                id: "1",
+                selectionIDX: 0,
+                isBaseLayer: true
             });
             expect(result[1]).to.be.deep.equals({
                 isVisibleInMap: true,
                 transparency: true,
-                id: "2"
+                id: "2",
+                selectionIDX: 1,
+                isBaseLayer: false
             });
             expect(result[2]).to.be.deep.equals({
                 isVisibleInMap: true,
                 transparency: true,
-                id: "3"
+                id: "3",
+                selectionIDX: 11,
+                isBaseLayer: false
             });
 
         });
