@@ -188,7 +188,7 @@ export default {
         }
     },
     mounted () {
-        compileSnippets(this.layerConfig.snippets, this.api, snippets => {
+        compileSnippets(this.layerConfig.snippets, this.api, FilterApi, snippets => {
             this.snippets = snippets;
             this.setSnippetValueByState(this.filterRules);
         }, error => {

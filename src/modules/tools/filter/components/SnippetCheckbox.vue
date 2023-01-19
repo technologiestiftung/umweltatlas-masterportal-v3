@@ -1,6 +1,6 @@
 <script>
 import {translateKeyWithPlausibilityCheck} from "../../../../utils/translateKeyWithPlausibilityCheck.js";
-import {getDefaultOperatorBySnippetType} from "../utils/compileSnippets.js";
+import {getDefaultOperatorBySnippetType} from "../utils/getDefaultOperatorBySnippetType.js";
 import SnippetInfo from "./SnippetInfo.vue";
 
 export default {
