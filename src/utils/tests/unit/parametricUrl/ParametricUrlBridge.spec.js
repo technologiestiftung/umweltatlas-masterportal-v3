@@ -243,6 +243,7 @@ describe("src/utils/parametricUrl/ParametricUrlBridge.js", () => {
             const spy = sinon.spy(uiStyle, "setUiStyle"),
                 key = "style",
                 value = "simple";
+
             doSpecialBackboneHandling(key, value);
             expect(spy.calledOnceWithExactly(value.toUpperCase())).to.be.true;
         });

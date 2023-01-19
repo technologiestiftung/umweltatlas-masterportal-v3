@@ -134,6 +134,7 @@ export function doSpecialBackboneHandling (key, value) {
     }
     else if (key === "style") {
         const resultUpperCase = value.toUpperCase();
+
         if (resultUpperCase === "TABLE" || resultUpperCase === "SIMPLE") {
             uiStyle.setUiStyle(resultUpperCase);
         }
