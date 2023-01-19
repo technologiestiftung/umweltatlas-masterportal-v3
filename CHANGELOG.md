@@ -12,6 +12,7 @@
 ### Changed
 - Layers:
   - Sta: setting the default style of historical features if there are no style defined.
+- Config.json URL: Make sure that URL parameters are preserved in the URL of the config.json
 
 ### Deprecated
 
