@@ -2,6 +2,7 @@ import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 import {convert, convertToStringArray, convertTransparency, parseQuery} from "./converter";
 import {setValueToState} from "./stateModifier";
 import store from "../../app-store";
+import uiStyle from "../../utils/uiStyle";
 
 const toolsNotInState = ["parcelSearch", "featureLister", "filter", "shadow", "virtualcity", "extendedFilter", "wfsFeatureFilter", "wfst"];
 
@@ -130,6 +131,12 @@ export function doSpecialBackboneHandling (key, value) {
             options: {duration: 0},
             projection: store.state.urlParams?.projection || store.state.Maps?.projection?.getCode()
         }});
+    }
+    else if (key === "style") {
+        const resultUpperCase = value.toUpperCase();
+        if (resultUpperCase === "TABLE" || resultUpperCase === "SIMPLE") {
+            uiStyle.setUiStyle(resultUpperCase);
+        }
     }
 }
 

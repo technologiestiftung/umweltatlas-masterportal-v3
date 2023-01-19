@@ -4,6 +4,7 @@ import Map from "ol/Map";
 import View from "ol/View";
 import {doSpecialBackboneHandling, handleUrlParamsBeforeVueMount, translateToBackbone, updateQueryStringParam} from "../../../parametricUrl/ParametricUrlBridge";
 import store from "../../../../app-store";
+import uiStyle from "../../../../utils/uiStyle";
 
 
 describe("src/utils/parametricUrl/ParametricUrlBridge.js", () => {
@@ -237,6 +238,13 @@ describe("src/utils/parametricUrl/ParametricUrlBridge.js", () => {
 
             expect(mapView.getCenter()).to.deep.equal([565874, 5934140]);
             expect(Math.round(mapView.getZoom())).equals(2);
+        });
+        it("test url param key 'style'", () => {
+            const spy = sinon.spy(uiStyle, "setUiStyle"),
+                key = "style",
+                value = "simple";
+            doSpecialBackboneHandling(key, value);
+            expect(spy.calledOnceWithExactly(value.toUpperCase())).to.be.true;
         });
     });
 });
