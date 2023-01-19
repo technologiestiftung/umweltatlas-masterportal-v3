@@ -1,4 +1,5 @@
 import {sortObjects} from "../../../../utils/sortObjects";
+import sortBy from "../../../../utils/sortBy";
 
 const actions = {
     /**
@@ -38,6 +39,23 @@ const actions = {
         commit("setLayerIds", layers.map(el => el.id));
         commit("setLayerTransparencies", layerTransparencies);
         commit("setLayerVisibilities", layerVisibilities);
+    },
+    
+    /**
+     * Filters external layers (property 'isExternal') and sorts the list.
+     * Commits the sorted list to the state and dispatches the action to retrieve certain values
+     * from the list.
+     *
+     * @param {?ModelList} layerList List of layers.
+     * @returns {void}
+     */
+    filterExternalLayer ({commit, dispatch}, layerList) {
+        let filteredLayerList = layerList.filter(model => !model.get("isExternal"));
+
+        filteredLayerList = sortBy(filteredLayerList, model => model.get("selectionIDX"));
+
+        commit("setLayerList", filteredLayerList);
+        dispatch("createUrlParams");
     }
 };
 
