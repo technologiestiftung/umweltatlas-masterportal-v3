@@ -172,7 +172,8 @@ export default {
     deserializeState: async (context, payload) => {
         const rulesOfFilters = payload?.rulesOfFilters,
             selectedAccordions = payload?.selectedAccordions;
-        let rulesOfFiltersCopy;
+        let rulesOfFiltersCopy,
+            additionalGeometries = [];
 
         if (Array.isArray(rulesOfFilters) && Array.isArray(selectedAccordions)) {
             rulesOfFiltersCopy = JSON.parse(JSON.stringify(payload.rulesOfFilters));
@@ -186,7 +187,8 @@ export default {
             context.commit("setSelectedAccordions", selectedAccordions);
             context.dispatch("setGeometryFilterByFeature", {jsonFeature: payload?.geometryFeature, invert: payload?.geometrySelectorOptions?.invertGeometry});
             context.commit("setGeometrySelectorOptions", payload?.geometrySelectorOptions);
-            await getFeaturesOfAdditionalGeometries(payload.geometrySelectorOptions.additionalGeometries);
+            additionalGeometries = await getFeaturesOfAdditionalGeometries(payload.geometrySelectorOptions.additionalGeometries);
+            context.commit("setAdditionalGeometries", {additionalGeometries});
             context.commit("setActive", true);
         }
     },

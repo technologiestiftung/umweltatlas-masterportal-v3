@@ -6,17 +6,22 @@ import {WFS} from "ol/format.js";
  * Gets the features of the additional geometries by the given layer id.
  * @param {Object[]} additionalGeometries - The additional geometries.
  * @param {String} additionalGeometries[].layerId - The id of the layer.
- * @returns {void}
+ * @returns {Object[]} The additional geometries.
  */
 export async function getFeaturesOfAdditionalGeometries (additionalGeometries) {
-    if (Array.isArray(additionalGeometries)) {
-        const wfsReader = new WFS();
+    const result = [],
+        wfsReader = new WFS();
 
-        for (const additionalGeometry of additionalGeometries) {
-            const rawLayer = rawLayerList.getLayerWhere({id: additionalGeometry.layerId}),
-                features = await getFeatureGET(rawLayer.url, {version: rawLayer.version, featureType: rawLayer.featureType});
-
-            additionalGeometry.features = wfsReader.readFeatures(features);
-        }
+    if (!Array.isArray(additionalGeometries)) {
+        return result;
     }
+
+    for (let i = 0; i < additionalGeometries.length; i++) {
+        const rawLayer = rawLayerList.getLayerWhere({id: additionalGeometries[i].layerId}),
+            features = await getFeatureGET(rawLayer.url, {version: rawLayer.version, featureType: rawLayer.featureType});
+
+        result[i] = JSON.parse(JSON.stringify(additionalGeometries[i]));
+        result[i].features = wfsReader.readFeatures(features);
+    }
+    return result;
 }

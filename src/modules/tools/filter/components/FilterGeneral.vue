@@ -69,7 +69,9 @@ export default {
     },
     created () {
         this.$on("close", this.close);
-        getFeaturesOfAdditionalGeometries(this.geometrySelectorOptions.additionalGeometries);
+        getFeaturesOfAdditionalGeometries(this.geometrySelectorOptions.additionalGeometries).then(additionalGeometries => {
+            this.setAdditionalGeometries({additionalGeometries});
+        });
     },
     mounted () {
         this.convertConfig({
