@@ -205,7 +205,7 @@ export function hasHolidayInWeek (date, holidayKeys = false, format = false) {
  * @returns {CalendarMoment|Boolean} a CalendarMoment or false if the given date is not a holiday
  */
 function getPublicHoliday (date, holidayKeys = false, format = false) {
-    const givenMoment = dayjs(date, format, true),
+    const givenMoment = dayjs(date, format),
         year = givenMoment.format("YYYY"),
         easterMoment = getGaussianEasterMoment(year),
         adventMoment = getFirstAdventMoment(year),
