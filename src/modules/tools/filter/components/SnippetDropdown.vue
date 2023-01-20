@@ -2,7 +2,7 @@
 import Multiselect from "vue-multiselect";
 import {translateKeyWithPlausibilityCheck} from "../../../../utils/translateKeyWithPlausibilityCheck.js";
 import {getStyleModel, getIconListFromLegend} from "../utils/getIconListFromLegend.js";
-import {getDefaultOperatorBySnippetType} from "../utils/compileSnippets.js";
+import {getDefaultOperatorBySnippetType} from "../utils/getDefaultOperatorBySnippetType.js";
 import splitListWithDelimitor from "../utils/splitListWithDelimitor.js";
 import isObject from "../../../../utils/isObject";
 import SnippetInfo from "./SnippetInfo.vue";

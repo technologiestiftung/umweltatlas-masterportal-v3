@@ -102,7 +102,7 @@ export default {
             const selectedFilterIds = [];
 
             this.layerConfigs.layers.forEach(config => {
-                if (typeof config?.active === "boolean" && config.active && config?.filterId) {
+                if (typeof config?.active === "boolean" && config.active && typeof config?.filterId !== "undefined") {
                     selectedFilterIds.push(config.filterId);
                 }
             });

@@ -1,15 +1,16 @@
 import isObject from "../../../../utils/isObject";
-import FilterApi from "../interfaces/filter.api.js";
+import {getDefaultOperatorBySnippetType} from "./getDefaultOperatorBySnippetType.js";
 
 /**
  * Clones, checks and modifies the given original snippets to match the needs for LayerFilterSnippet.
  * @param {Object[]|String[]} originalSnippets the configured snippets
  * @param {Object} api the api to use for auto recognition of snippet types
+ * @param {Object} FilterApi the api
  * @param {Function} onfinish a callback function(snippets) with snippets, resulting snippets to use in LayerFilterSnippet, to be called when ready
  * @param {Function} onerror a callback function(error) with error type of Error to be called on error
  * @returns {void}
  */
-function compileSnippets (originalSnippets, api, onfinish, onerror) {
+function compileSnippets (originalSnippets, api, FilterApi, onfinish, onerror) {
     if (!Array.isArray(originalSnippets)) {
         if (typeof onfinish === "function") {
             onfinish([]);
@@ -284,33 +285,6 @@ function getDefaultSnippetTypeByDataType (dataType) {
     }
 }
 
-/**
- * Returns the default operator for the given data type.
- * @param {String} snippetType the snippet type
- * @param {Boolean} [hasDelimitorSet=false] true if a delimitor is set in config, false if not
- * @returns {String} the operator to use as default for the given dataType
- */
-function getDefaultOperatorBySnippetType (snippetType, hasDelimitorSet = false) {
-    switch (snippetType) {
-        case "checkbox":
-            return "EQ";
-        case "date":
-            return "EQ";
-        case "dateRange":
-            return "INTERSECTS";
-        case "dropdown":
-            return hasDelimitorSet ? "IN" : "EQ";
-        case "text":
-            return "IN";
-        case "slider":
-            return "EQ";
-        case "sliderRange":
-            return "BETWEEN";
-        default:
-            return "EQ";
-    }
-}
-
 export {
     compileSnippets,
     removeInvalidSnippets,
@@ -324,6 +298,5 @@ export {
     addSnippetOperator,
     addSnippetTypes,
     checkSnippetTypeConsistency,
-    getDefaultSnippetTypeByDataType,
-    getDefaultOperatorBySnippetType
+    getDefaultSnippetTypeByDataType
 };

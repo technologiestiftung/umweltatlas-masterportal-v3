@@ -18,6 +18,8 @@
 ### Removed
 
 ### Fixed
+- Issue #839: Accordeon is now open initially if `active: true` is configured. Bug which triggers the error message is now fixed.
+- Issue #861: Initial order of the background maps after using "Save selection" tool was corrected.
 
 ---
 

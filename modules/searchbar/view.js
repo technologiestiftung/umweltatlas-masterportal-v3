@@ -18,6 +18,7 @@ import store from "../../src/app-store/index";
 import {getWKTGeom} from "../../src/utils/getWKTGeom";
 import Collapse from "bootstrap/js/dist/collapse";
 import isMobile from "../../src/utils/isMobile";
+import uiStyle from "../../src/utils/uiStyle";
 
 /**
  * @member SearchbarTemplate
@@ -185,7 +186,7 @@ const SearchbarView = Backbone.View.extend(/** @lends SearchbarView.prototype */
      */
     render: function () {
         const attr = this.model.toJSON(),
-            menuStyle = Radio.request("Util", "getUiStyle");
+            menuStyle = uiStyle.getUiStyle();
 
         if (menuStyle !== "TABLE") {
             this.$el.html(this.template(attr));
@@ -216,7 +217,7 @@ const SearchbarView = Backbone.View.extend(/** @lends SearchbarView.prototype */
         $(".dropdown-menu-search").css({
             "max-height": window.innerHeight - 100 // 100 fix value for navbar &co.
         });
-        if (Radio.request("Util", "getUiStyle") !== "TABLE") {
+        if (uiStyle.getUiStyle() !== "TABLE") {
             $(".dropdown-menu-search").css({
                 "overflow": "auto"
             });
@@ -360,7 +361,7 @@ const SearchbarView = Backbone.View.extend(/** @lends SearchbarView.prototype */
             height = this.getDropdownHeight(),
             width = this.$("#searchForm").width();
 
-        attr.uiStyle = Radio.request("Util", "getUiStyle");
+        attr.uiStyle = uiStyle.getUiStyle();
 
         // If the topic tree is open on the table, it should be closed when the search is initialized.
         if ($("#table-nav-layers-panel").length > 0 && $("#table-nav-layers-panel").hasClass("show")) {
@@ -425,7 +426,7 @@ const SearchbarView = Backbone.View.extend(/** @lends SearchbarView.prototype */
         }
         else {
             attr = this.model.toJSON();
-            attr.uiStyle = Radio.request("Util", "getUiStyle");
+            attr.uiStyle = uiStyle.getUiStyle();
             // sz, does not want to work in a local environment, so first use the template as variable
             // $("ul.dropdown-menu-search").html(_.template(SearchbarHitListTemplate, attr));
         }

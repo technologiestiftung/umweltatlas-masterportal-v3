@@ -239,12 +239,12 @@ STALayer.prototype.getStyleFunction = function (attrs) {
             const feat = typeof feature !== "undefined" ? feature : this,
                 isClusterFeature = typeof feat.get("features") === "function" || typeof feat.get("features") === "object" && Boolean(feat.get("features").length > 1),
                 style = createStyle(styleObject, feat, isClusterFeature, Config.wfsImgPath),
-                styler = Array.isArray(style) ? style[0] : style,
+                styleElement = Array.isArray(style) ? style[0] : style,
                 zoomLevel = store.getters["Maps/getView"].getZoomForResolution(resolution) + 1,
                 zoomLevelCount = store.getters["Maps/getView"].getResolutions().length;
 
-            if (styler.getImage() !== null && attrs.scaleStyleByZoom) {
-                styler.getImage().setScale(styler.getImage().getScale() * zoomLevel / zoomLevelCount);
+            if (styleElement.getImage() !== null && attrs.scaleStyleByZoom) {
+                styleElement.getImage().setScale(styleElement.getImage().getScale() * zoomLevel / zoomLevelCount);
             }
             return style;
         };
@@ -2073,7 +2073,7 @@ STALayer.prototype.setDynamicalScaleOfHistoricalFeatures = function (features, z
     features.forEach(feature => {
         const style = feature.getStyle()(feature);
 
-        if (style.getImage() !== null) {
+        if (typeof style.getImage === "function" && style.getImage() !== null) {
             style.getImage().setScale(feature.get("originScale") * zoomLevel / zoomLevelCount);
             feature.setStyle(() => style);
         }
