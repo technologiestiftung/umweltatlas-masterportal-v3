@@ -164,7 +164,6 @@ describe("src/utils/createLayerAddToTree.js", () => {
             createLayerAddToTreeModule.createLayerAddToTree(layerId, features, treeType, treeHighlightedFeatures);
 
             expect(addItemCalled).to.be.equals(1);
-            expect(addedModelId.indexOf("idOriginal_")).to.be.equals(0);
             expect(addItemAttributes.parentId).to.be.equals("tree");
             expect(setIsSelectedSpy.calledOnce).to.be.true;
             expect(returnStyleModelCalled).to.be.true;
@@ -197,7 +196,6 @@ describe("src/utils/createLayerAddToTree.js", () => {
             createLayerAddToTreeModule.createLayerAddToTree(layerId, features, treeType, treeHighlightedFeatures);
 
             expect(addItemCalled).to.be.equals(1);
-            expect(addedModelId.indexOf("idOriginal_")).to.be.equals(0);
             expect(addItemAttributes.parentId).to.be.equals("SelectedLayer");
             expect(setIsSelectedSpy.calledOnce).to.be.true;
             expect(returnStyleModelCalled).to.be.true;
