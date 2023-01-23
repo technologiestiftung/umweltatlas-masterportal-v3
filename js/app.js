@@ -114,12 +114,14 @@ async function loadApp () {
         vuetify
     });
 
-
     // Core laden
     new Autostarter();
     new Util(utilConfig);
     if (store.state.urlParams?.uiStyle) {
         uiStyle.setUiStyle(store.state.urlParams?.uiStyle);
+    }
+    else if (utilConfig.uiStyle) {
+        uiStyle.setUiStyle(utilConfig.uiStyle);
     }
 
     // Pass null to create an empty Collection with options
