@@ -182,7 +182,7 @@ export function hasHolidayInWeek (date, holidayKeys = false, format = false) {
     if (!(date instanceof Date) && typeof date !== "string") {
         return false;
     }
-    let givenMoment = dayjs(date, format, true).startOf("isoWeek");
+    let givenMoment = dayjs(date, format).startOf("isoWeek");
 
     if (!givenMoment.isValid()) {
         return false;
