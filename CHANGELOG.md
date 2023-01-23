@@ -8,14 +8,20 @@
 ### __Breaking Changes__
 
 ### Added
-
+- The following NPM package have been added:
+    - dependencies:
+        - "dayjs": "^1.11.7"
 ### Changed
 
 ### Deprecated
 
 ### Removed
+- The following NPM package have been removed:
+    - dependencies:
+        - "moment": "^2.29.4",
+        - "moment-timezone": "^0.5.39"
 
-### Fixed  
+### Fixed
 
 ---
 

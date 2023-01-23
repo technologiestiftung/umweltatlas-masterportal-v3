@@ -88,8 +88,6 @@
     "jquery": "^3.6.1",
     "jquery-ui": "^1.13.2",
     "jsts": "^2.9.2",
-    "moment": "^2.29.4",
-    "moment-timezone": "^0.5.39",
     "dayjs": "^1.11.7",
     "mqtt": "^4.3.7",
     "object-hash": "^3.0.0",
