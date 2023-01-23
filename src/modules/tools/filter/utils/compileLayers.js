@@ -1,13 +1,13 @@
 import isObject from "../../../../utils/isObject";
-import FilterApi from "../interfaces/filter.api.js";
 
 /**
  * Clones, checks and modifies the given original layers to match the needs of Filter.
  * @param {Object[]} originalLayerGroups the configured groups
  * @param {Object[]|String[]} originalLayers the configured layers
+ * @param {Object} FilterApi the api
  * @returns {Object[]} resulting layers to use in Filter
  */
-function compileLayers (originalLayerGroups, originalLayers) {
+function compileLayers (originalLayerGroups, originalLayers, FilterApi) {
     let nextFilterId = 0;
     const groups = [],
         nextFilter = {id: nextFilterId, get: () => nextFilterId, inc: () => nextFilterId++},
@@ -16,7 +16,7 @@ function compileLayers (originalLayerGroups, originalLayers) {
     originalLayerGroups.forEach(group => {
         const layersOfGroup = removeInvalidLayers(JSON.parse(JSON.stringify(group.layers)));
 
-        prepareLayers(layersOfGroup, nextFilter);
+        prepareLayers(layersOfGroup, nextFilter, FilterApi);
         groups.push({
             title: group.title,
             layers: layersOfGroup
@@ -25,7 +25,7 @@ function compileLayers (originalLayerGroups, originalLayers) {
             layersOfGroup[layersOfGroup.length - 1].filterId + 1 :
             nextFilterId + 1;
     });
-    prepareLayers(layers, nextFilter);
+    prepareLayers(layers, nextFilter, FilterApi);
     return {groups, layers};
 }
 
@@ -33,13 +33,14 @@ function compileLayers (originalLayerGroups, originalLayers) {
  * Prepares the given layer.
  * @param {Object[]} layers The layers to prepare.
  * @param {Object} nextFilterId The object which holds the next id for the filter.
+ * @param {Object} FilterApi the api
  * @returns {void}
  */
-function prepareLayers (layers, nextFilterId) {
+function prepareLayers (layers, nextFilterId, FilterApi) {
     convertStringLayersIntoObjects(layers);
     addFilterIds(layers, nextFilterId);
     addSnippetArrayIfMissing(layers);
-    addApi(layers);
+    addApi(layers, FilterApi);
 }
 
 /**
@@ -117,11 +118,14 @@ function addSnippetArrayIfMissing (layers) {
 /**
  * Initializes a filter api for every layer.
  * @param {Object[]} layers the list of layers
+ * @param {Object} FilterApi the api
  * @returns {void}
  */
-function addApi (layers) {
+function addApi (layers, FilterApi) {
     layers.forEach(layer => {
-        layer.api = new FilterApi(layer.filterId);
+        if (typeof FilterApi !== "undefined") {
+            layer.api = new FilterApi(layer.filterId);
+        }
     });
 }
 
