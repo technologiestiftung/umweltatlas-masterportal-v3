@@ -17,6 +17,7 @@
 - The following NPM packages have been updated:
     - dependencies:
         - @masterportal/masterportalapi: 2.11.0 to 2.12.0
+- Print: only features in the extent are sent to printing now
 
 ### Deprecated
 
