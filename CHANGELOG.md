@@ -6,6 +6,7 @@
 
 ## Unreleased - in development
 ### __Breaking Changes__
+Time library `moment.js` was replaced with [day.js](https://day.js.org/). Please consider to use `day.js` in your future pull requests.
 
 ### Added
 - The following NPM package have been added:
