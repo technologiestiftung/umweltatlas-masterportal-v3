@@ -68,5 +68,12 @@ describe("core/configLoader/preparser", function () {
             };
             expect(preparser.getUrlPath(undefined, preparser.requestConfigFromUtil())).to.be.equal("https://localhost:1234/testconfig.json");
         });
+
+        it("should return url including parameters", function () {
+            preparser.requestConfigFromUtil = function () {
+                return "";
+            };
+            expect(preparser.getUrlPath("./config.json?test=foo", preparser.requestConfigFromUtil())).to.be.equal("./config.json?test=foo");
+        });
     });
 });

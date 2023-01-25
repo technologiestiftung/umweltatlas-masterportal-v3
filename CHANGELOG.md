@@ -12,6 +12,10 @@
 ### Changed
 - Layers:
   - Sta: setting the default style of historical features if there are no style defined.
+- Config.json URL: Make sure that URL parameters are preserved in the URL of the config.json
+- The following NPM packages have been updated:
+    - dependencies:
+        - @masterportal/masterportalapi: 2.11.0 to 2.12.0
 
 ### Deprecated
 
@@ -20,6 +24,7 @@
 ### Fixed
 - Issue #839: Accordeon is now open initially if `active: true` is configured. Bug which triggers the error message is now fixed.
 - Issue #861: Initial order of the background maps after using "Save selection" tool was corrected.
+- uiStyle: Set uiStyle from config.js
 
 ---
 
