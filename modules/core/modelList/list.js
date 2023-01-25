@@ -1231,7 +1231,6 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
     removeLayerById: function (id) {
         this.remove(id);
         if (this.findWhere({id: id})) {
-            console.warn("remove of layer with id " + id + " failed! Try another way to remove.");
             let modelIndex = null;
 
             this.each((model, index) => {
