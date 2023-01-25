@@ -961,8 +961,6 @@ const BuildSpecModel = {
                 geojsonList.push(convertedFeature);
             }
         }
-
-        // console.log("added feature to geojson");
     },
 
     /**
