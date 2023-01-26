@@ -9,6 +9,7 @@
 ### Added
 - layers:
     - Errorhandling for secure services.
+    - hiddenFeatures/hiddenObjects for Tileset Layers.
 ### Changed
 - Layers:
   - Sta: setting the default style of historical features if there are no style defined.
