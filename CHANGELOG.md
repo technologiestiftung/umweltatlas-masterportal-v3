@@ -9,6 +9,7 @@
 ### Added
 - layers:
     - Errorhandling for secure services.
+    - It is now possible to collect custom data via getMetaData from layers.
 ### Changed
 - Layers:
   - Sta: setting the default style of historical features if there are no style defined.

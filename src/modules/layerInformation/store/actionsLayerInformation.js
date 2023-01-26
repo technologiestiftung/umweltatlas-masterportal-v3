@@ -1,4 +1,6 @@
-import {getRecordById} from "../../../api/csw/getRecordById";
+import axios from "axios";
+import {getRecordById, getMetadata} from "../../../api/csw/getRecordById";
+import xml2json from "../../../api/utils/xml2json";
 import getProxyUrl from "../../../utils/getProxyUrl";
 import sortBy from "../../../utils/sortBy";
 import store from "../../../app-store";
@@ -62,7 +64,9 @@ const actions = {
             metaId = state.layerInfo.metaID[0];
         }
         const cswUrl = state.layerInfo.cswUrl,
-            metaInfo = {metaId, cswUrl};
+            customMetadata = state.layerInfo.customMetadata,
+            attributes = state.layerInfo.attributes,
+            metaInfo = {metaId, cswUrl, customMetadata, attributes};
 
         dispatch("getAbstractInfo", metaInfo);
 
@@ -94,12 +98,13 @@ const actions = {
     /**
      * set all the abstract Infos for the layer
      * @param {Object} param.commit the commit
+     * @param {Object} param.dispatch the dispatch
      * @param {Object} param.state the state
      * @param {Object} param.rootGetters the rootGetters
      * @param {Object} metaInfo the metaInformation that is necessary
      * @returns {void}
      */
-    getAbstractInfo: async function ({commit, state, rootGetters}, metaInfo) {
+    getAbstractInfo: async function ({commit, dispatch, state, rootGetters}, metaInfo) {
         const layerInfoConfig = store.state.configJson?.Portalconfig?.layerInformation;
         let metadata;
 
@@ -130,7 +135,13 @@ const actions = {
                 metadata = await getRecordById(metaURL, metaInfo.metaId);
             }
         }
+        else if (metaInfo.customMetadata) {
+            const metadataAsJson = await axios.get(metaInfo.cswUrl)
+                .then(response => xml2json(response.request.responseXML));
 
+            metadata = getMetadata(metadataAsJson);
+            dispatch("getCustomMetaData", {attributes: metaInfo.attributes, metadataAsJson});
+        }
         if (typeof metadata === "undefined") {
             commit("setTitle", "");
             commit("setPeriodicityKey", "");
@@ -158,6 +169,24 @@ const actions = {
             });
             commit("setDownloadLinks", sortBy(downloadLinks, "linkName"));
         }
+    },
+
+    /**
+     * Get metadata from path declared in the service configuration
+     * @param {Object} param.commit the commit
+     * @param {Object} payload object of attributes with paths to metadata information and metadata as json
+     * @returns {void}
+     */
+    getCustomMetaData: function ({commit}, payload) {
+        const customMetadata = Object.entries(payload.attributes).map(([key, value]) => {
+                return {[key]: value.split(".").reduce((o, i)=> o[i], payload.metadataAsJson).getValue()};
+            }),
+            singleObjectCustomMetadata = {};
+
+        for (let i = 0; i < customMetadata.length; i++) {
+            Object.assign(singleObjectCustomMetadata, customMetadata[i]);
+        }
+        commit("setCustomText", singleObjectCustomMetadata);
     },
 
     /**
