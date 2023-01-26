@@ -4,7 +4,10 @@ import getProxyUrl from "../../../src/utils/getProxyUrl";
 import * as bridge from "./RadioBridge.js";
 import Layer from "./layer";
 
-const hiddenObjects = [];
+const hiddenObjects = [],
+    lastUpdatedSymbol = Symbol("_lastUpdated");
+
+export {lastUpdatedSymbol, hiddenObjects};
 
 /**
  * Creates a tileset-layer to display on 3D-map.
@@ -20,8 +23,7 @@ export default function TileSetLayer (attrs) {
             maximumScreenSpaceError: "6"
         },
         hiddenObjects: {},
-        styleLastUpdated: Date.now(),
-        lastUpdatedSymbol: null
+        featureVisibilityLastUpdated: Date.now()
     };
 
     /**
@@ -40,7 +42,7 @@ export default function TileSetLayer (attrs) {
     if (attrs.hiddenFeatures && attrs.isSelected === true) {
         this.hideObjects(attrs.hiddenFeatures);
     }
-    this.layer.tileset.tileVisible.addEventListener(this.applyStyle.bind(this));
+    this.layer.tileset?.tileVisible?.addEventListener(this.applyStyle.bind(this));
 
 }
 // Link prototypes and add prototype methods, means TileSetLayer uses all methods and properties of Layer
@@ -98,6 +100,7 @@ TileSetLayer.prototype.showObjects = function (unHide) {
                     }
                 }
             });
+            delete hiddenObjects[id];
         }
     });
 };
@@ -155,8 +158,11 @@ TileSetLayer.prototype.setIsSelected = function (newValue, attr) {
             bridge.updateLayerView(this);
             bridge.renderMenu();
         }
+        // We need to hide all features from all visible layers again.
         if (this.get("isSelected") === true && this.has("hiddenFeatures")) {
-            this.hideObjects(this.get("hiddenFeatures"));
+            const tileSetModels = Radio.request("ModelList", "getModelsByAttributes", {typ: "TileSet3D"});
+
+            tileSetModels.forEach(model => model.hideObjects(this.get("hiddenFeatures")));
         }
         else if (this.get("isSelected") === false && this.has("hiddenFeatures")) {
             this.showObjects(this.get("hiddenFeatures"));
@@ -188,9 +194,8 @@ TileSetLayer.prototype.applyStyle = function (tile) {
  */
 TileSetLayer.prototype.styleContent = function (content) {
     if (
-        !content[this.lastUpdatedSymbol] ||
-        content[this.lastUpdatedSymbol] < this.get("featureVisibilityLastUpdated") ||
-        content[this.lastUpdatedSymbol] < this.get("styleLastUpdated")
+        !content[lastUpdatedSymbol] ||
+        content[lastUpdatedSymbol] < this.get("featureVisibilityLastUpdated")
     ) {
         const batchSize = content.featuresLength;
 
@@ -210,7 +215,7 @@ TileSetLayer.prototype.styleContent = function (content) {
                 }
             }
         }
-        content[this.lastUpdatedSymbol] = Date.now();
+        content[lastUpdatedSymbol] = Date.now();
     }
 };
 /**
@@ -321,14 +326,6 @@ TileSetLayer.prototype.setHiddenObjects = function (value) {
  */
 TileSetLayer.prototype.setFeatureVisibilityLastUpdated = function (value) {
     this.set("featureVisibilityLastUpdated", value);
-};
-/**
- * Setter for styleLastUpdated
- * @param {Date} value styleLastUpdated
- * @returns {void}
- */
-TileSetLayer.prototype.setStyleLastUpdated = function (value) {
-    this.set("styleLastUpdated", value);
 };
 
 TileSetLayer.prototype.setLastUpdatedSymbol = function (value) {
