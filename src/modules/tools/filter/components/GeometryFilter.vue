@@ -100,7 +100,7 @@ export default {
             }
         },
         isActive (val) {
-            if (this.getSelectedGeometry(this.selectedGeometryIndex)?.type !== "additional") {
+            if (this.draw instanceof Draw && this.getSelectedGeometry(this.selectedGeometryIndex)?.type !== "additional") {
                 this.draw.setActive(val);
             }
             this.setGfiActive(!val);
@@ -128,6 +128,12 @@ export default {
                     "defaultBuffer": Number(val)
                 });
             }
+        },
+        additionalGeometries (value) {
+            if (!Array.isArray(value) && value.length) {
+                return;
+            }
+            this.allGeometries = this.getGeometries();
         }
     },
     created () {
@@ -173,7 +179,8 @@ export default {
             this.allGeometries = this.getGeometries();
 
             // sets the interaction to draw the filter geometry
-            if (this.getSelectedGeometry(this.selectedGeometryIndex).type !== "additional") {
+            if (isObject(this.getSelectedGeometry(this.selectedGeometryIndex))
+                && this.getSelectedGeometry(this.selectedGeometryIndex).type !== "additional") {
                 this.setDrawInteraction(this.getSelectedGeometry(this.selectedGeometryIndex).type);
             }
         },

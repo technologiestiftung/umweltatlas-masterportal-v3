@@ -109,8 +109,10 @@ describe("tools/filter/store/actionsFilter", () => {
             const rulesOfFilters = [],
                 selectedAccordions = [],
                 geometryFeature = {},
+                additionalGeometries = [],
                 geometrySelectorOptions = {
-                    invertGeometry: true
+                    invertGeometry: true,
+                    additionalGeometries
                 },
                 payload = {
                     rulesOfFilters,
@@ -124,6 +126,7 @@ describe("tools/filter/store/actionsFilter", () => {
                 {type: "setSelectedAccordions", payload: selectedAccordions, commit: true},
                 {type: "setGeometryFilterByFeature", payload: {jsonFeature: geometryFeature, invert: true}, dispatch: true},
                 {type: "setGeometrySelectorOptions", payload: geometrySelectorOptions, commit: true},
+                {type: "setAdditionalGeometries", payload: {additionalGeometries}, commit: true},
                 {type: "setActive", payload: true, commit: true}
             ], {}, done);
         });
