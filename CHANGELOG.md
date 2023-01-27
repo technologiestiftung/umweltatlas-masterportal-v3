@@ -9,6 +9,8 @@
 ### Added
 - layers:
     - Errorhandling for secure services.
+- Filter:
+    - Added new parameter `filterButtonDisabled` to disable the filter button while nothing is selected.
 
 ### Changed
 - Layers:
