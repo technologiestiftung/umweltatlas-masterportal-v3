@@ -1,6 +1,6 @@
 import Model from "@modules/core/util.js";
 import {expect} from "chai";
-import thousandsSeparator from "masterportalapi/src/lib/thousandsSeparator";
+import thousandsSeparator from "@masterportal/masterportalapi/src/lib/thousandsSeparator";
 
 describe("core/Util", function () {
     let model;

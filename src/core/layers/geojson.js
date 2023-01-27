@@ -1,7 +1,7 @@
 import {geojson} from "@masterportal/masterportalapi";
 import {GeoJSON} from "ol/format.js";
-import {returnStyleObject} from "masterportalapi/src/vectorStyle/styleList";
-import {createStyle, returnLegendByStyleId} from "masterportalapi/src/vectorStyle/createStyle";
+import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import {createStyle, returnLegendByStyleId} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import getProxyUrl from "../../utils/getProxyUrl";
 import Layer from "./layer";
 import store from "../../app-store";

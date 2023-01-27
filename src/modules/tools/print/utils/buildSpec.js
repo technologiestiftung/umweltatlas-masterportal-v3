@@ -14,8 +14,8 @@ import {convertColor} from "../../../../utils/convertColor";
 import {MVTEncoder} from "@geoblocks/print";
 import VectorTileLayer from "ol/layer/VectorTile";
 import {getLastPrintedExtent} from "../store/actions/actionsPrintInitialization";
-import {returnStyleObject} from "masterportalapi/src/vectorStyle/styleList";
-import {getRulesForFeature} from "masterportalapi/src/vectorStyle/lib/getRuleForIndex";
+import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import {getRulesForFeature} from "@masterportal/masterportalapi/src/vectorStyle/lib/getRuleForIndex";
 
 
 const BuildSpecModel = {

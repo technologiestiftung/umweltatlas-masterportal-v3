@@ -1,8 +1,8 @@
 <script>
 import Feature from "ol/Feature.js";
-import StylePolygon from "masterportalapi/src/vectorStyle/styles/polygon/stylePolygon";
-import {createNominalCircleSegments} from "masterportalapi/src/vectorStyle/styles/point/stylePointNominal";
-import {createSVGStyle} from "masterportalapi/src/vectorStyle/styles/point/stylePointIcon";
+import StylePolygon from "@masterportal/masterportalapi/src/vectorStyle/styles/polygon/stylePolygon";
+import {createNominalCircleSegments} from "@masterportal/masterportalapi/src/vectorStyle/styles/point/stylePointNominal";
+import {createSVGStyle} from "@masterportal/masterportalapi/src/vectorStyle/styles/point/stylePointIcon";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import getters from "../store/gettersLegend";
 import mutations from "../store/mutationsLegend";

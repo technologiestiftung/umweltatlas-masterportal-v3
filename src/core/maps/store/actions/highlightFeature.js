@@ -1,5 +1,5 @@
-import {returnStyleObject} from "masterportalapi/src/vectorStyle/styleList";
-import {createStyle} from "masterportalapi/src/vectorStyle/createStyle";
+import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import {createStyle} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 
 /**
  * check how to highlight

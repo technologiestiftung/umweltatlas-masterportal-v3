@@ -1,9 +1,9 @@
 import {wfs} from "@masterportal/masterportalapi";
 import LoaderOverlay from "../../utils/loaderOverlay";
 import Layer from "./layer";
-import {returnStyleObject} from "masterportalapi/src/vectorStyle/styleList";
-import {createStyle, returnLegendByStyleId} from "masterportalapi/src/vectorStyle/createStyle";
-import {getGeometryTypeFromWFS} from "masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
+import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import {createStyle, returnLegendByStyleId} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import {getGeometryTypeFromWFS} from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
 import * as bridge from "./RadioBridge.js";
 import Cluster from "ol/source/Cluster";
 import {bbox, all} from "ol/loadingstrategy.js";

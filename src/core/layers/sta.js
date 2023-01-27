@@ -1,7 +1,7 @@
 import Layer from "./layer";
 import LoaderOverlay from "../../utils/loaderOverlay";
-import {returnStyleObject} from "masterportalapi/src/vectorStyle/styleList";
-import {createStyle, returnLegendByStyleId} from "masterportalapi/src/vectorStyle/createStyle";
+import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import {createStyle, returnLegendByStyleId} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import * as bridge from "./RadioBridge";
 import Cluster from "ol/source/Cluster";
 import VectorLayer from "ol/layer/Vector";

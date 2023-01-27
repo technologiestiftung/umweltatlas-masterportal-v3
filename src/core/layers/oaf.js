@@ -1,8 +1,8 @@
 import {oaf} from "@masterportal/masterportalapi";
 import LoaderOverlay from "../../utils/loaderOverlay";
-import {returnStyleObject} from "masterportalapi/src/vectorStyle/styleList";
-import {createStyle, returnLegendByStyleId} from "masterportalapi/src/vectorStyle/createStyle";
-import {getGeometryTypeFromOAF} from "masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
+import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import {createStyle, returnLegendByStyleId} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import {getGeometryTypeFromOAF} from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
 import Layer from "./layer";
 import * as bridge from "./RadioBridge.js";
 import Cluster from "ol/source/Cluster";

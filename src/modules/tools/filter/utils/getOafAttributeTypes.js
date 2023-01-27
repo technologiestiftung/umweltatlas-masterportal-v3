@@ -1,6 +1,6 @@
 import axios from "axios";
 import isObject from "../../../../utils/isObject";
-import {getValueFromObjectByPath} from "masterportalapi/src/lib/getValueFromObjectByPath";
+import {getValueFromObjectByPath} from "@masterportal/masterportalapi/src/lib/getValueFromObjectByPath";
 
 /**
  * Requests the attribute types for the given url and collection from oaf api.

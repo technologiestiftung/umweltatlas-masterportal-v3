@@ -1,12 +1,12 @@
 <script>
-import {returnStyleObject} from "masterportalapi/src/vectorStyle/styleList";
+import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import {
     createStyle,
     getGeometryStyle,
     returnLegendByStyleId
-} from "masterportalapi/src/vectorStyle/createStyle";
-import StylePolygon from "masterportalapi/src/vectorStyle/styles/polygon/stylePolygon";
-import {returnColor} from "masterportalapi/src/vectorStyle/lib/colorConvertions";
+} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import StylePolygon from "@masterportal/masterportalapi/src/vectorStyle/styles/polygon/stylePolygon";
+import {returnColor} from "@masterportal/masterportalapi/src/vectorStyle/lib/colorConvertions";
 import {mapGetters, mapMutations, mapActions} from "vuex";
 import getters from "../../store/gettersOrientation";
 import mutations from "../../store/mutationsOrientation";
