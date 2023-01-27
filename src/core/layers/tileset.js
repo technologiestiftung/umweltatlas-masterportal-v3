@@ -85,10 +85,11 @@ TileSetLayer.prototype.hideObjects = function (toHide) {
         this.setFeatureVisibilityLastUpdated(Date.now());
     }
 };
+
 /**
- * unHides a number of objects
- * @param {Array<string>} unHide A list of Object Ids which will be unHidden
- * @return {void} -
+ * Show a number of objects.
+ * @param {String[]} unHide A list of Object Ids which will be unHidden.
+ * @return {void}
  */
 TileSetLayer.prototype.showObjects = function (unHide) {
     unHide.forEach((id) => {
@@ -106,9 +107,9 @@ TileSetLayer.prototype.showObjects = function (unHide) {
 };
 
 /**
- * checks if a feature is still valid and not already destroyed
- * @param {Cesium.Cesium3DTileFeature|Cesium.Cesium3DTilePointFeature} feature -
- * @return {boolean} -
+ * Checks if a feature is still valid and not already destroyed.
+ * @param {Cesium.Cesium3DTileFeature|Cesium.Cesium3DTilePointFeature} feature Cesium feature.
+ * @return {Boolean} Feature exists
  */
 TileSetLayer.prototype.featureExists = function (feature) {
     return feature &&
@@ -116,6 +117,7 @@ TileSetLayer.prototype.featureExists = function (feature) {
         !feature.content.isDestroyed() &&
         !feature.content.batchTable.isDestroyed();
 };
+
 /**
  * Sets this layer to visible, if mode changes to 3D.
  * @returns {void}
@@ -171,10 +173,10 @@ TileSetLayer.prototype.setIsSelected = function (newValue, attr) {
 };
 
 /**
- * is called if a tile visibility event is called from the cesium tileset. Checks for Content Type and calls
- * styleContent
- * @param {tile} tile CesiumTile
- * @returns {void} -
+ * Is called if a tile visibility event is called from the cesium tileset. Checks for Content Type and calls
+ * styleContent.
+ * @param {Tile} tile CesiumTile
+ * @returns {void}
  */
 TileSetLayer.prototype.applyStyle = function (tile) {
     if (tile.content instanceof Cesium.Composite3DTileContent) {
@@ -188,9 +190,9 @@ TileSetLayer.prototype.applyStyle = function (tile) {
 };
 
 /**
- * sets the current LayerStyle on the CesiumTilesetFeatures in the Tile.
- * @param {Cesium.Cesium3DTileContent} content -
- * @return {void} -
+ * Sets the current LayerStyle on the CesiumTilesetFeatures in the Tile.
+ * @param {Cesium.Cesium3DTileContent} content The content for Tile.
+ * @return {void}
  */
 TileSetLayer.prototype.styleContent = function (content) {
     if (
@@ -218,6 +220,7 @@ TileSetLayer.prototype.styleContent = function (content) {
         content[lastUpdatedSymbol] = Date.now();
     }
 };
+
 /**
  * Setter for isVisibleInMap and setter for layer.setVisible
  * @param {Boolean} newValue Flag if layer is visible in map
