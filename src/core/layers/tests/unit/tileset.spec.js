@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import TileSetLayer from "../../tileset";
+import TileSetLayer, {lastUpdatedSymbol, hiddenObjects} from "../../tileset";
 import store from "../../../../app-store";
 
 describe("src/core/layers/tileset.js", () => {
@@ -104,6 +104,34 @@ describe("src/core/layers/tileset.js", () => {
         checkLayer(layer, tilesetLayer, attributes);
         expect(setIsSelectedSpy.calledOnce).to.equal(true);
         expect(setIsSelectedSpy.calledWithMatch(true)).to.equal(true);
+    });
+    describe("styleContent", function () {
+        it("should set lastUpdatedSymbol on the content on first call", function () {
+            const tilesetLayer = new TileSetLayer(attributes),
+                content = sinon.spy();
+
+            expect(content[lastUpdatedSymbol]).to.be.undefined;
+            tilesetLayer.styleContent(content);
+            expect(content[lastUpdatedSymbol]).to.not.be.undefined;
+        });
+    });
+    describe("hideObjects", function () {
+        it("add the id to the hiddenObjects and create an empty Set", function () {
+            const tilesetLayer = new TileSetLayer(attributes);
+
+            tilesetLayer.hideObjects(["id"]);
+            expect(hiddenObjects.id).to.be.an.instanceOf(Set);
+        });
+    });
+    describe("showObjects", function () {
+        it("should remove the id from the hiddenObjects List", function () {
+            const tilesetLayer = new TileSetLayer(attributes);
+
+            tilesetLayer.hideObjects(["id"]);
+            expect(hiddenObjects.id).to.be.an.instanceOf(Set);
+            tilesetLayer.showObjects(["id"]);
+            expect(hiddenObjects.id).to.be.undefined;
+        });
     });
     it("setIsSelected true shall create cesiumtilesetProvider", function () {
         const tilesetLayer = new TileSetLayer(attributes),

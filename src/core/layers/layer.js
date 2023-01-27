@@ -219,15 +219,9 @@ Layer.prototype.setMinResolution = function (value) {
  * @returns {void}
  */
 Layer.prototype.removeLayer = function () {
-    let map = mapCollection.getMap(store.state.Maps.mode);
-
-    if (!map) { // is the case, if starting by urlParam in mode 3D
-        map = mapCollection.getMap("2D");
-    }
-
     this.setIsVisibleInMap(false);
     bridge.removeLayerByIdFromModelList(this.get("id"));
-    map?.removeLayer(this.layer);
+    mapCollection.getMap("2D").removeLayer(this.layer);
 };
 /**
  * Toggles the attribute isSelected. Calls Function setIsSelected.

@@ -62,9 +62,19 @@ function getLayer (id) {
  * @returns {Object} the created layer
  */
 function addLayerModel (attributes, id) {
-    Radio.trigger("Parser", "addItem", attributes);
-    Radio.trigger("ModelList", "addModelsByAttributes", {id: id});
-    return Radio.request("ModelList", "getModelByAttributes", {id: id});
+    const item = Radio.request("Parser", "getItemByAttributes", {id: id});
+    let layerModel;
+
+    if (!item) {
+        Radio.trigger("Parser", "addItem", attributes);
+    }
+    layerModel = Radio.request("ModelList", "getModelByAttributes", {id: id});
+    if (!layerModel) {
+        Radio.trigger("ModelList", "addModelsByAttributes", {id: id});
+        layerModel = Radio.request("ModelList", "getModelByAttributes", {id: id});
+    }
+
+    return layerModel;
 }
 
 /**
