@@ -46,6 +46,7 @@ Time library `moment.js` was replaced with [day.js](https://day.js.org/). Please
     - dependencies:
         - @masterportal/masterportalapi: 2.11.0 to 2.12.0
 - Print: only features in the extent are sent to printing now
+- Print: edit printing for plotservice.
 
 ### Fixed
 - Issue #839: Accordeon is now open initially if `active: true` is configured. Bug which triggers the error message is now fixed.
