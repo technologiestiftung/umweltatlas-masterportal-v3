@@ -122,7 +122,7 @@ function parseFrequenzy (json) {
  * @param {String} dateType - the type of the date (e.g. publication)
  * @returns {String|undefined} formatted date
  */
-export function parseDate (json, dateType) {
+function parseDate (json, dateType) {
     const dates = getMdIdentification(json)?.citation?.CI_Citation?.date;
     let dateValue;
 
