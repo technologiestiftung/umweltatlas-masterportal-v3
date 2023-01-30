@@ -3,6 +3,7 @@ import {mapGetters} from "vuex";
 import ControlIcon from "../../ControlIcon.vue";
 import TableStyleControl from "../../TableStyleControl.vue";
 import FreezeScreenWindow from "./FreezeScreenWindow.vue";
+import uiStyle from "../../../../utils/uiStyle";
 
 /**
  * Freeze control that allows the user to freeze the current window
@@ -23,7 +24,7 @@ export default {
         ...mapGetters(["uiStyle"]),
 
         component () {
-            return this.uiStyle === "TABLE" ? TableStyleControl : ControlIcon;
+            return uiStyle.getUiStyle() === "TABLE" ? TableStyleControl : ControlIcon;
         }
     },
     methods: {

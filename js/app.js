@@ -21,6 +21,8 @@ import {initiateVueI18Next} from "./vueI18Next";
 import {handleUrlParamsBeforeVueMount, readUrlParamEarly} from "../src/utils/parametricUrl/ParametricUrlBridge";
 import {createMaps} from "../src/core/maps/maps.js";
 import mapCollection from "../src/core/maps/mapCollection.js";
+import LoaderOverlay from "../src/utils/loaderOverlay";
+import uiStyle from "../src/utils/uiStyle";
 
 /**
  * Vuetify
@@ -46,7 +48,6 @@ import SearchbarView from "../modules/searchbar/view";
 import Button3DView from "../modules/controls/button3d/view";
 import Orientation3DView from "../modules/controls/orientation3d/view";
 import VirtualcityModel from "../modules/tools/virtualCity/model";
-import LoaderOverlay from "../src/utils/loaderOverlay";
 
 let sbconfig,
     controls,
@@ -69,7 +70,7 @@ async function loadApp () {
     /* eslint-disable no-undef */
     const legacyAddons = Object.is(ADDONS, {}) ? {} : ADDONS,
         utilConfig = {},
-        style = Radio.request("Util", "getUiStyle"),
+        style = uiStyle.getUiStyle(),
         vueI18Next = initiateVueI18Next(),
         // instantiate Vue with Vuetify Plugin if the "vuetify" flag is set in the config.js
         // returns undefined if not
@@ -113,12 +114,14 @@ async function loadApp () {
         vuetify
     });
 
-
     // Core laden
     new Autostarter();
     new Util(utilConfig);
     if (store.state.urlParams?.uiStyle) {
-        Radio.trigger("Util", "setUiStyle", store.state.urlParams?.uiStyle);
+        uiStyle.setUiStyle(store.state.urlParams?.uiStyle);
+    }
+    else if (utilConfig.uiStyle) {
+        uiStyle.setUiStyle(utilConfig.uiStyle);
     }
 
     // Pass null to create an empty Collection with options

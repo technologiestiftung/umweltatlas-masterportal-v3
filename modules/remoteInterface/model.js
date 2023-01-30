@@ -1,5 +1,7 @@
 import {getCenter} from "ol/extent.js";
 import store from "../../src/app-store";
+import sortBy from "../../src/utils/sortBy";
+import filterAndReduceLayerList from "../../src/modules/tools/saveSelection/utils/filterAndReduceLayerList";
 
 const RemoteInterface = Backbone.Model.extend({
     defaults: {
@@ -118,7 +120,11 @@ const RemoteInterface = Backbone.Model.extend({
         store.dispatch("MapMarker/removePointMarker");
     },
     getMapState: function () {
-        store.dispatch("Tools/SaveSelection/filterExternalLayer", Radio.request("ModelList", "getModelsByAttributes", {isSelected: true, type: "layer"}));
+        const layerList = Radio.request("ModelList", "getModelsByAttributes", {isSelected: true, type: "layer"});
+        let filteredLayerList = layerList.filter(model => !model.get("isExternal"));
+
+        filteredLayerList = sortBy(filteredLayerList, model => model.get("selectionIDX"));
+        store.dispatch("createUrlParams", filterAndReduceLayerList(store.getters["Maps/mode"], filteredLayerList));
         return store.getters["Tools/SaveSelection/url"];
     },
     getWGS84MapSizeBBOX: function () {

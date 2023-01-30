@@ -1,6 +1,7 @@
 <script>
 import {mapGetters} from "vuex";
 
+import uiStyle from "../../../../utils/uiStyle";
 /**
  * Freeze control that allows the user to freeze the current window
  * of desktop and Mobile browser
@@ -48,7 +49,7 @@ export default {
             };
         },
         isTable () {
-            return this.uiStyle === "TABLE";
+            return uiStyle.getUiStyle() === "TABLE";
         }
     },
     mounted () {

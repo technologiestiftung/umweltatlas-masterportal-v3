@@ -1,5 +1,6 @@
 import axios from "axios";
 import {getByArraySyntax} from "../utils/fetchFirstModuleConfig";
+import isInternetExplorer from "../utils/isInternetExplorer";
 
 export default {
     /**
@@ -21,7 +22,7 @@ export default {
 
         range.selectNodeContents(el);
         selection.removeAllRanges();
-        if (!Radio.request("Util", "isInternetExplorer")) {
+        if (!isInternetExplorer()) {
             selection.addRange(range);
         }
         // Seems to be required for mobile devices

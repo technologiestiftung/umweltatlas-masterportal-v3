@@ -2,6 +2,7 @@ import Window from "./model";
 import templateMax from "text-loader!./templateMax.html";
 import templateTable from "text-loader!./templateTable.html";
 import "jquery-ui/ui/widgets/draggable";
+import uiStyle from "../../src/utils/uiStyle";
 
 /**
  * @member WindowViewTemplateMax
@@ -36,7 +37,6 @@ const WindowView = Backbone.View.extend(/** @lends WindowView.prototype */{
      * @memberof Window
      * @constructs
      * @fires Core.ModelList#RadioTriggerModelListToggleDefaultTool
-     * @fires Core#RadioRequestUtilGetUiStyle
      * @fires Core.ModelList#RadioRequestModelListGetModelByAttributes
      * @fires Core.ModelList#RadioTriggerModelListToggleDefaultTool
      * @listens WindowView#changeIsVisible
@@ -107,7 +107,6 @@ const WindowView = Backbone.View.extend(/** @lends WindowView.prototype */{
 
     /**
      * Renders the Window.
-     * @fires Core#RadioRequestUtilGetUiStyle
      * @return {Backbone.View} this context.
      */
     render: function () {
@@ -118,7 +117,7 @@ const WindowView = Backbone.View.extend(/** @lends WindowView.prototype */{
         if (this.model.get("isVisible") === true) {
             this.resetSize();
 
-            if (Radio.request("Util", "getUiStyle") === "TABLE") {
+            if (uiStyle.getUiStyle() === "TABLE") {
                 this.$el.html(this.templateTable(attr));
                 document.getElementById("masterportal-container").appendChild(this.el);
                 currentClass = $("#window").attr("class").split(" ");

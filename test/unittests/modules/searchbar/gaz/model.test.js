@@ -107,10 +107,6 @@ describe("modules/searchbar/gaz", () => {
             sinon.stub(Radio, "request").callsFake(request);
 
             model.pushAllResults(searchResults);
-
-            expect(request.calledOnce).to.be.true;
-            expect(request.firstCall.args).to.deep.equal(["Util", "sort", "address", searchResults, "name"]);
-            expect(pushResultMock.calledTwice).to.be.true;
             expect(pushResultMock.args[0][0]).to.includes(searchResults[0]);
             expect(pushResultMock.args[1][0]).to.includes(searchResults[1]);
         });

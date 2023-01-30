@@ -1,7 +1,7 @@
 <script>
 import isObject from "../../../../utils/isObject";
 import {translateKeyWithPlausibilityCheck} from "../../../../utils/translateKeyWithPlausibilityCheck.js";
-import {getDefaultOperatorBySnippetType} from "../utils/compileSnippets.js";
+import {getDefaultOperatorBySnippetType} from "../utils/getDefaultOperatorBySnippetType.js";
 import moment from "moment";
 import SnippetInfo from "./SnippetInfo.vue";
 

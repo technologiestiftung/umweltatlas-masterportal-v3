@@ -7,28 +7,35 @@
 ### __Breaking Changes__
 
 ### Added
-Core/Layers/WebGLLayer: New layer-type for rendering WFS, GeoJSON or VectorBase layers using OL7's WebGL render pipelines
-filter/filter.api: Unittests for WebGL use cases
+- Core/Layers/WebGLLayer: New layer-type for rendering WFS, GeoJSON or VectorBase layers using OL7's WebGL render pipelines
+- filter/filter.api: Unittests for WebGL use cases
 - layers:
     - Errorhandling for secure services.
 
 ### Changed
-ModelList/updateLayerView: Only add layers to index if they are actually being displayed on the map (removes unnecessary calls)
-configLoader/parserCustomTree/parseTree: don't skip layers without matching rawLayer from services.json, that have a sourceId provided (no checkup on existing source layers yet)
-actionsMapLayers/addLayerOnTop: Use the ModelList for the length of the layer list, not the map, as layer that are not visible or have been disposed (WebGL) might not be on the map
-filter/filter.api: lookup source layer info for WebGL layers
-moverHover/actionsMouseHover: collect webgl features for mouseHoverInfo
-GFI/gettersGfi: collect  webgl features for GFI
+- ModelList/updateLayerView: Only add layers to index if they are actually being displayed on the map (removes unnecessary calls)
+- configLoader/parserCustomTree/parseTree: don't skip layers without matching rawLayer from services.json, that have a sourceId provided (no checkup on existing source layers yet)
+- actionsMapLayers/addLayerOnTop: Use the ModelList for the length of the layer list, not the map, as layer that are not visible or have been disposed (WebGL) might not be on the map
+- filter/filter.api: lookup source layer info for WebGL layers
+- moverHover/actionsMouseHover: collect webgl features for mouseHoverInfo
+- GFI/gettersGfi: collect  webgl features for GFI
 ### Changed
 - Layers:
   - Sta: setting the default style of historical features if there are no style defined.
+- Config.json URL: Make sure that URL parameters are preserved in the URL of the config.json
+- The following NPM packages have been updated:
+    - dependencies:
+        - @masterportal/masterportalapi: 2.11.0 to 2.12.0
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
-actionsMapLayers/addLayer: don't set zIndex by default, otherwise addLayerOnTop and addLayerToIndex have no effect
+- actionsMapLayers/addLayer: don't set zIndex by default, otherwise addLayerOnTop and addLayerToIndex have no effect
+- Issue #839: Accordeon is now open initially if `active: true` is configured. Bug which triggers the error message is now fixed.
+- Issue #861: Initial order of the background maps after using "Save selection" tool was corrected.
+- uiStyle: Set uiStyle from config.js
 
 ---
 
