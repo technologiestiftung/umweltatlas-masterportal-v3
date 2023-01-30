@@ -274,7 +274,7 @@ export default {
      * @param {Object} payload object to migrate
      * @returns {Object} object for High Resolution Plot Service to start the printing
      */
-    migratePayload: function ({state}, payload) {
+    migratePayload: function ({state, rootState}, payload) {
         const plotservicePayload = {};
         let decodePayload = JSON.parse(decodeURIComponent(payload.replace(/imageFormat/g, "format"))),
             halfWidth, halfHeight;
@@ -312,7 +312,8 @@ export default {
         plotservicePayload.outputFormat = state.outputFormat;
 
         if (state.printService === "plotservice") {
-            const center = decodePayload.attributes.map.center;
+            const center = decodePayload.attributes.map.center,
+                epsgCode = rootState?.Maps?.projection?.code_;
 
             if (decodePayload.layout.indexOf("Legende") > 0) {
                 plotservicePayload.legend = true;
@@ -322,10 +323,10 @@ export default {
             }
             plotservicePayload.addparamtype = "default";
             // calculate outer west, south, east and north coordinates of print page
-            plotservicePayload.addparam.bboxwest = String(Math.round((center[0] - halfWidth) * 10) / 10.0);
-            plotservicePayload.addparam.bboxsouth = String(Math.round((center[1] - halfHeight) * 10) / 10.0);
-            plotservicePayload.addparam.bboxeast = String(Math.round((center[0] + halfWidth) * 10) / 10.0);
-            plotservicePayload.addparam.bboxnorth = String(Math.round((center[1] + halfHeight) * 10) / 10.0);
+            plotservicePayload.addparam.bboxwest = String(Math.round((center[0] - halfWidth) * 10) / 10.0) + " (" + epsgCode + ")";
+            plotservicePayload.addparam.bboxsouth = String(Math.round((center[1] - halfHeight) * 10) / 10.0) + " (" + epsgCode + ")";
+            plotservicePayload.addparam.bboxeast = String(Math.round((center[0] + halfWidth) * 10) / 10.0) + " (" + epsgCode + ")";
+            plotservicePayload.addparam.bboxnorth = String(Math.round((center[1] + halfHeight) * 10) / 10.0) + " (" + epsgCode + ")";
         }
 
         return JSON.stringify(plotservicePayload);
