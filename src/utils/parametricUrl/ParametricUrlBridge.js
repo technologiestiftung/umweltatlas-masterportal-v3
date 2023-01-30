@@ -67,6 +67,7 @@ export function handleUrlParamsBeforeVueMount (query) {
                     transparency = params.has("transparency") ? params.get("transparency") : "";
 
                 store.state.urlParams["Map/layerIds"] = parseLayerParams(value, visibility, transparency);
+
             }
         });
     }
@@ -224,6 +225,7 @@ function parseLayerParams (layerIdString, visibilityString = "", transparencyStr
         if (transparencyList[index] !== null) {
             optionsOfLayer.transparency = transparencyList[index];
         }
+
         layerParams.push(optionsOfLayer);
 
         if (layerConfigured === undefined && layerExisting !== null && treeType !== "custom") {

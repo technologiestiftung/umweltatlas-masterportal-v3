@@ -398,6 +398,7 @@ const BuildSpecModel = {
             mapObject = {
                 baseURL: source.getUrls()[0],
                 opacity: layer.getOpacity(),
+                version: "1.3.0",
                 type: source.getParams().SINGLETILE ? "WMS" : "tiledwms",
                 layers: source.getParams().LAYERS.split(","),
                 styles: source.getParams().STYLES ? source.getParams().STYLES.split(",") : undefined,

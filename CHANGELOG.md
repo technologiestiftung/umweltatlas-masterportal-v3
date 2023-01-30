@@ -30,6 +30,7 @@
 - Issue #861: Initial order of the background maps after using "Save selection" tool was corrected.
 - uiStyle: Set uiStyle from config.js
 - 3D Tiles can now be hidden again with the hiddenFeatures/hiddenObjects attribute.
+- Time-Layer: False recognition of time layer was corrected.
 
 ---
 
