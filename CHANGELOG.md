@@ -18,6 +18,9 @@ Time library `moment.js` was replaced with [day.js](https://day.js.org/). Please
 - KeepOpen attribute for tools:
     - In type string, the tool name can be inserted as string.
     - In type array, some tool names can be inserted in an array.
+- The following NPM packages have been updated:
+    - dependencies:
+        - @masterportal/masterportalapi: 2.12.0 to 2.13.0
 ### Deprecated
 
 ### Removed
