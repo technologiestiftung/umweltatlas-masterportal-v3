@@ -62,7 +62,6 @@ function createSubject (ticketId, subject) {
  * @returns {String} The generated unique Id.
  */
 function createTicketId (locationOfCustomerService = "de") {
-    require("dayjs/locale/" + locationOfCustomerService + ".js");
     const prefix = dayjs().locale(locationOfCustomerService).format("MMDD"),
         randomNumber = String(Math.floor(Math.random() * 9000) + 1000),
         anotherRandomNumber = String(Math.floor(Math.random() * 9000) + 1000);

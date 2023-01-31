@@ -281,7 +281,6 @@ const SliderModel = SnippetModel.extend(/** @lends SliderModel.prototype */{
             return dayjs(value).format("HH:mm");
         }
         else if (type === "date") {
-            require("dayjs/locale/" + this.get("currentLng") + ".js");
             return dayjs(value).locale(this.get("currentLng")).format("D. MMMM YYYY");
         }
         return value.toString();
