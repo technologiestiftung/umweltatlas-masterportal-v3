@@ -41,11 +41,6 @@ export default {
         }
     },
     data: () => {
-        /* const checkedLanguage = i18next.language !== undefined && i18next.language !== "platt" && i18next.language !== "ua" ? i18next.language.split("-")[0] : "de";
-
-        if (i18next.language !== "cimode") {
-            require("dayjs/locale/" + checkedLanguage + ".js");
-        } */
         return {
             momentLocale: dayjs().locale(i18next.language),
             weekdayIndex: 0,
