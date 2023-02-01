@@ -3,8 +3,7 @@
 
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
-## Unreleased - in development
-### __Breaking Changes__
+## v2.30.0 - 2023-02-01
 
 ### Added
 - layers:
@@ -20,10 +19,6 @@
     - dependencies:
         - @masterportal/masterportalapi: 2.11.0 to 2.12.0
 - Print: only features in the extent are sent to printing now
-
-### Deprecated
-
-### Removed
 
 ### Fixed
 - Issue #839: Accordeon is now open initially if `active: true` is configured. Bug which triggers the error message is now fixed.
