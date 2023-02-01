@@ -413,6 +413,9 @@ const BuildSpecModel = {
         if (store.state.Tools.Print.printService === "plotservice") {
             mapObject.title = layer.get("name");
         }
+        if (source.getParams().VERSION) {
+            mapObject.version = source.getParams().VERSION;
+        }
         if (!source.getParams().SINGLETILE) {
             mapObject.tileSize = [source.getParams().WIDTH, source.getParams().HEIGHT];
         }
@@ -446,6 +449,9 @@ const BuildSpecModel = {
 
         if (store.state.Tools.Print.printService === "plotservice") {
             mapObject.title = layer.get("name");
+        }
+        if (source.getParams().VERSION) {
+            mapObject.version = source.getParams().VERSION;
         }
 
         return mapObject;
