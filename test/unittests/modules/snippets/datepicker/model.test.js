@@ -1,12 +1,12 @@
 import {expect} from "chai";
 import Model from "@modules/snippets/datepicker/model.js";
-import moment from "moment";
+import dayjs from "dayjs";
 
 describe("snippets/datepicker/model", function () {
     let model;
 
     beforeEach(function () {
-        const today = moment("2019, 06, 15").format("YYYY-MM-DD"),
+        const today = dayjs("2019, 06, 15").format("YYYY-MM-DD"),
             startDate = new Date("2019, 01, 01"),
             endDate = new Date("2019, 12, 31");
 
@@ -31,7 +31,7 @@ describe("snippets/datepicker/model", function () {
 
     describe("update values works correctly", function () {
         it("input values are set like they should", function () {
-            const today = moment("2019, 06, 16").format("YYYY-MM-DD");
+            const today = dayjs("2019, 06, 16").format("YYYY-MM-DD");
 
             model.updateValues(today);
 
@@ -46,7 +46,7 @@ describe("snippets/datepicker/model", function () {
 
     describe("update values silently works also", function () {
         it("input values are set like they should", function () {
-            const today = moment("2019, 06, 17").format("YYYY-MM-DD");
+            const today = dayjs("2019, 06, 17").format("YYYY-MM-DD");
 
             model.updateValuesSilently(today);
 

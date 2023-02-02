@@ -1,5 +1,8 @@
-import moment from "moment";
+import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
 import {fetchFirstModuleConfig} from "../../../utils/fetchFirstModuleConfig.js";
+
+dayjs.extend(duration);
 
 /** @const {String} [Path array of possible config locations. First one found will be used] */
 /** @const {Object} [vue actions] */
@@ -25,7 +28,7 @@ function findSingleAlertByHash (haystackAlerts, needleHash) {
  * @returns {Boolean} True if its defined timespan includes current time
  */
 function checkAlertLifespan (alertToCheck) {
-    return (!alertToCheck.displayFrom || moment().isAfter(alertToCheck.displayFrom)) && (!alertToCheck.displayUntil || moment().isBefore(alertToCheck.displayUntil));
+    return (!alertToCheck.displayFrom || dayjs().isAfter(alertToCheck.displayFrom)) && (!alertToCheck.displayUntil || dayjs().isBefore(alertToCheck.displayUntil));
 }
 
 /**
@@ -50,7 +53,7 @@ function checkAlertViewRestriction (displayedAlerts, alertToCheck) {
         return false;
     }
     // displayed, but restriction time elapsed
-    if (moment().isAfter(moment(alertDisplayedAt).add(moment.duration(alertToCheck.once)))) {
+    if (dayjs().isAfter(dayjs(alertDisplayedAt).add(dayjs.duration(alertToCheck.once)))) {
         return true;
     }
 
