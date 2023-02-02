@@ -108,6 +108,7 @@ const actions = {
         const layerInfoConfig = store.state.configJson?.Portalconfig?.layerInformation;
         let metadata;
 
+        commit("setCustomText", null);
         /**
          * @deprecated in the next major-release!
          * useProxy
