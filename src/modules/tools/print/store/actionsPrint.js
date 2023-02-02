@@ -325,8 +325,8 @@ export default {
             // calculate outer west, south, east and north coordinates of print page
             plotservicePayload.addparam.bboxwest = String(Math.round((center[0] - halfWidth) * 10) / 10.0) + " (" + epsgCode + ")";
             plotservicePayload.addparam.bboxsouth = String(Math.round((center[1] - halfHeight) * 10) / 10.0) + " (" + epsgCode + ")";
-            plotservicePayload.addparam.bboxeast = String(Math.round((center[0] + halfWidth) * 10) / 10.0) + " (" + epsgCode + ")";
-            plotservicePayload.addparam.bboxnorth = String(Math.round((center[1] + halfHeight) * 10) / 10.0) + " (" + epsgCode + ")";
+            plotservicePayload.addparam.bboxeast = String(Math.round((center[0] + halfWidth) * 10) / 10.0);
+            plotservicePayload.addparam.bboxnorth = String(Math.round((center[1] + halfHeight) * 10) / 10.0);
         }
 
         return JSON.stringify(plotservicePayload);
