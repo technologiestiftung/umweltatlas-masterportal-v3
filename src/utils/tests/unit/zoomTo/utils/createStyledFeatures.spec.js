@@ -9,23 +9,6 @@ describe("src/utils/zoomTo/utils/createStyledFeatures.js", () => {
     const createStyle = sinon.spy(),
         consoleSpy = sinon.spy();
 
-    /**
-     * Fakes the Radio.request call.
-     *
-     * @param {string} namespace Namespace requested.
-     * @param {string} method Method inside the namespaced which is requested.
-     * @param {any} args Given arguments.
-     * @returns {object|undefined} A mocked styleModel or undefined.
-     */
-    function requestFake (namespace, method, args) {
-        return namespace === "StyleList" && method === "returnModelById" && args !== undefined
-            ? {createStyle}
-            : undefined;
-    }
-
-    beforeEach(() => {
-        sinon.stub(Radio, "request").callsFake(requestFake);
-    });
     afterEach(sinon.restore);
 
     it("should return an array of Features using a Point as its geometry and containing a style", () => {
