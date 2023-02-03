@@ -230,7 +230,7 @@ const BuildSpecModel = {
             visibleFeatures = features.filter(feature => feature.get("isVisible"));
 
         if (visibleFeatures.length > 0) {
-            return this.buildVector(layer, visibleFeatures);
+            return this.buildVector(layer, visibleFeatures, extent);
         }
 
         return undefined;
@@ -279,7 +279,7 @@ const BuildSpecModel = {
                 features = source.getFeaturesInExtent(extent);
 
                 if (features.length > 0) {
-                    returnLayer = this.buildVector(layer, features);
+                    returnLayer = this.buildVector(layer, features, extent);
                 }
             }
         }
@@ -447,14 +447,15 @@ const BuildSpecModel = {
      * returns vector layer information
      * @param {ol.layer.Vector} layer vector layer with vector source
      * @param {ol.feature[]} features vectorfeatures
+     * @param {ol.extent} extent  Extent uses to filter the feature by extent.
      * @returns {object} - geojson layer spec
      */
-    buildVector: function (layer, features) {
+    buildVector: function (layer, features, extent) {
         const geojsonList = [];
 
         return {
             type: "geojson",
-            style: this.buildStyle(layer, features, geojsonList),
+            style: this.buildStyle(layer, features, geojsonList, extent),
             geojson: geojsonList
         };
     },
@@ -464,20 +465,27 @@ const BuildSpecModel = {
      * @param {ol.layer} layer ol-Layer with features.
      * @param {ol.feature[]} features Array of features.
      * @param {Object[]} geojsonList Array of geojsons.
+     * @param {ol.extent} extent  Extent uses to filter the feature by extent.
      * @returns {Object} - style for mapfish print.
      */
-    buildStyle: function (layer, features, geojsonList) {
+    buildStyle: function (layer, features, geojsonList, extent) {
         const mapfishStyleObject = {
                 "version": "2"
             },
-            layersToNotReverse = ["measureLayer", "importDrawLayer"];
+            layersToNotReverse = ["measureLayer", "importDrawLayer"],
+            featuresInExtent = layer.getSource() ? layer.getSource().getFeaturesInExtent(extent) : features;
 
         if (!layersToNotReverse.includes(layer.values_.id)) {
             features.reverse();
         }
         features.forEach(feature => {
-            const styles = this.getFeatureStyle(feature, layer),
+            const foundFeature = featuresInExtent.find(featureInExtent => featureInExtent.ol_uid === feature.ol_uid),
+                styles = this.getFeatureStyle(feature, layer),
                 styleAttributes = this.getStyleAttributes(layer, feature);
+
+            if (!foundFeature) {
+                return;
+            }
 
             let clonedFeature,
                 stylingRules,

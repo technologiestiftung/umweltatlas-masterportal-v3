@@ -1,4 +1,11 @@
-import moment from "moment";
+import dayjs from "dayjs";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+import customParseFormat from "dayjs/plugin/CustomParseFormat";
+
+dayjs.extend(isSameOrAfter);
+dayjs.extend(isSameOrBefore);
+dayjs.extend(customParseFormat);
 
 /**
  * Make the intersects check for array.
@@ -10,14 +17,14 @@ import moment from "moment";
  * @returns {Boolean} true if it is matching intersects check
  */
 function intersectsForArray (featValueA, featValueB, ruleValueA, ruleValueB, format) {
-    if (!format || !moment(featValueA, format).isValid()) {
+    if (!format || !dayjs(featValueA, format).isValid()) {
         return featValueA <= ruleValueB && featValueB >= ruleValueA;
     }
 
-    const featValA = moment(featValueA, format),
-        featValB = moment(featValueB, format),
-        ruleValA = moment(ruleValueA, format),
-        ruleValB = moment(ruleValueB, format);
+    const featValA = dayjs(featValueA, format),
+        featValB = dayjs(featValueB, format),
+        ruleValA = dayjs(ruleValueA, format),
+        ruleValB = dayjs(ruleValueB, format);
 
     if (!featValA.isValid() || !featValB.isValid() || !ruleValA.isValid() || !ruleValB.isValid()) {
         return false;
@@ -35,14 +42,14 @@ function intersectsForArray (featValueA, featValueB, ruleValueA, ruleValueB, for
  * @returns {Boolean} true if it is matching between check
  */
 function betweenForArray (featValueA, featValueB, ruleValueA, ruleValueB, format) {
-    if (!format || !moment(ruleValueA, format).isValid()) {
+    if (!format || !dayjs(ruleValueA, format).isValid()) {
         return featValueA >= ruleValueA && featValueB <= ruleValueB;
     }
 
-    const featValA = moment(featValueA, format),
-        featValB = moment(featValueB, format),
-        ruleValA = moment(ruleValueA, format),
-        ruleValB = moment(ruleValueB, format);
+    const featValA = dayjs(featValueA, format),
+        featValB = dayjs(featValueB, format),
+        ruleValA = dayjs(ruleValueA, format),
+        ruleValB = dayjs(ruleValueB, format);
 
     if (!featValA.isValid() || !featValB.isValid() || !ruleValA.isValid() || !ruleValB.isValid()) {
         return false;
@@ -58,12 +65,12 @@ function betweenForArray (featValueA, featValueB, ruleValueA, ruleValueB, format
  * @returns {Boolean} true if it matches the equals check
  */
 function equalsForArray (featValueA, value, format) {
-    if (!format || !moment(featValueA, format).isValid()) {
+    if (!format || !dayjs(featValueA, format).isValid()) {
         return typeof value.find(v => typeof v === "string" && featValueA === v.toLowerCase()) !== "undefined";
     }
-    const featValA = moment(featValueA, format);
+    const featValA = dayjs(featValueA, format);
 
-    return typeof value.find(v => moment(v, format).isSame(featValA)) !== "undefined";
+    return typeof value.find(v => dayjs(v, format).isSame(featValA)) !== "undefined";
 }
 /**
  * Make the in check for array.
@@ -101,13 +108,13 @@ function endswithForArray (featValueA, value) {
  * @returns {Boolean} true if it matches the between check
  */
 function between (featValueA, featValueB, ruleValueA, format) {
-    if (!format || !moment(ruleValueA, format).isValid()) {
+    if (!format || !dayjs(ruleValueA, format).isValid()) {
         return featValueA <= ruleValueA && featValueB >= ruleValueA;
     }
 
-    const featValA = moment(featValueA, format),
-        featValB = moment(featValueB, format),
-        ruleValA = moment(ruleValueA, format);
+    const featValA = dayjs(featValueA, format),
+        featValB = dayjs(featValueB, format),
+        ruleValA = dayjs(ruleValueA, format);
 
     if (!featValA.isValid() || !featValB.isValid() || !ruleValA.isValid()) {
         return false;
@@ -123,13 +130,13 @@ function between (featValueA, featValueB, ruleValueA, format) {
  * @returns {Boolean} true if it matches the equals check
  */
 function equals (featValueA, ruleValueA, format) {
-    const featValA = moment(featValueA, format);
+    const featValA = dayjs(featValueA, format);
 
     if (!format || !featValA.isValid()) {
         return featValueA === ruleValueA;
     }
 
-    return featValA.isSame(moment(ruleValueA, format));
+    return featValA.isSame(dayjs(ruleValueA, format));
 }
 /**
  * Make the not equals check.
@@ -139,13 +146,13 @@ function equals (featValueA, ruleValueA, format) {
  * @returns {Boolean} true if it matches the not equals check
  */
 function ne (featValueA, ruleValueA, format) {
-    const featValA = moment(featValueA, format);
+    const featValA = dayjs(featValueA, format);
 
     if (!format || !featValA.isValid()) {
         return featValueA !== ruleValueA;
     }
 
-    return !featValA.isSame(moment(ruleValueA, format));
+    return !featValA.isSame(dayjs(ruleValueA, format));
 }
 /**
  * Make the greater than check.
@@ -155,13 +162,13 @@ function ne (featValueA, ruleValueA, format) {
  * @returns {Boolean} true if it matches the greater than check
  */
 function gt (featValueA, ruleValueA, format) {
-    const featValA = moment(featValueA, format);
+    const featValA = dayjs(featValueA, format, true);
 
     if (!format || !featValA.isValid()) {
         return featValueA > ruleValueA;
     }
 
-    return featValA.isAfter(moment(ruleValueA, format));
+    return featValA.isAfter(dayjs(ruleValueA, format));
 }
 /**
  * Make the greater equals check.
@@ -171,13 +178,13 @@ function gt (featValueA, ruleValueA, format) {
  * @returns {Boolean} true if it matches the greater equals check
  */
 function ge (featValueA, ruleValueA, format) {
-    const featValA = moment(featValueA, format);
+    const featValA = dayjs(featValueA, format, true);
 
     if (!format || !featValA.isValid()) {
         return featValueA >= ruleValueA;
     }
 
-    return featValA.isSameOrAfter(moment(ruleValueA, format));
+    return featValA.isSameOrAfter(dayjs(ruleValueA, format));
 }
 /**
  * Make the lower than check.
@@ -187,13 +194,13 @@ function ge (featValueA, ruleValueA, format) {
  * @returns {Boolean} true if it matches the lower than check
  */
 function lt (featValueA, ruleValueA, format) {
-    const featValA = moment(featValueA, format);
+    const featValA = dayjs(featValueA, format);
 
     if (!format || !featValA.isValid()) {
         return featValueA < ruleValueA;
     }
 
-    return featValA.isBefore(moment(ruleValueA, format));
+    return featValA.isBefore(dayjs(ruleValueA, format));
 }
 /**
  * Make the lower equals check.
@@ -203,13 +210,13 @@ function lt (featValueA, ruleValueA, format) {
  * @returns {Boolean} true if it matches the lower equals check
  */
 function le (featValueA, ruleValueA, format) {
-    const featValA = moment(featValueA, format);
+    const featValA = dayjs(featValueA, format);
 
     if (!format || !featValA.isValid()) {
         return featValueA <= ruleValueA;
     }
 
-    return featValA.isSameOrBefore(moment(ruleValueA, format));
+    return featValA.isSameOrBefore(dayjs(ruleValueA, format));
 }
 /**
  * Make the includes check.

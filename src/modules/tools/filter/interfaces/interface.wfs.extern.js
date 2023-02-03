@@ -17,7 +17,7 @@ import {
     notEqualTo as notEqualToFilter,
     or as orFilter
 } from "ol/format/filter";
-import moment from "moment";
+import dayjs from "dayjs";
 
 /**
  * InterfaceWfsExtern is the filter interface for WFS services
@@ -171,7 +171,7 @@ export default class InterfaceWfsExtern {
             }
             else {
                 try {
-                    attrValue = moment(attrValue, format);
+                    attrValue = dayjs(attrValue, format);
                 }
                 catch (error) {
                     onerror(error);
@@ -179,10 +179,10 @@ export default class InterfaceWfsExtern {
                 }
 
                 if (min === false || attrValue.isBefore(min)) {
-                    min = moment(attrValue, format);
+                    min = dayjs(attrValue, format);
                 }
                 if (max === false || attrValue.isAfter(max)) {
-                    max = moment(attrValue, format);
+                    max = dayjs(attrValue, format);
                 }
             }
         });

@@ -364,7 +364,7 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
      * @param {(boolean/object)} [time = false] If set to `true` or an object, the configured Layer is expected to be a WMS-T.
      * @returns {void}
      */
-    addLayer: function (name, id, parentId, level, layers, url, version, {transparent = true, isSelected = false, time = false,
+    addLayer: function (name, id, parentId, level, layers, url, version, {transparent = true, isSelected = false, time = undefined,
         styles = "", legendURL = "", gfiAttributes = "showAll", featureCount = 3, maxScale = "2500000",
         minScale = "0"}) {
         const layer = {

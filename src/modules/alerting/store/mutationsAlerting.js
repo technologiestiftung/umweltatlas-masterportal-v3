@@ -1,4 +1,4 @@
-import moment from "moment";
+import dayjs from "dayjs";
 
 export default {
     /**
@@ -58,7 +58,7 @@ export default {
      * @returns {void}
      */
     addToDisplayedAlerts (state, newAlert) {
-        state.displayedAlerts = {...state.displayedAlerts, [newAlert.hash]: moment().format()};
+        state.displayedAlerts = {...state.displayedAlerts, [newAlert.hash]: dayjs().format()};
     },
 
     /**

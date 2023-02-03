@@ -1,7 +1,7 @@
 import Vuex from "vuex";
 import {config, shallowMount, createLocalVue} from "@vue/test-utils";
 import SnippetDateRange from "../../../components/SnippetDateRange.vue";
-import moment from "moment";
+import dayjs from "dayjs";
 import {expect} from "chai";
 import sinon from "sinon";
 
@@ -234,6 +234,7 @@ describe("src/module/tools/filter/components/SnippetDateRange.vue", () => {
                             format: "DD.MM.YYYY"
                         }});
                         await wrapper.vm.$nextTick();
+
                         expect(wrapper.find(".datepickerWrapper").find(".from").find("input").attributes("min")).to.equal("2022-08-10");
                         expect(wrapper.find(".datepickerWrapper").find(".from").find("input").attributes("max")).to.equal("2022-08-30");
                         expect(wrapper.find(".datepickerWrapper").find(".until").find("input").attributes("min")).to.equal("2022-08-10");
@@ -697,7 +698,7 @@ describe("src/module/tools/filter/components/SnippetDateRange.vue", () => {
                 expect(wrapper.vm.addListToUnixAssoc([], "format", true, {})).to.be.false;
                 expect(wrapper.vm.addListToUnixAssoc([], "format", true, [])).to.be.false;
             });
-            it("should return false if minMoment is not recognized as moment object", () => {
+            it("should return false if minMoment is not recognized as dayjs object", () => {
                 wrapper = shallowMount(SnippetDateRange, {localVue});
                 expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, undefined)).to.be.false;
                 expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, null)).to.be.false;
@@ -708,7 +709,7 @@ describe("src/module/tools/filter/components/SnippetDateRange.vue", () => {
                 expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, {})).to.be.false;
                 expect(wrapper.vm.addListToUnixAssoc([], "format", true, true, [])).to.be.false;
             });
-            it("should return false if maxMoment is not recognized as moment object", () => {
+            it("should return false if maxMoment is not recognized as dayjs object", () => {
                 const minMoment = {
                     isValid: () => false
                 };
@@ -755,8 +756,8 @@ describe("src/module/tools/filter/components/SnippetDateRange.vue", () => {
                     "DD.MM.YYYY",
                     true,
                     true,
-                    moment("11.08.2022", "DD.MM.YYYY"),
-                    moment("29.08.2022", "DD.MM.YYYY"),
+                    dayjs("11.08.2022", "DD.MM.YYYY"),
+                    dayjs("29.08.2022", "DD.MM.YYYY"),
                     result
                 )).to.be.true;
                 expect(result).to.be.an("object").that.is.not.empty;
