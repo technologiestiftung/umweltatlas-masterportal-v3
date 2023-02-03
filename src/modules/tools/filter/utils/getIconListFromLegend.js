@@ -1,4 +1,5 @@
 import {convertColor} from "../../../../utils/convertColor.js";
+import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 
 /**
  * Returns a list of image paths from the Legend
@@ -43,7 +44,7 @@ function getStyleModel (layerId) {
     if (layerModel) {
         styleId = layerModel.get("styleId");
         if (styleId) {
-            styleModel = Radio.request("StyleList", "returnModelById", styleId);
+            styleModel = returnStyleObject(styleId);
         }
     }
 

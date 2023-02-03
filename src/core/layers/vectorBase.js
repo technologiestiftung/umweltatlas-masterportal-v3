@@ -1,5 +1,6 @@
 import Layer from "./layer";
 import {vectorBase} from "@masterportal/masterportalapi/src";
+import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import * as bridge from "./RadioBridge.js";
 import Cluster from "ol/source/Cluster";
 
@@ -52,7 +53,7 @@ VectorBaseLayer.prototype.updateSource = function (layer, features) {
  * @returns {void}
  */
 VectorBaseLayer.prototype.createLegend = function () {
-    const styleModel = Radio.request("StyleList", "returnModelById", this.get("styleId"));
+    const styleModel = returnStyleObject(this.get("styleId"));
     let legend = this.get("legend");
 
     /**

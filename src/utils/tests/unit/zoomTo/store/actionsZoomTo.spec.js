@@ -284,9 +284,7 @@ describe("src/utils/zoomTo/store/actionsZoomTo.js", () => {
             expect(dispatch.thirdCall.args[2]).to.eql({root: true});
             expect(requestSpy.calledTwice).to.be.true;
             expect(requestSpy.firstCall.args.length).to.equal(3);
-            expect(requestSpy.firstCall.args).to.eql(["StyleList", "returnModelById", "stylish"]);
             expect(requestSpy.secondCall.args.length).to.equal(3);
-            expect(requestSpy.secondCall.args).to.eql(["StyleList", "returnModelById", "stylish"]);
         });
         it("should add features to the map for one config of zoomToFeatureId", async () => {
             sinon.stub(axios, "get").callsFake(axiosFake);
@@ -316,9 +314,7 @@ describe("src/utils/zoomTo/store/actionsZoomTo.js", () => {
             expect(dispatch.secondCall.args[2]).to.eql({root: true});
             expect(requestSpy.calledTwice).to.be.true;
             expect(requestSpy.firstCall.args.length).to.equal(3);
-            expect(requestSpy.firstCall.args).to.eql(["StyleList", "returnModelById", "stylish"]);
             expect(requestSpy.secondCall.args.length).to.equal(3);
-            expect(requestSpy.secondCall.args).to.eql(["StyleList", "returnModelById", "stylish"]);
         });
         it("should zoom to the feature extent but not add the features for one config of zoomToFeatureId with addFeatures set to false", async () => {
             sinon.stub(axios, "get").callsFake(axiosFake);
@@ -344,9 +340,7 @@ describe("src/utils/zoomTo/store/actionsZoomTo.js", () => {
             expect(dispatch.firstCall.args[2]).to.eql({root: true});
             expect(requestSpy.calledTwice).to.be.true;
             expect(requestSpy.firstCall.args.length).to.equal(3);
-            expect(requestSpy.firstCall.args).to.eql(["StyleList", "returnModelById", "stylish"]);
             expect(requestSpy.secondCall.args.length).to.equal(3);
-            expect(requestSpy.secondCall.args).to.eql(["StyleList", "returnModelById", "stylish"]);
         });
         it("should add features to the map for one config of zoomToGeometry", async () => {
             sinon.stub(axios, "get").callsFake(axiosFake);
@@ -442,9 +436,7 @@ describe("src/utils/zoomTo/store/actionsZoomTo.js", () => {
             expect(dispatch.thirdCall.args[2]).to.eql({root: true});
             expect(requestSpy.calledTwice).to.be.true;
             expect(requestSpy.firstCall.args.length).to.equal(3);
-            expect(requestSpy.firstCall.args).to.eql(["StyleList", "returnModelById", "stylish"]);
             expect(requestSpy.secondCall.args.length).to.equal(3);
-            expect(requestSpy.secondCall.args).to.eql(["StyleList", "returnModelById", "stylish"]);
         });
     });
 });

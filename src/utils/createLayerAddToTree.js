@@ -1,4 +1,5 @@
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
+import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 
 
 /**
@@ -125,7 +126,7 @@ function setAttributes (layer, id, layerName, layerNameKey, treeType) {
  * @returns {void}
  */
 function setStyle (layer, styleId) {
-    const styleModel = Radio.request("StyleList", "returnModelById", styleId);
+    const styleModel = returnStyleObject(styleId);
 
     if (styleModel !== undefined) {
         layer.get("layer").setStyle((feature) => {
