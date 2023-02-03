@@ -15,6 +15,7 @@ import {MVTEncoder} from "@geoblocks/print";
 import VectorTileLayer from "ol/layer/VectorTile";
 import {getLastPrintedExtent} from "../store/actions/actionsPrintInitialization";
 import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import {getGeometryStyle} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import {getRulesForFeature} from "@masterportal/masterportalapi/src/vectorStyle/lib/getRuleForIndex";
 
 
@@ -496,7 +497,8 @@ const BuildSpecModel = {
 
             styles.forEach((style, index) => {
                 if (style !== null) {
-                    const styleModel = this.getStyleModel(layer);
+                    const realStyleObject = returnStyleObject(layer.get("id")),
+                        styleModel = getGeometryStyle(feature, realStyleObject.rules, false, Config.wfsImgPath);
                     let limiter = ",";
 
                     clonedFeature = feature.clone();
@@ -515,7 +517,7 @@ const BuildSpecModel = {
                         }
                     }
                     stylingRules = this.getStylingRules(layer, clonedFeature, styleAttributes, style);
-                    if (styleModel !== undefined && styleModel.get("labelField") && styleModel.get("labelField").length > 0) {
+                    if (styleModel !== undefined && styleModel.attributes.labelField && styleModel.attributes.labelField.length > 0) {
                         stylingRules = stylingRules.replaceAll(limiter, " AND ");
                         limiter = " AND ";
                     }
@@ -594,24 +596,6 @@ const BuildSpecModel = {
 
         }
         return feature;
-    },
-
-    getStyleModel (layer, layerId) {
-        const layerModel = Radio.request("ModelList", "getModelByAttributes", {id: layer?.get("id")});
-        let foundChild;
-
-        if (typeof layerModel?.get === "function") {
-            if (layerModel.get("typ") === "GROUP") {
-                foundChild = layerModel.get("children").find(child => child.id === layerId);
-                if (foundChild) {
-                    return Radio.request("StyleList", "returnModelById", foundChild.styleId);
-                }
-            }
-            else {
-                return Radio.request("StyleList", "returnModelById", layerModel.get("styleId"));
-            }
-        }
-        return undefined;
     },
 
     /**
@@ -1042,7 +1026,8 @@ const BuildSpecModel = {
      */
     getStylingRules: function (layer, feature, styleAttributes, style, styleIndex) {
         const styleAttr = feature.get("styleId") ? "styleId" : styleAttributes,
-            styleModel = this.getStyleModel(layer);
+            realStyleObject = returnStyleObject(layer.get("id")),
+            styleModel = getGeometryStyle(feature, realStyleObject.rules, false, Config.wfsImgPath);
 
         if (styleAttr.length === 1 && styleAttr[0] === "") {
             if (feature.get("features") && feature.get("features").length === 1) {
@@ -1105,8 +1090,8 @@ const BuildSpecModel = {
             }, "[").slice(0, -1) + "]";
         }
         // feature with geometry style and label style
-        if (styleModel !== undefined && styleModel.get("labelField") && styleModel.get("labelField").length > 0) {
-            const labelField = styleModel.get("labelField");
+        if (styleModel !== undefined && styleModel.attributes.labelField && styleModel.attributes.labelField.length > 0) {
+            const labelField = styleModel.attributes.labelField;
 
             return styleAttr.reduce((acc, curr) => acc + `${curr}='${feature.get(curr)}' AND ${labelField}='${feature.get(labelField)}',`, "[").slice(0, -1)
                 + "]";
