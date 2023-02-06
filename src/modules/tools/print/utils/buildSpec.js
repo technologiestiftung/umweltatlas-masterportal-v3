@@ -243,9 +243,10 @@ const BuildSpecModel = {
      * @param  {ol.layer} layer ol.Layer with features
      * @param {Number} currentResolution Current map resolution
      * @param {Number} [dpi] The dpi to use instead of the dpi from store.
+     * @param {Boolean} [scaleDoesNotMatter=false] - The layer should be build even if it is not visible in the current resolution.
      * @returns {Object} - LayerObject for MapFish print.
      */
-    buildLayerType: async function (layer, currentResolution, dpi) {
+    buildLayerType: async function (layer, currentResolution, dpi, scaleDoesNotMatter = false) {
         const extent = store.getters["Maps/getCurrentExtent"],
             layerMinRes = typeof layer?.get === "function" ? layer.get("minResolution") : false,
             layerMaxRes = typeof layer?.get === "function" ? layer.get("maxResolution") : false,
@@ -253,7 +254,7 @@ const BuildSpecModel = {
         let features = [],
             returnLayer;
 
-        if (isInScaleRange) {
+        if (isInScaleRange || scaleDoesNotMatter) {
             const source = layer.getSource();
 
             if (layer instanceof VectorTileLayer) {
