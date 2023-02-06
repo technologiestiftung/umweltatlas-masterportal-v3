@@ -9,6 +9,8 @@ import * as bridge from "./RadioBridge.js";
 import Cluster from "ol/source/Cluster";
 import {bbox, all} from "ol/loadingstrategy.js";
 
+const geometryTypeRequestLayers = [];
+
 /**
  * Creates a layer of type WFS.
  * @param {Object} attrs  attributes of the layer
@@ -215,14 +217,17 @@ WFSLayer.prototype.createLegend = function () {
             }
             else {
                 if (!isSecured) {
-                    getGeometryTypeFromWFS(this.get("url"), this.get("version"), this.get("featureType"), this.get("styleGeometryType"), isSecured,
-                        (geometryTypes, error) => {
-                            if (error) {
-                                store.dispatch("Alerting/addSingleAlert", "<strong>" + i18next.t("common:modules.vectorStyle.styleModel.getGeometryTypeFromWFSFetchfailed") + "</strong> <br>"
+                    if (!geometryTypeRequestLayers.includes(this.get("id"))) {
+                        geometryTypeRequestLayers.push(this.get("id"));
+                        getGeometryTypeFromWFS(this.get("url"), this.get("version"), this.get("featureType"), this.get("styleGeometryType"), isSecured,
+                            (geometryTypes, error) => {
+                                if (error) {
+                                    store.dispatch("Alerting/addSingleAlert", "<strong>" + i18next.t("common:modules.vectorStyle.styleModel.getGeometryTypeFromWFSFetchfailed") + "</strong> <br>"
                                 + "<small>" + i18next.t("common:modules.vectorStyle.styleModel.getGeometryTypeFromWFSFetchfailedMessage") + "</small>");
-                            }
-                            return geometryTypes;
-                        });
+                                }
+                                return geometryTypes;
+                            });
+                    }
                 }
                 this.setLegend(legendInfos.legendInformation);
             }
