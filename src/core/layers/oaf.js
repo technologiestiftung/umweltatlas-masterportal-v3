@@ -3,6 +3,7 @@ import LoaderOverlay from "../../utils/loaderOverlay";
 import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import {createStyle, returnLegendByStyleId} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import {getGeometryTypeFromOAF} from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
+import store from "../../app-store";
 import Layer from "./layer";
 import * as bridge from "./RadioBridge.js";
 import Cluster from "ol/source/Cluster";
@@ -190,11 +191,8 @@ OAFLayer.prototype.createLegend = function () {
         getGeometryTypeFromOAF(this.get("url"), this.get("collection"),
             (error) => {
                 if (error) {
-                    Radio.trigger("Alert", "alert", {
-                        text: "<strong>" + i18next.t("common:modules.vectorStyle.styleModel.getGeometryTypeFromOAFFetchfailed") + "</strong> <br>"
-                        + "<small>" + i18next.t("common:modules.vectorStyle.styleModel.getGeometryTypeFromOAFFetchfailedMessage") + "</small>",
-                        kategorie: "alert-warning"
-                    });
+                    store.dispatch("Alerting/addSingleAlert", "<strong>" + i18next.t("common:modules.vectorStyle.styleModel.getGeometryTypeFromOAFFetchfailed") + "</strong> <br>"
+                    + "<small>" + i18next.t("common:modules.vectorStyle.styleModel.getGeometryTypeFromOAFFetchfailedMessage") + "</small>");
                 }
             });
         returnLegendByStyleId(styleObject.styleId).then(legendInfos => {
