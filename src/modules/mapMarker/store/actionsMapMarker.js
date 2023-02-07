@@ -174,7 +174,7 @@ export default {
         dispatch("removePolygonMarker");
 
         if (styleObject) {
-            const featureStyle = createStyle(styleObject, feature, false, Config.wfsImgPath).getStyle();
+            const featureStyle = createStyle(styleObject, feature, false, Config.wfsImgPath);
 
             feature.setStyle(featureStyle);
             commit("addFeatureToMarker", {feature: feature, marker: "markerPolygon"});
