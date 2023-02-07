@@ -498,8 +498,8 @@ const BuildSpecModel = {
 
             styles.forEach((style, index) => {
                 if (style !== null) {
-                    const realStyleObject = returnStyleObject(layer.get("id")),
-                        styleModel = getGeometryStyle(feature, realStyleObject.rules, false, Config.wfsImgPath);
+                    const styleObjectFromStyleList = returnStyleObject(layer.get("id")),
+                        styleFromStyleList = styleObjectFromStyleList ? getGeometryStyle(feature, styleObjectFromStyleList.rules, false, Config.wfsImgPath) : undefined;
                     let limiter = ",";
 
                     clonedFeature = feature.clone();
@@ -518,7 +518,7 @@ const BuildSpecModel = {
                         }
                     }
                     stylingRules = this.getStylingRules(layer, clonedFeature, styleAttributes, style);
-                    if (styleModel !== undefined && styleModel.attributes.labelField && styleModel.attributes.labelField.length > 0) {
+                    if (styleFromStyleList !== undefined && styleFromStyleList.attributes.labelField && styleFromStyleList.attributes.labelField.length > 0) {
                         stylingRules = stylingRules.replaceAll(limiter, " AND ");
                         limiter = " AND ";
                     }
@@ -1027,8 +1027,8 @@ const BuildSpecModel = {
      */
     getStylingRules: function (layer, feature, styleAttributes, style, styleIndex) {
         const styleAttr = feature.get("styleId") ? "styleId" : styleAttributes,
-            realStyleObject = returnStyleObject(layer.get("id")),
-            styleModel = getGeometryStyle(feature, realStyleObject.rules, false, Config.wfsImgPath);
+            styleObjectFromStyleList = returnStyleObject(layer.get("id")),
+            styleFromStyleList = styleObjectFromStyleList ? getGeometryStyle(feature, styleObjectFromStyleList.rules, false, Config.wfsImgPath) : undefined;
 
         if (styleAttr.length === 1 && styleAttr[0] === "") {
             if (feature.get("features") && feature.get("features").length === 1) {
@@ -1091,8 +1091,8 @@ const BuildSpecModel = {
             }, "[").slice(0, -1) + "]";
         }
         // feature with geometry style and label style
-        if (styleModel !== undefined && styleModel.attributes.labelField && styleModel.attributes.labelField.length > 0) {
-            const labelField = styleModel.attributes.labelField;
+        if (styleFromStyleList !== undefined && styleFromStyleList.attributes.labelField && styleFromStyleList.attributes.labelField.length > 0) {
+            const labelField = styleFromStyleList.attributes.labelField;
 
             return styleAttr.reduce((acc, curr) => acc + `${curr}='${feature.get(curr)}' AND ${labelField}='${feature.get(labelField)}',`, "[").slice(0, -1)
                 + "]";
