@@ -1,5 +1,5 @@
 <script>
-import thousandsSeparator from "@masterportal/masterportalapi/src/lib/thousandsSeparator";
+import thousandsSeparator from "../../../../utils/thousandsSeparator";
 export default {
     name: "RoutingDistanceDisplay",
     props: {

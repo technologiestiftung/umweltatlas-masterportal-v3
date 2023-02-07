@@ -4,7 +4,7 @@ import ToolTemplate from "../../ToolTemplate.vue";
 import getters from "../store/gettersPrint";
 import mutations from "../store/mutationsPrint";
 import {getComponent} from "../../../../utils/getComponent";
-import thousandsSeparator from "@masterportal/masterportalapi/src/lib/thousandsSeparator";
+import thousandsSeparator from "../../../../utils/thousandsSeparator";
 import axios from "axios";
 import getVisibleLayer from "../utils/getVisibleLayer";
 import {Vector} from "ol/layer.js";

@@ -1,6 +1,6 @@
 
 import {DEVICE_PIXEL_RATIO} from "ol/has.js";
-import thousandsSeparator from "@masterportal/masterportalapi/src/lib/thousandsSeparator";
+import thousandsSeparator from "../../../../../utils/thousandsSeparator";
 import Canvas from "./../../utils/buildCanvas";
 import BuildSpec from "./../../utils/buildSpec";
 import getVisibleLayer from "./../../utils/getVisibleLayer";

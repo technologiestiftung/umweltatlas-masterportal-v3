@@ -1,5 +1,5 @@
 import Overlay from "ol/Overlay";
-import thousandsSeparator from "@masterportal/masterportalapi/src/lib/thousandsSeparator";
+import thousandsSeparator from "../../../../../utils/thousandsSeparator";
 import * as setters from "../../store/actions/settersDraw";
 
 /**

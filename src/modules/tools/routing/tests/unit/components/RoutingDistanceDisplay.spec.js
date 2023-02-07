@@ -9,7 +9,7 @@ import getters from "../../../store/gettersRouting";
 import state from "../../../store/stateRouting";
 import Directions from "../../../store/directions/indexDirections";
 import Isochrones from "../../../store/isochrones/indexIsochrones";
-import thousandsSeparator from "@masterportal/masterportalapi/src/lib/thousandsSeparator";
+import thousandsSeparator from "../../../../../../utils/thousandsSeparator";
 
 const localVue = createLocalVue();
 
