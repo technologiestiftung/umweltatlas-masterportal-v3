@@ -5,7 +5,7 @@ import {getDefaultOperatorBySnippetType} from "../utils/getDefaultOperatorBySnip
 import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
-import customParseFormat from "dayjs/plugin/CustomParseFormat";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 import SnippetInfo from "./SnippetInfo.vue";
 
 dayjs.extend(isSameOrAfter);

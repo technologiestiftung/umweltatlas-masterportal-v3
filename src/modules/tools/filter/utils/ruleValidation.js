@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
-import customParseFormat from "dayjs/plugin/CustomParseFormat";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);

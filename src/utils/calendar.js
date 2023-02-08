@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import isoWeek from "dayjs/plugin/isoWeek";
-import customParseFormat from "dayjs/plugin/CustomParseFormat";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 
 dayjs.extend(customParseFormat);
 dayjs.extend(isoWeek);
