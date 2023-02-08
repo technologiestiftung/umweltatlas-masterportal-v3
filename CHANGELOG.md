@@ -3,15 +3,19 @@
 
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
+
 ## Unreleased - in development
 ### __Breaking Changes__
+Time library `moment.js` was replaced with [day.js](https://day.js.org/). Please consider to use `day.js` in your future pull requests.
 
 ### Added
 - Core/Layers/WebGLLayer: New layer-type for rendering WFS, GeoJSON or VectorBase layers using OL7's WebGL render pipelines
 - filter/filter.api: Unittests for WebGL use cases
 - layers:
-    - Errorhandling for secure services.
-
+    - It is now possible to collect custom data via getMetaData request from layers.
+- The following NPM package have been added:
+    - dependencies:
+        - "dayjs": "^1.11.7"
 ### Changed
 - ModelList/updateLayerView: Only add layers to index if they are actually being displayed on the map (removes unnecessary calls)
 - configLoader/parserCustomTree/parseTree: don't skip layers without matching rawLayer from services.json, that have a sourceId provided (no checkup on existing source layers yet)
@@ -19,23 +23,42 @@
 - filter/filter.api: lookup source layer info for WebGL layers
 - moverHover/actionsMouseHover: collect webgl features for mouseHoverInfo
 - GFI/gettersGfi: collect  webgl features for GFI
+### Deprecated
+
+### Removed
+- The following NPM package have been removed:
+    - dependencies:
+        - "moment": "^2.29.4",
+        - "moment-timezone": "^0.5.39"
+
+### Fixed
+
+---
+
+## v2.30.0 - 2023-02-01
+
+### Added
+- layers:
+    - Errorhandling for secure services.
+- Filter:
+    - Added new parameter `filterButtonDisabled` to disable the filter button while nothing is selected.
+
 ### Changed
 - Layers:
-  - Sta: setting the default style of historical features if there are no style defined.
+    - Sta: setting the default style of historical features if there are no style defined.
 - Config.json URL: Make sure that URL parameters are preserved in the URL of the config.json
 - The following NPM packages have been updated:
     - dependencies:
         - @masterportal/masterportalapi: 2.11.0 to 2.12.0
-
-### Deprecated
-
-### Removed
+- Print: only features in the extent are sent to printing now
 
 ### Fixed
 - actionsMapLayers/addLayer: don't set zIndex by default, otherwise addLayerOnTop and addLayerToIndex have no effect
 - Issue #839: Accordeon is now open initially if `active: true` is configured. Bug which triggers the error message is now fixed.
 - Issue #861: Initial order of the background maps after using "Save selection" tool was corrected.
 - uiStyle: Set uiStyle from config.js
+- 3D Tiles can now be hidden again with the hiddenFeatures/hiddenObjects attribute.
+- Time-Layer: False recognition of time layer was corrected.
 
 ---
 

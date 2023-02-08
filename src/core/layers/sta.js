@@ -13,11 +13,15 @@ import {SensorThingsMqtt} from "../../utils/sensorThingsMqtt";
 import {SensorThingsHttp} from "../../utils/sensorThingsHttp";
 import crs from "@masterportal/masterportalapi/src/crs";
 import store from "../../app-store";
-import moment from "moment";
-import "moment-timezone";
+import dayjs from "dayjs";
+import dayjsTimezone from "dayjs/plugin/timezone";
+import localizedFormat from "dayjs/plugin/localizedFormat";
 import uniqueId from "../../utils/uniqueId";
 import {unByKey} from "ol/Observable";
 import {Circle as CircleStyle, Fill, Stroke, Style} from "ol/style.js";
+
+dayjs.extend(dayjsTimezone);
+dayjs.extend(localizedFormat);
 
 /**
  * Creates a layer for the SensorThings API.
@@ -89,8 +93,8 @@ export default function STALayer (attrs) {
     this.lastScale = null;
 
     this.registerInteractionMapResolutionListeners(this.get("scaleStyleByZoom"));
-
-    moment.locale("de");
+    require("dayjs/locale/de.js");
+    dayjs.locale("de");
     this.registerInteractionMapScaleListeners();
 }
 // Link prototypes and add prototype methods, means STALayer uses all methods and properties of Layer
@@ -977,14 +981,14 @@ STALayer.prototype.moveDatastreamPropertiesToThing = function (thingProperties, 
  * @param {String} phenomenonTime phenomenonTime given by sensor
  * @param {String} timezone name of the sensors origin timezone
  * @see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
- * @see https://momentjs.com/timezone/docs/
+ * @see https://day.js.org/docs/en/timezone/timezone
  * @returns {String} A date string based on phenomenonTime and timezone in clients local format or an empty string if an unknown phenomenonTime is given.
  */
 STALayer.prototype.getLocalTimeFormat = function (phenomenonTime, timezone) {
     const utcTime = this.getFirstPhenomenonTime(phenomenonTime);
 
     if (utcTime) {
-        return moment(utcTime).tz(timezone).format("LLL");
+        return dayjs(utcTime).tz(timezone).format("LLL");
     }
     return "";
 };

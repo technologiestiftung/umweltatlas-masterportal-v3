@@ -2,7 +2,11 @@
 import isObject from "../../../../utils/isObject";
 import {translateKeyWithPlausibilityCheck} from "../../../../utils/translateKeyWithPlausibilityCheck.js";
 import {getDefaultOperatorBySnippetType} from "../utils/getDefaultOperatorBySnippetType.js";
-import moment from "moment";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+
+dayjs.extend(customParseFormat);
+
 import SnippetInfo from "./SnippetInfo.vue";
 
 export default {
@@ -141,8 +145,9 @@ export default {
             if (!isObject(adjusting) || this.visible === false || this.isParent) {
                 return;
             }
-            const minMoment = moment(adjusting?.adjust?.min, this.getFormat("from")),
-                maxMoment = moment(adjusting?.adjust?.max, this.getFormat("until"));
+            const minMoment = dayjs(adjusting?.adjust?.min, this.getFormat("from"), true),
+                maxMoment = dayjs(adjusting?.adjust?.max, this.getFormat("until"), true);
+
 
             if (adjusting.start) {
                 this.isAdjusting = true;
@@ -179,8 +184,8 @@ export default {
             }
             else if (!this.isInitializing && !this.isAdjusting) {
                 this.emitCurrentRule([
-                    moment(this.initialDateRef[this.sliderFrom], this.internalFormat).format(this.getFormat("from")),
-                    moment(this.initialDateRef[this.sliderUntil], this.internalFormat).format(this.getFormat("until"))
+                    dayjs(this.initialDateRef[this.sliderFrom], this.internalFormat).format(this.getFormat("from")),
+                    dayjs(this.initialDateRef[this.sliderUntil], this.internalFormat).format(this.getFormat("until"))
                 ]);
             }
         },
@@ -190,8 +195,8 @@ export default {
             }
             else if (!this.isInitializing && !this.isAdjusting) {
                 this.emitCurrentRule([
-                    moment(this.initialDateRef[this.sliderFrom], this.internalFormat).format(this.getFormat("from")),
-                    moment(this.initialDateRef[this.sliderUntil], this.internalFormat).format(this.getFormat("until"))
+                    dayjs(this.initialDateRef[this.sliderFrom], this.internalFormat).format(this.getFormat("from")),
+                    dayjs(this.initialDateRef[this.sliderUntil], this.internalFormat).format(this.getFormat("until"))
                 ]);
             }
         }
@@ -273,8 +278,8 @@ export default {
             this.currentSliderMin = 0;
             this.currentSliderMax = this.initialDateRef.length - 1;
             if (this.isPrecheckedValid(this.prechecked)) {
-                this.sliderFrom = this.getSliderIdxCloseToFromDate(moment(this.prechecked[0], this.getFormat("from")).format(this.internalFormat));
-                this.sliderUntil = this.getSliderIdxCloseToUntilDate(moment(this.prechecked[1], this.getFormat("until")).format(this.internalFormat));
+                this.sliderFrom = this.getSliderIdxCloseToFromDate(dayjs(this.prechecked[0], this.getFormat("from")).format(this.internalFormat));
+                this.sliderUntil = this.getSliderIdxCloseToUntilDate(dayjs(this.prechecked[1], this.getFormat("until")).format(this.internalFormat));
             }
             else {
                 this.sliderFrom = this.currentSliderMin;
@@ -326,7 +331,7 @@ export default {
                 return this.prechecked[0] + " - " + this.prechecked[1];
             }
 
-            return moment(this.dateFromComputed, this.internalFormat).format(this.getFormat("from")) + " - " + moment(this.dateUntilComputed, this.internalFormat).format(this.getFormat("until"));
+            return dayjs(this.dateFromComputed, this.internalFormat).format(this.getFormat("from")) + " - " + dayjs(this.dateUntilComputed, this.internalFormat).format(this.getFormat("until"));
         },
         /**
          * Returns the riskless attrName to use for from.
@@ -413,9 +418,9 @@ export default {
                 unixAssoc = {},
                 formatFrom = this.getFormat("from"),
                 formatUntil = this.getFormat("until"),
-                minMoment = moment(Array.isArray(this.value) ? this.value[0] : undefined, formatFrom),
+                minMoment = dayjs(Array.isArray(this.value) ? this.value[0] : undefined, formatFrom),
                 minValid = minMoment.isValid(),
-                maxMoment = moment(Array.isArray(this.value) ? this.value[1] : undefined, formatUntil),
+                maxMoment = dayjs(Array.isArray(this.value) ? this.value[1] : undefined, formatUntil),
                 maxValid = maxMoment.isValid();
 
             this.addListToUnixAssoc(listFrom, formatFrom, minValid, maxValid, minMoment, maxMoment, unixAssoc);
@@ -456,7 +461,7 @@ export default {
                 return false;
             }
             list.forEach(rawDate => {
-                const momentDate = moment(rawDate, format);
+                const momentDate = dayjs(rawDate, format, true);
 
                 if (
                     !momentDate.isValid()
@@ -502,7 +507,7 @@ export default {
          * @returns {Boolean} true if the prechecked value is valid, false if not.
          */
         isPrecheckedValid (prechecked) {
-            return Array.isArray(prechecked) && prechecked.length === 2 && moment(prechecked[0], this.getFormat("from")).isValid() && moment(prechecked[1], this.getFormat("until")).isValid();
+            return Array.isArray(prechecked) && prechecked.length === 2 && dayjs(prechecked[0], this.getFormat("from"), true).isValid() && dayjs(prechecked[1], this.getFormat("until"), true).isValid();
         },
         /**
          * Returns true if the given snippetId equals - or if an array, holds - the own snippetId.
@@ -619,8 +624,8 @@ export default {
             this.sliderMouseDown = false;
             if (!this.isInitializing && !this.isAdjusting) {
                 this.emitCurrentRule([
-                    moment(this.initialDateRef[this.sliderFrom], this.internalFormat).format(this.getFormat("from")),
-                    moment(this.initialDateRef[this.sliderUntil], this.internalFormat).format(this.getFormat("until"))
+                    dayjs(this.initialDateRef[this.sliderFrom], this.internalFormat).format(this.getFormat("from")),
+                    dayjs(this.initialDateRef[this.sliderUntil], this.internalFormat).format(this.getFormat("until"))
                 ]);
             }
         }

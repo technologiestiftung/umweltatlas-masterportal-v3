@@ -13,7 +13,17 @@ describe("src/core/layers/wmsTime.js", () => {
             mode: "2D",
             addInteraction: sinon.stub(),
             removeInteraction: sinon.stub(),
-            addLayer: () => sinon.stub(),
+            addLayer: sinon.spy(),
+            getLayers: () => {
+                return {
+                    getArray: () => [{
+                        getVisible: () => true,
+                        get: () => "layerId"
+                    }],
+                    getLength: sinon.spy(),
+                    forEach: sinon.spy()
+                };
+            },
             getView: () => {
                 return {
                     getResolutions: () => [2000, 1000]
@@ -58,9 +68,10 @@ describe("src/core/layers/wmsTime.js", () => {
     });
     it("createLayer with isSelected=true shall add layer to map", function () {
         attributes.isSelected = true;
-        const wmsTimeLayer = new WMSTimeLayer(attributes);
+        const wmsTimeLayer = new WMSTimeLayer(attributes),
+            layer = wmsTimeLayer.get("layer");
 
-        expect(wmsTimeLayer.get("layer")).not.to.be.undefined;
+        expect(layer).not.to.be.undefined;
         expect(wmsTimeLayer.get("isVisibleInMap")).to.be.true;
         expect(wmsTimeLayer.get("layer").getVisible()).to.be.true;
     });
@@ -78,10 +89,10 @@ describe("src/core/layers/wmsTime.js", () => {
             };
 
         expect(wmsTimeLayer.extractExtentValues(extent)).deep.equals({
+            timeRange: ["2006", "2008", "2010", "2012", "2014", "2016", "2018"],
             step: {
-                years: "2"
-            },
-            timeRange: ["2006", "2008", "2010", "2012", "2014", "2016", "2018"]
+                year: "2"
+            }
         });
     });
     it("createTimeRange - create an array with the time range", function () {

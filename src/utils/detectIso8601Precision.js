@@ -1,4 +1,7 @@
-import moment from "moment";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+
+dayjs.extend(customParseFormat);
 
 export const validIso8601Precisions = [
     "YYYY",
@@ -22,7 +25,7 @@ export default function detectIso8601Precision (timestamp) {
             ? timestamp.substring(0, timestamp.length - 1)
             : timestamp,
         format = validIso8601Precisions.find(
-            precision => moment(checkTimestamp, precision, true).isValid()
+            precision => dayjs(checkTimestamp, precision, true).isValid()
         );
 
     if (!format) {

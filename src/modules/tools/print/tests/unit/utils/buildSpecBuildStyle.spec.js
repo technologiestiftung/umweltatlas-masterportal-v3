@@ -29,7 +29,8 @@ describe("src/modules/tools/print/utils/buildSpec.buildStyle", function () {
             values_: {
                 id: "1711"
             },
-            get: sinon.stub()
+            get: sinon.stub(),
+            getSource: sinon.stub()
         },
         geometry = new Polygon([[[0, 0], [1000, 0], [0, 1000], [0, 0]]]),
         fill = new Fill({

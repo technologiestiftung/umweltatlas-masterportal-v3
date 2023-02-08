@@ -219,15 +219,9 @@ Layer.prototype.setMinResolution = function (value) {
  * @returns {void}
  */
 Layer.prototype.removeLayer = function () {
-    let map = mapCollection.getMap(store.state.Maps.mode);
-
-    if (!map) { // is the case, if starting by urlParam in mode 3D
-        map = mapCollection.getMap("2D");
-    }
-
     this.setIsVisibleInMap(false);
     bridge.removeLayerByIdFromModelList(this.get("id"));
-    map?.removeLayer(this.layer);
+    mapCollection.getMap("2D").removeLayer(this.layer);
 };
 /**
  * Toggles the attribute isSelected. Calls Function setIsSelected.
@@ -758,11 +752,15 @@ Layer.prototype.toggleFilter = function () {
  */
 Layer.prototype.showLayerInformation = function () {
     let cswUrl = null,
+        customMetadata = null,
+        attributes = null,
         showDocUrl = null,
         layerMetaId = null;
 
     if (this.get("datasets") && Array.isArray(this.get("datasets")) && this.get("datasets")[0] !== null && typeof this.get("datasets")[0] === "object") {
         cswUrl = this.get("datasets")[0]?.csw_url ? this.get("datasets")[0].csw_url : null;
+        customMetadata = this.get("datasets")[0]?.customMetadata ? this.get("datasets")[0].customMetadata : false;
+        attributes = this.get("datasets")[0]?.attributes ? this.get("datasets")[0].attributes : null;
         showDocUrl = this.get("datasets")[0]?.show_doc_url ? this.get("datasets")[0].show_doc_url : null;
         layerMetaId = this.get("datasets")[0]?.md_id ? this.get("datasets")[0].md_id : null;
     }
@@ -780,6 +778,8 @@ Layer.prototype.showLayerInformation = function () {
         "legendURL": this.get("legendURL"),
         "typ": this.get("typ"),
         "cswUrl": cswUrl,
+        "customMetadata": customMetadata,
+        "attributes": attributes,
         "showDocUrl": showDocUrl,
         "urlIsVisible": this.get("urlIsVisible")
     });

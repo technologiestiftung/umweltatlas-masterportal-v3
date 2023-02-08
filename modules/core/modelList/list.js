@@ -926,10 +926,11 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
                 const paramlayers = store.state.urlParams && store.state.urlParams["Map/layerIds"] ? store.state.urlParams["Map/layerIds"] : [],
                     selectedTimeLayer = [];
 
+
                 paramlayers.forEach(paramLayer => {
                     const layer = Radio.request("Parser", "getItemByAttributes", {id: paramLayer.id});
 
-                    if (layer && layer.time !== undefined) {
+                    if (layer && layer.time !== undefined && paramLayer.visibility === true) {
                         selectedTimeLayer.push(layer);
                     }
                 });
@@ -939,6 +940,7 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
                             handleSingleTimeLayer(true, null, model);
                         }, 0);
                     }
+
                     if (selectedTimeLayer.length > 1) {
                         console.warn("zu viele selectedTimeLayer ?", selectedTimeLayer);
                         Radio.trigger("Alert", "alert", i18next.t("common:modules.core.modelList.layer.wms.warningTimeLayerQuantity", {name: selectedTimeLayer[selectedTimeLayer.length - 1].name}));
@@ -1235,10 +1237,8 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
      * @return {void}
      */
     removeLayerById: function (id) {
-        if (this.get(id) instanceof Backbone.Model) {
-            this.remove(id);
-        }
-        else {
+        this.remove(id);
+        if (this.findWhere({id: id})) {
             let modelIndex = null;
 
             this.each((model, index) => {

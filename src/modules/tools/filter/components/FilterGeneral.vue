@@ -69,7 +69,12 @@ export default {
     },
     created () {
         this.$on("close", this.close);
-        getFeaturesOfAdditionalGeometries(this.geometrySelectorOptions.additionalGeometries);
+        getFeaturesOfAdditionalGeometries(this.geometrySelectorOptions.additionalGeometries).then(additionalGeometries => {
+            if (!Array.isArray(additionalGeometries) || !additionalGeometries.length) {
+                return;
+            }
+            this.setAdditionalGeometries({additionalGeometries});
+        });
     },
     mounted () {
         this.convertConfig({
