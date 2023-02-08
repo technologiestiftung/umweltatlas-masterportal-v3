@@ -169,7 +169,7 @@ export default {
      * @returns {void}
      */
     placingPolygonMarker ({state, commit, dispatch}, feature) {
-        const styleObject = returnStyleObject(state.pointStyleId);
+        const styleObject = returnStyleObject(state.polygonStyleId);
 
         dispatch("removePolygonMarker");
 
@@ -195,7 +195,7 @@ export default {
      * @returns {void}
      */
     placingPolygonMarkerByGeom ({state, commit, dispatch}, geometry) {
-        const styleObject = returnStyleObject(state.pointStyleId);
+        const styleObject = returnStyleObject(state.polygonStyleId);
 
         dispatch("removePolygonMarker");
 
