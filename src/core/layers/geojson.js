@@ -58,7 +58,11 @@ GeoJSONLayer.prototype.createLayer = function (attrs) {
             gfiAttributes: attrs.gfiAttributes,
             gfiTheme: attrs.gfiTheme,
             altitudeMode: attrs.altitudeMode,
-            hitTolerance: attrs.hitTolerance
+            hitTolerance: attrs.hitTolerance,
+            renderer: attrs.renderer, // use "default" (canvas) or "webgl" renderer
+            styleId: attrs.styleId, // styleId to pass to masterportalapi
+            style: attrs.style, // style function to style the layer or WebGLPoints style syntax
+            excludeTypesFromParsing: attrs.excludeTypesFromParsing // types that should not be parsed from strings, only necessary for webgl
         },
         styleFn = this.getStyleFunction(attrs),
         options = {
@@ -387,6 +391,9 @@ GeoJSONLayer.prototype.showAllFeatures = function () {
 
 // setter for style
 GeoJSONLayer.prototype.setStyle = function (value) {
+    if (this.layer.get("renderer") === "webgl") {
+        return;
+    }
     this.layer.setStyle(value);
 };
 

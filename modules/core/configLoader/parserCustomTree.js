@@ -61,7 +61,7 @@ const CustomTreeParser = Parser.extend(/** @lends CustomTreeParser.prototype */{
                     if (objFromRawList === null) {
                         // If the layer object provides a url or references another layer as source, continue with original layer object
                         // Else return
-                        if (layerExtended?.url || layerExtended?.sourceId) {
+                        if (layerExtended?.url) {
                             objFromRawList = layerExtended;
                         }
                         else {
@@ -82,7 +82,7 @@ const CustomTreeParser = Parser.extend(/** @lends CustomTreeParser.prototype */{
                     if (objFromRawList === null) {
                         // If the layer object provides a url or references another layer as source, continue with original layer object
                         // Else return
-                        if (layerExtended?.url || layerExtended?.sourceId) {
+                        if (layerExtended?.url) {
                             objFromRawList = layerExtended;
                         }
                         else {

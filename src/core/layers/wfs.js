@@ -54,7 +54,11 @@ WFSLayer.prototype.createLayer = function (attrs) {
             hitTolerance: attrs.hitTolerance,
             altitudeMode: attrs.altitudeMode,
             alwaysOnTop: attrs.alwaysOnTop,
-            layerSequence: attrs.layerSequence
+            layerSequence: attrs.layerSequence,
+            renderer: attrs.renderer, // use "default" (canvas) or "webgl" renderer
+            styleId: attrs.styleId, // styleId to pass to masterportalapi
+            style: attrs.style, // style function to style the layer or WebGLPoints style syntax
+            excludeTypesFromParsing: attrs.excludeTypesFromParsing // types that should not be parsed from strings, only necessary for webgl
         },
         styleFn = this.getStyleFunction(attrs),
         options = {
@@ -280,5 +284,8 @@ WFSLayer.prototype.getStyleAsFunction = function (style) {
  * @returns {void}
  */
 WFSLayer.prototype.styling = function () {
+    if (this.layer.get("renderer") === "webgl") {
+        return;
+    }
     this.layer.setStyle(this.getStyleAsFunction(this.get("style")));
 };

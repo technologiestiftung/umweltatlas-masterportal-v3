@@ -47,7 +47,8 @@ export default function Layer (attrs, layer, initialize = true) {
         intervalAutoRefresh: -1,
         isClustered: false,
         filterRefId: undefined,
-        scaleText: ""
+        scaleText: "",
+        renderer: "default"
     };
 
     this.layer = layer;
