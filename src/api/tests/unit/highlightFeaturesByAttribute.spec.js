@@ -137,34 +137,9 @@ describe("api/highlightFeaturesByAttribute", () => {
                     getProperties: () => []
                 }
             ];
-        let styleListRequest, highlightVector, createLayerAddToTreeStub;
+        let highlightVector, createLayerAddToTreeStub;
 
         beforeEach(function () {
-            styleListRequest = sinon.stub(Radio, "request").callsFake(function (channel, topic) {
-                if (channel === "StyleList" && topic === "returnModelById") {
-                    return {
-                        has () {
-                            return true;
-                        },
-                        get (key) {
-                            if (key === "layerSource") {
-                                return {
-                                    getFeatures () {
-                                        return [];
-                                    }
-                                };
-                            }
-                            if (key === "typ") {
-                                return "WFS";
-                            }
-                            return false;
-                        },
-                        createStyle: sinon.stub()
-                    };
-                }
-
-                return null;
-            });
             highlightVector = new VectorLayer({
                 source: new VectorSource(),
                 style: new Style()
@@ -187,8 +162,6 @@ describe("api/highlightFeaturesByAttribute", () => {
                 rootGetters = {treeHighlightedFeatures: null, treeType: "light"};
 
             highlightFeaturesByAttribute.highlightPointFeature("defaultHighlightFeaturesPoint", "highlight_point_layer", "highlightPoint", layer, pointFeatures, dispatch, rootGetters);
-            expect(styleListRequest.calledOnce).to.be.true;
-            expect(styleListRequest.firstCall.args).to.deep.equals(["StyleList", "returnModelById", "defaultHighlightFeaturesPoint"]);
             expect(await highlightVector.getSource().getFeatures()).to.be.an("array").with.lengthOf(2);
             expect(createLayerAddToTreeStub.notCalled).to.be.true;
         });
@@ -202,8 +175,6 @@ describe("api/highlightFeaturesByAttribute", () => {
                 rootGetters = {treeHighlightedFeatures: {active: true}, treeType: "light"};
 
             highlightFeaturesByAttribute.highlightPointFeature("defaultHighlightFeaturesPoint", "highlight_point_layer", "highlightPoint", layer, pointFeatures, dispatch, rootGetters);
-            expect(styleListRequest.calledOnce).to.be.true;
-            expect(styleListRequest.firstCall.args).to.deep.equals(["StyleList", "returnModelById", "defaultHighlightFeaturesPoint"]);
             expect(await highlightVector.getSource().getFeatures()).to.be.an("array").with.lengthOf(2);
 
             expect(createLayerAddToTreeStub.calledOnce).to.be.true;
@@ -222,8 +193,6 @@ describe("api/highlightFeaturesByAttribute", () => {
                 rootGetters = {treeHighlightedFeatures: {active: false}, treeType: "light"};
 
             highlightFeaturesByAttribute.highlightLineOrPolygonFeature("defaultHighlightFeaturesPolygon", "highlight_polygon_layer", "highlightPolygon", "Polygon", layer, polygonFeatures, dispatch, rootGetters);
-            expect(styleListRequest.calledOnce).to.be.true;
-            expect(styleListRequest.firstCall.args).to.deep.equals(["StyleList", "returnModelById", "defaultHighlightFeaturesPolygon"]);
             expect(await highlightVector.getSource().getFeatures()).to.be.an("array").with.lengthOf(2);
         });
 
@@ -236,8 +205,6 @@ describe("api/highlightFeaturesByAttribute", () => {
                 rootGetters = {treeHighlightedFeatures: {active: true}, treeType: "custom"};
 
             highlightFeaturesByAttribute.highlightLineOrPolygonFeature("defaultHighlightFeaturesPolygon", "highlight_polygon_layer", "highlightPolygon", "Polygon", layer, polygonFeatures, dispatch, rootGetters);
-            expect(styleListRequest.calledOnce).to.be.true;
-            expect(styleListRequest.firstCall.args).to.deep.equals(["StyleList", "returnModelById", "defaultHighlightFeaturesPolygon"]);
             expect(await highlightVector.getSource().getFeatures()).to.be.an("array").with.lengthOf(2);
 
             expect(createLayerAddToTreeStub.calledOnce).to.be.true;
@@ -257,8 +224,6 @@ describe("api/highlightFeaturesByAttribute", () => {
                 rootGetters = {treeHighlightedFeatures: {active: false}, treeType: "light"};
 
             highlightFeaturesByAttribute.highlightLineOrPolygonFeature("defaultHighlightFeaturesLine", "highlight_line_layer", "highlightLine", "LineString", layer, lineFeatures, dispatch, rootGetters);
-            expect(styleListRequest.calledOnce).to.be.true;
-            expect(styleListRequest.firstCall.args).to.deep.equals(["StyleList", "returnModelById", "defaultHighlightFeaturesLine"]);
             expect(await highlightVector.getSource().getFeatures()).to.be.an("array").with.lengthOf(2);
         });
 
@@ -271,8 +236,6 @@ describe("api/highlightFeaturesByAttribute", () => {
                 rootGetters = {treeHighlightedFeatures: {active: true}, treeType: "custom"};
 
             highlightFeaturesByAttribute.highlightLineOrPolygonFeature("defaultHighlightFeaturesLine", "highlight_line_layer", "highlightLine", "LineString", layer, lineFeatures, dispatch, rootGetters);
-            expect(styleListRequest.calledOnce).to.be.true;
-            expect(styleListRequest.firstCall.args).to.deep.equals(["StyleList", "returnModelById", "defaultHighlightFeaturesLine"]);
             expect(await highlightVector.getSource().getFeatures()).to.be.an("array").with.lengthOf(2);
 
             expect(createLayerAddToTreeStub.calledOnce).to.be.true;

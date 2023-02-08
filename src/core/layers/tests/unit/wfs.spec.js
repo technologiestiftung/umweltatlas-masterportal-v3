@@ -232,8 +232,7 @@ describe("src/core/layers/wfs.js", () => {
             expect(wfsLayer.get("legend")).to.be.deep.equals([attributes.legendURL]);
         });
         it("createLegend shall set not secured legend", function () {
-            let count1 = 0,
-                count2 = 0;
+            let count1 = 0;
 
             sinon.stub(Radio, "request").callsFake((...args) => {
                 let ret = null;
@@ -244,9 +243,6 @@ describe("src/core/layers/wfs.js", () => {
                             id: "id",
                             getGeometryTypeFromWFS: () => {
                                 ++count1;
-                            },
-                            getGeometryTypeFromSecuredWFS: () => {
-                                ++count2;
                             },
                             getLegendInfos: () => ["legendInfos"]
                         };
@@ -259,11 +255,9 @@ describe("src/core/layers/wfs.js", () => {
 
             expect(wfsLayer.get("legend")).not.to.be.true;
             expect(count1).to.be.equals(1);
-            expect(count2).to.be.equals(0);
         });
         it("createLegend shall set secured legend", function () {
-            let count1 = 0,
-                count2 = 0;
+            let count1 = 0;
 
             sinon.stub(Radio, "request").callsFake((...args) => {
                 let ret = null;
@@ -274,9 +268,6 @@ describe("src/core/layers/wfs.js", () => {
                             id: "id",
                             getGeometryTypeFromWFS: () => {
                                 ++count1;
-                            },
-                            getGeometryTypeFromSecuredWFS: () => {
-                                ++count2;
                             },
                             getLegendInfos: () => ["legendInfos"]
                         };
@@ -290,7 +281,6 @@ describe("src/core/layers/wfs.js", () => {
 
             expect(wfsLayer.get("legend")).not.to.be.true;
             expect(count1).to.be.equals(0);
-            expect(count2).to.be.equals(1);
         });
     });
     describe("functions for features", () => {

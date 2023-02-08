@@ -12,8 +12,6 @@ Style rules may be defined for *3DTileSets*, too.
 
 The Masterportal reads the configured *style.json* file and processes it to a list of defined styles in an internal data structure. Layers may request their respective styling instructions from it.
 
->💡 Hint: Each list entry may be requested via development console by its *styleId* for test purposes. `Backbone.Radio.request("StyleList", "returnModelById", "styleId")`
-
 At the time of layer visualization, the readied [OpenLayers Styles](https://openlayers.org/en/latest/apidoc/module-ol_style_Style-Style.html "OpenLayers Styles") are fetched from the internal data structure and applied to the features.
 
 >💡 Hint: Malformed *style.json* files will be rejected without repair attempt. A warning will be shown. We recommend using an online validator to check your file's syntax, e.g. [jsonlint](https://jsonlint.com/ "jsonlint").

@@ -1,9 +1,16 @@
 <script>
+import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import {
+    createStyle,
+    getGeometryStyle,
+    returnLegendByStyleId
+} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import StylePolygon from "@masterportal/masterportalapi/src/vectorStyle/styles/polygon/stylePolygon";
+import {returnColor} from "@masterportal/masterportalapi/src/vectorStyle/lib/colorConvertions";
 import {mapGetters, mapMutations, mapActions} from "vuex";
 import getters from "../../store/gettersOrientation";
 import mutations from "../../store/mutationsOrientation";
 import {extractEventCoordinates} from "../../../../../../src/utils/extractEventCoordinates";
-import Icon from "ol/style/Icon";
 import LoaderOverlay from "../../../../../utils/loaderOverlay";
 
 export default {
@@ -163,29 +170,32 @@ export default {
          */
         getImgPath (feat) {
             let imagePath = "";
-            const style = Radio.request("StyleList", "returnModelById", feat.styleId);
+            const styleObject = returnStyleObject(feat.styleId);
 
-            if (style) {
-                const featureStyle = style.createStyle(feat, false);
+            if (styleObject) {
+                const featureStyleObject = getGeometryStyle(feat, styleObject.rules, false, Config.wfsImgPath),
+                    featureStyle = createStyle(styleObject, feat, false, Config.wfsImgPath);
 
-                if (featureStyle?.getImage?.() instanceof Icon) {
+                if (featureStyleObject.attributes?.type === "icon") {
                     imagePath = featureStyle.getImage()?.getSrc() ? featureStyle.getImage()?.getSrc() : "";
                 }
+
                 else {
-                    style.getLegendInfos().forEach(legendInfo => {
-                        if (legendInfo.geometryType === "Point" && legendInfo.styleObject.get("type") === "circle") {
-                            imagePath = this.createCircleSVG(legendInfo.styleObject);
-                        }
-                        else if (legendInfo.geometryType === "LineString") {
-                            imagePath = this.createLineSVG(legendInfo.styleObject);
-                        }
-                        else if (legendInfo.geometryType === "Polygon") {
-                            imagePath = this.createPolygonGraphic(legendInfo.styleObject);
-                        }
+                    returnLegendByStyleId(feat.styleId).then(layerLegends => {
+                        layerLegends.legendInformation.forEach(legendInfo => {
+                            if (legendInfo.geometryType === "Point" && legendInfo.styleObject.attributes.type === "circle" && legendInfo.label === feat.legendValue) {
+                                imagePath = this.createCircleSVG(legendInfo.styleObject);
+                            }
+                            else if (legendInfo.geometryType === "LineString" && legendInfo.label === feat.legendValue) {
+                                imagePath = this.createLineSVG(legendInfo.styleObject);
+                            }
+                            else if (legendInfo.geometryType === "Polygon" && legendInfo.label === feat.legendValue) {
+                                imagePath = this.createPolygonGraphic(legendInfo.styleObject);
+                            }
+                        });
                     });
                 }
             }
-
             return imagePath;
         },
 
@@ -220,11 +230,11 @@ export default {
          */
         createCircleSVG (style) {
             let svg = "";
-            const circleStrokeColor = style.returnColor(style.get("circleStrokeColor"), "hex"),
-                circleStrokeOpacity = style.get("circleStrokeColor")[3].toString() || 0,
-                circleStrokeWidth = style.get("circleStrokeWidth"),
-                circleFillColor = style.returnColor(style.get("circleFillColor"), "hex"),
-                circleFillOpacity = style.get("circleFillColor")[3].toString() || 0;
+            const circleStrokeColor = returnColor(style.attributes.circleStrokeColor, "hex"),
+                circleStrokeOpacity = style.attributes.circleStrokeColor[3].toString() || 0,
+                circleStrokeWidth = style.attributes.circleStrokeWidth,
+                circleFillColor = returnColor(style.attributes.circleFillColor, "hex"),
+                circleFillOpacity = style.attributes.circleFillColor[3].toString() || 0;
 
             svg += "<svg height='35' width='35'>";
             svg += "<circle cx='17.5' cy='17.5' r='15' stroke='";
@@ -250,9 +260,9 @@ export default {
          */
         createLineSVG (style) {
             let svg = "";
-            const strokeColor = style.returnColor(style.get("lineStrokeColor"), "hex"),
-                strokeWidth = parseInt(style.get("lineStrokeWidth"), 10),
-                strokeOpacity = style.get("lineStrokeColor")[3].toString() || 0;
+            const strokeColor = returnColor(style.attributes.lineStrokeColor, "hex"),
+                strokeWidth = parseInt(style.attributes.lineStrokeWidth, 10),
+                strokeOpacity = style.attributes.lineStrokeColor[3].toString() || 0;
 
             svg += "<svg height='35' width='35'>";
             svg += "<path d='M 05 30 L 30 05' stroke='";
@@ -274,15 +284,15 @@ export default {
          */
         createPolygonGraphic (style) {
             let svg = "";
-            const fillColor = style.returnColor(style.get("polygonFillColor") || "black", "hex"),
-                strokeColor = style.returnColor(style.get("polygonStrokeColor"), "hex"),
-                strokeWidth = parseInt(style.get("polygonStrokeWidth"), 10),
-                fillOpacity = style.get("polygonFillColor")?.[3]?.toString() || 0,
-                strokeOpacity = style.get("polygonStrokeColor")[3].toString() || 0,
-                fillHatch = style.get("polygonFillHatch");
+            const fillColor = returnColor(style.attributes.polygonFillColor || "black", "hex"),
+                strokeColor = returnColor(style.attributes.polygonStrokeColor, "hex"),
+                strokeWidth = parseInt(style.attributes.polygonStrokeWidth, 10),
+                fillOpacity = style.attributes.polygonFillColor?.[3]?.toString() || 0,
+                strokeOpacity = style.attributes.polygonStrokeColor[3].toString() || 0,
+                fillHatch = style.attributes.polygonFillHatch;
 
             if (fillHatch) {
-                return style.getPolygonFillHatchLegendDataUrl();
+                return StylePolygon.prototype.getPolygonFillHatchLegendDataUrl(style);
             }
 
             svg += "<svg height='35' width='35'>";

@@ -793,6 +793,10 @@
           "name": "Schulinfosystem",
           "styleId": "8712",
           "searchField": "schulname",
+          "featurePrefix": "de.hh.up:",
+          "wildCard": "%",
+          "singleChar": "#",
+          "escapeChar": "!",
           "mouseHoverField": [
             "schulname",
             "kapitelbezeichnung"

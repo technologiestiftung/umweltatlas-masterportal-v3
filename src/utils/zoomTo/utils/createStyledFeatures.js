@@ -2,6 +2,8 @@ import Feature from "ol/Feature";
 import {Icon, Style} from "ol/style";
 import Point from "ol/geom/Point";
 import calculateCenterOfExtent from "../../calculateCenterOfExtent";
+import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import {createStyle} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import {isUrl} from "../../urlHelper";
 
 /**
@@ -34,11 +36,11 @@ export default function (features, styleId) {
                 });
             }
             else {
-                const styleModel = Radio.request("StyleList", "returnModelById", styleId);
+                const styleObject = returnStyleObject(styleId);
 
-                style = styleModel === undefined
+                style = styleObject === undefined
                     ? new Style()
-                    : styleModel.createStyle(feature, false);
+                    : createStyle(styleObject, feature, false, Config.wfsImgPath);
             }
 
             feature.setStyle(style);

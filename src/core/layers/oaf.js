@@ -1,5 +1,9 @@
 import {oaf} from "@masterportal/masterportalapi";
 import LoaderOverlay from "../../utils/loaderOverlay";
+import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import {createStyle, returnLegendByStyleId} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import {getGeometryTypeFromOAF} from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
+import store from "../../app-store";
 import Layer from "./layer";
 import * as bridge from "./RadioBridge.js";
 import Cluster from "ol/source/Cluster";
@@ -148,16 +152,16 @@ OAFLayer.prototype.getPropertyname = function (attrs) {
  */
 OAFLayer.prototype.getStyleFunction = function (attrs) {
     const styleId = attrs.styleId,
-        styleModel = bridge.getStyleModelById(styleId);
+        styleObject = returnStyleObject(styleId);
     let isClusterFeature = false,
         style = null;
 
-    if (styleModel !== undefined) {
+    if (styleObject !== undefined) {
         style = function (feature) {
             const feat = feature !== undefined ? feature : this;
 
             isClusterFeature = typeof feat.get("features") === "function" || typeof feat.get("features") === "object" && Boolean(feat.get("features"));
-            return styleModel.createStyle(feat, isClusterFeature);
+            return createStyle(styleObject, feat, isClusterFeature, Config.wfsImgPath);
         };
     }
     else {
@@ -181,15 +185,23 @@ OAFLayer.prototype.updateSource = function () {
  * @returns {void}
  */
 OAFLayer.prototype.createLegend = function () {
-    const styleModel = bridge.getStyleModelById(this.get("styleId")),
+    const styleObject = returnStyleObject(this.attributes.styleId),
         legend = this.get("legend");
 
     if (Array.isArray(legend)) {
         this.setLegend(legend);
     }
-    else if (styleModel && legend === true) {
-        styleModel.getGeometryTypeFromOAF(this.get("url"), this.get("collection"));
-        this.setLegend(styleModel.getLegendInfos());
+    else if (styleObject && legend === true) {
+        getGeometryTypeFromOAF(this.get("url"), this.get("collection"),
+            (error) => {
+                if (error) {
+                    store.dispatch("Alerting/addSingleAlert", "<strong>" + i18next.t("common:modules.vectorStyle.styleModel.getGeometryTypeFromOAFFetchfailed") + "</strong> <br>"
+                    + "<small>" + i18next.t("common:modules.vectorStyle.styleModel.getGeometryTypeFromOAFFetchfailedMessage") + "</small>");
+                }
+            });
+        returnLegendByStyleId(styleObject.styleId).then(legendInfos => {
+            this.setLegend(legendInfos.legendInformation);
+        });
     }
     else if (typeof legend === "string") {
         this.setLegend([legend]);
