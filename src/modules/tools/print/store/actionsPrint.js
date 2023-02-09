@@ -111,7 +111,7 @@ export default {
             spec = omit(spec, ["uniqueIdList"]);
             const printJob = {
                 index: print.index,
-                payload: encodeURIComponent(JSON.stringify(spec.defaults)),
+                payload: spec.defaults,
                 printAppId: state.printAppId,
                 currentFormat: state.currentFormat,
                 getResponse: print.getResponse

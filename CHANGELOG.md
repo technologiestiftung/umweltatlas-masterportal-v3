@@ -11,7 +11,6 @@ Time library `moment.js` was replaced with [day.js](https://day.js.org/). Please
 ### Added
 - layers:
     - It is now possible to collect custom data via getMetaData request from layers.
-
 - The following NPM package have been added:
     - dependencies:
         - "dayjs": "^1.11.7"
@@ -26,11 +25,11 @@ Time library `moment.js` was replaced with [day.js](https://day.js.org/). Please
         - "moment-timezone": "^0.5.39"
 
 ### Fixed
+- Print: It is now possible to print larger amounts of data (limited by Mapfish print settings) where an error occurred before.
 
 ---
 
 ## v2.30.0 - 2023-02-01
-
 ### Added
 - layers:
     - Errorhandling for secure services.
