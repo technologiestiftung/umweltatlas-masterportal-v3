@@ -179,6 +179,7 @@ WFSLayer.prototype.updateSource = function () {
  */
 WFSLayer.prototype.createLegend = function () {
     const styleObject = returnStyleObject(this.attributes.styleId),
+        rules = styleObject?.rules,
         isSecured = this.attributes.isSecured;
     let legend = this.get("legend");
 
@@ -219,7 +220,7 @@ WFSLayer.prototype.createLegend = function () {
                 if (!isSecured) {
                     if (!geometryTypeRequestLayers.includes(this.get("id"))) {
                         geometryTypeRequestLayers.push(this.get("id"));
-                        getGeometryTypeFromWFS(this.get("url"), this.get("version"), this.get("featureType"), this.get("styleGeometryType"), isSecured,
+                        getGeometryTypeFromWFS(rules, this.get("url"), this.get("version"), this.get("featureType"), this.get("styleGeometryType"), isSecured,
                             (geometryTypes, error) => {
                                 if (error) {
                                     store.dispatch("Alerting/addSingleAlert", "<strong>" + i18next.t("common:modules.vectorStyle.styleModel.getGeometryTypeFromWFSFetchfailed") + "</strong> <br>"

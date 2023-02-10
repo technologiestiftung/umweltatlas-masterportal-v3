@@ -182,13 +182,14 @@ OAFLayer.prototype.updateSource = function () {
  */
 OAFLayer.prototype.createLegend = function () {
     const styleObject = returnStyleObject(this.attributes.styleId),
+        rules = styleObject?.rules,
         legend = this.get("legend");
 
     if (Array.isArray(legend)) {
         this.setLegend(legend);
     }
     else if (styleObject && legend === true) {
-        getGeometryTypeFromOAF(this.get("url"), this.get("collection"),
+        getGeometryTypeFromOAF(rules, this.get("url"), this.get("collection"),
             (error) => {
                 if (error) {
                     store.dispatch("Alerting/addSingleAlert", "<strong>" + i18next.t("common:modules.vectorStyle.styleModel.getGeometryTypeFromOAFFetchfailed") + "</strong> <br>"

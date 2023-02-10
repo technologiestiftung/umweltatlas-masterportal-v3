@@ -1,6 +1,7 @@
 import Layer from "./layer";
 import {vectorBase} from "@masterportal/masterportalapi/src";
 import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import {getGeometryTypeFromWFS} from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
 import * as bridge from "./RadioBridge.js";
 import Cluster from "ol/source/Cluster";
 
@@ -53,7 +54,8 @@ VectorBaseLayer.prototype.updateSource = function (layer, features) {
  * @returns {void}
  */
 VectorBaseLayer.prototype.createLegend = function () {
-    const styleModel = returnStyleObject(this.get("styleId"));
+    const styleObject = returnStyleObject(this.get("styleId")),
+        rules = styleObject?.rules;
     let legend = this.get("legend");
 
     /**
@@ -68,9 +70,9 @@ VectorBaseLayer.prototype.createLegend = function () {
         }
     }
 
-    if (styleModel && legend === true) {
-        styleModel.getGeometryTypeFromWFS(this.get("url"), this.get("version"), this.get("featureType"), this.get("styleGeometryType"));
-        this.setLegend(styleModel.getLegendInfos());
+    if (styleObject && legend === true) {
+        getGeometryTypeFromWFS(rules, this.get("url"), this.get("version"), this.get("featureType"), this.get("styleGeometryType"));
+        this.setLegend(styleObject.getLegendInfos());
     }
     else if (typeof legend === "string") {
         this.setLegend([legend]);
