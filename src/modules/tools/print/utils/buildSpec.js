@@ -48,7 +48,7 @@ const BuildSpecModel = {
             if (this.defaults.uniqueIdList.length === 0) {
                 const printJob = {
                     index: cswObj.index,
-                    payload: encodeURIComponent(JSON.stringify(this.defaults)),
+                    payload: this.defaults,
                     getResponse: cswObj.getResponse
                 };
 
@@ -1208,7 +1208,7 @@ const BuildSpecModel = {
         else {
             const printJob = {
                 index,
-                payload: encodeURIComponent(JSON.stringify(this.defaults)),
+                payload: this.defaults,
                 getResponse: getResponse
             };
 

@@ -55,7 +55,7 @@ describe("src/modules/tools/print/store/actionsPrint", function () {
                     statusURL: "/mapfish_print_internet/print/status/2ca7f8ab-24f0-48e1-9fd7-a6fe3349ccd0@89c12004-d327-4fb1-88a3-2a3332fa36a0.json"
                 },
                 payload = {
-                    payload: encodeURIComponent(JSON.stringify(defaults)),
+                    payload: defaults,
                     getResponse: () => {
                         return {data};
                     }
