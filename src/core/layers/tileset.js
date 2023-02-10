@@ -247,7 +247,7 @@ TileSetLayer.prototype.setIsVisibleInMap = function (newValue) {
  * @returns {void}
  */
 TileSetLayer.prototype.createLegend = function () {
-    const styleModel = returnStyleObject(this.get("styleId"));
+    const styleObject = returnStyleObject(this.get("styleId"));
     let legend = this.get("legend");
 
     /**
@@ -267,8 +267,8 @@ TileSetLayer.prototype.createLegend = function () {
     if (Array.isArray(legend)) {
         this.setLegend(legend);
     }
-    else if (styleModel && legend === true) {
-        this.setLegend(styleModel.getLegendInfos());
+    else if (styleObject && legend === true) {
+        this.setLegend(styleObject.getLegendInfos());
     }
     else if (typeof legend === "string") {
         this.setLegend([legend]);

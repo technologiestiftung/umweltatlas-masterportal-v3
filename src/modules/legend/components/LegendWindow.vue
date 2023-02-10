@@ -323,7 +323,7 @@ export default {
         /**
          * Prepares the legend for point style.
          * @param {Object} legendObj The legend object.
-         * @param {Object} style The styleModel.
+         * @param {Object} style The styleObject.
          * @returns {Object} - prepared legendObj.
          */
         prepareLegendForPoint (legendObj, style) {
@@ -349,7 +349,7 @@ export default {
 
         /**
          * Creates interval scaled advanced style for pointFeatures
-         * @param {Object} style The styleModel.
+         * @param {Object} style The styleObject.
          * @return {ol.Style} style
          */
         drawIntervalStyle (style) {
@@ -482,7 +482,7 @@ export default {
         /**
          * Prepares the legend for linestring style.
          * @param {Object} legendObj The legend object.
-         * @param {Object} style The styleModel.
+         * @param {Object} style The styleObject.
          * @returns {Object} - prepared legendObj.
          */
         prepareLegendForLineString (legendObj, style) {
@@ -513,7 +513,7 @@ export default {
         /**
          * Prepares the legend for polygon style.
          * @param {Object} legendObj The legend object.
-         * @param {Object} style The styleModel.
+         * @param {Object} style The styleObject.
          * @returns {Object} - prepare legendObj
          */
         prepareLegendForPolygon (legendObj, style) {
@@ -553,7 +553,7 @@ export default {
         /**
          * Prepares the legend for cesium style.
          * @param {Object} legendObj The legend object.
-         * @param {Object} style The styleModel.
+         * @param {Object} style The styleObject.
          * @returns {Object} - prepare legendObj
          */
         prepareLegendForCesium (legendObj, style) {

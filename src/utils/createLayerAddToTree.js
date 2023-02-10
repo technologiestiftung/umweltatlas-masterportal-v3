@@ -126,11 +126,11 @@ function setAttributes (layer, id, layerName, layerNameKey, treeType) {
  * @returns {void}
  */
 function setStyle (layer, styleId) {
-    const styleModel = returnStyleObject(styleId);
+    const styleObject = returnStyleObject(styleId);
 
-    if (styleModel !== undefined) {
+    if (styleObject !== undefined) {
         layer.get("layer").setStyle((feature) => {
-            return styleModel.createStyle(feature, false);
+            return styleObject.createStyle(feature, false);
         });
     }
 }
