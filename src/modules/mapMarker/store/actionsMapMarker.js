@@ -67,7 +67,7 @@ export default {
             dispatch("Maps/addLayerOnTop", state.markerPoint, {root: true});
         }
         else {
-            dispatch("Alerting/addSingleAlert", i18next.t("common:modules.mapMarker.noStyleModel", {styleId: state.pointStyleId}), {root: true});
+            dispatch("Alerting/addSingleAlert", i18next.t("common:modules.mapMarker.nostyleObject", {styleId: state.pointStyleId}), {root: true});
         }
     },
 
@@ -182,7 +182,7 @@ export default {
             dispatch("Maps/addLayerOnTop", state.markerPolygon, {root: true});
         }
         else {
-            dispatch("Alerting/addSingleAlert", i18next.t("common:modules.mapMarker.noStyleModel", {styleId: state.polygonStyleId}), {root: true});
+            dispatch("Alerting/addSingleAlert", i18next.t("common:modules.mapMarker.nostyleObject", {styleId: state.polygonStyleId}), {root: true});
         }
     },
 
@@ -211,7 +211,7 @@ export default {
             dispatch("Maps/addLayerOnTop", state.markerPolygon, {root: true});
         }
         else {
-            dispatch("Alerting/addSingleAlert", i18next.t("common:modules.mapMarker.noStyleModel", {styleId: state.polygonStyleId}), {root: true});
+            dispatch("Alerting/addSingleAlert", i18next.t("common:modules.mapMarker.nostyleObject", {styleId: state.polygonStyleId}), {root: true});
         }
     },
 

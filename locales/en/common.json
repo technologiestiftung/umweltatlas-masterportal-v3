@@ -195,7 +195,7 @@
           "changeLayerInfo": "Switch infotext"
         },
         "mapMarker": {
-          "noStyleModel": "No style could be found for the specified StyleId: {{styleId}}. Please check your configuration."
+          "nostyleObject": "No style could be found for the specified StyleId: {{styleId}}. Please check your configuration."
         },
         "menu": {
             "layer": {
@@ -1132,7 +1132,7 @@
             "noInitialResults": "Initial search found no hits."
         },
         "vectorStyle": {
-            "styleModel": {
+            "styleObject": {
                 "getGeometryTypeFromWFSFetchfailed": "The legend could not be created in the layer information!",
                 "getGeometryTypeFromWFSFetchfailedMessage": "Details: A required service is not responding.",
                 "getGeometryTypeFromOAFFetchfailed": "The legend could not be created in the layer information!",

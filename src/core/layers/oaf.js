@@ -192,8 +192,8 @@ OAFLayer.prototype.createLegend = function () {
         getGeometryTypeFromOAF(rules, this.get("url"), this.get("collection"),
             (error) => {
                 if (error) {
-                    store.dispatch("Alerting/addSingleAlert", "<strong>" + i18next.t("common:modules.vectorStyle.styleModel.getGeometryTypeFromOAFFetchfailed") + "</strong> <br>"
-                    + "<small>" + i18next.t("common:modules.vectorStyle.styleModel.getGeometryTypeFromOAFFetchfailedMessage") + "</small>");
+                    store.dispatch("Alerting/addSingleAlert", "<strong>" + i18next.t("common:modules.vectorStyle.styleObject.getGeometryTypeFromOAFFetchfailed") + "</strong> <br>"
+                    + "<small>" + i18next.t("common:modules.vectorStyle.styleObject.getGeometryTypeFromOAFFetchfailedMessage") + "</small>");
                 }
             });
         returnLegendByStyleId(styleObject.styleId).then(legendInfos => {
