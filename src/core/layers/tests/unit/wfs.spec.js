@@ -187,8 +187,7 @@ describe("src/core/layers/wfs.js", () => {
                         ret = {
                             id: "id",
                             createStyle: () => sinon.stub(),
-                            getGeometryTypeFromWFS: () => sinon.stub(),
-                            getLegendInfos: () => sinon.stub()
+                            getGeometryTypeFromWFS: () => sinon.stub()
                         };
                     }
                 });
@@ -243,8 +242,7 @@ describe("src/core/layers/wfs.js", () => {
                             id: "id",
                             getGeometryTypeFromWFS: () => {
                                 ++count1;
-                            },
-                            getLegendInfos: () => ["legendInfos"]
+                            }
                         };
                     }
                 });
@@ -268,8 +266,7 @@ describe("src/core/layers/wfs.js", () => {
                             id: "id",
                             getGeometryTypeFromWFS: () => {
                                 ++count1;
-                            },
-                            getLegendInfos: () => ["legendInfos"]
+                            }
                         };
                     }
                 });
@@ -342,8 +339,7 @@ describe("src/core/layers/wfs.js", () => {
                         ret = {
                             id: "id",
                             createStyle: () => sinon.stub(),
-                            getGeometryTypeFromWFS: () => sinon.stub(),
-                            getLegendInfos: () => sinon.stub()
+                            getGeometryTypeFromWFS: () => sinon.stub()
                         };
                     }
                 });
@@ -373,8 +369,7 @@ describe("src/core/layers/wfs.js", () => {
                         ret = {
                             id: "id",
                             createStyle: () => sinon.stub(),
-                            getGeometryTypeFromWFS: () => sinon.stub(),
-                            getLegendInfos: () => sinon.stub()
+                            getGeometryTypeFromWFS: () => sinon.stub()
                         };
                     }
                 });

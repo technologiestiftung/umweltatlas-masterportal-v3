@@ -217,18 +217,16 @@ WFSLayer.prototype.createLegend = function () {
                 }
             }
             else {
-                if (!isSecured) {
-                    if (!geometryTypeRequestLayers.includes(this.get("id"))) {
-                        geometryTypeRequestLayers.push(this.get("id"));
-                        getGeometryTypeFromWFS(rules, this.get("url"), this.get("version"), this.get("featureType"), this.get("styleGeometryType"), isSecured,
-                            (geometryTypes, error) => {
-                                if (error) {
-                                    store.dispatch("Alerting/addSingleAlert", "<strong>" + i18next.t("common:modules.vectorStyle.styleObject.getGeometryTypeFromWFSFetchfailed") + "</strong> <br>"
+                if (!geometryTypeRequestLayers.includes(this.get("id"))) {
+                    geometryTypeRequestLayers.push(this.get("id"));
+                    getGeometryTypeFromWFS(rules, this.get("url"), this.get("version"), this.get("featureType"), this.get("styleGeometryType"), isSecured,
+                        (geometryTypes, error) => {
+                            if (error) {
+                                store.dispatch("Alerting/addSingleAlert", "<strong>" + i18next.t("common:modules.vectorStyle.styleObject.getGeometryTypeFromWFSFetchfailed") + "</strong> <br>"
                                 + "<small>" + i18next.t("common:modules.vectorStyle.styleObject.getGeometryTypeFromWFSFetchfailedMessage") + "</small>");
-                                }
-                                return geometryTypes;
-                            });
-                    }
+                            }
+                            return geometryTypes;
+                        });
                 }
                 this.setLegend(legendInfos.legendInformation);
             }

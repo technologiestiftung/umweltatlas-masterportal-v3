@@ -183,8 +183,7 @@ describe("src/core/layers/oaf.js", () => {
                         ret = {
                             id: "id",
                             createStyle: () => sinon.stub(),
-                            getGeometryTypeFromOAF: () => sinon.stub(),
-                            getLegendInfos: () => sinon.stub()
+                            getGeometryTypeFromOAF: () => sinon.stub()
                         };
                     }
                 });
@@ -279,8 +278,7 @@ describe("src/core/layers/oaf.js", () => {
                         ret = {
                             id: "id",
                             createStyle: () => sinon.stub(),
-                            getGeometryTypeFromOAF: () => sinon.stub(),
-                            getLegendInfos: () => sinon.stub()
+                            getGeometryTypeFromOAF: () => sinon.stub()
                         };
                     }
                 });
@@ -309,8 +307,7 @@ describe("src/core/layers/oaf.js", () => {
                         ret = {
                             id: "id",
                             createStyle: () => sinon.stub(),
-                            getGeometryTypeFromOAF: () => sinon.stub(),
-                            getLegendInfos: () => sinon.stub()
+                            getGeometryTypeFromOAF: () => sinon.stub()
                         };
                     }
                 });

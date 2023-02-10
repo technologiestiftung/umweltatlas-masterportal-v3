@@ -178,8 +178,7 @@ describe("src/core/layers/geojson.js", () => {
                         ret = {
                             id: "id",
                             createStyle: () => sinon.stub(),
-                            getStyleModelById: () => sinon.stub(),
-                            getLegendInfos: () => sinon.stub()
+                            getStyleModelById: () => sinon.stub()
                         };
                     }
                 });
@@ -270,8 +269,7 @@ describe("src/core/layers/geojson.js", () => {
                         ret = {
                             id: "id",
                             createStyle: () => sinon.stub(),
-                            getStyleModelById: () => sinon.stub(),
-                            getLegendInfos: () => sinon.stub()
+                            getStyleModelById: () => sinon.stub()
                         };
                     }
                 });

@@ -195,8 +195,7 @@ describe("src/core/layers/sta.js", () => {
                         ret = {
                             id: "id",
                             createStyle: () => sinon.stub(),
-                            getGeometryTypeFromWFS: () => sinon.stub(),
-                            getLegendInfos: () => sinon.stub()
+                            getGeometryTypeFromWFS: () => sinon.stub()
                         };
                     }
                 });
@@ -293,8 +292,7 @@ describe("src/core/layers/sta.js", () => {
                         ret = {
                             id: "id",
                             createStyle: () => new Style(),
-                            getGeometryTypeFromWFS: () => sinon.stub(),
-                            getLegendInfos: () => sinon.stub()
+                            getGeometryTypeFromWFS: () => sinon.stub()
                         };
                     }
                 });
@@ -330,8 +328,7 @@ describe("src/core/layers/sta.js", () => {
                         ret = {
                             id: "id",
                             createStyle: () => new Style(),
-                            getGeometryTypeFromWFS: () => sinon.stub(),
-                            getLegendInfos: () => sinon.stub()
+                            getGeometryTypeFromWFS: () => sinon.stub()
                         };
                     }
                 });

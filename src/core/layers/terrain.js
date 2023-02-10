@@ -1,6 +1,7 @@
 import store from "../../app-store";
 import {terrain} from "@masterportal/masterportalapi/src";
 import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import {returnLegendByStyleId} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import getProxyUrl from "../../../src/utils/getProxyUrl";
 import * as bridge from "./RadioBridge.js";
 import Layer from "./layer";
@@ -138,7 +139,20 @@ TerrainLayer.prototype.createLegend = function () {
         this.setLegend(legend);
     }
     else if (styleObject && legend === true) {
-        this.setLegend(styleObject.getLegendInfos());
+        returnLegendByStyleId(styleObject.styleId).then(legendInfos => {
+            const type = this.layer.getSource().getFeatures()[0].getGeometry().getType(),
+                typeSpecificLegends = [];
+
+            if (type === "MultiLineString") {
+                typeSpecificLegends.push(legendInfos.legendInformation.find(element => element.geometryType === "LineString"));
+                this.setLegend(typeSpecificLegends);
+            }
+            else {
+                typeSpecificLegends.push(legendInfos.legendInformation.find(element => element.geometryType === type));
+                this.setLegend(typeSpecificLegends);
+            }
+            this.setLegend(legendInfos.legendInformation);
+        });
     }
     else if (typeof legend === "string") {
         this.setLegend([legend]);
