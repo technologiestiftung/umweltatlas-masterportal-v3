@@ -1,4 +1,4 @@
-import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import {createStyle} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 
 /**
@@ -182,7 +182,7 @@ function increaseFeature (commit, getters, highlightObject) {
  * @returns {ol/style} ol style
  */
 function styleObject (highlightObject, feature) {
-    const stylelistObject = highlightObject.styleId ? returnStyleObject(highlightObject.styleId) : returnStyleObject(highlightObject.layer.id);
+    const stylelistObject = highlightObject.styleId ? styleList.returnStyleObject(highlightObject.styleId) : styleList.returnStyleObject(highlightObject.layer.id);
     let style;
 
     if (stylelistObject !== undefined) {

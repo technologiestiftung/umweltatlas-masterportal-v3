@@ -1,5 +1,5 @@
 import {fetchFirstModuleConfig} from "../../../utils/fetchFirstModuleConfig";
-import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import {createStyle} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import Point from "ol/geom/Point.js";
 import Feature from "ol/Feature.js";
@@ -34,7 +34,7 @@ export default {
      * @returns {void}
      */
     placingPointMarker ({state, rootState, commit, dispatch}, value) {
-        const styleObject = returnStyleObject(state.pointStyleId);
+        const styleObject = styleList.returnStyleObject(state.pointStyleId);
         let coordValues = [];
 
         if (!value.keepPreviousMarker) {
@@ -169,7 +169,7 @@ export default {
      * @returns {void}
      */
     placingPolygonMarker ({state, commit, dispatch}, feature) {
-        const styleObject = returnStyleObject(state.polygonStyleId);
+        const styleObject = styleList.returnStyleObject(state.polygonStyleId);
 
         dispatch("removePolygonMarker");
 
@@ -195,7 +195,7 @@ export default {
      * @returns {void}
      */
     placingPolygonMarkerByGeom ({state, commit, dispatch}, geometry) {
-        const styleObject = returnStyleObject(state.polygonStyleId);
+        const styleObject = styleList.returnStyleObject(state.polygonStyleId);
 
         dispatch("removePolygonMarker");
 

@@ -1,5 +1,5 @@
 <script>
-import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import {
     createStyle,
     getGeometryStyle,
@@ -170,7 +170,7 @@ export default {
          */
         getImgPath (feat) {
             let imagePath = "";
-            const styleObject = returnStyleObject(feat.styleId);
+            const styleObject = styleList.returnStyleObject(feat.styleId);
 
             if (styleObject) {
                 const featureStyleObject = getGeometryStyle(feat, styleObject.rules, false, Config.wfsImgPath),

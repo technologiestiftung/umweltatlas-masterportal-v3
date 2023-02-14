@@ -1,6 +1,6 @@
 import Layer from "./layer";
 import LoaderOverlay from "../../utils/loaderOverlay";
-import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import {createStyle, returnLegendByStyleId} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import * as bridge from "./RadioBridge";
 import Cluster from "ol/source/Cluster";
@@ -234,7 +234,7 @@ STALayer.prototype.getPropertyname = function (attrs) {
  */
 STALayer.prototype.getStyleFunction = function (attrs) {
     const styleId = attrs?.styleId,
-        styleObject = returnStyleObject(styleId);
+        styleObject = styleList.returnStyleObject(styleId);
 
 
     if (typeof styleObject !== "undefined") {
@@ -274,7 +274,7 @@ STALayer.prototype.updateSource = function () {
  * @returns {void}
  */
 STALayer.prototype.createLegend = function () {
-    const styleObject = returnStyleObject(this.attributes.styleId);
+    const styleObject = styleList.returnStyleObject(this.attributes.styleId);
     let legend = this.get("legend");
 
     /**

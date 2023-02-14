@@ -1,7 +1,7 @@
 import {wfs} from "@masterportal/masterportalapi";
 import LoaderOverlay from "../../utils/loaderOverlay";
 import Layer from "./layer";
-import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import {createStyle, returnLegendByStyleId} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import {getGeometryTypeFromWFS} from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
 import store from "../../app-store";
@@ -145,7 +145,7 @@ WFSLayer.prototype.getPropertyname = function (attrs) {
  */
 WFSLayer.prototype.getStyleFunction = function (attrs) {
     const styleId = attrs.styleId,
-        styleObject = returnStyleObject(styleId);
+        styleObject = styleList.returnStyleObject(styleId);
     let isClusterFeature = false,
         style = null;
 
@@ -178,7 +178,7 @@ WFSLayer.prototype.updateSource = function () {
  * @returns {void}
  */
 WFSLayer.prototype.createLegend = function () {
-    const styleObject = returnStyleObject(this.attributes.styleId),
+    const styleObject = styleList.returnStyleObject(this.attributes.styleId),
         rules = styleObject?.rules,
         isSecured = this.attributes.isSecured;
     let legend = this.get("legend");

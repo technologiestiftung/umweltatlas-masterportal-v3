@@ -1,7 +1,7 @@
 import {WFS} from "ol/format.js";
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
-import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import {createStyle} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import {Style} from "ol/style.js";
 import Point from "ol/geom/Point.js";
@@ -57,7 +57,7 @@ export default {
      * @returns {void}
     */
     highlightPointFeature: function (styleId, layerId, name, rawLayer, features, dispatch, rootGetters) {
-        const styleObject = returnStyleObject(styleId),
+        const styleObject = styleList.returnStyleObject(styleId),
             highlightLayer = this.createVectorLayer(styleId, layerId, name, rawLayer.gfiAttributes);
         let hadPoint = false;
 
@@ -114,7 +114,7 @@ export default {
      * @returns {void}
     */
     highlightLineOrPolygonFeature: function (styleId, layerId, name, geometryRequested, rawLayer, features, dispatch, rootGetters) {
-        const styleObject = returnStyleObject(styleId),
+        const styleObject = styleList.returnStyleObject(styleId),
             highlightLayer = this.createVectorLayer(styleId, layerId, name, rawLayer.gfiAttributes);
         let hadGeometry = false;
 

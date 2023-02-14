@@ -2,7 +2,7 @@ import Feature from "ol/Feature";
 import {Icon, Style} from "ol/style";
 import Point from "ol/geom/Point";
 import calculateCenterOfExtent from "../../calculateCenterOfExtent";
-import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import {createStyle} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import {isUrl} from "../../urlHelper";
 
@@ -36,7 +36,7 @@ export default function (features, styleId) {
                 });
             }
             else {
-                const styleObject = returnStyleObject(styleId);
+                const styleObject = styleList.returnStyleObject(styleId);
 
                 style = styleObject === undefined
                     ? new Style()

@@ -1,6 +1,6 @@
 import Layer from "./layer";
 import {vectorBase} from "@masterportal/masterportalapi/src";
-import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import {returnLegendByStyleId} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import {getGeometryTypeFromWFS} from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
 import store from "../../app-store";
@@ -56,7 +56,7 @@ VectorBaseLayer.prototype.updateSource = function (layer, features) {
  * @returns {void}
  */
 VectorBaseLayer.prototype.createLegend = function () {
-    const styleObject = returnStyleObject(this.get("styleId")),
+    const styleObject = styleList.returnStyleObject(this.get("styleId")),
         rules = styleObject?.rules;
     let legend = this.get("legend");
 

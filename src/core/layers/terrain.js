@@ -1,6 +1,6 @@
 import store from "../../app-store";
 import {terrain} from "@masterportal/masterportalapi/src";
-import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import {returnLegendByStyleId} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import getProxyUrl from "../../../src/utils/getProxyUrl";
 import * as bridge from "./RadioBridge.js";
@@ -118,7 +118,7 @@ TerrainLayer.prototype.setIsVisibleInMap = function (newValue) {
  * @returns {void}
  */
 TerrainLayer.prototype.createLegend = function () {
-    const styleObject = returnStyleObject(this.get("styleId"));
+    const styleObject = styleList.returnStyleObject(this.get("styleId"));
     let legend = this.get("legend");
 
     /**
