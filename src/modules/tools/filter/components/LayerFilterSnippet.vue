@@ -125,7 +125,9 @@ export default {
                 this.enableFilterButton();
                 return;
             }
-            this.disableFilterButton();
+            if (this.layerConfig?.filterButtonDisabled === true) {
+                this.disableFilterButton();
+            }
         },
         paging (val) {
             if (val.page >= val.total) {
