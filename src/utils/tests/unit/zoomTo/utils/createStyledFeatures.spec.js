@@ -4,14 +4,27 @@ import {Icon, Style} from "ol/style";
 import Point from "ol/geom/Point";
 import sinon from "sinon";
 import createStyledFeatures from "../../../../zoomTo/utils/createStyledFeatures";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
 
 describe("src/utils/zoomTo/utils/createStyledFeatures.js", () => {
-    const createStyle = sinon.spy(),
-        consoleSpy = sinon.spy();
+    const consoleSpy = sinon.spy(),
+        styleObject = {
+            styleId: "myStyle",
+            rules: [{
+                style: {
+                    type: "circle",
+                    circleFillColor: [255, 255, 0, 0.9],
+                    circleRadius: 8,
+                    circleStrokeColor: [0, 0, 0, 1],
+                    circleStrokeWidth: 2
+                }
+            }]
+        };
 
     afterEach(sinon.restore);
 
     it("should return an array of Features using a Point as its geometry and containing a style", () => {
+        sinon.stub(styleList, "returnStyleObject").returns(styleObject);
         const features = [{
                 getGeometry: () => ({
                     getExtent: () => [567001.606, 5934414.862, 567085.524, 5934496.754]
@@ -25,6 +38,7 @@ describe("src/utils/zoomTo/utils/createStyledFeatures.js", () => {
         expect(styledFeatures[0].getStyle() instanceof Style).to.be.true;
     });
     it("should return an array of Features using a Point as its geometry and containing a style created by the requested styleModel", () => {
+        sinon.stub(styleList, "returnStyleObject").returns(styleObject);
         const features = [{
                 getGeometry: () => ({
                     getExtent: () => [567001.606, 5934414.862, 567085.524, 5934496.754]
@@ -36,9 +50,7 @@ describe("src/utils/zoomTo/utils/createStyledFeatures.js", () => {
         expect(styledFeatures.length).to.equal(1);
         expect(styledFeatures[0] instanceof Feature).to.be.true;
         expect(styledFeatures[0].getGeometry() instanceof Point).to.be.true;
-        expect(createStyle.calledOnce).to.be.true;
-        expect(createStyle.firstCall.args[0] instanceof Feature).to.be.true;
-        expect(createStyle.firstCall.args[1]).to.equal(false);
+        expect(styledFeatures[0].getStyle() instanceof Style).to.be.true;
     });
     it("should return an array of Features using a Point as its geometry and containing a style with an Icon", () => {
         sinon.stub(console, "warn").callsFake(consoleSpy);

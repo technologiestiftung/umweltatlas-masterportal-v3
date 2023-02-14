@@ -2,6 +2,7 @@ import axios from "axios";
 import {expect} from "chai";
 import sinon from "sinon";
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
 import VectorLayer from "ol/layer/Vector";
 import actions from "../../../../zoomTo/store/actionsZoomTo";
 
@@ -30,6 +31,18 @@ function axiosDistrictFake () {
 
 describe("src/utils/zoomTo/store/actionsZoomTo.js", () => {
     describe("zoomToFeatures", () => {
+        const styleObject = {
+            styleId: "zoomToGeometry",
+            rules: [{
+                style: {
+                    type: "circle",
+                    circleFillColor: [255, 255, 0, 0.9],
+                    circleRadius: 8,
+                    circleStrokeColor: [0, 0, 0, 1],
+                    circleStrokeWidth: 2
+                }
+            }]
+        };
         let consoleErrorSpy,
             consoleWarnSpy,
             dispatch,
@@ -83,6 +96,7 @@ describe("src/utils/zoomTo/store/actionsZoomTo.js", () => {
                 });
         });
         it("should zoom to district, if zoomToGeometry is a number", async () => {
+            sinon.stub(styleList, "returnStyleObject").returns(styleObject);
             sinon.stub(axios, "get").callsFake(axiosDistrictFake);
             getters.config = [{
                 id: "zoomToGeometry",

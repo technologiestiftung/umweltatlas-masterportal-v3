@@ -7,6 +7,7 @@ import VectorLayer from "ol/layer/Vector.js";
 import {Style} from "ol/style.js";
 import handleAxiosError from "../../utils/handleAxiosError.js";
 import clatt from "../../../utils/createLayerAddToTree";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
 
 describe("api/highlightFeaturesByAttribute", () => {
     const expectedEqualToOGC = `<ogc:PropertyIsEqualTo matchCase='false' wildCard='%' singleChar='#' escapeChar='!'>
@@ -102,7 +103,8 @@ describe("api/highlightFeaturesByAttribute", () => {
                         getType: () => "Point",
                         getCoordinates: () => [100, 100]
                     }),
-                    getProperties: () => []
+                    getProperties: () => [],
+                    get: () => sinon.stub()
                 },
                 {
                     id: "789",
@@ -110,7 +112,8 @@ describe("api/highlightFeaturesByAttribute", () => {
                         getType: () => "Point",
                         getCoordinates: () => [150, 150]
                     }),
-                    getProperties: () => []
+                    getProperties: () => [],
+                    get: () => sinon.stub()
                 }
             ],
             polygonFeatures = [
@@ -136,7 +139,19 @@ describe("api/highlightFeaturesByAttribute", () => {
                     getGeometry: () => new LineString([[0, 0], [1000, 0]]),
                     getProperties: () => []
                 }
-            ];
+            ],
+            styleObject = {
+                styleId: "defaultHighlightFeaturesPoint",
+                rules: [{
+                    style: {
+                        type: "circle",
+                        circleFillColor: [255, 255, 0, 0.9],
+                        circleRadius: 8,
+                        circleStrokeColor: [0, 0, 0, 1],
+                        circleStrokeWidth: 2
+                    }
+                }]
+            };
         let highlightVector, createLayerAddToTreeStub;
 
         beforeEach(function () {
@@ -145,6 +160,7 @@ describe("api/highlightFeaturesByAttribute", () => {
                 style: new Style()
             });
             sinon.stub(highlightFeaturesByAttribute, "createVectorLayer").returns(highlightVector);
+            sinon.stub(styleList, "returnStyleObject").returns(styleObject);
             createLayerAddToTreeStub = sinon.stub(clatt, "createLayerAddToTree");
         });
 
