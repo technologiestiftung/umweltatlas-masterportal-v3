@@ -1450,7 +1450,7 @@ Neben **Portalconfig.menu.tools** können auch die Pfade **Portalconfig.menu.inf
 |active|nein|Boolean|false|Gibt an, ob ein Werkzeug beim starten des Portals geöffnet ist.|false|
 |icon|nein|String||CSS Klasse des Icons, das vor dem Toolnamen im Menu angezeigt wird.|false|
 |isVisibleInMenu|nein|Boolean|true|Flag, ob das Tool unter Werkzeuge angezeigt wird.|false|
-|keepOpen|nein|Boolean|false|Flag, ob das Tool parallel zu anderen Tools geöffnet bleibt.|false|
+|keepOpen|nein|Boolean/String/String[]|false|Flag, ob das Tool parallel zu anderen Tools geöffnet bleibt.|false|
 |name|ja|String||Name des Werkzeuges im Menu.|false|
 |onlyDesktop|nein|Boolean|false|Flag, ob das Werkzeug nur im Desktop Modus sichtbar sein soll.|false|
 |renderToWindow|nein|Boolean|true|Flag, ob das Tool beim Anklicken im frei schwebenden Fenster dargestellt werden soll. Im mobilen Modus wird das Fenster immer verwendet.|false|

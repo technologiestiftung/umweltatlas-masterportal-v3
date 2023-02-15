@@ -729,7 +729,12 @@
         {
           "id": "2003",
           "styleId": "2003",
-          "mouseHoverField": "gebietsname"
+          "mouseHoverField": "gebietsname",
+          "legend": true,
+          "featurePrefix": "de.hh.up:",
+          "wildCard": "%",
+          "singleChar": "#",
+          "escapeChar": "!"
         },
         {
           "id": "47",
@@ -785,7 +790,12 @@
           ],
           "searchField": "name",
           "extendedFilter": true,
-          "loadingStrategy": "all"
+          "loadingStrategy": "all",
+          "legend": true,
+          "featurePrefix": "",
+          "wildCard": "%",
+          "singleChar": "#",
+          "escapeChar": "!"
         },
         {
           "id": "8712",
@@ -908,6 +918,15 @@
           "name": "Lärmberechnung",
           "extent": [568426.27, 5931985.58, 569614.86, 5933174.11],
           "legend": ["https://geodienste.hamburg.de/lgv-config/img/Legende_Laermberechnung_Tag.png", "https://geodienste.hamburg.de/lgv-config/img/Legende_Laermberechnung_Nacht.png"]
+        },
+        {
+          "id" : "2928",
+          "name": "Linienhafte Biotope",
+          "legend": true,
+          "featurePrefix": "de.hh.up:",
+          "wildCard": "%",
+          "singleChar": "#",
+          "escapeChar": "!"
         }
       ]
     }

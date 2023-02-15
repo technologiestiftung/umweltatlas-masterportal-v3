@@ -15,7 +15,9 @@ Time library `moment.js` was replaced with [day.js](https://day.js.org/). Please
     - dependencies:
         - "dayjs": "^1.11.7"
 ### Changed
-
+- KeepOpen attribute for tools:
+    - In type string, the tool name can be inserted as string.
+    - In type array, some tool names can be inserted in an array.
 ### Deprecated
 
 ### Removed
