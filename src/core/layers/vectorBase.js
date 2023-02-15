@@ -2,7 +2,7 @@ import Layer from "./layer";
 import {vectorBase} from "@masterportal/masterportalapi/src";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import {returnLegendByStyleId} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
-import {getGeometryTypeFromWFS} from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
+import getGeometryTypeFromService from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
 import store from "../../app-store";
 import * as bridge from "./RadioBridge.js";
 import Cluster from "ol/source/Cluster";
@@ -88,7 +88,7 @@ VectorBaseLayer.prototype.createLegend = function () {
                 }
             }
             else {
-                getGeometryTypeFromWFS(rules, this.get("url"), this.get("version"), this.get("featureType"), this.get("styleGeometryType"), false,
+                getGeometryTypeFromService.getGeometryTypeFromWFS(rules, this.get("url"), this.get("version"), this.get("featureType"), this.get("styleGeometryType"), false,
                     (geometryTypes, error) => {
                         if (error) {
                             store.dispatch("Alerting/addSingleAlert", "<strong>" + i18next.t("common:modules.vectorStyle.styleObject.getGeometryTypeFromWFSFetchfailed") + "</strong> <br>"

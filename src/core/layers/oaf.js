@@ -2,7 +2,7 @@ import {oaf} from "@masterportal/masterportalapi";
 import LoaderOverlay from "../../utils/loaderOverlay";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import {createStyle, returnLegendByStyleId} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
-import {getGeometryTypeFromOAF} from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
+import getGeometryTypeFromService from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
 import store from "../../app-store";
 import Layer from "./layer";
 import * as bridge from "./RadioBridge.js";
@@ -189,7 +189,7 @@ OAFLayer.prototype.createLegend = function () {
         this.setLegend(legend);
     }
     else if (styleObject && legend === true) {
-        getGeometryTypeFromOAF(rules, this.get("url"), this.get("collection"),
+        getGeometryTypeFromService.getGeometryTypeFromOAF(rules, this.get("url"), this.get("collection"),
             (error) => {
                 if (error) {
                     store.dispatch("Alerting/addSingleAlert", "<strong>" + i18next.t("common:modules.vectorStyle.styleObject.getGeometryTypeFromOAFFetchfailed") + "</strong> <br>"
