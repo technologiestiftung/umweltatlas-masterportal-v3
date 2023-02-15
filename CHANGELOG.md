@@ -28,6 +28,7 @@ Time library `moment.js` was replaced with [day.js](https://day.js.org/). Please
 
 ### Fixed
 - Print: It is now possible to print larger amounts of data (limited by Mapfish print settings) where an error occurred before.
+- Print: edit printing for plotservice.
 
 ---
 
