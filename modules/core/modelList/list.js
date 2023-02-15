@@ -14,7 +14,6 @@ import EntitiesLayer from "../../../src/core/layers/entities";
 import VectorTileLayer from "../../../src/core/layers/vectorTile";
 import TileSetLayer from "../../../src/core/layers/tileset";
 import VectorBaseLayer from "../../../src/core/layers/vectorBase";
-import WebGLLayer from "../../../src/core/layers/webgl";
 import filterAndReduceLayerList from "../../../src/modules/tools/saveSelection/utils/filterAndReduceLayerList";
 import ObliqueLayer from "./layer/oblique";
 import Folder from "./folder/model";
@@ -227,9 +226,6 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
             }
             else if (attrs.typ === "VectorBase") {
                 return new VectorBaseLayer(attrs, options);
-            }
-            else if (attrs.typ === "WebGL") {
-                return new WebGLLayer(attrs);
             }
         }
         else if (attrs.type === "folder") {
