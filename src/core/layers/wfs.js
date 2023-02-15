@@ -8,6 +8,8 @@ import store from "../../app-store";
 import * as bridge from "./RadioBridge.js";
 import Cluster from "ol/source/Cluster";
 import {bbox, all} from "ol/loadingstrategy.js";
+import {getCenter} from "ol/extent";
+import webgl from "../../utils/webgl";
 
 const geometryTypeRequestLayers = [];
 
@@ -27,6 +29,13 @@ export default function WFSLayer (attrs) {
     };
 
     this.createLayer(Object.assign(defaults, attrs));
+
+
+    // override class methods for webgl rendering
+    // has to happen before setStyle/styling
+    if (attrs.renderer === "webgl") {
+        webgl.setLayerProperties(this);
+    }
 
     // call the super-layer
     Layer.call(this, Object.assign(defaults, attrs), this.layer, !attrs.isChildLayer);
@@ -63,7 +72,8 @@ WFSLayer.prototype.createLayer = function (attrs) {
             renderer: attrs.renderer, // use "default" (canvas) or "webgl" renderer
             styleId: attrs.styleId, // styleId to pass to masterportalapi
             style: attrs.style, // style function to style the layer or WebGLPoints style syntax
-            excludeTypesFromParsing: attrs.excludeTypesFromParsing // types that should not be parsed from strings, only necessary for webgl
+            excludeTypesFromParsing: attrs.excludeTypesFromParsing, // types that should not be parsed from strings, only necessary for webgl
+            isPointLayer: attrs.isPointLayer // whether the source will only hold point data, only necessary for webgl
         },
         styleFn = this.getStyleFunction(attrs),
         options = {
@@ -123,7 +133,9 @@ WFSLayer.prototype.getFeaturesFilterFunction = function (attrs) {
         let filteredFeatures = features.filter(feature => feature.getGeometry() !== undefined);
 
         if (attrs.bboxGeometry) {
-            filteredFeatures = filteredFeatures.filter((feature) => attrs.bboxGeometry.intersectsExtent(feature.getGeometry().getExtent()));
+            filteredFeatures = filteredFeatures.filter(
+                (feature) => attrs.bboxGeometry.intersectsCoordinate(getCenter(feature.getGeometry().getExtent()))
+            );
         }
         return filteredFeatures;
     };
@@ -314,8 +326,5 @@ WFSLayer.prototype.getStyleAsFunction = function (style) {
  * @returns {void}
  */
 WFSLayer.prototype.styling = function () {
-    if (this.layer.get("renderer") === "webgl") {
-        return;
-    }
     this.layer.setStyle(this.getStyleAsFunction(this.get("style")));
 };

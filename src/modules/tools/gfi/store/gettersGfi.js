@@ -20,7 +20,6 @@ const getters = {
         const featuresAtPixel = [];
 
         if (clickPixel && mode === "2D") {
-            // doesn't work for WebGL layers, behavior is different from mouseHover, reason unclear, same method
             mapCollection.getMap("2D").forEachFeatureAtPixel(clickPixel, (feature, layer) => {
                 if (layer?.getVisible() && layer?.get("gfiAttributes") && layer?.get("gfiAttributes") !== "ignore") {
                     if (feature.getProperties().features) {
@@ -42,14 +41,13 @@ const getters = {
                 }
             }, {
                 // filter WebGL layers and look at them individually
-                layerFilter: layer => layer.get("typ") !== "WebGL"
+                layerFilter: layer => layer.get("renderer") !== "WebGL"
             });
             /** check WebGL Layers
-            * use buffered coord instead of pixel for hitTolerance
-            * @todo refactor?
+            * use buffered coord instead of pixel for hitTolerance and to catch overlapping WebGL features
             */
             mapCollection.getMap("2D").getLayers().getArray()
-                .filter(layer => layer.get("typ") === "WebGL")
+                .filter(layer => layer.get("renderer") === "webgl")
                 .forEach(layer => {
                     if (layer.get("gfiAttributes") && layer.get("gfiAttributes") !== "ignore") {
                         /**

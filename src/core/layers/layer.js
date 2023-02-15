@@ -428,7 +428,7 @@ Layer.prototype.setIsSelected = function (newValue) {
         bridge.updateLayerView(this);
         bridge.renderMenu();
     }
-    if (this.get("typ") === "WFS" || this.get("typ") === "WebGL") {
+    if (this.get("typ") === "WFS") {
         // data will be loaded at first selection
         this.updateSource();
     }
@@ -832,6 +832,7 @@ Layer.prototype.setMinMaxResolutions = function () {
  * @return {void}
  */
 Layer.prototype.featuresLoaded = function (layerId, features) {
+    this.features = features;
     bridge.featuresLoaded(layerId, features);
 };
 

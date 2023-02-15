@@ -31,7 +31,6 @@ export default {
             commit("setHoverPosition", evt.coordinate);
 
             // works for WebGL layers that are point layers
-            // behavior is different from GFI, reason unclear, same method
             map.forEachFeatureAtPixel(evt.pixel, (feature, layer) => {
                 if (layer?.getVisible()) {
                     if (feature.getProperties().features) {
@@ -55,10 +54,9 @@ export default {
             /** check WebGL Layers
              * use buffered coord instead of pixel for hitTolerance
              * only necessary for WebGL polygon and line layers
-             * @todo refactor?
             */
             map.getLayers().getArray()
-                .filter(layer => layer.get("typ") === "WebGL" && !layer.get("isPointLayer")) // point features are already caught by map.forEachFeatureAtPixel loop
+                .filter(layer => layer.get("renderer") === "webgl" && !layer.get("isPointLayer")) // point features are already caught by map.forEachFeatureAtPixel loop
                 .forEach(layer => {
                     if (layer.get("gfiAttributes") && layer.get("gfiAttributes") !== "ignore") {
                         /**

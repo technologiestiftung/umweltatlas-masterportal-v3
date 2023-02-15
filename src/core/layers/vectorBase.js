@@ -3,6 +3,7 @@ import {vectorBase} from "@masterportal/masterportalapi/src";
 import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import * as bridge from "./RadioBridge.js";
 import Cluster from "ol/source/Cluster";
+import webgl from "../../utils/webgl";
 
 /**
  * Creates a layer of type vectorBase.
@@ -18,6 +19,11 @@ export default function VectorBaseLayer (attrs) {
     };
 
     this.createLayer(Object.assign(defaults, attrs));
+    // override class methods for webgl rendering
+    // has to happen before setStyle/styling
+    if (attrs.renderer === "webgl") {
+        webgl.setLayerProperties(this);
+    }
     // call the super-layer
     Layer.call(this, Object.assign(defaults, attrs), this.layer, !attrs.isChildLayer);
     this.createLegend();
@@ -36,6 +42,8 @@ VectorBaseLayer.prototype.createLayer = function (attr) {
     if (attr.isSelected) {
         this.updateSource(this.layer, attr.features);
     }
+
+    this.features = attr.features;
 };
 
 /**
