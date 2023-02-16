@@ -3,6 +3,7 @@ import {expect} from "chai";
 import sinon from "sinon";
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
 import VectorLayer from "ol/layer/Vector";
 import actions from "../../../../zoomTo/store/actionsZoomTo";
 
@@ -47,15 +48,12 @@ describe("src/utils/zoomTo/store/actionsZoomTo.js", () => {
             consoleWarnSpy,
             dispatch,
             getters,
-            requestSpy,
             state;
 
         beforeEach(() => {
             consoleErrorSpy = sinon.spy();
             consoleWarnSpy = sinon.spy();
             dispatch = sinon.spy();
-            requestSpy = sinon.spy();
-            sinon.stub(Radio, "request").callsFake(requestSpy);
             sinon.stub(console, "error").callsFake(consoleErrorSpy);
             sinon.stub(console, "warn").callsFake(consoleWarnSpy);
             getters = {
@@ -268,6 +266,7 @@ describe("src/utils/zoomTo/store/actionsZoomTo.js", () => {
             expect(consoleWarnSpy.firstCall.args[0]).to.equal("zoomTo: No features were found for the given layer.");
         });
         it("should add features to the map for one working config (zoomToFeatureId) and dispatch an alert for a configuration with an invalid id if both are present", async () => {
+            sinon.stub(createStyle, "createStyle").returns(true);
             sinon.stub(axios, "get").callsFake(axiosFake);
             getters.config = [{id: "somethingWrong"}, {
                 id: "zoomToFeatureId",
@@ -296,9 +295,6 @@ describe("src/utils/zoomTo/store/actionsZoomTo.js", () => {
             expect(dispatch.thirdCall.args[1].extent.length).to.equal(4);
             expect(dispatch.thirdCall.args[1].extent.every(val => typeof val === "number")).to.be.true;
             expect(dispatch.thirdCall.args[2]).to.eql({root: true});
-            expect(requestSpy.calledTwice).to.be.true;
-            expect(requestSpy.firstCall.args.length).to.equal(3);
-            expect(requestSpy.secondCall.args.length).to.equal(3);
         });
         it("should add features to the map for one config of zoomToFeatureId", async () => {
             sinon.stub(axios, "get").callsFake(axiosFake);
@@ -326,9 +322,6 @@ describe("src/utils/zoomTo/store/actionsZoomTo.js", () => {
             expect(dispatch.secondCall.args[1].extent.length).to.equal(4);
             expect(dispatch.secondCall.args[1].extent.every(val => typeof val === "number")).to.be.true;
             expect(dispatch.secondCall.args[2]).to.eql({root: true});
-            expect(requestSpy.calledTwice).to.be.true;
-            expect(requestSpy.firstCall.args.length).to.equal(3);
-            expect(requestSpy.secondCall.args.length).to.equal(3);
         });
         it("should zoom to the feature extent but not add the features for one config of zoomToFeatureId with addFeatures set to false", async () => {
             sinon.stub(axios, "get").callsFake(axiosFake);
@@ -352,9 +345,6 @@ describe("src/utils/zoomTo/store/actionsZoomTo.js", () => {
             expect(dispatch.firstCall.args[1].extent.length).to.equal(4);
             expect(dispatch.firstCall.args[1].extent.every(val => typeof val === "number")).to.be.true;
             expect(dispatch.firstCall.args[2]).to.eql({root: true});
-            expect(requestSpy.calledTwice).to.be.true;
-            expect(requestSpy.firstCall.args.length).to.equal(3);
-            expect(requestSpy.secondCall.args.length).to.equal(3);
         });
         it("should add features to the map for one config of zoomToGeometry", async () => {
             sinon.stub(axios, "get").callsFake(axiosFake);
@@ -369,7 +359,6 @@ describe("src/utils/zoomTo/store/actionsZoomTo.js", () => {
 
             expect(consoleWarnSpy.notCalled).to.be.true;
             expect(consoleErrorSpy.notCalled).to.be.true;
-            expect(requestSpy.notCalled).to.be.true;
             expect(dispatch.calledTwice).to.be.true;
             expect(dispatch.firstCall.args.length).to.equal(3);
             expect(dispatch.firstCall.args[0]).to.equal("Maps/addLayer");
@@ -398,7 +387,6 @@ describe("src/utils/zoomTo/store/actionsZoomTo.js", () => {
 
             expect(consoleWarnSpy.notCalled).to.be.true;
             expect(consoleErrorSpy.notCalled).to.be.true;
-            expect(requestSpy.notCalled).to.be.true;
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args.length).to.equal(3);
             expect(dispatch.firstCall.args[0]).to.equal("Maps/zoomToExtent");
@@ -448,9 +436,6 @@ describe("src/utils/zoomTo/store/actionsZoomTo.js", () => {
             expect(dispatch.thirdCall.args[1].extent.length).to.equal(4);
             expect(dispatch.thirdCall.args[1].extent.every(val => typeof val === "number")).to.be.true;
             expect(dispatch.thirdCall.args[2]).to.eql({root: true});
-            expect(requestSpy.calledTwice).to.be.true;
-            expect(requestSpy.firstCall.args.length).to.equal(3);
-            expect(requestSpy.secondCall.args.length).to.equal(3);
         });
     });
 });

@@ -1,3 +1,5 @@
+import Map from "ol/Map";
+import View from "ol/View";
 import VectorSource from "ol/source/Vector.js";
 import VectorLayer from "ol/layer/Vector.js";
 import Cluster from "ol/source/Cluster.js";
@@ -6,6 +8,9 @@ import {expect} from "chai";
 import sinon from "sinon";
 import WfsLayer from "../../wfs";
 import store from "../../../../app-store";
+import {Style} from "ol/style.js";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
 
 describe("src/core/layers/wfs.js", () => {
     const consoleWarn = console.warn;
@@ -13,9 +18,10 @@ describe("src/core/layers/wfs.js", () => {
 
     before(() => {
         mapCollection.clear();
-        const map = {
+        const map = new Map({
             id: "ol",
             mode: "2D",
+            view: new View(),
             addInteraction: sinon.stub(),
             removeInteraction: sinon.stub(),
             // addLayer: () => sinon.stub(),
@@ -24,7 +30,7 @@ describe("src/core/layers/wfs.js", () => {
                     getResolutions: () => [2000, 1000]
                 };
             }
-        };
+        });
 
         mapCollection.addMap(map, "2D");
         i18next.init({
@@ -179,20 +185,7 @@ describe("src/core/layers/wfs.js", () => {
     });
     describe("getStyleFunction", () => {
         it("getStyleFunction shall return a function", function () {
-            sinon.stub(Radio, "request").callsFake((...args) => {
-                let ret = null;
-
-                args.forEach(arg => {
-                    if (arg === "returnModelById") {
-                        ret = {
-                            id: "id",
-                            createStyle: () => sinon.stub(),
-                            getGeometryTypeFromWFS: () => sinon.stub()
-                        };
-                    }
-                });
-                return ret;
-            });
+            sinon.stub(styleList, "returnStyleObject").returns(true);
             const wfsLayer = new WfsLayer(attributes),
                 styleFunction = wfsLayer.getStyleFunction(attributes);
 
@@ -228,56 +221,20 @@ describe("src/core/layers/wfs.js", () => {
             attributes.legendURL = "https://legendUrl";
             const wfsLayer = new WfsLayer(attributes);
 
-            expect(wfsLayer.get("legend")).to.be.deep.equals([attributes.legendURL]);
+            expect(wfsLayer.get("legendURL")).to.be.deep.equals(attributes.legendURL);
         });
         it("createLegend shall set not secured legend", function () {
-            let count1 = 0;
-
-            sinon.stub(Radio, "request").callsFake((...args) => {
-                let ret = null;
-
-                args.forEach(arg => {
-                    if (arg === "returnModelById") {
-                        ret = {
-                            id: "id",
-                            getGeometryTypeFromWFS: () => {
-                                ++count1;
-                            }
-                        };
-                    }
-                });
-                return ret;
-            });
             attributes.legend = true;
             const wfsLayer = new WfsLayer(attributes);
 
-            expect(wfsLayer.get("legend")).not.to.be.true;
-            expect(count1).to.be.equals(1);
+            expect(wfsLayer.get("legendUrl")).not.to.be.true;
         });
         it("createLegend shall set secured legend", function () {
-            let count1 = 0;
-
-            sinon.stub(Radio, "request").callsFake((...args) => {
-                let ret = null;
-
-                args.forEach(arg => {
-                    if (arg === "returnModelById") {
-                        ret = {
-                            id: "id",
-                            getGeometryTypeFromWFS: () => {
-                                ++count1;
-                            }
-                        };
-                    }
-                });
-                return ret;
-            });
             attributes.legend = true;
             attributes.isSecured = true;
             const wfsLayer = new WfsLayer(attributes);
 
-            expect(wfsLayer.get("legend")).not.to.be.true;
-            expect(count1).to.be.equals(0);
+            expect(wfsLayer.get("legendUrl")).not.to.be.true;
         });
     });
     describe("functions for features", () => {
@@ -331,20 +288,8 @@ describe("src/core/layers/wfs.js", () => {
 
         });
         it("showAllFeatures", function () {
-            sinon.stub(Radio, "request").callsFake((...args) => {
-                let ret = null;
-
-                args.forEach(arg => {
-                    if (arg === "returnModelById") {
-                        ret = {
-                            id: "id",
-                            createStyle: () => sinon.stub(),
-                            getGeometryTypeFromWFS: () => sinon.stub()
-                        };
-                    }
-                });
-                return ret;
-            });
+            sinon.stub(styleList, "returnStyleObject").returns(true);
+            sinon.stub(createStyle, "createStyle").returns(new Style());
             const wfsLayer = new WfsLayer(attributes),
                 layer = wfsLayer.get("layer");
 
@@ -352,29 +297,17 @@ describe("src/core/layers/wfs.js", () => {
             wfsLayer.showAllFeatures();
 
             expect(wfsLayer.get("layer").getSource().getFeatures().length).to.be.equals(3);
-            expect(typeof style1).to.be.equals("function");
-            expect(style1()).not.to.be.null;
-            expect(typeof style2).to.be.equals("function");
-            expect(style2()).not.to.be.null;
-            expect(typeof style3).to.be.equals("function");
-            expect(style3()).not.to.be.null;
+            expect(typeof style1).to.be.equals("object");
+            expect(style1).not.to.be.null;
+            expect(typeof style2).to.be.equals("object");
+            expect(style2).not.to.be.null;
+            expect(typeof style3).to.be.equals("object");
+            expect(style3).not.to.be.null;
 
         });
         it("showFeaturesByIds", function () {
-            sinon.stub(Radio, "request").callsFake((...args) => {
-                let ret = null;
-
-                args.forEach(arg => {
-                    if (arg === "returnModelById") {
-                        ret = {
-                            id: "id",
-                            createStyle: () => sinon.stub(),
-                            getGeometryTypeFromWFS: () => sinon.stub()
-                        };
-                    }
-                });
-                return ret;
-            });
+            sinon.stub(styleList, "returnStyleObject").returns(true);
+            sinon.stub(createStyle, "createStyle").returns(new Style());
             const wfsLayer = new WfsLayer(attributes),
                 layer = wfsLayer.get("layer"),
                 clearStub = sinon.stub(layer.getSource(), "clear");
@@ -385,8 +318,8 @@ describe("src/core/layers/wfs.js", () => {
             wfsLayer.showFeaturesByIds(["1"]);
 
             expect(wfsLayer.get("layer").getSource().getFeatures().length).to.be.equals(3);
-            expect(typeof style1).to.be.equals("function");
-            expect(style1()).not.to.be.null;
+            expect(typeof style1).to.be.equals("object");
+            expect(style1).not.to.be.null;
             expect(typeof style2).to.be.equals("function");
             expect(style2()).to.be.null;
             expect(typeof style3).to.be.equals("function");

@@ -7,6 +7,7 @@ import sinon from "sinon";
 import Map from "ol/Map";
 import GeoJSONLayer from "../../geojson";
 import store from "../../../../app-store";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
 
 describe("src/core/layers/geojson.js", () => {
     const consoleError = console.error;
@@ -71,6 +72,7 @@ describe("src/core/layers/geojson.js", () => {
             expect(layer.get("gfiTheme")).to.be.equals(attributes.gfiTheme);
         });
         it("createLayer shall create an ol.VectorLayer with cluster-source", function () {
+            sinon.stub(styleList, "returnStyleObject").returns(true);
             attributes.clusterDistance = 60;
             const geojsonLayer = new GeoJSONLayer(attributes),
                 layer = geojsonLayer.get("layer");
@@ -80,7 +82,7 @@ describe("src/core/layers/geojson.js", () => {
             expect(layer.getSource()).to.be.an.instanceof(Cluster);
             expect(layer.getSource().getDistance()).to.be.equals(attributes.clusterDistance);
             expect(layer.getSource().getSource().getFormat()).to.be.an.instanceof(GeoJSON);
-            // expect(typeof layer.getStyleFunction()).to.be.equals("function");
+            expect(typeof layer.getStyleFunction()).to.be.equals("function");
         });
         it("createLayer with isSelected=true shall set layer visible", function () {
             attributes.isSelected = true;
@@ -170,20 +172,7 @@ describe("src/core/layers/geojson.js", () => {
     });
     describe("getStyleFunction", () => {
         it("getStyleFunction shall return a function", function () {
-            sinon.stub(Radio, "request").callsFake((...args) => {
-                let ret = null;
-
-                args.forEach(arg => {
-                    if (arg === "returnModelById") {
-                        ret = {
-                            id: "id",
-                            createStyle: () => sinon.stub(),
-                            getStyleModelById: () => sinon.stub()
-                        };
-                    }
-                });
-                return ret;
-            });
+            sinon.stub(styleList, "returnStyleObject").returns(true);
             const geojsonLayer = new GeoJSONLayer(attributes),
                 styleFunction = geojsonLayer.getStyleFunction(attributes);
 
@@ -261,20 +250,6 @@ describe("src/core/layers/geojson.js", () => {
             expect(typeof style3).to.be.equals("undefined");
         });
         it("showFeaturesByIds", function () {
-            sinon.stub(Radio, "request").callsFake((...args) => {
-                let ret = null;
-
-                args.forEach(arg => {
-                    if (arg === "returnModelById") {
-                        ret = {
-                            id: "id",
-                            createStyle: () => sinon.stub(),
-                            getStyleModelById: () => sinon.stub()
-                        };
-                    }
-                });
-                return ret;
-            });
             const geojsonLayer = new GeoJSONLayer(attributes),
                 layer = geojsonLayer.get("layer");
 

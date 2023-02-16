@@ -9,6 +9,8 @@ import STALayer from "../../sta";
 import store from "../../../../app-store";
 import Collection from "ol/Collection";
 import {Circle, Style} from "ol/style.js";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
 
 describe("src/core/layers/sta.js", () => {
     const consoleWarn = console.warn;
@@ -187,20 +189,7 @@ describe("src/core/layers/sta.js", () => {
 
     describe("getStyleFunction", () => {
         it("getStyleFunction shall return a function", () => {
-            sinon.stub(Radio, "request").callsFake((...args) => {
-                let ret = null;
-
-                args.forEach(arg => {
-                    if (arg === "returnModelById") {
-                        ret = {
-                            id: "id",
-                            createStyle: () => sinon.stub(),
-                            getGeometryTypeFromWFS: () => sinon.stub()
-                        };
-                    }
-                });
-                return ret;
-            });
+            sinon.stub(styleList, "returnStyleObject").returns(true);
             const staLayer = new STALayer(attributes),
                 styleFunction = staLayer.getStyleFunction(attributes);
 
@@ -284,20 +273,8 @@ describe("src/core/layers/sta.js", () => {
 
         });
         it("showAllFeatures", () => {
-            sinon.stub(Radio, "request").callsFake((...args) => {
-                let ret = null;
-
-                args.forEach(arg => {
-                    if (arg === "returnModelById") {
-                        ret = {
-                            id: "id",
-                            createStyle: () => new Style(),
-                            getGeometryTypeFromWFS: () => sinon.stub()
-                        };
-                    }
-                });
-                return ret;
-            });
+            sinon.stub(styleList, "returnStyleObject").returns(true);
+            sinon.stub(createStyle, "createStyle").returns(new Style());
             store.getters = {
                 "Maps/getView": {
                     getZoomForResolution: () => 1,
@@ -320,20 +297,8 @@ describe("src/core/layers/sta.js", () => {
 
         });
         it("showFeaturesByIds", () => {
-            sinon.stub(Radio, "request").callsFake((...args) => {
-                let ret = null;
-
-                args.forEach(arg => {
-                    if (arg === "returnModelById") {
-                        ret = {
-                            id: "id",
-                            createStyle: () => new Style(),
-                            getGeometryTypeFromWFS: () => sinon.stub()
-                        };
-                    }
-                });
-                return ret;
-            });
+            sinon.stub(styleList, "returnStyleObject").returns(true);
+            sinon.stub(createStyle, "createStyle").returns(new Style());
             store.getters = {
                 "Maps/getView": {
                     getZoomForResolution: () => 1,
