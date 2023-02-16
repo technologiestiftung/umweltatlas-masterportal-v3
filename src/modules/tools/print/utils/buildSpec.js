@@ -398,10 +398,11 @@ const BuildSpecModel = {
      */
     buildTileWms: function (layer, dpi) {
         const source = layer.getSource(),
+            isPlotservice = store.state.Tools.Print.printService === "plotservice",
             mapObject = {
                 baseURL: source.getUrls()[0],
                 opacity: layer.getOpacity(),
-                type: source.getParams().SINGLETILE ? "WMS" : "tiledwms",
+                type: source.getParams().SINGLETILE || isPlotservice ? "WMS" : "tiledwms",
                 layers: source.getParams().LAYERS.split(","),
                 styles: source.getParams().STYLES ? source.getParams().STYLES.split(",") : undefined,
                 imageFormat: source.getParams().FORMAT,
@@ -411,6 +412,9 @@ const BuildSpecModel = {
                 }
             };
 
+        if (store.state.Tools.Print.printService === "plotservice") {
+            mapObject.title = layer.get("name");
+        }
         if (!source.getParams().SINGLETILE) {
             mapObject.tileSize = [source.getParams().WIDTH, source.getParams().HEIGHT];
         }
@@ -441,6 +445,10 @@ const BuildSpecModel = {
                     "DPI": typeof dpi === "number" ? dpi : store.state.Tools.Print.dpiForPdf
                 }
             };
+
+        if (store.state.Tools.Print.printService === "plotservice") {
+            mapObject.title = layer.get("name");
+        }
 
         return mapObject;
     },

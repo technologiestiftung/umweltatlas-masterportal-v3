@@ -4,6 +4,7 @@ import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import getProxyUrl from "../../utils/getProxyUrl";
 import Layer from "./layer";
+import Cluster from "ol/source/Cluster";
 import store from "../../app-store";
 import LoaderOverlay from "../../utils/loaderOverlay";
 
@@ -318,7 +319,7 @@ GeoJSONLayer.prototype.createLegend = function (attrs) {
  * @return {void}
  */
 GeoJSONLayer.prototype.showFeaturesByIds = function (featureIdList) {
-    const layerSource = this.get("layerSource"),
+    const layerSource = this.get("layerSource") instanceof Cluster ? this.get("layerSource").getSource() : this.get("layerSource"),
         // featuresToShow is a subset of allLayerFeatures
         allLayerFeatures = layerSource.getFeatures(),
         featuresToShow = featureIdList.map(id => layerSource.getFeatureById(id));
@@ -359,7 +360,7 @@ GeoJSONLayer.prototype.getStyleAsFunction = function (style) {
  * @returns {void}
  */
 GeoJSONLayer.prototype.hideAllFeatures = function () {
-    const layerSource = this.get("layerSource"),
+    const layerSource = this.get("layerSource") instanceof Cluster ? this.get("layerSource").getSource() : this.get("layerSource"),
         features = layerSource.getFeatures();
 
     // optimization - clear and re-add to prevent cluster updates on each change
@@ -380,7 +381,8 @@ GeoJSONLayer.prototype.hideAllFeatures = function () {
  * @returns {void}
  */
 GeoJSONLayer.prototype.showAllFeatures = function () {
-    const collection = this.get("layerSource").getFeatures();
+    const layerSource = this.get("layerSource") instanceof Cluster ? this.get("layerSource").getSource() : this.get("layerSource"),
+        collection = layerSource.getFeatures();
 
     collection.forEach(function (feature) {
         feature.setStyle(undefined);
