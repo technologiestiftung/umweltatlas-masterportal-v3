@@ -1,7 +1,7 @@
 import {oaf} from "@masterportal/masterportalapi";
 import LoaderOverlay from "../../utils/loaderOverlay";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
-import {createStyle, returnLegendByStyleId} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import getGeometryTypeFromService from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
 import store from "../../app-store";
 import Layer from "./layer";
@@ -157,7 +157,7 @@ OAFLayer.prototype.getStyleFunction = function (attrs) {
             const feat = feature !== undefined ? feature : this;
 
             isClusterFeature = typeof feat.get("features") === "function" || typeof feat.get("features") === "object" && Boolean(feat.get("features"));
-            return createStyle(styleObject, feat, isClusterFeature, Config.wfsImgPath);
+            return createStyle.createStyle(styleObject, feat, isClusterFeature, Config.wfsImgPath);
         };
     }
     else {
@@ -196,7 +196,7 @@ OAFLayer.prototype.createLegend = function () {
                     + "<small>" + i18next.t("common:modules.vectorStyle.styleObject.getGeometryTypeFromOAFFetchfailedMessage") + "</small>");
                 }
             });
-        returnLegendByStyleId(styleObject.styleId).then(legendInfos => {
+        createStyle.returnLegendByStyleId(styleObject.styleId).then(legendInfos => {
             this.setLegend(legendInfos.legendInformation);
         });
     }

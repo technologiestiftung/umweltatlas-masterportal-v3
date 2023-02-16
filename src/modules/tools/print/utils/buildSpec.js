@@ -15,7 +15,7 @@ import {MVTEncoder} from "@geoblocks/print";
 import VectorTileLayer from "ol/layer/VectorTile";
 import {getLastPrintedExtent} from "../store/actions/actionsPrintInitialization";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
-import {getGeometryStyle} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import {getRulesForFeature} from "@masterportal/masterportalapi/src/vectorStyle/lib/getRuleForIndex";
 
 
@@ -499,7 +499,7 @@ const BuildSpecModel = {
             styles.forEach((style, index) => {
                 if (style !== null) {
                     const styleObjectFromStyleList = styleList.returnStyleObject(layer.get("id")),
-                        styleFromStyleList = styleObjectFromStyleList ? getGeometryStyle(feature, styleObjectFromStyleList.rules, false, Config.wfsImgPath) : undefined;
+                        styleFromStyleList = styleObjectFromStyleList ? createStyle.getGeometryStyle(feature, styleObjectFromStyleList.rules, false, Config.wfsImgPath) : undefined;
                     let limiter = ",";
 
                     clonedFeature = feature.clone();
@@ -1028,7 +1028,7 @@ const BuildSpecModel = {
     getStylingRules: function (layer, feature, styleAttributes, style, styleIndex) {
         const styleAttr = feature.get("styleId") ? "styleId" : styleAttributes,
             styleObjectFromStyleList = styleList.returnStyleObject(layer.get("id")),
-            styleFromStyleList = styleObjectFromStyleList ? getGeometryStyle(feature, styleObjectFromStyleList.rules, false, Config.wfsImgPath) : undefined;
+            styleFromStyleList = styleObjectFromStyleList ? createStyle.getGeometryStyle(feature, styleObjectFromStyleList.rules, false, Config.wfsImgPath) : undefined;
 
         if (styleAttr.length === 1 && styleAttr[0] === "") {
             if (feature.get("features") && feature.get("features").length === 1) {

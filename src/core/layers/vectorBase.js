@@ -1,7 +1,7 @@
 import Layer from "./layer";
 import {vectorBase} from "@masterportal/masterportalapi/src";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
-import {returnLegendByStyleId} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import getGeometryTypeFromService from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
 import store from "../../app-store";
 import * as bridge from "./RadioBridge.js";
@@ -73,7 +73,7 @@ VectorBaseLayer.prototype.createLegend = function () {
     }
 
     if (styleObject && legend === true) {
-        returnLegendByStyleId(styleObject.styleId).then(legendInfos => {
+        createStyle.returnLegendByStyleId(styleObject.styleId).then(legendInfos => {
             if (styleObject.styleId === "default") {
                 const type = this.layer.getSource().getFeatures()[0].getGeometry().getType(),
                     typeSpecificLegends = [];

@@ -1,7 +1,7 @@
 import store from "../../app-store";
 import {terrain} from "@masterportal/masterportalapi/src";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
-import {returnLegendByStyleId} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import getProxyUrl from "../../../src/utils/getProxyUrl";
 import * as bridge from "./RadioBridge.js";
 import Layer from "./layer";
@@ -139,7 +139,7 @@ TerrainLayer.prototype.createLegend = function () {
         this.setLegend(legend);
     }
     else if (styleObject && legend === true) {
-        returnLegendByStyleId(styleObject.styleId).then(legendInfos => {
+        createStyle.returnLegendByStyleId(styleObject.styleId).then(legendInfos => {
             const type = this.layer.getSource().getFeatures()[0].getGeometry().getType(),
                 typeSpecificLegends = [];
 

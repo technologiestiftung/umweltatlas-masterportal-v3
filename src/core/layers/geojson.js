@@ -1,7 +1,7 @@
 import {geojson} from "@masterportal/masterportalapi";
 import {GeoJSON} from "ol/format.js";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
-import {createStyle, returnLegendByStyleId} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import getProxyUrl from "../../utils/getProxyUrl";
 import Layer from "./layer";
 import store from "../../app-store";
@@ -123,7 +123,7 @@ GeoJSONLayer.prototype.getStyleFunction = function (attrs) {
             const feat = feature !== undefined ? feature : this;
 
             isClusterFeature = typeof feat.get("features") === "function" || typeof feat.get("features") === "object" && Boolean(feat.get("features"));
-            return createStyle(styleObject, feat, isClusterFeature, Config.wfsImgPath);
+            return createStyle.createStyle(styleObject, feat, isClusterFeature, Config.wfsImgPath);
         };
     }
     else {
@@ -302,7 +302,7 @@ GeoJSONLayer.prototype.createLegend = function (attrs) {
         this.setLegend(legend);
     }
     else if (styleObject && legend === true) {
-        returnLegendByStyleId(styleObject.styleId).then(legendInfos => {
+        createStyle.returnLegendByStyleId(styleObject.styleId).then(legendInfos => {
             this.setLegend(legendInfos.legendInformation);
         });
     }

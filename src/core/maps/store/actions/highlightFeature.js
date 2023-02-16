@@ -1,5 +1,5 @@
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
-import {createStyle} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 
 /**
  * check how to highlight
@@ -186,7 +186,7 @@ function styleObject (highlightObject, feature) {
     let style;
 
     if (stylelistObject !== undefined) {
-        style = createStyle(stylelistObject, feature, false, Config.wfsImgPath);
+        style = createStyle.createStyle(stylelistObject, feature, false, Config.wfsImgPath);
         if (Array.isArray(style) && style.length > 0) {
             style = style[0];
         }

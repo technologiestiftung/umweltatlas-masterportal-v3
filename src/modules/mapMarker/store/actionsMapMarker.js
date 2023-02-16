@@ -1,6 +1,6 @@
 import {fetchFirstModuleConfig} from "../../../utils/fetchFirstModuleConfig";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
-import {createStyle} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import Point from "ol/geom/Point.js";
 import Feature from "ol/Feature.js";
 
@@ -56,7 +56,7 @@ export default {
             const iconfeature = new Feature({
                     geometry: new Point(coordValues)
                 }),
-                featureStyle = createStyle(styleObject, iconfeature, false, Config.wfsImgPath);
+                featureStyle = createStyle.createStyle(styleObject, iconfeature, false, Config.wfsImgPath);
 
             iconfeature.setStyle(featureStyle);
             iconfeature.set("styleId", state.pointStyleId);
@@ -174,7 +174,7 @@ export default {
         dispatch("removePolygonMarker");
 
         if (styleObject) {
-            const featureStyle = createStyle(styleObject, feature, false, Config.wfsImgPath);
+            const featureStyle = createStyle.createStyle(styleObject, feature, false, Config.wfsImgPath);
 
             feature.setStyle(featureStyle);
             commit("addFeatureToMarker", {feature: feature, marker: "markerPolygon"});
@@ -203,7 +203,7 @@ export default {
             const feature = new Feature({
                     geometry: geometry
                 }),
-                featureStyle = createStyle(styleObject, feature, false, Config.wfsImgPath).getStyle();
+                featureStyle = createStyle.createStyle(styleObject, feature, false, Config.wfsImgPath).getStyle();
 
             feature.setStyle(featureStyle);
             commit("addFeatureToMarker", {feature: feature, marker: "markerPolygon"});

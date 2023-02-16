@@ -2,7 +2,7 @@ import {wfs} from "@masterportal/masterportalapi";
 import LoaderOverlay from "../../utils/loaderOverlay";
 import Layer from "./layer";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
-import {createStyle, returnLegendByStyleId} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import getGeometryTypeFromService from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
 import store from "../../app-store";
 import * as bridge from "./RadioBridge.js";
@@ -155,7 +155,7 @@ WFSLayer.prototype.getStyleFunction = function (attrs) {
 
             this.createLegend();
             isClusterFeature = typeof feat.get("features") === "function" || typeof feat.get("features") === "object" && Boolean(feat.get("features"));
-            return createStyle(styleObject, feat, isClusterFeature, Config.wfsImgPath);
+            return createStyle.createStyle(styleObject, feat, isClusterFeature, Config.wfsImgPath);
         };
     }
     else {
@@ -202,17 +202,17 @@ WFSLayer.prototype.createLegend = function () {
         this.setLegend(legend);
     }
     else if (styleObject && legend === true) {
-        returnLegendByStyleId(styleObject.styleId).then(legendInfos => {
+        createStyle.returnLegendByStyleId(styleObject.styleId).then(legendInfos => {
             if (styleObject.styleId === "default") {
                 const type = this.layer.getSource().getFeatures()[0].getGeometry().getType(),
                     typeSpecificLegends = [];
 
                 if (type === "MultiLineString") {
-                    typeSpecificLegends.push(legendInfos.legendInformation.find(element => element.geometryType === "LineString"));
+                    typeSpecificLegends.push(legendInfos.legendInformation?.find(element => element.geometryType === "LineString"));
                     this.setLegend(typeSpecificLegends);
                 }
                 else {
-                    typeSpecificLegends.push(legendInfos.legendInformation.find(element => element.geometryType === type));
+                    typeSpecificLegends.push(legendInfos.legendInformation?.find(element => element.geometryType === type));
                     this.setLegend(typeSpecificLegends);
                 }
             }
@@ -223,7 +223,7 @@ WFSLayer.prototype.createLegend = function () {
                         (geometryTypes, error) => {
                             if (error) {
                                 store.dispatch("Alerting/addSingleAlert", "<strong>" + i18next.t("common:modules.vectorStyle.styleObject.getGeometryTypeFromWFSFetchfailed") + "</strong> <br>"
-                                + "<small>" + i18next.t("common:modules.vectorStyle.styleObject.getGeometryTypeFromWFSFetchfailedMessage") + "</small>");
+                                    + "<small>" + i18next.t("common:modules.vectorStyle.styleObject.getGeometryTypeFromWFSFetchfailedMessage") + "</small>");
                             }
                             return geometryTypes;
                         });

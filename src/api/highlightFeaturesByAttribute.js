@@ -2,7 +2,7 @@ import {WFS} from "ol/format.js";
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
-import {createStyle} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import {Style} from "ol/style.js";
 import Point from "ol/geom/Point.js";
 import Feature from "ol/Feature.js";
@@ -70,7 +70,7 @@ export default {
                     iconFeature = new Feature({
                         geometry: new Point(coordinate)
                     }),
-                    featureStyle = createStyle(styleObject, feature, false, Config.wfsImgPath);
+                    featureStyle = createStyle.createStyle(styleObject, feature, false, Config.wfsImgPath);
 
                 iconFeature.setProperties(feature.getProperties());
                 iconFeature.setStyle(featureStyle);
@@ -126,7 +126,7 @@ export default {
                 const newFeature = new Feature({
                         geometry: geometry
                     }),
-                    featureStyle = createStyle(styleObject, newFeature, false, Config.wfsImgPath);
+                    featureStyle = createStyle.createStyle(styleObject, newFeature, false, Config.wfsImgPath);
 
                 newFeature.setProperties(feature.getProperties());
                 newFeature.setStyle(featureStyle);
