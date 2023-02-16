@@ -110,8 +110,8 @@ export default {
         <a
             :href="link"
             target="_blank"
-            :data-toggle="title"
-            data-placement="bottom"
+            :data-bs-toggle="title"
+            data-bs-placement="bottom"
             :title="toolTip"
             class="tabable"
         >
@@ -122,7 +122,7 @@ export default {
                 :src="logo"
                 :alt="title"
             >
-            <span
+            <h1
                 id="title-text"
                 v-html="title"
             />
@@ -147,10 +147,10 @@ export default {
             display: inline-block;
             vertical-align: middle;
         }
-        span {
+        h1 {
             color: $secondary_contrast;
             margin-left: 5px;
-            font-size: 26px;
+            font-size: $font_size_huge;
             font-family: $font_family_narrow;
             white-space: nowrap;
             overflow: hidden;

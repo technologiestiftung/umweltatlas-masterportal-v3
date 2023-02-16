@@ -1,6 +1,14 @@
 import getProxyUrl from "../../../../utils/getProxyUrl";
 import {GeoJSON, GPX, KML} from "ol/format.js";
 import Circle from "ol/geom/Circle";
+import Style from "ol/style/Style";
+import Fill from "ol/style/Fill";
+import Stroke from "ol/style/Stroke";
+import Icon from "ol/style/Icon";
+import {createDrawStyle} from "../../draw/utils/style/createDrawStyle";
+import isObject from "../../../../utils/isObject";
+import {createEmpty as createEmptyExtent, extend} from "ol/extent";
+import uniqueId from "../../../../utils/uniqueId";
 
 const supportedFormats = {
     kml: new KML({extractStyles: true, iconUrlFunction: (url) => proxyGstaticUrl(url)}),
@@ -10,7 +18,6 @@ const supportedFormats = {
 
 /**
  * Change the URL for gstatic.com so that it request through a reverse proxy.
- *
  * Note: When exporting a kml from google-maps or -earth, references to the images are specified.
  * These currently do not allow CORS.
  * @param {String} url The image url.
@@ -134,17 +141,77 @@ function checkIsVisibleSetting (features) {
     return resFeatures;
 }
 
+/**
+ * Gets custom attributes from feature by parsing given feature keys.
+ * @param {ol/Feature} feature The feature.
+ * @returns {Object} The parsed attributes.
+ */
+function getParsedCustomAttributes (feature) {
+    if (typeof feature.getKeys !== "function" || !Array.isArray(feature.getKeys())) {
+        return {};
+    }
+
+    let attributes = feature.get("attributes");
+
+    if (!isObject(attributes)) {
+        attributes = {};
+    }
+    feature.getKeys().forEach(key => {
+        if (typeof key.split === "function" && key.split("custom-attribute____").length > 1) {
+            const parsedKey = key.split("custom-attribute____")[1];
+
+            attributes[parsedKey] = feature.get(key);
+        }
+    });
+    return attributes;
+}
+
 export default {
+    /**
+     * Sets the selected file type
+     * @param {Object} param.commit the commit
+     * @param {String} newFiletype the file type
+     * @returns {void}
+     */
     setSelectedFiletype: ({commit}, newFiletype) => {
         commit("setSelectedFiletype", newFiletype);
-
     },
 
+    /**
+     * Sets the featureExtents
+     * @param {Object} param.state the state
+     * @param {Object} param.commit the commit
+     * @param {ol/Feature[]} payload.features the parsed features
+     * @param {String} payload.fileName the file name
+     * @returns {void}
+     */
+    setFeatureExtents: ({state, commit}, {features, fileName}) => {
+        const extents = state.featureExtents,
+            extent = createEmptyExtent();
+
+        for (let i = 0; i < features.length; i++) {
+            extend(extent, features[i].getGeometry().getExtent());
+        }
+
+        extents[fileName] = extent;
+        commit("setFeatureExtents", extents);
+    },
+
+    /**
+     * Imports the given KML file from datasrc.raw, creating the features into datasrc.layer.
+     * @param {Object} param.state the state
+     * @param {Object} param.dispatch the dispatch
+     * @param {Object} param.rootGetters the root getters
+     * @param {Object} datasrc data source to import, with properties filename, layer and raw.
+     * @returns {void}
+     */
     importKML: ({state, dispatch, rootGetters}, datasrc) => {
         const
             vectorLayer = datasrc.layer,
-            format = getFormat(datasrc.filename, state.selectedFiletype, state.supportedFiletypes, supportedFormats),
-            crsPropName = getCrsPropertyName(datasrc.raw);
+            fileName = datasrc.filename,
+            format = getFormat(fileName, state.selectedFiletype, state.supportedFiletypes, supportedFormats),
+            crsPropName = getCrsPropertyName(datasrc.raw),
+            customAttributes = {};
 
         let
             featureError = false,
@@ -156,7 +223,7 @@ export default {
         }
 
         if (format === false) {
-            const fileNameSplit = datasrc.filename.split("."),
+            const fileNameSplit = fileName.split("."),
                 fileFormat = fileNameSplit.length > 0 ? "*." + fileNameSplit[fileNameSplit.length - 1] : "unknown";
 
             alertingMessage = {
@@ -201,7 +268,7 @@ export default {
             console.warn(ex);
             alertingMessage = {
                 category: i18next.t("common:modules.alerting.categories.error"),
-                content: i18next.t("common:modules.tools.fileImport.alertingMessages.formatError", {filename: datasrc.filename})
+                content: i18next.t("common:modules.tools.fileImport.alertingMessages.formatError", {filename: fileName})
             };
 
             dispatch("Alerting/addSingleAlert", alertingMessage, {root: true});
@@ -211,7 +278,7 @@ export default {
         if (!Array.isArray(features) || features.length === 0) {
             alertingMessage = {
                 category: i18next.t("common:modules.alerting.categories.error"),
-                content: i18next.t("common:modules.tools.fileImport.alertingMessages.missingFileContent", {filename: datasrc.filename})
+                content: i18next.t("common:modules.tools.fileImport.alertingMessages.missingFileContent", {filename: fileName})
             };
 
             dispatch("Alerting/addSingleAlert", alertingMessage, {root: true});
@@ -219,7 +286,16 @@ export default {
         }
 
         features.forEach(feature => {
+            const featureAttributes = getParsedCustomAttributes(feature);
             let geometries;
+
+            feature.set("attributes", featureAttributes);
+            feature.setProperties(featureAttributes);
+            Object.keys(featureAttributes).forEach(key => {
+                if (!Object.prototype.hasOwnProperty.call(customAttributes, key)) {
+                    customAttributes[key] = key;
+                }
+            });
 
             if (feature.get("isGeoCircle")) {
                 const circleCenter = feature.get("geoCircleCenter").split(",").map(parseFloat),
@@ -261,29 +337,249 @@ export default {
                         mappedCrsPropName = "EPSG:3857";
                     }
 
-                    geometry.transform(mappedCrsPropName, rootGetters["Map/projectionCode"]);
+                    geometry.transform(mappedCrsPropName, rootGetters["Maps/projectionCode"]);
+                    feature.set("source", fileName);
                 });
             }
+            if (typeof feature.get === "function" && typeof feature.get("styleId") === "undefined") {
+                feature.set("styleId", uniqueId(""));
+            }
         });
+
         features = checkIsVisibleSetting(features);
 
         vectorLayer.getSource().addFeatures(features);
+        vectorLayer.set("gfiAttributes", customAttributes);
 
         if (featureError) {
             alertingMessage = {
                 category: i18next.t("common:modules.alerting.categories.info"),
-                content: i18next.t("common:modules.tools.fileImport.alertingMessages.successPartly", {filename: datasrc.filename})
+                content: i18next.t("common:modules.tools.fileImport.alertingMessages.successPartly", {filename: fileName})
             };
         }
         else {
             alertingMessage = {
                 category: i18next.t("common:modules.alerting.categories.info"),
-                content: i18next.t("common:modules.tools.fileImport.alertingMessages.success", {filename: datasrc.filename})
+                content: i18next.t("common:modules.tools.fileImport.alertingMessages.success", {filename: fileName})
             };
         }
 
         dispatch("Alerting/addSingleAlert", alertingMessage, {root: true});
-        dispatch("addImportedFilename", datasrc.filename);
+        dispatch("addImportedFilename", fileName);
+
+        if (state.enableZoomToExtend && features.length) {
+            dispatch("setFeatureExtents", {features: features, fileName: fileName});
+        }
+    },
+
+    /**
+     * Imports the given GeoJSON file from datasrc.raw, creating the features into datasrc.layer.
+     * @param {Object} param.state the state
+     * @param {Object} param.dispatch the dispatch
+     * @param {Object} param.rootGetters the root getters
+     * @param {Object} datasrc data source to import, with properties filename, layer and raw.
+     * @returns {void}
+     */
+    importGeoJSON: ({state, dispatch, rootGetters}, datasrc) => {
+        const vectorLayer = datasrc.layer,
+            fileName = datasrc.filename,
+            format = getFormat(fileName, state.selectedFiletype, state.supportedFiletypes, supportedFormats),
+            gfiAttributes = {};
+
+        let
+            alertingMessage,
+            features;
+
+        if (format === false) {
+            const fileNameSplit = fileName.split("."),
+                fileFormat = fileNameSplit.length > 0 ? "*." + fileNameSplit[fileNameSplit.length - 1] : "unknown";
+
+            alertingMessage = {
+                category: i18next.t("common:modules.alerting.categories.error"),
+                content: i18next.t("common:modules.tools.fileImport.alertingMessages.missingFormat", {format: fileFormat})
+            };
+
+            dispatch("Alerting/addSingleAlert", alertingMessage, {root: true});
+            return;
+        }
+
+        try {
+            features = format.readFeatures(datasrc.raw, {
+                dataProjection: getCrsPropertyName(datasrc.raw),
+                featureProjection: rootGetters["Maps/projectionCode"]
+            });
+        }
+        catch (ex) {
+            console.warn(ex);
+            alertingMessage = {
+                category: i18next.t("common:modules.alerting.categories.error"),
+                content: i18next.t("common:modules.tools.fileImport.alertingMessages.formatError", {filename: fileName})
+            };
+
+            dispatch("Alerting/addSingleAlert", alertingMessage, {root: true});
+            return;
+        }
+
+        if (!Array.isArray(features) || features.length === 0) {
+            alertingMessage = {
+                category: i18next.t("common:modules.alerting.categories.error"),
+                content: i18next.t("common:modules.tools.fileImport.alertingMessages.missingFileContent", {filename: fileName})
+            };
+
+            dispatch("Alerting/addSingleAlert", alertingMessage, {root: true});
+            return;
+        }
+
+        vectorLayer.setStyle((feature) => {
+            const drawState = feature.getProperties().drawState;
+            let style;
+
+            if (!drawState) {
+                const defaultColor = [226, 26, 28, 0.9],
+                    defaultFillColor = [228, 26, 28, 0.5],
+                    defaultPointSize = 16,
+                    defaultStrokeWidth = 1,
+                    defaultCircleRadius = 300,
+                    geometryType = feature ? feature.getGeometry().getType() : "Cesium";
+
+                if (geometryType === "Point" || geometryType === "MultiPoint") {
+                    style = createDrawStyle(defaultColor, defaultColor, geometryType, defaultPointSize, 1, 1);
+                }
+                else if (geometryType === "LineString" || geometryType === "MultiLineString") {
+                    style = new Style({
+                        stroke: new Stroke({
+                            color: defaultColor,
+                            width: defaultStrokeWidth
+                        })
+                    });
+                }
+                else if (geometryType === "Polygon" || geometryType === "MultiPolygon") {
+                    style = new Style({
+                        stroke: new Stroke({
+                            color: defaultColor,
+                            width: defaultStrokeWidth
+                        }),
+                        fill: new Fill({
+                            color: defaultFillColor
+                        })
+                    });
+                }
+                else if (geometryType === "Circle") {
+                    style = new Style({
+                        stroke: new Stroke({
+                            color: defaultColor,
+                            width: defaultStrokeWidth
+                        }),
+                        fill: new Fill({
+                            color: defaultFillColor
+                        }),
+                        circleRadius: defaultCircleRadius,
+                        colorContour: defaultColor
+                    });
+                }
+                else {
+                    console.warn("Geometry type not implemented: " + geometryType);
+                    style = new Style();
+                }
+
+                return style.clone();
+            }
+
+            if (drawState.drawType.geometry === "Point") {
+                if (drawState.symbol.value !== "simple_point") {
+                    style = new Style({
+                        image: new Icon({
+                            crossOrigin: "anonymous",
+                            src: drawState.symbol.value.indexOf("/") > 0 ? drawState.symbol.value : drawState.imgPath + drawState.symbol.value,
+                            scale: drawState.symbol.scale
+                        })
+                    });
+                }
+                else {
+                    style = createDrawStyle(drawState.color, drawState.color, drawState.drawType.geometry, drawState.pointSize, 1, drawState.zIndex);
+                }
+            }
+            else if (drawState.drawType.geometry === "LineString" || drawState.drawType.geometry === "MultiLineString") {
+                style = new Style({
+                    stroke: new Stroke({
+                        color: drawState.colorContour,
+                        width: drawState.strokeWidth
+                    })
+                });
+            }
+            else if (drawState.drawType.geometry === "Polygon" || drawState.drawType.geometry === "MultiPolygon") {
+                style = new Style({
+                    stroke: new Stroke({
+                        color: drawState.colorContour,
+                        width: drawState.strokeWidth
+                    }),
+                    fill: new Fill({
+                        color: drawState.color
+                    })
+                });
+            }
+            else if (drawState.drawType.geometry === "Circle") {
+                style = new Style({
+                    stroke: new Stroke({
+                        color: drawState.colorContour,
+                        width: drawState.strokeWidth
+                    }),
+                    fill: new Fill({
+                        color: drawState.color
+                    }),
+                    circleRadius: drawState.circleRadius,
+                    circleOuterRadius: drawState.circleOuterRadius,
+                    colorContour: drawState.colorContour,
+                    outerColorContour: drawState.outerColorContour
+                });
+            }
+            else {
+                console.warn("Geometry type not implemented: " + drawState.drawType.geometry);
+                style = new Style();
+            }
+
+            return style.clone();
+        });
+
+        features = checkIsVisibleSetting(features);
+
+        features.forEach(feature => {
+            if (isObject(feature.get("attributes"))) {
+                Object.keys(feature.get("attributes")).forEach(key => {
+                    gfiAttributes[key] = key;
+                });
+            }
+
+            if (vectorLayer.getStyleFunction()(feature) !== undefined) {
+                feature.setStyle(vectorLayer.getStyleFunction()(feature));
+            }
+
+            if (feature.get("isGeoCircle")) {
+                const circleCenter = feature.get("geoCircleCenter").split(",").map(parseFloat),
+                    circleRadius = parseFloat(feature.get("geoCircleRadius"));
+
+                feature.setGeometry(new Circle(circleCenter, circleRadius));
+            }
+
+            feature.set("source", fileName);
+            vectorLayer.getSource().addFeature(feature);
+        });
+
+        if (!vectorLayer.get("gfiAttributes")) {
+            vectorLayer.set("gfiAttributes", gfiAttributes);
+        }
+
+        alertingMessage = {
+            category: i18next.t("common:modules.alerting.categories.info"),
+            content: i18next.t("common:modules.tools.fileImport.alertingMessages.success", {filename: fileName})
+        };
+
+        dispatch("Alerting/addSingleAlert", alertingMessage, {root: true});
+        dispatch("addImportedFilename", fileName);
+
+        if (state.enableZoomToExtend && features.length) {
+            dispatch("setFeatureExtents", {features: features, fileName: fileName});
+        }
     },
     /**
      * Adds the name of a successfully imported file to list of imported filenames

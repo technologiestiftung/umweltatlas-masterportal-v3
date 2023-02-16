@@ -20,6 +20,7 @@ In the following, all configuration options are described. For all configuration
 |cesiumParameter|no|**[cesiumParameter](#markdown-header-cesiumparameter)**||Cesium flags||
 |cswId|no|String|`"3"`|Reference to a CSW interface used to retrieve layer information. The ID will be resolved to a service defined in the **[rest-services.json](rest-services.json.md)** file.|`"my CSW-ID"`|
 |defaultToolId|no|String|`"gfi"`|The tool with the given ID will be active when no other tool is active.|"filter"|
+|layerSelector|no|**[layerSelector](#markdown-header-layerselector)**||Module to configure interactions with the layertree and the map, executed on a defined event.||
 |featureViaURL|no|**[featureViaURL](#markdown-header-featureviaurl)**||Optional configuration for the URL parameter `featureViaURL`. See **[urlParameter](urlParameter.md)** for details. Implemented for treeTypes *light* and *custom*.||
 |footer|no|**[footer](#markdown-header-footer)**||If set, a footer is shown and configured with this object.||
 |gfiWindow|no|String|`"detached"`|_Deprecated in the next major release. Please use the attribute "Portalconfig.menu.tool.gfi.desktopType" of the **[config.json](#config.json.md)** instead._ Display type and attribute information for all layer types. **attached**: the attribute information window is opened at click position **detached**: the attribute information window is opened at the top right of the map; a marker is set to the click position.|`"attached"`|
@@ -46,9 +47,11 @@ In the following, all configuration options are described. For all configuration
 |uiStyle|no|String|`"default"`|Sets the control element layout. |`table`|
 |wfsImgPath|no|String||Path to the folder holding images for the WFS styles. The path is relative to *js/main.js*.|`https://geodienste.hamburg.de/lgv-config/img/"`|
 |wpsID|no|String|`""`|Reference to a WPS interface used in various modules. The ID is resolved to a service defined in the **[rest-services.json](rest-services.json.md)** file.|`""`|
-|zoomToFeature|no|**[zoomToFeature](#markdown-header-zoomtofeature)**||Optional configuration of the URL query parameter `featureid`. For details, see **[urlParameter](urlParameter.md)**.||
+|zoomToFeature|no|**[zoomToFeature](#markdown-header-zoomtofeature)**||_Deprecated in the next major release. Please use **[zoomTo](#markdown-header-zoomto)** instead._ Optional configuration of the URL query parameter `featureid`. For details, see **[urlParameter](urlParameter.md)**. ||
+|zoomTo|no|**[zoomTo](#markdown-header-zoomto)**[]|Configuration for the URL query parameters `zoomToFeatureId` and `zoomToGeometry`.||
 |layerInformation|no|**[layerInformation](#markdown-header-layerinformation)**||Configuration for the layerInformation window.||
 |vuetify|no|String|undefined|Path to the optional instance of the vuetify UI library. e.g. portal or addon specific.|`addons/cosi/vuetify/index.js`|
+|layerSequence|no|**[layerSequence](#markdown-header-layersequence)**||Configuration for layerSequence.||
 
 ***
 
@@ -63,6 +66,9 @@ In the following, all configuration options are described. For all configuration
 
 ## cameraParameter
 
+Cesium Scene camera settings in 3D mode.
+_Deprecated in the next major release. Please use **[cesiumParameter](#markdown-header-cesiumParameter)** instead._
+
 |Name|Required|Type|Default|Description|
 |----|--------|----|-------|-----------|
 |heading|no|Number||Camera's initial heading in radians|
@@ -72,14 +78,106 @@ In the following, all configuration options are described. For all configuration
 ***
 
 ## cesiumParameter
+
+Cesium Scene settings in 3D mode.
+For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Scene.html?classFilter=scene)**
+
 |Name|Required|Type|Default|Description|
 |----|--------|----|-------|-----------|
-|fog|no|Object||Fog options. See [fog documentation](https://cesiumjs.org/Cesium/Build/Documentation/Fog.html) for details.|
-|enableLighting|no|Boolean|`false`|Activates light effects on the map based on the sun's position.|
-|maximumScreenSpaceError|no|Number|`2.0`|Detail level in which terrain/raster tiles are fetched. 4/3 is the highest quality level.|
+|camera|no|**[camera](#markdown-header-cesiumParametercamera)**||Cesium Scene camera settings in 3D mode.|
+|fog|no|**[fog](#markdown-header-cesiumParameterfog)**||Cesium Scene fog settings in 3D mode.|
 |fxaa|no|Boolean|`true`|activates *fast approximate anti-aliasing*|
+|globe|no|**[globe](#markdown-header-cesiumParameterglobe)**||Cesium Scene globe settings in 3D mode.|
+|maximumScreenSpaceError|no|Number|`2.0`|Detail level in which terrain/raster tiles are fetched. 4/3 is the highest quality level.|
 |tileCacheSize|no|Number|`100`|terrain/raster tile cache size|
 
+**Example**
+
+```json
+{
+    "camera": {
+        "altitude": 127,
+        "heading": -1.2502079000000208,
+        "tilt": 45
+    },
+    "fog": {
+        "enabled": true
+    },
+    "fxaa": true,
+    "globe": {
+        "enableLighting": true
+    },
+    "maximumScreenSpaceError": 2,
+    "tileCacheSize": 20,
+}
+```
+***
+
+### cesiumParameter.camera
+
+Cesium Scene camera settings in 3D mode.
+The camera is defined by a position, orientation, and view frustum.
+For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Camera.html)**
+
+|Name|Required|Type|Default|Description|
+|----|--------|----|-------|-----------|
+|altitude|no|Number||Camera's initial height in meters|
+|heading|no|Number||Camera's initial heading in radians|
+|tilt|no|Number||Camera's initial tile in radians|
+
+**Example**
+
+```json
+{
+    "camera": {
+        "altitude": 127,
+        "heading": -1.2502079000000208,
+        "tilt": 45
+    }
+}
+```
+***
+
+### cesiumParameter.fog
+
+Cesium Scene fog settings in 3D mode.
+Blends the atmosphere to geometry far from the camera for horizon views.
+For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Fog.html)**
+
+|Name|Required|Type|Default|Description|
+|----|--------|----|-------|-----------|
+|enabled|no|Boolean|`false`|True if fog is enabled.|
+
+**Example**
+
+```json
+{
+    "fog": {
+        "enabled": true
+    }
+}
+```
+***
+
+### cesiumParameter.globe
+
+Cesium Scene globe settings in 3D mode.
+The globe rendered in the scene, including its terrain and imagery layers.
+For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Globe.html)**
+
+|Name|Required|Type|Default|Description|
+|----|--------|----|-------|-----------|
+|enableLighting|no|Boolean|`false`|Activates light effects on the map based on the sun's position.|
+
+**Example**
+
+```json
+{
+    "globe": {
+        "enableLighting": true
+    }
+}
+```
 ***
 
 ## footer
@@ -88,6 +186,7 @@ In the following, all configuration options are described. For all configuration
 |----|--------|----|-------|-----------|
 |urls|no|**[urls](#markdown-header-footerurls)**[]||Array of URL configuration objects.|
 |showVersion|no|Boolean|`false`|If `true`, the Masterportal version number is included in the footer.|
+|footerInfo|no|**[footerInfo](#markdown-header-footerfooterInfo)**[]||Array of information configuration objects.|
 
 ***
 
@@ -129,6 +228,54 @@ In the following, all configuration options are described. For all configuration
 }
 ```
 
+***
+
+### footer.footerInfo
+|Name|Required|Type|Default|Description|
+|----|-------------|---|-------|------------|
+|title|yes|String||Title of the information tab.|
+|description|no|String||Text displayed under the title.|
+|subtexts|no|**[subtexts](#markdown-header-footerfooterInfosubtexts)**[]||Array of subtext configuration objects.|
+
+***
+
+### footer.footerInfo.subtexts
+|Name|Required|Type|Default|Description|
+|----|-------------|---|-------|------------|
+|subtitle|yes|String||Subtitle of the subtext.|
+|text|no|String||Text displayed under the subtitle.|
+
+**Beispiel:**
+
+```json
+{
+    "footerInfo": [
+        {
+            "title": "Contact",
+            "description": "Text under the titel",
+            "subtexts": [
+                {
+                    "subtitle": "Postal address",
+                    "text": "Max-Mustermann-Str. 1 <br> 12345 City <br> Germany"
+                },
+                {
+                    "subtitle": "Phone and fax",
+                    "text": "Tel: +49 (0) 1234 56789 <br> Fax: +49 (0) 1234 5678910"
+                }
+            ]
+        },
+        {
+            "title": "Privacy",
+            "subtexts": [
+                {
+                    "subtitle": "Subtitle",
+                    "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt..."
+                }
+            ]
+        }
+    ]
+}
+```
 ***
 
 ## mapMarker
@@ -308,7 +455,52 @@ In the following, all configuration options are described. For all configuration
 
 ***
 
+## zoomTo
+
+|Name|Required|Type|Default|Description|
+|----|--------|----|-------|-----------|
+
+|id|yes|enum["zoomToFeatureId", "zoomToGeometry"]||Id of the URL query parameter the configuration refers to.|
+|layerId|yes|String||Id of the layer the feature should be fetched from.|
+|property|yes|String||Name of the property the features should be filtered by.|
+|addFeatures|no|Boolean|true|Specifies whether the desired features should be added to the map in a separate layer.|
+|allowedValues|no|Array||Only relevant when `id` equal `zoomToGeometry`. Further filters the values allowed in the URL query parameters.|
+|styleId|no|String||Only relevant when `id` equal `zoomToFeatureId`. Id of the `StyleModel` that should be used to style the features retrieved from the service.|
+
+**Example**:
+
+```js
+{
+    zoomTo: [
+        {
+            id: "zoomToGeometry",
+            layerId: "1692",
+            property: "bezirk_name",
+            allowedValues: [
+                "ALTONA",
+                "HARBURG",
+                "HAMBURG-NORD",
+                "BERGEDORF",
+                "EIMSBÜTTEL",
+                "HAMBURG-MITTE",
+                "WANDSBEK"
+            ]
+        },
+        {
+            id: "zoomToFeatureId",
+            layerId: "4560",
+            property: "flaechenid",
+            styleId: "location_eventlotse"
+        }
+    ]
+}
+```
+
+***
+
 ## zoomToFeature
+
+_Deprecated in the next major release. Please use **[zoomTo](#markdown-header-zoomto)** instead._
 
 |Name|Required|Type|Default|Description|
 |----|--------|----|-------|-----------|
@@ -316,7 +508,9 @@ In the following, all configuration options are described. For all configuration
 |wfsId|yes|String||ID to a WFS layer of which features to a position are requested from.|
 |attribute|yes|String||Attribute by which the WFS is filtered.|
 |styleId|no|String||A styleId from the `styles.json` may be supplied to override the map marker's design|
+|setFeature|no|Boolean|yes||Specifies a feature with which to create the specified style.
 |useProxy|no|Boolean|`false`|_Deprecated in the next major release. *[GDI-DE](https://www.gdi-de.org/en)* recommends setting CORS headers on the required services instead._ Whether the service URL is to be requested via proxy. The request will contain the requested URL as path, with dots replaced by underdashes.|
+|addFeatures|no|Boolean|true|Specifies whether the desired features should be added to the map in a separate layer.|
 
 **Example:**
 
@@ -333,6 +527,8 @@ In the following, all configuration options are described. For all configuration
 ***
 
 ## zoomToGeometry
+
+_Deprecated in the next major release. Please use **[zoomTo](#markdown-header-zoomto)** instead._
 
 |Name|Required|Type|Default|Description|
 |----|--------|----|-------|-----------|
@@ -352,6 +548,81 @@ In the following, all configuration options are described. For all configuration
     }
 }
 ```
+
+***
+
+## layerSelector
+
+Module to configure interactions with the layertree and the map, executed on a defined event.
+
+|Name|Required|Type|Default|Description|
+|----|--------|----|-------|-----------|
+|events|yes|Object[]||Events to be executed from other modules to select or add layers in layertree.|
+|default|no|Object||Object to overwrite the missing parts in the events objects.|
+
+**Example:**
+
+```json
+{
+    "events": [
+        {
+            "event": "modulname",
+            "deselectPreviousLayers": "always",
+            "layerIds": ["1001"]
+        },
+        {
+            "event": "modulname",
+            "deselectPreviousLayers": "always",
+            "layerIds": ["1000"]
+        }
+    ],
+    "default": {
+        "openFolderForLayerIds": []
+    }
+}
+```
+
+***
+
+### layerSelector.events
+
+Array of Objects. In a single object, interactions with the layertree and the map can be configured. Those interactions are executed on a defined event.
+
+|Name|Required|Type|Default|Description|
+|----|--------|----|-------|-----------|
+|event|yes|String||The name of the event that can trigger actions. For possible values and their meanings see the table below.|
+|showLayerId|no|String||Layer ID of the layer to be shown in the layer tree. Opens the layer tree and extends all correspoding folders at the location of the defined layer. Only in destop mode.|
+|layerIds|no|String[]||Layer IDs to select in the layer tree.|
+|openFolderForLayerIds|no|String[]||List of Layer IDs to open their folders in the layer tree.|
+|extent|no|Integer[]||Bounding Box to zoom to when this event is triggered.|
+|deselectPreviousLayers|no|String|always|Deselects all selected layers if it has the value 'always'. For value 'none' nothing happens.|
+
+**Example:**
+
+```json
+{
+    "events": [{
+        "event": "measure_geometry",
+        "showLayerId": "1234",
+        "layerIds": ["2345", "3456", "4567"],
+        "openFolderForLayerIds": ["2345"],
+        "extent": [550697, 5927004,579383, 5941340],
+        "deselectPreviousLayers": "always",
+    }]
+}
+```
+
+***
+
+**Values for event**
+
+Events that can trigger actions.
+
+|event|Description|
+|------|-----------|
+|comparefeatures_select|When a layer is selected for comparison in CompareFeatures module|
+|fileimport_imported|When files were successfully imported in FileImport module|
+|measure_geometry|When the selected geometry value changed in Measure module|
 
 ***
 
@@ -456,6 +727,27 @@ Configuration for the layerInformation window.
     "layerInformation": {
         "showUrlGlobal": true
     },
+}
+```
+
+***
+
+## layerSequence
+
+Configuration for the layerSequence.
+
+|Name|Required|Type|Default|Description|
+|----|--------|----|-------|-----------|
+|moveModelInTree|no|Boolean|true|Flag whether it should be possible to move a layer in the topic tree despite a defined LayerSequence.|
+
+
+**Example:**
+
+```json
+{
+    "layerSequence": {
+        "moveModelInTree": true
+    }
 }
 ```
 

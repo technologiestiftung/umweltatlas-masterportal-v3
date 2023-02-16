@@ -2,8 +2,10 @@
 import * as constants from "../store/constantsDraw";
 import DownloadItem from "../components/DownloadItem.vue";
 import DrawItemFeaturesFilter from "./DrawItemFeaturesFilter.vue";
+import DrawItemAttributes from "./DrawItemAttributes.vue";
 
-import getComponent from "../../../../utils/getComponent";
+import {getComponent} from "../../../../utils/getComponent";
+import {listenToUpdatedSelectedLayerList} from "../utils/RadioBridge";
 
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import ToolTemplate from "../../ToolTemplate.vue";
@@ -12,6 +14,7 @@ export default {
     name: "DrawItem",
     components: {
         DrawItemFeaturesFilter,
+        DrawItemAttributes,
         DownloadItem,
         ToolTemplate
     },
@@ -25,13 +28,32 @@ export default {
     },
     computed: {
         ...mapGetters("Tools/Draw", constants.keyStore.getters),
+
+        /**
+         * Shows/hides the draw layer and enables/disables the tools of the draw tool.
+         * @returns {Boolean} drawLayerVisible.
+         */
+        drawLayerVisibleComputed: {
+            get () {
+                return this.drawLayerVisible;
+            },
+            set (value) {
+                if (value) {
+                    this.setCanvasCursorByInteraction(this.currentInteraction);
+                }
+                else {
+                    this.resetCanvasCursor();
+                }
+                this.setDrawLayerVisible(value);
+            }
+        },
         /**
          * Enables or disables all the select or input elements depending on if the currentInteraction is "draw".
          * @returns {Boolean} currentInteraction === "draw": return false and activate the HTML elements, else: return true and deactivate the HTML elements.
          */
         drawHTMLElements () {
             // remember: true means disable, false means enable
-            return !(this.currentInteraction === "draw");
+            return !this.drawLayerVisible || this.currentInteraction !== "draw";
         },
         /**
          * Enables or disables the select- or input-boxes depending on the state of currentInteraction and selectedFeature.
@@ -42,7 +64,7 @@ export default {
                 return false;
             }
             // remember: true means disable, false means enable
-            return !(this.currentInteraction === "draw");
+            return !this.drawLayerVisible || this.currentInteraction !== "draw";
         },
         /**
          * Enables the input for the radius if the circleMethod is "defined", for interaction "modify" the rule of drawHTMLElementsModifyFeature takes place.
@@ -51,7 +73,7 @@ export default {
         drawCircleMethods () {
             if (this.currentInteraction === "draw") {
                 // remember: true means disable, false means enable
-                return !(this.styleSettings?.circleMethod === "defined");
+                return !this.drawLayerVisible || this.styleSettings?.circleMethod !== "defined";
             }
             return this.drawHTMLElementsModifyFeature;
         },
@@ -229,9 +251,9 @@ export default {
          * @returns {Boolean} True if there are visible features otherwise false.
          */
         isFromDrawTool () {
-            const visibleFeatures = this.layer.getSource().getFeatures().filter(feature => feature.get("fromDrawTool") && feature.get("isVisible"));
+            const visibleFeatures = this.layer?.getSource()?.getFeatures()?.filter(feature => feature.get("fromDrawTool") && feature.get("isVisible"));
 
-            return visibleFeatures.length > 0;
+            return visibleFeatures?.length > 0;
         },
 
         /**
@@ -286,12 +308,55 @@ export default {
 
         Radio.trigger("RemoteInterface", "postMessage", {"initDrawTool": true});
         this.$on("close", this.close);
+
+        if (this.addIconsOfActiveLayers) {
+            listenToUpdatedSelectedLayerList(layerModels => {
+                this.addSymbolsByLayerModels(layerModels);
+            });
+        }
     },
     methods: {
         ...mapMutations("Tools/Draw", constants.keyStore.mutations),
         ...mapActions("Tools/Draw", constants.keyStore.actions),
-        ...mapActions("Alerting", ["addSingleAlert"]),
 
+        /**
+         * Adds all symbols found in layerModels to the iconList.
+         * @param {Object[]} layerModels The layer models.
+         * @returns {void}
+         */
+        addSymbolsByLayerModels (layerModels) {
+            if (!Array.isArray(layerModels)) {
+                return;
+            }
+            layerModels.forEach(layerModel => {
+                if (typeof layerModel?.get !== "function") {
+                    return;
+                }
+                const legend = layerModel.get("legend");
+
+                if (!Array.isArray(legend)) {
+                    return;
+                }
+                legend.forEach(legendInfo => {
+                    if (
+                        typeof legendInfo?.styleObject?.get !== "function"
+                        || typeof legendInfo.styleObject.get("imageScale") !== "number"
+                        || typeof legendInfo.styleObject.get("imagePath") !== "string"
+                        || !legendInfo.styleObject.get("imageName")
+                    ) {
+                        return;
+                    }
+                    const icon = {
+                        "id": legendInfo.label || legendInfo.styleObject.get("imageName"),
+                        "type": "image",
+                        "scale": legendInfo.styleObject.get("imageScale"),
+                        "value": legendInfo.styleObject.get("imagePath") + legendInfo.styleObject.get("imageName")
+                    };
+
+                    this.addSymbolIfNotExists(icon);
+                });
+            });
+        },
         /**
          * Sets the focus to the first control
          * @returns {void}
@@ -336,7 +401,7 @@ export default {
             this.mapElement.onmouseup = this.onMouseUp;
         },
         setCanvasCursorByInteraction (interaction) {
-            if (interaction === "modify" || interaction === "delete") {
+            if (interaction === "modify" || interaction === "delete" || interaction === "modifyAttributes") {
                 this.setCanvasCursor("pointer");
             }
             else {
@@ -367,6 +432,14 @@ export default {
                 return option.id;
             }
             return "noName";
+        },
+        /**
+         * Updates the attributes' key list.
+         * @param {String[]} keyList The attributes' key list
+         * @returns {void}
+         */
+        updateAttributesKeyList (keyList) {
+            this.setAttributesKeyList(keyList);
         }
     }
 };
@@ -376,7 +449,7 @@ export default {
 <template lang="html">
     <ToolTemplate
         :title="$t(name)"
-        :icon="glyphicon"
+        :icon="icon"
         :active="active && !withoutGUI"
         :render-to-window="renderToWindow"
         :resizable-window="resizableWindow"
@@ -385,23 +458,58 @@ export default {
         :deactivate-gfi="deactivateGFI"
     >
         <template #toolBody>
-            <select
-                id="tool-draw-drawType"
-                ref="tool-draw-drawType"
-                class="form-control input-sm"
-                :disabled="drawHTMLElements"
-                @change="setDrawType"
+            <div class="form-group form-group-sm">
+                <div class="row">
+                    <label
+                        class="col-md-5 form-check-label"
+                        for="tool-draw-drawLayerVisible"
+                    >
+                        {{ $t("common:modules.tools.draw.drawLayerVisible") }}
+                    </label>
+                    <div class="col-md-7">
+                        <input
+                            id="tool-draw-drawLayerVisible"
+                            v-model="drawLayerVisibleComputed"
+                            class="form-check-input"
+                            type="checkbox"
+                            name="checkbox-drawLayerVisible"
+                        >
+                    </div>
+                </div>
+            </div>
+            <div
+                v-if="currentInteraction !== 'modifyAttributes'"
+                class="form-group form-group-sm"
             >
-                <option
-                    v-for="option in constants.drawTypeOptions"
-                    :id="option.id"
-                    :key="'draw-drawType-' + option.id"
-                    :value="option.geometry"
-                    :selected="option.id === drawType.id"
-                >
-                    {{ $t("common:modules.tools.draw." + option.id) }}
-                </option>
-            </select>
+                <hr>
+                <div class="row">
+                    <label
+                        for="tool-draw-drawType"
+                        class="col-md-5 col-form-label"
+                    >
+                        {{ $t("common:modules.tools.draw.geometry") }}
+                    </label>
+                    <div class="col-md-7">
+                        <select
+                            id="tool-draw-drawType"
+                            ref="tool-draw-drawType"
+                            class="form-select form-select-sm"
+                            :disabled="drawHTMLElements"
+                            @change="setDrawType"
+                        >
+                            <option
+                                v-for="option in constants.drawTypeOptions"
+                                :id="option.id"
+                                :key="'draw-drawType-' + option.id"
+                                :value="option.geometry"
+                                :selected="option.id === drawType.id"
+                            >
+                                {{ $t("common:modules.tools.draw." + option.id) }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
             <hr>
             <template
                 v-if="isFromDrawTool && isFilterListValid"
@@ -411,25 +519,36 @@ export default {
                     :features="featuresFromDrawTool"
                 />
             </template>
+            <template
+                v-if="enableAttributesSelector && currentInteraction === 'modifyAttributes'"
+            >
+                <DrawItemAttributes
+                    :selected-feature="selectedFeature"
+                    :layer="layer"
+                    :attributes-key-list="attributesKeyList"
+                    @updateAttributesKeyList="updateAttributesKeyList"
+                />
+            </template>
             <form
+                v-if="currentInteraction !== 'modifyAttributes'"
                 class="form-horizontal"
                 role="form"
                 @submit.prevent
             >
                 <div
                     v-if="drawType.id === 'drawCircle' && currentInteraction !== 'modify'"
-                    class="form-group form-group-sm"
+                    class="form-group form-group-sm row"
                 >
                     <label
-                        class="col-md-5 col-sm-5 control-label"
+                        class="col-md-5 col-form-label"
                         for="tool-draw-circleMethod"
                     >
                         {{ $t("common:modules.tools.draw.method") }}
                     </label>
-                    <div class="col-md-7 col-sm-7">
+                    <div class="col-md-7">
                         <select
                             id="tool-draw-circleMethod"
-                            class="form-control input-sm"
+                            class="form-select form-select-sm"
                             :disabled="drawHTMLElementsModifyFeature"
                             @change="setCircleMethod"
                         >
@@ -450,19 +569,19 @@ export default {
                 </div>
                 <div
                     v-if="drawType.id === 'drawCircle' || drawType.id === 'drawDoubleCircle'"
-                    class="form-group form-group-sm"
+                    class="form-group form-group-sm row"
                 >
                     <label
-                        class="col-md-5 col-sm-5 control-label"
+                        class="col-md-5 col-form-label"
                         for="tool-draw-circleRadius"
                     >
                         {{ innerRadiusLabelComputed }}
                     </label>
-                    <div class="col-md-7 col-sm-7">
+                    <div class="col-md-7">
                         <input
                             id="tool-draw-circleRadius"
                             v-model="circleRadiusComputed"
-                            class="form-control"
+                            class="form-control form-control-sm"
                             :style="{borderColor: innerBorderColor}"
                             type="number"
                             step="1"
@@ -474,19 +593,19 @@ export default {
                 </div>
                 <div
                     v-if="drawType.id === 'drawDoubleCircle'"
-                    class="form-group form-group-sm"
+                    class="form-group form-group-sm row"
                 >
                     <label
-                        class="col-md-5 col-sm-5 control-label"
+                        class="col-md-5 col-form-label"
                         for="tool-draw-circleOuterRadius"
                     >
                         {{ $t("common:modules.tools.draw.outerRadius") }}
                     </label>
-                    <div class="col-md-7 col-sm-7">
+                    <div class="col-md-7">
                         <input
                             id="tool-draw-circleOuterRadius"
                             v-model="circleOuterRadiusComputed"
-                            class="form-control"
+                            class="form-control form-control-sm"
                             :style="{borderColor: outerBorderColor}"
                             type="number"
                             :placeholder="$t('common:modules.tools.draw.doubleCirclePlaceholder')"
@@ -497,18 +616,18 @@ export default {
                 </div>
                 <div
                     v-if="drawType.id === 'drawCircle' || drawType.id === 'drawDoubleCircle'"
-                    class="form-group form-group-sm"
+                    class="form-group form-group-sm row"
                 >
                     <label
-                        class="col-md-5 col-sm-5 control-label"
+                        class="col-md-5 col-form-label"
                         for="tool-draw-circleUnit"
                     >
                         {{ $t("common:modules.tools.draw.unit") }}
                     </label>
-                    <div class="col-md-7 col-sm-7">
+                    <div class="col-md-7">
                         <select
                             id="tool-draw-circleUnit"
-                            class="form-control input-sm"
+                            class="form-select form-select-sm"
                             :disabled="drawHTMLElementsModifyFeature"
                             @change="setUnit"
                         >
@@ -525,18 +644,18 @@ export default {
                 </div>
                 <div
                     v-if="drawType.id === 'writeText'"
-                    class="form-group form-group-sm"
+                    class="form-group form-group-sm row"
                 >
                     <label
-                        class="col-md-5 col-sm-5 control-label"
+                        class="col-md-5 col-form-label"
                         for="tool-draw-text"
                     >
                         {{ $t("common:modules.tools.draw.text") }}
                     </label>
-                    <div class="col-md-7 col-sm-7">
+                    <div class="col-md-7">
                         <input
                             id="tool-draw-text"
-                            class="form-control"
+                            class="form-control form-control-sm"
                             type="text"
                             :placeholder="$t('common:modules.tools.draw.clickToPlaceText')"
                             :disabled="drawHTMLElementsModifyFeature"
@@ -547,18 +666,18 @@ export default {
                 </div>
                 <div
                     v-if="drawType.id === 'writeText'"
-                    class="form-group form-group-sm"
+                    class="form-group form-group-sm row"
                 >
                     <label
-                        class="col-md-5 col-sm-5 control-label"
+                        class="col-md-5 col-form-label"
                         for="tool-draw-fontSize"
                     >
                         {{ $t("common:modules.tools.draw.fontSize") }}
                     </label>
-                    <div class="col-md-7 col-sm-7">
+                    <div class="col-md-7">
                         <select
                             id="tool-draw-fontSize"
-                            class="form-control input-sm"
+                            class="form-select form-select-sm"
                             :disabled="drawHTMLElementsModifyFeature"
                             @change="setFontSize"
                         >
@@ -575,18 +694,18 @@ export default {
                 </div>
                 <div
                     v-if="drawType.id === 'writeText'"
-                    class="form-group form-group-sm"
+                    class="form-group form-group-sm row"
                 >
                     <label
-                        class="col-md-5 col-sm-5 control-label"
+                        class="col-md-5 col-form-label"
                         for="tool-draw-font"
                     >
                         {{ $t("common:modules.tools.draw.fontName") }}
                     </label>
-                    <div class="col-md-7 col-sm-7">
+                    <div class="col-md-7">
                         <select
                             id="tool-draw-font"
-                            class="form-control input-sm"
+                            class="form-select form-select-sm"
                             :disabled="drawHTMLElementsModifyFeature"
                             @change="setFont"
                         >
@@ -603,18 +722,18 @@ export default {
                 </div>
                 <div
                     v-if="drawType.id === 'drawSymbol'"
-                    class="form-group form-group-sm"
+                    class="form-group form-group-sm row"
                 >
                     <label
-                        class="col-md-5 col-sm-5 control-label"
+                        class="col-md-5 col-form-label"
                         for="tool-draw-symbol"
                     >
                         {{ $t("common:modules.tools.draw.symbol") }}
                     </label>
-                    <div class="col-md-7 col-sm-7">
+                    <div class="col-md-7">
                         <select
                             id="tool-draw-symbol"
-                            class="form-control input-sm"
+                            class="form-select form-select-sm"
                             :disabled="drawHTMLElementsModifyFeature"
                             @change="setSymbol"
                         >
@@ -632,18 +751,18 @@ export default {
                 </div>
                 <div
                     v-if="drawType.id !== 'drawSymbol' && drawType.id !== 'writeText'"
-                    class="form-group form-group-sm"
+                    class="form-group form-group-sm row"
                 >
                     <label
-                        class="col-md-5 col-sm-5 control-label"
+                        class="col-md-5 col-form-label"
                         for="tool-draw-strokeWidth"
                     >
                         {{ $t("common:modules.tools.draw.lineWidth") }}
                     </label>
-                    <div class="col-md-7 col-sm-7">
+                    <div class="col-md-7">
                         <select
                             id="tool-draw-strokeWidth"
-                            class="form-control input-sm"
+                            class="form-select form-select-sm"
                             :disabled="drawHTMLElementsModifyFeature"
                             @change="setStrokeWidth"
                         >
@@ -660,19 +779,19 @@ export default {
                 </div>
                 <div
                     v-if="drawType.id !== 'drawLine' && drawType.id !== 'drawCurve'&& drawType.id !== 'drawSymbol'"
-                    class="form-group form-group-sm"
+                    class="form-group form-group-sm row"
                 >
                     <label
-                        class="col-md-5 col-sm-5 control-label"
+                        class="col-md-5 col-form-label"
                         for="tool-draw-opacity"
                     >
                         {{ $t("common:modules.tools.draw.transparency") }}
                     </label>
-                    <div class="col-md-7 col-sm-7">
+                    <div class="col-md-7">
                         <select
                             id="tool-draw-opacity"
                             :key="`tool-draw-opacity-select`"
-                            class="form-control input-sm"
+                            class="form-select form-select-sm"
                             :disabled="drawHTMLElementsModifyFeature"
                             @change="setOpacity"
                         >
@@ -689,19 +808,19 @@ export default {
                 </div>
                 <div
                     v-if="drawType.id === 'drawLine' || drawType.id === 'drawCurve'"
-                    class="form-group form-group-sm"
+                    class="form-group form-group-sm row"
                 >
                     <label
-                        class="col-md-5 col-sm-5 control-label"
+                        class="col-md-5 col-form-label"
                         for="tool-draw-opacityContour"
                     >
                         {{ $t("common:modules.tools.draw.transparencyOutline") }}
                     </label>
-                    <div class="col-md-7 col-sm-7">
+                    <div class="col-md-7">
                         <select
                             id="tool-draw-opacityContour"
                             :key="`tool-draw-opacityContour-select`"
-                            class="form-control input-sm"
+                            class="form-select form-select-sm"
                             :disabled="drawHTMLElementsModifyFeature"
                             @change="setOpacityContour"
                         >
@@ -718,18 +837,18 @@ export default {
                 </div>
                 <div
                     v-if="drawType.id !== 'drawSymbol' && drawType.id !== 'writeText'"
-                    class="form-group form-group-sm"
+                    class="form-group form-group-sm row"
                 >
                     <label
-                        class="col-md-5 col-sm-5 control-label"
+                        class="col-md-5 col-form-label"
                         for="tool-draw-colorContour"
                     >
                         {{ colorContourLabelComputed }}
                     </label>
-                    <div class="col-md-7 col-sm-7">
+                    <div class="col-md-7">
                         <select
                             id="tool-draw-colorContour"
-                            class="form-control input-sm"
+                            class="form-select form-select-sm"
                             :disabled="drawHTMLElementsModifyFeature"
                             @change="setColorContour"
                         >
@@ -746,18 +865,18 @@ export default {
                 </div>
                 <div
                     v-if="drawType.id === 'drawDoubleCircle'"
-                    class="form-group form-group-sm"
+                    class="form-group form-group-sm row"
                 >
                     <label
-                        class="col-md-5 col-sm-5 control-label"
+                        class="col-md-5 col-form-label"
                         for="tool-draw-outerColorContour"
                     >
                         {{ $t("common:modules.tools.draw.outerColorContour") }}
                     </label>
-                    <div class="col-md-7 col-sm-7">
+                    <div class="col-md-7">
                         <select
                             id="tool-draw-outerColorContour"
-                            class="form-control input-sm"
+                            class="form-select form-select-sm"
                             :disabled="drawHTMLElementsModifyFeature"
                             @change="setOuterColorContour"
                         >
@@ -774,18 +893,18 @@ export default {
                 </div>
                 <div
                     v-if="drawType.id === 'drawSymbol' && symbol.id === 'iconPoint'"
-                    class="form-group form-group-sm"
+                    class="form-group form-group-sm row"
                 >
                     <label
-                        class="col-md-5 col-sm-5 control-label"
+                        class="col-md-5 col-form-label"
                         for="tool-draw-pointColor"
                     >
                         {{ $t("common:modules.tools.draw.color") }}
                     </label>
-                    <div class="col-md-7 col-sm-7">
+                    <div class="col-md-7">
                         <select
                             id="tool-draw-pointColor"
-                            class="form-control input-sm"
+                            class="form-select form-select-sm"
                             :disabled="drawHTMLElementsModifyFeature"
                             @change="setColor"
                         >
@@ -802,18 +921,18 @@ export default {
                 </div>
                 <div
                     v-if="drawType.id !== 'drawLine' && drawType.id !== 'drawCurve' && drawType.id !== 'drawSymbol'"
-                    class="form-group form-group-sm"
+                    class="form-group form-group-sm row"
                 >
                     <label
-                        class="col-md-5 col-sm-5 control-label"
+                        class="col-md-5 col-form-label"
                         for="tool-draw-pointColor"
                     >
                         {{ $t("common:modules.tools.draw.color") }}
                     </label>
-                    <div class="col-md-7 col-sm-7">
+                    <div class="col-md-7">
                         <select
                             id="tool-draw-pointColor"
-                            class="form-control input-sm"
+                            class="form-select form-select-sm"
                             :disabled="drawHTMLElementsModifyFeature"
                             @change="setColor"
                         >
@@ -834,85 +953,119 @@ export default {
                 class="form-horizontal"
                 role="form"
             >
-                <div class="form-group form-group-sm">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group form-group-sm row">
+                    <div class="col-12 d-grid gap-2">
                         <button
                             id="tool-draw-drawInteraction"
-                            class="btn btn-sm btn-block"
-                            :class="currentInteraction === 'draw' ? 'btn-primary' : 'btn-lgv-grey'"
-                            :disabled="currentInteraction === 'draw'"
+                            class="btn btn-sm"
+                            :class="currentInteraction === 'draw' ? 'btn-primary' : 'btn-secondary'"
+                            :disabled="!drawLayerVisible || currentInteraction === 'draw'"
                             @click="toggleInteraction('draw'); setCanvasCursorByInteraction('draw')"
                         >
-                            <span class="glyphicon glyphicon-pencil" />
+                            <span class="bootstrap-icon">
+                                <i class="bi-pencil-fill" />
+                            </span>
                             {{ $t("common:modules.tools.draw.button.draw") }}
                         </button>
                     </div>
                 </div>
-                <div class="form-group form-group-sm">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group form-group-sm row">
+                    <div class="col-12 d-grid gap-2">
                         <button
                             id="tool-draw-undoInteraction"
-                            class="btn btn-sm btn-block btn-lgv-grey"
+                            class="btn btn-sm btn-secondary"
+                            :disabled="!drawLayerVisible"
                             @click="undoLastStep"
                         >
-                            <span class="glyphicon glyphicon-repeat" />
+                            <span class="bootstrap-icon">
+                                <i class="bi-arrow-counterclockwise" />
+                            </span>
                             {{ $t("common:modules.tools.draw.button.undo") }}
                         </button>
                     </div>
                 </div>
-                <div class="form-group form-group-sm">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group form-group-sm row">
+                    <div class="col-12 d-grid gap-2">
                         <button
                             id="tool-draw-redoInteraction"
-                            class="btn btn-sm btn-block btn-lgv-grey"
+                            class="btn btn-sm btn-secondary"
+                            :disabled="!drawLayerVisible"
                             @click="redoLastStep"
                         >
-                            <span class="glyphicon glyphicon-repeat" />
+                            <span class="bootstrap-icon">
+                                <i class="bi-arrow-clockwise" />
+                            </span>
                             {{ $t("common:modules.tools.draw.button.redo") }}
                         </button>
                     </div>
                 </div>
-                <div class="form-group form-group-sm">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group form-group-sm row">
+                    <div class="col-12 d-grid gap-2">
                         <button
                             id="tool-draw-editInteraction"
-                            class="btn btn-sm btn-block"
-                            :class="currentInteraction === 'modify' ? 'btn-primary' : 'btn-lgv-grey'"
-                            :disabled="currentInteraction === 'modify'"
+                            class="btn btn-sm"
+                            :class="currentInteraction === 'modify' ? 'btn-primary' : 'btn-secondary'"
+                            :disabled="!drawLayerVisible || currentInteraction === 'modify'"
                             @click="toggleInteraction('modify'); setCanvasCursorByInteraction('modify')"
                         >
-                            <span class="glyphicon glyphicon-wrench" />
+                            <span class="bootstrap-icon">
+                                <i class="bi-wrench" />
+                            </span>
                             {{ $t("common:modules.tools.draw.button.edit") }}
                         </button>
                     </div>
                 </div>
-                <div class="form-group form-group-sm">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
+                <div
+                    v-if="enableAttributesSelector"
+                    class="form-group form-group-sm row"
+                >
+                    <div class="col-12 d-grid gap-2">
+                        <button
+                            id="tool-draw-editInteraction"
+                            class="btn btn-sm"
+                            :class="currentInteraction === 'modifyAttributes' ? 'btn-primary' : 'btn-secondary'"
+                            :disabled="!drawLayerVisible || currentInteraction === 'modifyAttributes'"
+                            @click="toggleInteraction('modifyAttributes'); setCanvasCursorByInteraction('modifyAttributes')"
+                        >
+                            <span class="bootstrap-icon">
+                                <i class="bi-wrench" />
+                            </span>
+                            {{ $t("common:modules.tools.draw.button.editAttributes") }}
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group form-group-sm row">
+                    <div class="col-12 d-grid gap-2">
                         <button
                             id="tool-draw-deleteInteraction"
-                            class="btn btn-sm btn-block"
-                            :class="currentInteraction === 'delete' ? 'btn-primary' : 'btn-lgv-grey'"
-                            :disabled="currentInteraction === 'delete'"
+                            class="btn btn-sm"
+                            :class="currentInteraction === 'delete' ? 'btn-primary' : 'btn-secondary'"
+                            :disabled="!drawLayerVisible || currentInteraction === 'delete'"
                             @click="toggleInteraction('delete'); setCanvasCursorByInteraction('delete')"
                         >
-                            <span class="glyphicon glyphicon-trash" />
+                            <span class="bootstrap-icon">
+                                <i class="bi-trash" />
+                            </span>
                             {{ $t("common:modules.tools.draw.button.delete") }}
                         </button>
                     </div>
                 </div>
-                <div class="form-group form-group-sm">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group form-group-sm row">
+                    <div class="col-12 d-grid gap-2">
                         <button
                             id="tool-draw-deleteAllInteraction"
-                            class="btn btn-sm btn-block btn-lgv-grey"
+                            class="btn btn-sm btn-secondary"
+                            :disabled="!drawLayerVisible"
                             @click="clearLayer"
                         >
-                            <span class="glyphicon glyphicon-trash" />
+                            <span class="bootstrap-icon">
+                                <i class="bi-trash" />
+                            </span>
                             {{ $t("common:modules.tools.draw.button.deleteAll") }}
                         </button>
                     </div>
                 </div>
-                <DownloadItem v-if="download.enabled" />
+                <DownloadItem v-if="drawLayerVisible && download.enabled" />
             </div>
         </template>
     </ToolTemplate>
@@ -926,11 +1079,7 @@ export default {
     .cursor-crosshair {
         cursor: crosshair;
     }
-
-    button {
-        &:disabled {
-            background-color: $accent_active;
-            opacity: 1;
-        }
+    .btn-sm {
+        font-size: $font-size-base;
     }
 </style>

@@ -4,8 +4,8 @@ import SensorTheme from "../themes/sensor/components/SensorTheme.vue";
 import {mapGetters} from "vuex";
 import getTheme from "../../utils/getTheme";
 import Overlay from "ol/Overlay.js";
-import "bootstrap/js/tooltip";
-import "bootstrap/js/popover";
+import "bootstrap/js/dist/tooltip";
+import Popover from "bootstrap/js/dist/popover";
 
 export default {
     name: "AttachedTemplate",
@@ -25,7 +25,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Map", ["clickCoord"]),
+        ...mapGetters("Maps", ["clickCoordinate"]),
         /**
          * Returns the title of the gfi.
          * @returns {String} the title
@@ -46,14 +46,13 @@ export default {
     watch: {
         /**
          * When the feature changes, the popover is redrawn to keep the position of the click coordinate.
-         * Note: Starting from Bootstrap version 4 an update function for the popover is available.
-         *       Should be adapted when updating Bootstrap.
          * @returns {void}
          */
         feature () {
             this.$nextTick(() => {
-                this.overlay.setPosition(this.clickCoord);
-                $(this.overlay.getElement()).popover("show");
+                const popover = Popover.getInstance(this.overlay.getElement());
+
+                popover.update();
             });
         }
     },
@@ -65,7 +64,7 @@ export default {
         this.createPopover();
     },
     beforeDestroy () {
-        Radio.trigger("Map", "removeOverlay", this.overlay);
+        mapCollection.getMap("2D").removeOverlay(this.overlay);
     },
     methods: {
         close (event) {
@@ -84,8 +83,8 @@ export default {
             gfipopup.id = "gfipopup";
             document.body.appendChild(gfipopup);
             this.overlay.setElement(document.getElementById("gfipopup"));
-            Radio.trigger("Map", "addOverlay", this.overlay);
-            this.overlay.setPosition(this.clickCoord);
+            mapCollection.getMap("2D").addOverlay(this.overlay);
+            this.overlay.setPosition(this.clickCoordinate);
         },
 
         /**
@@ -93,20 +92,19 @@ export default {
          * @returns {void}
          */
         createPopover () {
-            $(this.overlay.getElement()).popover({
+            // Upgrade to BT5
+            const popover = new Popover(this.overlay.getElement(), {
                 content: this.$el,
                 html: true,
-                viewport: ".ol-viewport",
-                placement: function () {
-                    if (this.getPosition().top > document.getElementById("map").offsetHeight / 2) {
-                        return "top";
-                    }
-
-                    return "bottom";
-
-                }
+                boundary: ".ol-viewport",
+                selector: "#gfipopup",
+                // place popup next to overlay element, necessary for correct popover removal
+                container: this.overlay.getElement().parentElement,
+                placement: "top",
+                fallbackPlacements: ["bottom"]
             });
-            $(this.overlay.getElement()).popover("show");
+
+            popover.show();
         },
 
         /**
@@ -143,23 +141,22 @@ export default {
 <template>
     <div class="gfi-attached">
         <!-- header -->
-        <div class="gfi-header">
+        <div class="gfi-header row">
+            <h5 class="col-11">
+                {{ translate(title) }}
+            </h5>
             <button
                 ref="gfi-close-button"
-                type="button"
-                class="close"
+                class="close btn btn-sm col-1 d-flex justify-content-center align-content-center"
                 aria-label="Close"
                 tabindex="0"
                 @click="close"
                 @keydown="close"
             >
-                <span
-                    class="glyphicon glyphicon-remove"
-                />
+                <span class="bootstrap-icon">
+                    <i class="bi-x-lg" />
+                </span>
             </button>
-            <h5>
-                {{ translate(title) }}
-            </h5>
         </div>
         <!-- theme -->
         <div
@@ -176,8 +173,10 @@ export default {
 
 <style lang="scss" scoped>
     @import "~/css/mixins.scss";
+    @import "~variables";
 
     button.close {
+        height: fit-content;
         &:focus {
             @include primary_action_focus;
         }
@@ -186,17 +185,20 @@ export default {
         }
     }
     .gfi-attached {
-        background-color: #ffffff;
+        background-color: $white;
     }
     .gfi-header {
-        font-size: 13px;
-        font-weight: normal;
-        line-height: 17px;
-        color: #646262;
         padding: 0 15px;
-        border-bottom: 1px solid #e5e5e5;
+        border-bottom: 1px solid $light_grey;
+        h5 {
+            font-size: $font_size_big;
+            font-family: $font_family_accent;
+            line-height: 17px;
+            color: $dark_grey;
+            padding-top: 10px;
+            padding-left: 5px;
+        }
         button {
-            font-size: 16px;
             opacity: 0.6;
         }
     }
@@ -206,7 +208,7 @@ export default {
             margin-bottom: 0;
         }
     }
-   @media (min-width: 768px) {
+    @include media-breakpoint-up(sm) {
     .gfi-content {
         max-height: 40vh;
         width: 100%;
@@ -216,16 +218,14 @@ export default {
 </style>
 
 <style lang="scss">
-    .ol-viewport {
-        .popover {
-            padding: 0;
-            width: max-content;
-            max-width: 40vw;
-            border: 0;
-            z-index: 1;
-        }
-        .popover-content {
-            padding: 0;
-        }
+    .popover {
+        padding: 0 !important;
+        width: max-content;
+        max-width: 40vw !important;
+        border: 0 !important;
+        z-index: 1 !important;
+    }
+    .popover-body {
+        padding: 5px !important;
     }
 </style>

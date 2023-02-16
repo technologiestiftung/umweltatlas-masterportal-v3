@@ -1,11 +1,13 @@
 import Vuex from "vuex";
-import {shallowMount, createLocalVue} from "@vue/test-utils";
+import {shallowMount, createLocalVue, config} from "@vue/test-utils";
 import {expect} from "chai";
 import Dropdown from "../../../components/DropdownSimple.vue";
 
 const localVue = createLocalVue();
 
 localVue.use(Vuex);
+
+config.mocks.$t = key => key;
 
 describe("src/share-components/dropdowns/components/DropdownSimple.vue", () => {
     const props = {
@@ -16,7 +18,8 @@ describe("src/share-components/dropdowns/components/DropdownSimple.vue", () => {
             mit: "Mittwoch",
             don: "Donnerstag"
         },
-        focusOnCreation: true
+        focusOnCreation: true,
+        label: "text"
     };
 
     it("should have a select element", () => {
@@ -28,13 +31,13 @@ describe("src/share-components/dropdowns/components/DropdownSimple.vue", () => {
         expect(wrapper.find("select").exists()).to.be.true;
     });
 
-    it("should have the bootstrap css class 'form-control'", () => {
+    it("should have the bootstrap css class 'form-select'", () => {
         const wrapper = shallowMount(Dropdown, {
             propsData: props,
             localVue
         });
 
-        expect(wrapper.classes("form-control")).to.be.true;
+        expect(wrapper.findAll(".form-select")).to.have.lengthOf(1);
     });
 
     it("should have four option elements", () => {
@@ -134,7 +137,7 @@ describe("src/share-components/dropdowns/components/DropdownSimple.vue", () => {
         });
 
         await wrapper.vm.$nextTick();
-        expect(wrapper.find(".form-control").element).to.equal(document.activeElement);
+        expect(wrapper.find(".form-select").element).to.equal(document.activeElement);
     });
 
 });

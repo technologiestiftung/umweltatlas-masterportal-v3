@@ -1,26 +1,19 @@
 @import "../../css/mixins.scss";
+@import "~variables";
 
-$color_1: rgb(85, 85, 85);
-$color_2: rgb(255, 255, 255);
-$font_family_1: "MasterPortalFont Bold","Arial Narrow",Arial,sans-serif;
-$font_family_2: "MasterPortalFont",sans-serif;
-$background_color_1: rgb(255, 255, 255);
-$background_color_2: #E10019;
-$background_color_4: #646262;
-
-@media (max-width: 766px) {
+@include media-breakpoint-down(md) {
     .tool-window {
         right:0;
     }
 }
 
 .tool-window {
-    background-color: $background_color_1;
+    background-color: $white;
     margin: 10px 10px 30px 10px;
     display: none;
     position: absolute !important;
-    top:10px;
-    left:10px;
+    top: 10px;
+    left: 10px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.176);
     z-index: 999;
     max-width: 500px;
@@ -28,27 +21,30 @@ $background_color_4: #646262;
     >.header {
         padding-left: 10px;
         border-bottom: 1px solid rgb(229, 229, 229);
-        font-family: $font_family_1;
+        font-family: $font_family_accent;
+        display: flex;
         >.move {
             cursor: move;
         }
         >.title {
             white-space: nowrap;
             min-width: 250px;
-            font-size: 14px;
+            font-size: $font_size_big;
             padding-top: 8px;
             padding-bottom: 5px;
-            color: $color_1;
+            color: $dark_grey;
             width: calc(100% - 50px);
             margin: 0;
-            height: 34px;
-            line-height:24px;
+        }
+        >.order-last {
+            right: 0;
+            position: absolute;
         }
         >.buttons {
-            color: $color_1;
-            font-size: 14px;
+            color: $dark_grey;
+            font-size: $font_size_big;
             margin: 0;
-            >.glyphicon-minus {
+            >.bootstrap-icon > .bi-dash-lg {
                 top: 3px;
             }
             >span {
@@ -64,15 +60,16 @@ $background_color_4: #646262;
             }
         }
     }
+
     >.header-min {
         cursor: pointer;
-        background-color: $background_color_2;
+        background-color: $light_red;
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.176);
         >.move {
             cursor: pointer;
         }
         >.title {
-            color: $color_2;
+            color: $white;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -80,22 +77,23 @@ $background_color_4: #646262;
             min-width: 0;
         }
         >.buttons {
-            color: $color_2;
+            color: $white;
         }
     }
 }
+
 .win-body {
     overflow-y: auto;
     padding: 20px;
     -webkit-overflow-scrolling:touch;
-    background-color: $background_color_1;
+    background-color: $white;
     max-height: 72vh
 }
 .win-footer {
-    border-top: 1px solid rgb(229, 229, 229);
+    border-top: 1px solid $light_grey;
     text-align: right;
     padding: 5px 5px 0 0;
-    >.glyphicon-triangle-right {
+    >.bootstrap-icon .bi-caret-right-fill {
         transform: rotate(45deg);
         opacity: 0.6;
         &:hover {
@@ -108,17 +106,15 @@ $background_color_4: #646262;
     }
 }
 .table-tool-win-all{
-    font-family: $font_family_2;
     border-radius: 12px;
-    background-color: $background_color_4;
+    background-color: $dark_grey;
     margin-bottom: 30px;
     .header {
-        font-family: $font_family_2;
         >.title {
-            color: $color_2;
+            color: $white;
         }
         >.buttons {
-            color: $color_2;
+            color: $white;
         }
     }
     .win-body {
@@ -147,4 +143,8 @@ $background_color_4: #646262;
     top: 40px;
     margin-bottom: 30px;
     transform: rotate(270deg);
+}
+
+.title-move {
+    @include tool-headings-h2();
 }

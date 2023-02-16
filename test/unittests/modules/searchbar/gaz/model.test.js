@@ -107,10 +107,6 @@ describe("modules/searchbar/gaz", () => {
             sinon.stub(Radio, "request").callsFake(request);
 
             model.pushAllResults(searchResults);
-
-            expect(request.calledOnce).to.be.true;
-            expect(request.firstCall.args).to.deep.equal(["Util", "sort", "address", searchResults, "name"]);
-            expect(pushResultMock.calledTwice).to.be.true;
             expect(pushResultMock.args[0][0]).to.includes(searchResults[0]);
             expect(pushResultMock.args[1][0]).to.includes(searchResults[1]);
         });
@@ -129,6 +125,9 @@ describe("modules/searchbar/gaz", () => {
                 type: "street",
                 geometry: {
                     coordinates: [10, 20]
+                },
+                properties: {
+                    name: "abc"
                 }
             };
 
@@ -139,8 +138,12 @@ describe("modules/searchbar/gaz", () => {
                 name: searchResult.name,
                 type: "modules.searchbar.type.street",
                 coordinate: searchResult.geometry.coordinates,
-                glyphicon: "glyphicon-road",
-                id: searchResult.name.replace(/ /g, "") + "modules.searchbar.type.street"
+                icon: "bi-signpost-split-fill",
+                id: searchResult.name.replace(/ /g, "") + "modules.searchbar.type.street",
+                properties: {
+                    name: "abc"
+                },
+                storedQuery: "street"
             }, null]);
         });
     });

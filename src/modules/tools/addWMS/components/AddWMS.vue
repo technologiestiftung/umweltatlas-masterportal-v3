@@ -1,13 +1,14 @@
 <script>
 import {mapGetters, mapMutations} from "vuex";
 import getters from "../store/gettersAddWMS";
-import getComponent from "../../../../utils/getComponent";
+import {getComponent} from "../../../../utils/getComponent";
 import ToolTemplate from "../../ToolTemplate.vue";
 import mutations from "../store/mutationsAddWMS";
 import {WMSCapabilities} from "ol/format.js";
 import {intersects} from "ol/extent";
-import {transform as transformCoord, getProjection} from "masterportalapi/src/crs";
+import crs from "@masterportal/masterportalapi/src/crs";
 import axios from "axios";
+import LoaderOverlay from "../../../../utils/loaderOverlay";
 
 export default {
     name: "AddWMS",
@@ -25,31 +26,7 @@ export default {
     },
     computed: {
         ...mapGetters("Tools/AddWMS", Object.keys(getters)),
-        ...mapGetters("Map", ["projection"]),
-
-        placeholder () {
-            return i18next.t("common:modules.tools.addWMS.placeholder");
-        },
-
-        textLoadLayer () {
-            return i18next.t("common:modules.tools.addWMS.textLoadLayer");
-        },
-
-        errorEmptyUrl () {
-            return i18next.t("common:modules.tools.addWMS.errorEmptyUrl");
-        },
-
-        errorHttpUrl () {
-            return i18next.t("common:modules.tools.addWMS.errorHttpsMessage");
-        },
-
-        errorIfInExtent () {
-            return i18next.t("common:modules.tools.addWMS.ifInExtent");
-        },
-
-        completeMessage () {
-            return i18next.t("common:modules.tools.addWMS.completeMessage");
-        }
+        ...mapGetters("Maps", ["projection"])
     },
     watch: {
         /**
@@ -114,8 +91,6 @@ export default {
 
         /**
          * Importing the external wms layers
-         * @fires Core#RadioTriggerUtilShowLoader
-         * @fires Core#RadioTriggerUtilHideLoader
          * @fires Core.ModelList#RadioTriggerModelListRenderTree
          * @fires Core.ConfigLoader#RadioTriggerParserAddFolder
          * @returns {void}
@@ -129,17 +104,17 @@ export default {
                 return;
             }
             else if (url.includes("http:")) {
-                this.$store.dispatch("Alerting/addSingleAlert", this.errorHttpUrl);
+                this.$store.dispatch("Alerting/addSingleAlert", i18next.t("common:modules.tools.addWMS.errorHttpsMessage"));
                 return;
             }
-            Radio.trigger("Util", "showLoader");
+            LoaderOverlay.show();
             axios({
                 timeout: 4000,
                 url: url + "?request=GetCapabilities&service=WMS"
             })
                 .then(response => response.data)
                 .then((data) => {
-                    Radio.trigger("Util", "hideLoader");
+                    LoaderOverlay.hide();
                     try {
                         const parser = new WMSCapabilities(),
                             uniqId = this.getAddWmsUniqueId(),
@@ -159,7 +134,7 @@ export default {
                         }
 
                         if (!checkExtent) {
-                            this.$store.dispatch("Alerting/addSingleAlert", this.errorIfInExtent);
+                            this.$store.dispatch("Alerting/addSingleAlert", i18next.t("common:modules.tools.addWMS.ifInExtent"));
                             return;
                         }
 
@@ -177,14 +152,14 @@ export default {
                         });
                         Radio.trigger("ModelList", "closeAllExpandedFolder");
 
-                        this.$store.dispatch("Alerting/addSingleAlert", this.completeMessage);
+                        this.$store.dispatch("Alerting/addSingleAlert", i18next.t("common:modules.tools.addWMS.completeMessage"));
 
                     }
                     catch (e) {
                         this.displayErrorMessage();
                     }
                 }, () => {
-                    Radio.trigger("Util", "hideLoader");
+                    LoaderOverlay.hide();
                     this.displayErrorMessage();
                 });
         },
@@ -229,7 +204,10 @@ export default {
                 Radio.trigger("Parser", "addFolder", object.Title, this.getParsedTitle(object.Title), parentId, level, false, false, object.invertLayerOrder);
             }
             else {
-                Radio.trigger("Parser", "addLayer", object.Title, this.getParsedTitle(object.Title), parentId, level, object.Name, this.wmsUrl, this.version, {});
+                Radio.trigger("Parser", "addLayer", object.Title, this.getParsedTitle(object.Title), parentId, level, object.Name, this.wmsUrl, this.version, {
+                    maxScale: object?.MaxScaleDenominator?.toString(),
+                    minScale: object?.MinScaleDenominator?.toString()
+                });
             }
         },
 
@@ -263,7 +241,7 @@ export default {
          */
         getIfInExtent: function (capability, currentExtent) {
             const layer = capability?.Capability?.Layer?.BoundingBox?.filter(bbox => {
-                return bbox?.crs && bbox?.crs.includes("EPSG") && getProjection(bbox?.crs) !== undefined && Array.isArray(bbox?.extent) && bbox?.extent.length === 4;
+                return bbox?.crs && bbox?.crs.includes("EPSG") && crs.getProjection(bbox?.crs) !== undefined && Array.isArray(bbox?.extent) && bbox?.extent.length === 4;
             });
             let layerExtent;
 
@@ -284,8 +262,8 @@ export default {
                 });
 
                 if (!firstLayerExtent.length && !secondLayerExtent.length) {
-                    firstLayerExtent = transformCoord(layer[0].crs, this.projection.getCode(), [layer[0].extent[0], layer[0].extent[1]]);
-                    secondLayerExtent = transformCoord(layer[0].crs, this.projection.getCode(), [layer[0].extent[2], layer[0].extent[3]]);
+                    firstLayerExtent = crs.transform(layer[0].crs, this.projection.getCode(), [layer[0].extent[0], layer[0].extent[1]]);
+                    secondLayerExtent = crs.transform(layer[0].crs, this.projection.getCode(), [layer[0].extent[2], layer[0].extent[3]]);
                 }
 
                 layerExtent = [firstLayerExtent[0], firstLayerExtent[1], secondLayerExtent[0], secondLayerExtent[1]];
@@ -338,7 +316,7 @@ export default {
 <template>
     <ToolTemplate
         :title="$t(name)"
-        :icon="glyphicon"
+        :icon="icon"
         :active="active"
         :render-to-window="renderToWindow"
         :resizable-window="resizableWindow"
@@ -354,7 +332,7 @@ export default {
                     v-if="invalidUrl"
                     class="addwms_error"
                 >
-                    {{ errorEmptyUrl }}
+                    {{ $t('common:modules.tools.addWMS.errorEmptyUrl') }}
                 </div>
                 <input
                     id="wmsUrl"
@@ -362,7 +340,7 @@ export default {
                     aria-label="WMS-Url"
                     type="text"
                     class="form-control wmsUrlsChanged"
-                    :placeholder="placeholder"
+                    :placeholder="$t('common:modules.tools.addWMS.placeholder')"
                     @keydown.enter="inputUrl"
                 >
                 <button
@@ -374,11 +352,13 @@ export default {
                     <span
                         class=""
                         aria-hidden="true"
-                    >{{ textLoadLayer }}</span>
+                    >{{ $t('common:modules.tools.addWMS.textLoadLayer') }}</span>
                     <span
-                        class="glyphicon glyphicon-ok"
+                        class="bootstrap-icon"
                         aria-hidden="true"
-                    />
+                    >
+                        <i class="bi-check-lg" />
+                    </span>
                 </button>
             </div>
         </template>
@@ -392,15 +372,15 @@ export default {
     }
     .WMS_example_text {
         margin-top: 10px;
-        color: #777;
+        color: $light_grey;
     }
     #addWMSButton {
         margin-top: 15px;
         width: 50%;
     }
     .addwms_error {
-        font-size: 16px;
-        color: #d42132;
+        font-size: $font-size-lg;
+        color: $light_red;
         margin-bottom: 10px;
     }
 </style>

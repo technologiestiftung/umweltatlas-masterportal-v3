@@ -1,5 +1,5 @@
 import Parser from "./parser";
-import {getLayerWhere, getLayerList} from "masterportalapi/src/rawLayerList";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 import store from "../../../src/app-store/index";
 
 const CustomTreeParser = Parser.extend(/** @lends CustomTreeParser.prototype */{
@@ -22,13 +22,14 @@ const CustomTreeParser = Parser.extend(/** @lends CustomTreeParser.prototype */{
      * @param  {Object} [object={}] - Baselayer | Overlayer | Folder
      * @param  {String} [parentId=""] Id of parent item.
      * @param  {Number} [level=0] Level of recursion. Equals to level in layertree.
+     * @param  {Boolean} [isAbaseLayer=false] Objects are of type BaseLayer (only relevant for treeType= "light")
      * @fires Core#RadioRequestRawLayerListGetLayerAttributesWhere
      * @fires Core#RadioRequestRawLayerListGetLayerAttributesList
      * @fires Core.ConfigLoader#RadioRequestParserGetTreeType
      * @returns {void}
      */
-    parseTree: function (object = {}, parentId = "", level = 0) {
-        const isBaseLayer = Boolean(parentId === "Baselayer" || parentId === "tree" || this.isAncestorBaseLayer(parentId)),
+    parseTree: function (object = {}, parentId = "", level = 0, isAbaseLayer = false) {
+        const isBaseLayer = isAbaseLayer || Boolean(parentId === "Baselayer" || this.isAncestorBaseLayer(parentId)),
             treeType = Radio.request("Parser", "getTreeType");
 
         if (object?.Layer) {
@@ -52,7 +53,7 @@ const CustomTreeParser = Parser.extend(/** @lends CustomTreeParser.prototype */{
                     layerExtended.id = layerId + "-" + suffix;
                     extendedLayerIdAssoc[layerExtended.id] = layerId;
 
-                    objFromRawList = getLayerWhere({id: layerId});
+                    objFromRawList = rawLayerList.getLayerWhere({id: layerId});
 
                     // DIPAS -> There is an object not in the ServicesJSON, but it has a url, the layer is still transferred without a services entry
                     // DIPAS -> if the layer type "StaticImage" is transferred, the system does not break off but continues to work with the new ImageURL.
@@ -71,7 +72,7 @@ const CustomTreeParser = Parser.extend(/** @lends CustomTreeParser.prototype */{
                 // For Single-Layer (ol.layer.Layer)
                 // For example: {id: "5181", visible: false}
                 else if (!layerExtended?.children && typeof layerExtended.id === "string") {
-                    objFromRawList = getLayerWhere({id: layerExtended.id});
+                    objFromRawList = rawLayerList.getLayerWhere({id: layerExtended.id});
 
                     // DIPAS -> There is an object not in the ServicesJSON, but it has a url, the layer is still transferred without a services entry
                     // DIPAS -> if the layer type "StaticImage" is transferred, the system does not break off but continues to work with the new ImageURL.
@@ -103,15 +104,15 @@ const CustomTreeParser = Parser.extend(/** @lends CustomTreeParser.prototype */{
                     layerExtended.children = layerExtended.children.map(childLayer => {
                         objFromRawList = null;
                         if (childLayer.styles && childLayer.styles[0]) {
-                            objFromRawList = getLayerWhere({id: childLayer.id + childLayer.styles[0]});
+                            objFromRawList = rawLayerList.getLayerWhere({id: childLayer.id + childLayer.styles[0]});
                         }
                         if (objFromRawList === null || objFromRawList === undefined) {
-                            objFromRawList = getLayerWhere({id: childLayer.id});
+                            objFromRawList = rawLayerList.getLayerWhere({id: childLayer.id});
                         }
                         if (objFromRawList !== null && objFromRawList !== undefined) {
                             return Object.assign(objFromRawList, childLayer, {"isChildLayer": true});
                         }
-
+                        console.error("A layer of the group \"" + layerExtended.name + "\" with id: " + childLayer.id + " was not created. Id not contained in services.json.");
                         return undefined;
                     });
 
@@ -183,7 +184,7 @@ const CustomTreeParser = Parser.extend(/** @lends CustomTreeParser.prototype */{
                     id: folder.id,
                     isFolderSelectable: isFolderSelectable,
                     level: level,
-                    glyphicon: "glyphicon-plus-sign",
+                    icon: "bi-plus-circle-fill",
                     isVisibleInTree: this.getIsVisibleInTree(level, "folder", true, treeType),
                     isInThemen: true,
                     quickHelp: store.getters["QuickHelp/isSet"],
@@ -219,7 +220,7 @@ const CustomTreeParser = Parser.extend(/** @lends CustomTreeParser.prototype */{
     },
 
     getRawLayerList: function () {
-        return getLayerList();
+        return rawLayerList.getLayerList();
     },
 
     /**

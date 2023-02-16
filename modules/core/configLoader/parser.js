@@ -1,7 +1,8 @@
 import Backbone from "backbone";
 import ModelList from "../modelList/list";
-import {getLayerList} from "masterportalapi/src/rawLayerList";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 import store from "../../../src/app-store/index";
+import uniqueId from "../../../src/utils/uniqueId";
 
 const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
     defaults: {
@@ -51,6 +52,7 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
      * @listens Core.ConfigLoader#RadioRequestParserGetItemsByMetaID
      * @listens Core.ConfigLoader#RadioRequestParserGetSnippetInfos
      * @listens Core.ConfigLoader#RadioRequestParserGetInitVisibBaselayer
+     * @listens Core.ConfigLoader#RadioRequestParserGetOverlayer
      * @listens Core.ConfigLoader#RadioTriggerParsersetCategory
      * @listens Core.ConfigLoader#RadioTriggerParserAddItem
      * @listens Core.ConfigLoader#RadioTriggerParserAddItemAtTop
@@ -98,6 +100,9 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
                     return this.get("extendedLayerIdAssoc")[layerId];
                 }
                 return layerId;
+            },
+            "getOverlayer": function () {
+                return this.get("overlayer");
             }
         }, this);
 
@@ -118,7 +123,7 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
             "change:category": function () {
                 this.setItemList([]);
                 this.addTreeMenuItems();
-                this.parseTree(getLayerList());
+                this.parseTree(rawLayerList.getLayerList());
                 Radio.trigger("ModelList", "removeModelsByParentId", "tree");
                 Radio.trigger("ModelList", "renderTree");
                 Radio.trigger("ModelList", "setModelAttributesById", "Overlayer", {isExpanded: true});
@@ -142,9 +147,9 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
         });
 
         if (this.get("treeType") === "light") {
-            this.parseTree(this.get("overlayer"), "tree", 0);
-            this.parseTree(this.get("overlayer_time"), "tree", 0);
-            this.parseTree(this.get("baselayer"), "tree", 0);
+            this.parseTree(this.get("overlayer"), "tree", 0, false);
+            this.parseTree(this.get("overlayer_time"), "tree", 0, false);
+            this.parseTree(this.get("baselayer"), "tree", 0, true);
         }
         else if (this.get("treeType") === "custom") {
             this.addTreeMenuItems();
@@ -155,7 +160,7 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
         }
         else {
             this.addTreeMenuItems();
-            this.parseTree(getLayerList(), this.get("overlayer_3d"), this.get("overlayer_time"));
+            this.parseTree(rawLayerList.getLayerList(), this.get("overlayer_3d"), this.get("overlayer_time"));
         }
         this.createModelList();
     },
@@ -191,21 +196,21 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
             }
             else if (key.search("staticlinks") !== -1) {
                 value.forEach(staticlink => {
-                    toolitem = Object.assign(staticlink, {type: "staticlink", parentId: parentId, id: Radio.request("Util", "uniqueId", key + "_")});
+                    toolitem = Object.assign(staticlink, {type: "staticlink", parentId: parentId, id: uniqueId(key + "_")});
 
                     this.addItem(toolitem);
                 });
             }
             else if (value?.type && value.type === "viewpoint") {
-                ansicht = Object.assign(value, {parentId: parentId, id: Radio.request("Util", "uniqueId", key + "_")});
+                ansicht = Object.assign(value, {parentId: parentId, id: uniqueId(key + "_")});
                 this.addItem(ansicht);
             }
             else {
                 toolitem = Object.assign(value, {type: "tool", parentId: parentId, id: key});
 
-                // wenn tool noch kein "onlyDesktop" aus der Config bekommen hat
-                if (!toolitem?.onlyDesktop) {
-                    // wenn tool in onlyDesktopTools enthalten ist, setze onlyDesktop auf true
+                // if tool did not get "onlyDesktop" from the config yet
+                if (typeof toolitem?.onlyDesktop === "undefined") {
+                    // if tool is included in onlyDesktopTools, set onlyDesktop to true
                     if (this.get("onlyDesktopTools").indexOf(toolitem.id) !== -1) {
                         toolitem = Object.assign(toolitem, {onlyDesktop: true});
                     }
@@ -315,25 +320,34 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
      * @returns {void}
      */
     addFolder: function (name, id, parentId, level, isExpanded, i18nKey, invertLayerOrder = false, isFolderSelectable = false) {
-        const folder = {
-            type: "folder",
-            name: i18nKey ? i18next.t(i18nKey) : name,
-            i18nextTranslate: i18nKey ? function (setter) {
-                if (typeof setter === "function" && i18next.exists(i18nKey)) {
-                    setter("name", i18next.t(i18nKey));
-                }
-            } : null,
-            glyphicon: "glyphicon-plus-sign",
-            id: id,
-            parentId: parentId,
-            isExpanded: isExpanded ? isExpanded : false,
-            level: level,
-            quickHelp: store.getters["QuickHelp/isSet"],
-            invertLayerOrder,
-            isFolderSelectable
-        };
+        const itemList = this.get("itemList"),
+            folder = {
+                type: "folder",
+                name: i18nKey ? i18next.t(i18nKey) : name,
+                i18nextTranslate: i18nKey ? function (setter) {
+                    if (typeof setter === "function" && i18next.exists(i18nKey)) {
+                        setter("name", i18next.t(i18nKey));
+                    }
+                } : null,
+                icon: "bi-plus-circle-fill",
+                id: id,
+                parentId: parentId,
+                isExpanded: isExpanded ? isExpanded : false,
+                level: level,
+                quickHelp: store.getters["QuickHelp/isSet"],
+                invertLayerOrder,
+                isFolderSelectable
+            };
+        let folderExists = false;
 
-        this.addItem(folder);
+        itemList.forEach(element => {
+            if (element.id === id) {
+                folderExists = true;
+            }
+        });
+        if (!folderExists) {
+            this.addItem(folder);
+        }
     },
 
     /**
@@ -347,10 +361,12 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
      * @param {*} version - todo
      * @param {boolean} [transparent = true] Whether the given layer is transparent.
      * @param {boolean} [isSelected = false] Whether the given layer is selected .
-     * @param {(boolean/object)} [time = false] If set to `true` or and Object, the configured Layer is expected to be a WMS-T.
+     * @param {(boolean/object)} [time = false] If set to `true` or an object, the configured Layer is expected to be a WMS-T.
      * @returns {void}
      */
-    addLayer: function (name, id, parentId, level, layers, url, version, {transparent = true, isSelected = false, time = false, styles = ""}) {
+    addLayer: function (name, id, parentId, level, layers, url, version, {transparent = true, isSelected = false, time = undefined,
+        styles = "", legendURL = "", gfiAttributes = "showAll", featureCount = 3, maxScale = "2500000",
+        minScale = "0"}) {
         const layer = {
             id,
             name,
@@ -363,17 +379,17 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
             isSelected,
             time,
             styles,
+            legendURL,
+            gfiAttributes,
+            featureCount,
             cache: false,
             datasets: [],
-            featureCount: 3,
             format: "image/png",
-            gfiAttributes: "showAll",
             gutter: "0",
             isBaseLayer: false,
             layerAttribution: "nicht vorhanden",
-            legendURL: "",
-            maxScale: "2500000",
-            minScale: "0",
+            maxScale,
+            minScale,
             singleTile: false,
             supported: ["2D", "3D"],
             tilesize: "512",
@@ -655,11 +671,20 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
             overLayers = this.get("overlayer"),
             baseLayersName = baseLayers?.name ? baseLayers.name : null,
             overLayersName = overLayers?.name ? overLayers.name : null,
-            isQuickHelpSet = store.getters["QuickHelp/isSet"],
             baseLayersDefaultKey = "common:tree.backgroundMaps",
             overLayersDefaultKey = "common:tree.subjectData";
         let baseLayerI18nextTranslate = null,
-            overLayerI18nextTranslate = null;
+            overLayerI18nextTranslate = null,
+            isQuickHelpSet = store.getters["QuickHelp/isSet"];
+
+        // @deprecated in the next major-release!
+        if (this.get("portalConfig")?.menu?.tree?.quickHelp === true || this.get("portalConfig")?.menu?.tree?.quickHelp === false) {
+            console.warn("The attribute 'Portalconfig.tree.quickHelp' is deprecated in the next major-release. Please use 'Portalconfig.quickHelp.configs.tree'!");
+            isQuickHelpSet = this.get("portalConfig").menu.tree.quickHelp;
+        }
+        if (this.get("portalConfig")?.quickHelp?.configs?.tree !== undefined) {
+            isQuickHelpSet = this.get("portalConfig").quickHelp.configs.tree;
+        }
 
         if (!baseLayersName && !baseLayers.i18nextTranslate) {
             // no name and no translation-function found: provide translation of default key
@@ -681,7 +706,7 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
             type: "folder",
             name: baseLayersName ? baseLayersName : i18next.t(baseLayersDefaultKey),
             i18nextTranslate: baseLayers.i18nextTranslate ? baseLayers.i18nextTranslate : baseLayerI18nextTranslate,
-            glyphicon: "glyphicon-plus-sign",
+            icon: "bi-plus-circle-fill",
             id: "Baselayer",
             parentId: "tree",
             isInThemen: true,
@@ -695,7 +720,7 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
             type: "folder",
             name: overLayersName ? overLayersName : i18next.t(overLayersDefaultKey),
             i18nextTranslate: overLayers.i18nextTranslate ? overLayers.i18nextTranslate : overLayerI18nextTranslate,
-            glyphicon: "glyphicon-plus-sign",
+            icon: "bi-plus-circle-fill",
             id: "Overlayer",
             parentId: "tree",
             isInThemen: true,
@@ -716,7 +741,7 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
                     setter("name", i18next.t("common:tree.selectedTopics"));
                 }
             },
-            glyphicon: "glyphicon-plus-sign",
+            icon: "bi-plus-circle-fill",
             id: "SelectedLayer",
             parentId: "tree",
             isInThemen: true,
@@ -851,7 +876,7 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
     createUniqId: function (value) {
         const trimmedValue = value.replace(/[^a-zA-Z0-9]/g, "");
 
-        return Radio.request("Util", "uniqueId", trimmedValue);
+        return uniqueId(trimmedValue);
     },
 
     /**

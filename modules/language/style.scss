@@ -1,9 +1,9 @@
+@import "~variables";
 #languagebar {
     .currentLan {
         cursor: pointer;
-        /* font-size: 12px; */
         text-transform: uppercase;
-        color: #23527c;
+        color: $primary;
         font-weight: 900;
     }
     .popup-language {
@@ -12,17 +12,16 @@
         right: 10px;
         padding: 10px 0 20px;
         min-width: 400px;
-        background: rgba(255, 255, 255, 1);
+        background: $white;
         padding: 10px 0 20px;
         z-index: 10010;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.176);
+        box-shadow: 0 6px 12px $dark_grey;
         bottom: 50px;
         .lng-header {
             display: block;
-            float: right;
             width: 100%;
-            border-bottom: 1px solid #e5e5e5;
-            padding: 0px 0px 3px 10px;
+            border-bottom: 1px solid $light_grey;
+            padding: 0 0 3px 10px;
             span {
                 width: 30px;
                 cursor: pointer;
@@ -34,26 +33,22 @@
             text-align: center;
             padding: 20px 0 0;
             a {
-                font-size: 12px;
+                font-size: $font-size-base;
                 &:hover{
-                    background-color: #08589e;
-                    color: #ffffff;
+                    background-color: $light_blue;
+                    color: $white;
                 }
                 &.disabled {
-                    background-color: #e7e7e7;
+                    background-color: $light_grey;
                 }
             }
         }
     }
 }
 
-.footer #languagebar {
-    float: right;
-}
-
 .ol-overlaycontainer-stopevent #languagebar {
     position: absolute;
-    right: 0px;
+    right: 0;
     width: 25px;
     min-height: 22px;
     bottom: 0;
@@ -61,7 +56,7 @@
     z-index: 2000;
 }
 
-@media (max-width: 767px) {
+@include media-breakpoint-down(md) {
     #languagebar {
         .currentLan {
             text-align: right;

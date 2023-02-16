@@ -15,15 +15,15 @@
         "Radio": true,
         "Backbone": true,
         "Cesium": true,
-        "i18next": true
+        "i18next": true,
+        "mapCollection": true
     },
     "plugins": [
         "chai-friendly",
         "vuejs-accessibility"
     ],
     "parserOptions": {
-        "parser": "@babel/eslint-parser",
-        "ecmaVersion": 2021,
+        "ecmaVersion": 2022,
         "sourceType": "module",
         "allowImportExportEverywhere": true
     },
@@ -214,7 +214,7 @@
         "vue/v-slot-style": ["error"],
         // vue plugin Recommended Rules
         "vue/attributes-order": ["error"],
-        "vue/component-tags-order": ["error"],
+        "vue/component-tags-order": ["error", {"order": [ "script", "template" , "style" ]}],
         "vue/no-lone-template": ["error"],
         "vue/no-multiple-slot-args": ["error"],
         "vue/no-v-html": ["off"],
@@ -230,6 +230,7 @@
             "extensions": ["vue"],
             "shouldMatchCase": true
         }],
+        "vue/no-required-prop-with-default": ["error"],
         "vue/no-static-inline-styles": ["error"],
         "vue/padding-line-between-blocks": ["error"],
         "vue/require-direct-export": ["error"],

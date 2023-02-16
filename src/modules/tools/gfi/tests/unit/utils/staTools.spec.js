@@ -4,7 +4,7 @@ import {
     getQueryLink,
     convertObservationsToLinechart
 } from "../../../utils/staTools";
-import moment from "moment";
+import dayjs from "dayjs";
 import {expect} from "chai";
 
 describe("src/modules/tools/gfi/utils/staTools.js", () => {
@@ -22,14 +22,14 @@ describe("src/modules/tools/gfi/utils/staTools.js", () => {
         it("should convert the given phenomenonTime to the given format", () => {
             const phenomenonTime = "2021-08-05T04:15:00.000Z",
                 format = "DD.MM.YYYY HH:mm:ss",
-                expected = moment("2021-08-05T04:15:00.000Z").format(format);
+                expected = dayjs("2021-08-05T04:15:00.000Z").format(format);
 
             expect(convertPhenomenonTime(phenomenonTime, format)).to.equal(expected);
         });
         it("should convert a phenomenonTime range to the given format, using the first value", () => {
             const phenomenonTime = "2021-08-05T04:15:00.000Z/2021-08-05T04:29:59.000Z",
                 format = "DD.MM.YYYY HH:mm:ss",
-                expected = moment("2021-08-05T04:15:00.000Z").format(format);
+                expected = dayjs("2021-08-05T04:15:00.000Z").format(format);
 
             expect(convertPhenomenonTime(phenomenonTime, format)).to.equal(expected);
         });
@@ -45,9 +45,18 @@ describe("src/modules/tools/gfi/utils/staTools.js", () => {
             expect(isObservation([])).to.be.false;
             expect(isObservation({})).to.be.false;
         });
-        it("should return true if the given observation is a valid STA observation", () => {
+        it("should return true if the given observation is a valid STA observation with iot.id as number", () => {
             const observation = {
                 "@iot.id": 214030301,
+                "phenomenonTime": "2021-08-05T04:15:00.000Z/2021-08-05T04:29:59.000Z",
+                "result": 127.0
+            };
+
+            expect(isObservation(observation)).to.be.true;
+        });
+        it("should return true if the given observation is a valid STA observation with iot.id as string", () => {
+            const observation = {
+                "@iot.id": "214030301",
                 "phenomenonTime": "2021-08-05T04:15:00.000Z/2021-08-05T04:29:59.000Z",
                 "result": 127.0
             };
@@ -128,10 +137,10 @@ describe("src/modules/tools/gfi/utils/staTools.js", () => {
                         lineTension: 0
                     }],
                     labels: [
-                        moment("2021-08-05T04:15:00.000Z").format(format),
-                        moment("2021-08-05T04:30:00.000Z").format(format),
-                        moment("2021-08-05T04:45:00.000Z").format(format),
-                        moment("2021-08-05T05:00:00.000Z").format(format)
+                        dayjs("2021-08-05T04:15:00.000Z").format(format),
+                        dayjs("2021-08-05T04:30:00.000Z").format(format),
+                        dayjs("2021-08-05T04:45:00.000Z").format(format),
+                        dayjs("2021-08-05T05:00:00.000Z").format(format)
                     ]
                 };
 

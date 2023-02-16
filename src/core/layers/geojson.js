@@ -1,10 +1,10 @@
-import {geojson} from "masterportalapi";
+import {geojson} from "@masterportal/masterportalapi";
 import {GeoJSON} from "ol/format.js";
 import getProxyUrl from "../../utils/getProxyUrl";
 import Layer from "./layer";
+import Cluster from "ol/source/Cluster";
 import * as bridge from "./RadioBridge.js";
 import store from "../../app-store";
-import mapCollection from "../dataStorage/mapCollection";
 import LoaderOverlay from "../../utils/loaderOverlay";
 
 /**
@@ -26,7 +26,7 @@ export default function GeoJSONLayer (attrs) {
     if (!attrs.isChildLayer) {
         // call the super-layer
         Layer.call(this, Object.assign(defaults, attrs), this.layer, !attrs.isChildLayer);
-        this.checkForScale({scale: store.getters["Map/scale"]});
+        this.checkForScale({scale: store.getters["Maps/scale"]});
     }
 
     if (attrs.clusterDistance) {
@@ -49,6 +49,7 @@ GeoJSONLayer.prototype.createLayer = function (attrs) {
     const rawLayerAttributes = {
             id: attrs.id,
             url: attrs.url,
+            features: attrs.geojson,
             clusterDistance: attrs.clusterDistance
         },
         layerParams = {
@@ -63,7 +64,7 @@ GeoJSONLayer.prototype.createLayer = function (attrs) {
         styleFn = this.getStyleFunction(attrs),
         options = {
             layerStyle: styleFn,
-            map: mapCollection.getMap("ol", "2D"),
+            map: mapCollection.getMap("2D"),
             clusterGeometryFunction: (feature) => {
                 // do not cluster invisible features; can't rely on style since it will be null initially
                 if (feature.get("hideInClustering") === true) {
@@ -82,6 +83,13 @@ GeoJSONLayer.prototype.createLayer = function (attrs) {
                 }
             }.bind(this),
             afterLoading: function (features) {
+                if (Array.isArray(features)) {
+                    features.forEach((feature, idx) => {
+                        if (typeof feature?.getId === "function" && typeof feature.getId() === "undefined") {
+                            feature.setId("geojson-" + attrs.id + "-feature-id-" + idx);
+                        }
+                    });
+                }
                 this.featuresLoaded(attrs.id, features);
                 if (this.get("isSelected") || attrs.isSelected) {
                     LoaderOverlay.hide();
@@ -197,6 +205,7 @@ GeoJSONLayer.prototype.expandFeaturesBySubTyp = function (subTyp) {
     const expandedFeatures = this.get("layerSource").getFeatures();
 
     if (subTyp === "OpenSenseMap") {
+        console.warn("The GeoJson-Layer subTyp: 'OpenSenseMap' is deprecated. It will be removed in the next Major-Release!");
         expandedFeatures.forEach(feature => {
             const sensors = feature.get("sensors");
 
@@ -308,7 +317,7 @@ GeoJSONLayer.prototype.createLegend = function (attrs) {
  * @return {void}
  */
 GeoJSONLayer.prototype.showFeaturesByIds = function (featureIdList) {
-    const layerSource = this.get("layerSource"),
+    const layerSource = this.get("layerSource") instanceof Cluster ? this.get("layerSource").getSource() : this.get("layerSource"),
         // featuresToShow is a subset of allLayerFeatures
         allLayerFeatures = layerSource.getFeatures(),
         featuresToShow = featureIdList.map(id => layerSource.getFeatureById(id));
@@ -349,7 +358,7 @@ GeoJSONLayer.prototype.getStyleAsFunction = function (style) {
  * @returns {void}
  */
 GeoJSONLayer.prototype.hideAllFeatures = function () {
-    const layerSource = this.get("layerSource"),
+    const layerSource = this.get("layerSource") instanceof Cluster ? this.get("layerSource").getSource() : this.get("layerSource"),
         features = layerSource.getFeatures();
 
     // optimization - clear and re-add to prevent cluster updates on each change
@@ -370,7 +379,8 @@ GeoJSONLayer.prototype.hideAllFeatures = function () {
  * @returns {void}
  */
 GeoJSONLayer.prototype.showAllFeatures = function () {
-    const collection = this.get("layerSource").getFeatures();
+    const layerSource = this.get("layerSource") instanceof Cluster ? this.get("layerSource").getSource() : this.get("layerSource"),
+        collection = layerSource.getFeatures();
 
     collection.forEach(function (feature) {
         feature.setStyle(undefined);

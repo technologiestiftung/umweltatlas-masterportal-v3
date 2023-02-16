@@ -1,4 +1,5 @@
 import {Image, Tile, Vector, VectorTile, Group} from "ol/layer.js";
+import store from "../../../../app-store";
 
 const CanvasModel = {
     /**
@@ -7,7 +8,7 @@ const CanvasModel = {
      * @returns {Object} - LayerObject for print mask.
      */
     getCanvasLayer: function (layerList) {
-        const currentResolution = Radio.request("MapView", "getOptions").resolution;
+        const currentResolution = Radio.request("MapView", "getOptions")?.resolution;
         let canvasLayerList = [],
             canvasLayer = {};
 
@@ -41,7 +42,7 @@ const CanvasModel = {
      * @returns {Object} - LayerObject for print mask.
      */
     buildCanvasLayerType: function (layer, currentResolution) {
-        const extent = Radio.request("MapView", "getCurrentExtent"),
+        const extent = store.getters["Maps/getCurrentExtent"],
             layerMinRes = layer.getMinResolution(),
             layerMaxRes = layer.getMaxResolution(),
             isInScaleRange = this.isInScaleRange(layerMinRes, layerMaxRes, currentResolution);

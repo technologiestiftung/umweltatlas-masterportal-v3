@@ -26,7 +26,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Map", ["clickCoord"]),
+        ...mapGetters("Maps", ["clickCoordinate"]),
         ...mapGetters("Tools/Gfi", Object.keys(getters)),
         /**
          * Returns the title of the gfi.
@@ -46,7 +46,7 @@ export default {
         }
     },
     mounted: function () {
-        this.placingPointMarker(this.clickCoord);
+        this.placingPointMarker(this.clickCoordinate);
         if (typeof this.currentRotation === "number") {
             this.rotateAngle = this.currentRotation;
             this.rotate();
@@ -121,7 +121,7 @@ export default {
         <template #rightOfTitle>
             <span
                 tabindex="0"
-                class="icon-turnarticle glyphicon"
+                class="icon-turnarticle bootstrap-icon"
                 @click="rotate"
                 @keydown.enter="rotate"
             />
@@ -145,29 +145,24 @@ export default {
 
 <style lang="scss">
 @import "~/css/mixins.scss";
-
-$color_1: #808080;
-$font_family_1: "MasterPortalFont";
-$background_color_1: #F2F2F2;
-$background_color_2: #646262;
+@import "~variables";
 
 .gfi-detached-table {
     box-shadow: 8px 8px 12px rgba(0, 0, 0, 0.3);
     border-radius: 12px;
-    background-color:  $background_color_2;
-    font-family: $font_family_1;
-    color: $color_1;
+    background-color:  $dark_grey;
+    color: $dark_grey;
     touch-action: pan-x pan-y;
     .tool-window-heading{
         padding: 0;
-        border-bottom: 1px solid $color_1;
-        border-radius: 11px 11px 0px 0px;
-        background-color: $background_color_2;
-        color:$background_color_1;
+        border-bottom: 1px solid $dark_grey;
+        border-radius: 11px 11px 0 0;
+        background-color: $dark_grey;
+        color: $light_grey;
         padding-top: 8px;
         padding-left: 8px;
-        .tool-window-heading-title {
-            color: $background_color_1;
+        .heading-element > h2 {
+            color: $white;
             margin-right: 50px;
             text-overflow: ellipsis;
         }
@@ -187,24 +182,23 @@ $background_color_2: #646262;
         border: 5px solid transparent;
         border-radius: 12px;
         background-clip: content-box;
-        background-color: #d3d3d3;
+        background-color: $light_grey;
     }
 
     .vue-tool-content-body .body::-webkit-scrollbar-thumb {
-        background-color: #003063;
+        background-color: $primary;
         border: 6px solid transparent;
         border-radius: 12px;
         background-clip: content-box;
     }
     .icon-turnarticle {
-        color: $background_color_1;
+        color: $light_grey;
         position: relative;
         display: inline-block;
-        bottom: 20px;
         right: 25px;
         margin: 6px 0 0 10px;
         cursor: pointer;
-        font-size: 16px;
+        font-size: $font_size_icon_lg;
         &:focus {
             @include primary_action_focus;
         }
@@ -213,10 +207,10 @@ $background_color_2: #646262;
         }
     }
     .icon-turnarticle::before {
-        color: $background_color_1;
+        color: $light_grey;
     }
-    span.glyphicon.glyphicon-remove::before {
-        color: $background_color_1;
+    span.bootstrap-icon > .bi-x-lg::before {
+        color: $light_grey;
     }
 }
 .rotate0{

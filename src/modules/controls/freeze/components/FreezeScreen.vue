@@ -1,7 +1,9 @@
 <script>
+import {mapGetters} from "vuex";
 import ControlIcon from "../../ControlIcon.vue";
 import TableStyleControl from "../../TableStyleControl.vue";
 import FreezeScreenWindow from "./FreezeScreenWindow.vue";
+import uiStyle from "../../../../utils/uiStyle";
 
 /**
  * Freeze control that allows the user to freeze the current window
@@ -19,8 +21,10 @@ export default {
         };
     },
     computed: {
+        ...mapGetters(["uiStyle"]),
+
         component () {
-            return Radio.request("Util", "getUiStyle") === "TABLE" ? TableStyleControl : ControlIcon;
+            return uiStyle.getUiStyle() === "TABLE" ? TableStyleControl : ControlIcon;
         }
     },
     methods: {
@@ -49,7 +53,7 @@ export default {
             :is="component"
             :class="[component ? 'control' : 'Table']"
             :title="$t(`common:modules.controls.freeze.freeze`)"
-            :icon-name="'ban-circle'"
+            :icon-name="'lock-fill'"
             :on-click="showFreezeWin"
         />
         <FreezeScreenWindow

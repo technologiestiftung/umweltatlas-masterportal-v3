@@ -1,22 +1,9 @@
 @import "../../../css/variables.scss";
 
-$color_1: #000;
-$color_2: #F2F2F2;
-$color_3: #808080;
-$color_4: #003063;
-$font_family_1: "MasterPortalFont",sans-serif;
-$font_family_2: "MasterPortalFont", sans-serif;
-$background_color_2: #fff;
-$background_color_3: #808080;
-$background_color_4: #ffffff;
-$background_color_5: transparent;
-$background_color_6: #D8D8D8;
-
 /**************** Layer Settings ****************/
 #table-navigation {
     z-index: 5;;
     position: absolute;
-    font-family: $font_family_1;
     touch-action: pan-x pan-y;
     border-radius: 12px;
 }
@@ -46,7 +33,7 @@ $background_color_6: #D8D8D8;
 }
 .table-nav-main {
     background-color: $secondary_table_style;
-    margin: 0px 5px;
+    margin: 0 5px;
     width: 480px;
     height: 50px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
@@ -56,7 +43,7 @@ $background_color_6: #D8D8D8;
     width: 20px;
     height: 40px;
     position: relative;
-    left: -5px;
+    order: -1;
 }
 #table-nav-drag:before{
     left:0;
@@ -64,26 +51,28 @@ $background_color_6: #D8D8D8;
 #table-layer-list {
     position: relative;
     width: 40px;
-    background-color: $background_color_2;
-    left: 20px;
-    top: -45px;
+    background-color: $white;
+    order: -1;
+    left: 8px;
+    top: -5px;
 }
 #table-category-list {
     .icon-categories {
-        font-size: 27.5px;
-        color: $color_1;
+        font-size: $font_size_huge;
+        color: $black;
     }
     width: 40px;
     background-color: $secondary_table_style;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
+    position: relative;
 }
 #table-category-list.table-category-active {
-    background-color: $background_color_3;
+    background-color: $dark_grey;
 }
 .table-category-active {
     .icon-categories {
         &:after {
-            color: $color_2;
+            color: $secondary_table_style;
         }
     }
 }
@@ -111,9 +100,10 @@ a {
     width: 40px;
     height: 40px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
+    position: relative;
     cursor: pointer;
     >p {
-        font-size: 26px;
+        font-size: $font_size_huge;
     }
 }
 
@@ -157,7 +147,7 @@ a {
         position: absolute;
     }
     #funnel {
-        bottom: 0px;
+        bottom: 0;
         margin-left: 165px;
         #middle-funnel {
             width: 20px;
@@ -168,20 +158,20 @@ a {
     }
 }
 .table-tools-active {
-    background-color: $background_color_3;
+    background-color: $dark_grey;
     .icon-tools {
         &:before {
-            color: $color_2;
+            color: $secondary_table_style;
         }
     }
 }
 .table-tool {
     margin-bottom: 6px;
     padding-top: 6px;
-    font-size: 17px;
-    border-top: 1px solid #C0C0C0;
+    font-size: $font-size-lg;
+    border-top: 1px solid $light_grey;
     >a {
-        color: $color_3;
+        color: $dark_grey;
     }
 }
 #table-nav-layers-panel-toggler {
@@ -193,7 +183,7 @@ a {
     height: 40px;
 }
 .table-nav-layers-panel {
-    border-width: 0px;
+    border-width: 0;
     -webkit-box-shadow: none;
     background-color: $secondary_table_style;
     border-radius: 12px;
@@ -201,14 +191,13 @@ a {
     margin-bottom: 75px;
     position: absolute;
     margin-top: -88px;
-    margin-left: -28px;
+    margin-left: -38px;
     width: 480px;
-    bottom: -20px;
-    display: none;
+    bottom: -100%;
 }
 .table-nav-cat-panel {
-    font-size: 17px;
-    border-width: 0px;
+    font-size: $font-size-lg;
+    border-width: 0;
     -webkit-box-shadow: none;
     background-color: $secondary_table_style;
     border-radius: 12px;
@@ -220,7 +209,6 @@ a {
     margin-top: -88px;
     width: 320px;
     bottom: -20px;
-    display: none;
     margin-left: -243px;
     div > div.detailview-head {
         display: none;
@@ -235,7 +223,7 @@ a {
         margin-left: 221px;
     }
     #left-funnel-corner {
-        margin-left: 0px;
+        margin-left: 0;
     }
     #middle-funnel {
         width: 20px;
@@ -253,20 +241,20 @@ a {
     }
 }
 .layers {
-    padding-left: 0px;
+    padding-left: 0;
     padding-bottom: 12px;
     touch-action: pan-x pan-y;
 }
 .icon-checkbox2 {
     &:before {
-        color: $color_3;
+        color: $light_grey;
         margin-top: 8px;
         padding-left: 8px;
     }
 }
 .icon-checkbox {
     &:before {
-        color: $color_4;
+        color: $primary;
         margin-top: 8px;
         font-weight: 900;
         padding-left: 8px;
@@ -276,50 +264,46 @@ a {
     &:before {
         display: block;
         left: 0em;
-        font-size: 26px;
+        font-size: $font_size_huge;
     }
 }
-.icon-burgermenu_alt {
+.burger-collapse {
     #table-nav-layers-panel-toggler {
-        background-color: $background_color_3;
+        background-color: $dark_grey;
         border-radius: 12px;
         .icon-cross1:before {
             display: block;
-            color: $color_2;
+            color: $secondary_table_style;
             top: 11px;
             left: 11px;
-            font-size: 18px;
-         }
-    }
-}
-.icon-burgermenu_alt.collapsed {
-    #table-nav-layers-panel-toggler {
-        background-color: $background_color_4;
-        .icon-cross1:before {
-                display: none;
+            font-size: 1.125rem;
+        }
+        .icon-burgermenu_alt:before {
+            display: none;
         }
     }
-    &:before {
-        color: $color_4;
-        display: block;
+}
+.burger-collapse.collapsed {
+    #table-nav-layers-panel-toggler {
+        background-color: $light_grey;
+        .icon-cross1:before {
+            display: none;
+        }
+        .icon-burgermenu_alt:before {
+            color: $primary;
+            display: block;
+        }
     }
+}
 
-}
-.burgermenu-layer-list {
-    background-color: $background_color_5;
-    margin-bottom: 13px;
-    padding-bottom: 8px;
-    border-radius: 5px;
-    border: none;
-}
 #table-nav-layers-panel {
     .layers {
         max-height: 360px;
         overflow-x: auto;
         margin: 4px 4px;
         .layer-item {
-            font-family: $font_family_2;
-            font-size: 17px;
+            font-size: $font-size-lg;
+            flex-
             .title{
                 display: block;
                 min-width: 385px;
@@ -327,31 +311,31 @@ a {
             }
             .just-added {
                 font-weight: bold;
-                color: #003063;
+                color: $primary;
             }
         }
     }
     .layers::-webkit-scrollbar {
-        background: #cccccc;
+        background: $light_grey;
         width: 10px;
         border-radius: 10px;
     }
     .layers::-webkit-scrollbar-thumb {
-        background: #003063;
+        background: $primary;
         border-radius: 10px;
-        border: 1px solid #ccc;
+        border: 1px solid $light_grey;
     }
     ul#layers {
         border: none;
-        font-size: 15px;
-        padding: 0px 0;
+        font-size: $font-size-lg;
+        padding: 0 0;
         min-width: 410px;
         overflow: auto;
         padding-bottom: 7px;
         ul {
             list-style: none;
-            padding: 0 0 0 0px;
-            -webkit-padding-start: 0px;
+            padding: 0 0 0 0;
+            -webkit-padding-start: 0;
             li {
                 border-bottom: 1px solid #ddd;
                 padding: 5px 15px;
@@ -359,49 +343,44 @@ a {
         }
     }
     .layer-settings {
-        clear: both;
-        margin-top: 25px;
         margin-left: -3px;
-        font-size: 14px;
-        .glyphicon {
+        font-size: $font_size_big;
+        .bootstrap-icon {
             font-size: x-large;
             color: $secondary_icon_button;
-            top: 8px;
         }
         .badge {
-            font-size: 14px;
+            font-size: $font_size_big;
             padding-top: 6px;
-            background-color: #686868;
+            background-color: $dark_grey;
+            color: $white;
         }
         .remove-layer {
-            color: #F2F2F2;
+            color: $secondary_table_style;
             font-weight: bold;
-            background-color: #808080;
+            background-color: $light_grey;
             border-radius: 10px;
             padding: 6px 4px 4px 4px;
-            margin-left: 85px;
+            margin-left: auto;
             cursor: pointer;
         }
     }
-    .glyphicon-info-sign {
-        position: absolute;
-        font-size: 18px;
+    .bi-info-circle-fill {
+        font-size: 1.125rem;
         color: $secondary_icon_button;
-        top: 14px;
-        right: 50px;
     }
-    .glyphicon-cog {
-        font-size: 18px;
+    .rotate-icon {
+        height: 18px;
+        line-height: 0;
+    }
+    .bi-gear {
+        font-size: 1.125rem;
         color: $secondary_icon_button;
-        top: 4px;
+        
     }
     .layer-settings-activated {
-        background-color: $background_color_6;
+        background-color: $light_grey;
     }
-}
-.checkboxicon-left {
-    margin-left: 25px;
-    cursor: pointer;
 }
 #funnel {
     position: absolute;
@@ -412,7 +391,7 @@ a {
     width: 10px;
     height: 10px;
     background-image: radial-gradient(circle at 0 100%, transparent 10px, #F2F2F2 10px);
-    margin-left: 24px;
+    margin-left: 27px;
 }
 #middle-funnel {
     display: block;
@@ -433,8 +412,8 @@ a {
 }
 .closeclick-activated {
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     touch-action: none;
 }
 .closeclick-deactivated {

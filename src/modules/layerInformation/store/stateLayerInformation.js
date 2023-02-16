@@ -10,6 +10,7 @@
  * @property {Object} layerInfo additional layer Information
  * @property {Object} additionalLayer additional layer Information for group layer
  * @property {string} abstractText the abstract Info text
+ * @property {string} customText the custom Info text
  * @property {string} title the layer Title
  * @property {string} noMetadataLoaded no metadata Loaded Text
  * @property {array} metaURLs the metadata URLs
@@ -27,6 +28,7 @@ export default {
     layerInfo: {},
     additionalLayer: {},
     abstractText: "",
+    customText: null,
     title: "",
     noMetadataLoaded: "",
     metaURLs: [],

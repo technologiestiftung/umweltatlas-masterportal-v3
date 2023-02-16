@@ -31,10 +31,25 @@ describe("src/modules/portalFooter/components/PortalFooter.vue", () => {
             "alias": "SDP Download",
             "toolModelId": "SdpDownload"
         }],
+        footerInfo = [{
+            title: "Titel",
+            description: "Test description",
+            subtexts: [
+                {
+                    subtitle: "Subtitle",
+                    text: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."
+                },
+                {
+                    subtitle: "Another subtitle",
+                    text: "At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
+                }
+            ]
+        }],
         mockConfigJs = {
             footer: {
                 urls: urls,
-                showVersion: false
+                showVersion: false,
+                footerInfo: footerInfo
             }
         };
     let store;
@@ -48,7 +63,8 @@ describe("src/modules/portalFooter/components/PortalFooter.vue", () => {
                     getters: {
                         showFooter: () => true,
                         urls: () => urls,
-                        showVersion: () => true
+                        showVersion: () => true,
+                        footerInfo: () => true
                     },
                     mutations: {
                         setShowFooter: () => sinon.stub(),
@@ -58,10 +74,10 @@ describe("src/modules/portalFooter/components/PortalFooter.vue", () => {
                         initialize: sinon.stub()
                     }
                 },
-                Map: {
+                Maps: {
                     namespaced: true,
                     getters: {
-                        is3d: () => false
+                        is3D: () => false
                     }
                 }
             },
@@ -92,7 +108,7 @@ describe("src/modules/portalFooter/components/PortalFooter.vue", () => {
     });
 
     it("renders the masterportal version in footer", () => {
-        store.commit("Footer/setShowVersion", true);
+        store.commit("PortalFooter/setShowVersion", true);
         const wrapper = shallowMount(PortalFooterComponent, {
             store,
             computed: {
@@ -103,7 +119,7 @@ describe("src/modules/portalFooter/components/PortalFooter.vue", () => {
             localVue
         });
 
-        expect(wrapper.find(".hidden-xs").exists()).to.be.true;
+        expect(wrapper.find(".d-none.d-md-block").exists()).to.be.true;
     });
 
     it("renders the urls in footer", async () => {
@@ -122,6 +138,22 @@ describe("src/modules/portalFooter/components/PortalFooter.vue", () => {
         expect(wrapper.find("a").exists()).to.be.true;
         expect(wrapper.find("a").text()).to.equals("ABC");
         expect(wrapper.find("a").attributes().href).to.equals("https://abc.de");
+    });
+    it("renders the footerInfo in footer", async () => {
+        const wrapper = shallowMount(PortalFooterComponent, {
+            store,
+            computed: {
+                footerConfig: () => sinon.stub(),
+                masterPortalVersionNumber: () => sinon.stub(),
+                mobile: () => sinon.stub()
+            },
+            localVue
+        });
+
+        await wrapper.vm.$nextTick();
+
+        expect(wrapper.find("#footerInfo").exists()).to.be.true;
+
     });
     it("renders link to start tool in footer", async () => {
         const wrapper = shallowMount(PortalFooterComponent, {
@@ -168,7 +200,7 @@ describe("src/modules/portalFooter/components/PortalFooter.vue", () => {
                 footerConfig: () => sinon.stub(),
                 masterPortalVersionNumber: () => sinon.stub(),
                 mobile: () => false,
-                is3d: () => true
+                is3D: () => true
             },
             localVue
         });
@@ -192,7 +224,7 @@ describe("src/modules/portalFooter/components/PortalFooter.vue", () => {
                 footerConfig: () => sinon.stub(),
                 masterPortalVersionNumber: () => sinon.stub(),
                 mobile: () => false,
-                is3d: () => true
+                is3D: () => true
             },
             localVue
         });

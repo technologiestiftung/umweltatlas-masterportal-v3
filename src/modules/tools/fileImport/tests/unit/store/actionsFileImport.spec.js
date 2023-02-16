@@ -5,10 +5,11 @@ import importedState from "../../../store/stateFileImport";
 import rawSources from "../../resources/rawSources.js";
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
-import * as crs from "masterportalapi/src/crs";
+import crs from "@masterportal/masterportalapi/src/crs";
+import sinon from "sinon/pkg/sinon-esm";
 
 const
-    {importKML} = actions,
+    {importKML, setFeatureExtents} = actions,
     namedProjections = [
         ["EPSG:31467", "+title=Bessel/Gauß-Krüger 3 +proj=tmerc +lat_0=0 +lon_0=9 +k=1 +x_0=3500000 +y_0=0 +ellps=bessel +datum=potsdam +units=m +no_defs"],
         ["EPSG:25832", "+title=ETRS89/UTM 32N +proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"],
@@ -44,7 +45,7 @@ describe("src/modules/tools/fileImport/store/actionsFileImport.js", () => {
                     category: i18next.t("common:modules.alerting.categories.info"),
                     content: i18next.t("common:modules.tools.fileImport.alertingMessages.success", {filename: payload.filename})},
                 dispatch: true
-            }], {}, done, {"Map/projectionCode": "EPSG:25832"});
+            }], {}, done, {"Maps/projectionCode": "EPSG:25832"});
         });
 
         it("preset \"auto\", correct kml file, wrong filename", done => {
@@ -95,7 +96,7 @@ describe("src/modules/tools/fileImport/store/actionsFileImport.js", () => {
                     category: i18next.t("common:modules.alerting.categories.info"),
                     content: i18next.t("common:modules.tools.fileImport.alertingMessages.success", {filename: payload.filename})},
                 dispatch: true
-            }], {}, done, {"Map/projectionCode": "EPSG:25832"});
+            }], {}, done, {"Maps/projectionCode": "EPSG:25832"});
         });
 
         it("preset \"auto\", correct geojson file, correct filename", done => {
@@ -107,7 +108,7 @@ describe("src/modules/tools/fileImport/store/actionsFileImport.js", () => {
                     category: i18next.t("common:modules.alerting.categories.info"),
                     content: i18next.t("common:modules.tools.fileImport.alertingMessages.success", {filename: payload.filename})},
                 dispatch: true
-            }], {}, done, {"Map/projectionCode": "EPSG:25832"});
+            }], {}, done, {"Maps/projectionCode": "EPSG:25832"});
         });
 
         it("preset \"gpx\", correct kml file, correct filename", done => {
@@ -121,6 +122,30 @@ describe("src/modules/tools/fileImport/store/actionsFileImport.js", () => {
                     category: i18next.t("common:modules.alerting.categories.error"),
                     content: i18next.t("common:modules.tools.fileImport.alertingMessages.missingFileContent")},
                 dispatch: true
+            }], {}, done);
+        });
+
+        it("Sets empty feature extent", done => {
+            const payload = {features: [], fileName: "file1"},
+                tmpState = {...importedState};
+
+            testAction(setFeatureExtents, payload, tmpState, {}, [{
+                type: "setFeatureExtents",
+                payload: {file1: [Infinity, Infinity, -Infinity, -Infinity]}
+            }], {}, done);
+        });
+
+        it("Sets feature extent", done => {
+            const payload = {features: [{
+                    getGeometry: () => sinon.spy({
+                        getExtent: () => [10, 10, 10, 10]
+                    })
+                }], fileName: "file2"},
+                tmpState = {...importedState, ...{featureExtents: {"file1": [100, 100, 100, 100]}}};
+
+            testAction(setFeatureExtents, payload, tmpState, {}, [{
+                type: "setFeatureExtents",
+                payload: {"file1": [100, 100, 100, 100], "file2": [10, 10, 10, 10]}
             }], {}, done);
         });
     });

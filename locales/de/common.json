@@ -35,6 +35,9 @@
     "mouseHover": {
         "infoText": "(weitere Objekte. Bitte zoomen.)"
     },
+    "mapRegion": {
+       "twoFingerPanAlert": "Bitte nutzen Sie zum Navigieren und Zoomen in der Karte zwei Finger."
+    },
     "menu": {
         "topics": "Themen",
         "name": "Menü",
@@ -57,7 +60,6 @@
             "fileImport": "Datei-Import",
             "draw": "Zeichnen / Schreiben",
             "shadow": "Schatten",
-            "styleWMS": "Style WMS",
             "commuterLines": "Pendler (Linien)",
             "commuterAnimation": "Pendler (Animation)",
             "layerSlider": "Zeitreihe",
@@ -105,7 +107,10 @@
         "removeLayer": "Layer entfernen",
         "levelUp": "Ebene nach oben",
         "levelDown": "Ebene nach unten",
-        "externalTechnicalData": "Externe Fachdaten"
+        "externalTechnicalData": "Externe Fachdaten",
+        "selectedFeatures": "Auswahl:",
+        "filterIconText": "Filter öffnen",
+        "scaleText": "Wird im folgenden Maßstabsbereich angezeigt: "
     },
     "date": "Datum",
     "time": "Zeit",
@@ -120,7 +125,12 @@
               "wms": {
                 "allowCookies":"<strong>Bitte erlauben sie Cookies, damit diese Hintergrundkarte geladen werden kann.</strong>",
                 "errorTimeLayer": "Es ist ein Fehler bei der Vorbereitung des Layer mit der id {{id}} aufgetreten: {{error}}",
-                "invalidTimeLayer": "Der konfigurierte Layer mit der Id {{id}} enthält nicht alle notwendigen Parameter für einen WMS-T."
+                "invalidTimeLayer": "Der konfigurierte Layer mit der Id {{id}} enthält nicht alle notwendigen Parameter für einen WMS-T.",
+                "warningTimeLayerQuantity": "<strong>Achtung:</strong> Es wurden mehr als ein Timelayer initial ausgewählt. </br>Es wird nur <strong> {{name}} </strong>angezeigt."
+              },
+              "errorHandling": {
+                "403": "<strong>Zugriff auf {{layerName}} nicht möglich!</strong></br> Sie sind leider nicht berechtigt, die Daten für {{layerName}} anzuzeigen. Das Thema wurde automatisch deaktiviert.</br></br>Bitte wenden sie sich für eine Zugriffsberechtigung an die für diese Daten verantwortliche Stelle.</br></br>" ,
+                "LinkMetadata": "Kontaktdaten und weitere Informationen finden sie <a href={{linkMetadata}} target=\"_blank\">hier</a>."
               }
             }
           }
@@ -147,8 +157,11 @@
             "en": "English",
             "es": "Español",
             "it": "Italiano",
+            "platt": "Platt",
             "pt": "Português",
-            "tr": "Türkçe"
+            "ru": "Русский",
+            "tr": "Türkçe",
+            "ua": "Українська"
         },
         "cswParser": {
             "noMetadataMessage": "Keine Metadaten vorhanden.",
@@ -202,7 +215,14 @@
                 "geometryNotSupported": "FeatureViaURL: Der in der Konfiguration für den Layer {{layerId}} deklarierte Geometrietyp {{geometryType}} wird nicht unterstützt.",
                 "layerNotFound": "FeatureViaURL: Es konnte kein Layer mit der ID {{layerId}} gefunden werden.",
                 "noLayers": "FeatureViaURL: Für die übergebenen Feature wurden keine Layer in der Konfiguration definiert.",
-                "noNameDefined": "FeatureViaURL: Es wurde kein Name für den Layer mit der ID {{layerId}} in der Konfiguration definiert."
+                "noNameDefined": "FeatureViaURL: Es wurde kein Name für den Layer mit der ID {{layerId}} in der Konfiguration definiert.",
+                "defaultTreeNotSupported": "FeatureViaURL: FeatureViaURL ist nur für den Treetype custom oder light verfügbar."
+            }
+        },
+        "highlightFeaturesByAttribute": {
+            "messages": {
+                "requestFailed": "Datenabfrage fehlgeschlagen.",
+                "configurationError": "Konfiguration fehlerhaft. Bitte Konsolenausgabe prüfen."
             }
         },
         "quickHelp": {
@@ -347,7 +367,10 @@
                 "titlePlaceholder": "Mein Titel",
                 "layoutLabel": "Layout",
                 "formatLabel": "Format",
+                "dpiLabel": "DPI",
                 "scaleLabel": "Druckmaßstab",
+                "outputfileTitleLabel": "Dateiname",
+                "validationWarning": "Der Dateiname darf nur Buchstaben und die Sonderzeichen '-' und '_' enthalten.",
                 "withLegendLabel": "Mit Legende",
                 "autoAdjustScale": "Druckmaßstab automatisch anpassen",
                 "printLabel": "Datei erstellen",
@@ -367,7 +390,10 @@
                 "invisibleLayer": "Folgende Themen können im ausgewählten Druckmaßstab {{scale}} nicht gedruckt werden:"
             },
             "shadow": {
-                "shadowDisplay": "Schattendarstellung"
+                "shadowDisplay": "Schattendarstellung:",
+                "pickDate": "Wählen Sie ein Datum:",
+                "slideHour": "Wählen Sie eine Uhrzeit:",
+                "slideDate": "Wählen Sie ein Datum:"
               },
             "styleVT": {
               "introText": "Auf VectorTiles-Layer können verschiedene vordefinierte Styles angewendet werden, um die Ansicht für den jeweiligen Anwendungszweck zu optimieren.",
@@ -375,24 +401,6 @@
               "theme": "Thema",
               "chooseTheme": "Bitte aktives Thema auswählen",
               "style": "Style"
-            },
-            "styleWMS": {
-                "noStyleableLayers": "Derzeit sind keine klassifizierbaren Themen verfügbar, auf die dieses Werkzeug angewendet werden könnte.",
-                "theme": "Thema",
-                "chooseTheme": "Bitte Thema auswählen",
-                "attribute": "Attribut",
-                "chooseAttribute": "Bitte Attribut wählen",
-                "countOfClasses": "Anzahl der Klassen",
-                "chooseNumberOfClasses": "Bitte Anzahl der Klassen auswählen",
-                "rangeOfValues": "Wertebereich Klasse",
-                "from": "von",
-                "to": "bis",
-                "reset": "Zurücksetzen",
-                "apply": "Anwenden",
-                "pleaseEnterInteger": "Bitte tragen Sie eine ganze Zahl ein.",
-                "pleaseChooseColor": "Bitte wählen Sie eine Farbe aus.",
-                "checkTheValues": "Überprüfen Sie die Werte.",
-                "overlappingValueRanges": "Überprüfen Sie die Werte. Wertebereiche dürfen sich nicht überschneiden."
             },
             "featureLister": {
                 "chooseTheme": "Thema wählen",
@@ -413,7 +421,10 @@
                 "serviceThree": "Dienst 3",
                 "serviceFour": "Dienst 4"
             },
-            "filterGeneral": {
+            "filter": {
+                "alertingMessages": {
+                    "noMatchingFilterId": "Die konfigurierte Filter Id ist nicht vorhanden."
+                },
                 "filterButton": "Filtern",
                 "searchInMapExtent": "Suche im aktuellen Kartenausschnitt",
                 "snippetTags": {
@@ -455,16 +466,27 @@
                 "filterResult": {
                     "label": "Alle Filter-Treffer",
                     "unit": "{{amountOfFilteredItems}} Treffer"
+                },
+                "geometryFilter": {
+                    "activate": "Gebiet für Filterung setzen",
+                    "help": "Wählen Sie auf der Karte ein Gebiet aus um nur innerhalb dieses Gebietes zu filtern.",
+                    "selectGeometry": "Wählen Sie eine Geometrie aus.",
+                    "buffer": "Puffer [m]",
+                    "removeGeometry": "Gebiet entfernen",
+                    "geometries": {
+                        "polygon": "Fläche",
+                        "rectangle": "Rechteck",
+                        "circle": "Kreis",
+                        "lineString": "Linie + Puffer"
+                    }
+                },
+                "download": {
+                    "label": "Gefilterte Daten herunterladen",
+                    "labelBtn": "Herunterladen"
+                },
+                "upload": {
+                    "geometryParseError": "Die angegebene Geometry konnte nicht geladen werden"
                 }
-            },
-            "filter": {
-                "result": "Treffer",
-                "results": "Treffer",
-                "zoomOnResults": "Zoom auf Treffer",
-                "filter": "-Filter",
-                "yourSelection": "Ihre Auswahl: ",
-                "noFilterOptionSelected": "Noch keine Filteroption ausgewählt",
-                "deleteAll":"Alles löschen"
             },
             "pendler": {
                 "animation": {
@@ -522,6 +544,10 @@
                     "limitReached": "Die maximale Anzahl an Objekten in der Vergleichsliste wurde erreicht.",
                     "removeObjects": "Bitte entfernen Sie zuerst mindestens ein Objekt bevor Sie fortfahren.",
                     "goToComparisonlist": "Zur Vergleichsliste"
+                },
+                "trueFalse": {
+                  "true": "Ja",
+                  "false": "Nein"
                 }
             },
             "saveSelection": {
@@ -555,7 +581,9 @@
                     "featureError": "Ein Feature in dieser Datei konnte nicht gelesen werden."
                 },
                 "successfullyImportedLabel": "Erfolgreich importiert:",
-                "title": "Datei importieren"
+                "title": "Datei importieren",
+                "zoom": "Zoomen",
+                "fileZoom": "Auf Features dieser Datei \"{{filename}}\" zoomen"
             },
             "parcelSearch": {
                 "wrongConfig": "Ungültige oder unvollständige Konfiguration",
@@ -616,7 +644,6 @@
                 },
                 "hintSupply": "Klicken Sie in die Karte um Koordinaten abzufragen",
                 "hintSearch": "Geben Sie die zu suchenden Koordinaten ein",
-                "disabledTooltip": "Diese Funktion steht nicht in der 3D Ansicht zur Verfügung",
                 "copyCoordsBtn": "Koordinatenpaar kopieren",
                 "copyCoordBtn": " {{value}} kopieren"
             },
@@ -694,6 +721,7 @@
                 }
             },
             "draw": {
+                "drawLayerVisible": "Zeichnung ein-/ausblenden",
                 "clickToPlaceText": "Klicken Sie auf die Karte um den Text zu platzieren",
                 "download": {
                   "createFirst": "Bitte erstellen Sie zuerst eine Zeichnung oder einen Text!",
@@ -743,17 +771,30 @@
                     "undo": "Rückgängig machen",
                     "redo": "Wiederholen",
                     "edit": "Geometrie bearbeiten",
+                    "editAttributes": "Attribute bearbeiten",
                     "delete": "Geometrie / Text löschen",
                     "deleteAll": "Alles löschen",
                     "saveDrawing": "Zeichnung speichern"
                 },
                 "symbol": "Symbol",
+                "geometry": "Geometrie",
                 "iconList": {
                     "iconPoint": "Punkt",
                     "iconLeaf": "Blatt",
                     "iconCloud": "Wolke",
                     "iconMeadow": "Wiese",
                     "gelber Pin": "gelber Pin"
+                },
+                "attributeSelect": {
+                    "attributeKeyError": "Bitte einen Schlüssel fürs Attribut angeben.",
+                    "attributeDuplicatedKeyError": "Der Attribut-Schlüssel existiert bereits.",
+                    "noFeatureSelected": "Derzeit ist noch kein Feature ausgewählt. Bitte wählen Sie ein Feature aus!",
+                    "save": "Speichern",
+                    "remove": "Löschen",
+                    "input": {
+                        "key": "Neuer Schlüssel",
+                        "value": "Neuer Wert"
+                    }
                 }
             },
             "measure": {
@@ -802,6 +843,56 @@
                     "or": "oder",
                     "label": "Informationen bezüglich der Suchergebnisse",
                     "text": "Die Ergebnisse der Suche werden die Bedingungen / Klauseln {{userHelp}} erfüllen. <br /> *Pflichtfeld"
+                },
+                "district": "Gemarkung",
+                "parcelNumber": "Flurstücksnummer"
+            },
+            "wfsTransaction": {
+                "layerSelectLabel" : "Aktueller Layer:",
+                "polygonHint": "Halten Sie die Strg-Taste und bewegen Sie die Maus mit gedrückter Maustaste, um ein Polygon zu bewegen.",
+                "interactionSelect": {
+                    "update": "Geometrie bearbeiten",
+                    "delete": "Geometrie löschen",
+                    "line": "Linie erfassen",
+                    "point": "Punkt erfassen",
+                    "polygon": "Fläche erfassen"
+                },
+                "error": {
+                    "allLayersNotSelected": "Es wurde kein für dieses Werkzeug konfigurierter WFS-T Layer im Themenbaum aktiviert.",
+                    "geometryOutOfRange": "Die gezeichnete Geometrie befindet sich außerhalb des erlaubten Bereiches des Layers.",
+                    "layerNotConfiguredCorrectly": "Es liegen Probleme bei der Konfiguration des ausgewählten Layers für die Nutzung mit diesem Werkzeug vor; möglicherweise fehlt der Parameter 'featurePrefix'.",
+                    "layerNotSelected": "Der ausgewählte Layer wurde noch nicht im Themenbaum aktiviert.",
+                    "noFeature": "Bitte zeichnen Sie eine zu Ihren Einträgen assoziierte Geometrie.",
+                    "onlyNumbersAllowed": "Das Eingabefeld erlaubt nur Zahlen.",
+                    "requiredPropertiesNotSet": "Bitte geben Sie einen validen Wert für die verpflichtenden Felder {{properties}} ein."
+                },
+                "transaction": {
+                    "success": {
+                        "baseSuccess": "Das {{transaction}} der Geometrie und ihrer Parameter war erfolgreich.",
+                        "delete": "$t(common:modules.tools.wfsTransaction.transaction.success.baseSuccess, {\"transaction\": 'Löschen'})",
+                        "insert": "$t(common:modules.tools.wfsTransaction.transaction.success.baseSuccess, {\"transaction\": 'Speichern'})",
+                        "selectedUpdate" : "$t(common:modules.tools.wfsTransaction.transaction.success.baseSuccess, {\"transaction\": 'Bearbeiten'})"
+                    },
+                    "error": {
+                        "genericFailedTransaction": "Das Speichern bzw. Löschen der Geometrie und ihrer Parameter ist leider fehlgeschlagen. Bitte wenden Sie sich an Ihren Administrator.",
+                        "axios": "$t(common:modules.tools.wfsTransaction.transaction.error.genericFailedTransaction)",
+                        "baseError": "Das Speichern der Geometrie und ihrer Parameter ist leider fehlgeschlagen.",
+                        "InvalidValue": "$t(common:modules.tools.wfsTransaction.transaction.error.baseError) Eine der Eingaben ist unzulässig bzw. nicht im richtigen Format.",
+                        "InvalidParameterValue": "$t(common:modules.tools.wfsTransaction.transaction.error.InvalidValue)",
+                        "MissingParameterValue": "$t(common:modules.tools.wfsTransaction.transaction.error.baseError) Einer oder mehrere der Parameter haben keine Eingabe und der Dienst verfügt über keinen Defaultwert.",
+                        "OperationNotSupported": "$t(common:modules.tools.wfsTransaction.transaction.error.baseError) Der Dienst unterstützt die durchgeführte Operation nicht.",
+                        "OperationParsingFailed": "$t(common:modules.tools.wfsTransaction.transaction.error.baseError) Die Transaktion konnte vom Dienst nicht verarbeitet werden. Bitte wenden Sie sich an den Administrator.",
+                        "OperationProcessingFailed": "$t(common:modules.tools.wfsTransaction.transaction.error.baseError) Während der Transaktion ist ein Fehler aufgetreten."
+                    }
+                },
+                "deleteInteraction": {
+                  "confirm": "Löschen",
+                  "headline": "Achtung",
+                  "text": "Sind Sie sich sicher, dass Sie diese Geometrie löschen möchten?"
+                },
+                "form": {
+                    "discard": "Verwerfen",
+                    "save": "Speichern"
                 }
             },
             "routing": {
@@ -877,6 +968,7 @@
                             "profile": "Profil"
                         }
                     },
+                    "preferenceLabel": "Präferenz",
                     "preference": {
                         "RECOMMENDED": "Empfohlene Route",
                         "SHORTEST": "Kürzeste Route"
@@ -953,7 +1045,8 @@
             "3d": {
                 "buttonTitle": "3D",
                 "openView3d": "Ansicht einschalten",
-                "closeView3d": "Ansicht ausschalten"
+                "closeView3d": "Ansicht ausschalten",
+                "noCesium": "Cesium/3D-Funktionalität konnte nicht geladen werden - Bitte informieren Sie den Serviceanbieter"
             },
             "oblique": {
                 "buttonTitle": "Schrägluftbilder",
@@ -1010,7 +1103,8 @@
                 "location": "Ort",
                 "subject": "Thema (externe Fachdaten)",
                 "topic": "Thema (Fachdaten)",
-                "general": "Fachdaten"
+                "general": "Fachdaten",
+                "folder": "Ordner (Fachdaten)"
             },
             "specialWFS": {
                 "ongoing": "im Verfahren",
@@ -1067,11 +1161,6 @@
             "noLegendForLayerInfo": "Legende nicht verfügbar",
             "toggleCollapseAll": "Alle Legenden ein-/ausklappen"
         },
-        "zoomToGeometry": {
-          "alertNoFoundFeature" : "Es wurde kein Objekt gefunden! Bitte überprüfen Sie die Eingabeparameter.",
-          "alertParameterizedAccess": "Der parametrisierte Aufruf des Portals ist leider schief gelaufen!",
-          "alertRequiredService": "Details: Ein benötigter Dienst antwortet nicht."
-        },
         "util": {
             "copyToClipboard": {
                 "contentSaved": "Inhalt wurde in die Zwischenablage kopiert.",
@@ -1112,12 +1201,15 @@
             "newYearsEve": "Silvester"
         },
         "parametricURL": {
-            "alertZoomToGeometry": "Der Parametrisierte Aufruf des Portals ist leider schief gelaufen!<br>Bitte stellen Sie sicher das alle Parameter richtig angegeben wurden.",
+            "name": "URL-Parameter",
             "alertWrongLayerIds": "Im aufgerufenen Link sind Themen enthalten, die nicht mehr gefunden werden können.</br> Um diese Fehlermeldung zukünftig nicht mehr zu erhalten unternehmen Sie bitte folgende Schritte:<ul> <li> Prüfen Sie Ihren gewünschten Kartenausschnitt auf fehlende Inhalte.</li> <li>Speichern Sie Ihre Auswahl erneut mit dem Werkzeug \"Auswahl Speichern\" ab.</li></ul>",
             "alertWrongAmountVisibility": "<strong>Parametrisierter Aufruf fehlerhaft!</strong></br>Die Angaben zu <b>layerIds</b> passen nicht zu <b>visibility</b> bzw. <b>transparency</b>. Sie müssen jeweils in der gleichen Anzahl angegeben werden.",
             "errorLoadConfig": "Die gewünschte Konfigurationsdatei konnte unter folgendem Pfad nicht geladen werden: {{url}}<br>Der URL-Paramater <strong>configJson</strong> verlangt eine Datei mit der Endung \".json\".<br>Es wird versucht die config.json unter dem Standardpfad zu laden.",
-            "alertDeprecated": "Der URL-Parameter <b>?{{deprecatedKey}}</b> ist veraltet und wird mit der Masterportal Version 3.0.0 entfernt.<br>Bitte verwenden Sie stattdessen <b><a href='{{currentUrl}}'>{{currentUrl}}</a></b>."
-          }
+            "alertDeprecated": "Der URL-Parameter <b>?{{deprecatedKey}}</b> ist veraltet und wird mit der Masterportal Version 3.0.0 entfernt.<br>Bitte verwenden Sie stattdessen <b><a href='{{currentUrl}}'>{{currentUrl}}</a></b>.",
+            "zoomTo": {
+                "wrongConfigId": "zoomTo: Die angegebene id {{configId}} für den Url Parameter existiert nicht. Bitte verwenden Sie 'zoomToGeometry' bzw. 'zoomToFeatureId' in der Konfiguration."
+            }
+        }
     },
     "snippets": {
         "checkbox": {
@@ -1158,7 +1250,24 @@
                 "No": "nein"
             },
             "zoomToResult": "Zum Ergebnis zoomen",
-            "pagination": "Ergebnisseite"
+            "zoomToResults": "Zur Auswahl zoomen",
+            "pagination": "Ergebnisseite",
+            "selection": "Zeilenauswahl"
+        }
+    },
+    "libraries": {
+        "vue2-datepicker": {
+            "lang": {
+                "formatLocale": {
+                    "months": ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"],
+                    "monthsShort": ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"],
+                    "weekdays": ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"],
+                    "weekdaysShort": ["Son", "Mon", "Die", "Mit", "Don", "Fre", "Sam"],
+                    "weekdaysMin": ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
+                    "firstDayOfWeek": 1,
+                    "firstWeekContainsDate": 4
+                }
+            }
         }
     }
 }

@@ -1,5 +1,7 @@
 >**[Zurück zur Dokumentation Masterportal](doc.md)**.
 
+>Wenn diese Seite nicht korrekt dargestellt wird, nutzen Sie bitte diesen Link: **[Alternative Config.json Dokumentation](https://www.masterportal.org/files/masterportal/html-doku/doc/latest/config.json.de.html)**
+
 [TOC]
 
 ***
@@ -42,6 +44,8 @@ Es existieren die im Folgenden aufgelisteten Konfigurationen:
 |searchBar|nein|**[searchBar](#markdown-header-portalconfigsearchbar)**||Über die Suchleiste können verschiedene Suchen gleichzeitig angefragt werden.|false|
 |layersRemovable|nein|Boolean|false|Gibt an, ob der Layer gelöscht werden darf.|false|
 |quickHelp|nein|**[quickHelp](#markdown-header-portalconfigquickHelp)**||Konfiguration neuer und Manipulation bestehender QuickHelp-Fenster.|false|
+|tree|nein|**[tree](#markdown-header-portalconfigtree)**||Konfiguration des Menü-Baums.|false|
+|layerInformation|nein|**[layerInformation](#markdown-header-portalconfiglayerInformation)**||Legt fest, ob individuelle Attribute in Metadaten von layerinformation angezeigt werden soll.|false|
 
 ***
 
@@ -50,7 +54,7 @@ Konfiguration der Searchbar
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|searchResultOrder|nein|String[]|["common:modules.searchbar.type.address", "common:modules.searchbar.type.street", "common:modules.searchbar.type.parcel", "common:modules.searchbar.type.location", "common:modules.searchbar.type.district", "common:modules.searchbar.type.topic", "common:modules.searchbar.type.subject"]|Konfiguration von Reihenfolge der Kategorien der angezeigten Suchergebnisse. Keys sollen aus der Übersetzungsdatei verwendet werden.|false|
+|searchResultOrder|nein|String[]|["common:modules.searchbar.type.address", "common:modules.searchbar.type.street", "common:modules.searchbar.type.parcel", "common:modules.searchbar.type.location", "common:modules.searchbar.type.district", "common:modules.searchbar.type.topic", "common:modules.searchbar.type.subject"]|Konfiguration von Reihenfolge der Kategorien der angezeigten Suchergebnisse. Keys sollen aus der Übersetzungsdatei verwendet werden.|false|
 |bkg|nein|**[bkg](#markdown-header-portalconfigsearchbarbkg)**||Konfiguration des BKG Suchdienstes.|false|
 |gazetteer|nein|**[gazetteer](#markdown-header-portalconfigsearchbargazetteer)**||Konfiguration des Gazetteer Suchdienstes.|false|
 |gdi|nein|**[gdi](#markdown-header-portalconfigsearchbargdi)**||Konfiguration des GDI (elastic) Suchdienstes. Deprecated in 3.0.0. Bitte **[elasticSearch](#markdown-header-portalconfigsearchbarelasticsearch)** verwenden.|false|
@@ -60,7 +64,7 @@ Konfiguration der Searchbar
 |locationFinder|nein|**[locationFinder](#markdown-header-portalconfigsearchbarlocationfinder)**||Konfiguration des LocationFinder-Suchdienstes.|false|
 |placeholder|nein|String|"Suche"|Placeholder für das Freitextfeld.|false|
 |recommendedListLength|nein|Integer|5|Anzahl der Einträge in der Vorschlagsliste.|false|
-|quickHelp|nein|Boolean|false|Gibt an ob eine Schnellhilfe angeboten wird.|false|
+|quickHelp|nein|Boolean|false|Deprecated im nächsten Major-Release. Gibt an ob eine Schnellhilfe angeboten wird.|false|
 |specialWFS|nein|**[specialWFS](#markdown-header-portalconfigsearchbarspecialwfs)**||Konfiguration des specialWFS Suchdienstes.|false|
 |tree|nein|**[tree](#markdown-header-portalconfigsearchbartree)**||Konfiguration der Suche im Themenbaum.|false|
 |visibleWFS|nein|**[visibleWFS](#markdown-header-portalconfigsearchbarvisiblewfs)**||Konfiguration der Suche über die sichtbaren WFS Layer.|false|
@@ -208,7 +212,7 @@ Definition von Klassen, welche als Ergebnis berücksichtigt werden sollen.
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |name|ja|String||Name der Klasse|false|
-|icon|nein|String|"glyphicon-road"|Visualisierung der Klasse durch ein Glyphicon|false|
+|icon|nein|String|"bi-signpost-2-fill"|Visualisierung der Klasse durch ein Icon|false|
 |zoom|nein|String|"center"|Legt fest wie auf einen ausgewählten Treffer gezoomt werden soll. Wenn `center` ausgewählt ist, so wird auf die Zentrumskoordinate (`cx` und `cy`) gezoomt und ein Marker angezeigt. Im Falle von `bbox` wird auf die durch den LocationFinder angegebene BoundingBox (`xmin`, `ymin`, `xmax` und `ymax`) gezoomt. Ein Marker wird in dem Fall nicht angezeigt.|false|
 |zoomLevel|nein|Integer||Bei der Ausgabe der Suchergebnisse (dieses Typs) zu verwendende Zoomstufe|false|
 
@@ -222,11 +226,11 @@ Definition von Klassen, welche als Ergebnis berücksichtigt werden sollen.
     "classes": [
         {
 			"name": "Haltestelle",
-			"icon": "glyphicon-record"
+			"icon": "bi-record-circle"
 		},
 		{
 			"name": "Adresse",
-			"icon": "glyphicon-home",
+			"icon": "bi-house-door-fill",
 			"zoomLevel": 5
 		},
 		{
@@ -256,7 +260,7 @@ Konfiguration des Gazetteer Suchdienstes
 |searchParcels|nein|Boolean|false|Gibt an, ob nach Flurstücken gesucht werden soll.|false|
 |searchStreetKey|nein|Boolean|false|Gibt an, ob nach Straßenschlüsseln gesucht werden soll.|false|
 |searchStreet|nein|Boolean|false|Gibt an, ob nach Straßen gesucht werden soll. Vorraussetzung für **searchHouseNumbers**.|false|
-|serviceID|ja|String||Id des Suchdienstes. Wird aufgelöst in der **[rest-services.json](rest-services.json.de.md)**.|false|
+|serviceId|ja|String||Id des Suchdienstes. Wird aufgelöst in der **[rest-services.json](rest-services.json.de.md)**.|false|
 |showGeographicIdentifier|nein|Boolean|false|Gibt an ob das Attribut `geographicIdentifier` zur Anzeige des Suchergebnisses verwendet werden soll.|false|
 
 **Beispiel**
@@ -282,7 +286,7 @@ Deprecated in 3.0.0. Bitte **[elasticSearch](#markdown-header-portalconfigsearch
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |minChars|nein|Integer|3|Minimale Anzahl an Buchstaben, ab der die Suche losläuft.|false|
-|serviceID|ja|String||Id des Suchdienstes. Wird aufgelöst in der **[rest-services.json](rest-services.json.de.md)**.|false|
+|serviceId|ja|String||Id des Suchdienstes. Wird aufgelöst in der **[rest-services.json](rest-services.json.de.md)**.|false|
 |sortByName|nein|Boolean|false|Legt fest ob die Ergebnisse einer Suche alphabetisch nach Namen sortiert werden sollen|false|
 |queryObject|ja|**[queryObject](#markdown-header-portalconfigsearchbargdiqueryobject)**||Query Objekt, das vom Elastic Search Model ausgelesen wird.|false|
 
@@ -336,7 +340,7 @@ Konfiguration des Elastic Search Suchdienstes
 |triggerEvent|nein|**[triggerEvent](#markdown-header-portalconfigsearchbarelasticsearchtriggerevent)**|{}|Radio event das ausgelöst werden soll durch Mouseover und Click.|false|
 |hitMap|nein|**[hitMap](#markdown-header-portalconfigsearchbarelasticsearchhitmap)**||Mapping Objekt. Mappt die Attribute des Ergebnis Objektes auf den entsprechenden Key.|true|
 |hitType|nein|String|"common:modules.searchbar.type.subject"|Typ des Suchergebnisses, wird in der Auswahlliste hinter dem Namen angezeigt. Nutzen Sie den Übersetzungskey aus der Übersetzungsdatei|false|
-|hitGlyphicon|nein|String|"glyphicon-road"|CSS Glyphicon Klasse des Suchergebnisses. Wird vor dem Namen angezeigt.|false|
+|hitIcon|nein|String|"bi-signpost-2-fill"|CSS Icon Klasse des Suchergebnisses. Wird vor dem Namen angezeigt.|false|
 |useProxy|nein|Boolean|false|Flag die angibt ob die URL geproxied werden soll oder nicht.|false|
 
 Als zusätzliches property kann `payload` hinzugefügt werden. Es muss nicht zwingend gesetzt sein, und passt zur Beschreibung von **[CustomObject](#markdown-header-datatypescustomobject)**. Per default wird es als leeres Objekt `{}` gesetzt. Das Objekt beschreibt die Payload, die mitgeschickt werden soll. Es muss das Attribut für den searchString vorhalten. Für weitere Infos zu den nutzbaren Attributen siehe **[Elasticsearch Guide](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html)**. Dieses Objekt kann im Admintool nicht gepflegt werden, da dort **[CustomObject](#markdown-header-datatypescustomobject)** nicht definiert ist.
@@ -366,7 +370,7 @@ Als zusätzliches property kann `payload` hinzugefügt werden. Es muss nicht zwi
         "source": "_source"
     },
     "hitType": "common:modules.searchbar.type.subject",
-    "hitGlyphicon": "glyphicon-list"
+    "hitIcon": "bi-list-ul"
 }
 ```
 
@@ -430,7 +434,7 @@ Die WFS 2 query wird dabei dynamisch durch das Masterportal erstellt. Die Konfig
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |minChars|nein|Integer|3|Minimale Anzahl an Buchstaben, ab der die Suche losläuft.|false|
-|glyphicon|nein|String|"glyhicon-home"|Default glyphicon das in der Vorschlagsliste erscheint. Kann in der **[definition](#markdown-header-portalconfigsearchbarspecialwfsdefinition)** überschrieben werden.|false|
+|icon|nein|String|"bi-house-fill"|Default icon das in der Vorschlagsliste erscheint. Kann in der **[definition](#markdown-header-portalconfigsearchbarspecialwfsdefinition)** überschrieben werden.|false|
 |maxFeatures|nein|Integer|20|Maximale Anzahl an gefundenen Features. Kann in der **[definition](#markdown-header-portalconfigsearchbarspecialwfsdefinition)** überschrieben werden.|false|
 |timeout|nein|Integer|6000|Timeout in ms für die Dienste Anfrage.|false|
 |definitions|nein|**[definition](#markdown-header-portalconfigsearchbarspecialwfsdefinition)**[]||Definition der speziellen WFS suchen.|false|
@@ -471,7 +475,7 @@ Konfiguration einer Definition bei der SpecialWFS Suche
 |----|-------------|---|-------|------------|------|
 |url|nein|String||URL des WFS. Je nach proxy-Konfiguration muss die relative url vom Server des Portals aus angegeben werden. |false|
 |name|nein|String||Name der Kategorie. Erscheint in der Vorschlagsliste.|false|
-|glyphicon|nein|String|"glyhicon-home"|CSS Klasse des Glyphicons das in der Vorschlagsliste erscheint.|false|
+|icon|nein|String|"bi-house-fill"|CSS Klasse des Icons das in der Vorschlagsliste erscheint.|false|
 |typeName|nein|String||Der Name des abzufragenden Layers innerhalb des WFS.|false|
 |propertyNames|nein|String[]||Array von Attributnamen. Diese Attribute werden durchsucht.|false|
 |geometryName|nein|String|"app:geom"|Attributname der Geometrie wird benötigt um darauf zu zoomen.|false|
@@ -546,6 +550,61 @@ Konfiguration der Suche über die sichtbaren VectorLayer. Bei der Layerdefinitio
 ```
 ***
 
+#### Portalconfig.tree
+Konfiguration des Menü-Baums.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|highlightedFeatures|nein|**[highlightedFeatures](#markdown-header-portalconfigtreehighlightedfeatures)**||Konfiguration zusätzlich zum Highlighting von Features.|false|
+|showScaleTooltip|nein|Boolean|false|Flag ob im Layer Tooltip zusätzlich zum Namen des entsprechenden Layers auch der Maßstabsbereich angezeigt wird.|false|
+
+**Beispiel**
+```
+#!json
+"tree":{
+    "highlightedFeatures": {
+        "active": true,
+        "layerName": "common:tree.selectedFeatures"
+    },
+    "showScaleTooltip": true
+},
+```
+***
+
+#### Portalconfig.tree.highlightedFeatures
+Konfiguration zusätzlich zum Highlighting von Features. Wenn mit dem Werkzeug "Liste" oder "Features auswählen" mit "Auf dieses Feature zoomen" oder per Url-Parameter Features hervorgehoben werden, dann ist ein Layer mit diesen Features im Menü-Baum auswählbar.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|active|nein|Boolean|false|Gibt an, ob dieses Feature aktiv ist.|false|
+|layerName|nein|String|"common:tree.selectedFeatures"|Name der erzeugten Layer mit den hervorgehobenen Features. Der Name enthält zusätzlich den Namen des Werkzeuges mit dem gearbeitet wurde.|true|
+
+**Beispiel**
+```
+#!json
+"highlightedFeatures": {
+    "active": false,
+    "layerName": "common:tree.selectedFeatures"
+},
+```
+***
+
+#### Portalconfig.layerInformation
+Konfiguration der layerInformation.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|showMetaDataRevision|nein|Boolean|true|Legt fest, ob "Letzte Änderung" in Metadaten von layerinformation angezeigt werden soll.|false|
+
+**Beispiel**
+```
+#!json
+"layerInformation":{
+    "showMetaDataRevision": true
+},
+```
+***
+
 ### Portalconfig.controls
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -564,6 +623,7 @@ Konfiguration der Suche über die sichtbaren VectorLayer. Bei der Layerdefinitio
 |freeze|nein|Boolean|false|Legt fest, ob ein "Ansicht sperren" Button angezeigt werden soll. Im Style 'TABLE' erscheint dieser im Werkzeug-Fenster.|false|
 |backforward|nein|**[backForward](#markdown-header-portalconfigcontrolsbackforward)**|false|Deprecated in 3.0.0. Bitte "backForward" verwenden.|false|
 |backForward|nein|**[backForward](#markdown-header-portalconfigcontrolsbackforward)**|false|Zeigt Buttons zur Steuerung der letzten und nächsten Kartenansichten an.|false|
+|startTool|nein|**[startTool](#markdown-header-portalconfigcontrolsbackforward)**|false|Zeigt Buttons für die konfigurierten Werkezeuge an. Über diese lassen sich die jeweiligen Werkzeuge öffnen und schließen.|false|
 
 ***
 
@@ -657,15 +717,15 @@ Das Attribut totalView kann vom Typ Boolean oder Object sein. Wenn es vom Typ Bo
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|glyphicon|nein|String|"glyphicon-fast-backward"|Über den Parameter glyphicon kann ein anderes Glyphicon für das Zurückschalten zur Startansicht verwendet werden.|false|
-|tableGlyphicon|nein|String|"glyphicon-home"|Über den Parameter tableGlyphicon kann bei einem TABLE Style ein anderes Glyphicon für das Zurückschalten zur Startansicht verwendet werden.|false|
+|icon|nein|String|"bi-skip-backward-fill"|Über den Parameter icon kann ein anderes Icon für das Zurückschalten zur Startansicht verwendet werden.|false|
+|tableIcon|nein|String|"bi-house-door-fill"|Über den Parameter tableIcon kann bei einem TABLE Style ein anderes Icon für das Zurückschalten zur Startansicht verwendet werden.|false|
 
 **Beispiel totalView als Object:**
 ```
 #!json
 "totalView" : {
-    "glyphicon": "glyphicon-step-forward",
-    "tableGlyphicon": "glyphicon-step-forward"
+    "icon": "bi-skip-forward-fill",
+    "tableIcon": "bi-skip-forward-fill"
 },
 ```
 
@@ -683,15 +743,15 @@ Das Attribut backForward kann vom Typ Boolean oder Object sein. Wenn es vom Typ 
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|glyphiconFor|nein|String||Über den Parameter glyphiconFor kann ein anderes Glyphicon für das Vorschalten der Kartenansicht verwendet werden.|false|
-|glyphiconBack|nein|String||Über den Parameter glyphiconBack kann ein anderes Glyphicon für das Zurückschalten der Kartenansicht verwendet werden.|false|
+|iconFor|nein|String||Über den Parameter iconFor kann ein anderes Icon für das Vorschalten der Kartenansicht verwendet werden.|false|
+|iconBack|nein|String||Über den Parameter iconBack kann ein anderes Icon für das Zurückschalten der Kartenansicht verwendet werden.|false|
 
 **Beispiel backForward als Object:**
 ```
 #!json
 "backForward" : {
-    "glyphiconFor": "glyphicon-fast-forward",
-    "glyphiconBack": "glyphicon-fast-backward"
+    "iconFor": "bi-skip-forward-fill",
+    "iconBack": "bi-skip-backward-fill"
 }
 ```
 
@@ -699,6 +759,24 @@ Das Attribut backForward kann vom Typ Boolean oder Object sein. Wenn es vom Typ 
 ```
 #!json
 "backForward": true
+```
+
+***
+
+#### Portalconfig.controls.startTool
+
+Das Attribut startTool muss vom Typ Object sein. Es wird für jedes konfigurierte Werkzeug ein Button angezeigt, über den sich das jeweilige Werkzeug öffen und schließen lässt. Vorraussetzung ist, dass die Werkzeuge ebenfalls unter **[Tools](Portalconfig.menu.tools)** konfiguriert sind.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|tools|ja|String[]||Hier werden die Werkezeuge zu denen jeweils ein Button angeziegt werden soll konfiguriert.|false|
+
+**Beispiel startTool:**
+```
+#!json
+"startTool": {
+    "tools": ["selectFeatures", "draw"]
+}
 ```
 
 ***
@@ -741,6 +819,7 @@ In der Menüleiste kann der Portalname und ein Bild angezeigt werden, sofern die
 |zoomLevel|nein|Integer||Deprecated in 3.0.0 Bitte "startZoomLevel" verwenden.|false|
 |epsg|nein|String|"EPSG:25832"|Der EPSG-Code der Projektion der Karte. Der EPSG-Code muss als namedProjection definiert sein.|false|
 |options|nein|[option](#markdown-header-portalconfigmapviewoption)[]|[{"resolution":66.14579761460263,"scale":250000,"zoomLevel":0}, {"resolution":26.458319045841044,"scale":100000,"zoomLevel":1}, {"resolution":15.874991427504629,"scale":60000,"zoomLevel":2}, {"resolution": 10.583327618336419,"scale":40000,"zoomLevel":3}, {"resolution":5.2916638091682096,"scale":20000,"zoomLevel":4}, {"resolution":2.6458319045841048,"scale":10000,"zoomLevel":5}, {"resolution":1.3229159522920524,"scale":5000,"zoomLevel":6}, {"resolution":0.6614579761460262,"scale":2500,"zoomLevel":7}, {"resolution":0.2645831904584105,"scale": 1000,"zoomLevel":8}, {"resolution":0.13229159522920521,"scale":500,"zoomLevel":9}]|Die initialen Maßstabsstufen und deren Auflösungen.|false|
+|twoFingerPan|nein|Boolean|false|Soll für mobile Geräte ein 2-Finger-Pan anstatt 1-Finger-Pan gesetzt werden?|false
 
 **Beispiel:**
 ```
@@ -1143,7 +1222,7 @@ Konfigurations-Optionen für Kartenansichten.
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |name|ja|String||Name der KartenAnsichten im Menü.|false|
-|glyphicon|nein|String|"glyphicon-list"|Glyphicon der Kartenanischten im Menü.|false|
+|icon|nein|String|"bi-binoculars-fill"|Icon der Kartenanischten im Menü.|false|
 |children|nein|**[children](#markdown-header-portalconfigmenuansichtenchildren)**|false|Konfigurationen beliebig vieler Kartenansichten.|false|
 
 ***
@@ -1166,7 +1245,7 @@ Konfigurations-Optionen für eine Kartenansicht.
 |----|-------------|---|-------|------------|------|
 |name|ja|String||Name der Kartenansicht.|false|
 |type|ja|String||Typ der Kartenansicht, muss immer "viewpoint" sein.|false|
-|glyphicon|nein|String||Glyphicon der Kartenansicht im Menü.|false|
+|icon|nein|String||icon der Kartenansicht im Menü.|false|
 |center|nein|Number[]||Koordinate an der die Kartenansicht zentriert wird.|false|
 |zoomLevel|nein|Number||Zoom level der Kartenansicht.|false|
 |altitude|nein|Number||Höhe der Kamera in Metern. Wird nur für Kartenansichten im 3D Modus verwendet.|false|
@@ -1178,12 +1257,12 @@ Konfigurations-Optionen für eine Kartenansicht.
 #!json
 "ansichten": {
     "name": "translate#common:menu.views.name",
-    "glyphicon": "glyphicon-list",
+    "icon": "bi-binoculars-fill",
     "children": {
         "view": {
             "name": "translate#common:menu.views.view01",
             "type": "viewpoint",
-            "glyphicon": "glyphicon-screenshot",
+            "icon": "bi-bullseye",
             "center": [
                 564028.7954571751,
                 5934555.967867207
@@ -1206,7 +1285,7 @@ Konfigurations-Optionen der Legende.
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |name|ja|String||Name der Legende.|false|
-|glyphicon|nein|String|"glyphicon-book"|Glyphicon der Legende.|false|
+|icon|nein|String|"bi-lightbulb"|Icon der Legende.|false|
 |showCollapseAllButton|nein|Boolean|false|Option zum Ein- bzw. Ausblenden aller Legenden|false|
 |showLegend|nein|Boolean|false|Option zum Anzeigen der Legende beim Start des Portals|false|
 
@@ -1241,8 +1320,9 @@ Hier können die Menüeinträge und deren Anordnung konfiguriert werden. Die Rei
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |name|ja|String||Name des Themenbaumes.|false|
-|glyphicon|nein|String||CSS Klasse des glyphicons.|false|
+|icon|nein|String||CSS Klasse des icons.|false|
 |isInitOpen|nein|Boolean|false|Gibt an ob der Themenbaum initial geöffnet ist.|false|
+|quickHelp|nein|Boolean|false|Deprecated im nächsten Major-Release. Gibt an ob eine Schnellhilfe angeboten wird.|false|
 
 ***
 
@@ -1251,12 +1331,12 @@ Hier können die Menüeinträge und deren Anordnung konfiguriert werden. Die Rei
 [type:tool]: # (Portalconfig.menu.tool)
 [type:staticlinks]: # (Portalconfig.menu.staticlinks)
 
-Ein Ordner-Object wird dadurch definiert, dass es neben "name" und "glyphicon" noch das attribut "children" besitzt.
+Ein Ordner-Object wird dadurch definiert, dass es neben "name" und "icon" noch das attribut "children" besitzt.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |name|ja|String||Name des Ordners im Menu.|false|
-|glyphicon|ja|String|"glyphicon-folder-open"|CSS Klasse des Glyphicons, das vor dem Ordnernamen im Menu angezeigt wird.|false|
+|icon|ja|String|"bi-folder2-open"|CSS Klasse des Icons, das vor dem Ordnernamen im Menu angezeigt wird.|false|
 |children|nein|**[tool](#markdown-header-portalconfigmenutool)**/**[staticlinks](#markdown-header-portalconfigmenustaticlinks)**||Kindelemente dieses Ordners.|false|
 
 **Beispiel eines folders**
@@ -1264,11 +1344,11 @@ Ein Ordner-Object wird dadurch definiert, dass es neben "name" und "glyphicon" n
 #!json
 "tools":{
     "name": "Werkzeuge",
-    "glyphicon": "glyphicon-wrench",
+    "icon": "bi-tools",
     "children": {
         {
             "name": "Legende",
-            "glyphicon": "glyphicon-book"
+            "icon": "bi-lightbulb"
         }
     }
 }
@@ -1290,14 +1370,19 @@ Ein Ordner-Object wird dadurch definiert, dass es neben "name" und "glyphicon" n
 #### Portalconfig.menu.tools.children
 
 [type:tool]: # (Portalconfig.menu.tool)
+[type:addWMS]: # (Portalconfig.menu.tool.addWMS)
+[type:bufferAnalysis]: # (Portalconfig.menu.tool.bufferAnalysis)
 [type:compareFeatures]: # (Portalconfig.menu.tool.compareFeatures)
 [type:contact]: # (Portalconfig.menu.tool.contact)
+[type:coord]: # (Portalconfig.menu.tool.coord)
 [type:coordToolkit]: # (Portalconfig.menu.tool.coordToolkit)
 [type:draw]: # (Portalconfig.menu.tool.draw)
+[type:extendedFilter]: # (Portalconfig.menu.tool.extendedFilter)
 [type:featureLister]: # (Portalconfig.menu.tool.featureLister)
+[type:fileImport]: # (Portalconfig.menu.tool.fileImport)
 [type:filter]: # (Portalconfig.menu.tool.filter)
-[type:filterGeneral]: # (Portalconfig.menu.tool.filterGeneral)
 [type:gfi]: # (Portalconfig.menu.tool.gfi)
+[type:kmlimport]: # (Portalconfig.menu.tool.kmlimport)
 [type:layerClusterToggler]: # (Portalconfig.menu.tool.layerClusterToggler)
 [type:layerSlider]: # (Portalconfig.menu.tool.layerSlider)
 [type:legend]: # (Portalconfig.menu.legend)
@@ -1307,11 +1392,13 @@ Ein Ordner-Object wird dadurch definiert, dass es neben "name" und "glyphicon" n
 [type:routing]: # (Portalconfig.menu.tool.routing)
 [type:saveSelection]: # (Portalconfig.menu.tool.saveSelection)
 [type:searchByCoord]: # (Portalconfig.menu.tool.searchByCoord)
+[type:selectFeatures]: # (Portalconfig.menu.tool.selectFeatures)
 [type:shadow]: # (Portalconfig.menu.tool.shadow)
-[type:styleWMS]: # (Portalconfig.menu.tool.styleWMS)
+[type:styleVT]: # (Portalconfig.menu.tool.styleVT)
 [type:supplyCoord]: # (Portalconfig.menu.tool.supplyCoord)
 [type:resetTree]: # (Portalconfig.menu.tool.resetTree)
 [type:virtualcity]: # (Portalconfig.menu.tool.virtualcity)
+[type:wfsFeatureFilter]: # (Portalconfig.menu.tool.wfsFeatureFilter)
 [type:wfsSearch]: # (Portalconfig.menu.tool.wfsSearch)
 [type:wfst]: # (Portalconfig.menu.tool.wfst)
 
@@ -1320,39 +1407,37 @@ Neben **Portalconfig.menu.tools** können auch die Pfade **Portalconfig.menu.inf
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|addWMS|nein|**[tool](#markdown-header-portalconfigmenutool)**||Mit diesem Werkzeug lassen sich Layer eines WMS laden. Die Angabe erfolgt über eine URL. Es werden alle Layer des Dienstes geladen und sind im Themenbaum unter "Externe Fachdaten" verfügbar. Bisher ist die Verwendung des Werkzeugs nur in Kombination mit den Tehmenbäumen "custom" und "default" möglich.|true|
+|addWMS|nein|**[addWMS](#markdown-header-portalconfigmenutooladdWMS)**||Mit diesem Werkzeug lassen sich Layer eines WMS laden. Die Angabe erfolgt über eine URL. Es werden alle Layer des Dienstes geladen und sind im Themenbaum unter "Externe Fachdaten" verfügbar. Bisher ist die Verwendung des Werkzeugs nur in Kombination mit den Tehmenbäumen "custom" und "default" möglich.|true|
 |compareFeatures|nein|**[compareFeatures](#markdown-header-portalconfigmenutoolcomparefeatures)**|| Bietet eine Vergleichsmöglichkeit von Vektor-Features. In der getFeatureInfo lassen sich Features über das Stern-Symbol auf die Vergleichliste setzen. Funktioniert in Verbindung mit dem GFI-Theme **Default**!|false|
 |contact|nein|**[contact](#markdown-header-portalconfigmenutoolcontact)**||Das Kontaktformular bietet dem User eine Möglichkeit an das konfigurierte Postfach eine Nachricht zu senden. Es können beispielsweise Fehler oder Wünsche und Anregungen gemeldet werden.|false|
-|coord|nein|**[tool](#markdown-header-portalconfigmenutool)**||Deprecated in 3.0.0 Bitte "supplyCoord" verwenden. Werkzeug um Koordinaten per Maus(-Klick) abzufragen. Per Click in die Karte werden die Koordinaten in der Anzeige eingefroren und können per Click auf die Anzeige direkt in die Zwischenablage kopiert werden.|false|
-|coordToolkit|nein|**[tool](#markdown-header-portalconfigmenutool)**||Koordinatenabfrage: Werkzeug um Koordinaten per Maus(-Klick) abzufragen: Per Klick in die Karte werden die Koordinaten in der Anzeige eingefroren und können per Klick auf die Anzeige direkt in die Zwischenablage kopiert werden. Koordinatensuche: Über eine Eingabemaske können das Koordinatensystem und die Koordinaten eingegeben werden. Das Werkzeug zoomt dann auf die entsprechende Koordinate und setzt einen Marker darauf. Die Koordinatensysteme werden aus der config.js bezogen.|false|
+|coord|nein|**[coord](#markdown-header-portalconfigmenutoolcoord)**||Deprecated in 3.0.0 Bitte "supplyCoord" verwenden. Werkzeug um Koordinaten per Maus(-Klick) abzufragen. Per Click in die Karte werden die Koordinaten in der Anzeige eingefroren und können per Click auf die Anzeige direkt in die Zwischenablage kopiert werden.|false|
+|coordToolkit|nein|**[coordToolkit](#markdown-header-portalconfigmenutoolcoordToolkit)**||Koordinatenabfrage: Werkzeug um Koordinaten per Maus(-Klick) abzufragen: Per Klick in die Karte werden die Koordinaten in der Anzeige eingefroren und können per Klick auf die Anzeige direkt in die Zwischenablage kopiert werden. Koordinatensuche: Über eine Eingabemaske können das Koordinatensystem und die Koordinaten eingegeben werden. Das Werkzeug zoomt dann auf die entsprechende Koordinate und setzt einen Marker darauf. Die Koordinatensysteme werden aus der config.js bezogen.|false|
 |draw|nein|**[draw](#markdown-header-portalconfigmenutooldraw)**||Mithilfe des Zeichnen-Werkzeuges können Punkte, Linien, Polygone, Kreise, Doppelkreise und Texte gezeichnet werden. Farben und Transparenzen sind voreingestellt. Die Zeichnungen können in den Formaten: KML, GeoJSON oder GPX heruntergeladen werden.|false|
-|extendedFilter|nein|**[tool](#markdown-header-portalconfigmenutool)**||Deprecated in 3.0.0 Bitte "filter" verwenden. Dynamisches Filtern von WFS Features. Über dieses Werkzeug können WFS features dynamisch gefiltert werden. Dies setzt jedoch eine Konfiguration der "extendedFilter" am WFS-Layer-Objekt voraus.|false|
+|extendedFilter|nein|**[extendedFilter](#markdown-header-portalconfigmenutoolextendedFilter)**||Deprecated in 3.0.0 Bitte "filter" verwenden. Dynamisches Filtern von WFS Features. Über dieses Werkzeug können WFS features dynamisch gefiltert werden. Dies setzt jedoch eine Konfiguration der "extendedFilter" am WFS-Layer-Objekt voraus.|false|
 |featureLister|nein|**[featureLister](#markdown-header-portalconfigmenutoolfeaturelister)**||Listet alle Features eines Vektorlayers auf.|false|
-|fileImport|nein|**[tool](#markdown-header-portalconfigmenutool)**||Import von Dateien des Typs *.kml, *.geojson und *. gpx. Über dieses Werkzeug können solche Dateien importiert werden.|false|
-|filter|nein|**[filter](#markdown-header-portalconfigmenutoolfilter)**||Filtermodul mit dem sich Vektordaten aus WFS filtern lassen.|false|
-|filterGeneral|nein|**[filterGeneral](#markdown-header-portalconfigmenutoolfiltergeneral)**||Konfiguration eines fortgeschrittenen Filters für WFS Vektordaten.|false|
+|fileImport|nein|**[fileImport](#markdown-header-portalconfigmenutoolfileImport)**||Import von Dateien des Typs *.kml, *.geojson und *. gpx. Über dieses Werkzeug können solche Dateien importiert werden.|false|
+|filter|nein|**[filter](#markdown-header-portalconfigmenutoolfilter)**||Konfiguration eines fortgeschrittenen Filters für WFS Vektordaten.|false|
 |gfi|nein|**[gfi](#markdown-header-portalconfigmenutoolgfi)**||Mit der GetFeatureInfo(gfi) lassen sich Informationen zu beliebigen Layern anzeigen. Dabei werden bei einem WMS die Daten über die GetFeatureInfo geladen. Bei Vektordaten (WFS, Sensor, GeoJSON usw.) werden die angezeigten Attribute aus den Daten selbst verwendet.|false|
-|kmlimport|nein|**[tool](#markdown-header-portalconfigmenutool)**||Deprecated in 3.0.0 Bitte "fileImport" verwenden.|false|
-|layerClusterToggler|nein|**[tool](#markdown-header-portalconfigtoollayerClusterToggler)**||_Mit diesem Werkzeug lassen sich Layer in Clustern gleichzeitig aktivieren/laden und deaktivieren_|false|
+|kmlimport|nein|**[kmlimport](#markdown-header-portalconfigmenutoolkmlimport)**||Deprecated in 3.0.0 Bitte "fileImport" verwenden.|false|
+|layerClusterToggler|nein|**[layerClusterToggler](#markdown-header-portalconfigtoollayerClusterToggler)**||_Mit diesem Werkzeug lassen sich Layer in Clustern gleichzeitig aktivieren/laden und deaktivieren_|false|
 |layerSlider|nein|**[layerSlider](#markdown-header-portalconfigmenutoollayerslider)**||Mit dem Layerslider lassen sich beliebige Dienste in einer Reihenfolge abspielen. Zum Beispiel geeignet für Luftbilder aus verschiedenen Jahrgängen.|false|
 |legend|nein|**[legend](#markdown-header-portalconfigmenulegend)**||In der Legende werden alle sichtbaren Layer dargestellt.|false|
-|measure|nein|**[measure](#markdown-header-portalconfigmenutoolmeasure)**||Messwerkzeug um Flächen oder Strecken zu messen. Dabei kann zwischen den Einheiten m/km bzw m²/km² gewechselt werden.|false|
+|measure|nein|**[measure](#markdown-header-portalconfigmenutoolmeasure)**||Messwerkzeug um Flächen oder Strecken zu messen. Dabei kann zwischen den Einheiten m/km/nm bzw m²/ha/km² gewechselt werden.|false|
 |parcelSearch|nein|**[parcelSearch](#markdown-header-portalconfigmenutoolparcelsearch)**||_Deprecated im nächsten Major-Release. Bitte nutzen Sie stattdessen `wfsSearch`._ Mit dieser Flurstückssuche lassen sich Flurstücke über Gemarkung, Flur (in Hamburg ohne Flur) und Flurstück suchen.|false|
 |print|nein|**[print](#markdown-header-portalconfigmenutoolprint)**||Druckmodul mit dem die Karte als PDF exportiert werden kann.|false|
-|saveSelection|nein|**[saveSelection](#markdown-header-portalconfigmenutoolsaveselection)**||Werkzeug mit dem sich die aktuellen Karteninhalte speichern lassen. Der Zustand der Karte wird als URL zum Abspeichern erzeugt. Dabei werden die Layer in deren Reihenfolge, Transparenz und Sichtbarkeit dargestellt. Zusätzlich wird die Zentrumskoordinate mit abgespeichert.|false|
+|saveSelection|nein|**[saveSelection](#markdown-header-portalconfigmenutoolsaveselection)**||Werkzeug mit dem sich die aktuellen 2D Karteninhalte speichern lassen. Der Zustand der Karte wird als URL zum Abspeichern erzeugt. Dabei werden die Layer in deren Reihenfolge, Transparenz und Sichtbarkeit dargestellt. Zusätzlich wird die Zentrumskoordinate mit abgespeichert.|false|
 |routing|nein|**[routing](#markdown-header-portalconfigmenutoolrouting)**||Routing Modul zur Erstellung von Routenplanungen und Erreichbarkeitsanalysen.|false|
 |searchByCoord|nein|**[searchByCoord](#markdown-header-portalconfigmenutoolsearchbycoord)**||Deprecated in 3.0.0 Bitte "coordToolkit" verwenden. Koordinatensuche. Über eine Eingabemaske können das Koordinatensystem und die Koordinaten eingegeben werden. Das Werkzeug zoomt dann auf die entsprechende Koordinate und setzt einen Marker darauf.|false|
-|selectFeatures|nein|**[tool](#markdown-header-portalconfigmenutool)**||Ermöglicht Auswahl von Features durch Ziehen einer Box und Einsehen derer GFI-Attribute.|false|
+|selectFeatures|nein|**[selectFeatures](#markdown-header-portalconfigmenutoolselectFeatures)**||Ermöglicht Auswahl von Features durch Ziehen einer Box und Einsehen derer GFI-Attribute.|false|
 |shadow|nein|**[shadow](#markdown-header-portalconfigmenutoolshadow)**||Konfigurationsobjekt für die Schattenzeit im 3D-Modus.|false|
-|styleWMS|nein|**[styleWMS](#markdown-header-portalconfigmenutoolstylewms)**||Klassifizierung von WMS Diensten. Dieses Tool findet Verwendung im Pendlerportal der MRH(Metropolregion Hamburg). Über eine Maske können Klassifizierungen definiert werden. An den GetMap-Request wird nun ein SLD-Body angehängt, der dem Server einen neuen Style zum Rendern definiert. Der WMS-Dienst liefert nun die Daten in den definierten Klassifizierungen und Farben.|true|
-|styleVT|nein|**[tool](#markdown-header-portalconfigmenutool)**||Style-Auswahl zu VT-Diensten. Ermöglicht das Umschalten des Stylings eines Vector Tile Layers, wenn in der services.json mehrere Styles für ihn eingetragen sind.|false|
-|supplyCoord|nein|**[tool](#markdown-header-portalconfigmenutool)**||Deprecated in 3.0.0 Bitte "coordToolkit" verwenden. Werkzeug um Koordinaten per Maus(-Klick) abzufragen. Per Klick in die Karte werden die Koordinaten in der Anzeige eingefroren und können per Klick auf die Anzeige direkt in die Zwischenablage kopiert werden.|false|
-|resetTree|nein|**[tool](#markdown-header-portalconfigmenutool)**||Werkzeug um Themenbaum zurückzusetzen. Per Klick auf Werkzeugname im Menü unter Werkzeuge wird der Themenbaum zurückgesetzt.|false|
+|styleVT|nein|**[styleVT](#markdown-header-portalconfigmenutoolstyleVT)**||Style-Auswahl zu VT-Diensten. Ermöglicht das Umschalten des Stylings eines Vector Tile Layers, wenn in der services.json mehrere Styles für ihn eingetragen sind.|false|
+|supplyCoord|nein|**[supplyCoord](#markdown-header-portalconfigmenutoolsupplyCoord)**||Deprecated in 3.0.0 Bitte "coordToolkit" verwenden. Werkzeug um Koordinaten per Maus(-Klick) abzufragen. Per Klick in die Karte werden die Koordinaten in der Anzeige eingefroren und können per Klick auf die Anzeige direkt in die Zwischenablage kopiert werden.|false|
+|resetTree|nein|**[resetTree](#markdown-header-portalconfigmenutoolresetTree)**||Werkzeug um Themenbaum zurückzusetzen. Per Klick auf Werkzeugname im Menü unter Werkzeuge wird der Themenbaum zurückgesetzt.|false|
 |virtualcity|nein|**[virtualcity](#markdown-header-portalconfigmenutoolvirtualcity)**||virtualcityPLANNER planning Viewer|false|
-|wfsFeatureFilter|nein|**[tool](#markdown-header-portalconfigmenutool)**||Deprecated in 3.0.0 Bitte "filterGeneral" verwenden. Filtern von WFS Features. Über dieses Werkzeug können WFS features gefiltert werden. Dies setzt jedoch eine Konfiguration der "filterOptions" am WFS-Layer-Objekt voraus.|false|
+|wfsFeatureFilter|nein|**[wfsFeatureFilter](#markdown-header-portalconfigmenutoolwfsFeatureFilter)**||Deprecated in 3.0.0 Bitte "filter" verwenden. Filtern von WFS Features. Über dieses Werkzeug können WFS features gefiltert werden. Dies setzt jedoch eine Konfiguration der "filterOptions" am WFS-Layer-Objekt voraus.|false|
 |wfsSearch|nein|**[wfsSearch](#markdown-header-portalconfigmenutoolwfssearch)**||Ermöglicht es ein Formular zu erstellen, um einen WFS Layer abgekoppelt von der Suchleiste mittels Filter anzufragen. Es ist möglich entweder eine gespeicherte Anfrage (Stored Query, WFS@2.0.0) zu nutzen oder eine Anfrage mithilfe der konfigurierten Parameter zu definieren (WFS@1.1.0).|false|
-|wfst|nein|**[wfst](#markdown-header-portalconfigmenutoolwfst)**||WFS-T Modul mit dem Features visualisiert, erstellt, aktualisiert und gelöscht werden können.|false|
-|bufferAnalysis|nein|**[tool](#markdown-header-portalconfigmenutool)**||In der Buffer-Analyse muss ein Quell-Layer, ein Buffer-Radius und ein Ziel-Layer ausgewählt werden. Buffer-Radien werden um die Features des Quell-Layers dargestellt. Sobald ein Ziel-Layer gewählt wurde, werden nur die Features dieses Layers hervorgehoben, welche sich außerhalb der Buffer-Radien befinden. Auch eine invertierte Anzeige ist möglich. Bei dieser werden nur die Features des Ziel-Layers innerhalb der Radien hervorgehoben werden.|false|
+|wfst|nein|**[wfst](#markdown-header-portalconfigmenutoolwfst)**||WFS-T Modul zur Visualisierung, Erstellung, Veränderung und Löschen von Features eines bestehenden WFS-T Dienstes.|false|
+|bufferAnalysis|nein|**[bufferAnalysis](#markdown-header-portalconfigmenutoolbufferAnalysis)**||In der Buffer-Analyse muss ein Quell-Layer, ein Buffer-Radius und ein Ziel-Layer ausgewählt werden. Buffer-Radien werden um die Features des Quell-Layers dargestellt. Sobald ein Ziel-Layer gewählt wurde, werden nur die Features dieses Layers hervorgehoben, welche sich außerhalb der Buffer-Radien befinden. Auch eine invertierte Anzeige ist möglich. Bei dieser werden nur die Features des Ziel-Layers innerhalb der Radien hervorgehoben werden. Wenn für das Portal der treeType "custom" gewählt worden ist, werden vom Tool nur die Layer angezeigt, die zur Aktivierungszeit eingeschaltet waren.|false|
 
 ***
 
@@ -1363,12 +1448,12 @@ Neben **Portalconfig.menu.tools** können auch die Pfade **Portalconfig.menu.inf
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |active|nein|Boolean|false|Gibt an, ob ein Werkzeug beim starten des Portals geöffnet ist.|false|
-|glyphicon|nein|String||CSS Klasse des Glyphicons, das vor dem Toolnamen im Menu angezeigt wird.|false|
+|icon|nein|String||CSS Klasse des Icons, das vor dem Toolnamen im Menu angezeigt wird.|false|
 |isVisibleInMenu|nein|Boolean|true|Flag, ob das Tool unter Werkzeuge angezeigt wird.|false|
-|keepOpen|nein|Boolean|false|Flag, ob das Tool parallel zu anderen Tools geöffnet bleibt.|false|
+|keepOpen|nein|Boolean/String/String[]|false|Flag, ob das Tool parallel zu anderen Tools geöffnet bleibt.|false|
 |name|ja|String||Name des Werkzeuges im Menu.|false|
 |onlyDesktop|nein|Boolean|false|Flag, ob das Werkzeug nur im Desktop Modus sichtbar sein soll.|false|
-|renderToWindow|nein|Boolean|true|Flag, ob das Tool beim Anklicken im frei schwebenden Fenster dargestellt werden soll.|false|
+|renderToWindow|nein|Boolean|true|Flag, ob das Tool beim Anklicken im frei schwebenden Fenster dargestellt werden soll. Im mobilen Modus wird das Fenster immer verwendet.|false|
 |resizableWindow|nein|Boolean|false|Flag, ob das Tool-Fenster vergrößer-/verkleinerbar ist.|false|
 
 **Beispiel eines Tools**
@@ -1376,7 +1461,7 @@ Neben **Portalconfig.menu.tools** können auch die Pfade **Portalconfig.menu.inf
 #!json
 "legend":{
     "name": "Legende",
-    "glyphicon": "glyphicon-book"
+    "icon": "bi-lightbulb"
 }
 ```
 
@@ -1392,10 +1477,9 @@ Zeigt Informationen zu einem abgefragten Feature ab, indem GetFeatureInfo-Reques
 |----|-------------|---|-------|------------|------|
 |name|ja|String||Name des Werkzeuges im Menu.|false|
 |centerMapToClickPoint|nein|Boolean|false|Wenn der Parameter auf true gesetzt wird, verschiebt sich die Karte beim Klick auf ein Feature so, dass das Feature im Mittelpunkt der sichtbaren Karte liegt. Dies ist nur bei der Verwendung des desktopTypes "Detached" relevant.|false|
-|glyphicon|nein|String|"glyphicon-info-sign"|CSS Klasse des Glyphicons, das vor dem GFI im Menu angezeigt wird.|false|
+|icon|nein|String|"bi-info-circle-fill"|CSS Klasse des Icons, das vor dem GFI im Menu angezeigt wird.|false|
 |active|nein|Boolean|true|Gibt an, ob das GFI per default aktiviert ist.|false|
 |desktopType|nein|String|"detached"|Gibt an welches Template für die GetFeatureInfo im Desktopmodus verwendet wird. Bei Attached wird das GFI direkt auf dem Punkt positioniert. Bei Detached wird ein Marker auf den geklickten Punkt gesetzt und das GFI wird rechts auf der Karte platziert.|false|
-|centerMapMarkerPolygon|nein|Boolean|false|Angabe, ob für ein angeklicktes Feature die Koordinaten des Zentrums ermittelt werden sollen oder ob die Koordinaten der tatsächlich angeklickten Koordinate bestimmt werden.|false|
 |highlightVectorRules|nein|**[highlightVectorRules](#markdown-header-portalconfigmenutoolgfihighlightvectorrules)**||Regeldefinitionen zum Überschreiben des Stylings von abgefragten Vektordaten.[highlightVectorRules](#markdown-header-portalconfigmenutoolgfihighlightvectorrules)|false|
 
 **Beispiel einer GFI Konfiguration**
@@ -1403,9 +1487,8 @@ Zeigt Informationen zu einem abgefragten Feature ab, indem GetFeatureInfo-Reques
 #!json
 "gfi":{
     "name":"Informationen abfragen",
-    "glyphicon":"glyphicon-info-sign",
+    "icon":"bi-info-circle-fill",
     "active":true,
-    "centerMapMarkerPolygon":true,
     "highlightVectorRules": {
         "fill": {
             "color": [215, 102, 41, 0.9]
@@ -1428,9 +1511,8 @@ Zeigt Informationen zu einem abgefragten Feature ab, indem GetFeatureInfo-Reques
 #!json
 "gfi":{
     "name":"Informationen abfragen",
-    "glyphicon":"glyphicon-info-sign",
-    "active":true,
-    "centerMapMarkerPolygon":true
+    "icon":"bi-info-circle-fill",
+    "active":true
 }
 ```
 
@@ -1502,214 +1584,17 @@ Hinweis: Das Highlighting funktioniert nur, wenn der Layer in der config.json ü
 
 [inherits]: # (Portalconfig.menu.tool)
 
-Der Filter bietet eine Vielzahl von Möglichkeiten um Vektor-Daten filtern zu können.
-
-|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|-------------|---|-------|------------|------|
-|allowMultipleQueriesPerLayer|nein|Boolean|false|Regelt, ob beim selektieren nur der ausgewählte Layer gefiltert werden soll oder ob die Filtereinstellungen deselektierter Layer beibehalten werden sollen.|false|
-|deactivateGFI|nein|Boolean|false|Wenn das Attribute auf true gesetzt wird ist bei geöffnetem Filter die GFI-Abfrage deaktiviert.|false|
-|isGeneric|nein|Boolean|false|Zeigt an, ob sich der Filter dynamisch erzeugen lässt. Ist momentan noch nicht umgesetzt.|false|
-|minScale|nein|Integer||Minimale Zoomstufe auf die der Filter bei der Darstellung der Ergebnisse heranzoomt.|false|
-|liveZoomToFeatures|nein|Boolean|false|Gibt an, ob der Filter sofort nach der Filterung auf die Filterergebnisse zoomt.|false|
-|predefinedQueries|nein|[predefinedQuery](#markdown-header-portalconfigmenutoolfilterpredefinedquery)[]||Definition der Filterabfragen.|false|
-|saveToUrl|nein|Boolean|true|Speichert das aktuelle Filterergebnis in der URL ab. Dadurch kann das Filterergebnis als Lesezeichen abgelegt werden.|false|
-
-**Beispiel**
-```
-#!json
-"filter":{
-    "name": "Filter",
-    "glyphicon": "glyphicon-filter",
-    "deactivateGFI": false,
-    "isGeneric": false,
-    "isInitOpen": false,
-    "allowMultipleQueriesPerLayer": false,
-    "predefinedQueries": [
-        {
-            "layerId": "8712",
-            "isActive": false,
-            "isSelected": false,
-            "name": "Grundschulen",
-            "predefinedRules": [
-                {
-                    "attrName": "kapitelbezeichnung",
-                    "values": ["Grundschulen", "Langformschulen"]
-                }
-            ],
-            "attributeWhiteList": ["bezirk", "stadtteil", "schulform", "ganztagsform", "anzahl_schueler", "schwerpunktschule", "bilingual"]
-        },
-        {
-            "layerId": "8712",
-            "isActive": false,
-            "isSelected": false,
-            "name": "Stadtteilschulen",
-            "predefinedRules": [
-                {
-                    "attrName": "kapitelbezeichnung",
-                    "values": ["Stadtteilschulen", "Langformschulen"]
-                }
-            ],
-            "attributeWhiteList": ["bezirk", "stadtteil", "schulform", "ganztagsform", "anzahl_schueler", "schwerpunktschule", "fremdsprache", "fremdsprache_mit_klasse", "schulische_ausrichtung"]
-        },
-        {
-            "layerId": "8712",
-            "isActive": false,
-            "isSelected": false,
-            "name": "Gymnasien",
-            "info": "Sie finden berufliche Gymnasien ab der Klassenstufe 11 bei den Beruflichen Schulen.",
-            "predefinedRules": [
-                {
-                    "attrName": "kapitelbezeichnung",
-                    "values": ["Gymnasien"]
-                }
-            ],
-            "attributeWhiteList": ["bezirk", "stadtteil", "schulform", "ganztagsform", "anzahl_schueler", "fremdsprache", "fremdsprache_mit_klasse", "schulische_ausrichtung"]
-        },
-        {
-            "layerId": "8712",
-            "isActive": false,
-            "isSelected": false,
-            "name": "Sonderschulen",
-            "predefinedRules": [
-                {
-                    "attrName": "kapitelbezeichnung",
-                    "values": ["Sonderschulen"]
-                }
-            ],
-            "attributeWhiteList": ["bezirk", "stadtteil", "ganztagsform", "foerderart", "abschluss"]
-        },
-        {
-        "layerId": "1711",
-        "isActive": true,
-        "isSelected": true,
-        "name": "Krankenhäuser",
-        "predefinedRules": [],
-        "attributeWhiteList": ["teilnahme_geburtsklinik", "teilnahme_notversorgung"]
-        }
-    ]
-}
-```
-
-***
-
-#### Portalconfig.menu.tool.filter.predefinedQuery
-Objekt, das eine Filtereinstellung definiert.
-
-|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|-------------|---|-------|------------|------|
-|layerId|ja|String||Id des Layers. Muss auch in der Themenconfig konfiguriert sein.|false|
-|isActive|nein|Boolean|false|Gibt an, ob diese Filtereinstellung initial durchgeführt werden soll.|false|
-|isSelected|nein|Boolean|false|Gibt an, ob diese Filtereinstellung initial angezeigt werden soll.|false|
-|searchInMapExtent|nein|Boolean|false|Gibt an, ob nur die Features im Kartenauschnitt gefiltert werden sollen.|false|
-|info|nein|String||Kurzer Infotext, der über der Filtereinstellung erscheint.|false|
-|predefinedRules|nein|**[predefinedRule](#markdown-header-portalconfigmenutoolfilterpredefinedquerypredefinedrule)**[]||Filterregel die die Daten vorfiltert.|true|
-|attributeWhiteList|nein|String[]/**[attributeWhiteListObject](#markdown-header-portalconfigmenutoolfilterpredefinedqueryattributewhitelistobject)**[]||Whitelist an Attributen die verwendet werden sollen.|true|
-|snippetType|nein|String||Datentyp des Attributes. Wenn nicht angegeben, wird der Datentyp automatisch ermittelt. Er kann in Ausnahmefällen auch manuell überschrieben werden. Beispielsweise mit "checkbox-classic". Dies wird im Projekt DIPAS auf der Touchtabl-Variante des Portals benötigt.|true|
-|useProxy|nein|Boolean|false|Deprecated im nächsten Major-Release, da von der GDI-DE empfohlen wird einen CORS-Header einzurichten. Gibt an, ob die URL des Dienstes über einen Proxy angefragt werden soll, dabei werden die Punkte in der URL durch Unterstriche ersetzt.|false|
-
-**Beispiel**
-```
-#!json
-{
-    "layerId": "8712",
-    "isActive": false,
-    "isSelected": false,
-    "name": "Grundschulen",
-    "predefinedRules": [
-        {
-            "attrName": "kapitelbezeichnung",
-            "values": ["Grundschulen", "Langformschulen"]
-        }
-    ],
-    "attributeWhiteList": ["bezirk", "stadtteil", "schulform", "ganztagsform", "anzahl_schueler", "schwerpunktschule", "bilingual"]
-}
-```
-
-***
-
-#### Portalconfig.menu.tool.filter.predefinedQuery.predefinedRule
-Filterregel die die Daten immer vorfiltert.
-
-|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|-------------|---|-------|------------|------|
-|attrName|ja|String||Attributname nach dem vorgefiltert werden soll.|false|
-|values|ja|String[]||Attributwerte für das Vorfiltern.|false|
-
-**Beispiel**
-```json
-{
-    "attrName": "kapitelbezeichnung",
-    "values": ["Grundschulen", "Langformschulen"]
-}
-```
-***
-
-#### Portalconfig.menu.tool.filter.predefinedQuery.attributeWhiteListObject
-Ein AttributeWhiteList Objekt kann entweder ein String sein, welcher den Attributnamen repräsentiert.
-Er kann aber auch ein Objekt sein. Erfolgt der Eintrag als Objekt, so kann eine Umbennung der zu filternden Attribute vorgenommen werden. Der Schlüssel muss dabei der originale Attributname sein. Der zugehörige Wert ist der alternative Name.
-
-Durch die Verwendung von AttributeWhiteList als Objekt ist es auch möglich, dass ein Slider für die Auswahl eines Start- und End-Zeitpunktes als Filter verwendet wird.
-Vorraussetzung dafür ist, dass ein Start- und End-Zeit in einem bestimmten Format als Attribut existieren.
-Des weiteren sollten in dem Object mit dem key "name" der Anfangszeitpunkt, mit dem key "attrNameUntil" der Entzeitpunkt und mit dem key "format" das Format der Attribute definiert werden.
-Der letzte Schritt damit der Slider als Datumsfilter verwendet werden kann, ist der, dass man den key "type" als "date" definiert.
-
-|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|-------------|---|-------|------------|------|
-|name|ja|String||Attributname.|false|
-|matchingMode|nein|enum["AND", "OR"]|"OR"|Logische Verknüpfung mehrerer Attributwerte (bei Mehrfachauswahl) innerhalb eines Attributes.|false|
-|displayName|nein|String||Names des Filters.|true|
-|attrNameUntil|nein|String||Names des Attributs, das als Endzeitpunkt für den Sliderfilter verwendet wird.|true|
-|format|nein|String||Format des Datums.|true|
-|type|nein|enum["integer", "searchInMapExtent", "date"]||Typ des Attributs.|true|
-
-**Beispiel als String**
-```
-#!json
-"Grundschulen"
-```
-
-**Beispiel als Objekt**
-```
-#!json
-{
-    "name": "Grundschulen",
-    "matchingMode": "AND"
-}
-```
-
-***
-
-**Beispiel als Objekt für Filter mit Date-Slider**
-
-```
-#!json
-
-"attributeWhiteList": [
-  {
-    "name": "baubeginn",
-    "displayName": "Baustelle",
-    "attrNameUntil": "bauende",
-    "matchingMode": "OR",
-    "format": "DD.MM.YYYY",
-    "type": "date"
-  }
-```
-
-***
-
-#### Portalconfig.menu.tool.filterGeneral
-
-[inherits]: # (Portalconfig.menu.tool)
-
-Das Filterwerkzeug bietet eine Reihe von Optionen zum Filtern von Vektordaten.
+Das Filterwerkzeug bietet eine Reihe von Optionen zum Filtern von Vektordaten aus WFS-, OAF-, GeoJSON- und SensorThingsAPI-Diensten an.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |layerSelectorVisible|nein|Boolean|true|Verwenden des Auswahl-Selektors für die Layer. Auf `false` setzen um keine Selektion zu verwenden.|false|
 |multiLayerSelector|nein|Boolean|true|Wenn layerSelectorVisible auf `true` gesetzt ist, kann hiermit das Verhalten zum Öffnen mehrerer Selektoren gleichzeitig eingestellt werden.|false|
 |liveZoomToFeatures|nein|Boolean|true|Zoomen bei Filterung auf den Browser-Extent der die gefilterten Features umfasst.|false|
+|geometrySelectorOptions|nein|[filterGeometrySelector](#markdown-header-portalconfigmenutoolfilterfiltergeometryselector)[]|false|Optionen für ein zusätzliches Werkzeug zur Filterung innerhalb eines selbst gezeichneten Gebietes. Sollten Sie dieses Tool in Verbindung mit externer Filterung nutzen (`extern`: `true`), denken Sie bitte daran Ihren Layer-Filter mit geometryName zu konfigurieren.|false|
 |minScale|nein|Integer|5000|Der minimale Zoom-Level an dem das Zoomen nach Filterung immer stoppt.|false|
-|layers|nein|[filterLayer](#markdown-header-portalconfigmenutoolfiltergeneralfilterlayer)[]|[]|Konfiguration der zu filternden Layer. Wenn hier ein Array von Layer-Ids angegeben wird, versucht das System eine automatische Ermittlung der Layer- und seine Snippet-Einstellungen.|false|
+|layers|nein|[filterLayer](#markdown-header-portalconfigmenutoolfilterfilterlayer)[]|[]|Konfiguration der zu filternden Layer. Wenn hier ein Array von Layer-Ids angegeben wird, versucht das System eine automatische Ermittlung der Layer- und seine Snippet-Einstellungen.|false|
+|layerGroups|nein|[filterLayerGroups](#markdown-header-portalconfigmenutoolfilterlayerGroups)[]|[]|Konfiguration der zu filternden zusammengehörenden Layern.|false|
 
 **Beispiel**
 
@@ -1717,13 +1602,27 @@ Beispiel für die Konfiguration eines Filters mit einem einzigen Layer. Das Laye
 
 ```json
 {
-    "filterGeneral":{
+    "filter":{
         "active": false,
         "name": "Filter",
-        "glyphicon": "glyphicon-filter",
+        "icon": "bi-funnel-fill",
         "renderToWindow": false,
         "deactivateGFI": false,
         "layerSelectorVisible": false,
+        "geometrySelectorOptions": {
+            "visible": true
+        },
+        "layerGroups":
+        [
+            {
+                "title": "GRUPPE 1",
+                "layers": [
+                    {
+                        "layerId": "47"
+                    }
+                ]
+            }
+        ],
         "layers": [
             {
                 "layerId": "8712"
@@ -1735,7 +1634,75 @@ Beispiel für die Konfiguration eines Filters mit einem einzigen Layer. Das Laye
 
 ***
 
-#### Portalconfig.menu.tool.filterGeneral.filterLayer
+#### Portalconfig.menu.tool.filter.filterGeometrySelector
+
+Eine zusätzliche Auswahl erscheint über dem Filter, in der eine Geometrie gewählt und auf der Map gezeichnet werden kann. Der Filter filtert nur in dem ausgewählten Gebiet.
+Sollten Sie dieses Tool in Verbindung mit externer Filterung nutzen (`extern`: `true`), denken Sie bitte daran Ihren Layer-Filter mit geometryName zu konfigurieren.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|visible|ja|Boolean|true|Aktiviert den "Geometry-Selector".|false|
+|geometries|nein|String[]|["Polygon", "Rectangle", "Circle", "LineString"]|Die auswählbaren Geometrien und ihre Reihenfolge.|false|
+|invertGeometry|nein|Boolean|true|true: Die Geometry ist transparent, der Außenbereich wird als Schatten dargestellt. false: Die Füll-Angaben gelten für die Geometrie selbst.|false|
+|fillColor|nein|String|"rgba(0, 0, 0, 0.33)"|Die Füll-Farbe des Außenbereiches (bzw. der Geometry bei invertGeometry = `false`).|false|
+|strokeColor|nein|String|"rgba(0, 0, 0, 1)"|Die Farbe der Umrandung der Geometrie.|false|
+|strokeWidth|nein|Number|1|Die Dicke der Umrandung der Geometrie.|false|
+|defaultBuffer|nein|Number|20|Der Geometrie "LineString" wird ein Buffer (in Metern) gegeben, um aus dem LineString einen "Schlauch" zu machen. Dies ist der Standard-Abstand von der Mitte zum Rand in Metern.|false|
+|circleSides|nein|Number|256|Die Geometrie "Circle" wird aus technischen Gründen in ein Polygon konvertiert. Dies ist die Anzahl der Polygon-Punkte der resultierenden Geometrie.|false|
+|additionalGeometries|nein|Boolean|false|Geometrien aus einem Layer können dem Filter über die Layer-ID hinzugefügt werden. Zusätzlich muss ein Attribut für den Namen der Geometrie angegeben werden.|false|
+
+**Beispiel**
+
+Beispiel für die minimale Konfiguration des filterGeometrySelector.
+
+```json
+{
+    "visible": true
+}
+```
+
+**Beispiel**
+
+Beispiel für eine vollständige Konfiguration mit den Standard-Einstellungen des filterGeometrySelector.
+
+```json
+{
+    "visible": true,
+    "circleSides": 256,
+    "defaultBuffer": 20,
+    "geometries": ["Polygon", "Rectangle", "Circle", "LineString"],
+    "invertGeometry": true,
+    "fillColor": "rgba(0, 0, 0, 0.33)",
+    "strokeColor": "rgba(0, 0, 0, 1)",
+    "strokeWidth": 1,
+        "additionalGeometries": [
+        {
+            "layerId": "1692",
+            "attrNameForTitle": "bezirk_name"
+        }
+    ]
+}
+```
+
+**Beispiel**
+
+Beispiel für eine vollständig veränderte Konfiguration des filterGeometrySelector.
+
+```json
+{
+    "visible": true,
+    "circleSides": 32,
+    "defaultBuffer": 60,
+    "geometries": ["LineString", "Rectangle", "Circle", "Polygon"],
+    "invertGeometry": false,
+    "fillColor": "rgba(0, 0, 200, 0.1)",
+    "strokeColor": "rgba(255, 0, 0, 1)",
+    "strokeWidth": 2
+}
+```
+***
+
+#### Portalconfig.menu.tool.filter.filterLayer
 
 Die Konfiguration eines Layers.
 
@@ -1743,23 +1710,30 @@ Die Konfiguration eines Layers.
 |----|-------------|---|-------|------------|------|
 |layerId|nein|String||Die Layer-Id, muss identisch sein mit der unter `Themenconfig` konfigurierten Id des Layers.|false|
 |title|nein|String||Der Titel der für den Auswahl-Selektor verwendet werden soll (nur bei layerSelectorVisible true). Kann ein Übersetzungs-Key sein. Wenn nicht eingestellt, dann wird die Layer-Id per default verwendet.|false|
-|category|nein|String||Anstelle von `title` kann `category` als Titel konfiguriert werden. Hiermit kann der Selektor mehrdimensional gemacht werden. Ein Parameter `layers` als [filterLayer](#markdown-header-portalconfigmenutoolfiltergeneralfilterlayer)[] wird erwartet, der nach den hier beschriebenen Regeln funktioniert. Die Parameter `description` and `shortDescription` stehen wie beschrieben auch für die Kategorie-Ebene zur Verfügung (siehe Beispiele).|false|
 |description|nein|String|""|Die detailierte Beschreibung eines Layers bei geöffnetem Auswahl-Selektor oder immer über dem Filter wenn layerSelectorVisible `false` ist. Kann ein Übersetzungs-Key sein.|false|
 |shortDescription|nein|String|""|Eine kürzere Version der Beschreibung die bei Verwendung von Auswahl-Selektoren bei geschlossenen Selektoren angezeigt wird. Kann ein Übersetzungs-Key sein.|false|
-|active|no|Boolean|false|Auf `true` setzen, damit der Filter mit diesem geöffneten Filter-Layer initial geöffnet wird - nur verfügbar, wenn layerSelectorVisible auf `true` steht. Steht multiLayerSelector auf `false` und mehr als ein Filter-Layer wird auf active `true` gestellt, dann wird nur das letzte dieser Layer initial geöffnet.|false|
+|active|nein|Boolean|false|Auf `true` setzen, damit der Filter mit diesem geöffneten Filter-Layer initial geöffnet wird - nur verfügbar, wenn layerSelectorVisible auf `true` steht. Steht multiLayerSelector auf `false` und mehr als ein Filter-Layer wird auf active `true` gestellt, dann wird nur das letzte dieser Layer initial geöffnet.|false|
+|resetLayer|nein|Boolean|false|Auf `true` setzen, damit der Zurücksetzenknopf als reset für das ganze Layer fungieren soll und damit auch die `prechecked` Werte ignoriert. Wird ignoriert sollte `clearAll` auf `true` gesetzt sein|false|
 |strategy|nein|String||Es gibt zwei Filter-Strategien: `passive` - Filtern nur nach Klick auf den Filter-Button. Und `active` - Filterung findet immer sofort statt, wenn die Einstellung irgendeines der Snippets verändert wird. Die passive Strategie ist der Default.|false|
 |searchInMapExtent|nein|Boolean|false|Wenn auf `true` eingestellt, wird automatisch eine generische Checkbox erzeugt, mit der die Filterung auf den Browser-Extent beschränkt werden kann. Ist die Checkbox angehakt, ist das automatische Zoomen ausgeschaltet. Bitte unbedingt [loadingStrategy](#markdown-header-themenconfiglayervector) auf `all` setzen, da es sonst zu ungewollten Effekten kommt, wenn nach dem Filtern herausgezoomt wird.|false|
 |searchInMapExtentInfo|nein|Boolean|true|Rechts von der Checkbox wird ein Info-Symbol angezeigt, bei Klick wird eine Standard-Beschreibung eingeblendet. Auf `false` stellen, wenn es nicht angezeigt werden soll. Kann auch als String mit einem eigenen Info-Text eingestellt werden oder als Übersetzungs-Key.|false|
+|searchInMapExtentProactive|nein|Boolean|true|Die Checkbox zum Filtern im Browser-Extent löst unter `strategy`: `active` eine direkte Filterung im aktuellen Browser-Extent aus. Dies kann durch Einstellen von `searchInMapExtentProactive`: `false` abgeschaltet werden.|false|
+|searchInMapExtentPreselected|nein|Boolean|false|Die Checkbox zum Filtern im Browser-Extent ist initial ausgewählt wenn `searchInMapExtentPreselected`: `true` eingestellt ist.|false|
 |showHits|nein|Boolean|true|Die Treffer nach einer Filterung werden als Text angezeigt. Auf `false` stellen, um die Treffer nicht anzuzeigen.|false|
+|clearAll|nein|Boolean|false|Beim Klick auf den Zurücksetzen-Button werden alle Features angezeigt. Wird das clearAll-Flag auf `true` gestellt, werden beim Zurücksetzen keine Features angezeigt.|false|
+|wmsRefId|nein|String/String[]|""|Wenn der Layer gefiltert wird, wird der WMS-Layer mit der wmsRefId unsichtbar und im Themenbaum deaktiviert. Stattdessen wird der WFS aus der Filter-Konfiguration angezeigt. Nach dem Zurücksetzen des Filters wird die WMS-Ebene wieder aktiviert und wieder sichtbar.|false|
 |snippetTags|nein|Boolean|true|Wenn gefiltert wurde, wird die Einstellung des Filters als Tags über dem Filter angezeigt. Auf `false` stellen, wenn dies vermieden werden soll.|false|
-|labelFilterButton|nein|String|"common:modules.tools.filterGeneral.filterButton"|Bei passiver Strategie (`passive`): Der verwendetet Text vom Filter-Button. Kann auch ein Übersetzungs-Key sein.|false|
+|labelFilterButton|nein|String|"common:modules.tools.filter.filterButton"|Bei passiver Strategie (`passive`): Der verwendetet Text vom Filter-Button. Kann auch ein Übersetzungs-Key sein.|false|
+|download|nein|Boolean|""|Geben Sie hier ein true für eine Export-Datei an, um das Herunterladen der auf diesem Layer gefilterten Daten zu aktivieren. Es erscheint ein Downloadbereich am Ende des Filters.|false|
 |paging|nein|Number|1000|Der Filter lädt Features Stück für Stück in die Map. Dies ermöglicht einen Ladebalken der die Usability bei großen Datenmengen verbessert. Das Paging ist die Stück-Größe. Bei zu gering eingestellter Größe wird das Filtern ausgebremst. Bei zu groß eingestellter Größe steigt die Verzögerung der Anzeige in der Karte. Der beste Wert kann nur von Fall zu Fall durch Ausprobieren ermittelt werden.|false|
 |extern|nein|Boolean|false|Stellen Sie dieses Flag auf `true` um die Filterung serverseitig durchzuführen. Dies sollte für große Datenmengen in Betracht gezogen werden, die nicht in einem Stück in den Browser geladen werden können. Es ist dann außerdem ratsam das Layer-Flag **[isNeverVisibleInTree](#markdown-header-themenconfiglayer)** auf `true` zu stellen, um das Laden des gesamten Datensatzes durch User-Interaktion über den Themenbaum zu verhindern.|false|
-|snippets|nein|[snippets](#markdown-header-portalconfigmenutoolfiltergeneralfilterlayersnippets)[]|[]|Konfiguration der sogenannten Snippets für das Filtern. Kann bei der minimalsten Variante ein Array von Attribut-Namen sein. Kann komplett weggelassen werden, wenn die automatische Snippet-Ermittlung verwendet werden soll.|false|
+|geometryName|nein|String|""|Nur für extern `true` in Verbindung mit Filterung innerhalb von Polygonen: Der Geometrie-Name der Features um eine Schnittmenge feststellen zu können.|false|
+|filterButtonDisabled|nein|Boolean|false|Nur für strategy `passive`: Der Filter-Knopf wird deaktiviert solange der Benutzer nichts im Filter ausgewählt hat.|false|
+|snippets|nein|[snippets](#markdown-header-portalconfigmenutoolfilterfilterlayersnippets)[]|[]|Konfiguration der sogenannten Snippets für das Filtern. Kann bei der minimalsten Variante ein Array von Attribut-Namen sein. Kann komplett weggelassen werden, wenn die automatische Snippet-Ermittlung verwendet werden soll.|false|
 
 **Beispiel**
 
-Dieses Beispiel konfiguriert ein Layer mit nur einem einzigen Snippet. Die Art des Snippets und seine Einstellungen werden automatisch ermittelt. Siehe [filterLayerSnippets](#markdown-header-portalconfigmenutoolfiltergeneralfilterlayersnippets) um mehr zur Konfiguration von Snippets zu erfahren.
+Dieses Beispiel konfiguriert ein Layer mit nur einem einzigen Snippet. Die Art des Snippets und seine Einstellungen werden automatisch ermittelt. Siehe [filterLayerSnippets](#markdown-header-portalconfigmenutoolfilterfilterlayersnippets) um mehr zur Konfiguration von Snippets zu erfahren.
 
 ```json
 {
@@ -1768,6 +1742,8 @@ Dieses Beispiel konfiguriert ein Layer mit nur einem einzigen Snippet. Die Art d
     "strategy": "active",
     "searchInMapExtent": true,
     "showHits": true,
+    "clearAll": false,
+    "wmsRefId": "21066",
     "shortDescription": "School master data and pupil numbers of Hamburg schools",
     "description": "School master data and pupil numbers of Hamburg schools",
     "snippetTags": true,
@@ -1780,73 +1756,81 @@ Dieses Beispiel konfiguriert ein Layer mit nur einem einzigen Snippet. Die Art d
 }
 ```
 
-**Beispiel**
+***
 
-Das folgende Beispiel zeigt wie der Parameter `category` anstelle von `title` gesetzt wird, um mit einem Parameter `layers` eine weitere Ebene in den Selektor einzubauen.
+#### Portalconfig.menu.tool.filter.filterLayerGroups
+
+Ein Objekt zum Definieren eines Gruppen-Layers zum Filtern.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|-----------|-------|
+|title|ja|String||Der für den Gruppen-Layer zu verwendende Titel (wenn layerSelectorVisible true ist). Kann auch ein Übersetzungsschlüssel sein.|false|
+|layers|nein|String|[]|Konfiguration der zu filternden Layer. Kann auch ein Array von einfachen Layer-IDs sein - wenn ja, werden der Layer und alle Snippets automatisch identifiziert. Der typ von layers ist filterLayer, hier wurde aber als String definiert um wiederholdene Definitionen innerhalb von layerGroups zu vermeiden. | false |
+
+**Example**
+
+layerGroups definiert zusammengehörige Layer. Jede Gruppe hat einen Titel und eine Liste von Layern. Diese werden zusammen im Filter angezeigt.
 
 ```json
 {
-    "category": "Schools and Hospitals",
-    "shortDescription": "Numbers of Hamburg schools and hospitals",
-    "description": "Numbers of Hamburg schools and hospitals",
-    "layers": [
+  "layerGroups": [
+    {
+      "title": "GRUPPE 1",
+      "layers": [
         {
-            "layerId": "8712",
-            "title": "Schools",
-            "strategy": "active",
-            "searchInMapExtent": true,
-            "searchInMapExtentInfo": true,
-            "showHits": true,
-            "shortDescription": "School master data and pupil numbers of Hamburg schools",
-            "description": "School master data and pupil numbers of Hamburg schools",
-            "snippetTags": true,
-            "paging": 100,
-            "snippets": [
-                {
-                    "attrName": "rebbz_homepage"
-                }
-            ]
+          "layerId": "47"
         },
         {
-            "layerId": "8713",
-            "title": "Hospitals",
-            "snippetTags": true,
-            "paging": 100,
-            "snippets": [
-                {
-                    "attrName": "hospital_name"
-                }
-            ]
+          "layerId": "7315"
         }
-    ]
+      ]
+    },
+    {
+      "title": "GRUPPE 2",
+      "layers": [
+        {
+          "layerId": "5105"
+        }
+      ]
+    }
+  ]
 }
 ```
 
 ***
 
-#### Portalconfig.menu.tool.filterGeneral.filterLayer.snippets
+#### Portalconfig.menu.tool.filter.filterLayer.snippets
 
 Ein Objekt das ein einzelnes Snippet beschreibt.
 
+Hinweis: Zeitbezogene Snippets (`date` und `dateRange`) können nur dann im Modus `extern` oder als fixe Regel (`visible`: `false`) betrieben werden, wenn ihr Gegenstück am WFS-Service in einem korrekten Zeit-Format vorliegt (ISO8601: `YYYY-MM-DD`).
+
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|attrName|ja|String||Der Name des Attributes auf dem dieses Snippet filtern soll. Kann ein Array sein, wenn `Ranges` verwendet werden sollen. (Array-Option nur für `sliderRange` and `dateRange` - siehe Beispiele).|false|
-|title|nein|String||Der Titel des Snippets. Kann ein Übersetzungs-Key sein. Wenn nicht eingestellt, wird attrName verwendet. Kann explizit auf `false` gesetzt werden um die Anzeige eines Titels zu unterbinden.|false|
+|attrName|ja|String||Der Name des Attributes auf dem dieses Snippet filtern soll. Kann ein Array sein, wenn `dateRange`, `sliderRange` oder `featureInfo` verwendet wird (siehe Beispiele).|false|
+|title|nein|String||Der Titel des Snippets. Kann ein Übersetzungs-Key sein. Wenn nicht eingestellt, wird der Titel aus den gfiAttributes genommen und wenn diese nicht vorhanden sind, dann wird der attrName verwendet. Kann auf `false` gesetzt werden um die Anzeige eines Titels zu unterbinden. Kann auf `true` gesetzt werden um die Anzeige des attrName zu erzwingen.|false|
 |info|nein|String||Info-Text zu diesem Snippet oder ein Übersetzungs-Key. Wenn eingestellt, dann wird rechts vom Snippet ein Info-Symbol angezeigt, das bei Klick den Text darstellt. Kann auch einfach auf `true` gestellt werden, wenn ein Standard-Text ausreichend ist.|false|
-|type|nein|String||Der Snippet-Typ: `checkbox`, `dropdown`, `text`, `slider`, `sliderRange`, `date`, `dateRange`. Wird automatisch ermittelt, wenn nicht angegeben - dabei wird der Datentyp als Grundlage genommen: boolean wird zu `checkbox`, string wird zu `dropdown`, number wird zu `sliderRange`, unbekannt wird zu `text`.|false|
+|type|nein|String||Der Snippet-Typ: `checkbox`, `dropdown`, `text`, `slider`, `sliderRange`, `date`, `dateRange`, `featureInfo`. Wird automatisch ermittelt, wenn nicht angegeben - dabei wird der Datentyp als Grundlage genommen: boolean wird zu `checkbox`, string wird zu `dropdown`, number wird zu `sliderRange`, unbekannt wird zu `text`.|false|
+|subTitles|no|String[]|[]|Nur für Snippet-Typ `dateRange`: Die zusätzlich über den Kalender-Feldern anzuzeigenden Von- und Bis-Bezeichnungen. Als Array mit zwei Elementen (z.B. ["von", "bis"]). Stellen Sie subTitles auf true um die Werte von attrName zu verwenden, auf false um Bezeichnungen nicht anzuzeigen.|false|
 |operator|nein|String||Der logische Operator wie der eingestellte Wert mit dem Wert in der Datenbank verglichen wird. Abhängig davon ob es Sinn macht können dies folgende Werte sein: `INTERSECTS`, `BETWEEN`, `EQ`, `IN`, `STARTSWITH`, `ENDSWITH`, `NE`, `GT`, `GE`, `LT`, `LE`. Wenn weggelassen, gilt der Default: boolean wird zu `EQ`, string wird zu `EQ`, number wird zu `BETWEEN`, unbekannt wird zu `EQ`.|false|
 |visible|nein|Boolean|true|Das Snippet wird angezeigt. Auf `false` stellen um das Snippet zu verbergen: Dadurch können mithilfe von `prechecked` Werte im versteckten Snippet fest eingestellt werden, die dann bei jeder Filterung gelten.|false|
-|prechecked|nein|String[]||Initial aktiv eingestellte Werte. Für `dropdown`, `sliderRange` und `dateRange` ist dies ein Array, für checkbox ein boolean, für slider eine number, für text ein string und für date ein string der über das `format` spezifiziert werden muss.|false|
-|value|nein|String[]||Initial verwendete Werte zur Auswahl. Wenn nicht eingestellt, werden die Werte so möglich automatisch ermittelt (für `dropdown`, `slider(Range)` und `date(Range)`. Im Falle von `checkbox` wird hier die true/false-Übersetzung der Werte in der Datenbank gemacht - so die Werte in der Datenbank keine Boolean-Werte sind. (z.B. ["Ja", "Nein"] - siehe Beispiele).|false|
-|format|nein|String|"YYYY-MM-DD"|Nur für Snippet-Typ `date` und `dateRange`: Das verwendete Format des Datums in der Datenbank. Wenn nicht angegeben wird ISO8601 angenommen.|false|
-|minValue|nein|Number||Nur für Snippet-Typ `slider(Range)` und `date(Range)`: Der Minimal-Wert als number oder Datums-String. Weglassen um die automatische Ermittlung der Werte zu aktivieren.|false|
-|maxValue|nein|Number||Nur für Snippet-Typ `slider(Range)` und `date(Range)`: Der Maximal-Wert als number oder Datums-String. Weglassen um die automatische Ermittlung der Werte zu aktivieren.|false|
-|display|nein|String|"default"|Nur für Snippet-Typ `dropdown`: Wenn auf `list` eingestellt, wird anstelle einer Dropdown-Box eine Liste angezeigt.|false|
+|prechecked|nein|String[]/String||Initial aktiv eingestellte Werte. Für `dropdown`, `sliderRange` und `dateRange` ist dies ein Array, für checkbox ein boolean, für slider eine number, für text ein string und für date ein string der über das `format` spezifiziert werden muss. Für `dropdown` mit `multiselect`: Wird `prechecked` auf `all` eingestellt, werden initial alle verfügbaren Werte ausgewählt.|false|
+|value|nein|String[]||Wenn weggelassen, werden Werte automatisch ermittelt. Wenn für `dropdown` eingestellt: Die Werte, die in der Liste auswählbar sein sollen. Wenn für `checkbox` eingestellt: Statt Boolean-Werten sollen die angegebenen Werte für die Zustände `true` und `false` genommen werden (z.B. ["Ja", "Nein"]). Für `dateRange`: Anfangs- und End-Datum für Datepicker und/oder Slider. Für `sliderRange`: Anfangs- und End-Werte.|false|
+|format|nein|String|"YYYY-MM-DD"|Nur für Snippet-Typ `date` und `dateRange`: Das verwendete Format des Datums in der Datenbank. Wenn nicht angegeben wird ISO8601 angenommen. Weicht das Format von ISO8601 ab, muss das Snippet sichtbar sein (`visible`: `true`) und der Filter muss im Modus `extern`: `false` arbeiten. Kann als Array von zwei unterschiedlichen Formaten angegeben werden, wenn als attrName ebenfalls ein Array unterschiedlicher Attributnamen angegeben wird und sich die Datums-Formate der Attributwerte unterscheiden.|false|
+|timeouts|nein|[timeouts](#markdown-header-portalconfigmenutoolfilterfilterlayersnippetstimeouts)||Konfigurierbare Timeouts zur besseren User Experience.|false|
+|minValue|nein|Number||Nur für Snippet-Typ `date` und `slider`: Der Minimal-Wert als number oder Datums-String. Weglassen um die automatische Ermittlung der Werte zu aktivieren.|false|
+|maxValue|nein|Number||Nur für Snippet-Typ `date` und `slider`: Der Maximal-Wert als number oder Datums-String. Weglassen um die automatische Ermittlung der Werte zu aktivieren.|false|
+|display|nein|String|"default"|Wenn Snippet-Typ `dropdown`: Wenn auf `list` eingestellt, wird anstelle einer Dropdown-Box eine Liste angezeigt. Wenn Snippet-Typ `dateRange`: Wenn auf `datepicker` eingestellt, wird nur die Auswahl über Kalender angezeigt, wenn auf `slider` eingestellt, wird nur der Slider angezeigt, wenn auf `all` eingestellt, werden Datepicker und Slider angezeigt.|false|
 |autoInit|nein|Boolean|true|Nur für Snippet-Typ `dropdown`: Schaltet wenn auf `false` gestellt die automatischen Ermittlungen von Inhalts-, Min- und Max-Werten ab.|false|
 |placeholder|nein|String|""|Nur für Snippet-Typ `dropdown`: Der Platzhalter bei Nicht-Einstellung der Dropdown. Kann ein Übersetzungs-Key sein.|false|
 |multiselect|nein|Boolean|true|Nur für Snippet-Typ `dropdown`: Gleichzeitige Auswahl vieler Werte. Auf `false` stellen um auf Einzelauswahl umzustellen.|false|
 |addSelectAll|nein|Boolean|false|Nur für Snippet-Typ `dropdown` mit `multiselect: true`: Ein zusätzlicher Eintrag zum Selektieren/Deselektieren aller Werte wird angeboten.|false|
+|optionsLimit|nein|Number|20000|Nur für Snippet-Typ `dropdown`: Einer Parameter für Anzahl der Optionen in der Dropdown-List.|false|
+|localeCompareParams|nein|[localeCompareParams](#markdown-header-portalconfigmenutoolfilterfilterlayersnippetslocalecompareparams)||Nur für Snippet-Typ `dropdown`: Die Sortierung der Dropdown-Boxen kann über diesen Parameter nach eigenen Wünschen angepasst werden.|false|
+|delimitor|nein|String||Nur für Snippet-Typ `dropdown`: Sollte das Attribut eines Features ein String sein, dessen Wert mit einem Separator als Quasi-Array gedacht ist, kann durch Angabe des separierenden Zeichens (des Delimitors) die Verarbeitung des Strings als Array erzwungen werden.|false|
 |renderIcons|nein|String|"none"|Nur für Snippet-Typ `dropdown` mit `display: "list"`: Wenn auf den String `fromLegend` eingestellt, werden Icons aus der Legende bezogen und links neben den Werten angezeigt. Wird hier ein Objekt angegeben, werden die Key-Namen als Wert und der Value als Bild-Pfad verwendet: {attrName: imagePath} (siehe Beispiele).|false|
+|service|nein|[service](#markdown-header-portalconfigmenutoolfilterfilterlayersnippetsservice)||Für das initiale Befüllen eines Snippets (Dropdown, Date, Slider) kann ein alternativer Service genutzt werden. Das kann unter Umständen die Performanz beim initialen Laden erhöhen. Standard ist der Service des konfigurierten [filterLayer](#markdown-header-portalconfigmenutoolfilterfilterlayer).|false|
+|children|nein|[children](#markdown-header-portalconfigmenutoolfilterfilterlayersnippetschildren)[]|[]|Konfiguration von Kind-Snippets.|true|
 
 **Beispiel**
 
@@ -1903,6 +1887,7 @@ Beispiel für ein Dropdown-Snippet. Eine als Liste dargestellte Auswahl (nicht a
     "type": "dropdown",
     "display": "list",
     "multiselect": true,
+    "optionsLimit": 20000,
     "addSelectAll": true,
     "value": [
         "Whitehall and Westminster",
@@ -1922,6 +1907,21 @@ Beispiel für ein Dropdown-Snippet. Eine als Liste dargestellte Auswahl (nicht a
         "Covent Garden and Strand": "https://example.com/img/covent.png",
         "Bloomsbury and Fitzrovia": "https://example.com/img/bloomsbury.png"
     },
+    "placeholder": "Choose a district"
+}
+```
+
+**Beispiel**
+
+Beispiel für ein Dropdown-Snippet bei dem alle verfügbaren Werte initial ausgewählt sind.
+
+```json
+{
+    "title": "District",
+    "attrName": "city_district",
+    "type": "dropdown",
+    "multiselect": true,
+    "prechecked": "all",
     "placeholder": "Choose a district"
 }
 ```
@@ -1964,8 +1964,7 @@ Beispiel für ein SliderRange-Snippet. Ein SliderRange mit zwei attrName-Angaben
     "attrName": ["angle_minimal", "angle_maximal"],
     "type": "sliderRange",
     "operator": "BETWEEN",
-    "minValue": 0,
-    "maxValue": 90
+    "value": [0, 90]
 }
 ```
 
@@ -1998,13 +1997,229 @@ Beispiel für ein DateRange-Snippet. Mit zwei Attribut-Namen für Min- und Maxwe
 }
 ```
 
+**Beispiel**
+
+Beispiel für ein DateRange-Snippet. Mit abgestelltem Slider (`display`: `datepicker`). Mit zwei Attribut-Namen für Min- und Maxwerte, zwei vom attrName abweichenden `subTitles` und unterschiedlichen Datums-Formaten. Zusätzlich ist ein Zeitraum voreingestellt. Bitte beachten, dass sich das Format der voreingestellten Werte an `format` orientiert.
+
+```json
+{
+    "type": "dateRange",
+    "title": "Auslandssemester",
+    "subTitles": ["Start der Reise", "End of Journey"],
+    "attrName": ["start", "end"],
+    "format": ["DD.MM.YYYY", "YYYY/DD/MM"],
+    "prechecked": ["01.08.2022", "2023/06/31"],
+    "display": "datepicker"
+}
+```
+
+**Beispiel**
+
+Beispiel für ein DateRange-Snippet. Mit über `prechecked` voreingestellten Zeitpunkten und über `value` voreingestellten Min- und Max-Werten.
+
+```json
+{
+    "type": "dateRange",
+    "title": "Aktive Baustellen im ...",
+    "subTitles": ["Zeitraum von", "Zeitraum bis"],
+    "attrName": ["baubeginn", "bauende"],
+    "format": "DD.MM.YYYY",
+    "value": ["01.01.2019", "31.12.2034"],
+    "prechecked": ["07.07.2022", "25.02.2030"]
+}
+```
+
+**Beispiel**
+
+Beispiel für ein FeatureInfo-Snippet. Zeigt alle Werte der konfigurierten Attribut-Namen(attrName) aller gefilterten Features im Filter an.
+
+```json
+{
+    "title": "Steckbrief",
+    "attrName": ["tierartengruppe", "deutscher_artname", "artname", "rote_liste_d", "rote_liste_hh"],
+    "type": "featureInfo"
+}
+```
+
+**Beispiel**
+
+Beispiel für ein SliderRange-Snippet für die SensorThingsAPI (STA).
+
+```json
+{
+    "type": "sliderRange",
+    "title": "Anzahl der Fahrräder",
+    "attrName": "@Datastreams.0.Observations.0.result"
+}
+```
+
+***
+#### Portalconfig.menu.tool.filter.filterLayer.snippets.children
+Konfiguration von Kind-Snippets.
+Die Kind-Snippets werden nach derselben Art konfiguriert wie "normale" Snippets.
+Siehe [filterLayerSnippets](#markdown-header-portalconfigmenutoolfilterfilterlayersnippets).
+
+Eine Eltern-Kind-Beziehung kann für folgenden Anwendungsfall benutzt werden:
+Ist ein Datensatz zu groß, kann das Vorselektieren eines Attributes die Menge der anschließenden Filterung reduzieren.
+(Beispiel: Tierartengruppe "Säugetiere" als Vorauswahl würde den Datenraum aller Tiere signifikant verkleinern.)
+
+Mit dem Parameter `children` wird ein Snippet angewiesen, selber keine Filterung auszulösen, sondern nur seine unter `children` konfigurierten Kind-Snippets mit den aus seiner Einstellung resultierenden Daten zu "füttern".
+(Beispiel: "Säugetiere" lässt die resultierenden Tierarten auf einen annehmbaren Bereich schrumpfen.)
+
+Erst die Auswahl in einem der Kind-Snippets (Beispiel: "Blauwal") führt die Filterung schließlich aus.
+Im Falle der Verwendung von Eltern-Kind-Beziehungen empfehlen wir `snippetTags` auf `false` zu stellen.
+Eine mehrdimensionale Verschachtelung (Großeltern, Eltern, Kind) ist derzeit nicht vorgesehen.
+
+**Beispiel**
+
+Beispiel für ein Dropdown-Snippet mit Eltern-Kind-Beziehung. Die `cityA`- und `cityB`-Dropdowns sind zunächst nicht gefüllt. Erst bei Auswahl eines `District` füllen sie sich mit den Städten des gewählten Bezirkes, es findet aber keine Filterung auf der Map statt. Erst die Auswahl einer Stadt initiiert schließlich die Filterung nach dem Stadtnamen.
+
+```json
+{
+    "title": "District",
+    "attrName": "city_district",
+    "type": "dropdown",
+    "multiselect": false,
+    "placeholder": "Choose a district",
+    "children": [
+        {
+            "type": "dropdown",
+            "attrName": "cityA",
+            "placeholder": "cityA"
+        },
+        {
+            "type": "dropdown",
+            "attrName": "cityB",
+            "placeholder": "cityB"
+        }
+    ]
+}
+```
+
+#### Portalconfig.menu.tool.filter.filterLayer.snippets.timeouts
+
+Mit der Anpassung von Timeouts kann die User Experience verbessert werden.
+Dies betrifft besonders Filter die mit `strategy`: `active` arbeiten.
+
+|Name|Required|Typ|Default|Description|Expert|
+|----|-------------|---|-------|------------|------|
+|input|nein|Number|1400|Nur für Snippet-Typ `sliderRange`: Die Zeit in Millisekunden die vergehen soll, bevor nach Eingabe von Zahlen und Zeichen ins Input-Feld eine Filterung ausgelöst werden soll.|false|
+|slider|nein|Number|800|Nur für Snippet-Typ `sliderRange` und `dateRange`: Die Zeit in Millisekunden die vergehen soll, bevor nach der letzten Änderung des Sliders eine Filterung ausgelöst werden soll.|false|
+
+**Beispiel**
+
+Ein Beispiel für ein sliderRange-Snippet mit beschleunigter Filterung nach Eingabe ins Input-Feld bzw. Änderung des Sliders.
+
+```json
+{
+    "title": "Baustellen",
+    "attrName": ["baubeginn", "bauende"],
+    "type": "sliderRange",
+    "timeouts": {
+        "input": 800,
+        "slider": 400
+    }
+}
+```
+
+***
+#### Portalconfig.menu.tool.filter.filterLayer.snippets.service
+
+Ein Objekt das einen Service für ein Snippet beschreibt. Alle Servicetypen, die der Filter unterstützt, können theoretisch genutzt werden.
+Die Konfiguration hängt vom Typ des Services ab.
+
+**WFS**
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|type|ja|String||Der Typ des Services (WFS, GeoJSON oder OAF).|false|
+|url|ja|String||Die Service Url.|false|
+|typename|ja|String||Der Featuretype der geladen wird. Nur bei WFS.|false|
+|collection|ja|String||Die Collection die geladen wird. Nur bei OAF.|false|
+
+**Beispiel WFS**
+
+```json
+{
+    "type": "WFS",
+    "url": "https://qs-geodienste.hamburg.de/HH_WFS_verbreitungskarten_tiere",
+    "typename": "verbreitung_tiere_eindeutige_liste"
+}
+```
+
+**Beispiel GeoJSON**
+
+```json
+{
+    "type": "GeoJSON",
+    "url": "../chartjs/charts_stadtteil.geojson"
+}
+```
+**Beispiel OAF**
+
+```json
+{
+    "url": "https://api.hamburg.de/datasets/v1/schulen",
+    "collection" : "staatliche_schulen",
+    "type": "OAF"
+}
+```
+
 ***
 
+#### Portalconfig.menu.tool.filter.filterLayer.snippets.localeCompareParams
+
+Ein String oder Objekt zur Steuerung der Sortierung von Dropdown-Boxen.
+
+**Beispiel String**
+
+"localeCompareParams": "de"
+
+**Object**
+
+|Name|Required|Typ|Default|Description|Expert|
+|----|--------|---|-------|-----------|------|
+|locale|nein|String||Der zu verwendende Ländercode nach ISO 3166|false|
+|options|nein|[options](#markdown-header-portalconfigmenutoolfilterfilterlayersnippetslocalecompareparamsoptions)||Optionen für die Sortierung per localeCompare.|false|
+
+
+**Example Object**
+
+```json
+{
+    "locale": "de",
+    "options": {
+        "ignorePunctuation": true
+    }
+}
+```
+
+****
+#### Portalconfig.menu.tool.filter.filterLayer.snippets.localeCompareParams.options
+
+Ein Objekt zur benutzerdefinierten Steuerung der verwendeten localeCompare-Funktion zur Sortierung von Dropdown-Boxen, wie sie u.a. hier dokumentiert sind: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
+
+|Name|Required|Typ|Default|Description|Expert|
+|----|--------|---|-------|-----------|------|
+|ignorePunctuation|nein|Boolean|false|Kann auf true eingestellt werden um Interpunktion zu ignorieren.|false|
+|sensitivity|nein|String|"variant"|Einstellung zur Berücksichtigung der Zeichen-Basis (z.B. ä → ae, somit wird ä in a einsortiert).|false|
+|numeric|nein|Boolean|false|Kann auf true gestellt werden, wenn Zahlen numerisch sortiert werden sollen. z.B. true: “2” < “10” bzw. false: “2” > “10”|false|
+
+**Beispiel**
+
+```json
+{
+    "ignorePunctuation": true
+}
+```
+
+***
+
+****
 #### Portalconfig.menu.tool.compareFeatures
 
 [inherits]: # (Portalconfig.menu.tool)
 
-Hier können Vector Features miteinander verglichen werden.
+Hier können Vector Features miteinander verglichen werden. Dazu werden vektorbasierte Daten aus WFS(❗) Diensten benötigt.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
@@ -2016,7 +2231,7 @@ Hier können Vector Features miteinander verglichen werden.
 #!json
 "compareFeatures": {
     "name": "Vergleichsliste",
-    "glyphicon": "glyphicon-th-list",
+    "icon": "bi-list-ul",
     "numberOfFeaturesToShow": 5,
     "numberOfAttributesToShow": 10
 }
@@ -2031,7 +2246,7 @@ Flurstückssuche.
 
 **ACHTUNG: Backend notwendig!**
 
-**Je nach Konfiguration werden spezielle Stored Queries eines WFS mit vorgegebenen Parametern abgefragt.**
+**Je nach Konfiguration werden spezielle Stored Queries eines WFS(❗) mit vorgegebenen Parametern abgefragt.**
 
 Beispiel: **https://geodienste.hamburg.de/HH_WFS_DOG?service=WFS&request=GetFeature&version=2.0.0&&StoredQuery_ID=Flurstueck&gemarkung=0601&flurstuecksnummer=00011**
 
@@ -2051,7 +2266,7 @@ Beispiel: **https://geodienste.hamburg.de/HH_WFS_DOG?service=WFS&request=GetFeat
 #!json
 "parcelSearch": {
     "name": "Flurstückssuche",
-    "glyphicon": "glyphicon-search",
+    "icon": "bi-search",
     "serviceId": "6",
     "storedQueryID": "Flurstueck",
     "configJSON": "https://geodienste.hamburg.de/lgv-config/gemarkungen_hh.json",
@@ -2090,7 +2305,7 @@ Zurücksetzen des Themenbaums.
 #!json
 "resetTree": {
     "name": "translate#additional:modules.tools.resetTree.title",
-    "glyphicon": "glyphicon-repeat"
+    "icon": "bi-arrow-clockwise"
 }
 ```
 
@@ -2110,7 +2325,7 @@ Koordinatensuche.
 #!json
 "searchByCoord": {
     "name": "Flurstückssuche",
-    "glyphicon": "glyphicon-record",
+    "icon": "bi-search",
     "zoomLevel": 7
 }
 ```
@@ -2144,14 +2359,14 @@ Druckmodul. Konfigurierbar für 2 Druckdienste: den High Resolution PlotService 
 |capabilitiesFilter|nein|**[capabilitiesFilter](#markdown-header-portalconfigmenutoolprintcapabilitiesfilter)**||Filterung der Capabilities vom Druckdienst. Mögliche Parameter sind layouts und outputFormats.|false|
 |defaultCapabilitiesFilter|nein|**[capabilitiesFilter](#markdown-header-portalconfigmenutoolprintcapabilitiesfilter)**||Ist für ein Attribut kein Filter in capabilitiesFilter gesetzt, wird der Wert aus diesem Objekt genommen.|false|
 |useProxy|nein|Boolean|false|Deprecated im nächsten Major-Release, da von der GDI-DE empfohlen wird einen CORS-Header einzurichten. Gibt an, ob die URL des Dienstes über einen Proxy angefragt werden soll, dabei werden die Punkte in der URL durch Unterstriche ersetzt.|false|
-|printMapMarker|nein|Boolean|false|Wenn dieses Feld auf true gesetzt ist, werden im Bildausschnitt sichtbare MapMarker mitgedruckt. Diese überdecken ggf. interessante Druckinformationen. Hinweis an Entwickler: Dieses Feature funktioniert im Dev-Mode nicht, da MapFish nicht auf Dateien unter localhost zugreifen kann, und der mapMarker im Build liegt.|false|
+|printMapMarker|nein|Boolean|false|Wenn dieses Feld auf true gesetzt ist, werden im Bildausschnitt sichtbare MapMarker mitgedruckt. Diese überdecken ggf. interessante Druckinformationen.|false|
 
 **Beispiel Konfiguration mit High Resolution PlotService**
 ```
 #!json
 "print": {
     "name": "Karte drucken",
-    "glyphicon": "glyphicon-print",
+    "icon": "bi-printer-fill",
     "printServiceId": "123456",
     "filename": "Ausdruck",
     "title": "Mein Titel",
@@ -2165,7 +2380,7 @@ Druckmodul. Konfigurierbar für 2 Druckdienste: den High Resolution PlotService 
 #!json
 "print": {
     "name": "Karte drucken",
-    "glyphicon": "glyphicon-print",
+    "icon": "bi-printer-fill",
     "printServiceId": "mapfish_printservice_id",
     "printAppId": "mrh",
     "filename": "Ausdruck",
@@ -2173,7 +2388,7 @@ Druckmodul. Konfigurierbar für 2 Druckdienste: den High Resolution PlotService 
 }
 ```
 
-### Portalconfig.menu.tool.print.capabilitiesFilter
+##### Portalconfig.menu.tool.print.capabilitiesFilter
 Liste von Layouts und Formaten, welche die Antwort vom Druckdienst in der jeweiligen Kategorie filtert.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -2201,8 +2416,9 @@ Modul für das Zeichnen von Features auf der Karte. Dies beinhaltet Punkte, welc
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |name|ja|String||Name des Werkzeugs im Menü.|false|
-|iconList|nein|**[icon](#markdown-header-portalconfigmenutooldrawicon)**[]|[{"id": "iconPoint", "type": "simple_point", "value": "simple_point"}, {"id": "yellow pin", "type": "image", "scale": 0.5, "value": "https://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png"}]|Liste an Symbolen, aus welcher ein Nutzer die Auswahl für das Zeichnen eines farbigen Punktes oder eines Symbols hat. Es können wie im Beispiel eigene Bild-Dateien verwendet werden.|false|
+|iconList|nein|**[icon](#markdown-header-portalconfigmenutooldrawicon)**[]|[{"id": "iconPoint", "type": "simple_point", "value": "simple_point"}, {"id": "yellow pin", "type": "image", "scale": 2, "value": "geo-fill-ylw.svg"}]|Liste an Symbolen, aus welcher ein Nutzer die Auswahl für das Zeichnen eines farbigen Punktes oder eines Symbols hat. Es können wie im Beispiel eigene Bild-Dateien verwendet werden.|false|
 |drawSymbolSettings|nein|**[drawSymbolSet](#markdown-header-portalconfigmenutooldrawdrawsymbolset)**|{"color": [55, 126, 184, 1], "opacity": 1}|Voreinstellung für das Zeichnen von Symbolen.|false|
+|addIconsOfActiveLayers|nein|Boolean|false|Setzen Sie dieses Flag auf `true` um die Icons und Symbole aller im Themenbaum aktivierten WFS-Layer als zusätzliche Symbole neben den unter `drawSymbolSettings` konfigurierten Icons auswählen zu können.|false|
 |drawLineSettings|nein|**[drawLineSet](#markdown-header-portalconfigmenutooldrawdrawlineset)**|{"strokeWidth": 1, "opacityContour": 1, "colorContour": [0, 0, 0, 1]}|Voreinstellung für das Zeichnen von Linien.|false|
 |drawCurveSettings|nein|**[drawCurveSet](#markdown-header-portalconfigmenutooldrawdrawcurveset)**|{"strokeWidth": 1, "opacityContour": 1, "colorContour": [0, 0, 0, 1]}|Voreinstellung für das Zeichnen von Freihand-Linien.|false|
 |drawAreaSettings|nein|**[drawAreaSet](#markdown-header-portalconfigmenutooldrawdrawareaset)**|{"strokeWidth": 1, "color": [55, 126, 184, 1], "opacity": 1, "colorContour": [0, 0, 0, 1], "opacityContour": 1}|Voreinstellung für das Zeichnen von Flächen.|false|
@@ -2210,6 +2426,8 @@ Modul für das Zeichnen von Features auf der Karte. Dies beinhaltet Punkte, welc
 |drawDoubleCircleSettings|nein|**[drawDoubleCircleSet](#markdown-header-portalconfigmenutooldrawdrawdoublecircleset)**|{"circleMethod": "defined", "unit": "m", "circleRadius": 0, "circleOuterRadius": 0, "strokeWidth": 1, "color": [55, 126, 184, 1], "opacity": 1, "colorContour": [0, 0, 0, 1], "outerColorContour": [0, 0, 0, 1], "opacityContour": 1}|Voreinstellung für das Zeichnen von Doppel-Kreisen.|false|
 |writeTextSettings|nein|**[writeTextSet](#markdown-header-portalconfigmenutooldrawwritetextset)**|{"text": "", "fontSize": 10, "font": "Arial", "color": [55, 126, 184, 1], "opacity": 1}|Voreinstellung für das Schreiben von Texten.|false|
 |download|nein|**[download](#markdown-header-portalconfigmenutooldrawdownload)**|{"preSelectedFormat": "KML"}|Einstellungen für das Herunterladen der Zeichnung.|false|
+|enableAttributesSelector|nein|Boolean|false|Aktiviert einen Knopf zum Umschalten eines Bereiches zum Editieren von benutzerdefinierten Attributen an dem bereits ausgewählten Feature.|false|
+|semicolonCSVDelimiter|nein|Boolean|true|Legt fest, ob Semicolon als der Feldtrenner für exportierte CSV Datei ist.|false|
 
 **Beispiel**
 
@@ -2217,7 +2435,7 @@ Modul für das Zeichnen von Features auf der Karte. Dies beinhaltet Punkte, welc
 #!json
 "draw": {
     "name": "Zeichnen / Schreiben",
-    "glyphicon": "glyphicon-pencil",
+    "icon": "bi-pencil-flll",
     "iconList": [
         {
             "id": "iconPoint",
@@ -2233,8 +2451,8 @@ Modul für das Zeichnen von Features auf der Karte. Dies beinhaltet Punkte, welc
         {
             "id": "gelber Pin",
             "type": "image",
-            "scale": 0.5,
-            "value": "https://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png"
+            "scale": 2,
+            "value": "geo-fill-ylw.svg"
         }
     ],
     "drawDoubleCircleSettings": {
@@ -2253,6 +2471,7 @@ Modul für das Zeichnen von Features auf der Karte. Dies beinhaltet Punkte, welc
             "backgroundColor": "rgba(255, 255, 255, .9)"
         }
     }
+    "semicolonCSVDelimiter": true
 }
 ```
 
@@ -2288,8 +2507,8 @@ Punkt Objekt, bestehend aus der Beschriftung, dem Typ und dem Wert.
     {
         "id": "gelber Pin",
         "type": "image",
-        "scale": 0.5,
-        "value": "https://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png"
+        "scale": 2,
+        "value": "geo-fill-ylw.svg"
     },
 ```
 
@@ -2494,7 +2713,7 @@ Objekt zum Ändern des voreingestellten Formats beim Herunterladen einer Zeichnu
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|--------|----|-------|-----------|------|
-|preSelectedFormat|nein|String|"KML"|Die voreingestellte pre-selected form.|false|
+|preSelectedFormat|nein|enum["KML","GEOJSON","GPX"]|"KML"|Die voreingestellte pre-selected form.|false|
 
 **Example**
 
@@ -2510,22 +2729,22 @@ Objekt zum Ändern des voreingestellten Formats beim Herunterladen einer Zeichnu
 
 [inherits]: # (Portalconfig.menu.tool)
 
-Dieses Modul kann geladene Vektordaten von WFS Layern in einer Tabelle darstellen. Das Modul erhält über die sichtbaren Vektorlayer aus der Map die verfügbaren Layer und zeigt diese im ersten Tab. Wird ein Eintrag (Layer) in diesem Tab ausgewählt, so wird dessen LayerId gespeichert. Aus der Layerliste wird dann der selektierte Layer gefiltert und gespeichert. Darauf wird reagiert und die Features des Layers werden ausgewertet und im zweiten Tab der Tabelle aufgelistet. Es werden nicht alle Features geladen sondern max. soviele, wie in der Konfiguration angegeben. Sind nicht alle Features geladen, wird ein Knopf angezeigt, der das Nachladen weiterer Features ermöglicht. 
+Dieses Modul kann geladene Vektordaten von WFS(❗) Layern in einer Tabelle darstellen. Das Modul erhält über die sichtbaren Vektorlayer aus der Map die verfügbaren Layer und zeigt diese im ersten Tab. Wird ein Eintrag (Layer) in diesem Tab ausgewählt, so wird dessen LayerId gespeichert. Aus der Layerliste wird dann der selektierte Layer gefiltert und gespeichert. Darauf wird reagiert und die Features des Layers werden ausgewertet und im zweiten Tab der Tabelle aufgelistet. Es werden nicht alle Features geladen sondern max. soviele, wie in der Konfiguration angegeben. Sind nicht alle Features geladen, wird ein Knopf angezeigt, der das Nachladen weiterer Features ermöglicht.
 
-Sobald man den Mauszeiger über einem Feature in der Liste positioniert wird dieses in der Karte hervogehoben. Durch Klick auf ein Feature werden dessen Attribute in einem dritten Tab vollständig dargestellt. Zukünftig könnten hier die Attribute bei WFS-T auch editiert werden. Der Tabelle wurde eine Sortiermöglichkeit implementiert.
+Sobald man den Mauszeiger über einem Feature in der Liste positioniert wird dieses in der Karte hervorgehoben. Durch Klick auf ein Feature werden dessen Attribute in einem dritten Tab vollständig dargestellt. Zukünftig könnten hier die Attribute bei WFS-T auch editiert werden. Der Tabelle wurde eine Sortiermöglichkeit implementiert.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |maxFeatures|nein|Integer|20|Anzahl der zu zeigenden Features. Über einen Button können weitere Features in dieser Anzahl zugeladen werden.|false|
-|highlightVectorRulesPolygon|nein|**[highlightVectorRulesPolygon](#markdown-header-portalconfigmenutoolfeaturelisterhighlightvectorrulespolygon)**||Angabe der Füllfarbe und der Umriss-Farbe und -Strichstärke für das Hervorheben der Polygon-Features.|false|
-|highlightVectorRulesPointLine|nein|**[highlightVectorRulesPointLine](#markdown-header-portalconfigmenutoolfeaturelisterhighlightvectorrulespointline)**||Angabe der Umriss-Farbe und -Strichstärke für das Hervorheben von Linien und Skalierungsfaktor für das Hervorheben von Punkten.|false|
+|highlightVectorRulesPolygon|nein|**[highlightVectorRulesPolygon](#markdown-header-portalconfigmenutoolfeaturelisterhighlightvectorrulespolygon)**||Angabe der Füllfarbe und der Umriss-Farbe und -Strichstärke für das Hervorheben der Polygon-Features und einer Zoomstufe.|false|
+|highlightVectorRulesPointLine|nein|**[highlightVectorRulesPointLine](#markdown-header-portalconfigmenutoolfeaturelisterhighlightvectorrulespointline)**||Angabe der Umriss-Farbe und -Strichstärke für das Hervorheben von Linien und einer Füllfarbe sowie eines Skalierungsfaktors für das Hervorheben von Punkten und einer Zoomstufe.|false|
 
 **Beispiel**
 
 ```json
 "featureLister": {
     "name": "Liste",
-    "glyphicon": "glyphicon-menu-hamburger",
+    "icon": "bi-list",
     "maxFeatures": 10,
     "highlightVectorRulesPolygon": {
         "fill": {
@@ -2534,16 +2753,21 @@ Sobald man den Mauszeiger über einem Feature in der Liste positioniert wird die
         "stroke": {
             "width": 4,
             "color": [0, 0, 204, 0.9]
-        }
+        },
+        "zoomLevel": 5
     },
     "highlightVectorRulesPointLine": {
+        "fill": {
+            "color": [255, 0, 255, 0.9]
+        },
         "stroke": {
             "width": 8,
             "color": [255, 0, 255, 0.9]
         },
         "image": {
             "scale": 2
-        }
+        },
+        "zoomLevel": 5
     }
 }
 ```
@@ -2551,12 +2775,13 @@ Sobald man den Mauszeiger über einem Feature in der Liste positioniert wird die
 
 ##### Portalconfig.menu.tool.featureLister.highlightVectorRulesPolygon
 
-Angabe der Umriss-Farbe und -Strichstärke für das Hervorheben von Linien und Skalierungsfaktor für das Hervorheben von Punkten.
+Angabe der Füll-Farbe und -Strichstärke für das Hervorheben von Polygonen sowie einer Zoomstufe.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |fill|nein|**[fill](#markdown-header-portalconfigmenutoolfeaturelisterhighlightvectorrulespolygonfill)**||Mögliche Einstellung: color|false|
 |stroke|nein|**[stroke](#markdown-header-portalconfigmenutoolfeaturelisterhighlightvectorrulespolygonstroke)**||Mögliche Einstellung: width|false|
+|zoomLevel|nein|Integer|7|Mögliche Einstellung: 0-9|false|
 
 ***
 
@@ -2586,12 +2811,25 @@ Angabe der Umriss-Farbe und -Strichstärke für das Hervorheben von Linien und S
 
 ##### Portalconfig.menu.tool.featureLister.highlightVectorRulesPointLine
 
-Angabe der Umriss-Farbe und -Strichstärke für das Hervorheben von Linien und Skalierungsfaktor für das Hervorheben von Punkten.
+Angabe der Umriss-Farbe und -Strichstärke für das Hervorheben von Linien und Füllfarbe, sowie Skalierungsfaktor für das Hervorheben von Punkten. Ebenfalls kann eine Zoomstufe angegeben werden.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
+|fill|nein|**[fill](#markdown-header-portalconfigmenutoolfeaturelisterhighlightvectorrulespointlinefill)**||Mögliche Einstellung: color|false|
 |stroke|nein|**[stroke](#markdown-header-portalconfigmenutoolfeaturelisterhighlightvectorrulespointlinestroke)**||Mögliche Einstellung: width|false|
 |image|nein|**[image](#markdown-header-portalconfigmenutoolfeaturelisterhighlightvectorrulespointlineimage)**||Mögliche Einstellung: scale|false|
+|zoomLevel|nein|Integer|7|Mögliche Einstellung: 0-9|false|
+
+***
+
+##### Portalconfig.menu.tool.featureLister.highlightVectorRulesPointLine.fill
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|color|nein|Float[]|[255, 255, 255, 0.5]|Mögliche Einstellung: color (RGBA)|false|
+
+```json
+"fill": { "color": [215, 102, 41, 0.9] }
+```
 
 ***
 
@@ -2628,6 +2866,130 @@ Angabe der Umriss-Farbe und -Strichstärke für das Hervorheben von Linien und S
 ```
 
 ***
+#### Portalconfig.menu.tool.selectFeatures
+
+[inherits]: # (Portalconfig.menu.tool)
+
+Erlaub das auswählen von Vektor Features indem der Nutzer auf der Karte eine Auswahlbox aufziehen kann. Features innerhalb dieser Auwahl werden mit GFI Informationen angezeigt und es ist möglich, auf ein Feature zu zoomen. Zur Nutzung werden vektorbasierte WFS(❗) Dienste benötigt.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|highlightVectorRulesPolygon|nein|**[highlightVectorRulesPolygon](#markdown-header-portalconfigmenutoolselectfeatureshighlightvectorrulespolygon)**||Angabe der Füllfarbe, Kantenfarbe und -breite für das Hervorheben von Polygon Features. Sowie optional eine Zoomstufe.|false|
+|highlightVectorRulesPointLine|nein|**[highlightVectorRulesPointLine](#markdown-header-portalconfigmenutoolselectfeatureshighlightvectorrulespointline)**||Angabe der Linienfarbe und -breite für Linien Features und der Füllfarbe und Skalierung für Punkte. Sowie optional eine Zoomstufe.|false|
+
+**Example**
+
+```json
+{
+    "selectFeatures": {
+        "name": "translate#common:menu.tools.selectFeatures",
+        "highlightVectorRulesPolygon": {
+            "fill": {
+                "color": [255, 0, 255, 0.9]
+            },
+            "stroke": {
+                "width": 4,
+                "color": [0, 0, 204, 0.9]
+            },
+            "zoomLevel": 5
+        },
+        "highlightVectorRulesPointLine": {
+            "fill": {
+                "color": [255, 0, 255, 0.9]
+            },
+            "stroke": {
+                "width": 8,
+                "color": [255, 0, 255, 0.9]
+            },
+            "image": {
+                "scale": 2
+            },
+            "zoomLevel": 5
+        }
+    }
+}
+```
+
+##### Portalconfig.menu.tool.selectFeatures.highlightVectorRulesPolygon
+
+Angabe der Füllfarbe, Kantenfarbe und -breite für das Hervorheben von Polygon Features. Sowie optional eine Zoomstufe.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|fill|nein|**[fill](#markdown-header-portalconfigmenutoolselectfeatureshighlightvectorrulespolygonfill)**||Mögliche Einstellung: color|false|
+|stroke|nein|**[stroke](#markdown-header-portalconfigmenutoolselectfeatureshighlightvectorrulespolygonstroke)**||Mögliche Einstellung: width|false|
+|zoomLevel|nein|Integer|7|Zoomstufe, mögliche Einstellung: 0-9|false|
+
+***
+
+##### Portalconfig.menu.tool.selectFeatures.highlightVectorRulesPolygon.fill
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|color|nein|Float[]|[255, 255, 255, 0.5]|Mögliche Einstellung: color (RGBA)|false|
+
+```json
+"fill": { "color": [215, 102, 41, 0.9] }
+```
+
+***
+
+##### Portalconfig.menu.tool.selectFeatures.highlightVectorRulesPolygon.stroke
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|width|nein|Integer|1|Mögliche Einstellung: width|false|
+|color|nein|Float[]|[255, 255, 255, 0.5]|Mögliche Einstellung: color (RGBA)|false|
+
+```json
+"stroke": { "width": 4 , "color": [255, 0, 255, 0.9]}
+```
+
+***
+
+
+##### Portalconfig.menu.tool.selectFeatures.highlightVectorRulesPointLine
+
+Angabe der Linienfarbe und -breite für Linien Features und der Füllfarbe und Skalierung für Punkte. Sowie optional eine Zoomstufe.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|fill|nein|**[fill](#markdown-header-portalconfigmenutoolselectfeatureshighlightvectorrulespointlinefill)**||Mögliche Einstellung: color|false|
+|stroke|nein|**[stroke](#markdown-header-portalconfigmenutoolselectfeatureshighlightvectorrulespointlinestroke)**||Mögliche Einstellung: width|false|
+|image|nein|**[image](#markdown-header-portalconfigmenutoolselectfeatureshighlightvectorrulespointlineimage)**||Mögliche Einstellung: scale|false|
+|zoomLevel|nein|Integer|7|Zoomstufe, mögliche Einstellung: 0-9|false|
+
+***
+##### Portalconfig.menu.tool.selectFeatures.highlightVectorRulesPointLine.fill
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|color|nein|Float[]|[255, 255, 255, 0.5]|Mögliche Einstellung: color (RGBA)|false|
+
+```json
+"fill": { "color": [215, 102, 41, 0.9] }
+```
+
+***
+
+##### Portalconfig.menu.tool.selectFeatures.highlightVectorRulesPointLine.stroke
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|width|nein|Integer|1|Mögliche Einstellung: width|false|
+|color|nein|Float[]|[255, 255, 255, 0.5]|Mögliche Einstellung: color (RGBA)|false|
+
+```json
+"stroke": { "width": 4 , "color": [255, 0, 255, 0.9]}
+```
+
+***
+
+##### Portalconfig.menu.tool.selectFeatures.highlightVectorRulesPointLine.image
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|scale|nein|Integer|1.5|Mögliche Einstellung: scale|false|
+
+```json
+"image": { "scale": 2}
+```
+
 
 #### Portalconfig.menu.tool.measure
 
@@ -2638,7 +3000,9 @@ Mit dem Messwerkzeug können Strecken und Flächen gemessen werden. Dabei werden
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |earthRadius|nein|Number|6378137|Erdradius in Metern. Bitte beachten Sie, dass der Erdradius in Abhängigkeit zum Bezugsellipsoiden gewählt werden sollte. Für ETRS89 (EPSG:25832) ist dies beispielsweise GRS80.|false|
-|measurementAccuracy|nein|String|"meter"|Gibt an, wie genau das Messergebnis für m und m² angezeigt wird. Die möglichen Optionen sind "decimeter" für eine Nachkommastelle. "meter" für keine Nachkommastelle. Und "dynamic" für eine Nachkommastelle bei Ergebnissen kleiner als 10m / 10m² und keine Nachkommastelle für Ergebnisse größer oder gleich 10m / 10m².|false|
+|measurementAccuracy|nein|String|"meter"|Gibt an, wie genau das Messergebnis für "m", "nm", "m²", "ha" angezeigt wird. Die möglichen Optionen sind "decimeter" für eine Nachkommastelle. "meter" für keine Nachkommastelle. "dynamic" für eine Nachkommastelle bei Ergebnissen kleiner als 10 und keine Nachkommastelle bei Ergebnissen größer oder gleich 10 der entsprechenden Einheit.|false|
+|lineStringUnits|nein|String[]|["m", "km"]|Gibt an, welche Einheiten für Streckenberechnungen ausgewählt werden können. Unterstützt werden "m" (Meter), "nm" (Seemeile), "km" (Kilometer).|false|
+|polygonUnits|nein|String[]|["m²", "km²"]|Gibt an, welche Einheiten für Flächenberechnungen ausgewählt werden können. Unterstützt werden "m²", "ha, "km²".|false|
 
 **Beispiel**
 
@@ -2684,7 +3048,7 @@ Werkzeug, wodurch der Nutzer/die Nutzerin mit einem definierten Postfach Kontakt
 {
     "contact": {
         "name": "common:menu.contact",
-        "glyphicon": "glyphicon-envelope",
+        "icon": "bi-envelope-fill",
         "serviceId": "123",
         "from": [
             {
@@ -2758,7 +3122,7 @@ Werkzeug zum gleichzeitigen Aktivieren/Deaktivieren von Layer Clustern.
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|--------|----|-------|-----------|------|
 |name|ja|String|"additional:addons.menu.tools.layerClusterToggler.name"|Der Name des Tools.|false|
-|glyphicon|ja|String|"glyphicon-education"|Verwendetes Glyphicon im Werkzeug-Menü.|false|
+|icon|ja|String|"bi-easel3"|Verwendetes Icon im Werkzeug-Menü.|false|
 |clusterList|ja|**[clusterList](#markdown-header-portalconfigmenutoollayerClusterTogglerclusterList)**[]|[]|Array der Layer-IDs (als Strings oder als Objekte).|false|
 
 **Beispiel**
@@ -2767,7 +3131,7 @@ Werkzeug zum gleichzeitigen Aktivieren/Deaktivieren von Layer Clustern.
 {
     "layerClusterToggler": {
         "name": "translate#additional:addons.menu.tools.layerClusterToggler.name",
-        "glyphicon": "glyphicon-education",
+        "icon": "bi-easel3",
         "clusterList": ["8712", "21067"]
     }
 }
@@ -2787,13 +3151,13 @@ Dies können die Layer-IDs als Strings sein, oder als Objekt wenn die Suffix-Tec
 |layerId|ja|String||Id des Dienstes, der im Portal angezeigt werden soll. ACHTUNG: Diese LayerId muss auch in der Themenconfig konfiguriert sein.|false|
 |suffix|ja|String||Suffix des Layers. Dieser Suffix muss auch in der Themenconfig konfiguriert sein.|false|
 
-**Example**
+**Beispiel**
 
 ```json
 {
     "layerClusterToggler": {
         "name": "translate#additional:addons.menu.tools.layerClusterToggler.name",
-        "glyphicon": "glyphicon-education",
+        "icon": "bi-easel3",
         "clusterList": [
             "8712",
             "8713",
@@ -2838,7 +3202,7 @@ Der Layerslider ist ein Werkzeug um verschiedene Layer in der Anwendung hinterei
 #!json
 "layerSlider": {
     "name": "Zeitreihe",
-    "glyphicon": "glyphicon-film",
+    "icon": "bi-hourglass-split",
     "title": "Simulation von Beispiel-WMS",
     "sliderType": "player",
     "timeInterval": 2000,
@@ -2908,7 +3272,7 @@ Die Planungen müssen im virtualcityPLANNER auf öffentlich gesetzt sein, dann k
 
 [inherits]: # (Portalconfig.menu.tool)
 
-Das ShadowTool bietet eine Oberfläche zur Definition einer Zeitangabe. Über Slider und Datepicker können Zeitangaben in einem 30-Minuten Raster angegeben werden. Die ausgewählte Zeitangabe dient dem Rendern der Schatten aller 3D-Objekte im 3D-Modus, indem der Sonnenstand simuliert wird. Durch Ziehen des Sliders oder Auswahl eines neuen Datums wird unmittelbar ein neuer Sonnenstand simuliert. Per default startet das Tool mit der aktuellen Zeitangabe, die über Parameter überschrieben werden kann.
+Das ShadowTool bietet eine Oberfläche zur Definition einer Zeitangabe. Über Slider und Datepicker können Zeitangaben angegeben werden. Die ausgewählte Zeitangabe dient dem Rendern der Schatten aller 3D-Objekte im 3D-Modus, indem der Sonnenstand simuliert wird. Durch Ziehen des Sliders oder Auswahl eines neuen Datums wird unmittelbar ein neuer Sonnenstand simuliert. Per default startet das Tool mit der aktuellen Zeitangabe, die über Parameter überschrieben werden kann.
 
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|
@@ -2957,23 +3321,11 @@ Todo
 
 ***
 
-#### Portalconfig.menu.tool.styleWMS
-
-[inherits]: # (Portalconfig.menu.tool)
-
-Klassifizierung von WMS Diensten. Dieses Tool findet Verwendung im Pendlerportal der MRH(Metropolregion Hamburg). Über eine Maske können Klassifizierungen definiert werden. An den GetMap-Request wird nun ein SLD-Body angehängt, der dem Server einen neuen Style zum Rendern definiert. Der WMS-Dienst liefert nun die Daten in den definierten Klassifizierungen und Farben.
-
-|Name|Verpflichtend|Typ|Default|Beschreibung|
-|----|-------------|---|-------|------------|
-|useProxy|nein|Boolean|false|Deprecated im nächsten Major-Release, da von der GDI-DE empfohlen wird einen CORS-Header einzurichten. Gibt an, ob die URL des Dienstes über einen Proxy angefragt werden soll, dabei werden die Punkte in der URL durch Unterstriche ersetzt.|false|
-
-***
-
 #### Portalconfig.menu.tool.wfsSearch
 
 [inherits]: # (Portalconfig.menu.tool)
 
-Ermöglicht es ein Formular zu erstellen, um einen WFS Layer abgekoppelt von der Suchleiste mittels Filter anzufragen.
+Ermöglicht es ein Formular zu erstellen, um einen WFS(❗) Layer abgekoppelt von der Suchleiste mittels Filter anzufragen.
 Wenn ein WFS@2.0.0 verwendet werden soll, wird erwartet, dass eine gespeicherte Anfrage (Stored Query) verwendet wird. Wenn ein WFS@1.1.0 verwendet werden soll, wird erwartet, dass der Aufbau der Anfrage mittels der Konfiguration dieses Werkzeugs grundlegend vorgegeben wird.
 
 Es können mehrere Formulare (**[SearchInstances](#markdown-header-portalconfigmenutoolwfssearchsearchinstance)**) definiert werden, welche durch ein Dropdown Menü im Werkzeug ausgewählt werden können.
@@ -2983,6 +3335,7 @@ Es können mehrere Formulare (**[SearchInstances](#markdown-header-portalconfigm
 |instances|ja|**[searchInstance](#markdown-header-portalconfigmenutoolwfssearchsearchinstance)**[]||Array an `searchInstances`, welche jeweils ein Formular darstellen.|false|
 |zoomLevel|nein|Number|5|Gibt an, auf welches ZoomLevel gezoomt werden soll. Sollte das Feature nicht in die Zoomstufe passen, wird automatisch eine passende Zoomstufe gewählt.|false|
 |resultsPerPage|nein|Number|0|In der Suchergebnisliste werden höchstens so viele Ergebnisse zugleich angezeigt. Wird diese Anzahl überschritten, bietet die Ergebnisliste eine nächste Ergebnisseite an. 0 bedeutet alle auf einer Seite zugleich anzuzeigen.|false|
+|multiSelect|nein|Boolean|false|Wenn `true`, kann der Nutzer durch Drücken von Strg oder Shift, oder über Checkboxen, mehrere Features der Ergebnisliste auswählen; beim Zoomen wird dann auf alle ausgewählten Features gezoomed.|false|
 
 **Beispiel**
 
@@ -3041,7 +3394,7 @@ Eine Instanz der WFS Suche, welche durch ein Dropdown Menü im Werkzeug ausgewä
 |title|ja|String||Der Titel der Suche, welcher in einem Dropdown im Werkzeug dargestellt wird. Kann ein Übersetzungsschlüssel sein.|false|
 |userHelp|nein|String||Informationstext hinsichtlich des Suchformulars, welches oberhalb des Formulars für den Nutzer angezeigt werden soll. Wenn der Parameter nicht gegeben ist, dann wird die Struktur aus der Konfiguration abgeleitet. Kann ein Übersetzungsschlüssel sein. Falls der Wert explizit auf `hide` gesetzt wurde, dann wird keine Beschreibung der Struktur des Formulars angezeigt.|false|
 |resultDialogTitle|nein|String||Überschrift der Ergebnisliste. Wenn dies nicht konfiguriert ist, wird der Name `WFS Suche` angezeigt. Kann ein Übersetzungsschlüssel sein.|false|
-|resultList|ja|**[resultList](#markdown-header-portalconfigmenutoolwfssearchsearchinstanceresultlist)**||Einstellungen für die Ausgabe der gefundenen Feature in der Ergebnisliste.|true|
+|resultList|nein|**[resultList](#markdown-header-portalconfigmenutoolwfssearchsearchinstanceresultlist)**||Einstellungen für die Ausgabe der gefundenen Feature in der Ergebnisliste. Wenn keine resultList konfiguriert ist, wird beim Ausführen der Suche direkt auf das erste gefundene Feature gezoomt.|true|
 
 **Beispiel**
 
@@ -3368,6 +3721,7 @@ Falls beide Parameter gesetzt wurden, dann wird `restLayerId` verwendet.
 |likeFilter|nein|**[likeFilter](#markdown-header-portalconfigmenutoolwfssearchsearchinstancerequestconfiglikefilter)**|{"wildCard": "*", "singleChar": "#", "escape": "!"}|Die Konfiguration des Services hinsichtlich des like Filters.|true|
 |maxFeatures|nein|Number/String|8|Maximale Anzahl an Features, welche der Dienst zurückgeben soll. Alternativ kann auch der String `showAll` übergeben werden, um alle Ergebnisse anzuzeigen.|false|
 |restLayerId|nein|String||Id des WFS Dienstes, welcher angefragt werden soll. Informationen werden aus der **[rest-services.json](rest-services.json.de.md)** bezogen.|false|
+|responseProjection|no|String|| Die erwartete Projektion der Koordinaten in der Antwort des angefragten Diensts. Sobald sich dieser von der Kartenprojektion unterscheidet, findet eine Konvertierung statt.|false|
 |storedQueryId|nein|String||Die Id der gespeicherten Anfrage (Stored Query) des WFS Dienstes, welche für die Anfrage verwendet werden soll. Es wird angenommen, dass ein WFS@2.0.0 verwendet wird, falls dieses Feld gesetzt wurde.|false|
 
 **Beispiel**
@@ -3376,7 +3730,8 @@ Falls beide Parameter gesetzt wurden, dann wird `restLayerId` verwendet.
 {
     "requestConfig": {
         "restLayerId": "1234",
-        "storedQueryId": "Flurstuecke"
+        "storedQueryId": "Flurstuecke",
+        "responseProjection": "EPSG:4326"
     }
 }
 ```
@@ -3387,13 +3742,25 @@ Falls beide Parameter gesetzt wurden, dann wird `restLayerId` verwendet.
 
 Innerhalb eines Filters für einen WFS-Dienst können Werte mit einem `equal` oder einem `like` verglichen werden.
 Wenn der Vergleich mit einem `like` durchgeführt werden soll, dann werden weitere Eigenschaften benötigt. Diese können sowohl im Wert, als auch in der Eigenschaftsdefinition variieren.
-Es wird für die Dokumentation angenommen, dass die Eigenschaften `wildCard`, `singleChar` und `escape` heißen; Variationen wie `wildCard`, `single` und `escape` sind jedoch auch möglich und müssen dem Dienst entsprechend für den Filter angegeben werden.
+Es wird für die Dokumentation angenommen, dass die Eigenschaften `wildCard`, `singleChar` und `escapeChar` heißen; Variationen wie `single` und `escape` sind jedoch auch möglich und müssen dem Dienst entsprechend für den Filter angegeben werden. Die Schlüssel-Wert-Paare des hier übergebenen Objekts werden immer wie angegeben in den Request übertragen.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |wildCard|ja|String|"*"|Der Wildcardwert für den like Filter.|true|
 |singleChar|ja|String|"#"|Der Wert für einen einzelnen Charakter für den like Filter.|true|
-|escape|ja|String|"!"|Der Escape-Wert für den like Filter.|true|
+|escapeChar|ja|String|"!"|Der Escape-Wert für den like Filter.|true|
+
+**Beispiel**
+
+In diesem Beispiel weicht der Key für `escapeChar` ab.
+
+```json
+{
+    "wildCard": "*",
+    "singleChar": "#",
+    "escape": "!"
+}
+```
 
 ***
 
@@ -3437,80 +3804,88 @@ Konfiguration für die Vorschläge von Nutzereingaben.
 
 [inherits]: # (Portalconfig.menu.tool)
 
-Das WFS-T Tool bietet die Möglichkeit Features aus Web Feature Services (WFS) in der Oberfläche sowohl zu visualisieren (Get Feature), zu aktualisieren (update) und zu löschen (delete), als auch die Möglichkeit neue Features hizuzufügen (insert).
-Zur Vorbereitung muss ein WFS-T Service bereitgestellt werden (siehe services.json.de.md).
+WFS-T Modul zur Visualisierung (*GetFeature*), Erstellung (*insert*), Veränderung (*update*) und Löschen (*delete*) von Features eines bestehenden Web Feature Service (*WFS*), welcher Transaktionen entgegennehmen kann.
+Zur Nutzung dieses Moduls muss ein WFS-T Layer bereitgestellt werden. Bitte beachten Sie **[services.json](services.json.md)** für weitere Konfigurationsinformationen.
 
-|Name|Verpflichtend|Typ|Default|Beschreibung|
-|----|-------------|---|-------|------------|
-|name|ja|String||Name dieses Tools, wie er im Portal angezeigt werden soll.|
-|layerIds|ja|String[]||Array von Layer IDs.|false|
-|toggleLayer|nein|Boolean|false|Flag ob die Features eines Layers beim Hinzufügen eines neuen Features sichtbar bleiben.|
-|layerSelect|nein|String|"aktueller Layer:"|Möglichkeit die Beschriftung der Layer Auswahl zu konfigurieren.|
-|pointButton|nein|[Button](#markdown-header-portalconfigmenutoolwfstbutton)[]|false|Möglichkeit zu konfigurieren, für welchen Layer die Funktion zum Erfassen eines Punktes zur Verfügung steht und welche Beschriftung der Button haben soll.|
-|lineButton|nein|[Button](#markdown-header-portalconfigmenutoolwfstbutton)[]|false|Möglichkeit zu konfigurieren, für welchen Layer die Funktion zum Erfassen einer Linie zur Verfügung steht und welche Beschriftung der Button haben soll.|
-|areaButton|nein|[Button](#markdown-header-portalconfigmenutoolwfstbutton)[]|false|Möglichkeit zu konfigurieren, für welchen Layer die Funktion zum Erfassen einer Fläche zur Verfügung steht und welche Beschriftung der Button haben soll.|
-|edit|nein|[EditDelete](#markdown-header-portalconfigmenutoolwfsteditdelete)|false|Möglichkeit zu konfigurieren, ob der edit Button angezeigt wird und mit wekcher Beschriftung er angezeigt wird.|
-|delete|nein|[EditDelete](#markdown-header-portalconfigmenutoolwfsteditdelete)|false|Möglichkeit zu konfigurieren, ob der delete Button angezeigt wird und mit welcher Beschriftung er angezeigt wird.|
-|useProxy|nein|Boolean|false|Deprecated im nächsten Major-Release, da von der GDI-DE empfohlen wird einen CORS-Header einzurichten. Gibt an, ob die URL des Dienstes über einen Proxy angefragt werden soll, dabei werden die Punkte in der URL durch Unterstriche ersetzt.|false|
+Beim Bearbeiten eines Features / Hinzufügen von Attributen zu einem neuen Features werden bestimmte Werte in der Nutzeroberfläche angezeigt. Die Werte als auch dessen Label stehen im direkten Zusammenhang mit den `gfiAttributes` des Dienstes. Bitte beachten Sie **[services.json](services.json.md)** für weitere Informationen.
 
-**Beispiel**
-```
-#!json
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|layerIds|ja|String[]||Array an Ids von in **[services.json](services.json.md)** definierten Layern.|false|
+|icon|nein|String|"bi-globe"|Symbol des Werkzeugs zur Anzeige im Portal.|false|
+|name|nein|String|"WfsTransaction"|Name des Werkzeugs zur Anzeige im Portal.|false|
+|layerSelectLabel|nein|String|"common:modules.tools.wfsTransaction.layerSelectLabel"|_Deprecated in 3.0.0. Bitte setzen Sie stattdessen den Wert direkt in den Sprachdateien._ Falls gegeben wird der Wert als Label für die Layerauswahl-Select-Box verwendet. Kann ein Sprachschlüssel sein.|false|
+|toggleLayer|nein|Boolean|false|Legt fest, ob die Feature des ausgewählten Layers weiterhin angezeigt werden sollen, wenn neue Feature hinzugefügt werden.|false|
+|useProxy|nein|Boolean|false|_Deprecated in 3.0.0. Von der [GDI-DE](https://www.gdi-de.org/) wird empfohlen einen CORS-Header einzurichten._ Gibt an, ob die URL des Dienstes über einen Proxy angefragt werden soll, dabei werden die Punkte in der URL durch Unterstriche ersetzt.|false|
+|areaButton|nein|[TransactionConfig](#markdown-header-portalconfigmenutoolwfstransactiontransactionconfig)[]/Boolean|[]|_Deprecated in 3.0.0. Bitte nutzen Sie stattdessen `polygonButton`. Falls beide Konfigurationsparameter vorliegen, wird `areaButton` verwendet._ Legt fest, welche der zu `layerIds` zugehörigen Layer das Hinzufügen von Polygonen erlauben.|false|
+|delete|nein|[TransactionConfig](#markdown-header-portalconfigmenutoolwfstransactiontransactionconfig)/Boolean|false|Legt fest, welche der zu `layerIds` zugehörigen Layer das Löschen von Geometrien erlauben.|false|
+|edit|nein|String/Boolean|false|_Deprecated in 3.0.0. Bitte nutzen Sie stattdessen `update`. Falls beide Konfigurationsparameter vorliegen, wird `edit` verwendet._ Falls der Parameter als ein Boolean vorliegt, wird durch den Parameter festgelegt, ob generell das Bearbeiten von Feature möglich ist. Falls der Parameter als String vorliegt, dann wird für alle konfigurierten Layer das Bearbeiten von Feature erlaubt und der Parameter legt den Text des Buttons fest.|false|
+|lineButton|nein|[TransactionConfig](#markdown-header-portalconfigmenutoolwfstransactiontransactionconfig)[]/Boolean|[]|Legt fest, welche der zu `layerIds` zugehörigen Layer das Hinzufügen von Linien erlauben.|false|
+|pointButton|nein|[TransactionConfig](#markdown-header-portalconfigmenutoolwfstransactiontransactionconfig)[]/Boolean|[]|Legt fest, welche der zu `layerIds` zugehörigen Layer das Hinzufügen von Punkten erlauben.|false|
+|polygonButton|nein|[TransactionConfig](#markdown-header-portalconfigmenutoolwfstransactiontransactionconfig)[]/Boolean|[]|Legt fest, welche der zu `layerIds` zugehörigen Layer das Hinzufügen von Polygonen erlauben.|false|
+|update|nein|[TransactionConfig](#markdown-header-portalconfigmenutoolwfstransactiontransactionconfig)/Boolean|false|Legt fest, welche der zu `layerIds` zugehörigen Layer das Bearbeiten von Geometrien erlauben.|false|
+
+**Example**
+
+```json
 {
     "wfst": {
         "name": "WFS-T Tool",
-        "glyphicon": "glyphicon-globe",
-        "layerIds": ["1234", "5678"],
+        "icon": "bi-globe",
+        "layerIds": ["1234", "5678", "4389"],
         "toggleLayer": true,
-        "layerSelect": "TestLayer",
         "pointButton": [
             {
                 "layerId":"1234",
-                "caption": "Punkt-Test",
+                "caption": "Point test",
                 "show": true
             },
             {
                 "layerId": "5678",
-                "show": true
+                "show": true,
+                "multi": true
             }
         ],
         "lineButton": false,
-        "areaButton": [
+        "polygonButton": [
             {
                 "layerId": "4389",
                 "show": false
             }
         ],
-        "edit": "Bearbeiten",
-        "delete": true
+        "update": [
+            {
+                "layerId": "4389",
+                "show": true
+            }
+        ]
     }
 }
 ```
-#### Portalconfig.menu.tool.wfst.Button
-Das Attribut pointButton/lineButton/areaButton kann vom Typ Boolean oder Object sein. Wenn es vom Typ Boolean ist, zeigt diese flag ob die Funktion zum Erfassen einer Geometrie für alle Layer zur Verfügung stehen soll. Ist es vom Typ Object so gelten folgende Attribute:
 
-|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|-------------|---|-------|------------|------|
-|layerId|ja|String||Der Layer für den die Konfiguration vorgenommen werden soll|false|
-|show|ja|Boolean|true|Flag ob der Button zur Verfügung stehen soll.|false|
-|caption|nein|String|"Erfassen"|Beschriftung des Buttons. Der Default-Wert wird im Admintool genutzt. Falls hier kein Wert gegeben wird, benutzt das Masterportal je nach Umstand "Punkt erfassen", "Linie erfassen", oder "Fläche erfassen".|false|
+***
 
+#### Portalconfig.menu.tool.wfst.TransactionConfig
 
-**Beispiel als Boolean**
+Konfiguration der verschiedenen Transaktionsmethoden für den entsprechenden Layer.
 
-```json
-{
-    "pointButton": true
-}
-```
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|available|ja|Boolean|true|Legt fest, ob der entsprechende Button der Transaktionsmethode für den Layer mit der gegebenen Id nutzbar sein soll.|false|
+|layerId|ja|String||Id des Layers, für den die Transaktionsmethode konfiguriert wird.|false|
+|caption|nein|String|"common:modules.tools.wfsTransaction.interactionSelect.*"|_Deprecated in 3.0.0. Bitte nutzen Sie stattdessen `text`. Falls beide Konfigurationsparameter vorhanden sind, wird `cpation` verwendet._ Text des Knopfes der Transaktionsmethode. Falls kein Wert vorhanden ist, wird für `*` ein Standardwert der Transaktionsmethode verwendet. Kann ein Übersetzungsschlüssel sein.|false|
+|icon|nein|String||Bootstrap Symbol zur Anzeige innerhalb des Knopfes der Transaktionsmethode. Falls kein Wert angegeben wird, wird der Standardwert der Transaktionsmethode verwendet.|false|
+|multi|nein|Boolean|false|Legt fest, ob es sich bei den gezeichneten Geometrien um Multi-X-Geometrien handeln sollte. Bei Konfiguration für die Methoden `update` / `edit` und `delete` hat der Parameter keine Auswirkung.|false|
+|show|nein|Boolean|true|_Deprecated in 3.0.0. Bitte nutzen Sie stattdessen `available`. Falls beide Konfigurationsparameter vorhanden sind, wird `show` verwendet._ Legt fest, ob der entsprechende Button der Transaktionsmethode für den Layer mit der gegebenen Id nutzbar sein soll.|false|
+|text|nein|String|"common:modules.tools.wfsTransaction.interactionSelect.*"|Text des Knopfes der Transaktionsmethode. Falls kein Wert vorhanden ist, wird für `*` ein Standardwert der Transaktionsmethode verwendet. Kann ein Übersetzungsschlüssel sein.|false|
 
-**Beispiel als Object**
+**Examples**
 
 ```json
 {
     "layerId": "1234",
     "show": true,
-    "caption": "Punkt-Test"
+    "caption": "Point test"
 }
 ```
 
@@ -3524,34 +3899,9 @@ Das Attribut pointButton/lineButton/areaButton kann vom Typ Boolean oder Object 
 ```json
 {
     "layerId": "5489",
-    "show": false
+    "multi": true
 }
 ```
-
-***
-
-#### Portalconfig.menu.tool.wfst.EditDelete
-Das Attribut edit / delete kann vom Typ Boolean oder String sein. Wenn es vom Typ Boolean ist, zeigt diese flag ob der Editier-/ Lösch-Button zur Verfügung stehen soll. Ist es vom Typ String so wird der Button mit der dort angegebenen Beschriftung angezeigt.
-
-|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|-------------|---|-------|------------|------|
-|edit|ja|Boolean|true|Flag ob der Editier-Button angezeigt werden soll|false|
-|edit|ja|String|"Geometrie bearbeiten"|Beschriftung des Editier-Buttons|false|
-|delete|ja|Boolean|true|Flag ob der Lösch-Button angezeigt werden soll|false|
-|delete|ja|String|"Geometrie löschen"|Beschriftung des lösch-Buttons|false|
-
-**Beispiel als Boolean**
-```
-#!json
-"edit": true
-```
-
-**Beispiel als String**
-```
-#!json
-"edit": "Editieren"
-```
-
 
 ***
 
@@ -3576,7 +3926,7 @@ Koordinaten-Werkzeug. Um zusätzlich zu den 2 dimensionalen Koordinaten die Höh
 #!json
  "coordToolkit": {
             "name": "translate#common:menu.tools.coordToolkit",
-            "glyphicon": "glyphicon-globe",
+            "icon": "bi-globe",
             "zoomLevel": 5,
             "heightLayerId" : "19173",
             "heightElementName": "value_0",
@@ -3589,11 +3939,135 @@ Koordinaten-Werkzeug. Um zusätzlich zu den 2 dimensionalen Koordinaten die Höh
 
 ***
 
+#### Portalconfig.menu.tool.addWMS
+
+[inherits]: # (Portalconfig.menu.tool)
+
+Mit diesem Werkzeug lassen sich zusätzliche WMS Layer über eine angegebene URL laden.
+
+
+***
+
+#### Portalconfig.menu.tool.bufferAnalysis
+
+[inherits]: # (Portalconfig.menu.tool)
+
+Mit diesem Werkzeug lassen sich die Features einer Ziel-Layer anzeigen, die sich inner- oder außerhalb einer Kreisfläche um die Features einer Quell-Layer befinden. Dabei wird die Kreisfläche, ausgehend von den Quell-Layer Features, über den Buffer-Radius definiert. Die Quell- und Ziel-Layer benötigen hierzu vektorbasierte Daten aus WFS(❗) Diensten.
+
+***
+
+#### Portalconfig.menu.tool.coord
+
+[inherits]: # (Portalconfig.menu.tool)
+
+⚠️Deprecated in 3.0.0 Bitte "supplyCoord" verwenden.
+
+Ermöglicht die Abfrage von Koordinaten per Maus(-Klick).
+
+***
+
+#### Portalconfig.menu.tool.coordToolkit
+
+[inherits]: # (Portalconfig.menu.tool)
+
+Ermöglicht die Suche von Koordinaten mithilfe einer Eingabemaske sowie die Abfrage von Koordinaten per Maus(-Klick).
+
+***
+
+#### Portalconfig.menu.tool.extendedFilter
+
+[inherits]: # (Portalconfig.menu.tool)
+
+⚠️Deprecated in 3.0.0 Bitte "filter" verwenden.
+
+Über dieses Werkzeug können WFS(❗) Features dynamisch gefiltert werden. Dafür müssen die entsprechenden WFS Layer jedoch **[konfiguriert](#markdown-header-themenconfiglayervector)** werden.
+
+
+***
+
+#### Portalconfig.menu.tool.fileImport
+
+[inherits]: # (Portalconfig.menu.tool)
+
+Über dieses Werkzeug können Dateien der Formate "*.kml", "*.geojson" und "*.gpx" importiert werden.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|enableZoomToExtend|nein|Boolean|false|Legt fest, ob der Dateiname als Knopf angezeigt wird, welcher die Möglichkeit bietet, in die importierten Features hineinzuzoomen.|false|
+
+
+**Beispiel**
+```
+#!json
+"fileImport": {
+    "name": "translate#common:menu.tools.fileImport",
+    "icon":"bi-box-arrow-in-down-right",
+    "enableZoomToExtend": true
+}
+```
+
+***
+
+#### Portalconfig.menu.tool.kmlimport
+
+[inherits]: # (Portalconfig.menu.tool)
+
+⚠️Deprecated in 3.0.0 Bitte "fileImport" verwenden.
+
+Über dieses Werkzeug können Dateien der Formate "*.kml", "*.geojson" und "*.gpx" importiert werden.
+
+***
+
+#### Portalconfig.menu.tool.layerClusterToggler
+
+[inherits]: # (Portalconfig.menu.tool)
+
+Mit diesem Werkzeug lassen sich Layer in Clustern gleichzeitig aktivieren/laden und deaktivieren
+
+***
+
+#### Portalconfig.menu.tool.styleVT
+
+[inherits]: # (Portalconfig.menu.tool)
+
+Das Werkzeug ermöglicht das Umschalten des Stylings von Vector Tile Layers(❗), sofern in der services.json mehrere Styles für die entsprechende Layer eingetragen sind.
+
+***
+
+#### Portalconfig.menu.tool.supplyCoord
+
+[inherits]: # (Portalconfig.menu.tool)
+
+⚠️Deprecated in 3.0.0 Bitte "coordToolkit" verwenden.
+
+Ermöglicht die Abrfage von Koordinaten per Maus(-Klick).
+
+***
+
+#### Portalconfig.menu.tool.resetTree
+
+[inherits]: # (Portalconfig.menu.tool)
+
+Werkzeug zum zurücksetzten des Themenbaums.
+
+
+***
+
+#### Portalconfig.menu.tool.wfsFeatureFilter
+
+[inherits]: # (Portalconfig.menu.tool)
+
+⚠️Deprecated in 3.0.0 Bitte "filter" verwenden.
+
+Über dieses Werkzeug können WFS(❗) Features gefiltert werden. Dafür muss die "**[filterOptions](#markdown-header-themenconfiglayervector)**" der entsprechenden WFS Layer jedoch konfiguriert werden.
+
+***
+
 #### Portalconfig.menu.tool.routing
 
 [inherits]: # (Portalconfig.menu.tool)
 
-Routing-Werkzeug. Ermöglicht Nutzern das Planen von Routen zwischen mehreren Punkten mit verschiedenen Optionen. Zusätzlich gibt es noch die Funktion zur Erstellung einer Erreichbarkeitsanalyse. Beide Funktionen sind mit einer Stapelverarbeitung verfügbar, zur Abfrage mehrere Routen und Analysen.
+Routing-Werkzeug. Ermöglicht Nutzern das Planen von Routen zwischen mehreren Punkten mit verschiedenen Optionen. Zusätzlich gibt es noch die Funktion zur Erstellung einer Erreichbarkeitsanalyse. Beide Funktionen sind mit einer Stapelverarbeitung verfügbar, zur Abfrage mehrere Routen und Analysen. ❗ Das Werkzeug greift auf Den Routing Dienst des BKG zurück ❗.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
@@ -3612,9 +4086,9 @@ Routing-Werkzeug. Ermöglicht Nutzern das Planen von Routen zwischen mehreren Pu
 {
     "routing": {
         "name": "translate#common:menu.tools.routing",
-        "glyphicon": "glyphicon-road",
-        "activeRoutingToolOption": "DIRECTIONS",
-        "routingToolOptions": ["DIRECTIONS", "ISOCHRONES"],
+        "icon": "bi-signpost-2-fill",
+        "activeRoutingToolOption": "DIRECTONS",
+        "routingToolOptions": ["DIRECTONS", "ISOCHRONES"],
         "download": {
             "filename": "",
             "format": "GEOJSON"
@@ -4126,7 +4600,7 @@ Das Array staticlink beinhaltet Objekte die entweder als Link zu einer anderen W
 "staticlinks": [
     {
         "name": "Alert",
-        "glyphicon": "glyphicon-globe",
+        "icon": "bi-globe",
         "onClickTrigger": [
             {
                 "channel": "Alert",
@@ -4146,7 +4620,7 @@ Ein Staticlink-Objekt enthält folgende Attribute.
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |name|ja|String||Name des staticLink-Objekts im Menü.|false|
-|glyphicon|nein|String|"glyphicon-globe"|CSS Klasse des Glyphicons, das vor dem staticLink-Objekt im Menü angezeigt wird.|false|
+|icon|nein|String|"bi-globe"|CSS Klasse des Icons, das vor dem staticLink-Objekt im Menü angezeigt wird.|false|
 |url|nein|String||URL welche in einem neuen Tab angezeigt werden soll.|false|
 |onClickTrigger|nein|**[onClickTrigger](#markdown-header-portalconfigmenustaticlinksstaticlinkonclicktrigger)**[]||Array von OnClickTrigger events.|false|
 
@@ -4155,7 +4629,7 @@ Ein Staticlink-Objekt enthält folgende Attribute.
 #!json
 {
     "name": "Hamburg",
-    "glyphicon": "glyphicon-globe",
+    "icon": "bi-globe",
     "url": "http://www.hamburg.de"
 }
 ```
@@ -4165,7 +4639,7 @@ Ein Staticlink-Objekt enthält folgende Attribute.
 #!json
 {
     "name": "Alert",
-    "glyphicon": "glyphicon-globe",
+    "icon": "bi-globe",
     "onClickTrigger": [
         {
             "channel": "Alert",
@@ -4506,14 +4980,13 @@ In diesem Beispiel wird der Layer mit der Id 123 vor dem Layer 456 der Map hinzu
 [type:Layer]: # (Themenconfig.Layer)
 [type:Extent]: # (Datatypes.Extent)
 
-Hier werden die GruppenLayer definiert. Layer können auf viele verschiedene Arten konfiguriert werden. Ein Großteil der Attribute ist in der **[services.json](services.json.de.md)** definiert, kann jedoch hier am Layer überschrieben werden.
-Neben diesen Attributen gibt es auch Typ-spezifische Attribute für **[WMS](#markdown-header-themenconfiglayerwms)** und **[Vector](#markdown-header-themenconfiglayervector)**.
+Hier werden die GruppenLayer definiert, die mehrere Dienste mittels eines Klicks ein-/ausblenden.
 
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|id|ja|String/String[]||Id des Layers. In der **[services.json](services.json.de.md)** werden die ids aufgelöst und die notwendigen Informationen herangezogen.|false|
-|children|nein|**[Layer](#markdown-header-themenconfiglayer)**[]||Wird dieses Attribut verwendet, so wird ein Gruppenlayer erzeugt, der beliebig viele Layer beinhaltet. In diesem Fall ist eine einzigartige Id manuell zu wählen.|false|
+|id|ja|String||Interne Layer-ID, mit der der Layer referenziert werden kann. Die eingebundenen Dienste werden über das `children`-Feld bestimmt. Bitte beachten Sie, dass die ID nicht mit einer ID aus der **[services.json](services.json.md)** übereinstimmen darf.|false|
+|children|ja|**[Layer](#markdown-header-themenconfiglayer)**[]||Hier werden die einzelnen Dienste des Gruppenlayers definiert.|false|
 |name|nein|String||Name des Layers.|false|
 |transparency|nein|Integer|0|Transparenz des Layers.|false|
 |visibility|nein|Boolean|false|Sichtbarkeit des Layers.|false|
@@ -4574,6 +5047,7 @@ Neben diesen Attributen gibt es auch Typ-spezifische Attribute für **[WMS](#mar
 |autoRefresh|nein|Integer||Automatischer Reload des Layers. Angabe in ms. Minimum ist 500.|false|
 |isNeverVisibleInTree|nein|Boolean|false|Anzeige, ob der Layer niemals im Themenbaum sichtbar ist.|false|
 |urlIsVisible|nein|Boolean|true|Anzeige, ob die URL in der Layerinformation angezeigt werden soll.|false|
+|filterRefId|nein|Integer||Referenzierung zu einem konfigurierten Filter. Dabei ist die Id entsprechend der Position der Layer im Filter. Angefangen bei 0.|false|
 
 **Beispiel mit einer Id**
 ```
@@ -4603,11 +5077,8 @@ Hier werden WMS typische Attribute aufgelistet.
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |name|nein|String/String[]||Name des Layers. Falls das Attribute **styles** konfiguriert wird, muss dieses Attribute als Tpy String[] konfiguriert werden.|false|
-|attributesToStyle|nein|String[]||Array von Attributen nach denen der WMS gestylt werden kann. Wird benötigt vom Werkzeug "styleWMS" in **[tools](#markdown-header-portalconfigmenutools)**.|false|
 |extent|nein|**[Extent](#markdown-header-datatypesextent)**|[454591, 5809000, 700000, 6075769]|Nur für den 3D Modus relevant. Ausdehnung des Layers. Wenn nicht angegeben, wird er Extent der MapView verwendet.|false|
 |featureCount|nein|Integer|1|Anzahl der Features, die bei einer GetFeatureInfo-Abfrage zurückgegeben werden sollen.|false|
-|geomType|nein|String||Geometrietyp der Daten hinter dem WMS. Momentan wird nur "Polygon" unterstützt. Wird benötigt vom Werkzeug "styleWMS" in **[tools](#markdown-header-portalconfigmenutools)**.|false|
-|styleable|nein|Boolean||Zeigt an, ob der Layer vom Werkzeug "styleWMS" verwendet werden kann. Wird benötigt vom Werkzeug "styleWMS" in **[tools](#markdown-header-portalconfigmenutools)**.|true|
 |gfiAsNewWindow|nein|**[gfiAsNewWindow](#markdown-header-themenconfiglayerwmsgfiAsNewWindow)**|null|Wird nur berücksichtigt wenn infoFormat text/html ist.|true|
 |styles|nein|String[]||Werden styles angegeben, so werden diese mit an den WMS geschickt. Der Server interpretiert diese Styles und liefert die Daten entsprechend zurück.|true|
 
@@ -4627,14 +5098,11 @@ Hier werden WMS typische Attribute aufgelistet.
     "minScale": "1000",
     "autoRefresh": "10000",
     "isNeverVisibleInTree": false,
-    "attributesToStyle": ["MyFirstAttr"],
     "featureCount": 2,
-    "geomType": "geometry",
     "gfiAsNewWindow": {
         "name": "_blank",
         "specs": "width=800,height=700"
     },
-    "styleable": true,
     "styles": ["firstStyle", "secondStyle"]
 }
 ```
@@ -4680,6 +5148,36 @@ Beispiel:
 ```
 
 ***
+
+#### Themenconfig.Layer.WFS
+
+[inherits]: # (Themenconfig.Layer)
+
+Attribute für die WFS Suche bei highlighFeaturesByAttribute
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|--------|----|-------|-----------|------|
+|styleId|ja|String||Id die den Style definiert. Id wird in der **[style.json](style.json.md)** aufgelöst.|false|
+|featurePrefix|ja|String||Suchprefix für den typename bei der WFS Suche - z.Bsp. app:.|true|
+|wildCard|ja|String||Das zu verwendende Zeichen für das Jokerzeichen - z.Bsp. %|true|
+|singleChar|ja|String||Das Zeichen für den singleChar WFS parameter - z.Bsp. #|true|
+|escapeChar|ja|String||Das Zeichen für den escapeChar WFS parameter - z.Bsp. \||true|
+|valueDelimiter|nein|String||Das Trennzeichen für die Werte in attributeValue bei der isIn Suche, Default=Semikolon|true|
+
+**Example**
+
+```
+#!json
+{
+    "id": "1",
+    "visibility": false,
+    "name": "Tierarten invasiv",
+    "featurePrefix": "app:",
+    "wildCard": "%",
+    "singleChar": "#",
+    "escapeChar": "!"
+}
+```
 
 #### Themenconfig.Layer.Tileset
 
@@ -4777,7 +5275,7 @@ Hier werden Entities3D typische Attribute aufgelistet.
 
 |Name|Verpflichtend|Typ|default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|url|ja|String|""|URL zu dem Modell. Beispiel: `"https://hamburg.virtualcitymap.de/gltf/4AQfNWNDHHFQzfBm.glb"`|false|
+|url|ja|String|""|URL zu dem Modell. Beispiel: `"https://daten-hamburg.de/gdi3d/datasource-data/Simple_Building.glb"`|false|
 |attributes|nein|**[Attribute](#markdown-header-themenconfiglayerentities3dattribute)**||Attribute für das Modell. Beispiel: `{"name": "test"}`|false|
 |latitude|ja|Number||Breitengrad des Modell-Origins in Grad. Beispiel: `53.541831`|false|
 |longitude|ja|Number||Längengrad des Modell-Origins in Grad. Beispiel: `9.917963`|false|
@@ -4794,27 +5292,31 @@ Hier werden Entities3D typische Attribute aufgelistet.
 ```
 #!json
 {
-    "id": "123456",
-    "name": "EntitiesLayerName",
-    "visibility": true,
-    "entities": [
-       {
-         "url": "https://hamburg.virtualcitymap.de/gltf/4AQfNWNDHHFQzfBm.glb",
-         "attributes": {
-           "name": "Fernsehturm.kmz"
-         },
-         "latitude": 53.541831,
-         "longitude": 9.917963,
-         "height": 10,
-         "heading": -1.2502079000000208,
-         "pitch": 0,
-         "roll": 0,
-         "scale": 5,
-         "allowPicking": true,
-         "show": true
-       }
-     ]
-}
+      "id": "123456",
+      "name": "EntitiesLayerName",
+      "visibility": true,
+      "typ": "Entities3D",
+      "entities": [
+         {
+            "url": "https://daten-hamburg.de/gdi3d/datasource-data/Simple_Building.glb",
+           "attributes": {
+             "name": "einfaches Haus in Planten und Blomen"
+           },
+           "latitude": 53.5631,
+           "longitude": 9.9800,
+           "height": 12,
+           "heading": 0,
+           "pitch": 0,
+           "roll": 0,
+           "scale": 5,
+           "allowPicking": true,
+           "show": true
+         }
+       ],
+       "gfiAttributes" : {
+         "name": "Name"
+      }
+  },
 ```
 
 ***
@@ -4880,7 +5382,7 @@ Hier werden Vector typische Attribute aufgelistet. Vector Layer sind WFS, GeoJSO
 |nearbyTitle|nein|String/String[]||Attributname oder Array von Attributnamen die bei der Umkreissuche in der Ergebnisliste als Titel angezeigt werden sollen.|false|
 |searchField|nein|String||Attributname nach dem die Searchbar diesen Layer durchsucht.|false|
 |additionalInfoField|nein|String|"name"|Attributname des Features für die Hitlist in der Searchbar. Ist das Attribut nicht vorhanden, wird der Layername angegeben.|false|
-|styleId|nein|String||Id die den Style definiert. Id wird in der **[style.json](style.json.de.md)** aufgelöst.|false|
+|styleId|nein|String||Id die den Style definiert. Id wird in der **[style.json](style.json.md)** aufgelöst.|false|
 |styleGeometryType|nein|String/String[]||Geometrietypen für einen WFS-Style, falls nur bestimmte Geometrien eines Layers angezeigt werden sollen **[siehe dazu](style.json.md#markdown-header-abbildungsvorschriften)**.|false|
 |hitTolerance|nein|String||Clicktoleranz bei der ein Treffer für die GetFeatureInfo-Abfrage ausgelöst wird.|false|
 |vtStyles|nein|**[vtStyle](#markdown-header-themenconfiglayervectorvtstyle)**[]||Auswählbare externe Style-Definition (nur für Vector Tile Layer)|false|
@@ -4969,6 +5471,7 @@ Style-Definition; nur für Vector Tile Layer.
 |name|ja|String||Anzeigename, z.B. für das Auswahltool|false|
 |url|ja|String||URL, von der der Style bezogen werden kann. Die verlinkte JSON muss zur [Mapbox Style Specification](https://docs.mapbox.com/mapbox-gl-js/style-spec/) passen.|false|
 |defaultStyle|nein|String||Falls hier `true` gesetzt ist, wird der Style initial ausgewählt, unabhängig von seinem Index; wenn das Feld nirgends auf `true` gesetzt ist, wird der erste Style benutzt|false|
+|resolutions|nein|Number[]||Auflösungen für die im Styling definierten Zoom Level. Wenn nicht angegeben werden die default Resolutions aus dem ol-mapbox-style Projekt benutzt|false|
 
 **Beispiel**
 ```
@@ -4977,7 +5480,15 @@ Style-Definition; nur für Vector Tile Layer.
     "id": "EINDEUTIGE_ID",
     "name": "Rote Linien",
     "url": "https://example.com/asdf/styles/root.json",
-    "defaultStyle": true
+    "defaultStyle": true,
+    "resolutions": [
+        661.4579761460263,
+        264.58319045841048,
+        66.14579761460263,
+        26.458319045841044,
+        15.874991427504629,
+        10.583327618336419
+    ]
 }
 ```
 

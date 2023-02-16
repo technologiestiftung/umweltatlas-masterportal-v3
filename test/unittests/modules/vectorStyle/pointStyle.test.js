@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import Model from "@modules/vectorStyle/pointStyle";
-import {Style, Icon, Circle} from "ol/style.js";
+import {Style, Icon, Circle, RegularShape} from "ol/style.js";
 import {GeoJSON} from "ol/format.js";
 import Util from "@testUtil";
 
@@ -86,11 +86,23 @@ describe("textStyleModel", function () {
         });
     });
 
-    describe("createIconPointStyle", function () {
-        it("should create icon point style", function () {
+    describe("createIconPointStyle", () => {
+        it("should create icon point style", () => {
             expect(styleModel.createIconPointStyle()).to.be.an.instanceof(Style);
             expect(styleModel.createIconPointStyle().getImage()).to.be.an.instanceof(Icon);
             expect(styleModel.createIconPointStyle().getImage().getScale()).to.equal(1);
+        });
+
+        it("should create icon point style from imagePath as svg String", () => {
+            styleModel.set("imageName", "<svg xmlns='http://www.w3.org/2000/svg'><path/></svg>");
+            styleModel.set("imagePath", "");
+
+            const pointStyle = styleModel.createIconPointStyle();
+
+            expect(pointStyle).to.be.an.instanceof(Style);
+            expect(pointStyle.getImage()).to.be.an.instanceof(Icon);
+            expect(pointStyle.getImage().getScale()).to.equal(1);
+            expect(pointStyle.getImage().getSrc()).to.equals("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%3E%3Cpath%2F%3E%3C%2Fsvg%3E");
         });
     });
 
@@ -107,6 +119,24 @@ describe("textStyleModel", function () {
             expect(styleModel.createSVGStyle("test")).to.be.an.instanceof(Style);
             expect(styleModel.createSVGStyle("test").getImage()).to.be.an.instanceof(Icon);
             expect(styleModel.createSVGStyle("test").getImage().getSrc()).to.equal("data:image/svg+xml;charset=utf-8,test");
+        });
+    });
+
+    describe("createCircleClusterStyle", function () {
+        it("should create circle cluster style", function () {
+            expect(styleModel.createCircleClusterStyle()).to.be.an.instanceof(Style);
+            expect(styleModel.createCircleClusterStyle().getImage()).to.be.an.instanceof(Circle);
+            expect(styleModel.createCircleClusterStyle().getImage().getRadius()).to.equal(15);
+        });
+    });
+
+    describe("createRegularShapeStyle", function () {
+        it("should create RegularShape style", function () {
+            expect(styleModel.createRegularShapeStyle()).to.be.an.instanceof(Style);
+            expect(styleModel.createRegularShapeStyle().getImage()).to.be.an.instanceof(RegularShape);
+            expect(styleModel.createRegularShapeStyle().getImage().getRadius()).to.equal(10);
+            expect(styleModel.createRegularShapeStyle().getImage().getPoints()).to.equal(3);
+            expect(styleModel.createRegularShapeStyle().getImage().getAngle()).to.equal(0);
         });
     });
 

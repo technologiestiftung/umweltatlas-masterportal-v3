@@ -1,5 +1,6 @@
 import {fetchFirstModuleConfig} from "../../utils/fetchFirstModuleConfig";
-import getComponent from "../../utils/getComponent";
+import {getComponent} from "../../utils/getComponent";
+import upperFirst from "../../utils/upperFirst";
 
 
 const actions = {
@@ -12,18 +13,24 @@ const actions = {
      * @returns {void}
      */
     setToolActive ({state, commit, dispatch}, {id, active}) {
-        const toolId = Object.keys(state).find(tool => state[tool]?.id?.toLowerCase() === id?.toLowerCase());
+        const toolId = Object.keys(state).find(tool => state[tool]?.id?.toLowerCase() === id?.toLowerCase()),
+            keepOpenToolId = Object.keys(state).find(tool => typeof state[tool].keepOpen !== "undefined");
 
         if (toolId !== undefined) {
-            dispatch("controlActivationOfTools", state[toolId].name);
-            commit(toolId + "/setActive", active);
-            if (toolId !== "Gfi") {
-                commit("Gfi/setActive", !state[toolId].deactivateGFI);
-                dispatch("activateToolInModelList", {tool: "Gfi", active: !state[toolId].deactivateGFI});
+            if (toolId !== keepOpenToolId) {
+                dispatch("controlActivationOfTools", {id: state[toolId].id, name: state[toolId].name, active});
+                commit(toolId + "/setActive", active);
+                if (toolId !== "Gfi") {
+                    commit("Gfi/setActive", !state[toolId].deactivateGFI);
+                    dispatch("activateToolInModelList", {tool: "Gfi", active: !state[toolId].deactivateGFI});
+                }
+            }
+            else {
+                dispatch("controlActivationOfTools", {id: state[toolId].id, name: state[toolId].name, active: true});
+                commit(toolId + "/setActive", true);
             }
         }
     },
-
     /**
      * Sets the translated name of the tool to the given parameter for the tool with the given id.
      * @param {Object} payload The given parameters
@@ -63,15 +70,42 @@ const actions = {
     /**
      * Control the activation of the tools.
      * Deactivate all activated tools except the gfi tool and then activate the given tool if it is available.
-     * @param {String} activeToolName - Name of the tool to be activated.
+     * @param {Object} payload The given parameters
+     * @param {String} payload.id The id of the Tool
+     * @param {String} payload.name The translated name of the Tool
      * @returns {void}
      */
-    controlActivationOfTools: ({getters, commit, dispatch}, activeToolName) => {
-        getters.getActiveToolNames.forEach(tool => commit(tool + "/setActive", false));
+    controlActivationOfTools: ({state, getters, commit, dispatch}, {id, name, active}) => {
+        let activeToolName;
+        const keepOpenToolId = Object.keys(state).find(tool => typeof state[tool].keepOpen !== "undefined");
 
-        if (getters.getConfiguredToolNames.includes(activeToolName)) {
+        getters.getActiveToolNames.forEach((tool) => {
+            if (tool !== keepOpenToolId) {
+                commit(tool + "/setActive", false);
+            }
+        });
+
+        if (typeof keepOpenToolId !== "undefined") {
+            if (!state[keepOpenToolId].keepOpen) {
+                commit(keepOpenToolId + "/setActive", false);
+            }
+            else if (typeof state[keepOpenToolId].keepOpen === "string" && state[keepOpenToolId].keepOpen !== id) {
+                commit(keepOpenToolId + "/setActive", false);
+            }
+            else if (Array.isArray(state[keepOpenToolId].keepOpen) && !state[keepOpenToolId].keepOpen.includes(id) && id !== "gfi") {
+                commit(keepOpenToolId + "/setActive", false);
+            }
+        }
+
+        if (getters.getConfiguredToolNames.includes(name)) {
+            activeToolName = name;
+        }
+        else if (getters.getConfiguredToolKeys.includes(id)) {
+            activeToolName = upperFirst(id);
+        }
+        if (activeToolName !== "Gfi" && activeToolName !== keepOpenToolId) {
             commit(activeToolName + "/setActive", true);
-            dispatch("activateToolInModelList", {tool: activeToolName, active: true});
+            dispatch("activateToolInModelList", {tool: activeToolName, active: active});
         }
     },
 
@@ -83,7 +117,7 @@ const actions = {
     */
     setToolActiveByConfig ({state, getters, commit, dispatch}) {
         const activeTools = getters.getActiveToolNames,
-            firstActiveTool = activeTools.find(tool => tool !== "Gfi");
+            firstActiveTool = activeTools.find(tool => tool !== "Gfi" && typeof tool.keepOpen === "undefined");
 
         if (firstActiveTool !== undefined) {
             activeTools.forEach(tool => commit(tool + "/setActive", false));
@@ -137,17 +171,17 @@ const actions = {
     },
 
     /**
-     * Adds the name and glyphicon of a tool to the ModelList, because they are used by the menu.
+     * Adds the name and icon of a tool to the ModelList, because they are used by the menu.
      * @param {String} activeTool The tool to set name.
      * @returns {void}
      */
-    addToolNameAndGlyphiconToModelList ({state}, activeTool) {
+    addToolNameAndIconToModelList ({state}, activeTool) {
         const activeToolState = state[activeTool],
             model = getComponent(activeToolState?.id);
 
         if (model) {
             model.set("name", i18next.t(activeToolState?.name));
-            model.set("glyphicon", activeToolState?.glyphicon);
+            model.set("icon", activeToolState?.icon);
         }
     }
 };

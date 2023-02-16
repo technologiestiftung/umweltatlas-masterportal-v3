@@ -11,15 +11,23 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["menuConfig"]),
+        ...mapGetters(["menuConfig", "mobile"]),
         ...mapGetters("Tools", ["configuredTools"]),
+
+        /**
+         * Returns tools which are rendered in the sidebar.
+         * @returns {Object} Tools in sidebar
+         */
         toolsInSidebar: function () {
             const toolsInSidebar = {};
 
             this.configuredTools.forEach(tool => {
                 const toolName = tool.key.charAt(0).toUpperCase() + tool.key.slice(1);
 
-                if (typeof this.$store.state.Tools[toolName] !== "undefined") {
+                if (this.mobile) {
+                    toolsInSidebar[toolName] = false;
+                }
+                else if (typeof this.$store.state.Tools[toolName] !== "undefined") {
                     toolsInSidebar[toolName] = this.$store.state.Tools[toolName].renderToWindow === false;
                 }
                 else if (typeof this.$store.state[toolName] !== "undefined") {
@@ -43,14 +51,14 @@ export default {
         this.configuredTools.forEach(configuredTool => {
             const toolName = configuredTool?.key.charAt(0).toUpperCase() + configuredTool.key.slice(1);
 
-            this.addToolNameAndGlyphiconToModelList(toolName);
+            this.addToolNameAndIconToModelList(toolName);
         });
     },
     methods: {
         ...mapActions("Tools", [
             "pushAttributesToStoreElements",
             "setToolActiveByConfig",
-            "addToolNameAndGlyphiconToModelList"
+            "addToolNameAndIconToModelList"
         ]),
         ...mapMutations("Tools", [
             "setConfiguredTools"

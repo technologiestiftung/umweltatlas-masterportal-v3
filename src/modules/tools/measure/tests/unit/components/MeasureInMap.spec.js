@@ -11,7 +11,7 @@ localVue.use(Vuex);
 config.mocks.$t = key => key;
 
 describe("src/modules/tools/measure/components/MeasureInMap.vue", () => {
-    let store, wrapper, map;
+    let store, wrapper;
 
     beforeEach(() => {
         MeasureModule.actions.createDrawInteraction = sinon.spy(MeasureModule.actions.createDrawInteraction);
@@ -23,24 +23,23 @@ describe("src/modules/tools/measure/components/MeasureInMap.vue", () => {
         store = new Vuex.Store({
             namespaces: true,
             modules: {
-                Map: {
+                Maps: {
                     namespaced: true,
                     state: {
-                        mapId: "ol",
-                        mapMode: "2D"
+                        mode: "2D"
                     },
                     getters: {
                         layerById: () => id => ({})[id],
-                        is3d: () => false,
-                        mapId: () => "ol",
-                        mapMode: () => "2D",
-                        ol2DMap: () => {
-                            return map;
-                        }
+                        mode: () => "2D"
                     },
                     mutations: {
                         addLayerToMap: sinon.spy(),
                         setActive: sinon.spy()
+                    },
+                    actions: {
+                        addInteraction: sinon.spy(),
+                        removeInteraction: sinon.spy(),
+                        addLayer: sinon.spy()
                     }
                 },
                 Tools: {
@@ -54,14 +53,6 @@ describe("src/modules/tools/measure/components/MeasureInMap.vue", () => {
                 uiStyle: () => ""
             }
         });
-
-        map = {
-            id: "ol",
-            mode: "2D",
-            addInteraction: sinon.spy(),
-            removeInteraction: sinon.spy(),
-            addLayer: sinon.spy()
-        };
 
         store.commit("Tools/Measure/setActive", true);
     });

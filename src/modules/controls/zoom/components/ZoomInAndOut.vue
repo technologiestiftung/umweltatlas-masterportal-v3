@@ -19,25 +19,20 @@ export default {
     props: {},
     data () {
         return {
-            mapChannel: Radio.channel("Map"),
             visibleInMapMode: null // set in .created
         };
     },
     computed: {
         ...mapGetters(
-            "Map",
-            ["maximumZoomLevelActive", "minimumZoomLevelActive"]
+            "Maps",
+            ["maximumZoomLevelActive", "minimumZoomLevelActive", "mode"]
         )
     },
     created () {
         this.checkModeVisibility();
-        this.mapChannel.on("change", this.checkModeVisibility);
-    },
-    beforeDestroy () {
-        this.mapChannel.off("change", this.checkModeVisibility);
     },
     methods: {
-        ...mapActions("Map", ["increaseZoomLevel", "decreaseZoomLevel"]),
+        ...mapActions("Maps", ["increaseZoomLevel", "decreaseZoomLevel"]),
         /**
          * Checks the map mode to note whether the zoom control is supposed to be
          * visible, which is only the case in 2D mode. In all other modes, more
@@ -45,7 +40,7 @@ export default {
          * @returns {void}
          */
         checkModeVisibility () {
-            this.visibleInMapMode = Radio.request("Map", "getMapMode") === "2D";
+            this.visibleInMapMode = this.mode === "2D";
         }
     }
 };
@@ -57,13 +52,13 @@ export default {
         class="zoom-buttons"
     >
         <ControlIcon
-            icon-name="plus"
+            icon-name="plus-icon"
             :title="$t(`common:modules.controls.zoom.zoomIn`)"
             :disabled="maximumZoomLevelActive"
             :on-click="increaseZoomLevel"
         />
         <ControlIcon
-            icon-name="minus"
+            icon-name="minus-icon"
             :title="$t(`common:modules.controls.zoom.zoomOut`)"
             :disabled="minimumZoomLevelActive"
             :on-click="decreaseZoomLevel"

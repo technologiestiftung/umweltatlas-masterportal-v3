@@ -1,6 +1,6 @@
 <script>
 import axios from "axios";
-import moment from "moment";
+import dayjs from "dayjs";
 import {convertJsonToCsv} from "../../../utils/convertJsonToCsv.js";
 import {
     createCsvBlob,
@@ -66,14 +66,22 @@ export default {
             default: false
         },
         /**
-         * if a filename is given as any string, moment is used to create a postfix
-         * - set the moment format here to alter the postfix
+         * if a filename is given as any string, dayjs is used to create a postfix
+         * - set the dayjs format here to alter the postfix
          * - will only be used if filename is set to string
          */
         postfixFormat: {
             type: String,
             required: false,
             default: "_YYYY-MM-DD_HH-mm-ss"
+        },
+        /**
+         * Decides if semicolon is used as delimiter for the data in csv
+         */
+        useSemicolon: {
+            type: Boolean,
+            required: false,
+            default: false
         }
     },
     data () {
@@ -158,7 +166,7 @@ export default {
         downloadWithData (data, filename) {
             const csvText = convertJsonToCsv(data, error => {
                 this.handleDownloadError(error);
-            });
+            }, this.useSemicolon);
 
             this.fakeDownloadCsvText(csvText, filename ? filename : "download", error => {
                 this.handleDownloadError(error);
@@ -172,7 +180,7 @@ export default {
          * @returns {void}
          */
         downloadWithHandler (handler, filename) {
-            this.handler(data => {
+            handler(data => {
                 this.downloadWithData(data, filename);
             });
         },
@@ -246,12 +254,12 @@ export default {
         /**
          * creates a filename using the given prefix and postfixFormat
          * @param {String} prefix the prefix to begin the filename with
-         * @param {String} postfixFormat the format to hand over to moment to create the end of the filename with
+         * @param {String} postfixFormat the format to hand over to dayjs to create the end of the filename with
          * @returns {String} a concatination of prefix and postfixFormat extended with ".csv" extension
          */
         createFilename (prefix, postfixFormat) {
             if (postfixFormat) {
-                return String(prefix) + moment().format(String(postfixFormat)) + ".csv";
+                return String(prefix) + dayjs().format(String(postfixFormat)) + ".csv";
             }
             return String(prefix) + ".csv";
         }
@@ -267,9 +275,11 @@ export default {
         @click="download()"
     >
         <span
-            id="glyphicon"
-            class="glyphicon glyphicon-download"
-        />
+            id="bootstrap-icon"
+            class="bootstrap-icon"
+        >
+            <i class="bi-cloud-arrow-down-fill" />
+        </span>
         {{ $t(title) }}
     </button>
     <button
@@ -279,9 +289,11 @@ export default {
         disabled
     >
         <span
-            id="glyphicon"
-            class="glyphicon glyphicon-download spin-animation"
-        />
+            id="bootstrap-icon"
+            class="bootstrap-icon spin-animation"
+        >
+            <i class="bi-cloud-arrow-down-fill" />
+        </span>
         {{ $t(title) }}
     </button>
 </template>
@@ -302,7 +314,7 @@ export default {
     .exportButton > .spin-animation {
         animation: exportButtonLoaderSpinAnimation 1s 0.1s ease-in-out infinite both;
     }
-    .exportButton > .glyphicon-download {
+    .exportButton > .bi-cloud-arrow-down-fill {
         margin-right: 5px;
     }
 </style>

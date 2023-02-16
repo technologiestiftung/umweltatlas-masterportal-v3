@@ -46,28 +46,26 @@ export default {
             v-if="showWindow"
             class="popup-language"
         >
-            <div class="language-header">
-                <div>
+            <div class="language-header row">
+                <div class="col-10 col-md-11">
                     {{ $t("modules.language.languageTitle") }}
                 </div>
-                <a
-                    role="button"
-                    class="buttons pull-right"
+                <span
+                    type="button"
+                    class="col-1 bootstrap-icon d-flex justify-content-center"
                     tabindex="0"
                     @click="toggleLanguageWindow"
                     @keydown.enter="toggleLanguageWindow"
                 >
-                    <span
-                        class="glyphicon glyphicon-remove"
-                    />
+                    <i class="bi-x-lg" />
                     <span class="screenreader">$t("modules.language.toggleWindow"</span>
-                </a>
+                </span>
             </div>
-            <div class="form-group form-group-sm">
+            <div class="container row row-cols-2">
                 <div
                     v-for="(value, key) in $i18n.i18next.options.getLanguages()"
                     :key="key"
-                    class="col-lg-6 col-md-6 col-sm-6 col-xs-12"
+                    class="col"
                 >
                     <button
                         class="lng btn"
@@ -84,12 +82,17 @@ export default {
 
 <style lang="scss">
     @import "~/css/mixins.scss";
+    @import "~variables";
 
     #language-bar {
-        a {
+        a, span {
             color: darken($secondary_focus, 10%);
             &:hover{
                 @include primary_action_hover;
+            }
+            &.bootstrap-icon{
+                padding: 5px;
+                width: auto;
             }
         }
 
@@ -97,7 +100,7 @@ export default {
         .current-language {
             display: block;
             position: relative;
-            color: #1F4B70;
+            color: $primary;
 
             cursor: pointer;
 
@@ -122,14 +125,9 @@ export default {
             box-shadow: $shadow;
 
             .language-header {
-                float: right;
                 width: 100%;
-                border-bottom: 1px solid #e5e5e5;
+                border-bottom: 1px solid $light_grey;
                 padding: 0 0 3px 10px;
-                span {
-                    width: 30px;
-                    cursor: pointer;
-                }
             }
             .form-group {
                 display: inline-block;
@@ -137,24 +135,18 @@ export default {
                 text-align: center;
                 padding: 20px 0 0;
                 a {
-                    font-size: 12px;
-                    &:hover{
-                        // @include primary_action_hover;
-                        // background-color: #08589e;
-                        // color: #ffffff;
-                    }
+                    font-size: $font-size-base;
                     &.disabled {
-                        background-color: #e7e7e7;
+                        background-color: $light_grey;
                     }
                 }
             }
         }
     }
 
-    @media (max-width: 767px) {
+    @include media-breakpoint-down(md) {
         #language-bar {
             .current-language {
-                float: right;
                 text-align: right;
             }
             .popup-language {

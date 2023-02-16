@@ -79,7 +79,11 @@ describe("modules/searchbar/tree", function () {
 
         it("All layers should stay inside, because buttonOblique and button3d are true", function () {
             const controlsConfig = {
-                buttonOblique: true,
+                startTool: {
+                    "tools": [
+                        "vcOblique"
+                    ]
+                },
                 button3d: true
             };
 
@@ -90,7 +94,11 @@ describe("modules/searchbar/tree", function () {
 
         it("Layers of type TERRAIN3D and TILESET3D are taken, because buttonOblique is true and button3d false", function () {
             const controlsConfig = {
-                buttonOblique: true,
+                startTool: {
+                    "tools": [
+                        "vcOblique"
+                    ]
+                },
                 button3d: false
             };
 
@@ -114,7 +122,9 @@ describe("modules/searchbar/tree", function () {
 
         it("Layers of type OBLIQUE are taken, because buttonOblique is false and button3d true", function () {
             const controlsConfig = {
-                buttonOblique: false,
+                startTool: {
+                    "tools": []
+                },
                 button3d: true
             };
 
@@ -142,7 +152,9 @@ describe("modules/searchbar/tree", function () {
 
         it("Layers of type TERRAIN3D, TILESET3D and OBLIQUE are taken, because buttonOblique and button3d are true", function () {
             const controlsConfig = {
-                buttonOblique: false,
+                startTool: {
+                    "tools": []
+                },
                 button3d: false
             };
 
@@ -223,15 +235,55 @@ describe("modules/searchbar/tree", function () {
                     name: "aa",
                     metaName: "aa",
                     type: i18next.t("common:modules.searchbar.type.topic"),
-                    glyphicon: "glyphicon-list",
+                    icon: "bi-stack",
                     id: 1
                 },
                 {
                     name: "bb",
                     metaName: "bb",
                     type: i18next.t("common:modules.searchbar.type.topic"),
-                    glyphicon: "glyphicon-list",
+                    icon: "bi-stack",
                     id: 2
+                }
+            );
+        });
+    });
+
+    describe("getNodeForSearch", function () {
+        const nodeModels = {
+            Ordner: [
+                {
+                    Layer: [],
+                    Titel: "Test Folder",
+                    id: "TestFolder7"
+                },
+                {
+                    Layer: [],
+                    Titel: "Restliche Layer",
+                    id: "RestlicheLayer8"
+                }
+            ]
+        };
+
+        it("Should be an empty array by empty array input", function () {
+            expect(model.getNodeForSearch([])).to.be.an("array").that.is.empty;
+        });
+        it("Should be an empty array by undefined input", function () {
+            expect(model.getNodeForSearch(undefined)).to.be.an("array").that.is.empty;
+        });
+        it("Should be an unique array by id and name are the same properties", function () {
+            expect(model.getNodeForSearch(nodeModels)).to.be.an("array").to.deep.include(
+                {
+                    name: "Test Folder",
+                    type: i18next.t("common:modules.searchbar.type.folder"),
+                    icon: "bi-folder-fill",
+                    id: "TestFolder7"
+                },
+                {
+                    name: "Restliche Layer",
+                    type: i18next.t("common:modules.searchbar.type.folder"),
+                    icon: "bi-folder-fill",
+                    id: "RestlicheLayer8"
                 }
             );
         });

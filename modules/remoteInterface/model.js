@@ -1,6 +1,7 @@
 import {getCenter} from "ol/extent.js";
 import store from "../../src/app-store";
-import mapCollection from "../../src/core/dataStorage/mapCollection";
+import sortBy from "../../src/utils/sortBy";
+import filterAndReduceLayerList from "../../src/modules/tools/saveSelection/utils/filterAndReduceLayerList";
 
 const RemoteInterface = Backbone.Model.extend({
     defaults: {
@@ -56,14 +57,11 @@ const RemoteInterface = Backbone.Model.extend({
         else if (event.data?.showPositionByExtentNoScroll) {
             this.showPositionByExtentNoScroll(event.data.showPositionByExtentNoScroll);
         }
-        else if (event.data?.transactFeatureById) {
-            Radio.trigger("wfsTransaction", "transact", event.data.layerId, event.data.transactFeatureById, event.data.mode, event.data.attributes);
-        }
         else if (event.data?.zoomToExtent) {
-            Radio.trigger("Map", "zoomToExtent", event.data.zoomToExtent);
+            Radio.trigger("Map", "zoomToExtent", {extent: event.data.zoomToExtent});
         }
         else if (event.data?.highlightfeature) {
-            store.commit("Map/setVectorFeaturesLoaded", {type: "viaLayerAndLayerId", layerAndLayerId: event.data.highlightfeature});
+            store.dispatch("Maps/highlightFeature", {type: "viaLayerAndLayerId", layerAndLayerId: event.data.highlightfeature});
         }
         else if (event.data === "hidePosition") {
             store.dispatch("MapMarker/removePointMarker");
@@ -122,11 +120,16 @@ const RemoteInterface = Backbone.Model.extend({
         store.dispatch("MapMarker/removePointMarker");
     },
     getMapState: function () {
-        store.dispatch("Tools/SaveSelection/filterExternalLayer", Radio.request("ModelList", "getModelsByAttributes", {isSelected: true, type: "layer"}));
+        const layerList = Radio.request("ModelList", "getModelsByAttributes", {isSelected: true, type: "layer"});
+        let filteredLayerList = layerList.filter(model => !model.get("isExternal"));
+
+        filteredLayerList = sortBy(filteredLayerList, model => model.get("selectionIDX"));
+        store.dispatch("createUrlParams", filterAndReduceLayerList(store.getters["Maps/mode"], filteredLayerList));
         return store.getters["Tools/SaveSelection/url"];
     },
     getWGS84MapSizeBBOX: function () {
-        mapCollection.getMapView("ol", "2D").getProjectedBBox("EPSG:4326");
+        // eslint-disable-next-line new-cap
+        return store.getters["Maps/getProjectedBBox"]("EPSG:4326");
     },
     setPostMessageUrl: function (value) {
         this.set("postMessageUrl", value);

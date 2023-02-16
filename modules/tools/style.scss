@@ -1,9 +1,5 @@
 @import "../../css/mixins.scss";
-
-$color_1: rgb(255, 255, 255);
-$color_2: rgb(53, 53, 53);
-$font_family_1: "MasterPortalFont","Arial Narrow",Arial,sans-serif;
-$background_color_1: rgb(8, 88, 158);
+@import "variables";
 
 .dropdown-menu {
     border: 1px solid #ccc;
@@ -11,9 +7,8 @@ $background_color_1: rgb(8, 88, 158);
     overflow: auto;
     >li {
         >a {
-            font-family: $font_family_1;
-            font-size: 12px;
-            color: $color_2;
+            font-size: $font-size-base;
+            color: $dark_grey;
             &:focus {
                 opacity: 1.0;
                 @include primary_action_focus;
@@ -27,9 +22,9 @@ $background_color_1: rgb(8, 88, 158);
         }
     }
     >.active {
-        >a {
+        >a.nav-link {
             background-color: $accent_active;
-            color: $color_1;
+            color: $white;
             &:hover {
                 @include primary_action_hover;
             }
@@ -39,7 +34,7 @@ $background_color_1: rgb(8, 88, 158);
         margin: 6px 0;
     }
 }
-@media (max-width: 767px) {
+@include media-breakpoint-down(md) {
     .dropdown-menu {
         border-right: 0;
         border-left: 0;

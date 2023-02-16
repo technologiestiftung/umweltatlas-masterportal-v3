@@ -13,7 +13,8 @@ const VectorStyleModel = Backbone.Model.extend(/** @lends VectorStyleModel.proto
         labelField: null,
         legendInfos: [],
         rules: null,
-        styleId: null
+        styleId: null,
+        styleMultiGeomOnlyWithRule: false
     },
 
     /**
@@ -26,6 +27,7 @@ const VectorStyleModel = Backbone.Model.extend(/** @lends VectorStyleModel.proto
      * @param {Object[]} legendInfos list of used styling rules for legend graphic
      * @param {Object[]} rules Array with styling rules and its conditions.
      * @param {String} styleId styleId is set in style.json
+     * @param {String} styleMultiGeomOnlyWithRule if true, use fallback for styling of multiGeometries
      * @listens i18next#RadioTriggerLanguageChanged
      */
     initialize: function () {
@@ -62,30 +64,31 @@ const VectorStyleModel = Backbone.Model.extend(/** @lends VectorStyleModel.proto
         return styleObject;
     },
     /**
-     * Requests the DescribeFeatureType of the oaf layer and starts the function to parse the xml and creates the legend info
-     * @param   {string} wfsURL url from layer
-     * @param   {string} featureType oaf feature type from layer
-     * @param   {string[] | string} styleGeometryType The configured geometry type of the layer
-     * @param   {Boolean} useProxy Attribute to request the URL via a reverse proxy
+     * Requests the geometry type of the OAF collection and creates the legend info
+     * @param   {string} oafURL url from layer
+     * @param   {String} collection the collection name to fetch geometry type for
      * @returns {void}
      */
-    getGeometryTypeFromOAF: function (wfsURL, featureType, styleGeometryType, useProxy) {
+    getGeometryTypeFromOAF: function (oafURL, collection) {
         /**
          * @deprecated in the next major-release!
          * useProxy
          * getProxyUrl()
          */
-        const url = useProxy ? getProxyUrl(wfsURL) : wfsURL + "/collections/" + featureType + "/appschema";
+        const url = oafURL + "/collections/" + collection + "/items?limit=1";
 
         axios({
             method: "get",
             url: url,
-            responseType: "document"
+            headers: {
+                accept: "application/geo+json"
+            }
         }).then(response => {
-            const subElements = this.getSubelementsFromXML(response.data, featureType),
-                geometryTypes = this.getTypeAttributesFromSubelements(subElements, styleGeometryType);
+            const geometryType = response.data?.features[0]?.geometry?.type;
 
-            this.createLegendInfo(geometryTypes);
+            if (geometryType) {
+                this.createLegendInfo([geometryType]);
+            }
         }).catch(error => {
             console.warn("The fetch of the data failed with the following error message: " + error);
             Radio.trigger("Alert", "alert", {
@@ -412,7 +415,7 @@ const VectorStyleModel = Backbone.Model.extend(/** @lends VectorStyleModel.proto
                 if (this.isMultiGeometry(geometryTypeSimpleGeom)) {
                     console.warn("Multi encapsulated multiGeometries are not supported.");
                 }
-                else {
+                else if (!this.get("styleMultiGeomOnlyWithRule") || rule) {
                     const simpleStyle = this.getSimpleGeometryStyle(geometryTypeSimpleGeom, feature, rule, isClustered);
 
                     simpleStyle.setGeometry(geometry);
@@ -505,7 +508,19 @@ const VectorStyleModel = Backbone.Model.extend(/** @lends VectorStyleModel.proto
      * @returns {object[]} return all rules that fit to the feature
      */
     getRulesForFeature: function (feature) {
-        return this.get("rules").filter(rule => this.checkProperties(feature, rule));
+        const rules = [];
+
+        this.get("rules").forEach(rule => {
+            if (!this.checkProperties(feature, rule)) {
+                return;
+            }
+            if (typeof feature.get("rotation") !== "undefined") {
+                rule.style.rotation = feature.get("rotation");
+            }
+            rules.push(rule);
+        });
+
+        return rules;
     },
 
     /**

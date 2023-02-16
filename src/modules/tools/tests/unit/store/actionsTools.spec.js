@@ -20,6 +20,11 @@ describe("src/modules/tools/actionsTools.js", () => {
             },
             Gfi: {
                 id: "gfi"
+            },
+            BorisComponent: {
+                name: "boris",
+                renderToWindow: false,
+                keepOpen: true
             }
         };
 
@@ -31,7 +36,7 @@ describe("src/modules/tools/actionsTools.js", () => {
             };
 
             testAction(setToolActive, payload, state, {}, [
-                {type: "controlActivationOfTools", payload: payload.name, dispatch: true},
+                {type: "controlActivationOfTools", payload: {id: payload.id, name: payload.name, active: payload.active}, dispatch: true},
                 {type: Object.keys(state)[0] + "/setActive", payload: payload.active, dispatch: true},
                 {type: "Gfi/setActive", payload: true, commit: true},
                 {type: "activateToolInModelList", payload: {tool: "Gfi", active: true}, dispatch: true}
@@ -45,7 +50,7 @@ describe("src/modules/tools/actionsTools.js", () => {
             };
 
             testAction(setToolActive, payload, state, {}, [
-                {type: "controlActivationOfTools", payload: payload.name, dispatch: true},
+                {type: "controlActivationOfTools", payload: {id: payload.id, name: payload.name, active: payload.active}, dispatch: true},
                 {type: Object.keys(state)[0] + "/setActive", payload: payload.active, commit: true},
                 {type: "Gfi/setActive", payload: true, commit: true},
                 {type: "activateToolInModelList", payload: {tool: "Gfi", active: true}, dispatch: true}
@@ -61,6 +66,16 @@ describe("src/modules/tools/actionsTools.js", () => {
             testAction(setToolActive, payload, state, {}, [
                 {type: Object.keys(state)[1] + "/setActive", payload: payload.active, commit: true}
             ], {}, done);
+        });
+        it("setToolActive with tool that has keepOpen set to true", done => {
+            const payload = {
+                id: "BorisComponent",
+                name: "boris",
+                active: true,
+                keepOpen: true
+            };
+
+            testAction(setToolActive, payload, state, {}, [], {}, done);
         });
 
         it("setToolActive no tool is active by payload.id is not defined", done => {
@@ -125,16 +140,44 @@ describe("src/modules/tools/actionsTools.js", () => {
                         active: false
                     }
                 },
+                activeToolId = "supplyCoord",
                 activeToolName = "SupplyCoord";
 
-            testAction(controlActivationOfTools, activeToolName, state, {}, [
+            testAction(controlActivationOfTools, {id: activeToolId, name: activeToolName, active: true}, state, {}, [
                 {type: "Draw/setActive", payload: false},
                 {type: "ScaleSwitcher/setActive", payload: false},
                 {type: "SupplyCoord/setActive", payload: true},
                 {type: "activateToolInModelList", payload: {tool: "SupplyCoord", active: true}, dispatch: true}
             ], {
                 getConfiguredToolNames: ["Draw", "ScaleSwitcher", "SupplyCoord"],
+                getConfiguredToolKeys: ["draw", "scaleSwitcher", "supplyCoord"],
                 getActiveToolNames: ["Draw", "ScaleSwitcher"]
+            }, done);
+        });
+        it("controlActivationOfTools activeTool = wfsSearch", done => {
+            const state = {
+                    ScaleSwitcher: {
+                        active: true
+                    },
+                    BorisComponent: {
+                        active: true,
+                        keepOpen: true
+                    },
+                    WfsSearch: {
+                        active: false
+                    }
+                },
+                activeToolId = "wfsSearch",
+                activeToolName = "WfsSearch";
+
+            testAction(controlActivationOfTools, {id: activeToolId, name: activeToolName, active: true}, state, {}, [
+                {type: "ScaleSwitcher/setActive", payload: false},
+                {type: "WfsSearch/setActive", payload: true},
+                {type: "activateToolInModelList", payload: {tool: "WfsSearch", active: true}, dispatch: true}
+            ], {
+                getConfiguredToolNames: ["ScaleSwitcher", "WfsSearch", "BorisComponent"],
+                getConfiguredToolKeys: ["scaleSwitcher", "wfsSearch", "borisComponent"],
+                getActiveToolNames: ["ScaleSwitcher", "BorisComponent"]
             }, done);
         });
     });

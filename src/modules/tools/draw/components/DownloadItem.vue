@@ -30,18 +30,19 @@ export default {
             id="tool-draw-download"
             class="form-horizontal"
             role="form"
+            @submit.prevent
         >
-            <div class="form-group form-group-sm">
+            <div class="form-group form-group-sm row">
                 <label
-                    class="col-md-5 col-sm-5 control-label"
+                    class="col-md-5 col-form-label"
                     for="tool-draw-download-format"
                 >
                     {{ $t("common:modules.tools.draw.download.format") }}
                 </label>
-                <div class="col-md-7 col-sm-7">
+                <div class="col-md-7">
                     <select
                         id="tool-draw-download-format"
-                        class="form-control"
+                        class="form-select form-select-sm"
                         @change="setDownloadSelectedFormat($event.target.value)"
                     >
                         <option value="none">
@@ -58,63 +59,40 @@ export default {
                     </select>
                 </div>
             </div>
-            <div class="form-group form-group-sm">
+            <div class="form-group form-group-sm row">
                 <label
-                    class="col-md-5 col-sm-5 control-label"
+                    class="col-md-5 col-form-label"
                     for="tool-draw-download-filename"
                 >
                     {{ $t("common:modules.tools.draw.download.filename") }}
                 </label>
-                <div class="col-md-7 col-sm-7">
+                <div class="col-md-7">
                     <input
                         id="tool-draw-download-filename"
                         type="text"
-                        class="form-control"
+                        class="form-control form-control-sm"
                         :placeholder="$t('common:modules.tools.draw.download.enterFilename')"
                         @keyup="setDownloadFileName"
                     >
                 </div>
             </div>
-            <div class="form-group form-group-sm">
-                <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group form-group-sm row">
+                <div class="d-grid gap-2">
                     <a
-                        id="tool-draw-download-file"
-                        class="col-xs-12 downloadFile"
+                        class="btn btn-sm btn-primary downloadFile"
                         :href="download.fileUrl"
                         :download="download.file"
+                        :class="{disabled: disableFileDownload}"
+                        role="button"
+                        @click="fileDownloaded"
                     >
-                        <button
-                            class="btn btn-sm btn-block btn-lgv-grey"
-                            :disabled="disableFileDownload"
-                            type="button"
-                            @click="fileDownloaded"
-                        >
-                            <span class="glyphicon glyphicon-floppy-disk" />
-                            {{ $t("common:modules.tools.draw.button.saveDrawing") }}
-                        </button>
+                        <span class="bootstrap-icon">
+                            <i class="bi-save-fill" />
+                        </span>
+                        {{ $t("common:modules.tools.draw.button.saveDrawing") }}
                     </a>
                 </div>
             </div>
         </form>
     </div>
 </template>
-
-<style lang="scss" scoped>
-@import "~variables";
-
-a {
-    color: #000;
-}
-.bold {
-    font-weight: bold;
-}
-.disabled {
-    cursor: not-allowed;
-}
-
-#tool-draw-download-file {
-    background-color: buttonface;
-    text-decoration: none;
-    padding: 0;
-}
-</style>

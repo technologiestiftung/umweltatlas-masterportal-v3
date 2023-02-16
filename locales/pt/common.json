@@ -38,7 +38,6 @@
             "routing": "Direções",
             "draw": "Desenhar / Escrever",
             "shadow": "Sombra",
-            "styleWMS": "Stilo WMS",
             "commuterLines": "Mobilidade pendular (linhas)",
             "commuterAnimation": "Mobilidade pendular (animação)",
             "layerSlider": "Série temporal",
@@ -92,7 +91,6 @@
             }
           },
           "parametricURL": {
-            "alertZoomToGeometry": "A chamada parametrizada do portal infelizmente correu mal!<br>Por favor, certifique-se de que todos os parâmetros foram introduzidos correctamente.",
             "alertWrongLayerIds": "<strong>A chamada parametrizada está avariada!</strong></br>O <b>layerIds</b> nas posições: {{wrongIdsPositionsConcat}} não existem e são ignorados!"
           }
         },
@@ -117,8 +115,11 @@
             "en": "English",
             "es": "Español",
             "it": "Italiano",
+            "platt": "Platt",
             "pt": "Português",
-            "tr": "Türkçe"
+            "ru": "Русский",
+            "tr": "Türkçe",
+            "ua": "Українська"
         },
         "cswParser": {
             "noMetadataMessage": "Metadados não estão disponíveis.",
@@ -166,7 +167,8 @@
                 "geometryNotSupported": "FeatureViaURL: O tipo de geometria {{geometryType}} na configuração da camada {{layerId}} não é suportado.",
                 "layerNotFound": "FeatureViaURL: A camada com o ID {{layerId}} não foi encontrado.",
                 "noLayers": "FeatureViaURL: Para as funções não existem camadas definidas na configuração.",
-                "noNameDefined": "FeatureViaURL: O nome da camada com o ID {{layerId}} não foi definido nas configurações."
+                "noNameDefined": "FeatureViaURL: O nome da camada com o ID {{layerId}} não foi definido nas configurações.",
+                "defaultTreeNotSupported": "FeatureViaURL só é compatível com Treetype custom ou light."
             }
         },
         "quickHelp": {
@@ -264,6 +266,7 @@
                 "titlePlaceholder": "Meu Título",
                 "layoutLabel": "Layout",
                 "formatLabel": "Formato",
+                "dpiLabel": "DPI",
                 "scaleLabel": "Escala de impressão",
                 "withLegendLabel": "Com Legenda",
                 "printLabel": "Imprimir",
@@ -288,24 +291,6 @@
               "chooseTheme": "Por favor seleccione o tópico activo",
               "style": "Estilo"
             },
-            "styleWMS": {
-                "noStyleableLayers": "Não há actualmente tópicos classificáveis disponíveis aos quais esta ferramenta possa ser aplicada.",
-                "theme": "Tópico",
-                "chooseTheme": "Por favor seleccione um tópico",
-                "attribute": "Atributo",
-                "chooseAttribute": "Seleccione por favor o atributo",
-                "countOfClasses": "Número de classes",
-                "chooseNumberOfClasses": "Por favor, seleccione o número de classes",
-                "rangeOfValues": "Gama de valores Classe",
-                "from": "de",
-                "to": "a",
-                "reset": "Reiniciar",
-                "apply": "Aplicar",
-                "pleaseEnterInteger": "Por favor, introduza um número inteiro.",
-                "pleaseChooseColor": "Por favor, seleccione uma cor.",
-                "checkTheValues": "Verifique os valores.",
-                "overlappingValueRanges": "Verifique os valores. Os intervalos de valores não devem sobrepor-se."
-            },
             "featureLister": {
                 "chooseTheme": "Escolha o tópico",
                 "visibleVectorLayers": "Camadas vectoriais visíveis",
@@ -324,15 +309,6 @@
                 "serviceTwo": "Serviço 2",
                 "serviceThree": "Serviço 3",
                 "serviceFour": "Serviço 4"
-            },
-            "filter": {
-                "result": "Acerto",
-                "results": "Acertos",
-                "zoomOnResults": "Zoom sobre o acerto",
-                "filter": "-Filtro",
-                "yourSelection": "A sua selecção: ",
-                "noFilterOptionSelected": "Ainda sem opção de filtro seleccionada",
-                "deleteAll":"Apagar tudo"
             },
             "pendler": {
                 "animation": {
@@ -715,11 +691,6 @@
             "linkToPdf": "Para a lenda externa (PDF)",
             "noLegendForLayerInfo": "Legenda não disponível",
             "toggleCollapseAll": "Mostrar/ocultar todas as legendas"
-        },
-        "zoomToGeometry": {
-          "alertNoFoundFeature": "Nenhum objecto foi encontrado! Por favor verifique os parâmetros de entrada.",
-          "alertParameterizedAccess": "A chamada parametrizada do portal infelizmente correu mal!",
-          "alertRequiredService": "Detalhes: Um serviço necessário não responde."
         }
     },
     "snippets": {

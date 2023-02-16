@@ -287,7 +287,7 @@ it("Open the tool scaleSwitcher and check if all elements are visible", async fu
         expect(counter++).to.be.below(10);
         // Open the scaleSwitcher with two clicks
         await (await driver.findElement(By.xpath("//ul[@id='tools']//.."))).click();
-        await (await driver.findElement(By.css("#tools .glyphicon-resize-small"))).click();
+        await (await driver.findElement(By.css("#tools .bi-arrows-angle-contract"))).click();
         // Interval of 100 milliseconds.
         await driver.wait(new Promise(r => setTimeout(r, 100)));
     // If the tool was found the condition is fulfilled
@@ -297,7 +297,7 @@ it("Open the tool scaleSwitcher and check if all elements are visible", async fu
     await driver.wait(until.elementIsVisible(await driver.findElement(By.id("scale-switcher"))));
 
     // Get the elements that are in the tool
-    const header = await driver.findElement(By.css("div.win-heading div.heading-element p.title"), 5000),
+    const header = await driver.findElement(By.css("div.win-heading div.heading-element h2.title"), 5000),
         label = await driver.findElement(By.css("div#scale-switcher label"), 5000),
         select = await driver.findElement(By.id("scale-switcher-select"), 5000),
         selectValue = await select.getAttribute("value");
@@ -333,7 +333,7 @@ afterEach(async function () {
         driver = await initDriver(builder, url, resolution);
         // Open the scaleSwitcher tool again
         await (await driver.findElement(By.xpath("//ul[@id='tools']//.."))).click();
-        await (await driver.findElement(By.css("#tools .glyphicon-resize-small"))).click();
+        await (await driver.findElement(By.css("#tools .bi-arrows-angle-contract"))).click();
     }
 });
 
@@ -467,7 +467,7 @@ async function ScaleSwitcherTests ({builder, url, resolution, capability}) {
                     await quitDriver();
                     driver = await initDriver(builder, url, resolution);
                     await (await driver.findElement(By.xpath("//ul[@id='tools']//.."))).click();
-                    await (await driver.findElement(By.css("#tools .glyphicon-resize-small"))).click();
+                    await (await driver.findElement(By.css("#tools .bi-arrows-angle-contract"))).click();
                 }
             });
 
@@ -477,13 +477,13 @@ async function ScaleSwitcherTests ({builder, url, resolution, capability}) {
                 do {
                     expect(counter++).to.be.below(10);
                     await (await driver.findElement(By.xpath("//ul[@id='tools']//.."))).click();
-                    await (await driver.findElement(By.css("#tools .glyphicon-resize-small"))).click();
+                    await (await driver.findElement(By.css("#tools .bi-arrows-angle-contract"))).click();
                     await driver.wait(new Promise(r => setTimeout(r, 100)));
                 } while ((await driver.findElements(By.id("scale-switcher"))).length === 0);
 
                 await driver.wait(until.elementIsVisible(await driver.findElement(By.id("scale-switcher"))));
 
-                const header = await driver.findElement(By.css("div.win-heading div.heading-element p.title"), 5000),
+                const header = await driver.findElement(By.css("div.win-heading div.heading-element h2.title"), 5000),
                     label = await driver.findElement(By.css("div#scale-switcher label"), 5000),
                     select = await driver.findElement(By.id("scale-switcher-select"), 5000),
                     selectValue = await select.getAttribute("value");

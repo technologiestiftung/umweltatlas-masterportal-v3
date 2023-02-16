@@ -1,4 +1,4 @@
-@import "../style.scss";
+@import "~variables";
 
 .checkbox-container {
     .form-inline {        
@@ -9,17 +9,21 @@
             width: 85%;
             .toggle {
                 float: right;
-                background-color: $whiteColor;
+                background-color: $white;
                 .toggle-group {
+                    border: 1px $black;
                     label {
                         overflow: visible;
                         &.btn-primary {
-                            color: $whiteColor;
-                            background-color: $darkblueColor;
+                            color: $white;
+                            background-color: $primary;
                             &:hover {
-                                opacity: $hoverOpacity;
+                                opacity: 0.8;
                             }
                         }
+                    }
+                    .toggle-handle {
+                        background-color: $white;
                     }
                 }
             }
@@ -30,14 +34,14 @@
                 white-space: nowrap;
                 max-width: 70%;
                 margin: 0;
-                color: $darkgreyColor;
+                color: $dark_grey;
                 float: left;
             }
         }
         .info-icon {
             float: right;
             padding: 10px 0 10px 10px;
-            font-size: 16px;
+            font-size: $font_size_icon_lg;
             opacity: 0.4;
             top: -5px;
             &:hover {
@@ -47,7 +51,7 @@
         }
         .info-text {
             display: none;
-            font-size: 10px;
+            font-size: $font-size-sm;
         }
         input.largerCheckbox {
             height: 20px;

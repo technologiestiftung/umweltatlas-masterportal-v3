@@ -1,23 +1,27 @@
-$color_1: black;
-$font_family_1: "MasterPortalFont","Arial Narrow",Arial,sans-serif;
+@import "~variables";
 
 /*staticlink*/
 .mobile {
     max-height: 66vh;
     overflow-y: auto;
     span.title {
-        font-family: $font_family_1;
-        font-size: 14px;
+        font-size: $font_size_big;
         padding-left: 6px;
         vertical-align: text-bottom;
     }
-    span.glyphicon {
-        font-size: 18px;
+    span.bootstrap-icon {
+        font-size: $font-size-lg;
         padding: 5px;
     }
-    >.list-group-item {
+    >.dropdown-item {
         padding: 12px 5px;
-        overflow-y: auto;
+        display: flex;
+        flex-flow: row wrap;
+        align-items: center;
+        border-bottom: 1px solid rgba(0,0,0,.125);
+    }
+    .dropdown-item.disabled, .dropdown-item:disabled {
+        background-color: $dropdown-item-disabled-bg;
     }
 }
 .selected-layer-item {
@@ -26,15 +30,13 @@ $font_family_1: "MasterPortalFont","Arial Narrow",Arial,sans-serif;
     }
 }
 .item-settings {
-    clear: both;
-    margin-top: 34px;
-    border-top: 1px solid #ddd;
+    margin-top: 10px;
+    border-top: 1px solid $light_grey;
     padding-top: 8px;
-    font-family: $font_family_1;
     >.form-inline {
         >.form-group {
             >label {
-                font-size: 12px;
+                font-size: $font-size-base;
                 padding-right: 10px;
             }
             >select {
@@ -44,21 +46,21 @@ $font_family_1: "MasterPortalFont","Arial Narrow",Arial,sans-serif;
         }
     }
     >.layer-info-item {
-        >.glyphicon {
+        >.bootstrap-icon {
             padding: 5px;
         }
     }
     >.layer-sort-item {
-        >.glyphicon {
+        >.bootstrap-icon {
             padding: 5px;
         }
-        margin-right: 20px;
+        margin-right: 10px;
     }
     >.remove-layer {
-        margin-right: 20px;
+        margin-right: 10px;
     }
 }
-.list-group-item {
+.dropdown-item {
     >.layer-info-item {
         >.rotate {
             transform: rotate(0deg);
@@ -70,6 +72,6 @@ $font_family_1: "MasterPortalFont","Arial Narrow",Arial,sans-serif;
         }
     }
     a {
-        color: $color_1;
+        color: $black;
     }
 }

@@ -4,7 +4,6 @@ import {expect} from "chai";
 import PrintComponent from "../../../components/PrintMap.vue";
 import Print from "../../../store/indexPrint";
 import sinon from "sinon";
-import mapCollection from "../../../../../../core/dataStorage/mapCollection.js";
 
 const localVue = createLocalVue();
 
@@ -19,7 +18,8 @@ describe("src/modules/tools/Print/components/PrintMap.vue", () => {
             getView: sinon.stub()
         },
         mockMapActions = {
-            setResolutionByIndex: sinon.stub()
+            setResolutionByIndex: sinon.stub(),
+            unregisterListener: sinon.stub()
         },
         mockGfiGetters = {
             currentFeature: () => sinon.stub()
@@ -32,11 +32,13 @@ describe("src/modules/tools/Print/components/PrintMap.vue", () => {
         map = {
             id: "ol",
             mode: "2D",
-            render: sinon.spy()
+            render: sinon.spy(),
+            updateSize: sinon.spy(),
+            getLayers: sinon.spy()
         };
 
         mapCollection.clear();
-        mapCollection.addMap(map, "ol", "2D");
+        mapCollection.addMap(map, "2D");
     });
 
     beforeEach(() => {
@@ -53,11 +55,14 @@ describe("src/modules/tools/Print/components/PrintMap.vue", () => {
                         }
                     }
                 },
-                Map: {
+                Maps: {
                     namespaced: true,
                     getters: mockMapGetters,
                     actions: mockMapActions
                 }
+            },
+            getters: {
+                uiStyle: sinon.stub()
             }
         });
 
@@ -66,17 +71,57 @@ describe("src/modules/tools/Print/components/PrintMap.vue", () => {
         wrapper = mount(PrintComponent, {store, localVue});
     });
 
+    afterEach(sinon.restore);
+
+    describe("PrintMap.vue methods", () => {
+        it("method layoutChanged sets other print layout", () => {
+            const value = "A0 Querformat",
+                printLayout = {
+                    attributes: [
+                        {
+                            default: "Countries",
+                            name: "title",
+                            type: "String"
+                        },
+                        {
+                            name: "map",
+                            type: "MapAttributeValues"
+                        }
+                    ],
+                    name: "A0 Querformat"
+                },
+                layoutList = [
+                    printLayout
+                ];
+
+            store.commit("Tools/Print/setLayoutList", layoutList);
+            wrapper.vm.layoutChanged(value);
+            expect(store.state.Tools.Print.currentLayoutName).to.be.equals(value);
+            expect(store.state.Tools.Print.currentLayout).to.be.equals(printLayout);
+            expect(store.state.Tools.Print.isGfiAvailable).to.be.equals(false);
+            expect(store.state.Tools.Print.isLegendAvailable).to.be.equals(false);
+        });
+        it("method resetLayoutParameter sets isGfiAvailable and isLegendAvailabe to false", () => {
+            store.commit("Tools/Print/setIsGfiAvailable", true);
+            store.commit("Tools/Print/setIsLegendAvailable", true);
+
+            wrapper.vm.resetLayoutParameter();
+            expect(store.state.Tools.Print.isGfiAvailable).to.be.equals(false);
+            expect(store.state.Tools.Print.isLegendAvailable).to.be.equals(false);
+        });
+    });
+
     describe("template", () => {
         it("should have an existing title", () => {
             expect(wrapper.find("#printToolNew")).to.exist;
         });
 
         it("should have a close button", () => {
-            expect(wrapper.find(".glyphicon-remove")).to.exist;
+            expect(wrapper.find(".bi-x-lg")).to.exist;
         });
 
         it("should emitted close event if button is clicked", async () => {
-            const button = wrapper.find(".glyphicon-remove");
+            const button = wrapper.find(".bi-x-lg");
 
             expect(button).to.exist;
 
@@ -112,13 +157,12 @@ describe("src/modules/tools/Print/components/PrintMap.vue", () => {
 
             expect(wrapper.find("#tool-print-downloads-container").exists()).to.be.true;
             expect(wrapper.find(".tool-print-download-title-container").exists()).to.be.true;
-            expect(wrapper.find("#tool-print-download-title").exists()).to.be.true;
+            expect(wrapper.find(".tool-print-download-title").exists()).to.be.true;
             expect(wrapper.find(".tool-print-download-icon-container").exists()).to.be.true;
-            expect(wrapper.find("#tool-print-download-loader").exists()).to.be.false;
-            expect(wrapper.find("#tool-print-download-glyphicon").exists()).to.be.true;
+            expect(wrapper.find(".tool-print-download-loader").exists()).to.be.false;
+            expect(wrapper.find(".tool-print-download-icon").exists()).to.be.true;
             expect(wrapper.find(".tool-print-download-button-container").exists()).to.be.true;
-            expect(wrapper.find("#tool-print-download-button-active").exists()).to.be.true;
-            expect(wrapper.find("#tool-print-download-button-disabled").exists()).to.be.false;
+            expect(wrapper.find(".tool-print-download-button-disabled").exists()).to.be.false;
         });
 
         it("should show loader download file", () => {
@@ -134,13 +178,13 @@ describe("src/modules/tools/Print/components/PrintMap.vue", () => {
 
             expect(wrapper.find("#tool-print-downloads-container").exists()).to.be.true;
             expect(wrapper.find(".tool-print-download-title-container").exists()).to.be.true;
-            expect(wrapper.find("#tool-print-download-title").exists()).to.be.true;
+            expect(wrapper.find(".tool-print-download-title").exists()).to.be.true;
             expect(wrapper.find(".tool-print-download-icon-container").exists()).to.be.true;
-            expect(wrapper.find("#tool-print-download-loader").exists()).to.be.true;
-            expect(wrapper.find("#tool-print-download-glyphicon").exists()).to.be.false;
+            expect(wrapper.find(".tool-print-download-loader").exists()).to.be.true;
+            expect(wrapper.find(".tool-print-download-icon").exists()).to.be.false;
             expect(wrapper.find(".tool-print-download-button-container").exists()).to.be.true;
-            expect(wrapper.find("#tool-print-download-button-active").exists()).to.be.false;
-            expect(wrapper.find("#tool-print-download-button-disabled").exists()).to.be.true;
+            expect(wrapper.find(".tool-print-download-button-active").exists()).to.be.false;
+            expect(wrapper.find(".tool-print-download-button-disabled").exists()).to.be.true;
         });
     });
 

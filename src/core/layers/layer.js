@@ -1,7 +1,7 @@
 import store from "../../app-store";
-import mapCollection from "../../core/dataStorage/mapCollection.js";
 import * as bridge from "./RadioBridge.js";
 import deepCopy from "../../utils/deepCopy.js";
+import axios from "axios";
 
 /**
  * Creates a layer object to extend from.
@@ -42,9 +42,12 @@ export default function Layer (attrs, layer, initialize = true) {
         levelDownText: i18next.t("common:tree.levelDown"),
         settingsText: i18next.t("common:tree.settings"),
         infosAndLegendText: i18next.t("common:tree.infosAndLegend"),
+        filterIconText: i18next.t("common:tree.filterIconText"),
         isAutoRefreshing: false,
         intervalAutoRefresh: -1,
-        isClustered: false
+        isClustered: false,
+        filterRefId: undefined,
+        scaleText: ""
     };
 
     this.layer = layer;
@@ -60,11 +63,40 @@ export default function Layer (attrs, layer, initialize = true) {
         this.setIsVisibleInMap(attrs.isSelected);
     }
     this.setMinMaxResolutions();
-    this.checkForScale({scale: store.getters["Map/scale"]});
+    this.checkForScale({scale: store.getters["Maps/scale"]});
     this.registerInteractionMapViewListeners();
     this.onMapModeChanged(this);
+    this.handleScaleRange();
     bridge.onLanguageChanged(this);
     this.changeLang();
+
+    if (typeof this.layer.getSource === "function") {
+        this.layer.getSource()?.on("featuresloaderror", async function () {
+            const url = this.attributes.url
+            + "&service="
+            + this.attributes.typ
+            + "&version="
+            + this.attributes.version
+            + "&request=describeFeatureType";
+
+            await this.errorHandling(await axios.get(url, {withCredentials: true})
+                .catch(function (error) {
+                    return error.toJSON().status;
+                }), this.get("name"));
+        }.bind(this));
+        this.layer.getSource()?.on("tileloaderror", async function (evt) {
+            await this.errorHandling(await axios.get(evt.tile.src_, {withCredentials: true})
+                .catch(function (error) {
+                    return error.toJSON().status;
+                }), this.get("name"));
+        }.bind(this));
+        this.layer.getSource()?.on("imageloaderror", async function (evt) {
+            await this.errorHandling(await axios.get(evt.image.src_, {withCredentials: true})
+                .catch(function (error) {
+                    return error.toJSON().status;
+                }), this.get("name"));
+        }.bind(this));
+    }
 }
 /**
  * Initalizes the layer. Sets property singleBaselayer and sets the layer visible, if selected in attributes or treetype light.
@@ -83,12 +115,47 @@ Layer.prototype.initialize = function (attrs) {
 
     if (attrs.isSelected === true || store.getters.treeType === "light") {
         this.setIsVisibleInMap(attrs.isSelected);
-        this.setIsSelected(attrs.isSelected);
+        if (attrs.isSelected) {
+            this.setIsSelected(attrs.isSelected);
+            bridge.layerVisibilityChanged(this, attrs.isSelected);
+        }
+
         this.set("isRemovable", store.state.configJson?.Portalconfig.layersRemovable);
     }
     else {
         this.layer.setVisible(false);
     }
+};
+
+/**
+ * Error handling for secure services when error 403 is thrown .
+ * @param {Number} errorCode Error Number of the request
+ * @param {String} layerName Name of the layer
+ * @returns {void}
+ */
+Layer.prototype.errorHandling = function (errorCode, layerName) {
+    let linkMetadata = "",
+        alertingContent = "";
+
+    if (this.get("datasets") && this.get("datasets")[0]) {
+        linkMetadata = i18next.t("common:modules:core:modelList:layer.errorHandling:LinkMetadata",
+            {linkMetadata: this.get("datasets")[0].show_doc_url + this.get("datasets")[0].md_id
+            });
+    }
+    if (errorCode === 403) {
+        alertingContent = i18next.t("common:modules.core.modelList.layer.errorHandling.403",
+            {
+                layerName: layerName
+            })
+            + linkMetadata;
+
+        store.dispatch("Alerting/addSingleAlert", {content: alertingContent, multipleAlert: true});
+    }
+    store.watch((state, getters) => getters["Alerting/showTheModal"], showTheModal => {
+        this.setIsSelected(showTheModal);
+    });
+
+
 };
 /**
  * To be overwritten, does nothing.
@@ -111,7 +178,7 @@ Layer.prototype.createLegend = function () {
 * @returns {void}
 */
 Layer.prototype.registerInteractionMapViewListeners = function () {
-    store.watch((state, getters) => getters["Map/scale"], scale => {
+    store.watch((state, getters) => getters["Maps/scale"], scale => {
         this.checkForScale({scale: scale});
     });
 };
@@ -120,7 +187,7 @@ Layer.prototype.registerInteractionMapViewListeners = function () {
  * @returns {void}
  */
 Layer.prototype.onMapModeChanged = function () {
-    store.watch((state, getters) => getters["Map/mapMode"], mode => {
+    store.watch((state, getters) => getters["Maps/mode"], mode => {
         if (this.get("supported").indexOf(mode) >= 0) {
             if (this.get("isVisibleInMap")) {
                 this.get("layer").setVisible(true);
@@ -129,7 +196,7 @@ Layer.prototype.onMapModeChanged = function () {
         else {
             this.get("layer").setVisible(false);
         }
-    }).bind(this);
+    });
 };
 /**
  * Setter for ol/layer.setMaxResolution
@@ -152,14 +219,9 @@ Layer.prototype.setMinResolution = function (value) {
  * @returns {void}
  */
 Layer.prototype.removeLayer = function () {
-    let map = mapCollection.getMap(store.state.Map.mapId, store.state.Map.mapMode);
-
-    if (!map) { // is the case, if starting by urlParam in mode 3D
-        map = mapCollection.getMap("ol", "2D");
-    }
     this.setIsVisibleInMap(false);
     bridge.removeLayerByIdFromModelList(this.get("id"));
-    map?.removeLayer(this.layer);
+    mapCollection.getMap("2D").removeLayer(this.layer);
 };
 /**
  * Toggles the attribute isSelected. Calls Function setIsSelected.
@@ -231,36 +293,49 @@ Layer.prototype.setIsVisibleInMap = function (newValue) {
  */
 Layer.prototype.setTransparency = function (newValue) {
     const transparency = parseInt(newValue, 10),
-        opacity = (100 - transparency) / 100;
+        opacity = (100 - transparency) / 100,
+        lastValue = this.get("transparency");
 
     this.set("transparency", transparency);
     this.layer.setOpacity(opacity);
+
+    if (lastValue !== newValue) {
+        bridge.layerTransparencyChanged(this, this.get("transparency"));
+    }
 };
 /**
  * Decreases layer transparency by 10 percent
  * @return {void}
  */
 Layer.prototype.decTransparency = function () {
-    const transparency = parseInt(this.get("transparency"), 10);
+    const transparency = parseInt(this.get("transparency"), 10),
+        decTransparency = transparency - 10;
 
-    if (transparency <= 100 && transparency > 0) {
-        this.setTransparency(transparency - 10);
-        bridge.renderMenu();
-        bridge.renderMenuSelection();
+    if (decTransparency >= 0) {
+        this.setTransparency(decTransparency);
     }
+    else {
+        this.setTransparency(0);
+    }
+    bridge.renderMenu();
+    bridge.renderMenuSelection();
 };
 /**
  * Increases layer transparency by 10 percent.
  * @return {void}
  */
 Layer.prototype.incTransparency = function () {
-    const transparency = parseInt(this.get("transparency"), 10);
+    const transparency = parseInt(this.get("transparency"), 10),
+        incTransparency = transparency + 10;
 
-    if (transparency <= 90) {
-        this.setTransparency(transparency + 10);
-        bridge.renderMenu();
-        bridge.renderMenuSelection();
+    if (incTransparency <= 100) {
+        this.setTransparency(incTransparency);
     }
+    else {
+        this.setTransparency(100);
+    }
+    bridge.renderMenu();
+    bridge.renderMenuSelection();
 };
 /**
  * Transforms transparency into opacity and sets opacity on layer.
@@ -331,7 +406,7 @@ Layer.prototype.toggleIsSettingVisible = function () {
  * @returns {void}
  */
 Layer.prototype.setIsSelected = function (newValue) {
-    const map = mapCollection.getMap("ol", "2D"),
+    const map = mapCollection.getMap("2D"),
         treeType = store.getters.treeType,
         autoRefresh = this.get("autoRefresh");
 
@@ -340,10 +415,13 @@ Layer.prototype.setIsSelected = function (newValue) {
     this.setIsVisibleInMap(newValue);
 
     if (newValue) {
-        bridge.addLayerToIndex(this.layer, this.get("selectionIDX"));
+        store.dispatch("Maps/addLayerToIndex", {layer: this.layer, zIndex: this.get("selectionIDX")});
     }
     else {
         map.removeLayer(this.layer);
+        if (treeType !== "light") {
+            this.resetSelectionIDX();
+        }
     }
     if (treeType !== "light" || store.state.mobile) {
         bridge.updateLayerView(this);
@@ -366,6 +444,7 @@ Layer.prototype.setIsSelected = function (newValue) {
 Layer.prototype.toggleIsVisibleInMap = function () {
     if (this.get("isVisibleInMap") === true) {
         this.setIsVisibleInMap(false);
+        // this.setIsSelected(false);
     }
     else {
         this.setIsSelected(true);
@@ -428,11 +507,41 @@ Layer.prototype.setAutoRefreshEvent = function (layer) {
     layerSource.once("featuresloadend", () => {
         this.observersAutoRefresh.forEach(handler => {
             if (typeof handler === "function") {
-                handler(layerSource.getFeatures());
+                const features = layerSource.getFeatures();
+
+                if (layer.get("typ") === "GeoJSON") {
+                    if (Array.isArray(features)) {
+                        features.forEach((feature, idx) => {
+                            if (typeof feature?.getId === "function" && typeof feature.getId() === "undefined") {
+                                feature.setId("geojson-" + layer.get("id") + "-feature-id-" + idx);
+                            }
+                        });
+                    }
+                }
+
+                handler(features);
             }
         });
     });
 };
+
+/**
+ * creates the text for the scale part in the layer tooltip
+ * @returns {void}
+ */
+Layer.prototype.handleScaleRange = function () {
+    if (store?.getters?.portalConfig?.tree?.showScaleTooltip) {
+        const maxScale = this.attributes.maxScale,
+            minScale = this.attributes.minScale,
+            minScaleText = minScale === "0" ? "1:1" : "1:" + minScale,
+            maxScaleText = "1:" + maxScale,
+            scaleRange = minScaleText + " - " + maxScaleText,
+            scaleText = i18next.t("common:tree.scaleText") + scaleRange;
+
+        this.attributes.scaleText = scaleText;
+    }
+};
+
 /**
  * Change language - sets default values for the language
  * @returns {void}
@@ -451,7 +560,7 @@ Layer.prototype.changeLang = function () {
     this.attributes.levelUpText = i18next.t("common:tree.levelUp");
     this.attributes.levelDownText = i18next.t("common:tree.levelDown");
     this.attributes.transparencyText = i18next.t("common:tree.transparency");
-    bridge.renderMenu();
+    this.attributes.filterIconText = i18next.t("common:tree.filterIconText");
 };
 /**
  * Calls Collection function moveModelDown
@@ -476,12 +585,11 @@ Layer.prototype.moveUp = function () {
 function handleSingleBaseLayer (isSelected, layer) {
     const id = layer.get("id"),
         layerGroup = bridge.getLayerModelsByAttributes({parentId: layer.get("parentId")}),
-        singleBaselayer = layer.get("singleBaselayer") && layer.get("parentId") === "Baselayer";
+        singleBaselayer = layer.get("singleBaselayer") && layer.get("isBaseLayer") === true;
 
     if (isSelected) {
-        // This only works for treeType 'custom', otherwise the parentId is not set on the layer
         if (singleBaselayer) {
-            const map2D = mapCollection.getMap("ol", "2D");
+            const map2D = mapCollection.getMap("2D");
 
             layerGroup.forEach(aLayer => {
                 // folders parentId is baselayer too, but they have not a function checkForScale
@@ -493,7 +601,7 @@ function handleSingleBaseLayer (isSelected, layer) {
                     }
                     map2D?.removeLayer(aLayer.get("layer"));
                     // This makes sure that the Oblique Layer, if present in the layerList, is not selectable if switching between baseLayers
-                    aLayer.checkForScale({scale: store.getters["Map/scale"]});
+                    aLayer.checkForScale({scale: store.getters["Maps/scale"]});
                 }
             });
             bridge.renderMenu();
@@ -502,19 +610,21 @@ function handleSingleBaseLayer (isSelected, layer) {
 }
 
 /**
- * Called from setSelected, handles single time layers.
+ * Called from setSelected or modelList, handles single time layers.
  * @param {Boolean} isSelected true, if layer is selected
  * @param {ol.Layer} layer the dedicated layer
+ * @param {Object} model the dedicated model from modelList
  * @returns {void}
  */
-function handleSingleTimeLayer (isSelected, layer) {
-    const id = layer.get("id"),
-        timeLayer = layer.get("typ") === "WMS" && layer.get("time");
+export function handleSingleTimeLayer (isSelected, layer, model) {
+    const selectedLayers = bridge.getLayerModelsByAttributes({isSelected: true, type: "layer", typ: "WMS"}),
+        id = layer?.get("id") || model.id,
+        timeLayer = layer || selectedLayers.find(it => it.id === id),
+        isTimeLayer = timeLayer?.get("typ") === "WMS" && timeLayer?.get("time");
 
-    if (timeLayer) {
+    if (isTimeLayer) {
         if (isSelected) {
-            const selectedLayers = bridge.getLayerModelsByAttributes({isSelected: true, type: "layer", typ: "WMS"}),
-                map2D = mapCollection.getMap("ol", "2D");
+            const map2D = mapCollection.getMap("2D");
 
             selectedLayers.forEach(sLayer => {
                 if (sLayer.get("time") && sLayer.get("id") !== id) {
@@ -530,12 +640,19 @@ function handleSingleTimeLayer (isSelected, layer) {
 
             store.commit("WmsTime/setTimeSliderActive", {
                 active: true,
-                currentLayerId: id,
-                playbackDelay: layer.get("time")?.playbackDelay || 1
+                currentLayerId: timeLayer.get("id"),
+                playbackDelay: timeLayer?.get("time")?.playbackDelay || 1
             });
+
+            store.commit("WmsTime/setTimeSliderDefaultValue", {
+                currentLayerId: timeLayer.get("id")
+            });
+
+
+            store.commit("WmsTime/setVisibility", true);
         }
         else {
-            layer.removeLayer(layer.get("id"));
+            timeLayer.removeLayer(timeLayer.get("id"));
         }
     }
 }
@@ -618,16 +735,32 @@ Layer.prototype.getPointCoordinatesWithAltitude = function (coord) {
 };
 
 /**
+ * Toggles the matching filter. filterRefId is used as reference.
+ * @returns {void}
+ */
+Layer.prototype.toggleFilter = function () {
+    const id = this.get("filterRefId");
+
+    if (typeof id === "number") {
+        store.dispatch("Tools/Filter/jumpToFilter", {filterId: id}, {root: true});
+    }
+};
+
+/**
  * Initiates the presentation of layer information.
  * @returns {void}
  */
 Layer.prototype.showLayerInformation = function () {
     let cswUrl = null,
+        customMetadata = null,
+        attributes = null,
         showDocUrl = null,
         layerMetaId = null;
 
     if (this.get("datasets") && Array.isArray(this.get("datasets")) && this.get("datasets")[0] !== null && typeof this.get("datasets")[0] === "object") {
         cswUrl = this.get("datasets")[0]?.csw_url ? this.get("datasets")[0].csw_url : null;
+        customMetadata = this.get("datasets")[0]?.customMetadata ? this.get("datasets")[0].customMetadata : false;
+        attributes = this.get("datasets")[0]?.attributes ? this.get("datasets")[0].attributes : null;
         showDocUrl = this.get("datasets")[0]?.show_doc_url ? this.get("datasets")[0].show_doc_url : null;
         layerMetaId = this.get("datasets")[0]?.md_id ? this.get("datasets")[0].md_id : null;
     }
@@ -645,6 +778,8 @@ Layer.prototype.showLayerInformation = function () {
         "legendURL": this.get("legendURL"),
         "typ": this.get("typ"),
         "cswUrl": cswUrl,
+        "customMetadata": customMetadata,
+        "attributes": attributes,
         "showDocUrl": showDocUrl,
         "urlIsVisible": this.get("urlIsVisible")
     });

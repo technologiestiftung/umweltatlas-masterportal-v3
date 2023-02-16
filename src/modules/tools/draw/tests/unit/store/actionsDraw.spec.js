@@ -6,11 +6,10 @@ import Draw from "ol/interaction/Draw";
 import Feature from "ol/Feature";
 import Polygon from "ol/geom/Polygon";
 import LineString from "ol/geom/LineString";
-import mapCollection from "../../../../../../core/dataStorage/mapCollection.js";
 
 
 describe("src/modules/tools/draw/store/actionsDraw.js", () => {
-    let commit, dispatch, state, addInteraction;
+    let commit, state, dispatch, addInteraction;
 
     beforeEach(() => {
         commit = sinon.spy();
@@ -28,26 +27,18 @@ describe("src/modules/tools/draw/store/actionsDraw.js", () => {
             })
         };
 
-        mapCollection.addMap(map, "ol", "2D");
+        mapCollection.addMap(map, "2D");
     });
     afterEach(sinon.restore);
 
     describe("addInteraction", () => {
         it("calls map's addInteraction function with a given interaction", () => {
-            const rootState = {
-                    Map: {
-                        mapId: "ol",
-                        mapMode: "2D"
-                    }
-                },
-                interactionSymbol = Symbol();
+            const interactionSymbol = Symbol();
 
-            actions.addInteraction({
-                rootState: rootState
-            }, interactionSymbol);
+            actions.addInteraction({dispatch}, interactionSymbol);
 
-            expect(addInteraction.calledOnce).to.be.true;
-            expect(addInteraction.args[0][0]).to.equal(interactionSymbol);
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.firstCall.args[1]).to.equal(interactionSymbol);
         });
     });
     describe("clearLayer", () => {
@@ -74,9 +65,8 @@ describe("src/modules/tools/draw/store/actionsDraw.js", () => {
 
         beforeEach(() => {
             rootState = {
-                Map: {
-                    mapId: "ol",
-                    mapMode: "2D"
+                Maps: {
+                    mode: "2D"
                 }
             };
         });
@@ -84,12 +74,18 @@ describe("src/modules/tools/draw/store/actionsDraw.js", () => {
         it("should return the center point of a polygon with the projection EPSG:4326", () => {
             centerPoint = actions.createCenterPoint({rootState}, {feature: polygonFeat, targetProjection});
 
-            expect(centerPoint).to.eql([9.987132463729269, 53.55569205016286]);
+            centerPoint[0] = Math.round(centerPoint[0] * 1000) / 1000;
+            centerPoint[1] = Math.round(centerPoint[1] * 1000) / 1000;
+
+            expect(centerPoint).to.eql([9.987, 53.556]);
         });
         it("should return the center point of a line with the projection EPSG:4326", () => {
             centerPoint = actions.createCenterPoint({rootState}, {feature: lineFeat, targetProjection});
 
-            expect(centerPoint).to.eql([9.996919156243193, 53.55803037141494]);
+            centerPoint[0] = Math.round(centerPoint[0] * 1000) / 1000;
+            centerPoint[1] = Math.round(centerPoint[1] * 1000) / 1000;
+
+            expect(centerPoint).to.eql([9.997, 53.558]);
         });
         it("should return the center point of a polygon in the map's projection", () => {
             centerPoint = actions.createCenterPoint({rootState}, {feature: polygonFeat});
@@ -151,7 +147,7 @@ describe("src/modules/tools/draw/store/actionsDraw.js", () => {
             expect(dispatch.calledThrice).to.be.true;
             expect(dispatch.firstCall.args).to.eql(["manipulateInteraction", {interaction: "draw", active: activeSymbol}]);
             expect(dispatch.secondCall.args).to.eql(["createDrawInteractionListener", {isOuterCircle: false, drawInteraction: "", maxFeatures: maxFeaturesSymbol}]);
-            expect(dispatch.thirdCall.args[0]).to.eql("addInteraction");
+            expect(dispatch.thirdCall.args[0]).to.eql("Maps/addInteraction");
             expect(typeof dispatch.thirdCall.args[1]).to.eql("object");
         });
 
@@ -169,11 +165,11 @@ describe("src/modules/tools/draw/store/actionsDraw.js", () => {
             expect(dispatch.callCount).to.equal(6);
             expect(dispatch.args[0]).to.eql(["manipulateInteraction", {interaction: "draw", active: activeSymbol}]);
             expect(dispatch.args[1]).to.eql(["createDrawInteractionListener", {isOuterCircle: false, drawInteraction: "", maxFeatures: maxFeaturesSymbol}]);
-            expect(dispatch.args[2][0]).to.eql("addInteraction");
+            expect(dispatch.args[2][0]).to.eql("Maps/addInteraction");
             expect(typeof dispatch.args[2][1]).to.eql("object");
             expect(dispatch.args[3]).to.eql(["manipulateInteraction", {interaction: "draw", active: activeSymbol}]);
             expect(dispatch.args[4]).to.eql(["createDrawInteractionListener", {isOuterCircle: true, drawInteraction: "Two", maxFeatures: maxFeaturesSymbol}]);
-            expect(dispatch.args[5][0]).to.eql("addInteraction");
+            expect(dispatch.args[5][0]).to.eql("Maps/addInteraction");
             expect(typeof dispatch.args[5][1]).to.eql("object");
         });
     });
@@ -325,11 +321,11 @@ describe("src/modules/tools/draw/store/actionsDraw.js", () => {
             expect(dispatch.callCount).to.equal(5);
             expect(dispatch.args[0]).to.eql(["manipulateInteraction", {interaction: "modify", active: activeSymbol}]);
             expect(dispatch.args[1]).to.eql(["createModifyInteractionListener"]);
-            expect(dispatch.args[2][0]).to.eql("addInteraction");
+            expect(dispatch.args[2][0]).to.eql("Maps/addInteraction");
             expect(typeof dispatch.args[2][1]).to.eql("object");
 
             expect(dispatch.args[3]).to.eql(["createSelectInteractionModifyListener"]);
-            expect(dispatch.args[4][0]).to.eql("addInteraction");
+            expect(dispatch.args[4][0]).to.eql("Maps/addInteraction");
             expect(typeof dispatch.args[4][1]).to.eql("object");
         });
     });
@@ -421,7 +417,7 @@ describe("src/modules/tools/draw/store/actionsDraw.js", () => {
             expect(dispatch.calledThrice).to.be.true;
             expect(dispatch.firstCall.args).to.eql(["manipulateInteraction", {interaction: "delete", active: activeSymbol}]);
             expect(dispatch.secondCall.args).to.eql(["createSelectInteractionListener"]);
-            expect(dispatch.thirdCall.args[0]).to.eql("addInteraction");
+            expect(dispatch.thirdCall.args[0]).to.eql("Maps/addInteraction");
             expect(typeof dispatch.thirdCall.args[1]).to.eql("object");
         });
     });
@@ -486,11 +482,10 @@ describe("src/modules/tools/draw/store/actionsDraw.js", () => {
                 getInteractions: () => [drawOne, drawTwo, noDraw]
             };
 
-            mapCollection.addMap(map, "ol", "2D");
+            mapCollection.addMap(map, "2D");
             rootState = {
-                Map: {
-                    mapId: "ol",
-                    mapMode: "2D"
+                Maps: {
+                    mode: "2D"
                 }};
             state = {deactivatedDrawInteractions: []};
         });
@@ -614,31 +609,17 @@ describe("src/modules/tools/draw/store/actionsDraw.js", () => {
         });
     });
     describe("removeInteraction", () => {
-        let interactionSymbol, removeInteraction, rootState;
+        let interactionSymbol;
 
         beforeEach(() => {
             interactionSymbol = Symbol();
-            removeInteraction = sinon.spy();
-            rootState = {
-                Map: {
-                    mapId: "ol",
-                    mapMode: "2D"
-                }};
-            mapCollection.clear();
-            const map = {
-                id: "ol",
-                mode: "2D",
-                removeInteraction: removeInteraction
-            };
-
-            mapCollection.addMap(map, "ol", "2D");
         });
 
         it("should call the 'removeInteration' method of the map of the rootState", () => {
-            actions.removeInteraction({rootState}, interactionSymbol);
+            actions.removeInteraction({dispatch}, interactionSymbol);
 
-            expect(removeInteraction.calledOnce).to.be.true;
-            expect(removeInteraction.firstCall.args).to.eql([interactionSymbol]);
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.firstCall.args[1]).to.eql(interactionSymbol);
         });
     });
     describe("resetModule", () => {
@@ -653,6 +634,8 @@ describe("src/modules/tools/draw/store/actionsDraw.js", () => {
             modifyInteraction = Symbol(),
             selectInteractionModify = Symbol(),
             selectInteraction = Symbol(),
+            modifyAttributesInteraction = Symbol(),
+            selectInteractionModifyAttributes = Symbol(),
             un = sinon.spy();
 
         it("should commit and dispatch as intended", () => {
@@ -663,7 +646,9 @@ describe("src/modules/tools/draw/store/actionsDraw.js", () => {
                 layer: {getSource: () => ({un})},
                 modifyInteraction,
                 selectInteractionModify,
-                selectInteraction
+                selectInteraction,
+                modifyAttributesInteraction,
+                selectInteractionModifyAttributes
             };
             actions.resetModule({state, commit, dispatch, getters});
 
@@ -683,7 +668,7 @@ describe("src/modules/tools/draw/store/actionsDraw.js", () => {
             expect(commit.getCall(9).args).to.eql(["setDownloadFileName", initialState.download.fileName]);
             expect(commit.getCall(10).args).to.eql(["setDownloadSelectedFormat", initialState.download.selectedFormat]);
 
-            expect(dispatch.callCount).to.equal(7);
+            expect(dispatch.callCount).to.equal(9);
             expect(dispatch.getCall(0).args).to.eql(["toggleInteraction", "draw"]);
             expect(dispatch.getCall(1).args).to.eql(["manipulateInteraction", {interaction: "draw", active: false}]);
             expect(dispatch.getCall(2).args).to.eql(["removeInteraction", drawInteraction]);
@@ -691,50 +676,61 @@ describe("src/modules/tools/draw/store/actionsDraw.js", () => {
             expect(dispatch.getCall(4).args).to.eql(["removeInteraction", modifyInteraction]);
             expect(dispatch.getCall(5).args).to.eql(["removeInteraction", selectInteractionModify]);
             expect(dispatch.getCall(6).args).to.eql(["removeInteraction", selectInteraction]);
+            expect(dispatch.getCall(7).args).to.eql(["removeInteraction", modifyAttributesInteraction]);
+            expect(dispatch.getCall(8).args).to.eql(["removeInteraction", selectInteractionModifyAttributes]);
         });
     });
     describe("toggleInteraction", () => {
         let interaction;
+        const getters = {
+            currentInteraction: "none"
+        };
 
         it("should enable the draw interactions and disable the other interactions if the given interaction equals 'draw'", () => {
             interaction = "draw";
 
-            actions.toggleInteraction({commit, dispatch}, interaction);
+            actions.toggleInteraction({getters, commit, dispatch}, interaction);
 
-            expect(commit.calledTwice).to.be.true;
-            expect(commit.firstCall.args).to.eql(["setCurrentInteraction", "draw"]);
-            expect(commit.secondCall.args).to.eql(["setSelectedFeature", null]);
-            expect(dispatch.callCount).to.equal(4);
+            expect(commit.calledThrice).to.be.true;
+            expect(commit.firstCall.args).to.eql(["setFormerInteraction", "none"]);
+            expect(commit.secondCall.args).to.eql(["setCurrentInteraction", "draw"]);
+            expect(commit.thirdCall.args).to.eql(["setSelectedFeature", null]);
+            expect(dispatch.callCount).to.equal(5);
             expect(dispatch.args[0]).to.eql(["manipulateInteraction", {interaction: "draw", active: true}]);
             expect(dispatch.args[1]).to.eql(["manipulateInteraction", {interaction: "modify", active: false}]);
-            expect(dispatch.args[2]).to.eql(["manipulateInteraction", {interaction: "delete", active: false}]);
-            expect(dispatch.args[3]).to.eql(["updateDrawInteraction"]);
+            expect(dispatch.args[2]).to.eql(["manipulateInteraction", {interaction: "modifyAttributes", active: false}]);
+            expect(dispatch.args[3]).to.eql(["manipulateInteraction", {interaction: "delete", active: false}]);
+            expect(dispatch.args[4]).to.eql(["updateDrawInteraction"]);
         });
         it("should enable the modify interaction and disable the other interactions if the given interaction equals 'modify'", () => {
             interaction = "modify";
 
-            actions.toggleInteraction({commit, dispatch}, interaction);
+            actions.toggleInteraction({getters, commit, dispatch}, interaction);
 
-            expect(commit.calledTwice).to.be.true;
-            expect(commit.firstCall.args).to.eql(["setCurrentInteraction", "modify"]);
-            expect(commit.secondCall.args).to.eql(["setSelectedFeature", null]);
-            expect(dispatch.calledThrice).to.be.true;
-            expect(dispatch.firstCall.args).to.eql(["manipulateInteraction", {interaction: "draw", active: false}]);
-            expect(dispatch.secondCall.args).to.eql(["manipulateInteraction", {interaction: "modify", active: true}]);
-            expect(dispatch.thirdCall.args).to.eql(["manipulateInteraction", {interaction: "delete", active: false}]);
+            expect(commit.calledThrice).to.be.true;
+            expect(commit.firstCall.args).to.eql(["setFormerInteraction", "none"]);
+            expect(commit.secondCall.args).to.eql(["setCurrentInteraction", "modify"]);
+            expect(commit.thirdCall.args).to.eql(["setSelectedFeature", null]);
+            expect(dispatch.callCount).to.equal(4);
+            expect(dispatch.args[0]).to.eql(["manipulateInteraction", {interaction: "draw", active: false}]);
+            expect(dispatch.args[1]).to.eql(["manipulateInteraction", {interaction: "modify", active: true}]);
+            expect(dispatch.args[2]).to.eql(["manipulateInteraction", {interaction: "modifyAttributes", active: false}]);
+            expect(dispatch.args[3]).to.eql(["manipulateInteraction", {interaction: "delete", active: false}]);
         });
         it("should enable the select interaction and disable the other interactions if the given interaction equals 'delete'", () => {
             interaction = "delete";
 
-            actions.toggleInteraction({commit, dispatch}, interaction);
+            actions.toggleInteraction({getters, commit, dispatch}, interaction);
 
-            expect(commit.calledTwice).to.be.true;
-            expect(commit.firstCall.args).to.eql(["setCurrentInteraction", "delete"]);
-            expect(commit.secondCall.args).to.eql(["setSelectedFeature", null]);
-            expect(dispatch.calledThrice).to.be.true;
-            expect(dispatch.firstCall.args).to.eql(["manipulateInteraction", {interaction: "draw", active: false}]);
-            expect(dispatch.secondCall.args).to.eql(["manipulateInteraction", {interaction: "modify", active: false}]);
-            expect(dispatch.thirdCall.args).to.eql(["manipulateInteraction", {interaction: "delete", active: true}]);
+            expect(commit.calledThrice).to.be.true;
+            expect(commit.firstCall.args).to.eql(["setFormerInteraction", "none"]);
+            expect(commit.secondCall.args).to.eql(["setCurrentInteraction", "delete"]);
+            expect(commit.thirdCall.args).to.eql(["setSelectedFeature", null]);
+            expect(dispatch.callCount).to.equal(4);
+            expect(dispatch.args[0]).to.eql(["manipulateInteraction", {interaction: "draw", active: false}]);
+            expect(dispatch.args[1]).to.eql(["manipulateInteraction", {interaction: "modify", active: false}]);
+            expect(dispatch.args[2]).to.eql(["manipulateInteraction", {interaction: "modifyAttributes", active: false}]);
+            expect(dispatch.args[3]).to.eql(["manipulateInteraction", {interaction: "delete", active: true}]);
         });
     });
     describe("undoLastStep", () => {

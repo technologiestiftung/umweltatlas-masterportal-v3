@@ -4,7 +4,6 @@ import Cluster from "ol/source/Cluster.js";
 import {expect} from "chai";
 import sinon from "sinon";
 import OAFLayer from "../../oaf";
-import mapCollection from "../../../../core/dataStorage/mapCollection.js";
 import store from "../../../../app-store";
 
 describe("src/core/layers/oaf.js", () => {
@@ -26,7 +25,7 @@ describe("src/core/layers/oaf.js", () => {
             }
         };
 
-        mapCollection.addMap(map, "ol", "2D");
+        mapCollection.addMap(map, "2D");
         i18next.init({
             lng: "cimode",
             debug: false
@@ -38,12 +37,11 @@ describe("src/core/layers/oaf.js", () => {
             name: "oafTestLayer",
             id: "id",
             typ: "oaf",
-            version: "2.0.0",
             gfiTheme: "gfiTheme",
             isChildLayer: false,
             transparent: false,
             isSelected: false,
-            featureType: "krankenhaeuser_hh",
+            collection: "krankenhaeuser_hh",
             crs: "crs"
         };
         store.getters = {

@@ -5,6 +5,7 @@ import ControlBar from "./modules/controls/ControlBar.vue";
 import LayerInformation from "./modules/layerInformation/components/LayerInformation.vue";
 import LegendWindow from "./modules/legend/components/LegendWindow.vue";
 import MapMarker from "./modules/mapMarker/components/MapMarker.vue";
+import MouseHover from "./modules/mouseHover/components/MouseHover.vue";
 import QuickHelp from "./modules/quickHelp/components/QuickHelp.vue";
 import ToolManager from "./modules/tools/ToolManager.vue";
 import WmsTime from "./modules/wmsTime/components/WmsTime.vue";
@@ -19,6 +20,7 @@ export default {
         LayerInformation,
         LegendWindow,
         MapMarker,
+        MouseHover,
         QuickHelp,
         ToolManager,
         WmsTime
@@ -61,13 +63,11 @@ export default {
             <div
                 id="map"
             />
+            <LegendWindow />
             <ToolManager
                 v-if="configJson"
                 :show-in-sidebar="false"
             />
-            <div class="menu">
-                <LegendWindow />
-            </div>
             <div class="elements-positioned-over-map">
                 <LayerInformation />
                 <ControlBar class="controls" />
@@ -83,6 +83,7 @@ export default {
             v-if="getConfigObject()"
             :quick-help-config-js-object="typeof getConfigObject().quickHelp === 'object' || typeof getConfigObject().quickHelp === 'boolean' ? getConfigObject().quickHelp : false"
         />
+        <MouseHover />
 
         <template v-if="i18NextInitialized">
             <component
@@ -136,14 +137,6 @@ export default {
             .controls {
                 flex-grow: 1;
             }
-        }
-
-        .menu {
-            position: absolute;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            width: 100%;
         }
     }
 </style>

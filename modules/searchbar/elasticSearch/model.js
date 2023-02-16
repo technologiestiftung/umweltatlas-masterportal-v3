@@ -18,7 +18,7 @@ const ElasticSearchModel = Backbone.Model.extend(/** @lends ElasticSearchModel.p
             coordinate: "coordinate"
         },
         hitType: "common:modules.searchbar.type.subject",
-        hitGlyphicon: "glyphicon-road",
+        hitIcon: "bi-signpost-2-fill",
         async: false,
         useProxy: false
     },
@@ -39,7 +39,7 @@ const ElasticSearchModel = Backbone.Model.extend(/** @lends ElasticSearchModel.p
      * @property {String} triggerEvent.event = "" Event of radio event.
      * @property {Object} hitMap = {name: "", id: "id", coordinate: "coordinate"} Mapping object of the response hit to fit the structure of the searchbars hits.
      * @property {String} hitType = "Elastic" Type of the hit to be appended in the recommended list.
-     * @property {String} hitGlyphicon = "glyphicon-road" Css class of the glyphicon to be prepended in the recommended list.
+     * @property {String} hitIcon = "bi-signpost-2-fill" Css class of the icon to be prepended in the recommended list.
      * @property {Boolean} async = false Flag if request should be asynchronous.
      * @property {Boolean} useProxy = false Flag if request should be proxied.
      * @fires Core#RadioRequestParametricURLGetInitString
@@ -67,6 +67,7 @@ const ElasticSearchModel = Backbone.Model.extend(/** @lends ElasticSearchModel.p
     search: async function (searchString) {
         const searchStringAttribute = this.get("searchStringAttribute"),
             payload = this.appendSearchStringToPayload(this.get("payload"), searchStringAttribute, searchString),
+            payloadWithIgnoreIds = this.addIgnoreIdsToPayload(payload, Config?.tree),
             requestConfig = {
                 serviceId: this.get("serviceId"),
                 /**
@@ -75,13 +76,14 @@ const ElasticSearchModel = Backbone.Model.extend(/** @lends ElasticSearchModel.p
                 */
                 useProxy: this.get("useProxy"),
                 type: this.get("type"),
-                payload: payload,
+                payload: payloadWithIgnoreIds,
                 responseEntryPath: this.get("responseEntryPath")
             };
         let result;
 
         if (searchString.length >= this.get("minChars")) {
             result = await initializeSearch(requestConfig);
+
             this.createRecommendedList(result.hits);
         }
     },
@@ -108,6 +110,24 @@ const ElasticSearchModel = Backbone.Model.extend(/** @lends ElasticSearchModel.p
     },
 
     /**
+     * Blacklist of layerids and metdataids.
+     * Adds layerids and metadataids to the payload that should not appear in the response.
+     * @param {Object} payload Payload as Object.
+     * @param {Object} configTree Tree configuration from config.js.
+     * @returns {Object} Payload with ignore ids.
+     */
+    addIgnoreIdsToPayload: function (payload, configTree) {
+        if (configTree?.layerIDsToIgnore?.length > 0) {
+            payload.params.id = configTree.layerIDsToIgnore;
+        }
+        if (configTree?.metaIDsToIgnore?.length > 0) {
+            payload.params["datasets.md_id"] = configTree.metaIDsToIgnore;
+        }
+
+        return payload;
+    },
+
+    /**
      * Creates the recommended List
      * @param {Object[]} responseData Response data.
      * @fires Searchbar#RadioTriggerSearchbarPushHits
@@ -119,11 +139,11 @@ const ElasticSearchModel = Backbone.Model.extend(/** @lends ElasticSearchModel.p
         const triggerEvent = this.get("triggerEvent"),
             hitMap = this.get("hitMap"),
             hitType = i18next.t(this.get("hitType")),
-            hitGlyphicon = this.get("hitGlyphicon");
+            hitIcon = this.get("hitIcon");
 
         if (responseData.length > 0) {
             responseData.forEach(result => {
-                const hit = this.createHit(result, hitMap, hitType, hitGlyphicon, triggerEvent);
+                const hit = this.createHit(result, hitMap, hitType, hitIcon, triggerEvent);
 
                 Radio.trigger("Searchbar", "pushHits", "hitList", hit);
             });
@@ -139,21 +159,23 @@ const ElasticSearchModel = Backbone.Model.extend(/** @lends ElasticSearchModel.p
      * @param {Object} result Result object from elastcisearch request.
      * @param {Object} hitMap Mapping object. Used to map results attributes to neccessary hit attributes.
      * @param {String} hitType Type of hit.
-     * @param {String} hitGlyphicon Glyphicon class to show in reccomendedList
+     * @param {String} hitIcon Icon class to show in reccomendedList
      * @param {Object} triggerEvent Object defining channel and event. used to fire event on mouseover and click in recommendedList.
      * @returns {Object} - hit.
      */
-    createHit: function (result, hitMap, hitType, hitGlyphicon, triggerEvent) {
+    createHit: function (result, hitMap, hitType, hitIcon, triggerEvent) {
         let hit = {};
-
-        hit.type = hitType;
-        hit.glyphicon = hitGlyphicon;
 
         Object.keys(hitMap).forEach(key => {
             hit[key] = this.findAttributeByPath(result, hitMap[key]);
         });
+        hit.type = hitType;
+        hit.icon = hitIcon;
         if (Object.keys(triggerEvent).length > 0) {
             hit = Object.assign(hit, {triggerEvent: triggerEvent});
+        }
+        if (result._source && result._source.datasets?.[0]?.md_name) {
+            hit.metaName = hit.name + " (" + result._source.datasets[0].md_name + ")";
         }
 
         return hit;

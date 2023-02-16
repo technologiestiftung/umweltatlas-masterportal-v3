@@ -52,18 +52,16 @@ describe("src/modules/controls/backForward/components/BackForward.vue", () => {
                         backForward: BackForwardModule
                     }
                 },
-                Map: {
+                Maps: {
                     namespaced: true,
                     getters: {
-                        mapId: () => "ol_bf",
-                        mapMode: () => "2D",
-                        ol2DMap: () => {
-                            return map;
-                        }
+                        mode: () => "2D"
                     }
                 }
             }
         });
+        mapCollection.clear();
+        mapCollection.addMap(map, "2D");
     });
 
     it("renders the forward/backward buttons", () => {

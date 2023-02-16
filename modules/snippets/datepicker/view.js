@@ -1,7 +1,7 @@
 import Template from "text-loader!./template.html";
 import "bootstrap-datepicker";
 import "bootstrap-datepicker/dist/locales/bootstrap-datepicker.de.min";
-import moment from "moment";
+import dayjs from "dayjs";
 
 const DatepickerView = Backbone.View.extend(/** @lends DatepickerView.prototype */{
     /**
@@ -72,8 +72,8 @@ const DatepickerView = Backbone.View.extend(/** @lends DatepickerView.prototype 
             orientation: date.get("orientation"),
             beforeShowDay: date.get("beforeShowDay"),
             templates: {
-                leftArrow: "<i class=\"glyphicon glyphicon-triangle-left\"></i>",
-                rightArrow: "<i class=\"glyphicon glyphicon-triangle-right\"></i>"
+                leftArrow: "<i class=\"bi-caret-left-fill\"></i>",
+                rightArrow: "<i class=\"bi-caret-right-fill\"></i>"
             }
         });
 
@@ -93,7 +93,7 @@ const DatepickerView = Backbone.View.extend(/** @lends DatepickerView.prototype 
                 date.get("inputs").datepicker("setDate", date.get("date"));
             }
             else if (!Array.isArray(date.get("date"))) {
-                date.get("inputs").datepicker("update", moment(date.get("date")).format("DD.MM.YYYY"));
+                date.get("inputs").datepicker("update", dayjs(date.get("date")).format("DD.MM.YYYY"));
             }
         }
 

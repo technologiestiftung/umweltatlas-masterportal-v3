@@ -122,7 +122,8 @@ Using the `SensorThingsHttp.get()` function, the `SensorThingsHttp` layer handle
 Here is a basic implementation of `SensorThingsHttp`, using basic events of the Masterportal, to show its functionality:
 
 ```js
-import {SensorThingsHttp} from "@modules/core/modelList/layer/sensorThingsHttp";
+import {SensorThingsHttp} from "@src/utils/sensorThingsHttp";
+import LoaderOverlay from "/src/utils/loaderOverlay";
 
 const http = new SensorThingsHttp(),
     url = "https://iot.hamburg.de/v1.0/Things";
@@ -131,10 +132,10 @@ http.get(url, function (response) {
     // do something with the complete response
 }, function () {
     // onstart
-    Radio.trigger("Util", "showLoader");
+    LoaderOverlay.show();
 }, function () {
     // oncomplete (always called finally)
-    Radio.trigger("Util", "hideLoader");
+    LoaderOverlay.hide();
 }, function (error) {
     // onerror
     console.warn(error);
@@ -296,7 +297,8 @@ The extent needs to be described including its source projection and target proj
 See this basic implementation of `SensorThingsHttp` to receive data within the browser's current view extent only, using Masterportal events to show its functionality, as an example:
 
 ```js
-import {SensorThingsHttp} from "@modules/core/modelList/layer/sensorThingsHttp";
+import {SensorThingsHttp} from "@src/utils/sensorThingsHttp";
+import LoaderOverlay from "/src/utils/loaderOverlay";
 
 const http = new SensorThingsHttp(),
     extent = Radio.request("MapView", "getCurrentExtent"),
@@ -314,11 +316,11 @@ http.getInExtent(url, {
 
 }, function () {
     // on start (always called)
-    Radio.trigger("Util", "showLoader");
+    LoaderOverlay.show();
 
 }, function () {
     // on complete (always called)
-    Radio.trigger("Util", "hideLoader");
+    LoaderOverlay.hide();
 
 }, function (error) {
     // on error
@@ -351,13 +353,13 @@ Basic example:
 Example to transform a Location from your current projection into "EPSG:4326":
 
 ```js
-import {transform} from "masterportalapi/src/crs";
+import crs from "@masterportal/masterportalapi/src/crs";
 
 const extent = Radio.request("MapView", "getCurrentExtent"),
     projection = Radio.request("MapView", "getProjection").getCode(),
     epsg = "EPSG:4326",
-    topLeftCorner = transform(projection, epsg, {x: extent[0], y: extent[1]}),
-    bottomRightCorner = transform(projection, epsg, {x: extent[2], y: extent[3]});
+    topLeftCorner = crs.transform(projection, epsg, {x: extent[0], y: extent[1]}),
+    bottomRightCorner = crs.transform(projection, epsg, {x: extent[2], y: extent[3]});
 
 ```
 

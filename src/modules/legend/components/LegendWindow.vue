@@ -6,12 +6,14 @@ import mutations from "../store/mutationsLegend";
 import actions from "../store/actionsLegend";
 import LegendSingleLayer from "./LegendSingleLayer.vue";
 import {convertColor} from "../../../utils/convertColor";
-import getComponent from "../../../utils/getComponent";
+import {getComponent} from "../../../utils/getComponent";
+import BasicDragHandle from "../../../share-components/BasicDragHandle.vue";
 
 export default {
     name: "LegendWindow",
     components: {
-        LegendSingleLayer
+        LegendSingleLayer,
+        BasicDragHandle
     },
     computed: {
         ...mapGetters("Legend", Object.keys(getters)),
@@ -25,7 +27,7 @@ export default {
          */
         showLegend (showLegend) {
             if (showLegend) {
-                document.getElementsByClassName("navbar-collapse")[0].classList.remove("in");
+                document.getElementsByClassName("navbar-collapse")[0].classList.remove("show");
                 this.createLegend();
                 // focus to first element
                 this.$nextTick(() => {
@@ -56,31 +58,6 @@ export default {
     },
     mounted () {
         this.getLegendConfig();
-    },
-    updated () {
-        $(this.$el).draggable({
-            containment: "#map",
-            handle: this.uiStyle === "TABLE" ? ".legend-title-table" : ".legend-title",
-            stop: function (event, ui) {
-                const legendElem = ui.helper[0].querySelector(".legend-window") || ui.helper[0].querySelector(".legend-window-table"),
-                    legendOuterWidth = legendElem.offsetWidth,
-                    legendOuterHeight = legendElem.offsetHeight,
-                    mapWidth = document.getElementById("map").offsetWidth,
-                    mapHeight = document.getElementById("map").offsetHeight;
-
-                if (ui.offset.left - legendOuterWidth < 0) {
-                    ui.helper.css({
-                        left: -(mapWidth - legendOuterWidth)
-                    });
-                }
-
-                if (ui.offset.top + legendOuterHeight >= mapHeight) {
-                    ui.helper.css({
-                        top: mapHeight - legendOuterHeight
-                    });
-                }
-            }
-        });
     },
     methods: {
         ...mapActions("Legend", Object.keys(actions)),
@@ -295,7 +272,7 @@ export default {
         prepareLegend (legendInfos) {
             let preparedLegend = [];
 
-            if (Array.isArray(legendInfos) && legendInfos.every(value => typeof value === "string")) {
+            if (Array.isArray(legendInfos) && legendInfos.every(value => typeof value === "string") && legendInfos.length > 0) {
                 preparedLegend = legendInfos;
             }
             else if (Array.isArray(legendInfos)) {
@@ -308,7 +285,6 @@ export default {
                     };
 
                     if (geometryType) {
-
                         if (geometryType === "Point") {
                             legendObj = this.prepareLegendForPoint(legendObj, style);
                         }
@@ -542,25 +518,33 @@ export default {
             const fillColor = style.get("polygonFillColor") ? convertColor(style.get("polygonFillColor"), "rgbString") : "black",
                 strokeColor = style.get("polygonStrokeColor") ? convertColor(style.get("polygonStrokeColor"), "rgbString") : "black",
                 strokeWidth = style.get("polygonStrokeWidth"),
-                fillOpacity = style.get("polygonFillColor")[3] || 0,
+                fillOpacity = style.get("polygonFillColor")?.[3] || 0,
+                fillHatch = style.get("polygonFillHatch"),
                 strokeOpacity = style.get("polygonStrokeColor")[3] || 0;
-            let svg = "data:image/svg+xml;charset=utf-8,";
 
-            svg += "<svg height='35' width='35' version='1.1' xmlns='http://www.w3.org/2000/svg'>";
-            svg += "<polygon points='5,5 30,5 30,30 5,30' style='fill:";
-            svg += fillColor;
-            svg += ";fill-opacity:";
-            svg += fillOpacity;
-            svg += ";stroke:";
-            svg += strokeColor;
-            svg += ";stroke-opacity:";
-            svg += strokeOpacity;
-            svg += ";stroke-width:";
-            svg += strokeWidth;
-            svg += ";'/>";
-            svg += "</svg>";
+            if (fillHatch) {
+                legendObj.graphic = style.getPolygonFillHatchLegendDataUrl();
+            }
+            else {
+                let svg = "data:image/svg+xml;charset=utf-8,";
 
-            legendObj.graphic = svg;
+                svg += "<svg height='35' width='35' version='1.1' xmlns='http://www.w3.org/2000/svg'>";
+                svg += "<polygon points='5,5 30,5 30,30 5,30' style='fill:";
+                svg += fillColor;
+                svg += ";fill-opacity:";
+                svg += fillOpacity;
+                svg += ";stroke:";
+                svg += strokeColor;
+                svg += ";stroke-opacity:";
+                svg += strokeOpacity;
+                svg += ";stroke-width:";
+                svg += strokeWidth;
+                svg += ";'/>";
+                svg += "</svg>";
+
+                legendObj.graphic = svg;
+            }
+
             return legendObj;
         },
 
@@ -681,18 +665,19 @@ export default {
         toggleCollapseAll (evt) {
             if (evt.type === "click" || evt.which === 32 || evt.which === 13) {
 
-                const element = evt.target,
-                    hasArrowUp = element.className.includes("glyphicon-arrow-up");
+                const element = evt.currentTarget,
+                    iconElement = element.querySelector("i"),
+                    hasArrowUp = iconElement.className.includes("bi-arrow-up");
 
                 if (hasArrowUp) {
                     this.collapseAllLegends();
-                    element.classList.remove("glyphicon-arrow-up");
-                    element.classList.add("glyphicon-arrow-down");
+                    iconElement.classList.remove("bi-arrow-up");
+                    iconElement.classList.add("bi-arrow-down");
                 }
                 else {
                     this.expandAllLegends();
-                    element.classList.remove("glyphicon-arrow-down");
-                    element.classList.add("glyphicon-arrow-up");
+                    iconElement.classList.remove("bi-arrow-down");
+                    iconElement.classList.add("bi-arrow-up");
                 }
             }
         },
@@ -708,7 +693,7 @@ export default {
                     layerTitleElement = layerLegendElement.parentElement.firstChild;
 
                 layerTitleElement.classList.add("collapsed");
-                layerLegendElement.classList.remove("in");
+                layerLegendElement.classList.remove("show");
             });
         },
 
@@ -723,7 +708,7 @@ export default {
                     layerTitleElement = layerLegendElement.parentElement.firstChild;
 
                 layerTitleElement.classList.remove("collapsed");
-                layerLegendElement.classList.add("in");
+                layerLegendElement.classList.add("show");
                 layerLegendElement.removeAttribute("style");
             });
         }
@@ -740,41 +725,54 @@ export default {
             v-if="showLegend"
             :class="mobile ? 'legend-window-mobile' : (uiStyle === 'TABLE' ? 'legend-window-table': 'legend-window')"
         >
-            <div :class="uiStyle === 'TABLE' ? 'legend-title-table': 'legend-title'">
-                <span
-                    :class="glyphicon"
-                    class="glyphicon hidden-sm"
-                />
-                <span>{{ $t(name) }}</span>
-                <div class="float-right">
-                    <span
-                        v-if="showCollapseAllButton"
-                        ref="collapse-all-icon"
-                        tabindex="0"
-                        class="glyphicon glyphicon-arrow-up toggle-collapse-all legend"
-                        :title="$t('common:modules.legend.toggleCollapseAll')"
-                        @click="toggleCollapseAll($event)"
-                        @keydown="toggleCollapseAll($event)"
-                    />
-                    <span
-                        ref="close-icon"
-                        class="glyphicon glyphicon-remove close-legend"
-                        tabindex="0"
-                        @click="closeLegend($event)"
-                        @keydown="closeLegend($event)"
-                    />
+            <BasicDragHandle
+                target-sel="#legend"
+                :margin-bottom="100"
+            >
+                <div
+                    :class="uiStyle === 'TABLE' ? 'legend-title-table': 'legend-title'"
+                    class="row py-3 d-flex align-items-center"
+                >
+                    <span class="bootstrap-icon d-md-none d-lg-inline-block col-2">
+                        <i :class="icon" />
+                    </span>
+                    <h2 class="title col-5 px-0 pt-1 pb-0">
+                        {{ $t(name) }}
+                    </h2>
+                    <div class="col-5 d-flex justify-content-end">
+                        <span
+                            v-if="showCollapseAllButton"
+                            ref="collapse-all-icon"
+                            tabindex="0"
+                            class="bootstrap-icon toggle-collapse-all legend"
+                            :title="$t('common:modules.legend.toggleCollapseAll')"
+                            @click="toggleCollapseAll($event)"
+                            @keydown="toggleCollapseAll($event)"
+                        >
+                            <i class="bi-arrow-up" />
+                        </span>
+                        <span
+                            ref="close-icon"
+                            class="bootstrap-icon close-legend"
+                            tabindex="0"
+                            @click="closeLegend($event)"
+                            @keydown="closeLegend($event)"
+                        >
+                            <i class="bi-x-lg" />
+                        </span>
+                    </div>
                 </div>
-            </div>
+            </BasicDragHandle>
             <div class="legend-content">
                 <div
                     v-for="legendObj in legends"
                     :key="legendObj.name"
-                    class="layer panel panel-default"
+                    class="layer card"
                 >
                     <div
-                        class="layer-title panel-heading"
-                        data-toggle="collapse"
-                        :data-target="'#' + generateId(legendObj.name)"
+                        class="layer-title card-header"
+                        data-bs-toggle="collapse"
+                        :data-bs-target="'#' + generateId(legendObj.name)"
                     >
                         <span>{{ legendObj.name }}</span>
                     </div>
@@ -795,24 +793,22 @@ export default {
 
 <style lang="scss" scoped>
     @import "~/css/mixins.scss";
-
-    $color_1: #000000;
-    $color_2: rgb(255, 255, 255);
-    $font_family_2: "MasterPortalFont", sans-serif;
-    $background_color_3: #f2f2f2;
-    $background_color_4: #646262;
+    @import "~variables";
 
     #legend.legend-mobile {
         width: 100%;
     }
     #legend {
+        position: absolute;
+        right: 1px;
         .legend-window {
             position: absolute;
             min-width:200px;
             max-width:600px;
-            right: 0;
+            right: 45px;
+            top: 10px;
             margin: 10px 10px 30px 10px;
-            background-color: #ffffff;
+            background-color: $white;
             z-index: 9999;
         }
         .legend-window-mobile {
@@ -820,13 +816,18 @@ export default {
             width: calc(100% - 20px);
             top: 10px;
             left: 10px;
-            background-color: #ffffff;
+            background-color: $white;
             z-index: 1;
         }
         .legend-title {
             padding: 10px;
             border-bottom: 2px solid #e7e7e7;
             cursor: move;
+            .title{
+                @include tool-headings-h2();
+                display: inline-block;
+                margin: 0;
+            }
             .close-legend {
                 padding: 5px;
                 cursor: pointer;
@@ -855,7 +856,7 @@ export default {
             .layer-title {
                 padding: 5px;
                 font-weight: bold;
-                background-color: #e7e7e7;
+                background-color: $light_grey;
                 span {
                     vertical-align: -webkit-baseline-middle;
                 }
@@ -871,16 +872,14 @@ export default {
     .legend-window-table {
         position: absolute;
         right: 0;
-        font-family: $font_family_2;
         border-radius: 12px;
-        background-color: $background_color_4;
+        background-color: $dark_grey;
         width: 300px;
         margin: 10px 10px 30px 10px;
         z-index: 9999;
         .legend-title-table {
-            font-family: $font_family_2;
-            font-size: 14px;
-            color: $color_2;
+            font-size: $font_size_big;
+            color: $white;
             padding: 10px;
             cursor: move;
             .close-legend {
@@ -905,16 +904,16 @@ export default {
         .legend-content {
             border-bottom-left-radius: 12px;
             border-bottom-right-radius: 12px;
-            background-color: $background_color_3;
-            .panel {
-                background-color: $background_color_3;
+            background-color: $light_grey;
+            .card {
+                background-color: $light_grey;
             }
             .layer-title {
                 border-radius: 12px;
                 padding: 5px;
-                color: $color_1;
+                color: $black;
                 font-weight: bold;
-                background-color: #e7e7e7;
+                background-color: $light_grey;
                 span {
                     vertical-align: -webkit-baseline-middle;
                 }

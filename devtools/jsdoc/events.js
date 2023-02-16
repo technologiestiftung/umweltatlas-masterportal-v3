@@ -1,48 +1,9 @@
-/** -------------------- StyleWMS -------------------- */
-
-/**
- * @event StyleWMS#RadioTriggerStyleWMSOpenStyleWMS
- * @param {Object} model Layer model to be styled
- * @description Opens the Tool and sets the layer model. Event is triggered by clicking on the glyphicon in the layer tree.
- * @example Radio.trigger("StyleWMS", "openStyleWMS", model)
- */
-
-/**
- * @event StyleWMS#changeModel
- * @description Triggered when layer model to style changes
- */
-
-/**
- * @event StyleWMS#changeIsActive
- * @description Triggered when stylewms model gets activated
- */
-
-/**
- * @event StyleWMS#changeAttributeName
- * @description Triggered when attributeName changes
- */
-
-/**
- * @event StyleWMS#changeNumberOfClasses
- * @description Triggered when numberOfClasses changes
- */
-
-/**
- * @event StyleWMS#changeSetSld
- * @description Triggered when setSLD changes
- */
-
-/**
- * @event StyleWms#sync
- * @description Triggered when setSLD changes
- */
-
 /** -------------------- StyleVT -------------------- */
 
 /**
  * @event StyleVT#RadioTriggerStyleVTOpenStyleVT
  * @param {Object} model Layer model to be styled
- * @description Opens the Tool and sets the layer model. Event is triggered by clicking on the glyphicon in the layer tree.
+ * @description Opens the Tool and sets the layer model. Event is triggered by clicking on the icon in the layer tree.
  * @example Radio.trigger("StyleVT", "open", model)
  */
 
@@ -847,7 +808,7 @@
  * @event Searchbar#RadioTriggerSearchbarPushHits
  * @description trigger transfer of search hits as a list
  * @param {String} sListname Name of list
- * @param {Object[]} aHitListArray an array of object{id, name, type} with optional values: coordinate, glyphicon, geom, adress, locationFinder, metaName, osm, marker, geometryType
+ * @param {Object[]} aHitListArray an array of object{id, name, type} with optional values: coordinate, icon, geom, adress, locationFinder, metaName, osm, marker, geometryType
  * @example Radio.trigger("Searchbar", "pushHits", "hitList", aHitListArray);
  */
 
@@ -991,144 +952,12 @@
  */
 
 /**
- * @event Core#RadioRequestUtilGetIgnoredKeys
- * @description returns the ignoredKeys
- * @returns {string[]} ignoredKeys
- * @example Radio.request("Util", "getIgnoredKeys");
- */
-
-/**
- * @event Core#RadioTriggerUtilShowLoader
- * @example Radio.trigger("Util", "showLoader")
- * @description Shows loading gif
- */
-
-/**
- * @event Core#RadioTriggerUtilHideLoader
- * @example Radio.trigger("Util", "hideLoader")
- * @description Shows loading gif
- */
-
-/**
- * @event Core#RadioRequestUtilGetUiStyle
- * @description returns the ignoredKeys
- * @returns {string} - Style of the ui. Possible values are "DEFAULT" or "TABLE"
- * @example Radio.request("Util", "getUiStyle");
- */
-
-/**
- * @event Core#RadioRequestUtilIsAny
- * @description returns if the device type is mobile
- * @returns {string} - Mobile Device. Possible values are "true", "false" or "null"
- * @example Radio.request("Util", "isAny");
- */
-
-/**
- * @event Core#RadioRequestUtilIsApple
- * @description returns if the device type is an iphone, ipod or ipad
- * @returns {string} - Apple Device. Possible values are "true", "false" or "null"
- * @example Radio.request("Util", "isApple");
- */
-
-/**
- * @event Core#RadioRequestUtilIsAndroid
- * @description returns if the device type is android
- * @returns {string} - Android Device. Possible values are "true", "false" or "null"
- * @example Radio.request("Util", "isAndroid");
- */
-
-/**
- * @event Core#RadioRequestUtilIsOpera
- * @description returns if the browser type is opera
- * @returns {string} - Opera Device. Possible values are "true", "false" or "null"
- * @example Radio.request("Util", "isOpera");
- */
-
-/**
- * @event Core#RadioRequestUtilIsOpera
- * @description returns if the browser type is opera
- * @returns {string} - Opera Device. Possible values are "true", "false" or "null"
- * @example Radio.request("Util", "isOpera");
- */
-
-/**
- * @event Core#RadioRequestUtilIsOpera
- * @description returns if the browser type is opera
- * @returns {string} - Opera Browser. Possible values are "true", "false" or "null"
- * @example Radio.request("Util", "isOpera");
- */
-
-/**
- * @event Core#RadioRequestUtilIsWindows
- * @description returns if the browser type is Windows
- * @returns {string} - Opera Browser. Possible values are "true", "false" or "null"
- * @example Radio.request("Util", "isWindows");
- */
-
-/**
- * @event Core#RadioRequestUtilIsChrome
- * @description returns if the browser type is chrome
- * @returns {string} - Chrome Browser. Possible values are "true", "false" or "null"
- * @example Radio.request("Util", "isChrome");
- */
-
-/**
- * @event Core#RadioRequestUtilIsInternetExplorer
- * @description returns if the browser type is Internet Explorer
- * @returns {string} - Internet Explorer Browser. Possible values are "true", "false" or "null"
- * @example Radio.request("Util", "isInternetExplorer");
- */
-
-/**
- * @event Core#RadioRequestUtilSort
- * @description Sorting alorithm that distinguishes between array[objects] and other arrays.
- * @param {String} type Type of sort algorithm Currently .
- * @param {String[] | Object[]} values Values to be sorted.
- * @param {String} first Name of first Attribute to be sorted.
- * @param {String} second Name of second Attribute to be sorted. Only if type!== "address".
- * @returns {string[] | Object[]} - Sorted Array
- * @example Radio.request("Util", "sort", type, values, first, second);
- */
-
-
-/**
- * @event Core#RadioRequestUtilGetMasterPortalVersionNumber
- * @description returns the masterportal version number
- * @returns {String} - masterportal version number
- * @example Radio.request("Util", "getMasterPortalVersionNumber");
- */
-
-/**
- * @event Core#RadioRequestUtilSortBy
- * @description This sort function sorts arrays, objects and strings. This is a replacement for underscores sortBy
- * @param {(Array|Object|String)} [list=undefined] the array, object or string to sort
- * @param {(String|Number|Function)} [iteratee=undefined] may be a function (value, key, list) returning a number to sort by or the name of the key to sort objects with
- * @param {Object} [context=undefined] the context to be used for iteratee, if iteratee is a function
- * @returns {Array}  a new list as array
- * @example Radio.request("Util", "sortBy", [3, 2, 1], (num) => num, this);
- */
-
-/**
- * @event Core#RadioRequestUtilUniqueId
- * @description Generate a globally-unique id for client-side models or DOM elements that need one.
- * @param {String} [prefix=""] prefix for the id
- * @returns {String}  a globally-unique id
- * @example Radio.request("Util", "uniqueId", prefix);
- */
-
-/**
  * @event Core#RadioRequestUtilDifferenceJs
  * @description Looks through each value in the array a, returning an array of all the values that are not present in the array b
  * @param {array} a - elements to check
  * @param {array} b - elements to check
  * @returns {array} - returns diffrence between array a and b
  * @example Radio.request("Util", "DifferenceJs", array-a, array-b);
- */
-
-/**
- * @event Core#RadioRequestUtilSetUiStyle
- * @description sets the ui style
- * @example Radio.request("Util", "setUiStyle");
  */
 
 /**
@@ -1895,18 +1724,6 @@
  * @description Triggers if the languages has changed
  * @param {String} lng the new language to use
  * @example Radio.trigger("i18next", "languageChanged", lng);
- */
-
-/** -------------------- ZOOMTOGEOMETRY -------------------- */
-
-/**
- * @event ZoomToGeometry#RadioTriggerZoomToGeometryZoomToGeometry
- * @description Zooms the map to a geometry from wfs.
- */
-
- /**
- * @event ZoomToGeometry#RadioTriggerZoomToGeometrySetIsRender
- * @description Todo
  */
 
  /** -------------------- TOOLS.PARCELSEARCH -------------------- */

@@ -1,5 +1,5 @@
 import StyleModel from "./style.js";
-import {Circle as CircleStyle, Fill, Stroke, Style, Icon} from "ol/style.js";
+import {Circle as CircleStyle, Fill, Stroke, Style, Icon, RegularShape} from "ol/style.js";
 import {prepareValue, isObjectPath} from "../../src/utils/attributeMapper.js";
 
 const PointStyleModel = StyleModel.extend(/** @lends PointStyleModel.prototype */{
@@ -69,7 +69,16 @@ const PointStyleModel = StyleModel.extend(/** @lends PointStyleModel.prototype *
         "circleBarCircleStrokeWidth": 1,
         "circleBarLineStrokeColor": [0, 0, 0, 1],
         "scalingAttribute": "",
-        "rotation": 0
+        "rotation": 0,
+        // for type regularShape
+        "rsRadius": 10,
+        "rsRadius2": undefined,
+        "rsPoints": 3,
+        "rsFillColor": [0, 153, 255, 1],
+        "rsStrokeColor": [0, 0, 0, 1],
+        "rsStrokeWidth": 5,
+        "rsAngle": 0,
+        "rsScale": undefined
     },
 
     initialize: function (feature, styles, isClustered) {
@@ -114,6 +123,9 @@ const PointStyleModel = StyleModel.extend(/** @lends PointStyleModel.prototype *
         else if (type === "interval") {
             return this.createIntervalPointStyle();
         }
+        else if (type === "regularshape") {
+            return this.createRegularShapeStyle();
+        }
 
         return new Style();
     },
@@ -121,6 +133,7 @@ const PointStyleModel = StyleModel.extend(/** @lends PointStyleModel.prototype *
     /**
     * Creates simpleClusterStyle.
     * all clustered features get same image.
+    * @see {@link https://community.cesium.com/t/cors-and-billboard-image/3920/2} crossOrigin: "anonymous", is necessary for the 3D mode.
     * @returns {ol/style} - The created style.
     */
     createIconClusterStyle: function () {
@@ -133,6 +146,7 @@ const PointStyleModel = StyleModel.extend(/** @lends PointStyleModel.prototype *
 
         return new Style({
             image: new Icon({
+                crossOrigin: "anonymous",
                 src: src,
                 width: width,
                 height: height,
@@ -190,11 +204,12 @@ const PointStyleModel = StyleModel.extend(/** @lends PointStyleModel.prototype *
     /**
     * Creates pointStyle as icon.
     * all features get same image.
+    * @see {@link https://community.cesium.com/t/cors-and-billboard-image/3920/2} crossOrigin: "anonymous", is necessary for the 3D mode.
     * @returns {ol/style} - The created style.
     */
     createIconPointStyle: function () {
-        const src = this.get("imagePath") + this.get("imageName"),
-            isSVG = src.indexOf(".svg") > -1,
+        let src = this.get("imagePath") + this.get("imageName");
+        const isSVG = src.indexOf(".svg") > -1,
             width = this.get("imageWidth"),
             height = this.get("imageHeight"),
             scale = parseFloat(this.get("imageScale")),
@@ -203,8 +218,11 @@ const PointStyleModel = StyleModel.extend(/** @lends PointStyleModel.prototype *
             offsetYUnit = this.get("imageOffsetYUnit"),
             rotation = this.getRotationValue(this.get("rotation"));
 
+        src = src.startsWith("<svg") ? "data:image/svg+xml;charset=utf-8," + encodeURIComponent(src) : src;
+
         return new Style({
             image: new Icon({
+                crossOrigin: "anonymous",
                 src: src,
                 width: width,
                 height: height,
@@ -285,8 +303,44 @@ const PointStyleModel = StyleModel.extend(/** @lends PointStyleModel.prototype *
     },
 
     /**
+     * Creates RegularShape Style.
+     * all features get same shape styöe.
+     * @returns {ol/style} - The created RegularShape style.
+     */
+    createRegularShapeStyle: function () {
+        const radius = parseFloat(this.get("rsRadius"), 10),
+            radius2 = parseFloat(this.get("rsRadius2"), 10),
+            points = parseFloat(this.get("rsPoints"), 10),
+            angle = parseFloat(this.get("rsAngle"), 10),
+            rotation = this.getRotationValue(this.get("rotation")),
+            scale = this.get("rsScale"),
+            fillcolor = this.returnColor(this.get("rsFillColor"), "rgb"),
+            strokecolor = this.returnColor(this.get("rsStrokeColor"), "rgb"),
+            strokewidth = parseFloat(this.get("rsStrokeWidth"), 10);
+
+        return new Style({
+            image: new RegularShape({
+                radius: radius,
+                radius2: radius2,
+                points: points,
+                scale: scale,
+                rotation: rotation,
+                angle: angle,
+                fill: new Fill({
+                    color: fillcolor
+                }),
+                stroke: new Stroke({
+                    color: strokecolor,
+                    width: strokewidth
+                })
+            })
+        });
+    },
+
+    /**
      * create Style for SVG
      * @param  {String} svgPath - contains the params to be draw
+     * @see {@link https://community.cesium.com/t/cors-and-billboard-image/3920/2} crossOrigin: "anonymous", is necessary for the 3D mode.
      * @return {ol.Style} style
      */
     createSVGStyle: function (svgPath) {
@@ -294,6 +348,7 @@ const PointStyleModel = StyleModel.extend(/** @lends PointStyleModel.prototype *
 
         return new Style({
             image: new Icon({
+                crossOrigin: "anonymous",
                 src: "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgPath),
                 imgSize: [size, size]
             })

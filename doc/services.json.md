@@ -15,7 +15,7 @@ All layer information the portal needs to use the services is stored here. Confi
 |Name|Required|Type|Default|Description|Example|
 |----|--------|----|-------|-----------|-------|
 |cache|no|Boolean||Is this layer part of a cached service? If `true`, this layer is preferred to layers that share the same metadata, but have `cache` set to `false`. This only works in portals with `"treeType": "default"` in their **[config.json](config.json.md)**. The parameter has no effects on other tree types.|`false`|
-|datasets|no|**[datasets](#markdown-header-wms_wfs_oaf_datasets)**/Boolean||Metadata specification. All metadata the layer data is referenced here. On clicking the "i" button in the layer tree, the information is retrieved by the CSW interface and shown to the user. For this, the **[rest-services.json](rest-services.json.md)** has to provide the URL of the metadata catalog resp. its CSW interface. The values *kategorie_opendata*, *kategorie_inspire*, and *kategorie_organisation* are used for layer categorization if the **[config.json](config.json.md)** has `treeType` set to `"default"`. To remove the "i" button altogether, explicitly set `"datasets": false`.||
+|datasets|no|**[datasets](#markdown-header-wms_wfs_oaf_datasets)**/Boolean||Metadata specification. All metadata the layer data is referenced here. On clicking the "i" button in the layer tree, the information is retrieved by the CSW interface and shown to the user. For this, the **[rest-services.json](rest-services.json.md)** has to provide the URL of the metadata catalog resp. its CSW interface. The values *kategorie_opendata*, *kategorie_inspire*, and *kategorie_organisation* are used for layer categorization if the **[config.json](config.json.md)** has `treeType` set to `"default"`. It is also possible to retrieve metadata with a `getMetaData` request, in this case there can also be additional informations displayed. To remove the "i" button altogether, explicitly set `"datasets": false`.||
 |featureCount|yes|String||Amount of features retrieved on GFI requests. Corresponds to the *GetFeatureInfo parameter "FEATURE_COUNT"*.|`"1"`|
 |format|yes|String||Image format of tiles requested via *GetMap*. Must match one of the service's formats listed in *Capability/Request/GetMap/Format*.|`"image/jpeg"`|
 |gfiAttributes|yes|String/**[gfiAttributes](#markdown-header-gfi_attributes)**||GFI attributes to be shown|`"ignore"`|
@@ -128,13 +128,13 @@ If a parameter is also present in the service, the definition in this config is 
 
 WMTS layers can be added by
 
-* entering all the following WMTS parameters
+* entering all the following WMTS parameters (EPSG:4326 and EPSG:3857 only)
 * using OpenLayers' `optionsFromCapabilities` method (see second example below)
 
 |Name|Required|Type|Default|Description|Example|
 |----|--------|----|-------|-----------|-------|
 |capabilitiesUrl|no|String||Service's capabilities URL|`"https://www.wmts.nrw.de/geobasis/wmts_nw_dtk/1.0.0/WMTSCapabilities.xml"`|
-|coordinateSystem|yes|String||Layer's coordinate reference system|`"EPSG:3857"`|
+|coordinateSystem|yes|enum["EPSG:4326", "EPSG:3857"]||Layer's coordinate reference system|`"EPSG:3857"`|
 |format|yes|String||Image format of layer tiles. Only required with parameter `requestEncoding` set to `"KVP"` ist.|`"image/png"`|
 |id|yes|String||Arbitrary id|`"320"`|
 |layers|yes|String||Layer name. Must match the name noted in the WMTS capabilities.|`"geolandbasemap"`|
@@ -235,7 +235,7 @@ WMTS layers can be added by
 
 |Name|Required|Type|Default|Description|Example|
 |----|--------|----|-------|-----------|-------|
-|datasets|yes|**[datasets](#markdown-header-wms_wfs_oaf_datasets)**[]/Boolean||Metadata specification. All metadata of the layer data is referenced here. By clicking the "i" button in the layer tree, the information is retrieved by the CSW interface and shown to the user. For this, the **[rest-services.json](rest-services.json.md)** has to provide the URL of the metadata catalog resp. its CSW interface. The values *kategorie_opendata*, *kategorie_inspire*, and *kategorie_organisation* are used for layer categorization if the **[config.json](config.json.md)** has `treeType` set to `"default"`. To remove the "i" button altogether, explicitly set `"datasets": false`.||
+|datasets|yes|**[datasets](#markdown-header-wms_wfs_oaf_datasets)**[]/Boolean||Metadata specification. All metadata of the layer data is referenced here. By clicking the "i" button in the layer tree, the information is retrieved by the CSW interface and shown to the user. For this, the **[rest-services.json](rest-services.json.md)** has to provide the URL of the metadata catalog resp. its CSW interface. The values *kategorie_opendata*, *kategorie_inspire*, and *kategorie_organisation* are used for layer categorization if the **[config.json](config.json.md)** has `treeType` set to `"default"`. It is also possible to retrieve metadata with a getMetaData request, in this case there can also be additional informations displayed. To remove the "i" button altogether, explicitly set `"datasets": false`.||
 |featureNS|yes|String||Usually referenced in the WFS *GetCapabilities*' header. Used to resolve the namespace given in *FeatureType/Name*.|`"http://www.deegree.org/app"`|
 |featureType|yes|String||Feature type to load. Must match a value of *FeatureTypeList/FeatureType/Name* in the *GetCapabilities* response. Provide without namespace.|`"bab_vkl"`|
 |featurePrefix|no|String||Used to identify a *FeatureType* in the service.|
@@ -258,6 +258,9 @@ WMTS layers can be added by
 |isSecured|no|Boolean|false|Displays whether the layer belongs to a secured service. (**[see below](#markdown-header-wms-layerissecured)**)|false|
 |authenticationUrl|no|String||Additional url called to trigger basic authentication in the browser.|"https://geodienste.hamburg.de/HH_WMS_DOP10?SERVICE=WFS&VERSION=1.1.0&REQUEST=DescribeFeatureType"|
 |propertyNames|no|Array||The attributes as PROPERTYNAME parameter to receive response from wfs layer |`["properties"]`|
+|wildCard|no|String||The wildcard parameter for the highlightFeaturesByAttribute property query. Must be one character only.|
+|singleChar|no|String||The singlechar parameter for the highlightFeaturesByAttribute property query. Must be one character only.|
+|escapeChar|no|String||The escapechar parameter for the highlightFeaturesByAttribute property query. Must be one character only.|
 
 **WFS example:**
 
@@ -431,7 +434,7 @@ Please note the [VTL specification](https://docs.mapbox.com/vector-tiles/specifi
 |minZoom|no|Number||The minimum zoom level|4|
 |maxZoom|no|Number||The maximum zoom level|15|
 |zDirection|no|Number|1|Specifies, if the resolutions of the service and the portal are different, in which direction the resolution should be used.|-1|
-|datasets|no|**[datasets](#markdown-header-wms_wfs_oaf_datasets)**/Boolean||Metadata specification. All metadata of the layer data is referenced here. By clicking the "i" button in the layer tree, the information is retrieved by the CSW interface and shown to the user. For this, the **[rest-services.json](rest-services.json.md)** has to provide the URL of the metadata catalog resp. its CSW interface. The values *kategorie_opendata*, *kategorie_inspire*, and *kategorie_organisation* are used for layer categorization if the **[config.json](config.json.md)** has `treeType` set to `"default"`. To remove the "i" button altogether, explicitly set `"datasets": false`.||
+|datasets|no|**[datasets](#markdown-header-wms_wfs_oaf_datasets)**/Boolean||Metadata specification. All metadata of the layer data is referenced here. By clicking the "i" button in the layer tree, the information is retrieved by the CSW interface and shown to the user. For this, the **[rest-services.json](rest-services.json.md)** has to provide the URL of the metadata catalog resp. its CSW interface. The values *kategorie_opendata*, *kategorie_inspire*, and *kategorie_organisation* are used for layer categorization if the **[config.json](config.json.md)** has `treeType` set to `"default"`. It is also possible to retrieve metadata with a getMetaData request, in this case there can also be additional informations displayed. To remove the "i" button altogether, explicitly set `"datasets": false`.||
 |gfiAttributes|yes|String/**[gfiAttributes](#markdown-header-gfi_attributes)**||GFI attributes to be shown.|`"ignore"`|
 |epsg|no|String|The portal's default EPSG code.|EPSG string used for checking the coordinate reference system. If the value does not match the VTL, a warning is shown. Vector tile services should offer the data in the target CRS for performance reasons. If `"EPSG:3857"` is set with neither `"extend"`, nor `"origin"`, `"resolutions"`, or `"tileSize"`, no *GridSet* is created. The OL default will be used instead.|`"EPSG:3857"`|
 |extent|no|Number[4]||Required to define the VTC's *GridSet*. If not set, the portal's coordinate reference system's extent is used.|`[902186.674876469653, 7054472.60470921732, 1161598.35425907862, 7175683.41171819717]`|
@@ -520,6 +523,14 @@ For more details, consider reading the [extensive SensorThings-API documentation
 |useProxy|no|Boolean|`false`|_Deprecated in the next major release. *[GDI-DE](https://www.gdi-de.org/en)* recommends setting CORS headers on the required services instead._ Only used for GFI requests. The request will contain the requested URL as path, with dots replaced by underscores.|`false`|
 |version|no|String|"1.1"|Service version used to request data.|`"1.0"`|
 |intersect|no|Boolean|true|Setting if the sensor data is in intersect range or within range |`true`|
+|observeLocation|no|Boolean|false|Enable to subscribe to locations|`true`|
+|rotationUnit|no|String|""|Defines the rotation unit for feature|`degree`|
+|maxSpeedKmh|no|Number|undefined|Specifies the max. speed (km/h) of moving objects. Used to calculate a buffer around the extent in which the objects are subscribed.|
+|maxScaleForHistoricalFeatures|no|Number|undefined|Specifies the max. scale to show historical features.|
+|factor|no|Number|10|Is used for the calculation of the buffer around the extent. Ignored if maxSpeedKmh is not defined.|
+|historicalLocations|no|Number||Set to an amount to enable historical locations for each moveable feature. The given amount of historical locations will be displayed on the map.|`5`|
+|enableContinuousRequest|no|Boolean||Set true to enable continuous requests in an interval based on the configured `factor`. Will be ignored if no `factor` is configured.|`true`|
+|scaleStyleByZoom|no|Boolean|Scales the style depending on the zoom level. Works only for image styles and subclasses.|'true'|
 
 **Sensor example:**
 
@@ -532,6 +543,10 @@ For more details, consider reading the [extensive SensorThings-API documentation
       "version" : "1.0",
       "url" : "https://51.5.242.162/itsLGVhackathon",
       "intersect": true,
+      "maxSpeedKmh": 36,
+      "maxScaleForHistoricalFeatures": 40000,
+      "factor": 20,
+      "enableContinuousRequest": true,
       "urlParameter" : {
          "root" : "Things",
          "filter" : "startswith(Things/name,'Charging')",
@@ -559,7 +574,8 @@ For more details, consider reading the [extensive SensorThings-API documentation
       "mqttOptions" : {
           "host" : "https://localhost",
           "port": "1883"
-      }
+      },
+      "rotationUnit": "degree"
    }
 ```
 
@@ -631,7 +647,7 @@ Enables filtering SensorThingsAPI requests.
 
 ## WMS_WFS_OAF_datasets
 
-Metadata specification. All metadata of the layer data is referenced here. By clicking the "i" button in the layer tree, the information is retrieved by the CSW interface and shown to the user. For this, the **[rest-services.json](rest-services.json.md)** has to provide the URL of the metadata catalog resp. its CSW interface. The values *kategorie_opendata*, *kategorie_inspire*, and *kategorie_organisation* are used for layer categorization if the **[config.json](config.json.md)** has `treeType` set to `"default"`. To remove the "i" button altogether, explicitly set `"datasets": false`.
+Metadata specification. All metadata of the layer data is referenced here. By clicking the "i" button in the layer tree, the information is retrieved by the CSW interface and shown to the user. For this, the **[rest-services.json](rest-services.json.md)** has to provide the URL of the metadata catalog resp. its CSW interface. The values *kategorie_opendata*, *kategorie_inspire*, and *kategorie_organisation* are used for layer categorization if the **[config.json](config.json.md)** has `treeType` set to `"default"`. It is also possible to retrieve metadata with a getMetaData request, in this case there can also be additional informations displayed. To remove the "i" button altogether, explicitly set `"datasets": false`.
 
 |Name|Required|Type|Default|Description|
 |----|--------|----|-------|-----------|
@@ -644,6 +660,8 @@ Metadata specification. All metadata of the layer data is referenced here. By cl
 |kategorie_opendata|no|String||Opendata category from the govdata.de code list.|
 |kategorie_inspire|no|String||Inspire category from the Inspire code list, if available; if not, set to `"nicht Inspire-identifiziert"`.|
 |kategorie_organisation|no|String||Organization name of the data holding body.|
+|customMetadata|no|Boolean|false|Flag for requesting metadata via getMetaData and making customized metadata possible.|
+|attributes|no|Object||Key and value pairs with paths to a specific metadata value.|
 
 **datasets example:**
 
@@ -661,6 +679,20 @@ Metadata specification. All metadata of the layer data is referenced here. By cl
         "kategorie_organisation" : "Behörde für Arbeit, Gesundheit, Soziales, Familie und Integration"
     }
 ]
+```
+
+**datasets example with getMetaData request:**
+
+```json
+"datasets": [{
+      "customMetadata": true,
+      "csw_url": "https://mapservice....&request=GetMetadata&layer=beispielLayer",
+      "attributes": 
+        {
+        "Titel": "MD_Metadata.fileIdentifier.CharacterString",
+        "URL": "MD_Metadata.contact.CI_ResponsibleParty.contactInfo.CI_Contact.onlineResource.CI_OnlineResource.linkage.URL"
+        }
+      }],
 ```
 
 ***
@@ -1194,9 +1226,8 @@ If the gfiAttributes are given as an object, a key's value may also be an object
 
 |Name|Required|Type|Default|Description|Example|
 |----|--------|----|-------|-----------|-------|
-|datasets|yes|**[datasets](#markdown-header-wms_wfs_oaf_datasets)**[]/Boolean||Metadata specification. All metadata of the layer data is referenced here. By clicking the "i" button in the layer tree, the information is retrieved by the CSW interface and shown to the user. For this, the **[rest-services.json](rest-services.json.md)** has to provide the URL of the metadata catalog resp. its CSW interface. The values *kategorie_opendata*, *kategorie_inspire*, and *kategorie_organisation* are used for layer categorization if the **[config.json](config.json.md)** has `treeType` set to `"default"`. To remove the "i" button altogether, explicitly set `"datasets": false`.||
-|featureNS|yes|String||Usually referenced in the OAF appschema. Used to resolve the namespace given in *FeatureType/Name*.|`"http://www.deegree.org/app"`|
-|featureType|yes|String||Feature type to load. Must match a value of *FeatureTypeList/FeatureType/Name* in the *appschema* response. Provide without namespace.|`"bab_vkl"`|
+|datasets|yes|**[datasets](#markdown-header-wms_wfs_oaf_datasets)**[]/Boolean||Metadata specification. All metadata of the layer data is referenced here. By clicking the "i" button in the layer tree, the information is retrieved by the CSW interface and shown to the user. For this, the **[rest-services.json](rest-services.json.md)** has to provide the URL of the metadata catalog resp. its CSW interface. The values *kategorie_opendata*, *kategorie_inspire*, and *kategorie_organisation* are used for layer categorization if the **[config.json](config.json.md)** has `treeType` set to `"default"`. It is also possible to retrieve metadata with a getMetaData request, in this case there can also be additional informations displayed. To remove the "i" button altogether, explicitly set `"datasets": false`.||
+|collection|yes|String||Collection to load.|`"bab_vkl"`|
 |gfiAttributes|yes|String/**[gfiAttributes](#markdown-header-gfi_attributes)**||GFI attributes to be shown.|`"ignore"`|
 |id|yes|String/**[wfs_id](#markdown-header-wfs_id)**||Arbitrary id or an object with id and suffix|`"44"`|
 |layerAttribution|no|String|`"nicht vorhanden"`|Additional layer information to be shown in the portal's control element *LayerAttribution*, if configured to appear. If `"nicht vorhanden"` (technical key meaning "not available") is chosen, no layer attribution is shown.|`"nicht vorhanden"`|
@@ -1204,23 +1235,14 @@ If the gfiAttributes are given as an object, a key's value may also be an object
 |name|yes|String||Arbitrary display name used in the layer tree.|`"Traffic situation on freeways"`|
 |typ|yes|String||Service type; in this case, "OAF".|`"OAF"`|
 |url|yes|String||Service URL|`"https://api.hamburg.de/datasets/v1/schulen"`|
-|version|no|String||Service version to use if outputFormat is `"xml"`. This is based on WFS.|`"1.1.0"`|
 |altitudeMode|no|enum["clampToGround","absolute","relativeToGround"]|`"clampToGround"`|Height mode in 3D mode.|`"absolute"`|
 |altitude|no|Number||Display height in 3D mode in meters. If an altitude is given, any existing z coordinate is overwritten. If no z coordinate exists, altitude is used as its value.|`527`|
 |altitudeOffset|no|Number||Height offset for display in 3D mode in meters. If given, any existing z coordinates will be increased by this value. If no z coordinate exists, this value is used as z coordinate.|`10`|
 |gfiTheme|yes|String/Object||Display style of GFI information for this layer. Unless `"default"` is chosen, custom templates may be used to show GFI information in another format than the default table style.|`"default"`|
-|useProxy|no|Boolean|`false`|_Deprecated in the next major release. *[GDI-DE](https://www.gdi-de.org/en)* recommends setting CORS headers on the required services instead._ The request will contain the requested URL as path, with dots replaced by underscores.|`false`|
 |isSecured|no|Boolean|false|Displays whether the layer belongs to a secured service. (**[see below](#markdown-header-wms-layerissecured)**)|false|
 |authenticationUrl|no|String||Additional url called to trigger basic authentication in the browser.|"https://api.hamburg.de/datasets/v1/schulen/collections/staatliche_schulen/appschema"|
-|outputFormat|false|String|"json"|The oaf response format.|`"json"`|
-|bulk|false|Boolean|true|The bulk parameter is used to download all items of the collection. LIMIT and OFFSET are ignored if bulk is `true`.|`false`|
 |limit|false|Number||Limits the number of items presented in the response document. Ignored if bulk is `true`.|`10`|
-|offset|false|Number||The start index of the items presented in the response document. Ignored if bulk is `true`.|`0`|
-|bbox|false|Number[]||The bounding boxes that describe the spatial extent of the dataset [minx, miny, maxx, maxy].|`"567190,5934330,567200,5934360"`|
-|bboxCrs|false|String|`"EPSG:25832"`|The coordinate reference system of the value of the bbox parameter.|`"EPSG:25832"`|
-|datetime|false|String||Either a date-time or a period string that adheres to RFC 3339.|`"2018-02-12T00:00:00Z/2018-03-18T12:31:12Z" or "2018-02-12T00:00:00Z/P1M6DT12H31M12S"`|
-|crs|false|String|EPSG:25832|The coordinate reference system of the response geometries.|`"EPSG:25832"`|
-|jsonAcceptHeader|false|String|application/vnd.oai.openapi+json|The mediatype to use for all non feature requests if the server requires other than specified.|`"application/json"`|
+|crs|false|String|http://www.opengis.net/def/crs/EPSG/0/25832|The coordinate reference system of the response geometries. If not supported, server will respond with error 400. See collections index of your oaf service for supported crs. e.g. https://api.hamburg.de/datasets/v1/schulen/collections. Can also be set to false to disable the crs parameter|`"EPSG:25832"`|
 
 **OAF example:**
 
@@ -1229,16 +1251,10 @@ If the gfiAttributes are given as an object, a key's value may also be an object
     "id": "5001",
     "name": "Schulen",
     "url": "https://api.hamburg.de/datasets/v1/schulen",
-    "featureType" : "staatliche_schulen",
+    "collection" : "staatliche_schulen",
     "typ": "OAF",
-    "outputFormat": "json",
-    "bulk": false,
     "limit": 10,
-    "offset": 0,
-    "bbox": "567190,5934330,567200,5934360",
-    "bboxCrs": "EPSG:25832",
-    "datetime": "2018-02-12T00:00:00Z/P1M6DT12H31M12S",
-    "crs": "EPSG:25832",
+    "crs": "http://www.opengis.net/def/crs/EPSG/0/25832",
     "styleId": "8712",
     "gfiAttributes": "showAll",
     "gfiTheme": "default"
@@ -1291,7 +1307,7 @@ If the gfiAttributes are given as an object, a key's value may also be an object
 
 |Name|Required|Type|Default|Description|Example|
 |----|--------|----|-------|-----------|-------|
-|datasets|no|**[datasets](#markdown-header-wms_wfs_oaf_datasets)**/Boolean||Metadata specification. All metadata the layer data is referenced here. On clicking the "i" button in the layer tree, the information is retrieved by the CSW interface and shown to the user. For this, the **[rest-services.json](rest-services.json.md)** has to provide the URL of the metadata catalog resp. its CSW interface. The values *kategorie_opendata*, *kategorie_inspire*, and *kategorie_organisation* are used for layer categorization if the **[config.json](config.json.md)** has `treeType` set to `"default"`. To remove the "i" button altogether, explicitly set `"datasets": false`.||
+|datasets|no|**[datasets](#markdown-header-wms_wfs_oaf_datasets)**/Boolean||Metadata specification. All metadata the layer data is referenced here. On clicking the "i" button in the layer tree, the information is retrieved by the CSW interface and shown to the user. For this, the **[rest-services.json](rest-services.json.md)** has to provide the URL of the metadata catalog resp. its CSW interface. The values *kategorie_opendata*, *kategorie_inspire*, and *kategorie_organisation* are used for layer categorization if the **[config.json](config.json.md)** has `treeType` set to `"default"`. It is also possible to retrieve metadata with a getMetaData request, in this case there can also be additional informations displayed. To remove the "i" button altogether, explicitly set `"datasets": false`.||
 |gfiAttributes|yes|String/**[gfiAttributes](#markdown-header-gfi_attributes)**||GFI attributes to be shown.|`"ignore"`|
 |id|yes|String||Arbitrary id|`"44"`|
 |layerAttribution|no|String|`"nicht vorhanden"`|Additional layer information to be shown in the portal's control element *LayerAttribution*, if configured to appear. If `"nicht vorhanden"` (technical key meaning "not available") is chosen, no layer attribution is shown.|`"nicht vorhanden"`|
@@ -1343,7 +1359,7 @@ If the gfiAttributes are given as an object, a key's value may also be an object
 
 |Name|Required|Type|Default|Description|Example|
 |----|--------|----|-------|-----------|-------|
-|datasets|no|**[datasets](#markdown-header-wms_wfs_oaf_datasets)**/Boolean||Metadata specification. All metadata of the layer data is referenced here. By clicking the "i" button in the layer tree, the information is retrieved by the CSW interface and shown to the user. For this, the **[rest-services.json](rest-services.json.md)** has to provide the URL of the metadata catalog resp. its CSW interface. The values *kategorie_opendata*, *kategorie_inspire*, and *kategorie_organisation* are used for layer categorization if the **[config.json](config.json.md)** has `treeType` set to `"default"`. To remove the "i" button altogether, explicitly set `"datasets": false`.||
+|datasets|no|**[datasets](#markdown-header-wms_wfs_oaf_datasets)**/Boolean||Metadata specification. All metadata of the layer data is referenced here. By clicking the "i" button in the layer tree, the information is retrieved by the CSW interface and shown to the user. For this, the **[rest-services.json](rest-services.json.md)** has to provide the URL of the metadata catalog resp. its CSW interface. The values *kategorie_opendata*, *kategorie_inspire*, and *kategorie_organisation* are used for layer categorization if the **[config.json](config.json.md)** has `treeType` set to `"default"`. It is also possible to retrieve metadata with a getMetaData request, in this case there can also be additional informations displayed. To remove the "i" button altogether, explicitly set `"datasets": false`.||
 |id|yes|String||Arbitrary id|`"44"`|
 |layerAttribution|no|String|`"nicht vorhanden"`|Additional layer information to be shown in the portal's control element *LayerAttribution*, if configured to appear. If `"nicht vorhanden"` (technical key meaning "not available") is chosen, no layer attribution is shown.|`"nicht vorhanden"`|
 |legendURL|yes|String/String[]||_Deprecated, please use "legend"._ Link to static legend image. `"ignore"`: No image is retrieved, `""` (empty string): The service's *GetLegendGraphic* is called.|`"ignore"`|
@@ -1392,7 +1408,7 @@ If the gfiAttributes are given as an object, a key's value may also be an object
 
 |Name|Required|Type|Default|Description|Example|
 |----|--------|----|-------|-----------|-------|
-|datasets|no|**[datasets](#markdown-header-wms_wfs_oaf_datasets)**/Boolean||Metadata specification. All metadata of the layer data is referenced here. By clicking the "i" button in the layer tree, the information is retrieved by the CSW interface and shown to the user. For this, the **[rest-services.json](rest-services.json.md)** has to provide the URL of the metadata catalog resp. its CSW interface. The values *kategorie_opendata*, *kategorie_inspire*, and *kategorie_organisation* are used for layer categorization if the **[config.json](config.json.md)** has `treeType` set to `"default"`. To remove the "i" button altogether, explicitly set `"datasets": false`.||
+|datasets|no|**[datasets](#markdown-header-wms_wfs_oaf_datasets)**/Boolean||Metadata specification. All metadata of the layer data is referenced here. By clicking the "i" button in the layer tree, the information is retrieved by the CSW interface and shown to the user. For this, the **[rest-services.json](rest-services.json.md)** has to provide the URL of the metadata catalog resp. its CSW interface. The values *kategorie_opendata*, *kategorie_inspire*, and *kategorie_organisation* are used for layer categorization if the **[config.json](config.json.md)** has `treeType` set to `"default"`. It is also possible to retrieve metadata with a getMetaData request, in this case there can also be additional informations displayed. To remove the "i" button altogether, explicitly set `"datasets": false`.||
 |id|yes|String||Arbitrary id|`"44"`|
 |layerAttribution|no|String|`"nicht vorhanden"`|Additional layer information to be shown in the portal's control element *LayerAttribution*, if configured to appear. If `"nicht vorhanden"` (technical key meaning "not available") is chosen, no layer attribution is shown.|`"nicht vorhanden"`|
 |name|yes|String||Arbitrary display name used in the layer tree.|`"Charging locations"`|
@@ -1442,7 +1458,7 @@ Used to display 3D models in Gltf or Glb format.
 
 |Name|Required|Type|Default|Description|Example|
 |----|--------|----|-------|-----------|-------|
-|datasets|no|**[datasets](#markdown-header-wms_wfs_oaf_datasets)**/Boolean||Metadata specification. All metadata of the layer data is referenced here. By clicking the "i" button in the layer tree, the information is retrieved by the CSW interface and shown to the user. For this, the **[rest-services.json](rest-services.json.md)** has to provide the URL of the metadata catalog resp. its CSW interface. The values *kategorie_opendata*, *kategorie_inspire*, and *kategorie_organisation* are used for layer categorization if the **[config.json](config.json.md)** has `treeType` set to `"default"`. To remove the "i" button altogether, explicitly set `"datasets": false`.||
+|datasets|no|**[datasets](#markdown-header-wms_wfs_oaf_datasets)**/Boolean||Metadata specification. All metadata of the layer data is referenced here. By clicking the "i" button in the layer tree, the information is retrieved by the CSW interface and shown to the user. For this, the **[rest-services.json](rest-services.json.md)** has to provide the URL of the metadata catalog resp. its CSW interface. The values *kategorie_opendata*, *kategorie_inspire*, and *kategorie_organisation* are used for layer categorization if the **[config.json](config.json.md)** has `treeType` set to `"default"`. It is also possible to retrieve metadata with a getMetaData request, in this case there can also be additional informations displayed. To remove the "i" button altogether, explicitly set `"datasets": false`.||
 |id|yes|String||Arbitrary id|`"41"`|
 |layerAttribution|no|String|`"nicht vorhanden"`|Additional layer information to be shown in the portal's control element *LayerAttribution*, if configured to appear. If `"nicht vorhanden"` (technical key meaning "not available") is chosen, no layer attribution is shown.|`"nicht vorhanden"`|
 |name|yes|String||Arbitrary display name used in the layer tree.|`"Charging locations"`|

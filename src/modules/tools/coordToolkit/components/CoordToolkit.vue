@@ -1,8 +1,8 @@
 <script>
 import ToolTemplate from "../../ToolTemplate.vue";
-import getComponent from "../../../../utils/getComponent";
+import {getComponent} from "../../../../utils/getComponent";
 import {Pointer} from "ol/interaction.js";
-import {getProjections} from "masterportalapi/src/crs";
+import crs from "@masterportal/masterportalapi/src/crs";
 import {mapGetters, mapActions, mapMutations} from "vuex";
 import getters from "../store/gettersCoordToolkit";
 import mutations from "../store/mutationsCoordToolkit";
@@ -12,9 +12,18 @@ export default {
     components: {
         ToolTemplate
     },
+    data () {
+        return {
+            eventHandler: null
+        };
+    },
     computed: {
         ...mapGetters("Tools/CoordToolkit", Object.keys(getters)),
-        ...mapGetters("Map", ["projection", "mouseCoord", "mapMode"]),
+        ...mapGetters("Maps", {
+            projection: "projection",
+            mouseCoordinate: "mouseCoordinate",
+            mapMode: "mode"
+        }),
         ...mapGetters(["uiStyle", "mobile"]),
         eastingNoCoordMessage: function () {
             if (this.currentProjection.projName !== "longlat") {
@@ -54,24 +63,26 @@ export default {
             if (value) {
                 this.initProjections();
                 this.setExample();
-                if (this.mapMode === "2D") {
-                    this.setMode("supply");
-                    this.setSupplyCoordActive();
-                }
-                else {
-                    this.setMode("search");
-                }
+                this.setMode("supply");
+                this.setSupplyCoordActive();
                 this.setFocusToFirstControl();
             }
             else {
                 this.resetErrorMessages("all");
                 this.resetValues();
                 this.setSupplyCoordInactive();
+                this.removeInputActions();
             }
         },
-        mapMode (value) {
-            if (value === "3D") {
-                this.changeMode("search");
+        /**
+         * Allows switching between 2D and 3D when the tool is open.
+         * @returns {void}
+         */
+        mapMode () {
+            if (this.active) {
+                this.setSupplyCoordInactive();
+                this.removeInputActions();
+                this.setSupplyCoordActive();
             }
         }
     },
@@ -95,7 +106,6 @@ export default {
             "changedPosition",
             "setFirstSearchPosition",
             "positionClicked",
-            "setCoordinates",
             "removeMarker",
             "searchCoordinate",
             "validateInput",
@@ -104,9 +114,11 @@ export default {
             "copyCoordinates"
         ]),
         ...mapActions("Alerting", ["addSingleAlert"]),
-        ...mapActions("Map", {
-            addPointerMoveHandlerToMap: "addPointerMoveHandler",
-            removePointerMoveHandlerFromMap: "removePointerMoveHandler",
+        ...mapActions("Maps", {
+            addPointerMoveHandlerToMap: "registerListener",
+            removePointerMoveHandlerFromMap: "unregisterListener"
+        }),
+        ...mapActions("Maps", {
             addInteractionToMap: "addInteraction",
             removeInteractionFromMap: "removeInteraction"
         }),
@@ -126,7 +138,7 @@ export default {
          * @returns {void}
          */
         initProjections () {
-            const pr = getProjections(),
+            const pr = crs.getProjections(),
                 wgs84Proj = [];
 
             if (this.projections.length) {
@@ -145,12 +157,16 @@ export default {
                     const code = proj.name.substring(proj.name.indexOf("#") + 1, proj.name.length);
 
                     proj.title = proj.title + " (EPSG:" + code + ")";
+                    proj.epsg = "EPSG:" + code;
                 }
                 else if (typeof proj.title !== "undefined") {
                     proj.title = proj.title + " (" + proj.name + ")";
                 }
                 else {
                     proj.title = proj.name;
+                }
+                if (proj.id === this.currentProjection.id) {
+                    this.setCurrentProjection(proj);
                 }
             });
             if (wgs84Proj.length > 0) {
@@ -173,9 +189,11 @@ export default {
                 wgs84ProjDez[key] = wgs84Proj[0][key];
             }
 
-            wgs84ProjDez.name = "EPSG:4326";
-            wgs84ProjDez.id = "EPSG:4326-DG";
-            wgs84ProjDez.title = "WGS 84(Dezimalgrad) (EPSG:4326)";
+            wgs84ProjDez.name = "EPSG:4326-DG";
+            wgs84ProjDez.epsg = "EPSG:4326";
+            wgs84ProjDez.id = "http://www.opengis.net/gml/srs/epsg.xml#4326-DG";
+            wgs84ProjDez.title = "WGS 84 (Dezimalgrad) (EPSG:4326)";
+            wgs84ProjDez.getCode = () => "EPSG:4326-DG";
             projections.splice(index + 1, 0, wgs84ProjDez);
         },
         /**
@@ -184,10 +202,12 @@ export default {
          */
         setSupplyCoordInactive () {
             if (this.selectPointerMove !== null) {
-                this.removePointerMoveHandlerFromMap(this.setCoordinates);
                 this.setUpdatePosition(true);
                 this.removeInteractionFromMap(this.selectPointerMove);
                 this.setSelectPointerMove(null);
+            }
+            if (this.mapMode === "3D" && this.eventHandler && typeof this.eventHandler.removeInputAction === "function") {
+                this.eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
             }
         },
         /**
@@ -196,10 +216,9 @@ export default {
          */
         setSupplyCoordActive () {
             if (this.selectPointerMove === null) {
-                this.addPointerMoveHandlerToMap(this.setCoordinates);
                 this.setMapProjection(this.projection);
                 this.createInteraction();
-                this.setPositionMapProjection(this.mouseCoord);
+                this.setPositionMapProjection(this.mouseCoordinate);
                 this.changedPosition();
             }
         },
@@ -222,20 +241,31 @@ export default {
          * @returns {void}
          */
         createInteraction () {
-            const pointerMove = new Pointer(
-                {
-                    handleMoveEvent: function (evt) {
-                        this.checkPosition(evt.coordinate);
-                    }.bind(this),
-                    handleDownEvent: function (evt) {
-                        this.positionClicked(evt);
-                    }.bind(this)
-                },
-                this
-            );
+            if (this.mapMode === "2D") {
+                const pointerMove = new Pointer(
+                    {
+                        handleMoveEvent: function () {
+                            this.checkPosition();
+                        }.bind(this),
+                        handleDownEvent: function () {
+                            this.positionClicked();
+                        }.bind(this)
+                    },
+                    this
+                );
 
-            this.setSelectPointerMove(pointerMove);
-            this.addInteractionToMap(pointerMove);
+                this.setSelectPointerMove(pointerMove);
+                this.addInteractionToMap(pointerMove);
+            }
+            else if (this.mapMode === "3D") {
+                this.eventHandler = new Cesium.ScreenSpaceEventHandler(mapCollection.getMap("3D").getCesiumScene().canvas);
+                this.eventHandler.setInputAction(this.positionClicked, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+            }
+        },
+        removeInputActions () {
+            if (this.eventHandler) {
+                this.eventHandler.destroy();
+            }
         },
         /**
          * Closes this tool window by setting active to false
@@ -273,7 +303,7 @@ export default {
                 this.setSupplyCoordInactive();
                 this.setFirstSearchPosition();
             }
-            else if (this.mapMode !== "3D") {
+            else {
                 this.setMode(newMode);
                 this.resetErrorMessages("all");
                 this.setSupplyCoordActive();
@@ -312,7 +342,7 @@ export default {
                     clazz = "eastingToBottomTwoErrors";
                 }
             }
-            return clazz + " form-group form-group-sm";
+            return clazz + " form-group form-group-sm row";
         },
         /**
          * Returns the className for the northing input field. Special Handling because fields positions are transformed.
@@ -341,14 +371,14 @@ export default {
                     clazz = "northingToTopTwoErrors";
                 }
             }
-            return clazz + " form-group form-group-sm";
+            return clazz + " form-group form-group-sm row";
         },
         /**
          * Returns the className for the labels.
          * @returns {String} the className for the labels
          */
         getLabelClass () {
-            return this.showCopyButtons ? "col-md-3 col-sm-3 control-label" : "col-md-5 col-sm-5 control-label";
+            return this.showCopyButtons ? "col-md-3 col-sm-3 col-form-label" : "col-md-5 col-sm-5 col-form-label";
         },
         /**
          * Returns the className for the input elements.
@@ -356,23 +386,6 @@ export default {
          */
         getInputDivClass () {
             return this.showCopyButtons ? "col-md-6 col-sm-6" : "col-md-7 col-sm-7";
-        },
-        /**
-         * Returns true, if mapMode is 2D.
-         * @returns {boolean} true, if mapMode is 2D.
-         */
-        isSupplyCoordDisabled () {
-            return this.mapMode === "3D";
-        },
-        /**
-         * Returns true, if supplyCoord is active.
-         * @returns {boolean} true, true, if supplyCoord is active
-         */
-        isSupplyCoordChecked () {
-            if (this.mapMode === "3D") {
-                return false;
-            }
-            return this.mode === "supply";
         },
         /**
          * Returns true, if uiStyle is not SIMPLE or TABLE.
@@ -409,7 +422,7 @@ export default {
 <template lang="html">
     <ToolTemplate
         :title="$t(name)"
-        :icon="glyphicon"
+        :icon="icon"
         :active="active"
         :render-to-window="renderToWindow"
         :resizable-window="resizableWindow"
@@ -430,14 +443,13 @@ export default {
                                 id="supplyCoordRadio"
                                 type="radio"
                                 name="mode"
-                                :checked="isSupplyCoordChecked()"
-                                :disabled="isSupplyCoordDisabled()"
+                                class="form-check-input"
+                                :checked="true"
                                 @click="changeMode('supply')"
                             >
                             <label
                                 for="supplyCoordRadio"
-                                :title="isSupplyCoordDisabled()? $t('modules.tools.coordToolkit.disabledTooltip'): ''"
-                                :class="{ 'control-label': true, 'enabled': isEnabled('supply') }"
+                                :class="{ 'form-check-label': true, 'enabled': isEnabled('supply') }"
                                 @click="changeMode('supply')"
                                 @keydown.enter="changeMode('supply')"
                             >{{ $t("modules.tools.coordToolkit.supply") }}</label>
@@ -447,12 +459,12 @@ export default {
                                 id="searchByCoordRadio"
                                 type="radio"
                                 name="mode"
-                                :checked="!isSupplyCoordChecked()"
+                                class="form-check-input"
                                 @click="changeMode('search')"
                             >
                             <label
                                 for="searchByCoordRadio"
-                                :class="{'control-label': true, 'enabled': isEnabled('search') }"
+                                :class="{'form-check-label': true, 'enabled': isEnabled('search') }"
                                 @click="changeMode('search')"
                                 @keydown.enter="changeMode('search')"
                             >{{ $t("modules.tools.coordToolkit.search") }}</label>
@@ -460,17 +472,17 @@ export default {
                     </div>
                     <div
                         v-if="mode === 'supply'"
-                        class="hint col-md-12 col-sm-12"
+                        class="hint col-md-12"
                     >
                         {{ $t("modules.tools.coordToolkit.hintSupply") }}
                     </div>
                     <div
                         v-if="mode === 'search'"
-                        class="hint col-md-12 col-sm-12"
+                        class="hint col-md-12"
                     >
                         {{ $t("modules.tools.coordToolkit.hintSearch") }}
                     </div>
-                    <div class="form-group form-group-sm">
+                    <div class="form-group form-group-sm row">
                         <label
                             for="coordSystemField"
                             :class="getLabelClass()"
@@ -479,7 +491,7 @@ export default {
                             <select
                                 id="coordSystemField"
                                 ref="coordSystemField"
-                                class="font-arial form-control input-sm pull-left"
+                                class="font-arial form-select form-select-sm float-start"
                                 @change="selectionChanged($event)"
                             >
                                 <option
@@ -509,7 +521,7 @@ export default {
                                 type="text"
                                 :readonly="isEnabled('supply')"
                                 :class="{ inputError: getEastingError, 'form-control': true}"
-                                :placeholder="isEnabled( 'search') ? $t('modules.tools.coordToolkit.exampleAcronym') + coordinatesEastingExample : ''"
+                                :placeholder="isEnabled('search') ? $t('modules.tools.coordToolkit.exampleAcronym') + coordinatesEastingExample : ''"
                                 @input="onInputEvent(coordinatesEasting)"
                             ><p
                                 v-if="eastingNoCoord"
@@ -533,14 +545,16 @@ export default {
                             <button
                                 id="copyEastingBtn"
                                 type="button"
-                                class="btn singleCopy"
+                                class="btn btn-outline-default"
                                 :title="$t(`common:modules.tools.coordToolkit.copyCoordBtn`, {value: $t(getLabel('eastingLabel'))})"
                                 @click="copyCoords(['coordinatesEastingField'])"
                             >
                                 <span
-                                    class="glyphicon glyphicon-copy"
+                                    class="bootstrap-icon"
                                     aria-hidden="true"
-                                />
+                                >
+                                    <i class="bi-files" />
+                                </span>
                             </button>
                         </div>
                         <div
@@ -550,14 +564,16 @@ export default {
                             <button
                                 id="copyCoordsPairBtn"
                                 type="button"
-                                class="btn"
+                                class="btn btn-outline-default"
                                 :title="$t(`common:modules.tools.coordToolkit.copyCoordsBtn`)"
                                 @click="copyCoords(['coordinatesEastingField', 'coordinatesNorthingField'])"
                             >
                                 <span
-                                    class="glyphicon glyphicon-copy"
+                                    class="bootstrap-icon"
                                     aria-hidden="true"
-                                />
+                                >
+                                    <i class="bi-files" />
+                                </span>
                             </button>
                         </div>
                     </div>
@@ -576,8 +592,8 @@ export default {
                                 v-model="coordinatesNorthing.value"
                                 type="text"
                                 :class="{ inputError: getNorthingError , 'form-control': true}"
-                                :readonly="isEnabled( 'supply')"
-                                :placeholder="isEnabled( 'search') ? $t('modules.tools.coordToolkit.exampleAcronym') + coordinatesNorthingExample : ''"
+                                :readonly="isEnabled('supply')"
+                                :placeholder="isEnabled('search') ? $t('modules.tools.coordToolkit.exampleAcronym') + coordinatesNorthingExample : ''"
                                 @input="onInputEvent(coordinatesNorthing)"
                             ><p
                                 v-if="northingNoCoord"
@@ -601,20 +617,22 @@ export default {
                             <button
                                 id="copyNorthingBtn"
                                 type="button"
-                                class="btn singleCopy"
+                                class="btn btn-outline-default"
                                 :title="$t(`common:modules.tools.coordToolkit.copyCoordBtn`, {value: $t(getLabel('northingLabel'))})"
                                 @click="copyCoords(['coordinatesNorthingField'])"
                             >
                                 <span
-                                    class="glyphicon glyphicon-copy"
+                                    class="bootstrap-icon"
                                     aria-hidden="true"
-                                />
+                                >
+                                    <i class="bi-files" />
+                                </span>
                             </button>
                         </div>
                     </div>
                     <div
-                        v-if="isEnabled( 'supply') && heightLayer !== null"
-                        class="form-group form-group-sm inputDiv"
+                        v-if="isEnabled('supply') && (heightLayer !== null || mapMode === '3D')"
+                        class="form-group form-group-sm inputDiv row"
                     >
                         <label
                             id="coordinatesHeightLabel"
@@ -633,11 +651,11 @@ export default {
                     </div>
                     <div
                         v-if="isDefaultStyle()"
-                        class="form-group form-group-sm"
+                        class="form-group form-group-sm row"
                     >
-                        <div class="col-md-12 col-sm-12 info">
+                        <div class="col-md-12 info">
                             {{ $t("modules.tools.measure.influenceFactors") }}
-                            <span v-if="heightLayer !== null">
+                            <span v-if="heightLayer !== null && mapMode === '2D'">
                                 <br>
                                 <br>
                                 {{ $t("modules.tools.coordToolkit.heightLayerInfo", {layer: heightLayer.get("name")}) }}
@@ -646,12 +664,12 @@ export default {
                     </div>
                     <div
                         v-if="isEnabled('search')"
-                        class="form-group form-group-sm"
+                        class="form-group form-group-sm row"
                     >
-                        <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="col-12 d-grid gap-2">
                             <button
                                 id="searchByCoordBtn"
-                                class="btn btn-primary btn-block"
+                                class="btn btn-primary"
                                 :disabled="getEastingError || getNorthingError || !coordinatesEasting.value || !coordinatesNorthing.value"
                                 type="button"
                                 @click="searchCoordinate(coordinatesEasting, coordinatesNorthing)"
@@ -669,10 +687,9 @@ export default {
 <style lang="scss" scoped>
 @import "~variables";
 
-
-    @media (max-width: 767px) {
+    @include media-breakpoint-down(md) {
         .checkbox-container .form-inline {
-            font-size: 12px;
+            font-size: $font-size-base;
         }
     }
     .radio-container{
@@ -690,10 +707,10 @@ export default {
     }
     .error-text {
         font-size: 85%;
-        color: #a94442;
+        color: $light_red;
     }
     .hint{
-        margin: 5px 0px 25px;
+        margin: 5px 0 25px;
         text-align:center;
         color: $secondary_focus;
         transition: color 0.35s;
@@ -702,13 +719,13 @@ export default {
         max-width: 550px;
     }
     .eastingToBottomNoError .copyPairBtn{
-        transform: translate(0px, -45px)
+        transform: translate(0px, -50px)
     }
     .eastingToBottomNoError{
-        transform: translate(0px, 45px)
+        transform: translate(0px, 50px)
     }
     .northingToTopNoError{
-        transform: translate(0px, -45px)
+        transform: translate(0px, -50px)
     }
     .northingToTopEastingError{
         transform: translate(0px, -95px)
@@ -726,25 +743,24 @@ export default {
         transform: translate(0px, -75px)
     }
     #copyCoordsPairBtn{
-        height: 75px;
+        height: 91px;
         position: absolute;
-        top: 0;
     }
     .copyBtn{
         padding-right: 0;
         padding-left: 0;
         max-width: 50px;
     }
-    .singleCopy{
-        max-height: 30px
-    }
-   @media (max-width: 767px) {
+    @include media-breakpoint-down(md) {
         .eastingToBottomNoError{
             transform: translate(0px, 70px)
         }
         .northingToTopNoError{
             transform: translate(0px, -70px)
         }
+    }
+    .form-control[readonly] {
+        background-color: $light-grey;
     }
 </style>
 

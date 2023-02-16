@@ -105,7 +105,13 @@ export default {
         hasMappedProperties (feature) {
             return Object.keys(feature.getMappedProperties()).length !== 0;
         },
-
+        /**
+         * @param {string} value string to check.
+         * @returns {boolean} whether the given value includes a pipe.
+         */
+        hasPipe: function (value) {
+            return typeof value === "string" && value.includes("|");
+        },
         /**
          * returns the mapped properties of the given feature or parses the properites through getPropertiesWithFullKeys if the component flag showObjectKeysParam is set
          * @param {Object} feature the current feature
@@ -301,6 +307,14 @@ export default {
                         v-else-if="Array.isArray(value)"
                         v-html="value.join('<br>')"
                     />
+                    <td v-else-if="hasPipe(value)">
+                        <p
+                            v-for="(splitValue, splitKey) in value.split('|')"
+                            :key="splitKey"
+                        >
+                            {{ splitValue }}
+                        </p>
+                    </td>
                     <td
                         v-else-if="typeof value === 'string' && value.includes('<br>')"
                         v-html="value"
@@ -340,7 +354,7 @@ export default {
 
 .table > tbody > tr > td {
     padding: 5px 8px;
-    font-size: 12px;
+    font-size: $font-size-base;
     &.bold{
         font-family: $font_family_accent;
     }
@@ -349,12 +363,12 @@ export default {
     height: 450px;
     resize: both;
 }
-@media (min-width: 768px) {
+@include media-breakpoint-up(sm) {
     .gfi-iFrame {
         width: 450px;
     }
 }
-@media (max-width: 767px) {
+@include media-breakpoint-down(sm) {
     .gfi-iFrame {
         width: 100%;
     }
@@ -370,13 +384,13 @@ export default {
     margin: auto;
     display: block;
     text-align: center;
-    color: black;
+    color: $black;
 }
 .favorite-icon-container {
     display: flex;
     justify-content: center;
-    .glyphicon {
-        font-size: 28px;
+    .bootstrap-icon {
+        font-size: $font_size_huge;
         padding: 0 2px;
     }
 }

@@ -1,10 +1,10 @@
-import {toStringHDMS, toStringXY} from "ol/coordinate.js";
+import {toStringHDMS} from "ol/coordinate.js";
 import proj4 from "proj4";
 import isMobile from "../../../../utils/isMobile";
 import {convertSexagesimalFromString, convertSexagesimalToDecimal, convertSexagesimalFromDecimal} from "../../../../utils/convertSexagesimalCoordinates";
 import getProxyUrl from "../../../../utils/getProxyUrl";
 import {requestGfi} from "../../../../api/wmsGetFeatureInfo";
-import {getLayerWhere} from "masterportalapi/src/rawLayerList";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 
 export default {
     /**
@@ -43,22 +43,30 @@ export default {
      * @param {Event} event - pointerdown-event, to get the position from
      * @returns {void}
      */
-    positionClicked: function ({commit, dispatch, state}, event) {
+    positionClicked: function ({commit, dispatch, state, rootGetters}) {
         const updatePosition = isMobile() ? true : state.updatePosition,
-            position = event.coordinate;
+            position = rootGetters["Maps/mouseCoordinate"],
+            mapMode = rootGetters["Maps/mode"];
 
         commit("setPositionMapProjection", position);
         dispatch("changedPosition");
         commit("setUpdatePosition", !updatePosition);
 
-        dispatch("MapMarker/placingPointMarker", position, {root: true});
-        if (state.heightLayer) {
-            if (updatePosition) {
-                dispatch("getHeight", position);
+        if (mapMode === "2D") {
+            dispatch("MapMarker/placingPointMarker", position, {root: true});
+
+            if (state.heightLayer) {
+                if (updatePosition) {
+                    dispatch("getHeight", position);
+                }
+                else {
+                    commit("setHeight", "");
+                }
             }
-            else {
-                commit("setHeight", "");
-            }
+        }
+        else if (mapMode === "3D" && position.length === 3) {
+            dispatch("MapMarker/placingPointMarker", position, {root: true});
+            commit("setHeight", position[2].toFixed(1));
         }
     },
     /**
@@ -66,7 +74,7 @@ export default {
      * @returns {void}
      */
     initHeightLayer ({commit, state}) {
-        const rawLayer = getLayerWhere({id: state.heightLayerId});
+        const rawLayer = rawLayerList.getLayerWhere({id: state.heightLayerId});
         let layer = null;
 
         if (rawLayer) {
@@ -80,7 +88,8 @@ export default {
                     Radio.trigger("Layer", "prepareLayerObject", layer);
                 }
                 if (layer.has("layerSource")) {
-                    commit("setHeightLayer", layer);
+                    // freeze the layer, else vuex is observing it in mode 3D
+                    commit("setHeightLayer", Object.freeze(layer));
                 }
                 else {
                     console.warn("CoordToolkit: Layer with id " + state.heightLayerId + " to retrieve height from has no layerSource. Heights are not available!");
@@ -98,8 +107,8 @@ export default {
      * @returns {void}
      */
     getHeight ({dispatch, rootGetters, state}, position) {
-        const projection = rootGetters["Map/projection"],
-            resolution = rootGetters["Map/resolution"],
+        const projection = rootGetters["Maps/projection"],
+            resolution = rootGetters["Maps/resolution"],
             gfiParams = {INFO_FORMAT: state.heightInfoFormat, FEATURE_COUNT: 1};
         let url = state.heightLayer.get("layerSource").getFeatureInfoUrl(position, resolution, projection, gfiParams);
 
@@ -160,10 +169,10 @@ export default {
      * Delegates the calculation and transformation of the position according to the projection
      * @returns {void}
      */
-    changedPosition ({dispatch, state, rootGetters, getters}) {
+    changedPosition ({dispatch, state, getters}) {
         if (state.mode === "supply") {
-            const targetProjectionName = state.currentProjection?.name,
-                position = getters.getTransformedPosition(rootGetters["Map/ol2DMap"], targetProjectionName);
+            const targetProjectionName = state.currentProjection?.epsg,
+                position = getters.getTransformedPosition(mapCollection.getMap("2D"), targetProjectionName);
 
             if (position) {
                 dispatch("adjustPosition", {position: position, targetProjection: state.currentProjection});
@@ -174,15 +183,15 @@ export default {
      * Sets the position to map's center, if coordinates are  not set.
      * @returns {void}
      */
-    setFirstSearchPosition ({dispatch, commit, state, rootState, rootGetters, getters}) {
+    setFirstSearchPosition ({dispatch, commit, state, rootState, getters}) {
         if (state.mode === "search" && state.active) {
-            const targetProjectionName = state.currentProjection?.name,
-                position = getters.getTransformedPosition(rootGetters["Map/ol2DMap"], targetProjectionName);
+            const targetProjectionName = state.currentProjection?.epsg,
+                position = getters.getTransformedPosition(mapCollection.getMap("2D"), targetProjectionName);
 
-            if (position && position[0] === 0 && position[1] === 0 && rootState.Map.center) {
-                commit("setCoordinatesEasting", {id: "easting", value: String(rootState.Map.center[0])});
-                commit("setCoordinatesNorthing", {id: "northing", value: String(rootState.Map.center[1])});
-                dispatch("moveToCoordinates", rootState.Map.center);
+            if (position && position[0] === 0 && position[1] === 0 && rootState.Maps.center) {
+                commit("setCoordinatesEasting", {id: "easting", value: String(rootState.Maps.center[0])});
+                commit("setCoordinatesNorthing", {id: "northing", value: String(rootState.Maps.center[1])});
+                dispatch("moveToCoordinates", rootState.Maps.center);
             }
         }
     },
@@ -196,13 +205,13 @@ export default {
     adjustPosition ({commit}, {position, targetProjection}) {
         let coord, easting, northing;
 
-        if (targetProjection && Array.isArray(position) && position.length === 2) {
+        if (targetProjection && Array.isArray(position) && position.length >= 2) {
             // geographical coordinates
             if (targetProjection.projName === "longlat") {
                 let converted;
 
-                coord = toStringHDMS(position);
-                if (targetProjection.id === "EPSG:4326-DG") {
+                coord = toStringHDMS(position.slice(0, 2));
+                if (targetProjection.id === "http://www.opengis.net/gml/srs/epsg.xml#4326-DG") {
                     converted = convertSexagesimalToDecimal(coord);
                 }
                 else {
@@ -213,25 +222,11 @@ export default {
             }
             // cartesian coordinates
             else {
-                coord = toStringXY(position, 2);
-                easting = Number.parseFloat(coord.split(",")[0].trim()).toFixed(2);
-                northing = Number.parseFloat(coord.split(",")[1].trim()).toFixed(2);
+                easting = position[0].toFixed(2);
+                northing = position[1].toFixed(2);
             }
             commit("setCoordinatesEasting", {id: "easting", value: String(easting)});
             commit("setCoordinatesNorthing", {id: "northing", value: String(northing)});
-        }
-    },
-    /**
-     * Sets the coordinates from the maps pointermove-event.
-     * @param {Event} event pointermove-event, to get the position from
-     * @returns {void}
-     */
-    setCoordinates: function ({state, commit, dispatch}, event) {
-        const position = event.coordinate;
-
-        if (state.updatePosition) {
-            commit("setPositionMapProjection", position);
-            dispatch("changedPosition");
         }
     },
     /**
@@ -239,11 +234,19 @@ export default {
      * @param {Number[]} position contains coordinates of mouse position
      * @returns {void}
      */
-    checkPosition ({state, commit, dispatch}, position) {
-        if (state.updatePosition) {
-            dispatch("MapMarker/placingPointMarker", position, {root: true});
+    checkPosition ({state, commit, dispatch, rootGetters}) {
+        const position = rootGetters["Maps/mouseCoordinate"],
+            mapMode = rootGetters["Maps/mode"];
 
+        if (state.updatePosition) {
+            if (mapMode === "2D") {
+                dispatch("MapMarker/placingPointMarker", position, {root: true});
+            }
+            if (mapMode === "3D" && position.length === 3) {
+                commit("setHeight", position[2].toFixed(1));
+            }
             commit("setPositionMapProjection", position);
+            dispatch("changedPosition");
         }
     },
     /**
@@ -293,10 +296,11 @@ export default {
             validators = {
                 "http://www.opengis.net/gml/srs/epsg.xml#25832": validETRS89UTM,
                 "http://www.opengis.net/gml/srs/epsg.xml#25833": validETRS89UTM,
-                "EPSG:31467": validETRS89,
-                "EPSG:8395": validETRS89,
-                "EPSG:4326": validWGS84,
-                "EPSG:4326-DG": validWGS84_dez
+                "http://www.opengis.net/gml/srs/epsg.xml#31467": validETRS89,
+                "http://www.opengis.net/gml/srs/epsg.xml#8395": validETRS89,
+                "http://www.opengis.net/gml/srs/epsg.xml#4326": validWGS84,
+                "http://www.opengis.net/gml/srs/epsg.xml#4326-DG": validWGS84_dez
+
             };
 
         if (coord.id === "easting") {
@@ -332,7 +336,7 @@ export default {
             if (!getters.getEastingError && !getters.getNorthingError) {
                 let formatter;
 
-                if (currentProjection.id === "EPSG:4326-DG") {
+                if (currentProjection.id === "http://www.opengis.net/gml/srs/epsg.xml#4326-DG") {
                     formatter = coordinate=>coordinate.value.split(/[\s°]+/);
                 }
                 else if (currentProjection.projName === "longlat") {
@@ -364,10 +368,10 @@ export default {
                 coordinates = [Math.round(state.selectedCoordinates[0]), Math.round(state.selectedCoordinates[1])];
             }
             transformedCoordinates = proj4(state.currentProjection, targetProjection, coordinates);
-            if (targetProjection.projName === "longlat" && targetProjection.id !== "EPSG:4326-DG") {
+            if (targetProjection.projName === "longlat" && targetProjection.id !== "http://www.opengis.net/gml/srs/epsg.xml#4326-DG") {
                 transformedCoordinates = [convertSexagesimalFromDecimal(transformedCoordinates[1]), convertSexagesimalFromDecimal(transformedCoordinates[0])];
             }
-            else if (targetProjection.id === "EPSG:4326-DG") {
+            else if (targetProjection.id === "http://www.opengis.net/gml/srs/epsg.xml#4326-DG") {
                 transformedCoordinates = [transformedCoordinates[1].toFixed(4) + "°", transformedCoordinates[0].toFixed(4) + "°"];
             }
             else {
@@ -384,30 +388,31 @@ export default {
      * @returns {void}
      */
     transformCoordinates ({state, dispatch}) {
-        const mapProjection = Radio.request("MapView", "getProjection").getCode();
+        const mapProjection = mapCollection.getMapView("2D").getProjection().getCode();
+
 
         if (state.selectedCoordinates.length === 2) {
             dispatch("setZoom", state.zoomLevel);
 
-            if (state.currentProjection.id === "EPSG:4326" || state.currentProjection.id === "EPSG:4326-DG") {
+            if (state.currentProjection.id.indexOf("4326") > -1) {
                 const coordinates = convertSexagesimalToDecimal(state.selectedCoordinates);
 
                 state.transformedCoordinates = proj4(proj4("EPSG:4326"), proj4(mapProjection), coordinates);
                 dispatch("moveToCoordinates", state.transformedCoordinates);
             }
-            else if (state.currentProjection.id === "EPSG:31467") {
+            else if (state.currentProjection.id.indexOf("31467") > -1) {
                 const coordinates = [Math.round(state.selectedCoordinates[0]), Math.round(state.selectedCoordinates[1])];
 
                 state.transformedCoordinates = proj4(proj4("EPSG:31467"), proj4(mapProjection), coordinates);
                 dispatch("moveToCoordinates", state.transformedCoordinates);
             }
-            else if (state.currentProjection.id === "EPSG:8395") {
+            else if (state.currentProjection.id.indexOf("8395") > -1) {
                 const coordinates = [Math.round(state.selectedCoordinates[0]), Math.round(state.selectedCoordinates[1])];
 
                 state.transformedCoordinates = proj4(proj4("EPSG:8395"), proj4(mapProjection), coordinates);
                 dispatch("moveToCoordinates", state.transformedCoordinates);
             }
-            else if (state.currentProjection.id !== mapProjection) {
+            else if (state.currentProjection.epsg !== mapProjection) {
                 let coordinates;
 
                 if (state.currentProjection.projName === "longlat") {
@@ -442,7 +447,7 @@ export default {
      * @returns {void}
      */
     setZoom: function ({dispatch}, zoomLevel) {
-        dispatch("Map/setZoomLevel", zoomLevel, {root: true});
+        dispatch("Maps/setZoomLevel", zoomLevel, {root: true});
     },
     /**
      * Takes the selected coordinates and centers the map to the new position.
@@ -454,6 +459,6 @@ export default {
         // coordinates come as string and have to be changed to numbers for setCenter from mutations to work.
         const newCoords = [parseFloat(coordinates[0]), parseFloat(coordinates[1])];
 
-        dispatch("Map/setCenter", newCoords, {root: true});
+        dispatch("Maps/setCenter", newCoords, {root: true});
     }
 };

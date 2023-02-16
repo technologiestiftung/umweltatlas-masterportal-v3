@@ -2,8 +2,8 @@ import {translate} from "./translator";
 import {deepAssignIgnoreCase} from "../deepAssign";
 import {doSpecialBackboneHandling, triggerParametricURLReady, translateToBackbone} from "./ParametricUrlBridge";
 import store from "../../app-store";
-import {transformToMapProjection} from "masterportalapi/src/crs";
-import mapCollection from "../../core/dataStorage/mapCollection";
+import crs from "@masterportal/masterportalapi/src/crs";
+import highlightFeaturesByAttribute from "../../api/highlightFeaturesByAttribute";
 
 /**
  * Searches for the keys in state and if found, sets the value at it.
@@ -15,7 +15,8 @@ import mapCollection from "../../core/dataStorage/mapCollection";
  */
 function searchAndSetValue (state, keySplitted, value, found = false) {
     let foundInState = found,
-        vuexState = state;
+        vuexState = state,
+        id;
 
     if (Array.isArray(keySplitted)) {
         if (vuexState[keySplitted[0]]) {
@@ -25,11 +26,17 @@ function searchAndSetValue (state, keySplitted, value, found = false) {
             if (newState) {
                 foundInState = true;
                 vuexState = newState;
+                id = keySplitted[1];
             }
         }
         else {
             foundInState = inspectStateForTools(vuexState, keySplitted, value);
+            id = keySplitted[0];
         }
+    }
+    if (foundInState && id) {
+        // NOTICE Activate Tool in Menu. Can be removed if menu is refactord to vue.
+        store.dispatch("Tools/setToolActive", {id: id, active: value});
     }
     return foundInState;
 }
@@ -75,13 +82,14 @@ function makeObject (keys, value) {
  * @returns {void}
  */
 function callMutations (state) {
-    if (state.urlParams["Map/center"]) {
-        let centerCoords = state.Map.center;
+    if (state.urlParams["Maps/center"]) {
+        let centerCoords = state.Maps.center;
 
         if (state.urlParams.projection !== undefined) {
-            centerCoords = transformToMapProjection(mapCollection.getMap(state.Map.mapId, state.Map.mapMode), state.urlParams.projection, centerCoords);
+            centerCoords = crs.transformToMapProjection(mapCollection.getMap(state.Maps.mode), state.urlParams.projection, centerCoords);
         }
-        store.commit("Map/setCenter", centerCoords);
+        store.commit("Maps/setInitialCenter", centerCoords);
+        store.dispatch("Maps/setCenter", centerCoords);
     }
 }
 /**
@@ -94,14 +102,33 @@ function callActions (state) {
         let coordinates = state.MapMarker.coordinates;
 
         if (state.urlParams.projection !== undefined) {
-            coordinates = transformToMapProjection(mapCollection.getMap(state.Map.mapId, state.Map.mapMode), state.urlParams.projection, coordinates);
+            coordinates = crs.transformToMapProjection(mapCollection.getMap(state.Maps.mode), state.urlParams.projection, coordinates);
         }
         setTimeout(() => {
             store.dispatch("MapMarker/placingPointMarker", coordinates);
         }, 500);
     }
-    if (typeof state.urlParams["Map/zoomLevel"] === "number") {
-        store.dispatch("Map/setZoomLevel", state.Map.zoomLevel);
+    if (typeof state.urlParams["Maps/zoomLevel"] === "number") {
+        store.commit("Maps/setInitialZoomLevel", state.urlParams["Maps/zoomLevel"]);
+        store.dispatch("Maps/setZoomLevel", state.urlParams["Maps/zoomLevel"]);
+        store.commit("Maps/setInitialResolution", store.getters["Maps/getView"].getResolution());
+    }
+    if ((Object.prototype.hasOwnProperty.call(state.ZoomTo, "zoomToGeometry") && state.ZoomTo.zoomToGeometry !== undefined) || (Object.prototype.hasOwnProperty.call(state.ZoomTo, "zoomToFeatureId") && state.ZoomTo.zoomToFeatureId !== undefined)) {
+        store.dispatch("ZoomTo/zoomToFeatures");
+    }
+
+    if (state.urlParams["api/highlightFeaturesByAttribute"]) {
+        const propName = state.urlParams?.attributeName,
+            propValue = state.urlParams?.attributeValue,
+            queryType = state.urlParams?.attributeQuery,
+            wfsId = state.urlParams?.wfsId;
+
+        if (propName && propValue && wfsId) {
+            highlightFeaturesByAttribute.highlightFeaturesByAttribute(store.dispatch, store.getters, wfsId, propName, propValue, queryType);
+        }
+        else {
+            console.warn("Not all required URL parameters given for highlightFeaturesByAttribute.");
+        }
     }
 }
 /**
@@ -111,9 +138,8 @@ function callActions (state) {
  *  @returns {void}
  */
 export async function setValuesToState (state, params) {
-    await params.forEach(function (value, key) {
-        setValueToState(state, key, value);
-    });
+    await params.forEach(async (value, key) => setValueToState(state, key, value));
+
     triggerParametricURLReady();
     Object.keys(state.urlParams).forEach(key => {
         const value = state.urlParams[key];
@@ -144,17 +170,27 @@ export async function setValueToState (state, key, value) {
                     const stateEntry = state.urlParams[oldParam.key];
 
                     if (!stateEntry || typeof stateEntry === "string" && stateEntry.toLowerCase().indexOf(oldParam.value.toLowerCase()) === -1) {
+                        let entryKey, entryValue;
+
                         if (stateEntry) {
                             // e.g. isinitopen shall contain comma-separated ids of tools
-                            state.urlParams[oldParam.key] = oldParam.value + "," + state.urlParams[oldParam.key];
+                            entryKey = oldParam.key;
+                            entryValue = oldParam.value + "," + state.urlParams[oldParam.key];
                         }
                         else {
-                            state.urlParams[oldParam.key] = oldParam.value;
+                            entryKey = oldParam.key;
+                            entryValue = oldParam.value;
                         }
+                        store.commit("addUrlParams", {key: entryKey, value: entryValue});
                     }
                 }
             }
-            state.urlParams[entry.key] = entry.value;
+            if (entry.key === "Maps/zoomToGeometry" || entry.key === "Maps/zoomToFeatureId") {
+                state.ZoomTo[entry.key.substring(5)] = entry.value;
+            }
+            else {
+                store.commit("addUrlParams", {key: entry.key, value: entry.value});
+            }
             return entry;
         }).catch(error => {
             console.warn("Error occured during applying url param to state ", error);

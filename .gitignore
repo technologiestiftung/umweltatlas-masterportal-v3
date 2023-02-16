@@ -10,6 +10,7 @@
 .history
 /img/*.db
 /jsdoc
+/docHtml
 /nbproject/private/
 styleguide
 .history
@@ -25,6 +26,8 @@ css/bootstrap.css
 css/modules.css
 
 dist
+
+devtools/certificate*
 
 examples*
 

@@ -1,4 +1,4 @@
-import {getProjections} from "masterportalapi/src/crs";
+import crs from "@masterportal/masterportalapi/src/crs";
 
 /**
  *  Converts a boolean string to a boolean.
@@ -54,12 +54,12 @@ function convertStringToArray (string) {
  * @returns {Object} projection object to given EPSG code
  */
 function findProjection (string) {
-    return getProjections().find(proj => proj.name === "http://www.opengis.net/gml/srs/epsg.xml#" + string.split(":")[1]);
+    return crs.getProjections().find(proj => proj.name === "http://www.opengis.net/gml/srs/epsg.xml#" + string.split(":")[1]);
 }
 /**
      * Parse parameter to search in searchbar.
      * @param {string} query - The Searchquery.
-     * @returns {void}
+     * @returns {string} The parsed search query.
      */
 export function parseQuery (query) {
     let initString = "";

@@ -1,10 +1,13 @@
+import WFS from "ol/format/WFS";
+import uniqueId from "../../../src/utils/uniqueId";
+
 import "../model";
 import store from "../../../src/app-store";
 
 const SpecialWFSModel = Backbone.Model.extend({
     defaults: {
         minChars: 3,
-        glyphicon: "glyphicon-home",
+        icon: "bi-house-door-fill",
         geometryName: "app:geom",
         maxFeatures: 20,
         timeout: 6000,
@@ -26,7 +29,7 @@ const SpecialWFSModel = Backbone.Model.extend({
      * @param {string} config.definitions[].definition.typeName - Layername des WFS Dienstes
      * @param {string} [config.definitions[].definition.geometryName="app:geom"] - Name des Attributs mit Geometrie
      * @param {integer} [config.definitions[].definition.maxFeatures="20"] - Anzahl der vom Dienst maximal zurückgegebenen Features
-     * @param {string_} [config.definitions[].definition.glyphicon="glyphicon-home"] - Name des Glyphicon für Vorschlagssuche
+     * @param {string_} [config.definitions[].definition.icon="bi-house-door-fill"] - Name des Icon für Vorschlagssuche
      * @param {strings[]} config.definitions[].definition.propertyNames - Name der Attribute die zur Suche ausgewertet werden
      * @returns {void}
      */
@@ -240,11 +243,13 @@ const SpecialWFSModel = Backbone.Model.extend({
             typeName = definition.typeName,
             propertyNames = definition.propertyNames,
             geometryName = definition.geometryName ? definition.geometryName : this.get("geometryName"),
-            glyphicon = definition.glyphicon ? definition.glyphicon : this.get("glyphicon"),
+            icon = definition.icon ? definition.icon : this.get("icon"),
             elements = data.getElementsByTagNameNS("*", typeName.split(":")[1]),
             multiGeometries = ["MULTIPOLYGON"];
 
-        for (const element of elements) {
+        for (let i = 0; i < elements.length; i++) {
+            const element = elements[i];
+
             propertyNames.forEach(propertyName => {
                 if (element.getElementsByTagName(propertyName).length > 0 && element.getElementsByTagName(geometryName).length > 0) {
                     if (element.getElementsByTagName(propertyName)[0].textContent.toUpperCase().includes(definition.searchString.toUpperCase())) {
@@ -262,11 +267,18 @@ const SpecialWFSModel = Backbone.Model.extend({
                             geometry = coordinates[0];
                         }
                         else {
-                            const geometryString = element.getElementsByTagName(geometryName)[0].textContent;
-
-                            geometry = geometryString.trim().split(" ");
+                            geometry = new WFS()
+                                .readFeatures(data)[i]
+                                .getGeometry()
+                                .getCoordinates()
+                                .map(entry => Array.isArray(entry[0])
+                                    ? entry
+                                        .map(coord => coord.slice(0, 2))
+                                        .flat()
+                                    : entry);
                         }
-                        this.pushHitListObjects(type, identifier, firstChildNameUpperCase, geometry, glyphicon);
+
+                        this.pushHitListObjects(type, identifier, firstChildNameUpperCase, geometry, icon);
                     }
                 }
                 else {
@@ -285,17 +297,17 @@ const SpecialWFSModel = Backbone.Model.extend({
     * @param {string} identifier - Name frmom target result.
     * @param {string} firstChildNameUpperCase - Geometrie type.
     * @param {string[]} geometry - The coordinates from exterior geometry.
-    * @param {string} glyphicon - The glyphicon for hit.
+    * @param {string} icon - The icon for hit.
     * @returns {void}
     */
-    pushHitListObjects: function (type, identifier, firstChildNameUpperCase, geometry, glyphicon) {
+    pushHitListObjects: function (type, identifier, firstChildNameUpperCase, geometry, icon) {
         Radio.trigger("Searchbar", "pushHits", "hitList", {
-            id: Radio.request("Util", "uniqueId", type.toString()),
+            id: uniqueId(type.toString()),
             name: identifier.trim(),
             geometryType: firstChildNameUpperCase,
             type: type,
             coordinate: geometry,
-            glyphicon: glyphicon
+            icon: icon
         });
     },
 
@@ -338,6 +350,7 @@ const SpecialWFSModel = Backbone.Model.extend({
                 coords.forEach(coordArray => coordinateArray.push(Object.values(coordArray.replace(/\s\s+/g, " ").split(" "))));
             }
         }
+
         return [coordinateArray];
     },
 

@@ -1,6 +1,9 @@
 <script>
 import Chart from "chart.js";
-import * as moment from "moment";
+import dayjs from "dayjs";
+import localeData from "dayjs/plugin/localeData";
+
+dayjs.extend(localeData);
 
 import {calculateWorkloadForOneWeekday} from "../utils/calculateWorkloadForOneWeekday";
 import {calculateArithmeticMean} from "../utils/mathematicalOperations";
@@ -39,7 +42,7 @@ export default {
     },
     data: () => {
         return {
-            momentLocale: moment().locale(i18next.language),
+            momentLocale: dayjs().locale(i18next.language),
             weekdayIndex: 0,
             chart: null,
             hoverBackgroundColor: "rgba(0, 0, 0, 0.8)",
@@ -56,7 +59,7 @@ export default {
          * @returns {String} The weekday.
          */
         weekday: function () {
-            return this.momentLocale.localeData().weekdays(moment().add(this.weekdayIndex, "days"));
+            return this.momentLocale.localeData().weekdays(dayjs().add(this.weekdayIndex, "day"));
         }
     },
     watch: {
@@ -270,7 +273,9 @@ export default {
                 :title="$t('common:modules.tools.gfi.themes.sensor.sensorBarChart.previousWeekday')"
                 @click="showPreviousWeekDay"
             >
-                <span class="glyphicon glyphicon-chevron-left" />
+                <span class="bootstrap-icon">
+                    <i class="bi-chevron-left" />
+                </span>
             </button>
             <span class="day">{{ weekday }}</span>
             <button
@@ -280,7 +285,9 @@ export default {
                 :title="$t('common:modules.tools.gfi.themes.sensor.sensorBarChart.nextWeekday')"
                 @click="showNextWeekDay"
             >
-                <span class="glyphicon glyphicon-chevron-right" />
+                <span class="bootstrap-icon">
+                    <i class="bi-chevron-right" />
+                </span>
             </button>
         </div>
         <div class="sensor-chart-container">
@@ -291,20 +298,19 @@ export default {
 
 <style lang="scss" scoped>
     @import "~variables";
-    $background_color: #FFFFFF;
 
     .sensor-button-container {
         text-align: center;
         .leftButton {
             float: left;
-            background-color: $background_color;
+            background-color: $white;
             padding: 1px 6px;
             outline: none;
             box-shadow: none;
         }
         .rightButton {
             float: right;
-            background-color: $background_color;
+            background-color: $white;
             padding: 1px 6px;
             outline: none;
             box-shadow: none;
@@ -316,7 +322,6 @@ export default {
     }
     .sensor-chart-container {
         position: relative;
-        width: 65vh;
         height: 30vh;
     }
 </style>

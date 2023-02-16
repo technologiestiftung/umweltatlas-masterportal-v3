@@ -1,6 +1,7 @@
 import Vuex from "vuex";
 import {config, shallowMount, createLocalVue} from "@vue/test-utils";
 import {expect} from "chai";
+import sinon from "sinon";
 import AttachedTemplate from "../../../components/templates/AttachedTemplate.vue";
 
 const localVue = createLocalVue();
@@ -24,7 +25,7 @@ describe("src/modules/tools/gfi/components/templates/AttachedTemplate.vue", () =
             }
         },
         computed: {
-            clickCoord: () => [],
+            clickCoordinate: () => [],
             styleContent: () => [{
                 "max-width": "",
                 "max-height": ""
@@ -33,12 +34,39 @@ describe("src/modules/tools/gfi/components/templates/AttachedTemplate.vue", () =
         localVue
     };
 
-    let wrapper;
+    let wrapper, attachShadow;
+
+    beforeEach(() => {
+        const map = {
+            id: "ol",
+            mode: "2D",
+            addOverlay: sinon.spy(),
+            removeOverlay: sinon.spy()
+        };
+
+        mapCollection.clear();
+        mapCollection.addMap(map, "2D");
+    });
 
     afterEach(() => {
         if (wrapper) {
             wrapper.destroy();
         }
+        sinon.restore();
+    });
+    /**
+         * Is needed to run the tests.
+         * Check if its fixed with vue 3
+         * @see https://github.com/vuejs/vue-test-utils-next/issues/293
+         * @returns {void}
+         */
+    before(() => {
+        attachShadow = document.documentElement.attachShadow;
+        document.documentElement.attachShadow = false;
+    });
+
+    after(() => {
+        document.documentElement.attachShadow = attachShadow;
     });
 
     it("should have a title", () => {
@@ -56,7 +84,7 @@ describe("src/modules/tools/gfi/components/templates/AttachedTemplate.vue", () =
                 }
             },
             computed: {
-                clickCoord: () => [],
+                clickCoordinate: () => [],
                 styleContent: () => [{
                     "max-width": "",
                     "max-height": ""
@@ -114,7 +142,7 @@ describe("src/modules/tools/gfi/components/templates/AttachedTemplate.vue", () =
                 }
             },
             computed: {
-                clickCoord: () => [],
+                clickCoordinate: () => [],
                 styleContent: () => [{
                     "max-width": "",
                     "max-height": ""

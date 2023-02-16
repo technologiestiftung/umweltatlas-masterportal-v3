@@ -53,7 +53,6 @@
             "fileImport": "Importar archivo",
             "draw": "Dibujar / Escribir",
             "shadow": "Sombras",
-            "styleWMS": "Estilo WMS",
             "commuterLines": "Desplazamiento (Linien)",
             "commuterAnimation": "Desplazamiento (Animation)",
             "layerSlider": "Serie temporal",
@@ -111,7 +110,6 @@
             }
           },
           "parametricURL": {
-            "alertZoomToGeometry": "¡La llamada parametrizada del portal lamentablemente salió mal!<br>Asegúrese de que todos los parámetros se han introducido correctamente.",
             "alertWrongLayerIds": "<strong>¡La llamada parametrizada es defectuosa!</strong></br>¡El <b>id layer</b> en esa porición: {{wrongIdsPositionsConcat}} no existe y se ignorara!"
           }
         },
@@ -136,8 +134,11 @@
             "en": "English",
             "es": "Español",
             "it": "Italiano",
+            "platt": "Platt",
             "pt": "Português",
-            "tr": "Türkçe"
+            "ru": "Русский",
+            "tr": "Türkçe",
+            "ua": "Українська"
         },
         "cswParser": {
             "noMetadataMessage": "Metadatos no disponibles.",
@@ -190,7 +191,8 @@
                 "geometryNotSupported": "Entidad via URL: Del tipo de geometría {{geometryType}} declarado en la configuración para la capa {{layerId}} no es compatible.",
                 "layerNotFound": "Entidad via URL: No se ha podido encontrar ninguna capa con el ID {{layerId}}.",
                 "noLayers": "Entidad via URL: Para las entidades transferidas no se ha definido ninguna capa en la configuración.",
-                "noNameDefined": "Entidad via URL: No se ha definido ningún nombre para la capa con el ID {{layerId}} en la configuración."
+                "noNameDefined": "Entidad via URL: No se ha definido ningún nombre para la capa con el ID {{layerId}} en la configuración.",
+                "defaultTreeNotSupported": "FeatureViaURL: FeatureViaURL est uniquement pris en charge pour Treetype custom ou light."
             }
         },
         "quickHelp": {
@@ -275,6 +277,7 @@
                 "titlePlaceholder": "Mi título",
                 "layoutLabel": "Diseño",
                 "formatLabel": "Formato",
+                "dpiLabel": "DPI",
                 "scaleLabel": "Escala para imprimir",
                 "withLegendLabel": "Con leyenda",
                 "printLabel": "Imprimir",
@@ -299,24 +302,6 @@
               "chooseTheme": "Por favor, seleccione el tema activo",
               "style": "Estilo"
             },
-            "styleWMS": {
-                "noStyleableLayers": "Actualmente no hay capas a los que se pueda aplicar esta herramienta.",
-                "theme": "Tema",
-                "chooseTheme": "Por favor, seleccione un tema",
-                "attribute": "Atributo",
-                "chooseAttribute": "Por favor, seleccione un atributo",
-                "countOfClasses": "Número de clases",
-                "chooseNumberOfClasses": "Por favor, seleccione el número de clases",
-                "rangeOfValues": "Rango de valores Clase",
-                "from": "de",
-                "to": "hasta",
-                "reset": "Reiniciar",
-                "apply": "Aplicar",
-                "pleaseEnterInteger": "Introduzca un número entero.",
-                "pleaseChooseColor": "Seleccione un color.",
-                "checkTheValues": "Compruebe los valores.",
-                "overlappingValueRanges": "Comprueba los valores. Los rangos de valores no deben superponerse."
-            },
             "featureLister": {
                 "chooseTheme": "Elija el tema",
                 "visibleVectorLayers": "Capas vectoriales visibles",
@@ -335,15 +320,6 @@
                 "serviceTwo": "Servicio 2",
                 "serviceThree": "Servicio 3",
                 "serviceFour": "Servicio 4"
-            },
-            "filter": {
-                "result": "Acierto",
-                "results": "Acierto",
-                "zoomOnResults": "Acercar y centrar el acierto",
-                "filter": "-Filtro",
-                "yourSelection": "Su elección: ",
-                "noFilterOptionSelected": "Todavía no se ha seleccionado ningun filtro",
-                "deleteAll":"Borrarlo todo"
             },
             "pendler": {
                 "animation": {
@@ -739,11 +715,6 @@
             "linkToPdf": "A la leyenda externa (PDF)",
             "noLegendForLayerInfo": "Leyenda no disponible",
             "toggleCollapseAll": "Mostrar/ocultar todas las leyendas"
-        },
-        "zoomToGeometry": {
-          "alertNoFoundFeature" : "No se ha encontrado ningún objeto. Compruebe los parámetros de entrada.",
-          "alertParameterizedAccess": "¡La llamada parametrizada del portal lamentablemente salió mal!",
-          "alertRequiredService": "Detalles: Un servicio requerido no responde."
         },
         "util": {
             "copyToClipboard": {

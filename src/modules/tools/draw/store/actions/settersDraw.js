@@ -14,23 +14,24 @@ function setStyleSettings ({getters, commit}, styleSettings) {
 
 /**
  * Sets the active property of the state to the given value.
- * Also starts processes if the tool is be activated (active === true).
+ * Also starts processes if the tool is activated (active === true).
  *
  * @param {Object} context actions context object.
  * @param {Boolean} active Value deciding whether the tool gets activated or deactivated.
  * @returns {void}
  */
-function setActive ({state, commit, dispatch, rootState}, active) {
+async function setActive ({state, commit, dispatch, rootState}, active) {
     commit("setActive", active);
 
     if (active) {
         commit("setSymbol", state.iconList[0]);
-        commit("setLayer", Radio.request("Map", "createLayerIfNotExists", "import_draw_layer"));
+        commit("setLayer", await dispatch("Maps/addNewLayerIfNotExists", {layerName: "importDrawLayer"}, {root: true}));
         commit("setImgPath", rootState?.configJs?.wfsImgPath);
-
         dispatch("createDrawInteractionAndAddToMap", {active: state.currentInteraction === "draw"});
         dispatch("createSelectInteractionAndAddToMap", state.currentInteraction === "delete");
         dispatch("createModifyInteractionAndAddToMap", state.currentInteraction === "modify");
+        dispatch("createModifyAttributesInteractionAndAddToMap", state.currentInteraction === "modifyAttributes");
+        dispatch("setDrawLayerVisible", true);
 
         if (state.withoutGUI) {
             dispatch("toggleInteraction", "draw");
@@ -158,6 +159,22 @@ function setOuterColorContour ({getters, commit, dispatch}, {target}) {
     dispatch("updateDrawInteraction");
 }
 
+/**
+ * Adds another symbol if it doesn't exist already.
+ *
+ * @param {Object} context actions context object.
+ * @param {Object} symbol The icon to add.
+ * @returns {void}
+ */
+function addSymbolIfNotExists ({state, commit}, symbol) {
+    const iconList = state.iconList;
+
+    if (!iconList.find(icon => icon.id === symbol.id)) {
+        commit("addSymbol", symbol);
+    }
+}
+
+/**
 /**
  * Sets the drawType and triggers other methods to add the new interactions
  * to the map and remove the old one.
@@ -337,6 +354,30 @@ function setUnit ({getters, commit, dispatch}, {target}) {
     dispatch("updateDrawInteraction");
 }
 
+/**
+ * Sets drawLayervisible and let layer and interactions react in a logic way.
+ *
+ * @param {Object} context Actions context object.
+ * @param {Boolean} value The value to set.
+ * @returns {void}
+ */
+function setDrawLayerVisible ({getters, commit, dispatch}, value) {
+    if (typeof getters?.layer?.setVisible === "function") {
+        getters.layer.setVisible(value);
+    }
+
+    if (value) {
+        if (getters.formerInteraction) {
+            dispatch("toggleInteraction", getters.formerInteraction);
+        }
+    }
+    else {
+        commit("setFormerInteraction", getters.currentInteraction);
+        dispatch("toggleInteraction", "none");
+    }
+    commit("setDrawLayerVisible", value);
+}
+
 export {
     setStyleSettings,
     setActive,
@@ -354,6 +395,8 @@ export {
     setPointSize,
     setStrokeWidth,
     setSymbol,
+    addSymbolIfNotExists,
     setText,
-    setUnit
+    setUnit,
+    setDrawLayerVisible
 };

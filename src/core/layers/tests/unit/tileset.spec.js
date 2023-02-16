@@ -1,7 +1,6 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import TileSetLayer from "../../tileset";
-import mapCollection from "../../../dataStorage/mapCollection.js";
+import TileSetLayer, {lastUpdatedSymbol, hiddenObjects} from "../../tileset";
 import store from "../../../../app-store";
 
 describe("src/core/layers/tileset.js", () => {
@@ -35,8 +34,8 @@ describe("src/core/layers/tileset.js", () => {
                 };
             }
         };
-        mapCollection.addMap(map, "ol", "2D");
-        mapCollection.addMap(map3D, "map3D_0", "3D");
+        mapCollection.addMap(map, "2D");
+        mapCollection.addMap(map3D, "3D");
     });
     beforeEach(() => {
         global.Cesium = {};
@@ -52,15 +51,16 @@ describe("src/core/layers/tileset.js", () => {
             isSelected: false
         };
         cesium3DTilesetSpy = sinon.spy(global.Cesium, "Cesium3DTileset");
-        store.state.Map.mapId = "map3D_0";
-        store.state.Map.mapMode = "3D";
+        store.state.Maps.mode = "3D";
+        store.getters = {
+            "Maps/mode": store.state.Maps.mode
+        };
     });
 
     afterEach(() => {
         sinon.restore();
         global.Cesium = null;
-        store.state.Map.mapId = "ol";
-        store.state.Map.mapMode = "2D";
+        store.state.Maps.mode = "2D";
     });
 
     /**
@@ -105,6 +105,34 @@ describe("src/core/layers/tileset.js", () => {
         expect(setIsSelectedSpy.calledOnce).to.equal(true);
         expect(setIsSelectedSpy.calledWithMatch(true)).to.equal(true);
     });
+    describe("styleContent", function () {
+        it("should set lastUpdatedSymbol on the content on first call", function () {
+            const tilesetLayer = new TileSetLayer(attributes),
+                content = sinon.spy();
+
+            expect(content[lastUpdatedSymbol]).to.be.undefined;
+            tilesetLayer.styleContent(content);
+            expect(content[lastUpdatedSymbol]).to.not.be.undefined;
+        });
+    });
+    describe("hideObjects", function () {
+        it("add the id to the hiddenObjects and create an empty Set", function () {
+            const tilesetLayer = new TileSetLayer(attributes);
+
+            tilesetLayer.hideObjects(["id"]);
+            expect(hiddenObjects.id).to.be.an.instanceOf(Set);
+        });
+    });
+    describe("showObjects", function () {
+        it("should remove the id from the hiddenObjects List", function () {
+            const tilesetLayer = new TileSetLayer(attributes);
+
+            tilesetLayer.hideObjects(["id"]);
+            expect(hiddenObjects.id).to.be.an.instanceOf(Set);
+            tilesetLayer.showObjects(["id"]);
+            expect(hiddenObjects.id).to.be.undefined;
+        });
+    });
     it("setIsSelected true shall create cesiumtilesetProvider", function () {
         const tilesetLayer = new TileSetLayer(attributes),
             layer = tilesetLayer.get("layer");
@@ -137,6 +165,25 @@ describe("src/core/layers/tileset.js", () => {
 
         tilesetLayer.createLegend();
         expect(setLegendSpy.notCalled).to.equal(true);
+    });
+    it("setIsVisibleInMap to true shall set isVisibleInMap", function () {
+        const tilesetLayer = new TileSetLayer(attributes),
+            layer = tilesetLayer.get("layer");
+
+        tilesetLayer.setIsVisibleInMap(true);
+        checkLayer(layer, tilesetLayer, attributes);
+        expect(tilesetLayer.get("isVisibleInMap")).to.equal(true);
+        expect(cesium3DTilesetSpy.calledOnce).to.equal(true);
+        expect(cesium3DTilesetSpy.calledWithMatch({maximumScreenSpaceError: 6})).to.equal(true);
+    });
+    it("setIsVisibleInMap to false shall set isVisibleInMap and hide layer", function () {
+        const tilesetLayer = new TileSetLayer(attributes),
+            layer = tilesetLayer.get("layer");
+
+        checkLayer(layer, tilesetLayer, attributes);
+        tilesetLayer.setIsVisibleInMap(false);
+        expect(tilesetLayer.get("isVisibleInMap")).to.equal(false);
+        expect(layer.tileset.show).to.be.false;
     });
 });
 

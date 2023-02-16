@@ -17,15 +17,18 @@ const getters = {
      * The v-for calls this function for every property of the selected feature and returns pairs of header and
      * value as an array
      * @param {Object} state context object.
+     * @param {object} _ featureLister store getters
+     * @param {object} __ root state
+     * @param {object} rootGetters root getters
      * @returns {Array} [header, value] for each property of the selected feature
      */
-    featureDetails: state => {
+    featureDetails: (state, _, __, rootGetters) => {
         const attributesToShow = state.selectedFeature.getAttributesToShow(),
             featureProperties = state.selectedFeature.getProperties();
 
         return attributesToShow === "showAll"
             ? Object.entries(featureProperties)
-                .filter(([key, value]) => value && !Config.ignoredKeys.includes(key.toUpperCase()))
+                .filter(([key, value]) => value && !rootGetters.ignoredKeys.includes(key.toUpperCase()))
             : Object.entries(attributesToShow)
                 .filter(([key]) => featureProperties[key])
                 .map(([key, value]) => [value, featureProperties[key]]);
@@ -33,9 +36,12 @@ const getters = {
     /**
      * Gets a list of all property keys to show in a table header.
      * @param {Object} state context object.
+     * @param {object} _ featureLister store getters
+     * @param {object} __ root state
+     * @param {object} rootGetters root getters
      * @returns {Array} [key, value] for each property
      */
-    headers: state => {
+    headers: (state, _, __, rootGetters) => {
         const headers = Object.entries(state.gfiFeaturesOfLayer
             .reduce((acc, it) => {
                 let keys = it.getAttributesToShow();
@@ -44,7 +50,7 @@ const getters = {
                     ? Object.keys(it.getProperties()).map(prop => [prop, prop])
                     : Object.entries(keys);
                 keys.forEach(([key, value]) => {
-                    if (!Config.ignoredKeys.includes(key.toUpperCase())) {
+                    if (!rootGetters.ignoredKeys.includes(key.toUpperCase())) {
                         acc[key] = value;
                     }
                 });

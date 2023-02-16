@@ -1,6 +1,7 @@
 import "../model";
-import {transformToMapProjection} from "masterportalapi/src/crs";
+import crs from "@masterportal/masterportalapi/src/crs";
 import store from "../../../src/app-store";
+import uniqueId from "../../../src/utils/uniqueId";
 
 const KomootModel = Backbone.Model.extend(/** @lends KomootModel.prototype */{
     defaults: {
@@ -173,12 +174,16 @@ const KomootModel = Backbone.Model.extend(/** @lends KomootModel.prototype */{
         let metaName;
 
         metaName = display;
-        if (hit.properties.state !== undefined || hit.properties.country !== undefined) {
-            metaName = metaName + ", " + hit.properties.state + " " + hit.properties.country;
-            if (hit.properties.suburb !== undefined) {
-                metaName = metaName + " (" + hit.properties.suburb + ")";
-            }
+        if (hit.properties.state !== undefined) {
+            metaName = metaName + ", " + hit.properties.state;
         }
+        if (hit.properties.country !== undefined) {
+            metaName = metaName + " " + hit.properties.country;
+        }
+        if (hit.properties.suburb !== undefined) {
+            metaName = metaName + " (" + hit.properties.suburb + ")";
+        }
+
         return metaName;
     },
 
@@ -202,15 +207,15 @@ const KomootModel = Backbone.Model.extend(/** @lends KomootModel.prototype */{
             metaName = this.getMetadataString(hit, display);
 
             coordinates = hit.geometry.coordinates;
-            center = transformToMapProjection(Radio.request("Map", "getMap"), "WGS84", [parseFloat(coordinates[0]), parseFloat(coordinates[1])]);
+            center = crs.transformToMapProjection(Radio.request("Map", "getMap"), "WGS84", [parseFloat(coordinates[0]), parseFloat(coordinates[1])]);
 
             Radio.trigger("Searchbar", "pushHits", "hitList", {
                 name: display,
                 metaName: metaName,
                 type: "Komoot",
                 komoot: true,
-                glyphicon: "glyphicon-road",
-                id: Radio.request("Util", "uniqueId", "komootSuggest"),
+                icon: "bi-signpost-2-fill",
+                id: uniqueId("komootSuggest"),
                 marker: hit.class === "building",
                 coordinate: center
             });

@@ -17,6 +17,11 @@ export default {
         ...mapGetters("Legend", Object.keys(getters)),
         ...mapGetters(["mobile", "uiStyle"])
     },
+    watch: {
+        mobile: function () {
+            this.$forceUpdate();
+        }
+    },
     mounted () {
         this.element = this.$el;
         this.childNode = this.$el.childNodes[0].childNodes[0];
@@ -47,10 +52,11 @@ export default {
             if (root && this.uiStyle !== "TABLE") {
                 const span = root.querySelector("[name=legend]");
 
-                if (this.mobile && span?.parentNode && this.element) {
-                    root.replaceChild(this.element, span.parentNode);
+                if (this.mobile && span?.parentNode) {
+                    span.parentNode.style.display = "none";
+                    root.insertBefore(this.element, span.parentNode.nextElementSibling);
                 }
-                else if (span?.parentNode?.parentNode && this.childNode) {
+                else if (!this.mobile && span?.parentNode?.parentNode && this.childNode) {
                     root.replaceChild(this.childNode, span.parentNode.parentNode);
                 }
             }
@@ -77,56 +83,48 @@ export default {
             <li
                 v-if="showLegendInMenu"
                 :class="{ 'open': showLegend }"
-                class="dropdown dropdown-folder legend-menu-item"
+                class="nav-item dropdown dropdown-folder legend-menu-item"
                 @click="toggleLegend"
                 @keydown.enter.stop.prevent="toggleLegend"
                 @keydown.space.stop.prevent="toggleLegend"
             >
                 <a
                     href="#"
-                    class="dropdown-toggle tabable"
+                    class="nav-link dropdown-toggle tabable"
                     tabindex="0"
                     :title="$t(name)"
                 >
-                    <span
-                        :class="glyphicon"
-                        class="glyphicon hidden-sm"
-                    />
+                    <span class="bootstrap-icon d-sm-none d-md-inline-block">
+                        <i :class="icon" />
+                    </span>
                     <span class="menuitem">{{ $t(name) }}</span>
                 </a>
             </li>
         </ul>
-        <ul
-            v-if="mobile"
+        <li
+            v-if="showLegendInMenu && mobile"
             id="legend-menu"
-            class="list-group mobile"
+            :class="{ open: showLegend }"
+            class="list-group-item ps-1 mobile"
+            @click="toggleLegend"
+            @keydown.enter="toggleLegend"
         >
-            <li
-                v-if="showLegendInMenu"
-                :class="{ open: showLegend }"
-                class="list-group-item legend-menu-item"
-                @click="toggleLegend"
-                @keydown.enter="toggleLegend"
-            >
-                <div>
-                    <span
-                        :class="glyphicon"
-                        class="glyphicon hidden-sm"
-                    />
-                    <span class="title">{{ $t(name) }}</span>
-                </div>
-            </li>
-        </ul>
+            <div class="folder-item d-flex align-items-center">
+                <span class="bootstrap-icon d-md-inline-block">
+                    <i :class="icon" />
+                </span>
+                <span class="title">{{ $t(name) }}</span>
+            </div>
+        </li>
         <a
             v-if="!mobile && uiStyle === 'TABLE'"
             href="#"
             class="dropdown-toggle"
             @click="toggleLegend"
         >
-            <span
-                :class="glyphicon"
-                class="glyphicon hidden-sm"
-            />
+            <span class="bootstrap-icon d-sm-none d-md-inline-block">
+                <i :class="icon" />
+            </span>
             <span class="menuitem">{{ $t(name) }}</span>
         </a>
     </div>
@@ -135,18 +133,9 @@ export default {
 <style lang="scss" scoped>
     @import "~variables";
     #legend-menu {
-        border-right: 1px solid #e5e5e5;
-        font-size: 14px;
+        border-right: none;
+        border-top: none;
+        font-size: $font_size_big;
         cursor: pointer;
-        .mobile {
-            .list-group-item {
-                padding: 12px 5px;
-            }
-            li {
-                font-family: "MasterPortalFont", "Arial Narrow", Arial, sans-serif;
-                padding-left: 6px;
-                vertical-align: text-bottom;
-            }
-        }
     }
 </style>

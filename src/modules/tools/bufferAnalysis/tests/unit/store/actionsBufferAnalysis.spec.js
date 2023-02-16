@@ -3,7 +3,6 @@ import {expect} from "chai";
 import {createLayersArray} from "../utils/functions";
 import actions from "../../../store/actionsBufferAnalysis";
 import stateBufferAnalysis from "../../../store/stateBufferAnalysis";
-import mapCollection from "../../../../../../core/dataStorage/mapCollection.js";
 import {
     LineString,
     MultiLineString,
@@ -17,6 +16,8 @@ import {
 describe("src/modules/tools/bufferAnalysis/store/actionsBufferAnalysis.js", () => {
     let commit, dispatch, rootGetters, rootState, state, tick;
 
+    const defaultState = {...stateBufferAnalysis};
+
     before(() => {
         mapCollection.clear();
         const map = {
@@ -26,7 +27,7 @@ describe("src/modules/tools/bufferAnalysis/store/actionsBufferAnalysis.js", () =
             removeLayer: sinon.spy()
         };
 
-        mapCollection.addMap(map, "ol", "2D");
+        mapCollection.addMap(map, "2D");
     });
 
     beforeEach(() => {
@@ -38,16 +39,23 @@ describe("src/modules/tools/bufferAnalysis/store/actionsBufferAnalysis.js", () =
         commit = sinon.spy();
         dispatch = sinon.stub().resolves(true);
         rootGetters = {
-            "Map/mapId": "ol",
-            "Map/mapMode": "2D"
+            "Maps/mode": "2D"
         };
         rootState = {
-            Map: {
-                mapId: "ol",
-                mapMode: "2D"
+            Maps: {
+                mode: "2D"
+            },
+            urlParams: {
+                "Tools/bufferAnalysis/active": true,
+                initvalues: [
+                    "{\"applySelectedSourceLayer\":\"1711\"",
+                    "\"applyBufferRadius\":\"1010\"",
+                    "\"setResultType\":0",
+                    "\"applySelectedTargetLayer\":\"2128\"}"
+                ]
             }
         };
-        state = {...stateBufferAnalysis};
+        state = Object.assign({}, defaultState);
     });
 
     afterEach(() => {
@@ -99,7 +107,7 @@ describe("src/modules/tools/bufferAnalysis/store/actionsBufferAnalysis.js", () =
             expect(commit.args[0][0]).to.equal("setSelectedSourceLayer");
             expect(commit.args[0][1]).to.equal(layer);
             expect(dispatch.calledOnce).to.be.true;
-            expect(dispatch.args[0][0]).to.equal("areLayerFeaturesLoaded");
+            expect(dispatch.args[0][0]).to.equal("Maps/areLayerFeaturesLoaded");
         });
     });
     describe("applySelectedSourceLayer", () => {
@@ -148,7 +156,7 @@ describe("src/modules/tools/bufferAnalysis/store/actionsBufferAnalysis.js", () =
             await tick();
             expect(dispatch.callCount).to.equal(5);
             expect(state.selectedTargetLayer.get.calledOnce).to.be.true;
-            expect(dispatch.args[0][0]).to.equal("areLayerFeaturesLoaded");
+            expect(dispatch.args[0][0]).to.equal("Maps/areLayerFeaturesLoaded");
             expect(dispatch.args[1][0]).to.equal("checkIntersectionWithBuffers");
             expect(dispatch.args[2][0]).to.equal("checkIntersectionsWithIntersections");
             expect(dispatch.args[3][0]).to.equal("convertIntersectionsToPolygons");
@@ -161,7 +169,7 @@ describe("src/modules/tools/bufferAnalysis/store/actionsBufferAnalysis.js", () =
             actions.showBuffer({commit, getters: state, dispatch, rootGetters});
 
             expect(commit.calledOnce).to.be.true;
-            expect(mapCollection.getMap("ol", "2D").addLayer.callCount).to.equal(1);
+            expect(mapCollection.getMap(rootGetters["Maps/mode"]).addLayer.callCount).to.equal(1);
         });
     });
     describe("removeGeneratedLayers", () => {
@@ -171,15 +179,31 @@ describe("src/modules/tools/bufferAnalysis/store/actionsBufferAnalysis.js", () =
             actions.removeGeneratedLayers({commit, rootState, getters: state});
 
             expect(commit.callCount).to.equal(4);
-            expect(mapCollection.getMap("ol", "2D").removeLayer.calledTwice).to.be.true;
+            expect(mapCollection.getMap(rootGetters["Maps/mode"]).removeLayer.calledTwice).to.be.true;
         });
     });
     describe("resetModule", () => {
-        it("calls dispatch three times and commit once", async () => {
+        it("calls dispatch three times", async () => {
             actions.resetModule({commit, getters: state, dispatch});
 
             expect(dispatch.callCount).to.equal(3);
-            expect(commit.calledTwice).to.be.true;
+        });
+    });
+    describe("applyValuesFromSavedUrlBuffer", () => {
+        it("applies the values from a saved buffer analysis url", () => {
+            state.selectOptions = [{name: "Krankenhäuser", id: "1711"}, {name: "Verkehrskamers", id: "2128"}];
+            actions.applyValuesFromSavedUrlBuffer({rootState, dispatch, commit, state});
+
+            expect(dispatch.firstCall.args[0]).to.equal("applySelectedSourceLayer");
+            expect(dispatch.firstCall.args[1]).to.eql({name: "Krankenhäuser", id: "1711"});
+            expect(dispatch.secondCall.args[0]).to.equal("applyBufferRadius");
+            expect(dispatch.secondCall.args[1]).to.equal("1010");
+            expect(dispatch.thirdCall.args[0]).to.equal("applySelectedTargetLayer");
+            expect(dispatch.thirdCall.args[1]).to.eql({name: "Verkehrskamers", id: "2128"});
+            expect(commit.firstCall.args[0]).to.equal("setInputBufferRadius");
+            expect(commit.firstCall.args[1]).to.equal("1010");
+            expect(commit.secondCall.args[0]).to.equal("setResultType");
+            expect(commit.secondCall.args[1]).to.equal("0");
         });
     });
 });

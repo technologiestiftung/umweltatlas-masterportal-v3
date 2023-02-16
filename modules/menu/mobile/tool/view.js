@@ -11,7 +11,7 @@ const ItemView = Backbone.View.extend({
         });
     },
     tagName: "li",
-    className: "list-group-item",
+    className: "dropdown-item",
     template: _.template(ItemTemplate),
     render: function () {
         const attr = this.translateName(this.model.toJSON());
@@ -60,7 +60,7 @@ const ItemView = Backbone.View.extend({
         }
 
         // Navigation is closed
-        $("div.collapse.navbar-collapse").removeClass("in");
+        $("div.collapse.navbar-collapse").removeClass("show");
     },
     removeIfNotVisible: function () {
         if (!this.model.get("isVisibleInTree")) {

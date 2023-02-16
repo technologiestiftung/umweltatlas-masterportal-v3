@@ -42,7 +42,8 @@ describe("src/modules/LayerInformation.vue - GroupLayer", () => {
                         abstractText: () => "Test",
                         noMetadataLoaded: () => "",
                         metaURLs: () => [],
-                        currentLayerName: () => ""
+                        currentLayerName: () => "",
+                        showUrlGlobal: () => false
                     },
                     actions: {
                         activate: () => sinon.stub(),
@@ -75,7 +76,7 @@ describe("src/modules/LayerInformation.vue - GroupLayer", () => {
             localVue
         });
 
-        expect(wrapper.find(".glyphicon-remove")).to.exist;
+        expect(wrapper.find(".bi-x-lg")).to.exist;
     });
 
     it("should emitted close event if button is clicked", async () => {
@@ -83,7 +84,7 @@ describe("src/modules/LayerInformation.vue - GroupLayer", () => {
                 store,
                 localVue
             }),
-            button = wrapper.find(".glyphicon-remove");
+            button = wrapper.find(".bi-x-lg");
 
         expect(button).to.exist;
 

@@ -38,6 +38,16 @@ describe("src/modules/tools/gfi/components/templates/DetachedTemplate.vue", () =
 
     let store;
 
+    before(() => {
+        mapCollection.clear();
+        const map = {
+            id: "ol",
+            mode: "2D"
+        };
+
+        mapCollection.addMap(map, "2D");
+    });
+
     beforeEach(() => {
         store = new Vuex.Store({
             namespaced: true,
@@ -52,17 +62,15 @@ describe("src/modules/tools/gfi/components/templates/DetachedTemplate.vue", () =
                         }
                     }
                 },
-                Map: {
+                Maps: {
                     namespaced: true,
                     actions: {
                         removeHighlightFeature: sinon.stub(),
-                        highlightFeature: sinon.stub()
-                    },
-                    mutations: {
+                        highlightFeature: sinon.stub(),
                         setCenter: sinon.stub()
                     },
                     getters: {
-                        clickCoord: sinon.stub()
+                        clickCoordinate: sinon.stub()
                     }
                 },
                 MapMarker: {
@@ -166,7 +174,7 @@ describe("src/modules/tools/gfi/components/templates/DetachedTemplate.vue", () =
             localVue
         });
 
-        expect(wrapper.find("span.glyphicon.glyphicon-remove").exists()).to.be.true;
+        expect(wrapper.find("span.bootstrap-icon > .bi-x-lg").exists()).to.be.true;
     });
 
 
@@ -191,7 +199,7 @@ describe("src/modules/tools/gfi/components/templates/DetachedTemplate.vue", () =
                 store: store,
                 localVue
             }),
-            button = wrapper.find("span.glyphicon.glyphicon-remove");
+            button = wrapper.find("span.bootstrap-icon > .bi-x-lg");
 
         await button.trigger("click");
         expect(wrapper.emitted()).to.have.property("close");

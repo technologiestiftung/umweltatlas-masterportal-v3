@@ -1,11 +1,17 @@
-import uniqueId from "../../src/utils/uniqueId.js";
 import LoaderOverlay from "../../src/utils/loaderOverlay";
+import findWhereJs from "../../src/utils/findWhereJs";
+import isMobile from "../../src/utils/isMobile";
+import uniqueId from "../../src/utils/uniqueId";
+import {isAny, isAndroid, isApple, isOpera, isWindows} from "../../src/utils/isAny";
+import getMasterPortalVersionNumber from "../../src/utils/getMasterPortalVersionNumber";
+import uiStyle from "../../src/utils/uiStyle";
+import {sort} from "../../src/utils/sort";
+import isInternetExplorer from "../../src/utils/isInternetExplorer";
 
 const Util = Backbone.Model.extend(/** @lends Util.prototype */{
     defaults: {
         config: "",
         ignoredKeys: ["BOUNDEDBY", "SHAPE", "SHAPE_LENGTH", "SHAPE_AREA", "OBJECTID", "GLOBALID", "GEOMETRY", "SHP", "SHP_AREA", "SHP_LENGTH", "GEOM"],
-        uiStyle: "DEFAULT",
         loaderOverlayTimeoutReference: null,
         loaderOverlayTimeout: 40,
         // the loaderOverlayCounter has to be set to 1 initialy, because it is shown on start and hidden at the end of app.js
@@ -19,29 +25,17 @@ const Util = Backbone.Model.extend(/** @lends Util.prototype */{
      * @constructs
      * @property {String} config="" todo
      * @property {String[]} ignoredKeys=["BOUNDEDBY", "SHAPE", "SHAPE_LENGTH", "SHAPE_AREA", "OBJECTID", "GLOBALID", "GEOMETRY", "SHP", "SHP_AREA", "SHP_LENGTH", "GEOM"] List of ignored attribute names when displaying attribute information of all layer types.
-     * @property {String} uiStyle="DEFAULT" Controls the layout of the controls.
      * @property {String} loaderOverlayTimeoutReference=null todo
      * @property {String} loaderOverlayTimeout="20" Timeout for the loadergif.
      * @listens Core#RadioRequestUtilIsViewMobile
-     * @listens Core#RadioRequestUtilIsApple
-     * @listens Core#RadioRequestUtilIsAndroid
-     * @listens Core#RadioRequestUtilIsOpera
-     * @listens Core#RadioRequestUtilIsWindows
-     * @listens Core#RadioRequestUtilIsChrome
      * @listens Core#RadioRequestUtilIsInternetExplorer
-     * @listens Core#RadioRequestUtilIsAny
-     * @listens Core#RadioRequestUtilGetUiStyle
      * @listens Core#RadioRequestUtilGetIgnoredKeys
-     * @listens Core#RadioRequestUtilSort
-     * @listens Core#RadioRequestUtilGetMasterPortalVersionNumber
      * @listens Core#RadioRequestUtilRenameKeys
      * @listens Core#RadioRequestUtilRenameValues
      * @listens Core#RadioRequestUtilDifferenceJs
      * @listens Core#RadioRequestUtilSortBy
-     * @listens Core#RadioRequestUtilUniqueId
      * @listens Core#RadioTriggerUtilHideLoader
      * @listens Core#RadioTriggerUtilShowLoader
-     * @listens Core#RadioTriggerUtilSetUiStyle
      * @listens Core#event:changeIsViewMobile
      * @fires Core#RadioTriggerIsViewMobileChanged
      * @fires Alerting#RadioTriggerAlertAlert
@@ -55,28 +49,26 @@ const Util = Backbone.Model.extend(/** @lends Util.prototype */{
             "isViewMobile": function () {
                 return this.get("isViewMobile");
             },
-            "getMasterPortalVersionNumber": this.getMasterPortalVersionNumber,
-            "isApple": this.isApple,
-            "isAndroid": this.isAndroid,
-            "isOpera": this.isOpera,
-            "isWindows": this.isWindows,
+            "getMasterPortalVersionNumber": getMasterPortalVersionNumber,
+            "isApple": isApple,
+            "isAndroid": isAndroid,
+            "isOpera": isOpera,
+            "isWindows": isWindows,
             "isChrome": this.isChrome,
-            "isInternetExplorer": this.isInternetExplorer,
-            "isAny": this.isAny,
-            "getUiStyle": function () {
-                return this.get("uiStyle");
-            },
+            "isAny": isAny,
+            "getUiStyle": uiStyle.getUiStyle,
             "getIgnoredKeys": function () {
                 return this.get("ignoredKeys");
             },
-            "sort": this.sort,
+            "sort": sort,
+            "isInternetExplorer": isInternetExplorer,
             "convertArrayElementsToString": this.convertArrayElementsToString,
             "renameKeys": this.renameKeys,
             "renameValues": this.renameValues,
             "pickKeyValuePairs": this.pickKeyValuePairs,
             "groupBy": this.groupBy,
             "sortBy": this.sortBy,
-            "uniqueId": this.uniqueId,
+            "uniqueId": uniqueId,
             "pick": this.pick,
             "omit": this.omit,
             "findWhereJs": this.findWhereJs,
@@ -92,7 +84,7 @@ const Util = Backbone.Model.extend(/** @lends Util.prototype */{
             "hideLoader": this.hideLoader,
             "refreshTree": this.refreshTree,
             "showLoader": this.showLoader,
-            "setUiStyle": this.setUiStyle
+            "setUiStyle": uiStyle.setUiStyle
         }, this);
 
         // initial isMobileView setzen
@@ -105,14 +97,6 @@ const Util = Backbone.Model.extend(/** @lends Util.prototype */{
         });
 
         $(window).on("resize", this.toggleIsViewMobile.bind(this));
-    },
-
-    /**
-     * Returns current Master Portal Version Number
-     * @returns {string} Masterportal version number
-     */
-    getMasterPortalVersionNumber: function () {
-        return require("../../package.json").version;
     },
 
     /**
@@ -210,271 +194,9 @@ const Util = Backbone.Model.extend(/** @lends Util.prototype */{
     },
 
     /**
-     * Sorting alorithm that distinguishes between array[objects] and other arrays.
-     * arrays[objects] can be sorted by up to 2 object attributes
-     * @param {String} type Type of sortAlgorithm
-     * @param {array} input array that has to be sorted
-     * @param {String} first first attribute an array[objects] has to be sorted by
-     * @param {String} second second attribute an array[objects] has to be sorted by
-     * @returns {array} sorted array
-     */
-    sort: function (type, input, first, second) {
-        let sorted = input;
-        const isArray = Array.isArray(sorted),
-            isArrayOfObjects = isArray ? sorted.every(element => typeof element === "object") : false;
-
-        if (isArray && !isArrayOfObjects) {
-            sorted = this.sortArray(sorted);
-        }
-        else if (isArray && isArrayOfObjects) {
-            sorted = this.sortObjects(type, sorted, first, second);
-        }
-
-        return sorted;
-    },
-
-    /**
-     * Sorts an array.
-     * @param {Array} input array to sort.
-     * @returns {Array} sorted array
-     */
-    sortArray: function (input) {
-        return input.sort(this.sortAlphaNum);
-    },
-
-    /**
-     * Sorting function for alphanumeric sorting. First sorts alphabetically, then numerically.
-     * @param {*} a First comparator.
-     * @param {*} b Secons comparator.
-     * @returns {Number} Sorting index.
-     */
-    sortAlphaNum: function (a, b) {
-        const regExAlpha = /[^a-zA-Z]/g,
-            regExNum = /[^0-9]/g,
-            aAlpha = String(a).replace(regExAlpha, ""),
-            bAlpha = String(b).replace(regExAlpha, "");
-        let aNum,
-            bNum,
-            returnVal = -1;
-
-        if (aAlpha === bAlpha) {
-            aNum = parseInt(String(a).replace(regExNum, ""), 10);
-            bNum = parseInt(String(b).replace(regExNum, ""), 10);
-            if (aNum === bNum) {
-                returnVal = 0;
-            }
-            else if (aNum > bNum) {
-                returnVal = 1;
-            }
-        }
-        else {
-            returnVal = aAlpha > bAlpha ? 1 : -1;
-        }
-        return returnVal;
-    },
-
-    /**
-     * Sorting function for numalpha sorting. First sorts numerically, then alphabetically.
-     * @param {*} a First comparator.
-     * @param {*} b Secons comparator.
-     * @returns {Number} Sorting index.
-     */
-    sortNumAlpha: function (a, b) {
-        const regExAlpha = /[^a-zA-Z]/g,
-            regExNum = /[^0-9]/g,
-            aAlpha = String(a).replace(regExAlpha, ""),
-            bAlpha = String(b).replace(regExAlpha, ""),
-            aNum = parseInt(String(a).replace(regExNum, ""), 10),
-            bNum = parseInt(String(b).replace(regExNum, ""), 10);
-        let returnVal = -1;
-
-        if (aNum === bNum) {
-            if (aAlpha === bAlpha) {
-                returnVal = 0;
-            }
-            else if (aAlpha > bAlpha) {
-                returnVal = 1;
-            }
-        }
-        else {
-            returnVal = aNum > bNum ? 1 : -1;
-        }
-
-        return returnVal;
-    },
-
-    /**
-     * Sorting Function to sort address.
-     * Expected string format to be "STREETNAME HOUSENUMBER_WITH_OR_WITHOUT_SUFFIX, *"
-     * @param {String} aObj First comparator.
-     * @param {String} bObj Secons comparator.
-     * @returns {Number} Sorting index.
-     */
-    sortAddress: function (aObj, bObj) {
-        const a = aObj.name,
-            b = bObj.name,
-            aIsValid = this.isValidAddressString(a, ",", " "),
-            bIsValid = this.isValidAddressString(b, ",", " "),
-            aSplit = this.splitAddressString(a, ",", " "),
-            bSplit = this.splitAddressString(b, ",", " "),
-            aFirstPart = aIsValid ? aSplit[0] : a,
-            aSecondPart = aIsValid ? aSplit[1] : a,
-            bFirstPart = bIsValid ? bSplit[0] : b,
-            bSecondPart = bIsValid ? bSplit[1] : b;
-        let returnVal = -1;
-
-        if (aFirstPart > bFirstPart) {
-            returnVal = 1;
-        }
-        if (aFirstPart === bFirstPart) {
-            returnVal = this.sortNumAlpha(aSecondPart, bSecondPart);
-        }
-
-        return returnVal;
-    },
-
-    /**
-     * Splits the address string.
-     * @param {String} string Address string.
-     * @param {String} separator Separator to separate the Address and Housenumber from other info such as zipCode or City.
-     * @param {String} lastOccurrenceChar Character to separate the streetname from the housenumber.
-     * @returns {String[]} - Array containing the splitted parts.
-     */
-    splitAddressString: function (string, separator, lastOccurrenceChar) {
-        const splitBySeparator = string.split(separator),
-            splittedString = [];
-
-        splitBySeparator.forEach(split => {
-            const lastOccurrence = split.lastIndexOf(lastOccurrenceChar),
-                firstPart = split.substr(0, lastOccurrence).trim(),
-                secondPart = split.substr(lastOccurrence).trim();
-
-            splittedString.push(firstPart);
-            splittedString.push(secondPart);
-        });
-        return splittedString;
-    },
-
-    /**
-     * Checks if address string is valid for address sorting.
-     * The string gets splitted by "separator". The occurrence of the "lastOcccurrenceChar" is checked.
-     * @param {String} string String to check.
-     * @param {String} separator Separator to separate Address (streetname and housenumber) from additional information (postal code, etc.).
-     * @param {String} lastOccurrenceChar Charactor to separate the streetname from the housenumber.
-     * @returns {Boolean} - Flag if string is valid.
-     */
-    isValidAddressString: function (string, separator, lastOccurrenceChar) {
-        let isValidAddressString = false;
-        const separatedString = string.split(separator),
-            firstPartOfSeparatedString = separatedString[0];
-
-        if (string.indexOf(separator) !== -1 && firstPartOfSeparatedString && firstPartOfSeparatedString.indexOf(lastOccurrenceChar) !== -1) {
-            isValidAddressString = true;
-        }
-
-        return isValidAddressString;
-    },
-
-    /**
-     * Sorts array of objects basend on the given type.
-     * @param {String} type Type of sort algorithm.
-     * @param {Object[]} input Array with object to be sorted.
-     * @param {String} first First attribute to sort by.
-     * @param {String} second Second attribute to sort by.
-     * @returns {Object[]} - Sorted array of objects.
-     */
-    sortObjects: function (type, input, first, second) {
-        let sortedObj = input;
-
-        if (type === "address") {
-            sortedObj = this.sortObjectsAsAddress(sortedObj, first);
-        }
-        else {
-            sortedObj = this.sortObjectsNonAddress(first, second, sortedObj);
-        }
-
-        return sortedObj;
-    },
-
-    /**
-     * Sorts Objects not as address.
-     * @param {String} first First attribute to sort by.
-     * @param {String} second Second attribute to sort by.
-     * @param {Object[]} [input=[]] Array with object to be sorted.
-     * @returns {Object[]} - Sorted array of objects.
-     */
-    sortObjectsNonAddress: function (first, second, input = []) {
-        const sortedOjectSecond = input.sort((elementA, elementB) => this.compareInputs(elementA, elementB, second)),
-            sortedObjectFirst = sortedOjectSecond.sort((elementA, elementB) => this.compareInputs(elementA, elementB, first));
-
-        return sortedObjectFirst;
-    },
-
-    /**
-     * Compare two elements.
-     * @param {object} elementA - The first object.
-     * @param {object} elementB - The second object.
-     * @param {string|number} value - value by sort.
-     * @returns {number} Sort sequence in numbers
-     */
-    compareInputs: function (elementA, elementB, value) {
-        const firstElement = isNaN(parseInt(elementA[value], 10)) ? elementA[value] : parseInt(elementA[value], 10),
-            secondElement = isNaN(parseInt(elementB[value], 10)) ? elementB[value] : parseInt(elementB[value], 10);
-
-        if (firstElement < secondElement) {
-            return -1;
-        }
-        else if (firstElement > secondElement) {
-            return 1;
-        }
-
-        return 0;
-    },
-
-    /**
-     * Sorts array of objects as address using a special sorting alorithm
-     * @param {Object[]} input Array with object to be sorted.
-     * @returns {Object[]} - Sorted array of objects.
-     */
-    sortObjectsAsAddress: function (input) {
-        return input.sort(this.sortAddress.bind(this));
-    },
-
-    /**
-     * Searches the userAgent for the string android.
-     * @return {Array|null} Returns an array with the results. Returns zero if nothing is found.
-     */
-    isAndroid: function () {
-        return navigator.userAgent.match(/Android/i);
-    },
-
-    /**
-     * Searches the userAgent for the string iPhone, iPod or iPad.
-     * @return {Array|null} Returns an array with the results. Returns zero if nothing is found.
-     */
-    isApple: function () {
-        return navigator.userAgent.match(/iPhone|iPod|iPad/i);
-    },
-
-    /**
-     * Searches the userAgent for the string opera.
-     * @return {Array|null} Returns an array with the results. Returns zero if nothing is found.
-     */
-    isOpera: function () {
-        return navigator.userAgent.match(/Opera Mini/i);
-    },
-
-    /**
-     * Searches the userAgent for the string windows.
-     * @return {Array|null} Returns an array with the results. Returns zero if nothing is found.
-     */
-    isWindows: function () {
-        return navigator.userAgent.match(/IEMobile/i);
-    },
-
-    /**
      * Searches the userAgent for the string chrome.
      * @return {Array|null} Returns an array with the results. Returns zero if nothing is found.
+     * @deprecated in 3.0.0
      */
     isChrome: function () {
         let isChrome = false;
@@ -483,33 +205,6 @@ const Util = Backbone.Model.extend(/** @lends Util.prototype */{
             isChrome = true;
         }
         return isChrome;
-    },
-
-    /**
-     * todo
-     * @returns {*} todo
-     */
-    isAny: function () {
-        return this.isAndroid() || this.isApple() || this.isOpera() || this.isWindows();
-    },
-
-    /**
-     * Searches the userAgent for the string internet explorer.
-     * @return {Array|null} Returns an array with the results. Returns zero if nothing is found.
-     */
-    isInternetExplorer: function () {
-        let ie = false;
-
-        if ((/MSIE 9/i).test(navigator.userAgent)) {
-            ie = "IE9";
-        }
-        else if ((/MSIE 10/i).test(navigator.userAgent)) {
-            ie = "IE10";
-        }
-        else if ((/rv:11.0/i).test(navigator.userAgent)) {
-            ie = "IE11";
-        }
-        return ie;
     },
 
     /**
@@ -543,7 +238,7 @@ const Util = Backbone.Model.extend(/** @lends Util.prototype */{
      * @return {void}
      */
     toggleIsViewMobile: function () {
-        if (window.innerWidth >= 768) {
+        if (!isMobile()) {
             this.setIsViewMobile(false);
         }
         else {
@@ -622,24 +317,6 @@ const Util = Backbone.Model.extend(/** @lends Util.prototype */{
             acc[val] = (acc[val] || []).concat(arr[i]);
             return acc;
         }, {});
-    },
-
-    /**
-     * Generate a globally-unique id for client-side models or DOM elements that need one. If prefix is passed, the id will be appended to it.
-     * @param {String} [prefix=""] prefix for the id
-     * @returns {String}  a globally-unique id
-     */
-    uniqueId: function (prefix) {
-        return uniqueId(prefix);
-    },
-
-    /**
-     * Setter for uiStyle
-     * @param {*} value todo
-     * @returns {void}
-     */
-    setUiStyle: function (value) {
-        this.set("uiStyle", value);
     },
 
     /**
@@ -741,18 +418,14 @@ const Util = Backbone.Model.extend(/** @lends Util.prototype */{
         return arrayWithStrings;
     },
 
-    /** Looks through the list and returns the first value that matches all of the key-value pairs listed in properties
-     * listed in hitId.
-     * @param {Object[]} [list=[]] - the list.
-     * @param {Object} properties property/entry to search for.
-     * @returns {Object} - returns the first value/entry, that matches.
+    /**
+     * Looks through the given list and returns the first value that matches all of the key value pairs of properties.
+     * @param {Object[]} list A list of objects to look through.
+     * @param {Object} properties An object to match with all key value pairs.
+     * @returns {Object} Returns the first object in list which matches all given properties.
      */
     findWhereJs: function (list = [], properties = "") {
-        return list.find(
-            item => Object.keys(properties).every(
-                key => item[key] === properties[key]
-            )
-        );
+        return findWhereJs(list, properties);
     },
 
     /**
@@ -876,6 +549,7 @@ const Util = Backbone.Model.extend(/** @lends Util.prototype */{
      * @param {object} obj object to search
      * @param {string} key name of key to search for
      * @return {mixed} returns value for the given key or null if not found
+     * @deprecated in 3.0.0
      */
     searchNestedObject: function (obj, key) {
         let result;

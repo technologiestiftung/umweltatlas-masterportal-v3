@@ -60,7 +60,16 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["uiStyle"]),
+        ...mapGetters(["mobile", "uiStyle"]),
+
+        /**
+         * Mobile mode always renders in window.
+         * @returns {Boolean} Render to window.
+         */
+        renderToWindowMobile () {
+            return this.mobile || this.renderToWindow;
+        },
+
         /**
          * Calculates initial width of sidebar or window for Desktop and Mobile (if props are given).
          * @returns {Array} initialToolWidth and initialToolWidthMobile for CSS
@@ -90,8 +99,24 @@ export default {
                         this.$refs["close-icon"].focus();
                     }
                 }
+
+                if (this.uiStyle === "TABLE") {
+                    const el = this.$refs["tool-div"];
+
+                    if (newValue && el) {
+                        el.style.display = "block";
+                    }
+                    else if (el) {
+                        el.style.display = "none";
+                    }
+                }
             });
 
+        }
+    },
+    mounted () {
+        if (this.active) {
+            this.updateMap();
         }
     },
     methods: {
@@ -149,10 +174,10 @@ export default {
          * @return {void}
          */
         updateMap (event) {
-            if (this.renderToWindow) {
+            if (this.renderToWindowMobile) {
                 return;
             }
-            Radio.trigger("Map", "updateSize");
+            mapCollection.getMap("2D").updateSize();
             this.onEndResizing(event);
         },
         /**
@@ -173,16 +198,17 @@ export default {
 <template>
     <div
         v-if="active"
-        :id="renderToWindow ? '' : 'tool-sidebar-vue'"
+        :id="renderToWindowMobile ? '' : 'tool-sidebar-vue'"
+        ref="tool-div"
         :class="{
-            'tool-window-vue': renderToWindow,
+            'tool-window-vue': renderToWindowMobile,
             'table-tool-win-all-vue': uiStyle === 'TABLE',
             'is-minified': isMinified
         }"
         :style="widths"
     >
         <BasicResizeHandle
-            v-if="resizableWindow && !renderToWindow"
+            v-if="resizableWindow && !renderToWindowMobile"
             id="basic-resize-handle-sidebar"
             h-pos="l"
             :min-w="200"
@@ -194,61 +220,66 @@ export default {
 
         <div class="win-heading">
             <div class="heading-element">
-                <span
-                    class="glyphicon win-icon"
-                    :class="icon"
-                />
+                <span class="bootstrap-icon win-icon">
+                    <i :class="icon" />
+                </span>
             </div>
 
             <div
-                v-if="!renderToWindow"
+                v-if="!renderToWindowMobile"
                 class="heading-element flex-grow"
             >
-                <p class="title">
-                    <span>{{ title }}</span>
-                </p>
+                <h2 class="title">
+                    {{ title }}
+                </h2>
             </div>
 
             <BasicDragHandle
-                v-if="renderToWindow"
+                v-if="renderToWindowMobile"
                 target-sel=".tool-window-vue"
                 :margin-bottom="resizableWindow ? 25 : 0"
                 class="heading-element flex-grow"
             >
-                <p class="title">
-                    <span>{{ title }}</span>
-                </p>
+                <h2 class="title">
+                    {{ title }}
+                </h2>
             </BasicDragHandle>
 
             <div
-                v-if="renderToWindow"
+                v-if="renderToWindowMobile"
                 class="heading-element"
             >
                 <span
                     v-if="!isMinified"
-                    class="glyphicon glyphicon-minus"
+                    class="bootstrap-icon"
                     tabindex="0"
                     title="Minimieren"
                     @click="minifyTool($event)"
                     @keydown="minifyTool($event)"
-                />
+                >
+                    <i class="bi-dash-lg" />
+                </span>
                 <span
                     v-else
-                    class="glyphicon glyphicon-plus"
+                    class="bootstrap-icon"
                     tabindex="0"
                     title="Maximieren"
                     @click="maximizeTool($event)"
                     @keydown="maximizeTool($event)"
-                />
+                >
+                    <i class="bi-plus-lg" />
+                </span>
             </div>
             <div class="heading-element">
                 <span
                     ref="close-icon"
-                    class="glyphicon glyphicon-remove"
+                    class="bootstrap-icon"
                     tabindex="0"
                     @click="close($event)"
                     @keydown="close($event)"
-                />
+                >
+                    <i class="bi-x-lg" />
+                </span>
             </div>
         </div>
 
@@ -258,7 +289,7 @@ export default {
         >
             <slot name="toolBody" />
         </div>
-        <div v-if="resizableWindow && renderToWindow">
+        <div v-if="resizableWindow && renderToWindowMobile">
             <BasicResizeHandle
                 v-for="hPos in ['tl', 'tr', 'br', 'bl']"
                 :id="'basic-resize-handle-' + hPos"
@@ -275,11 +306,7 @@ export default {
 
 <style lang="scss" scoped>
     @import "~/css/mixins.scss";
-    $color: rgb(255, 255, 255);
-    $font_family: "MasterPortalFont", sans-serif;
-    $background_color_1: rgb(255, 255, 255);
-    $background_color_2: #e10019;
-    $background_color_4: #646262;
+    @import "~variables";
 
     #vue-tool-content-body {
         display:block;
@@ -289,8 +316,8 @@ export default {
         }
     }
 
-    .win-heading{
-        border-bottom: 1px solid rgb(229, 229, 229);
+    .win-heading {
+        border-bottom: 1px solid $light_grey;
         font-family: $font_family_accent;
         display:flex;
         flex-direction:row;
@@ -301,29 +328,29 @@ export default {
         .heading-element {
             white-space: nowrap;
             color: $secondary_contrast;
-            font-size: 14px;
+            font-size: $font_size_big;
 
             &.flex-grow {
                 flex-grow:99;
                 overflow: hidden;
+                > .title {
+                    @include tool-headings-h2();
+                }
             }
 
             > .title {
-                color: $secondary_contrast;
-                white-space: nowrap;
-                font-size: 14px;
-                padding-top: 10px;
+                @include tool-headings-h2();
             }
 
-            > .glyphicon {
-                padding: 8px 8px 8px 8px;
+            > .bootstrap-icon {
+                padding: 8px;
                 &:focus {
                     @include primary_action_focus;
                 }
             }
 
             > span {
-                &.glyphicon-minus { top: 3px; }
+                > .bi-dash-lg { top: 3px; }
                 &:hover {
                     &:not(.win-icon) {
                         @include primary_action_hover;
@@ -334,7 +361,7 @@ export default {
     }
 
     .tool-window-vue {
-        background-color: $background_color_1;
+        background-color: $white;
         display: block;
         position: absolute;
         padding:0;
@@ -345,22 +372,22 @@ export default {
         min-width: 280px;
         width: var(--initialToolWidth);
 
-        @media (max-width: 400px) {
+        @include media-breakpoint-down(sm) {
             right: 20px;
         }
 
-        @media (max-width: 767px) {
+        @include media-breakpoint-down(md) {
             width: var(--initialToolWidthMobile);
         }
 
         .win-body-vue {
-            max-height:72vh;
+            max-height: 72vh;
         }
 
         .basic-resize-handle {
-            position:absolute;
-            width:6px;
-            height:6px;
+            position: absolute;
+            width: 6px;
+            height: 6px;
         }
         #basic-resize-handle-tl { top: 0; left: 0; }
         #basic-resize-handle-tr { top: 0; right: 0;}
@@ -373,11 +400,11 @@ export default {
 
             #vue-tool-content-body { display:none; }
             .win-heading{
-                background-color:$background_color_2;
-                .glyphicon, .title {
-                    color: $color;
+                background-color: $primary;
+                .bootstrap-icon, .title {
+                    color: $white;
                 }
-                border-bottom:none;
+                border-bottom: none;
                 overflow: hidden;
             }
         }
@@ -387,26 +414,31 @@ export default {
         position: relative;
         padding: $padding;
         -webkit-overflow-scrolling: touch;
-        background-color: $background_color_1;
+        background-color: $white;
         overflow: auto;
         width: 100%;
     }
 
     .table-tool-win-all-vue {
-        font-family: $font_family;
+        display:none;
         border-radius: 12px;
         margin-bottom: 30px;
         .win-heading {
-            font-family: $font_family;
-            font-size: 14px;
-            background-color: $background_color_4;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            font-size: $font_size_big;
+            background-color: $dark_grey;
             .heading-element {
-                > .title {
-                    color: $color;
-                    font-size: 14px;
+                border-top-right-radius: 12px;
+                :last-child:hover {
+                    border-top-right-radius: 12px;
                 }
-                > .buttons { color: $color; }
-                > .glyphicon { color: $color; }
+                > .title {
+                    color: $white;
+                    font-size: $font_size_big;
+                }
+                > .buttons { color: $white; }
+                > .bootstrap-icon { color: $white; }
             }
         }
         .win-body-vue {
@@ -418,12 +450,12 @@ export default {
     }
 
     #tool-sidebar-vue {
-        background-color: $background_color_1;
-        padding:0 0 0 12px;
-        height:100%;
+        background-color: $white;
+        padding: 0 0 0 12px;
+        height: 100%;
         width: var(--initialToolWidth);
 
-        @media (max-width: 767px) {
+        @include media-breakpoint-down(md) {
             width: var(--initialToolWidthMobile);
         }
 
@@ -439,9 +471,8 @@ export default {
         bottom:0;
         padding:6px;
         transition:background-color 0.25s;
-        background-color:#DDDDDD;
+        background-color: $light_grey;
 
-        &:hover { background-color:#BBBBBB; }
         &>div {
             position: absolute;
             top:50%;
@@ -450,7 +481,7 @@ export default {
     }
 
 
-    @media (max-width: 767px) {
+    @include media-breakpoint-down(md) {
         .tool-window { right: 0; }
         #tool-sidebar-vue {
             position: fixed;

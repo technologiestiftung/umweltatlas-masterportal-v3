@@ -4,6 +4,8 @@ import CatalogFolderView from "./folder/viewCatalog";
 import DesktopLayerView from "./layer/view";
 import SelectionView from "./layer/viewSelection";
 import store from "../../../src/app-store/index";
+import Dropdown from "bootstrap/js/dist/dropdown";
+import sortBy from "../../../src/utils/sortBy";
 
 const ListView = ListViewMain.extend(/** @lends ListView.prototype */{
 
@@ -107,7 +109,7 @@ const ListView = ListViewMain.extend(/** @lends ListView.prototype */{
             selectedModels = selectedModels.filter(model => {
                 return model.get("supported").includes(currentMap);
             });
-            selectedModels = Radio.request("Util", "sortBy", selectedModels, (model) => model.get("selectionIDX"), this);
+            selectedModels = sortBy(selectedModels, (model) => model.get("selectionIDX"), this);
             this.addSelectionView(selectedModels);
         }
     },
@@ -133,6 +135,11 @@ const ListView = ListViewMain.extend(/** @lends ListView.prototype */{
         }
 
         lightModels = Radio.request("Parser", "getItemsByAttributes", {parentId: parentId});
+
+        lightModels = lightModels.filter(model => {
+            return !model.isNeverVisibleInTree;
+        });
+
         models = this.collection.add(lightModels);
 
         // Ordner öffnen, die initial geöffnet sein sollen
@@ -154,7 +161,7 @@ const ListView = ListViewMain.extend(/** @lends ListView.prototype */{
 
         // Layer Atlas sortieren
         if (Radio.request("Parser", "getTreeType") === "default") {
-            layer = Radio.request("Util", "sortBy", layer, (item) => item.get("name"), this);
+            layer = sortBy(layer, (item) => item.get("name"), this);
         }
         // Notwendig, da jQuery.after() benutzt werden muss wenn die Layer in den Baum gezeichnet werden, um den Layern auf allen Ebenen die volle Breite des Baumes zu geben
         // Mit jQuery.append würden sie ab der 2. ebene immer mit dem Eltern element zusammen eingerückt werden
@@ -167,7 +174,7 @@ const ListView = ListViewMain.extend(/** @lends ListView.prototype */{
         });
 
         if (Radio.request("Parser", "getTreeType") === "default" && parentId !== "Overlayer" && parentId !== "tree") {
-            folders = Radio.request("Util", "sortBy", folders, (item) => item.get("name"), this);
+            folders = sortBy(folders, (item) => item.get("name"), this);
         }
 
         if (parentId !== "Overlayer" && parentId !== "tree") {
@@ -204,7 +211,7 @@ const ListView = ListViewMain.extend(/** @lends ListView.prototype */{
         });
 
         if (Radio.request("Parser", "getTreeType") === "default" && parentId !== "tree") {
-            viewItems = Radio.request("Util", "sortBy", viewItems, (item) => item.get("name"), this);
+            viewItems = sortBy(viewItems, (item) => item.get("name"), this);
             if (parentId !== "Overlayer") {
                 viewItems.reverse();
             }
@@ -266,7 +273,10 @@ const ListView = ListViewMain.extend(/** @lends ListView.prototype */{
             store.dispatch("Tools/setToolActive", {id: modul.id, active: true});
         }
         else {
-            $("#" + modulId).parent().addClass("open");
+            // Upgrade to BT5, use JS method instead of class addition
+            const dropdown = Dropdown.getOrCreateInstance($("#" + modulId).parent().children(".dropdown-toggle").get(0));
+
+            dropdown.show();
         }
     }
 });

@@ -29,9 +29,16 @@ const Preparser = Backbone.Model.extend(/** @lends Preparser.prototype */{
      * @returns {void}
      */
     fetchData: function () {
+        const alert = {
+            category: "error",
+            content: i18next.t("common:utils.parametricURL.errorLoadConfig") + this.url,
+            displayClass: "error",
+            multipleAlert: true
+        };
+
         this.fetch({async: false,
             error: (model, xhr, error) => {
-                store.dispatch("Alerting/addSingleAlert", i18next.t("common:utils.parametricURL.errorLoadConfig", {url: this.url}), {root: true});
+                store.dispatch("Alerting/addSingleAlert", alert, {root: true});
                 if (error.textStatus === "parsererror") {
                     // reload page once
                     if (window.localStorage) {
@@ -66,6 +73,10 @@ const Preparser = Backbone.Model.extend(/** @lends Preparser.prototype */{
             targetPath = configJsonPathFromUrl;
         }
         else if (configJsonPathFromConfig.slice(-5) === defaultFormat) {
+            targetPath = configJsonPathFromConfig;
+        }
+        // for some tools it is important that URL parameters are preserved in the URL of the config.json
+        else if (configJsonPathFromConfig.slice(-5) !== defaultFormat && configJsonPathFromConfig.includes("?")) {
             targetPath = configJsonPathFromConfig;
         }
 

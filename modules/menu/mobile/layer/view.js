@@ -8,14 +8,13 @@ import axios from "axios";
 const LayerView = Backbone.View.extend(/** @lends LayerView.prototype */{
     events: {
         "click .layer-item": "preToggleIsSelected",
-        "click .layer-info-item > .glyphicon-info-sign": "showLayerInformation",
-        "click .selected-layer-item > .glyphicon-remove": "removeFromSelection",
+        "click .layer-info-item > .info-icon": "showLayerInformation",
+        "click .selected-layer-item  > .x-icon": "removeFromSelection",
         "click .selected-layer-item > div": "toggleIsVisibleInMap",
-        "click .layer-info-item > .glyphicon-cog": "toggleIsSettingVisible",
-        "click .layer-sort-item > .glyphicon-triangle-top": "moveModelUp",
-        "click .layer-sort-item > .glyphicon-triangle-bottom": "moveModelDown",
-        "change select": "setTransparency",
-        "click .glyphicon-tint": "openStyleWMS"
+        "click .layer-info-item > .settings-icon": "toggleIsSettingVisible",
+        "click .layer-sort-item > .up-icon": "moveModelUp",
+        "click .layer-sort-item > .down-icon": "moveModelDown",
+        "change select": "setTransparency"
     },
 
     /**
@@ -30,7 +29,6 @@ const LayerView = Backbone.View.extend(/** @lends LayerView.prototype */{
      * @fires Map#RadioRequestMapGetMapMode
      * @fires BreadCrumb#RadioRequestBreadCrumbGetLastItem
      * @fires ModelList#RadioTriggerModelListSetIsSelectedOnParent
-     * @fires StyleWMS#RadioTriggerStyleWMSOpenStyleWMS
      * @fires Alerting#RadioTriggerAlertAlert
      */
     initialize: function () {
@@ -46,7 +44,8 @@ const LayerView = Backbone.View.extend(/** @lends LayerView.prototype */{
         channel.on({
             "change:isVisibleInTree": this.removeIfNotVisible,
             "rerender": this.render,
-            "renderSetting": this.renderSetting
+            "renderSetting": this.renderSetting,
+            "change:isOutOfRange": this.toggleColor
         }, this);
 
         // translates the i18n-props into current user-language. is done this way, because model's listener to languageChange reacts too late (after render, which ist riggered by creating new Menu)
@@ -55,7 +54,7 @@ const LayerView = Backbone.View.extend(/** @lends LayerView.prototype */{
         this.toggleColor(this.model, this.model.get("isOutOfRange"));
     },
     tagName: "li",
-    className: "list-group-item",
+    className: "dropdown-item",
     template: _.template(Template),
     templateSelected: _.template(SelectionTemplate),
     templateSetting: _.template(SettingsTemplate),
@@ -74,12 +73,12 @@ const LayerView = Backbone.View.extend(/** @lends LayerView.prototype */{
         }
         if (model.has("minScale") === true) {
             if (value === true) {
-                const statusCheckbox = this.$el.find(".glyphicon.glyphicon-unchecked").length;
+                const statusCheckbox = this.$el.find(".bootstrap-icon > .bi-square").length;
 
                 this.$el.addClass("disabled");
                 this.$el.find("*").css("pointer-events", "none");
                 if (statusCheckbox === 0) {
-                    this.$el.find("div.pull-left").css("pointer-events", "auto");
+                    this.$el.find("div.float-start").css("pointer-events", "auto");
                 }
             }
             else {
@@ -111,13 +110,16 @@ const LayerView = Backbone.View.extend(/** @lends LayerView.prototype */{
 
     /**
      * Draws the settings (transparency, metainfo, ...)
+     * @param {String} layerId The layer id.
      * @returns {void}
      */
-    renderSetting: function () {
+    renderSetting: function (layerId) {
         const attr = this.model.toJSON();
 
-        // Animation Zahnrad
-        this.$(".glyphicon-cog").toggleClass("rotate rotate-back");
+        // Animation cog
+        if (layerId === attr.id) {
+            this.$(".bi-gear").parent(".bootstrap-icon").toggleClass("rotate rotate-back");
+        }
         // Slide-Animation templateSetting
         if (this.model.get("isSettingVisible") === false) {
             this.$el.find(".item-settings").slideUp("slow", function () {
@@ -234,7 +236,7 @@ const LayerView = Backbone.View.extend(/** @lends LayerView.prototype */{
     showLayerInformation: function () {
         this.model.showLayerInformation();
         // Navigation wird geschlossen
-        this.$("div.collapse.navbar-collapse").removeClass("in");
+        this.$("div.collapse.navbar-collapse").removeClass("show");
     },
 
     /**
@@ -278,16 +280,6 @@ const LayerView = Backbone.View.extend(/** @lends LayerView.prototype */{
         if (!this.model.get("isVisibleInTree")) {
             this.remove();
         }
-    },
-
-    /**
-     * todo
-     * @fires StyleWMS#RadioTriggerStyleWMSOpenStyleWMS
-     * @returns {void}
-     */
-    openStyleWMS: function () {
-        Radio.trigger("StyleWMS", "openStyleWMS", this.model);
-        this.$(".navbar-collapse").removeClass("in");
     },
 
     /**

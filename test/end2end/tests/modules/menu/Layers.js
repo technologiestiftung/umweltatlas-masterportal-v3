@@ -32,13 +32,15 @@ const webdriver = require("selenium-webdriver"),
  * @returns {void}
  */
 async function checkLayersettings (driver) {
-    if (Object.keys(await driver.findElements(By.css("ul#root li.layer div"))).length === 0) {
-        await (await driver.wait(
-            until.elementLocated(By.css("ul#root li.layer span.glyphicon-cog")),
-            12000,
+    if (Object.keys(await driver.findElements(By.css(".layer-settings"))).length === 0) {
+        const button = await driver.wait(
+            until.elementLocated(By.css("#tree > li:nth-child(1) > div > span > span.bootstrap-icon.settings-icon.rotate.settings.tabable > i")),
+            1000,
             "layer settings did not appear"
-        )).click();
-        await new Promise(r => setTimeout(r, 200));
+        );
+
+        button.click();
+        await new Promise(r => setTimeout(r, 2000));
     }
 }
 
@@ -157,8 +159,8 @@ async function MenuLayersTests ({builder, url, resolution, capability}) {
             });
 
             it("opens an information window with the info button", async function () {
-                await driver.wait(until.elementLocated(By.css("ul#root li.layer span.glyphicon-info-sign")), 12000);
-                await (await driver.findElement(By.css("ul#root li.layer span.glyphicon-info-sign"))).click();
+                await driver.wait(until.elementLocated(By.css("ul#root li.layer span.bootstrap-icon > .bi-info-circle-fill")), 12000);
+                await (await driver.findElement(By.css("ul#root li.layer span.bootstrap-icon > .bi-info-circle-fill"))).click();
                 await driver.wait(
                     until.elementLocated(By.css("div#layerInformation")),
                     12000,
@@ -202,8 +204,8 @@ async function MenuLayersTests ({builder, url, resolution, capability}) {
             });
 
             it("displays an option row", async function () {
-                await driver.wait(until.elementLocated(By.css("ul#root li.layer span.glyphicon-cog")), 12000);
-                await (await driver.findElement(By.css("ul#root li.layer span.glyphicon-cog"))).click();
+                await driver.wait(until.elementLocated(By.css("ul#root li.layer span.bootstrap-icon > .bi-gear")), 12000);
+                await (await driver.findElement(By.css("ul#root li.layer span.bootstrap-icon > .bi-gear"))).click();
                 await driver.wait(
                     until.elementLocated(By.css("ul#root li.layer div.layer-settings")),
                     12000,
@@ -221,7 +223,10 @@ async function MenuLayersTests ({builder, url, resolution, capability}) {
                  * @returns {WebdriverWebElement} fresh transparency button
                  */
                 async function getButton (sign) {
-                    return driver.findElement(By.css(`span.transparency span.glyphicon-${sign}-sign`));
+                    if (sign === "plus") {
+                        return driver.findElement(By.css("span.transparency span.bootstrap-icon.increase-icon.tabable"));
+                    }
+                    return driver.findElement(By.css("span.transparency span.bootstrap-icon.decrease-icon.tabable > i.bi-dash-circle-fill"));
                 }
 
 
@@ -246,7 +251,7 @@ async function MenuLayersTests ({builder, url, resolution, capability}) {
 
             it("arrows allow moving layers up in tree and map order", async function () {
                 await checkLayersettings(driver);
-                await (await driver.findElement(By.css("ul#root li.layer div.layer-settings span.glyphicon-arrow-down"))).click();
+                await (await driver.findElement(By.css("ul#root li.layer div.layer-settings span.bootstrap-icon > .bi-arrow-down"))).click();
 
                 const newTitleOrder = await getOrderedTitleTexts(driver),
                     newMapOrder = await driver.executeScript(getOrderedLayerIds);
@@ -263,7 +268,7 @@ async function MenuLayersTests ({builder, url, resolution, capability}) {
 
             it("arrows allow moving layers down in tree and map order", async function () {
                 await checkLayersettings(driver);
-                await (await driver.findElement(By.css("ul#root li.layer div.layer-settings span.glyphicon-arrow-up"))).click();
+                await (await driver.findElement(By.css("ul#root li.layer div.layer-settings span.bootstrap-icon > .bi-arrow-up"))).click();
 
                 const newTitleOrder = await getOrderedTitleTexts(driver),
                     newMapOrder = await driver.executeScript(getOrderedLayerIds),
@@ -281,8 +286,8 @@ async function MenuLayersTests ({builder, url, resolution, capability}) {
 
             it("arrows moving up do nothing if layer is already first", async function () {
                 await checkLayersettings(driver);
-                await driver.wait(until.elementLocated(By.css("ul#root li.layer div.layer-settings span.glyphicon-arrow-up")), 12000);
-                await (await driver.findElement(By.css("ul#root li.layer div.layer-settings span.glyphicon-arrow-up"))).click();
+                await driver.wait(until.elementLocated(By.css("ul#root li.layer div.layer-settings span.bootstrap-icon > .bi-arrow-up")), 12000);
+                await (await driver.findElement(By.css("ul#root li.layer div.layer-settings span.bootstrap-icon > .bi-arrow-up"))).click();
 
                 const newTitleOrder = await getOrderedTitleTexts(driver),
                     newMapOrder = await driver.executeScript(getOrderedLayerIds),
@@ -300,8 +305,8 @@ async function MenuLayersTests ({builder, url, resolution, capability}) {
 
             it("allows removing layer from tree and map", async function () {
                 await checkLayersettings(driver);
-                await driver.wait(until.elementLocated(By.css("ul#root li.layer div.layer-settings span.remove-layer")), 12000);
-                await (await driver.findElement(By.css("ul#root li.layer div.layer-settings span.remove-layer"))).click();
+                await driver.wait(until.elementLocated(By.css("#tree li div.layer-settings span.remove-layer.tabable")), 12000);
+                await (await driver.findElement(By.css("#tree li div.layer-settings span.remove-layer.tabable"))).click();
 
                 await new Promise(r => setTimeout(r, 1000));
 
@@ -313,16 +318,16 @@ async function MenuLayersTests ({builder, url, resolution, capability}) {
             });
 
             it("arrows moving down do nothing if layer is already last", async function () {
+                mapOrderedElementTexts = await getOrderedTitleTexts(driver);
                 await checkLayersettings(driver);
-                await driver.wait(until.elementLocated(By.css("ul#root li.layer:nth-child(29) span.glyphicon-cog")), 12000);
-                await (await driver.findElement(By.css("ul#root li.layer:nth-child(29) span.glyphicon-cog"))).click();
+                await driver.wait(until.elementLocated(By.css("#tree li.layer:nth-child(30) > div > span >  span.bootstrap-icon.settings-icon.rotate.settings.tabable > i")), 12000);
+                await (await driver.findElement(By.css("#tree li.layer:nth-child(30) > div > span >  span.bootstrap-icon.settings-icon.rotate.settings.tabable > i"))).click();
 
                 await driver.wait(until.elementLocated(By.css("ul#root li.layer div.layer-settings")));
 
                 // wait for animation to finish
                 await new Promise(r => setTimeout(r, 500));
-
-                await (await driver.findElement(By.css("ul#root li.layer div.layer-settings span.glyphicon-arrow-down"))).click();
+                await (await driver.findElement(By.css("#tree li:nth-child(30) > div.layer-settings  > span.arrows.float-end >  span.bootstrap-icon.down-icon.tabable > i"))).click();
 
                 const newTitleOrder = await getOrderedTitleTexts(driver),
                     newMapOrder = await driver.executeScript(getOrderedLayerIds),
@@ -344,7 +349,7 @@ async function MenuLayersTests ({builder, url, resolution, capability}) {
 
             it("close the layerInformation", async function () {
                 await (
-                    await driver.findElement(By.css("div#layerInformation div.tool-window-heading div.heading-element span.glyphicon.glyphicon-remove"))
+                    await driver.findElement(By.css("div#layerInformation div.tool-window-heading div.heading-element span.bootstrap-icon > .bi-x-lg"))
                 ).click();
             });
         }

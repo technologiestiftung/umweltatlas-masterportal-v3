@@ -1,8 +1,9 @@
 import Vuex from "vuex";
 import {shallowMount, createLocalVue} from "@vue/test-utils";
-import * as moment from "moment";
+import dayjs from "dayjs";
 import {expect} from "chai";
 import SensorThemeBartChart from "../../../components/SensorThemeBarChart.vue";
+
 
 const localVue = createLocalVue();
 
@@ -69,9 +70,9 @@ describe("src/modules/tools/gfi/components/themes/senor/components/SensorThemeBa
     it("should render a two buttons with two span for left and right side if show is true", () => {
         expect(wrapper.findAll("button").wrappers.length).equals(2);
         expect(wrapper.findAll("button").wrappers[0].classes()).includes("leftButton", "kat", "btn");
-        expect(wrapper.findAll("button > span").wrappers[0].classes().includes("glyphicon", "glyphicon-chevron-left"));
+        expect(wrapper.findAll("button > span > i").wrappers[0].classes().includes("bi-chevron-left"));
         expect(wrapper.findAll("button").wrappers[1].classes()).includes("rightButton", "kat", "btn");
-        expect(wrapper.findAll("button > span").wrappers[1].classes().includes("glyphicon", "glyphicon-chevron-right"));
+        expect(wrapper.findAll("button > span > i").wrappers[1].classes().includes("bi-chevron-right"));
     });
 
     it("should returns an object with data for the charts ", () => {
@@ -164,20 +165,20 @@ describe("src/modules/tools/gfi/components/themes/senor/components/SensorThemeBa
     });
 
     it("should show today by initial loading ", () => {
-        expect(wrapper.find("div > div > span").text()).equals(moment().format("dddd"));
+        expect(wrapper.find("div > div > span").text()).equals(dayjs().format("dddd"));
     });
 
     it("should show the day before yesterday after two clicks on left button ", async () => {
         await wrapper.findAll("button").wrappers[0].trigger("click");
         await wrapper.findAll("button").wrappers[0].trigger("click");
 
-        expect(wrapper.find("div > div > span").text()).equals(moment().subtract(2, "days").format("dddd"));
+        expect(wrapper.find("div > div > span").text()).equals(dayjs().subtract(2, "day").format("dddd"));
     });
 
     it("should show the day after tomorrow after two clicks on right button ", async () => {
         await wrapper.findAll("button").wrappers[1].trigger("click");
         await wrapper.findAll("button").wrappers[1].trigger("click");
 
-        expect(wrapper.find("div > div > span").text()).equals(moment().add(2, "days").format("dddd"));
+        expect(wrapper.find("div > div > span").text()).equals(dayjs().add(2, "day").format("dddd"));
     });
 });

@@ -28,11 +28,13 @@
 const state = {
     layerAppendix: "_secondLayer",
     windowWidth: 1280,
+    visibility: true,
     layerSwiper: {
         active: false,
         isMoving: false,
         swiper: null,
         targetLayer: null,
+        sourceLayer: null,
         valueX: null
     },
     timeSlider: {

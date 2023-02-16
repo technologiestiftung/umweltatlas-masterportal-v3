@@ -41,6 +41,11 @@ export default {
             type: Boolean,
             default: false,
             required: false
+        },
+        // The label of the select
+        label: {
+            type: String,
+            required: true
         }
     },
     data () {
@@ -84,7 +89,7 @@ export default {
         this.createDomOverlay({id: "circle-overlay", overlay: this.circleOverlay});
         this.createDomOverlay({id: "tooltip-overlay", overlay: this.tooltipOverlay});
         this.createDrawInteraction();
-        this.addLayerToMap(this.layer);
+        this.addLayerOnTop(this.layer);
         this.checkOptions();
         this.setDefaultSelection(this.selectedOptionData);
     },
@@ -92,8 +97,7 @@ export default {
     methods: {
         ...mapMutations("GraphicalSelect", Object.keys(mutations)),
         ...mapActions("GraphicalSelect", Object.keys(actions)),
-        ...mapMutations("Map", ["addLayerToMap", "removeLayerFromMap"]),
-        ...mapActions("Map", ["addInteraction", "removeInteraction"]),
+        ...mapActions("Maps", ["addLayerOnTop", "addInteraction", "removeInteraction", "registerListener"]),
         ...mapActions("Alerting", ["addSingleAlert"]),
 
         /**
@@ -112,8 +116,8 @@ export default {
                 if (typeof this.drawInteraction === "object") {
                     this.drawInteraction.setActive(false);
                 }
-                Radio.trigger("Map", "removeOverlay", this.circleOverlay);
-                Radio.trigger("Map", "removeOverlay", this.tooltipOverlay);
+                mapCollection.getMap("2D").removeOverlay(this.circleOverlay);
+                mapCollection.getMap("2D").removeOverlay(this.tooltipOverlay);
             }
         },
 
@@ -155,12 +159,13 @@ export default {
          * @todo Replace if removeOverlay is available in vue
          * @returns {void}
          */
-        resetView: function () {
+        resetView: async function () {
             this.layer.getSource().clear();
             this.removeInteraction(this.draw);
             this.circleOverlay.element.innerHTML = "";
-            Radio.trigger("Map", "removeOverlay", this.circleOverlay);
-            Radio.trigger("Map", "removeOverlay", this.tooltipOverlay);
+
+            mapCollection.getMap("2D").removeOverlay(this.circleOverlay);
+            mapCollection.getMap("2D").removeOverlay(this.tooltipOverlay);
         },
 
         /**
@@ -257,7 +262,7 @@ export default {
             this.toggleOverlay({type: drawtype, overlayCircle: this.circleOverlay, overlayTool: this.tooltipOverlay});
             this.setDrawInteractionListener({interaction: this.draw, layer: this.layer, vm: this});
             this.setDrawInteraction(this.draw);
-            Radio.trigger("Map", "registerListener", "pointermove", this.showTooltipOverlay.bind(this), this);
+            this.registerListener({type: "pointermove", listener: this.showTooltipOverlay});
         }
     }
 };
@@ -270,6 +275,7 @@ export default {
             v-model="selectedOptionData"
             :options="optionsValue"
             :focus-on-creation="focusOnCreation"
+            :label="label"
         />
     </form>
 </template>

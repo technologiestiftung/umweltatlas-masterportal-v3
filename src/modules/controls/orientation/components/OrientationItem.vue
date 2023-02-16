@@ -1,5 +1,5 @@
 <script>
-import {mapGetters, mapMutations} from "vuex";
+import {mapGetters, mapMutations, mapActions} from "vuex";
 import getters from "../store/gettersOrientation";
 import mutations from "../store/mutationsOrientation";
 import ControlIcon from "../../ControlIcon.vue";
@@ -10,6 +10,7 @@ import Overlay from "ol/Overlay.js";
 import proj4 from "proj4";
 import * as Proj from "ol/proj.js";
 import {Circle, LineString} from "ol/geom.js";
+import LoaderOverlay from "../../../../utils/loaderOverlay";
 
 export default {
     name: "OrientationItem",
@@ -42,13 +43,12 @@ export default {
             tracking: false,
             isGeolocationDenied: false,
             isGeoLocationPossible: false,
-            modelListChannel: Radio.channel("ModelList"),
             storePath: this.$store.state.controls.orientation
         };
     },
     computed: {
         ...mapGetters("controls/orientation", Object.keys(getters)),
-        ...mapGetters("Map", ["ol2DMap", "projection"]),
+        ...mapGetters("Maps", ["projection"]),
         poiDistancesLocal () {
             return this.poiDistances === true ? [500, 1000, 2000] : this.poiDistances;
         }
@@ -70,7 +70,7 @@ export default {
     },
     created () {
         this.setIsGeoLocationPossible();
-        this.modelListChannel.on("updateVisibleInMapList", this.checkWFS);
+        Radio.channel("ModelList").on("updateVisibleInMapList", this.checkWFS);
     },
     mounted () {
         this.addElement();
@@ -79,6 +79,7 @@ export default {
     },
     methods: {
         ...mapMutations("controls/orientation", Object.keys(mutations)),
+        ...mapActions("Maps", ["setCenter", "setZoomLevel"]),
 
         setIsGeoLocationPossible () {
             this.isGeoLocationPossible = window.location.protocol === "https:" || ["localhost", "127.0.0.1"].indexOf(window.location.hostname);
@@ -100,7 +101,7 @@ export default {
             let geolocation = null;
 
             if (this.isGeolocationDenied === false) {
-                this.ol2DMap.addOverlay(this.marker);
+                mapCollection.getMap("2D").addOverlay(this.marker);
                 if (this.geolocation === null) {
                     geolocation = new Geolocation({tracking: true, projection: Proj.get("EPSG:4326")});
                     this.setGeolocation(geolocation);
@@ -153,7 +154,7 @@ export default {
          * @returns {void}
          */
         removeOverlay () {
-            this.ol2DMap.removeOverlay(this.marker);
+            mapCollection.getMap("2D").removeOverlay(this.marker);
         },
 
         /**
@@ -223,7 +224,8 @@ export default {
          * @returns {void}
          */
         zoomAndCenter (position) {
-            Radio.trigger("MapView", "setCenter", position, 6);
+            this.setCenter(position);
+            this.setZoomLevel(6);
         },
 
         /**
@@ -268,11 +270,13 @@ export default {
          * @returns {void}
          */
         toggleBackground () {
+            const geolocateIcon = document.getElementById("geolocate");
+
             if (this.isGeolocationDenied) {
-                this.$el.querySelector(".glyphicon-map-marker").style.background = "rgb(221, 221, 221)";
+                geolocateIcon.style.backgroundColor = "grey";
             }
             else {
-                this.$el.querySelector(".glyphicon-map-marker").style.background = "#E10019";
+                geolocateIcon.style.backgroundColor = "#E10019";
             }
         },
 
@@ -295,7 +299,7 @@ export default {
 
             if (this.poiModeCurrentPositionEnabled) {
                 this.$store.dispatch("MapMarker/removePointMarker");
-                this.ol2DMap.addOverlay(this.marker);
+                mapCollection.getMap("2D").addOverlay(this.marker);
                 if (this.geolocation === null) {
                     geolocation = new Geolocation({tracking: true, projection: Proj.get("EPSG:4326")});
                     this.setGeolocation(geolocation);
@@ -333,7 +337,7 @@ export default {
          */
         showPoiWindow () {
             if (!this.position) {
-                Radio.trigger("Util", "showLoader");
+                LoaderOverlay.show();
                 const geolocation = this.geolocation,
                     position = geolocation.getPosition(),
                     centerPosition = proj4(proj4("EPSG:4326"), proj4(this.projection.getCode()), position);
@@ -356,7 +360,7 @@ export default {
             if (this.geolocation !== null) {
                 this.untrack();
             }
-            Radio.trigger("Util", "hideLoader");
+            LoaderOverlay.hide();
         },
 
         /**
@@ -460,18 +464,20 @@ export default {
     <div class="orientationButtons">
         <span
             id="geolocation_marker"
-            class="glyphicon glyphicon-map-marker geolocation_marker"
-        />
+            class="bootstrap-icon geolocation_marker"
+        >
+            <i class="bi-geo-alt-fill" />
+        </span>
         <ControlIcon
             id="geolocate"
             :title="$t('common:modules.controls.orientation.titleGeolocate')"
-            :icon-name="'map-marker'"
+            :icon-name="'geo-alt-fill'"
             :on-click="getOrientation"
         />
         <ControlIcon
             v-if="showPoiIcon"
             id="geolocatePOI"
-            :icon-name="'record'"
+            :icon-name="'record-circle'"
             :title="$t('common:modules.controls.orientation.titleGeolocatePOI')"
             :on-click="getPOI"
         />
@@ -494,25 +500,14 @@ export default {
 
     .orientationButtons {
         margin-top: 20px;
-        >.glyphicon {
-            font-size: 22px;
-            margin-top: 4px;
-        }
-        >.glyphicon-map-marker {
-            padding: 5px 7px 6px 6px;
-        }
-        >.glyphicon-record {
-            padding: 5px 6px 6px 6px;
-        }
         >.toggleButtonPressed {
             background-color: rgb(8,88,158);
         }
     }
     .geolocation_marker {
-        color: #F3F3F3;
+        color: $white;
         padding: 2px 3px 2px 2px;
         background: none repeat scroll #D42132;
         border-radius: 50px;
-        font-size: 20px;
     }
 </style>

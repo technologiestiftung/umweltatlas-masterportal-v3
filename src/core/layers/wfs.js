@@ -1,4 +1,4 @@
-import {wfs} from "masterportalapi";
+import {wfs} from "@masterportal/masterportalapi";
 import LoaderOverlay from "../../utils/loaderOverlay";
 import Layer from "./layer";
 import * as bridge from "./RadioBridge.js";
@@ -6,7 +6,7 @@ import Cluster from "ol/source/Cluster";
 import {bbox, all} from "ol/loadingstrategy.js";
 
 /**
- * Creates a layer of type WMS.
+ * Creates a layer of type WFS.
  * @param {Object} attrs  attributes of the layer
  * @returns {void}
  */

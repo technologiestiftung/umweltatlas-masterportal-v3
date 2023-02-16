@@ -1,7 +1,6 @@
 import {expect} from "chai";
 import sinon from "sinon";
 import TerrainLayer from "../../terrain";
-import mapCollection from "../../../dataStorage/mapCollection.js";
 import store from "../../../../app-store";
 
 describe("src/core/layers/terrain.js", () => {
@@ -29,8 +28,8 @@ describe("src/core/layers/terrain.js", () => {
                 return {};
             }
         };
-        mapCollection.addMap(map, "ol", "2D");
-        mapCollection.addMap(map3D, "map3D_0", "3D");
+        mapCollection.addMap(map, "2D");
+        mapCollection.addMap(map3D, "3D");
     });
     beforeEach(() => {
         global.Cesium = {};
@@ -47,15 +46,16 @@ describe("src/core/layers/terrain.js", () => {
         };
         cesiumTerrainProviderSpy = sinon.spy(global.Cesium, "CesiumTerrainProvider");
         cesiumEllipsoidTerrainProviderSpy = sinon.spy(global.Cesium, "EllipsoidTerrainProvider");
-        store.state.Map.mapId = "map3D_0";
-        store.state.Map.mapMode = "3D";
+        store.state.Maps.mode = "3D";
+        store.getters = {
+            "Maps/mode": store.state.Maps.mode
+        };
     });
 
     afterEach(() => {
         sinon.restore();
         global.Cesium = null;
-        store.state.Map.mapId = "ol";
-        store.state.Map.mapMode = "2D";
+        store.state.Maps.mode = "2D";
     });
 
     /**
@@ -132,6 +132,26 @@ describe("src/core/layers/terrain.js", () => {
 
         terrainLayer.createLegend();
         expect(terrainLayer.get("legend")).to.equal(false);
+    });
+    it("setIsVisibleInMap to true shall set isVisibleInMap", function () {
+        const terrainLayer = new TerrainLayer(attributes),
+            layer = terrainLayer.get("layer");
+
+        terrainLayer.setIsVisibleInMap(true);
+        checkLayer(layer, terrainLayer, attributes);
+        expect(terrainLayer.get("isVisibleInMap")).to.equal(true);
+        expect(cesiumEllipsoidTerrainProviderSpy.notCalled).to.equal(true);
+        expect(cesiumTerrainProviderSpy.calledOnce).to.equal(true);
+    });
+    it("setIsVisibleInMap to false shall set isVisibleInMap and hide layer", function () {
+        const terrainLayer = new TerrainLayer(attributes),
+            layer = terrainLayer.get("layer");
+
+        checkLayer(layer, terrainLayer, attributes);
+        terrainLayer.setIsVisibleInMap(false);
+        expect(terrainLayer.get("isVisibleInMap")).to.equal(false);
+        expect(cesiumEllipsoidTerrainProviderSpy.calledOnce).to.equal(true);
+        expect(cesiumTerrainProviderSpy.notCalled).to.equal(true);
     });
 });
 

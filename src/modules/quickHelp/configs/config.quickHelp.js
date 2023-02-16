@@ -92,7 +92,7 @@ const configQuickHelp = {
                     {
                         text: "common:modules.quickHelp.topicTree.topicsHelp3",
                         type: "text/html",
-                        interpolation: {iconCls: "glyphicon glyphicon-info-sign"}
+                        interpolation: {iconCls: "bi-info-circle-fill"}
                     },
                     "themen_2.png",
                     {
@@ -105,16 +105,19 @@ const configQuickHelp = {
                 title: "common:modules.quickHelp.topicTree.selection",
                 list: [
                     {
-                        text: "common:modules.quickHelp.topicTree.topicsHelp3",
+                        text: "common:modules.quickHelp.topicTree.topicsHelp5",
                         type: "text/html",
-                        interpolation: {iconCls: "glyphicon glyphicon-cog rotate"}
+                        interpolation: {iconCls: "bi-gear rotate"}
                     }
                 ]
             },
             saveSelection: {
                 title: "common:modules.quickHelp.topicTree.saveSelection",
                 list: [
-                    "common:modules.quickHelp.topicTree.topicsHelp6"
+                    {
+                        text: "common:modules.quickHelp.topicTree.topicsHelp6",
+                        type: "text/html"
+                    }
                 ]
             }
         }

@@ -139,7 +139,10 @@ export default {
                             .every(option => optionKeysWithoutRoot.includes(option));
 
                     if (previousElementsSelected) {
-                        return getOptions(buildPath(this.selectedOptions, optionsArr[lastIndex]), this.parsedSource);
+                        return getOptions(
+                            buildPath(this.selectedOptions, optionsArr[lastIndex], this.parsedSource),
+                            this.parsedSource
+                        );
                     }
                 }
 
@@ -198,7 +201,7 @@ export default {
                 this.showLoader = true;
                 const fieldName = Array.isArray(this.fieldName) ? this.fieldName[this.parameterIndex] : this.fieldName,
                     xmlFilter = buildXmlFilter({fieldName, type: "like", value}),
-                    suggestions = await searchFeatures(this.$store, this.currentInstance, this.service, xmlFilter, this?.suggestionsConfig?.featureType);
+                    suggestions = await searchFeatures(this.currentInstance, this.service, xmlFilter, this?.suggestionsConfig?.featureType);
 
                 this.showLoader = false;
                 // Retrieve the values for the fieldName and make sure they are unique.
@@ -211,14 +214,14 @@ export default {
 </script>
 
 <template>
-    <div class="form-group form-group-sm">
+    <div class="form-group form-group-sm row">
         <div
             v-if="Array.isArray(inputLabel)"
-            class="col-md-5 col-sm-5"
+            class="col-md-5"
         >
             <select
                 :id="`tool-wfsSearch-${selectableParameters.fieldName}-${selectableParameters.fieldId}-fieldSelection`"
-                class="form-control input-sm"
+                class="form-select form-select-sm"
                 :aria-label="$t('common:modules.tools.wfsSearch.fieldSelectionLabel')"
                 @change="parameterIndex = $event.currentTarget.value"
             >
@@ -233,18 +236,20 @@ export default {
         </div>
         <label
             v-else
-            class="col-md-5 col-sm-5 control-label"
+            class="col-md-5 col-form-label"
             :for="`tool-wfsSearch-${selectableParameters.fieldName}-${selectableParameters.fieldId}-input`"
         >
-            {{ inputLabel }}
+            {{ inputLabel.endsWith("*") ? $t(inputLabel.split("*")[0]) + "*" : $t(inputLabel) }}
         </label>
-        <div class="col-md-7 col-sm-7">
+        <div class="col-md-7">
             <component
                 :is="htmlElement"
                 :id="`tool-wfsSearch-${selectableParameters.fieldName}-${selectableParameters.fieldId}-input`"
                 :class="{
-                    'form-control': true,
-                    'input-sm': htmlElement === 'select',
+                    'form-control': htmlElement !== 'select',
+                    'form-select': htmlElement === 'select',
+                    'form-control-sm': htmlElement !== 'select',
+                    'form-select-sm': htmlElement === 'select',
                     'tool-wfsSearch-field-input': htmlElement === 'input'
                 }"
                 :placeholder="htmlElement === 'input' ? selectableParameters.inputPlaceholder : ''"
@@ -294,6 +299,7 @@ export default {
 
 <style lang="scss" scoped>
 /* Loader CSS based on https://codepen.io/lopis/pen/zwprzP  */
+@import "~variables";
 
 $length: 1.5em;
 
@@ -314,7 +320,7 @@ $length: 1.5em;
         width: 100%;
         height: 100%;
         border-width: 0.15em;
-        border-color: #333 #333 transparent transparent;
+        border-color: $dark_grey $dark_grey transparent transparent;
         border-style: solid;
         border-radius: 1em;
         box-sizing: border-box;

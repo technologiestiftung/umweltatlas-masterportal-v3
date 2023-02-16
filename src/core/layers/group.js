@@ -6,7 +6,7 @@ import WFSLayer from "./wfs";
 import WMTSLayer from "./wmts";
 import GeoJSONLayer from "./geojson";
 import OAFLayer from "./oaf";
-import SensorLayer from "../../../modules/core/modelList/layer/sensor";
+import STALayer from "./sta";
 import HeatmapLayer from "../../../modules/core/modelList/layer/heatmap";
 import * as bridge from "./RadioBridge.js";
 /**
@@ -30,6 +30,8 @@ export default function GroupedLayers (attrs) {
     if (this.get("isVisibleInMap")) {
         this.updateSource();
     }
+
+    this.updateTransparency();
 }
 // Link prototypes and add prototype methods, means GroupedLayers uses all methods and properties of Layer
 GroupedLayers.prototype = Object.create(Layer.prototype);
@@ -62,28 +64,53 @@ GroupedLayers.prototype.createLayerSource = function (attrs) {
 
     attrs.children.forEach(childLayerDefinition => {
         if (childLayerDefinition.typ === "WMS") {
-            layerSource.push(new WMSLayer(childLayerDefinition));
+            const layer = new WMSLayer(childLayerDefinition);
+
+            layer.initialize(childLayerDefinition);
+            layerSource.push(layer);
         }
         else if (childLayerDefinition.typ === "WMTS") {
-            layerSource.push(new WMTSLayer(childLayerDefinition));
+            const layer = new WMTSLayer(childLayerDefinition);
+
+            layer.initialize(childLayerDefinition);
+            layerSource.push(layer);
         }
         else if (childLayerDefinition.typ === "WFS") {
             if (childLayerDefinition.outputFormat === "GeoJSON") {
-                layerSource.push(new GeoJSONLayer(childLayerDefinition));
+                const layer = new GeoJSONLayer(childLayerDefinition);
+
+                layer.initialize(childLayerDefinition);
+                layerSource.push(layer);
             }
-            layerSource.push(new WFSLayer(childLayerDefinition));
+            const layer = new WFSLayer(childLayerDefinition);
+
+            layer.initialize(childLayerDefinition);
+            layerSource.push(layer);
         }
         else if (childLayerDefinition.typ === "OAF") {
-            layerSource.push(new OAFLayer(childLayerDefinition));
+            const layer = new OAFLayer(childLayerDefinition);
+
+            layer.initialize(childLayerDefinition);
+            layerSource.push(layer);
         }
         else if (childLayerDefinition.typ === "GeoJSON") {
-            layerSource.push(new GeoJSONLayer(childLayerDefinition));
+            const layer = new GeoJSONLayer(childLayerDefinition);
+
+            layer.initialize(childLayerDefinition);
+            layerSource.push(layer);
         }
         else if (childLayerDefinition.typ === "SensorThings") {
-            layerSource.push(new SensorLayer(childLayerDefinition));
+            const sensorLayer = new STALayer(childLayerDefinition);
+
+            sensorLayer.initialize(childLayerDefinition);
+            sensorLayer.initializeSensorThings();
+            layerSource.push(sensorLayer);
         }
         else if (childLayerDefinition.typ === "Heatmap") {
-            layerSource.push(new HeatmapLayer(childLayerDefinition));
+            const layer = new HeatmapLayer(childLayerDefinition);
+
+            layer.initialize(childLayerDefinition);
+            layerSource.push(layer);
         }
         layerSource[layerSource.length - 1].prepareLayerObject();
     }, this);
@@ -111,6 +138,22 @@ GroupedLayers.prototype.updateSource = function () {
     }, this);
 };
 /**
+ * Sets the groupedLayers transparency according to the medium of it's children.
+ * @returns {void}
+ */
+GroupedLayers.prototype.updateTransparency = function () {
+    let transparencies = 0;
+
+    this.get("children").forEach(childLayer => {
+        if (Object.prototype.hasOwnProperty.call(childLayer, "transparency")) {
+            transparencies += childLayer.transparency;
+        }
+    }, this);
+    if (transparencies > 0) {
+        this.set("transparency", transparencies / this.get("children").length);
+    }
+};
+/**
  * This function start the presentation of the layerinformation and legend.
  * @returns {void}
  */
@@ -129,24 +172,22 @@ GroupedLayers.prototype.showLayerInformation = function () {
     this.get("children").forEach(layer => {
         let cswUrl = null,
             showDocUrl = null,
-            layerMetaId = null,
-            layerName = null;
+            layerMetaId = null;
 
         if (layer.datasets && Array.isArray(layer.datasets) && layer.datasets[0] !== null && typeof layer.datasets[0] === "object") {
             cswUrl = Object.prototype.hasOwnProperty.call(layer.datasets[0], "csw_url") ? layer.datasets[0].csw_url : null;
             showDocUrl = Object.prototype.hasOwnProperty.call(layer.datasets[0], "show_doc_url") ? layer.datasets[0].show_doc_url : null;
             layerMetaId = Object.prototype.hasOwnProperty.call(layer.datasets[0], "md_id") ? layer.datasets[0].md_id : null;
-            layerName = layer.name;
         }
 
         metaID.push(layerMetaId);
         cswUrls.push(cswUrl);
         showDocUrls.push(showDocUrl);
-        layerNames.push(layerName);
+        layerNames.push(layer.name || null);
 
         const layerInfo = {
             "metaID": layerMetaId,
-            "layerName": layerName,
+            "layerName": layer.name || null,
             "cswUrl": cswUrl
         };
 

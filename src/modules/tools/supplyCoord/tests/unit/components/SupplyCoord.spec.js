@@ -2,7 +2,7 @@ import Vuex from "vuex";
 import {expect} from "chai";
 import sinon from "sinon";
 import {config, shallowMount, createLocalVue} from "@vue/test-utils";
-import * as crs from "masterportalapi/src/crs";
+import crs from "@masterportal/masterportalapi/src/crs";
 import SupplyCoordComponent from "../../../components/SupplyCoord.vue";
 import SupplyCoord from "../../../store/indexSupplyCoord";
 
@@ -21,7 +21,7 @@ describe("src/modules/tools/supplyCoord/components/SupplyCoord.vue", () => {
     const mockMapGetters = {
             map: () => sinon.stub(),
             projection: () => sinon.stub(),
-            mouseCoord: () => sinon.stub()
+            mouseCoordinate: () => sinon.stub()
         },
         mockMapMarkerActions = {
             removePointMarker: sinon.stub()
@@ -30,7 +30,9 @@ describe("src/modules/tools/supplyCoord/components/SupplyCoord.vue", () => {
             addPointerMoveHandler: sinon.stub(),
             removePointerMoveHandler: sinon.stub(),
             removeInteraction: sinon.stub(),
-            addInteraction: sinon.stub()
+            addInteraction: sinon.stub(),
+            unregisterListener: sinon.stub(),
+            registerListener: sinon.stub()
         },
         mockMapMutations = {
         },
@@ -42,7 +44,7 @@ describe("src/modules/tools/supplyCoord/components/SupplyCoord.vue", () => {
                             coord:
                             {
                                 "name": "translate#common:menu.tools.supplyCoord",
-                                "glyphicon": "glyphicon-screenshot"
+                                "icon": "bi-bullseye"
                             }
                         }
                     }
@@ -62,7 +64,7 @@ describe("src/modules/tools/supplyCoord/components/SupplyCoord.vue", () => {
                         SupplyCoord
                     }
                 },
-                Map: {
+                Maps: {
                     namespaced: true,
                     getters: mockMapGetters,
                     mutations: mockMapMutations,

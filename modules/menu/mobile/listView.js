@@ -6,9 +6,10 @@ import StaticLinkView from "./staticlink/view";
 import BreadCrumbListView from "./breadCrumb/listView";
 import "jquery-ui/ui/effects/effect-slide";
 import "jquery-ui/ui/effect";
-import "bootstrap/js/dropdown";
-import "bootstrap/js/collapse";
+import Dropdown from "bootstrap/js/dist/dropdown";
+import "bootstrap/js/dist/collapse";
 import store from "../../../src/app-store";
+import groupBy from "../../../src/utils/groupBy";
 
 
 const MobileMenu = Backbone.View.extend({
@@ -33,11 +34,13 @@ const MobileMenu = Backbone.View.extend({
     el: "nav#main-nav",
     attributes: {role: "navigation"},
     breadCrumbListView: {},
+    rootModelsOrder: [],
     render: function () {
         const rootModels = this.collection.where({parentId: "root"});
 
         $("div.collapse.navbar-collapse ul.nav-menu").removeClass("nav navbar-nav desktop");
         $("div.collapse.navbar-collapse ul.nav-menu").addClass("list-group mobile");
+        rootModels.forEach(model => this.rootModelsOrder.push(model.get("id")));
         this.addViews(rootModels);
         store.dispatch("Legend/setShowLegendInMenu", true);
         return this;
@@ -110,13 +113,6 @@ const MobileMenu = Backbone.View.extend({
             slideOut,
             groupedModels;
 
-        if (modelsToShow.length > 0 && modelsToShow[0].get("parentId") === "root") {
-            store.dispatch("Legend/setShowLegendInMenu", true);
-        }
-        else {
-            store.dispatch("Legend/setShowLegendInMenu", false);
-        }
-
         if (direction === "descent") {
             slideIn = "right";
             slideOut = "left";
@@ -134,25 +130,47 @@ const MobileMenu = Backbone.View.extend({
                 that.addViews(modelsToShow);
             }
             else {
-                // Gruppieren nach Folder und Rest
-                groupedModels = Radio.request("Util", "groupBy", modelsToShow, function (model) {
+                let modelsSorted = [];
+
+                // group by folder und other
+                groupedModels = groupBy(modelsToShow, function (model) {
                     return model.get("type") === "folder" ? "folder" : "other";
                 });
-                // Im default-Tree werden folder und layer alphabetisch sortiert
+                // in default-Tree folder and layer are sorted alphabetical
                 if (Radio.request("Parser", "getTreeType") === "default" && modelsToShow[0].get("parentId") !== "tree") {
                     if (groupedModels.folder) {
                         groupedModels.folder.sort((itemA, itemB) => itemA.get("name") - itemB.get("name"));
                     }
                     if (groupedModels.other) {
                         groupedModels.other.sort((itemA, itemB) => itemA.get("name") - itemB.get("name"));
+                        modelsSorted = groupedModels.folder ? groupedModels.folder.concat(groupedModels.other) : [].concat(groupedModels.other);
+                    }
+                    else {
+                        modelsSorted = groupedModels.folder;
                     }
                 }
-                // Folder zuerst zeichnen
-                if (groupedModels.folder) {
-                    that.addViews(groupedModels.folder);
+                else {
+                    let allModels = groupedModels.folder;
+
+                    if (groupedModels.other) {
+                        allModels = groupedModels.folder ? groupedModels.folder.concat(groupedModels.other) : [].concat(groupedModels.other);
+                    }
+
+                    if (modelsToShow[0].get("parentId") === "root") {
+                        that.rootModelsOrder.forEach(id => {
+                            modelsSorted.push(allModels.find(model => model.id === id));
+                        });
+                    }
+                    else {
+                        modelsSorted = allModels;
+                    }
                 }
-                if (groupedModels.other) {
-                    that.addViews(groupedModels.other);
+                that.addViews(modelsSorted);
+                if (modelsToShow.length > 0 && modelsToShow[0].get("parentId") === "root") {
+                    store.dispatch("Legend/setShowLegendInMenu", true);
+                }
+                else {
+                    store.dispatch("Legend/setShowLegendInMenu", false);
                 }
             }
         });
@@ -182,6 +200,7 @@ const MobileMenu = Backbone.View.extend({
 
         newModels.forEach(model => {
             model.setIsVisibleInTree(true);
+
             switch (model.get("type")) {
                 case "folder": {
                     attr = model.toJSON();
@@ -247,7 +266,10 @@ const MobileMenu = Backbone.View.extend({
             modul.setIsActive(true);
         }
         else {
-            $("#" + modulId).parent().addClass("open");
+            // Upgrade to BT5, use JS method instead of class addition
+            const dropdown = Dropdown.getOrCreateInstance($("#" + modulId).parent().children(".dropdown-toggle").get(0));
+
+            dropdown.show();
         }
     }
 });

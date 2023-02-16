@@ -4,7 +4,7 @@ import getters from "../store/gettersFeatureLister";
 import actions from "../store/actionsFeatureLister";
 import mutations from "../store/mutationsFeatureLister";
 import ToolTemplate from "../../ToolTemplate.vue";
-import getComponent from "../../../../utils/getComponent";
+import {getComponent} from "../../../../utils/getComponent";
 import VectorLayer from "ol/layer/Vector.js";
 import {isPhoneNumber, getPhoneNumberAsWebLink} from "../../../../utils/isPhoneNumber.js";
 import beautifyKey from "../../../../utils/beautifyKey";
@@ -19,35 +19,15 @@ export default {
     },
     data: function () {
         return {
-            defaultTabClass: "feature-lister-navtabs-li text-center",
-            activeTabClass: "feature-lister-navtabs-li text-center active",
-            disabledTabClass: "feature-lister-navtabs-li text-center disabled"
+            defaultTabClass: "",
+            activeTabClass: "active",
+            disabledTabClass: "disabled",
+            visibleVectorLayers: []
         };
     },
     computed: {
         ...mapGetters("Tools/FeatureLister", Object.keys(getters)),
-        ...mapGetters("Map", [
-            "visibleLayerList"
-        ]),
-        visibleVectorLayers: function () {
-            const vectorLayers = [];
-
-            this.visibleLayerList.forEach(layer => {
-                if (layer instanceof VectorLayer && layer.get("typ") === "WFS") {
-                    const layerSource = layer.getSource();
-
-                    vectorLayers.push(
-                        {
-                            name: layer.get("name"),
-                            id: layer.get("id"),
-                            features: layerSource.getFeatures(),
-                            geometryType: layerSource.getFeatures()[0] ? layerSource.getFeatures()[0].getGeometry().getType() : null
-                        }
-                    );
-                }
-            });
-            return vectorLayers;
-        },
+        ...mapGetters("Maps", ["getVisibleLayerList"]),
         themeTabClasses: function () {
             return this.layerListView ? this.activeTabClass : this.defaultTabClass;
         },
@@ -71,11 +51,30 @@ export default {
             return this.disabledTabClass;
         }
     },
+    mounted () {
+        this.getVisibleLayerList.forEach(async layer => {
+            if (layer instanceof VectorLayer && layer.get("typ") === "WFS") {
+                const layerSource = layer.getSource();
+
+                await this.areLayerFeaturesLoaded(layer.get("id"));
+
+                this.visibleVectorLayers.push(
+                    {
+                        name: layer.get("name"),
+                        id: layer.get("id"),
+                        features: layerSource.getFeatures(),
+                        geometryType: layerSource.getFeatures()[0] ? layerSource.getFeatures()[0].getGeometry().getType() : null
+                    }
+                );
+            }
+        });
+    },
     created () {
         this.$on("close", this.close);
     },
     methods: {
         ...mapActions("Tools/FeatureLister", Object.keys(actions)),
+        ...mapActions("Maps", ["areLayerFeaturesLoaded"]),
         ...mapMutations("Tools/FeatureLister", Object.keys(mutations)),
         beautifyKey,
         isWebLink,
@@ -97,7 +96,7 @@ export default {
             if (model) {
                 model.set("isActive", false);
             }
-            this.$store.dispatch("Map/removeHighlightFeature", "decrease", {root: true});
+            this.$store.dispatch("Maps/removeHighlightFeature", "decrease", {root: true});
             this.resetToThemeChooser();
         },
         /**
@@ -108,29 +107,31 @@ export default {
             const tableHeaders = await document.getElementsByClassName("feature-lister-list-table-th");
 
             try {
-                tableHeaders.forEach(th_elem => {
-                    let asc = true;
-                    const index = Array.from(th_elem.parentNode.children).indexOf(th_elem);
+                if (tableHeaders?.length) {
+                    for (const th_elem of tableHeaders) {
+                        let asc = true;
+                        const index = Array.from(th_elem.parentNode.children).indexOf(th_elem);
 
-                    th_elem.addEventListener("click", () => {
-                        const arr = [...th_elem.closest("table").querySelectorAll("tbody tr")].slice(1);
+                        th_elem.addEventListener("click", () => {
+                            const arr = [...th_elem.closest("table").querySelectorAll("tbody tr")].slice(1);
 
-                        arr.sort((a, b) => {
-                            let a_val = "",
-                                b_val = "";
+                            arr.sort((a, b) => {
+                                let a_val = "",
+                                    b_val = "";
 
-                            if (a.children[index] !== undefined && b.children[index] !== undefined) {
-                                a_val = a.children[index].innerText;
-                                b_val = b.children[index].innerText;
-                            }
-                            return asc ? a_val.localeCompare(b_val) : b_val.localeCompare(a_val);
+                                if (a.children[index] !== undefined && b.children[index] !== undefined) {
+                                    a_val = a.children[index].innerText;
+                                    b_val = b.children[index].innerText;
+                                }
+                                return asc ? a_val.localeCompare(b_val) : b_val.localeCompare(a_val);
+                            });
+                            arr.forEach(elem => {
+                                th_elem.closest("table").querySelector("tbody").appendChild(elem);
+                            });
+                            asc = !asc;
                         });
-                        arr.forEach(elem => {
-                            th_elem.closest("table").querySelector("tbody").appendChild(elem);
-                        });
-                        asc = !asc;
-                    });
-                });
+                    }
+                }
             }
             catch (error) {
                 console.error(error);
@@ -144,7 +145,7 @@ export default {
     <ToolTemplate
         :id="id"
         :title="$t(name)"
-        :icon="glyphicon"
+        :icon="icon"
         :active="active"
         :render-to-window="renderToWindow"
         :resizable-window="resizableWindow"
@@ -155,34 +156,40 @@ export default {
                 v-if="active"
                 id="tool-feature-lister"
             >
-                <ul class="nav nav-tabs feature-lister-navtabs">
+                <ul class="nav nav-tabs">
                     <li
                         id="tool-feature-lister-themeChooser"
-                        :class="themeTabClasses"
                         role="presentation"
+                        class="nav-item"
                     >
                         <a
                             href="#"
+                            class="nav-link"
+                            :class="themeTabClasses"
                             @click.prevent="switchToThemes()"
                         >{{ $t("modules.tools.featureLister.chooseTheme") }}</a>
                     </li>
                     <li
                         id="tool-feature-lister-list"
-                        :class="listTabClasses"
                         role="presentation"
+                        class="nav-item"
                     >
                         <a
                             href="#"
+                            class="nav-link"
+                            :class="listTabClasses"
                             @click.prevent="switchToList(layer)"
                         >{{ $t("modules.tools.featureLister.list") }}</a>
                     </li>
                     <li
                         id="tool-feature-lister-details"
-                        :class="detailsTabClasses"
                         role="presentation"
+                        class="nav-item"
                     >
                         <a
                             href="#"
+                            class="nav-link"
+                            :class="detailsTabClasses"
                             @click.prevent="switchToDetails()"
                         >{{ $t("modules.tools.featureLister.details") }}</a>
                     </li>
@@ -202,15 +209,16 @@ export default {
                         v-for="layer in visibleVectorLayers"
                         id="feature-lister-themes-ul"
                         :key="'tool-feature-lister-' + layer.id"
-                        class="nav nav-pills nav-stacked"
+                        class="nav flex-column"
                     >
                         <li
                             :id="'feature-lister-layer-' + layer.id"
-                            class="feature-lister-themes-li"
+                            class="nav-item"
                             role="presentation"
                         >
                             <a
                                 href="#"
+                                class="nav-link"
                                 @click.prevent="switchToList(layer)"
                             >{{ layer.name }}</a>
                         </li>
@@ -228,7 +236,7 @@ export default {
                         class="panel panel-default feature-lister-list"
                     >
                         <div
-                            class="table-responsive  feature-lister-list-table-container"
+                            class="table-responsive feature-lister-list-table-container"
                         >
                             <table
                                 id="feature-lister-list-table"
@@ -241,7 +249,7 @@ export default {
                                             :key="'tool-feature-lister-' + index"
                                             class="feature-lister-list-table-th"
                                         >
-                                            <span class="glyphicon glyphicon-sort-by-alphabet" />
+                                            <span class="bi-sort-alpha-down" />
                                             {{ header.value }}
                                         </th>
                                     </tr>
@@ -272,13 +280,12 @@ export default {
                         >
                             <button
                                 type="button"
-                                class="btn btn-default navbar-btn feature-lister-list-button"
-                                aria-label="Left Align"
+                                class="btn btn-primary navbar-btn feature-lister-list-button"
                                 :disabled="featureCount <= maxFeatures || shownFeatures === featureCount"
                                 @click="showMore()"
                             >
                                 <span
-                                    class="glyphicon glyphicon-import"
+                                    class="bi-box-arrow-in-up"
                                     aria-hidden="true"
                                 /> {{ $t("modules.tools.featureLister.more") }}
                             </button>
@@ -354,8 +361,7 @@ export default {
 
 <style lang="scss" scoped>
     @import "~/css/mixins.scss";
-    $color_1: gray;
-    $color_2: black;
+    @import "~variables";
 
 /***** Desktop *****/
 /***** Mobil *****/
@@ -367,49 +373,27 @@ export default {
     >span {
         float: left;
         width: 15px;
-        color: $color_1;
+        color: $dark_grey;
     }
     >.feature-lister-list-table-th-sorted {
-        color: $color_2;
+        color: $black;
     }
 }
 .feature-lister-list-table-container {
-    border-left: 1px solid #ddd !important;
-    border-right: 1px solid #ddd !important;
+    border-left: 1px solid $light_grey !important;
+    border-right: 1px solid $light_grey !important;
 }
 #feature-lister-list-table {
     overflow: auto;
 }
 .feature-lister-list-button {
     position: relative;
-    right: 0px;
+    right: 0;
 }
 .feature-lister-list-message {
     float: left;
     text-align: center;
     align-items: center;
-}
-.feature-lister-details-li {
-    cursor: text;
-    a:link {
-        color: royalblue;
-        text-decoration: underline;
-    }
-    a:visited {
-        color: royalblue;
-        text-decoration: underline;
-    }
-    a:hover {
-        color: blue;
-        text-decoration: underline;
-    }
-    a:active {
-        color: blue;
-        text-decoration: underline;
-    }
-    p {
-        color: $color_2;
-    }
 }
 .feature-lister-details-ul {
     max-height: 400px;
@@ -428,12 +412,12 @@ export default {
 }
 .feature-lister-details {
     display: block;
-    margin-bottom: 0px;
+    margin-bottom: 0;
     max-height: 100%;
     overflow: auto;
 }
 .feature-lister-list {
-    margin-bottom: 0px;
+    margin-bottom: 0;
     display: contents;
     overflow: auto;
 }
@@ -441,10 +425,18 @@ export default {
     width: 100%;
 }
 .panel-heading {
-    background: #f5f5f5;
-    color: #333333;
+    background: $light_grey;
+    color: $dark_grey;
     cursor: default;
-    border-left: 1px solid #ddd;
-    border-right: 1px solid #ddd;
+    border-left: 1px solid $dark_grey;
+    border-right: 1px solid $dark_grey;
+    padding: 10px 15px;
+    border-bottom: 1px solid transparent;
 }
+#feature-lister-themes-ul {
+    .nav-item:hover {
+        background-color: $light_grey;
+    }
+}
+
 </style>

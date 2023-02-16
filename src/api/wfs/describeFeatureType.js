@@ -1,6 +1,6 @@
 import axios from "axios";
 import xml2json from "../utils/xml2json";
-import {errorHandling} from "../utils/errorHandling";
+import handleAxiosErrorModule from "../utils/handleAxiosError";
 
 /**
  * Handles the WFS DescribeFeatureType request and returns the response.
@@ -22,8 +22,6 @@ export function describeFeatureType (url, version = "1.1.0", featureTypes = unde
     }
 
     const options = {
-        url,
-        method: "GET",
         params: {
             // mandatory parameters
             service: "WFS",
@@ -35,9 +33,9 @@ export function describeFeatureType (url, version = "1.1.0", featureTypes = unde
         }
     };
 
-    return axios(options)
+    return axios.get(url, options)
         .then(response => xml2json(response.request.responseXML))
-        .catch(error => errorHandling(error, "api/wfs/describeFeatureType"));
+        .catch(error => handleAxiosErrorModule.handleAxiosError(error, "api/wfs/describeFeatureType"));
 }
 
 /**

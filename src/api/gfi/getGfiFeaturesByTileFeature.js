@@ -1,4 +1,4 @@
-import getComponent from "../../utils/getComponent";
+import {getComponent} from "../../utils/getComponent";
 import {createGfiFeature} from "./getWmsFeaturesByMimeType";
 
 /**
@@ -191,6 +191,9 @@ export function getGfiFeatureByCesiumEntity (tileFeature, attributes, getGfiFeat
     }
 
     const properties = tileFeature.primitive.id.attributes;
+
+    // useConfigName is only used intern in masterportal for translations
+    delete properties?.useConfigName;
 
     if (typeof getGfiFeatureOpt === "function") {
         return getGfiFeatureOpt(attributes, properties);

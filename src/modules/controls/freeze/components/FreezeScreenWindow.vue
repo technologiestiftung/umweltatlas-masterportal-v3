@@ -1,5 +1,7 @@
 <script>
+import {mapGetters} from "vuex";
 
+import uiStyle from "../../../../utils/uiStyle";
 /**
  * Freeze control that allows the user to freeze the current window
  * of desktop and Mobile browser
@@ -8,19 +10,22 @@ export default {
     name: "FreezeScreenWindow",
     data: function () {
         return {
-            isTable: Radio.request("Util", "getUiStyle") === "TABLE",
             posValues: ""
         };
     },
     computed: {
+        ...mapGetters(["uiStyle"]),
+
         cssVars () {
             const rotationValue = document.getElementById("table-navigation").className.match(/\d+/g)[0];
             let xVal,
-                yVal;
+                yVal,
+                xDif = 0;
 
             if (rotationValue === "0") {
-                xVal = 50;
+                xVal = 45;
                 yVal = 50;
+                xDif = 10;
             }
             else if (rotationValue === "90") {
                 xVal = 5;
@@ -37,11 +42,14 @@ export default {
 
             return {
                 "--topValue": Math.round(document.getElementById("table-navigation").getBoundingClientRect().top) + "px",
-                "--leftValue": Math.round(document.getElementById("table-navigation").getBoundingClientRect().left) + "px",
+                "--leftValue": Math.round(document.getElementById("table-navigation").getBoundingClientRect().left - xDif) + "px",
                 "--rotationValue": rotationValue + "deg",
                 "--xOrigin": xVal + "%",
                 "--yOrigin": yVal + "%"
             };
+        },
+        isTable () {
+            return uiStyle.getUiStyle() === "TABLE";
         }
     },
     mounted () {
@@ -96,6 +104,7 @@ export default {
 
 <style lang="scss" scoped>
     @import "~/css/mixins.scss";
+    @import "~variables";
 
     .freeze-view.freeze-activated {
         z-index: 10000;
@@ -111,15 +120,15 @@ export default {
         cursor: pointer;
         position: absolute;
         border-radius: 12px;
-        font-size: 26px;
+        font-size: $font_size_huge;
         left: 30px;
         top: 30px;
         width: 600px;
         height: 60px;
         line-height: 60px;
         text-align: center;
-        background-color: #646262;
-        color: #ffffff;
+        background-color: $dark_grey;
+        color: $white;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
         &.table {
             left: var(--leftValue);

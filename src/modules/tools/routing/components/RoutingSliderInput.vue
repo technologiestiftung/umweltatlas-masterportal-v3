@@ -36,7 +36,7 @@ export default {
 </script>
 
 <template>
-    <div class="d-flex flex-column">
+    <div class="d-flex flex-column mt-2">
         <label :for="'routing-slider-input-' + label">
             <h6>{{ label }}</h6>
         </label>
@@ -59,15 +59,3 @@ export default {
         >
     </div>
 </template>
-
-<style scoped>
-.d-flex {
-    display: flex;
-}
-.flex-column {
-    flex-direction: column;
-}
-.justify-content-between {
-    justify-content: space-between;
-}
-</style>

@@ -7,8 +7,14 @@ import IsochronesItemBatchProcessingComponent from "../../../../components/Isoch
 import RoutingBatchProcessingCheckboxComponent from "../../../../components/RoutingBatchProcessingCheckbox.vue";
 import RoutingSliderInputComponent from "../../../../components/RoutingSliderInput.vue";
 import RoutingDownloadComponent from "../../../../components/RoutingDownload.vue";
-import Routing from "../../../../store/indexRouting";
-import mapCollection from "../../../../../../../core/dataStorage/mapCollection.js";
+import mutations from "../../../../store/mutationsRouting";
+import actions from "../../../../store/actionsRouting";
+import getters from "../../../../store/gettersRouting";
+import state from "../../../../store/stateRouting";
+import mutationsIsochrones from "../../../../store/isochrones/mutationsIsochrones";
+import actionsIsochrones from "../../../../store/isochrones/actionsIsochrones";
+import gettersIsochrones from "../../../../store/isochrones/gettersIsochrones";
+import stateIsochrones from "../../../../store/isochrones/stateIsochrones";
 
 const localVue = createLocalVue();
 
@@ -24,7 +30,7 @@ describe("src/modules/tools/routing/components/Isochrones/IsochronesItem.vue", (
                         routing:
                             {
                                 "name": "translate#common:menu.tools.routing",
-                                "glyphicon": "glyphicon-road",
+                                "icon": "bi-signpost-2-fill",
                                 "renderToWindow": true
                             }
                     }
@@ -40,13 +46,10 @@ describe("src/modules/tools/routing/components/Isochrones/IsochronesItem.vue", (
         const map = {
             id: "ol",
             mode: "2D",
-            addLayer: sinon.spy(),
-            removeLayer: sinon.spy(),
-            addInteraction: sinon.spy(),
-            removeInteraction: sinon.spy()
+            removeLayer: sinon.spy()
         };
 
-        mapCollection.addMap(map, "ol", "2D");
+        mapCollection.addMap(map, "2D");
     });
 
 
@@ -57,14 +60,34 @@ describe("src/modules/tools/routing/components/Isochrones/IsochronesItem.vue", (
                 Tools: {
                     namespaced: true,
                     modules: {
-                        Routing
+                        Routing:
+                        {
+                            namespaced: true,
+                            modules: {
+                                Isochrones: {
+                                    namespaced: true,
+                                    state: {...stateIsochrones},
+                                    mutations: mutationsIsochrones,
+                                    actions: actionsIsochrones,
+                                    getters: gettersIsochrones
+                                }
+                            },
+                            state: {...state},
+                            mutations,
+                            actions,
+                            getters
+                        }
                     }
                 },
-                Map: {
+                Maps: {
                     namespaced: true,
                     state: {
-                        mapId: "ol",
-                        mapMode: "2D"
+                        mode: "2D"
+                    },
+                    actions: {
+                        addLayerOnTop: sinon.stub(),
+                        removeInteraction: sinon.stub(),
+                        addInteraction: sinon.stub()
                     }
                 }
             },
@@ -73,9 +96,11 @@ describe("src/modules/tools/routing/components/Isochrones/IsochronesItem.vue", (
             }
         });
         store.commit("Tools/Routing/setActive", true);
+
     });
 
     afterEach(() => {
+        sinon.restore();
         if (wrapper) {
             wrapper.destroy();
         }

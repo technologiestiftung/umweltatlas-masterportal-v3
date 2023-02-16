@@ -1,6 +1,6 @@
 import {toStringHDMS, toStringXY} from "ol/coordinate.js";
 import isMobile from "../../../../utils/isMobile";
-import mapCollection from "../../../../core/dataStorage/mapCollection";
+import {convertSexagesimalFromString} from "../../../../utils/convertSexagesimalCoordinates";
 
 export default {
     /**
@@ -44,7 +44,7 @@ export default {
      */
     changedPosition ({dispatch, state, getters}) {
         const targetProjectionName = state.currentSelection,
-            position = getters.getTransformedPosition(mapCollection.getMap("ol", "2D"), targetProjectionName);
+            position = getters.getTransformedPosition(mapCollection.getMap("2D"), targetProjectionName);
 
         if (position) {
             dispatch("adjustPosition", {position: position, targetProjection: state.currentProjection});
@@ -63,8 +63,9 @@ export default {
             // geographical coordinates
             if (targetProjection.projName === "longlat") {
                 coord = toStringHDMS(position);
-                easting = coord.substr(0, 13).trim();
-                northing = coord.substr(14).trim();
+                coord = convertSexagesimalFromString(coord);
+                easting = coord.easting;
+                northing = coord.northing;
             }
             // cartesian coordinates
             else {

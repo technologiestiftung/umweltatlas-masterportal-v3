@@ -1,7 +1,8 @@
 import axios from "axios";
-import * as moment from "moment";
+import dayjs from "dayjs";
 import xml2json from "../utils/xml2json";
 import getNestedValues from "../../utils/getNestedValues";
+import handleAxiosErrorModule from "../utils/handleAxiosError.js";
 
 /**
  * Handles the GetRecordById request.
@@ -25,7 +26,7 @@ export function getRecordById (url, metadataId, outputSchema = "http://www.isotc
     })
         .then(response => xml2json(response.request.responseXML))
         .then(json => getMetadata(json))
-        .catch(error => errorHandling(error));
+        .catch(error => handleAxiosErrorModule.handleAxiosError(error, "getRecordById"));
 }
 
 /**
@@ -57,7 +58,9 @@ export function getMetadata (json) {
 export function getMdIdentification (json) {
     return json.GetRecordByIdResponse?.MD_Metadata?.identificationInfo?.MD_DataIdentification
         ||
-        json.GetRecordByIdResponse?.MD_Metadata?.identificationInfo?.SV_ServiceIdentification;
+        json.GetRecordByIdResponse?.MD_Metadata?.identificationInfo?.SV_ServiceIdentification
+        ||
+        json.MD_Metadata?.identificationInfo?.MD_DataIdentification;
 }
 
 /**
@@ -134,7 +137,7 @@ function parseDate (json, dateType) {
         dateValue = dates.CI_Date?.date?.DateTime?.getValue() || dates.CI_Date?.date?.Date?.getValue();
     }
 
-    return typeof dateValue !== "undefined" ? moment(dateValue).format("DD.MM.YYYY") : dateValue;
+    return typeof dateValue !== "undefined" ? dayjs(dateValue).format("DD.MM.YYYY") : dateValue;
 }
 
 /**
@@ -206,32 +209,4 @@ function parseContactByRole (json, role) {
     }
 
     return dateValue;
-}
-
-/**
- * handles an axios error
- * @param {Object} error the axios error
- * @returns {void}
- * @see {@link https://github.com/axios/axios#handling-errors}
- */
-function errorHandling (error) {
-    let errorMessage = "";
-
-    if (error.response) {
-        console.error(error.response.data);
-        console.error(error.response.status);
-        console.error(error.response.headers);
-        errorMessage = "The request was made and the server responded with a status code that falls out of the range of 2xx.";
-    }
-    else if (error.request) {
-        // `error.request` is an instance of XMLHttpRequest
-        console.error(error.request);
-        errorMessage = "The request was made but no response was received.";
-    }
-    else {
-        console.error("Error", error.message);
-        errorMessage = "Something happened in setting up the request that triggered an Error.";
-    }
-    console.error("getRecordById: " + errorMessage);
-    console.warn(error.config);
 }

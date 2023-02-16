@@ -1,3 +1,7 @@
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
+import {getCenter} from "ol/extent";
+import createLayerAddToTreeModule from "../../../../utils/createLayerAddToTree";
+
 export default {
     /**
      * Switches to the feature list of the selected layer.
@@ -11,7 +15,7 @@ export default {
         commit("setLayer", layer);
         if (state.layer) {
             commit("setLayerId", layer.id);
-            commit("setGfiFeaturesOfLayer", rootGetters["Map/visibleLayerList"]);
+            commit("setGfiFeaturesOfLayer", rootGetters["Maps/getVisibleLayerList"]);
             commit("setFeatureCount", state.gfiFeaturesOfLayer.length);
             commit("setShownFeatures", state.gfiFeaturesOfLayer.length < state.maxFeatures ? state.gfiFeaturesOfLayer.length : state.maxFeatures);
             commit("setLayerListView", false);
@@ -27,18 +31,30 @@ export default {
      * @param {String} featureIndex index of the clicked Feature
      * @returns {void}
      */
-    clickOnFeature ({state, commit, dispatch}, featureIndex) {
+    clickOnFeature ({state, commit, dispatch, rootGetters}, featureIndex) {
         if (featureIndex !== "" && featureIndex >= 0 && featureIndex <= state.shownFeatures) {
             const feature = state.gfiFeaturesOfLayer[featureIndex],
-                featureGeometry = state.rawFeaturesOfLayer[featureIndex].getGeometry();
+                featureGeometry = state.rawFeaturesOfLayer[featureIndex].getGeometry(),
+                styleObj = state.layer.geometryType.toLowerCase().indexOf("polygon") > -1 ? state.highlightVectorRulesPolygon : state.highlightVectorRulesPointLine;
 
             commit("setSelectedFeature", feature);
 
             dispatch("switchToDetails");
-            dispatch("Map/zoomTo", {
-                geometryOrExtent: featureGeometry,
-                options: {duration: 800, zoom: 9}
-            }, {root: true});
+
+            if (styleObj && styleObj.zoomLevel) {
+                if (featureGeometry && typeof featureGeometry.getType === "function") {
+                    if (featureGeometry.getType() === "Point") {
+                        dispatch("Maps/setCenter", featureGeometry.getCoordinates(), {root: true});
+                    }
+                    else {
+                        dispatch("Maps/setCenter", getCenter(featureGeometry.getExtent()), {root: true});
+                    }
+                    dispatch("Maps/setZoomLevel", styleObj.zoomLevel, {root: true});
+                }
+            }
+            if (rootGetters.treeHighlightedFeatures?.active) {
+                createLayerAddToTreeModule.createLayerAddToTree(state.layerId, [state.layer.features[featureIndex]], rootGetters.treeType, rootGetters.treeHighlightedFeatures);
+            }
         }
     },
     /**
@@ -63,14 +79,15 @@ export default {
      * @returns {void}
      */
     highlightFeature ({state, rootGetters, dispatch}, featureId) {
-        dispatch("Map/removeHighlightFeature", "decrease", {root: true});
+        dispatch("Maps/removeHighlightFeature", "decrease", {root: true});
         let featureGeometryType = "";
-        const layer = rootGetters["Map/visibleLayerList"].find((l) => l.values_.id === state.layer.id),
+        const layer = rootGetters["Maps/getVisibleLayerList"].find((l) => l.values_.id === state.layer.id),
             layerFeatures = state.nestedFeatures ? state.rawFeaturesOfLayer : layer.getSource().getFeatures(),
             featureWrapper = layerFeatures.find(feat => {
                 featureGeometryType = feat.getGeometry().getType();
                 return feat.getId().toString() === featureId;
             }),
+            rawLayer = rawLayerList.getLayerWhere({id: state.layer.id}),
             styleObj = state.layer.geometryType.toLowerCase().indexOf("polygon") > -1 ? state.highlightVectorRulesPolygon : state.highlightVectorRulesPointLine,
             highlightObject = {
                 type: featureGeometryType === "Point" || featureGeometryType === "MultiPoint" ? "increase" : "highlightPolygon",
@@ -80,16 +97,23 @@ export default {
                 scale: styleObj.image?.scale
             };
 
-        layer.id = state.layer.id;
-
-        if (highlightObject.type === "highlightPolygon") {
-            highlightObject.highlightStyle = {
-                fill: styleObj.fill,
-                stroke: styleObj.stroke,
-                image: styleObj.image
-            };
+        if (featureGeometryType === "LineString") {
+            highlightObject.type = "highlightLine";
         }
-        dispatch("Map/highlightFeature", highlightObject, {root: true});
+        layer.id = state.layer.id;
+        if (styleObj.zoomLevel) {
+            highlightObject.zoomLevel = styleObj.zoomLevel;
+        }
+        if (rawLayer && rawLayer.styleId) {
+            highlightObject.styleId = rawLayer.styleId;
+        }
+
+        highlightObject.highlightStyle = {
+            fill: styleObj.fill,
+            stroke: styleObj.stroke,
+            image: styleObj.image
+        };
+        dispatch("Maps/highlightFeature", highlightObject, {root: true});
     },
     /**
      * Switches to the themes list of all visibile layers and resets the featureList and the selectedFeature.

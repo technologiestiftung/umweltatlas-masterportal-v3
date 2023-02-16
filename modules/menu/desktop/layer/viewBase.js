@@ -14,7 +14,7 @@ const LayerBaseView = Backbone.View.extend(/** @lends LayerBaseView.prototype */
      * @returns {void}
      */
     initializeDomId: function (prefix) {
-        let idPrefix = "layer-list-group-item-";
+        let idPrefix = "layer-dropdown-item-";
 
         if (prefix) {
             idPrefix = prefix;
@@ -34,9 +34,8 @@ const LayerBaseView = Backbone.View.extend(/** @lends LayerBaseView.prototype */
 
         // Animation cog
         if (layerId === attr.id) {
-            this.$(".glyphicon-cog").toggleClass("rotate rotate-back");
+            this.$(".bi-gear").parent(".bootstrap-icon").toggleClass("rotate rotate-back");
         }
-
         // Slide-Animation templateSetting
         if (this.model.get("isSettingVisible") === false) {
             this.$el.find(".layer-settings").slideUp("slow", function () {
@@ -93,8 +92,11 @@ const LayerBaseView = Backbone.View.extend(/** @lends LayerBaseView.prototype */
             this.model.showLayerInformation();
             this.highlightLayerInformationIcon();
             // close navigation
-            this.$("div.collapse.navbar-collapse").removeClass("in");
+            this.$("div.collapse.navbar-collapse").removeClass("show");
         }
+    },
+    toggleFilter: function () {
+        this.model.toggleFilter();
     },
 
     /**
@@ -199,7 +201,12 @@ const LayerBaseView = Backbone.View.extend(/** @lends LayerBaseView.prototype */
             focusElementSelector = this.$el.find(selector);
         }
         else {
-            focusElementSelector = this.$el.find("#" + this.model.get("domId"));
+            try {
+                focusElementSelector = this.$el.find("#" + this.model.get("domId"));
+            }
+            catch (e) {
+                focusElementSelector = document.getElementById(this.model.get("domId"));
+            }
         }
         if (focusElementSelector) {
             focusElementSelector.focus();
@@ -212,13 +219,16 @@ const LayerBaseView = Backbone.View.extend(/** @lends LayerBaseView.prototype */
      * @returns {void}
      */
     disableComponent: function (text) {
-        const statusCheckbox = this.$el.find("span.glyphicon.glyphicon-unchecked").length;
+        const statusCheckbox = this.$el.find("span.bootstrap-icon > .bi-square").length,
+            showScaleTooltip = store?.getters?.portalConfig?.tree?.showScaleTooltip;
 
         this.$el.addClass("disabled");
         this.$el.find("*").css("cursor", "not-allowed");
-        this.$el.find("*").css("pointer-events", "none");
+        if (!showScaleTooltip) {
+            this.$el.find("*").css("pointer-events", "none");
+        }
         if (statusCheckbox === 0) {
-            this.$el.find("span.pull-left").css({"pointer-events": "auto", "cursor": "pointer"});
+            this.$el.find("span.float-start").css({"pointer-events": "auto", "cursor": "pointer"});
         }
         this.$el.attr("title", text);
 
@@ -250,7 +260,7 @@ const LayerBaseView = Backbone.View.extend(/** @lends LayerBaseView.prototype */
      */
     highlightLayerInformationIcon: function () {
         if (this.model.get("layerInfoChecked")) {
-            this.$el.find("span.glyphicon-info-sign").addClass("highlightLayerInformationIcon");
+            this.$el.find("span.bootstrap-icon.info-icon").addClass("highlightLayerInformationIcon");
         }
     },
 
@@ -259,7 +269,7 @@ const LayerBaseView = Backbone.View.extend(/** @lends LayerBaseView.prototype */
      * @returns {void}
      */
     unhighlightLayerInformationIcon: function () {
-        this.$el.find("span.glyphicon-info-sign").removeClass("highlightLayerInformationIcon");
+        this.$el.find("span.bootstrap-icon.info-icon").removeClass("highlightLayerInformationIcon");
         this.model.setLayerInfoChecked(false);
     },
 
@@ -286,7 +296,7 @@ const LayerBaseView = Backbone.View.extend(/** @lends LayerBaseView.prototype */
      */
     moveModelDown: function () {
         this.model.moveDown();
-        $(".arrows > .glyphicon-arrow-down").trigger("focus");
+        $(".arrows > .bootstrap-icon .bi-arrow-down").trigger("focus");
     },
 
     /**
@@ -295,7 +305,7 @@ const LayerBaseView = Backbone.View.extend(/** @lends LayerBaseView.prototype */
      */
     moveModelUp: function () {
         this.model.moveUp();
-        $(".arrows > .glyphicon-arrow-up").trigger("focus");
+        $(".arrows > .bootstrap-icon > .bi-arrow-up").trigger("focus");
     },
 
     /**
@@ -312,20 +322,6 @@ const LayerBaseView = Backbone.View.extend(/** @lends LayerBaseView.prototype */
      */
     decTransparency: function () {
         this.model.decTransparency(10);
-    },
-
-    /**
-     * Triggers the styleWMS tool to open
-     * Removes the class "open" from ".nav li:first-child"
-     * @fires StyleWMS#RadioTriggerStyleWMSOpenStyleWMS
-     * @returns {void}
-     */
-    openStyleWMS: function () {
-        Radio.trigger("StyleWMS", "openStyleWMS", this.model);
-        $(".nav li:first-child").removeClass("open");
-        $(".dropdown-menu.fixed").removeClass("fixed");
-        $(".glyphicon-pushpin").removeClass("rotate-pin");
-        $(".glyphicon-pushpin").addClass("rotate-pin-back");
     },
 
     /**

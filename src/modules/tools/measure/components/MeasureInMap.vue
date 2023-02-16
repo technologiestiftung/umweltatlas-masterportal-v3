@@ -1,6 +1,6 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import getComponent from "../../../../utils/getComponent";
+import {getComponent} from "../../../../utils/getComponent";
 import ToolTemplate from "../../ToolTemplate.vue";
 import getters from "../store/gettersMeasure";
 import mutations from "../store/mutationsMeasure";
@@ -19,7 +19,7 @@ export default {
     computed: {
         ...mapGetters("Tools/Measure", Object.keys(getters)),
         ...mapGetters(["uiStyle"]),
-        ...mapGetters("Map", ["layerById", "is3d", "ol2DMap"])
+        ...mapGetters("Maps", ["mode"])
     },
     watch: {
         /**
@@ -49,7 +49,7 @@ export default {
     },
     created () {
         this.$on("close", this.close);
-        this.ol2DMap.addLayer(this.layer);
+        this.$store.dispatch("Maps/addLayer", this.layer);
     },
     mounted () {
         if (this.active) {
@@ -105,6 +105,9 @@ export default {
         },
         isDefaultStyle () {
             return this.uiStyle !== "SIMPLE" && this.uiStyle !== "TABLE";
+        },
+        is3DMode () {
+            return this.mode === "3D";
         }
     }
 };
@@ -113,7 +116,7 @@ export default {
 <template lang="html">
     <ToolTemplate
         :title="name"
-        :icon="glyphicon"
+        :icon="icon"
         :active="active"
         :render-to-window="renderToWindow"
         :resizable-window="resizableWindow"
@@ -129,19 +132,19 @@ export default {
                     class="form-horizontal"
                     role="form"
                 >
-                    <div class="form-group form-group-sm">
+                    <div class="form-group form-group-sm row">
                         <label
                             for="measure-tool-geometry-select"
-                            class="col-md-5 col-sm-5 control-label"
+                            class="col-md-5 col-form-label"
                         >
                             {{ $t("modules.tools.measure.geometry") }}
                         </label>
-                        <div class="col-md-7 col-sm-7">
+                        <div class="col-md-7">
                             <select
                                 id="measure-tool-geometry-select"
                                 ref="measure-tool-geometry-select"
-                                class="font-arial form-control input-sm pull-left"
-                                :disabled="is3d"
+                                class="font-arial form-select form-select-sm float-start"
+                                :disabled="is3DMode()"
                                 :value="selectedGeometry"
                                 @change="setSelectedGeometry($event.target.value)"
                             >
@@ -150,7 +153,7 @@ export default {
                                     :key="'measure-tool-geometry-select-' + geometryValue"
                                     :value="geometryValue"
                                 >
-                                    {{ is3d
+                                    {{ is3DMode()
                                         ? selectedGeometry
                                         : $t("modules.tools.measure." +
                                             (geometryValue === "LineString" ? "stretch" : "area"))
@@ -159,18 +162,18 @@ export default {
                             </select>
                         </div>
                     </div>
-                    <div class="form-group form-group-sm">
+                    <div class="form-group form-group-sm row">
                         <label
                             for="measure-tool-unit-select"
-                            class="col-md-5 col-sm-5 control-label"
+                            class="col-md-5 col-form-label"
                         >
                             {{ $t("modules.tools.measure.measure") }}
                         </label>
-                        <div class="col-md-7 col-sm-7">
+                        <div class="col-md-7">
                             <select
                                 id="measure-tool-unit-select"
                                 ref="measure-tool-unit-select"
-                                class="font-arial form-control input-sm pull-left"
+                                class="font-arial form-select form-select-sm float-start"
                                 :value="selectedUnit"
                                 @change="setSelectedUnit($event.target.value)"
                             >
@@ -186,9 +189,9 @@ export default {
                     </div>
                     <div
                         v-if="isDefaultStyle()"
-                        class="form-group form-group-sm"
+                        class="form-group form-group-sm row"
                     >
-                        <div class="col-md-12 col-sm-12 inaccuracy-list">
+                        <div class="col-md-12 inaccuracy-list">
                             {{ $t("modules.tools.measure.influenceFactors") }}
                             <ul>
                                 <li>{{ $t("modules.tools.measure.scale") }}</li>
@@ -199,12 +202,12 @@ export default {
                             </ul>
                         </div>
                     </div>
-                    <div class="form-group form-group-sm">
-                        <div class="col-md-12 col-sm-12">
+                    <div class="form-group form-group-sm row">
+                        <div class="col-md-12">
                             <button
                                 id="measure-delete"
                                 type="button"
-                                class="btn btn-lgv-grey col-md-12 col-sm-12"
+                                class="btn btn-primary col-md-12"
                                 @click="deleteFeatures"
                             >
                                 {{ $t('modules.tools.measure.deleteMeasurements') }}

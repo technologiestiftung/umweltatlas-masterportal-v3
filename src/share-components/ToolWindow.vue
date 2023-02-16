@@ -72,9 +72,9 @@ export default {
                 target-sel=".tool-window-vue"
                 class="heading-element flex-grow"
             >
-                <p class="tool-window-heading-title">
+                <h2 class="tool-window-heading-title">
                     <slot name="title" />
-                </p>
+                </h2>
             </BasicDragHandle>
 
             <slot name="rightOfTitle" />
@@ -83,10 +83,12 @@ export default {
                 <span
                     ref="close-icon"
                     tabindex="0"
-                    class="glyphicon glyphicon-remove"
+                    class="bootstrap-icon"
                     @click="close($event)"
                     @keydown="close($event)"
-                />
+                >
+                    <i class="bi-x-lg" />
+                </span>
             </div>
         </div>
 
@@ -108,13 +110,10 @@ export default {
 
 <style lang="scss" scoped>
     @import "~/css/mixins.scss";
-
-    $color_1: rgb(85, 85, 85);
-    $font_family_1: "MasterPortalFont Bold","Arial Narrow",Arial,sans-serif;
-    $background_color_1: rgb(255, 255, 255);
+    @import "~variables";
 
     .tool-window-vue {
-        background-color: $background_color_1;
+        background-color: $white;
         display: block;
         position: absolute;
         padding:0;
@@ -137,22 +136,23 @@ export default {
 
     .tool-window-heading{
         padding: 5px 5px 5px 5px;
-        border-bottom: 1px solid rgb(229, 229, 229);
-        font-family: $font_family_1;
+        border-bottom: 1px solid $light_grey;
+        font-family: $font_family_accent;
         display:flex;
         flex-direction:row;
         width:100%;
+
         .heading-element {
             white-space: nowrap;
-            color: $color_1;
-            font-size: 14px;
+            color: $dark_grey;
+            font-size: $font_size_big;
             padding: 6px;
 
             &.flex-grow {
                 flex-grow:99;
                 overflow: hidden;
             }
-            .glyphicon {
+            .bootstrap-icon {
                 padding: 5px;
                 &:focus {
                     @include primary_action_focus;
@@ -162,13 +162,11 @@ export default {
                 }
             }
 
-            > span {
+            > h2 {
+                @include tool-headings-h2();
+
                 &.glyphicon-minus { top: 3px; }
-                &:hover {
-                    &:not(.win-icon) {
-                        @include primary_action_hover;
-                    }
-                }
+
             }
         }
     }
@@ -186,7 +184,7 @@ export default {
         width: 100%;
         max-height:72vh;
         -webkit-overflow-scrolling: touch;
-        background-color: $background_color_1;
+        background-color: $white;
         overflow: auto;
     }
 </style>

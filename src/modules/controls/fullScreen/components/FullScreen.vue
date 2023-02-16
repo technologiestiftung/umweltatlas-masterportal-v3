@@ -1,6 +1,8 @@
 <script>
+import {mapGetters} from "vuex";
 import ControlIcon from "../../ControlIcon.vue";
 import TableStyleControl from "../../TableStyleControl.vue";
+import uiStyle from "../../../../utils/uiStyle";
 
 /**
  * Enables fullscreen using browser tools.
@@ -81,8 +83,10 @@ export default {
         };
     },
     computed: {
+        ...mapGetters(["uiStyle"]),
+
         component () {
-            return Radio.request("Util", "getUiStyle") === "TABLE" ? TableStyleControl : ControlIcon;
+            return uiStyle.getUiStyle() === "TABLE" ? TableStyleControl : ControlIcon;
         }
     },
     mounted () {
@@ -127,7 +131,7 @@ export default {
         <component
             :is="component"
             :title="$t(`common:modules.controls.fullScreen.${active ? 'disable' : 'enable'}`)"
-            :icon-name="active ? 'resize-small' : 'fullscreen'"
+            :icon-name="active ? 'fullscreen-exit' : 'arrows-fullscreen'"
             :on-click="toggleFullScreen"
         />
     </div>

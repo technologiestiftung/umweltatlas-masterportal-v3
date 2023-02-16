@@ -3,13 +3,13 @@ import Template from "text-loader!./templates/templateSingleLayer.html";
 
 const LayerView = Backbone.View.extend(/** @lends LayerView.prototype */{
     events: {
-        "click .icon-checkbox, .icon-checkbox2, .title": "toggleIsSelected",
-        "click .glyphicon-info-sign": "showLayerInformation",
-        "click .glyphicon-cog": "toggleIsSettingVisible",
-        "click .arrows > .glyphicon-arrow-up": "moveModelUp",
-        "click .arrows > .glyphicon-arrow-down": "moveModelDown",
-        "click .glyphicon-plus-sign": "incTransparency",
-        "click .glyphicon-minus-sign": "decTransparency",
+        "click .bi-check2-square, .title, .bi-square": "toggleIsSelected",
+        "click .info-icon": "showLayerInformation",
+        "click .settings-icon": "toggleIsSettingVisible",
+        "click .arrows > .up-icon": "moveModelUp",
+        "click .arrows > .down-icon": "moveModelDown",
+        "click .increase-icon": "incTransparency",
+        "click .decrease-icon": "decTransparency",
         "change select": "setTransparency",
         "click .remove-layer": "removeLayer"
     },
@@ -41,7 +41,7 @@ const LayerView = Backbone.View.extend(/** @lends LayerView.prototype */{
         }, this);
     },
     tagName: "li",
-    className: "burgermenu-layer-list list-group-item",
+    className: "burgermenu-layer-list list-item d-flex justify-content-between py-2 row mx-0",
     template: _.template(Template),
     templateSettings: _.template(TemplateSettings),
     render: function () {
@@ -60,13 +60,16 @@ const LayerView = Backbone.View.extend(/** @lends LayerView.prototype */{
     },
     /**
     * @description render the settings area and decide whether it is initially activated
+    * @param {String} layerId The layer id.
     * @returns {void}
     */
-    renderSetting: function () {
+    renderSetting: function (layerId) {
         const attr = this.model.toJSON();
 
-        // Animation Zahnrad
-        this.$(".glyphicon-cog").toggleClass("rotate rotate-back");
+        // Animation cog
+        if (layerId === attr.id) {
+            this.$(".bi-gear").parent(".bootstrap-icon").toggleClass("rotate rotate-back");
+        }
         // Slide-Animation templateSetting
         if (this.model.get("isSettingVisible") === false) {
             this.$el.find(".layer-settings").slideUp("slow", function () {

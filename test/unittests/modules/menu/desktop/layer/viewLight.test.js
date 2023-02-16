@@ -21,6 +21,7 @@ describe("menu/desktop/layer/viewLight", function () {
             isRemovable: false,
             isSecured: false,
             domId: 0,
+            scaleText: "",
 
             setIsSettingVisible: function (value) {
                 this.isSettingVisible = value;
@@ -86,7 +87,8 @@ describe("menu/desktop/layer/viewLight", function () {
                     levelUpText: "levelUpText",
                     levelDownText: "levelDownText",
                     showTopicText: "showTopicText",
-                    domId: 0
+                    domId: 0,
+                    scaleText: ""
                 };
             }
         };
@@ -102,48 +104,19 @@ describe("menu/desktop/layer/viewLight", function () {
 
         });
     });
-
-    describe("The style-icon", function () {
-        it("should be visible for stylable layers", function () {
-
-            fakeModel.setIsStyleable(true);
-            fakeModel.setIsSettingVisible(true);
-
-            const layerView = new CustomLayerView({model: fakeModel});
-
-            expect(layerView.$el.find(".glyphicon-tint").length).to.be.equal(1);
-
-            layerView.rerender();
-
-            expect(layerView.$el.find(".glyphicon-tint").length).to.be.equal(1);
-        });
-        it("should be hidden for other not styleable layers", function () {
-
-            fakeModel.setIsStyleable(false);
-            fakeModel.setIsSettingVisible(true);
-
-            const layerView = new CustomLayerView({model: fakeModel});
-
-            expect(layerView.$el.find(".glyphicon-tint").length).to.be.equal(0);
-
-            layerView.rerender();
-
-            expect(layerView.$el.find(".glyphicon-tint").length).to.be.equal(0);
-        });
-    });
     describe("the layer checkbox", function () {
         it("should react to key events", function () {
 
             const layerView = new CustomLayerView({model: fakeModel}),
                 keyEvent = new $.Event("keydown", {which: 13});
 
-            expect(layerView.$el.find("span.glyphicon-check").length).to.be.equal(0);
+            expect(layerView.$el.find("span.bootstrap-icon > .bi-check2-square").length).to.be.equal(0);
 
             layerView.$el.find("a.layer-item").trigger(keyEvent);
 
             layerView.rerender();
 
-            expect(layerView.$el.find("span.glyphicon-check").length).to.be.equal(1);
+            expect(layerView.$el.find("span.bootstrap-icon > .bi-check2-square").length).to.be.equal(1);
         });
     });
 });

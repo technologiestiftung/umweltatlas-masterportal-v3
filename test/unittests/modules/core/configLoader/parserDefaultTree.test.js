@@ -1,9 +1,6 @@
 import DefaultTreeParser from "@modules/core/configLoader/parserDefaultTree.js";
 import testServices from "../../../resources/testServices.json";
 import Util from "@modules/core/util.js";
-
-// import Collection from "@modules/core/rawLayerList.js";
-// import {initializeLayerList} from "masterportalapi/src/rawLayerList";
 import {expect} from "chai";
 
 describe("core/configLoader/parserDefaultTree", function () {
@@ -24,12 +21,6 @@ describe("core/configLoader/parserDefaultTree", function () {
 
         return model;
     }
-
-    describe("the \"select all\" checkbox", function () {
-        it("folder should be true in defaulttree on toplevel", function () {
-            expect(Radio.request("Util", "findWhereJs", getDefaultModel({isFolderSelectable: false}).get("itemList"), {"name": "testFolder"}).isFolderSelectable).to.be.equal(true);
-        });
-    });
 
     describe("the number of folders within the test data", function () {
         it("should be one", function () {

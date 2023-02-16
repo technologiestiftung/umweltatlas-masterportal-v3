@@ -20,7 +20,7 @@ describe("src/modules/tools/fileImport/components/FileImport.vue", () => {
                             fileImport:
                             {
                                 "name": "translate#common:menu.tools.fileImport",
-                                "glyphicon": "glyphicon-resize-full",
+                                "icon": "bi-arrows-angle-expand",
                                 "renderToWindow": true
                             }
                         }
@@ -84,5 +84,44 @@ describe("src/modules/tools/fileImport/components/FileImport.vue", () => {
         wrapper.vm.setFocusToFirstControl();
         await wrapper.vm.$nextTick();
         expect(wrapper.find(".upload-button-wrapper").element).to.equal(document.activeElement);
+    });
+    it("modifies the imported file names", () => {
+        const fileNames = ["file1", "file3"];
+
+        store = new Vuex.Store({
+            namespaces: true,
+            modules: {
+                Tools: {
+                    namespaced: true,
+                    modules: {
+                        FileImport
+                    }
+                }
+            },
+            state: {
+                configJson: mockConfigJson,
+                layer: {
+                    getSource: () => ({getFeatures: () => []})
+                }
+            }
+        });
+
+        wrapper = shallowMount(FileImportComponent, {store, localVue});
+        wrapper.vm.modifyImportedFileNames(fileNames);
+
+        expect(wrapper.vm.importedFileNames).to.deep.equal([]);
+    });
+    it("modifies the imported file extent", () => {
+        const featureExtents = {
+                "file1": [0, 1, 2, 3],
+                "file2": [0, 1, 2, 3],
+                "file3": [0, 1, 2, 3]
+            },
+            fileNames = ["file1", "file3"];
+
+        wrapper = shallowMount(FileImportComponent, {store, localVue});
+        wrapper.vm.modifyImportedFileExtent(featureExtents, fileNames);
+
+        expect(wrapper.vm.featureExtents).to.deep.equal({"file1": [0, 1, 2, 3], "file3": [0, 1, 2, 3]});
     });
 });

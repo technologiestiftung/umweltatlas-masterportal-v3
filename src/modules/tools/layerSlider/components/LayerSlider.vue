@@ -1,7 +1,7 @@
 <script>
 import {mapGetters, mapMutations, mapActions} from "vuex";
 import ToolTemplate from "../../ToolTemplate.vue";
-import getComponent from "../../../../utils/getComponent";
+import {getComponent} from "../../../../utils/getComponent";
 import getters from "../store/gettersLayerSlider";
 import mutations from "../store/mutationsLayerSlider";
 import LayerSliderHandle from "./LayerSliderHandle.vue";
@@ -59,7 +59,7 @@ export default {
 <template lang="html">
     <ToolTemplate
         :title="$t(name)"
-        :icon="glyphicon"
+        :icon="icon"
         :active="active"
         :render-to-window="renderToWindow"
         :resizable-window="resizableWindow"
@@ -85,10 +85,12 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-#tool-layer-slider {
-    @media (min-width: 768px) {
-        min-width: 350px;
+    @import "~variables";
+
+    #tool-layer-slider {
+        @include media-breakpoint-up(sm) {
+            min-width: 350px;
+        }
     }
-}
 
 </style>

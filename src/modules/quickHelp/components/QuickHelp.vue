@@ -1,6 +1,6 @@
 <script>
 import {mapMutations, mapGetters, mapActions} from "vuex";
-import getComponent from "../../../utils/getComponent";
+import {getComponent} from "../../../utils/getComponent";
 import getters from "../store/gettersQuickHelp";
 import mutations from "../store/mutationsQuickHelp";
 import ToolWindow from "../../../share-components/ToolWindow.vue";
@@ -147,10 +147,12 @@ export default {
             <div class="heading-element">
                 <span
                     tabindex="0"
-                    class="glyphicon glyphicon-print"
+                    class="bootstrap-icon"
                     @click="print"
                     @keydown.enter="print"
-                />
+                >
+                    <i class="bi-printer-fill" />
+                </span>
             </div>
         </template>
         <template #body>
@@ -178,18 +180,18 @@ export default {
                     >
                         <p
                             v-if="subSection.type === 'text/plain'"
-                            class="col-md-12"
+                            class="col-lg-12"
                         >
                             {{ translate(subSection.text, subSection.interpolation) }}
                         </p>
                         <p
                             v-else-if="subSection.type === 'text/html'"
-                            class="col-md-12"
+                            class="col-lg-12"
                             v-html="translate(subSection.text, subSection.interpolation)"
                         />
                         <p
                             v-else-if="subSection.imgName"
-                            class="col-md-12 quick-help-img"
+                            class="col-lg-12 quick-help-img"
                         >
                             <img
                                 class="img-responsive img-thumbnail"
@@ -211,28 +213,28 @@ export default {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.176);
     width: 50%;
     height: 50%;
-    margin: 0px;
+    margin: 0;
     z-index: 2000;
 }
 
-.glyphicon-print {
+.bi-printer-fill {
     cursor: pointer;
-    font-size: 16px;
+    font-size: $font_size_icon_lg;
 }
 
 .table-of-contents {
     >a {
         padding: 5px;
         margin: 5px;
-        border: 1px solid silver;
+        border: 1px solid $light_grey;
         float: left;
-        background: #ffffff;
+        background: $white;
         text-decoration: none;
-        color: #333333;
+        color: $dark_grey;
     }
     >a:hover, a:focus {
         background-color: $accent_hover;
-        color: $primary_contrast;
+        color: $light_grey_contrast;
         cursor: pointer;
     }
 }

@@ -1,8 +1,8 @@
 <script>
-import * as moment from "moment";
+import dayjs from "dayjs";
 import axios from "axios";
 
-import getComponent from "../../../../../../../utils/getComponent";
+import {getComponent} from "../../../../../../../utils/getComponent";
 import SensorThemeChartsData from "./SensorThemeData.vue";
 import SensorThemeChartsBarChart from "./SensorThemeBarChart.vue";
 import {processHistoricalDataByWeekdays} from "../utils/processHistoricalDataByWeekdays";
@@ -58,7 +58,7 @@ export default {
 
             // "useConfigName" is set in the preparser, should be removed, with the refactoring of the core
             if (header?.useConfigName) {
-                delete this.header.useConfigName;
+                delete header.useConfigName;
             }
 
             return header;
@@ -115,7 +115,7 @@ export default {
          * @returns {String} The searched date.
          */
         createFilterDate: function (periodLength, periodUnit) {
-            const startDate = moment().subtract(periodLength, periodUnit);
+            const startDate = dayjs().subtract(periodLength, periodUnit);
 
             this.startDate = startDate;
             return startDate.subtract(1, "week").format("YYYY-MM-DDTHH:mm:ss.sss") + "Z";
@@ -218,7 +218,7 @@ export default {
          * @returns {String} The classNames of the tab.
          */
         getTabPaneClasses (tab) {
-            return {active: this.isActiveTab(tab), in: this.isActiveTab(tab), "tab-pane": true, fade: true};
+            return {active: this.isActiveTab(tab), show: this.isActiveTab(tab), "tab-pane": true, fade: true};
         },
 
         /**
@@ -250,14 +250,16 @@ export default {
         <div>
             <ul class="nav nav-pills">
                 <li
+                    class="nav-item"
                     :value="dataName"
-                    :class="{
-                        active: isActiveTab('data')
-                    }"
                 >
                     <a
-                        data-toggle="tab"
+                        data-bs-toggle="tab"
                         href="#data"
+                        class="nav-link"
+                        :class="{
+                            active: isActiveTab('data')
+                        }"
                         @click="setActiveTab"
                     >
                         {{ dataName }}
@@ -267,14 +269,18 @@ export default {
                     v-for="(value, key) in chartvalues"
                     :key="key"
                     value="value?.title || value"
+                    class="nav-item"
                     :class="{
-                        active: isActiveTab(key),
                         disabled: processedHistoricalDataByWeekday.length === 0
                     }"
                 >
                     <a
-                        :data-toggle="processedHistoricalDataByWeekday.length === 0 ? 'buttons' : 'tab'"
-                        :href="processedHistoricalDataByWeekday.length === 0 ? '' : createHref(key)"
+                        class="nav-link"
+                        :data-bs-toggle="processedHistoricalDataByWeekday.length === 0 ? 'buttons' : 'tab'"
+                        :href="processedHistoricalDataByWeekday.length === 0 ? '#' : createHref(key)"
+                        :class="{
+                            active: isActiveTab(key)
+                        }"
                         @click="setActiveTab"
                     >
                         {{ $t(value.title || value) }}
@@ -316,6 +322,6 @@ export default {
         width: 65vh;
         height: 47vh;
         overflow: auto;
-        padding: 15px 0 0 0;
+        padding: 15px;
     }
 </style>

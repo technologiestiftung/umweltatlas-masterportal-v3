@@ -4,10 +4,10 @@ import {mapGetters} from "vuex";
 export default {
     name: "ScaleLine",
     computed: {
-        ...mapGetters("Map", ["scaleToOne", "scaleWithUnit", "mapMode"]),
+        ...mapGetters("Maps", ["scaleToOne", "scaleWithUnit", "mode"]),
         ...mapGetters(["mobile", "scaleLineConfig"]),
         showScale () {
-            return this.scaleLineConfig && !this.mobile && this.mapMode === "2D";
+            return this.scaleLineConfig && !this.mobile && this.mode === "2D";
         }
     }
 
@@ -37,7 +37,7 @@ export default {
         display: inline-block;
         color: $secondary_contrast;
         text-align: center;
-        font-size: 10px;
+        font-size: $font-size-sm;
 
         .scale-line {
             color: lighten($secondary_contrast, 10%);
@@ -50,7 +50,7 @@ export default {
 
         .scale-as-a-ratio {
             padding: 0 16px;
-            color: #333333;
+            color: $dark_grey;
         }
     }
 </style>

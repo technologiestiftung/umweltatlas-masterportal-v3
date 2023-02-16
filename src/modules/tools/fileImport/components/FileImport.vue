@@ -1,9 +1,11 @@
 <script>
 import ToolTemplate from "../../ToolTemplate.vue";
-import getComponent from "../../../../utils/getComponent";
+import {getComponent} from "../../../../utils/getComponent";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import getters from "../store/gettersFileImport";
 import mutations from "../store/mutationsFileImport";
+import isObject from "../../../../utils/isObject";
+import store from "../../../../app-store";
 
 export default {
     name: "FileImport",
@@ -42,6 +44,8 @@ export default {
         active (isActive) {
             if (isActive) {
                 this.setFocusToFirstControl();
+                this.modifyImportedFileNames(this.importedFileNames);
+                this.modifyImportedFileExtent(this.featureExtents, this.importedFileNames);
             }
         }
     },
@@ -51,8 +55,10 @@ export default {
     methods: {
         ...mapActions("Tools/FileImport", [
             "importKML",
+            "importGeoJSON",
             "setSelectedFiletype"
         ]),
+        ...mapActions("Maps", ["addNewLayerIfNotExists", "zoomToExtent"]),
         ...mapMutations("Tools/FileImport", Object.keys(mutations)),
 
         /**
@@ -90,13 +96,25 @@ export default {
             }
         },
         addFile (files) {
-            files.forEach(file => {
+            Array.from(files).forEach(file => {
+                if (this.importedFileNames.includes(file)) {
+                    return;
+                }
                 const reader = new FileReader();
 
-                reader.onload = f => {
-                    const vectorLayer = Radio.request("Map", "createLayerIfNotExists", "import_draw_layer");
+                reader.onload = async f => {
+                    const vectorLayer = await store.dispatch("Maps/addNewLayerIfNotExists", {layerName: "importDrawLayer"}, {root: true}),
+                        fileNameSplit = file.name.split("."),
+                        fileExtension = fileNameSplit.length > 0 ? fileNameSplit[fileNameSplit.length - 1].toLowerCase() : "";
 
-                    this.importKML({raw: f.target.result, layer: vectorLayer, filename: file.name});
+                    if (fileExtension === "geojson" || fileExtension === "json") {
+                        this.importGeoJSON({raw: f.target.result, layer: vectorLayer, filename: file.name});
+                    }
+                    else {
+                        this.importKML({raw: f.target.result, layer: vectorLayer, filename: file.name});
+                    }
+
+                    this.setLayer(vectorLayer);
                 };
 
                 reader.readAsText(file);
@@ -133,6 +151,55 @@ export default {
             this.close();
             this.$store.dispatch("Tools/Draw/toggleInteraction", "modify");
             this.$store.dispatch("Tools/setToolActive", {id: "draw", active: true});
+        },
+        /**
+         * Zoom to the feature of imported file
+         * @param {String} fileName the file name
+         * @returns {void}
+         */
+        zoomTo (fileName) {
+            if (!isObject(this.featureExtents) || !Object.prototype.hasOwnProperty.call(this.featureExtents, fileName)) {
+                return;
+            }
+
+            this.zoomToExtent({extent: this.featureExtents[fileName]});
+        },
+        /**
+         * Check if there are still features from the imported file.
+         * If there are no features existed from the same imported file, the file name will be removed.
+         * @param {String[]} fileNames the imported file name lists
+         * @returns {void}
+         */
+        modifyImportedFileNames (fileNames) {
+            const modifiedFileNames = [];
+
+            if (typeof this.layer !== "undefined" && Array.isArray(fileNames) && fileNames.length) {
+                fileNames.forEach(name => {
+                    this.layer.getSource().getFeatures().forEach(feature => {
+                        if (feature.get("source") && feature.get("source") === name && !modifiedFileNames.includes(name)) {
+                            modifiedFileNames.push(name);
+                        }
+                    });
+                });
+
+                this.setImportedFileNames(modifiedFileNames);
+            }
+        },
+        /**
+         * Check if there are still features from the imported file.
+         * If there are no features existed from the same imported file, the file name will be removed.
+         * @param {Object} featureExtents the feature extent object, key is the file name and value is the feature extent
+         * @param {String[]} fileNames the imported file name lists
+         * @returns {void}
+         */
+        modifyImportedFileExtent (featureExtents, fileNames) {
+            const modifiedFeatureExtents = {};
+
+            fileNames.forEach(name => {
+                modifiedFeatureExtents[name] = featureExtents[name];
+            });
+
+            this.setFeatureExtents(modifiedFeatureExtents);
         }
     }
 };
@@ -141,7 +208,7 @@ export default {
 <template lang="html">
     <ToolTemplate
         :title="$t(name)"
-        :icon="glyphicon"
+        :icon="icon"
         :active="active"
         :render-to-window="renderToWindow"
         :resizable-window="resizableWindow"
@@ -222,8 +289,20 @@ export default {
                             <li
                                 v-for="(filename, index) in importedFileNames"
                                 :key="index"
+                                :class="enableZoomToExtend ? 'hasZoom' : ''"
                             >
-                                {{ filename }}
+                                <span>
+                                    {{ filename }}
+                                </span>
+                                <span
+                                    v-if="enableZoomToExtend"
+                                    class="upload-button-wrapper"
+                                    :title="$t(`common:modules.tools.fileImport.fileZoom`, {filename: filename})"
+                                    @click="zoomTo(filename)"
+                                    @keydown.enter="zoomTo(filename)"
+                                >
+                                    {{ $t("modules.tools.fileImport.zoom") }}
+                                </span>
                             </li>
                         </ul>
                     </p>
@@ -249,6 +328,7 @@ export default {
 
 <style lang="scss" scoped>
     @import "~/css/mixins.scss";
+    @import "~variables";
 
     .h-seperator {
         margin:12px 0 12px 0;
@@ -263,7 +343,7 @@ export default {
     }
 
     .upload-button-wrapper {
-        color: #FFFFFF;
+        color: $white;
         background-color: $secondary_focus;
         display: block;
         text-align:center;
@@ -283,7 +363,7 @@ export default {
         margin-bottom:12px;
     }
     .drop-area-fake {
-        background-color: #FFFFFF;
+        background-color: $white;
         border-radius: 12px;
         border: 2px dashed $accent;
         padding:24px;
@@ -294,7 +374,7 @@ export default {
             border-color:transparent;
 
             p.caption {
-                color:#FFFFFF;
+                color: $white;
             }
         }
 
@@ -303,7 +383,7 @@ export default {
             text-align:center;
             transition: color 0.35s;
             font-family: $font_family_accent;
-            font-size: $font_size_huge;
+            font-size: $font-size-lg;
             color: $accent;
         }
     }
@@ -343,5 +423,28 @@ export default {
     }
     .introDrawTool {
         font-style: italic;
+    }
+
+    li {
+        &.hasZoom {
+            display: inline-block;
+            width: 100%;
+            &:not(:last-child) {
+                margin-bottom: 5px;
+            }
+            span {
+                &:first-child {
+                    display: inline-block;
+                    float: left;
+                    margin-top: 5px;
+                    width: calc(100% - 80px);
+                }
+                &:last-child {
+                    display: inline-block;
+                    float: right;
+                    margin-top: 0;
+                }
+            }
+        }
     }
 </style>

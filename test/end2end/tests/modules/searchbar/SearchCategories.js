@@ -58,8 +58,8 @@ async function SearchCategories ({builder, browsername, url, resolution, capabil
              * @returns {void}
              */
             async function selectAndVerifyFirstHit ({setsMarker, showsPolygon, movesCenter, changesResolution, categoryName, idPart, searchKey}) {
-                const categorySelector = By.xpath(`//li[contains(@class,'type')][contains(.,'${categoryName || idPart}')]`),
-                    categoryOpenSelector = By.xpath(`//li[contains(@class,'type')][contains(@class,'open')][contains(.,'${categoryName || idPart}')]`),
+                const categorySelector = By.xpath(`//li[contains(@class,'type')][contains(text(),'${categoryName || idPart}')]`),
+                    categoryOpenSelector = By.xpath(`//li[contains(@class,'type')][contains(@class,'open')][contains(text(),'${categoryName || idPart}')]`),
                     entrySelector = By.xpath(`//li[contains(@id,'${idPart}')][contains(@class,'hit')]`);
                 let marker = null,
                     elList = null,
@@ -120,7 +120,7 @@ async function SearchCategories ({builder, browsername, url, resolution, capabil
                 await driver.wait(until.elementLocated(searchInputSelector));
                 searchInput = await driver.findElement(searchInputSelector);
                 searchList = await driver.findElement(By.css("#searchInputUL"));
-                clear = await driver.findElement(By.css("#searchbar span.form-control-feedback"));
+                clear = await driver.findElement(By.css("#searchbar span.x-icon"));
                 initialCenter = await driver.executeScript(getCenter);
                 initialResolution = await driver.executeScript(getResolution);
             }
@@ -156,8 +156,8 @@ async function SearchCategories ({builder, browsername, url, resolution, capabil
                 if (await (await driver.findElement(By.id("searchInput"))).getAttribute("value") === "") {
                     await searchInput.sendKeys(searchString);
                 }
-                await driver.wait(until.elementIsVisible(await driver.findElement(By.css("#searchInputUL > li.results"))), 5000);
-                await (await driver.findElement(By.css("#searchInputUL > li.results"))).click();
+                await driver.wait(until.elementIsVisible(await driver.findElement(By.css("#searchInputUL > li.list-group-item"))), 5000);
+                await (await driver.findElement(By.css("#searchInputUL > li.list-group-item"))).click();
                 expect(await driver.findElements(By.css("#searchInputUL > li.list-group-item.type > span.badge"))).to.not.equals(0);
             });
 
@@ -206,7 +206,8 @@ async function SearchCategories ({builder, browsername, url, resolution, capabil
                     showsPolygon: false,
                     movesCenter: true,
                     changesResolution: true,
-                    idPart: "Straße"
+                    idPart: "Straße",
+                    searchKey: "repel"
                 });
             });
 
@@ -216,7 +217,8 @@ async function SearchCategories ({builder, browsername, url, resolution, capabil
                     showsPolygon: false,
                     movesCenter: true,
                     changesResolution: true,
-                    idPart: "Stadtteil"
+                    idPart: "Stadtteil",
+                    searchKey: "Altona"
                 });
             });
 

@@ -35,7 +35,8 @@ const Layer = Item.extend(/** @lends Layer.prototype */{
         removeLayerText: "",
         levelUpText: "",
         levelDownText: "",
-        isSecured: false
+        isSecured: false,
+        scaleText: ""
     },
     /**
      * @class Layer
@@ -58,7 +59,6 @@ const Layer = Item.extend(/** @lends Layer.prototype */{
      * @property {String[]} supported=["2D"] Array of Strings to show supported modes "2D" and "3D"
      * @property {Boolean} showSettings=true Flag if layer settings have to be shown
      * @property {Number} hitTolerance=0 Hit tolerance used by layer for map interaction
-     * @property {Boolean} styleable=false Flag if wms layer can be styleable via stylewms tool
      * @property {Boolean} isNeverVisibleInTree=false Flag if layer is never visible in layertree
      * @property {String} currentLng="" contains the current language
      * @property {String} isOutOfRange="" will be translated
@@ -445,10 +445,14 @@ const Layer = Item.extend(/** @lends Layer.prototype */{
      * @return {void}
      */
     incTransparency: function () {
-        const transparency = parseInt(this.get("transparency"), 10);
+        const transparency = parseInt(this.get("transparency"), 10),
+            incTransparency = transparency + 10;
 
-        if (transparency <= 90) {
-            this.setTransparency(transparency + 10);
+        if (incTransparency <= 100) {
+            this.setTransparency(incTransparency);
+        }
+        else {
+            this.setTransparency(100);
         }
     },
 
@@ -457,10 +461,14 @@ const Layer = Item.extend(/** @lends Layer.prototype */{
      * @return {void}
      */
     decTransparency: function () {
-        const transparency = parseInt(this.get("transparency"), 10);
+        const transparency = parseInt(this.get("transparency"), 10),
+            decTransparency = transparency - 10;
 
-        if (transparency >= 10) {
-            this.setTransparency(transparency - 10);
+        if (decTransparency >= 0) {
+            this.setTransparency(decTransparency);
+        }
+        else {
+            this.setTransparency(0);
         }
     },
 

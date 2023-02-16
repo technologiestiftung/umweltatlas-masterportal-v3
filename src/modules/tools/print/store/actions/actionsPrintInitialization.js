@@ -4,7 +4,6 @@ import thousandsSeparator from "../../../../../utils/thousandsSeparator.js";
 import Canvas from "./../../utils/buildCanvas";
 import BuildSpec from "./../../utils/buildSpec";
 import getVisibleLayer from "./../../utils/getVisibleLayer";
-import mapCollection from "../../../../../core/dataStorage/mapCollection.js";
 import {createEmpty, extendCoordinate} from "ol/extent.js";
 import {apply as applyTransform} from "ol/transform.js";
 
@@ -32,7 +31,7 @@ export default {
         if (state.serviceId !== "") {
             serviceUrl = rootGetters.getRestServiceById(state.serviceId).url;
 
-            if (!serviceUrl.includes("/print/")) {
+            if (state.printService !== "plotservice" && !serviceUrl.includes("/print/")) {
                 serviceUrl = serviceUrl + "print/";
             }
 
@@ -80,6 +79,7 @@ export default {
         dispatch("getAttributeInLayoutByName", "gfi");
         dispatch("getAttributeInLayoutByName", "legend");
         dispatch("getAttributeInLayoutByName", "scale");
+        dispatch("setDpiList");
         commit("setFormatList", state.formatList);
         commit("setCurrentScale", Radio.request("MapView", "getOptions").scale);
         dispatch("togglePostrenderListener");
@@ -133,7 +133,7 @@ export default {
      */
     getGfiForPrint: function ({rootGetters, commit}) {
         if (rootGetters["Tools/Gfi/currentFeature"] !== null) {
-            commit("setGfiForPrint", [rootGetters["Tools/Gfi/currentFeature"].getMappedProperties(), rootGetters["Tools/Gfi/currentFeature"].getTitle(), rootGetters["Map/clickCoord"]]);
+            commit("setGfiForPrint", [rootGetters["Tools/Gfi/currentFeature"].getMappedProperties(), rootGetters["Tools/Gfi/currentFeature"].getTitle(), rootGetters["Maps/clickCoordinate"]]);
         }
         else {
             commit("setGfiForPrint", []);
@@ -158,6 +158,20 @@ export default {
         });
     },
 
+    /**
+     * sets the dpi values if given in mapfish print capabilities
+     * @param {Object} param.state the state
+     * @param {Object} param.commit the commit
+     * @returns {void}
+     */
+    setDpiList: function ({state, commit}) {
+        state.currentLayout.attributes.forEach((attribute, idx) => {
+            if (attribute.name === "map") {
+                commit("setDpiList", state.currentLayout.attributes[idx]
+                    .clientInfo?.dpiSuggestions || []);
+            }
+        });
+    },
 
     /**
      * if the tool is activated and there is a layout,
@@ -189,26 +203,28 @@ export default {
             commit("setEventListener", canvasLayer.on("postrender", evt => dispatch("createPrintMask", evt)));
         }
         else if (!state.active) {
-            Radio.trigger("Map", "unregisterListener", state.eventListener);
+            dispatch("Maps/unregisterListener", {type: state.eventListener}, {root: true});
             commit("setEventListener", undefined);
             if (state.invisibleLayer) {
                 dispatch("setOriginalPrintLayer");
                 commit("setHintInfo", "");
             }
         }
-        mapCollection.getMap("ol", "2D").render();
+        mapCollection.getMap("2D").render();
     },
 
     /**
      * Getting und showing the layer which is visible in map scale
      * @param {Object} param.state the state
-     * @returns {void} -
+     * @returns {void}
      */
-    setOriginalPrintLayer: function ({state}) {
+    setOriginalPrintLayer: function ({state, rootGetters}) {
         const invisibleLayer = state.invisibleLayer,
             mapScale = state.currentMapScale,
-            resoByMaxScale = Radio.request("MapView", "getResosolutionByScale", mapScale, "max"),
-            resoByMinScale = Radio.request("MapView", "getResolutionByScale", mapScale, "min");
+            // eslint-disable-next-line new-cap
+            resoByMaxScale = rootGetters["Maps/getResolutionByScale"](mapScale, "max"),
+            // eslint-disable-next-line new-cap
+            resoByMinScale = rootGetters["Maps/getResolutionByScale"](mapScale, "min");
 
         invisibleLayer.forEach(layer => {
             const layerModel = Radio.request("ModelList", "getModelByAttributes", {"id": layer.get("id")});
@@ -230,12 +246,14 @@ export default {
      * @param {Object} param.commit the commit
      * @param {Object} param.dispatch the dispatch
      * @param {String} scale - the current print scale
-     * @returns {void} -
+     * @returns {void}
      */
-    setPrintLayers: function ({state, dispatch, commit}, scale) {
+    setPrintLayers: function ({state, dispatch, commit, rootGetters}, scale) {
         const visibleLayer = state.visibleLayerList,
-            resoByMaxScale = Radio.request("MapView", "getResolutionByScale", scale, "max"),
-            resoByMinScale = Radio.request("MapView", "getResolutionByScale", scale, "min"),
+            // eslint-disable-next-line new-cap
+            resoByMaxScale = rootGetters["Maps/getResolutionByScale"](scale, "max"),
+            // eslint-disable-next-line new-cap
+            resoByMinScale = rootGetters["Maps/getResolutionByScale"](scale, "min"),
             invisibleLayer = [];
 
         let invisibleLayerNames = "",
@@ -260,7 +278,7 @@ export default {
         hintInfo = hintInfo + "<br>" + invisibleLayerNames;
 
         if (invisibleLayer.length && hintInfo !== state.hintInfo) {
-            dispatch("Alerting/addSingleAlert", hintInfo);
+            dispatch("Alerting/addSingleAlert", hintInfo, {root: true});
             commit("setHintInfo", hintInfo);
         }
 
@@ -282,7 +300,7 @@ export default {
         const visibleLayerList = state.visibleLayerList;
         let canvasLayer = {};
 
-        Radio.trigger("Map", "unregisterListener", state.eventListener);
+        dispatch("Maps/unregisterListener", {type: state.eventListener}, {root: true});
         canvasLayer = Canvas.getCanvasLayer(visibleLayerList);
         dispatch("chooseCurrentLayout", state.layoutList);
         if (Object.keys(canvasLayer).length) {

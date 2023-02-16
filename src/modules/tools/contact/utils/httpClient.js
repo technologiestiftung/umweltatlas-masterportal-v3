@@ -1,25 +1,22 @@
 import axios from "axios";
 import convertJsonToPost from "../../../../utils/convertJsonToPost.js";
+import LoaderOverlay from "../../../../utils/loaderOverlay";
 
 /**
  * Show the loader after the dispatch of an e-mail has been started.
- *
- * @fires Util#RadioTriggerUtilShowLoader
  * @return {void}
  */
 function onSendStart () {
-    Radio.trigger("Util", "showLoader");
+    LoaderOverlay.show();
 }
 
 /**
  * Hide the loader after the dispatch of an e-mail has been completed.
  * The loader is also hidden if an error occurred during the dispatch.
- *
- * @fires Util#RadioTriggerUtilHideLoader
  * @return {void}
  */
 function onSendComplete () {
-    Radio.trigger("Util", "hideLoader");
+    LoaderOverlay.hide();
 }
 
 /**
@@ -53,4 +50,4 @@ function httpClient (url, data, onSuccess, onError) {
         .finally(onSendComplete);
 }
 
-export default httpClient;
+export default {httpClient};

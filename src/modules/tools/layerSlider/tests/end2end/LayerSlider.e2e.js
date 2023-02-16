@@ -47,19 +47,19 @@ async function LayerSliderTests ({builder, url, resolution, capability}) {
                 do {
                     expect(counter++).to.be.below(10);
                     await (await driver.findElement(By.xpath("//ul[@id='tools']//.."))).click();
-                    await (await driver.findElement(By.css("#tools .glyphicon-film"))).click();
+                    await (await driver.findElement(By.css("#tools .bi-hourglass-split"))).click();
                     await driver.wait(new Promise(r => setTimeout(r, 100)));
                 } while ((await driver.findElements(By.id("tool-layer-slider"))).length === 0);
 
                 await driver.wait(until.elementIsVisible(await driver.findElement(By.id("tool-layer-slider"))));
 
-                const header = await driver.findElement(By.css("div.win-heading div.heading-element p.title"), 5000),
+                const header = await driver.findElement(By.css("div.win-heading div.basic-drag-handle h2.title"), 5000),
                     h5 = await driver.findElement(By.css("div#tool-layer-slider h5"), 5000),
                     progress = await driver.findElement(By.css("div#tool-layer-slider-player .progress"), 5000),
-                    play = await driver.findElement(By.css("div#tool-layer-slider-player div.input-group span.input-group-btn button#play"), 5000),
-                    stop = await driver.findElement(By.css("div#tool-layer-slider-player div.input-group span.input-group-btn button#stop"), 5000),
-                    backward = await driver.findElement(By.css("div#tool-layer-slider-player div.input-group span.input-group-btn button#backward"), 5000),
-                    forward = await driver.findElement(By.css("div#tool-layer-slider-player div.input-group span.input-group-btn button#forward"), 5000),
+                    play = await driver.findElement(By.css("div#tool-layer-slider-player div.input-group button#play"), 5000),
+                    stop = await driver.findElement(By.css("div#tool-layer-slider-player div.input-group button#stop"), 5000),
+                    backward = await driver.findElement(By.css("div#tool-layer-slider-player div.input-group button#backward"), 5000),
+                    forward = await driver.findElement(By.css("div#tool-layer-slider-player div.input-group button#forward"), 5000),
                     input = await driver.findElement(By.css("div#tool-layer-slider-player div.input-group input#title"), 5000);
 
                 expect(await header.getText()).to.equals("Zeitreihe");
@@ -72,14 +72,14 @@ async function LayerSliderTests ({builder, url, resolution, capability}) {
                 expect(input).to.exist;
             });
             it("Click forward and check if the first layer is on", async function () {
-                await (await driver.findElement(By.css("div#tool-layer-slider-player div.input-group span.input-group-btn button#forward"), 5000)).click();
+                await (await driver.findElement(By.css("div#tool-layer-slider-player div.input-group button#forward"), 5000)).click();
 
                 expect(await driver.executeScript(isLayerVisible, "8730")).to.be.true;
                 expect(await driver.executeScript(isLayerVisible, "2426")).to.be.false;
                 expect(await driver.executeScript(isLayerVisible, "4561")).to.be.false;
             });
             it("Click back and check if the last layer is on", async function () {
-                await (await driver.findElement(By.css("div#tool-layer-slider-player div.input-group span.input-group-btn button#backward"), 5000)).click();
+                await (await driver.findElement(By.css("div#tool-layer-slider-player div.input-group button#backward"), 5000)).click();
 
                 expect(await driver.executeScript(isLayerVisible, "8730")).to.be.false;
                 expect(await driver.executeScript(isLayerVisible, "2426")).to.be.false;
@@ -93,13 +93,13 @@ async function LayerSliderTests ({builder, url, resolution, capability}) {
                 do {
                     expect(counter++).to.be.below(10);
                     await (await driver.findElement(By.xpath("//ul[@id='tools']//.."))).click();
-                    await (await driver.findElement(By.css("#tools .glyphicon-film"))).click();
+                    await (await driver.findElement(By.css("#tools .bi-hourglass-split"))).click();
                     await driver.wait(new Promise(r => setTimeout(r, 100)));
                 } while ((await driver.findElements(By.id("tool-layer-slider"))).length === 0);
 
                 await driver.wait(until.elementIsVisible(await driver.findElement(By.id("tool-layer-slider"))));
 
-                const header = await driver.findElement(By.css("div.win-heading div.heading-element p.title"), 5000),
+                const header = await driver.findElement(By.css("div.win-heading div.heading-element h2.title"), 5000),
                     h5 = await driver.findElement(By.css("div#tool-layer-slider h5"), 5000),
                     slider = await driver.findElement(By.css("div#tool-layer-slider-handle div.slider"), 5000);
 

@@ -3,6 +3,7 @@ import {config, mount, shallowMount, createLocalVue} from "@vue/test-utils";
 import {expect} from "chai";
 import TableTemplate from "../../../components/templates/TableTemplate.vue";
 import sinon from "sinon";
+import getters from "../../../store/gettersGfi";
 
 const localVue = createLocalVue();
 
@@ -14,6 +15,16 @@ describe("src/modules/tools/gfi/components/templates/TableTemplate.vue", () => {
         components,
         computed,
         store;
+
+    before(() => {
+        mapCollection.clear();
+        const map = {
+            id: "ol",
+            mode: "2D"
+        };
+
+        mapCollection.addMap(map, "2D");
+    });
 
     beforeEach(() => {
         propsData = {
@@ -35,6 +46,32 @@ describe("src/modules/tools/gfi/components/templates/TableTemplate.vue", () => {
         store = new Vuex.Store({
             namespaced: true,
             modules: {
+                Tools: {
+                    namespaced: true,
+                    modules: {
+                        Gfi: {
+                            namespaced: true,
+                            mutations: {
+                                setCurrentRotation: () => sinon.stub()
+                            },
+                            getters: getters
+                        }
+                    }
+                },
+                Maps: {
+                    namespaced: true,
+                    state: {
+                        mode: "2D"
+                    },
+                    getters: {
+                        clickCoordinate: sinon.stub()
+                    },
+                    actions: {
+                        addLayerOnTop: sinon.stub(),
+                        removeInteraction: sinon.stub(),
+                        addInteraction: sinon.stub()
+                    }
+                },
                 MapMarker: {
                     namespaced: true,
                     actions: {
@@ -82,7 +119,7 @@ describe("src/modules/tools/gfi/components/templates/TableTemplate.vue", () => {
             localVue
         });
 
-        expect(wrapper.find("span.glyphicon.glyphicon-remove").exists()).to.be.true;
+        expect(wrapper.find("span.bootstrap-icon > .bi-x-lg").exists()).to.be.true;
     });
 
     it("should emitted close event if button is clicked", async () => {
@@ -93,7 +130,7 @@ describe("src/modules/tools/gfi/components/templates/TableTemplate.vue", () => {
                 store,
                 localVue
             }),
-            button = wrapper.find("span.glyphicon.glyphicon-remove");
+            button = wrapper.find("span.bootstrap-icon > .bi-x-lg");
 
         await button.trigger("click");
         expect(wrapper.emitted()).to.have.property("close");

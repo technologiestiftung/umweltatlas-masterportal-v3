@@ -56,7 +56,10 @@ export default {
     <Component
         :is="'table'"
     >
-        <table v-if="hasFeatures && !hasMultipleLayers">
+        <table
+            v-if="hasFeatures && !hasMultipleLayers"
+            class="border"
+        >
             <tbody>
                 <tr
                     v-for="(column, index) in listOfFeatures"
@@ -69,21 +72,31 @@ export default {
                             v-for="(value, key) in column"
                             :key="'tool-compareFeatures-td' + key"
                         >
-                            <button
+                            <span
                                 v-if="index === 0 && key !== 'col-1'"
-                                class="close"
-                                :title="titleRemoveButton"
-                                @click="removeFeatureFromPreparedList({features: listOfFeatures, featureId: key})"
+                                class="close bootstrap-icon remove-feature"
+                                type="button"
+                                :title="$t('common:modules.tools.compareFeatures.removeFromList')"
+                                @click="removeFeatureFromPreparedList({features: listOfFeatures, featureId: key, selectedLayer: selectedLayer})"
+                                @keydown.enter="removeFeatureFromPreparedList({features: listOfFeatures, featureId: key, selectedLayer: selectedLayer})"
                             >
-                                <span
-                                    class="glyphicon glyphicon-remove remove-feature"
-                                />
-                            </button>
+                                <i class="bi-x-lg" />
+                            </span>
                             <p v-if="isWebLink(value)">
                                 <a
                                     :href="value"
                                     target="_blank"
                                 >{{ value }}</a>
+                            </p>
+                            <p
+                                v-else-if="value && value.toLowerCase() === 'true'"
+                            >
+                                <span>{{ $t('common:modules.tools.compareFeatures.trueFalse.true') }}</span>
+                            </p>
+                            <p
+                                v-else-if="value && (value.toLowerCase() === 'false' || value.toLowerCase() === 'no')"
+                            >
+                                <span>{{ $t('common:modules.tools.compareFeatures.trueFalse.false') }}</span>
                             </p>
                             <p v-else-if="isPhoneNumber(value)">
                                 <a :href="getPhoneNumberAsWebLink(value)">{{ value }}</a>
@@ -122,21 +135,31 @@ export default {
                             v-for="(value, key) in column"
                             :key="'tool-compareFeatures-td' + key"
                         >
-                            <button
-                                class="close"
-                                :title="titleRemoveButton"
-                                @click="removeFeatureFromPreparedList({features: listOfFeatures, featureId: key})"
+                            <span
+                                v-if="index === 0 && key !== 'col-1'"
+                                class="close bootstrap-icon remove-feature"
+                                type="button"
+                                :title="$t('common:modules.tools.compareFeatures.removeFromList')"
+                                @click="removeFeatureFromPreparedList({features: listOfFeatures, featureId: key, selectedLayer: selectedLayer})"
+                                @keydown.enter="removeFeatureFromPreparedList({features: listOfFeatures, featureId: key, selectedLayer: selectedLayer})"
                             >
-                                <span
-                                    v-if="index === 0 && key !== 'col-1'"
-                                    class="glyphicon glyphicon-remove remove-feature"
-                                />
-                            </button>
+                                <i class="bi-x-lg" />
+                            </span>
                             <p v-if="isWebLink(value)">
                                 <a
                                     :href="value"
                                     target="_blank"
                                 >{{ value }}</a>
+                            </p>
+                            <p
+                                v-else-if="value && value.toLowerCase() === 'true'"
+                            >
+                                <span>{{ $t('common:modules.tools.compareFeatures.trueFalse.true') }}</span>
+                            </p>
+                            <p
+                                v-else-if="value && (value.toLowerCase() === 'false' || value.toLowerCase() === 'no')"
+                            >
+                                <span>{{ $t('common:modules.tools.compareFeatures.trueFalse.false') }}</span>
                             </p>
                             <p v-else-if="isPhoneNumber(value)">
                                 <a :href="getPhoneNumberAsWebLink(value)">{{ value }}</a>
@@ -186,21 +209,31 @@ export default {
                             v-for="(value, key) in column"
                             :key="'tool-compareFeatures-td' + key"
                         >
-                            <button
-                                class="close"
+                            <span
+                                v-if="index === 0 && key !== 'col-1'"
+                                class="close bootstrap-icon remove-feature"
+                                type="button"
                                 :title="$t('common:modules.tools.compareFeatures.removeFromList')"
                                 @click="removeFeatureFromPreparedList({features: listOfFeatures, featureId: key, selectedLayer: selectedLayer})"
+                                @keydown.enter="removeFeatureFromPreparedList({features: listOfFeatures, featureId: key, selectedLayer: selectedLayer})"
                             >
-                                <span
-                                    v-if="index === 0 && key !== 'col-1'"
-                                    class="glyphicon glyphicon-remove remove-feature"
-                                />
-                            </button>
+                                <i class="bi-x-lg" />
+                            </span>
                             <p v-if="isWebLink(value)">
                                 <a
                                     :href="value"
                                     target="_blank"
                                 >{{ value }}</a>
+                            </p>
+                            <p
+                                v-else-if="value && value.toLowerCase() === 'true'"
+                            >
+                                <span>{{ $t('common:modules.tools.compareFeatures.trueFalse.true') }}</span>
+                            </p>
+                            <p
+                                v-else-if="value && (value.toLowerCase() === 'false' || value.toLowerCase() === 'no')"
+                            >
+                                <span>{{ $t('common:modules.tools.compareFeatures.trueFalse.false') }}</span>
                             </p>
                             <p v-else-if="isPhoneNumber(value)">
                                 <a :href="getPhoneNumberAsWebLink(value)">{{ value }}</a>
@@ -241,21 +274,31 @@ export default {
                             v-for="(value, key) in column"
                             :key="'tool-compareFeatures-td' + key"
                         >
-                            <button
-                                class="close"
+                            <span
+                                v-if="index === 0 && key !== 'col-1'"
+                                class="close bootstrap-icon remove-feature"
+                                type="button"
                                 :title="$t('common:modules.tools.compareFeatures.removeFromList')"
                                 @click="removeFeatureFromPreparedList({features: listOfFeatures, featureId: key, selectedLayer: selectedLayer})"
+                                @keydown.enter="removeFeatureFromPreparedList({features: listOfFeatures, featureId: key, selectedLayer: selectedLayer})"
                             >
-                                <span
-                                    v-if="index === 0 && key !== 'col-1'"
-                                    class="glyphicon glyphicon-remove remove-feature"
-                                />
-                            </button>
+                                <i class="bi-x-lg" />
+                            </span>
                             <p v-if="isWebLink(value)">
                                 <a
                                     :href="value"
                                     target="_blank"
                                 >{{ value }}</a>
+                            </p>
+                            <p
+                                v-else-if="value && value.toLowerCase() === 'true'"
+                            >
+                                <span>{{ $t('common:modules.tools.compareFeatures.trueFalse.true') }}</span>
+                            </p>
+                            <p
+                                v-else-if="value && (value.toLowerCase() === 'false' || value.toLowerCase() === 'no')"
+                            >
+                                <span>{{ $t('common:modules.tools.compareFeatures.trueFalse.false') }}</span>
                             </p>
                             <p v-else-if="isPhoneNumber(value)">
                                 <a :href="getPhoneNumberAsWebLink(value)">{{ value }}</a>
@@ -297,10 +340,7 @@ export default {
 
 <style lang="scss" scoped>
     @import "~/css/mixins.scss";
-
-    $background_color_2: #f5f5f5;
-    $background_color_3: #e6e6e6;
-    $font_family_1: "MasterPortalFont Bold","Arial Narrow",Arial,sans-serif;
+    @import "~variables";
 
     #tool-compareFeatures {
         z-index: -1;
@@ -308,8 +348,8 @@ export default {
         width: 100%;
     }
     .remove-feature {
-        top: 0px !important;
-        left: 0px;
+        top: 0 !important;
+        left: 0;
         &:focus {
             @include primary_action_focus;
         }
@@ -334,16 +374,16 @@ export default {
                 max-width: 25px !important;
             }
             &:nth-child(odd) {
-                background-color: $background_color_2;
+                background-color: $white;
             }
             &:nth-child(even) {
-                background-color: $background_color_3;
+                background-color: $light_grey;
             }
         }
         td {
             padding: 8px;
             text-align: left;
-            border-left: 1px solid #ccc;
+            border-left: 1px solid $light_grey;
             vertical-align: top;
             &:nth-child(1) {
                 width: 20%;
@@ -352,9 +392,11 @@ export default {
         }
         p {
             overflow-wrap: break-word;
+            color: $black;
         }
     }
     .close {
         float: right;
+        padding: 5px;
     }
 </style>

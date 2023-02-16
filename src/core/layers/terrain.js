@@ -1,7 +1,6 @@
 import store from "../../app-store";
-import {terrain} from "masterportalapi/src";
+import {terrain} from "@masterportal/masterportalapi/src";
 import getProxyUrl from "../../../src/utils/getProxyUrl";
-import mapCollection from "../../core/dataStorage/mapCollection.js";
 import * as bridge from "./RadioBridge.js";
 import Layer from "./layer";
 /**
@@ -32,11 +31,11 @@ export default function TerrainLayer (attrs) {
     // call the super-layer
     Layer.call(this, Object.assign(defaults, attrs), this.layer, !attrs.isChildLayer);
 
-    store.watch((state, getters) => getters["Map/mapMode"], mode => {
+    store.watch((state, getters) => getters["Maps/mode"], mode => {
         if (mode === "3D") {
             this.setIsSelected(this.get("isVisibleInMap"));
         }
-    }).bind(this);
+    });
 }
 // Link prototypes and add prototype methods, means TerrainLayer uses all methods and properties of Layer
 TerrainLayer.prototype = Object.create(Layer.prototype);
@@ -49,9 +48,6 @@ TerrainLayer.prototype = Object.create(Layer.prototype);
  */
 TerrainLayer.prototype.createLayer = function (attr) {
     this.layer = terrain.createLayer(attr);
-    if (attr.isSelected) {
-        this.setIsSelected(true, attr);
-    }
 };
 
 /**
@@ -70,7 +66,7 @@ TerrainLayer.prototype.setVisible = function (newValue) {
  * @returns {void}
  */
 TerrainLayer.prototype.setIsSelected = function (newValue, attr) {
-    const map = mapCollection.getMap(store.state.Map.mapId, store.state.Map.mapMode),
+    const map = mapCollection.getMap(store.getters["Maps/mode"]),
         treeType = store.getters.treeType;
 
     if (map && map.mode === "3D") {
@@ -79,12 +75,12 @@ TerrainLayer.prototype.setIsSelected = function (newValue, attr) {
         if (!this.attributes && attr) {
             isVisibleInMap = attr.isVisibleInMap;
             attr.isSelected = newValue;
+            terrain.setVisible(newValue, this.attributes ? this.attributes : attr, map);
         }
         else {
             this.attributes.isSelected = newValue;
             this.setIsVisibleInMap(newValue);
         }
-        terrain.setVisible(newValue, this.attributes ? this.attributes : attr, map);
         if (isVisibleInMap) {
             this.createLegend();
         }
@@ -101,9 +97,13 @@ TerrainLayer.prototype.setIsSelected = function (newValue, attr) {
  * @returns {void}
  */
 TerrainLayer.prototype.setIsVisibleInMap = function (newValue) {
-    const lastValue = this.get("isVisibleInMap");
+    const lastValue = this.get("isVisibleInMap"),
+        map = mapCollection.getMap(store.getters["Maps/mode"]);
 
     this.set("isVisibleInMap", newValue);
+    if (map && map.mode === "3D") {
+        terrain.setVisible(newValue, this.attributes, map);
+    }
     if (lastValue !== newValue) {
         // here it is possible to change the layer visibility-info in state and listen to it e.g. in LegendWindow
         // e.g. store.dispatch("Map/toggleLayerVisibility", {layerId: this.get("id")});

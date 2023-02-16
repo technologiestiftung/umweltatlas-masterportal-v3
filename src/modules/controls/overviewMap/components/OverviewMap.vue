@@ -4,6 +4,7 @@ import {mapGetters} from "vuex";
 import {getOverviewMapLayer, getOverviewMapView} from "./utils";
 import ControlIcon from "../../ControlIcon.vue";
 import TableStyleControl from "../../TableStyleControl.vue";
+import uiStyle from "../../../../utils/uiStyle";
 
 /**
  * Overview control that shows a mini-map to support a user's
@@ -42,33 +43,42 @@ export default {
         return {
             open: this.isInitOpen,
             overviewMap: null,
-            mapChannel: Radio.channel("Map"),
             visibleInMapMode: null // set in .created
         };
     },
     computed: {
         ...mapGetters(["uiStyle"]),
-        ...mapGetters("Map", ["ol2DMap"]),
+        ...mapGetters("Maps", ["mode"]),
 
         component () {
-            return Radio.request("Util", "getUiStyle") === "TABLE" ? TableStyleControl : ControlIcon;
+            return uiStyle.getUiStyle() === "TABLE" ? TableStyleControl : ControlIcon;
         },
         localeSuffix () {
-            return Radio.request("Util", "getUiStyle") === "TABLE" ? "Table" : "Control";
+            return uiStyle.getUiStyle() === "TABLE" ? "Table" : "Control";
+        }
+    },
+    watch: {
+        /**
+         * Checks the mapMode for 2D or 3D.
+         * @param {Boolean} value mode of the map
+         * @returns {void}
+         */
+        mode (value) {
+            this.visibleInMapMode = value !== "3D";
         }
     },
     created () {
         this.checkModeVisibility();
-        this.mapChannel.on("change", this.checkModeVisibility);
-    },
-    beforeDestroy () {
-        this.mapChannel.off("change", this.checkModeVisibility);
     },
     mounted () {
         const id = this.layerId || this.baselayer,
             layer = getOverviewMapLayer(id),
-            map = this.ol2DMap,
+            map = mapCollection.getMap("2D"),
             view = getOverviewMapView(map, this.resolution);
+
+        // try to display overviewMap layer in all available resolutions
+        layer.setMaxResolution(view.getMaxResolution());
+        layer.setMinResolution(view.getMinResolution());
 
         if (layer) {
             this.overviewMap = new OverviewMap({
@@ -93,7 +103,7 @@ export default {
         toggleOverviewMapFlyout () {
             this.open = !this.open;
             if (this.overviewMap !== null) {
-                this.ol2DMap[`${this.open ? "add" : "remove"}Control`](this.overviewMap);
+                mapCollection.getMap("2D")[`${this.open ? "add" : "remove"}Control`](this.overviewMap);
             }
         },
         /**
@@ -101,7 +111,7 @@ export default {
          * @returns {void}
          */
         checkModeVisibility () {
-            this.visibleInMapMode = Radio.request("Map", "getMapMode") !== "3D";
+            this.visibleInMapMode = this.mode !== "3D";
         }
     }
 };
@@ -153,7 +163,7 @@ export default {
             border: 0;
 
             .ol-overviewmap-box {
-                border: 2px solid $primary;
+                border: 2px solid $light_grey;
             }
 
             .ol-overviewmap-map {

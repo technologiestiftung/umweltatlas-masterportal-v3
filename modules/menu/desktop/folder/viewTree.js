@@ -8,7 +8,7 @@ import FolderTemplate from "text-loader!./templateTree.html";
 
 const FolderViewTree = Backbone.View.extend(/** @lends FolderViewTree.prototype */{
     events: {
-        "click .title, .glyphicon-minus-sign, .glyphicon-plus-sign": "toggleIsExpanded",
+        "click .title, .minimize-icon, .maximize-icon": "toggleIsExpanded",
         "click .selectall": "toggleIsSelected",
         "keydown": "toggleKeyAction"
     },
@@ -39,7 +39,7 @@ const FolderViewTree = Backbone.View.extend(/** @lends FolderViewTree.prototype 
         this.render();
     },
     tagName: "li",
-    className: "themen-folder list-group-item",
+    className: "themen-folder dropdown-item",
     id: "",
     template: _.template(FolderTemplate),
 

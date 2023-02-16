@@ -6,6 +6,17 @@
       "link": "https://geoinfo.hamburg.de",
       "toolTip": "Landesbetrieb Geoinformation und Vermessung"
     },
+    "tree":{
+			"highlightedFeatures": {
+				"active": true
+			}
+		},
+    "quickHelp": {
+      "configs": {
+        "search": true,
+        "tree": true
+      }
+    },
     "searchBar": {
       "gazetteer": {
         "minchars": 3,
@@ -15,7 +26,8 @@
         "searchHouseNumbers": true,
         "searchDistricts": true,
         "searchParcels": true,
-        "searchStreetKey": true
+        "searchStreetKey": true,
+        "gfiOnClick": true
       },
       "elasticSearch": {
         "minChars": 3,
@@ -44,7 +56,7 @@
           "source": "_source"
         },
         "hitType": "common:modules.searchbar.type.subject",
-        "hitGlyphicon": "glyphicon-list"
+        "hitIcon": "bi-list-ul"
       },
       "visibleVector": {
         "gfiOnClick": true
@@ -109,17 +121,17 @@
     "menu": {
       "tree": {
         "name": "translate#common:menu.topics",
-        "glyphicon": "glyphicon-list",
+        "icon": "bi-stack",
         "isInitOpen": false
       },
       "ansichten": {
         "name": "translate#common:menu.views.name",
-        "glyphicon": "glyphicon-list",
+        "icon": "bi-binoculars-fill",
         "children": {
           "view1": {
             "name": "translate#common:menu.views.view01",
             "type": "viewpoint",
-            "glyphicon": "glyphicon-screenshot",
+            "icon": "bi-bullseye",
             "heading": -0.30858728378862876,
             "tilt": 0.9321791580603296,
             "altitude": 272.3469798217454,
@@ -133,7 +145,7 @@
       },
       "filter": {
         "name": "translate#common:menu.filter",
-        "glyphicon": "glyphicon-filter",
+        "icon": "bi-funnel-fill",
         "deactivateGFI": false,
         "isGeneric": false,
         "isInitOpen": false,
@@ -250,14 +262,16 @@
       },
       "tools": {
         "name": "translate#common:menu.tools.name",
-        "glyphicon": "glyphicon-wrench",
+        "icon": "bi-tools",
         "children": {
           "wfsSearch": {
-            "name": "WFS Suche",
+            "name": "translate#common:menu.tools.parcelSearch",
+            "icon": "bi-search",
+            "zoomLevel": 7,
             "instances": [
               {
-                "title": "Hamburger Flurstücksuche",
-                "resultDialogTitle": "Trefferliste",
+                "title": "translate#common:menu.tools.parcelSearch",
+                "userHelp": "hide",
                 "requestConfig": {
                   "gazetteer": {
                     "namespaces": [
@@ -269,22 +283,6 @@
                   "restLayerId": "6",
                   "storedQueryId": "Flurstueck"
                 },
-                "resultList": {
-                  "gemarkungsname": "Gemarkungsname",
-                  "gemarkung": "Gemarkung",
-                  "flurstuecksnummer": "Flurstücknummer",
-                  "flurstueck_lang": "Flurstücknummer - lang",
-                  "flurstuecksflaeche": "Flurstückfläche",
-                  "verwaltungsart": "Verwaltungsart",
-                  "gemeindename": "Gemeindename",
-                  "gemeinde": "Gemeinde",
-                  "kreisname": "Kreisname",
-                  "kreis": "Kreis",
-                  "land": "Land",
-                  "regierungsbezirk": "Regierungsbezirk",
-                  "status": "Status",
-                  "geometry": "Geometrie"
-                },
                 "selectSource": "https://geodienste.hamburg.de/lgv-config/gemarkungen_hh.json",
                 "literals": [
                   {
@@ -294,7 +292,7 @@
                         {
                           "field": {
                             "type": "equal",
-                            "inputLabel": "Gemarkung",
+                            "inputLabel": "common:modules.tools.wfsSearch.district",
                             "fieldName": "gemarkung",
                             "usesId": true,
                             "options": "",
@@ -304,7 +302,7 @@
                         {
                           "field": {
                             "type": "equal",
-                            "inputLabel": "Flurstücksnummer",
+                            "inputLabel": "common:modules.tools.wfsSearch.parcelNumber",
                             "fieldName": "flurstuecksnummer",
                             "required": true
                           }
@@ -318,18 +316,18 @@
           },
           "populationRequest": {
             "name": "translate#additional:modules.tools.populationRequest.title",
-            "glyphicon": "glyphicon-wrench",
+            "icon": "bi-person-bounding-box",
             "onlyDesktop": false
           },
           "compareFeatures": {
             "name": "translate#common:menu.tools.compareFeatures",
-            "glyphicon": "glyphicon-th-list",
+            "icon": "bi-list-ul",
             "numberOfFeaturesToShow": 3,
             "numberOfAttributesToShow": 12
           },
           "parcelSearch": {
             "name": "translate#common:menu.tools.parcelSearch",
-            "glyphicon": "glyphicon-search",
+            "icon": "bi-search",
             "serviceId": "6",
             "storedQueryID": "Flurstueck",
             "configJSON": "https://geodienste.hamburg.de/lgv-config/gemarkungen_hh.json",
@@ -337,53 +335,57 @@
           },
           "measure": {
             "name": "translate#common:menu.tools.measure",
-            "glyphicon": "glyphicon-resize-full"
+            "icon": "bi-rulers"
           },
           "supplyCoord": {
             "name": "translate#common:menu.tools.supplyCoord",
-            "glyphicon": "glyphicon-screenshot"
+            "icon": "bi-bullseye"
           },
           "coordToolkit": {
             "name": "translate#common:menu.tools.coordToolkit",
-            "glyphicon": "glyphicon-globe",
+            "icon": "bi-globe",
             "heightLayerId": "19173",
             "heightElementName": "value_0",
             "heightValueWater": "-20",
-            "heightValueBuilding": "200"
+            "heightValueBuilding": "200",
+            "zoomLevel": 5
           },
           "shadow": {
             "name": "translate#common:menu.tools.shadow",
-            "glyphicon": "glyphicon-lamp",
+            "icon": "bi-lamp-fill",
             "isShadowEnabled": true
           },
           "gfi": {
             "name": "translate#common:menu.tools.getInfos",
             "desktopType": "detached",
-            "glyphicon": "glyphicon-info-sign",
+            "icon": "bi-info-circle-fill",
             "active": true
           },
           "bufferAnalysis": {
-            "name": "bufferAnalysis"
+            "name": "bufferAnalysis",
+            "icon": "bi-record-circle"
           },
           "searchByCoord": {
             "name": "translate#common:menu.tools.searchByCoord",
-            "glyphicon": "glyphicon-record"
+            "icon": "bi-search"
           },
           "selectFeatures": {
-            "name": "translate#common:menu.tools.selectFeatures"
+            "name": "translate#common:menu.tools.selectFeatures",
+            "icon": "bi-hand-index-thumb-fill"
           },
           "fileImport": {
             "name": "translate#common:menu.tools.fileImport",
-            "glyphicon": "glyphicon-import"
+            "icon": "bi-box-arrow-in-down"
           },
           "extendedFilter": {
             "name": "Erweiterter Filter",
-            "glyphicon": "glyphicon-filter",
+            "icon": "bi-funnel-fill",
             "deactivateGFI": false
           },
           "draw": {
             "name": "translate#common:menu.tools.draw",
-            "glyphicon": "glyphicon-pencil",
+            "icon": "bi-pencil-fill",
+            "addIconsOfActiveLayers": true,
             "iconList": [
               {
                 "id": "iconPoint",
@@ -399,19 +401,15 @@
               {
                 "id": "gelber Pin",
                 "type": "image",
-                "scale": 0.5,
-                "value": "https://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png"
+                "scale": 2,
+                "value": "geo-fill-ylw.svg"
               }
             ]
           },
-          "styleWMS": {
-            "name": "translate#common:menu.tools.styleWMS",
-            "glyphicon": "glyphicon-tint"
-          },
           "featureLister": {
             "name": "translate#common:menu.tools.featureLister",
-            "glyphicon": "glyphicon-menu-hamburger",
             "maxFeatures": 10,
+            "icon": "bi-list",
             "highlightVectorRulesPolygon": {
               "fill": {
                 "color": [
@@ -448,11 +446,11 @@
           },
           "saveSelection": {
             "name": "translate#common:menu.tools.saveSelection",
-            "glyphicon": "glyphicon-share"
+            "icon": "bi-bookmark-check"
           },
           "layerSlider": {
             "name": "translate#common:menu.tools.layerSlider",
-            "glyphicon": "glyphicon-film",
+            "icon": "bi-hourglass-split",
             "timeInterval": 1000,
             "layerIds": [
               {
@@ -471,32 +469,35 @@
           },
           "print": {
             "name": "translate#common:menu.tools.print",
-            "glyphicon": "glyphicon-print",
-            "mapfishServiceId": "mapfish",
+            "icon": "bi-printer-fill",
+            "printServiceId": "mapfish",
             "printAppId": "master",
             "filename": "Ausdruck",
             "title": "Mein Titel",
             "currentLayoutName": "A4 Hochformat",
-            "dpiForPdf": 120
+            "dpiForPdf": 120,
+            "printMapMarker": true
           },
           "scaleSwitcher": {
             "name": "translate#common:menu.tools.scaleSwitcher",
-            "glyphicon": "glyphicon-resize-small"
+            "icon": "bi-arrows-angle-contract"
           },
-          "vueAddon": {
-            "name": "AddonTool",
-            "glyphicon": "glyphicon-screenshot"
+          "vcOblique": {
+            "name": "translate#additional:modules.tools.vcOblique.title",
+            "icon": "bi-image",
+            "styleId": "obliqueViewer",
+            "isVisibleInMenu": false
           }
         }
       },
       "legend": {
         "name": "common:modules.legend.name",
-        "glyphicon": "glyphicon-book",
+        "icon": "bi-lightbulb",
         "showCollapseAllButton": true
       },
       "contact": {
         "name": "translate#common:menu.contact",
-        "glyphicon": "glyphicon-envelope",
+        "icon": "bi-envelope-fill",
         "serviceId": "80001",
         "includeSystemInfo": true,
         "from": [
@@ -514,17 +515,17 @@
       },
       "info": {
         "name": "translate#common:menu.info",
-        "glyphicon": "glyphicon-info-sign",
+        "icon": "bi-info-circle-fill",
         "children": {
           "staticlinks": [
             {
               "name": "translate#common:modules.tools.info.disclaimer",
-              "glyphicon": "glyphicon-globe",
+              "icon": "bi-globe",
               "url": "https://preview.poc.hamburg.de/hhcae-cm7/servlet/segment/de/energiewende/waermekataster/8348242/waermekataster-haftungsausschuss"
             },
             {
               "name": "translate#common:modules.tools.info.home.name",
-              "glyphicon": "glyphicon-globe",
+              "icon": "bi-globe",
               "url": "https://www.hamburg.de/"
             }
           ]
@@ -556,10 +557,10 @@
       "freeze": true,
       "backForward": true,
       "button3d": true,
-      "obliqueControl": {
-        "title": "additional:modules.controls.oblique.title",
-        "hiddenMobile": true,
-        "bottomControl": false
+      "startTool": {
+        "tools": [
+          "vcOblique"
+        ]
       }
     },
     "layersRemovable": true
@@ -596,12 +597,39 @@
         {
           "id": "12884",
           "name": "Gebäude LoD2",
+          "gfiAttributes": "showAll",
           "visibility": true
         },
         {
           "id": "13032",
           "name": "Oblique",
           "visibility": true
+        },
+        {
+          "id": "157",
+          "name": "3D-Entities Testlayer",
+          "visibility": true,
+          "typ": "Entities3D",
+          "entities": [
+            {
+              "url": "https://daten-hamburg.de/gdi3d/datasource-data/Simple_Building.glb",
+              "attributes": {
+                "name": "einfaches Haus in Planten und Blomen"
+              },
+              "latitude": 53.5631,
+              "longitude": 9.9800,
+              "height": 12,
+              "heading": 0,
+              "pitch": 0,
+              "roll": 0,
+              "scale": 5,
+              "allowPicking": true,
+              "show": true
+            }
+          ],
+          "gfiAttributes": {
+            "name": "Name"
+          }
         }
       ]
     },
@@ -619,18 +647,11 @@
           "visibility": true,
           "isVisibleInTree": false,
           "hiddenFeatures": [
-            "DEHH_8aeaf0d5-9f1a-4331-80fd-93b5dd5d8893",
-            "DEHH_2b33b593-ca61-4ea5-8de6-5caa680adac3",
-            "DEHH_0738b37a-0174-4af1-be99-e3bb0ea06310",
-            "DEHH_312bc85a-f081-4a13-839f-98d5edcb931f",
-            "DEHH_8aafabb5-ca73-4480-ab95-802d232ef479",
-            "DEHH_4edd6675-173b-42ed-a150-f851367d8929",
-            "DEHH_35e79400-5d75-4ee9-b73c-c406323b136c",
-            "DEHH_9e6eb11c-5cc6-4b31-a8fb-93c544882dcd",
-            "DEHH_c865516a-15fb-4894-b978-aa12cd8c9ab5",
-            "DEHH_c7415053-4b33-4c82-b389-77a69ff1c319",
-            "DEHH_e2d6158f-db9c-4fd4-9455-2565a41a3975",
-            "DEHH_167f541b-7536-4b25-9b9a-7965140a214d"
+            "DEHHALKAJ00011uJ",
+            "DEHHALKAJ0000yd2",
+            "DEHHALKAJ0000ovW",
+            "DEHHALKAJ0000owm",
+            "DEHHALKAJ0000pO5"
           ]
         },
         {
@@ -708,7 +729,12 @@
         {
           "id": "2003",
           "styleId": "2003",
-          "mouseHoverField": "gebietsname"
+          "mouseHoverField": "gebietsname",
+          "legend": true,
+          "featurePrefix": "de.hh.up:",
+          "wildCard": "%",
+          "singleChar": "#",
+          "escapeChar": "!"
         },
         {
           "id": "47",
@@ -764,7 +790,12 @@
           ],
           "searchField": "name",
           "extendedFilter": true,
-          "loadingStrategy": "all"
+          "loadingStrategy": "all",
+          "legend": true,
+          "featurePrefix": "",
+          "wildCard": "%",
+          "singleChar": "#",
+          "escapeChar": "!"
         },
         {
           "id": "8712",
@@ -777,7 +808,8 @@
             "kapitelbezeichnung"
           ],
           "gfiTheme": "schulinfo",
-          "additionalInfoField": "adresse_strasse_hausnr"
+          "additionalInfoField": "adresse_strasse_hausnr",
+          "loadingStrategy": "all"
         },
         {
           "id": "753",
@@ -874,6 +906,23 @@
         },
         {
           "id": "19173"
+        },
+        {
+          "id": "46",
+          "typ": "StaticImage",
+          "url": "https://geodienste.hamburg.de/lgv-config/img/Laerm-Test_300dpi.png",
+          "name": "Lärmberechnung",
+          "extent": [568426.27, 5931985.58, 569614.86, 5933174.11],
+          "legend": ["https://geodienste.hamburg.de/lgv-config/img/Legende_Laermberechnung_Tag.png", "https://geodienste.hamburg.de/lgv-config/img/Legende_Laermberechnung_Nacht.png"]
+        },
+        {
+          "id" : "2928",
+          "name": "Linienhafte Biotope",
+          "legend": true,
+          "featurePrefix": "de.hh.up:",
+          "wildCard": "%",
+          "singleChar": "#",
+          "escapeChar": "!"
         }
       ]
     }

@@ -9,25 +9,20 @@ import StyleList from "../modules/vectorStyle/list";
 import Preparser from "../modules/core/configLoader/preparser";
 import RemoteInterface from "../modules/remoteInterface/model";
 import RadioMasterportalAPI from "../modules/remoteInterface/radioMasterportalAPI";
-import WFSTransactionModel from "../modules/wfsTransaction/model";
 import MenuLoader from "../modules/menu/menuLoader";
-import ZoomToGeometry from "../modules/zoomToGeometry/model";
-import ZoomToFeature from "../modules/zoomToFeature/model";
-import FeatureViaURL from "../modules/featureViaURL/model";
+import featureViaURL from "../src/utils/featureViaURL";
 import SliderView from "../modules/snippets/slider/view";
 import SliderRangeView from "../modules/snippets/slider/range/view";
-import DropdownView from "../modules/snippets/dropdown/view";
-import MouseHoverPopupView from "../modules/mouseHover/view";
 import WindowView from "../modules/window/view";
 import SidebarView from "../modules/sidebar/view";
-import ShadowView from "../modules/tools/shadow/view";
 import ParcelSearchView from "../modules/tools/parcelSearch/view";
-import FilterView from "../modules/tools/filter/view";
-import StyleWMSView from "../modules/tools/styleWMS/view";
 import RemoteInterfaceVue from "../src/plugins/remoteInterface/RemoteInterface";
 import {initiateVueI18Next} from "./vueI18Next";
 import {handleUrlParamsBeforeVueMount, readUrlParamEarly} from "../src/utils/parametricUrl/ParametricUrlBridge";
 import {createMaps} from "../src/core/maps/maps.js";
+import mapCollection from "../src/core/maps/mapCollection.js";
+import LoaderOverlay from "../src/utils/loaderOverlay";
+import uiStyle from "../src/utils/uiStyle";
 
 /**
  * Vuetify
@@ -47,15 +42,12 @@ import WFSFeatureFilterView from "../modules/wfsFeatureFilter/view";
  */
 import ExtendedFilterView from "../modules/tools/extendedFilter/view";
 import TreeFilterView from "../modules/treeFilter/view";
-import WfstView from "../modules/tools/wfst/view";
 // controls
 import ControlsView from "../modules/controls/view";
 import SearchbarView from "../modules/searchbar/view";
 import Button3DView from "../modules/controls/button3d/view";
-import ButtonObliqueView from "../modules/controls/buttonOblique/view";
 import Orientation3DView from "../modules/controls/orientation3d/view";
 import VirtualcityModel from "../modules/tools/virtualCity/model";
-import LoaderOverlay from "../src/utils/loaderOverlay";
 
 let sbconfig,
     controls,
@@ -65,6 +57,8 @@ let sbconfig,
 if (process.env.NODE_ENV === "development") {
     Vue.config.devtools = true;
 }
+
+global.mapCollection = mapCollection;
 
 Vue.config.productionTip = false;
 
@@ -76,7 +70,7 @@ async function loadApp () {
     /* eslint-disable no-undef */
     const legacyAddons = Object.is(ADDONS, {}) ? {} : ADDONS,
         utilConfig = {},
-        style = Radio.request("Util", "getUiStyle"),
+        style = uiStyle.getUiStyle(),
         vueI18Next = initiateVueI18Next(),
         // instantiate Vue with Vuetify Plugin if the "vuetify" flag is set in the config.js
         // returns undefined if not
@@ -120,12 +114,14 @@ async function loadApp () {
         vuetify
     });
 
-
     // Core laden
     new Autostarter();
     new Util(utilConfig);
     if (store.state.urlParams?.uiStyle) {
-        Radio.trigger("Util", "setUiStyle", store.state.urlParams?.uiStyle);
+        uiStyle.setUiStyle(store.state.urlParams?.uiStyle);
+    }
+    else if (utilConfig.uiStyle) {
+        uiStyle.setUiStyle(utilConfig.uiStyle);
     }
 
     // Pass null to create an empty Collection with options
@@ -138,26 +134,29 @@ async function loadApp () {
 
     app.$mount();
 
-    new WFSTransactionModel();
     new MenuLoader();
 
-    if (Object.prototype.hasOwnProperty.call(Config, "zoomToGeometry")) {
-        new ZoomToGeometry(Config.zoomToGeometry);
-    }
-    if (Object.prototype.hasOwnProperty.call(Config, "zoomToFeature")) {
-        new ZoomToFeature(Config.zoomToFeature);
-    }
     if (Object.prototype.hasOwnProperty.call(Config, "featureViaURL")) {
-        new FeatureViaURL(Config.featureViaURL);
+        featureViaURL(Config.featureViaURL);
+    }
+
+    if (Object.prototype.hasOwnProperty.call(Config, "zoomTo")) {
+        store.commit("ZoomTo/setConfig", Config.zoomTo);
+    }
+    // NOTE: When using these deprecated parameters, the two url parameters can't be used in conjunction
+    if (Object.prototype.hasOwnProperty.call(Config, "zoomToFeature")) {
+        console.warn("The configuration parameter 'zoomToFeature' is deprecated in v3.0.0. Please use 'zoomTo' instead.");
+        store.commit("ZoomTo/setConfig", {zoomToFeature: Config.zoomToFeature});
+        store.commit("ZoomTo/setDeprecatedParameters", true);
+    }
+    if (Object.prototype.hasOwnProperty.call(Config, "zoomToGeometry")) {
+        console.warn("The configuration parameter 'zoomToGeometry' is deprecated in v3.0.0. Please use 'zoomTo' instead.");
+        store.commit("ZoomTo/setConfig", {zoomToGeometry: Config.zoomToGeometry});
+        store.commit("ZoomTo/setDeprecatedParameters", true);
     }
 
     new SliderView();
     new SliderRangeView();
-    new DropdownView();
-
-    if (Object.prototype.hasOwnProperty.call(Config, "mouseHover")) {
-        new MouseHoverPopupView(Config.mouseHover);
-    }
 
     // Module laden
     // Tools
@@ -165,14 +164,6 @@ async function loadApp () {
 
     Radio.request("ModelList", "getModelsByAttributes", {type: "tool"}).forEach(tool => {
         switch (tool.id) {
-            case "filter": {
-                new FilterView({model: tool});
-                break;
-            }
-            case "shadow": {
-                new ShadowView({model: tool});
-                break;
-            }
             case "parcelSearch": {
                 new ParcelSearchView({model: tool});
                 break;
@@ -195,14 +186,6 @@ async function loadApp () {
             }
             case "treeFilter": {
                 new TreeFilterView({model: tool});
-                break;
-            }
-            case "styleWMS": {
-                new StyleWMSView({model: tool});
-                break;
-            }
-            case "wfst": {
-                new WfstView({model: tool});
                 break;
             }
             case "virtualCity": {
@@ -230,13 +213,6 @@ async function loadApp () {
                     }
                     break;
                 }
-                case "buttonOblique": {
-                    if (control.attr === true) {
-                        element = controlsView.addRowTR(control.id);
-                        new ButtonObliqueView({el: element});
-                    }
-                    break;
-                }
                 case "orientation3d": {
                     if (control.attr === true) {
                         element = controlsView.addRowTR(control.id);
@@ -252,7 +228,7 @@ async function loadApp () {
     }
 
     searchbarAttributes = Radio.request("Parser", "getItemsByAttributes", {type: "searchBar"})[0].attr;
-    sbconfig = Object.assign({}, Object.prototype.hasOwnProperty.call(Config, "quickHelp") ? {quickHelp: Config.quickHelp} : {});
+    sbconfig = Object.assign({}, {quickHelp: store.getters.portalConfig?.quickHelp} || {});
     sbconfig = Object.assign(sbconfig, searchbarAttributes);
 
     if (searchbarAttributes !== undefined && sbconfig) {

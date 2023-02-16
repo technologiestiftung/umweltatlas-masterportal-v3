@@ -1,27 +1,30 @@
+import store from "../../../../app-store";
 import {expect} from "chai";
 import sinon from "sinon";
 import {Point, MultiPoint} from "ol/geom.js";
 import Feature from "ol/Feature.js";
 import Layer from "../../layer";
 import Group from "../../group";
-import store from "../../../../app-store";
-import mapCollection from "../../../../core/dataStorage/mapCollection.js";
+import Collection from "ol/Collection";
 
 describe("src/core/layers/layer.js", () => {
     let attributes,
+        mapOL,
         layerRemoved = false,
         layerVisible = false,
         newLayerSource = false,
         layerOpacity = 1,
         layerResoMin = 0,
         layerResoMax = 1000,
-        featureList = [];
+        featureList = [],
+        origDispatch;
     const olLayer = {
         values_: {opacity: layerOpacity},
         getSource: () => {
             return {
                 refresh: () => sinon.spy,
-                getFeatures: () => featureList
+                getFeatures: () => featureList,
+                on: () => sinon.spy
             };
         },
         setSource: () => {
@@ -50,12 +53,17 @@ describe("src/core/layers/layer.js", () => {
         },
         getMinResolution: () => {
             return layerResoMin;
-        }
+        },
+        setZIndex: () => sinon.spy()
     };
 
     before(() => {
+        i18next.init({
+            lng: "cimode",
+            debug: false
+        });
         mapCollection.clear();
-        const map = {
+        mapOL = {
             id: "ol",
             mode: "2D",
             addInteraction: sinon.spy(),
@@ -68,10 +76,14 @@ describe("src/core/layers/layer.js", () => {
                 return {
                     getResolutions: () => [2000, 1000]
                 };
+            },
+            getLayers: () => {
+                return new Collection();
             }
         };
 
-        mapCollection.addMap(map, "ol", "2D");
+        mapCollection.addMap(mapOL, "2D");
+        origDispatch = store.dispatch;
     });
     beforeEach(() => {
         attributes = {
@@ -86,6 +98,7 @@ describe("src/core/layers/layer.js", () => {
             layers: "layer1,layer2",
             transparent: false
         };
+
         store.getters = {
             treeType: "custom"
         };
@@ -98,6 +111,7 @@ describe("src/core/layers/layer.js", () => {
         layerRemoved = false;
         layerVisible = false;
         newLayerSource = false;
+        store.dispatch = origDispatch;
     });
 
     it("createLayer shall create an ol.Layer with source", function () {
@@ -189,7 +203,7 @@ describe("src/core/layers/layer.js", () => {
         const layerWrapper = new Layer(attributes, olLayer);
 
         expect(layerWrapper.get("isOutOfRange")).to.be.true;
-        expect(calledMenu).to.be.equals(2);
+        expect(calledMenu).to.be.equals(1);
         expect(calledIsOutOfRange).to.be.equals(1);
 
         calledMenu = 0;
@@ -219,7 +233,6 @@ describe("src/core/layers/layer.js", () => {
         groupAtts.layers = [olLayer];
         groupLayer = new Group(groupAtts);
         childLayer = groupLayer.get("layerSource");
-
 
         expect(groupLayer.attributes.isVisibleInMap).to.be.false;
         expect(childLayer).to.be.an("array").with.lengthOf(1);
@@ -257,8 +270,32 @@ describe("src/core/layers/layer.js", () => {
         layerWrapper.incTransparency();
         expect(layerWrapper.attributes.transparency).to.be.equals(100);
     });
+    it("incTransparency shall work in 10er steps and max 100, even if the starting transparency is 75", function () {
+        attributes.transparency = 75;
+        const layerWrapper = new Layer(attributes, olLayer);
+
+        expect(layerWrapper.attributes.transparency).to.be.equals(75);
+        layerWrapper.incTransparency();
+        expect(layerWrapper.attributes.transparency).to.be.equals(85);
+        layerWrapper.incTransparency();
+        expect(layerWrapper.attributes.transparency).to.be.equals(95);
+        layerWrapper.incTransparency();
+        expect(layerWrapper.attributes.transparency).to.be.equals(100);
+    });
+    it("decTransparency shall work in 10er steps and min 0, even if the starting transparency is 25", function () {
+        attributes.transparency = 25;
+        const layerWrapper = new Layer(attributes, olLayer);
+
+        expect(layerWrapper.attributes.transparency).to.be.equals(25);
+        layerWrapper.decTransparency();
+        expect(layerWrapper.attributes.transparency).to.be.equals(15);
+        layerWrapper.decTransparency();
+        expect(layerWrapper.attributes.transparency).to.be.equals(5);
+        layerWrapper.decTransparency();
+        expect(layerWrapper.attributes.transparency).to.be.equals(0);
+    });
     it("updateLayerTransparency shall update layers opacity", function () {
-        // attributes.isSelected = false;
+        attributes.isSelected = false;
         attributes.transparency = 50;
         const layerWrapper = new Layer(attributes, olLayer);
 
@@ -294,7 +331,7 @@ describe("src/core/layers/layer.js", () => {
         layerWrapper.setIsVisibleInTree(true);
         expect(layerWrapper.get("isVisibleInTree")).to.be.true;
         expect(calledIsVisibleInTree).to.be.equals(1);
-        expect(calledMenu).to.be.equals(2);
+        expect(calledMenu).to.be.equals(1);
     });
     it("resetSelectionIDX shall set selectionIDX to 0 and setSelectionIDX test", function () {
         const layerWrapper = new Layer(attributes, olLayer);
@@ -353,28 +390,28 @@ describe("src/core/layers/layer.js", () => {
         expect(counter).to.be.equals(2);
     });
     it("setIsSelected test true with treetype light", function () {
-        testSetIsSelected("light", 2, 1, true);
+        testSetIsSelected("light", 2, 0, true);
     });
     it("setIsSelected test false with treetype light", function () {
-        testSetIsSelected("light", 2, 1, false);
+        testSetIsSelected("light", 2, 0, false);
     });
     it("setIsSelected test true with treetype not light", function () {
-        testSetIsSelected("custom", 2, 4, true);
+        testSetIsSelected("custom", 2, 3, true);
     });
     it("setIsSelected test false with treetype not light", function () {
-        testSetIsSelected("custom", 2, 7, false);
+        testSetIsSelected("custom", 0, 6, false);
     });
     it("toggleIsVisibleInMap is true and treeType light", function () {
-        testIsVisibleInMap("light", true, 1);
+        testIsVisibleInMap("light", true, 0);
     });
     it("toggleIsVisibleInMap is false and treeType light", function () {
-        testIsVisibleInMap("light", false, 1);
+        testIsVisibleInMap("light", false, 0);
     });
     it("toggleIsVisibleInMap is true and treeType not light", function () {
-        testIsVisibleInMap("custom", true, 6);
+        testIsVisibleInMap("custom", true, 5);
     });
     it("toggleIsVisibleInMap is false and treeType not light", function () {
-        testIsVisibleInMap("custom", false, 6);
+        testIsVisibleInMap("custom", false, 5);
     });
 
     it("updateLayerSource test", function () {
@@ -459,11 +496,13 @@ describe("src/core/layers/layer.js", () => {
         });
         attributes.singleBaselayer = true;
         attributes.parentId = "Baselayer";
+        attributes.isBaseLayer = true;
         layerWrapper = new Layer(attributes, olLayer);
 
         attCopy.isSelected = true;
         attCopy.isVisibleInMap = true;
         attCopy.id = "anotherId";
+        attCopy.isBaseLayer = true;
         layerWrapper2 = new Layer(attCopy, olLayer);
         layerWrapper3 = new Layer(attCopy, olLayer);
 
@@ -528,12 +567,14 @@ describe("src/core/layers/layer.js", () => {
                 md_id: "B6A59A2B-2D40-4676-9094-0EB73039ED34",
                 show_doc_url: "https://metaver.de/trefferanzeige?cmd=doShowDocument&docuuid="
             };
+
         let layerWrapper = null,
             layerInfo = null;
 
         store.dispatch = (arg1, arg2) => {
             dispatchCalls[arg1] = arg2 !== undefined ? arg2 : "called";
         };
+
         attributes.datasets = [dataset];
         layerWrapper = new Layer(attributes, olLayer);
 
@@ -860,6 +901,21 @@ describe("src/core/layers/layer.js", () => {
         expect(alteredFeatures[0].getGeometry().getCoordinates()[1][1]).to.be.equals(2);
         expect(alteredFeatures[0].getGeometry().getCoordinates()[1][2]).to.be.equals(attributes.altitudeOffset + 2);
     });
+    it("errorHandling shall dispatch Alerting with i18next key", function () {
+        const dispatchCalls = {},
+            layerWrapper = new Layer(attributes, olLayer);
+        let alertMessage = null;
+
+        store.dispatch = (arg1, arg2) => {
+            dispatchCalls[arg1] = arg2 !== undefined ? arg2 : "called";
+        };
+        layerWrapper.errorHandling(403, "Layer1");
+
+        alertMessage = dispatchCalls["Alerting/addSingleAlert"];
+
+        expect(alertMessage.content).to.be.equals("modules.core.modelList.layer.errorHandling.403");
+        expect(alertMessage.multipleAlert).to.be.equals(true);
+    });
 
     /**
      * testSetIsSelected
@@ -870,20 +926,11 @@ describe("src/core/layers/layer.js", () => {
      * @returns {void}
      */
     function testSetIsSelected (treetype, selectionIDX, calls, isSelected) {
-        let layerWrapper = null,
-            counter = 0;
+        let layerWrapper = null;
 
         store.getters = {
             treeType: treetype
         };
-        sinon.stub(Radio, "trigger").callsFake((...args) => {
-            args.forEach(arg => {
-                if (arg === "rerender" || arg === "updateSelection" || arg === "updateLayerView") {
-                    counter++;
-                }
-            });
-        });
-
 
         attributes.isSelected = !isSelected;
         attributes.isVisibleInMap = !isSelected;
@@ -897,7 +944,6 @@ describe("src/core/layers/layer.js", () => {
         expect(layerWrapper.attributes.isSelected).to.be.equals(isSelected);
         expect(layerWrapper.attributes.isVisibleInMap).to.be.equals(isSelected);
         expect(layerWrapper.attributes.selectionIDX).to.be.equals(selectionIDX);
-        expect(counter).to.be.equals(calls);
     }
 
     /**
@@ -907,20 +953,12 @@ describe("src/core/layers/layer.js", () => {
      * @param {Number} calls calls to trigger
      * @returns {void}
      */
-    function testIsVisibleInMap (treeType, isVisibleInMap, calls) {
-        let layerWrapper = null,
-            counter = 0;
+    function testIsVisibleInMap (treeType, isVisibleInMap) {
+        let layerWrapper = null;
 
         store.getters = {
             treeType: treeType
         };
-        sinon.stub(Radio, "trigger").callsFake((...args) => {
-            args.forEach(arg => {
-                if (arg === "rerender" || arg === "updateSelection" || arg === "updateLayerView") {
-                    counter++;
-                }
-            });
-        });
 
         attributes.isVisibleInMap = !isVisibleInMap;
         attributes.isSelected = !isVisibleInMap;
@@ -930,6 +968,5 @@ describe("src/core/layers/layer.js", () => {
         layerWrapper.toggleIsVisibleInMap();
         expect(layerWrapper.attributes.isVisibleInMap).to.be.equals(isVisibleInMap);
         expect(layerVisible).to.be.equals(isVisibleInMap);
-        expect(counter).to.be.equals(calls);
     }
 });

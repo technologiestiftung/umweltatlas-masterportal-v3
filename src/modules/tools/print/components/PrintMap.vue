@@ -3,11 +3,10 @@ import {mapGetters, mapMutations, mapActions} from "vuex";
 import ToolTemplate from "../../ToolTemplate.vue";
 import getters from "../store/gettersPrint";
 import mutations from "../store/mutationsPrint";
-import getComponent from "../../../../utils/getComponent";
+import {getComponent} from "../../../../utils/getComponent";
 import thousandsSeparator from "../../../../utils/thousandsSeparator.js";
 import axios from "axios";
 import getVisibleLayer from "../utils/getVisibleLayer";
-import mapCollection from "../../../../core/dataStorage/mapCollection.js";
 import {Vector} from "ol/layer.js";
 import Cluster from "ol/source/Cluster";
 
@@ -26,7 +25,7 @@ export default {
     },
     computed: {
         ...mapGetters("Tools/Print", Object.keys(getters)),
-        ...mapGetters("Map", ["scales, size", "scale"]),
+        ...mapGetters("Maps", ["scales, size", "scale"]),
         ...mapGetters("Tools/Gfi", ["currentFeature"]),
         currentScale: {
             get () {
@@ -42,6 +41,22 @@ export default {
             },
             set (value) {
                 this.setTitle(value);
+            }
+        },
+        dpiForPdf: {
+            get () {
+                return this.$store.state.Tools.Print.dpiForPdf;
+            },
+            set (value) {
+                this.setDpiForPdf(value);
+            }
+        },
+        dpiList: {
+            get () {
+                return this.$store.state.Tools.Print.dpiList;
+            },
+            set (value) {
+                this.setDpiList(value);
             }
         },
         shownLayoutList: {
@@ -96,6 +111,15 @@ export default {
             },
             set (value) {
                 this.setFormatList(value);
+            }
+        },
+        outputTitle: {
+            get () {
+                return this.filename;
+            },
+            set (value) {
+                this.setFilename(value);
+                this.isValid(value);
             }
         }
     },
@@ -164,7 +188,8 @@ export default {
             "createMapFishServiceUrl",
             "startPrint",
             "getOptimalResolution",
-            "updateCanvasLayer"
+            "updateCanvasLayer",
+            "getAttributeInLayoutByName"
         ]),
         ...mapActions("Alerting", ["addSingleAlert"]),
 
@@ -211,18 +236,18 @@ export default {
          * @param {event} event the click event
          * @returns {void}
          */
-        scaleChanged (event) {
+        async scaleChanged (event) {
             const scale = parseInt(event.target.value, 10),
                 resolution = {
                     "scale": scale,
-                    "mapSize": Radio.request("Map", "getSize"),
+                    "mapSize": mapCollection.getMap("2D").getSize(),
                     "printMapSize": this.layoutMapInfo
                 };
 
             this.setIsScaleSelectedManually(true);
             this.getOptimalResolution(resolution);
             this.updateCanvasLayer();
-            mapCollection.getMap("ol", "2D").render();
+            await mapCollection.getMap("2D").render();
         },
 
         /**
@@ -230,18 +255,25 @@ export default {
          * @param {String} value the chosen layout
          * @returns {void}
          */
-        layoutChanged (value) {
+        async layoutChanged (value) {
+            this.resetLayoutParameter();
             this.setCurrentLayoutName(value);
+            this.setCurrentLayout(this.layoutList.find(layout => layout.name === value));
+            if (this.printService !== "plotservice") {
+                this.getAttributeInLayoutByName("gfi");
+                this.getAttributeInLayoutByName("legend");
+            }
             this.updateCanvasLayer();
-            mapCollection.getMap("ol", "2D").render();
+            await mapCollection.getMap("2D").render();
         },
 
         /**
-         * returns if gfi is available
-         * @returns {boolean} if gfi is available
-         */
-        showGfiAvailable () {
-            return this.isGfiAvailable;
+        * resets the available attriubtes gfi and legend to the default parameters
+        * @returns {void}
+        */
+        resetLayoutParameter () {
+            this.setIsGfiAvailable(false);
+            this.setIsLegendAvailable(false);
         },
 
         /**
@@ -259,7 +291,8 @@ export default {
                     title: this.title,
                     finishState: false,
                     downloadUrl: null,
-                    filename: this.filename
+                    filename: this.filename,
+                    outputFormat: this.outputFormat
                 });
 
                 this.setPrintStarted(true);
@@ -301,6 +334,29 @@ export default {
             document.body.removeChild(link);
             if (button.classList.contains("btn-primary")) {
                 button.classList.remove("btn-primary");
+                button.classList.add("btn-secondary");
+            }
+        },
+
+        /**
+         * validates the value of the outputFileTitle input field
+         * @param {String} value - input value
+         * @returns {void}
+         */
+        isValid (value) {
+            const regex = /^[a-zA-Z\-_]+$/,
+                valid = regex.test(value);
+
+            if (!valid) {
+                document.getElementById("outputFileTitleWarning").classList.remove("active");
+                document.getElementById("outputFileTitle").classList.add("danger");
+
+                document.getElementById("printBtn").disabled = true;
+            }
+            else {
+                document.getElementById("outputFileTitleWarning").classList.add("active");
+                document.getElementById("outputFileTitle").classList.remove("danger");
+                document.getElementById("printBtn").disabled = false;
             }
         },
 
@@ -326,7 +382,7 @@ export default {
 <template lang="html">
     <ToolTemplate
         :title="$t(name)"
-        :icon="glyphicon"
+        :icon="icon"
         :active="active"
         :show-in-sidebar="true"
         :initial-width="400"
@@ -339,30 +395,30 @@ export default {
                 id="printToolNew"
                 class="form-horizontal"
             >
-                <div class="form-group form-group-sm">
+                <div class="form-group form-group-sm row">
                     <label
-                        class="col-sm-5 control-label"
+                        class="col-md-5 col-form-label"
                         for="docTitle"
                     >{{ $t("common:modules.tools.print.titleLabel") }}</label>
-                    <div class="col-sm-7">
+                    <div class="col-md-7">
                         <input
                             id="docTitle"
                             v-model="documentTitle"
                             type="text"
-                            class="form-control"
+                            class="form-control form-control-sm"
                             maxLength="45"
                         >
                     </div>
                 </div>
-                <div class="form-group form-group-sm">
+                <div class="form-group form-group-sm row">
                     <label
-                        class="col-sm-5 control-label"
+                        class="col-md-5 col-form-label"
                         for="printLayout"
                     >{{ $t("common:modules.tools.print.layoutLabel") }}</label>
-                    <div class="col-sm-7">
+                    <div class="col-md-7">
                         <select
                             id="printLayout"
-                            class="form-control input-sm"
+                            class="form-select form-select-sm"
                             @change="layoutChanged($event.target.value)"
                         >
                             <option
@@ -376,17 +432,17 @@ export default {
                         </select>
                     </div>
                 </div>
-                <div class="form-group form-group-sm">
+                <div class="form-group form-group-sm row">
                     <label
-                        class="col-sm-5 control-label"
+                        class="col-md-5 col-form-label"
                         for="printFormat"
                     >
                         {{ $t("common:modules.tools.print.formatLabel") }}
                     </label>
-                    <div class="col-sm-7">
+                    <div class="col-md-7">
                         <select
                             id="printFormat"
-                            class="form-control input-sm"
+                            class="form-select form-select-sm"
                             @change="setCurrentFormat($event.target.value)"
                         >
                             <option
@@ -400,16 +456,43 @@ export default {
                         </select>
                     </div>
                 </div>
-                <div class="form-group form-group-sm scale">
+                <div
+                    v-if="dpiList.length > 0"
+                    class="form-group form-group-sm row"
+                >
                     <label
-                        class="col-sm-5 control-label"
+                        class="col-md-5 col-form-label"
+                        for="printDpi"
+                    >
+                        {{ $t("common:modules.tools.print.dpiLabel") }}
+                    </label>
+                    <div class="col-md-7">
+                        <select
+                            id="printDpi"
+                            class="form-select form-select-sm"
+                            @change="setDpiForPdf($event.target.value)"
+                        >
+                            <option
+                                v-for="(dpi, i) in dpiList"
+                                :key="i"
+                                :value="dpi"
+                                :selected="dpi === dpiForPdf"
+                            >
+                                {{ dpi }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group form-group-sm row scale">
+                    <label
+                        class="col-md-5 col-form-label"
                         for="printScale"
                     >{{ $t("common:modules.tools.print.scaleLabel") }}</label>
-                    <div class="col-sm-7">
+                    <div class="col-md-7">
                         <select
                             id="printScale"
                             v-model="currentScale"
-                            class="form-control input-sm"
+                            class="form-select form-select-sm"
                             @change="scaleChanged($event)"
                         >
                             <option
@@ -432,7 +515,9 @@ export default {
                         @mouseleave="showHintInfoScale = false"
                         @focusout="showHintInfoScale = false"
                     >
-                        <span class="glyphicon glyphicon-info-sign" />
+                        <span class="bootstrap-icon">
+                            <i class="bi-info-circle-fill" />
+                        </span>
                     </div>
                     <div
                         v-if="currentScale !== currentMapScale"
@@ -443,10 +528,34 @@ export default {
                     </div>
                 </div>
                 <div
-                    class="form-group form-group-sm"
+                    v-if="printService === 'plotservice'"
+                    class="form-group form-group-sm row"
                 >
                     <label
-                        class="col-sm-5 control-label"
+                        class="col-md-5 col-form-label"
+                        for="outputFileTitle"
+                    >{{ $t("common:modules.tools.print.outputfileTitleLabel") }}</label>
+                    <div class="col-md-7">
+                        <input
+                            id="outputFileTitle"
+                            v-model="outputTitle"
+                            type="text"
+                            class="form-control form-control-sm"
+                            maxLength="45"
+                        >
+                    </div>
+                    <small
+                        id="outputFileTitleWarning"
+                        class="offset-md-5 col-md-7 active"
+                    >
+                        {{ $t("common:modules.tools.print.validationWarning") }}
+                    </small>
+                </div>
+                <div
+                    class="form-group form-group-sm row"
+                >
+                    <label
+                        class="col-md-5 control-label"
                         for="autoAdjustScale"
                     >
                         {{ $t("common:modules.tools.print.autoAdjustScale") }}
@@ -456,26 +565,29 @@ export default {
                             <input
                                 id="autoAdjustScale"
                                 type="checkbox"
-                                :checked="autoAdjustScale"
+                                :checked="autoAdjustScale && !isScaleSelectedManually"
+                                class="form-check-input"
                                 @change="setAutoAdjustScale($event.target.checked)"
                             >
                         </div>
                     </div>
                 </div>
                 <div
-                    class="form-group form-group-sm"
+                    v-if="isLegendAvailable"
+                    class="form-group form-group-sm row"
                 >
                     <label
-                        class="col-sm-5 control-label"
+                        class="col-md-5 control-label"
                         for="printLegend"
                     >
                         {{ $t("common:modules.tools.print.withLegendLabel") }}
                     </label>
-                    <div class="col-sm-7">
-                        <div class="checkbox">
+                    <div class="col-md-7">
+                        <div class="form-check">
                             <input
                                 id="printLegend"
                                 type="checkbox"
+                                class="form-check-input"
                                 :checked="isLegendSelected"
                                 @change="setIsLegendSelected($event.target.checked)"
                             >
@@ -483,19 +595,21 @@ export default {
                     </div>
                 </div>
                 <div
-                    class="form-group form-group-sm"
+                    v-if="isGfiAvailable"
+                    class="form-group form-group-sm row"
                 >
                     <label
-                        class="col-sm-5 control-label"
+                        class="col-md-5 col-form-label pt-0"
                         for="printGfi"
                     >
                         {{ $t("common:modules.tools.print.withInfoLabel") }}
                     </label>
-                    <div class="col-sm-7">
-                        <div class="checkbox">
+                    <div class="col-md-7">
+                        <div class="form-check">
                             <input
                                 id="printGfi"
                                 type="checkbox"
+                                class="form-check-input"
                                 :disabled="currentFeature === null"
                                 :checked="isGfiSelected"
                                 @change="setIsGfiSelected($event.target.checked)"
@@ -503,11 +617,12 @@ export default {
                         </div>
                     </div>
                 </div>
-                <div class="form-group form-group-sm">
-                    <div class="col-sm-12">
+                <div class="form-group form-group-sm row">
+                    <div class="col-md-12 d-grid gap-2">
                         <button
+                            id="printBtn"
                             type="button"
-                            class="btn btn-primary btn-block"
+                            class="btn btn-primary"
                             @click="print"
                         >
                             {{ $t("common:modules.tools.print.printLabel") }}
@@ -522,37 +637,43 @@ export default {
                     :key="file.index"
                     class="row"
                 >
-                    <div class="col-sm-4 tool-print-download-title-container">
+                    <div class="col-md-4 tool-print-download-title-container">
                         <span
-                            id="tool-print-download-title"
+                            v-if="printService === 'plotservice'"
+                            class="tool-print-download-title"
+                        >
+                            {{ file.filename + "." + file.outputFormat }}
+                        </span>
+                        <span
+                            v-else
+                            class="tool-print-download-title"
                         >
                             {{ file.title }}
                         </span>
                     </div>
-                    <div class="col-sm-2 tool-print-download-icon-container">
+                    <div class="col-md-2 tool-print-download-icon-container">
                         <div
                             v-if="!file.finishState"
-                            id="tool-print-download-loader"
+                            class="tool-print-download-loader"
                         />
                         <div
                             v-else
-                            id="tool-print-download-glyphicon"
-                            class="glyphicon glyphicon-ok"
-                        />
+                            class="bootstrap-icon tool-print-download-icon"
+                        >
+                            <i class="bi-check-lg" />
+                        </div>
                     </div>
-                    <div class="col-sm-6 tool-print-download-button-container">
+                    <div class="col-md-6 d-grid gap-2 tool-print-download-button-container">
                         <button
                             v-if="file.finishState"
-                            id="tool-print-download-button-active"
-                            class="btn btn-primary btn-sm btn-block"
+                            class="btn btn-primary btn-sm"
                             @click="download($event.target, file.downloadUrl, file.filename)"
                         >
                             {{ $t("common:modules.tools.print.downloadFile") }}
                         </button>
                         <button
                             v-else
-                            id="tool-print-download-button-disabled"
-                            class="btn btn-default btn-sm btn-block"
+                            class="btn btn-outline-default btn-sm tool-print-download-button-disabled"
                             disabled
                         >
                             {{ $t("common:modules.tools.print.createDownloadFile") }}
@@ -567,10 +688,6 @@ export default {
 <style lang="scss" scoped>
     @import "~variables";
 
-    input[type="checkbox"] {
-        margin-top: 2px;
-        margin-left: 0;
-    }
     .form-group {
         &.scale{
             position: relative;
@@ -588,18 +705,27 @@ export default {
                 top: 25px;
                 width: 100%;
                 z-index: 10;
-                background: #fff;
-                border: 1px solid #555;
+                background: $white;
+                border: 1px solid $dark_grey;
                 padding: 5px;
             }
             .grey-icon {
                 span {
-                    color: #a5a5a5;
+                    color: $light_grey;
                 }
             }
         }
     }
 
+    #outputFileTitle.danger {
+        border-color: red
+    }
+    #outputFileTitleWarning {
+        color: red;
+    }
+    #outputFileTitleWarning.active {
+        display: none;
+    }
     #tool-print-downloads-container {
         margin-top: 30px;
 
@@ -615,19 +741,20 @@ export default {
                 margin: 5px 0 0 0;
             }
 
-            #tool-print-download-glyphicon {
-                font-size: 18px;
-                color:#286090;
+            .tool-print-download-icon {
+                font-size: $font-size-lg;
+                color: $light_blue;
             }
 
-            #tool-print-download-button-disabled {
-                border-color: #FFFFFF;
+            .tool-print-download-button-disabled {
+                border-color: $dark_grey;
+                color: $dark-grey;
             }
 
-            #tool-print-download-loader {
-                border: 4px solid #f3f3f3;
+            .tool-print-download-loader {
+                border: 4px solid $light_grey;
                 border-radius: 50%;
-                border-top: 4px solid #286090;
+                border-top: 4px solid $light_blue;
                 width: 25px;
                 height: 25px;
                 -webkit-animation: spin 1s linear infinite; /* Safari */

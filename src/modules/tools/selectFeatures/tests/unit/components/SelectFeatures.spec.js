@@ -1,4 +1,5 @@
 import Vuex from "vuex";
+import VectorLayer from "ol/layer/Vector.js";
 import {config, shallowMount, createLocalVue} from "@vue/test-utils";
 import SelectFeaturesComponent from "../../../components/SelectFeatures.vue";
 import SelectFeaturesModule from "../../../store/indexSelectFeatures";
@@ -41,13 +42,24 @@ describe("src/modules/tools/selectFeatures/components/SelectFeatures.vue", () =>
             }
         ];
 
-    let store;
+    let store, map, layer1, layer2;
 
     beforeEach(() => {
+        layer1 = new VectorLayer();
+        layer2 = new VectorLayer();
+        map = {
+            id: "ol",
+            mode: "2D",
+            getLayers: () => {
+                return {
+                    getArray: () => [layer1, layer2]
+                };
+            }
+        };
         store = new Vuex.Store({
             namespaces: true,
             modules: {
-                Map: {
+                Maps: {
                     namespaced: true,
                     actions: mockMapActions
                 },
@@ -59,13 +71,20 @@ describe("src/modules/tools/selectFeatures/components/SelectFeatures.vue", () =>
                 }
             },
             getters: {
-                uiStyle: () => true
+                uiStyle: () => true,
+                treeType: () => "light"
             },
             state: {
                 configJson: mockConfigJson
             }
         });
+        mapCollection.clear();
+        mapCollection.addMap(map, "2D");
         store.commit("Tools/SelectFeatures/setActive", true);
+    });
+
+    afterEach(() => {
+        sinon.restore();
     });
 
     it("renders the SelectFeatures tool if active", () => {

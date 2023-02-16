@@ -1,4 +1,9 @@
-import moment from "moment";
+import dayjs from "dayjs";
+import isoWeek from "dayjs/plugin/isoWeek";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+
+dayjs.extend(customParseFormat);
+dayjs.extend(isoWeek);
 
 /**
  * library for calendar functions
@@ -8,8 +13,8 @@ import moment from "moment";
 /**
  * CalendarMoment is a date object returned by functions of this library with start and end date and translation
  * @typedef {Object} CalendarMoment
- * @property {Object} moment the representation of the date as moment object
- * @property {Object} [momentEnd=null] in case of a range of days (e.g. school vacations) the representation of the end date as moment object
+ * @property {Object} moment the representation of the date as dayjs object
+ * @property {Object} [momentEnd=null] in case of a range of days (e.g. school vacations) the representation of the end date as dayjs object
  * @property {String} holidayKey the config key of the holiday (see key list below)
  * @property {String} translationKey the key to request the translation for the holiday/vacation
  */
@@ -17,151 +22,151 @@ import moment from "moment";
 /**
  * set of public holidays - to extent add anchor day to getMoment function
  * use locals/xx/common.json to add translations
- * getMoment is a function (Number year, Object easterMoment, Object adventMoment) returning a moment object
+ * getMoment is a function (Number year, Object easterMoment, Object adventMoment) returning a dayjs object
  */
 const publicHolidayMatrix = {
     newYearsDay: {
         translationKey: "common:utils.calendar.newYearsDay",
         getMoment: (year) => {
-            return moment(year + "-01-01", "YYYY-MM-DD");
+            return dayjs(year + "-01-01", "YYYY-MM-DD");
         }
     },
     epiphany: {
         translationKey: "common:utils.calendar.epiphany",
         getMoment: (year) => {
-            return moment(year + "-01-06", "YYYY-MM-DD");
+            return dayjs(year + "-01-06", "YYYY-MM-DD");
         }
     },
     goodFriday: {
         translationKey: "common:utils.calendar.goodFriday",
         getMoment: (year, easterMoment) => {
-            return moment(easterMoment).subtract(2, "days");
+            return dayjs(easterMoment).subtract(2, "day");
         }
     },
     easterSunday: {
         translationKey: "common:utils.calendar.easterSunday",
         getMoment: (year, easterMoment) => {
-            return moment(easterMoment);
+            return dayjs(easterMoment);
         }
     },
     easterMonday: {
         translationKey: "common:utils.calendar.easterMonday",
         getMoment: (year, easterMoment) => {
-            return moment(easterMoment).add(1, "days");
+            return dayjs(easterMoment).add(1, "day");
         }
     },
     laborDay: {
         translationKey: "common:utils.calendar.laborDay",
         getMoment: (year) => {
-            return moment(year + "-05-01", "YYYY-MM-DD");
+            return dayjs(year + "-05-01", "YYYY-MM-DD");
         }
     },
     ascensionDay: {
         translationKey: "common:utils.calendar.ascensionDay",
         getMoment: (year, easterMoment) => {
-            return moment(easterMoment).add(39, "days");
+            return dayjs(easterMoment).add(39, "day");
         }
     },
     pentecostSunday: {
         translationKey: "common:utils.calendar.pentecostSunday",
         getMoment: (year, easterMoment) => {
-            return moment(easterMoment).add(49, "days");
+            return dayjs(easterMoment).add(49, "day");
         }
     },
     pentecostMonday: {
         translationKey: "common:utils.calendar.pentecostMonday",
         getMoment: (year, easterMoment) => {
-            return moment(easterMoment).add(50, "days");
+            return dayjs(easterMoment).add(50, "day");
         }
     },
     corpusChristi: {
         translationKey: "common:utils.calendar.corpusChristi",
         getMoment: (year, easterMoment) => {
-            return moment(easterMoment).add(60, "days");
+            return dayjs(easterMoment).add(60, "day");
         }
     },
     peaceFestival: {
         translationKey: "common:utils.calendar.peaceFestival",
         getMoment: (year) => {
-            return moment(year + "-08-08", "YYYY-MM-DD");
+            return dayjs(year + "-08-08", "YYYY-MM-DD");
         }
     },
     assumptionDay: {
         translationKey: "common:utils.calendar.assumptionDay",
         getMoment: (year) => {
-            return moment(year + "-08-15", "YYYY-MM-DD");
+            return dayjs(year + "-08-15", "YYYY-MM-DD");
         }
     },
     germanUnityDay: {
         translationKey: "common:utils.calendar.germanUnityDay",
         getMoment: (year) => {
-            return moment(year + "-10-03", "YYYY-MM-DD");
+            return dayjs(year + "-10-03", "YYYY-MM-DD");
         }
     },
     reformationDay: {
         translationKey: "common:utils.calendar.reformationDay",
         getMoment: (year) => {
-            return moment(year + "-10-31", "YYYY-MM-DD");
+            return dayjs(year + "-10-31", "YYYY-MM-DD");
         }
     },
     allSaintsDay: {
         translationKey: "common:utils.calendar.allSaintsDay",
         getMoment: (year) => {
-            return moment(year + "-11-01", "YYYY-MM-DD");
+            return dayjs(year + "-11-01", "YYYY-MM-DD");
         }
     },
     penanceDay: {
         translationKey: "common:utils.calendar.penanceDay",
         getMoment: (year, easterMoment, firstAdvent) => {
-            return moment(firstAdvent).subtract(11, "days");
+            return dayjs(firstAdvent).subtract(11, "day");
         }
     },
     firstAdvent: {
         translationKey: "common:utils.calendar.firstAdvent",
         getMoment: (year, easterMoment, firstAdvent) => {
-            return moment(firstAdvent);
+            return dayjs(firstAdvent);
         }
     },
     secondAdvent: {
         translationKey: "common:utils.calendar.secondAdvent",
         getMoment: (year, easterMoment, firstAdvent) => {
-            return moment(firstAdvent).add(7, "days");
+            return dayjs(firstAdvent).add(7, "day");
         }
     },
     thirdAdvent: {
         translationKey: "common:utils.calendar.thirdAdvent",
         getMoment: (year, easterMoment, firstAdvent) => {
-            return moment(firstAdvent).add(14, "days");
+            return dayjs(firstAdvent).add(14, "day");
         }
     },
     fourthAdvent: {
         translationKey: "common:utils.calendar.fourthAdvent",
         getMoment: (year, easterMoment, firstAdvent) => {
-            return moment(firstAdvent).add(21, "days");
+            return dayjs(firstAdvent).add(21, "day");
         }
     },
     christmasEve: {
         translationKey: "common:utils.calendar.christmasEve",
         getMoment: (year) => {
-            return moment(year + "-12-24", "YYYY-MM-DD");
+            return dayjs(year + "-12-24", "YYYY-MM-DD");
         }
     },
     christmasDay: {
         translationKey: "common:utils.calendar.christmasDay",
         getMoment: (year) => {
-            return moment(year + "-12-25", "YYYY-MM-DD");
+            return dayjs(year + "-12-25", "YYYY-MM-DD");
         }
     },
     secondDayOfChristmas: {
         translationKey: "common:utils.calendar.secondDayOfChristmas",
         getMoment: (year) => {
-            return moment(year + "-12-26", "YYYY-MM-DD");
+            return dayjs(year + "-12-26", "YYYY-MM-DD");
         }
     },
     newYearsEve: {
         translationKey: "common:utils.calendar.newYearsEve",
         getMoment: (year) => {
-            return moment(year + "-12-31", "YYYY-MM-DD");
+            return dayjs(year + "-12-31", "YYYY-MM-DD");
         }
     }
 };
@@ -170,14 +175,14 @@ const publicHolidayMatrix = {
  * checks if there are holidays in the current week of the given date
  * @param {Date|String} date the date as JavaScript Date or a string (if string, use format parameter)
  * @param {String[]|Boolean} [holidayKeys=false] an array of names of holidays to receive (use keys of holidayMatrix above) or false for all
- * @param {String} [format=false] the format for moment if date is a string (e.g. "YYYY-MM-DD")
+ * @param {String} [format=false] the format for dayjs if date is a string (e.g. "YYYY-MM-DD")
  * @returns {Boolean} true if the week of the given date has holiday, false if not
  */
 export function hasHolidayInWeek (date, holidayKeys = false, format = false) {
     if (!(date instanceof Date) && typeof date !== "string") {
         return false;
     }
-    const givenMoment = moment(date, format).startOf("isoWeek");
+    let givenMoment = dayjs(date, format).startOf("isoWeek");
 
     if (!givenMoment.isValid()) {
         return false;
@@ -187,7 +192,7 @@ export function hasHolidayInWeek (date, holidayKeys = false, format = false) {
         if (getPublicHoliday(givenMoment, holidayKeys)) {
             return true;
         }
-        givenMoment.add(1, "days");
+        givenMoment = givenMoment.add(1, "day");
     }
     return false;
 }
@@ -196,23 +201,21 @@ export function hasHolidayInWeek (date, holidayKeys = false, format = false) {
  * returns false if this is not a holiday or an object CalendarMoment for the holiday if it is a holiday
  * @param {Date|String} date the date as JavaScript Date or a string (if string, use format parameter)
  * @param {String[]|Boolean} [holidayKeys=false] an array of names of holidays to receive (use keys of holidayMatrix above) or false for all
- * @param {String} [format=false] the format for moment if date is a string (e.g. "YYYY-MM-DD")
+ * @param {String} [format=false] the format for dayjs if date is a string (e.g. "YYYY-MM-DD")
  * @returns {CalendarMoment|Boolean} a CalendarMoment or false if the given date is not a holiday
  */
 function getPublicHoliday (date, holidayKeys = false, format = false) {
-    const givenMoment = moment(date, format),
+    const givenMoment = dayjs(date, format),
         year = givenMoment.format("YYYY"),
         easterMoment = getGaussianEasterMoment(year),
         adventMoment = getFirstAdventMoment(year),
         keys = Array.isArray(holidayKeys) ? holidayKeys : Object.keys(publicHolidayMatrix),
         len = keys.length;
-    let i = 0,
-        holidayKey = "",
+    let holidayKey = "",
         holidayMoment = null;
 
-    for (i = 0; i < len; i++) {
+    for (let i = 0; i < len; i++) {
         holidayKey = keys[i];
-
         if (!isCalendarMoment(publicHolidayMatrix[holidayKey])) {
             continue;
         }
@@ -228,7 +231,6 @@ function getPublicHoliday (date, holidayKeys = false, format = false) {
             translationKey: publicHolidayMatrix[holidayKey].translationKey
         };
     }
-
     return false;
 }
 
@@ -299,18 +301,18 @@ function getGaussianEasterMoment (year) {
         os = Math.floor(og + oe);
 
     if (os > 31) {
-        return moment(year + "-04-" + (os - 31), "YYYY-MM-D");
+        return dayjs(year + "-04-" + (os - 31), "YYYY-MM-D");
     }
-    return moment(year + "-03-" + os, "YYYY-MM-D");
+    return dayjs(year + "-03-" + os, "YYYY-MM-D");
 }
 
 /**
  * calculates the first advent of the given year
  * @param {Number} year the year to get the first advent for
- * @returns {Object} the first advent as moment representation
+ * @returns {Object} the first advent as dayjs representation
  */
 function getFirstAdventMoment (year) {
-    return moment(year + "-12-25", "YYYY-MM-DD").startOf("isoWeek").subtract(22, "days");
+    return dayjs(year + "-12-25", "YYYY-MM-DD").startOf("isoWeek").subtract(22, "day");
 }
 
 export {

@@ -1,6 +1,9 @@
 import SnippetModel from "../model";
 import ValueModel from "../value/model";
-import moment from "moment";
+import dayjs from "dayjs";
+import isoWeek from "dayjs/plugin/isoWeek";
+
+dayjs.extend(isoWeek);
 
 const DatepickerModel = SnippetModel.extend(/** @lends DatepickerModel.prototype */{
 
@@ -69,7 +72,7 @@ const DatepickerModel = SnippetModel.extend(/** @lends DatepickerModel.prototype
         this.get("valuesCollection").add(new ValueModel({
             attr: this.get("name"),
             multidate: this.get("multidate"),
-            date: model.preselectedValue ? model.preselectedValue : moment().toDate(),
+            date: model.preselectedValue ? model.preselectedValue : dayjs().toDate(),
             startDate: model.startDate,
             endDate: model.endDate,
             inputs: model.inputs ? model.inputs : undefined,
@@ -130,7 +133,7 @@ const DatepickerModel = SnippetModel.extend(/** @lends DatepickerModel.prototype
 
         // get all week starting days per date
         dates.forEach(date => {
-            startingDaysOfWeek.push(moment(date).startOf("isoWeek").format("YYYY-MM-DD"));
+            startingDaysOfWeek.push(dayjs(date).startOf("isoWeek").format("YYYY-MM-DD"));
         });
 
         // find the index of the starting dates that exist twice

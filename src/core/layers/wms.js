@@ -1,7 +1,6 @@
-import {wms} from "masterportalapi";
+import {wms} from "@masterportal/masterportalapi";
 import store from "../../app-store";
 import Layer from "./layer";
-import mapCollection from "../../core/dataStorage/mapCollection.js";
 import * as bridge from "./RadioBridge.js";
 /**
  * Creates a layer of type WMS.
@@ -26,8 +25,7 @@ export default function WMSLayer (attrs) {
     bridge.listenToChangeSLDBody(this);
 
     // Hack for services that do not support EPSG:4326
-    // notSupportedFor3DNeu is a temporary attribute
-    if (this.get("notSupportedFor3DNeu") || this.get("notSupportedIn3D") === true) {
+    if (this.get("notSupportedIn3D") === true) {
         this.set("supported", ["2D"]);
     }
 }
@@ -54,7 +52,7 @@ WMSLayer.prototype.createLayer = function (attrs) {
  * @returns {Object} The options.
  */
 WMSLayer.prototype.getOptions = function () {
-    return {resolutions: mapCollection.getMapView("ol", "2D").getResolutions(), origin: [442800, 5809000]};
+    return {resolutions: mapCollection.getMapView("2D").getResolutions(), origin: [442800, 5809000]};
 };
 
 /**
@@ -76,7 +74,8 @@ WMSLayer.prototype.getRawLayerAttributes = function (attrs) {
         singleTile: attrs.singleTile,
         minScale: parseInt(attrs.minScale, 10),
         maxScale: parseInt(attrs.maxScale, 10),
-        crs: attrs.crs
+        crs: attrs.crs,
+        crossOrigin: attrs.crossOrigin
     };
 
     if (attrs.styles !== "nicht vorhanden") {
@@ -128,10 +127,10 @@ WMSLayer.prototype.updateSource = function () {
  * @returns {String} - The created getFeature info url.
  */
 WMSLayer.prototype.getGfiUrl = function () {
-    const mapView = mapCollection.getMapView("ol", "2D"),
-        resolution = store.getters["Map/resolution"],
+    const mapView = mapCollection.getMapView("2D"),
+        resolution = store.getters["Maps/resolution"],
         projection = mapView.getProjection(),
-        coordinate = store.getters["Map/clickCoord"];
+        coordinate = store.getters["Maps/clickCoordinate"];
 
     return this.get("layerSource").getFeatureInfoUrl(coordinate, resolution, projection, {INFO_FORMAT: this.get("infoFormat"), FEATURE_COUNT: this.get("featureCount")});
 };
@@ -161,18 +160,23 @@ WMSLayer.prototype.createLegend = function () {
     if (Array.isArray(legend)) {
         this.setLegend(legend);
     }
-    else if (legend === true) {
+    else if (legend === true && this.get("url")) {
         const layerNames = this.get("layers").split(","),
             legends = [];
 
-        if (layerNames.length === 1) {
-            legends.push(encodeURI(this.get("url") + "?VERSION=" + version + "&SERVICE=WMS&REQUEST=GetLegendGraphic&FORMAT=image/png&LAYER=" + this.get("layers")));
-        }
-        else if (layerNames.length > 1) {
-            layerNames.forEach(layerName => {
-                legends.push(encodeURI(this.get("url") + "?VERSION=" + version + "&SERVICE=WMS&REQUEST=GetLegendGraphic&FORMAT=image/png&LAYER=" + layerName));
-            });
-        }
+        // Compose GetLegendGraphic request(s)
+        layerNames.forEach(layerName => {
+            const legendUrl = new URL(this.get("url"));
+
+            legendUrl.searchParams.set("SERVICE", "WMS");
+            legendUrl.searchParams.set("VERSION", version);
+            legendUrl.searchParams.set("REQUEST", "GetLegendGraphic");
+            legendUrl.searchParams.set("FORMAT", "image/png");
+            legendUrl.searchParams.set("LAYER", layerName);
+
+            legends.push(legendUrl.toString());
+        });
+
         this.setLegend(legends);
     }
     else if (typeof legend === "string") {
@@ -187,5 +191,5 @@ WMSLayer.prototype.getExtent = function () {
     if (this.has("extent")) {
         return this.get("extent");
     }
-    return store.getters["Map/bbox"];
+    return store.getters["Maps/bbox"];
 };

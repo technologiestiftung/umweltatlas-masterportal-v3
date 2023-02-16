@@ -1,9 +1,10 @@
-import {getLayerWhere} from "masterportalapi/src/rawLayerList";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 import {convert, convertToStringArray, convertTransparency, parseQuery} from "./converter";
 import {setValueToState} from "./stateModifier";
 import store from "../../app-store";
+import uiStyle from "../../utils/uiStyle";
 
-const toolsNotInState = ["parcelSearch", "featureLister", "filter", "shadow", "virtualcity", "styleWMS", "extendedFilter", "wfsFeatureFilter", "wfst"];
+const toolsNotInState = ["parcelSearch", "featureLister", "filter", "shadow", "virtualcity", "extendedFilter", "wfsFeatureFilter", "wfst"];
 
 /**
  * Checks the Config for 'allowParametricURL'.
@@ -32,6 +33,18 @@ export function readUrlParamEarly () {
                 if (value.slice(-5) === ".json") {
                     store.state.urlParams.configJson = value;
                 }
+            }
+            else if (key.toLowerCase() === "wfsid") {
+                store.state.urlParams.wfsId = value;
+            }
+            else if (key.toLowerCase() === "attributename") {
+                store.state.urlParams.attributeName = value;
+            }
+            else if (key.toLowerCase() === "attributevalue") {
+                store.state.urlParams.attributeValue = value;
+            }
+            else if (key.toLowerCase() === "attributequery") {
+                store.state.urlParams.attributeQuery = value;
             }
         });
     }
@@ -99,66 +112,33 @@ export function translateToBackbone (urlParamsKey, urlParamsValue) {
  * @returns {void}
  */
 export function doSpecialBackboneHandling (key, value) {
-    if (key === "Map/mapMode") {
+    if (key === "Maps/mapMode") {
         if (value === "3D" || String(value).toLowerCase() === "3d") {
             // set mapMode manually back to '2D', is set to '3D' in activateMap im map3D and 3D-layers watches to that
             // can be removed, if Radio trigger 'mapChangeTo3d' is removed
-            store.state.Map.mapMode = "2D";
+            store.commit("Maps/setMode", "2D");
             Radio.trigger("Map", "mapChangeTo3d");
         }
     }
-    else if (key === "Map/mdId") {
+    else if (key === "Maps/mdId") {
         const layers = getLayersUsingMetaId(value);
 
         setLayersVisible(layers);
     }
-    else if (key === "Map/zoomToExtent") {
-        Radio.trigger("Map", "zoomToProjExtent", {
+    else if (key === "Maps/zoomToExtent") {
+        store.dispatch("Maps/zoomToProjExtent", {data: {
             extent: convert(value),
             options: {duration: 0},
-            projection: store.state.urlParams?.projection || store.state.Map?.projection?.getCode()
-        });
-    }
-    else if (key === "Map/zoomToGeometry") {
-        const gemometryToZoom = parseZoomToGeometry(value);
-
-        if (gemometryToZoom !== "") {
-            Radio.trigger("ZoomToGeometry", "zoomToGeometry", gemometryToZoom, Config.zoomToGeometry.layerId, Config.zoomToGeometry.attribute);
-        }
+            projection: store.state.urlParams?.projection || store.state.Maps?.projection?.getCode()
+        }});
     }
     else if (key === "style") {
         const resultUpperCase = value.toUpperCase();
 
         if (resultUpperCase === "TABLE" || resultUpperCase === "SIMPLE") {
-            Radio.trigger("Util", "setUiStyle", resultUpperCase);
+            uiStyle.setUiStyle(resultUpperCase);
         }
     }
-}
-/**
-     * Parses a Gemometry to be zoomed on.
-     * Only configured geometries are zoomed in.
-     * @param {String} urlParamValue Geometry to be zoomed on
-     * @returns {String} Geometry to be zoomed on
-     */
-function parseZoomToGeometry (urlParamValue) {
-    let geometries,
-        gemometryToZoom = "";
-
-    if (Object.prototype.hasOwnProperty.call(Config, "zoomToGeometry") && Object.prototype.hasOwnProperty.call(Config.zoomToGeometry, "geometries")) {
-        geometries = Config.zoomToGeometry.geometries;
-
-        if (geometries.includes(urlParamValue.toUpperCase())) {
-            gemometryToZoom = urlParamValue.toUpperCase();
-        }
-        else if (Number.isInteger(parseInt(urlParamValue, 10))) {
-            gemometryToZoom = geometries[parseInt(urlParamValue, 10) - 1];
-        }
-        else {
-            store.dispatch("Alerting/addSingleAlert", i18next.t("common:utils.parametricURL.alertZoomToGeometry"));
-        }
-    }
-
-    return gemometryToZoom;
 }
 
 /**
@@ -227,13 +207,13 @@ function parseLayerParams (layerIdString, visibilityString = "", transparencyStr
     if (layerIdList.length !== visibilityList.length || visibilityList.length !== transparencyList.length) {
         // timeout may be removed, if everything is migrated to vue. Now it is needed for portal/basic.
         setTimeout(() => {
-            store.dispatch("Alerting/addSingleAlert", i18next.t("common:utils.parametricURL.alertWrongAmountVisibility"), {root: true, category: "Warning"});
+            store.dispatch("Alerting/addSingleAlert", {content: i18next.t("common:utils.parametricURL.alertWrongAmountVisibility"), multipleAlert: true}, {root: true, category: "Warning"});
         }, 500);
         return null;
     }
     layerIdList.forEach((id, index) => {
         const layerConfigured = Radio.request("Parser", "getItemByAttributes", {id: id}),
-            layerExisting = getLayerWhere({id: id}),
+            layerExisting = rawLayerList.getLayerWhere({id: id}),
             optionsOfLayer = {
                 id: id,
                 visibility: visibilityList[index]
@@ -283,7 +263,7 @@ function setLayersVisible (layerParams) {
     if (layerParams) {
         layerParams.layerIdList.forEach((val, index) => {
             const id = String(val),
-                rawLayer = getLayerWhere({id: id}),
+                rawLayer = rawLayerList.getLayerWhere({id: id}),
                 optionsOfLayer = {
                     id: id,
                     visibility: layerParams.visibilityList[index]
@@ -349,7 +329,7 @@ function alertWrongLayerIds (layerIdsNotFound) {
         console.warn("The following Url-Param-LayerIds could not be found " + layerIdsNotFoundConcat);
         // timeout may be removed, if everything is migrated to vue. Now it is needed for portal/basic.
         setTimeout(() => {
-            store.dispatch("Alerting/addSingleAlert", i18next.t("common:utils.parametricURL.alertWrongLayerIds"), {root: true});
+            store.dispatch("Alerting/addSingleAlert", {content: i18next.t("common:utils.parametricURL.alertWrongLayerIds"), multipleAlert: true}, {root: true});
         }, 500);
     }
 }

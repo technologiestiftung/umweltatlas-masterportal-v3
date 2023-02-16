@@ -2,6 +2,7 @@
 import {mapGetters, mapActions} from "vuex";
 import ControlIcon from "../../ControlIcon.vue";
 import TableStyleControl from "../../TableStyleControl.vue";
+import uiStyle from "../../../../utils/uiStyle";
 
 /**
  * TotalView adds a control that lets the user reset the
@@ -10,42 +11,42 @@ import TableStyleControl from "../../TableStyleControl.vue";
 export default {
     name: "TotalView",
     props: {
-        /** glyphicon name for the control icon */
-        glyphicon: {
+        /** icon name for the control icon */
+        icon: {
             type: String,
-            default: "fast-backward"
+            default: "skip-backward-fill"
         },
-        /** glyphicon name for the control icon in style table */
-        tableGlyphicon: {
+        /** icon name for the control icon in style table */
+        tableIcon: {
             type: String,
-            default: "home"
+            default: "house-door-fill"
         }
     },
     computed: {
-        ...mapGetters("Map", ["initialCenter", "initialZoomLevel", "ol2DMap"]),
+        ...mapGetters(["uiStyle"]),
+        ...mapGetters("Maps", ["initialCenter", "initialZoomLevel", "center", "zoom"]),
 
         component () {
-            return Radio.request("Util", "getUiStyle") === "TABLE" ? TableStyleControl : ControlIcon;
+            return uiStyle.getUiStyle() === "TABLE" ? TableStyleControl : ControlIcon;
         },
-        glyphiconToUse () {
-            return Radio.request("Util", "getUiStyle") === "TABLE" ? this.tableGlyphicon : this.glyphicon;
+        iconToUse () {
+            return uiStyle.getUiStyle() === "TABLE" ? this.tableIcon : this.icon;
         },
-
         /**
          * Map was moved.
          * @returns {Boolean} true if map is not in initial zoom/center.
          */
-        mapMoved: function () {
-            const view = this.ol2DMap.getView(),
-                center = view.getCenter();
-
-            return this.initialCenter[0] !== center[0] ||
-                this.initialCenter[1] !== center[1] ||
-                this.initialZoomLevel !== view.getZoom();
+        mapMoved () {
+            if (this.center) {
+                return this.initialCenter[0] !== Math.round(this.center[0]) ||
+                    this.initialCenter[1] !== Math.round(this.center[1]) ||
+                    this.initialZoomLevel !== this.zoom;
+            }
+            return false;
         }
     },
     methods: {
-        ...mapActions("Map", ["resetView"]),
+        ...mapActions("Maps", ["resetView"]),
 
         startResetView: function () {
             this.resetView();
@@ -62,7 +63,7 @@ export default {
             class="total-view-button"
             :title="$t('common:modules.controls.totalView.titleButton')"
             :disabled="!mapMoved"
-            :icon-name="glyphiconToUse"
+            :icon-name="iconToUse"
             :on-click="startResetView"
         />
     </div>

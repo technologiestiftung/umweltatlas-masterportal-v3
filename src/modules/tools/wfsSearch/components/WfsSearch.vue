@@ -4,7 +4,7 @@ import ListItem from "../../../../share-components/list/components/ListItem.vue"
 import LoaderOverlay from "../../../../utils/loaderOverlay";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import ToolTemplate from "../../ToolTemplate.vue";
-import getComponent from "../../../../utils/getComponent";
+import {getComponent} from "../../../../utils/getComponent";
 import WfsSearchLiteral from "./WfsSearchLiteral.vue";
 import actions from "../store/actionsWfsSearch";
 import getters from "../store/gettersWfsSearch";
@@ -69,6 +69,8 @@ export default {
     methods: {
         ...mapMutations("Tools/WfsSearch", Object.keys(mutations)),
         ...mapActions("Tools/WfsSearch", Object.keys(actions)),
+        ...mapActions("MapMarker", ["placingPointMarker"]),
+        ...mapActions("Maps", ["setCenter", "setZoomLevel"]),
         searchFeatures,
         /**
          * Function called when the window of the tool is closed.
@@ -102,16 +104,28 @@ export default {
         async search () {
             this.setSearched(true);
             LoaderOverlay.show();
-            const features = await searchFeatures(this.$store, this.currentInstance, this.service);
+            const features = await searchFeatures(this.currentInstance, this.service);
 
             LoaderOverlay.hide();
 
-            document.getElementById("tool-wfsSearch-button-showResults").focus();
             this.setResults([]);
             features.forEach(feature => {
                 this.results.push(feature);
             });
-            this.setShowResultList(true);
+
+            if (this.instances[0]?.resultList !== undefined) {
+                document.getElementById("tool-wfsSearch-button-showResults").focus();
+                this.setShowResultList(true);
+            }
+            else if (features.length > 0) {
+                this.placingPointMarker(features[0].getGeometry().getCoordinates());
+                this.setCenter(features[0].getGeometry().getCoordinates());
+                this.setZoomLevel(this.zoomLevel);
+                this.setShowResultList(false);
+            }
+            else {
+                this.setShowResultList(true);
+            }
         }
     }
 };
@@ -121,7 +135,7 @@ export default {
     <div>
         <ToolTemplate
             :title="$t(name)"
-            :icon="glyphicon"
+            :icon="icon"
             :active="active"
             :render-to-window="renderToWindow"
             :resizable-window="resizableWindow"
@@ -137,42 +151,44 @@ export default {
                     <template
                         v-if="instances.length > 1"
                     >
-                        <label
-                            id="tool-wfsSearch-instances-select-label"
-                            class="col-md-5 col-sm-5 control-label"
-                            for="tool-wfsSearch-instances-select"
-                        >
-                            {{ $t("common:modules.tools.wfsSearch.instancesSelectLabel") }}
-                        </label>
-                        <div class="col-md-7 col-sm-7">
-                            <select
-                                id="tool-wfsSearch-instances-select"
-                                class="form-control input-sm"
-                                @change="instanceChanged($event.currentTarget.value)"
+                        <div class="form-group form-group-sm row">
+                            <label
+                                id="tool-wfsSearch-instances-select-label"
+                                class="col-md-5 col-form-label"
+                                for="tool-wfsSearch-instances-select"
                             >
-                                <option
-                                    v-for="({title}, i) of instances"
-                                    :key="title + i"
-                                    :value="i"
+                                {{ $t("common:modules.tools.wfsSearch.instancesSelectLabel") }}
+                            </label>
+                            <div class="col-md-7">
+                                <select
+                                    id="tool-wfsSearch-instances-select"
+                                    class="form-select form-select-sm"
+                                    @change="instanceChanged($event.currentTarget.value)"
                                 >
-                                    {{ title }}
-                                </option>
-                            </select>
+                                    <option
+                                        v-for="({title}, i) of instances"
+                                        :key="title + i"
+                                        :value="i"
+                                    >
+                                        {{ title }}
+                                    </option>
+                                </select>
+                            </div>
                         </div>
                         <hr>
                     </template>
                     <div
                         v-if="userHelp !== 'hide'"
                         id="tool-wfsSearch-userHelp"
-                        class="form-group form-group-sm"
+                        class="form-group form-group-sm row"
                     >
                         <i
                             id="tool-wfsSearch-userHelp-icon"
-                            class="col-md-1 col-sm-1 glyphicon glyphicon-info-sign"
+                            class="col-md-1 bi-info-circle-fill"
                         />
                         <span
                             id="tool-wfsSearch-userHelp-text"
-                            class="col-md-11 col-sm-11"
+                            class="col-md-11"
                             :aria-label="$t('common:modules.tools.wfsSearch.userHelp.label')"
                             v-html="$t('common:modules.tools.wfsSearch.userHelp.text', {userHelp})"
                         />
@@ -185,33 +201,33 @@ export default {
                         />
                         <hr :key="'tool-wfsSearch-clause-divider' + i">
                     </template>
-                    <div class="form-group form-group-sm">
-                        <div class="col-md-6 col-sm-6">
+                    <div class="form-group form-group-sm row">
+                        <div class="col-md-6">
                             <button
                                 id="tool-wfsSearch-button-resetUI"
                                 type="button"
-                                class="btn btn-lgv-grey col-md-12 col-sm-12"
+                                class="btn btn-secondary col-md-12"
                                 @click="resetUI"
                             >
                                 {{ $t("common:modules.tools.wfsSearch.resetButton") }}
                             </button>
                         </div>
-                        <div class="col-md-6 col-sm-6">
+                        <div class="col-md-6">
                             <input
                                 id="tool-wfsSearch-button-search"
                                 type="submit"
-                                class="btn btn-lgv-grey col-md-12 col-sm-12"
+                                class="btn btn-primary col-md-12"
                                 :disabled="requiredFields"
                                 :value="$t('common:modules.tools.wfsSearch.searchButton')"
                             >
                         </div>
                         <div
-                            v-if="searched"
-                            class="col-md-12 col-sm-12"
+                            v-if="searched && instances[0].resultList !== undefined"
+                            class="col-md-12"
                         >
                             <button
                                 id="tool-wfsSearch-button-showResults"
-                                class="btn btn-lgv-grey col-md-12 col-sm-12"
+                                class="btn btn-secondary col-md-12"
                                 :disabled="results.length === 0 || !headers"
                                 @click="setShowResultList(true)"
                             >
@@ -224,7 +240,7 @@ export default {
         </ToolTemplate>
         <ModalItem
             :title="$t(name)"
-            :icon="glyphicon"
+            :icon="icon"
             :show-modal="showResults"
             modal-inner-wrapper-style="padding: 10px;min-width: 70vw;"
             modal-content-container-style="padding: 0;overflow: auto;max-height: 70vh;"
@@ -244,6 +260,7 @@ export default {
                     :on-row-click-callback="setShowResultList.bind(this, false)"
                     :max-zoom="zoomLevel"
                     :results-per-page="resultsPerPage"
+                    :multi-select="multiSelect"
                 />
             </template>
             <template v-else>

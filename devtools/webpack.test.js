@@ -4,7 +4,6 @@ const webpack = require("webpack"),
     VueLoaderPlugin = require("vue-loader/lib/plugin");
 
 require("regenerator-runtime/runtime");
-require("chai/register-expect");
 require("jsdom-global")();
 global.DOMParser = window.DOMParser;
 
@@ -32,9 +31,16 @@ module.exports = {
         rules: [
             {
                 test: /\.js$/,
-                exclude: /\bcore-js\b|\bvideo.js\b|\bsinon\b|\bturf\b|\bjsts\b/,
+                exclude: /\bvideo.js\b|\bsinon\b|\bturf\b|\bjsts\b/,
                 use: {
-                    loader: "babel-loader"
+                    loader: "esbuild-loader",
+                    options: {
+                        loader: "js",
+                        sourcemap: true,
+                        target: "es2015",
+                        format: "cjs",
+                        platform: "node"
+                    }
                 }
             },
             {
@@ -42,7 +48,7 @@ module.exports = {
                 loader: "vue-loader",
                 options: {
                     loaders: {
-                        js: "babel-loader?presets[]=env"
+                        js: "esbuild-loader?"
                     }
                 }
             },

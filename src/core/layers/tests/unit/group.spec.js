@@ -4,7 +4,6 @@ import WMSLayer from "../../wms";
 import WFSLayer from "../../wfs";
 import OAFLayer from "../../oaf";
 import GroupedLayers from "../../group";
-import mapCollection from "../../../../core/dataStorage/mapCollection.js";
 import store from "../../../../app-store";
 
 describe("src/core/layers/group.js", () => {
@@ -41,7 +40,7 @@ describe("src/core/layers/group.js", () => {
             }
         };
 
-        mapCollection.addMap(map, "ol", "2D");
+        mapCollection.addMap(map, "2D");
     });
     beforeEach(() => {
         wmsLayerAttributes = {
@@ -75,8 +74,7 @@ describe("src/core/layers/group.js", () => {
             isChildLayer: true,
             transparent: false,
             crs: "crs",
-            featureNS: "http://www.deegree.org/app",
-            featureType: "krankenhaeuser_hh"
+            collection: "krankenhaeuser_hh"
         };
         groupAttributes = {
             name: "groupTestLayer",

@@ -46,7 +46,7 @@ const BuildSpecModel = {
             if (this.defaults.uniqueIdList.length === 0) {
                 const printJob = {
                     index: cswObj.index,
-                    payload: encodeURIComponent(JSON.stringify(this.defaults)),
+                    payload: this.defaults,
                     getResponse: cswObj.getResponse
                 };
 
@@ -170,9 +170,10 @@ const BuildSpecModel = {
     /**
      * Defines the layers attribute of the map spec
      * @param {ol.layer.Layer[]} layerList All visible layers on the map.
+     * @param {Number} [dpi] The dpi to use instead of the dpi from store.
      * @returns {void}
      */
-    buildLayers: async function (layerList) {
+    buildLayers: async function (layerList, dpi) {
         const layers = [],
             attributes = this.defaults.attributes,
             currentResolution = Radio.request("MapView", "getOptions")?.resolution,
@@ -184,12 +185,12 @@ const BuildSpecModel = {
 
                 if (layer instanceof Group) {
                     for (const childLayer of layer.getLayers().getArray()) {
-                        printLayers.push(await this.buildLayerType(childLayer, currentResolution));
+                        printLayers.push(await this.buildLayerType(childLayer, currentResolution, dpi));
                         visibleLayerIds.push(childLayer.get("id"));
                     }
                 }
                 else {
-                    printLayers.push(await this.buildLayerType(layer, currentResolution));
+                    printLayers.push(await this.buildLayerType(layer, currentResolution, dpi));
                 }
                 printLayers.forEach(printLayer => {
                     if (typeof printLayer !== "undefined") {
@@ -203,7 +204,12 @@ const BuildSpecModel = {
             }
         }
         this.setVisibleLayerIds(visibleLayerIds);
-        attributes.map.layers = layers.reverse();
+        if (store.state.Tools.Print.printService === "plotservice") {
+            attributes.map.layers = layers;
+        }
+        else {
+            attributes.map.layers = layers.reverse();
+        }
     },
 
     /**
@@ -223,7 +229,7 @@ const BuildSpecModel = {
             visibleFeatures = features.filter(feature => feature.get("isVisible"));
 
         if (visibleFeatures.length > 0) {
-            return this.buildVector(layer, visibleFeatures);
+            return this.buildVector(layer, visibleFeatures, extent);
         }
 
         return undefined;
@@ -234,17 +240,19 @@ const BuildSpecModel = {
      *
      * @param  {ol.layer} layer ol.Layer with features
      * @param {Number} currentResolution Current map resolution
+     * @param {Number} [dpi] The dpi to use instead of the dpi from store.
+     * @param {Boolean} [scaleDoesNotMatter=false] - The layer should be build even if it is not visible in the current resolution.
      * @returns {Object} - LayerObject for MapFish print.
      */
-    buildLayerType: async function (layer, currentResolution) {
-        const extent = Radio.request("MapView", "getCurrentExtent"),
+    buildLayerType: async function (layer, currentResolution, dpi, scaleDoesNotMatter = false) {
+        const extent = store.getters["Maps/getCurrentExtent"],
             layerMinRes = typeof layer?.get === "function" ? layer.get("minResolution") : false,
             layerMaxRes = typeof layer?.get === "function" ? layer.get("maxResolution") : false,
             isInScaleRange = this.isInScaleRange(layerMinRes, layerMaxRes, currentResolution);
         let features = [],
             returnLayer;
 
-        if (isInScaleRange) {
+        if (isInScaleRange || scaleDoesNotMatter) {
             const source = layer.getSource();
 
             if (layer instanceof VectorTileLayer) {
@@ -253,25 +261,25 @@ const BuildSpecModel = {
                 returnLayer = await this.buildVectorTile(layer, currentResolution, maskExtent);
             }
             else if (layer instanceof Image) {
-                returnLayer = this.buildImageWms(layer);
+                returnLayer = this.buildImageWms(layer, dpi);
             }
             else if (layer instanceof Tile) {
                 // The source of a TileWMS has a params object while the source of a WMTS has a layer object
                 if (source?.getParams) {
-                    returnLayer = this.buildTileWms(layer);
+                    returnLayer = this.buildTileWms(layer, dpi);
                 }
                 else if (source?.getLayer) {
                     returnLayer = this.buildWmts(layer, source);
                 }
             }
-            else if (typeof layer?.get === "function" && layer.get("name") === "import_draw_layer") {
+            else if (typeof layer?.get === "function" && layer.get("name") === "importDrawLayer") {
                 returnLayer = this.getDrawLayerInfo(layer, extent);
             }
             else if (layer instanceof Vector) {
                 features = source.getFeaturesInExtent(extent);
 
                 if (features.length > 0) {
-                    returnLayer = this.buildVector(layer, features);
+                    returnLayer = this.buildVector(layer, features, extent);
                 }
             }
         }
@@ -383,23 +391,31 @@ const BuildSpecModel = {
     /**
      * returns tile wms layer information
      * @param {ol.layer.Tile} layer tile layer with tile wms source
+     * @param {Number} [dpi] The dpi to use instead of the dpi from store.
      * @returns {Object} - wms layer spec
      */
-    buildTileWms: function (layer) {
+    buildTileWms: function (layer, dpi) {
         const source = layer.getSource(),
+            isPlotservice = store.state.Tools.Print.printService === "plotservice",
             mapObject = {
                 baseURL: source.getUrls()[0],
                 opacity: layer.getOpacity(),
-                type: "WMS",
+                type: source.getParams().SINGLETILE || isPlotservice ? "WMS" : "tiledwms",
                 layers: source.getParams().LAYERS.split(","),
                 styles: source.getParams().STYLES ? source.getParams().STYLES.split(",") : undefined,
                 imageFormat: source.getParams().FORMAT,
                 customParams: {
                     "TRANSPARENT": source.getParams().TRANSPARENT,
-                    "DPI": store.state.Tools.Print.dpiForPdf
+                    "DPI": typeof dpi === "number" ? dpi : store.state.Tools.Print.dpiForPdf
                 }
             };
 
+        if (store.state.Tools.Print.printService === "plotservice") {
+            mapObject.title = layer.get("name");
+        }
+        if (!source.getParams().SINGLETILE) {
+            mapObject.tileSize = [source.getParams().WIDTH, source.getParams().HEIGHT];
+        }
         if (Object.prototype.hasOwnProperty.call(source.getParams(), "SLD_BODY") && source.getParams().SLD_BODY !== undefined) {
             mapObject.customParams.SLD_BODY = source.getParams().SLD_BODY;
             mapObject.styles = ["style"];
@@ -410,9 +426,10 @@ const BuildSpecModel = {
     /**
      * Returns image wms layer information
      * @param {ol.layer.Image} layer - image layer with image wms source
+     * @param {Number} [dpi] The dpi to use instead of the dpi from store.
      * @returns {Object} - wms layer spec
      */
-    buildImageWms: function (layer) {
+    buildImageWms: function (layer, dpi) {
         const source = layer.getSource(),
             mapObject = {
                 baseURL: source.getUrl(),
@@ -423,9 +440,13 @@ const BuildSpecModel = {
                 imageFormat: source.getParams().FORMAT,
                 customParams: {
                     "TRANSPARENT": source.getParams().TRANSPARENT,
-                    "DPI": store.state.Tools.Print.dpiForPdf
+                    "DPI": typeof dpi === "number" ? dpi : store.state.Tools.Print.dpiForPdf
                 }
             };
+
+        if (store.state.Tools.Print.printService === "plotservice") {
+            mapObject.title = layer.get("name");
+        }
 
         return mapObject;
     },
@@ -434,14 +455,15 @@ const BuildSpecModel = {
      * returns vector layer information
      * @param {ol.layer.Vector} layer vector layer with vector source
      * @param {ol.feature[]} features vectorfeatures
+     * @param {ol.extent} extent  Extent uses to filter the feature by extent.
      * @returns {object} - geojson layer spec
      */
-    buildVector: function (layer, features) {
+    buildVector: function (layer, features, extent) {
         const geojsonList = [];
 
         return {
             type: "geojson",
-            style: this.buildStyle(layer, features, geojsonList),
+            style: this.buildStyle(layer, features, geojsonList, extent),
             geojson: geojsonList
         };
     },
@@ -451,16 +473,27 @@ const BuildSpecModel = {
      * @param {ol.layer} layer ol-Layer with features.
      * @param {ol.feature[]} features Array of features.
      * @param {Object[]} geojsonList Array of geojsons.
+     * @param {ol.extent} extent  Extent uses to filter the feature by extent.
      * @returns {Object} - style for mapfish print.
      */
-    buildStyle: function (layer, features, geojsonList) {
+    buildStyle: function (layer, features, geojsonList, extent) {
         const mapfishStyleObject = {
-            "version": "2"
-        };
+                "version": "2"
+            },
+            layersToNotReverse = ["measureLayer", "importDrawLayer"],
+            featuresInExtent = layer.getSource() ? layer.getSource().getFeaturesInExtent(extent) : features;
 
-        features.reverse().forEach(feature => {
-            const styles = this.getFeatureStyle(feature, layer),
+        if (!layersToNotReverse.includes(layer.values_.id)) {
+            features.reverse();
+        }
+        features.forEach(feature => {
+            const foundFeature = featuresInExtent.find(featureInExtent => featureInExtent.ol_uid === feature.ol_uid),
+                styles = this.getFeatureStyle(feature, layer),
                 styleAttributes = this.getStyleAttributes(layer, feature);
+
+            if (!foundFeature) {
+                return;
+            }
 
             let clonedFeature,
                 stylingRules,
@@ -471,6 +504,9 @@ const BuildSpecModel = {
 
             styles.forEach((style, index) => {
                 if (style !== null) {
+                    const styleModel = this.getStyleModel(layer);
+                    let limiter = ",";
+
                     clonedFeature = feature.clone();
                     styleAttributes.forEach(attribute => {
                         clonedFeature.set(attribute, (clonedFeature.get("features") ? clonedFeature.get("features")[0] : clonedFeature).get(attribute) + "_" + String(index));
@@ -482,14 +518,20 @@ const BuildSpecModel = {
                     if (styleGeometryFunction !== null && styleGeometryFunction !== undefined) {
                         clonedFeature.setGeometry(styleGeometryFunction(clonedFeature));
                         geometryType = styleGeometryFunction(clonedFeature).getType();
+                        if (geometryType === "Polygon") {
+                            this.checkPolygon(clonedFeature);
+                        }
                     }
-                    stylingRules = this.getStylingRules(layer, clonedFeature, styleAttributes, style)
-                        .replaceAll(",", " AND ");
+                    stylingRules = this.getStylingRules(layer, clonedFeature, styleAttributes, style);
+                    if (styleModel !== undefined && styleModel.get("labelField") && styleModel.get("labelField").length > 0) {
+                        stylingRules = stylingRules.replaceAll(limiter, " AND ");
+                        limiter = " AND ";
+                    }
                     stylingRulesSplit = stylingRules
                         .replaceAll("[", "")
                         .replaceAll("]", "")
                         .replaceAll("*", "")
-                        .split(" AND ")
+                        .split(limiter)
                         .map(rule => rule.split("="));
 
                     if (Array.isArray(stylingRulesSplit) && stylingRulesSplit.length) {
@@ -500,7 +542,7 @@ const BuildSpecModel = {
                             [])
                         );
                     }
-                    this.addFeatureToGeoJsonList(clonedFeature, geojsonList);
+                    this.addFeatureToGeoJsonList(clonedFeature, geojsonList, style);
 
                     // do nothing if we already have a style object for this CQL rule
                     if (Object.prototype.hasOwnProperty.call(mapfishStyleObject, stylingRules)) {
@@ -522,6 +564,9 @@ const BuildSpecModel = {
                         styleObject.symbolizers.push(this.buildPolygonStyle(style, layer));
                     }
                     else if (geometryType === "LineString" || geometryType === "MultiLineString") {
+                        if (layer.values_.id === "measureLayer" && style.stroke_ === null) {
+                            return;
+                        }
                         styleObject.symbolizers.push(this.buildLineStringStyle(style, layer));
                     }
                     // label styling
@@ -534,6 +579,47 @@ const BuildSpecModel = {
             });
         });
         return mapfishStyleObject;
+    },
+
+    /**
+     * The geometry of the feature is checked for not closed linearRing. Used for type Polygon.
+     * If it is not closed, the coordinates are adapted.
+     * @param {ol.Feature} feature to inspect
+     * @returns {ol.Feature} corrected feature, if necessary
+     */
+    checkPolygon (feature) {
+        if (Array.isArray(feature.getGeometry().getCoordinates()[0])) {
+            const coordinates = feature.getGeometry().getCoordinates()[0];
+
+            if (coordinates[0][0] !== coordinates[coordinates.length - 1][0] && coordinates[0][1] !== coordinates[coordinates.length - 1][1]) {
+                const coords = [];
+
+                coordinates.forEach(coord => {
+                    coords.push(coord);
+                });
+                feature.getGeometry().setCoordinates(coords);
+            }
+
+        }
+        return feature;
+    },
+
+    getStyleModel (layer, layerId) {
+        const layerModel = Radio.request("ModelList", "getModelByAttributes", {id: layer?.get("id")});
+        let foundChild;
+
+        if (typeof layerModel?.get === "function") {
+            if (layerModel.get("typ") === "GROUP") {
+                foundChild = layerModel.get("children").find(child => child.id === layerId);
+                if (foundChild) {
+                    return Radio.request("StyleList", "returnModelById", foundChild.styleId);
+                }
+            }
+            else {
+                return Radio.request("StyleList", "returnModelById", layerModel.get("styleId"));
+            }
+        }
+        return undefined;
     },
 
     /**
@@ -656,7 +742,10 @@ const BuildSpecModel = {
 
         return {
             type: "text",
-            label: style.getText() !== undefined ? style.getText() : "",
+            // tell MapFish that each feature has a property "_label" which contains the label-string
+            // it is necessary to "add/fill" the "_label"-property when we call convertFeatureToGeoJson()
+            // before we add it to the geoJSONList
+            label: "[_label]",
             fontColor: convertColor(fontColor, "hex"),
             fontOpacity: fontColor[0] !== "#" ? fontColor[3] : 1,
             labelOutlineColor: stroke ? convertColor(stroke.getColor(), "hex") : undefined,
@@ -779,6 +868,9 @@ const BuildSpecModel = {
         if (typeof fillColor === "string") {
             fillColor = this.colorStringToRgbArray(fillColor);
         }
+        else if (fillColor instanceof CanvasPattern) {
+            fillColor = [0, 0, 0, 0];
+        }
 
         obj.fillColor = convertColor(fillColor, "hex");
         obj.fillOpacity = fillColor[3];
@@ -856,14 +948,15 @@ const BuildSpecModel = {
      * adds the feature to the geojson list
      * @param {ol.Feature} feature - the feature can be clustered
      * @param {GeoJSON[]} geojsonList -
+     * @param {ol.style.Style[]} style - the feature-style
      * @returns {void}
      */
-    addFeatureToGeoJsonList: function (feature, geojsonList) {
+    addFeatureToGeoJsonList: function (feature, geojsonList, style) {
         let convertedFeature;
 
         if (feature.get("features") && feature.get("features").length === 1) {
             feature.get("features").forEach((clusteredFeature) => {
-                convertedFeature = this.convertFeatureToGeoJson(clusteredFeature);
+                convertedFeature = this.convertFeatureToGeoJson(clusteredFeature, style);
 
                 if (convertedFeature) {
                     geojsonList.push(convertedFeature);
@@ -871,7 +964,7 @@ const BuildSpecModel = {
             });
         }
         else {
-            convertedFeature = this.convertFeatureToGeoJson(feature);
+            convertedFeature = this.convertFeatureToGeoJson(feature, style);
 
             if (convertedFeature) {
                 geojsonList.push(convertedFeature);
@@ -882,11 +975,13 @@ const BuildSpecModel = {
     /**
      * converts an openlayers feature to a GeoJSON feature object
      * @param {ol.Feature} feature - the feature to convert
+     * @param {ol.style.Style[]} style - the feature-style
      * @returns {object} GeoJSON object
      */
-    convertFeatureToGeoJson: function (feature) {
+    convertFeatureToGeoJson: function (feature, style) {
         const clonedFeature = feature.clone(),
-            geojsonFormat = new GeoJSON();
+            geojsonFormat = new GeoJSON(),
+            labelText = style.getText()?.getText() || "";
         let convertedFeature;
 
         // remove all object and array properties except geometry. Otherwise mapfish runs into an error
@@ -898,6 +993,9 @@ const BuildSpecModel = {
 
         // take over id from feature because the feature id is not set in the clone.
         clonedFeature.setId(feature.getId() || feature.ol_uid);
+        // set "_label"-Propterty.
+        // This is necessary because the *label* of the *text-Style* (buildTextStyle()) now referrs to it.
+        clonedFeature.set("_label", labelText);
         // circle is not suppported by geojson
         if (clonedFeature.getGeometry().getType() === "Circle") {
             clonedFeature.setGeometry(fromCircle(clonedFeature.getGeometry()));
@@ -951,9 +1049,8 @@ const BuildSpecModel = {
      * @returns {string} an ECQL Expression
      */
     getStylingRules: function (layer, feature, styleAttributes, style, styleIndex) {
-        const layerModel = Radio.request("ModelList", "getModelByAttributes", {id: layer.get("id")}),
-            styleAttr = feature.get("styleId") ? "styleId" : styleAttributes;
-        let styleModel;
+        const styleAttr = feature.get("styleId") ? "styleId" : styleAttributes,
+            styleModel = this.getStyleModel(layer);
 
         if (styleAttr.length === 1 && styleAttr[0] === "") {
             if (feature.get("features") && feature.get("features").length === 1) {
@@ -1005,7 +1102,6 @@ const BuildSpecModel = {
 
                 feature.set(styleAttr[0], value);
                 return `[${styleAttr[0]}='${value}']`;
-
             }
 
             // Current feature is not clustered but a single feature in a clustered layer
@@ -1017,15 +1113,11 @@ const BuildSpecModel = {
             }, "[").slice(0, -1) + "]";
         }
         // feature with geometry style and label style
-        if (typeof layerModel?.get === "function" && Radio.request("StyleList", "returnModelById", layerModel.get("styleId")) !== undefined) {
-            styleModel = Radio.request("StyleList", "returnModelById", layerModel.get("styleId"));
+        if (styleModel !== undefined && styleModel.get("labelField") && styleModel.get("labelField").length > 0) {
+            const labelField = styleModel.get("labelField");
 
-            if (styleModel.get("labelField") && styleModel.get("labelField").length > 0) {
-                const labelField = styleModel.get("labelField");
-
-                return styleAttr.reduce((acc, curr) => acc + `${curr}='${feature.get(curr)}' AND ${labelField}='${feature.get(labelField)}',`, "[").slice(0, -1)
-                    + "]";
-            }
+            return styleAttr.reduce((acc, curr) => acc + `${curr}='${feature.get(curr)}' AND ${labelField}='${feature.get(labelField)}',`, "[").slice(0, -1)
+                + "]";
         }
         // feature with geometry style
         if (styleAttr instanceof Array) {
@@ -1042,13 +1134,12 @@ const BuildSpecModel = {
      * @returns {String[]} the attributes by whose value the feature is styled
      */
     getStyleAttributes: function (layer, feature) {
-        const layerId = layer.get("id");
-        let layerModel = Radio.request("ModelList", "getModelByAttributes", {id: layerId}),
-            styleFields = ["styleId"];
+        const layerId = layer.get("id"),
+            styleList = this.getStyleModel(layer, layerId);
+        let styleFields = ["styleId"],
+            layerModel = Radio.request("ModelList", "getModelByAttributes", {id: layer.get("id")});
 
-        if (typeof layerModel?.get === "function") {
-            const styleList = Radio.request("StyleList", "returnModelById", layerModel.get("styleId"));
-
+        if (styleList !== undefined) {
             layerModel = this.getChildModelIfGroupLayer(layerModel, layerId);
 
             if (layerModel.get("styleId")) {
@@ -1111,11 +1202,13 @@ const BuildSpecModel = {
                         metaDataLayerList.push(legendObj.name);
                     }
                     if (legendContainsPdf) {
-                        Radio.trigger("Alert", "alert", {
-                            kategorie: "alert-info",
-                            text: "<b>The layer \"" + legendObj.name + "\" contains a pre-defined Legend. " +
-                                "This legens cannot be added to the print.</b><br>" +
-                                "You can download the pre-defined legend from the download menu seperately."
+                        store.dispatch("Alerting/addSingleAlert", {
+                            category: i18next.t("common:modules.alerting.categories.info"),
+                            content: "<b>The layer \"" + legendObj.name + "\" contains a pre-defined Legend. " +
+                            "This legens cannot be added to the print.</b><br>" +
+                            "You can download the pre-defined legend from the download menu seperately.",
+                            displayClass: "info",
+                            kategorie: "alert-info"
                         });
                     }
                     else {
@@ -1137,7 +1230,7 @@ const BuildSpecModel = {
         else {
             const printJob = {
                 index,
-                payload: encodeURIComponent(JSON.stringify(this.defaults)),
+                payload: this.defaults,
                 getResponse: getResponse
             };
 
@@ -1219,18 +1312,14 @@ const BuildSpecModel = {
                 });
                 legendObj.legendType = "svgAndPng";
             }
-            else if (graphic.indexOf("data:image/svg+xml;charset=utf-8,<svg") !== -1) {
-                legendObj.svg = decodeURIComponent(graphic).split("data:image/svg+xml;charset=utf-8,")[1];
-                legendObj.legendType = "svg";
-            }
-            else if (graphic.toUpperCase().includes("GETLEGENDGRAPHIC")) {
-                legendObj.legendType = "wmsGetLegendGraphic";
-                legendObj.imageUrl = graphic;
-            }
             else if (graphic.indexOf("<svg") !== -1) {
                 legendObj.color = this.getFillColorFromSVG(graphic);
                 legendObj.legendType = "geometry";
                 legendObj.geometryType = "polygon";
+            }
+            else if (graphic.toUpperCase().includes("GETLEGENDGRAPHIC")) {
+                legendObj.legendType = "wmsGetLegendGraphic";
+                legendObj.imageUrl = graphic;
             }
             else {
                 legendObj.legendType = "wfsImage";
@@ -1240,6 +1329,7 @@ const BuildSpecModel = {
                 valuesArray.push(legendObj);
             }
         });
+
         return [].concat(...valuesArray);
     },
 

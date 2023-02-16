@@ -92,8 +92,6 @@ module.exports = {
         numFeaturesToShow: 2,
         infoText: "(weitere Objekte. Bitte zoomen.)"
     },
-    isMenubarVisible: true,
-    geoAPI: false,
     remoteInterface: {
         postMessageUrl: "http://localhost:8080"
     },
@@ -110,5 +108,19 @@ module.exports = {
             "HAMBURG-MITTE",
             "WANDSBEK"
         ]
-    }
+    },
+    zoomTo: [{
+        id: "zoomToGeometry",
+        layerId: "1692",
+        property: "bezirk_name",
+        allowedValues: [
+            "ALTONA",
+            "HARBURG",
+            "HAMBURG-NORD",
+            "BERGEDORF",
+            "EIMSBÜTTEL",
+            "HAMBURG-MITTE",
+            "WANDSBEK"
+        ]
+    }]
 };

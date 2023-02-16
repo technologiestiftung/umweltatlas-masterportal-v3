@@ -100,12 +100,14 @@ export default {
             >
                 <span
                     ref="discard"
-                    class="glyphicon glyphicon-remove"
+                    class="bootstrap-icon"
                     title="Discard"
                     tabindex="0"
                     @click="discardByClickX"
                     @keydown.enter="discardByClickX"
-                />
+                >
+                    <i class="bi-x-lg" />
+                </span>
                 <div
                     id="modal-1-header-container"
                 >
@@ -129,6 +131,7 @@ export default {
 
 <style lang="scss" scoped>
     @import "~/css/mixins.scss";
+    @import "~variables";
 
     #modal-1-container{
         display:none;
@@ -136,8 +139,8 @@ export default {
         &.showing{
             display:block;
         }
-        .glyphicon {
-            font-size: 14px;
+        .bootstrap-icon {
+            font-size: $font_size_big;
             padding: 5px;
             color:#555555;
             &:focus {
@@ -176,7 +179,7 @@ export default {
     }
     #modal-1-inner-wrapper {
         text-align:left;
-        background-color:#FFFFFF;
+        background-color: $white;
         display:inline-block;
         vertical-align:middle;
         max-width:90%;
@@ -188,7 +191,7 @@ export default {
             overflow: auto;
         }
 
-        .glyphicon.glyphicon-remove {
+        .bootstrap-icon {
             position:absolute;
             right:2px;
             top:4px;

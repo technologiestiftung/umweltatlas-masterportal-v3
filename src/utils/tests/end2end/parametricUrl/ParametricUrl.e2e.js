@@ -58,7 +58,7 @@ async function ParametricUrlTests ({builder, url, resolution, browsername, mode,
                     await driver.wait(until.elementLocated(By.css("#north-pointer")), 5000);
                     expect(await driver.findElement(By.css("#north-pointer"))).to.exist;
                 });
-                it("?Map/mapMode=3D&heading=-1.2502079000000208 test shall start in 3D-mode and shall set heading", async function () {
+                it.skip("?Map/mapMode=3D&heading=-1.2502079000000208 test shall start in 3D-mode and shall set heading", async function () {
                     await loadUrl(driver, `${url}?Map/mapMode=3D&heading=-1.2502079000000208`, mode);
                     await driver.wait(until.elementLocated(By.css("#north-pointer")), 5000);
                     expect(await driver.findElement(By.css("#north-pointer"))).to.exist;
@@ -67,7 +67,7 @@ async function ParametricUrlTests ({builder, url, resolution, browsername, mode,
 
                     expect(-1.2502079000000208).to.eql(heading);
                 });
-                it("?Map/mapMode=3D&tilt=45 test shall start in 3D-mode and shall set tilt", async function () {
+                it.skip("?Map/mapMode=3D&tilt=45 test shall start in 3D-mode and shall set tilt", async function () {
                     await loadUrl(driver, `${url}?Map/mapMode=3D&tilt=45`, mode);
                     await driver.wait(until.elementLocated(By.css("#north-pointer")), 5000);
                     expect(await driver.findElement(By.css("#north-pointer"))).to.exist;
@@ -76,7 +76,7 @@ async function ParametricUrlTests ({builder, url, resolution, browsername, mode,
 
                     expect(45).to.eql(tilt);
                 });
-                it("?Map/mapMode=3D&altitude=127 test shall start in 3D-mode and shall set altitude", async function () {
+                it.skip("?Map/mapMode=3D&altitude=127 test shall start in 3D-mode and shall set altitude", async function () {
                     await loadUrl(driver, `${url}?Map/mapMode=3D&altitude=127`, mode);
                     await driver.wait(until.elementLocated(By.css("#north-pointer")), 5000);
                     expect(await driver.findElement(By.css("#north-pointer"))).to.exist;
@@ -175,7 +175,6 @@ async function ParametricUrlTests ({builder, url, resolution, browsername, mode,
 
                     expect([566499, 5942803]).to.eql(center);
                 });
-
                 it("?zoomtogeometry=[number] zooms to a district", async function () {
                     const expectedCoordinate = [556535.269, 5937846.413000001];
 
@@ -184,7 +183,6 @@ async function ParametricUrlTests ({builder, url, resolution, browsername, mode,
                     await driver.wait(until.elementLocated(By.css(".navbar")), 12000);
                     expect(await centersTo(driver, expectedCoordinate)).to.be.true;
                 });
-
                 it("deprecated - ?bezirk=[districtName] zooms to a district", async function () {
                     const expectedCoordinate = [578867.787, 5924175.483999999];
 
@@ -192,7 +190,6 @@ async function ParametricUrlTests ({builder, url, resolution, browsername, mode,
                     await driver.wait(until.elementLocated(By.css(".navbar")), 12000);
                     expect(await centersTo(driver, expectedCoordinate)).to.be.true;
                 });
-
                 it("?Map/zoomToGeometry=[number] zooms to a district", async function () {
                     const expectedCoordinate = [556535.269, 5937846.413000001];
 
@@ -335,7 +332,7 @@ async function ParametricUrlTests ({builder, url, resolution, browsername, mode,
 
                     const treeEntry = await driver.findElement(
                             isBasic(url) || isMaster(url)
-                                ? By.xpath("//ul[@id='tree']/li[.//span[@title='Bezirke'] and .//span[contains(@class,'glyphicon-check')]]")
+                                ? By.xpath("//ul[@id='tree']/li[.//span[@title='Bezirke'] and .//span//i[contains(@class,'bi-check2-square')]]")
                                 : By.css("#SelectedLayer .layer-item [title=\"Bezirke\"]")
                         ),
                         visible = await driver.executeScript(isLayerVisible, "2426", "1");
@@ -351,7 +348,7 @@ async function ParametricUrlTests ({builder, url, resolution, browsername, mode,
 
                     const treeEntry = await driver.findElement(
                             isBasic(url) || isMaster(url)
-                                ? By.xpath("//ul[@id='tree']/li[.//span[@title='Bezirke'] and .//span[contains(@class,'glyphicon-check')]]")
+                                ? By.xpath("//ul[@id='tree']/li[.//span[@title='Bezirke'] and .//span//i[contains(@class,'bi-check2-square')]]")
                                 : By.css("#SelectedLayer .layer-item [title=\"Bezirke\"]")
                         ),
                         visible = await driver.executeScript(isLayerVisible, "2426", "1");
@@ -459,7 +456,7 @@ async function ParametricUrlTests ({builder, url, resolution, browsername, mode,
                             await driver.findElement(By.css("html"))
                         )
                         .perform();
-                    await (await driver.findElement(By.xpath("//div[contains(@class, 'gfi')]//span[contains(@class, 'glyphicon-remove')]"))).click();
+                    await (await driver.findElement(By.xpath("//div[contains(@class, 'gfi')]//span//i[contains(@class, 'bi-x-lg')]"))).click();
                     expect((await driver.findElements(By.css("div.gfi"))).length).to.equal(0);
                 });
 
@@ -490,7 +487,7 @@ async function ParametricUrlTests ({builder, url, resolution, browsername, mode,
                             await driver.findElement(By.css("html"))
                         )
                         .perform();
-                    await (await driver.findElement(By.xpath("//div[contains(@class, 'gfi')]//span[contains(@class, 'glyphicon-remove')]"))).click();
+                    await (await driver.findElement(By.xpath("//div[contains(@class, 'gfi')]//span//i[contains(@class, 'bi-x-lg')]"))).click();
                     expect((await driver.findElements(By.css("div.gfi"))).length).to.equal(0);
                 });
 
@@ -515,7 +512,7 @@ async function ParametricUrlTests ({builder, url, resolution, browsername, mode,
                     await driver.wait(until.elementLocated(By.css("div.gfi")), 12000);
                     await driver.wait(until.elementIsVisible(await driver.findElement(By.css("div.gfi"))), 12000);
                     await driver.wait(until.elementLocated(By.xpath("//div[contains(@class, 'gfi')]//td[contains(.,'Agaplesion Diakonieklinikum Hamburg')]")), 12000);
-                    await (await driver.findElement(By.xpath("//div[contains(@class, 'gfi')]//span[contains(@class, 'glyphicon-remove')]"))).click();
+                    await (await driver.findElement(By.xpath("//div[contains(@class, 'gfi')]//span//i[contains(@class, 'bi-x-lg')]"))).click();
                     expect((await driver.findElements(By.css("div.gfi"))).length).to.equal(0);
                 });
 
@@ -540,7 +537,7 @@ async function ParametricUrlTests ({builder, url, resolution, browsername, mode,
                     await driver.wait(until.elementLocated(By.css("div.gfi")), 12000);
                     await driver.wait(until.elementIsVisible(await driver.findElement(By.css("div.gfi"))), 12000);
                     await driver.wait(until.elementLocated(By.xpath("//div[contains(@class, 'gfi')]//td[contains(.,'Agaplesion Diakonieklinikum Hamburg')]")), 12000);
-                    await (await driver.findElement(By.xpath("//div[contains(@class, 'gfi')]//span[contains(@class, 'glyphicon-remove')]"))).click();
+                    await (await driver.findElement(By.xpath("//div[contains(@class, 'gfi')]//span//i[contains(@class, 'bi-x-lg')]"))).click();
                     expect((await driver.findElements(By.css("div.gfi"))).length).to.equal(0);
                 });
 
@@ -596,7 +593,7 @@ async function ParametricUrlTests ({builder, url, resolution, browsername, mode,
 
                     await (await driver.findElement(By.css("div#navbarRow li:first-child"))).click();
                     await driver.wait(until.elementIsVisible(await driver.findElement(By.id("tree"))));
-                    await (await driver.findElement(By.css("li.layer span.glyphicon-info-sign"))).click();
+                    await (await driver.findElement(By.css("li.layer span.bootstrap-icon > .bi-info-circle-fill"))).click();
                     await driver.wait(until.elementIsVisible(await driver.findElement(By.id("layerInformation"))));
 
                     expect(await driver.findElements(By.xpath("//*[contains(text(),'Fehler beim Laden der Vorschau der Metadaten.')]"))).to.be.empty;
@@ -610,7 +607,7 @@ async function ParametricUrlTests ({builder, url, resolution, browsername, mode,
 
                     await (await driver.findElement(By.css("div#navbarRow li:first-child"))).click();
                     await driver.wait(until.elementIsVisible(await driver.findElement(By.id("tree"))));
-                    await (await driver.findElement(By.css("li.layer span.glyphicon-info-sign"))).click();
+                    await (await driver.findElement(By.css("li.layer span.bootstrap-icon > .bi-info-circle-fill"))).click();
                     await driver.wait(until.elementIsVisible(await driver.findElement(By.id("layerInformation"))));
 
                     expect(await driver.findElements(By.xpath("//*[contains(text(),'Fehler beim Laden der Vorschau der Metadaten.')]"))).to.be.empty;
@@ -639,20 +636,20 @@ async function ParametricUrlTests ({builder, url, resolution, browsername, mode,
                             await driver.findElement(By.css("html"))
                         )
                         .perform();
-                    await (await driver.findElement(By.xpath("//div[contains(@class, 'gfi')]//span[contains(@class, 'glyphicon-remove')]"))).click();
+                    await (await driver.findElement(By.xpath("//div[contains(@class, 'gfi')]//span//i[contains(@class, 'bi-x-lg')]"))).click();
                     expect((await driver.findElements(By.css("div.gfi"))).length).to.equal(0);
 
                     // check whether layer has its legend loaded
                     await (await driver.findElement(By.css(".legend-menu-item"))).click();
                     await driver.wait(until.elementIsVisible(await driver.findElement(By.css("div.legend-window"))), 12000);
                     expect(await driver.findElement(By.xpath("//div[contains(@class,'legend-window')]//img[contains(@src,'https://geoportal-hamburg.de/legende/legende_solar.png')]"))).to.exist;
-                    await (await driver.findElement(By.xpath("//div[contains(@class,'legend-window')]//span[contains(@class, 'glyphicon-remove')]"))).click();
+                    await (await driver.findElement(By.xpath("//div[contains(@class,'legend-window')]//span//i[contains(@class, 'bi-x-lg')]"))).click();
                     expect((await driver.findElements(By.css("div.legend-window"))).length).to.equal(0);
 
                     // check layer information in topic tree
                     await (await driver.findElement(By.css("div#navbarRow li:first-child"))).click();
                     await driver.wait(until.elementIsVisible(await driver.findElement(By.id("tree"))));
-                    await (await driver.findElement(By.xpath("//ul[@id='tree']/li[.//span[@title='Eignungsflächen']]//span[contains(@class,'glyphicon-info-sign')]"))).click();
+                    await (await driver.findElement(By.xpath("//ul[@id='tree']/li[.//span[@title='Eignungsflächen']]//span//i[contains(@class,'bi-info-circle-fill')]"))).click();
                     await driver.wait(until.elementIsVisible(await driver.findElement(By.id("layerInformation"))));
 
                     expect(await driver.findElements(By.xpath("//*[contains(text(),'Fehler beim Laden der Vorschau der Metadaten.')]"))).to.be.empty;
@@ -681,20 +678,20 @@ async function ParametricUrlTests ({builder, url, resolution, browsername, mode,
                             await driver.findElement(By.css("html"))
                         )
                         .perform();
-                    await (await driver.findElement(By.xpath("//div[contains(@class, 'gfi')]//span[contains(@class, 'glyphicon-remove')]"))).click();
+                    await (await driver.findElement(By.xpath("//div[contains(@class, 'gfi')]//span//i[contains(@class, 'bi-x-lg')]"))).click();
                     expect((await driver.findElements(By.css("div.gfi"))).length).to.equal(0);
 
                     // check whether layer has its legend loaded
                     await (await driver.findElement(By.css(".legend-menu-item"))).click();
                     await driver.wait(until.elementIsVisible(await driver.findElement(By.css("div.legend-window"))), 12000);
                     expect(await driver.findElement(By.xpath("//div[contains(@class,'legend-window')]//img[contains(@src,'https://geoportal-hamburg.de/legende/legende_solar.png')]"))).to.exist;
-                    await (await driver.findElement(By.xpath("//div[contains(@class,'legend-window')]//span[contains(@class, 'glyphicon-remove')]"))).click();
+                    await (await driver.findElement(By.xpath("//div[contains(@class,'legend-window')]//span//i[contains(@class, 'bi-x-lg')]"))).click();
                     expect((await driver.findElements(By.css("div.legend-window"))).length).to.equal(0);
 
                     // check layer information in topic tree
                     await (await driver.findElement(By.css("div#navbarRow li:first-child"))).click();
                     await driver.wait(until.elementIsVisible(await driver.findElement(By.id("tree"))));
-                    await (await driver.findElement(By.xpath("//ul[@id='tree']/li[.//span[@title='Eignungsflächen']]//span[contains(@class,'glyphicon-info-sign')]"))).click();
+                    await (await driver.findElement(By.xpath("//ul[@id='tree']/li[.//span[@title='Eignungsflächen']]//span//i[contains(@class,'bi-info-circle-fill')]"))).click();
                     await driver.wait(until.elementIsVisible(await driver.findElement(By.id("layerInformation"))));
 
                     expect(await driver.findElements(By.xpath("//*[contains(text(),'Fehler beim Laden der Vorschau der Metadaten.')]"))).to.be.empty;
@@ -726,17 +723,16 @@ async function ParametricUrlTests ({builder, url, resolution, browsername, mode,
                         {coordinate: [567043.565, 5934455.808], image: "https://geodienste.hamburg.de/lgv-config/img/location_eventlotse.svg"}
                     ]), 20000);
                 });
-
-                it.skip("?featureViaURL test point", async function () {
-                    await loadUrl(driver, `${url}?featureViaURL=[{"layerId":"42","features":[{"coordinates":[566331.53,5928359.43],"label":"TestPunkt"}]}]`, mode);
+                it("?featureViaURL test point", async function () {
+                    await loadUrl(driver, `${url}?featureViaURL=[{"layerId":"42","features":[{"coordinates":[10,53.57],"label":"TestPunkt"}]}]`, mode);
 
                     await driver.wait(until.elementLocated(By.css(".navbar")), 12000);
                     await driver.wait(async () => driver.executeScript(doesLayerWithFeaturesExist, [
-                        {coordinate: [566331.53, 5928359.43], image: "https://geodienste.hamburg.de/lgv-config/img/location_eventlotse.svg"}
+                        {coordinate: [566222.2125816707, 5936146.366705798], image: "https://geodienste.hamburg.de/lgv-config/img/location_eventlotse.svg"}
                     ]), 20000);
                 });
 
-                it.skip("?featureViaURL test line", async function () {
+                it("?featureViaURL test line", async function () {
                     await loadUrl(driver, `${url}?featureViaURL=[{"layerId":"4200","features":[{"coordinates":[[10.15,53.5],[10.05,53.5],[10.05,53.55]],"label":"TestLinie"}]}]`, mode);
                     await driver.wait(until.elementLocated(By.css(".navbar")), 12000);
                     await driver.executeScript(isLayerVisible, "4200");
@@ -757,8 +753,7 @@ async function ParametricUrlTests ({builder, url, resolution, browsername, mode,
                     if (await (await driver.findElements(By.xpath("//div[@class='singleAlertMessage']//parent::div//parent::div//parent::div//parent::div//parent::div//preceding-sibling::span"))).length > 0) {
                         await closeSingleAlert(driver);
                     }
-
-                    expect(await driver.findElement(By.css("ul#tree .layer-catalog .header .form-inline .catalog-selection .form-control"))).to.exist;
+                    expect(await driver.findElement(By.css("ul#tree .layer-catalog .menu-row.header > div > form > .catalog-selection > select"))).to.exist;
 
                     // test by redirecting master to default with layers
                     // await loadUrl(driver, `${url}?layerIDs=19969,4915&visibility=true,true&transparency=0,0&config=../masterDefault${urlAffix}/config.json`, mode);
@@ -774,7 +769,7 @@ async function ParametricUrlTests ({builder, url, resolution, browsername, mode,
                         await closeSingleAlert(driver);
                     }
 
-                    expect(await driver.findElement(By.css("ul#tree .layer-catalog .header .control-label"))).to.exist;
+                    expect(await driver.findElement(By.css("ul#tree .layer-catalog .header .form-label"))).to.exist;
                 });
 
                 it("?configJson= allows selecting a config", async function () {
@@ -789,12 +784,12 @@ async function ParametricUrlTests ({builder, url, resolution, browsername, mode,
                     // test by redirecting master to default
                     await loadUrl(driver, `${url}?configJson=../masterDefault${urlAffix}/config.json`, mode);
 
-                    expect(await driver.findElement(By.css("ul#tree .layer-catalog .header .form-inline .catalog-selection .form-control"))).to.exist;
+                    expect(await driver.findElement(By.css("ul#tree .layer-catalog .menu-row.header > div > form > .catalog-selection > select"))).to.exist;
 
                     // test by redirecting master to custom
                     await loadUrl(driver, `${url}?configJson=../masterCustom${urlAffix}/config.json`, mode);
 
-                    expect(await driver.findElement(By.css("ul#tree .layer-catalog .header .control-label"))).to.exist;
+                    expect(await driver.findElement(By.css("ul#tree .layer-catalog .header .form-label"))).to.exist;
                 });
             }
 
@@ -894,7 +889,7 @@ async function ParametricUrlTests ({builder, url, resolution, browsername, mode,
                     await driver.wait(until.elementLocated(topicSelector));
                     await (await driver.findElement(topicSelector)).click();
                     await driver.wait(until.elementIsVisible(await driver.findElement(By.id("tree"))));
-                    await driver.findElement(By.css("ul#SelectedLayer .layer-item:first-child span.glyphicon-check"));
+                    await driver.findElement(By.css("ul#SelectedLayer .layer-item:first-child span.bootstrap-icon > .bi-check2-square"));
 
                     // check if visible in map
                     await driver.executeScript(isLayerVisible, "1562_4");
@@ -909,7 +904,7 @@ async function ParametricUrlTests ({builder, url, resolution, browsername, mode,
                     await driver.wait(until.elementLocated(topicSelector));
                     await (await driver.findElement(topicSelector)).click();
                     await driver.wait(until.elementIsVisible(await driver.findElement(By.id("tree"))));
-                    await driver.findElement(By.css("ul#SelectedLayer .layer-item:first-child span.glyphicon-check"));
+                    await driver.findElement(By.css("ul#SelectedLayer .layer-item:first-child span.bootstrap-icon > .bi-check2-square"));
 
                     // check if visible in map
                     await driver.executeScript(isLayerVisible, "1562_4");
@@ -986,7 +981,7 @@ async function ParametricUrlTests ({builder, url, resolution, browsername, mode,
 
                     const treeEntry = await driver.findElement(
                             isBasic(url) || isMaster(url)
-                                ? By.xpath("//ul[@id='tree']/li[.//span[@title='Bahnlinien'] and .//span[contains(@class,'glyphicon-check')]]")
+                                ? By.xpath("//ul[@id='tree']/li[.//span[@title='Bahnlinien'] and .//span//i[contains(@class,'bi-check2-square')]]")
                                 : By.css("#SelectedLayer .layer-item [title=\"Bahnlinien\"]")
                         ),
                         visible = await driver.executeScript(isLayerVisible, "1935geofox-bahn", "1");

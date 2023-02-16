@@ -1,6 +1,6 @@
 <script>
 import ToolTemplate from "../../ToolTemplate.vue";
-import getComponent from "../../../../utils/getComponent";
+import {getComponent} from "../../../../utils/getComponent";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import getters from "../store/gettersBufferAnalysis";
 import mutations from "../store/mutationsBufferAnalysis";
@@ -18,7 +18,6 @@ export default {
     data: () => ({resultTypeEnum: ResultType}),
     computed: {
         ...mapGetters("Tools/BufferAnalysis", Object.keys(getters)),
-        ...mapGetters("Map", ["map"]),
         selectedSourceLayer: {
             /**
              * getter for the computed property selectedSourceLayer
@@ -81,30 +80,6 @@ export default {
     },
     watch: {
         /**
-         * Watches the value of selectedTargetLayer
-         * deselects the previous selected target layer if it exists and a new selection is made
-         * @param {Object} layer the new selected target layer
-         * @param {Object} previous  the previous selected target layer
-         * @returns {void}
-         */
-        selectedTargetLayer (layer, previous) {
-            if (previous && layer) {
-                previous.setIsSelected(false);
-            }
-        },
-        /**
-         * Watches the value of selectedSourceLayer
-         * deselects the previous selected source layer if it exists and the new selected layer is falsy
-         * @param {Object} layer the new selected source layer
-         * @param {Object} previous  the previous selected source layer
-         * @returns {void}
-         */
-        selectedSourceLayer (layer, previous) {
-            if (previous && !layer) {
-                previous.setIsSelected(false);
-            }
-        },
-        /**
          * Watches the value of inputBufferRadius
          * debounces the input values to prevent unnecessary calculations
          * @param {Number} newBufferRadius the new selected buffer radius
@@ -124,6 +99,8 @@ export default {
         active (isActive) {
             if (isActive) {
                 this.setFocusToFirstControl();
+                this.setSelectOptions([]);
+                this.loadSelectOptions();
             }
         }
     },
@@ -138,6 +115,11 @@ export default {
         this.initJSTSParser();
         this.loadSelectOptions();
         this.$on("close", this.close);
+    },
+    mounted () {
+        this.$nextTick(() => {
+            this.applyValuesFromSavedUrlBuffer();
+        });
     },
     methods: {
         ...mapMutations("Tools/BufferAnalysis", Object.keys(mutations)),
@@ -178,7 +160,7 @@ export default {
 <template lang="html">
     <ToolTemplate
         :title="$t(name)"
-        :icon="glyphicon"
+        :icon="icon"
         :active="active"
         :render-to-window="renderToWindow"
         :resizable-window="resizableWindow"
@@ -189,17 +171,18 @@ export default {
             <div
                 v-if="active"
                 id="tool-bufferAnalysis"
+                class="row"
             >
                 <label
                     for="tool-bufferAnalysis-selectSourceInput"
-                    class="col-md-5 col-sm-5 control-label"
+                    class="col-md-5 col-form-label"
                 >{{ $t("modules.tools.bufferAnalysis.sourceSelectLabel") }}</label>
-                <div class="col-md-7 col-sm-7 form-group form-group-sm">
+                <div class="col-md-7 form-group form-group-sm">
                     <select
                         id="tool-bufferAnalysis-selectSourceInput"
                         ref="tool-bufferAnalysis-selectSourceInput"
                         v-model="selectedSourceLayer"
-                        class="font-arial form-control input-sm pull-left"
+                        class="font-arial form-select form-select-sm float-start"
                     >
                         <option
                             v-for="layer in selectOptions"
@@ -212,10 +195,10 @@ export default {
                 </div>
                 <label
                     for="tool-bufferAnalysis-radiusTextInput"
-                    class="col-md-5 col-sm-5 control-label"
+                    class="col-md-5 col-form-label"
                 >{{ $t("modules.tools.bufferAnalysis.rangeLabel") }}</label>
 
-                <div class="col-md-7 col-sm-7 form-group form-group-sm">
+                <div class="col-md-7 form-group form-group-sm">
                     <input
                         id="tool-bufferAnalysis-radiusTextInput"
                         v-model="inputBufferRadius"
@@ -223,7 +206,7 @@ export default {
                         min="0"
                         max="3000"
                         step="10"
-                        class="font-arial form-control input-sm pull-left"
+                        class="font-arial form-control form-control-sm float-start"
                         type="number"
                     >
                     <input
@@ -233,21 +216,21 @@ export default {
                         min="0"
                         max="3000"
                         step="10"
-                        class="font-arial form-control input-sm pull-left"
+                        class="font-arial form-control form-control-sm float-start"
                         type="range"
                     >
                 </div>
 
                 <label
                     for="tool-bufferAnalysis-resultTypeInput"
-                    class="col-md-5 col-sm-5 control-label"
+                    class="col-md-5 col-form-label"
                 >{{ $t("modules.tools.bufferAnalysis.resultTypeLabel") }}</label>
 
-                <div class="col-md-7 col-sm-7 form-group form-group-sm">
+                <div class="col-md-7 form-group form-group-sm">
                     <select
                         id="tool-bufferAnalysis-resultTypeInput"
                         v-model="resultType"
-                        class="font-arial form-control input-sm pull-left"
+                        class="font-arial form-select form-select-sm float-start"
                         :disabled="!selectedSourceLayer || !bufferRadius || selectedTargetLayer"
                     >
                         <option
@@ -265,14 +248,14 @@ export default {
 
                 <label
                     for="tool-bufferAnalysis-selectTargetInput"
-                    class="col-md-5 col-sm-5 control-label"
+                    class="col-md-5 col-form-label"
                 >{{ $t("modules.tools.bufferAnalysis.targetSelectLabel") }}</label>
 
-                <div class="col-md-7 col-sm-7 form-group form-group-sm">
+                <div class="col-md-7 form-group form-group-sm">
                     <select
                         id="tool-bufferAnalysis-selectTargetInput"
                         v-model="selectedTargetLayer"
-                        class="font-arial form-control input-sm pull-left"
+                        class="font-arial form-select form-select-sm float-start"
                         :disabled="!selectedSourceLayer || !bufferRadius || selectedTargetLayer"
                     >
                         <option
@@ -285,10 +268,10 @@ export default {
                     </select>
                 </div>
 
-                <div class="col-md-12 col-sm-12 form-group form-group-sm">
+                <div class="col-md-12 form-group form-group-sm d-grid gap-2">
                     <button
                         id="tool-bufferAnalysis-resetButton"
-                        class="pull-right btn btn-block btn-lgv-grey"
+                        class="float-end btn btn-secondary"
                         :disabled="!selectedSourceLayer"
                         @click="resetModule"
                     >
@@ -296,21 +279,21 @@ export default {
                     </button>
                 </div>
 
-                <div class="col-md-12 col-sm-12 form-group form-group-sm">
+                <div class="col-md-12 form-group form-group-sm d-grid gap-2">
                     <button
                         id="tool-bufferAnalysis-saveButton"
-                        class="pull-right btn btn-block btn-primary"
+                        class="float-end btn btn-primary"
                         :disabled="!selectedSourceLayer || !selectedTargetLayer || !bufferRadius"
                         @click="buildUrlFromToolState"
                     >
                         {{ $t("modules.tools.bufferAnalysis.saveButton") }}
                     </button>
                 </div>
-                <div class="col-md-12 col-sm-12 form-group form-group-sm">
+                <div class="col-md-12 form-group form-group-sm">
                     <input
                         id="tool-bufferAnalysis-savedUrlText"
                         v-model="savedUrl"
-                        class="col-md-12 col-sm-12 form-group form-group-sm input-sm"
+                        class="col-md-12 form-control form-control-sm"
                         readonly
                         :hidden="!savedUrl"
                         type="text"
@@ -323,13 +306,14 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-    // @import "~variables";
+    @import "~variables";
     #tool-bufferAnalysis-radiusRangeInput {
         -webkit-appearance: none;
         appearance: none;
         border-radius: 4px;
         border: none;
         height: 12px;
+        min-height: 12px;
         margin-top: 19px;
         background: #cbcbcb;
     }
@@ -337,7 +321,7 @@ export default {
         &::-moz-range-thumb, &::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            background-color: #08589e;
+            background-color: $light_blue;
             cursor: pointer;
             border-width: 1px;
             border-color: white;

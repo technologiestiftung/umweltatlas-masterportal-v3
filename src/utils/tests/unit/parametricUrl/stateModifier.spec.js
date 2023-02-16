@@ -1,6 +1,7 @@
 import {expect} from "chai";
 import {checkIsURLQueryValid, setValueToState} from "../../../parametricUrl/stateModifier";
-import * as crs from "masterportalapi/src/crs";
+import store from "../../../../app-store";
+import crs from "@masterportal/masterportalapi/src/crs";
 
 const namedProjections = [
     ["EPSG:31467", "+title=Bessel/Gauß-Krüger 3 +proj=tmerc +lat_0=0 +lon_0=9 +k=1 +x_0=3500000 +y_0=0 +ellps=bessel +datum=potsdam +units=m +no_defs"],
@@ -10,8 +11,16 @@ const namedProjections = [
 ];
 
 describe("src/utils/parametricUrl/stateModifier.js", () => {
+    let stateCopy;
+
     describe("setValueToState", () => {
-        it("setValueToState does not react if key is not an array", () => {
+        before(() => {
+            stateCopy = {...store.state};
+        });
+        after(() => {
+            store.replaceState(stateCopy);
+        });
+        it("setValueToState does not react if key is not an array", async () => {
             const state = {
                     urlParams: {},
                     Tools: {
@@ -22,14 +31,15 @@ describe("src/utils/parametricUrl/stateModifier.js", () => {
                 },
                 value = "true";
 
-            setValueToState(state, null, value);
-            expect(state.Tools.Measure.active).to.be.equals(false);
+            store.replaceState(state);
+            setValueToState(store.state, null, value);
+            expect(await store.state.Tools.Measure.active).to.be.equals(false);
 
-            setValueToState(state, undefined, value);
-            expect(state.Tools.Measure.active).to.be.equals(false);
+            setValueToState(store.state, undefined, value);
+            expect(await store.state.Tools.Measure.active).to.be.equals(false);
 
-            setValueToState(state, {}, value);
-            expect(state.Tools.Measure.active).to.be.equals(false);
+            setValueToState(store.state, {}, value);
+            expect(await store.state.Tools.Measure.active).to.be.equals(false);
         });
         it("setValueToState sets a boolean", async () => {
             const key = "Tools/Measure/active",
@@ -42,19 +52,20 @@ describe("src/utils/parametricUrl/stateModifier.js", () => {
                     }
                 };
 
-            await setValueToState(state, key, "true");
-            expect(state.Tools.Measure.active).to.be.equals(true);
+            store.replaceState(state);
+            await setValueToState(store.state, key, "true");
+            expect(await store.state.Tools.Measure.active).to.be.equals(true);
 
             state.Tools.Measure.active = false;
-            await setValueToState(state, key, true);
-            expect(state.Tools.Measure.active).to.be.equals(true);
+            await setValueToState(store.state, key, true);
+            expect(await store.state.Tools.Measure.active).to.be.equals(true);
 
-            await setValueToState(state, key, "false");
-            expect(state.Tools.Measure.active).to.be.equals(false);
+            await setValueToState(store.state, key, "false");
+            expect(await store.state.Tools.Measure.active).to.be.equals(false);
 
             state.Tools.Measure.active = true;
-            await setValueToState(state, key, false);
-            expect(state.Tools.Measure.active).to.be.equals(false);
+            await setValueToState(store.state, key, false);
+            expect(await store.state.Tools.Measure.active).to.be.equals(false);
         });
 
 
@@ -85,48 +96,50 @@ describe("src/utils/parametricUrl/stateModifier.js", () => {
                     }
                 };
 
-                await setValueToState(state, key, "true");
-                expect(state.Tools.Measure.active).to.be.equals(true);
+                store.replaceState(state);
+
+                await setValueToState(store.state, key, "true");
+                expect(await store.state.Tools.Measure.active).to.be.equals(true);
 
                 state.Tools.Measure.active = false;
                 key = "tools/Measure/active";
-                await setValueToState(state, key, "true");
-                expect(state.Tools.Measure.active).to.be.equals(true);
+                await setValueToState(store.state, key, "true");
+                expect(await store.state.Tools.Measure.active).to.be.equals(true);
 
                 state.Tools.Measure.active = false;
                 key = "tools/Measure/active";
-                await setValueToState(state, key, "");
-                expect(state.Tools.Measure.active).to.be.equals(true);
+                await setValueToState(store.state, key, "");
+                expect(await store.state.Tools.Measure.active).to.be.equals(true);
 
                 state.Tools.Measure.active = false;
                 key = "tools/measure/active";
-                await setValueToState(state, key, "true");
-                expect(state.Tools.Measure.active).to.be.equals(true);
+                await setValueToState(store.state, key, "true");
+                expect(await store.state.Tools.Measure.active).to.be.equals(true);
 
                 state.Tools.Measure.active = false;
                 key = "Measure/active";
-                await setValueToState(state, key, "true");
-                expect(state.Tools.Measure.active).to.be.equals(true);
+                await setValueToState(store.state, key, "true");
+                expect(await store.state.Tools.Measure.active).to.be.equals(true);
 
                 state.Tools.Measure.active = false;
                 key = "measure/active";
-                await setValueToState(state, key, "true");
-                expect(state.Tools.Measure.active).to.be.equals(true);
+                await setValueToState(store.state, key, "true");
+                expect(await store.state.Tools.Measure.active).to.be.equals(true);
 
                 state.Tools.Measure.active = false;
                 key = "Measure/active";
-                await setValueToState(state, key, "");
-                expect(state.Tools.Measure.active).to.be.equals(true);
+                await setValueToState(store.state, key, "");
+                expect(await store.state.Tools.Measure.active).to.be.equals(true);
 
                 state.Tools.Measure.active = false;
                 key = "measure/active";
-                await setValueToState(state, key, "");
-                expect(state.Tools.Measure.active).to.be.equals(true);
+                await setValueToState(store.state, key, "");
+                expect(await store.state.Tools.Measure.active).to.be.equals(true);
 
                 state.Tools.Measure.active = false;
                 key = "measure";
-                await setValueToState(state, key, "true");
-                expect(state.Tools.Measure.active).to.be.equals(true);
+                await setValueToState(store.state, key, "true");
+                expect(await store.state.Tools.Measure.active).to.be.equals(true);
 
             });
             it("setValueToState with isinitopen, tool is in state", async () => {
@@ -141,38 +154,37 @@ describe("src/utils/parametricUrl/stateModifier.js", () => {
                     };
                 let value = "measure";
 
-                await setValueToState(state, key, value);
-                expect(state.Tools.Measure.active).to.be.equals(true);
-                expect(state.urlParams[key]).to.be.equals(undefined);
+                store.replaceState(state);
+                await setValueToState(store.state, key, value);
+                expect(await store.state.Tools.Measure.active).to.be.equals(true);
+                expect(await store.state.urlParams[key]).to.be.equals(undefined);
 
-                state.Tools.Measure.active = false;
-                state.isinitopen = undefined;
+                store.replaceState(state);
                 value = "Measure";
-                await setValueToState(state, key, value);
-                expect(state.Tools.Measure.active).to.be.equals(true);
-                expect(state.urlParams[key]).to.be.equals(undefined);
+                await setValueToState(store.state, key, value);
+                expect(await store.state.Tools.Measure.active).to.be.equals(true);
+                expect(await store.state.urlParams[key]).to.be.equals(undefined);
 
             });
             it("setValueToState with isinitopen, tool is not in state", async () => {
                 const key = "isinitopen",
                     state = {
                         urlParams: {},
-                        Tools: {
-                        }
+                        Tools: {}
                     };
-                let value = "print";
+                let value = "shadow";
 
-                await setValueToState(state, key, value);
-                expect(state.Tools.Print).to.be.equals(undefined);
-                expect(state.urlParams[key]).to.be.equals("print");
 
-                state.Tools = {};
-                state.urlParams = {};
-                state.isinitopen = undefined;
-                value = "Print";
-                await setValueToState(state, key, value);
-                expect(state.Tools.Print).to.be.equals(undefined);
-                expect(state.urlParams[key]).to.be.equals("Print");
+                store.replaceState(state);
+                await setValueToState(store.state, key, value);
+                expect(await store.state.Tools.Shadow).to.be.equals(undefined);
+                expect(await store.state.urlParams[key]).to.be.equals("shadow");
+
+                store.replaceState(state);
+                value = "Shadow";
+                await setValueToState(store.state, key, value);
+                expect(await store.state.Tools.Shadow).to.be.equals(undefined);
+                expect(await store.state.urlParams[key]).to.be.equals("shadow");
             });
 
 
@@ -188,16 +200,16 @@ describe("src/utils/parametricUrl/stateModifier.js", () => {
                     };
                 let value = "measure";
 
-                await setValueToState(state, key, value);
-                expect(state.Tools.Measure.active).to.be.equals(true);
-                expect(state.urlParams.isinitopen).to.be.equals(undefined);
+                store.replaceState(state);
+                await setValueToState(store.state, key, value);
+                expect(await store.state.Tools.Measure.active).to.be.equals(true);
+                expect(await store.state.urlParams.isinitopen).to.be.equals(undefined);
 
-                state.Tools.Measure.active = false;
-                state.startupmodul = undefined;
+                store.replaceState(state);
                 value = "Measure";
-                await setValueToState(state, key, value);
-                expect(state.Tools.Measure.active).to.be.equals(true);
-                expect(state.urlParams.isinitopen).to.be.equals(undefined);
+                await setValueToState(store.state, key, value);
+                expect(await store.state.Tools.Measure.active).to.be.equals(true);
+                expect(await store.state.urlParams.isinitopen).to.be.equals(undefined);
 
             });
             it("setValueToState with startupmodul, tool is not in state", async () => {
@@ -207,52 +219,54 @@ describe("src/utils/parametricUrl/stateModifier.js", () => {
                         Tools: {
                         }
                     };
-                let value = "print";
+                let value = "shadow";
 
-                await setValueToState(state, key, value);
-                expect(state.Tools.Print).to.be.equals(undefined);
-                expect(state.urlParams.isinitopen).to.be.equals("print");
+                store.replaceState(state);
 
-                state.Tools.Print = undefined;
-                state.urlParams.isinitopen = undefined;
-                value = "Print";
-                await setValueToState(state, key, value);
-                expect(state.Tools.Print).to.be.equals(undefined);
-                expect(state.urlParams.isinitopen).to.be.equals("Print");
+                await setValueToState(store.state, key, value);
+                expect(await store.state.Tools.Shadow).to.be.equals(undefined);
+                expect(await store.state.urlParams.isinitopen).to.be.equals("shadow");
+
+                store.replaceState(state);
+                value = "Shadow";
+                await setValueToState(store.state, key, value);
+                expect(await store.state.Tools.Shadow).to.be.equals(undefined);
+                expect(await store.state.urlParams.isinitopen).to.be.equals("shadow");
             });
         });
-
-        // describe("test start tool by urlparams", () => {
         it("?Map/center or only center as param-key is set to state", async () => {
             let key = "Map/center",
                 valueAsString = "[553925,5931898]";
             const state = {
                     urlParams: {},
-                    Map: {
+                    Maps: {
                         center: [0, 0]
-                    }
+                    },
+                    Tools: {}
                 },
                 value = [553925, 5931898];
 
-            await setValueToState(state, key, valueAsString);
-            expect(state.Map.center).to.be.deep.equals(value);
+            store.replaceState(state);
 
-            state.Map.center = [0, 0];
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.Maps.center).to.be.deep.equals(value);
+
+            store.replaceState(state);
             key = "center";
-            await setValueToState(state, key, valueAsString);
-            expect(state.Map.center).to.be.deep.equals(value);
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.Maps.center).to.be.deep.equals(value);
 
-            state.Map.center = [0, 0];
+            store.replaceState(state);
             key = "Map/center";
             valueAsString = "553925,5931898";
-            await setValueToState(state, key, valueAsString);
-            expect(state.Map.center).to.be.deep.equals(value);
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.Maps.center).to.be.deep.equals(value);
 
-            state.Map.center = [0, 0];
+            store.replaceState(state);
             key = "center";
             valueAsString = "553925,5931898";
-            await setValueToState(state, key, valueAsString);
-            expect(state.Map.center).to.be.deep.equals(value);
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.Maps.center).to.be.deep.equals(value);
         });
         it("test param marker and MapMarker, coordinates as array or comma separated", async () => {
             let key = "marker",
@@ -261,28 +275,30 @@ describe("src/utils/parametricUrl/stateModifier.js", () => {
                     urlParams: {},
                     MapMarker: {
                         coordinates: [0, 0]
-                    }
+                    },
+                    Tools: {}
                 },
                 value = [553925, 5931898];
 
-            await setValueToState(state, key, valueAsString);
-            expect(state.MapMarker.coordinates).to.be.deep.equals(value);
+            store.replaceState(state);
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.MapMarker.coordinates).to.be.deep.equals(value);
 
-            state.MapMarker.coordinates = [0, 0];
+            store.replaceState(state);
             key = "MapMarker";
-            await setValueToState(state, key, valueAsString);
-            expect(state.MapMarker.coordinates).to.be.deep.equals(value);
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.MapMarker.coordinates).to.be.deep.equals(value);
 
-            state.MapMarker.coordinates = [0, 0];
+            store.replaceState(state);
             key = "mapmarker";
-            await setValueToState(state, key, valueAsString);
-            expect(state.MapMarker.coordinates).to.be.deep.equals(value);
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.MapMarker.coordinates).to.be.deep.equals(value);
 
-            state.MapMarker.coordinates = [0, 0];
+            store.replaceState(state);
             key = "mapmarker";
             valueAsString = "553925,5931898";
-            await setValueToState(state, key, valueAsString);
-            expect(state.MapMarker.coordinates).to.be.deep.equals(value);
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.MapMarker.coordinates).to.be.deep.equals(value);
         });
         it("test param marker with projection", async () => {
             crs.registerProjections(namedProjections);
@@ -298,28 +314,30 @@ describe("src/utils/parametricUrl/stateModifier.js", () => {
                 },
                 value = [3565836, 5945355];
 
-            await setValueToState(state, key, valueAsString);
-            await setValueToState(state, "Map/projection", "EPSG:8395");
-            expect(state.MapMarker.coordinates).to.be.deep.equals(value);
-            expect(state.urlParams.projection.name).to.be.deep.equals("http://www.opengis.net/gml/srs/epsg.xml#8395");
+            store.replaceState(state);
+            await setValueToState(store.state, key, valueAsString);
+            await setValueToState(store.state, "Map/projection", "EPSG:8395");
+            expect(await store.state.MapMarker.coordinates).to.be.deep.equals(value);
+            expect(await store.state.urlParams.projection.name).to.be.deep.equals("http://www.opengis.net/gml/srs/epsg.xml#8395");
         });
         it("test param zoomLevel", async () => {
             let key = "zoomLevel";
             const valueAsString = "5",
                 state = {
                     urlParams: {},
-                    Map: {
+                    Maps: {
                         zoomLevel: 2
                     }
                 };
 
-            await setValueToState(state, key, valueAsString);
-            expect(state.Map.zoomLevel).to.be.equals(5);
+            store.replaceState(state);
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.Maps.zoomLevel).to.be.equals(5);
 
-            state.Map.zoomLevel = 2;
+            store.replaceState(state);
             key = "zoomlevel";
-            await setValueToState(state, key, valueAsString);
-            expect(state.Map.zoomLevel).to.be.deep.equals(5);
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.Maps.zoomLevel).to.be.deep.equals(5);
 
         });
         it("test param map", async () => {
@@ -327,65 +345,69 @@ describe("src/utils/parametricUrl/stateModifier.js", () => {
                 valueAsString = "3D";
             const state = {
                 urlParams: {},
-                Map: {
+                Maps: {
                     mapMode: "2D"
                 }
             };
 
-            await setValueToState(state, key, valueAsString);
-            expect(state.Map.mapMode).to.be.equals("3D");
+            store.replaceState(state);
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.Maps.mapMode).to.be.equals("3D");
 
             key = "mapmode";
             valueAsString = "2D";
-            await setValueToState(state, key, valueAsString);
-            expect(state.Map.mapMode).to.be.equals("2D");
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.Maps.mapMode).to.be.equals("2D");
 
             key = "map/mapmode";
             valueAsString = "3D";
-            await setValueToState(state, key, valueAsString);
-            expect(state.Map.mapMode).to.be.equals("3D");
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.Maps.mapMode).to.be.equals("3D");
 
         });
         it("test param layerIds", async () => {
-            let key = "Map/layerIds";
+            let key = "Maps/layerIds";
             const state = {
                     urlParams: {},
-                    Map: {
+                    Maps: {
                         layerIds: null
                     }
                 },
                 valueAsString = "1711,20622";
 
-            await setValueToState(state, key, valueAsString);
-            expect(state.Map.layerIds).to.be.deep.equals([1711, 20622]);
+            store.replaceState(state);
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.Maps.layerIds).to.be.deep.equals([1711, 20622]);
 
             key = "layerIds";
-            await setValueToState(state, key, valueAsString);
-            expect(state.Map.layerIds).to.be.deep.equals([1711, 20622]);
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.Maps.layerIds).to.be.deep.equals([1711, 20622]);
 
             key = "layerids";
-            await setValueToState(state, key, valueAsString);
-            expect(state.Map.layerIds).to.be.deep.equals([1711, 20622]);
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.Maps.layerIds).to.be.deep.equals([1711, 20622]);
 
         });
         it("test param featureid", async () => {
             let key = "featureid";
             const state = {
-                    urlParams: {}
+                    urlParams: {},
+                    ZoomTo: {}
                 },
                 valueAsString = "1,2",
                 result = [1, 2];
 
-            await setValueToState(state, key, valueAsString);
-            expect(state.urlParams["Map/zoomToFeatureId"]).to.be.deep.equals(result);
+            store.replaceState(state);
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.urlParams["Maps/zoomToFeatureId"]).to.be.deep.equals(result);
 
             key = "zoomToFeatureId";
-            await setValueToState(state, key, valueAsString);
-            expect(state.urlParams["Map/zoomToFeatureId"]).to.be.deep.equals(result);
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.urlParams["Maps/zoomToFeatureId"]).to.be.deep.equals(result);
 
-            key = "Map/zoomTofeatureId";
-            await setValueToState(state, key, valueAsString);
-            expect(state.urlParams["Map/zoomToFeatureId"]).to.be.deep.equals(result);
+            key = "Maps/zoomTofeatureId";
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.urlParams["Maps/zoomToFeatureId"]).to.be.deep.equals(result);
 
         });
         it("test param featureViaUrl", async () => {
@@ -395,12 +417,13 @@ describe("src/utils/parametricUrl/stateModifier.js", () => {
                 },
                 valueAsString = "[{\"layerId\":\"4020\",\"features\":[{\"coordinates\":[[[10.05,53.5],[10,53.5],[9.80,53.55],[10,53.55]],[[10.072,53.492],[9.92,53.492],[9.736,53.558],[10.008,53.558]]],\"label\":\"TestMultiPolygon\"}]}]";
 
-            await setValueToState(state, key, valueAsString);
-            expect(state.urlParams.featureViaURL).to.be.equals(valueAsString);
+            store.replaceState(state);
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.urlParams.featureViaURL).to.be.equals(valueAsString);
 
             key = "featureViaUrl";
-            await setValueToState(state, key, valueAsString);
-            expect(state.urlParams.featureViaURL).to.be.equals(valueAsString);
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.urlParams.featureViaURL).to.be.equals(valueAsString);
         });
         it("test param highlightfeature", async () => {
             let key = "highlightfeature";
@@ -409,12 +432,14 @@ describe("src/utils/parametricUrl/stateModifier.js", () => {
                 },
                 valueAsString = "8712,APP_STAATLICHE_SCHULEN_452280";
 
-            await setValueToState(state, key, valueAsString);
-            expect(state.urlParams["Map/highlightFeature"]).to.be.equals(valueAsString);
+            store.replaceState(state);
 
-            key = "Map/highlightFeature";
-            await setValueToState(state, key, valueAsString);
-            expect(state.urlParams["Map/highlightFeature"]).to.be.equals(valueAsString);
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.urlParams["Maps/highlightFeature"]).to.be.equals(valueAsString);
+
+            key = "Maps/highlightFeature";
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.urlParams["Maps/highlightFeature"]).to.be.equals(valueAsString);
         });
         it("test param uiStyle", async () => {
             let key = "uiStyle";
@@ -423,59 +448,65 @@ describe("src/utils/parametricUrl/stateModifier.js", () => {
                 },
                 valueAsString = "SIMPLE";
 
-            await setValueToState(state, key, valueAsString);
-            expect(state.urlParams.uiStyle).to.be.equals(valueAsString);
+            store.replaceState(state);
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.urlParams.uiStyle).to.be.equals(valueAsString);
 
             key = "style";
-            await setValueToState(state, key, valueAsString);
-            expect(state.urlParams.uiStyle).to.be.equals(valueAsString);
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.urlParams.uiStyle).to.be.equals(valueAsString);
         });
         it("test param Map/zoomToExtent", async () => {
-            let key = "Map/zoomToExtent";
+            let key = "Maps/zoomToExtent";
             const state = {
                     urlParams: {}
                 },
                 valueAsString = "510000,5850000,625000,6000000",
                 result = [510000, 5850000, 625000, 6000000];
 
-            await setValueToState(state, key, valueAsString);
-            expect(state.urlParams["Map/zoomToExtent"]).to.be.deep.equals(result);
+            store.replaceState(state);
+
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.urlParams["Maps/zoomToExtent"]).to.be.deep.equals(result);
 
             key = "zoomToExtent";
-            await setValueToState(state, key, valueAsString);
-            expect(state.urlParams["Map/zoomToExtent"]).to.be.deep.equals(result);
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.urlParams["Maps/zoomToExtent"]).to.be.deep.equals(result);
         });
         it("test param Map/zoomToGeometry", async () => {
             let key = "Map/zoomToGeometry";
             const state = {
-                    urlParams: {}
+                    urlParams: {},
+                    ZoomTo: {}
                 },
                 valueAsString = "altona";
 
-            await setValueToState(state, key, valueAsString);
-            expect(state.urlParams["Map/zoomToGeometry"]).to.be.equals(valueAsString);
+            store.replaceState(state);
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.urlParams["Maps/zoomToGeometry"]).to.be.equals(valueAsString);
 
             key = "zoomToGeometry";
-            await setValueToState(state, key, valueAsString);
-            expect(state.urlParams["Map/zoomToGeometry"]).to.be.equals(valueAsString);
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.urlParams["Maps/zoomToGeometry"]).to.be.equals(valueAsString);
 
             key = "bezirk";
-            await setValueToState(state, key, valueAsString);
-            expect(state.urlParams["Map/zoomToGeometry"]).to.be.equals(valueAsString);
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.urlParams["Maps/zoomToGeometry"]).to.be.equals(valueAsString);
         });
-        it("test param Map/mdid", async () => {
-            let key = "Map/mdid";
+        it("test param Map/mdId", async () => {
+            let key = "Maps/mdId";
             const state = {
                     urlParams: {}
                 },
                 valueAsString = "F35EAC11-C236-429F-B1BF-751C0C18E8B7";
 
-            await setValueToState(state, key, valueAsString);
-            expect(state.urlParams["Map/mdId"]).to.be.equals(valueAsString);
+            store.replaceState(state);
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.urlParams["Maps/mdId"]).to.be.equals(valueAsString);
 
             key = "mdId";
-            await setValueToState(state, key, valueAsString);
-            expect(state.urlParams["Map/mdId"]).to.be.equals(valueAsString);
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.urlParams["Maps/mdId"]).to.be.equals(valueAsString);
         });
         it("test param filter", async () => {
             const key = "filter",
@@ -484,11 +515,12 @@ describe("src/utils/parametricUrl/stateModifier.js", () => {
                 },
                 valueAsString = "[{\"name\":\"Alle Schulen\",\"isSelected\":true})";
 
-            await setValueToState(state, key, valueAsString);
-            expect(state.urlParams.filter).to.be.equals(valueAsString);
+            store.replaceState(state);
+            await setValueToState(store.state, key, valueAsString);
+            expect(await store.state.urlParams.filter).to.be.equals(valueAsString);
         });
 
-        describe("UrlParam brwId, brwlayername", () => {
+        describe("UrlParam brwId, brwlayername", async () => {
             it("test param brwId", async () => {
                 const key = "brwId",
                     state = {
@@ -496,8 +528,9 @@ describe("src/utils/parametricUrl/stateModifier.js", () => {
                     },
                     valueAsString = "01510241";
 
-                await setValueToState(state, key, valueAsString);
-                expect(state.urlParams.brwId).to.be.equals(valueAsString);
+                store.replaceState(state);
+                await setValueToState(store.state, key, valueAsString);
+                expect(await store.state.urlParams.brwId).to.be.equals(valueAsString);
             });
             it("test param brwlayername", async () => {
                 const key = "brwlayername",
@@ -506,8 +539,9 @@ describe("src/utils/parametricUrl/stateModifier.js", () => {
                     },
                     valueAsString = "31.12.2017";
 
-                await setValueToState(state, key, valueAsString);
-                expect(state.urlParams.brwLayerName).to.be.equals(valueAsString);
+                store.replaceState(state);
+                await setValueToState(store.state, key, valueAsString);
+                expect(await store.state.urlParams.brwLayerName).to.be.equals(valueAsString);
             });
         });
     });

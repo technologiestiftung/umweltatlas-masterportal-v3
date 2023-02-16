@@ -14,7 +14,7 @@ import CoordToolkit from "./coordToolkit/store/indexCoordToolkit";
 import Draw from "./draw/store/indexDraw";
 import FeatureLister from "./featureLister/store/indexFeatureLister";
 import FileImport from "./fileImport/store/indexFileImport";
-import FilterGeneral from "./filterGeneral/store/indexFilterGeneral";
+import Filter from "./filter/store/indexFilter";
 import Gfi from "./gfi/store/indexGfi";
 import LayerClusterToggler from "./layerClusterToggler/store/indexLayerClusterToggler";
 import LayerSlider from "./layerSlider/store/indexLayerSlider";
@@ -25,9 +25,11 @@ import SaveSelection from "./saveSelection/store/indexSaveSelection";
 import ScaleSwitcher from "./scaleSwitcher/store/indexScaleSwitcher";
 import SearchByCoord from "./searchByCoord/store/indexSearchByCoord";
 import SelectFeatures from "./selectFeatures/store/indexSelectFeatures";
+import Shadow from "./shadowTool/store/indexShadowTool";
 import StyleVT from "./styleVT/store/indexStyleVT";
 import SupplyCoord from "./supplyCoord/store/indexSupplyCoord";
 import WfsSearch from "./wfsSearch/store/indexWfsSearch";
+import Wfst from "./wfst/store/indexWfst";
 
 /**
  * This is here to test app-store/utils/composeModules.
@@ -44,7 +46,7 @@ export default {
         Draw,
         FeatureLister,
         FileImport,
-        FilterGeneral,
+        Filter,
         Gfi,
         LayerClusterToggler,
         LayerSlider,
@@ -55,9 +57,11 @@ export default {
         ScaleSwitcher,
         SearchByCoord,
         SelectFeatures,
+        Shadow,
         StyleVT,
         SupplyCoord,
-        WfsSearch
+        WfsSearch,
+        Wfst
     },
     state,
     getters,

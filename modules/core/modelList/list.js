@@ -1,23 +1,27 @@
 import WMSLayer from "../../../src/core/layers/wms";
 import WFSLayer from "../../../src/core/layers/wfs";
+import {handleSingleTimeLayer} from "../../../src/core/layers/layer";
 import OAFLayer from "../../../src/core/layers/oaf";
 import GroupedLayers from "../../../src/core/layers/group";
 import WMSTimeLayer from "../../../src/core/layers/wmsTime";
 import WMTSLayer from "../../../src/core/layers/wmts";
 import StaticImageLayer from "./layer/staticImage";
 import GeoJSONLayer from "../../../src/core/layers/geojson";
-import SensorLayer from "./layer/sensor";
+import STALayer from "../../../src/core/layers/sta";
 import HeatmapLayer from "./layer/heatmap";
 import TerrainLayer from "../../../src/core/layers/terrain";
-import EntitiesLayer from "./layer/entities";
+import EntitiesLayer from "../../../src/core/layers/entities";
 import VectorTileLayer from "../../../src/core/layers/vectorTile";
 import TileSetLayer from "../../../src/core/layers/tileset";
 import VectorBaseLayer from "../../../src/core/layers/vectorBase";
+import filterAndReduceLayerList from "../../../src/modules/tools/saveSelection/utils/filterAndReduceLayerList";
 import ObliqueLayer from "./layer/oblique";
 import Folder from "./folder/model";
 import Tool from "./tool/model";
 import StaticLink from "./staticlink/model";
-import Filter from "../../tools/filter/model";
+import Dropdown from "bootstrap/js/dist/dropdown";
+import Collapse from "bootstrap/js/dist/collapse";
+import uiStyle from "../../../src/utils/uiStyle";
 
 /**
  * WfsFeatureFilter
@@ -30,13 +34,10 @@ import TreeFilter from "../../treeFilter/model";
  * @deprecated in 3.0.0
  */
 import ExtendedFilter from "../../tools/extendedFilter/model";
-import Shadow from "../../tools/shadow/model";
 import ParcelSearch from "../../tools/parcelSearch/model";
-import StyleWMS from "../../tools/styleWMS/model";
 import Viewpoint from "./viewPoint/model";
 import VirtualCityModel from "../../tools/virtualCity/model";
 import store from "../../../src/app-store/index";
-import WfstModel from "../../tools/wfst/model";
 
 const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
     /**
@@ -80,6 +81,7 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
      * @fires ModelList#updateOverlayerView
      * @fires ModelList#UpdateOverlayerView
      * @fires ModelList#UpdateSelection
+     * @fires ModelList#OpenFolderInTree
      */
     initialize: function () {
         const channel = Radio.channel("ModelList");
@@ -102,7 +104,7 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
             "removeModelsByParentId": this.removeModelsByParentId,
             "removeModelsById": this.removeModelsById,
             "replaceModelById": this.replaceModelById,
-            // Initial sichtbare Layer etc.
+            // shown layer
             "addInitiallyNeededModels": this.addInitiallyNeededModels,
             "addModelsByAttributes": this.addModelsByAttributes,
             "addModel": this.addModel,
@@ -110,6 +112,7 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
             "setIsSelectedOnParent": this.setIsSelectedOnParent,
             "showModelInTree": this.showModelInTree,
             "closeAllExpandedFolder": this.closeAllExpandedFolder,
+            "addAndExpandModelsRecursive": this.addAndExpandModelsRecursive,
             "setAllDescendantsInvisible": this.setAllDescendantsInvisible,
             "renderTree": function () {
                 this.trigger("renderTree");
@@ -124,13 +127,19 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
             "updateSelection": function (model) {
                 this.trigger("updateSelection", model);
             },
-            "selectedChanged": this.selectedChanged
+            "selectedChanged": this.selectedChanged,
+            "transparencyChanged": function () {
+                channel.trigger("updatedSelectedLayerList", this.where({isSelected: true, type: "layer"}));
+                store.dispatch("Tools/SaveSelection/createUrlParams", filterAndReduceLayerList(store.getters["Maps/mode"], this.where({isSelected: true, type: "layer"})));
+            },
+            "openFolderInTree": this.openFolderInTree
         }, this);
 
         this.listenTo(this, {
             "change:isVisibleInMap": function () {
                 channel.trigger("updateVisibleInMapList");
                 channel.trigger("updatedSelectedLayerList", this.where({isSelected: true, type: "layer"}));
+                store.dispatch("Tools/SaveSelection/createUrlParams", filterAndReduceLayerList(store.getters["Maps/mode"], this.where({isSelected: true, type: "layer"})));
                 // this.sortLayersAndSetIndex();
             },
             "change:isExpanded": function (model) {
@@ -143,9 +152,6 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
                 channel.trigger("updatedSelectedLayerList", this.where({isSelected: true, type: "layer"}));
             },
             "change:isSelected": this.selectedChanged,
-            "change:transparency": function () {
-                channel.trigger("updatedSelectedLayerList", this.where({isSelected: true, type: "layer"}));
-            },
             "change:selectionIDX": function () {
                 channel.trigger("updatedSelectedLayerList", this.where({isSelected: true, type: "layer"}));
             }
@@ -195,7 +201,10 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
                 return new GroupedLayers(attrs, options);
             }
             else if (attrs.typ === "SensorThings") {
-                return new SensorLayer(attrs, options);
+                const sensorLayer = new STALayer(attrs, options);
+
+                sensorLayer.initializeSensorThings();
+                return sensorLayer;
             }
             else if (attrs.typ === "Heatmap") {
                 return new HeatmapLayer(attrs, options);
@@ -226,15 +235,6 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
             if (attrs.id === "parcelSearch") {
                 return new ParcelSearch(attrs, options);
             }
-            else if (attrs.id === "styleWMS") {
-                return new StyleWMS(attrs, options);
-            }
-            else if (attrs.id === "filter") {
-                return new Filter(attrs, options);
-            }
-            else if (attrs.id === "shadow") {
-                return new Shadow(attrs, options);
-            }
             else if (attrs.id === "treeFilter") {
                 return new TreeFilter(Object.assign(attrs, Object.prototype.hasOwnProperty.call(Config, "treeConf") ? {treeConf: Config.treeConf} : {}), options);
             }
@@ -253,9 +253,6 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
             else if (attrs.id === "extendedFilter") {
                 console.warn("Tool: 'extendedFilter' is deprecated. Please use 'filter' instead.");
                 return new ExtendedFilter(Object.assign(attrs, Object.prototype.hasOwnProperty.call(Config, "ignoredKeys") ? {ignoredKeys: Config.ignoredKeys} : {}), options);
-            }
-            else if (attrs.id === "wfst") {
-                return new WfstModel(attrs, options);
             }
             else if (attrs.id === "virtualcity") {
                 return new VirtualCityModel(attrs, options);
@@ -482,7 +479,7 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
                 : activatedToolModel.deactivateGFI;
         let activeToolsToDeactivate = [];
 
-        if (!deactivateGFI) {
+        if (!deactivateGFI && deactivateGFI !== undefined) {
             alwaysActiveTools.push(this.findWhere({id: "gfi"}));
         }
 
@@ -521,7 +518,8 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
      */
     moveModelInTree: function (model, movement) {
         const currentSelectionIdx = model.get("selectionIDX"),
-            newSelectionIndex = currentSelectionIdx + movement;
+            newSelectionIndex = currentSelectionIdx + movement,
+            isTreeMove = Config?.layerSequence?.moveModelInTree !== undefined ? Config?.layerSequence?.moveModelInTree : true;
 
         let modelToSwap = this.where({selectionIDX: newSelectionIndex});
 
@@ -537,12 +535,13 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
         model.setSelectionIDX(newSelectionIndex);
         modelToSwap.setSelectionIDX(currentSelectionIdx);
 
-        this.updateLayerView();
+        this.updateLayerView(isTreeMove);
 
         this.trigger("updateSelection");
         this.trigger("updateLightTree");
         // Trigger for mobile
         this.trigger("changeSelectedList");
+        store.dispatch("Tools/SaveSelection/createUrlParams", filterAndReduceLayerList(store.getters["Maps/mode"], this.where({isSelected: true, type: "layer"})));
     },
 
     /**
@@ -581,6 +580,15 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
                 else {
                     baseLayerModels.push(layer);
                 }
+            });
+            baseLayerModels.sort(function (a, b) {
+                const indexA = paramLayers.findIndex(param => a.id === param.id),
+                    indexB = paramLayers.findIndex(param => b.id === param.id);
+
+                if (indexA === -1 || indexB === -1) {
+                    return 0;
+                }
+                return indexA - indexB;
             });
             initialLayers = baseLayerModels;
         }
@@ -638,7 +646,7 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
 
         // we dont want to see these layers in the tree
         allLayerModels = allLayerModels.filter(layerModel => {
-            return ["Oblique", "TileSet3D", "Terrain3D"].indexOf(layerModel.get("typ")) === -1;
+            return ["Oblique", "TileSet3D", "Terrain3D", "Entities3D"].indexOf(layerModel.get("typ")) === -1;
         });
 
         // in custom tree, only selected layers are sortable, thus only those may get an index
@@ -654,9 +662,10 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
     /**
      * Fetches all selected layers. For light tree, these are all layers of the tree. for custom tree, these
      * are only the ones listed under selected layers.
+     * @param {Boolean} isTreeMove - flag if function was called because of moving a layer in the tree
      * @return {array} Sorted selected Layers
      */
-    getSortedTreeLayers: function () {
+    getSortedTreeLayers: function (isTreeMove) {
         const combinedLayers = this.getTreeLayers(),
             newLayers = combinedLayers.filter(layer => layer.get("selectionIDX") === 0),
             treeType = Radio.request("Parser", "getTreeType");
@@ -672,7 +681,7 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
         });
 
         // if the treeType is custom, handle sorting according to layerSequence
-        if (treeType === "custom" && combinedLayers.find(layer => layer.get("layerSequence"))) {
+        if (treeType === "custom" && !isTreeMove && combinedLayers.find(layer => layer.get("layerSequence"))) {
             currentLayers = this.handleLayerSequence(combinedLayers, currentLayers, newLayers);
         }
         else {
@@ -785,11 +794,12 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
 
     /**
      * Forces rerendering of all layers. Layers are sorted before rerender.
+     * @param {Boolean} isTreeMove - flag if function was called because of moving a layer in the tree
      * @fires Map#RadioTriggerMapAddLayerToIndex
      * @return {void}
      */
-    updateLayerView: function () {
-        const sortedLayers = this.getSortedTreeLayers();
+    updateLayerView: function (isTreeMove) {
+        const sortedLayers = this.getSortedTreeLayers(isTreeMove);
 
         sortedLayers.forEach(layer => {
             Radio.trigger("Map", "addLayerToIndex", [layer.get("layer"), layer.get("selectionIDX"), layer.get("layerSequence")]);
@@ -840,6 +850,8 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
                 }
                 else {
                     this.add(model);
+                    // if more than one WMS-Time-Layer is set to be visible - only show the last one
+                    this.checkTimeLayerHandling(model);
                 }
             }, this);
         }
@@ -852,7 +864,6 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
 
             paramLayers.forEach(paramLayer => {
                 lightModel = Radio.request("Parser", "getItemByAttributes", {id: paramLayer.id});
-
                 if (lightModel !== undefined) {
                     this.add(lightModel);
                     this.setModelAttributesById(paramLayer.id, {isSelected: true, transparency: paramLayer.transparency});
@@ -860,6 +871,8 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
                     if (paramLayer.visibility === false && this.get(paramLayer.id) !== undefined) {
                         this.get(paramLayer.id).setIsVisibleInMap(false);
                     }
+                    // if more than one WMS-Time-Layer is set to be visible - only show the last one
+                    this.checkTimeLayerHandling(lightModel);
                 }
             });
             this.addModelsByAttributes({typ: "Oblique"});
@@ -871,6 +884,64 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
 
         this.initLayerIndeces(paramLayers);
         this.updateLayerView();
+    },
+
+
+    /**
+     * Checks if the Model, that is about to be added is a WMSTimeLayer and handles correct display of the TImeSlider
+     * if more than one WMS-Time-Layer is set to be visible - only show the last one
+     * @param  {Object[]} model Light models requested from Parser
+     * @return {void}
+     */
+    checkTimeLayerHandling: function (model) {
+        const timeLayers = Radio.request("Parser", "getItemsByAttributes", {type: "layer", typ: "WMS"}).filter(it => it.time !== undefined),
+            treeType = Radio.request("Parser", "getTreeType");
+
+        if (timeLayers.length > 0) {
+
+            if (treeType === "light") {
+                // in treeType light - the Layer will be shown additionally - so we need to check all selected Layers
+                const selectedTimeLayer = timeLayers.filter(it => it.isSelected === true);
+
+                if (selectedTimeLayer.length > 0) {
+
+                    if (model.id === selectedTimeLayer[selectedTimeLayer.length - 1].id) {
+                        setTimeout(function () {
+                            handleSingleTimeLayer(true, null, model);
+                        }, 0);
+                    }
+                    if (selectedTimeLayer.length > 1) {
+                        Radio.trigger("Alert", "alert", i18next.t("common:modules.core.modelList.layer.wms.warningTimeLayerQuantity", {name: selectedTimeLayer[selectedTimeLayer.length - 1].name}));
+                    }
+                }
+            }
+            else {
+                // in all other tree-types (custom or default) - only the layer added via URLparameters will be shown
+                const paramlayers = store.state.urlParams && store.state.urlParams["Map/layerIds"] ? store.state.urlParams["Map/layerIds"] : [],
+                    selectedTimeLayer = [];
+
+
+                paramlayers.forEach(paramLayer => {
+                    const layer = Radio.request("Parser", "getItemByAttributes", {id: paramLayer.id});
+
+                    if (layer && layer.time !== undefined && paramLayer.visibility === true) {
+                        selectedTimeLayer.push(layer);
+                    }
+                });
+                if (selectedTimeLayer.length > 0) {
+                    if (model.id === selectedTimeLayer[selectedTimeLayer.length - 1].id) {
+                        setTimeout(function () {
+                            handleSingleTimeLayer(true, null, model);
+                        }, 0);
+                    }
+
+                    if (selectedTimeLayer.length > 1) {
+                        console.warn("zu viele selectedTimeLayer ?", selectedTimeLayer);
+                        Radio.trigger("Alert", "alert", i18next.t("common:modules.core.modelList.layer.wms.warningTimeLayerQuantity", {name: selectedTimeLayer[selectedTimeLayer.length - 1].name}));
+                    }
+                }
+            }
+        }
     },
 
     /**
@@ -944,11 +1015,19 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
      */
     showModelInTree: function (modelId) {
         const mode = Radio.request("Map", "getMapMode"),
-            lightModel = Radio.request("Parser", "getItemByAttributes", {id: modelId});
+            lightModel = Radio.request("Parser", "getItemByAttributes", {id: modelId}),
+            isMobile = Radio.request("Util", "isViewMobile"),
+            isTable = uiStyle.getUiStyle() === "TABLE";
 
+        let dropdown;
+
+        if (!isMobile && !isTable) {
+            dropdown = Dropdown.getInstance("#root li:first-child > .dropdown-toggle");
+            // open the layerTree
+            dropdown.show();
+        }
         this.closeAllExpandedFolder();
-        // open the layerTree
-        $("#root li:first-child").addClass("open");
+
         // Parent and possible siblings are added
         this.addAndExpandModelsRecursive(lightModel.parentId);
         if (this.get(modelId).get("supported").indexOf(mode) >= 0) {
@@ -960,11 +1039,27 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
         }
 
         // für DIPAS Table Ansicht
-        if (Radio.request("Util", "getUiStyle") === "TABLE") {
+        if (uiStyle.getUiStyle() === "TABLE") {
             Radio.request("ModelList", "getModelByAttributes", {id: modelId}).setIsJustAdded(true);
-            $("#table-nav-layers-panel").collapse("show");
+
+            const collapseElement = document.querySelector("#table-nav-layers-panel"),
+                collapse = new Collapse(collapseElement);
+
+            collapse.show();
 
         }
+    },
+
+    /**
+     * Opens the folder with the given id in the layetree
+     * @param {string} id - id of the folder to open
+     * @return {void}
+     */
+    openFolderInTree: function (id) {
+        const dropdown = Dropdown.getInstance("#root li:first-child > .dropdown-toggle");
+
+        dropdown.show();
+        this.addAndExpandModelsRecursive(id);
     },
 
     /**
@@ -1129,11 +1224,28 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
 
     /**
      * Removes layer from Collection
+     * Note: The model is removed from Collection based on the position,
+     * because `this.remove` works only with Backbone.models.
+     * But most layers are js models.
      * @param {String} id LayerId to be removed
      * @return {void}
      */
     removeLayerById: function (id) {
         this.remove(id);
+        if (this.findWhere({id: id})) {
+            let modelIndex = null;
+
+            this.each((model, index) => {
+                if (model.get("id") === id) {
+                    modelIndex = index;
+                }
+            });
+
+            if (modelIndex !== null) {
+                // eslint-disable-next-line backbone/no-collection-models
+                this.models.splice(modelIndex, 1);
+            }
+        }
     },
 
     /**
@@ -1203,6 +1315,8 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
      * @returns {void}
      */
     selectedChanged: function (model, value) {
+        let selectedLayers = [];
+
         if (model.get("type") === "layer") {
             model.setIsVisibleInMap(value);
             this.updateLayerView();
@@ -1210,6 +1324,14 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
         this.trigger("updateSelection");
         Radio.channel("ModelList").trigger("updateVisibleInMapList");
         Radio.channel("ModelList").trigger("updatedSelectedLayerList", this.where({isSelected: true, type: "layer"}));
+
+        selectedLayers = this.where({isSelected: true, type: "layer"});
+
+        if (this.findWhere({id: model.get("id")}) === undefined) {
+            selectedLayers.push(model);
+        }
+
+        store.dispatch("Tools/SaveSelection/createUrlParams", filterAndReduceLayerList(store.getters["Maps/mode"], selectedLayers));
     }
 });
 

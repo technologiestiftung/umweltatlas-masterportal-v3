@@ -1,4 +1,4 @@
-@import "../style.scss";
+@import "~variables";
 
 .slider-container {
     padding: 8px 15px;
@@ -19,7 +19,7 @@
     label {
         margin-bottom: 0;
         padding-top: 4px;
-        color: $darkgreyColor;
+        color: $dark_grey;
     }
     input.form-control {
         width: 80px;
@@ -37,32 +37,32 @@
         .slider-track {
             height: 12px;
             margin-top: -6px;
-            background: $lightgreyColor;
+            background: $light_grey;
         }
         .slider-track-high {
-            background: $lightgreyColor;
+            background: $light_grey;
         }
         .slider-track-low {
-            background: $lightgreyColor;
+            background: $light_grey;
         }
         .slider-selection {
-            background: $darkblueColor;
+            background: $primary;
         }
         .slider-handle {
-            background-color: $darkblueColor;
+            background-color: $primary;
             background-image: none;
             border-width: 1px;
-            border-color: $whiteColor;
+            border-color: $white;
             &:hover {
                 cursor: pointer;
-                opacity: $hoverOpacity;
+                opacity: 0.8;
             }
         }
     }
     .info-icon {
         float: right;
         padding: 10px 0 10px 10px;
-        font-size: 16px;
+        font-size: $font_size_icon_lg;
         opacity: 0.4;
         &:hover {
             cursor: pointer;
@@ -71,7 +71,7 @@
     }
     .info-text {
         display: none;
-        font-size: 10px;
+        font-size: $font-size-sm;
         padding: 5px 0;
     }
 }
@@ -79,10 +79,10 @@
     display: inline-block;
     visibility: hidden;
     white-space: pre;
-    font-size: 12px;
+    font-size: $font-size-base;
     height: 24px;
 }
-@media (max-width: 767px) {
+@include media-breakpoint-down(md) {
     .slider-container {
         .slider-handle {
             width: 24px;

@@ -1,5 +1,5 @@
 const Config = {
-    addons: ["trinkwasser", "schulinfo", "trafficCount", "verkehrsstaerken", "solaratlas", "dataTable"],
+    addons: ["vcOblique", "trinkwasser", "schulinfo", "trafficCount", "verkehrsstaerken", "solaratlas", "dataTable"],
     footer: {
         urls: [
             {
@@ -45,15 +45,17 @@ const Config = {
     startingMap3D: false,
     obliqueMap: true,
     cesiumParameter: {
-        tileCacheSize: 20,
-        enableLighting: true,
         fog: {
             enabled: true,
             density: 0.0002,
             screenSpaceErrorFactor: 2.0
         },
-        maximumScreenSpaceError: 2,
-        fxaa: true
+        fxaa: true,
+        globe: {
+            enableLighting: true,
+            maximumScreenSpaceError: 2,
+            tileCacheSize: 20
+        }
     },
     portalLanguage: {
         enabled: true,
@@ -63,8 +65,11 @@ const Config = {
             en: "English",
             es: "Español",
             it: "Italiano",
+            platt: "Platt",
             pt: "Português",
-            tr: "Türkçe"
+            ru: "Русский",
+            tr: "Türkçe",
+            ua: "Українська"
         },
         fallbackLanguage: "de",
         changeLanguageOnStartWhen: ["querystring", "localStorage", "htmlTag"]

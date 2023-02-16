@@ -87,9 +87,11 @@ async function MainNavTests ({builder, url, resolution, capability}) {
                 await driver.switchTo().activeElement().sendKeys(Key.TAB);
                 await driver.switchTo().activeElement().sendKeys(Key.TAB);
 
-                const attribs = await driver.switchTo().activeElement().getAttribute("class");
+                const attribs = await driver.switchTo().activeElement().getAttribute("class"),
+                    title = await driver.switchTo().activeElement().getAttribute("title");
 
-                expect(attribs.includes("glyphicon-fullscreen")).to.be.true;
+                expect(attribs.includes("control-icon bootstrap-icon standalone")).to.be.true;
+                expect(title).to.be.equals("Vollbild aktivieren");
             });
         }
     });

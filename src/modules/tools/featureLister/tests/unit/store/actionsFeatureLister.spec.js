@@ -1,6 +1,7 @@
 import {expect} from "chai";
 import sinon from "sinon";
 import actions from "../../../store/actionsFeatureLister";
+import createLayerAddToTreeModule from "../../../../../../utils/createLayerAddToTree";
 
 describe("tools/featureLister/store/actionsFeatureLister", () => {
     let commit, dispatch, rootGetters;
@@ -45,12 +46,25 @@ describe("tools/featureLister/store/actionsFeatureLister", () => {
                 state = {
                     shownFeatures: 20,
                     gfiFeaturesOfLayer: [{erstesFeature: "first"}, {zweitesFeature: "second"}, {drittesFeature: "third"}],
-                    rawFeaturesOfLayer: [{getGeometry: () => "Point"}, {getGeometry: () => "Point"}]
-                };
+                    rawFeaturesOfLayer: [{getGeometry: () => "Point"}, {getGeometry: () => "Point"}],
+                    layer: {
+                        geometryType: "Point",
+                        features: [{erstesFeature: "first"}, {zweitesFeature: "second"}, {drittesFeature: "third"}]
+                    },
+                    layerId: "layerId"
+                },
+                createLayerAddToTreeStub = sinon.spy(createLayerAddToTreeModule, "createLayerAddToTree");
 
-            actions.clickOnFeature({state, dispatch, commit}, featureIndex);
+            rootGetters = {"Maps/getView": {fit: () => true}, treeHighlightedFeatures: {active: true}, treeType: "light"};
+
+            actions.clickOnFeature({state, commit, dispatch, rootGetters}, featureIndex);
             expect(commit.firstCall.args[0]).to.equal("setSelectedFeature");
             expect(commit.firstCall.args[1]).to.eql(state.gfiFeaturesOfLayer[1]);
+            expect(dispatch.firstCall.args[0]).to.eql("switchToDetails");
+            expect(createLayerAddToTreeStub.calledOnce).to.be.true;
+            expect(createLayerAddToTreeStub.firstCall.args[0]).to.be.deep.equals(state.layerId);
+            expect(createLayerAddToTreeStub.firstCall.args[1]).to.be.deep.equals([state.layer.features[featureIndex]]);
+            expect(createLayerAddToTreeStub.firstCall.args[2]).to.be.deep.equals("light");
         });
     });
 
@@ -90,12 +104,13 @@ describe("tools/featureLister/store/actionsFeatureLister", () => {
             layer: {
                 name: "ersterLayer",
                 id: "123",
+                styleId: "123",
                 geometryType: "Point"
             },
             nestedFeatures: false,
-            rawFeaturesOfLayer: [{name: "ersterLayer", id: "123", getId: () => "123", features: [{getAttributesToShow: () => "TestAttributes"}], geometryType: "Point", getGeometry: () => {
+            rawFeaturesOfLayer: [{name: "ersterLayer", id: "123", styleId: "123", getId: () => "123", features: [{getAttributesToShow: () => "TestAttributes"}], geometryType: "Point", getGeometry: () => {
                 return state.geometry;
-            }}, {name: "zweiterLayer", id: "456", features: [{getAttributesToShow: () => "TestAttributes"}], geometryType: "Point"}, {name: "dritterLayer", id: "789", features: [{getAttributesToShow: () => "TestAttributes"}], geometryType: "Point"}],
+            }}, {name: "zweiterLayer", id: "456", styleId: "456", features: [{getAttributesToShow: () => "TestAttributes"}], geometryType: "Point"}, {name: "dritterLayer", id: "789", styleId: "789", features: [{getAttributesToShow: () => "TestAttributes"}], geometryType: "Point"}],
             highlightVectorRulesPolygon: {
                 "fill": {
                     "color": [255, 0, 255, 0.9]
@@ -103,7 +118,8 @@ describe("tools/featureLister/store/actionsFeatureLister", () => {
                 "stroke": {
                     "width": 4,
                     "color": [0, 0, 204, 0.9]
-                }
+                },
+                "zoomLevel": 5
             },
             highlightVectorRulesPointLine: {
                 "stroke": {
@@ -112,31 +128,45 @@ describe("tools/featureLister/store/actionsFeatureLister", () => {
                 },
                 "image": {
                     "scale": 2
-                }
+                },
+                "zoomLevel": 5
             }
         };
 
-        rootGetters = {"Map/visibleLayerList": [
+        rootGetters = {"Maps/getVisibleLayerList": [
             {name: "ersterLayer", values_: {id: "123"}, getSource: () => state.source, features: [{getAttributesToShow: () => "TestAttributes"}], geometryType: "Point"},
             {name: "zweiterLayer", values_: {id: "456"}, features: [{getAttributesToShow: () => "TestAttributes"}], geometryType: "Point"},
-            {name: "dritterLayer", values_: {id: "789"}, features: [{getAttributesToShow: () => "TestAttributes"}], geometryType: "Point"}]};
+            {name: "dritterLayer", values_: {id: "789"}, features: [{getAttributesToShow: () => "TestAttributes"}], geometryType: "Point"}]
+        };
 
         it("highlights a feature depending on its geometryType", () => {
             const featureId = "123";
 
+            rootGetters = {"Maps/getVisibleLayerList": [
+                {name: "ersterLayer", values_: {id: "123"}, getSource: () => state.source, features: [{getAttributesToShow: () => "TestAttributes"}], geometryType: "Point"},
+                {name: "zweiterLayer", values_: {id: "456"}, features: [{getAttributesToShow: () => "TestAttributes"}], geometryType: "Point"},
+                {name: "dritterLayer", values_: {id: "789"}, features: [{getAttributesToShow: () => "TestAttributes"}], geometryType: "Point"}]
+            };
+
             actions.highlightFeature({state, rootGetters, dispatch}, featureId);
-            expect(dispatch.firstCall.args[0]).to.equal("Map/removeHighlightFeature");
+            expect(dispatch.firstCall.args[0]).to.equal("Maps/removeHighlightFeature");
             expect(dispatch.firstCall.args[1]).to.equal("decrease");
-            expect(dispatch.secondCall.args[0]).to.equal("Map/highlightFeature");
+            expect(dispatch.secondCall.args[0]).to.equal("Maps/highlightFeature");
         });
         it("highlights a nested feature depending on its geometryType", () => {
             const featureId = "123";
 
+            rootGetters = {"Maps/getVisibleLayerList": [
+                {name: "ersterLayer", values_: {id: "123"}, getSource: () => state.source, features: [{getAttributesToShow: () => "TestAttributes"}], geometryType: "Point"},
+                {name: "zweiterLayer", values_: {id: "456"}, features: [{getAttributesToShow: () => "TestAttributes"}], geometryType: "Point"},
+                {name: "dritterLayer", values_: {id: "789"}, features: [{getAttributesToShow: () => "TestAttributes"}], geometryType: "Point"}]
+            };
+
             state.nestedFeatures = true;
             actions.highlightFeature({state, rootGetters, dispatch}, featureId);
-            expect(dispatch.firstCall.args[0]).to.equal("Map/removeHighlightFeature");
+            expect(dispatch.firstCall.args[0]).to.equal("Maps/removeHighlightFeature");
             expect(dispatch.firstCall.args[1]).to.equal("decrease");
-            expect(dispatch.secondCall.args[0]).to.equal("Map/highlightFeature");
+            expect(dispatch.secondCall.args[0]).to.equal("Maps/highlightFeature");
         });
     });
 

@@ -7,9 +7,11 @@ import PortalFooter from "../modules/portalFooter/store/indexPortalFooter";
 import GraphicalSelect from "../share-components/graphicalSelect/store/indexGraphicalSelect";
 import Language from "../modules/language/store/indexLanguage";
 import LayerInformation from "../modules/layerInformation/store/indexLayerInformation";
+import LayerSelector from "../modules/layerSelector/store/indexLayerSelector";
 import Legend from "../modules/legend/store/indexLegend";
-import Map from "../modules/map/store/indexMap";
+import Maps from "../core/maps/store/indexMap";
 import MapMarker from "../modules/mapMarker/store/indexMapMarker";
+import MouseHover from "../modules/mouseHover/store/indexMouseHover";
 import QuickHelp from "../modules/quickHelp/store/indexQuickHelp";
 import PortalTitle from "../modules/portalTitle/store/indexPortalTitle";
 import WmsTime from "../modules/wmsTime/store/indexWmsTime";
@@ -21,6 +23,8 @@ import actions from "./actions";
 
 import controlsModule from "../modules/controls/indexControls";
 import toolsModule from "../modules/tools/indexTools";
+
+import ZoomTo from "../utils/zoomTo/store/indexZoomTo";
 
 import isMobile from "../utils/isMobile";
 
@@ -34,15 +38,18 @@ const store = new Vuex.Store({
         GraphicalSelect,
         Language,
         LayerInformation,
+        LayerSelector,
         Legend,
-        Map,
+        Maps,
         MapMarker,
+        MouseHover,
         QuickHelp,
         PortalTitle,
         WmsTime,
         controls: {
             ...controlsModule
         },
+        ZoomTo,
         Tools: {
             ...toolsModule
         }
