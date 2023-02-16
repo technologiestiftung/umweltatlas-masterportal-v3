@@ -15,6 +15,7 @@ SpecialWFS require full URL in config now instead of relative paths.
 - The following NPM package have been added:
     - dependencies:
         - "dayjs": "^1.11.7"
+- Code of Coduct file and contents.
 ### Changed
 - KeepOpen attribute for tools:
     - In type string, the tool name can be inserted as string.
