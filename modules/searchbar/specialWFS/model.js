@@ -168,7 +168,9 @@ const SpecialWFSModel = Backbone.Model.extend({
                 }
 
                 data = this.getWFS110Xml(def, searchString);
-                def.url = this.manipulateUrlForProxy(def.url);
+                if (def.useProxy) {
+                    def.url = this.manipulateUrlForProxy(def.url);
+                }
                 def.searchString = searchString;
                 this.sendRequest(def, data);
             });
