@@ -140,7 +140,10 @@ export default {
                 }
             });
         },
-
+        /**
+         * Updates the available Layers in the List
+         * @returns {void}
+         */
         updateFeatureListerList () {
             this.getVisibleLayerList.forEach(async layer => {
                 if (layer instanceof VectorLayer && layer.get("typ") === "WFS") {
@@ -150,8 +153,8 @@ export default {
 
                     await this.areLayerFeaturesLoaded(layer.get("id"));
 
-                    this.visibleVectorLayers.forEach(visLayer => {
-                        if (visLayer.id === layer.get("id")) {
+                    this.visibleVectorLayers.forEach(visibleLayer => {
+                        if (visibleLayer.id === layer.get("id")) {
                             alreadyInArray = true;
                         }
                     });
@@ -163,7 +166,6 @@ export default {
                             geometryType: layerSource.getFeatures()[0] ? layerSource.getFeatures()[0].getGeometry().getType() : null
                         });
                     }
-
                 }
             });
         }
