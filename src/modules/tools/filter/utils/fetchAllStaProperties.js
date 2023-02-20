@@ -36,10 +36,10 @@ function fetchAllStaProperties (url, rootNode, onsuccess, onerror, axiosMock = f
             // parse Datastreams
             entity.Datastreams.forEach((Datastream, index) => {
                 const properties = Datastream.properties,
-                observations = Datastream.Observations;
+                    observations = Datastream.Observations;
 
                 // parse Datastream properties
-                if(properties) {
+                if (properties) {
                     Object.entries(properties).forEach(([key, value]) => {
                         if (!Object.prototype.hasOwnProperty.call(resultAssoc, key)) {
                             resultAssoc["@Datastreams." + index + ".properties." + key] = {};
