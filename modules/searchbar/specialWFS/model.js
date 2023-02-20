@@ -1,5 +1,6 @@
 import WFS from "ol/format/WFS";
 import uniqueId from "../../../src/utils/uniqueId";
+import getProxyUrl from "../../../src/utils/getProxyUrl";
 
 import "../model";
 import store from "../../../src/app-store";
@@ -168,22 +169,16 @@ const SpecialWFSModel = Backbone.Model.extend({
                 }
 
                 data = this.getWFS110Xml(def, searchString);
-                if (def.useProxy) {
-                    def.url = this.manipulateUrlForProxy(def.url);
-                }
+                /**
+                 * @deprecated in the next major-release!
+                 * useProxy
+                 * getProxyUrl()
+                 */
+                def.url = def.useProxy ? getProxyUrl(def.url) : def.url;
                 def.searchString = searchString;
                 this.sendRequest(def, data);
             });
         }
-    },
-
-    /**
-     * @description replaces all "." with "_" in given URL
-     * @param {String} url The URL to manipulate
-     * @returns {string} the manipulated URL
-     */
-    manipulateUrlForProxy: function (url) {
-        return url.replace(/\./g, "_");
     },
 
     /**
