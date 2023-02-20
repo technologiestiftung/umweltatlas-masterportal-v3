@@ -15,6 +15,7 @@ The Masterportal is a project by [Geowerkstatt Hamburg](https://www.hamburg.de/g
 
 ## Developer section
 
+* Contributors to the Masterportal are expected to act respectfully toward others in accordance with the [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) for open source projects.
 * [Developer documentation](doc/devdoc.md)
 * [Tutorial 01: Creating a new module (Scale switcher)](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/vueTutorial.md)
 * [Community board (Developer forum and issue tracker)](https://trello.com/c/qajdXkMa/110-willkommen)
