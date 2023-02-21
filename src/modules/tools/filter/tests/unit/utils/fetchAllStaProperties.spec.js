@@ -236,6 +236,7 @@ describe("src/modules/tools/filter/utils/fetchAllStaProperties.js", () => {
                     }
                 ]
             }];
+
         it("should return empty object if data is an empty array", () => {
             expect(getFilterableProperties([])).to.be.an("object").that.is.empty;
         });
@@ -263,7 +264,7 @@ describe("src/modules/tools/filter/utils/fetchAllStaProperties.js", () => {
             });
         });
         it("should return thing properties and datastream properties", () => {
-           expect(getFilterableProperties(dataOneThingOneDatastream)).to.deep.equal({
+            expect(getFilterableProperties(dataOneThingOneDatastream)).to.deep.equal({
                 foo: {
                     bar: true
                 },
@@ -387,7 +388,6 @@ describe("src/modules/tools/filter/utils/fetchAllStaProperties.js", () => {
             });
         });
         it("should return thing properties and datastream properties for 2 datastreams and Datastreams", () => {
-            console.log(getFilterableProperties(dataTwoThingTwoDatastreamsObservations));
             expect(getFilterableProperties(dataTwoThingTwoDatastreamsObservations)).to.deep.equal({
                 foo: {
                     bar: true,

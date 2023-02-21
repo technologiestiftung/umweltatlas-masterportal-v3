@@ -22,8 +22,8 @@ function fetchAllStaProperties (url, rootNode, onsuccess, onerror, axiosMock = f
         if (!Array.isArray(data) || !data.length) {
             return;
         }
-        const observationType = rootNode === "Datastreams" ? data[0].observationType : data[0].Datastreams[0].observationType;
-        const resultAssoc = getFilterableProperties(data)
+        const observationType = rootNode === "Datastreams" ? data[0].observationType : data[0].Datastreams[0].observationType,
+            resultAssoc = getFilterableProperties(data);
 
         Object.entries(resultAssoc).forEach(([key, obj]) => {
             result[key] = Object.keys(obj);
@@ -32,6 +32,11 @@ function fetchAllStaProperties (url, rootNode, onsuccess, onerror, axiosMock = f
     }, null, null, onerror);
 }
 
+/**
+ * parses the STA data and prepares with an Object with the possible values
+ * @param {Array} data Things
+ * @returns {Object} prepared Object with filterable values
+ */
 function getFilterableProperties (data) {
     const resultAssoc = {};
 
@@ -52,7 +57,7 @@ function getFilterableProperties (data) {
         if (datastreams) {
             datastreams.forEach((Datastream, index) => {
                 const ds_properties = Datastream.properties || false,
-                    ds_observations = Datastream?.Observations || false;
+                    ds_observations = Datastream.Observations || false;
 
                 // parse Datastream properties
                 if (ds_properties) {
