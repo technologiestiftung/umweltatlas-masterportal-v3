@@ -481,6 +481,7 @@ Konfiguration einer Definition bei der SpecialWFS Suche
 |geometryName|nein|String|"app:geom"|Attributname der Geometrie wird benötigt um darauf zu zoomen.|false|
 |maxFeatures|nein|Integer|20|Maximale Anzahl an gefundenen Features.|false|
 |namespaces|nein|String||XML Namespaces zur Abfrage von propertyNames oder geometryName (*xmlns:wfs*, *xmlns:ogc* und *xmlns:gml* werden immer genutzt).|false|
+|useProxy|nein|Boolean|false|Deprecated im nächsten Major-Release, da von der GDI-DE empfohlen wird einen CORS-Header einzurichten. Gibt an, ob die URL des Dienstes über einen Proxy angefragt werden soll, dabei werden die Punkte in der URL durch Unterstriche ersetzt.|false|
 |data|nein|String||Deprecated in 3.0.0 Filterparameter für den WFS request.|false|
 
 **Beispiel**
