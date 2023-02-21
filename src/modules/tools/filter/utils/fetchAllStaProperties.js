@@ -16,7 +16,6 @@ function fetchAllStaProperties (url, rootNode, onsuccess, onerror, axiosMock = f
             httpClient: axiosMock,
             rootNode
         }),
-        resultAssoc = {},
         result = {};
 
     http.get(url, data => {
@@ -24,43 +23,57 @@ function fetchAllStaProperties (url, rootNode, onsuccess, onerror, axiosMock = f
             return;
         }
         const observationType = rootNode === "Datastreams" ? data[0].observationType : data[0].Datastreams[0].observationType;
+        const resultAssoc = getFilterableProperties(data)
 
-        data.forEach(entity => {
-            // parse Thing properties
+        Object.entries(resultAssoc).forEach(([key, obj]) => {
+            result[key] = Object.keys(obj);
+        });
+        onsuccess(result, observationType);
+    }, null, null, onerror);
+}
+
+function getFilterableProperties (data) {
+    const resultAssoc = {};
+
+    data.forEach(entity => {
+        const properties = entity.properties || false,
+            datastreams = entity?.Datastreams || false;
+
+        // parse Thing properties
+        if (properties) {
             Object.entries(entity.properties).forEach(([key, value]) => {
                 if (!Object.prototype.hasOwnProperty.call(resultAssoc, key)) {
                     resultAssoc[key] = {};
                 }
                 resultAssoc[key][value] = true;
             });
-            // parse Datastreams
-            entity.Datastreams.forEach((Datastream, index) => {
-                const properties = Datastream.properties,
-                    observations = Datastream.Observations;
+        }
+        // parse Datastreams
+        if (datastreams) {
+            datastreams.forEach((Datastream, index) => {
+                const ds_properties = Datastream.properties || false,
+                    ds_observations = Datastream?.Observations || false;
 
                 // parse Datastream properties
-                if (properties) {
-                    Object.entries(properties).forEach(([key, value]) => {
-                        if (!Object.prototype.hasOwnProperty.call(resultAssoc, key)) {
+                if (ds_properties) {
+                    Object.entries(ds_properties).forEach(([key, value]) => {
+                        if (!Object.prototype.hasOwnProperty.call(resultAssoc, "@Datastreams." + index + ".properties." + key)) {
                             resultAssoc["@Datastreams." + index + ".properties." + key] = {};
                         }
                         resultAssoc["@Datastreams." + index + ".properties." + key][value] = true;
                     });
                 }
                 // parse 1st observation
-                if (Array.isArray(observations) && observations.length && isObject(observations[0])) {
+                if (ds_observations && ds_observations.length) {
                     if (!Object.prototype.hasOwnProperty.call(resultAssoc, "@Datastreams." + index + ".Observations.0.result")) {
                         resultAssoc["@Datastreams." + index + ".Observations.0.result"] = {};
                     }
-                    resultAssoc["@Datastreams." + index + ".Observations.0.result"][observations[0].result] = true;
+                    resultAssoc["@Datastreams." + index + ".Observations.0.result"][ds_observations[0].result] = true;
                 }
             });
-        });
-        Object.entries(resultAssoc).forEach(([key, obj]) => {
-            result[key] = Object.keys(obj);
-        });
-        onsuccess(result, observationType);
-    }, null, null, onerror);
+        }
+    });
+    return resultAssoc;
 }
 
 /**
@@ -78,5 +91,6 @@ function getUniqueValuesFromFetchedFeatures (properties, attrName) {
 
 export {
     fetchAllStaProperties,
-    getUniqueValuesFromFetchedFeatures
+    getUniqueValuesFromFetchedFeatures,
+    getFilterableProperties
 };
