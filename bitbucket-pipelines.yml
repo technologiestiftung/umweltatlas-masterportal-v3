@@ -96,7 +96,7 @@ pipelines:
                     - cd masterportal
                     - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git -f
     custom: # Pipelines that are triggered manually
-    deploy on openCode:
+        deploy on openCode:
             - step:
                 name: deploy on openCode
                 script:
