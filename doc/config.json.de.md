@@ -447,7 +447,7 @@ Die WFS 2 query wird dabei dynamisch durch das Masterportal erstellt. Die Konfig
     "timeout": 10000,
     "definitions": [
         {
-            "url": "/geodienste_hamburg_de/MRH_WFS_Rotenburg",
+            "url": "https://geodienste_hamburg_de/MRH_WFS_Rotenburg",
             "typeName": "app:mrh_row_bplan",
             "propertyNames": ["app:name"],
             "name": "B-Plan",
@@ -487,7 +487,7 @@ Konfiguration einer Definition bei der SpecialWFS Suche
 ```
 #!json
 {
-    "url": "/geodienste_hamburg_de/HH_WFS_Bebauungsplaene",
+    "url": "https://geodienste_hamburg_de/HH_WFS_Bebauungsplaene",
     "typeName": "app:prosin_imverfahren",
     "propertyNames": ["app:plan"],
     "geometryName": "app:the_geom",
