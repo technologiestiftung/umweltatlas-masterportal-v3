@@ -148,8 +148,6 @@ const PointStyleModel = StyleModel.extend(/** @lends PointStyleModel.prototype *
             image: new Icon({
                 crossOrigin: "anonymous",
                 src: src,
-                // width: width,
-                // height: height,
                 scale: scale,
                 anchor: offset,
                 imgSize: isSVG ? [width, height] : ""
