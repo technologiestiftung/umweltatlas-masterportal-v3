@@ -7,6 +7,7 @@
 ## Unreleased - in development
 ### __Breaking Changes__
 Time library `moment.js` was replaced with [day.js](https://day.js.org/). Please consider to use `day.js` in your future pull requests.
+SpecialWFS require full URL in config now instead of relative paths.
 
 ### Added
 - layers:
