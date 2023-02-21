@@ -22,7 +22,7 @@ SpecialWFS require full URL in config now instead of relative paths.
     - In type array, some tool names can be inserted in an array.
 - The following NPM packages have been updated:
     - dependencies:
-        - @masterportal/masterportalapi: 2.12.0 to 2.13.0
+        - @masterportal/masterportalapi: 2.12.0 to 2.14.0  (This also raised ol to version 7.2.2)
 ### Deprecated
 
 ### Removed
