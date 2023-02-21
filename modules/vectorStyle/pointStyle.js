@@ -203,7 +203,7 @@ const PointStyleModel = StyleModel.extend(/** @lends PointStyleModel.prototype *
 
     /**
     * Creates pointStyle as icon.
-    * all features get same image.
+    * All features get same image.
     * @see {@link https://community.cesium.com/t/cors-and-billboard-image/3920/2} crossOrigin: "anonymous", is necessary for the 3D mode.
     * @returns {ol/style} - The created style.
     */
