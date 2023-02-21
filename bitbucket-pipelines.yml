@@ -93,6 +93,7 @@ pipelines:
                     - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git $BITBUCKET_TAG
                     - git clone --single-branch --branch dev https://geowerkstatt@bitbucket.org/geowerkstatt-hamburg/masterportal.git
                     - cd masterportal
+                    - git checkout $BITBUCKET_TAG
                     - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git -f
     custom: # Pipelines that are triggered manually
         End2End-Tests on saucelabs:
@@ -126,4 +127,8 @@ pipelines:
                 name: deploy on openCode
                 script:
                     - git filter-branch -- --all
-                    - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git --delete origin BG-3669-2
+                    - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git v2.30.0
+                    - git clone --single-branch --branch dev https://geowerkstatt@bitbucket.org/geowerkstatt-hamburg/masterportal.git
+                    - cd masterportal
+                    - git checkout v2.30.0
+                    - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git -f
