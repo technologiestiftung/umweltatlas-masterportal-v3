@@ -45,7 +45,7 @@ function getFilterableProperties (data) {
             datastreams = entity?.Datastreams || false;
 
         // parse Thing properties
-        if (properties) {
+        if (isObject(properties)) {
             Object.entries(properties).forEach(([key, value]) => {
                 if (!Object.prototype.hasOwnProperty.call(resultAssoc, key)) {
                     resultAssoc[key] = {};
@@ -53,30 +53,33 @@ function getFilterableProperties (data) {
                 resultAssoc[key][value] = true;
             });
         }
-        // parse Datastreams
-        if (datastreams) {
-            datastreams.forEach((Datastream, index) => {
-                const ds_properties = Datastream?.properties || false,
-                    ds_observations = Datastream?.Observations || false;
 
-                // parse Datastream properties
-                if (ds_properties) {
-                    Object.entries(ds_properties).forEach(([key, value]) => {
-                        if (!Object.prototype.hasOwnProperty.call(resultAssoc, "@Datastreams." + index + ".properties." + key)) {
-                            resultAssoc["@Datastreams." + index + ".properties." + key] = {};
-                        }
-                        resultAssoc["@Datastreams." + index + ".properties." + key][value] = true;
-                    });
-                }
-                // parse 1st observation
-                if (ds_observations && ds_observations.length) {
-                    if (!Object.prototype.hasOwnProperty.call(resultAssoc, "@Datastreams." + index + ".Observations.0.result")) {
-                        resultAssoc["@Datastreams." + index + ".Observations.0.result"] = {};
+        if (!Array.isArray(datastreams)) {
+            return;
+          }
+        // parse Datastreams
+        datastreams.forEach((Datastream, index) => {
+            const ds_properties = Datastream?.properties || false,
+                ds_observations = Datastream?.Observations || false;
+
+            // parse Datastream properties
+            if (isObject(ds_properties)) {
+                Object.entries(ds_properties).forEach(([key, value]) => {
+                    if (!Object.prototype.hasOwnProperty.call(resultAssoc, "@Datastreams." + index + ".properties." + key)) {
+                        resultAssoc["@Datastreams." + index + ".properties." + key] = {};
                     }
-                    resultAssoc["@Datastreams." + index + ".Observations.0.result"][ds_observations[0].result] = true;
+                    resultAssoc["@Datastreams." + index + ".properties." + key][value] = true;
+                });
+            }
+            // parse 1st observation
+            if (ds_observations && ds_observations.length) {
+                if (!Object.prototype.hasOwnProperty.call(resultAssoc, "@Datastreams." + index + ".Observations.0.result")) {
+                    resultAssoc["@Datastreams." + index + ".Observations.0.result"] = {};
                 }
-            });
-        }
+                resultAssoc["@Datastreams." + index + ".Observations.0.result"][ds_observations[0].result] = true;
+            }
+        });
+
     });
     return resultAssoc;
 }
