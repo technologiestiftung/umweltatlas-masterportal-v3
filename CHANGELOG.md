@@ -7,6 +7,7 @@
 ## Unreleased - in development
 ### __Breaking Changes__
 Time library `moment.js` was replaced with [day.js](https://day.js.org/). Please consider to use `day.js` in your future pull requests.
+SpecialWFS require full URL in config now instead of relative paths.
 
 ### Added
 - layers:
@@ -32,6 +33,8 @@ Time library `moment.js` was replaced with [day.js](https://day.js.org/). Please
 ### Fixed
 - Print: It is now possible to print larger amounts of data (limited by Mapfish print settings) where an error occurred before.
 - Print: edit printing for plotservice.
+- Issue #839: Under certain conditions, the external WFS filter did not work. An error occurred while parsing the WFS GetFeature Response.
+- Issue #867: SpeacialWFS search uses proxy if useProxy is configured true.
 
 ---
 

@@ -464,14 +464,14 @@ The WFS 2.0 query is dynamically created by the Masterportal. No stored query co
         "timeout": 10000,
         "definitions": [
             {
-                "url": "/geodienste_hamburg_de/MRH_WFS_Rotenburg",
+                "url": "https://geodienste_hamburg_de/MRH_WFS_Rotenburg",
                 "typeName": "app:mrh_row_bplan",
                 "propertyNames": ["app:name"],
                 "name": "B-Plan",
                 "namespaces": "xmlns:app='http://www.deegree.org/app'"
             },
             {
-                "url": "/geodienste_hamburg_de/HH_WFS_Bebauungsplaene",
+                "url": "https://geodienste_hamburg_de/HH_WFS_Bebauungsplaene",
                 "typeName": "app:prosin_imverfahren",
                 "propertyNames": ["app:plan"],
                 "geometryName": "app:the_geom",
@@ -499,13 +499,14 @@ SpecialWFS search definition configuration.
 |geometryName|no|String|"app:geom"|Geometry attribute name required for zoom functionality.|false|
 |maxFeatures|no|Integer|20|Maximum amount of features to be returned.|false|
 |namespaces|no|String||XML name spaces to request `propertyNames` or `geometryName`. (`xmlns:wfs`, `xmlns:ogc`, and `xmlns:gml` are always used.)|false|
+|useProxy|no|Boolean|false|_Deprecated in the next major release. [GDI-DE](https://www.gdi-de.org/en) recommends setting CORS headers on the required services instead of using proxies._ Defines whether a service URL should be requested via proxy. For this, dots in the URL are replaced with underscores.|false|
 |data|no|String||_Deprecated in 3.0.0._ Filter parameter for WFS requests.|false|
 
 **Example**
 
 ```json
 {
-    "url": "/geodienste_hamburg_de/HH_WFS_Bebauungsplaene",
+    "url": "https://geodienste_hamburg_de/HH_WFS_Bebauungsplaene",
     "typeName": "app:prosin_imverfahren",
     "propertyNames": ["app:plan"],
     "geometryName": "app:the_geom",
