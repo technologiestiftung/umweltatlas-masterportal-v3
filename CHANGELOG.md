@@ -15,6 +15,7 @@ SpecialWFS require full URL in config now instead of relative paths.
 - The following NPM package have been added:
     - dependencies:
         - "dayjs": "^1.11.7"
+- Code of Conduct file and contents.
 ### Changed
 - KeepOpen attribute for tools:
     - In type string, the tool name can be inserted as string.
@@ -35,6 +36,7 @@ SpecialWFS require full URL in config now instead of relative paths.
 - Print: edit printing for plotservice.
 - Issue #839: Under certain conditions, the external WFS filter did not work. An error occurred while parsing the WFS GetFeature Response.
 - Issue #867: SpeacialWFS search uses proxy if useProxy is configured true.
+- FeatureLister: always contains an up to date list of layers to choose.
 
 ---
 
