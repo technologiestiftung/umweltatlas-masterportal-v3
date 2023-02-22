@@ -56,7 +56,7 @@ function getFilterableProperties (data) {
 
         if (!Array.isArray(datastreams)) {
             return;
-          }
+        }
         // parse Datastreams
         datastreams.forEach((Datastream, index) => {
             const ds_properties = Datastream?.properties || false,
