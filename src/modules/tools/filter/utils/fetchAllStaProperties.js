@@ -44,7 +44,7 @@ function getFilterableProperties (data) {
         const properties = entity?.properties || false,
             datastreams = entity?.Datastreams || false,
             observations = entity?.Observations || false;
-        console.log(isObject(properties));
+
         // parse properties
         if (properties && isObject(properties)) {
             Object.entries(properties).forEach(([key, value]) => {
@@ -70,7 +70,7 @@ function getFilterableProperties (data) {
         datastreams.forEach((Datastream, index) => {
             const ds_properties = Datastream?.properties || false,
                 ds_observations = Datastream?.Observations || false;
-            console.log(isObject(ds_properties));
+
             // parse Datastream properties
             if (ds_properties && isObject(ds_properties)) {
                 Object.entries(ds_properties).forEach(([key, value]) => {
