@@ -44,9 +44,9 @@ function getFilterableProperties (data) {
         const properties = entity?.properties || false,
             datastreams = entity?.Datastreams || false,
             observations = entity?.Observations || false;
-
+        console.log(isObject(properties));
         // parse properties
-        if (isObject(properties)) {
+        if (properties && isObject(properties)) {
             Object.entries(properties).forEach(([key, value]) => {
                 if (!Object.prototype.hasOwnProperty.call(resultAssoc, key)) {
                     resultAssoc[key] = {};
@@ -56,7 +56,7 @@ function getFilterableProperties (data) {
         }
 
         // if entity is a Datastream and has observations
-        if (observations && Array.isArray(observations)) {
+        if (observations && Array.isArray(observations) && observations.length > 0) {
             if (!Object.prototype.hasOwnProperty.call(resultAssoc, "@Observations.0.result")) {
                 resultAssoc["@Observations.0.result"] = {};
             }
@@ -70,9 +70,9 @@ function getFilterableProperties (data) {
         datastreams.forEach((Datastream, index) => {
             const ds_properties = Datastream?.properties || false,
                 ds_observations = Datastream?.Observations || false;
-
+            console.log(isObject(ds_properties));
             // parse Datastream properties
-            if (isObject(ds_properties)) {
+            if (ds_properties && isObject(ds_properties)) {
                 Object.entries(ds_properties).forEach(([key, value]) => {
                     if (!Object.prototype.hasOwnProperty.call(resultAssoc, "@Datastreams." + index + ".properties." + key)) {
                         resultAssoc["@Datastreams." + index + ".properties." + key] = {};
@@ -81,7 +81,7 @@ function getFilterableProperties (data) {
                 });
             }
             // parse 1st observation
-            if (ds_observations && Array.isArray(ds_observations)) {
+            if (ds_observations && Array.isArray(ds_observations) && ds_observations.length > 0) {
                 if (!Object.prototype.hasOwnProperty.call(resultAssoc, "@Datastreams." + index + ".Observations.0.result")) {
                     resultAssoc["@Datastreams." + index + ".Observations.0.result"] = {};
                 }
