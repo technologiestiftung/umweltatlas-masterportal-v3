@@ -42,9 +42,10 @@ function getFilterableProperties (data) {
 
     data.forEach(entity => {
         const properties = entity?.properties || false,
-            datastreams = entity?.Datastreams || false;
+            datastreams = entity?.Datastreams || false,
+            observations = entity?.Observations || false;
 
-        // parse Thing properties
+        // parse properties
         if (isObject(properties)) {
             Object.entries(properties).forEach(([key, value]) => {
                 if (!Object.prototype.hasOwnProperty.call(resultAssoc, key)) {
@@ -52,6 +53,14 @@ function getFilterableProperties (data) {
                 }
                 resultAssoc[key][value] = true;
             });
+        }
+
+        // if entity is a Datastream and has observations
+        if (observations && Array.isArray(observations)) {
+            if (!Object.prototype.hasOwnProperty.call(resultAssoc, "@Observations.0.result")) {
+                resultAssoc["@Observations.0.result"] = {};
+            }
+            resultAssoc["@Observations.0.result"][observations[0].result] = true;
         }
 
         if (!Array.isArray(datastreams)) {

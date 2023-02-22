@@ -235,6 +235,18 @@ describe("src/modules/tools/filter/utils/fetchAllStaProperties.js", () => {
                         }
                     }
                 ]
+            }],
+            dataOneDatastreamWithPropsAndObservation = [{
+                properties: {
+                    foo: "bar",
+                    bar: "foo",
+                    number: 123
+                },
+                Observations: [
+                    {
+                        result: 1
+                    }
+                ]
             }];
 
         it("should return empty object if data is an empty array", () => {
@@ -433,7 +445,22 @@ describe("src/modules/tools/filter/utils/fetchAllStaProperties.js", () => {
                 }
             });
         });
-
+        it("should return thing properties and datastream properties for 2 datastreams and Datastreams", () => {
+            expect(getFilterableProperties(dataOneDatastreamWithPropsAndObservation)).to.deep.equal({
+                foo: {
+                    bar: true
+                },
+                bar: {
+                    foo: true
+                },
+                number: {
+                    123: true
+                },
+                "@Observations.0.result": {
+                    1: true
+                }
+            });
+        });
 
     });
 });
