@@ -6,8 +6,8 @@
 
 ## Unreleased - in development
 ### __Breaking Changes__
-Time library `moment.js` was replaced with [day.js](https://day.js.org/). Please consider to use `day.js` in your future pull requests.
-SpecialWFS require full URL in config now instead of relative paths.
+- Time library `moment.js` was replaced with [day.js](https://day.js.org/). Please consider to use `day.js` in your future pull requests.
+- SpecialWFS require full URL in config now instead of relative paths.
 
 ### Added
 - layers:
@@ -18,6 +18,7 @@ SpecialWFS require full URL in config now instead of relative paths.
     - devDependencies:
         - "resize-observer-polyfill": "^1.5.1"
 - Code of Conduct file and contents.
+
 ### Changed
 - KeepOpen attribute for tools:
     - In type string, the tool name can be inserted as string.
@@ -25,6 +26,7 @@ SpecialWFS require full URL in config now instead of relative paths.
 - The following NPM packages have been updated:
     - dependencies:
         - @masterportal/masterportalapi: 2.12.0 to 2.14.0  (This also raised ol to version 7.2.2)
+
 ### Deprecated
 
 ### Removed
