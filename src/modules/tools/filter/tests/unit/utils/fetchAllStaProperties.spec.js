@@ -445,7 +445,7 @@ describe("src/modules/tools/filter/utils/fetchAllStaProperties.js", () => {
                 }
             });
         });
-        it("should return thing properties and datastream properties for 2 datastreams and Datastreams", () => {
+        it("should return  properties and 1st observation if entity has observations", () => {
             expect(getFilterableProperties(dataOneDatastreamWithPropsAndObservation)).to.deep.equal({
                 foo: {
                     bar: true
