@@ -14,8 +14,35 @@ import getGeometryTypeFromService from "@masterportal/masterportalapi/src/vector
 
 
 describe("src/core/layers/oaf.js", () => {
-    const consoleWarn = console.warn;
-    let attributes;
+    let attributes,
+        style1 = null,
+        style2 = null,
+        style3 = null;
+    const consoleWarn = console.warn,
+        featuresToShow = [{
+            getId: () => "1",
+            get: () => sinon.stub(),
+            set: () => sinon.stub(),
+            setStyle: (fn) => {
+                style1 = fn;
+            }
+        },
+        {
+            getId: () => "2",
+            get: () => sinon.stub(),
+            set: () => sinon.stub(),
+            setStyle: (fn) => {
+                style2 = fn;
+            }
+        },
+        {
+            getId: () => "3",
+            get: () => sinon.stub(),
+            set: () => sinon.stub(),
+            setStyle: (fn) => {
+                style3 = fn;
+            }
+        }];
 
     before(() => {
         mapCollection.clear();
@@ -210,68 +237,45 @@ describe("src/core/layers/oaf.js", () => {
         });
     });
     describe("functions for features", () => {
-        let style1 = null,
-            style2 = null,
-            style3 = null;
-        const features = [{
-            getId: () => "1",
-            get: () => sinon.stub(),
-            set: () => sinon.stub(),
-            setStyle: (fn) => {
-                style1 = fn;
-            }
-        },
-        {
-            getId: () => "2",
-            get: () => sinon.stub(),
-            set: () => sinon.stub(),
-            setStyle: (fn) => {
-                style2 = fn;
-            }
-        },
-        {
-            getId: () => "3",
-            get: () => sinon.stub(),
-            set: () => sinon.stub(),
-            setStyle: (fn) => {
-                style3 = fn;
-            }
-        }];
+        beforeEach(() => {
+            sinon.stub(styleList, "returnStyleObject").returns(true);
+            sinon.stub(getGeometryTypeFromService, "getGeometryTypeFromOAF").returns(true);
+            featuresToShow.forEach((feature) => {
+                feature.setStyle(() => null);
+            });
+        });
+
+        afterEach(() => {
+            sinon.restore();
+        });
 
         it("hideAllFeatures", function () {
-            sinon.stub(styleList, "returnStyleObject").returns(true);
-            sinon.stub(createStyle, "createStyle").returns(new Style());
-            sinon.stub(getGeometryTypeFromService, "getGeometryTypeFromOAF").returns("point");
-            attributes.legend = true;
             const oafLayer = new OAFLayer(attributes),
                 layer = oafLayer.get("layer"),
                 clearStub = sinon.stub(layer.getSource(), "clear"),
                 addFeaturesStub = sinon.stub(layer.getSource(), "addFeatures");
 
-            sinon.stub(layer.getSource(), "getFeatures").returns(features);
+            sinon.stub(layer.getSource(), "getFeatures").returns(featuresToShow);
 
             oafLayer.hideAllFeatures();
 
             expect(oafLayer.get("layer").getSource().getFeatures().length).to.be.equals(3);
             expect(clearStub.calledTwice).to.be.true;
             expect(addFeaturesStub.calledTwice).to.be.true;
-            expect(typeof style1).to.be.equals("object");
-            expect(style1).to.be.null;
-            expect(typeof style2).to.be.equals("object");
-            expect(style2).to.be.null;
-            expect(typeof style3).to.be.equals("object");
-            expect(style3).to.be.null;
+            expect(typeof style1).to.be.equals("function");
+            expect(style1()).to.be.null;
+            expect(typeof style2).to.be.equals("function");
+            expect(style2()).to.be.null;
+            expect(typeof style3).to.be.equals("function");
+            expect(style3()).to.be.null;
 
         });
         it("showAllFeatures", function () {
-            sinon.stub(styleList, "returnStyleObject").returns(true);
             sinon.stub(createStyle, "createStyle").returns(new Style());
-            sinon.stub(getGeometryTypeFromService, "getGeometryTypeFromOAF").returns("point");
-            attributes.legend = true;
             const oafLayer = new OAFLayer(attributes),
                 layer = oafLayer.get("layer");
 
-            sinon.stub(layer.getSource(), "getFeatures").returns(features);
+            sinon.stub(layer.getSource(), "getFeatures").returns(featuresToShow);
             oafLayer.showAllFeatures();
 
             expect(oafLayer.get("layer").getSource().getFeatures().length).to.be.equals(3);
@@ -283,26 +287,24 @@ describe("src/core/layers/oaf.js", () => {
             expect(style3).not.to.be.null;
         });
         it("showFeaturesByIds", function () {
-            sinon.stub(styleList, "returnStyleObject").returns(true);
             sinon.stub(createStyle, "createStyle").returns(new Style());
-            sinon.stub(getGeometryTypeFromService, "getGeometryTypeFromOAF").returns("point");
-            attributes.legend = true;
             const oafLayer = new OAFLayer(attributes),
                 layer = oafLayer.get("layer"),
                 clearStub = sinon.stub(layer.getSource(), "clear");
 
             sinon.stub(layer.getSource(), "addFeatures");
-            sinon.stub(layer.getSource(), "getFeatures").returns(features);
-            sinon.stub(layer.getSource(), "getFeatureById").returns(features[0]);
+            sinon.stub(layer.getSource(), "getFeatures").returns(featuresToShow);
+            sinon.stub(layer.getSource(), "getFeatureById").returns(featuresToShow[0]);
+            sinon.stub(oafLayer, "hideAllFeatures");
             oafLayer.showFeaturesByIds(["1"]);
 
             expect(oafLayer.get("layer").getSource().getFeatures().length).to.be.equals(3);
-            expect(typeof style1).to.be.equals("object");
+            expect(typeof style1).to.be.equals("function");
             expect(style1).not.to.be.null;
-            expect(typeof style2).to.be.equals("object");
-            expect(style2).to.be.null;
-            expect(typeof style3).to.be.equals("object");
-            expect(style3).to.be.null;
+            expect(typeof style2).to.be.equals("function");
+            expect(style2()).to.be.null;
+            expect(typeof style3).to.be.equals("function");
+            expect(style3()).to.be.null;
             expect(clearStub.calledOnce).to.be.true;
         });
     });
