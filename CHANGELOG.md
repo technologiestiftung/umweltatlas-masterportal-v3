@@ -15,13 +15,16 @@ SpecialWFS require full URL in config now instead of relative paths.
 - The following NPM package have been added:
     - dependencies:
         - "dayjs": "^1.11.7"
+    - devDependencies:
+        - "resize-observer-polyfill": "^1.5.1"
+- Code of Conduct file and contents.
 ### Changed
 - KeepOpen attribute for tools:
     - In type string, the tool name can be inserted as string.
     - In type array, some tool names can be inserted in an array.
 - The following NPM packages have been updated:
     - dependencies:
-        - @masterportal/masterportalapi: 2.12.0 to 2.13.0
+        - @masterportal/masterportalapi: 2.12.0 to 2.14.0  (This also raised ol to version 7.2.2)
 ### Deprecated
 
 ### Removed
@@ -35,6 +38,7 @@ SpecialWFS require full URL in config now instead of relative paths.
 - Print: edit printing for plotservice.
 - Issue #839: Under certain conditions, the external WFS filter did not work. An error occurred while parsing the WFS GetFeature Response.
 - Issue #867: SpeacialWFS search uses proxy if useProxy is configured true.
+- FeatureLister: always contains an up to date list of layers to choose.
 
 ---
 
@@ -56,6 +60,7 @@ SpecialWFS require full URL in config now instead of relative paths.
 
 ### Fixed
 - Issue #839: Accordeon is now open initially if `active: true` is configured. Bug which triggers the error message is now fixed.
+- Issue #856: Providing version parameter for print services.
 - Issue #861: Initial order of the background maps after using "Save selection" tool was corrected.
 - uiStyle: Set uiStyle from config.js
 - 3D Tiles can now be hidden again with the hiddenFeatures/hiddenObjects attribute.
