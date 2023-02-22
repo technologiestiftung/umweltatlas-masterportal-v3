@@ -72,7 +72,7 @@ function getFilterableProperties (data) {
                 });
             }
             // parse 1st observation
-            if (ds_observations && ds_observations.length) {
+            if (ds_observations && Array.isArray(ds_observations)) {
                 if (!Object.prototype.hasOwnProperty.call(resultAssoc, "@Datastreams." + index + ".Observations.0.result")) {
                     resultAssoc["@Datastreams." + index + ".Observations.0.result"] = {};
                 }
