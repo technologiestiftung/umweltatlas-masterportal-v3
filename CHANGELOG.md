@@ -15,6 +15,8 @@ SpecialWFS require full URL in config now instead of relative paths.
 - The following NPM package have been added:
     - dependencies:
         - "dayjs": "^1.11.7"
+    - devDependencies:
+        - "resize-observer-polyfill": "^1.5.1"
 - Code of Conduct file and contents.
 ### Changed
 - KeepOpen attribute for tools:
