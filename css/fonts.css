@@ -45,6 +45,55 @@
     font-style: normal;
   }
 
+  /* Fonts for BaseMap */
+  @font-face {
+    font-family: "NotoSans Regular";
+    src: url("fonts/NotoSans.woff") format('woff');
+  }
+  
+  @font-face {
+    font-family: "NotoSans Bold";
+    src: url("fonts/NotoSans-Bold.woff") format('woff');
+    font-weight: bold;
+  }
+  
+  @font-face {
+    font-family: "Noto Sans Italic";
+    src: url("fonts/NotoSans-Italic.woff") format('woff');
+    font-style: italic;
+  }
+  @font-face {
+    font-family: "Noto Sans Extra Condensed Light";
+    src: url("fonts/NotoSans-extracondensedlight.woff") format('woff');
+    font-weight: light;
+  }
+
+  @font-face {
+    font-family: "Roboto Regular";
+    src: url("fonts/roboto-regular.woff") format('woff');
+  }
+
+  @font-face {
+    font-family: "Roboto Medium Italic";
+    src: url("fonts/Roboto-MediumItalic.woff") format('woff');
+    font-weight: medium;
+    font-style: italic;
+  }
+  @font-face {
+    font-family: "Roboto Medium";
+    src: url("fonts/Roboto-Medium.woff") format('woff');
+    font-weight: medium;
+  }
+  @font-face {
+    font-family: "Roboto Italic";
+    src: url("fonts/roboto-italic.woff") format('woff');
+    font-style: italic;
+  }
+  @font-face {
+    font-family: "Roboto Bold";
+    src: url("fonts/Roboto-Bold.woff") format('woff');
+    font-style: italic;
+  }
 
   [class^="icon-"], [class*=" icon-"] {
     /* use !important to prevent issues with browser extensions that change fonts */
