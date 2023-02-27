@@ -456,7 +456,7 @@ describe("src/modules/tools/filter/utils/fetchAllStaProperties.js", () => {
                 number: {
                     123: true
                 },
-                "@Observations.0.result": {
+                "@Datastreams.0.Observations.0.result": {
                     1: true
                 }
             });

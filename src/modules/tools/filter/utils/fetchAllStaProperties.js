@@ -57,10 +57,10 @@ function getFilterableProperties (data) {
 
         // if entity is a Datastream and has observations
         if (observations && Array.isArray(observations) && observations.length > 0) {
-            if (!Object.prototype.hasOwnProperty.call(resultAssoc, "@Observations.0.result")) {
-                resultAssoc["@Observations.0.result"] = {};
+            if (!Object.prototype.hasOwnProperty.call(resultAssoc, "@Datastreams.0.Observations.0.result")) {
+                resultAssoc["@Datastreams.0.Observations.0.result"] = {};
             }
-            resultAssoc["@Observations.0.result"][observations[0].result] = true;
+            resultAssoc["@Datastreams.0.Observations.0.result"][observations[0].result] = true;
         }
 
         if (!Array.isArray(datastreams)) {
