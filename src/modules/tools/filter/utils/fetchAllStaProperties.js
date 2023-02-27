@@ -56,7 +56,7 @@ function getFilterableProperties (data) {
         }
 
         // if entity is a Datastream and has observations
-        if (observations && Array.isArray(observations) && observations.length > 0) {
+        if (observations && Array.isArray(observations) && observations.length > 0 && isObject(observations[0]) && observations[0].hasOwnProperty("result")) {
             if (!Object.prototype.hasOwnProperty.call(resultAssoc, "@Datastreams.0.Observations.0.result")) {
                 resultAssoc["@Datastreams.0.Observations.0.result"] = {};
             }
@@ -81,7 +81,7 @@ function getFilterableProperties (data) {
                 });
             }
             // parse 1st observation
-            if (ds_observations && Array.isArray(ds_observations) && ds_observations.length > 0) {
+            if (ds_observations && Array.isArray(ds_observations) && ds_observations.length > 0 && isObject(ds_observations[0]) && ds_observations[0].hasOwnProperty("result")) {
                 if (!Object.prototype.hasOwnProperty.call(resultAssoc, "@Datastreams." + index + ".Observations.0.result")) {
                     resultAssoc["@Datastreams." + index + ".Observations.0.result"] = {};
                 }
