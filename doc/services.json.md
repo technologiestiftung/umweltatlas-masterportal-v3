@@ -151,7 +151,7 @@ WMTS layers can be added by
 |resLength|yes|String||Length of resolution and matrixIds arrays. Required to configure the layer's maximum zoom level.|`"20"`|
 |scales|no|Number[]|The scale defined for each zoom level. The values are the `ScaleDenominator` of each `TileMatrix` of the `TileMatrixSet` as advertised in the GetCapabilities response of the WMTS.|[559082264.029, 279541132.015, 139770566.007, 69885283.0036, 34942641.5018, 17471320.7509, 8735660.37545, 4367830.18773, 2183915.09386, 1091957.54693, 45978.773466, 272989.386733, 136494.693366, 68247.3466832, 34123.6733416, 17061.8366708, 8530.91833540, 4265.45916770, 2132.72958385, 1066.36479193]|
 |style|no|String|"normal"|Name of the style. Must match the noted in the WMTS capabilities.|`"normal"`|
-|tileMatrixSet|yes|String||Matrix set required to call the WMTS service. Not required when using `optionsFromCapabilities`, a fitting TileMatrixSet is injected then.|`"google3857"`|
+|tileMatrixSet|yes|String||Matrix set required to call the WMTS service. Do not use when using `optionsFromCapabilities`, a fitting TileMatrixSet is injected then. Using both may lead to erroneous behaviour.|`"google3857"`|
 |tilesize|yes|String||Tile height and width in pixels.|`"512"`|
 |transparent|yes|Boolean||Whether the tile background should be transparent. Corresponds to the *GetMap* parameter *TRANSPARENT*.|`true`|
 |typ|yes|String||Service type; in this case, "WMTS". (**[WMTS docs](#markdown-header-wmts-layer)**, **[WFS docs](#markdown-header-wfs-layer)**, **[SensorThings-API docs](#markdown-header-sensor-layer)**)|`"WMS"`|
