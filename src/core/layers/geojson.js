@@ -1,9 +1,10 @@
 import {geojson} from "@masterportal/masterportalapi";
 import {GeoJSON} from "ol/format.js";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import getProxyUrl from "../../utils/getProxyUrl";
 import Layer from "./layer";
 import Cluster from "ol/source/Cluster";
-import * as bridge from "./RadioBridge.js";
 import store from "../../app-store";
 import LoaderOverlay from "../../utils/loaderOverlay";
 
@@ -114,16 +115,16 @@ GeoJSONLayer.prototype.createLayer = function (attrs) {
  */
 GeoJSONLayer.prototype.getStyleFunction = function (attrs) {
     const styleId = attrs.styleId,
-        styleModel = bridge.getStyleModelById(styleId);
+        styleObject = styleList.returnStyleObject(styleId);
     let isClusterFeature = false,
         style = null;
 
-    if (styleModel !== undefined) {
+    if (styleObject !== undefined) {
         style = function (feature) {
             const feat = feature !== undefined ? feature : this;
 
             isClusterFeature = typeof feat.get("features") === "function" || typeof feat.get("features") === "object" && Boolean(feat.get("features"));
-            return styleModel.createStyle(feat, isClusterFeature);
+            return createStyle.createStyle(styleObject, feat, isClusterFeature, Config.wfsImgPath);
         };
     }
     else {
@@ -280,8 +281,7 @@ GeoJSONLayer.prototype.setOpenSenseMapSensorValues = function (feature, response
  * @returns {void}
  */
 GeoJSONLayer.prototype.createLegend = function (attrs) {
-    const styleId = attrs.styleId,
-        styleModel = bridge.getStyleModelById(styleId);
+    const styleObject = styleList.returnStyleObject(attrs.styleId);
     let legend = this.get("legend");
 
     /**
@@ -302,8 +302,10 @@ GeoJSONLayer.prototype.createLegend = function (attrs) {
     if (Array.isArray(legend)) {
         this.setLegend(legend);
     }
-    else if (styleModel && legend === true) {
-        this.setLegend(styleModel.getLegendInfos());
+    else if (styleObject && legend === true) {
+        createStyle.returnLegendByStyleId(styleObject.styleId).then(legendInfos => {
+            this.setLegend(legendInfos.legendInformation);
+        });
     }
     else if (typeof legend === "string") {
         this.setLegend([legend]);

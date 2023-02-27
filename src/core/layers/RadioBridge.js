@@ -227,14 +227,6 @@ export function featuresLoaded (layerId, features) {
     Radio.trigger("VectorLayer", "featuresLoaded", layerId, features);
 }
 /**
- * Returns the style model to the given id.
- * @param {String} styleId id of the style model
- * @returns {Object} the style model
- */
-export function getStyleModelById (styleId) {
-    return Radio.request("StyleList", "returnModelById", styleId);
-}
-/**
  * Listens to channel i18next and changes the translations of the layer, if language changes.
  * @param {Object} layer the layer to call the function 'changeLang' at.
  * @returns {void}

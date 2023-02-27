@@ -6,7 +6,7 @@ import DetachedTemplate from "./templates/DetachedTemplate.vue";
 import TableTemplate from "./templates/TableTemplate.vue";
 import AttachedTemplate from "./templates/AttachedTemplate.vue";
 import omit from "../../../../utils/omit";
-import {mapAttributes} from "../../../../utils/attributeMapper.js";
+import {mapAttributes} from "@masterportal/masterportalapi/src/lib/attributeMapper";
 import api from "@masterportal/masterportalapi/src/maps/api";
 
 export default {

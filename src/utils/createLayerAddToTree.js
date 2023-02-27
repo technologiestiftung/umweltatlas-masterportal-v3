@@ -1,4 +1,6 @@
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 
 
 /**
@@ -125,11 +127,11 @@ function setAttributes (layer, id, layerName, layerNameKey, treeType) {
  * @returns {void}
  */
 function setStyle (layer, styleId) {
-    const styleModel = Radio.request("StyleList", "returnModelById", styleId);
+    const styleObject = styleList.returnStyleObject(styleId);
 
-    if (styleModel !== undefined) {
+    if (styleObject !== undefined) {
         layer.get("layer").setStyle((feature) => {
-            return styleModel.createStyle(feature, false);
+            return createStyle.createStyle(styleObject, feature, false, Config.wfsImgPath);
         });
     }
 }

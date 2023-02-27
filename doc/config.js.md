@@ -465,7 +465,7 @@ For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Glob
 |property|yes|String||Name of the property the features should be filtered by.|
 |addFeatures|no|Boolean|true|Specifies whether the desired features should be added to the map in a separate layer.|
 |allowedValues|no|Array||Only relevant when `id` equal `zoomToGeometry`. Further filters the values allowed in the URL query parameters.|
-|styleId|no|String||Only relevant when `id` equal `zoomToFeatureId`. Id of the `StyleModel` that should be used to style the features retrieved from the service.|
+|styleId|no|String||Only relevant when `id` equal `zoomToFeatureId`. Id of the `styleObject` that should be used to style the features retrieved from the service.|
 
 **Example**:
 
