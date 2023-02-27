@@ -1,5 +1,5 @@
 import isObject from "../../../../utils/isObject.js";
-import {getValueFromObjectByPath} from "../../../../utils/getValueFromObjectByPath.js";
+import {getValueFromObjectByPath} from "@masterportal/masterportalapi/src/lib/getValueFromObjectByPath";
 import InterfaceWfsExtern from "./interface.wfs.extern.js";
 import {
     between,

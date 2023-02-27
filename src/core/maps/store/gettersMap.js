@@ -1,6 +1,6 @@
 import {generateSimpleGetters} from "../../../app-store/utils/generators";
 import initialState from "./stateMap";
-import thousandsSeparator from "../../../utils/thousandsSeparator.js";
+import thousandsSeparator from "../../../utils/thousandsSeparator";
 import crs from "@masterportal/masterportalapi/src/crs";
 import {Group as LayerGroup} from "ol/layer.js";
 

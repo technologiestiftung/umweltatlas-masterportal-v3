@@ -1068,10 +1068,10 @@
 /** -------------------- STYLELIST -------------------- */
 
 /**
- * @event VectorStyle#RadioRequestStyleListReturnModelById
+ * @event VectorStyle#StyleListReturnStyleObject
  * @description filters styles by id
  * @returns {function} Styling-Function
- * @example Radio.request("StyleList", "returnModelById", "1711");
+ * @example styleList.returnStyleObject("1711");
  */
 
 /** -------------------- REMOTEINTERFACE -------------------- */

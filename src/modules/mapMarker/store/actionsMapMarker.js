@@ -1,4 +1,6 @@
 import {fetchFirstModuleConfig} from "../../../utils/fetchFirstModuleConfig";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import Point from "ol/geom/Point.js";
 import Feature from "ol/Feature.js";
 
@@ -32,14 +34,14 @@ export default {
      * @returns {void}
      */
     placingPointMarker ({state, rootState, commit, dispatch}, value) {
-        const styleListModel = Radio.request("StyleList", "returnModelById", state.pointStyleId);
+        const styleObject = styleList.returnStyleObject(state.pointStyleId);
         let coordValues = [];
 
         if (!value.keepPreviousMarker) {
             dispatch("removePointMarker");
         }
 
-        if (styleListModel) {
+        if (styleObject) {
             if (rootState.Maps.mode === "3D") {
                 // else an error is thrown in proj4/lib/checkSanity: coordinates must be finite numbers
                 value.forEach(val => {
@@ -54,7 +56,7 @@ export default {
             const iconfeature = new Feature({
                     geometry: new Point(coordValues)
                 }),
-                featureStyle = styleListModel.createStyle(iconfeature, false);
+                featureStyle = createStyle.createStyle(styleObject, iconfeature, false, Config.wfsImgPath);
 
             iconfeature.setStyle(featureStyle);
             iconfeature.set("styleId", state.pointStyleId);
@@ -65,7 +67,7 @@ export default {
             dispatch("Maps/addLayerOnTop", state.markerPoint, {root: true});
         }
         else {
-            dispatch("Alerting/addSingleAlert", i18next.t("common:modules.mapMarker.noStyleModel", {styleId: state.pointStyleId}), {root: true});
+            dispatch("Alerting/addSingleAlert", i18next.t("common:modules.mapMarker.nostyleObject", {styleId: state.pointStyleId}), {root: true});
         }
     },
 
@@ -167,12 +169,12 @@ export default {
      * @returns {void}
      */
     placingPolygonMarker ({state, commit, dispatch}, feature) {
-        const styleListModel = Radio.request("StyleList", "returnModelById", state.polygonStyleId);
+        const styleObject = styleList.returnStyleObject(state.polygonStyleId);
 
         dispatch("removePolygonMarker");
 
-        if (styleListModel) {
-            const featureStyle = styleListModel.createStyle(feature, false);
+        if (styleObject) {
+            const featureStyle = createStyle.createStyle(styleObject, feature, false, Config.wfsImgPath);
 
             feature.setStyle(featureStyle);
             commit("addFeatureToMarker", {feature: feature, marker: "markerPolygon"});
@@ -180,7 +182,7 @@ export default {
             dispatch("Maps/addLayerOnTop", state.markerPolygon, {root: true});
         }
         else {
-            dispatch("Alerting/addSingleAlert", i18next.t("common:modules.mapMarker.noStyleModel", {styleId: state.polygonStyleId}), {root: true});
+            dispatch("Alerting/addSingleAlert", i18next.t("common:modules.mapMarker.nostyleObject", {styleId: state.polygonStyleId}), {root: true});
         }
     },
 
@@ -193,15 +195,15 @@ export default {
      * @returns {void}
      */
     placingPolygonMarkerByGeom ({state, commit, dispatch}, geometry) {
-        const styleListModel = Radio.request("StyleList", "returnModelById", state.polygonStyleId);
+        const styleObject = styleList.returnStyleObject(state.polygonStyleId);
 
         dispatch("removePolygonMarker");
 
-        if (styleListModel && geometry) {
+        if (styleObject && geometry) {
             const feature = new Feature({
                     geometry: geometry
                 }),
-                featureStyle = styleListModel.createStyle(feature, false);
+                featureStyle = createStyle.createStyle(styleObject, feature, false, Config.wfsImgPath).getStyle();
 
             feature.setStyle(featureStyle);
             commit("addFeatureToMarker", {feature: feature, marker: "markerPolygon"});
@@ -209,7 +211,7 @@ export default {
             dispatch("Maps/addLayerOnTop", state.markerPolygon, {root: true});
         }
         else {
-            dispatch("Alerting/addSingleAlert", i18next.t("common:modules.mapMarker.noStyleModel", {styleId: state.polygonStyleId}), {root: true});
+            dispatch("Alerting/addSingleAlert", i18next.t("common:modules.mapMarker.nostyleObject", {styleId: state.polygonStyleId}), {root: true});
         }
     },
 
