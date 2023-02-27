@@ -40,6 +40,7 @@
 - Print: edit printing for plotservice.
 - Issue #839: Under certain conditions, the external WFS filter did not work. An error occurred while parsing the WFS GetFeature Response.
 - Issue #867: SpeacialWFS search uses proxy if useProxy is configured true.
+- Issue #871: Support WMS GFI requests to HTTP in HTTP environment.
 - FeatureLister: always contains an up to date list of layers to choose.
 
 ---
