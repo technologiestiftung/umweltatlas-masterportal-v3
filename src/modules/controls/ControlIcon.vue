@@ -58,7 +58,8 @@ export default {
             v-if="iconClass==='bi-masterportal-zoom-in'"
             :class="iconClass"
         >
-            <svg xmlns="http://www.w3.org/2000/svg"
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
                 width="28"
                 height="28"
                 fill="currentColor"
@@ -76,7 +77,8 @@ export default {
             v-if="iconClass==='bi-masterportal-zoom-out'"
             :class="iconClass"
         >
-            <svg xmlns="http://www.w3.org/2000/svg"
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
                 width="28"
                 height="28"
                 fill="currentColor"
