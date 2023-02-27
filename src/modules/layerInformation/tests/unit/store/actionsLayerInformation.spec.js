@@ -51,14 +51,16 @@ describe("src/modules/layerInformation/store/actionsLayerInformation.js", () => 
         it("should initialize the other abstract layer infos", done => {
             const state = {
                 layerInfo: {
+                    attributes: null,
                     cswUrl: "https://metaver.de/csw",
+                    customMetadata: false,
                     metaID: "73A344E9-CDB5-4A17-89C1-05E202989755"
                 }
             };
 
             // action, payload, state, rootState, expectedMutationsAndActions, getters = {}, done
             testAction(additionalSingleLayerInfo, null, state, {}, [
-                {type: "getAbstractInfo", payload: {metaId: state.layerInfo.metaID, cswUrl: state.layerInfo.cswUrl}, dispatch: true}
+                {type: "getAbstractInfo", payload: {attributes: state.layerInfo.attributes, metaId: state.layerInfo.metaID, cswUrl: state.layerInfo.cswUrl, customMetadata: state.layerInfo.customMetadata}, dispatch: true}
             ], {}, done);
 
         });

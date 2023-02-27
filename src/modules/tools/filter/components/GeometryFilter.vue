@@ -100,7 +100,7 @@ export default {
             }
         },
         isActive (val) {
-            if (this.getSelectedGeometry(this.selectedGeometryIndex)?.type !== "additional") {
+            if (this.draw instanceof Draw && this.getSelectedGeometry(this.selectedGeometryIndex)?.type !== "additional") {
                 this.draw.setActive(val);
             }
             this.setGfiActive(!val);
@@ -128,6 +128,12 @@ export default {
                     "defaultBuffer": Number(val)
                 });
             }
+        },
+        additionalGeometries (value) {
+            if (!Array.isArray(value) && value.length) {
+                return;
+            }
+            this.allGeometries = this.getGeometries();
         }
     },
     created () {
@@ -173,7 +179,8 @@ export default {
             this.allGeometries = this.getGeometries();
 
             // sets the interaction to draw the filter geometry
-            if (this.getSelectedGeometry(this.selectedGeometryIndex).type !== "additional") {
+            if (isObject(this.getSelectedGeometry(this.selectedGeometryIndex))
+                && this.getSelectedGeometry(this.selectedGeometryIndex).type !== "additional") {
                 this.setDrawInteraction(this.getSelectedGeometry(this.selectedGeometryIndex).type);
             }
         },
@@ -471,91 +478,89 @@ export default {
 </script>
 
 <template lang="html">
-    <div>
-        <form>
-            <div class="mb-3">
-                <div class="form-check">
-                    <input
-                        id="geometryFilterChecked"
-                        v-model="isActive"
-                        class="form-check-input"
-                        type="checkbox"
-                        value=""
-                    >
-                    <label
-                        class="form-check-label"
-                        for="geometryFilterChecked"
-                    >
-                        {{ translateKeyWithPlausibilityCheck("common:modules.tools.filter.geometryFilter.activate", key => $t(key)) }}
-                    </label>
-                    <div
-                        id="geometryFilterHelp"
-                        class="form-text"
-                    >
-                        {{ translateKeyWithPlausibilityCheck("common:modules.tools.filter.geometryFilter.help", key => $t(key)) }}
-                    </div>
-                </div>
-            </div>
-            <div
-                v-if="isActive"
-                class="mb-3"
-            >
-                <div class="form-floating">
-                    <select
-                        id="geometrySelect"
-                        v-model="selectedGeometryIndex"
-                        class="form-select"
-                    >
-                        <option
-                            v-for="(geometry, index) in allGeometries"
-                            :key="index"
-                            :value="index"
-                        >
-                            {{ geometry.name }}
-                        </option>
-                    </select>
-                    <label for="geometrySelect">
-                        {{ translateKeyWithPlausibilityCheck("common:modules.tools.filter.geometryFilter.selectGeometry", key => $t(key)) }}
-                    </label>
-                </div>
-            </div>
-            <div
-                v-if="isActive && isBufferInputVisible"
-                class="mb-3"
-            >
-                <label
-                    for="inputLineBuffer"
-                    class="form-label"
-                >
-                    {{ translateKeyWithPlausibilityCheck("common:modules.tools.filter.geometryFilter.buffer", key => $t(key)) }}
-                </label>
+    <div id="geometryFilter">
+        <div class="mb-3">
+            <div class="form-check">
                 <input
-                    id="inputLineBuffer"
-                    v-model="buffer"
-                    class="form-control"
-                    type="number"
-                    min="1"
+                    id="geometryFilterChecked"
+                    v-model="isActive"
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
                 >
-            </div>
-            <div v-if="isGeometryVisible">
-                <button
-                    id="buttonRemoveGeometry"
-                    class="btn btn-primary"
-                    @click="reset"
+                <label
+                    class="form-check-label"
+                    for="geometryFilterChecked"
                 >
-                    {{ translateKeyWithPlausibilityCheck("common:modules.tools.filter.geometryFilter.removeGeometry", key => $t(key)) }}
-                </button>
+                    {{ translateKeyWithPlausibilityCheck("common:modules.tools.filter.geometryFilter.activate", key => $t(key)) }}
+                </label>
+                <div
+                    id="geometryFilterHelp"
+                    class="form-text"
+                >
+                    {{ translateKeyWithPlausibilityCheck("common:modules.tools.filter.geometryFilter.help", key => $t(key)) }}
+                </div>
             </div>
-        </form>
+        </div>
+        <div
+            v-if="isActive"
+            class="mb-3"
+        >
+            <div class="form-floating">
+                <select
+                    id="geometrySelect"
+                    v-model="selectedGeometryIndex"
+                    class="form-select"
+                >
+                    <option
+                        v-for="(geometry, index) in allGeometries"
+                        :key="index"
+                        :value="index"
+                    >
+                        {{ geometry.name }}
+                    </option>
+                </select>
+                <label for="geometrySelect">
+                    {{ translateKeyWithPlausibilityCheck("common:modules.tools.filter.geometryFilter.selectGeometry", key => $t(key)) }}
+                </label>
+            </div>
+        </div>
+        <div
+            v-if="isActive && isBufferInputVisible"
+            class="mb-3"
+        >
+            <label
+                for="inputLineBuffer"
+                class="form-label"
+            >
+                {{ translateKeyWithPlausibilityCheck("common:modules.tools.filter.geometryFilter.buffer", key => $t(key)) }}
+            </label>
+            <input
+                id="inputLineBuffer"
+                v-model="buffer"
+                class="form-control"
+                type="number"
+                min="1"
+            >
+        </div>
+        <div v-if="isGeometryVisible">
+            <button
+                id="buttonRemoveGeometry"
+                class="btn btn-primary"
+                @click="reset"
+            >
+                {{ translateKeyWithPlausibilityCheck("common:modules.tools.filter.geometryFilter.removeGeometry", key => $t(key)) }}
+            </button>
+        </div>
         <hr>
     </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "~variables";
-    form {
-        font-size: $font-size-lg;
-    }
+
+#geometryFilter {
+    font-size: $font-size-lg;
 
     hr {
         margin-left: -20px;
@@ -567,4 +572,5 @@ export default {
             margin-top: 3px;
         }
     }
+}
 </style>

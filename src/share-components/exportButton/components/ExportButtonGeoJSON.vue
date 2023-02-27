@@ -1,5 +1,5 @@
 <script>
-import moment from "moment";
+import dayjs from "dayjs";
 import {
     downloadBlobPerNavigator,
     downloadBlobPerHTML5
@@ -110,12 +110,12 @@ export default {
         /**
          * creates a filename using the given prefix and postfixFormat
          * @param {String} prefix the prefix to begin the filename with
-         * @param {String} postfixFormat the format to hand over to moment to create the end of the filename with
+         * @param {String} postfixFormat the format to hand over to dayjs to create the end of the filename with
          * @returns {String} a concatination of prefix and postfixFormat
          */
         createFilename (prefix, postfixFormat) {
             if (postfixFormat) {
-                return String(prefix) + moment().format(String(postfixFormat));
+                return String(prefix) + dayjs().format(String(postfixFormat));
             }
             return String(prefix);
         }

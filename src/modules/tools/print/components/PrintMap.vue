@@ -4,7 +4,7 @@ import ToolTemplate from "../../ToolTemplate.vue";
 import getters from "../store/gettersPrint";
 import mutations from "../store/mutationsPrint";
 import {getComponent} from "../../../../utils/getComponent";
-import thousandsSeparator from "../../../../utils/thousandsSeparator.js";
+import thousandsSeparator from "../../../../utils/thousandsSeparator";
 import axios from "axios";
 import getVisibleLayer from "../utils/getVisibleLayer";
 import {Vector} from "ol/layer.js";
@@ -259,8 +259,10 @@ export default {
             this.resetLayoutParameter();
             this.setCurrentLayoutName(value);
             this.setCurrentLayout(this.layoutList.find(layout => layout.name === value));
-            this.getAttributeInLayoutByName("gfi");
-            this.getAttributeInLayoutByName("legend");
+            if (this.printService !== "plotservice") {
+                this.getAttributeInLayoutByName("gfi");
+                this.getAttributeInLayoutByName("legend");
+            }
             this.updateCanvasLayer();
             await mapCollection.getMap("2D").render();
         },

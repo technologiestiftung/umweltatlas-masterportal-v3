@@ -14,19 +14,21 @@ const actions = {
      */
     setToolActive ({state, commit, dispatch}, {id, active}) {
         const toolId = Object.keys(state).find(tool => state[tool]?.id?.toLowerCase() === id?.toLowerCase()),
-            keepOpenToolId = Object.keys(state).find(tool => state[tool].keepOpen === true);
+            keepOpenToolId = Object.keys(state).find(tool => typeof state[tool].keepOpen !== "undefined");
 
-        if (toolId !== undefined && toolId !== keepOpenToolId) {
-            dispatch("controlActivationOfTools", {id: state[toolId].id, name: state[toolId].name, active});
-            commit(toolId + "/setActive", active);
-            if (toolId !== "Gfi") {
-                commit("Gfi/setActive", !state[toolId].deactivateGFI);
-                dispatch("activateToolInModelList", {tool: "Gfi", active: !state[toolId].deactivateGFI});
+        if (toolId !== undefined) {
+            if (toolId !== keepOpenToolId) {
+                dispatch("controlActivationOfTools", {id: state[toolId].id, name: state[toolId].name, active});
+                commit(toolId + "/setActive", active);
+                if (toolId !== "Gfi") {
+                    commit("Gfi/setActive", !state[toolId].deactivateGFI);
+                    dispatch("activateToolInModelList", {tool: "Gfi", active: !state[toolId].deactivateGFI});
+                }
             }
-        }
-        else if (toolId !== undefined && toolId === keepOpenToolId) {
-            dispatch("controlActivationOfTools", {id: state[toolId].id, name: state[toolId].name, active: true});
-            commit(toolId + "/setActive", true);
+            else {
+                dispatch("controlActivationOfTools", {id: state[toolId].id, name: state[toolId].name, active: true});
+                commit(toolId + "/setActive", true);
+            }
         }
     },
     /**
@@ -75,13 +77,26 @@ const actions = {
      */
     controlActivationOfTools: ({state, getters, commit, dispatch}, {id, name, active}) => {
         let activeToolName;
-        const keepOpenToolId = Object.keys(state).find(tool => state[tool].keepOpen === true);
+        const keepOpenToolId = Object.keys(state).find(tool => typeof state[tool].keepOpen !== "undefined");
 
         getters.getActiveToolNames.forEach((tool) => {
             if (tool !== keepOpenToolId) {
                 commit(tool + "/setActive", false);
             }
         });
+
+        if (typeof keepOpenToolId !== "undefined") {
+            if (!state[keepOpenToolId].keepOpen) {
+                commit(keepOpenToolId + "/setActive", false);
+            }
+            else if (typeof state[keepOpenToolId].keepOpen === "string" && state[keepOpenToolId].keepOpen !== id) {
+                commit(keepOpenToolId + "/setActive", false);
+            }
+            else if (Array.isArray(state[keepOpenToolId].keepOpen) && !state[keepOpenToolId].keepOpen.includes(id) && id !== "gfi") {
+                commit(keepOpenToolId + "/setActive", false);
+            }
+        }
+
         if (getters.getConfiguredToolNames.includes(name)) {
             activeToolName = name;
         }
@@ -102,7 +117,7 @@ const actions = {
     */
     setToolActiveByConfig ({state, getters, commit, dispatch}) {
         const activeTools = getters.getActiveToolNames,
-            firstActiveTool = activeTools.find(tool => tool !== "Gfi" && tool.keepOpen !== true);
+            firstActiveTool = activeTools.find(tool => tool !== "Gfi" && typeof tool.keepOpen === "undefined");
 
         if (firstActiveTool !== undefined) {
             activeTools.forEach(tool => commit(tool + "/setActive", false));

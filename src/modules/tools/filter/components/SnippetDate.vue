@@ -2,8 +2,15 @@
 import isObject from "../../../../utils/isObject";
 import {translateKeyWithPlausibilityCheck} from "../../../../utils/translateKeyWithPlausibilityCheck.js";
 import {getDefaultOperatorBySnippetType} from "../utils/getDefaultOperatorBySnippetType.js";
-import moment from "moment";
+import dayjs from "dayjs";
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 import SnippetInfo from "./SnippetInfo.vue";
+
+dayjs.extend(isSameOrAfter);
+dayjs.extend(isSameOrBefore);
+dayjs.extend(customParseFormat);
 
 export default {
     name: "SnippetDate",
@@ -129,9 +136,9 @@ export default {
         },
         inRangeValue: {
             get () {
-                const momentMinimum = moment(this.minimumValue, this.internalFormat),
-                    momentMaximum = moment(this.maximumValue, this.internalFormat),
-                    momentValue = moment(this.value, this.internalFormat);
+                const momentMinimum = dayjs(this.minimumValue, this.internalFormat),
+                    momentMaximum = dayjs(this.maximumValue, this.internalFormat),
+                    momentValue = dayjs(this.value, this.internalFormat, true);
 
                 if (!momentValue.isValid()) {
                     return "";
@@ -158,7 +165,7 @@ export default {
     watch: {
         value () {
             if (!this.isAdjusting && (!this.isInitializing || this.precheckedIsValid)) {
-                this.emitCurrentRule(moment(this.inRangeValue, this.internalFormat).format(this.format), this.isInitializing);
+                this.emitCurrentRule(dayjs(this.inRangeValue, this.internalFormat).format(this.format), this.isInitializing);
             }
         },
         adjustment (adjusting) {
@@ -182,9 +189,9 @@ export default {
     },
     mounted () {
         this.$nextTick(() => {
-            const momentPrechecked = moment(this.prechecked, this.format),
-                momentMin = moment(this.minValue, this.format),
-                momentMax = moment(this.maxValue, this.format);
+            const momentPrechecked = dayjs(this.prechecked, this.format, true),
+                momentMin = dayjs(this.minValue, this.format, true),
+                momentMax = dayjs(this.maxValue, this.format, true);
 
             this.precheckedIsValid = momentPrechecked.isValid();
 
@@ -208,13 +215,13 @@ export default {
                     }
 
                     if (Object.prototype.hasOwnProperty.call(minMaxObj, "min")) {
-                        this.minimumValue = moment(minMaxObj.min, this.format).format(this.internalFormat);
+                        this.minimumValue = dayjs(minMaxObj.min, this.format).format(this.internalFormat);
                     }
                     else {
                         this.minimumValue = momentMin.format(this.internalFormat);
                     }
                     if (Object.prototype.hasOwnProperty.call(minMaxObj, "max")) {
-                        this.maximumValue = moment(minMaxObj.max, this.format).format(this.internalFormat);
+                        this.maximumValue = dayjs(minMaxObj.max, this.format).format(this.internalFormat);
                     }
                     else {
                         this.maximumValue = momentMax.format(this.internalFormat);
@@ -294,7 +301,7 @@ export default {
         resetSnippet (onsuccess) {
             if (this.visible) {
                 this.value = this.precheckedIsValid ?
-                    moment(this.prechecked, this.format).format(this.internalFormat) : "";
+                    dayjs(this.prechecked, this.format).format(this.internalFormat) : "";
             }
             this.$nextTick(() => {
                 if (typeof onsuccess === "function") {
@@ -322,7 +329,7 @@ export default {
             }
             this.isAdjusting = false;
             this.$nextTick(() => {
-                this.emitCurrentRule(moment(this.inRangeValue, this.internalFormat).format(this.format), this.isInitializing);
+                this.emitCurrentRule(dayjs(this.inRangeValue, this.internalFormat).format(this.format), this.isInitializing);
             });
         }
     }

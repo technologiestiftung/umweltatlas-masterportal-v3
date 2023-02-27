@@ -117,6 +117,18 @@ export default {
         }
     },
     watch: {
+        filterRules (rules) {
+            if (this.isStrategyActive()) {
+                return;
+            }
+            if (this.hasUnfixedRules(rules)) {
+                this.enableFilterButton();
+                return;
+            }
+            if (this.layerConfig?.filterButtonDisabled === true) {
+                this.disableFilterButton();
+            }
+        },
         paging (val) {
             if (val.page >= val.total) {
                 this.setFormDisable(false);
@@ -186,6 +198,7 @@ export default {
                 console.warn(new Error("Please check your filter configuration: The given layerId does not exist in your config.json."));
             }
         }
+        this.filterButtonDisabled = typeof this.layerConfig?.filterButtonDisabled === "boolean" ? this.layerConfig.filterButtonDisabled : false;
     },
     mounted () {
         compileSnippets(this.layerConfig.snippets, this.api, FilterApi, snippets => {

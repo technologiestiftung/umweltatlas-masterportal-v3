@@ -1,5 +1,7 @@
 import Layer from "./layer";
 import LoaderOverlay from "../../utils/loaderOverlay";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import * as bridge from "./RadioBridge";
 import Cluster from "ol/source/Cluster";
 import VectorLayer from "ol/layer/Vector";
@@ -13,11 +15,15 @@ import {SensorThingsMqtt} from "../../utils/sensorThingsMqtt";
 import {SensorThingsHttp} from "../../utils/sensorThingsHttp";
 import crs from "@masterportal/masterportalapi/src/crs";
 import store from "../../app-store";
-import moment from "moment";
-import "moment-timezone";
+import dayjs from "dayjs";
+import dayjsTimezone from "dayjs/plugin/timezone";
+import localizedFormat from "dayjs/plugin/localizedFormat";
 import uniqueId from "../../utils/uniqueId";
 import {unByKey} from "ol/Observable";
 import {Circle as CircleStyle, Fill, Stroke, Style} from "ol/style.js";
+
+dayjs.extend(dayjsTimezone);
+dayjs.extend(localizedFormat);
 
 /**
  * Creates a layer for the SensorThings API.
@@ -89,8 +95,8 @@ export default function STALayer (attrs) {
     this.lastScale = null;
 
     this.registerInteractionMapResolutionListeners(this.get("scaleStyleByZoom"));
-
-    moment.locale("de");
+    require("dayjs/locale/de.js");
+    dayjs.locale("de");
     this.registerInteractionMapScaleListeners();
 }
 // Link prototypes and add prototype methods, means STALayer uses all methods and properties of Layer
@@ -228,24 +234,22 @@ STALayer.prototype.getPropertyname = function (attrs) {
  */
 STALayer.prototype.getStyleFunction = function (attrs) {
     const styleId = attrs?.styleId,
-        styleModel = bridge.getStyleModelById(styleId);
+        styleObject = styleList.returnStyleObject(styleId);
 
-    if (typeof styleModel?.get === "function" && styleModel.get("rules")) {
-        this.styleRule = styleModel.get("rules");
-    }
 
-    if (typeof styleModel !== "undefined") {
+    if (typeof styleObject !== "undefined") {
+        this.styleRule = styleObject.rules ? styleObject.rules : null;
         return function (feature, resolution) {
             const feat = typeof feature !== "undefined" ? feature : this,
-                isClusterFeature = typeof feat.get("features") === "function" || typeof feat.get("features") === "object" && Boolean(feat.get("features")),
-                style = styleModel.createStyle(feat, isClusterFeature),
+                isClusterFeature = typeof feat.get("features") === "function" || typeof feat.get("features") === "object" && Boolean(feat.get("features").length > 1),
+                style = createStyle.createStyle(styleObject, feat, isClusterFeature, Config.wfsImgPath),
+                styleElement = Array.isArray(style) ? style[0] : style,
                 zoomLevel = store.getters["Maps/getView"].getZoomForResolution(resolution) + 1,
                 zoomLevelCount = store.getters["Maps/getView"].getResolutions().length;
 
-            if (attrs.scaleStyleByZoom && typeof style.getImage === "function" && style.getImage() !== null) {
-                style.getImage().setScale(style.getImage().getScale() * zoomLevel / zoomLevelCount);
+            if (styleElement.getImage() !== null && attrs.scaleStyleByZoom) {
+                styleElement.getImage().setScale(styleElement.getImage().getScale() * zoomLevel / zoomLevelCount);
             }
-
             return style;
         };
     }
@@ -270,7 +274,7 @@ STALayer.prototype.updateSource = function () {
  * @returns {void}
  */
 STALayer.prototype.createLegend = function () {
-    const styleModel = bridge.getStyleModelById(this.get("styleId"));
+    const styleObject = styleList.returnStyleObject(this.attributes.styleId);
     let legend = this.get("legend");
 
     /**
@@ -286,8 +290,10 @@ STALayer.prototype.createLegend = function () {
     if (Array.isArray(legend)) {
         this.set("legend", legend);
     }
-    else if (styleModel && legend === true) {
-        this.set("legend", styleModel.getLegendInfos());
+    else if (styleObject && legend === true) {
+        createStyle.returnLegendByStyleId(styleObject.styleId).then(legendInfos => {
+            this.setLegend(legendInfos.legendInformation);
+        });
     }
     else if (typeof legend === "string") {
         this.set("legend", [legend]);
@@ -977,14 +983,14 @@ STALayer.prototype.moveDatastreamPropertiesToThing = function (thingProperties, 
  * @param {String} phenomenonTime phenomenonTime given by sensor
  * @param {String} timezone name of the sensors origin timezone
  * @see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
- * @see https://momentjs.com/timezone/docs/
+ * @see https://day.js.org/docs/en/timezone/timezone
  * @returns {String} A date string based on phenomenonTime and timezone in clients local format or an empty string if an unknown phenomenonTime is given.
  */
 STALayer.prototype.getLocalTimeFormat = function (phenomenonTime, timezone) {
     const utcTime = this.getFirstPhenomenonTime(phenomenonTime);
 
     if (utcTime) {
-        return moment(utcTime).tz(timezone).format("LLL");
+        return dayjs(utcTime).tz(timezone).format("LLL");
     }
     return "";
 };

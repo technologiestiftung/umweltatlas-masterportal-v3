@@ -1,5 +1,6 @@
 <script>
 import Multiselect from "vue-multiselect";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import {translateKeyWithPlausibilityCheck} from "../../../../utils/translateKeyWithPlausibilityCheck.js";
 import {getStyleModel, getIconListFromLegend} from "../utils/getIconListFromLegend.js";
 import {getDefaultOperatorBySnippetType} from "../utils/getDefaultOperatorBySnippetType.js";
@@ -421,12 +422,14 @@ export default {
             if (this.renderIcons === "fromLegend") {
                 this.styleModel = getStyleModel(this.layerId);
 
-                if (!this.styleModel || !this.styleModel.getLegendInfos() || !Array.isArray(this.styleModel.getLegendInfos())) {
-                    this.legendsInfo = [];
-                }
-                else {
-                    this.legendsInfo = this.styleModel.getLegendInfos();
-                }
+                createStyle.returnLegendByStyleId(this.layerId).then(legendInfos => {
+                    if (!this.styleModel || !legendInfos.legendInformation || !Array.isArray(legendInfos.legendInformation)) {
+                        this.legendsInfo = [];
+                    }
+                    else {
+                        this.legendInfo = legendInfos.legendInformation;
+                    }
+                });
             }
             else if (isObject(this.renderIcons)) {
                 this.iconList = this.renderIcons;

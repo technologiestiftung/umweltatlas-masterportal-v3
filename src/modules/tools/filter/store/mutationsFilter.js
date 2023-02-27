@@ -19,6 +19,9 @@ const mutations = {
     deleteFilter (state, payload) {
         Vue.set(state.rulesOfFilters, payload.filterId, []);
     },
+    setAdditionalGeometries (state, payload) {
+        Vue.set(state.geometrySelectorOptions, "additionalGeometries", payload.additionalGeometries);
+    },
     updateFilterHits (state, payload) {
         Vue.set(state.filtersHits, payload.filterId, payload.hits);
     },
