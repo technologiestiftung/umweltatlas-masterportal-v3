@@ -1,6 +1,6 @@
 import {oaf} from "@masterportal/masterportalapi";
 import LoaderOverlay from "../../utils/loaderOverlay";
-import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import {createStyle, returnLegendByStyleId} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import {getGeometryTypeFromOAF} from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
 import store from "../../app-store";
@@ -163,7 +163,7 @@ OAFLayer.prototype.getPropertyname = function (attrs) {
  */
 OAFLayer.prototype.getStyleFunction = function (attrs) {
     const styleId = attrs.styleId,
-        styleObject = returnStyleObject(styleId);
+        styleObject = styleList.returnStyleObject(styleId);
     let isClusterFeature = false,
         style = null;
 
@@ -196,7 +196,7 @@ OAFLayer.prototype.updateSource = function () {
  * @returns {void}
  */
 OAFLayer.prototype.createLegend = function () {
-    const styleObject = returnStyleObject(this.attributes.styleId),
+    const styleObject = styleList.returnStyleObject(this.attributes.styleId),
         legend = this.get("legend");
 
     if (Array.isArray(legend)) {
