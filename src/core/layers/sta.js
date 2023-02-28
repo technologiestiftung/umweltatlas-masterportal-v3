@@ -1,7 +1,7 @@
 import Layer from "./layer";
 import LoaderOverlay from "../../utils/loaderOverlay";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
-import {createStyle, returnLegendByStyleId} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import * as bridge from "./RadioBridge";
 import Cluster from "ol/source/Cluster";
 import VectorLayer from "ol/layer/Vector";
@@ -242,7 +242,7 @@ STALayer.prototype.getStyleFunction = function (attrs) {
         return function (feature, resolution) {
             const feat = typeof feature !== "undefined" ? feature : this,
                 isClusterFeature = typeof feat.get("features") === "function" || typeof feat.get("features") === "object" && Boolean(feat.get("features").length > 1),
-                style = createStyle(styleObject, feat, isClusterFeature, Config.wfsImgPath),
+                style = createStyle.createStyle(styleObject, feat, isClusterFeature, Config.wfsImgPath),
                 styleElement = Array.isArray(style) ? style[0] : style,
                 zoomLevel = store.getters["Maps/getView"].getZoomForResolution(resolution) + 1,
                 zoomLevelCount = store.getters["Maps/getView"].getResolutions().length;
@@ -291,7 +291,7 @@ STALayer.prototype.createLegend = function () {
         this.set("legend", legend);
     }
     else if (styleObject && legend === true) {
-        returnLegendByStyleId(styleObject.styleId).then(legendInfos => {
+        createStyle.returnLegendByStyleId(styleObject.styleId).then(legendInfos => {
             this.setLegend(legendInfos.legendInformation);
         });
     }

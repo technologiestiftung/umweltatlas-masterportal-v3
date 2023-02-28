@@ -1,5 +1,5 @@
 import {convertColor} from "../../../../utils/convertColor.js";
-import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 
 /**
  * Returns a list of image paths from the Legend
@@ -44,7 +44,7 @@ function getStyleModel (layerId) {
     if (layerModel) {
         styleId = layerModel.get("styleId");
         if (styleId) {
-            styleModel = returnStyleObject(styleId);
+            styleModel = styleList.returnStyleObject(styleId);
         }
     }
 

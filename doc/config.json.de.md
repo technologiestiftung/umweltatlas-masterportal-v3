@@ -447,7 +447,7 @@ Die WFS 2 query wird dabei dynamisch durch das Masterportal erstellt. Die Konfig
     "timeout": 10000,
     "definitions": [
         {
-            "url": "/geodienste_hamburg_de/MRH_WFS_Rotenburg",
+            "url": "https://geodienste_hamburg_de/MRH_WFS_Rotenburg",
             "typeName": "app:mrh_row_bplan",
             "propertyNames": ["app:name"],
             "name": "B-Plan",
@@ -481,13 +481,14 @@ Konfiguration einer Definition bei der SpecialWFS Suche
 |geometryName|nein|String|"app:geom"|Attributname der Geometrie wird benötigt um darauf zu zoomen.|false|
 |maxFeatures|nein|Integer|20|Maximale Anzahl an gefundenen Features.|false|
 |namespaces|nein|String||XML Namespaces zur Abfrage von propertyNames oder geometryName (*xmlns:wfs*, *xmlns:ogc* und *xmlns:gml* werden immer genutzt).|false|
+|useProxy|nein|Boolean|false|Deprecated im nächsten Major-Release, da von der GDI-DE empfohlen wird einen CORS-Header einzurichten. Gibt an, ob die URL des Dienstes über einen Proxy angefragt werden soll, dabei werden die Punkte in der URL durch Unterstriche ersetzt.|false|
 |data|nein|String||Deprecated in 3.0.0 Filterparameter für den WFS request.|false|
 
 **Beispiel**
 ```
 #!json
 {
-    "url": "/geodienste_hamburg_de/HH_WFS_Bebauungsplaene",
+    "url": "https://geodienste_hamburg_de/HH_WFS_Bebauungsplaene",
     "typeName": "app:prosin_imverfahren",
     "propertyNames": ["app:plan"],
     "geometryName": "app:the_geom",
@@ -1450,7 +1451,7 @@ Neben **Portalconfig.menu.tools** können auch die Pfade **Portalconfig.menu.inf
 |active|nein|Boolean|false|Gibt an, ob ein Werkzeug beim starten des Portals geöffnet ist.|false|
 |icon|nein|String||CSS Klasse des Icons, das vor dem Toolnamen im Menu angezeigt wird.|false|
 |isVisibleInMenu|nein|Boolean|true|Flag, ob das Tool unter Werkzeuge angezeigt wird.|false|
-|keepOpen|nein|Boolean|false|Flag, ob das Tool parallel zu anderen Tools geöffnet bleibt.|false|
+|keepOpen|nein|Boolean/String/String[]|false|Flag, ob das Tool parallel zu anderen Tools geöffnet bleibt.|false|
 |name|ja|String||Name des Werkzeuges im Menu.|false|
 |onlyDesktop|nein|Boolean|false|Flag, ob das Werkzeug nur im Desktop Modus sichtbar sein soll.|false|
 |renderToWindow|nein|Boolean|true|Flag, ob das Tool beim Anklicken im frei schwebenden Fenster dargestellt werden soll. Im mobilen Modus wird das Fenster immer verwendet.|false|

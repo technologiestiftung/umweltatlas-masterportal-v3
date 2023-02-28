@@ -1,6 +1,9 @@
 import Layer from "./layer";
 import {vectorBase} from "@masterportal/masterportalapi/src";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import getGeometryTypeFromService from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
+import store from "../../app-store";
 import * as bridge from "./RadioBridge.js";
 import Cluster from "ol/source/Cluster";
 import webgl from "./renderer/webgl";
@@ -61,7 +64,8 @@ VectorBaseLayer.prototype.updateSource = function (layer, features) {
  * @returns {void}
  */
 VectorBaseLayer.prototype.createLegend = function () {
-    const styleModel = styleList.returnStyleObject(this.get("styleId"));
+    const styleObject = styleList.returnStyleObject(this.get("styleId")),
+        rules = styleObject?.rules;
     let legend = this.get("legend");
 
     /**
@@ -76,9 +80,33 @@ VectorBaseLayer.prototype.createLegend = function () {
         }
     }
 
-    if (styleModel && legend === true) {
-        styleModel.getGeometryTypeFromWFS(this.get("url"), this.get("version"), this.get("featureType"), this.get("styleGeometryType"));
-        this.setLegend(styleModel.getLegendInfos());
+    if (styleObject && legend === true) {
+        createStyle.returnLegendByStyleId(styleObject.styleId).then(legendInfos => {
+            if (styleObject.styleId === "default") {
+                const type = this.layer.getSource().getFeatures()[0].getGeometry().getType(),
+                    typeSpecificLegends = [];
+
+                if (type === "MultiLineString") {
+                    typeSpecificLegends.push(legendInfos.legendInformation.find(element => element.geometryType === "LineString"));
+                    this.setLegend(typeSpecificLegends);
+                }
+                else {
+                    typeSpecificLegends.push(legendInfos.legendInformation.find(element => element.geometryType === type));
+                    this.setLegend(typeSpecificLegends);
+                }
+            }
+            else {
+                getGeometryTypeFromService.getGeometryTypeFromWFS(rules, this.get("url"), this.get("version"), this.get("featureType"), this.get("styleGeometryType"), false,
+                    (geometryTypes, error) => {
+                        if (error) {
+                            store.dispatch("Alerting/addSingleAlert", "<strong>" + i18next.t("common:modules.vectorStyle.styleObject.getGeometryTypeFromWFSFetchfailed") + "</strong> <br>"
+                                + "<small>" + i18next.t("common:modules.vectorStyle.styleObject.getGeometryTypeFromWFSFetchfailedMessage") + "</small>");
+                        }
+                        return geometryTypes;
+                    });
+            }
+            this.setLegend(legendInfos.legendInformation);
+        });
     }
     else if (typeof legend === "string") {
         this.setLegend([legend]);

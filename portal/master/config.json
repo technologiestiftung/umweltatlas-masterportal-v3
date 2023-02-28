@@ -66,7 +66,7 @@
         "timeout": 10000,
         "definitions": [
           {
-            "url": "/geodienste.hamburg.de/HH_WFS_Bebauungsplaene",
+            "url": "https://geodienste.hamburg.de/HH_WFS_Bebauungsplaene",
             "typeName": "app:hh_hh_festgestellt",
             "propertyNames": [
               "app:geltendes_planrecht"
@@ -76,7 +76,7 @@
             "namespaces": "xmlns:app='http://www.deegree.org/app'"
           },
           {
-            "url": "/geodienste.hamburg.de/HH_WFS_Bebauungsplaene",
+            "url": "https://geodienste.hamburg.de/HH_WFS_Bebauungsplaene",
             "typeName": "app:prosin_imverfahren",
             "propertyNames": [
               "app:plan"
@@ -86,7 +86,7 @@
             "namespaces": "xmlns:app='http://www.deegree.org/app'"
           },
           {
-            "url": "/geodienste.hamburg.de/HH_WFS_KitaEinrichtung",
+            "url": "https://geodienste.hamburg.de/HH_WFS_KitaEinrichtung",
             "typeName": "app:KitaEinrichtungen",
             "propertyNames": [
               "app:Name"
@@ -95,7 +95,7 @@
             "namespaces": "xmlns:app='http://www.deegree.org/app'"
           },
           {
-            "url": "/geodienste.hamburg.de/HH_WFS_Stoerfallbetriebe",
+            "url": "https://geodienste.hamburg.de/HH_WFS_Stoerfallbetriebe",
             "typeName": "app:stoerfallbetrieb",
             "propertyNames": [
               "app:standort"
@@ -729,7 +729,12 @@
         {
           "id": "2003",
           "styleId": "2003",
-          "mouseHoverField": "gebietsname"
+          "mouseHoverField": "gebietsname",
+          "legend": true,
+          "featurePrefix": "de.hh.up:",
+          "wildCard": "%",
+          "singleChar": "#",
+          "escapeChar": "!"
         },
         {
           "id": "47",
@@ -785,7 +790,12 @@
           ],
           "searchField": "name",
           "extendedFilter": true,
-          "loadingStrategy": "all"
+          "loadingStrategy": "all",
+          "legend": true,
+          "featurePrefix": "",
+          "wildCard": "%",
+          "singleChar": "#",
+          "escapeChar": "!"
         },
         {
           "id": "8712",
@@ -908,6 +918,15 @@
           "name": "Lärmberechnung",
           "extent": [568426.27, 5931985.58, 569614.86, 5933174.11],
           "legend": ["https://geodienste.hamburg.de/lgv-config/img/Legende_Laermberechnung_Tag.png", "https://geodienste.hamburg.de/lgv-config/img/Legende_Laermberechnung_Nacht.png"]
+        },
+        {
+          "id" : "2928",
+          "name": "Linienhafte Biotope",
+          "legend": true,
+          "featurePrefix": "de.hh.up:",
+          "wildCard": "%",
+          "singleChar": "#",
+          "escapeChar": "!"
         }
       ]
     }

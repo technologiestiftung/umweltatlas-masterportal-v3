@@ -5,10 +5,10 @@ import PoiOrientationComponent from "../../../../components/poi/PoiOrientation.v
 import LinestringStyle from "@masterportal/masterportalapi/src/vectorStyle/styles/styleLine";
 import PointStyle from "@masterportal/masterportalapi/src/vectorStyle/styles/point/stylePoint";
 import PolygonStyle from "@masterportal/masterportalapi/src/vectorStyle/styles/polygon/stylePolygon";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
 import Feature from "ol/Feature.js";
 import {Circle} from "ol/geom.js";
 import sinon from "sinon";
-import Icon from "ol/style/Icon";
 
 const localVue = createLocalVue();
 
@@ -163,27 +163,31 @@ describe("src/modules/controls/orientation/components/PoiOrientation.vue", () =>
     });
 
     describe("getImgPath", () => {
-        let request;
+        const styleObject = {
+            styleId: "myStyle",
+            rules: [{
+                style: {
+                    type: "icon"
+                }
+            }]
+        };
 
         beforeEach(() => {
-            request = sinon.spy(() => ({
-                id: "createStyle",
-                createStyle: () => sinon.spy({
-                    id: "featureStyle",
-                    getImage: () => new Icon({
-                        src: "test.image"
-                    })
-                })
-            }));
-            sinon.stub(Radio, "request").callsFake(request);
+            sinon.stub(styleList, "returnStyleObject").returns(styleObject);
         });
 
         it("should return an image path for an icon style", () => {
             const feat = {
-                styleId: "123"
+                styleId: "123",
+                getGeometry: () => sinon.spy({
+                    getType: () => "Point",
+                    getCoordinates: () => [100, 100]
+                }),
+                getProperties: () => [],
+                get: () => sinon.stub()
             };
 
-            expect(wrapper.vm.getImgPath(feat)).to.equals("test.image");
+            expect(wrapper.vm.getImgPath(feat)).to.equals("https://geodienste.hamburg.de/lgv-config/img/blank.png");
         });
     });
 });

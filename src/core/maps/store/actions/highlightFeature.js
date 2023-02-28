@@ -1,5 +1,5 @@
-import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
-import {createStyle} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 
 /**
  * check how to highlight
@@ -182,11 +182,11 @@ function increaseFeature (commit, getters, highlightObject) {
  * @returns {ol/style} ol style
  */
 function styleObject (highlightObject, feature) {
-    const stylelistObject = highlightObject.styleId ? returnStyleObject(highlightObject.styleId) : returnStyleObject(highlightObject.layer.id);
+    const stylelistObject = highlightObject.styleId ? styleList.returnStyleObject(highlightObject.styleId) : styleList.returnStyleObject(highlightObject.layer.id);
     let style;
 
     if (stylelistObject !== undefined) {
-        style = createStyle(stylelistObject, feature, false, Config.wfsImgPath);
+        style = createStyle.createStyle(stylelistObject, feature, false, Config.wfsImgPath);
         if (Array.isArray(style) && style.length > 0) {
             style = style[0];
         }

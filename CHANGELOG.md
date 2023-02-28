@@ -6,23 +6,36 @@
 
 ## Unreleased - in development
 ### __Breaking Changes__
-Time library `moment.js` was replaced with [day.js](https://day.js.org/). Please consider to use `day.js` in your future pull requests.
+- Time library `moment.js` was replaced with [day.js](https://day.js.org/). Please consider to use `day.js` in your future pull requests.
+- SpecialWFS require full URL in config now instead of relative paths.
 
 ### Added
-- Core/Layers/WebGLLayer: New layer-type for rendering WFS, GeoJSON or VectorBase layers using OL7's WebGL render pipelines
+- core/layers/renderer/webgl: New layer-class methods for rendering WFS, GeoJSON, OAF or VectorBase layers using OL7's WebGL render pipelines
 - filter/filter.api: Unittests for WebGL use cases
 - layers:
     - It is now possible to collect custom data via getMetaData request from layers.
 - The following NPM package have been added:
     - dependencies:
         - "dayjs": "^1.11.7"
+    - devDependencies:
+        - "resize-observer-polyfill": "^1.5.1"
+- Code of Conduct file and contents.
+
 ### Changed
+- Update GeoJSON, WFS, OAF und VectorBase für WebGL Rendering
 - ModelList/updateLayerView: Only add layers to index if they are actually being displayed on the map (removes unnecessary calls)
 - configLoader/parserCustomTree/parseTree: don't skip layers without matching rawLayer from services.json, that have a sourceId provided (no checkup on existing source layers yet)
 - actionsMapLayers/addLayerOnTop: Use the ModelList for the length of the layer list, not the map, as layer that are not visible or have been disposed (WebGL) might not be on the map
 - filter/filter.api: lookup source layer info for WebGL layers
 - moverHover/actionsMouseHover: collect webgl features for mouseHoverInfo
 - GFI/gettersGfi: collect  webgl features for GFI
+- KeepOpen attribute for tools:
+    - In type string, the tool name can be inserted as string.
+    - In type array, some tool names can be inserted in an array.
+- The following NPM packages have been updated:
+    - dependencies:
+        - @masterportal/masterportalapi: 2.12.0 to 2.14.0  (This also raised ol to version 7.2.2)
+
 ### Deprecated
 
 ### Removed
@@ -32,11 +45,17 @@ Time library `moment.js` was replaced with [day.js](https://day.js.org/). Please
         - "moment-timezone": "^0.5.39"
 
 ### Fixed
+- Print: It is now possible to print larger amounts of data (limited by Mapfish print settings) where an error occurred before.
+- Print: edit printing for plotservice.
+- Issue #839: Under certain conditions, the external WFS filter did not work. An error occurred while parsing the WFS GetFeature Response.
+- Issue #846: Three bugs solved in featureLister: FeatureLister was stuck if initially active; FeatureLister was stuck if browsed layer deselected; FeatureLister was stuck on last removed layer.
+- Issue #867: SpeacialWFS search uses proxy if useProxy is configured true.
+- Issue #871: Support WMS GFI requests to HTTP in HTTP environment.
+- FeatureLister: always contains an up to date list of layers to choose.
 
 ---
 
 ## v2.30.0 - 2023-02-01
-
 ### Added
 - layers:
     - Errorhandling for secure services.
@@ -55,6 +74,7 @@ Time library `moment.js` was replaced with [day.js](https://day.js.org/). Please
 ### Fixed
 - actionsMapLayers/addLayer: don't set zIndex by default, otherwise addLayerOnTop and addLayerToIndex have no effect
 - Issue #839: Accordeon is now open initially if `active: true` is configured. Bug which triggers the error message is now fixed.
+- Issue #856: Providing version parameter for print services.
 - Issue #861: Initial order of the background maps after using "Save selection" tool was corrected.
 - uiStyle: Set uiStyle from config.js
 - 3D Tiles can now be hidden again with the hiddenFeatures/hiddenObjects attribute.

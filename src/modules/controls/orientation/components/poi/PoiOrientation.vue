@@ -1,10 +1,6 @@
 <script>
-import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
-import {
-    createStyle,
-    getGeometryStyle,
-    returnLegendByStyleId
-} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import StylePolygon from "@masterportal/masterportalapi/src/vectorStyle/styles/polygon/stylePolygon";
 import {returnColor} from "@masterportal/masterportalapi/src/vectorStyle/lib/colorConvertions";
 import {mapGetters, mapMutations, mapActions} from "vuex";
@@ -170,18 +166,18 @@ export default {
          */
         getImgPath (feat) {
             let imagePath = "";
-            const styleObject = returnStyleObject(feat.styleId);
+            const styleObject = styleList.returnStyleObject(feat.styleId);
 
             if (styleObject) {
-                const featureStyleObject = getGeometryStyle(feat, styleObject.rules, false, Config.wfsImgPath),
-                    featureStyle = createStyle(styleObject, feat, false, Config.wfsImgPath);
+                const featureStyleObject = createStyle.getGeometryStyle(feat, styleObject.rules, false, Config.wfsImgPath),
+                    featureStyle = createStyle.createStyle(styleObject, feat, false, Config.wfsImgPath);
 
                 if (featureStyleObject.attributes?.type === "icon") {
                     imagePath = featureStyle.getImage()?.getSrc() ? featureStyle.getImage()?.getSrc() : "";
                 }
 
                 else {
-                    returnLegendByStyleId(feat.styleId).then(layerLegends => {
+                    createStyle.returnLegendByStyleId(feat.styleId).then(layerLegends => {
                         layerLegends.legendInformation.forEach(legendInfo => {
                             if (legendInfo.geometryType === "Point" && legendInfo.styleObject.attributes.type === "circle" && legendInfo.label === feat.legendValue) {
                                 imagePath = this.createCircleSVG(legendInfo.styleObject);

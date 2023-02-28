@@ -192,7 +192,7 @@
             "changeLayerInfo": "Modifica del testo informativo"
         },
         "mapMarker": {
-            "noStyleModel": "Non è stato possibile trovare uno stile per lo StyleId specificato: {{styleId}}. Si prega di controllare la configurazione."
+            "nostyleObject": "Non è stato possibile trovare uno stile per lo StyleId specificato: {{styleId}}. Si prega di controllare la configurazione."
         },
         "menu": {
             "layer": {
@@ -1121,7 +1121,7 @@
             "noInitialResults": "La ricerca iniziale non ha portato risultati."
         },
         "vectorStyle": {
-            "styleModel": {
+            "styleObject": {
                 "getGeometryTypeFromWFSFetchfailed": "La legenda non poteva essere creata!",
                 "getGeometryTypeFromWFSFetchfailedMessage": "Dettagli: Un servizio richiesto non risponde.",
                 "getGeometryTypeFromOAFFetchfailed": "Non è stato possibile creare la legenda nelle informazioni del livello!",

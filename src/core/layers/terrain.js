@@ -1,6 +1,7 @@
 import store from "../../app-store";
 import {terrain} from "@masterportal/masterportalapi/src";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import getProxyUrl from "../../../src/utils/getProxyUrl";
 import * as bridge from "./RadioBridge.js";
 import Layer from "./layer";
@@ -117,7 +118,7 @@ TerrainLayer.prototype.setIsVisibleInMap = function (newValue) {
  * @returns {void}
  */
 TerrainLayer.prototype.createLegend = function () {
-    const styleModel = styleList.returnStyleObject(this.get("styleId"));
+    const styleObject = styleList.returnStyleObject(this.get("styleId"));
     let legend = this.get("legend");
 
     /**
@@ -137,8 +138,21 @@ TerrainLayer.prototype.createLegend = function () {
     if (Array.isArray(legend)) {
         this.setLegend(legend);
     }
-    else if (styleModel && legend === true) {
-        this.setLegend(styleModel.getLegendInfos());
+    else if (styleObject && legend === true) {
+        createStyle.returnLegendByStyleId(styleObject.styleId).then(legendInfos => {
+            const type = this.layer.getSource().getFeatures()[0].getGeometry().getType(),
+                typeSpecificLegends = [];
+
+            if (type === "MultiLineString") {
+                typeSpecificLegends.push(legendInfos.legendInformation.find(element => element.geometryType === "LineString"));
+                this.setLegend(typeSpecificLegends);
+            }
+            else {
+                typeSpecificLegends.push(legendInfos.legendInformation.find(element => element.geometryType === type));
+                this.setLegend(typeSpecificLegends);
+            }
+            this.setLegend(legendInfos.legendInformation);
+        });
     }
     else if (typeof legend === "string") {
         this.setLegend([legend]);

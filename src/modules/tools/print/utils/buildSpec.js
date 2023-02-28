@@ -14,8 +14,8 @@ import {convertColor} from "../../../../utils/convertColor";
 import {MVTEncoder} from "@geoblocks/print";
 import VectorTileLayer from "ol/layer/VectorTile";
 import {getLastPrintedExtent} from "../store/actions/actionsPrintInitialization";
-import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
-import {getGeometryStyle} from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import {getRulesForFeature} from "@masterportal/masterportalapi/src/vectorStyle/lib/getRuleForIndex";
 
 
@@ -48,7 +48,7 @@ const BuildSpecModel = {
             if (this.defaults.uniqueIdList.length === 0) {
                 const printJob = {
                     index: cswObj.index,
-                    payload: encodeURIComponent(JSON.stringify(this.defaults)),
+                    payload: this.defaults,
                     getResponse: cswObj.getResponse
                 };
 
@@ -398,10 +398,11 @@ const BuildSpecModel = {
      */
     buildTileWms: function (layer, dpi) {
         const source = layer.getSource(),
+            isPlotservice = store.state.Tools.Print.printService === "plotservice",
             mapObject = {
                 baseURL: source.getUrls()[0],
                 opacity: layer.getOpacity(),
-                type: source.getParams().SINGLETILE ? "WMS" : "tiledwms",
+                type: source.getParams().SINGLETILE || isPlotservice ? "WMS" : "tiledwms",
                 layers: source.getParams().LAYERS.split(","),
                 styles: source.getParams().STYLES ? source.getParams().STYLES.split(",") : undefined,
                 imageFormat: source.getParams().FORMAT,
@@ -411,6 +412,12 @@ const BuildSpecModel = {
                 }
             };
 
+        if (store.state.Tools.Print.printService === "plotservice") {
+            mapObject.title = layer.get("name");
+        }
+        if (source.getParams().VERSION) {
+            mapObject.version = source.getParams().VERSION;
+        }
         if (!source.getParams().SINGLETILE) {
             mapObject.tileSize = [source.getParams().WIDTH, source.getParams().HEIGHT];
         }
@@ -441,6 +448,13 @@ const BuildSpecModel = {
                     "DPI": typeof dpi === "number" ? dpi : store.state.Tools.Print.dpiForPdf
                 }
             };
+
+        if (store.state.Tools.Print.printService === "plotservice") {
+            mapObject.title = layer.get("name");
+        }
+        if (source.getParams().VERSION) {
+            mapObject.version = source.getParams().VERSION;
+        }
 
         return mapObject;
     },
@@ -498,8 +512,8 @@ const BuildSpecModel = {
 
             styles.forEach((style, index) => {
                 if (style !== null) {
-                    const styleObjectFromStyleList = returnStyleObject(layer.get("id")),
-                        styleFromStyleList = styleObjectFromStyleList ? getGeometryStyle(feature, styleObjectFromStyleList.rules, false, Config.wfsImgPath) : undefined;
+                    const styleObjectFromStyleList = styleList.returnStyleObject(layer.get("id")),
+                        styleFromStyleList = styleObjectFromStyleList ? createStyle.getGeometryStyle(feature, styleObjectFromStyleList.rules, false, Config.wfsImgPath) : undefined;
                     let limiter = ",";
 
                     clonedFeature = feature.clone();
@@ -1027,8 +1041,8 @@ const BuildSpecModel = {
      */
     getStylingRules: function (layer, feature, styleAttributes, style, styleIndex) {
         const styleAttr = feature.get("styleId") ? "styleId" : styleAttributes,
-            styleObjectFromStyleList = returnStyleObject(layer.get("id")),
-            styleFromStyleList = styleObjectFromStyleList ? getGeometryStyle(feature, styleObjectFromStyleList.rules, false, Config.wfsImgPath) : undefined;
+            styleObjectFromStyleList = styleList.returnStyleObject(layer.get("id")),
+            styleFromStyleList = styleObjectFromStyleList ? createStyle.getGeometryStyle(feature, styleObjectFromStyleList.rules, false, Config.wfsImgPath) : undefined;
 
         if (styleAttr.length === 1 && styleAttr[0] === "") {
             if (feature.get("features") && feature.get("features").length === 1) {
@@ -1113,20 +1127,20 @@ const BuildSpecModel = {
      */
     getStyleAttributes: function (layer, feature) {
         const layerId = layer.get("id"),
-            styleList = returnStyleObject(layerId);
+            styleObject = styleList.returnStyleObject(layerId);
         let styleFields = ["styleId"],
             layerModel = Radio.request("ModelList", "getModelByAttributes", {id: layer.get("id")});
 
-        if (styleList !== undefined) {
+        if (styleObject !== undefined) {
             layerModel = this.getChildModelIfGroupLayer(layerModel, layerId);
 
             if (layerModel.get("styleId")) {
-                const featureRules = getRulesForFeature(styleList, feature);
+                const featureRules = getRulesForFeature(styleObject, feature);
 
                 styleFields = featureRules?.[0]?.conditions ? Object.keys(featureRules[0].conditions.properties) : [""];
             }
             else {
-                styleFields = [styleList.get("styleField")];
+                styleFields = [styleObject.get("styleField")];
             }
         }
 
@@ -1208,7 +1222,7 @@ const BuildSpecModel = {
         else {
             const printJob = {
                 index,
-                payload: encodeURIComponent(JSON.stringify(this.defaults)),
+                payload: this.defaults,
                 getResponse: getResponse
             };
 
