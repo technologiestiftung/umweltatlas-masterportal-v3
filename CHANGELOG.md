@@ -38,6 +38,7 @@
 ### Fixed
 - Print: It is now possible to print larger amounts of data (limited by Mapfish print settings) where an error occurred before.
 - Print: edit printing for plotservice.
+- Print: fixed printing of symbols.
 - Issue #839: Under certain conditions, the external WFS filter did not work. An error occurred while parsing the WFS GetFeature Response.
 - Issue #846: Three bugs solved in featureLister: FeatureLister was stuck if initially active; FeatureLister was stuck if browsed layer deselected; FeatureLister was stuck on last removed layer.
 - Issue #867: SpeacialWFS search uses proxy if useProxy is configured true.
