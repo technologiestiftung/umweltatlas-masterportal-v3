@@ -9,7 +9,7 @@ import * as bridge from "./RadioBridge.js";
 import Cluster from "ol/source/Cluster";
 import {bbox, all} from "ol/loadingstrategy.js";
 import {getCenter} from "ol/extent";
-import webgl from "../../utils/webgl";
+import webgl from "./renderer/webgl";
 
 const geometryTypeRequestLayers = [];
 

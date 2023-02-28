@@ -7,7 +7,7 @@ import Layer from "./layer";
 import store from "../../app-store";
 import LoaderOverlay from "../../utils/loaderOverlay";
 import {getCenter} from "ol/extent";
-import webgl from "../../utils/webgl";
+import webgl from "./renderer/webgl";
 
 /**
  * Creates a layer of type GeoJSON.

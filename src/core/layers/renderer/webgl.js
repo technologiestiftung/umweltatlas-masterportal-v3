@@ -1,4 +1,4 @@
-import Layer from "../core/layers/layer";
+import Layer from "../layer";
 import * as webgl from "@masterportal/masterportalapi/src/renderer/webgl";
 
 /**

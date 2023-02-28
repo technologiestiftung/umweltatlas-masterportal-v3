@@ -8,7 +8,7 @@ import Layer from "./layer";
 import * as bridge from "./RadioBridge.js";
 import Cluster from "ol/source/Cluster";
 import {bbox, all} from "ol/loadingstrategy.js";
-import webgl from "../../utils/webgl";
+import webgl from "./renderer/webgl";
 import {getCenter} from "ol/extent";
 
 /**

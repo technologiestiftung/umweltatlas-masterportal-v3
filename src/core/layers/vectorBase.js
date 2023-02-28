@@ -3,7 +3,7 @@ import {vectorBase} from "@masterportal/masterportalapi/src";
 import {returnStyleObject} from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import * as bridge from "./RadioBridge.js";
 import Cluster from "ol/source/Cluster";
-import webgl from "../../utils/webgl";
+import webgl from "./renderer/webgl";
 
 /**
  * Creates a layer of type vectorBase.
