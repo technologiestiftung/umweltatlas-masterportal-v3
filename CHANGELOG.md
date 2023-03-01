@@ -11,7 +11,6 @@
 
 ### Added
 - core/layers/renderer/webgl: New layer-class methods for rendering WFS, GeoJSON, OAF or VectorBase layers using OL7's WebGL render pipelines
-- filter/filter.api: Unittests for WebGL use cases
 - layers:
     - It is now possible to collect custom data via getMetaData request from layers.
 - The following NPM package have been added:
@@ -28,6 +27,7 @@
 - actionsMapLayers/addLayerOnTop: Use the ModelList for the length of the layer list, not the map, as layer that are not visible or have been disposed (WebGL) might not be on the map
 - moverHover/actionsMouseHover: collect webgl features for mouseHoverInfo
 - GFI/gettersGfi: collect  webgl features for GFI
+- initializersBufferAnalysis/loadSelectOptions: only freeze non-webgl layers
 - KeepOpen attribute for tools:
     - In type string, the tool name can be inserted as string.
     - In type array, some tool names can be inserted in an array.
