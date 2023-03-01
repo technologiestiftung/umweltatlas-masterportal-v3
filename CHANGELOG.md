@@ -3,8 +3,21 @@
 
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
-
 ## Unreleased - in development
+### __Breaking Changes__
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+---
+## v2.31.0 - 2023-03-01
 ### __Breaking Changes__
 - Time library `moment.js` was replaced with [day.js](https://day.js.org/). Please consider to use `day.js` in your future pull requests.
 - SpecialWFS require full URL in config now instead of relative paths.
@@ -35,8 +48,6 @@
     - dependencies:
         - @masterportal/masterportalapi: 2.12.0 to 2.14.0  (This also raised ol to version 7.2.2)
 
-### Deprecated
-
 ### Removed
 - The following NPM package have been removed:
     - dependencies:
@@ -46,6 +57,7 @@
 ### Fixed
 - Print: It is now possible to print larger amounts of data (limited by Mapfish print settings) where an error occurred before.
 - Print: edit printing for plotservice.
+- Print: fixed printing of symbols.
 - Issue #839: Under certain conditions, the external WFS filter did not work. An error occurred while parsing the WFS GetFeature Response.
 - Issue #846: Three bugs solved in featureLister: FeatureLister was stuck if initially active; FeatureLister was stuck if browsed layer deselected; FeatureLister was stuck on last removed layer.
 - Issue #867: SpeacialWFS search uses proxy if useProxy is configured true.

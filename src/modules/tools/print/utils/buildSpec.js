@@ -1,5 +1,7 @@
 import {Point} from "ol/geom.js";
 import {fromCircle} from "ol/geom/Polygon.js";
+import CircleStyle from "ol/style/Circle";
+import Icon from "ol/style/Icon";
 import Feature from "ol/Feature.js";
 import {GeoJSON} from "ol/format.js";
 import {Group, Image, Tile, Vector} from "ol/layer.js";
@@ -636,10 +638,10 @@ const BuildSpecModel = {
      * @returns {Object} - Point Style for mapfish print.
      */
     buildPointStyle: function (style, layer) {
-        if (style.getImage().constructor.name === "CircleStyle") {
+        if (style.getImage() instanceof CircleStyle) {
             return this.buildPointStyleCircle(style.getImage());
         }
-        else if (style.getImage().constructor.name === "Icon" && style.getImage().getScale() > 0) {
+        else if (style.getImage() instanceof Icon && style.getImage().getScale() > 0) {
             return this.buildPointStyleIcon(style.getImage(), layer);
         }
         return this.buildTextStyle(style.getText());
