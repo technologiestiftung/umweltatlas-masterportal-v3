@@ -2,9 +2,7 @@
  All important changes in this project are stored in this file.
 
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
-
-
-## Unreleased - in development
+## v2.31.0 - 2023-03-01
 ### __Breaking Changes__
 - Time library `moment.js` was replaced with [day.js](https://day.js.org/). Please consider to use `day.js` in your future pull requests.
 - SpecialWFS require full URL in config now instead of relative paths.
@@ -26,8 +24,6 @@
 - The following NPM packages have been updated:
     - dependencies:
         - @masterportal/masterportalapi: 2.12.0 to 2.14.0  (This also raised ol to version 7.2.2)
-
-### Deprecated
 
 ### Removed
 - The following NPM package have been removed:
