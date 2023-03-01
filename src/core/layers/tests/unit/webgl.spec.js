@@ -2,11 +2,12 @@ import Feature from "ol/Feature";
 import {expect} from "chai";
 import sinon from "sinon";
 import Layer from "../../layer";
+import GeoJsonLayer from "../../geojson";
 import VectorLayer from "ol/layer/layer";
 import VectorSource from "ol/source/Vector";
 import webgl from "../../renderer/webgl";
 
-describe("src/core/layers/renderer/webgl.js", () => {
+describe.only("src/core/layers/renderer/webgl.js", () => {
     let attributes, olLayer, source;
 
     beforeEach(() => {
@@ -69,6 +70,30 @@ describe("src/core/layers/renderer/webgl.js", () => {
             layerObject.set("isVisibleInMap", true);
             layerObject.setIsSelected(true);
             expect(layerObject.layer.disposed).to.be.false;
+        });
+        it("should keep the original style from the old layer instance, even if it is overwritten by the resp. layer class", () => {
+            const
+                style = {
+                    symbol: {
+                        symbolType: "circle",
+                        size: 20,
+                        color: "#006688",
+                        rotateWithView: false,
+                        offset: [0, 0],
+                        opacity: 0.6
+                    }
+                },
+                layerObject = new GeoJsonLayer({
+                    ...attributes,
+                    style,
+                    isPointLayer: true
+                }, olLayer, false);
+
+            layerObject.set("style", {});
+            layerObject.layer.dispose();
+            layerObject.set("isVisibleInMap", true);
+            layerObject.setIsSelected(true);
+            expect(layerObject.layer.get("style")).to.deep.equal(style);
         });
         it("should dispose layer when layer is set invisible", () => {
             const layerObject = new Layer(attributes, olLayer, false);

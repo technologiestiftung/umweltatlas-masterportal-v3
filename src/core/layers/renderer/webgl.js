@@ -51,7 +51,11 @@ export function showFeaturesByIds (featureIdList) {
 export function setIsSelected (newValue) {
     if (this.isDisposed()) {
         // recreate layer instance if buffer has been disposed
-        this.layer = webgl.createLayer({...this.attributes, source: this.source});
+        this.layer = webgl.createLayer({
+            ...this.attributes,
+            source: this.source,
+            style: this.layer.get("style") // pass style from the previous layer instance
+        });
     }
 
     Layer.prototype.setIsSelected.call(this, newValue);
