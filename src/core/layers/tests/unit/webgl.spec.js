@@ -7,7 +7,7 @@ import VectorLayer from "ol/layer/layer";
 import VectorSource from "ol/source/Vector";
 import webgl from "../../renderer/webgl";
 
-describe.only("src/core/layers/renderer/webgl.js", () => {
+describe("src/core/layers/renderer/webgl.js", () => {
     let attributes, olLayer, source;
 
     beforeEach(() => {
