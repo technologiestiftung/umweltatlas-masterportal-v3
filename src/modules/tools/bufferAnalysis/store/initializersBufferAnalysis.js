@@ -36,9 +36,10 @@ function loadSelectOptions ({commit}) {
     layers.forEach(layer => {
         // freeze layer, else the map3d is observed by vue and performance suffers
         // only freeze non-webgl rendered layers, else the buffer cannot be disposed
-        if (!layer.get("renderer") === "webgl") {
-            commit("addSelectOption", Object.freeze(layer));
-        }
+        const _layer = layer.get("renderer") !== "webgl" ?
+            Object.freeze(layer) : layer;
+
+        commit("addSelectOption", _layer);
     });
 }
 

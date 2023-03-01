@@ -1,5 +1,5 @@
 import store from "../../app-store";
-import * as bridge from "./RadioBridge.js";
+import bridge from "./RadioBridge.js";
 import deepCopy from "../../utils/deepCopy.js";
 import axios from "axios";
 

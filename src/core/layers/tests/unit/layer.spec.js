@@ -6,6 +6,7 @@ import Feature from "ol/Feature.js";
 import Layer from "../../layer";
 import Group from "../../group";
 import Collection from "ol/Collection";
+import bridge from "../../RadioBridge";
 
 describe("src/core/layers/layer.js", () => {
     let attributes,
@@ -915,6 +916,16 @@ describe("src/core/layers/layer.js", () => {
 
         expect(alertMessage.content).to.be.equals("modules.core.modelList.layer.errorHandling.403");
         expect(alertMessage.multipleAlert).to.be.equals(true);
+    });
+
+    it("featuresLoaded should emit featuresLoaded event", () => {
+        const layerWrapper = new Layer(attributes, olLayer),
+            features = ["1", "2"],
+            spy = sinon.spy(bridge, "featuresLoaded");
+
+        layerWrapper.featuresLoaded(attributes.id, features);
+        expect(spy).to.have.been.calledOnceWith(attributes.id, features);
+        expect(layerWrapper.features).to.deep.equal(features);
     });
 
     /**

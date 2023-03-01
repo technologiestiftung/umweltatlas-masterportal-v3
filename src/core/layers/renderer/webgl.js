@@ -41,7 +41,6 @@ export function showFeaturesByIds (featureIdList) {
  * Calls the layer super, disposes WebGL resources if layer is set invisible
  * @public
  * @override <LayerType>.setIsSelected
- * @memberof WebGLLayer
  * @implements {Layer.setIsSelected}
  * @param {Boolean} newValue true, if layer is selected
  * @todo rerender map after canvas render complete
@@ -49,7 +48,7 @@ export function showFeaturesByIds (featureIdList) {
  *       otherwise icons will be rendered as black quads
  * @returns {void}
  */
-async function setIsSelected (newValue) {
+export function setIsSelected (newValue) {
     if (this.isDisposed()) {
         // recreate layer instance if buffer has been disposed
         this.layer = webgl.createLayer({...this.attributes, source: this.source});
@@ -65,7 +64,6 @@ async function setIsSelected (newValue) {
 
 /**
  * Returns whether the WebGL resources have been disposed
- * @memberof WebGLLayer
  * @public
  * @readonly
  * @returns {Boolean} true / false
@@ -89,21 +87,21 @@ export function setStyle () {
 /**
  * Sets the necessary class methods/properties if layer uses webgl renderer
  * Overrides existing methods and properties
- * @param {Layer} layerInstance - the layer instance to modify
+ * @param {Layer} layerObject - the layer instance to modify
  * @returns {void}
  */
-export function setLayerProperties (layerInstance) {
+export function setLayerProperties (layerObject) {
     // set this.source as persistent, if layer is disposed
-    layerInstance.source = layerInstance.layer.getSource();
+    layerObject.source = layerObject.layer.getSource();
 
     // override layer methods
-    layerInstance.isDisposed = isDisposed;
-    layerInstance.setIsSelected = setIsSelected;
-    layerInstance.hideAllFeatures = hideAllFeatures;
-    layerInstance.showAllFeatures = showAllFeatures;
-    layerInstance.showFeaturesByIds = showFeaturesByIds;
-    layerInstance.setStyle = setStyle;
-    layerInstance.styling = setStyle;
+    layerObject.isDisposed = isDisposed;
+    layerObject.setIsSelected = setIsSelected;
+    layerObject.hideAllFeatures = hideAllFeatures;
+    layerObject.showAllFeatures = showAllFeatures;
+    layerObject.showFeaturesByIds = showFeaturesByIds;
+    layerObject.setStyle = setStyle;
+    layerObject.styling = setStyle;
 }
 
 export default {

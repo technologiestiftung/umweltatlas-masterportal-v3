@@ -16,7 +16,6 @@ import InterfaceGeojsonIntern from "./interface.geojson.intern.js";
 import InterfaceGeojsonExtern from "./interface.geojson.extern.js";
 import InterfaceStaIntern from "./interface.sta.intern.js";
 import InterfaceStaExtern from "./interface.sta.extern.js";
-// import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 
 /**
  * FilterApi is the api to use in vue environment. It encapsulates the filter interfaces.
@@ -73,26 +72,6 @@ export default class FilterApi {
             featureNS = layerModel.get("featureNS"),
             url = layerModel.get("url"),
             featureType = layerModel.get("featureType");
-
-        // /**
-        //  * if the layer is rendered through WebGL,
-        //  * fetch the original service data from the provided sourceID
-        //  */
-        // if (renderer === "webgl") {
-        //     const rawLayer = rawLayerList.getLayerWhere({id: layerModel.get("sourceId")});
-
-        //     // if source layer exists use its information
-        //     if (rawLayer) {
-        //         type = rawLayer.typ.toLowerCase();
-        //         featureNS = rawLayer.featureNS;
-        //         url = rawLayer.url;
-        //         featureType = rawLayer.featureType;
-        //     }
-        //     // use type provided through sourceId attr alternatively
-        //     else {
-        //         type = layerModel.get("sourceId").toLowerCase();
-        //     }
-        // }
 
         if (type === "wfs") {
             this.service = {

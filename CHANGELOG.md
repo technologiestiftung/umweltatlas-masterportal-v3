@@ -26,7 +26,6 @@
 - ModelList/updateLayerView: Only add layers to index if they are actually being displayed on the map (removes unnecessary calls)
 - configLoader/parserCustomTree/parseTree: don't skip layers without matching rawLayer from services.json, that have a sourceId provided (no checkup on existing source layers yet)
 - actionsMapLayers/addLayerOnTop: Use the ModelList for the length of the layer list, not the map, as layer that are not visible or have been disposed (WebGL) might not be on the map
-- filter/filter.api: lookup source layer info for WebGL layers
 - moverHover/actionsMouseHover: collect webgl features for mouseHoverInfo
 - GFI/gettersGfi: collect  webgl features for GFI
 - KeepOpen attribute for tools:
