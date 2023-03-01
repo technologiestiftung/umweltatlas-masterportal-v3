@@ -2,6 +2,21 @@
  All important changes in this project are stored in this file.
 
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
+
+## Unreleased - in development
+### __Breaking Changes__
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+---
 ## v2.31.0 - 2023-03-01
 ### __Breaking Changes__
 - Time library `moment.js` was replaced with [day.js](https://day.js.org/). Please consider to use `day.js` in your future pull requests.
