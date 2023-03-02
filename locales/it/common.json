@@ -177,7 +177,7 @@
         "layerInformation": {
             "additionalMetadata": "altri metadati",
             "addressSuffix": "indirizzo",
-            "multiAddress": "Indirizzi di servizio",
+            "multiAddress": "indirizzi di servizio",
             "attachFileMessage": "Allegare il file, se necessario.",
             "closeButton": "Chiudi",
             "downloadDataset": "Scarica dati",
