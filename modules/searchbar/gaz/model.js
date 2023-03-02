@@ -107,7 +107,9 @@ const GazetteerModel = Backbone.Model.extend({
             this.pushResult(searchResults[0], "paste");
         }
         else {
-            this.pushAllResults(searchResults);
+            const uniqueResults = this.removeDuplicateAddresses(searchResults);
+
+            this.pushAllResults(uniqueResults);
             Radio.trigger("Searchbar", "createRecommendedList");
         }
     },
@@ -144,6 +146,25 @@ const GazetteerModel = Backbone.Model.extend({
             properties: searchResult.properties,
             storedQuery: searchResult.type
         }, evtType);
+    },
+
+    /**
+     * Removes duplicate search results identified by gml:id
+     * @param {Object[]} searchResults The search results.
+
+     * @returns {Object[]} search results without duplicates
+     */
+    removeDuplicateAddresses: function (searchResults) {
+        searchResults.forEach((result, index) => {
+            const isUnique = searchResults.filter(searchResult => result.properties?.$?.["gml:id"] === searchResult.properties?.$?.["gml:id"]).length === 1;
+
+            if (!isUnique) {
+                searchResults.splice(index, 1);
+            }
+            return isUnique;
+        });
+
+        return searchResults;
     },
 
     /**

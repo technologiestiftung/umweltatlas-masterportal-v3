@@ -149,6 +149,35 @@ describe("modules/searchbar/gaz", () => {
         });
     });
 
+    describe("removeDuplicateAddresses", () => {
+        it("removes one of duplicate search results identified by gml:id", () => {
+            const searchResults = [{
+                    name: "Result1",
+                    type: "street",
+                    properties: {
+                        $: {"gml:id": "42"}
+                    }
+                },
+                {
+                    name: "Result2",
+                    type: "street",
+                    properties: {
+                        $: {"gml:id": "0815"}
+                    }
+                },
+                {
+                    name: "Result2",
+                    type: "street",
+                    properties: {
+                        $: {"gml:id": "0815"}
+                    }
+                }],
+                uniqueResults = model.removeDuplicateAddresses(searchResults);
+
+            expect(uniqueResults).to.have.lengthOf(2);
+        });
+    });
+
     describe("getTranslationByType", () => {
         it("returns the translation for type = addressAffixed", () => {
             expect(model.getTranslationByType("addressAffixed")).to.equal("modules.searchbar.type.address");
