@@ -29,6 +29,7 @@
 ### Fixed
 - actionsMapLayers/addLayer: don't set zIndex by default, otherwise addLayerOnTop and addLayerToIndex have no effect
 - Issue #847: the gazetteer search now shows the correct positions of duplicate results in different cities
+- Clustered GeoJSON-layer are now displayed correctly in 3D mode again.
 
 ---
 ## v2.31.0 - 2023-03-01
