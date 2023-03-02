@@ -15,6 +15,8 @@
 ### Removed
 
 ### Fixed
+- Issue #842: LayerInformation shows all service urls in group layer.
+
 
 ---
 ## v2.31.0 - 2023-03-01
