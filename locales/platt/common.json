@@ -153,6 +153,7 @@
         "layerInformation": {
           "additionalMetadata": "mehr Metadaten",
           "addressSuffix": "Adress",
+          "multiAddress": "Deenstadressen",
           "attachFileMessage": "ggf. Datei-Typ bien rünner loaden anhängen",
           "closeButton": "Dicht moaken",
           "downloadDataset": "Datensatz rünner loaden",

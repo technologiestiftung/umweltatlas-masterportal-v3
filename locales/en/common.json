@@ -180,6 +180,7 @@
         "layerInformation": {
           "additionalMetadata": "additional metadata",
           "addressSuffix": "Address",
+          "multiAddress": "Service addresses",
           "attachFileMessage": "Attach file type during download if necessary",
           "closeButton": "Close",
           "downloadDataset": "Download dataset",

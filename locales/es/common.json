@@ -158,6 +158,7 @@
         "layerInformation": {
           "additionalMetadata": "otros metadatos",
           "addressSuffix": "Dirección",
+          "multiAddress": "Direcciones de servicio",
           "attachFileMessage": "adjuntar si es necesario el tipo de archivo a descargar",
           "closeButton": "Cerrar",
           "downloadDataset": "Descargar datos",

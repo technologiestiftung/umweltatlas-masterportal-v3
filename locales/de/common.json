@@ -181,6 +181,7 @@
         "layerInformation": {
           "additionalMetadata": "weitere Metadaten",
           "addressSuffix": "Adresse",
+          "multiAddress": "Dienstadressen",
           "attachFileMessage": "ggf. Datei-Typ beim Download anhängen",
           "closeButton": "Schließen",
           "downloadDataset": "Datensatz herunterladen",

@@ -170,6 +170,7 @@
         "layerInformation": {
           "additionalMetadata": "інші метадані",
           "addressSuffix": "Адреса",
+          "multiAddress": "Адреси обслуговування",
           "attachFileMessage": "При необхідності прикріпити тип файлу при завантаженні",
           "closeButton": "Закрити",
           "downloadDataset": "Завантажити набір даних",

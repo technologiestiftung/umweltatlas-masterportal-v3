@@ -163,7 +163,8 @@ GroupedLayers.prototype.showLayerInformation = function () {
         showDocUrls = [],
         name = this.get("name"),
         layerNames = [],
-        additionalLayers = [];
+        additionalLayers = [],
+        urls = [];
 
     if (!this.get("layerSource") && typeof this.prepareLayerObject === "function") {
         // NOTICE can be removed, if all layers are refactored
@@ -178,6 +179,10 @@ GroupedLayers.prototype.showLayerInformation = function () {
             cswUrl = Object.prototype.hasOwnProperty.call(layer.datasets[0], "csw_url") ? layer.datasets[0].csw_url : null;
             showDocUrl = Object.prototype.hasOwnProperty.call(layer.datasets[0], "show_doc_url") ? layer.datasets[0].show_doc_url : null;
             layerMetaId = Object.prototype.hasOwnProperty.call(layer.datasets[0], "md_id") ? layer.datasets[0].md_id : null;
+        }
+
+        if (layer.urlIsVisible) {
+            urls.push(layer.url);
         }
 
         metaID.push(layerMetaId);
@@ -200,11 +205,11 @@ GroupedLayers.prototype.showLayerInformation = function () {
         "metaIdArray": metaID,
         "layername": name,
         "layerNames": layerNames,
-        "url": null,
+        "url": urls,
         "typ": null,
         "cswUrl": cswUrls[0],
         "showDocUrl": showDocUrls[0],
-        "urlIsVisible": this.get("urlIsVisible")
+        "urlIsVisible": urls.length >= 1
     });
 
     store.dispatch("LayerInformation/activate", true);

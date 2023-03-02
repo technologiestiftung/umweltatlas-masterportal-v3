@@ -153,6 +153,7 @@
         "layerInformation": {
           "additionalMetadata": "başka üst veri",
           "addressSuffix": "adres",
+          "multiAddress": "Hizmet adresleri",
           "attachFileMessage": "dosya ekleyin",
           "closeButton": "kapat",
           "downloadDataset": "veri seti indir",

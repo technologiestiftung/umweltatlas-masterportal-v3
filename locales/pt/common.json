@@ -139,6 +139,7 @@
         "layerInformation": {
           "additionalMetadata": "Metadados adicionais",
           "addressSuffix": "Endereço",
+          "multiAddress": "Endereços de serviço",
           "attachFileMessage": "ao descarregar pode se necessário anexar o tipo de ficheiro",
           "closeButton": "Fechar",
           "downloadDataset": "Descarregar conjunto de dados",

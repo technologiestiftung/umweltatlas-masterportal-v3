@@ -313,7 +313,7 @@ export default {
                             class="nav-link"
                             :class="{active: isActiveTab('url') }"
                             @click="setActiveTab"
-                        >{{ $t(layerInfo.typ) }} - {{ $t("common:modules.layerInformation.addressSuffix") }}
+                        >{{ Array.isArray(layerInfo.url) ? $t("common:modules.layerInformation.multiAddress") : $t(layerInfo.typ) + " - " + $t("common:modules.layerInformation.addressSuffix") }}
                         </a>
                     </li>
                 </ul>
@@ -365,8 +365,31 @@ export default {
                         :class="getTabPaneClasses('url')"
                         :type="String('url')"
                     >
-                        <div>
-                            <ul class="pt-5">
+                        <div
+                            v-if="Array.isArray(layerInfo.url)"
+                            class="pt-5"
+                        >
+                            <ul
+                                v-for="(layerInfoUrl, i) in layerInfo.url"
+                                :key="layerInfoUrl"
+                            >
+                                {{ layerInfo.layerNames[i] }}
+                                <li>
+                                    <a
+                                        :href="layerUrl"
+                                        target="_blank"
+                                        @click="onClick"
+                                    >
+                                        {{ layerInfoUrl }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div
+                            v-else
+                            class="pt-5"
+                        >
+                            <ul>
                                 <li>
                                     <a
                                         :href="layerUrl"
