@@ -9,6 +9,7 @@ import "jquery-ui/ui/effect";
 import Dropdown from "bootstrap/js/dist/dropdown";
 import "bootstrap/js/dist/collapse";
 import store from "../../../src/app-store";
+import groupBy from "../../../src/utils/groupBy";
 
 
 const MobileMenu = Backbone.View.extend({
@@ -132,7 +133,7 @@ const MobileMenu = Backbone.View.extend({
                 let modelsSorted = [];
 
                 // group by folder und other
-                groupedModels = Radio.request("Util", "groupBy", modelsToShow, function (model) {
+                groupedModels = groupBy(modelsToShow, function (model) {
                     return model.get("type") === "folder" ? "folder" : "other";
                 });
                 // in default-Tree folder and layer are sorted alphabetical

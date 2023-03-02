@@ -1,11 +1,13 @@
 import axios from "axios";
-import moment from "moment";
-
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import handleAxiosResponse from "../../utils/handleAxiosResponse";
 import store from "../../app-store";
 import detectIso8601Precision from "../../utils/detectIso8601Precision";
 import WMSLayer from "./wms";
 import Layer from "./layer";
+
+dayjs.extend(utc);
 
 /**
  * Creates a layer of type WMSTime.
@@ -87,9 +89,9 @@ WMSTimeLayer.prototype.determineDefault = function (timeRange, extentDefault, co
     }
 
     if (configuredDefault === "current" || extentDefault === "current") {
-        const now = moment(),
+        const now = dayjs(),
             firstGreater = timeRange.find(
-                timestamp => moment(timestamp).diff(now) >= 0
+                timestamp => dayjs(timestamp).diff(now) >= 0
             );
 
         return firstGreater || timeRange[timeRange.length - 1];
@@ -247,7 +249,6 @@ WMSTimeLayer.prototype.extractExtentValues = function (extent) {
                 if (!step || this.incrementIsSmaller(step, increment)) {
                     step = increment;
                 }
-
                 return singleTimeRange;
             })
             .flat(1)
@@ -266,14 +267,14 @@ WMSTimeLayer.prototype.extractExtentValues = function (extent) {
 WMSTimeLayer.prototype.getIncrementsFromResolution = function (resolution) {
     const increments = {},
         shorthandsLeft = {
-            Y: "years",
-            M: "months",
-            D: "days"
+            Y: "year",
+            M: "month",
+            D: "day"
         },
         shorthandsRight = {
-            H: "hours",
-            M: "minutes",
-            S: "seconds"
+            H: "hour",
+            M: "minute",
+            S: "second"
         },
         [leftHand, rightHand] = resolution.split("T");
 
@@ -286,7 +287,6 @@ WMSTimeLayer.prototype.getIncrementsFromResolution = function (resolution) {
             increments[shorthandsRight[hit.slice(-1)]] = increment;
         });
     }
-
     return increments;
 };
 
@@ -298,20 +298,21 @@ WMSTimeLayer.prototype.getIncrementsFromResolution = function (resolution) {
  * @returns {object} Steps and step increments.
  */
 WMSTimeLayer.prototype.createTimeRange = function (min, max, increment) {
+    let start = dayjs.utc(min);
     const increments = Object.entries(increment),
-        start = moment.utc(min),
-        end = moment.utc(max),
+        end = dayjs.utc(max),
         timeRange = [],
         format = detectIso8601Precision(min),
         suffix = min.endsWith("Z") ? "Z" : "";
 
     while (start.valueOf() <= end.valueOf()) {
         timeRange.push(start.format(format) + suffix);
+        /* eslint-disable no-loop-func */
         increments.forEach(([units, difference]) => {
-            start.add(Number(difference), units);
+            start = start.add(Number(difference), units);
         });
+        /* eslint-enable no-loop-func */
     }
-
     return timeRange;
 };
 

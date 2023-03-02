@@ -75,6 +75,10 @@ const Preparser = Backbone.Model.extend(/** @lends Preparser.prototype */{
         else if (configJsonPathFromConfig.slice(-5) === defaultFormat) {
             targetPath = configJsonPathFromConfig;
         }
+        // for some tools it is important that URL parameters are preserved in the URL of the config.json
+        else if (configJsonPathFromConfig.slice(-5) !== defaultFormat && configJsonPathFromConfig.includes("?")) {
+            targetPath = configJsonPathFromConfig;
+        }
 
         return targetPath;
     },

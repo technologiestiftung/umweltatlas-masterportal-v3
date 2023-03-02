@@ -1,6 +1,7 @@
 import "../model";
 import crs from "@masterportal/masterportalapi/src/crs";
 import store from "../../../src/app-store";
+import uniqueId from "../../../src/utils/uniqueId";
 
 const KomootModel = Backbone.Model.extend(/** @lends KomootModel.prototype */{
     defaults: {
@@ -214,7 +215,7 @@ const KomootModel = Backbone.Model.extend(/** @lends KomootModel.prototype */{
                 type: "Komoot",
                 komoot: true,
                 icon: "bi-signpost-2-fill",
-                id: Radio.request("Util", "uniqueId", "komootSuggest"),
+                id: uniqueId("komootSuggest"),
                 marker: hit.class === "building",
                 coordinate: center
             });

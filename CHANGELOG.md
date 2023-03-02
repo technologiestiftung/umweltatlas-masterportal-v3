@@ -18,6 +18,72 @@
 - Issue #847: the gazetteer search now shows the correct positions of duplicate results in different cities
 
 ---
+## v2.31.0 - 2023-03-01
+### __Breaking Changes__
+- Time library `moment.js` was replaced with [day.js](https://day.js.org/). Please consider to use `day.js` in your future pull requests.
+- SpecialWFS require full URL in config now instead of relative paths.
+
+### Added
+- layers:
+    - It is now possible to collect custom data via getMetaData request from layers.
+- The following NPM package have been added:
+    - dependencies:
+        - "dayjs": "^1.11.7"
+    - devDependencies:
+        - "resize-observer-polyfill": "^1.5.1"
+- Code of Conduct file and contents.
+
+### Changed
+- KeepOpen attribute for tools:
+    - In type string, the tool name can be inserted as string.
+    - In type array, some tool names can be inserted in an array.
+- The following NPM packages have been updated:
+    - dependencies:
+        - @masterportal/masterportalapi: 2.12.0 to 2.14.0  (This also raised ol to version 7.2.2)
+
+### Removed
+- The following NPM package have been removed:
+    - dependencies:
+        - "moment": "^2.29.4",
+        - "moment-timezone": "^0.5.39"
+
+### Fixed
+- Print: It is now possible to print larger amounts of data (limited by Mapfish print settings) where an error occurred before.
+- Print: edit printing for plotservice.
+- Print: fixed printing of symbols.
+- Issue #839: Under certain conditions, the external WFS filter did not work. An error occurred while parsing the WFS GetFeature Response.
+- Issue #846: Three bugs solved in featureLister: FeatureLister was stuck if initially active; FeatureLister was stuck if browsed layer deselected; FeatureLister was stuck on last removed layer.
+- Issue #867: SpeacialWFS search uses proxy if useProxy is configured true.
+- Issue #871: Support WMS GFI requests to HTTP in HTTP environment.
+- FeatureLister: always contains an up to date list of layers to choose.
+
+---
+
+## v2.30.0 - 2023-02-01
+### Added
+- layers:
+    - Errorhandling for secure services.
+- Filter:
+    - Added new parameter `filterButtonDisabled` to disable the filter button while nothing is selected.
+
+### Changed
+- Layers:
+    - Sta: setting the default style of historical features if there are no style defined.
+- Config.json URL: Make sure that URL parameters are preserved in the URL of the config.json
+- The following NPM packages have been updated:
+    - dependencies:
+        - @masterportal/masterportalapi: 2.11.0 to 2.12.0
+- Print: only features in the extent are sent to printing now
+
+### Fixed
+- Issue #839: Accordeon is now open initially if `active: true` is configured. Bug which triggers the error message is now fixed.
+- Issue #856: Providing version parameter for print services.
+- Issue #861: Initial order of the background maps after using "Save selection" tool was corrected.
+- uiStyle: Set uiStyle from config.js
+- 3D Tiles can now be hidden again with the hiddenFeatures/hiddenObjects attribute.
+- Time-Layer: False recognition of time layer was corrected.
+
+---
 
 ## v2.29.0 - 2023-01-04
 ### __Breaking Changes__

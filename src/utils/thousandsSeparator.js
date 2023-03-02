@@ -1,4 +1,3 @@
-
 /**
  * adds thousands seperators into a number and changes the decimal point
  * @param {(Number|String)} num the number as number or string

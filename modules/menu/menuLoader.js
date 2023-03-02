@@ -4,6 +4,7 @@ import MobileMenu from "./mobile/listView";
 import TableMenu from "./table/view";
 import store from "../../src/app-store/index";
 import Dropdown from "bootstrap/js/dist/dropdown";
+import uiStyle from "../../src/utils/uiStyle";
 
 const MenuLoader = Backbone.Model.extend(/** @lends MenuLoader.prototype */{
     defaults: {
@@ -130,7 +131,7 @@ const MenuLoader = Backbone.Model.extend(/** @lends MenuLoader.prototype */{
             this.currentMenu.stopListening();
         }
         if (!this.menuStyle) {
-            this.menuStyle = Radio.request("Util", "getUiStyle");
+            this.menuStyle = uiStyle.getUiStyle();
         }
 
         if (this.menuStyle === "TABLE") {

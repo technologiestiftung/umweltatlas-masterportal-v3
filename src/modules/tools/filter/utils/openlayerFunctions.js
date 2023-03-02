@@ -2,6 +2,7 @@ import store from "../../../../app-store";
 import {intersects} from "ol/extent.js";
 import LayerGroup from "ol/layer/Group";
 import isObject from "../../../../utils/isObject";
+import uiStyle from "../../../../utils/uiStyle";
 
 /**
  * Returns the map projection.
@@ -176,7 +177,7 @@ function getLayers () {
  * @returns {Boolean} true/false if current ui style of portal is table
  */
 function isUiStyleTable () {
-    return store.getters.uiStyle === "TABLE";
+    return uiStyle.getUiStyle() === "TABLE";
 }
 
 /**

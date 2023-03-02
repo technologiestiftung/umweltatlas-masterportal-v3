@@ -123,6 +123,7 @@ Here is a basic implementation of `SensorThingsHttp`, using basic events of the 
 
 ```js
 import {SensorThingsHttp} from "@src/utils/sensorThingsHttp";
+import LoaderOverlay from "/src/utils/loaderOverlay";
 
 const http = new SensorThingsHttp(),
     url = "https://iot.hamburg.de/v1.0/Things";
@@ -131,10 +132,10 @@ http.get(url, function (response) {
     // do something with the complete response
 }, function () {
     // onstart
-    Radio.trigger("Util", "showLoader");
+    LoaderOverlay.show();
 }, function () {
     // oncomplete (always called finally)
-    Radio.trigger("Util", "hideLoader");
+    LoaderOverlay.hide();
 }, function (error) {
     // onerror
     console.warn(error);
@@ -297,6 +298,7 @@ See this basic implementation of `SensorThingsHttp` to receive data within the b
 
 ```js
 import {SensorThingsHttp} from "@src/utils/sensorThingsHttp";
+import LoaderOverlay from "/src/utils/loaderOverlay";
 
 const http = new SensorThingsHttp(),
     extent = Radio.request("MapView", "getCurrentExtent"),
@@ -314,11 +316,11 @@ http.getInExtent(url, {
 
 }, function () {
     // on start (always called)
-    Radio.trigger("Util", "showLoader");
+    LoaderOverlay.show();
 
 }, function () {
     // on complete (always called)
-    Radio.trigger("Util", "hideLoader");
+    LoaderOverlay.hide();
 
 }, function (error) {
     // on error

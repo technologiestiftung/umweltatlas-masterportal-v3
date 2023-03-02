@@ -6,6 +6,7 @@ import getters from "../store/gettersFilter";
 import mutations from "../store/mutationsFilter";
 import LayerFilterSnippet from "./LayerFilterSnippet.vue";
 import MapHandler from "../utils/mapHandler.js";
+import FilterApi from "../interfaces/filter.api.js";
 import {compileLayers} from "../utils/compileLayers.js";
 import {
     getLayerByLayerId,
@@ -68,14 +69,19 @@ export default {
     },
     created () {
         this.$on("close", this.close);
-        getFeaturesOfAdditionalGeometries(this.geometrySelectorOptions.additionalGeometries);
+        getFeaturesOfAdditionalGeometries(this.geometrySelectorOptions.additionalGeometries).then(additionalGeometries => {
+            if (!Array.isArray(additionalGeometries) || !additionalGeometries.length) {
+                return;
+            }
+            this.setAdditionalGeometries({additionalGeometries});
+        });
     },
     mounted () {
         this.convertConfig({
             snippetInfos: getSnippetInfos()
         });
 
-        this.layerConfigs = compileLayers(this.layerGroups, this.layers);
+        this.layerConfigs = compileLayers(this.layerGroups, this.layers, FilterApi);
 
         this.$nextTick(() => {
             if (isUiStyleTable()) {
@@ -102,7 +108,7 @@ export default {
             const selectedFilterIds = [];
 
             this.layerConfigs.layers.forEach(config => {
-                if (typeof config?.active === "boolean" && config.active && config?.filterId) {
+                if (typeof config?.active === "boolean" && config.active && typeof config?.filterId !== "undefined") {
                     selectedFilterIds.push(config.filterId);
                 }
             });

@@ -309,7 +309,7 @@ To do this, the following must be added to `portal/master/config.js`
 
 ```js
 remoteInterface: {
-    postMessageUrl: "http://localhost:8080"
+    postMessageUrl: "https://localhost:9001"
 },
 ```
 

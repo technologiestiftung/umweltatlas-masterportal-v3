@@ -91,8 +91,6 @@ export default {
 
         /**
          * Importing the external wms layers
-         * @fires Core#RadioTriggerUtilShowLoader
-         * @fires Core#RadioTriggerUtilHideLoader
          * @fires Core.ModelList#RadioTriggerModelListRenderTree
          * @fires Core.ConfigLoader#RadioTriggerParserAddFolder
          * @returns {void}

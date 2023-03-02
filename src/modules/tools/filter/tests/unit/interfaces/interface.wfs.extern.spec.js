@@ -292,4 +292,24 @@ describe("src/modules/tools/filter/interfaces/utils/interface.wfs.extern.js", ()
             expect(interfaceWfsExtern.getUniqueValuesFromFeatures(features, "")).to.deep.equal(expected);
         });
     });
+
+    describe("getNodeByTagname", () => {
+        it("should return a node by the given document and tagname", () => {
+            const node = interfaceWfsExtern.getNodeByTagname(new DOMParser().parseFromString(responseXML[1], "text/xml"), "WKA");
+
+            expect(node.tagName).to.equal("tlvwa:WKA");
+        });
+
+        it("should return the given document if no node with the given tagname is found", () => {
+            const node = interfaceWfsExtern.getNodeByTagname(new DOMParser().parseFromString(responseXML[1], "text/xml"), "Pele");
+
+            expect(node).to.deep.equal(node);
+        });
+
+        it("should return undefined if the given parameter is undefined", () => {
+            const node = interfaceWfsExtern.getNodeByTagname(undefined, "Pele");
+
+            expect(node).to.be.undefined;
+        });
+    });
 });

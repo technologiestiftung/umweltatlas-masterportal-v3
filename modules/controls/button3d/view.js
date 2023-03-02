@@ -3,7 +3,7 @@ import Button3dTemplateTable from "text-loader!./templateTable.html";
 import Button3dModel from "./model";
 import store from "../../../src/app-store";
 import Dropdown from "bootstrap/js/dist/dropdown";
-
+import uiStyle from "../../../src/utils/uiStyle";
 /**
  * @member Button3dTemplate
  * @description Template used for the 3D Button
@@ -21,7 +21,6 @@ const Button3dView = Backbone.View.extend(/** @lends Button3dView.prototype */{
      * @memberof Controls.Button3D
      * @constructs
      * @description This control gives a user the 3D interface in the map.
-     * @fires Core#RadioRequestUtilGetUiStyle
      * @fires Core#RadioRequestMapIsMap3d
      * @fires Core.ModelList#RadioTriggerModelListToggleWfsCluster
      * @fires Alerting#RadioTriggerAlertAlertRemove
@@ -40,7 +39,7 @@ const Button3dView = Backbone.View.extend(/** @lends Button3dView.prototype */{
      */
     initialize: function () {
         const channel = Radio.channel("Map"),
-            style = Radio.request("Util", "getUiStyle");
+            style = uiStyle.getUiStyle();
 
         this.model = new Button3dModel();
         channel.on({

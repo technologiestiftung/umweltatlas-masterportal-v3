@@ -1,4 +1,6 @@
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 
 
 /**
@@ -62,9 +64,19 @@ function getLayer (id) {
  * @returns {Object} the created layer
  */
 function addLayerModel (attributes, id) {
-    Radio.trigger("Parser", "addItem", attributes);
-    Radio.trigger("ModelList", "addModelsByAttributes", {id: id});
-    return Radio.request("ModelList", "getModelByAttributes", {id: id});
+    const item = Radio.request("Parser", "getItemByAttributes", {id: id});
+    let layerModel;
+
+    if (!item) {
+        Radio.trigger("Parser", "addItem", attributes);
+    }
+    layerModel = Radio.request("ModelList", "getModelByAttributes", {id: id});
+    if (!layerModel) {
+        Radio.trigger("ModelList", "addModelsByAttributes", {id: id});
+        layerModel = Radio.request("ModelList", "getModelByAttributes", {id: id});
+    }
+
+    return layerModel;
 }
 
 /**
@@ -115,11 +127,11 @@ function setAttributes (layer, id, layerName, layerNameKey, treeType) {
  * @returns {void}
  */
 function setStyle (layer, styleId) {
-    const styleModel = Radio.request("StyleList", "returnModelById", styleId);
+    const styleObject = styleList.returnStyleObject(styleId);
 
-    if (styleModel !== undefined) {
+    if (styleObject !== undefined) {
         layer.get("layer").setStyle((feature) => {
-            return styleModel.createStyle(feature, false);
+            return createStyle.createStyle(styleObject, feature, false, Config.wfsImgPath);
         });
     }
 }

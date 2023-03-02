@@ -5,7 +5,7 @@ import loadAddons from "../src/addons";
 import "../modules/restReader/RadioBridge";
 import Autostarter from "../modules/core/autostarter";
 import Util from "../modules/core/util";
-import StyleList from "../modules/vectorStyle/list";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import Preparser from "../modules/core/configLoader/preparser";
 import RemoteInterface from "../modules/remoteInterface/model";
 import RadioMasterportalAPI from "../modules/remoteInterface/radioMasterportalAPI";
@@ -21,6 +21,8 @@ import {initiateVueI18Next} from "./vueI18Next";
 import {handleUrlParamsBeforeVueMount, readUrlParamEarly} from "../src/utils/parametricUrl/ParametricUrlBridge";
 import {createMaps} from "../src/core/maps/maps.js";
 import mapCollection from "../src/core/maps/mapCollection.js";
+import LoaderOverlay from "../src/utils/loaderOverlay";
+import uiStyle from "../src/utils/uiStyle";
 
 /**
  * Vuetify
@@ -46,7 +48,14 @@ import SearchbarView from "../modules/searchbar/view";
 import Button3DView from "../modules/controls/button3d/view";
 import Orientation3DView from "../modules/controls/orientation3d/view";
 import VirtualcityModel from "../modules/tools/virtualCity/model";
-import LoaderOverlay from "../src/utils/loaderOverlay";
+
+const styleGetters = {
+    mapMarkerPointStyleId: store.getters["MapMarker/pointStyleId"],
+    mapMarkerPolygonStyleId: store.getters["MapMarker/polygonStyleId"],
+    highlightFeaturesPointStyleId: store.getters["HighlightFeatures/pointStyleId"],
+    highlightFeaturesPolygonStyleId: store.getters["HighlightFeatures/polygonStyleId"],
+    highlightFeaturesLineStyleId: store.getters["HighlightFeatures/lineStyleId"]
+};
 
 let sbconfig,
     controls,
@@ -69,7 +78,7 @@ async function loadApp () {
     /* eslint-disable no-undef */
     const legacyAddons = Object.is(ADDONS, {}) ? {} : ADDONS,
         utilConfig = {},
-        style = Radio.request("Util", "getUiStyle"),
+        style = uiStyle.getUiStyle(),
         vueI18Next = initiateVueI18Next(),
         // instantiate Vue with Vuetify Plugin if the "vuetify" flag is set in the config.js
         // returns undefined if not
@@ -113,19 +122,30 @@ async function loadApp () {
         vuetify
     });
 
-
     // Core laden
     new Autostarter();
     new Util(utilConfig);
     if (store.state.urlParams?.uiStyle) {
-        Radio.trigger("Util", "setUiStyle", store.state.urlParams?.uiStyle);
+        uiStyle.setUiStyle(store.state.urlParams?.uiStyle);
+    }
+    else if (utilConfig.uiStyle) {
+        uiStyle.setUiStyle(utilConfig.uiStyle);
     }
 
     // Pass null to create an empty Collection with options
     new Preparser(null, {url: Config.portalConf});
     handleUrlParamsBeforeVueMount(window.location.search);
 
-    new StyleList();
+    styleList.initializeStyleList(styleGetters, Config, Radio.request("Parser", "getItemsByAttributes", {type: "layer"}), Radio.request("Parser", "getItemsByAttributes", {type: "tool"}),
+        (initializedStyleList, error) => {
+            if (error) {
+                Radio.trigger("Alert", "alert", {
+                    text: "<strong>Die Datei '" + Config.styleConf + "' konnte nicht geladen werden!</strong>",
+                    kategorie: "alert-warning"
+                });
+            }
+            return initializedStyleList;
+        });
     createMaps(Config, Radio.request("Parser", "getPortalConfig").mapView);
     new WindowView();
 

@@ -2,6 +2,7 @@ import listViewMain from "./listViewMain";
 import DesktopLayerViewLight from "./layer/viewLight";
 import Dropdown from "bootstrap/js/dist/dropdown";
 
+import sortBy from "../../../src/utils/sortBy";
 
 const LightMenu = listViewMain.extend(/** @lends LightMenu.prototype */{
     /**
@@ -35,7 +36,7 @@ const LightMenu = listViewMain.extend(/** @lends LightMenu.prototype */{
 
         $("#tree").html("");
 
-        models = Radio.request("Util", "sortBy", models, (model) => model.get("selectionIDX"), this);
+        models = sortBy(models, (model) => model.get("selectionIDX"), this);
 
         this.addViews(models);
         $("ul#tree.light").css("max-height", $("#map").height() - 160);

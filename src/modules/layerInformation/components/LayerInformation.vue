@@ -2,6 +2,7 @@
 import getters from "../store/gettersLayerInformation";
 import mutations from "../store/mutationsLayerInformation";
 import ToolWindow from "../../../share-components/ToolWindow.vue";
+import {isWebLink} from "../../../utils/urlHelper";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 
 /**
@@ -23,6 +24,9 @@ export default {
         ...mapGetters(["metaDataCatalogueId"]),
         showAdditionalMetaData () {
             return this.layerInfo.metaURL !== null && typeof this.abstractText !== "undefined" && this.abstractText !== this.noMetaDataMessage && this.abstractText !== this.noMetadataLoaded;
+        },
+        showCustomMetaData () {
+            return this.customText;
         },
         showPublication () {
             return typeof this.datePublication !== "undefined" && this.datePublication !== null && this.datePublication !== "";
@@ -84,6 +88,7 @@ export default {
             "setConfigParams"
         ]),
         ...mapMutations("LayerInformation", Object.keys(mutations)),
+        isWebLink,
         /**
          * Closes the LayerInformation
          * @returns {void}
@@ -239,6 +244,31 @@ export default {
                 <p v-if="showPeriodicity">
                     {{ $t("common:modules.layerInformation.periodicityTitle") }}: {{ $t(periodicityKey) }}
                 </p>
+                <template
+                    v-if="showCustomMetaData"
+                >
+                    <div
+                        v-for="(key, value) in customText"
+                        :key="key"
+                    >
+                        <p
+                            v-if="isWebLink(key)"
+                            class="mb-0"
+                        >
+                            {{ value + ": " }}
+                            <a
+                                :href="value"
+                                target="_blank"
+                            >{{ key }}</a>
+                        </p>
+                        <p
+                            v-else
+                            class="mb-0"
+                        >
+                            {{ value + ": " + key }}
+                        </p>
+                    </div>
+                </template>
                 <hr>
                 <ul class="nav nav-tabs">
                     <li

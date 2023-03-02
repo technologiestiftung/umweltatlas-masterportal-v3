@@ -167,11 +167,6 @@ export default {
 
                 &.glyphicon-minus { top: 3px; }
 
-                &:hover {
-                    &:not(.win-icon) {
-                        @include primary_action_hover;
-                    }
-                }
             }
         }
     }

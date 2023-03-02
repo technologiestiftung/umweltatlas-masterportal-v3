@@ -1,5 +1,7 @@
 import Tool from "../../core/modelList/tool/model";
 import store from "../../../src/app-store";
+import LoaderOverlay from "../../../src/utils/loaderOverlay";
+import toObject from "../../../src/utils/toObject";
 
 const ParcelSearch = Tool.extend(/** @lends ParcelSearch.prototype */{
     defaults: Object.assign({}, Tool.prototype.defaults, {
@@ -151,10 +153,10 @@ const ParcelSearch = Tool.extend(/** @lends ParcelSearch.prototype */{
                 Radio.trigger("Alert", "alert", this.get("districtsLoadFailed") + " (" + this.get("name") + ")");
             },
             complete: function () {
-                Radio.trigger("Util", "hideLoader");
+                LoaderOverlay.hide();
             },
             beforeSend: function () {
-                Radio.trigger("Util", "showLoader");
+                LoaderOverlay.show();
             }
         });
     },
@@ -168,9 +170,9 @@ const ParcelSearch = Tool.extend(/** @lends ParcelSearch.prototype */{
             cadastralDistricts = {};
 
         Object.entries(obj).forEach(([key, value]) => {
-            Object.assign(districts, Radio.request("Util", "toObject", [key], [value.id]));
+            Object.assign(districts, toObject([key], [value.id]));
             if (value && value?.flur && Array.isArray(value.flur) && value.flur.length > 0) {
-                Object.assign(cadastralDistricts, Radio.request("Util", "toObject", [value.id], [value.flur]));
+                Object.assign(cadastralDistricts, toObject([value.id], [value.flur]));
             }
         });
         this.setDistricts(districts);
@@ -261,10 +263,10 @@ const ParcelSearch = Tool.extend(/** @lends ParcelSearch.prototype */{
                 Radio.trigger("Alert", "alert", {text: "<strong>" + this.get("parcelSearchImpossible") + "</strong> " + this.get("tryAgainLater"), kategorie: "alert-danger"});
             },
             complete: function () {
-                Radio.trigger("Util", "hideLoader");
+                LoaderOverlay.hide();
             },
             beforeSend: function () {
-                Radio.trigger("Util", "showLoader");
+                LoaderOverlay.show();
             }
         });
     },
@@ -288,14 +290,14 @@ const ParcelSearch = Tool.extend(/** @lends ParcelSearch.prototype */{
         else {
             position = $(member).find("gml\\:pos, pos")[0] ? $(member).find("gml\\:pos, pos")[0].textContent.split(" ") : null;
             coordinate = position ? [parseFloat(position[0]), parseFloat(position[1])] : null;
-            attributes = coordinate ? Radio.request("Util", "toObject", ["coordinate"], [coordinate]) : {};
+            attributes = coordinate ? toObject(["coordinate"], [coordinate]) : {};
             geoExtent = $(member).find("iso19112\\:geographicExtent, geographicExtent")[0] ? $(member).find("iso19112\\:geographicExtent, geographicExtent")[0] : null;
-            attributes = geoExtent ? Object.assign(attributes, Radio.request("Util", "toObject", ["geographicExtent"], [geoExtent])) : attributes;
+            attributes = geoExtent ? Object.assign(attributes, toObject(["geographicExtent"], [geoExtent])) : attributes;
 
             $(member).find("*").filter(function () {
                 return this.nodeName.indexOf("dog") !== -1 || this.nodeName.indexOf("gages") !== -1;
             }).each(function () {
-                Object.assign(attributes, Radio.request("Util", "toObject", [this.nodeName.split(":")[1]], [this.textContent]));
+                Object.assign(attributes, toObject([this.nodeName.split(":")[1]], [this.textContent]));
             });
             this.setParcelFound(true);
 

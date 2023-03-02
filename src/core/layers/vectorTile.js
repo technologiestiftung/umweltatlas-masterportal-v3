@@ -140,7 +140,7 @@ VectorTileLayer.prototype.setStyleByDefinition = function ({id, url, resolutions
 
                 this.fetchSpriteData(spriteDataUrl)
                     .then(spriteData => {
-                        vectorTile.setStyle(this.get("layer"), style, {resolutions: resolutions, spriteData: spriteData, spriteImageUrl: spriteImageUrl, getFonts: addMpFonts});
+                        vectorTile.setStyle(this.get("layer"), style, {options: {resolutions: resolutions, spriteData: spriteData, spriteImageUrl: spriteImageUrl, getFonts: addMpFonts}});
                         this.set("selectedStyleID", id);
                     }
                     );

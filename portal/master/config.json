@@ -66,7 +66,7 @@
         "timeout": 10000,
         "definitions": [
           {
-            "url": "/geodienste.hamburg.de/HH_WFS_Bebauungsplaene",
+            "url": "https://geodienste.hamburg.de/HH_WFS_Bebauungsplaene",
             "typeName": "app:hh_hh_festgestellt",
             "propertyNames": [
               "app:geltendes_planrecht"
@@ -76,7 +76,7 @@
             "namespaces": "xmlns:app='http://www.deegree.org/app'"
           },
           {
-            "url": "/geodienste.hamburg.de/HH_WFS_Bebauungsplaene",
+            "url": "https://geodienste.hamburg.de/HH_WFS_Bebauungsplaene",
             "typeName": "app:prosin_imverfahren",
             "propertyNames": [
               "app:plan"
@@ -86,7 +86,7 @@
             "namespaces": "xmlns:app='http://www.deegree.org/app'"
           },
           {
-            "url": "/geodienste.hamburg.de/HH_WFS_KitaEinrichtung",
+            "url": "https://geodienste.hamburg.de/HH_WFS_KitaEinrichtung",
             "typeName": "app:KitaEinrichtungen",
             "propertyNames": [
               "app:Name"
@@ -95,7 +95,7 @@
             "namespaces": "xmlns:app='http://www.deegree.org/app'"
           },
           {
-            "url": "/geodienste.hamburg.de/HH_WFS_Stoerfallbetriebe",
+            "url": "https://geodienste.hamburg.de/HH_WFS_Stoerfallbetriebe",
             "typeName": "app:stoerfallbetrieb",
             "propertyNames": [
               "app:standort"
@@ -597,6 +597,7 @@
         {
           "id": "12884",
           "name": "Gebäude LoD2",
+          "gfiAttributes": "showAll",
           "visibility": true
         },
         {
@@ -646,18 +647,11 @@
           "visibility": true,
           "isVisibleInTree": false,
           "hiddenFeatures": [
-            "DEHH_8aeaf0d5-9f1a-4331-80fd-93b5dd5d8893",
-            "DEHH_2b33b593-ca61-4ea5-8de6-5caa680adac3",
-            "DEHH_0738b37a-0174-4af1-be99-e3bb0ea06310",
-            "DEHH_312bc85a-f081-4a13-839f-98d5edcb931f",
-            "DEHH_8aafabb5-ca73-4480-ab95-802d232ef479",
-            "DEHH_4edd6675-173b-42ed-a150-f851367d8929",
-            "DEHH_35e79400-5d75-4ee9-b73c-c406323b136c",
-            "DEHH_9e6eb11c-5cc6-4b31-a8fb-93c544882dcd",
-            "DEHH_c865516a-15fb-4894-b978-aa12cd8c9ab5",
-            "DEHH_c7415053-4b33-4c82-b389-77a69ff1c319",
-            "DEHH_e2d6158f-db9c-4fd4-9455-2565a41a3975",
-            "DEHH_167f541b-7536-4b25-9b9a-7965140a214d"
+            "DEHHALKAJ00011uJ",
+            "DEHHALKAJ0000yd2",
+            "DEHHALKAJ0000ovW",
+            "DEHHALKAJ0000owm",
+            "DEHHALKAJ0000pO5"
           ]
         },
         {
@@ -735,7 +729,12 @@
         {
           "id": "2003",
           "styleId": "2003",
-          "mouseHoverField": "gebietsname"
+          "mouseHoverField": "gebietsname",
+          "legend": true,
+          "featurePrefix": "de.hh.up:",
+          "wildCard": "%",
+          "singleChar": "#",
+          "escapeChar": "!"
         },
         {
           "id": "47",
@@ -791,7 +790,12 @@
           ],
           "searchField": "name",
           "extendedFilter": true,
-          "loadingStrategy": "all"
+          "loadingStrategy": "all",
+          "legend": true,
+          "featurePrefix": "",
+          "wildCard": "%",
+          "singleChar": "#",
+          "escapeChar": "!"
         },
         {
           "id": "8712",
@@ -799,6 +803,10 @@
           "name": "Schulinfosystem",
           "styleId": "8712",
           "searchField": "schulname",
+          "featurePrefix": "de.hh.up:",
+          "wildCard": "%",
+          "singleChar": "#",
+          "escapeChar": "!",
           "mouseHoverField": [
             "schulname",
             "kapitelbezeichnung"
@@ -910,6 +918,15 @@
           "name": "Lärmberechnung",
           "extent": [568426.27, 5931985.58, 569614.86, 5933174.11],
           "legend": ["https://geodienste.hamburg.de/lgv-config/img/Legende_Laermberechnung_Tag.png", "https://geodienste.hamburg.de/lgv-config/img/Legende_Laermberechnung_Nacht.png"]
+        },
+        {
+          "id" : "2928",
+          "name": "Linienhafte Biotope",
+          "legend": true,
+          "featurePrefix": "de.hh.up:",
+          "wildCard": "%",
+          "singleChar": "#",
+          "escapeChar": "!"
         }
       ]
     }

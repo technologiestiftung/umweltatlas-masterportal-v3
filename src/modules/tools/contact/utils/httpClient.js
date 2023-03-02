@@ -4,8 +4,6 @@ import LoaderOverlay from "../../../../utils/loaderOverlay";
 
 /**
  * Show the loader after the dispatch of an e-mail has been started.
- *
- * @fires Util#RadioTriggerUtilShowLoader
  * @return {void}
  */
 function onSendStart () {
@@ -15,8 +13,6 @@ function onSendStart () {
 /**
  * Hide the loader after the dispatch of an e-mail has been completed.
  * The loader is also hidden if an error occurred during the dispatch.
- *
- * @fires Util#RadioTriggerUtilHideLoader
  * @return {void}
  */
 function onSendComplete () {

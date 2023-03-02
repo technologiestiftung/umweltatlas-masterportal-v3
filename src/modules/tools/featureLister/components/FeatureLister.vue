@@ -51,26 +51,23 @@ export default {
             return this.disabledTabClass;
         }
     },
-    mounted () {
-        this.getVisibleLayerList.forEach(async layer => {
-            if (layer instanceof VectorLayer && layer.get("typ") === "WFS") {
-                const layerSource = layer.getSource();
-
-                await this.areLayerFeaturesLoaded(layer.get("id"));
-
-                this.visibleVectorLayers.push(
-                    {
-                        name: layer.get("name"),
-                        id: layer.get("id"),
-                        features: layerSource.getFeatures(),
-                        geometryType: layerSource.getFeatures()[0] ? layerSource.getFeatures()[0].getGeometry().getType() : null
-                    }
-                );
+    watch: {
+        active () {
+            if (this.active) {
+                this.updateFeatureListerList();
             }
-        });
+        }
+    },
+    mounted () {
+        /* issue #846 - initially active by config means watcher won't trigger,
+         * hence executing method on mounted is required */
+        if (this.active) {
+            this.updateFeatureListerList();
+        }
     },
     created () {
         this.$on("close", this.close);
+        this.listenToUpdatedSelectedLayerList();
     },
     methods: {
         ...mapActions("Tools/FeatureLister", Object.keys(actions)),
@@ -135,6 +132,52 @@ export default {
             }
             catch (error) {
                 console.error(error);
+            }
+        },
+        /**
+         * Listens to updated selectedLayerList
+         * @returns {void}
+         */
+        listenToUpdatedSelectedLayerList () {
+            Backbone.Events.listenTo(Radio.channel("ModelList"), {
+                "updatedSelectedLayerList": () => {
+                    if (this.active) {
+                        this.updateFeatureListerList();
+                    }
+                }
+            });
+        },
+        /**
+         * Updates the available Layers in the List
+         * @returns {void}
+         */
+        async updateFeatureListerList () {
+            this.visibleVectorLayers = [];
+            await Promise.all(this.getVisibleLayerList.map(async layer => {
+                if (layer instanceof VectorLayer && layer.get("typ") === "WFS") {
+                    const layerSource = layer.getSource();
+                    let alreadyInArray = false;
+
+                    await this.areLayerFeaturesLoaded(layer.get("id"));
+
+                    this.visibleVectorLayers.forEach(visibleLayer => {
+                        if (visibleLayer.id === layer.get("id")) {
+                            alreadyInArray = true;
+                        }
+                    });
+                    if (!alreadyInArray) {
+                        this.visibleVectorLayers.push({
+                            name: layer.get("name"),
+                            id: layer.get("id"),
+                            features: layerSource.getFeatures(),
+                            geometryType: layerSource.getFeatures()[0] ? layerSource.getFeatures()[0].getGeometry().getType() : null
+                        });
+                    }
+                }
+            }));
+            // if currently chosen layer has been removed, reset to overview
+            if (!this.visibleVectorLayers.find(({id}) => id === this.layerId)) {
+                this.switchToThemes();
             }
         }
     }

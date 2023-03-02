@@ -29,7 +29,8 @@ describe("src/modules/tools/print/utils/buildSpec.buildStyle", function () {
             values_: {
                 id: "1711"
             },
-            get: sinon.stub()
+            get: sinon.stub(),
+            getSource: sinon.stub()
         },
         geometry = new Polygon([[[0, 0], [1000, 0], [0, 1000], [0, 0]]]),
         fill = new Fill({
@@ -85,7 +86,6 @@ describe("src/modules/tools/print/utils/buildSpec.buildStyle", function () {
                 // stylingRule: bewirtschaftungsart='Parkschein, Bewohner mit Ausweis frei_0'
             const stylingRule = "bewirtschaftungsart=" + polygonFeatures[0].values_.bewirtschaftungsart + "_0";
 
-            buildSpec.getStyleModel = sinon.spy();
             buildSpec.getStylingRules = () => stylingRule;
             buildSpec.getFeatureStyle = () => [style];
             buildSpec.getStyleAttributes = () => ["bewirtschaftungsart"];

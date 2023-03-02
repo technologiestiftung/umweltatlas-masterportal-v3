@@ -1,6 +1,7 @@
-import {Circle as CircleStyle, Icon} from "ol/style.js";
 import {Point} from "ol/geom.js";
 import {fromCircle} from "ol/geom/Polygon.js";
+import CircleStyle from "ol/style/Circle";
+import Icon from "ol/style/Icon";
 import Feature from "ol/Feature.js";
 import {GeoJSON} from "ol/format.js";
 import {Group, Image, Tile, Vector} from "ol/layer.js";
@@ -15,6 +16,9 @@ import {convertColor} from "../../../../utils/convertColor";
 import {MVTEncoder} from "@geoblocks/print";
 import VectorTileLayer from "ol/layer/VectorTile";
 import {getLastPrintedExtent} from "../store/actions/actionsPrintInitialization";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import {getRulesForFeature} from "@masterportal/masterportalapi/src/vectorStyle/lib/getRuleForIndex";
 
 
 const BuildSpecModel = {
@@ -46,7 +50,7 @@ const BuildSpecModel = {
             if (this.defaults.uniqueIdList.length === 0) {
                 const printJob = {
                     index: cswObj.index,
-                    payload: encodeURIComponent(JSON.stringify(this.defaults)),
+                    payload: this.defaults,
                     getResponse: cswObj.getResponse
                 };
 
@@ -229,7 +233,7 @@ const BuildSpecModel = {
             visibleFeatures = features.filter(feature => feature.get("isVisible"));
 
         if (visibleFeatures.length > 0) {
-            return this.buildVector(layer, visibleFeatures);
+            return this.buildVector(layer, visibleFeatures, extent);
         }
 
         return undefined;
@@ -241,9 +245,10 @@ const BuildSpecModel = {
      * @param  {ol.layer} layer ol.Layer with features
      * @param {Number} currentResolution Current map resolution
      * @param {Number} [dpi] The dpi to use instead of the dpi from store.
+     * @param {Boolean} [scaleDoesNotMatter=false] - The layer should be build even if it is not visible in the current resolution.
      * @returns {Object} - LayerObject for MapFish print.
      */
-    buildLayerType: async function (layer, currentResolution, dpi) {
+    buildLayerType: async function (layer, currentResolution, dpi, scaleDoesNotMatter = false) {
         const extent = store.getters["Maps/getCurrentExtent"],
             layerMinRes = typeof layer?.get === "function" ? layer.get("minResolution") : false,
             layerMaxRes = typeof layer?.get === "function" ? layer.get("maxResolution") : false,
@@ -251,7 +256,7 @@ const BuildSpecModel = {
         let features = [],
             returnLayer;
 
-        if (isInScaleRange) {
+        if (isInScaleRange || scaleDoesNotMatter) {
             const source = layer.getSource();
 
             if (layer instanceof VectorTileLayer) {
@@ -278,7 +283,7 @@ const BuildSpecModel = {
                 features = source.getFeaturesInExtent(extent);
 
                 if (features.length > 0) {
-                    returnLayer = this.buildVector(layer, features);
+                    returnLayer = this.buildVector(layer, features, extent);
                 }
             }
         }
@@ -395,10 +400,11 @@ const BuildSpecModel = {
      */
     buildTileWms: function (layer, dpi) {
         const source = layer.getSource(),
+            isPlotservice = store.state.Tools.Print.printService === "plotservice",
             mapObject = {
                 baseURL: source.getUrls()[0],
                 opacity: layer.getOpacity(),
-                type: source.getParams().SINGLETILE ? "WMS" : "tiledwms",
+                type: source.getParams().SINGLETILE || isPlotservice ? "WMS" : "tiledwms",
                 layers: source.getParams().LAYERS.split(","),
                 styles: source.getParams().STYLES ? source.getParams().STYLES.split(",") : undefined,
                 imageFormat: source.getParams().FORMAT,
@@ -408,6 +414,12 @@ const BuildSpecModel = {
                 }
             };
 
+        if (store.state.Tools.Print.printService === "plotservice") {
+            mapObject.title = layer.get("name");
+        }
+        if (source.getParams().VERSION) {
+            mapObject.version = source.getParams().VERSION;
+        }
         if (!source.getParams().SINGLETILE) {
             mapObject.tileSize = [source.getParams().WIDTH, source.getParams().HEIGHT];
         }
@@ -439,6 +451,13 @@ const BuildSpecModel = {
                 }
             };
 
+        if (store.state.Tools.Print.printService === "plotservice") {
+            mapObject.title = layer.get("name");
+        }
+        if (source.getParams().VERSION) {
+            mapObject.version = source.getParams().VERSION;
+        }
+
         return mapObject;
     },
 
@@ -446,14 +465,15 @@ const BuildSpecModel = {
      * returns vector layer information
      * @param {ol.layer.Vector} layer vector layer with vector source
      * @param {ol.feature[]} features vectorfeatures
+     * @param {ol.extent} extent  Extent uses to filter the feature by extent.
      * @returns {object} - geojson layer spec
      */
-    buildVector: function (layer, features) {
+    buildVector: function (layer, features, extent) {
         const geojsonList = [];
 
         return {
             type: "geojson",
-            style: this.buildStyle(layer, features, geojsonList),
+            style: this.buildStyle(layer, features, geojsonList, extent),
             geojson: geojsonList
         };
     },
@@ -463,20 +483,27 @@ const BuildSpecModel = {
      * @param {ol.layer} layer ol-Layer with features.
      * @param {ol.feature[]} features Array of features.
      * @param {Object[]} geojsonList Array of geojsons.
+     * @param {ol.extent} extent  Extent uses to filter the feature by extent.
      * @returns {Object} - style for mapfish print.
      */
-    buildStyle: function (layer, features, geojsonList) {
+    buildStyle: function (layer, features, geojsonList, extent) {
         const mapfishStyleObject = {
                 "version": "2"
             },
-            layersToNotReverse = ["measureLayer", "importDrawLayer"];
+            layersToNotReverse = ["measureLayer", "importDrawLayer"],
+            featuresInExtent = layer.getSource() ? layer.getSource().getFeaturesInExtent(extent) : features;
 
         if (!layersToNotReverse.includes(layer.values_.id)) {
             features.reverse();
         }
         features.forEach(feature => {
-            const styles = this.getFeatureStyle(feature, layer),
+            const foundFeature = featuresInExtent.find(featureInExtent => featureInExtent.ol_uid === feature.ol_uid),
+                styles = this.getFeatureStyle(feature, layer),
                 styleAttributes = this.getStyleAttributes(layer, feature);
+
+            if (!foundFeature) {
+                return;
+            }
 
             let clonedFeature,
                 stylingRules,
@@ -487,7 +514,8 @@ const BuildSpecModel = {
 
             styles.forEach((style, index) => {
                 if (style !== null) {
-                    const styleModel = this.getStyleModel(layer);
+                    const styleObjectFromStyleList = styleList.returnStyleObject(layer.get("id")),
+                        styleFromStyleList = styleObjectFromStyleList ? createStyle.getGeometryStyle(feature, styleObjectFromStyleList.rules, false, Config.wfsImgPath) : undefined;
                     let limiter = ",";
 
                     clonedFeature = feature.clone();
@@ -506,7 +534,7 @@ const BuildSpecModel = {
                         }
                     }
                     stylingRules = this.getStylingRules(layer, clonedFeature, styleAttributes, style);
-                    if (styleModel !== undefined && styleModel.get("labelField") && styleModel.get("labelField").length > 0) {
+                    if (styleFromStyleList !== undefined && styleFromStyleList.attributes.labelField && styleFromStyleList.attributes.labelField.length > 0) {
                         stylingRules = stylingRules.replaceAll(limiter, " AND ");
                         limiter = " AND ";
                     }
@@ -585,24 +613,6 @@ const BuildSpecModel = {
 
         }
         return feature;
-    },
-
-    getStyleModel (layer, layerId) {
-        const layerModel = Radio.request("ModelList", "getModelByAttributes", {id: layer?.get("id")});
-        let foundChild;
-
-        if (typeof layerModel?.get === "function") {
-            if (layerModel.get("typ") === "GROUP") {
-                foundChild = layerModel.get("children").find(child => child.id === layerId);
-                if (foundChild) {
-                    return Radio.request("StyleList", "returnModelById", foundChild.styleId);
-                }
-            }
-            else {
-                return Radio.request("StyleList", "returnModelById", layerModel.get("styleId"));
-            }
-        }
-        return undefined;
     },
 
     /**
@@ -1033,7 +1043,8 @@ const BuildSpecModel = {
      */
     getStylingRules: function (layer, feature, styleAttributes, style, styleIndex) {
         const styleAttr = feature.get("styleId") ? "styleId" : styleAttributes,
-            styleModel = this.getStyleModel(layer);
+            styleObjectFromStyleList = styleList.returnStyleObject(layer.get("id")),
+            styleFromStyleList = styleObjectFromStyleList ? createStyle.getGeometryStyle(feature, styleObjectFromStyleList.rules, false, Config.wfsImgPath) : undefined;
 
         if (styleAttr.length === 1 && styleAttr[0] === "") {
             if (feature.get("features") && feature.get("features").length === 1) {
@@ -1096,8 +1107,8 @@ const BuildSpecModel = {
             }, "[").slice(0, -1) + "]";
         }
         // feature with geometry style and label style
-        if (styleModel !== undefined && styleModel.get("labelField") && styleModel.get("labelField").length > 0) {
-            const labelField = styleModel.get("labelField");
+        if (styleFromStyleList !== undefined && styleFromStyleList.attributes.labelField && styleFromStyleList.attributes.labelField.length > 0) {
+            const labelField = styleFromStyleList.attributes.labelField;
 
             return styleAttr.reduce((acc, curr) => acc + `${curr}='${feature.get(curr)}' AND ${labelField}='${feature.get(labelField)}',`, "[").slice(0, -1)
                 + "]";
@@ -1118,20 +1129,20 @@ const BuildSpecModel = {
      */
     getStyleAttributes: function (layer, feature) {
         const layerId = layer.get("id"),
-            styleList = this.getStyleModel(layer, layerId);
+            styleObject = styleList.returnStyleObject(layerId);
         let styleFields = ["styleId"],
             layerModel = Radio.request("ModelList", "getModelByAttributes", {id: layer.get("id")});
 
-        if (styleList !== undefined) {
+        if (styleObject !== undefined) {
             layerModel = this.getChildModelIfGroupLayer(layerModel, layerId);
 
             if (layerModel.get("styleId")) {
-                const featureRules = styleList.getRulesForFeature(feature);
+                const featureRules = getRulesForFeature(styleObject, feature);
 
                 styleFields = featureRules?.[0]?.conditions ? Object.keys(featureRules[0].conditions.properties) : [""];
             }
             else {
-                styleFields = [styleList.get("styleField")];
+                styleFields = [styleObject.get("styleField")];
             }
         }
 
@@ -1213,7 +1224,7 @@ const BuildSpecModel = {
         else {
             const printJob = {
                 index,
-                payload: encodeURIComponent(JSON.stringify(this.defaults)),
+                payload: this.defaults,
                 getResponse: getResponse
             };
 

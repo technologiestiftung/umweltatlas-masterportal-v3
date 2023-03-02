@@ -1,8 +1,10 @@
 import {geojson} from "@masterportal/masterportalapi";
 import {GeoJSON} from "ol/format.js";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import getProxyUrl from "../../utils/getProxyUrl";
 import Layer from "./layer";
-import * as bridge from "./RadioBridge.js";
+import Cluster from "ol/source/Cluster";
 import store from "../../app-store";
 import LoaderOverlay from "../../utils/loaderOverlay";
 
@@ -113,16 +115,16 @@ GeoJSONLayer.prototype.createLayer = function (attrs) {
  */
 GeoJSONLayer.prototype.getStyleFunction = function (attrs) {
     const styleId = attrs.styleId,
-        styleModel = bridge.getStyleModelById(styleId);
+        styleObject = styleList.returnStyleObject(styleId);
     let isClusterFeature = false,
         style = null;
 
-    if (styleModel !== undefined) {
+    if (styleObject !== undefined) {
         style = function (feature) {
             const feat = feature !== undefined ? feature : this;
 
             isClusterFeature = typeof feat.get("features") === "function" || typeof feat.get("features") === "object" && Boolean(feat.get("features"));
-            return styleModel.createStyle(feat, isClusterFeature);
+            return createStyle.createStyle(styleObject, feat, isClusterFeature, Config.wfsImgPath);
         };
     }
     else {
@@ -279,8 +281,7 @@ GeoJSONLayer.prototype.setOpenSenseMapSensorValues = function (feature, response
  * @returns {void}
  */
 GeoJSONLayer.prototype.createLegend = function (attrs) {
-    const styleId = attrs.styleId,
-        styleModel = bridge.getStyleModelById(styleId);
+    const styleObject = styleList.returnStyleObject(attrs.styleId);
     let legend = this.get("legend");
 
     /**
@@ -301,8 +302,10 @@ GeoJSONLayer.prototype.createLegend = function (attrs) {
     if (Array.isArray(legend)) {
         this.setLegend(legend);
     }
-    else if (styleModel && legend === true) {
-        this.setLegend(styleModel.getLegendInfos());
+    else if (styleObject && legend === true) {
+        createStyle.returnLegendByStyleId(styleObject.styleId).then(legendInfos => {
+            this.setLegend(legendInfos.legendInformation);
+        });
     }
     else if (typeof legend === "string") {
         this.setLegend([legend]);
@@ -316,7 +319,7 @@ GeoJSONLayer.prototype.createLegend = function (attrs) {
  * @return {void}
  */
 GeoJSONLayer.prototype.showFeaturesByIds = function (featureIdList) {
-    const layerSource = this.get("layerSource"),
+    const layerSource = this.get("layerSource") instanceof Cluster ? this.get("layerSource").getSource() : this.get("layerSource"),
         // featuresToShow is a subset of allLayerFeatures
         allLayerFeatures = layerSource.getFeatures(),
         featuresToShow = featureIdList.map(id => layerSource.getFeatureById(id));
@@ -357,7 +360,7 @@ GeoJSONLayer.prototype.getStyleAsFunction = function (style) {
  * @returns {void}
  */
 GeoJSONLayer.prototype.hideAllFeatures = function () {
-    const layerSource = this.get("layerSource"),
+    const layerSource = this.get("layerSource") instanceof Cluster ? this.get("layerSource").getSource() : this.get("layerSource"),
         features = layerSource.getFeatures();
 
     // optimization - clear and re-add to prevent cluster updates on each change
@@ -378,7 +381,8 @@ GeoJSONLayer.prototype.hideAllFeatures = function () {
  * @returns {void}
  */
 GeoJSONLayer.prototype.showAllFeatures = function () {
-    const collection = this.get("layerSource").getFeatures();
+    const layerSource = this.get("layerSource") instanceof Cluster ? this.get("layerSource").getSource() : this.get("layerSource"),
+        collection = layerSource.getFeatures();
 
     collection.forEach(function (feature) {
         feature.setStyle(undefined);

@@ -1,7 +1,8 @@
 import "../model";
 import store from "../../../src/app-store";
 import {search, setGazetteerUrl, setShowGeographicIdentifier} from "@masterportal/masterportalapi/src/searchAddress";
-import uniqueId from "../../../src/utils/uniqueId";
+import {sort} from "../../../src/utils/sort";
+import uniqueId from "../../../src/utils/uniqueId"
 
 const GazetteerModel = Backbone.Model.extend({
     defaults: {
@@ -114,11 +115,10 @@ const GazetteerModel = Backbone.Model.extend({
     /**
      * Pushes all search results into the hitList.
      * @param {Object[]} [searchResults=[]] The search results.
-     * @fires Util#RadioRequestUtilSort
      * @returns {void}
      */
     pushAllResults: function (searchResults = []) {
-        const sortedSearchResults = Radio.request("Util", "sort", "address", searchResults, "name");
+        const sortedSearchResults = sort("address", searchResults, "name");
 
         sortedSearchResults.forEach(searchResult => {
             this.pushResult(searchResult);

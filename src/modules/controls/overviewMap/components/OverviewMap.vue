@@ -4,6 +4,7 @@ import {mapGetters} from "vuex";
 import {getOverviewMapLayer, getOverviewMapView} from "./utils";
 import ControlIcon from "../../ControlIcon.vue";
 import TableStyleControl from "../../TableStyleControl.vue";
+import uiStyle from "../../../../utils/uiStyle";
 
 /**
  * Overview control that shows a mini-map to support a user's
@@ -50,10 +51,10 @@ export default {
         ...mapGetters("Maps", ["mode"]),
 
         component () {
-            return this.uiStyle === "TABLE" ? TableStyleControl : ControlIcon;
+            return uiStyle.getUiStyle() === "TABLE" ? TableStyleControl : ControlIcon;
         },
         localeSuffix () {
-            return this.uiStyle === "TABLE" ? "Table" : "Control";
+            return uiStyle.getUiStyle() === "TABLE" ? "Table" : "Control";
         }
     },
     watch: {
