@@ -2,7 +2,7 @@ import "../model";
 import store from "../../../src/app-store";
 import {search, setGazetteerUrl, setShowGeographicIdentifier} from "@masterportal/masterportalapi/src/searchAddress";
 import {sort} from "../../../src/utils/sort";
-import uniqueId from "../../../src/utils/uniqueId"
+import uniqueId from "../../../src/utils/uniqueId";
 
 const GazetteerModel = Backbone.Model.extend({
     defaults: {
