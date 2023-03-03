@@ -5117,6 +5117,8 @@ Layer definition. Multiple ways to define layers exist. Most attributes are defi
 |isNeverVisibleInTree|no|Boolean|false|If `true`, the layer is never visible in the topic selection tree.|false|
 |urlIsVisible|no|Boolean|true|Whether the service URL should be shown in the layer information window.|false|
 |filterRefId|no|Integer||Referencing to a configured filter. It is the order (index) of Layer in filter. Starting with 0.|false|
+|renderer|no|String|"default"|Which render pipeline to use ("default" or "webgl") (only for vector data of type "GeoJSON", "WFS", "OAF", "VectorBase")|false|
+|isPointLayer|no|Boolean|false|Whether the (vector) layer only consists of point features (only relevant for WebGL rendering)|false|
 
 **Example with one ID**
 
