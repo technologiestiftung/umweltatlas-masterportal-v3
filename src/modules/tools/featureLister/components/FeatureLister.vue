@@ -58,6 +58,13 @@ export default {
             }
         }
     },
+    mounted () {
+        /* issue #846 - initially active by config means watcher won't trigger,
+         * hence executing method on mounted is required */
+        if (this.active) {
+            this.updateFeatureListerList();
+        }
+    },
     created () {
         this.$on("close", this.close);
         this.listenToUpdatedSelectedLayerList();
@@ -144,10 +151,10 @@ export default {
          * Updates the available Layers in the List
          * @returns {void}
          */
-        updateFeatureListerList () {
-            this.getVisibleLayerList.forEach(async layer => {
+        async updateFeatureListerList () {
+            this.visibleVectorLayers = [];
+            await Promise.all(this.getVisibleLayerList.map(async layer => {
                 if (layer instanceof VectorLayer && layer.get("typ") === "WFS") {
-                    this.visibleVectorLayers = [];
                     const layerSource = layer.getSource();
                     let alreadyInArray = false;
 
@@ -167,7 +174,11 @@ export default {
                         });
                     }
                 }
-            });
+            }));
+            // if currently chosen layer has been removed, reset to overview
+            if (!this.visibleVectorLayers.find(({id}) => id === this.layerId)) {
+                this.switchToThemes();
+            }
         }
     }
 };

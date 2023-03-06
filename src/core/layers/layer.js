@@ -1,5 +1,5 @@
 import store from "../../app-store";
-import * as bridge from "./RadioBridge.js";
+import bridge from "./RadioBridge.js";
 import deepCopy from "../../utils/deepCopy.js";
 import axios from "axios";
 
@@ -47,7 +47,8 @@ export default function Layer (attrs, layer, initialize = true) {
         intervalAutoRefresh: -1,
         isClustered: false,
         filterRefId: undefined,
-        scaleText: ""
+        scaleText: "",
+        renderer: "default"
     };
 
     this.layer = layer;
@@ -831,6 +832,7 @@ Layer.prototype.setMinMaxResolutions = function () {
  * @return {void}
  */
 Layer.prototype.featuresLoaded = function (layerId, features) {
+    this.features = features;
     bridge.featuresLoaded(layerId, features);
 };
 

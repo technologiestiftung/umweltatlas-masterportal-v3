@@ -11,6 +11,7 @@ import store from "../../../../app-store";
 import {Style} from "ol/style.js";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
+import webgl from "../../renderer/webgl";
 
 describe("src/core/layers/wfs.js", () => {
     const consoleWarn = console.warn;
@@ -127,13 +128,13 @@ describe("src/core/layers/wfs.js", () => {
         });
         it("getFeaturesFilterFunction shall filter bboxGeometry", function () {
             attributes.bboxGeometry = {
-                intersectsExtent: (extent) => {
-                    if (extent.includes("1")) {
+                intersectsCoordinate: (coord) => {
+                    if (coord[0] === 0.5 && coord[1] === 0.5) {
                         return true;
                     }
                     return false;
                 },
-                getExtent: () => ["1"]
+                getExtent: () => [0, 0, 1, 1]
             };
             const wfsLayer = new WfsLayer(attributes),
                 featuresFilterFunction = wfsLayer.getFeaturesFilterFunction(attributes),
@@ -141,7 +142,7 @@ describe("src/core/layers/wfs.js", () => {
                     id: "1",
                     getGeometry: () => {
                         return {
-                            getExtent: () => ["1"]
+                            getExtent: () => [0, 0, 1, 1]
                         };
 
                     }
@@ -154,7 +155,7 @@ describe("src/core/layers/wfs.js", () => {
                     id: "3",
                     getGeometry: () => {
                         return {
-                            getExtent: () => ["2"]
+                            getExtent: () => [2, 2, 3, 3]
                         };
                     }
                 }];
@@ -357,6 +358,23 @@ describe("src/core/layers/wfs.js", () => {
             wfsLayer.styling();
             expect(typeof wfsLayer.get("layer").getStyle()).to.be.equals("function");
             expect(wfsLayer.get("layer").getStyle()()).to.be.equals("test");
+        });
+    });
+    describe("Use WebGL renderer", () => {
+        it("Should create the layer with WebGL methods, if renderer: \"webgl\" is set", function () {
+            const
+                geojsonLayer = new WfsLayer({...attributes, renderer: "webgl"}),
+                layer = geojsonLayer.get("layer");
+
+            expect(geojsonLayer.isDisposed).to.equal(webgl.isDisposed);
+            expect(geojsonLayer.setIsSelected).to.equal(webgl.setIsSelected);
+            expect(geojsonLayer.hideAllFeatures).to.equal(webgl.hideAllFeatures);
+            expect(geojsonLayer.showAllFeatures).to.equal(webgl.showAllFeatures);
+            expect(geojsonLayer.showFeaturesByIds).to.equal(webgl.showFeaturesByIds);
+            expect(geojsonLayer.setStyle).to.equal(webgl.setStyle);
+            expect(geojsonLayer.styling).to.equal(webgl.setStyle);
+            expect(geojsonLayer.source).to.equal(layer.getSource());
+            expect(layer.get("isPointLayer")).to.not.be.undefined;
         });
     });
 });

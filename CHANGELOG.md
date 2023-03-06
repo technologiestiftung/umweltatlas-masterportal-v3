@@ -3,8 +3,28 @@
 
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
-
 ## Unreleased - in development
+### __Breaking Changes__
+
+### Added
+- New WebGL Render Pipeline
+    - core/layers/renderer/webgl: New layer-class methods for rendering WFS, GeoJSON, OAF or VectorBase layers using OL7's WebGL render pipelines
+### Changed
+- Update GeoJSON, WFS, OAF getFeaturesFilterFunction filtert kann nach exakter Geometrie filtern.
+- Update GeoJSON, WFS, OAF und VectorBase für WebGL Rendering
+    - ModelList/updateLayerView: Only add layers to index if they are actually being displayed on the map (removes unnecessary calls)
+    - actionsMapLayers/addLayerOnTop: Use the ModelList for the length of the layer list, not the map, as layer that are not visible or have been disposed (WebGL) might not be on the map
+    - moverHover/actionsMouseHover: collect webgl features for mouseHoverInfo
+    - GFI/gettersGfi: collect  webgl features for GFI
+    - initializersBufferAnalysis/loadSelectOptions: only freeze non-webgl layers
+### Deprecated
+
+### Removed
+
+### Fixed
+
+---
+## v2.31.0 - 2023-03-01
 ### __Breaking Changes__
 - Time library `moment.js` was replaced with [day.js](https://day.js.org/). Please consider to use `day.js` in your future pull requests.
 - SpecialWFS require full URL in config now instead of relative paths.
@@ -25,9 +45,7 @@
     - In type array, some tool names can be inserted in an array.
 - The following NPM packages have been updated:
     - dependencies:
-        - @masterportal/masterportalapi: 2.12.0 to 2.14.0  (This also raised ol to version 7.2.2)
-
-### Deprecated
+        - @masterportal/masterportalapi: 2.12.0 to 2.15.0  (This also raised ol to version 7.2.2)
 
 ### Removed
 - The following NPM package have been removed:
@@ -38,8 +56,11 @@
 ### Fixed
 - Print: It is now possible to print larger amounts of data (limited by Mapfish print settings) where an error occurred before.
 - Print: edit printing for plotservice.
+- Print: fixed printing of symbols.
 - Issue #839: Under certain conditions, the external WFS filter did not work. An error occurred while parsing the WFS GetFeature Response.
+- Issue #846: Three bugs solved in featureLister: FeatureLister was stuck if initially active; FeatureLister was stuck if browsed layer deselected; FeatureLister was stuck on last removed layer.
 - Issue #867: SpeacialWFS search uses proxy if useProxy is configured true.
+- Issue #871: Support WMS GFI requests to HTTP in HTTP environment.
 - FeatureLister: always contains an up to date list of layers to choose.
 
 ---
@@ -61,6 +82,7 @@
 - Print: only features in the extent are sent to printing now
 
 ### Fixed
+- actionsMapLayers/addLayer: don't set zIndex by default, otherwise addLayerOnTop and addLayerToIndex have no effect
 - Issue #839: Accordeon is now open initially if `active: true` is configured. Bug which triggers the error message is now fixed.
 - Issue #856: Providing version parameter for print services.
 - Issue #861: Initial order of the background maps after using "Save selection" tool was corrected.
