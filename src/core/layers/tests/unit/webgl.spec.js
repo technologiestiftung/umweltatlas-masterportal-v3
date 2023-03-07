@@ -3,7 +3,7 @@ import {expect} from "chai";
 import sinon from "sinon";
 import Layer from "../../layer";
 import GeoJsonLayer from "../../geojson";
-import VectorLayer from "ol/layer/layer";
+import VectorLayer from "ol/layer/Layer";
 import VectorSource from "ol/source/Vector";
 import webgl from "../../renderer/webgl";
 
