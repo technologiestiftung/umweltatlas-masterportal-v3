@@ -415,7 +415,7 @@ export default {
                         </div>
                     </div>
                 </div>
-                <div v-else-if="Array.isArray(layerGroups) && layerGroups.length">
+                <div v-else-if="(Array.isArray(layerConfigs.layers) && layerConfigs.layers.length) || (Array.isArray(layerConfigs.groups) && layerConfigs.groups.length)">
                     <div
                         v-for="(layerGroup, key) in layerGroups"
                         :key="key"
