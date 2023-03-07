@@ -23,6 +23,7 @@ export default {
     menuConfig: state => state?.configJson?.Portalconfig?.menu || null,
     portalConfig: state => state?.configJson?.Portalconfig || null,
     imagePath: state => state?.configJs.wfsImgPath || null,
+    namedProjections: state => state?.configJs.namedProjections || null,
     treeHighlightedFeatures: state => state?.configJson?.Portalconfig?.tree?.highlightedFeatures || false,
 
     /**
