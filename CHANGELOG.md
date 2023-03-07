@@ -9,6 +9,7 @@
 ### Added
 - New WebGL Render Pipeline
     - core/layers/renderer/webgl: New layer-class methods for rendering WFS, GeoJSON, OAF or VectorBase layers using OL7's WebGL render pipelines
+
 ### Changed
 - Update GeoJSON, WFS, OAF getFeaturesFilterFunction filtert kann nach exakter Geometrie filtern.
 - Update GeoJSON, WFS, OAF und VectorBase für WebGL Rendering
@@ -17,11 +18,16 @@
     - moverHover/actionsMouseHover: collect webgl features for mouseHoverInfo
     - GFI/gettersGfi: collect  webgl features for GFI
     - initializersBufferAnalysis/loadSelectOptions: only freeze non-webgl layers
+- The following NPM packages have been updated:
+    - dependencies:
+        - @masterportal/masterportalapi: 2.14.0 to 2.15.0
+
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+- actionsMapLayers/addLayer: don't set zIndex by default, otherwise addLayerOnTop and addLayerToIndex have no effect
 
 ---
 ## v2.31.0 - 2023-03-01
@@ -45,7 +51,7 @@
     - In type array, some tool names can be inserted in an array.
 - The following NPM packages have been updated:
     - dependencies:
-        - @masterportal/masterportalapi: 2.12.0 to 2.15.0  (This also raised ol to version 7.2.2)
+        - @masterportal/masterportalapi: 2.12.0 to 2.14.0  (This also raised ol to version 7.2.2)
 
 ### Removed
 - The following NPM package have been removed:
@@ -82,7 +88,6 @@
 - Print: only features in the extent are sent to printing now
 
 ### Fixed
-- actionsMapLayers/addLayer: don't set zIndex by default, otherwise addLayerOnTop and addLayerToIndex have no effect
 - Issue #839: Accordeon is now open initially if `active: true` is configured. Bug which triggers the error message is now fixed.
 - Issue #856: Providing version parameter for print services.
 - Issue #861: Initial order of the background maps after using "Save selection" tool was corrected.
