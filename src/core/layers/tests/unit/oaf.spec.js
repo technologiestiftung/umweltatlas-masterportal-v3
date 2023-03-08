@@ -11,7 +11,7 @@ import store from "../../../../app-store";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
 import getGeometryTypeFromService from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
-
+import webgl from "../../renderer/webgl";
 
 describe("src/core/layers/oaf.js", () => {
     let attributes,
@@ -146,13 +146,13 @@ describe("src/core/layers/oaf.js", () => {
         });
         it("getFeaturesFilterFunction shall filter bboxGeometry", function () {
             attributes.bboxGeometry = {
-                intersectsExtent: (extent) => {
-                    if (extent.includes("1")) {
+                intersectsCoordinate: (coord) => {
+                    if (coord[0] === 0.5 && coord[1] === 0.5) {
                         return true;
                     }
                     return false;
                 },
-                getExtent: () => ["1"]
+                getExtent: () => [0, 0, 1, 1]
             };
             const oafLayer = new OAFLayer(attributes),
                 featuresFilterFunction = oafLayer.getFeaturesFilterFunction(attributes),
@@ -160,7 +160,7 @@ describe("src/core/layers/oaf.js", () => {
                     id: "1",
                     getGeometry: () => {
                         return {
-                            getExtent: () => ["1"]
+                            getExtent: () => [0, 0, 1, 1]
                         };
 
                     }
@@ -173,7 +173,7 @@ describe("src/core/layers/oaf.js", () => {
                     id: "3",
                     getGeometry: () => {
                         return {
-                            getExtent: () => ["2"]
+                            getExtent: () => [2, 2, 3, 3]
                         };
                     }
                 }];
@@ -338,6 +338,23 @@ describe("src/core/layers/oaf.js", () => {
             oafLayer.styling();
             expect(typeof oafLayer.get("layer").getStyle()).to.be.equals("function");
             expect(oafLayer.get("layer").getStyle()()).to.be.equals("test");
+        });
+    });
+    describe("Use WebGL renderer", () => {
+        it("Should create the layer with WebGL methods, if renderer: \"webgl\" is set", function () {
+            const
+                geojsonLayer = new OAFLayer({...attributes, renderer: "webgl"}),
+                layer = geojsonLayer.get("layer");
+
+            expect(geojsonLayer.isDisposed).to.equal(webgl.isDisposed);
+            expect(geojsonLayer.setIsSelected).to.equal(webgl.setIsSelected);
+            expect(geojsonLayer.hideAllFeatures).to.equal(webgl.hideAllFeatures);
+            expect(geojsonLayer.showAllFeatures).to.equal(webgl.showAllFeatures);
+            expect(geojsonLayer.showFeaturesByIds).to.equal(webgl.showFeaturesByIds);
+            expect(geojsonLayer.setStyle).to.equal(webgl.setStyle);
+            expect(geojsonLayer.styling).to.equal(webgl.setStyle);
+            expect(geojsonLayer.source).to.equal(layer.getSource());
+            expect(layer.get("isPointLayer")).to.not.be.undefined;
         });
     });
 });

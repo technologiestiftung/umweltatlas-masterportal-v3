@@ -7,14 +7,27 @@
 ### __Breaking Changes__
 
 ### Added
+- New WebGL Render Pipeline
+    - core/layers/renderer/webgl: New layer-class methods for rendering WFS, GeoJSON, OAF or VectorBase layers using OL7's WebGL render pipelines
 
 ### Changed
+- Update GeoJSON, WFS, OAF getFeaturesFilterFunction filtert kann nach exakter Geometrie filtern.
+- Update GeoJSON, WFS, OAF und VectorBase für WebGL Rendering
+    - ModelList/updateLayerView: Only add layers to index if they are actually being displayed on the map (removes unnecessary calls)
+    - actionsMapLayers/addLayerOnTop: Use the ModelList for the length of the layer list, not the map, as layer that are not visible or have been disposed (WebGL) might not be on the map
+    - moverHover/actionsMouseHover: collect webgl features for mouseHoverInfo
+    - GFI/gettersGfi: collect  webgl features for GFI
+    - initializersBufferAnalysis/loadSelectOptions: only freeze non-webgl layers
+- The following NPM packages have been updated:
+    - dependencies:
+        - @masterportal/masterportalapi: 2.14.0 to 2.15.0
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+- actionsMapLayers/addLayer: don't set zIndex by default, otherwise addLayerOnTop and addLayerToIndex have no effect
 - Issue #847: the gazetteer search now shows the correct positions of duplicate results in different cities
 
 ---
