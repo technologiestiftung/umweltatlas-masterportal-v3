@@ -10,7 +10,8 @@ const localVue = createLocalVue(),
     namedProjections = [
         ["EPSG:31467", "+title=Bessel/Gauß-Krüger 3 +proj=tmerc +lat_0=0 +lon_0=9 +k=1 +x_0=3500000 +y_0=0 +ellps=bessel +datum=potsdam +units=m +no_defs"],
         ["EPSG:25832", "+title=ETRS89/UTM 32N +proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"],
-        ["EPSG:8395", "+title=ETRS89/Gauß-Krüger 3 +proj=tmerc +lat_0=0 +lon_0=9 +k=1 +x_0=3500000 +y_0=0 +ellps=GRS80 +datum=GRS80 +units=m +no_defs"],
+        ["EPSG:8395", "+title=ETRS89_3GK3 +proj=tmerc +lat_0=0 +lon_0=9 +k=1 +x_0=3500000 +y_0=0 +ellps=GRS80 +datum=GRS80 +units=m +no_defs"],
+        ["EPSG:8395", "+title=EPSG: 8395 +proj=tmerc +lat_0=0 +lon_0=9 +k=1 +x_0=500000 +y_0=0 +ellps=GRS80 +datum=GRS80 +units=m +no_defs"],
         ["EPSG:4326", "+title=WGS 84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"]
     ];
 
@@ -305,9 +306,20 @@ describe("src/modules/tools/coordToolkit/components/CoordToolkit.vue", () => {
             wrapper.vm.initProjections();
 
             projections = store.state.Tools.CoordToolkit.projections;
-            expect(projections.length).to.be.equals(5);
+            expect(projections.length).to.be.equals(6);
             expect(projections[0].id).to.be.not.null;
             expect(projections.filter(proj => proj.id === "http://www.opengis.net/gml/srs/epsg.xml#4326-DG").length).to.be.equals(1);
+        });
+        it("initProjections adds ETRS89_3GK3", () => {
+            let projections = [];
+
+            wrapper = shallowMount(CoordToolkitComponent, {store, localVue});
+            wrapper.vm.initProjections();
+
+            projections = store.state.Tools.CoordToolkit.projections;
+            expect(projections.length).to.be.equals(6);
+            expect(projections[0].id).to.be.not.null;
+            expect(projections.filter(proj => proj.id === "http://www.opengis.net/gml/srs/epsg.xml#ETRS893GK3").length).to.be.equals(1);
         });
         it("label returns correct path", () => {
             const key = "key";
