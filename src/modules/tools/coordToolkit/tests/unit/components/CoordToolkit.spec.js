@@ -120,7 +120,8 @@ describe("src/modules/tools/coordToolkit/components/CoordToolkit.vue", () => {
             },
             getters: {
                 uiStyle: () => "",
-                mobile: () => false
+                mobile: () => false,
+                namedProjections: () => namedProjections
             },
             state: {
                 configJson: mockConfigJson
