@@ -20,7 +20,7 @@
     - initializersBufferAnalysis/loadSelectOptions: only freeze non-webgl layers
 - The following NPM packages have been updated:
     - dependencies:
-        - @masterportal/masterportalapi: 2.14.0 to 2.15.0
+        - @masterportal/masterportalapi: 2.14.0 to 2.15.1
 
 ### Deprecated
 
