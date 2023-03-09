@@ -224,7 +224,7 @@ export default {
             wgs84ProjDez.name = "EPSG:4326-DG";
             wgs84ProjDez.epsg = "EPSG:4326";
             wgs84ProjDez.id = "http://www.opengis.net/gml/srs/epsg.xml#4326-DG";
-            wgs84ProjDez.title = "WGS84_Lat-Lon (Grad, Dezimal), EPSG: 4326";
+            wgs84ProjDez.title = "WGS84_Lat-Lon (Grad, Dezimal), EPSG 4326";
             wgs84ProjDez.getCode = () => "EPSG:4326-DG";
             projections.splice(index + 1, 0, wgs84ProjDez);
         },
@@ -427,11 +427,18 @@ export default {
             return this.uiStyle !== "SIMPLE" && this.uiStyle !== "TABLE";
         },
         /**
-         * Returns true, if uiStyle is not SIMPLE or TABLE.
-         * @returns {boolean} true, if is default style
+         * Returns true, if heightLayerInfo is configured.
+         * @returns {boolean} true, if is configured
          */
         isHeightLayerInfo () {
             return typeof this.heightLayerInfo === "string";
+        },
+        /**
+         * Returns true, if coordInfo is configured.
+         * @returns {boolean} true, if is configured
+         */
+        isCoordInfo () {
+            return typeof this.coordInfo === "object";
         },
         /**
          * Copies the values of the coordinate fields.
@@ -708,6 +715,18 @@ export default {
                             </span>
                             <hr>
                             {{ $t("modules.tools.measure.influenceFactors") }}
+                            <div
+                                v-if="isCoordInfo()"
+                            >
+                                <br>
+                                {{ coordInfo.title }}
+                                <li
+                                    v-for="explanation in coordInfo.explanations"
+                                    :key="explanation"
+                                >
+                                    {{ explanation }}
+                                </li>
+                            </div>
                         </div>
                     </div>
                     <div

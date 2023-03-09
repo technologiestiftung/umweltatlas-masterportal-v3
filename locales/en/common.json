@@ -52,7 +52,7 @@
             "compareFeatures": "Compare features",
             "print": "Print map",
             "measure": "Measure distance / area",
-            "coordToolkit": "Coordinates / Height",
+            "coordToolkit": "Coordinates",
             "coord": "Query coordinates",
             "supplyCoord": "Query coordinates",
             "searchByCoord": "Coordinate search",
@@ -617,6 +617,7 @@
                 }
             },
             "coordToolkit": {
+                "coordAndHeight": "Coordinates / Height",
                 "title": "Coordinates / Height",
                 "supply":"Query Coordinates / Height",
                 "search":"Search Coordinates",

@@ -53,7 +53,7 @@
             "parcelSearch": "Flurstückssuche",
             "print": "Karte Drucken",
             "measure": "Strecke / Fläche messen",
-            "coordToolkit": "Koordinaten / Höhe",
+            "coordToolkit": "Koordinaten",
             "coord": "Koordinaten abfragen",
             "supplyCoord": "Koordinaten abfragen",
             "searchByCoord": "Koordinatensuche",
@@ -617,6 +617,7 @@
                 }
             },
             "coordToolkit": {
+                "coordAndHeight": "Koordinaten / Höhe",
                 "title": "Koordinaten / Höhe",
                 "supply":"Koordinaten / Höhe abfragen",
                 "search":"Koordinaten suchen",
