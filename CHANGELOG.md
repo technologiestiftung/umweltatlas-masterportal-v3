@@ -22,10 +22,21 @@
 ### Fixed
 - actionsMapLayers/addLayer: don't set zIndex by default, otherwise addLayerOnTop and addLayerToIndex have no effect
 - Issue #847: the gazetteer search now shows the correct positions of duplicate results in different cities
-- Clustered GeoJSON-layer are now displayed correctly in 3D mode again.
-- Print: Layers with geometry type `polygon` are now styled correctly again in the printout.
 
 ---
+
+### v2.31.1 - 2023-03-09
+## Changed
+- The following NPM packages have been updated:
+  - dependencies:
+    - @masterportal/masterportalapi: 2.14.0 to 2.15.1
+
+## Fixed
+- Clustered GeoJSON-layer are now displayed correctly in 3D mode again.
+- Print: Layers with geometry type polygon are now styled correctly again in the printout.
+
+---
+
 ## v2.31.0 - 2023-03-01
 ### __Breaking Changes__
 - Time library `moment.js` was replaced with [day.js](https://day.js.org/). Please consider to use `day.js` in your future pull requests.
