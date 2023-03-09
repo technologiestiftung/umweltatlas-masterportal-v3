@@ -19,6 +19,10 @@
     - GFI/gettersGfi: collect  webgl features for GFI
     - initializersBufferAnalysis/loadSelectOptions: only freeze non-webgl layers
 
+### Deprecated
+
+### Removed
+
 ### Fixed
 - actionsMapLayers/addLayer: don't set zIndex by default, otherwise addLayerOnTop and addLayerToIndex have no effect
 - Issue #847: the gazetteer search now shows the correct positions of duplicate results in different cities
