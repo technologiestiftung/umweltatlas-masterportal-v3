@@ -49,14 +49,6 @@ import Button3DView from "../modules/controls/button3d/view";
 import Orientation3DView from "../modules/controls/orientation3d/view";
 import VirtualcityModel from "../modules/tools/virtualCity/model";
 
-const styleGetters = {
-    mapMarkerPointStyleId: store.getters["MapMarker/pointStyleId"],
-    mapMarkerPolygonStyleId: store.getters["MapMarker/polygonStyleId"],
-    highlightFeaturesPointStyleId: store.getters["HighlightFeatures/pointStyleId"],
-    highlightFeaturesPolygonStyleId: store.getters["HighlightFeatures/polygonStyleId"],
-    highlightFeaturesLineStyleId: store.getters["HighlightFeatures/lineStyleId"]
-};
-
 let sbconfig,
     controls,
     controlsView;
@@ -86,7 +78,8 @@ async function loadApp () {
 
     /* eslint-disable no-undef */
     let app = {},
-        searchbarAttributes = {};
+        searchbarAttributes = {},
+        styleGetters = {};
 
     if (Object.prototype.hasOwnProperty.call(Config, "uiStyle")) {
         utilConfig.uiStyle = Config.uiStyle.toUpperCase();
@@ -135,6 +128,14 @@ async function loadApp () {
     // Pass null to create an empty Collection with options
     new Preparser(null, {url: Config.portalConf});
     handleUrlParamsBeforeVueMount(window.location.search);
+
+    styleGetters = {
+        mapMarkerPointStyleId: store.getters["MapMarker/pointStyleId"],
+        mapMarkerPolygonStyleId: store.getters["MapMarker/polygonStyleId"],
+        highlightFeaturesPointStyleId: store.getters["HighlightFeatures/pointStyleId"],
+        highlightFeaturesPolygonStyleId: store.getters["HighlightFeatures/polygonStyleId"],
+        highlightFeaturesLineStyleId: store.getters["HighlightFeatures/lineStyleId"]
+    };
 
     styleList.initializeStyleList(styleGetters, Config, Radio.request("Parser", "getItemsByAttributes", {type: "layer"}), Radio.request("Parser", "getItemsByAttributes", {type: "tool"}),
         (initializedStyleList, error) => {
