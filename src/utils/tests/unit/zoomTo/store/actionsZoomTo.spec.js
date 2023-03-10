@@ -115,7 +115,7 @@ describe("src/utils/zoomTo/store/actionsZoomTo.js", () => {
 
             expect(dispatch.calledTwice).to.be.true;
             expect(dispatch.firstCall.args.length).to.equal(3);
-            expect(dispatch.firstCall.args[0]).to.equal("Maps/addLayer");
+            expect(dispatch.firstCall.args[0]).to.equal("Maps/addLayerOnTop");
             expect(dispatch.firstCall.args[1] instanceof VectorLayer).to.be.true;
             expect(dispatch.firstCall.args[1].getSource().getFeatures().length).to.equal(1);
             expect(dispatch.firstCall.args[2]).to.eql({root: true});
@@ -167,7 +167,7 @@ describe("src/utils/zoomTo/store/actionsZoomTo.js", () => {
             expect(consoleWarnSpy.firstCall.args[0]).to.equal("zoomTo: A deprecated configuration was found. Using it, until it gets removed...");
             expect(dispatch.calledTwice).to.be.true;
             expect(dispatch.firstCall.args.length).to.equal(3);
-            expect(dispatch.firstCall.args[0]).to.equal("Maps/addLayer");
+            expect(dispatch.firstCall.args[0]).to.equal("Maps/addLayerOnTop");
             expect(dispatch.firstCall.args[1] instanceof VectorLayer).to.be.true;
             expect(dispatch.firstCall.args[1].getSource().getFeatures().length).to.equal(2);
             expect(dispatch.firstCall.args[2]).to.eql({root: true});
@@ -219,7 +219,7 @@ describe("src/utils/zoomTo/store/actionsZoomTo.js", () => {
             expect(consoleWarnSpy.firstCall.args[0]).to.equal("zoomTo: A deprecated configuration was found. Using it, until it gets removed...");
             expect(dispatch.calledTwice).to.be.true;
             expect(dispatch.firstCall.args.length).to.equal(3);
-            expect(dispatch.firstCall.args[0]).to.equal("Maps/addLayer");
+            expect(dispatch.firstCall.args[0]).to.equal("Maps/addLayerOnTop");
             expect(dispatch.firstCall.args[1] instanceof VectorLayer).to.be.true;
             expect(dispatch.firstCall.args[2]).to.eql({root: true});
             expect(dispatch.secondCall.args.length).to.equal(3);
@@ -282,7 +282,7 @@ describe("src/utils/zoomTo/store/actionsZoomTo.js", () => {
             expect(consoleErrorSpy.notCalled).to.be.true;
             expect(dispatch.calledThrice).to.be.true;
             expect(dispatch.firstCall.args.length).to.equal(3);
-            expect(dispatch.firstCall.args[0]).to.equal("Maps/addLayer");
+            expect(dispatch.firstCall.args[0]).to.equal("Maps/addLayerOnTop");
             expect(dispatch.firstCall.args[1] instanceof VectorLayer).to.be.true;
             expect(dispatch.firstCall.args[1].getSource().getFeatures().length).to.equal(2);
             expect(dispatch.firstCall.args[2]).to.eql({root: true});
@@ -311,7 +311,7 @@ describe("src/utils/zoomTo/store/actionsZoomTo.js", () => {
             expect(consoleErrorSpy.notCalled).to.be.true;
             expect(dispatch.calledTwice).to.be.true;
             expect(dispatch.firstCall.args.length).to.equal(3);
-            expect(dispatch.firstCall.args[0]).to.equal("Maps/addLayer");
+            expect(dispatch.firstCall.args[0]).to.equal("Maps/addLayerOnTop");
             expect(dispatch.firstCall.args[1] instanceof VectorLayer).to.be.true;
             expect(dispatch.firstCall.args[1].getSource().getFeatures().length).to.equal(2);
             expect(dispatch.firstCall.args[2]).to.eql({root: true});
@@ -361,7 +361,7 @@ describe("src/utils/zoomTo/store/actionsZoomTo.js", () => {
             expect(consoleErrorSpy.notCalled).to.be.true;
             expect(dispatch.calledTwice).to.be.true;
             expect(dispatch.firstCall.args.length).to.equal(3);
-            expect(dispatch.firstCall.args[0]).to.equal("Maps/addLayer");
+            expect(dispatch.firstCall.args[0]).to.equal("Maps/addLayerOnTop");
             expect(dispatch.firstCall.args[1] instanceof VectorLayer).to.be.true;
             expect(dispatch.firstCall.args[1].getSource().getFeatures().length).to.equal(1);
             expect(dispatch.firstCall.args[2]).to.eql({root: true});
@@ -420,12 +420,12 @@ describe("src/utils/zoomTo/store/actionsZoomTo.js", () => {
             expect(consoleErrorSpy.notCalled).to.be.true;
             expect(dispatch.calledThrice).to.be.true;
             expect(dispatch.firstCall.args.length).to.equal(3);
-            expect(dispatch.firstCall.args[0]).to.equal("Maps/addLayer");
+            expect(dispatch.firstCall.args[0]).to.equal("Maps/addLayerOnTop");
             expect(dispatch.firstCall.args[1] instanceof VectorLayer).to.be.true;
             expect(dispatch.firstCall.args[1].getSource().getFeatures().length).to.equal(1);
             expect(dispatch.firstCall.args[2]).to.eql({root: true});
             expect(dispatch.secondCall.args.length).to.equal(3);
-            expect(dispatch.secondCall.args[0]).to.equal("Maps/addLayer");
+            expect(dispatch.secondCall.args[0]).to.equal("Maps/addLayerOnTop");
             expect(dispatch.secondCall.args[1] instanceof VectorLayer).to.be.true;
             expect(dispatch.secondCall.args[1].getSource().getFeatures().length).to.equal(1);
             expect(dispatch.secondCall.args[2]).to.eql({root: true});
