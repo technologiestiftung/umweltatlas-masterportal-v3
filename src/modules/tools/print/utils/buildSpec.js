@@ -948,6 +948,12 @@ const BuildSpecModel = {
         if (typeof style.getWidth === "function" && style.getWidth() !== undefined) {
             obj.strokeWidth = style.getWidth();
         }
+        if (typeof style.getLineDash === "function" && style.getLineDash() !== undefined) {
+            obj.strokeLinecap = style.getLineCap();
+            obj.strokeDashstyle = style.getLineDash().join(" ");
+            obj.strokeDashOffset = style.getLineDashOffset();
+        }
+
         return obj;
     },
 
