@@ -438,7 +438,7 @@ export default {
          * @returns {boolean} true, if is configured
          */
         isCoordInfo () {
-            return typeof this.coordInfo === "object";
+            return this.coordInfo !== null;
         },
         /**
          * Copies the values of the coordinate fields.
@@ -681,6 +681,18 @@ export default {
                         </div>
                     </div>
                     <div
+                        v-if="isCoordInfo()"
+                    >
+                        {{ coordInfo?.title }}
+                        <li
+                            v-for="explanation in coordInfo?.explanations"
+                            :key="explanation"
+                        >
+                            {{ explanation }}
+                        </li>
+                        <br>
+                    </div>
+                    <div
                         v-if="isEnabled('supply') && (heightLayer !== null || mapMode === '3D')"
                         class="form-group form-group-sm inputDiv row"
                     >
@@ -715,18 +727,6 @@ export default {
                             </span>
                             <hr>
                             {{ $t("modules.tools.measure.influenceFactors") }}
-                            <div
-                                v-if="isCoordInfo()"
-                            >
-                                <br>
-                                {{ coordInfo.title }}
-                                <li
-                                    v-for="explanation in coordInfo.explanations"
-                                    :key="explanation"
-                                >
-                                    {{ explanation }}
-                                </li>
-                            </div>
                         </div>
                     </div>
                     <div

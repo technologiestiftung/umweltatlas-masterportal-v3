@@ -11,6 +11,9 @@
     - core/layers/renderer/webgl: New layer-class methods for rendering WFS, GeoJSON, OAF or VectorBase layers using OL7's WebGL render pipelines
 - Filter:
     - New parameter `showAllValues` is added. This prevents the values from disappearing when adjusting them.
+- CoordToolkit
+    - Added new function for ETRS89_3GK3 including new validation rule.
+    - Added new configuration parameters for elevation and coordinate reference system explanations.
 
 ### Changed
 - Update GeoJSON, WFS, OAF getFeaturesFilterFunction filtert kann nach exakter Geometrie filtern.

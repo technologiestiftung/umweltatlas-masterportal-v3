@@ -3978,6 +3978,8 @@ Coordinates tool. To display the height above sea level in addition to the 2 dim
 |zoomLevel|no|Number|7|Coordinate search: Specifies the zoom level to which you want to zoom.|false|
 |showCopyButtons|no|Boolean|true|Switch to show or hide the buttons for copying the coordinates.|false|
 |delimiter|no|String|"Pipe-Symbol"|Delimiter of the coordinates when copying the coordinate pair|false|
+|heighLayerInfo|no|String||An explanation for the height can be deposited here.|false|
+|coordInfo|no|[CoordInfo](#markdown-header-portalconfigmenutoolcoordToolkitcoordInfo)||An object with explanations for the coordinate reference systems can be stored here.|false|
 
 
 
@@ -3996,6 +3998,22 @@ Coordinates tool. To display the height above sea level in addition to the 2 dim
             "showCopyButtons": true
           }
 ```
+
+#### Portalconfig.menu.tool.coordToolkit.coordInfo
+
+[inherits]: # (Portalconfig.menu.tool.coordToolkit)
+
+|Name|Required|Type|Default|Description|Expert|
+|----|-------------|---|-------|------------|------|
+|title|no|string||Heading for the explanations on the coordinate reference systems.|false|
+|explanations|no|**[explanations](#markdown-header-portalconfigmenutoolcoordToolkitcoordInfoexplanations)**[]||Array with explanations from which a list is generated.|false|
+
+#### Portalconfig.menu.tool.coordToolkit.coordInfo.explanations
+
+[inherits]: # (Portalconfig.menu.tool.coordToolkit.coordInfo)
+
+Array with explanations from which a list is generated.
+
 
 ***
 
