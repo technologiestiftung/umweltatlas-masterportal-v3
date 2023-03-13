@@ -520,7 +520,9 @@ const BuildSpecModel = {
 
                     clonedFeature = feature.clone();
                     styleAttributes.forEach(attribute => {
-                        clonedFeature.set(attribute, (clonedFeature.get("features") ? clonedFeature.get("features")[0] : clonedFeature).get(attribute) + "_" + String(index));
+                        const singleFeature = clonedFeature.get("features") ? clonedFeature.get("features")[0] : clonedFeature;
+
+                        clonedFeature.set(attribute, attribute === "default" && !singleFeature.get(attribute) ? "style" : `${singleFeature.get(attribute)}_${index}`);
                         clonedFeature.ol_uid = feature.ol_uid;
                     });
                     geometryType = feature.getGeometry().getType();
@@ -1170,7 +1172,7 @@ const BuildSpecModel = {
             if (layerModel.get("styleId")) {
                 const featureRules = getRulesForFeature(styleObject, feature);
 
-                styleFields = featureRules?.[0]?.conditions ? Object.keys(featureRules[0].conditions.properties) : [""];
+                styleFields = featureRules?.[0]?.conditions ? Object.keys(featureRules[0].conditions.properties) : ["default"];
             }
             else {
                 styleFields = [styleObject.get("styleField")];

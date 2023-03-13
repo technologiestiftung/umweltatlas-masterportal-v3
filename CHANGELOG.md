@@ -14,6 +14,8 @@
 - CoordToolkit
     - Added new function for ETRS89_3GK3 including new validation rule.
     - Added new configuration parameters for elevation and coordinate reference system explanations.
+- Print:
+    - Issue #888: The print module now displays dashed lines in the printout.
 
 ### Changed
 - Update GeoJSON, WFS, OAF getFeaturesFilterFunction filtert kann nach exakter Geometrie filtern.
@@ -42,6 +44,7 @@
 - Issue #873: Text imports from previous exported kml files get displayed again.
 - Issue #875: MouseHover now also works on group layers.
 - Issue #879: Kml features now get transformed from the maps used coordinate system instead of hardcoded EPSG:25832.
+- Issue #888: If a feature uses the default style, all features are now displayed correctly in the print module.
 - Issue #891: The mapMarker customStyle now works again as expected.
 - The zoomToFeature layer now gets added on top, otherwise it would be hidden underneath the basemap
 - If the gfiTheme dataTable is as object in config.json, the feature data will also be loaded.

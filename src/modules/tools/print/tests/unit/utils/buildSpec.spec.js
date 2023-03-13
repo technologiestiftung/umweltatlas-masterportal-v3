@@ -553,7 +553,19 @@ describe("src/modules/tools/print/utils/buildSpec", function () {
 
         it("should return \"styleId\" if styleList is not available", function () {
             buildSpec.getStyleModel = sinon.spy();
-            expect(buildSpec.getStyleAttributes(vectorLayer, pointFeatures[0], false)).to.eql(["styleId"]);
+            expect(buildSpec.getStyleAttributes(vectorLayer, pointFeatures[0])).to.eql(["styleId"]);
+        });
+
+        it("should return \"default\" if no rule applies", function () {
+            buildSpec.getStyleModel = sinon.spy();
+            buildSpec.getStyleObject = sinon.stub().returns({
+                rules: [],
+                styleId: "TestId"
+            });
+            buildSpec.getChildModelIfGroupLayer = sinon.stub().returns({get: () => true});
+            buildSpec.getRulesForFeature = sinon.stub().returns([]);
+
+            expect(buildSpec.getStyleAttributes(vectorLayer, pointFeatures[0])).to.eql(["default"]);
         });
     });
 
@@ -1102,6 +1114,26 @@ describe("src/modules/tools/print/utils/buildSpec", function () {
             });
             expect(checked1).to.be.true;
             expect(checked2).to.be.true;
+        });
+    });
+
+    describe("buildStrokeStyle", () => {
+        it("should return a stroke with line dash style", () => {
+            const lineDashStyle = {
+                    getColor: () => [0, 255, 0, 1],
+                    getLineCap: () => "round",
+                    getLineDash: () => [10, 8],
+                    getLineDashOffset: () => 0
+                },
+                obj = {};
+
+            expect(buildSpec.buildStrokeStyle(lineDashStyle, obj)).to.deep.equals({
+                strokeColor: "#00ff00",
+                strokeLinecap: "round",
+                strokeDashstyle: "10 8",
+                strokeDashOffset: 0,
+                strokeOpacity: 1
+            });
         });
     });
 });
