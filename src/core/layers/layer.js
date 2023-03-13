@@ -2,6 +2,7 @@ import store from "../../app-store";
 import bridge from "./RadioBridge.js";
 import deepCopy from "../../utils/deepCopy.js";
 import axios from "axios";
+import Cluster from "ol/source/Cluster";
 
 /**
  * Creates a layer object to extend from.
@@ -485,7 +486,7 @@ Layer.prototype.activateAutoRefresh = function (isLayerSelected, autoRefresh) {
             if (this.get("isVisibleInMap") && this.get("isAutoRefreshing")) {
                 this.setAutoRefreshEvent(layers[0]?.layer ? layers[0].layer : layers[0]);
                 layers.forEach(layer => {
-                    const layerSource = layer?.layer ? layer.layer.getSource() : layer.getSource();
+                    const layerSource = layer.getSource() instanceof Cluster ? layer.getSource().getSource() : layer.getSource();
 
                     layerSource.refresh();
                 });
@@ -503,7 +504,7 @@ Layer.prototype.setAutoRefreshEvent = function (layer) {
     if (!layer) {
         return;
     }
-    const layerSource = layer.getSource();
+    const layerSource = layer.getSource() instanceof Cluster ? layer.getSource().getSource() : layer.getSource();
 
     layerSource.once("featuresloadend", () => {
         this.observersAutoRefresh.forEach(handler => {
@@ -841,7 +842,7 @@ Layer.prototype.featuresLoaded = function (layerId, features) {
  * @returns {Layer[]} layer as array
  */
 Layer.prototype.getLayers = function () {
-    const layer = this.get("isClustered") ? this.layer.getSource() : this.layer;
+    const layer = this.layer;
 
     return [layer];
 };

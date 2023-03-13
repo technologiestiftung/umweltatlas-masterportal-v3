@@ -919,6 +919,7 @@ export default {
                     :render-icons="snippet.renderIcons"
                     :fixed-rules="fixedRules"
                     :snippet-id="snippet.snippetId"
+                    :show-all-values="snippet.showAllValues"
                     :value="snippet.value"
                     :visible="snippet.visible"
                     :options-limit="snippet.optionsLimit"

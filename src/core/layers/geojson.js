@@ -31,18 +31,14 @@ export default function GeoJSONLayer (attrs) {
         webgl.setLayerProperties(this);
     }
 
-    this.setStyle(this.getStyleFunction(attrs));
-
     if (!attrs.isChildLayer) {
         // call the super-layer
         Layer.call(this, Object.assign(defaults, attrs), this.layer, !attrs.isChildLayer);
         this.checkForScale({scale: store.getters["Maps/scale"]});
     }
 
-    if (attrs.clusterDistance) {
-        this.set("isClustered", true);
-    }
-
+    this.setStyle(this.getStyleFunction(attrs));
+    this.prepareFeaturesFor3D(this.layer.getSource().getFeatures());
     this.createLegend(attrs);
 }
 
@@ -293,7 +289,7 @@ GeoJSONLayer.prototype.setOpenSenseMapSensorValues = function (feature, response
 
 /**
  * Creates the legend
-* @param {Object} attrs  attributes of the layer
+ * @param {Object} attrs attributes of the layer
  * @returns {void}
  */
 GeoJSONLayer.prototype.createLegend = function (attrs) {
@@ -407,6 +403,7 @@ GeoJSONLayer.prototype.showAllFeatures = function () {
 
 // setter for style
 GeoJSONLayer.prototype.setStyle = function (value) {
+    this.set("style", value);
     this.layer.setStyle(value);
 };
 
@@ -419,4 +416,11 @@ GeoJSONLayer.prototype.isUseProxy = function () {
     return Object.prototype.hasOwnProperty.call(this, "isUseProxy") && this.get("isUseProxy") === true;
 };
 
+/**
+ * Sets Style for layer.
+ * @returns {void}
+ */
+GeoJSONLayer.prototype.styling = function () {
+    this.layer.setStyle(this.getStyleAsFunction(this.get("style")));
+};
 

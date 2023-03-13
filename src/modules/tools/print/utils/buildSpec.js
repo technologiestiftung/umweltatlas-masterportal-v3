@@ -521,6 +521,7 @@ const BuildSpecModel = {
                     clonedFeature = feature.clone();
                     styleAttributes.forEach(attribute => {
                         clonedFeature.set(attribute, (clonedFeature.get("features") ? clonedFeature.get("features")[0] : clonedFeature).get(attribute) + "_" + String(index));
+                        clonedFeature.ol_uid = feature.ol_uid;
                     });
                     geometryType = feature.getGeometry().getType();
 
@@ -534,7 +535,7 @@ const BuildSpecModel = {
                         }
                     }
                     stylingRules = this.getStylingRules(layer, clonedFeature, styleAttributes, style);
-                    if (styleFromStyleList !== undefined && styleFromStyleList.attributes.labelField && styleFromStyleList.attributes.labelField.length > 0) {
+                    if (styleFromStyleList?.attributes?.labelField?.length > 0) {
                         stylingRules = stylingRules.replaceAll(limiter, " AND ");
                         limiter = " AND ";
                     }
@@ -613,6 +614,30 @@ const BuildSpecModel = {
 
         }
         return feature;
+    },
+
+    /**
+     * Gets the style object for the given layer.
+     * @param {ol/layer} layer The layer.
+     * @param {String} layerId The layer id.
+     * @returns {Object} The style object.
+     */
+    getStyleObject (layer, layerId) {
+        const layerModel = Radio.request("ModelList", "getModelByAttributes", {id: layer?.get("id")});
+        let foundChild;
+
+        if (typeof layerModel?.get === "function") {
+            if (layerModel.get("typ") === "GROUP") {
+                foundChild = layerModel.get("children").find(child => child.id === layerId);
+                if (foundChild) {
+                    return styleList.returnStyleObject(foundChild.styleId);
+                }
+            }
+            else {
+                return styleList.returnStyleObject(layerModel.get("styleId"));
+            }
+        }
+        return undefined;
     },
 
     /**
@@ -1129,7 +1154,7 @@ const BuildSpecModel = {
      */
     getStyleAttributes: function (layer, feature) {
         const layerId = layer.get("id"),
-            styleObject = styleList.returnStyleObject(layerId);
+            styleObject = this.getStyleObject(layer, layerId);
         let styleFields = ["styleId"],
             layerModel = Radio.request("ModelList", "getModelByAttributes", {id: layer.get("id")});
 
