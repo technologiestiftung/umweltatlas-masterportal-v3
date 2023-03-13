@@ -96,7 +96,7 @@ VectorBaseLayer.prototype.createLegend = function () {
                 }
             }
             else {
-                getGeometryTypeFromService.getGeometryTypeFromWFS(rules, this.get("url"), this.get("version"), this.get("featureType"), this.get("styleGeometryType"), false,
+                getGeometryTypeFromService.getGeometryTypeFromWFS(rules, this.get("url"), this.get("version"), this.get("featureType"), this.get("styleGeometryType"), false, Config.wfsImgPath,
                     (geometryTypes, error) => {
                         if (error) {
                             store.dispatch("Alerting/addSingleAlert", "<strong>" + i18next.t("common:modules.vectorStyle.styleObject.getGeometryTypeFromWFSFetchfailed") + "</strong> <br>"
