@@ -235,7 +235,7 @@ WFSLayer.prototype.createLegend = function () {
             else {
                 if (!geometryTypeRequestLayers.includes(this.get("id"))) {
                     geometryTypeRequestLayers.push(this.get("id"));
-                    getGeometryTypeFromService.getGeometryTypeFromWFS(rules, this.get("url"), this.get("version"), this.get("featureType"), this.get("styleGeometryType"), isSecured,
+                    getGeometryTypeFromService.getGeometryTypeFromWFS(rules, this.get("url"), this.get("version"), this.get("featureType"), this.get("styleGeometryType"), isSecured, Config.wfsImgPath,
                         (geometryTypes, error) => {
                             if (error) {
                                 store.dispatch("Alerting/addSingleAlert", "<strong>" + i18next.t("common:modules.vectorStyle.styleObject.getGeometryTypeFromWFSFetchfailed") + "</strong> <br>"

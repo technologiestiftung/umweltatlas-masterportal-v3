@@ -20,6 +20,7 @@
     - moverHover/actionsMouseHover: collect webgl features for mouseHoverInfo
     - GFI/gettersGfi: collect  webgl features for GFI
     - initializersBufferAnalysis/loadSelectOptions: only freeze non-webgl layers
+- Update parameters for getGeometryTypeFromWFS and getGeometryTypeFromOAF to pass wfsImgPath from config.
 
 ### Deprecated
 
