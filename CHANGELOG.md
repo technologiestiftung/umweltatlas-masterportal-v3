@@ -28,7 +28,8 @@
 ### Fixed
 - actionsMapLayers/addLayer: don't set zIndex by default, otherwise addLayerOnTop and addLayerToIndex have no effect
 - Issue #847: the gazetteer search now shows the correct positions of duplicate results in different cities
-- MPREFACTOR-481: the zoomToFeature layer now gets added on top, otherwise it would be hidden underneath the basemap
+- Issue #891: The mapMarker customStyle now works again as expected.
+- The zoomToFeature layer now gets added on top, otherwise it would be hidden underneath the basemap
 
 ---
 
