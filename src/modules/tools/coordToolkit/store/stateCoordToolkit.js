@@ -35,6 +35,8 @@
  * @property {Boolean} resizableWindow if true, window is resizable (config-param)
  * @property {Boolean} isVisibleInMenu if true, tool is selectable in menu (config-param)
  * @property {Boolean} deactivateGFI flag if tool should deactivate gfi (config-param)
+ * @property {String} heightLayerInfo contains the info text for the height layer
+ * @property {Object} coordInfo contains the explanations for the coordinate reference systems
  */
 const state = {
     active: false,
@@ -72,7 +74,9 @@ const state = {
     renderToWindow: true,
     resizableWindow: true,
     isVisibleInMenu: true,
-    deactivateGFI: true
+    deactivateGFI: true,
+    heightLayerInfo: null,
+    coordInfo: null
 };
 
 export default state;

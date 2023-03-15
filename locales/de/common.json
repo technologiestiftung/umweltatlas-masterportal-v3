@@ -618,11 +618,13 @@
                 }
             },
             "coordToolkit": {
-                "title": "Koordinaten abfragen",
-                "supply":"Koordinaten abfragen",
+                "coordAndHeight": "Koordinaten / Höhe",
+                "title": "Koordinaten / Höhe",
+                "supply":"Koordinaten / Höhe abfragen",
                 "search":"Koordinaten suchen",
                 "searchBtn": "Suche",
-                "coordSystemField": "Koordinatensystem",
+                "coordSystemField": "Koordinatenreferenzsystem",
+                "postionCoordinates": "Lagekoordinaten",
                 "heightLabel": "Höhe",
                 "noHeightWater": "Gewässerfläche, keine Höhen vorhanden",
                 "noHeightBuilding": "Gebäudefläche, keine Höhen vorhanden",
@@ -632,8 +634,8 @@
                     "northingLabel": "Länge"
                 },
                 "cartesian": {
-                    "eastingLabel": "Rechtswert",
-                    "northingLabel": "Hochwert"
+                    "eastingLabel": "East-Wert / Rechtswert",
+                    "northingLabel": "North-Wert / Hochwert"
                 },
                 "exampleAcronym": "Bsp. ",
                 "errorMsg": {
@@ -643,7 +645,7 @@
                     "hdmsNoMatch": "Die Eingabe für den Wert der {{valueKey}} ist nicht korrekt!",
                     "example": "Beispiel: "
                 },
-                "hintSupply": "Klicken Sie in die Karte um Koordinaten abzufragen",
+                "hintSupply": "Klicken Sie in die Karte um Lagekoordinaten und Höhe abzufragen",
                 "hintSearch": "Geben Sie die zu suchenden Koordinaten ein",
                 "copyCoordsBtn": "Koordinatenpaar kopieren",
                 "copyCoordBtn": " {{value}} kopieren"

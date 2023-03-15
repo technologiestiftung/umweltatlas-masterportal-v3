@@ -18,6 +18,7 @@ export default {
         };
     },
     computed: {
+        ...mapGetters(["namedProjections"]),
         ...mapGetters("Tools/CoordToolkit", Object.keys(getters)),
         ...mapGetters("Maps", {
             projection: "projection",
@@ -139,12 +140,12 @@ export default {
          */
         initProjections () {
             const pr = crs.getProjections(),
+                epsg8395 = [],
                 wgs84Proj = [];
 
             if (this.projections.length) {
                 return;
             }
-
             // id is set to the name and in case of decimal "-DG" is appended to name later on
             // for use in select-box
             pr.forEach(proj => {
@@ -152,15 +153,14 @@ export default {
                 if (proj.name === "EPSG:4326" || proj.name === "http://www.opengis.net/gml/srs/epsg.xml#4326") {
                     wgs84Proj.push(proj);
                 }
+                if (proj.name === "EPSG:8395" || proj.name === "http://www.opengis.net/gml/srs/epsg.xml#8395") {
+                    epsg8395.push(proj);
+                }
 
                 if (proj.name.indexOf("#") > -1) { // e.g. "http://www.opengis.net/gml/srs/epsg.xml#25832"
                     const code = proj.name.substring(proj.name.indexOf("#") + 1, proj.name.length);
 
-                    proj.title = proj.title + " (EPSG:" + code + ")";
                     proj.epsg = "EPSG:" + code;
-                }
-                else if (typeof proj.title !== "undefined") {
-                    proj.title = proj.title + " (" + proj.name + ")";
                 }
                 else {
                     proj.title = proj.name;
@@ -172,8 +172,36 @@ export default {
             if (wgs84Proj.length > 0) {
                 this.addWGS84Decimal(pr, wgs84Proj);
             }
-
+            this.namedProjections.find((el) => {
+                if (el[1].includes("ETRS89_3GK3") && epsg8395.length > 0) {
+                    this.addETRS893GK3(pr, el, epsg8395);
+                    return true;
+                }
+                return false;
+            });
             this.setProjections(pr);
+        },
+        /**
+         * Adds EPSG:4326 in decimal-degree to list of projections.
+         * @param {Array} projections list of all available projections
+         * @param {Object} elementETRS89_3GK3 the WGS84 projection contained in list of projections
+         * @param {Object} epsg8395 the WGS84 projection contained in list of projections
+         * @returns {void}
+         */
+        addETRS893GK3 (projections, elementETRS89_3GK3, epsg8395) {
+            const index = projections.findIndex(proj => proj.name === "EPSG:8395"),
+                etrs89_3GK3Proj = {};
+
+            for (const key in epsg8395[0]) {
+                etrs89_3GK3Proj[key] = epsg8395[0][key];
+            }
+
+            etrs89_3GK3Proj.name = "ETRS893GK3";
+            etrs89_3GK3Proj.epsg = "EPSG:8395";
+            etrs89_3GK3Proj.id = "http://www.opengis.net/gml/srs/epsg.xml#ETRS893GK3";
+            etrs89_3GK3Proj.title = elementETRS89_3GK3[1].substring(elementETRS89_3GK3[1].lastIndexOf("ETRS"), elementETRS89_3GK3[1].indexOf(" +proj="));
+            etrs89_3GK3Proj.getCode = () => "noEPSGCode";
+            projections.splice(index + 1, 0, etrs89_3GK3Proj);
         },
         /**
          * Adds EPSG:4326 in decimal-degree to list of projections.
@@ -192,7 +220,7 @@ export default {
             wgs84ProjDez.name = "EPSG:4326-DG";
             wgs84ProjDez.epsg = "EPSG:4326";
             wgs84ProjDez.id = "http://www.opengis.net/gml/srs/epsg.xml#4326-DG";
-            wgs84ProjDez.title = "WGS 84 (Dezimalgrad) (EPSG:4326)";
+            wgs84ProjDez.title = "WGS84_Lat-Lon (Grad, Dezimal), EPSG 4326";
             wgs84ProjDez.getCode = () => "EPSG:4326-DG";
             projections.splice(index + 1, 0, wgs84ProjDez);
         },
@@ -378,7 +406,7 @@ export default {
          * @returns {String} the className for the labels
          */
         getLabelClass () {
-            return this.showCopyButtons ? "col-md-3 col-sm-3 col-form-label" : "col-md-5 col-sm-5 col-form-label";
+            return this.showCopyButtons ? "col-md-4 col-sm-4 col-form-label" : "col-md-5 col-sm-5 col-form-label";
         },
         /**
          * Returns the className for the input elements.
@@ -393,6 +421,20 @@ export default {
          */
         isDefaultStyle () {
             return this.uiStyle !== "SIMPLE" && this.uiStyle !== "TABLE";
+        },
+        /**
+         * Returns true, if heightLayerInfo is configured.
+         * @returns {boolean} true, if is configured
+         */
+        isHeightLayerInfo () {
+            return typeof this.heightLayerInfo === "string";
+        },
+        /**
+         * Returns true, if coordInfo is configured.
+         * @returns {boolean} true, if is configured
+         */
+        isCoordInfo () {
+            return this.coordInfo !== null;
         },
         /**
          * Copies the values of the coordinate fields.
@@ -482,6 +524,10 @@ export default {
                     >
                         {{ $t("modules.tools.coordToolkit.hintSearch") }}
                     </div>
+                    <hr>
+                    <p class="bold">
+                        {{ $t("modules.tools.coordToolkit.postionCoordinates") }}
+                    </p>
                     <div class="form-group form-group-sm row">
                         <label
                             for="coordSystemField"
@@ -631,9 +677,26 @@ export default {
                         </div>
                     </div>
                     <div
+                        v-if="isCoordInfo()"
+                    >
+                        {{ coordInfo?.title }}
+                        <li
+                            v-for="explanation in coordInfo?.explanations"
+                            :key="explanation"
+                        >
+                            {{ explanation }}
+                        </li>
+                        <br>
+                    </div>
+                    <div
                         v-if="isEnabled('supply') && (heightLayer !== null || mapMode === '3D')"
                         class="form-group form-group-sm inputDiv row"
                     >
+                        <hr>
+                        <p class="bold">
+                            {{ $t("modules.tools.coordToolkit.heightLabel") }}
+                        </p>
+                        <br>
                         <label
                             id="coordinatesHeightLabel"
                             for="coordinatesHeightField"
@@ -654,12 +717,12 @@ export default {
                         class="form-group form-group-sm row"
                     >
                         <div class="col-md-12 info">
-                            {{ $t("modules.tools.measure.influenceFactors") }}
-                            <span v-if="heightLayer !== null && mapMode === '2D'">
+                            <span v-if="isEnabled('supply') && (heightLayer !== null || mapMode === '3D') && isHeightLayerInfo()">
+                                {{ heightLayerInfo }}
                                 <br>
-                                <br>
-                                {{ $t("modules.tools.coordToolkit.heightLayerInfo", {layer: heightLayer.get("name")}) }}
                             </span>
+                            <hr>
+                            {{ $t("modules.tools.measure.influenceFactors") }}
                         </div>
                     </div>
                     <div

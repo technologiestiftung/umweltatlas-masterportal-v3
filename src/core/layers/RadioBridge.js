@@ -255,3 +255,31 @@ export function onLanguageChanged (layer) {
 export function changeFeatureGFI (feature) {
     Radio.trigger("GFI", "changeFeature", feature);
 }
+
+export default {
+    changeFeatureGFI,
+    featuresLoaded,
+    getAllLayers,
+    getLayerModelsByAttributes,
+    getOptionsFromMapView,
+    getResolutionByScale,
+    isVisibleInTreeChanged,
+    layerTransparencyChanged,
+    layerVisibilityChanged,
+    listenToChangeSLDBody,
+    listenToIsOutOfRange,
+    listenToLayerVisibility,
+    moveModelInTree,
+    onLanguageChanged,
+    outOfRangeChanged,
+    refreshLayerTree,
+    removeItem,
+    removeLayerByIdFromModelList,
+    renderMenu,
+    renderMenuSelection,
+    renderMenuSettings,
+    resetVectorLayerFeatures,
+    setLegendLayerList,
+    updateLayerView
+};
+

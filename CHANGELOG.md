@@ -7,18 +7,52 @@
 ### __Breaking Changes__
 
 ### Added
+- New WebGL Render Pipeline
+    - core/layers/renderer/webgl: New layer-class methods for rendering WFS, GeoJSON, OAF or VectorBase layers using OL7's WebGL render pipelines
+- Filter:
+    - New parameter `showAllValues` is added. This prevents the values from disappearing when adjusting them.
+- CoordToolkit
+    - Added new function for ETRS89_3GK3 including new validation rule.
+    - Added new configuration parameters for elevation and coordinate reference system explanations.
 
 ### Changed
+- Update GeoJSON, WFS, OAF getFeaturesFilterFunction filtert kann nach exakter Geometrie filtern.
+- Update GeoJSON, WFS, OAF und VectorBase für WebGL Rendering
+    - ModelList/updateLayerView: Only add layers to index if they are actually being displayed on the map (removes unnecessary calls)
+    - actionsMapLayers/addLayerOnTop: Use the ModelList for the length of the layer list, not the map, as layer that are not visible or have been disposed (WebGL) might not be on the map
+    - moverHover/actionsMouseHover: collect webgl features for mouseHoverInfo
+    - GFI/gettersGfi: collect  webgl features for GFI
+    - initializersBufferAnalysis/loadSelectOptions: only freeze non-webgl layers
+- Update parameters for getGeometryTypeFromWFS and getGeometryTypeFromOAF to pass wfsImgPath from config.
+- The following NPM packages have been updated:
+  - dependencies:
+    - @masterportal/masterportalapi: 2.15.1 to 2.15.2
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+- actionsMapLayers/addLayer: don't set zIndex by default, otherwise addLayerOnTop and addLayerToIndex have no effect
 - Issue #842: LayerInformation shows all service urls in group layer.
-
+- Issue #847: the gazetteer search now shows the correct positions of duplicate results in different cities
+- Issue #891: The mapMarker customStyle now works again as expected.
+- The zoomToFeature layer now gets added on top, otherwise it would be hidden underneath the basemap
 
 ---
+
+### v2.31.1 - 2023-03-09
+## Changed
+- The following NPM packages have been updated:
+  - dependencies:
+    - @masterportal/masterportalapi: 2.14.0 to 2.15.1
+
+## Fixed
+- Clustered GeoJSON-layer are now displayed correctly in 3D mode again.
+- Print: Layers with geometry type polygon are now styled correctly again in the printout.
+
+---
+
 ## v2.31.0 - 2023-03-01
 ### __Breaking Changes__
 - Time library `moment.js` was replaced with [day.js](https://day.js.org/). Please consider to use `day.js` in your future pull requests.

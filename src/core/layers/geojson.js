@@ -7,6 +7,8 @@ import Layer from "./layer";
 import Cluster from "ol/source/Cluster";
 import store from "../../app-store";
 import LoaderOverlay from "../../utils/loaderOverlay";
+import {getCenter} from "ol/extent";
+import webgl from "./renderer/webgl";
 
 /**
  * Creates a layer of type GeoJSON.
@@ -22,7 +24,12 @@ export default function GeoJSONLayer (attrs) {
     };
 
     this.createLayer(Object.assign(defaults, attrs));
-    this.setStyle(this.getStyleFunction(attrs));
+
+    // override class methods for webgl rendering
+    // has to happen before setStyle
+    if (attrs.renderer === "webgl") {
+        webgl.setLayerProperties(this);
+    }
 
     if (!attrs.isChildLayer) {
         // call the super-layer
@@ -30,10 +37,8 @@ export default function GeoJSONLayer (attrs) {
         this.checkForScale({scale: store.getters["Maps/scale"]});
     }
 
-    if (attrs.clusterDistance) {
-        this.set("isClustered", true);
-    }
-
+    this.setStyle(this.getStyleFunction(attrs));
+    this.prepareFeaturesFor3D(this.layer.getSource().getFeatures());
     this.createLegend(attrs);
 }
 
@@ -60,7 +65,12 @@ GeoJSONLayer.prototype.createLayer = function (attrs) {
             gfiAttributes: attrs.gfiAttributes,
             gfiTheme: attrs.gfiTheme,
             altitudeMode: attrs.altitudeMode,
-            hitTolerance: attrs.hitTolerance
+            hitTolerance: attrs.hitTolerance,
+            renderer: attrs.renderer, // use "default" (canvas) or "webgl" renderer
+            styleId: attrs.styleId, // styleId to pass to masterportalapi
+            style: attrs.style, // style function to style the layer or WebGLPoints style syntax
+            excludeTypesFromParsing: attrs.excludeTypesFromParsing, // types that should not be parsed from strings, only necessary for webgl
+            isPointLayer: attrs.isPointLayer // whether the source will only hold point data, only necessary for webgl
         },
         styleFn = this.getStyleFunction(attrs),
         options = {
@@ -145,7 +155,9 @@ GeoJSONLayer.prototype.getFeaturesFilterFunction = function (attrs) {
         let filteredFeatures = features.filter(feature => feature.getGeometry() !== undefined);
 
         if (attrs.bboxGeometry) {
-            filteredFeatures = filteredFeatures.filter((feature) => attrs.bboxGeometry.intersectsExtent(feature.getGeometry().getExtent()));
+            filteredFeatures = filteredFeatures.filter(
+                (feature) => attrs.bboxGeometry.intersectsCoordinate(getCenter(feature.getGeometry().getExtent()))
+            );
         }
         return filteredFeatures;
     };
@@ -277,7 +289,7 @@ GeoJSONLayer.prototype.setOpenSenseMapSensorValues = function (feature, response
 
 /**
  * Creates the legend
-* @param {Object} attrs  attributes of the layer
+ * @param {Object} attrs attributes of the layer
  * @returns {void}
  */
 GeoJSONLayer.prototype.createLegend = function (attrs) {
@@ -391,6 +403,7 @@ GeoJSONLayer.prototype.showAllFeatures = function () {
 
 // setter for style
 GeoJSONLayer.prototype.setStyle = function (value) {
+    this.set("style", value);
     this.layer.setStyle(value);
 };
 
@@ -403,4 +416,11 @@ GeoJSONLayer.prototype.isUseProxy = function () {
     return Object.prototype.hasOwnProperty.call(this, "isUseProxy") && this.get("isUseProxy") === true;
 };
 
+/**
+ * Sets Style for layer.
+ * @returns {void}
+ */
+GeoJSONLayer.prototype.styling = function () {
+    this.layer.setStyle(this.getStyleAsFunction(this.get("style")));
+};
 

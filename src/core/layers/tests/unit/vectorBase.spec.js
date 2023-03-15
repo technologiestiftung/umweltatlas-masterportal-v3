@@ -2,6 +2,7 @@ import {expect} from "chai";
 import Map from "ol/Map";
 import sinon from "sinon";
 import VectorBaseLayer from "../../vectorBase";
+import webgl from "../../renderer/webgl";
 
 describe("src/core/layers/vectorBase.js", () => {
     let attributes;
@@ -167,6 +168,23 @@ describe("src/core/layers/vectorBase.js", () => {
             layer.styling();
             expect(typeof layer.get("layer").getStyle()).to.be.equals("function");
             expect(layer.get("layer").getStyle()()).to.be.equals("test");
+        });
+    });
+    describe("Use WebGL renderer", () => {
+        it("Should create the layer with WebGL methods, if renderer: \"webgl\" is set", function () {
+            const
+                geojsonLayer = new VectorBaseLayer({...attributes, renderer: "webgl"}),
+                layer = geojsonLayer.get("layer");
+
+            expect(geojsonLayer.isDisposed).to.equal(webgl.isDisposed);
+            expect(geojsonLayer.setIsSelected).to.equal(webgl.setIsSelected);
+            expect(geojsonLayer.hideAllFeatures).to.equal(webgl.hideAllFeatures);
+            expect(geojsonLayer.showAllFeatures).to.equal(webgl.showAllFeatures);
+            expect(geojsonLayer.showFeaturesByIds).to.equal(webgl.showFeaturesByIds);
+            expect(geojsonLayer.setStyle).to.equal(webgl.setStyle);
+            expect(geojsonLayer.styling).to.equal(webgl.setStyle);
+            expect(geojsonLayer.source).to.equal(layer.getSource());
+            expect(layer.get("isPointLayer")).to.not.be.undefined;
         });
     });
 });
