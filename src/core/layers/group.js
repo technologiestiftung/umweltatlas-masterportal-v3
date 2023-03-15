@@ -209,7 +209,7 @@ GroupedLayers.prototype.showLayerInformation = function () {
         "typ": null,
         "cswUrl": cswUrls[0],
         "showDocUrl": showDocUrls[0],
-        "urlIsVisible": urls.length >= 1
+        "urlIsVisible": urls.length >= 1 && this.get("urlIsVisible")
     });
 
     store.dispatch("LayerInformation/activate", true);
