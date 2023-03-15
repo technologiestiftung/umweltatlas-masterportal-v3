@@ -16,6 +16,7 @@
     - Added new configuration parameters for elevation and coordinate reference system explanations.
 - Print:
     - Issue #888: The print module now displays dashed lines in the printout.
+    - Issue #888: The print module now displays the opacity in the legend in the printout.
 
 ### Changed
 - Update GeoJSON, WFS, OAF getFeaturesFilterFunction filtert kann nach exakter Geometrie filtern.

@@ -329,19 +329,24 @@ describe("src/modules/tools/print/utils/buildSpec", function () {
                     legendType: "geometry",
                     geometryType: "polygon",
                     imageUrl: "",
-                    color: "rgb(10, 200, 0)",
+                    color: "rgba(10, 200, 0,0.2)",
                     label: "name_WFS_polygon"
                 }
             ]);
         });
     });
     describe("getFillColorFromSVG", function () {
-        it("should return fillcolor from svg string in rgb", function () {
+        it("should return fillColor from svg string in rgb", function () {
             const svg_string = "<svg foobar fill:rgb(255,0,0);/>";
 
             expect(buildSpec.getFillColorFromSVG(svg_string)).to.equal("rgb(255,0,0)");
         });
-        it("should return fillcolor from svg string in hex", function () {
+        it("should return fillColor with fillOpacity from svg string in rgba", function () {
+            const svg_string = "<svg foobar fill:rgb(255,0,0);fill-opacity:0.35;/>";
+
+            expect(buildSpec.getFillColorFromSVG(svg_string)).to.equal("rgba(255,0,0,0.35)");
+        });
+        it("should return fillColor from svg string in hex", function () {
             const svg_string = "<svg foobar fill:#ff0000;/>";
 
             expect(buildSpec.getFillColorFromSVG(svg_string)).to.equal("#ff0000");

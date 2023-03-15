@@ -1366,10 +1366,16 @@ const BuildSpecModel = {
      * @returns {String} - Fill color from SVG.
      */
     getFillColorFromSVG: function (svgString) {
+        let color = "";
+
         if (svgString.split(/fill:(.+)/)[1]) {
-            return svgString.split(/fill:(.+)/)[1].split(/;(.+)/)[0];
+            color = svgString.split(/fill:(.+)/)[1].split(/;(.+)/)[0];
         }
-        return undefined;
+        if (color.startsWith("rgb(") && svgString.split(/fill-opacity:(.+)/)[1]?.split(/;(.+)/)[0]) {
+            color = `rgba(${color.split(")")[0].split("(")[1]},${svgString.split(/fill-opacity:(.+)/)[1].split(/;(.+)/)[0]})`;
+        }
+
+        return color;
     },
 
     /**
