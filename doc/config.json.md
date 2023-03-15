@@ -3978,7 +3978,7 @@ Coordinates tool. To display the height above sea level in addition to the 2 dim
 |zoomLevel|no|Number|7|Coordinate search: Specifies the zoom level to which you want to zoom.|false|
 |showCopyButtons|no|Boolean|true|Switch to show or hide the buttons for copying the coordinates.|false|
 |delimiter|no|String|"Pipe-Symbol"|Delimiter of the coordinates when copying the coordinate pair|false|
-|heighLayerInfo|no|String||An explanation for the height can be deposited here.|false|
+|heightLayerInfo|no|String||An explanation for the height can be deposited here.|false|
 |coordInfo|no|[CoordInfo](#markdown-header-portalconfigmenutoolcoordToolkitcoordInfo)||An object with explanations for the coordinate reference systems can be stored here.|false|
 
 

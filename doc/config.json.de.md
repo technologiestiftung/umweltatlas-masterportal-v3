@@ -3921,7 +3921,7 @@ Koordinaten-Werkzeug. Um zusätzlich zu den 2 dimensionalen Koordinaten die Höh
 |zoomLevel|nein|Number|7|Koordinatensuche: Gibt an, auf welches ZoomLevel gezoomt werden soll.|false|
 |showCopyButtons|nein|Boolean|true|Schalter um die Buttons zum Kopieren der Koordinaten anzuzeigen oder auszublenden.|false|
 |delimiter|nein|String|"Pipe-Symbol"|Trenner der Koordinaten beim Kopieren des Koordinatenpaares|false|
-|heighLayerInfo|nein|String|null|Hier kann eine Erläuterung für die Höhe hinterlegt werden.|false|
+|heightLayerInfo|nein|String|null|Hier kann eine Erläuterung für die Höhe hinterlegt werden.|false|
 |coordInfo|nein|[CoordInfo](#markdown-header-portalconfigmenutoolcoordToolkitcoordInfo)|null|Hier kann ein Objekt mit Erläuterungen für die Koordinatenreferenzsysteme hinterlegt werden.|false|
 
 
@@ -3945,9 +3945,9 @@ Koordinaten-Werkzeug. Um zusätzlich zu den 2 dimensionalen Koordinaten die Höh
 
 [inherits]: # (Portalconfig.menu.tool.coordToolkit)
 
-|Name|Required|Type|Default|Description|Expert|
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|title|no|string||Heading for the explanations on the coordinate reference systems.|false|
+|title|no|string||Überschrift für die Erläuterungen zu den Koordinatenreferenzsystemen.|false|
 |explanations|no|**[explanations](#markdown-header-portalconfigmenutoolcoordToolkitcoordInfoexplanations)**[]||Array mit Erklärungen, aus denen eine Liste erstellt wird.|false|
 
 #### Portalconfig.menu.tool.coordToolkit.coordInfo.explanations

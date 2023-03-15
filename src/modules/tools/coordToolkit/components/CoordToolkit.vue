@@ -160,11 +160,7 @@ export default {
                 if (proj.name.indexOf("#") > -1) { // e.g. "http://www.opengis.net/gml/srs/epsg.xml#25832"
                     const code = proj.name.substring(proj.name.indexOf("#") + 1, proj.name.length);
 
-                    // proj.title = proj.title + " (EPSG:" + code + ")";
                     proj.epsg = "EPSG:" + code;
-                }
-                else if (typeof proj.title !== "undefined") {
-                    // proj.title = proj.title + " (" + proj.name + ")";
                 }
                 else {
                     proj.title = proj.name;
