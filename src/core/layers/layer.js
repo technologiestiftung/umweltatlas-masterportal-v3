@@ -521,8 +521,9 @@ Layer.prototype.setAutoRefreshEvent = function (layer) {
                             }
                         });
                     }
-                }
 
+                    this.featuresLoaded(layer.get("id"), features);
+                }
                 handler(features);
             }
         });

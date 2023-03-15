@@ -92,7 +92,8 @@
 - Text imports from previously exported geojson files get displayed again.
 - Filter: icons are displayed, if "renderIcons": "fromLegend" is configured at filter.
 - Draw: changing the color of points via "Edit geometry" works.
-- Print deselects "with additional information"-option when you close the Gfi now. 
+- Print deselects "with additional information"-option when you close the Gfi now.
+- Filter/ Autorefresh: The same features are displayed from a filterd GeoJson after an autorefresh as before the autorefresh
 
 ---
 
