@@ -8,6 +8,9 @@ import splitListWithDelimitor from "../utils/splitListWithDelimitor.js";
 import isObject from "../../../../utils/isObject";
 import SnippetInfo from "./SnippetInfo.vue";
 import localeCompare from "../../../../utils/localeCompare";
+import {
+    getLayerByLayerId
+} from "../utils/openlayerFunctions.js";
 
 export default {
     name: "SnippetDropdown",
@@ -442,20 +445,51 @@ export default {
          */
         initializeIcons () {
             if (this.renderIcons === "fromLegend") {
-                this.styleModel = getStyleModel(this.layerId);
+                const layer = getLayerByLayerId(this.layerId),
+                    olLayer = layer.get("layer");
 
-                createStyle.returnLegendByStyleId(this.layerId).then(legendInfos => {
-                    if (!this.styleModel || !legendInfos.legendInformation || !Array.isArray(legendInfos.legendInformation)) {
-                        this.legendsInfo = [];
+                this.styleModel = getStyleModel(this.layerId);
+                if (!olLayer.getVisible() && layer.get("typ") === "WFS") {
+                    if (mapCollection.getMap("2D").getLayers().getArray().find(aLayer => aLayer.get("id") === this.layerId) === undefined) {
+                        mapCollection.getMap("2D").addLayer(olLayer);
+                        olLayer.setOpacity(0);
+                        olLayer.setVisible(true);
+                        olLayer.getSource().once("featuresloadend", () => {
+                            this.getLegendByStyleId(this.layerId, olLayer, () => {
+                                olLayer.setVisible(false);
+                                olLayer.setOpacity(1);
+                            });
+                        });
                     }
-                    else {
-                        this.legendInfo = legendInfos.legendInformation;
-                    }
-                });
+                }
+                else {
+                    this.getLegendByStyleId(this.layerId);
+                }
             }
             else if (isObject(this.renderIcons)) {
                 this.iconList = this.renderIcons;
             }
+        },
+        /**
+         * Returns the legend by styleId and sets it at data legendsInfo.
+         * @param {String} styleId the styleId
+         * @param {ol/layer} olLayer the openLayers layer
+         * @param {Function} callback to execute after elegnd has returned
+         * @returns {Array} the legend information
+         */
+        getLegendByStyleId (styleId, olLayer, callback) {
+            createStyle.returnLegendByStyleId(styleId).then(legendInfos => {
+                if (!this.styleModel || !legendInfos.legendInformation || !Array.isArray(legendInfos.legendInformation)) {
+                    this.legendsInfo = [];
+                }
+                else {
+                    this.legendsInfo = legendInfos.legendInformation;
+                }
+                if (callback) {
+                    return callback(olLayer);
+                }
+                return this.legendsInfo;
+            });
         },
         /**
          * Returns true if an icon path exists for the given value.
