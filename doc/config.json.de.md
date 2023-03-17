@@ -1333,7 +1333,7 @@ Hier können die Menüeinträge und deren Anordnung konfiguriert werden. Die Rei
 [type:tool]: # (Portalconfig.menu.tool)
 [type:staticlinks]: # (Portalconfig.menu.staticlinks)
 
-Ein Ordner-Object wird dadurch definiert, dass es neben "name" und "icon" noch das attribut "children" besitzt.
+Ein Ordner-Object wird dadurch definiert, dass es neben "name" und "icon" noch das Attribut "children" besitzt.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
@@ -1341,16 +1341,18 @@ Ein Ordner-Object wird dadurch definiert, dass es neben "name" und "icon" noch d
 |icon|ja|String|"bi-folder2-open"|CSS Klasse des Icons, das vor dem Ordnernamen im Menu angezeigt wird.|false|
 |children|nein|**[tool](#markdown-header-portalconfigmenutool)**/**[staticlinks](#markdown-header-portalconfigmenustaticlinks)**||Kindelemente dieses Ordners.|false|
 
-**Beispiel eines folders**
+**Beispiel eines Ordners**
 ```
 #!json
-"tools":{
-    "name": "Werkzeuge",
-    "icon": "bi-tools",
-    "children": {
-        {
-            "name": "Legende",
-            "icon": "bi-lightbulb"
+{
+    "tools": {
+        "name": "Werkzeuge",
+        "icon": "bi-tools",
+        "children": {
+            "draw": {
+                "name": "Zeichnen / Schreiben",
+                "icon": "bi-lightbulb"
+            }
         }
     }
 }
@@ -1459,9 +1461,11 @@ Neben **Portalconfig.menu.tools** können auch die Pfade **Portalconfig.menu.inf
 **Beispiel eines Tools**
 ```
 #!json
-"legend":{
-    "name": "Legende",
-    "icon": "bi-lightbulb"
+{
+    "draw": {
+        "name": "Zeichnen / Schreiben",
+        "icon": "bi-lightbulb"
+    }
 }
 ```
 

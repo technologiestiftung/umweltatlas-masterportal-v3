@@ -1398,12 +1398,12 @@ A folder object defined by a name, icon, and its children.
 
 ```json
 {
-    "tools":{
-        "name": "Werkzeuge",
-        "icon": "bi-wrench",
+    "tools": {
+        "name": "Tools",
+        "icon": "bi-tools",
         "children": {
-            "legend": {
-                "name": "Legende",
+            "draw": {
+                "name": "Draw / Write",
                 "icon": "bi-lightbulb"
             }
         }
@@ -1516,8 +1516,8 @@ A tool's attribute key defines which tool is loaded. Each tool provides at least
 
 ```json
 {
-    "legend":{
-        "name": "Legende",
+    "draw": {
+        "name": "Draw / Write",
         "icon": "bi-lightbulb"
     }
 }
