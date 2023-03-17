@@ -1341,8 +1341,10 @@ const BuildSpecModel = {
             }
             else if (graphic.indexOf("<svg") !== -1) {
                 legendObj.color = this.getFillColorFromSVG(graphic);
+                this.getFillStrokeFromSVG(graphic, legendObj);
                 legendObj.legendType = "geometry";
                 legendObj.geometryType = "polygon";
+                // console.log(legendObj);
             }
             else if (graphic.toUpperCase().includes("GETLEGENDGRAPHIC")) {
                 legendObj.legendType = "wmsGetLegendGraphic";
@@ -1372,10 +1374,31 @@ const BuildSpecModel = {
             color = svgString.split(/fill:(.+)/)[1].split(/;(.+)/)[0];
         }
         if (color.startsWith("rgb(") && svgString.split(/fill-opacity:(.+)/)[1]?.split(/;(.+)/)[0]) {
-            color = `rgba(${color.split(")")[0].split("(")[1]},${svgString.split(/fill-opacity:(.+)/)[1].split(/;(.+)/)[0]})`;
+            color = `rgba(${color.split(")")[0].split("(")[1]}, ${svgString.split(/fill-opacity:(.+)/)[1].split(/;(.+)/)[0]})`;
         }
 
         return color;
+    },
+
+    /**
+     * Sest stroke styles to the legenedObj
+     * @param {String} svgString String of SVG.
+     * @param {Object} legendObj The legend object.
+     * @returns {void}
+     */
+    getFillStrokeFromSVG: function (svgString, legendObj) {
+        if (svgString.split(/stroke:(.+)/)[1]) {
+            legendObj.strokeColor = svgString.split(/stroke:(.+)/)[1].split(/;(.+)/)[0];
+        }
+        if (legendObj.strokeColor?.startsWith("rgb(") && svgString.split(/stroke-opacity:(.+)/)[1]?.split(/;(.+)/)[0]) {
+            legendObj.strokeOpacity = `rgba(${legendObj.strokeColor.split(")")[0].split("(")[1]}, ${svgString.split(/stroke-opacity:(.+)/)[1].split(/;(.+)/)[0]})`;
+        }
+        if (svgString.split(/stroke-width:(.+)/)[1]) {
+            legendObj.strokeWidth = svgString.split(/stroke-width:(.+)/)[1].split(/;(.+)/)[0];
+        }
+        if (!svgString.split(/stroke-dasharray:(.+)/)[1]?.startsWith(";")) {
+            legendObj.strokeStyle = "Dashed";
+        }
     },
 
     /**

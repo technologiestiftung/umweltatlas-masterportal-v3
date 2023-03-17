@@ -522,7 +522,9 @@ export default {
                 strokeWidth = style.polygonStrokeWidth,
                 fillOpacity = style.polygonFillColor?.[3] || 0,
                 fillHatch = style.polygonFillHatch,
-                strokeOpacity = style.polygonStrokeColor[3] || 0;
+                strokeOpacity = style.polygonStrokeColor[3] || 0,
+                strokeCap = style.polygonStrokeCap || "round",
+                strokeDash = style.polygonStrokeDash?.toString() || "";
 
             if (fillHatch) {
                 legendObj.graphic = StylePolygon.prototype.getPolygonFillHatchLegendDataUrl(style);
@@ -541,6 +543,10 @@ export default {
                 svg += strokeOpacity;
                 svg += ";stroke-width:";
                 svg += strokeWidth;
+                svg += ";stroke-linecap:";
+                svg += strokeCap;
+                svg += ";stroke-dasharray:";
+                svg += strokeDash;
                 svg += ";'/>";
                 svg += "</svg>";
 

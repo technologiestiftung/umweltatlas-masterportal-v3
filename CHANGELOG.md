@@ -17,7 +17,7 @@
 - Issue #888:
     - Print:
         - The print module now displays dashed lines in the printout.
-        - The print module now displays the opacity in the legend in the printout.
+        - The print module now displays the opacity and stroke styles in the legend in the printout.
 
 ### Changed
 - Update GeoJSON, WFS, OAF getFeaturesFilterFunction filtert kann nach exakter Geometrie filtern.
