@@ -575,7 +575,7 @@ const BuildSpecModel = {
                         styleObject.symbolizers.push(this.buildPolygonStyle(style, layer));
                     }
                     else if (geometryType === "Circle") {
-                        styleObject.symbolizers.push(this.buildPolygonStyle(style, layer));
+                        styleObject.symbolizers.push(this.buildPointStyle(style, layer));
                     }
                     else if (geometryType === "LineString" || geometryType === "MultiLineString") {
                         if (layer.values_.id === "measureLayer" && style.stroke_ === null) {
@@ -1343,8 +1343,7 @@ const BuildSpecModel = {
                 legendObj.color = this.getFillColorFromSVG(graphic);
                 this.getFillStrokeFromSVG(graphic, legendObj);
                 legendObj.legendType = "geometry";
-                legendObj.geometryType = "polygon";
-                // console.log(legendObj);
+                legendObj.geometryType = this.getGeometryTypeFromSVG(graphic);
             }
             else if (graphic.toUpperCase().includes("GETLEGENDGRAPHIC")) {
                 legendObj.legendType = "wmsGetLegendGraphic";
@@ -1363,6 +1362,24 @@ const BuildSpecModel = {
     },
 
     /**
+     * Returns geometry type from SVG.
+     * @param {String} svgString String of SVG.
+     * @returns {String} - The geometry type.
+     */
+    getGeometryTypeFromSVG: function (svgString) {
+        let geometryType = "";
+
+        if (svgString.includes("<circle")) {
+            geometryType = "point";
+        }
+        if (svgString.includes("<polygon")) {
+            geometryType = "polygon";
+        }
+
+        return geometryType;
+    },
+
+    /**
      * Returns Fill color from SVG as hex.
      * @param {String} svgString String of SVG.
      * @returns {String} - Fill color from SVG.
@@ -1370,11 +1387,11 @@ const BuildSpecModel = {
     getFillColorFromSVG: function (svgString) {
         let color = "";
 
-        if (svgString.split(/fill:(.+)/)[1]) {
-            color = svgString.split(/fill:(.+)/)[1].split(/;(.+)/)[0];
+        if (svgString.split(/fill:(.+)/)[1] || svgString.split("fill='")[1]) {
+            color = svgString.split(/fill:(.+)/)[1]?.split(/;(.+)/)[0] || svgString.split("fill='")[1]?.split("'")[0];
         }
-        if (color.startsWith("rgb(") && svgString.split(/fill-opacity:(.+)/)[1]?.split(/;(.+)/)[0]) {
-            color = `rgba(${color.split(")")[0].split("(")[1]}, ${svgString.split(/fill-opacity:(.+)/)[1].split(/;(.+)/)[0]})`;
+        if (color.startsWith("rgb(") && (svgString.split(/fill-opacity:(.+)/)[1]?.split(/;(.+)/)[0] || svgString.split("fill-opacity='")[1])) {
+            color = `rgba(${color.split(")")[0].split("(")[1]}, ${svgString.split(/fill-opacity:(.+)/)[1]?.split(/;(.+)/)[0] || svgString.split(/fill-opacity=(.+)/)[1]?.split("'")[1]})`;
         }
 
         return color;
@@ -1387,16 +1404,16 @@ const BuildSpecModel = {
      * @returns {void}
      */
     getFillStrokeFromSVG: function (svgString, legendObj) {
-        if (svgString.split(/stroke:(.+)/)[1]) {
-            legendObj.strokeColor = svgString.split(/stroke:(.+)/)[1].split(/;(.+)/)[0];
+        if (svgString.split(/stroke:(.+)/)[1] || svgString.split("stroke='")[1]) {
+            legendObj.strokeColor = svgString.split(/stroke:(.+)/)[1]?.split(/;(.+)/)[0] || svgString.split("stroke='")[1]?.split("'")[0];
         }
-        if (legendObj.strokeColor?.startsWith("rgb(") && svgString.split(/stroke-opacity:(.+)/)[1]?.split(/;(.+)/)[0]) {
-            legendObj.strokeOpacity = `rgba(${legendObj.strokeColor.split(")")[0].split("(")[1]}, ${svgString.split(/stroke-opacity:(.+)/)[1].split(/;(.+)/)[0]})`;
+        if (legendObj.strokeColor?.startsWith("rgb(") && (svgString.split(/stroke-opacity:(.+)/)[1]?.split(/;(.+)/)[0] || svgString.split("stroke-opacity='")[1]?.split("'")[0])) {
+            legendObj.strokeColor = `rgba(${legendObj.strokeColor.split(")")[0].split("(")[1]}, ${svgString.split(/stroke-opacity:(.+)/)[1]?.split(/;(.+)/)[0] || svgString.split(/stroke-opacity=(.+)/)[1]?.split("'")[1]})`;
         }
-        if (svgString.split(/stroke-width:(.+)/)[1]) {
-            legendObj.strokeWidth = svgString.split(/stroke-width:(.+)/)[1].split(/;(.+)/)[0];
+        if (svgString.split(/stroke-width:(.+)/)[1] || svgString.split("stroke-width='")[1]) {
+            legendObj.strokeWidth = svgString.split(/stroke-width:(.+)/)[1]?.split(/;(.+)/)[0] || svgString.split("stroke-width='")[1]?.split("'")[0];
         }
-        if (!svgString.split(/stroke-dasharray:(.+)/)[1]?.startsWith(";")) {
+        if (svgString.split(/stroke-dasharray:(.+)/)[1] && !svgString.split(/stroke-dasharray:(.+)/)[1]?.startsWith(";")) {
             legendObj.strokeStyle = "Dashed";
         }
     },
