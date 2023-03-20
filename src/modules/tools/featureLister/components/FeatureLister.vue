@@ -1,4 +1,5 @@
 <script>
+import Vue from "vue";
 import {mapGetters, mapActions, mapMutations} from "vuex";
 import getters from "../store/gettersFeatureLister";
 import actions from "../store/actionsFeatureLister";
@@ -62,7 +63,7 @@ export default {
         /* issue #846 - initially active by config means watcher won't trigger,
          * hence executing method on mounted is required */
         if (this.active) {
-            this.updateFeatureListerList();
+            Vue.nextTick(this.updateFeatureListerList);
         }
     },
     created () {

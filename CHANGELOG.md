@@ -36,6 +36,7 @@
 - actionsMapLayers/addLayer: don't set zIndex by default, otherwise addLayerOnTop and addLayerToIndex have no effect
 - Issue #842: LayerInformation shows all service urls in group layer.
 - Issue #847: the gazetteer search now shows the correct positions of duplicate results in different cities
+- Issue #846: Fix initially active FeatureLister behaviour in chromium browsers.
 - Issue #891: The mapMarker customStyle now works again as expected.
 - The zoomToFeature layer now gets added on top, otherwise it would be hidden underneath the basemap
 
