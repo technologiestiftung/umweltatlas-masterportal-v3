@@ -19,11 +19,6 @@ describe("src/modules/tools/filter/components/SnippetDropdown.vue", () => {
     beforeEach(() => {
         defaultWrapper = shallowMount(SnippetDropdown, {
             localVue
-            // data() {
-            //     return {
-            //       bar: 'my-override'
-            //     }
-            //   }
         });
     });
     afterEach(() => {
