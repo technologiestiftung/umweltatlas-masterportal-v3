@@ -10,7 +10,7 @@ import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 function getIconListFromLegend (legendInfoList, styleModel) {
     const result = {};
 
-    legendInfoList.forEach(legendInfo => {
+    legendInfoList?.forEach(legendInfo => {
         // always show icon if configured, independend of geometry type
         if (legendInfo.styleObject.type === "icon") {
             result[legendInfo.label] = legendInfo.styleObject.imagePath + legendInfo.styleObject.imageName;
@@ -62,7 +62,7 @@ function createPolygonGraphic (style) {
         strokeColor = style.polygonStrokeColor ? convertColor(style.polygonStrokeColor, "rgbString") : "black",
         strokeWidth = style.polygonStrokeWidth,
         fillOpacity = style.polygonFillColor?.[3] || 0,
-        strokeOpacity = style.polygonStrokeColor[3] || 0,
+        strokeOpacity = style.polygonStrokeColor ? style.polygonStrokeColor[3] || 0 : 0,
         fillHatch = style.polygonFillHatch;
 
     if (fillHatch) {
@@ -125,7 +125,7 @@ function createLineSVG (style) {
     let svg = "";
     const strokeColor = style.lineStrokeColor ? convertColor(style.lineStrokeColor, "rgbString") : "black",
         strokeWidth = style.lineStrokeWidth,
-        strokeOpacity = style.lineStrokeColor[3] || 0,
+        strokeOpacity = style.lineStrokeColor ? style.lineStrokeColor[3] || 0 : 0,
         strokeDash = style.lineStrokeDash ? style.lineStrokeDash.join(" ") : undefined;
 
     svg += "<svg height='25' width='25'>";
@@ -145,4 +145,4 @@ function createLineSVG (style) {
     return svg;
 }
 
-export {getStyleModel, getIconListFromLegend};
+export default {getStyleModel, getIconListFromLegend};

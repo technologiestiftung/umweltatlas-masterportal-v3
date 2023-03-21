@@ -2,15 +2,13 @@
 import Multiselect from "vue-multiselect";
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import {translateKeyWithPlausibilityCheck} from "../../../../utils/translateKeyWithPlausibilityCheck.js";
-import {getStyleModel, getIconListFromLegend} from "../utils/getIconListFromLegend.js";
+import getIconListFromLegendModule from "../utils/getIconListFromLegend.js";
 import {getDefaultOperatorBySnippetType} from "../utils/getDefaultOperatorBySnippetType.js";
 import splitListWithDelimitor from "../utils/splitListWithDelimitor.js";
 import isObject from "../../../../utils/isObject";
 import SnippetInfo from "./SnippetInfo.vue";
 import localeCompare from "../../../../utils/localeCompare";
-import {
-    getLayerByLayerId
-} from "../utils/openlayerFunctions.js";
+import openlayerFunctions from "../utils/openlayerFunctions.js";
 
 export default {
     name: "SnippetDropdown",
@@ -321,7 +319,7 @@ export default {
         },
         legendsInfo (value) {
             if (this.renderIcons === "fromLegend") {
-                this.iconList = getIconListFromLegend(value, this.styleModel);
+                this.iconList = getIconListFromLegendModule.getIconListFromLegend(value, this.styleModel);
             }
         }
     },
@@ -445,17 +443,17 @@ export default {
          */
         initializeIcons () {
             if (this.renderIcons === "fromLegend") {
-                const layer = getLayerByLayerId(this.layerId),
+                const layer = openlayerFunctions.getLayerByLayerId(this.layerId),
                     olLayer = layer.get("layer");
 
-                this.styleModel = getStyleModel(this.layerId);
-                if (!olLayer.getVisible() && layer.get("typ") === "WFS") {
+                this.styleModel = getIconListFromLegendModule.getStyleModel(this.layerId);
+                if (!olLayer.getVisible() && ["WFS", "OAF", "GeoJSON"].includes(layer.get("typ"))) {
                     if (mapCollection.getMap("2D").getLayers().getArray().find(aLayer => aLayer.get("id") === this.layerId) === undefined) {
                         mapCollection.getMap("2D").addLayer(olLayer);
                         olLayer.setOpacity(0);
                         olLayer.setVisible(true);
                         olLayer.getSource().once("featuresloadend", () => {
-                            this.getLegendByStyleId(this.layerId, olLayer, () => {
+                            this.getLegendByStyleId(layer.get("styleId"), olLayer, () => {
                                 olLayer.setVisible(false);
                                 olLayer.setOpacity(1);
                             });
