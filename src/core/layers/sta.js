@@ -611,10 +611,11 @@ STALayer.prototype.initializeConnection = function (onsuccess, updateOnly = fals
         }
 
         if (Array.isArray(features) && features.length) {
-            layerSource.addFeatures(features);
             if (isObject(features[0]) && typeof features[0].getGeometry === "function" && (features[0].getGeometry().getType() === "Point" || features[0].getGeometry().getType() === "MultiPoint")) {
                 this.prepareFeaturesFor3D(features);
             }
+            layerSource.addFeatures(features);
+
             bridge.resetVectorLayerFeatures(this.get("id"), features);
         }
 
@@ -1624,6 +1625,7 @@ STALayer.prototype.subscribeToSensorThings = function (dataStreamIds, subscripti
                     if (this.get("loadThingsOnlyInCurrentExtent")) {
                         return;
                     }
+
                     this.fetchHistoricalLocationsByDatastreamId(
                         layerSource.getFeatures(),
                         id,
@@ -1638,12 +1640,13 @@ STALayer.prototype.subscribeToSensorThings = function (dataStreamIds, subscripti
                 });
             }
             subscriptionTopics[id] = true;
+
             const feature = this.getFeatureByDatastreamId(layerSource.getFeatures(), id);
 
             if (!isObject(feature)) {
                 return;
             }
-            feature.set("subscribed", true);
+            feature.set("subscribed", true, true);
             this.subscribedDataStreamIds[id] = {
                 subscribed: true
             };
