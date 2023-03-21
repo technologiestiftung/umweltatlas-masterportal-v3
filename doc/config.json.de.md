@@ -610,7 +610,7 @@ Konfiguration der layerInformation.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|attributions|nein|**[attributions](#markdown-header-portalconfigcontrolsattributions)**|false|Zusätzliche Layerinformationen die im Portal angezeigt werden sollen|false|
+|attributions|nein|Boolean/**[attributions](#markdown-header-portalconfigcontrolsattributions)**|false|Zusätzliche Layerinformationen die im Portal angezeigt werden sollen|false|
 |fullScreen|nein|Boolean|false|Ermöglicht dem User die Darstellung im Vollbildmodus (ohne Tabs und Adressleiste) per Klick auf den Button. Ein erneuter Klick auf den Button wechselt wieder in den normalen Modus.|false|
 |mousePosition|nein|Boolean|false|Die Koordinaten des Mauszeigers werden angezeigt.|false|
 |orientation|nein|**[orientation](#markdown-header-portalconfigcontrolsorientation)**||Orientation nutzt die geolocation des Browsers zur Standortbestimmung des Nutzers.|false|
