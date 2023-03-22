@@ -96,9 +96,9 @@ function getFeaturePOST (url, payload, onerror) {
         throw error;
     }
 
-    // For now only implemented for version 1.1.0. WFS format by default, supports WFS version 1.1.0 (ol v6.10.0).
-    const {featureTypes, srsName, featureNS, propertyNames, geometryName, bbox, filter} = payload,
-        requestBody = new WFS().writeGetFeature({
+    // WFS format by default, supports WFS version 1.1.0.
+    const {featureTypes, srsName, featureNS, propertyNames, geometryName, bbox, filter, version} = payload,
+        requestBody = new WFS({version}).writeGetFeature({
             srsName,
             featureNS,
             featureTypes,
