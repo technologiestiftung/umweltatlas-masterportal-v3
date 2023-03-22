@@ -3,17 +3,16 @@ import getProjections from "./getProjections";
 import proj4 from "proj4";
 import isObject from "./isObject";
 
-const projections = getProjections("EPSG:25832", "EPSG:4326", "32"),
-    colorOptions = [
-        {color: "blue", value: [55, 126, 184]},
-        {color: "black", value: [0, 0, 0]},
-        {color: "green", value: [77, 175, 74]},
-        {color: "grey", value: [153, 153, 153]},
-        {color: "orange", value: [255, 127, 0]},
-        {color: "red", value: [228, 26, 28]},
-        {color: "white", value: [255, 255, 255]},
-        {color: "yellow", value: [255, 255, 51]}
-    ];
+const colorOptions = [
+    {color: "blue", value: [55, 126, 184]},
+    {color: "black", value: [0, 0, 0]},
+    {color: "green", value: [77, 175, 74]},
+    {color: "grey", value: [153, 153, 153]},
+    {color: "orange", value: [255, 127, 0]},
+    {color: "red", value: [228, 26, 28]},
+    {color: "white", value: [255, 255, 255]},
+    {color: "yellow", value: [255, 255, 51]}
+];
 
 /**
  * Checks whether bots arrays are of length 3 and whether their values are equal at the same positions.
@@ -77,7 +76,7 @@ function getKmlHotSpotOfIconStyle (anchor) {
 }
 
 /**
- * Transforms the given line or polygon coordinates from EPSG:25832 to EPSG:4326.
+ * Transforms the given line or polygon coordinates from the maps currently used projection to EPSG:4326.
  *
  * @param {(Array<number>|Array<Array<number>>|Array<Array<Array<number>>>)} coords Coordinates.
  * @param {Boolean} isPolygon Determines whether the given coordinates are a polygon or a line.
@@ -100,17 +99,19 @@ function transform (coords, isPolygon) {
 }
 
 /**
- * Transforms the given point coordinates from EPSG:25832 to EPSG:4326.
+ * Transforms the given point coordinates from the maps currently used projection to EPSG:4326.
  *
  * @param {number[]} coords Coordinates.
  * @returns {number[]} Transformed coordinates.
  */
 function transformPoint (coords) {
+    const projections = getProjections("EPSG:4326");
+
     return proj4(projections.sourceProj, projections.destProj, coords);
 }
 
 /**
- * Transforms the given geometry from EPSG:25832 to EPSG:4326.
+ * Transforms the given geometry from the maps currently used projection to EPSG:4326.
  * If the geometry is not an instance of ol/LineString, ol/Point or ol/Polygon an Alert is send to the user.
  *
  * @param {module:ol/geom/Geometry} geometry Geometry to be transformed.
