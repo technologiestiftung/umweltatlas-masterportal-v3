@@ -27,6 +27,7 @@
 - The following NPM packages have been updated:
   - dependencies:
     - @masterportal/masterportalapi: 2.15.1 to 2.15.2
+- highlightFeaturesByAttribute: scale constraint does not affect the selection layers.
 
 ### Deprecated
 

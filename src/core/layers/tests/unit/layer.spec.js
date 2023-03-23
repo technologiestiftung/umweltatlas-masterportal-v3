@@ -216,6 +216,30 @@ describe("src/core/layers/layer.js", () => {
         expect(calledIsOutOfRange).to.be.equals(1);
         expect(calledMenu).to.be.equals(1);
     });
+    it("checkForScale shall do nothing, if attribute checkForScale is false", function () {
+        let calledMenu = 0,
+            calledIsOutOfRange = 0;
+
+        sinon.stub(Radio, "trigger").callsFake((...args) => {
+            args.forEach(arg => {
+                if (arg === "Menu") {
+                    calledMenu++;
+                }
+                if (arg === "change:isOutOfRange") {
+                    calledIsOutOfRange++;
+                }
+            });
+        });
+        attributes.maxScale = "5000";
+        attributes.minScale = "0";
+        attributes.isOutOfRange = false;
+        attributes.checkForScale = false;
+        const layerWrapper = new Layer(attributes, olLayer);
+
+        expect(layerWrapper.get("isOutOfRange")).to.be.false;
+        expect(calledMenu).to.be.equals(0);
+        expect(calledIsOutOfRange).to.be.equals(0);
+    });
     it("setIsVisibleInMap shall change layer visibility", function () {
         const layerWrapper = new Layer(attributes, olLayer);
 
