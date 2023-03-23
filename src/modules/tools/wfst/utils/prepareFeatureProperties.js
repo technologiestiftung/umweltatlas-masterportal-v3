@@ -1,4 +1,4 @@
-import receivePossibleProperties from "./receivePossibleProperties";
+import receivePossiblePropertiesModule from "./receivePossibleProperties";
 
 /**
  * Prepares the possible feature properties to be set for
@@ -13,7 +13,7 @@ async function prepareFeatureProperties (layer, useProxy) {
     if (layer.gfiAttributes === "ignore") {
         return [];
     }
-    const properties = await receivePossibleProperties(layer, useProxy);
+    const properties = await receivePossiblePropertiesModule.receivePossibleProperties(layer, useProxy);
 
     return layer.gfiAttributes === "showAll"
         ? properties
