@@ -38,7 +38,8 @@
 - Issue #846: Fix initially active FeatureLister behaviour in chromium browsers.
 - Issue #847: the gazetteer search now shows the correct positions of duplicate results in different cities
 - Issue #871: Extend WMS GFI implementation by a reader for QGIS WMS responses in format `text/xml`.
-- Issue #879: Kml features now get transformed from the maps used projection instead of hardcoded EPSG:25832.
+- Issue #873: Text imports from previous exported kml files get displayed again.
+- Issue #879: Kml features now get transformed from the maps used coordinate system instead of hardcoded EPSG:25832.
 - Issue #891: The mapMarker customStyle now works again as expected.
 - The zoomToFeature layer now gets added on top, otherwise it would be hidden underneath the basemap
 
