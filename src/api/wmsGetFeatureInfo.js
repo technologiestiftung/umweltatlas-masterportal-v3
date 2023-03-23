@@ -110,6 +110,9 @@ export function parseFeatures (doc) {
     if (firstChild.includes("FeatureCollection") || firstChild.includes("msGMLOutput")) {
         features = parseOgcConformFeatures(doc);
     }
+    else if (firstChild.includes("GetFeatureInfoResponse")) {
+        features = parseQGisFeatures(doc);
+    }
     else {
         features = parseEsriFeatures(doc);
     }
@@ -141,6 +144,33 @@ function parseEsriFeatures (doc) {
 
         for (const attribute of element.attributes) {
             feature.set(attribute.localName, attribute.value);
+        }
+        features.push(feature);
+    }
+
+    return features;
+}
+
+/**
+ * Parse the GFI response from a QGIS service.
+ * @param {XMLDocument} doc Data to be parsed.
+ * @returns {module:ol/Feature[]} Collection of openlayers features.
+ */
+function parseQGisFeatures (doc) {
+    const features = [];
+
+    for (const element of doc.getElementsByTagName("Feature")) {
+        const feature = new Feature();
+
+        for (const maybeAttribute of element.children) {
+            if (maybeAttribute.tagName === "Attribute") {
+                const attributeName = maybeAttribute.attributes?.name?.value,
+                    attributeValue = maybeAttribute.attributes?.value?.value;
+
+                if (attributeName && typeof attributeValue !== "undefined") {
+                    feature.set(attributeName, attributeValue);
+                }
+            }
         }
         features.push(feature);
     }
