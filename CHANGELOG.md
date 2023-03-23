@@ -35,7 +35,9 @@
 ### Fixed
 - actionsMapLayers/addLayer: don't set zIndex by default, otherwise addLayerOnTop and addLayerToIndex have no effect
 - Issue #842: LayerInformation shows all service urls in group layer.
+- Issue #846: Fix initially active FeatureLister behaviour in chromium browsers.
 - Issue #847: the gazetteer search now shows the correct positions of duplicate results in different cities
+- Issue #871: Extend WMS GFI implementation by a reader for QGIS WMS responses in format `text/xml`.
 - Issue #873: Text imports from previous exported kml files get displayed again.
 - Issue #891: The mapMarker customStyle now works again as expected.
 - The zoomToFeature layer now gets added on top, otherwise it would be hidden underneath the basemap

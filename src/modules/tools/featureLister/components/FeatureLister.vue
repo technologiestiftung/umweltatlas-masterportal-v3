@@ -62,7 +62,7 @@ export default {
         /* issue #846 - initially active by config means watcher won't trigger,
          * hence executing method on mounted is required */
         if (this.active) {
-            this.updateFeatureListerList();
+            this.$nextTick(this.updateFeatureListerList);
         }
     },
     created () {
