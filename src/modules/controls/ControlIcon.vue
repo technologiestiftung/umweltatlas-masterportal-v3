@@ -53,8 +53,51 @@ export default {
         @click.stop="onClick"
         @keyup.space.stop.prevent="onClick"
     >
+        <!-- special solution for zoom buttons: zoom-in -->
+        <i
+            v-if="iconClass==='bi-masterportal-zoom-in'"
+            :class="iconClass"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="28"
+                height="28"
+                fill="currentColor"
+                stroke="currentColor"
+                stroke-width="1"
+                class="bi bi-plus-lg"
+                viewBox="0 0 16 16"
+            >
+                <path
+                    fill-rule="evenodd"
+                    d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"
+                />
+            </svg>
+        </i>
+        <!-- special solution for zoom buttons: zoom-out -->
+        <i
+            v-if="iconClass==='bi-masterportal-zoom-out'"
+            :class="iconClass"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="28"
+                height="28"
+                fill="currentColor"
+                stroke="currentColor"
+                stroke-width="1"
+                class="bi bi-dash-lg"
+                viewBox="0 0 16 16"
+            >
+                <path
+                    fill-rule="evenodd"
+                    d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"
+                />
+            </svg>
+        </i>
         <!-- children should usually be placed absolutely in relation to ControlIcon -->
         <i
+            v-else
             :class="iconClass"
         />
         <slot />
@@ -123,13 +166,9 @@ export default {
             cursor: default;
         }
     }
-    .bi-plus-icon {
-        content: url("data:image/svg+xml, %3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-plus-lg' viewBox='0 0 16 16'%3e%3cpath fill-rule='evenodd' d='M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z' stroke='white'/%3e%3c/svg%3e");
-        height: 28px;
-    }
-    .bi-minus-icon {
-        content: url("data:image/svg+xml, %3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-dash-lg' viewBox='0 0 16 16'%3e%3cpath fill-rule='evenodd' d='M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z' stroke='white' stroke-width='1'/%3e%3c/svg%3e");
-        height: 28px;
+    .bi-masterportal-zoom-in,
+    .bi-masterportal-zoom-out{
+        color: $white;
     }
     /* TODO: Since every bootstrap-icon is supported via config, rules for every bootstrap-icon should exist here */
 </style>

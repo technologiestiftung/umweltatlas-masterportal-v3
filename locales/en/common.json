@@ -180,6 +180,7 @@
         "layerInformation": {
           "additionalMetadata": "additional metadata",
           "addressSuffix": "Address",
+          "multiAddress": "Service addresses",
           "attachFileMessage": "Attach file type during download if necessary",
           "closeButton": "Close",
           "downloadDataset": "Download dataset",
@@ -195,7 +196,7 @@
           "changeLayerInfo": "Switch infotext"
         },
         "mapMarker": {
-          "noStyleModel": "No style could be found for the specified StyleId: {{styleId}}. Please check your configuration."
+          "nostyleObject": "No style could be found for the specified StyleId: {{styleId}}. Please check your configuration."
         },
         "menu": {
             "layer": {
@@ -606,7 +607,7 @@
             },
             "supplyCoord": {
                 "title": "Query Coordinates",
-                "coordSystemField": "Coordinate system",
+                "coordSystemField": "Coordinate reference system",
                 "hdms": {
                     "eastingLabel": "Longitude",
                     "northingLabel": "Latitude"
@@ -617,11 +618,12 @@
                 }
             },
             "coordToolkit": {
-                "title": "Coordinates",
-                "supply":"Query Coordinates",
+                "coordAndHeight": "Coordinates / Height",
+                "title": "Coordinates / Height",
+                "supply":"Query Coordinates / Height",
                 "search":"Search Coordinates",
                 "searchBtn": "Search",
-                "coordSystemField": "Coordinate system",
+                "coordSystemField": "Coordinate reference system",
                 "heightLabel": "Height",
                 "noHeightWater": "Water surface, no heights available",
                 "noHeightBuilding": "Building area, no heights available",
@@ -642,7 +644,7 @@
                     "hdmsNoMatch": "Your chosen value for the {{valueKey}} is not correct!",
                     "example": "Example: "
                 },
-                "hintSupply": "Click in the map to request coordinates",
+                "hintSupply": "Click in the map to request coordinates and height",
                 "hintSearch": "Enter the coordinates to search for",
                 "copyCoordsBtn": "Copy pair of coordinates",
                 "copyCoordBtn": " Copy {{value}}"
@@ -702,7 +704,7 @@
                 }
             },
             "searchByCoord": {
-                "coordinateSystem": "Coordinate system",
+                "coordinateSystem": "Coordinate reference system",
                 "hdms": {
                     "eastingLabel": "Latitude",
                     "northingLabel": "Longitude"
@@ -1132,7 +1134,7 @@
             "noInitialResults": "Initial search found no hits."
         },
         "vectorStyle": {
-            "styleModel": {
+            "styleObject": {
                 "getGeometryTypeFromWFSFetchfailed": "The legend could not be created in the layer information!",
                 "getGeometryTypeFromWFSFetchfailedMessage": "Details: A required service is not responding.",
                 "getGeometryTypeFromOAFFetchfailed": "The legend could not be created in the layer information!",

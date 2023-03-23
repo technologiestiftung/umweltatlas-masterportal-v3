@@ -139,6 +139,7 @@
         "layerInformation": {
           "additionalMetadata": "Metadados adicionais",
           "addressSuffix": "Endereço",
+          "multiAddress": "Endereços de serviço",
           "attachFileMessage": "ao descarregar pode se necessário anexar o tipo de ficheiro",
           "closeButton": "Fechar",
           "downloadDataset": "Descarregar conjunto de dados",
@@ -153,7 +154,7 @@
           "buildings":"Edifício"
         },
         "mapMarker": {
-          "noStyleModel": "Zu der angegebenen StyleId: {{styleId}} konnte keine Style gefunden werden. Bitte überprüfen sie ihre Konfiguration."
+          "nostyleObject": "Zu der angegebenen StyleId: {{styleId}} konnte keine Style gefunden werden. Bitte überprüfen sie ihre Konfiguration."
         },
         "featureViaURL": {
             "coordLabel": "Coordenadas",
@@ -676,7 +677,7 @@
             "noInitialResults": "A pesquisa inicial não resultou em nenhum acerto."
         },
         "vectorStyle": {
-            "styleModel": {
+            "styleObject": {
                 "getGeometryTypeFromWFSFetchfailed": "A legenda não podia ser criada na camada de informação!",
                 "getGeometryTypeFromWFSFetchfailedMessage": "Detalhes: Um serviço necessário não responde."
             }

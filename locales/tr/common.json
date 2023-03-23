@@ -153,6 +153,7 @@
         "layerInformation": {
           "additionalMetadata": "başka üst veri",
           "addressSuffix": "adres",
+          "multiAddress": "Hizmet adresleri",
           "attachFileMessage": "dosya ekleyin",
           "closeButton": "kapat",
           "downloadDataset": "veri seti indir",
@@ -168,7 +169,7 @@
           "changeLayerInfo": "Bilgi metnini değiştir"
         },
         "mapMarker": {
-          "noStyleModel": "Belirtilen StyleId için Style bulunamadı. Lütfen yapılandırmanızı kontrol edin."
+          "nostyleObject": "Belirtilen StyleId için Style bulunamadı. Lütfen yapılandırmanızı kontrol edin."
         },
         "menu": {
             "layer": {
@@ -800,7 +801,7 @@
             "noInitialResults": "İlk arama sonuç vermedi."
         },
         "vectorStyle": {
-            "styleModel": {
+            "styleObject": {
                 "getGeometryTypeFromWFSFetchfailed": "Katman bilgileri oluşturulamadı!",
                 "getGeometryTypeFromWFSFetchfailedMessage": "Ayrıntılar: Gerekli hizmet yanıt vermiyor."
             }

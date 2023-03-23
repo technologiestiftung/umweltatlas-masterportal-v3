@@ -464,14 +464,14 @@ The WFS 2.0 query is dynamically created by the Masterportal. No stored query co
         "timeout": 10000,
         "definitions": [
             {
-                "url": "/geodienste_hamburg_de/MRH_WFS_Rotenburg",
+                "url": "https://geodienste_hamburg_de/MRH_WFS_Rotenburg",
                 "typeName": "app:mrh_row_bplan",
                 "propertyNames": ["app:name"],
                 "name": "B-Plan",
                 "namespaces": "xmlns:app='http://www.deegree.org/app'"
             },
             {
-                "url": "/geodienste_hamburg_de/HH_WFS_Bebauungsplaene",
+                "url": "https://geodienste_hamburg_de/HH_WFS_Bebauungsplaene",
                 "typeName": "app:prosin_imverfahren",
                 "propertyNames": ["app:plan"],
                 "geometryName": "app:the_geom",
@@ -499,13 +499,14 @@ SpecialWFS search definition configuration.
 |geometryName|no|String|"app:geom"|Geometry attribute name required for zoom functionality.|false|
 |maxFeatures|no|Integer|20|Maximum amount of features to be returned.|false|
 |namespaces|no|String||XML name spaces to request `propertyNames` or `geometryName`. (`xmlns:wfs`, `xmlns:ogc`, and `xmlns:gml` are always used.)|false|
+|useProxy|no|Boolean|false|_Deprecated in the next major release. [GDI-DE](https://www.gdi-de.org/en) recommends setting CORS headers on the required services instead of using proxies._ Defines whether a service URL should be requested via proxy. For this, dots in the URL are replaced with underscores.|false|
 |data|no|String||_Deprecated in 3.0.0._ Filter parameter for WFS requests.|false|
 
 **Example**
 
 ```json
 {
-    "url": "/geodienste_hamburg_de/HH_WFS_Bebauungsplaene",
+    "url": "https://geodienste_hamburg_de/HH_WFS_Bebauungsplaene",
     "typeName": "app:prosin_imverfahren",
     "propertyNames": ["app:plan"],
     "geometryName": "app:the_geom",
@@ -635,7 +636,7 @@ Configuration of layerInformation.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|attributions|no|**[attributions](#markdown-header-portalconfigcontrolsattributions)**|false|Additional layer information to be shown in the portal.|false|
+|attributions|no|Boolean/**[attributions](#markdown-header-portalconfigcontrolsattributions)**|false|Additional layer information to be shown in the portal.|false|
 |fullScreen|no|Boolean|false|Allows the user to view the portal in full screen mode, that is, without the browser's tabs and address bar, by clicking a button. A second click on the element returns the view back to normal.|false|
 |mousePosition|no|Boolean|false|Display mouse pointer coordinates.|false|
 |orientation|no|**[orientation](#markdown-header-portalconfigcontrolsorientation)**||The orientation control uses the browser's geolocation feature to determine the user's coordinates.|false|
@@ -1262,6 +1263,7 @@ This field allows creating and ordering menu entries. The order of tools corresp
 |----|--------|----|-------|-----------|------|
 |ansichten|no|**[ansichten](#markdown-header-portalconfigmenuansichten)**||Preconfigured map view in 2D and 3D mode|false|
 |info|no|**[info](#markdown-header-portalconfigmenuinfo)**||Menu folder containing **[tools](#markdown-header-portalconfigmenutools)** or **[staticlinks](#markdown-header-portalconfigmenustaticlinks)**.|false|
+|legend|no|**[legend](#markdown-header-portalconfigmenulegend)**||The legend for all visible layers is displayed here.|false|
 |tools|no|**[tools](#markdown-header-portalconfigmenutools)**||Menu folder containing tools.|false|
 |tree|no|**[tree](#markdown-header-portalconfigmenutree)**||Representation and position of the topic selection tree.|false|
 
@@ -1396,12 +1398,12 @@ A folder object defined by a name, icon, and its children.
 
 ```json
 {
-    "tools":{
-        "name": "Werkzeuge",
-        "icon": "bi-wrench",
+    "tools": {
+        "name": "Tools",
+        "icon": "bi-tools",
         "children": {
-            "legend": {
-                "name": "Legende",
+            "draw": {
+                "name": "Draw / Write",
                 "icon": "bi-lightbulb"
             }
         }
@@ -1440,7 +1442,6 @@ A folder object defined by a name, icon, and its children.
 [type:kmlimport]: # (Portalconfig.menu.tool.kmlimport)
 [type:layerClusterToggler]: # (Portalconfig.menu.tool.layerClusterToggler)
 [type:layerSlider]: # (Portalconfig.menu.tool.layerSlider)
-[type:legend]: # (Portalconfig.menu.legend)
 [type:measure]: # (Portalconfig.menu.tool.measure)
 [type:parcelSearch]: # (Portalconfig.menu.tool.parcelSearch)
 [type:print]: # (Portalconfig.menu.tool.print)
@@ -1478,7 +1479,6 @@ Alternatively, also the paths **Portalconfig.menu.info**, **Portalconfig.menu.si
 |kmlimport|no|**[kmlimport](#markdown-header-portalconfigmenutoolkmlimport)**||_Deprecated in 3.0.0. Please use `fileImport` instead._|false|
 |layerClusterToggler|no|**[layerClusterToggler](#markdown-header-portalconfigtoollayerClusterToggler)**||_This tool allows a cluster layers to be active and deactive together._|false|
 |layerSlider|no|**[layerSlider](#markdown-header-portalconfigmenutoollayerslider)**||The layerSlider tool allows showing arbitrary services in order. This can e.g. be used to show aerial footage from multiple years in succession.|false|
-|legend|no|**[legend](#markdown-header-portalconfigmenulegend)**||The legend for all visible layers is displayed here.|false|
 |measure|no|**[measure](#markdown-header-portalconfigmenutoolmeasure)**||Allows measuring areas and distances in the units m/km/nm resp. m²/ha/km².|false|
 |parcelSearch|no|**[parcelSearch](#markdown-header-portalconfigmenutoolparcelsearch)**||_Deprecated in the next major release. Please use `wfsSearch` instead._ The parcel search tool allows searching for parcels by district and parcel number. Many German administrative units feature a tripartite order, hence the tool offers searching by "Gemarkung" (district), "Flur" (parcel) (not used in Hamburg), and "Flurstück" (literally "parcel piece").|false|
 |print|no|**[print](#markdown-header-portalconfigmenutoolprint)**||Printing module that can be used to export the map's current view as PDF.|false|
@@ -1516,8 +1516,8 @@ A tool's attribute key defines which tool is loaded. Each tool provides at least
 
 ```json
 {
-    "legend":{
-        "name": "Legende",
+    "draw": {
+        "name": "Draw / Write",
         "icon": "bi-lightbulb"
     }
 }
@@ -1778,7 +1778,7 @@ An object to define a layer to filter with.
 |description|no|String|""|A description of the layer, displayed when the selector is opened or no layerSelectorVisible is set to `false`. Can be a translation key also.|false|
 |shortDescription|no|String|""|The shorter version of the description, displayed under the selector title only if layerSelectorVisible is `true` and the selector is closed. Can be a translation key also.|false|
 |active|no|Boolean|false|Set to `true` to let the layer selector be initialy opened - only if layerSelectorVisible is set to `true`. If multiLayerSelector is set to `false` and more than one filter layer has set active to `true`, the last filter layer with active `true` is initialy opened.|false|
-|resetLayer|no|Boolean|false|If true it will change the reset button to a button which resets the whole layer and ignores the prechecked values. Will be ignored if `clearAll` is set to `true`.|false|
+|resetLayer|no|Boolean|false|If true it will change the reset button to a button which resets the whole layer and ignores the prechecked values. Will be ignored if `clearAll` is set to `true`. Furthermore, the parameter should not be configured in conjunction with a low `paging` number, otherwise the complete layer will be displayed on the map only very slowly and delayed when resetting.|false|
 |strategy|no|String||There are two filter strategies: `passive` - a filter button is used. And `active` - the filter will be triggered immediately by any choice made. Passive strategy is used by default.|false|
 |searchInMapExtent|no|Boolean|false|Set to `true` to activate a generic checkbox, where you can set the filtering to `only filter in current browser extent`. If the extent checkbox is checked, automatic zooming is disabled. Make sure to set [loadingStrategy](#markdown-header-themenconfiglayervector) to `all` to avoid weird effects when zooming out after filtering in extent.|false|
 |searchInMapExtentInfo|no|Boolean|true|A little icon is shown right hand side of the checkbox. Clicking the icon, a standard description is shown. Set to `false` to disable this feature. Set to a individual text to use an own description or use a translation key.|false|
@@ -1897,6 +1897,7 @@ Note: Time-related snippets (`date` and `dateRange`) can only be operated in `ex
 |renderIcons|no|String|"none"|For type `dropdown` with `display: "list"` only: If set to `fromLegend` icons will be placed left hand side of each entry. Icons are taken from legend. Use an object with attrNames as keys and imagePath as value {attrName: imagePath} to manually set images (see example).|false|
 |service|no|[service](#markdown-header-portalconfigmenutoolfilterfilterlayersnippetsservice)||For the initial filling of a snippet (dropdown, date, slider) an alternative service can be used. This may increase the performance during initial loading. The default is the service of the configured [filterLayer](#markdown-header-portalconfigmenutoolfilterfilterlayer).|false|
 |children|no|[children](#markdown-header-portalconfigmenutoolfilterfilterlayersnippetschildren)[]|[]|Child snippet configuration.|true|
+|showAllValues|no|Boolean||For `dropdown` snippet type only: prevents hiding of unselected values when set to `true`. Can only be used in conjunction with `prechecked: "all"`.|false|
 
 **Example**
 
@@ -3976,6 +3977,8 @@ Coordinates tool. To display the height above sea level in addition to the 2 dim
 |zoomLevel|no|Number|7|Coordinate search: Specifies the zoom level to which you want to zoom.|false|
 |showCopyButtons|no|Boolean|true|Switch to show or hide the buttons for copying the coordinates.|false|
 |delimiter|no|String|"Pipe-Symbol"|Delimiter of the coordinates when copying the coordinate pair|false|
+|heightLayerInfo|no|String||An explanation for the height can be deposited here.|false|
+|coordInfo|no|[CoordInfo](#markdown-header-portalconfigmenutoolcoordToolkitcoordInfo)||An object with explanations for the coordinate reference systems can be stored here.|false|
 
 
 
@@ -3994,6 +3997,22 @@ Coordinates tool. To display the height above sea level in addition to the 2 dim
             "showCopyButtons": true
           }
 ```
+
+#### Portalconfig.menu.tool.coordToolkit.coordInfo
+
+[inherits]: # (Portalconfig.menu.tool.coordToolkit)
+
+|Name|Required|Type|Default|Description|Expert|
+|----|-------------|---|-------|------------|------|
+|title|no|string||Heading for the explanations on the coordinate reference systems.|false|
+|explanations|no|**[explanations](#markdown-header-portalconfigmenutoolcoordToolkitcoordInfoexplanations)**[]||Array with explanations from which a list is generated.|false|
+
+#### Portalconfig.menu.tool.coordToolkit.coordInfo.explanations
+
+[inherits]: # (Portalconfig.menu.tool.coordToolkit.coordInfo)
+
+Array with explanations from which a list is generated.
+
 
 ***
 
@@ -5116,6 +5135,8 @@ Layer definition. Multiple ways to define layers exist. Most attributes are defi
 |isNeverVisibleInTree|no|Boolean|false|If `true`, the layer is never visible in the topic selection tree.|false|
 |urlIsVisible|no|Boolean|true|Whether the service URL should be shown in the layer information window.|false|
 |filterRefId|no|Integer||Referencing to a configured filter. It is the order (index) of Layer in filter. Starting with 0.|false|
+|renderer|no|String|"default"|Which render pipeline to use ("default" or "webgl") (only for vector data of type "GeoJSON", "WFS", "OAF", "VectorBase")|false|
+|isPointLayer|no|Boolean|false|Whether the (vector) layer only consists of point features (only relevant for WebGL rendering)|false|
 
 **Example with one ID**
 

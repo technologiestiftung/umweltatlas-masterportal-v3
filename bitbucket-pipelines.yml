@@ -40,7 +40,7 @@ definitions:
 pipelines:
     # Start pipeline with tag to build examples zips and copy them to the Bitbucket download folder
     tags:
-        'v*.*.*':
+        'v2.*.*':
             - step:
                 name: build examples zip
                 caches:
@@ -90,6 +90,7 @@ pipelines:
             - step:
                 name: deploy on openCode
                 script:
+                    - git filter-branch -- --all
                     - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git $BITBUCKET_TAG
                     - git clone --single-branch --branch dev https://geowerkstatt@bitbucket.org/geowerkstatt-hamburg/masterportal.git
                     - cd masterportal
@@ -121,3 +122,12 @@ pipelines:
                 script:
                     - npm install
                     - npm audit --json
+        deploy on openCode:
+            - step:
+                name: deploy on openCode
+                script:
+                    - git filter-branch -- --all
+                    - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git $BITBUCKET_TAG
+                    - git clone --single-branch --branch dev https://geowerkstatt@bitbucket.org/geowerkstatt-hamburg/masterportal.git
+                    - cd masterportal
+                    - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git -f

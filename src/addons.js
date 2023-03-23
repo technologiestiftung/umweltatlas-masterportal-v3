@@ -1,3 +1,4 @@
+import upperFirst from "./utils/upperFirst";
 import store from "./app-store";
 import Vue from "vue";
 
@@ -29,7 +30,7 @@ export default async function (config) {
                         await loadControl(addonKey);
                     }
                     else if (addonConf.type === "javascript") {
-                        await loadAddon(addonKey);
+                        await loadJavascriptAddons(addonKey);
                     }
                 }
             }
@@ -88,6 +89,20 @@ async function loadToolAddons (addonKey) {
     // register the vuex store module
     store.registerModule(["Tools", addon.component.name], addon.store);
     store.dispatch("Tools/addTool", addon.component);
+}
+
+/**
+ * Load jaavscript addons and register store when it exists.
+ * @param {String} addonKey specified in config.js
+ * @returns {void}
+ */
+async function loadJavascriptAddons (addonKey) {
+    const addon = await loadAddon(addonKey);
+
+    if (addon.store) {
+        // register the vuex store module
+        store.registerModule([upperFirst(addonKey)], addon.store);
+    }
 }
 
 /**

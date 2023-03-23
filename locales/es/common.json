@@ -158,6 +158,7 @@
         "layerInformation": {
           "additionalMetadata": "otros metadatos",
           "addressSuffix": "Dirección",
+          "multiAddress": "Direcciones de servicio",
           "attachFileMessage": "adjuntar si es necesario el tipo de archivo a descargar",
           "closeButton": "Cerrar",
           "downloadDataset": "Descargar datos",
@@ -172,7 +173,7 @@
           "buildings":"Edificio"
         },
         "mapMarker": {
-          "noStyleModel": "No se ha podido encontrar ningún estilo con el StyleId especificado: {{styleId}}. Por favor, compruebe su configuración."
+          "nostyleObject": "No se ha podido encontrar ningún estilo con el StyleId especificado: {{styleId}}. Por favor, compruebe su configuración."
         },
         "menu": {
             "layer": {
@@ -705,7 +706,7 @@
             "noInitialResults": "La búsqueda inicial no dio ningún resultado."
         },
         "vectorStyle": {
-            "styleModel": {
+            "styleObject": {
                 "getGeometryTypeFromWFSFetchfailed": "¡No se ha podido crear la leyenda con la información de la capa!",
                 "getGeometryTypeFromWFSFetchfailedMessage": "Detalles: Un servicio requerido no responde."
             }

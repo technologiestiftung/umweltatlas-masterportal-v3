@@ -1,6 +1,7 @@
-import {Circle as CircleStyle, Icon} from "ol/style.js";
 import {Point} from "ol/geom.js";
 import {fromCircle} from "ol/geom/Polygon.js";
+import CircleStyle from "ol/style/Circle";
+import Icon from "ol/style/Icon";
 import Feature from "ol/Feature.js";
 import {GeoJSON} from "ol/format.js";
 import {Group, Image, Tile, Vector} from "ol/layer.js";
@@ -15,6 +16,9 @@ import {convertColor} from "../../../../utils/convertColor";
 import {MVTEncoder} from "@geoblocks/print";
 import VectorTileLayer from "ol/layer/VectorTile";
 import {getLastPrintedExtent} from "../store/actions/actionsPrintInitialization";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import {getRulesForFeature} from "@masterportal/masterportalapi/src/vectorStyle/lib/getRuleForIndex";
 
 
 const BuildSpecModel = {
@@ -413,6 +417,9 @@ const BuildSpecModel = {
         if (store.state.Tools.Print.printService === "plotservice") {
             mapObject.title = layer.get("name");
         }
+        if (source.getParams().VERSION) {
+            mapObject.version = source.getParams().VERSION;
+        }
         if (!source.getParams().SINGLETILE) {
             mapObject.tileSize = [source.getParams().WIDTH, source.getParams().HEIGHT];
         }
@@ -446,6 +453,9 @@ const BuildSpecModel = {
 
         if (store.state.Tools.Print.printService === "plotservice") {
             mapObject.title = layer.get("name");
+        }
+        if (source.getParams().VERSION) {
+            mapObject.version = source.getParams().VERSION;
         }
 
         return mapObject;
@@ -504,12 +514,14 @@ const BuildSpecModel = {
 
             styles.forEach((style, index) => {
                 if (style !== null) {
-                    const styleModel = this.getStyleModel(layer);
+                    const styleObjectFromStyleList = styleList.returnStyleObject(layer.get("id")),
+                        styleFromStyleList = styleObjectFromStyleList ? createStyle.getGeometryStyle(feature, styleObjectFromStyleList.rules, false, Config.wfsImgPath) : undefined;
                     let limiter = ",";
 
                     clonedFeature = feature.clone();
                     styleAttributes.forEach(attribute => {
                         clonedFeature.set(attribute, (clonedFeature.get("features") ? clonedFeature.get("features")[0] : clonedFeature).get(attribute) + "_" + String(index));
+                        clonedFeature.ol_uid = feature.ol_uid;
                     });
                     geometryType = feature.getGeometry().getType();
 
@@ -523,7 +535,7 @@ const BuildSpecModel = {
                         }
                     }
                     stylingRules = this.getStylingRules(layer, clonedFeature, styleAttributes, style);
-                    if (styleModel !== undefined && styleModel.get("labelField") && styleModel.get("labelField").length > 0) {
+                    if (styleFromStyleList?.attributes?.labelField?.length > 0) {
                         stylingRules = stylingRules.replaceAll(limiter, " AND ");
                         limiter = " AND ";
                     }
@@ -604,7 +616,13 @@ const BuildSpecModel = {
         return feature;
     },
 
-    getStyleModel (layer, layerId) {
+    /**
+     * Gets the style object for the given layer.
+     * @param {ol/layer} layer The layer.
+     * @param {String} layerId The layer id.
+     * @returns {Object} The style object.
+     */
+    getStyleObject (layer, layerId) {
         const layerModel = Radio.request("ModelList", "getModelByAttributes", {id: layer?.get("id")});
         let foundChild;
 
@@ -612,11 +630,11 @@ const BuildSpecModel = {
             if (layerModel.get("typ") === "GROUP") {
                 foundChild = layerModel.get("children").find(child => child.id === layerId);
                 if (foundChild) {
-                    return Radio.request("StyleList", "returnModelById", foundChild.styleId);
+                    return styleList.returnStyleObject(foundChild.styleId);
                 }
             }
             else {
-                return Radio.request("StyleList", "returnModelById", layerModel.get("styleId"));
+                return styleList.returnStyleObject(layerModel.get("styleId"));
             }
         }
         return undefined;
@@ -1050,7 +1068,8 @@ const BuildSpecModel = {
      */
     getStylingRules: function (layer, feature, styleAttributes, style, styleIndex) {
         const styleAttr = feature.get("styleId") ? "styleId" : styleAttributes,
-            styleModel = this.getStyleModel(layer);
+            styleObjectFromStyleList = styleList.returnStyleObject(layer.get("id")),
+            styleFromStyleList = styleObjectFromStyleList ? createStyle.getGeometryStyle(feature, styleObjectFromStyleList.rules, false, Config.wfsImgPath) : undefined;
 
         if (styleAttr.length === 1 && styleAttr[0] === "") {
             if (feature.get("features") && feature.get("features").length === 1) {
@@ -1113,8 +1132,8 @@ const BuildSpecModel = {
             }, "[").slice(0, -1) + "]";
         }
         // feature with geometry style and label style
-        if (styleModel !== undefined && styleModel.get("labelField") && styleModel.get("labelField").length > 0) {
-            const labelField = styleModel.get("labelField");
+        if (styleFromStyleList !== undefined && styleFromStyleList.attributes.labelField && styleFromStyleList.attributes.labelField.length > 0) {
+            const labelField = styleFromStyleList.attributes.labelField;
 
             return styleAttr.reduce((acc, curr) => acc + `${curr}='${feature.get(curr)}' AND ${labelField}='${feature.get(labelField)}',`, "[").slice(0, -1)
                 + "]";
@@ -1135,20 +1154,20 @@ const BuildSpecModel = {
      */
     getStyleAttributes: function (layer, feature) {
         const layerId = layer.get("id"),
-            styleList = this.getStyleModel(layer, layerId);
+            styleObject = this.getStyleObject(layer, layerId);
         let styleFields = ["styleId"],
             layerModel = Radio.request("ModelList", "getModelByAttributes", {id: layer.get("id")});
 
-        if (styleList !== undefined) {
+        if (styleObject !== undefined) {
             layerModel = this.getChildModelIfGroupLayer(layerModel, layerId);
 
             if (layerModel.get("styleId")) {
-                const featureRules = styleList.getRulesForFeature(feature);
+                const featureRules = getRulesForFeature(styleObject, feature);
 
                 styleFields = featureRules?.[0]?.conditions ? Object.keys(featureRules[0].conditions.properties) : [""];
             }
             else {
-                styleFields = [styleList.get("styleField")];
+                styleFields = [styleObject.get("styleField")];
             }
         }
 

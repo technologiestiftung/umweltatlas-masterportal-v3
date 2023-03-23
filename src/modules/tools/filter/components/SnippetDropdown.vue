@@ -1,5 +1,6 @@
 <script>
 import Multiselect from "vue-multiselect";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import {translateKeyWithPlausibilityCheck} from "../../../../utils/translateKeyWithPlausibilityCheck.js";
 import {getStyleModel, getIconListFromLegend} from "../utils/getIconListFromLegend.js";
 import {getDefaultOperatorBySnippetType} from "../utils/getDefaultOperatorBySnippetType.js";
@@ -132,6 +133,11 @@ export default {
             required: false,
             default: 0
         },
+        showAllValues: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
         value: {
             type: Array,
             required: false,
@@ -161,7 +167,8 @@ export default {
                 "STARTSWITH",
                 "ENDSWITH"
             ],
-            source: ""
+            source: "",
+            allValues: false
         };
     },
     computed: {
@@ -273,6 +280,20 @@ export default {
             this.addDropdownValueForAdjustment(this.dropdownValue, this.value, adjusting?.adjust?.value, this.delimitor);
 
             if (adjusting?.finish) {
+                if (Array.isArray(this.allValues)) {
+                    if (Array.isArray(adjusting?.adjust?.value)) {
+                        adjusting.adjust.value.forEach(adjustedValue => {
+                            if (!this.allValues.includes(adjustedValue)) {
+                                this.allValues.push(adjustedValue);
+                            }
+                        });
+                    }
+                    this.allValues.forEach(value => {
+                        if (!this.dropdownValue.includes(value)) {
+                            this.dropdownValue.push(value);
+                        }
+                    });
+                }
                 this.setDropdownSelectedAfterAdjustment(this.dropdownValue, this.dropdownSelected, selected => {
                     this.setCurrentSource("adjust");
                     this.dropdownSelected = selected;
@@ -306,7 +327,6 @@ export default {
     },
     mounted () {
         this.initializeIcons();
-
         if (!this.visible) {
             this.dropdownValue = Array.isArray(this.prechecked) ? this.prechecked : [];
             this.dropdownSelected = this.getInitialDropdownSelected(this.prechecked, this.dropdownValue, this.multiselect);
@@ -334,6 +354,9 @@ export default {
                         this.isInitializing = false;
                         this.disable = false;
                         this.emitSnippetPrechecked(this.prechecked, this.snippetId, this.visible);
+                        if (this.showAllValues && this.prechecked === "all") {
+                            this.allValues = this.dropdownSelected;
+                        }
                     });
                 }, error => {
                     this.disable = false;
@@ -421,12 +444,14 @@ export default {
             if (this.renderIcons === "fromLegend") {
                 this.styleModel = getStyleModel(this.layerId);
 
-                if (!this.styleModel || !this.styleModel.getLegendInfos() || !Array.isArray(this.styleModel.getLegendInfos())) {
-                    this.legendsInfo = [];
-                }
-                else {
-                    this.legendsInfo = this.styleModel.getLegendInfos();
-                }
+                createStyle.returnLegendByStyleId(this.layerId).then(legendInfos => {
+                    if (!this.styleModel || !legendInfos.legendInformation || !Array.isArray(legendInfos.legendInformation)) {
+                        this.legendsInfo = [];
+                    }
+                    else {
+                        this.legendInfo = legendInfos.legendInformation;
+                    }
+                });
             }
             else if (isObject(this.renderIcons)) {
                 this.iconList = this.renderIcons;

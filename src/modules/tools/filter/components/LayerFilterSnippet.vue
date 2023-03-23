@@ -232,22 +232,21 @@ export default {
                 return;
             }
 
-            rules.forEach((rule, snippetId) => {
-                if (this.isRule(rule)) {
-                    if (!Array.isArray(rule?.value)
-                        && (this.snippets[rule.snippetId]?.type === "dropdown"
-                        || this.snippets[rule.snippetId]?.type === "sliderRange"
-                        || this.snippets[rule.snippetId]?.type === "dateRange"
-                        )
-                    ) {
-                        this.snippets[rule.snippetId].prechecked = [rule?.value];
-                        return;
-                    }
-                    this.snippets[rule.snippetId].prechecked = rule?.value;
+            rules.forEach((rule) => {
+                if (!this.isRule(rule)) {
+                    return;
                 }
-                else {
-                    this.snippets[snippetId].prechecked = [];
+
+                if (!Array.isArray(rule?.value)
+                    && (this.snippets[rule.snippetId]?.type === "dropdown"
+                    || this.snippets[rule.snippetId]?.type === "sliderRange"
+                    || this.snippets[rule.snippetId]?.type === "dateRange"
+                    )
+                ) {
+                    this.snippets[rule.snippetId].prechecked = [rule?.value];
+                    return;
                 }
+                this.snippets[rule.snippetId].prechecked = rule?.value;
             });
         },
         /**
@@ -383,7 +382,8 @@ export default {
             // Please use the true or false check otherwise the fuzzy logic (true, false, undefined) wouldn't work anymore
             const rules = reset === true ? [] : false,
                 adjust = reset !== true,
-                alterMap = reset !== false;
+                alterMap = reset !== false,
+                onfinish = reset === true ? () => this.handleActiveStrategy(snippetId, false) : false;
 
             this.filter(snippetId, filterAnswer => {
                 const adjustments = getSnippetAdjustments(this.snippets, filterAnswer?.items, filterAnswer?.paging?.page, filterAnswer?.paging?.total),
@@ -398,11 +398,8 @@ export default {
                         adjust: isObject(adjustments[snippet.snippetId]) ? adjustments[snippet.snippetId] : false
                     };
                 });
-            }, adjust, alterMap, rules);
+            }, onfinish, adjust, alterMap, rules);
 
-            if (reset) {
-                this.handleActiveStrategy(snippetId, false);
-            }
         },
         /**
          * Snippets with prechecked values are pushing their snippetId on startup, others are pushing false.
@@ -575,12 +572,13 @@ export default {
          * Filters the layer with the current snippet rules.
          * @param {Number|Number[]} [snippetId=false] the id(s) of the snippet that triggered the filtering
          * @param {Function} [onsuccess=false] a function to call on success
+         * @param {Function} [onfinish=false] a function to call when filtering is finished
          * @param {Boolean} adjustment true if the filter should adjust
          * @param {Boolean} alterLayer true if the layer should alter the layer items
          * @param {Object[]} rules array of rules
          * @returns {void}
          */
-        filter (snippetId = false, onsuccess = false, adjustment = true, alterLayer = true, rules = false) {
+        filter (snippetId = false, onsuccess = false, onfinish = false, adjustment = true, alterLayer = true, rules = false) {
             const filterId = this.layerConfig.filterId,
                 filterQuestion = {
                     filterId,
@@ -665,6 +663,9 @@ export default {
                         }
                         if (typeof onsuccess === "function" && adjustment) {
                             onsuccess(filterAnswer);
+                        }
+                        if (typeof onfinish === "function" && this.paging?.total && this.paging?.page === this.paging?.total) {
+                            onfinish();
                         }
                     }, error => {
                         console.warn(error);
@@ -917,6 +918,7 @@ export default {
                     :render-icons="snippet.renderIcons"
                     :fixed-rules="fixedRules"
                     :snippet-id="snippet.snippetId"
+                    :show-all-values="snippet.showAllValues"
                     :value="snippet.value"
                     :visible="snippet.visible"
                     :options-limit="snippet.optionsLimit"

@@ -50,7 +50,7 @@ const actions = {
                     );
 
                     if (addFeatures) {
-                        dispatch("Maps/addLayer", new VectorLayer({
+                        dispatch("Maps/addLayerOnTop", new VectorLayer({
                             source: new VectorSource({
                                 features: styleId === undefined
                                     ? featureCollection
@@ -102,7 +102,7 @@ const actions = {
                         filteredFeatures = createStyledFeatures(filteredFeatures, styleId);
                     }
                     if (addFeatures && filteredFeatures.length > 0) {
-                        dispatch("Maps/addLayer", new VectorLayer({
+                        dispatch("Maps/addLayerOnTop", new VectorLayer({
                             source: new VectorSource({features: filteredFeatures})
                         }), {root: true});
                     }

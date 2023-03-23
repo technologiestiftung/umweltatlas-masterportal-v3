@@ -1,3 +1,6 @@
+import Map from "ol/Map";
+import View from "ol/View";
+import {Style} from "ol/style.js";
 import VectorSource from "ol/source/Vector.js";
 import VectorLayer from "ol/layer/Vector.js";
 import Cluster from "ol/source/Cluster.js";
@@ -5,16 +8,48 @@ import {expect} from "chai";
 import sinon from "sinon";
 import OAFLayer from "../../oaf";
 import store from "../../../../app-store";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
+import getGeometryTypeFromService from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
+import webgl from "../../renderer/webgl";
 
 describe("src/core/layers/oaf.js", () => {
-    const consoleWarn = console.warn;
-    let attributes;
+    let attributes,
+        style1 = null,
+        style2 = null,
+        style3 = null;
+    const consoleWarn = console.warn,
+        featuresToShow = [{
+            getId: () => "1",
+            get: () => sinon.stub(),
+            set: () => sinon.stub(),
+            setStyle: (fn) => {
+                style1 = fn;
+            }
+        },
+        {
+            getId: () => "2",
+            get: () => sinon.stub(),
+            set: () => sinon.stub(),
+            setStyle: (fn) => {
+                style2 = fn;
+            }
+        },
+        {
+            getId: () => "3",
+            get: () => sinon.stub(),
+            set: () => sinon.stub(),
+            setStyle: (fn) => {
+                style3 = fn;
+            }
+        }];
 
     before(() => {
         mapCollection.clear();
-        const map = {
+        const map = new Map({
             id: "ol",
             mode: "2D",
+            view: new View(),
             addInteraction: sinon.stub(),
             removeInteraction: sinon.stub(),
             // addLayer: () => sinon.stub(),
@@ -23,15 +58,9 @@ describe("src/core/layers/oaf.js", () => {
                     getResolutions: () => [2000, 1000]
                 };
             }
-        };
+        });
 
         mapCollection.addMap(map, "2D");
-        i18next.init({
-            lng: "cimode",
-            debug: false
-        });
-    });
-    beforeEach(() => {
         attributes = {
             url: "https://url.de",
             name: "oafTestLayer",
@@ -117,13 +146,13 @@ describe("src/core/layers/oaf.js", () => {
         });
         it("getFeaturesFilterFunction shall filter bboxGeometry", function () {
             attributes.bboxGeometry = {
-                intersectsExtent: (extent) => {
-                    if (extent.includes("1")) {
+                intersectsCoordinate: (coord) => {
+                    if (coord[0] === 0.5 && coord[1] === 0.5) {
                         return true;
                     }
                     return false;
                 },
-                getExtent: () => ["1"]
+                getExtent: () => [0, 0, 1, 1]
             };
             const oafLayer = new OAFLayer(attributes),
                 featuresFilterFunction = oafLayer.getFeaturesFilterFunction(attributes),
@@ -131,7 +160,7 @@ describe("src/core/layers/oaf.js", () => {
                     id: "1",
                     getGeometry: () => {
                         return {
-                            getExtent: () => ["1"]
+                            getExtent: () => [0, 0, 1, 1]
                         };
 
                     }
@@ -144,7 +173,7 @@ describe("src/core/layers/oaf.js", () => {
                     id: "3",
                     getGeometry: () => {
                         return {
-                            getExtent: () => ["2"]
+                            getExtent: () => [2, 2, 3, 3]
                         };
                     }
                 }];
@@ -175,21 +204,8 @@ describe("src/core/layers/oaf.js", () => {
     });
     describe("getStyleFunction", () => {
         it("getStyleFunction shall return a function", function () {
-            sinon.stub(Radio, "request").callsFake((...args) => {
-                let ret = null;
-
-                args.forEach(arg => {
-                    if (arg === "returnModelById") {
-                        ret = {
-                            id: "id",
-                            createStyle: () => sinon.stub(),
-                            getGeometryTypeFromOAF: () => sinon.stub(),
-                            getLegendInfos: () => sinon.stub()
-                        };
-                    }
-                });
-                return ret;
-            });
+            sinon.stub(styleList, "returnStyleObject").returns(true);
+            sinon.stub(getGeometryTypeFromService, "getGeometryTypeFromOAF").returns(true);
             const oafLayer = new OAFLayer(attributes),
                 styleFunction = oafLayer.getStyleFunction(attributes);
 
@@ -221,33 +237,17 @@ describe("src/core/layers/oaf.js", () => {
         });
     });
     describe("functions for features", () => {
-        let style1 = null,
-            style2 = null,
-            style3 = null;
-        const features = [{
-            getId: () => "1",
-            get: () => sinon.stub(),
-            set: () => sinon.stub(),
-            setStyle: (fn) => {
-                style1 = fn;
-            }
-        },
-        {
-            getId: () => "2",
-            get: () => sinon.stub(),
-            set: () => sinon.stub(),
-            setStyle: (fn) => {
-                style2 = fn;
-            }
-        },
-        {
-            getId: () => "3",
-            get: () => sinon.stub(),
-            set: () => sinon.stub(),
-            setStyle: (fn) => {
-                style3 = fn;
-            }
-        }];
+        beforeEach(() => {
+            sinon.stub(styleList, "returnStyleObject").returns(true);
+            sinon.stub(getGeometryTypeFromService, "getGeometryTypeFromOAF").returns(true);
+            featuresToShow.forEach((feature) => {
+                feature.setStyle(() => null);
+            });
+        });
+
+        afterEach(() => {
+            sinon.restore();
+        });
 
         it("hideAllFeatures", function () {
             const oafLayer = new OAFLayer(attributes),
@@ -255,13 +255,13 @@ describe("src/core/layers/oaf.js", () => {
                 clearStub = sinon.stub(layer.getSource(), "clear"),
                 addFeaturesStub = sinon.stub(layer.getSource(), "addFeatures");
 
-            sinon.stub(layer.getSource(), "getFeatures").returns(features);
+            sinon.stub(layer.getSource(), "getFeatures").returns(featuresToShow);
 
             oafLayer.hideAllFeatures();
 
             expect(oafLayer.get("layer").getSource().getFeatures().length).to.be.equals(3);
-            expect(clearStub.calledOnce).to.be.true;
-            expect(addFeaturesStub.calledOnce).to.be.true;
+            expect(clearStub.calledTwice).to.be.true;
+            expect(addFeaturesStub.calledTwice).to.be.true;
             expect(typeof style1).to.be.equals("function");
             expect(style1()).to.be.null;
             expect(typeof style2).to.be.equals("function");
@@ -271,63 +271,36 @@ describe("src/core/layers/oaf.js", () => {
 
         });
         it("showAllFeatures", function () {
-            sinon.stub(Radio, "request").callsFake((...args) => {
-                let ret = null;
-
-                args.forEach(arg => {
-                    if (arg === "returnModelById") {
-                        ret = {
-                            id: "id",
-                            createStyle: () => sinon.stub(),
-                            getGeometryTypeFromOAF: () => sinon.stub(),
-                            getLegendInfos: () => sinon.stub()
-                        };
-                    }
-                });
-                return ret;
-            });
+            sinon.stub(createStyle, "createStyle").returns(new Style());
             const oafLayer = new OAFLayer(attributes),
                 layer = oafLayer.get("layer");
 
-            sinon.stub(layer.getSource(), "getFeatures").returns(features);
+            sinon.stub(layer.getSource(), "getFeatures").returns(featuresToShow);
             oafLayer.showAllFeatures();
 
             expect(oafLayer.get("layer").getSource().getFeatures().length).to.be.equals(3);
-            expect(typeof style1).to.be.equals("function");
-            expect(style1()).not.to.be.null;
-            expect(typeof style2).to.be.equals("function");
-            expect(style2()).not.to.be.null;
-            expect(typeof style3).to.be.equals("function");
-            expect(style3()).not.to.be.null;
+            expect(typeof style1).to.be.equals("object");
+            expect(style1).not.to.be.null;
+            expect(typeof style2).to.be.equals("object");
+            expect(style2).not.to.be.null;
+            expect(typeof style3).to.be.equals("object");
+            expect(style3).not.to.be.null;
         });
         it("showFeaturesByIds", function () {
-            sinon.stub(Radio, "request").callsFake((...args) => {
-                let ret = null;
-
-                args.forEach(arg => {
-                    if (arg === "returnModelById") {
-                        ret = {
-                            id: "id",
-                            createStyle: () => sinon.stub(),
-                            getGeometryTypeFromOAF: () => sinon.stub(),
-                            getLegendInfos: () => sinon.stub()
-                        };
-                    }
-                });
-                return ret;
-            });
+            sinon.stub(createStyle, "createStyle").returns(new Style());
             const oafLayer = new OAFLayer(attributes),
                 layer = oafLayer.get("layer"),
                 clearStub = sinon.stub(layer.getSource(), "clear");
 
             sinon.stub(layer.getSource(), "addFeatures");
-            sinon.stub(layer.getSource(), "getFeatures").returns(features);
-            sinon.stub(layer.getSource(), "getFeatureById").returns(features[0]);
+            sinon.stub(layer.getSource(), "getFeatures").returns(featuresToShow);
+            sinon.stub(layer.getSource(), "getFeatureById").returns(featuresToShow[0]);
+            sinon.stub(oafLayer, "hideAllFeatures");
             oafLayer.showFeaturesByIds(["1"]);
 
             expect(oafLayer.get("layer").getSource().getFeatures().length).to.be.equals(3);
             expect(typeof style1).to.be.equals("function");
-            expect(style1()).not.to.be.null;
+            expect(style1).not.to.be.null;
             expect(typeof style2).to.be.equals("function");
             expect(style2()).to.be.null;
             expect(typeof style3).to.be.equals("function");
@@ -365,6 +338,23 @@ describe("src/core/layers/oaf.js", () => {
             oafLayer.styling();
             expect(typeof oafLayer.get("layer").getStyle()).to.be.equals("function");
             expect(oafLayer.get("layer").getStyle()()).to.be.equals("test");
+        });
+    });
+    describe("Use WebGL renderer", () => {
+        it("Should create the layer with WebGL methods, if renderer: \"webgl\" is set", function () {
+            const
+                geojsonLayer = new OAFLayer({...attributes, renderer: "webgl"}),
+                layer = geojsonLayer.get("layer");
+
+            expect(geojsonLayer.isDisposed).to.equal(webgl.isDisposed);
+            expect(geojsonLayer.setIsSelected).to.equal(webgl.setIsSelected);
+            expect(geojsonLayer.hideAllFeatures).to.equal(webgl.hideAllFeatures);
+            expect(geojsonLayer.showAllFeatures).to.equal(webgl.showAllFeatures);
+            expect(geojsonLayer.showFeaturesByIds).to.equal(webgl.showFeaturesByIds);
+            expect(geojsonLayer.setStyle).to.equal(webgl.setStyle);
+            expect(geojsonLayer.styling).to.equal(webgl.setStyle);
+            expect(geojsonLayer.source).to.equal(layer.getSource());
+            expect(layer.get("isPointLayer")).to.not.be.undefined;
         });
     });
 });

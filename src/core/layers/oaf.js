@@ -1,9 +1,15 @@
 import {oaf} from "@masterportal/masterportalapi";
 import LoaderOverlay from "../../utils/loaderOverlay";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import getGeometryTypeFromService from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
+import store from "../../app-store";
 import Layer from "./layer";
 import * as bridge from "./RadioBridge.js";
 import Cluster from "ol/source/Cluster";
 import {bbox, all} from "ol/loadingstrategy.js";
+import webgl from "./renderer/webgl";
+import {getCenter} from "ol/extent";
 
 /**
  * Creates a layer of type OAF.
@@ -22,6 +28,12 @@ export default function OAFLayer (attrs) {
     };
 
     this.createLayer(Object.assign(defaults, attrs));
+
+    // override class methods for webgl rendering
+    // has to happen before setStyle/styling
+    if (attrs.renderer === "webgl") {
+        webgl.setLayerProperties(this);
+    }
 
     // call the super-layer
     Layer.call(this, Object.assign(defaults, attrs), this.layer, !attrs.isChildLayer);
@@ -65,7 +77,12 @@ OAFLayer.prototype.createLayer = function (attrs) {
             hitTolerance: attrs.hitTolerance,
             altitudeMode: attrs.altitudeMode,
             alwaysOnTop: attrs.alwaysOnTop,
-            layerSequence: attrs.layerSequence
+            layerSequence: attrs.layerSequence,
+            renderer: attrs.renderer, // use "default" (canvas) or "webgl" renderer
+            styleId: attrs.styleId, // styleId to pass to masterportalapi
+            style: attrs.style, // style function to style the layer or WebGLPoints style syntax
+            excludeTypesFromParsing: attrs.excludeTypesFromParsing, // types that should not be parsed from strings, only necessary for webgl
+            isPointLayer: attrs.isPointLayer // whether the source will only hold point data, only necessary for webgl
         },
         styleFn = this.getStyleFunction(attrs),
         options = {
@@ -119,7 +136,9 @@ OAFLayer.prototype.getFeaturesFilterFunction = function (attrs) {
         let filteredFeatures = features.filter(feature => feature.getGeometry() !== undefined);
 
         if (attrs.bboxGeometry) {
-            filteredFeatures = filteredFeatures.filter((feature) => attrs.bboxGeometry.intersectsExtent(feature.getGeometry().getExtent()));
+            filteredFeatures = filteredFeatures.filter(
+                (feature) => attrs.bboxGeometry.intersectsCoordinate(getCenter(feature.getGeometry().getExtent()))
+            );
         }
         return filteredFeatures;
     };
@@ -144,16 +163,16 @@ OAFLayer.prototype.getPropertyname = function (attrs) {
  */
 OAFLayer.prototype.getStyleFunction = function (attrs) {
     const styleId = attrs.styleId,
-        styleModel = bridge.getStyleModelById(styleId);
+        styleObject = styleList.returnStyleObject(styleId);
     let isClusterFeature = false,
         style = null;
 
-    if (styleModel !== undefined) {
+    if (styleObject !== undefined) {
         style = function (feature) {
             const feat = feature !== undefined ? feature : this;
 
             isClusterFeature = typeof feat.get("features") === "function" || typeof feat.get("features") === "object" && Boolean(feat.get("features"));
-            return styleModel.createStyle(feat, isClusterFeature);
+            return createStyle.createStyle(styleObject, feat, isClusterFeature, Config.wfsImgPath);
         };
     }
     else {
@@ -177,15 +196,24 @@ OAFLayer.prototype.updateSource = function () {
  * @returns {void}
  */
 OAFLayer.prototype.createLegend = function () {
-    const styleModel = bridge.getStyleModelById(this.get("styleId")),
+    const styleObject = styleList.returnStyleObject(this.attributes.styleId),
+        rules = styleObject?.rules,
         legend = this.get("legend");
 
     if (Array.isArray(legend)) {
         this.setLegend(legend);
     }
-    else if (styleModel && legend === true) {
-        styleModel.getGeometryTypeFromOAF(this.get("url"), this.get("collection"));
-        this.setLegend(styleModel.getLegendInfos());
+    else if (styleObject && legend === true) {
+        getGeometryTypeFromService.getGeometryTypeFromOAF(rules, this.get("url"), this.get("collection"), Config.wfsImgPath,
+            (error) => {
+                if (error) {
+                    store.dispatch("Alerting/addSingleAlert", "<strong>" + i18next.t("common:modules.vectorStyle.styleObject.getGeometryTypeFromOAFFetchfailed") + "</strong> <br>"
+                    + "<small>" + i18next.t("common:modules.vectorStyle.styleObject.getGeometryTypeFromOAFFetchfailedMessage") + "</small>");
+                }
+            });
+        createStyle.returnLegendByStyleId(styleObject.styleId).then(legendInfos => {
+            this.setLegend(legendInfos.legendInformation);
+        });
     }
     else if (typeof legend === "string") {
         this.setLegend([legend]);

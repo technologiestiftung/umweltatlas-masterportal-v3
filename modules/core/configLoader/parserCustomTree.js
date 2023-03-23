@@ -59,7 +59,8 @@ const CustomTreeParser = Parser.extend(/** @lends CustomTreeParser.prototype */{
                     // DIPAS -> if the layer type "StaticImage" is transferred, the system does not break off but continues to work with the new ImageURL.
                     // Is required for the use of an individually oiled picture.
                     if (objFromRawList === null) {
-                        if (layerExtended?.url) { // Wenn LayerID nicht definiert, dann Abbruch
+                        // return void if no URL is defined
+                        if (layerExtended?.url) {
                             objFromRawList = layerExtended;
                         }
                         else {
@@ -78,7 +79,8 @@ const CustomTreeParser = Parser.extend(/** @lends CustomTreeParser.prototype */{
                     // DIPAS -> if the layer type "StaticImage" is transferred, the system does not break off but continues to work with the new ImageURL.
                     // Is required for the use of an individually oiled picture.
                     if (objFromRawList === null) {
-                        if (layerExtended?.url) { // Wenn LayerID nicht definiert, dann Abbruch
+                        // return void if no URL is defined
+                        if (layerExtended?.url) {
                             objFromRawList = layerExtended;
                         }
                         else {

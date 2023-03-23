@@ -1,9 +1,17 @@
 import {wfs} from "@masterportal/masterportalapi";
 import LoaderOverlay from "../../utils/loaderOverlay";
 import Layer from "./layer";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import getGeometryTypeFromService from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
+import store from "../../app-store";
 import * as bridge from "./RadioBridge.js";
 import Cluster from "ol/source/Cluster";
 import {bbox, all} from "ol/loadingstrategy.js";
+import {getCenter} from "ol/extent";
+import webgl from "./renderer/webgl";
+
+const geometryTypeRequestLayers = [];
 
 /**
  * Creates a layer of type WFS.
@@ -22,11 +30,17 @@ export default function WFSLayer (attrs) {
 
     this.createLayer(Object.assign(defaults, attrs));
 
+
+    // override class methods for webgl rendering
+    // has to happen before setStyle/styling
+    if (attrs.renderer === "webgl") {
+        webgl.setLayerProperties(this);
+    }
+
     // call the super-layer
     Layer.call(this, Object.assign(defaults, attrs), this.layer, !attrs.isChildLayer);
     this.set("style", this.getStyleFunction(attrs));
     this.prepareFeaturesFor3D(this.layer.getSource().getFeatures());
-    this.createLegend();
 }
 // Link prototypes and add prototype methods, means WFSLayer uses all methods and properties of Layer
 WFSLayer.prototype = Object.create(Layer.prototype);
@@ -54,7 +68,12 @@ WFSLayer.prototype.createLayer = function (attrs) {
             hitTolerance: attrs.hitTolerance,
             altitudeMode: attrs.altitudeMode,
             alwaysOnTop: attrs.alwaysOnTop,
-            layerSequence: attrs.layerSequence
+            layerSequence: attrs.layerSequence,
+            renderer: attrs.renderer, // use "default" (canvas) or "webgl" renderer
+            styleId: attrs.styleId, // styleId to pass to masterportalapi
+            style: attrs.style, // style function to style the layer or WebGLPoints style syntax
+            excludeTypesFromParsing: attrs.excludeTypesFromParsing, // types that should not be parsed from strings, only necessary for webgl
+            isPointLayer: attrs.isPointLayer // whether the source will only hold point data, only necessary for webgl
         },
         styleFn = this.getStyleFunction(attrs),
         options = {
@@ -114,7 +133,9 @@ WFSLayer.prototype.getFeaturesFilterFunction = function (attrs) {
         let filteredFeatures = features.filter(feature => feature.getGeometry() !== undefined);
 
         if (attrs.bboxGeometry) {
-            filteredFeatures = filteredFeatures.filter((feature) => attrs.bboxGeometry.intersectsExtent(feature.getGeometry().getExtent()));
+            filteredFeatures = filteredFeatures.filter(
+                (feature) => attrs.bboxGeometry.intersectsCoordinate(getCenter(feature.getGeometry().getExtent()))
+            );
         }
         return filteredFeatures;
     };
@@ -132,6 +153,7 @@ WFSLayer.prototype.getPropertyname = function (attrs) {
     }
     return propertyname;
 };
+
 /**
  * Sets Style for layer.
  * @param {Object} attrs  params of the raw layer
@@ -139,22 +161,22 @@ WFSLayer.prototype.getPropertyname = function (attrs) {
  */
 WFSLayer.prototype.getStyleFunction = function (attrs) {
     const styleId = attrs.styleId,
-        styleModel = bridge.getStyleModelById(styleId);
+        styleObject = styleList.returnStyleObject(styleId);
     let isClusterFeature = false,
         style = null;
 
-    if (styleModel !== undefined) {
-        style = function (feature) {
+    if (styleObject !== undefined) {
+        style = (feature) => {
             const feat = feature !== undefined ? feature : this;
 
+            this.createLegend();
             isClusterFeature = typeof feat.get("features") === "function" || typeof feat.get("features") === "object" && Boolean(feat.get("features"));
-            return styleModel.createStyle(feat, isClusterFeature);
+            return createStyle.createStyle(styleObject, feat, isClusterFeature, Config.wfsImgPath);
         };
     }
     else {
         console.error(i18next.t("common:modules.core.modelList.layer.wrongStyleId", {styleId}));
     }
-
     return style;
 };
 /**
@@ -172,7 +194,8 @@ WFSLayer.prototype.updateSource = function () {
  * @returns {void}
  */
 WFSLayer.prototype.createLegend = function () {
-    const styleModel = bridge.getStyleModelById(this.get("styleId")),
+    const styleObject = styleList.returnStyleObject(this.attributes.styleId),
+        rules = styleObject?.rules,
         isSecured = this.attributes.isSecured;
     let legend = this.get("legend");
 
@@ -194,14 +217,36 @@ WFSLayer.prototype.createLegend = function () {
     if (Array.isArray(legend)) {
         this.setLegend(legend);
     }
-    else if (styleModel && legend === true) {
-        if (!isSecured) {
-            styleModel.getGeometryTypeFromWFS(this.get("url"), this.get("version"), this.get("featureType"), this.get("styleGeometryType"), this.get("useProxy"));
-        }
-        else if (isSecured) {
-            styleModel.getGeometryTypeFromSecuredWFS(this.get("url"), this.get("version"), this.get("featureType"), this.get("styleGeometryType"));
-        }
-        this.setLegend(styleModel.getLegendInfos());
+    else if (styleObject && legend === true) {
+        createStyle.returnLegendByStyleId(styleObject.styleId).then(legendInfos => {
+            if (styleObject.styleId === "default") {
+                const type = this.layer.getSource().getFeatures()[0].getGeometry().getType(),
+                    typeSpecificLegends = [];
+
+                if (type === "MultiLineString") {
+                    typeSpecificLegends.push(legendInfos.legendInformation?.find(element => element.geometryType === "LineString"));
+                    this.setLegend(typeSpecificLegends);
+                }
+                else {
+                    typeSpecificLegends.push(legendInfos.legendInformation?.find(element => element.geometryType === type));
+                    this.setLegend(typeSpecificLegends);
+                }
+            }
+            else {
+                if (!geometryTypeRequestLayers.includes(this.get("id"))) {
+                    geometryTypeRequestLayers.push(this.get("id"));
+                    getGeometryTypeFromService.getGeometryTypeFromWFS(rules, this.get("url"), this.get("version"), this.get("featureType"), this.get("styleGeometryType"), isSecured, Config.wfsImgPath,
+                        (geometryTypes, error) => {
+                            if (error) {
+                                store.dispatch("Alerting/addSingleAlert", "<strong>" + i18next.t("common:modules.vectorStyle.styleObject.getGeometryTypeFromWFSFetchfailed") + "</strong> <br>"
+                                    + "<small>" + i18next.t("common:modules.vectorStyle.styleObject.getGeometryTypeFromWFSFetchfailedMessage") + "</small>");
+                            }
+                            return geometryTypes;
+                        });
+                }
+                this.setLegend(legendInfos.legendInformation);
+            }
+        });
     }
     else if (typeof legend === "string") {
         this.setLegend([legend]);

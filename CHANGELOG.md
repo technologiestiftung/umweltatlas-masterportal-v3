@@ -3,10 +3,63 @@
 
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
-
 ## Unreleased - in development
 ### __Breaking Changes__
-Time library `moment.js` was replaced with [day.js](https://day.js.org/). Please consider to use `day.js` in your future pull requests.
+
+### Added
+- New WebGL Render Pipeline
+    - core/layers/renderer/webgl: New layer-class methods for rendering WFS, GeoJSON, OAF or VectorBase layers using OL7's WebGL render pipelines
+- Filter:
+    - New parameter `showAllValues` is added. This prevents the values from disappearing when adjusting them.
+- CoordToolkit
+    - Added new function for ETRS89_3GK3 including new validation rule.
+    - Added new configuration parameters for elevation and coordinate reference system explanations.
+
+### Changed
+- Update GeoJSON, WFS, OAF getFeaturesFilterFunction filtert kann nach exakter Geometrie filtern.
+- Update GeoJSON, WFS, OAF und VectorBase für WebGL Rendering
+    - ModelList/updateLayerView: Only add layers to index if they are actually being displayed on the map (removes unnecessary calls)
+    - actionsMapLayers/addLayerOnTop: Use the ModelList for the length of the layer list, not the map, as layer that are not visible or have been disposed (WebGL) might not be on the map
+    - moverHover/actionsMouseHover: collect webgl features for mouseHoverInfo
+    - GFI/gettersGfi: collect  webgl features for GFI
+    - initializersBufferAnalysis/loadSelectOptions: only freeze non-webgl layers
+- Update parameters for getGeometryTypeFromWFS and getGeometryTypeFromOAF to pass wfsImgPath from config.
+- The following NPM packages have been updated:
+  - dependencies:
+    - @masterportal/masterportalapi: 2.15.1 to 2.15.2
+
+### Deprecated
+
+### Removed
+
+### Fixed
+- actionsMapLayers/addLayer: don't set zIndex by default, otherwise addLayerOnTop and addLayerToIndex have no effect
+- Issue #842: LayerInformation shows all service urls in group layer.
+- Issue #846: Fix initially active FeatureLister behaviour in chromium browsers.
+- Issue #847: the gazetteer search now shows the correct positions of duplicate results in different cities
+- Issue #871: Extend WMS GFI implementation by a reader for QGIS WMS responses in format `text/xml`.
+- Issue #873: Text imports from previous exported kml files get displayed again.
+- Issue #891: The mapMarker customStyle now works again as expected.
+- The zoomToFeature layer now gets added on top, otherwise it would be hidden underneath the basemap
+
+---
+
+### v2.31.1 - 2023-03-09
+## Changed
+- The following NPM packages have been updated:
+  - dependencies:
+    - @masterportal/masterportalapi: 2.14.0 to 2.15.1
+
+## Fixed
+- Clustered GeoJSON-layer are now displayed correctly in 3D mode again.
+- Print: Layers with geometry type polygon are now styled correctly again in the printout.
+
+---
+
+## v2.31.0 - 2023-03-01
+### __Breaking Changes__
+- Time library `moment.js` was replaced with [day.js](https://day.js.org/). Please consider to use `day.js` in your future pull requests.
+- SpecialWFS require full URL in config now instead of relative paths.
 
 ### Added
 - layers:
@@ -14,14 +67,17 @@ Time library `moment.js` was replaced with [day.js](https://day.js.org/). Please
 - The following NPM package have been added:
     - dependencies:
         - "dayjs": "^1.11.7"
+    - devDependencies:
+        - "resize-observer-polyfill": "^1.5.1"
+- Code of Conduct file and contents.
+
 ### Changed
 - KeepOpen attribute for tools:
     - In type string, the tool name can be inserted as string.
     - In type array, some tool names can be inserted in an array.
 - The following NPM packages have been updated:
     - dependencies:
-        - @masterportal/masterportalapi: 2.12.0 to 2.13.0
-### Deprecated
+        - @masterportal/masterportalapi: 2.12.0 to 2.14.0  (This also raised ol to version 7.2.2)
 
 ### Removed
 - The following NPM package have been removed:
@@ -32,6 +88,12 @@ Time library `moment.js` was replaced with [day.js](https://day.js.org/). Please
 ### Fixed
 - Print: It is now possible to print larger amounts of data (limited by Mapfish print settings) where an error occurred before.
 - Print: edit printing for plotservice.
+- Print: fixed printing of symbols.
+- Issue #839: Under certain conditions, the external WFS filter did not work. An error occurred while parsing the WFS GetFeature Response.
+- Issue #846: Three bugs solved in featureLister: FeatureLister was stuck if initially active; FeatureLister was stuck if browsed layer deselected; FeatureLister was stuck on last removed layer.
+- Issue #867: SpeacialWFS search uses proxy if useProxy is configured true.
+- Issue #871: Support WMS GFI requests to HTTP in HTTP environment.
+- FeatureLister: always contains an up to date list of layers to choose.
 
 ---
 
@@ -53,6 +115,7 @@ Time library `moment.js` was replaced with [day.js](https://day.js.org/). Please
 
 ### Fixed
 - Issue #839: Accordeon is now open initially if `active: true` is configured. Bug which triggers the error message is now fixed.
+- Issue #856: Providing version parameter for print services.
 - Issue #861: Initial order of the background maps after using "Save selection" tool was corrected.
 - uiStyle: Set uiStyle from config.js
 - 3D Tiles can now be hidden again with the hiddenFeatures/hiddenObjects attribute.

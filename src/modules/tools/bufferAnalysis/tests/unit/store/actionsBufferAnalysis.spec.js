@@ -75,7 +75,6 @@ describe("src/modules/tools/bufferAnalysis/store/actionsBufferAnalysis.js", () =
     });
     describe("loadSelectOptions", () => {
         it("loads a number of layers as select options and commits them", () => {
-
             const source = {getFeatures: ()=>[]},
                 layers = createLayersArray(3);
 
@@ -93,6 +92,28 @@ describe("src/modules/tools/bufferAnalysis/store/actionsBufferAnalysis.js", () =
             expect(commit.args[1][1]).to.equal(layers[1]);
             expect(commit.args[2][0]).to.equal("addSelectOption");
             expect(commit.args[2][1]).to.equal(layers[2]);
+        });
+        it("freeze non-webgl layers", () => {
+            const source = {getFeatures: ()=>[]},
+                layers = createLayersArray(2);
+
+            layers.forEach((layer, index) => {
+                layers[index].get = key => {
+                    if (key === "layerSource") {
+                        return source;
+                    }
+                    if (key === "renderer" && index === 1) {
+                        return "webgl";
+                    }
+                    return null;
+                };
+            });
+
+            sinon.stub(Radio, "request").returns(layers);
+            actions.loadSelectOptions({commit});
+
+            expect(Object.isFrozen(layers[0])).to.be.true;
+            expect(Object.isFrozen(layers[1])).to.be.false;
         });
     });
     describe("applySelectedSourceLayer", () => {

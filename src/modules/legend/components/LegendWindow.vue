@@ -1,5 +1,8 @@
 <script>
 import Feature from "ol/Feature.js";
+import StylePolygon from "@masterportal/masterportalapi/src/vectorStyle/styles/polygon/stylePolygon";
+import {createNominalCircleSegments} from "@masterportal/masterportalapi/src/vectorStyle/styles/point/stylePointNominal";
+import {createSVGStyle} from "@masterportal/masterportalapi/src/vectorStyle/styles/point/stylePointIcon";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import getters from "../store/gettersLegend";
 import mutations from "../store/mutationsLegend";
@@ -320,13 +323,13 @@ export default {
         /**
          * Prepares the legend for point style.
          * @param {Object} legendObj The legend object.
-         * @param {Object} style The styleModel.
+         * @param {Object} style The styleObject.
          * @returns {Object} - prepared legendObj.
          */
         prepareLegendForPoint (legendObj, style) {
-            const imgPath = style.get("imagePath"),
-                type = style.get("type").toLowerCase(),
-                imageName = style.get("imageName");
+            const imgPath = style.imagePath,
+                type = style.type ? style.type.toLowerCase() : style.attributes.type.toLowerCase(),
+                imageName = style.imageName;
             let newLegendObj = legendObj;
 
             if (type === "icon") {
@@ -346,12 +349,12 @@ export default {
 
         /**
          * Creates interval scaled advanced style for pointFeatures
-         * @param {Object} style The styleModel.
+         * @param {Object} style The styleObject.
          * @return {ol.Style} style
          */
         drawIntervalStyle (style) {
-            const scalingShape = style.get("scalingShape"),
-                scalingAttribute = style.get("scalingAttribute");
+            const scalingShape = style.scalingShape,
+                scalingAttribute = style.scalingAttribute;
             let intervalStyle = [];
 
             if (scalingShape === "CIRCLE_BAR") {
@@ -363,50 +366,49 @@ export default {
 
         /**
          * Creates nominal scaled advanced style for pointFeatures
-         * @param {Object} style The styleModel.
+         * @param {Object} styleObject The styleObject.
          * @return {ol.Style} style
          */
-        drawNominalStyle (style) {
-            const scalingShape = style.get("scalingShape").toLowerCase();
+        drawNominalStyle (styleObject) {
+            const scalingShape = styleObject.attributes.scalingShape.toLowerCase();
             let nominalStyle = [];
 
             if (scalingShape === "circlesegments") {
-                nominalStyle = this.drawNominalCircleSegments(style);
+                nominalStyle = this.drawNominalCircleSegments(styleObject);
             }
 
             return nominalStyle;
         },
         /**
          * Creats an SVG for nominal circle segment style.
-         * @param {ol.style} style style.
+         * @param {ol.style} styleObject The styleObject.
          * @returns {Array} - style as Array of objects.
          */
-        drawNominalCircleSegments: function (style) {
-            const scalingAttribute = style.get("scalingAttribute"),
-                scalingValues = style.get("scalingValues"),
+        drawNominalCircleSegments: function (styleObject) {
+            const scalingAttribute = styleObject.attributes.scalingAttribute,
+                scalingValues = styleObject.attributes.scalingValues,
                 nominalCircleSegments = [];
-            let olStyle = null;
 
             Object.keys(scalingValues).forEach(key => {
-                const clonedStyle = style.clone(),
-                    olFeature = new Feature(),
-                    imageScale = clonedStyle.get("imageScale");
+                const olFeature = new Feature(),
+                    imageScale = styleObject.attributes.imageScale;
                 let svg,
                     svgSize,
                     image,
                     imageSize,
-                    imageSizeWithScale;
+                    imageSizeWithScale,
+                    svgPath;
 
                 olFeature.set(scalingAttribute, key);
-                clonedStyle.setFeature(olFeature);
-                clonedStyle.setIsClustered(false);
-                olStyle = clonedStyle.getStyle();
-                if (Array.isArray(olStyle)) {
-                    svg = olStyle[0].getImage().getSrc();
-                    svgSize = olStyle[0].getImage().getSize();
-                    image = olStyle[1].getImage().getSrc();
-                    imageSize = olStyle[1].getImage().getSize();
+
+                if (Array.isArray(styleObject.style)) {
+                    svgPath = createNominalCircleSegments(olFeature, styleObject.attributes);
+                    svg = createSVGStyle(svgPath, 5).getImage().getSrc();
+                    svgSize = styleObject.style[0].getImage().getSize();
+                    image = styleObject.style[1].getImage().getSrc();
+                    imageSize = [Math.round(svgSize[0] * 1.04), Math.round(svgSize[1] * 1.04)];
                     imageSizeWithScale = [imageSize[0] * imageScale, imageSize[1] * imageScale];
+
                     nominalCircleSegments.push({
                         name: key,
                         graphic: [svg, image],
@@ -417,7 +419,7 @@ export default {
                 else {
                     nominalCircleSegments.push({
                         name: key,
-                        graphic: olStyle.getImage().getSrc()
+                        graphic: styleObject.style.getImage().getSrc()
                     });
                 }
             });
@@ -433,7 +435,7 @@ export default {
          */
         drawIntervalCircleBars: function (scalingAttribute, style) {
             const olFeature = new Feature(),
-                circleBarScalingFactor = style.get("circleBarScalingFactor"),
+                circleBarScalingFactor = style.circleBarScalingFactor,
                 barHeight = String(20 / circleBarScalingFactor),
                 clonedStyle = style.clone(),
                 intervalCircleBar = clonedStyle.getStyle().getImage().getSrc();
@@ -451,12 +453,12 @@ export default {
          * @returns {string} svg
          */
         drawCircleStyle: function (style) {
-            const circleStrokeColor = style.get("circleStrokeColor") ? convertColor(style.get("circleStrokeColor"), "rgbString") : "black",
-                circleStrokeOpacity = style.get("circleStrokeColor")[3] || 0,
-                circleStrokeWidth = style.get("circleStrokeWidth"),
-                circleFillColor = style.get("circleFillColor") ? convertColor(style.get("circleFillColor"), "rgbString") : "black",
-                circleFillOpacity = style.get("circleFillColor")[3] || 0,
-                circleRadius = style.get("circleRadius"),
+            const circleStrokeColor = style.circleStrokeColor ? convertColor(style.circleStrokeColor, "rgbString") : "black",
+                circleStrokeOpacity = style.circleStrokeColor[3] || 0,
+                circleStrokeWidth = style.circleStrokeWidth,
+                circleFillColor = style.circleFillColor ? convertColor(style.circleFillColor, "rgbString") : "black",
+                circleFillOpacity = style.circleFillColor[3] || 0,
+                circleRadius = style.circleRadius,
                 widthAndHeight = (circleRadius + 1.5) * 2;
             let svg = "data:image/svg+xml;charset=utf-8,";
 
@@ -480,14 +482,14 @@ export default {
         /**
          * Prepares the legend for linestring style.
          * @param {Object} legendObj The legend object.
-         * @param {Object} style The styleModel.
+         * @param {Object} style The styleObject.
          * @returns {Object} - prepared legendObj.
          */
         prepareLegendForLineString (legendObj, style) {
-            const strokeColor = style.get("lineStrokeColor") ? convertColor(style.get("lineStrokeColor"), "rgbString") : "black",
-                strokeWidth = style.get("lineStrokeWidth"),
-                strokeOpacity = style.get("lineStrokeColor")[3] || 0,
-                strokeDash = style.get("lineStrokeDash") ? style.get("lineStrokeDash").join(" ") : undefined;
+            const strokeColor = style.lineStrokeColor ? convertColor(style.lineStrokeColor, "rgbString") : "black",
+                strokeWidth = style.lineStrokeWidth,
+                strokeOpacity = style.lineStrokeColor[3] || 0,
+                strokeDash = style.lineStrokeDash ? style.lineStrokeDash.join(" ") : undefined;
             let svg = "data:image/svg+xml;charset=utf-8,";
 
             svg += "<svg height='35' width='35' version='1.1' xmlns='http://www.w3.org/2000/svg'>";
@@ -511,19 +513,19 @@ export default {
         /**
          * Prepares the legend for polygon style.
          * @param {Object} legendObj The legend object.
-         * @param {Object} style The styleModel.
+         * @param {Object} style The styleObject.
          * @returns {Object} - prepare legendObj
          */
         prepareLegendForPolygon (legendObj, style) {
-            const fillColor = style.get("polygonFillColor") ? convertColor(style.get("polygonFillColor"), "rgbString") : "black",
-                strokeColor = style.get("polygonStrokeColor") ? convertColor(style.get("polygonStrokeColor"), "rgbString") : "black",
-                strokeWidth = style.get("polygonStrokeWidth"),
-                fillOpacity = style.get("polygonFillColor")?.[3] || 0,
-                fillHatch = style.get("polygonFillHatch"),
-                strokeOpacity = style.get("polygonStrokeColor")[3] || 0;
+            const fillColor = style.polygonFillColor ? convertColor(style.polygonFillColor, "rgbString") : "black",
+                strokeColor = style.polygonStrokeColor ? convertColor(style.polygonStrokeColor, "rgbString") : "black",
+                strokeWidth = style.polygonStrokeWidth,
+                fillOpacity = style.polygonFillColor?.[3] || 0,
+                fillHatch = style.polygonFillHatch,
+                strokeOpacity = style.polygonStrokeColor[3] || 0;
 
             if (fillHatch) {
-                legendObj.graphic = style.getPolygonFillHatchLegendDataUrl();
+                legendObj.graphic = StylePolygon.prototype.getPolygonFillHatchLegendDataUrl(style);
             }
             else {
                 let svg = "data:image/svg+xml;charset=utf-8,";
@@ -551,11 +553,11 @@ export default {
         /**
          * Prepares the legend for cesium style.
          * @param {Object} legendObj The legend object.
-         * @param {Object} style The styleModel.
+         * @param {Object} style The styleObject.
          * @returns {Object} - prepare legendObj
          */
         prepareLegendForCesium (legendObj, style) {
-            const color = style.get("style") ? style.get("style").color : "black";
+            const color = style.style ? style.style.color : "black";
             let svg = "data:image/svg+xml;charset=utf-8,";
 
             svg += "<svg height='35' width='35' version='1.1' xmlns='http://www.w3.org/2000/svg'>";
@@ -582,12 +584,12 @@ export default {
          * @returns {String} - prepared name
         */
         prepareNameForCesium: function (style) {
-            const conditions = style.get("conditions");
+            const conditions = style.conditions;
             let name = "";
 
             if (conditions) {
                 Object.keys(conditions).forEach(attribute => {
-                    const value = style.get("conditions")[attribute];
+                    const value = style.conditions[attribute];
 
                     name += value;
                 });

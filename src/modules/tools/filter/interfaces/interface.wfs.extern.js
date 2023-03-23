@@ -490,11 +490,13 @@ export default class InterfaceWfsExtern {
      */
     getNodeByTagname (responseXML, tagname) {
         let node = responseXML;
+        const elements = node?.getElementsByTagNameNS("*", tagname);
 
-        if (typeof node?.getElementsByTagNameNS !== "function") {
+        if (typeof node?.getElementsByTagNameNS !== "function" || elements?.length === 0) {
             return node;
         }
-        node = node.getElementsByTagNameNS("*", tagname)[0];
+
+        node = elements[0];
 
         if (node !== null && !node.hasChildNodes()) {
             for (const childNode of responseXML.getElementsByTagName(node.tagName)) {

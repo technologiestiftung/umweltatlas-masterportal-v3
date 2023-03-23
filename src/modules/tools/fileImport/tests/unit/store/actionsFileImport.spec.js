@@ -7,6 +7,7 @@ import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
 import crs from "@masterportal/masterportalapi/src/crs";
 import sinon from "sinon/pkg/sinon-esm";
+import {expect} from "chai";
 
 const
     {importKML, setFeatureExtents} = actions,
@@ -15,7 +16,17 @@ const
         ["EPSG:25832", "+title=ETRS89/UTM 32N +proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"],
         ["EPSG:8395", "+title=ETRS89/Gauß-Krüger 3 +proj=tmerc +lat_0=0 +lon_0=9 +k=1 +x_0=3500000 +y_0=0 +ellps=GRS80 +datum=GRS80 +units=m +no_defs"],
         ["EPSG:4326", "+title=WGS 84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"]
-    ];
+    ],
+    rootGetters = {
+        "Maps/projectionCode": "EPSG:25832"
+    },
+    source = new VectorSource(),
+    layer = new VectorLayer({
+        name: name,
+        source: source,
+        alwaysOnTop: true
+    });
+let dispatch;
 
 before(() => {
     crs.registerProjections(namedProjections);
@@ -25,16 +36,13 @@ before(() => {
         debug: false
     });
 });
+beforeEach(() => {
+    dispatch = sinon.spy();
+    layer.getSource().getFeatures().forEach(feature => layer.getSource().removeFeature(feature));
+});
 
 describe("src/modules/tools/fileImport/store/actionsFileImport.js", () => {
     describe("file import - file should add some features to the current draw layer", () => {
-        const
-            source = new VectorSource(),
-            layer = new VectorLayer({
-                name: name,
-                source: source,
-                alwaysOnTop: true
-            });
 
         it("preset \"auto\", correct kml file, correct filename", done => {
             const payload = {layer: layer, raw: rawSources[0], filename: "TestFile1.kml"};
@@ -123,6 +131,33 @@ describe("src/modules/tools/fileImport/store/actionsFileImport.js", () => {
                     content: i18next.t("common:modules.tools.fileImport.alertingMessages.missingFileContent")},
                 dispatch: true
             }], {}, done);
+        });
+
+        it("adds a text style from the kml file", () => {
+            const payload = {layer: layer, raw: "<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.opengis.net/kml/2.2 https://developers.google.com/kml/schema/kml22gx.xsd\"><Placemark><name>Beispieltext</name><Style><LabelStyle><color>ffb87e37</color><scale xmlns=\"\">2</scale></LabelStyle><IconStyle xmlns=\"\"><scale>0</scale><Icon><href>https://localhost:9001/img/tools/draw/circle_blue.svg</href></Icon></IconStyle></Style><ExtendedData><Data name=\"drawState\"/><Data name=\"fromDrawTool\"><value>true</value></Data><Data name=\"invisibleStyle\"/><Data name=\"isOuterCircle\"><value>false</value></Data><Data name=\"isVisible\"><value>true</value></Data><Data name=\"styleId\"><value>1</value></Data></ExtendedData><Point><coordinates>10.003468073834911,53.56393658023316</coordinates></Point></Placemark></kml>", filename: "beispielText.kml"},
+                state = {
+                    selectedFiletype: "auto",
+                    supportedFiletypes: {
+                        auto: {
+                            caption: "common:modules.tools.fileImport.captions.supportedFiletypes.auto"
+                        },
+                        kml: {
+                            caption: "common:modules.tools.fileImport.captions.supportedFiletypes.kml",
+                            rgx: /\.kml$/i
+                        }
+                    }
+                };
+
+            importKML({state, dispatch, rootGetters}, payload);
+            expect(dispatch.firstCall.args[0]).to.equal("Alerting/addSingleAlert");
+            expect(dispatch.firstCall.args[1]).to.eql({
+                category: "modules.alerting.categories.info",
+                content: "modules.tools.fileImport.alertingMessages.success"
+            });
+            expect(dispatch.secondCall.args[0]).to.equal("addImportedFilename");
+            expect(dispatch.secondCall.args[1]).to.equal("beispielText.kml");
+            expect(layer.getSource().getFeatures().length).to.equal(1);
+            expect(layer.getSource().getFeatures()[0].getStyle().getText().getText()).to.equal("Beispieltext");
         });
 
         it("Sets empty feature extent", done => {

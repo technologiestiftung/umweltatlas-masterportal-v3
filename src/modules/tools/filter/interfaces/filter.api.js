@@ -69,20 +69,22 @@ export default class FilterApi {
             return;
         }
         const type = layerModel.get("typ").toLowerCase(),
-            featureNS = layerModel.get("featureNS");
+            featureNS = layerModel.get("featureNS"),
+            url = layerModel.get("url"),
+            featureType = layerModel.get("featureType");
 
         if (type === "wfs") {
             this.service = {
                 type,
                 extern,
                 layerId,
-                url: layerModel.get("url"),
-                typename: layerModel.get("featureType"),
+                url,
+                typename: featureType,
                 namespace: featureNS,
                 srsName: getMapProjection(),
                 featureNS: featureNS.substr(0, featureNS.lastIndexOf("/")),
                 featurePrefix: featureNS.substr(featureNS.lastIndexOf("/") + 1),
-                featureTypes: [layerModel.get("featureType")]
+                featureTypes: [featureType]
             };
         }
         else if (type === "oaf") {
@@ -91,7 +93,7 @@ export default class FilterApi {
                     type,
                     extern,
                     layerId,
-                    url: layerModel.get("url"),
+                    url,
                     collection: layerModel.get("collection"),
                     namespace: featureNS,
                     limit: typeof layerModel.get("limit") === "undefined" ? 400 : layerModel.get("limit")
@@ -107,7 +109,7 @@ export default class FilterApi {
                     type,
                     extern,
                     layerId,
-                    url: layerModel.get("url")
+                    url
                 };
             }
             else {
