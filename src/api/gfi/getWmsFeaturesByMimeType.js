@@ -235,7 +235,7 @@ export function createGfiFeature (layer, url = "", feature = null, features = nu
  * @returns {object[]}  an array of only one feature object or an empty object
  */
 export function mergeFeatures (result, layer, url) {
-    if (result.length > 0 && layer && ["DataTable"].indexOf(layer.get("gfiTheme")) !== -1) {
+    if (result.length > 0 && layer && (["DataTable"].indexOf(layer.get("gfiTheme")) !== -1 || ["DataTable"].indexOf(layer.get("gfiTheme")?.name) !== -1)) {
         return [createGfiFeature(layer, url, null, result)];
     }
     return result;
