@@ -43,8 +43,23 @@ describe("src/utils/convertFeaturesToKml.js", () => {
                         opacity: 1
                     }),
                     zIndex: 0
-                });
+                }),
+                map = {
+                    id: "ol",
+                    mode: "2D",
+                    getView: () => {
+                        return {
+                            getProjection: () => {
+                                return {
+                                    getCode: () => "EPSG:25832"
+                                };
+                            }
+                        };
+                    }
+                };
 
+            mapCollection.clear();
+            mapCollection.addMap(map, "2D");
             features = [point, line, polygon].map(geometry => new Feature({geometry}));
 
             features[0].setStyle(style);
@@ -52,7 +67,7 @@ describe("src/utils/convertFeaturesToKml.js", () => {
 
         it("should convert features to a KML String", async () => {
             const resultStr = await actions.convertFeatures(features, new KML({extractStyles: true})),
-                expectedStr = "<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.opengis.net/kml/2.2 https://developers.google.com/kml/schema/kml22gx.xsd\"><Document><Placemark><name>Text</name><Style><IconStyle><scale>2</scale><Icon><href>https://geodienste.hamburg.de/lgv-config/img/Vorlage_bombe.jpg</href></Icon></IconStyle><LabelStyle><color>ff333333</color></LabelStyle></Style><Point><coordinates>4.51135965729457,0.00043464479558792565</coordinates></Point></Placemark><Placemark><LineString><coordinates>4.511359622386033,0.00043455797019284264 4.511359815945773,0.0004345639275288218 4.511359871968666,0.00043461290717897535</coordinates></LineString></Placemark><Placemark><Polygon><outerBoundaryIs><LinearRing><coordinates>4.5113595883788875,0.00043448916018316755 4.511360046636338,0.0004345471007437477 4.511359826056848,0.00043426737985943244 4.5113595883788875,0.00043448916018316755</coordinates></LinearRing></outerBoundaryIs></Polygon></Placemark></Document></kml>";
+                expectedStr = "<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.opengis.net/kml/2.2 https://developers.google.com/kml/schema/kml22gx.xsd\"><Document><Placemark><name>Text</name><Style><IconStyle><scale>2</scale><Icon><href>https://geodienste.hamburg.de/lgv-config/img/Vorlage_bombe.jpg</href></Icon></IconStyle><LabelStyle><color>ff333333</color></LabelStyle></Style><Point><coordinates>4.51135965729472,0.0004346447985315</coordinates></Point></Placemark><Placemark><LineString><coordinates>4.511359622386188,0.0004345579731358292 4.511359815945924,0.00043456393047184856 4.511359871968811,0.0004346129101223339</coordinates></LineString></Placemark><Placemark><Polygon><outerBoundaryIs><LinearRing><coordinates>4.51135958837904,0.00043448916312568807 4.511360046636493,0.0004345471036866605 4.511359826056999,0.0004342673828004509 4.51135958837904,0.00043448916312568807</coordinates></LinearRing></outerBoundaryIs></Polygon></Placemark></Document></kml>";
 
             expect(resultStr).to.equal(expectedStr);
         });
@@ -63,7 +78,7 @@ describe("src/utils/convertFeaturesToKml.js", () => {
             const geometry = new Point([690054.1273707711, 5340593.1785796825]);
 
             expect(actions.transformCoordinates(geometry)).to.eql(
-                [11.557298950358712, 48.19011266676286]
+                [11.557298950390026, 48.19011285902384]
             );
         });
 
@@ -76,9 +91,9 @@ describe("src/utils/convertFeaturesToKml.js", () => {
 
             expect(actions.transformCoordinates(geometry)).to.eql(
                 [
-                    [11.553402467114491, 48.18048612894288],
-                    [11.575007532544808, 48.18114662023035],
-                    [11.581260790292623, 48.18657710798541]
+                    [11.553402467145743, 48.1804863212112],
+                    [11.57500753257633, 48.18114681249815],
+                    [11.581260790324238, 48.18657730024906]
                 ]
             );
         });
@@ -93,10 +108,10 @@ describe("src/utils/convertFeaturesToKml.js", () => {
 
             expect(actions.transformCoordinates(geometry)).to.eql(
                 [[
-                    [11.549606597773037, 48.17285700012215],
-                    [11.600757126507961, 48.179280978813836],
-                    [11.57613610823175, 48.148267667042006],
-                    [11.549606597773037, 48.17285700012215]
+                    [11.549606597804212, 48.17285719239628],
+                    [11.600757126539783, 48.17928117108303],
+                    [11.57613610826325, 48.1482678593347],
+                    [11.549606597804212, 48.17285719239628]
                 ]]
             );
         });
