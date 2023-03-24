@@ -39,6 +39,7 @@
 - Issue #847: the gazetteer search now shows the correct positions of duplicate results in different cities
 - Issue #871: Extend WMS GFI implementation by a reader for QGIS WMS responses in format `text/xml`.
 - Issue #873: Text imports from previous exported kml files get displayed again.
+- Issue #876: Add missing CR/LF interpreter for WMS GFI.
 - Issue #891: The mapMarker customStyle now works again as expected.
 - The zoomToFeature layer now gets added on top, otherwise it would be hidden underneath the basemap
 - If the gfiTheme dataTable is as object in config.json, the feature data will also be loaded.
