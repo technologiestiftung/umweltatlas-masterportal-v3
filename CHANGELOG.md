@@ -52,6 +52,7 @@
     - If a feature uses the default style, all features are now displayed correctly in the print module.
     - Legends for multigeometries are now displayed correctly for layers of type wfs and vectorbase
 - Issue #891: The mapMarker customStyle now works again as expected.
+- Issue #894 : FeatureLister displays the name of GFI attributes whose value is defined as an object as a table header.
 - If the gfiTheme dataTable is as object in config.json, the feature data will also be loaded.
 - The standard data format in ExportButtonCSV is array or boolean, not object.
 - The zoomToFeature layer now gets added on top, otherwise it would be hidden underneath the basemap.
