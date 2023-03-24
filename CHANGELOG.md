@@ -42,6 +42,7 @@
 - Issue #879: Kml features now get transformed from the maps used coordinate system instead of hardcoded EPSG:25832.
 - Issue #891: The mapMarker customStyle now works again as expected.
 - The zoomToFeature layer now gets added on top, otherwise it would be hidden underneath the basemap
+- If the gfiTheme dataTable is as object in config.json, the feature data will also be loaded.
 
 ---
 
