@@ -15,8 +15,11 @@ const mutations = {
      * @returns {Array} array of all layers with a mouseHoverFild property
      */
     setMouseHoverLayers: (state) => {
-        state.mouseHoverLayers = Radio.request("Parser", "getItemsByAttributes", {type: "layer"}).filter(layer => {
-            return layer?.mouseHoverField && layer.mouseHoverField !== "";
+        state.mouseHoverLayers = Radio.request("Parser", "getItemsByAttributes", {type: "layer"}).flatMap(layer => {
+            if (layer.typ === "GROUP") {
+                return layer.children.filter(childLayer => childLayer?.mouseHoverField && childLayer.mouseHoverField !== "");
+            }
+            return layer?.mouseHoverField && layer.mouseHoverField !== "" ? [layer] : [];
         });
     },
     /**
@@ -26,6 +29,11 @@ const mutations = {
      */
     setMouseHoverInfos: (state) => {
         state.mouseHoverInfos = state.mouseHoverLayers.map(layer => {
+            if (layer.typ === "GROUP") {
+                layer.children.forEach(childLayer => {
+                    return {id: childLayer.id, mouseHoverField: childLayer.mouseHoverField};
+                });
+            }
             return {id: layer.id, mouseHoverField: layer.mouseHoverField};
         });
     }
