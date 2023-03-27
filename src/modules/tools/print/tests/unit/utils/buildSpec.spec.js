@@ -264,7 +264,7 @@ describe("src/modules/tools/print/utils/buildSpec", function () {
                 },
                 {
                     legendType: "geometry",
-                    geometryType: "polygon",
+                    geometryType: "",
                     imageUrl: "",
                     color: "rgb(255,0,0)",
                     label: undefined
@@ -303,7 +303,7 @@ describe("src/modules/tools/print/utils/buildSpec", function () {
                 },
                 {
                     legendType: "geometry",
-                    geometryType: "polygon",
+                    geometryType: "",
                     imageUrl: "",
                     color: "rgb(255,0,0)",
                     label: "name_SVG"
@@ -329,24 +329,81 @@ describe("src/modules/tools/print/utils/buildSpec", function () {
                     legendType: "geometry",
                     geometryType: "polygon",
                     imageUrl: "",
-                    color: "rgb(10, 200, 0)",
-                    label: "name_WFS_polygon"
+                    color: "rgba(10, 200, 0, 0.2)",
+                    label: "name_WFS_polygon",
+                    strokeColor: "rgba(0, 0, 0, 1)",
+                    strokeWidth: "1"
                 }
             ]);
         });
     });
     describe("getFillColorFromSVG", function () {
-        it("should return fillcolor from svg string in rgb", function () {
-            const svg_string = "<svg foobar fill:rgb(255,0,0);/>";
+        it("should return fillColor from svg string in rgb for polygon geometry", function () {
+            const svg_string = "<svg foobar fill:rgb(255, 0, 0);/>";
 
-            expect(buildSpec.getFillColorFromSVG(svg_string)).to.equal("rgb(255,0,0)");
+            expect(buildSpec.getFillColorFromSVG(svg_string)).to.equal("rgb(255, 0, 0)");
         });
-        it("should return fillcolor from svg string in hex", function () {
+        it("should return fillColor from svg for string in rgb for point geometry", function () {
+            const svg_string = "<svg foobar fill='rgb(10, 200, 100)'/>";
+
+            expect(buildSpec.getFillColorFromSVG(svg_string)).to.equal("rgb(10, 200, 100)");
+        });
+        it("should return fillColor with fillOpacity from svg string in rgba for polygon geometry", function () {
+            const svg_string = "<svg foobar fill:rgb(255, 0, 0);fill-opacity:0.35;/>";
+
+            expect(buildSpec.getFillColorFromSVG(svg_string)).to.equal("rgba(255, 0, 0, 0.35)");
+        });
+        it("should return fillColor with fillOpacity from svg string in rgba for point geometry", function () {
+            const svg_string = "<svg foobar fill='rgb(10, 200, 100)' fill-opacity='0.35'/>";
+
+            expect(buildSpec.getFillColorFromSVG(svg_string)).to.equal("rgba(10, 200, 100, 0.35)");
+        });
+        it("should return fillColor from svg string in hex", function () {
             const svg_string = "<svg foobar fill:#ff0000;/>";
 
             expect(buildSpec.getFillColorFromSVG(svg_string)).to.equal("#ff0000");
         });
     });
+
+    describe("getFillStrokeFromSVG", function () {
+        it("should add stroke attributes from svg string to legendObj for polygon geometry", function () {
+            const svg_string = "data:image/svg+xml;charset=utf-8,<svg height='35' width='35' version='1.1' xmlns='http://www.w3.org/2000/svg'><polygon points='5,5 30,5 30,30 5,30' style='fill:rgb(237, 107, 83);fill-opacity:0.35;stroke:rgb(0, 0, 0);stroke-opacity:1;stroke-width:3;stroke-linecap:round;stroke-dasharray:10,8;'/></svg>",
+                legendObj = {};
+
+            buildSpec.getFillStrokeFromSVG(svg_string, legendObj);
+            expect(legendObj).to.deep.equals({
+                strokeColor: "rgba(0, 0, 0, 1)",
+                strokeWidth: "3",
+                strokeStyle: "Dashed"
+            });
+        });
+
+        it("should add stroke attributes from svg string to legendObj for point geometry", function () {
+            const svg_string = "data:image/svg+xml;charset=utf-8,<svg height='23' width='23' version='1.1' xmlns='http://www.w3.org/2000/svg'><circle cx='11.5' cy='11.5' r='10' stroke='rgb(0, 0, 0)' stroke-opacity='1' stroke-width='2' fill='rgb(10, 200, 100)' fill-opacity='0.5'/></svg>",
+                legendObj = {};
+
+            buildSpec.getFillStrokeFromSVG(svg_string, legendObj);
+            expect(legendObj).to.deep.equals({
+                strokeColor: "rgba(0, 0, 0, 1)",
+                strokeWidth: "2"
+            });
+        });
+    });
+
+    describe("getGeometryTypeFromSVG", function () {
+        it("should return geometry type for polygon", function () {
+            const svg_string = "data:image/svg+xml;charset=utf-8,<svg height='35' width='35' version='1.1' xmlns='http://www.w3.org/2000/svg'><polygon points='5,5 30,5 30,30 5,30' style='fill:rgb(237, 107, 83);fill-opacity:0.35;stroke:rgb(0, 0, 0);stroke-opacity:1;stroke-width:3;stroke-linecap:round;stroke-dasharray:10,8;'/></svg>";
+
+            expect(buildSpec.getGeometryTypeFromSVG(svg_string)).to.equals("polygon");
+        });
+
+        it("should return geometry type for point", function () {
+            const svg_string = "data:image/svg+xml;charset=utf-8,<svg height='23' width='23' version='1.1' xmlns='http://www.w3.org/2000/svg'><circle cx='11.5' cy='11.5' r='10' stroke='rgb(0, 0, 0)' stroke-opacity='1' stroke-width='2' fill='rgb(10, 200, 100)' fill-opacity='0.5'/></svg>";
+
+            expect(buildSpec.getGeometryTypeFromSVG(svg_string)).to.equals("point");
+        });
+    });
+
     describe("prepareGfiAttributes", function () {
         it("should create gfi attributes array", function () {
             const gfiAttributes = {
@@ -553,7 +610,19 @@ describe("src/modules/tools/print/utils/buildSpec", function () {
 
         it("should return \"styleId\" if styleList is not available", function () {
             buildSpec.getStyleModel = sinon.spy();
-            expect(buildSpec.getStyleAttributes(vectorLayer, pointFeatures[0], false)).to.eql(["styleId"]);
+            expect(buildSpec.getStyleAttributes(vectorLayer, pointFeatures[0])).to.eql(["styleId"]);
+        });
+
+        it("should return \"default\" if no rule applies", function () {
+            buildSpec.getStyleModel = sinon.spy();
+            buildSpec.getStyleObject = sinon.stub().returns({
+                rules: [],
+                styleId: "TestId"
+            });
+            buildSpec.getChildModelIfGroupLayer = sinon.stub().returns({get: () => true});
+            buildSpec.getRulesForFeature = sinon.stub().returns([]);
+
+            expect(buildSpec.getStyleAttributes(vectorLayer, pointFeatures[0])).to.eql(["default"]);
         });
     });
 
@@ -1102,6 +1171,26 @@ describe("src/modules/tools/print/utils/buildSpec", function () {
             });
             expect(checked1).to.be.true;
             expect(checked2).to.be.true;
+        });
+    });
+
+    describe("buildStrokeStyle", () => {
+        it("should return a stroke with line dash style", () => {
+            const lineDashStyle = {
+                    getColor: () => [0, 255, 0, 1],
+                    getLineCap: () => "round",
+                    getLineDash: () => [10, 8],
+                    getLineDashOffset: () => 0
+                },
+                obj = {};
+
+            expect(buildSpec.buildStrokeStyle(lineDashStyle, obj)).to.deep.equals({
+                strokeColor: "#00ff00",
+                strokeLinecap: "round",
+                strokeDashstyle: "10 8",
+                strokeDashOffset: 0,
+                strokeOpacity: 1
+            });
         });
     });
 });

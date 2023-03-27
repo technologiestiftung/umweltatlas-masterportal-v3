@@ -244,18 +244,20 @@ Layer.prototype.toggleIsSelected = function () {
  * @returns {void}
  **/
 Layer.prototype.checkForScale = function (options) {
-    const lastValue = this.get("isOutOfRange");
+    if (this.get("checkForScale") !== false) {
+        const lastValue = this.get("isOutOfRange");
 
-    if (options && parseFloat(options.scale, 10) <= parseInt(this.get("maxScale"), 10) && parseFloat(options.scale, 10) >= parseInt(this.get("minScale"), 10)) {
-        this.setIsOutOfRange(false);
-        if (lastValue !== false) {
-            bridge.outOfRangeChanged(this, false);
+        if (options && parseFloat(options.scale, 10) <= parseInt(this.get("maxScale"), 10) && parseFloat(options.scale, 10) >= parseInt(this.get("minScale"), 10)) {
+            this.setIsOutOfRange(false);
+            if (lastValue !== false) {
+                bridge.outOfRangeChanged(this, false);
+            }
         }
-    }
-    else {
-        this.setIsOutOfRange(true);
-        if (lastValue !== true) {
-            bridge.outOfRangeChanged(this, true);
+        else {
+            this.setIsOutOfRange(true);
+            if (lastValue !== true) {
+                bridge.outOfRangeChanged(this, true);
+            }
         }
     }
 };

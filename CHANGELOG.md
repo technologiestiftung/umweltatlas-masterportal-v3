@@ -14,6 +14,10 @@
 - CoordToolkit
     - Added new function for ETRS89_3GK3 including new validation rule.
     - Added new configuration parameters for elevation and coordinate reference system explanations.
+- Issue #888:
+    - Print:
+        - The print module now displays dashed lines in the printout.
+        - The print module now displays the opacity and stroke styles in the legend in the printout.
 
 ### Changed
 - Update GeoJSON, WFS, OAF getFeaturesFilterFunction filtert kann nach exakter Geometrie filtern.
@@ -27,6 +31,7 @@
 - The following NPM packages have been updated:
   - dependencies:
     - @masterportal/masterportalapi: 2.15.1 to 2.15.2
+- highlightFeaturesByAttribute: scale constraint does not affect the selection layers.
 
 ### Deprecated
 
@@ -39,8 +44,18 @@
 - Issue #847: the gazetteer search now shows the correct positions of duplicate results in different cities
 - Issue #871: Extend WMS GFI implementation by a reader for QGIS WMS responses in format `text/xml`.
 - Issue #873: Text imports from previous exported kml files get displayed again.
+- Issue #875: MouseHover now also works on group layers.
+- Issue #879: Kml features now get transformed from the maps used coordinate system instead of hardcoded EPSG:25832.
+- Issue #888: If a feature uses the default style, all features are now displayed correctly in the print module.
 - Issue #891: The mapMarker customStyle now works again as expected.
-- The zoomToFeature layer now gets added on top, otherwise it would be hidden underneath the basemap
+- Issue #888:
+    - If a feature uses the default style, all features are now displayed correctly in the print module.
+    - Legends for multigeometries are now displayed correctly for layers of type wfs and vectorbase
+- Issue #891: The mapMarker customStyle now works again as expected.
+- If the gfiTheme dataTable is as object in config.json, the feature data will also be loaded.
+- The standard data format in ExportButtonCSV is array or boolean, not object.
+- The zoomToFeature layer now gets added on top, otherwise it would be hidden underneath the basemap.
+- The `getProxy` attribute now works again for layers of type wfs.
 
 ---
 

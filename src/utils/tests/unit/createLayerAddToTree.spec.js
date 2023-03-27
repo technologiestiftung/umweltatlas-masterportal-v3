@@ -161,6 +161,10 @@ describe("src/utils/createLayerAddToTree.js", () => {
 
             expect(addItemCalled).to.be.equals(1);
             expect(addItemAttributes.parentId).to.be.equals("tree");
+            expect(addItemAttributes.minScale).to.be.equals(0);
+            expect(addItemAttributes.maxScale).to.be.equals(Infinity);
+            expect(addItemAttributes.checkForScale).to.be.false;
+            expect(addItemAttributes.isOutOfRange).to.be.false;
             expect(setIsSelectedSpy.calledOnce).to.be.true;
             expect(styleSetAtNewLayer).to.be.true;
             expect(addedFeatures).to.be.deep.equals(features);
@@ -193,6 +197,10 @@ describe("src/utils/createLayerAddToTree.js", () => {
 
             expect(addItemCalled).to.be.equals(1);
             expect(addItemAttributes.parentId).to.be.equals("SelectedLayer");
+            expect(addItemAttributes.minScale).to.be.equals(0);
+            expect(addItemAttributes.maxScale).to.be.equals(Infinity);
+            expect(addItemAttributes.checkForScale).to.be.false;
+            expect(addItemAttributes.isOutOfRange).to.be.false;
             expect(setIsSelectedSpy.calledOnce).to.be.true;
             expect(styleSetAtNewLayer).to.be.true;
             expect(addedFeatures).to.be.deep.equals(features);

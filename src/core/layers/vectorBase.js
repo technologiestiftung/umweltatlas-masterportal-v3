@@ -83,17 +83,7 @@ VectorBaseLayer.prototype.createLegend = function () {
     if (styleObject && legend === true) {
         createStyle.returnLegendByStyleId(styleObject.styleId).then(legendInfos => {
             if (styleObject.styleId === "default") {
-                const type = this.layer.getSource().getFeatures()[0].getGeometry().getType(),
-                    typeSpecificLegends = [];
-
-                if (type === "MultiLineString") {
-                    typeSpecificLegends.push(legendInfos.legendInformation.find(element => element.geometryType === "LineString"));
-                    this.setLegend(typeSpecificLegends);
-                }
-                else {
-                    typeSpecificLegends.push(legendInfos.legendInformation.find(element => element.geometryType === type));
-                    this.setLegend(typeSpecificLegends);
-                }
+                this.setLegend(legendInfos.legendInformation);
             }
             else {
                 getGeometryTypeFromService.getGeometryTypeFromWFS(rules, this.get("url"), this.get("version"), this.get("featureType"), this.get("styleGeometryType"), false, Config.wfsImgPath,

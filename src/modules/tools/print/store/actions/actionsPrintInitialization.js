@@ -6,6 +6,7 @@ import BuildSpec from "./../../utils/buildSpec";
 import getVisibleLayer from "./../../utils/getVisibleLayer";
 import {createEmpty, extendCoordinate} from "ol/extent.js";
 import {apply as applyTransform} from "ol/transform.js";
+import getProxyUrl from "../../../../../utils/getProxyUrl";
 
 let lastPrintedExtent;
 
@@ -30,6 +31,13 @@ export default {
 
         if (state.serviceId !== "") {
             serviceUrl = rootGetters.getRestServiceById(state.serviceId).url;
+
+            /**
+             * @deprecated in the next major-release!
+             * useProxy
+             * getProxyUrl()
+             */
+            serviceUrl = state.useProxy ? getProxyUrl(serviceUrl) : serviceUrl;
 
             if (state.printService !== "plotservice" && !serviceUrl.includes("/print/")) {
                 serviceUrl = serviceUrl + "print/";

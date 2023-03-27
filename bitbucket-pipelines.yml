@@ -90,7 +90,9 @@ pipelines:
             - step:
                 name: deploy on openCode
                 script:
-                    - git filter-branch -- --all
+                    - echo 'deply to opencode:'$BITBUCKET_TAG
+                    - git fetch --all --tags
+                    - git checkout tags/$BITBUCKET_TAG
                     - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git $BITBUCKET_TAG
                     - git clone --single-branch --branch dev https://geowerkstatt@bitbucket.org/geowerkstatt-hamburg/masterportal.git
                     - cd masterportal
@@ -122,12 +124,17 @@ pipelines:
                 script:
                     - npm install
                     - npm audit --json
-        deploy on openCode:
+        deploy last tag on openCode:
             - step:
-                name: deploy on openCode
+                name: deploy last tag on openCode
                 script:
-                    - git filter-branch -- --all
-                    - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git $BITBUCKET_TAG
+                    - apt-get update && apt-get install -y curl wput jq
+                    - git fetch --all --tags
+                    # Get taglist sorted by date, take the penultimate tag name and remove quotation marks
+                    - lastTag=$(curl --request GET --user "$bbapi_name:$bbapi_key" --url "https://api.bitbucket.org/2.0/repositories/geowerkstatt-hamburg/masterportal/refs/tags?sort=-target.date" --header "Accept:application/json" | jq .values[2].name | tr -d '"')
+                    - echo 'deply to opencode:'$lastTag
+                    - git checkout tags/$lastTag
+                    - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git $lastTag
                     - git clone --single-branch --branch dev https://geowerkstatt@bitbucket.org/geowerkstatt-hamburg/masterportal.git
                     - cd masterportal
                     - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git -f

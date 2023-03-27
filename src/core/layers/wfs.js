@@ -10,6 +10,7 @@ import Cluster from "ol/source/Cluster";
 import {bbox, all} from "ol/loadingstrategy.js";
 import {getCenter} from "ol/extent";
 import webgl from "./renderer/webgl";
+import getProxyUrl from "../../utils/getProxyUrl";
 
 const geometryTypeRequestLayers = [];
 
@@ -54,7 +55,12 @@ WFSLayer.prototype = Object.create(Layer.prototype);
 WFSLayer.prototype.createLayer = function (attrs) {
     const rawLayerAttributes = {
             id: attrs.id,
-            url: attrs.url,
+            /**
+            * @deprecated in the next major-release!
+            * useProxy
+            * getProxyUrl()
+            */
+            url: attrs.useProxy ? getProxyUrl(attrs.url) : attrs.url,
             clusterDistance: attrs.clusterDistance,
             featureNS: attrs.featureNS,
             featureType: attrs.featureType,
@@ -220,17 +226,7 @@ WFSLayer.prototype.createLegend = function () {
     else if (styleObject && legend === true) {
         createStyle.returnLegendByStyleId(styleObject.styleId).then(legendInfos => {
             if (styleObject.styleId === "default") {
-                const type = this.layer.getSource().getFeatures()[0].getGeometry().getType(),
-                    typeSpecificLegends = [];
-
-                if (type === "MultiLineString") {
-                    typeSpecificLegends.push(legendInfos.legendInformation?.find(element => element.geometryType === "LineString"));
-                    this.setLegend(typeSpecificLegends);
-                }
-                else {
-                    typeSpecificLegends.push(legendInfos.legendInformation?.find(element => element.geometryType === type));
-                    this.setLegend(typeSpecificLegends);
-                }
+                this.setLegend(legendInfos.legendInformation);
             }
             else {
                 if (!geometryTypeRequestLayers.includes(this.get("id"))) {

@@ -520,7 +520,9 @@ const BuildSpecModel = {
 
                     clonedFeature = feature.clone();
                     styleAttributes.forEach(attribute => {
-                        clonedFeature.set(attribute, (clonedFeature.get("features") ? clonedFeature.get("features")[0] : clonedFeature).get(attribute) + "_" + String(index));
+                        const singleFeature = clonedFeature.get("features") ? clonedFeature.get("features")[0] : clonedFeature;
+
+                        clonedFeature.set(attribute, attribute === "default" && !singleFeature.get(attribute) ? "style" : `${singleFeature.get(attribute)}_${index}`);
                         clonedFeature.ol_uid = feature.ol_uid;
                     });
                     geometryType = feature.getGeometry().getType();
@@ -573,7 +575,7 @@ const BuildSpecModel = {
                         styleObject.symbolizers.push(this.buildPolygonStyle(style, layer));
                     }
                     else if (geometryType === "Circle") {
-                        styleObject.symbolizers.push(this.buildPolygonStyle(style, layer));
+                        styleObject.symbolizers.push(this.buildPointStyle(style, layer));
                     }
                     else if (geometryType === "LineString" || geometryType === "MultiLineString") {
                         if (layer.values_.id === "measureLayer" && style.stroke_ === null) {
@@ -727,7 +729,7 @@ const BuildSpecModel = {
         else if (src.charAt(0) === "/") {
             url = origin + src;
         }
-        else if (src.indexOf("../") === 0) {
+        else if (src.indexOf("../") === 0 || src.indexOf("./") === 0) {
             url = new URL(src, window.location.href).href;
         }
         else if (origin.indexOf("localhost") === -1) {
@@ -948,6 +950,12 @@ const BuildSpecModel = {
         if (typeof style.getWidth === "function" && style.getWidth() !== undefined) {
             obj.strokeWidth = style.getWidth();
         }
+        if (typeof style.getLineDash === "function" && style.getLineDash()) {
+            obj.strokeLinecap = style.getLineCap();
+            obj.strokeDashstyle = style.getLineDash().join(" ");
+            obj.strokeDashOffset = style.getLineDashOffset();
+        }
+
         return obj;
     },
 
@@ -1164,7 +1172,7 @@ const BuildSpecModel = {
             if (layerModel.get("styleId")) {
                 const featureRules = getRulesForFeature(styleObject, feature);
 
-                styleFields = featureRules?.[0]?.conditions ? Object.keys(featureRules[0].conditions.properties) : [""];
+                styleFields = featureRules?.[0]?.conditions ? Object.keys(featureRules[0].conditions.properties) : ["default"];
             }
             else {
                 styleFields = [styleObject.get("styleField")];
@@ -1333,8 +1341,9 @@ const BuildSpecModel = {
             }
             else if (graphic.indexOf("<svg") !== -1) {
                 legendObj.color = this.getFillColorFromSVG(graphic);
+                this.getFillStrokeFromSVG(graphic, legendObj);
                 legendObj.legendType = "geometry";
-                legendObj.geometryType = "polygon";
+                legendObj.geometryType = this.getGeometryTypeFromSVG(graphic);
             }
             else if (graphic.toUpperCase().includes("GETLEGENDGRAPHIC")) {
                 legendObj.legendType = "wmsGetLegendGraphic";
@@ -1353,15 +1362,60 @@ const BuildSpecModel = {
     },
 
     /**
+     * Returns geometry type from SVG.
+     * @param {String} svgString String of SVG.
+     * @returns {String} - The geometry type.
+     */
+    getGeometryTypeFromSVG: function (svgString) {
+        let geometryType = "";
+
+        if (svgString.includes("<circle")) {
+            geometryType = "point";
+        }
+        if (svgString.includes("<polygon")) {
+            geometryType = "polygon";
+        }
+
+        return geometryType;
+    },
+
+    /**
      * Returns Fill color from SVG as hex.
      * @param {String} svgString String of SVG.
      * @returns {String} - Fill color from SVG.
      */
     getFillColorFromSVG: function (svgString) {
-        if (svgString.split(/fill:(.+)/)[1]) {
-            return svgString.split(/fill:(.+)/)[1].split(/;(.+)/)[0];
+        let color = "";
+
+        if (svgString.split(/fill:(.+)/)[1] || svgString.split("fill='")[1]) {
+            color = svgString.split(/fill:(.+)/)[1]?.split(/;(.+)/)[0] || svgString.split("fill='")[1]?.split("'")[0];
         }
-        return undefined;
+        if (color.startsWith("rgb(") && (svgString.split(/fill-opacity:(.+)/)[1]?.split(/;(.+)/)[0] || svgString.split("fill-opacity='")[1])) {
+            color = `rgba(${color.split(")")[0].split("(")[1]}, ${svgString.split(/fill-opacity:(.+)/)[1]?.split(/;(.+)/)[0] || svgString.split(/fill-opacity=(.+)/)[1]?.split("'")[1]})`;
+        }
+
+        return color;
+    },
+
+    /**
+     * Sest stroke styles to the legenedObj
+     * @param {String} svgString String of SVG.
+     * @param {Object} legendObj The legend object.
+     * @returns {void}
+     */
+    getFillStrokeFromSVG: function (svgString, legendObj) {
+        if (svgString.split(/stroke:(.+)/)[1] || svgString.split("stroke='")[1]) {
+            legendObj.strokeColor = svgString.split(/stroke:(.+)/)[1]?.split(/;(.+)/)[0] || svgString.split("stroke='")[1]?.split("'")[0];
+        }
+        if (legendObj.strokeColor?.startsWith("rgb(") && (svgString.split(/stroke-opacity:(.+)/)[1]?.split(/;(.+)/)[0] || svgString.split("stroke-opacity='")[1]?.split("'")[0])) {
+            legendObj.strokeColor = `rgba(${legendObj.strokeColor.split(")")[0].split("(")[1]}, ${svgString.split(/stroke-opacity:(.+)/)[1]?.split(/;(.+)/)[0] || svgString.split(/stroke-opacity=(.+)/)[1]?.split("'")[1]})`;
+        }
+        if (svgString.split(/stroke-width:(.+)/)[1] || svgString.split("stroke-width='")[1]) {
+            legendObj.strokeWidth = svgString.split(/stroke-width:(.+)/)[1]?.split(/;(.+)/)[0] || svgString.split("stroke-width='")[1]?.split("'")[0];
+        }
+        if (svgString.split(/stroke-dasharray:(.+)/)[1] && !svgString.split(/stroke-dasharray:(.+)/)[1]?.startsWith(";")) {
+            legendObj.strokeStyle = "Dashed";
+        }
     },
 
     /**
