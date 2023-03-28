@@ -75,7 +75,7 @@ export function drawInteractionOnDrawEvent ({state, commit, dispatch, rootState}
 
         event.feature.setStyle(function (feature) {
             if (feature.get("isVisible")) {
-                return createStyle(feature.get("drawState"), styleSettings);
+                return createStyle(feature.get("drawState"), Object.assign({}, styleSettings, feature.get("drawState")));
             }
             return undefined;
         });
