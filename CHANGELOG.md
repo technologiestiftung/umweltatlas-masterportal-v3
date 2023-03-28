@@ -31,7 +31,6 @@
 - highlightFeaturesByAttribute: scale constraint does not affect the selection layers.
 - The following NPM packages have been updated:
   - dependencies:
-    - @masterportal/masterportalapi: 2.15.1 to 2.15.2
     - @masterportal/masterportalapi: 2.15.1 to 2.16.0 (This also raised ol to version 7.3.0)
     - axios: 1.2.0 to 1.3.4
     - bootstrap-icons: 1.10.2 to 1.10.3
