@@ -2,13 +2,13 @@ import {Draw} from "ol/interaction.js";
 import crs from "@masterportal/masterportalapi/src/crs";
 
 import * as actionsDownload from "./actions/actionsDownload";
-import {drawInteractionOnDrawEvent} from "./actions/drawInteractionOnDrawEvent";
+import {drawInteractionOnDrawEvent, handleDrawEvent} from "./actions/drawInteractionOnDrawEvent";
 import * as setters from "./actions/settersDraw";
 import * as withoutGUI from "./actions/withoutGUIDraw";
 
-import {calculateCircle} from "../utils/circleCalculations";
+import circleCalculations from "../utils/circleCalculations";
 import {createDrawInteraction, createModifyInteraction, createModifyAttributesInteraction, createSelectInteraction} from "../utils/createInteractions";
-import {createStyle} from "../utils/style/createStyle";
+import createStyleModule from "../utils/style/createStyle";
 import {createSelectedFeatureTextStyle} from "../utils/style/createSelectedFeatureTextStyle";
 import createTooltipOverlay from "../utils/style/createTooltipOverlay";
 import drawTypeOptions from "./drawTypeOptions";
@@ -499,6 +499,7 @@ const initialState = JSON.parse(JSON.stringify(stateDraw)),
             });
         },
         drawInteractionOnDrawEvent,
+        handleDrawEvent,
         /**
          * Activates or deactivates the given Interactions based on the given parameters.
          *
@@ -738,7 +739,7 @@ const initialState = JSON.parse(JSON.stringify(stateDraw)),
                 const feature = state.selectedFeature,
                     circleCenter = feature.getGeometry().getCenter();
 
-                calculateCircle({feature}, circleCenter, radius, mapCollection.getMap(rootState.Maps.mode));
+                circleCalculations.calculateCircle({feature}, circleCenter, radius, mapCollection.getMap(rootState.Maps.mode));
 
                 dispatch("addDrawStateToFeature", state.selectedFeature);
             }
@@ -754,7 +755,7 @@ const initialState = JSON.parse(JSON.stringify(stateDraw)),
 
                 state.selectedFeature.setStyle(function (feature) {
                     if (feature.get("isVisible") === undefined || feature.get("isVisible")) {
-                        return createStyle(feature.get("drawState"), styleSettings);
+                        return createStyleModule.createStyle(feature.get("drawState"), styleSettings);
                     }
                     return undefined;
                 });
