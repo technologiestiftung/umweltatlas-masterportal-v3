@@ -193,6 +193,15 @@ describe("src/core/layers/group.js", () => {
 
         expect(groupLayer.has("isOutOfRange")).to.be.false;
     });
+    it("checkForScale shall do nothing if attribute checkForScale is false", function () {
+        groupAttributes.checkForScale = false;
+        const groupLayer = new GroupedLayers(groupAttributes);
+
+        expect(groupLayer.has("isOutOfRange")).to.be.false;
+        groupLayer.checkForScale();
+
+        expect(groupLayer.has("isOutOfRange")).to.be.false;
+    });
     it("checkForScale shall set 'isOutOfRange'", function () {
         const groupLayer = new GroupedLayers(groupAttributes),
             options = {

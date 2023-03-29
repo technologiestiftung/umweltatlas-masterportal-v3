@@ -166,7 +166,7 @@ export default {
          * useProxy
          * getProxyUrl()
          */
-        if (rootGetters.metadata.useProxy.includes(cswObj.cswUrl)) {
+        if (rootGetters.metadata.useProxy?.includes(cswObj.cswUrl)) {
             metadata = await getRecordById(getProxyUrl(cswObj.cswUrl), cswObj.metaId);
         }
         else {

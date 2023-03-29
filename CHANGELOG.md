@@ -14,6 +14,10 @@
 - CoordToolkit
     - Added new function for ETRS89_3GK3 including new validation rule.
     - Added new configuration parameters for elevation and coordinate reference system explanations.
+- Issue #888:
+    - Print:
+        - The print module now displays dashed lines in the printout.
+        - The print module now displays the opacity and stroke styles in the legend in the printout.
 
 ### Changed
 - Update GeoJSON, WFS, OAF getFeaturesFilterFunction filtert kann nach exakter Geometrie filtern.
@@ -24,9 +28,28 @@
     - GFI/gettersGfi: collect  webgl features for GFI
     - initializersBufferAnalysis/loadSelectOptions: only freeze non-webgl layers
 - Update parameters for getGeometryTypeFromWFS and getGeometryTypeFromOAF to pass wfsImgPath from config.
+- highlightFeaturesByAttribute: scale constraint does not affect the selection layers.
 - The following NPM packages have been updated:
   - dependencies:
-    - @masterportal/masterportalapi: 2.15.1 to 2.15.2
+    - @masterportal/masterportalapi: 2.15.1 to 2.16.0 (This also raised ol to version 7.3.0)
+    - axios: 1.2.0 to 1.3.4
+    - bootstrap-icons: 1.10.2 to 1.10.3
+    - i18next: 22.0.6 to 22.4.11
+    - i18next-http-backend: 2.0.2 to 2.2.0
+    - jquery: 3.6.1 to 3.6.4
+  - devDependencies:
+    - @sinonjs/fake-timers: 10.0.0 to 10.0.2
+    - canvas: 2.10.2 to 2.11.0
+    - esbuild-loader: 2.20.0 to 3.0.1
+    - eslint: 8.28.0 to 8.36.0
+    - eslint-plugin-vue: 9.8.0 to 9.9.0
+    - husky: 8.0.2 to 8.0.3
+    - jsdoc: 4.0.0 to 4.0.2
+    - mocha: 10.1.0 to 10.2.0
+    - sass: 1.56.1 to 1.59.3
+    - sinon: 14.0.2 to 15.0.2
+- The version of node was updated, must be `>= 16.13.2 <= 16.18.1`
+- The version of npm was updated, must be `>= 8.1.2 <= 8.19.3`
 
 ### Deprecated
 
@@ -39,11 +62,20 @@
 - Issue #847: the gazetteer search now shows the correct positions of duplicate results in different cities
 - Issue #871: Extend WMS GFI implementation by a reader for QGIS WMS responses in format `text/xml`.
 - Issue #873: Text imports from previous exported kml files get displayed again.
+- Issue #875: MouseHover now also works on group layers.
 - Issue #876: Add missing CR/LF interpreter for WMS GFI.
 - Issue #879: Kml features now get transformed from the maps used coordinate system instead of hardcoded EPSG:25832.
+- Issue #888: If a feature uses the default style, all features are now displayed correctly in the print module.
 - Issue #891: The mapMarker customStyle now works again as expected.
-- The zoomToFeature layer now gets added on top, otherwise it would be hidden underneath the basemap
+- Issue #888:
+    - If a feature uses the default style, all features are now displayed correctly in the print module.
+    - Legends for multigeometries are now displayed correctly for layers of type wfs and vectorbase
+- Issue #891: The mapMarker customStyle now works again as expected.
+- Issue #894 : FeatureLister displays the name of GFI attributes whose value is defined as an object as a table header.
 - If the gfiTheme dataTable is as object in config.json, the feature data will also be loaded.
+- The standard data format in ExportButtonCSV is array or boolean, not object.
+- The zoomToFeature layer now gets added on top, otherwise it would be hidden underneath the basemap.
+- The `getProxy` attribute now works again for layers of type wfs.
 
 ---
 

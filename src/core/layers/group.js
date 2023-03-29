@@ -234,29 +234,31 @@ GroupedLayers.prototype.showLayerInformation = function () {
 * @returns {void}
 **/
 GroupedLayers.prototype.checkForScale = function (options) {
-    if (!options || !options.scale) {
-        return;
-    }
-    const currentScale = parseFloat(options.scale, 10),
-        lastValue = this.get("isOutOfRange");
-    let childLayersAreOutOfRange = true,
-        groupLayerIsOutOfRange = false;
+    if (this.get("checkForScale") !== false) {
+        if (!options || !options.scale) {
+            return;
+        }
+        const currentScale = parseFloat(options.scale, 10),
+            lastValue = this.get("isOutOfRange");
+        let childLayersAreOutOfRange = true,
+            groupLayerIsOutOfRange = false;
 
-    if (currentScale > parseInt(this.get("maxScale"), 10) || currentScale < parseInt(this.get("minScale"), 10)) {
-        groupLayerIsOutOfRange = true;
-    }
-    else {
-        this.get("children").forEach(layerSource => {
-            if (currentScale <= parseInt(layerSource.maxScale || this.get("maxScale"), 10) &&
-                currentScale >= parseInt(layerSource.minScale || this.get("minScale"), 10)) {
-                childLayersAreOutOfRange = false;
-            }
-        }, this);
-    }
+        if (currentScale > parseInt(this.get("maxScale"), 10) || currentScale < parseInt(this.get("minScale"), 10)) {
+            groupLayerIsOutOfRange = true;
+        }
+        else {
+            this.get("children").forEach(layerSource => {
+                if (currentScale <= parseInt(layerSource.maxScale || this.get("maxScale"), 10) &&
+                    currentScale >= parseInt(layerSource.minScale || this.get("minScale"), 10)) {
+                    childLayersAreOutOfRange = false;
+                }
+            }, this);
+        }
 
-    this.set("isOutOfRange", groupLayerIsOutOfRange || childLayersAreOutOfRange);
-    if (lastValue !== this.get("isOutOfRange")) {
-        bridge.outOfRangeChanged(this, this.get("isOutOfRange"));
+        this.set("isOutOfRange", groupLayerIsOutOfRange || childLayersAreOutOfRange);
+        if (lastValue !== this.get("isOutOfRange")) {
+            bridge.outOfRangeChanged(this, this.get("isOutOfRange"));
+        }
     }
 };
 /**

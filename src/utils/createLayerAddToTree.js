@@ -110,6 +110,10 @@ function setAttributes (layer, id, layerName, layerNameKey, treeType) {
     attributes.alwaysOnTop = true;
     attributes.name = layerName;
     attributes.selectionIDX = 1000;
+    attributes.minScale = 0;
+    attributes.maxScale = Infinity;
+    attributes.checkForScale = false;
+    attributes.isOutOfRange = false;
     attributes.parentId = treeType === "custom" || treeType === "default" ? "SelectedLayer" : "tree";
     attributes.i18nextTranslate = (setter) => {
         if (typeof setter === "function" && i18next.exists(layerNameKey)) {

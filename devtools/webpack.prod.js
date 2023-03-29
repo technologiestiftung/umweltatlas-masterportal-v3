@@ -1,6 +1,6 @@
 const merge = require("webpack-merge"),
     Common = require("./webpack.common.js"),
-    {ESBuildMinifyPlugin} = require("esbuild-loader"),
+    {EsbuildPlugin} = require("esbuild-loader"),
     path = require("path"),
 
     rootPath = path.resolve(__dirname, "../"),
@@ -44,7 +44,7 @@ module.exports = function () {
         },
         optimization: {
             minimize: true,
-            minimizer: [new ESBuildMinifyPlugin({
+            minimizer: [new EsbuildPlugin({
                 css: true // Apply minification to CSS assets additional to minify js-code
             })]
         }
