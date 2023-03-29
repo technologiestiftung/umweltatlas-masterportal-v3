@@ -55,8 +55,7 @@ module.exports = {
                     loader: "esbuild-loader",
                     options: {
                         loader: "js",
-                        sourcemap: true,
-                        target: "es2015",
+                        target: "es2018",
                         format: "cjs"
                     }
                 }

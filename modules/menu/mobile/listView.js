@@ -40,7 +40,7 @@ const MobileMenu = Backbone.View.extend({
 
         $("div.collapse.navbar-collapse ul.nav-menu").removeClass("nav navbar-nav desktop");
         $("div.collapse.navbar-collapse ul.nav-menu").addClass("list-group mobile");
-        rootModels.forEach(model => this.rootModelsOrder.push(model.get("id")));
+        this.rootModelsOrder = rootModels.map(model => model.get("id"));
         this.addViews(rootModels);
         store.dispatch("Legend/setShowLegendInMenu", true);
         return this;
