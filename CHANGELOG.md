@@ -84,6 +84,7 @@
 - Text imports from previously exported geojson files get displayed again.
 - Filter: icons are displayed, if "renderIcons": "fromLegend" is configured at filter.
 - Draw: changing the color of points via "Edit geometry" works.
+- Print deselects option when you close the Gfi now. 
 
 ---
 

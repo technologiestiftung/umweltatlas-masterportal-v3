@@ -137,6 +137,12 @@ export default {
         },
         scale: function (value) {
             this.setCurrentMapScale(value);
+        },
+        currentFeature: function () {
+            if (this.currentFeature === null) {
+                document.getElementById("printGfi").checked = false;
+                this.setIsGfiSelected(false);
+            }
         }
     },
 
@@ -306,15 +312,6 @@ export default {
             else {
                 this.addSingleAlert(this.$t("common:modules.tools.print.alertMessage"));
             }
-        },
-
-        /**
-         * Selcts the gfi
-         * @param {event} evt the click event
-         * @returns {void}
-         */
-        selectGfi (evt) {
-            this.setIsGfiSelected = evt.target.checked;
         },
 
         /**
