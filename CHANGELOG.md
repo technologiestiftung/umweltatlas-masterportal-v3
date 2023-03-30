@@ -76,6 +76,8 @@
 - The standard data format in ExportButtonCSV is array or boolean, not object.
 - The zoomToFeature layer now gets added on top, otherwise it would be hidden underneath the basemap.
 - The `getProxy` attribute now works again for layers of type wfs.
+- Text imports from previously exported geojson files get displayed again.
+- Filter: icons are displayed, if "renderIcons": "fromLegend" is configured at filter.
 
 ---
 

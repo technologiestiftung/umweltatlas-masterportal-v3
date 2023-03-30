@@ -1,7 +1,11 @@
 import Vuex from "vuex";
 import {config, shallowMount, createLocalVue} from "@vue/test-utils";
+import openlayerFunctions from "../../../utils/openlayerFunctions.js";
+import getIconListFromLegend from "../../../utils/getIconListFromLegend.js";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import SnippetDropdown from "../../../components/SnippetDropdown.vue";
 import {expect} from "chai";
+import sinon from "sinon";
 
 const localVue = createLocalVue();
 
@@ -13,7 +17,9 @@ describe("src/modules/tools/filter/components/SnippetDropdown.vue", () => {
     let defaultWrapper;
 
     beforeEach(() => {
-        defaultWrapper = shallowMount(SnippetDropdown, {localVue});
+        defaultWrapper = shallowMount(SnippetDropdown, {
+            localVue
+        });
     });
     afterEach(() => {
         defaultWrapper.destroy();
@@ -287,6 +293,136 @@ describe("src/modules/tools/filter/components/SnippetDropdown.vue", () => {
     });
 
     describe("methods", () => {
+        describe("initializeIcons", () => {
+            let layer, typ, visible, setOpacitySpy, setVisibleSpy, onceSpy, returnLegendByStyleIdSpy;
+
+            beforeEach(() => {
+                mapCollection.clear();
+                const map = {
+                    id: "ol",
+                    mode: "2D",
+                    getLayers: () => {
+                        return {
+                            getArray: () => []
+                        };
+                    },
+                    addLayer: sinon.spy()
+                };
+
+                mapCollection.addMap(map, "2D");
+                typ = "WFS";
+                visible = false;
+                setOpacitySpy = sinon.spy();
+                setVisibleSpy = sinon.spy();
+                onceSpy = sinon.spy();
+                layer = {
+                    get: (key) => {
+                        if (key === "layer") {
+                            return {
+                                getVisible: () => visible,
+                                setOpacity: setOpacitySpy,
+                                setVisible: setVisibleSpy,
+                                getSource: () => {
+                                    return {
+                                        once: onceSpy
+                                    };
+                                }
+                            };
+                        }
+                        if (key === "typ") {
+                            return typ;
+                        }
+                        if (key === "styleId") {
+                            return "styleId";
+                        }
+                        return null;
+                    }
+                };
+                sinon.stub(openlayerFunctions, "getLayerByLayerId").returns(layer);
+                sinon.stub(getIconListFromLegend, "getStyleModel").returns({});
+                returnLegendByStyleIdSpy = sinon.spy(createStyle, "returnLegendByStyleId");
+
+            });
+            afterEach(() => {
+                defaultWrapper.destroy();
+                sinon.restore();
+            });
+            it("initializeIcons with not visible WFS layer", () => {
+                defaultWrapper = shallowMount(SnippetDropdown, {
+                    localVue,
+                    propsData: {
+                        renderIcons: "fromLegend"
+                    }
+                });
+                expect(setOpacitySpy.calledOnce).to.be.true;
+                expect(setOpacitySpy.firstCall.args[0]).to.be.equals(0);
+                expect(setVisibleSpy.calledOnce).to.be.true;
+                expect(setVisibleSpy.firstCall.args[0]).to.be.true;
+                expect(onceSpy.calledOnce).to.be.true;
+                expect(returnLegendByStyleIdSpy.notCalled).to.be.true;
+            });
+            it("initializeIcons with not visible OAF layer", () => {
+                typ = "OAF";
+                defaultWrapper = shallowMount(SnippetDropdown, {
+                    localVue,
+                    propsData: {
+                        renderIcons: "fromLegend"
+                    }
+                });
+                expect(setOpacitySpy.calledOnce).to.be.true;
+                expect(setOpacitySpy.firstCall.args[0]).to.be.equals(0);
+                expect(setVisibleSpy.calledOnce).to.be.true;
+                expect(setVisibleSpy.firstCall.args[0]).to.be.true;
+                expect(onceSpy.calledOnce).to.be.true;
+                expect(returnLegendByStyleIdSpy.notCalled).to.be.true;
+            });
+            it("initializeIcons with not visible GeoJSON layer", () => {
+                typ = "GeoJSON";
+                defaultWrapper = shallowMount(SnippetDropdown, {
+                    localVue,
+                    propsData: {
+                        renderIcons: "fromLegend"
+                    }
+                });
+                expect(setOpacitySpy.calledOnce).to.be.true;
+                expect(setOpacitySpy.firstCall.args[0]).to.be.equals(0);
+                expect(setVisibleSpy.calledOnce).to.be.true;
+                expect(setVisibleSpy.firstCall.args[0]).to.be.true;
+                expect(onceSpy.calledOnce).to.be.true;
+                expect(returnLegendByStyleIdSpy.notCalled).to.be.true;
+            });
+            it("initializeIcons with visible WFS layer", () => {
+                visible = true;
+                defaultWrapper = shallowMount(SnippetDropdown, {
+                    localVue,
+                    propsData: {
+                        renderIcons: "fromLegend",
+                        layerId: "layerId"
+                    }
+                });
+                expect(setOpacitySpy.notCalled).to.be.true;
+                expect(setVisibleSpy.notCalled).to.be.true;
+                expect(onceSpy.notCalled).to.be.true;
+                expect(returnLegendByStyleIdSpy.calledOnce).to.be.true;
+                expect(returnLegendByStyleIdSpy.firstCall.args[0]).to.be.equals("layerId");
+            });
+            it("initializeIcons with not visible WMS-layer", () => {
+                visible = false;
+                typ = "WMS";
+                defaultWrapper = shallowMount(SnippetDropdown, {
+                    localVue,
+                    propsData: {
+                        renderIcons: "fromLegend",
+                        layerId: "layerId"
+                    }
+                });
+                expect(setOpacitySpy.notCalled).to.be.true;
+                expect(setVisibleSpy.notCalled).to.be.true;
+                expect(onceSpy.notCalled).to.be.true;
+                expect(returnLegendByStyleIdSpy.calledOnce).to.be.true;
+                expect(returnLegendByStyleIdSpy.firstCall.args[0]).to.be.equals("layerId");
+            });
+        });
         describe("getPrecheckedExistingInValue", () => {
             it("should return false if anything but an array is given as first parameter", () => {
                 expect(defaultWrapper.vm.getPrecheckedExistingInValue(undefined)).to.be.false;

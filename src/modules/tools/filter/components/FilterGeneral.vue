@@ -8,19 +8,7 @@ import LayerFilterSnippet from "./LayerFilterSnippet.vue";
 import MapHandler from "../utils/mapHandler.js";
 import FilterApi from "../interfaces/filter.api.js";
 import {compileLayers} from "../utils/compileLayers.js";
-import {
-    getLayerByLayerId,
-    showFeaturesByIds,
-    createLayerIfNotExists,
-    zoomToFilteredFeatures,
-    zoomToExtent,
-    addLayerByLayerId,
-    setParserAttributeByLayerId,
-    getLayers,
-    isUiStyleTable,
-    setFilterInTableMenu,
-    getSnippetInfos
-} from "../utils/openlayerFunctions.js";
+import openlayerFunctions from "../utils/openlayerFunctions.js";
 import FilterList from "./FilterList.vue";
 import isObject from "../../../../utils/isObject.js";
 import GeometryFilter from "./GeometryFilter.vue";
@@ -39,16 +27,17 @@ export default {
     },
     data () {
         return {
+
             storePath: this.$store.state.Tools.Filter,
             mapHandler: new MapHandler({
-                getLayerByLayerId,
-                showFeaturesByIds,
-                createLayerIfNotExists,
-                zoomToFilteredFeatures,
-                zoomToExtent,
-                addLayerByLayerId,
-                setParserAttributeByLayerId,
-                getLayers
+                getLayerByLayerId: openlayerFunctions.getLayerByLayerId,
+                showFeaturesByIds: openlayerFunctions.showFeaturesByIds,
+                createLayerIfNotExists: openlayerFunctions.createLayerIfNotExists,
+                zoomToFilteredFeatures: openlayerFunctions.zoomToFilteredFeatures,
+                zoomToExtent: openlayerFunctions.zoomToExtent,
+                addLayerByLayerId: openlayerFunctions.addLayerByLayerId,
+                setParserAttributeByLayerId: openlayerFunctions.setParserAttributeByLayerId,
+                getLayers: openlayerFunctions.getLayers
             }),
             layerConfigs: [],
             selectedLayerGroups: [],
@@ -78,14 +67,14 @@ export default {
     },
     mounted () {
         this.convertConfig({
-            snippetInfos: getSnippetInfos()
+            snippetInfos: openlayerFunctions.getSnippetInfos()
         });
 
         this.layerConfigs = compileLayers(this.layerGroups, this.layers, FilterApi);
 
         this.$nextTick(() => {
-            if (isUiStyleTable()) {
-                setFilterInTableMenu(this.$el.querySelector("#tool-general-filter"));
+            if (openlayerFunctions.isUiStyleTable()) {
+                openlayerFunctions.setFilterInTableMenu(this.$el.querySelector("#tool-general-filter"));
                 this.$el.remove();
             }
         });

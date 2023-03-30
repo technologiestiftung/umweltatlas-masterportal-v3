@@ -1,7 +1,7 @@
 <script>
 import ExportButtonCSV from "../../../../share-components/exportButton/components/ExportButtonCSV.vue";
 import ExportButtonGeoJSON from "../../../../share-components/exportButton/components/ExportButtonGeoJSON.vue";
-import {getLayerByLayerId} from "../utils/openlayerFunctions";
+import openlayerFunctions from "../utils/openlayerFunctions.js";
 import isObject from "../../../../utils/isObject";
 import {GeoJSON} from "ol/format.js";
 
@@ -75,7 +75,7 @@ export default {
         getDownloadHandler (onsuccess) {
             const result = [],
                 features = this.filteredItems,
-                model = getLayerByLayerId(this.layerId),
+                model = openlayerFunctions.getLayerByLayerId(this.layerId),
                 gfiAttributes = typeof model?.get === "function" && isObject(model.get("gfiAttributes")) ? model.get("gfiAttributes") : {};
 
             if (!Array.isArray(features)) {
