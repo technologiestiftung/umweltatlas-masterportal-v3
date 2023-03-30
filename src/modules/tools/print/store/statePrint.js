@@ -45,6 +45,7 @@
  * @property {Object} capabilitiesFilter filter for the response of the configured print service. Possible keys are layouts and outputFormats
  * @property {Object} defaultCapabilitiesFilter If there is no key set in capabilitiesFilter, the key from this object is taken
  * @property {String} overviewmapLayerId the layer id for the overviewmap
+ * @property {Array} layoutOrder the order in which the layouts should be shown in the dropdown
  */
 const state = {
     active: false,
@@ -116,6 +117,16 @@ const state = {
     capabilitiesFilter: {},
     defaultCapabilitiesFilter: {},
     overviewmapLayerId: undefined,
+    layoutOrder: [
+        "Default A4 hoch",
+        "Default A4 quer",
+        "Default A3 hoch",
+        "Default A3 quer",
+        "Default A4 hoch Legende",
+        "Default A4 quer Legende",
+        "Default A3 hoch Legende",
+        "Default A3 quer Legende"
+    ],
     /**
      * @deprecated in the next major-release!
      * useProxy

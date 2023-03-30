@@ -2409,6 +2409,7 @@ Druckmodul. Konfigurierbar für 2 Druckdienste: den High Resolution PlotService 
 |useProxy|nein|Boolean|false|Deprecated im nächsten Major-Release, da von der GDI-DE empfohlen wird einen CORS-Header einzurichten. Gibt an, ob die URL des Dienstes über einen Proxy angefragt werden soll, dabei werden die Punkte in der URL durch Unterstriche ersetzt.|false|
 |printMapMarker|nein|Boolean|false|Wenn dieses Feld auf true gesetzt ist, werden im Bildausschnitt sichtbare MapMarker mitgedruckt. Diese überdecken ggf. interessante Druckinformationen.|false|
 |overviewmapLayerId|nein|String||Über den Parameter layerId kann ein anderer Layer für die Overviewmap verwendet werden. Wird keine Id angegeben, wird der erste Layer der ausgewählten Hintergundkarten verwendet.|false|
+|layoutOrder|nein|String[]||Legt die Reihenfolge fest, in der die Layouts in der Dropdown-Liste angezeigt werden sollen. Nur in Kombination mit dem Druckdienst 'plotservice' zu verwenden.|false|
 
 **Beispiel Konfiguration mit High Resolution PlotService**
 ```
@@ -2420,7 +2421,13 @@ Druckmodul. Konfigurierbar für 2 Druckdienste: den High Resolution PlotService 
     "filename": "Ausdruck",
     "title": "Mein Titel",
     "printService": "plotservice",
-    "printAppCapabilities": "info.json"
+    "printAppCapabilities": "info.json",
+    "layoutOrder": [
+        "Default A4 hoch",
+        "Default A4 quer",
+        "Default A3 hoch",
+        "Default A3 quer",
+    ]
 }
 ```
 
