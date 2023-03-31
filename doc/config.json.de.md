@@ -5429,7 +5429,7 @@ Hier werden Vector typische Attribute aufgelistet. Vector Layer sind WFS, GeoJSO
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|clusterDistance|nein|Integer||Pixelradius. Innerhalb dieses Radius werden alle Features zu einem Feature "geclustered".|false|
+|clusterDistance|nein|Integer||Pixelradius. Innerhalb dieses Radius werden alle Features zu einem Feature "geclustered". ⚠️ clusterDistance bei WFS-Layern mit Polygon- oder Linien-Geometry führt dazu, dass die Features nicht angezeigt werden.|false|
 |extendedFilter|nein|Boolean||Gibt an, ob dieser Layer vom Werkzeug "extendedFilter" in **[tools](#markdown-header-portalconfigmenutools)** verwendet werden kann.|false|
 |filterOptions|nein|**[filterOption](#markdown-header-themenconfiglayervectorfilteroption)**[]||Filteroptionen die vom Werkzeug "wfsFeatureFilter" in **[tools](#markdown-header-portalconfigmenutools)** benötigt werden.|false|
 |mouseHoverField|nein|String/String[]||Attributname oder Array von Attributnamen, die angezeigt werden sollen, sobald der User mit der Maus über ein Feature hovert.|false|

@@ -5491,7 +5491,7 @@ List of attributes typically used in vector layers. Vector layers are WFS, GeoJS
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|clusterDistance|no|Integer||All features within this pixel radius are clustered to a single feature.|false|
+|clusterDistance|no|Integer||All features within this pixel radius are clustered to a single feature. ⚠️clusterDistance on WFS layers with polygon or line geometry results in the features not being displayed.|false|
 |extendedFilter|no|Boolean||Defines whether the **[tool](#markdown-header-portalconfigmenutools)** `extendedFilter` may use this layer.|false|
 |filterOptions|no|**[filterOption](#markdown-header-themenconfiglayervectorfilteroption)**[]||Filter options required by **[tool](#markdown-header-portalconfigmenutools)** `wfsFeatureFilter`.|false|
 |mouseHoverField|no|String/String[]||Attribute name or array thereorf to be shown on mouse hovering a feature.|false|
