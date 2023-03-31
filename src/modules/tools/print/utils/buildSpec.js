@@ -446,12 +446,8 @@ const BuildSpecModel = {
             };
 
         if (source instanceof StaticImageSource) {
-            mapObject.layers = [layer.getProperties().name];
-            mapObject.styles = undefined;
-            mapObject.customParams = {
-                "TRANSPARENT": false,
-                "DPI": typeof dpi === "number" ? dpi : store.state.Tools.Print.dpiForPdf
-            };
+            mapObject.type = "image";
+            mapObject.extent = source.getImageExtent();
         }
         else {
             mapObject.layers = source.getParams().LAYERS.split(",");

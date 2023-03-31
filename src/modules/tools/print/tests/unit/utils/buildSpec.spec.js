@@ -582,19 +582,13 @@ describe("src/modules/tools/print/utils/buildSpec", function () {
             const imageWmsLayer = new Tile({
                 source: new StaticImageSource({
                     url: "url"
-                }),
-                name: "staticImage"
+                })
             });
 
             expect(buildSpec.buildImageWms(imageWmsLayer)).to.deep.own.include({
                 baseURL: "url",
                 opacity: 1,
-                type: "WMS",
-                layers: ["staticImage"],
-                customParams: {
-                    TRANSPARENT: false,
-                    DPI: 200
-                }
+                type: "image"
             });
         });
     });
