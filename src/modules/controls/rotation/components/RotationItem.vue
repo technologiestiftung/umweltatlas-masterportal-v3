@@ -1,0 +1,70 @@
+<script>
+import {mapGetters} from "vuex";
+import ControlIcon from "../../ControlIcon.vue";
+import TableStyleControl from "../../TableStyleControl.vue";
+
+export default {
+    name: "RotationItem",
+    components: {
+        ControlIcon
+    },
+    data () {
+        return {
+            rotation: 0
+        };
+    },
+    computed: {
+        ...mapGetters(["uiStyle"]),
+
+        component () {
+            return this.uiStyle === "TABLE" ? TableStyleControl : ControlIcon;
+        }
+    },
+    mounted () {
+        this.$nextTick(() => {
+            mapCollection.getMapView("2D").on("change:rotation", this.updateRotation);
+        });
+    },
+    methods: {
+        /**
+         * Updates the rotation of the control.
+         * @param {Event} event the mapView rotation event.
+         * @returns {void}
+         */
+        updateRotation (event) {
+            this.rotation = event.target.getRotation();
+            if (this.$refs.rotation) {
+                this.$refs.rotation.style.transform = `rotate(${this.rotation}rad)`;
+            }
+        },
+
+        /**
+         * Set the mapView to north.
+         * @returns {void}
+         */
+        setToNorth () {
+            mapCollection.getMapView("2D").setRotation(0);
+        }
+    }
+};
+</script>
+
+<template>
+    <div
+        v-if="rotation !== 0"
+        id="rotation-control"
+        ref="rotation"
+    >
+        <component
+            :is="component"
+            icon-name="arrow-up-circle"
+            :class="[component ? 'control' : 'Table']"
+            title="Rotation"
+            :disabled="false"
+            :on-click="setToNorth"
+        />
+    </div>
+</template>
+
+<style lang="scss" scoped>
+</style>

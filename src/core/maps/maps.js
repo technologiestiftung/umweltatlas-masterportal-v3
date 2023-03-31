@@ -1,5 +1,7 @@
 import api from "@masterportal/masterportalapi/src/maps/api";
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
+import {defaults as defaultInteractions, DragPan} from "ol/interaction.js";
+
 
 import "./2DMapRadioBridge";
 import "./2DMapViewRadioBridge";
@@ -7,6 +9,7 @@ import "./3DMapRadioBridge";
 
 import ObliqueMap from "../../../modules/core/obliqueMap";
 import store from "../../app-store";
+import Config from "../../../portal/master_rotate/config";
 
 /**
  * Create the 2D map and mapview
@@ -14,6 +17,20 @@ import store from "../../app-store";
  * @returns {void}
  */
 function create2DMap (mapViewSettings) {
+    if (!Config.mapInteractions.interactionModes) {
+        Config.mapInteractions.interactionModes = {dragPan: false, altShiftDragRotate: true, pinchRotate: false}
+    }
+
+    Config.mapInteractions.interactionModes = defaultInteractions(Config.mapInteractions.interactionModes).extend([
+        new DragPan({
+            condition: function (event) {
+                return (!event.originalEvent.pointerType || event.originalEvent.pointerType === "mouse") || (Config.twoFingerPan && this.getPointerCount() === 2) || !Config.twoFingerPan;
+            }
+        })
+    ]);
+
+    console.log(Config.mapInteractions);
+
     const map = api.map.createMap(
         {
             ...Config,
@@ -21,6 +38,7 @@ function create2DMap (mapViewSettings) {
             layerConf: rawLayerList.getLayerList()
         }, "2D", {});
 
+    console.log('map', map);
     mapCollection.addMap(map, "2D");
     store.dispatch("Maps/initView");
     store.dispatch("Maps/setMapAttributes", {map: map});
