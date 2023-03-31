@@ -100,7 +100,7 @@ const Preparser = Backbone.Model.extend(/** @lends Preparser.prototype */{
             portalConfig: response.Portalconfig,
             baselayer: response.Themenconfig.Hintergrundkarten,
             overlayer: response.Themenconfig.Fachdaten,
-            overlayer_3d: response.Themenconfig.Fachdaten_3D, // / || response.Themenconfig.Fachdaten.Fachdaten_3D,
+            overlayer_3d: response.Themenconfig.Fachdaten_3D,
             overlayer_time: response.Themenconfig.Fachdaten_Zeit,
             treeType: response.Portalconfig?.treeType ? response.Portalconfig.treeType : "light",
             isFolderSelectable: this.parseIsFolderSelectable(Config?.tree?.isFolderSelectable),
