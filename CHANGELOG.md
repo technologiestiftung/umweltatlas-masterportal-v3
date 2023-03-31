@@ -7,6 +7,8 @@
 ### __Breaking Changes__
 
 ### Added
+- Print:
+  - Printing static image added
 - New WebGL Render Pipeline
     - core/layers/renderer/webgl: New layer-class methods for rendering WFS, GeoJSON, OAF or VectorBase layers using OL7's WebGL render pipelines
 - Filter:

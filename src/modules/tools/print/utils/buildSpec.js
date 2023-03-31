@@ -19,6 +19,7 @@ import {getLastPrintedExtent} from "../store/actions/actionsPrintInitialization"
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import {getRulesForFeature} from "@masterportal/masterportalapi/src/vectorStyle/lib/getRuleForIndex";
+import StaticImageSource from "ol/source/ImageStatic.js";
 
 
 const BuildSpecModel = {
@@ -441,21 +442,32 @@ const BuildSpecModel = {
             mapObject = {
                 baseURL: source.getUrl(),
                 opacity: layer.getOpacity(),
-                type: "WMS",
-                layers: source.getParams().LAYERS.split(","),
-                styles: source.getParams().STYLES ? source.getParams().STYLES.split(",") : undefined,
-                imageFormat: source.getParams().FORMAT,
-                customParams: {
-                    "TRANSPARENT": source.getParams().TRANSPARENT,
-                    "DPI": typeof dpi === "number" ? dpi : store.state.Tools.Print.dpiForPdf
-                }
+                type: "WMS"
             };
+
+        if (source instanceof StaticImageSource) {
+            mapObject.layers = [layer.getProperties().name];
+            mapObject.styles = undefined;
+            mapObject.customParams = {
+                "TRANSPARENT": false,
+                "DPI": typeof dpi === "number" ? dpi : store.state.Tools.Print.dpiForPdf
+            };
+        }
+        else {
+            mapObject.layers = source.getParams().LAYERS.split(",");
+            mapObject.styles = source.getParams().STYLES ? source.getParams().STYLES.split(",") : undefined;
+            mapObject.imageFormat = source.getParams().FORMAT;
+            mapObject.customParams = {
+                "TRANSPARENT": source.getParams().TRANSPARENT,
+                "DPI": typeof dpi === "number" ? dpi : store.state.Tools.Print.dpiForPdf
+            };
+            if (source.getParams().VERSION) {
+                mapObject.version = source.getParams().VERSION;
+            }
+        }
 
         if (store.state.Tools.Print.printService === "plotservice") {
             mapObject.title = layer.get("name");
-        }
-        if (source.getParams().VERSION) {
-            mapObject.version = source.getParams().VERSION;
         }
 
         return mapObject;
