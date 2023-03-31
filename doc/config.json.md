@@ -4901,7 +4901,7 @@ Definition for WMS-T layers `treeType` `custom` and `default`. The layers can al
 [type:GroupLayer]: # (Themenconfig.GroupLayer)
 [type:Ordner]: # (Themenconfig.Ordner)
 
-Folder definition. Folders may also be nested. Folders can be configured below the "Fachdaten" and "Hintergrundkarten".
+Folder definition. Folders may also be nested. Folders can be configured below the "Fachdaten" and "Hintergrundkarten". With treeType 'default' the 3D data can also be configured as a folder under 'Fachdaten_3D'.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
@@ -5060,6 +5060,35 @@ In this example layer 123 will be added to the map first. This leads to 456 bein
         ]
     }
 }
+```
+
+**Example 3D data folder with subfolders, treeType 'default'.**
+
+```json
+ "Fachdaten_3D": {
+      "Ordner": [        
+        {
+          "Titel": "3D Gebäudedaten",
+          "Layer": [
+            {
+              "id": "12884",
+              "name": "Gebäude LoD2",
+              "visibility": true
+            }
+          ]
+        },
+        {
+          "Titel": "3D Basisdaten",
+          "Layer": [
+            {
+              "id": "12883",
+              "name": "Gelände",
+              "visibility": true
+            }
+          ]
+        }
+      ]
+    }
 ```
 
 

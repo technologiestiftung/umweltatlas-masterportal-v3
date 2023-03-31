@@ -18,6 +18,7 @@
     - Print:
         - The print module now displays dashed lines in the printout.
         - The print module now displays the opacity and stroke styles in the legend in the printout.
+- treeType 'default': 3D-data can be configured in folders in config.json
 
 ### Changed
 - Update GeoJSON, WFS, OAF getFeaturesFilterFunction filtert kann nach exakter Geometrie filtern.
