@@ -17,7 +17,8 @@ import MapHandler from "../utils/mapHandler.js";
 import {compileSnippets} from "../utils/compileSnippets.js";
 import {translateKeyWithPlausibilityCheck} from "../../../../utils/translateKeyWithPlausibilityCheck.js";
 import {getSnippetAdjustments} from "../utils/getSnippetAdjustments.js";
-import {getLayerByLayerId} from "../utils/openlayerFunctions";
+import openlayerFunctions from "../utils/openlayerFunctions";
+
 import {isRule} from "../utils/isRule.js";
 
 export default {
@@ -702,7 +703,7 @@ export default {
             if (Object.prototype.hasOwnProperty.call(snippet, "title")) {
                 return snippet.title;
             }
-            const model = getLayerByLayerId(layerId),
+            const model = openlayerFunctions.getLayerByLayerId(layerId),
                 title = typeof model?.get === "function" && isObject(model.get("gfiAttributes")) ? model.get("gfiAttributes")[
                     Array.isArray(snippet.attrName) ? snippet.attrName[0] : snippet.attrName
                 ] : undefined;
@@ -746,7 +747,7 @@ export default {
         getDownloadHandler (onsuccess) {
             const result = [],
                 features = this.filteredItems,
-                model = getLayerByLayerId(this.layerConfig.layerId),
+                model = openlayerFunctions.getLayerByLayerId(this.layerConfig.layerId),
                 gfiAttributes = isObject(model) && typeof model.get === "function" && isObject(model.get("gfiAttributes")) ? model.get("gfiAttributes") : {};
 
             if (!Array.isArray(features)) {

@@ -7,6 +7,8 @@
 ### __Breaking Changes__
 
 ### Added
+- Print:
+  - Printing static image added
 - New WebGL Render Pipeline
     - core/layers/renderer/webgl: New layer-class methods for rendering WFS, GeoJSON, OAF or VectorBase layers using OL7's WebGL render pipelines
 - Filter:
@@ -18,6 +20,7 @@
     - Print:
         - The print module now displays dashed lines in the printout.
         - The print module now displays the opacity and stroke styles in the legend in the printout.
+- treeType 'default': 3D-data can be configured in folders in config.json
 
 ### Changed
 - Update GeoJSON, WFS, OAF getFeaturesFilterFunction filtert kann nach exakter Geometrie filtern.
@@ -76,6 +79,9 @@
 - The standard data format in ExportButtonCSV is array or boolean, not object.
 - The zoomToFeature layer now gets added on top, otherwise it would be hidden underneath the basemap.
 - The `getProxy` attribute now works again for layers of type wfs.
+- Text imports from previously exported geojson files get displayed again.
+- Filter: icons are displayed, if "renderIcons": "fromLegend" is configured at filter.
+- Draw: changing the color of points via "Edit geometry" works.
 
 ---
 

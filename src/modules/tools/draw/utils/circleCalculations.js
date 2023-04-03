@@ -75,7 +75,7 @@ function getCircleExtentByDistanceLon (circleCenter, circleDiameter, map) {
     return transform([newPositionLon, circleCenterWGS[1]], "EPSG:4326", crs.getMapProjection(map));
 }
 
-export {
+export default {
     calculateCircle,
     getCircleExtentByDistanceLat,
     getCircleExtentByDistanceLon

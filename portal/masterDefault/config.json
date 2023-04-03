@@ -348,21 +348,31 @@
     },
     "Fachdaten_3D": {
       "name": "translate#common:tree.subjectData3D",
-      "Layer": [
+      "Ordner": [        
         {
-          "id": "12883",
-          "name": "Gelände",
-          "visibility": true
+          "Titel": "3D Gebäudedaten",
+          "Layer": [
+            {
+              "id": "12884",
+              "name": "Gebäude LoD2",
+              "visibility": true
+            },
+            {
+              "id": "16101",
+              "name": "Brückenflächen HH",
+              "visibility": true
+            }
+          ]
         },
         {
-          "id": "16101",
-          "name": "Brueckenflaechen HH",
-          "visibility": true
-        },
-        {
-          "id": "12884",
-          "name": "Gebäude LoD2",
-          "visibility": true
+          "Titel": "3D Basisdaten",
+          "Layer": [
+            {
+              "id": "12883",
+              "name": "Gelände",
+              "visibility": true
+            }
+          ]
         }
       ]
     }

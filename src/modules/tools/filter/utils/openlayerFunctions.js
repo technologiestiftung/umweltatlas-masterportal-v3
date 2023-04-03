@@ -208,7 +208,7 @@ function getSnippetInfos () {
     return Radio.request("Parser", "getSnippetInfos");
 }
 
-export {
+export default {
     getMapProjection,
     createLayerIfNotExists,
     getFeaturesByLayerId,

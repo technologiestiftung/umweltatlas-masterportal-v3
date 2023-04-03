@@ -4843,7 +4843,7 @@ Definition für WMS-T Layer für den `treeType` `custom` und `default`. Die Laye
 [type:GroupLayer]: # (Themenconfig.GroupLayer)
 [type:Ordner]: # (Themenconfig.Ordner)
 
-Hier werden die Ordner definiert. Ordner können auch verschachtelt konfiguriert werden. Ordner können unterhalb der Fachdaten und der Hintergrundkarten konfiguriert werden.
+Hier werden die Ordner definiert. Ordner können auch verschachtelt konfiguriert werden. Ordner können unterhalb der Fachdaten und der Hintergrundkarten konfiguriert werden. Beim treeType 'default' können die 3D-Daten unter 'Fachdaten_3D' auch als Ordner konfiguriert werden.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
@@ -4996,6 +4996,35 @@ In diesem Beispiel wird der Layer mit der Id 123 vor dem Layer 456 der Map hinzu
         ]
     }
 }
+
+```
+**Beispiel 3D Daten-Ordner mit Unterordnern, treeType 'default'**
+
+```json
+ "Fachdaten_3D": {
+      "Ordner": [        
+        {
+          "Titel": "3D Gebäudedaten",
+          "Layer": [
+            {
+              "id": "12884",
+              "name": "Gebäude LoD2",
+              "visibility": true
+            }
+          ]
+        },
+        {
+          "Titel": "3D Basisdaten",
+          "Layer": [
+            {
+              "id": "12883",
+              "name": "Gelände",
+              "visibility": true
+            }
+          ]
+        }
+      ]
+    }
 ```
 
 ***
@@ -5402,7 +5431,7 @@ Hier werden Vector typische Attribute aufgelistet. Vector Layer sind WFS, GeoJSO
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|clusterDistance|nein|Integer||Pixelradius. Innerhalb dieses Radius werden alle Features zu einem Feature "geclustered".|false|
+|clusterDistance|nein|Integer||Pixelradius. Innerhalb dieses Radius werden alle Features zu einem Feature "geclustered". ⚠️ clusterDistance bei WFS-Layern mit Polygon- oder Linien-Geometry führt dazu, dass die Features nicht angezeigt werden.|false|
 |extendedFilter|nein|Boolean||Gibt an, ob dieser Layer vom Werkzeug "extendedFilter" in **[tools](#markdown-header-portalconfigmenutools)** verwendet werden kann.|false|
 |filterOptions|nein|**[filterOption](#markdown-header-themenconfiglayervectorfilteroption)**[]||Filteroptionen die vom Werkzeug "wfsFeatureFilter" in **[tools](#markdown-header-portalconfigmenutools)** benötigt werden.|false|
 |mouseHoverField|nein|String/String[]||Attributname oder Array von Attributnamen, die angezeigt werden sollen, sobald der User mit der Maus über ein Feature hovert.|false|
