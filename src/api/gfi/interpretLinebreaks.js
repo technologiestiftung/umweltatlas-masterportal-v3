@@ -13,7 +13,9 @@ export function interpretLinebreaks (properties) {
             .entries(properties)
             .map(([key, value]) => [
                 key,
-                value.replace(/(?:\r\n|\r|\n)/g, "|")
+                typeof value === "string"
+                    ? value.replace(/(?:\r\n|\r|\n)/g, "|")
+                    : value
             ])
     );
 }
