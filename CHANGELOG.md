@@ -33,6 +33,7 @@ See [mapInteractions](https://bitbucket.org/geowerkstatt-hamburg/masterportal/sr
 ### Added
 - Print:
   - Printing static image added
+  - Print special style with @ and . added
 - New WebGL Render Pipeline
     - core/layers/renderer/webgl: New layer-class methods for rendering WFS, GeoJSON, OAF or VectorBase layers using OL7's WebGL render pipelines
 - Filter:

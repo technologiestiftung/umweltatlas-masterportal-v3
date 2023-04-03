@@ -530,7 +530,12 @@ const BuildSpecModel = {
                     styleAttributes.forEach(attribute => {
                         const singleFeature = clonedFeature.get("features") ? clonedFeature.get("features")[0] : clonedFeature;
 
-                        clonedFeature.set(attribute, attribute === "default" && !singleFeature.get(attribute) ? "style" : `${singleFeature.get(attribute)}_${index}`);
+                        if (attribute.includes("Datastreams")) {
+                            clonedFeature.set(attribute, attribute === "default" && !singleFeature.get(attribute) ? "style" : `${singleFeature.getProperties().Datastreams[0].Observations[0].result}_${index}`);
+                        }
+                        else {
+                            clonedFeature.set(attribute, attribute === "default" && !singleFeature.get(attribute) ? "style" : `${singleFeature.get(attribute)}_${index}`);
+                        }
                         clonedFeature.ol_uid = feature.ol_uid;
                     });
                     geometryType = feature.getGeometry().getType();
@@ -596,6 +601,11 @@ const BuildSpecModel = {
                         styleObject.symbolizers.push(this.buildTextStyle(style.getText()));
                     }
 
+                    if (stylingRules.includes("@Datastreams")) {
+                        const newKey = stylingRules.replaceAll("@", "").replaceAll(".", "");
+
+                        stylingRules = newKey;
+                    }
                     mapfishStyleObject[stylingRules] = styleObject;
                 }
             });
@@ -1034,6 +1044,15 @@ const BuildSpecModel = {
         if (clonedFeature.getGeometry().getType() === "Circle") {
             clonedFeature.setGeometry(fromCircle(clonedFeature.getGeometry()));
         }
+        Object.keys(clonedFeature.getProperties()).filter(key => {
+            if (key.includes("@Datastreams")) {
+                const newKey = key.replaceAll("@", "").replaceAll(".", "");
+
+                clonedFeature.set(newKey, clonedFeature.getProperties()[key]);
+                clonedFeature.unset(key, {silent: true});
+            }
+            return false;
+        });
 
         // Removing "Datastreams" attribute because it might overload the server as happened for some sensors.
         clonedFeature.unset("Datastreams", {silent: true});
@@ -1130,7 +1149,7 @@ const BuildSpecModel = {
         }
         // cluster feature with geometry style
         if (feature.get("features") !== undefined) {
-            if ((style !== undefined && style.getText().getText() !== undefined) || feature.get("features").length > 1) {
+            if ((style !== undefined && style?.getText()?.getText() !== undefined) || feature.get("features").length > 1) {
                 const value = feature.get("features")[0].get(styleAttr[0])
                     + "_"
                     + style !== undefined && style.getText().getText() !== undefined ? style.getText().getText() : "cluster";
@@ -1186,7 +1205,6 @@ const BuildSpecModel = {
                 styleFields = [styleObject.get("styleField")];
             }
         }
-
         return styleFields;
     },
 

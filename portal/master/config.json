@@ -939,6 +939,13 @@
           "visibility": true,
           "url": "https://geodienste.hamburg.de/lgv-config/img/Laerm-Test_300dpi.png",
           "legend": ["https://geodienste.hamburg.de/lgv-config/img/Legende_Laermberechnung_Tag.png", "https://geodienste.hamburg.de/lgv-config/img/Legende_Laermberechnung_Nacht.png"]
+        },
+        {
+          "id": "18104",
+          "styleId": "18104",
+          "name": "Anzahl frei verfügbarer E-Lastenräder je StadtRad-Station",
+          "typ": "SensorThings",
+          "visibility": true
         }
       ]
     }
