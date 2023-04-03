@@ -1053,7 +1053,6 @@ const BuildSpecModel = {
             }
             return false;
         });
-
         // Removing "Datastreams" attribute because it might overload the server as happened for some sensors.
         clonedFeature.unset("Datastreams", {silent: true});
 

@@ -4,6 +4,7 @@ import {Fill, Stroke} from "ol/style";
 import {expect} from "chai";
 import sinon from "sinon";
 import createTestFeatures from "./testHelper";
+import Feature from "ol/Feature.js";
 
 describe("src/modules/tools/print/utils/buildSpec.buildStyle", function () {
     let buildSpec,
@@ -92,6 +93,34 @@ describe("src/modules/tools/print/utils/buildSpec.buildStyle", function () {
             buildSpec.buildPolygonStyle = () => polygonStyleObj;
 
             mapfishStyleObject = buildSpec.buildStyle(layer, polygonFeatures, []);
+            styleObject = mapfishStyleObject[stylingRule];
+
+            expect(mapfishStyleObject.version).to.be.equal("2");
+            expect(styleObject).to.be.an("object");
+            expect(styleObject.symbolizers).to.be.an("array");
+            expect(styleObject.symbolizers.length).to.be.equal(1);
+            expect(styleObject.symbolizers[0]).to.be.deep.equal(polygonStyleObj);
+        });
+        it.only("buildStyle shall return a style for the style attribute", function () {
+            let mapfishStyleObject = null,
+                styleObject = null;
+                // stylingRule: bewirtschaftungsart='Parkschein, Bewohner mit Ausweis frei_0'
+            const stylingRule = "[Datastreams0Observations0result=1_0]",
+                testFeature = new Feature({
+                    Datastreams: [{
+                        Observations: [{
+                            result: 0
+                        }]
+                    }],
+                    geometry: new Polygon([[[0, 0], [0, 1], [1, 1], [0, 0]]])
+                });
+
+            buildSpec.getStylingRules = () => stylingRule;
+            buildSpec.getFeatureStyle = () => [style];
+            buildSpec.getStyleAttributes = () => ["@Datastreams.0.Observations.0.result"];
+            buildSpec.buildPolygonStyle = () => polygonStyleObj;
+
+            mapfishStyleObject = buildSpec.buildStyle(layer, [testFeature], []);
             styleObject = mapfishStyleObject[stylingRule];
 
             expect(mapfishStyleObject.version).to.be.equal("2");
