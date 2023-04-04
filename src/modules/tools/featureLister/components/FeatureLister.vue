@@ -154,7 +154,7 @@ export default {
         async updateFeatureListerList () {
             this.visibleVectorLayers = [];
             await Promise.all(this.getVisibleLayerList.map(async layer => {
-                if (layer instanceof VectorLayer && layer.get("typ") === "WFS") {
+                if (layer instanceof VectorLayer && layer.get("typ") === "WFS" || layer.get("typ") === "GeoJSON") {
                     const layerSource = layer.getSource();
                     let alreadyInArray = false;
 
