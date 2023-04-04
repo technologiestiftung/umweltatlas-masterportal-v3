@@ -62,7 +62,8 @@ describe("src/modules/tools/Print/components/PrintMap.vue", () => {
                 }
             },
             getters: {
-                uiStyle: sinon.stub()
+                uiStyle: sinon.stub(),
+                mobile: sinon.stub()
             }
         });
 
@@ -209,6 +210,29 @@ describe("src/modules/tools/Print/components/PrintMap.vue", () => {
             expect(wrapper.vm.returnScale(10000)).to.equal("10 000");
             expect(wrapper.vm.returnScale(999999)).to.equal("999 999");
             expect(wrapper.vm.returnScale(1000000)).to.equal("1 000 000");
+        });
+    });
+
+    describe("gfi-option", () => {
+        it("should deselect GFI when currentFeature changes", async () => {
+            store.commit("Tools/Print/setIsGfiAvailable", true);
+            wrapper = mount(PrintComponent, {store, localVue});
+
+            expect(wrapper.find("#printGfi").exists()).to.be.true;
+            expect(wrapper.find("#printGfi").disabled).to.be.undefined;
+
+            wrapper.find("#printGfi").setChecked();
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.find("#printGfi").exists()).to.be.true;
+            expect(wrapper.find("#printGfi").disabled).to.be.undefined;
+            expect(wrapper.find("#printGfi").element.checked).to.be.true;
+
+            store.commit("Tools/Print/setIsGfiSelected", false);
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.find("#printGfi").exists()).to.be.true;
+            expect(wrapper.find("#printGfi").element.checked).to.be.false;
         });
     });
 });

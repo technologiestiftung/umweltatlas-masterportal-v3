@@ -140,7 +140,6 @@ export default {
         },
         currentFeature: function () {
             if (this.currentFeature === null) {
-                document.getElementById("printGfi").checked = false;
                 this.setIsGfiSelected(false);
             }
         }
