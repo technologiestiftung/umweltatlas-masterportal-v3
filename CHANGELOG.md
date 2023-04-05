@@ -3,9 +3,7 @@
 
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
-## Unreleased - in development
-### __Breaking Changes__
-
+##  v2.32.0 - 2023-04-05
 ### Added
 - Print:
   - Printing static image added
@@ -55,10 +53,6 @@
     - sinon: 14.0.2 to 15.0.2
 - The version of node was updated, must be `>= 16.13.2 <= 16.18.1`
 - The version of npm was updated, must be `>= 8.1.2 <= 8.19.3`
-
-### Deprecated
-
-### Removed
 
 ### Fixed
 - actionsMapLayers/addLayer: don't set zIndex by default, otherwise addLayerOnTop and addLayerToIndex have no effect
