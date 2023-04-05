@@ -101,7 +101,7 @@ describe("src/modules/tools/print/utils/buildSpec.buildStyle", function () {
             expect(styleObject.symbolizers.length).to.be.equal(1);
             expect(styleObject.symbolizers[0]).to.be.deep.equal(polygonStyleObj);
         });
-        it.only("buildStyle shall return a style for the style attribute", function () {
+        it("buildStyle shall return a style for the style attribute", function () {
             let mapfishStyleObject = null,
                 styleObject = null;
                 // stylingRule: bewirtschaftungsart='Parkschein, Bewohner mit Ausweis frei_0'

@@ -505,6 +505,7 @@ const BuildSpecModel = {
             features.reverse();
         }
         features.forEach(feature => {
+        // features.slice(0, 20).forEach(feature => {
             const foundFeature = featuresInExtent.find(featureInExtent => featureInExtent.ol_uid === feature.ol_uid),
                 styles = this.getFeatureStyle(feature, layer),
                 styleAttributes = this.getStyleAttributes(layer, feature);
@@ -521,6 +522,7 @@ const BuildSpecModel = {
                 styleGeometryFunction;
 
             styles.forEach((style, index) => {
+
                 if (style !== null) {
                     const styleObjectFromStyleList = styleList.returnStyleObject(layer.get("id")),
                         styleFromStyleList = styleObjectFromStyleList ? createStyle.getGeometryStyle(feature, styleObjectFromStyleList.rules, false, Config.wfsImgPath) : undefined;
@@ -532,6 +534,14 @@ const BuildSpecModel = {
 
                         if (attribute.includes("Datastreams")) {
                             clonedFeature.set(attribute, attribute === "default" && !singleFeature.get(attribute) ? "style" : `${singleFeature.getProperties().Datastreams[0].Observations[0].result}_${index}`);
+                        }
+                        else if (style.type && style.type === "CIRCLESEGMENTS") {
+                            clonedFeature.setId(`${feature.ol_uid}__${index}`);
+                            clonedFeature.set(attribute, `${style.type}_${style.scalingAttribute.replace(" | ", "_")}_${index}`);
+                        }
+                        else if (style.type && style.type === "imageStyle") {
+                            clonedFeature.setId(`${feature.ol_uid}__${index}`);
+                            clonedFeature.set(attribute, `${style.type}_${index}`);
                         }
                         else {
                             clonedFeature.set(attribute, attribute === "default" && !singleFeature.get(attribute) ? "style" : `${singleFeature.get(attribute)}_${index}`);
@@ -1000,6 +1010,10 @@ const BuildSpecModel = {
 
         if (feature.get("features") && feature.get("features").length === 1) {
             feature.get("features").forEach((clusteredFeature) => {
+                if (feature.getKeys().find(element => element === "default")) {
+                    clusteredFeature.setProperties({"default": feature.get("default")});
+                    clusteredFeature.setId(feature.getId());
+                }
                 convertedFeature = this.convertFeatureToGeoJson(clusteredFeature, style);
 
                 if (convertedFeature) {
@@ -1064,6 +1078,7 @@ const BuildSpecModel = {
         if (convertedFeature?.properties && Object.prototype.hasOwnProperty.call(convertedFeature.properties, "features")) {
             delete convertedFeature.properties.features;
         }
+
         return convertedFeature;
     },
 
@@ -1086,7 +1101,6 @@ const BuildSpecModel = {
         else {
             styles = layer.getStyleFunction().call(layer, feature);
         }
-
         return !Array.isArray(styles) ? [styles] : styles;
     },
 
@@ -1154,6 +1168,11 @@ const BuildSpecModel = {
                     + style !== undefined && style.getText().getText() !== undefined ? style.getText().getText() : "cluster";
 
                 feature.set(styleAttr[0], value);
+                return `[${styleAttr[0]}='${value}']`;
+            }
+            else if (style.type) {
+                const value = feature.get("default");
+
                 return `[${styleAttr[0]}='${value}']`;
             }
 
