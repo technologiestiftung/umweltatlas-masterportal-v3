@@ -268,16 +268,24 @@ const DefaultTreeParser = Parser.extend(/** @lends DefaultTreeParser.prototype *
                 const isSelected = typeof layerConfig.visibility === "boolean" ? layerConfig.visibility : false,
                     layer = layerList.find((aLayer) => aLayer.id === layerConfig.id);
 
-                this.addItem(Object.assign({
-                    type: "layer",
-                    parentId: parentId,
-                    level: level,
-                    isVisibleInTree: isVisibleInTree,
-                    isSelected: isSelected
-                }, layer));
+                if (layer) {
+                    this.addItem(Object.assign(
+                        layer,
+                        {
+                            type: "layer",
+                            parentId: parentId,
+                            level: level,
+                            isVisibleInTree: isVisibleInTree,
+                            isSelected: isSelected,
+                            name: layerConfig.name ? layerConfig.name : layer.name
+                        }));
 
-                if (isSelected) {
-                    this.getItemByAttributes({id: parentId}).isSelected = isSelected;
+                    if (isSelected) {
+                        this.getItemByAttributes({id: parentId}).isSelected = isSelected;
+                    }
+                }
+                else {
+                    console.warn("3D-layer with id ", layerConfig.id, " is not available in services.json!");
                 }
             });
         }
