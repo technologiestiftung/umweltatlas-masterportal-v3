@@ -1,6 +1,7 @@
 import Parser from "./parser";
 import store from "../../../src/app-store/index";
 import groupBy from "../../../src/utils/groupBy";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 
 const DefaultTreeParser = Parser.extend(/** @lends DefaultTreeParser.prototype */{
     /**
@@ -265,9 +266,13 @@ const DefaultTreeParser = Parser.extend(/** @lends DefaultTreeParser.prototype *
         }
         else if (layer3DConfig.Layer) {
             layer3DConfig.Layer.forEach(layerConfig => {
-                const isSelected = typeof layerConfig.visibility === "boolean" ? layerConfig.visibility : false,
-                    layer = layerList.find((aLayer) => aLayer.id === layerConfig.id);
+                const isSelected = typeof layerConfig.visibility === "boolean" ? layerConfig.visibility : false;
+                let layer = layerList.find((aLayer) => aLayer.id === layerConfig.id);
 
+                if (!layer) {
+                    // layers with no metadata are not in layerList, but in 3D metadata are not used to create folder structure
+                    layer = rawLayerList.getLayerWhere({id: layerConfig.id});
+                }
                 if (layer) {
                     this.addItem(Object.assign(
                         layer,
