@@ -44,7 +44,7 @@ describe("src/api/gfi/getWmsFeaturesByMimeType.js", () => {
 
     describe("createGfiFeature", () => {
         it("should return an object with specific functions to get the given params", () => {
-            const feature = createGfiFeature(layer, url, aFeature, null, "documentMock");
+            const feature = createGfiFeature(layer, url, aFeature, null, "documentMock", "foo");
 
             expect(feature).to.be.an("object");
 
@@ -62,6 +62,7 @@ describe("src/api/gfi/getWmsFeaturesByMimeType.js", () => {
             expect(feature.getProperties()).to.equal("featureProperties");
             expect(feature.getId()).to.equal("id");
             expect(feature.getDocument()).to.equal("documentMock");
+            expect(feature.getBBox()).to.equal("foo");
         });
     });
 
@@ -278,6 +279,44 @@ describe("src/api/gfi/getWmsFeaturesByMimeType.js", () => {
             expect(result[0].getTheme()).to.equal("DataTable");
             expect(result[0].getAttributesToShow()).to.equal("attributesToShow");
             expect(result[0].getProperties()).to.deep.equal({});
+        });
+        it("creates a merged feature if gfiTheme is DataTable with bbox", async () => {
+            const objectMock = {
+                    features: [
+                        {
+                            properties: {},
+                            id: "1"
+                        }
+                    ]
+                },
+                localLayer = {
+                    gfiTheme: "DataTable",
+                    get: (key) => {
+                        if (key === "name") {
+                            return "layerName";
+                        }
+                        else if (key === "gfiTheme") {
+                            return "DataTable";
+                        }
+                        else if (key === "gfiAttributes") {
+                            return "attributesToShow";
+                        }
+                        else if (key === "infoFormat") {
+                            return "text/xml";
+                        }
+                        return null;
+                    }
+                },
+                result = mergeFeatures(objectMock.features, localLayer, url, [1234, 1234]);
+
+            expect(result).to.be.an("array").to.have.lengthOf(1);
+            expect(result[0]).to.be.an("object");
+            expect(result[0].getGfiUrl()).to.equal("url");
+            expect(result[0].getTitle()).to.equal("layerName");
+            expect(result[0].getTheme()).to.equal("DataTable");
+            expect(result[0].getAttributesToShow()).to.equal("attributesToShow");
+            expect(result[0].getProperties()).to.deep.equal({});
+            expect(result[0].getBBox()).to.deep.equal([1234, 1234]);
         });
     });
 });

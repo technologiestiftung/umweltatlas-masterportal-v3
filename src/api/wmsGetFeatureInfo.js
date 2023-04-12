@@ -104,11 +104,19 @@ export function parseDocumentString (documentString, mimeType, parseFromStringOp
  * @returns {module:ol/Feature[]} Collection of openlayers features.
  */
 export function parseFeatures (doc) {
-    const firstChild = doc.firstChild.tagName;
-    let features = [];
+    const firstChild = doc.firstChild.tagName,
+        gmlNamespace = "http://www.opengis.net/gml";
+    let features = [],
+        box = null,
+        coordinates = null;
 
     if (firstChild.includes("FeatureCollection") || firstChild.includes("msGMLOutput")) {
         features = parseOgcConformFeatures(doc);
+        box = doc.getElementsByTagNameNS(gmlNamespace, "Box");
+        if (box.length === 1 && features.length > 1) {
+            coordinates = box[0].getElementsByTagNameNS(gmlNamespace, "coordinates")[0];
+            features.unshift(String(coordinates.innerHTML).split(/[, ]/));
+        }
     }
     else if (firstChild.includes("GetFeatureInfoResponse")) {
         features = parseQGisFeatures(doc);
