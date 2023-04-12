@@ -10,7 +10,8 @@ export default {
     },
     data () {
         return {
-            rotation: 0
+            rotation: 0,
+            showInactive: Config.mapInteractions?.altShiftDragRotate.showInactive
         };
     },
     computed: {
@@ -34,7 +35,7 @@ export default {
         updateRotation (event) {
             this.rotation = event.target.getRotation();
             if (this.$refs.rotation) {
-                this.$refs.rotation.style.transform = `rotate(${this.rotation}rad)`;
+                this.$refs.rotation2.style.transform = `rotate(${this.rotation}rad)`;
             }
         },
 
@@ -51,12 +52,13 @@ export default {
 
 <template>
     <div
-        v-if="rotation !== 0"
+        v-if="rotation !== 0 || showInactive"
         id="rotation-control"
         ref="rotation"
     >
         <component
             :is="component"
+            ref="rotation2"
             icon-name="arrow-up-circle"
             :class="[component ? 'control' : 'Table']"
             title="Rotation"

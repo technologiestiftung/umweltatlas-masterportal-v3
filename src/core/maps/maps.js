@@ -18,7 +18,7 @@ import Config from "../../../portal/master_rotate/config";
  */
 function create2DMap (mapViewSettings) {
     if (!Config.mapInteractions.interactionModes) {
-        Config.mapInteractions.interactionModes = {dragPan: false, altShiftDragRotate: true, pinchRotate: false}
+        Config.mapInteractions.interactionModes = {dragPan: false, altShiftDragRotate: true, pinchRotate: false};
     }
 
     Config.mapInteractions.interactionModes = defaultInteractions(Config.mapInteractions.interactionModes).extend([
@@ -29,8 +29,6 @@ function create2DMap (mapViewSettings) {
         })
     ]);
 
-    console.log(Config.mapInteractions);
-
     const map = api.map.createMap(
         {
             ...Config,
@@ -38,7 +36,6 @@ function create2DMap (mapViewSettings) {
             layerConf: rawLayerList.getLayerList()
         }, "2D", {});
 
-    console.log('map', map);
     mapCollection.addMap(map, "2D");
     store.dispatch("Maps/initView");
     store.dispatch("Maps/setMapAttributes", {map: map});

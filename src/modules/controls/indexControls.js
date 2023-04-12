@@ -12,6 +12,7 @@ import StartTool from "./startTool/components/StartTool.vue";
 import TotalView from "./totalView/components/TotalView.vue";
 import ZoomInAndOut from "./zoom/components/ZoomInAndOut.vue";
 import FreezeScreen from "./freeze/components/FreezeScreen.vue";
+import RotationItem from "./rotation/components/RotationItem.vue";
 
 /**
  * controls-Module is required to be able to nest controls
@@ -30,6 +31,7 @@ export default {
     state: {
         // maps config.json.md control key to component
         componentMap: {
+            rotation: RotationItem,
             attributions: AttributionsItem,
             backForward: BackForward,
             freeze: FreezeScreen,
