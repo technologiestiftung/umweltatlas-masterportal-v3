@@ -35,7 +35,7 @@ export default {
         updateRotation (event) {
             this.rotation = event.target.getRotation();
             if (this.$refs.rotation) {
-                this.$refs.rotation2.style.transform = `rotate(${this.rotation}rad)`;
+                this.$refs.rotation.style.transform = `rotate(${this.rotation}rad)`;
             }
         },
 
@@ -58,7 +58,6 @@ export default {
     >
         <component
             :is="component"
-            ref="rotation2"
             icon-name="arrow-up-circle"
             :class="[component ? 'control' : 'Table']"
             title="Rotation"
