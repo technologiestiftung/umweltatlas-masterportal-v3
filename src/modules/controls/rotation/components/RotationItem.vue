@@ -34,8 +34,8 @@ export default {
          */
         updateRotation (event) {
             this.rotation = event.target.getRotation();
-            if (this.$refs.rotation) {
-                this.$refs.rotation.style.transform = `rotate(${this.rotation}rad)`;
+            if (this.$el.querySelector("i")) {
+                this.$el.querySelector("i").style.transform = `translate(-50%, -50%) rotate(${this.rotation}rad)`;
             }
         },
 
@@ -54,10 +54,10 @@ export default {
     <div
         v-if="rotation !== 0 || showInactive"
         id="rotation-control"
-        ref="rotation"
     >
         <component
             :is="component"
+            ref="iconControl"
             icon-name="arrow-up-circle"
             :class="[component ? 'control' : 'Table']"
             title="Rotation"
