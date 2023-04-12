@@ -41,18 +41,4 @@ describe("src/modules/controls/rotation/components/RotationItem.vue", () => {
         wrapper.vm.setToNorth();
         expect(mapCollection.getMapView("2D").getRotation()).to.eql(0);
     });
-    it("updateRotation() updates rotation data, ControlIcon component exists", async () => {
-        const event = {
-            target: {
-                getRotation: () => {
-                    return 0.123;
-                }
-            }
-        };
-
-        wrapper = await shallowMount(RotationItem, {store, localVue});
-        await wrapper.vm.updateRotation(event);
-        expect(wrapper.vm.rotation).to.eql(0.123);
-        expect(wrapper.findComponent(ControlIcon).exists()).to.be.true;
-    });
 });

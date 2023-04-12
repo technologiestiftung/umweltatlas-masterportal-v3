@@ -28,7 +28,7 @@ export default {
     },
     methods: {
         /**
-         * Updates the rotation of the control.
+         * Updates the rotation of the control icon.
          * @param {Event} event the mapView rotation event.
          * @returns {void}
          */
