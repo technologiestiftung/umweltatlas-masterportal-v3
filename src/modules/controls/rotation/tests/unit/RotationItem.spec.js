@@ -2,7 +2,6 @@ import Vuex from "vuex";
 import {expect} from "chai";
 import {shallowMount, createLocalVue} from "@vue/test-utils";
 import RotationItem from "../../components/RotationItem.vue";
-import ControlIcon from "../../../ControlIcon.vue";
 import Map from "ol/Map";
 
 const localVue = createLocalVue();
