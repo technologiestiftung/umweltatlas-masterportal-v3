@@ -617,6 +617,7 @@ Konfiguration der layerInformation.
 |zoom|nein|Boolean|false|Legt fest, ob die Zoombuttons angezeigt werden sollen.|false|
 |overviewmap|nein|**[overviewMap](#markdown-header-portalconfigcontrolsoverviewmap)**|false|Deprecated in 3.0.0. Bitte "overviewMap" verwenden.|false|
 |overviewMap|nein|**[overviewMap](#markdown-header-portalconfigcontrolsoverviewmap)**|false|Übersichtskarte.|false|
+|rotation|nein|**[rotation](#markdown-header-portalconfigcontrolsrotation)**|false|Control, das die aktuelle Rotation der Karte anzeigt. Per Klick kann die Maprotation wieder auf Norden gesetzt werden. Siehe auch unter `mapInteractions` in config.js.md.|false|
 |totalview|nein|**[totalView](#markdown-header-portalconfigcontrolstotalview)**|false|Deprecated in 3.0.0. bitte "totalView" verwenden.|false|
 |totalView|nein|**[totalView](#markdown-header-portalconfigcontrolstotalview)**|false|Zeigt einen Button an, mit dem die Startansicht mit den initialen Einstellungen wiederhergestellt werden kann.|false|
 |button3d|nein|Boolean|false|Legt fest, ob ein Button für die Umschaltung in den 3D Modus angezeigt werden soll.|false|
@@ -705,6 +706,30 @@ Das Attribut overviewMap kann vom Typ Boolean oder Object sein. Wenn es vom Typ 
 ```
 
 **Beispiel overviewmap als Boolean:**
+```
+#!json
+"overviewMap": true
+```
+
+***
+
+#### Portalconfig.controls.rotation
+
+Das Attribut rotation kann vom Typ Boolean oder Object sein. Wenn es vom Typ Boolean ist und auf true gesetzt ist, zeigt es das Rotation-Control nur an. Ist es vom Typ Object, so gelten folgende Attribute
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|
+|----|-------------|---|-------|------------|
+|showAlways|nein|Boolean|false|Ist das Attribut auf true gesetzt wird das Control permanent angezeigt. Per default wird es nur angezeigt wenn die Maprotation ungleich 0/Norden ist.|
+
+**Beispiel rotation als Object:**
+```
+#!json
+"rotation": {
+    "showAlways": true
+}
+```
+
+**Beispiel rotation als Boolean:**
 ```
 #!json
 "overviewMap": true
@@ -5002,7 +5027,7 @@ In diesem Beispiel wird der Layer mit der Id 123 vor dem Layer 456 der Map hinzu
 
 ```json
  "Fachdaten_3D": {
-      "Ordner": [        
+      "Ordner": [
         {
           "Titel": "3D Gebäudedaten",
           "Layer": [

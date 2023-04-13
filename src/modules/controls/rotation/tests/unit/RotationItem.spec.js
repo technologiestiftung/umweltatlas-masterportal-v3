@@ -28,9 +28,9 @@ describe("src/modules/controls/rotation/components/RotationItem.vue", () => {
 
         expect(wrapper.find("#rotation-control").exists()).to.be.true;
     });
-    it("the control renders if showInactive is true", async () => {
+    it("the control renders if showAlways is true", async () => {
         wrapper = shallowMount(RotationItem, {store, localVue});
-        await wrapper.setData({showInactive: true});
+        await wrapper.setData({showAlways: true});
 
         expect(wrapper.find("#rotation-control").exists()).to.be.true;
     });

@@ -7,7 +7,10 @@
 ### __Breaking Changes__
 
 ### Added
-
+New Rotation control of the map. If map interaction `altShiftDragRotate` is activated the map can be rotated with `shift+alt+drag`
+See [mapInteractions](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/config.js.md#markdown-header-mapInteractions) and [rotate control](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/config.json.md#markdown-header-portalconfigcontrolsrotation)
+- Issue #882: add map rotation configuration and control
+- Issue #874: add keyboardEventTarget possibility to ol map configuration
 ### Changed
 
 ### Deprecated
@@ -16,6 +19,7 @@
 
 ### Fixed
 - Traffic Lights Data visible on scale 1:5000 again
+- Filter/ Autorefresh: The same features are displayed from a filterd GeoJson after an autorefresh as before the autorefresh.
 
 ---
 ##  v2.32.0 - 2023-04-05
@@ -94,7 +98,6 @@
 - Filter: icons are displayed, if "renderIcons": "fromLegend" is configured at filter.
 - Draw: changing the color of points via "Edit geometry" works.
 - Print deselects "with additional information"-option when you close the Gfi now.
-- Filter/ Autorefresh: The same features are displayed from a filterd GeoJson after an autorefresh as before the autorefresh
 
 ---
 

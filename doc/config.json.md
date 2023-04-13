@@ -643,6 +643,7 @@ Configuration of layerInformation.
 |zoom|no|Boolean|false|Defines whether zoom buttons should be displayed.|false|
 |overviewmap|no|**[overviewMap](#markdown-header-portalconfigcontrolsoverviewmap)**|false|_Deprecated in 3.0.0. Please use `overviewMap` instead._|false|
 |overviewMap|no|**[overviewMap](#markdown-header-portalconfigcontrolsoverviewmap)**|false|Overview map.|false|
+|rotation|nein|**[rotation](#markdown-header-portalconfigcontrolsrotation)**|false|Control that shows the current rotation of the map. With a click the map rotation can be set to north again. See also `mapInteractions` in config.js.md.|false|
 |totalview|no|**[totalView](#markdown-header-portalconfigcontrolstotalview)**|false|_Deprecated in 3.0.0. Please use "totalView" instead._|false|
 |totalView|no|**[totalView](#markdown-header-portalconfigcontrolstotalview)**|false|Offers a button to return to the initial view.|false|
 |button3d|no|Boolean|false|Defines whether a 3D mode switch button is shown.|false|
@@ -746,6 +747,30 @@ The attribute overviewMap may be of type boolean or object. If of type boolean, 
 {
     "overviewMap": true
 }
+```
+
+***
+
+#### Portalconfig.controls.rotation
+
+The attribute rotation may be of type boolean or object. If of type boolean and value is set to true, the rotation control is just shown when the map rotation is not eual north/0. When of type object, the following attributes may be set:
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|
+|----|-------------|---|-------|------------|
+|showAlways|nein|Boolean|false|If the attribut is set to true the control is hsown permanently . Via default it appears only if the map rotation is not equal north/0.|
+
+**Example using type object rotation**
+```
+#!json
+"rotation": {
+    "showAlways": true
+}
+```
+
+**Example using type boolean rotation**
+```
+#!json
+"overviewMap": true
 ```
 
 ***
@@ -5068,7 +5093,7 @@ In this example layer 123 will be added to the map first. This leads to 456 bein
 
 ```json
  "Fachdaten_3D": {
-      "Ordner": [        
+      "Ordner": [
         {
           "Titel": "3D Gebäudedaten",
           "Layer": [

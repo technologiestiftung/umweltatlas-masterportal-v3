@@ -30,6 +30,7 @@ In the following, all configuration options are described. For all configuration
 |inputMap.setCenter|no|Boolean|`false`|Center on a marker after producing it?|`setCenter: true`|
 |inputMap.setMarker|no|Boolean|`false`|Flag to activate the 'setMarker' functionality.|`setMarker: true`|
 |inputMap.targetProjection|no|String|`"EPSG:25832"`|The target coordinate reference system. Coordinates will be translated to it before being communicated via **[remoteInterface](remoteInterface.md)**.|`targetprojection: "EPSG:4326"`|
+|mapInteractions|no|**[mapInteractions](#markdown-header-mapInteractions)**||Overrides the ol map interactions. Provides further configuration possibilities for control behaviour and keyboardEventTarget.||
 |mapMarker|no|**[mapMarker](#markdown-header-mapmarker)**||Overrides the map marker module's default values. Useful for 3D markers since OpenLayers's overlays can not be displayed in 3D mode. For this, the map marker has to be defined as vector layer.||
 |metaDataCatalogueId|no|String|`"2"`|URL to the metadata catalog linked to in the layer information window. The ID is resolved to a service of the **[rest-services.json](rest-services.json.md)** file. Note: This attribute is only necessary, when no "show_doc_url" is configured in the metadata dataset in the **[services.json](services.json.md)**. The url can either be set globally (**[config.js](config.js.md)**) or layer-specific(**[services.json](services.json.md)**).|`"MetaDataCatalogueUrl"`|
 |metadata|no|**[metadata](#markdown-header-metadata)**||Allows configuration of which metadata URLs are to be resolved via proxy.||
@@ -278,6 +279,25 @@ For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Glob
 ```
 ***
 
+## mapInteractions
+
+|Name|Required|Type|Default|Description|
+|----|--------|----|-------|-----------|
+|interactionModes|no|Object|`{dragPan: false, altShiftDragRotate: false, pinchRotate: false}`| Interaction settings for the ol default interactions. If not set, the default setting is used.|
+|keyboardEventTarget|no|Object/false|`false`|possibility to set the keyboard event target for the ol map e.g keyboardEventTarget: document|
+
+**Example:**
+
+```json
+{
+    "mapInteractions": {
+        "interactionModes": {"dragPan": false, "altShiftDragRotate": true, "pinchRotate": false, "dragZoom": true},
+        "keyboardEventTarget": false
+    }
+}
+```
+
+***
 ## mapMarker
 
 |Name|Required|Type|Default|Description|

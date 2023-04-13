@@ -11,17 +11,20 @@ export default {
     data () {
         return {
             rotation: 0,
-            showInactive: Config.mapInteractions?.altShiftDragRotate.showInactive
+            showAlways: false
         };
     },
     computed: {
-        ...mapGetters(["uiStyle"]),
+        ...mapGetters(["uiStyle", "controlsConfig"]),
 
         component () {
             return this.uiStyle === "TABLE" ? TableStyleControl : ControlIcon;
         }
     },
     mounted () {
+        if (this.controlsConfig?.rotation.showAlways) {
+            this.showAlways = this.controlsConfig.rotation.showAlways;
+        }
         this.$nextTick(() => {
             mapCollection.getMapView("2D").on("change:rotation", this.updateRotation);
         });
@@ -52,7 +55,7 @@ export default {
 
 <template>
     <div
-        v-if="rotation !== 0 || showInactive"
+        v-if="rotation !== 0 || showAlways"
         id="rotation-control"
     >
         <component
