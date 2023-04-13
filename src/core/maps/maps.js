@@ -7,7 +7,6 @@ import "./3DMapRadioBridge";
 
 import ObliqueMap from "../../../modules/core/obliqueMap";
 import store from "../../app-store";
-import Config from "../../../portal/master_rotate/config";
 
 /**
  * Create the 2D map and mapview
