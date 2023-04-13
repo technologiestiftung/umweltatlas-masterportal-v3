@@ -1,7 +1,5 @@
 import api from "@masterportal/masterportalapi/src/maps/api";
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
-import {defaults as defaultInteractions, DragPan} from "ol/interaction.js";
-
 
 import "./2DMapRadioBridge";
 import "./2DMapViewRadioBridge";
@@ -17,18 +15,6 @@ import Config from "../../../portal/master_rotate/config";
  * @returns {void}
  */
 function create2DMap (mapViewSettings) {
-    if (!Config.mapInteractions.interactionModes) {
-        Config.mapInteractions.interactionModes = {dragPan: false, altShiftDragRotate: true, pinchRotate: false};
-    }
-
-    Config.mapInteractions.interactionModes = defaultInteractions(Config.mapInteractions.interactionModes).extend([
-        new DragPan({
-            condition: function (event) {
-                return (!event.originalEvent.pointerType || event.originalEvent.pointerType === "mouse") || (Config.twoFingerPan && this.getPointerCount() === 2) || !Config.twoFingerPan;
-            }
-        })
-    ]);
-
     const map = api.map.createMap(
         {
             ...Config,

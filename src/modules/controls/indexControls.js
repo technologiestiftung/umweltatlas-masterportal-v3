@@ -31,13 +31,13 @@ export default {
     state: {
         // maps config.json.md control key to component
         componentMap: {
-            rotation: RotationItem,
             attributions: AttributionsItem,
             backForward: BackForward,
             freeze: FreezeScreen,
             fullScreen: FullScreen,
             orientation: OrientationItem,
             overviewMap: OverviewMap,
+            rotation: RotationItem,
             startTool: StartTool,
             totalView: TotalView,
             zoom: ZoomInAndOut
