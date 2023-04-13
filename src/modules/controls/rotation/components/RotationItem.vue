@@ -34,7 +34,7 @@ export default {
          */
         updateRotation (event) {
             this.rotation = event.target.getRotation();
-            if (this.$el.querySelector("i")) {
+            if (this.$el.querySelector && this.$el.querySelector("i")) {
                 this.$el.querySelector("i").style.transform = `translate(-50%, -50%) rotate(${this.rotation}rad)`;
             }
         },
