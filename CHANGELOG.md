@@ -7,6 +7,20 @@
 ### __Breaking Changes__
 
 ### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+---
+##  v2.32.0 - 2023-04-05
+### Added
+- Print:
+  - Printing static image added
 - New WebGL Render Pipeline
     - core/layers/renderer/webgl: New layer-class methods for rendering WFS, GeoJSON, OAF or VectorBase layers using OL7's WebGL render pipelines
 - Filter:
@@ -18,6 +32,9 @@
     - Print:
         - The print module now displays dashed lines in the printout.
         - The print module now displays the opacity and stroke styles in the legend in the printout.
+- treeType 'default': 3D-data can be configured in folders in config.json
+- FeatureLister:
+  - The FeatureLister now works for layer-typ "WFS" and "GeoJSON".
 
 ### Changed
 - Update GeoJSON, WFS, OAF getFeaturesFilterFunction filtert kann nach exakter Geometrie filtern.
@@ -51,10 +68,6 @@
 - The version of node was updated, must be `>= 16.13.2 <= 16.18.1`
 - The version of npm was updated, must be `>= 8.1.2 <= 8.19.3`
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 - actionsMapLayers/addLayer: don't set zIndex by default, otherwise addLayerOnTop and addLayerToIndex have no effect
 - Issue #842: LayerInformation shows all service urls in group layer.
@@ -63,6 +76,7 @@
 - Issue #871: Extend WMS GFI implementation by a reader for QGIS WMS responses in format `text/xml`.
 - Issue #873: Text imports from previous exported kml files get displayed again.
 - Issue #875: MouseHover now also works on group layers.
+- Issue #876: Add missing CR/LF interpreter for WMS GFI.
 - Issue #879: Kml features now get transformed from the maps used coordinate system instead of hardcoded EPSG:25832.
 - Issue #888: If a feature uses the default style, all features are now displayed correctly in the print module.
 - Issue #891: The mapMarker customStyle now works again as expected.
@@ -75,6 +89,10 @@
 - The standard data format in ExportButtonCSV is array or boolean, not object.
 - The zoomToFeature layer now gets added on top, otherwise it would be hidden underneath the basemap.
 - The `getProxy` attribute now works again for layers of type wfs.
+- Text imports from previously exported geojson files get displayed again.
+- Filter: icons are displayed, if "renderIcons": "fromLegend" is configured at filter.
+- Draw: changing the color of points via "Edit geometry" works.
+- Print deselects "with additional information"-option when you close the Gfi now. 
 
 ---
 

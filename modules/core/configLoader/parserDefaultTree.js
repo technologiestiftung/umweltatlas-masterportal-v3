@@ -202,7 +202,8 @@ const DefaultTreeParser = Parser.extend(/** @lends DefaultTreeParser.prototype *
             isVisibleInTree = isMobile ? "false" : "true";
 
         let layer3DVisibility,
-            layer3DVisible;
+            layer3DVisible,
+            create3Dfolders = false;
 
         if (layerList && Array.isArray(layerList)) {
             layerList.forEach(layer => {
@@ -214,18 +215,74 @@ const DefaultTreeParser = Parser.extend(/** @lends DefaultTreeParser.prototype *
                     if (layer3DVisibility[0] !== undefined) {
                         layer3DVisible = layer3DVisibility[0].visibility;
                     }
+                    this.addItem(Object.assign({
+                        type: "layer",
+                        parentId: "3d_daten",
+                        level: 0,
+                        isVisibleInTree: isVisibleInTree,
+                        isSelected: layer3DVisible ? layer3DVisible : false
+                    }, layer));
                 }
+                else if (layer3dList.Ordner) {
+                    create3Dfolders = true;
+                }
+            });
+            if (create3Dfolders) {
+                this.createCustom3DFolder(layerList, layer3dList, "3d_daten", 1, isVisibleInTree);
+            }
+        }
+    },
+
+    /**
+     * If custom Folders are configured in config.json: folder structure is builded.
+     * @param {*} layerList - todo
+     * @param {?Object} layer3DConfig If not null, the list of 3D Layers.
+     * @param {?Object} parentId parentId
+     * @param {?Object} level level
+     * @param {?Object} isVisibleInTree isVisibleInTree
+     * @returns {void}
+     */
+    createCustom3DFolder (layerList, layer3DConfig, parentId, level, isVisibleInTree) {
+        if (layer3DConfig.Ordner) {
+            layer3DConfig.Ordner.forEach(folder => {
+                const item = {
+                    type: "folder",
+                    parentId: parentId,
+                    name: folder.Titel,
+                    id: this.createUniqId(folder.Titel),
+                    isFolderSelectable: typeof folder.isFolderSelectable === "boolean" ? folder.isFolderSelectable : false,
+                    level: level,
+                    icon: "bi-plus-circle-fill",
+                    isVisibleInTree: isVisibleInTree,
+                    isInThemen: true,
+                    quickHelp: store.getters["QuickHelp/isSet"],
+                    invertLayerOrder: folder.invertLayerOrder
+                };
+
+                this.addItem(item);
+                this.createCustom3DFolder(layerList, folder, item.id, level + 1);
+            });
+        }
+        else if (layer3DConfig.Layer) {
+            layer3DConfig.Layer.forEach(layerConfig => {
+                const isSelected = typeof layerConfig.visibility === "boolean" ? layerConfig.visibility : false,
+                    layer = layerList.find((aLayer) => aLayer.id === layerConfig.id);
 
                 this.addItem(Object.assign({
                     type: "layer",
-                    parentId: "3d_daten",
-                    level: 0,
+                    parentId: parentId,
+                    level: level,
                     isVisibleInTree: isVisibleInTree,
-                    isSelected: layer3DVisible ? layer3DVisible : false
+                    isSelected: isSelected
                 }, layer));
+
+                if (isSelected) {
+                    this.getItemByAttributes({id: parentId}).isSelected = isSelected;
+                }
             });
         }
     },
+
     /**
      * Creates list entries for each time layer.
      *

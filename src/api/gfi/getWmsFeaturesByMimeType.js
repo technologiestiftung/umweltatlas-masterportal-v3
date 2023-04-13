@@ -1,4 +1,5 @@
 import {requestGfi} from "../wmsGetFeatureInfo";
+import {interpretLinebreaks} from "./interpretLinebreaks";
 
 /**
  * returns a list of wms features for the given url and mimeType
@@ -101,17 +102,22 @@ export function getXmlFeatures (layer, url) {
  * @returns {Object[]}  a list of object{getTheme, getTitle, getAttributesToShow, getProperties, getGfiUrl} or an emtpy array
  */
 export function handleXmlResponse (featureInfos, layer, url) {
-    let result = [];
+    let result = [],
+        optionalBBox = "";
 
-    if (Array.isArray(featureInfos)) {
-        featureInfos.forEach(function (feature) {
-            if (typeof feature === "object" && feature !== null && typeof feature.getProperties === "function") {
-                result.push(createGfiFeature(layer, url, feature));
-            }
-        });
+    if (!Array.isArray(featureInfos)) {
+        return result;
     }
+    if (Array.isArray(featureInfos[0]) && featureInfos[0].length) {
+        optionalBBox = featureInfos.shift().map(pos => Number(pos));
+    }
+    featureInfos.forEach(function (feature) {
+        if (typeof feature === "object" && feature !== null && typeof feature.getProperties === "function") {
+            result.push(createGfiFeature(layer, url, feature));
+        }
+    });
 
-    result = mergeFeatures(result, layer, url);
+    result = mergeFeatures(result, layer, url, optionalBBox);
 
     return result;
 }
@@ -148,7 +154,7 @@ export function handleJSONResponse (featureInfos, layer, url) {
     if (typeof featureInfos === "object" && Array.isArray(featureInfos?.features)) {
         featureInfos.features.forEach(function (feature) {
             if (typeof feature === "object") {
-                feature.getProperties = () => feature.properties || {};
+                feature.getProperties = () => interpretLinebreaks(feature.properties || {});
                 feature.getId = () => feature.id || "";
                 result.push(createGfiFeature(layer, url, feature));
             }
@@ -205,10 +211,11 @@ export function handleHTMLResponse (document, layer, url) {
  * @param {?Object} [feature.properties] an object with the data of the feature as simple key/value pairs
  * @param {String} [feature.id=""] id the id of the feature
  * @param {Object[]} [features=null] a list of features
- * @param {String} [document=""] A html document as string with gfi content.
- * @returns {Object} an object{getTitle, getTheme, getAttributesToShow, getProperties, getId, getGfiUrl, getLayerId}
+ * @param {String} [document=""] A html document as string with gfi content
+ * @param {Number[]} optionalBBox the bbox can be passed to give the feature a bbox
+ * @returns {Object} an object{getTitle, getTheme, getAttributesToShow, getProperties, getId, getGfiUrl, getLayerId, getBBox}
  */
-export function createGfiFeature (layer, url = "", feature = null, features = null, document = "") {
+export function createGfiFeature (layer, url = "", feature = null, features = null, document = "", optionalBBox = null) {
     if (!layer) {
         return {};
     }
@@ -216,14 +223,15 @@ export function createGfiFeature (layer, url = "", feature = null, features = nu
         getTitle: () => layer.get("name"),
         getTheme: () => layer.get("gfiTheme") || "defaultTheme",
         getAttributesToShow: () => layer.get("gfiAttributes"),
-        getProperties: () => feature ? feature.getProperties() : {},
+        getProperties: () => feature ? interpretLinebreaks(feature.getProperties()) : {},
         getFeatures: () => features,
         getOlFeature: () => feature,
         getId: () => feature && typeof feature.getId === "function" ? feature.getId() : "",
         getGfiUrl: () => url,
         getMimeType: () => layer.get("infoFormat"),
         getLayerId: () => layer.get("id") ? layer.get("id") : "",
-        getDocument: () => document
+        getDocument: () => document,
+        getBBox: () => optionalBBox
     };
 }
 
@@ -232,11 +240,12 @@ export function createGfiFeature (layer, url = "", feature = null, features = nu
  * @param {Object[]} result Array of objects representing features
  * @param {Object} layer to show the properties of
  * @param {String} url the url to call the wms features from
+ * @param {Number[]} optionalBBox the bbox can be passed to give the merged feature an bbox
  * @returns {object[]}  an array of only one feature object or an empty object
  */
-export function mergeFeatures (result, layer, url) {
+export function mergeFeatures (result, layer, url, optionalBBox) {
     if (result.length > 0 && layer && (["DataTable"].indexOf(layer.get("gfiTheme")) !== -1 || ["DataTable"].indexOf(layer.get("gfiTheme")?.name) !== -1)) {
-        return [createGfiFeature(layer, url, null, result)];
+        return [createGfiFeature(layer, url, null, result, undefined, optionalBBox)];
     }
     return result;
 }

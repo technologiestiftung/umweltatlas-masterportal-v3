@@ -1531,6 +1531,8 @@ A tool's attribute key defines which tool is loaded. Each tool provides at least
 
 Displays information to a clicked feature by firing a *GetFeatureInfo* or *GetFeature* request, respectively using the loaded data on vector layers.
 
+On all GFI request types except directly fetching HTML, which is done by using `"text/html"` as `"infoFormat"` on a WMS, the "|" character is interpreted as linebreak. You may also use `"\r\n"` or `"\n"`.
+
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |name|yes|String||Name displayed in the menu.|false|
@@ -4901,7 +4903,7 @@ Definition for WMS-T layers `treeType` `custom` and `default`. The layers can al
 [type:GroupLayer]: # (Themenconfig.GroupLayer)
 [type:Ordner]: # (Themenconfig.Ordner)
 
-Folder definition. Folders may also be nested. Folders can be configured below the "Fachdaten" and "Hintergrundkarten".
+Folder definition. Folders may also be nested. Folders can be configured below the "Fachdaten" and "Hintergrundkarten". With treeType 'default' the 3D data can also be configured as a folder under 'Fachdaten_3D'.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
@@ -5060,6 +5062,35 @@ In this example layer 123 will be added to the map first. This leads to 456 bein
         ]
     }
 }
+```
+
+**Example 3D data folder with subfolders, treeType 'default'.**
+
+```json
+ "Fachdaten_3D": {
+      "Ordner": [        
+        {
+          "Titel": "3D Gebäudedaten",
+          "Layer": [
+            {
+              "id": "12884",
+              "name": "Gebäude LoD2",
+              "visibility": true
+            }
+          ]
+        },
+        {
+          "Titel": "3D Basisdaten",
+          "Layer": [
+            {
+              "id": "12883",
+              "name": "Gelände",
+              "visibility": true
+            }
+          ]
+        }
+      ]
+    }
 ```
 
 
@@ -5462,7 +5493,7 @@ List of attributes typically used in vector layers. Vector layers are WFS, GeoJS
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|clusterDistance|no|Integer||All features within this pixel radius are clustered to a single feature.|false|
+|clusterDistance|no|Integer||All features within this pixel radius are clustered to a single feature. ⚠️clusterDistance on WFS layers with polygon or line geometry results in the features not being displayed.|false|
 |extendedFilter|no|Boolean||Defines whether the **[tool](#markdown-header-portalconfigmenutools)** `extendedFilter` may use this layer.|false|
 |filterOptions|no|**[filterOption](#markdown-header-themenconfiglayervectorfilteroption)**[]||Filter options required by **[tool](#markdown-header-portalconfigmenutools)** `wfsFeatureFilter`.|false|
 |mouseHoverField|no|String/String[]||Attribute name or array thereorf to be shown on mouse hovering a feature.|false|

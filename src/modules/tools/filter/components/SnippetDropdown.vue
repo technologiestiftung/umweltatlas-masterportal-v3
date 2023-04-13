@@ -2,12 +2,13 @@
 import Multiselect from "vue-multiselect";
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import {translateKeyWithPlausibilityCheck} from "../../../../utils/translateKeyWithPlausibilityCheck.js";
-import {getStyleModel, getIconListFromLegend} from "../utils/getIconListFromLegend.js";
+import getIconListFromLegendModule from "../utils/getIconListFromLegend.js";
 import {getDefaultOperatorBySnippetType} from "../utils/getDefaultOperatorBySnippetType.js";
 import splitListWithDelimitor from "../utils/splitListWithDelimitor.js";
 import isObject from "../../../../utils/isObject";
 import SnippetInfo from "./SnippetInfo.vue";
 import localeCompare from "../../../../utils/localeCompare";
+import openlayerFunctions from "../utils/openlayerFunctions.js";
 
 export default {
     name: "SnippetDropdown",
@@ -318,7 +319,7 @@ export default {
         },
         legendsInfo (value) {
             if (this.renderIcons === "fromLegend") {
-                this.iconList = getIconListFromLegend(value, this.styleModel);
+                this.iconList = getIconListFromLegendModule.getIconListFromLegend(value, this.styleModel);
             }
         }
     },
@@ -442,20 +443,51 @@ export default {
          */
         initializeIcons () {
             if (this.renderIcons === "fromLegend") {
-                this.styleModel = getStyleModel(this.layerId);
+                const layer = openlayerFunctions.getLayerByLayerId(this.layerId),
+                    olLayer = layer.get("layer");
 
-                createStyle.returnLegendByStyleId(this.layerId).then(legendInfos => {
-                    if (!this.styleModel || !legendInfos.legendInformation || !Array.isArray(legendInfos.legendInformation)) {
-                        this.legendsInfo = [];
+                this.styleModel = getIconListFromLegendModule.getStyleModel(this.layerId);
+                if (!olLayer.getVisible() && ["WFS", "OAF", "GeoJSON"].includes(layer.get("typ"))) {
+                    if (mapCollection.getMap("2D").getLayers().getArray().find(aLayer => aLayer.get("id") === this.layerId) === undefined) {
+                        mapCollection.getMap("2D").addLayer(olLayer);
+                        olLayer.setOpacity(0);
+                        olLayer.setVisible(true);
+                        olLayer.getSource().once("featuresloadend", () => {
+                            this.getLegendByStyleId(layer.get("styleId"), olLayer, () => {
+                                olLayer.setVisible(false);
+                                olLayer.setOpacity(1);
+                            });
+                        });
                     }
-                    else {
-                        this.legendInfo = legendInfos.legendInformation;
-                    }
-                });
+                }
+                else {
+                    this.getLegendByStyleId(this.layerId);
+                }
             }
             else if (isObject(this.renderIcons)) {
                 this.iconList = this.renderIcons;
             }
+        },
+        /**
+         * Returns the legend by styleId and sets it at data legendsInfo.
+         * @param {String} styleId the styleId
+         * @param {ol/layer} olLayer the openLayers layer
+         * @param {Function} callback to execute after elegnd has returned
+         * @returns {Array} the legend information
+         */
+        getLegendByStyleId (styleId, olLayer, callback) {
+            createStyle.returnLegendByStyleId(styleId).then(legendInfos => {
+                if (!this.styleModel || !legendInfos.legendInformation || !Array.isArray(legendInfos.legendInformation)) {
+                    this.legendsInfo = [];
+                }
+                else {
+                    this.legendsInfo = legendInfos.legendInformation;
+                }
+                if (callback) {
+                    return callback(olLayer);
+                }
+                return this.legendsInfo;
+            });
         },
         /**
          * Returns true if an icon path exists for the given value.

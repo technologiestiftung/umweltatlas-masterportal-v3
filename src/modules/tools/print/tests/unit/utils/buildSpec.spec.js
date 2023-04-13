@@ -3,6 +3,7 @@ import {Style as OlStyle} from "ol/style.js";
 import WMTSTileGrid from "ol/tilegrid/WMTS";
 import TileGrid from "ol/tilegrid/TileGrid";
 import {TileWMS, ImageWMS, WMTS} from "ol/source.js";
+import StaticImageSource from "ol/source/ImageStatic.js";
 import {Tile, Vector} from "ol/layer.js";
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
@@ -552,19 +553,19 @@ describe("src/modules/tools/print/utils/buildSpec", function () {
         });
     });
     describe("buildImageWms", function () {
-        const imageWmsLayer = new Tile({
-            source: new ImageWMS({
-                url: "url",
-                params: {
-                    LAYERS: "layer1,layer2",
-                    FORMAT: "image/png",
-                    TRANSPARENT: true
-                }
-            }),
-            opacity: 1
-        });
-
         it("should buildImageWms", function () {
+            const imageWmsLayer = new Tile({
+                source: new ImageWMS({
+                    url: "url",
+                    params: {
+                        LAYERS: "layer1,layer2",
+                        FORMAT: "image/png",
+                        TRANSPARENT: true
+                    }
+                }),
+                opacity: 1
+            });
+
             expect(buildSpec.buildImageWms(imageWmsLayer)).to.deep.own.include({
                 baseURL: "url",
                 opacity: 1,
@@ -575,6 +576,19 @@ describe("src/modules/tools/print/utils/buildSpec", function () {
                     TRANSPARENT: true,
                     DPI: 200
                 }
+            });
+        });
+        it("should buildImageWms for static image", function () {
+            const imageWmsLayer = new Tile({
+                source: new StaticImageSource({
+                    url: "url"
+                })
+            });
+
+            expect(buildSpec.buildImageWms(imageWmsLayer)).to.deep.own.include({
+                baseURL: "url",
+                opacity: 1,
+                type: "image"
             });
         });
     });

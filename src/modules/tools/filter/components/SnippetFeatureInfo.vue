@@ -1,6 +1,6 @@
 <script>
 import isObject from "../../../../utils/isObject.js";
-import {getLayerByLayerId} from "../utils/openlayerFunctions";
+import openlayerFunctions from "../utils/openlayerFunctions";
 import beautifyKey from "../../../../utils/beautifyKey.js";
 import {translateKeyWithPlausibilityCheck} from "../../../../utils/translateKeyWithPlausibilityCheck.js";
 
@@ -136,7 +136,7 @@ export default {
          * @returns {void}
          */
         setGfiAttributes (layerId) {
-            const layer = getLayerByLayerId(layerId);
+            const layer = openlayerFunctions.getLayerByLayerId(layerId);
 
             this.gfiAttributes = isObject(layer?.get("gfiAttributes")) ? layer.get("gfiAttributes") : undefined;
         },
