@@ -753,11 +753,11 @@ The attribute overviewMap may be of type boolean or object. If of type boolean, 
 
 #### Portalconfig.controls.rotation
 
-The attribute rotation may be of type boolean or object. If of type boolean and value is set to true, the rotation control is just shown when the map rotation is not eual north/0. When of type object, the following attributes may be set:
+The attribute rotation may be of type boolean or object. If of type boolean and value is set to true, the rotation control is just shown when the map rotation is not equal north/0. When of type object, the following attributes may be set:
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|
 |----|-------------|---|-------|------------|
-|showAlways|nein|Boolean|false|If the attribut is set to true the control is hsown permanently . Via default it appears only if the map rotation is not equal north/0.|
+|showAlways|nein|Boolean|false|If the attribut is set to true the control is shown permanently . Via default it appears only if the map rotation is not equal north/0.|
 
 **Example using type object rotation**
 ```
@@ -770,7 +770,7 @@ The attribute rotation may be of type boolean or object. If of type boolean and 
 **Example using type boolean rotation**
 ```
 #!json
-"overviewMap": true
+"rotation": true
 ```
 
 ***

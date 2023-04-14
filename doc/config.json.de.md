@@ -715,7 +715,7 @@ Das Attribut overviewMap kann vom Typ Boolean oder Object sein. Wenn es vom Typ 
 
 #### Portalconfig.controls.rotation
 
-Das Attribut rotation kann vom Typ Boolean oder Object sein. Wenn es vom Typ Boolean ist und auf true gesetzt ist, zeigt es das Rotation-Control nur an. Ist es vom Typ Object, so gelten folgende Attribute
+Das Attribut rotation kann vom Typ Boolean oder Object sein. Wenn es vom Typ Boolean ist und auf true gesetzt ist, zeigt es das Rotation-Control nur an wenn die Maprotation ungleich Norden/0 ist. Ist es vom Typ Object, so gelten folgende Attribute
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|
 |----|-------------|---|-------|------------|
@@ -732,7 +732,7 @@ Das Attribut rotation kann vom Typ Boolean oder Object sein. Wenn es vom Typ Boo
 **Beispiel rotation als Boolean:**
 ```
 #!json
-"overviewMap": true
+"rotation": true
 ```
 
 ***
