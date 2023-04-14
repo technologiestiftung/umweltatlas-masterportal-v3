@@ -93,7 +93,6 @@ VectorTileLayer.prototype.setStyleById = function (styleID) {
     if (!styleDefinition) {
         return Promise.reject(`No style found with ID ${styleID} for layer ${this.get("name")}.`);
     }
-
     return this.setStyleByDefinition(styleDefinition);
 };
 
@@ -140,13 +139,13 @@ VectorTileLayer.prototype.setStyleByDefinition = function ({id, url, resolutions
 
                 this.fetchSpriteData(spriteDataUrl)
                     .then(spriteData => {
-                        vectorTile.setStyle(this.get("layer"), style, {options: {resolutions: resolutions, spriteData: spriteData, spriteImageUrl: spriteImageUrl, getFonts: addMpFonts}});
+                        vectorTile.setStyle(this.get("layer"), style, {options: {resolutions: resolutions, spriteData: spriteData, spriteImageUrl: spriteImageUrl, getFonts: addMpFonts}}, url);
                         this.set("selectedStyleID", id);
                     }
                     );
             }
             else {
-                vectorTile.setStyle(this.get("layer"), style, {resolutions: resolutions, getFonts: addMpFonts});
+                vectorTile.setStyle(this.get("layer"), style, {resolutions: resolutions, getFonts: addMpFonts}, url);
                 this.set("selectedStyleID", id);
             }
         });
