@@ -15,6 +15,10 @@ See [mapInteractions](https://bitbucket.org/geowerkstatt-hamburg/masterportal/sr
 ### Changed
 - Issue #1020: In the language files the pluralization was adjusted. The suffix `plural` was changed to `other` and the suffix `one` was added.
 
+### Fixed
+- Filter/ Autorefresh: The same features are displayed from a filterd GeoJson after an autorefresh as before the autorefresh.
+- Issue #884: mapbox styles with raster sources can be displayed.
+
 ### Deprecated
 
 ### Removed
@@ -22,7 +26,6 @@ See [mapInteractions](https://bitbucket.org/geowerkstatt-hamburg/masterportal/sr
 ## v2.32.1 - 2023-04-17
 ### Fixed
 - Traffic Lights Data visible on scale 1:5000 again
-- Filter/ Autorefresh: The same features are displayed from a filterd GeoJson after an autorefresh as before the autorefresh.
 
 ---
 
