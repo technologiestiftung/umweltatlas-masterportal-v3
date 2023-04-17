@@ -15,6 +15,7 @@
 ### Removed
 
 ### Fixed
+- Traffic Lights Data visible on scale 1:5000 again
 
 ---
 ##  v2.32.0 - 2023-04-05
