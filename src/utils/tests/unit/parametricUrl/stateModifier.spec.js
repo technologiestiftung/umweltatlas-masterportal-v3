@@ -513,11 +513,11 @@ describe("src/utils/parametricUrl/stateModifier.js", () => {
                 state = {
                     urlParams: {}
                 },
-                valueAsString = "[{\"name\":\"Alle Schulen\",\"isSelected\":true})";
+                valueAsString = "[{\"name\":\"Alle Schulen\",\"isSelected\":true}]";
 
             store.replaceState(state);
             await setValueToState(store.state, key, valueAsString);
-            expect(await store.state.urlParams.filter).to.be.equals(valueAsString);
+            expect(await store.state.urlParams.filter).to.deep.equals(JSON.parse(valueAsString));
         });
 
         describe("UrlParam brwId, brwlayername", async () => {

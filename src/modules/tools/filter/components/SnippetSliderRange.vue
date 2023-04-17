@@ -250,7 +250,9 @@ export default {
                     this.initSlider(parseFloat(min), parseFloat(max));
                     this.$nextTick(() => {
                         if (this.isPrecheckedValid()) {
-                            this.emitCurrentRule(this.prechecked, true);
+                            this.emitCurrentRule([
+                                this.isPrecheckedHigherThanMin() ? this.prechecked[0] : this.currentSliderMin,
+                                this.isPrecheckedLowerThanMax() ? this.prechecked[1] : this.currentSliderMax], true);
                             this.$emit("setSnippetPrechecked", this.visible ? this.snippetId : false);
                         }
                         else {
@@ -283,8 +285,8 @@ export default {
             this.currentSliderMin = min;
             this.currentSliderMax = max;
             if (this.isPrecheckedValid()) {
-                this.sliderFrom = this.prechecked[0];
-                this.sliderUntil = this.prechecked[1];
+                this.sliderFrom = this.isPrecheckedHigherThanMin() ? this.prechecked[0] : this.currentSliderMin;
+                this.sliderUntil = this.isPrecheckedLowerThanMax() ? this.prechecked[1] : this.currentSliderMax;
             }
             else {
                 this.sliderFrom = this.currentSliderMin;
@@ -417,6 +419,12 @@ export default {
          */
         isPrecheckedValid () {
             return Array.isArray(this.prechecked) && this.prechecked.length === 2 && !isNaN(parseFloat(this.prechecked[0])) && !isNaN(parseFloat(this.prechecked[1]));
+        },
+        isPrecheckedHigherThanMin () {
+            return this.prechecked[0] >= this.currentSliderMin;
+        },
+        isPrecheckedLowerThanMax () {
+            return this.prechecked[1] <= this.currentSliderMax;
         },
         /**
          * Returns true if the given snippetId equals - or if an array, holds - the own snippetId.

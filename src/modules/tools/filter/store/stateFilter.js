@@ -34,5 +34,6 @@ export default {
     filtersHits: [],
     filterGeometry: false,
     geometryFeature: undefined,
-    jumpToId: undefined
+    jumpToId: undefined,
+    neededUrlParams: ["rulesOfFilters", "selectedAccordions"]
 };

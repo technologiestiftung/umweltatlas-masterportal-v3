@@ -207,6 +207,17 @@ export default class MapHandler {
             });
             layerModel.set("isSelected", true);
         }
+        else if (this.isLayerActivated(filterId) && ((
+            typeof layerSource?.getFeatures === "function"
+            && layerSource.getFeatures().length === 0)
+            || (typeof layerModel?.getFeatures === "function"
+            && layerModel.getFeatures().length === 0))) {
+            (layerModel.get("typ") === "SensorThings" ? layerModel : layerSource).once("featuresloadend", () => {
+                if (typeof onActivated === "function") {
+                    onActivated();
+                }
+            });
+        }
         else if (!this.isLayerVisibleInMap(filterId) || !this.isLayerActivated(filterId)) {
             layerModel.set("isSelected", true);
             if (typeof onActivated === "function") {

@@ -36,7 +36,7 @@ function searchAndSetValue (state, keySplitted, value, found = false) {
     }
     if (foundInState && id) {
         // NOTICE Activate Tool in Menu. Can be removed if menu is refactord to vue.
-        store.dispatch("Tools/setToolActive", {id: id, active: value});
+        store.dispatch("Tools/setToolActive", {id: id, active: typeof value === "boolean" ? value : true});
     }
     return foundInState;
 }

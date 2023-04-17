@@ -33,7 +33,7 @@ export async function translate (urlParamsKey, urlParamsValue) {
             return {key: "uiStyle", value: convert(checkedValue)};
         }
         case "filter": {
-            return {key: "filter", value: checkedValue};
+            return {key: "filter", value: JSON.parse(checkedValue)};
         }
         case "query":
         case "search/query": {

@@ -16,6 +16,7 @@ import {getFeaturesOfAdditionalGeometries} from "../utils/getFeaturesOfAdditiona
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 import {getFeatureGET} from "../../../../api/wfs/getFeature";
 import {WFS} from "ol/format.js";
+import UrlHandler from "../utils/urlHandler.js";
 
 export default {
     name: "FilterGeneral",
@@ -27,7 +28,6 @@ export default {
     },
     data () {
         return {
-
             storePath: this.$store.state.Tools.Filter,
             mapHandler: new MapHandler({
                 getLayerByLayerId: openlayerFunctions.getLayerByLayerId,
@@ -44,7 +44,9 @@ export default {
             preparedLayerGroups: [],
             flattenPreparedLayerGroups: [],
             layerLoaded: {},
-            layerFilterSnippetPostKey: ""
+            layerFilterSnippetPostKey: "",
+            urlHandler: new UrlHandler(this.mapHandler),
+            alreadyWatching: null
         };
     },
     computed: {
@@ -65,8 +67,8 @@ export default {
             this.setAdditionalGeometries({additionalGeometries});
         });
     },
-    mounted () {
-        this.convertConfig({
+    async mounted () {
+        await this.convertConfig({
             snippetInfos: openlayerFunctions.getSnippetInfos()
         });
 
@@ -105,6 +107,12 @@ export default {
                 this.setSelectedAccordions(this.transformLayerConfig(this.layerConfigs.layers, selectedFilterIds));
             }
         }
+        this.urlHandler.readFromUrlParams(this.$store.state.urlParams?.filter, this.layerConfigs, this.mapHandler, params => {
+            this.deserializeState(params);
+            this.addWatcherToWriteUrl();
+        });
+        this.addWatcherToWriteUrl();
+
     },
     methods: {
         ...mapMutations("Tools/Filter", Object.keys(mutations)),
@@ -113,9 +121,9 @@ export default {
             "convertConfig",
             "updateRules",
             "deleteAllRules",
-            "updateFilterHits"
+            "updateFilterHits",
+            "deserializeState"
         ]),
-
         close () {
             this.setActive(false);
             const model = getComponent(this.storePath.id);
@@ -124,7 +132,21 @@ export default {
                 model.set("isActive", false);
             }
         },
-
+        /**
+         * Adds a watcher on the Filter module and pass the 'writeUrlParams' function as handler.
+         * Only adds a watcher if there is no watcher set - checked by 'alreadyWatching' property.
+         * @returns {void}
+         */
+        addWatcherToWriteUrl () {
+            if (this.saveTo === "url") {
+                if (typeof this.alreadyWatching === "function") {
+                    return;
+                }
+                this.alreadyWatching = this.$watch("$store.state.Tools.Filter", this.writeUrlParams, {
+                    deep: true
+                });
+            }
+        },
         /**
          * Gets the features of the additional geometries by the given layer id.
          * @param {Object[]} additionalGeometries - The additional geometries.
@@ -292,6 +314,18 @@ export default {
          */
         resetJumpToId () {
             this.setJumpToId(undefined);
+        },
+        /**
+         * Writes the given state to the url.
+         * @calls urlHandler.getParamsFromState
+         * @param {Object} newState The state.
+         * @returns {void}
+         */
+        writeUrlParams (newState) {
+            const params = this.urlHandler.getParamsFromState(newState, this.neededUrlParams),
+                generatedParams = JSON.stringify(params);
+
+            this.urlHandler.writeParamsToURL(generatedParams);
         }
     }
 };
