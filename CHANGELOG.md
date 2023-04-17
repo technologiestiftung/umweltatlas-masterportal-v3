@@ -83,8 +83,6 @@ See [mapInteractions](https://bitbucket.org/geowerkstatt-hamburg/masterportal/sr
 - Issue #875: MouseHover now also works on group layers.
 - Issue #876: Add missing CR/LF interpreter for WMS GFI.
 - Issue #879: Kml features now get transformed from the maps used coordinate system instead of hardcoded EPSG:25832.
-- Issue #888: If a feature uses the default style, all features are now displayed correctly in the print module.
-- Issue #891: The mapMarker customStyle now works again as expected.
 - Issue #888:
     - If a feature uses the default style, all features are now displayed correctly in the print module.
     - Legends for multigeometries are now displayed correctly for layers of type wfs and vectorbase
