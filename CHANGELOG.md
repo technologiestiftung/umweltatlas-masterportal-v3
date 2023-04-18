@@ -11,7 +11,9 @@
 See [mapInteractions](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/config.js.md#markdown-header-mapInteractions) and [rotate control](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/config.json.md#markdown-header-portalconfigcontrolsrotation)
 - Issue #874: add keyboardEventTarget possibility to ol map configuration
 - Issue #882: add map rotation configuration and control
+
 ### Changed
+- Issue #1020: In the language files the pluralization was adjusted. The suffix `plural` was changed to `other` and the suffix `one` was added.
 
 ### Deprecated
 
@@ -23,6 +25,7 @@ See [mapInteractions](https://bitbucket.org/geowerkstatt-hamburg/masterportal/sr
 - Filter/ Autorefresh: The same features are displayed from a filterd GeoJson after an autorefresh as before the autorefresh.
 
 ---
+
 ##  v2.32.0 - 2023-04-05
 ### Added
 - Print:

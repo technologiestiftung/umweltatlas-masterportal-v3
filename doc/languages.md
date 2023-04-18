@@ -239,10 +239,10 @@ i18next features automatic recognition of singular and plural forms.
 
 ```json
 {
-  "key": "item",
-  "key_plural": "items",
-  "keyWithCount": "{{count}} item",
-  "keyWithCount_plural": "{{count}} items"
+  "key_one": "item",
+  "key_other": "items",
+  "keyWithCount_one": "{{count}} item",
+  "keyWithCount_other": "{{count}} items"
 }
 ```
 

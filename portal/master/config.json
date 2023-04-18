@@ -869,11 +869,14 @@
         {
           "id": "18106",
           "styleId": "18106",
-          "clusterDistance": 50,
           "loadThingsOnlyInCurrentExtent": true,
           "gfiTheme": {
             "name": "sensor",
             "params": {
+              "historicalData": {
+                "periodLength": 1,
+                "periodUnit": "year"
+              },
               "charts": {
                 "barPercentage": 1.1,
                 "values": {
