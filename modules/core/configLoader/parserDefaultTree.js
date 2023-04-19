@@ -264,7 +264,7 @@ const DefaultTreeParser = Parser.extend(/** @lends DefaultTreeParser.prototype *
                 this.createCustom3DFolder(layerList, folder, item.id, level + 1);
             });
         }
-        else if (layer3DConfig.Layer) {
+        if (layer3DConfig.Layer) {
             layer3DConfig.Layer.forEach(layerConfig => {
                 const isSelected = typeof layerConfig.visibility === "boolean" ? layerConfig.visibility : false;
                 let layer = layerList.find((aLayer) => aLayer.id === layerConfig.id);
