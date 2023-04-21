@@ -18,8 +18,7 @@ describe("src/modules/tools/filter/components/FilterList.vue", () => {
         wrapper = shallowMount(FilterList, {
             propsData: {
                 filters: [{filterId: 0}],
-                multiLayerSelector: false,
-                "layerSelectorVisible": true
+                multiLayerSelector: false
             },
             localVue
         });
@@ -33,6 +32,23 @@ describe("src/modules/tools/filter/components/FilterList.vue", () => {
 
     it("should render filters", () => {
         expect(wrapper.findAll(".panel-default").exists()).to.be.true;
+    });
+
+    it("should render filter title disabled true if multiLayerSelector is false", async () => {
+        await wrapper.setProps({
+            selectedLayers: [0]
+        });
+
+        expect(wrapper.find(".disabled").exists()).to.be.true;
+    });
+
+    it("should render filter title not disabled if multiLayerSelector is true", async () => {
+        await wrapper.setProps({
+            multiLayerSelector: true,
+            selectedLayers: [0]
+        });
+
+        expect(wrapper.find(".disabled").exists()).to.be.false;
     });
 
     describe("updateSelectedLayers", () => {
