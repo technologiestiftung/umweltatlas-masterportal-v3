@@ -26,7 +26,7 @@ See [mapInteractions](https://bitbucket.org/geowerkstatt-hamburg/masterportal/sr
 ### Fixed
 - Traffic Lights Data visible on scale 1:5000 again
 - Filter/ Autorefresh: The same features are displayed from a filterd GeoJson after an autorefresh as before the autorefresh.
-
+- Issue #842: Dropdown at WFS filter module is not filled with MapServer WFS.
 ---
 
 ##  v2.32.0 - 2023-04-05
