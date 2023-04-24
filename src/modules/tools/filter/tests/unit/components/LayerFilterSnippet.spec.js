@@ -3,6 +3,7 @@ import {config, shallowMount, createLocalVue} from "@vue/test-utils";
 import LayerFilterSnippet from "../../../components/LayerFilterSnippet.vue";
 import {expect} from "chai";
 import MapHandler from "../../../utils/mapHandler.js";
+import sinon from "sinon";
 const localVue = createLocalVue();
 
 localVue.use(Vuex);
@@ -31,6 +32,7 @@ describe("src/modules/tools/filter/components/LayerFilterSnippet.vue", () => {
         if (wrapper) {
             wrapper.destroy();
         }
+        sinon.restore();
     });
 
     describe("hasThisSnippetTheExpectedType", () => {
@@ -68,6 +70,20 @@ describe("src/modules/tools/filter/components/LayerFilterSnippet.vue", () => {
             });
             await wrapper.vm.$nextTick();
             expect(wrapper.emitted().updateRules).to.be.an("array").with.lengthOf(1);
+        });
+        it("should call handleActiveStrategy if strategy is active", async () => {
+            const spyHandleActiveStrategy = sinon.spy(wrapper.vm, "handleActiveStrategy");
+
+            await wrapper.setProps({layerConfig: {strategy: "active"}});
+            wrapper.vm.changeRule({
+                snippetId: 0,
+                startup: false,
+                fixed: false,
+                attrName: "test",
+                operator: "EQ"
+            });
+            await wrapper.vm.$nextTick();
+            expect(spyHandleActiveStrategy.calledOnce).to.be.true;
         });
     });
     describe("deleteRule", () => {
@@ -134,6 +150,19 @@ describe("src/modules/tools/filter/components/LayerFilterSnippet.vue", () => {
             expect(wrapper.vm.getTagTitle({value: "title", tagTitle: false})).to.equal("false");
             expect(wrapper.vm.getTagTitle({value: "title", tagTitle: 0})).to.equal("0");
             expect(wrapper.vm.getTagTitle({value: "title", tagTitle: null})).to.equal("null");
+        });
+    });
+    describe("paging", () => {
+        it("should show stop button if paging  was set", async () => {
+            await wrapper.setData({
+                paging: {
+                    page: 1,
+                    total: 46
+                },
+                showStop: true
+            });
+
+            expect(wrapper.find(".btn-secondary").exists()).to.be.true;
         });
     });
 });
