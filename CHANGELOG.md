@@ -7,13 +7,15 @@
 ### __Breaking Changes__
 
 ### Added
-- New Rotation control of the map. If map interaction `altShiftDragRotate` is activated the map can be rotated with `shift+alt+drag`.
-See [mapInteractions](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/config.js.md#markdown-header-mapInteractions) and [rotate control](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/config.json.md#markdown-header-portalconfigcontrolsrotation)
+- New Rotation control of the map. If map interaction `altShiftDragRotate` is activated the map can be rotated with `shift+alt+drag`. See [mapInteractions](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/config.js.md#markdown-header-mapInteractions) and [rotate control](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/config.json.md#markdown-header-portalconfigcontrolsrotation)
 - Issue #874: add keyboardEventTarget possibility to ol map configuration
 - Issue #882: add map rotation configuration and control
 
 ### Changed
 - Issue #1020: In the language files the pluralization was adjusted. The suffix `plural` was changed to `other` and the suffix `one` was added.
+- The following NPM packages have been updated:
+  - dependencies:
+    - @masterportal/masterportalapi: 2.16.0 to 2.17.0
 
 ### Fixed
 - Issue #884: mapbox styles with raster sources can be displayed.
@@ -22,11 +24,14 @@ See [mapInteractions](https://bitbucket.org/geowerkstatt-hamburg/masterportal/sr
 
 ### Removed
 
+---
+
 ## v2.32.1 - 2023-04-17
 ### Fixed
 - Traffic Lights Data visible on scale 1:5000 again
 - Filter/ Autorefresh: The same features are displayed from a filterd GeoJson after an autorefresh as before the autorefresh.
 - Issue #842: Dropdown at WFS filter module is not filled with MapServer WFS.
+
 ---
 
 ##  v2.32.0 - 2023-04-05
