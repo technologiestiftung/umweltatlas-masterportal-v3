@@ -1,6 +1,7 @@
 import Vuex from "vuex";
 import {config, shallowMount, createLocalVue} from "@vue/test-utils";
 import LayerFilterSnippet from "../../../components/LayerFilterSnippet.vue";
+import SnippetCheckboxFilterInMapExtent from "../../../components/SnippetCheckboxFilterInMapExtent.vue";
 import {expect} from "chai";
 import MapHandler from "../../../utils/mapHandler.js";
 import sinon from "sinon";
@@ -59,6 +60,26 @@ describe("src/modules/tools/filter/components/LayerFilterSnippet.vue", () => {
             expect(wrapper.vm.searchInMapExtent).to.be.true;
         });
     });
+    describe("renderCheckboxSearchInMapExtent", () => {
+        it("Should render the checkbox component correctly", () => {
+            wrapper = shallowMount(LayerFilterSnippet, {
+                propsData: {
+                    layerConfig: {
+                        service: {
+                            type: "something external"
+                        },
+                        searchInMapExtent: true
+                    },
+                    mapHandler: new MapHandler({
+                        isLayerActivated: () => false
+                    })
+                },
+                localVue
+            });
+            expect(wrapper.findComponent(SnippetCheckboxFilterInMapExtent).exists()).to.be.true;
+        });
+    });
+
     describe("changeRule", () => {
         it("should emit the updateRules event", async () => {
             wrapper.vm.changeRule({
