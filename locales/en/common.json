@@ -1087,6 +1087,7 @@
                 "addressHospitalBplan": "Search for Address/Hospital/B-Plan",
                 "addressTopicParcel": "Search address, district, topics, parcel",
                 "addressTopic": "Search address, district, topics",
+                "addressDistrict": "Search address, district",
                 "address": "Search for Address"
             },
             "showAllResults": "Show all results",
