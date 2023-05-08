@@ -11,6 +11,7 @@
 ### Changed
 
 ### Fixed
+- Issue #1036: draw - circle radius is displayed correct for unit 'km'.
 
 ### Deprecated
 
