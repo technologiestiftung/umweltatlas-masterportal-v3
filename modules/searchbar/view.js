@@ -172,6 +172,7 @@ const SearchbarView = Backbone.View.extend(/** @lends SearchbarView.prototype */
 
         // Hack for flexible search bar
         $(window).on("resize", this.onresizeCallback.bind(this));
+        this.searchAll();
     },
     id: "searchbar", // is ignored, with renderToDOM
     className: "d-flex col-9 col-md-auto", // is ignored, with renderToDOM

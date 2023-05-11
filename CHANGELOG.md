@@ -16,6 +16,7 @@
     - @masterportal/masterportalapi: 2.17.0 to 2.18.0
 
 ### Fixed
+- Issue #1025: search via urlparam 'query=' opens the suggestion list again.
 - Issue #1036: draw - circle radius is displayed correct for unit 'km'.
 
 ### Deprecated
