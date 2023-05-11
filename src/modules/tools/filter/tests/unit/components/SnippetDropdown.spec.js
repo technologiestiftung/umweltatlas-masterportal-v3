@@ -323,6 +323,23 @@ describe("src/modules/tools/filter/components/SnippetDropdown.vue", () => {
 
             wrapper.destroy();
         });
+        it("should set the current source to 'dropdown' if clicked on a entry", async () => {
+            const wrapper = shallowMount(SnippetDropdown, {
+                propsData: {
+                    "type": "dropdown",
+                    "attrName": "kapitelbezeichnung",
+                    "display": "list",
+                    "multiselect": true,
+                    "value": ["yek", "do"]
+                },
+                localVue
+            });
+
+            await wrapper.vm.$nextTick();
+            wrapper.vm.source = "adjust";
+            wrapper.findAll(".checkbox").at(0).trigger("click");
+            expect(wrapper.vm.source).to.be.equal("dropdown");
+        });
     });
 
     describe("methods", () => {
