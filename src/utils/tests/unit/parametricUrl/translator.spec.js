@@ -30,6 +30,25 @@ describe("src/utils/parametricUrl/urlParamsTranslator.js", () => {
             expect(entry.key).to.be.equals("Tools/draw/active");
             expect(entry.value).to.be.equals(true);
         });
+        it("translate multiple mdIds", async () => {
+            const key = "mdId",
+                value = "6520CBEF-D2A6-11D5-88C8-000102DCCF41,5262159C-D358-11D5-88C8-000102DCCF41,055D40D0-13F4-46EB-BEDF-4232CA4F3B32",
+
+                entry = await translate(key, value);
+
+            expect(entry.key).to.be.equals("Maps/mdId");
+            expect(entry.value).to.be.equals("6520CBEF-D2A6-11D5-88C8-000102DCCF41,5262159C-D358-11D5-88C8-000102DCCF41,055D40D0-13F4-46EB-BEDF-4232CA4F3B32");
+        });
+        it("translate a single mdId", async () => {
+            const key = "mdId",
+                value = "5262159C-D358-11D5-88C8-000102DCCF41",
+
+                entry = await translate(key, value);
+
+            expect(entry.key).to.be.equals("Maps/mdId");
+            expect(entry.value).to.be.equals("5262159C-D358-11D5-88C8-000102DCCF41");
+        });
+
 
     });
 });
