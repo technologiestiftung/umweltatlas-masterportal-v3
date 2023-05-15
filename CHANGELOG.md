@@ -4,8 +4,6 @@
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
 ## Unreleased - in development
-### __Breaking Changes__
-
 ### Added
 
 ### Changed
@@ -20,8 +18,6 @@
 - Issue #1025: search via urlparam 'query=' opens the suggestion list again.
 - Issue #1026: featureLister width fits content now.
 - Issue #1036: draw - circle radius is displayed correct for unit 'km'.
-- Print:
-  - dashstyle can now be printed even if only one value was specified
 
 ### Deprecated
 
@@ -30,6 +26,11 @@
     - devDependencies:
         - string-replace-loader
 
+
+## v2.33.1 - 2023-05-16
+### Fixed
+- Print:
+  - dashstyle can now be printed even if only one value was specified
 ---
 
 ## v2.33.0 - 2023-05-03
