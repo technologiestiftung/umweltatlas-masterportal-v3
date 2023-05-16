@@ -153,6 +153,9 @@ export default {
         else {
             commit("setClickCoordinate", evt.pickedPosition);
             commit("setClickCartesianCoordinate", [evt.position.x, evt.position.y]);
+            commit("setAltitude", evt.altitude);
+            commit("setLongitude", evt.longitude);
+            commit("setLatitude", evt.latitude);
         }
 
         if (!rootGetters["controls/orientation/poiModeCurrentPositionEnabled"]) {
