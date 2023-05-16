@@ -93,6 +93,16 @@ export default {
                 this.$refs["upload-input-file"].click();
             }
         },
+        changeVisibility (model) {
+            const scene = mapCollection.getMap("3D").getCesiumScene(),
+                prim = scene.primitives._primitives.find(x => x.id === model.id);
+
+            prim.show = !model.show;
+            model.show = prim.show;
+        },
+        editModel () {
+            // TODO: Neues Component erstellen und aktivieren
+        },
         close () {
             this.setActive(false);
             const model = getComponent(this.storePath.id);

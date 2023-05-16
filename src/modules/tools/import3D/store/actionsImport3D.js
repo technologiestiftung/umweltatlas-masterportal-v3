@@ -51,19 +51,6 @@ const actions = {
             console.error("Fehler beim Lesen der Datei:", e.target.error);
         };
         reader.readAsArrayBuffer(file);
-    },
-
-    changeVisibility ({}, model) {
-        const scene = mapCollection.getMap("3D").getCesiumScene(),
-            prim = scene.primitives._primitives.find(x => x.id === model.id);
-
-        prim.show = !model.show;
-        model.show = prim.show;
-    },
-
-    editModel ({}, model) {
-        // TODO: Neues Component erstellen und aktivieren
-        console.log(model);
     }
 };
 
