@@ -25,7 +25,8 @@
 - FileImport: Error fixed when importing KML file with polygon without label.
 - URLParam: multiple mdIds entries in the url result in added layers again.
 - Issue #1016: Draw: When creating a text, it is now prevented that a previous is changed.
-- Issue #1022: vectorStyle can now handle geometryCollections.
+- Issue #1021: vectorStyle can now handle geometryCollections.
+- Issue #1022: attributeMapper supports additional time formats
 - Issue #1025: search via urlparam 'query=' opens the suggestion list again.
 - Issue #1026: featureLister width fits content now.
 - Issue #1031/Issue #1034: printing of non clustered features in clustered layers.
@@ -42,7 +43,7 @@
     - devDependencies:
         - string-replace-loader
     - dependencies:
-         -dayjs (moved to masterportalapi dependency)
+         -dayjs (moved to masterportalAPI dependency)
 
 ---
 
