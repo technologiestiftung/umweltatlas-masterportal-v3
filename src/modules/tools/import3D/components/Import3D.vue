@@ -2,9 +2,9 @@
 import ToolTemplate from "../../ToolTemplate.vue";
 import {getComponent} from "../../../../utils/getComponent";
 import {mapActions, mapGetters, mapMutations} from "vuex";
+import actions from "../store/actionsImport3D";
 import getters from "../store/gettersImport3D";
 import mutations from "../store/mutationsImport3D";
-import store from "../../../../app-store";
 
 export default {
     name: "Import3D",
@@ -50,7 +50,7 @@ export default {
         this.$on("close", this.close);
     },
     methods: {
-        ...mapActions("Tools/Import3D", Object.keys(mutations)),
+        ...mapActions("Tools/Import3D", Object.keys(actions)),
         ...mapMutations("Tools/Import3D", Object.keys(mutations)),
 
         /**
@@ -80,55 +80,13 @@ export default {
             if (e.target.files !== undefined) {
                 this.addFile(e.target.files);
             }
+            this.$refs["upload-input-file"].value = "";
         },
         onDrop (e) {
             this.dzIsDropHovering = false;
             if (e.dataTransfer.files !== undefined) {
                 this.addFile(e.dataTransfer.files);
             }
-        },
-        addFile (files) {
-            // Annahme: Beim Event handelt es sich um den Dateiimport aus dem Component
-            const reader = new FileReader(),
-                altitude = store.getters["Maps/altitude"],
-                longitude = store.getters["Maps/longitude"],
-                latitude = store.getters["Maps/latitude"],
-                file = files[0],
-                fileExtension = file.name.split(".").pop();
-
-            if (fileExtension === "gltf") {
-                reader.onload = () => {
-                    // glTF-Datei verarbeiten
-                    const scene = mapCollection.getMap("3D").getCesiumScene(),
-                        model = scene.primitives.add(Cesium.Model.fromGltf({
-                            url: URL.createObjectURL(file)
-                        })),
-                        hasGeoreferencing = Boolean(model.extras?.georeferencing); // Verschiedene Konvention je nach glTF Doku? Beispiel vom BSW zum Testen?
-                    let position,
-                        modelMatrix;
-
-                    if (hasGeoreferencing) {
-                        position = Cesium.Cartesian3.fromDegrees(model.extras.georeferencing.longitude, model.extras.georeferencing.latitude, model.extras.georeferencing.altitude);
-                        modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(position);
-                    }
-                    else {
-                        position = Cesium.Cartesian3.fromDegrees(longitude, latitude, altitude);
-                        modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(position);
-                    }
-                    model.modelMatrix = modelMatrix;
-                    // Freigabe der URL von der glTF-Datei, sobald sie nicht mehr benötigt wird
-                    URL.revokeObjectURL(model.url);
-                };
-            }
-            else {
-                // Unbekanntes Dateiformat
-                console.error(fileExtension + " files are currently not supported!");
-            }
-
-            reader.onerror = (e) => {
-                console.error("Fehler beim Lesen der Datei:", e.target.error);
-            };
-            reader.readAsArrayBuffer(file);
         },
         triggerClickOnFileInput (event) {
             if (event.which === 32 || event.which === 13) {
@@ -155,7 +113,7 @@ export default {
         :render-to-window="renderToWindow"
         :resizable-window="resizableWindow"
         :deactivate-gfi="deactivateGFI"
-        :initial-width="400"
+        :initial-width="300"
     >
         <template #toolBody>
             <div
@@ -233,25 +191,36 @@ export default {
                                 :key="index"
                             >
                                 <span>
-                                    {{ model }}
+                                    {{ model.id }} - {{ model.name }}
                                 </span>
+                                <div>
+                                    <span
+                                        class="inline-button"
+                                        :title="$t(`common:modules.tools.import3D.editModel`, {name: model.name})"
+                                        @click="editModel(model)"
+                                        @keydown.enter="editModel(model)"
+                                    >
+                                        <i class="bi bi-pencil" />
+                                    </span>
+                                    <span
+                                        class="inline-button"
+                                        :title="$t(`common:modules.tools.import3D.visibilityTitle`, {name: model.name})"
+                                        @click="changeVisibility(model)"
+                                        @keydown.enter="changeVisibility(model)"
+                                    >
+                                        <i
+                                            v-if="model.show"
+                                            class="bi bi-eye-slash"
+                                        />
+                                        <i
+                                            v-else
+                                            class="bi bi-eye"
+                                        />
+                                    </span>
+                                </div>
                             </li>
                         </ul>
                     </p>
-                    <div class="h-seperator" />
-                    <p
-                        class="cta introDrawTool"
-                        v-html="$t('modules.tools.import3D.captions.introDrawTool')"
-                    />
-                    <div>
-                        <label class="upload-button-wrapper">
-                            <input
-                                type="button"
-                                @click="openDrawTool"
-                            >
-                            {{ $t("modules.tools.import3D.captions.drawTool") }}
-                        </label>
-                    </div>
                 </div>
             </div>
         </template>
@@ -353,28 +322,18 @@ export default {
     .successfullyImportedLabel {
         font-weight: bold;
     }
-    .introDrawTool {
-        font-style: italic;
+
+    .inline-button {
+        cursor: pointer;
+        font-size: $font_size_big;
+    }
+
+    ul {
+        list-style-type: none;
     }
 
     li {
-        &.hasZoom {
-            display: inline-block;
-            width: 100%;
-            &:not(:last-child) {
-                margin-bottom: 5px;
-            }
-            span {
-                &:first-child {
-                    float: left;
-                    margin-top: 5px;
-                    width: calc(100% - 80px);
-                }
-                &:last-child {
-                    float: right;
-                    margin-top: 0;
-                }
-            }
-        }
+        display: flex;
+        justify-content: space-between;
     }
 </style>
