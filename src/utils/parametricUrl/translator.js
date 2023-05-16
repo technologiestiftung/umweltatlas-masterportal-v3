@@ -89,7 +89,7 @@ export async function translate (urlParamsKey, urlParamsValue) {
         case "mdid":
         case "map/mdid": {
             const key = "Maps/mdId",
-                value = convert(urlParamsValue);
+                value = urlParamsValue.includes(",") ? urlParamsValue : convert(urlParamsValue);
 
             return {key: key, value: value};
         }

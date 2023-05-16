@@ -88,9 +88,8 @@ describe("src/modules/tools/filter/components/FilterGeneral.vue", () => {
         wrapper.vm.setActive(true);
         wrapper.vm.setLayerGroups(groups);
         wrapper.vm.setLayerSelectorVisible(true);
-        await wrapper.setData({
-            selectedLayerGroups: [0]
-        });
+        wrapper.vm.setSelectedGroups([0]);
+        await wrapper.vm.$nextTick();
 
         expect(wrapper.findAll(".show").exists()).to.be.true;
         expect(wrapper.findAll(".show")).to.have.lengthOf(1);
@@ -172,6 +171,24 @@ describe("src/modules/tools/filter/components/FilterGeneral.vue", () => {
             expect(wrapper.vm.rulesOfFilters).to.deep.equal(rule);
             wrapper.vm.updateSelectedAccordions(0);
             expect(wrapper.vm.rulesOfFilters).to.deep.equal(rule);
+        });
+    });
+    describe("updateSelectedGroups", () => {
+        it("should remove given index from selectedGroups if found in array", async () => {
+            wrapper.vm.setSelectedGroups([0, 1]);
+            await wrapper.vm.$nextTick();
+            wrapper.vm.updateSelectedGroups(0);
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.vm.selectedGroups).to.deep.equal([1]);
+        });
+        it("should add given index to selectedGroups if not found in array", async () => {
+            wrapper.vm.setSelectedGroups([0]);
+            await wrapper.vm.$nextTick();
+            wrapper.vm.updateSelectedGroups(1);
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.vm.selectedGroups).to.deep.equal([0, 1]);
         });
     });
 });

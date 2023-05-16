@@ -847,7 +847,7 @@ export default {
             </div>
         </div>
         <div
-            v-if="typeof amountOfFilteredItems === 'number'"
+            v-if="layerConfig.showHits !== false && typeof amountOfFilteredItems === 'number'"
             class="filter-result"
         >
             <span>

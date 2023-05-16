@@ -230,6 +230,38 @@ describe("src/modules/tools/filter/components/LayerFilterSnippet.vue", () => {
         expect(wrapper.find(".filter-result").exists()).to.be.true;
         expect(wrapper.find(".filter-result").text()).contain("modules.tools.filter.filterResult.unit", "3");
     });
+    it("should not render amount of filtered items if showHits is false", async () => {
+        await wrapper.setData({
+            amountOfFilteredItems: 3,
+            layerConfig: {
+                showHits: false
+            }
+        });
+        await wrapper.vm.$nextTick();
+        expect(wrapper.find(".filter-result").exists()).to.be.false;
+    });
+    it("should render amount of filtered items if showHits is true", async () => {
+        await wrapper.setData({
+            amountOfFilteredItems: 3,
+            layerConfig: {
+                showHits: true
+            }
+        });
+        await wrapper.vm.$nextTick();
+        expect(wrapper.find(".filter-result").exists()).to.be.true;
+        expect(wrapper.find(".filter-result").text()).contain("modules.tools.filter.filterResult.unit", "3");
+    });
+    it("should render amount of filtered items if showHits is undefined", async () => {
+        await wrapper.setData({
+            amountOfFilteredItems: 3,
+            layerConfig: {
+                showHits: undefined
+            }
+        });
+        await wrapper.vm.$nextTick();
+        expect(wrapper.find(".filter-result").exists()).to.be.true;
+        expect(wrapper.find(".filter-result").text()).contain("modules.tools.filter.filterResult.unit", "3");
+    });
     describe("setSnippetValueByState", async () => {
         await wrapper.setData({
             snippets

@@ -16,6 +16,9 @@
     - @masterportal/masterportalapi: 2.17.0 to 2.18.0
 
 ### Fixed
+- URLParam: multiple mdIds entries in the url result in added layers again.
+- Issue #1025: search via urlparam 'query=' opens the suggestion list again.
+- Issue #1026: featureLister width fits content now.
 - Issue #1036: draw - circle radius is displayed correct for unit 'km'.
 
 ### Deprecated
@@ -25,6 +28,11 @@
     - devDependencies:
         - string-replace-loader
 
+
+## v2.33.1 - 2023-05-16
+### Fixed
+- Print:
+  - dashstyle can now be printed even if only one value was specified
 ---
 
 ## v2.33.0 - 2023-05-03
