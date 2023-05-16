@@ -151,6 +151,9 @@ export default {
             commit("setClickPixel", evt.pixel);
         }
         else {
+            commit("setAltitude", evt.altitude);
+            commit("setLongitude", evt.longitude);
+            commit("setLatitude", evt.latitude);
             commit("setClickCoordinate", evt.pickedPosition);
             commit("setClickCartesianCoordinate", [evt.position.x, evt.position.y]);
         }

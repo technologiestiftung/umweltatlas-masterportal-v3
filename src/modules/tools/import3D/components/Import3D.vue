@@ -43,8 +43,6 @@ export default {
         active (isActive) {
             if (isActive) {
                 this.setFocusToFirstControl();
-                this.modifyImportedFileNames(this.importedFileNames);
-                this.modifyImportedFileExtent(this.featureExtents, this.importedFileNames);
             }
         }
     },
@@ -90,29 +88,47 @@ export default {
             }
         },
         addFile (files) {
-            Array.from(files).forEach(file => {
-                if (this.importedFileNames.includes(file)) {
-                    return;
-                }
-                const reader = new FileReader();
+            // Annahme: Beim Event handelt es sich um den Dateiimport aus dem Component
+            const reader = new FileReader(),
+                altitude = store.getters["Maps/altitude"],
+                longitude = store.getters["Maps/longitude"],
+                latitude = store.getters["Maps/latitude"],
+                file = files[0],
+                fileExtension = file.name.split(".").pop();
 
-                reader.onload = async f => {
-                    const vectorLayer = await store.dispatch("Maps/addNewLayerIfNotExists", {layerName: "importDrawLayer"}, {root: true}),
-                        fileNameSplit = file.name.split("."),
-                        fileExtension = fileNameSplit.length > 0 ? fileNameSplit[fileNameSplit.length - 1].toLowerCase() : "";
+            if (fileExtension === "gltf") {
+                reader.onload = () => {
+                    // glTF-Datei verarbeiten
+                    const scene = mapCollection.getMap("3D").getCesiumScene(),
+                        model = scene.primitives.add(Cesium.Model.fromGltf({
+                            url: URL.createObjectURL(file)
+                        })),
+                        hasGeoreferencing = Boolean(model.extras?.georeferencing); // Verschiedene Konvention je nach glTF Doku? Beispiel vom BSW zum Testen?
+                    let position,
+                        modelMatrix;
 
-                    if (fileExtension === "geojson" || fileExtension === "json") {
-                        this.importGeoJSON({raw: f.target.result, layer: vectorLayer, filename: file.name});
+                    if (hasGeoreferencing) {
+                        position = Cesium.Cartesian3.fromDegrees(model.extras.georeferencing.longitude, model.extras.georeferencing.latitude, model.extras.georeferencing.altitude);
+                        modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(position);
                     }
                     else {
-                        this.importKML({raw: f.target.result, layer: vectorLayer, filename: file.name});
+                        position = Cesium.Cartesian3.fromDegrees(longitude, latitude, altitude);
+                        modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(position);
                     }
-
-                    this.setLayer(vectorLayer);
+                    model.modelMatrix = modelMatrix;
+                    // Freigabe der URL von der glTF-Datei, sobald sie nicht mehr benötigt wird
+                    URL.revokeObjectURL(model.url);
                 };
+            }
+            else {
+                // Unbekanntes Dateiformat
+                console.error(fileExtension + " files are currently not supported!");
+            }
 
-                reader.readAsText(file);
-            });
+            reader.onerror = (e) => {
+                console.error("Fehler beim Lesen der Datei:", e.target.error);
+            };
+            reader.readAsArrayBuffer(file);
         },
         triggerClickOnFileInput (event) {
             if (event.which === 32 || event.which === 13) {
