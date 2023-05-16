@@ -47,7 +47,6 @@ import ControlsView from "../modules/controls/view";
 import SearchbarView from "../modules/searchbar/view";
 import Button3DView from "../modules/controls/button3d/view";
 import Orientation3DView from "../modules/controls/orientation3d/view";
-import VirtualcityModel from "../modules/tools/virtualCity/model";
 
 let sbconfig,
     controls,
@@ -204,10 +203,6 @@ async function loadApp () {
             }
             case "treeFilter": {
                 new TreeFilterView({model: tool});
-                break;
-            }
-            case "virtualCity": {
-                new VirtualcityModel(tool.attributes);
                 break;
             }
             default: {

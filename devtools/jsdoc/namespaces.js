@@ -481,12 +481,6 @@
  */
 
 /**
- * @namespace VirtualCity
- * @memberof Tools
- * @description Tool to show virtual city data
- */
-
-/**
  * @namespace Wfst
  * @memberof Tools
  * @description Tool to visualize, insert, edit, delete and update WFS features.
