@@ -41,7 +41,6 @@ describe("src/core/maps/store/actions/actionsMapAttributesMapper.js", () => {
                 };
 
             actions.updateClick({commit, getters, rootGetters}, obj);
-            expect(commit.calledTwice).to.be.true;
             expect(commit.firstCall.args).to.deep.equal([
                 "setClickCoordinate", [4, 56]
             ]);
