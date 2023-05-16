@@ -41,6 +41,8 @@
 - The following NPM packages have been removed:
     - devDependencies:
         - string-replace-loader
+    - dependencies:
+         -dayjs (moved to masterportalapi dependency)
 
 ---
 
