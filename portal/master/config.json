@@ -377,6 +377,10 @@
             "name": "translate#common:menu.tools.fileImport",
             "icon": "bi-box-arrow-in-down"
           },
+          "import3D": {
+            "name": "translate#common:menu.tools.import3D",
+            "icon": "bi-box-arrow-in-down"
+          },
           "extendedFilter": {
             "name": "Erweiterter Filter",
             "icon": "bi-funnel-fill",

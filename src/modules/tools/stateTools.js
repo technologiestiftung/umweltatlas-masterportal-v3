@@ -8,6 +8,7 @@ import FeatureLister from "./featureLister/components/FeatureLister.vue";
 import FileImport from "./fileImport/components/FileImport.vue";
 import FilterGeneral from "./filter/components/FilterGeneral.vue";
 import GetFeatureInfo from "./gfi/components/GetFeatureInfo.vue";
+import Import3D from "./import3D/components/Import3D.vue";
 import LayerClusterToggler from "./layerClusterToggler/components/LayerClusterToggler.vue";
 import LayerSlider from "./layerSlider/components/LayerSlider.vue";
 import MeasureInMap from "./measure/components/MeasureInMap.vue";
@@ -40,6 +41,7 @@ const state = {
         featureLister: FeatureLister,
         fileImport: FileImport,
         gfi: GetFeatureInfo,
+        import3D: Import3D,
         filter: FilterGeneral,
         layerClusterToggler: LayerClusterToggler,
         layerSlider: LayerSlider,

@@ -15,6 +15,7 @@ import Draw from "./draw/store/indexDraw";
 import FeatureLister from "./featureLister/store/indexFeatureLister";
 import FileImport from "./fileImport/store/indexFileImport";
 import Filter from "./filter/store/indexFilter";
+import Import3D from "./import3D/store/indexImport3D";
 import Gfi from "./gfi/store/indexGfi";
 import LayerClusterToggler from "./layerClusterToggler/store/indexLayerClusterToggler";
 import LayerSlider from "./layerSlider/store/indexLayerSlider";
@@ -48,6 +49,7 @@ export default {
         FileImport,
         Filter,
         Gfi,
+        Import3D,
         LayerClusterToggler,
         LayerSlider,
         Measure,
