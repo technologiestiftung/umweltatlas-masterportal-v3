@@ -4,7 +4,6 @@ import {getComponent} from "../../../../utils/getComponent";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import getters from "../store/gettersImport3D";
 import mutations from "../store/mutationsImport3D";
-import isObject from "../../../../utils/isObject";
 import store from "../../../../app-store";
 
 export default {
@@ -53,12 +52,7 @@ export default {
         this.$on("close", this.close);
     },
     methods: {
-        ...mapActions("Tools/Import3D", [
-            "importKML",
-            "importGeoJSON",
-            "setSelectedFiletype"
-        ]),
-        ...mapActions("Maps", ["addNewLayerIfNotExists", "zoomToExtent"]),
+        ...mapActions("Tools/Import3D", Object.keys(mutations)),
         ...mapMutations("Tools/Import3D", Object.keys(mutations)),
 
         /**
@@ -132,74 +126,6 @@ export default {
             if (model) {
                 model.set("isActive", false);
             }
-        },
-        /**
-         * opens the draw tool, closes fileImport
-         * @pre fileImport is opened
-         * @post fileImport is closed, the draw tool is opened
-         * @fires Core.ModelList#RadioRequestModelListGetModelByAttributes
-         * @returns {void}
-         */
-        openDrawTool () {
-            // todo: to select the correct tool in the menu, for now Radio request is used
-            const drawToolModel = Radio.request("ModelList", "getModelByAttributes", {id: "draw"});
-
-            // todo: change menu highlighting - this will also close the current tool:
-            drawToolModel.collection.setActiveToolsToFalse(drawToolModel);
-            drawToolModel.setIsActive(true);
-
-            this.close();
-            this.$store.dispatch("Tools/Draw/toggleInteraction", "modify");
-            this.$store.dispatch("Tools/setToolActive", {id: "draw", active: true});
-        },
-        /**
-         * Zoom to the feature of imported file
-         * @param {String} fileName the file name
-         * @returns {void}
-         */
-        zoomTo (fileName) {
-            if (!isObject(this.featureExtents) || !Object.prototype.hasOwnProperty.call(this.featureExtents, fileName)) {
-                return;
-            }
-
-            this.zoomToExtent({extent: this.featureExtents[fileName]});
-        },
-        /**
-         * Check if there are still features from the imported file.
-         * If there are no features existed from the same imported file, the file name will be removed.
-         * @param {String[]} fileNames the imported file name lists
-         * @returns {void}
-         */
-        modifyImportedFileNames (fileNames) {
-            const modifiedFileNames = [];
-
-            if (typeof this.layer !== "undefined" && Array.isArray(fileNames) && fileNames.length) {
-                fileNames.forEach(name => {
-                    this.layer.getSource().getFeatures().forEach(feature => {
-                        if (feature.get("source") && feature.get("source") === name && !modifiedFileNames.includes(name)) {
-                            modifiedFileNames.push(name);
-                        }
-                    });
-                });
-
-                this.setImportedFileNames(modifiedFileNames);
-            }
-        },
-        /**
-         * Check if there are still features from the imported file.
-         * If there are no features existed from the same imported file, the file name will be removed.
-         * @param {Object} featureExtents the feature extent object, key is the file name and value is the feature extent
-         * @param {String[]} fileNames the imported file name lists
-         * @returns {void}
-         */
-        modifyImportedFileExtent (featureExtents, fileNames) {
-            const modifiedFeatureExtents = {};
-
-            fileNames.forEach(name => {
-                modifiedFeatureExtents[name] = featureExtents[name];
-            });
-
-            this.setFeatureExtents(modifiedFeatureExtents);
         }
     }
 };
