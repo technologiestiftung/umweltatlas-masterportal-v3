@@ -14,7 +14,7 @@ export default {
     data () {
         return {
             dzIsDropHovering: false,
-            storePath: this.$store.state.Tools.FileImport
+            storePath: this.$store.state.Tools.Import3D
         };
     },
     computed: {
@@ -139,7 +139,7 @@ export default {
         :render-to-window="renderToWindow"
         :resizable-window="resizableWindow"
         :deactivate-gfi="deactivateGFI"
-        :initial-width="300"
+        :initial-width="400"
     >
         <template #toolBody>
             <div
@@ -202,32 +202,22 @@ export default {
                     </label>
                 </div>
 
-                <div v-if="importedFileNames.length > 0">
+                <div v-if="importedModels.length > 0">
                     <div class="h-seperator" />
                     <p class="cta">
                         <label
                             class="successfullyImportedLabel"
-                            for="succesfully-imported-files"
+                            for="succesfully-imported-models"
                         >
                             {{ $t("modules.tools.import3D.successfullyImportedLabel") }}
                         </label>
-                        <ul id="succesfully-imported-files">
+                        <ul id="succesfully-imported-models">
                             <li
-                                v-for="(filename, index) in importedFileNames"
+                                v-for="(model, index) in importedModels"
                                 :key="index"
-                                :class="enableZoomToExtend ? 'hasZoom' : ''"
                             >
                                 <span>
-                                    {{ filename }}
-                                </span>
-                                <span
-                                    v-if="enableZoomToExtend"
-                                    class="upload-button-wrapper"
-                                    :title="$t(`common:modules.tools.import3D.fileZoom`, {filename: filename})"
-                                    @click="zoomTo(filename)"
-                                    @keydown.enter="zoomTo(filename)"
-                                >
-                                    {{ $t("modules.tools.import3D.zoom") }}
+                                    {{ model }}
                                 </span>
                             </li>
                         </ul>

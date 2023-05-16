@@ -18,31 +18,28 @@ export default {
     active: false,
     deactivateGFI: false,
     icon: "bi-box-arrow-in-down",
-    id: "fileImport",
-    name: "common:menu.tools.fileImport",
+    id: "import3D",
+    name: "common:menu.tools.import3D",
     onlyDesktop: true,
     renderToWindow: true,
     resizableWindow: false,
     selectedFiletype: "auto",
-    importedFileNames: [],
+    importedModels: [],
     supportedFiletypes: {
         auto: {
             caption: "common:modules.tools.fileImport.captions.supportedFiletypes.auto"
         },
-        kml: {
-            caption: "common:modules.tools.fileImport.captions.supportedFiletypes.kml",
-            rgx: /\.kml$/i
+        gltf: {
+            caption: "common:modules.tools.fileImport.captions.supportedFiletypes.gltf",
+            rgx: /\.gltf$/i
         },
-        gpx: {
-            caption: "common:modules.tools.fileImport.captions.supportedFiletypes.gpx",
-            rgx: /\.gpx$/i
+        obj: {
+            caption: "common:modules.tools.fileImport.captions.supportedFiletypes.obj",
+            rgx: /\.obj$/i
         },
-        geojson: {
-            caption: "common:modules.tools.fileImport.captions.supportedFiletypes.geojson",
-            rgx: /\.(geo)?json$/i
+        dae: {
+            caption: "common:modules.tools.fileImport.captions.supportedFiletypes.dae",
+            rgx: /\.dae$/i
         }
-    },
-    enableZoomToExtend: false,
-    featureExtents: {},
-    layer: undefined
+    }
 };
