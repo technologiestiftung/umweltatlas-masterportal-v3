@@ -196,6 +196,12 @@ export default {
                                 <div>
                                     <span
                                         class="inline-button"
+                                        :title="$t(`common:modules.tools.import3D.zoomTo`, {name: model.name})"
+                                    >
+                                        <i class="bi bi-geo-alt" />
+                                    </span>
+                                    <span
+                                        class="inline-button"
                                         :title="$t(`common:modules.tools.import3D.editModel`, {name: model.name})"
                                         @click="editModel(model)"
                                         @keydown.enter="editModel(model)"
