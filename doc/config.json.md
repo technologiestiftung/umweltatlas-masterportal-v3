@@ -1687,6 +1687,7 @@ The filter tool offers a range of options to filter vector data from WFS, OAF, G
 |minScale|no|Integer|5000|Minimum zoom level the filter zooms in when displaying filter results.|false|
 |layers|no|[filterLayer](#markdown-header-portalconfigmenutoolfilterfilterlayer)[]|[]|Configuration of layers to be filtered. Can be an array of plain layer ids also - if so the layer and all snippets are identified automatically.|false|
 |layerGroups|no|[filterLayerGroups](#markdown-header-portalconfigmenutoolfilterfilterlayergroups)[]|[]|Configuration of the related layers to be filtered.|false|
+|saveTo|no|String|"void"|If set to "url", the current filter setting is saved in the URL. This allows the filter setting to be bookmarked.|false|
 
 **Example**
 
