@@ -13,6 +13,7 @@ export default {
     },
     data () {
         return {
+            isHovering: false,
             dzIsDropHovering: false,
             storePath: this.$store.state.Tools.Import3D
         };
@@ -102,6 +103,14 @@ export default {
         },
         editModel () {
             // TODO: Neues Component erstellen und aktivieren
+        },
+        zoomTo (position) {
+            const scene = mapCollection.getMap("3D").getCesiumScene(),
+                currentPosition = scene.camera.positionCartographic;
+
+            scene.camera.flyTo({
+                destination: Cesium.Cartesian3.fromDegrees(position[0], position[1], currentPosition.height)
+            });
         },
         close () {
             this.setActive(false);
@@ -201,38 +210,58 @@ export default {
                                 :key="index"
                             >
                                 <span>
-                                    {{ model.id }} - {{ model.name }}
+                                    {{ model.id }}
+                                </span>
+                                <span>
+                                    {{ model.name }}
                                 </span>
                                 <div>
-                                    <span
-                                        class="inline-button"
+                                    <i
+                                        class="inline-button bi"
+                                        :class="{ 'bi-geo-alt-fill': isHovering === `${index}-geo`, 'bi-geo-alt': isHovering !== `${index}-geo`}"
                                         :title="$t(`common:modules.tools.import3D.zoomTo`, {name: model.name})"
-                                    >
-                                        <i class="bi bi-geo-alt" />
-                                    </span>
-                                    <span
-                                        class="inline-button"
+                                        @click="zoomTo(model.position)"
+                                        @keydown.enter="zoomTo(model.position)"
+                                        @mouseover="isHovering = `${index}-geo`"
+                                        @mouseout="isHovering = false"
+                                        @focusin="isHovering = `${index}-geo`"
+                                        @focusout="isHovering = false"
+                                    />
+                                    <i
+                                        class="inline-button bi"
+                                        :class="{ 'bi-pencil-fill': isHovering === `${index}-edit`, 'bi-pencil': isHovering !== `${index}-edit`}"
                                         :title="$t(`common:modules.tools.import3D.editModel`, {name: model.name})"
-                                        @click="editModel(model)"
-                                        @keydown.enter="editModel(model)"
-                                    >
-                                        <i class="bi bi-pencil" />
-                                    </span>
-                                    <span
-                                        class="inline-button"
+                                        @click="editModel(model.id)"
+                                        @keydown.enter="editModel(model.id)"
+                                        @mouseover="isHovering = `${index}-edit`"
+                                        @mouseout="isHovering = false"
+                                        @focusin="isHovering = `${index}-edit`"
+                                        @focusout="isHovering = false"
+                                    />
+                                    <i
+                                        v-if="model.show"
+                                        class="inline-button bi"
+                                        :class="{ 'bi-eye-slash-fill': isHovering === `${index}-hide`, 'bi-eye': isHovering !== `${index}-hide`}"
                                         :title="$t(`common:modules.tools.import3D.visibilityTitle`, {name: model.name})"
                                         @click="changeVisibility(model)"
                                         @keydown.enter="changeVisibility(model)"
-                                    >
-                                        <i
-                                            v-if="model.show"
-                                            class="bi bi-eye-slash"
-                                        />
-                                        <i
-                                            v-else
-                                            class="bi bi-eye"
-                                        />
-                                    </span>
+                                        @mouseover="isHovering = `${index}-hide`"
+                                        @mouseout="isHovering = false"
+                                        @focusin="isHovering = `${index}-hide`"
+                                        @focusout="isHovering = false"
+                                    />
+                                    <i
+                                        v-else
+                                        class="inline-button bi"
+                                        :class="{ 'bi-eye-fill': isHovering === `${index}-show`, 'bi-eye-slash': isHovering !== `${index}-show`}"
+                                        :title="$t(`common:modules.tools.import3D.visibilityTitle`, {name: model.name})"
+                                        @click="changeVisibility(model)"
+                                        @keydown.enter="changeVisibility(model)"
+                                        @mouseover="isHovering = `${index}-show`"
+                                        @mouseout="isHovering = false"
+                                        @focusin="isHovering = `${index}-show`"
+                                        @focusout="isHovering = false"
+                                    />
                                 </div>
                             </li>
                         </ul>
@@ -341,11 +370,18 @@ export default {
 
     .inline-button {
         cursor: pointer;
-        font-size: $font_size_big;
+        display: inline-block;
+    }
+
+    .inline-button:hover {
+        transform: translateY(-2px);
     }
 
     ul {
+        font-size: $font_size_icon_lg;
         list-style-type: none;
+        padding: 0;
+        margin: 0;
     }
 
     li {

@@ -36,7 +36,8 @@ const actions = {
                 models.push({
                     id: model.id,
                     name: file.name,
-                    show: true
+                    show: true,
+                    position: [longitude, latitude]
                 });
 
                 commit("setImportedModels", models);
