@@ -2,6 +2,7 @@ import Vuex from "vuex";
 import {config, shallowMount, createLocalVue} from "@vue/test-utils";
 import LayerFilterSnippet from "../../../components/LayerFilterSnippet.vue";
 import SnippetCheckboxFilterInMapExtent from "../../../components/SnippetCheckboxFilterInMapExtent.vue";
+import SnippetDownload from "../../../components/SnippetDownload.vue";
 import {expect} from "chai";
 import MapHandler from "../../../utils/mapHandler.js";
 import sinon from "sinon";
@@ -261,6 +262,21 @@ describe("src/modules/tools/filter/components/LayerFilterSnippet.vue", () => {
         await wrapper.vm.$nextTick();
         expect(wrapper.find(".filter-result").exists()).to.be.true;
         expect(wrapper.find(".filter-result").text()).contain("modules.tools.filter.filterResult.unit", "3");
+    });
+    it("should render SnippetDownload component if download is true and filteredItems are given", async () => {
+        await wrapper.setData({
+            layerConfig: {
+                download: true
+            },
+            filteredItems: [
+                {
+                    a: "a",
+                    b: "b"
+                }
+            ]
+        });
+        await wrapper.vm.$nextTick();
+        expect(wrapper.findComponent(SnippetDownload).exists()).to.be.true;
     });
     describe("setSnippetValueByState", async () => {
         await wrapper.setData({
