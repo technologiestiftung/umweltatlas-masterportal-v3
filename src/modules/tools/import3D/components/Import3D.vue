@@ -135,7 +135,8 @@ export default {
                 file = files[0],
                 fileExtension = file.name.split(".").pop(),
                 scene = mapCollection.getMap("3D").getCesiumScene(),
-                primitives = scene.primitives;
+                primitives = scene.primitives,
+                models = this.importedModels;
 
             this.isDragging = true;
             this.eventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
@@ -148,7 +149,7 @@ export default {
                         hasGeoreferencing = Boolean(model.extras?.georeferencing);
                     let position, modelMatrix;
 
-                    model.id = primitives.length;
+                    model.id = primitives.length - 4;
                     this.setCurrentModelId(model.id);
 
                     if (hasGeoreferencing) {
@@ -167,6 +168,14 @@ export default {
 
                     primitives.add(model);
                     URL.revokeObjectURL(model.url);
+
+                    models.push({
+                        id: model.id,
+                        name: file.name,
+                        show: true
+                    });
+
+                    this.setImportedModels(models);
                 };
             }
             else {
