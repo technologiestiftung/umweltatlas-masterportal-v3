@@ -1176,7 +1176,7 @@ const BuildSpecModel = {
                 feature.set(styleAttr[0], value);
                 return `[${styleAttr[0]}='${value}']`;
             }
-            else if (style.type) {
+            else if (style?.type) {
                 const value = feature.get("default");
 
                 return `[${styleAttr[0]}='${value}']`;
