@@ -25,6 +25,7 @@
         - When creating a text, it is now prevented that a previous is changed.
 - Issue #1025: search via urlparam 'query=' opens the suggestion list again.
 - Issue #1026: featureLister width fits content now.
+- Issue #1031/Issue #1034: printing of non clustered features in clustered layers.
 - Issue #1036: draw - circle radius is displayed correct for unit 'km'.
 
 ### Deprecated
