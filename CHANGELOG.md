@@ -5,6 +5,7 @@
 
 ## Unreleased - in development
 ### __Breaking Changes__
+- The Virtual City Planner tool (virtualcityPLANNER) has been removed
 
 ### Added
 
