@@ -2,6 +2,7 @@
  * User type definition
  * @typedef {Object} FileImportState
  * @property {Boolean}  active - if true, component is rendered
+ * @property {String}   currentModelId - id of the currently selected or added model
  * @property {Boolean}  deactivateGFI - if true, component activation deactivates gfi component
  * @property {String}   icon - icon next to title
  * @property {String}   id - internal id of component
@@ -16,6 +17,7 @@
 
 export default {
     active: false,
+    currentModelId: null,
     deactivateGFI: false,
     icon: "bi-box-arrow-in-down",
     id: "import3D",

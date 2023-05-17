@@ -4,7 +4,6 @@ import {getComponent} from "../../../../utils/getComponent";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import getters from "../store/gettersImport3D";
 import mutations from "../store/mutationsImport3D";
-import store from "../../../../app-store";
 
 export default {
     name: "Import3D",
@@ -14,7 +13,9 @@ export default {
     data () {
         return {
             dzIsDropHovering: false,
-            storePath: this.$store.state.Tools.Import3D
+            isDragging: false,
+            storePath: this.$store.state.Tools.Import3D,
+            eventHandler: null
         };
     },
     computed: {
@@ -87,44 +88,87 @@ export default {
                 this.addFile(e.dataTransfer.files);
             }
         },
+        onMouseMove (event) {
+            if (this.isDragging) {
+                const scene = mapCollection.getMap("3D").getCesiumScene(),
+                    ray = scene.camera.getPickRay(event.endPosition),
+                    position = scene.globe.pick(ray, scene);
+
+                if (Cesium.defined(position)) {
+                    const primitives = scene.primitives,
+                        addedModel = this.getPrimitiveById(primitives, this.currentModelId);
+
+                    if (Cesium.defined(addedModel)) {
+                        const modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(position);
+
+                        addedModel.modelMatrix = modelMatrix;
+                    }
+                }
+            }
+        },
+        getPrimitiveById (primitives, id) {
+            for (let i = 0; i < primitives.length; i++) {
+                const primitive = primitives.get(i);
+
+                if (primitive.id === id) {
+                    return primitive;
+                }
+            }
+            return undefined;
+        },
+        onMouseUp () {
+            if (this.isDragging) {
+                this.removeInputActions();
+                this.isDragging = false;
+            }
+        },
+        removeInputActions () {
+            if (this.eventHandler) {
+                this.eventHandler.destroy();
+            }
+        },
         addFile (files) {
-            // Annahme: Beim Event handelt es sich um den Dateiimport aus dem Component
             const reader = new FileReader(),
-                altitude = store.getters["Maps/altitude"],
-                longitude = store.getters["Maps/longitude"],
-                latitude = store.getters["Maps/latitude"],
                 file = files[0],
-                fileExtension = file.name.split(".").pop();
+                fileExtension = file.name.split(".").pop(),
+                scene = mapCollection.getMap("3D").getCesiumScene(),
+                primitives = scene.primitives;
+
+            this.isDragging = true;
+            this.eventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
             if (fileExtension === "gltf") {
                 reader.onload = () => {
-                    // glTF-Datei verarbeiten
-                    const scene = mapCollection.getMap("3D").getCesiumScene(),
-                        model = scene.primitives.add(Cesium.Model.fromGltf({
+                    const model = Cesium.Model.fromGltf({
                             url: URL.createObjectURL(file)
-                        })),
-                        hasGeoreferencing = Boolean(model.extras?.georeferencing); // Verschiedene Konvention je nach glTF Doku? Beispiel vom BSW zum Testen?
-                    let position,
-                        modelMatrix;
+                        }),
+                        hasGeoreferencing = Boolean(model.extras?.georeferencing);
+                    let position, modelMatrix;
+
+                    model.id = primitives.length;
+                    this.setCurrentModelId(model.id);
 
                     if (hasGeoreferencing) {
-                        position = Cesium.Cartesian3.fromDegrees(model.extras.georeferencing.longitude, model.extras.georeferencing.latitude, model.extras.georeferencing.altitude);
+                        position = Cesium.Cartesian3.fromDegrees(
+                            model.extras.georeferencing.longitude,
+                            model.extras.georeferencing.latitude,
+                            model.extras.georeferencing.altitude
+                        );
                         modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(position);
+                        model.modelMatrix = modelMatrix;
                     }
                     else {
-                        position = Cesium.Cartesian3.fromDegrees(longitude, latitude, altitude);
-                        modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(position);
+                        this.eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+                        this.eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_UP);
                     }
-                    model.modelMatrix = modelMatrix;
-                    // Freigabe der URL von der glTF-Datei, sobald sie nicht mehr benötigt wird
+
+                    primitives.add(model);
                     URL.revokeObjectURL(model.url);
                 };
             }
             else {
-                // Unbekanntes Dateiformat
                 console.error(fileExtension + " files are currently not supported!");
             }
-
             reader.onerror = (e) => {
                 console.error("Fehler beim Lesen der Datei:", e.target.error);
             };
