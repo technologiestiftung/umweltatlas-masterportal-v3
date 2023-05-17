@@ -17,6 +17,9 @@
 
 ### Fixed
 - URLParam: multiple mdIds entries in the url result in added layers again.
+- Issue #1016:
+    - Draw:
+        - When creating a text, it is now prevented that a previous is changed.
 - Issue #1025: search via urlparam 'query=' opens the suggestion list again.
 - Issue #1026: featureLister width fits content now.
 - Issue #1036: draw - circle radius is displayed correct for unit 'km'.
@@ -63,7 +66,6 @@
 - Traffic Lights Data visible on scale 1:5000 again
 - Filter/ Autorefresh: The same features are displayed from a filterd GeoJson after an autorefresh as before the autorefresh.
 - Issue #842: Dropdown at WFS filter module is not filled with MapServer WFS.
-
 ---
 
 ##  v2.32.0 - 2023-04-05

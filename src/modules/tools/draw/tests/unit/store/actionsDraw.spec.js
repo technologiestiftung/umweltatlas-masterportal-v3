@@ -113,7 +113,22 @@ describe("src/modules/tools/draw/store/actionsDraw.js", () => {
                     geometry: "Point"
                 },
                 symbol: {},
-                freehand: false
+                freehand: false,
+                selectInteractionModify: {
+                    getFeatures: () => {
+                        if (id === "text") {
+                            return {
+                                getArray: () => {
+                                    return [{
+
+                                    }];
+                                },
+                                clear: sinon.stub()
+                            };
+                        }
+                        return null;
+                    }
+                }
             };
 
             result[id + "Options"] = {};
@@ -171,6 +186,33 @@ describe("src/modules/tools/draw/store/actionsDraw.js", () => {
             expect(dispatch.args[4]).to.eql(["createDrawInteractionListener", {isOuterCircle: true, drawInteraction: "Two", maxFeatures: maxFeaturesSymbol}]);
             expect(dispatch.args[5][0]).to.eql("Maps/addInteraction");
             expect(typeof dispatch.args[5][1]).to.eql("object");
+        });
+
+        it("commits and dispatches a text", () => {
+            actions.createDrawInteractionAndAddToMap(
+                {
+                    state: getState("text"),
+                    commit,
+                    dispatch,
+                    getters},
+                {
+                    active: activeSymbol,
+                    maxFeatures: maxFeaturesSymbol
+                });
+
+            // commits setDrawInteraction
+            expect(commit.calledTwice).to.be.true;
+            expect(commit.args[0][0]).to.eql("setSelectedFeature");
+            expect(commit.args[0][1]).to.be.null;
+            expect(commit.args[1][0]).to.eql("setDrawInteraction");
+            expect(typeof commit.args[1][1]).to.eql("object");
+
+            // dispatches interaction-related actions
+            expect(dispatch.calledThrice).to.be.true;
+            expect(dispatch.firstCall.args).to.eql(["manipulateInteraction", {interaction: "draw", active: activeSymbol}]);
+            expect(dispatch.secondCall.args).to.eql(["createDrawInteractionListener", {isOuterCircle: false, drawInteraction: "", maxFeatures: maxFeaturesSymbol}]);
+            expect(dispatch.thirdCall.args[0]).to.eql("Maps/addInteraction");
+            expect(typeof dispatch.thirdCall.args[1]).to.eql("object");
         });
     });
     describe("createDrawInteractionListener", () => {
