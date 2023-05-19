@@ -5,6 +5,10 @@ import {mapActions, mapGetters, mapMutations} from "vuex";
 import getters from "../store/gettersImport3D";
 import mutations from "../store/mutationsImport3D";
 import store from "../../../../app-store";
+import {OBJLoader} from "three/examples/jsm/loaders/OBJLoader.js";
+import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader.js";
+import {ColladaLoader} from "three/examples/jsm/loaders/ColladaLoader.js";
+import {GLTFExporter} from "three/examples/jsm/exporters/GLTFExporter.js";
 
 export default {
     name: "Import3D",
@@ -88,7 +92,6 @@ export default {
             }
         },
         addFile (files) {
-            // Annahme: Beim Event handelt es sich um den Dateiimport aus dem Component
             const reader = new FileReader(),
                 altitude = store.getters["Maps/altitude"],
                 longitude = store.getters["Maps/longitude"],
@@ -98,7 +101,6 @@ export default {
 
             if (fileExtension === "gltf") {
                 reader.onload = () => {
-                    // glTF-Datei verarbeiten
                     const scene = mapCollection.getMap("3D").getCesiumScene(),
                         model = scene.primitives.add(Cesium.Model.fromGltf({
                             url: URL.createObjectURL(file)
@@ -119,16 +121,63 @@ export default {
                     // Freigabe der URL von der glTF-Datei, sobald sie nicht mehr benötigt wird
                     URL.revokeObjectURL(model.url);
                 };
+                reader.onerror = (e) => {
+                    console.error("Fehler beim Lesen der Datei:", e.target.error);
+                };
+                reader.readAsArrayBuffer(file);
             }
+            else if (fileExtension === "obj") {
+                reader.onload = (event) => {
+                    const objText = event.target.result,
+                        objLoader = new OBJLoader(),
+                        objData = objLoader.parse(objText),
+
+                        gltfExporter = new GLTFExporter();
+
+                    gltfExporter.parse(objData, (gltfData) => {
+                        const scene = mapCollection.getMap("3D").getCesiumScene(),
+                            model = scene.primitives.add(new Cesium.Model(gltfData)),
+                            position = Cesium.Cartesian3.fromDegrees(longitude, latitude, altitude),
+                            modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(position);
+
+                        model.modelMatrix = modelMatrix;
+                    });
+                };
+                reader.readAsText(file);
+            }
+            else if (fileExtension === "dae") {
+                reader.onload = (event) => {
+                    const daeText = event.target.result,
+
+                        colladaLoader = new ColladaLoader();
+
+                    colladaLoader.load(daeText, (collada) => {
+                        const exporter = new GLTFExporter();
+
+                        exporter.parse(collada.scene, (gltfData) => {
+                            const gltfLoader = new GLTFLoader();
+
+                            gltfLoader.parse(gltfData, "", () => {
+
+                                const scene = mapCollection.getMap("3D").getCesiumScene(),
+                                    model = scene.primitives.add(new Cesium.Model(gltfData)),
+                                    position = Cesium.Cartesian3.fromDegrees(longitude, latitude, altitude),
+                                    modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(position);
+
+                                model.modelMatrix = modelMatrix;
+                                scene.requestRender();
+                            });
+                        });
+                    });
+                };
+                reader.readAsDataURL(file);
+            }
+
+
             else {
                 // Unbekanntes Dateiformat
                 console.error(fileExtension + " files are currently not supported!");
             }
-
-            reader.onerror = (e) => {
-                console.error("Fehler beim Lesen der Datei:", e.target.error);
-            };
-            reader.readAsArrayBuffer(file);
         },
         triggerClickOnFileInput (event) {
             if (event.which === 32 || event.which === 13) {
