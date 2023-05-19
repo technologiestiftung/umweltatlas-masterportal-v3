@@ -8,7 +8,9 @@
 - The Virtual City Planner tool (virtualcityPLANNER) has been removed
 
 ### Added
-
+- PortalFooter
+  - configuration for mobileFooterInfoToggler has been implemented
+  - the icon (arrow) to toggle information is only visible if it is configured
 ### Changed
 - The version of node was updated, must be `>= 16.13.2 <= 16.20.0`
 - The version of npm was updated, must be `>= 8.1.2 <= 8.19.4`
