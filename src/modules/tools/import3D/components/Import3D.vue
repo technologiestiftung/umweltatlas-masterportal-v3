@@ -52,6 +52,13 @@ export default {
     created () {
         this.$on("close", this.close);
     },
+    updated () {
+        // TODO: Eventuell woanders auslagern, wenn Component sich ändert!
+        const scene = mapCollection.getMap("3D").getCesiumScene();
+
+        this.eventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+        this.eventHandler.setInputAction(this.selectEntity, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+    },
     methods: {
         ...mapActions("Tools/Import3D", Object.keys(actions)),
         ...mapMutations("Tools/Import3D", Object.keys(mutations)),
@@ -98,26 +105,14 @@ export default {
                     position = scene.globe.pick(ray, scene);
 
                 if (Cesium.defined(position)) {
-                    const primitives = scene.primitives,
-                        addedModel = this.getPrimitiveById(primitives, this.currentModelId);
+                    const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+                        addedModel = entities.getById(this.currentModelId);
 
                     if (Cesium.defined(addedModel)) {
-                        const modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(position);
-
-                        addedModel.modelMatrix = modelMatrix;
+                        addedModel.position = position;
                     }
                 }
             }
-        },
-        getPrimitiveById (primitives, id) {
-            for (let i = 0; i < primitives.length; i++) {
-                const primitive = primitives.get(i);
-
-                if (primitive.id === id) {
-                    return primitive;
-                }
-            }
-            return undefined;
         },
         onMouseUp () {
             if (this.isDragging) {
@@ -125,52 +120,51 @@ export default {
                 this.isDragging = false;
             }
         },
+        selectEntity (event) {
+            const scene = mapCollection.getMap("3D").getCesiumScene(),
+                picked = scene.pick(event.position);
+
+            if (Cesium.defined(picked)) {
+                // const entity = Cesium.defaultValue(picked.id, picked.primitive.id);
+            }
+            return undefined;
+        },
         removeInputActions () {
             if (this.eventHandler) {
-                this.eventHandler.destroy();
+                this.eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+                this.eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_UP);
             }
         },
         addFile (files) {
             const reader = new FileReader(),
                 file = files[0],
                 fileExtension = file.name.split(".").pop(),
-                scene = mapCollection.getMap("3D").getCesiumScene(),
-                primitives = scene.primitives,
+                entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
                 models = this.importedModels;
 
             this.isDragging = true;
-            this.eventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
             if (fileExtension === "gltf") {
                 reader.onload = () => {
-                    const model = Cesium.Model.fromGltf({
-                            url: URL.createObjectURL(file)
-                        }),
-                        hasGeoreferencing = Boolean(model.extras?.georeferencing);
-                    let position, modelMatrix;
+                    const lastElement = entities.values.slice(-1),
+                        lastId = lastElement[0]?.id,
+                        entity = {
+                            id: lastId ? lastId + 1 : 1,
+                            name: file.name,
+                            model: {
+                                uri: URL.createObjectURL(file)
+                            }
+                        };
 
-                    model.id = primitives.length - 4;
-                    this.setCurrentModelId(model.id);
+                    this.setCurrentModelId(entity.id);
 
-                    if (hasGeoreferencing) {
-                        position = Cesium.Cartesian3.fromDegrees(
-                            model.extras.georeferencing.longitude,
-                            model.extras.georeferencing.latitude,
-                            model.extras.georeferencing.altitude
-                        );
-                        modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(position);
-                        model.modelMatrix = modelMatrix;
-                    }
-                    else {
-                        this.eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-                        this.eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_UP);
-                    }
+                    this.eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+                    this.eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_UP);
 
-                    primitives.add(model);
-                    URL.revokeObjectURL(model.url);
+                    entities.add(entity);
 
                     models.push({
-                        id: model.id,
+                        id: entity.id,
                         name: file.name,
                         show: true
                     });
