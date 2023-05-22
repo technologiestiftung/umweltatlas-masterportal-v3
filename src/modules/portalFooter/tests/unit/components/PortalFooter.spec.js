@@ -49,12 +49,15 @@ describe("src/modules/portalFooter/components/PortalFooter.vue", () => {
             footer: {
                 urls: urls,
                 showVersion: false,
-                footerInfo: footerInfo
+                footerInfo: footerInfo,
+                mobileFooterInfoToggler: false
             }
         };
-    let store;
+    let store,
+        toggler;
 
     beforeEach(() => {
+        toggler = false;
         store = new Vuex.Store({
             namespaced: true,
             modules: {
@@ -64,14 +67,23 @@ describe("src/modules/portalFooter/components/PortalFooter.vue", () => {
                         showFooter: () => true,
                         urls: () => urls,
                         showVersion: () => true,
-                        footerInfo: () => true
+                        footerInfo: () => true,
+                        mobileFooterInfoToggler: () => toggler,
+                        isShortMenuOpen: () => true,
+                        showShortMenu: () => false,
+                        seperator: () => true,
+                        infoTitles: () => sinon.stub()
                     },
                     mutations: {
                         setShowFooter: () => sinon.stub(),
-                        setShowVersion: () => sinon.stub()
+                        setShowVersion: () => sinon.stub(),
+                        setFooterInfo: () => sinon.stub(),
+                        setMobileFooterInfoToggler: () => sinon.stub(),
+                        setShowShortMenu: () => sinon.stub()
                     },
                     actions: {
-                        initialize: sinon.stub()
+                        initialize: sinon.stub(),
+                        renderFooterInfo: sinon.stub()
                     }
                 },
                 Maps: {
@@ -238,5 +250,67 @@ describe("src/modules/portalFooter/components/PortalFooter.vue", () => {
         expect(aTags.at(0).text()).to.equals("ABC");
         expect(aTags.at(1).exists()).to.be.true;
         expect(aTags.at(1).text()).to.equals("SDP Download");
+    });
+
+    it("renders the footerInfo in footer", async () => {
+        const wrapper = shallowMount(PortalFooterComponent, {
+            store,
+            computed: {
+                footerConfig: () => sinon.stub(),
+                masterPortalVersionNumber: () => sinon.stub(),
+                mobile: () => sinon.stub()
+            },
+            localVue
+        });
+
+        await wrapper.vm.$nextTick();
+
+        expect(wrapper.find("#footerInfo").exists()).to.be.true;
+
+    });
+    it("does not render the arrow icon to toggle mobileFooterInfo if it is configured false", () => {
+        store.commit("PortalFooter/setShowShortMenu", true);
+        const wrapper = shallowMount(PortalFooterComponent, {
+            store,
+            computed: {
+                footerConfig: () => sinon.stub(),
+                masterPortalVersionNumber: () => sinon.stub(),
+                mobile: () => true
+            },
+            localVue
+        });
+
+        expect(wrapper.find(".bi-chevron-down").exists()).to.be.false;
+    });
+    it("does render the arrow icon to toggle mobileFooterInfo if it is configured true", () => {
+        store.commit("PortalFooter/setShowShortMenu", true);
+        toggler = true;
+        const wrapper = shallowMount(PortalFooterComponent, {
+            store,
+            computed: {
+                footerConfig: () => sinon.stub(),
+                masterPortalVersionNumber: () => sinon.stub(),
+                mobile: () => true
+            },
+            localVue
+        });
+
+
+        expect(wrapper.find(".bi-chevron-down").exists()).to.be.true;
+    });
+    it("does not render the arrow icon to toggle mobileFooterInfo in desktop version", () => {
+        store.commit("PortalFooter/setShowShortMenu", true);
+        toggler = true;
+        const wrapper = shallowMount(PortalFooterComponent, {
+            store,
+            computed: {
+                footerConfig: () => sinon.stub(),
+                masterPortalVersionNumber: () => sinon.stub(),
+                mobile: () => false
+            },
+            localVue
+        });
+
+        expect(wrapper.find(".bi-chevron-down").exists()).to.be.false;
     });
 });

@@ -36,7 +36,6 @@ import TreeFilter from "../../treeFilter/model";
 import ExtendedFilter from "../../tools/extendedFilter/model";
 import ParcelSearch from "../../tools/parcelSearch/model";
 import Viewpoint from "./viewPoint/model";
-import VirtualCityModel from "../../tools/virtualCity/model";
 import store from "../../../src/app-store/index";
 
 const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
@@ -253,9 +252,6 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
             else if (attrs.id === "extendedFilter") {
                 console.warn("Tool: 'extendedFilter' is deprecated. Please use 'filter' instead.");
                 return new ExtendedFilter(Object.assign(attrs, Object.prototype.hasOwnProperty.call(Config, "ignoredKeys") ? {ignoredKeys: Config.ignoredKeys} : {}), options);
-            }
-            else if (attrs.id === "virtualcity") {
-                return new VirtualCityModel(attrs, options);
             }
             return new Tool(attrs, options);
         }
