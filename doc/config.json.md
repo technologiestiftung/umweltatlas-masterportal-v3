@@ -2442,6 +2442,7 @@ Print module, configurable for 2 print services: *High Resolution PlotService* a
 |printAppId|no|String|"master"|Print service print app id. This tells the print service which template(s) to use.|false|
 |filename|no|String|"report"|Print result file name.|false|
 |title|no|String|"PrintResult"|Document title appearing as header.|false|
+|titleLength|no|Number|45|The length of the title characters.|false|
 |isLegendSelected|no|Boolean|false|Defines whether a checkbox to print the legend is offered. Only used for print services supporting legend printing (Mapfish Print 3).|false|
 |legendText|no|String|"Mit Legende"|Descriptive text for the legend print checkbox.|false|
 |dpiForPdf|no|Number|200|DPI resolution for the map in the PDF file.|false|

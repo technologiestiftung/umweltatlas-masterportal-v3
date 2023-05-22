@@ -9,6 +9,7 @@ import axios from "axios";
 import getVisibleLayer from "../utils/getVisibleLayer";
 import {Vector} from "ol/layer.js";
 import Cluster from "ol/source/Cluster";
+import isObject from "../../../../utils/isObject";
 
 /**
  * Tool to print a part of the map
@@ -20,6 +21,8 @@ export default {
     },
     data () {
         return {
+            subtitle: "",
+            textField: "",
             showHintInfoScale: false
         };
     },
@@ -289,7 +292,8 @@ export default {
             const currentPrintLength = this.fileDownloads.filter(file => file.finishState === false).length;
 
             if (currentPrintLength <= 10) {
-                const index = this.fileDownloads.length;
+                const index = this.fileDownloads.length,
+                    layoutAttributes = this.getLayoutAttributes(this.currentLayout, ["subtitle", "textField"]);
 
                 this.addFileDownload({
                     index: index,
@@ -305,7 +309,8 @@ export default {
                     index,
                     getResponse: async (url, payload) => {
                         return axios.post(url, payload);
-                    }
+                    },
+                    layoutAttributes
                 });
             }
             else {
@@ -370,6 +375,42 @@ export default {
             if (model) {
                 model.set("isActive", false);
             }
+        },
+
+        /**
+         * Checks if the layout has a certain attribute by its name.
+         * @param {Object} layout - The selected layout.
+         * @param {String} attributeName - The name of the attribute to be checked.
+         * @returns {Boolean} True if it has otherwise false.
+         */
+        hasLayoutAttribute (layout, attributeName) {
+            if (isObject(layout) && typeof attributeName === "string") {
+                return layout.attributes.some(attribute => {
+                    return attribute.name === attributeName;
+                });
+            }
+            return false;
+        },
+
+        /**
+         * Gets the layout attributes by the given names.
+         * @param {Object} layout - The selected layout.
+         * @param {String[]} nameList - A list of attribute names.
+         * @returns {Object} The layout attributes or an empty object.
+         */
+        getLayoutAttributes (layout, nameList) {
+            const layoutAttributes = {};
+
+            if (!isObject(layout) || !Array.isArray(nameList)) {
+                return layoutAttributes;
+            }
+            nameList.forEach(name => {
+                if (this.hasLayoutAttribute(layout, name)) {
+                    layoutAttributes[name] = this[name];
+                }
+            });
+
+            return layoutAttributes;
         }
     }
 };
@@ -402,8 +443,43 @@ export default {
                             v-model="documentTitle"
                             type="text"
                             class="form-control form-control-sm"
-                            maxLength="45"
+                            :maxLength="titleLength"
                         >
+                    </div>
+                </div>
+                <div
+                    v-if="hasLayoutAttribute(currentLayout, 'subtitle')"
+                    class="form-group form-group-sm row"
+                >
+                    <label
+                        class="col-md-5 col-form-label"
+                        for="subtitle"
+                    >{{ $t("common:modules.tools.print.subtitleLabel") }}</label>
+                    <div class="col-md-7">
+                        <input
+                            id="subtitle"
+                            v-model="subtitle"
+                            type="text"
+                            class="form-control form-control-sm"
+                            maxLength="60"
+                        >
+                    </div>
+                </div>
+                <div
+                    v-if="hasLayoutAttribute(currentLayout, 'textField')"
+                    class="form-group form-group-sm row"
+                >
+                    <label
+                        class="col-md-5 col-form-label"
+                        for="textField"
+                    >{{ $t("common:modules.tools.print.textFieldLabel") }}</label>
+                    <div class="col-md-7">
+                        <textarea
+                            id="textField"
+                            v-model="textField"
+                            type="text"
+                            class="form-control form-control-sm"
+                        />
                     </div>
                 </div>
                 <div class="form-group form-group-sm row">
