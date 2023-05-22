@@ -305,7 +305,7 @@ export default {
 
                 feature.setGeometry(new Circle(circleCenter, circleRadius));
             }
-            if (feature.get("name")) {
+            if (feature.get("name") && feature.getGeometry().getType() === "Point") {
                 feature.setStyle(new Style(
                     {
                         image: new CircleStyle({

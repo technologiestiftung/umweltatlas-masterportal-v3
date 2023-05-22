@@ -27,6 +27,8 @@
 - Issue #1026: featureLister width fits content now.
 - Issue #1031/Issue #1034: printing of non clustered features in clustered layers.
 - Issue #1036: draw - circle radius is displayed correct for unit 'km'.
+- FileImport:
+  - Error fixed when importing KML file with polygon without label.
 
 ### Deprecated
 
