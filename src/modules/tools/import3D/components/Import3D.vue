@@ -130,12 +130,14 @@ export default {
         rotate () {
             const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
                 entity = entities.getById(this.currentModelId),
-                heading = Cesium.Math.toRadians(this.rotationAngle),
+                heading = Cesium.Math.toRadians(parseInt(this.rotationAngle, 10)),
+                modelFromState = this.importedModels.find(model => model.id === this.currentModelId),
                 orientationMatrix = Cesium.Transforms.headingPitchRollQuaternion(
                     entity.position.getValue(),
                     new Cesium.HeadingPitchRoll(heading, 0, 0)
                 );
 
+            modelFromState.heading = parseInt(this.rotationAngle, 10);
             entity.orientation = orientationMatrix;
         },
         decrementAngle () {
@@ -158,6 +160,7 @@ export default {
                 const entity = Cesium.defaultValue(picked.id, picked.primitive.id);
 
                 this.setCurrentModelId(entity.id);
+                this.rotationAngle = this.importedModels.find(model => model.id === this.currentModelId).heading;
                 this.entityIsPicked = true;
             }
             return undefined;
@@ -199,7 +202,8 @@ export default {
                     models.push({
                         id: entity.id,
                         name: file.name,
-                        show: true
+                        show: true,
+                        heading: 0
                     });
 
                     this.setImportedModels(models);
