@@ -306,18 +306,19 @@ export default {
                 feature.setGeometry(new Circle(circleCenter, circleRadius));
             }
             if (feature.get("name") && feature.getGeometry().getType() === "Point") {
-                feature.setStyle(new Style(
-                    {
-                        image: new CircleStyle({
-                        }),
-                        text: new Text({
-                            text: feature.get("name"),
-                            font: "20px Arial,sans-serif",
-                            fill: new Fill({
-                                color: "#377EB8"
-                            })
-                        })
-                    }));
+                const style = feature.getStyleFunction()(feature).clone();
+
+                feature.setStyle(new Style({
+                    image: new CircleStyle(),
+                    text: new Text({
+                        fill: style.getText().getFill(),
+                        font: "16px Arial",
+                        scale: style.getText().getScale(),
+                        text: style.getText().getText(),
+                        textAlign: "left",
+                        textBaseline: "bottom"
+                    })
+                }));
             }
             if (feature.getGeometry() === null) {
                 featureError = true;
