@@ -605,7 +605,8 @@
                 "successfullyImportedLabel": "Importierte 3D-Modelle:",
                 "title": "Datei importieren",
                 "visibilityTitle": "3D-Modell \"{{name}}\" ein-/ausblenden",
-                "editModel": "3D-Modell \"{{name}}\" bearbeiten"
+                "editModel": "3D-Modell \"{{name}}\" bearbeiten",
+                "rotationPlaceholder": "Inkrement-/Dekrement-Schritte"
             },
             "parcelSearch": {
                 "wrongConfig": "Ungültige oder unvollständige Konfiguration",
