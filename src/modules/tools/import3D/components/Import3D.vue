@@ -179,8 +179,8 @@ export default {
 
             if (fileExtension === "gltf") {
                 reader.onload = () => {
-                    const lastElement = entities.values.slice(-1),
-                        lastId = lastElement[0]?.id,
+                    const lastElement = entities.values.slice().pop(),
+                        lastId = lastElement?.id,
                         entity = {
                             id: lastId ? lastId + 1 : 1,
                             name: file.name,
@@ -219,21 +219,27 @@ export default {
             }
         },
         changeVisibility (model) {
-            const scene = mapCollection.getMap("3D").getCesiumScene(),
-                prim = scene.primitives._primitives.find(x => x.id === model.id);
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+                entity = entities.getById(model.id);
 
-            prim.show = !model.show;
-            model.show = prim.show;
+            entity.show = !model.show;
+            model.show = entity.show;
         },
         editModel () {
             // TODO: Neues Component erstellen und aktivieren
         },
-        zoomTo (position) {
+        zoomTo (id) {
             const scene = mapCollection.getMap("3D").getCesiumScene(),
-                currentPosition = scene.camera.positionCartographic;
+                entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+                entity = entities.getById(id),
+                entityPosition = entity.position.getValue(),
+                currentPosition = scene.camera.positionCartographic,
+                destination = Cesium.Cartographic.fromCartesian(entityPosition);
+
+            destination.height = currentPosition.height;
 
             scene.camera.flyTo({
-                destination: Cesium.Cartesian3.fromDegrees(position[0], position[1], currentPosition.height)
+                destination: Cesium.Cartesian3.fromRadians(destination.longitude, destination.latitude, destination.height)
             });
         },
         close () {
@@ -344,8 +350,8 @@ export default {
                                         class="inline-button bi"
                                         :class="{ 'bi-geo-alt-fill': isHovering === `${index}-geo`, 'bi-geo-alt': isHovering !== `${index}-geo`}"
                                         :title="$t(`common:modules.tools.import3D.zoomTo`, {name: model.name})"
-                                        @click="zoomTo(model.position)"
-                                        @keydown.enter="zoomTo(model.position)"
+                                        @click="zoomTo(model.id)"
+                                        @keydown.enter="zoomTo(model.id)"
                                         @mouseover="isHovering = `${index}-geo`"
                                         @mouseout="isHovering = false"
                                         @focusin="isHovering = `${index}-geo`"
