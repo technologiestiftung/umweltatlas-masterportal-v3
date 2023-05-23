@@ -26,7 +26,6 @@ describe("src/modules/tools/coordToolkit/components/CoordToolkit.vue", () => {
             projection: () => {
                 return {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm"};
             },
-            mouseCoordinate: () => sinon.stub(),
             clickCoordinate: () => sinon.stub(),
             mode: (state) => state.mode
         },

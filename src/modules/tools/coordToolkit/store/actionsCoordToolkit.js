@@ -44,7 +44,7 @@ export default {
      */
     positionClicked: function ({commit, dispatch, state, rootGetters}) {
         const updatePosition = rootGetters.mobile ? true : state.updatePosition,
-            position = rootGetters.mobile ? rootGetters["Maps/clickCoordinate"] : rootGetters["Maps/mouseCoordinate"],
+            position = rootGetters["Maps/clickCoordinate"],
             mapMode = rootGetters["Maps/mode"];
 
         if (position) {

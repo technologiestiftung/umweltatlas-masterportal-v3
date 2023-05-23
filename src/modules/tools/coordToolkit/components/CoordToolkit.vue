@@ -21,7 +21,6 @@ export default {
         ...mapGetters("Tools/CoordToolkit", Object.keys(getters)),
         ...mapGetters("Maps", {
             projection: "projection",
-            mouseCoordinate: "mouseCoordinate",
             clickCoordinate: "clickCoordinate",
             mapMode: "mode"
         }),
@@ -251,7 +250,7 @@ export default {
             if (this.selectPointerMove === null) {
                 this.setMapProjection(this.projection);
                 this.createInteraction();
-                this.setPositionMapProjection(this.mouseCoordinate ? this.mouseCoordinate : this.clickCoordinate);
+                this.setPositionMapProjection(this.clickCoordinate);
                 this.changedPosition();
             }
         },
