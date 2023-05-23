@@ -28,6 +28,7 @@
 - Issue #1031/Issue #1034: printing of non clustered features in clustered layers.
 - Issue #1032: FileImport: The label style for imported KML is now applied correctly.
 - Issue #1036: Draw: circle radius is displayed correct for unit 'km'.
+- Issue #1041: Print: Circles are now broken down into 100 segments and correctly displayed as polygons in the printout.
 
 ### Deprecated
 
