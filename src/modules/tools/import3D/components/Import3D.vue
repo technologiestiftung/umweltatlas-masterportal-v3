@@ -149,9 +149,8 @@ export default {
         changePosition (type, value) {
             const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
                 entity = entities.getById(this.currentModelId),
-                entityPosition = entity.position.getValue();
-
-            let newPosition = Cesium.Cartographic.fromCartesian(entityPosition);
+                entityPosition = entity.position.getValue(),
+                newPosition = Cesium.Cartographic.fromCartesian(entityPosition);
 
             newPosition.latitude = Cesium.Math.toDegrees(newPosition.latitude);
             newPosition.longitude = Cesium.Math.toDegrees(newPosition.longitude);
@@ -166,11 +165,7 @@ export default {
                 newPosition.height = parseFloat(value);
             }
 
-            console.log(newPosition);
-
-            newPosition = Cesium.Cartesian3.fromDegrees(newPosition.longitude, newPosition.latitude, newPosition.height);
-
-            entity.position = newPosition;
+            entity.position = Cesium.Cartesian3.fromDegrees(newPosition.longitude, newPosition.latitude, newPosition.height);
         },
         removeInputActions () {
             if (this.eventHandler) {
