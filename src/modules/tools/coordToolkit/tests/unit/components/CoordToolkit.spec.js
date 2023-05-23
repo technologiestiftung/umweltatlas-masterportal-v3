@@ -77,17 +77,19 @@ describe("src/modules/tools/coordToolkit/components/CoordToolkit.vue", () => {
         copyCoordinatesSpy = sinon.spy();
     let store,
         wrapper,
-        text = "";
-        // origvalidateInput,
-        // originitHeightLayer,
-        // origcopyCoordinates,
-        // origtransformCoordinatesFromTo;
+        text = "",
+        origvalidateInput,
+        originitHeightLayer,
+        origcopyCoordinates,
+        origtransformCoordinatesFromTo,
+        origPositionClicked;
 
     beforeEach(() => {
-        // origvalidateInput = CoordToolkit.actions.validateInput;
-        // originitHeightLayer = CoordToolkit.actions.initHeightLayer;
-        // origcopyCoordinates = CoordToolkit.actions.copyCoordinates;
-        // origtransformCoordinatesFromTo = CoordToolkit.actions.transformCoordinatesFromTo;
+        origvalidateInput = CoordToolkit.actions.validateInput;
+        originitHeightLayer = CoordToolkit.actions.initHeightLayer;
+        origcopyCoordinates = CoordToolkit.actions.copyCoordinates;
+        origtransformCoordinatesFromTo = CoordToolkit.actions.transformCoordinatesFromTo;
+        origPositionClicked = CoordToolkit.actions.positionClicked;
         CoordToolkit.actions.validateInput = sinon.spy();
         CoordToolkit.actions.initHeightLayer = sinon.spy();
         CoordToolkit.actions.copyCoordinates = sinon.spy();
@@ -144,10 +146,11 @@ describe("src/modules/tools/coordToolkit/components/CoordToolkit.vue", () => {
     afterEach(() => {
         sinon.restore();
         wrapper.destroy();
-        // CoordToolkit.actions.validateInput = origvalidateInput;
-        // CoordToolkit.actions.initHeightLayer = originitHeightLayer;
-        // CoordToolkit.actions.copyCoordinates = origcopyCoordinates;
-        // CoordToolkit.actions.transformCoordinatesFromTo = origtransformCoordinatesFromTo;
+        CoordToolkit.actions.validateInput = origvalidateInput;
+        CoordToolkit.actions.initHeightLayer = originitHeightLayer;
+        CoordToolkit.actions.copyCoordinates = origcopyCoordinates;
+        CoordToolkit.actions.transformCoordinatesFromTo = origtransformCoordinatesFromTo;
+        CoordToolkit.actions.positionClicked = origPositionClicked;
     });
 
     it("renders CoordToolkit without height field", () => {
