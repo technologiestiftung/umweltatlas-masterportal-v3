@@ -13,8 +13,8 @@
   - the icon (arrow) to toggle information is only visible if it is configured
 
 ### Changed
-- The version of node was updated, must be `>= 16.13.2 <= 16.20.0`
-- The version of npm was updated, must be `>= 8.1.2 <= 8.19.4`
+- The version of node was updated, must be `>= 16.13.2 <= 18.16.0`
+- The version of npm was updated, must be `>= 8.1.2 <= 9.5.1`
 - The following NPM packages have been updated:
   - dependencies:
     - @masterportal/masterportalapi: 2.17.0 to 2.18.0
