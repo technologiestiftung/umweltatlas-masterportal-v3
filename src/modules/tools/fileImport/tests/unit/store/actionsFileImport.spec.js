@@ -192,6 +192,42 @@ describe("src/modules/tools/fileImport/store/actionsFileImport.js", () => {
             expect(layer.getSource().getFeatures()[0].getStyle()(layer.getSource().getFeatures()[0])[0].getFill().getColor()).to.deep.equal(recomendedFillColor);
         });
 
+        it("should set label style with color and font style", () => {
+            const payload = {layer: layer, raw: "<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.opengis.net/kml/2.2 https://developers.google.com/kml/schema/kml22gx.xsd\"><Placemark><name>Jungfernstieg</name><Style><LabelStyle><color>ff1c1ae4</color><scale xmlns=\"\">2</scale></LabelStyle><IconStyle xmlns=\"\"><scale>0</scale><Icon><href>https://geoportal-hamburg.de/mastercode/2_7_0/img/tools/draw/circle_blue.svg</href></Icon></IconStyle></Style><ExtendedData><Data name=\"drawState\"/><Data name=\"fromDrawTool\"><value>4</value></Data><Data name=\"invisibleStyle\"/><Data name=\"isOuterCircle\"><value>false</value></Data><Data name=\"isVisible\"><value>true</value></Data><Data name=\"styleId\"><value>1</value></Data></ExtendedData><Point><coordinates>9.993521373625377,53.55359159312988</coordinates></Point></Placemark></kml>", filename: "TestFile1.kml"},
+                state = {
+                    selectedFiletype: "auto",
+                    supportedFiletypes: {
+                        auto: {
+                            caption: "common:modules.tools.fileImport.captions.supportedFiletypes.auto"
+                        },
+                        kml: {
+                            caption: "common:modules.tools.fileImport.captions.supportedFiletypes.kml",
+                            rgx: /\.kml$/i
+                        }
+                    }
+                };
+
+            importKML({state, dispatch, rootGetters}, payload);
+
+            expect(dispatch.firstCall.args[0]).to.equal("Alerting/addSingleAlert");
+            expect(dispatch.firstCall.args[1]).to.eql({
+                category: "modules.alerting.categories.info",
+                content: "modules.tools.fileImport.alertingMessages.success"
+            });
+            expect(dispatch.secondCall.args[0]).to.equal("addImportedFilename");
+            expect(dispatch.secondCall.args[1]).to.equal("TestFile1.kml");
+            expect(layer.getSource().getFeatures().length).to.equal(1);
+            expect(layer.getSource().getFeatures()[0].getStyle().getText().getFill()).to.deep.equals({
+                color_: [228, 26, 28, 1]
+            });
+            expect(layer.getSource().getFeatures()[0].getStyle().getText().getFont()).to.equals("16px Arial");
+            expect(layer.getSource().getFeatures()[0].getStyle().getText().getScale()).to.equals(2);
+            expect(layer.getSource().getFeatures()[0].getStyle().getText().getText()).to.equals("Jungfernstieg");
+            expect(layer.getSource().getFeatures()[0].getStyle().getText().getTextAlign()).to.equals("left");
+            expect(layer.getSource().getFeatures()[0].getStyle().getText().getTextBaseline()).to.equals("bottom");
+
+        });
+
         it("adds a text style from the geojson file", () => {
             const payload = {layer: layer, raw: "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[9.999147727017332,53.56029963338006]},\"properties\":{\"isOuterCircle\":false,\"isVisible\":true,\"drawState\":{\"opacity\":1,\"font\":\"Arial\",\"fontSize\":16,\"text\":\"Mein Schatzzzz\",\"drawType\":{\"id\":\"writeText\",\"geometry\":\"Point\"},\"symbol\":{\"id\":\"iconPoint\",\"type\":\"simple_point\",\"value\":\"simple_point\"},\"zIndex\":0,\"imgPath\":\"https://geodienste.hamburg.de/lgv-config/img/\",\"pointSize\":16,\"color\":[77,175,74,1]},\"fromDrawTool\":true,\"invisibleStyle\":{\"geometry_\":null,\"fill_\":null,\"image_\":null,\"renderer_\":null,\"hitDetectionRenderer_\":null,\"stroke_\":null,\"text_\":{\"font_\":\"16px Arial\",\"scaleArray_\":[1,1],\"text_\":\"Mein Schatzzzz\",\"textAlign_\":\"left\",\"textBaseline_\":\"bottom\",\"fill_\":{\"color_\":[77,175,74,1]},\"maxAngle_\":0.7853981633974483,\"placement_\":\"point\",\"overflow_\":false,\"stroke_\":null,\"offsetX_\":0,\"offsetY_\":0,\"backgroundFill_\":null,\"backgroundStroke_\":null,\"padding_\":null},\"zIndex_\":9999},\"styleId\":\"1\"}}]}", filename: "beispielText.geojson"},
                 state = {

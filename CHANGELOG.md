@@ -11,6 +11,7 @@
 - PortalFooter
   - configuration for mobileFooterInfoToggler has been implemented
   - the icon (arrow) to toggle information is only visible if it is configured
+
 ### Changed
 - The version of node was updated, must be `>= 16.13.2 <= 16.20.0`
 - The version of npm was updated, must be `>= 8.1.2 <= 8.19.4`
@@ -19,34 +20,32 @@
     - @masterportal/masterportalapi: 2.17.0 to 2.18.0
 
 ### Fixed
+- FileImport: Error fixed when importing KML file with polygon without label.
 - URLParam: multiple mdIds entries in the url result in added layers again.
-- Issue #1016:
-    - Draw:
-        - When creating a text, it is now prevented that a previous is changed.
+- Issue #1016: Draw: When creating a text, it is now prevented that a previous is changed.
 - Issue #1025: search via urlparam 'query=' opens the suggestion list again.
 - Issue #1026: featureLister width fits content now.
 - Issue #1031/Issue #1034: printing of non clustered features in clustered layers.
-- Issue #1036: draw - circle radius is displayed correct for unit 'km'.
-- FileImport:
-  - Error fixed when importing KML file with polygon without label.
+- Issue #1032: FileImport: The label style for imported KML is now applied correctly.
+- Issue #1036: Draw: circle radius is displayed correct for unit 'km'.
 
 ### Deprecated
 
 ### Removed
-- The following NPM package have been removed:
+- The following NPM packages have been removed:
     - devDependencies:
         - string-replace-loader
 
+---
 
 ## v2.33.1 - 2023-05-16
 ### Fixed
 - Print:
   - dashstyle can now be printed even if only one value was specified
+
 ---
 
 ## v2.33.0 - 2023-05-03
-### __Breaking Changes__
-
 ### Added
 - New Rotation control of the map. If map interaction `altShiftDragRotate` is activated the map can be rotated with `shift+alt+drag`. See [mapInteractions](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/config.js.md#markdown-header-mapInteractions) and [rotate control](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/config.json.md#markdown-header-portalconfigcontrolsrotation)
 - Issue #874: add keyboardEventTarget possibility to ol map configuration
@@ -62,9 +61,6 @@
 ### Fixed
 - Issue #884: mapbox styles with raster sources can be displayed.
 
-### Deprecated
-
-### Removed
 ---
 
 ## v2.32.1 - 2023-04-17
@@ -72,6 +68,7 @@
 - Traffic Lights Data visible on scale 1:5000 again
 - Filter/ Autorefresh: The same features are displayed from a filterd GeoJson after an autorefresh as before the autorefresh.
 - Issue #842: Dropdown at WFS filter module is not filled with MapServer WFS.
+
 ---
 
 ##  v2.32.0 - 2023-04-05
