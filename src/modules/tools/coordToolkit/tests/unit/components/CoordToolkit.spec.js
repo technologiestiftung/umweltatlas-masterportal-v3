@@ -27,10 +27,12 @@ describe("src/modules/tools/coordToolkit/components/CoordToolkit.vue", () => {
                 return {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm"};
             },
             mouseCoordinate: () => sinon.stub(),
+            clickCoordinate: () => sinon.stub(),
             mode: (state) => state.mode
         },
         mockMapMarkerActions = {
-            removePointMarker: sinon.stub()
+            removePointMarker: sinon.stub(),
+            placingPointMarker: sinon.stub()
         },
         mockAlertingActions = {
             addSingleAlert: sinon.stub()
@@ -75,21 +77,22 @@ describe("src/modules/tools/coordToolkit/components/CoordToolkit.vue", () => {
         copyCoordinatesSpy = sinon.spy();
     let store,
         wrapper,
-        text = "",
-        origvalidateInput,
-        originitHeightLayer,
-        origcopyCoordinates,
-        origtransformCoordinatesFromTo;
+        text = "";
+        // origvalidateInput,
+        // originitHeightLayer,
+        // origcopyCoordinates,
+        // origtransformCoordinatesFromTo;
 
     beforeEach(() => {
-        origvalidateInput = CoordToolkit.actions.validateInput;
-        originitHeightLayer = CoordToolkit.actions.initHeightLayer;
-        origcopyCoordinates = CoordToolkit.actions.copyCoordinates;
-        origtransformCoordinatesFromTo = CoordToolkit.actions.transformCoordinatesFromTo;
+        // origvalidateInput = CoordToolkit.actions.validateInput;
+        // originitHeightLayer = CoordToolkit.actions.initHeightLayer;
+        // origcopyCoordinates = CoordToolkit.actions.copyCoordinates;
+        // origtransformCoordinatesFromTo = CoordToolkit.actions.transformCoordinatesFromTo;
         CoordToolkit.actions.validateInput = sinon.spy();
         CoordToolkit.actions.initHeightLayer = sinon.spy();
         CoordToolkit.actions.copyCoordinates = sinon.spy();
         CoordToolkit.actions.transformCoordinatesFromTo = sinon.spy();
+        CoordToolkit.actions.positionClicked = sinon.spy();
 
         store = new Vuex.Store({
             namespaced: true,
@@ -141,10 +144,10 @@ describe("src/modules/tools/coordToolkit/components/CoordToolkit.vue", () => {
     afterEach(() => {
         sinon.restore();
         wrapper.destroy();
-        CoordToolkit.actions.validateInput = origvalidateInput;
-        CoordToolkit.actions.initHeightLayer = originitHeightLayer;
-        CoordToolkit.actions.copyCoordinates = origcopyCoordinates;
-        CoordToolkit.actions.transformCoordinatesFromTo = origtransformCoordinatesFromTo;
+        // CoordToolkit.actions.validateInput = origvalidateInput;
+        // CoordToolkit.actions.initHeightLayer = originitHeightLayer;
+        // CoordToolkit.actions.copyCoordinates = origcopyCoordinates;
+        // CoordToolkit.actions.transformCoordinatesFromTo = origtransformCoordinatesFromTo;
     });
 
     it("renders CoordToolkit without height field", () => {
@@ -582,6 +585,29 @@ describe("src/modules/tools/coordToolkit/components/CoordToolkit.vue", () => {
             expect(store.state.Tools.CoordToolkit.northingNoMatch).to.be.false;
             expect(store.state.Tools.CoordToolkit.coordinatesEasting.value).to.be.equals("");
             expect(store.state.Tools.CoordToolkit.coordinatesNorthing.value).to.be.equals("");
+        });
+
+        it("watch to clickCoordinate in mode supply shall call positionClicked", async () => {
+            wrapper = shallowMount(CoordToolkitComponent, {store, localVue});
+
+            store.commit("Tools/CoordToolkit/setActive", true);
+            await wrapper.vm.$nextTick();
+            expect(store.state.Tools.CoordToolkit.mode).to.be.equals("supply");
+
+            wrapper.vm.$options.watch.clickCoordinate.call(wrapper.vm, [10, 20]);
+            expect(CoordToolkit.actions.positionClicked.calledOnce).to.be.true;
+        });
+
+        it("watch to clickCoordinate in mode search shall not call positionClicked", async () => {
+            wrapper = shallowMount(CoordToolkitComponent, {store, localVue});
+
+            store.commit("Tools/CoordToolkit/setActive", true);
+            await wrapper.vm.$nextTick();
+            expect(store.state.Tools.CoordToolkit.mode).to.be.equals("supply");
+            wrapper.vm.changeMode("search");
+
+            wrapper.vm.$options.watch.clickCoordinate.call(wrapper.vm, [10, 20]);
+            expect(CoordToolkit.actions.positionClicked.notCalled).to.be.true;
         });
     });
 });
