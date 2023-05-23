@@ -23,21 +23,14 @@ export default {
     computed: {
         ...mapGetters("Tools/Import3D", Object.keys(getters)),
 
-        cartographicComputed () {
-            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
-                entity = entities.getById(this.currentModelId),
-                entityPosition = entity.position.getValue();
-
-            return Cesium.Cartographic.fromCartesian(entityPosition);
+        latitudeComputed () {
+            return Cesium.Math.toDegrees(Cesium.Cartographic.fromCartesian(this.currentModelPosition).latitude);
         },
-        latComputed () {
-            return Cesium.Math.toDegrees(this.cartographicComputed.latitude);
-        },
-        lonComputed () {
-            return Cesium.Math.toDegrees(this.cartographicComputed.longitude);
+        longitudeComputed () {
+            return Cesium.Math.toDegrees(Cesium.Cartographic.fromCartesian(this.currentModelPosition).longitude);
         },
         altitudeComputed () {
-            return this.cartographicComputed.height;
+            return Cesium.Cartographic.fromCartesian(this.currentModelPosition).height;
         },
 
         dropZoneAdditionalClass: function () {
@@ -56,6 +49,9 @@ export default {
             if (isActive) {
                 this.setFocusToFirstControl();
             }
+        },
+        currentModelPosition (position) {
+            this.updateEntityPosition(position);
         }
     },
     created () {
@@ -114,12 +110,7 @@ export default {
                     position = scene.globe.pick(ray, scene);
 
                 if (Cesium.defined(position)) {
-                    const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
-                        addedModel = entities.getById(this.currentModelId);
-
-                    if (Cesium.defined(addedModel)) {
-                        addedModel.position = position;
-                    }
+                    this.setCurrentModelPosition(position);
                 }
             }
         },
@@ -143,29 +134,42 @@ export default {
             return undefined;
         },
         editMode (id) {
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+                entity = entities.getById(id),
+                entityPosition = entity.position.getValue();
+
             this.setCurrentModelId(id);
+            this.setCurrentModelPosition(entityPosition);
             this.setEditing(true);
         },
-        changePosition (type, value) {
-            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
-                entity = entities.getById(this.currentModelId),
-                entityPosition = entity.position.getValue(),
-                newPosition = Cesium.Cartographic.fromCartesian(entityPosition);
+        setPositionValue (type, value) {
+            const position = this.currentModelPosition,
+                cartographic = Cesium.Cartographic.fromCartesian(position);
 
-            newPosition.latitude = Cesium.Math.toDegrees(newPosition.latitude);
-            newPosition.longitude = Cesium.Math.toDegrees(newPosition.longitude);
+            cartographic.latitude = Cesium.Math.toDegrees(cartographic.latitude);
+            cartographic.longitude = Cesium.Math.toDegrees(cartographic.longitude);
 
             if (type === "lat") {
-                newPosition.latitude = parseFloat(value);
+                cartographic.latitude = parseFloat(value);
             }
             else if (type === "lon") {
-                newPosition.longitude = parseFloat(value);
+                cartographic.longitude = parseFloat(value);
             }
             else if (type === "height") {
-                newPosition.height = parseFloat(value);
+                cartographic.height = parseFloat(value);
             }
 
-            entity.position = Cesium.Cartesian3.fromDegrees(newPosition.longitude, newPosition.latitude, newPosition.height);
+            this.setCurrentModelPosition(Cesium.Cartesian3.fromDegrees(
+                cartographic.longitude,
+                cartographic.latitude,
+                cartographic.height
+            ));
+        },
+        updateEntityPosition (position) {
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+                entity = entities.getById(this.currentModelId);
+
+            entity.position = position;
         },
         removeInputActions () {
             if (this.eventHandler) {
@@ -419,8 +423,8 @@ export default {
                                 id="tool-edit-x"
                                 class="form-control form-control-sm"
                                 type="text"
-                                :value="lonComputed"
-                                @input="changePosition('lon', $event.target.value)"
+                                :value="longitudeComputed"
+                                @input="setPositionValue('lon', $event.target.value)"
                             >
                         </div>
                         <label
@@ -434,8 +438,8 @@ export default {
                                 id="tool-edit-y"
                                 class="form-control form-control-sm"
                                 type="text"
-                                :value="latComputed"
-                                @input="changePosition('lat', $event.target.value)"
+                                :value="latitudeComputed"
+                                @input="setPositionValue('lat', $event.target.value)"
                             >
                         </div>
                         <label
@@ -450,7 +454,7 @@ export default {
                                 class="form-control form-control-sm"
                                 type="text"
                                 :value="altitudeComputed"
-                                @input="changePosition('height', $event.target.value)"
+                                @input="setPositionValue('height', $event.target.value)"
                             >
                         </div>
                     </div>
