@@ -20,6 +20,7 @@
     - @masterportal/masterportalapi: 2.17.0 to 2.18.0
 
 ### Fixed
+- Tool Coordinates: no errors occur on mobile devices.
 - FileImport: Error fixed when importing KML file with polygon without label.
 - URLParam: multiple mdIds entries in the url result in added layers again.
 - Issue #1016: Draw: When creating a text, it is now prevented that a previous is changed.
