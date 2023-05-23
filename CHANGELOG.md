@@ -29,6 +29,9 @@
 - Issue #1032: FileImport: The label style for imported KML is now applied correctly.
 - Issue #1036: Draw: circle radius is displayed correct for unit 'km'.
 - Issue #1041: Print: Circles are now broken down into 100 segments and correctly displayed as polygons in the printout.
+- FileImport:
+  - Error fixed when importing KML file with polygon without label.
+- DefaultTree Parser: 3d layers will only be created if 3dLayerList exists.
 
 ### Deprecated
 
