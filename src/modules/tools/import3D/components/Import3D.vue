@@ -5,8 +5,8 @@ import {mapActions, mapGetters, mapMutations} from "vuex";
 import actions from "../store/actionsImport3D";
 import getters from "../store/gettersImport3D";
 import mutations from "../store/mutationsImport3D";
-import {OBJLoader} from "three/examples/jsm/loaders/OBJLoader.js";
 import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader.js";
+import {OBJLoader} from "three/examples/jsm/loaders/OBJLoader.js";
 import {ColladaLoader} from "three/examples/jsm/loaders/ColladaLoader.js";
 import {GLTFExporter} from "three/examples/jsm/exporters/GLTFExporter.js";
 
@@ -225,6 +225,7 @@ export default {
         addFile (files) {
             const reader = new FileReader(),
                 file = files[0],
+                fileName = file.name.split(".")[0],
                 fileExtension = file.name.split(".").pop(),
                 entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
                 models = this.importedModels,
@@ -273,27 +274,7 @@ export default {
                         gltfExporter = new GLTFExporter();
 
                     gltfExporter.parse(objData, (gltfData) => {
-                        const entity = {
-                            id: lastId ? lastId + 1 : 1,
-                            name: file.name,
-                            model: new Cesium.Model(gltfData)
-                        };
-
-                        this.setCurrentModelId(entity.id);
-
-                        this.eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-                        this.eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_UP);
-
-                        entities.add(entity);
-
-                        models.push({
-                            id: entity.id,
-                            name: file.name,
-                            show: true,
-                            heading: 0
-                        });
-
-                        this.setImportedModels(models);
+                        this.downloadConvertedObject(fileName, gltfData);
                     });
                 };
                 reader.readAsText(file);
@@ -301,7 +282,6 @@ export default {
             else if (fileExtension === "dae") {
                 reader.onload = (event) => {
                     const daeText = event.target.result,
-
                         colladaLoader = new ColladaLoader();
 
                     colladaLoader.load(daeText, (collada) => {
@@ -311,38 +291,30 @@ export default {
                             const gltfLoader = new GLTFLoader();
 
                             gltfLoader.parse(gltfData, "", () => {
-                                const entity = {
-                                    id: lastId ? lastId + 1 : 1,
-                                    name: file.name,
-                                    model: new Cesium.Model(gltfData)
-                                };
-
-                                this.setCurrentModelId(entity.id);
-
-                                this.eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-                                this.eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_UP);
-
-                                entities.add(entity);
-
-                                models.push({
-                                    id: entity.id,
-                                    name: file.name,
-                                    show: true,
-                                    heading: 0
-                                });
-
-                                this.setImportedModels(models);
+                                this.downloadConvertedObject(fileName, gltfData);
                             });
                         });
                     });
                 };
                 reader.readAsDataURL(file);
             }
-
-
             else {
                 console.error(fileExtension + " files are currently not supported!");
             }
+        },
+        downloadConvertedObject (fileName, file) {
+            const gltfJson = JSON.stringify(file),
+                blob = new Blob([gltfJson], {type: "model/gltf+json"}),
+                url = URL.createObjectURL(blob),
+                link = document.createElement("a");
+
+            link.href = url;
+            link.download = fileName + ".gltf";
+            document.body.appendChild(link);
+            link.click();
+
+            URL.revokeObjectURL(url);
+            document.body.removeChild(link);
         },
         triggerClickOnFileInput (event) {
             if (event.which === 32 || event.which === 13) {
