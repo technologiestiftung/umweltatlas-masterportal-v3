@@ -612,7 +612,8 @@
                 "title": "Datei importieren",
                 "visibilityTitle": "3D-Modell \"{{name}}\" ein-/ausblenden",
                 "editModel": "3D-Modell \"{{name}}\" bearbeiten",
-                "backToList": "Zurück zur Übersicht"
+                "backToList": "Zurück zur Übersicht",
+                "rotationPlaceholder": "Inkrement-/Dekrement-Schritte"
             },
             "parcelSearch": {
                 "wrongConfig": "Ungültige oder unvollständige Konfiguration",

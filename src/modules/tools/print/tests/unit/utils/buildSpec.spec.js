@@ -15,6 +15,7 @@ import measureStyle from "./../../../../measure/utils/measureStyle";
 import createTestFeatures from "./testHelper";
 import sinon from "sinon";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
+import Circle from "ol/geom/Circle.js";
 
 describe("src/modules/tools/print/utils/buildSpec", function () {
     let buildSpec,
@@ -1075,6 +1076,30 @@ describe("src/modules/tools/print/utils/buildSpec", function () {
                 }
             });
         });
+
+        it("should convert circle feature to JSON", () => {
+            const feature = new Feature({
+                geometry: new Circle([500, 500], 10),
+                name: "The circle feature"
+            });
+            let convertedFeature = null;
+
+            feature.setId("123456");
+
+            convertedFeature = buildSpec.convertFeatureToGeoJson(feature, style);
+
+            expect(convertedFeature).to.deep.own.include({
+                type: "Feature",
+                id: "123456",
+                properties: {
+                    name: "The circle feature",
+                    _label: "veryCreativeLabelText"
+                }
+            });
+            expect(convertedFeature.geometry.type).to.equals("Polygon");
+            expect(convertedFeature.geometry.coordinates[0].length).to.equals(101);
+        });
+
         it("should convert point feature to JSON and remove all @ and . in key if it includes @Datastream", function () {
             const testFeature = new Feature({
                 "@Datastreams.0.Observation.0.result": 0,
@@ -1107,6 +1132,26 @@ describe("src/modules/tools/print/utils/buildSpec", function () {
         });
         it("should return \"[kh_nummer='20']\" if styleAttribute is \"kh_nummer\"", function () {
             expect(buildSpec.getStylingRules(vectorLayer, pointFeatures[0], ["kh_nummer"])).to.equal("[kh_nummer='20']");
+        });
+        it("should return \"[styleId='*']\" if styleAttribute is \"styleId\"", function () {
+            const featuresArray = [
+                    {
+                        get: () => {
+                            return undefined;
+                        }
+                    }
+                ],
+                clusteredFeature = {
+                    get: (key) => {
+                        if (key === "features") {
+                            return featuresArray;
+                        }
+                        return undefined;
+                    },
+                    set: () => sinon.stub()
+                };
+
+            expect(buildSpec.getStylingRules(vectorLayer, clusteredFeature, ["styleId"])).to.equal("[styleId='*']");
         });
     });
     describe("rgbStringToRgbArray", function () {

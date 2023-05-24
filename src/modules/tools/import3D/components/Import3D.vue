@@ -17,7 +17,11 @@ export default {
             dzIsDropHovering: false,
             isDragging: false,
             storePath: this.$store.state.Tools.Import3D,
-            eventHandler: null
+            eventHandler: null,
+            entityIsPicked: false,
+            rotationAngle: 0,
+            rotationClickValue: 5,
+            dropdownValues: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         };
     },
     computed: {
@@ -108,9 +112,17 @@ export default {
             if (this.isDragging) {
                 const scene = mapCollection.getMap("3D").getCesiumScene(),
                     ray = scene.camera.getPickRay(event.endPosition),
-                    position = scene.globe.pick(ray, scene);
+                    position = scene.globe.pick(ray, scene),
+                    hpr = new Cesium.HeadingPitchRoll(this.initialHeading, 0.0, 0.0); // Heading: 0 Grad, Pitch: 0 Grad, Roll: 0 Grad;
 
                 if (Cesium.defined(position)) {
+                    const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+                        addedModel = entities.getById(this.currentModelId);
+
+                    if (Cesium.defined(addedModel)) {
+                        addedModel.position = position;
+                        addedModel.orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
+                    }
                     this.setCurrentModelPosition(position);
                 }
             }
@@ -119,6 +131,7 @@ export default {
             if (this.isDragging) {
                 this.removeInputActions();
                 this.isDragging = false;
+                this.entityIsPicked = false;
             }
         },
         moveEntity () {
@@ -127,6 +140,31 @@ export default {
             this.eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
             this.eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_UP);
         },
+        rotate () {
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+                entity = entities.getById(this.currentModelId),
+                heading = Cesium.Math.toRadians(parseInt(this.rotationAngle, 10)),
+                modelFromState = this.importedModels.find(model => model.id === this.currentModelId),
+                orientationMatrix = Cesium.Transforms.headingPitchRollQuaternion(
+                    entity.position.getValue(),
+                    new Cesium.HeadingPitchRoll(heading, 0, 0)
+                );
+
+            modelFromState.heading = parseInt(this.rotationAngle, 10);
+            entity.orientation = orientationMatrix;
+        },
+        decrementAngle () {
+            const newRotationAngle = parseInt(this.rotationAngle, 10) - parseInt(this.rotationClickValue, 10);
+
+            this.rotationAngle = Math.max(newRotationAngle, -180);
+            this.rotate();
+        },
+        incrementAngle () {
+            const newRotationAngle = parseInt(this.rotationAngle, 10) + parseInt(this.rotationClickValue, 10);
+
+            this.rotationAngle = Math.min(newRotationAngle, 180);
+            this.rotate();
+        },
         selectEntity (event) {
             const scene = mapCollection.getMap("3D").getCesiumScene(),
                 picked = scene.pick(event.position);
@@ -134,6 +172,9 @@ export default {
             if (Cesium.defined(picked)) {
                 const entity = Cesium.defaultValue(picked.id, picked.primitive.id);
 
+                this.setCurrentModelId(entity.id);
+                this.rotationAngle = this.importedModels.find(model => model.id === this.currentModelId).heading;
+                this.entityIsPicked = true;
                 if ("id" in entity) {
                     this.editMode(entity.id);
                 }
@@ -251,7 +292,8 @@ export default {
                     models.push({
                         id: entity.id,
                         name: file.name,
-                        show: true
+                        show: true,
+                        heading: 0
                     });
 
                     this.setImportedModels(models);
@@ -563,6 +605,61 @@ export default {
                         {{ $t("modules.tools.import3D.backToList") }}
                     </button>
                 </div>
+                <div>
+                    <div>
+                        <button
+                            class="btn btn-primary btn-sm"
+                            :disabled="!entityIsPicked"
+                            @click="decrementAngle"
+                        >
+                            <i
+                                class="inline-button bi"
+                                :class="'bi-arrow-left'"
+                            />
+                        </button>
+                        <input
+                            v-model="rotationAngle"
+                            :disabled="!entityIsPicked"
+                            aria-label="rotationSlider"
+                            class="font-arial"
+                            type="range"
+                            min="-180"
+                            max="180"
+                            step="0.1"
+                            @input="rotate"
+                        >
+                        <button
+                            class="btn btn-primary btn-sm"
+                            :disabled="!entityIsPicked"
+                            @click="incrementAngle"
+                        >
+                            <i
+                                class="inline-button bi"
+                                :class="'bi-arrow-right'"
+                            />
+                        </button>
+                        <select
+                            v-model="rotationClickValue"
+                            class="form-select form-select-sm"
+                            :disabled="!entityIsPicked"
+                            aria-label="rotationClickValue"
+                        >
+                            <option
+                                disabled
+                                value=""
+                            >
+                                Rotationsschritte wählen
+                            </option>
+                            <option
+                                v-for="value in dropdownValues"
+                                :key="value"
+                                :value="value"
+                            >
+                                {{ value }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
             </div>
         </template>
     </ToolTemplate>
@@ -695,5 +792,10 @@ export default {
     li {
         display: flex;
         justify-content: space-between;
+    }
+
+    .error-text {
+        font-size: 85%;
+        color: $light_red;
     }
 </style>

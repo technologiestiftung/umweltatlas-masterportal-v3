@@ -200,7 +200,7 @@ export default {
 
             <template v-if="footerInfo">
                 <template
-                    v-if="showShortMenu"
+                    v-if="showShortMenu && mobileFooterInfoToggler"
                 >
                     <span
                         v-if="isShortMenuOpen"
