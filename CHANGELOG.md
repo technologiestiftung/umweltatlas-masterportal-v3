@@ -13,7 +13,7 @@
   - the icon (arrow) to toggle information is only visible if it is configured
 
 ### Changed
-- The version of node was updated, must be `^16.13.2 || ^18.16.0`. If you use node 17 or 18, there are npm-scripts with the appendix `:node:gt16` to use, e.g. `npm run start:node:gt16`.
+- The version of node was updated, must be `^16.13.2 || ^18.16.0`. If you use node 18, you must provide the environment variable `NODE_OPTIONS=--openssl-legacy-provider` to avoid errors with webpack 4 (see https://github.com/webpack/webpack/issues/14532#issuecomment-947807590).
 - The version of npm was updated, must be `^8.1.2 || ^9.5.1`
 - The following NPM packages have been updated:
   - dependencies:
