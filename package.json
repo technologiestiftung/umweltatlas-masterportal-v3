@@ -15,21 +15,28 @@
   },
   "main": "js/main.js",
   "scripts": {
-    "start": "cross-env NODE_OPTIONS=--openssl-legacy-provider webpack-dev-server --config devtools/webpack.dev.js",
-    "start:ssl": "cross-env NODE_OPTIONS=--openssl-legacy-provider webpack-dev-server --config devtools/webpack.dev.js --https --cert devtools/certificate/localhost.pem --key devtools/certificate/localhost.key",
-    "test": "cross-env NODE_OPTIONS=--openssl-legacy-provider mochapack --webpack-config devtools/webpack.test.js --bail --recursive --timeout 15000 ./test/unittests/**/*.test.js ./addons/**/unittests/*.test.js",
+    "start": "webpack-dev-server --config devtools/webpack.dev.js",
+    "start:node:gt16": "cross-env NODE_OPTIONS=--openssl-legacy-provider webpack-dev-server --config devtools/webpack.dev.js",
+    "start:ssl": "webpack-dev-server --config devtools/webpack.dev.js --https --cert devtools/certificate/localhost.pem --key devtools/certificate/localhost.key",
+    "start:ssl:node:gt16": "cross-env NODE_OPTIONS=--openssl-legacy-provider webpack-dev-server --config devtools/webpack.dev.js --https --cert devtools/certificate/localhost.pem --key devtools/certificate/localhost.key",
+    "test": "mochapack --webpack-config devtools/webpack.test.js --bail --recursive --timeout 15000 ./test/unittests/**/*.test.js ./addons/**/unittests/*.test.js",
+    "test:node:gt16": "cross-env NODE_OPTIONS=--openssl-legacy-provider mochapack --webpack-config devtools/webpack.test.js --bail --recursive --timeout 15000 ./test/unittests/**/*.test.js ./addons/**/unittests/*.test.js",
     "test:watch": "npm run test -- --watch",
-    "test:vue": "cross-env NODE_OPTIONS=--openssl-legacy-provider mochapack --recursive --webpack-config devtools/webpack.vue.test.js --file devtools/setupUnitTests.js ./src/**/*.spec.js ./addons/*/!(node_modules)/**/*.spec.js",
+    "test:vue": "mochapack --recursive --webpack-config devtools/webpack.vue.test.js --file devtools/setupUnitTests.js ./src/**/*.spec.js ./addons/*/!(node_modules)/**/*.spec.js",
+    "test:vue:node:gt16": "cross-env NODE_OPTIONS=--openssl-legacy-provider mochapack --recursive --webpack-config devtools/webpack.vue.test.js --file devtools/setupUnitTests.js ./src/**/*.spec.js ./addons/*/!(node_modules)/**/*.spec.js",
     "test:vue:watch": "npm run test:vue -- --watch",
     "test:all": "npm run test && npm run test:vue",
     "test:all:watch": "npm-run-all --parallel test:watch test:vue:watch",
-    "browsertestWithDevServer": "cross-env NODE_OPTIONS=--openssl-legacy-provider env NODE_ENV=e2eTest env browser=fromCapabilities webpack-dev-server --reporter ./test/end2end/library/reporter.js --config devtools/webpack.browsertest.js",
-    "browsertestOnExternalServer": "cross-env NODE_OPTIONS=--openssl-legacy-provider env browser=fromCapabilities env urlPart=\\/ ./node_modules/.bin/mocha --reporter ./test/end2end/library/reporter.js ./test/end2end/TestRunner.js",
-    "browsertestOnSauceLabs": "cross-env NODE_OPTIONS=--openssl-legacy-provider env browser=fromCapabilities ./node_modules/.bin/mocha --reporter ./test/end2end/library/reporter.js ./test/end2end/TestRunner.js",
+    "browsertestWithDevServer": "env NODE_ENV=e2eTest env browser=fromCapabilities webpack-dev-server --reporter ./test/end2end/library/reporter.js --config devtools/webpack.browsertest.js",
+    "browsertestOnExternalServer": "env browser=fromCapabilities env urlPart=\\/ ./node_modules/.bin/mocha --reporter ./test/end2end/library/reporter.js ./test/end2end/TestRunner.js",
+    "browsertestOnSauceLabs": "env browser=fromCapabilities ./node_modules/.bin/mocha --reporter ./test/end2end/library/reporter.js ./test/end2end/TestRunner.js",
     "browsertest": "env urlPart=portal/ ./node_modules/.bin/mocha --reporter ./test/end2end/library/reporter.js ./test/end2end/TestRunner.js",
-    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider node devtools/tasks/build.js",
-    "buildPortal": "cross-env NODE_OPTIONS=--openssl-legacy-provider node devtools/tasks/buildPortal.js",
-    "buildExamples": "cross-env NODE_OPTIONS=--openssl-legacy-provider node devtools/tasks/exampleBuild.js && node devtools/tasks/exampleCopy.js",
+    "build": "node devtools/tasks/build.js",
+    "build:node:gt16": "cross-env NODE_OPTIONS=--openssl-legacy-provider node devtools/tasks/build.js",
+    "buildPortal": "node devtools/tasks/buildPortal.js",
+    "buildPortal:node:gt16": "cross-env NODE_OPTIONS=--openssl-legacy-provider node devtools/tasks/buildPortal.js",
+    "buildExamples": "node devtools/tasks/exampleBuild.js && node devtools/tasks/exampleCopy.js",
+    "buildExamples:node:gt16": "cross-env NODE_OPTIONS=--openssl-legacy-provider node devtools/tasks/exampleBuild.js && node devtools/tasks/exampleCopy.js",
     "buildJsDoc": "node devtools/tasks/buildJsDoc.js",
     "buildMdDoc": "node devtools/tasks/buildMdDoc.js",
     "createSSLCert": "openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout devtools/certificate/localhost.key -out devtools/certificate/localhost.pem -config devtools/certificate/req.cnf -sha256",
@@ -161,7 +168,7 @@
     "zip-a-folder": "^1.1.5"
   },
   "engines": {
-    "node": ">= 16.13.2 <= 18.16.0",
-    "npm": ">= 8.1.2 <= 9.5.1"
+    "node": "^16.13.2 || ^18.16.0",
+    "npm": "^8.1.2 || ^9.5.1"
   }
 }

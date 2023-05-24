@@ -13,8 +13,8 @@
   - the icon (arrow) to toggle information is only visible if it is configured
 
 ### Changed
-- The version of node was updated, must be `>= 16.13.2 <= 18.16.0`
-- The version of npm was updated, must be `>= 8.1.2 <= 9.5.1`
+- The version of node was updated, must be `^16.13.2 || ^18.16.0`. If you use node 17 or 18, there are npm-scripts with the appendix `:node:gt16` to use, e.g. `npm run start:node:gt16`.
+- The version of npm was updated, must be `^8.1.2 || ^9.5.1`
 - The following NPM packages have been updated:
   - dependencies:
     - @masterportal/masterportalapi: 2.17.0 to 2.18.0
