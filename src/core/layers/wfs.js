@@ -231,6 +231,7 @@ WFSLayer.prototype.createLegend = function () {
             else {
                 if (!geometryTypeRequestLayers.includes(this.get("id"))) {
                     geometryTypeRequestLayers.push(this.get("id"));
+
                     getGeometryTypeFromService.getGeometryTypeFromWFS(rules, this.get("url"), this.get("version"), this.get("featureType"), this.get("styleGeometryType"), isSecured, Config.wfsImgPath,
                         (geometryTypes, error) => {
                             if (error) {
@@ -239,8 +240,11 @@ WFSLayer.prototype.createLegend = function () {
                             }
                             return geometryTypes;
                         });
+
                 }
-                this.setLegend(legendInfos.legendInformation);
+                const uniqueLegendInformation = filterUniqueLegendInfo(this.features, rules, legendInfos);
+
+                this.setLegend(uniqueLegendInformation);
             }
         });
     }
@@ -248,6 +252,36 @@ WFSLayer.prototype.createLegend = function () {
         this.setLegend([legend]);
     }
 };
+
+/**
+* Filters unique legend information
+* @param {Object} features selected features
+* @param {Object} rules  the styleObject rules
+* @param {Object} legendInfos styleObject legend information
+* @returns {object} uniqueLegendInformation as array
+*/
+function filterUniqueLegendInfo (features, rules, legendInfos) {
+    const rulesKey = Object.keys(rules[0].conditions.properties)[0],
+        conditionProperties = [],
+        uniqueLegendInformation = [];
+
+    for (let i = 0; i < features.length; i++) {
+        if (!conditionProperties.includes(features[i].get(rulesKey))) {
+            conditionProperties.push(features[i].get(rulesKey));
+        }
+    }
+
+    legendInfos.legendInformation.forEach((info) => {
+        if (conditionProperties.includes(info.label)) {
+            if (!uniqueLegendInformation.includes(info)) {
+                uniqueLegendInformation.push(info);
+            }
+        }
+    });
+
+    return uniqueLegendInformation;
+}
+
 /**
  * Hides all features by setting style= null for all features.
  * @returns {void}
