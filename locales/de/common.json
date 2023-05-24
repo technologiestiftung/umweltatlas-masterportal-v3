@@ -595,6 +595,11 @@
                     "dropzone": "Datei hier ablegen",
                     "browse": "Datei auswählen"
                 },
+                "projections": {
+                    "longitude": "Längengrad",
+                    "latitude": "Breitengrad",
+                    "altitude": "Höhe"
+                },
                 "alertingMessages": {
                     "success": "Die Datei \"{{filename}}\" wurde erfolgreich importiert.",
                     "successPartly": "Die Datei \"{{filename}}\" wurde teilweise importiert.",
@@ -606,7 +611,8 @@
                 "successfullyImportedLabel": "Importierte 3D-Modelle:",
                 "title": "Datei importieren",
                 "visibilityTitle": "3D-Modell \"{{name}}\" ein-/ausblenden",
-                "editModel": "3D-Modell \"{{name}}\" bearbeiten"
+                "editModel": "3D-Modell \"{{name}}\" bearbeiten",
+                "backToList": "Zurück zur Übersicht"
             },
             "parcelSearch": {
                 "wrongConfig": "Ungültige oder unvollständige Konfiguration",

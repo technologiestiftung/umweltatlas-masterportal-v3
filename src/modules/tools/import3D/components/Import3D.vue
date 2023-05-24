@@ -24,13 +24,13 @@ export default {
         ...mapGetters("Tools/Import3D", Object.keys(getters)),
 
         latitudeComputed () {
-            return Cesium.Math.toDegrees(Cesium.Cartographic.fromCartesian(this.currentModelPosition).latitude);
+            return Cesium.Math.toDegrees(Cesium.Cartographic.fromCartesian(this.currentModelPosition).latitude).toFixed(5);
         },
         longitudeComputed () {
-            return Cesium.Math.toDegrees(Cesium.Cartographic.fromCartesian(this.currentModelPosition).longitude);
+            return Cesium.Math.toDegrees(Cesium.Cartographic.fromCartesian(this.currentModelPosition).longitude).toFixed(5);
         },
         altitudeComputed () {
-            return Cesium.Cartographic.fromCartesian(this.currentModelPosition).height;
+            return Cesium.Cartographic.fromCartesian(this.currentModelPosition).height.toFixed(1);
         },
 
         dropZoneAdditionalClass: function () {
@@ -63,6 +63,7 @@ export default {
 
         this.eventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
         this.eventHandler.setInputAction(this.selectEntity, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+        this.eventHandler.setInputAction(this.moveEntity, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
     },
     methods: {
         ...mapActions("Tools/Import3D", Object.keys(actions)),
@@ -120,6 +121,12 @@ export default {
                 this.isDragging = false;
             }
         },
+        moveEntity () {
+            this.isDragging = true;
+
+            this.eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+            this.eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_UP);
+        },
         selectEntity (event) {
             const scene = mapCollection.getMap("3D").getCesiumScene(),
                 picked = scene.pick(event.position);
@@ -157,6 +164,42 @@ export default {
             }
             else if (type === "height") {
                 cartographic.height = parseFloat(value);
+            }
+
+            this.setCurrentModelPosition(Cesium.Cartesian3.fromDegrees(
+                cartographic.longitude,
+                cartographic.latitude,
+                cartographic.height
+            ));
+        },
+        changePositionValue (type, operation) {
+            const position = this.currentModelPosition,
+                cartographic = Cesium.Cartographic.fromCartesian(position);
+
+            cartographic.latitude = Cesium.Math.toDegrees(cartographic.latitude);
+            cartographic.longitude = Cesium.Math.toDegrees(cartographic.longitude);
+
+            if (operation === "inc") {
+                if (type === "lat") {
+                    cartographic.latitude += 0.00001;
+                }
+                else if (type === "lon") {
+                    cartographic.longitude += 0.00001;
+                }
+                else if (type === "height") {
+                    cartographic.height += 0.1;
+                }
+            }
+            else if (operation === "dec") {
+                if (type === "lat") {
+                    cartographic.latitude -= 0.00001;
+                }
+                else if (type === "lon") {
+                    cartographic.longitude -= 0.00001;
+                }
+                else if (type === "height") {
+                    cartographic.height -= 0.1;
+                }
             }
 
             this.setCurrentModelPosition(Cesium.Cartesian3.fromDegrees(
@@ -414,48 +457,102 @@ export default {
                     <div>
                         <label
                             class="col-md-5 col-form-label"
-                            for="tool-edit-x"
+                            for="tool-edit-lon"
                         >
-                            Longitude
+                            {{ $t("modules.tools.import3D.projections.longitude") }}
                         </label>
-                        <div class="col-md-7">
+                        <div class="col-md-5 position-control">
                             <input
-                                id="tool-edit-x"
+                                id="tool-edit-lon"
                                 class="form-control form-control-sm"
                                 type="text"
                                 :value="longitudeComputed"
                                 @input="setPositionValue('lon', $event.target.value)"
                             >
+                            <div>
+                                <button
+                                    class="btn btn-primary btn-sm btn-pos"
+                                    @click="changePositionValue('lon', 'inc')"
+                                >
+                                    <i
+                                        class="inline-button bi bi-arrow-up"
+                                    />
+                                </button>
+                                <button
+                                    class="btn btn-primary btn-sm btn-pos"
+                                    @click="changePositionValue('lon', 'dec')"
+                                >
+                                    <i
+                                        class="inline-button bi bi-arrow-down"
+                                    />
+                                </button>
+                            </div>
                         </div>
                         <label
                             class="col-md-5 col-form-label"
-                            for="tool-edit-y"
+                            for="tool-edit-lat"
                         >
-                            Latitude
+                            {{ $t("modules.tools.import3D.projections.latitude") }}
                         </label>
-                        <div class="col-md-7">
+                        <div class="col-md-5 position-control">
                             <input
-                                id="tool-edit-y"
+                                id="tool-edit-lat"
                                 class="form-control form-control-sm"
                                 type="text"
                                 :value="latitudeComputed"
                                 @input="setPositionValue('lat', $event.target.value)"
                             >
+                            <div>
+                                <button
+                                    class="btn btn-primary btn-sm btn-pos"
+                                    @click="changePositionValue('lat', 'inc')"
+                                >
+                                    <i
+                                        class="inline-button bi bi-arrow-up"
+                                    />
+                                </button>
+                                <button
+                                    class="btn btn-primary btn-sm btn-pos"
+                                    @click="changePositionValue('lat', 'dec')"
+                                >
+                                    <i
+                                        class="inline-button bi bi-arrow-down"
+                                    />
+                                </button>
+                            </div>
                         </div>
                         <label
                             class="col-md-5 col-form-label"
-                            for="tool-edit-z"
+                            for="tool-edit-alt"
                         >
-                            Altitude
+                            {{ $t("modules.tools.import3D.projections.altitude") }}
                         </label>
-                        <div class="col-md-7">
+                        <div class="col-md-5 position-control">
                             <input
-                                id="tool-edit-z"
+                                id="tool-edit-alt"
                                 class="form-control form-control-sm"
                                 type="text"
                                 :value="altitudeComputed"
                                 @input="setPositionValue('height', $event.target.value)"
                             >
+                            <div>
+                                <button
+                                    class="btn btn-primary btn-sm btn-pos"
+                                    @click="changePositionValue('height', 'inc')"
+                                >
+                                    <i
+                                        class="inline-button bi bi-arrow-up"
+                                    />
+                                </button>
+                                <button
+                                    class="btn btn-primary btn-sm btn-pos"
+                                    @click="changePositionValue('height', 'dec')"
+                                >
+                                    <i
+                                        class="inline-button bi bi-arrow-down"
+                                    />
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <button
@@ -463,7 +560,7 @@ export default {
                         class="btn btn-primary btn-sm btn-margin"
                         @click="setEditing(false)"
                     >
-                        Zurück zur Übersicht
+                        {{ $t("modules.tools.import3D.backToList") }}
                     </button>
                 </div>
             </div>
@@ -576,8 +673,16 @@ export default {
         transform: translateY(-2px);
     }
 
+    .position-control {
+        display: flex;
+    }
+
     .btn-margin {
         margin-top: 1em;
+    }
+
+    .btn-pos {
+        padding: 0.25em;
     }
 
     ul {
