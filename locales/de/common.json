@@ -591,6 +591,7 @@
                 "captions": {
                     "introInfo": "Importieren Sie Ihre gewünschte Datei einfach per Drag and Drop oder alternativ mit dem Öffnen-Dialog des Browsers.",
                     "introFormats": "Es können glTF-Dateien (*.gltf), OBJ-Dateien (*.obj) oder Collada-Dateien (*.dae) importiert werden.",
+                    "editInfo": "Ändern Sie die Position und Rotation des ausgewählten Modells.",
                     "dropzone": "Datei hier ablegen",
                     "browse": "Datei auswählen"
                 },

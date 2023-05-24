@@ -26,13 +26,15 @@ export default {
     },
     computed: {
         ...mapGetters("Tools/Import3D", Object.keys(getters)),
-        selectedFiletype: {
-            get () {
-                return this.storePath.selectedFiletype;
-            },
-            set (value) {
-                this.setSelectedFiletype(value);
-            }
+
+        latitudeComputed () {
+            return Cesium.Math.toDegrees(Cesium.Cartographic.fromCartesian(this.currentModelPosition).latitude);
+        },
+        longitudeComputed () {
+            return Cesium.Math.toDegrees(Cesium.Cartographic.fromCartesian(this.currentModelPosition).longitude);
+        },
+        altitudeComputed () {
+            return Cesium.Cartographic.fromCartesian(this.currentModelPosition).height;
         },
 
         dropZoneAdditionalClass: function () {
@@ -51,6 +53,9 @@ export default {
             if (isActive) {
                 this.setFocusToFirstControl();
             }
+        },
+        currentModelPosition (position) {
+            this.updateEntityPosition(position);
         }
     },
     created () {
@@ -117,6 +122,7 @@ export default {
                         addedModel.position = position;
                         addedModel.orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
                     }
+                    this.setCurrentModelPosition(position);
                 }
             }
         },
@@ -162,8 +168,49 @@ export default {
                 this.setCurrentModelId(entity.id);
                 this.rotationAngle = this.importedModels.find(model => model.id === this.currentModelId).heading;
                 this.entityIsPicked = true;
+                if ("id" in entity) {
+                    this.editMode(entity.id);
+                }
             }
             return undefined;
+        },
+        editMode (id) {
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+                entity = entities.getById(id),
+                entityPosition = entity.position.getValue();
+
+            this.setCurrentModelId(id);
+            this.setCurrentModelPosition(entityPosition);
+            this.setEditing(true);
+        },
+        setPositionValue (type, value) {
+            const position = this.currentModelPosition,
+                cartographic = Cesium.Cartographic.fromCartesian(position);
+
+            cartographic.latitude = Cesium.Math.toDegrees(cartographic.latitude);
+            cartographic.longitude = Cesium.Math.toDegrees(cartographic.longitude);
+
+            if (type === "lat") {
+                cartographic.latitude = parseFloat(value);
+            }
+            else if (type === "lon") {
+                cartographic.longitude = parseFloat(value);
+            }
+            else if (type === "height") {
+                cartographic.height = parseFloat(value);
+            }
+
+            this.setCurrentModelPosition(Cesium.Cartesian3.fromDegrees(
+                cartographic.longitude,
+                cartographic.latitude,
+                cartographic.height
+            ));
+        },
+        updateEntityPosition (position) {
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+                entity = entities.getById(this.currentModelId);
+
+            entity.position = position;
         },
         removeInputActions () {
             if (this.eventHandler) {
@@ -229,9 +276,6 @@ export default {
             entity.show = !model.show;
             model.show = entity.show;
         },
-        editModel () {
-            // TODO: Neues Component erstellen und aktivieren
-        },
         zoomTo (id) {
             const scene = mapCollection.getMap("3D").getCesiumScene(),
                 entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
@@ -273,133 +317,196 @@ export default {
                 v-if="active"
                 id="tool-import3d"
             >
-                <p
-                    class="cta"
-                    v-html="$t('modules.tools.import3D.captions.introInfo')"
-                />
-                <p
-                    class="cta"
-                    v-html="$t('modules.tools.import3D.captions.introFormats')"
-                />
-                <div
-                    class="vh-center-outer-wrapper drop-area-fake"
-                    :class="dropZoneAdditionalClass"
-                >
+                <div v-if="!editing">
+                    <p
+                        class="cta"
+                        v-html="$t('modules.tools.import3D.captions.introInfo')"
+                    />
+                    <p
+                        class="cta"
+                        v-html="$t('modules.tools.import3D.captions.introFormats')"
+                    />
                     <div
-                        class="vh-center-inner-wrapper"
+                        class="vh-center-outer-wrapper drop-area-fake"
+                        :class="dropZoneAdditionalClass"
                     >
-                        <p
-                            class="caption"
+                        <div
+                            class="vh-center-inner-wrapper"
                         >
-                            {{ $t("modules.tools.import3D.captions.dropzone") }}
-                        </p>
+                            <p
+                                class="caption"
+                            >
+                                {{ $t("modules.tools.import3D.captions.dropzone") }}
+                            </p>
+                        </div>
+
+                        <!-- eslint-disable-next-line vuejs-accessibility/mouse-events-have-key-events -->
+                        <div
+                            class="drop-area"
+                            @drop.prevent="onDrop"
+                            @dragover.prevent
+                            @dragenter.prevent="onDZDragenter"
+                            @dragleave="onDZDragend"
+                            @mouseenter="onDZMouseenter"
+                            @mouseleave="onDZMouseleave"
+                        />
+                        <!--
+                            The previous element does not provide a @focusin or @focus reaction as would
+                            be considered correct by the linting rule set. Since it's a drop-area for file
+                            dropping by mouse, the concept does not apply. Keyboard users may use the
+                            matching input fields.
+                        -->
                     </div>
 
-                    <!-- eslint-disable-next-line vuejs-accessibility/mouse-events-have-key-events -->
-                    <div
-                        class="drop-area"
-                        @drop.prevent="onDrop"
-                        @dragover.prevent
-                        @dragenter.prevent="onDZDragenter"
-                        @dragleave="onDZDragend"
-                        @mouseenter="onDZMouseenter"
-                        @mouseleave="onDZMouseleave"
-                    />
-                    <!--
-                        The previous element does not provide a @focusin or @focus reaction as would
-                        be considered correct by the linting rule set. Since it's a drop-area for file
-                        dropping by mouse, the concept does not apply. Keyboard users may use the
-                        matching input fields.
-                    -->
-                </div>
-
-                <div>
-                    <label
-                        ref="upload-label"
-                        class="upload-button-wrapper"
-                        tabindex="0"
-                        @keydown="triggerClickOnFileInput"
-                    >
-                        <input
-                            ref="upload-input-file"
-                            type="file"
-                            @change="onInputChange"
-                        >
-                        {{ $t("modules.tools.import3D.captions.browse") }}
-                    </label>
-                </div>
-
-                <div v-if="importedModels.length > 0">
-                    <div class="h-seperator" />
-                    <p class="cta">
+                    <div>
                         <label
-                            class="successfullyImportedLabel"
-                            for="succesfully-imported-models"
+                            ref="upload-label"
+                            class="upload-button-wrapper"
+                            tabindex="0"
+                            @keydown="triggerClickOnFileInput"
                         >
-                            {{ $t("modules.tools.import3D.successfullyImportedLabel") }}
-                        </label>
-                        <ul id="succesfully-imported-models">
-                            <li
-                                v-for="(model, index) in importedModels"
-                                :key="index"
+                            <input
+                                ref="upload-input-file"
+                                type="file"
+                                @change="onInputChange"
                             >
-                                <span>
-                                    {{ model.id }}
-                                </span>
-                                <span>
-                                    {{ model.name }}
-                                </span>
-                                <div>
-                                    <i
-                                        class="inline-button bi"
-                                        :class="{ 'bi-geo-alt-fill': isHovering === `${index}-geo`, 'bi-geo-alt': isHovering !== `${index}-geo`}"
-                                        :title="$t(`common:modules.tools.import3D.zoomTo`, {name: model.name})"
-                                        @click="zoomTo(model.id)"
-                                        @keydown.enter="zoomTo(model.id)"
-                                        @mouseover="isHovering = `${index}-geo`"
-                                        @mouseout="isHovering = false"
-                                        @focusin="isHovering = `${index}-geo`"
-                                        @focusout="isHovering = false"
-                                    />
-                                    <i
-                                        class="inline-button bi"
-                                        :class="{ 'bi-pencil-fill': isHovering === `${index}-edit`, 'bi-pencil': isHovering !== `${index}-edit`}"
-                                        :title="$t(`common:modules.tools.import3D.editModel`, {name: model.name})"
-                                        @click="editModel(model.id)"
-                                        @keydown.enter="editModel(model.id)"
-                                        @mouseover="isHovering = `${index}-edit`"
-                                        @mouseout="isHovering = false"
-                                        @focusin="isHovering = `${index}-edit`"
-                                        @focusout="isHovering = false"
-                                    />
-                                    <i
-                                        v-if="model.show"
-                                        class="inline-button bi"
-                                        :class="{ 'bi-eye-slash-fill': isHovering === `${index}-hide`, 'bi-eye': isHovering !== `${index}-hide`}"
-                                        :title="$t(`common:modules.tools.import3D.visibilityTitle`, {name: model.name})"
-                                        @click="changeVisibility(model)"
-                                        @keydown.enter="changeVisibility(model)"
-                                        @mouseover="isHovering = `${index}-hide`"
-                                        @mouseout="isHovering = false"
-                                        @focusin="isHovering = `${index}-hide`"
-                                        @focusout="isHovering = false"
-                                    />
-                                    <i
-                                        v-else
-                                        class="inline-button bi"
-                                        :class="{ 'bi-eye-fill': isHovering === `${index}-show`, 'bi-eye-slash': isHovering !== `${index}-show`}"
-                                        :title="$t(`common:modules.tools.import3D.visibilityTitle`, {name: model.name})"
-                                        @click="changeVisibility(model)"
-                                        @keydown.enter="changeVisibility(model)"
-                                        @mouseover="isHovering = `${index}-show`"
-                                        @mouseout="isHovering = false"
-                                        @focusin="isHovering = `${index}-show`"
-                                        @focusout="isHovering = false"
-                                    />
-                                </div>
-                            </li>
-                        </ul>
-                    </p>
+                            {{ $t("modules.tools.import3D.captions.browse") }}
+                        </label>
+                    </div>
+
+                    <div v-if="importedModels.length > 0">
+                        <div class="h-seperator" />
+                        <p class="cta">
+                            <label
+                                class="successfullyImportedLabel"
+                                for="succesfully-imported-models"
+                            >
+                                {{ $t("modules.tools.import3D.successfullyImportedLabel") }}
+                            </label>
+                            <ul id="succesfully-imported-models">
+                                <li
+                                    v-for="(model, index) in importedModels"
+                                    :key="index"
+                                >
+                                    <span>
+                                        {{ index + 1 }}
+                                    </span>
+                                    <span>
+                                        {{ model.name }}
+                                    </span>
+                                    <div>
+                                        <i
+                                            class="inline-button bi"
+                                            :class="{ 'bi-geo-alt-fill': isHovering === `${index}-geo`, 'bi-geo-alt': isHovering !== `${index}-geo`}"
+                                            :title="$t(`common:modules.tools.import3D.zoomTo`, {name: model.name})"
+                                            @click="zoomTo(model.id)"
+                                            @keydown.enter="zoomTo(model.id)"
+                                            @mouseover="isHovering = `${index}-geo`"
+                                            @mouseout="isHovering = false"
+                                            @focusin="isHovering = `${index}-geo`"
+                                            @focusout="isHovering = false"
+                                        />
+                                        <i
+                                            class="inline-button bi"
+                                            :class="{ 'bi-pencil-fill': isHovering === `${index}-edit`, 'bi-pencil': isHovering !== `${index}-edit`}"
+                                            :title="$t(`common:modules.tools.import3D.editModel`, {name: model.name})"
+                                            @click="editMode(model.id)"
+                                            @keydown.enter="editMode(model.id)"
+                                            @mouseover="isHovering = `${index}-edit`"
+                                            @mouseout="isHovering = false"
+                                            @focusin="isHovering = `${index}-edit`"
+                                            @focusout="isHovering = false"
+                                        />
+                                        <i
+                                            v-if="model.show"
+                                            class="inline-button bi"
+                                            :class="{ 'bi-eye-slash-fill': isHovering === `${index}-hide`, 'bi-eye': isHovering !== `${index}-hide`}"
+                                            :title="$t(`common:modules.tools.import3D.visibilityTitle`, {name: model.name})"
+                                            @click="changeVisibility(model)"
+                                            @keydown.enter="changeVisibility(model)"
+                                            @mouseover="isHovering = `${index}-hide`"
+                                            @mouseout="isHovering = false"
+                                            @focusin="isHovering = `${index}-hide`"
+                                            @focusout="isHovering = false"
+                                        />
+                                        <i
+                                            v-else
+                                            class="inline-button bi"
+                                            :class="{ 'bi-eye-fill': isHovering === `${index}-show`, 'bi-eye-slash': isHovering !== `${index}-show`}"
+                                            :title="$t(`common:modules.tools.import3D.visibilityTitle`, {name: model.name})"
+                                            @click="changeVisibility(model)"
+                                            @keydown.enter="changeVisibility(model)"
+                                            @mouseover="isHovering = `${index}-show`"
+                                            @mouseout="isHovering = false"
+                                            @focusin="isHovering = `${index}-show`"
+                                            @focusout="isHovering = false"
+                                        />
+                                    </div>
+                                </li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+                <div v-if="editing">
+                    <p
+                        class="cta"
+                        v-html="$t('modules.tools.import3D.captions.editInfo')"
+                    />
+
+                    <div>
+                        <label
+                            class="col-md-5 col-form-label"
+                            for="tool-edit-x"
+                        >
+                            Longitude
+                        </label>
+                        <div class="col-md-7">
+                            <input
+                                id="tool-edit-x"
+                                class="form-control form-control-sm"
+                                type="text"
+                                :value="longitudeComputed"
+                                @input="setPositionValue('lon', $event.target.value)"
+                            >
+                        </div>
+                        <label
+                            class="col-md-5 col-form-label"
+                            for="tool-edit-y"
+                        >
+                            Latitude
+                        </label>
+                        <div class="col-md-7">
+                            <input
+                                id="tool-edit-y"
+                                class="form-control form-control-sm"
+                                type="text"
+                                :value="latitudeComputed"
+                                @input="setPositionValue('lat', $event.target.value)"
+                            >
+                        </div>
+                        <label
+                            class="col-md-5 col-form-label"
+                            for="tool-edit-z"
+                        >
+                            Altitude
+                        </label>
+                        <div class="col-md-7">
+                            <input
+                                id="tool-edit-z"
+                                class="form-control form-control-sm"
+                                type="text"
+                                :value="altitudeComputed"
+                                @input="setPositionValue('height', $event.target.value)"
+                            >
+                        </div>
+                    </div>
+                    <button
+                        id="tool-import3d-deactivateEditing"
+                        class="btn btn-primary btn-sm btn-margin"
+                        @click="setEditing(false)"
+                    >
+                        Zurück zur Übersicht
+                    </button>
                 </div>
                 <div>
                     <div>
@@ -564,6 +671,10 @@ export default {
 
     .inline-button:hover {
         transform: translateY(-2px);
+    }
+
+    .btn-margin {
+        margin-top: 1em;
     }
 
     ul {
