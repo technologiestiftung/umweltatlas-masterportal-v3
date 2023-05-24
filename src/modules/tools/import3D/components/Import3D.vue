@@ -5,7 +5,6 @@ import {mapActions, mapGetters, mapMutations} from "vuex";
 import actions from "../store/actionsImport3D";
 import getters from "../store/gettersImport3D";
 import mutations from "../store/mutationsImport3D";
-import store from "../../../../app-store";
 import {OBJLoader} from "three/examples/jsm/loaders/OBJLoader.js";
 import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader.js";
 import {ColladaLoader} from "three/examples/jsm/loaders/ColladaLoader.js";
