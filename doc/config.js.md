@@ -188,6 +188,7 @@ For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Glob
 |urls|no|**[urls](#markdown-header-footerurls)**[]||Array of URL configuration objects.|
 |showVersion|no|Boolean|`false`|If `true`, the Masterportal version number is included in the footer.|
 |footerInfo|no|**[footerInfo](#markdown-header-footerfooterInfo)**[]||Array of information configuration objects.|
+|mobileFooterInfoToggler|no|Boolean|`false`|If `true`, it is possible to toggle the footer info in mobile version.|
 
 ***
 

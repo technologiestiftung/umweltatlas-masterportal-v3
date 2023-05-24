@@ -1497,32 +1497,6 @@
 /**
  * @event Core.ModelList.Tool#RadioRequestToolGetSupportedIn3d
  * @description Delivers an array with toll which supported in 3d-Mode
-/** -------------------- TOOLS.VIRTUALCITY -------------------- */
-
-/**
- * @event VirtualCity#RadioRequestVirtualCityActivatePlanning
- * @description activates a Planning identified by the planningId
- */
-
-/**
- * @event VirtualCity#RadioRequestVirtualCityDeactivatePlanning
- * @description deactivates a Planning identified by the planningId
- */
-
-/**
- * @event VirtualCity#RadioRequestVirtualCityGetViewpointsForPlanning
- * @description returns view points by the given planningId
- */
-
-/**
- * @event VirtualCity#RadioRequestVirtualCityGetFlightsForPlanning
- * @description returns the flights for the given planningId
- */
-
-/**
- * @event VirtualCity#RadioRequestVirtualCityGotoViewPoint
- * @description activates a Viewpoint identified by the given ID
- */
 
 /** -------------------- CORE.MODELLIST.TOOL -------------------- */
 /**
@@ -1538,29 +1512,6 @@
 /**
  * @event Core.ModelList.Tool#changeIsActive
  * @description Fired when param isActive changes
- */
-/** -------------------- VirtualCity.FlightPlayer -------------------- */
-
-/**
- * @event FlightPlayer#RadioRequestFlightPlayerStop
- * @description stops the active Flight
- */
-
-/**
- * @event FlightPlayer#RadioRequestFlightPlayerPlay
- * @description starts playing the given flight
- */
-
-/**
- * @event FlightPlayer#RadioRequestFlightPlayerGetValues
- * @description returns the state values of the flightplayer
- */
-
-/**
- * @event FlightPlayer#RadioTriggerFlightPlayerStateChange
- * @param {string} state "play" or "stop"
- * @param {FlightInstance} flightInstance
- * @description fires if the flightplayer state changes. If the player starts playing or stop is called
  */
 
 /** -------------------- CRS -------------------- */

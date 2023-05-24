@@ -2,6 +2,7 @@
 import ToolTemplate from "../../ToolTemplate.vue";
 import {getComponent} from "../../../../utils/getComponent";
 import {mapActions, mapGetters, mapMutations} from "vuex";
+import actions from "../store/actionsImport3D";
 import getters from "../store/gettersImport3D";
 import mutations from "../store/mutationsImport3D";
 import store from "../../../../app-store";
@@ -17,19 +18,28 @@ export default {
     },
     data () {
         return {
+            isHovering: false,
             dzIsDropHovering: false,
-            storePath: this.$store.state.Tools.Import3D
+            isDragging: false,
+            storePath: this.$store.state.Tools.Import3D,
+            eventHandler: null,
+            entityIsPicked: false,
+            rotationAngle: 0,
+            rotationClickValue: 5,
+            dropdownValues: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         };
     },
     computed: {
         ...mapGetters("Tools/Import3D", Object.keys(getters)),
-        selectedFiletype: {
-            get () {
-                return this.storePath.selectedFiletype;
-            },
-            set (value) {
-                this.setSelectedFiletype(value);
-            }
+
+        latitudeComputed () {
+            return Cesium.Math.toDegrees(Cesium.Cartographic.fromCartesian(this.currentModelPosition).latitude);
+        },
+        longitudeComputed () {
+            return Cesium.Math.toDegrees(Cesium.Cartographic.fromCartesian(this.currentModelPosition).longitude);
+        },
+        altitudeComputed () {
+            return Cesium.Cartographic.fromCartesian(this.currentModelPosition).height;
         },
 
         dropZoneAdditionalClass: function () {
@@ -48,13 +58,23 @@ export default {
             if (isActive) {
                 this.setFocusToFirstControl();
             }
+        },
+        currentModelPosition (position) {
+            this.updateEntityPosition(position);
         }
     },
     created () {
         this.$on("close", this.close);
     },
+    updated () {
+        // TODO: Eventuell woanders auslagern, wenn Component sich ändert!
+        const scene = mapCollection.getMap("3D").getCesiumScene();
+
+        this.eventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+        this.eventHandler.setInputAction(this.selectEntity, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+    },
     methods: {
-        ...mapActions("Tools/Import3D", Object.keys(mutations)),
+        ...mapActions("Tools/Import3D", Object.keys(actions)),
         ...mapMutations("Tools/Import3D", Object.keys(mutations)),
 
         /**
@@ -84,6 +104,7 @@ export default {
             if (e.target.files !== undefined) {
                 this.addFile(e.target.files);
             }
+            this.$refs["upload-input-file"].value = "";
         },
         onDrop (e) {
             this.dzIsDropHovering = false;
@@ -91,35 +112,153 @@ export default {
                 this.addFile(e.dataTransfer.files);
             }
         },
+        onMouseMove (event) {
+            if (this.isDragging) {
+                const scene = mapCollection.getMap("3D").getCesiumScene(),
+                    ray = scene.camera.getPickRay(event.endPosition),
+                    position = scene.globe.pick(ray, scene),
+                    hpr = new Cesium.HeadingPitchRoll(this.initialHeading, 0.0, 0.0); // Heading: 0 Grad, Pitch: 0 Grad, Roll: 0 Grad;
+
+                if (Cesium.defined(position)) {
+                    const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+                        addedModel = entities.getById(this.currentModelId);
+
+                    if (Cesium.defined(addedModel)) {
+                        addedModel.position = position;
+                        addedModel.orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
+                    }
+                    this.setCurrentModelPosition(position);
+                }
+            }
+        },
+        onMouseUp () {
+            if (this.isDragging) {
+                this.removeInputActions();
+                this.isDragging = false;
+                this.entityIsPicked = false;
+            }
+        },
+        rotate () {
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+                entity = entities.getById(this.currentModelId),
+                heading = Cesium.Math.toRadians(parseInt(this.rotationAngle, 10)),
+                modelFromState = this.importedModels.find(model => model.id === this.currentModelId),
+                orientationMatrix = Cesium.Transforms.headingPitchRollQuaternion(
+                    entity.position.getValue(),
+                    new Cesium.HeadingPitchRoll(heading, 0, 0)
+                );
+
+            modelFromState.heading = parseInt(this.rotationAngle, 10);
+            entity.orientation = orientationMatrix;
+        },
+        decrementAngle () {
+            const newRotationAngle = parseInt(this.rotationAngle, 10) - parseInt(this.rotationClickValue, 10);
+
+            this.rotationAngle = Math.max(newRotationAngle, -180);
+            this.rotate();
+        },
+        incrementAngle () {
+            const newRotationAngle = parseInt(this.rotationAngle, 10) + parseInt(this.rotationClickValue, 10);
+
+            this.rotationAngle = Math.min(newRotationAngle, 180);
+            this.rotate();
+        },
+        selectEntity (event) {
+            const scene = mapCollection.getMap("3D").getCesiumScene(),
+                picked = scene.pick(event.position);
+
+            if (Cesium.defined(picked)) {
+                const entity = Cesium.defaultValue(picked.id, picked.primitive.id);
+
+                this.setCurrentModelId(entity.id);
+                this.rotationAngle = this.importedModels.find(model => model.id === this.currentModelId).heading;
+                this.entityIsPicked = true;
+                if ("id" in entity) {
+                    this.editMode(entity.id);
+                }
+            }
+            return undefined;
+        },
+        editMode (id) {
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+                entity = entities.getById(id),
+                entityPosition = entity.position.getValue();
+
+            this.setCurrentModelId(id);
+            this.setCurrentModelPosition(entityPosition);
+            this.setEditing(true);
+        },
+        setPositionValue (type, value) {
+            const position = this.currentModelPosition,
+                cartographic = Cesium.Cartographic.fromCartesian(position);
+
+            cartographic.latitude = Cesium.Math.toDegrees(cartographic.latitude);
+            cartographic.longitude = Cesium.Math.toDegrees(cartographic.longitude);
+
+            if (type === "lat") {
+                cartographic.latitude = parseFloat(value);
+            }
+            else if (type === "lon") {
+                cartographic.longitude = parseFloat(value);
+            }
+            else if (type === "height") {
+                cartographic.height = parseFloat(value);
+            }
+
+            this.setCurrentModelPosition(Cesium.Cartesian3.fromDegrees(
+                cartographic.longitude,
+                cartographic.latitude,
+                cartographic.height
+            ));
+        },
+        updateEntityPosition (position) {
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+                entity = entities.getById(this.currentModelId);
+
+            entity.position = position;
+        },
+        removeInputActions () {
+            if (this.eventHandler) {
+                this.eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+                this.eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_UP);
+            }
+        },
         addFile (files) {
             const reader = new FileReader(),
-                altitude = store.getters["Maps/altitude"],
-                longitude = store.getters["Maps/longitude"],
-                latitude = store.getters["Maps/latitude"],
                 file = files[0],
-                fileExtension = file.name.split(".").pop();
+                fileExtension = file.name.split(".").pop(),
+                entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+                models = this.importedModels,
+                lastElement = entities.values.slice().pop(),
+                lastId = lastElement?.id;
+
+            this.isDragging = true;
 
             if (fileExtension === "gltf") {
                 reader.onload = () => {
-                    const scene = mapCollection.getMap("3D").getCesiumScene(),
-                        model = scene.primitives.add(Cesium.Model.fromGltf({
-                            url: URL.createObjectURL(file)
-                        })),
-                        hasGeoreferencing = Boolean(model.extras?.georeferencing); // Verschiedene Konvention je nach glTF Doku? Beispiel vom BSW zum Testen?
-                    let position,
-                        modelMatrix;
+                    const entity = {
+                        id: lastId ? lastId + 1 : 1,
+                        name: file.name,
+                        model: {
+                            uri: URL.createObjectURL(file)
+                        }
+                    };
 
-                    if (hasGeoreferencing) {
-                        position = Cesium.Cartesian3.fromDegrees(model.extras.georeferencing.longitude, model.extras.georeferencing.latitude, model.extras.georeferencing.altitude);
-                        modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(position);
-                    }
-                    else {
-                        position = Cesium.Cartesian3.fromDegrees(longitude, latitude, altitude);
-                        modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(position);
-                    }
-                    model.modelMatrix = modelMatrix;
-                    // Freigabe der URL von der glTF-Datei, sobald sie nicht mehr benötigt wird
-                    URL.revokeObjectURL(model.url);
+                    this.setCurrentModelId(entity.id);
+
+                    this.eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+                    this.eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_UP);
+
+                    entities.add(entity);
+
+                    models.push({
+                        id: entity.id,
+                        name: file.name,
+                        show: true,
+                        heading: 0
+                    });
+
+                    this.setImportedModels(models);
                 };
                 reader.onerror = (e) => {
                     console.error("Fehler beim Lesen der Datei:", e.target.error);
@@ -135,12 +274,27 @@ export default {
                         gltfExporter = new GLTFExporter();
 
                     gltfExporter.parse(objData, (gltfData) => {
-                        const scene = mapCollection.getMap("3D").getCesiumScene(),
-                            model = scene.primitives.add(new Cesium.Model(gltfData)),
-                            position = Cesium.Cartesian3.fromDegrees(longitude, latitude, altitude),
-                            modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(position);
+                        const entity = {
+                            id: lastId ? lastId + 1 : 1,
+                            name: file.name,
+                            model: new Cesium.Model(gltfData)
+                        };
 
-                        model.modelMatrix = modelMatrix;
+                        this.setCurrentModelId(entity.id);
+
+                        this.eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+                        this.eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_UP);
+
+                        entities.add(entity);
+
+                        models.push({
+                            id: entity.id,
+                            name: file.name,
+                            show: true,
+                            heading: 0
+                        });
+
+                        this.setImportedModels(models);
                     });
                 };
                 reader.readAsText(file);
@@ -158,14 +312,27 @@ export default {
                             const gltfLoader = new GLTFLoader();
 
                             gltfLoader.parse(gltfData, "", () => {
+                                const entity = {
+                                    id: lastId ? lastId + 1 : 1,
+                                    name: file.name,
+                                    model: new Cesium.Model(gltfData)
+                                };
 
-                                const scene = mapCollection.getMap("3D").getCesiumScene(),
-                                    model = scene.primitives.add(new Cesium.Model(gltfData)),
-                                    position = Cesium.Cartesian3.fromDegrees(longitude, latitude, altitude),
-                                    modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(position);
+                                this.setCurrentModelId(entity.id);
 
-                                model.modelMatrix = modelMatrix;
-                                scene.requestRender();
+                                this.eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+                                this.eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_UP);
+
+                                entities.add(entity);
+
+                                models.push({
+                                    id: entity.id,
+                                    name: file.name,
+                                    show: true,
+                                    heading: 0
+                                });
+
+                                this.setImportedModels(models);
                             });
                         });
                     });
@@ -175,7 +342,6 @@ export default {
 
 
             else {
-                // Unbekanntes Dateiformat
                 console.error(fileExtension + " files are currently not supported!");
             }
         },
@@ -183,6 +349,27 @@ export default {
             if (event.which === 32 || event.which === 13) {
                 this.$refs["upload-input-file"].click();
             }
+        },
+        changeVisibility (model) {
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+                entity = entities.getById(model.id);
+
+            entity.show = !model.show;
+            model.show = entity.show;
+        },
+        zoomTo (id) {
+            const scene = mapCollection.getMap("3D").getCesiumScene(),
+                entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+                entity = entities.getById(id),
+                entityPosition = entity.position.getValue(),
+                currentPosition = scene.camera.positionCartographic,
+                destination = Cesium.Cartographic.fromCartesian(entityPosition);
+
+            destination.height = currentPosition.height;
+
+            scene.camera.flyTo({
+                destination: Cesium.Cartesian3.fromRadians(destination.longitude, destination.latitude, destination.height)
+            });
         },
         close () {
             this.setActive(false);
@@ -204,102 +391,257 @@ export default {
         :render-to-window="renderToWindow"
         :resizable-window="resizableWindow"
         :deactivate-gfi="deactivateGFI"
-        :initial-width="400"
+        :initial-width="300"
     >
         <template #toolBody>
             <div
                 v-if="active"
                 id="tool-import3d"
             >
-                <p
-                    class="cta"
-                    v-html="$t('modules.tools.import3D.captions.introInfo')"
-                />
-                <p
-                    class="cta"
-                    v-html="$t('modules.tools.import3D.captions.introFormats')"
-                />
-                <div
-                    class="vh-center-outer-wrapper drop-area-fake"
-                    :class="dropZoneAdditionalClass"
-                >
+                <div v-if="!editing">
+                    <p
+                        class="cta"
+                        v-html="$t('modules.tools.import3D.captions.introInfo')"
+                    />
+                    <p
+                        class="cta"
+                        v-html="$t('modules.tools.import3D.captions.introFormats')"
+                    />
                     <div
-                        class="vh-center-inner-wrapper"
+                        class="vh-center-outer-wrapper drop-area-fake"
+                        :class="dropZoneAdditionalClass"
                     >
-                        <p
-                            class="caption"
+                        <div
+                            class="vh-center-inner-wrapper"
                         >
-                            {{ $t("modules.tools.import3D.captions.dropzone") }}
-                        </p>
+                            <p
+                                class="caption"
+                            >
+                                {{ $t("modules.tools.import3D.captions.dropzone") }}
+                            </p>
+                        </div>
+
+                        <!-- eslint-disable-next-line vuejs-accessibility/mouse-events-have-key-events -->
+                        <div
+                            class="drop-area"
+                            @drop.prevent="onDrop"
+                            @dragover.prevent
+                            @dragenter.prevent="onDZDragenter"
+                            @dragleave="onDZDragend"
+                            @mouseenter="onDZMouseenter"
+                            @mouseleave="onDZMouseleave"
+                        />
+                        <!--
+                            The previous element does not provide a @focusin or @focus reaction as would
+                            be considered correct by the linting rule set. Since it's a drop-area for file
+                            dropping by mouse, the concept does not apply. Keyboard users may use the
+                            matching input fields.
+                        -->
                     </div>
 
-                    <!-- eslint-disable-next-line vuejs-accessibility/mouse-events-have-key-events -->
-                    <div
-                        class="drop-area"
-                        @drop.prevent="onDrop"
-                        @dragover.prevent
-                        @dragenter.prevent="onDZDragenter"
-                        @dragleave="onDZDragend"
-                        @mouseenter="onDZMouseenter"
-                        @mouseleave="onDZMouseleave"
-                    />
-                    <!--
-                        The previous element does not provide a @focusin or @focus reaction as would
-                        be considered correct by the linting rule set. Since it's a drop-area for file
-                        dropping by mouse, the concept does not apply. Keyboard users may use the
-                        matching input fields.
-                    -->
-                </div>
-
-                <div>
-                    <label
-                        ref="upload-label"
-                        class="upload-button-wrapper"
-                        tabindex="0"
-                        @keydown="triggerClickOnFileInput"
-                    >
-                        <input
-                            ref="upload-input-file"
-                            type="file"
-                            @change="onInputChange"
-                        >
-                        {{ $t("modules.tools.import3D.captions.browse") }}
-                    </label>
-                </div>
-
-                <div v-if="importedModels.length > 0">
-                    <div class="h-seperator" />
-                    <p class="cta">
-                        <label
-                            class="successfullyImportedLabel"
-                            for="succesfully-imported-models"
-                        >
-                            {{ $t("modules.tools.import3D.successfullyImportedLabel") }}
-                        </label>
-                        <ul id="succesfully-imported-models">
-                            <li
-                                v-for="(model, index) in importedModels"
-                                :key="index"
-                            >
-                                <span>
-                                    {{ model }}
-                                </span>
-                            </li>
-                        </ul>
-                    </p>
-                    <div class="h-seperator" />
-                    <p
-                        class="cta introDrawTool"
-                        v-html="$t('modules.tools.import3D.captions.introDrawTool')"
-                    />
                     <div>
-                        <label class="upload-button-wrapper">
+                        <label
+                            ref="upload-label"
+                            class="upload-button-wrapper"
+                            tabindex="0"
+                            @keydown="triggerClickOnFileInput"
+                        >
                             <input
-                                type="button"
-                                @click="openDrawTool"
+                                ref="upload-input-file"
+                                type="file"
+                                @change="onInputChange"
                             >
-                            {{ $t("modules.tools.import3D.captions.drawTool") }}
+                            {{ $t("modules.tools.import3D.captions.browse") }}
                         </label>
+                    </div>
+
+                    <div v-if="importedModels.length > 0">
+                        <div class="h-seperator" />
+                        <p class="cta">
+                            <label
+                                class="successfullyImportedLabel"
+                                for="succesfully-imported-models"
+                            >
+                                {{ $t("modules.tools.import3D.successfullyImportedLabel") }}
+                            </label>
+                            <ul id="succesfully-imported-models">
+                                <li
+                                    v-for="(model, index) in importedModels"
+                                    :key="index"
+                                >
+                                    <span>
+                                        {{ index + 1 }}
+                                    </span>
+                                    <span>
+                                        {{ model.name }}
+                                    </span>
+                                    <div>
+                                        <i
+                                            class="inline-button bi"
+                                            :class="{ 'bi-geo-alt-fill': isHovering === `${index}-geo`, 'bi-geo-alt': isHovering !== `${index}-geo`}"
+                                            :title="$t(`common:modules.tools.import3D.zoomTo`, {name: model.name})"
+                                            @click="zoomTo(model.id)"
+                                            @keydown.enter="zoomTo(model.id)"
+                                            @mouseover="isHovering = `${index}-geo`"
+                                            @mouseout="isHovering = false"
+                                            @focusin="isHovering = `${index}-geo`"
+                                            @focusout="isHovering = false"
+                                        />
+                                        <i
+                                            class="inline-button bi"
+                                            :class="{ 'bi-pencil-fill': isHovering === `${index}-edit`, 'bi-pencil': isHovering !== `${index}-edit`}"
+                                            :title="$t(`common:modules.tools.import3D.editModel`, {name: model.name})"
+                                            @click="editMode(model.id)"
+                                            @keydown.enter="editMode(model.id)"
+                                            @mouseover="isHovering = `${index}-edit`"
+                                            @mouseout="isHovering = false"
+                                            @focusin="isHovering = `${index}-edit`"
+                                            @focusout="isHovering = false"
+                                        />
+                                        <i
+                                            v-if="model.show"
+                                            class="inline-button bi"
+                                            :class="{ 'bi-eye-slash-fill': isHovering === `${index}-hide`, 'bi-eye': isHovering !== `${index}-hide`}"
+                                            :title="$t(`common:modules.tools.import3D.visibilityTitle`, {name: model.name})"
+                                            @click="changeVisibility(model)"
+                                            @keydown.enter="changeVisibility(model)"
+                                            @mouseover="isHovering = `${index}-hide`"
+                                            @mouseout="isHovering = false"
+                                            @focusin="isHovering = `${index}-hide`"
+                                            @focusout="isHovering = false"
+                                        />
+                                        <i
+                                            v-else
+                                            class="inline-button bi"
+                                            :class="{ 'bi-eye-fill': isHovering === `${index}-show`, 'bi-eye-slash': isHovering !== `${index}-show`}"
+                                            :title="$t(`common:modules.tools.import3D.visibilityTitle`, {name: model.name})"
+                                            @click="changeVisibility(model)"
+                                            @keydown.enter="changeVisibility(model)"
+                                            @mouseover="isHovering = `${index}-show`"
+                                            @mouseout="isHovering = false"
+                                            @focusin="isHovering = `${index}-show`"
+                                            @focusout="isHovering = false"
+                                        />
+                                    </div>
+                                </li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+                <div v-if="editing">
+                    <p
+                        class="cta"
+                        v-html="$t('modules.tools.import3D.captions.editInfo')"
+                    />
+
+                    <div>
+                        <label
+                            class="col-md-5 col-form-label"
+                            for="tool-edit-x"
+                        >
+                            Longitude
+                        </label>
+                        <div class="col-md-7">
+                            <input
+                                id="tool-edit-x"
+                                class="form-control form-control-sm"
+                                type="text"
+                                :value="longitudeComputed"
+                                @input="setPositionValue('lon', $event.target.value)"
+                            >
+                        </div>
+                        <label
+                            class="col-md-5 col-form-label"
+                            for="tool-edit-y"
+                        >
+                            Latitude
+                        </label>
+                        <div class="col-md-7">
+                            <input
+                                id="tool-edit-y"
+                                class="form-control form-control-sm"
+                                type="text"
+                                :value="latitudeComputed"
+                                @input="setPositionValue('lat', $event.target.value)"
+                            >
+                        </div>
+                        <label
+                            class="col-md-5 col-form-label"
+                            for="tool-edit-z"
+                        >
+                            Altitude
+                        </label>
+                        <div class="col-md-7">
+                            <input
+                                id="tool-edit-z"
+                                class="form-control form-control-sm"
+                                type="text"
+                                :value="altitudeComputed"
+                                @input="setPositionValue('height', $event.target.value)"
+                            >
+                        </div>
+                    </div>
+                    <button
+                        id="tool-import3d-deactivateEditing"
+                        class="btn btn-primary btn-sm btn-margin"
+                        @click="setEditing(false)"
+                    >
+                        Zurück zur Übersicht
+                    </button>
+                </div>
+                <div>
+                    <div>
+                        <button
+                            class="btn btn-primary btn-sm"
+                            :disabled="!entityIsPicked"
+                            @click="decrementAngle"
+                        >
+                            <i
+                                class="inline-button bi"
+                                :class="'bi-arrow-left'"
+                            />
+                        </button>
+                        <input
+                            v-model="rotationAngle"
+                            :disabled="!entityIsPicked"
+                            aria-label="rotationSlider"
+                            class="font-arial"
+                            type="range"
+                            min="-180"
+                            max="180"
+                            step="0.1"
+                            @input="rotate"
+                        >
+                        <button
+                            class="btn btn-primary btn-sm"
+                            :disabled="!entityIsPicked"
+                            @click="incrementAngle"
+                        >
+                            <i
+                                class="inline-button bi"
+                                :class="'bi-arrow-right'"
+                            />
+                        </button>
+                        <select
+                            v-model="rotationClickValue"
+                            class="form-select form-select-sm"
+                            :disabled="!entityIsPicked"
+                            aria-label="rotationClickValue"
+                        >
+                            <option
+                                disabled
+                                value=""
+                            >
+                                Rotationsschritte wählen
+                            </option>
+                            <option
+                                v-for="value in dropdownValues"
+                                :key="value"
+                                :value="value"
+                            >
+                                {{ value }}
+                            </option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -402,28 +744,34 @@ export default {
     .successfullyImportedLabel {
         font-weight: bold;
     }
-    .introDrawTool {
-        font-style: italic;
+
+    .inline-button {
+        cursor: pointer;
+        display: inline-block;
+    }
+
+    .inline-button:hover {
+        transform: translateY(-2px);
+    }
+
+    .btn-margin {
+        margin-top: 1em;
+    }
+
+    ul {
+        font-size: $font_size_icon_lg;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
     }
 
     li {
-        &.hasZoom {
-            display: inline-block;
-            width: 100%;
-            &:not(:last-child) {
-                margin-bottom: 5px;
-            }
-            span {
-                &:first-child {
-                    float: left;
-                    margin-top: 5px;
-                    width: calc(100% - 80px);
-                }
-                &:last-child {
-                    float: right;
-                    margin-top: 0;
-                }
-            }
-        }
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .error-text {
+        font-size: 85%;
+        color: $light_red;
     }
 </style>

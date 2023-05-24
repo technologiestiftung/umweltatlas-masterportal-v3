@@ -591,16 +591,9 @@
                 "captions": {
                     "introInfo": "Importieren Sie Ihre gewünschte Datei einfach per Drag and Drop oder alternativ mit dem Öffnen-Dialog des Browsers.",
                     "introFormats": "Es können glTF-Dateien (*.gltf), OBJ-Dateien (*.obj) oder Collada-Dateien (*.dae) importiert werden.",
-                    "introDrawTool": "Importierte Geometrien können im Nachhinein verändert werden. Nutzen Sie hierfür das Werkzeug &quot;$t(common:menu.tools.draw)&quot;.",
-                    "drawTool": "$t(common:menu.tools.draw) öffnen",
+                    "editInfo": "Ändern Sie die Position und Rotation des ausgewählten Modells.",
                     "dropzone": "Datei hier ablegen",
-                    "browse": "Datei auswählen",
-                    "supportedFiletypes": {
-                        "auto": "Automatische Erkennung",
-                        "kml": "KML-Datei (*.kml)",
-                        "gpx": "GPX-Datei (*.gpx)",
-                        "geojson": "GeoJson-Datei (*.geojson, *.json)"
-                    }
+                    "browse": "Datei auswählen"
                 },
                 "alertingMessages": {
                     "success": "Die Datei \"{{filename}}\" wurde erfolgreich importiert.",
@@ -610,10 +603,11 @@
                     "missingFormat": "Das Dateiformat {{format}} wird nicht unterstützt. Bitte wenden Sie sich an den Support.",
                     "featureError": "Ein Feature in dieser Datei konnte nicht gelesen werden."
                 },
-                "successfullyImportedLabel": "Erfolgreich importiert:",
+                "successfullyImportedLabel": "Importierte 3D-Modelle:",
                 "title": "Datei importieren",
-                "zoom": "Zoomen",
-                "fileZoom": "Auf Features dieser Datei \"{{filename}}\" zoomen"
+                "visibilityTitle": "3D-Modell \"{{name}}\" ein-/ausblenden",
+                "editModel": "3D-Modell \"{{name}}\" bearbeiten",
+                "rotationPlaceholder": "Inkrement-/Dekrement-Schritte"
             },
             "parcelSearch": {
                 "wrongConfig": "Ungültige oder unvollständige Konfiguration",

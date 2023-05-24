@@ -103,12 +103,6 @@
     "typ": "Search"
   },
   {
-    "id" : "virtualcityPLANNER",
-    "name" : "virtualcityPLANNER",
-    "url": "https://devel.virtualcityplanner.de",
-    "scenarioId": "BjtEA4zwBEiZeG2CX"
-  },
-  {
     "id": "elastic",
     "name": "Elastic Prod",
      "url": "https://geodienste.hamburg.de/layers/_search/template",

@@ -4,7 +4,7 @@ import {setValueToState} from "./stateModifier";
 import store from "../../app-store";
 import uiStyle from "../../utils/uiStyle";
 
-const toolsNotInState = ["parcelSearch", "featureLister", "filter", "shadow", "virtualcity", "extendedFilter", "wfsFeatureFilter", "wfst"];
+const toolsNotInState = ["parcelSearch", "featureLister", "filter", "shadow", "extendedFilter", "wfsFeatureFilter", "wfst"];
 
 /**
  * Checks the Config for 'allowParametricURL'.
