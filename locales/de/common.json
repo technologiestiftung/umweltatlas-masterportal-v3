@@ -601,6 +601,7 @@
                     "formatError": "Die Datei \"{{filename}}\" konnte nicht gelesen werden. Bitte prüfen Sie, ob die Datei das Format *.kml. *.gpx, *.geojson oder *.json hat.",
                     "missingFileContent": "Fehler beim Lesen der Datei \"{{filename}}\". Bitte überprüfen Sie den Dateityp sowie den Inhalt der Datei. Falls die Datei fehlerfrei ist, wenden Sie sich bitte an den Support.",
                     "missingFormat": "Das Dateiformat {{format}} wird nicht unterstützt. Bitte wenden Sie sich an den Support.",
+                    "formatConversion": "Das Dateiformat \"{{format}}\" wurde in das \"gltf-Format\" konvertiert, bitte laden Sie die Datei \"{{file}}.gltf\" herunter und importieren diese erneut im 3D-Modell Import Tool",
                     "featureError": "Ein Feature in dieser Datei konnte nicht gelesen werden."
                 },
                 "successfullyImportedLabel": "Importierte 3D-Modelle:",

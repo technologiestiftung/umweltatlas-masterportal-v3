@@ -5,6 +5,7 @@ import {mapActions, mapGetters, mapMutations} from "vuex";
 import actions from "../store/actionsImport3D";
 import getters from "../store/gettersImport3D";
 import mutations from "../store/mutationsImport3D";
+import store from "../../../../app-store";
 import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader.js";
 import {OBJLoader} from "three/examples/jsm/loaders/OBJLoader.js";
 import {ColladaLoader} from "three/examples/jsm/loaders/ColladaLoader.js";
@@ -230,7 +231,8 @@ export default {
                 entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
                 models = this.importedModels,
                 lastElement = entities.values.slice().pop(),
-                lastId = lastElement?.id;
+                lastId = lastElement?.id,
+                alertingMessage = i18next.t("common:modules.tools.import3D.alertingMessages.formatConversion", {format: fileExtension, file: fileName});
 
             this.isDragging = true;
 
@@ -275,6 +277,7 @@ export default {
 
                     gltfExporter.parse(objData, (gltfData) => {
                         this.downloadConvertedObject(fileName, gltfData);
+                        store.dispatch("Alerting/addSingleAlert", alertingMessage, {root: true});
                     });
                 };
                 reader.readAsText(file);
@@ -292,6 +295,7 @@ export default {
 
                             gltfLoader.parse(gltfData, "", () => {
                                 this.downloadConvertedObject(fileName, gltfData);
+                                store.dispatch("Alerting/addSingleAlert", alertingMessage, {root: true});
                             });
                         });
                     });
