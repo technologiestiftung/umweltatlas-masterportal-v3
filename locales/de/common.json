@@ -598,7 +598,9 @@
                 "projections": {
                     "longitude": "Längengrad",
                     "latitude": "Breitengrad",
-                    "altitude": "Höhe"
+                    "altitude": "Höhe",
+                    "rotation": "Rotation",
+                    "rotationSwitch": "Rotationsschritte"
                 },
                 "alertingMessages": {
                     "success": "Die Datei \"{{filename}}\" wurde erfolgreich importiert.",

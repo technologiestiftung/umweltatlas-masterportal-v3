@@ -18,7 +18,6 @@ export default {
             isDragging: false,
             storePath: this.$store.state.Tools.Import3D,
             eventHandler: null,
-            entityIsPicked: false,
             rotationAngle: 0,
             rotationClickValue: 5,
             dropdownValues: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -131,7 +130,6 @@ export default {
             if (this.isDragging) {
                 this.removeInputActions();
                 this.isDragging = false;
-                this.entityIsPicked = false;
             }
         },
         moveEntity () {
@@ -172,9 +170,7 @@ export default {
             if (Cesium.defined(picked)) {
                 const entity = Cesium.defaultValue(picked.id, picked.primitive.id);
 
-                this.setCurrentModelId(entity.id);
                 this.rotationAngle = this.importedModels.find(model => model.id === this.currentModelId).heading;
-                this.entityIsPicked = true;
                 if ("id" in entity) {
                     this.editMode(entity.id);
                 }
@@ -404,7 +400,7 @@ export default {
                     <div>
                         <label
                             ref="upload-label"
-                            class="upload-button-wrapper"
+                            class="primary-button-wrapper"
                             tabindex="0"
                             @keydown="triggerClickOnFileInput"
                         >
@@ -495,7 +491,7 @@ export default {
                         class="cta"
                         v-html="$t('modules.tools.import3D.captions.editInfo')"
                     />
-
+                    <div class="h-seperator" />
                     <div>
                         <label
                             class="col-md-5 col-form-label"
@@ -503,7 +499,7 @@ export default {
                         >
                             {{ $t("modules.tools.import3D.projections.longitude") }}
                         </label>
-                        <div class="col-md-5 position-control">
+                        <div class="col-md-7 position-control">
                             <input
                                 id="tool-edit-lon"
                                 class="form-control form-control-sm"
@@ -517,7 +513,7 @@ export default {
                                     @click="changePositionValue('lon', 'inc')"
                                 >
                                     <i
-                                        class="inline-button bi bi-arrow-up"
+                                        class="bi bi-arrow-up"
                                     />
                                 </button>
                                 <button
@@ -525,7 +521,7 @@ export default {
                                     @click="changePositionValue('lon', 'dec')"
                                 >
                                     <i
-                                        class="inline-button bi bi-arrow-down"
+                                        class="bi bi-arrow-down"
                                     />
                                 </button>
                             </div>
@@ -536,7 +532,7 @@ export default {
                         >
                             {{ $t("modules.tools.import3D.projections.latitude") }}
                         </label>
-                        <div class="col-md-5 position-control">
+                        <div class="col-md-7 position-control">
                             <input
                                 id="tool-edit-lat"
                                 class="form-control form-control-sm"
@@ -550,7 +546,7 @@ export default {
                                     @click="changePositionValue('lat', 'inc')"
                                 >
                                     <i
-                                        class="inline-button bi bi-arrow-up"
+                                        class="bi bi-arrow-up"
                                     />
                                 </button>
                                 <button
@@ -558,7 +554,7 @@ export default {
                                     @click="changePositionValue('lat', 'dec')"
                                 >
                                     <i
-                                        class="inline-button bi bi-arrow-down"
+                                        class="bi bi-arrow-down"
                                     />
                                 </button>
                             </div>
@@ -569,7 +565,7 @@ export default {
                         >
                             {{ $t("modules.tools.import3D.projections.altitude") }}
                         </label>
-                        <div class="col-md-5 position-control">
+                        <div class="col-md-7 position-control">
                             <input
                                 id="tool-edit-alt"
                                 class="form-control form-control-sm"
@@ -583,7 +579,7 @@ export default {
                                     @click="changePositionValue('height', 'inc')"
                                 >
                                     <i
-                                        class="inline-button bi bi-arrow-up"
+                                        class="bi bi-arrow-up"
                                     />
                                 </button>
                                 <button
@@ -591,74 +587,88 @@ export default {
                                     @click="changePositionValue('height', 'dec')"
                                 >
                                     <i
-                                        class="inline-button bi bi-arrow-down"
+                                        class="bi bi-arrow-down"
                                     />
                                 </button>
                             </div>
                         </div>
                     </div>
+                    <div class="h-seperator" />
+                    <div>
+                        <label
+                            class="col-md-5 col-form-label"
+                            for="tool-edit-rotation"
+                        >
+                            {{ $t("modules.tools.import3D.projections.rotation") }}
+                        </label>
+                        <div class="col-md-3">
+                            <input
+                                id="tool-edit-rotation"
+                                v-model="rotationAngle"
+                                class="form-control form-control-sm"
+                                type="text"
+                                @input="rotate"
+                            >
+                        </div>
+                        <div class="position-control">
+                            <button
+                                class="btn btn-primary btn-sm"
+                                @click="decrementAngle"
+                            >
+                                <i
+                                    class="bi bi-arrow-left"
+                                />
+                            </button>
+                            <input
+                                id="tool-edit-rotation-slider"
+                                v-model="rotationAngle"
+                                aria-label="rotationSlider"
+                                class="font-arial form-range"
+                                type="range"
+                                min="-180"
+                                max="180"
+                                step="0.1"
+                                @input="rotate"
+                            >
+                            <button
+                                class="btn btn-primary btn-sm"
+                                @click="incrementAngle"
+                            >
+                                <i
+                                    class="bi bi-arrow-right"
+                                />
+                            </button>
+                        </div>
+                        <label
+                            class="col-md-7 col-form-label"
+                            for="tool-edit-rotation-switch"
+                        >
+                            {{ $t("modules.tools.import3D.projections.rotationSwitch") }}
+                        </label>
+                        <div class="col-md-3">
+                            <select
+                                v-model="rotationClickValue"
+                                class="form-select form-select-sm"
+                                aria-label="rotationClickValue"
+                            >
+                                <option
+                                    v-for="value in dropdownValues"
+                                    :key="value"
+                                    :value="value"
+                                >
+                                    {{ value }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="h-seperator" />
                     <button
                         id="tool-import3d-deactivateEditing"
-                        class="btn btn-primary btn-sm btn-margin"
+                        class="btn btn-primary btn-sm btn-margin primary-button-wrapper"
                         @click="setEditing(false)"
                     >
                         {{ $t("modules.tools.import3D.backToList") }}
                     </button>
-                </div>
-                <div>
-                    <div>
-                        <button
-                            class="btn btn-primary btn-sm"
-                            :disabled="!entityIsPicked"
-                            @click="decrementAngle"
-                        >
-                            <i
-                                class="inline-button bi"
-                                :class="'bi-arrow-left'"
-                            />
-                        </button>
-                        <input
-                            v-model="rotationAngle"
-                            :disabled="!entityIsPicked"
-                            aria-label="rotationSlider"
-                            class="font-arial"
-                            type="range"
-                            min="-180"
-                            max="180"
-                            step="0.1"
-                            @input="rotate"
-                        >
-                        <button
-                            class="btn btn-primary btn-sm"
-                            :disabled="!entityIsPicked"
-                            @click="incrementAngle"
-                        >
-                            <i
-                                class="inline-button bi"
-                                :class="'bi-arrow-right'"
-                            />
-                        </button>
-                        <select
-                            v-model="rotationClickValue"
-                            class="form-select form-select-sm"
-                            :disabled="!entityIsPicked"
-                            aria-label="rotationClickValue"
-                        >
-                            <option
-                                disabled
-                                value=""
-                            >
-                                Rotationsschritte wählen
-                            </option>
-                            <option
-                                v-for="value in dropdownValues"
-                                :key="value"
-                                :value="value"
-                            >
-                                {{ value }}
-                            </option>
-                        </select>
-                    </div>
                 </div>
             </div>
         </template>
@@ -681,7 +691,7 @@ export default {
         display: none;
     }
 
-    .upload-button-wrapper {
+    .primary-button-wrapper {
         color: $white;
         background-color: $secondary_focus;
         display: block;
@@ -764,14 +774,20 @@ export default {
     .inline-button {
         cursor: pointer;
         display: inline-block;
-    }
-
-    .inline-button:hover {
-        transform: translateY(-2px);
+        &:focus {
+            transform: translateY(-2px);
+        }
+        &:hover {
+            transform: translateY(-2px);
+        }
+        &:active {
+            transform: scale(0.98);
+        }
     }
 
     .position-control {
         display: flex;
+        gap: 0.25em;
     }
 
     .btn-margin {
@@ -780,6 +796,18 @@ export default {
 
     .btn-pos {
         padding: 0.25em;
+    }
+
+    .btn-primary {
+        &:focus {
+            @include primary_action_focus;
+        }
+        &:hover {
+            @include primary_action_hover;
+        }
+        &:active {
+            transform: scale(0.98);
+        }
     }
 
     ul {
