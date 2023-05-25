@@ -627,7 +627,7 @@ export default {
                                 type="range"
                                 min="-180"
                                 max="180"
-                                step="0.1"
+                                step="1"
                                 @input="rotate"
                             >
                             <button
