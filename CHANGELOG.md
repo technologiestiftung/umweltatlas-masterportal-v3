@@ -14,7 +14,7 @@
 
 ### Changed
 - The version of node was updated to `^16.13.2 || ^18.16.0`. If you use node 18, you must provide the environment variable `NODE_OPTIONS=--openssl-legacy-provider` or you can alter npm scripts using cross-env, e.g. `"start": "cross-env NODE_OPTIONS=--openssl-legacy-provider webpack-dev-server --config devtools/webpack.dev.js"` to avoid errors with webpack 4 (see https://github.com/webpack/webpack/issues/14532#issuecomment-947807590).
-- The version of npm was updated, must be `^8.1.2 || ^9.5.1`
+- The version of npm was updated to `^8.1.2 || ^9.5.1`
 - The following NPM packages have been updated:
   - dependencies:
     - @masterportal/masterportalapi: 2.17.0 to 2.18.0
@@ -32,7 +32,7 @@
 - DefaultTree Parser: 3d layers will only be created if 3dLayerList exists.
 
 ### Deprecated
-- node 16 will no longer be supported as of September 2023 (see https://github.com/nodejs/release#release-schedule)
+- Node 16 will no longer be supported as of September 2023 (see https://github.com/nodejs/release#release-schedule).
 
 ### Removed
 - The following NPM packages have been removed:
