@@ -50,7 +50,15 @@ export default {
          */
         active (isActive) {
             if (isActive) {
+                const scene = mapCollection.getMap("3D").getCesiumScene();
+
                 this.setFocusToFirstControl();
+                this.eventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+                this.eventHandler.setInputAction(this.selectEntity, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+                this.eventHandler.setInputAction(this.moveEntity, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+            }
+            else {
+                this.eventHandler.destroy();
             }
         },
         currentModelPosition (position) {
@@ -59,14 +67,6 @@ export default {
     },
     created () {
         this.$on("close", this.close);
-    },
-    updated () {
-        // TODO: Eventuell woanders auslagern, wenn Component sich ändert!
-        const scene = mapCollection.getMap("3D").getCesiumScene();
-
-        this.eventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
-        this.eventHandler.setInputAction(this.selectEntity, Cesium.ScreenSpaceEventType.LEFT_CLICK);
-        this.eventHandler.setInputAction(this.moveEntity, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
     },
     methods: {
         ...mapActions("Tools/Import3D", Object.keys(actions)),
@@ -112,7 +112,8 @@ export default {
                 const scene = mapCollection.getMap("3D").getCesiumScene(),
                     ray = scene.camera.getPickRay(event.endPosition),
                     position = scene.globe.pick(ray, scene),
-                    hpr = new Cesium.HeadingPitchRoll(this.initialHeading, 0.0, 0.0); // Heading: 0 Grad, Pitch: 0 Grad, Roll: 0 Grad;
+                    heading = Cesium.Math.toRadians(parseInt(this.rotationAngle, 10)),
+                    hpr = new Cesium.HeadingPitchRoll(heading, 0.0, 0.0); // Heading: 0 Grad, Pitch: 0 Grad, Roll: 0 Grad;
 
                 if (Cesium.defined(position)) {
                     const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
