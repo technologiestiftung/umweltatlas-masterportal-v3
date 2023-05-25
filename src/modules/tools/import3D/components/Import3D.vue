@@ -5,6 +5,7 @@ import {mapActions, mapGetters, mapMutations} from "vuex";
 import actions from "../store/actionsImport3D";
 import getters from "../store/gettersImport3D";
 import mutations from "../store/mutationsImport3D";
+import store from "../../../../app-store";
 
 export default {
     name: "Import3D",
@@ -197,11 +198,16 @@ export default {
             this.setEditing(true);
         },
         highlightEntity (entity) {
-            entity.model.color = Cesium.Color.RED;
-            entity.model.silhouetteColor = Cesium.Color.RED;
-            entity.model.silhouetteSize = 4;
+            const configuredHighlightStyle = store.state.configJson.Portalconfig.menu.tools.children.import3D.highlightStyle,
+                color = configuredHighlightStyle?.color || this.highlightStyle.color,
+                alpha = configuredHighlightStyle?.alpha || this.highlightStyle.alpha,
+                silhouetteColor = configuredHighlightStyle?.silhouetteColor || this.highlightStyle.silhouetteColor,
+                silhouetteSize = configuredHighlightStyle?.silhouetteSize || this.highlightStyle.silhouetteSize;
+
+            entity.model.color = Cesium.Color.fromAlpha(Cesium.Color.fromCssColorString(color), parseFloat(alpha));
+            entity.model.silhouetteColor = Cesium.Color.fromCssColorString(silhouetteColor);
+            entity.model.silhouetteSize = silhouetteSize;
             entity.model.colorBlendMode = Cesium.ColorBlendMode.HIGHLIGHT;
-            entity.model.colorBlendAmount = 0.75;
         },
         setPositionValue (type, value) {
             const position = this.currentModelPosition,
