@@ -17,7 +17,7 @@
 - The version of npm was updated to `^8.1.2 || ^9.5.1`
 - The following NPM packages have been updated:
   - dependencies:
-    - @masterportal/masterportalapi: 2.17.0 to 2.18.0
+    - @masterportal/masterportalapi: 2.17.0 to 2.19.0
 
 ### Fixed
 - Tool Coordinates: no errors occur on mobile devices.
