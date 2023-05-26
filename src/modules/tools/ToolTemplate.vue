@@ -454,6 +454,7 @@ export default {
         padding: 0 0 0 12px;
         height: 100%;
         width: var(--initialToolWidth);
+        max-width: 90vw;
 
         @include media-breakpoint-down(md) {
             width: var(--initialToolWidthMobile);
