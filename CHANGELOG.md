@@ -22,7 +22,10 @@
 
 ### Fixed
 - Tool Coordinates: no errors occur on mobile devices.
-- FileImport: Error fixed when importing KML file with polygon without label.
+- FileImport:
+  - Error fixed when importing KML file with polygon without label.
+  - KML exported from QGIS can now be loaded in the master portal.
+  - Handling of KML generated from the master portal has been improved.
 - URLParam: multiple mdIds entries in the url result in added layers again.
 - Issue #1016: Draw: When creating a text, it is now prevented that a previous is changed.
 - Issue #1021: vectorStyle can now handle geometryCollections.
