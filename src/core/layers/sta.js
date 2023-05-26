@@ -1391,8 +1391,8 @@ STALayer.prototype.startIntervalUpdate = function (timeout) {
             qos = this.get("mqttQos");
 
         this.unsubscribeFromSensorThings(datastreamIds, subscriptionTopics, version, isVisibleInMap, mqttClient);
-        this.initializeConnection(features => {
-            this.subscribeToSensorThings(
+        this.initializeConnection(async features => {
+            await this.subscribeToSensorThings(
                 this.getDatastreamIdsInCurrentExtent(features, store.getters["Maps/getCurrentExtent"]),
                 subscriptionTopics,
                 version,
@@ -1410,7 +1410,7 @@ STALayer.prototype.startIntervalUpdate = function (timeout) {
  */
 STALayer.prototype.updateSubscription = function () {
     // Timout to avoid display issues with url params see FLS-299 ticket. Issue has to be resolved without timeout.
-    setTimeout(() =>{
+    setTimeout(async () =>{
         const datastreamIds = this.getDatastreamIdsInCurrentExtent(this.get("layer").getSource().getFeatures(), store.getters["Maps/getCurrentExtent"]),
             subscriptionTopics = this.get("subscriptionTopics"),
             version = this.get("version"),
@@ -1421,12 +1421,12 @@ STALayer.prototype.updateSubscription = function () {
 
         if (!this.get("loadThingsOnlyInCurrentExtent") && !this.moveLayerRevisible) {
             this.unsubscribeFromSensorThings(datastreamIds, subscriptionTopics, version, isVisibleInMap, mqttClient);
-            this.subscribeToSensorThings(datastreamIds, subscriptionTopics, version, mqttClient, {rh, qos});
+            await this.subscribeToSensorThings(datastreamIds, subscriptionTopics, version, mqttClient, {rh, qos});
         }
         else {
             this.unsubscribeFromSensorThings(datastreamIds, subscriptionTopics, version, isVisibleInMap, mqttClient);
-            this.initializeConnection(() => {
-                this.subscribeToSensorThings(
+            this.initializeConnection(async () => {
+                await this.subscribeToSensorThings(
                     this.getDatastreamIdsInCurrentExtent(this.get("layer").getSource().getFeatures(), store.getters["Maps/getCurrentExtent"]),
                     subscriptionTopics,
                     version,
@@ -1610,18 +1610,22 @@ STALayer.prototype.unsubscribeFromSensorThings = function (datastreamIdsNotToUns
  * @param {Object} mqttSubscribeOptions an object with key rh and qos to subscribe with
  * @returns {Boolean} returns true on success and false if something went wrong
  */
-STALayer.prototype.subscribeToSensorThings = function (dataStreamIds, subscriptionTopics, version, mqttClient, mqttSubscribeOptions = {}) {
+STALayer.prototype.subscribeToSensorThings = async function (dataStreamIds, subscriptionTopics, version, mqttClient, mqttSubscribeOptions = {}) {
     if (!Array.isArray(dataStreamIds) || !isObject(subscriptionTopics) || !isObject(mqttClient)) {
         return false;
     }
 
-    const layerSource = this.get("layerSource") instanceof Cluster ? this.get("layerSource").getSource() : this.get("layerSource");
+    const layerSource = this.get("layerSource") instanceof Cluster ? this.get("layerSource").getSource() : this.get("layerSource"),
+        newSubscriptionTopics = subscriptionTopics;
 
-    dataStreamIds.forEach(id => {
+    for (let i = 0; i < dataStreamIds.length; i++) {
+        const id = dataStreamIds[i];
+
         if (id && !subscriptionTopics[id]) {
-            mqttClient.subscribe("v" + version + "/Datastreams(" + id + ")/Observations", mqttSubscribeOptions);
+            await mqttClient.subscribe("v" + version + "/Datastreams(" + id + ")/Observations", mqttSubscribeOptions);
+
             if (this.get("observeLocation")) {
-                mqttClient.subscribe("v" + version + "/Datastreams(" + id + ")/Thing/Locations", mqttSubscribeOptions, () => {
+                await mqttClient.subscribe("v" + version + "/Datastreams(" + id + ")/Thing/Locations", mqttSubscribeOptions, () => {
                     if (this.get("loadThingsOnlyInCurrentExtent")) {
                         return;
                     }
@@ -1639,19 +1643,19 @@ STALayer.prototype.subscribeToSensorThings = function (dataStreamIds, subscripti
                     );
                 });
             }
-            subscriptionTopics[id] = true;
+            newSubscriptionTopics[id] = true;
 
             const feature = this.getFeatureByDatastreamId(layerSource.getFeatures(), id);
 
             if (!isObject(feature)) {
-                return;
+                continue;
             }
             feature.set("subscribed", true, true);
             this.subscribedDataStreamIds[id] = {
                 subscribed: true
             };
         }
-    });
+    }
 
     return true;
 };
