@@ -595,6 +595,13 @@
                     "dropzone": "Datei hier ablegen",
                     "browse": "Datei auswählen"
                 },
+                "projections": {
+                    "longitude": "Längengrad",
+                    "latitude": "Breitengrad",
+                    "altitude": "Höhe",
+                    "rotation": "Rotation",
+                    "rotationSwitch": "Rotationsschritte"
+                },
                 "alertingMessages": {
                     "success": "Die Datei \"{{filename}}\" wurde erfolgreich importiert.",
                     "successPartly": "Die Datei \"{{filename}}\" wurde teilweise importiert.",
@@ -608,6 +615,7 @@
                 "title": "Datei importieren",
                 "visibilityTitle": "3D-Modell \"{{name}}\" ein-/ausblenden",
                 "editModel": "3D-Modell \"{{name}}\" bearbeiten",
+                "backToList": "Zurück zur Übersicht",
                 "rotationPlaceholder": "Inkrement-/Dekrement-Schritte"
             },
             "parcelSearch": {
