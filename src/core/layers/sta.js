@@ -430,6 +430,7 @@ STALayer.prototype.createMqttConnectionToSensorThings = function (url, mqttOptio
             console.warn(error);
         }),
         options = Object.assign({
+            browserBufferSize: 65536,
             host: mqttHost,
             rhPath: url,
             context: this,
@@ -652,7 +653,7 @@ STALayer.prototype.initializeConnection = function (onsuccess, updateOnly = fals
             }
         }
         if (this.get("observeLocation") && this.get("loadThingsOnlyInCurrentExtent")) {
-            this.getHistoricalLocationsOfFeatures();
+            // this.getHistoricalLocationsOfFeatures();
         }
     }, error => {
         if (typeof this.options.onLoadingError === "function") {
