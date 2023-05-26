@@ -43,7 +43,7 @@
     - devDependencies:
         - string-replace-loader
     - dependencies:
-         -dayjs (moved to masterportalAPI dependency)
+         - dayjs (moved to masterportalAPI dependency)
 
 ---
 
