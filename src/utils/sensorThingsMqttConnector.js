@@ -23,6 +23,7 @@ export class SensorThingsMqttConnector {
     constructor () {
         /** private */
         this.options = {
+            browserBufferSize: 65536,
             host: "https://localhost",
             port: "",
             path: "/mqtt",
