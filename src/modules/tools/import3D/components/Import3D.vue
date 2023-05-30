@@ -5,6 +5,7 @@ import {mapActions, mapGetters, mapMutations} from "vuex";
 import actions from "../store/actionsImport3D";
 import getters from "../store/gettersImport3D";
 import mutations from "../store/mutationsImport3D";
+import {fromLonLat, toLonLat} from "ol/proj.js";
 
 export default {
     name: "Import3D",
@@ -20,24 +21,47 @@ export default {
             eventHandler: null,
             rotationAngle: 0,
             rotationClickValue: 5,
-            dropdownValues: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            rotationDropdownValues: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            projections: ["EPSG:4326", "EPSG:25832"]
         };
     },
     computed: {
         ...mapGetters("Tools/Import3D", Object.keys(getters)),
 
-        latitudeComputed () {
-            return Cesium.Math.toDegrees(Cesium.Cartographic.fromCartesian(this.currentModelPosition).latitude).toFixed(5);
-        },
-        longitudeComputed () {
-            return Cesium.Math.toDegrees(Cesium.Cartographic.fromCartesian(this.currentModelPosition).longitude).toFixed(5);
-        },
-        altitudeComputed () {
-            return Cesium.Cartographic.fromCartesian(this.currentModelPosition).height.toFixed(1);
-        },
-
         dropZoneAdditionalClass: function () {
             return this.dzIsDropHovering ? "dzReady" : "";
+        },
+        currentSelection: {
+            get () {
+                return this.currentProjection;
+            },
+            set (newValue) {
+                this.setCurrentProjection(newValue);
+            }
+        },
+        eastingString: {
+            get () {
+                return this.coordinatesEasting;
+            },
+            set (newValue) {
+                this.setCoordinatesEasting(newValue);
+            }
+        },
+        northingString: {
+            get () {
+                return this.coordinatesNorthing;
+            },
+            set (newValue) {
+                this.setCoordinatesNorthing(newValue);
+            }
+        },
+        altitudeString: {
+            get () {
+                return this.coordinatesAltitude;
+            },
+            set (newValue) {
+                this.setCoordinatesAltitude(newValue);
+            }
         },
 
         console: () => console
@@ -61,8 +85,24 @@ export default {
                 this.eventHandler.destroy();
             }
         },
-        currentModelPosition (position) {
-            this.updateEntityPosition(position);
+        currentModelId (newId, oldId) {
+            if (newId) {
+                const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+                    entity = entities.getById(newId);
+
+                this.highlightEntity(entity);
+            }
+            else {
+                const scene = mapCollection.getMap("3D").getCesiumScene(),
+                    entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+                    entity = entities.getById(oldId);
+
+                entity.model.color = Cesium.Color.WHITE;
+                entity.model.silhouetteColor = null;
+                entity.model.silhouetteSize = 0;
+                entity.model.colorBlendAmount = 0;
+                scene.requestRender();
+            }
         }
     },
     created () {
@@ -111,20 +151,20 @@ export default {
             if (this.isDragging) {
                 const scene = mapCollection.getMap("3D").getCesiumScene(),
                     ray = scene.camera.getPickRay(event.endPosition),
-                    position = scene.globe.pick(ray, scene),
-                    heading = Cesium.Math.toRadians(parseInt(this.rotationAngle, 10)),
-                    hpr = new Cesium.HeadingPitchRoll(heading, 0.0, 0.0); // Heading: 0 Grad, Pitch: 0 Grad, Roll: 0 Grad;
+                    position = scene.globe.pick(ray, scene);
+
+                // heading = Cesium.Math.toRadians(parseInt(this.rotationAngle, 10)),
+                // hpr = new Cesium.HeadingPitchRoll(heading, 0.0, 0.0); // Heading: 0 Grad, Pitch: 0 Grad, Roll: 0 Grad;
 
                 if (Cesium.defined(position)) {
                     const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
                         entity = entities.getById(this.currentModelId);
 
                     if (Cesium.defined(entity)) {
-                        this.highlightEntity(entity);
                         entity.position = position;
-                        entity.orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
+                        this.updatePositionUI();
+                        // entity.orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
                     }
-                    this.setCurrentModelPosition(position);
                 }
             }
         },
@@ -139,6 +179,27 @@ export default {
 
             this.eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
             this.eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_UP);
+        },
+        updatePositionUI () {
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+                entity = entities.getById(this.currentModelId),
+                entityPosition = entity.position.getValue(),
+                cartographic = Cesium.Cartographic.fromCartesian(entityPosition);
+
+            if (this.currentProjection === "EPSG:25832") {
+                const coords = fromLonLat([cartographic.longitude, cartographic.latitude], "EPSG:25832");
+
+                console.log(coords);
+
+                this.setCoordinatesEasting(coords[0]);
+                this.setCoordinatesNorthing(coords[1]);
+            }
+            else {
+                this.setCoordinatesEasting(Cesium.Math.toDegrees(cartographic.longitude).toFixed(5));
+                this.setCoordinatesNorthing(Cesium.Math.toDegrees(cartographic.latitude).toFixed(5));
+            }
+
+            this.setCoordinatesAltitude(cartographic.height.toFixed(1));
         },
         rotate () {
             const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
@@ -172,29 +233,14 @@ export default {
             if (Cesium.defined(picked)) {
                 const entity = Cesium.defaultValue(picked.id, picked.primitive.id);
 
-                if (this.currentModelId !== entity.id) {
-                    this.leaveEditMode(this.currentModelId);
-                }
-                this.rotationAngle = this.importedModels.find(model => model.id === this.currentModelId).heading;
                 if ("id" in entity) {
                     scene.requestRender();
-                    this.editMode(entity.id);
+
+                    this.setCurrentModelId(entity.id);
+                    this.rotationAngle = this.importedModels.find(model => model.id === this.currentModelId).heading;
                 }
             }
             return undefined;
-        },
-        editMode (id) {
-            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
-                entity = entities.getById(id),
-                entityPosition = entity.position.getValue();
-
-            if (this.currentModelId !== id) {
-                this.leaveEditMode(id);
-            }
-            this.highlightEntity(entity);
-            this.setCurrentModelId(id);
-            this.setCurrentModelPosition(entityPosition);
-            this.setEditing(true);
         },
         highlightEntity (entity) {
             entity.model.color = Cesium.Color.RED;
@@ -203,70 +249,73 @@ export default {
             entity.model.colorBlendMode = Cesium.ColorBlendMode.HIGHLIGHT;
             entity.model.colorBlendAmount = 0.75;
         },
-        setPositionValue (type, value) {
-            const position = this.currentModelPosition,
-                cartographic = Cesium.Cartographic.fromCartesian(position);
-
-            cartographic.latitude = Cesium.Math.toDegrees(cartographic.latitude);
-            cartographic.longitude = Cesium.Math.toDegrees(cartographic.longitude);
-
-            if (type === "lat") {
-                cartographic.latitude = parseFloat(value);
-            }
-            else if (type === "lon") {
-                cartographic.longitude = parseFloat(value);
-            }
-            else if (type === "height") {
-                cartographic.height = parseFloat(value);
-            }
-
-            this.setCurrentModelPosition(Cesium.Cartesian3.fromDegrees(
-                cartographic.longitude,
-                cartographic.latitude,
-                cartographic.height
-            ));
-        },
-        changePositionValue (type, operation) {
-            const position = this.currentModelPosition,
-                cartographic = Cesium.Cartographic.fromCartesian(position);
-
-            cartographic.latitude = Cesium.Math.toDegrees(cartographic.latitude);
-            cartographic.longitude = Cesium.Math.toDegrees(cartographic.longitude);
-
-            if (operation === "inc") {
-                if (type === "lat") {
-                    cartographic.latitude += 0.00001;
-                }
-                else if (type === "lon") {
-                    cartographic.longitude += 0.00001;
-                }
-                else if (type === "height") {
-                    cartographic.height += 0.1;
-                }
-            }
-            else if (operation === "dec") {
-                if (type === "lat") {
-                    cartographic.latitude -= 0.00001;
-                }
-                else if (type === "lon") {
-                    cartographic.longitude -= 0.00001;
-                }
-                else if (type === "height") {
-                    cartographic.height -= 0.1;
-                }
-            }
-
-            this.setCurrentModelPosition(Cesium.Cartesian3.fromDegrees(
-                cartographic.longitude,
-                cartographic.latitude,
-                cartographic.height
-            ));
-        },
-        updateEntityPosition (position) {
+        updateEntityPosition () {
             const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
-                entity = entities.getById(this.currentModelId);
+                entity = entities.getById(this.currentModelId),
+                altitude = parseFloat(this.coordinatesAltitude);
 
-            entity.position = position;
+            if (!entity) {
+                return;
+            }
+
+            let easting = parseFloat(this.coordinatesEasting),
+                northing = parseFloat(this.coordinatesNorthing);
+
+            if (this.currentProjection === "EPSG:25832") {
+                [easting, northing] = toLonLat([easting, northing]);
+            }
+
+            entity.position = Cesium.Cartesian3.fromDegrees(easting, northing, altitude);
+        },
+        incrementCoordinate (coordinate) {
+            if (this.currentProjection === "EPSG:25832") {
+                if (coordinate === "easting") {
+                    this.setCoordinatesEasting(parseFloat(this.coordinatesEasting) + 1);
+                }
+                else if (coordinate === "northing") {
+                    this.setCoordinatesNorthing(parseFloat(this.coordinatesNorthing) + 1);
+                }
+                else if (coordinate === "altitude") {
+                    this.setCoordinatesAltitude(parseFloat(this.coordinatesAltitude) + 0.1);
+                }
+            }
+            else if (this.currentProjection === "EPSG:4326") {
+                if (coordinate === "easting") {
+                    this.setCoordinatesEasting((parseFloat(this.coordinatesEasting) + 0.00001).toFixed(5));
+                }
+                else if (coordinate === "northing") {
+                    this.setCoordinatesNorthing((parseFloat(this.coordinatesNorthing) + 0.00001).toFixed(5));
+                }
+                else if (coordinate === "altitude") {
+                    this.setCoordinatesAltitude((parseFloat(this.coordinatesAltitude) + 0.1).toFixed(1));
+                }
+            }
+            this.updateEntityPosition();
+        },
+        decrementCoordinate (coordinate) {
+            if (this.currentProjection === "EPSG:25832") {
+                if (coordinate === "easting") {
+                    this.setCoordinatesEasting(parseFloat(this.coordinatesEasting) - 1);
+                }
+                else if (coordinate === "northing") {
+                    this.setCoordinatesNorthing(parseFloat(this.coordinatesNorthing) - 1);
+                }
+                else if (coordinate === "altitude") {
+                    this.setCoordinatesAltitude(parseFloat(this.coordinatesAltitude) - 0.1);
+                }
+            }
+            else if (this.currentProjection === "EPSG:4326") {
+                if (coordinate === "easting") {
+                    this.setCoordinatesEasting((parseFloat(this.coordinatesEasting) - 0.00001).toFixed(5));
+                }
+                else if (coordinate === "northing") {
+                    this.setCoordinatesNorthing((parseFloat(this.coordinatesNorthing) - 0.00001).toFixed(5));
+                }
+                else if (coordinate === "altitude") {
+                    this.setCoordinatesAltitude((parseFloat(this.coordinatesAltitude) - 0.1).toFixed(1));
+                }
+            }
+            this.updateEntityPosition();
         },
         removeInputActions () {
             if (this.eventHandler) {
@@ -353,18 +402,6 @@ export default {
             if (model) {
                 model.set("isActive", false);
             }
-        },
-        leaveEditMode (id) {
-            const scene = mapCollection.getMap("3D").getCesiumScene(),
-                entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
-                entity = id ? entities.getById(id) : entities.getById(this.currentModelId);
-
-            entity.model.color = Cesium.Color.WHITE;
-            entity.model.silhouetteColor = null;
-            entity.model.silhouetteSize = 0;
-            entity.model.colorBlendAmount = 0;
-            scene.requestRender();
-            this.setEditing(false);
         }
     }
 };
@@ -385,7 +422,7 @@ export default {
                 v-if="active"
                 id="tool-import3d"
             >
-                <div v-if="!editing">
+                <div v-if="!currentModelId">
                     <p
                         class="cta"
                         v-html="$t('modules.tools.import3D.captions.introInfo')"
@@ -478,8 +515,8 @@ export default {
                                             class="inline-button bi"
                                             :class="{ 'bi-pencil-fill': isHovering === `${index}-edit`, 'bi-pencil': isHovering !== `${index}-edit`}"
                                             :title="$t(`common:modules.tools.import3D.editModel`, {name: model.name})"
-                                            @click="editMode(model.id)"
-                                            @keydown.enter="editMode(model.id)"
+                                            @click="setCurrentModelId(model.id)"
+                                            @keydown.enter="setCurrentModelId(model.id)"
                                             @mouseover="isHovering = `${index}-edit`"
                                             @mouseout="isHovering = false"
                                             @focusin="isHovering = `${index}-edit`"
@@ -515,186 +552,226 @@ export default {
                         </p>
                     </div>
                 </div>
-                <div v-if="editing">
+                <div v-if="currentModelId">
                     <p
                         class="cta"
                         v-html="$t('modules.tools.import3D.captions.editInfo')"
                     />
                     <div class="h-seperator" />
+                    <div class="form-group form-group-sm row">
+                        <label
+                            class="col-md-5 col-form-label"
+                            for="tool-edit-projection"
+                        >
+                            {{ $t("modules.tools.import3D.projections.projection") }}
+                        </label>
+                        <div class="col-md-7">
+                            <select
+                                v-model="currentSelection"
+                                class="form-select form-select-sm"
+                                aria-label="currentProjection"
+                                @select="updatePositionUI"
+                            >
+                                <option
+                                    v-for="(projection, i) in projections"
+                                    :key="i"
+                                    :value="projection"
+                                >
+                                    {{ projection }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="h-seperator" />
                     <div>
-                        <label
-                            class="col-md-5 col-form-label"
-                            for="tool-edit-lon"
-                        >
-                            {{ $t("modules.tools.import3D.projections.longitude") }}
-                        </label>
-                        <div class="col-md-7 position-control">
-                            <input
-                                id="tool-edit-lon"
-                                class="form-control form-control-sm"
-                                type="text"
-                                :value="longitudeComputed"
-                                @input="setPositionValue('lon', $event.target.value)"
+                        <div class="form-group form-group-sm row">
+                            <label
+                                class="col-md-5 col-form-label"
+                                for="longitudeField"
                             >
-                            <div>
-                                <button
-                                    class="btn btn-primary btn-sm btn-pos"
-                                    @click="changePositionValue('lon', 'inc')"
+                                {{ $t("modules.tools.import3D.projections.longitude") }}
+                            </label>
+                            <div class="col-md-7 position-control">
+                                <input
+                                    id="longitudeField"
+                                    v-model="eastingString"
+                                    class="form-control form-control-sm"
+                                    type="text"
+                                    @input="updateEntityPosition"
                                 >
-                                    <i
-                                        class="bi bi-arrow-up"
-                                    />
-                                </button>
-                                <button
-                                    class="btn btn-primary btn-sm btn-pos"
-                                    @click="changePositionValue('lon', 'dec')"
-                                >
-                                    <i
-                                        class="bi bi-arrow-down"
-                                    />
-                                </button>
+                                <div>
+                                    <button
+                                        class="btn btn-primary btn-sm btn-pos"
+                                        @click="incrementCoordinate('easting')"
+                                    >
+                                        <i
+                                            class="bi bi-arrow-up"
+                                        />
+                                    </button>
+                                    <button
+                                        class="btn btn-primary btn-sm btn-pos"
+                                        @click="decrementCoordinate('easting')"
+                                    >
+                                        <i
+                                            class="bi bi-arrow-down"
+                                        />
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                        <label
-                            class="col-md-5 col-form-label"
-                            for="tool-edit-lat"
-                        >
-                            {{ $t("modules.tools.import3D.projections.latitude") }}
-                        </label>
-                        <div class="col-md-7 position-control">
-                            <input
-                                id="tool-edit-lat"
-                                class="form-control form-control-sm"
-                                type="text"
-                                :value="latitudeComputed"
-                                @input="setPositionValue('lat', $event.target.value)"
+                        <div class="form-group form-group-sm row">
+                            <label
+                                class="col-md-5 col-form-label"
+                                for="latitudeField"
                             >
-                            <div>
-                                <button
-                                    class="btn btn-primary btn-sm btn-pos"
-                                    @click="changePositionValue('lat', 'inc')"
+                                {{ $t("modules.tools.import3D.projections.latitude") }}
+                            </label>
+                            <div class="col-md-7 position-control">
+                                <input
+                                    id="latitudeField"
+                                    v-model="northingString"
+                                    class="form-control form-control-sm"
+                                    type="text"
+                                    @input="updateEntityPosition"
                                 >
-                                    <i
-                                        class="bi bi-arrow-up"
-                                    />
-                                </button>
-                                <button
-                                    class="btn btn-primary btn-sm btn-pos"
-                                    @click="changePositionValue('lat', 'dec')"
-                                >
-                                    <i
-                                        class="bi bi-arrow-down"
-                                    />
-                                </button>
+                                <div>
+                                    <button
+                                        id="latitude-increment"
+                                        class="btn btn-primary btn-sm btn-pos"
+                                        @click="incrementCoordinate('northing')"
+                                    >
+                                        <i
+                                            class="bi bi-arrow-up"
+                                        />
+                                    </button>
+                                    <button
+                                        id="latitude-decrement"
+                                        class="btn btn-primary btn-sm btn-pos"
+                                        @click="decrementCoordinate('northing')"
+                                    >
+                                        <i
+                                            class="bi bi-arrow-down"
+                                        />
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                        <label
-                            class="col-md-5 col-form-label"
-                            for="tool-edit-alt"
-                        >
-                            {{ $t("modules.tools.import3D.projections.altitude") }}
-                        </label>
-                        <div class="col-md-7 position-control">
-                            <input
-                                id="tool-edit-alt"
-                                class="form-control form-control-sm"
-                                type="text"
-                                :value="altitudeComputed"
-                                @input="setPositionValue('height', $event.target.value)"
+                        <div class="form-group form-group-sm row">
+                            <label
+                                class="col-md-5 col-form-label"
+                                for="altitudeField"
                             >
-                            <div>
-                                <button
-                                    class="btn btn-primary btn-sm btn-pos"
-                                    @click="changePositionValue('height', 'inc')"
+                                {{ $t("modules.tools.import3D.projections.altitude") }}
+                            </label>
+                            <div class="col-md-7 position-control">
+                                <input
+                                    id="altitudeField"
+                                    v-model="altitudeString"
+                                    class="form-control form-control-sm"
+                                    type="text"
+                                    @input="updateEntityPosition"
                                 >
-                                    <i
-                                        class="bi bi-arrow-up"
-                                    />
-                                </button>
-                                <button
-                                    class="btn btn-primary btn-sm btn-pos"
-                                    @click="changePositionValue('height', 'dec')"
-                                >
-                                    <i
-                                        class="bi bi-arrow-down"
-                                    />
-                                </button>
+                                <div>
+                                    <button
+                                        id="altitude-increment"
+                                        class="btn btn-primary btn-sm btn-pos"
+                                        @click="incrementCoordinate('altitude')"
+                                    >
+                                        <i
+                                            class="bi bi-arrow-up"
+                                        />
+                                    </button>
+                                    <button
+                                        class="btn btn-primary btn-sm btn-pos"
+                                        @click="decrementCoordinate('altitude')"
+                                    >
+                                        <i
+                                            class="bi bi-arrow-down"
+                                        />
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="h-seperator" />
                     <div>
-                        <label
-                            class="col-md-5 col-form-label"
-                            for="tool-edit-rotation"
-                        >
-                            {{ $t("modules.tools.import3D.projections.rotation") }}
-                        </label>
-                        <div class="col-md-3">
-                            <input
-                                id="tool-edit-rotation"
-                                v-model="rotationAngle"
-                                class="form-control form-control-sm"
-                                type="text"
-                                @input="rotate"
+                        <div class="form-group form-group-sm row">
+                            <label
+                                class="col-md-8 col-form-label"
+                                for="tool-edit-rotation"
                             >
-                        </div>
-                        <div class="position-control">
-                            <button
-                                class="btn btn-primary btn-sm"
-                                @click="decrementAngle"
-                            >
-                                <i
-                                    class="bi bi-arrow-left"
-                                />
-                            </button>
-                            <input
-                                id="tool-edit-rotation-slider"
-                                v-model="rotationAngle"
-                                aria-label="rotationSlider"
-                                class="font-arial form-range"
-                                type="range"
-                                min="-180"
-                                max="180"
-                                step="1"
-                                @input="rotate"
-                            >
-                            <button
-                                class="btn btn-primary btn-sm"
-                                @click="incrementAngle"
-                            >
-                                <i
-                                    class="bi bi-arrow-right"
-                                />
-                            </button>
-                        </div>
-                        <label
-                            class="col-md-7 col-form-label"
-                            for="tool-edit-rotation-switch"
-                        >
-                            {{ $t("modules.tools.import3D.projections.rotationSwitch") }}
-                        </label>
-                        <div class="col-md-3">
-                            <select
-                                v-model="rotationClickValue"
-                                class="form-select form-select-sm"
-                                aria-label="rotationClickValue"
-                            >
-                                <option
-                                    v-for="value in dropdownValues"
-                                    :key="value"
-                                    :value="value"
+                                {{ $t("modules.tools.import3D.projections.rotation") }}
+                            </label>
+                            <div class="col-md-3">
+                                <input
+                                    id="tool-edit-rotation"
+                                    v-model="rotationAngle"
+                                    class="form-control form-control-sm"
+                                    type="text"
+                                    @input="rotate"
                                 >
-                                    {{ value }}
-                                </option>
-                            </select>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm row">
+                            <div class="position-control">
+                                <button
+                                    class="btn btn-primary btn-sm"
+                                    @click="decrementAngle"
+                                >
+                                    <i
+                                        class="bi bi-arrow-left"
+                                    />
+                                </button>
+                                <input
+                                    id="tool-edit-rotation-slider"
+                                    v-model="rotationAngle"
+                                    aria-label="rotationSlider"
+                                    class="font-arial form-range"
+                                    type="range"
+                                    min="-180"
+                                    max="180"
+                                    step="1"
+                                    @input="rotate"
+                                >
+                                <button
+                                    class="btn btn-primary btn-sm"
+                                    @click="incrementAngle"
+                                >
+                                    <i
+                                        class="bi bi-arrow-right"
+                                    />
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm row">
+                            <label
+                                class="col-md-7 col-form-label"
+                                for="tool-edit-rotation-switch"
+                            >
+                                {{ $t("modules.tools.import3D.projections.rotationSwitch") }}
+                            </label>
+                            <div class="col-md-4">
+                                <select
+                                    v-model="rotationClickValue"
+                                    class="form-select form-select-sm"
+                                    aria-label="rotationClickValue"
+                                >
+                                    <option
+                                        v-for="value in rotationDropdownValues"
+                                        :key="value"
+                                        :value="value"
+                                    >
+                                        {{ value }}
+                                    </option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="h-seperator" />
                     <button
                         id="tool-import3d-deactivateEditing"
                         class="btn btn-primary btn-sm btn-margin primary-button-wrapper"
-                        @click="leaveEditMode()"
+                        @click="setCurrentModelId(null)"
                     >
                         {{ $t("modules.tools.import3D.backToList") }}
                     </button>
@@ -837,6 +914,10 @@ export default {
         &:active {
             transform: scale(0.98);
         }
+    }
+
+    .row {
+        align-items: center;
     }
 
     ul {

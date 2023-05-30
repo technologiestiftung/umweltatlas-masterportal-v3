@@ -16,13 +16,18 @@
 
 export default {
     active: false,
+    id: "import3D",
+    coordinatesEasting: "",
+    coordinatesNorthing: "",
+    coordinatesAltitude: "",
     currentModelId: null,
     currentModelPosition: null,
-    deactivateGFI: false,
-    editing: false,
-    icon: "bi-box-arrow-in-down",
-    id: "import3D",
+    currentProjection: "EPSG:4326",
     importedModels: [],
+
+    // defaults for config.json parameters
+    icon: "bi-box-arrow-in-down",
+    deactivateGFI: false,
     name: "common:menu.tools.import3D",
     onlyDesktop: true,
     renderToWindow: true,

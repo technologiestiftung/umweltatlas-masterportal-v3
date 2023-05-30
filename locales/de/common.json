@@ -600,7 +600,8 @@
                     "latitude": "Breitengrad",
                     "altitude": "Höhe",
                     "rotation": "Rotation",
-                    "rotationSwitch": "Rotationsschritte"
+                    "rotationSwitch": "Rotationsschritte",
+                    "projection": "Koordinatensystem"
                 },
                 "alertingMessages": {
                     "success": "Die Datei \"{{filename}}\" wurde erfolgreich importiert.",
