@@ -5,6 +5,11 @@ import {mapActions, mapGetters, mapMutations} from "vuex";
 import actions from "../store/actionsImport3D";
 import getters from "../store/gettersImport3D";
 import mutations from "../store/mutationsImport3D";
+import store from "../../../../app-store";
+import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader.js";
+import {OBJLoader} from "three/examples/jsm/loaders/OBJLoader.js";
+import {ColladaLoader} from "three/examples/jsm/loaders/ColladaLoader.js";
+import {GLTFExporter} from "three/examples/jsm/exporters/GLTFExporter.js";
 import {fromLonLat, toLonLat} from "ol/proj.js";
 
 export default {
@@ -243,11 +248,16 @@ export default {
             return undefined;
         },
         highlightEntity (entity) {
-            entity.model.color = Cesium.Color.RED;
-            entity.model.silhouetteColor = Cesium.Color.RED;
-            entity.model.silhouetteSize = 4;
+            const configuredHighlightStyle = store.state.configJson.Portalconfig.menu.tools.children.import3D.highlightStyle,
+                color = configuredHighlightStyle?.color || this.highlightStyle.color,
+                alpha = configuredHighlightStyle?.alpha || this.highlightStyle.alpha,
+                silhouetteColor = configuredHighlightStyle?.silhouetteColor || this.highlightStyle.silhouetteColor,
+                silhouetteSize = configuredHighlightStyle?.silhouetteSize || this.highlightStyle.silhouetteSize;
+
+            entity.model.color = Cesium.Color.fromAlpha(Cesium.Color.fromCssColorString(color), parseFloat(alpha));
+            entity.model.silhouetteColor = Cesium.Color.fromCssColorString(silhouetteColor);
+            entity.model.silhouetteSize = silhouetteSize;
             entity.model.colorBlendMode = Cesium.ColorBlendMode.HIGHLIGHT;
-            entity.model.colorBlendAmount = 0.75;
         },
         updateEntityPosition () {
             const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
@@ -326,23 +336,25 @@ export default {
         addFile (files) {
             const reader = new FileReader(),
                 file = files[0],
+                fileName = file.name.split(".")[0],
                 fileExtension = file.name.split(".").pop(),
                 entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
-                models = this.importedModels;
+                models = this.importedModels,
+                lastElement = entities.values.slice().pop(),
+                lastId = lastElement?.id,
+                alertingMessage = i18next.t("common:modules.tools.import3D.alertingMessages.formatConversion", {format: fileExtension, file: fileName});
 
             this.isDragging = true;
 
             if (fileExtension === "gltf") {
                 reader.onload = () => {
-                    const lastElement = entities.values.slice().pop(),
-                        lastId = lastElement?.id,
-                        entity = {
-                            id: lastId ? lastId + 1 : 1,
-                            name: file.name,
-                            model: {
-                                uri: URL.createObjectURL(file)
-                            }
-                        };
+                    const entity = {
+                        id: lastId ? lastId + 1 : 1,
+                        name: file.name,
+                        model: {
+                            uri: URL.createObjectURL(file)
+                        }
+                    };
 
                     this.setCurrentModelId(entity.id);
 
@@ -360,14 +372,63 @@ export default {
 
                     this.setImportedModels(models);
                 };
+                reader.onerror = (e) => {
+                    console.error("Fehler beim Lesen der Datei:", e.target.error);
+                };
+                reader.readAsArrayBuffer(file);
+            }
+            else if (fileExtension === "obj") {
+                reader.onload = (event) => {
+                    const objText = event.target.result,
+                        objLoader = new OBJLoader(),
+                        objData = objLoader.parse(objText),
+
+                        gltfExporter = new GLTFExporter();
+
+                    gltfExporter.parse(objData, (gltfData) => {
+                        this.downloadConvertedObject(fileName, gltfData);
+                        store.dispatch("Alerting/addSingleAlert", alertingMessage, {root: true});
+                    });
+                };
+                reader.readAsText(file);
+            }
+            else if (fileExtension === "dae") {
+                reader.onload = (event) => {
+                    const daeText = event.target.result,
+                        colladaLoader = new ColladaLoader();
+
+                    colladaLoader.load(daeText, (collada) => {
+                        const exporter = new GLTFExporter();
+
+                        exporter.parse(collada.scene, (gltfData) => {
+                            const gltfLoader = new GLTFLoader();
+
+                            gltfLoader.parse(gltfData, "", () => {
+                                this.downloadConvertedObject(fileName, gltfData);
+                                store.dispatch("Alerting/addSingleAlert", alertingMessage, {root: true});
+                            });
+                        });
+                    });
+                };
+                reader.readAsDataURL(file);
             }
             else {
                 console.error(fileExtension + " files are currently not supported!");
             }
-            reader.onerror = (e) => {
-                console.error("Fehler beim Lesen der Datei:", e.target.error);
-            };
-            reader.readAsArrayBuffer(file);
+        },
+        downloadConvertedObject (fileName, file) {
+            const gltfJson = JSON.stringify(file),
+                blob = new Blob([gltfJson], {type: "model/gltf+json"}),
+                url = URL.createObjectURL(blob),
+                link = document.createElement("a");
+
+            link.href = url;
+            link.download = fileName + ".gltf";
+            document.body.appendChild(link);
+            link.click();
+
+            URL.revokeObjectURL(url);
+            document.body.removeChild(link);
         },
         triggerClickOnFileInput (event) {
             if (event.which === 32 || event.which === 13) {
