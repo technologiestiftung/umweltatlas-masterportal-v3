@@ -122,11 +122,12 @@ export default {
 
                 if (Cesium.defined(position)) {
                     const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
-                        addedModel = entities.getById(this.currentModelId);
+                        entity = entities.getById(this.currentModelId);
 
-                    if (Cesium.defined(addedModel)) {
-                        addedModel.position = position;
-                        addedModel.orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
+                    if (Cesium.defined(entity)) {
+                        this.highlightEntity(entity);
+                        entity.position = position;
+                        entity.orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
                     }
                     this.setCurrentModelPosition(position);
                 }
@@ -176,8 +177,12 @@ export default {
             if (Cesium.defined(picked)) {
                 const entity = Cesium.defaultValue(picked.id, picked.primitive.id);
 
+                if (this.currentModelId !== entity.id) {
+                    this.leaveEditMode(this.currentModelId);
+                }
                 this.rotationAngle = this.importedModels.find(model => model.id === this.currentModelId).heading;
                 if ("id" in entity) {
+                    scene.requestRender();
                     this.editMode(entity.id);
                 }
             }
@@ -188,9 +193,25 @@ export default {
                 entity = entities.getById(id),
                 entityPosition = entity.position.getValue();
 
+            if (this.currentModelId !== id) {
+                this.leaveEditMode(id);
+            }
+            this.highlightEntity(entity);
             this.setCurrentModelId(id);
             this.setCurrentModelPosition(entityPosition);
             this.setEditing(true);
+        },
+        highlightEntity (entity) {
+            const configuredHighlightStyle = store.state.configJson.Portalconfig.menu.tools.children.import3D.highlightStyle,
+                color = configuredHighlightStyle?.color || this.highlightStyle.color,
+                alpha = configuredHighlightStyle?.alpha || this.highlightStyle.alpha,
+                silhouetteColor = configuredHighlightStyle?.silhouetteColor || this.highlightStyle.silhouetteColor,
+                silhouetteSize = configuredHighlightStyle?.silhouetteSize || this.highlightStyle.silhouetteSize;
+
+            entity.model.color = Cesium.Color.fromAlpha(Cesium.Color.fromCssColorString(color), parseFloat(alpha));
+            entity.model.silhouetteColor = Cesium.Color.fromCssColorString(silhouetteColor);
+            entity.model.silhouetteSize = silhouetteSize;
+            entity.model.colorBlendMode = Cesium.ColorBlendMode.HIGHLIGHT;
         },
         setPositionValue (type, value) {
             const position = this.currentModelPosition,
@@ -393,6 +414,18 @@ export default {
             if (model) {
                 model.set("isActive", false);
             }
+        },
+        leaveEditMode (id) {
+            const scene = mapCollection.getMap("3D").getCesiumScene(),
+                entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+                entity = id ? entities.getById(id) : entities.getById(this.currentModelId);
+
+            entity.model.color = Cesium.Color.WHITE;
+            entity.model.silhouetteColor = null;
+            entity.model.silhouetteSize = 0;
+            entity.model.colorBlendAmount = 0;
+            scene.requestRender();
+            this.setEditing(false);
         }
     }
 };
@@ -722,7 +755,7 @@ export default {
                     <button
                         id="tool-import3d-deactivateEditing"
                         class="btn btn-primary btn-sm btn-margin primary-button-wrapper"
-                        @click="setEditing(false)"
+                        @click="leaveEditMode()"
                     >
                         {{ $t("modules.tools.import3D.backToList") }}
                     </button>
