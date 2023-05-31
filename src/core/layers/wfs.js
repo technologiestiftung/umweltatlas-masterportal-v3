@@ -242,7 +242,7 @@ WFSLayer.prototype.createLegend = function () {
                         });
 
                 }
-                const uniqueLegendInformation = filterUniqueLegendInfo(this.features, rules, legendInfos);
+                const uniqueLegendInformation = this.filterUniqueLegendInfo(this.features, rules, legendInfos);
 
                 this.setLegend(uniqueLegendInformation);
             }
@@ -260,7 +260,7 @@ WFSLayer.prototype.createLegend = function () {
 * @param {Object} legendInfos styleObject legend information
 * @returns {object} uniqueLegendInformation as array
 */
-function filterUniqueLegendInfo (features, rules, legendInfos) {
+WFSLayer.prototype.filterUniqueLegendInfo = function (features, rules, legendInfos) {
     const rulesKey = Object.keys(rules[0].conditions.properties)[0],
         conditionProperties = [],
         uniqueLegendInformation = [];
@@ -280,7 +280,7 @@ function filterUniqueLegendInfo (features, rules, legendInfos) {
     });
 
     return uniqueLegendInformation;
-}
+};
 
 /**
  * Hides all features by setting style= null for all features.
