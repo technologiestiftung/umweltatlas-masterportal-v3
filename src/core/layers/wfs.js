@@ -242,9 +242,14 @@ WFSLayer.prototype.createLegend = function () {
                         });
 
                 }
-                const uniqueLegendInformation = this.filterUniqueLegendInfo(this.features, rules, legendInfos);
+                if (rules[0].conditions !== undefined) {
+                    const uniqueLegendInformation = this.filterUniqueLegendInfo(this.features, rules, legendInfos);
 
-                this.setLegend(uniqueLegendInformation);
+                    this.setLegend(uniqueLegendInformation);
+                }
+                else {
+                    this.setLegend(legendInfos.legendInformation);
+                }
             }
         });
     }
