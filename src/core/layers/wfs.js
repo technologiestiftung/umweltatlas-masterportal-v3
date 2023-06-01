@@ -266,8 +266,13 @@ WFSLayer.prototype.filterUniqueLegendInfo = function (features, rules, legendInf
         uniqueLegendInformation = [];
 
     for (let i = 0; i < features.length; i++) {
-        if (!conditionProperties.includes(features[i].get(rulesKey))) {
+        const rulesKeyUpperCase = rulesKey.charAt(0).toUpperCase() + rulesKey.slice(1);
+
+        if (features[i].get(rulesKey) !== undefined && !conditionProperties.includes(features[i].get(rulesKey))) {
             conditionProperties.push(features[i].get(rulesKey));
+        }
+        else if (features[i].get(rulesKeyUpperCase) !== undefined && !conditionProperties.includes(features[i].get(rulesKeyUpperCase))) {
+            conditionProperties.push(features[i].get(rulesKeyUpperCase));
         }
     }
 

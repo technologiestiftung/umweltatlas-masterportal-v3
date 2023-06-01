@@ -442,6 +442,53 @@ describe("src/core/layers/wfs.js", () => {
             expect(wfsLayer.filterUniqueLegendInfo(features, rules, legendInfos).length).to.deep.equal(3);
             expect(wfsLayer.filterUniqueLegendInfo(features, rules, legendInfos).length).to.deep.equal(features.length);
         });
+        it("return uniqueLegendInfo for feature condition property (with first letter upper case) that match legendinformation (first letter lower case", () => {
+            const wfsLayer = new WfsLayer(attributes),
+                attributes1 = {id: 1, Kategorie: "Bewässerungsanlagen", name: ""},
+                features = [{
+                    attribute: attributes1,
+                    get: (key) => {
+                        return attributes1[key];
+                    }
+                }],
+                rules = [{
+                    conditions: {
+                        properties: {
+                            kategorie: "Bewässerungsanlagen"
+                        }
+                    },
+                    style: {
+                        imageName: "kanal.png"
+                    }
+                },
+                {
+                    conditions: {
+                        properties: {
+                            kategorie: "Brücken"
+                        }
+                    },
+                    style: {
+                        imageName: "bruecke.png"
+                    }
+                }],
+                legendInfos = {
+                    id: "mrh-industriekultur",
+                    legendInformation: [{
+                        geometryType: "Point",
+                        id: "Point%7B%22properties%22%3A%7B%22kategorie%22%3A%22Bew%C3%A4sserungsanlagen%22%7D%7D",
+                        label: "Bewässerungsanlagen",
+                        styleObject: {}
+                    }]
+                },
+                expectedUniqueLegendInfo = [{
+                    geometryType: "Point",
+                    id: "Point%7B%22properties%22%3A%7B%22kategorie%22%3A%22Bew%C3%A4sserungsanlagen%22%7D%7D",
+                    label: "Bewässerungsanlagen",
+                    styleObject: {}
+                }];
+
+            expect(wfsLayer.filterUniqueLegendInfo(features, rules, legendInfos)).to.deep.equal(expectedUniqueLegendInfo);
+        });
     });
     describe("functions for features", () => {
         let style1 = null,
