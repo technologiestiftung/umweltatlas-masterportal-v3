@@ -592,13 +592,14 @@
                     "introInfo": "Importieren Sie Ihre gewünschte Datei einfach per Drag and Drop oder alternativ mit dem Öffnen-Dialog des Browsers.",
                     "introFormats": "Es können glTF-Dateien (*.gltf), OBJ-Dateien (*.obj) oder Collada-Dateien (*.dae) importiert werden.",
                     "editInfo": "Ändern Sie die Position und Rotation des ausgewählten Modells.",
+                    "projectionInfo": "Achtung! Bei Nutzung des WGS84 Koordinatensystems kann es zu Ungenauigkeiten kommen. Wir empfehlen die Nutzung der Dezimal Schreibweise.",
                     "dropzone": "Datei hier ablegen",
                     "browse": "Datei auswählen"
                 },
                 "projections": {
-                    "longitude": "Längengrad",
-                    "latitude": "Breitengrad",
-                    "altitude": "Höhe",
+                    "easting": "Rechtswert",
+                    "northing": "Hochwert",
+                    "height": "Höhe",
                     "rotation": "Rotation",
                     "rotationSwitch": "Rotationsschritte",
                     "projection": "Koordinatensystem"

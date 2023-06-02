@@ -36,30 +36,6 @@ export default {
         dropZoneAdditionalClass: function () {
             return this.dzIsDropHovering ? "dzReady" : "";
         },
-        eastingNoCoordMessage: function () {
-            if (this.currentProjection.projName !== "longlat") {
-                return this.$t("common:modules.tools.coordToolkit.errorMsg.noCoord", {valueKey: this.$t(this.getLabel("eastingLabel"))});
-            }
-            return this.$t("common:modules.tools.coordToolkit.errorMsg.hdmsNoCoord", {valueKey: this.$t(this.getLabel("eastingLabel"))});
-        },
-        northingNoCoordMessage: function () {
-            if (this.currentProjection.projName !== "longlat") {
-                return this.$t("common:modules.tools.coordToolkit.errorMsg.noCoord", {valueKey: this.$t(this.getLabel("northingLabel"))});
-            }
-            return this.$t("common:modules.tools.coordToolkit.errorMsg.hdmsNoCoord", {valueKey: this.$t(this.getLabel("northingLabel"))});
-        },
-        northingNoMatchMessage: function () {
-            if (this.currentProjection.projName !== "longlat") {
-                return this.$t("common:modules.tools.coordToolkit.errorMsg.noMatch", {valueKey: this.$t(this.getLabel("northingLabel"))});
-            }
-            return this.$t("common:modules.tools.coordToolkit.errorMsg.hdmsNoMatch", {valueKey: this.$t(this.getLabel("northingLabel"))});
-        },
-        eastingNoMatchMessage: function () {
-            if (this.currentProjection.projName !== "longlat") {
-                return this.$t("common:modules.tools.coordToolkit.errorMsg.noMatch", {valueKey: this.$t(this.getLabel("eastingLabel"))});
-            }
-            return this.$t("common:modules.tools.coordToolkit.errorMsg.hdmsNoMatch", {valueKey: this.$t(this.getLabel("eastingLabel"))});
-        },
 
         console: () => console
     },
@@ -95,9 +71,12 @@ export default {
                 oldEntity.model.silhouetteSize = 0;
                 oldEntity.model.colorBlendAmount = 0;
                 scene.requestRender();
+
+                this.setCurrentModelPosition(null);
             }
             if (newEntity) {
                 this.highlightEntity(newEntity);
+                this.updatePositionUI();
             }
         }
     },
@@ -199,7 +178,7 @@ export default {
             projections.splice(index + 1, 0, wgs84ProjDez);
         },
         /**
-         * Called if selection of projection changed. Sets the current projection to state and changes the position.
+         * Called if selection of projection changed. Sets the current projection to state and updates the UI.
          * @param {Event} event changed selection event
          * @returns {void}
          */
@@ -328,56 +307,6 @@ export default {
             entity.model.silhouetteColor = Cesium.Color.fromCssColorString(silhouetteColor);
             entity.model.silhouetteSize = silhouetteSize;
             entity.model.colorBlendMode = Cesium.ColorBlendMode.HIGHLIGHT;
-        },
-        incrementCoordinate (coordinate) {
-            if (this.currentProjection === "EPSG:25832") {
-                if (coordinate === "easting") {
-                    this.setCoordinatesEasting(parseFloat(this.coordinatesEasting) + 1);
-                }
-                else if (coordinate === "northing") {
-                    this.setCoordinatesNorthing(parseFloat(this.coordinatesNorthing) + 1);
-                }
-                else if (coordinate === "altitude") {
-                    this.setCoordinatesAltitude(parseFloat(this.coordinatesAltitude) + 0.1);
-                }
-            }
-            else if (this.currentProjection === "EPSG:4326") {
-                if (coordinate === "easting") {
-                    this.setCoordinatesEasting((parseFloat(this.coordinatesEasting) + 0.00001).toFixed(5));
-                }
-                else if (coordinate === "northing") {
-                    this.setCoordinatesNorthing((parseFloat(this.coordinatesNorthing) + 0.00001).toFixed(5));
-                }
-                else if (coordinate === "altitude") {
-                    this.setCoordinatesAltitude((parseFloat(this.coordinatesAltitude) + 0.1).toFixed(1));
-                }
-            }
-            this.updateEntityPosition();
-        },
-        decrementCoordinate (coordinate) {
-            if (this.currentProjection === "EPSG:25832") {
-                if (coordinate === "easting") {
-                    this.setCoordinatesEasting(parseFloat(this.coordinatesEasting) - 1);
-                }
-                else if (coordinate === "northing") {
-                    this.setCoordinatesNorthing(parseFloat(this.coordinatesNorthing) - 1);
-                }
-                else if (coordinate === "altitude") {
-                    this.setCoordinatesAltitude(parseFloat(this.coordinatesAltitude) - 0.1);
-                }
-            }
-            else if (this.currentProjection === "EPSG:4326") {
-                if (coordinate === "easting") {
-                    this.setCoordinatesEasting((parseFloat(this.coordinatesEasting) - 0.00001).toFixed(5));
-                }
-                else if (coordinate === "northing") {
-                    this.setCoordinatesNorthing((parseFloat(this.coordinatesNorthing) - 0.00001).toFixed(5));
-                }
-                else if (coordinate === "altitude") {
-                    this.setCoordinatesAltitude((parseFloat(this.coordinatesAltitude) - 0.1).toFixed(1));
-                }
-            }
-            this.updateEntityPosition();
         },
         removeInputActions () {
             if (this.eventHandler) {
@@ -528,7 +457,7 @@ export default {
         :render-to-window="renderToWindow"
         :resizable-window="resizableWindow"
         :deactivate-gfi="deactivateGFI"
-        :initial-width="350"
+        :initial-width="380"
     >
         <template #toolBody>
             <div
@@ -670,6 +599,11 @@ export default {
                         class="cta"
                         v-html="$t('modules.tools.import3D.captions.editInfo')"
                     />
+                    <p
+                        v-if="currentProjection.id === 'http://www.opengis.net/gml/srs/epsg.xml#4326'"
+                        class="cta red"
+                        v-html="$t('modules.tools.import3D.captions.projectionInfo')"
+                    />
                     <div class="h-seperator" />
                     <div class="form-group form-group-sm row">
                         <label
@@ -700,13 +634,13 @@ export default {
                         <div class="form-group form-group-sm row">
                             <label
                                 class="col-md-5 col-form-label"
-                                for="longitudeField"
+                                for="eastingField"
                             >
-                                {{ $t("modules.tools.import3D.projections.longitude") }}
+                                {{ $t("modules.tools.import3D.projections.easting") }}
                             </label>
                             <div class="col-md-7 position-control">
                                 <input
-                                    id="longitudeField"
+                                    id="eastingField"
                                     v-model="coordinatesEasting.value"
                                     class="form-control form-control-sm"
                                     type="text"
@@ -714,7 +648,6 @@ export default {
                                 >
                                 <div>
                                     <button
-                                        id="longitude-increment"
                                         class="btn btn-primary btn-sm btn-pos"
                                         @click="incrementCoordinate('easting')"
                                     >
@@ -723,7 +656,6 @@ export default {
                                         />
                                     </button>
                                     <button
-                                        id="longitude-decrement"
                                         class="btn btn-primary btn-sm btn-pos"
                                         @click="decrementCoordinate('easting')"
                                     >
@@ -737,13 +669,13 @@ export default {
                         <div class="form-group form-group-sm row">
                             <label
                                 class="col-md-5 col-form-label"
-                                for="latitudeField"
+                                for="northingField"
                             >
-                                {{ $t("modules.tools.import3D.projections.latitude") }}
+                                {{ $t("modules.tools.import3D.projections.northing") }}
                             </label>
                             <div class="col-md-7 position-control">
                                 <input
-                                    id="latitudeField"
+                                    id="northingField"
                                     v-model="coordinatesNorthing.value"
                                     class="form-control form-control-sm"
                                     type="text"
@@ -751,7 +683,6 @@ export default {
                                 >
                                 <div>
                                     <button
-                                        id="latitude-increment"
                                         class="btn btn-primary btn-sm btn-pos"
                                         @click="incrementCoordinate('northing')"
                                     >
@@ -760,7 +691,6 @@ export default {
                                         />
                                     </button>
                                     <button
-                                        id="latitude-decrement"
                                         class="btn btn-primary btn-sm btn-pos"
                                         @click="decrementCoordinate('northing')"
                                     >
@@ -774,13 +704,13 @@ export default {
                         <div class="form-group form-group-sm row">
                             <label
                                 class="col-md-5 col-form-label"
-                                for="altitudeField"
+                                for="heightField"
                             >
-                                {{ $t("modules.tools.import3D.projections.altitude") }}
+                                {{ $t("modules.tools.import3D.projections.height") }}
                             </label>
                             <div class="col-md-7 position-control">
                                 <input
-                                    id="altitudeField"
+                                    id="heightField"
                                     v-model="height.value"
                                     class="form-control form-control-sm"
                                     type="text"
@@ -788,18 +718,16 @@ export default {
                                 >
                                 <div>
                                     <button
-                                        id="altitude-increment"
                                         class="btn btn-primary btn-sm btn-pos"
-                                        @click="incrementCoordinate('altitude')"
+                                        @click="incrementCoordinate('height')"
                                     >
                                         <i
                                             class="bi bi-arrow-up"
                                         />
                                     </button>
                                     <button
-                                        id="altitude-decrement"
                                         class="btn btn-primary btn-sm btn-pos"
-                                        @click="decrementCoordinate('altitude')"
+                                        @click="decrementCoordinate('height')"
                                     >
                                         <i
                                             class="bi bi-arrow-down"
@@ -933,6 +861,11 @@ export default {
     .cta {
         margin-bottom:12px;
     }
+
+    .red {
+        color: red;
+    }
+
     .drop-area-fake {
         background-color: $white;
         border-radius: 12px;
@@ -958,6 +891,7 @@ export default {
             color: $accent;
         }
     }
+
     .drop-area {
         position:absolute;
         top:0;
@@ -966,6 +900,7 @@ export default {
         bottom:0;
         z-index:10;
     }
+
     .vh-center-outer-wrapper {
         top:0;
         left:0;
