@@ -653,7 +653,7 @@ STALayer.prototype.initializeConnection = function (onsuccess, updateOnly = fals
             }
         }
         if (this.get("observeLocation") && this.get("loadThingsOnlyInCurrentExtent")) {
-            // this.getHistoricalLocationsOfFeatures();
+            this.getHistoricalLocationsOfFeatures();
         }
     }, error => {
         if (typeof this.options.onLoadingError === "function") {
