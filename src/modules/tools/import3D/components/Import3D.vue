@@ -318,7 +318,8 @@ export default {
                         id: entity.id,
                         name: file.name,
                         show: true,
-                        heading: 0
+                        heading: 0,
+                        edit: false
                     });
 
                     this.setImportedModels(models);
@@ -517,13 +518,25 @@ export default {
                                     v-for="(model, index) in importedModels"
                                     :key="index"
                                 >
-                                    <span>
+                                    <span class="index">
                                         {{ index + 1 }}
                                     </span>
-                                    <span>
+                                    <input
+                                        v-if="model.edit"
+                                        v-model="model.name"
+                                        @blur="model.edit = false"
+                                        @keyup.enter="model.edit = false"
+                                    >
+                                    <span
+                                        v-else
+                                        role="button"
+                                        tabindex="-1"
+                                        @click="model.edit = true"
+                                        @keyup.enter="model.edit = true"
+                                    >
                                         {{ model.name }}
                                     </span>
-                                    <div>
+                                    <div class="buttons">
                                         <i
                                             class="inline-button bi"
                                             :class="{ 'bi-geo-alt-fill': isHovering === `${index}-geo`, 'bi-geo-alt': isHovering !== `${index}-geo`}"
@@ -861,6 +874,14 @@ export default {
         font-weight: bold;
     }
 
+    .index {
+        width: 25%;
+    }
+
+    .buttons {
+        margin-left: auto;
+    }
+
     .inline-button {
         cursor: pointer;
         display: inline-block;
@@ -909,7 +930,8 @@ export default {
 
     li {
         display: flex;
-        justify-content: space-between;
+        align-items: center;
+        height: 1.5rem;
     }
 
     .error-text {
