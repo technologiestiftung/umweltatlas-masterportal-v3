@@ -1,6 +1,7 @@
 import Parser from "./parser";
 import store from "../../../src/app-store/index";
 import groupBy from "../../../src/utils/groupBy";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 
 const DefaultTreeParser = Parser.extend(/** @lends DefaultTreeParser.prototype */{
     /**
@@ -173,7 +174,9 @@ const DefaultTreeParser = Parser.extend(/** @lends DefaultTreeParser.prototype *
         // Models für die Fachdaten erzeugen
         this.groupDefaultTreeOverlays(overlayList);
         // Models für 3D Daten erzeugen
-        this.create3dLayer(typeGroup.layer3d, layer3dList);
+        if (layer3dList) {
+            this.create3dLayer(typeGroup.layer3d, layer3dList);
+        }
 
         // Models für Oblique Daten erzeugen
         this.createObliqueLayer(typeGroup.oblique);
@@ -263,21 +266,33 @@ const DefaultTreeParser = Parser.extend(/** @lends DefaultTreeParser.prototype *
                 this.createCustom3DFolder(layerList, folder, item.id, level + 1);
             });
         }
-        else if (layer3DConfig.Layer) {
+        if (layer3DConfig.Layer) {
             layer3DConfig.Layer.forEach(layerConfig => {
-                const isSelected = typeof layerConfig.visibility === "boolean" ? layerConfig.visibility : false,
-                    layer = layerList.find((aLayer) => aLayer.id === layerConfig.id);
+                const isSelected = typeof layerConfig.visibility === "boolean" ? layerConfig.visibility : false;
+                let layer = layerList.find((aLayer) => aLayer.id === layerConfig.id);
 
-                this.addItem(Object.assign({
-                    type: "layer",
-                    parentId: parentId,
-                    level: level,
-                    isVisibleInTree: isVisibleInTree,
-                    isSelected: isSelected
-                }, layer));
+                if (!layer) {
+                    // layers with no metadata are not in layerList, but in 3D metadata are not used to create folder structure
+                    layer = rawLayerList.getLayerWhere({id: layerConfig.id});
+                }
+                if (layer) {
+                    this.addItem(Object.assign(
+                        layer,
+                        {
+                            type: "layer",
+                            parentId: parentId,
+                            level: level,
+                            isVisibleInTree: isVisibleInTree,
+                            isSelected: isSelected,
+                            name: layerConfig.name ? layerConfig.name : layer.name
+                        }));
 
-                if (isSelected) {
-                    this.getItemByAttributes({id: parentId}).isSelected = isSelected;
+                    if (isSelected) {
+                        this.getItemByAttributes({id: parentId}).isSelected = isSelected;
+                    }
+                }
+                else {
+                    console.warn("3D-layer with id ", layerConfig.id, " is not available in services.json!");
                 }
             });
         }

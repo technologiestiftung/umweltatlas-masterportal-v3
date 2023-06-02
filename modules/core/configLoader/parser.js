@@ -123,7 +123,7 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
             "change:category": function () {
                 this.setItemList([]);
                 this.addTreeMenuItems();
-                this.parseTree(rawLayerList.getLayerList());
+                this.parseTree(rawLayerList.getLayerList(), this.get("overlayer_3d"), this.get("overlayer_time"));
                 Radio.trigger("ModelList", "removeModelsByParentId", "tree");
                 Radio.trigger("ModelList", "renderTree");
                 Radio.trigger("ModelList", "setModelAttributesById", "Overlayer", {isExpanded: true});

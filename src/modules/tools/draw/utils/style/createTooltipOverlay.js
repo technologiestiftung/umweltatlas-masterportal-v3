@@ -20,7 +20,7 @@ function createTooltipOverlay ({getters, commit, dispatch}) {
             },
             featureChangeEvent: evt => {
                 if (autoUnit && evt.target.getRadius() > 500 || !autoUnit && styleSettings.unit === "km") {
-                    tooltip.getElement().innerHTML = thousandsSeparator(Math.round(evt.target.getRadius()).toFixed(decimalsForKilometers)) + " km";
+                    tooltip.getElement().innerHTML = thousandsSeparator(Math.round(evt.target.getRadius()).toFixed(decimalsForKilometers) / 1000) + " km";
                 }
                 else {
                     tooltip.getElement().innerHTML = thousandsSeparator(Math.round(evt.target.getRadius())) + " m";

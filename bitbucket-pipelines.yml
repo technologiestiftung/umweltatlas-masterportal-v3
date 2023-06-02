@@ -1,4 +1,4 @@
-image: node:16.18.0
+image: node:18.16.0
 
 definitions:
   steps:
@@ -14,6 +14,7 @@ definitions:
             - export FTP_SOURCE_PATH="dist"
             - export FTP_TARGET_URL="ftpes://test.geoportal-hamburg.de/"
             - export FTP_GITLOGFILE="testGitLog"
+            - export NODE_OPTIONS=--openssl-legacy-provider
             #replace slashes in branchname with underscores
             - tmp=$BITBUCKET_BRANCH
             - branchname=${tmp//[\/]/_}
@@ -48,6 +49,7 @@ pipelines:
                 artifacts:
                     - dist/**
                 script:
+                    - export NODE_OPTIONS=--openssl-legacy-provider
                     - npm install
                     - npm run buildExamples
                     - apt-get update
@@ -106,6 +108,7 @@ pipelines:
                     - node
                 script:
                     # run e2e tests
+                    - export NODE_OPTIONS=--openssl-legacy-provider
                     - export url=https://test.geoportal-hamburg.de
                     - npm run browsertestOnExternalServer --testservice=saucelabs
         End2End-Tests on saucelabs/ use existing server:
@@ -114,6 +117,7 @@ pipelines:
                 caches:
                     - node
                 script:
+                    - export NODE_OPTIONS=--openssl-legacy-provider
                     - export url=https://test.geoportal-hamburg.de
                     - npm run browsertestOnExternalServer --testservice=saucelabs
         npm audit:

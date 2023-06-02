@@ -18,6 +18,7 @@
  * @property {String[]} infoTitles Array of InfoTab titles
  * @property {Array[]} infoSubtexts Array of InfoTab subtexts
  * @property {Number} infoShownDiv index of InfoTab
+ * @property {Boolean} mobileFooterInfoToggler If `true`, it is possible to toggle the footer info in mobile version.
  */
 const state = {
     showFooter: false,
@@ -28,7 +29,8 @@ const state = {
     infoSubtexts: [],
     infoShownDiv: -1,
     isShortMenuOpen: false,
-    seperator: "&nbsp;|&nbsp;"
+    seperator: "&nbsp;|&nbsp;",
+    mobileFooterInfoToggler: false
 };
 
 export default state;

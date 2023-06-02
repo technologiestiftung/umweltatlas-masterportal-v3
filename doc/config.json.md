@@ -643,6 +643,7 @@ Configuration of layerInformation.
 |zoom|no|Boolean|false|Defines whether zoom buttons should be displayed.|false|
 |overviewmap|no|**[overviewMap](#markdown-header-portalconfigcontrolsoverviewmap)**|false|_Deprecated in 3.0.0. Please use `overviewMap` instead._|false|
 |overviewMap|no|**[overviewMap](#markdown-header-portalconfigcontrolsoverviewmap)**|false|Overview map.|false|
+|rotation|nein|**[rotation](#markdown-header-portalconfigcontrolsrotation)**|false|Control that shows the current rotation of the map. With a click the map rotation can be set to north again. See also `mapInteractions` in config.js.md.|false|
 |totalview|no|**[totalView](#markdown-header-portalconfigcontrolstotalview)**|false|_Deprecated in 3.0.0. Please use "totalView" instead._|false|
 |totalView|no|**[totalView](#markdown-header-portalconfigcontrolstotalview)**|false|Offers a button to return to the initial view.|false|
 |button3d|no|Boolean|false|Defines whether a 3D mode switch button is shown.|false|
@@ -746,6 +747,30 @@ The attribute overviewMap may be of type boolean or object. If of type boolean, 
 {
     "overviewMap": true
 }
+```
+
+***
+
+#### Portalconfig.controls.rotation
+
+The attribute rotation may be of type boolean or object. If of type boolean and value is set to true, the rotation control is just shown when the map rotation is not equal north/0. When of type object, the following attributes may be set:
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|
+|----|-------------|---|-------|------------|
+|showAlways|nein|Boolean|false|If the attribut is set to true the control is shown permanently . Via default it appears only if the map rotation is not equal north/0.|
+
+**Example using type object rotation**
+```
+#!json
+"rotation": {
+    "showAlways": true
+}
+```
+
+**Example using type boolean rotation**
+```
+#!json
+"rotation": true
 ```
 
 ***
@@ -1453,7 +1478,6 @@ A folder object defined by a name, icon, and its children.
 [type:styleVT]: # (Portalconfig.menu.tool.styleVT)
 [type:supplyCoord]: # (Portalconfig.menu.tool.supplyCoord)
 [type:resetTree]: # (Portalconfig.menu.tool.resetTree)
-[type:virtualcity]: # (Portalconfig.menu.tool.virtualcity)
 [type:wfsFeatureFilter]: # (Portalconfig.menu.tool.wfsFeatureFilter)
 [type:wfsSearch]: # (Portalconfig.menu.tool.wfsSearch)
 [type:wfst]: # (Portalconfig.menu.tool.wfst)
@@ -1490,7 +1514,6 @@ Alternatively, also the paths **Portalconfig.menu.info**, **Portalconfig.menu.si
 |styleVT|no|**[styleVT](#markdown-header-portalconfigmenutoolstyleVT)**||Style selection for VT services. Allows switching between styles of a Vector Tile Layer that provides multiple stylings via the `services.json` file.|false|
 |supplyCoord|no|**[supplyCoord](#markdown-header-portalconfigmenutoolsupplyCoord)**||_Deprecated in 3.0.0. Please use "coordToolkit" instead._ Tool to read coordinates on mouse click. When clicking once, the coordinates in the view are frozen and can be copied on clicking the displaying input elements to the clipboard, i.e. you can use them in another document/chat/mail/... with `Strg+V`.|false|
 |resetTree|no|**[resetTree](#markdown-header-portalconfigmenutoolresetTree)**||Tool to reset tree. Clicking on Tool name in the menu under Tools resets the tree.|false|
-|virtualcity|no|**[virtualcity](#markdown-header-portalconfigmenutoolvirtualcity)**||*virtualcityPLANNER* planning viewer|false|
 |wfsFeatureFilter|no|**[wfsFeatureFilter](#markdown-header-portalconfigmenutoolwfsFeatureFilter)**||_Deprecated in 3.0.0. Please use `filter` instead._ Filters WFS features. This required configuring `"filterOptions"` on the WFS layer object.|false|
 |wfsSearch|no|**[wfsSearch](#markdown-header-portalconfigmenutoolwfssearch)**||Makes it possible to create a form to query WFS layers using filters. It is possible to either use a stored query (WFS@2.0.0) or define the query using the defined parameters (WFS@1.1.0).|false|
 |wfst|no|**[wfst](#markdown-header-portalconfigmenutoolwfst)**||WFS-T module to visualize, create, update and delete features.|false|
@@ -1662,6 +1685,7 @@ The filter tool offers a range of options to filter vector data from WFS, OAF, G
 |minScale|no|Integer|5000|Minimum zoom level the filter zooms in when displaying filter results.|false|
 |layers|no|[filterLayer](#markdown-header-portalconfigmenutoolfilterfilterlayer)[]|[]|Configuration of layers to be filtered. Can be an array of plain layer ids also - if so the layer and all snippets are identified automatically.|false|
 |layerGroups|no|[filterLayerGroups](#markdown-header-portalconfigmenutoolfilterfilterlayergroups)[]|[]|Configuration of the related layers to be filtered.|false|
+|saveTo|no|String|"void"|If set to "url", the current filter setting is saved in the URL. This allows the filter setting to be bookmarked.|false|
 
 **Example**
 
@@ -3306,26 +3330,6 @@ Defines a layer slider layer.
 ```
 
 ***
-
-#### Portalconfig.menu.tool.virtualcity
-
-[inherits]: # (Portalconfig.menu.tool)
-
-The virtualcity tool allows showing plans from the *virtualcityPLANNER* service in the Masterportal. The *virtualcityPLANNER* plans must be *public* to be available in this tool.
-
-|Name|Required|Type|Default|Description|
-|----|--------|----|-------|-----------|
-|serviceId|yes|String||Service ID. Resolved using the **[rest-services.json](rest-services.json.md)** file.|
-|useProxy|no|Boolean|false|_Deprecated in the next major release. [GDI-DE](https://www.gdi-de.org/en) recommends setting CORS headers on the required services instead of using proxies._ Defines whether a service URL should be requested via proxy. For this, dots in the URL are replaced with underscores.|false|
-
-**Example**
-
-```json
-{
-    "title": "virtualcityPLANNER",
-    "serviceId": "1"
-}
-```
 
 #### Portalconfig.menu.tool.shadow
 
@@ -5068,7 +5072,7 @@ In this example layer 123 will be added to the map first. This leads to 456 bein
 
 ```json
  "Fachdaten_3D": {
-      "Ordner": [        
+      "Ordner": [
         {
           "Titel": "3D Gebäudedaten",
           "Layer": [

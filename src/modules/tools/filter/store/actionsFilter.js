@@ -138,11 +138,13 @@ export default {
     serializeState: (context) => {
         const rulesOfFilters = context.state.rulesOfFilters,
             selectedAccordions = context.state.selectedAccordions,
+            selectedGroups = context.state.selectedGroups,
             geometrySelectorOptions = JSON.parse(JSON.stringify(context.state.geometrySelectorOptions)),
             geometryFeature = getGeometryFeature(context.state.geometryFeature, geometrySelectorOptions.invertGeometry),
             result = {
                 rulesOfFilters,
                 selectedAccordions,
+                selectedGroups,
                 geometryFeature,
                 geometrySelectorOptions
             };
@@ -171,7 +173,8 @@ export default {
      */
     deserializeState: async (context, payload) => {
         const rulesOfFilters = payload?.rulesOfFilters,
-            selectedAccordions = payload?.selectedAccordions;
+            selectedAccordions = payload?.selectedAccordions,
+            selectedGroups = Array.isArray(payload?.selectedGroups) ? payload.selectedGroups : [];
         let rulesOfFiltersCopy,
             additionalGeometries = [];
 
@@ -183,12 +186,17 @@ export default {
                     rulesOfFiltersCopy[idx] = undefined;
                 }
             });
-            context.dispatch("setRulesArray", {rulesOfFilters: rulesOfFiltersCopy});
+            await context.dispatch("setRulesArray", {rulesOfFilters: rulesOfFiltersCopy});
             context.commit("setSelectedAccordions", selectedAccordions);
-            context.dispatch("setGeometryFilterByFeature", {jsonFeature: payload?.geometryFeature, invert: payload?.geometrySelectorOptions?.invertGeometry});
-            context.commit("setGeometrySelectorOptions", payload?.geometrySelectorOptions);
-            additionalGeometries = await getFeaturesOfAdditionalGeometries(payload.geometrySelectorOptions.additionalGeometries);
-            context.commit("setAdditionalGeometries", {additionalGeometries});
+            context.commit("setSelectedGroups", selectedGroups);
+            await context.dispatch("setGeometryFilterByFeature", {jsonFeature: payload?.geometryFeature, invert: payload?.geometrySelectorOptions?.invertGeometry});
+            if (typeof payload?.geometrySelectorOptions !== "undefined") {
+                context.commit("setGeometrySelectorOptions", payload?.geometrySelectorOptions);
+            }
+            if (payload.geometrySelectorOptions) {
+                additionalGeometries = await getFeaturesOfAdditionalGeometries(payload.geometrySelectorOptions.additionalGeometries);
+                context.commit("setAdditionalGeometries", {additionalGeometries});
+            }
             context.commit("setActive", true);
         }
     },

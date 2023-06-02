@@ -159,6 +159,11 @@ const initialState = JSON.parse(JSON.stringify(stateDraw)),
             const {styleSettings} = getters,
                 drawInteraction = createDrawInteraction(state, styleSettings);
 
+            if (state.selectInteractionModify?.getFeatures()?.getArray()?.length > 0) {
+                state.selectInteractionModify.getFeatures().clear();
+                commit("setSelectedFeature", null);
+            }
+
             commit("setDrawInteraction", drawInteraction);
             dispatch("manipulateInteraction", {interaction: "draw", active: active});
             dispatch("createDrawInteractionListener", {isOuterCircle: false, drawInteraction: "", maxFeatures});

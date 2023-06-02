@@ -22,7 +22,6 @@ The file defines all web services that do not belong to OGC services like WMS an
 4. Gazetteer URL
 5. WPS
 6. Email Services
-7. virtualcityPLANNER Service
 
 In some scenarios different URLs are required, depending on whether requests are sent from an Intranet or the Internet. This can be solved by providing two files only differing in their service URLs. While filenames can be chosen freely, we suggest using these names:
 
@@ -67,24 +66,3 @@ In some scenarios different URLs are required, depending on whether requests are
 }
 ```
 
-## virtualcityPLANNER Service
-
-|Name|Required|Type|Default|Description|Example|
-|----|--------|----|-------|-----------|-------|
-|id|yes|String||Unique `rest-services.json` entry ID|`"1"`|
-|name|yes|String||Service name|`"virtualcityPLANNER 1"`|
-|typ|yes|String||Service type|`"virtualcityPLANNER"`|
-|url|yes|String||Service URL|`"https://devel.virtualcityplanner.de"`|
-|scenarioId|yes|String||ScenarioId|`"BjtEA4zwBEiZeG2CX"`|
-|projectId|yes|String||ProjectId|`"2wbbuKTSqojZMBooz"`|
-
-```json
-{
-    "id" : "virtualcityPLANNER",
-    "name" : "virtualcityPLANNER",
-    "url": "https://devel.virtualcityplanner.de",
-    "projectId": "2wbbuKTSqojZMBooz",
-    "typ": "virtualcityPLANNER",
-    "scenarioId": "BjtEA4zwBEiZeG2CX"
-}
-```

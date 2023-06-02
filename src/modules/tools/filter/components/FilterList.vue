@@ -26,6 +26,16 @@ export default {
             default: undefined
         }
     },
+    computed: {
+        /**
+         * Checks if Selector should be disabled.
+         * @param {Number} filterId id to check if should be disabled
+         * @returns {void}
+         */
+        disabled (filterId) {
+            return !this.multiLayerSelector && this.selectedLayers.length > 0 && !this.selectedLayers.includes(filterId);
+        }
+    },
     watch: {
         jumpToId (newFilterId) {
             this.scrollToView(newFilterId);
@@ -47,14 +57,7 @@ export default {
             }
             this.$emit("selectedaccordions", filterId);
         },
-        /**
-         * Check if Selector should be disabled.
-         * @param {Number} filterId id to check if should be disabled
-         * @returns {void}
-         */
-        disabled (filterId) {
-            return !this.multiLayerSelector && this.selectedLayers.length > 0 && !this.selectedLayers.includes(filterId);
-        },
+
         /**
          * Emitting the function by transfering the filter Id of layer
          * @param {Number} filterId id to check if should be disabled

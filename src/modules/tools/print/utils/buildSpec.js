@@ -505,6 +505,7 @@ const BuildSpecModel = {
             features.reverse();
         }
         features.forEach(feature => {
+        // features.slice(0, 20).forEach(feature => {
             const foundFeature = featuresInExtent.find(featureInExtent => featureInExtent.ol_uid === feature.ol_uid),
                 styles = this.getFeatureStyle(feature, layer),
                 styleAttributes = this.getStyleAttributes(layer, feature);
@@ -521,6 +522,7 @@ const BuildSpecModel = {
                 styleGeometryFunction;
 
             styles.forEach((style, index) => {
+
                 if (style !== null) {
                     const styleObjectFromStyleList = styleList.returnStyleObject(layer.get("id")),
                         styleFromStyleList = styleObjectFromStyleList ? createStyle.getGeometryStyle(feature, styleObjectFromStyleList.rules, false, Config.wfsImgPath) : undefined;
@@ -530,7 +532,20 @@ const BuildSpecModel = {
                     styleAttributes.forEach(attribute => {
                         const singleFeature = clonedFeature.get("features") ? clonedFeature.get("features")[0] : clonedFeature;
 
-                        clonedFeature.set(attribute, attribute === "default" && !singleFeature.get(attribute) ? "style" : `${singleFeature.get(attribute)}_${index}`);
+                        if (attribute.includes("Datastreams")) {
+                            clonedFeature.set(attribute, attribute === "default" && !singleFeature.get(attribute) ? "style" : `${singleFeature.getProperties().Datastreams[0].Observations[0].result}_${index}`);
+                        }
+                        else if (style.type && style.type === "CIRCLESEGMENTS") {
+                            clonedFeature.setId(`${feature.ol_uid}__${index}`);
+                            clonedFeature.set(attribute, `${style.type}_${style.scalingAttribute.replace(" | ", "_")}_${index}`);
+                        }
+                        else if (style.type && style.type === "imageStyle") {
+                            clonedFeature.setId(`${feature.ol_uid}__${index}`);
+                            clonedFeature.set(attribute, `${style.type}_${index}`);
+                        }
+                        else {
+                            clonedFeature.set(attribute, attribute === "default" && !singleFeature.get(attribute) ? "style" : `${singleFeature.get(attribute)}_${index}`);
+                        }
                         clonedFeature.ol_uid = feature.ol_uid;
                     });
                     geometryType = feature.getGeometry().getType();
@@ -583,7 +598,7 @@ const BuildSpecModel = {
                         styleObject.symbolizers.push(this.buildPolygonStyle(style, layer));
                     }
                     else if (geometryType === "Circle") {
-                        styleObject.symbolizers.push(this.buildPointStyle(style, layer));
+                        styleObject.symbolizers.push(this.buildPolygonStyle(style, layer));
                     }
                     else if (geometryType === "LineString" || geometryType === "MultiLineString") {
                         if (layer.values_.id === "measureLayer" && style.stroke_ === null) {
@@ -596,6 +611,11 @@ const BuildSpecModel = {
                         styleObject.symbolizers.push(this.buildTextStyle(style.getText()));
                     }
 
+                    if (stylingRules.includes("@Datastreams")) {
+                        const newKey = stylingRules.replaceAll("@", "").replaceAll(".", "");
+
+                        stylingRules = newKey;
+                    }
                     mapfishStyleObject[stylingRules] = styleObject;
                 }
             });
@@ -740,12 +760,12 @@ const BuildSpecModel = {
         else if (src.indexOf("../") === 0 || src.indexOf("./") === 0) {
             url = new URL(src, window.location.href).href;
         }
+        else if (src.indexOf("data:image/svg+xml;charset=utf-8") === 0) {
+            url = src;
+        }
         else if (origin.indexOf("localhost") === -1) {
             // backwards-compatibility:
             url = origin + "/lgv-config/img/" + this.getImageName(src);
-        }
-        else if (src.indexOf("data:image/svg+xml;charset=utf-8") === 0) {
-            url = src;
         }
 
         return url;
@@ -960,7 +980,13 @@ const BuildSpecModel = {
         }
         if (typeof style.getLineDash === "function" && style.getLineDash()) {
             obj.strokeLinecap = style.getLineCap();
-            obj.strokeDashstyle = style.getLineDash().join(" ");
+            if (style.getLineDash().length > 1) {
+                obj.strokeDashstyle = style.getLineDash().join(" ");
+            }
+            else {
+                obj.strokeDashstyle = style.getLineDash()[0] + " " + style.getLineDash()[0];
+            }
+
             obj.strokeDashOffset = style.getLineDashOffset();
         }
 
@@ -990,6 +1016,10 @@ const BuildSpecModel = {
 
         if (feature.get("features") && feature.get("features").length === 1) {
             feature.get("features").forEach((clusteredFeature) => {
+                if (feature.getKeys().find(element => element === "default")) {
+                    clusteredFeature.setProperties({"default": feature.get("default")});
+                    clusteredFeature.setId(feature.getId());
+                }
                 convertedFeature = this.convertFeatureToGeoJson(clusteredFeature, style);
 
                 if (convertedFeature) {
@@ -1032,9 +1062,17 @@ const BuildSpecModel = {
         clonedFeature.set("_label", labelText);
         // circle is not suppported by geojson
         if (clonedFeature.getGeometry().getType() === "Circle") {
-            clonedFeature.setGeometry(fromCircle(clonedFeature.getGeometry()));
+            clonedFeature.setGeometry(fromCircle(clonedFeature.getGeometry(), 100));
         }
+        Object.keys(clonedFeature.getProperties()).filter(key => {
+            if (key.includes("@Datastreams")) {
+                const newKey = key.replaceAll("@", "").replaceAll(".", "");
 
+                clonedFeature.set(newKey, clonedFeature.getProperties()[key]);
+                clonedFeature.unset(key, {silent: true});
+            }
+            return false;
+        });
         // Removing "Datastreams" attribute because it might overload the server as happened for some sensors.
         clonedFeature.unset("Datastreams", {silent: true});
 
@@ -1046,6 +1084,7 @@ const BuildSpecModel = {
         if (convertedFeature?.properties && Object.prototype.hasOwnProperty.call(convertedFeature.properties, "features")) {
             delete convertedFeature.properties.features;
         }
+
         return convertedFeature;
     },
 
@@ -1068,7 +1107,6 @@ const BuildSpecModel = {
         else {
             styles = layer.getStyleFunction().call(layer, feature);
         }
-
         return !Array.isArray(styles) ? [styles] : styles;
     },
 
@@ -1130,7 +1168,7 @@ const BuildSpecModel = {
         }
         // cluster feature with geometry style
         if (feature.get("features") !== undefined) {
-            if ((style !== undefined && style.getText().getText() !== undefined) || feature.get("features").length > 1) {
+            if ((style !== undefined && style?.getText()?.getText() !== undefined) || feature.get("features").length > 1) {
                 const value = feature.get("features")[0].get(styleAttr[0])
                     + "_"
                     + style !== undefined && style.getText().getText() !== undefined ? style.getText().getText() : "cluster";
@@ -1138,10 +1176,15 @@ const BuildSpecModel = {
                 feature.set(styleAttr[0], value);
                 return `[${styleAttr[0]}='${value}']`;
             }
+            else if (style?.type) {
+                const value = feature.get("default");
+
+                return `[${styleAttr[0]}='${value}']`;
+            }
 
             // Current feature is not clustered but a single feature in a clustered layer
             return styleAttr.reduce((acc, curr) => {
-                const value = feature.get("features")[0].get(curr);
+                const value = feature.get("features")[0].get(curr) === undefined ? "*" : feature.get("features")[0].get(curr);
 
                 feature.set(curr, value);
                 return acc + `${curr}='${value}',`;
@@ -1186,7 +1229,6 @@ const BuildSpecModel = {
                 styleFields = [styleObject.get("styleField")];
             }
         }
-
         return styleFields;
     },
 

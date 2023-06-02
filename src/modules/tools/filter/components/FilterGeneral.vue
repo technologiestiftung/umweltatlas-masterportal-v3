@@ -16,6 +16,7 @@ import {getFeaturesOfAdditionalGeometries} from "../utils/getFeaturesOfAdditiona
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 import {getFeatureGET} from "../../../../api/wfs/getFeature";
 import {WFS} from "ol/format.js";
+import UrlHandler from "../utils/urlHandler.js";
 
 export default {
     name: "FilterGeneral",
@@ -27,7 +28,6 @@ export default {
     },
     data () {
         return {
-
             storePath: this.$store.state.Tools.Filter,
             mapHandler: new MapHandler({
                 getLayerByLayerId: openlayerFunctions.getLayerByLayerId,
@@ -40,11 +40,12 @@ export default {
                 getLayers: openlayerFunctions.getLayers
             }),
             layerConfigs: [],
-            selectedLayerGroups: [],
             preparedLayerGroups: [],
             flattenPreparedLayerGroups: [],
             layerLoaded: {},
-            layerFilterSnippetPostKey: ""
+            layerFilterSnippetPostKey: "",
+            urlHandler: new UrlHandler(this.mapHandler),
+            alreadyWatching: null
         };
     },
     computed: {
@@ -65,8 +66,8 @@ export default {
             this.setAdditionalGeometries({additionalGeometries});
         });
     },
-    mounted () {
-        this.convertConfig({
+    async mounted () {
+        await this.convertConfig({
             snippetInfos: openlayerFunctions.getSnippetInfos()
         });
 
@@ -74,8 +75,10 @@ export default {
 
         this.$nextTick(() => {
             if (openlayerFunctions.isUiStyleTable()) {
-                openlayerFunctions.setFilterInTableMenu(this.$el.querySelector("#tool-general-filter"));
-                this.$el.remove();
+                if (typeof this.$el.querySelector === "function" && this.$el.querySelector("#tool-general-filter")) {
+                    openlayerFunctions.setFilterInTableMenu(this.$el.querySelector("#tool-general-filter"));
+                    this.$el.remove();
+                }
             }
         });
         if (Array.isArray(this.layerConfigs.groups) && this.layerConfigs.groups.length > 0) {
@@ -92,7 +95,6 @@ export default {
                 });
             }
         }
-
         if (Array.isArray(this.layerConfigs?.layers) && this.layerConfigs.layers.length > 0) {
             const selectedFilterIds = [];
 
@@ -105,6 +107,12 @@ export default {
                 this.setSelectedAccordions(this.transformLayerConfig(this.layerConfigs.layers, selectedFilterIds));
             }
         }
+        this.urlHandler.readFromUrlParams(this.$store.state.urlParams?.filter, this.layerConfigs, this.mapHandler, params => {
+            this.deserializeState(params);
+            this.addWatcherToWriteUrl();
+        });
+        this.addWatcherToWriteUrl();
+
     },
     methods: {
         ...mapMutations("Tools/Filter", Object.keys(mutations)),
@@ -113,9 +121,9 @@ export default {
             "convertConfig",
             "updateRules",
             "deleteAllRules",
-            "updateFilterHits"
+            "updateFilterHits",
+            "deserializeState"
         ]),
-
         close () {
             this.setActive(false);
             const model = getComponent(this.storePath.id);
@@ -124,7 +132,21 @@ export default {
                 model.set("isActive", false);
             }
         },
-
+        /**
+         * Adds a watcher on the Filter module and pass the 'writeUrlParams' function as handler.
+         * Only adds a watcher if there is no watcher set - checked by 'alreadyWatching' property.
+         * @returns {void}
+         */
+        addWatcherToWriteUrl () {
+            if (this.saveTo === "url") {
+                if (typeof this.alreadyWatching === "function") {
+                    return;
+                }
+                this.alreadyWatching = this.$watch("$store.state.Tools.Filter", this.writeUrlParams, {
+                    deep: true
+                });
+            }
+        },
         /**
          * Gets the features of the additional geometries by the given layer id.
          * @param {Object[]} additionalGeometries - The additional geometries.
@@ -149,15 +171,17 @@ export default {
          * @param {Number} layerGroupIndex index of the layer group
          * @returns {void}
          */
-        updateSelectedLayerGroups (layerGroupIndex) {
-            const index = this.selectedLayerGroups.indexOf(layerGroupIndex);
+        updateSelectedGroups (layerGroupIndex) {
+            const selectedGroups = JSON.parse(JSON.stringify(this.selectedGroups)),
+                index = selectedGroups.indexOf(layerGroupIndex);
 
             if (index >= 0) {
-                this.selectedLayerGroups.splice(index, 1);
+                selectedGroups.splice(index, 1);
             }
             else {
-                this.selectedLayerGroups.push(layerGroupIndex);
+                selectedGroups.push(layerGroupIndex);
             }
+            this.setSelectedGroups(selectedGroups);
         },
         /**
          * Update selectedAccordions array in groups.
@@ -165,7 +189,10 @@ export default {
          * @returns {void|undefined} returns undefinied, if filterIds is not an array and not a number.
          */
         updateSelectedAccordions (filterId) {
-            let selectedFilterIds = [];
+            const selectedGroups = JSON.parse(JSON.stringify(this.selectedGroups)),
+                filterIdsOfAccordions = [];
+            let selectedFilterIds = [],
+                selectedAccordionIndex = -1;
 
             if (!this.multiLayerSelector) {
                 selectedFilterIds = this.selectedAccordions.some(accordion => accordion.filterId === filterId) ? [] : [filterId];
@@ -174,17 +201,17 @@ export default {
             }
 
             this.preparedLayerGroups.forEach((layerGroup, groupIdx) => {
-                if (layerGroup.layers.some(layer => layer.filterId === filterId) && !this.selectedLayerGroups.includes(groupIdx)) {
-                    this.selectedLayerGroups.push(groupIdx);
+                if (layerGroup.layers.some(layer => layer.filterId === filterId) && !this.selectedGroups.includes(groupIdx)) {
+                    selectedGroups.push(groupIdx);
                 }
             });
+            this.setSelectedGroups(selectedGroups);
 
-            const filterIdsOfAccordions = [],
-                index = this.selectedAccordions.findIndex(accordion => accordion.filterId === filterId);
+            selectedAccordionIndex = this.selectedAccordions.findIndex(accordion => accordion.filterId === filterId);
 
             this.selectedAccordions.forEach(accordion => filterIdsOfAccordions.push(accordion.filterId));
-            if (index >= 0) {
-                filterIdsOfAccordions.splice(index, 1);
+            if (selectedAccordionIndex >= 0) {
+                filterIdsOfAccordions.splice(selectedAccordionIndex, 1);
             }
             else {
                 filterIdsOfAccordions.push(filterId);
@@ -292,6 +319,18 @@ export default {
          */
         resetJumpToId () {
             this.setJumpToId(undefined);
+        },
+        /**
+         * Writes the given state to the url.
+         * @calls urlHandler.getParamsFromState
+         * @param {Object} newState The state.
+         * @returns {void}
+         */
+        writeUrlParams (newState) {
+            const params = this.urlHandler.getParamsFromState(newState, this.neededUrlParams),
+                generatedParams = JSON.stringify(params);
+
+            this.urlHandler.writeParamsToURL(generatedParams);
         }
     }
 };
@@ -345,12 +384,12 @@ export default {
                                         data-toggle="collapse"
                                         data-parent="#accordion"
                                         tabindex="0"
-                                        @click="updateSelectedLayerGroups(layerGroups.indexOf(layerGroup))"
-                                        @keydown.enter="updateSelectedLayerGroups(layerGroups.indexOf(layerGroup))"
+                                        @click="updateSelectedGroups(layerGroups.indexOf(layerGroup))"
+                                        @keydown.enter="updateSelectedGroups(layerGroups.indexOf(layerGroup))"
                                     >
                                         {{ layerGroup.title ? layerGroup.title : key }}
                                         <span
-                                            v-if="!selectedLayerGroups.includes(layerGroups.indexOf(layerGroup))"
+                                            v-if="!selectedGroups.includes(layerGroups.indexOf(layerGroup))"
                                             class="bi bi-chevron-down float-end"
                                         />
                                         <span
@@ -361,7 +400,7 @@ export default {
                                 </h2>
                                 <div
                                     role="tabpanel"
-                                    :class="['accordion-collapse', 'collapse', selectedLayerGroups.includes(layerGroups.indexOf(layerGroup)) ? 'show' : '']"
+                                    :class="['accordion-collapse', 'collapse', selectedGroups.includes(layerGroups.indexOf(layerGroup)) ? 'show' : '']"
                                 >
                                     <FilterList
                                         v-if="Array.isArray(preparedLayerGroups) && preparedLayerGroups.length && layerSelectorVisible"

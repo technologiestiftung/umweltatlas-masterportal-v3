@@ -31,4 +31,24 @@ describe("src/modules/tools/filter/components/SnippetCheckboxFilterInMapExtent.v
         expect(wrapper.find("input").classes("snippetCheckbox")).to.be.true;
         expect(wrapper.find(".snippetCheckbox").element.checked).to.be.equal(false);
     });
+
+    it("should emit the correct function after click on the checkbox", async () => {
+        const checkbox = wrapper.find(".snippetCheckbox");
+
+        checkbox.trigger("click");
+        await wrapper.vm.$nextTick();
+        expect(wrapper.emitted()).to.have.property("commandChanged");
+    });
+    it("should render SnippetInfo if info text is given", async () => {
+        await wrapper.setData({
+            info: "Test"
+        });
+        expect(wrapper.find(".right").exists()).to.be.true;
+    });
+    it("should not render SnippetInfo if info is false", async () => {
+        await wrapper.setData({
+            info: false
+        });
+        expect(wrapper.find(".right").exists()).to.be.false;
+    });
 });

@@ -37,7 +37,7 @@ export default {
         const styleObject = styleList.returnStyleObject(state.pointStyleId);
         let coordValues = [];
 
-        if (!value.keepPreviousMarker) {
+        if (!value?.keepPreviousMarker) {
             dispatch("removePointMarker");
         }
 

@@ -33,7 +33,7 @@ export async function translate (urlParamsKey, urlParamsValue) {
             return {key: "uiStyle", value: convert(checkedValue)};
         }
         case "filter": {
-            return {key: "filter", value: checkedValue};
+            return {key: "filter", value: JSON.parse(checkedValue)};
         }
         case "query":
         case "search/query": {
@@ -89,7 +89,7 @@ export async function translate (urlParamsKey, urlParamsValue) {
         case "mdid":
         case "map/mdid": {
             const key = "Maps/mdId",
-                value = convert(urlParamsValue);
+                value = urlParamsValue.includes(",") ? urlParamsValue : convert(urlParamsValue);
 
             return {key: key, value: value};
         }

@@ -122,6 +122,39 @@ describe("src/modules/tools/filter/components/SnippetDropdown.vue", () => {
             });
 
             expect(wrapper.vm.securedOperator).to.not.be.equal("operator");
+            wrapper.destroy();
+        });
+        it("should be possible to select everything via 'select all' if addSelectAll is true", async () => {
+            const wrapper = shallowMount(SnippetDropdown, {
+                    propsData: {
+                        display: "list",
+                        addSelectAll: true,
+                        multiselect: true
+                    },
+                    localVue
+                }),
+                click = wrapper.find(".snippetListContainer").find(".grid-container").findAll(".grid-item").at(1).find("a");
+
+            await wrapper.setData({
+                dropdownValue: ["Altona", "Eimsbüttel", "Bergedorf"]
+            });
+
+            click.trigger("click");
+
+            expect(click.text()).to.equal("modules.tools.filter.dropdown.selectAll");
+            expect(wrapper.vm.dropdownSelected).to.deep.equal(["Altona", "Eimsbüttel", "Bergedorf"]);
+            wrapper.destroy();
+        });
+        it("should only set the dropdown values based on the given values", () => {
+            const wrapper = shallowMount(SnippetDropdown, {
+                propsData: {
+                    value: ["Altona", "Eimsbüttel", "Bergedorf"]
+                },
+                localVue
+            });
+
+            expect(wrapper.vm.dropdownValue).to.deep.equal(["Altona", "Eimsbüttel", "Bergedorf"]);
+            wrapper.destroy();
         });
     });
 
@@ -289,6 +322,23 @@ describe("src/modules/tools/filter/components/SnippetDropdown.vue", () => {
             expect(wrapper.find(".snippetListContainer .checkbox").exists()).to.be.true;
 
             wrapper.destroy();
+        });
+        it("should set the current source to 'dropdown' if clicked on a entry", async () => {
+            const wrapper = shallowMount(SnippetDropdown, {
+                propsData: {
+                    "type": "dropdown",
+                    "attrName": "kapitelbezeichnung",
+                    "display": "list",
+                    "multiselect": true,
+                    "value": ["yek", "do"]
+                },
+                localVue
+            });
+
+            await wrapper.vm.$nextTick();
+            wrapper.vm.source = "adjust";
+            wrapper.findAll(".checkbox").at(0).trigger("click");
+            expect(wrapper.vm.source).to.be.equal("dropdown");
         });
     });
 

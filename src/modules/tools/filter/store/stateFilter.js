@@ -31,8 +31,10 @@ export default {
     rulesOfFilters: [],
     serializedString: "",
     selectedAccordions: [],
+    selectedGroups: [],
     filtersHits: [],
     filterGeometry: false,
     geometryFeature: undefined,
-    jumpToId: undefined
+    jumpToId: undefined,
+    neededUrlParams: ["rulesOfFilters", "selectedAccordions", "selectedGroups"]
 };

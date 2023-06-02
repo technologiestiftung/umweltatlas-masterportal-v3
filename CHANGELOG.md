@@ -5,22 +5,89 @@
 
 ## Unreleased - in development
 ### __Breaking Changes__
+- The Virtual City Planner tool (virtualcityPLANNER) has been removed
 
 ### Added
+- GFI: nested object values can now be addressed from "gfiAttributes" by dot notation. See [services.json](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md#markdown-header-gfi_attributes) .
+- PortalFooter
+  - configuration for mobileFooterInfoToggler has been implemented
+  - the icon (arrow) to toggle information is only visible if it is configured
 
 ### Changed
-
-### Deprecated
-
-### Removed
+- The version of node was updated to `^16.13.2 || ^18.16.0`. If you use node 18, you must provide the environment variable `NODE_OPTIONS=--openssl-legacy-provider` or you can alter npm scripts using cross-env, e.g. `"start": "cross-env NODE_OPTIONS=--openssl-legacy-provider webpack-dev-server --config devtools/webpack.dev.js"` to avoid errors with webpack 4 (see https://github.com/webpack/webpack/issues/14532#issuecomment-947807590).
+- The version of npm was updated to `^8.1.2 || ^9.5.1`
+- The following NPM packages have been updated:
+  - dependencies:
+    - @masterportal/masterportalapi: 2.17.0 to 2.19.0
 
 ### Fixed
+- Tool Coordinates: no errors occur on mobile devices.
+- FileImport:
+  - Error fixed when importing KML file with polygon without label.
+  - KML exported from QGIS can now be loaded in the master portal.
+  - Handling of KML generated from the master portal has been improved.
+- URLParam: multiple mdIds entries in the url result in added layers again.
+- Issue #1016: Draw: When creating a text, it is now prevented that a previous is changed.
+- Issue #1021: vectorStyle can now handle geometryCollections.
+- Issue #1022: attributeMapper supports additional time formats
+- Issue #1025: search via urlparam 'query=' opens the suggestion list again.
+- Issue #1026: featureLister width fits content now.
+- Issue #1031/Issue #1034: printing of non clustered features in clustered layers.
+- Issue #1032: FileImport: The label style for imported KML is now applied correctly.
+- Issue #1036: Draw: circle radius is displayed correct for unit 'km'.
+- Issue #1041: Print: Circles are now broken down into 100 segments and correctly displayed as polygons in the printout.
+- DefaultTree Parser: 3d layers will only be created if 3dLayerList exists.
+
+### Deprecated
+- Node 16 will no longer be supported as of September 2023 (see https://github.com/nodejs/release#release-schedule).
+
+### Removed
+- The following NPM packages have been removed:
+    - devDependencies:
+        - string-replace-loader
+    - dependencies:
+         - dayjs (moved to masterportalAPI dependency)
 
 ---
+
+## v2.33.1 - 2023-05-16
+### Fixed
+- Print:
+  - dashstyle can now be printed even if only one value was specified
+
+---
+
+## v2.33.0 - 2023-05-03
+### Added
+- New Rotation control of the map. If map interaction `altShiftDragRotate` is activated the map can be rotated with `shift+alt+drag`. See [mapInteractions](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/config.js.md#markdown-header-mapInteractions) and [rotate control](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/config.json.md#markdown-header-portalconfigcontrolsrotation)
+- Issue #874: add keyboardEventTarget possibility to ol map configuration
+- Issue #882: add map rotation configuration and control
+- Filter: can be manipulated from URL with parameters
+
+### Changed
+- Issue #1020: In the language files the pluralization was adjusted. The suffix `plural` was changed to `other` and the suffix `one` was added.
+- The following NPM packages have been updated:
+  - dependencies:
+    - @masterportal/masterportalapi: 2.16.0 to 2.17.0
+
+### Fixed
+- Issue #884: mapbox styles with raster sources can be displayed.
+
+---
+
+## v2.32.1 - 2023-04-17
+### Fixed
+- Traffic Lights Data visible on scale 1:5000 again
+- Filter/ Autorefresh: The same features are displayed from a filterd GeoJson after an autorefresh as before the autorefresh.
+- Issue #842: Dropdown at WFS filter module is not filled with MapServer WFS.
+
+---
+
 ##  v2.32.0 - 2023-04-05
 ### Added
 - Print:
   - Printing static image added
+  - Print special style with @ and . added
 - New WebGL Render Pipeline
     - core/layers/renderer/webgl: New layer-class methods for rendering WFS, GeoJSON, OAF or VectorBase layers using OL7's WebGL render pipelines
 - Filter:
@@ -78,8 +145,6 @@
 - Issue #875: MouseHover now also works on group layers.
 - Issue #876: Add missing CR/LF interpreter for WMS GFI.
 - Issue #879: Kml features now get transformed from the maps used coordinate system instead of hardcoded EPSG:25832.
-- Issue #888: If a feature uses the default style, all features are now displayed correctly in the print module.
-- Issue #891: The mapMarker customStyle now works again as expected.
 - Issue #888:
     - If a feature uses the default style, all features are now displayed correctly in the print module.
     - Legends for multigeometries are now displayed correctly for layers of type wfs and vectorbase
@@ -92,7 +157,7 @@
 - Text imports from previously exported geojson files get displayed again.
 - Filter: icons are displayed, if "renderIcons": "fromLegend" is configured at filter.
 - Draw: changing the color of points via "Edit geometry" works.
-- Print deselects "with additional information"-option when you close the Gfi now. 
+- Print deselects "with additional information"-option when you close the Gfi now.
 
 ---
 

@@ -6,11 +6,11 @@
       "link": "https://geoinfo.hamburg.de",
       "toolTip": "Landesbetrieb Geoinformation und Vermessung"
     },
-    "tree":{
-			"highlightedFeatures": {
-				"active": true
-			}
-		},
+    "tree": {
+      "highlightedFeatures": {
+        "active": true
+      }
+    },
     "quickHelp": {
       "configs": {
         "search": true,
@@ -782,7 +782,7 @@
         {
           "id": "1711",
           "styleId": "1711",
-          "visibility": true,
+          "visibility": false,
           "layerAttribution": "<span>Attributierung für Fachlayer</span>",
           "mouseHoverField": [
             "name",
@@ -799,7 +799,7 @@
         },
         {
           "id": "8712",
-          "visibility": true,
+          "visibility": false,
           "name": "Schulinfosystem",
           "styleId": "8712",
           "searchField": "schulname",
@@ -869,11 +869,14 @@
         {
           "id": "18106",
           "styleId": "18106",
-          "clusterDistance": 50,
           "loadThingsOnlyInCurrentExtent": true,
           "gfiTheme": {
             "name": "sensor",
             "params": {
+              "historicalData": {
+                "periodLength": 1,
+                "periodUnit": "year"
+              },
               "charts": {
                 "barPercentage": 1.1,
                 "values": {
@@ -916,11 +919,19 @@
           "typ": "StaticImage",
           "url": "https://geodienste.hamburg.de/lgv-config/img/Laerm-Test_300dpi.png",
           "name": "Lärmberechnung",
-          "extent": [568426.27, 5931985.58, 569614.86, 5933174.11],
-          "legend": ["https://geodienste.hamburg.de/lgv-config/img/Legende_Laermberechnung_Tag.png", "https://geodienste.hamburg.de/lgv-config/img/Legende_Laermberechnung_Nacht.png"]
+          "extent": [
+            568426.27,
+            5931985.58,
+            569614.86,
+            5933174.11
+          ],
+          "legend": [
+            "https://geodienste.hamburg.de/lgv-config/img/Legende_Laermberechnung_Tag.png",
+            "https://geodienste.hamburg.de/lgv-config/img/Legende_Laermberechnung_Nacht.png"
+          ]
         },
         {
-          "id" : "2928",
+          "id": "2928",
           "name": "Linienhafte Biotope",
           "legend": true,
           "featurePrefix": "de.hh.up:",
@@ -929,13 +940,11 @@
           "escapeChar": "!"
         },
         {
-          "id": "StaticImage",
-          "name": "Lärmberechnung",
-          "extent": [568426.27, 5931985.58, 569614.86, 5933174.11],
-          "typ": "StaticImage",
-          "visibility": true,
-          "url": "https://geodienste.hamburg.de/lgv-config/img/Laerm-Test_300dpi.png",
-          "legend": ["https://geodienste.hamburg.de/lgv-config/img/Legende_Laermberechnung_Tag.png", "https://geodienste.hamburg.de/lgv-config/img/Legende_Laermberechnung_Nacht.png"]
+          "id": "18104",
+          "styleId": "18104",
+          "name": "Anzahl frei verfügbarer E-Lastenräder je StadtRad-Station",
+          "typ": "SensorThings",
+          "visibility": false
         }
       ]
     }
