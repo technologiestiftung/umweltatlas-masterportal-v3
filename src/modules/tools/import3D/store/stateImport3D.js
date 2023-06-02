@@ -22,25 +22,31 @@
 export default {
     active: false,
     id: "import3D",
-    coordinatesEasting: "",
-    coordinatesNorthing: "",
-    coordinatesAltitude: "",
+    coordinatesEasting: {id: "easting", value: ""},
+    coordinatesNorthing: {id: "northing", value: ""},
     currentModelId: null,
     currentModelPosition: null,
-    currentProjection: "EPSG:4326",
-    importedModels: [],
-
-    // defaults for config.json parameters
-    icon: "bi-box-arrow-in-down",
-    deactivateGFI: false,
-    name: "common:menu.tools.import3D",
-    onlyDesktop: true,
-    renderToWindow: true,
-    resizableWindow: false,
+    currentProjection: {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm"},
+    eastingNoCoord: false,
+    eastingNoMatch: false,
+    height: {id: "height", value: ""},
     highlightStyle: {
         color: "#787777",
         alpha: 1,
         silhouetteColor: "#E20D0F",
         silhouetteSize: 4
-    }
+    },
+    importedModels: [],
+    northingNoCoord: false,
+    northingNoMatch: false,
+    projections: [],
+    selectedCoordinates: [],
+
+    // defaults for config.json parameters
+    icon: "bi-box-arrow-in-down",
+    deactivateGFI: true,
+    name: "common:menu.tools.import3D",
+    onlyDesktop: true,
+    renderToWindow: true,
+    resizableWindow: false
 };

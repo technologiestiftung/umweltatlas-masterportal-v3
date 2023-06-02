@@ -10,7 +10,7 @@ import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader.js";
 import {OBJLoader} from "three/examples/jsm/loaders/OBJLoader.js";
 import {ColladaLoader} from "three/examples/jsm/loaders/ColladaLoader.js";
 import {GLTFExporter} from "three/examples/jsm/exporters/GLTFExporter.js";
-import {fromLonLat, toLonLat} from "ol/proj.js";
+import crs from "@masterportal/masterportalapi/src/crs";
 
 export default {
     name: "Import3D",
@@ -26,47 +26,39 @@ export default {
             eventHandler: null,
             rotationAngle: 0,
             rotationClickValue: 5,
-            rotationDropdownValues: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-            projections: ["EPSG:4326", "EPSG:25832"]
+            rotationDropdownValues: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         };
     },
     computed: {
+        ...mapGetters(["namedProjections"]),
         ...mapGetters("Tools/Import3D", Object.keys(getters)),
 
         dropZoneAdditionalClass: function () {
             return this.dzIsDropHovering ? "dzReady" : "";
         },
-        currentSelection: {
-            get () {
-                return this.currentProjection;
-            },
-            set (newValue) {
-                this.setCurrentProjection(newValue);
+        eastingNoCoordMessage: function () {
+            if (this.currentProjection.projName !== "longlat") {
+                return this.$t("common:modules.tools.coordToolkit.errorMsg.noCoord", {valueKey: this.$t(this.getLabel("eastingLabel"))});
             }
+            return this.$t("common:modules.tools.coordToolkit.errorMsg.hdmsNoCoord", {valueKey: this.$t(this.getLabel("eastingLabel"))});
         },
-        eastingString: {
-            get () {
-                return this.coordinatesEasting;
-            },
-            set (newValue) {
-                this.setCoordinatesEasting(newValue);
+        northingNoCoordMessage: function () {
+            if (this.currentProjection.projName !== "longlat") {
+                return this.$t("common:modules.tools.coordToolkit.errorMsg.noCoord", {valueKey: this.$t(this.getLabel("northingLabel"))});
             }
+            return this.$t("common:modules.tools.coordToolkit.errorMsg.hdmsNoCoord", {valueKey: this.$t(this.getLabel("northingLabel"))});
         },
-        northingString: {
-            get () {
-                return this.coordinatesNorthing;
-            },
-            set (newValue) {
-                this.setCoordinatesNorthing(newValue);
+        northingNoMatchMessage: function () {
+            if (this.currentProjection.projName !== "longlat") {
+                return this.$t("common:modules.tools.coordToolkit.errorMsg.noMatch", {valueKey: this.$t(this.getLabel("northingLabel"))});
             }
+            return this.$t("common:modules.tools.coordToolkit.errorMsg.hdmsNoMatch", {valueKey: this.$t(this.getLabel("northingLabel"))});
         },
-        altitudeString: {
-            get () {
-                return this.coordinatesAltitude;
-            },
-            set (newValue) {
-                this.setCoordinatesAltitude(newValue);
+        eastingNoMatchMessage: function () {
+            if (this.currentProjection.projName !== "longlat") {
+                return this.$t("common:modules.tools.coordToolkit.errorMsg.noMatch", {valueKey: this.$t(this.getLabel("eastingLabel"))});
             }
+            return this.$t("common:modules.tools.coordToolkit.errorMsg.hdmsNoMatch", {valueKey: this.$t(this.getLabel("eastingLabel"))});
         },
 
         console: () => console
@@ -81,6 +73,7 @@ export default {
             if (isActive) {
                 const scene = mapCollection.getMap("3D").getCesiumScene();
 
+                this.initProjections();
                 this.setFocusToFirstControl();
                 this.eventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
                 this.eventHandler.setInputAction(this.selectEntity, Cesium.ScreenSpaceEventType.LEFT_CLICK);
@@ -91,22 +84,20 @@ export default {
             }
         },
         currentModelId (newId, oldId) {
-            if (newId) {
-                const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
-                    entity = entities.getById(newId);
+            const scene = mapCollection.getMap("3D").getCesiumScene(),
+                entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+                newEntity = entities.getById(newId),
+                oldEntity = entities.getById(oldId);
 
-                this.highlightEntity(entity);
-            }
-            else {
-                const scene = mapCollection.getMap("3D").getCesiumScene(),
-                    entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
-                    entity = entities.getById(oldId);
-
-                entity.model.color = Cesium.Color.WHITE;
-                entity.model.silhouetteColor = null;
-                entity.model.silhouetteSize = 0;
-                entity.model.colorBlendAmount = 0;
+            if (oldEntity) {
+                oldEntity.model.color = Cesium.Color.WHITE;
+                oldEntity.model.silhouetteColor = null;
+                oldEntity.model.silhouetteSize = 0;
+                oldEntity.model.colorBlendAmount = 0;
                 scene.requestRender();
+            }
+            if (newEntity) {
+                this.highlightEntity(newEntity);
             }
         }
     },
@@ -117,6 +108,106 @@ export default {
         ...mapActions("Tools/Import3D", Object.keys(actions)),
         ...mapMutations("Tools/Import3D", Object.keys(mutations)),
 
+        /**
+         * Initializes the projections to select. If projection EPSG:4326 is available same is added in decimal-degree.
+         * @returns {void}
+         */
+        initProjections () {
+            const pr = crs.getProjections(),
+                epsg8395 = [],
+                wgs84Proj = [];
+
+            if (this.projections.length) {
+                return;
+            }
+            // id is set to the name and in case of decimal "-DG" is appended to name later on
+            // for use in select-box
+            pr.forEach(proj => {
+                proj.id = proj.name;
+                if (proj.name === "EPSG:4326" || proj.name === "http://www.opengis.net/gml/srs/epsg.xml#4326") {
+                    wgs84Proj.push(proj);
+                }
+                if (proj.name === "EPSG:8395" || proj.name === "http://www.opengis.net/gml/srs/epsg.xml#8395") {
+                    epsg8395.push(proj);
+                }
+
+                if (proj.name.indexOf("#") > -1) { // e.g. "http://www.opengis.net/gml/srs/epsg.xml#25832"
+                    const code = proj.name.substring(proj.name.indexOf("#") + 1, proj.name.length);
+
+                    proj.epsg = "EPSG:" + code;
+                }
+                else {
+                    proj.title = proj.name;
+                }
+                if (proj.id === this.currentProjection.id) {
+                    this.setCurrentProjection(proj);
+                }
+            });
+            if (wgs84Proj.length > 0) {
+                this.addWGS84Decimal(pr, wgs84Proj);
+            }
+            this.namedProjections.find((el) => {
+                if (el[1].includes("ETRS89_3GK3") && epsg8395.length > 0) {
+                    this.addETRS893GK3(pr, el, epsg8395);
+                    return true;
+                }
+                return false;
+            });
+            this.setProjections(pr);
+        },
+        /**
+         * Adds EPSG:4326 in decimal-degree to list of projections.
+         * @param {Array} projections list of all available projections
+         * @param {Object} elementETRS89_3GK3 the WGS84 projection contained in list of projections
+         * @param {Object} epsg8395 the WGS84 projection contained in list of projections
+         * @returns {void}
+         */
+        addETRS893GK3 (projections, elementETRS89_3GK3, epsg8395) {
+            const index = projections.findIndex(proj => proj.name === "EPSG:8395"),
+                etrs89_3GK3Proj = {};
+
+            for (const key in epsg8395[0]) {
+                etrs89_3GK3Proj[key] = epsg8395[0][key];
+            }
+
+            etrs89_3GK3Proj.name = "ETRS893GK3";
+            etrs89_3GK3Proj.epsg = "EPSG:8395";
+            etrs89_3GK3Proj.id = "http://www.opengis.net/gml/srs/epsg.xml#ETRS893GK3";
+            etrs89_3GK3Proj.title = elementETRS89_3GK3[1].substring(elementETRS89_3GK3[1].lastIndexOf("ETRS"), elementETRS89_3GK3[1].indexOf(" +proj="));
+            etrs89_3GK3Proj.getCode = () => "noEPSGCode";
+            projections.splice(index + 1, 0, etrs89_3GK3Proj);
+        },
+        /**
+         * Adds EPSG:4326 in decimal-degree to list of projections.
+         * @param {Array} projections list of all available projections
+         * @param {Object} wgs84Proj the WGS84 projection contained in list of projections
+         * @returns {void}
+         */
+        addWGS84Decimal (projections, wgs84Proj) {
+            const index = projections.findIndex(proj => proj.name === "EPSG:4326"),
+                wgs84ProjDez = {};
+
+            for (const key in wgs84Proj[0]) {
+                wgs84ProjDez[key] = wgs84Proj[0][key];
+            }
+
+            wgs84ProjDez.name = "EPSG:4326-DG";
+            wgs84ProjDez.epsg = "EPSG:4326";
+            wgs84ProjDez.id = "http://www.opengis.net/gml/srs/epsg.xml#4326-DG";
+            wgs84ProjDez.title = "WGS84_Lat-Lon (Grad, Dezimal), EPSG 4326";
+            wgs84ProjDez.getCode = () => "EPSG:4326-DG";
+            projections.splice(index + 1, 0, wgs84ProjDez);
+        },
+        /**
+         * Called if selection of projection changed. Sets the current projection to state and changes the position.
+         * @param {Event} event changed selection event
+         * @returns {void}
+         */
+        selectionChanged (event) {
+            if (event.target.value) {
+                this.newProjectionSelected(event.target.value);
+            }
+        },
         /**
          * Sets the focus to the first control
          * @returns {void}
@@ -185,27 +276,6 @@ export default {
             this.eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
             this.eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_UP);
         },
-        updatePositionUI () {
-            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
-                entity = entities.getById(this.currentModelId),
-                entityPosition = entity.position.getValue(),
-                cartographic = Cesium.Cartographic.fromCartesian(entityPosition);
-
-            if (this.currentProjection === "EPSG:25832") {
-                const coords = fromLonLat([cartographic.longitude, cartographic.latitude], "EPSG:25832");
-
-                console.log(coords);
-
-                this.setCoordinatesEasting(coords[0]);
-                this.setCoordinatesNorthing(coords[1]);
-            }
-            else {
-                this.setCoordinatesEasting(Cesium.Math.toDegrees(cartographic.longitude).toFixed(5));
-                this.setCoordinatesNorthing(Cesium.Math.toDegrees(cartographic.latitude).toFixed(5));
-            }
-
-            this.setCoordinatesAltitude(cartographic.height.toFixed(1));
-        },
         rotate () {
             const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
                 entity = entities.getById(this.currentModelId),
@@ -258,24 +328,6 @@ export default {
             entity.model.silhouetteColor = Cesium.Color.fromCssColorString(silhouetteColor);
             entity.model.silhouetteSize = silhouetteSize;
             entity.model.colorBlendMode = Cesium.ColorBlendMode.HIGHLIGHT;
-        },
-        updateEntityPosition () {
-            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
-                entity = entities.getById(this.currentModelId),
-                altitude = parseFloat(this.coordinatesAltitude);
-
-            if (!entity) {
-                return;
-            }
-
-            let easting = parseFloat(this.coordinatesEasting),
-                northing = parseFloat(this.coordinatesNorthing);
-
-            if (this.currentProjection === "EPSG:25832") {
-                [easting, northing] = toLonLat([easting, northing]);
-            }
-
-            entity.position = Cesium.Cartesian3.fromDegrees(easting, northing, altitude);
         },
         incrementCoordinate (coordinate) {
             if (this.currentProjection === "EPSG:25832") {
@@ -476,7 +528,7 @@ export default {
         :render-to-window="renderToWindow"
         :resizable-window="resizableWindow"
         :deactivate-gfi="deactivateGFI"
-        :initial-width="300"
+        :initial-width="350"
     >
         <template #toolBody>
             <div
@@ -628,17 +680,17 @@ export default {
                         </label>
                         <div class="col-md-7">
                             <select
-                                v-model="currentSelection"
                                 class="form-select form-select-sm"
                                 aria-label="currentProjection"
-                                @select="updatePositionUI"
+                                @change="selectionChanged($event)"
                             >
                                 <option
                                     v-for="(projection, i) in projections"
                                     :key="i"
-                                    :value="projection"
+                                    :value="projection.id"
+                                    :SELECTED="projection.id === currentProjection.id"
                                 >
-                                    {{ projection }}
+                                    {{ projection.title ? projection.title : projection.name }}
                                 </option>
                             </select>
                         </div>
@@ -655,13 +707,14 @@ export default {
                             <div class="col-md-7 position-control">
                                 <input
                                     id="longitudeField"
-                                    v-model="eastingString"
+                                    v-model="coordinatesEasting.value"
                                     class="form-control form-control-sm"
                                     type="text"
                                     @input="updateEntityPosition"
                                 >
                                 <div>
                                     <button
+                                        id="longitude-increment"
                                         class="btn btn-primary btn-sm btn-pos"
                                         @click="incrementCoordinate('easting')"
                                     >
@@ -670,6 +723,7 @@ export default {
                                         />
                                     </button>
                                     <button
+                                        id="longitude-decrement"
                                         class="btn btn-primary btn-sm btn-pos"
                                         @click="decrementCoordinate('easting')"
                                     >
@@ -690,7 +744,7 @@ export default {
                             <div class="col-md-7 position-control">
                                 <input
                                     id="latitudeField"
-                                    v-model="northingString"
+                                    v-model="coordinatesNorthing.value"
                                     class="form-control form-control-sm"
                                     type="text"
                                     @input="updateEntityPosition"
@@ -727,7 +781,7 @@ export default {
                             <div class="col-md-7 position-control">
                                 <input
                                     id="altitudeField"
-                                    v-model="altitudeString"
+                                    v-model="height.value"
                                     class="form-control form-control-sm"
                                     type="text"
                                     @input="updateEntityPosition"
@@ -743,6 +797,7 @@ export default {
                                         />
                                     </button>
                                     <button
+                                        id="altitude-decrement"
                                         class="btn btn-primary btn-sm btn-pos"
                                         @click="decrementCoordinate('altitude')"
                                     >
