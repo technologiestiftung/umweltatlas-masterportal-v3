@@ -19,6 +19,17 @@ const getters = {
         return projections.find(projection => {
             return projection.id === id;
         });
+    },
+    /**
+     * Returns the label name depending on the selected coordinate system.
+     * @param {Object} state state of this tool
+     * @param {String} key in the language files
+     * @returns {String} the name of the label
+     */
+    getLabel: (state) => (key) => {
+        const type = state.currentProjection?.projName !== "longlat" ? "cartesian" : "hdms";
+
+        return "modules.tools.import3D.projections." + type + "." + key;
     }
 };
 

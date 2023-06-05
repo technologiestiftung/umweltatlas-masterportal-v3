@@ -636,7 +636,7 @@ export default {
                                 class="col-md-5 col-form-label"
                                 for="eastingField"
                             >
-                                {{ $t("modules.tools.import3D.projections.easting") }}
+                                {{ $t(getLabel("eastingLabel")) }}
                             </label>
                             <div class="col-md-7 position-control">
                                 <input
@@ -646,7 +646,9 @@ export default {
                                     type="text"
                                     @input="updateEntityPosition"
                                 >
-                                <div>
+                                <div
+                                    v-if="currentProjection.id !== 'http://www.opengis.net/gml/srs/epsg.xml#4326'"
+                                >
                                     <button
                                         class="btn btn-primary btn-sm btn-pos"
                                         @click="incrementCoordinate('easting')"
@@ -671,7 +673,7 @@ export default {
                                 class="col-md-5 col-form-label"
                                 for="northingField"
                             >
-                                {{ $t("modules.tools.import3D.projections.northing") }}
+                                {{ $t(getLabel("northingLabel")) }}
                             </label>
                             <div class="col-md-7 position-control">
                                 <input
@@ -681,7 +683,9 @@ export default {
                                     type="text"
                                     @input="updateEntityPosition"
                                 >
-                                <div>
+                                <div
+                                    v-if="currentProjection.id !== 'http://www.opengis.net/gml/srs/epsg.xml#4326'"
+                                >
                                     <button
                                         class="btn btn-primary btn-sm btn-pos"
                                         @click="incrementCoordinate('northing')"

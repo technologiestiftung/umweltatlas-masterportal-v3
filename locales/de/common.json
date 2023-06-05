@@ -597,8 +597,14 @@
                     "browse": "Datei auswählen"
                 },
                 "projections": {
-                    "easting": "Rechtswert",
-                    "northing": "Hochwert",
+                    "hdms": {
+                        "eastingLabel": "Länge",
+                        "northingLabel": "Breite"
+                    },
+                    "cartesian": {
+                        "eastingLabel": "Rechtswert",
+                        "northingLabel": "Hochwert"
+                    },
                     "height": "Höhe",
                     "rotation": "Rotation",
                     "rotationSwitch": "Rotationsschritte",

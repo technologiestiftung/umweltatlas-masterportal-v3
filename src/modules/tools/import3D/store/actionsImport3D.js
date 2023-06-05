@@ -77,10 +77,10 @@ const actions = {
         }
         else if (state.currentProjection.epsg === "EPSG:4326") {
             if (coordinate === "easting") {
-                state.coordinatesEasting.value = (state.selectedCoordinates[0] + 0.000001).toFixed(6);
+                state.coordinatesEasting.value = (parseFloat(state.selectedCoordinates[0]) + 0.000001).toFixed(6);
             }
             else if (coordinate === "northing") {
-                state.coordinatesNorthing.value = (state.selectedCoordinates[1] + 0.000001).toFixed(6);
+                state.coordinatesNorthing.value = (parseFloat(state.selectedCoordinates[1]) + 0.000001).toFixed(6);
             }
         }
         else if (coordinate === "easting") {
@@ -96,14 +96,14 @@ const actions = {
         dispatch("formatInput", [state.coordinatesEasting, state.coordinatesNorthing]);
 
         if (coordinate === "height") {
-            state.height.value = (parseFloat(state.height.value) + 0.1).toFixed(2).toString();
+            state.height.value = (parseFloat(state.height.value) - 0.1).toFixed(2).toString();
         }
         else if (state.currentProjection.epsg === "EPSG:4326") {
             if (coordinate === "easting") {
-                state.coordinatesEasting.value = (state.selectedCoordinates[0] - 0.000001).toFixed(6);
+                state.coordinatesEasting.value = (parseFloat(state.selectedCoordinates[0]) - 0.000001).toFixed(6);
             }
             else if (coordinate === "northing") {
-                state.coordinatesNorthing.value = (state.selectedCoordinates[1] - 0.000001).toFixed(6);
+                state.coordinatesNorthing.value = (parseFloat(state.selectedCoordinates[1]) - 0.000001).toFixed(6);
             }
         }
         else if (coordinate === "easting") {
@@ -156,51 +156,22 @@ const actions = {
     */
     transformToCartesian ({commit, dispatch, state}) {
         dispatch("formatInput", [state.coordinatesEasting, state.coordinatesNorthing]);
-        const mapProjection = mapCollection.getMapView("2D").getProjection().getCode();
 
         if (state.selectedCoordinates.length === 2) {
-            let transformedCoordinates;
+            let coordinates;
 
-            if (state.currentProjection.id.indexOf("4326") > -1) {
-                transformedCoordinates = convertSexagesimalToDecimal([state.selectedCoordinates[1], state.selectedCoordinates[0]]);
-            }
-            else if (state.currentProjection.id.indexOf("31467") > -1) {
-                const coordinates = [state.selectedCoordinates[0], state.selectedCoordinates[1]];
-
-                transformedCoordinates = proj4(proj4("EPSG:31467"), proj4("EPSG:4326"), coordinates);
-            }
-            else if (state.currentProjection.id.indexOf("8395") > -1) {
-                const coordinates = [state.selectedCoordinates[0], state.selectedCoordinates[1]];
-
-                transformedCoordinates = proj4(proj4("EPSG:8395"), proj4("EPSG:4326"), coordinates);
+            if (state.currentProjection.projName === "longlat") {
+                coordinates = convertSexagesimalToDecimal([state.selectedCoordinates[1], state.selectedCoordinates[0]]);
             }
             else if (state.currentProjection.id.indexOf("ETRS893GK3") > -1) {
-                const coordinates = [state.selectedCoordinates[0] - 3000000, state.selectedCoordinates[1]];
-
-                transformedCoordinates = proj4(proj4("EPSG:8395"), proj4("EPSG:4326"), coordinates);
-            }
-            else if (state.currentProjection.id.indexOf("4647") > -1) {
-                const coordinates = [state.selectedCoordinates[0], state.selectedCoordinates[1]];
-
-                transformedCoordinates = proj4(proj4("EPSG:4647"), proj4("EPSG:4326"), coordinates);
-            }
-            else if (state.currentProjection.epsg !== mapProjection) {
-                let coordinates;
-
-                if (state.currentProjection.projName === "longlat") {
-                    coordinates = convertSexagesimalToDecimal([state.selectedCoordinates[1], state.selectedCoordinates[0]]);
-                }
-                else {
-                    coordinates = [state.selectedCoordinates[0], state.selectedCoordinates[1]];
-                }
-
-                transformedCoordinates = proj4(proj4(state.currentProjection.id), proj4("EPSG:4326"), coordinates);
+                coordinates = [state.selectedCoordinates[0] - 3000000, state.selectedCoordinates[1]];
             }
             else {
-                const coordinates = [state.selectedCoordinates[0], state.selectedCoordinates[1]];
-
-                transformedCoordinates = proj4(proj4("EPSG:25832"), proj4("EPSG:4326"), coordinates);
+                coordinates = [state.selectedCoordinates[0], state.selectedCoordinates[1]];
             }
+
+            const transformedCoordinates = proj4(proj4(state.currentProjection.epsg), proj4("EPSG:4326"), coordinates);
+
 
             commit("setCurrentModelPosition", Cesium.Cartesian3.fromDegrees(transformedCoordinates[0], transformedCoordinates[1], state.height.value));
         }

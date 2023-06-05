@@ -40,7 +40,12 @@ const mutations = {
      * @returns {void}
      */
     pushCoordinates: (state, payload) => {
-        state.selectedCoordinates.push(parseFloat(payload));
+        let coord = payload;
+
+        if (state.currentProjection.epsg !== "EPSG:4326") {
+            coord = parseFloat(payload);
+        }
+        state.selectedCoordinates.push(coord);
     }
 };
 
