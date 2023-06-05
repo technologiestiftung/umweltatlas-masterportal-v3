@@ -2,6 +2,7 @@
  * User type definition
  * @typedef {Object} FileImportState
  * @property {Boolean}      active - if true, component is rendered
+ * @property {Boolean}      adaptToHeight - if true, adjust height automatically on position change
  * @property {Object}       coordinatesEasting - id and value of the transformed easting coordinate displayed on the ui
  * @property {Object}       coordinatesNorthing - id and value of the transformed northing coordinate displayed on the ui
  * @property {String}       currentModelId - id of the currently selected or added model
@@ -17,7 +18,7 @@
  * @property {Object[]}     projections - all available projections
  * @property {Boolean}      renderToWindow - if true, component is rendered in a window pane instead of sidebar
  * @property {Boolean}      resizableWindow - if true and if rendered to window pane, the pane is resizable
- * @property {Float[]}       selectedCoordinates - current coordinates in current projections as numbers
+ * @property {Float[]}      selectedCoordinates - current coordinates in current projections as numbers
  * @property {Object}       highlightStyle default style for highlighting models
  * @property {String}       highlightStyle.color default color of highlighted model
  * @property {Number}       highlightStyle.alpha default transparency for color of highlighted model
@@ -28,6 +29,7 @@
 export default {
     active: false,
     id: "import3D",
+    adaptToHeight: true,
     coordinatesEasting: {id: "easting", value: ""},
     coordinatesNorthing: {id: "northing", value: ""},
     currentModelId: null,

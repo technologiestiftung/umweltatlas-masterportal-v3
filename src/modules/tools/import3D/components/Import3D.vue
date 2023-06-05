@@ -705,7 +705,7 @@ export default {
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group form-group-sm row">
+                        <div class="row">
                             <label
                                 class="col-md-5 col-form-label"
                                 for="heightField"
@@ -739,6 +739,22 @@ export default {
                                     </button>
                                 </div>
                             </div>
+                        </div>
+                        <div class="form-group form-group-sm row">
+                            <div class="col-md-5" />
+                            <label
+                                class="col-md-5 col-form-label"
+                                for="adaptHeightCheck"
+                            >
+                                {{ $t("modules.tools.import3D.projections.adaptToHeight") }}
+                            </label>
+                            <input
+                                id="adaptHeightCheck"
+                                class="form-check-input check-height"
+                                type="checkbox"
+                                :checked="adaptToHeight"
+                                @change="setAdaptToHeight($event.target.checked)"
+                            >
                         </div>
                     </div>
                     <div class="h-seperator" />
@@ -949,6 +965,13 @@ export default {
     .position-control {
         display: flex;
         gap: 0.25em;
+    }
+
+    .check-height {
+        width: 1.5em;
+        height: 1.5em;
+
+        margin: 0;
     }
 
     .btn-margin {

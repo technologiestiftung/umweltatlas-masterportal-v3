@@ -158,7 +158,8 @@ const actions = {
         dispatch("formatInput", [state.coordinatesEasting, state.coordinatesNorthing]);
 
         if (state.selectedCoordinates.length === 2) {
-            let coordinates;
+            let coordinates,
+                height = state.height.value;
 
             if (state.currentProjection.projName === "longlat") {
                 coordinates = convertSexagesimalToDecimal([state.selectedCoordinates[1], state.selectedCoordinates[0]]);
@@ -172,8 +173,19 @@ const actions = {
 
             const transformedCoordinates = proj4(proj4(state.currentProjection.epsg), proj4("EPSG:4326"), coordinates);
 
+            if (state.adaptToHeight) {
+                const scene = mapCollection.getMap("3D").getCesiumScene(),
+                    cartographic = new Cesium.Cartographic(
+                        Cesium.Math.toRadians(transformedCoordinates[0]),
+                        Cesium.Math.toRadians(transformedCoordinates[1])
+                    );
 
-            commit("setCurrentModelPosition", Cesium.Cartesian3.fromDegrees(transformedCoordinates[0], transformedCoordinates[1], state.height.value));
+                height = scene.globe.getHeight(cartographic);
+
+                commit("setHeight", {id: "height", value: height.toFixed(2)});
+            }
+
+            commit("setCurrentModelPosition", Cesium.Cartesian3.fromDegrees(transformedCoordinates[0], transformedCoordinates[1], height));
         }
     }
 };

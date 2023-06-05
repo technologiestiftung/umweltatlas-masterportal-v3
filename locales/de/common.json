@@ -608,7 +608,8 @@
                     "height": "Höhe",
                     "rotation": "Rotation",
                     "rotationSwitch": "Rotationsschritte",
-                    "projection": "Koordinatensystem"
+                    "projection": "Koordinatensystem",
+                    "adaptToHeight": "An Gelände anpassen"
                 },
                 "alertingMessages": {
                     "success": "Die Datei \"{{filename}}\" wurde erfolgreich importiert.",
