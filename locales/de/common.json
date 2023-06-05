@@ -616,7 +616,8 @@
                 "visibilityTitle": "3D-Modell \"{{name}}\" ein-/ausblenden",
                 "editModel": "3D-Modell \"{{name}}\" bearbeiten",
                 "backToList": "Zurück zur Übersicht",
-                "rotationPlaceholder": "Inkrement-/Dekrement-Schritte"
+                "rotationPlaceholder": "Inkrement-/Dekrement-Schritte",
+                "modelName": "Modell Name"
             },
             "parcelSearch": {
                 "wrongConfig": "Ungültige oder unvollständige Konfiguration",

@@ -1,5 +1,5 @@
 import {generateSimpleMutations} from "../../../../app-store/utils/generators";
-import fileImportState from "./stateImport3D";
+import import3DState from "./stateImport3D";
 
 const mutations = {
     /**
@@ -8,7 +8,13 @@ const mutations = {
      * {setKey:   (state, payload) => *   state[key] = payload * }
      * will be returned.
      */
-    ...generateSimpleMutations(fileImportState)
+    ...generateSimpleMutations(import3DState),
+
+    setModelName: (state, name) => {
+        const model = state.importedModels.find(x => x.id === state.currentModelId);
+
+        model.name = name;
+    }
 };
 
 export default mutations;

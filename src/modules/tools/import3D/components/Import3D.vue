@@ -524,6 +524,7 @@ export default {
                                     <input
                                         v-if="model.edit"
                                         v-model="model.name"
+                                        class="inputName"
                                         @blur="model.edit = false"
                                         @keyup.enter="model.edit = false"
                                     >
@@ -594,6 +595,24 @@ export default {
                         class="cta"
                         v-html="$t('modules.tools.import3D.captions.editInfo')"
                     />
+                    <div class="h-seperator" />
+                    <div class="form-group form-group-sm row">
+                        <label
+                            class="col-md-5 col-form-label"
+                            for="model-name"
+                        >
+                            {{ $t("modules.tools.import3D.modelName") }}
+                        </label>
+                        <div class="col-md-7">
+                            <input
+                                id="model-name"
+                                class="form-control form-control-sm"
+                                type="text"
+                                :value="getModelName()"
+                                @input="setModelName($event.target.value)"
+                            >
+                        </div>
+                    </div>
                     <div class="h-seperator" />
                     <div>
                         <label
@@ -875,7 +894,11 @@ export default {
     }
 
     .index {
-        width: 25%;
+        width: 15%;
+    }
+
+    .inputName {
+        width: 60%;
     }
 
     .buttons {
