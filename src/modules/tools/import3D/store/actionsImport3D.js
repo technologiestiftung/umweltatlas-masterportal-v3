@@ -77,17 +77,17 @@ const actions = {
         }
         else if (state.currentProjection.epsg === "EPSG:4326") {
             if (coordinate === "easting") {
-                state.coordinatesEasting.value = String(parseFloat(state.selectedCoordinates[0]) + 0.000001);
+                state.coordinatesEasting.value = (state.selectedCoordinates[0] + 0.000001).toFixed(6);
             }
             else if (coordinate === "northing") {
-                state.coordinatesNorthing.value = String(parseFloat(state.selectedCoordinates[1]) + 0.000001);
+                state.coordinatesNorthing.value = (state.selectedCoordinates[1] + 0.000001).toFixed(6);
             }
         }
         else if (coordinate === "easting") {
-            state.coordinatesEasting.value = String(parseFloat(state.selectedCoordinates[0]) + 0.5);
+            state.coordinatesEasting.value = (state.selectedCoordinates[0] + 0.1).toFixed(2);
         }
         else if (coordinate === "northing") {
-            state.coordinatesNorthing.value = String(parseFloat(state.selectedCoordinates[1]) + 0.5);
+            state.coordinatesNorthing.value = (state.selectedCoordinates[1] + 0.1).toFixed(2);
         }
 
         dispatch("updateEntityPosition");
@@ -100,17 +100,17 @@ const actions = {
         }
         else if (state.currentProjection.epsg === "EPSG:4326") {
             if (coordinate === "easting") {
-                state.coordinatesEasting.value = String(parseFloat(state.selectedCoordinates[0]) - 0.000001);
+                state.coordinatesEasting.value = (state.selectedCoordinates[0] - 0.000001).toFixed(6);
             }
             else if (coordinate === "northing") {
-                state.coordinatesNorthing.value = String(parseFloat(state.selectedCoordinates[1]) - 0.000001);
+                state.coordinatesNorthing.value = (state.selectedCoordinates[1] - 0.000001).toFixed(6);
             }
         }
         else if (coordinate === "easting") {
-            state.coordinatesEasting.value = String(parseFloat(state.selectedCoordinates[0]) - 0.5);
+            state.coordinatesEasting.value = (state.selectedCoordinates[0] - 0.1).toFixed(2);
         }
         else if (coordinate === "northing") {
-            state.coordinatesNorthing.value = String(parseFloat(state.selectedCoordinates[1]) - 0.5);
+            state.coordinatesNorthing.value = (state.selectedCoordinates[1] - 0.1).toFixed(2);
         }
 
         dispatch("updateEntityPosition");
@@ -165,22 +165,22 @@ const actions = {
                 transformedCoordinates = convertSexagesimalToDecimal([state.selectedCoordinates[1], state.selectedCoordinates[0]]);
             }
             else if (state.currentProjection.id.indexOf("31467") > -1) {
-                const coordinates = [Math.round(state.selectedCoordinates[0]), Math.round(state.selectedCoordinates[1])];
+                const coordinates = [state.selectedCoordinates[0], state.selectedCoordinates[1]];
 
                 transformedCoordinates = proj4(proj4("EPSG:31467"), proj4("EPSG:4326"), coordinates);
             }
             else if (state.currentProjection.id.indexOf("8395") > -1) {
-                const coordinates = [Math.round(state.selectedCoordinates[0]), Math.round(state.selectedCoordinates[1])];
+                const coordinates = [state.selectedCoordinates[0], state.selectedCoordinates[1]];
 
                 transformedCoordinates = proj4(proj4("EPSG:8395"), proj4("EPSG:4326"), coordinates);
             }
             else if (state.currentProjection.id.indexOf("ETRS893GK3") > -1) {
-                const coordinates = [Math.round(state.selectedCoordinates[0]) - 3000000, Math.round(state.selectedCoordinates[1])];
+                const coordinates = [state.selectedCoordinates[0] - 3000000, state.selectedCoordinates[1]];
 
                 transformedCoordinates = proj4(proj4("EPSG:8395"), proj4("EPSG:4326"), coordinates);
             }
             else if (state.currentProjection.id.indexOf("4647") > -1) {
-                const coordinates = [Math.round(state.selectedCoordinates[0]), Math.round(state.selectedCoordinates[1])];
+                const coordinates = [state.selectedCoordinates[0], state.selectedCoordinates[1]];
 
                 transformedCoordinates = proj4(proj4("EPSG:4647"), proj4("EPSG:4326"), coordinates);
             }
@@ -191,13 +191,13 @@ const actions = {
                     coordinates = convertSexagesimalToDecimal([state.selectedCoordinates[1], state.selectedCoordinates[0]]);
                 }
                 else {
-                    coordinates = [Math.round(state.selectedCoordinates[0]), Math.round(state.selectedCoordinates[1])];
+                    coordinates = [state.selectedCoordinates[0], state.selectedCoordinates[1]];
                 }
 
                 transformedCoordinates = proj4(proj4(state.currentProjection.id), proj4("EPSG:4326"), coordinates);
             }
             else {
-                const coordinates = [Math.round(state.selectedCoordinates[0]), Math.round(state.selectedCoordinates[1])];
+                const coordinates = [state.selectedCoordinates[0], state.selectedCoordinates[1]];
 
                 transformedCoordinates = proj4(proj4("EPSG:25832"), proj4("EPSG:4326"), coordinates);
             }

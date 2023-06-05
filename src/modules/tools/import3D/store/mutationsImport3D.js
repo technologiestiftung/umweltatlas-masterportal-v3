@@ -40,7 +40,7 @@ const mutations = {
      * @returns {void}
      */
     pushCoordinates: (state, payload) => {
-        state.selectedCoordinates.push(payload);
+        state.selectedCoordinates.push(parseFloat(payload));
     }
 };
 
