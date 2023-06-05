@@ -287,7 +287,7 @@ export default {
             if (Cesium.defined(picked)) {
                 const entity = Cesium.defaultValue(picked.id, picked.primitive.id);
 
-                if ("id" in entity) {
+                if (entity) {
                     scene.requestRender();
 
                     this.setCurrentModelId(entity.id);
