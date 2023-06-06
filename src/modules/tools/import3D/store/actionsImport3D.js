@@ -77,10 +77,10 @@ const actions = {
         }
         else if (state.currentProjection.epsg === "EPSG:4326") {
             if (coordinate === "easting") {
-                state.coordinatesEasting.value = (parseFloat(state.selectedCoordinates[0]) + 0.000001).toFixed(6);
+                state.coordinatesEasting.value = (parseFloat(state.selectedCoordinates[0]) + 0.000001).toFixed(6) + "°";
             }
             else if (coordinate === "northing") {
-                state.coordinatesNorthing.value = (parseFloat(state.selectedCoordinates[1]) + 0.000001).toFixed(6);
+                state.coordinatesNorthing.value = (parseFloat(state.selectedCoordinates[1]) + 0.000001).toFixed(6) + "°";
             }
         }
         else if (coordinate === "easting") {
@@ -100,10 +100,10 @@ const actions = {
         }
         else if (state.currentProjection.epsg === "EPSG:4326") {
             if (coordinate === "easting") {
-                state.coordinatesEasting.value = (parseFloat(state.selectedCoordinates[0]) - 0.000001).toFixed(6);
+                state.coordinatesEasting.value = (parseFloat(state.selectedCoordinates[0]) - 0.000001).toFixed(6) + "°";
             }
             else if (coordinate === "northing") {
-                state.coordinatesNorthing.value = (parseFloat(state.selectedCoordinates[1]) - 0.000001).toFixed(6);
+                state.coordinatesNorthing.value = (parseFloat(state.selectedCoordinates[1]) - 0.000001).toFixed(6) + "°";
             }
         }
         else if (coordinate === "easting") {

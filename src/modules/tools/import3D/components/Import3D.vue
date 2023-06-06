@@ -348,7 +348,8 @@ export default {
                         id: entity.id,
                         name: file.name,
                         show: true,
-                        heading: 0
+                        heading: 0,
+                        edit: false
                     });
 
                     this.setImportedModels(models);
@@ -535,13 +536,27 @@ export default {
                                     v-for="(model, index) in importedModels"
                                     :key="index"
                                 >
-                                    <span>
+                                    <span class="index">
                                         {{ index + 1 }}
                                     </span>
-                                    <span>
+                                    <input
+                                        v-if="model.edit"
+                                        v-model="model.name"
+                                        class="inputName"
+                                        @blur="model.edit = false"
+                                        @keyup.enter="model.edit = false"
+                                    >
+                                    <span
+                                        v-else
+                                        role="button"
+                                        class="inputName"
+                                        tabindex="-1"
+                                        @click="model.edit = true"
+                                        @keyup.enter="model.edit = true"
+                                    >
                                         {{ model.name }}
                                     </span>
-                                    <div>
+                                    <div class="buttons">
                                         <i
                                             class="inline-button bi"
                                             :class="{ 'bi-geo-alt-fill': isHovering === `${index}-geo`, 'bi-geo-alt': isHovering !== `${index}-geo`}"
@@ -627,6 +642,24 @@ export default {
                                     {{ projection.title ? projection.title : projection.name }}
                                 </option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="h-seperator" />
+                    <div class="form-group form-group-sm row">
+                        <label
+                            class="col-md-5 col-form-label"
+                            for="model-name"
+                        >
+                            {{ $t("modules.tools.import3D.modelName") }}
+                        </label>
+                        <div class="col-md-7">
+                            <input
+                                id="model-name"
+                                class="form-control form-control-sm"
+                                type="text"
+                                :value="getModelName()"
+                                @input="setModelName($event.target.value)"
+                            >
                         </div>
                     </div>
                     <div class="h-seperator" />
@@ -948,6 +981,21 @@ export default {
         font-weight: bold;
     }
 
+    .index {
+        width: 15%;
+    }
+
+    .inputName {
+        width: 60%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .buttons {
+        margin-left: auto;
+    }
+
     .inline-button {
         cursor: pointer;
         display: inline-block;
@@ -1007,7 +1055,8 @@ export default {
 
     li {
         display: flex;
-        justify-content: space-between;
+        align-items: center;
+        height: 1.5rem;
     }
 
     .error-text {

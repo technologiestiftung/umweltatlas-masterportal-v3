@@ -6,7 +6,11 @@ const getters = {
     ...generateSimpleGetters(import3DState),
 
     // NOTE overwrite getters here if you need a special behaviour in a getter
+    getModelName: state => () => {
+        const model = state.importedModels.find(x => x.id === state.currentModelId);
 
+        return model.name;
+    },
     /**
      * Returns the projection to the given id.
      * @param {Object} state state of this tool
