@@ -10,6 +10,11 @@ const mutations = {
      */
     ...generateSimpleMutations(import3DState),
 
+    setModelName: (state, name) => {
+        const model = state.importedModels.find(x => x.id === state.currentModelId);
+
+        model.name = name;
+    },
     /**
      * Set currect projection to one in the list of projections.
      * @param {Object} state the state of coord-module
