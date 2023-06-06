@@ -76,6 +76,7 @@ export default {
             }
             if (newEntity) {
                 this.highlightEntity(newEntity);
+                this.setCurrentModelPosition(newEntity.position.getValue());
                 this.updatePositionUI();
             }
         }
@@ -312,6 +313,13 @@ export default {
             if (this.eventHandler) {
                 this.eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
                 this.eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_UP);
+            }
+        },
+        checkedAdapt (value) {
+            this.setAdaptToHeight(value);
+
+            if (value) {
+                this.updateEntityPosition();
             }
         },
         addFile (files) {
@@ -786,7 +794,7 @@ export default {
                                 class="form-check-input check-height"
                                 type="checkbox"
                                 :checked="adaptToHeight"
-                                @change="setAdaptToHeight($event.target.checked)"
+                                @change="checkedAdapt($event.target.checked)"
                             >
                         </div>
                     </div>
