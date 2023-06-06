@@ -174,7 +174,9 @@ const DefaultTreeParser = Parser.extend(/** @lends DefaultTreeParser.prototype *
         // Models für die Fachdaten erzeugen
         this.groupDefaultTreeOverlays(overlayList);
         // Models für 3D Daten erzeugen
-        this.create3dLayer(typeGroup.layer3d, layer3dList);
+        if (layer3dList) {
+            this.create3dLayer(typeGroup.layer3d, layer3dList);
+        }
 
         // Models für Oblique Daten erzeugen
         this.createObliqueLayer(typeGroup.oblique);

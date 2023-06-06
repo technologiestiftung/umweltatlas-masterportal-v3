@@ -18,14 +18,13 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["namedProjections"]),
         ...mapGetters("Tools/CoordToolkit", Object.keys(getters)),
         ...mapGetters("Maps", {
             projection: "projection",
-            mouseCoordinate: "mouseCoordinate",
+            clickCoordinate: "clickCoordinate",
             mapMode: "mode"
         }),
-        ...mapGetters(["uiStyle", "mobile"]),
+        ...mapGetters(["namedProjections", "uiStyle", "mobile"]),
         eastingNoCoordMessage: function () {
             if (this.currentProjection.projName !== "longlat") {
                 return this.$t("common:modules.tools.coordToolkit.errorMsg.noCoord", {valueKey: this.$t(this.getLabel("eastingLabel"))});
@@ -85,6 +84,15 @@ export default {
                 this.removeInputActions();
                 this.setSupplyCoordActive();
             }
+        },
+        /**
+         * Watches for changes of clicked coordinates.
+         * @returns {void}
+         */
+        clickCoordinate () {
+            if (this.mode !== "search") {
+                this.positionClicked();
+            }
         }
     },
     created () {
@@ -115,10 +123,6 @@ export default {
             "copyCoordinates"
         ]),
         ...mapActions("Alerting", ["addSingleAlert"]),
-        ...mapActions("Maps", {
-            addPointerMoveHandlerToMap: "registerListener",
-            removePointerMoveHandlerFromMap: "unregisterListener"
-        }),
         ...mapActions("Maps", {
             addInteractionToMap: "addInteraction",
             removeInteractionFromMap: "removeInteraction"
@@ -246,7 +250,7 @@ export default {
             if (this.selectPointerMove === null) {
                 this.setMapProjection(this.projection);
                 this.createInteraction();
-                this.setPositionMapProjection(this.mouseCoordinate);
+                this.setPositionMapProjection(this.clickCoordinate);
                 this.changedPosition();
             }
         },
@@ -274,9 +278,6 @@ export default {
                     {
                         handleMoveEvent: function () {
                             this.checkPosition();
-                        }.bind(this),
-                        handleDownEvent: function () {
-                            this.positionClicked();
                         }.bind(this)
                     },
                     this

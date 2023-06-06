@@ -1,6 +1,5 @@
 import {toStringHDMS} from "ol/coordinate.js";
 import proj4 from "proj4";
-import isMobile from "../../../../utils/isMobile";
 import {convertSexagesimalFromString, convertSexagesimalToDecimal, convertSexagesimalFromDecimal} from "../../../../utils/convertSexagesimalCoordinates";
 import getProxyUrl from "../../../../utils/getProxyUrl";
 import {requestGfi} from "../../../../api/wmsGetFeatureInfo";
@@ -44,29 +43,31 @@ export default {
      * @returns {void}
      */
     positionClicked: function ({commit, dispatch, state, rootGetters}) {
-        const updatePosition = isMobile() ? true : state.updatePosition,
-            position = rootGetters["Maps/mouseCoordinate"],
+        const updatePosition = rootGetters.mobile ? true : state.updatePosition,
+            position = rootGetters["Maps/clickCoordinate"],
             mapMode = rootGetters["Maps/mode"];
 
-        commit("setPositionMapProjection", position);
-        dispatch("changedPosition");
-        commit("setUpdatePosition", !updatePosition);
+        if (position) {
+            commit("setPositionMapProjection", position);
+            dispatch("changedPosition");
+            commit("setUpdatePosition", !updatePosition);
 
-        if (mapMode === "2D") {
-            dispatch("MapMarker/placingPointMarker", position, {root: true});
+            if (mapMode === "2D") {
+                dispatch("MapMarker/placingPointMarker", position, {root: true});
 
-            if (state.heightLayer) {
-                if (updatePosition) {
-                    dispatch("getHeight", position);
-                }
-                else {
-                    commit("setHeight", "");
+                if (state.heightLayer) {
+                    if (updatePosition) {
+                        dispatch("getHeight", position);
+                    }
+                    else {
+                        commit("setHeight", "");
+                    }
                 }
             }
-        }
-        else if (mapMode === "3D" && position.length === 3) {
-            dispatch("MapMarker/placingPointMarker", position, {root: true});
-            commit("setHeight", position[2].toFixed(1));
+            else if (mapMode === "3D" && position.length === 3) {
+                dispatch("MapMarker/placingPointMarker", position, {root: true});
+                commit("setHeight", position[2].toFixed(1));
+            }
         }
     },
     /**

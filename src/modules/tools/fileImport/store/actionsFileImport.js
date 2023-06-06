@@ -12,11 +12,34 @@ import isObject from "../../../../utils/isObject";
 import {createEmpty as createEmptyExtent, extend} from "ol/extent";
 import uniqueId from "../../../../utils/uniqueId";
 
-const supportedFormats = {
-    kml: new KML({extractStyles: true, iconUrlFunction: (url) => proxyGstaticUrl(url)}),
-    gpx: new GPX(),
-    geojson: new GeoJSON()
-};
+const defaultFont = "16px Arial",
+    supportedFormats = {
+        kml: new KML({
+            extractStyles: true,
+            iconUrlFunction: (url) => proxyGstaticUrl(url),
+            defaultStyle: [new Style({
+                image: new Icon({
+                    anchor: [20, 2],
+                    anchorOrigin: "bottom-left",
+                    anchorXUnits: "pixels",
+                    anchorYUnits: "pixels",
+                    crossOrigin: "anonymous",
+                    rotation: 0,
+                    scale: 1,
+                    size: [16, 16],
+                    src: `${window.location.origin}/img/tools/draw/circle_blue.svg`
+                }),
+                text: new Text({
+                    fill: new Fill({
+                        color: [0, 0, 0, 1]
+                    })
+                }),
+                zIndex: 0
+            })]
+        }),
+        gpx: new GPX(),
+        geojson: new GeoJSON()
+    };
 
 /**
  * Change the URL for gstatic.com so that it request through a reverse proxy.
@@ -305,20 +328,25 @@ export default {
 
                 feature.setGeometry(new Circle(circleCenter, circleRadius));
             }
-            if (feature.get("name") && feature.getGeometry().getType() === "Point") {
+            if ((/true/).test(feature.get("fromDrawTool")) && feature.get("name") && feature.getGeometry().getType() === "Point") {
                 const style = feature.getStyleFunction()(feature).clone();
 
                 feature.setStyle(new Style({
                     image: new CircleStyle(),
                     text: new Text({
                         fill: style.getText().getFill(),
-                        font: "16px Arial",
+                        font: defaultFont,
                         scale: style.getText().getScale(),
                         text: style.getText().getText(),
                         textAlign: "left",
                         textBaseline: "bottom"
                     })
                 }));
+
+                feature.set("drawState", {
+                    fontSize: parseInt(defaultFont.split("px")[0], 10) * style.getText().getScale(),
+                    text: style.getText().getText()
+                });
             }
             if (feature.getGeometry() === null) {
                 featureError = true;
