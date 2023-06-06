@@ -531,6 +531,7 @@ export default {
                                     <span
                                         v-else
                                         role="button"
+                                        class="inputName"
                                         tabindex="-1"
                                         @click="model.edit = true"
                                         @keyup.enter="model.edit = true"
@@ -899,6 +900,9 @@ export default {
 
     .inputName {
         width: 60%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .buttons {
