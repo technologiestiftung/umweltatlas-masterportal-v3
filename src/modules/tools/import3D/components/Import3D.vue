@@ -76,6 +76,7 @@ export default {
             }
             if (newEntity) {
                 this.highlightEntity(newEntity);
+                this.isHovering = false;
                 this.updatePositionUI();
             }
         }
@@ -307,6 +308,27 @@ export default {
             entity.model.silhouetteColor = Cesium.Color.fromCssColorString(silhouetteColor);
             entity.model.silhouetteSize = silhouetteSize;
             entity.model.colorBlendMode = Cesium.ColorBlendMode.HIGHLIGHT;
+        },
+        deleteEntity (id) {
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+                entity = entities.getById(id),
+                modelIndex = this.importedModels.findIndex(x => x.id === id);
+
+            if (modelIndex > -1 && entity) {
+                this.importedModels.splice(modelIndex, 1);
+                entities.removeById(id);
+                this.setCurrentModelId(null);
+            }
+        },
+        confirmDeletion (id) {
+            const modelName = this.getModelNameById(id);
+
+            store.dispatch("ConfirmAction/addSingleAction", {
+                actionConfirmedCallback: () => this.deleteEntity(id),
+                confirmCaption: i18next.t("common:modules.tools.import3D.deleteInteraction.confirm"),
+                textContent: i18next.t("common:modules.tools.import3D.deleteInteraction.text", {name: modelName}),
+                headline: i18next.t("common:modules.tools.import3D.deleteInteraction.headline")
+            });
         },
         removeInputActions () {
             if (this.eventHandler) {
@@ -603,6 +625,17 @@ export default {
                                             @focusin="isHovering = `${index}-show`"
                                             @focusout="isHovering = false"
                                         />
+                                        <i
+                                            class="inline-button bi"
+                                            :class="{ 'bi-trash3-fill': isHovering === `${index}-del`, 'bi-trash3': isHovering !== `${index}-del`}"
+                                            :title="$t(`common:modules.tools.import3D.deletionTitle`, {name: model.name})"
+                                            @click="confirmDeletion(model.id)"
+                                            @keydown.enter="confirmDeletion(model.id)"
+                                            @mouseover="isHovering = `${index}-del`"
+                                            @mouseout="isHovering = false"
+                                            @focusin="isHovering = `${index}-del`"
+                                            @focusout="isHovering = false"
+                                        />
                                     </div>
                                 </li>
                             </ul>
@@ -619,6 +652,24 @@ export default {
                         class="cta red"
                         v-html="$t('modules.tools.import3D.captions.projectionInfo')"
                     />
+                    <div class="h-seperator" />
+                    <div class="form-group form-group-sm row">
+                        <label
+                            class="col-md-5 col-form-label"
+                            for="model-name"
+                        >
+                            {{ $t("modules.tools.import3D.modelName") }}
+                        </label>
+                        <div class="col-md-7">
+                            <input
+                                id="model-name"
+                                class="form-control form-control-sm"
+                                type="text"
+                                :value="getModelNameById(currentModelId)"
+                                @input="setModelName($event.target.value)"
+                            >
+                        </div>
+                    </div>
                     <div class="h-seperator" />
                     <div class="form-group form-group-sm row">
                         <label
@@ -642,24 +693,6 @@ export default {
                                     {{ projection.title ? projection.title : projection.name }}
                                 </option>
                             </select>
-                        </div>
-                    </div>
-                    <div class="h-seperator" />
-                    <div class="form-group form-group-sm row">
-                        <label
-                            class="col-md-5 col-form-label"
-                            for="model-name"
-                        >
-                            {{ $t("modules.tools.import3D.modelName") }}
-                        </label>
-                        <div class="col-md-7">
-                            <input
-                                id="model-name"
-                                class="form-control form-control-sm"
-                                type="text"
-                                :value="getModelName()"
-                                @input="setModelName($event.target.value)"
-                            >
                         </div>
                     </div>
                     <div class="h-seperator" />
@@ -849,13 +882,22 @@ export default {
                         </div>
                     </div>
                     <div class="h-seperator" />
-                    <button
-                        id="tool-import3d-deactivateEditing"
-                        class="btn btn-primary btn-sm btn-margin primary-button-wrapper"
-                        @click="setCurrentModelId(null)"
-                    >
-                        {{ $t("modules.tools.import3D.backToList") }}
-                    </button>
+                    <div class="row justify-content-between">
+                        <button
+                            id="tool-import3d-deactivateEditing"
+                            class="col-5 btn btn-primary btn-sm primary-button-wrapper"
+                            @click="setCurrentModelId(null)"
+                        >
+                            {{ $t("modules.tools.import3D.backToList") }}
+                        </button>
+                        <button
+                            id="tool-import3d-deleteEntity"
+                            class="col-5 btn btn-danger btn-sm delete-button-wrapper"
+                            @click="confirmDeletion(currentModelId)"
+                        >
+                            {{ $t("modules.tools.import3D.delete") }}
+                        </button>
+                    </div>
                 </div>
             </div>
         </template>
@@ -892,6 +934,30 @@ export default {
         }
         &:hover {
             @include primary_action_hover;
+        }
+    }
+
+    .delete-button-wrapper {
+        color: $white;
+        background-color: $light_red;
+        display: block;
+        text-align:center;
+        padding: 8px 12px;
+        cursor: pointer;
+        margin:12px 0 0 0;
+        font-size: $font_size_big;
+        &:focus {
+            @include primary_action_focus;
+        }
+        &:hover {
+            opacity: 1;
+            &.btn-select, &:active, &.active, &:checked, &::selection, &.show, &[aria-expanded="true"] {
+                background-color: $light_red;
+                border-radius: .25rem;
+            }
+            background-color: lighten($light_red, 10%);
+            color: $light_grey_contrast;
+            cursor: pointer;
         }
     }
 
