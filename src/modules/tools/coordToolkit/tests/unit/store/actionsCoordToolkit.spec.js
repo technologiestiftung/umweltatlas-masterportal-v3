@@ -57,7 +57,7 @@ describe("src/modules/tools/coord/store/actionsCoordToolkit.js", () => {
                     positionMapProjection: [300, 300]
                 },
                 rootGetters = {
-                    "Maps/mouseCoordinate": coordinate,
+                    "Maps/clickCoordinate": coordinate,
                     "Maps/mode": "2D"
                 };
 
@@ -79,7 +79,7 @@ describe("src/modules/tools/coord/store/actionsCoordToolkit.js", () => {
                     positionMapProjection: [300, 300]
                 },
                 rootGetters = {
-                    "Maps/mouseCoordinate": coordinate,
+                    "Maps/clickCoordinate": coordinate,
                     "Maps/mode": "2D"
                 };
 
@@ -102,7 +102,7 @@ describe("src/modules/tools/coord/store/actionsCoordToolkit.js", () => {
                     positionMapProjection: [300, 300]
                 },
                 rootGetters = {
-                    "Maps/mouseCoordinate": coordinate,
+                    "Maps/clickCoordinate": coordinate,
                     "Maps/mode": "2D"
                 };
 
