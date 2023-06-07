@@ -620,13 +620,20 @@
                     "formatConversion": "Das Dateiformat \"{{format}}\" wurde in das \"gltf-Format\" konvertiert, bitte laden Sie die Datei \"{{file}}.gltf\" herunter und importieren diese erneut im 3D-Modell Import Tool",
                     "featureError": "Ein Feature in dieser Datei konnte nicht gelesen werden."
                 },
+                "deleteInteraction": {
+                    "confirm": "Löschen",
+                    "headline": "Achtung",
+                    "text": "Sind Sie sicher, dass Sie das Modell \"{{name}}\" löschen möchten?"
+                },
                 "successfullyImportedLabel": "Importierte 3D-Modelle:",
                 "title": "Datei importieren",
                 "visibilityTitle": "3D-Modell \"{{name}}\" ein-/ausblenden",
+                "deletionTitle": "3D-Modell \"{{name}}\" löschen",
                 "editModel": "3D-Modell \"{{name}}\" bearbeiten",
-                "backToList": "Zurück zur Übersicht",
+                "backToList": "Zur Übersicht",
                 "rotationPlaceholder": "Inkrement-/Dekrement-Schritte",
-                "modelName": "Modell Name"
+                "modelName": "Modell Name",
+                "delete": "Modell löschen"
             },
             "parcelSearch": {
                 "wrongConfig": "Ungültige oder unvollständige Konfiguration",
