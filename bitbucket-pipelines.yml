@@ -133,7 +133,7 @@ pipelines:
                 name: deploy last tag on openCode
                 script:
                     - apt-get update && apt-get install -y curl wput jq
-                    - git fetch --all --tags
+                    - git tag
                     # Get taglist sorted by date, take the penultimate tag name and remove quotation marks
                     - lastTag=$(curl --request GET --user "$bbapi_name:$bbapi_key" --url "https://api.bitbucket.org/2.0/repositories/geowerkstatt-hamburg/masterportal/refs/tags?sort=-target.date" --header "Accept:application/json" | jq .values[2].name | tr -d '"')
                     - echo 'deply to opencode:'$lastTag
