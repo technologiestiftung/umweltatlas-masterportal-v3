@@ -9,7 +9,6 @@
  * @property {Cartesian3}   currentModelPosition - position of the currently selected or added model
  * @property {Object}       currentProjection - the currently selected projection
  * @property {Boolean}      deactivateGFI - if true, component activation deactivates gfi component
- * @property {Boolean}      editing - if true, editing is enabled
  * @property {Object}       height - id and value of the transformed height coordinate displayed on the ui
  * @property {String}       icon - icon next to title
  * @property {String}       id - internal id of component

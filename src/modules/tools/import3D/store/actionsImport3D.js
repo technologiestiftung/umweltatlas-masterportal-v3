@@ -2,6 +2,27 @@ import proj4 from "proj4";
 import {convertSexagesimalToDecimal, convertSexagesimalFromDecimal} from "../../../../utils/convertSexagesimalCoordinates";
 
 const actions = {
+    deleteEntity ({commit, state}, id) {
+        const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+            entity = entities.getById(id),
+            modelIndex = state.importedModels.findIndex(x => x.id === id);
+
+        if (modelIndex > -1 && entity) {
+            state.importedModels.splice(modelIndex, 1);
+            entities.removeById(id);
+            commit("setCurrentModelId", null);
+        }
+    },
+    confirmDeletion ({dispatch}, id) {
+        const modelName = this.getModelNameById(id);
+
+        dispatch("ConfirmAction/addSingleAction", {
+            actionConfirmedCallback: () => dispatch("deleteEntity", id),
+            confirmCaption: i18next.t("common:modules.tools.import3D.deleteInteraction.confirm"),
+            textContent: i18next.t("common:modules.tools.import3D.deleteInteraction.text", {name: modelName}),
+            headline: i18next.t("common:modules.tools.import3D.deleteInteraction.headline")
+        });
+    },
     /**
      * Pushes the formatted coordinates in the selectedCoordinates String[].
      * @param {Object} context actions context object.

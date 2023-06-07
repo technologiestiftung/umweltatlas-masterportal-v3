@@ -1,5 +1,6 @@
 <script>
 import ToolTemplate from "../../ToolTemplate.vue";
+import ImportModelView from "./ImportModelView.vue";
 import {getComponent} from "../../../../utils/getComponent";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import actions from "../store/actionsImport3D";
@@ -15,7 +16,8 @@ import crs from "@masterportal/masterportalapi/src/crs";
 export default {
     name: "Import3D",
     components: {
-        ToolTemplate
+        ToolTemplate,
+        ImportModelView
     },
     data () {
         return {
@@ -23,10 +25,7 @@ export default {
             dzIsDropHovering: false,
             isDragging: false,
             storePath: this.$store.state.Tools.Import3D,
-            eventHandler: null,
-            rotationAngle: 0,
-            rotationClickValue: 5,
-            rotationDropdownValues: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            eventHandler: null
         };
     },
     computed: {
@@ -111,7 +110,6 @@ export default {
                 if (proj.name === "EPSG:8395" || proj.name === "http://www.opengis.net/gml/srs/epsg.xml#8395") {
                     epsg8395.push(proj);
                 }
-
                 if (proj.name.indexOf("#") > -1) { // e.g. "http://www.opengis.net/gml/srs/epsg.xml#25832"
                     const code = proj.name.substring(proj.name.indexOf("#") + 1, proj.name.length);
 
@@ -150,7 +148,6 @@ export default {
             for (const key in epsg8395[0]) {
                 etrs89_3GK3Proj[key] = epsg8395[0][key];
             }
-
             etrs89_3GK3Proj.name = "ETRS893GK3";
             etrs89_3GK3Proj.epsg = "EPSG:8395";
             etrs89_3GK3Proj.id = "http://www.opengis.net/gml/srs/epsg.xml#ETRS893GK3";
@@ -171,23 +168,12 @@ export default {
             for (const key in wgs84Proj[0]) {
                 wgs84ProjDez[key] = wgs84Proj[0][key];
             }
-
             wgs84ProjDez.name = "EPSG:4326-DG";
             wgs84ProjDez.epsg = "EPSG:4326";
             wgs84ProjDez.id = "http://www.opengis.net/gml/srs/epsg.xml#4326-DG";
             wgs84ProjDez.title = "WGS84_Lat-Lon (Grad, Dezimal), EPSG 4326";
             wgs84ProjDez.getCode = () => "EPSG:4326-DG";
             projections.splice(index + 1, 0, wgs84ProjDez);
-        },
-        /**
-         * Called if selection of projection changed. Sets the current projection to state and updates the UI.
-         * @param {Event} event changed selection event
-         * @returns {void}
-         */
-        selectionChanged (event) {
-            if (event.target.value) {
-                this.newProjectionSelected(event.target.value);
-            }
         },
         /**
          * Sets the focus to the first control
@@ -257,31 +243,6 @@ export default {
             this.eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
             this.eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_UP);
         },
-        rotate () {
-            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
-                entity = entities.getById(this.currentModelId),
-                heading = Cesium.Math.toRadians(parseInt(this.rotationAngle, 10)),
-                modelFromState = this.importedModels.find(model => model.id === this.currentModelId),
-                orientationMatrix = Cesium.Transforms.headingPitchRollQuaternion(
-                    entity.position.getValue(),
-                    new Cesium.HeadingPitchRoll(heading, 0, 0)
-                );
-
-            modelFromState.heading = parseInt(this.rotationAngle, 10);
-            entity.orientation = orientationMatrix;
-        },
-        decrementAngle () {
-            const newRotationAngle = parseInt(this.rotationAngle, 10) - parseInt(this.rotationClickValue, 10);
-
-            this.rotationAngle = Math.max(newRotationAngle, -180);
-            this.rotate();
-        },
-        incrementAngle () {
-            const newRotationAngle = parseInt(this.rotationAngle, 10) + parseInt(this.rotationClickValue, 10);
-
-            this.rotationAngle = Math.min(newRotationAngle, 180);
-            this.rotate();
-        },
         selectEntity (event) {
             const scene = mapCollection.getMap("3D").getCesiumScene(),
                 picked = scene.pick(event.position);
@@ -310,38 +271,10 @@ export default {
             entity.model.silhouetteSize = silhouetteSize;
             entity.model.colorBlendMode = Cesium.ColorBlendMode.HIGHLIGHT;
         },
-        deleteEntity (id) {
-            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
-                entity = entities.getById(id),
-                modelIndex = this.importedModels.findIndex(x => x.id === id);
-
-            if (modelIndex > -1 && entity) {
-                this.importedModels.splice(modelIndex, 1);
-                entities.removeById(id);
-                this.setCurrentModelId(null);
-            }
-        },
-        confirmDeletion (id) {
-            const modelName = this.getModelNameById(id);
-
-            store.dispatch("ConfirmAction/addSingleAction", {
-                actionConfirmedCallback: () => this.deleteEntity(id),
-                confirmCaption: i18next.t("common:modules.tools.import3D.deleteInteraction.confirm"),
-                textContent: i18next.t("common:modules.tools.import3D.deleteInteraction.text", {name: modelName}),
-                headline: i18next.t("common:modules.tools.import3D.deleteInteraction.headline")
-            });
-        },
         removeInputActions () {
             if (this.eventHandler) {
                 this.eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
                 this.eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_UP);
-            }
-        },
-        checkedAdapt (value) {
-            this.setAdaptToHeight(value);
-
-            if (value) {
-                this.updateEntityPosition();
             }
         },
         addFile (files) {
@@ -650,279 +583,9 @@ export default {
                         </p>
                     </div>
                 </div>
-                <div v-if="currentModelId">
-                    <p
-                        class="cta"
-                        v-html="$t('modules.tools.import3D.captions.editInfo')"
-                    />
-                    <p
-                        v-if="currentProjection.id === 'http://www.opengis.net/gml/srs/epsg.xml#4326'"
-                        class="cta red"
-                        v-html="$t('modules.tools.import3D.captions.projectionInfo')"
-                    />
-                    <div class="h-seperator" />
-                    <div class="form-group form-group-sm row">
-                        <label
-                            class="col-md-5 col-form-label"
-                            for="model-name"
-                        >
-                            {{ $t("modules.tools.import3D.modelName") }}
-                        </label>
-                        <div class="col-md-7">
-                            <input
-                                id="model-name"
-                                class="form-control form-control-sm"
-                                type="text"
-                                :value="getModelNameById(currentModelId)"
-                                @input="setModelName($event.target.value)"
-                            >
-                        </div>
-                    </div>
-                    <div class="h-seperator" />
-                    <div class="form-group form-group-sm row">
-                        <label
-                            class="col-md-5 col-form-label"
-                            for="tool-edit-projection"
-                        >
-                            {{ $t("modules.tools.import3D.projections.projection") }}
-                        </label>
-                        <div class="col-md-7">
-                            <select
-                                class="form-select form-select-sm"
-                                aria-label="currentProjection"
-                                @change="selectionChanged($event)"
-                            >
-                                <option
-                                    v-for="(projection, i) in projections"
-                                    :key="i"
-                                    :value="projection.id"
-                                    :SELECTED="projection.id === currentProjection.id"
-                                >
-                                    {{ projection.title ? projection.title : projection.name }}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="h-seperator" />
-                    <div>
-                        <div class="form-group form-group-sm row">
-                            <label
-                                class="col-md-5 col-form-label"
-                                for="eastingField"
-                            >
-                                {{ $t(getLabel("eastingLabel")) }}
-                            </label>
-                            <div class="col-md-7 position-control">
-                                <input
-                                    id="eastingField"
-                                    v-model="coordinatesEasting.value"
-                                    class="form-control form-control-sm"
-                                    type="text"
-                                    @input="updateEntityPosition"
-                                >
-                                <div
-                                    v-if="currentProjection.id !== 'http://www.opengis.net/gml/srs/epsg.xml#4326'"
-                                >
-                                    <button
-                                        class="btn btn-primary btn-sm btn-pos"
-                                        @click="incrementCoordinate('easting')"
-                                    >
-                                        <i
-                                            class="bi bi-arrow-up"
-                                        />
-                                    </button>
-                                    <button
-                                        class="btn btn-primary btn-sm btn-pos"
-                                        @click="decrementCoordinate('easting')"
-                                    >
-                                        <i
-                                            class="bi bi-arrow-down"
-                                        />
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group form-group-sm row">
-                            <label
-                                class="col-md-5 col-form-label"
-                                for="northingField"
-                            >
-                                {{ $t(getLabel("northingLabel")) }}
-                            </label>
-                            <div class="col-md-7 position-control">
-                                <input
-                                    id="northingField"
-                                    v-model="coordinatesNorthing.value"
-                                    class="form-control form-control-sm"
-                                    type="text"
-                                    @input="updateEntityPosition"
-                                >
-                                <div
-                                    v-if="currentProjection.id !== 'http://www.opengis.net/gml/srs/epsg.xml#4326'"
-                                >
-                                    <button
-                                        class="btn btn-primary btn-sm btn-pos"
-                                        @click="incrementCoordinate('northing')"
-                                    >
-                                        <i
-                                            class="bi bi-arrow-up"
-                                        />
-                                    </button>
-                                    <button
-                                        class="btn btn-primary btn-sm btn-pos"
-                                        @click="decrementCoordinate('northing')"
-                                    >
-                                        <i
-                                            class="bi bi-arrow-down"
-                                        />
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <label
-                                class="col-md-5 col-form-label"
-                                for="heightField"
-                            >
-                                {{ $t("modules.tools.import3D.projections.height") }}
-                            </label>
-                            <div class="col-md-7 position-control">
-                                <input
-                                    id="heightField"
-                                    v-model="height.value"
-                                    class="form-control form-control-sm"
-                                    type="text"
-                                    @input="updateEntityPosition"
-                                >
-                                <div>
-                                    <button
-                                        class="btn btn-primary btn-sm btn-pos"
-                                        @click="incrementCoordinate('height')"
-                                    >
-                                        <i
-                                            class="bi bi-arrow-up"
-                                        />
-                                    </button>
-                                    <button
-                                        class="btn btn-primary btn-sm btn-pos"
-                                        @click="decrementCoordinate('height')"
-                                    >
-                                        <i
-                                            class="bi bi-arrow-down"
-                                        />
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group form-group-sm row">
-                            <div class="col-md-5" />
-                            <label
-                                class="col-md-5 col-form-label"
-                                for="adaptHeightCheck"
-                            >
-                                {{ $t("modules.tools.import3D.projections.adaptToHeight") }}
-                            </label>
-                            <input
-                                id="adaptHeightCheck"
-                                class="form-check-input check-height"
-                                type="checkbox"
-                                :checked="adaptToHeight"
-                                @change="checkedAdapt($event.target.checked)"
-                            >
-                        </div>
-                    </div>
-                    <div class="h-seperator" />
-                    <div>
-                        <div class="form-group form-group-sm row">
-                            <label
-                                class="col-md-8 col-form-label"
-                                for="tool-edit-rotation"
-                            >
-                                {{ $t("modules.tools.import3D.projections.rotation") }}
-                            </label>
-                            <div class="col-md-3">
-                                <input
-                                    id="tool-edit-rotation"
-                                    v-model="rotationAngle"
-                                    class="form-control form-control-sm"
-                                    type="text"
-                                    @input="rotate"
-                                >
-                            </div>
-                        </div>
-                        <div class="form-group form-group-sm row">
-                            <div class="position-control">
-                                <button
-                                    class="btn btn-primary btn-sm"
-                                    @click="decrementAngle"
-                                >
-                                    <i
-                                        class="bi bi-arrow-left"
-                                    />
-                                </button>
-                                <input
-                                    id="tool-edit-rotation-slider"
-                                    v-model="rotationAngle"
-                                    aria-label="rotationSlider"
-                                    class="font-arial form-range"
-                                    type="range"
-                                    min="-180"
-                                    max="180"
-                                    step="1"
-                                    @input="rotate"
-                                >
-                                <button
-                                    class="btn btn-primary btn-sm"
-                                    @click="incrementAngle"
-                                >
-                                    <i
-                                        class="bi bi-arrow-right"
-                                    />
-                                </button>
-                            </div>
-                        </div>
-                        <div class="form-group form-group-sm row">
-                            <label
-                                class="col-md-7 col-form-label"
-                                for="tool-edit-rotation-switch"
-                            >
-                                {{ $t("modules.tools.import3D.projections.rotationSwitch") }}
-                            </label>
-                            <div class="col-md-4">
-                                <select
-                                    v-model="rotationClickValue"
-                                    class="form-select form-select-sm"
-                                    aria-label="rotationClickValue"
-                                >
-                                    <option
-                                        v-for="value in rotationDropdownValues"
-                                        :key="value"
-                                        :value="value"
-                                    >
-                                        {{ value }}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="h-seperator" />
-                    <div class="row justify-content-between">
-                        <button
-                            id="tool-import3d-deactivateEditing"
-                            class="col-5 btn btn-primary btn-sm primary-button-wrapper"
-                            @click="setCurrentModelId(null)"
-                        >
-                            {{ $t("modules.tools.import3D.backToList") }}
-                        </button>
-                        <button
-                            id="tool-import3d-deleteEntity"
-                            class="col-5 btn btn-danger btn-sm delete-button-wrapper"
-                            @click="confirmDeletion(currentModelId)"
-                        >
-                            {{ $t("modules.tools.import3D.delete") }}
-                        </button>
-                    </div>
-                </div>
+                <ImportModelView
+                    v-else
+                />
             </div>
         </template>
     </ToolTemplate>
@@ -932,7 +595,7 @@ export default {
     @import "~/css/mixins.scss";
     @import "~variables";
 
-.h-seperator {
+    .h-seperator {
         margin:12px 0 12px 0;
         border: 1px solid #DDDDDD;
     }
@@ -958,30 +621,6 @@ export default {
         }
         &:hover {
             @include primary_action_hover;
-        }
-    }
-
-    .delete-button-wrapper {
-        color: $white;
-        background-color: $light_red;
-        display: block;
-        text-align:center;
-        padding: 8px 12px;
-        cursor: pointer;
-        margin:12px 0 0 0;
-        font-size: $font_size_big;
-        &:focus {
-            @include primary_action_focus;
-        }
-        &:hover {
-            opacity: 1;
-            &.btn-select, &:active, &.active, &:checked, &::selection, &.show, &[aria-expanded="true"] {
-                background-color: $light_red;
-                border-radius: .25rem;
-            }
-            background-color: lighten($light_red, 10%);
-            color: $light_grey_contrast;
-            cursor: pointer;
         }
     }
 
@@ -1028,29 +667,6 @@ export default {
         z-index:10;
     }
 
-    .vh-center-outer-wrapper {
-        top:0;
-        left:0;
-        right:0;
-        bottom:0;
-        text-align:center;
-        position:relative;
-
-        &:before {
-            content:'';
-            display:inline-block;
-            height:100%;
-            vertical-align:middle;
-            margin-right:-0.25em;
-        }
-    }
-    .vh-center-inner-wrapper {
-        text-align:left;
-        display:inline-block;
-        vertical-align:middle;
-        position:relative;
-    }
-
     .successfullyImportedLabel {
         font-weight: bold;
     }
@@ -1084,38 +700,6 @@ export default {
         }
     }
 
-    .position-control {
-        display: flex;
-        gap: 0.25em;
-    }
-
-    .check-height {
-        width: 1.5em;
-        height: 1.5em;
-
-        margin: 0;
-    }
-
-    .btn-margin {
-        margin-top: 1em;
-    }
-
-    .btn-pos {
-        padding: 0.25em;
-    }
-
-    .btn-primary {
-        &:focus {
-            @include primary_action_focus;
-        }
-        &:hover {
-            @include primary_action_hover;
-        }
-        &:active {
-            transform: scale(0.98);
-        }
-    }
-
     .row {
         align-items: center;
     }
@@ -1131,10 +715,5 @@ export default {
         display: flex;
         align-items: center;
         height: 1.5rem;
-    }
-
-    .error-text {
-        font-size: 85%;
-        color: $light_red;
     }
 </style>
