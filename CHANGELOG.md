@@ -3,6 +3,20 @@
 
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
+## Unreleased - in development
+### __Breaking Changes__
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+---
 ## v2.34.0 - 2023-06-07
 ### __Breaking Changes__
 - The Virtual City Planner tool (virtualcityPLANNER) has been removed
