@@ -67,6 +67,16 @@ export default {
             required: false,
             default: 0
         },
+        filterGeometry: {
+            type: [Object, Boolean],
+            required: false,
+            default: false
+        },
+        filterGeometryName: {
+            type: [String, Boolean],
+            required: false,
+            default: false
+        },
         info: {
             type: [String, Boolean],
             required: false,
@@ -364,7 +374,10 @@ export default {
                     this.isInitializing = false;
                     this.emitSnippetPrechecked();
                     console.warn(error);
-                }, {rules: this.fixedRules, filterId: this.filterId});
+                }, {rules: this.fixedRules, filterId: this.filterId, commands: {
+                    filterGeometry: this.filterGeometry,
+                    geometryName: this.filterGeometryName
+                }});
             });
         }
         else {
