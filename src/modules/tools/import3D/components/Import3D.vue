@@ -52,7 +52,7 @@ export default {
                 this.initProjections();
                 this.setFocusToFirstControl();
                 this.eventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
-                this.eventHandler.setInputAction(this.selectEntity, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+                this.eventHandler.setInputAction(this.selectObject, Cesium.ScreenSpaceEventType.LEFT_CLICK);
                 this.eventHandler.setInputAction(this.moveEntity, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
             }
             else {
@@ -282,7 +282,7 @@ export default {
             this.rotationAngle = Math.min(newRotationAngle, 180);
             this.rotate();
         },
-        selectEntity (event) {
+        selectObject (event) {
             const scene = mapCollection.getMap("3D").getCesiumScene(),
                 picked = scene.pick(event.position);
 
@@ -294,6 +294,19 @@ export default {
 
                     this.setCurrentModelId(entity.id);
                     this.rotationAngle = this.importedModels.find(model => model.id === this.currentModelId).heading;
+                }
+                else {
+                    const object = picked.pickId?.object;
+
+                    if (object) {
+                        object.show = false;
+
+                        this.invisibleObjects.push({
+                            id: object.featureId,
+                            pickId: object.pickId.key,
+                            name: `Object ${object.featureId}`
+                        });
+                    }
                 }
             }
             return undefined;
@@ -447,12 +460,32 @@ export default {
                 this.$refs["upload-input-file"].click();
             }
         },
-        changeVisibility (model) {
+        changeEntityVisibility (model) {
             const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
                 entity = entities.getById(model.id);
 
             entity.show = !model.show;
             model.show = entity.show;
+        },
+        showObject (object) {
+            const scene = mapCollection.getMap("3D").getCesiumScene(),
+                primitives = scene.primitives,
+                tileset = primitives.get(1),
+                objectIndex = this.invisibleObjects.findIndex(x => x.id === object.id);
+
+            tileset.tileVisible.addEventListener(function getFeature (tile) {
+                const content = tile.content,
+                    feature = content.getFeature(object.id);
+
+                if (feature.pickId.key === object.pickId) {
+                    feature.show = true;
+                    tileset.tileVisible.removeEventListener(getFeature);
+                }
+            });
+
+            if (objectIndex > -1) {
+                this.invisibleObjects.splice(objectIndex, 1);
+            }
         },
         zoomTo (id) {
             const scene = mapCollection.getMap("3D").getCesiumScene(),
@@ -556,7 +589,7 @@ export default {
                         <div class="h-seperator" />
                         <p class="cta">
                             <label
-                                class="successfullyImportedLabel"
+                                class="modelListLabel"
                                 for="succesfully-imported-models"
                             >
                                 {{ $t("modules.tools.import3D.successfullyImportedLabel") }}
@@ -614,8 +647,8 @@ export default {
                                             class="inline-button bi"
                                             :class="{ 'bi-eye-slash-fill': isHovering === `${index}-hide`, 'bi-eye': isHovering !== `${index}-hide`}"
                                             :title="$t(`common:modules.tools.import3D.visibilityTitle`, {name: model.name})"
-                                            @click="changeVisibility(model)"
-                                            @keydown.enter="changeVisibility(model)"
+                                            @click="changeEntityVisibility(model)"
+                                            @keydown.enter="changeEntityVisibility(model)"
                                             @mouseover="isHovering = `${index}-hide`"
                                             @mouseout="isHovering = false"
                                             @focusin="isHovering = `${index}-hide`"
@@ -626,8 +659,8 @@ export default {
                                             class="inline-button bi"
                                             :class="{ 'bi-eye-fill': isHovering === `${index}-show`, 'bi-eye-slash': isHovering !== `${index}-show`}"
                                             :title="$t(`common:modules.tools.import3D.visibilityTitle`, {name: model.name})"
-                                            @click="changeVisibility(model)"
-                                            @keydown.enter="changeVisibility(model)"
+                                            @click="changeEntityVisibility(model)"
+                                            @keydown.enter="changeEntityVisibility(model)"
                                             @mouseover="isHovering = `${index}-show`"
                                             @mouseout="isHovering = false"
                                             @focusin="isHovering = `${index}-show`"
@@ -642,6 +675,56 @@ export default {
                                             @mouseover="isHovering = `${index}-del`"
                                             @mouseout="isHovering = false"
                                             @focusin="isHovering = `${index}-del`"
+                                            @focusout="isHovering = false"
+                                        />
+                                    </div>
+                                </li>
+                            </ul>
+                        </p>
+                    </div>
+                    <div v-if="invisibleObjects.length > 0">
+                        <div class="h-seperator" />
+                        <p class="cta">
+                            <label
+                                class="modelListLabel"
+                                for="invisible-objects"
+                            >
+                                {{ $t("modules.tools.import3D.invisibleObjectsLabel") }}
+                            </label>
+                            <ul id="invisible-objects">
+                                <li
+                                    v-for="(object, index) in invisibleObjects"
+                                    :key="index"
+                                >
+                                    <span class="index">
+                                        {{ index + 1 }}
+                                    </span>
+                                    <span
+                                        class="inputName"
+                                    >
+                                        {{ object.name }}
+                                    </span>
+                                    <div class="buttons">
+                                        <i
+                                            class="inline-button bi"
+                                            :class="{ 'bi-geo-alt-fill': isHovering === `obj-${index}-geo`, 'bi-geo-alt': isHovering !== `obj-${index}-geo`}"
+                                            :title="$t(`common:modules.tools.import3D.zoomTo`, {name: object.name})"
+                                            @click="zoomTo(object.id)"
+                                            @keydown.enter="zoomTo(object.id)"
+                                            @mouseover="isHovering = `obj-${index}-geo`"
+                                            @mouseout="isHovering = false"
+                                            @focusin="isHovering = `obj-${index}-geo`"
+                                            @focusout="isHovering = false"
+                                        />
+                                        <i
+                                            class="inline-button bi"
+                                            :class="{ 'bi-eye-fill': isHovering === `obj-${index}-show`, 'bi-eye-slash': isHovering !== `obj-${index}-show`}"
+                                            :title="$t(`common:modules.tools.import3D.visibilityTitle`, {name: object.name})"
+                                            @click="showObject(object)"
+                                            @keydown.enter="showObject(object)"
+                                            @mouseover="isHovering = `obj-${index}-show`"
+                                            @mouseout="isHovering = false"
+                                            @focusin="isHovering = `obj-${index}-show`"
                                             @focusout="isHovering = false"
                                         />
                                     </div>
@@ -1052,7 +1135,7 @@ export default {
         position:relative;
     }
 
-    .successfullyImportedLabel {
+    .modelListLabel {
         font-weight: bold;
     }
 

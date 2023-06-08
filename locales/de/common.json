@@ -626,6 +626,7 @@
                     "text": "Sind Sie sicher, dass Sie das Modell \"{{name}}\" löschen möchten?"
                 },
                 "successfullyImportedLabel": "Importierte 3D-Modelle:",
+                "invisibleObjectsLabel": "Ausgeblendete Gebäude:",
                 "title": "Datei importieren",
                 "visibilityTitle": "3D-Modell \"{{name}}\" ein-/ausblenden",
                 "deletionTitle": "3D-Modell \"{{name}}\" löschen",

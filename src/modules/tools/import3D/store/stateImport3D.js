@@ -43,6 +43,7 @@ export default {
         silhouetteSize: 4
     },
     importedModels: [],
+    invisibleObjects: [],
     projections: [],
     selectedCoordinates: [],
 
