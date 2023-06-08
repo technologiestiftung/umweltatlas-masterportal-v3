@@ -7,16 +7,27 @@ import proj4 from "proj4";
 describe("Actions", () => {
     let entities,
         defaultDataSource,
-        dataSourceDisplay;
+        dataSourceDisplay,
+        scene;
     const map3D = {
         id: "1",
-        mode: "3D"
+        mode: "3D",
+        getCesiumScene: () => {
+            return scene;
+        }
     };
 
     beforeEach(() => {
         mapCollection.clear();
         mapCollection.addMap(map3D, "3D");
         global.Cesium = {
+            Cartesian3: {
+                fromDegrees: () => ({
+                    x: 3739310.9273738265,
+                    y: 659341.4057539968,
+                    z: 5107613.232959453
+                })
+            },
             Cartographic: {
                 fromCartesian: () => ({
                     longitude: 0.17443853256965697,
@@ -25,12 +36,20 @@ describe("Actions", () => {
                 })
             },
             Math: {
-                toDegrees: () => 9.99455657887449
+                toDegrees: () => 9.99455657887449,
+                toRadians: () => 0.97
             }
         };
         store.state.Maps.mode = "3D";
         store.getters = {
             "Maps/mode": store.state.Maps.mode
+        };
+        scene = {
+            globe: {
+                getHeight: () => {
+                    return 5.7896;
+                }
+            }
         };
     });
     afterEach(() => {
@@ -342,6 +361,81 @@ describe("Actions", () => {
             expect(commit.thirdCall.args[0]).to.equal("setHeight");
             expect(commit.thirdCall.args[1]).to.eql({id: "height", value: "6.13"});
         });
+    });
 
+    describe("transformToCartesian", () => {
+        proj4.defs("EPSG:25832", "+title=ETRS89/UTM 32N +proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
+        it("should transform coordinates of the currently selected projection to cartesian", () => {
+            const commit = sinon.spy(),
+                dispatch = sinon.spy(),
+                state = {
+                    adaptToHeight: false,
+                    selectedCoordinates: [["10.000000", ""], ["53.557000", ""]],
+                    coordinatesEasting: {value: "10.00°"},
+                    coordinatesNorthing: {value: "53.557°"},
+                    height: {value: "6.0"},
+                    currentProjection: {
+                        epsg: "EPSG:4326",
+                        id: "someId",
+                        projName: "longlat"
+                    }
+                };
+
+            actions.transformToCartesian({state, dispatch, commit});
+
+            expect(dispatch.calledWith("formatInput", [state.coordinatesEasting, state.coordinatesNorthing])).to.be.true;
+            expect(commit.firstCall.args[0]).to.equal("setCurrentModelPosition");
+            expect(commit.firstCall.args[1]).to.eql({x: 3739310.9273738265, y: 659341.4057539968, z: 5107613.232959453});
+        });
+
+        it("should transform coordinates of the currently selected projection to cartesian with different conditions", () => {
+            const commit = sinon.spy(),
+                dispatch = sinon.spy(),
+                state = {
+                    adaptToHeight: false,
+                    selectedCoordinates: [566242.52, 5934700.15],
+                    coordinatesEasting: {value: "566242.52"},
+                    coordinatesNorthing: {value: "5934700.15"},
+                    height: {value: "6.0"},
+                    currentProjection: {
+                        epsg: "EPSG:25832",
+                        id: "someId",
+                        projName: "utm"
+                    }
+                };
+
+            actions.transformToCartesian({state, dispatch, commit});
+
+            expect(dispatch.calledWith("formatInput", [state.coordinatesEasting, state.coordinatesNorthing])).to.be.true;
+            expect(commit.firstCall.args[0]).to.equal("setCurrentModelPosition");
+            expect(commit.firstCall.args[1]).to.eql({x: 3739310.9273738265, y: 659341.4057539968, z: 5107613.232959453});
+        });
+
+        it("should transform coordinates of the currently selected projection to cartesian and correct the height to globe height", () => {
+            const commit = sinon.spy(),
+                dispatch = sinon.spy(),
+                state = {
+                    adaptToHeight: true,
+                    selectedCoordinates: [["10.000000", ""], ["53.557000", ""]],
+                    coordinatesEasting: {value: "10.00°"},
+                    coordinatesNorthing: {value: "53.557°"},
+                    height: {value: "6.0"},
+                    currentProjection: {
+                        epsg: "EPSG:4326",
+                        id: "someId",
+                        projName: "longlat"
+                    }
+                };
+
+            global.Cesium.Cartographic = sinon.spy();
+
+            actions.transformToCartesian({state, dispatch, commit});
+
+            expect(dispatch.calledWith("formatInput", [state.coordinatesEasting, state.coordinatesNorthing])).to.be.true;
+            expect(commit.firstCall.args[0]).to.equal("setHeight");
+            expect(commit.firstCall.args[1]).to.eql({id: "height", value: "5.79"});
+            expect(commit.secondCall.args[0]).to.equal("setCurrentModelPosition");
+            expect(commit.secondCall.args[1]).to.eql({x: 3739310.9273738265, y: 659341.4057539968, z: 5107613.232959453});
+        });
     });
 });

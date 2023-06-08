@@ -76,7 +76,7 @@ export default {
             }
             if (newEntity) {
                 this.highlightEntity(newEntity);
-                this.setCurrentModelPosition(newEntity.position.getValue());
+                this.setCurrentModelPosition(newEntity?.position?.getValue());
                 this.isHovering = false;
                 this.updatePositionUI();
             }
