@@ -304,6 +304,7 @@ export default {
                         this.invisibleObjects.push({
                             id: object.featureId,
                             pickId: object.pickId.key,
+                            layerId: object.tileset.layerReferenceId,
                             name: `Object ${object.featureId}`
                         });
                     }
@@ -470,21 +471,19 @@ export default {
         showObject (object) {
             const scene = mapCollection.getMap("3D").getCesiumScene(),
                 primitives = scene.primitives,
-                tileset = primitives.get(1),
+                tileset = primitives._primitives.find(x => x.layerReferenceId === object.layerId),
+                visibleTiles = tileset._selectedTiles,
                 objectIndex = this.invisibleObjects.findIndex(x => x.id === object.id);
 
-            tileset.tileVisible.addEventListener(function getFeature (tile) {
-                const content = tile.content,
+            for (let i = 0; i < visibleTiles.length; i++) {
+                const content = visibleTiles[i].content,
                     feature = content.getFeature(object.id);
 
-                if (feature.pickId.key === object.pickId) {
+                if (feature?.pickId?.key === object.pickId) {
                     feature.show = true;
-                    tileset.tileVisible.removeEventListener(getFeature);
+                    this.invisibleObjects.splice(objectIndex, 1);
+                    break;
                 }
-            });
-
-            if (objectIndex > -1) {
-                this.invisibleObjects.splice(objectIndex, 1);
             }
         },
         zoomTo (id) {
@@ -587,7 +586,7 @@ export default {
 
                     <div v-if="importedModels.length > 0">
                         <div class="h-seperator" />
-                        <p class="cta">
+                        <div class="modelList">
                             <label
                                 class="modelListLabel"
                                 for="succesfully-imported-models"
@@ -680,11 +679,11 @@ export default {
                                     </div>
                                 </li>
                             </ul>
-                        </p>
+                        </div>
                     </div>
-                    <div v-if="invisibleObjects.length > 0">
-                        <div class="h-seperator" />
-                        <p class="cta">
+                    <div class="modelList">
+                        <div v-if="invisibleObjects.length > 0">
+                            <div class="h-seperator" />
                             <label
                                 class="modelListLabel"
                                 for="invisible-objects"
@@ -707,17 +706,6 @@ export default {
                                     <div class="buttons">
                                         <i
                                             class="inline-button bi"
-                                            :class="{ 'bi-geo-alt-fill': isHovering === `obj-${index}-geo`, 'bi-geo-alt': isHovering !== `obj-${index}-geo`}"
-                                            :title="$t(`common:modules.tools.import3D.zoomTo`, {name: object.name})"
-                                            @click="zoomTo(object.id)"
-                                            @keydown.enter="zoomTo(object.id)"
-                                            @mouseover="isHovering = `obj-${index}-geo`"
-                                            @mouseout="isHovering = false"
-                                            @focusin="isHovering = `obj-${index}-geo`"
-                                            @focusout="isHovering = false"
-                                        />
-                                        <i
-                                            class="inline-button bi"
                                             :class="{ 'bi-eye-fill': isHovering === `obj-${index}-show`, 'bi-eye-slash': isHovering !== `obj-${index}-show`}"
                                             :title="$t(`common:modules.tools.import3D.visibilityTitle`, {name: object.name})"
                                             @click="showObject(object)"
@@ -730,7 +718,7 @@ export default {
                                     </div>
                                 </li>
                             </ul>
-                        </p>
+                        </div>
                     </div>
                 </div>
                 <div v-if="currentModelId">
@@ -1139,15 +1127,26 @@ export default {
         font-weight: bold;
     }
 
+    .modelList {
+        font-size: $font_size_icon_lg;
+    }
+
     .index {
         width: 15%;
     }
 
     .inputName {
         width: 60%;
+        cursor: text;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+
+        &:hover {
+            border-color: #8098b1;
+            outline: 0;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075), 0 0 0 0.25rem rgba(0, 48, 99, 0.25);
+        }
     }
 
     .buttons {
@@ -1209,7 +1208,6 @@ export default {
     }
 
     ul {
-        font-size: $font_size_icon_lg;
         list-style-type: none;
         padding: 0;
         margin: 0;

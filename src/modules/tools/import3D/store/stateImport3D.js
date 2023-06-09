@@ -42,8 +42,8 @@ export default {
         silhouetteColor: "#E20D0F",
         silhouetteSize: 4
     },
-    importedModels: [],
     invisibleObjects: [],
+    importedModels: [],
     projections: [],
     selectedCoordinates: [],
 
