@@ -321,7 +321,7 @@ export default {
 
             entity.model.color = Cesium.Color.fromAlpha(Cesium.Color.fromCssColorString(color), parseFloat(alpha));
             entity.model.silhouetteColor = Cesium.Color.fromCssColorString(silhouetteColor);
-            entity.model.silhouetteSize = silhouetteSize;
+            entity.model.silhouetteSize = parseFloat(silhouetteSize);
             entity.model.colorBlendMode = Cesium.ColorBlendMode.HIGHLIGHT;
         },
         deleteEntity (id) {
@@ -363,98 +363,112 @@ export default {
                 file = files[0],
                 fileName = file.name.split(".")[0],
                 fileExtension = file.name.split(".").pop(),
-                entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
-                models = this.importedModels,
-                lastElement = entities.values.slice().pop(),
-                lastId = lastElement?.id,
-                alertingMessage = i18next.t("common:modules.tools.import3D.alertingMessages.formatConversion", {format: fileExtension, file: fileName});
+                fileSizeMB = file.size / (1024 * 1024),
+                maxFileSizeMB = 100;
+
+            if (fileSizeMB > maxFileSizeMB) {
+                store.dispatch("Alerting/addSingleAlert", i18next.t("common:modules.tools.import3D.alertingMessages.fileSizeError"), {root: true});
+                return;
+            }
 
             this.isDragging = true;
 
+            reader.onload = () => {
+                if (fileExtension === "gltf") {
+                    this.handleGltfFile(file, fileName);
+                }
+                else if (fileExtension === "obj") {
+                    this.handleObjFile(file, fileName);
+                }
+                else if (fileExtension === "dae") {
+                    this.handleDaeFile(file, fileName);
+                }
+                else {
+                    console.error(fileExtension + " files are currently not supported!");
+                }
+            };
+
+            reader.onerror = (e) => {
+                console.error("Fehler beim Lesen der Datei:", e.target.error);
+            };
+
             if (fileExtension === "gltf") {
-                reader.onload = () => {
-                    const entity = {
-                        id: lastId ? lastId + 1 : 1,
-                        name: file.name,
-                        model: {
-                            uri: URL.createObjectURL(file)
-                        }
-                    };
-
-                    this.setCurrentModelId(entity.id);
-
-                    this.eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-                    this.eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_UP);
-
-                    entities.add(entity);
-
-                    models.push({
-                        id: entity.id,
-                        name: file.name,
-                        show: true,
-                        heading: 0,
-                        edit: false
-                    });
-
-                    this.setImportedModels(models);
-                };
-                reader.onerror = (e) => {
-                    console.error("Fehler beim Lesen der Datei:", e.target.error);
-                };
                 reader.readAsArrayBuffer(file);
             }
-            else if (fileExtension === "obj") {
-                reader.onload = (event) => {
-                    const objText = event.target.result,
-                        objLoader = new OBJLoader(),
-                        objData = objLoader.parse(objText),
-
-                        gltfExporter = new GLTFExporter();
-
-                    gltfExporter.parse(objData, (gltfData) => {
-                        this.downloadConvertedObject(fileName, gltfData);
-                        store.dispatch("Alerting/addSingleAlert", alertingMessage, {root: true});
-                    });
-                };
+            else {
                 reader.readAsText(file);
             }
-            else if (fileExtension === "dae") {
-                reader.onload = (event) => {
-                    const daeText = event.target.result,
-                        colladaLoader = new ColladaLoader();
+        },
+        handleGltfFile (file, fileName) {
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+                lastElement = entities.values.slice().pop(),
+                lastId = lastElement?.id,
+                models = this.importedModels,
+                entity = {
+                    id: lastId ? lastId + 1 : 1,
+                    name: fileName,
+                    model: {
+                        uri: URL.createObjectURL(file)
+                    }
+                };
 
-                    colladaLoader.load(daeText, (collada) => {
-                        const exporter = new GLTFExporter();
+            this.setCurrentModelId(entity.id);
 
-                        exporter.parse(collada.scene, (gltfData) => {
-                            const gltfLoader = new GLTFLoader();
+            this.eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+            this.eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_UP);
 
-                            gltfLoader.parse(gltfData, "", () => {
-                                this.downloadConvertedObject(fileName, gltfData);
-                                store.dispatch("Alerting/addSingleAlert", alertingMessage, {root: true});
-                            });
+            entities.add(entity);
+
+            models.push({
+                id: entity.id,
+                name: fileName,
+                show: true,
+                heading: 0,
+                edit: false
+            });
+            this.setImportedModels(models);
+        },
+        handleObjFile (file, fileName) {
+            const reader = new FileReader();
+
+            reader.onload = (event) => {
+                const objText = event.target.result,
+                    objLoader = new OBJLoader(),
+                    objData = objLoader.parse(objText),
+                    gltfExporter = new GLTFExporter();
+
+                gltfExporter.parse(objData, (gltfData) => {
+                    const gltfJson = JSON.stringify(gltfData),
+                        blob = new Blob([gltfJson], {type: "model/gltf+json"});
+
+                    this.handleGltfFile(blob, fileName);
+                });
+            };
+            reader.readAsText(file);
+        },
+        handleDaeFile (file, fileName) {
+            const reader = new FileReader();
+
+            reader.onload = (event) => {
+                const daeText = event.target.result,
+                    colladaLoader = new ColladaLoader();
+
+                colladaLoader.load(daeText, (collada) => {
+                    const exporter = new GLTFExporter();
+
+                    exporter.parse(collada.scene, (gltfData) => {
+                        const gltfLoader = new GLTFLoader();
+
+                        gltfLoader.parse(gltfData, "", () => {
+                            const gltfJson = JSON.stringify(gltfData),
+                                blob = new Blob([gltfJson], {type: "model/gltf+json"});
+
+                            this.handleGltfFile(blob, fileName);
                         });
                     });
-                };
-                reader.readAsDataURL(file);
-            }
-            else {
-                console.error(fileExtension + " files are currently not supported!");
-            }
-        },
-        downloadConvertedObject (fileName, file) {
-            const gltfJson = JSON.stringify(file),
-                blob = new Blob([gltfJson], {type: "model/gltf+json"}),
-                url = URL.createObjectURL(blob),
-                link = document.createElement("a");
-
-            link.href = url;
-            link.download = fileName + ".gltf";
-            document.body.appendChild(link);
-            link.click();
-
-            URL.revokeObjectURL(url);
-            document.body.removeChild(link);
+                });
+            };
+            reader.readAsDataURL(file);
         },
         triggerClickOnFileInput (event) {
             if (event.which === 32 || event.which === 13) {
