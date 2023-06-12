@@ -46,7 +46,7 @@ export default {
          */
         active (isActive) {
             if (isActive) {
-                const scene = mapCollection.getMap("3D").getCesiumScene();
+                const scene = this.scene;
 
                 this.initProjections();
                 this.setFocusToFirstControl();
@@ -59,8 +59,8 @@ export default {
             }
         },
         currentModelId (newId, oldId) {
-            const scene = mapCollection.getMap("3D").getCesiumScene(),
-                entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+            const scene = this.scene,
+                entities = this.entities,
                 newEntity = entities.getById(newId),
                 oldEntity = entities.getById(oldId);
 
@@ -76,6 +76,7 @@ export default {
             if (newEntity) {
                 this.highlightEntity(newEntity);
                 this.setCurrentModelPosition(newEntity?.position?.getValue());
+                this.setRotation(this.importedModels.find(model => model.id === this.currentModelId).heading);
                 this.isHovering = false;
                 this.updatePositionUI();
             }
@@ -212,7 +213,7 @@ export default {
         },
         onMouseMove (event) {
             if (this.isDragging) {
-                const scene = mapCollection.getMap("3D").getCesiumScene(),
+                const scene = this.scene,
                     ray = scene.camera.getPickRay(event.endPosition),
                     position = scene.globe.pick(ray, scene);
 
@@ -220,7 +221,7 @@ export default {
                 // hpr = new Cesium.HeadingPitchRoll(heading, 0.0, 0.0); // Heading: 0 Grad, Pitch: 0 Grad, Roll: 0 Grad;
 
                 if (Cesium.defined(position)) {
-                    const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+                    const entities = this.entities,
                         entity = entities.getById(this.currentModelId);
 
                     if (Cesium.defined(entity)) {
@@ -244,7 +245,7 @@ export default {
             this.eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_UP);
         },
         selectEntity (event) {
-            const scene = mapCollection.getMap("3D").getCesiumScene(),
+            const scene = this.scene,
                 picked = scene.pick(event.position);
 
             if (Cesium.defined(picked)) {
@@ -254,7 +255,6 @@ export default {
                     scene.requestRender();
 
                     this.setCurrentModelId(entity.id);
-                    this.rotationAngle = this.importedModels.find(model => model.id === this.currentModelId).heading;
                 }
             }
             return undefined;
@@ -319,7 +319,7 @@ export default {
             }
         },
         handleGltfFile (file, fileName) {
-            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+            const entities = this.entities,
                 lastElement = entities.values.slice().pop(),
                 lastId = lastElement?.id,
                 models = this.importedModels,
@@ -395,15 +395,15 @@ export default {
             }
         },
         changeVisibility (model) {
-            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+            const entities = this.entities,
                 entity = entities.getById(model.id);
 
             entity.show = !model.show;
             model.show = entity.show;
         },
         zoomTo (id) {
-            const scene = mapCollection.getMap("3D").getCesiumScene(),
-                entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+            const scene = this.scene,
+                entities = this.entities,
                 entity = entities.getById(id),
                 entityPosition = entity.position.getValue(),
                 currentPosition = scene.camera.positionCartographic,
@@ -679,6 +679,29 @@ export default {
         right:0;
         bottom:0;
         z-index:10;
+    }
+
+    .vh-center-outer-wrapper {
+        top:0;
+        left:0;
+        right:0;
+        bottom:0;
+        text-align:center;
+        position:relative;
+
+        &:before {
+            content:'';
+            display:inline-block;
+            height:100%;
+            vertical-align:middle;
+            margin-right:-0.25em;
+        }
+    }
+    .vh-center-inner-wrapper {
+        text-align:left;
+        display:inline-block;
+        vertical-align:middle;
+        position:relative;
     }
 
     .successfullyImportedLabel {

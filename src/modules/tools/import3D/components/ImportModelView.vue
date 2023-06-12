@@ -8,14 +8,21 @@ export default {
     name: "ImportModelView",
     data () {
         return {
-            rotationAngle: 0,
             rotationClickValue: 5,
             rotationDropdownValues: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         };
     },
     computed: {
-        ...mapGetters(["namedProjections"]),
-        ...mapGetters("Tools/Import3D", Object.keys(getters))
+        ...mapGetters("Tools/Import3D", Object.keys(getters)),
+
+        rotationAngle: {
+            get () {
+                return this.rotation;
+            },
+            set (value) {
+                this.setRotation(value);
+            }
+        }
     },
     methods: {
         ...mapActions("Tools/Import3D", Object.keys(actions)),
@@ -39,7 +46,7 @@ export default {
             }
         },
         rotate () {
-            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+            const entities = this.entities,
                 entity = entities.getById(this.currentModelId),
                 heading = Cesium.Math.toRadians(parseInt(this.rotationAngle, 10)),
                 modelFromState = this.importedModels.find(model => model.id === this.currentModelId),
@@ -415,6 +422,10 @@ export default {
 
     .btn-pos {
         padding: 0.25em;
+    }
+
+    .row {
+        align-items: center;
     }
 
     .btn-primary {

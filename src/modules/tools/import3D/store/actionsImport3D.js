@@ -2,8 +2,8 @@ import proj4 from "proj4";
 import {convertSexagesimalToDecimal, convertSexagesimalFromDecimal} from "../../../../utils/convertSexagesimalCoordinates";
 
 const actions = {
-    deleteEntity ({commit, state}, id) {
-        const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+    deleteEntity ({commit, getters, state}, id) {
+        const entities = getters.entities,
             entity = entities.getById(id),
             modelIndex = state.importedModels.findIndex(x => x.id === id);
 
@@ -64,8 +64,8 @@ const actions = {
      * Reacts on new input value. Gets the currently selected entity and updates its position.
      * @returns {void}
     */
-    updateEntityPosition ({dispatch, state}) {
-        const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+    updateEntityPosition ({dispatch, getters, state}) {
+        const entities = getters.entities,
             entity = entities.getById(state.currentModelId);
 
         if (!entity) {
@@ -81,8 +81,8 @@ const actions = {
      * to the currently selected projection.
      * @returns {void}
     */
-    updatePositionUI ({dispatch, state}) {
-        const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+    updatePositionUI ({dispatch, getters, state}) {
+        const entities = getters.entities,
             entity = entities.getById(state.currentModelId),
             entityPosition = entity?.position?.getValue();
 
@@ -175,7 +175,7 @@ const actions = {
      * Transforms the current UI values to Cartesian3 coordinates and sets it to state.
      * @returns {void}
     */
-    transformToCartesian ({commit, dispatch, state}) {
+    transformToCartesian ({commit, dispatch, getters, state}) {
         dispatch("formatInput", [state.coordinatesEasting, state.coordinatesNorthing]);
 
         if (state.selectedCoordinates.length === 2) {
@@ -195,7 +195,7 @@ const actions = {
             const transformedCoordinates = proj4(proj4(state.currentProjection.epsg), proj4("EPSG:4326"), coordinates);
 
             if (state.adaptToHeight) {
-                const scene = mapCollection.getMap("3D").getCesiumScene(),
+                const scene = getters.scene,
                     cartographic = new Cesium.Cartographic(
                         Cesium.Math.toRadians(transformedCoordinates[0]),
                         Cesium.Math.toRadians(transformedCoordinates[1])

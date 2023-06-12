@@ -6,6 +6,12 @@ const getters = {
     ...generateSimpleGetters(import3DState),
 
     // NOTE overwrite getters here if you need a special behaviour in a getter
+    scene () {
+        return mapCollection.getMap("3D").getCesiumScene();
+    },
+    entities () {
+        return mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities;
+    },
     getModelNameById: state => (id) => {
         const model = state.importedModels.find(x => x.id === id);
 

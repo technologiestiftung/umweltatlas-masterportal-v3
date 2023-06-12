@@ -17,6 +17,7 @@
  * @property {Object[]}     projections - all available projections
  * @property {Boolean}      renderToWindow - if true, component is rendered in a window pane instead of sidebar
  * @property {Boolean}      resizableWindow - if true and if rendered to window pane, the pane is resizable
+ * @property {Number}       rotation - the current rotation value
  * @property {Float[]}      selectedCoordinates - current coordinates in current projections as numbers
  * @property {Object}       highlightStyle default style for highlighting models
  * @property {String}       highlightStyle.color default color of highlighted model
@@ -43,6 +44,7 @@ export default {
     },
     importedModels: [],
     projections: [],
+    rotation: 0,
     selectedCoordinates: [],
 
     // defaults for config.json parameters
