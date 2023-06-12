@@ -206,7 +206,8 @@ export default {
             else {
                 Radio.trigger("Parser", "addLayer", object.Title, this.getParsedTitle(object.Title), parentId, level, object.Name, this.wmsUrl, this.version, {
                     maxScale: object?.MaxScaleDenominator?.toString(),
-                    minScale: object?.MinScaleDenominator?.toString()
+                    minScale: object?.MinScaleDenominator?.toString(),
+                    legendURL: object?.Style?.[0].LegendURL?.[0].OnlineResource?.toString()
                 });
             }
         },
