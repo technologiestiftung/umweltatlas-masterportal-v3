@@ -347,30 +347,68 @@
       ]
     },
     "Fachdaten_3D": {
-      "name": "translate#common:tree.subjectData3D",
-      "Ordner": [        
+      "Ordner": [
         {
-          "Titel": "3D Gebäudedaten",
+          "Titel": "3D-Basisdaten",
           "Layer": [
             {
-              "id": "12884",
-              "name": "Gebäude LoD2",
+              "id": "12883",
+              "name": "Digitales Geländemodell (DGM)",
               "visibility": true
             },
             {
-              "id": "16101",
-              "name": "Brückenflächen HH",
-              "visibility": true
+              "id": "18813",
+              "name": "Texturiertes Oberflächenmodell (3D-Mesh)",
+              "visibility": false
             }
           ]
         },
         {
-          "Titel": "3D Basisdaten",
+          "Titel": "3D-Gebäudedaten",
+          "Ordner": [
+            {
+              "Titel": "3D-Gebäudemodell (LoD3.0- HH)",
+              "Layer": [
+                {
+                  "id": "24050",
+                  "name": "Area1",
+                  "visibility": true
+                }
+              ]
+            }
+          ],
           "Layer": [
             {
-              "id": "12883",
-              "name": "Gelände",
-              "visibility": true
+              "id": "12884",
+              "name": "3D-Gebäudemodell (LoD2- DE)",
+              "visibility": false
+            },
+            {
+              "id": "24049",
+              "name": "3D-Gebäudemodell (LoD1- DE)",
+              "visibility": false
+            }
+          ]
+        },
+        {
+          "Titel": "3D-Objektdaten",
+          "Ordner": [
+            {
+              "Titel": "Brücken",
+              "Layer": [
+                {
+                  "id": "16101",
+                  "name": "Brückenflächen HH",
+                  "visibility": true,
+                  "hiddenObjectIds": [
+                    "UUID_0b173d99-df5a-41f1-851e-3fc006431f57",
+                    "UUID_105a16c2-a938-4da3-b7fd-5662d37d1e1b",
+                    "UUID_9e1430a9-017b-4275-9852-42ebb9808307",
+                    "UUID_ef12f1ea-bd0d-4123-ab4c-38e1e762bc11",
+                    "UUID_d88f2906-864d-4015-ae0e-3d03359d9ca3"
+                  ]        
+                }
+              ]
             }
           ]
         }
