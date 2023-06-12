@@ -231,6 +231,7 @@ WFSLayer.prototype.createLegend = function () {
             else {
                 if (!geometryTypeRequestLayers.includes(this.get("id"))) {
                     geometryTypeRequestLayers.push(this.get("id"));
+
                     getGeometryTypeFromService.getGeometryTypeFromWFS(rules, this.get("url"), this.get("version"), this.get("featureType"), this.get("styleGeometryType"), isSecured, Config.wfsImgPath,
                         (geometryTypes, error) => {
                             if (error) {
@@ -239,8 +240,16 @@ WFSLayer.prototype.createLegend = function () {
                             }
                             return geometryTypes;
                         });
+
                 }
-                this.setLegend(legendInfos.legendInformation);
+                if (rules[0].conditions !== undefined) {
+                    const uniqueLegendInformation = this.filterUniqueLegendInfo(this.features, rules, legendInfos);
+
+                    this.setLegend(uniqueLegendInformation);
+                }
+                else {
+                    this.setLegend(legendInfos.legendInformation);
+                }
             }
         });
     }
@@ -248,6 +257,41 @@ WFSLayer.prototype.createLegend = function () {
         this.setLegend([legend]);
     }
 };
+
+/**
+* Filters unique legend information
+* @param {Object} features selected features
+* @param {Object} rules  the styleObject rules
+* @param {Object} legendInfos styleObject legend information
+* @returns {object} uniqueLegendInformation as array
+*/
+WFSLayer.prototype.filterUniqueLegendInfo = function (features, rules, legendInfos) {
+    const rulesKey = Object.keys(rules[0].conditions.properties)[0],
+        conditionProperties = [],
+        uniqueLegendInformation = [];
+
+    for (let i = 0; i < features.length; i++) {
+        const rulesKeyUpperCase = rulesKey.charAt(0).toUpperCase() + rulesKey.slice(1);
+
+        if (features[i].get(rulesKey) !== undefined && !conditionProperties.includes(features[i].get(rulesKey))) {
+            conditionProperties.push(features[i].get(rulesKey));
+        }
+        else if (features[i].get(rulesKeyUpperCase) !== undefined && !conditionProperties.includes(features[i].get(rulesKeyUpperCase))) {
+            conditionProperties.push(features[i].get(rulesKeyUpperCase));
+        }
+    }
+
+    legendInfos.legendInformation.forEach((info) => {
+        if (conditionProperties.includes(info.label)) {
+            if (!uniqueLegendInformation.includes(info)) {
+                uniqueLegendInformation.push(info);
+            }
+        }
+    });
+
+    return uniqueLegendInformation;
+};
+
 /**
  * Hides all features by setting style= null for all features.
  * @returns {void}

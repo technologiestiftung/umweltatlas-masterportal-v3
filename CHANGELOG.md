@@ -5,6 +5,20 @@
 
 ## Unreleased - in development
 ### __Breaking Changes__
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+---
+## v2.34.0 - 2023-06-07
+### __Breaking Changes__
 - The Virtual City Planner tool (virtualcityPLANNER) has been removed
 
 ### Added
@@ -37,6 +51,7 @@
 - Issue #1036: Draw: circle radius is displayed correct for unit 'km'.
 - Issue #1041: Print: Circles are now broken down into 100 segments and correctly displayed as polygons in the printout.
 - DefaultTree Parser: 3d layers will only be created if 3dLayerList exists.
+- Legend: fixed misrepresentation of WFS layers in legend
 
 ### Deprecated
 - Node 16 will no longer be supported as of September 2023 (see https://github.com/nodejs/release#release-schedule).
