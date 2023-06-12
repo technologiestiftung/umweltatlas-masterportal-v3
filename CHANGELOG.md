@@ -6,6 +6,8 @@
 ## Unreleased - in development
 ### __Breaking Changes__
 ### Added
+- AddWMS Tool uses legendURL and MetadataURL from Capabilities.
+
 ### Changed
 ### Deprecated
 ### Removed
