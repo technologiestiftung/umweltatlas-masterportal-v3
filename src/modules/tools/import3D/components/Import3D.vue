@@ -11,7 +11,6 @@ import {OBJLoader} from "three/examples/jsm/loaders/OBJLoader.js";
 import {ColladaLoader} from "three/examples/jsm/loaders/ColladaLoader.js";
 import {GLTFExporter} from "three/examples/jsm/exporters/GLTFExporter.js";
 import crs from "@masterportal/masterportalapi/src/crs";
-import LoaderOverlay from "../../../../utils/loaderOverlay";
 
 export default {
     name: "Import3D",
@@ -350,7 +349,6 @@ export default {
                 file = files[0],
                 fileName = file.name.split(".")[0],
                 fileExtension = file.name.split(".").pop(),
-                alertingMessage = i18next.t("common:modules.tools.import3D.alertingMessages.formatConversion", {format: fileExtension, file: fileName}),
                 fileSizeMB = file.size / (1024 * 1024),
                 maxFileSizeMB = 100;
 
@@ -366,10 +364,10 @@ export default {
                     this.handleGltfFile(file, fileName);
                 }
                 else if (fileExtension === "obj") {
-                    this.handleObjFile(file, fileName, alertingMessage);
+                    this.handleObjFile(file, fileName);
                 }
                 else if (fileExtension === "dae") {
-                    this.handleDaeFile(file, fileName, alertingMessage);
+                    this.handleDaeFile(file, fileName);
                 }
                 else {
                     console.error(fileExtension + " files are currently not supported!");
@@ -387,7 +385,6 @@ export default {
                 reader.readAsText(file);
             }
         },
-
         handleGltfFile (file, fileName) {
             const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
                 lastElement = entities.values.slice().pop(),
@@ -417,8 +414,7 @@ export default {
             });
             this.setImportedModels(models);
         },
-
-        handleObjFile (file, fileName, alertingMessage) {
+        handleObjFile (file, fileName) {
             const reader = new FileReader();
 
             reader.onload = (event) => {
@@ -427,18 +423,16 @@ export default {
                     objData = objLoader.parse(objText),
                     gltfExporter = new GLTFExporter();
 
-                LoaderOverlay.show();
-
                 gltfExporter.parse(objData, (gltfData) => {
-                    LoaderOverlay.hide();
-                    this.downloadConvertedObject(fileName, gltfData);
-                    store.dispatch("Alerting/addSingleAlert", alertingMessage, {root: true});
+                    const gltfJson = JSON.stringify(gltfData),
+                        blob = new Blob([gltfJson], {type: "model/gltf+json"});
+
+                    this.handleGltfFile(blob, fileName);
                 });
             };
             reader.readAsText(file);
         },
-
-        handleDaeFile (file, fileName, alertingMessage) {
+        handleDaeFile (file, fileName) {
             const reader = new FileReader();
 
             reader.onload = (event) => {
@@ -451,31 +445,16 @@ export default {
                     exporter.parse(collada.scene, (gltfData) => {
                         const gltfLoader = new GLTFLoader();
 
-                        LoaderOverlay.show();
-
                         gltfLoader.parse(gltfData, "", () => {
-                            LoaderOverlay.hide();
-                            this.downloadConvertedObject(fileName, gltfData);
-                            store.dispatch("Alerting/addSingleAlert", alertingMessage, {root: true});
+                            const gltfJson = JSON.stringify(gltfData),
+                                blob = new Blob([gltfJson], {type: "model/gltf+json"});
+
+                            this.handleGltfFile(blob, fileName);
                         });
                     });
                 });
             };
             reader.readAsDataURL(file);
-        },
-        downloadConvertedObject (fileName, file) {
-            const gltfJson = JSON.stringify(file),
-                blob = new Blob([gltfJson], {type: "model/gltf+json"}),
-                url = URL.createObjectURL(blob),
-                link = document.createElement("a");
-
-            link.href = url;
-            link.download = fileName + ".gltf";
-            document.body.appendChild(link);
-            link.click();
-
-            URL.revokeObjectURL(url);
-            document.body.removeChild(link);
         },
         triggerClickOnFileInput (event) {
             if (event.which === 32 || event.which === 13) {
