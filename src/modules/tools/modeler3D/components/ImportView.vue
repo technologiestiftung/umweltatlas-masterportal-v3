@@ -64,7 +64,7 @@ export default {
                 maxFileSizeMB = 100;
 
             if (fileSizeMB > maxFileSizeMB) {
-                store.dispatch("Alerting/addSingleAlert", i18next.t("common:modules.tools.modeler3D.alertingMessages.fileSizeError"), {root: true});
+                store.dispatch("Alerting/addSingleAlert", i18next.t("common:modules.tools.modeler3D.import.alertingMessages.fileSizeError"), {root: true});
                 return;
             }
 
@@ -200,11 +200,11 @@ export default {
     <div>
         <p
             class="cta"
-            v-html="$t('modules.tools.modeler3D.captions.introInfo')"
+            v-html="$t('modules.tools.modeler3D.import.captions.introInfo')"
         />
         <p
             class="cta"
-            v-html="$t('modules.tools.modeler3D.captions.introFormats')"
+            v-html="$t('modules.tools.modeler3D.import.captions.introFormats')"
         />
         <div
             class="vh-center-outer-wrapper drop-area-fake"
@@ -216,7 +216,7 @@ export default {
                 <p
                     class="caption"
                 >
-                    {{ $t("modules.tools.modeler3D.captions.dropzone") }}
+                    {{ $t("modules.tools.modeler3D.import.captions.dropzone") }}
                 </p>
             </div>
 
@@ -250,7 +250,7 @@ export default {
                     type="file"
                     @change="onInputChange"
                 >
-                {{ $t("modules.tools.modeler3D.captions.browse") }}
+                {{ $t("modules.tools.modeler3D.import.captions.browse") }}
             </label>
         </div>
 
@@ -261,7 +261,7 @@ export default {
                     class="modelListLabel"
                     for="succesfully-imported-models"
                 >
-                    {{ $t("modules.tools.modeler3D.successfullyImportedLabel") }}
+                    {{ $t("modules.tools.modeler3D.import.captions.successfullyImportedLabel") }}
                 </label>
                 <ul id="succesfully-imported-models">
                     <li
@@ -292,7 +292,7 @@ export default {
                             <i
                                 class="inline-button bi"
                                 :class="{ 'bi-geo-alt-fill': isHovering === `${index}-geo`, 'bi-geo-alt': isHovering !== `${index}-geo`}"
-                                :title="$t(`common:modules.tools.modeler3D.zoomTo`, {name: model.name})"
+                                :title="$t(`common:modules.tools.modeler3D.entity.captions.zoomTo`, {name: model.name})"
                                 @click="zoomTo(model.id)"
                                 @keydown.enter="zoomTo(model.id)"
                                 @mouseover="isHovering = `${index}-geo`"
@@ -303,7 +303,7 @@ export default {
                             <i
                                 class="inline-button bi"
                                 :class="{ 'bi-pencil-fill': isHovering === `${index}-edit`, 'bi-pencil': isHovering !== `${index}-edit`}"
-                                :title="$t(`common:modules.tools.modeler3D.editModel`, {name: model.name})"
+                                :title="$t(`common:modules.tools.modeler3D.entity.captions.editModel`, {name: model.name})"
                                 @click="setCurrentModelId(model.id)"
                                 @keydown.enter="setCurrentModelId(model.id)"
                                 @mouseover="isHovering = `${index}-edit`"
@@ -315,7 +315,7 @@ export default {
                                 v-if="model.show"
                                 class="inline-button bi"
                                 :class="{ 'bi-eye-slash-fill': isHovering === `${index}-hide`, 'bi-eye': isHovering !== `${index}-hide`}"
-                                :title="$t(`common:modules.tools.modeler3D.visibilityTitle`, {name: model.name})"
+                                :title="$t(`common:modules.tools.modeler3D.entity.captions.visibilityTitle`, {name: model.name})"
                                 @click="changeVisibility(model)"
                                 @keydown.enter="changeVisibility(model)"
                                 @mouseover="isHovering = `${index}-hide`"
@@ -327,7 +327,7 @@ export default {
                                 v-else
                                 class="inline-button bi"
                                 :class="{ 'bi-eye-fill': isHovering === `${index}-show`, 'bi-eye-slash': isHovering !== `${index}-show`}"
-                                :title="$t(`common:modules.tools.modeler3D.visibilityTitle`, {name: model.name})"
+                                :title="$t(`common:modules.tools.modeler3D.entity.captions.visibilityTitle`, {name: model.name})"
                                 @click="changeVisibility(model)"
                                 @keydown.enter="changeVisibility(model)"
                                 @mouseover="isHovering = `${index}-show`"
@@ -338,7 +338,7 @@ export default {
                             <i
                                 class="inline-button bi"
                                 :class="{ 'bi-trash3-fill': isHovering === `${index}-del`, 'bi-trash3': isHovering !== `${index}-del`}"
-                                :title="$t(`common:modules.tools.modeler3D.deletionTitle`, {name: model.name})"
+                                :title="$t(`common:modules.tools.modeler3D.entity.captions.deletionTitle`, {name: model.name})"
                                 @click="confirmDeletion(model.id)"
                                 @keydown.enter="confirmDeletion(model.id)"
                                 @mouseover="isHovering = `${index}-del`"

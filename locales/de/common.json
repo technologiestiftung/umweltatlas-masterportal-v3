@@ -58,7 +58,7 @@
             "supplyCoord": "Koordinaten abfragen",
             "searchByCoord": "Koordinatensuche",
             "fileImport": "Datei-Import",
-            "modeler3D": "3D Modeler",
+            "modeler3D": "3D Modeller",
             "draw": "Zeichnen / Schreiben",
             "shadow": "Schatten",
             "commuterLines": "Pendler (Linien)",
@@ -588,55 +588,64 @@
                 "fileZoom": "Auf Features dieser Datei \"{{filename}}\" zoomen"
             },
             "modeler3D": {
-                "captions": {
-                    "introInfo": "Importieren Sie Ihre gewünschte Datei einfach per Drag and Drop oder alternativ mit dem Öffnen-Dialog des Browsers.",
-                    "introFormats": "Es können glTF-Dateien (*.gltf), OBJ-Dateien (*.obj) oder Collada-Dateien (*.dae) importiert werden.",
-                    "editInfo": "Ändern Sie die Position und Rotation des ausgewählten Modells.",
-                    "projectionInfo": "Achtung! Bei Nutzung des WGS84 Koordinatensystems kann es zu Ungenauigkeiten kommen. Wir empfehlen die Nutzung der Dezimal Schreibweise.",
-                    "dropzone": "Datei hier ablegen",
-                    "browse": "Datei auswählen"
-                },
-                "projections": {
-                    "hdms": {
-                        "eastingLabel": "Länge",
-                        "northingLabel": "Breite"
+                "entity": {
+                    "captions": {
+                        "backToList": "Zur Übersicht",
+                        "delete": "Modell löschen",
+                        "deletionTitle": "3D-Modell \"{{name}}\" löschen",
+                        "editInfo": "Ändern Sie die Position und Rotation des ausgewählten Modells.",
+                        "editModel": "3D-Modell \"{{name}}\" bearbeiten",
+                        "modelName": "Modell Name",
+                        "projectionInfo": "Achtung! Bei Nutzung des WGS84 Koordinatensystems kann es zu Ungenauigkeiten kommen. Wir empfehlen die Nutzung der Dezimal Schreibweise.",
+                        "rotationPlaceholder": "Inkrement-/Dekrement-Schritte",
+                        "visibilityTitle": "3D-Modell \"{{name}}\" ein-/ausblenden",
+                        "zoomTo": "Zu 3D-Modell \"{{name}}\" zoomen"
                     },
-                    "cartesian": {
-                        "eastingLabel": "Rechtswert",
-                        "northingLabel": "Hochwert"
+                    "deleteInteraction": {
+                        "confirm": "Löschen",
+                        "headline": "Achtung",
+                        "text": "Sind Sie sicher, dass Sie das Modell \"{{name}}\" löschen möchten?"
                     },
-                    "height": "Höhe",
-                    "rotation": "Rotation",
-                    "rotationSwitch": "Rotationsschritte",
-                    "projection": "Koordinatensystem",
-                    "adaptToHeight": "An Gelände anpassen"
+                    "projections": {
+                        "adaptToHeight": "An Gelände anpassen",
+                        "cartesian": {
+                            "eastingLabel": "Rechtswert",
+                            "northingLabel": "Hochwert"
+                        },
+                        "hdms": {
+                            "eastingLabel": "Länge",
+                            "northingLabel": "Breite"
+                        },
+                        "height": "Höhe",
+                        "projection": "Koordinatensystem",
+                        "rotation": "Rotation",
+                        "rotationSwitch": "Rotationsschritte"
+                    }
                 },
-                "alertingMessages": {
-                    "success": "Die Datei \"{{filename}}\" wurde erfolgreich importiert.",
-                    "successPartly": "Die Datei \"{{filename}}\" wurde teilweise importiert.",
-                    "formatError": "Die Datei \"{{filename}}\" konnte nicht gelesen werden. Bitte prüfen Sie, ob die Datei das Format *.kml. *.gpx, *.geojson oder *.json hat.",
-                    "missingFileContent": "Fehler beim Lesen der Datei \"{{filename}}\". Bitte überprüfen Sie den Dateityp sowie den Inhalt der Datei. Falls die Datei fehlerfrei ist, wenden Sie sich bitte an den Support.",
-                    "missingFormat": "Das Dateiformat {{format}} wird nicht unterstützt. Bitte wenden Sie sich an den Support.",
-                    "featureError": "Ein Feature in dieser Datei konnte nicht gelesen werden.",
-                    "fileSizeError": "Die Dateigröße überschreitet das Limit von 100 MB."
+                "import": {
+                    "alertingMessages": {
+                        "featureError": "Ein Feature in dieser Datei konnte nicht gelesen werden.",
+                        "fileSizeError": "Die Dateigröße überschreitet das Limit von 100 MB.",
+                        "formatError": "Die Datei \"{{filename}}\" konnte nicht gelesen werden. Bitte prüfen Sie, ob die Datei das Format *.kml. *.gpx, *.geojson oder *.json hat.",
+                        "missingFileContent": "Fehler beim Lesen der Datei \"{{filename}}\". Bitte überprüfen Sie den Dateityp sowie den Inhalt der Datei. Falls die Datei fehlerfrei ist, wenden Sie sich bitte an den Support.",
+                        "missingFormat": "Das Dateiformat {{format}} wird nicht unterstützt. Bitte wenden Sie sich an den Support.",
+                        "success": "Die Datei \"{{filename}}\" wurde erfolgreich importiert.",
+                        "successPartly": "Die Datei \"{{filename}}\" wurde teilweise importiert."
+                    },
+                    "captions": {
+                        "browse": "Datei auswählen",
+                        "dropzone": "Datei hier ablegen",
+                        "introInfo": "Importieren Sie Ihre gewünschte Datei einfach per Drag and Drop oder alternativ mit dem Öffnen-Dialog des Browsers.",
+                        "introFormats": "Es können glTF-Dateien (*.gltf), OBJ-Dateien (*.obj) oder Collada-Dateien (*.dae) importiert werden.",
+                        "successfullyImportedLabel": "Importierte 3D-Modelle:"
+                    }
                 },
-                "deleteInteraction": {
-                    "confirm": "Löschen",
-                    "headline": "Achtung",
-                    "text": "Sind Sie sicher, dass Sie das Modell \"{{name}}\" löschen möchten?"
+                "nav": {
+                    "drawTitle": "Zeichnen",
+                    "importTitle": "Importieren"
                 },
-                "successfullyImportedLabel": "Importierte 3D-Modelle:",
-                "invisibleObjectsLabel": "Ausgeblendete Gebäude:",
-                "title": "Datei importieren",
-                "visibilityTitle": "3D-Modell \"{{name}}\" ein-/ausblenden",
-                "deletionTitle": "3D-Modell \"{{name}}\" löschen",
-                "editModel": "3D-Modell \"{{name}}\" bearbeiten",
-                "backToList": "Zur Übersicht",
-                "rotationPlaceholder": "Inkrement-/Dekrement-Schritte",
-                "modelName": "Modell Name",
-                "delete": "Modell löschen",
-                "import": "Importieren",
-                "draw": "Zeichnen"
+                "hiddenObjectsLabel": "Ausgeblendete Gebäude:",
+                "title": "3D Modeller"
             },
             "parcelSearch": {
                 "wrongConfig": "Ungültige oder unvollständige Konfiguration",

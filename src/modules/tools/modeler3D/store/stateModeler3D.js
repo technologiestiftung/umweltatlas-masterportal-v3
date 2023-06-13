@@ -10,27 +10,30 @@
  * @property {Object}       currentProjection - the currently selected projection
  * @property {Boolean}      deactivateGFI - if true, component activation deactivates gfi component
  * @property {Boolean}      drawView - if true, changes ui to draw
+ * @property {eventHandler} eventHandler - the Cesium event handler to handle click and move events
  * @property {Object}       height - id and value of the transformed height coordinate displayed on the ui
+ * @property {Object[]}     hiddenObjects - array of hidden objects
+ * @property {Object}       highlightStyle default style for highlighting models
+ * @property {String}       highlightStyle.color default color of highlighted model
+ * @property {Number}       highlightStyle.alpha default transparency for color of highlighted model
+ * @property {String}       highlightStyle.silhouetteColor default color of highlighted models silhouette
+ * @property {Number}       highlightStyle.size default size for silhouette of highlighted model
  * @property {String}       icon - icon next to title
  * @property {String}       id - internal id of component
  * @property {Object[]}     importedModels - array of imported 3D models
  * @property {Boolean}      importView - if true, changes ui to import
+ * @property {Boolean}      isDragging - if true, entity is being moved by mouse
  * @property {String}       name - Module name
  * @property {Object[]}     projections - all available projections
  * @property {Boolean}      renderToWindow - if true, component is rendered in a window pane instead of sidebar
  * @property {Boolean}      resizableWindow - if true and if rendered to window pane, the pane is resizable
  * @property {Number}       rotation - the current rotation value
  * @property {Float[]}      selectedCoordinates - current coordinates in current projections as numbers
- * @property {Object}       highlightStyle default style for highlighting models
- * @property {String}       highlightStyle.color default color of highlighted model
- * @property {Number}       highlightStyle.alpha default transparency for color of highlighted model
- * @property {String}       highlightStyle.silhouetteColor default color of highlighted models silhouette
- * @property {Number}       highlightStyle.size default size for silhouette of highlighted model
  */
 
 export default {
     active: false,
-    id: "import3D",
+    id: "modeler3D",
     adaptToHeight: true,
     coordinatesEasting: {id: "easting", value: ""},
     coordinatesNorthing: {id: "northing", value: ""},
@@ -40,6 +43,7 @@ export default {
     drawView: false,
     eventHandler: null,
     height: {id: "height", value: ""},
+    hiddenObjects: [],
     highlightStyle: {
         color: "#787777",
         alpha: 1,
@@ -48,7 +52,6 @@ export default {
     },
     importedModels: [],
     importView: true,
-    invisibleObjects: [],
     isDragging: false,
     projections: [],
     rotation: 0,

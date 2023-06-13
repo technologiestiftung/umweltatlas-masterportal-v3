@@ -39,7 +39,7 @@ const getters = {
     getLabel: (state) => (key) => {
         const type = state.currentProjection?.projName !== "longlat" ? "cartesian" : "hdms";
 
-        return "modules.tools.modeler3D.projections." + type + "." + key;
+        return "modules.tools.modeler3D.entity.projections." + type + "." + key;
     }
 };
 

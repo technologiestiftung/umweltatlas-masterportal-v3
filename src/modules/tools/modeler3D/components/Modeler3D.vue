@@ -200,7 +200,7 @@ export default {
                     if (object) {
                         object.show = false;
 
-                        this.invisibleObjects.push({
+                        this.hiddenObjects.push({
                             id: object.featureId,
                             pickId: object.pickId.key,
                             layerId: object.tileset.layerReferenceId,
@@ -261,7 +261,7 @@ export default {
                 primitives = scene.primitives,
                 tileset = primitives._primitives.find(x => x.layerReferenceId === object.layerId),
                 visibleTiles = tileset._selectedTiles,
-                objectIndex = this.invisibleObjects.findIndex(x => x.id === object.id);
+                objectIndex = this.hiddenObjects.findIndex(x => x.id === object.id);
 
             for (let i = 0; i < visibleTiles.length; i++) {
                 const content = visibleTiles[i].content,
@@ -269,7 +269,7 @@ export default {
 
                 if (feature?.pickId?.key === object.pickId) {
                     feature.show = true;
-                    this.invisibleObjects.splice(objectIndex, 1);
+                    this.hiddenObjects.splice(objectIndex, 1);
                     break;
                 }
             }
@@ -313,7 +313,7 @@ export default {
                                 class="nav-link"
                                 :class="importTabClasses"
                                 @click.prevent="switchView()"
-                            >{{ $t("modules.tools.modeler3D.import") }}</a>
+                            >{{ $t("modules.tools.modeler3D.nav.importTitle") }}</a>
                         </li>
                         <li
                             id="tool-modeler3D-draw"
@@ -325,7 +325,7 @@ export default {
                                 class="nav-link"
                                 :class="drawTabClasses"
                                 @click.prevent="switchView()"
-                            >{{ $t("modules.tools.modeler3D.draw") }}</a>
+                            >{{ $t("modules.tools.modeler3D.nav.drawTitle") }}</a>
                         </li>
                     </ul>
                     <ImportView
@@ -333,20 +333,20 @@ export default {
                         @emitMove="moveEntity"
                     />
                     <DrawView v-if="drawView" />
-                    <template v-if="invisibleObjects.length > 0">
+                    <template v-if="hiddenObjects.length > 0">
                         <div class="modelList">
                             <div class="h-seperator" />
                             <label
                                 class="modelListLabel"
-                                for="invisible-objects"
+                                for="hidden-objects"
                             >
-                                {{ $t("modules.tools.modeler3D.invisibleObjectsLabel") }}
+                                {{ $t("modules.tools.modeler3D.hiddenObjectsLabel") }}
                             </label>
                             <ul
-                                id="invisible-objects"
+                                id="hidden-objects"
                             >
                                 <li
-                                    v-for="(object, index) in invisibleObjects"
+                                    v-for="(object, index) in hiddenObjects"
                                     :key="index"
                                     class="list-item"
                                 >
@@ -362,7 +362,7 @@ export default {
                                         <i
                                             class="inline-button bi"
                                             :class="{ 'bi-eye-fill': isHovering === `obj-${index}-show`, 'bi-eye-slash': isHovering !== `obj-${index}-show`}"
-                                            :title="$t(`common:modules.tools.import3D.visibilityTitle`, {name: object.name})"
+                                            :title="$t(`common:modules.tools.modeler3D.entity.visibilityTitle`, {name: object.name})"
                                             @click="showObject(object)"
                                             @keydown.enter="showObject(object)"
                                             @mouseover="isHovering = `obj-${index}-show`"
@@ -541,7 +541,7 @@ export default {
         }
     }
 
-    #invisible-objects {
+    #hidden-objects {
         list-style-type: none;
         padding: 0;
         margin: 0;

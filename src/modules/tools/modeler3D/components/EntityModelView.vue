@@ -78,12 +78,12 @@ export default {
     <div>
         <p
             class="cta"
-            v-html="$t('modules.tools.modeler3D.captions.editInfo')"
+            v-html="$t('modules.tools.modeler3D.entity.captions.editInfo')"
         />
         <p
             v-if="currentProjection.id === 'http://www.opengis.net/gml/srs/epsg.xml#4326'"
             class="cta red"
-            v-html="$t('modules.tools.modeler3D.captions.projectionInfo')"
+            v-html="$t('modules.tools.modeler3D.entity.captions.projectionInfo')"
         />
         <div class="h-seperator" />
         <div class="form-group form-group-sm row">
@@ -91,7 +91,7 @@ export default {
                 class="col-md-5 col-form-label"
                 for="model-name"
             >
-                {{ $t("modules.tools.modeler3D.modelName") }}
+                {{ $t("modules.tools.modeler3D.entity.captions.modelName") }}
             </label>
             <div class="col-md-7">
                 <input
@@ -109,7 +109,7 @@ export default {
                 class="col-md-5 col-form-label"
                 for="tool-edit-projection"
             >
-                {{ $t("modules.tools.modeler3D.projections.projection") }}
+                {{ $t("modules.tools.modeler3D.entity.projections.projection") }}
             </label>
             <div class="col-md-7">
                 <select
@@ -209,7 +209,7 @@ export default {
                     class="col-md-5 col-form-label"
                     for="heightField"
                 >
-                    {{ $t("modules.tools.modeler3D.projections.height") }}
+                    {{ $t("modules.tools.modeler3D.entity.projections.height") }}
                 </label>
                 <div class="col-md-7 position-control">
                     <input
@@ -246,7 +246,7 @@ export default {
                     class="col-md-5 col-form-label"
                     for="adaptHeightCheck"
                 >
-                    {{ $t("modules.tools.modeler3D.projections.adaptToHeight") }}
+                    {{ $t("modules.tools.modeler3D.entity.projections.adaptToHeight") }}
                 </label>
                 <input
                     id="adaptHeightCheck"
@@ -264,7 +264,7 @@ export default {
                     class="col-md-8 col-form-label"
                     for="tool-edit-rotation"
                 >
-                    {{ $t("modules.tools.modeler3D.projections.rotation") }}
+                    {{ $t("modules.tools.modeler3D.entity.projections.rotation") }}
                 </label>
                 <div class="col-md-3">
                     <input
@@ -312,7 +312,7 @@ export default {
                     class="col-md-7 col-form-label"
                     for="tool-edit-rotation-switch"
                 >
-                    {{ $t("modules.tools.modeler3D.projections.rotationSwitch") }}
+                    {{ $t("modules.tools.modeler3D.entity.projections.rotationSwitch") }}
                 </label>
                 <div class="col-md-4">
                     <select
@@ -338,14 +338,14 @@ export default {
                 class="col-5 btn btn-primary btn-sm primary-button-wrapper"
                 @click="setCurrentModelId(null)"
             >
-                {{ $t("modules.tools.modeler3D.backToList") }}
+                {{ $t("modules.tools.modeler3D.entity.captions.backToList") }}
             </button>
             <button
                 id="tool-import3d-deleteEntity"
                 class="col-5 btn btn-danger btn-sm delete-button-wrapper"
                 @click="confirmDeletion(currentModelId)"
             >
-                {{ $t("modules.tools.modeler3D.delete") }}
+                {{ $t("modules.tools.modeler3D.entity.captions.delete") }}
             </button>
         </div>
     </div>
