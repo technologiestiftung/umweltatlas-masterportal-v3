@@ -23,7 +23,8 @@ export default {
         return {
             storePath: this.$store.state.Tools.Modeler3D,
             defaultTabClass: "",
-            activeTabClass: "active"
+            activeTabClass: "active",
+            isHovering: ""
         };
     },
     computed: {
@@ -333,41 +334,46 @@ export default {
                     />
                     <DrawView v-if="drawView" />
                     <template v-if="invisibleObjects.length > 0">
-                        <div class="h-seperator" />
-                        <label
-                            class="modelListLabel"
-                            for="invisible-objects"
-                        >
-                            {{ $t("modules.tools.import3D.invisibleObjectsLabel") }}
-                        </label>
-                        <ul id="invisible-objects">
-                            <li
-                                v-for="(object, index) in invisibleObjects"
-                                :key="index"
+                        <div class="modelList">
+                            <div class="h-seperator" />
+                            <label
+                                class="modelListLabel"
+                                for="invisible-objects"
                             >
-                                <span class="index">
-                                    {{ index + 1 }}
-                                </span>
-                                <span
-                                    class="inputName"
+                                {{ $t("modules.tools.modeler3D.invisibleObjectsLabel") }}
+                            </label>
+                            <ul
+                                id="invisible-objects"
+                            >
+                                <li
+                                    v-for="(object, index) in invisibleObjects"
+                                    :key="index"
+                                    class="list-item"
                                 >
-                                    {{ object.name }}
-                                </span>
-                                <div class="buttons">
-                                    <i
-                                        class="inline-button bi"
-                                        :class="{ 'bi-eye-fill': isHovering === `obj-${index}-show`, 'bi-eye-slash': isHovering !== `obj-${index}-show`}"
-                                        :title="$t(`common:modules.tools.import3D.visibilityTitle`, {name: object.name})"
-                                        @click="showObject(object)"
-                                        @keydown.enter="showObject(object)"
-                                        @mouseover="isHovering = `obj-${index}-show`"
-                                        @mouseout="isHovering = false"
-                                        @focusin="isHovering = `obj-${index}-show`"
-                                        @focusout="isHovering = false"
-                                    />
-                                </div>
-                            </li>
-                        </ul>
+                                    <span class="index">
+                                        {{ index + 1 }}
+                                    </span>
+                                    <span
+                                        class="inputName"
+                                    >
+                                        {{ object.name }}
+                                    </span>
+                                    <div class="buttons">
+                                        <i
+                                            class="inline-button bi"
+                                            :class="{ 'bi-eye-fill': isHovering === `obj-${index}-show`, 'bi-eye-slash': isHovering !== `obj-${index}-show`}"
+                                            :title="$t(`common:modules.tools.import3D.visibilityTitle`, {name: object.name})"
+                                            @click="showObject(object)"
+                                            @keydown.enter="showObject(object)"
+                                            @mouseover="isHovering = `obj-${index}-show`"
+                                            @mouseout="isHovering = false"
+                                            @focusin="isHovering = `obj-${index}-show`"
+                                            @focusout="isHovering = false"
+                                        />
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                     </template>
                 </div>
                 <EntityModelView
@@ -541,7 +547,7 @@ export default {
         margin: 0;
     }
 
-    #invisible-objects .li {
+    .list-item {
         display: flex;
         align-items: center;
         height: 1.5rem;

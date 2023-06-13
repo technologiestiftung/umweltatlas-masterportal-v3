@@ -379,7 +379,7 @@
           },
           "modeler3D": {
             "name": "translate#common:menu.tools.modeler3D",
-            "icon": "bi-box-arrow-in-down"
+            "icon": "bi-bounding-box"
           },
           "extendedFilter": {
             "name": "Erweiterter Filter",

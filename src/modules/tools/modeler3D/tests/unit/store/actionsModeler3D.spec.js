@@ -99,12 +99,13 @@ describe("Actions", () => {
             const dispatch = sinon.spy(),
                 id = 1;
 
+            store.dispatch = sinon.spy();
             getters = {
                 getModelNameById: sinon.stub().returns("House")
             };
 
             actions.confirmDeletion({dispatch, getters}, id);
-            expect(dispatch.firstCall.args[0]).to.equal("ConfirmAction/addSingleAction");
+            expect(store.dispatch.firstCall.args[0]).to.equal("ConfirmAction/addSingleAction");
         });
     });
 

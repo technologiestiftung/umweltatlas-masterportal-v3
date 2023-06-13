@@ -55,7 +55,7 @@ export default {
     selectedCoordinates: [],
 
     // defaults for config.json parameters
-    icon: "bi-box-arrow-in-down",
+    icon: "bi-bounding-box",
     deactivateGFI: true,
     name: "common:menu.tools.modeler3D",
     onlyDesktop: true,
