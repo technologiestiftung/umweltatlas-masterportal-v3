@@ -141,7 +141,7 @@ export default {
                     <input
                         id="eastingField"
                         v-model="coordinatesEasting.value"
-                        class="form-control form-control-sm"
+                        class="form-control form-control-sm position-input"
                         type="text"
                         @input="updateEntityPosition"
                     >
@@ -178,7 +178,7 @@ export default {
                     <input
                         id="northingField"
                         v-model="coordinatesNorthing.value"
-                        class="form-control form-control-sm"
+                        class="form-control form-control-sm position-input"
                         type="text"
                         @input="updateEntityPosition"
                     >
@@ -215,11 +215,12 @@ export default {
                     <input
                         id="heightField"
                         v-model="height.value"
-                        class="form-control form-control-sm"
+                        class="form-control form-control-sm position-input"
                         type="text"
+                        :disabled="adaptToHeight"
                         @input="updateEntityPosition"
                     >
-                    <div>
+                    <div v-if="!adaptToHeight">
                         <button
                             class="btn btn-primary btn-sm btn-pos"
                             @click="incrementCoordinate('height')"
@@ -404,9 +405,17 @@ export default {
         margin-bottom:12px;
     }
 
+    .red {
+        color: red;
+    }
+
     .position-control {
         display: flex;
         gap: 0.25em;
+    }
+
+    .position-input {
+        height: 3.8em;
     }
 
     .check-height {

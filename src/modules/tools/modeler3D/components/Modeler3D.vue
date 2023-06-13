@@ -382,6 +382,11 @@ export default {
     @import "~/css/mixins.scss";
     @import "~variables";
 
+    .h-seperator {
+        margin:12px 0 12px 0;
+        border: 1px solid #DDDDDD;
+    }
+
     input[type="file"] {
         display: none;
     }
@@ -408,10 +413,6 @@ export default {
 
     .cta {
         margin-bottom:12px;
-    }
-
-    .red {
-        color: red;
     }
 
     .drop-area-fake {
@@ -512,17 +513,6 @@ export default {
     .position-control {
         display: flex;
         gap: 0.25em;
-    }
-
-    .position-input {
-        height: 3.8em;
-    }
-
-    .check-height {
-        width: 1.5em;
-        height: 1.5em;
-
-        margin: 0;
     }
 
     .btn-margin {

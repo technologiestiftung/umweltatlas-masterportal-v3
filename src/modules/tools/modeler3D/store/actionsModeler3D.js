@@ -1,4 +1,5 @@
 import proj4 from "proj4";
+import store from "../../../../app-store";
 import {convertSexagesimalToDecimal, convertSexagesimalFromDecimal} from "../../../../utils/convertSexagesimalCoordinates";
 
 const actions = {
@@ -16,7 +17,7 @@ const actions = {
     confirmDeletion ({dispatch, getters}, id) {
         const modelName = getters.getModelNameById(id);
 
-        dispatch("ConfirmAction/addSingleAction", {
+        store.dispatch("ConfirmAction/addSingleAction", {
             actionConfirmedCallback: () => dispatch("deleteEntity", id),
             confirmCaption: i18next.t("common:modules.tools.modeler3D.deleteInteraction.confirm"),
             textContent: i18next.t("common:modules.tools.modeler3D.deleteInteraction.text", {name: modelName}),
