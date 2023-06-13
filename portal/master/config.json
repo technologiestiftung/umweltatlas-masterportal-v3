@@ -602,7 +602,6 @@
           "id": "12884",
           "name": "Gebäude LoD2",
           "gfiAttributes": "showAll",
-          "hiddenFeatures": ["DEHHALKAJ000103I"],
           "visibility": true
         },
         {
