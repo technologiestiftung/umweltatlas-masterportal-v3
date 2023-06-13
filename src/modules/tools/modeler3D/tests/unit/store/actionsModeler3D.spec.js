@@ -1,14 +1,13 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import actions from "../../../store/actionsImport3D";
+import actions from "../../../store/actionsModeler3D";
 import store from "../../../../../../app-store";
 import proj4 from "proj4";
 
 describe("Actions", () => {
     let entities,
-        defaultDataSource,
-        dataSourceDisplay,
-        scene;
+        scene,
+        getters;
     const map3D = {
         id: "1",
         mode: "3D",
@@ -55,6 +54,60 @@ describe("Actions", () => {
     afterEach(() => {
         sinon.restore();
     });
+    describe("deleteEntity", () => {
+        it("should delete the entity from list and entityCollection", () => {
+            const commit = sinon.spy(),
+                state = {importedModels: [{id: 1}]},
+                id = 1;
+
+            entities = {
+                getById: sinon.stub().returns({id: id}),
+                removeById: sinon.spy()
+            };
+            getters = {
+                scene: scene,
+                entities: entities
+            };
+
+            actions.deleteEntity({state, getters, commit}, id);
+            expect(entities.removeById.calledWith(1)).to.be.true;
+            expect(commit.calledWith("setCurrentModelId", null)).to.be.true;
+        });
+
+        it("should not delete the entity when not found in list", () => {
+            const commit = sinon.spy(),
+                state = {importedModels: [{id: 5}]},
+                id = 1;
+
+            entities = {
+                getById: sinon.stub().returns(null),
+                removeById: sinon.spy()
+            };
+            getters = {
+                scene: scene,
+                entities: entities
+            };
+
+            actions.deleteEntity({state, getters, commit}, id);
+            expect(entities.removeById.calledWith(1)).to.be.false;
+            expect(commit.calledWith("setCurrentModelId", null)).to.be.false;
+        });
+    });
+
+    describe("confirmDeletion", () => {
+        it("should open the modal dialog to confirm action", () => {
+            const dispatch = sinon.spy(),
+                id = 1;
+
+            getters = {
+                getModelNameById: sinon.stub().returns("House")
+            };
+
+            actions.confirmDeletion({dispatch, getters}, id);
+            expect(dispatch.firstCall.args[0]).to.equal("ConfirmAction/addSingleAction");
+        });
+    });
+
     describe("formatInput", () => {
         it("should format the coordinates correctly for EPSG 4326-DG projection", () => {
             const commit = sinon.spy(),
@@ -88,8 +141,9 @@ describe("Actions", () => {
         it("should set the current projection and dispatch 'updatePositionUI'", () => {
             const dispatch = sinon.spy(),
                 commit = sinon.spy(),
-                getters = {getProjectionById: sinon.stub().returns({id: "projectionId"})},
                 value = "projectionId";
+
+            getters = {getProjectionById: sinon.stub().returns({id: "projectionId"})};
 
             actions.newProjectionSelected({dispatch, commit, getters}, value);
             expect(commit.calledWith("setCurrentProjection", {id: "projectionId"})).to.be.true;
@@ -108,11 +162,16 @@ describe("Actions", () => {
             entities = {
                 getById: sinon.stub().returns({position: {}})
             };
-            defaultDataSource = {entities};
-            dataSourceDisplay = {defaultDataSource};
-            map3D.getDataSourceDisplay = sinon.stub().returns(dataSourceDisplay);
+            getters = {
+                scene: scene,
+                entities: entities
+            };
+            // TODO: Neuen Getter testen
+            // defaultDataSource = {entities};
+            // dataSourceDisplay = {defaultDataSource};
+            // map3D.getDataSourceDisplay = sinon.stub().returns(dataSourceDisplay);
 
-            actions.updateEntityPosition({dispatch, state, mapCollection});
+            actions.updateEntityPosition({dispatch, state, getters});
 
             expect(entities.getById.calledWith("entityId")).to.be.true;
             expect(dispatch.calledWith("transformToCartesian")).to.be.true;
@@ -126,11 +185,12 @@ describe("Actions", () => {
             entities = {
                 getById: sinon.stub().returns(null)
             };
-            defaultDataSource = {entities};
-            dataSourceDisplay = {defaultDataSource};
-            map3D.getDataSourceDisplay = sinon.stub().returns(dataSourceDisplay);
+            getters = {
+                scene: scene,
+                entities: entities
+            };
 
-            actions.updateEntityPosition({dispatch, state, mapCollection});
+            actions.updateEntityPosition({dispatch, state, getters});
 
             expect(entities.getById.calledWith("nonExistentId")).to.be.true;
             expect(dispatch.calledWith("transformToCartesian")).to.be.false;
@@ -147,11 +207,12 @@ describe("Actions", () => {
             entities = {
                 getById: sinon.stub().returns({position: {getValue: sinon.stub().returns({x: 10, y: 20, z: 30})}})
             };
-            defaultDataSource = {entities};
-            dataSourceDisplay = {defaultDataSource};
-            map3D.getDataSourceDisplay = sinon.stub().returns(dataSourceDisplay);
+            getters = {
+                scene: scene,
+                entities: entities
+            };
 
-            actions.updatePositionUI({dispatch, state, mapCollection});
+            actions.updatePositionUI({dispatch, state, getters});
 
             expect(entities.getById.calledWith("entityId")).to.be.true;
             expect(dispatch.calledWith("transformFromCartesian", {x: 10, y: 20, z: 30})).to.be.true;
@@ -164,11 +225,12 @@ describe("Actions", () => {
             entities = {
                 getById: sinon.stub().returns(null)
             };
-            defaultDataSource = {entities};
-            dataSourceDisplay = {defaultDataSource};
-            map3D.getDataSourceDisplay = sinon.stub().returns(dataSourceDisplay);
+            getters = {
+                scene: scene,
+                entities: entities
+            };
 
-            actions.updatePositionUI({dispatch, state, mapCollection});
+            actions.updatePositionUI({dispatch, state, getters});
 
             expect(entities.getById.calledWith("nonExistentId")).to.be.true;
             expect(dispatch.calledWith("transformFromCartesian")).to.be.false;
@@ -427,9 +489,14 @@ describe("Actions", () => {
                     }
                 };
 
+            getters = {
+                scene: scene,
+                entities: entities
+            };
+
             global.Cesium.Cartographic = sinon.spy();
 
-            actions.transformToCartesian({state, dispatch, commit});
+            actions.transformToCartesian({state, dispatch, commit, getters});
 
             expect(dispatch.calledWith("formatInput", [state.coordinatesEasting, state.coordinatesNorthing])).to.be.true;
             expect(commit.firstCall.args[0]).to.equal("setHeight");

@@ -1,6 +1,6 @@
 
 import {generateSimpleGetters} from "../../../../app-store/utils/generators";
-import import3DState from "./stateImport3D";
+import import3DState from "./stateModeler3D";
 
 const getters = {
     ...generateSimpleGetters(import3DState),
@@ -39,7 +39,7 @@ const getters = {
     getLabel: (state) => (key) => {
         const type = state.currentProjection?.projName !== "longlat" ? "cartesian" : "hdms";
 
-        return "modules.tools.import3D.projections." + type + "." + key;
+        return "modules.tools.modeler3D.projections." + type + "." + key;
     }
 };
 

@@ -13,14 +13,14 @@ const actions = {
             commit("setCurrentModelId", null);
         }
     },
-    confirmDeletion ({dispatch}, id) {
-        const modelName = this.getModelNameById(id);
+    confirmDeletion ({dispatch, getters}, id) {
+        const modelName = getters.getModelNameById(id);
 
         dispatch("ConfirmAction/addSingleAction", {
             actionConfirmedCallback: () => dispatch("deleteEntity", id),
-            confirmCaption: i18next.t("common:modules.tools.import3D.deleteInteraction.confirm"),
-            textContent: i18next.t("common:modules.tools.import3D.deleteInteraction.text", {name: modelName}),
-            headline: i18next.t("common:modules.tools.import3D.deleteInteraction.headline")
+            confirmCaption: i18next.t("common:modules.tools.modeler3D.deleteInteraction.confirm"),
+            textContent: i18next.t("common:modules.tools.modeler3D.deleteInteraction.text", {name: modelName}),
+            headline: i18next.t("common:modules.tools.modeler3D.deleteInteraction.headline")
         });
     },
     /**

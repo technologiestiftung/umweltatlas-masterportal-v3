@@ -1,11 +1,11 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import actions from "../store/actionsImport3D";
-import getters from "../store/gettersImport3D";
-import mutations from "../store/mutationsImport3D";
+import actions from "../store/actionsModeler3D";
+import getters from "../store/gettersModeler3D";
+import mutations from "../store/mutationsModeler3D";
 
 export default {
-    name: "ImportModelView",
+    name: "EntityModelView",
     data () {
         return {
             rotationClickValue: 5,
@@ -13,7 +13,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Tools/Import3D", Object.keys(getters)),
+        ...mapGetters("Tools/Modeler3D", Object.keys(getters)),
 
         rotationAngle: {
             get () {
@@ -25,8 +25,8 @@ export default {
         }
     },
     methods: {
-        ...mapActions("Tools/Import3D", Object.keys(actions)),
-        ...mapMutations("Tools/Import3D", Object.keys(mutations)),
+        ...mapActions("Tools/Modeler3D", Object.keys(actions)),
+        ...mapMutations("Tools/Modeler3D", Object.keys(mutations)),
 
         /**
          * Called if selection of projection changed. Sets the current projection to state and updates the UI.
@@ -78,12 +78,12 @@ export default {
     <div>
         <p
             class="cta"
-            v-html="$t('modules.tools.import3D.captions.editInfo')"
+            v-html="$t('modules.tools.modeler3D.captions.editInfo')"
         />
         <p
             v-if="currentProjection.id === 'http://www.opengis.net/gml/srs/epsg.xml#4326'"
             class="cta red"
-            v-html="$t('modules.tools.import3D.captions.projectionInfo')"
+            v-html="$t('modules.tools.modeler3D.captions.projectionInfo')"
         />
         <div class="h-seperator" />
         <div class="form-group form-group-sm row">
@@ -91,7 +91,7 @@ export default {
                 class="col-md-5 col-form-label"
                 for="model-name"
             >
-                {{ $t("modules.tools.import3D.modelName") }}
+                {{ $t("modules.tools.modeler3D.modelName") }}
             </label>
             <div class="col-md-7">
                 <input
@@ -109,7 +109,7 @@ export default {
                 class="col-md-5 col-form-label"
                 for="tool-edit-projection"
             >
-                {{ $t("modules.tools.import3D.projections.projection") }}
+                {{ $t("modules.tools.modeler3D.projections.projection") }}
             </label>
             <div class="col-md-7">
                 <select
@@ -209,7 +209,7 @@ export default {
                     class="col-md-5 col-form-label"
                     for="heightField"
                 >
-                    {{ $t("modules.tools.import3D.projections.height") }}
+                    {{ $t("modules.tools.modeler3D.projections.height") }}
                 </label>
                 <div class="col-md-7 position-control">
                     <input
@@ -245,7 +245,7 @@ export default {
                     class="col-md-5 col-form-label"
                     for="adaptHeightCheck"
                 >
-                    {{ $t("modules.tools.import3D.projections.adaptToHeight") }}
+                    {{ $t("modules.tools.modeler3D.projections.adaptToHeight") }}
                 </label>
                 <input
                     id="adaptHeightCheck"
@@ -263,7 +263,7 @@ export default {
                     class="col-md-8 col-form-label"
                     for="tool-edit-rotation"
                 >
-                    {{ $t("modules.tools.import3D.projections.rotation") }}
+                    {{ $t("modules.tools.modeler3D.projections.rotation") }}
                 </label>
                 <div class="col-md-3">
                     <input
@@ -311,7 +311,7 @@ export default {
                     class="col-md-7 col-form-label"
                     for="tool-edit-rotation-switch"
                 >
-                    {{ $t("modules.tools.import3D.projections.rotationSwitch") }}
+                    {{ $t("modules.tools.modeler3D.projections.rotationSwitch") }}
                 </label>
                 <div class="col-md-4">
                     <select
@@ -337,14 +337,14 @@ export default {
                 class="col-5 btn btn-primary btn-sm primary-button-wrapper"
                 @click="setCurrentModelId(null)"
             >
-                {{ $t("modules.tools.import3D.backToList") }}
+                {{ $t("modules.tools.modeler3D.backToList") }}
             </button>
             <button
                 id="tool-import3d-deleteEntity"
                 class="col-5 btn btn-danger btn-sm delete-button-wrapper"
                 @click="confirmDeletion(currentModelId)"
             >
-                {{ $t("modules.tools.import3D.delete") }}
+                {{ $t("modules.tools.modeler3D.delete") }}
             </button>
         </div>
     </div>

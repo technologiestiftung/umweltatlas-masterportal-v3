@@ -58,7 +58,7 @@
             "supplyCoord": "Koordinaten abfragen",
             "searchByCoord": "Koordinatensuche",
             "fileImport": "Datei-Import",
-            "import3D": "3D-Modell Import",
+            "modeler3D": "3D Modeler",
             "draw": "Zeichnen / Schreiben",
             "shadow": "Schatten",
             "commuterLines": "Pendler (Linien)",
@@ -587,7 +587,7 @@
                 "zoom": "Zoomen",
                 "fileZoom": "Auf Features dieser Datei \"{{filename}}\" zoomen"
             },
-            "import3D": {
+            "modeler3D": {
                 "captions": {
                     "introInfo": "Importieren Sie Ihre gewünschte Datei einfach per Drag and Drop oder alternativ mit dem Öffnen-Dialog des Browsers.",
                     "introFormats": "Es können glTF-Dateien (*.gltf), OBJ-Dateien (*.obj) oder Collada-Dateien (*.dae) importiert werden.",
@@ -633,7 +633,9 @@
                 "backToList": "Zur Übersicht",
                 "rotationPlaceholder": "Inkrement-/Dekrement-Schritte",
                 "modelName": "Modell Name",
-                "delete": "Modell löschen"
+                "delete": "Modell löschen",
+                "import": "Importieren",
+                "draw": "Zeichnen"
             },
             "parcelSearch": {
                 "wrongConfig": "Ungültige oder unvollständige Konfiguration",

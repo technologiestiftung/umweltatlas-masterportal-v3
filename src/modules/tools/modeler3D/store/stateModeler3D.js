@@ -9,10 +9,12 @@
  * @property {Cartesian3}   currentModelPosition - position of the currently selected or added model
  * @property {Object}       currentProjection - the currently selected projection
  * @property {Boolean}      deactivateGFI - if true, component activation deactivates gfi component
+ * @property {Boolean}      drawView - if true, changes ui to draw
  * @property {Object}       height - id and value of the transformed height coordinate displayed on the ui
  * @property {String}       icon - icon next to title
  * @property {String}       id - internal id of component
  * @property {Object[]}     importedModels - array of imported 3D models
+ * @property {Boolean}      importView - if true, changes ui to import
  * @property {String}       name - Module name
  * @property {Object[]}     projections - all available projections
  * @property {Boolean}      renderToWindow - if true, component is rendered in a window pane instead of sidebar
@@ -35,6 +37,8 @@ export default {
     currentModelId: null,
     currentModelPosition: null,
     currentProjection: {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm"},
+    drawView: false,
+    eventHandler: null,
     height: {id: "height", value: ""},
     highlightStyle: {
         color: "#787777",
@@ -43,6 +47,9 @@ export default {
         silhouetteSize: 4
     },
     importedModels: [],
+    importView: true,
+    invisibleObjects: [],
+    isDragging: false,
     projections: [],
     rotation: 0,
     selectedCoordinates: [],
@@ -50,8 +57,8 @@ export default {
     // defaults for config.json parameters
     icon: "bi-box-arrow-in-down",
     deactivateGFI: true,
-    name: "common:menu.tools.import3D",
+    name: "common:menu.tools.modeler3D",
     onlyDesktop: true,
-    renderToWindow: true,
-    resizableWindow: false
+    renderToWindow: false,
+    resizableWindow: true
 };

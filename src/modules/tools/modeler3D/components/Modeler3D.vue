@@ -1,0 +1,567 @@
+<script>
+import ToolTemplate from "../../ToolTemplate.vue";
+import EntityModelView from "./EntityModelView.vue";
+import ImportView from "./ImportView.vue";
+import DrawView from "./DrawView.vue";
+import {getComponent} from "../../../../utils/getComponent";
+import {mapActions, mapGetters, mapMutations} from "vuex";
+import actions from "../store/actionsModeler3D";
+import getters from "../store/gettersModeler3D";
+import mutations from "../store/mutationsModeler3D";
+import store from "../../../../app-store";
+import crs from "@masterportal/masterportalapi/src/crs";
+
+export default {
+    name: "Modeler3D",
+    components: {
+        ToolTemplate,
+        EntityModelView,
+        ImportView,
+        DrawView
+    },
+    data () {
+        return {
+            storePath: this.$store.state.Tools.Modeler3D,
+            defaultTabClass: "",
+            activeTabClass: "active"
+        };
+    },
+    computed: {
+        ...mapGetters(["namedProjections"]),
+        ...mapGetters("Tools/Modeler3D", Object.keys(getters)),
+
+        importTabClasses: function () {
+            return this.importView ? this.activeTabClass : this.defaultTabClass;
+        },
+        drawTabClasses: function () {
+            return this.drawView ? this.activeTabClass : this.defaultTabClass;
+        },
+
+        console: () => console
+    },
+    watch: {
+        /**
+         * Listens to the active property change.
+         * @param {Boolean} isActive Value deciding whether the tool gets activated or deactivated.
+         * @returns {void}
+         */
+        active (isActive) {
+            if (isActive) {
+                const scene = this.scene;
+
+                this.initProjections();
+                this.setEventHandler(new Cesium.ScreenSpaceEventHandler(scene.canvas));
+                this.eventHandler.setInputAction(this.selectObject, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+                this.eventHandler.setInputAction(this.moveEntity, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+            }
+            else {
+                this.eventHandler.destroy();
+            }
+        },
+        currentModelId (newId, oldId) {
+            const scene = this.scene,
+                entities = this.entities,
+                newEntity = entities.getById(newId),
+                oldEntity = entities.getById(oldId);
+
+            if (oldEntity) {
+                oldEntity.model.color = Cesium.Color.WHITE;
+                oldEntity.model.silhouetteColor = null;
+                oldEntity.model.silhouetteSize = 0;
+                oldEntity.model.colorBlendAmount = 0;
+                scene.requestRender();
+
+                this.setCurrentModelPosition(null);
+            }
+            if (newEntity) {
+                this.highlightEntity(newEntity);
+                this.setCurrentModelPosition(newEntity?.position?.getValue());
+                this.setRotation(this.importedModels.find(model => model.id === this.currentModelId).heading);
+                this.updatePositionUI();
+            }
+        }
+    },
+    created () {
+        this.$on("close", this.close);
+    },
+    methods: {
+        ...mapActions("Tools/Modeler3D", Object.keys(actions)),
+        ...mapMutations("Tools/Modeler3D", Object.keys(mutations)),
+
+        /**
+         * Initializes the projections to select. If projection EPSG:4326 is available same is added in decimal-degree.
+         * @returns {void}
+         */
+        initProjections () {
+            const pr = crs.getProjections(),
+                epsg8395 = [],
+                wgs84Proj = [];
+
+            if (this.projections.length) {
+                return;
+            }
+            // id is set to the name and in case of decimal "-DG" is appended to name later on
+            // for use in select-box
+            pr.forEach(proj => {
+                proj.id = proj.name;
+                if (proj.name === "EPSG:4326" || proj.name === "http://www.opengis.net/gml/srs/epsg.xml#4326") {
+                    wgs84Proj.push(proj);
+                }
+                if (proj.name === "EPSG:8395" || proj.name === "http://www.opengis.net/gml/srs/epsg.xml#8395") {
+                    epsg8395.push(proj);
+                }
+                if (proj.name.indexOf("#") > -1) { // e.g. "http://www.opengis.net/gml/srs/epsg.xml#25832"
+                    const code = proj.name.substring(proj.name.indexOf("#") + 1, proj.name.length);
+
+                    proj.epsg = "EPSG:" + code;
+                }
+                else {
+                    proj.title = proj.name;
+                }
+                if (proj.id === this.currentProjection.id) {
+                    this.setCurrentProjection(proj);
+                }
+            });
+            if (wgs84Proj.length > 0) {
+                this.addWGS84Decimal(pr, wgs84Proj);
+            }
+            this.namedProjections.find((el) => {
+                if (el[1].includes("ETRS89_3GK3") && epsg8395.length > 0) {
+                    this.addETRS893GK3(pr, el, epsg8395);
+                    return true;
+                }
+                return false;
+            });
+            this.setProjections(pr);
+        },
+        /**
+         * Adds EPSG:4326 in decimal-degree to list of projections.
+         * @param {Array} projections list of all available projections
+         * @param {Object} elementETRS89_3GK3 the WGS84 projection contained in list of projections
+         * @param {Object} epsg8395 the WGS84 projection contained in list of projections
+         * @returns {void}
+         */
+        addETRS893GK3 (projections, elementETRS89_3GK3, epsg8395) {
+            const index = projections.findIndex(proj => proj.name === "EPSG:8395"),
+                etrs89_3GK3Proj = {};
+
+            for (const key in epsg8395[0]) {
+                etrs89_3GK3Proj[key] = epsg8395[0][key];
+            }
+            etrs89_3GK3Proj.name = "ETRS893GK3";
+            etrs89_3GK3Proj.epsg = "EPSG:8395";
+            etrs89_3GK3Proj.id = "http://www.opengis.net/gml/srs/epsg.xml#ETRS893GK3";
+            etrs89_3GK3Proj.title = elementETRS89_3GK3[1].substring(elementETRS89_3GK3[1].lastIndexOf("ETRS"), elementETRS89_3GK3[1].indexOf(" +proj="));
+            etrs89_3GK3Proj.getCode = () => "noEPSGCode";
+            projections.splice(index + 1, 0, etrs89_3GK3Proj);
+        },
+        /**
+         * Adds EPSG:4326 in decimal-degree to list of projections.
+         * @param {Array} projections list of all available projections
+         * @param {Object} wgs84Proj the WGS84 projection contained in list of projections
+         * @returns {void}
+         */
+        addWGS84Decimal (projections, wgs84Proj) {
+            const index = projections.findIndex(proj => proj.name === "EPSG:4326"),
+                wgs84ProjDez = {};
+
+            for (const key in wgs84Proj[0]) {
+                wgs84ProjDez[key] = wgs84Proj[0][key];
+            }
+            wgs84ProjDez.name = "EPSG:4326-DG";
+            wgs84ProjDez.epsg = "EPSG:4326";
+            wgs84ProjDez.id = "http://www.opengis.net/gml/srs/epsg.xml#4326-DG";
+            wgs84ProjDez.title = "WGS84_Lat-Lon (Grad, Dezimal), EPSG 4326";
+            wgs84ProjDez.getCode = () => "EPSG:4326-DG";
+            projections.splice(index + 1, 0, wgs84ProjDez);
+        },
+        moveEntity () {
+            this.setIsDragging(true);
+
+            this.eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+            this.eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+        },
+        selectObject (event) {
+            const scene = this.scene,
+                picked = scene.pick(event.position);
+
+            if (Cesium.defined(picked)) {
+                const entity = Cesium.defaultValue(picked.id, picked.primitive.id);
+
+                if (entity) {
+                    scene.requestRender();
+
+                    this.setCurrentModelId(entity.id);
+                }
+                else {
+                    const object = picked.pickId?.object;
+
+                    if (object) {
+                        object.show = false;
+
+                        this.invisibleObjects.push({
+                            id: object.featureId,
+                            pickId: object.pickId.key,
+                            layerId: object.tileset.layerReferenceId,
+                            name: `Object ${object.featureId}`
+                        });
+                    }
+                }
+            }
+        },
+        onMouseMove (event) {
+            if (this.isDragging) {
+                const scene = this.scene,
+                    ray = scene.camera.getPickRay(event.endPosition),
+                    position = scene.globe.pick(ray, scene);
+
+                // heading = Cesium.Math.toRadians(parseInt(this.rotationAngle, 10)),
+                // hpr = new Cesium.HeadingPitchRoll(heading, 0.0, 0.0); // Heading: 0 Grad, Pitch: 0 Grad, Roll: 0 Grad;
+
+                if (Cesium.defined(position)) {
+                    const entities = this.entities,
+                        entity = entities.getById(this.currentModelId);
+
+                    if (Cesium.defined(entity)) {
+                        entity.position = position;
+                        this.updatePositionUI();
+                        // entity.orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
+                    }
+                }
+            }
+        },
+        onMouseUp () {
+            if (this.isDragging) {
+                this.removeInputActions();
+                this.setIsDragging(false);
+            }
+        },
+        removeInputActions () {
+            if (this.eventHandler) {
+                this.eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+                this.eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+                this.eventHandler.setInputAction(this.moveEntity, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+            }
+        },
+        highlightEntity (entity) {
+            const configuredHighlightStyle = store.state.configJson.Portalconfig.menu.tools.children.modeler3D.highlightStyle,
+                color = configuredHighlightStyle?.color || this.highlightStyle.color,
+                alpha = configuredHighlightStyle?.alpha || this.highlightStyle.alpha,
+                silhouetteColor = configuredHighlightStyle?.silhouetteColor || this.highlightStyle.silhouetteColor,
+                silhouetteSize = configuredHighlightStyle?.silhouetteSize || this.highlightStyle.silhouetteSize;
+
+            entity.model.color = Cesium.Color.fromAlpha(Cesium.Color.fromCssColorString(color), parseFloat(alpha));
+            entity.model.silhouetteColor = Cesium.Color.fromCssColorString(silhouetteColor);
+            entity.model.silhouetteSize = parseFloat(silhouetteSize);
+            entity.model.colorBlendMode = Cesium.ColorBlendMode.HIGHLIGHT;
+        },
+        showObject (object) {
+            const scene = this.scene,
+                primitives = scene.primitives,
+                tileset = primitives._primitives.find(x => x.layerReferenceId === object.layerId),
+                visibleTiles = tileset._selectedTiles,
+                objectIndex = this.invisibleObjects.findIndex(x => x.id === object.id);
+
+            for (let i = 0; i < visibleTiles.length; i++) {
+                const content = visibleTiles[i].content,
+                    feature = content.getFeature(object.id);
+
+                if (feature?.pickId?.key === object.pickId) {
+                    feature.show = true;
+                    this.invisibleObjects.splice(objectIndex, 1);
+                    break;
+                }
+            }
+        },
+        close () {
+            this.setActive(false);
+            const model = getComponent(this.storePath.id);
+
+            if (model) {
+                model.set("isActive", false);
+            }
+        }
+    }
+};
+</script>
+
+<template lang="html">
+    <ToolTemplate
+        :title="$t(name)"
+        :icon="icon"
+        :active="active"
+        :render-to-window="renderToWindow"
+        :resizable-window="resizableWindow"
+        :deactivate-gfi="deactivateGFI"
+        :initial-width="380"
+    >
+        <template #toolBody>
+            <div
+                v-if="active"
+                id="tool-modeler3D"
+            >
+                <div v-if="!currentModelId">
+                    <ul class="nav nav-tabs">
+                        <li
+                            id="tool-modeler3D-import"
+                            role="presentation"
+                            class="nav-item"
+                        >
+                            <a
+                                href="#"
+                                class="nav-link"
+                                :class="importTabClasses"
+                                @click.prevent="switchView()"
+                            >{{ $t("modules.tools.modeler3D.import") }}</a>
+                        </li>
+                        <li
+                            id="tool-modeler3D-draw"
+                            role="presentation"
+                            class="nav-item"
+                        >
+                            <a
+                                href="#"
+                                class="nav-link"
+                                :class="drawTabClasses"
+                                @click.prevent="switchView()"
+                            >{{ $t("modules.tools.modeler3D.draw") }}</a>
+                        </li>
+                    </ul>
+                    <ImportView
+                        v-if="importView"
+                        @emitMove="moveEntity"
+                    />
+                    <DrawView v-if="drawView" />
+                    <template v-if="invisibleObjects.length > 0">
+                        <div class="h-seperator" />
+                        <label
+                            class="modelListLabel"
+                            for="invisible-objects"
+                        >
+                            {{ $t("modules.tools.import3D.invisibleObjectsLabel") }}
+                        </label>
+                        <ul id="invisible-objects">
+                            <li
+                                v-for="(object, index) in invisibleObjects"
+                                :key="index"
+                            >
+                                <span class="index">
+                                    {{ index + 1 }}
+                                </span>
+                                <span
+                                    class="inputName"
+                                >
+                                    {{ object.name }}
+                                </span>
+                                <div class="buttons">
+                                    <i
+                                        class="inline-button bi"
+                                        :class="{ 'bi-eye-fill': isHovering === `obj-${index}-show`, 'bi-eye-slash': isHovering !== `obj-${index}-show`}"
+                                        :title="$t(`common:modules.tools.import3D.visibilityTitle`, {name: object.name})"
+                                        @click="showObject(object)"
+                                        @keydown.enter="showObject(object)"
+                                        @mouseover="isHovering = `obj-${index}-show`"
+                                        @mouseout="isHovering = false"
+                                        @focusin="isHovering = `obj-${index}-show`"
+                                        @focusout="isHovering = false"
+                                    />
+                                </div>
+                            </li>
+                        </ul>
+                    </template>
+                </div>
+                <EntityModelView
+                    v-else
+                />
+            </div>
+        </template>
+    </ToolTemplate>
+</template>
+
+<style lang="scss" scoped>
+    @import "~/css/mixins.scss";
+    @import "~variables";
+
+    input[type="file"] {
+        display: none;
+    }
+    input[type="button"] {
+        display: none;
+    }
+
+    .primary-button-wrapper {
+        color: $white;
+        background-color: $secondary_focus;
+        display: block;
+        text-align:center;
+        padding: 8px 12px;
+        cursor: pointer;
+        margin:12px 0 0 0;
+        font-size: $font_size_big;
+        &:focus {
+            @include primary_action_focus;
+        }
+        &:hover {
+            @include primary_action_hover;
+        }
+    }
+
+    .cta {
+        margin-bottom:12px;
+    }
+
+    .red {
+        color: red;
+    }
+
+    .drop-area-fake {
+        background-color: $white;
+        border-radius: 12px;
+        border: 2px dashed $accent;
+        padding:24px;
+        transition: background 0.25s, border-color 0.25s;
+
+        &.dzReady {
+            background-color:$accent_hover;
+            border-color:transparent;
+
+            p.caption {
+                color: $white;
+            }
+        }
+
+        p.caption {
+            margin:0;
+            text-align:center;
+            transition: color 0.35s;
+            font-family: $font_family_accent;
+            font-size: $font-size-lg;
+            color: $accent;
+        }
+    }
+
+    .drop-area {
+        position:absolute;
+        top:0;
+        left:0;
+        right:0;
+        bottom:0;
+        z-index:10;
+    }
+
+    .vh-center-outer-wrapper {
+        top:0;
+        left:0;
+        right:0;
+        bottom:0;
+        text-align:center;
+        position:relative;
+
+        &:before {
+            content:'';
+            display:inline-block;
+            height:100%;
+            vertical-align:middle;
+            margin-right:-0.25em;
+        }
+    }
+    .vh-center-inner-wrapper {
+        text-align:left;
+        display:inline-block;
+        vertical-align:middle;
+        position:relative;
+    }
+
+    .modelListLabel {
+        font-weight: bold;
+    }
+
+    .modelList {
+        font-size: $font_size_icon_lg;
+    }
+
+    .index {
+        width: 15%;
+    }
+
+    .inputName {
+        width: 60%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .buttons {
+        margin-left: auto;
+    }
+
+    .inline-button {
+        cursor: pointer;
+        display: inline-block;
+        &:focus {
+            transform: translateY(-2px);
+        }
+        &:hover {
+            transform: translateY(-2px);
+        }
+        &:active {
+            transform: scale(0.98);
+        }
+    }
+
+    .position-control {
+        display: flex;
+        gap: 0.25em;
+    }
+
+    .position-input {
+        height: 3.8em;
+    }
+
+    .check-height {
+        width: 1.5em;
+        height: 1.5em;
+
+        margin: 0;
+    }
+
+    .btn-margin {
+        margin-top: 1em;
+    }
+
+    .btn-pos {
+        padding: 0.25em;
+    }
+
+    .btn-primary {
+        &:focus {
+            @include primary_action_focus;
+        }
+        &:hover {
+            @include primary_action_hover;
+        }
+        &:active {
+            transform: scale(0.98);
+        }
+    }
+
+    #invisible-objects {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    #invisible-objects .li {
+        display: flex;
+        align-items: center;
+        height: 1.5rem;
+    }
+
+    .row {
+        align-items: center;
+    }
+
+    .nav-tabs {
+        margin-bottom: 1em;
+    }
+</style>

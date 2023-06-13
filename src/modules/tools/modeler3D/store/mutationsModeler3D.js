@@ -1,5 +1,5 @@
 import {generateSimpleMutations} from "../../../../app-store/utils/generators";
-import import3DState from "./stateImport3D";
+import import3DState from "./stateModeler3D";
 
 const mutations = {
     /**
@@ -51,6 +51,10 @@ const mutations = {
             coord = parseFloat(payload);
         }
         state.selectedCoordinates.push(coord);
+    },
+    switchView: (state) => {
+        state.importView = !state.importView;
+        state.drawView = !state.drawView;
     }
 };
 

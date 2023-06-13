@@ -15,11 +15,11 @@ import Draw from "./draw/store/indexDraw";
 import FeatureLister from "./featureLister/store/indexFeatureLister";
 import FileImport from "./fileImport/store/indexFileImport";
 import Filter from "./filter/store/indexFilter";
-import Import3D from "./import3D/store/indexImport3D";
 import Gfi from "./gfi/store/indexGfi";
 import LayerClusterToggler from "./layerClusterToggler/store/indexLayerClusterToggler";
 import LayerSlider from "./layerSlider/store/indexLayerSlider";
 import Measure from "./measure/store/indexMeasure";
+import Modeler3D from "./modeler3D/store/indexModeler3D";
 import Print from "./print/store/indexPrint";
 import Routing from "./routing/store/indexRouting";
 import SaveSelection from "./saveSelection/store/indexSaveSelection";
@@ -49,10 +49,10 @@ export default {
         FileImport,
         Filter,
         Gfi,
-        Import3D,
         LayerClusterToggler,
         LayerSlider,
         Measure,
+        Modeler3D,
         Print,
         Routing,
         SaveSelection,
