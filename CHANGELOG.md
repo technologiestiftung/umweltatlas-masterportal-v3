@@ -10,6 +10,7 @@
 ### Deprecated
 ### Removed
 ### Fixed
+- Filter: fixing the Bug when there are a delimiter and operator with "EQ" configured in Dropdown snippet.
 
 ---
 ## v2.34.1 - 2023-06-12
