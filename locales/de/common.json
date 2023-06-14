@@ -596,6 +596,7 @@
                         "editInfo": "Ändern Sie die Position und Rotation des ausgewählten Modells.",
                         "editModel": "3D-Modell \"{{name}}\" bearbeiten",
                         "modelName": "Modell Name",
+                        "pickupPlace": "Doppelklicken Sie auf ein importiertes Objekt, um es aufzuheben oder zu platzieren.",
                         "projectionInfo": "Achtung! Bei Nutzung des WGS84 Koordinatensystems kann es zu Ungenauigkeiten kommen. Wir empfehlen die Nutzung der Dezimal Schreibweise.",
                         "rotationPlaceholder": "Inkrement-/Dekrement-Schritte",
                         "visibilityTitle": "3D-Modell \"{{name}}\" ein-/ausblenden",
@@ -645,6 +646,7 @@
                     "importTitle": "Importieren"
                 },
                 "hiddenObjectsLabel": "Ausgeblendete Gebäude:",
+                "hideSwitchLabel": "Gebäude per Mausklick ausblenden",
                 "title": "3D Modeller"
             },
             "parcelSearch": {

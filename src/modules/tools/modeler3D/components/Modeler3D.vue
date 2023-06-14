@@ -24,7 +24,8 @@ export default {
             storePath: this.$store.state.Tools.Modeler3D,
             defaultTabClass: "",
             activeTabClass: "active",
-            isHovering: ""
+            isHovering: "",
+            hideObjects: true
         };
     },
     computed: {
@@ -194,7 +195,7 @@ export default {
 
                     this.setCurrentModelId(entity.id);
                 }
-                else {
+                else if (this.hideObjects) {
                     const object = picked.pickId?.object;
 
                     if (object) {
@@ -301,6 +302,28 @@ export default {
                 v-if="active"
                 id="tool-modeler3D"
             >
+                <p
+                    class="cta"
+                    v-html="$t('modules.tools.modeler3D.entity.captions.pickupPlace')"
+                />
+                <div class="form-check form-switch cta">
+                    <input
+                        id="hideObjectsSwitch"
+                        class="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        :aria-checked="hideObjects"
+                        :checked="hideObjects"
+                        @change="hideObjects = !hideObjects"
+                    >
+                    <label
+                        class="form-check-label"
+                        for="hideObjectsSwitch"
+                    >
+                        {{ $t("modules.tools.modeler3D.hideSwitchLabel") }}
+                    </label>
+                </div>
+                <div class="h-seperator" />
                 <div v-if="!currentModelId">
                     <ul class="nav nav-tabs">
                         <li
@@ -419,6 +442,10 @@ export default {
 
     .cta {
         margin-bottom:12px;
+    }
+
+    .form-switch {
+        font-size: $font_size_big;
     }
 
     .drop-area-fake {

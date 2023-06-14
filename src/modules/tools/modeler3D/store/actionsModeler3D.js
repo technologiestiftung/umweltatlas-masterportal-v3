@@ -19,9 +19,9 @@ const actions = {
 
         store.dispatch("ConfirmAction/addSingleAction", {
             actionConfirmedCallback: () => dispatch("deleteEntity", id),
-            confirmCaption: i18next.t("common:modules.tools.modeler3D.deleteInteraction.confirm"),
-            textContent: i18next.t("common:modules.tools.modeler3D.deleteInteraction.text", {name: modelName}),
-            headline: i18next.t("common:modules.tools.modeler3D.deleteInteraction.headline")
+            confirmCaption: i18next.t("common:modules.tools.modeler3D.entity.deleteInteraction.confirm"),
+            textContent: i18next.t("common:modules.tools.modeler3D.entity.deleteInteraction.text", {name: modelName}),
+            headline: i18next.t("common:modules.tools.modeler3D.entity.deleteInteraction.headline")
         });
     },
     /**
