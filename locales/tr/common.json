@@ -382,12 +382,9 @@
             },
             "fileImport": {
                 "captions": {
-                    "introInfo": "Arzu ettiğiniz dosyayı içeri aktarmak için sürükleyip bıkarın veya alternatif olarak tarıcı penceresini kullanın.",
                     "introFormats": "KML-Dosyaları (*.kml), GPX-Dosyaları (*.gpx) veya GeoJson-Dosyaları (*.geojson, *.json) içeri aktarılabilir.",
                     "introDrawTool": "Kayıt edilmiş olan geometriler sonradan degiştirilebilir. Lütfen bunun için bu aleti kullanın &quot;$t(common:menu.tools.draw)&quot;.",
                     "drawTool": "Lütfen $t(common:menu.tools.draw)açın",
-                    "dropzone": "Dosyayı buradaya gönderin",
-                    "browse": "Bir Dosya seçin",
                     "supportedFiletypes": {
                         "auto": "otomatik algılama",
                         "kml": "KML-Dosya (*.kml)",
@@ -908,6 +905,11 @@
             "No": "Hayır"
           },
           "zoomToResult": "Sonuca yakınlaştır"
+        },
+        "import": {
+            "browse": "Bir Dosya seçin",
+            "dropzone":"Dosyayı buradaya gönderin",
+            "introInfo":"Arzu ettiğiniz dosyayı içeri aktarmak için sürükleyip bıkarın veya alternatif olarak tarıcı penceresini kullanın."
         }
     }
 }

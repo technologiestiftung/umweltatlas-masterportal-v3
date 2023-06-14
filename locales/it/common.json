@@ -551,12 +551,9 @@
             },
             "fileImport": {
                 "captions": {
-                    "introInfo": "Importa il file tramite drag&drop o in alternativa tramite la finestra di dialogo del browser.",
                     "introFormats": "E' possibile importare file KML (*.kml), GPX (*.gpx) o GeoJson (*.geojson, *.json).",
                     "introDrawTool": "Le geometrie importate possono essere modificate in seguito. Per farlo, utilizzate lo strumento &quot;$t(common:menu.tools.draw)&quot;.",
                     "drawTool": "Apri $t(common:menu.tools.draw)",
-                    "dropzone": "Trascina qui il file",
-                    "browse": "Seleziona file",
                     "supportedFiletypes": {
                         "auto": "Auto riconoscimento",
                         "kml": "file KML (*.kml)",
@@ -1242,6 +1239,11 @@
             "zoomToResults": "Zoom sulla selezione",
             "pagination": "Pagina dei risultati",
             "selection": "Selezione della linea"
+        },
+        "import": {
+            "browse": "Seleziona file",
+            "dropzone": "Trascina qui il file",
+            "introInfo": "Importa il file tramite drag&drop o in alternativa tramite la finestra di dialogo del browser."
         }
     },
     "libraries": {

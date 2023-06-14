@@ -560,12 +560,9 @@
             },
             "fileImport": {
                 "captions": {
-                    "introInfo": "Import your file via drag and drop or alternatively use the browse dialogue.",
                     "introFormats": "You can import KML files (*.kml), GPX files (*.gpx) or GeoJson files (*.geojson, *.json).",
                     "introDrawTool": "Use the tool &quot;$t(common:menu.tools.draw)&quot; to change imported geometries in color and style.",
                     "drawTool": "Open: $t(common:menu.tools.draw)",
-                    "dropzone": "Drop file here",
-                    "browse": "Browse files",
                     "supportedFiletypes": {
                         "auto": "Automatic filetype detection",
                         "kml": "KML-file (*.kml)",
@@ -1256,6 +1253,11 @@
             "zoomToResults": "Zoom to selection",
             "pagination": "Pagination",
             "selection": "Row selection"
+        },
+        "import": {
+            "browse": "Browse files",
+            "dropzone": "Drop file here",
+            "introInfo": "Import your file via drag and drop or alternatively use the browse dialogue."
         }
     },
     "libraries": {

@@ -1,4 +1,5 @@
 <script>
+import BasicFileImport from "../../../../share-components/BasicFileImport.vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import actions from "../store/actionsModeler3D";
 import getters from "../store/gettersModeler3D";
@@ -11,49 +12,22 @@ import store from "../../../../app-store";
 
 export default {
     name: "ImportView",
+    components: {
+        BasicFileImport
+    },
     emits: ["moveEntity"],
     data () {
         return {
-            dzIsDropHovering: false,
             isHovering: false
         };
     },
     computed: {
         ...mapGetters(["namedProjections"]),
-        ...mapGetters("Tools/Modeler3D", Object.keys(getters)),
-
-        dropZoneAdditionalClass: function () {
-            return this.dzIsDropHovering ? "dzReady" : "";
-        }
+        ...mapGetters("Tools/Modeler3D", Object.keys(getters))
     },
     methods: {
         ...mapActions("Tools/Modeler3D", Object.keys(actions)),
         ...mapMutations("Tools/Modeler3D", Object.keys(mutations)),
-
-        onDZDragenter () {
-            this.dzIsDropHovering = true;
-        },
-        onDZDragend () {
-            this.dzIsDropHovering = false;
-        },
-        onDZMouseenter () {
-            this.dzIsHovering = true;
-        },
-        onDZMouseleave () {
-            this.dzIsHovering = false;
-        },
-        onInputChange (e) {
-            if (e.target.files !== undefined) {
-                this.addFile(e.target.files);
-            }
-            this.$refs["upload-input-file"].value = "";
-        },
-        onDrop (e) {
-            this.dzIsDropHovering = false;
-            if (e.dataTransfer.files !== undefined) {
-                this.addFile(e.dataTransfer.files);
-            }
-        },
 
         addFile (files) {
             const reader = new FileReader(),
@@ -163,11 +137,6 @@ export default {
             };
             reader.readAsDataURL(file);
         },
-        triggerClickOnFileInput (event) {
-            if (event.which === 32 || event.which === 13) {
-                this.$refs["upload-input-file"].click();
-            }
-        },
         changeVisibility (model) {
             const entities = this.entities,
                 entity = entities.getById(model.id);
@@ -198,61 +167,10 @@ export default {
 
 <template lang="html">
     <div>
-        <p
-            class="cta"
-            v-html="$t('modules.tools.modeler3D.import.captions.introInfo')"
+        <BasicFileImport
+            :intro-formats="$t('modules.tools.modeler3D.import.captions.introFormats')"
+            @add-file="addFile"
         />
-        <p
-            class="cta"
-            v-html="$t('modules.tools.modeler3D.import.captions.introFormats')"
-        />
-        <div
-            class="vh-center-outer-wrapper drop-area-fake"
-            :class="dropZoneAdditionalClass"
-        >
-            <div
-                class="vh-center-inner-wrapper"
-            >
-                <p
-                    class="caption"
-                >
-                    {{ $t("modules.tools.modeler3D.import.captions.dropzone") }}
-                </p>
-            </div>
-
-            <!-- eslint-disable-next-line vuejs-accessibility/mouse-events-have-key-events -->
-            <div
-                class="drop-area"
-                @drop.prevent="onDrop"
-                @dragover.prevent
-                @dragenter.prevent="onDZDragenter"
-                @dragleave="onDZDragend"
-                @mouseenter="onDZMouseenter"
-                @mouseleave="onDZMouseleave"
-            />
-            <!--
-                The previous element does not provide a @focusin or @focus reaction as would
-                be considered correct by the linting rule set. Since it's a drop-area for file
-                dropping by mouse, the concept does not apply. Keyboard users may use the
-                matching input fields.
-            -->
-        </div>
-
-        <div>
-            <label
-                ref="upload-label"
-                class="primary-button-wrapper"
-                tabindex="0"
-                @keydown="triggerClickOnFileInput"
-            >
-                <input
-                    ref="upload-input-file"
-                    type="file"
-                    @change="onInputChange"
-                >
-                {{ $t("modules.tools.modeler3D.import.captions.browse") }}
-            </label>
-        </div>
 
         <div v-if="importedModels.length > 0">
             <div class="h-seperator" />
@@ -363,13 +281,6 @@ export default {
         border: 1px solid #DDDDDD;
     }
 
-    input[type="file"] {
-        display: none;
-    }
-    input[type="button"] {
-        display: none;
-    }
-
     .primary-button-wrapper {
         color: $white;
         background-color: $secondary_focus;
@@ -393,64 +304,6 @@ export default {
 
     .red {
         color: red;
-    }
-
-    .drop-area-fake {
-        background-color: $white;
-        border-radius: 12px;
-        border: 2px dashed $accent;
-        padding:24px;
-        transition: background 0.25s, border-color 0.25s;
-
-        &.dzReady {
-            background-color:$accent_hover;
-            border-color:transparent;
-
-            p.caption {
-                color: $white;
-            }
-        }
-
-        p.caption {
-            margin:0;
-            text-align:center;
-            transition: color 0.35s;
-            font-family: $font_family_accent;
-            font-size: $font-size-lg;
-            color: $accent;
-        }
-    }
-
-    .drop-area {
-        position:absolute;
-        top:0;
-        left:0;
-        right:0;
-        bottom:0;
-        z-index:10;
-    }
-
-    .vh-center-outer-wrapper {
-        top:0;
-        left:0;
-        right:0;
-        bottom:0;
-        text-align:center;
-        position:relative;
-
-        &:before {
-            content:'';
-            display:inline-block;
-            height:100%;
-            vertical-align:middle;
-            margin-right:-0.25em;
-        }
-    }
-    .vh-center-inner-wrapper {
-        text-align:left;
-        display:inline-block;
-        vertical-align:middle;
-        position:relative;
     }
 
     .modelListLabel {

@@ -1,5 +1,6 @@
 <script>
 import ToolTemplate from "../../ToolTemplate.vue";
+import BasicFileImport from "../../../../share-components/BasicFileImport.vue";
 import {getComponent} from "../../../../utils/getComponent";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import getters from "../store/gettersFileImport";
@@ -10,11 +11,11 @@ import store from "../../../../app-store";
 export default {
     name: "FileImport",
     components: {
-        ToolTemplate
+        ToolTemplate,
+        BasicFileImport
     },
     data () {
         return {
-            dzIsDropHovering: false,
             storePath: this.$store.state.Tools.FileImport
         };
     },
@@ -72,29 +73,6 @@ export default {
                 }
             });
         },
-        onDZDragenter () {
-            this.dzIsDropHovering = true;
-        },
-        onDZDragend () {
-            this.dzIsDropHovering = false;
-        },
-        onDZMouseenter () {
-            this.dzIsHovering = true;
-        },
-        onDZMouseleave () {
-            this.dzIsHovering = false;
-        },
-        onInputChange (e) {
-            if (e.target.files !== undefined) {
-                this.addFile(e.target.files);
-            }
-        },
-        onDrop (e) {
-            this.dzIsDropHovering = false;
-            if (e.dataTransfer.files !== undefined) {
-                this.addFile(e.dataTransfer.files);
-            }
-        },
         addFile (files) {
             Array.from(files).forEach(file => {
                 if (this.importedFileNames.includes(file)) {
@@ -119,11 +97,6 @@ export default {
 
                 reader.readAsText(file);
             });
-        },
-        triggerClickOnFileInput (event) {
-            if (event.which === 32 || event.which === 13) {
-                this.$refs["upload-input-file"].click();
-            }
         },
         close () {
             this.setActive(false);
@@ -220,61 +193,11 @@ export default {
                 v-if="active"
                 id="tool-file-import"
             >
-                <p
-                    class="cta"
-                    v-html="$t('modules.tools.fileImport.captions.introInfo')"
+                <BasicFileImport
+                    :intro-formats="$t('modules.tools.fileImport.captions.introFormats')"
+                    :supported-filetypes="supportedFiletypes"
+                    @add-file="addFile"
                 />
-                <p
-                    class="cta"
-                    v-html="$t('modules.tools.fileImport.captions.introFormats')"
-                />
-                <div
-                    class="vh-center-outer-wrapper drop-area-fake"
-                    :class="dropZoneAdditionalClass"
-                >
-                    <div
-                        class="vh-center-inner-wrapper"
-                    >
-                        <p
-                            class="caption"
-                        >
-                            {{ $t("modules.tools.fileImport.captions.dropzone") }}
-                        </p>
-                    </div>
-
-                    <!-- eslint-disable-next-line vuejs-accessibility/mouse-events-have-key-events -->
-                    <div
-                        class="drop-area"
-                        @drop.prevent="onDrop"
-                        @dragover.prevent
-                        @dragenter.prevent="onDZDragenter"
-                        @dragleave="onDZDragend"
-                        @mouseenter="onDZMouseenter"
-                        @mouseleave="onDZMouseleave"
-                    />
-                    <!--
-                        The previous element does not provide a @focusin or @focus reaction as would
-                        be considered correct by the linting rule set. Since it's a drop-area for file
-                        dropping by mouse, the concept does not apply. Keyboard users may use the
-                        matching input fields.
-                    -->
-                </div>
-
-                <div>
-                    <label
-                        ref="upload-label"
-                        class="upload-button-wrapper"
-                        tabindex="0"
-                        @keydown="triggerClickOnFileInput"
-                    >
-                        <input
-                            ref="upload-input-file"
-                            type="file"
-                            @change="onInputChange"
-                        >
-                        {{ $t("modules.tools.fileImport.captions.browse") }}
-                    </label>
-                </div>
 
                 <div v-if="importedFileNames.length > 0">
                     <div class="h-seperator" />
@@ -335,13 +258,6 @@ export default {
         border: 1px solid #DDDDDD;
     }
 
-    input[type="file"] {
-        display: none;
-    }
-    input[type="button"] {
-        display: none;
-    }
-
     .upload-button-wrapper {
         color: $white;
         background-color: $secondary_focus;
@@ -362,65 +278,11 @@ export default {
     .cta {
         margin-bottom:12px;
     }
-    .drop-area-fake {
-        background-color: $white;
-        border-radius: 12px;
-        border: 2px dashed $accent;
-        padding:24px;
-        transition: background 0.25s, border-color 0.25s;
-
-        &.dzReady {
-            background-color:$accent_hover;
-            border-color:transparent;
-
-            p.caption {
-                color: $white;
-            }
-        }
-
-        p.caption {
-            margin:0;
-            text-align:center;
-            transition: color 0.35s;
-            font-family: $font_family_accent;
-            font-size: $font-size-lg;
-            color: $accent;
-        }
-    }
-    .drop-area {
-        position:absolute;
-        top:0;
-        left:0;
-        right:0;
-        bottom:0;
-        z-index:10;
-    }
-    .vh-center-outer-wrapper {
-        top:0;
-        left:0;
-        right:0;
-        bottom:0;
-        text-align:center;
-        position:relative;
-
-        &:before {
-            content:'';
-            display:inline-block;
-            height:100%;
-            vertical-align:middle;
-            margin-right:-0.25em;
-        }
-    }
-    .vh-center-inner-wrapper {
-        text-align:left;
-        display:inline-block;
-        vertical-align:middle;
-        position:relative;
-    }
 
     .successfullyImportedLabel {
         font-weight: bold;
     }
+
     .introDrawTool {
         font-style: italic;
     }
@@ -434,13 +296,11 @@ export default {
             }
             span {
                 &:first-child {
-                    display: inline-block;
                     float: left;
                     margin-top: 5px;
                     width: calc(100% - 80px);
                 }
                 &:last-child {
-                    display: inline-block;
                     float: right;
                     margin-top: 0;
                 }
