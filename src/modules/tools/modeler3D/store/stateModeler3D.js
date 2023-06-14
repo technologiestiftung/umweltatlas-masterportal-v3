@@ -9,7 +9,6 @@
  * @property {Cartesian3}   currentModelPosition - position of the currently selected or added model
  * @property {Object}       currentProjection - the currently selected projection
  * @property {Boolean}      deactivateGFI - if true, component activation deactivates gfi component
- * @property {Boolean}      drawView - if true, changes ui to draw
  * @property {eventHandler} eventHandler - the Cesium event handler to handle click and move events
  * @property {Object}       height - id and value of the transformed height coordinate displayed on the ui
  * @property {Object[]}     hiddenObjects - array of hidden objects
@@ -21,7 +20,6 @@
  * @property {String}       icon - icon next to title
  * @property {String}       id - internal id of component
  * @property {Object[]}     importedModels - array of imported 3D models
- * @property {Boolean}      importView - if true, changes ui to import
  * @property {Boolean}      isDragging - if true, entity is being moved by mouse
  * @property {String}       name - Module name
  * @property {Object[]}     projections - all available projections
@@ -40,7 +38,6 @@ export default {
     currentModelId: null,
     currentModelPosition: null,
     currentProjection: {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm"},
-    drawView: false,
     eventHandler: null,
     height: {id: "height", value: ""},
     hiddenObjects: [],
@@ -51,7 +48,6 @@ export default {
         silhouetteSize: 4
     },
     importedModels: [],
-    importView: true,
     isDragging: false,
     projections: [],
     rotation: 0,

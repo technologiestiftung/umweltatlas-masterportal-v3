@@ -20,7 +20,15 @@ export default {
                 return this.rotation;
             },
             set (value) {
-                this.setRotation(value);
+                let adjustedValue = value;
+
+                if (value < -180) {
+                    adjustedValue = -180;
+                }
+                else if (value > 180) {
+                    adjustedValue = 180;
+                }
+                this.setRotation(adjustedValue);
             }
         }
     },

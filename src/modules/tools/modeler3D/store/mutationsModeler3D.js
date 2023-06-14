@@ -51,10 +51,6 @@ const mutations = {
             coord = parseFloat(payload);
         }
         state.selectedCoordinates.push(coord);
-    },
-    switchView: (state) => {
-        state.importView = !state.importView;
-        state.drawView = !state.drawView;
     }
 };
 

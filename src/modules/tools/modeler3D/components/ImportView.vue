@@ -176,7 +176,7 @@ export default {
             model.show = entity.show;
         },
         moveEntity () {
-            this.$emit("emitMove");
+            this.$emit("emit-move");
         },
         zoomTo (id) {
             const scene = this.scene,

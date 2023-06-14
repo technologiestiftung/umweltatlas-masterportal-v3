@@ -643,7 +643,8 @@
                 },
                 "nav": {
                     "drawTitle": "Zeichnen",
-                    "importTitle": "Importieren"
+                    "importTitle": "Importieren",
+                    "options": "Optionen"
                 },
                 "hiddenObjectsLabel": "Ausgeblendete Gebäude:",
                 "hideSwitchLabel": "Gebäude per Mausklick ausblenden",

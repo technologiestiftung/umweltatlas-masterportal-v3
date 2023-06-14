@@ -25,7 +25,8 @@ export default {
             defaultTabClass: "",
             activeTabClass: "active",
             isHovering: "",
-            hideObjects: true
+            hideObjects: true,
+            currentView: "import-view"
         };
     },
     computed: {
@@ -33,10 +34,13 @@ export default {
         ...mapGetters("Tools/Modeler3D", Object.keys(getters)),
 
         importTabClasses: function () {
-            return this.importView ? this.activeTabClass : this.defaultTabClass;
+            return this.currentView === "import-view" ? this.activeTabClass : this.defaultTabClass;
         },
         drawTabClasses: function () {
-            return this.drawView ? this.activeTabClass : this.defaultTabClass;
+            return this.currentView === "draw-view" ? this.activeTabClass : this.defaultTabClass;
+        },
+        optionsTabClasses: function () {
+            return this.currentView === "" ? this.activeTabClass : this.defaultTabClass;
         },
 
         console: () => console
@@ -302,28 +306,6 @@ export default {
                 v-if="active"
                 id="tool-modeler3D"
             >
-                <p
-                    class="cta"
-                    v-html="$t('modules.tools.modeler3D.entity.captions.pickupPlace')"
-                />
-                <div class="form-check form-switch cta">
-                    <input
-                        id="hideObjectsSwitch"
-                        class="form-check-input"
-                        type="checkbox"
-                        role="switch"
-                        :aria-checked="hideObjects"
-                        :checked="hideObjects"
-                        @change="hideObjects = !hideObjects"
-                    >
-                    <label
-                        class="form-check-label"
-                        for="hideObjectsSwitch"
-                    >
-                        {{ $t("modules.tools.modeler3D.hideSwitchLabel") }}
-                    </label>
-                </div>
-                <div class="h-seperator" />
                 <div v-if="!currentModelId">
                     <ul class="nav nav-tabs">
                         <li
@@ -335,7 +317,7 @@ export default {
                                 href="#"
                                 class="nav-link"
                                 :class="importTabClasses"
-                                @click.prevent="switchView()"
+                                @click.prevent="currentView = 'import-view'"
                             >{{ $t("modules.tools.modeler3D.nav.importTitle") }}</a>
                         </li>
                         <li
@@ -347,15 +329,50 @@ export default {
                                 href="#"
                                 class="nav-link"
                                 :class="drawTabClasses"
-                                @click.prevent="switchView()"
+                                @click.prevent="currentView = 'draw-view'"
                             >{{ $t("modules.tools.modeler3D.nav.drawTitle") }}</a>
                         </li>
+                        <li
+                            id="tool-modeler3D-options"
+                            role="presentation"
+                            class="nav-item"
+                        >
+                            <a
+                                href="#"
+                                class="nav-link"
+                                :class="optionsTabClasses"
+                                @click.prevent="currentView = ''"
+                            >{{ $t("modules.tools.modeler3D.nav.options") }}</a>
+                        </li>
                     </ul>
-                    <ImportView
-                        v-if="importView"
-                        @emitMove="moveEntity"
+                    <component
+                        :is="currentView"
+                        v-if="currentView"
+                        @emit-move="moveEntity"
                     />
-                    <DrawView v-if="drawView" />
+                    <div v-if="!currentView">
+                        <p
+                            class="cta"
+                            v-html="$t('modules.tools.modeler3D.entity.captions.pickupPlace')"
+                        />
+                        <div class="form-check form-switch cta">
+                            <input
+                                id="hideObjectsSwitch"
+                                class="form-check-input"
+                                type="checkbox"
+                                role="switch"
+                                :aria-checked="hideObjects"
+                                :checked="hideObjects"
+                                @change="hideObjects = !hideObjects"
+                            >
+                            <label
+                                class="form-check-label"
+                                for="hideObjectsSwitch"
+                            >
+                                {{ $t("modules.tools.modeler3D.hideSwitchLabel") }}
+                            </label>
+                        </div>
+                    </div>
                     <template v-if="hiddenObjects.length > 0">
                         <div class="modelList">
                             <div class="h-seperator" />
