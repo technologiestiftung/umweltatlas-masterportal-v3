@@ -5,42 +5,79 @@
 
 ## Unreleased - in development
 ### __Breaking Changes__
-
 ### Added
-
 ### Changed
-- The version of node was updated, must be `>= 16.13.2 <= 16.20.0`
-- The version of npm was updated, must be `>= 8.1.2 <= 8.19.4`
+### Deprecated
+### Removed
+### Fixed
+
+---
+## v2.34.1 - 2023-06-12
+### Changed
 - The following NPM packages have been updated:
   - dependencies:
-    - @masterportal/masterportalapi: 2.17.0 to 2.18.0
+    - @masterportal/masterportalapi: 2.19.0 to 2.19.2
+### Fixed
+- VectorStyle of multiple geometries with styling rules does not fail on not existing style. (fix within masterportalapi)
+
+---
+
+## v2.34.0 - 2023-06-07
+### __Breaking Changes__
+- The Virtual City Planner tool (virtualcityPLANNER) has been removed
+
+### Added
+- GFI: nested object values can now be addressed from "gfiAttributes" by dot notation. See [services.json](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md#markdown-header-gfi_attributes) .
+- PortalFooter
+  - configuration for mobileFooterInfoToggler has been implemented
+  - the icon (arrow) to toggle information is only visible if it is configured
+
+### Changed
+- The version of node was updated to `^16.13.2 || ^18.16.0`. If you use node 18, you must provide the environment variable `NODE_OPTIONS=--openssl-legacy-provider` or you can alter npm scripts using cross-env, e.g. `"start": "cross-env NODE_OPTIONS=--openssl-legacy-provider webpack-dev-server --config devtools/webpack.dev.js"` to avoid errors with webpack 4 (see https://github.com/webpack/webpack/issues/14532#issuecomment-947807590).
+- The version of npm was updated to `^8.1.2 || ^9.5.1`
+- The following NPM packages have been updated:
+  - dependencies:
+    - @masterportal/masterportalapi: 2.17.0 to 2.19.0
 
 ### Fixed
+- Tool Coordinates: no errors occur on mobile devices.
+- FileImport:
+  - Error fixed when importing KML file with polygon without label.
+  - KML exported from QGIS can now be loaded in the master portal.
+  - Handling of KML generated from the master portal has been improved.
 - URLParam: multiple mdIds entries in the url result in added layers again.
-- Issue #1016:
-    - Draw:
-        - When creating a text, it is now prevented that a previous is changed.
+- Issue #1016: Draw: When creating a text, it is now prevented that a previous is changed.
+- Issue #1021: vectorStyle can now handle geometryCollections.
+- Issue #1022: attributeMapper supports additional time formats
 - Issue #1025: search via urlparam 'query=' opens the suggestion list again.
 - Issue #1026: featureLister width fits content now.
-- Issue #1036: draw - circle radius is displayed correct for unit 'km'.
+- Issue #1031/Issue #1034: printing of non clustered features in clustered layers.
+- Issue #1032: FileImport: The label style for imported KML is now applied correctly.
+- Issue #1036: Draw: circle radius is displayed correct for unit 'km'.
+- Issue #1041: Print: Circles are now broken down into 100 segments and correctly displayed as polygons in the printout.
+- DefaultTree Parser: 3d layers will only be created if 3dLayerList exists.
+- Legend: fixed misrepresentation of WFS layers in legend
 
 ### Deprecated
+- Node 16 will no longer be supported as of September 2023 (see https://github.com/nodejs/release#release-schedule).
 
 ### Removed
-- The following NPM package have been removed:
+- The following NPM packages have been removed:
     - devDependencies:
         - string-replace-loader
+    - dependencies:
+         - dayjs (moved to masterportalAPI dependency)
 
+---
 
 ## v2.33.1 - 2023-05-16
 ### Fixed
 - Print:
   - dashstyle can now be printed even if only one value was specified
+
 ---
 
 ## v2.33.0 - 2023-05-03
-### __Breaking Changes__
-
 ### Added
 - New Rotation control of the map. If map interaction `altShiftDragRotate` is activated the map can be rotated with `shift+alt+drag`. See [mapInteractions](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/config.js.md#markdown-header-mapInteractions) and [rotate control](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/config.json.md#markdown-header-portalconfigcontrolsrotation)
 - Issue #874: add keyboardEventTarget possibility to ol map configuration
@@ -56,9 +93,6 @@
 ### Fixed
 - Issue #884: mapbox styles with raster sources can be displayed.
 
-### Deprecated
-
-### Removed
 ---
 
 ## v2.32.1 - 2023-04-17
@@ -66,6 +100,7 @@
 - Traffic Lights Data visible on scale 1:5000 again
 - Filter/ Autorefresh: The same features are displayed from a filterd GeoJson after an autorefresh as before the autorefresh.
 - Issue #842: Dropdown at WFS filter module is not filled with MapServer WFS.
+
 ---
 
 ##  v2.32.0 - 2023-04-05

@@ -1035,6 +1035,22 @@ The portal excludes a set of standard attributes that have no information value 
 }
 ```
 
+**gfiAttributes nested object example:**
+
+```json
+/* for GFI example object from feature: {
+    "address": {
+        "street": "Main Street",
+        "PLZ": "80673"
+    }
+}*/
+{
+   "gfiAttributes": {
+      "Address.Street": "Street"
+   }
+}
+```
+
 **gfiAttributes example object with [Objektpfadverweis](style.json.md#markdown-header-objektpfadverweise) (object path reference):**
 ```json
 {

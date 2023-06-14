@@ -2,6 +2,7 @@ import Vuex from "vuex";
 import {config, shallowMount, createLocalVue} from "@vue/test-utils";
 import LayerFilterSnippet from "../../../components/LayerFilterSnippet.vue";
 import SnippetCheckboxFilterInMapExtent from "../../../components/SnippetCheckboxFilterInMapExtent.vue";
+import SnippetDownload from "../../../components/SnippetDownload.vue";
 import {expect} from "chai";
 import MapHandler from "../../../utils/mapHandler.js";
 import sinon from "sinon";
@@ -262,6 +263,21 @@ describe("src/modules/tools/filter/components/LayerFilterSnippet.vue", () => {
         expect(wrapper.find(".filter-result").exists()).to.be.true;
         expect(wrapper.find(".filter-result").text()).contain("modules.tools.filter.filterResult.unit", "3");
     });
+    it("should render SnippetDownload component if download is true and filteredItems are given", async () => {
+        await wrapper.setData({
+            layerConfig: {
+                download: true
+            },
+            filteredItems: [
+                {
+                    a: "a",
+                    b: "b"
+                }
+            ]
+        });
+        await wrapper.vm.$nextTick();
+        expect(wrapper.findComponent(SnippetDownload).exists()).to.be.true;
+    });
     describe("setSnippetValueByState", async () => {
         await wrapper.setData({
             snippets
@@ -322,6 +338,185 @@ describe("src/modules/tools/filter/components/LayerFilterSnippet.vue", () => {
             wrapper.vm.setSnippetValueByState(filterRules);
 
             expect(wrapper.vm.snippets).to.deep.equal(precheckedSnippets);
+        });
+    });
+    describe("isParentSnippet", () => {
+        it("should return true if snippet is an object and has children", async () => {
+            const snippets = [
+                {
+                    operator: "EQ",
+                    snippetId: 0,
+                    type: "dropdown",
+                    children: [
+                        {
+                            a: "a",
+                            b: "b"
+                        }
+                    ]
+                }
+            ];
+
+            await wrapper.setData({
+                snippets
+            });
+            await wrapper.vm.$nextTick();
+            expect(wrapper.vm.isParentSnippet(0)).to.be.true;
+        });
+        it("should return false if snippet is an object and has no children", async () => {
+            const snippets = [
+                {
+                    operator: "EQ",
+                    snippetId: 0,
+                    type: "dropdown"
+                }
+            ];
+
+            await wrapper.setData({
+                snippets
+            });
+            await wrapper.vm.$nextTick();
+            expect(wrapper.vm.isParentSnippet(0)).to.be.false;
+        });
+    });
+    describe("hasParentSnippet", () => {
+        it("should return true if snippet is an object and has parent snippet", async () => {
+            const snippets = [
+                {
+                    operator: "EQ",
+                    snippetId: 0,
+                    type: "dropdown",
+                    parent:
+                    {
+                        a: "a",
+                        b: "b"
+                    }
+                }
+            ];
+
+            await wrapper.setData({
+                snippets
+            });
+            await wrapper.vm.$nextTick();
+            expect(wrapper.vm.hasParentSnippet(0)).to.be.true;
+        });
+        it("should return false if snippet is not an object and has no parent", async () => {
+            const snippets = [
+                {
+                    operator: "EQ",
+                    snippetId: 0,
+                    type: "dropdown"
+                }
+            ];
+
+            await wrapper.setData({
+                snippets
+            });
+            await wrapper.vm.$nextTick();
+            expect(wrapper.vm.hasParentSnippet(0)).to.be.false;
+        });
+    });
+    describe("deleteRulesOfChildren", () => {
+        it("should not emit updateRules if parent is not an Object or an Array or his children are not an array", () => {
+            wrapper.vm.deleteRulesOfChildren(true);
+            expect(wrapper.emitted().updateRules).to.be.undefined;
+            wrapper.vm.deleteRulesOfChildren(123456);
+            expect(wrapper.emitted().updateRules).to.be.undefined;
+            wrapper.vm.deleteRulesOfChildren("String");
+            expect(wrapper.emitted().updateRules).to.be.undefined;
+            wrapper.vm.deleteRulesOfChildren(null);
+            expect(wrapper.emitted().updateRules).to.be.undefined;
+            wrapper.vm.deleteRulesOfChildren(undefined);
+            expect(wrapper.emitted().updateRules).to.be.undefined;
+        });
+        it("should emit updateRules", async () => {
+            await wrapper.setData({
+                layerConfig: {
+                    filterId: 0
+                }
+            });
+            const parentSnippets =
+                {
+                    operator: "EQ",
+                    snippetId: 0,
+                    title: "Bezirk",
+                    type: "dropdown",
+                    children: [
+                        {
+                            operator: "EQ",
+                            snippetId: 0
+                        }
+                    ]
+                };
+
+            wrapper.vm.deleteRulesOfChildren(parentSnippets);
+            await wrapper.vm.$nextTick();
+            expect(wrapper.emitted().updateRules).to.be.an("array").with.lengthOf(1);
+        });
+
+    });
+    describe("hasOnlyParentRules", () => {
+        it("should return true if filterRules and parent snippet are given", async () => {
+            const stubIsRule = sinon.stub(wrapper.vm, "isRule").returns(true),
+                stubIsParentSnippet = sinon.stub(wrapper.vm, "isParentSnippet").returns(true);
+
+            await wrapper.setProps({
+                filterRules: [
+                    {
+                        snippetId: 0,
+                        startup: false,
+                        fixed: false,
+                        attrName: "test",
+                        operator: "EQ"
+                    }
+                ]
+            });
+
+            await wrapper.vm.$nextTick();
+            expect(wrapper.vm.hasOnlyParentRules()).to.be.true;
+            expect(stubIsRule.called).to.be.true;
+            expect(stubIsParentSnippet.called).to.be.true;
+        });
+        it("should return false if filterRules are given and snipppet is not a parent", async () => {
+            const stubIsRule = sinon.stub(wrapper.vm, "isRule").returns(true),
+                stubIsParentSnippet = sinon.stub(wrapper.vm, "isParentSnippet").returns(false);
+
+            await wrapper.setProps({
+                filterRules: [
+                    {
+                        snippetId: 0,
+                        startup: false,
+                        fixed: false,
+                        attrName: "test",
+                        operator: "EQ"
+                    }
+                ]
+            });
+
+            await wrapper.vm.$nextTick();
+            expect(wrapper.vm.hasOnlyParentRules()).to.be.false;
+            expect(stubIsRule.called).to.be.true;
+            expect(stubIsParentSnippet.called).to.be.true;
+        });
+        it("should return false if filterRules is not a rule", async () => {
+            const stubIsRule = sinon.stub(wrapper.vm, "isRule").returns(false),
+                stubIsParentSnippet = sinon.stub(wrapper.vm, "isParentSnippet").returns(false);
+
+            await wrapper.setProps({
+                filterRules: [
+                    {
+                        snippetId: 0,
+                        startup: false,
+                        fixed: false,
+                        attrName: "test",
+                        operator: "EQ"
+                    }
+                ]
+            });
+
+            await wrapper.vm.$nextTick();
+            expect(wrapper.vm.hasOnlyParentRules()).to.be.false;
+            expect(stubIsRule.called).to.be.true;
+            expect(stubIsParentSnippet.called).to.be.false;
         });
     });
 });
