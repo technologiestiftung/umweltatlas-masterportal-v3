@@ -351,10 +351,6 @@ export default {
                         @emit-move="moveEntity"
                     />
                     <div v-if="!currentView">
-                        <p
-                            class="cta"
-                            v-html="$t('modules.tools.modeler3D.entity.captions.pickupPlace')"
-                        />
                         <div class="form-check form-switch cta">
                             <input
                                 id="hideObjectsSwitch"

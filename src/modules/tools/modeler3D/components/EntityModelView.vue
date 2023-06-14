@@ -89,6 +89,10 @@ export default {
             v-html="$t('modules.tools.modeler3D.entity.captions.editInfo')"
         />
         <p
+            class="cta"
+            v-html="$t('modules.tools.modeler3D.entity.captions.pickupPlace')"
+        />
+        <p
             v-if="currentProjection.id === 'http://www.opengis.net/gml/srs/epsg.xml#4326'"
             class="cta red"
             v-html="$t('modules.tools.modeler3D.entity.captions.projectionInfo')"
