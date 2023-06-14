@@ -19,7 +19,7 @@
         "white": "beyaz"
     },
     "mouseHover": {
-      "infoText": "(Diğer nesneler. Lütfen yakınlaştırın.)"
+        "infoText": "(Diğer nesneler. Lütfen yakınlaştırın.)"
     },
     "menu": {
         "topics": "konular",
@@ -40,6 +40,7 @@
             "supplyCoord": "koordinatlari sorgulama",
             "searchByCoord": "koordinatlar ile arama",
             "fileImport": "dosya-içe aktarımı",
+            "modeler3D": "3D Modelleyici",
             "routing": "yol planlayıcısı",
             "draw": "çizmek / yazmak",
             "shadow": "gölge",
@@ -94,18 +95,18 @@
     "time": "zaman",
     "modules": {
         "core": {
-          "modelList": {
-            "layer": {
-              "wrongStyleId": "Belirtilen stil kimliği altında: {{styleId}} hiçbir stil nesnesi bulunamadı. Lütfen kullanılan Style.json'da stil kimliğine sahip bir stilin: {{styleId}} yapılandırıldığından emin olun.",
-              "sensor": {
-                "httpOnError": "<strong>Katmanın sensör verileri yüklenirken {{name}} beklenmeyen bir hata oluştu</strong>"
-              },
-              "wms": {
-                "errorTimeLayer": "{{id}} kimliğine sahip katman hazırlanırken bir hata oluştu: {{error}}",
-                "invalidTimeLayer": "{{id}} kimliğine sahip yapılandırılmış katman, bir WMS-T için gerekli tüm parametreleri içermiyor."
-              }
+            "modelList": {
+                "layer": {
+                    "wrongStyleId": "Belirtilen stil kimliği altında: {{styleId}} hiçbir stil nesnesi bulunamadı. Lütfen kullanılan Style.json'da stil kimliğine sahip bir stilin: {{styleId}} yapılandırıldığından emin olun.",
+                    "sensor": {
+                        "httpOnError": "<strong>Katmanın sensör verileri yüklenirken {{name}} beklenmeyen bir hata oluştu</strong>"
+                    },
+                    "wms": {
+                        "errorTimeLayer": "{{id}} kimliğine sahip katman hazırlanırken bir hata oluştu: {{error}}",
+                        "invalidTimeLayer": "{{id}} kimliğine sahip yapılandırılmış katman, bir WMS-T için gerekli tüm parametreleri içermiyor."
+                    }
+                }
             }
-          }
         },
         "alerting": {
             "hideMessage": "bu bildiri artik gösterme",
@@ -151,25 +152,25 @@
             "unknown": "bilinmeyen"
         },
         "layerInformation": {
-          "additionalMetadata": "başka üst veri",
-          "addressSuffix": "adres",
-          "multiAddress": "Hizmet adresleri",
-          "attachFileMessage": "dosya ekleyin",
-          "closeButton": "kapat",
-          "downloadDataset": "veri seti indir",
-          "errorMessage": "Meta veri sorgusu başarısız oldu. Sorun devam ederse, lütfen hizmetin sahibiyle iletişime geçin",
-          "informationAndLegend": "bilgi ve açıklama",
-          "lastModified": "son değişiklik",
-          "legend": "açıklama",
-          "noMetadataLoaded": "hiçbir meta veri yüklenemedi!",
-          "noMetadataMessage": "$t(modules.cswParser.noMetadataMessage)",
-          "periodicityTitle": "düzenlilik",
-          "publicationCreation": "yayınlar / düzenleme",
-          "buildings":"bina",
-          "changeLayerInfo": "Bilgi metnini değiştir"
+            "additionalMetadata": "başka üst veri",
+            "addressSuffix": "adres",
+            "multiAddress": "Hizmet adresleri",
+            "attachFileMessage": "dosya ekleyin",
+            "closeButton": "kapat",
+            "downloadDataset": "veri seti indir",
+            "errorMessage": "Meta veri sorgusu başarısız oldu. Sorun devam ederse, lütfen hizmetin sahibiyle iletişime geçin",
+            "informationAndLegend": "bilgi ve açıklama",
+            "lastModified": "son değişiklik",
+            "legend": "açıklama",
+            "noMetadataLoaded": "hiçbir meta veri yüklenemedi!",
+            "noMetadataMessage": "$t(modules.cswParser.noMetadataMessage)",
+            "periodicityTitle": "düzenlilik",
+            "publicationCreation": "yayınlar / düzenleme",
+            "buildings": "bina",
+            "changeLayerInfo": "Bilgi metnini değiştir"
         },
         "mapMarker": {
-          "nostyleObject": "Belirtilen StyleId için Style bulunamadı. Lütfen yapılandırmanızı kontrol edin."
+            "nostyleObject": "Belirtilen StyleId için Style bulunamadı. Lütfen yapılandırmanızı kontrol edin."
         },
         "menu": {
             "layer": {
@@ -182,15 +183,15 @@
             "folderName": "URL yoluyla geçirilen özellik",
             "typeLabel": "geometri türü",
             "messages": {
-              "featureParsing": "FeatureViaURL: Gönderilen özelliklerin tümü işlenemedi.",
-              "featureParsingAll": "FeatureViaURL: Geçilen tüm özellikler doğru veri türüyle geçirilmedi. Lütfen belgelere bakın.",
-              "featureParsingNoneAdded": "FeatureViaURL: Geçilen tüm özelliklerde en az bir parametre eksik. Haritaya hiçbir özellik eklenmemiş. Lütfen belgelere bakın.",
-              "geometryNotSupported": "FeatureViaURL:{{layerId}} katmanı için yapılandırmada beyan edilen {{geometryType}} geometri türü desteklenmiyor.",
-              "layerNotFound": "FeatureViaURL: {{layerId}} kimliğine sahip katman bulunamadı.",
-              "noLayers": "FeatureViaURL: Aktarılan özellikler için yapılandırmada hiçbir katman tanımlanmadı.",
-              "noNameDefined": "FeatureViaURL: Yapılandırmada kimliği {{layerId}} olan katman için bir ad tanımlanmadı.",
-              "defaultTreeNotSupported": "FeatureViaURL: FeatureViaURL yalnızca Treetype custom veya light için desteklenir.."
-          }
+                "featureParsing": "FeatureViaURL: Gönderilen özelliklerin tümü işlenemedi.",
+                "featureParsingAll": "FeatureViaURL: Geçilen tüm özellikler doğru veri türüyle geçirilmedi. Lütfen belgelere bakın.",
+                "featureParsingNoneAdded": "FeatureViaURL: Geçilen tüm özelliklerde en az bir parametre eksik. Haritaya hiçbir özellik eklenmemiş. Lütfen belgelere bakın.",
+                "geometryNotSupported": "FeatureViaURL:{{layerId}} katmanı için yapılandırmada beyan edilen {{geometryType}} geometri türü desteklenmiyor.",
+                "layerNotFound": "FeatureViaURL: {{layerId}} kimliğine sahip katman bulunamadı.",
+                "noLayers": "FeatureViaURL: Aktarılan özellikler için yapılandırmada hiçbir katman tanımlanmadı.",
+                "noNameDefined": "FeatureViaURL: Yapılandırmada kimliği {{layerId}} olan katman için bir ad tanımlanmadı.",
+                "defaultTreeNotSupported": "FeatureViaURL: FeatureViaURL yalnızca Treetype custom veya light için desteklenir.."
+            }
         },
         "quickHelp": {
             "titleTag": "Yardımı aç",
@@ -247,24 +248,24 @@
             },
             "contact": {
                 "error": {
-                  "mail": "Lütfen geçerli bir e-posta adresi girin.",
-                  "message": "E-posta gönderilemedi!",
-                  "messageInput": "İletiniz en az {{length}} karakter uzunluğunda olmalıdır.",
-                  "phone": "Size hangi telefon numarasıyla ulaşabiliriz?",
-                  "username": "Lütfen bize adınızı verin."
+                    "mail": "Lütfen geçerli bir e-posta adresi girin.",
+                    "message": "E-posta gönderilemedi!",
+                    "messageInput": "İletiniz en az {{length}} karakter uzunluğunda olmalıdır.",
+                    "phone": "Size hangi telefon numarasıyla ulaşabiliriz?",
+                    "username": "Lütfen bize adınızı verin."
                 },
                 "placeholder": {
-                  "mail": "E-posta adresiniz",
-                  "message": "Lütfen sorunuzu burada formüle edin ve buna basin \"$t(common:modules.tools.contact.sendButton)\".",
-                  "phone": "Telefon numaranız",
-                  "username": "Adınız"
+                    "mail": "E-posta adresiniz",
+                    "message": "Lütfen sorunuzu burada formüle edin ve buna basin \"$t(common:modules.tools.contact.sendButton)\".",
+                    "phone": "Telefon numaranız",
+                    "username": "Adınız"
                 },
                 "errorIncompleteDeclarations": "Talebinizin gönderilebilmesi için lütfen iletişim formunun tüm alanlarını doğru doldurun.",
                 "mailSubject": "Portal Destek İsteği ",
                 "messageLabel": "Mesajınız",
                 "privacyPolicy": {
-                  "info": "Verilerinizin talebinizi işlemek için kullanılacağını kabul ettiniz. Daha fazla bilgi ve iptal bildirimlerini burada bulunabilir: <a href=\"{{privacyPolicyLink}}\" target=\"_blank\">Datenschutzerklärung</a>.",
-                  "label": "Lütfen gizlilik politikasını kabul edin."
+                    "info": "Verilerinizin talebinizi işlemek için kullanılacağını kabul ettiniz. Daha fazla bilgi ve iptal bildirimlerini burada bulunabilir: <a href=\"{{privacyPolicyLink}}\" target=\"_blank\">Datenschutzerklärung</a>.",
+                    "label": "Lütfen gizlilik politikasını kabul edin."
                 },
                 "sendButton": "Gönderin",
                 "successMessage": "Talebiniz başarıyla gönderildi.",
@@ -292,13 +293,13 @@
             },
             "shadow": {
                 "shadowDisplay": "Gölge gösterimi"
-              },
+            },
             "styleVT": {
-              "introText": "Auf VectorTiles-Layer können verschiedene vordefinierte Styles angewendet werden, um die Ansicht für den jeweiligen Anwendungszweck zu optimieren.",
-              "noStyleableLayers": "Şu anda bu aracın uygulanabileceği hiçbir konu yok.",
-              "theme": "Konu",
-              "chooseTheme": "Lütfen aktif konu seçin",
-              "style": "Stil"
+                "introText": "Auf VectorTiles-Layer können verschiedene vordefinierte Styles angewendet werden, um die Ansicht für den jeweiligen Anwendungszweck zu optimieren.",
+                "noStyleableLayers": "Şu anda bu aracın uygulanabileceği hiçbir konu yok.",
+                "theme": "Konu",
+                "chooseTheme": "Lütfen aktif konu seçin",
+                "style": "Stil"
             },
             "featureLister": {
                 "chooseTheme": "Bir konu seç",
@@ -368,10 +369,10 @@
                     "info": "Haritada bir nesneye tıklayın. İlgili bilgileri içeren bir pencere açılır. Sağ üst köşede bir yıldız sembolü {{iconEmptyStar}} vardır. Nesneyi karşılaştırma listesine eklemek için bu simgeye tıklayın. Yıldız sembolü sarı renktedir {{iconYellowStar}}. Yıldız sembolüne bir kez daha tıklama, nesneyi karşılaştırma listesinden kaldırır."
                 },
                 "feedback": {
-                  "added": "Bu özellik karşılaştırma listesine eklendi",
-                  "addedWithName": "{{currentFeatureName}} karşılaştırma listesine eklendi",
-                  "notAdded": "Bu özellik, karşılaştırma listesine eklenemedi",
-                  "notAddedWithName": "{{currentFeatureName}} karşılaştırma listesine eklenemedi",
+                    "added": "Bu özellik karşılaştırma listesine eklendi",
+                    "addedWithName": "{{currentFeatureName}} karşılaştırma listesine eklendi",
+                    "notAdded": "Bu özellik, karşılaştırma listesine eklenemedi",
+                    "notAddedWithName": "{{currentFeatureName}} karşılaştırma listesine eklenemedi",
                     "limitReached": "Karşılaştırma listesindeki maksimum nesne sayısına ulaşıldı.",
                     "removeObjects": "Lütfen devam etmeden önce en az bir nesneyi kaldırın.",
                     "goToComparisonlist": "Karşılaştırma listesine"
@@ -406,6 +407,69 @@
                 "successfullyImportedLabel": "Başariyla içeriye aktarıldı:",
                 "title": "Dosyayı içeriye aktar"
             },
+            "modeler3D": {
+                "entity": {
+                    "captions": {
+                        "backToList": "Listeye Geri Dön",
+                        "delete": "Modeli Sil",
+                        "deletionTitle": "3D Modeli Sil \"{{name}}\"",
+                        "editInfo": "Seçili modelin konumunu ve döndürmesini değiştirin.",
+                        "editModel": "3D Modeli Düzenle \"{{name}}\"",
+                        "modelName": "Model Adı",
+                        "pickupPlace": "Almak veya yerleştirmek için bir içe aktarılan nesneye çift tıklayın.",
+                        "projectionInfo": "Dikkat! WGS84 koordinat sistemi kullanırken hatalar oluşabilir. Ondalık gösterimi kullanmanızı öneririz.",
+                        "rotationPlaceholder": "Artış/Azalış adımları",
+                        "visibilityTitle": "3D Modeli Göster/Gizle \"{{name}}\"",
+                        "zoomTo": "3D Modeline Yakınlaş \"{{name}}\""
+                    },
+                    "deleteInteraction": {
+                        "confirm": "Sil",
+                        "headline": "Dikkat",
+                        "text": "\"{{name}}\" modelini silmek istediğinizden emin misiniz?"
+                    },
+                    "projections": {
+                        "adaptToHeight": "Araziye Uyarla",
+                        "cartesian": {
+                            "eastingLabel": "Doğu",
+                            "northingLabel": "Kuzey"
+                        },
+                        "hdms": {
+                            "eastingLabel": "Boylam",
+                            "northingLabel": "Enlem"
+                        },
+                        "height": "Yükseklik",
+                        "projection": "Koordinat Sistemi",
+                        "rotation": "Döndürme",
+                        "rotationSwitch": "Döndürme Adımları"
+                    }
+                },
+                "import": {
+                    "alertingMessages": {
+                        "featureError": "Bu dosyadaki bir özellik okunamadı.",
+                        "fileSizeError": "Dosya boyutu 100 MB sınırını aşıyor.",
+                        "formatError": "\"{{filename}}\" dosyası okunamadı. Lütfen dosyanın *.kml, .gpx, .geojson veya .json formatında olduğunu kontrol edin.",
+                        "missingFileContent": "\"{{filename}}\" dosyası okunurken hata oluştu. Dosya türünü ve içeriğini kontrol edin. Dosya hatasız ise destek birimine başvurun.",
+                        "missingFormat": "\"{{format}}\" formatı desteklenmiyor. Destek birimine başvurun.",
+                        "success": "\"{{filename}}\" dosyası başarıyla içe aktarıldı.",
+                        "successPartly": "\"{{filename}}\" dosyası kısmen içe aktarıldı."
+                    },
+                    "captions": {
+                        "browse": "Dosya Seç",
+                        "dropzone": "Dosyayı Buraya Bırak",
+                        "introInfo": "İlgili dosyayı sürükle bırak veya tarayıcının açma iletişim kutusunu kullanarak kolayca içe aktarın.",
+                        "introFormats": "glTF dosyaları (.gltf), OBJ dosyaları (.obj) veya Collada dosyaları (.dae) içe aktarabilirsiniz.",
+                        "successfullyImportedLabel": "İçe Aktarılan 3D Modeller:"
+                    }
+                },
+                "nav": {
+                    "drawTitle": "Çiz",
+                    "importTitle": "İçe Aktar",
+                    "options": "Seçenekler"
+                },
+                "hiddenObjectsLabel": "Gizli Binalar:",
+                "hideSwitchLabel": "Fare Tıklamasıyla Binaları Gizle",
+                "title": "3D Modelleyici"
+            },
             "parcelSearch": {
                 "wrongConfig": "Geçersiz veya eksik yapılandırma",
                 "districtsLoadFailed": "Bölge yüklenemedi",
@@ -421,9 +485,9 @@
                 "generateReport": "Rapor oluştur"
             },
             "selectFeatures": {
-              "zoomToFeature": "Lütfen bu özelliği büyütün",
-              "noFeatureChosen": "Özellikler seçilmedi. Bu için lütfen strg tuşuna basıp seçtiginiz özellikleri kutu içine alın.",
-              "propertylessFeature": "Özniteliksiz ögeler"
+                "zoomToFeature": "Lütfen bu özelliği büyütün",
+                "noFeatureChosen": "Özellikler seçilmedi. Bu için lütfen strg tuşuna basıp seçtiginiz özellikleri kutu içine alın.",
+                "propertylessFeature": "Özniteliksiz ögeler"
             },
             "supplyCoord": {
                 "title": "Koordinatlar sorgulaması",
@@ -439,8 +503,8 @@
             },
             "coordToolkit": {
                 "title": "Koordinatları sorgula",
-                "supply":"Koordinatları sorgula",
-                "search":"Koordinatları ara",
+                "supply": "Koordinatları sorgula",
+                "search": "Koordinatları ara",
                 "searchBtn": "Ara",
                 "coordSystemField": "Koordinat sistemi",
                 "heightLabel": "Yükseklik",
@@ -469,102 +533,152 @@
             "gfi": {
                 "errorMessage": "Bilgi taraması (GetFeatureInfo) sırasında bir hata oluşmuştur. Lütfen sonra tekrar deneyiniz. Sorun devam ederse, lütfen servis operatörüyle iletişime geçin.",
                 "favoriteIcons": {
-                  "compareFeatureIcon": {
-                    "toCompareList": "Karşılaştır listesine ekle",
-                    "fromCompareList": "Karşılaştır listesinden sil"
-                  }
+                    "compareFeatureIcon": {
+                        "toCompareList": "Karşılaştır listesine ekle",
+                        "fromCompareList": "Karşılaştır listesinden sil"
+                    }
                 },
                 "themes": {
                     "default": {
-                      "imgAlt": "Resim yüklenemedi.",
-                      "noAttributeAvailable": "Kein Attribut vorhanden!"
+                        "imgAlt": "Resim yüklenemedi.",
+                        "noAttributeAvailable": "Kein Attribut vorhanden!"
                     },
                     "sensor": {
-                      "sensor": {
-                        "dataName": "Veri",
-                        "header": {
-                          "name": "İsim",
-                          "description": "Tanım",
-                          "ownerThing": "Sahip"
+                        "sensor": {
+                            "dataName": "Veri",
+                            "header": {
+                                "name": "İsim",
+                                "description": "Tanım",
+                                "ownerThing": "Sahip"
+                            }
+                        },
+                        "sensorBarChart": {
+                            "clock": "{{value}} Saat",
+                            "chartTitleAverage": "Ortalama değer",
+                            "month_one": "{{count}} Ay",
+                            "month_other": "{{count}} Aylar",
+                            "year_one": "{{count}} Yıl",
+                            "year_other": "{{count}} Yıllar",
+                            "previousWeekday": "Haftanın önceki günü",
+                            "nextWeekday": "Haftanın sonraki günü",
+                            "noticeTextAvailable": "(Yalnızca available / mevcut değerdeki veriler dikkate alınır)",
+                            "noticeTextCharging": "(Yalnızca charging / yükleme değeri olan veriler dikkate alınır)",
+                            "noticeTextOutoforder": "(Yalnızca outoforder / hizmet dışı değeri olan veriler dikkate alınır)"
+                        },
+                        "sensorData": {
+                            "firstColumnHeaderName": "Özellikler"
+                        },
+                        "chargingStations": {
+                            "available": "Kullanılabilirlik",
+                            "charging": "Yoğunluk",
+                            "outoforder": "Servis dışı"
                         }
-                      },
-                      "sensorBarChart": {
-                        "clock": "{{value}} Saat",
-                        "chartTitleAverage": "Ortalama değer",
-                        "month_one": "{{count}} Ay",
-                        "month_other": "{{count}} Aylar",
-                        "year_one": "{{count}} Yıl",
-                        "year_other": "{{count}} Yıllar",
-                        "previousWeekday": "Haftanın önceki günü",
-                        "nextWeekday": "Haftanın sonraki günü",
-                        "noticeTextAvailable": "(Yalnızca available / mevcut değerdeki veriler dikkate alınır)",
-                        "noticeTextCharging": "(Yalnızca charging / yükleme değeri olan veriler dikkate alınır)",
-                        "noticeTextOutoforder": "(Yalnızca outoforder / hizmet dışı değeri olan veriler dikkate alınır)"
-                      },
-                      "sensorData": {
-                        "firstColumnHeaderName": "Özellikler"
-                      },
-                      "chargingStations": {
-                        "available": "Kullanılabilirlik",
-                        "charging": "Yoğunluk",
-                        "outoforder": "Servis dışı"
-                      }
                     }
                 },
                 "boolean": {
-                  "true": "Evet",
-                  "yes": "Evet",
-                  "1": "Evet",
-                  "false": "Hayır",
-                  "no": "Hayır",
-                  "0": "Hayır"
+                    "true": "Evet",
+                    "yes": "Evet",
+                    "1": "Evet",
+                    "false": "Hayır",
+                    "no": "Hayır",
+                    "0": "Hayır"
                 }
             },
             "graph": {
-              "localeFormat": {
-                "decimal": "\",\"",
-                "thousands": "\".\"",
-                "grouping": ["3"],
-                "currency": ["€", ""],
-                "dateTime": "\"%a %b %e %X %Y\"",
-                "date": "\"%d.%m.%Y\"",
-                "time": "\"%H:%M:%S\"",
-                "periods": ["AM", "PM"],
-                "days": ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"],
-                "shortDays": ["Paz", "Paztesi", "Sal", "Çarş", "Perş", "Cum", "Cumtesi"],
-                "months": ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"],
-                "shortMonths": ["Oca", "Şub", "Mar", "Nis", "May", "Haz", "Tem", "Agu", "Eyl", "Eki", "Kas", "Ara"]
-              }
+                "localeFormat": {
+                    "decimal": "\",\"",
+                    "thousands": "\".\"",
+                    "grouping": [
+                        "3"
+                    ],
+                    "currency": [
+                        "€",
+                        ""
+                    ],
+                    "dateTime": "\"%a %b %e %X %Y\"",
+                    "date": "\"%d.%m.%Y\"",
+                    "time": "\"%H:%M:%S\"",
+                    "periods": [
+                        "AM",
+                        "PM"
+                    ],
+                    "days": [
+                        "Pazar",
+                        "Pazartesi",
+                        "Salı",
+                        "Çarşamba",
+                        "Perşembe",
+                        "Cuma",
+                        "Cumartesi"
+                    ],
+                    "shortDays": [
+                        "Paz",
+                        "Paztesi",
+                        "Sal",
+                        "Çarş",
+                        "Perş",
+                        "Cum",
+                        "Cumtesi"
+                    ],
+                    "months": [
+                        "Ocak",
+                        "Şubat",
+                        "Mart",
+                        "Nisan",
+                        "Mayıs",
+                        "Haziran",
+                        "Temmuz",
+                        "Ağustos",
+                        "Eylül",
+                        "Ekim",
+                        "Kasım",
+                        "Aralık"
+                    ],
+                    "shortMonths": [
+                        "Oca",
+                        "Şub",
+                        "Mar",
+                        "Nis",
+                        "May",
+                        "Haz",
+                        "Tem",
+                        "Agu",
+                        "Eyl",
+                        "Eki",
+                        "Kas",
+                        "Ara"
+                    ]
+                }
             },
             "searchByCoord": {
-              "coordinateSystem": "Koordinat sistemi",
-              "hdms": {
-                  "eastingLabel": "Enlem",
-                  "northingLabel": "Boylam"
-              },
-              "cartesian": {
-                  "eastingLabel": "X-Koordinate",
-                  "northingLabel": "Y-Koordinate"
-              },
-              "search": "Ara",
-              "exampleAcronym": "Örn.",
-              "errorMsg": {
-                  "noCoord": "Lütfen {{valueKey}} bilgilerinizi eksiksiz olarak girin.",
-                  "noMatch": "{{valueKey}} değerinin girişi doğru değil! (Örnek: {{valueExample}}! Example:",
-                  "hdmsNoCoord": "Lütfen {{valueKey}} için tam değerinizi girin.",
-                  "hdmsNoMatch": "{{valueKey}} değerinin girişi doğru değil! Örnek: "
-              }
+                "coordinateSystem": "Koordinat sistemi",
+                "hdms": {
+                    "eastingLabel": "Enlem",
+                    "northingLabel": "Boylam"
+                },
+                "cartesian": {
+                    "eastingLabel": "X-Koordinate",
+                    "northingLabel": "Y-Koordinate"
+                },
+                "search": "Ara",
+                "exampleAcronym": "Örn.",
+                "errorMsg": {
+                    "noCoord": "Lütfen {{valueKey}} bilgilerinizi eksiksiz olarak girin.",
+                    "noMatch": "{{valueKey}} değerinin girişi doğru değil! (Örnek: {{valueExample}}! Example:",
+                    "hdmsNoCoord": "Lütfen {{valueKey}} için tam değerinizi girin.",
+                    "hdmsNoMatch": "{{valueKey}} değerinin girişi doğru değil! Örnek: "
+                }
             },
             "draw": {
                 "clickToPlaceText": "Metni yerleştirmek için karta tıklayın",
                 "download": {
-                  "createFirst": "Lütfen önce bir çizim veya metin oluşturun!",
-                  "enterFilename": "Lütfen dosya adını girin",
-                  "filename": "Dosya adı",
-                  "format": "Format",
-                  "formatNotSupported": "{{selectedFormat}} formatı henüz desteklenmemektedir.",
-                  "pleaseChoose": "Lütfen seçin",
-                  "unknownGeometry": "Bilinmeyen geometri: <strong> {{geometri}} </strong>"
+                    "createFirst": "Lütfen önce bir çizim veya metin oluşturun!",
+                    "enterFilename": "Lütfen dosya adını girin",
+                    "filename": "Dosya adı",
+                    "format": "Format",
+                    "formatNotSupported": "{{selectedFormat}} formatı henüz desteklenmemektedir.",
+                    "pleaseChoose": "Lütfen seçin",
+                    "unknownGeometry": "Bilinmeyen geometri: <strong> {{geometri}} </strong>"
                 },
                 "draw": "çizsin",
                 "geometryDrawFailed": "Aktarılan geometri görüntülenemedi.",
@@ -638,34 +752,34 @@
                 "label": "Ölçek"
             },
             "bufferAnalysis": {
-              "sourceSelectLabel": "Kaynak katmanı",
-              "targetSelectLabel": "Hedef katman",
-              "resultTypeLabel": "Sonuç tipi",
-              "overlapping": "yarıçap içinde",
-              "notOverlapping": "yarıçap dışında",
-              "rangeLabel": "yarıçap (m)",
-              "clearButton": "Sıfırla",
-              "saveButton": "Kaydet",
-              "sourceLayerNotFound": "{{layerId}} kimliğine sahip kaydedilen kaynak katman bulunamadı.",
-              "targetLayerNotFound": "{{layerId}} kimliğine sahip kaydedilen hedef katman bulunamadı."
+                "sourceSelectLabel": "Kaynak katmanı",
+                "targetSelectLabel": "Hedef katman",
+                "resultTypeLabel": "Sonuç tipi",
+                "overlapping": "yarıçap içinde",
+                "notOverlapping": "yarıçap dışında",
+                "rangeLabel": "yarıçap (m)",
+                "clearButton": "Sıfırla",
+                "saveButton": "Kaydet",
+                "sourceLayerNotFound": "{{layerId}} kimliğine sahip kaydedilen kaynak katman bulunamadı.",
+                "targetLayerNotFound": "{{layerId}} kimliğine sahip kaydedilen hedef katman bulunamadı."
             },
             "wfsSearch": {
-              "noResults": "Aradığınız kriterlere uygun sonuç bulunamadı. Lütfen tekrar deneyin.",
-              "optionsPlaceholder": "Lütfen bir seçenek seçin!",
-              "resetButton": "Sıfırla",
-              "searchButton": "Ara",
-              "resultListTitle": "Arama Sonuçları:",
-              "instancesSelectLabel": "Örnek seçimi",
-              "showResults": "Sonuçları göster",
-              "searchError": "Özellik aranırken hata oluştu: {{error}}.",
-              "userHelp": {
-                  "and": "ve",
-                  "or": "veya",
-                  "label": "Arama sonuçlarıyla ilgili bilgiler",
-                  "text": "Aramanın sonuçları şartlara / maddelere {{userHelp}} uygun olacaktır. <br /> *Pflichtfeld"
-              },
-              "district": "Bölge",
-              "parcelNumber": "Parsel numarası"
+                "noResults": "Aradığınız kriterlere uygun sonuç bulunamadı. Lütfen tekrar deneyin.",
+                "optionsPlaceholder": "Lütfen bir seçenek seçin!",
+                "resetButton": "Sıfırla",
+                "searchButton": "Ara",
+                "resultListTitle": "Arama Sonuçları:",
+                "instancesSelectLabel": "Örnek seçimi",
+                "showResults": "Sonuçları göster",
+                "searchError": "Özellik aranırken hata oluştu: {{error}}.",
+                "userHelp": {
+                    "and": "ve",
+                    "or": "veya",
+                    "label": "Arama sonuçlarıyla ilgili bilgiler",
+                    "text": "Aramanın sonuçları şartlara / maddelere {{userHelp}} uygun olacaktır. <br /> *Pflichtfeld"
+                },
+                "district": "Bölge",
+                "parcelNumber": "Parsel numarası"
             }
         },
         "controls": {
@@ -792,12 +906,12 @@
                 "errorMsg": "OpenStreetMap aramasına ulaşılamıyor."
             },
             "tree": {
-              "chooseObliqueLayer": "Katman seçimi \"{{hitName}}\" , <b>harita modunda bir değişikliğe neden olur: Eğik hava fotoğrafları!</b><br>Değişiklik biraz zaman alabilir.<br><br><br>Harita moduna geçmek ister misiniz: Eğik hava görüntüsüne geçmek ister misiniz?<br>",
+                "chooseObliqueLayer": "Katman seçimi \"{{hitName}}\" , <b>harita modunda bir değişikliğe neden olur: Eğik hava fotoğrafları!</b><br>Değişiklik biraz zaman alabilir.<br><br><br>Harita moduna geçmek ister misiniz: Eğik hava görüntüsüne geçmek ister misiniz?<br>",
                 "choose3dLayer": "Katman seçimi \"{{hitName}}\" , <b>harita modunda bir değişikliğe neden olur: 3D!</b><br>Değişiklik biraz zaman alabilir.<br><br><br>Harita moduna geçmek ister misiniz: 3D</b> geçmek ister misiniz?<br>"
-              },
-              "komoot": {
+            },
+            "komoot": {
                 "errorMsg": "Komoot-Photon araması mevcut değil."
-              },
+            },
             "noInitialResults": "İlk arama sonuç vermedi."
         },
         "vectorStyle": {
@@ -808,18 +922,18 @@
         },
         "wmsTime": {
             "layerSwiper": {
-              "description": "Kaydırıcı (Swiper i), fare (mouse) veya klavye ok tuşları kullanılarak hareket ettirilebilirsiniz. Ok tuşlarını kullanırken, {{amount}}px kaydırıcı ilgili yönde hareket eder.",
-              "title": "Katmanları karşılaştırın"
+                "description": "Kaydırıcı (Swiper i), fare (mouse) veya klavye ok tuşları kullanılarak hareket ettirilebilirsiniz. Ok tuşlarını kullanırken, {{amount}}px kaydırıcı ilgili yönde hareket eder.",
+                "title": "Katmanları karşılaştırın"
             },
             "timeSlider": {
-              "buttons": {
-                "backward": "Geriye doğru bir zaman",
-                "deactivateLayerSwiper": "Katmanı sil",
-                "forward": "Öne doğru bir zaman",
-                "layerSwiper": "Zamanları karşılaştır",
-                "play": "O anda seçili olan zaman noktasına göre zaman içindeki tüm noktaların otomatik olarak yeniden oynatılması"
-              },
-              "inputRangeLabel": "Bir zaman dilimi seçin"
+                "buttons": {
+                    "backward": "Geriye doğru bir zaman",
+                    "deactivateLayerSwiper": "Katmanı sil",
+                    "forward": "Öne doğru bir zaman",
+                    "layerSwiper": "Zamanları karşılaştır",
+                    "play": "O anda seçili olan zaman noktasına göre zaman içindeki tüm noktaların otomatik olarak yeniden oynatılması"
+                },
+                "inputRangeLabel": "Bir zaman dilimi seçin"
             }
         },
         "legend": {
@@ -830,46 +944,46 @@
         },
         "util": {
             "copyToClipboard": {
-              "contentSaved": "İçerik ara hafızaya kopyalandı.",
-              "contentNotSaved": "İçerik ara hafızaya kopyalanamadı."
+                "contentSaved": "İçerik ara hafızaya kopyalandı.",
+                "contentNotSaved": "İçerik ara hafızaya kopyalanamadı."
             }
         },
         "exportButton": {
             "error": {
-              "download": "İstenen veriler indirilirken bir hata oluştu."
+                "download": "İstenen veriler indirilirken bir hata oluştu."
             }
         }
     },
     "utils": {
         "calendar": {
-          "newYearsDay": "Yılbaşı",
-          "epiphany": "Epifani Bayramı",
-          "goodFriday": "Paskalyadan önceki cuma",
-          "easterSunday": "Paskalya Pazar günü",
-          "easterMonday": "Paskalya Pazartesi günü",
-          "laborDay": "İşçi Bayramı",
-          "ascensionDay": "İsa'nın göğe yükselişi",
-          "pentecostSunday": "Hamsin Yortusu(Pentikost) Pazar günü",
-          "pentecostMonday": "Hamsin Yortusu (Pentikost)Pazartesi günü",
-          "corpusChristi": "Katolik yortusu",
-          "peaceFestival": "Barış Bayramı",
-          "assumptionDay": "Meryem'in Göğe Yükselişi",
-          "germanUnityDay": "Alman birliği günü",
-          "reformationDay": "Reformasyon günü",
-          "allSaintsDay": "Azizler günü",
-          "penanceDay": "Kefaret ve dua günü",
-          "firstAdvent": "1. Advent",
-          "secondAdvent": "2. Advent",
-          "thirdAdvent": "3. Advent",
-          "fourthAdvent": "4. Advent (Noel arifesi)",
-          "christmasDay": "1. Noel",
-          "secondDayOfChristmas": "2. Noel"
+            "newYearsDay": "Yılbaşı",
+            "epiphany": "Epifani Bayramı",
+            "goodFriday": "Paskalyadan önceki cuma",
+            "easterSunday": "Paskalya Pazar günü",
+            "easterMonday": "Paskalya Pazartesi günü",
+            "laborDay": "İşçi Bayramı",
+            "ascensionDay": "İsa'nın göğe yükselişi",
+            "pentecostSunday": "Hamsin Yortusu(Pentikost) Pazar günü",
+            "pentecostMonday": "Hamsin Yortusu (Pentikost)Pazartesi günü",
+            "corpusChristi": "Katolik yortusu",
+            "peaceFestival": "Barış Bayramı",
+            "assumptionDay": "Meryem'in Göğe Yükselişi",
+            "germanUnityDay": "Alman birliği günü",
+            "reformationDay": "Reformasyon günü",
+            "allSaintsDay": "Azizler günü",
+            "penanceDay": "Kefaret ve dua günü",
+            "firstAdvent": "1. Advent",
+            "secondAdvent": "2. Advent",
+            "thirdAdvent": "3. Advent",
+            "fourthAdvent": "4. Advent (Noel arifesi)",
+            "christmasDay": "1. Noel",
+            "secondDayOfChristmas": "2. Noel"
         },
         "parametricURL": {
-          "alertWrongLayerIds": "<strong>Parametreleştirilmiş çağrı yanlış!</strong> </br>Bu <b>layerIds</b> konumlardaki: {{wrongIdsPositionsConcat}} mevcut değil ve yoksayılıyor!",
-          "alertWrongAmountVisibility": "<strong>Parametreleştirilmiş çağrı yanlış!</strong></br> Bu bilgilerle <b>layerIds</b> eşleşmiyor <b>visibility</b> bzw. <b>transparency</b>. Her durumda aynı numara kullanılmalıdır.",
-          "errorLoadConfig": "İstenen konfigürasyon dosyası aşağıda verilen konuma yüklenemedi: {{url}}<br> URL-Parameteresi <strong>configJson</strong> \".json\" uzantılı bir dosya gerektirir. <br>Standart dosya konumu altında config.json yüklenmeye çalışıldı."
-          }
+            "alertWrongLayerIds": "<strong>Parametreleştirilmiş çağrı yanlış!</strong> </br>Bu <b>layerIds</b> konumlardaki: {{wrongIdsPositionsConcat}} mevcut değil ve yoksayılıyor!",
+            "alertWrongAmountVisibility": "<strong>Parametreleştirilmiş çağrı yanlış!</strong></br> Bu bilgilerle <b>layerIds</b> eşleşmiyor <b>visibility</b> bzw. <b>transparency</b>. Her durumda aynı numara kullanılmalıdır.",
+            "errorLoadConfig": "İstenen konfigürasyon dosyası aşağıda verilen konuma yüklenemedi: {{url}}<br> URL-Parameteresi <strong>configJson</strong> \".json\" uzantılı bir dosya gerektirir. <br>Standart dosya konumu altında config.json yüklenmeye çalışıldı."
+        }
     },
     "snippets": {
         "checkbox": {
@@ -884,9 +998,9 @@
             "tooltipMessage": "Başlatmak ve çıkmak için tıklayın",
             "tooltipMessagePolygon": "Destek noktası eklemek için tıklayın",
             "alert": {
-              "notSupportedOption": "Grafik seçimi, desteklenmeyen unsurlar içeriyor! Mevcut:",
-              "notSupportedSelection": "Grafik seçiminin SelectedOption desteklenmiyor! Mevcut:",
-              "notSupportedElement": "Grafik seçiminin şablon öğesi desteklenmiyor! Mevcut:"
+                "notSupportedOption": "Grafik seçimi, desteklenmeyen unsurlar içeriyor! Mevcut:",
+                "notSupportedSelection": "Grafik seçiminin SelectedOption desteklenmiyor! Mevcut:",
+                "notSupportedElement": "Grafik seçiminin şablon öğesi desteklenmiyor! Mevcut:"
             }
         },
         "value": {
@@ -896,18 +1010,18 @@
             "date": "Tarih",
             "time": "Zaman",
             "from": " 'den itibaren",
-            "to":" kadar",
+            "to": " kadar",
             "incorrectEntry": "Yanlış giriş, lütfen tam sayı giriniz!",
             "outOfRangeErrorMessage": "Girilen değer {{minValueSlider}} ve {{maxValueSlider}} geçerlilik aralığı içinde olmalıdır!"
         }
     },
     "share-components": {
         "list": {
-          "replace": {
-            "true": "Evet",
-            "No": "Hayır"
-          },
-          "zoomToResult": "Sonuca yakınlaştır"
+            "replace": {
+                "true": "Evet",
+                "No": "Hayır"
+            },
+            "zoomToResult": "Sonuca yakınlaştır"
         }
     }
 }
