@@ -51,6 +51,7 @@
             "supplyCoord": "Solicitar coordenadas",
             "searchByCoord": "Buscar coordenadas",
             "fileImport": "Importar archivo",
+            "modeler3D": "Modelador 3D",
             "draw": "Dibujar / Escribir",
             "shadow": "Sombras",
             "commuterLines": "Desplazamiento (Linien)",
@@ -63,7 +64,7 @@
             "wfsTransaction": "Herramienta WFS-T",
             "scaleSwitcher": "Cambiar escala",
             "selectFeatures": "Seleccionar entidad",
-            "legend":"Leyenda",
+            "legend": "Leyenda",
             "styleVt": "Estilo Vector Tile Layers"
         },
         "contact": "Contacto",
@@ -101,17 +102,17 @@
     "time": "Hora",
     "modules": {
         "core": {
-          "modelList": {
-            "layer": {
-              "wrongStyleId": "No se ha podido encontrar ningún estilo con el StyleId especificado: {{styleId}}. Asegúrese de que un estilo con el StyleId: {{styleId}} está configurado en el Style.json que está utilizando.",
-              "sensor": {
-                "httpOnError": "<strong>Se ha producido un error inesperado al cargar los datos del sensor de la capa {{nombre}}</strong>"
-              }
+            "modelList": {
+                "layer": {
+                    "wrongStyleId": "No se ha podido encontrar ningún estilo con el StyleId especificado: {{styleId}}. Asegúrese de que un estilo con el StyleId: {{styleId}} está configurado en el Style.json que está utilizando.",
+                    "sensor": {
+                        "httpOnError": "<strong>Se ha producido un error inesperado al cargar los datos del sensor de la capa {{nombre}}</strong>"
+                    }
+                }
+            },
+            "parametricURL": {
+                "alertWrongLayerIds": "<strong>¡La llamada parametrizada es defectuosa!</strong></br>¡El <b>id layer</b> en esa porición: {{wrongIdsPositionsConcat}} no existe y se ignorara!"
             }
-          },
-          "parametricURL": {
-            "alertWrongLayerIds": "<strong>¡La llamada parametrizada es defectuosa!</strong></br>¡El <b>id layer</b> en esa porición: {{wrongIdsPositionsConcat}} no existe y se ignorara!"
-          }
         },
         "alerting": {
             "hideMessage": "No volver a mostrar este mensaje",
@@ -156,24 +157,24 @@
             "unknown": "desconocido"
         },
         "layerInformation": {
-          "additionalMetadata": "otros metadatos",
-          "addressSuffix": "Dirección",
-          "multiAddress": "Direcciones de servicio",
-          "attachFileMessage": "adjuntar si es necesario el tipo de archivo a descargar",
-          "closeButton": "Cerrar",
-          "downloadDataset": "Descargar datos",
-          "errorMessage": "La consulta de metadatos ha fallado. Si el problema persiste, póngase en contacto con el propietario del servicio WMS: <b>{{cswObjCswUrl}}</b>",
-          "informationAndLegend": "Información y leyenda",
-          "lastModified": "Última actualización",
-          "legend": "Leyenda",
-          "noMetadataLoaded": "¡No se han podido cargar los metadatos!",
-          "noMetadataMessage": "$t(modules.cswParser.noMetadataMessage)",
-          "periodicityTitle": "Periodicidad",
-          "publicationCreation": "Publicación / Creación",
-          "buildings":"Edificio"
+            "additionalMetadata": "otros metadatos",
+            "addressSuffix": "Dirección",
+            "multiAddress": "Direcciones de servicio",
+            "attachFileMessage": "adjuntar si es necesario el tipo de archivo a descargar",
+            "closeButton": "Cerrar",
+            "downloadDataset": "Descargar datos",
+            "errorMessage": "La consulta de metadatos ha fallado. Si el problema persiste, póngase en contacto con el propietario del servicio WMS: <b>{{cswObjCswUrl}}</b>",
+            "informationAndLegend": "Información y leyenda",
+            "lastModified": "Última actualización",
+            "legend": "Leyenda",
+            "noMetadataLoaded": "¡No se han podido cargar los metadatos!",
+            "noMetadataMessage": "$t(modules.cswParser.noMetadataMessage)",
+            "periodicityTitle": "Periodicidad",
+            "publicationCreation": "Publicación / Creación",
+            "buildings": "Edificio"
         },
         "mapMarker": {
-          "nostyleObject": "No se ha podido encontrar ningún estilo con el StyleId especificado: {{styleId}}. Por favor, compruebe su configuración."
+            "nostyleObject": "No se ha podido encontrar ningún estilo con el StyleId especificado: {{styleId}}. Por favor, compruebe su configuración."
         },
         "menu": {
             "layer": {
@@ -266,8 +267,8 @@
                 "mailSubject": "Solicitud de ayuda al portal ",
                 "messageLabel": "Su mensaje",
                 "privacyPolicy": {
-                  "info": "Usted acepta que sus datos se utilicen para tramitar su solicitud. Puede encontrar más información e instrucciones de revocación en la <a href=\"{{privacyPolicyLink}}\" target=\"_blank\">política de privacidad</a>.",
-                  "label": "Acepte la política de privacidad."
+                    "info": "Usted acepta que sus datos se utilicen para tramitar su solicitud. Puede encontrar más información e instrucciones de revocación en la <a href=\"{{privacyPolicyLink}}\" target=\"_blank\">política de privacidad</a>.",
+                    "label": "Acepte la política de privacidad."
                 },
                 "sendButton": "Enviar",
                 "successMessage": "Su solicitud ha sido enviada con éxito.",
@@ -295,13 +296,13 @@
             },
             "shadow": {
                 "shadowDisplay": "Visualización de sombras"
-              },
+            },
             "styleVT": {
-              "introText": "Se pueden aplicar varios estilos predefinidos a las capas de mosaico vectorial para optimizar la vista para el propósito específico de la aplicación.",
-              "noStyleableLayers": "Actualmente no hay capas disponibles a los que se pueda aplicar esta herramienta.",
-              "theme": "Tema",
-              "chooseTheme": "Por favor, seleccione el tema activo",
-              "style": "Estilo"
+                "introText": "Se pueden aplicar varios estilos predefinidos a las capas de mosaico vectorial para optimizar la vista para el propósito específico de la aplicación.",
+                "noStyleableLayers": "Actualmente no hay capas disponibles a los que se pueda aplicar esta herramienta.",
+                "theme": "Tema",
+                "chooseTheme": "Por favor, seleccione el tema activo",
+                "style": "Estilo"
             },
             "featureLister": {
                 "chooseTheme": "Elija el tema",
@@ -406,6 +407,69 @@
                 "successfullyImportedLabel": "Importado con éxito:",
                 "title": "Importar archivo"
             },
+            "modeler3D": {
+                "entity": {
+                    "captions": {
+                        "backToList": "Volver a la lista",
+                        "delete": "Eliminar modelo",
+                        "deletionTitle": "Eliminar modelo 3D \"{{name}}\"",
+                        "editInfo": "Cambiar la posición y rotación del modelo seleccionado.",
+                        "editModel": "Editar modelo 3D \"{{name}}\"",
+                        "modelName": "Nombre del modelo",
+                        "pickupPlace": "Haz doble clic en un objeto importado para recogerlo o colocarlo.",
+                        "projectionInfo": "¡Atención! Al utilizar el sistema de coordenadas WGS84, puede haber imprecisiones. Se recomienda utilizar la notación decimal.",
+                        "rotationPlaceholder": "Incremento/decremento de pasos",
+                        "visibilityTitle": "Mostrar/ocultar modelo 3D \"{{name}}\"",
+                        "zoomTo": "Acercar al modelo 3D \"{{name}}\""
+                    },
+                    "deleteInteraction": {
+                        "confirm": "Eliminar",
+                        "headline": "Atención",
+                        "text": "¿Estás seguro/a de que quieres eliminar el modelo \"{{name}}\"?"
+                    },
+                    "projections": {
+                        "adaptToHeight": "Adaptar a terreno",
+                        "cartesian": {
+                            "eastingLabel": "Este",
+                            "northingLabel": "Norte"
+                        },
+                        "hdms": {
+                            "eastingLabel": "Longitud",
+                            "northingLabel": "Latitud"
+                        },
+                        "height": "Altura",
+                        "projection": "Sistema de coordenadas",
+                        "rotation": "Rotación",
+                        "rotationSwitch": "Pasos de rotación"
+                    }
+                },
+                "import": {
+                    "alertingMessages": {
+                        "featureError": "No se pudo leer una característica en este archivo.",
+                        "fileSizeError": "El tamaño del archivo supera el límite de 100 MB.",
+                        "formatError": "No se pudo leer el archivo \"{{filename}}\". Por favor, verifica si el archivo tiene el formato *.kml, .gpx, .geojson o .json.",
+                        "missingFileContent": "Error al leer el archivo \"{{filename}}\". Por favor, verifica el tipo y contenido del archivo. Si el archivo no tiene errores, por favor contacta al soporte técnico.",
+                        "missingFormat": "No se admite el formato de archivo \"{{format}}\". Por favor, contacta al soporte técnico.",
+                        "success": "El archivo \"{{filename}}\" se importó correctamente.",
+                        "successPartly": "El archivo \"{{filename}}\" se importó parcialmente."
+                    },
+                    "captions": {
+                        "browse": "Seleccionar archivo",
+                        "dropzone": "Soltar archivo aquí",
+                        "introInfo": "Simplemente importa el archivo deseado arrastrándolo y soltándolo o utilizando el diálogo de apertura del navegador.",
+                        "introFormats": "Puedes importar archivos glTF (.gltf), archivos OBJ (.obj) o archivos Collada (.dae).",
+                        "successfullyImportedLabel": "Modelos 3D importados:"
+                    }
+                },
+                "nav": {
+                    "drawTitle": "Dibujar",
+                    "importTitle": "Importar",
+                    "options": "Opciones"
+                },
+                "hiddenObjectsLabel": "Edificios ocultos:",
+                "hideSwitchLabel": "Ocultar edificios con clic del ratón",
+                "title": "Modelador 3D"
+            },
             "parcelSearch": {
                 "wrongConfig": "Configuración inválida o incompleta",
                 "districtsLoadFailed": "No se han podido cargar los términos municipales",
@@ -421,9 +485,9 @@
                 "generateReport": "Generar informe"
             },
             "selectFeatures": {
-              "zoomToFeature": "Acercar el zomm a esta entidad",
-              "noFeatureChosen": "Ninguna entidad esta seleccionada. Seleccione las entidades manteniendo pulsada la tecla Ctrl y arrastrando un cuadro alrededor de las entidades a seleccionar.",
-              "propertylessFeature": "Elemento sin atributos"
+                "zoomToFeature": "Acercar el zomm a esta entidad",
+                "noFeatureChosen": "Ninguna entidad esta seleccionada. Seleccione las entidades manteniendo pulsada la tecla Ctrl y arrastrando un cuadro alrededor de las entidades a seleccionar.",
+                "propertylessFeature": "Elemento sin atributos"
             },
             "supplyCoord": {
                 "title": "Consulta las coordennadas",
@@ -440,43 +504,43 @@
             "gfi": {
                 "errorMessage": "Se ha producido un error durante la solicitud de información (GetFeatureInfo).<br>Por favor, inténtelo de nuevo en otro momento. Si el problema persiste, póngase en contacto con el operador del servicio.",
                 "favoriteIcons": {
-                  "compareFeatureIcon": {
-                    "toCompareList": "A la lista de comparación",
-                    "fromCompareList": "Eliminar de la lista de comparación"
-                  }
+                    "compareFeatureIcon": {
+                        "toCompareList": "A la lista de comparación",
+                        "fromCompareList": "Eliminar de la lista de comparación"
+                    }
                 },
                 "themes": {
                     "default": {
-                      "imgAlt": "No se ha podido cargar ninguna imagen.",
-                      "noAttributeAvailable": "¡No hay ningún atributo!"
+                        "imgAlt": "No se ha podido cargar ninguna imagen.",
+                        "noAttributeAvailable": "¡No hay ningún atributo!"
                     },
                     "sensor": {
-                      "sensor": {
-                        "dataName": "Datos",
-                        "header": {
-                          "name": "Nombre",
-                          "description": "Descripción",
-                          "ownerThing": "Propietario"
+                        "sensor": {
+                            "dataName": "Datos",
+                            "header": {
+                                "name": "Nombre",
+                                "description": "Descripción",
+                                "ownerThing": "Propietario"
+                            }
+                        },
+                        "sensorBarChart": {
+                            "clock": "{{value}} Hora",
+                            "chartTitleAverage": "Valor medio de",
+                            "month_one": "{{count}} Mes",
+                            "month_other": "{{count}} Meses",
+                            "year_one": "{{count}} Año",
+                            "year_other": "{{count}} Años",
+                            "previousWeekday": "Día anterior de la semana",
+                            "nextWeekday": "Día posterior de la semana"
+                        },
+                        "sensorData": {
+                            "firstColumnHeaderName": "Propiedades"
+                        },
+                        "chargingStations": {
+                            "available": "Disponibilidad",
+                            "charging": "Completado",
+                            "outoforder": "Fuera de servicio"
                         }
-                      },
-                      "sensorBarChart": {
-                        "clock": "{{value}} Hora",
-                        "chartTitleAverage": "Valor medio de",
-                        "month_one": "{{count}} Mes",
-                        "month_other": "{{count}} Meses",
-                        "year_one": "{{count}} Año",
-                        "year_other": "{{count}} Años",
-                        "previousWeekday": "Día anterior de la semana",
-                        "nextWeekday": "Día posterior de la semana"
-                      },
-                      "sensorData": {
-                        "firstColumnHeaderName": "Propiedades"
-                      },
-                      "chargingStations": {
-                        "available": "Disponibilidad",
-                        "charging": "Completado",
-                        "outoforder": "Fuera de servicio"
-                      }
                     }
                 }
             },
@@ -502,13 +566,13 @@
             "draw": {
                 "clickToPlaceText": "Haga clic en el mapa para colocar el texto",
                 "download": {
-                  "createFirst": "¡Por favor, cree primero un dibujo o un texto!",
-                  "enterFilename": "Por favor, introduzca el nombre del archivo",
-                  "filename": "Nombre del archivo",
-                  "format": "Formato",
-                  "formatNotSupported": "El formato {{selectedFormat}} aún no es compatible..",
-                  "pleaseChoose": "Por favor, elija",
-                  "unknownGeometry": "Geometría desconocida: <strong>{{geometry}}</strong>"
+                    "createFirst": "¡Por favor, cree primero un dibujo o un texto!",
+                    "enterFilename": "Por favor, introduzca el nombre del archivo",
+                    "filename": "Nombre del archivo",
+                    "format": "Formato",
+                    "formatNotSupported": "El formato {{selectedFormat}} aún no es compatible..",
+                    "pleaseChoose": "Por favor, elija",
+                    "unknownGeometry": "Geometría desconocida: <strong>{{geometry}}</strong>"
                 },
                 "draw": "dibujar",
                 "geometryDrawFailed": "No se ha podido visualizar la geometría transferida.",
@@ -737,9 +801,9 @@
             "tooltipMessage": "Haga clic para iniciar y terminar",
             "tooltipMessagePolygon": "Haga clic para añadir la base",
             "alert": {
-              "notSupportedOption": "La selección gráfica contiene elementos no compatibles. Están disponibles:",
-              "notSupportedSelection": "¡SelectedOption de la selección gráfica no es compatible! Están disponibles:",
-              "notSupportedElement": "El elemento de plantilla de la selección gráfica no es compatible. Están disponibles:"
+                "notSupportedOption": "La selección gráfica contiene elementos no compatibles. Están disponibles:",
+                "notSupportedSelection": "¡SelectedOption de la selección gráfica no es compatible! Están disponibles:",
+                "notSupportedElement": "El elemento de plantilla de la selección gráfica no es compatible. Están disponibles:"
             }
         },
         "value": {
@@ -749,7 +813,7 @@
             "date": "Fecha",
             "time": "Hora",
             "from": " desde",
-            "to":" hasta",
+            "to": " hasta",
             "incorrectEntry": "¡Entrada incorrecta, por favor introduzca un número entero!",
             "outOfRangeErrorMessage": "¡El valor de entrada debe estar dentro del rango de validez {{minValueSlider}} y {{maxValueSlider}}!"
         }

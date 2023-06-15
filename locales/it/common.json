@@ -58,6 +58,7 @@
             "supplyCoord": "Richiedi coordinate",
             "searchByCoord": "Ricerca di coordinate",
             "fileImport": "Importa file",
+            "modeler3D": "Modellatore 3D",
             "draw": "Disegna / Scrivi",
             "shadow": "Ombre",
             "commuterLines": "Pendolare (Linea)",
@@ -574,6 +575,69 @@
                 },
                 "successfullyImportedLabel": "Importato con successo:",
                 "title": "Importa file"
+            },
+            "modeler3D": {
+                "entity": {
+                    "captions": {
+                        "backToList": "Torna alla lista",
+                        "delete": "Elimina modello",
+                        "deletionTitle": "Elimina modello 3D \"{{name}}\"",
+                        "editInfo": "Modifica la posizione e la rotazione del modello selezionato.",
+                        "editModel": "Modifica modello 3D \"{{name}}\"",
+                        "modelName": "Nome del modello",
+                        "pickupPlace": "Fai doppio clic su un oggetto importato per prenderlo o posizionarlo.",
+                        "projectionInfo": "Attenzione! Quando si utilizza il sistema di coordinate WGS84, potrebbero verificarsi imprecisioni. Si consiglia di utilizzare la notazione decimale.",
+                        "rotationPlaceholder": "Incremento/Decremento passi",
+                        "visibilityTitle": "Mostra/Nascondi modello 3D \"{{name}}\"",
+                        "zoomTo": "Zoom al modello 3D \"{{name}}\""
+                    },
+                    "deleteInteraction": {
+                        "confirm": "Elimina",
+                        "headline": "Attenzione",
+                        "text": "Sei sicuro di voler eliminare il modello \"{{name}}\"?"
+                    },
+                    "projections": {
+                        "adaptToHeight": "Adatta al terreno",
+                        "cartesian": {
+                            "eastingLabel": "Est",
+                            "northingLabel": "Nord"
+                        },
+                        "hdms": {
+                            "eastingLabel": "Longitudine",
+                            "northingLabel": "Latitudine"
+                        },
+                        "height": "Altezza",
+                        "projection": "Sistema di coordinate",
+                        "rotation": "Rotazione",
+                        "rotationSwitch": "Passi di rotazione"
+                    }
+                },
+                "import": {
+                    "alertingMessages": {
+                        "featureError": "Impossibile leggere una caratteristica in questo file.",
+                        "fileSizeError": "La dimensione del file supera il limite di 100 MB.",
+                        "formatError": "Impossibile leggere il file \"{{filename}}\". Verifica se il file ha il formato *.kml, .gpx, .geojson o .json.",
+                        "missingFileContent": "Errore nella lettura del file \"{{filename}}\". Verifica il tipo e il contenuto del file. Se il file è privo di errori, contatta l'assistenza.",
+                        "missingFormat": "Il formato del file \"{{format}}\" non è supportato. Contatta l'assistenza.",
+                        "success": "Il file \"{{filename}}\" è stato importato correttamente.",
+                        "successPartly": "Il file \"{{filename}}\" è stato importato parzialmente."
+                    },
+                    "captions": {
+                        "browse": "Seleziona file",
+                        "dropzone": "Rilascia il file qui",
+                        "introInfo": "Importa semplicemente il file desiderato trascinandolo e rilasciandolo o utilizzando la finestra di dialogo di apertura del browser.",
+                        "introFormats": "È possibile importare file glTF (.gltf), file OBJ (.obj) o file Collada (.dae).",
+                        "successfullyImportedLabel": "Modelli 3D importati:"
+                    }
+                },
+                "nav": {
+                    "drawTitle": "Disegna",
+                    "importTitle": "Importa",
+                    "options": "Opzioni"
+                },
+                "hiddenObjectsLabel": "Edifici nascosti:",
+                "hideSwitchLabel": "Nascondi edifici con clic del mouse",
+                "title": "Modellatore 3D"
             },
             "parcelSearch": {
                 "wrongConfig": "Configurazione non valida o incompleta",
