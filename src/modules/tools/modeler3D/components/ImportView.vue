@@ -54,7 +54,6 @@ export default {
                 this.addFile(e.dataTransfer.files);
             }
         },
-
         addFile (files) {
             const reader = new FileReader(),
                 file = files[0],
@@ -79,12 +78,12 @@ export default {
                     this.handleDaeFile(file, fileName);
                 }
                 else {
-                    console.error(fileExtension + " files are currently not supported!");
+                    store.dispatch("Alerting/addSingleAlert", {content: i18next.t("common:modules.tools.modeler3D.import.alertingMessages.missingFormat", {format: fileExtension})}, {root: true});
                 }
             };
 
             reader.onerror = (e) => {
-                console.error("Fehler beim Lesen der Datei:", e.target.error);
+                console.error("Error reading the file:", e.target.error);
             };
 
             if (fileExtension === "gltf") {
