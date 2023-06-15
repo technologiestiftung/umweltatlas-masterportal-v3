@@ -452,9 +452,6 @@
                         "successPartly": "De Datei \"{{filename}}\" is deels importeert."
                     },
                     "captions": {
-                        "browse": "Datei utwähln",
-                        "dropzone": "Drop Datei hier",
-                        "introInfo": "Importeer de wünschte Datei eenfach, indem du se düch Sleeptou'n of dor einen von de Browers-dialogs brukst.",
                         "introFormats": "Du kannst glTF-Dateien (.gltf), OBJ-Dateien (.obj) oder Collada-Dateien (.dae) importeern.",
                         "successfullyImportedLabel": "Importeerte 3D-Models:"
                     }

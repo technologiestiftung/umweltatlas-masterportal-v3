@@ -442,9 +442,6 @@
                         "successPartly": "O arquivo \"{{filename}}\" foi importado parcialmente."
                     },
                     "captions": {
-                        "browse": "Selecionar Arquivo",
-                        "dropzone": "Solte o Arquivo Aqui",
-                        "introInfo": "Basta importar o arquivo desejado arrastando e soltando ou usando o diálogo de abertura do navegador.",
                         "introFormats": "Você pode importar arquivos glTF (.gltf), arquivos OBJ (.obj) ou arquivos Collada (.dae).",
                         "successfullyImportedLabel": "Modelos 3D Importados:"
                     }
