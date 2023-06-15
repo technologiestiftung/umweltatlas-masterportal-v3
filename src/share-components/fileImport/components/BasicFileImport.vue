@@ -30,6 +30,10 @@ export default {
         };
     },
     computed: {
+        /**
+         * Returns the additional CSS class for the drop zone based on the hover state.
+         * @returns {string} The additional CSS class for the drop zone.
+         */
         dropZoneAdditionalClass: function () {
             return this.dzIsDropHovering ? "dzReady" : "";
         }

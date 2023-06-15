@@ -77,7 +77,6 @@ export default {
         },
         /**
          * Updates the current model ID and performs corresponding actions.
-         *
          * @param {string} newId - The ID of the new model.
          * @param {string} oldId - The ID of the old model.
          * @returns {void}
