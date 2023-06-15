@@ -1026,9 +1026,9 @@
             "zoomToResult": "Zum Ergebnis zoomen"
         },
         "import": {
-            "browse": "Datei utwählen",
-            "dropzone": "Datei hier ablegen",
-            "introInfo": "Importieren Sie Ihre gewünschte Datei einfach per Drag and Drop oder alternativ mit dem Öffnen-Dialog des Browsers."
+            "browse": "Datei utwähln",
+            "dropzone": "Drop Datei hier",
+            "introInfo": "Importeer de wünschte Datei eenfach, indem du se düch Sleeptou'n of dor einen von de Browers-dialogs brukst."
         }
     }
 }
