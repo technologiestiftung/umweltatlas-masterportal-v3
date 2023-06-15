@@ -1,6 +1,6 @@
 /**
  * User type definition
- * @typedef {Object} FileImportState
+ * @typedef {Object} Modeler3DState
  * @property {Boolean}      active - if true, component is rendered
  * @property {Boolean}      adaptToHeight - if true, adjust height automatically on position change
  * @property {Object}       coordinatesEasting - id and value of the transformed easting coordinate displayed on the ui

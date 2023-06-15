@@ -32,13 +32,24 @@ export default {
     computed: {
         ...mapGetters(["namedProjections"]),
         ...mapGetters("Tools/Modeler3D", Object.keys(getters)),
-
+        /**
+         * Returns the CSS classes for the import tab based on the current view.
+         * @returns {string} - The CSS classes for the import tab.
+         */
         importTabClasses: function () {
             return this.currentView === "import-view" ? this.activeTabClass : this.defaultTabClass;
         },
+        /**
+         * Returns the CSS classes for the draw tab based on the current view.
+         * @returns {string} - The CSS classes for the draw tab.
+         */
         drawTabClasses: function () {
             return this.currentView === "draw-view" ? this.activeTabClass : this.defaultTabClass;
         },
+        /**
+         * Returns the CSS classes for the options tab based on the current view.
+         * @returns {string} - The CSS classes for the options tab.
+         */
         optionsTabClasses: function () {
             return this.currentView === "" ? this.activeTabClass : this.defaultTabClass;
         },
@@ -64,6 +75,13 @@ export default {
                 this.eventHandler.destroy();
             }
         },
+        /**
+         * Updates the current model ID and performs corresponding actions.
+         *
+         * @param {string} newId - The ID of the new model.
+         * @param {string} oldId - The ID of the old model.
+         * @returns {void}
+         */
         currentModelId (newId, oldId) {
             const scene = this.scene,
                 entities = this.entities,
@@ -181,12 +199,21 @@ export default {
             wgs84ProjDez.getCode = () => "EPSG:4326-DG";
             projections.splice(index + 1, 0, wgs84ProjDez);
         },
+        /**
+         * Initiates the process of moving an entity.
+         * @returns {void}
+         */
         moveEntity () {
             this.setIsDragging(true);
 
             this.eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
             this.eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
         },
+        /**
+         * Selects an object based on the provided event.
+         * @param {Event} event - The event object containing the position information.
+         * @returns {void}
+         */
         selectObject (event) {
             const scene = this.scene,
                 picked = scene.pick(event.position);
@@ -215,14 +242,16 @@ export default {
                 }
             }
         },
+        /**
+         * Handles the mouse move event and performs actions when dragging an object.
+         * @param {Event} event - The event object containing the position information.
+         * @returns {void}
+         */
         onMouseMove (event) {
             if (this.isDragging) {
                 const scene = this.scene,
                     ray = scene.camera.getPickRay(event.endPosition),
                     position = scene.globe.pick(ray, scene);
-
-                // heading = Cesium.Math.toRadians(parseInt(this.rotationAngle, 10)),
-                // hpr = new Cesium.HeadingPitchRoll(heading, 0.0, 0.0); // Heading: 0 Grad, Pitch: 0 Grad, Roll: 0 Grad;
 
                 if (Cesium.defined(position)) {
                     const entities = this.entities,
@@ -231,17 +260,24 @@ export default {
                     if (Cesium.defined(entity)) {
                         entity.position = position;
                         this.updatePositionUI();
-                        // entity.orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
                     }
                 }
             }
         },
+        /**
+         * Handles the mouse up event and performs actions when the dragging of an object is finished.
+         * @returns {void}
+         */
         onMouseUp () {
             if (this.isDragging) {
                 this.removeInputActions();
                 this.setIsDragging(false);
             }
         },
+        /**
+         * Removes the input actions related to mouse move and left double click events.
+         * @returns {void}
+         */
         removeInputActions () {
             if (this.eventHandler) {
                 this.eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
@@ -249,6 +285,11 @@ export default {
                 this.eventHandler.setInputAction(this.moveEntity, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
             }
         },
+        /**
+         * Highlights the specified entity by applying the configured or default highlight style.
+         * @param {Cesium.Entity} entity - The entity to highlight.
+         * @returns {void}
+         */
         highlightEntity (entity) {
             const configuredHighlightStyle = store.state.configJson.Portalconfig.menu.tools.children.modeler3D.highlightStyle,
                 color = configuredHighlightStyle?.color || this.highlightStyle.color,
@@ -256,11 +297,21 @@ export default {
                 silhouetteColor = configuredHighlightStyle?.silhouetteColor || this.highlightStyle.silhouetteColor,
                 silhouetteSize = configuredHighlightStyle?.silhouetteSize || this.highlightStyle.silhouetteSize;
 
-            entity.model.color = Cesium.Color.fromAlpha(Cesium.Color.fromCssColorString(color), parseFloat(alpha));
-            entity.model.silhouetteColor = Cesium.Color.fromCssColorString(silhouetteColor);
+            entity.model.color = Cesium.Color.fromAlpha(
+                Cesium.Color.fromCssColorString(color),
+                parseFloat(alpha)
+            );
+            entity.model.silhouetteColor =
+                Cesium.Color.fromCssColorString(silhouetteColor);
             entity.model.silhouetteSize = parseFloat(silhouetteSize);
             entity.model.colorBlendMode = Cesium.ColorBlendMode.HIGHLIGHT;
         },
+        /**
+         * Shows the specified object by making it visible in the scene.
+         *
+         * @param {Object} object - The object to show.
+         * @returns {void}
+         */
         showObject (object) {
             const scene = this.scene,
                 primitives = scene.primitives,

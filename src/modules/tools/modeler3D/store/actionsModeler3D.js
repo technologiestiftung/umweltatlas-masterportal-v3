@@ -3,6 +3,13 @@ import store from "../../../../app-store";
 import {convertSexagesimalToDecimal, convertSexagesimalFromDecimal} from "../../../../utils/convertSexagesimalCoordinates";
 
 const actions = {
+    /**
+     * Action to delete an entity.
+     *
+     * @param {Object} context - The context of the Vuex module.
+     * @param {string} id - The ID of the entity to delete.
+     * @returns {void}
+     */
     deleteEntity ({commit, getters, state}, id) {
         const entities = getters.entities,
             entity = entities.getById(id),
@@ -14,6 +21,12 @@ const actions = {
             commit("setCurrentModelId", null);
         }
     },
+    /**
+     * Confirms the deletion of an entity by adding a confirmation action.
+     * @param {object} context - The context of the Vuex module.
+     * @param {string} id - The ID of the entity to be deleted.
+     * @returns {void}
+     */
     confirmDeletion ({dispatch, getters}, id) {
         const modelName = getters.getModelNameById(id);
 
@@ -26,7 +39,7 @@ const actions = {
     },
     /**
      * Pushes the formatted coordinates in the selectedCoordinates String[].
-     * @param {Object} context actions context object.
+     * @param {Object} context The context of the Vuex module.
      * @param {String[]} coords the coordinates the user entered
      * @returns {void}
      */
@@ -52,6 +65,7 @@ const actions = {
     },
     /**
      * Reacts on new selected projection. Sets the current projection and its name to state and updates the UI.
+     * @param {object} context - The context of the Vuex module.
      * @param {String} value id of the new selected projection
      * @returns {void}
     */
@@ -63,6 +77,7 @@ const actions = {
     },
     /**
      * Reacts on new input value. Gets the currently selected entity and updates its position.
+     * @param {object} context - The context of the Vuex module.
      * @returns {void}
     */
     updateEntityPosition ({dispatch, getters, state}) {
@@ -80,6 +95,7 @@ const actions = {
     /**
      * Reacts on changed entity position. Gets the currently selected entity position and transforms its coordinates
      * to the currently selected projection.
+     * @param {object} context - The context of the Vuex module.
      * @returns {void}
     */
     updatePositionUI ({dispatch, getters, state}) {
@@ -91,6 +107,12 @@ const actions = {
             dispatch("transformFromCartesian", entityPosition);
         }
     },
+    /**
+     * Increments the value of a coordinate and updates the entity position.
+     * @param {object} context - The context of the Vuex module.
+     * @param {string} coordinate - The coordinate to increment ("easting", "northing", or "height").
+     * @returns {void}
+     */
     incrementCoordinate ({dispatch, state}, coordinate) {
         dispatch("formatInput", [state.coordinatesEasting, state.coordinatesNorthing]);
 
@@ -114,6 +136,12 @@ const actions = {
 
         dispatch("updateEntityPosition");
     },
+    /**
+     * Decrements the value of a coordinate and updates the entity position.
+     * @param {object} context - The context of the Vuex module.
+     * @param {string} coordinate - The coordinate to decrement ("easting", "northing", or "height").
+     * @returns {void}
+     */
     decrementCoordinate ({dispatch, state}, coordinate) {
         dispatch("formatInput", [state.coordinatesEasting, state.coordinatesNorthing]);
 
@@ -139,6 +167,7 @@ const actions = {
     },
     /**
      * Transforms the Cartesian3 coordinates to the currently selected projection and sets it to state.
+     * @param {object} context - The context of the Vuex module.
      * @param {Cartesian3} entityPosition position of currently selected entity
      * @returns {void}
     */
@@ -174,6 +203,7 @@ const actions = {
     },
     /**
      * Transforms the current UI values to Cartesian3 coordinates and sets it to state.
+     * @param {object} context - The context of the Vuex module.
      * @returns {void}
     */
     transformToCartesian ({commit, dispatch, getters, state}) {

@@ -21,7 +21,10 @@ export default {
     computed: {
         ...mapGetters(["namedProjections"]),
         ...mapGetters("Tools/Modeler3D", Object.keys(getters)),
-
+        /**
+         * Returns an additional CSS class for the drop zone based on whether it is currently in a drop-hover state.
+         * @returns {string} - The additional CSS class for the drop zone.
+         */
         dropZoneAdditionalClass: function () {
             return this.dzIsDropHovering ? "dzReady" : "";
         }
@@ -29,32 +32,62 @@ export default {
     methods: {
         ...mapActions("Tools/Modeler3D", Object.keys(actions)),
         ...mapMutations("Tools/Modeler3D", Object.keys(mutations)),
-
+        /**
+         * Handles the drag enter event for a drop zone and sets the flag to indicate drop hovering.
+         * @returns {void}
+         */
         onDZDragenter () {
             this.dzIsDropHovering = true;
         },
+        /**
+         * Handles the drag end event for a drop zone and resets the flag indicating drop hovering.
+         * @returns {void}
+         */
         onDZDragend () {
             this.dzIsDropHovering = false;
         },
+        /**
+         * Handles the mouse enter event for a drop zone and sets the flag to indicate hovering.
+         * @returns {void}
+         */
         onDZMouseenter () {
             this.dzIsHovering = true;
         },
+        /**
+         * Handles the mouse leave event for a drop zone and resets the flag indicating hovering.
+         * @returns {void}
+         */
         onDZMouseleave () {
             this.dzIsHovering = false;
         },
+        /**
+         * Handles the input change event and processes the selected files.
+         * @param {Event} e - The input change event object.
+         * @returns {void}
+         */
         onInputChange (e) {
             if (e.target.files !== undefined) {
                 this.addFile(e.target.files);
             }
             this.$refs["upload-input-file"].value = "";
         },
+        /**
+         * Handles the drop event and processes the dropped files.
+         * @param {Event} e - The drop event object.
+         * @returns {void}
+         */
         onDrop (e) {
             this.dzIsDropHovering = false;
             if (e.dataTransfer.files !== undefined) {
                 this.addFile(e.dataTransfer.files);
             }
         },
-
+        /**
+         * Adds and processes the selected file.
+         *
+         * @param {FileList} files - The selected files.
+         * @returns {void}
+         */
         addFile (files) {
             const reader = new FileReader(),
                 file = files[0],
@@ -94,6 +127,13 @@ export default {
                 reader.readAsText(file);
             }
         },
+        /**
+         * Handles the processing of a GLTF file.
+         *
+         * @param {File} file - The GLTF file.
+         * @param {string} fileName - The name of the file.
+         * @returns {void}
+         */
         handleGltfFile (file, fileName) {
             const entities = this.entities,
                 lastElement = entities.values.slice().pop(),
@@ -121,6 +161,12 @@ export default {
             });
             this.setImportedModels(models);
         },
+        /**
+         * Handles the processing of an OBJ file.
+         * @param {File} file - The OBJ file.
+         * @param {string} fileName - The name of the file.
+         * @returns {void}
+         */
         handleObjFile (file, fileName) {
             const reader = new FileReader();
 
@@ -139,6 +185,12 @@ export default {
             };
             reader.readAsText(file);
         },
+        /**
+         * Handles the processing of a DAE file.
+         * @param {File} file - The DAE file.
+         * @param {string} fileName - The name of the file.
+         * @returns {void}
+         */
         handleDaeFile (file, fileName) {
             const reader = new FileReader();
 
@@ -163,11 +215,21 @@ export default {
             };
             reader.readAsDataURL(file);
         },
+        /**
+         * Triggers a click event on the file input element when the spacebar or enter key is pressed.
+         * @param {Event} event - The keydown event object.
+         * @returns {void}
+         */
         triggerClickOnFileInput (event) {
             if (event.which === 32 || event.which === 13) {
                 this.$refs["upload-input-file"].click();
             }
         },
+        /**
+         * Toggles the visibility of a model entity.
+         * @param {object} model - The model object.
+         * @returns {void}
+         */
         changeVisibility (model) {
             const entities = this.entities,
                 entity = entities.getById(model.id);
@@ -175,9 +237,19 @@ export default {
             entity.show = !model.show;
             model.show = entity.show;
         },
+        /**
+         * Triggers an event to indicate that the entity should be moved.
+         * @emits emit-move
+         * @returns {void}
+         */
         moveEntity () {
             this.$emit("emit-move");
         },
+        /**
+         * Zooms the camera to the specified entity.
+         * @param {string} id - The ID of the entity to zoom to.
+         * @returns {void}
+         */
         zoomTo (id) {
             const scene = this.scene,
                 entities = this.entities,

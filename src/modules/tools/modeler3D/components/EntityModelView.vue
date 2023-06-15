@@ -14,7 +14,15 @@ export default {
     },
     computed: {
         ...mapGetters("Tools/Modeler3D", Object.keys(getters)),
-
+        /**
+         * The rotation angle of the entity.
+         * @type {number}
+         * @name rotationAngle
+         * @memberof EntityModelView
+         * @vue-computed
+         * @vue-prop {number} rotation - The current rotation angle.
+         * @vue-propsetter {number} rotation - Sets the rotation angle, clamping it between -180 and 180 degrees.
+         */
         rotationAngle: {
             get () {
                 return this.rotation;
@@ -46,6 +54,12 @@ export default {
                 this.newProjectionSelected(event.target.value);
             }
         },
+        /**
+         * Handles the change event of the "Adapt to Height" checkbox.
+         * Updates the adaptToHeight state and triggers the entity position update if the checkbox is checked.
+         * @param {boolean} value - The new value of the checkbox.
+         * @returns {void}
+         */
         checkedAdapt (value) {
             this.setAdaptToHeight(value);
 
@@ -53,6 +67,11 @@ export default {
                 this.updateEntityPosition();
             }
         },
+        /**
+         * Rotates the current model based on the value of the rotationAngle property.
+         * Updates the heading of the model and sets its orientation using the calculated quaternion.
+         * @returns {void}
+         */
         rotate () {
             const entities = this.entities,
                 entity = entities.getById(this.currentModelId),
@@ -66,12 +85,22 @@ export default {
             modelFromState.heading = parseInt(this.rotationAngle, 10);
             entity.orientation = orientationMatrix;
         },
+        /**
+         * Decrements the rotationAngle property by the value of rotationClickValue.
+         * Updates the rotationAngle property and calls the rotate method to apply the rotation.
+         * @returns {void}
+         */
         decrementAngle () {
             const newRotationAngle = parseInt(this.rotationAngle, 10) - parseInt(this.rotationClickValue, 10);
 
             this.rotationAngle = Math.max(newRotationAngle, -180);
             this.rotate();
         },
+        /**
+         * Increments the rotationAngle property by the value of rotationClickValue.
+         * Updates the rotationAngle property and calls the rotate method to apply the rotation.
+         * @returns {void}
+         */
         incrementAngle () {
             const newRotationAngle = parseInt(this.rotationAngle, 10) + parseInt(this.rotationClickValue, 10);
 
