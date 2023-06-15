@@ -1,4 +1,5 @@
 <script>
+import BasicFileImport from "../../../../share-components/fileImport/components/BasicFileImport.vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import actions from "../store/actionsModeler3D";
 import getters from "../store/gettersModeler3D";
@@ -11,80 +12,24 @@ import store from "../../../../app-store";
 
 export default {
     name: "ImportView",
+    components: {
+        BasicFileImport
+    },
     emits: ["moveEntity"],
     data () {
         return {
-            dzIsDropHovering: false,
             isHovering: false
         };
     },
     computed: {
         ...mapGetters(["namedProjections"]),
-        ...mapGetters("Tools/Modeler3D", Object.keys(getters)),
-        /**
-         * Returns an additional CSS class for the drop zone based on whether it is currently in a drop-hover state.
-         * @returns {string} - The additional CSS class for the drop zone.
-         */
-        dropZoneAdditionalClass: function () {
-            return this.dzIsDropHovering ? "dzReady" : "";
-        }
+        ...mapGetters("Tools/Modeler3D", Object.keys(getters))
     },
     methods: {
         ...mapActions("Tools/Modeler3D", Object.keys(actions)),
         ...mapMutations("Tools/Modeler3D", Object.keys(mutations)),
         /**
-         * Handles the drag enter event for a drop zone and sets the flag to indicate drop hovering.
-         * @returns {void}
-         */
-        onDZDragenter () {
-            this.dzIsDropHovering = true;
-        },
-        /**
-         * Handles the drag end event for a drop zone and resets the flag indicating drop hovering.
-         * @returns {void}
-         */
-        onDZDragend () {
-            this.dzIsDropHovering = false;
-        },
-        /**
-         * Handles the mouse enter event for a drop zone and sets the flag to indicate hovering.
-         * @returns {void}
-         */
-        onDZMouseenter () {
-            this.dzIsHovering = true;
-        },
-        /**
-         * Handles the mouse leave event for a drop zone and resets the flag indicating hovering.
-         * @returns {void}
-         */
-        onDZMouseleave () {
-            this.dzIsHovering = false;
-        },
-        /**
-         * Handles the input change event and processes the selected files.
-         * @param {Event} e - The input change event object.
-         * @returns {void}
-         */
-        onInputChange (e) {
-            if (e.target.files !== undefined) {
-                this.addFile(e.target.files);
-            }
-            this.$refs["upload-input-file"].value = "";
-        },
-        /**
-         * Handles the drop event and processes the dropped files.
-         * @param {Event} e - The drop event object.
-         * @returns {void}
-         */
-        onDrop (e) {
-            this.dzIsDropHovering = false;
-            if (e.dataTransfer.files !== undefined) {
-                this.addFile(e.dataTransfer.files);
-            }
-        },
-        /**
          * Adds and processes the selected file.
-         *
          * @param {FileList} files - The selected files.
          * @returns {void}
          */
@@ -112,12 +57,12 @@ export default {
                     this.handleDaeFile(file, fileName);
                 }
                 else {
-                    console.error(fileExtension + " files are currently not supported!");
+                    store.dispatch("Alerting/addSingleAlert", {content: i18next.t("common:modules.tools.modeler3D.import.alertingMessages.missingFormat", {format: fileExtension})}, {root: true});
                 }
             };
 
             reader.onerror = (e) => {
-                console.error("Fehler beim Lesen der Datei:", e.target.error);
+                console.error("Error reading the file:", e.target.error);
             };
 
             if (fileExtension === "gltf") {
@@ -129,7 +74,6 @@ export default {
         },
         /**
          * Handles the processing of a GLTF file.
-         *
          * @param {File} file - The GLTF file.
          * @param {string} fileName - The name of the file.
          * @returns {void}
@@ -216,16 +160,6 @@ export default {
             reader.readAsDataURL(file);
         },
         /**
-         * Triggers a click event on the file input element when the spacebar or enter key is pressed.
-         * @param {Event} event - The keydown event object.
-         * @returns {void}
-         */
-        triggerClickOnFileInput (event) {
-            if (event.which === 32 || event.which === 13) {
-                this.$refs["upload-input-file"].click();
-            }
-        },
-        /**
          * Toggles the visibility of a model entity.
          * @param {object} model - The model object.
          * @returns {void}
@@ -270,61 +204,10 @@ export default {
 
 <template lang="html">
     <div>
-        <p
-            class="cta"
-            v-html="$t('modules.tools.modeler3D.import.captions.introInfo')"
+        <BasicFileImport
+            :intro-formats="$t('modules.tools.modeler3D.import.captions.introFormats')"
+            @add-file="addFile"
         />
-        <p
-            class="cta"
-            v-html="$t('modules.tools.modeler3D.import.captions.introFormats')"
-        />
-        <div
-            class="vh-center-outer-wrapper drop-area-fake"
-            :class="dropZoneAdditionalClass"
-        >
-            <div
-                class="vh-center-inner-wrapper"
-            >
-                <p
-                    class="caption"
-                >
-                    {{ $t("modules.tools.modeler3D.import.captions.dropzone") }}
-                </p>
-            </div>
-
-            <!-- eslint-disable-next-line vuejs-accessibility/mouse-events-have-key-events -->
-            <div
-                class="drop-area"
-                @drop.prevent="onDrop"
-                @dragover.prevent
-                @dragenter.prevent="onDZDragenter"
-                @dragleave="onDZDragend"
-                @mouseenter="onDZMouseenter"
-                @mouseleave="onDZMouseleave"
-            />
-            <!--
-                The previous element does not provide a @focusin or @focus reaction as would
-                be considered correct by the linting rule set. Since it's a drop-area for file
-                dropping by mouse, the concept does not apply. Keyboard users may use the
-                matching input fields.
-            -->
-        </div>
-
-        <div>
-            <label
-                ref="upload-label"
-                class="primary-button-wrapper"
-                tabindex="0"
-                @keydown="triggerClickOnFileInput"
-            >
-                <input
-                    ref="upload-input-file"
-                    type="file"
-                    @change="onInputChange"
-                >
-                {{ $t("modules.tools.modeler3D.import.captions.browse") }}
-            </label>
-        </div>
 
         <div v-if="importedModels.length > 0">
             <div class="h-seperator" />
@@ -435,13 +318,6 @@ export default {
         border: 1px solid #DDDDDD;
     }
 
-    input[type="file"] {
-        display: none;
-    }
-    input[type="button"] {
-        display: none;
-    }
-
     .primary-button-wrapper {
         color: $white;
         background-color: $secondary_focus;
@@ -465,64 +341,6 @@ export default {
 
     .red {
         color: red;
-    }
-
-    .drop-area-fake {
-        background-color: $white;
-        border-radius: 12px;
-        border: 2px dashed $accent;
-        padding:24px;
-        transition: background 0.25s, border-color 0.25s;
-
-        &.dzReady {
-            background-color:$accent_hover;
-            border-color:transparent;
-
-            p.caption {
-                color: $white;
-            }
-        }
-
-        p.caption {
-            margin:0;
-            text-align:center;
-            transition: color 0.35s;
-            font-family: $font_family_accent;
-            font-size: $font-size-lg;
-            color: $accent;
-        }
-    }
-
-    .drop-area {
-        position:absolute;
-        top:0;
-        left:0;
-        right:0;
-        bottom:0;
-        z-index:10;
-    }
-
-    .vh-center-outer-wrapper {
-        top:0;
-        left:0;
-        right:0;
-        bottom:0;
-        text-align:center;
-        position:relative;
-
-        &:before {
-            content:'';
-            display:inline-block;
-            height:100%;
-            vertical-align:middle;
-            margin-right:-0.25em;
-        }
-    }
-    .vh-center-inner-wrapper {
-        text-align:left;
-        display:inline-block;
-        vertical-align:middle;
-        position:relative;
     }
 
     .modelListLabel {

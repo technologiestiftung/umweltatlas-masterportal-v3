@@ -41,6 +41,7 @@
             "supplyCoord": "Koordinaten affragen",
             "searchByCoord": "Koordinaten Söök",
             "fileImport": "Datei inföhrn",
+            "modeler3D": "3D Modellmaker",
             "draw": "Teken / Schrieven",
             "shadow": "Scheem",
             "commuterLines": "Pendler (Streck)",
@@ -53,7 +54,7 @@
             "wfsTransaction": "WFS-T Tool",
             "scaleSwitcher": "Maat umschalten",
             "selectFeatures": "Features utwählen",
-            "legend":"Legende",
+            "legend": "Legende",
             "styleVt": "Style VT",
             "bufferAnalysis": "Buffer Analyse",
             "wfsSearch": "WFS Söök"
@@ -94,18 +95,18 @@
     "time": "Tied",
     "modules": {
         "core": {
-          "modelList": {
-            "layer": {
-              "wrongStyleId": "Ünner düsse StyleId: {{styleId}} giff dat keen Styleobjekt. Bidde kiek no, dat in deen Style.json de richtige Style mit de StyleId: {{styleId}} indragen is.",
-              "sensor": {
-                "httpOnError": "<strong>Unerwarteter Fehler beim Laden der Sensordaten des Layers {{name}} aufgetreten</strong>"
-              },
-              "wms": {
-                "errorTimeLayer": "Es ist ein Fehler bei der Vorbereitung des Layer mit der id {{id}} aufgetreten: {{error}}",
-                "invalidTimeLayer": "Der konfigurierte Layer mit der Id {{id}} enthält nicht alle notwendigen Parameter für einen WMS-T."
-              }
+            "modelList": {
+                "layer": {
+                    "wrongStyleId": "Ünner düsse StyleId: {{styleId}} giff dat keen Styleobjekt. Bidde kiek no, dat in deen Style.json de richtige Style mit de StyleId: {{styleId}} indragen is.",
+                    "sensor": {
+                        "httpOnError": "<strong>Unerwarteter Fehler beim Laden der Sensordaten des Layers {{name}} aufgetreten</strong>"
+                    },
+                    "wms": {
+                        "errorTimeLayer": "Es ist ein Fehler bei der Vorbereitung des Layer mit der id {{id}} aufgetreten: {{error}}",
+                        "invalidTimeLayer": "Der konfigurierte Layer mit der Id {{id}} enthält nicht alle notwendigen Parameter für einen WMS-T."
+                    }
+                }
             }
-          }
         },
         "alerting": {
             "hideMessage": "Düsse Naricht nich mehr wiesen",
@@ -151,25 +152,25 @@
             "unknown": "Unbekannt"
         },
         "layerInformation": {
-          "additionalMetadata": "mehr Metadaten",
-          "addressSuffix": "Adress",
-          "multiAddress": "Deenstadressen",
-          "attachFileMessage": "ggf. Datei-Typ bien rünner loaden anhängen",
-          "closeButton": "Dicht moaken",
-          "downloadDataset": "Datensatz rünner loaden",
-          "errorMessage": "Die Abfrage der Metadaten ist fehlgeschlagen. Falls das Problem weiterhin besteht, wenden Sie sich bitte an den Eigentümer des Dienstes: <b>{{cswObjCswUrl}}</b>",
-          "informationAndLegend": "Informatschonen und Legende",
-          "lastModified": "Letzte Ännerung",
-          "legend": "Legende",
-          "noMetadataLoaded": "Es konnten keine Metadaten geladen werden!",
-          "noMetadataMessage": "$t(modules.cswParser.noMetadataMessage)",
-          "periodicityTitle": "Periodizität",
-          "publicationCreation": "Publikation / Erstellung",
-          "buildings":"Buwark",
-          "changeLayerInfo": "Informatschonsschriff wesseln"
+            "additionalMetadata": "mehr Metadaten",
+            "addressSuffix": "Adress",
+            "multiAddress": "Deenstadressen",
+            "attachFileMessage": "ggf. Datei-Typ bien rünner loaden anhängen",
+            "closeButton": "Dicht moaken",
+            "downloadDataset": "Datensatz rünner loaden",
+            "errorMessage": "Die Abfrage der Metadaten ist fehlgeschlagen. Falls das Problem weiterhin besteht, wenden Sie sich bitte an den Eigentümer des Dienstes: <b>{{cswObjCswUrl}}</b>",
+            "informationAndLegend": "Informatschonen und Legende",
+            "lastModified": "Letzte Ännerung",
+            "legend": "Legende",
+            "noMetadataLoaded": "Es konnten keine Metadaten geladen werden!",
+            "noMetadataMessage": "$t(modules.cswParser.noMetadataMessage)",
+            "periodicityTitle": "Periodizität",
+            "publicationCreation": "Publikation / Erstellung",
+            "buildings": "Buwark",
+            "changeLayerInfo": "Informatschonsschriff wesseln"
         },
         "mapMarker": {
-          "nostyleObject": "Zu der angegebenen StyleId: {{styleId}} konnte keine Style gefunden werden. Bitte überprüfen sie ihre Konfiguration."
+            "nostyleObject": "Zu der angegebenen StyleId: {{styleId}} konnte keine Style gefunden werden. Bitte überprüfen sie ihre Konfiguration."
         },
         "menu": {
             "layer": {
@@ -264,8 +265,8 @@
                 "mailSubject": "Supportanfraag toon Portal ",
                 "messageLabel": "Dien Naricht",
                 "privacyPolicy": {
-                  "info": "Sie erklären sich damit einverstanden, dass Ihre Daten zur Bearbeitung Ihres Anliegens verwendet werden. Weitere Informationen und Widerrufshinweise finden Sie in der <a href=\"{{privacyPolicyLink}}\" target=\"_blank\">Datenschutzerklärung</a>.",
-                  "label": "Bitte akzeptieren Sie die Datenschutzerklärung."
+                    "info": "Sie erklären sich damit einverstanden, dass Ihre Daten zur Bearbeitung Ihres Anliegens verwendet werden. Weitere Informationen und Widerrufshinweise finden Sie in der <a href=\"{{privacyPolicyLink}}\" target=\"_blank\">Datenschutzerklärung</a>.",
+                    "label": "Bitte akzeptieren Sie die Datenschutzerklärung."
                 },
                 "sendButton": "Affschicken",
                 "successMessage": "Dien Fraag is op denn Wech.",
@@ -293,13 +294,13 @@
             },
             "shadow": {
                 "shadowDisplay": "Scheemvörstellung"
-              },
+            },
             "styleVT": {
-              "introText": "Auf VectorTiles-Layer können verschiedene vordefinierte Styles angewendet werden, um die Ansicht für den jeweiligen Anwendungszweck zu optimieren.",
-              "noStyleableLayers": "Derzeit sind keine Themen verfügbar, auf die dieses Werkzeug angewendet werden könnte.",
-              "theme": "Thema",
-              "chooseTheme": "Bidde Thema utwählen",
-              "style": "Style"
+                "introText": "Auf VectorTiles-Layer können verschiedene vordefinierte Styles angewendet werden, um die Ansicht für den jeweiligen Anwendungszweck zu optimieren.",
+                "noStyleableLayers": "Derzeit sind keine Themen verfügbar, auf die dieses Werkzeug angewendet werden könnte.",
+                "theme": "Thema",
+                "chooseTheme": "Bidde Thema utwählen",
+                "style": "Style"
             },
             "featureLister": {
                 "chooseTheme": "Bidde Thema utwählen",
@@ -383,12 +384,9 @@
             },
             "fileImport": {
                 "captions": {
-                    "introInfo": "Importieren Sie Ihre gewünschte Datei einfach per Drag and Drop oder alternativ mit dem Öffnen-Dialog des Browsers.",
                     "introFormats": "Es können KML-Dateien (*.kml), GPX-Dateien (*.gpx) oder GeoJson-Dateien (*.geojson, *.json) importiert werden.",
                     "introDrawTool": "Importierte Geometrien können im Nachhinein verändert werden. Nutzen Sie hierfür das Werkzeug &quot;$t(common:menu.tools.draw)&quot;.",
                     "drawTool": "$t(common:menu.tools.draw) öffnen",
-                    "dropzone": "Datei hier ablegen",
-                    "browse": "Datei utwählen",
                     "supportedFiletypes": {
                         "auto": "Automatische Erkennung",
                         "kml": "KML-Datei (*.kml)",
@@ -407,6 +405,66 @@
                 "successfullyImportedLabel": "Erfolgreich importiert:",
                 "title": "Datei importieren"
             },
+            "modeler3D": {
+                "entity": {
+                    "captions": {
+                        "backToList": "Trügg to List",
+                        "delete": "Model löschen",
+                        "deletionTitle": "3D-Model \"{{name}}\" löschen",
+                        "editInfo": "De Position un Röötwen vun dat utwählte Model verännern.",
+                        "editModel": "3D-Model \"{{name}}\" ännern",
+                        "modelName": "Modelnaam",
+                        "pickupPlace": "Dubbelt op en importeert Objekt klicken, um dat op tonehm'n oder to sett'n.",
+                        "projectionInfo": "Oppepas! Wenn du dat WGS84-Koordinatensystem bruukst, köönt Fehlers in de Genauigkeit opträen. Wi raadt an, dekommaale Notatschoon to bruk'n.",
+                        "rotationPlaceholder": "Inkrassieren/Unkrassieren vun Schritten",
+                        "visibilityTitle": "3D-Model \"{{name}}\" wiesen/verstecken",
+                        "zoomTo": "3D-Model \"{{name}}\" inzoomen"
+                    },
+                    "deleteInteraction": {
+                        "confirm": "Löschen",
+                        "headline": "Oppepas",
+                        "text": "Bist du sicher, dat du dat Model \"{{name}}\" löschen wüllt?"
+                    },
+                    "projections": {
+                        "adaptToHeight": "An Terrain anpassen",
+                        "cartesian": {
+                            "eastingLabel": "Ostwaards",
+                            "northingLabel": "Noords"
+                        },
+                        "hdms": {
+                            "eastingLabel": "Längengrod",
+                            "northingLabel": "Breedengrod"
+                        },
+                        "height": "Höögte",
+                        "projection": "Koordinatensystem",
+                        "rotation": "Dreehn",
+                        "rotationSwitch": "Dreeh-Schritten"
+                    }
+                },
+                "import": {
+                    "alertingMessages": {
+                        "featureError": "En Funktion in disse Datei kunn nich lesen warrn.",
+                        "fileSizeError": "De Dateigrött översteiht de Grenze vun 100 MB.",
+                        "formatError": "De Datei \"{{filename}}\" kunn nich lesen warrn. Kiek doch mal, ob de Datei dat Format *.kml, .gpx, .geojson oder .json hett.",
+                        "missingFileContent": "Fehler bi't Lesen vun de Datei \"{{filename}}\". Kiek nochmol na de Dateislag un de Inholt. Wenn de Datei fehlerfrei is, dann nipp dor an den Support.",
+                        "missingFormat": "Dat Format \"{{format}}\" vun de Datei warrt nich unterstützt. Nipp dor an den Support.",
+                        "success": "De Datei \"{{filename}}\" is erfolgreich importeert.",
+                        "successPartly": "De Datei \"{{filename}}\" is deels importeert."
+                    },
+                    "captions": {
+                        "introFormats": "Du kannst glTF-Dateien (.gltf), OBJ-Dateien (.obj) oder Collada-Dateien (.dae) importeern.",
+                        "successfullyImportedLabel": "Importeerte 3D-Models:"
+                    }
+                },
+                "nav": {
+                    "drawTitle": "Trecken",
+                    "importTitle": "Importeern",
+                    "options": "Opties"
+                },
+                "hiddenObjectsLabel": "Verstopte Buudenge:",
+                "hideSwitchLabel": "Buudenge verstecken mit Mausklick",
+                "title": "3D-Modelleur"
+            },
             "parcelSearch": {
                 "wrongConfig": "De Konfiguration giff dat nich",
                 "districtsLoadFailed": "Gemarkungen konnten nicht geladen werden",
@@ -422,9 +480,9 @@
                 "generateReport": "Bericht utgeben"
             },
             "selectFeatures": {
-              "zoomToFeature": "Auf dieses Feature zoomen",
-              "noFeatureChosen": "Keine Features ausgewählt. Wählen Sie Features durch Halten von Strg und Ziehen einer Box um die auszuwählenden Features.",
-              "propertylessFeature": "Element ohne Attribute"
+                "zoomToFeature": "Auf dieses Feature zoomen",
+                "noFeatureChosen": "Keine Features ausgewählt. Wählen Sie Features durch Halten von Strg und Ziehen einer Box um die auszuwählenden Features.",
+                "propertylessFeature": "Element ohne Attribute"
             },
             "supplyCoord": {
                 "title": "Koordinaten affragen",
@@ -440,8 +498,8 @@
             },
             "coordToolkit": {
                 "title": "Koordinaten affragen",
-                "supply":"Koordinaten affragen",
-                "search":"Koordinaten söken",
+                "supply": "Koordinaten affragen",
+                "search": "Koordinaten söken",
                 "searchBtn": "Söök",
                 "coordSystemField": "Koordinatensystem",
                 "heightLabel": "Höhe",
@@ -470,46 +528,46 @@
             "gfi": {
                 "errorMessage": "Bei der Informationsabfrage (GetFeatureInfo) ist ein Fehler aufgetreten.<br>Bitte versuchen Sie es zu einem späteren Zeitpunkt erneut. Falls das Problem weiterhin auftritt, wenden Sie sich bitte an den Betreiber des Dienstes.",
                 "favoriteIcons": {
-                  "compareFeatureIcon": {
-                    "toCompareList": "Op de Vergliekslist",
-                    "fromCompareList": "Vun de Vergliekslist wegmaken"
-                  }
+                    "compareFeatureIcon": {
+                        "toCompareList": "Op de Vergliekslist",
+                        "fromCompareList": "Vun de Vergliekslist wegmaken"
+                    }
                 },
                 "themes": {
                     "default": {
-                      "imgAlt": "Es konnte kein Bild geladen werden.",
-                      "noAttributeAvailable": "Giff keen Attribut !"
+                        "imgAlt": "Es konnte kein Bild geladen werden.",
+                        "noAttributeAvailable": "Giff keen Attribut !"
                     },
                     "sensor": {
-                      "sensor": {
-                        "dataName": "Daten",
-                        "header": {
-                          "name": "Name",
-                          "description": "Beschriebung",
-                          "ownerThing": "Eigentümer"
+                        "sensor": {
+                            "dataName": "Daten",
+                            "header": {
+                                "name": "Name",
+                                "description": "Beschriebung",
+                                "ownerThing": "Eigentümer"
+                            }
+                        },
+                        "sensorBarChart": {
+                            "clock": "{{value}} Uhr",
+                            "chartTitleAverage": "Mittelwert aus",
+                            "month_one": "{{count}} Monat",
+                            "month_other": "{{count}} Monaten",
+                            "year_one": "{{count}} Jahr",
+                            "year_other": "{{count}} Jahren",
+                            "previousWeekday": "Vorheriger Wochentag",
+                            "nextWeekday": "Nächster Wochentag",
+                            "noticeTextAvailable": "(Es werden ausschließlich Daten mit dem Wert available / verfügbar berücksichtigt)",
+                            "noticeTextCharging": "(Es werden ausschließlich Daten mit dem Wert charging / ladend berücksichtigt)",
+                            "noticeTextOutoforder": "(Es werden ausschließlich Daten mit dem Wert outoforder / Außer Betrieb berücksichtigt)"
+                        },
+                        "sensorData": {
+                            "firstColumnHeaderName": "Eigenschaften"
+                        },
+                        "chargingStations": {
+                            "available": "Verfügbarkeit",
+                            "charging": "Auslastung",
+                            "outoforder": "Außer Betrieb"
                         }
-                      },
-                      "sensorBarChart": {
-                        "clock": "{{value}} Uhr",
-                        "chartTitleAverage": "Mittelwert aus",
-                        "month_one": "{{count}} Monat",
-                        "month_other": "{{count}} Monaten",
-                        "year_one": "{{count}} Jahr",
-                        "year_other": "{{count}} Jahren",
-                        "previousWeekday": "Vorheriger Wochentag",
-                        "nextWeekday": "Nächster Wochentag",
-                        "noticeTextAvailable": "(Es werden ausschließlich Daten mit dem Wert available / verfügbar berücksichtigt)",
-                        "noticeTextCharging": "(Es werden ausschließlich Daten mit dem Wert charging / ladend berücksichtigt)",
-                        "noticeTextOutoforder": "(Es werden ausschließlich Daten mit dem Wert outoforder / Außer Betrieb berücksichtigt)"
-                      },
-                      "sensorData": {
-                        "firstColumnHeaderName": "Eigenschaften"
-                      },
-                      "chargingStations": {
-                        "available": "Verfügbarkeit",
-                        "charging": "Auslastung",
-                        "outoforder": "Außer Betrieb"
-                      }
                     }
                 },
                 "boolean": {
@@ -522,20 +580,70 @@
                 }
             },
             "graph": {
-              "localeFormat": {
-                "decimal": "\",\"",
-                "thousands": "\".\"",
-                "grouping": ["3"],
-                "currency": ["€", ""],
-                "dateTime": "\"%a %b %e %X %Y\"",
-                "date": "\"%d.%m.%Y\"",
-                "time": "\"%H:%M:%S\"",
-                "periods": ["AM", "PM"],
-                "days": ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"],
-                "shortDays": ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
-                "months": ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"],
-                "shortMonths": ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
-              }
+                "localeFormat": {
+                    "decimal": "\",\"",
+                    "thousands": "\".\"",
+                    "grouping": [
+                        "3"
+                    ],
+                    "currency": [
+                        "€",
+                        ""
+                    ],
+                    "dateTime": "\"%a %b %e %X %Y\"",
+                    "date": "\"%d.%m.%Y\"",
+                    "time": "\"%H:%M:%S\"",
+                    "periods": [
+                        "AM",
+                        "PM"
+                    ],
+                    "days": [
+                        "Sonntag",
+                        "Montag",
+                        "Dienstag",
+                        "Mittwoch",
+                        "Donnerstag",
+                        "Freitag",
+                        "Samstag"
+                    ],
+                    "shortDays": [
+                        "So",
+                        "Mo",
+                        "Di",
+                        "Mi",
+                        "Do",
+                        "Fr",
+                        "Sa"
+                    ],
+                    "months": [
+                        "Januar",
+                        "Februar",
+                        "März",
+                        "April",
+                        "Mai",
+                        "Juni",
+                        "Juli",
+                        "August",
+                        "September",
+                        "Oktober",
+                        "November",
+                        "Dezember"
+                    ],
+                    "shortMonths": [
+                        "Jan",
+                        "Feb",
+                        "Mär",
+                        "Apr",
+                        "Mai",
+                        "Jun",
+                        "Jul",
+                        "Aug",
+                        "Sep",
+                        "Okt",
+                        "Nov",
+                        "Dez"
+                    ]
+                }
             },
             "searchByCoord": {
                 "coordinateSystem": "Koordinatensystem",
@@ -559,13 +667,13 @@
             "draw": {
                 "clickToPlaceText": "Klicken Sie auf die Karte um den Text zu platzieren",
                 "download": {
-                  "createFirst": "Bitte erstellen Sie zuerst eine Zeichnung oder einen Text!",
-                  "enterFilename": "Bitte Dateiname angeben",
-                  "filename": "Dateiname",
-                  "format": "Format",
-                  "formatNotSupported": "Das Format {{selectedFormat}} wird noch nicht unterstützt.",
-                  "pleaseChoose": "Bitte Auswählen",
-                  "unknownGeometry": "Unbekannte Geometrie: <strong>{{geometry}}</strong>"
+                    "createFirst": "Bitte erstellen Sie zuerst eine Zeichnung oder einen Text!",
+                    "enterFilename": "Bitte Dateiname angeben",
+                    "filename": "Dateiname",
+                    "format": "Format",
+                    "formatNotSupported": "Das Format {{selectedFormat}} wird noch nicht unterstützt.",
+                    "pleaseChoose": "Bitte Auswählen",
+                    "unknownGeometry": "Unbekannte Geometrie: <strong>{{geometry}}</strong>"
                 },
                 "draw": "zeichnen",
                 "geometryDrawFailed": "Die übergebene Geometrie konnte nicht dargestellt werden.",
@@ -792,11 +900,11 @@
                 "errorMsg": "OpenStreetMap-Suche nicht erreichbar."
             },
             "tree": {
-              "chooseObliqueLayer": "Die Auswahl des Layers \"{{hitName}}\" bewirkt einen Wechsel in den <b>Kartenmodus: Schrägluftbilder!</b><br>Der Wechsel kann einige Zeit in Anspruch nehmen.<br><br>Möchten Sie in den <b>Kartenmodus: Schrägluftbilder</b> wechseln?<br>",
-              "choose3dLayer": "Die Auswahl des Layers \"{{hitName}}\" bewirkt einen Wechsel in den <b>Kartenmodus: 3D!</b><br>Der Wechsel kann einige Zeit in Anspruch nehmen.<br><br>Möchten Sie in den <b>Kartenmodus: 3D</b> wechseln?<br>"
+                "chooseObliqueLayer": "Die Auswahl des Layers \"{{hitName}}\" bewirkt einen Wechsel in den <b>Kartenmodus: Schrägluftbilder!</b><br>Der Wechsel kann einige Zeit in Anspruch nehmen.<br><br>Möchten Sie in den <b>Kartenmodus: Schrägluftbilder</b> wechseln?<br>",
+                "choose3dLayer": "Die Auswahl des Layers \"{{hitName}}\" bewirkt einen Wechsel in den <b>Kartenmodus: 3D!</b><br>Der Wechsel kann einige Zeit in Anspruch nehmen.<br><br>Möchten Sie in den <b>Kartenmodus: 3D</b> wechseln?<br>"
             },
             "komoot": {
-              "errorMsg": "Komoot-Photon-Suche nicht erreichbar."
+                "errorMsg": "Komoot-Photon-Suche nicht erreichbar."
             },
             "noInitialResults": "Die initiale Suche ergab keine Treffer."
         },
@@ -829,9 +937,9 @@
             "toggleCollapseAll": "Alle Legenden ein-/ausklappen"
         },
         "zoomToGeometry": {
-          "alertNoFoundFeature" : "Es wurde kein Objekt gefunden! Bitte überprüfen Sie die Eingabeparameter.",
-          "alertParameterizedAccess": "Der parametrisierte Aufruf des Portals ist leider schief gelaufen!",
-          "alertRequiredService": "Details: Ein benötigter Dienst antwortet nicht."
+            "alertNoFoundFeature": "Es wurde kein Objekt gefunden! Bitte überprüfen Sie die Eingabeparameter.",
+            "alertParameterizedAccess": "Der parametrisierte Aufruf des Portals ist leider schief gelaufen!",
+            "alertRequiredService": "Details: Ein benötigter Dienst antwortet nicht."
         },
         "util": {
             "copyToClipboard": {
@@ -877,7 +985,7 @@
             "alertWrongLayerIds": "Im aufgerufenen Link sind Themen enthalten, die nicht mehr gefunden werden können.</br> Um diese Fehlermeldung zukünftig nicht mehr zu erhalten unternehmen Sie bitte folgende Schritte:<ul> <li> Prüfen Sie Ihren gewünschten Kartenausschnitt auf fehlende Inhalte.</li> <li>Speichern Sie Ihre Auswahl erneut mit dem Werkzeug \"Auswahl Speichern\" ab.</li></ul>",
             "alertWrongAmountVisibility": "<strong>Parametrisierter Aufruf fehlerhaft!</strong></br>Die Angaben zu <b>layerIds</b> passen nicht zu <b>visibility</b> bzw. <b>transparency</b>. Sie müssen jeweils in der gleichen Anzahl angegeben werden.",
             "errorLoadConfig": "Die gewünschte Konfigurationsdatei konnte unter folgendem Pfad nicht geladen werden: {{url}}<br>Der URL-Paramater <strong>configJson</strong> verlangt eine Datei mit der Endung \".json\".<br>Es wird versucht die config.json unter dem Standardpfad zu laden."
-          }
+        }
     },
     "snippets": {
         "checkbox": {
@@ -892,9 +1000,9 @@
             "tooltipMessage": "Klicken zum Starten und Beenden",
             "tooltipMessagePolygon": "Klicken um Stützpunkt hinzuzufügen",
             "alert": {
-              "notSupportedOption": "Graphische Auswahl enthält nicht unterstützte Elemente! Verfügbar sind:",
-              "notSupportedSelection": "SelectedOption der graphischen Auswahl wird nicht unterstützt! Verfügbar sind:",
-              "notSupportedElement": "Template-Element der graphischen Auswahl wird nicht unterstützt! Verfügbar sind:"
+                "notSupportedOption": "Graphische Auswahl enthält nicht unterstützte Elemente! Verfügbar sind:",
+                "notSupportedSelection": "SelectedOption der graphischen Auswahl wird nicht unterstützt! Verfügbar sind:",
+                "notSupportedElement": "Template-Element der graphischen Auswahl wird nicht unterstützt! Verfügbar sind:"
             }
         },
         "value": {
@@ -904,7 +1012,7 @@
             "date": "Datum",
             "time": "Uhrzeit",
             "from": " ab",
-            "to":" bis",
+            "to": " bis",
             "incorrectEntry": "Fehlerhafte Eingabe, bitte eine ganze Zahl eingeben!",
             "outOfRangeErrorMessage": "Der Eingabewert muss innerhalb des Gültigkeitsbereiches {{minValueSlider}} und {{maxValueSlider}} liegen!"
         }
@@ -916,6 +1024,11 @@
                 "No": "nee"
             },
             "zoomToResult": "Zum Ergebnis zoomen"
+        },
+        "import": {
+            "browse": "Datei utwähln",
+            "dropzone": "Drop Datei hier",
+            "introInfo": "Importeer de wünschte Datei eenfach, indem du se düch Sleeptou'n of dor einen von de Browers-dialogs brukst."
         }
     }
 }
