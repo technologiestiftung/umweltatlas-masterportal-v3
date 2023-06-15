@@ -13,11 +13,6 @@
 - PrintMap: PrintMap with the 'plotservice' print mode creates successfully print after reopening the tool.
 
 ---
-## v2.34.2 - 2023-06-15
-### Fixed
-- PrintMap with the 'plotservice' print mode creates successfully print after reopening the tool.
-
----
 ## v2.34.1 - 2023-06-12
 ### Changed
 - The following NPM packages have been updated:
