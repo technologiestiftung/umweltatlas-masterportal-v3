@@ -903,7 +903,7 @@ export default {
                     :add-select-all="snippet.addSelectAll"
                     :adjustment="snippet.adjustment"
                     :auto-init="snippet.autoInit"
-                    :delimitor="snippet.delimitor"
+                    :delimiter="snippet.delimiter"
                     :disabled="disabled"
                     :display="snippet.display"
                     :filter-id="layerConfig.filterId"

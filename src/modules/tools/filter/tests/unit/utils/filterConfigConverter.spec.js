@@ -119,7 +119,7 @@ describe("src/module/tools/filter/utils/filterConfigConverter.js", () => {
                 operator: "IN",
                 format: "format",
                 type: "type",
-                delimitor: "|"
+                delimiter: "|"
             };
 
             expect(converter.createSnippetStandard("name", "displayName", "matchingMode", "format", "type")).to.deep.equal(expected);
@@ -133,7 +133,7 @@ describe("src/module/tools/filter/utils/filterConfigConverter.js", () => {
                 operator: "IN",
                 format: undefined,
                 type: "dropdown",
-                delimitor: "|"
+                delimiter: "|"
             };
 
             expect(converter.createSnippetByAttribute("attribute")).to.deep.equal(expected);
@@ -170,7 +170,7 @@ describe("src/module/tools/filter/utils/filterConfigConverter.js", () => {
         it("should return an array of strings if first param is an array of strings", () => {
             const expectedFoo = {
                     "attrName": "foo",
-                    "delimitor": "|",
+                    "delimiter": "|",
                     "format": undefined,
                     "matchingMode": "OR",
                     "operator": "IN",
@@ -178,7 +178,7 @@ describe("src/module/tools/filter/utils/filterConfigConverter.js", () => {
                 },
                 expectedBar = {
                     "attrName": "bar",
-                    "delimitor": "|",
+                    "delimiter": "|",
                     "format": undefined,
                     "matchingMode": "OR",
                     "operator": "IN",

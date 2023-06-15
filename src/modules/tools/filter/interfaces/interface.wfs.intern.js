@@ -272,14 +272,14 @@ export default class InterfaceWfsIntern {
         return Array.isArray(rule.value) && (
             rule.operator === "INTERSECTS" && intersectsForArray(featValueA, featValueB, ruleValueA, ruleValueB, rule.format)
             || rule.operator === "BETWEEN" && betweenForArray(featValueA, featValueB, ruleValueA, ruleValueB, rule.format)
-            || rule.operator === "EQ" && equalsForArray(featValueA, rule.value, rule.format)
+            || rule.operator === "EQ" && equalsForArray(featValueA, rule.value, rule.format, rule.delimiter)
             || rule.operator === "IN" && inForArray(featValueA, rule.value)
             || rule.operator === "STARTSWITH" && startswithForArray(featValueA, rule.value)
             || rule.operator === "ENDSWITH" && endswithForArray(featValueA, rule.value)
         )
         || !Array.isArray(rule.value) && typeof ruleValueA !== "undefined" && (
             rule.operator === "BETWEEN" && between(featValueA, featValueB, ruleValueA, rule.format)
-            || rule.operator === "EQ" && equals(featValueA, ruleValueA, rule.format)
+            || rule.operator === "EQ" && equals(featValueA, ruleValueA, rule.format, rule.delimiter)
             || rule.operator === "NE" && ne(featValueA, ruleValueA, rule.format)
             || rule.operator === "GT" && gt(featValueA, ruleValueA, rule.format)
             || rule.operator === "GE" && ge(featValueA, ruleValueA, rule.format)

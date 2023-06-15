@@ -4,7 +4,7 @@ import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createSty
 import {translateKeyWithPlausibilityCheck} from "../../../../utils/translateKeyWithPlausibilityCheck.js";
 import getIconListFromLegendModule from "../utils/getIconListFromLegend.js";
 import {getDefaultOperatorBySnippetType} from "../utils/getDefaultOperatorBySnippetType.js";
-import splitListWithDelimitor from "../utils/splitListWithDelimitor.js";
+import splitListWithdelimiter from "../utils/splitListWithdelimiter.js";
 import isObject from "../../../../utils/isObject";
 import SnippetInfo from "./SnippetInfo.vue";
 import localeCompare from "../../../../utils/localeCompare";
@@ -47,7 +47,7 @@ export default {
             required: false,
             default: undefined
         },
-        delimitor: {
+        delimiter: {
             type: String,
             required: false,
             default: undefined
@@ -237,7 +237,7 @@ export default {
         },
         securedOperator () {
             if (!this.operatorWhitelist.includes(this.operator)) {
-                return getDefaultOperatorBySnippetType("dropdown", typeof this.delimitor === "string" && this.delimitor);
+                return getDefaultOperatorBySnippetType("dropdown", typeof this.delimiter === "string" && this.delimiter);
             }
             return this.operator;
         }
@@ -278,7 +278,7 @@ export default {
                 this.isAdjusting = true;
             }
 
-            this.addDropdownValueForAdjustment(this.dropdownValue, this.value, adjusting?.adjust?.value, this.delimitor);
+            this.addDropdownValueForAdjustment(this.dropdownValue, this.value, adjusting?.adjust?.value, this.delimiter);
 
             if (adjusting?.finish) {
                 if (Array.isArray(this.allValues)) {
@@ -349,7 +349,7 @@ export default {
         else if (this.api && this.autoInit !== false) {
             this.$nextTick(() => {
                 this.api.getUniqueValues(this.attrName, list => {
-                    this.dropdownValue = this.splitListWithDelimitor(list, this.delimitor);
+                    this.dropdownValue = this.splitListWithdelimiter(list, this.delimiter);
                     this.dropdownSelected = this.getInitialDropdownSelected(this.prechecked, this.dropdownValue, this.multiselect);
                     this.$nextTick(() => {
                         this.isInitializing = false;
@@ -382,7 +382,7 @@ export default {
     },
     methods: {
         translateKeyWithPlausibilityCheck,
-        splitListWithDelimitor,
+        splitListWithdelimiter,
 
         /**
          * Emits the setSnippetPrechecked event.
@@ -554,6 +554,7 @@ export default {
                 fixed: !this.visible,
                 attrName: this.attrName,
                 operator: this.securedOperator,
+                delimiter: this.delimiter,
                 value: result
             });
         },
@@ -598,10 +599,10 @@ export default {
          * @param {String[]} dropdownValue the current dropdownValue to adjust
          * @param {String[]} configValue the value set by configuration, if any
          * @param {String[]} adjustmentValue the value to adjust dropdownValue with
-         * @param {String} [delimitor=false] the delimitor to use, false if not set
+         * @param {String} [delimiter=false] the delimiter to use, false if not set
          * @returns {void}
          */
-        addDropdownValueForAdjustment (dropdownValue, configValue, adjustmentValue, delimitor = false) {
+        addDropdownValueForAdjustment (dropdownValue, configValue, adjustmentValue, delimiter = false) {
             if (!Array.isArray(dropdownValue) || !Array.isArray(adjustmentValue)) {
                 return;
             }
@@ -618,8 +619,8 @@ export default {
             }
 
             adjustmentValue.forEach(value => {
-                if (delimitor && typeof value === "string" && value.indexOf(delimitor)) {
-                    this.addDropdownValueForAdjustment(dropdownValue, configValue, value.split(delimitor), false);
+                if (delimiter && typeof value === "string" && value.indexOf(delimiter)) {
+                    this.addDropdownValueForAdjustment(dropdownValue, configValue, value.split(delimiter), false);
                 }
                 else if (!dropdownValueAssoc[value] && (!Array.isArray(configValue) || Array.isArray(configValue) && configValueAssoc[value])) {
                     dropdownValueAssoc[value] = true;
