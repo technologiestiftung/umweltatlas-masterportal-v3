@@ -10,7 +10,12 @@
 ### Deprecated
 ### Removed
 ### Fixed
-- Filter: fixing the Bug when there are a delimiter and operator with "EQ" configured in Dropdown snippet.
+- PrintMap: PrintMap with the 'plotservice' print mode creates successfully print after reopening the tool.
+
+---
+## v2.34.2 - 2023-06-15
+### Fixed
+- PrintMap with the 'plotservice' print mode creates successfully print after reopening the tool.
 
 ---
 ## v2.34.1 - 2023-06-12
