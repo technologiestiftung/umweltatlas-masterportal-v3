@@ -304,7 +304,7 @@ export default class FilterConfigConverter {
             operator: "IN",
             format,
             type,
-            delimitor: "|"
+            delimiter: "|"
         };
 
         if (typeof displayName === "string") {
