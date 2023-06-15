@@ -1,6 +1,6 @@
 <script>
 import ToolTemplate from "../../ToolTemplate.vue";
-import BasicFileImport from "../../../../share-components/BasicFileImport.vue";
+import BasicFileImport from "../../../../share-components/fileImport/components/BasicFileImport.vue";
 import {getComponent} from "../../../../utils/getComponent";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import getters from "../store/gettersFileImport";
@@ -44,7 +44,6 @@ export default {
          */
         active (isActive) {
             if (isActive) {
-                this.setFocusToFirstControl();
                 this.modifyImportedFileNames(this.importedFileNames);
                 this.modifyImportedFileExtent(this.featureExtents, this.importedFileNames);
             }
@@ -62,17 +61,6 @@ export default {
         ...mapActions("Maps", ["addNewLayerIfNotExists", "zoomToExtent"]),
         ...mapMutations("Tools/FileImport", Object.keys(mutations)),
 
-        /**
-         * Sets the focus to the first control
-         * @returns {void}
-         */
-        setFocusToFirstControl () {
-            this.$nextTick(() => {
-                if (this.$refs["upload-label"]) {
-                    this.$refs["upload-label"].focus();
-                }
-            });
-        },
         addFile (files) {
             Array.from(files).forEach(file => {
                 if (this.importedFileNames.includes(file)) {
@@ -195,7 +183,6 @@ export default {
             >
                 <BasicFileImport
                     :intro-formats="$t('modules.tools.fileImport.captions.introFormats')"
-                    :supported-filetypes="supportedFiletypes"
                     @add-file="addFile"
                 />
 

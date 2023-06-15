@@ -1,5 +1,5 @@
 <script>
-import BasicFileImport from "../../../../share-components/BasicFileImport.vue";
+import BasicFileImport from "../../../../share-components/fileImport/components/BasicFileImport.vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import actions from "../store/actionsModeler3D";
 import getters from "../store/gettersModeler3D";

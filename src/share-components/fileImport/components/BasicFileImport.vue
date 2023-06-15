@@ -34,6 +34,9 @@ export default {
             return this.dzIsDropHovering ? "dzReady" : "";
         }
     },
+    mounted () {
+        this.setFocusToFirstControl();
+    },
     methods: {
         onDZDragenter () {
             this.dzIsDropHovering = true;
@@ -62,13 +65,24 @@ export default {
             if (event.which === 32 || event.which === 13) {
                 this.$refs["upload-input-file"].click();
             }
+        },
+        /**
+         * Sets the focus to the first control
+         * @returns {void}
+         */
+        setFocusToFirstControl () {
+            this.$nextTick(() => {
+                if (this.$refs["upload-label"]) {
+                    this.$refs["upload-label"].focus();
+                }
+            });
         }
     }
 };
 </script>
 
 <template lang="html">
-    <div>
+    <div id="basic-file-import">
         <p
             class="cta"
             v-html="introInfo"

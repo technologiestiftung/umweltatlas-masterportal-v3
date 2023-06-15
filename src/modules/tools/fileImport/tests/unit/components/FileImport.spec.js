@@ -73,18 +73,7 @@ describe("src/modules/tools/fileImport/components/FileImport.vue", () => {
 
         expect(wrapper.vm.selectedFiletype).to.equal("auto");
     });
-    it("sets focus to first input control", async () => {
-        const elem = document.createElement("div");
 
-        if (document.body) {
-            document.body.appendChild(elem);
-        }
-
-        wrapper = shallowMount(FileImportComponent, {store, localVue, attachTo: elem});
-        wrapper.vm.setFocusToFirstControl();
-        await wrapper.vm.$nextTick();
-        expect(wrapper.find(".upload-button-wrapper").element).to.equal(document.activeElement);
-    });
     it("modifies the imported file names", () => {
         const fileNames = ["file1", "file3"];
 
