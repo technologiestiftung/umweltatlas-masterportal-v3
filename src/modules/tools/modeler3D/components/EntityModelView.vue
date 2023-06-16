@@ -83,7 +83,7 @@ export default {
 </script>
 
 <template lang="html">
-    <div>
+    <div id="modeler3D-entity-view">
         <p
             class="cta"
             v-html="$t('modules.tools.modeler3D.entity.captions.editInfo')"

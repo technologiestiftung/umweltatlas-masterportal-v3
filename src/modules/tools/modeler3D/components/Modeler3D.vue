@@ -350,7 +350,10 @@ export default {
                         v-if="currentView"
                         @emit-move="moveEntity"
                     />
-                    <div v-if="!currentView">
+                    <div
+                        v-if="!currentView"
+                        id="modeler3D-options-view"
+                    >
                         <div class="form-check form-switch cta">
                             <input
                                 id="hideObjectsSwitch"

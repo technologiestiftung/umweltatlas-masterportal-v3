@@ -166,7 +166,7 @@ export default {
 </script>
 
 <template lang="html">
-    <div>
+    <div id="modeler3D-import-view">
         <BasicFileImport
             :intro-formats="$t('modules.tools.modeler3D.import.captions.introFormats')"
             @add-file="addFile"
