@@ -941,6 +941,24 @@ Eine option definiert eine Zoomstufe. Diese muss definiert werden über die Aufl
 
 ***
 
+### Portalconfig.login
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|name|ja|String||Der Name für das Module im Menü. Wird überschrieben, wenn der User eingeloggt ist.|false|
+|icon|ja|String||Das Icon neben dem Login Button im Menü. Wird geändert, wenn der User eingeloggt ist (siehe module store).|false|
+
+```json
+{
+    "Portalconfig": {
+      "login": {
+            "name": "translate#common:modules.login.login",
+            "icon": "bi-door-open"
+        }
+    }
+}
+```
+
 ### Portalconfig.quickHelp
 
 Eine detailierte Anleitung zur Konfiguration des QuickHelp-Fensters siehe **[the QuickHelp documentation](quickHelp.md)** .

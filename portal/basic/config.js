@@ -1,4 +1,5 @@
 const Config = {
+    addons: [],
     wfsImgPath: "./resources/img/",
     namedProjections: [
         ["EPSG:25832", "+title=ETRS89/UTM 32N +proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"]
@@ -16,6 +17,14 @@ const Config = {
     },
     quickHelp: {
         imgPath: "./resources/img/"
+    },
+    login: {
+        oidcAuthorizationEndpoint: "https://idm.staging.futr-hub.de/auth/realms/futr-hub-datenplattform/protocol/openid-connect/auth",
+        oidcTokenEndpoint: "https://idm.staging.futr-hub.de/auth/realms/futr-hub-datenplattform/protocol/openid-connect/token",
+        oidcClientId: "authmasterportal",
+        oidcRedirectUri: "https://localhost/portal/basic/",
+        oidcScope: "profile email openid",
+        interceptorUrlRegex: "https://geoportal.staging.futr-hub.de"
     },
     layerConf: "./resources/services-internet.json",
     restConf: "./resources/rest-services-internet.json",

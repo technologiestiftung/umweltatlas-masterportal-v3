@@ -195,6 +195,14 @@
           "buildings":"Buildings",
           "changeLayerInfo": "Switch infotext"
         },
+        "login": {
+            "login": "Login",
+            "logout": "Logout",
+            "progress": "Please login in the opened popup.",
+            "name": "Name",
+            "email": "Email",
+            "profile": "Profile"
+        },
         "mapMarker": {
           "nostyleObject": "No style could be found for the specified StyleId: {{styleId}}. Please check your configuration."
         },

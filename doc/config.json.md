@@ -993,6 +993,24 @@ An option defines a zoom level. Each zoom level is defined by resolution, scale 
 
 ***
 
+### Portalconfig.login
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|name|yes|String||The name for the module in the menu. Overwritten when the user is logged in.|false|
+|icon|yes|String||The icon next to the login button in the menu. Will be changed when the user is logged in (see module store).|false|
+
+```json
+{
+    "Portalconfig": {
+      "login": {
+            "name": "translate#common:modules.login.login",
+            "icon": "bi-door-open"
+        }
+    }
+}
+```
+
 ### Portalconfig.quickHelp
 
 For a detailed documentation of the QuickHelp window see **[the QuickHelp documentation](quickHelp.md)** .

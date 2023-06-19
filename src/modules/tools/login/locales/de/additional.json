@@ -1,0 +1,14 @@
+{
+    "modules": {
+        "tools": {
+            "login": {
+                "login": "Login",
+                "logout": "Logout",
+                "progress": "Bitte melden Sie sich im geöffneten Popup an.",
+                "name": "Name",
+                "email": "E-Mail",
+                "profile": "Profil"
+            }
+        }
+    }
+}
