@@ -5,7 +5,7 @@ export default {
 </script>
 
 <template lang="html">
-    <div>
+    <div id="modeler3D-draw-tool">
         Hier entsteht ein Draw Tool
     </div>
 </template>
