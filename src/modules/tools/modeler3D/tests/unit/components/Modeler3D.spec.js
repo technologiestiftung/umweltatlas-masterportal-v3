@@ -85,9 +85,11 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
 
         store.commit("Tools/Modeler3D/setActive", true);
         store.commit("Tools/Modeler3D/setCurrentModelId", null);
+        store.commit("Tools/Modeler3D/setHiddenObjects", []);
     });
 
     afterEach(() => {
+        sinon.restore();
         if (wrapper) {
             wrapper.destroy();
         }
@@ -101,6 +103,8 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
 
         expect(wrapper.find("#tool-modeler3D").exists()).to.be.true;
         expect(wrapper.find(ImportView).exists()).to.be.true;
+        expect(wrapper.find(DrawView).exists()).to.be.false;
+        expect(wrapper.find("#modeler3D-options-view").exists()).to.be.false;
     });
 
     it("not renders Modeler3D", () => {
@@ -118,6 +122,8 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
 
         expect(wrapper.find("#tool-modeler3D").exists()).to.be.true;
         expect(wrapper.find(DrawView).exists()).to.be.true;
+        expect(wrapper.find(ImportView).exists()).to.be.false;
+        expect(wrapper.find("#modeler3D-options-view").exists()).to.be.false;
     });
 
     it("renders Modeler3D with options view", async () => {
@@ -128,6 +134,8 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
 
         expect(wrapper.find("#tool-modeler3D").exists()).to.be.true;
         expect(wrapper.find("#modeler3D-options-view").exists()).to.be.true;
+        expect(wrapper.find(DrawView).exists()).to.be.false;
+        expect(wrapper.find(ImportView).exists()).to.be.false;
     });
 
     it("renders Modeler3D with entity model view", async () => {
@@ -138,6 +146,9 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
 
         expect(wrapper.find("#tool-modeler3D").exists()).to.be.true;
         expect(wrapper.find(EntityModelView).exists()).to.be.true;
+        expect(wrapper.find(DrawView).exists()).to.be.false;
+        expect(wrapper.find(ImportView).exists()).to.be.false;
+        expect(wrapper.find("#modeler3D-options-view").exists()).to.be.false;
     });
 
     it("renders hiddenObject List when set", async () => {
@@ -180,6 +191,79 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
             expect(projections.length).to.be.equals(6);
             expect(projections[0].id).to.be.not.null;
             expect(projections.filter(proj => proj.id === "http://www.opengis.net/gml/srs/epsg.xml#ETRS893GK3").length).to.be.equals(1);
+        });
+
+        it("selectObject picks an entity", () => {
+            let currentModelId = "";
+            const event = {position: "winCoords"},
+                pickObject = {id: "entityId"};
+
+            scene.pick = sinon.stub().returns(pickObject);
+            Cesium.defined = sinon.stub().returns(true);
+            Cesium.defaultValue = sinon.stub().returns(pickObject);
+
+            wrapper = shallowMount(Modeler3DComponent, {store, localVue});
+            wrapper.vm.selectObject(event);
+
+            currentModelId = store.state.Tools.Modeler3D.currentModelId;
+
+            expect(currentModelId).to.eql("entityId");
+        });
+
+        it("selectObject picks object and adds it to list", () => {
+            let hiddenObjects = [];
+            const event = {position: "winCoords"},
+                pickObject = {pickId: {object: {
+                    show: true,
+                    featureId: "featureId",
+                    pickId: {key: "pickId"},
+                    tileset: {layerReferenceId: "layerId"}
+                }}};
+
+            scene.pick = sinon.stub().returns(pickObject);
+            Cesium.defined = sinon.stub().returns(true);
+            Cesium.defaultValue = sinon.stub().returns(false);
+
+            wrapper = shallowMount(Modeler3DComponent, {store, localVue});
+            wrapper.vm.selectObject(event);
+
+            hiddenObjects = store.state.Tools.Modeler3D.hiddenObjects;
+
+            expect(pickObject.pickId.object.show).to.be.false;
+            expect(hiddenObjects.length).to.be.equals(1);
+            expect(hiddenObjects[0].id).to.be.equals("featureId");
+            expect(hiddenObjects[0].pickId).to.be.equals("pickId");
+            expect(hiddenObjects[0].layerId).to.be.equals("layerId");
+            expect(hiddenObjects[0].name).to.be.equals("Object featureId");
+        });
+
+        it("showObject shows the hidden object and deletes it from list", () => {
+            let hiddenObjects = [];
+            const object = {
+                    id: "featureId",
+                    pickId: "pickId",
+                    layerId: "layerId",
+                    name: "Object featureId"
+                },
+                pickObject = {
+                    pickId: {key: "pickId"},
+                    show: false
+                };
+
+            scene.primitives = {
+                _primitives: [{
+                    layerReferenceId: "layerId",
+                    _selectedTiles: [{content: {getFeature: sinon.stub().returns(pickObject)}}]
+                }]
+            };
+
+            wrapper = shallowMount(Modeler3DComponent, {store, localVue});
+            wrapper.vm.showObject(object);
+
+            hiddenObjects = store.state.Tools.Modeler3D.hiddenObjects;
+
+            expect(hiddenObjects.length).to.eql(0);
+            expect(pickObject.show).to.be.true;
         });
     });
 });

@@ -192,7 +192,7 @@ export default {
                 picked = scene.pick(event.position);
 
             if (Cesium.defined(picked)) {
-                const entity = Cesium.defaultValue(picked.id, picked.primitive.id);
+                const entity = Cesium.defaultValue(picked?.id, picked?.primitive?.id);
 
                 if (entity) {
                     scene.requestRender();
