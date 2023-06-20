@@ -90,7 +90,7 @@ export default {
          * @returns {void}
          */
         clickCoordinate () {
-            if (this.mode !== "search") {
+            if (this.active && this.mode !== "search") {
                 this.positionClicked();
             }
         }

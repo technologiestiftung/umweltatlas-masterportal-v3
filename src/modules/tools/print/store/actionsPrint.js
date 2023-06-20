@@ -87,6 +87,7 @@ export default {
 
         let spec = BuildSpec;
 
+        Object.assign(attr.attributes, print.layoutAttributes);
         spec.setAttributes(attr);
 
         if (state.isMetadataAvailable) {

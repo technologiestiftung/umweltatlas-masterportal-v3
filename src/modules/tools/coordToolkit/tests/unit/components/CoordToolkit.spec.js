@@ -589,7 +589,7 @@ describe("src/modules/tools/coordToolkit/components/CoordToolkit.vue", () => {
             expect(store.state.Tools.CoordToolkit.coordinatesNorthing.value).to.be.equals("");
         });
 
-        it("watch to clickCoordinate in mode supply shall call positionClicked", async () => {
+        it("watch to clickCoordinate in mode supply shall call positionClicked if active is true", async () => {
             wrapper = shallowMount(CoordToolkitComponent, {store, localVue});
 
             store.commit("Tools/CoordToolkit/setActive", true);
@@ -598,6 +598,17 @@ describe("src/modules/tools/coordToolkit/components/CoordToolkit.vue", () => {
 
             wrapper.vm.$options.watch.clickCoordinate.call(wrapper.vm, [10, 20]);
             expect(CoordToolkit.actions.positionClicked.calledOnce).to.be.true;
+        });
+
+        it("watch to clickCoordinate in mode supply shall do nothing if active is false", async () => {
+            wrapper = shallowMount(CoordToolkitComponent, {store, localVue});
+
+            store.commit("Tools/CoordToolkit/setActive", false);
+            await wrapper.vm.$nextTick();
+            expect(store.state.Tools.CoordToolkit.mode).to.be.equals("supply");
+
+            wrapper.vm.$options.watch.clickCoordinate.call(wrapper.vm, [10, 20]);
+            expect(CoordToolkit.actions.positionClicked.notCalled).to.be.true;
         });
 
         it("watch to clickCoordinate in mode search shall not call positionClicked", async () => {

@@ -10,6 +10,8 @@
 ### Deprecated
 ### Removed
 ### Fixed
+- Filter: fixing the Bug when there are a delimiter and operator with "EQ" configured in Dropdown snippet.
+- Draw: mapmarker is no longer displayed if draw-tool is active and user clicked on map.
 
 ---
 ## v2.34.1 - 2023-06-12

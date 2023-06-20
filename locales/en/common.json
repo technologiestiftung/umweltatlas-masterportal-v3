@@ -366,6 +366,8 @@
             "print": {
                 "titleLabel": "Title",
                 "titlePlaceholder": "My title",
+                "subtitleLabel": "Subtitle",
+                "textFieldLabel": "Free text box",
                 "layoutLabel": "Layout",
                 "formatLabel": "Format",
                 "dpiLabel": "DPI",

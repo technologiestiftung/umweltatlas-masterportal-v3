@@ -1857,7 +1857,7 @@ Hinweis: Zeitbezogene Snippets (`date` und `dateRange`) können nur dann im Modu
 |addSelectAll|nein|Boolean|false|Nur für Snippet-Typ `dropdown` mit `multiselect: true`: Ein zusätzlicher Eintrag zum Selektieren/Deselektieren aller Werte wird angeboten.|false|
 |optionsLimit|nein|Number|20000|Nur für Snippet-Typ `dropdown`: Einer Parameter für Anzahl der Optionen in der Dropdown-List.|false|
 |localeCompareParams|nein|[localeCompareParams](#markdown-header-portalconfigmenutoolfilterfilterlayersnippetslocalecompareparams)||Nur für Snippet-Typ `dropdown`: Die Sortierung der Dropdown-Boxen kann über diesen Parameter nach eigenen Wünschen angepasst werden.|false|
-|delimitor|nein|String||Nur für Snippet-Typ `dropdown`: Sollte das Attribut eines Features ein String sein, dessen Wert mit einem Separator als Quasi-Array gedacht ist, kann durch Angabe des separierenden Zeichens (des Delimitors) die Verarbeitung des Strings als Array erzwungen werden.|false|
+|delimiter|nein|String||Nur für Snippet-Typ `dropdown`: Sollte das Attribut eines Features ein String sein, dessen Wert mit einem Separator als Quasi-Array gedacht ist, kann durch Angabe des separierenden Zeichens (des Delimiters) die Verarbeitung des Strings als Array erzwungen werden.|false|
 |renderIcons|nein|String|"none"|Nur für Snippet-Typ `dropdown` mit `display: "list"`: Wenn auf den String `fromLegend` eingestellt, werden Icons aus der Legende bezogen und links neben den Werten angezeigt. Wird hier ein Objekt angegeben, werden die Key-Namen als Wert und der Value als Bild-Pfad verwendet: {attrName: imagePath} (siehe Beispiele).|false|
 |service|nein|[service](#markdown-header-portalconfigmenutoolfilterfilterlayersnippetsservice)||Für das initiale Befüllen eines Snippets (Dropdown, Date, Slider) kann ein alternativer Service genutzt werden. Das kann unter Umständen die Performanz beim initialen Laden erhöhen. Standard ist der Service des konfigurierten [filterLayer](#markdown-header-portalconfigmenutoolfilterfilterlayer).|false|
 |children|nein|[children](#markdown-header-portalconfigmenutoolfilterfilterlayersnippetschildren)[]|[]|Konfiguration von Kind-Snippets.|true|
@@ -2383,6 +2383,7 @@ Druckmodul. Konfigurierbar für 2 Druckdienste: den High Resolution PlotService 
 |printAppId|nein|String|"master"|Id der print app des Druckdienstes. Dies gibt dem Druckdienst vor welche/s Template/s er zu verwenden hat.|false|
 |filename|nein|String|"report"|Dateiname des Druckergebnisses.|false|
 |title|nein|String|"PrintResult"|Titel des Dokuments. Erscheint als Kopfzeile.|false|
+|titleLength|nein|Number|45|Die Länge der Titelzeichen.|false|
 |version|nein|String||Flag welcher Druckdienst verwendet werden soll. Bei "HighResolutionPlotService" wird der High Resolution PlotService verwendet, wenn der Parameter nicht gesetzt wird, wird Mapfish 3 verwendet.|false|
 |isLegendSelected|nein|Boolean|false|Gibt an, ob die Checkbox, zum Legende mitdrucken, aktiviert sein soll. Wird nur angezeigt wenn der Druckdienst (Mapfish Print 3) das Drucken der Legende unterstützt.|false|
 |legendText|nein|String|"Mit Legende"|Beschreibender Text für die printLegend-Checkbox.|false|
