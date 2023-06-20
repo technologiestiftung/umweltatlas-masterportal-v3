@@ -208,6 +208,7 @@ export default {
                         </span>
                         <div class="buttons">
                             <i
+                                id="tool-import-view-zoomTo"
                                 class="inline-button bi"
                                 :class="{ 'bi-geo-alt-fill': isHovering === `${index}-geo`, 'bi-geo-alt': isHovering !== `${index}-geo`}"
                                 :title="$t(`common:modules.tools.modeler3D.entity.captions.zoomTo`, {name: model.name})"
@@ -219,6 +220,7 @@ export default {
                                 @focusout="isHovering = false"
                             />
                             <i
+                                id="tool-import-view-edit"
                                 class="inline-button bi"
                                 :class="{ 'bi-pencil-fill': isHovering === `${index}-edit`, 'bi-pencil': isHovering !== `${index}-edit`}"
                                 :title="$t(`common:modules.tools.modeler3D.entity.captions.editModel`, {name: model.name})"
@@ -231,6 +233,7 @@ export default {
                             />
                             <i
                                 v-if="model.show"
+                                id="tool-import-view-show"
                                 class="inline-button bi"
                                 :class="{ 'bi-eye-slash-fill': isHovering === `${index}-hide`, 'bi-eye': isHovering !== `${index}-hide`}"
                                 :title="$t(`common:modules.tools.modeler3D.entity.captions.visibilityTitle`, {name: model.name})"
@@ -243,6 +246,7 @@ export default {
                             />
                             <i
                                 v-else
+                                id="tool-import-view-hide"
                                 class="inline-button bi"
                                 :class="{ 'bi-eye-fill': isHovering === `${index}-show`, 'bi-eye-slash': isHovering !== `${index}-show`}"
                                 :title="$t(`common:modules.tools.modeler3D.entity.captions.visibilityTitle`, {name: model.name})"
@@ -254,6 +258,7 @@ export default {
                                 @focusout="isHovering = false"
                             />
                             <i
+                                id="tool-import-view-delete"
                                 class="inline-button bi"
                                 :class="{ 'bi-trash3-fill': isHovering === `${index}-del`, 'bi-trash3': isHovering !== `${index}-del`}"
                                 :title="$t(`common:modules.tools.modeler3D.entity.captions.deletionTitle`, {name: model.name})"
