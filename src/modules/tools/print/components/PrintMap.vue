@@ -10,6 +10,8 @@ import getVisibleLayer from "../utils/getVisibleLayer";
 import {Vector} from "ol/layer.js";
 import Cluster from "ol/source/Cluster";
 import isObject from "../../../../utils/isObject";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
+import BuildSpec from "../utils/buildSpec";
 
 /**
  * Tool to print a part of the map
@@ -28,7 +30,7 @@ export default {
     },
     computed: {
         ...mapGetters("Tools/Print", Object.keys(getters)),
-        ...mapGetters("Maps", ["scales, size", "scale"]),
+        ...mapGetters("Maps", ["scales, size", "scale", "getLayerById"]),
         ...mapGetters("Tools/Gfi", ["currentFeature"]),
         currentScale: {
             get () {
@@ -405,7 +407,25 @@ export default {
             }
             nameList.forEach(name => {
                 if (this.hasLayoutAttribute(layout, name)) {
-                    layoutAttributes[name] = this[name];
+                    if (name === "overviewMap") {
+                        layoutAttributes[name] = {
+                            "layers": [BuildSpec.buildTileWms(this.getLayerById({layerId: "453"}), this.dpiForPdf)]
+                        };
+                    }
+                    else if (name === "source") {
+                        layoutAttributes[name] = [];
+                        this.visibleLayerList.forEach(layer => {
+                            const foundRawLayer = rawLayerList.getLayerWhere({id: layer.get("id")});
+
+                            if (foundRawLayer) {
+                                layoutAttributes[name].push(foundRawLayer?.datasets[0].show_doc_url + foundRawLayer.datasets[0].md_id);
+                            }
+                        });
+                        layoutAttributes[name] = layoutAttributes[name].join("\n");
+                    }
+                    else {
+                        layoutAttributes[name] = this[name];
+                    }
                 }
             });
 
