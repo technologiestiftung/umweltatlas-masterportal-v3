@@ -292,8 +292,7 @@ export default {
             const currentPrintLength = this.fileDownloads.filter(file => file.finishState === false).length;
 
             if (currentPrintLength <= 10) {
-                const index = this.fileDownloads.length,
-                    layoutAttributes = this.getLayoutAttributes(this.currentLayout, ["subtitle", "textField"]);
+                const index = this.fileDownloads.length;
 
                 this.addFileDownload({
                     index: index,
@@ -310,7 +309,7 @@ export default {
                     getResponse: async (url, payload) => {
                         return axios.post(url, payload);
                     },
-                    layoutAttributes
+                    layoutAttributes: this.getLayoutAttributes(this.currentLayout, ["subtitle", "textField", "author", "overviewMap", "source"])
                 });
             }
             else {
