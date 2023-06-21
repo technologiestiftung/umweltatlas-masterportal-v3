@@ -498,6 +498,7 @@ export default {
                             v-model="textField"
                             type="text"
                             class="form-control form-control-sm"
+                            maxLength="550"
                         />
                     </div>
                 </div>
