@@ -25,6 +25,7 @@ export default {
         return {
             subtitle: "",
             textField: "",
+            author: "",
             showHintInfoScale: false
         };
     },
@@ -500,6 +501,24 @@ export default {
                             class="form-control form-control-sm"
                             maxLength="550"
                         />
+                    </div>
+                </div>
+                <div
+                    v-if="hasLayoutAttribute(currentLayout, 'author')"
+                    class="form-group form-group-sm row"
+                >
+                    <label
+                        class="col-md-5 col-form-label"
+                        for="author"
+                    >{{ $t("common:modules.tools.print.authorLabel") }}</label>
+                    <div class="col-md-7">
+                        <input
+                            id="author"
+                            v-model="author"
+                            type="text"
+                            class="form-control form-control-sm"
+                            maxLength="60"
+                        >
                     </div>
                 </div>
                 <div class="form-group form-group-sm row">
