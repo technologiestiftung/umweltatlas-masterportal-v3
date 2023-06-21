@@ -368,6 +368,7 @@
                 "titlePlaceholder": "My title",
                 "subtitleLabel": "Subtitle",
                 "textFieldLabel": "Free text box",
+                "authorLabel": "Author",
                 "layoutLabel": "Layout",
                 "formatLabel": "Format",
                 "dpiLabel": "DPI",
