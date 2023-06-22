@@ -412,11 +412,12 @@
                         "deletionTitle": "3D Modeli Sil \"{{name}}\"",
                         "editInfo": "Seçili modelin konumunu ve döndürmesini değiştirin.",
                         "editModel": "3D Modeli Düzenle \"{{name}}\"",
-                        "incrementTooltip": "Nesneyi daha kaba hareket ettirmek için Shift tuşunu basılı tutun.",
+                        "incrementTooltip": "Değeri daha kaba bir şekilde artırmak için Shift tuşunu basılı tutun.",
                         "modelName": "Model Adı",
                         "pickupPlace": "Almak veya yerleştirmek için bir içe aktarılan nesneye çift tıklayın.",
                         "projectionInfo": "Dikkat! WGS84 koordinat sistemi kullanırken hatalar oluşabilir. Ondalık gösterimi kullanmanızı öneririz.",
                         "rotationPlaceholder": "Artış/Azalış adımları",
+                        "scale": "Ölçek",
                         "visibilityTitle": "3D Modeli Göster/Gizle \"{{name}}\"",
                         "zoomTo": "3D Modeline Yakınlaş \"{{name}}\""
                     },

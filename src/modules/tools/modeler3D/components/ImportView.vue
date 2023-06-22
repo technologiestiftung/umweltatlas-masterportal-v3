@@ -101,6 +101,7 @@ export default {
                 name: fileName,
                 show: true,
                 heading: 0,
+                scale: entity.model.scale,
                 edit: false
             });
             this.setImportedModels(models);
@@ -189,13 +190,10 @@ export default {
                 entities = this.entities,
                 entity = entities.getById(id),
                 entityPosition = entity.position.getValue(),
-                currentPosition = scene.camera.positionCartographic,
                 destination = Cesium.Cartographic.fromCartesian(entityPosition);
 
-            destination.height = currentPosition.height;
-
             scene.camera.flyTo({
-                destination: Cesium.Cartesian3.fromRadians(destination.longitude, destination.latitude, destination.height)
+                destination: Cesium.Cartesian3.fromRadians(destination.longitude, destination.latitude, destination.height + 500)
             });
         }
     }

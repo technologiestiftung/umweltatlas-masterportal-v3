@@ -41,6 +41,19 @@ export default {
                 this.setRotation(adjustedValue);
             }
         },
+        scaleVal: {
+            get () {
+                return parseFloat(this.scale);
+            },
+            set (value) {
+                let adjustedValue = value;
+
+                if (value < 0.1) {
+                    adjustedValue = 0.1;
+                }
+                this.setScale(adjustedValue);
+            }
+        },
         coordAdjusted () {
             if (this.currentProjection.epsg !== "EPSG:4326" || this.coordType === "height") {
                 return this.increment ? 0.1 : -0.1;
@@ -169,6 +182,43 @@ export default {
 
             this.rotationAngle = Math.min(newRotationAngle, 180);
             this.rotate();
+        },
+        /**
+         * Scales the current model based on the value of the scaleVal property.
+         * Updates the scale of the model.
+         * @returns {void}
+         */
+        changeScale () {
+            const entities = this.entities,
+                entity = entities.getById(this.currentModelId),
+                modelFromState = this.importedModels.find(model => model.id === this.currentModelId);
+
+            modelFromState.scale = this.scaleVal;
+            entity.model.scale = this.scaleVal;
+        },
+        /**
+         * Decrements the scaleVal property by the value of 0.1. 1 if Shift is pressed.
+         * Updates the scaleVal property and calls the changeScale method to apply the scale.
+         * @param {string} shift - If the shift modifier is active.
+         * @returns {void}
+         */
+        decrementScale (shift = false) {
+            const newScale = shift ? this.scaleVal - 1 : this.scaleVal - 0.1;
+
+            this.scaleVal = newScale.toFixed(1);
+            this.changeScale();
+        },
+        /**
+         * Increments the scaleVal property by the value of 0.1. 1 if Shift is pressed.
+         * Updates the scaleVal property and calls the changeScale method to apply the scale.
+         * @param {string} shift - If the shift modifier is active.
+         * @returns {void}
+         */
+        incrementScale (shift = false) {
+            const newScale = shift ? this.scaleVal + 1 : this.scaleVal + 0.1;
+
+            this.scaleVal = newScale.toFixed(1);
+            this.changeScale();
         }
     }
 };
@@ -323,7 +373,7 @@ export default {
                 >
                     {{ $t("modules.tools.modeler3D.entity.projections.height") }}
                 </label>
-                <div class="col-md-7 position-control">
+                <div class="col-md-6 position-control">
                     <input
                         id="heightField"
                         v-model="height.value"
@@ -444,6 +494,48 @@ export default {
                             {{ value }}
                         </option>
                     </select>
+                </div>
+            </div>
+        </div>
+        <div class="h-seperator" />
+        <div>
+            <div class="form-group form-group-sm row">
+                <label
+                    class="col-md-8 col-form-label"
+                    for="scaleField"
+                >
+                    {{ $t("modules.tools.modeler3D.entity.captions.scale") }}
+                </label>
+                <div class="col-md-4 position-control">
+                    <input
+                        id="scaleField"
+                        v-model="scale"
+                        class="form-control form-control-sm position-input"
+                        type="text"
+                        @input="changeScale"
+                    >
+                    <div>
+                        <button
+                            class="btn btn-primary btn-sm btn-pos"
+                            :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
+                            @click.exact="incrementScale()"
+                            @click.shift="incrementScale(true)"
+                        >
+                            <i
+                                class="bi bi-arrow-up"
+                            />
+                        </button>
+                        <button
+                            class="btn btn-primary btn-sm btn-pos"
+                            :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
+                            @click.exact="decrementScale()"
+                            @click.shift="decrementScale(true)"
+                        >
+                            <i
+                                class="bi bi-arrow-down"
+                            />
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

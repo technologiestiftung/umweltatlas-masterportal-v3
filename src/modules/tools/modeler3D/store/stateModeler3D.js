@@ -49,6 +49,7 @@ export default {
     isDragging: false,
     projections: [],
     rotation: 0,
+    scale: 1,
     selectedCoordinates: [],
 
     // defaults for config.json parameters
