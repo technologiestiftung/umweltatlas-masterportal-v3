@@ -24,6 +24,7 @@
     - @masterportal/masterportalapi: 2.19.0 to 2.19.2
 ### Fixed
 - VectorStyle of multiple geometries with styling rules does not fail on not existing style. (fix within masterportalapi)
+- CoordToolkit: coordInfo hast now a max-width
 
 ---
 
