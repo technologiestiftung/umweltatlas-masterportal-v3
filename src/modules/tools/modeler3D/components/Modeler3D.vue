@@ -11,6 +11,8 @@ import mutations from "../store/mutationsModeler3D";
 import store from "../../../../app-store";
 import crs from "@masterportal/masterportalapi/src/crs";
 
+let eventHandler = null;
+
 export default {
     name: "Modeler3D",
     components: {
@@ -67,12 +69,12 @@ export default {
                 const scene = this.scene;
 
                 this.initProjections();
-                this.setEventHandler(new Cesium.ScreenSpaceEventHandler(scene.canvas));
-                this.eventHandler.setInputAction(this.selectObject, Cesium.ScreenSpaceEventType.LEFT_CLICK);
-                this.eventHandler.setInputAction(this.moveEntity, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+                eventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+                eventHandler.setInputAction(this.selectObject, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+                eventHandler.setInputAction(this.moveEntity, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
             }
             else {
-                this.eventHandler.destroy();
+                eventHandler.destroy();
             }
         },
         /**
@@ -205,8 +207,8 @@ export default {
         moveEntity () {
             this.setIsDragging(true);
 
-            this.eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-            this.eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+            eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+            eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
         },
         /**
          * Selects an object based on the provided event.
@@ -278,10 +280,10 @@ export default {
          * @returns {void}
          */
         removeInputActions () {
-            if (this.eventHandler) {
-                this.eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-                this.eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
-                this.eventHandler.setInputAction(this.moveEntity, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+            if (eventHandler) {
+                eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+                eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+                eventHandler.setInputAction(this.moveEntity, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
             }
         },
         /**
