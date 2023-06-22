@@ -451,7 +451,7 @@ export default {
                                         <i
                                             class="inline-button bi"
                                             :class="{ 'bi-eye-fill': isHovering === `obj-${index}-show`, 'bi-eye-slash': isHovering !== `obj-${index}-show`}"
-                                            :title="$t(`common:modules.tools.modeler3D.entity.visibilityTitle`, {name: object.name})"
+                                            :title="$t(`common:modules.tools.modeler3D.entity.captions.visibilityTitle`, {name: object.name})"
                                             @click="showObject(object)"
                                             @keydown.enter="showObject(object)"
                                             @mouseover="isHovering = `obj-${index}-show`"

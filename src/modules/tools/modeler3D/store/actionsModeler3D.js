@@ -108,64 +108,6 @@ const actions = {
         }
     },
     /**
-     * Increments the value of a coordinate and updates the entity position.
-     * @param {object} context - The context of the Vuex module.
-     * @param {string} coordinate - The coordinate to increment ("easting", "northing", or "height").
-     * @returns {void}
-     */
-    incrementCoordinate ({dispatch, state}, coordinate) {
-        dispatch("formatInput", [state.coordinatesEasting, state.coordinatesNorthing]);
-
-        if (coordinate === "height") {
-            state.height.value = (parseFloat(state.height.value) + 0.1).toFixed(2).toString();
-        }
-        else if (state.currentProjection.epsg === "EPSG:4326") {
-            if (coordinate === "easting") {
-                state.coordinatesEasting.value = (parseFloat(state.selectedCoordinates[0]) + 0.000001).toFixed(6) + "°";
-            }
-            else if (coordinate === "northing") {
-                state.coordinatesNorthing.value = (parseFloat(state.selectedCoordinates[1]) + 0.000001).toFixed(6) + "°";
-            }
-        }
-        else if (coordinate === "easting") {
-            state.coordinatesEasting.value = (state.selectedCoordinates[0] + 0.1).toFixed(2);
-        }
-        else if (coordinate === "northing") {
-            state.coordinatesNorthing.value = (state.selectedCoordinates[1] + 0.1).toFixed(2);
-        }
-
-        dispatch("updateEntityPosition");
-    },
-    /**
-     * Decrements the value of a coordinate and updates the entity position.
-     * @param {object} context - The context of the Vuex module.
-     * @param {string} coordinate - The coordinate to decrement ("easting", "northing", or "height").
-     * @returns {void}
-     */
-    decrementCoordinate ({dispatch, state}, coordinate) {
-        dispatch("formatInput", [state.coordinatesEasting, state.coordinatesNorthing]);
-
-        if (coordinate === "height") {
-            state.height.value = (parseFloat(state.height.value) - 0.1).toFixed(2).toString();
-        }
-        else if (state.currentProjection.epsg === "EPSG:4326") {
-            if (coordinate === "easting") {
-                state.coordinatesEasting.value = (parseFloat(state.selectedCoordinates[0]) - 0.000001).toFixed(6) + "°";
-            }
-            else if (coordinate === "northing") {
-                state.coordinatesNorthing.value = (parseFloat(state.selectedCoordinates[1]) - 0.000001).toFixed(6) + "°";
-            }
-        }
-        else if (coordinate === "easting") {
-            state.coordinatesEasting.value = (state.selectedCoordinates[0] - 0.1).toFixed(2);
-        }
-        else if (coordinate === "northing") {
-            state.coordinatesNorthing.value = (state.selectedCoordinates[1] - 0.1).toFixed(2);
-        }
-
-        dispatch("updateEntityPosition");
-    },
-    /**
      * Transforms the Cartesian3 coordinates to the currently selected projection and sets it to state.
      * @param {object} context - The context of the Vuex module.
      * @param {Cartesian3} entityPosition position of currently selected entity

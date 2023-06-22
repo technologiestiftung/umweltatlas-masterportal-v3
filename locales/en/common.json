@@ -591,6 +591,7 @@
                         "deletionTitle": "Delete 3D Model \"{{name}}\"",
                         "editInfo": "Change the position and rotation of the selected model.",
                         "editModel": "Edit 3D Model \"{{name}}\"",
+                        "incrementTooltip": "Press and hold Shift to move the object more coarsely.",
                         "modelName": "Model Name",
                         "pickupPlace": "Double-click on an imported object to pick it up or place it.",
                         "projectionInfo": "Attention! When using the WGS84 coordinate system, there may be inaccuracies. We recommend using decimal notation.",
