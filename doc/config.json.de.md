@@ -3046,6 +3046,54 @@ Mit dem Messwerkzeug können Strecken und Flächen gemessen werden. Dabei werden
 },
 ```
 
+#### Portalconfig.menu.tool.modeler3D
+
+[inherits]: # (Portalconfig.menu.tool)
+
+Der 3D Modeller erlaubt es 3D Modelle in den Formaten .gltf, .dae und .obj zu importieren, sowie extrudierbare 3D Polygone zu zeichnen.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|highlightStyle|nein|**[highlightStyle](#markdown-header-portalconfigmenutoolmodeler3dhighlightstyle)**||Bestimmen Sie die Füll Farbe, Transparenz, Umrissfarbe und Umrissdicke|false|
+
+**Beispiel**
+
+```json
+{
+    "modeler3D": {
+        "name": "translate#common:menu.tools.modeler3D",
+        "highlightStyle": {
+            "color": "#787777",
+            "alpha": 1,
+            "silhouetteColor": "#E20D0F",
+            "silhouetteSize": 4
+        }
+    }
+}
+```
+
+##### Portalconfig.menu.tool.modeler3D.highlightStyle
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|color|nein|String|#787777|Bestimmen Sie die Füll Farbe zum Hervorheben der Entities|false|
+|alpha|nein|Number|1|Bestimmen Sie die Transparenz zum Hervorheben der Entities|false|
+|silhouetteColor|nein|String|#E20D0F|Bestimmen Sie die Umrissfarbe zum Hervorheben der Entities|false|
+|silhouetteSize|nein|Number|1|Bestimmen Sie die Umrissdicke zum Hervorheben der Entities|false|
+
+**Beispiel**
+
+```json
+{
+    "highlightStyle": {
+        "color": "#787777",
+        "alpha": 1,
+        "silhouetteColor": "#E20D0F",
+        "silhouetteSize": 4
+    }
+}
+```
+
 #### Portalconfig.menu.tool.contact
 
 [inherits]: # (Portalconfig.menu.tool)

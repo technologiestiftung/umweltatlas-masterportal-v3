@@ -3101,6 +3101,54 @@ The measure tool allows measuring distances and areas. This includes the specifi
 }
 ```
 
+#### Portalconfig.menu.tool.modeler3D
+
+[inherits]: # (Portalconfig.menu.tool.modeler3D)
+
+The 3D modeler tool allows importing of 3D models in .gltf, .dae and .obj formats and drawing extrudable 3D polygons.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|highlightStyle|no|**[highlightStyle](#markdown-header-portalconfigmenutoolmodeler3dhighlightstyle)**||Specify the fill color, alpha, outline color and outline width for highlighting entities.|false|
+
+**Example**
+
+```json
+{
+    "modeler3D": {
+        "name": "translate#common:menu.tools.modeler3D",
+        "highlightStyle": {
+            "color": "#787777",
+            "alpha": 1,
+            "silhouetteColor": "#E20D0F",
+            "silhouetteSize": 4
+        }
+    }
+}
+```
+
+##### Portalconfig.menu.tool.modeler3D.highlightStyle
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|color|no|String|#787777|Specify the fill color for highlighting entities.|false|
+|alpha|no|Number|1|Specify the alpha for highlighting entities.|false|
+|silhouetteColor|no|String|#E20D0F|Specify the outline color for highlighting entities.|false|
+|silhouetteSize|no|Number|1|Specify the outline width for highlighting entities.|false|
+
+**Example**
+
+```json
+{
+    "highlightStyle": {
+        "color": "#787777",
+        "alpha": 1,
+        "silhouetteColor": "#E20D0F",
+        "silhouetteSize": 4
+    }
+}
+```
+
 #### Portalconfig.menu.tool.contact
 
 [inherits]: # (Portalconfig.menu.tool)
