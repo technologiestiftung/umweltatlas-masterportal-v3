@@ -10,6 +10,7 @@ import getters from "../store/gettersModeler3D";
 import mutations from "../store/mutationsModeler3D";
 import store from "../../../../app-store";
 import crs from "@masterportal/masterportalapi/src/crs";
+import proj4 from "proj4";
 
 export default {
     name: "Modeler3D",
@@ -32,6 +33,7 @@ export default {
     computed: {
         ...mapGetters(["namedProjections"]),
         ...mapGetters("Tools/Modeler3D", Object.keys(getters)),
+        ...mapGetters("Maps", ["clickCoordinate"]),
         /**
          * Returns the CSS classes for the import tab based on the current view.
          * @returns {string} - The CSS classes for the import tab.
@@ -52,6 +54,18 @@ export default {
          */
         optionsTabClasses: function () {
             return this.currentView === "" ? this.activeTabClass : this.defaultTabClass;
+        },
+        longitude: function () {
+            return this.clickCoordinate ? this.clickCoordinate[0] : "";
+        },
+        latitude: function () {
+            return this.clickCoordinate ? this.clickCoordinate[1] : "";
+        },
+        altitude: function () {
+            return this.clickCoordinate ? this.clickCoordinate[2] : "";
+        },
+        povPossible: function () {
+            return this.longitude && this.latitude && this.altitude;
         },
 
         console: () => console
@@ -336,6 +350,64 @@ export default {
             if (model) {
                 model.set("isActive", false);
             }
+        },
+        positionPovCamera () {
+            const scene = this.scene,
+                clickedPosition = this.clickCoordinate,
+                transformedCoordinates = proj4(proj4("EPSG:25832"), proj4("EPSG:4326"), clickedPosition),
+                currentPosition = scene.camera.positionCartographic,
+                curentCartesian = Cesium.Cartographic.toCartesian(currentPosition),
+                destination = new Cesium.Cartographic(
+                    Cesium.Math.toRadians(transformedCoordinates[0]),
+                    Cesium.Math.toRadians(transformedCoordinates[1])
+                ),
+                handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+
+            destination.height = transformedCoordinates[2] + 1.80;
+            scene.camera.flyTo({
+                destination: Cesium.Cartesian3.fromRadians(destination.longitude, destination.latitude, destination.height),
+                orientation: {
+                    pitch: 0,
+                    roll: 0,
+                    heading: scene.camera.heading
+                }
+            });
+            handler.setInputAction((movement) => {
+                const deltaY = -movement.endPosition.y + movement.startPosition.y,
+                    deltaX = movement.endPosition.x - movement.startPosition.x,
+
+                    sensitivity = 0.005,
+                    pitch = Cesium.Math.clamp(scene.camera.pitch + sensitivity * deltaY, -Cesium.Math.PI_OVER_TWO, Cesium.Math.PI_OVER_TWO),
+                    heading = scene.camera.heading + sensitivity * deltaX;
+
+                scene.camera.setView({
+                    orientation: {
+                        pitch: pitch,
+                        roll: 0,
+                        heading: heading
+                    }
+                });
+            }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+            scene.screenSpaceCameraController.enableZoom = false;
+            scene.screenSpaceCameraController.enableRotate = false;
+            // eslint-disable-next-line require-jsdoc
+            function escapeKeyHandler (e) {
+                if (e.code === "Escape") {
+                    scene.camera.flyTo({
+                        destination: curentCartesian,
+                        complete: () => {
+                            scene.screenSpaceCameraController.enableZoom = true;
+                            scene.screenSpaceCameraController.enableRotate = true;
+
+                            // eslint-disable-next-line no-undef
+                            handler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+                            document.removeEventListener("keydown", escapeKeyHandler);
+                        }
+                    });
+                }
+            }
+
+            document.addEventListener("keydown", escapeKeyHandler);
         }
     }
 };
@@ -420,6 +492,35 @@ export default {
                             >
                                 {{ $t("modules.tools.modeler3D.hideSwitchLabel") }}
                             </label>
+                            <div>
+                                <label><input
+                                    v-model="longitude"
+                                    type="text"
+                                    readonly
+                                >Longitude:</label>
+                            </div>
+
+                            <div>
+                                <label><input
+                                    v-model="latitude"
+                                    type="text"
+                                    readonly
+                                >Latitude:</label>
+                            </div>
+
+                            <div>
+                                <label><input
+                                    v-model="altitude"
+                                    type="text"
+                                    readonly
+                                >Altitude:</label>
+                            </div>
+                            <button
+                                :disabled="!povPossible"
+                                @click="positionPovCamera"
+                            >
+                                {{ $t("modules.tools.modeler3D.pov") }}
+                            </button>
                         </div>
                     </div>
                     <template v-if="hiddenObjects.length > 0">

@@ -642,7 +642,8 @@
                 },
                 "hiddenObjectsLabel": "Ausgeblendete Gebäude:",
                 "hideSwitchLabel": "Gebäude per Mausklick ausblenden",
-                "title": "3D Modeller"
+                "title": "3D Modeller",
+                "pov": "Zur Fußgängeransicht springen"
             },
             "parcelSearch": {
                 "wrongConfig": "Ungültige oder unvollständige Konfiguration",

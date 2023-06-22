@@ -641,7 +641,8 @@
                 },
                 "hiddenObjectsLabel": "Hidden Buildings:",
                 "hideSwitchLabel": "Hide Buildings with Mouse Click",
-                "title": "3D Modeler"
+                "title": "3D Modeler",
+                "pov": "Jump to pedestrian view"
             },
             "parcelSearch": {
                 "wrongConfig": "Invalid or incomplete configuration",
