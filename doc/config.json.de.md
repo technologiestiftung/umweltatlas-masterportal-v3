@@ -1760,6 +1760,7 @@ Die Konfiguration eines Layers.
 |geometryName|nein|String|""|Nur für extern `true` in Verbindung mit Filterung innerhalb von Polygonen: Der Geometrie-Name der Features um eine Schnittmenge feststellen zu können.|false|
 |filterButtonDisabled|nein|Boolean|false|Nur für strategy `passive`: Der Filter-Knopf wird deaktiviert solange der Benutzer nichts im Filter ausgewählt hat.|false|
 |snippets|nein|[snippets](#markdown-header-portalconfigmenutoolfilterfilterlayersnippets)[]|[]|Konfiguration der sogenannten Snippets für das Filtern. Kann bei der minimalsten Variante ein Array von Attribut-Namen sein. Kann komplett weggelassen werden, wenn die automatische Snippet-Ermittlung verwendet werden soll.|false|
+|filterOnZoom|nein|Boolean||Wenn auf `true` eingestellt, wird den Layer beim Zoom dynamisch gefilteret.|false|
 
 **Beispiel**
 
@@ -1778,6 +1779,7 @@ Dieses Beispiel konfiguriert ein Layer mit nur einem einzigen Snippet. Die Art d
     "description": "School master data and pupil numbers of Hamburg schools",
     "snippetTags": true,
     "paging": 100,
+    "filterOnZoom": false,
     "snippets": [
         {
             "attrName": "rebbz_homepage"

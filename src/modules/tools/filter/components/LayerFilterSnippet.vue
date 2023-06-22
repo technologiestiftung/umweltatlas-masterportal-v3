@@ -20,6 +20,7 @@ import {getSnippetAdjustments} from "../utils/getSnippetAdjustments.js";
 import openlayerFunctions from "../utils/openlayerFunctions";
 
 import {isRule} from "../utils/isRule.js";
+import store from "../../../../app-store";
 
 export default {
     name: "LayerFilterSnippet",
@@ -217,6 +218,10 @@ export default {
             && this.isLayerFilterSelected(this.layerConfig.filterId)
             || this.isLayerFilterSelected === true)) {
             this.handleActiveStrategy();
+        }
+
+        if (this.layerConfig.filterOnZoom === true) {
+            this.registerZoomListener();
         }
     },
     methods: {
@@ -673,6 +678,16 @@ export default {
                     });
                 });
             }
+        },
+        /**
+         * Registering a zoom listener.
+         * @returns {void}
+         */
+        registerZoomListener () {
+            store.watch((state, getters) => getters["Maps/scale"], () => {
+                // Function should be implemented later
+                return false;
+            });
         },
         /**
          * Terminating the filter process by terminating every snippet
