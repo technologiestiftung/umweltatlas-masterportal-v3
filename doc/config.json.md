@@ -1468,6 +1468,7 @@ A folder object defined by a name, icon, and its children.
 [type:layerClusterToggler]: # (Portalconfig.menu.tool.layerClusterToggler)
 [type:layerSlider]: # (Portalconfig.menu.tool.layerSlider)
 [type:measure]: # (Portalconfig.menu.tool.measure)
+[type:modeler3D]: # (Portalconfig.menu.tool.modeler3D)
 [type:parcelSearch]: # (Portalconfig.menu.tool.parcelSearch)
 [type:print]: # (Portalconfig.menu.tool.print)
 [type:routing]: # (Portalconfig.menu.tool.routing)
@@ -3131,9 +3132,9 @@ The 3D modeler tool allows importing of 3D models in .gltf, .dae and .obj format
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|color|no|String|#787777|Specify the fill color for highlighting entities.|false|
+|color|no|String|"#787777"|Specify the fill color for highlighting entities.|false|
 |alpha|no|Number|1|Specify the alpha for highlighting entities.|false|
-|silhouetteColor|no|String|#E20D0F|Specify the outline color for highlighting entities.|false|
+|silhouetteColor|no|String|"#E20D0F"|Specify the outline color for highlighting entities.|false|
 |silhouetteSize|no|Number|1|Specify the outline width for highlighting entities.|false|
 
 **Example**
