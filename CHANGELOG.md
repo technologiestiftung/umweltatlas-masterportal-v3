@@ -10,20 +10,27 @@
 - Filter:
   - Add: new parameter "filterOnZoom" in layer configuration to enable if the layer should be filtered dynamically with different zoom levels.
 ### Changed
+
 ### Deprecated
+
 ### Removed
+
 ### Fixed
 - PrintMap: PrintMap with the 'plotservice' print mode creates successfully print after reopening the tool.
+- Draw: mapmarker is no longer displayed if draw-tool is active and user clicked on map.
+- CoordToolkit: coordInfo hast now a max-width
+- Issue #1044: The coordinate transformation error by click in 3D map mode is fixed.
 
 ---
+
 ## v2.34.1 - 2023-06-12
 ### Changed
 - The following NPM packages have been updated:
   - dependencies:
     - @masterportal/masterportalapi: 2.19.0 to 2.19.2
+
 ### Fixed
 - VectorStyle of multiple geometries with styling rules does not fail on not existing style. (fix within masterportalapi)
-- CoordToolkit: coordInfo hast now a max-width
 
 ---
 
