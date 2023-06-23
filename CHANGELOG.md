@@ -5,9 +5,42 @@
 
 ## Unreleased - in development
 ### __Breaking Changes__
+### Added
+- AddWMS Tool uses legendURL and MetadataURL from Capabilities.
+- Filter:
+  - Add: new parameter "filterOnZoom" in layer configuration to enable if the layer should be filtered dynamically with different zoom levels.
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+- PrintMap: PrintMap with the 'plotservice' print mode creates successfully print after reopening the tool.
+- Draw: mapmarker is no longer displayed if draw-tool is active and user clicked on map.
+- CoordToolkit: coordInfo hast now a max-width
+- Issue #1044: The coordinate transformation error by click in 3D map mode is fixed.
+- Issue #1050/Issue #1049: GFI: fixed highlighting of features with geometry polygon or multipolygon
+
+---
+
+## v2.34.1 - 2023-06-12
+### Changed
+- The following NPM packages have been updated:
+  - dependencies:
+    - @masterportal/masterportalapi: 2.19.0 to 2.19.2
+
+### Fixed
+- VectorStyle of multiple geometries with styling rules does not fail on not existing style. (fix within masterportalapi)
+
+---
+
+## v2.34.0 - 2023-06-07
+### __Breaking Changes__
 - The Virtual City Planner tool (virtualcityPLANNER) has been removed
 
 ### Added
+- GFI: nested object values can now be addressed from "gfiAttributes" by dot notation. See [services.json](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md#markdown-header-gfi_attributes) .
 - PortalFooter
   - configuration for mobileFooterInfoToggler has been implemented
   - the icon (arrow) to toggle information is only visible if it is configured
@@ -17,13 +50,18 @@
 - The version of npm was updated to `^8.1.2 || ^9.5.1`
 - The following NPM packages have been updated:
   - dependencies:
-    - @masterportal/masterportalapi: 2.17.0 to 2.18.0
+    - @masterportal/masterportalapi: 2.17.0 to 2.19.0
 
 ### Fixed
 - Tool Coordinates: no errors occur on mobile devices.
-- FileImport: Error fixed when importing KML file with polygon without label.
+- FileImport:
+  - Error fixed when importing KML file with polygon without label.
+  - KML exported from QGIS can now be loaded in the master portal.
+  - Handling of KML generated from the master portal has been improved.
 - URLParam: multiple mdIds entries in the url result in added layers again.
 - Issue #1016: Draw: When creating a text, it is now prevented that a previous is changed.
+- Issue #1021: vectorStyle can now handle geometryCollections.
+- Issue #1022: attributeMapper supports additional time formats
 - Issue #1025: search via urlparam 'query=' opens the suggestion list again.
 - Issue #1026: featureLister width fits content now.
 - Issue #1031/Issue #1034: printing of non clustered features in clustered layers.
@@ -31,6 +69,7 @@
 - Issue #1036: Draw: circle radius is displayed correct for unit 'km'.
 - Issue #1041: Print: Circles are now broken down into 100 segments and correctly displayed as polygons in the printout.
 - DefaultTree Parser: 3d layers will only be created if 3dLayerList exists.
+- Legend: fixed misrepresentation of WFS layers in legend
 
 ### Deprecated
 - Node 16 will no longer be supported as of September 2023 (see https://github.com/nodejs/release#release-schedule).
@@ -39,6 +78,8 @@
 - The following NPM packages have been removed:
     - devDependencies:
         - string-replace-loader
+    - dependencies:
+         - dayjs (moved to masterportalAPI dependency)
 
 ---
 

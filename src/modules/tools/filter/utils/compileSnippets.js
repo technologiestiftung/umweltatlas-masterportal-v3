@@ -229,7 +229,7 @@ function addSnippetMultiselect (snippets) {
 function addSnippetOperator (snippets) {
     snippets.forEach(snippet => {
         if (!Object.prototype.hasOwnProperty.call(snippet, "operator")) {
-            snippet.operator = getDefaultOperatorBySnippetType(snippet.type, snippet.delimitor);
+            snippet.operator = getDefaultOperatorBySnippetType(snippet.type, snippet.delimiter);
         }
     });
 }

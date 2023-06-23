@@ -20,6 +20,7 @@ import {getSnippetAdjustments} from "../utils/getSnippetAdjustments.js";
 import openlayerFunctions from "../utils/openlayerFunctions";
 
 import {isRule} from "../utils/isRule.js";
+import store from "../../../../app-store";
 
 export default {
     name: "LayerFilterSnippet",
@@ -217,6 +218,10 @@ export default {
             && this.isLayerFilterSelected(this.layerConfig.filterId)
             || this.isLayerFilterSelected === true)) {
             this.handleActiveStrategy();
+        }
+
+        if (this.layerConfig.filterOnZoom === true) {
+            this.registerZoomListener();
         }
     },
     methods: {
@@ -675,6 +680,16 @@ export default {
             }
         },
         /**
+         * Registering a zoom listener.
+         * @returns {void}
+         */
+        registerZoomListener () {
+            store.watch((state, getters) => getters["Maps/scale"], () => {
+                // Function should be implemented later
+                return false;
+            });
+        },
+        /**
          * Terminating the filter process by terminating every snippet
          * @returns {void}
          */
@@ -903,7 +918,7 @@ export default {
                     :add-select-all="snippet.addSelectAll"
                     :adjustment="snippet.adjustment"
                     :auto-init="snippet.autoInit"
-                    :delimitor="snippet.delimitor"
+                    :delimiter="snippet.delimiter"
                     :disabled="disabled"
                     :display="snippet.display"
                     :filter-id="layerConfig.filterId"
@@ -924,6 +939,8 @@ export default {
                     :visible="snippet.visible"
                     :options-limit="snippet.optionsLimit"
                     :locale-compare-params="snippet.localeCompareParams"
+                    :filter-geometry="filterGeometry"
+                    :filter-geometry-name="layerConfig.geometryName"
                     @changeRule="changeRule"
                     @deleteRule="deleteRule"
                     @setSnippetPrechecked="setSnippetPrechecked"
@@ -971,6 +988,8 @@ export default {
                     :fixed-rules="fixedRules"
                     :snippet-id="snippet.snippetId"
                     :visible="snippet.visible"
+                    :filter-geometry="filterGeometry"
+                    :filter-geometry-name="layerConfig.geometryName"
                     @changeRule="changeRule"
                     @deleteRule="deleteRule"
                     @setSnippetPrechecked="setSnippetPrechecked"
@@ -1000,6 +1019,8 @@ export default {
                     :snippet-id="snippet.snippetId"
                     :timeout-slider="getTimeoutSlider(snippet)"
                     :visible="snippet.visible"
+                    :filter-geometry="filterGeometry"
+                    :filter-geometry-name="layerConfig.geometryName"
                     @changeRule="changeRule"
                     @deleteRule="deleteRule"
                     @setSnippetPrechecked="setSnippetPrechecked"
@@ -1029,6 +1050,8 @@ export default {
                     :fixed-rules="fixedRules"
                     :snippet-id="snippet.snippetId"
                     :visible="snippet.visible"
+                    :filter-geometry="filterGeometry"
+                    :filter-geometry-name="layerConfig.geometryName"
                     @changeRule="changeRule"
                     @deleteRule="deleteRule"
                     @setSnippetPrechecked="setSnippetPrechecked"
@@ -1057,6 +1080,8 @@ export default {
                     :timeout-input="getTimeoutInput(snippet)"
                     :visible="snippet.visible"
                     :value="snippet.value"
+                    :filter-geometry="filterGeometry"
+                    :filter-geometry-name="layerConfig.geometryName"
                     @changeRule="changeRule"
                     @deleteRule="deleteRule"
                     @setSnippetPrechecked="setSnippetPrechecked"

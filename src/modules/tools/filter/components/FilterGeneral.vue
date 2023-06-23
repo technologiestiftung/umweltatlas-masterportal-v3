@@ -75,8 +75,10 @@ export default {
 
         this.$nextTick(() => {
             if (openlayerFunctions.isUiStyleTable()) {
-                openlayerFunctions.setFilterInTableMenu(this.$el.querySelector("#tool-general-filter"));
-                this.$el.remove();
+                if (typeof this.$el.querySelector === "function" && this.$el.querySelector("#tool-general-filter")) {
+                    openlayerFunctions.setFilterInTableMenu(this.$el.querySelector("#tool-general-filter"));
+                    this.$el.remove();
+                }
             }
         });
         if (Array.isArray(this.layerConfigs.groups) && this.layerConfigs.groups.length > 0) {
