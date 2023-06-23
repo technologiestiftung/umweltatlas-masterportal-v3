@@ -3059,7 +3059,7 @@ Der 3D Modeller erlaubt es 3D Modelle in den Formaten .gltf, .dae und .obj zu im
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|highlightStyle|nein|**[highlightStyle](#markdown-header-portalconfigmenutoolmodeler3dhighlightstyle)**||Bestimmen Sie die Füll Farbe, Transparenz, Umrissfarbe und Umrissdicke|false|
+|highlightStyle|nein|**[highlightStyle](#markdown-header-portalconfigmenutoolmodeler3dhighlightstyle)**||Bestimmen Sie die Füllfarbe, Transparenz, Umrissfarbe und Umrissdicke|false|
 
 **Beispiel**
 
@@ -3081,7 +3081,7 @@ Der 3D Modeller erlaubt es 3D Modelle in den Formaten .gltf, .dae und .obj zu im
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|color|nein|String|"#787777"|Bestimmen Sie die Füll Farbe zum Hervorheben der Entities|false|
+|color|nein|String|"#787777"|Bestimmen Sie die Füllfsarbe zum Hervorheben der Entities|false|
 |alpha|nein|Number|1|Bestimmen Sie die Transparenz zum Hervorheben der Entities|false|
 |silhouetteColor|nein|String|"#E20D0F"|Bestimmen Sie die Umrissfarbe zum Hervorheben der Entities|false|
 |silhouetteSize|nein|Number|1|Bestimmen Sie die Umrissdicke zum Hervorheben der Entities|false|
