@@ -14,16 +14,11 @@ export default {
         ToolTemplate,
         BasicFileImport
     },
-    data () {
-        return {
-            storePath: this.$store.state.Tools.FileImport
-        };
-    },
     computed: {
         ...mapGetters("Tools/FileImport", Object.keys(getters)),
         selectedFiletype: {
             get () {
-                return this.storePath.selectedFiletype;
+                return this.selectedFiletype;
             },
             set (value) {
                 this.setSelectedFiletype(value);
@@ -88,7 +83,7 @@ export default {
         },
         close () {
             this.setActive(false);
-            const model = getComponent(this.storePath.id);
+            const model = getComponent(this.id);
 
             if (model) {
                 model.set("isActive", false);
