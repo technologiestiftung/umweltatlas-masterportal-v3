@@ -366,7 +366,7 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
      */
     addLayer: function (name, id, parentId, level, layers, url, version, {transparent = true, isSelected = false, time = undefined,
         styles = "", legendURL = "", gfiAttributes = "showAll", featureCount = 3, maxScale = "2500000",
-        minScale = "0"}) {
+        minScale = "0", datasets = []}) {
         const layer = {
             id,
             name,
@@ -383,7 +383,7 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
             gfiAttributes,
             featureCount,
             cache: false,
-            datasets: [],
+            datasets,
             format: "image/png",
             gutter: "0",
             isBaseLayer: false,

@@ -138,6 +138,7 @@ export default {
             }
             else {
                 this.setFileDownloads([]);
+                this.setPlotserviceIndex(-1);
                 this.togglePostrenderListener();
             }
         },
