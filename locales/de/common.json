@@ -594,6 +594,7 @@
                         "editModel": "3D-Modell \"{{name}}\" bearbeiten",
                         "modelName": "Modell Name",
                         "pickupPlace": "Doppelklicken Sie auf ein importiertes Objekt, um es aufzuheben oder zu platzieren.",
+                        "povInfo": "Hier haben Sie die Möglichkeit, sich in die Sicht eines Fußgängers zu versetzen. Klicken Sie einfach auf die gewünschte Position in der Karte und bestätigen Sie Ihre Auswahl, indem Sie auf den Knopf klicken. In dieser Ansicht können Sie sich mit der Maus umsehen. Um zur Ausgangsposition zurückzukehren, drücken Sie die Escape-Taste (ESC).",
                         "projectionInfo": "Achtung! Bei Nutzung des WGS84 Koordinatensystems kann es zu Ungenauigkeiten kommen. Wir empfehlen die Nutzung der Dezimal Schreibweise.",
                         "rotationPlaceholder": "Inkrement-/Dekrement-Schritte",
                         "visibilityTitle": "3D-Modell \"{{name}}\" ein-/ausblenden",
@@ -643,7 +644,9 @@
                 "hiddenObjectsLabel": "Ausgeblendete Gebäude:",
                 "hideSwitchLabel": "Gebäude per Mausklick ausblenden",
                 "title": "3D Modeller",
-                "pov": "Zur Fußgängeransicht springen"
+                "pov": "Zur Fußgängeransicht springen",
+                "activatePov": "Aktivieren",
+                "buttonDisabledText": "Klicken Sie bitte zuerst an eine Stelle in der Karte"
             },
             "parcelSearch": {
                 "wrongConfig": "Ungültige oder unvollständige Konfiguration",
