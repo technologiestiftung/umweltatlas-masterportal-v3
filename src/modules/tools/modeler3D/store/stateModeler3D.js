@@ -9,7 +9,6 @@
  * @property {Cartesian3}   currentModelPosition - position of the currently selected or added model
  * @property {Object}       currentProjection - the currently selected projection
  * @property {Boolean}      deactivateGFI - if true, component activation deactivates gfi component
- * @property {eventHandler} eventHandler - the Cesium event handler to handle click and move events
  * @property {Object}       height - id and value of the transformed height coordinate displayed on the ui
  * @property {Object[]}     hiddenObjects - array of hidden objects
  * @property {Object}       highlightStyle default style for highlighting models
@@ -38,7 +37,6 @@ export default {
     currentModelId: null,
     currentModelPosition: null,
     currentProjection: {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm"},
-    eventHandler: null,
     height: {id: "height", value: ""},
     hiddenObjects: [],
     highlightStyle: {
@@ -51,6 +49,7 @@ export default {
     isDragging: false,
     projections: [],
     rotation: 0,
+    scale: 1,
     selectedCoordinates: [],
 
     // defaults for config.json parameters

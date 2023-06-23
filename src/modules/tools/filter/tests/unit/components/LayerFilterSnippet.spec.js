@@ -519,4 +519,38 @@ describe("src/modules/tools/filter/components/LayerFilterSnippet.vue", () => {
             expect(stubIsParentSnippet.called).to.be.false;
         });
     });
+    describe("registerZoomListener", () => {
+        it("should not call the function registerZoomListener", () => {
+            const registerZoomListener = sinon.stub(wrapper.vm, "registerZoomListener");
+
+            LayerFilterSnippet.methods.registerZoomListener = registerZoomListener;
+
+            expect(wrapper.vm.registerZoomListener).to.be.a("function");
+            expect(registerZoomListener.notCalled).to.be.true;
+        });
+
+        it("should call the function registerZoomListener", async () => {
+            const registerZoomListener = sinon.stub(wrapper.vm, "registerZoomListener");
+
+            LayerFilterSnippet.methods.registerZoomListener = registerZoomListener;
+
+            wrapper = shallowMount(LayerFilterSnippet, {
+                propsData: {
+                    layerConfig: {
+                        service: {
+                            type: "something external"
+                        },
+                        filterOnZoom: true
+                    },
+                    mapHandler: new MapHandler({
+                        isLayerActivated: () => false
+                    })
+                },
+                localVue
+            });
+
+            await wrapper.vm.$nextTick();
+            expect(registerZoomListener.called).to.be.true;
+        });
+    });
 });
