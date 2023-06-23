@@ -21,6 +21,7 @@
 - CoordToolkit: coordInfo hast now a max-width
 - Issue #1044: The coordinate transformation error by click in 3D map mode is fixed.
 - Issue #1050/Issue #1049: GFI: fixed highlighting of features with geometry polygon or multipolygon
+- MQTT topic size: topics are sent individually to avoid issue with overall message size > 64kB
 
 ---
 
