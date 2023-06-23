@@ -13,6 +13,8 @@
   - Add: new parameter minZoom and maxZoom in layer configuration to make filter to react with zoom level. If the current zoom level if out of range, the filter will be deactivated.
 
 ### Changed
+ - dependencies:
+         - cesium to @cesium/engine
 
 ### Deprecated
 
