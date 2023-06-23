@@ -20,6 +20,7 @@
  * @property {Array} scaleList available scales of the specified print configuration
  * @property {String} currentScale current print scale
  * @property {String} title title for the report
+ * @property {Number} titleLength - title character length
  * @property {Boolean} isScaleSelectedManually is scale selected by the user over the view
  * @property {Boolean} isMetaDataAvailable true if the current layout supports meta data
  * @property {Boolean} isGfiAvailable true if the current layout supports gfi
@@ -69,6 +70,7 @@ const state = {
     scaleList: [],
     currentScale: undefined,
     title: "PrintResult",
+    titleLength: 45,
     isScaleSelectedManually: false,
     isMetadataAvailable: false,
     metadataAttribute: null,

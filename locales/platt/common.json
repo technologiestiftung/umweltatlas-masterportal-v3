@@ -413,10 +413,12 @@
                         "deletionTitle": "3D-Model \"{{name}}\" löschen",
                         "editInfo": "De Position un Röötwen vun dat utwählte Model verännern.",
                         "editModel": "3D-Model \"{{name}}\" ännern",
+                        "incrementTooltip": "Holl Shift drückt, üm den Weert gröber to stiegen.",
                         "modelName": "Modelnaam",
                         "pickupPlace": "Dubbelt op en importeert Objekt klicken, um dat op tonehm'n oder to sett'n.",
                         "projectionInfo": "Oppepas! Wenn du dat WGS84-Koordinatensystem bruukst, köönt Fehlers in de Genauigkeit opträen. Wi raadt an, dekommaale Notatschoon to bruk'n.",
                         "rotationPlaceholder": "Inkrassieren/Unkrassieren vun Schritten",
+                        "scale": "Skalierung",
                         "visibilityTitle": "3D-Model \"{{name}}\" wiesen/verstecken",
                         "zoomTo": "3D-Model \"{{name}}\" inzoomen"
                     },

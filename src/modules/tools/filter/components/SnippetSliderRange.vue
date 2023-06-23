@@ -41,6 +41,16 @@ export default {
             required: false,
             default: 0
         },
+        filterGeometry: {
+            type: [Object, Boolean],
+            required: false,
+            default: false
+        },
+        filterGeometryName: {
+            type: [String, Boolean],
+            required: false,
+            default: false
+        },
         fixedRules: {
             type: Array,
             required: false,
@@ -325,7 +335,10 @@ export default {
                 true,
                 false,
                 false,
-                {rules: this.fixedRules, filterId: this.filterId}
+                {rules: this.fixedRules, filterId: this.filterId, commands: {
+                    filterGeometry: this.filterGeometry,
+                    geometryName: this.filterGeometryName
+                }}
             );
         },
         /**
@@ -360,7 +373,10 @@ export default {
                 false,
                 true,
                 false,
-                {rules: this.fixedRules, filterId: this.filterId}
+                {rules: this.fixedRules, filterId: this.filterId, commands: {
+                    filterGeometry: this.filterGeometry,
+                    geometryName: this.filterGeometryName
+                }}
             );
         },
         /**

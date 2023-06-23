@@ -403,10 +403,12 @@
                         "deletionTitle": "Excluir Modelo 3D \"{{name}}\"",
                         "editInfo": "Alterar a posição e rotação do modelo selecionado.",
                         "editModel": "Editar Modelo 3D \"{{name}}\"",
+                        "incrementTooltip": "Mantenha premida a tecla Shift para aumentar o valor de forma mais grosseira.",
                         "modelName": "Nome do Modelo",
                         "pickupPlace": "Clique duas vezes em um objeto importado para pegá-lo ou colocá-lo.",
                         "projectionInfo": "Atenção! Ao utilizar o sistema de coordenadas WGS84, podem ocorrer imprecisões. Recomendamos o uso de notação decimal.",
                         "rotationPlaceholder": "Incrementar/Decrementar etapas",
+                        "scale": "Escala",
                         "visibilityTitle": "Mostrar/Ocultar Modelo 3D \"{{name}}\"",
                         "zoomTo": "Zoom para o Modelo 3D \"{{name}}\""
                     },
