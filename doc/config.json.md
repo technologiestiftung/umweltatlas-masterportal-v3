@@ -1823,6 +1823,7 @@ An object to define a layer to filter with.
 |geometryName|no|String|""|Only for extern `true` in connection with filtering within polygons: The geometry name of the features to be able to detect an intersection.|false|
 |filterButtonDisabled|no|Boolean|false|Only for strategy `passive`: Disable the filter button while nothing is selected.|false|
 |snippets|no|[snippets](#markdown-header-portalconfigmenutoolfilterfilterlayersnippets)[]|[]|Configuration of snippets to adjust the filtering. Can be a minimalistic array of attribute names. Can be left empty to use the automatic identification of all snippets possible.|false|
+|filterOnZoom|no|Boolean||If it is `true`, the layer will be filtered dynamically with different zoom Levels|false|
 
 **Example**
 
@@ -1842,6 +1843,7 @@ In this example one snippet is set with only an attrName. The snippet type is de
     "description": "School master data and pupil numbers of Hamburg schools",
     "snippetTags": true,
     "paging": 100,
+    "filterOnZoom": false,
     "snippets": [
         {
             "attrName": "rebbz_homepage"
@@ -2444,6 +2446,7 @@ Print module, configurable for 2 print services: *High Resolution PlotService* a
 |printAppId|no|String|"master"|Print service print app id. This tells the print service which template(s) to use.|false|
 |filename|no|String|"report"|Print result file name.|false|
 |title|no|String|"PrintResult"|Document title appearing as header.|false|
+|titleLength|no|Number|45|The length of the title characters.|false|
 |isLegendSelected|no|Boolean|false|Defines whether a checkbox to print the legend is offered. Only used for print services supporting legend printing (Mapfish Print 3).|false|
 |legendText|no|String|"Mit Legende"|Descriptive text for the legend print checkbox.|false|
 |dpiForPdf|no|Number|200|DPI resolution for the map in the PDF file.|false|

@@ -366,6 +366,9 @@
             "print": {
                 "titleLabel": "Title",
                 "titlePlaceholder": "My title",
+                "subtitleLabel": "Subtitle",
+                "textFieldLabel": "Free text box",
+                "authorLabel": "Author",
                 "layoutLabel": "Layout",
                 "formatLabel": "Format",
                 "dpiLabel": "DPI",
@@ -591,10 +594,12 @@
                         "deletionTitle": "Delete 3D Model \"{{name}}\"",
                         "editInfo": "Change the position and rotation of the selected model.",
                         "editModel": "Edit 3D Model \"{{name}}\"",
+                        "incrementTooltip": "Hold down Shift to increase the value more coarsely.",
                         "modelName": "Model Name",
                         "pickupPlace": "Double-click on an imported object to pick it up or place it.",
                         "projectionInfo": "Attention! When using the WGS84 coordinate system, there may be inaccuracies. We recommend using decimal notation.",
                         "rotationPlaceholder": "Increment/Decrement steps",
+                        "scale": "Scale",
                         "visibilityTitle": "Show/Hide 3D Model \"{{name}}\"",
                         "zoomTo": "Zoom to 3D Model \"{{name}}\""
                     },
