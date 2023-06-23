@@ -597,6 +597,7 @@
                         "incrementTooltip": "Hold down Shift to increase the value more coarsely.",
                         "modelName": "Model Name",
                         "pickupPlace": "Double-click on an imported object to pick it up or place it.",
+                        "povInfo": "Here you have the possibility to put yourself in the view of a pedestrian. Simply click on the desired position in the map and confirm your selection by clicking on the button. In this view you can look around with the mouse. To return to the starting position, press the Escape key (ESC).",
                         "projectionInfo": "Attention! When using the WGS84 coordinate system, there may be inaccuracies. We recommend using decimal notation.",
                         "rotationPlaceholder": "Increment/Decrement steps",
                         "scale": "Scale",
@@ -647,7 +648,9 @@
                 "hiddenObjectsLabel": "Hidden Buildings:",
                 "hideSwitchLabel": "Hide Buildings with Mouse Click",
                 "title": "3D Modeler",
-                "pov": "Jump to pedestrian view"
+                "activatePov": "Activate",
+                "pov": "Jump to pedestrian view",
+                "buttonDisabledText": "Please click first on a place in the map."
             },
             "parcelSearch": {
                 "wrongConfig": "Invalid or incomplete configuration",

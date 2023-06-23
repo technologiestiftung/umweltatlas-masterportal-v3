@@ -649,8 +649,8 @@
                 "hiddenObjectsLabel": "Ausgeblendete Gebäude:",
                 "hideSwitchLabel": "Gebäude per Mausklick ausblenden",
                 "title": "3D Modeller",
-                "pov": "Zur Fußgängeransicht springen",
                 "activatePov": "Aktivieren",
+                "pov": "Zur Fußgängeransicht springen",
                 "buttonDisabledText": "Klicken Sie bitte zuerst an eine Stelle in der Karte"
             },
             "parcelSearch": {
