@@ -14,11 +14,16 @@ export default {
         ToolTemplate,
         BasicFileImport
     },
+    data () {
+        return {
+            storePath: this.$store.state.Tools.FileImport
+        };
+    },
     computed: {
         ...mapGetters("Tools/FileImport", Object.keys(getters)),
         selectedFiletype: {
             get () {
-                return this.selectedFiletype;
+                return this.storePath.selectedFiletype;
             },
             set (value) {
                 this.setSelectedFiletype(value);
@@ -27,9 +32,7 @@ export default {
 
         dropZoneAdditionalClass: function () {
             return this.dzIsDropHovering ? "dzReady" : "";
-        },
-
-        console: () => console
+        }
     },
     watch: {
         /**
