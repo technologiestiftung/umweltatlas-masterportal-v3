@@ -1,0 +1,210 @@
+import Vuex from "vuex";
+import {expect} from "chai";
+import sinon from "sinon";
+import {config, shallowMount, createLocalVue} from "@vue/test-utils";
+import Modeler3DEntityModelComponent from "../../../components/Modeler3DEntityModel.vue";
+import Modeler3D from "../../../store/indexModeler3D";
+
+const localVue = createLocalVue();
+
+localVue.use(Vuex);
+config.mocks.$t = key => key;
+
+describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
+    const entity = {
+
+        },
+        entities = {
+            getById: sinon.stub().returns(entity)
+        },
+        map3D = {
+            id: "1",
+            mode: "3D",
+            getDataSourceDisplay: () => {
+                return {
+                    defaultDataSource: {
+                        entities: entities
+                    }
+                };
+            }
+        };
+
+    let store,
+        wrapper,
+        origUpdateEntityPosition;
+
+    beforeEach(() => {
+        mapCollection.clear();
+        mapCollection.addMap(map3D, "3D");
+
+        origUpdateEntityPosition = Modeler3D.actions.updateEntityPosition;
+        Modeler3D.actions.updateEntityPosition = sinon.spy();
+
+        store = new Vuex.Store({
+            namespaces: true,
+            modules: {
+                Tools: {
+                    namespaced: true,
+                    modules: {
+                        Modeler3D
+                    }
+                }
+            }
+        });
+
+        store.commit("Tools/Modeler3D/setProjections", [{
+            "title": "WGS84_Lat-Lon (Grad, Dezimal), EPSG 4326",
+            "projName": "longlat",
+            "name": "EPSG:4326-DG",
+            "id": "http://www.opengis.net/gml/srs/epsg.xml#4326-DG",
+            "epsg": "EPSG:4326"
+        },
+        {
+            "title": "WGS 84 (long/lat)",
+            "projName": "longlat",
+            "name": "http://www.opengis.net/gml/srs/epsg.xml#4326",
+            "id": "http://www.opengis.net/gml/srs/epsg.xml#4326",
+            "epsg": "EPSG:4326"
+        },
+        {
+            "title": "ETRS89/UTM 32N",
+            "projName": "utm",
+            "name": "http://www.opengis.net/gml/srs/epsg.xml#25832",
+            "id": "http://www.opengis.net/gml/srs/epsg.xml#25832",
+            "epsg": "EPSG:25832"
+        }]);
+        store.commit("Tools/Modeler3D/setActive", true);
+        store.commit("Tools/Modeler3D/setCurrentModelId", 1);
+        store.commit("Tools/Modeler3D/setCurrentProjection", {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm"});
+        store.commit("Tools/Modeler3D/setImportedModels", [{id: 1, name: "modelName"}]);
+    });
+
+    afterEach(() => {
+        Modeler3D.actions.updateEntityPosition = origUpdateEntityPosition;
+        store.commit("Tools/Modeler3D/setCurrentProjection", {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm"});
+
+        sinon.restore();
+        if (wrapper) {
+            wrapper.destroy();
+        }
+    });
+
+    it("renders Modeler3DEntityModel", async () => {
+        wrapper = shallowMount(Modeler3DEntityModelComponent, {store, localVue});
+
+        expect(wrapper.find("#modeler3D-entity-view").exists()).to.be.true;
+        expect(wrapper.find("#model-name").exists()).to.be.true;
+        expect(wrapper.find("#projection").exists()).to.be.true;
+        expect(wrapper.find("#position").exists()).to.be.true;
+        expect(wrapper.find("#easting").exists()).to.be.true;
+        expect(wrapper.find("#northing").exists()).to.be.true;
+        expect(wrapper.find("#height").exists()).to.be.true;
+        expect(wrapper.find("#rotation").exists()).to.be.true;
+        expect(wrapper.find("#scale").exists()).to.be.true;
+        expect(wrapper.find("#footer-buttons").exists()).to.be.true;
+    });
+
+    it("renders projection warning with id 4326 and hides buttons", async () => {
+        wrapper = shallowMount(Modeler3DEntityModelComponent, {store, localVue});
+
+        store.commit("Tools/Modeler3D/setCurrentProjection", {id: "http://www.opengis.net/gml/srs/epsg.xml#4326"});
+        await wrapper.vm.$nextTick();
+
+        expect(wrapper.find("#modeler3D-entity-view").exists()).to.be.true;
+        expect(wrapper.find("#projection-warning").exists()).to.be.true;
+        expect(wrapper.find("#easting-buttons").exists()).to.be.false;
+        expect(wrapper.find("#northing-buttons").exists()).to.be.false;
+    });
+
+    it("renders height buttons when adaptHeight is unchecked", async () => {
+        wrapper = shallowMount(Modeler3DEntityModelComponent, {store, localVue});
+
+        store.commit("Tools/Modeler3D/setAdaptToHeight", false);
+        await wrapper.vm.$nextTick();
+
+        expect(wrapper.find("#modeler3D-entity-view").exists()).to.be.true;
+        expect(wrapper.find("#height-buttons").exists()).to.be.true;
+    });
+
+    it("has initially selected projection \"EPSG:25832\"", async () => {
+        let options = null,
+            selected = null,
+            projWrapper = null;
+
+        const projections = store.state.Tools.Modeler3D.projections;
+
+        wrapper = shallowMount(Modeler3DEntityModelComponent, {store, localVue});
+
+        projWrapper = wrapper.find("#projection");
+        options = projWrapper.findAll("option");
+        expect(options.length).to.equal(projections.length);
+
+        selected = options.filter(o => o.attributes().selected === "true");
+        expect(selected.length).to.equal(1);
+        expect(selected.at(0).attributes().value).to.equal("http://www.opengis.net/gml/srs/epsg.xml#25832");
+    });
+
+    describe("Modeler3DEntityModel.vue methods", () => {
+        it("method selectionChanged sets currentProjection", () => {
+            const value = "http://www.opengis.net/gml/srs/epsg.xml#4326",
+                event = {
+                    target: {
+                        value: value
+                    }
+                };
+
+            wrapper = shallowMount(Modeler3DEntityModelComponent, {store, localVue});
+            wrapper.vm.selectionChanged(event);
+            expect(store.state.Tools.Modeler3D.currentProjection.name).to.be.equals(value);
+            expect(store.state.Tools.Modeler3D.currentProjection.projName).to.be.equals("longlat");
+        });
+
+        it("label returns correct path", () => {
+            const key = "key";
+            let value = "http://www.opengis.net/gml/srs/epsg.xml#4326",
+                event = {
+                    target: {
+                        value: value
+                    }
+                },
+                ret = "";
+
+            wrapper = shallowMount(Modeler3DEntityModelComponent, {store, localVue});
+            wrapper.vm.selectionChanged(event);
+
+            ret = wrapper.vm.getLabel(key);
+            expect(ret).to.be.equals("modules.tools.modeler3D.entity.projections.hdms.key");
+
+            value = "http://www.opengis.net/gml/srs/epsg.xml#25832";
+            event = {
+                target: {
+                    value: value
+                }
+            };
+            wrapper.vm.selectionChanged(event);
+            ret = wrapper.vm.getLabel(key);
+            expect(ret).to.be.equals("modules.tools.modeler3D.entity.projections.cartesian.key");
+
+            value = null;
+            event = {
+                target: {
+                    value: value
+                }
+            };
+            wrapper.vm.selectionChanged(event);
+            ret = wrapper.vm.getLabel(key);
+            expect(ret).to.be.equals("modules.tools.modeler3D.entity.projections.cartesian.key");
+        });
+
+        it("adjustCoordinate adds value to easting coordinate", () => {
+            store.commit("Tools/Modeler3D/setCurrentProjection", {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm"});
+
+            wrapper = shallowMount(Modeler3DEntityModelComponent, {store, localVue});
+            store.state.Tools.Modeler3D.coordinatesEasting.value = "56432.45";
+            wrapper.vm.adjustCoordinate("easting", true);
+
+            expect(Modeler3D.actions.updateEntityPosition).to.be.called;
+            expect(store.state.Tools.Modeler3D.coordinatesEasting.value).to.eql("56432.55");
+        });
+    });
+});

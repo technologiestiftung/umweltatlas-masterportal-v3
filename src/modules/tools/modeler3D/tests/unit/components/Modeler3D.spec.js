@@ -5,9 +5,9 @@ import {config, shallowMount, createLocalVue} from "@vue/test-utils";
 import crs from "@masterportal/masterportalapi/src/crs";
 import Modeler3DComponent from "../../../components/Modeler3D.vue";
 import Modeler3D from "../../../store/indexModeler3D";
-import DrawView from "../../../components/DrawView.vue";
-import ImportView from "../../../components/ImportView.vue";
-import EntityModelView from "../../../components/EntityModelView.vue";
+import Modeler3DDraw from "../../../components/Modeler3DDraw.vue";
+import Modeler3DImport from "../../../components/Modeler3DImport.vue";
+import Modeler3DEntityModel from "../../../components/Modeler3DEntityModel.vue";
 
 const localVue = createLocalVue();
 
@@ -74,8 +74,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
                 }
             },
             getters: {
-                namedProjections: () => namedProjections,
-                scene: () => scene
+                namedProjections: () => namedProjections
             },
             state: {
                 configJson: mockConfigJson
@@ -102,8 +101,8 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
         await wrapper.vm.$nextTick();
 
         expect(wrapper.find("#tool-modeler3D").exists()).to.be.true;
-        expect(wrapper.find(ImportView).exists()).to.be.true;
-        expect(wrapper.find(DrawView).exists()).to.be.false;
+        expect(wrapper.find(Modeler3DImport).exists()).to.be.true;
+        expect(wrapper.find(Modeler3DDraw).exists()).to.be.false;
         expect(wrapper.find("#modeler3D-options-view").exists()).to.be.false;
     });
 
@@ -121,8 +120,8 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
         await wrapper.vm.$nextTick();
 
         expect(wrapper.find("#tool-modeler3D").exists()).to.be.true;
-        expect(wrapper.find(DrawView).exists()).to.be.true;
-        expect(wrapper.find(ImportView).exists()).to.be.false;
+        expect(wrapper.find(Modeler3DDraw).exists()).to.be.true;
+        expect(wrapper.find(Modeler3DImport).exists()).to.be.false;
         expect(wrapper.find("#modeler3D-options-view").exists()).to.be.false;
     });
 
@@ -134,8 +133,8 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
 
         expect(wrapper.find("#tool-modeler3D").exists()).to.be.true;
         expect(wrapper.find("#modeler3D-options-view").exists()).to.be.true;
-        expect(wrapper.find(DrawView).exists()).to.be.false;
-        expect(wrapper.find(ImportView).exists()).to.be.false;
+        expect(wrapper.find(Modeler3DDraw).exists()).to.be.false;
+        expect(wrapper.find(Modeler3DImport).exists()).to.be.false;
     });
 
     it("renders Modeler3D with entity model view", async () => {
@@ -145,9 +144,9 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
         await wrapper.vm.$nextTick();
 
         expect(wrapper.find("#tool-modeler3D").exists()).to.be.true;
-        expect(wrapper.find(EntityModelView).exists()).to.be.true;
-        expect(wrapper.find(DrawView).exists()).to.be.false;
-        expect(wrapper.find(ImportView).exists()).to.be.false;
+        expect(wrapper.find(Modeler3DEntityModel).exists()).to.be.true;
+        expect(wrapper.find(Modeler3DDraw).exists()).to.be.false;
+        expect(wrapper.find(Modeler3DImport).exists()).to.be.false;
         expect(wrapper.find("#modeler3D-options-view").exists()).to.be.false;
     });
 
@@ -265,5 +264,15 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
             expect(hiddenObjects.length).to.eql(0);
             expect(pickObject.show).to.be.true;
         });
+
+        // it("close sets active to false", async () => {
+        //     wrapper = shallowMount(Modeler3DComponent, {store, localVue});
+        //     expect(store.state.Tools.Modeler3D.active).to.be.true;
+        //     wrapper.vm.close();
+        //     await wrapper.vm.$nextTick();
+
+        //     expect(store.state.Tools.Modeler3D.active).to.be.false;
+        //     expect(wrapper.find("#tool-modeler3D").exists()).to.be.false;
+        // });
     });
 });

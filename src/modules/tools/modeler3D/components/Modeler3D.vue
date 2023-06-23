@@ -1,8 +1,8 @@
 <script>
 import ToolTemplate from "../../ToolTemplate.vue";
-import EntityModelView from "./EntityModelView.vue";
-import ImportView from "./ImportView.vue";
-import DrawView from "./DrawView.vue";
+import EntityModelView from "./Modeler3DEntityModel.vue";
+import ImportView from "./Modeler3DImport.vue";
+import DrawView from "./Modeler3DDraw.vue";
 import {getComponent} from "../../../../utils/getComponent";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import actions from "../store/actionsModeler3D";
