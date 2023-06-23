@@ -37,7 +37,7 @@ export default {
     computed: {
         ...mapGetters(["namedProjections"]),
         ...mapGetters("Tools/Modeler3D", Object.keys(getters)),
-        ...mapGetters("Maps", ["clickCoordinate"]),
+        ...mapGetters("Maps", ["altitude", "longitude", "latitude", "clickCoordinate"]),
         /**
          * Returns the CSS classes for the import tab based on the current view.
          * @returns {string} - The CSS classes for the import tab.
@@ -59,14 +59,14 @@ export default {
         optionsTabClasses: function () {
             return this.currentView === "" ? this.activeTabClass : this.defaultTabClass;
         },
-        longitude: function () {
-            return this.clickCoordinate && this.povActive ? this.clickCoordinate[0].toFixed(2) : "";
+        longitudeFromClick: function () {
+            return this.longitude && this.povActive ? this.longitude.toFixed(2) : "";
         },
-        latitude: function () {
-            return this.clickCoordinate && this.povActive ? this.clickCoordinate[1].toFixed(2) : "";
+        latitudeFromClick: function () {
+            return this.latitude && this.povActive ? this.latitude.toFixed(2) : "";
         },
-        altitude: function () {
-            return this.clickCoordinate && this.povActive ? this.clickCoordinate[2] : "";
+        altitudeFromClick: function () {
+            return this.altitude && this.povActive ? this.altitude.toFixed(2) : "";
         },
         povPossible: function () {
             return this.longitude && this.latitude && this.altitude;
@@ -377,7 +377,7 @@ export default {
                     heading: scene.camera.heading
                 }
             });
-            this.eventHandler.setInputAction((movement) => {
+            eventHandler.setInputAction((movement) => {
                 const deltaY = -movement.endPosition.y + movement.startPosition.y,
                     deltaX = movement.endPosition.x - movement.startPosition.x,
 
@@ -412,11 +412,15 @@ export default {
                         scene.screenSpaceCameraController.enableZoom = true;
                         scene.screenSpaceCameraController.enableRotate = true;
 
-                        this.eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+                        eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
                         document.removeEventListener("keydown", this.escapeKeyHandler);
                     }
                 });
             }
+        },
+        changeSwitches () {
+            this.hideObjects = !this.hideObjects;
+            this.povActive = !this.povActive;
         }
     }
 };
@@ -494,7 +498,7 @@ export default {
                                     role="switch"
                                     :aria-checked="povActive"
                                     :checked="povActive"
-                                    @change="povActive = !povActive"
+                                    @change="changeSwitches()"
                                 >
                                 <label
                                     class="form-check-label"
@@ -509,21 +513,21 @@ export default {
                             />
                             <div>
                                 <input
-                                    v-model="longitude"
+                                    v-model="longitudeFromClick"
                                     aria-label="longitude"
                                     type="text"
                                     readonly
                                     :placeholder="$t('modules.tools.modeler3D.entity.projections.hdms.eastingLabel')"
                                 >
                                 <input
-                                    v-model="latitude"
+                                    v-model="latitudeFromClick"
                                     aria-label="latitude"
                                     type="text"
                                     readonly
                                     :placeholder="$t('modules.tools.modeler3D.entity.projections.hdms.northingLabel')"
                                 >
                                 <input
-                                    v-model="altitude"
+                                    v-model="altitudeFromClick"
                                     aria-label="altitude"
                                     type="text"
                                     readonly
@@ -546,7 +550,7 @@ export default {
                                 role="switch"
                                 :aria-checked="hideObjects"
                                 :checked="hideObjects"
-                                @change="hideObjects = !hideObjects"
+                                @change="changeSwitches()"
                             >
                             <label
                                 class="form-check-label"
