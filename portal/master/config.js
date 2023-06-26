@@ -60,6 +60,10 @@ const Config = {
     startingMap3D: false,
     obliqueMap: true,
     cesiumParameter: {
+        gfiColoredHighlighting: {
+            enabled: true,
+            color: [88, 33, 200, 255]
+        },
         fog: {
             enabled: true,
             density: 0.0002,

@@ -189,7 +189,7 @@ export default {
         },
 
         /**
-         * hHandles the maps listener in 2D and 3D mode, when in relation to active.
+         * Handles the maps listener in 2D and 3D mode, when in relation to active.
          * @param {String} mapMode The map mode.
          * @param {Boolean} active Is gfi active.
          * @returns {void}

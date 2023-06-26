@@ -88,6 +88,7 @@ For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Scen
 |camera|no|**[camera](#markdown-header-cesiumParametercamera)**||Cesium Scene camera settings in 3D mode.|
 |fog|no|**[fog](#markdown-header-cesiumParameterfog)**||Cesium Scene fog settings in 3D mode.|
 |fxaa|no|Boolean|`true`|activates *fast approximate anti-aliasing*|
+|gfiColoredHighlighting|no|**[Object](#markdown-header-cesiumParametergfiColoredHighlighting)**||Possibility to color selected 3D tiles.|
 |globe|no|**[globe](#markdown-header-cesiumParameterglobe)**||Cesium Scene globe settings in 3D mode.|
 |maximumScreenSpaceError|no|Number|`2.0`|Detail level in which terrain/raster tiles are fetched. 4/3 is the highest quality level.|
 |tileCacheSize|no|Number|`100`|terrain/raster tile cache size|
@@ -105,6 +106,10 @@ For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Scen
         "enabled": true
     },
     "fxaa": true,
+    "gfiColoredHighlighting": {
+        "enabled": true,
+        "color": Cesium.Color.PINK
+    },
     "globe": {
         "enableLighting": true
     },
@@ -157,6 +162,35 @@ For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Fog.
         "enabled": true
     }
 }
+```
+***
+
+### cesiumParameter.gfiColoredHighlighting
+
+Highlight Setting of 3D Tiles.
+If e.g. a building is selected by left mouse click, it will be highlighted in the given color.
+For color configuration see **[Color-documentation](https://cesium.com/learn/cesiumjs/ref-doc/Color.html)**
+
+|Name|Required|Type|Default|Description|
+|----|--------|----|-------|-----------|
+|enabled|no|Boolean|`true`|False if gfiColoredHighlighting is disabled.|
+|color|no|Array/Cesium.Color|Cesium.Color.RED|Color can be configured as Array or Cesium.Color (definition e.g Cesium.Color.GREEN and not "Cesium.Color.GREEN"!)|
+
+**Example**
+
+```json
+// Example with Array
+gfiColoredHighlighting: {
+    enabled: true,
+    color: [0, 255, 0, 255]
+}
+
+// Example with Cesium.Color
+gfiColoredHighlighting: {
+    enabled: true,
+    color: Cesium.Color.GREEN
+}
+
 ```
 ***
 

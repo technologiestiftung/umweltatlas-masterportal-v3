@@ -1,10 +1,14 @@
 /**
-* Parses the cesium parameters given by Config or by url parameters.
+* Parses the cesium parameters given by Config or by url parameters and returns only the parameter for 3D map creation.
 * @param {Object} urlParams url parameter
 * @returns {Object} the parsed parameters
 */
 export default function parseCesiumParameters (urlParams) {
     const backwardsConfigCesiumParameter = Config?.cesiumParameter ? {...Config?.cesiumParameter} : {};
+
+    if (backwardsConfigCesiumParameter !== {} && backwardsConfigCesiumParameter.gfiColoredHighlighting !== undefined) {
+        delete backwardsConfigCesiumParameter.gfiColoredHighlighting;
+    }
 
     /**
      * @deprecated in the next major-release!

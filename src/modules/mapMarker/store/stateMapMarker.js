@@ -20,7 +20,7 @@ export default {
         visible: false,
         style: new Style(),
         alwaysOnTop: true,
-        altitudeMode: "clampToGround"
+        altitudeMode: "none"
     }),
     markerPolygon: new VectorLayer({
         id: "marker_polygon_layer",
@@ -29,7 +29,7 @@ export default {
         visible: false,
         style: new Style(),
         alwaysOnTop: true,
-        altitudeMode: "clampToGround"
+        altitudeMode: "relativeToGround"
     }),
     coordinates: []
 };

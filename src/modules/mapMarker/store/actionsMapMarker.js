@@ -71,6 +71,7 @@ export default {
         }
     },
 
+
     /**
      * This function has the task to remove the coordinate from the mapMarker state.
      * This is necessary / triggered if the MapMarker should be removed.
