@@ -44,6 +44,7 @@
  * @property {Integer} plotserviceIndex index for the file downloads for High Resolution Plot Service
  * @property {Object} capabilitiesFilter filter for the response of the configured print service. Possible keys are layouts and outputFormats
  * @property {Object} defaultCapabilitiesFilter If there is no key set in capabilitiesFilter, the key from this object is taken
+ * @property {String} overviewmapLayerId the layer id for the overviewmap
  */
 const state = {
     active: false,
@@ -114,6 +115,7 @@ const state = {
     plotserviceIndex: -1,
     capabilitiesFilter: {},
     defaultCapabilitiesFilter: {},
+    overviewmapLayerId: undefined,
     /**
      * @deprecated in the next major-release!
      * useProxy

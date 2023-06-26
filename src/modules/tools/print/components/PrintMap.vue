@@ -394,7 +394,19 @@ export default {
             }
             return false;
         },
+        /**
+         * Gets a layer id depending on its layer visibility.
+         * @returns {String} The layer id for overviewMap.
+         */
+        getOverviewmapLayerId () {
+            const defaultLayerId = this.visibleLayerList[0].values_.id,
+                visibleLayerId = this.visibleLayerList.filter(id => id.values_.id === this.overviewmapLayerId).map(val => val.values_.id).toString();
 
+            if (this.overviewmapLayerId !== undefined && visibleLayerId !== "") {
+                return visibleLayerId;
+            }
+            return defaultLayerId;
+        },
         /**
          * Gets the layout attributes by the given names.
          * @param {Object} layout - The selected layout.
@@ -411,7 +423,7 @@ export default {
                 if (this.hasLayoutAttribute(layout, name)) {
                     if (name === "overviewMap") {
                         layoutAttributes[name] = {
-                            "layers": [BuildSpec.buildTileWms(this.getLayerById({layerId: "453"}), this.dpiForPdf)]
+                            "layers": [BuildSpec.buildTileWms(this.getLayerById({layerId: this.getOverviewmapLayerId()}), this.dpiForPdf)]
                         };
                     }
                     else if (name === "source") {
