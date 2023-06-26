@@ -1,5 +1,6 @@
 import isObject from "../../../../utils/isObject.js";
 import LayerGroup from "ol/layer/Group";
+import VectorTileLayer from "../../../../core/layers/vectorTile.js";
 
 /**
  * The MapHandler has control over OL and the Map.
@@ -330,8 +331,13 @@ export default class MapHandler {
         }
 
         items.forEach(item => {
-            if (isObject(item) && typeof item.getId === "function") {
-                this.filteredIds[filterId].push(item.getId());
+            if (isObject(item)) {
+                if (layerModel instanceof VectorTileLayer && typeof item.get === "function") {
+                    this.filteredIds[filterId].push(item.get("id"));
+                }
+                else if (typeof item.getId === "function") {
+                    this.filteredIds[filterId].push(item.getId());
+                }
             }
         });
 

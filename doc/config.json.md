@@ -1674,7 +1674,7 @@ Hint: highlighting only works if there is a styleId in config.json configured fo
 
 [inherits]: # (Portalconfig.menu.tool)
 
-The filter tool offers a range of options to filter vector data from WFS, OAF, GeoJSON and SensorThingsAPI services.
+The filter tool offers a range of options to filter vector data from WFS, OAF, GeoJSON, SensorThingsAPI and VectorTiles services.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
@@ -1822,6 +1822,7 @@ An object to define a layer to filter with.
 |filterButtonDisabled|no|Boolean|false|Only for strategy `passive`: Disable the filter button while nothing is selected.|false|
 |snippets|no|[snippets](#markdown-header-portalconfigmenutoolfilterfilterlayersnippets)[]|[]|Configuration of snippets to adjust the filtering. Can be a minimalistic array of attribute names. Can be left empty to use the automatic identification of all snippets possible.|false|
 |filterOnZoom|no|Boolean||If it is `true`, the layer will be filtered dynamically with different zoom Levels|false|
+|collection|no|String||ONLY VectorTiles: The collection to filter. If it is set, the layer needs a `baseOAFUrl` to start the api requests|false|
 
 **Example**
 

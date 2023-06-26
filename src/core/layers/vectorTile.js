@@ -33,6 +33,8 @@ VectorTileLayer.prototype = Object.create(Layer.prototype);
 
 /**
  * Creates vector tile layer.
+ * Also register a listener on the map which is triggert if all feauters
+ * in current extent are loaded. This will fire a 'featuresloadend' event.
  * @param {Object} attrs the attributes for the layer
  * @return {void}
  */
@@ -42,6 +44,16 @@ VectorTileLayer.prototype.createLayer = function (attrs) {
     };
 
     this.layer = vectorTile.createLayer(attrs, {layerParams});
+    store.dispatch("Maps/registerListener", {type: "loadend", listener: () => {
+        if (typeof this.layer.getSource !== "function"
+            || typeof this.layer.getSource()?.getFeaturesInExtent !== "function") {
+            return;
+        }
+        this.layer.getSource().dispatchEvent({
+            type: "featuresloadend",
+            features: this.layer.getSource().getFeaturesInExtent(store.getters["Maps/getCurrentExtent"])
+        });
+    }});
 };
 
 /**
@@ -202,4 +214,39 @@ VectorTileLayer.prototype.fetchSpriteData = function (spriteUrl) {
  */
 VectorTileLayer.prototype.createLegendURL = function () {
     this.setLegendURL([]);
+};
+
+/**
+ * Shows the features by given feature id's or load features hidden if second param is true.
+ * @param {String[]} ids The feature id's of the rendered features.
+ * @param {Boolean} loadHidden true if all features should be hidden, false otherwise. Default is false.
+ * @returns {void}
+ */
+VectorTileLayer.prototype.showFeaturesByIds = function (ids, loadHidden = false) {
+    const source = this.layer.getSource();
+
+    if (!source || !Array.isArray(ids)) {
+        return;
+    }
+    source.setTileLoadFunction((tile, url) => {
+        tile.setLoader((extent, resolution, projection) => {
+            fetch(url).then((response) => {
+                response.arrayBuffer().then((data) => {
+                    const format = tile.getFormat(),
+                        features = format.readFeatures(data, {
+                            extent: extent,
+                            featureProjection: projection
+                        });
+
+                    tile.setFeatures(loadHidden ? features : features.filter(feature => ids.includes(feature.get("id"))));
+                });
+            });
+        });
+    });
+    if (!loadHidden && this.layer.getOpacity() === 0) {
+        source.once("featuresloadend", () => {
+            this.layer.setOpacity(1);
+        });
+    }
+    source.refresh();
 };

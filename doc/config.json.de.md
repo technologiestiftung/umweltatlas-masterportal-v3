@@ -1613,7 +1613,7 @@ Hinweis: Das Highlighting funktioniert nur, wenn der Layer in der config.json ü
 
 [inherits]: # (Portalconfig.menu.tool)
 
-Das Filterwerkzeug bietet eine Reihe von Optionen zum Filtern von Vektordaten aus WFS-, OAF-, GeoJSON- und SensorThingsAPI-Diensten an.
+Das Filterwerkzeug bietet eine Reihe von Optionen zum Filtern von Vektordaten aus WFS-, OAF-, GeoJSON-, SensorThingsAPI und VectorTiles-Diensten an.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
@@ -1761,6 +1761,7 @@ Die Konfiguration eines Layers.
 |filterButtonDisabled|nein|Boolean|false|Nur für strategy `passive`: Der Filter-Knopf wird deaktiviert solange der Benutzer nichts im Filter ausgewählt hat.|false|
 |snippets|nein|[snippets](#markdown-header-portalconfigmenutoolfilterfilterlayersnippets)[]|[]|Konfiguration der sogenannten Snippets für das Filtern. Kann bei der minimalsten Variante ein Array von Attribut-Namen sein. Kann komplett weggelassen werden, wenn die automatische Snippet-Ermittlung verwendet werden soll.|false|
 |filterOnZoom|nein|Boolean||Wenn auf `true` eingestellt, wird den Layer beim Zoom dynamisch gefilteret.|false|
+|collection|no|String||NUR FÜR VectorTiles: Die collection auf die gefiltert werden soll. Wenn es gesetzt ist, muss der parameter `baseOAFUrl` an dem layer gesetzt sein um die API Anfragen zu starten.|false|
 
 **Beispiel**
 

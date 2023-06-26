@@ -9,6 +9,9 @@
 - AddWMS Tool uses legendURL and MetadataURL from Capabilities.
 - Filter:
   - Add: new parameter "filterOnZoom" in layer configuration to enable if the layer should be filtered dynamically with different zoom levels.
+  - Add: interface for VectorTiles. Enables filtering for VectorTiles.
+- VectorTiles:
+    - Add: new parameter "baseOAFUrl". Only needed for the Filter Tool.
 ### Changed
 
 ### Deprecated

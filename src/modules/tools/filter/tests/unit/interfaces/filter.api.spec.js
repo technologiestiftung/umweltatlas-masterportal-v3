@@ -157,7 +157,7 @@ describe("src/modules/tools/filter/interfaces/filter.api.js", () => {
                     },
                     expected = new Error("FilterApi.setServiceByLayerModel: Filtering oaf extern is not supported yet.");
 
-                filterApi.setServiceByLayerModel(0, layerModel, true, error => {
+                filterApi.setServiceByLayerModel(0, layerModel, true, undefined, error => {
                     expect(error).to.deep.equal(expected);
                 });
             });
@@ -209,7 +209,7 @@ describe("src/modules/tools/filter/interfaces/filter.api.js", () => {
                     },
                     expected = new Error("FilterApi.setServiceByLayerModel: Filtering geojson extern is not supported.");
 
-                filterApi.setServiceByLayerModel(0, layerModel, true, error => {
+                filterApi.setServiceByLayerModel(0, layerModel, true, undefined, error => {
                     expect(error).to.deep.equal(expected);
                 });
             });
@@ -248,7 +248,96 @@ describe("src/modules/tools/filter/interfaces/filter.api.js", () => {
                     },
                     expected = new Error("FilterApi.setServiceByLayerModel: Filtering sta extern is not supported.");
 
-                filterApi.setServiceByLayerModel(0, layerModel, true, error => {
+                filterApi.setServiceByLayerModel(0, layerModel, true, undefined, error => {
+                    expect(error).to.deep.equal(expected);
+                });
+            });
+            it("should set the service for VectorTiles", () => {
+                const filterApi = new FilterApi(0),
+                    layerModel = {
+                        get: (param) => {
+                            switch (param) {
+                                case "typ":
+                                    return "VectorTile";
+                                case "featureNS":
+                                    return "foob/boof";
+                                case "url":
+                                    return "foo/tiles/xyz";
+                                case "baseOAFUrl":
+                                    return "foo";
+                                case "featureType":
+                                    return "bar";
+                                case "limit":
+                                    return 400;
+                                default:
+                                    return "";
+                            }
+                        }
+                    },
+                    expected = {
+                        type: "vectortile",
+                        extern: false,
+                        layerId: 0,
+                        url: "foo",
+                        collection: "wooo",
+                        namespace: "foob/boof",
+                        limit: 400
+                    };
+
+                filterApi.setServiceByLayerModel(0, layerModel, false, "wooo");
+                expect(filterApi.service).to.deep.equal(expected);
+            });
+            it("should call error functoin in vectortiles if no baseOAFUrl is given", () => {
+                const filterApi = new FilterApi(0),
+                    layerModel = {
+                        get: (param) => {
+                            switch (param) {
+                                case "typ":
+                                    return "VectorTile";
+                                case "featureNS":
+                                    return "foob/boof";
+                                case "url":
+                                    return "foo";
+                                case "featureType":
+                                    return "bar";
+                                case "limit":
+                                    return 400;
+                                default:
+                                    return "";
+                            }
+                        }
+                    },
+                    expected = new Error("FilterApi.setServiceByLayerModel: VectorTiles layer must have set the 'baseOAFUrl' param.");
+
+                filterApi.setServiceByLayerModel(0, layerModel, false, undefined, error => {
+                    expect(error).to.deep.equal(expected);
+                });
+            });
+            it("should call error function in vectortiles if extern is true", () => {
+                const filterApi = new FilterApi(0),
+                    layerModel = {
+                        get: (param) => {
+                            switch (param) {
+                                case "typ":
+                                    return "VectorTile";
+                                case "featureNS":
+                                    return "foob/boof";
+                                case "url":
+                                    return "foo/tiles/xyz";
+                                case "baseOAFUrl":
+                                    return "foo";
+                                case "featureType":
+                                    return "bar";
+                                case "limit":
+                                    return 400;
+                                default:
+                                    return "";
+                            }
+                        }
+                    },
+                    expected = new Error("FilterApi.setServiceByLayerModel: Filtering vectortiles extern is not supported.");
+
+                filterApi.setServiceByLayerModel(0, layerModel, true, undefined, error => {
                     expect(error).to.deep.equal(expected);
                 });
             });
@@ -266,7 +355,7 @@ describe("src/modules/tools/filter/interfaces/filter.api.js", () => {
                     },
                     expected = new Error("FilterApi.setServiceByLayerModel: Unknown layer type foo");
 
-                filterApi.setServiceByLayerModel(0, layerModel, false, error => {
+                filterApi.setServiceByLayerModel(0, layerModel, false, undefined, error => {
                     expect(error).to.deep.equal(expected);
                 });
             });
