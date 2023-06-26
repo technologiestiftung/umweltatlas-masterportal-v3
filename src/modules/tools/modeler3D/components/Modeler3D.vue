@@ -24,7 +24,6 @@ export default {
     },
     data () {
         return {
-            storePath: this.$store.state.Tools.Modeler3D,
             defaultTabClass: "",
             activeTabClass: "active",
             isHovering: "",
@@ -349,7 +348,7 @@ export default {
         },
         close () {
             this.setActive(false);
-            const model = getComponent(this.storePath.id);
+            const model = getComponent(this.id);
 
             if (model) {
                 model.set("isActive", false);
