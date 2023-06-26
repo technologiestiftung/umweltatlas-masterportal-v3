@@ -59,11 +59,12 @@ export default {
         optionsTabClasses: function () {
             return this.currentView === "" ? this.activeTabClass : this.defaultTabClass;
         },
+        // longitude und latitude getter der Map wurden gedreht, Bug in MasterportalApi!
         longitudeFromClick: function () {
-            return this.longitude && this.povActive ? this.longitude.toFixed(2) : "";
+            return this.longitude && this.povActive ? this.latitude.toFixed(4) : "";
         },
         latitudeFromClick: function () {
-            return this.latitude && this.povActive ? this.latitude.toFixed(2) : "";
+            return this.latitude && this.povActive ? this.longitude.toFixed(4) : "";
         },
         altitudeFromClick: function () {
             return this.altitude && this.povActive ? this.altitude.toFixed(2) : "";
