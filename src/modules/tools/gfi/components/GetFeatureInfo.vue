@@ -206,7 +206,7 @@ export default {
                 else if (mapMode === "3D") {
                     const map3D = mapCollection.getMap("3D");
 
-                    if (this.coloredHighlighting3D && this.coloredHighlighting3D.enabled !== false) {
+                    if (this.coloredHighlighting3D && this.coloredHighlighting3D?.enabled !== false) {
                         this.highlight3DTile();
                     }
                     this.unregisterListener({type: "click", listener: this.updateClick});

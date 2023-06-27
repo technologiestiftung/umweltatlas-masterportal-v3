@@ -69,9 +69,6 @@ export default {
 
             map3D = await dispatch("createMap3D");
             mapCollection.addMap(map3D, "3D");
-            if (Config?.cesiumParameter?.gfiColoredHighlighting && Config?.cesiumParameter?.gfiColoredHighlighting?.enabled !== false) {
-                //dispatch("highlight3DTile");
-            }
             api.map.olcsMap.handle3DEvents({scene: map3D.getCesiumScene(), map3D: map3D, callback: (clickObject) => dispatch("clickEventCallback", Object.freeze(clickObject))});
         }
         if (typeof rootState.urlParams.altitude === "undefined" && typeof Config?.cesiumParameter?.camera?.altitude === "undefined") {
@@ -115,55 +112,6 @@ export default {
             dispatch("updateClick", clickObject);
             Radio.trigger("Map", "clickedWindowPosition", clickObject);
         }
-    },
-    /**
-     * Function to highlight a 3D Tile with left click.
-     * @param {Object} rootGetters context.
-     * @returns {void}
-     */
-    highlight3DTile (rootGetters) {
-        const scene = mapCollection.getMap("3D").getCesiumScene(),
-            globeEventhandler = new Cesium.ScreenSpaceEventHandler(
-                scene.canvas
-            );
-
-        let oldColor = null,
-            highlightColor = Cesium.Color.RED,
-            colored3DTile = [];
-
-        if (Config?.cesiumParameter?.gfiColoredHighlighting?.color !== undefined) {
-            const configuredColor = Config.cesiumParameter.gfiColoredHighlighting.color;
-
-            if (configuredColor instanceof Array) {
-                highlightColor = Cesium.Color.fromBytes(configuredColor[0], configuredColor[1], configuredColor[2], configuredColor[3]);
-            }
-            else if (configuredColor instanceof Cesium.Color) {
-                highlightColor = configuredColor;
-            }
-            else {
-                console.warn("The color for the 3D highlighting is not valid. Please check the config or documentation.");
-            }
-        }
-
-        globeEventhandler.setInputAction(function onLeftClick (
-            click
-        ) {
-            //if (rootGetters["Tools/Gfi/active"] === true) {
-            if (colored3DTile.length > 0) {
-                colored3DTile[0].color = oldColor;
-                colored3DTile = [];
-            }
-
-            const pickedFeature = scene.pick(click.position);
-
-            if (pickedFeature) {
-                oldColor = pickedFeature?.color;
-                colored3DTile.push(pickedFeature);
-                pickedFeature.color = highlightColor;
-            }
-        //}
-        },
-        Cesium.ScreenSpaceEventType.LEFT_CLICK);
     },
     /**
      * Deactivates the 3d mode.
