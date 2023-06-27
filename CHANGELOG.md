@@ -13,6 +13,9 @@
 - VectorTiles:
     - Add: new parameter "baseOAFUrl". Only needed for the Filter Tool.
 ### Changed
+- The following packages have been updated:
+    - dependencies:
+        - masterportalapi:  2.19.2 to 2.20.0 (This also raised ol to version 7.4.0. This reduces the styling of the webgl renderer to default values, because of changes in the experimental webgl-API.)
 
 ### Deprecated
 
