@@ -13,7 +13,7 @@ const actions = {
     deleteEntity ({commit, getters, state}, id) {
         const entities = getters.entities,
             entity = entities.getById(id),
-            stateArray = entity.wasDrawn ? state.drawnModels : state.importedModels,
+            stateArray = entity?.wasDrawn ? state.drawnModels : state.importedModels,
             modelIndex = stateArray.findIndex(x => x.id === id);
 
         if (modelIndex > -1 && entity) {
