@@ -220,7 +220,7 @@ export default {
             this.handleActiveStrategy();
         }
 
-        if (this.layerConfig.filterOnZoom === true) {
+        if (this.layerConfig.filterOnZoom === true && this.layerConfig?.strategy === "active") {
             this.registerZoomListener();
         }
     },
@@ -685,8 +685,7 @@ export default {
          */
         registerZoomListener () {
             store.watch((state, getters) => getters["Maps/scale"], () => {
-                // Function should be implemented later
-                return false;
+                this.filter();
             });
         },
         /**

@@ -540,7 +540,8 @@ describe("src/modules/tools/filter/components/LayerFilterSnippet.vue", () => {
                         service: {
                             type: "something external"
                         },
-                        filterOnZoom: true
+                        filterOnZoom: true,
+                        strategy: "active"
                     },
                     mapHandler: new MapHandler({
                         isLayerActivated: () => false
