@@ -1468,6 +1468,7 @@ A folder object defined by a name, icon, and its children.
 [type:layerClusterToggler]: # (Portalconfig.menu.tool.layerClusterToggler)
 [type:layerSlider]: # (Portalconfig.menu.tool.layerSlider)
 [type:measure]: # (Portalconfig.menu.tool.measure)
+[type:modeler3D]: # (Portalconfig.menu.tool.modeler3D)
 [type:parcelSearch]: # (Portalconfig.menu.tool.parcelSearch)
 [type:print]: # (Portalconfig.menu.tool.print)
 [type:routing]: # (Portalconfig.menu.tool.routing)
@@ -1504,6 +1505,7 @@ Alternatively, also the paths **Portalconfig.menu.info**, **Portalconfig.menu.si
 |layerClusterToggler|no|**[layerClusterToggler](#markdown-header-portalconfigtoollayerClusterToggler)**||_This tool allows a cluster layers to be active and deactive together._|false|
 |layerSlider|no|**[layerSlider](#markdown-header-portalconfigmenutoollayerslider)**||The layerSlider tool allows showing arbitrary services in order. This can e.g. be used to show aerial footage from multiple years in succession.|false|
 |measure|no|**[measure](#markdown-header-portalconfigmenutoolmeasure)**||Allows measuring areas and distances in the units m/km/nm resp. m²/ha/km².|false|
+|modeler3D|no|**[measure](#markdown-header-portalconfigmenutoolmodeler3D)**||Allows importing 3D models in .gltf, .dae, .obj formats and drawing extrudable 3D polygons.|false|
 |parcelSearch|no|**[parcelSearch](#markdown-header-portalconfigmenutoolparcelsearch)**||_Deprecated in the next major release. Please use `wfsSearch` instead._ The parcel search tool allows searching for parcels by district and parcel number. Many German administrative units feature a tripartite order, hence the tool offers searching by "Gemarkung" (district), "Flur" (parcel) (not used in Hamburg), and "Flurstück" (literally "parcel piece").|false|
 |print|no|**[print](#markdown-header-portalconfigmenutoolprint)**||Printing module that can be used to export the map's current view as PDF.|false|
 |routing|no|**[routing](#markdown-header-portalconfigmenutoolrouting)**||Routing module to create routes and isochrones.|false|
@@ -3100,6 +3102,54 @@ The measure tool allows measuring distances and areas. This includes the specifi
         "name": "translate#common:menu.tools.measure",
         "earthRadius": 6378137,
         "measurementAccuracy": "dynamic"
+    }
+}
+```
+
+#### Portalconfig.menu.tool.modeler3D
+
+[inherits]: # (Portalconfig.menu.tool)
+
+The 3D modeler tool allows importing of 3D models in .gltf, .dae and .obj formats and drawing extrudable 3D polygons.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|highlightStyle|no|**[highlightStyle](#markdown-header-portalconfigmenutoolmodeler3dhighlightstyle)**||Specify the fill color, alpha, outline color and outline width for highlighting entities.|false|
+
+**Example**
+
+```json
+{
+    "modeler3D": {
+        "name": "translate#common:menu.tools.modeler3D",
+        "highlightStyle": {
+            "color": "#787777",
+            "alpha": 1,
+            "silhouetteColor": "#E20D0F",
+            "silhouetteSize": 4
+        }
+    }
+}
+```
+
+##### Portalconfig.menu.tool.modeler3D.highlightStyle
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|color|no|String|"#787777"|Specify the fill color for highlighting entities.|false|
+|alpha|no|Number|1|Specify the alpha for highlighting entities.|false|
+|silhouetteColor|no|String|"#E20D0F"|Specify the outline color for highlighting entities.|false|
+|silhouetteSize|no|Number|1|Specify the outline width for highlighting entities.|false|
+
+**Example**
+
+```json
+{
+    "highlightStyle": {
+        "color": "#787777",
+        "alpha": 1,
+        "silhouetteColor": "#E20D0F",
+        "silhouetteSize": 4
     }
 }
 ```
