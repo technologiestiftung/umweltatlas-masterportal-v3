@@ -12,7 +12,13 @@ config.mocks.$t = key => key;
 
 describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
     const entity = {
-
+            orientation: null,
+            position: {
+                getValue: () => {
+                    return {x: 100, y: 100, z: 100};
+                }
+            },
+            model: {scale: 1}
         },
         entities = {
             getById: sinon.stub().returns(entity)
@@ -31,14 +37,28 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
 
     let store,
         wrapper,
-        origUpdateEntityPosition;
+        origUpdateEntityPosition,
+        origUpdatePositionUI;
 
     beforeEach(() => {
         mapCollection.clear();
         mapCollection.addMap(map3D, "3D");
 
+        global.Cesium = {
+            Math: {
+                toRadians: (val) => {
+                    return val / 10;
+                }
+            },
+            Transforms: {
+                headingPitchRollQuaternion: sinon.stub().returns(22)
+            }
+        };
+
         origUpdateEntityPosition = Modeler3D.actions.updateEntityPosition;
+        origUpdatePositionUI = Modeler3D.actions.updatePositionUI;
         Modeler3D.actions.updateEntityPosition = sinon.spy();
+        Modeler3D.actions.updatePositionUI = sinon.spy();
 
         store = new Vuex.Store({
             namespaces: true,
@@ -75,13 +95,14 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
         }]);
         store.commit("Tools/Modeler3D/setActive", true);
         store.commit("Tools/Modeler3D/setCurrentModelId", 1);
-        store.commit("Tools/Modeler3D/setCurrentProjection", {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm"});
-        store.commit("Tools/Modeler3D/setImportedModels", [{id: 1, name: "modelName"}]);
+        store.commit("Tools/Modeler3D/setCurrentProjection", {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm", epsg: "EPSG:25832"});
+        store.commit("Tools/Modeler3D/setImportedModels", [{id: 1, name: "modelName", heading: 0, scale: 1}]);
     });
 
     afterEach(() => {
         Modeler3D.actions.updateEntityPosition = origUpdateEntityPosition;
-        store.commit("Tools/Modeler3D/setCurrentProjection", {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm"});
+        Modeler3D.actions.updatePositionUI = origUpdatePositionUI;
+        store.commit("Tools/Modeler3D/setCurrentProjection", {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm", epsg: "EPSG:25832"});
 
         sinon.restore();
         if (wrapper) {
@@ -159,6 +180,14 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
             expect(store.state.Tools.Modeler3D.currentProjection.projName).to.be.equals("longlat");
         });
 
+        it("method checkedAdapt sets adaptToHeight and updates entity position", () => {
+            wrapper = shallowMount(Modeler3DEntityModelComponent, {store, localVue});
+            wrapper.vm.checkedAdapt(true);
+
+            expect(store.state.Tools.Modeler3D.adaptToHeight).to.be.equals(true);
+            expect(Modeler3D.actions.updateEntityPosition).to.be.called;
+        });
+
         it("label returns correct path", () => {
             const key = "key";
             let value = "http://www.opengis.net/gml/srs/epsg.xml#4326",
@@ -196,15 +225,75 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
             expect(ret).to.be.equals("modules.tools.modeler3D.entity.projections.cartesian.key");
         });
 
-        it("adjustCoordinate adds value to easting coordinate", () => {
-            store.commit("Tools/Modeler3D/setCurrentProjection", {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm"});
+        describe("adjustCoordinate method", () => {
+            it("adjustCoordinate adds value to easting coordinate", () => {
+                store.commit("Tools/Modeler3D/setCurrentProjection", {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm", epsg: "EPSG:25832"});
+
+                wrapper = shallowMount(Modeler3DEntityModelComponent, {store, localVue});
+                store.state.Tools.Modeler3D.coordinatesEasting.value = "56432.45";
+                wrapper.vm.adjustCoordinate("easting", true);
+
+                expect(Modeler3D.actions.updateEntityPosition).to.be.called;
+                expect(store.state.Tools.Modeler3D.coordinatesEasting.value).to.eql("56432.55");
+            });
+
+            it("adjustCoordinate adds value to northing coordinate", () => {
+                store.commit("Tools/Modeler3D/setCurrentProjection", {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm", epsg: "EPSG:25832"});
+
+                wrapper = shallowMount(Modeler3DEntityModelComponent, {store, localVue});
+                store.state.Tools.Modeler3D.coordinatesNorthing.value = "56432.45";
+                wrapper.vm.adjustCoordinate("northing", true);
+
+                expect(Modeler3D.actions.updateEntityPosition).to.be.called;
+                expect(store.state.Tools.Modeler3D.coordinatesNorthing.value).to.eql("56432.55");
+            });
+
+            it("adjustCoordinate adds value to height coordinate", () => {
+                store.commit("Tools/Modeler3D/setCurrentProjection", {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm", epsg: "EPSG:25832"});
+
+                wrapper = shallowMount(Modeler3DEntityModelComponent, {store, localVue});
+                store.state.Tools.Modeler3D.height.value = "6";
+                wrapper.vm.adjustCoordinate("height", true);
+
+                expect(Modeler3D.actions.updateEntityPosition).to.be.called;
+                expect(store.state.Tools.Modeler3D.height.value).to.eql("6.10");
+            });
+
+            it("adjustCoordinate adds shifted value to EPSG:4326 system", () => {
+                store.commit("Tools/Modeler3D/setCurrentProjection", {id: "http://www.opengis.net/gml/srs/epsg.xml#4326-DG", name: "EPSG:4326", projName: "longlat", epsg: "EPSG:4326"});
+
+                wrapper = shallowMount(Modeler3DEntityModelComponent, {store, localVue});
+                store.state.Tools.Modeler3D.coordinatesEasting.value = "9.4";
+                wrapper.vm.adjustCoordinate("easting", true, true);
+
+                expect(Modeler3D.actions.updateEntityPosition).to.be.called;
+                expect(store.state.Tools.Modeler3D.coordinatesEasting.value).to.eql("9.400010°");
+            });
+        });
+
+        it("rotates the entity model based on input", () => {
+            global.Cesium.HeadingPitchRoll = sinon.spy();
 
             wrapper = shallowMount(Modeler3DEntityModelComponent, {store, localVue});
-            store.state.Tools.Modeler3D.coordinatesEasting.value = "56432.45";
-            wrapper.vm.adjustCoordinate("easting", true);
+            wrapper.vm.rotationAngle = "90";
+            wrapper.vm.rotate();
 
-            expect(Modeler3D.actions.updateEntityPosition).to.be.called;
-            expect(store.state.Tools.Modeler3D.coordinatesEasting.value).to.eql("56432.55");
+            const importedModel = store.state.Tools.Modeler3D.importedModels.find(x => x.id === 1);
+
+            expect(importedModel.heading).to.eql(90);
+            expect(global.Cesium.Transforms.headingPitchRollQuaternion).to.be.calledOnce;
+            expect(entity.orientation).to.eql(22);
+        });
+
+        it("changes the scale of the entity model", () => {
+            wrapper = shallowMount(Modeler3DEntityModelComponent, {store, localVue});
+            wrapper.vm.scaleVal = "2";
+            wrapper.vm.changeScale();
+
+            const importedModel = store.state.Tools.Modeler3D.importedModels.find(x => x.id === 1);
+
+            expect(importedModel.scale).to.eql(2);
+            expect(entity.model.scale).to.eql(2);
         });
     });
 });

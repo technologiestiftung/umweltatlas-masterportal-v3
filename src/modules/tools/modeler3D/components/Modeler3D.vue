@@ -292,7 +292,7 @@ export default {
          * @returns {void}
          */
         highlightEntity (entity) {
-            const configuredHighlightStyle = store.state.configJson.Portalconfig.menu.tools.children.modeler3D.highlightStyle,
+            const configuredHighlightStyle = store.state.configJson?.Portalconfig.menu.tools.children.modeler3D.highlightStyle,
                 color = configuredHighlightStyle?.color || this.highlightStyle.color,
                 alpha = configuredHighlightStyle?.alpha || this.highlightStyle.alpha,
                 silhouetteColor = configuredHighlightStyle?.silhouetteColor || this.highlightStyle.silhouetteColor,

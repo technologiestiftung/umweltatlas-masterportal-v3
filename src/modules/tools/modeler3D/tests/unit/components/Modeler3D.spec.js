@@ -36,8 +36,34 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
             ["EPSG:8395", "+title=EPSG: 8395 +proj=tmerc +lat_0=0 +lon_0=9 +k=1 +x_0=500000 +y_0=0 +ellps=GRS80 +datum=GRS80 +units=m +no_defs"],
             ["EPSG:4326", "+title=WGS 84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"]
         ],
+        entityList = [
+            {
+                id: 1,
+                position: {getValue: () => "position1"},
+                rotation: 0,
+                model: {
+                    color: null,
+                    silhouetteColor: null,
+                    silhouetteSize: 0,
+                    colorBlendAmount: 0
+                }
+            },
+            {
+                id: 2,
+                position: {getValue: () => "position2"},
+                rotation: 0,
+                model: {
+                    color: null,
+                    silhouetteColor: "white",
+                    silhouetteSize: 10,
+                    colorBlendAmount: 2
+                }
+            }
+        ],
         entities = {
-            getById: sinon.stub()
+            getById: (val) => {
+                return entityList.find(x => x.id === val);
+            }
         },
         scene = {
             requestRender: sinon.stub()
@@ -57,11 +83,18 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
             }
         };
 
-    let store, wrapper;
+    let store,
+        wrapper,
+        origUpdatePositionUI;
 
     beforeEach(() => {
         mapCollection.clear();
         mapCollection.addMap(map3D, "3D");
+
+        global.Cesium = {};
+
+        origUpdatePositionUI = Modeler3D.actions.updatePositionUI;
+        Modeler3D.actions.updatePositionUI = sinon.spy();
 
         store = new Vuex.Store({
             namespaces: true,
@@ -85,9 +118,12 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
         store.commit("Tools/Modeler3D/setActive", true);
         store.commit("Tools/Modeler3D/setCurrentModelId", null);
         store.commit("Tools/Modeler3D/setHiddenObjects", []);
+        store.commit("Tools/Modeler3D/setImportedModels", [{id: 1, name: "modelName", heading: 120, scale: 1}]);
     });
 
     afterEach(() => {
+        Modeler3D.actions.updatePositionUI = origUpdatePositionUI;
+
         sinon.restore();
         if (wrapper) {
             wrapper.destroy();
@@ -264,15 +300,40 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
             expect(hiddenObjects.length).to.eql(0);
             expect(pickObject.show).to.be.true;
         });
+    });
 
-        // it("close sets active to false", async () => {
-        //     wrapper = shallowMount(Modeler3DComponent, {store, localVue});
-        //     expect(store.state.Tools.Modeler3D.active).to.be.true;
-        //     wrapper.vm.close();
-        //     await wrapper.vm.$nextTick();
+    describe("Modeler3D.vue watcher", () => {
+        it("watch to currentModelId shall highlight selected Entity and populate UI", async () => {
+            wrapper = shallowMount(Modeler3DComponent, {store, localVue});
 
-        //     expect(store.state.Tools.Modeler3D.active).to.be.false;
-        //     expect(wrapper.find("#tool-modeler3D").exists()).to.be.false;
-        // });
+            wrapper.vm.highlightEntity = sinon.spy();
+            store.commit("Tools/Modeler3D/setCurrentModelId", 1);
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.vm.highlightEntity).to.be.calledWith(entityList[0]);
+            expect(store.state.Tools.Modeler3D.currentModelPosition).to.eql("position1");
+            expect(store.state.Tools.Modeler3D.rotation).to.eql(120);
+            expect(Modeler3D.actions.updatePositionUI).to.be.called;
+        });
+
+        it("watch to currentModelId shall reset highlighting of deselected Entity", async () => {
+            store.commit("Tools/Modeler3D/setCurrentModelId", 2);
+            wrapper = shallowMount(Modeler3DComponent, {store, localVue});
+            wrapper.vm.highlightEntity = sinon.spy();
+            global.Cesium.Color = {
+                WHITE: "#ffffff"
+            };
+
+            store.commit("Tools/Modeler3D/setCurrentModelId", null);
+            await wrapper.vm.$nextTick();
+
+            expect(entityList[1].model.color).to.be.equals("#ffffff");
+            expect(entityList[1].model.silhouetteColor).to.be.null;
+            expect(entityList[1].model.silhouetteSize).to.be.equals(0);
+            expect(entityList[1].model.colorBlendAmount).to.be.equals(0);
+
+            expect(scene.requestRender).to.be.called;
+            expect(store.state.Tools.Modeler3D.currentModelPosition).to.be.null;
+        });
     });
 });
