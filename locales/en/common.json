@@ -628,7 +628,7 @@
                     "alertingMessages": {
                         "featureError": "A feature in this file could not be read.",
                         "fileSizeError": "The file size exceeds the limit of 100 MB.",
-                        "formatError": "The file \"{{filename}}\" could not be read. Please check if the file has the format *.kml, .gpx, .geojson, or .json.",
+                        "formatError": "The file \"{{filename}}\" could not be read. Please check if the file has the format *.gltf, *.obj or *.dae.",
                         "missingFileContent": "Error reading the file \"{{filename}}\". Please check the file type and content. If the file is error-free, please contact support.",
                         "missingFormat": "The file format \"{{format}}\" is not supported. Please contact support.",
                         "success": "The file \"{{filename}}\" was successfully imported.",

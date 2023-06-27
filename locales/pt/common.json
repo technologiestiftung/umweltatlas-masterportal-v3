@@ -437,7 +437,7 @@
                     "alertingMessages": {
                         "featureError": "Não foi possível ler um recurso neste arquivo.",
                         "fileSizeError": "O tamanho do arquivo excede o limite de 100 MB.",
-                        "formatError": "Não foi possível ler o arquivo \"{{filename}}\". Verifique se o arquivo está no formato *.kml, .gpx, .geojson ou .json.",
+                        "formatError": "Não foi possível ler o arquivo \"{{filename}}\". Verifique se o arquivo está no formato *.gltf, *.obj ou *.dae.",
                         "missingFileContent": "Erro ao ler o arquivo \"{{filename}}\". Verifique o tipo e conteúdo do arquivo. Se o arquivo estiver correto, entre em contato com o suporte.",
                         "missingFormat": "O formato do arquivo \"{{format}}\" não é suportado. Entre em contato com o suporte.",
                         "success": "O arquivo \"{{filename}}\" foi importado com sucesso.",
