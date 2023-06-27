@@ -13,7 +13,8 @@ const getters = {
         return mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities;
     },
     getModelNameById: state => (id) => {
-        const model = state.importedModels.find(x => x.id === id);
+        const allModels = state.importedModels.concat(state.drawnModels),
+            model = allModels.find(x => x.id === id);
 
         return model.name;
     },

@@ -20,6 +20,7 @@
  * @property {String}       id - internal id of component
  * @property {Object[]}     importedModels - array of imported 3D models
  * @property {Boolean}      isDragging - if true, entity is being moved by mouse
+ * @property {Boolean}      isDrawing- true if drawing is active
  * @property {String}       name - Module name
  * @property {Object[]}     projections - all available projections
  * @property {Boolean}      renderToWindow - if true, component is rendered in a window pane instead of sidebar
@@ -46,7 +47,9 @@ export default {
         silhouetteSize: 4
     },
     importedModels: [],
+    drawnModels: [],
     isDragging: false,
+    isDrawing: false,
     projections: [],
     rotation: 0,
     scale: 1,

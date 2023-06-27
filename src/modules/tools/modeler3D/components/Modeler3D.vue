@@ -67,6 +67,7 @@ export default {
 
                 this.initProjections();
                 eventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+
                 eventHandler.setInputAction(this.selectObject, Cesium.ScreenSpaceEventType.LEFT_CLICK);
                 eventHandler.setInputAction(this.moveEntity, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
             }
@@ -81,25 +82,27 @@ export default {
          * @returns {void}
          */
         currentModelId (newId, oldId) {
-            const scene = this.scene,
-                entities = this.entities,
-                newEntity = entities.getById(newId),
-                oldEntity = entities.getById(oldId);
+            if (!this.isDrawing) {
+                const scene = this.scene,
+                    entities = this.entities,
+                    newEntity = entities.getById(newId),
+                    oldEntity = entities.getById(oldId);
 
-            if (oldEntity) {
-                oldEntity.model.color = Cesium.Color.WHITE;
-                oldEntity.model.silhouetteColor = null;
-                oldEntity.model.silhouetteSize = 0;
-                oldEntity.model.colorBlendAmount = 0;
-                scene.requestRender();
+                if (oldEntity) {
+                    oldEntity.model.color = Cesium.Color.WHITE;
+                    oldEntity.model.silhouetteColor = null;
+                    oldEntity.model.silhouetteSize = 0;
+                    oldEntity.model.colorBlendAmount = 0;
+                    scene.requestRender();
 
-                this.setCurrentModelPosition(null);
-            }
-            if (newEntity) {
-                this.highlightEntity(newEntity);
-                this.setCurrentModelPosition(newEntity?.position?.getValue());
-                this.setRotation(this.importedModels.find(model => model.id === this.currentModelId).heading);
-                this.updatePositionUI();
+                    this.setCurrentModelPosition(null);
+                }
+                if (newEntity) {
+                    this.highlightEntity(newEntity);
+                    this.setCurrentModelPosition(newEntity?.position?.getValue());
+                    this.setRotation(this.importedModels.find(model => model.id === this.currentModelId).heading);
+                    this.updatePositionUI();
+                }
             }
         }
     },
@@ -213,32 +216,35 @@ export default {
          * @returns {void}
          */
         selectObject (event) {
-            const scene = this.scene,
-                picked = scene.pick(event.position);
+            if (!this.isDrawing) {
+                const scene = this.scene,
+                    picked = scene.pick(event.position);
 
-            if (Cesium.defined(picked)) {
-                const entity = Cesium.defaultValue(picked?.id, picked?.primitive?.id);
+                if (Cesium.defined(picked)) {
+                    const entity = Cesium.defaultValue(picked?.id, picked?.primitive?.id);
 
-                if (entity) {
-                    scene.requestRender();
+                    if (entity) {
+                        scene.requestRender();
 
-                    this.setCurrentModelId(entity.id);
-                }
-                else if (this.hideObjects) {
-                    const object = picked.pickId?.object;
+                        this.setCurrentModelId(entity.id);
+                    }
+                    else if (this.hideObjects) {
+                        const object = picked.pickId?.object;
 
-                    if (object) {
-                        object.show = false;
+                        if (object) {
+                            object.show = false;
 
-                        this.hiddenObjects.push({
-                            id: object.featureId,
-                            pickId: object.pickId.key,
-                            layerId: object.tileset.layerReferenceId,
-                            name: `Object ${object.featureId}`
-                        });
+                            this.hiddenObjects.push({
+                                id: object.featureId,
+                                pickId: object.pickId.key,
+                                layerId: object.tileset.layerReferenceId,
+                                name: `Object ${object.featureId}`
+                            });
+                        }
                     }
                 }
             }
+
         },
         /**
          * Handles the mouse move event and performs actions when dragging an object.

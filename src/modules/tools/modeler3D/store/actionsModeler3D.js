@@ -13,10 +13,11 @@ const actions = {
     deleteEntity ({commit, getters, state}, id) {
         const entities = getters.entities,
             entity = entities.getById(id),
-            modelIndex = state.importedModels.findIndex(x => x.id === id);
+            stateArray = entity.wasDrawn ? state.drawnModels : state.importedModels,
+            modelIndex = stateArray.findIndex(x => x.id === id);
 
         if (modelIndex > -1 && entity) {
-            state.importedModels.splice(modelIndex, 1);
+            stateArray.splice(modelIndex, 1);
             entities.removeById(id);
             commit("setCurrentModelId", null);
         }
