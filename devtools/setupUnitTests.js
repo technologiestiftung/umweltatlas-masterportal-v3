@@ -6,7 +6,8 @@ global.ResizeObserver = require("resize-observer-polyfill");
 class Worker {
     /**
      * Constructor
-     * @param {String} stringUrl 
+     * @param {String} stringUrl a string representing the URL of the script the worker will execute
+     * @returns {void} void
      */
     constructor (stringUrl) {
         this.url = stringUrl;
@@ -17,7 +18,8 @@ class Worker {
 
     /**
      * Post message
-     * @param {String} msg 
+     * @param {String} msg message
+     * @returns {void} void
      */
     postMessage (msg) {
         this.onmessage(msg);
