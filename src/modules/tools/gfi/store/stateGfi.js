@@ -27,7 +27,8 @@ const state = {
     renderToWindow: true,
     currentPosition: null,
     currentRotation: null,
-    gfiFeatures: []
+    gfiFeatures: [],
+    coloredHighlighting3D: {}
 };
 
 export default state;

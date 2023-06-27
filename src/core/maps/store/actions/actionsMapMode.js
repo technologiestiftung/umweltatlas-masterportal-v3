@@ -70,7 +70,7 @@ export default {
             map3D = await dispatch("createMap3D");
             mapCollection.addMap(map3D, "3D");
             if (Config?.cesiumParameter?.gfiColoredHighlighting && Config?.cesiumParameter?.gfiColoredHighlighting?.enabled !== false) {
-                dispatch("highlight3DTile");
+                //dispatch("highlight3DTile");
             }
             api.map.olcsMap.handle3DEvents({scene: map3D.getCesiumScene(), map3D: map3D, callback: (clickObject) => dispatch("clickEventCallback", Object.freeze(clickObject))});
         }
