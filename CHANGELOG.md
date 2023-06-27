@@ -23,7 +23,8 @@
 - Draw: mapmarker is no longer displayed if draw-tool is active and user clicked on map.
 - CoordToolkit: coordInfo hast now a max-width
 - Issue #1044: The coordinate transformation error by click in 3D map mode is fixed.
-- Issue #1050/Issue #1049: GFI: fixed highlighting of features with geometry polygon or multipolygon
+- Issue #1049/Issue #1050: GFI: fixed highlighting of features with geometry polygon or multipolygon
+- Issue #1052: Legend is now displayed correctly again for wfs-layer
 - MQTT topic size: topics are sent individually to avoid issue with overall message size > 64kB
 - Print: fix print module for print service 'plotservice'.
 
