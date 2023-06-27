@@ -1,5 +1,6 @@
 <script>
 import BasicFileImport from "../../../../share-components/fileImport/components/BasicFileImport.vue";
+import RoutingLoadingSpinner from "../../routing/components/RoutingLoadingSpinner.vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import actions from "../store/actionsModeler3D";
 import getters from "../store/gettersModeler3D";
@@ -13,11 +14,13 @@ import store from "../../../../app-store";
 export default {
     name: "ImportView",
     components: {
-        BasicFileImport
+        BasicFileImport,
+        RoutingLoadingSpinner
     },
     emits: ["moveEntity"],
     data () {
         return {
+            isLoading: false,
             isHovering: false
         };
     },
@@ -34,6 +37,8 @@ export default {
          * @returns {void}
          */
         addFile (files) {
+            this.isLoading = true;
+
             const reader = new FileReader(),
                 file = files[0],
                 fileName = file.name.split(".")[0],
@@ -105,6 +110,8 @@ export default {
                 edit: false
             });
             this.setImportedModels(models);
+
+            this.isLoading = false;
         },
         /**
          * Handles the processing of an OBJ file.
@@ -201,7 +208,13 @@ export default {
 </script>
 
 <template lang="html">
-    <div id="modeler3D-import-view">
+    <RoutingLoadingSpinner
+        v-if="isLoading"
+    />
+    <div
+        v-else
+        id="modeler3D-import-view"
+    >
         <BasicFileImport
             :intro-formats="$t('modules.tools.modeler3D.import.captions.introFormats')"
             @add-file="addFile"
@@ -315,6 +328,17 @@ export default {
 <style lang="scss" scoped>
     @import "~/css/mixins.scss";
     @import "~variables";
+
+    .spinner {
+        width: 50px;
+        height: 50px;
+        margin-top: -25px;
+        margin-left: -25px;
+        left: 50%;
+        top: 50%;
+        position: absolute;
+        background: rgba(0, 0, 0, 0);
+    }
 
     .h-seperator {
         margin:12px 0 12px 0;

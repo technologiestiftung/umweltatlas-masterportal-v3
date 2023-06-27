@@ -10,6 +10,7 @@ import getters from "../store/gettersModeler3D";
 import mutations from "../store/mutationsModeler3D";
 import store from "../../../../app-store";
 import crs from "@masterportal/masterportalapi/src/crs";
+import {getGfiFeaturesByTileFeature} from "../../../../api/gfi/getGfiFeaturesByTileFeature";
 
 let eventHandler = null;
 
@@ -217,15 +218,17 @@ export default {
                 picked = scene.pick(event.position);
 
             if (Cesium.defined(picked)) {
-                const entity = Cesium.defaultValue(picked?.id, picked?.primitive?.id);
+                // const entity = Cesium.defaultValue(picked?.id, picked?.primitive?.id);
 
-                if (entity) {
+                if (picked instanceof Cesium.Entity) {
                     scene.requestRender();
 
-                    this.setCurrentModelId(entity.id);
+                    this.setCurrentModelId(picked.id);
                 }
-                else if (this.hideObjects) {
-                    const object = picked.pickId?.object;
+                else if (this.hideObjects && picked instanceof Cesium.Cesium3DTileFeature) {
+                    const features = getGfiFeaturesByTileFeature(picked),
+                        gmlId = features[0].getProperties().gmlid,
+                        object = picked.pickId?.object;
 
                     if (object) {
                         object.show = false;
@@ -234,7 +237,7 @@ export default {
                             id: object.featureId,
                             pickId: object.pickId.key,
                             layerId: object.tileset.layerReferenceId,
-                            name: `Object ${object.featureId}`
+                            name: gmlId
                         });
                     }
                 }
