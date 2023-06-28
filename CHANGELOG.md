@@ -15,8 +15,7 @@
 ### Changed
 - The following packages have been updated:
     - dependencies:
-        - masterportalapi:  2.19.2 to 2.20.0 (This also raised ol to version 7.4.0. This reduces the styling of polygons with the webgl renderer to default values, because of changes in the experimental webgl-API.)
-
+        - masterportalapi:  2.19.2 to 2.20.0 (This also raised ol to version 7.4.0 and cesium to version 1.106.0)
 ### Deprecated
 
 ### Removed
