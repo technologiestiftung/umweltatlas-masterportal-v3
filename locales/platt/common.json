@@ -448,7 +448,7 @@
                     "alertingMessages": {
                         "featureError": "En Funktion in disse Datei kunn nich lesen warrn.",
                         "fileSizeError": "De Dateigrött översteiht de Grenze vun 100 MB.",
-                        "formatError": "De Datei \"{{filename}}\" kunn nich lesen warrn. Kiek doch mal, ob de Datei dat Format *.kml, .gpx, .geojson oder .json hett.",
+                        "formatError": "De Datei \"{{filename}}\" kunn nich lesen warrn. Kiek doch mal, ob de Datei dat Format *.gltf, *.obj oder *.dae hett.",
                         "missingFileContent": "Fehler bi't Lesen vun de Datei \"{{filename}}\". Kiek nochmol na de Dateislag un de Inholt. Wenn de Datei fehlerfrei is, dann nipp dor an den Support.",
                         "missingFormat": "Dat Format \"{{format}}\" vun de Datei warrt nich unterstützt. Nipp dor an den Support.",
                         "success": "De Datei \"{{filename}}\" is erfolgreich importeert.",

@@ -1,6 +1,6 @@
 <script>
 export default {
-    name: "DrawView"
+    name: "Modeler3DDraw"
 };
 </script>
 

@@ -447,7 +447,7 @@
                     "alertingMessages": {
                         "featureError": "Bu dosyadaki bir özellik okunamadı.",
                         "fileSizeError": "Dosya boyutu 100 MB sınırını aşıyor.",
-                        "formatError": "\"{{filename}}\" dosyası okunamadı. Lütfen dosyanın *.kml, .gpx, .geojson veya .json formatında olduğunu kontrol edin.",
+                        "formatError": "\"{{filename}}\" dosyası okunamadı. Lütfen dosyanın *.gltf, *.obj veya *.dae formatında olduğunu kontrol edin.",
                         "missingFileContent": "\"{{filename}}\" dosyası okunurken hata oluştu. Dosya türünü ve içeriğini kontrol edin. Dosya hatasız ise destek birimine başvurun.",
                         "missingFormat": "\"{{format}}\" formatı desteklenmiyor. Destek birimine başvurun.",
                         "success": "\"{{filename}}\" dosyası başarıyla içe aktarıldı.",
