@@ -1,8 +1,9 @@
 <script>
 import ToolTemplate from "../../ToolTemplate.vue";
-import EntityModelView from "./Modeler3DEntityModel.vue";
-import ImportView from "./Modeler3DImport.vue";
-import DrawView from "./Modeler3DDraw.vue";
+import EntityModel from "./Modeler3DEntityModel.vue";
+import Import from "./Modeler3DImport.vue";
+import Draw from "./Modeler3DDraw.vue";
+import Modeler3DList from "./Modeler3DList.vue";
 import {getComponent} from "../../../../utils/getComponent";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import actions from "../store/actionsModeler3D";
@@ -17,9 +18,10 @@ export default {
     name: "Modeler3D",
     components: {
         ToolTemplate,
-        EntityModelView,
-        ImportView,
-        DrawView
+        EntityModel,
+        Import,
+        Draw,
+        Modeler3DList
     },
     data () {
         return {
@@ -27,7 +29,7 @@ export default {
             activeTabClass: "active",
             isHovering: "",
             hideObjects: true,
-            currentView: "import-view"
+            currentView: "import"
         };
     },
     computed: {
@@ -38,14 +40,14 @@ export default {
          * @returns {string} - The CSS classes for the import tab.
          */
         importTabClasses: function () {
-            return this.currentView === "import-view" ? this.activeTabClass : this.defaultTabClass;
+            return this.currentView === "import" ? this.activeTabClass : this.defaultTabClass;
         },
         /**
          * Returns the CSS classes for the draw tab based on the current view.
          * @returns {string} - The CSS classes for the draw tab.
          */
         drawTabClasses: function () {
-            return this.currentView === "draw-view" ? this.activeTabClass : this.defaultTabClass;
+            return this.currentView === "draw" ? this.activeTabClass : this.defaultTabClass;
         },
         /**
          * Returns the CSS classes for the options tab based on the current view.
@@ -421,50 +423,15 @@ export default {
                             </label>
                         </div>
                     </div>
-                    <template v-if="hiddenObjects.length > 0">
-                        <div class="modelList">
-                            <div class="h-seperator" />
-                            <label
-                                class="modelListLabel"
-                                for="hidden-objects"
-                            >
-                                {{ $t("modules.tools.modeler3D.hiddenObjectsLabel") }}
-                            </label>
-                            <ul
-                                id="hidden-objects"
-                            >
-                                <li
-                                    v-for="(object, index) in hiddenObjects"
-                                    :key="index"
-                                    class="list-item"
-                                >
-                                    <span class="index">
-                                        {{ index + 1 }}
-                                    </span>
-                                    <span
-                                        class="inputName"
-                                    >
-                                        {{ object.name }}
-                                    </span>
-                                    <div class="buttons">
-                                        <i
-                                            class="inline-button bi"
-                                            :class="{ 'bi-eye-fill': isHovering === `obj-${index}-show`, 'bi-eye-slash': isHovering !== `obj-${index}-show`}"
-                                            :title="$t(`common:modules.tools.modeler3D.entity.captions.visibilityTitle`, {name: object.name})"
-                                            @click="showObject(object)"
-                                            @keydown.enter="showObject(object)"
-                                            @mouseover="isHovering = `obj-${index}-show`"
-                                            @mouseout="isHovering = false"
-                                            @focusin="isHovering = `obj-${index}-show`"
-                                            @focusout="isHovering = false"
-                                        />
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </template>
+                    <Modeler3DList
+                        v-if="hiddenObjects.length > 0"
+                        id="hidden-objects"
+                        :objects="hiddenObjects"
+                        :objects-label="$t('modules.tools.modeler3D.hiddenObjectsLabel')"
+                        @change-visibility="showObject"
+                    />
                 </div>
-                <EntityModelView
+                <EntityModel
                     v-else
                 />
             </div>
@@ -476,177 +443,12 @@ export default {
     @import "~/css/mixins.scss";
     @import "~variables";
 
-    .h-seperator {
-        margin:12px 0 12px 0;
-        border: 1px solid #DDDDDD;
-    }
-
-    input[type="file"] {
-        display: none;
-    }
-    input[type="button"] {
-        display: none;
-    }
-
-    .primary-button-wrapper {
-        color: $white;
-        background-color: $secondary_focus;
-        display: block;
-        text-align:center;
-        padding: 8px 12px;
-        cursor: pointer;
-        margin:12px 0 0 0;
-        font-size: $font_size_big;
-        &:focus {
-            @include primary_action_focus;
-        }
-        &:hover {
-            @include primary_action_hover;
-        }
-    }
-
     .cta {
         margin-bottom:12px;
     }
 
     .form-switch {
         font-size: $font_size_big;
-    }
-
-    .drop-area-fake {
-        background-color: $white;
-        border-radius: 12px;
-        border: 2px dashed $accent;
-        padding:24px;
-        transition: background 0.25s, border-color 0.25s;
-
-        &.dzReady {
-            background-color:$accent_hover;
-            border-color:transparent;
-
-            p.caption {
-                color: $white;
-            }
-        }
-
-        p.caption {
-            margin:0;
-            text-align:center;
-            transition: color 0.35s;
-            font-family: $font_family_accent;
-            font-size: $font-size-lg;
-            color: $accent;
-        }
-    }
-
-    .drop-area {
-        position:absolute;
-        top:0;
-        left:0;
-        right:0;
-        bottom:0;
-        z-index:10;
-    }
-
-    .vh-center-outer-wrapper {
-        top:0;
-        left:0;
-        right:0;
-        bottom:0;
-        text-align:center;
-        position:relative;
-
-        &:before {
-            content:'';
-            display:inline-block;
-            height:100%;
-            vertical-align:middle;
-            margin-right:-0.25em;
-        }
-    }
-    .vh-center-inner-wrapper {
-        text-align:left;
-        display:inline-block;
-        vertical-align:middle;
-        position:relative;
-    }
-
-    .modelListLabel {
-        font-weight: bold;
-    }
-
-    .modelList {
-        font-size: $font_size_icon_lg;
-    }
-
-    .index {
-        width: 15%;
-    }
-
-    .inputName {
-        width: 60%;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .buttons {
-        margin-left: auto;
-    }
-
-    .inline-button {
-        cursor: pointer;
-        display: inline-block;
-        &:focus {
-            transform: translateY(-2px);
-        }
-        &:hover {
-            transform: translateY(-2px);
-        }
-        &:active {
-            transform: scale(0.98);
-        }
-    }
-
-    .position-control {
-        display: flex;
-        gap: 0.25em;
-    }
-
-    .btn-margin {
-        margin-top: 1em;
-    }
-
-    .btn-pos {
-        padding: 0.25em;
-    }
-
-    .btn-primary {
-        &:focus {
-            @include primary_action_focus;
-        }
-        &:hover {
-            @include primary_action_hover;
-        }
-        &:active {
-            transform: scale(0.98);
-        }
-    }
-
-    #hidden-objects {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .list-item {
-        display: flex;
-        align-items: center;
-        height: 1.5rem;
-    }
-
-    .row {
-        align-items: center;
     }
 
     .nav-tabs {

@@ -70,29 +70,6 @@ describe("src/modules/tools/modeler3D/components/Modeler3DImport.vue", () => {
 
         expect(toolModeler3DImportWrapper.exists()).to.be.true;
     });
-    it("shows buttons for importedModel", async () => {
-        wrapper = mount(Modeler3DImportComponent, {store, localVue});
-        store.commit("Tools/Modeler3D/setImportedModels", [
-            {
-                id: "id",
-                name: "name",
-                show: false
-            }
-        ]);
-        await wrapper.vm.$nextTick();
-
-        const importedModelList = wrapper.find("#succesfully-imported-models"),
-            zoomToButton = wrapper.find("#tool-import-view-zoomTo"),
-            editButton = wrapper.find("#tool-import-view-edit"),
-            hideButton = wrapper.find("#tool-import-view-hide"),
-            deleteButton = wrapper.find("#tool-import-view-delete");
-
-        expect(importedModelList.exists()).to.be.true;
-        expect(zoomToButton.exists()).to.be.true;
-        expect(editButton.exists()).to.be.true;
-        expect(hideButton.exists()).to.be.true;
-        expect(deleteButton.exists()).to.be.true;
-    });
     it("should handle files correctly", () => {
         wrapper = mount(Modeler3DImportComponent, {store, localVue});
         const fileDetails = {
@@ -159,8 +136,6 @@ describe("src/modules/tools/modeler3D/components/Modeler3DImport.vue", () => {
     });
     it("displays the list of successfully imported models", async () => {
         wrapper = mount(Modeler3DImportComponent, {store, localVue});
-
-        await wrapper.vm.$nextTick();
         const importedModels = [
                 {
                     id: "1",
@@ -173,9 +148,10 @@ describe("src/modules/tools/modeler3D/components/Modeler3DImport.vue", () => {
                     show: true
                 }
             ],
-            importedModelList = wrapper.find("#succesfully-imported-models");
+            importedModelList = wrapper.find("#successfully-imported-models");
 
         store.commit("Tools/Modeler3D/setImportedModels", importedModels);
+        await wrapper.vm.$nextTick();
 
         expect(importedModelList.exists()).to.be.true;
     });

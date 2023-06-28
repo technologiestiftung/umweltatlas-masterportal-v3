@@ -1,5 +1,6 @@
 <script>
 import BasicFileImport from "../../../../share-components/fileImport/components/BasicFileImport.vue";
+import Modeler3DList from "./Modeler3DList.vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import actions from "../store/actionsModeler3D";
 import getters from "../store/gettersModeler3D";
@@ -13,7 +14,8 @@ import store from "../../../../app-store";
 export default {
     name: "Modeler3DImport",
     components: {
-        BasicFileImport
+        BasicFileImport,
+        Modeler3DList
     },
     emits: ["moveEntity"],
     data () {
@@ -207,198 +209,16 @@ export default {
             @add-file="addFile"
         />
 
-        <div v-if="importedModels.length > 0">
-            <div class="h-seperator" />
-            <div class="modelList">
-                <label
-                    class="modelListLabel"
-                    for="succesfully-imported-models"
-                >
-                    {{ $t("modules.tools.modeler3D.import.captions.successfullyImportedLabel") }}
-                </label>
-                <ul id="succesfully-imported-models">
-                    <li
-                        v-for="(model, index) in importedModels"
-                        :key="index"
-                    >
-                        <span class="index">
-                            {{ index + 1 }}
-                        </span>
-                        <input
-                            v-if="model.edit"
-                            v-model="model.name"
-                            class="inputName"
-                            @blur="model.edit = false"
-                            @keyup.enter="model.edit = false"
-                        >
-                        <span
-                            v-else
-                            role="button"
-                            class="inputName"
-                            tabindex="-1"
-                            @click="model.edit = true"
-                            @keyup.enter="model.edit = true"
-                        >
-                            {{ model.name }}
-                        </span>
-                        <div class="buttons">
-                            <i
-                                id="tool-import-view-zoomTo"
-                                class="inline-button bi"
-                                :class="{ 'bi-geo-alt-fill': isHovering === `${index}-geo`, 'bi-geo-alt': isHovering !== `${index}-geo`}"
-                                :title="$t(`common:modules.tools.modeler3D.entity.captions.zoomTo`, {name: model.name})"
-                                @click="zoomTo(model.id)"
-                                @keydown.enter="zoomTo(model.id)"
-                                @mouseover="isHovering = `${index}-geo`"
-                                @mouseout="isHovering = false"
-                                @focusin="isHovering = `${index}-geo`"
-                                @focusout="isHovering = false"
-                            />
-                            <i
-                                id="tool-import-view-edit"
-                                class="inline-button bi"
-                                :class="{ 'bi-pencil-fill': isHovering === `${index}-edit`, 'bi-pencil': isHovering !== `${index}-edit`}"
-                                :title="$t(`common:modules.tools.modeler3D.entity.captions.editModel`, {name: model.name})"
-                                @click="setCurrentModelId(model.id)"
-                                @keydown.enter="setCurrentModelId(model.id)"
-                                @mouseover="isHovering = `${index}-edit`"
-                                @mouseout="isHovering = false"
-                                @focusin="isHovering = `${index}-edit`"
-                                @focusout="isHovering = false"
-                            />
-                            <i
-                                v-if="model.show"
-                                id="tool-import-view-show"
-                                class="inline-button bi"
-                                :class="{ 'bi-eye-slash-fill': isHovering === `${index}-hide`, 'bi-eye': isHovering !== `${index}-hide`}"
-                                :title="$t(`common:modules.tools.modeler3D.entity.captions.visibilityTitle`, {name: model.name})"
-                                @click="changeVisibility(model)"
-                                @keydown.enter="changeVisibility(model)"
-                                @mouseover="isHovering = `${index}-hide`"
-                                @mouseout="isHovering = false"
-                                @focusin="isHovering = `${index}-hide`"
-                                @focusout="isHovering = false"
-                            />
-                            <i
-                                v-else
-                                id="tool-import-view-hide"
-                                class="inline-button bi"
-                                :class="{ 'bi-eye-fill': isHovering === `${index}-show`, 'bi-eye-slash': isHovering !== `${index}-show`}"
-                                :title="$t(`common:modules.tools.modeler3D.entity.captions.visibilityTitle`, {name: model.name})"
-                                @click="changeVisibility(model)"
-                                @keydown.enter="changeVisibility(model)"
-                                @mouseover="isHovering = `${index}-show`"
-                                @mouseout="isHovering = false"
-                                @focusin="isHovering = `${index}-show`"
-                                @focusout="isHovering = false"
-                            />
-                            <i
-                                id="tool-import-view-delete"
-                                class="inline-button bi"
-                                :class="{ 'bi-trash3-fill': isHovering === `${index}-del`, 'bi-trash3': isHovering !== `${index}-del`}"
-                                :title="$t(`common:modules.tools.modeler3D.entity.captions.deletionTitle`, {name: model.name})"
-                                @click="confirmDeletion(model.id)"
-                                @keydown.enter="confirmDeletion(model.id)"
-                                @mouseover="isHovering = `${index}-del`"
-                                @mouseout="isHovering = false"
-                                @focusin="isHovering = `${index}-del`"
-                                @focusout="isHovering = false"
-                            />
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
+        <Modeler3DList
+            v-if="importedModels.length > 0"
+            id="successfully-imported-models"
+            :objects="importedModels"
+            :objects-label="$t('modules.tools.modeler3D.import.captions.successfullyImportedLabel')"
+            :entity="true"
+            @zoom-to="zoomTo"
+            @set-current-model-id="setCurrentModelId"
+            @change-visibility="changeVisibility"
+            @confirm-deletion="confirmDeletion"
+        />
     </div>
 </template>
-
-<style lang="scss" scoped>
-    @import "~/css/mixins.scss";
-    @import "~variables";
-
-    .h-seperator {
-        margin:12px 0 12px 0;
-        border: 1px solid #DDDDDD;
-    }
-
-    .primary-button-wrapper {
-        color: $white;
-        background-color: $secondary_focus;
-        display: block;
-        text-align:center;
-        padding: 8px 12px;
-        cursor: pointer;
-        margin:12px 0 0 0;
-        font-size: $font_size_big;
-        &:focus {
-            @include primary_action_focus;
-        }
-        &:hover {
-            @include primary_action_hover;
-        }
-    }
-
-    .cta {
-        margin-bottom:12px;
-    }
-
-    .red {
-        color: red;
-    }
-
-    .modelListLabel {
-        font-weight: bold;
-    }
-
-    .modelList {
-        font-size: $font_size_icon_lg;
-    }
-
-    .index {
-        width: 15%;
-    }
-
-    .inputName {
-        width: 60%;
-        cursor: text;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-
-        &:hover {
-            border-color: #8098b1;
-            outline: 0;
-            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075), 0 0 0 0.25rem rgba(0, 48, 99, 0.25);
-        }
-    }
-
-    .buttons {
-        margin-left: auto;
-    }
-
-    .inline-button {
-        cursor: pointer;
-        display: inline-block;
-        &:focus {
-            transform: translateY(-2px);
-        }
-        &:hover {
-            transform: translateY(-2px);
-        }
-        &:active {
-            transform: scale(0.98);
-        }
-    }
-
-    ul {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    li {
-        display: flex;
-        align-items: center;
-        height: 1.5rem;
-    }
-</style>
