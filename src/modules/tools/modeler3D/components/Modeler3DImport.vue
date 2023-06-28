@@ -20,7 +20,6 @@ export default {
     emits: ["moveEntity"],
     data () {
         return {
-            isLoading: false,
             isHovering: false
         };
     },
@@ -37,7 +36,7 @@ export default {
          * @returns {void}
          */
         addFile (files) {
-            this.isLoading = true;
+            this.setIsLoading(true);
 
             const reader = new FileReader(),
                 file = files[0],
@@ -97,7 +96,7 @@ export default {
                 };
 
             this.setCurrentModelId(entity.id);
-            this.moveEntity();
+            this.$emit("emit-move");
 
             entities.add(entity);
 
@@ -110,8 +109,7 @@ export default {
                 edit: false
             });
             this.setImportedModels(models);
-
-            this.isLoading = false;
+            this.setIsLoading(false);
         },
         /**
          * Handles the processing of an OBJ file.
@@ -178,14 +176,6 @@ export default {
 
             entity.show = !model.show;
             model.show = entity.show;
-        },
-        /**
-         * Triggers an event to indicate that the entity should be moved.
-         * @emits emit-move
-         * @returns {void}
-         */
-        moveEntity () {
-            this.$emit("emit-move");
         },
         /**
          * Zooms the camera to the specified entity.

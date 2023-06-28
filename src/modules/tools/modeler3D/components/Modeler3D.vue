@@ -200,13 +200,25 @@ export default {
         },
         /**
          * Initiates the process of moving an entity.
+         * @param {Event} event - The event object containing the position information.
          * @returns {void}
          */
-        moveEntity () {
-            this.setIsDragging(true);
+        moveEntity (event) {
+            let entity;
 
-            eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-            eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+            if (event) {
+                const scene = this.scene,
+                    picked = scene.pick(event.position);
+
+                entity = Cesium.defaultValue(picked?.id, picked?.primitive?.id);
+            }
+
+            if (entity instanceof Cesium.Entity || !event) {
+                this.setIsDragging(true);
+
+                eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+                eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+            }
         },
         /**
          * Selects an object based on the provided event.
@@ -218,12 +230,12 @@ export default {
                 picked = scene.pick(event.position);
 
             if (Cesium.defined(picked)) {
-                // const entity = Cesium.defaultValue(picked?.id, picked?.primitive?.id);
+                const entity = Cesium.defaultValue(picked?.id, picked?.primitive?.id);
 
-                if (picked instanceof Cesium.Entity) {
+                if (entity instanceof Cesium.Entity) {
                     scene.requestRender();
 
-                    this.setCurrentModelId(picked.id);
+                    this.setCurrentModelId(entity.id);
                 }
                 else if (this.hideObjects && picked instanceof Cesium.Cesium3DTileFeature) {
                     const features = getGfiFeaturesByTileFeature(picked),
@@ -358,7 +370,10 @@ export default {
                 v-if="active"
                 id="tool-modeler3D"
             >
-                <div v-if="!currentModelId">
+                <EntityModelView
+                    v-if="currentModelId"
+                />
+                <div v-else>
                     <ul class="nav nav-tabs">
                         <li
                             id="tool-modeler3D-import"
@@ -424,7 +439,7 @@ export default {
                             </label>
                         </div>
                     </div>
-                    <template v-if="hiddenObjects.length > 0">
+                    <template v-if="hiddenObjects.length > 0 && !isLoading">
                         <div class="modelList">
                             <div class="h-seperator" />
                             <label
@@ -467,9 +482,6 @@ export default {
                         </div>
                     </template>
                 </div>
-                <EntityModelView
-                    v-else
-                />
             </div>
         </template>
     </ToolTemplate>
