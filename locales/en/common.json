@@ -639,6 +639,15 @@
                         "successfullyImportedLabel": "Imported 3D Models:"
                     }
                 },
+                "draw": {
+                    "captions": {
+                    "beginModelling": "Model 3D Object",
+                    "transparency": "Transparency",
+                    "color": "Color",
+                    "drawName": "Name",
+                    "extrudedHeight": "Extruded Height"
+                    }
+                },
                 "nav": {
                     "drawTitle": "Draw",
                     "importTitle": "Import",

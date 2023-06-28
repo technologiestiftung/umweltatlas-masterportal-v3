@@ -605,6 +605,11 @@
           "visibility": true
         },
         {
+          "id": "24050",
+          "name": "Area1",
+          "visibility": false
+        },
+        {
           "id": "13032",
           "name": "Oblique",
           "visibility": true

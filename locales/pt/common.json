@@ -448,6 +448,15 @@
                         "successfullyImportedLabel": "Modelos 3D Importados:"
                     }
                 },
+                "draw": {
+                    "captions": {
+                    "beginModelling": "Modelar objeto 3D",
+                    "transparency": "Transparência",
+                    "color": "Cor",
+                    "drawName": "Nome",
+                    "extrudedHeight": "Altura extrudida"
+                    }
+                },
                 "nav": {
                     "drawTitle": "Desenhar",
                     "importTitle": "Importar",

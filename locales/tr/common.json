@@ -457,6 +457,15 @@
                         "successfullyImportedLabel": "İçe Aktarılan 3D Modeller:"
                     }
                 },
+                "draw": {
+                    "captions": {
+                    "beginModelling": "3D Nesne Modelle",
+                    "transparency": "Şeffaflık",
+                    "color": "Renk",
+                    "drawName": "İsim",
+                    "extrudedHeight": "Yükseltilmiş Yükseklik"
+                    }
+                },
                 "nav": {
                     "drawTitle": "Çiz",
                     "importTitle": "İçe Aktar",

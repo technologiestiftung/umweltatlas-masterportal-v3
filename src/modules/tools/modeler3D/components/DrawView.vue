@@ -1,4 +1,5 @@
 <script>
+import * as constants from "../store/constantsModeler3D";
 import {mapGetters, mapActions, mapMutations} from "vuex";
 import actions from "../store/actionsModeler3D";
 import getters from "../store/gettersModeler3D";
@@ -13,11 +14,15 @@ export default {
             drawingMode: "polygon",
             activeShape: null,
             floatingPoint: null,
-            isHovering: false
+            isHovering: false,
+            constants: constants
         };
     },
     computed: {
         ...mapGetters("Tools/Modeler3D", Object.keys(getters))
+    },
+    mounted () {
+        this.setSelectedColor(constants.colorOptions[0].color);
     },
     methods: {
         ...mapActions("Tools/Modeler3D", Object.keys(actions)),
@@ -118,15 +123,15 @@ export default {
                     polygon: {
                         hierarchy: positionData,
                         material: new Cesium.ColorMaterialProperty(
-                            Cesium.Color.GREY.withAlpha(0.8)
+                            Cesium.Color[this.selectedColor].withAlpha(this.opacity)
                         ),
-                        extrudedHeight: 50
+                        extrudedHeight: this.extrudedHeight
                     }
                 });
             }
             models.push({
                 id: entity.id,
-                name: "TestName",
+                name: this.drawName,
                 show: true,
                 edit: false
             });
@@ -172,10 +177,114 @@ export default {
 </script>
 
 <template lang="html">
-    <div id="modeler3D-draw-tool">
-        <button @click="draw">
-            start draw
-        </button>
+    <div>
+        <div id="modeler3D-draw-tool">
+            <form
+                class="form-horizontal"
+                role="form"
+                @submit.prevent
+            >
+                <div
+                    class="form-group form-group-sm row"
+                >
+                    <label
+                        class="col-md-5 col-form-label"
+                        for="tool-modeler3D-drawName"
+                    >
+                        {{ $t("modules.tools.modeler3D.draw.captions.drawName") }}
+                    </label>
+                    <div class="col-md-7">
+                        <input
+                            id="tool-modeler3D-drawName"
+                            class="form-control form-control-sm"
+                            type="text"
+                            :value="drawName"
+                            @input="setDrawName($event.target.value)"
+                        >
+                    </div>
+                    <label
+                        class="col-md-5 col-form-label"
+                        for="tool-modeler3D-extrudedHeight"
+                    >
+                        {{ $t("modules.tools.modeler3D.draw.captions.extrudedHeight") }}
+                    </label>
+                    <div class="col-md-7">
+                        <input
+                            id="tool-modeler3D-extrudedHeight"
+                            class="form-control form-control-sm"
+                            type="text"
+                            :value="extrudedHeight"
+                            @input="setExtrudedHeight($event.target.value)"
+                        >
+                    </div>
+                    <label
+                        class="col-md-5 col-form-label"
+                        for="tool-modeler3D-transparency"
+                    >
+                        {{ $t("modules.tools.modeler3D.draw.captions.transparency") }}
+                    </label>
+                    <div class="col-md-7">
+                        <select
+                            id="tool-modeler3D-transparency"
+                            :key="`tool-modeler3D-transparency-select`"
+                            class="form-select form-select-sm"
+                            @change="setOpacity(parseFloat($event.target.value))"
+                        >
+                            <option
+                                v-for="option in constants.transparencyOptions"
+                                :key="'modeler3D-opacity-option-' + option.value"
+                                :value="option.value"
+                            >
+                                {{ option.caption }}
+                            </option>
+                        </select>
+                    </div>
+                    <label
+                        class="col-md-5 col-form-label"
+                        for="tool-modeler3D-color"
+                    >
+                        {{ $t("modules.tools.modeler3D.draw.captions.color") }}
+                    </label>
+                    <div class="col-md-7">
+                        <select
+                            id="tool-modeler3D-color"
+                            :key="`tool-modeler3D-color-select`"
+                            class="form-select form-select-sm"
+                            @change="setSelectedColor($event.target.value)"
+                        >
+                            <option
+                                v-for="option in constants.colorOptions"
+                                :key="'modeler3D-color-option-' + option.color"
+                                :value="option.color"
+                            >
+                                {{ option.color }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <hr>
+        <div
+            class="form-horizontal"
+            role="form"
+        >
+            <div class="form-group form-group-sm row">
+                <div class="col-12 d-grid gap-2">
+                    <button
+                        id="tool-modeler3D-modelling-interaction"
+                        class="btn btn-sm"
+                        :class="'btn-primary'"
+                        @click="draw"
+                    >
+                        <span class="bootstrap-icon">
+                            <i class="bi-pencil-fill" />
+                        </span>
+                        {{ $t("modules.tools.modeler3D.draw.captions.beginModelling") }}
+                    </button>
+                </div>
+            </div>
+        </div>
         <div v-if="drawnModels.length > 0">
             <div class="h-seperator" />
             <div class="modelList">
@@ -284,4 +393,14 @@ export default {
 <style lang="scss" scoped>
     @import "~/css/mixins.scss";
     @import "~variables";
+    .h-seperator {
+        margin:12px 0 12px 0;
+        border: 1px solid #DDDDDD;
+    }
+    .modelListLabel {
+        font-weight: bold;
+    }
+    .modelList {
+        font-size: $font_size_icon_lg;
+    }
 </style>

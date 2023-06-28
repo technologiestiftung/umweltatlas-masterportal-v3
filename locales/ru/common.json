@@ -586,6 +586,15 @@
                         "successfullyImportedLabel": "Импортированные 3D-модели:"
                     }
                 },
+                "draw": {
+                    "captions": {
+                    "beginModelling": "Моделирование 3D-объекта",
+                    "transparency": "Прозрачность",
+                    "color": "Цвет",
+                    "drawName": "Название",
+                    "extrudedHeight": "Выдавленная высота"
+                    }
+                },
                 "nav": {
                     "drawTitle": "Нарисовать",
                     "importTitle": "Импортировать",

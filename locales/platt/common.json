@@ -458,6 +458,15 @@
                         "successfullyImportedLabel": "Importeerte 3D-Models:"
                     }
                 },
+                "draw": {
+                    "captions": {
+                    "beginModelling": "3D-Objekt modelleren",
+                    "transparency": "Deutlichkeit",
+                    "color": "Farv",
+                    "drawName": "Naam",
+                    "extrudedHeight": "Uutropen Heugde"
+                    }
+                },
                 "nav": {
                     "drawTitle": "Trecken",
                     "importTitle": "Importeern",

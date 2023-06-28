@@ -586,6 +586,15 @@
                         "successfullyImportedLabel": "Імпортовані 3D-моделі:"
                     }
                 },
+                "draw": {
+                    "captions": {
+                    "beginModelling": "Моделювання 3D-об'єкта",
+                    "transparency": "Прозорість",
+                    "color": "Колір",
+                    "drawName": "Назва",
+                    "extrudedHeight": "Висота витягнутості"
+                    }
+                },
                 "nav": {
                     "drawTitle": "Малювати",
                     "importTitle": "Імпортувати",

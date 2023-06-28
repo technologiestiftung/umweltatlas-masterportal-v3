@@ -9,6 +9,8 @@
  * @property {Cartesian3}   currentModelPosition - position of the currently selected or added model
  * @property {Object}       currentProjection - the currently selected projection
  * @property {Boolean}      deactivateGFI - if true, component activation deactivates gfi component
+ * @property {String}       drawName name of drawing model
+ * @property {Number}       extrudedHeight height in meters for drawing model
  * @property {Object}       height - id and value of the transformed height coordinate displayed on the ui
  * @property {Object[]}     hiddenObjects - array of hidden objects
  * @property {Object}       highlightStyle default style for highlighting models
@@ -22,22 +24,26 @@
  * @property {Boolean}      isDragging - if true, entity is being moved by mouse
  * @property {Boolean}      isDrawing- true if drawing is active
  * @property {String}       name - Module name
+ * @property {Float}        opacity - selected opactiy for drawing model
  * @property {Object[]}     projections - all available projections
  * @property {Boolean}      renderToWindow - if true, component is rendered in a window pane instead of sidebar
  * @property {Boolean}      resizableWindow - if true and if rendered to window pane, the pane is resizable
  * @property {Number}       rotation - the current rotation value
  * @property {Float[]}      selectedCoordinates - current coordinates in current projections as numbers
+ * @property {String}       selectedColor - selected color for drawing 3d object
  */
 
 export default {
     active: false,
     id: "modeler3D",
     adaptToHeight: true,
+    selectedColor: "",
     coordinatesEasting: {id: "easting", value: ""},
     coordinatesNorthing: {id: "northing", value: ""},
     currentModelId: null,
     currentModelPosition: null,
     currentProjection: {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm"},
+    extrudedHeight: 20,
     height: {id: "height", value: ""},
     hiddenObjects: [],
     highlightStyle: {
@@ -47,7 +53,9 @@ export default {
         silhouetteSize: 4
     },
     importedModels: [],
+    opacity: 1,
     drawnModels: [],
+    drawName: "",
     isDragging: false,
     isDrawing: false,
     projections: [],
