@@ -1,8 +1,8 @@
 <script>
 import ToolTemplate from "../../ToolTemplate.vue";
-import EntityModelView from "./EntityModelView.vue";
-import ImportView from "./ImportView.vue";
-import DrawView from "./DrawView.vue";
+import EntityModelView from "./Modeler3DEntityModel.vue";
+import ImportView from "./Modeler3DImport.vue";
+import DrawView from "./Modeler3DDraw.vue";
 import {getComponent} from "../../../../utils/getComponent";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import actions from "../store/actionsModeler3D";
@@ -295,7 +295,7 @@ export default {
          * @returns {void}
          */
         highlightEntity (entity) {
-            const configuredHighlightStyle = store.state.configJson.Portalconfig.menu.tools.children.modeler3D.highlightStyle,
+            const configuredHighlightStyle = store.state.configJson?.Portalconfig.menu.tools.children.modeler3D.highlightStyle,
                 color = configuredHighlightStyle?.color || this.highlightStyle.color,
                 alpha = configuredHighlightStyle?.alpha || this.highlightStyle.alpha,
                 silhouetteColor = configuredHighlightStyle?.silhouetteColor || this.highlightStyle.silhouetteColor,

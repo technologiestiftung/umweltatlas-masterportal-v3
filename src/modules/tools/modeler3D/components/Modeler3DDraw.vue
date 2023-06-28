@@ -8,7 +8,7 @@ import mutations from "../store/mutationsModeler3D";
 let eventHandler = null;
 
 export default {
-    name: "DrawView",
+    name: "Modeler3DDraw",
     data () {
         return {
             drawingMode: "polygon",

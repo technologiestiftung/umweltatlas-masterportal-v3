@@ -2,7 +2,7 @@ import Vuex from "vuex";
 import {expect} from "chai";
 import sinon from "sinon";
 import {mount, config, createLocalVue} from "@vue/test-utils";
-import ImportViewComponent from "../../../components/ImportView.vue";
+import Modeler3DImportComponent from "../../../components/Modeler3DImport.vue";
 import Modeler3DModule from "../../../store/indexModeler3D";
 import {JSDOM} from "jsdom";
 
@@ -17,7 +17,7 @@ localVue.use(Vuex);
 
 config.mocks.$t = key => key;
 
-describe("src/modules/tools/modeler3D/components/ImportView.vue", () => {
+describe("src/modules/tools/modeler3D/components/Modeler3DImport.vue", () => {
     let store, wrapper, scene;
     const entities = {
             getById: sinon.stub().returns({position: {}}),
@@ -65,13 +65,13 @@ describe("src/modules/tools/modeler3D/components/ImportView.vue", () => {
     });
 
     it("should find Tool component", () => {
-        wrapper = mount(ImportViewComponent, {store, localVue});
-        const toolImportViewWrapper = wrapper.findComponent({name: "BasicFileImport"});
+        wrapper = mount(Modeler3DImportComponent, {store, localVue});
+        const toolModeler3DImportWrapper = wrapper.findComponent({name: "BasicFileImport"});
 
-        expect(toolImportViewWrapper.exists()).to.be.true;
+        expect(toolModeler3DImportWrapper.exists()).to.be.true;
     });
     it("shows buttons for importedModel", async () => {
-        wrapper = mount(ImportViewComponent, {store, localVue});
+        wrapper = mount(Modeler3DImportComponent, {store, localVue});
         store.commit("Tools/Modeler3D/setImportedModels", [
             {
                 id: "id",
@@ -94,7 +94,7 @@ describe("src/modules/tools/modeler3D/components/ImportView.vue", () => {
         expect(deleteButton.exists()).to.be.true;
     });
     it("should handle files correctly", () => {
-        wrapper = mount(ImportViewComponent, {store, localVue});
+        wrapper = mount(Modeler3DImportComponent, {store, localVue});
         const fileDetails = {
                 lastModified: 1686206596589,
                 name: "House.gltf",
@@ -119,7 +119,7 @@ describe("src/modules/tools/modeler3D/components/ImportView.vue", () => {
         readAsTextStub.restore();
     });
     it("handles OBJ file correctly", async () => {
-        wrapper = mount(ImportViewComponent, {store, localVue});
+        wrapper = mount(Modeler3DImportComponent, {store, localVue});
         const fileContent = "dummy obj file content",
             fileName = "example.obj",
             file = new File([fileContent], fileName),
@@ -133,7 +133,7 @@ describe("src/modules/tools/modeler3D/components/ImportView.vue", () => {
         readAsTextStub.restore();
     });
     it("should handle DAE file correctly", () => {
-        wrapper = mount(ImportViewComponent, {store, localVue});
+        wrapper = mount(Modeler3DImportComponent, {store, localVue});
         const fileContent = "dummy dae file content",
             fileName = "example.dae",
             file = new File([fileContent], fileName),
@@ -158,7 +158,7 @@ describe("src/modules/tools/modeler3D/components/ImportView.vue", () => {
         readAsDataURLStub.restore();
     });
     it("displays the list of successfully imported models", async () => {
-        wrapper = mount(ImportViewComponent, {store, localVue});
+        wrapper = mount(Modeler3DImportComponent, {store, localVue});
 
         await wrapper.vm.$nextTick();
         const importedModels = [
