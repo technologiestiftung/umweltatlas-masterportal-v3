@@ -30,7 +30,8 @@ export default {
             hideObjects: true,
             povActive: false,
             currentView: "import-view",
-            currentCartesian: null
+            currentCartesian: null,
+            originalCursorStyle: null
         };
     },
     computed: {
@@ -70,9 +71,7 @@ export default {
         },
         povPossible: function () {
             return this.longitude && this.latitude && this.altitude;
-        },
-
-        console: () => console
+        }
     },
     watch: {
         /**
@@ -367,14 +366,19 @@ export default {
                     Cesium.Math.toRadians(transformedCoordinates[1])
                 );
 
+            this.originalCursorStyle = document.body.style.cursor;
             this.currentCartesian = Cesium.Cartographic.toCartesian(currentPosition);
-            destination.height = transformedCoordinates[2] + 1.80;
+            destination.height = this.altitude + 1.80;
+
             scene.camera.flyTo({
                 destination: Cesium.Cartesian3.fromRadians(destination.longitude, destination.latitude, destination.height),
                 orientation: {
                     pitch: 0,
                     roll: 0,
                     heading: scene.camera.heading
+                },
+                complete: () => {
+                    document.body.style.cursor = "none";
                 }
             });
             eventHandler.setInputAction((movement) => {
@@ -414,6 +418,7 @@ export default {
 
                         eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
                         document.removeEventListener("keydown", this.escapeKeyHandler);
+                        document.body.style.cursor = this.originalCursorStyle;
                     }
                 });
             }

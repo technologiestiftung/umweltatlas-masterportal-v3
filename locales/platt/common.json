@@ -416,7 +416,7 @@
                         "incrementTooltip": "Holl Shift drückt, üm den Weert gröber to stiegen.",
                         "modelName": "Modelnaam",
                         "pickupPlace": "Dubbelt op en importeert Objekt klicken, um dat op tonehm'n oder to sett'n.",
-                        "povInfo": "Hier hest du de Mööglichkeit, sik in de Sicht vun en Footgänger to versetten. Gah eenfach op de vörsehn Positschoon op de Kaart un beglööv dien Utwahl dör Anklicken vun den Knoop. In düsse Ansicht kannst du sück mit de Muus ümkieken. Üm torüch to de Utgangspositschoon torüchtokehren, drück de Escape-Taste (ESC).",
+                        "povInfo": "Hier hest du de Mööglichkeit, sik in de Sicht vun en Footgänger to versetten. Gah eenfach op de vörsehn Positschoon op de Kaart un beglööv dien Utwahl dör Anklicken vun den Knoop. <br><br>In düsse Ansicht kannst du sück mit de Muus ümkieken. Üm torüch to de Utgangspositschoon torüchtokehren, drück de Escape-Taste (ESC).",
                         "projectionInfo": "Oppepas! Wenn du dat WGS84-Koordinatensystem bruukst, köönt Fehlers in de Genauigkeit opträen. Wi raadt an, dekommaale Notatschoon to bruk'n.",
                         "rotationPlaceholder": "Inkrassieren/Unkrassieren vun Schritten",
                         "scale": "Skalierung",
