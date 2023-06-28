@@ -239,7 +239,7 @@ export default {
                 }
                 else if (this.hideObjects && picked instanceof Cesium.Cesium3DTileFeature) {
                     const features = getGfiFeaturesByTileFeature(picked),
-                        gmlId = features[0].getProperties().gmlid,
+                        gmlId = features[0]?.getProperties().gmlid,
                         object = picked.pickId?.object;
 
                     if (object) {

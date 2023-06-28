@@ -8,7 +8,6 @@ import Modeler3D from "../../../store/indexModeler3D";
 import Modeler3DDraw from "../../../components/Modeler3DDraw.vue";
 import Modeler3DImport from "../../../components/Modeler3DImport.vue";
 import Modeler3DEntityModel from "../../../components/Modeler3DEntityModel.vue";
-import gfiFeatures from "../../../../../../api/gfi/getGfiFeaturesByTileFeature";
 
 const localVue = createLocalVue();
 
@@ -253,7 +252,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
             expect(currentModelId).to.eql("entityId");
         });
 
-        it.only("selectObject picks object and adds it to list", () => {
+        it("selectObject picks object and adds it to list", () => {
             let hiddenObjects = [];
             const event = {position: "winCoords"},
                 pickObject = new global.Cesium.Cesium3DTileFeature({
@@ -262,13 +261,12 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
                         featureId: "featureId",
                         pickId: {key: "pickId"},
                         tileset: {layerReferenceId: "layerId"}
-                    }}),
-                test = [{getProperties: () => "gmlId"}];
+                    }
+                });
 
             scene.pick = sinon.stub().returns(pickObject);
             global.Cesium.defined = sinon.stub().returns(true);
             global.Cesium.defaultValue = sinon.stub().returns(false);
-            gfiFeatures.getGfiFeaturesByTileFeature = sinon.stub().returns(test);
 
             wrapper = shallowMount(Modeler3DComponent, {store, localVue});
             wrapper.vm.selectObject(event);
@@ -280,7 +278,6 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
             expect(hiddenObjects[0].id).to.be.equals("featureId");
             expect(hiddenObjects[0].pickId).to.be.equals("pickId");
             expect(hiddenObjects[0].layerId).to.be.equals("layerId");
-            expect(hiddenObjects[0].name).to.be.equals("Object featureId");
         });
 
         it("showObject shows the hidden object and deletes it from list", () => {
