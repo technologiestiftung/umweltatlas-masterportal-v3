@@ -359,11 +359,7 @@
             "name": "translate#common:menu.tools.getInfos",
             "desktopType": "detached",
             "icon": "bi-info-circle-fill",
-            "active": true,
-            "coloredHighlighting3D": {
-              "enabled": true,
-              "color": "GREEN"
-            }
+            "active": true
           },
           "bufferAnalysis": {
             "name": "bufferAnalysis",

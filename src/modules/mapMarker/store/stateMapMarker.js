@@ -20,7 +20,7 @@ export default {
         visible: false,
         style: new Style(),
         alwaysOnTop: true,
-        altitudeMode: "none"
+        altitudeMode: "absolute"
     }),
     markerPolygon: new VectorLayer({
         id: "marker_polygon_layer",

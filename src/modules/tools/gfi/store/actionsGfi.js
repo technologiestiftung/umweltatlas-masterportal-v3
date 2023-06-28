@@ -57,7 +57,7 @@ export default {
         ) {
 
             dispatch("removeHighlightColor");
-
+console.log("------------------------------------------------------------------")
             const pickedFeature = scene.pick(click.position);
 
             if (pickedFeature) {
