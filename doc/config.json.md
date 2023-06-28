@@ -1615,10 +1615,10 @@ Highlight Setting of 3D Tiles.
 If e.g. a building is selected by left mouse click, it will be highlighted in the given color.
 For color configuration see **[Color-documentation](https://cesium.com/learn/cesiumjs/ref-doc/Color.html)**
 
-|Name|Required|Type|Default|Description|
-|----|--------|----|-------|-----------|
-|enabled|no|Boolean|`true`|False if coloredHighlighting3D is disabled.|
-|color|no|Array/String|"RED"|Color can be configured as Array or Cesium.Color (definition e.g "GREEN" for Cesium.Color.GREEN)|
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|-----------|
+|enabled|no|Boolean|true|False if coloredHighlighting3D is disabled.|false|
+|color|no|String/String[]|"RED"|Color can be configured as Array or Cesium.Color (definition e.g "GREEN" for Cesium.Color.GREEN)|false|
 
 **Example**
 

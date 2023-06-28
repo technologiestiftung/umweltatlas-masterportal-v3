@@ -1560,9 +1560,9 @@ Falls z. B. ein Gebäude per Linksklick selektiert wurde, wird es in der definie
 Für mehr Informationen über die Farbmöglichkeiten: **[Color-documentation](https://cesium.com/learn/cesiumjs/ref-doc/Color.html)**
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|--------|----|-------|-----------|
-|enabled|nein|Boolean|`true`|False falls coloredHighlighting3D disabled ist.|
-|color|nein|Array/String|"RED"|Color kann als Array oder Cesium.Color definiert werden(z. B. "GREEN" für Cesium.Color.GREEN)|
+|----|--------|----|-------|-----------|------|
+|enabled|nein|Boolean|true|False falls coloredHighlighting3D disabled ist.|false|
+|color|nein|String/String[]|"RED"|Color kann als Array oder Cesium.Color definiert werden(z. B. "GREEN" für Cesium.Color.GREEN)|false|
 
 **Example**
 
