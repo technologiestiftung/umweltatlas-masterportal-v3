@@ -5,7 +5,7 @@ import getters from "../store/gettersModeler3D";
 import mutations from "../store/mutationsModeler3D";
 
 export default {
-    name: "EntityModelView",
+    name: "Modeler3DEntityModel",
     data () {
         return {
             increment: true,
@@ -20,7 +20,7 @@ export default {
          * The rotation angle of the entity.
          * @type {number}
          * @name rotationAngle
-         * @memberof EntityModelView
+         * @memberof Modeler3DEntityModel
          * @vue-computed
          * @vue-prop {number} rotation - The current rotation angle.
          * @vue-propsetter {number} rotation - Sets the rotation angle, clamping it between -180 and 180 degrees.
@@ -236,11 +236,15 @@ export default {
         />
         <p
             v-if="currentProjection.id === 'http://www.opengis.net/gml/srs/epsg.xml#4326'"
+            id="projection-warning"
             class="cta red"
             v-html="$t('modules.tools.modeler3D.entity.captions.projectionInfo')"
         />
         <div class="h-seperator" />
-        <div class="form-group form-group-sm row">
+        <div
+            id="model-name"
+            class="form-group form-group-sm row"
+        >
             <label
                 class="col-md-5 col-form-label"
                 for="model-name"
@@ -258,7 +262,10 @@ export default {
             </div>
         </div>
         <div class="h-seperator" />
-        <div class="form-group form-group-sm row">
+        <div
+            id="projection"
+            class="form-group form-group-sm row"
+        >
             <label
                 class="col-md-5 col-form-label"
                 for="tool-edit-projection"
@@ -283,8 +290,11 @@ export default {
             </div>
         </div>
         <div class="h-seperator" />
-        <div>
-            <div class="form-group form-group-sm row">
+        <div id="position">
+            <div
+                id="easting"
+                class="form-group form-group-sm row"
+            >
                 <label
                     class="col-md-5 col-form-label"
                     for="eastingField"
@@ -301,6 +311,7 @@ export default {
                     >
                     <div
                         v-if="currentProjection.id !== 'http://www.opengis.net/gml/srs/epsg.xml#4326'"
+                        id="easting-buttons"
                     >
                         <button
                             class="btn btn-primary btn-sm btn-pos"
@@ -325,7 +336,10 @@ export default {
                     </div>
                 </div>
             </div>
-            <div class="form-group form-group-sm row">
+            <div
+                id="northing"
+                class="form-group form-group-sm row"
+            >
                 <label
                     class="col-md-5 col-form-label"
                     for="northingField"
@@ -342,6 +356,7 @@ export default {
                     >
                     <div
                         v-if="currentProjection.id !== 'http://www.opengis.net/gml/srs/epsg.xml#4326'"
+                        id="northing-buttons"
                     >
                         <button
                             class="btn btn-primary btn-sm btn-pos"
@@ -366,7 +381,10 @@ export default {
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div
+                id="height"
+                class="row"
+            >
                 <label
                     class="col-md-5 col-form-label"
                     for="heightField"
@@ -382,7 +400,10 @@ export default {
                         :disabled="adaptToHeight"
                         @input="updateEntityPosition"
                     >
-                    <div v-if="!adaptToHeight">
+                    <div
+                        v-if="!adaptToHeight"
+                        id="height-buttons"
+                    >
                         <button
                             class="btn btn-primary btn-sm btn-pos"
                             :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
@@ -406,7 +427,10 @@ export default {
                     </div>
                 </div>
             </div>
-            <div class="form-group form-group-sm row">
+            <div
+                id="adapt-check"
+                class="form-group form-group-sm row"
+            >
                 <div class="col-md-5" />
                 <label
                     class="col-md-5 col-form-label"
@@ -424,7 +448,7 @@ export default {
             </div>
         </div>
         <div class="h-seperator" />
-        <div>
+        <div id="rotation">
             <div class="form-group form-group-sm row">
                 <label
                     class="col-md-8 col-form-label"
@@ -498,49 +522,53 @@ export default {
             </div>
         </div>
         <div class="h-seperator" />
-        <div>
-            <div class="form-group form-group-sm row">
-                <label
-                    class="col-md-8 col-form-label"
-                    for="scaleField"
+        <div
+            id="scale"
+            class="form-group form-group-sm row"
+        >
+            <label
+                class="col-md-8 col-form-label"
+                for="scaleField"
+            >
+                {{ $t("modules.tools.modeler3D.entity.captions.scale") }}
+            </label>
+            <div class="col-md-4 position-control">
+                <input
+                    id="scaleField"
+                    v-model="scale"
+                    class="form-control form-control-sm position-input"
+                    type="text"
+                    @input="changeScale"
                 >
-                    {{ $t("modules.tools.modeler3D.entity.captions.scale") }}
-                </label>
-                <div class="col-md-4 position-control">
-                    <input
-                        id="scaleField"
-                        v-model="scale"
-                        class="form-control form-control-sm position-input"
-                        type="text"
-                        @input="changeScale"
+                <div>
+                    <button
+                        class="btn btn-primary btn-sm btn-pos"
+                        :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
+                        @click.exact="incrementScale()"
+                        @click.shift="incrementScale(true)"
                     >
-                    <div>
-                        <button
-                            class="btn btn-primary btn-sm btn-pos"
-                            :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
-                            @click.exact="incrementScale()"
-                            @click.shift="incrementScale(true)"
-                        >
-                            <i
-                                class="bi bi-arrow-up"
-                            />
-                        </button>
-                        <button
-                            class="btn btn-primary btn-sm btn-pos"
-                            :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
-                            @click.exact="decrementScale()"
-                            @click.shift="decrementScale(true)"
-                        >
-                            <i
-                                class="bi bi-arrow-down"
-                            />
-                        </button>
-                    </div>
+                        <i
+                            class="bi bi-arrow-up"
+                        />
+                    </button>
+                    <button
+                        class="btn btn-primary btn-sm btn-pos"
+                        :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
+                        @click.exact="decrementScale()"
+                        @click.shift="decrementScale(true)"
+                    >
+                        <i
+                            class="bi bi-arrow-down"
+                        />
+                    </button>
                 </div>
             </div>
         </div>
         <div class="h-seperator" />
-        <div class="row justify-content-between">
+        <div
+            id="footer-buttons"
+            class="row justify-content-between"
+        >
             <button
                 id="tool-import3d-deactivateEditing"
                 class="col-5 btn btn-primary btn-sm primary-button-wrapper"

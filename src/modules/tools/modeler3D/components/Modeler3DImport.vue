@@ -12,7 +12,7 @@ import {GLTFExporter} from "three/examples/jsm/exporters/GLTFExporter.js";
 import store from "../../../../app-store";
 
 export default {
-    name: "ImportView",
+    name: "Modeler3DImport",
     components: {
         BasicFileImport,
         RoutingLoadingSpinner
