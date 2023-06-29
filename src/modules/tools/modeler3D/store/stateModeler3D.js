@@ -47,6 +47,7 @@ export default {
     },
     importedModels: [],
     isDragging: false,
+    isLoading: false,
     projections: [],
     rotation: 0,
     scale: 1,

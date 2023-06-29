@@ -11,6 +11,7 @@ import mutations from "../store/mutationsModeler3D";
 import store from "../../../../app-store";
 import crs from "@masterportal/masterportalapi/src/crs";
 import proj4 from "proj4";
+import {getGfiFeaturesByTileFeature} from "../../../../api/gfi/getGfiFeaturesByTileFeature";
 
 let eventHandler = null;
 
@@ -217,13 +218,25 @@ export default {
         },
         /**
          * Initiates the process of moving an entity.
+         * @param {Event} event - The event object containing the position information.
          * @returns {void}
          */
-        moveEntity () {
-            this.setIsDragging(true);
+        moveEntity (event) {
+            let entity;
 
-            eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-            eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+            if (event) {
+                const scene = this.scene,
+                    picked = scene.pick(event.position);
+
+                entity = Cesium.defaultValue(picked?.id, picked?.primitive?.id);
+            }
+
+            if (entity instanceof Cesium.Entity || !event) {
+                this.setIsDragging(true);
+
+                eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+                eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+            }
         },
         /**
          * Selects an object based on the provided event.
@@ -237,13 +250,15 @@ export default {
             if (Cesium.defined(picked)) {
                 const entity = Cesium.defaultValue(picked?.id, picked?.primitive?.id);
 
-                if (entity) {
+                if (entity instanceof Cesium.Entity) {
                     scene.requestRender();
 
                     this.setCurrentModelId(entity.id);
                 }
-                else if (this.hideObjects) {
-                    const object = picked.pickId?.object;
+                else if (this.hideObjects && picked instanceof Cesium.Cesium3DTileFeature) {
+                    const features = getGfiFeaturesByTileFeature(picked),
+                        gmlId = features[0]?.getProperties().gmlid,
+                        object = picked.pickId?.object;
 
                     if (object) {
                         object.show = false;
@@ -252,7 +267,7 @@ export default {
                             id: object.featureId,
                             pickId: object.pickId.key,
                             layerId: object.tileset.layerReferenceId,
-                            name: `Object ${object.featureId}`
+                            name: gmlId
                         });
                     }
                 }
@@ -451,7 +466,10 @@ export default {
                 v-if="active"
                 id="tool-modeler3D"
             >
-                <div v-if="!currentModelId">
+                <EntityModelView
+                    v-if="currentModelId"
+                />
+                <div v-else>
                     <ul class="nav nav-tabs">
                         <li
                             id="tool-modeler3D-import"
@@ -570,7 +588,7 @@ export default {
                             </label>
                         </div>
                     </div>
-                    <template v-if="hiddenObjects.length > 0">
+                    <template v-if="hiddenObjects.length > 0 && !isLoading">
                         <div class="modelList">
                             <div class="h-seperator" />
                             <label
@@ -613,9 +631,6 @@ export default {
                         </div>
                     </template>
                 </div>
-                <EntityModelView
-                    v-else
-                />
             </div>
         </template>
     </ToolTemplate>
