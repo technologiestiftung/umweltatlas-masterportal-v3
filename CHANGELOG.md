@@ -14,6 +14,8 @@
     - Add: new parameter "baseOAFUrl". Only needed for the Filter Tool.
 - Documentation gitWorkflow:
     - A guide for rebasing feature branches with remote has been added. See [Branches and workflow](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/latest/dev/gitWorkflow.md)
+- ScaleLine: Added the possibility to select the map scale via a selection in the footer.
+
 ### Changed
 - The following packages have been updated:
     - dependencies:

@@ -1472,6 +1472,7 @@ A folder object defined by a name, icon, and its children.
 [type:print]: # (Portalconfig.menu.tool.print)
 [type:routing]: # (Portalconfig.menu.tool.routing)
 [type:saveSelection]: # (Portalconfig.menu.tool.saveSelection)
+[type:scaleSwitcher]: # (Portalconfig.menu.tool.scaleSwitcher)
 [type:searchByCoord]: # (Portalconfig.menu.tool.searchByCoord)
 [type:selectFeatures]: # (Portalconfig.menu.tool.selectFeatures)
 [type:shadow]: # (Portalconfig.menu.tool.shadow)
@@ -1508,6 +1509,7 @@ Alternatively, also the paths **Portalconfig.menu.info**, **Portalconfig.menu.si
 |print|no|**[print](#markdown-header-portalconfigmenutoolprint)**||Printing module that can be used to export the map's current view as PDF.|false|
 |routing|no|**[routing](#markdown-header-portalconfigmenutoolrouting)**||Routing module to create routes and isochrones.|false|
 |saveSelection|no|**[saveSelection](#markdown-header-portalconfigmenutoolsaveselection)**||Tool that allows saving the 2D map's current state as sharable URL. This will list all currently visible layers in order, transparency, and visibility, as well as saving the center coordinate.|false|
+|scaleSwitcher|no|**[scaleSwitcher](#markdown-header-portalconfigmenutoolscaleSwitcher)**||Tool that allows changing the map's current scale.|false|
 |searchByCoord|no|**[searchByCoord](#markdown-header-portalconfigmenutoolsearchbycoord)**||_Deprecated in 3.0.0. Please use "coordToolkit" instead._ Coordinate search with switchable coordinate reference system. The tool will zoom to any given coordinate and set a marker on it.|false|
 |selectFeatures|no|**[selectFeatures](#markdown-header-portalconfigmenutoolselectfeatures)**||Allows selecting a set of vector features by letting the user draw a box on the map. Features in that box will be displayed with GFI information.|false|
 |shadow|no|**[shadow](#markdown-header-portalconfigmenutoolshadow)**||Configuration object for the 3D mode shadow time.|false|
@@ -2386,6 +2388,18 @@ Tool to save the current map content as a url.
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |simpleMap|no|Boolean|false|Adds a SimpleMap URL to the component. When calling this URL, the menu bar, layer tree, and map controls are deactivated.|false|
+
+***
+
+#### Portalconfig.menu.tool.scaleSwitcher
+
+[inherits]: # (Portalconfig.menu.tool)
+
+Tool that allows changing the map's current scale.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|isDisplayInFooter|no|Boolean|false|Activates the scale selection also in the footer (note: correlation with the **ScaleLine** parameter in the **[config.js](config.js)**).|false|
 
 ***
 

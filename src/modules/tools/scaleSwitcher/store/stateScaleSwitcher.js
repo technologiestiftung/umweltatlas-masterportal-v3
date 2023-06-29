@@ -10,6 +10,7 @@
  * @property {Boolean} resizableWindow if true, window is resizable (config-param)
  * @property {Boolean} isVisibleInMenu if true, tool is selectable in menu (config-param)
  * @property {Boolean} deactivateGFI flag if tool should deactivate gfi (config-param)
+ * @property {Boolean} isDisplayInFooter  if true (along with active true and scaleLine true in config.js), tool as a ScaleLine will be rendered in footer
  */
 const state = {
     active: false,
@@ -20,7 +21,8 @@ const state = {
     renderToWindow: true,
     resizableWindow: true,
     isVisibleInMenu: true,
-    deactivateGFI: false
+    deactivateGFI: false,
+    isDisplayInFooter: false
 };
 
 export default state;

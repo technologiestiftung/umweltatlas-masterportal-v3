@@ -1419,6 +1419,7 @@ Ein Ordner-Object wird dadurch definiert, dass es neben "name" und "icon" noch d
 [type:print]: # (Portalconfig.menu.tool.print)
 [type:routing]: # (Portalconfig.menu.tool.routing)
 [type:saveSelection]: # (Portalconfig.menu.tool.saveSelection)
+[type:scaleSwitcher]: # (Portalconfig.menu.tool.scaleSwitcher)
 [type:searchByCoord]: # (Portalconfig.menu.tool.searchByCoord)
 [type:selectFeatures]: # (Portalconfig.menu.tool.selectFeatures)
 [type:shadow]: # (Portalconfig.menu.tool.shadow)
@@ -1453,6 +1454,7 @@ Neben **Portalconfig.menu.tools** können auch die Pfade **Portalconfig.menu.inf
 |parcelSearch|nein|**[parcelSearch](#markdown-header-portalconfigmenutoolparcelsearch)**||_Deprecated im nächsten Major-Release. Bitte nutzen Sie stattdessen `wfsSearch`._ Mit dieser Flurstückssuche lassen sich Flurstücke über Gemarkung, Flur (in Hamburg ohne Flur) und Flurstück suchen.|false|
 |print|nein|**[print](#markdown-header-portalconfigmenutoolprint)**||Druckmodul mit dem die Karte als PDF exportiert werden kann.|false|
 |saveSelection|nein|**[saveSelection](#markdown-header-portalconfigmenutoolsaveselection)**||Werkzeug mit dem sich die aktuellen 2D Karteninhalte speichern lassen. Der Zustand der Karte wird als URL zum Abspeichern erzeugt. Dabei werden die Layer in deren Reihenfolge, Transparenz und Sichtbarkeit dargestellt. Zusätzlich wird die Zentrumskoordinate mit abgespeichert.|false|
+|scaleSwitcher|nein|**[scaleSwitcher](#markdown-header-portalconfigmenutoolscaleSwitcher)**||Werkzeug zum Ändern des aktuellen Maßstabs der Karte.|false|
 |routing|nein|**[routing](#markdown-header-portalconfigmenutoolrouting)**||Routing Modul zur Erstellung von Routenplanungen und Erreichbarkeitsanalysen.|false|
 |searchByCoord|nein|**[searchByCoord](#markdown-header-portalconfigmenutoolsearchbycoord)**||Deprecated in 3.0.0 Bitte "coordToolkit" verwenden. Koordinatensuche. Über eine Eingabemaske können das Koordinatensystem und die Koordinaten eingegeben werden. Das Werkzeug zoomt dann auf die entsprechende Koordinate und setzt einen Marker darauf.|false|
 |selectFeatures|nein|**[selectFeatures](#markdown-header-portalconfigmenutoolselectFeatures)**||Ermöglicht Auswahl von Features durch Ziehen einer Box und Einsehen derer GFI-Attribute.|false|
@@ -2320,6 +2322,18 @@ Abspeicherung des aktuellen Karteninhalts.
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |simpleMap|nein|Boolean|false|Fügt der Komponente eine SimpleMap-URL hinzu (ohne Menüleiste, Layerbau, Map Controls).|false|
+
+***
+
+#### Portalconfig.menu.tool.scaleSwitcher
+
+[inherits]: # (Portalconfig.menu.tool)
+
+Werkzeug, mit dem der aktuelle Maßstab der Karte geändert werden kann.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|isDisplayInFooter|nein|Boolean|false|Aktiviert die Auswahlliste für den Maßstab auch in der Fußzeile (Achtung: Zusammenhang mit dem Parameter **ScaleLine** in der **[config.js](config.js)**).|false|
 
 ***
 
