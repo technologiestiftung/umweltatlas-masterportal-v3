@@ -13,7 +13,6 @@ import store from "../../../../app-store";
 import crs from "@masterportal/masterportalapi/src/crs";
 import proj4 from "proj4";
 import {getGfiFeaturesByTileFeature} from "../../../../api/gfi/getGfiFeaturesByTileFeature";
-import {getGfiFeaturesByTileFeature} from "../../../../api/gfi/getGfiFeaturesByTileFeature";
 
 let eventHandler = null;
 
