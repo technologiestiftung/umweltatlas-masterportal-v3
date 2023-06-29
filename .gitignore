@@ -32,9 +32,7 @@ devtools/certificate*
 examples*
 
 examples.zip
-portal/master
-portal/masterCustom
-portal/masterDefault
+
 
 jshintrc
 lgv-config
