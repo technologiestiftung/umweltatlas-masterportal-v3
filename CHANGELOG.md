@@ -773,6 +773,7 @@ Issue #764: Using parameters in WfsSearch as defined in [Filter Encoding Impleme
 - The attributes: `cesiumParameter.enableLighting`, `cesiumParameter.maximumScreenSpaceError` and `cesiumParameter.tileCacheSize` in config.js are deprecated in the next major release. Please use `cesiumParameter.globe.enableLighting`, `cesiumParameter.globe.maximumScreenSpaceError`, `cesiumParameter.globe.tileCacheSize` instead.
 
 ### Fixed
+- Issue #1055: highlightFeaturesByAttribute: Improved exception handling and supporting unspecified featurePrefix now
 - Issue #686: Add logging and documentation regarding manual WMTS configuration's limitations
 - The order of printed features from the draw and measure layer is now corrected.
 - Issue #737: Fix issue of some items in the layer tree overflowing
