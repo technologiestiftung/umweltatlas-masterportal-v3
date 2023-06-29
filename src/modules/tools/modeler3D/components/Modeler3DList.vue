@@ -25,7 +25,7 @@ export default {
 </script>
 
 <template>
-    <div id="objectList">
+    <div class="objectList">
         <div class="h-seperator" />
         <label
             class="objectListLabel"
@@ -149,7 +149,7 @@ export default {
         font-weight: bold;
     }
 
-    #objectList {
+    .objectList {
         font-size: $font_size_icon_lg;
     }
 

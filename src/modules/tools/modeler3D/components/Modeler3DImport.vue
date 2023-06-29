@@ -1,6 +1,7 @@
 <script>
 import BasicFileImport from "../../../../share-components/fileImport/components/BasicFileImport.vue";
 import Modeler3DList from "./Modeler3DList.vue";
+import RoutingLoadingSpinner from "../../routing/components/RoutingLoadingSpinner.vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import actions from "../store/actionsModeler3D";
 import getters from "../store/gettersModeler3D";
@@ -15,7 +16,8 @@ export default {
     name: "Modeler3DImport",
     components: {
         BasicFileImport,
-        Modeler3DList
+        Modeler3DList,
+        RoutingLoadingSpinner
     },
     emits: ["moveEntity"],
     data () {
@@ -36,6 +38,8 @@ export default {
          * @returns {void}
          */
         addFile (files) {
+            this.setIsLoading(true);
+
             const reader = new FileReader(),
                 file = files[0],
                 fileName = file.name.split(".")[0],
@@ -94,7 +98,7 @@ export default {
                 };
 
             this.setCurrentModelId(entity.id);
-            this.moveEntity();
+            this.$emit("emit-move");
 
             entities.add(entity);
 
@@ -107,6 +111,7 @@ export default {
                 edit: false
             });
             this.setImportedModels(models);
+            this.setIsLoading(false);
         },
         /**
          * Handles the processing of an OBJ file.
@@ -175,14 +180,6 @@ export default {
             model.show = entity.show;
         },
         /**
-         * Triggers an event to indicate that the entity should be moved.
-         * @emits emit-move
-         * @returns {void}
-         */
-        moveEntity () {
-            this.$emit("emit-move");
-        },
-        /**
          * Zooms the camera to the specified entity.
          * @param {string} id - The ID of the entity to zoom to.
          * @returns {void}
@@ -203,7 +200,13 @@ export default {
 </script>
 
 <template lang="html">
-    <div id="modeler3D-import-view">
+    <RoutingLoadingSpinner
+        v-if="isLoading"
+    />
+    <div
+        v-else
+        id="modeler3D-import-view"
+    >
         <BasicFileImport
             :intro-formats="$t('modules.tools.modeler3D.import.captions.introFormats')"
             @add-file="addFile"
@@ -222,3 +225,105 @@ export default {
         />
     </div>
 </template>
+
+<style lang="scss" scoped>
+    @import "~/css/mixins.scss";
+    @import "~variables";
+
+    .spinner {
+        width: 50px;
+        height: 50px;
+        margin-top: -25px;
+        margin-left: -25px;
+        left: 50%;
+        top: 50%;
+        position: absolute;
+        background: rgba(0, 0, 0, 0);
+    }
+
+    .h-seperator {
+        margin:12px 0 12px 0;
+        border: 1px solid #DDDDDD;
+    }
+
+    .primary-button-wrapper {
+        color: $white;
+        background-color: $secondary_focus;
+        display: block;
+        text-align:center;
+        padding: 8px 12px;
+        cursor: pointer;
+        margin:12px 0 0 0;
+        font-size: $font_size_big;
+        &:focus {
+            @include primary_action_focus;
+        }
+        &:hover {
+            @include primary_action_hover;
+        }
+    }
+
+    .cta {
+        margin-bottom:12px;
+    }
+
+    .red {
+        color: red;
+    }
+
+    .modelListLabel {
+        font-weight: bold;
+    }
+
+    .modelList {
+        font-size: $font_size_icon_lg;
+    }
+
+    .index {
+        width: 15%;
+    }
+
+    .inputName {
+        width: 60%;
+        cursor: text;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        &:hover {
+            border-color: #8098b1;
+            outline: 0;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075), 0 0 0 0.25rem rgba(0, 48, 99, 0.25);
+        }
+    }
+
+    .buttons {
+        margin-left: auto;
+    }
+
+    .inline-button {
+        cursor: pointer;
+        display: inline-block;
+        &:focus {
+            transform: translateY(-2px);
+        }
+        &:hover {
+            transform: translateY(-2px);
+        }
+        &:active {
+            transform: scale(0.98);
+        }
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    li {
+        display: flex;
+        align-items: center;
+        height: 1.5rem;
+    }
+</style>

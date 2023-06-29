@@ -50,6 +50,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3DImport.vue", () => {
             }
         });
         store.commit("Tools/Modeler3D/setActive", true);
+        store.commit("Tools/Modeler3D/setIsLoading", false);
     });
 
     afterEach(() => {
