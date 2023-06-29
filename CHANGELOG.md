@@ -25,6 +25,7 @@
 ### Fixed
 - PrintMap: PrintMap with the 'plotservice' print mode creates successfully print after reopening the tool.
 - Draw: mapmarker is no longer displayed if draw-tool is active and user clicked on map.
+- Draw: when drawing multiple polygons with different transparency values, the transparency is drawn correctly.
 - CoordToolkit: coordInfo hast now a max-width
 - Issue #1044: The coordinate transformation error by click in 3D map mode is fixed.
 - Issue #1049/Issue #1050: GFI: fixed highlighting of features with geometry polygon or multipolygon
