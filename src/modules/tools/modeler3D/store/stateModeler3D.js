@@ -23,6 +23,7 @@
  * @property {Object[]}     importedModels - array of imported 3D models
  * @property {Boolean}      isDragging - if true, entity is being moved by mouse
  * @property {Boolean}      isDrawing- true if drawing is active
+ * @property {Boolean}      isLoading- true if loading of imported model is active
  * @property {String}       name - Module name
  * @property {Float}        opacity - selected opactiy for drawing model
  * @property {Object[]}     projections - all available projections
@@ -58,6 +59,7 @@ export default {
     drawName: "",
     isDragging: false,
     isDrawing: false,
+    isLoading: false,
     projections: [],
     rotation: 0,
     scale: 1,

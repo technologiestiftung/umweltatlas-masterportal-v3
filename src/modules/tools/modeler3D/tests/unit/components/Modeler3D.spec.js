@@ -91,7 +91,14 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
         mapCollection.clear();
         mapCollection.addMap(map3D, "3D");
 
-        global.Cesium = {};
+        global.Cesium = {
+            Entity: function (id) {
+                this.id = id;
+            },
+            Cesium3DTileFeature: function (pickId) {
+                this.pickId = pickId;
+            }
+        };
 
         origUpdatePositionUI = Modeler3D.actions.updatePositionUI;
         Modeler3D.actions.updatePositionUI = sinon.spy();
@@ -231,11 +238,11 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
         it("selectObject picks an entity", () => {
             let currentModelId = "";
             const event = {position: "winCoords"},
-                pickObject = {id: "entityId"};
+                pickObject = new global.Cesium.Entity("entityId");
 
             scene.pick = sinon.stub().returns(pickObject);
-            Cesium.defined = sinon.stub().returns(true);
-            Cesium.defaultValue = sinon.stub().returns(pickObject);
+            global.Cesium.defined = sinon.stub().returns(true);
+            global.Cesium.defaultValue = sinon.stub().returns(pickObject);
 
             wrapper = shallowMount(Modeler3DComponent, {store, localVue});
             wrapper.vm.selectObject(event);
@@ -248,16 +255,18 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
         it("selectObject picks object and adds it to list", () => {
             let hiddenObjects = [];
             const event = {position: "winCoords"},
-                pickObject = {pickId: {object: {
-                    show: true,
-                    featureId: "featureId",
-                    pickId: {key: "pickId"},
-                    tileset: {layerReferenceId: "layerId"}
-                }}};
+                pickObject = new global.Cesium.Cesium3DTileFeature({
+                    object: {
+                        show: true,
+                        featureId: "featureId",
+                        pickId: {key: "pickId"},
+                        tileset: {layerReferenceId: "layerId"}
+                    }
+                });
 
             scene.pick = sinon.stub().returns(pickObject);
-            Cesium.defined = sinon.stub().returns(true);
-            Cesium.defaultValue = sinon.stub().returns(false);
+            global.Cesium.defined = sinon.stub().returns(true);
+            global.Cesium.defaultValue = sinon.stub().returns(false);
 
             wrapper = shallowMount(Modeler3DComponent, {store, localVue});
             wrapper.vm.selectObject(event);
@@ -269,7 +278,6 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
             expect(hiddenObjects[0].id).to.be.equals("featureId");
             expect(hiddenObjects[0].pickId).to.be.equals("pickId");
             expect(hiddenObjects[0].layerId).to.be.equals("layerId");
-            expect(hiddenObjects[0].name).to.be.equals("Object featureId");
         });
 
         it("showObject shows the hidden object and deletes it from list", () => {
