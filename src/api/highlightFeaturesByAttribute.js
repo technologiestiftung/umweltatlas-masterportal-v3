@@ -195,12 +195,8 @@ export default {
      * @returns {String} query snippet
     */
     getOGCFilterSnippet: function (isEqual, wildCard, singleChar, escapeChar, propPrefix, propName, propValue) {
-        let result = "",
-            propertyPrefix = propPrefix;
-
-        if (propPrefix === undefined) {
-            propertyPrefix = "";
-        }
+        const propertyPrefix = propPrefix === undefined ? "" : propPrefix;
+        let result = "";
 
         if (isEqual) {
             result = `<ogc:PropertyIsEqualTo matchCase='false' wildCard='${wildCard}' singleChar='${singleChar}' escapeChar='${escapeChar}'>
@@ -231,17 +227,13 @@ export default {
     getOGCFilterSnippetIn: function (valueDelimiter, wildCard, singleChar, escapeChar, propPrefix, propName, propValue) {
         let result = "",
             value = "",
-            delimiter = ";",
-            propertyPrefix = propPrefix;
-
-        if (propPrefix === undefined) {
-            propertyPrefix = "";
-        }
+            delimiter = ";";
 
         if (valueDelimiter !== undefined && valueDelimiter.length === 1) {
             delimiter = valueDelimiter;
         }
-        const valueItems = propValue.split(delimiter);
+        const propertyPrefix = propPrefix === undefined ? "" : propPrefix,
+            valueItems = propValue.split(delimiter);
 
         if (valueItems.length >= 2) {
             result += "<ogc:Or>";
