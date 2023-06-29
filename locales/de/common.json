@@ -598,6 +598,7 @@
                         "incrementTooltip": "Halten Sie Shift gedrückt, um den Wert gröber zu erhöhen.",
                         "modelName": "Modell Name",
                         "pickupPlace": "Doppelklicken Sie auf ein importiertes Objekt, um es aufzuheben oder zu platzieren.",
+                        "povInfo": "Hier haben Sie die Möglichkeit, sich in die Sicht eines Fußgängers zu versetzen. Klicken Sie einfach auf die gewünschte Position in der Karte und bestätigen Sie Ihre Auswahl, indem Sie auf den Knopf klicken. <br><br>In dieser Ansicht können Sie sich mit der Maus umsehen. Um zur Ausgangsposition zurückzukehren, drücken Sie die Escape-Taste (ESC).",
                         "projectionInfo": "Achtung! Bei Nutzung des WGS84 Koordinatensystems kann es zu Ungenauigkeiten kommen. Wir empfehlen die Nutzung der Dezimal Schreibweise.",
                         "rotationPlaceholder": "Inkrement-/Dekrement-Schritte",
                         "scale": "Skalierung",
@@ -656,7 +657,10 @@
                 },
                 "hiddenObjectsLabel": "Ausgeblendete Gebäude:",
                 "hideSwitchLabel": "Gebäude per Mausklick ausblenden",
-                "title": "3D Modeller"
+                "title": "3D Modeller",
+                "activatePov": "Aktivieren",
+                "pov": "Zur Fußgängeransicht springen",
+                "buttonDisabledText": "Klicken Sie bitte zuerst an eine Stelle in der Karte"
             },
             "parcelSearch": {
                 "wrongConfig": "Ungültige oder unvollständige Konfiguration",

@@ -140,7 +140,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
     it("renders Modeler3D with import view", async () => {
         wrapper = shallowMount(Modeler3DComponent, {store, localVue});
 
-        wrapper.vm.currentView = "import-view";
+        wrapper.vm.currentView = "import";
         await wrapper.vm.$nextTick();
 
         expect(wrapper.find("#tool-modeler3D").exists()).to.be.true;
@@ -159,7 +159,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
     it("renders Modeler3D with draw view", async () => {
         wrapper = shallowMount(Modeler3DComponent, {store, localVue});
 
-        wrapper.vm.currentView = "draw-view";
+        wrapper.vm.currentView = "draw";
         await wrapper.vm.$nextTick();
 
         expect(wrapper.find("#tool-modeler3D").exists()).to.be.true;
