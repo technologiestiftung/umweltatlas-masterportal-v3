@@ -36,6 +36,7 @@ const mutations = {
         state.drawCurveSettings.colorContour = styleSettings.colorContour;
         state.drawCurveSettings.opacityContour = styleSettings.opacityContour;
         state.drawCurveSettings.strokeWidth = styleSettings.strokeWidth;
+        state.drawCurveSettings.opacity = styleSettings.opacity;
     },
     setDrawLineSettings: (state, styleSettings) => {
         state.drawLineSettings.color = styleSettings.color;
@@ -49,6 +50,7 @@ const mutations = {
         state.drawAreaSettings.color = styleSettings.color;
         state.drawAreaSettings.opacityContour = styleSettings.opacityContour;
         state.drawAreaSettings.strokeWidth = styleSettings.strokeWidth;
+        state.drawAreaSettings.opacity = styleSettings.opacity;
     },
     setDrawCircleSettings: (state, styleSettings) => {
         state.drawCircleSettings.circleMethod = styleSettings.circleMethod;
