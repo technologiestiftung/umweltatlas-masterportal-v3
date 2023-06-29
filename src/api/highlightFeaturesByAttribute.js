@@ -169,7 +169,7 @@ export default {
         if (features.length === 0) {
             const parser = new DOMParser(),
                 xmlDoc = parser.parseFromString(response.data, "text/xml"),
-                exceptionText = xmlDoc.getElementsByTagName("ExceptionText")[0].childNodes[0].nodeValue;
+                exceptionText = xmlDoc.getElementsByTagNameNS("*", "ExceptionText").length > 0 ? xmlDoc.getElementsByTagNameNS("*", "ExceptionText")[0].childNodes[0].nodeValue : "";
 
             if (exceptionText) {
                 console.error("highlightFeaturesByAttribute: service exception: " + exceptionText);
@@ -195,17 +195,22 @@ export default {
      * @returns {String} query snippet
     */
     getOGCFilterSnippet: function (isEqual, wildCard, singleChar, escapeChar, propPrefix, propName, propValue) {
-        let result = "";
+        let result = "",
+            propertyPrefix = propPrefix;
+
+        if (propPrefix === undefined) {
+            propertyPrefix = "";
+        }
 
         if (isEqual) {
             result = `<ogc:PropertyIsEqualTo matchCase='false' wildCard='${wildCard}' singleChar='${singleChar}' escapeChar='${escapeChar}'>
-                <ogc:PropertyName>${propPrefix}${propName}</ogc:PropertyName>
+                <ogc:PropertyName>${propertyPrefix}${propName}</ogc:PropertyName>
                 <ogc:Literal>${propValue}</ogc:Literal>
             </ogc:PropertyIsEqualTo>`;
         }
         else {
             result = `<ogc:PropertyIsLike matchCase='false' wildCard='${wildCard}' singleChar='${singleChar}' escapeChar='${escapeChar}'>
-                <ogc:PropertyName>${propPrefix}${propName}</ogc:PropertyName>
+                <ogc:PropertyName>${propertyPrefix}${propName}</ogc:PropertyName>
                 <ogc:Literal>${wildCard}${propValue}${wildCard}</ogc:Literal>
             </ogc:PropertyIsLike>`;
         }
@@ -226,7 +231,12 @@ export default {
     getOGCFilterSnippetIn: function (valueDelimiter, wildCard, singleChar, escapeChar, propPrefix, propName, propValue) {
         let result = "",
             value = "",
-            delimiter = ";";
+            delimiter = ";",
+            propertyPrefix = propPrefix;
+
+        if (propPrefix === undefined) {
+            propertyPrefix = "";
+        }
 
         if (valueDelimiter !== undefined && valueDelimiter.length === 1) {
             delimiter = valueDelimiter;
@@ -238,7 +248,7 @@ export default {
         }
         for (value of valueItems) {
             result += `<ogc:PropertyIsEqualTo matchCase='false' wildCard='${wildCard}' singleChar='${singleChar}' escapeChar='${escapeChar}'>
-                <ogc:PropertyName>${propPrefix}${propName}</ogc:PropertyName>
+                <ogc:PropertyName>${propertyPrefix}${propName}</ogc:PropertyName>
                 <ogc:Literal>${value}</ogc:Literal>
             </ogc:PropertyIsEqualTo>`;
         }
