@@ -415,6 +415,7 @@
                         "incrementTooltip": "Mantenga pulsada la tecla Mayús para aumentar el valor de forma más aproximada.",
                         "modelName": "Nombre del modelo",
                         "pickupPlace": "Haz doble clic en un objeto importado para recogerlo o colocarlo.",
+                        "povInfo": "Aquí tiene la posibilidad de ponerse en el punto de vista de un peatón. Basta con hacer clic en la posición deseada del mapa y confirmar la selección pulsando el botón . <br><br>En esta vista puede mirar a su alrededor con el ratón. Para volver a la posición inicial, pulse la tecla de escape (ESC).",
                         "projectionInfo": "¡Atención! Al utilizar el sistema de coordenadas WGS84, puede haber imprecisiones. Se recomienda utilizar la notación decimal.",
                         "rotationPlaceholder": "Incremento/decremento de pasos",
                         "scale": "Escala",
@@ -464,7 +465,10 @@
                 },
                 "hiddenObjectsLabel": "Edificios ocultos:",
                 "hideSwitchLabel": "Ocultar edificios con clic del ratón",
-                "title": "Modelador 3D"
+                "title": "Modelador 3D",
+                "activatePov": "Activar",
+                "pov": "Saltar a la vista de peatones",
+                "buttonDisabledText": "Haga clic primero en una ubicación del mapa."
             },
             "parcelSearch": {
                 "wrongConfig": "Configuración inválida o incompleta",

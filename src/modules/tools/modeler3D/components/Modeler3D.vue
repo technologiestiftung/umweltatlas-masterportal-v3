@@ -11,6 +11,8 @@ import getters from "../store/gettersModeler3D";
 import mutations from "../store/mutationsModeler3D";
 import store from "../../../../app-store";
 import crs from "@masterportal/masterportalapi/src/crs";
+import proj4 from "proj4";
+import {getGfiFeaturesByTileFeature} from "../../../../api/gfi/getGfiFeaturesByTileFeature";
 import {getGfiFeaturesByTileFeature} from "../../../../api/gfi/getGfiFeaturesByTileFeature";
 
 let eventHandler = null;
@@ -30,12 +32,16 @@ export default {
             activeTabClass: "active",
             isHovering: "",
             hideObjects: true,
-            currentView: "import"
+            povActive: false,
+            currentView: "import",
+            currentCartesian: null,
+            originalCursorStyle: null
         };
     },
     computed: {
         ...mapGetters(["namedProjections"]),
         ...mapGetters("Tools/Modeler3D", Object.keys(getters)),
+        ...mapGetters("Maps", ["altitude", "longitude", "latitude", "clickCoordinate"]),
         /**
          * Returns the CSS classes for the import tab based on the current view.
          * @returns {string} - The CSS classes for the import tab.
@@ -56,6 +62,19 @@ export default {
          */
         optionsTabClasses: function () {
             return this.currentView === "" ? this.activeTabClass : this.defaultTabClass;
+        },
+        // longitude und latitude getter der Map wurden gedreht, Bug in MasterportalApi!
+        longitudeFromClick: function () {
+            return this.longitude && this.povActive ? this.latitude.toFixed(4) : "";
+        },
+        latitudeFromClick: function () {
+            return this.latitude && this.povActive ? this.longitude.toFixed(4) : "";
+        },
+        altitudeFromClick: function () {
+            return this.altitude && this.povActive ? this.altitude.toFixed(2) : "";
+        },
+        povPossible: function () {
+            return this.longitude && this.latitude && this.altitude;
         }
     },
     watch: {
@@ -323,7 +342,6 @@ export default {
         },
         /**
          * Shows the specified object by making it visible in the scene.
-         *
          * @param {Object} object - The object to show.
          * @returns {void}
          */
@@ -351,6 +369,85 @@ export default {
 
             if (model) {
                 model.set("isActive", false);
+            }
+        },
+        /**
+         * Positions the camera in the point of view of a pedestrian at the clicked position.
+         * @returns {void}
+         */
+        positionPovCamera () {
+            const scene = this.scene,
+                transformedCoordinates = proj4(proj4("EPSG:25832"), proj4("EPSG:4326"), this.clickCoordinate),
+                currentPosition = scene.camera.positionCartographic,
+                destination = new Cesium.Cartographic(
+                    Cesium.Math.toRadians(transformedCoordinates[0]),
+                    Cesium.Math.toRadians(transformedCoordinates[1])
+                );
+
+            this.originalCursorStyle = document.body.style.cursor;
+            this.currentCartesian = Cesium.Cartographic.toCartesian(currentPosition);
+            destination.height = this.altitude + 1.80;
+
+            scene.camera.flyTo({
+                destination: Cesium.Cartesian3.fromRadians(destination.longitude, destination.latitude, destination.height),
+                orientation: {
+                    pitch: 0,
+                    roll: 0,
+                    heading: scene.camera.heading
+                },
+                complete: () => {
+                    document.body.style.cursor = "none";
+                }
+            });
+            eventHandler.setInputAction((movement) => {
+                const deltaY = -movement.endPosition.y + movement.startPosition.y,
+                    deltaX = movement.endPosition.x - movement.startPosition.x,
+
+                    sensitivity = 0.005,
+                    pitch = Cesium.Math.clamp(scene.camera.pitch + sensitivity * deltaY, -Cesium.Math.PI_OVER_TWO, Cesium.Math.PI_OVER_TWO),
+                    heading = scene.camera.heading + sensitivity * deltaX;
+
+                scene.camera.setView({
+                    orientation: {
+                        pitch: pitch,
+                        roll: 0,
+                        heading: heading
+                    }
+                });
+            }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+            scene.screenSpaceCameraController.enableZoom = false;
+            scene.screenSpaceCameraController.enableRotate = false;
+            document.addEventListener("keydown", this.escapeKeyHandler);
+        },
+        /**
+         * Handles the Escape key press to reset the camera perspective.
+         * @param {KeyboardEvent} e - The event object for the keyboard event.
+         * @returns {void}
+         */
+        escapeKeyHandler (e) {
+            const scene = this.scene;
+
+            if (e.code === "Escape") {
+                scene.camera.flyTo({
+                    destination: this.currentCartesian,
+                    complete: () => {
+                        scene.screenSpaceCameraController.enableZoom = true;
+                        scene.screenSpaceCameraController.enableRotate = true;
+
+                        eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+                        document.removeEventListener("keydown", this.escapeKeyHandler);
+                        document.body.style.cursor = this.originalCursorStyle;
+                    }
+                });
+            }
+        },
+        changeSwitches (id) {
+            if (id === "povActiveSwitch" || this.povActive) {
+                this.hideObjects = !this.hideObjects;
+                this.povActive = !this.povActive;
+            }
+            else {
+                this.hideObjects = !this.hideObjects;
             }
         }
     }
@@ -423,6 +520,59 @@ export default {
                         v-if="!currentView"
                         id="modeler3D-options-view"
                     >
+                        <div>
+                            <div class="form-check form-switch cta">
+                                <input
+                                    id="povActiveSwitch"
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    role="switch"
+                                    :aria-checked="povActive"
+                                    :checked="povActive"
+                                    @change="changeSwitches('povActiveSwitch')"
+                                >
+                                <label
+                                    class="form-check-label"
+                                    for="povActiveSwitch"
+                                >
+                                    {{ $t("modules.tools.modeler3D.activatePov") }}
+                                </label>
+                            </div>
+                            <p
+                                class="cta"
+                                v-html="$t('modules.tools.modeler3D.entity.captions.povInfo')"
+                            />
+                            <div>
+                                <input
+                                    v-model="longitudeFromClick"
+                                    aria-label="longitude"
+                                    type="text"
+                                    readonly
+                                    :placeholder="$t('modules.tools.modeler3D.entity.projections.hdms.eastingLabel')"
+                                >
+                                <input
+                                    v-model="latitudeFromClick"
+                                    aria-label="latitude"
+                                    type="text"
+                                    readonly
+                                    :placeholder="$t('modules.tools.modeler3D.entity.projections.hdms.northingLabel')"
+                                >
+                                <input
+                                    v-model="altitudeFromClick"
+                                    aria-label="altitude"
+                                    type="text"
+                                    readonly
+                                    :placeholder="$t('modules.tools.modeler3D.entity.projections.height')"
+                                >
+                            </div>
+                            <button
+                                class="col-10 btn btn-primary btn-sm primary-button-wrapper"
+                                :disabled="!povActive || !povPossible"
+                                @click="positionPovCamera"
+                            >
+                                {{ povActive && povPossible ? $t("modules.tools.modeler3D.pov") : $t("modules.tools.modeler3D.buttonDisabledText") }}
+                            </button>
+                        </div><hr>
                         <div class="form-check form-switch cta">
                             <input
                                 id="hideObjectsSwitch"
@@ -431,7 +581,7 @@ export default {
                                 role="switch"
                                 :aria-checked="hideObjects"
                                 :checked="hideObjects"
-                                @change="hideObjects = !hideObjects"
+                                @change="changeSwitches('hideObjectsSwitch')"
                             >
                             <label
                                 class="form-check-label"
