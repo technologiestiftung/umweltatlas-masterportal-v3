@@ -5275,6 +5275,7 @@ For such cases, define `gfiAsNewWindow` manually as described above.
 ```
 
 ***
+
 #### Themenconfig.Layer.WFS
 
 [inherits]: # (Themenconfig.Layer)
