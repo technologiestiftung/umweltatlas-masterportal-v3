@@ -423,9 +423,14 @@ export default {
                 });
             }
         },
-        changeSwitches () {
-            this.hideObjects = !this.hideObjects;
-            this.povActive = !this.povActive;
+        changeSwitches (id) {
+            if (id === "povActiveSwitch" || this.povActive) {
+                this.hideObjects = !this.hideObjects;
+                this.povActive = !this.povActive;
+            }
+            else {
+                this.hideObjects = !this.hideObjects;
+            }
         }
     }
 };
@@ -503,7 +508,7 @@ export default {
                                     role="switch"
                                     :aria-checked="povActive"
                                     :checked="povActive"
-                                    @change="changeSwitches()"
+                                    @change="changeSwitches('povActiveSwitch')"
                                 >
                                 <label
                                     class="form-check-label"
@@ -541,10 +546,10 @@ export default {
                             </div>
                             <button
                                 class="col-10 btn btn-primary btn-sm primary-button-wrapper"
-                                :disabled="!povPossible"
+                                :disabled="!povActive || !povPossible"
                                 @click="positionPovCamera"
                             >
-                                {{ povPossible ? $t("modules.tools.modeler3D.pov") : $t("modules.tools.modeler3D.buttonDisabledText") }}
+                                {{ povActive && povPossible ? $t("modules.tools.modeler3D.pov") : $t("modules.tools.modeler3D.buttonDisabledText") }}
                             </button>
                         </div><hr>
                         <div class="form-check form-switch cta">
@@ -555,7 +560,7 @@ export default {
                                 role="switch"
                                 :aria-checked="hideObjects"
                                 :checked="hideObjects"
-                                @change="changeSwitches()"
+                                @change="changeSwitches('hideObjectsSwitch')"
                             >
                             <label
                                 class="form-check-label"
