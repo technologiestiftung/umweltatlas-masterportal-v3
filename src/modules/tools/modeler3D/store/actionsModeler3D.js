@@ -65,6 +65,19 @@ const actions = {
         }
     },
     /**
+     * Toggles the visibility of a model entity.
+     * @param {Object} context The context of the Vuex module.
+     * @param {object} model - The model object.
+     * @returns {void}
+     */
+    changeVisibility ({getters}, model) {
+        const entities = getters.entities,
+            entity = entities.getById(model.id);
+
+        entity.show = !model.show;
+        model.show = entity.show;
+    },
+    /**
      * Reacts on new selected projection. Sets the current projection and its name to state and updates the UI.
      * @param {object} context - The context of the Vuex module.
      * @param {String} value id of the new selected projection

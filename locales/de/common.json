@@ -644,10 +644,11 @@
                 "draw": {
                     "captions": {
                         "beginModelling": "3D Objekt modellieren",
-                        "transparency": "Transparenz",
                         "color": "Farbe",
                         "drawName": "Name",
-                        "extrudedHeight": "Extrudierte Höhe"
+                        "drawnModels": "Gezeichnete Modelle:",
+                        "extrudedHeight": "Extrudierte Höhe",
+                        "transparency": "Transparenz"
                     }
                 },
                 "nav": {

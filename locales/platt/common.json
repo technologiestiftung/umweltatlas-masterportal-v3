@@ -461,11 +461,12 @@
                 },
                 "draw": {
                     "captions": {
-                    "beginModelling": "3D-Objekt modelleren",
-                    "transparency": "Deutlichkeit",
-                    "color": "Farv",
-                    "drawName": "Naam",
-                    "extrudedHeight": "Uutropen Heugde"
+                        "beginModelling": "3D-Objekt modelleren",
+                        "color": "Farv",
+                        "drawName": "Naam",
+                        "drawnModels": "Tekent Modelle",
+                        "extrudedHeight": "Uutropen Heugde",
+                        "transparency": "Döörschienung"
                     }
                 },
                 "nav": {

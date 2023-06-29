@@ -460,11 +460,12 @@
                 },
                 "draw": {
                     "captions": {
-                    "beginModelling": "3D Nesne Modelle",
-                    "transparency": "Şeffaflık",
-                    "color": "Renk",
-                    "drawName": "İsim",
-                    "extrudedHeight": "Yükseltilmiş Yükseklik"
+                        "beginModelling": "3D Nesne Modelle",
+                        "color": "Renk",
+                        "drawName": "İsim",
+                        "drawnModels": "Çizilmiş modeller:",
+                        "extrudedHeight": "Yükseltilmiş Yükseklik",
+                        "transparency": "Şeffaflık"
                     }
                 },
                 "nav": {

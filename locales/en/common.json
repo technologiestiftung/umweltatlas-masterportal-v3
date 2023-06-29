@@ -642,11 +642,12 @@
                 },
                 "draw": {
                     "captions": {
-                    "beginModelling": "Model 3D Object",
-                    "transparency": "Transparency",
-                    "color": "Color",
-                    "drawName": "Name",
-                    "extrudedHeight": "Extruded Height"
+                        "beginModelling": "Model 3D Object",
+                        "color": "Color",
+                        "drawName": "Name",
+                        "drawnModels": "Drawn Models:",
+                        "extrudedHeight": "Extruded Height",
+                        "transparency": "Transparency"
                     }
                 },
                 "nav": {
