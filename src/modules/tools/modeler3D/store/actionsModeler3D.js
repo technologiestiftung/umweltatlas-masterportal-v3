@@ -90,8 +90,13 @@ const actions = {
         }
 
         dispatch("transformToCartesian");
+        if (entity.wasDrawn) {
+            entity.polygon.position = state.currentModelPosition;
+        }
+        else {
+            entity.position = state.currentModelPosition;
+        }
 
-        entity.position = state.currentModelPosition;
     },
     /**
      * Reacts on changed entity position. Gets the currently selected entity position and transforms its coordinates

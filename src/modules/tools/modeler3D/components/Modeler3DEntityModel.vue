@@ -152,14 +152,21 @@ export default {
             const entities = this.entities,
                 entity = entities.getById(this.currentModelId),
                 heading = Cesium.Math.toRadians(parseInt(this.rotationAngle, 10)),
-                modelFromState = this.importedModels.find(model => model.id === this.currentModelId),
+                modelOrigin = entity.wasDrawn ? this.drawnModels : this.importedModels,
+                position = entity.wasDrawn ? entity.polygon.hierarchy.getValue().positions[0] : entity.position.getValue(),
+                modelFromState = modelOrigin.find(model => model.id === this.currentModelId),
                 orientationMatrix = Cesium.Transforms.headingPitchRollQuaternion(
-                    entity.position.getValue(),
+                    position,
                     new Cesium.HeadingPitchRoll(heading, 0, 0)
                 );
 
             modelFromState.heading = parseInt(this.rotationAngle, 10);
-            entity.orientation = orientationMatrix;
+            if (entity.wasDrawn) {
+                entity.polygon.orientation = orientationMatrix;
+            }
+            else {
+                entity.orientation = orientationMatrix;
+            }
         },
         /**
          * Decrements the rotationAngle property by the value of rotationClickValue.
@@ -191,7 +198,8 @@ export default {
         changeScale () {
             const entities = this.entities,
                 entity = entities.getById(this.currentModelId),
-                modelFromState = this.importedModels.find(model => model.id === this.currentModelId);
+                modelOrigin = entity.wasDrawn ? this.drawnModels : this.importedModels,
+                modelFromState = modelOrigin.find(model => model.id === this.currentModelId);
 
             modelFromState.scale = this.scaleVal;
             entity.model.scale = this.scaleVal;

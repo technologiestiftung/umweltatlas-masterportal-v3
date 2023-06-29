@@ -15,11 +15,13 @@ export default {
             activeShape: null,
             floatingPoint: null,
             isHovering: false,
-            constants: constants
+            constants: constants,
+            clampToGround: true
         };
     },
     computed: {
-        ...mapGetters("Tools/Modeler3D", Object.keys(getters))
+        ...mapGetters("Tools/Modeler3D", Object.keys(getters)),
+        ...mapGetters("Maps", ["altitude"])
     },
     mounted () {
         this.setSelectedColor(constants.colorOptions[0].color);
@@ -121,6 +123,7 @@ export default {
                     id: entity.id,
                     wasDrawn: true,
                     polygon: {
+                        height: this.clampToGround ? undefined : this.altitude,
                         hierarchy: positionData,
                         material: new Cesium.ColorMaterialProperty(
                             Cesium.Color[this.selectedColor].withAlpha(this.opacity)
@@ -263,6 +266,23 @@ export default {
                     </div>
                 </div>
             </form>
+            <div class="form-check form-switch cta">
+                <input
+                    id="clampToGroundSwitch"
+                    class="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    :aria-checked="clampToGround"
+                    :checked="clampToGround"
+                    @change="clampToGround = !clampToGround"
+                >
+                <label
+                    class="form-check-label"
+                    for="clampToGroundSwitch"
+                >
+                    {{ $t("modules.tools.modeler3D.draw.captions.clampToGround") }}
+                </label>
+            </div>
         </div>
         <hr>
         <div
@@ -393,6 +413,12 @@ export default {
 <style lang="scss" scoped>
     @import "~/css/mixins.scss";
     @import "~variables";
+    .cta {
+        margin-bottom:12px;
+    }
+    .form-switch {
+        font-size: $font_size_big;
+    }
     .h-seperator {
         margin:12px 0 12px 0;
         border: 1px solid #DDDDDD;

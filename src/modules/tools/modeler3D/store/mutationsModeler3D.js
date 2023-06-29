@@ -16,7 +16,8 @@ const mutations = {
      * @returns {void}
      */
     setModelName: (state, name) => {
-        const model = state.importedModels.find(x => x.id === state.currentModelId);
+        const allModels = state.importedModels.concat(state.drawnModels),
+            model = allModels.find(x => x.id === state.currentModelId);
 
         model.name = name;
     },

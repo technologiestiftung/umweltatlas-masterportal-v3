@@ -461,6 +461,7 @@
                 "draw": {
                     "captions": {
                     "beginModelling": "Modelar objeto 3D",
+                    "clampToGround": "Alinear al modelo de elevación",
                     "transparency": "Transparencia",
                     "color": "Color",
                     "drawName": "Nombre",

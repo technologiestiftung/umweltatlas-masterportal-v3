@@ -110,18 +110,28 @@ export default {
                     oldEntity = entities.getById(oldId);
 
                 if (oldEntity) {
-                    oldEntity.model.color = Cesium.Color.WHITE;
-                    oldEntity.model.silhouetteColor = null;
-                    oldEntity.model.silhouetteSize = 0;
-                    oldEntity.model.colorBlendAmount = 0;
+                    if (oldEntity.wasDrawn) {
+                        oldEntity.polygon.material.color = oldEntity.originalColor;
+                        oldEntity.polygon.outline = false;
+                        oldEntity.polygon.outlineColor = null;
+                        oldEntity.polygon.outlineWidth = null;
+                    }
+                    else {
+                        oldEntity.model.color = Cesium.Color.WHITE;
+                        oldEntity.model.silhouetteColor = null;
+                        oldEntity.model.silhouetteSize = 0;
+                        oldEntity.model.colorBlendAmount = 0;
+                    }
                     scene.requestRender();
 
                     this.setCurrentModelPosition(null);
                 }
                 if (newEntity) {
+                    const modelOrigin = newEntity.wasDrawn ? this.drawnModels : this.importedModels;
+
                     this.highlightEntity(newEntity);
                     this.setCurrentModelPosition(newEntity?.position?.getValue());
-                    this.setRotation(this.importedModels.find(model => model.id === this.currentModelId).heading);
+                    this.setRotation(modelOrigin.find(model => model.id === this.currentModelId).heading);
                     this.updatePositionUI();
                 }
             }
@@ -335,14 +345,24 @@ export default {
                 silhouetteColor = configuredHighlightStyle?.silhouetteColor || this.highlightStyle.silhouetteColor,
                 silhouetteSize = configuredHighlightStyle?.silhouetteSize || this.highlightStyle.silhouetteSize;
 
-            entity.model.color = Cesium.Color.fromAlpha(
-                Cesium.Color.fromCssColorString(color),
-                parseFloat(alpha)
-            );
-            entity.model.silhouetteColor =
-                Cesium.Color.fromCssColorString(silhouetteColor);
-            entity.model.silhouetteSize = parseFloat(silhouetteSize);
-            entity.model.colorBlendMode = Cesium.ColorBlendMode.HIGHLIGHT;
+            if (entity.wasDrawn) {
+                entity.originalColor = entity.polygon.material.color;
+                entity.polygon.material.color = Cesium.Color.fromAlpha(
+                    Cesium.Color.fromCssColorString(color),
+                    parseFloat(alpha)
+                );
+                entity.polygon.outline = true;
+                entity.polygon.outlineColor = Cesium.Color.fromCssColorString(silhouetteColor);
+            }
+            else {
+                entity.model.color = Cesium.Color.fromAlpha(
+                    Cesium.Color.fromCssColorString(color),
+                    parseFloat(alpha)
+                );
+                entity.model.silhouetteColor = Cesium.Color.fromCssColorString(silhouetteColor);
+                entity.model.silhouetteSize = parseFloat(silhouetteSize);
+                entity.model.colorBlendMode = Cesium.ColorBlendMode.HIGHLIGHT;
+            }
         },
         /**
          * Shows the specified object by making it visible in the scene.

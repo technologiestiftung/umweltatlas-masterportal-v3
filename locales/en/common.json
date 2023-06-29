@@ -643,6 +643,7 @@
                 "draw": {
                     "captions": {
                     "beginModelling": "Model 3D Object",
+                    "clampToGround": "Align to the terrain model",
                     "transparency": "Transparency",
                     "color": "Color",
                     "drawName": "Name",
