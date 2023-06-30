@@ -125,7 +125,7 @@ export default {
             else if (this.drawingMode === "polygon") {
                 shape = this.entities.add({
                     id: entity.id,
-                    name: this.drawName,
+                    name: this.drawName ? this.drawName : i18next.t("common:modules.tools.modeler3D.draw.captions.drawing"),
                     wasDrawn: true,
                     polygon: {
                         hierarchy: positionData,
@@ -140,8 +140,8 @@ export default {
                 });
             }
             models.push({
-                id: entity.id,
-                name: this.drawName,
+                id: shape.id,
+                name: shape.name,
                 show: true,
                 edit: false
             });
@@ -360,8 +360,7 @@ export default {
                 <div class="col-12 d-grid gap-2">
                     <button
                         id="tool-modeler3D-modelling-interaction"
-                        class="btn btn-sm"
-                        :class="'btn-primary'"
+                        class="primary-button-wrapper"
                         @click="draw"
                     >
                         <span class="bootstrap-icon">
@@ -378,10 +377,10 @@ export default {
             :objects="drawnModels"
             :objects-label="$t('modules.tools.modeler3D.draw.captions.drawnModels')"
             :entity="true"
-            @zoom-to="zoomTo"
-            @set-current-model-id="setCurrentModelId"
+            :geometry="true"
             @change-visibility="changeVisibility"
-            @confirm-deletion="confirmDeletion"
+            @export-geojson="exportToGeoJson"
+            @zoom-to="zoomTo"
         />
     </div>
 </template>
@@ -393,5 +392,21 @@ export default {
     .h-seperator {
         margin:12px 0 12px 0;
         border: 1px solid #DDDDDD;
+    }
+
+    .primary-button-wrapper {
+        color: $white;
+        background-color: $secondary_focus;
+        display: block;
+        text-align:center;
+        padding: 0.1rem 0.7rem;
+        cursor: pointer;
+        font-size: $font_size_big;
+        &:focus {
+            @include primary_action_focus;
+        }
+        &:hover {
+            @include primary_action_hover;
+        }
     }
 </style>

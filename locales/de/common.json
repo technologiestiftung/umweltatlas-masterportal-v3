@@ -644,10 +644,14 @@
                 "draw": {
                     "captions": {
                         "beginModelling": "3D Objekt modellieren",
-                        "color": "Farbe",
+                        "drawing": "Zeichnung",
                         "drawName": "Name",
                         "drawnModels": "Gezeichnete Modelle:",
+                        "export": "Exportieren",
+                        "exportTitle": "Alle gezeichneten Modelle in GeoJSON Format exportieren.",
                         "extrudedHeight": "Extrudierte Höhe",
+                        "fillColor": "Füllfarbe",
+                        "outlineColor": "Umrissfarbe",
                         "transparency": "Transparenz"
                     }
                 },

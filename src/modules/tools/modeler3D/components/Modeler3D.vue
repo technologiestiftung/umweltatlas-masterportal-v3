@@ -32,7 +32,6 @@ export default {
             isHovering: "",
             hideObjects: true,
             povActive: false,
-            currentView: "import",
             currentCartesian: null,
             originalCursorStyle: null
         };
@@ -487,7 +486,7 @@ export default {
                                 href="#"
                                 class="nav-link"
                                 :class="importTabClasses"
-                                @click.prevent="currentView = 'import'"
+                                @click.prevent="setCurrentView('import')"
                             >{{ $t("modules.tools.modeler3D.nav.importTitle") }}</a>
                         </li>
                         <li
@@ -499,7 +498,7 @@ export default {
                                 href="#"
                                 class="nav-link"
                                 :class="drawTabClasses"
-                                @click.prevent="currentView = 'draw'"
+                                @click.prevent="setCurrentView('draw')"
                             >{{ $t("modules.tools.modeler3D.nav.drawTitle") }}</a>
                         </li>
                         <li
@@ -511,7 +510,7 @@ export default {
                                 href="#"
                                 class="nav-link"
                                 :class="optionsTabClasses"
-                                @click.prevent="currentView = ''"
+                                @click.prevent="setCurrentView('')"
                             >{{ $t("modules.tools.modeler3D.nav.options") }}</a>
                         </li>
                     </ul>

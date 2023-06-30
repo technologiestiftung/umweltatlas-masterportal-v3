@@ -217,6 +217,7 @@ export default {
             };
 
             reader.readAsText(file);
+            this.setCurrentView("draw");
             this.setIsLoading(false);
         },
         /**
@@ -271,6 +272,7 @@ export default {
             :objects-label="$t('modules.tools.modeler3D.import.captions.successfullyImportedLabel')"
             :entity="true"
             @change-visibility="changeVisibility"
+            @zoom-to="zoomTo"
         />
     </div>
 </template>
@@ -293,86 +295,5 @@ export default {
     .h-seperator {
         margin:12px 0 12px 0;
         border: 1px solid #DDDDDD;
-    }
-
-    .primary-button-wrapper {
-        color: $white;
-        background-color: $secondary_focus;
-        display: block;
-        text-align:center;
-        padding: 8px 12px;
-        cursor: pointer;
-        margin:12px 0 0 0;
-        font-size: $font_size_big;
-        &:focus {
-            @include primary_action_focus;
-        }
-        &:hover {
-            @include primary_action_hover;
-        }
-    }
-
-    .cta {
-        margin-bottom:12px;
-    }
-
-    .red {
-        color: red;
-    }
-
-    .modelListLabel {
-        font-weight: bold;
-    }
-
-    .modelList {
-        font-size: $font_size_icon_lg;
-    }
-
-    .index {
-        width: 15%;
-    }
-
-    .inputName {
-        width: 60%;
-        cursor: text;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-
-        &:hover {
-            border-color: #8098b1;
-            outline: 0;
-            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075), 0 0 0 0.25rem rgba(0, 48, 99, 0.25);
-        }
-    }
-
-    .buttons {
-        margin-left: auto;
-    }
-
-    .inline-button {
-        cursor: pointer;
-        display: inline-block;
-        &:focus {
-            transform: translateY(-2px);
-        }
-        &:hover {
-            transform: translateY(-2px);
-        }
-        &:active {
-            transform: scale(0.98);
-        }
-    }
-
-    ul {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    li {
-        display: flex;
-        align-items: center;
-        height: 1.5rem;
     }
 </style>

@@ -19,6 +19,11 @@ export default {
             type: Boolean,
             default: false,
             required: false
+        },
+        geometry: {
+            type: Boolean,
+            default: false,
+            required: false
         }
     },
     data () {
@@ -39,13 +44,32 @@ export default {
 <template>
     <div class="objectList">
         <div class="h-seperator" />
-        <label
-            class="objectListLabel"
-            for="objects"
-        >
-            {{ objectsLabel }}
-        </label>
         <ul>
+            <li>
+                <label
+                    class="objectListLabel"
+                    for="objects"
+                >
+                    {{ objectsLabel }}
+                </label>
+                <div
+                    v-if="geometry"
+                    class="buttons"
+                >
+                    <button
+                        id="tool-modeler3D-export-button"
+                        class="primary-button-wrapper"
+                        :title="$t(`common:modules.tools.modeler3D.draw.captions.exportTitle`)"
+                        @click="$emit('export-geojson')"
+                        @keydown.enter="$emit('export-geojson')"
+                    >
+                        <span class="bootstrap-icon">
+                            <i class="bi-download" />
+                        </span>
+                        {{ $t("modules.tools.modeler3D.draw.captions.export") }}
+                    </button>
+                </div>
+            </li>
             <li
                 v-for="(object, index) in objects"
                 :key="index"
@@ -83,8 +107,8 @@ export default {
                         class="inline-button bi"
                         :class="{ 'bi-geo-alt-fill': isHovering === `${index}-geo`, 'bi-geo-alt': isHovering !== `${index}-geo`}"
                         :title="$t(`common:modules.tools.modeler3D.entity.captions.zoomTo`, {name: object.name})"
-                        @click="zoomTo(object.id)"
-                        @keydown.enter="zoomTo(object.id)"
+                        @click="$emit('zoom-to', object.id)"
+                        @keydown.enter="$emit('zoom-to', object.id)"
                         @mouseover="isHovering = `${index}-geo`"
                         @mouseout="isHovering = false"
                         @focusin="isHovering = `${index}-geo`"
@@ -161,11 +185,8 @@ export default {
         font-weight: bold;
     }
 
-    .objectList {
-        font-size: $font_size_icon_lg;
-    }
-
     ul {
+        font-size: $font_size_icon_lg;
         list-style-type: none;
         padding: 0;
         margin: 0;
@@ -175,6 +196,10 @@ export default {
         display: flex;
         align-items: center;
         height: 1.5rem;
+    }
+
+    li:first-child {
+        height: 2.2rem;
     }
 
     .index {
@@ -213,6 +238,24 @@ export default {
         }
         &:active {
             transform: scale(0.98);
+        }
+    }
+
+    .primary-button-wrapper {
+        color: $white;
+        background-color: $secondary_focus;
+        display: block;
+        text-align:center;
+        padding: 0.1rem 0.7rem;
+        cursor: pointer;
+        font-size: 0.8rem;
+        position: relative;
+        top: -0.6rem;
+        &:focus {
+            @include primary_action_focus;
+        }
+        &:hover {
+            @include primary_action_hover;
         }
     }
 </style>

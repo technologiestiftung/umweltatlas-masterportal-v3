@@ -45,6 +45,7 @@ export default {
     currentModelId: null,
     currentModelPosition: null,
     currentProjection: {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm"},
+    currentView: "import",
     drawnModels: [],
     drawName: "",
     extrudedHeight: 20,
