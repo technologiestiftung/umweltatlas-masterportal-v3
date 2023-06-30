@@ -451,11 +451,12 @@
                 },
                 "draw": {
                     "captions": {
-                    "beginModelling": "Modelar objeto 3D",
-                    "transparency": "Transparência",
-                    "color": "Cor",
-                    "drawName": "Nome",
-                    "extrudedHeight": "Altura extrudida"
+                        "beginModelling": "Modelar objeto 3D",
+                        "color": "Cor",
+                        "drawName": "Nome",
+                        "drawnModels": "Modelos desenhados:",
+                        "extrudedHeight": "Altura extrudida",
+                        "transparency": "Transparência"
                     }
                 },
                 "nav": {

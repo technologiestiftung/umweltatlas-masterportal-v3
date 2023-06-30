@@ -589,11 +589,12 @@
                 },
                 "draw": {
                     "captions": {
-                    "beginModelling": "Моделювання 3D-об'єкта",
-                    "transparency": "Прозорість",
-                    "color": "Колір",
-                    "drawName": "Назва",
-                    "extrudedHeight": "Висота витягнутості"
+                        "beginModelling": "Моделювання 3D-об'єкта",
+                        "color": "Колір",
+                        "drawName": "Назва",
+                        "drawnModels": "Намальовані моделі",
+                        "extrudedHeight": "Висота витягнутості",
+                        "transparency": "Прозорість"
                     }
                 },
                 "nav": {

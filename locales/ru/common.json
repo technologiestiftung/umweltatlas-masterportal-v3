@@ -589,11 +589,12 @@
                 },
                 "draw": {
                     "captions": {
-                    "beginModelling": "Моделирование 3D-объекта",
-                    "transparency": "Прозрачность",
-                    "color": "Цвет",
-                    "drawName": "Название",
-                    "extrudedHeight": "Выдавленная высота"
+                        "beginModelling": "Моделирование 3D-объекта",
+                        "color": "Цвет",
+                        "drawName": "Название",
+                        "drawnModels": "Рисованные модели:",
+                        "extrudedHeight": "Выдавленная высота",
+                        "transparency": "Прозрачность"
                     }
                 },
                 "nav": {
