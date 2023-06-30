@@ -22,7 +22,8 @@ export default {
         ...mapGetters("Tools/Modeler3D", Object.keys(getters))
     },
     mounted () {
-        this.setSelectedColor(constants.colorOptions[0].color);
+        this.setSelectedFillColor(constants.colorOptions[0].color);
+        this.setSelectedOutlineColor(constants.colorOptions[0].color);
     },
     methods: {
         ...mapActions("Tools/Modeler3D", Object.keys(actions)),
@@ -72,7 +73,7 @@ export default {
             eventHandler.setInputAction(() => {
                 this.terminateShape();
                 this.setIsDrawing(false);
-            }, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+            }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
         },
         terminateShape () {
             this.removeDrawnPoints();
@@ -119,12 +120,16 @@ export default {
             else if (this.drawingMode === "polygon") {
                 shape = this.entities.add({
                     id: entity.id,
+                    name: this.drawName,
                     wasDrawn: true,
                     polygon: {
                         hierarchy: positionData,
                         material: new Cesium.ColorMaterialProperty(
-                            Cesium.Color[this.selectedColor].withAlpha(this.opacity)
+                            Cesium.Color[this.selectedFillColor].withAlpha(this.opacity)
                         ),
+                        outline: true,
+                        outlineWidth: 1,
+                        outlineColor: Cesium.Color[this.selectedOutlineColor].withAlpha(this.opacity),
                         extrudedHeight: this.extrudedHeight
                     }
                 });
@@ -170,8 +175,75 @@ export default {
             this.scene.camera.flyTo({
                 destination: Cesium.Cartesian3.fromRadians(longitude, latitude, targetHeight)
             });
-        }
+        },
+        exportToGeoJson () {
+            const entities = this.entities,
+                drawnEntitiesCollection = [],
+                jsonGlob = {"type": "FeatureCollection", "features": []},
+                features = [];
 
+            entities.values.forEach(entity => {
+                if (!entity.model) {
+                    drawnEntitiesCollection.push(entity);
+                }
+            });
+
+            drawnEntitiesCollection.forEach(entity => {
+                const polygon = entity.polygon,
+                    positions = polygon.hierarchy.getValue().positions,
+                    color = polygon.material.color,
+                    outlineColor = polygon.outlineColor.getValue(),
+                    feature = {"type": "Feature", "properties": {}, "geometry": {
+                        "type": "Polygon", "coordinates": []
+                    }},
+                    coords = [],
+                    array = [];
+
+                positions.forEach(position => {
+                    const cartesian = new Cesium.Cartesian3(
+                            position.x,
+                            position.y,
+                            position.z
+                        ),
+                        cartographic = Cesium.Cartographic.fromCartesian(cartesian),
+                        longitude = Cesium.Math.toDegrees(cartographic.longitude),
+                        latitude = Cesium.Math.toDegrees(cartographic.latitude),
+                        coordXY = [Number(longitude), Number(latitude)];
+
+                    coords.push(coordXY);
+                });
+
+                feature.properties.name = entity.name;
+
+                feature.properties.color = {};
+                feature.properties.color.red = color._value.red;
+                feature.properties.color.green = color._value.green;
+                feature.properties.color.blue = color._value.blue;
+                feature.properties.color.alpha = color._value.alpha;
+
+                feature.properties.outlineColor = outlineColor;
+                feature.properties.extrudedHeight = polygon.extrudedHeight._value;
+
+                array.push(coords);
+                feature.geometry.coordinates = array;
+                features.push(feature);
+            });
+
+            jsonGlob.features = features;
+
+            this.downloadGeoJson(JSON.stringify(jsonGlob));
+        },
+        downloadGeoJson (geojson) {
+            const url = URL.createObjectURL(new Blob([geojson], {type: "application/geo+json"})),
+                link = document.createElement("a");
+
+            link.href = url;
+            link.download = "export.geojson";
+            document.body.appendChild(link);
+            link.click();
+            URL.revokeObjectURL(url);
+            document.body.removeChild(link);
+        }
     }
 };
 </script>
@@ -241,20 +313,42 @@ export default {
                     </div>
                     <label
                         class="col-md-5 col-form-label"
-                        for="tool-modeler3D-color"
+                        for="tool-modeler3D-fill-color"
                     >
-                        {{ $t("modules.tools.modeler3D.draw.captions.color") }}
+                        {{ $t("modules.tools.modeler3D.draw.captions.fillColor") }}
                     </label>
                     <div class="col-md-7">
                         <select
-                            id="tool-modeler3D-color"
+                            id="tool-modeler3D-fill-color"
                             :key="`tool-modeler3D-color-select`"
                             class="form-select form-select-sm"
-                            @change="setSelectedColor($event.target.value)"
+                            @change="setSelectedFillColor($event.target.value)"
                         >
                             <option
                                 v-for="option in constants.colorOptions"
-                                :key="'modeler3D-color-option-' + option.color"
+                                :key="'modeler3D-fill-color-option-' + option.color"
+                                :value="option.color"
+                            >
+                                {{ option.color }}
+                            </option>
+                        </select>
+                    </div>
+                    <label
+                        class="col-md-5 col-form-label"
+                        for="tool-modeler3D-outline-color"
+                    >
+                        {{ $t("modules.tools.modeler3D.draw.captions.outlineColor") }}
+                    </label>
+                    <div class="col-md-7">
+                        <select
+                            id="tool-modeler3D-outline-color"
+                            :key="`tool-modeler3D-outline-color-select`"
+                            class="form-select form-select-sm"
+                            @change="setSelectedOutlineColor($event.target.value)"
+                        >
+                            <option
+                                v-for="option in constants.colorOptions"
+                                :key="'modeler3D-outline-color-option-' + option.color"
                                 :value="option.color"
                             >
                                 {{ option.color }}
@@ -287,13 +381,25 @@ export default {
         </div>
         <div v-if="drawnModels.length > 0">
             <div class="h-seperator" />
-            <div class="modelList">
+            <div class="modelList row">
                 <label
-                    class="modelListLabel"
+                    class="modelListLabel col"
                     for="succesfully-imported-models"
                 >
                     {{ $t("modules.tools.modeler3D.import.captions.successfullyImportedLabel") }}
                 </label>
+                <i
+                    id="geojson-export"
+                    class="inline-button bi col-2"
+                    :class="{ 'bi-cloud-download-fill': isHovering === `exp`, 'bi-cloud-download': isHovering !== `exp`}"
+                    :title="$t(`common:modules.tools.modeler3D.entity.captions.deletionTitle`)"
+                    @click="exportToGeoJson"
+                    @keydown.enter="exportToGeoJson"
+                    @mouseover="isHovering = `exp`"
+                    @mouseout="isHovering = false"
+                    @focusin="isHovering = `exp`"
+                    @focusout="isHovering = false"
+                />
                 <ul id="succesfully-imported-models">
                     <li
                         v-for="(model, index) in drawnModels"

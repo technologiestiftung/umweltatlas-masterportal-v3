@@ -1,4 +1,9 @@
 <script>
+import {mapActions, mapGetters, mapMutations} from "vuex";
+import actions from "../store/actionsModeler3D";
+import getters from "../store/gettersModeler3D";
+import mutations from "../store/mutationsModeler3D";
+
 export default {
     name: "Modeler3DList",
     props: {
@@ -20,6 +25,13 @@ export default {
         return {
             isHovering: ""
         };
+    },
+    computed: {
+        ...mapGetters("Tools/Modeler3D", Object.keys(getters))
+    },
+    methods: {
+        ...mapActions("Tools/Modeler3D", Object.keys(actions)),
+        ...mapMutations("Tools/Modeler3D", Object.keys(mutations))
     }
 };
 </script>
@@ -71,8 +83,8 @@ export default {
                         class="inline-button bi"
                         :class="{ 'bi-geo-alt-fill': isHovering === `${index}-geo`, 'bi-geo-alt': isHovering !== `${index}-geo`}"
                         :title="$t(`common:modules.tools.modeler3D.entity.captions.zoomTo`, {name: object.name})"
-                        @click="$emit('zoom-to', object.id)"
-                        @keydown.enter="$emit('zoom-to', object.id)"
+                        @click="zoomTo(object.id)"
+                        @keydown.enter="zoomTo(object.id)"
                         @mouseover="isHovering = `${index}-geo`"
                         @mouseout="isHovering = false"
                         @focusin="isHovering = `${index}-geo`"
@@ -84,8 +96,8 @@ export default {
                         class="inline-button bi"
                         :class="{ 'bi-pencil-fill': isHovering === `${index}-edit`, 'bi-pencil': isHovering !== `${index}-edit`}"
                         :title="$t(`common:modules.tools.modeler3D.entity.captions.editModel`, {name: object.name})"
-                        @click="$emit('set-current-model-id', object.id)"
-                        @keydown.enter="$emit('set-current-model-id', object.id)"
+                        @click="setCurrentModelId(object.id)"
+                        @keydown.enter="setCurrentModelId(object.id)"
                         @mouseover="isHovering = `${index}-edit`"
                         @mouseout="isHovering = false"
                         @focusin="isHovering = `${index}-edit`"
@@ -123,8 +135,8 @@ export default {
                         class="inline-button bi"
                         :class="{ 'bi-trash3-fill': isHovering === `${index}-del`, 'bi-trash3': isHovering !== `${index}-del`}"
                         :title="$t(`common:modules.tools.modeler3D.entity.captions.deletionTitle`, {name: object.name})"
-                        @click="$emit('confirm-deletion', object.id)"
-                        @keydown.enter="$emit('confirm-deletion', object.id)"
+                        @click="confirmDeletion(object.id)"
+                        @keydown.enter="confirmDeletion(object.id)"
                         @mouseover="isHovering = `${index}-del`"
                         @mouseout="isHovering = false"
                         @focusin="isHovering = `${index}-del`"

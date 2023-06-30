@@ -62,6 +62,9 @@ export default {
                 else if (fileExtension === "dae") {
                     this.handleDaeFile(file, fileName);
                 }
+                else if (fileExtension === "geojson") {
+                    this.handleGeoJsonFile(file);
+                }
                 else {
                     store.dispatch("Alerting/addSingleAlert", {content: i18next.t("common:modules.tools.modeler3D.import.alertingMessages.missingFormat", {format: fileExtension})}, {root: true});
                 }
@@ -168,6 +171,55 @@ export default {
             reader.readAsDataURL(file);
         },
         /**
+         * Handles the processing of a JSON file.
+         * @param {File} file - The JSON file.
+         * @param {string} fileName - The name of the file.
+         * @returns {void}
+         */
+        handleGeoJsonFile (file) {
+            const reader = new FileReader();
+            let geojson;
+
+            reader.onload = (event) => {
+                const text = event.target.result,
+                    entities = this.entities;
+
+                geojson = JSON.parse(text);
+                Cesium.GeoJsonDataSource.load(geojson, {
+                    clampToGround: true
+                })
+                    .then((dataSource) => {
+                        dataSource.entities.values.forEach(entity => {
+                            const properties = entity.properties,
+                                color = entity.properties.color.getValue(),
+                                lastElement = entities.values.slice().pop(),
+                                lastId = lastElement?.id;
+
+                            entity.id = lastId ? lastId + 1 : 1;
+                            entity.name = properties.name.getValue();
+                            entity.polygon.material = new Cesium.ColorMaterialProperty(
+                                new Cesium.Color(color.red, color.green, color.blue, color.alpha)
+                            );
+                            entity.polygon.outline = true;
+                            entity.polygon.outlineColor = properties.outlineColor;
+                            entity.polygon.outlineWidth = 1;
+                            entity.polygon.extrudedHeight = properties.extrudedHeight;
+
+                            entities.add(entity);
+                            this.drawnModels.push({
+                                id: entity.id,
+                                name: entity.name,
+                                show: true,
+                                edit: false
+                            });
+                        });
+                    });
+            };
+
+            reader.readAsText(file);
+            this.setIsLoading(false);
+        },
+        /**
          * Toggles the visibility of a model entity.
          * @param {object} model - The model object.
          * @returns {void}
@@ -218,10 +270,7 @@ export default {
             :objects="importedModels"
             :objects-label="$t('modules.tools.modeler3D.import.captions.successfullyImportedLabel')"
             :entity="true"
-            @zoom-to="zoomTo"
-            @set-current-model-id="setCurrentModelId"
             @change-visibility="changeVisibility"
-            @confirm-deletion="confirmDeletion"
         />
     </div>
 </template>
