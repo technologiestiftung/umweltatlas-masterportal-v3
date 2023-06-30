@@ -18,6 +18,67 @@
 * Use verbs for merge commits: **add**/**remove**/**update**/**refactor**/**fix**/**config**/**hotfix**. Merge commit messages should be in English and speaking.
 * Branches are deleted after merging.
 
+* Feature branches are updated with the remote branch using git command rebase and not with the merge command.
+
+Further reading: [merge vs. rebase](https://www.atlassian.com/git/tutorials/merging-vs-rebasing)
+
+Below is a guide for rebasing:
+
+
+#### Rebase a checked out feature branch with remote dev
+```
+#!js
+git pull --rebase origin dev
+```
+
+#### Repeat following steps until rebasing is completed:
+#### 1. After solving each conflict:
+- To check the rebase state of the current rebase step:
+```
+#!js
+git status
+```
+
+#### 2. If "Working directory clean" (No further changes are available)
+```
+#!js
+git rebase --skip
+```
+
+#### 3. If "modified" (changes still exist)
+- --> Resolve conflicts in the individual files.
+```
+#!js
+git add [Path to file whose conflict has been resolved]
+git rebase --continue
+```
+
+#### 4. If "deleted" (Files have been deleted). Check whether displayed files should be deleted
+- File will be deleted:
+```
+#!js
+git rm
+git rebase --continue
+```
+File won't be deleted:
+```
+#!js
+git checkout [File path]
+git rebase --continue
+```
+
+#### Pushing results after finished rebasing
+- If the feature branch has already been pushed (force push):
+```
+#!js
+git push -f oder git push --force
+```
+If the feature branch still exists:
+```
+#!js
+git push
+```
+
 ## Pushing
 
 * The commits are written to the repository with thematically closed pushes; however, the aim is not to include entire features in one push, but to model activities. Pushing your local development state on a daily basis is recommended to prevent data loss.
