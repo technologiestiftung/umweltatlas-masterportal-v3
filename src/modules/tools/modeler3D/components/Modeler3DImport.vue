@@ -168,18 +168,6 @@ export default {
             reader.readAsDataURL(file);
         },
         /**
-         * Toggles the visibility of a model entity.
-         * @param {object} model - The model object.
-         * @returns {void}
-         */
-        changeVisibility (model) {
-            const entities = this.entities,
-                entity = entities.getById(model.id);
-
-            entity.show = !model.show;
-            model.show = entity.show;
-        },
-        /**
          * Zooms the camera to the specified entity.
          * @param {string} id - The ID of the entity to zoom to.
          * @returns {void}

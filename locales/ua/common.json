@@ -589,12 +589,13 @@
                 },
                 "draw": {
                     "captions": {
-                    "beginModelling": "Моделювання 3D-об'єкта",
-                    "clampToGround": "Вирівнювати за моделлю рельєфу",
-                    "transparency": "Прозорість",
-                    "color": "Колір",
-                    "drawName": "Назва",
-                    "extrudedHeight": "Висота витягнутості"
+                        "beginModelling": "Моделювання 3D-об'єкта",
+                        "clampToGround": "Вирівнювати за моделлю рельєфу",
+                        "transparency": "Прозорість",
+                        "color": "Колір",
+                        "drawName": "Назва",
+                        "extrudedHeight": "Висота витягнутості",
+                        "drawnModels": "Намальовані моделі"
                     }
                 },
                 "nav": {

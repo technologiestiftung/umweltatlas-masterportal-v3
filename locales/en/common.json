@@ -642,12 +642,13 @@
                 },
                 "draw": {
                     "captions": {
-                    "beginModelling": "Model 3D Object",
-                    "clampToGround": "Align to the terrain model",
-                    "transparency": "Transparency",
-                    "color": "Color",
-                    "drawName": "Name",
-                    "extrudedHeight": "Extruded Height"
+                        "beginModelling": "Model 3D Object",
+                        "clampToGround": "Align to the terrain model",
+                        "color": "Color",
+                        "drawName": "Name",
+                        "drawnModels": "Drawn Models:",
+                        "extrudedHeight": "Extruded Height",
+                        "transparency": "Transparency"
                     }
                 },
                 "nav": {

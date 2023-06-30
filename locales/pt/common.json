@@ -451,12 +451,13 @@
                 },
                 "draw": {
                     "captions": {
-                    "beginModelling": "Modelar objeto 3D",
-                    "clampToGround": "Ajustar ao modelo de elevação",
-                    "transparency": "Transparência",
-                    "color": "Cor",
-                    "drawName": "Nome",
-                    "extrudedHeight": "Altura extrudida"
+                        "beginModelling": "Modelar objeto 3D",
+                        "clampToGround": "Ajustar ao modelo de elevação",
+                        "transparency": "Transparência",
+                        "color": "Cor",
+                        "drawName": "Nome",
+                        "extrudedHeight": "Altura extrudida",
+                        "drawnModels": "Modelos desenhados:"
                     }
                 },
                 "nav": {

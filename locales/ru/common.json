@@ -589,12 +589,13 @@
                 },
                 "draw": {
                     "captions": {
-                    "beginModelling": "Моделирование 3D-объекта",
-                    "clampToGround": "Выравнивание по модели рельефа",
-                    "transparency": "Прозрачность",
-                    "color": "Цвет",
-                    "drawName": "Название",
-                    "extrudedHeight": "Выдавленная высота"
+                        "beginModelling": "Моделирование 3D-объекта",
+                        "clampToGround": "Выравнивание по модели рельефа",
+                        "transparency": "Прозрачность",
+                        "color": "Цвет",
+                        "drawName": "Название",
+                        "extrudedHeight": "Выдавленная высота",
+                        "drawnModels": "Рисованные модели:"
                     }
                 },
                 "nav": {
