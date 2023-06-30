@@ -161,8 +161,20 @@ export default {
                 );
 
             modelFromState.heading = parseInt(this.rotationAngle, 10);
+
             if (entity.wasDrawn) {
-                entity.polygon.orientation = orientationMatrix;
+                const hierarchy = entity.polygon.hierarchy.getValue(),
+                    positions = hierarchy.positions,
+
+                    center = Cesium.BoundingSphere.fromPoints(positions).center,
+                    rotatedPositions = positions.map(hierarchyPosition => {
+                        const relativePosition = Cesium.Cartesian3.subtract(hierarchyPosition, center, new Cesium.Cartesian3()),
+                            rotatedRelativePosition = Cesium.Matrix3.multiplyByVector(orientationMatrix, relativePosition, new Cesium.Cartesian3());
+
+                        return Cesium.Cartesian3.add(rotatedRelativePosition, center, new Cesium.Cartesian3());
+                    });
+
+                entity.polygon.hierarchy = new Cesium.PolygonHierarchy(rotatedPositions);
             }
             else {
                 entity.orientation = orientationMatrix;
@@ -324,7 +336,7 @@ export default {
                         <button
                             class="btn btn-primary btn-sm btn-pos"
                             :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
-                            @click.exact="adjustCoordinate('easting', true)"
+                            @click.exact="entities.getById(currentModelId).wasDrawn ? movePolygon({ id: currentModelId, direction: 'easting', value: 'increment'}) : adjustCoordinate('easting', true)"
                             @click.shift="adjustCoordinate('easting', true, true)"
                         >
                             <i
@@ -334,7 +346,7 @@ export default {
                         <button
                             class="btn btn-primary btn-sm btn-pos"
                             :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
-                            @click.exact="adjustCoordinate('easting', false)"
+                            @click.exact="entities.getById(currentModelId).wasDrawn ? movePolygon({ id: currentModelId, direction: 'easting', value: 'decrement'}) : adjustCoordinate('easting', false)"
                             @click.shift="adjustCoordinate('easting', false, true)"
                         >
                             <i
@@ -369,7 +381,7 @@ export default {
                         <button
                             class="btn btn-primary btn-sm btn-pos"
                             :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
-                            @click.exact="adjustCoordinate('northing', true)"
+                            @click.exact="entities.getById(currentModelId).wasDrawn ? movePolygon({ id: currentModelId, direction: 'northing', value: 'increment'}) : adjustCoordinate('northing', true)"
                             @click.shift="adjustCoordinate('northing', true, true)"
                         >
                             <i
@@ -379,7 +391,7 @@ export default {
                         <button
                             class="btn btn-primary btn-sm btn-pos"
                             :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
-                            @click.exact="adjustCoordinate('northing', false)"
+                            @click.exact="entities.getById(currentModelId).wasDrawn ? movePolygon({ id: currentModelId, direction: 'northing', value: 'decrement'}) : adjustCoordinate('northing', false)"
                             @click.shift="adjustCoordinate('northing', false, true)"
                         >
                             <i

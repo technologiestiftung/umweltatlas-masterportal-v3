@@ -174,7 +174,6 @@ export default {
                 destination: Cesium.Cartesian3.fromRadians(longitude, latitude, targetHeight)
             });
         }
-
     }
 };
 </script>
