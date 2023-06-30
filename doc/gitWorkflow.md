@@ -15,7 +15,7 @@
 
 * The development of new features and bug fixing usually takes place on features branches based on the `dev` branch. We use the **[Gitflow Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows#gitflow-workflow)**.
 * The development branch is named `dev`.
-* Use verbs for merge commits: **add**/**remove**/**update**/**refactor**/**fix**/**config**/**hotfix**. Merge commit messages should be in English and speaking.
+* Use verbs for commits: **add**/**remove**/**update**/**refactor**/**fix**/**config**/**hotfix**. Commit messages should be in English and speaking.
 * Branches are deleted after merging.
 
 * Feature branches are updated with the remote branch using git command rebase and not with the merge command.
@@ -86,7 +86,7 @@ git push
 ## Definition Of Done
 
 * Before opening a pull request, the author checks whether these conditions are met:
-    - The target branch has been merged to the feature branch immediately before opening the pull request. Hence, there are no merge conflicts.
+    - The target branch has been rebased to the feature branch immediately before opening the pull request. Hence, there are no conflicts.
     - The code is fine:
         - There are no warnings or errors in the linter report.
         - The code honors the **[conventions](codingConventions.md)**.
@@ -114,4 +114,4 @@ git push
 * Commits pushed to branches may only reach the `dev` branch via pull requests.
 * **External developers** set their PR's reviewer to **[geowerkstatt](https://bitbucket.org/geowerkstatt)**. This is a technical user that will note the team members.
 * The review is done by at least one team member. The reviewer checks the pull request based on the Definition of Done. Errors or comments may be added directly to the code or as comments within the pull request.
-* A pull request passing all checks is approved. The approving team member merges the commit for **external developers**.
+* A pull request passing all checks is approved. The approving team member merges the pull request for **external developers**.
