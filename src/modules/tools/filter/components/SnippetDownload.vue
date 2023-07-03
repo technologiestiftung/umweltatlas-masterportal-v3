@@ -4,6 +4,7 @@ import ExportButtonGeoJSON from "../../../../share-components/exportButton/compo
 import openlayerFunctions from "../utils/openlayerFunctions.js";
 import isObject from "../../../../utils/isObject";
 import {GeoJSON} from "ol/format.js";
+import Feature from "ol/Feature";
 
 export default {
     name: "SnippetDownload",
@@ -58,7 +59,7 @@ export default {
                 this.selectedFormat !== "none" &&
                 Array.isArray(this.filteredItems) &&
                 this.filteredItems.length > 0) {
-                if (this.selectedFormat === "GeoJSON") {
+                if (this.selectedFormat === "GeoJSON" && this.filteredItems[0] instanceof Feature === true) {
                     this.json = new GeoJSON().writeFeatures(this.filteredItems);
                 }
                 this.enableFileDownload = true;
