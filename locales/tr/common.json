@@ -461,11 +461,12 @@
                 "draw": {
                     "captions": {
                         "beginModelling": "3D Nesne Modelle",
+                        "clampToGround": "Yükseklik modeline hizalamak",
+                        "transparency": "Şeffaflık",
                         "color": "Renk",
                         "drawName": "İsim",
-                        "drawnModels": "Çizilmiş modeller:",
                         "extrudedHeight": "Yükseltilmiş Yükseklik",
-                        "transparency": "Şeffaflık"
+                        "drawnModels": "Çizilmiş modeller:"
                     }
                 },
                 "nav": {
@@ -1035,8 +1036,8 @@
         },
         "import": {
             "browse": "Bir Dosya seçin",
-            "dropzone":"Dosyayı buradaya gönderin",
-            "introInfo":"Arzu ettiğiniz dosyayı içeri aktarmak için sürükleyip bıkarın veya alternatif olarak tarıcı penceresini kullanın."
+            "dropzone": "Dosyayı buradaya gönderin",
+            "introInfo": "Arzu ettiğiniz dosyayı içeri aktarmak için sürükleyip bıkarın veya alternatif olarak tarıcı penceresini kullanın."
         }
     }
 }

@@ -462,11 +462,12 @@
                 "draw": {
                     "captions": {
                         "beginModelling": "3D-Objekt modelleren",
+                        "clampToGround": "An'n Hööhenmodel anpassen",
+                        "transparency": "Deutlichkeit",
                         "color": "Farv",
                         "drawName": "Naam",
-                        "drawnModels": "Tekent Modelle",
                         "extrudedHeight": "Uutropen Heugde",
-                        "transparency": "Döörschienung"
+                        "drawnModels": "Tekent Modelle"
                     }
                 },
                 "nav": {

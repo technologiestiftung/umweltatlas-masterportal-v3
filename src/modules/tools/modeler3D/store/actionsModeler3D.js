@@ -102,9 +102,10 @@ const actions = {
             return;
         }
 
-        dispatch("transformToCartesian");
-
-        entity.position = state.currentModelPosition;
+        if (!entity.wasDrawn) {
+            dispatch("transformToCartesian");
+            entity.position = state.currentModelPosition;
+        }
     },
     /**
      * Reacts on changed entity position. Gets the currently selected entity position and transforms its coordinates
@@ -195,7 +196,50 @@ const actions = {
 
             commit("setCurrentModelPosition", Cesium.Cartesian3.fromDegrees(transformedCoordinates[0], transformedCoordinates[1], height));
         }
+    },
+    movePolygon ({getters, dispatch}, {id, direction, value}) {
+        const entities = getters.entities,
+            entity = entities.getById(id);
+        let center = null;
+
+        if (entity && entity.wasDrawn && entity.polygon && entity.polygon.hierarchy) {
+            const hierarchy = entity.polygon.hierarchy.getValue();
+
+            if (direction === "northing") {
+                const increment = value === "increment" ? 1 : -1;
+
+                hierarchy.positions.forEach(position => {
+                    position.x += increment;
+                });
+            }
+            else if (direction === "easting") {
+                const increment = value === "increment" ? 1 : -1;
+
+                hierarchy.positions.forEach(position => {
+                    position.y += increment;
+                });
+            }
+
+            entity.polygon.hierarchy = hierarchy;
+
+            center = hierarchy.positions.reduce(
+                (sum, position) => {
+                    sum.x += position.x;
+                    sum.y += position.y;
+                    sum.z += position.z;
+                    return sum;
+                },
+                {x: 0, y: 0, z: 0}
+            );
+
+            center.x /= hierarchy.positions.length;
+            center.y /= hierarchy.positions.length;
+            center.z /= hierarchy.positions.length;
+
+            dispatch("transformFromCartesian", center);
+        }
     }
+
 };
 
 export default actions;

@@ -590,11 +590,12 @@
                 "draw": {
                     "captions": {
                         "beginModelling": "Моделирование 3D-объекта",
+                        "clampToGround": "Выравнивание по модели рельефа",
+                        "transparency": "Прозрачность",
                         "color": "Цвет",
                         "drawName": "Название",
-                        "drawnModels": "Рисованные модели:",
                         "extrudedHeight": "Выдавленная высота",
-                        "transparency": "Прозрачность"
+                        "drawnModels": "Рисованные модели:"
                     }
                 },
                 "nav": {

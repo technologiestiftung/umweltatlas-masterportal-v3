@@ -452,11 +452,12 @@
                 "draw": {
                     "captions": {
                         "beginModelling": "Modelar objeto 3D",
+                        "clampToGround": "Ajustar ao modelo de elevação",
+                        "transparency": "Transparência",
                         "color": "Cor",
                         "drawName": "Nome",
-                        "drawnModels": "Modelos desenhados:",
                         "extrudedHeight": "Altura extrudida",
-                        "transparency": "Transparência"
+                        "drawnModels": "Modelos desenhados:"
                     }
                 },
                 "nav": {

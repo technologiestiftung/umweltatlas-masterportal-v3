@@ -590,11 +590,12 @@
                 "draw": {
                     "captions": {
                         "beginModelling": "Моделювання 3D-об'єкта",
+                        "clampToGround": "Вирівнювати за моделлю рельєфу",
+                        "transparency": "Прозорість",
                         "color": "Колір",
                         "drawName": "Назва",
-                        "drawnModels": "Намальовані моделі",
                         "extrudedHeight": "Висота витягнутості",
-                        "transparency": "Прозорість"
+                        "drawnModels": "Намальовані моделі"
                     }
                 },
                 "nav": {
