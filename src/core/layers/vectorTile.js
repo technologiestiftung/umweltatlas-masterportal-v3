@@ -13,7 +13,8 @@ export default function VectorTileLayer (attrs) {
     const defaults = {
             selectedStyleID: undefined,
             useMpFonts: true,
-            useProxy: false
+            useProxy: false,
+            sourceUpdate: false
         },
         mapEPSG = store.getters["Maps/projection"].getCode(),
         vtEPSG = attrs.epsg || mapEPSG;
@@ -53,6 +54,7 @@ VectorTileLayer.prototype.createLayer = function (attrs) {
             type: "featuresloadend",
             features: this.layer.getSource().getFeaturesInExtent(store.getters["Maps/getCurrentExtent"])
         });
+        this.set("sourceUpdated", true);
     }});
 };
 
