@@ -5,6 +5,7 @@ import {mapGetters, mapActions, mapMutations} from "vuex";
 import actions from "../store/actionsModeler3D";
 import getters from "../store/gettersModeler3D";
 import mutations from "../store/mutationsModeler3D";
+import proj4 from "proj4";
 
 let eventHandler = null;
 
@@ -16,8 +17,9 @@ export default {
     data () {
         return {
             drawingMode: "polygon",
-            activeShape: null,
+            activeShapePoints: [],
             floatingPoint: null,
+            currentPosition: null,
             isHovering: false,
             constants: constants,
             clampToGround: true
@@ -25,7 +27,7 @@ export default {
     },
     computed: {
         ...mapGetters("Tools/Modeler3D", Object.keys(getters)),
-        ...mapGetters("Maps", ["altitude"])
+        ...mapGetters("Maps", ["altitude", "mouseCoordinate"])
     },
     mounted () {
         this.setSelectedFillColor(constants.colorOptions[0].color);
@@ -36,83 +38,94 @@ export default {
         ...mapMutations("Tools/Modeler3D", Object.keys(mutations)),
 
         draw () {
-            const scene = this.scene,
-                activeShapePoints = [];
-            let floatingPoint;
-
             this.setIsDrawing(true);
+
+            const scene = this.scene;
+            let floatingPoint = this.createCylinder(),
+                shape;
+
             eventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
             eventHandler.setInputAction((event) => {
-                const ray = scene.camera.getPickRay(event.position),
-                    earthPosition = scene.globe.pick(ray, scene);
-
-                if (Cesium.defined(earthPosition)) {
-                    if (activeShapePoints.length === 0) {
-                        floatingPoint = this.createPoint(earthPosition);
-                        activeShapePoints.push(earthPosition);
-                        const dynamicPositions = new Cesium.CallbackProperty(() => {
-                            if (this.drawingMode === "polygon") {
-                                return new Cesium.PolygonHierarchy(activeShapePoints);
-                            }
-                            return activeShapePoints;
-                        }, false);
-
-                        this.drawShape(dynamicPositions);
-                    }
-                    activeShapePoints.push(earthPosition);
-                    this.createPoint(earthPosition);
-                }
-            }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
-
-            eventHandler.setInputAction((event) => {
                 if (Cesium.defined(floatingPoint)) {
-                    const ray = scene.camera.getPickRay(event.endPosition),
-                        newPosition = scene.globe.pick(ray, scene);
+                    if (this.clampToGround) {
+                        const ray = scene.camera.getPickRay(event.endPosition),
+                            position = scene.globe.pick(ray, scene);
 
-                    if (Cesium.defined(newPosition)) {
-                        floatingPoint.position.setValue(newPosition);
-                        activeShapePoints.pop();
-                        activeShapePoints.push(newPosition);
+                        this.currentPosition = position;
+                    }
+                    else {
+                        const cartographic = proj4(proj4("EPSG:25832"), proj4("EPSG:4326"), [this.mouseCoordinate[0], this.mouseCoordinate[1]]),
+                            radians = Cesium.Cartographic.fromDegrees(cartographic[0], cartographic[1]),
+                            height = scene.sampleHeight(radians, [floatingPoint]);
+
+                        this.currentPosition = Cesium.Cartesian3.fromDegrees(cartographic[0], cartographic[1], height);
+                    }
+                    if (Cesium.defined(this.currentPosition)) {
+                        this.activeShapePoints.pop();
+                        this.activeShapePoints.push(this.currentPosition);
                     }
                 }
             }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+
             eventHandler.setInputAction(() => {
-                this.terminateShape();
+                if (this.activeShapePoints.length === 2) {
+                    shape = this.drawShape();
+                }
+                floatingPoint.position = new Cesium.ConstantProperty(this.currentPosition);
+                this.activeShapePoints.push(this.currentPosition);
+                floatingPoint = this.createCylinder();
+            }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+            eventHandler.setInputAction(() => {
+                this.terminateShape(shape);
                 this.setIsDrawing(false);
             }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
         },
-        terminateShape () {
+        terminateShape (shape) {
+            if (shape.polygon) {
+                shape.polygon.hierarchy = new Cesium.ConstantProperty(new Cesium.PolygonHierarchy(this.activeShapePoints));
+            }
             this.removeDrawnPoints();
+            this.currentPosition = null;
+            this.activeShapePoints = [];
             eventHandler.destroy();
         },
-        createPoint (worldPosition) {
-            const point = this.entities.add({
-                position: worldPosition,
-                point: {
-                    color: Cesium.Color.RED,
-                    pixelSize: 5,
-                    heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND
+        createCylinder () {
+            return this.entities.add({
+                position: new Cesium.CallbackProperty(() => {
+                    return this.currentPosition;
+                }, false),
+                cylinder: {
+                    material: new Cesium.ColorMaterialProperty(Cesium.Color.RED),
+                    bottomRadius: 0.0,
+                    topRadius: 0.5,
+                    length: this.extrudedHeight * 2
+                    // heightReference: Cesium.HeightReference.CLAMP_TO_GROUND
                 }
             });
-
-            return point;
         },
         removeDrawnPoints () {
-            const pointEntities = this.entities.values.filter(entity => entity.point);
+            const pointEntities = this.entities.values.filter(entity => entity.cylinder);
 
             pointEntities.forEach(entity => {
                 this.entities.remove(entity);
             });
         },
-        drawShape (positionData) {
+        drawShape () {
             const entities = this.entities,
                 models = this.drawnModels,
                 lastElement = entities.values.slice().pop(),
                 lastId = lastElement?.id,
                 entity = {
                     id: lastId ? lastId + 1 : 1
-                };
+                },
+                positionData = new Cesium.CallbackProperty(() => {
+                    if (this.drawingMode === "polygon") {
+                        return new Cesium.PolygonHierarchy(this.activeShapePoints);
+                    }
+                    return this.activeShapePoints;
+                }, false);
             let shape;
 
             if (this.drawingMode === "line") {
