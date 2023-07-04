@@ -23,8 +23,6 @@
 - Filter:
   - Add: new parameter "filterOnMove" in layer configuration to enable if the layer should be filtered dynamically after the map moves.
   - Add: interface for VectorTiles. Enables filtering for VectorTiles.
-- VectorTiles:
-    - Add: new parameter "baseOAFUrl". Only needed for the Filter Tool.
 - Documentation gitWorkflow:
     - A guide for rebasing feature branches with remote has been added. See [Branches and workflow](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/latest/dev/gitWorkflow.md)
 - ScaleLine: Added the possibility to select the map scale via a selection in the footer.

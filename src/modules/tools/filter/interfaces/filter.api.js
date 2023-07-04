@@ -68,7 +68,6 @@ export default class FilterApi {
         const type = layerModel.get("typ").toLowerCase(),
             featureNS = layerModel.get("featureNS"),
             url = layerModel.get("url"),
-            vectorTilesBaseUrl = layerModel.get("baseOAFUrl"),
             featureType = layerModel.get("featureType");
 
         if (type === "wfs") {
@@ -128,18 +127,10 @@ export default class FilterApi {
         }
         else if (type === "vectortile") {
             if (!extern) {
-                if (!vectorTilesBaseUrl) {
-                    onerror(new Error("FilterApi.setServiceByLayerModel: VectorTiles layer must have set the 'baseOAFUrl' param."));
-                    return;
-                }
                 this.service = {
                     type,
                     extern,
-                    layerId,
-                    url: vectorTilesBaseUrl,
-                    collection,
-                    namespace: featureNS,
-                    limit: typeof layerModel.get("limit") === "undefined" ? 400 : layerModel.get("limit")
+                    layerId
                 };
             }
             else {

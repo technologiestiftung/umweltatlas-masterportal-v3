@@ -259,16 +259,8 @@ describe("src/modules/tools/filter/interfaces/filter.api.js", () => {
                             switch (param) {
                                 case "typ":
                                     return "VectorTile";
-                                case "featureNS":
-                                    return "foob/boof";
-                                case "url":
-                                    return "foo/tiles/xyz";
-                                case "baseOAFUrl":
-                                    return "foo";
                                 case "featureType":
                                     return "bar";
-                                case "limit":
-                                    return 400;
                                 default:
                                     return "";
                             }
@@ -277,11 +269,7 @@ describe("src/modules/tools/filter/interfaces/filter.api.js", () => {
                     expected = {
                         type: "vectortile",
                         extern: false,
-                        layerId: 0,
-                        url: "foo",
-                        collection: "wooo",
-                        namespace: "foob/boof",
-                        limit: 400
+                        layerId: 0
                     };
 
                 filterApi.setServiceByLayerModel(0, layerModel, false, "wooo");
