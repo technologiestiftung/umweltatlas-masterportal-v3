@@ -26,11 +26,15 @@ export default {
         return {
             enableFileDownload: false,
             showDownload: false,
-            formats: ["CSV", "GeoJSON"],
             selectedFormat: "",
             filename: "",
             json: ""
         };
+    },
+    computed: {
+        formats () {
+            return this.filteredItems[0] instanceof Feature === false ? ["CSV"] : ["CSV", "GeoJSON"];
+        }
     },
     methods: {
         /**
@@ -59,7 +63,7 @@ export default {
                 this.selectedFormat !== "none" &&
                 Array.isArray(this.filteredItems) &&
                 this.filteredItems.length > 0) {
-                if (this.selectedFormat === "GeoJSON" && this.filteredItems[0] instanceof Feature === true) {
+                if (this.selectedFormat === "GeoJSON") {
                     this.json = new GeoJSON().writeFeatures(this.filteredItems);
                 }
                 this.enableFileDownload = true;
