@@ -519,20 +519,20 @@ describe("src/modules/tools/filter/components/LayerFilterSnippet.vue", () => {
             expect(stubIsParentSnippet.called).to.be.false;
         });
     });
-    describe("registerZoomListener", () => {
-        it("should not call the function registerZoomListener", () => {
-            const registerZoomListener = sinon.stub(wrapper.vm, "registerZoomListener");
+    describe("registerMapMoveListener", () => {
+        it("should not call the function registerMapMoveListener", () => {
+            const registerMapMoveListener = sinon.stub(wrapper.vm, "registerMapMoveListener");
 
-            LayerFilterSnippet.methods.registerZoomListener = registerZoomListener;
+            LayerFilterSnippet.methods.registerMapMoveListener = registerMapMoveListener;
 
-            expect(wrapper.vm.registerZoomListener).to.be.a("function");
-            expect(registerZoomListener.notCalled).to.be.true;
+            expect(wrapper.vm.registerMapMoveListener).to.be.a("function");
+            expect(registerMapMoveListener.notCalled).to.be.true;
         });
 
-        it("should call the function registerZoomListener", async () => {
-            const registerZoomListener = sinon.stub(wrapper.vm, "registerZoomListener");
+        it("should call the function registerMapMoveListener", async () => {
+            const registerMapMoveListener = sinon.stub(wrapper.vm, "registerMapMoveListener");
 
-            LayerFilterSnippet.methods.registerZoomListener = registerZoomListener;
+            LayerFilterSnippet.methods.registerMapMoveListener = registerMapMoveListener;
 
             wrapper = shallowMount(LayerFilterSnippet, {
                 propsData: {
@@ -540,7 +540,7 @@ describe("src/modules/tools/filter/components/LayerFilterSnippet.vue", () => {
                         service: {
                             type: "something external"
                         },
-                        filterOnZoom: true,
+                        filterOnMove: true,
                         strategy: "active"
                     },
                     mapHandler: new MapHandler({
@@ -551,7 +551,7 @@ describe("src/modules/tools/filter/components/LayerFilterSnippet.vue", () => {
             });
 
             await wrapper.vm.$nextTick();
-            expect(registerZoomListener.called).to.be.true;
+            expect(registerMapMoveListener.called).to.be.true;
         });
     });
 });

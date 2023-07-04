@@ -220,8 +220,8 @@ export default {
             this.handleActiveStrategy();
         }
 
-        if (this.layerConfig.filterOnZoom === true && this.layerConfig?.strategy === "active") {
-            this.registerZoomListener();
+        if (this.layerConfig.filterOnMove === true && this.layerConfig?.strategy === "active") {
+            this.registerMapMoveListener();
         }
     },
     methods: {
@@ -680,13 +680,26 @@ export default {
             }
         },
         /**
-         * Registering a zoom listener.
+         * Registering a map moveend listener.
          * @returns {void}
          */
-        registerZoomListener () {
-            store.watch((state, getters) => getters["Maps/scale"], () => {
-                this.filter();
+        registerMapMoveListener () {
+            store.dispatch("Maps/registerListener", {type: "moveend", listener: this.updateSnippets.bind(this)});
+        },
+        /**
+         * Update the snippets with adjustment
+         * @returns {void}
+         */
+        updateSnippets () {
+            const snippetIds = [];
+
+            this.snippets.forEach(snippet => {
+                snippetIds.push(snippet.snippetId);
             });
+
+            if (snippetIds.length) {
+                this.handleActiveStrategy(snippetIds);
+            }
         },
         /**
          * Terminating the filter process by terminating every snippet

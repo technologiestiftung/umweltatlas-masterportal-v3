@@ -1823,7 +1823,7 @@ An object to define a layer to filter with.
 |geometryName|no|String|""|Only for extern `true` in connection with filtering within polygons: The geometry name of the features to be able to detect an intersection.|false|
 |filterButtonDisabled|no|Boolean|false|Only for strategy `passive`: Disable the filter button while nothing is selected.|false|
 |snippets|no|[snippets](#markdown-header-portalconfigmenutoolfilterfilterlayersnippets)[]|[]|Configuration of snippets to adjust the filtering. Can be a minimalistic array of attribute names. Can be left empty to use the automatic identification of all snippets possible.|false|
-|filterOnZoom|no|Boolean||If it is `true`, the layer will be filtered dynamically with different zoom Levels|false|
+|filterOnMove|no|Boolean||If it is `true`, the layer will be filtered dynamically after the map moves.|false|
 |collection|no|String||ONLY VectorTiles: The collection to filter. If it is set, the layer needs a `baseOAFUrl` to start the api requests|false|
 
 **Example**
@@ -1844,7 +1844,7 @@ In this example one snippet is set with only an attrName. The snippet type is de
     "description": "School master data and pupil numbers of Hamburg schools",
     "snippetTags": true,
     "paging": 100,
-    "filterOnZoom": false,
+    "filterOnMove": false,
     "snippets": [
         {
             "attrName": "rebbz_homepage"
