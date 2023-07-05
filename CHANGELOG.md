@@ -31,6 +31,7 @@
 - Print:
     - Add new configuration paramter 'layoutOrder' for print service 'plotservice' to define the order of the layouts in the dropdown.
     - Add new configuration parameter "isPrintDrawnGeoms" for print service "plotservice" to print Draw features and Measure features
+- Webpack Devserver extended to access the secure services via localhost
 
 ### Changed
 - The following packages have been updated:
