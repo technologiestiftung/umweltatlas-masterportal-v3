@@ -3,8 +3,7 @@
 
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
-## Unreleased - in development
-### __Breaking Changes__
+## v2.35.0 - 2023-07-05
 ### Added
 - AddWMS Tool uses legendURL and MetadataURL from Capabilities.
 - Filter:
@@ -20,9 +19,6 @@
 - The following packages have been updated:
     - dependencies:
         - masterportalapi:  2.19.2 to 2.20.0 (This also raised ol to version 7.4.0 and cesium to version 1.106.0)
-### Deprecated
-
-### Removed
 
 ### Fixed
 - PrintMap: PrintMap with the 'plotservice' print mode creates successfully print after reopening the tool.
