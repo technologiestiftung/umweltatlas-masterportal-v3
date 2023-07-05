@@ -1,6 +1,7 @@
 
 import {generateSimpleGetters} from "../../../../app-store/utils/generators";
 import import3DState from "./stateModeler3D";
+import {convertSexagesimalFromDecimal, convertSexagesimalToDecimal} from "../../../../utils/convertSexagesimalCoordinates";
 
 const getters = {
     ...generateSimpleGetters(import3DState),
@@ -41,6 +42,30 @@ const getters = {
         const type = state.currentProjection?.projName !== "longlat" ? "cartesian" : "hdms";
 
         return "modules.tools.modeler3D.entity.projections." + type + "." + key;
+    },
+    coordAdjusted: (state) => ({shift, coordType}) => {
+        if (state.currentProjection.epsg !== "EPSG:4326" || coordType === "height") {
+            return shift ? 1 : 0.1;
+        }
+        return shift ? 0.00001 : 0.000001;
+    },
+    formatCoord: (state) => (coord) => {
+        if (state.currentProjection.id === "http://www.opengis.net/gml/srs/epsg.xml#4326-DG") {
+            return coord.split(/[\s°]+/)[0];
+        }
+        else if (state.currentProjection.projName === "longlat") {
+            return convertSexagesimalToDecimal(coord.split(/[\s°′″'"´`]+/));
+        }
+        return parseFloat(coord);
+    },
+    prettyCoord: (state) => (coord) => {
+        if (state.currentProjection.projName === "longlat" && state.currentProjection.id !== "http://www.opengis.net/gml/srs/epsg.xml#4326-DG") {
+            return convertSexagesimalFromDecimal(coord);
+        }
+        else if (state.currentProjection.id === "http://www.opengis.net/gml/srs/epsg.xml#4326-DG") {
+            return coord.toFixed(6) + "°";
+        }
+        return coord.toFixed(2);
     }
 };
 

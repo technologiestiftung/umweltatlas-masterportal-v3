@@ -3,15 +3,15 @@
  * @typedef {Object} Modeler3DState
  * @property {Boolean}      active - if true, component is rendered
  * @property {Boolean}      adaptToHeight - if true, adjust height automatically on position change
- * @property {Object}       coordinatesEasting - id and value of the transformed easting coordinate displayed on the ui
- * @property {Object}       coordinatesNorthing - id and value of the transformed northing coordinate displayed on the ui
+ * @property {Number}       coordinateEasting - the raw transformed easting coordinate displayed on the ui
+ * @property {Number}       coordinateNorthing - the raw transformed northing coordinate displayed on the ui
  * @property {String}       currentModelId - id of the currently selected or added model
  * @property {Cartesian3}   currentModelPosition - position of the currently selected or added model
  * @property {Object}       currentProjection - the currently selected projection
  * @property {Boolean}      deactivateGFI - if true, component activation deactivates gfi component
  * @property {String}       drawName name of drawing model
  * @property {Number}       extrudedHeight height in meters for drawing model
- * @property {Object}       height - id and value of the transformed height coordinate displayed on the ui
+ * @property {Number}       height - the raw transformed height coordinate displayed on the ui
  * @property {Object[]}     hiddenObjects - array of hidden objects
  * @property {Object}       highlightStyle default style for highlighting models
  * @property {String}       highlightStyle.color default color of highlighted model
@@ -30,7 +30,6 @@
  * @property {Boolean}      renderToWindow - if true, component is rendered in a window pane instead of sidebar
  * @property {Boolean}      resizableWindow - if true and if rendered to window pane, the pane is resizable
  * @property {Number}       rotation - the current rotation value
- * @property {Float[]}      selectedCoordinates - current coordinates in current projections as numbers
  * @property {String}       selectedColor - selected color for drawing 3d object
  */
 
@@ -41,8 +40,8 @@ export default {
     adaptToHeight: true,
     selectedFillColor: "",
     selectedOutlineColor: "",
-    coordinatesEasting: {id: "easting", value: ""},
-    coordinatesNorthing: {id: "northing", value: ""},
+    coordinateEasting: 0,
+    coordinateNorthing: 0,
     currentModelId: null,
     currentModelPosition: null,
     currentProjection: {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm"},
@@ -51,7 +50,7 @@ export default {
     drawnModels: [],
     drawName: "",
     extrudedHeight: 20,
-    height: {id: "height", value: ""},
+    height: 0,
     hiddenObjects: [],
     highlightStyle: {
         color: "#787777",
@@ -67,7 +66,6 @@ export default {
     projections: [],
     rotation: 0,
     scale: 1,
-    selectedCoordinates: [],
 
     // defaults for config.json parameters
     icon: "bi-bounding-box",

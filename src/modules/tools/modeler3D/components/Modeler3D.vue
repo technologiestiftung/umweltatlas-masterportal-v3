@@ -255,10 +255,10 @@ export default {
                 entity = Cesium.defaultValue(picked?.id, picked?.primitive?.id);
             }
 
-            if ((entity instanceof Cesium.Entity || !event) && !entity.wasDrawn) {
+            if ((entity instanceof Cesium.Entity || !event) && !entity?.wasDrawn) {
                 this.setIsDragging(true);
 
-                if (entity.cylinder) {
+                if (entity?.cylinder) {
                     eventHandler.setInputAction(this.moveCylinder, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
                 }
                 else {

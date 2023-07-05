@@ -8,8 +8,6 @@ export default {
     name: "Modeler3DEntityModel",
     data () {
         return {
-            increment: true,
-            coordType: "",
             rotationClickValue: 5,
             rotationDropdownValues: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         };
@@ -54,17 +52,32 @@ export default {
                 this.setScale(adjustedValue);
             }
         },
-        coordAdjusted () {
-            if (this.currentProjection.epsg !== "EPSG:4326" || this.coordType === "height") {
-                return this.increment ? 0.1 : -0.1;
+        eastingString: {
+            get () {
+                return this.prettyCoord(this.coordinateEasting);
+            },
+            set (value) {
+                this.setCoordinateEasting(this.formatCoord(value));
+                this.updateEntityPosition();
             }
-            return this.increment ? 0.000001 : -0.000001;
         },
-        coordShiftAdjusted () {
-            if (this.currentProjection.epsg !== "EPSG:4326" || this.coordType === "height") {
-                return this.increment ? 1 : -1;
+        northingString: {
+            get () {
+                return this.prettyCoord(this.coordinateNorthing);
+            },
+            set (value) {
+                this.setCoordinateNorthing(this.formatCoord(value));
+                this.updateEntityPosition();
             }
-            return this.increment ? 0.00001 : -0.00001;
+        },
+        heightString: {
+            get () {
+                return this.height.toFixed(2);
+            },
+            set (value) {
+                this.setHeight(this.formatCoord(value));
+                this.updateEntityPosition();
+            }
         },
         wasDrawn () {
             return this.entities.getById(this.currentModelId).wasDrawn;
@@ -96,55 +109,6 @@ export default {
             if (value) {
                 this.updateEntityPosition();
             }
-        },
-        /**
-         * Increments or decrements the value of a coordinate and updates the entity position.
-         * @param {string} type - The coordinate to adjust ("easting", "northing", or "height").
-         * @param {string} increment - If the value should be incremented or not (decrement).
-         * @param {string} shift - If the shift modifier is active.
-         * @returns {void}
-         */
-        adjustCoordinate (type, increment, shift = false) {
-            let coordinate;
-
-            this.increment = increment;
-            this.type = type;
-
-            if (type === "easting") {
-                coordinate = this.coordinatesEasting.value;
-            }
-            else if (type === "northing") {
-                coordinate = this.coordinatesNorthing.value;
-            }
-            else if (type === "height") {
-                coordinate = this.height.value;
-            }
-
-            if (shift) {
-                coordinate = parseFloat(coordinate) + this.coordShiftAdjusted;
-            }
-            else {
-                coordinate = parseFloat(coordinate) + this.coordAdjusted;
-            }
-
-            if (this.currentProjection.epsg === "EPSG:4326" && type !== "height") {
-                coordinate = coordinate.toFixed(6) + "°";
-            }
-            else {
-                coordinate = coordinate.toFixed(2);
-            }
-
-            if (type === "easting") {
-                this.coordinatesEasting.value = coordinate;
-            }
-            else if (type === "northing") {
-                this.coordinatesNorthing.value = coordinate;
-            }
-            else if (type === "height") {
-                this.height.value = coordinate;
-            }
-
-            this.updateEntityPosition();
         },
         /**
          * Rotates the current model based on the value of the rotationAngle property.
@@ -327,7 +291,7 @@ export default {
                 <div class="col-md-7 position-control">
                     <input
                         id="eastingField"
-                        v-model="coordinatesEasting.value"
+                        v-model="eastingString"
                         class="form-control form-control-sm position-input"
                         type="text"
                         @input="updateEntityPosition"
@@ -339,8 +303,8 @@ export default {
                         <button
                             class="btn btn-primary btn-sm btn-pos"
                             :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
-                            @click.exact="wasDrawn ? movePolygon({ direction: 'easting', value: 'increment'}) : adjustCoordinate('easting', true)"
-                            @click.shift="adjustCoordinate('easting', true, true)"
+                            @click.exact="wasDrawn ? movePolygon({ direction: 'easting', value: 'increment'}) : eastingString = prettyCoord(coordinateEasting + coordAdjusted({shift: false, coordType: 'easting'}))"
+                            @click.shift="eastingString = prettyCoord(coordinateEasting + coordAdjusted({shift: true, coordType: 'easting'}))"
                         >
                             <i
                                 class="bi bi-arrow-up"
@@ -349,8 +313,8 @@ export default {
                         <button
                             class="btn btn-primary btn-sm btn-pos"
                             :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
-                            @click.exact="wasDrawn ? movePolygon({ direction: 'easting', value: 'decrement'}) : adjustCoordinate('easting', false)"
-                            @click.shift="adjustCoordinate('easting', false, true)"
+                            @click.exact="wasDrawn ? movePolygon({ direction: 'easting', value: 'decrement'}) : eastingString = prettyCoord(coordinateEasting - coordAdjusted({shift: false, coordType: 'easting'}))"
+                            @click.shift="eastingString = prettyCoord(coordinateEasting - coordAdjusted({shift: true, coordType: 'easting'}))"
                         >
                             <i
                                 class="bi bi-arrow-down"
@@ -372,10 +336,9 @@ export default {
                 <div class="col-md-7 position-control">
                     <input
                         id="northingField"
-                        v-model="coordinatesNorthing.value"
+                        v-model="northingString"
                         class="form-control form-control-sm position-input"
                         type="text"
-                        @input="updateEntityPosition"
                     >
                     <div
                         v-if="currentProjection.id !== 'http://www.opengis.net/gml/srs/epsg.xml#4326'"
@@ -384,8 +347,8 @@ export default {
                         <button
                             class="btn btn-primary btn-sm btn-pos"
                             :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
-                            @click.exact="wasDrawn ? movePolygon({ direction: 'northing', value: 'increment'}) : adjustCoordinate('northing', true)"
-                            @click.shift="adjustCoordinate('northing', true, true)"
+                            @click.exact="wasDrawn ? movePolygon({ direction: 'northing', value: 'increment'}) : northingString = prettyCoord(coordinateNorthing + coordAdjusted({shift: false, coordType: 'northing'}))"
+                            @click.shift="northingString = prettyCoord(coordinateNorthing + coordAdjusted({shift: true, coordType: 'northing'}))"
                         >
                             <i
                                 class="bi bi-arrow-up"
@@ -394,8 +357,8 @@ export default {
                         <button
                             class="btn btn-primary btn-sm btn-pos"
                             :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
-                            @click.exact="wasDrawn ? movePolygon({ direction: 'northing', value: 'decrement'}) : adjustCoordinate('northing', false)"
-                            @click.shift="adjustCoordinate('northing', false, true)"
+                            @click.exact="wasDrawn ? movePolygon({ direction: 'northing', value: 'decrement'}) : northingString = prettyCoord(coordinateNorthing - coordAdjusted({shift: false, coordType: 'northing'}))"
+                            @click.shift="northingString = prettyCoord(coordinateNorthing - coordAdjusted({shift: true, coordType: 'northing'}))"
                         >
                             <i
                                 class="bi bi-arrow-down"
@@ -417,7 +380,7 @@ export default {
                 <div class="col-md-6 position-control">
                     <input
                         id="heightField"
-                        v-model="height.value"
+                        v-model="heightString"
                         class="form-control form-control-sm position-input"
                         type="text"
                         :disabled="adaptToHeight"
@@ -430,8 +393,8 @@ export default {
                         <button
                             class="btn btn-primary btn-sm btn-pos"
                             :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
-                            @click.exact="adjustCoordinate('height', true)"
-                            @click.shift="adjustCoordinate('height', true, true)"
+                            @click.exact="wasDrawn ? movePolygon({ direction: 'height', value: 'increment'}) : heightString = prettyCoord(height + coordAdjusted({shift: false, coordType: 'height'}))"
+                            @click.shift="heightString = prettyCoord(height + coordAdjusted({shift: true, coordType: 'height'}))"
                         >
                             <i
                                 class="bi bi-arrow-up"
@@ -440,8 +403,8 @@ export default {
                         <button
                             class="btn btn-primary btn-sm btn-pos"
                             :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
-                            @click.exact="adjustCoordinate('height', false)"
-                            @click.shift="adjustCoordinate('height', false, true)"
+                            @click.exact="wasDrawn ? movePolygon({ direction: 'height', value: 'decrement'}) : heightString = prettyCoord(height - coordAdjusted({shift: false, coordType: 'height'}))"
+                            @click.shift="heightString = prettyCoord(height - coordAdjusted({shift: true, coordType: 'height'}))"
                         >
                             <i
                                 class="bi bi-arrow-down"
