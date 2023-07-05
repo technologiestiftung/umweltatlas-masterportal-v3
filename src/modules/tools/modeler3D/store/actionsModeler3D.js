@@ -197,9 +197,9 @@ const actions = {
             commit("setCurrentModelPosition", Cesium.Cartesian3.fromDegrees(transformedCoordinates[0], transformedCoordinates[1], height));
         }
     },
-    movePolygon ({getters, dispatch}, {id, direction, value}) {
+    movePolygon ({getters, state, dispatch}, {direction, value}) {
         const entities = getters.entities,
-            entity = entities.getById(id);
+            entity = entities.getById(state.currentModelId);
         let center = null;
 
         if (entity && entity.wasDrawn && entity.polygon && entity.polygon.hierarchy) {
@@ -238,8 +238,49 @@ const actions = {
 
             dispatch("transformFromCartesian", center);
         }
-    }
+    },
+    generateCylinders ({commit, dispatch, getters, state}) {
+        const entities = getters.entities,
+            entity = entities.getById(state.currentModelId);
 
+        if (entity?.wasDrawn && entity?.polygon?.hierarchy) {
+            const hierarchy = entity.polygon.hierarchy.getValue();
+
+            commit("setActiveShapePoints", hierarchy.positions);
+
+            hierarchy.positions.forEach((position, index) => {
+                dispatch("createCylinder", {
+                    position: position,
+                    posIndex: index,
+                    length: entity.polygon.extrudedHeight,
+                    heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND
+                });
+            });
+        }
+    },
+    createCylinder ({commit, getters}, positionObj) {
+        const cylinder = getters.entities.add({
+            position: positionObj.position,
+            positionIndex: positionObj.posIndex,
+            cylinder: {
+                material: new Cesium.ColorMaterialProperty(Cesium.Color.RED),
+                bottomRadius: 0.0,
+                topRadius: 1,
+                length: positionObj.length ? positionObj.length : 20,
+                heightReference: positionObj.heightReference ? positionObj.heightReference : Cesium.HeightReference.NONE
+            }
+        });
+
+        commit("setCylinderId", cylinder.id);
+    },
+    removeCylinders ({getters}) {
+        const entities = getters.entities,
+            pointEntities = entities.values.filter(entity => entity.cylinder);
+
+        pointEntities.forEach(entity => {
+            entities.remove(entity);
+        });
+    }
 };
 
 export default actions;

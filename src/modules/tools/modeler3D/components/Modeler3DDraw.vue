@@ -17,7 +17,6 @@ export default {
     data () {
         return {
             drawingMode: "polygon",
-            activeShapePoints: [],
             floatingPoint: null,
             currentPosition: null,
             isHovering: false,
@@ -39,9 +38,16 @@ export default {
 
         draw () {
             this.setIsDrawing(true);
+            this.createCylinder({
+                position: new Cesium.CallbackProperty(() => {
+                    return this.currentPosition;
+                }, false),
+                posIndex: this.activeShapePoints.length,
+                length: this.extrudedHeight * 2
+            });
 
             const scene = this.scene;
-            let floatingPoint = this.createCylinder(),
+            let floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId),
                 shape;
 
             eventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
@@ -62,19 +68,25 @@ export default {
                         this.currentPosition = Cesium.Cartesian3.fromDegrees(cartographic[0], cartographic[1], height);
                     }
                     if (Cesium.defined(this.currentPosition)) {
-                        this.activeShapePoints.pop();
-                        this.activeShapePoints.push(this.currentPosition);
+                        this.activeShapePoints.splice(floatingPoint.positionIndex, 1, this.currentPosition);
                     }
                 }
             }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
 
             eventHandler.setInputAction(() => {
-                if (this.activeShapePoints.length === 2) {
+                if (this.activeShapePoints.length === 1) {
                     shape = this.drawShape();
                 }
                 floatingPoint.position = new Cesium.ConstantProperty(this.currentPosition);
+                this.createCylinder({
+                    position: new Cesium.CallbackProperty(() => {
+                        return this.currentPosition;
+                    }, false),
+                    posIndex: this.activeShapePoints.length,
+                    length: this.extrudedHeight * 2
+                });
                 this.activeShapePoints.push(this.currentPosition);
-                floatingPoint = this.createCylinder();
+                floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
             }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
             eventHandler.setInputAction(() => {
@@ -86,31 +98,10 @@ export default {
             if (shape.polygon) {
                 shape.polygon.hierarchy = new Cesium.ConstantProperty(new Cesium.PolygonHierarchy(this.activeShapePoints));
             }
-            this.removeDrawnPoints();
+            this.removeCylinders();
             this.currentPosition = null;
-            this.activeShapePoints = [];
+            this.setActiveShapePoints([]);
             eventHandler.destroy();
-        },
-        createCylinder () {
-            return this.entities.add({
-                position: new Cesium.CallbackProperty(() => {
-                    return this.currentPosition;
-                }, false),
-                cylinder: {
-                    material: new Cesium.ColorMaterialProperty(Cesium.Color.RED),
-                    bottomRadius: 0.0,
-                    topRadius: 0.5,
-                    length: this.extrudedHeight * 2
-                    // heightReference: Cesium.HeightReference.CLAMP_TO_GROUND
-                }
-            });
-        },
-        removeDrawnPoints () {
-            const pointEntities = this.entities.values.filter(entity => entity.cylinder);
-
-            pointEntities.forEach(entity => {
-                this.entities.remove(entity);
-            });
         },
         drawShape () {
             const entities = this.entities,
@@ -231,6 +222,7 @@ export default {
                 feature.properties.color.alpha = color._value.alpha;
 
                 feature.properties.outlineColor = outlineColor;
+                feature.properties.height = polygon.height;
                 feature.properties.extrudedHeight = polygon.extrudedHeight._value;
 
                 array.push(coords);

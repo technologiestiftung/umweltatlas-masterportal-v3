@@ -197,12 +197,14 @@ export default {
 
                             entity.id = lastId ? lastId + 1 : 1;
                             entity.name = properties.name.getValue();
+                            entity.wasDrawn = true;
                             entity.polygon.material = new Cesium.ColorMaterialProperty(
                                 new Cesium.Color(color.red, color.green, color.blue, color.alpha)
                             );
                             entity.polygon.outline = true;
                             entity.polygon.outlineColor = properties.outlineColor;
                             entity.polygon.outlineWidth = 1;
+                            entity.polygon.height = properties.height;
                             entity.polygon.extrudedHeight = properties.extrudedHeight;
 
                             entities.add(entity);

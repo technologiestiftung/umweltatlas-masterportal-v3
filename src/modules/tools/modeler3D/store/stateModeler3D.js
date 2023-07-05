@@ -37,6 +37,7 @@
 export default {
     active: false,
     id: "modeler3D",
+    activeShapePoints: [],
     adaptToHeight: true,
     selectedFillColor: "",
     selectedOutlineColor: "",
@@ -46,6 +47,7 @@ export default {
     currentModelPosition: null,
     currentProjection: {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm"},
     currentView: "import",
+    cylinderId: null,
     drawnModels: [],
     drawName: "",
     extrudedHeight: 20,
