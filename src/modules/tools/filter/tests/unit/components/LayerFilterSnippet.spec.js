@@ -596,4 +596,54 @@ describe("src/modules/tools/filter/components/LayerFilterSnippet.vue", () => {
             expect(registerMapMoveListener.called).to.be.true;
         });
     });
+    describe("unregisterMapMoveListener", () => {
+        it("should not call the function unregisterMapMoveListener", async () => {
+            const unregisterMapMoveListener = sinon.stub(wrapper.vm, "unregisterMapMoveListener");
+
+            LayerFilterSnippet.methods.unregisterMapMoveListener = unregisterMapMoveListener;
+
+            wrapper = shallowMount(LayerFilterSnippet, {
+                propsData: {
+                    layerConfig: {
+                        service: {
+                            type: "something external"
+                        }
+                    },
+                    mapHandler
+                },
+                localVue
+            });
+
+            await wrapper.vm.$nextTick();
+            wrapper.destroy();
+
+            expect(wrapper.vm.unregisterMapMoveListener).to.be.a("function");
+            expect(unregisterMapMoveListener.notCalled).to.be.true;
+        });
+
+        it("should call the function unregisterMapMoveListener", async () => {
+            const unregisterMapMoveListener = sinon.stub(wrapper.vm, "unregisterMapMoveListener");
+
+            LayerFilterSnippet.methods.registerMapMoveListener = unregisterMapMoveListener;
+
+            wrapper = shallowMount(LayerFilterSnippet, {
+                propsData: {
+                    layerConfig: {
+                        service: {
+                            type: "something external"
+                        },
+                        filterOnMove: true,
+                        strategy: "active"
+                    },
+                    mapHandler
+                },
+                localVue
+            });
+
+            await wrapper.vm.$nextTick();
+            wrapper.destroy();
+
+            expect(unregisterMapMoveListener.called).to.be.true;
+        });
+    });
 });

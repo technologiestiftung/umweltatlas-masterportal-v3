@@ -216,6 +216,11 @@ export default {
         }
         refreshLayerTree();
     },
+    beforeDestroy () {
+        if (this.layerConfig.filterOnMove === true && this.layerConfig?.strategy === "active") {
+            this.unregisterMapMoveListener();
+        }
+    },
     methods: {
         isRule,
         translateKeyWithPlausibilityCheck,
@@ -708,19 +713,21 @@ export default {
             store.dispatch("Maps/registerListener", {type: "moveend", listener: this.updateSnippets.bind(this)});
         },
         /**
+         * Unregistering this map moveend listener.
+         * @returns {void}
+         */
+        unregisterMapMoveListener () {
+            store.dispatch("Maps/unregisterListener", {type: "moveend", listener: this.updateSnippets.bind(this)});
+        },
+        /**
          * Update the snippets with adjustment
          * @returns {void}
          */
         updateSnippets () {
-            const snippetIds = [];
-
-            this.snippets.forEach(snippet => {
-                snippetIds.push(snippet.snippetId);
+            this.$nextTick(() => {
+                this.isLockedHandleActiveStrategy = false;
+                this.handleActiveStrategy();
             });
-
-            if (snippetIds.length) {
-                this.handleActiveStrategy(snippetIds);
-            }
         },
         /**
          * Terminating the filter process by terminating every snippet
