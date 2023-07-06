@@ -419,7 +419,10 @@
                         "povInfo": "Hier hest du de Mööglichkeit, sik in de Sicht vun en Footgänger to versetten. Gah eenfach op de vörsehn Positschoon op de Kaart un beglööv dien Utwahl dör Anklicken vun den Knoop. <br><br>In düsse Ansicht kannst du sück mit de Muus ümkieken. Üm torüch to de Utgangspositschoon torüchtokehren, drück de Escape-Taste (ESC).",
                         "projectionInfo": "Oppepas! Wenn du dat WGS84-Koordinatensystem bruukst, köönt Fehlers in de Genauigkeit opträen. Wi raadt an, dekommaale Notatschoon to bruk'n.",
                         "rotationPlaceholder": "Inkrassieren/Unkrassieren vun Schritten",
+                        "rotation": "Dreehn",
+                        "rotationSwitch": "Dreeh-Schritten",
                         "scale": "Skalierung",
+                        "steps": "Schritte",
                         "visibilityTitle": "3D-Model \"{{name}}\" wiesen/verstecken",
                         "zoomTo": "3D-Model \"{{name}}\" inzoomen"
                     },
@@ -439,9 +442,7 @@
                             "northingLabel": "Breedengrod"
                         },
                         "height": "Höögte",
-                        "projection": "Koordinatensystem",
-                        "rotation": "Dreehn",
-                        "rotationSwitch": "Dreeh-Schritten"
+                        "projection": "Koordinatensystem"
                     }
                 },
                 "import": {

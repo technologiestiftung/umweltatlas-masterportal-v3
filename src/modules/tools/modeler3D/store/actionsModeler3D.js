@@ -16,9 +16,9 @@ const actions = {
             modelIndex = stateArray.findIndex(x => x.id === id);
 
         if (modelIndex > -1 && entity) {
+            commit("setCurrentModelId", null);
             stateArray.splice(modelIndex, 1);
             entities.removeById(id);
-            commit("setCurrentModelId", null);
         }
     },
     /**
@@ -160,7 +160,7 @@ const actions = {
                 dispatch("createCylinder", {
                     position: position,
                     posIndex: index,
-                    length: entity.polygon.extrudedHeight,
+                    length: entity.polygon.extrudedHeight + 4,
                     heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND
                 });
             });
@@ -172,7 +172,7 @@ const actions = {
             positionIndex: positionObj.posIndex,
             cylinder: {
                 material: new Cesium.ColorMaterialProperty(Cesium.Color.RED),
-                bottomRadius: 0.0,
+                bottomRadius: 0.1,
                 topRadius: 1,
                 length: positionObj.length ? positionObj.length : 20,
                 heightReference: positionObj.heightReference ? positionObj.heightReference : Cesium.HeightReference.NONE

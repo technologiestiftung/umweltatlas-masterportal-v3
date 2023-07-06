@@ -600,7 +600,10 @@
                         "povInfo": "Here you have the possibility to put yourself in the view of a pedestrian. Simply click on the desired position in the map and confirm your selection by clicking on the button. <br><br>In this view you can look around with the mouse. To return to the starting position, press the Escape key (ESC).",
                         "projectionInfo": "Attention! When using the WGS84 coordinate system, there may be inaccuracies. We recommend using decimal notation.",
                         "rotationPlaceholder": "Increment/Decrement steps",
+                        "rotation": "Rotation",
+                        "rotationSwitch": "Rotation Steps",
                         "scale": "Scale",
+                        "steps": "Steps",
                         "visibilityTitle": "Show/Hide 3D Model \"{{name}}\"",
                         "zoomTo": "Zoom to 3D Model \"{{name}}\""
                     },
@@ -620,9 +623,7 @@
                             "northingLabel": "Latitude"
                         },
                         "height": "Height",
-                        "projection": "Coordinate System",
-                        "rotation": "Rotation",
-                        "rotationSwitch": "Rotation Steps"
+                        "projection": "Coordinate System"
                     }
                 },
                 "import": {

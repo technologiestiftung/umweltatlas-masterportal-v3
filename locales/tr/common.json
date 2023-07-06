@@ -418,7 +418,10 @@
                         "povInfo": "Burada kendinizi bir yayanın yerine koyma imkanına sahipsiniz. Harita üzerinde istediğiniz konuma tıklamanız ve düğmeye tıklayarak seçiminizi onaylamanız yeterlidir. <br><br>Bu görünümde fare ile etrafa bakabilirsiniz. Başlangıç konumuna dönmek için kaçış tuşuna (ESC) basın.",
                         "projectionInfo": "Dikkat! WGS84 koordinat sistemi kullanırken hatalar oluşabilir. Ondalık gösterimi kullanmanızı öneririz.",
                         "rotationPlaceholder": "Artış/Azalış adımları",
+                        "rotation": "Döndürme",
+                        "rotationSwitch": "Döndürme Adımları",
                         "scale": "Ölçek",
+                        "steps": "Adımlar",
                         "visibilityTitle": "3D Modeli Göster/Gizle \"{{name}}\"",
                         "zoomTo": "3D Modeline Yakınlaş \"{{name}}\""
                     },
@@ -438,9 +441,7 @@
                             "northingLabel": "Enlem"
                         },
                         "height": "Yükseklik",
-                        "projection": "Koordinat Sistemi",
-                        "rotation": "Döndürme",
-                        "rotationSwitch": "Döndürme Adımları"
+                        "projection": "Koordinat Sistemi"
                     }
                 },
                 "import": {

@@ -138,7 +138,8 @@ export default {
                         outline: true,
                         outlineWidth: 1,
                         outlineColor: Cesium.Color[this.selectedOutlineColor].withAlpha(this.opacity),
-                        extrudedHeight: this.extrudedHeight
+                        extrudedHeight: this.extrudedHeight,
+                        extrudedHeightReference: Cesium.HeightReference.RELATIVE_TO_GROUND
                     }
                 });
             }

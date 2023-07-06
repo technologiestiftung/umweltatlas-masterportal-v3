@@ -587,7 +587,10 @@
                         "povInfo": "Qui avete la possibilità di mettervi nella visuale di un pedone. È sufficiente fare clic sulla posizione desiderata sulla mappa e confermare la selezione facendo clic sul pulsante. <br><br>In questa visuale è possibile guardarsi intorno con il mouse. Per tornare alla posizione iniziale, premere il tasto di escape (ESC).",
                         "projectionInfo": "Attenzione! Quando si utilizza il sistema di coordinate WGS84, potrebbero verificarsi imprecisioni. Si consiglia di utilizzare la notazione decimale.",
                         "rotationPlaceholder": "Incremento/Decremento passi",
+                        "rotation": "Rotazione",
+                        "rotationSwitch": "Passi di rotazione",
                         "scale": "Scala",
+                        "steps": "Passi",
                         "visibilityTitle": "Mostra/Nascondi modello 3D \"{{name}}\"",
                         "zoomTo": "Zoom al modello 3D \"{{name}}\""
                     },
@@ -607,9 +610,7 @@
                             "northingLabel": "Latitudine"
                         },
                         "height": "Altezza",
-                        "projection": "Sistema di coordinate",
-                        "rotation": "Rotazione",
-                        "rotationSwitch": "Passi di rotazione"
+                        "projection": "Sistema di coordinate"
                     }
                 },
                 "import": {

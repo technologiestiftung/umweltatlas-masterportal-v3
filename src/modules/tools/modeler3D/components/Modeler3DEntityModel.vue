@@ -3,53 +3,78 @@ import {mapActions, mapGetters, mapMutations} from "vuex";
 import actions from "../store/actionsModeler3D";
 import getters from "../store/gettersModeler3D";
 import mutations from "../store/mutationsModeler3D";
+import EntityAttribute from "./ui/EntityAttribute.vue";
+import EntityAttributeSlider from "./ui/EntityAttributeSlider.vue";
 
 export default {
     name: "Modeler3DEntityModel",
-    data () {
-        return {
-            rotationClickValue: 5,
-            rotationDropdownValues: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-        };
+    components: {
+        EntityAttribute,
+        EntityAttributeSlider
     },
     computed: {
         ...mapGetters("Tools/Modeler3D", Object.keys(getters)),
+
+        nameString: {
+            get () {
+                return this.getModelNameById(this.currentModelId);
+            },
+            set (value) {
+                this.setModelName(value);
+            }
+        },
         /**
          * The rotation angle of the entity.
-         * @type {number}
-         * @name rotationAngle
+         * @type {string}
+         * @name rotationString
          * @memberof Modeler3DEntityModel
          * @vue-computed
          * @vue-prop {number} rotation - The current rotation angle.
          * @vue-propsetter {number} rotation - Sets the rotation angle, clamping it between -180 and 180 degrees.
          */
-        rotationAngle: {
+        rotationString: {
             get () {
-                return this.rotation;
+                return this.rotation.toString();
             },
             set (value) {
-                let adjustedValue = value;
+                let adjustedValue = parseInt(value, 10);
 
-                if (value < -180) {
+                if (adjustedValue < -180) {
                     adjustedValue = -180;
                 }
-                else if (value > 180) {
+                else if (adjustedValue > 180) {
                     adjustedValue = 180;
                 }
                 this.setRotation(adjustedValue);
+                this.rotate();
             }
         },
-        scaleVal: {
+        scaleString: {
             get () {
-                return parseFloat(this.scale);
+                return this.scale.toFixed(1);
             },
             set (value) {
-                let adjustedValue = value;
+                let adjustedValue = parseFloat(value.split());
 
-                if (value < 0.1) {
+                if (adjustedValue < 0.1) {
                     adjustedValue = 0.1;
                 }
                 this.setScale(adjustedValue);
+                this.entities.getById(this.currentModelId).model.scale = this.scale;
+            }
+        },
+        extrudedHeightString: {
+            get () {
+                return this.extrudedHeight.toFixed(2) + "m";
+            },
+            set (value) {
+                let adjustedValue = parseFloat(value.split("m")[0]);
+
+                if (adjustedValue < 0.01) {
+                    adjustedValue = 0.01;
+                }
+                this.setExtrudedHeight(adjustedValue);
+                this.entities.getById(this.currentModelId).polygon.extrudedHeight = this.extrudedHeight;
             }
         },
         eastingString: {
@@ -155,16 +180,12 @@ export default {
         rotate () {
             const entities = this.entities,
                 entity = entities.getById(this.currentModelId),
-                heading = Cesium.Math.toRadians(parseInt(this.rotationAngle, 10)),
-                modelOrigin = entity.wasDrawn ? this.drawnModels : this.importedModels,
+                heading = Cesium.Math.toRadians(this.rotation),
                 position = entity.wasDrawn ? entity.polygon.hierarchy.getValue().positions[0] : entity.position.getValue(),
-                modelFromState = modelOrigin.find(model => model.id === this.currentModelId),
                 orientationMatrix = Cesium.Transforms.headingPitchRollQuaternion(
                     position,
                     new Cesium.HeadingPitchRoll(heading, 0, 0)
                 );
-
-            modelFromState.heading = parseInt(this.rotationAngle, 10);
 
             if (entity.wasDrawn) {
                 const hierarchy = entity.polygon.hierarchy.getValue(),
@@ -183,66 +204,6 @@ export default {
             else {
                 entity.orientation = orientationMatrix;
             }
-        },
-        /**
-         * Decrements the rotationAngle property by the value of rotationClickValue.
-         * Updates the rotationAngle property and calls the rotate method to apply the rotation.
-         * @returns {void}
-         */
-        decrementAngle () {
-            const newRotationAngle = parseInt(this.rotationAngle, 10) - parseInt(this.rotationClickValue, 10);
-
-            this.rotationAngle = Math.max(newRotationAngle, -180);
-            this.rotate();
-        },
-        /**
-         * Increments the rotationAngle property by the value of rotationClickValue.
-         * Updates the rotationAngle property and calls the rotate method to apply the rotation.
-         * @returns {void}
-         */
-        incrementAngle () {
-            const newRotationAngle = parseInt(this.rotationAngle, 10) + parseInt(this.rotationClickValue, 10);
-
-            this.rotationAngle = Math.min(newRotationAngle, 180);
-            this.rotate();
-        },
-        /**
-         * Scales the current model based on the value of the scaleVal property.
-         * Updates the scale of the model.
-         * @returns {void}
-         */
-        changeScale () {
-            const entities = this.entities,
-                entity = entities.getById(this.currentModelId),
-                modelOrigin = entity.wasDrawn ? this.drawnModels : this.importedModels,
-                modelFromState = modelOrigin.find(model => model.id === this.currentModelId);
-
-            modelFromState.scale = this.scaleVal;
-            entity.model.scale = this.scaleVal;
-        },
-        /**
-         * Decrements the scaleVal property by the value of 0.1. 1 if Shift is pressed.
-         * Updates the scaleVal property and calls the changeScale method to apply the scale.
-         * @param {string} shift - If the shift modifier is active.
-         * @returns {void}
-         */
-        decrementScale (shift = false) {
-            const newScale = shift ? this.scaleVal - 1 : this.scaleVal - 0.1;
-
-            this.scaleVal = newScale.toFixed(1);
-            this.changeScale();
-        },
-        /**
-         * Increments the scaleVal property by the value of 0.1. 1 if Shift is pressed.
-         * Updates the scaleVal property and calls the changeScale method to apply the scale.
-         * @param {string} shift - If the shift modifier is active.
-         * @returns {void}
-         */
-        incrementScale (shift = false) {
-            const newScale = shift ? this.scaleVal + 1 : this.scaleVal + 0.1;
-
-            this.scaleVal = newScale.toFixed(1);
-            this.changeScale();
         }
     }
 };
@@ -265,26 +226,13 @@ export default {
             v-html="$t('modules.tools.modeler3D.entity.captions.projectionInfo')"
         />
         <div class="h-seperator" />
-        <div
-            id="model-name"
-            class="form-group form-group-sm row"
-        >
-            <label
-                class="col-md-5 col-form-label"
-                for="model-name"
-            >
-                {{ $t("modules.tools.modeler3D.entity.captions.modelName") }}
-            </label>
-            <div class="col-md-7">
-                <input
-                    id="model-name"
-                    class="form-control form-control-sm"
-                    type="text"
-                    :value="getModelNameById(currentModelId)"
-                    @input="setModelName($event.target.value)"
-                >
-            </div>
-        </div>
+        <EntityAttribute
+            v-model="nameString"
+            title="model-name"
+            :label="$t('modules.tools.modeler3D.entity.captions.modelName')"
+            :width-classes="['col-md-5', 'col-md-7']"
+            :buttons="false"
+        />
         <div class="h-seperator" />
         <div
             id="projection"
@@ -313,141 +261,44 @@ export default {
                 </select>
             </div>
         </div>
-        <div class="h-seperator" />
         <div id="position">
-            <div
-                id="easting"
-                class="form-group form-group-sm row"
-            >
-                <label
-                    class="col-md-5 col-form-label"
-                    for="eastingField"
-                >
-                    {{ $t(getLabel("eastingLabel")) }}
-                </label>
-                <div class="col-md-7 position-control">
-                    <input
-                        id="eastingField"
-                        v-model="eastingString"
-                        class="form-control form-control-sm position-input"
-                        type="text"
-                    >
-                    <div
-                        v-if="currentProjection.id !== 'http://www.opengis.net/gml/srs/epsg.xml#4326'"
-                        id="easting-buttons"
-                    >
-                        <button
-                            class="btn btn-primary btn-sm btn-pos"
-                            :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
-                            @click.exact="wasDrawn ? movePolygon({ direction: 'easting', operation: 'increment', shift: false}) : eastingString = prettyCoord(coordinateEasting + coordAdjusted({shift: false, coordType: 'easting'}))"
-                            @click.shift="wasDrawn ? movePolygon({ direction: 'easting', operation: 'increment', shift: true}) : eastingString = prettyCoord(coordinateEasting + coordAdjusted({shift: true, coordType: 'easting'}))"
-                        >
-                            <i
-                                class="bi bi-arrow-up"
-                            />
-                        </button>
-                        <button
-                            class="btn btn-primary btn-sm btn-pos"
-                            :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
-                            @click.exact="wasDrawn ? movePolygon({ direction: 'easting', operation: 'decrement', shift: false}) : eastingString = prettyCoord(coordinateEasting - coordAdjusted({shift: false, coordType: 'easting'}))"
-                            @click.shift="wasDrawn ? movePolygon({ direction: 'easting', operation: 'decrement', shift: true}) : eastingString = prettyCoord(coordinateEasting - coordAdjusted({shift: true, coordType: 'easting'}))"
-                        >
-                            <i
-                                class="bi bi-arrow-down"
-                            />
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div
-                id="northing"
-                class="form-group form-group-sm row"
-            >
-                <label
-                    class="col-md-5 col-form-label"
-                    for="northingField"
-                >
-                    {{ $t(getLabel("northingLabel")) }}
-                </label>
-                <div class="col-md-7 position-control">
-                    <input
-                        id="northingField"
-                        v-model="northingString"
-                        class="form-control form-control-sm position-input"
-                        type="text"
-                    >
-                    <div
-                        v-if="currentProjection.id !== 'http://www.opengis.net/gml/srs/epsg.xml#4326'"
-                        id="northing-buttons"
-                    >
-                        <button
-                            class="btn btn-primary btn-sm btn-pos"
-                            :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
-                            @click.exact="wasDrawn ? movePolygon({ direction: 'northing', operation: 'increment', shift: false}) : northingString = prettyCoord(coordinateNorthing + coordAdjusted({shift: false, coordType: 'northing'}))"
-                            @click.shift="wasDrawn ? movePolygon({ direction: 'northing', operation: 'increment', shift: true}) : northingString = prettyCoord(coordinateNorthing + coordAdjusted({shift: true, coordType: 'northing'}))"
-                        >
-                            <i
-                                class="bi bi-arrow-up"
-                            />
-                        </button>
-                        <button
-                            class="btn btn-primary btn-sm btn-pos"
-                            :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
-                            @click.exact="wasDrawn ? movePolygon({ direction: 'northing', operation: 'decrement', shift: false}) : northingString = prettyCoord(coordinateNorthing - coordAdjusted({shift: false, coordType: 'northing'}))"
-                            @click.shift="wasDrawn ? movePolygon({ direction: 'northing', operation: 'decrement', shift: true}) : northingString = prettyCoord(coordinateNorthing - coordAdjusted({shift: true, coordType: 'northing'}))"
-                        >
-                            <i
-                                class="bi bi-arrow-down"
-                            />
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div
-                id="height"
-                class="row"
-            >
-                <label
-                    class="col-md-5 col-form-label"
-                    for="heightField"
-                >
-                    {{ $t("modules.tools.modeler3D.entity.projections.height") }}
-                </label>
-                <div class="col-md-6 position-control">
-                    <input
-                        id="heightField"
-                        v-model="heightString"
-                        class="form-control form-control-sm position-input"
-                        type="text"
-                        :disabled="adaptToHeight"
-                    >
-                    <div
-                        v-if="!adaptToHeight"
-                        id="height-buttons"
-                    >
-                        <button
-                            class="btn btn-primary btn-sm btn-pos"
-                            :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
-                            @click.exact="wasDrawn ? movePolygon({ direction: 'height', operation: 'increment', shift: false}) : heightString = prettyCoord(height + coordAdjusted({shift: false, coordType: 'height'}))"
-                            @click.shift="wasDrawn ? movePolygon({ direction: 'height', operation: 'increment', shift: true}) : heightString = prettyCoord(height + coordAdjusted({shift: true, coordType: 'height'}))"
-                        >
-                            <i
-                                class="bi bi-arrow-up"
-                            />
-                        </button>
-                        <button
-                            class="btn btn-primary btn-sm btn-pos"
-                            :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
-                            @click.exact="wasDrawn ? movePolygon({ direction: 'height', operation: 'decrement', shift: false}) : heightString = prettyCoord(height - coordAdjusted({shift: false, coordType: 'height'}))"
-                            @click.shift="wasDrawn ? movePolygon({ direction: 'height', operation: 'decrement', shift: true}) : heightString = prettyCoord(height - coordAdjusted({shift: true, coordType: 'height'}))"
-                        >
-                            <i
-                                class="bi bi-arrow-down"
-                            />
-                        </button>
-                    </div>
-                </div>
-            </div>
+            <div class="h-seperator" />
+            <EntityAttribute
+                v-model="eastingString"
+                title="easting"
+                :label="$t(getLabel('eastingLabel'))"
+                :width-classes="['col-md-5', 'col-md-7']"
+                :buttons="currentProjection.id !== 'http://www.opengis.net/gml/srs/epsg.xml#4326'"
+                @increment="wasDrawn ? movePolygon({ direction: 'easting', operation: 'increment', shift: false}) : eastingString = prettyCoord(coordinateEasting + coordAdjusted({shift: false, coordType: 'easting'}))"
+                @increment-shift="wasDrawn ? movePolygon({ direction: 'easting', operation: 'increment', shift: true}) : eastingString = prettyCoord(coordinateEasting + coordAdjusted({shift: true, coordType: 'easting'}))"
+                @decrement="wasDrawn ? movePolygon({ direction: 'easting', operation: 'decrement', shift: false}) : eastingString = prettyCoord(coordinateEasting - coordAdjusted({shift: false, coordType: 'easting'}))"
+                @decrement-shift="wasDrawn ? movePolygon({ direction: 'easting', operation: 'decrement', shift: true}) : eastingString = prettyCoord(coordinateEasting - coordAdjusted({shift: true, coordType: 'easting'}))"
+            />
+            <EntityAttribute
+                v-model="northingString"
+                title="northing"
+                :label="$t(getLabel('northingLabel'))"
+                :width-classes="['col-md-5', 'col-md-7']"
+                :buttons="currentProjection.id !== 'http://www.opengis.net/gml/srs/epsg.xml#4326'"
+                @increment="wasDrawn ? movePolygon({ direction: 'northing', operation: 'increment', shift: false}) : northingString = prettyCoord(coordinateNorthing + coordAdjusted({shift: false, coordType: 'northing'}))"
+                @increment-shift="wasDrawn ? movePolygon({ direction: 'northing', operation: 'increment', shift: true}) : northingString = prettyCoord(coordinateNorthing + coordAdjusted({shift: true, coordType: 'northing'}))"
+                @decrement="wasDrawn ? movePolygon({ direction: 'northing', operation: 'decrement', shift: false}) : northingString = prettyCoord(coordinateNorthing - coordAdjusted({shift: false, coordType: 'northing'}))"
+                @decrement-shift="wasDrawn ? movePolygon({ direction: 'northing', operation: 'decrement', shift: true}) : northingString = prettyCoord(coordinateNorthing - coordAdjusted({shift: true, coordType: 'northing'}))"
+            />
+            <EntityAttribute
+                v-model="heightString"
+                title="height"
+                :label="$t('modules.tools.modeler3D.entity.projections.height')"
+                :width-classes="['col-md-5', 'col-md-6']"
+                :keep-height="true"
+                :buttons="!adaptToHeight"
+                :disabled="adaptToHeight"
+                :form-group="false"
+                @increment="wasDrawn ? movePolygon({ direction: 'height', operation: 'increment', shift: false}) : heightString = prettyCoord(height + coordAdjusted({shift: false, coordType: 'height'}))"
+                @increment-shift="wasDrawn ? movePolygon({ direction: 'height', operation: 'increment', shift: true}) : heightString = prettyCoord(height + coordAdjusted({shift: true, coordType: 'height'}))"
+                @decrement="wasDrawn ? movePolygon({ direction: 'height', operation: 'decrement', shift: false}) : heightString = prettyCoord(height - coordAdjusted({shift: false, coordType: 'height'}))"
+                @decrement-shift="wasDrawn ? movePolygon({ direction: 'height', operation: 'decrement', shift: true}) : heightString = prettyCoord(height - coordAdjusted({shift: true, coordType: 'height'}))"
+            />
             <div
                 id="adapt-check"
                 class="form-group form-group-sm row"
@@ -470,130 +321,48 @@ export default {
         </div>
         <div
             v-if="!wasDrawn"
-            class="h-seperator"
-        />
-        <div
-            v-if="!wasDrawn"
             id="rotation"
         >
-            <div class="form-group form-group-sm row">
-                <label
-                    class="col-md-8 col-form-label"
-                    for="tool-edit-rotation"
-                >
-                    {{ $t("modules.tools.modeler3D.entity.projections.rotation") }}
-                </label>
-                <div class="col-md-3">
-                    <input
-                        id="tool-edit-rotation"
-                        v-model="rotationAngle"
-                        class="form-control form-control-sm"
-                        type="text"
-                        @input="rotate"
-                    >
-                </div>
-            </div>
-            <div class="form-group form-group-sm row">
-                <div class="position-control">
-                    <button
-                        class="btn btn-primary btn-sm"
-                        @click="decrementAngle"
-                    >
-                        <i
-                            class="bi bi-arrow-left"
-                        />
-                    </button>
-                    <input
-                        id="tool-edit-rotation-slider"
-                        v-model="rotationAngle"
-                        aria-label="rotationSlider"
-                        class="font-arial form-range"
-                        type="range"
-                        min="-180"
-                        max="180"
-                        step="1"
-                        @input="rotate"
-                    >
-                    <button
-                        class="btn btn-primary btn-sm"
-                        @click="incrementAngle"
-                    >
-                        <i
-                            class="bi bi-arrow-right"
-                        />
-                    </button>
-                </div>
-            </div>
-            <div class="form-group form-group-sm row">
-                <label
-                    class="col-md-7 col-form-label"
-                    for="tool-edit-rotation-switch"
-                >
-                    {{ $t("modules.tools.modeler3D.entity.projections.rotationSwitch") }}
-                </label>
-                <div class="col-md-4">
-                    <select
-                        v-model="rotationClickValue"
-                        class="form-select form-select-sm"
-                        aria-label="rotationClickValue"
-                    >
-                        <option
-                            v-for="value in rotationDropdownValues"
-                            :key="value"
-                            :value="value"
-                        >
-                            {{ value }}
-                        </option>
-                    </select>
-                </div>
-            </div>
+            <div class="h-seperator" />
+            <EntityAttribute
+                v-model="rotationString"
+                :label="$t('modules.tools.modeler3D.entity.captions.rotation')"
+                :width-classes="['col-md-8', 'col-md-3']"
+                :buttons="false"
+            />
+            <EntityAttributeSlider
+                v-model="rotationString"
+                title="rotation"
+                :label="$t('modules.tools.modeler3D.entity.captions.rotationSwitch')"
+                @increment="val => rotationString = rotation + val"
+                @decrement="val => rotationString = rotation - val"
+            />
         </div>
-        <div
-            v-if="!wasDrawn"
-            class="h-seperator"
-        />
-        <div
-            v-if="!wasDrawn"
-            id="scale"
-            class="form-group form-group-sm row"
-        >
-            <label
-                class="col-md-8 col-form-label"
-                for="scaleField"
-            >
-                {{ $t("modules.tools.modeler3D.entity.captions.scale") }}
-            </label>
-            <div class="col-md-4 position-control">
-                <input
-                    id="scaleField"
-                    v-model="scale"
-                    class="form-control form-control-sm position-input"
-                    type="text"
-                    @input="changeScale"
-                >
-                <div>
-                    <button
-                        class="btn btn-primary btn-sm btn-pos"
-                        :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
-                        @click.exact="incrementScale()"
-                        @click.shift="incrementScale(true)"
-                    >
-                        <i
-                            class="bi bi-arrow-up"
-                        />
-                    </button>
-                    <button
-                        class="btn btn-primary btn-sm btn-pos"
-                        :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
-                        @click.exact="decrementScale()"
-                        @click.shift="decrementScale(true)"
-                    >
-                        <i
-                            class="bi bi-arrow-down"
-                        />
-                    </button>
-                </div>
-            </div>
+        <div v-if="!wasDrawn">
+            <div class="h-seperator" />
+            <EntityAttribute
+                v-model="scaleString"
+                title="scale"
+                :label="$t('modules.tools.modeler3D.entity.captions.scale')"
+                :width-classes="['col-md-8', 'col-md-4']"
+                @increment="scaleString = (scale + 0.1).toFixed(1)"
+                @increment-shift="scaleString = (scale + 1).toFixed(1)"
+                @decrement="scaleString = (scale - 0.1).toFixed(1)"
+                @decrement-shift="scaleString = (scale - 1).toFixed(1)"
+            />
+        </div>
+        <div v-if="wasDrawn">
+            <div class="h-seperator" />
+            <EntityAttribute
+                v-model="extrudedHeightString"
+                title="extruded-height"
+                :label="$t('modules.tools.modeler3D.draw.captions.extrudedHeight')"
+                :width-classes="['col-md-8', 'col-md-4']"
+                @increment="extrudedHeightString = (extrudedHeight + 0.1).toFixed(2)"
+                @increment-shift="extrudedHeightString = (extrudedHeight + 1).toFixed(2)"
+                @decrement="extrudedHeightString = (extrudedHeight - 0.1).toFixed(2)"
+                @decrement-shift="extrudedHeightString = (extrudedHeight - 1).toFixed(2)"
+            />
         </div>
         <div class="h-seperator" />
         <div
