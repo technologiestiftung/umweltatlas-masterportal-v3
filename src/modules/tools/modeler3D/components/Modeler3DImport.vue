@@ -205,6 +205,7 @@ export default {
                             entity.polygon.height = properties.height;
                             entity.polygon.extrudedHeight = properties.extrudedHeight;
                             entity.polygon.extrudedHeightReference = properties.extrudedHeightReference;
+                            entity.polygon.shadows = Cesium.ShadowMode.ENABLED;
 
                             entities.add(entity);
                             this.drawnModels.push({

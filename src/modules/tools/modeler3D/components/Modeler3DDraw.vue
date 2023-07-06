@@ -144,6 +144,7 @@ export default {
                         outline: true,
                         outlineWidth: 1,
                         outlineColor: Cesium.Color[this.selectedOutlineColor].withAlpha(this.opacity),
+                        shadows: Cesium.ShadowMode.ENABLED,
                         extrudedHeight: this.extrudedHeight,
                         extrudedHeightReference: Cesium.HeightReference.RELATIVE_TO_GROUND
                     }
