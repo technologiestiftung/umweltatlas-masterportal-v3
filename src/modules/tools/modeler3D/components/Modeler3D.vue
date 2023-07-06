@@ -134,6 +134,7 @@ export default {
 
                     if (newEntity.wasDrawn) {
                         this.generateCylinders();
+                        this.setActiveShapePoints(newEntity.polygon.hierarchy.getValue().positions);
                         newEntity.polygon.hierarchy = new Cesium.CallbackProperty(() => {
                             return new Cesium.PolygonHierarchy(this.activeShapePoints);
                         }, false);

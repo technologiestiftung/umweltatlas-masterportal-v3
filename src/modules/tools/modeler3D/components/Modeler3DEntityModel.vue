@@ -110,6 +110,62 @@ export default {
                 this.updateEntityPosition();
             }
         },
+        movePolygon ({direction, operation, shift}) {
+            const entities = this.entities,
+                entity = entities.getById(this.currentModelId),
+                cylinders = entities.values.filter(ent => ent.cylinder);
+
+            let center = null;
+
+            if (entity && entity.wasDrawn && entity.polygon && entity.polygon.hierarchy) {
+                const hierarchy = entity.polygon.hierarchy.getValue(),
+                    value = operation === "increment" ? this.coordAdjusted({shift: shift, coordType: direction}) : -this.coordAdjusted({shift: shift, coordType: direction});
+
+                if (direction === "northing") {
+                    for (let i = 0; i < hierarchy.positions.length; i++) {
+                        this.transformFromCartesian(hierarchy.positions[i]);
+                        this.setCoordinateNorthing(this.coordinateNorthing + value);
+                        this.transformToCartesian();
+                        hierarchy.positions[i] = this.currentModelPosition;
+                        cylinders[i].position = this.currentModelPosition;
+                    }
+                }
+                else if (direction === "easting") {
+                    for (let i = 0; i < hierarchy.positions.length; i++) {
+                        this.transformFromCartesian(hierarchy.positions[i]);
+                        this.setCoordinateEasting(this.coordinateEasting + value);
+                        this.transformToCartesian();
+                        hierarchy.positions[i] = this.currentModelPosition;
+                        cylinders[i].position = this.currentModelPosition;
+                    }
+                }
+                else if (direction === "height") {
+                    for (let i = 0; i < hierarchy.positions.length; i++) {
+                        this.transformFromCartesian(hierarchy.positions[i]);
+                        this.setCoordinateEasting(this.height + value);
+                        this.transformToCartesian();
+                        hierarchy.positions[i] = this.currentModelPosition;
+                        cylinders[i].position = this.currentModelPosition;
+                    }
+                }
+
+                center = hierarchy.positions.reduce(
+                    (sum, position) => {
+                        sum.x += position.x;
+                        sum.y += position.y;
+                        sum.z += position.z;
+                        return sum;
+                    },
+                    {x: 0, y: 0, z: 0}
+                );
+
+                center.x /= hierarchy.positions.length;
+                center.y /= hierarchy.positions.length;
+                center.z /= hierarchy.positions.length;
+
+                this.transformFromCartesian(center);
+            }
+        },
         /**
          * Rotates the current model based on the value of the rotationAngle property.
          * Updates the heading of the model and sets its orientation using the calculated quaternion.
@@ -294,7 +350,6 @@ export default {
                         v-model="eastingString"
                         class="form-control form-control-sm position-input"
                         type="text"
-                        @input="updateEntityPosition"
                     >
                     <div
                         v-if="currentProjection.id !== 'http://www.opengis.net/gml/srs/epsg.xml#4326'"
@@ -303,8 +358,8 @@ export default {
                         <button
                             class="btn btn-primary btn-sm btn-pos"
                             :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
-                            @click.exact="wasDrawn ? movePolygon({ direction: 'easting', value: 'increment'}) : eastingString = prettyCoord(coordinateEasting + coordAdjusted({shift: false, coordType: 'easting'}))"
-                            @click.shift="eastingString = prettyCoord(coordinateEasting + coordAdjusted({shift: true, coordType: 'easting'}))"
+                            @click.exact="wasDrawn ? movePolygon({ direction: 'easting', operation: 'increment', shift: false}) : eastingString = prettyCoord(coordinateEasting + coordAdjusted({shift: false, coordType: 'easting'}))"
+                            @click.shift="wasDrawn ? movePolygon({ direction: 'easting', operation: 'increment', shift: true}) : eastingString = prettyCoord(coordinateEasting + coordAdjusted({shift: true, coordType: 'easting'}))"
                         >
                             <i
                                 class="bi bi-arrow-up"
@@ -313,8 +368,8 @@ export default {
                         <button
                             class="btn btn-primary btn-sm btn-pos"
                             :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
-                            @click.exact="wasDrawn ? movePolygon({ direction: 'easting', value: 'decrement'}) : eastingString = prettyCoord(coordinateEasting - coordAdjusted({shift: false, coordType: 'easting'}))"
-                            @click.shift="eastingString = prettyCoord(coordinateEasting - coordAdjusted({shift: true, coordType: 'easting'}))"
+                            @click.exact="wasDrawn ? movePolygon({ direction: 'easting', operation: 'decrement', shift: false}) : eastingString = prettyCoord(coordinateEasting - coordAdjusted({shift: false, coordType: 'easting'}))"
+                            @click.shift="wasDrawn ? movePolygon({ direction: 'easting', operation: 'decrement', shift: true}) : eastingString = prettyCoord(coordinateEasting - coordAdjusted({shift: true, coordType: 'easting'}))"
                         >
                             <i
                                 class="bi bi-arrow-down"
@@ -347,8 +402,8 @@ export default {
                         <button
                             class="btn btn-primary btn-sm btn-pos"
                             :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
-                            @click.exact="wasDrawn ? movePolygon({ direction: 'northing', value: 'increment'}) : northingString = prettyCoord(coordinateNorthing + coordAdjusted({shift: false, coordType: 'northing'}))"
-                            @click.shift="northingString = prettyCoord(coordinateNorthing + coordAdjusted({shift: true, coordType: 'northing'}))"
+                            @click.exact="wasDrawn ? movePolygon({ direction: 'northing', operation: 'increment', shift: false}) : northingString = prettyCoord(coordinateNorthing + coordAdjusted({shift: false, coordType: 'northing'}))"
+                            @click.shift="wasDrawn ? movePolygon({ direction: 'northing', operation: 'increment', shift: true}) : northingString = prettyCoord(coordinateNorthing + coordAdjusted({shift: true, coordType: 'northing'}))"
                         >
                             <i
                                 class="bi bi-arrow-up"
@@ -357,8 +412,8 @@ export default {
                         <button
                             class="btn btn-primary btn-sm btn-pos"
                             :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
-                            @click.exact="wasDrawn ? movePolygon({ direction: 'northing', value: 'decrement'}) : northingString = prettyCoord(coordinateNorthing - coordAdjusted({shift: false, coordType: 'northing'}))"
-                            @click.shift="northingString = prettyCoord(coordinateNorthing - coordAdjusted({shift: true, coordType: 'northing'}))"
+                            @click.exact="wasDrawn ? movePolygon({ direction: 'northing', operation: 'decrement', shift: false}) : northingString = prettyCoord(coordinateNorthing - coordAdjusted({shift: false, coordType: 'northing'}))"
+                            @click.shift="wasDrawn ? movePolygon({ direction: 'northing', operation: 'decrement', shift: true}) : northingString = prettyCoord(coordinateNorthing - coordAdjusted({shift: true, coordType: 'northing'}))"
                         >
                             <i
                                 class="bi bi-arrow-down"
@@ -384,7 +439,6 @@ export default {
                         class="form-control form-control-sm position-input"
                         type="text"
                         :disabled="adaptToHeight"
-                        @input="updateEntityPosition"
                     >
                     <div
                         v-if="!adaptToHeight"
@@ -393,8 +447,8 @@ export default {
                         <button
                             class="btn btn-primary btn-sm btn-pos"
                             :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
-                            @click.exact="wasDrawn ? movePolygon({ direction: 'height', value: 'increment'}) : heightString = prettyCoord(height + coordAdjusted({shift: false, coordType: 'height'}))"
-                            @click.shift="heightString = prettyCoord(height + coordAdjusted({shift: true, coordType: 'height'}))"
+                            @click.exact="wasDrawn ? movePolygon({ direction: 'height', operation: 'increment', shift: false}) : heightString = prettyCoord(height + coordAdjusted({shift: false, coordType: 'height'}))"
+                            @click.shift="wasDrawn ? movePolygon({ direction: 'height', operation: 'increment', shift: true}) : heightString = prettyCoord(height + coordAdjusted({shift: true, coordType: 'height'}))"
                         >
                             <i
                                 class="bi bi-arrow-up"
@@ -403,8 +457,8 @@ export default {
                         <button
                             class="btn btn-primary btn-sm btn-pos"
                             :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
-                            @click.exact="wasDrawn ? movePolygon({ direction: 'height', value: 'decrement'}) : heightString = prettyCoord(height - coordAdjusted({shift: false, coordType: 'height'}))"
-                            @click.shift="heightString = prettyCoord(height - coordAdjusted({shift: true, coordType: 'height'}))"
+                            @click.exact="wasDrawn ? movePolygon({ direction: 'height', operation: 'decrement', shift: false}) : heightString = prettyCoord(height - coordAdjusted({shift: false, coordType: 'height'}))"
+                            @click.shift="wasDrawn ? movePolygon({ direction: 'height', operation: 'decrement', shift: true}) : heightString = prettyCoord(height - coordAdjusted({shift: true, coordType: 'height'}))"
                         >
                             <i
                                 class="bi bi-arrow-down"

@@ -147,66 +147,6 @@ const actions = {
 
         commit("setCurrentModelPosition", Cesium.Cartesian3.fromDegrees(coordinates[0], coordinates[1], height));
     },
-    movePolygon ({getters, state, dispatch}, {direction, value}) {
-        const entities = getters.entities,
-            entity = entities.getById(state.currentModelId),
-            cylinders = entities.values.filter(ent => ent.cylinder);
-        let center = null;
-
-        if (entity && entity.wasDrawn && entity.polygon && entity.polygon.hierarchy) {
-            const hierarchy = entity.polygon.hierarchy.getValue();
-
-            if (direction === "northing") {
-                const increment = value === "increment" ? 1 : -1;
-
-                for (let i = 0; i < hierarchy.positions.length; i++) {
-                    const position = hierarchy.positions[i],
-                        cylPosition = cylinders[i].position;
-
-                    position.x += increment;
-                    cylPosition.setValue(position);
-                }
-                // hierarchy.positions.forEach(position => {
-                //     position.x += increment;
-                // });
-                // cylinders.forEach(cyl => {
-                //     const cylPosition = cyl.position.getValue();
-
-                //     cyl.position.setValue({x: cylPosition.x += increment, y: cylPosition.y, z: cylPosition.z});
-                // });
-            }
-            else if (direction === "easting") {
-                const increment = value === "increment" ? 1 : -1;
-
-                hierarchy.positions.forEach(position => {
-                    position.y += increment;
-                });
-                cylinders.forEach(cyl => {
-                    const cylPosition = cyl.position.getValue();
-
-                    cyl.position.setValue({x: cylPosition.x += increment, y: cylPosition.y, z: cylPosition.z});
-                });
-            }
-
-            entity.polygon.hierarchy = hierarchy;
-
-            center = hierarchy.positions.reduce(
-                (sum, position) => {
-                    sum.x += position.x;
-                    sum.y += position.y;
-                    sum.z += position.z;
-                    return sum;
-                },
-                {x: 0, y: 0, z: 0}
-            );
-
-            center.x /= hierarchy.positions.length;
-            center.y /= hierarchy.positions.length;
-            center.z /= hierarchy.positions.length;
-
-            dispatch("transformFromCartesian", center);
-        }
-    },
     generateCylinders ({commit, dispatch, getters, state}) {
         const entities = getters.entities,
             entity = entities.getById(state.currentModelId);
