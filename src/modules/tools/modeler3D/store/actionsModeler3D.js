@@ -89,7 +89,7 @@ const actions = {
     updatePositionUI ({dispatch, getters, state}) {
         const entities = getters.entities,
             entity = entities.getById(state.currentModelId),
-            entityPosition = entity?.position?.getValue();
+            entityPosition = entity?.polygon ? getters.getCenterFromPolygon(entity) : entity?.position?.getValue();
 
         if (entityPosition) {
             dispatch("transformFromCartesian", entityPosition);
@@ -188,6 +188,14 @@ const actions = {
         pointEntities.forEach(entity => {
             entities.remove(entity);
         });
+    },
+    makeCylinderDynamic (_, {cylinder, position}) {
+        cylinder.cylinder.heightReference = Cesium.HeightReference.NONE;
+        cylinder.position = new Cesium.CallbackProperty(() => position, false);
+    },
+    resetCylinder (_, cylinder) {
+        cylinder.position = cylinder.position.getValue();
+        cylinder.cylinder.heightReference = Cesium.HeightReference.RELATIVE_TO_GROUND;
     }
 };
 

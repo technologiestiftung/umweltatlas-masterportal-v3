@@ -39,9 +39,7 @@ export default {
         draw () {
             this.setIsDrawing(true);
             this.createCylinder({
-                position: new Cesium.CallbackProperty(() => {
-                    return this.currentPosition;
-                }, false),
+                position: new Cesium.CallbackProperty(() => this.currentPosition, false),
                 posIndex: this.activeShapePoints.length,
                 length: this.extrudedHeight * 2
             });
@@ -79,9 +77,7 @@ export default {
                 }
                 floatingPoint.position = new Cesium.ConstantProperty(this.currentPosition);
                 this.createCylinder({
-                    position: new Cesium.CallbackProperty(() => {
-                        return this.currentPosition;
-                    }, false),
+                    position: new Cesium.CallbackProperty(() => this.currentPosition, false),
                     posIndex: this.activeShapePoints.length,
                     length: this.extrudedHeight * 2
                 });

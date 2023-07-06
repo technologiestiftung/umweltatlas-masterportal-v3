@@ -78,9 +78,6 @@ export default {
                 this.setHeight(this.formatCoord(value));
                 this.updateEntityPosition();
             }
-        },
-        wasDrawn () {
-            return this.entities.getById(this.currentModelId).wasDrawn;
         }
     },
     methods: {
@@ -115,8 +112,6 @@ export default {
                 entity = entities.getById(this.currentModelId),
                 cylinders = entities.values.filter(ent => ent.cylinder);
 
-            let center = null;
-
             if (entity && entity.wasDrawn && entity.polygon && entity.polygon.hierarchy) {
                 const hierarchy = entity.polygon.hierarchy.getValue(),
                     value = operation === "increment" ? this.coordAdjusted({shift: shift, coordType: direction}) : -this.coordAdjusted({shift: shift, coordType: direction});
@@ -149,21 +144,7 @@ export default {
                     }
                 }
 
-                center = hierarchy.positions.reduce(
-                    (sum, position) => {
-                        sum.x += position.x;
-                        sum.y += position.y;
-                        sum.z += position.z;
-                        return sum;
-                    },
-                    {x: 0, y: 0, z: 0}
-                );
-
-                center.x /= hierarchy.positions.length;
-                center.y /= hierarchy.positions.length;
-                center.z /= hierarchy.positions.length;
-
-                this.transformFromCartesian(center);
+                this.transformFromCartesian(this.getCenterFromPolygon(entity));
             }
         },
         /**

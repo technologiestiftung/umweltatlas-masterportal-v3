@@ -135,9 +135,7 @@ export default {
                     if (newEntity.wasDrawn) {
                         this.generateCylinders();
                         this.setActiveShapePoints(newEntity.polygon.hierarchy.getValue().positions);
-                        newEntity.polygon.hierarchy = new Cesium.CallbackProperty(() => {
-                            return new Cesium.PolygonHierarchy(this.activeShapePoints);
-                        }, false);
+                        newEntity.polygon.hierarchy = new Cesium.CallbackProperty(() => new Cesium.PolygonHierarchy(this.activeShapePoints), false);
                     }
                     this.highlightEntity(newEntity);
                     this.setCurrentModelPosition(newEntity?.position?.getValue());
@@ -256,7 +254,7 @@ export default {
                 entity = Cesium.defaultValue(picked?.id, picked?.primitive?.id);
             }
 
-            if ((entity instanceof Cesium.Entity || !event) && !entity?.wasDrawn) {
+            if (entity instanceof Cesium.Entity || !event) {
                 this.setIsDragging(true);
 
                 if (entity?.cylinder) {
@@ -287,6 +285,7 @@ export default {
                         }
                         else {
                             this.setCurrentModelId(entity.id);
+                            this.setCylinderId(null);
                         }
                     }
                     else if (this.hideObjects && picked instanceof Cesium.Cesium3DTileFeature) {
@@ -320,10 +319,7 @@ export default {
                         polygon = entities.getById(this.currentModelId);
 
                     if (Cesium.defined(cylinder) && Cesium.defined(polygon)) {
-                        cylinder.cylinder.heightReference = Cesium.HeightReference.NONE;
-                        cylinder.position = new Cesium.CallbackProperty(() => {
-                            return position;
-                        }, false);
+                        this.makeCylinderDynamic({cylinder: cylinder, position: position});
 
                         this.activeShapePoints.splice(cylinder.positionIndex, 1, position);
                     }
@@ -346,7 +342,22 @@ export default {
                         entity = entities.getById(this.currentModelId);
 
                     if (Cesium.defined(entity)) {
-                        entity.position = position;
+                        if (entity.polygon) {
+                            const center = this.getCenterFromPolygon(entity),
+                                positionDelta = {x: position.x - center.x, y: position.y - center.y, z: position.z - center.z},
+                                positions = entity.polygon.hierarchy.getValue().positions,
+                                cylinders = entities.values.filter(ent => ent.cylinder);
+
+                            positions.forEach((pos, index) => {
+                                pos.x += positionDelta.x;
+                                pos.y += positionDelta.y;
+                                pos.z += positionDelta.z;
+                                this.makeCylinderDynamic({cylinder: cylinders[index], position: pos});
+                            });
+                        }
+                        else {
+                            entity.position = position;
+                        }
                         this.updatePositionUI();
                     }
                 }
@@ -360,13 +371,19 @@ export default {
             if (this.isDragging) {
                 this.removeInputActions();
                 this.setIsDragging(false);
+
                 if (this.cylinderId) {
                     const cylinder = this.entities.getById(this.cylinderId);
 
-                    cylinder.position = new Cesium.ConstantProperty(cylinder.position.getValue());
-                    cylinder.cylinder.heightReference = Cesium.HeightReference.RELATIVE_TO_GROUND;
-
+                    this.resetCylinder(cylinder);
                     this.setCylinderId(null);
+                }
+                else if (this.wasDrawn) {
+                    const cylinders = this.entities.values.filter(ent => ent.cylinder);
+
+                    cylinders.forEach((cyl) => {
+                        this.resetCylinder(cyl);
+                    });
                 }
             }
         },
