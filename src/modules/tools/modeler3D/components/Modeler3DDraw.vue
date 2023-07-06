@@ -16,12 +16,11 @@ export default {
     },
     data () {
         return {
-            drawingMode: "polygon",
-            floatingPoint: null,
-            currentPosition: null,
-            isHovering: false,
+            clampToGround: true,
             constants: constants,
-            clampToGround: true
+            currentPosition: null,
+            drawingMode: "polygon",
+            shapeId: null
         };
     },
     computed: {
@@ -36,7 +35,7 @@ export default {
         ...mapActions("Tools/Modeler3D", Object.keys(actions)),
         ...mapMutations("Tools/Modeler3D", Object.keys(mutations)),
 
-        draw () {
+        startDrawing () {
             this.setIsDrawing(true);
             this.createCylinder({
                 position: new Cesium.CallbackProperty(() => this.currentPosition, false),
@@ -45,58 +44,68 @@ export default {
             });
 
             const scene = this.scene;
-            let floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId),
-                shape;
 
             eventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
-            eventHandler.setInputAction((event) => {
-                if (Cesium.defined(floatingPoint)) {
-                    if (this.clampToGround) {
-                        const ray = scene.camera.getPickRay(event.endPosition),
-                            position = scene.globe.pick(ray, scene);
-
-                        this.currentPosition = position;
-                    }
-                    else {
-                        const cartographic = proj4(proj4("EPSG:25832"), proj4("EPSG:4326"), [this.mouseCoordinate[0], this.mouseCoordinate[1]]),
-                            radians = Cesium.Cartographic.fromDegrees(cartographic[0], cartographic[1]),
-                            height = scene.sampleHeight(radians, [floatingPoint]);
-
-                        this.currentPosition = Cesium.Cartesian3.fromDegrees(cartographic[0], cartographic[1], height);
-                    }
-                    if (Cesium.defined(this.currentPosition)) {
-                        this.activeShapePoints.splice(floatingPoint.positionIndex, 1, this.currentPosition);
-                    }
-                }
-            }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-
-            eventHandler.setInputAction(() => {
-                if (this.activeShapePoints.length === 1) {
-                    shape = this.drawShape();
-                }
-                floatingPoint.position = new Cesium.ConstantProperty(this.currentPosition);
-                this.createCylinder({
-                    position: new Cesium.CallbackProperty(() => this.currentPosition, false),
-                    posIndex: this.activeShapePoints.length,
-                    length: this.extrudedHeight * 2
-                });
-                this.activeShapePoints.push(this.currentPosition);
-                floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
-            }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
-
-            eventHandler.setInputAction(() => {
-                this.terminateShape(shape);
-                this.setIsDrawing(false);
-            }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
+            eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+            eventHandler.setInputAction(this.addPolygonPosition, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+            eventHandler.setInputAction(this.stopDrawing, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
         },
-        terminateShape (shape) {
-            if (shape.polygon) {
+        onMouseMove (event) {
+            const scene = this.scene,
+                floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
+
+            if (Cesium.defined(floatingPoint)) {
+                if (this.clampToGround) {
+                    const ray = scene.camera.getPickRay(event.endPosition),
+                        position = scene.globe.pick(ray, scene);
+
+                    this.currentPosition = position;
+                }
+                else {
+                    const cartographic = proj4(proj4("EPSG:25832"), proj4("EPSG:4326"), [this.mouseCoordinate[0], this.mouseCoordinate[1]]),
+                        radians = Cesium.Cartographic.fromDegrees(cartographic[0], cartographic[1]),
+                        height = scene.sampleHeight(radians, [floatingPoint]);
+
+                    this.currentPosition = Cesium.Cartesian3.fromDegrees(cartographic[0], cartographic[1], height);
+                }
+                if (Cesium.defined(this.currentPosition)) {
+                    this.activeShapePoints.splice(floatingPoint.positionIndex, 1, this.currentPosition);
+                }
+            }
+        },
+        addPolygonPosition () {
+            const floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
+
+            if (this.activeShapePoints.length === 2) {
+                this.drawShape();
+            }
+
+            floatingPoint.position = new Cesium.ConstantProperty(this.currentPosition);
+
+            this.createCylinder({
+                position: new Cesium.CallbackProperty(() => this.currentPosition, false),
+                posIndex: this.activeShapePoints.length,
+                length: this.extrudedHeight * 2
+            });
+
+            this.activeShapePoints.push(this.currentPosition);
+            // floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
+        },
+        stopDrawing () {
+            const shape = this.entities.getById(this.shapeId);
+
+            if (shape?.polygon && this.activeShapePoints.length > 2) {
                 shape.polygon.hierarchy = new Cesium.ConstantProperty(new Cesium.PolygonHierarchy(this.activeShapePoints));
             }
+            else if (shape && this.activeShapePoints.length < 3) {
+                this.deleteEntity(shape.id);
+            }
+
+            this.setActiveShapePoints([]);
             this.removeCylinders();
             this.currentPosition = null;
-            this.setActiveShapePoints([]);
+            this.setIsDrawing(false);
             eventHandler.destroy();
         },
         drawShape () {
@@ -104,9 +113,6 @@ export default {
                 models = this.drawnModels,
                 lastElement = entities.values.slice().pop(),
                 lastId = lastElement?.id,
-                entity = {
-                    id: lastId ? lastId + 1 : 1
-                },
                 positionData = new Cesium.CallbackProperty(() => {
                     if (this.drawingMode === "polygon") {
                         return new Cesium.PolygonHierarchy(this.activeShapePoints);
@@ -126,7 +132,7 @@ export default {
             }
             else if (this.drawingMode === "polygon") {
                 shape = this.entities.add({
-                    id: entity.id,
+                    id: lastId ? lastId + 1 : 1,
                     name: this.drawName ? this.drawName : i18next.t("common:modules.tools.modeler3D.draw.captions.drawing"),
                     wasDrawn: true,
                     polygon: {
@@ -150,7 +156,7 @@ export default {
                 edit: false
             });
             this.setDrawnModels(models);
-            return shape;
+            this.shapeId = shape.id;
         },
         /**
          * Zooms the camera to the specified entity.
@@ -221,6 +227,7 @@ export default {
                 feature.properties.outlineColor = outlineColor;
                 feature.properties.height = polygon.height;
                 feature.properties.extrudedHeight = polygon.extrudedHeight._value;
+                feature.properties.extrudedHeightReference = polygon.extrudedHeightReference._value;
 
                 array.push(coords);
                 feature.geometry.coordinates = array;
@@ -383,7 +390,7 @@ export default {
                     <button
                         id="tool-modeler3D-modelling-interaction"
                         class="primary-button-wrapper"
-                        @click="draw"
+                        @click="startDrawing"
                     >
                         <span class="bootstrap-icon">
                             <i class="bi-pencil-fill" />

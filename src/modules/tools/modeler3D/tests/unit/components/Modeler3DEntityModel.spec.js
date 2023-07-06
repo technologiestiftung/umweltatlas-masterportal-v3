@@ -1,7 +1,7 @@
 import Vuex from "vuex";
 import {expect} from "chai";
 import sinon from "sinon";
-import {config, shallowMount, createLocalVue} from "@vue/test-utils";
+import {config, shallowMount, mount, createLocalVue} from "@vue/test-utils";
 import Modeler3DEntityModelComponent from "../../../components/Modeler3DEntityModel.vue";
 import Modeler3D from "../../../store/indexModeler3D";
 
@@ -10,7 +10,7 @@ const localVue = createLocalVue();
 localVue.use(Vuex);
 config.mocks.$t = key => key;
 
-describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
+describe("src/modules/tools/modeler3D/components/Modeler3DEntityModel.vue", () => {
     const entity = {
             orientation: null,
             position: {
@@ -111,7 +111,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
     });
 
     it("renders Modeler3DEntityModel", async () => {
-        wrapper = shallowMount(Modeler3DEntityModelComponent, {store, localVue});
+        wrapper = mount(Modeler3DEntityModelComponent, {store, localVue});
 
         expect(wrapper.find("#modeler3D-entity-view").exists()).to.be.true;
         expect(wrapper.find("#model-name").exists()).to.be.true;
@@ -138,7 +138,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
     });
 
     it("renders height buttons when adaptHeight is unchecked", async () => {
-        wrapper = shallowMount(Modeler3DEntityModelComponent, {store, localVue});
+        wrapper = mount(Modeler3DEntityModelComponent, {store, localVue});
 
         store.commit("Tools/Modeler3D/setAdaptToHeight", false);
         await wrapper.vm.$nextTick();
@@ -229,24 +229,17 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
             global.Cesium.HeadingPitchRoll = sinon.spy();
 
             wrapper = shallowMount(Modeler3DEntityModelComponent, {store, localVue});
-            wrapper.vm.rotationAngle = "90";
-            wrapper.vm.rotate();
+            wrapper.vm.rotationString = "90";
 
-            const importedModel = store.state.Tools.Modeler3D.importedModels.find(x => x.id === 1);
-
-            expect(importedModel.heading).to.eql(90);
             expect(global.Cesium.Transforms.headingPitchRollQuaternion).to.be.calledOnce;
             expect(entity.orientation).to.eql(22);
         });
 
         it("changes the scale of the entity model", () => {
             wrapper = shallowMount(Modeler3DEntityModelComponent, {store, localVue});
-            wrapper.vm.scaleVal = "2";
-            wrapper.vm.changeScale();
+            wrapper.vm.scaleString = "2";
 
-            const importedModel = store.state.Tools.Modeler3D.importedModels.find(x => x.id === 1);
-
-            expect(importedModel.scale).to.eql(2);
+            expect(store.state.Tools.Modeler3D.scale).to.eql(2);
             expect(entity.model.scale).to.eql(2);
         });
     });

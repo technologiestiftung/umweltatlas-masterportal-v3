@@ -109,8 +109,6 @@ export default {
                 id: entity.id,
                 name: fileName,
                 show: true,
-                heading: 0,
-                scale: entity.model.scale,
                 edit: false
             });
             this.setImportedModels(models);
@@ -206,6 +204,7 @@ export default {
                             entity.polygon.outlineWidth = 1;
                             entity.polygon.height = properties.height;
                             entity.polygon.extrudedHeight = properties.extrudedHeight;
+                            entity.polygon.extrudedHeightReference = properties.extrudedHeightReference;
 
                             entities.add(entity);
                             this.drawnModels.push({

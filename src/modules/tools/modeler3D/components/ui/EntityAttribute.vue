@@ -65,7 +65,10 @@ export default {
                 :value="value"
                 @input="$emit('input', $event.target.value)"
             >
-            <div v-if="buttons">
+            <div
+                v-if="buttons"
+                :id="title + '-buttons'"
+            >
                 <button
                     class="btn btn-primary btn-sm btn-pos"
                     :title="$t(`common:modules.tools.modeler3D.entity.captions.incrementTooltip`)"
