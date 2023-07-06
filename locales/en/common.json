@@ -377,6 +377,7 @@
                 "validationWarning": "The file name may only contain letters and the special characters '-' and '_'.",
                 "withLegendLabel": "With legend",
                 "autoAdjustScale": "Adjust printing scale automatically",
+                "printGeometries": "Print drawn geometries",
                 "printLabel": "Create file",
                 "downloadFile": "Download file",
                 "createDownloadFile": "Will be created...",

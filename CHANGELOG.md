@@ -26,8 +26,9 @@
 - Documentation gitWorkflow:
     - A guide for rebasing feature branches with remote has been added. See [Branches and workflow](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/latest/dev/gitWorkflow.md)
 - ScaleLine: Added the possibility to select the map scale via a selection in the footer.
-- Print: add new configuration paramter 'layoutOrder' for print service 'plotservice' to define the order of the layouts in the dropdown.
-- Print: add new configuration parameter "isPrintDrawnGeoms" for print service "plotservice" to print Draw features and Measure features
+- Print: 
+    - Add new configuration paramter 'layoutOrder' for print service 'plotservice' to define the order of the layouts in the dropdown.
+    - Add new configuration parameter "isPrintDrawnGeoms" for print service "plotservice" to print Draw features and Measure features
 
 ### Changed
 - The following packages have been updated:
