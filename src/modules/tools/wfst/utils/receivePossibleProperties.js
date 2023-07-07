@@ -52,7 +52,7 @@ function parseDescribeFeatureTypeResponse (responseData, featureType) {
             label: "",
             key: "",
             value: null,
-            type: "string",
+            type: responseData.includes("xsd:") ? "xsd:string" : "string",
             required: false
         }));
     }
