@@ -7,6 +7,7 @@
 ### __Breaking Changes__
 
 ### Added
+- QuickHelp: A description of the route preference `recommended route` has been added.
 
 ### Changed
 

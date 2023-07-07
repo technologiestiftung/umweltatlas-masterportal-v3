@@ -257,7 +257,7 @@
             "routingTool": {
                 "header": "Hilfe – Routing",
                 "headerGeneral": "Allgemeines",
-                "textGeneral": "Mit dem Werkzeug \"Routing\" kann die kürzeste oder schnellste Route zwischen beliebig vielen Wegpunkten berechnet werden. Zudem ist die Analyse der Erreichbarkeit von einem bestimmten Startpunkt innerhalb einer vorgegebenen Zeit oder Fahrstrecke möglich. Es können hierbei verschiedene Fortbewegungsmittel wie PKW, LKW, Fußgänger, Fahrrad oder Rollstuhl berücksichtigt werden. Durch Klick auf die Tabulatoren (Tab) Routenplanung (1) und Erreichbarkeit (2) kann in die verschiedenen Bereiche gewechselt werden.",
+                "textGeneral": "Mit dem Werkzeug \"Routing\" kann die kürzeste oder eine empfohlene Route zwischen beliebig vielen Wegpunkten berechnet werden. Zudem ist die Analyse der Erreichbarkeit von einem bestimmten Startpunkt innerhalb einer vorgegebenen Zeit oder Fahrstrecke möglich. Es können hierbei verschiedene Fortbewegungsmittel wie PKW, LKW, Fußgänger, Fahrrad oder Rollstuhl berücksichtigt werden. Durch Klick auf die Tabulatoren (Tab) Routenplanung (1) und Erreichbarkeit (2) kann in die verschiedenen Bereiche gewechselt werden.",
                 "headerMeansOfTransport": "<h4>Auswahl Fortbewegungsmittel</h4>",
                 "textMeansOfTransport": "Es kann zwischen verschiedenen Fortbewegungsmitteln (PKW, LKW etc.) gewählt werden. Das aktive Fortbewegungsmittel ist rot markiert.",
                 "routing": {
@@ -269,7 +269,7 @@
                     "headerRestrictedAreas": "<h4>Sperrflächen</h4>",
                     "textRestrictedAreas": "Es besteht die Möglichkeit Sperrflächen (3) zu definieren, welche bei der Routenplanung entsprechend \"umfahren\" werden. Unter (2) kann der Modus zum Zeichnen und Löschen von Sperrflächen in der Karte aktiviert werden. Der aktivierte Modus wird jeweils rot markiert.",
                     "headerAvoidTrafficRoutes": "<h4>Routenpräferenz/Verkehrswege vermeiden</h4>",
-                    "textAvoidTrafficRoutes": "Unter (1) kann ausgewählt werden, ob die schnellste oder kürzeste Route berechnet werden soll. Des Weiteren können unter (2) bestimmte Verkehrswege von der Routenberechnung ausgeschlossen werden. ",
+                    "textAvoidTrafficRoutes": "Unter (1) kann ausgewählt werden, ob die empfohlene oder kürzeste Route berechnet werden soll. Die empfohlene Routenpräferenz prüft wie gut eine Route für das ausgewählte Fortbewegungsmittel geeignet ist. Dies geschieht dadurch, dass jeder Straße eine Priorität zugewiesen wird. Bei der Ermittlung der Priorität werden Begebenheiten der Straße (z.B. ob es Geschwindigkeitsminderungen aufgrund von Steigungen gibt) berücksichtigt. Diese Priorität wird dann in Kombination mit der Option „Schnellste“ verwendet, um eine empfohlene Route auszugeben. Des Weiteren können unter (2) bestimmte Verkehrswege von der Routenberechnung ausgeschlossen werden. ",
                     "headerRouteDescription": "<h4>Wegbeschreibung</h4>",
                     "textRouteDescription": "Nach der Erzeugung der Route wird eine textuelle Wegbeschreibung (1) (inkl. Entfernung und Fahrzeit) angezeigt. Beim Klick auf einzelne Beschreibungen (2) wird in der Kartenansicht automatisch auf das dazugehörige Routensegment (3) gezoomt.",
                     "headerExport": "<h4>Routen - Export</h4>",
