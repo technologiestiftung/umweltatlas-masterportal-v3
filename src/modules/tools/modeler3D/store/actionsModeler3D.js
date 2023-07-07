@@ -223,16 +223,10 @@ const actions = {
             const positions = entity.polygon.hierarchy.getValue().positions,
                 center = getters.getCenterFromPolygon(entity),
                 cylinders = getters.entities.values.filter(ent => ent.cylinder),
-                positionDelta = {
-                    x: position.x - center.x,
-                    y: position.y - center.y,
-                    z: position.z - center.z
-                };
+                positionDelta = Cesium.Cartesian3.subtract(position, center);
 
             positions.forEach((pos, index) => {
-                pos.x += positionDelta.x;
-                pos.y += positionDelta.y;
-                pos.z += positionDelta.z;
+                Cesium.Cartesian3.add(pos, positionDelta, pos);
                 dispatch("makeCylinderDynamic", {cylinder: cylinders[index], position: pos});
             });
 

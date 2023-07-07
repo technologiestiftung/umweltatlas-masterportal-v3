@@ -152,13 +152,11 @@ export default {
             modelFromState.heading = this.rotation;
 
             if (entity.wasDrawn) {
-                const hierarchy = entity.polygon.hierarchy.getValue(),
-                    positions = hierarchy.positions,
-
-                    center = Cesium.BoundingSphere.fromPoints(positions).center,
-                    rotatedPositions = positions.map(hierarchyPosition => {
-                        const relativePosition = Cesium.Cartesian3.subtract(hierarchyPosition, center, new Cesium.Cartesian3()),
-                            rotatedRelativePosition = Cesium.Matrix3.multiplyByVector(orientationMatrix, relativePosition, new Cesium.Cartesian3());
+                const positions = entity.polygon.hierarchy.getValue().positions,
+                    center = this.getCenterFromPolygon(entity),
+                    rotatedPositions = positions.map(pos => {
+                        const relativePosition = Cesium.Cartesian3.subtract(pos, center),
+                            rotatedRelativePosition = Cesium.Matrix3.multiplyByVector(orientationMatrix, relativePosition);
 
                         return Cesium.Cartesian3.add(rotatedRelativePosition, center, new Cesium.Cartesian3());
                     });
