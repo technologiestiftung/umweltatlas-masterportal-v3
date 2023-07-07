@@ -12,6 +12,7 @@ config.mocks.$t = key => key;
 
 describe("src/modules/tools/modeler3D/components/Modeler3DEntityModel.vue", () => {
     const entity = {
+            id: 1,
             orientation: null,
             position: {
                 getValue: () => {

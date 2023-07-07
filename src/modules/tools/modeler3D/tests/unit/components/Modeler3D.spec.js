@@ -85,7 +85,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
 
     let store,
         wrapper,
-        origUpdatePositionUI;
+        origUpdateUI;
 
     beforeEach(() => {
         mapCollection.clear();
@@ -100,8 +100,8 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
             }
         };
 
-        origUpdatePositionUI = Modeler3D.actions.updatePositionUI;
-        Modeler3D.actions.updatePositionUI = sinon.spy();
+        origUpdateUI = Modeler3D.actions.updateUI;
+        Modeler3D.actions.updateUI = sinon.spy();
 
         store = new Vuex.Store({
             namespaces: true,
@@ -130,7 +130,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
     });
 
     afterEach(() => {
-        Modeler3D.actions.updatePositionUI = origUpdatePositionUI;
+        Modeler3D.actions.updateUI = origUpdateUI;
 
         sinon.restore();
         if (wrapper) {
@@ -321,8 +321,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
 
             expect(wrapper.vm.highlightEntity).to.be.calledWith(entityList[0]);
             expect(store.state.Tools.Modeler3D.currentModelPosition).to.eql("position1");
-            expect(store.state.Tools.Modeler3D.rotation).to.eql(120);
-            expect(Modeler3D.actions.updatePositionUI).to.be.called;
+            expect(Modeler3D.actions.updateUI).to.be.called;
         });
 
         it("watch to currentModelId shall reset highlighting of deselected Entity", async () => {
