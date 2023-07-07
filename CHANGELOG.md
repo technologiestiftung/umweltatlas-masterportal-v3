@@ -15,6 +15,7 @@
 ### Removed
 
 ### Fixed
+- Print: The portal is no longer reloaded after pressing the Enter key in the title field. Instead, the print is sent.
 
 ---
 ## v2.35.0 - 2023-07-05
@@ -26,7 +27,7 @@
 - Documentation gitWorkflow:
     - A guide for rebasing feature branches with remote has been added. See [Branches and workflow](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/latest/dev/gitWorkflow.md)
 - ScaleLine: Added the possibility to select the map scale via a selection in the footer.
-- Print: 
+- Print:
     - Add new configuration paramter 'layoutOrder' for print service 'plotservice' to define the order of the layouts in the dropdown.
     - Add new configuration parameter "isPrintDrawnGeoms" for print service "plotservice" to print Draw features and Measure features
 
