@@ -70,19 +70,7 @@ const getters = {
     getCenterFromPolygon: () => (polygon) => {
         if (polygon?.polygon?.hierarchy) {
             const positions = polygon.polygon.hierarchy.getValue().positions,
-                center = positions.reduce(
-                    (sum, position) => {
-                        sum.x += position.x;
-                        sum.y += position.y;
-                        sum.z += position.z;
-                        return sum;
-                    },
-                    {x: 0, y: 0, z: 0}
-                );
-
-            center.x /= positions.length;
-            center.y /= positions.length;
-            center.z /= positions.length;
+                center = Cesium.BoundingSphere.fromPoints(positions).center;
 
             return center;
         }

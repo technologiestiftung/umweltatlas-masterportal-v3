@@ -75,8 +75,14 @@ const actions = {
             return;
         }
 
-        if (!entity.wasDrawn) {
-            dispatch("transformToCartesian");
+        dispatch("transformToCartesian");
+        if (entity.polygon) {
+            const cylinders = entities.values.filter(ent => ent.cylinder);
+
+            dispatch("movePolygon", {entity: entity, position: state.currentModelPosition});
+            cylinders.forEach(cyl => dispatch("resetCylinder", cyl));
+        }
+        else {
             entity.position = state.currentModelPosition;
         }
     },
@@ -94,6 +100,21 @@ const actions = {
         if (entityPosition) {
             dispatch("transformFromCartesian", entityPosition);
         }
+    },
+    updateUI ({dispatch, getters, state}) {
+        const entities = getters.entities,
+            entity = entities.getById(state.currentModelId);
+
+        if (entity?.polygon instanceof Cesium.PolygonGraphics) {
+            state.extrudedHeight = entity.polygon.extrudedHeight ? entity.polygon.extrudedHeight.getValue() : 20;
+        }
+        else if (entity?.model instanceof Cesium.ModelGraphics) {
+            const modelFromState = state.importedModels.find(ent => ent.id === entity.id);
+
+            state.rotation = modelFromState.heading;
+            state.scale = entity.model.scale ? entity.model.scale.getValue() : 1;
+        }
+        dispatch("updatePositionUI");
     },
     /**
      * Transforms the Cartesian3 coordinates to the currently selected projection and sets it to state.
@@ -196,6 +217,27 @@ const actions = {
     resetCylinder (_, cylinder) {
         cylinder.position = cylinder.position.getValue();
         cylinder.cylinder.heightReference = Cesium.HeightReference.RELATIVE_TO_GROUND;
+    },
+    movePolygon ({dispatch, getters}, {entity, position}) {
+        if (entity && entity.wasDrawn && entity.polygon && entity.polygon.hierarchy) {
+            const positions = entity.polygon.hierarchy.getValue().positions,
+                center = getters.getCenterFromPolygon(entity),
+                cylinders = getters.entities.values.filter(ent => ent.cylinder),
+                positionDelta = {
+                    x: position.x - center.x,
+                    y: position.y - center.y,
+                    z: position.z - center.z
+                };
+
+            positions.forEach((pos, index) => {
+                pos.x += positionDelta.x;
+                pos.y += positionDelta.y;
+                pos.z += positionDelta.z;
+                dispatch("makeCylinderDynamic", {cylinder: cylinders[index], position: pos});
+            });
+
+            dispatch("transformFromCartesian", getters.getCenterFromPolygon(entity));
+        }
     }
 };
 

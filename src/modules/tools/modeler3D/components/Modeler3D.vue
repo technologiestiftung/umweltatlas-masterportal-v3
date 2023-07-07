@@ -118,6 +118,7 @@ export default {
                         this.removeCylinders();
                         this.setActiveShapePoints([]);
                         this.setCylinderId(null);
+                        this.setExtrudedHeight(20);
                     }
                     else {
                         oldEntity.model.color = Cesium.Color.WHITE;
@@ -130,8 +131,6 @@ export default {
                     this.setCurrentModelPosition(null);
                 }
                 if (newEntity) {
-                    const modelOrigin = newEntity.wasDrawn ? this.drawnModels : this.importedModels;
-
                     if (newEntity.wasDrawn) {
                         this.generateCylinders();
                         this.setActiveShapePoints(newEntity.polygon.hierarchy.getValue().positions);
@@ -139,8 +138,7 @@ export default {
                     }
                     this.highlightEntity(newEntity);
                     this.setCurrentModelPosition(newEntity?.position?.getValue());
-                    this.setRotation(modelOrigin.find(model => model.id === this.currentModelId).heading);
-                    this.updatePositionUI();
+                    this.updateUI();
                 }
             }
         }
@@ -343,17 +341,7 @@ export default {
 
                     if (Cesium.defined(entity)) {
                         if (entity.polygon) {
-                            const center = this.getCenterFromPolygon(entity),
-                                positionDelta = {x: position.x - center.x, y: position.y - center.y, z: position.z - center.z},
-                                positions = entity.polygon.hierarchy.getValue().positions,
-                                cylinders = entities.values.filter(ent => ent.cylinder);
-
-                            positions.forEach((pos, index) => {
-                                pos.x += positionDelta.x;
-                                pos.y += positionDelta.y;
-                                pos.z += positionDelta.z;
-                                this.makeCylinderDynamic({cylinder: cylinders[index], position: pos});
-                            });
+                            this.movePolygon({entity: entity, position: position});
                         }
                         else {
                             entity.position = position;

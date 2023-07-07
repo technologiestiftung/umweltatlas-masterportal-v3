@@ -109,7 +109,8 @@ export default {
                 id: entity.id,
                 name: fileName,
                 show: true,
-                edit: false
+                edit: false,
+                heading: 0
             });
             this.setImportedModels(models);
             this.setIsLoading(false);

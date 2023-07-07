@@ -132,46 +132,6 @@ export default {
                 this.updateEntityPosition();
             }
         },
-        movePolygon ({direction, operation, shift}) {
-            const entities = this.entities,
-                entity = entities.getById(this.currentModelId),
-                cylinders = entities.values.filter(ent => ent.cylinder);
-
-            if (entity && entity.wasDrawn && entity.polygon && entity.polygon.hierarchy) {
-                const hierarchy = entity.polygon.hierarchy.getValue(),
-                    value = operation === "increment" ? this.coordAdjusted({shift: shift, coordType: direction}) : -this.coordAdjusted({shift: shift, coordType: direction});
-
-                if (direction === "northing") {
-                    for (let i = 0; i < hierarchy.positions.length; i++) {
-                        this.transformFromCartesian(hierarchy.positions[i]);
-                        this.setCoordinateNorthing(this.coordinateNorthing + value);
-                        this.transformToCartesian();
-                        hierarchy.positions[i] = this.currentModelPosition;
-                        cylinders[i].position = this.currentModelPosition;
-                    }
-                }
-                else if (direction === "easting") {
-                    for (let i = 0; i < hierarchy.positions.length; i++) {
-                        this.transformFromCartesian(hierarchy.positions[i]);
-                        this.setCoordinateEasting(this.coordinateEasting + value);
-                        this.transformToCartesian();
-                        hierarchy.positions[i] = this.currentModelPosition;
-                        cylinders[i].position = this.currentModelPosition;
-                    }
-                }
-                else if (direction === "height") {
-                    for (let i = 0; i < hierarchy.positions.length; i++) {
-                        this.transformFromCartesian(hierarchy.positions[i]);
-                        this.setCoordinateEasting(this.height + value);
-                        this.transformToCartesian();
-                        hierarchy.positions[i] = this.currentModelPosition;
-                        cylinders[i].position = this.currentModelPosition;
-                    }
-                }
-
-                this.transformFromCartesian(this.getCenterFromPolygon(entity));
-            }
-        },
         /**
          * Rotates the current model based on the value of the rotationAngle property.
          * Updates the heading of the model and sets its orientation using the calculated quaternion.
@@ -180,12 +140,16 @@ export default {
         rotate () {
             const entities = this.entities,
                 entity = entities.getById(this.currentModelId),
+                modelOrigin = this.wasDrawn ? this.drawnModels : this.importedModels,
+                modelFromState = modelOrigin.find(ent => ent.id === entity.id),
                 heading = Cesium.Math.toRadians(this.rotation),
                 position = entity.wasDrawn ? entity.polygon.hierarchy.getValue().positions[0] : entity.position.getValue(),
                 orientationMatrix = Cesium.Transforms.headingPitchRollQuaternion(
                     position,
                     new Cesium.HeadingPitchRoll(heading, 0, 0)
                 );
+
+            modelFromState.heading = this.rotation;
 
             if (entity.wasDrawn) {
                 const hierarchy = entity.polygon.hierarchy.getValue(),
@@ -269,10 +233,10 @@ export default {
                 :label="$t(getLabel('eastingLabel'))"
                 :width-classes="['col-md-5', 'col-md-7']"
                 :buttons="currentProjection.id !== 'http://www.opengis.net/gml/srs/epsg.xml#4326'"
-                @increment="wasDrawn ? movePolygon({ direction: 'easting', operation: 'increment', shift: false}) : eastingString = prettyCoord(coordinateEasting + coordAdjusted({shift: false, coordType: 'easting'}))"
-                @increment-shift="wasDrawn ? movePolygon({ direction: 'easting', operation: 'increment', shift: true}) : eastingString = prettyCoord(coordinateEasting + coordAdjusted({shift: true, coordType: 'easting'}))"
-                @decrement="wasDrawn ? movePolygon({ direction: 'easting', operation: 'decrement', shift: false}) : eastingString = prettyCoord(coordinateEasting - coordAdjusted({shift: false, coordType: 'easting'}))"
-                @decrement-shift="wasDrawn ? movePolygon({ direction: 'easting', operation: 'decrement', shift: true}) : eastingString = prettyCoord(coordinateEasting - coordAdjusted({shift: true, coordType: 'easting'}))"
+                @increment="eastingString = prettyCoord(coordinateEasting + coordAdjusted({shift: false, coordType: 'easting'}))"
+                @increment-shift="eastingString = prettyCoord(coordinateEasting + coordAdjusted({shift: true, coordType: 'easting'}))"
+                @decrement="eastingString = prettyCoord(coordinateEasting - coordAdjusted({shift: false, coordType: 'easting'}))"
+                @decrement-shift="eastingString = prettyCoord(coordinateEasting - coordAdjusted({shift: true, coordType: 'easting'}))"
             />
             <EntityAttribute
                 v-model="northingString"
@@ -280,10 +244,10 @@ export default {
                 :label="$t(getLabel('northingLabel'))"
                 :width-classes="['col-md-5', 'col-md-7']"
                 :buttons="currentProjection.id !== 'http://www.opengis.net/gml/srs/epsg.xml#4326'"
-                @increment="wasDrawn ? movePolygon({ direction: 'northing', operation: 'increment', shift: false}) : northingString = prettyCoord(coordinateNorthing + coordAdjusted({shift: false, coordType: 'northing'}))"
-                @increment-shift="wasDrawn ? movePolygon({ direction: 'northing', operation: 'increment', shift: true}) : northingString = prettyCoord(coordinateNorthing + coordAdjusted({shift: true, coordType: 'northing'}))"
-                @decrement="wasDrawn ? movePolygon({ direction: 'northing', operation: 'decrement', shift: false}) : northingString = prettyCoord(coordinateNorthing - coordAdjusted({shift: false, coordType: 'northing'}))"
-                @decrement-shift="wasDrawn ? movePolygon({ direction: 'northing', operation: 'decrement', shift: true}) : northingString = prettyCoord(coordinateNorthing - coordAdjusted({shift: true, coordType: 'northing'}))"
+                @increment="northingString = prettyCoord(coordinateNorthing + coordAdjusted({shift: false, coordType: 'northing'}))"
+                @increment-shift="northingString = prettyCoord(coordinateNorthing + coordAdjusted({shift: true, coordType: 'northing'}))"
+                @decrement="northingString = prettyCoord(coordinateNorthing - coordAdjusted({shift: false, coordType: 'northing'}))"
+                @decrement-shift="northingString = prettyCoord(coordinateNorthing - coordAdjusted({shift: true, coordType: 'northing'}))"
             />
             <EntityAttribute
                 v-model="heightString"
@@ -294,10 +258,10 @@ export default {
                 :buttons="!adaptToHeight"
                 :disabled="adaptToHeight"
                 :form-group="false"
-                @increment="wasDrawn ? movePolygon({ direction: 'height', operation: 'increment', shift: false}) : heightString = prettyCoord(height + coordAdjusted({shift: false, coordType: 'height'}))"
-                @increment-shift="wasDrawn ? movePolygon({ direction: 'height', operation: 'increment', shift: true}) : heightString = prettyCoord(height + coordAdjusted({shift: true, coordType: 'height'}))"
-                @decrement="wasDrawn ? movePolygon({ direction: 'height', operation: 'decrement', shift: false}) : heightString = prettyCoord(height - coordAdjusted({shift: false, coordType: 'height'}))"
-                @decrement-shift="wasDrawn ? movePolygon({ direction: 'height', operation: 'decrement', shift: true}) : heightString = prettyCoord(height - coordAdjusted({shift: true, coordType: 'height'}))"
+                @increment="heightString = prettyCoord(height + coordAdjusted({shift: false, coordType: 'height'}))"
+                @increment-shift="heightString = prettyCoord(height + coordAdjusted({shift: true, coordType: 'height'}))"
+                @decrement="heightString = prettyCoord(height - coordAdjusted({shift: false, coordType: 'height'}))"
+                @decrement-shift="heightString = prettyCoord(height - coordAdjusted({shift: true, coordType: 'height'}))"
             />
             <div
                 id="adapt-check"
