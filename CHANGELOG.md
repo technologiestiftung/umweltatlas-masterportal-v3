@@ -15,6 +15,7 @@
 ### Removed
 
 ### Fixed
+WFST-Tool can also parse Geoserver responses from DescribeFeatureType-Requests
 
 ---
 ## v2.35.0 - 2023-07-05
