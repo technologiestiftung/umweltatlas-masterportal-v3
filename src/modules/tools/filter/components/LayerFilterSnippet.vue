@@ -193,7 +193,7 @@ export default {
             this.mapHandler.initializeLayer(filterId, layerId, this.isExtern(), error => {
                 console.warn(error);
             });
-            this.api.setServiceByLayerModel(layerId, this.mapHandler.getLayerModelByFilterId(filterId), this.isExtern(), this.layerConfig?.collection, error => {
+            this.api.setServiceByLayerModel(layerId, this.mapHandler.getLayerModelByFilterId(filterId), this.isExtern(), error => {
                 console.warn(error);
             });
 

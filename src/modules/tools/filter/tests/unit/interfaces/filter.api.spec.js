@@ -157,7 +157,7 @@ describe("src/modules/tools/filter/interfaces/filter.api.js", () => {
                     },
                     expected = new Error("FilterApi.setServiceByLayerModel: Filtering oaf extern is not supported yet.");
 
-                filterApi.setServiceByLayerModel(0, layerModel, true, undefined, error => {
+                filterApi.setServiceByLayerModel(0, layerModel, true, error => {
                     expect(error).to.deep.equal(expected);
                 });
             });
@@ -209,7 +209,7 @@ describe("src/modules/tools/filter/interfaces/filter.api.js", () => {
                     },
                     expected = new Error("FilterApi.setServiceByLayerModel: Filtering geojson extern is not supported.");
 
-                filterApi.setServiceByLayerModel(0, layerModel, true, undefined, error => {
+                filterApi.setServiceByLayerModel(0, layerModel, true, error => {
                     expect(error).to.deep.equal(expected);
                 });
             });
@@ -248,7 +248,7 @@ describe("src/modules/tools/filter/interfaces/filter.api.js", () => {
                     },
                     expected = new Error("FilterApi.setServiceByLayerModel: Filtering sta extern is not supported.");
 
-                filterApi.setServiceByLayerModel(0, layerModel, true, undefined, error => {
+                filterApi.setServiceByLayerModel(0, layerModel, true, error => {
                     expect(error).to.deep.equal(expected);
                 });
             });
@@ -297,7 +297,7 @@ describe("src/modules/tools/filter/interfaces/filter.api.js", () => {
                     },
                     expected = new Error("FilterApi.setServiceByLayerModel: VectorTiles layer must have set the 'baseOAFUrl' param.");
 
-                filterApi.setServiceByLayerModel(0, layerModel, false, undefined, error => {
+                filterApi.setServiceByLayerModel(0, layerModel, false, error => {
                     expect(error).to.deep.equal(expected);
                 });
             });
@@ -325,7 +325,7 @@ describe("src/modules/tools/filter/interfaces/filter.api.js", () => {
                     },
                     expected = new Error("FilterApi.setServiceByLayerModel: Filtering vectortiles extern is not supported.");
 
-                filterApi.setServiceByLayerModel(0, layerModel, true, undefined, error => {
+                filterApi.setServiceByLayerModel(0, layerModel, true, error => {
                     expect(error).to.deep.equal(expected);
                 });
             });
@@ -343,7 +343,7 @@ describe("src/modules/tools/filter/interfaces/filter.api.js", () => {
                     },
                     expected = new Error("FilterApi.setServiceByLayerModel: Unknown layer type foo");
 
-                filterApi.setServiceByLayerModel(0, layerModel, false, undefined, error => {
+                filterApi.setServiceByLayerModel(0, layerModel, false, error => {
                     expect(error).to.deep.equal(expected);
                 });
             });
