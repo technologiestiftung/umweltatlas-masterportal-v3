@@ -242,7 +242,7 @@ WFSLayer.prototype.createLegend = function () {
                         });
 
                 }
-                if (rules[0].conditions !== undefined) {
+                if (rules[0].conditions !== undefined && this.features) {
                     const uniqueLegendInformation = this.filterUniqueLegendInfo(this.features, rules, legendInfos);
 
                     this.setLegend(uniqueLegendInformation);

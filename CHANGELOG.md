@@ -5,10 +5,9 @@
 
 ## Unreleased - in development
 ### __Breaking Changes__
+
 ### Added
-- AddWMS Tool uses legendURL and MetadataURL from Capabilities.
-- Filter:
-  - Add: new parameter "filterOnZoom" in layer configuration to enable if the layer should be filtered dynamically with different zoom levels.
+
 ### Changed
 
 ### Deprecated
@@ -16,10 +15,36 @@
 ### Removed
 
 ### Fixed
+
+---
+## v2.35.0 - 2023-07-05
+### Added
+- AddWMS Tool uses legendURL and MetadataURL from Capabilities.
+- Filter:
+  - Add: new parameter "filterOnMove" in layer configuration to enable if the layer should be filtered dynamically after the map moves.
+  - Add: interface for VectorTiles. Enables filtering for VectorTiles.
+- Documentation gitWorkflow:
+    - A guide for rebasing feature branches with remote has been added. See [Branches and workflow](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/latest/dev/gitWorkflow.md)
+- ScaleLine: Added the possibility to select the map scale via a selection in the footer.
+- Print: 
+    - Add new configuration paramter 'layoutOrder' for print service 'plotservice' to define the order of the layouts in the dropdown.
+    - Add new configuration parameter "isPrintDrawnGeoms" for print service "plotservice" to print Draw features and Measure features
+
+### Changed
+- The following packages have been updated:
+    - dependencies:
+        - masterportalapi:  2.19.2 to 2.20.0 (This also raised ol to version 7.4.0 and cesium to version 1.106.0)
+
+### Fixed
 - PrintMap: PrintMap with the 'plotservice' print mode creates successfully print after reopening the tool.
 - Draw: mapmarker is no longer displayed if draw-tool is active and user clicked on map.
+- Draw: when drawing multiple polygons with different transparency values, the transparency is drawn correctly.
 - CoordToolkit: coordInfo hast now a max-width
 - Issue #1044: The coordinate transformation error by click in 3D map mode is fixed.
+- Issue #1049/Issue #1050: GFI: fixed highlighting of features with geometry polygon or multipolygon
+- Issue #1052: Legend is now displayed correctly again for wfs-layer
+- MQTT topic size: topics are sent individually to avoid issue with overall message size > 64kB
+- Print: fix print module for print service 'plotservice'.
 
 ---
 
@@ -766,6 +791,7 @@ Issue #764: Using parameters in WfsSearch as defined in [Filter Encoding Impleme
 - The attributes: `cesiumParameter.enableLighting`, `cesiumParameter.maximumScreenSpaceError` and `cesiumParameter.tileCacheSize` in config.js are deprecated in the next major release. Please use `cesiumParameter.globe.enableLighting`, `cesiumParameter.globe.maximumScreenSpaceError`, `cesiumParameter.globe.tileCacheSize` instead.
 
 ### Fixed
+- Issue #1055: highlightFeaturesByAttribute: Improved exception handling and supporting unspecified featurePrefix now
 - Issue #686: Add logging and documentation regarding manual WMTS configuration's limitations
 - The order of printed features from the draw and measure layer is now corrected.
 - Issue #737: Fix issue of some items in the layer tree overflowing

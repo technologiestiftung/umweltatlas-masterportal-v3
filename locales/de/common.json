@@ -378,6 +378,7 @@
                 "validationWarning": "Der Dateiname darf nur Buchstaben und die Sonderzeichen '-' und '_' enthalten.",
                 "withLegendLabel": "Mit Legende",
                 "autoAdjustScale": "Druckmaßstab automatisch anpassen",
+                "printGeometries": "Gezeichnete Geometrien ausgeben",
                 "printLabel": "Datei erstellen",
                 "downloadFile": "Herunterladen",
                 "createDownloadFile": "Wird erstellt...",

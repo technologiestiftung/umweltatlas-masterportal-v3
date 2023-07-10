@@ -24,7 +24,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Maps", ["clickCoordinate"]),
+        ...mapGetters("Maps", ["clickCoordinate", "getLayerById"]),
         ...mapGetters("Tools/Gfi", ["centerMapToClickPoint", "showMarker", "highlightVectorRules", "currentFeature"]),
 
         /**
@@ -100,13 +100,17 @@ export default {
          */
         highlightVectorFeature () {
             if (this.highlightVectorRules) {
+                const layer = this.getLayerById({layerId: this.feature.getLayerId()}),
+                    styleId = layer?.get("styleId");
+
                 this.removeHighlighting();
                 if (this.feature.getOlFeature()?.getGeometry()?.getType() === "Point") {
                     this.highlightFeature({
                         feature: this.feature.getOlFeature(),
                         type: "increase",
                         scale: this.highlightVectorRules.image.scale,
-                        layer: {id: this.feature.getLayerId()}
+                        layer: {id: this.feature.getLayerId()},
+                        styleId
                     });
                 }
                 else if (this.feature.getOlFeature()?.getGeometry()?.getType() === "Polygon") {
@@ -116,7 +120,8 @@ export default {
                         highlightStyle: {
                             fill: this.highlightVectorRules.fill, stroke: this.highlightVectorRules.stroke
                         },
-                        layer: {id: this.feature.getLayerId()}
+                        layer: {id: this.feature.getLayerId()},
+                        styleId
                     });
                 }
             }
