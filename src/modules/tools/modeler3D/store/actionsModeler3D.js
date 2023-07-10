@@ -17,8 +17,11 @@ const actions = {
 
         if (modelIndex > -1 && entity) {
             commit("setCurrentModelId", null);
-            stateArray.splice(modelIndex, 1);
-            entities.removeById(id);
+
+            setTimeout(() => {
+                stateArray.splice(modelIndex, 1);
+                entities.removeById(id);
+            }, 10);
         }
     },
     /**
