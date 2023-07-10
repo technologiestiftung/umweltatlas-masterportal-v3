@@ -35,6 +35,10 @@ export default {
         ...mapActions("Tools/Modeler3D", Object.keys(actions)),
         ...mapMutations("Tools/Modeler3D", Object.keys(mutations)),
 
+        /**
+         * Called if button in UI is pressed. Starts the drawing process.
+         * @returns {void}
+         */
         startDrawing () {
             this.setIsDrawing(true);
             this.createCylinder({
@@ -51,6 +55,11 @@ export default {
             eventHandler.setInputAction(this.addPolygonPosition, Cesium.ScreenSpaceEventType.LEFT_CLICK);
             eventHandler.setInputAction(this.stopDrawing, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
         },
+        /**
+         * Called on mouse move. Repositions the current pin to set the position.
+         * @param {Event} event changed mouse position event
+         * @returns {void}
+         */
         onMouseMove (event) {
             const scene = this.scene,
                 floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
@@ -74,6 +83,10 @@ export default {
                 }
             }
         },
+        /**
+         * Called on mouse leftclick. Sets the position of a pin and starts to draw polygon with 2 set pins.
+         * @returns {void}
+         */
         addPolygonPosition () {
             const floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
 
@@ -92,6 +105,10 @@ export default {
             this.activeShapePoints.push(this.currentPosition);
             // floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
         },
+        /**
+         * Called on mouse rightclick. Completes the polygon when there are at least 3 corners or deletes it when it has less.
+         * @returns {void}
+         */
         stopDrawing () {
             const shape = this.entities.getById(this.shapeId);
 
@@ -108,6 +125,10 @@ export default {
             this.setIsDrawing(false);
             eventHandler.destroy();
         },
+        /**
+         * Creates the drawn shape in the EntityCollection and sets its attributes.
+         * @returns {void}
+         */
         drawShape () {
             const entities = this.entities,
                 models = this.drawnModels,
@@ -180,6 +201,11 @@ export default {
                 destination: Cesium.Cartesian3.fromRadians(longitude, latitude, targetHeight)
             });
         },
+        /**
+         * Exports all drawn entities to single GeoJSON file.
+         * @param {Event} event changed mouse position event
+         * @returns {void}
+         */
         exportToGeoJson () {
             const entities = this.entities,
                 drawnEntitiesCollection = [],
@@ -239,6 +265,11 @@ export default {
 
             this.downloadGeoJson(JSON.stringify(jsonGlob));
         },
+        /**
+         * Downloads the exported GeoJSON file
+         * @param {JSON} geojson - all entities in a json format.
+         * @returns {void}
+         */
         downloadGeoJson (geojson) {
             const url = URL.createObjectURL(new Blob([geojson], {type: "application/geo+json"})),
                 link = document.createElement("a");

@@ -170,8 +170,8 @@ export default {
             reader.readAsDataURL(file);
         },
         /**
-         * Handles the processing of a JSON file.
-         * @param {File} file - The JSON file.
+         * Handles the processing of a GEOJSON file.
+         * @param {File} file - The GEOJSON file.
          * @param {string} fileName - The name of the file.
          * @returns {void}
          */

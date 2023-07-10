@@ -171,6 +171,11 @@ const actions = {
 
         commit("setCurrentModelPosition", Cesium.Cartesian3.fromDegrees(coordinates[0], coordinates[1], height));
     },
+    /**
+     * Generates Cesium cylinders at all polygon positions.
+     * @param {object} context - The context of the Vuex module.
+     * @returns {void}
+    */
     generateCylinders ({commit, dispatch, getters, state}) {
         const entities = getters.entities,
             entity = entities.getById(state.currentModelId);
@@ -190,21 +195,32 @@ const actions = {
             });
         }
     },
-    createCylinder ({commit, getters}, positionObj) {
+    /**
+     * Create a singular Cesium cylinder at the given position.
+     * @param {object} context - The context of the Vuex module.
+     * @param {object} positionObj - The position options to create the cylinder with
+     * @returns {void}
+    */
+    createCylinder ({commit, getters}, {position, posIndex, length, heightReference}) {
         const cylinder = getters.entities.add({
-            position: positionObj.position,
-            positionIndex: positionObj.posIndex,
+            position: position,
+            positionIndex: posIndex,
             cylinder: {
                 material: new Cesium.ColorMaterialProperty(Cesium.Color.RED),
                 bottomRadius: 0.1,
                 topRadius: 1,
-                length: positionObj.length ? positionObj.length : 20,
-                heightReference: positionObj.heightReference ? positionObj.heightReference : Cesium.HeightReference.NONE
+                length: length ? length : 20,
+                heightReference: heightReference ? heightReference : Cesium.HeightReference.NONE
             }
         });
 
         commit("setCylinderId", cylinder.id);
     },
+    /**
+     * Removes all Cesium cylinders from the the Cesium EntityCollection.
+     * @param {object} context - The context of the Vuex module.
+     * @returns {void}
+    */
     removeCylinders ({getters}) {
         const entities = getters.entities,
             pointEntities = entities.values.filter(entity => entity.cylinder);
@@ -213,14 +229,32 @@ const actions = {
             entities.remove(entity);
         });
     },
+    /**
+     * Sets the position attribute of the given Cesium cylinder to a callback property returning the position.
+     * @param {object} _ - OMITTED - The context of the Vuex module.
+     * @param {object} cylinderOptions - Includes the cylinder and the position the callback property shall be set to.
+     * @returns {void}
+    */
     makeCylinderDynamic (_, {cylinder, position}) {
         cylinder.cylinder.heightReference = Cesium.HeightReference.NONE;
         cylinder.position = new Cesium.CallbackProperty(() => position, false);
     },
+    /**
+     * Sets the position attribute of a given Cesium cylinder back to a constant property.
+     * @param {object} _ - OMITTED - The context of the Vuex module.
+     * @param {Cesium.Entity} cylinder - The cylinder that shall be reset.
+     * @returns {void}
+    */
     resetCylinder (_, cylinder) {
         cylinder.position = cylinder.position.getValue();
         cylinder.cylinder.heightReference = Cesium.HeightReference.RELATIVE_TO_GROUND;
     },
+    /**
+     * Moves a given polygon to a given new position.
+     * @param {object} context - The context of the Vuex module.
+     * @param {object} moveOptions - Contains the polygon and new position it shall be moved to.
+     * @returns {void}
+    */
     movePolygon ({dispatch, getters}, {entity, position}) {
         if (entity && entity.wasDrawn && entity.polygon && entity.polygon.hierarchy) {
             const positions = entity.polygon.hierarchy.getValue().positions,

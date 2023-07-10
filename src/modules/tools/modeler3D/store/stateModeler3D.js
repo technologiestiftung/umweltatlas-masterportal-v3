@@ -2,14 +2,17 @@
  * User type definition
  * @typedef {Object} Modeler3DState
  * @property {Boolean}      active - if true, component is rendered
+ * @property {Object[]}     activeShapePoints - Holds the positions of the currently selected shape
  * @property {Boolean}      adaptToHeight - if true, adjust height automatically on position change
  * @property {Number}       coordinateEasting - the raw transformed easting coordinate displayed on the ui
  * @property {Number}       coordinateNorthing - the raw transformed northing coordinate displayed on the ui
  * @property {String}       currentModelId - id of the currently selected or added model
  * @property {Cartesian3}   currentModelPosition - position of the currently selected or added model
  * @property {Object}       currentProjection - the currently selected projection
+ * @property {String}       cylinderId - the id of the currently selected cylinder
  * @property {Boolean}      deactivateGFI - if true, component activation deactivates gfi component
  * @property {String}       drawName name of drawing model
+ * @property {Object[]}     drawnModels - a list of currently active drawn models
  * @property {Number}       extrudedHeight height in meters for drawing model
  * @property {Number}       height - the raw transformed height coordinate displayed on the ui
  * @property {Object[]}     hiddenObjects - array of hidden objects
@@ -30,7 +33,9 @@
  * @property {Boolean}      renderToWindow - if true, component is rendered in a window pane instead of sidebar
  * @property {Boolean}      resizableWindow - if true and if rendered to window pane, the pane is resizable
  * @property {Number}       rotation - the current rotation value
- * @property {String}       selectedColor - selected color for drawing 3d object
+ * @property {Number}       scale - the scale of the current model
+ * @property {String}       selectedFillColor - selected fill color for drawing 3d object
+ * @property {String}       selectedOutlineColor - selected outline color for drawing 3d object
  */
 
 export default {
@@ -38,8 +43,6 @@ export default {
     id: "modeler3D",
     activeShapePoints: [],
     adaptToHeight: true,
-    selectedFillColor: "",
-    selectedOutlineColor: "",
     coordinateEasting: 0,
     coordinateNorthing: 0,
     currentModelId: null,
@@ -47,8 +50,8 @@ export default {
     currentProjection: {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm"},
     currentView: "import",
     cylinderId: null,
-    drawnModels: [],
     drawName: "",
+    drawnModels: [],
     extrudedHeight: 20,
     height: 0,
     hiddenObjects: [],
@@ -66,6 +69,8 @@ export default {
     projections: [],
     rotation: 0,
     scale: 1,
+    selectedFillColor: "",
+    selectedOutlineColor: "",
 
     // defaults for config.json parameters
     icon: "bi-bounding-box",
