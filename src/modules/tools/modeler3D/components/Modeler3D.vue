@@ -3,7 +3,7 @@ import ToolTemplate from "../../ToolTemplate.vue";
 import EntityModel from "./Modeler3DEntityModel.vue";
 import Import from "./Modeler3DImport.vue";
 import Draw from "./Modeler3DDraw.vue";
-import Modeler3DList from "./Modeler3DList.vue";
+import EntityList from "./ui/EntityList.vue";
 import {getComponent} from "../../../../utils/getComponent";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import actions from "../store/actionsModeler3D";
@@ -23,7 +23,7 @@ export default {
         EntityModel,
         Import,
         Draw,
-        Modeler3DList
+        EntityList
     },
     data () {
         return {
@@ -668,7 +668,7 @@ export default {
                             </label>
                         </div>
                     </div>
-                    <Modeler3DList
+                    <EntityList
                         v-if="hiddenObjects.length > 0 && !isLoading"
                         id="hidden-objects"
                         :objects="hiddenObjects"

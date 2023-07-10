@@ -1,6 +1,6 @@
 <script>
 import BasicFileImport from "../../../../share-components/fileImport/components/BasicFileImport.vue";
-import Modeler3DList from "./Modeler3DList.vue";
+import EntityList from "./ui/EntityList.vue";
 import RoutingLoadingSpinner from "../../routing/components/RoutingLoadingSpinner.vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import actions from "../store/actionsModeler3D";
@@ -16,7 +16,7 @@ export default {
     name: "Modeler3DImport",
     components: {
         BasicFileImport,
-        Modeler3DList,
+        EntityList,
         RoutingLoadingSpinner
     },
     emits: ["moveEntity"],
@@ -268,7 +268,7 @@ export default {
             @add-file="addFile"
         />
 
-        <Modeler3DList
+        <EntityList
             v-if="importedModels.length > 0"
             id="successfully-imported-models"
             :objects="importedModels"

@@ -1,11 +1,11 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import actions from "../store/actionsModeler3D";
-import getters from "../store/gettersModeler3D";
-import mutations from "../store/mutationsModeler3D";
+import actions from "../../store/actionsModeler3D";
+import getters from "../../store/gettersModeler3D";
+import mutations from "../../store/mutationsModeler3D";
 
 export default {
-    name: "Modeler3DList",
+    name: "EntityList",
     props: {
         objects: {
             type: Array,

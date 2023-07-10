@@ -1,5 +1,5 @@
 <script>
-import Modeler3DList from "./Modeler3DList.vue";
+import EntityList from "./ui/EntityList.vue";
 import * as constants from "../store/constantsModeler3D";
 import {mapGetters, mapActions, mapMutations} from "vuex";
 import actions from "../store/actionsModeler3D";
@@ -12,7 +12,7 @@ let eventHandler = null;
 export default {
     name: "Modeler3DDraw",
     components: {
-        Modeler3DList
+        EntityList
     },
     data () {
         return {
@@ -432,7 +432,7 @@ export default {
                 </div>
             </div>
         </div>
-        <Modeler3DList
+        <EntityList
             v-if="drawnModels.length > 0"
             id="drawn-models"
             :objects="drawnModels"
