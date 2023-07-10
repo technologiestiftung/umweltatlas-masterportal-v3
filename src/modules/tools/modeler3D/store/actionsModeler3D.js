@@ -223,7 +223,7 @@ const actions = {
             const positions = entity.polygon.hierarchy.getValue().positions,
                 center = getters.getCenterFromPolygon(entity),
                 cylinders = getters.entities.values.filter(ent => ent.cylinder),
-                positionDelta = Cesium.Cartesian3.subtract(position, center);
+                positionDelta = Cesium.Cartesian3.subtract(position, center, new Cesium.Cartesian3());
 
             positions.forEach((pos, index) => {
                 Cesium.Cartesian3.add(pos, positionDelta, pos);
