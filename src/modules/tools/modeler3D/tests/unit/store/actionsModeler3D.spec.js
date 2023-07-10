@@ -60,7 +60,7 @@ describe("Actions", () => {
         sinon.restore();
     });
     describe("deleteEntity", () => {
-        it("should delete the entity from list and entityCollection", () => {
+        it("should delete the entity from list and entityCollection", (done) => {
             const commit = sinon.spy(),
                 state = {importedModels: [{id: 1}]},
                 id = 1;
@@ -75,11 +75,14 @@ describe("Actions", () => {
             };
 
             actions.deleteEntity({state, getters, commit}, id);
-            expect(entities.removeById.calledWith(1)).to.be.true;
-            expect(commit.calledWith("setCurrentModelId", null)).to.be.true;
+            setTimeout(() => {
+                expect(entities.removeById.calledWith(1)).to.be.true;
+                expect(commit.calledWith("setCurrentModelId", null)).to.be.true;
+                done();
+            }, 20);
         });
 
-        it("should not delete the entity when not found in list", () => {
+        it("should not delete the entity when not found in list", (done) => {
             const commit = sinon.spy(),
                 state = {importedModels: [{id: 5}]},
                 id = 1;
@@ -94,8 +97,11 @@ describe("Actions", () => {
             };
 
             actions.deleteEntity({state, getters, commit}, id);
-            expect(entities.removeById.calledWith(1)).to.be.false;
-            expect(commit.calledWith("setCurrentModelId", null)).to.be.false;
+            setTimeout(() => {
+                expect(entities.removeById.calledWith(1)).to.be.false;
+                expect(commit.calledWith("setCurrentModelId", null)).to.be.false;
+                done();
+            }, 20);
         });
     });
 
