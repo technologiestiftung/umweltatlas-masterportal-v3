@@ -19,7 +19,6 @@ export default {
             clampToGround: true,
             constants: constants,
             currentPosition: null,
-            drawingMode: "polygon",
             shapeId: null
         };
     },
@@ -29,6 +28,7 @@ export default {
     },
     mounted () {
         this.setSelectedFillColor(constants.colorOptions[0].color);
+        this.setSelectedGeometry(constants.geometries[0].value);
         this.setSelectedOutlineColor(constants.colorOptions[0].color);
     },
     methods: {
@@ -115,7 +115,10 @@ export default {
             if (shape?.polygon && this.activeShapePoints.length > 2) {
                 shape.polygon.hierarchy = new Cesium.ConstantProperty(new Cesium.PolygonHierarchy(this.activeShapePoints));
             }
-            else if (shape && this.activeShapePoints.length < 3) {
+            if (shape?.polyline && this.activeShapePoints.length >= 2) {
+                shape.polyline.positions = this.activeShapePoints;
+            }
+            else if (shape && shape.polygon && this.activeShapePoints.length < 3) {
                 this.deleteEntity(shape.id);
             }
 
@@ -135,23 +138,29 @@ export default {
                 lastElement = entities.values.slice().pop(),
                 lastId = lastElement?.id,
                 positionData = new Cesium.CallbackProperty(() => {
-                    if (this.drawingMode === "polygon") {
+                    if (this.selectedGeometry === "polygon") {
                         return new Cesium.PolygonHierarchy(this.activeShapePoints);
                     }
                     return this.activeShapePoints;
                 }, false);
             let shape;
 
-            if (this.drawingMode === "line") {
+            if (this.selectedGeometry === "line") {
                 shape = this.entities.add({
+                    id: lastId ? lastId + 1 : 1,
+                    name: this.drawName ? this.drawName : i18next.t("common:modules.tools.modeler3D.draw.captions.drawing"),
+                    wasDrawn: true,
                     polyline: {
+                        material: new Cesium.ColorMaterialProperty(
+                            Cesium.Color[this.selectedFillColor].withAlpha(this.opacity)
+                        ),
                         positions: positionData,
-                        clampToGround: true,
-                        width: 3
+                        clampToGround: this.clampToGround,
+                        width: this.lineWidth
                     }
                 });
             }
-            else if (this.drawingMode === "polygon") {
+            else if (this.selectedGeometry === "polygon") {
                 shape = this.entities.add({
                     id: lastId ? lastId + 1 : 1,
                     name: this.drawName ? this.drawName : i18next.t("common:modules.tools.modeler3D.draw.captions.drawing"),
@@ -187,15 +196,37 @@ export default {
          */
         zoomTo (id) {
             const entities = this.entities,
-                entity = entities.getById(id),
-                hierarchy = entity.polygon.hierarchy.getValue(),
-                positions = hierarchy.positions,
-                extrudedHeight = entity.polygon.extrudedHeight.getValue(),
-                targetHeight = extrudedHeight + 100,
-                boundingSphereCenter = Cesium.BoundingSphere.fromPoints(positions).center,
+                entity = entities.getById(id);
+
+            if (!entity) {
+                return;
+            }
+
+            let positions = [],
+                height = 0;
+
+            if (entity.polygon) {
+                const hierarchy = entity.polygon.hierarchy.getValue();
+
+                positions = hierarchy.positions;
+                height = entity.polygon.extrudedHeight.getValue();
+            }
+            else if (entity.polyline) {
+                positions = entity.polyline.positions.getValue();
+                height = 0;
+            }
+
+            if (positions.length === 0) {
+                return;
+            }
+
+            // TODO: Kann man das umgehen?
+            // eslint-disable-next-line one-var
+            const boundingSphereCenter = Cesium.BoundingSphere.fromPoints(positions).center,
                 centerCartographic = Cesium.Cartographic.fromCartesian(boundingSphereCenter),
                 longitude = centerCartographic.longitude,
-                latitude = centerCartographic.latitude;
+                latitude = centerCartographic.latitude,
+                targetHeight = height + 100;
 
             this.scene.camera.flyTo({
                 destination: Cesium.Cartesian3.fromRadians(longitude, latitude, targetHeight)
@@ -298,6 +329,28 @@ export default {
                 >
                     <label
                         class="col-md-5 col-form-label"
+                        for="tool-modeler3D-geometry"
+                    >
+                        {{ $t("modules.tools.modeler3D.draw.captions.geometry") }}
+                    </label>
+                    <div class="col-md-7">
+                        <select
+                            id="tool-modeler3D-geometry"
+                            :key="`tool-modeler3D-geometry-select`"
+                            class="form-select form-select-sm"
+                            @change="setSelectedGeometry($event.target.value)"
+                        >
+                            <option
+                                v-for="geometry in constants.geometries"
+                                :key="'modeler3D-geometry-option-' + geometry.value"
+                                :value="geometry.value"
+                            >
+                                {{ geometry.caption }}
+                            </option>
+                        </select>
+                    </div>
+                    <label
+                        class="col-md-5 col-form-label"
                         for="modeler3D-draw-name"
                     >
                         {{ $t("modules.tools.modeler3D.draw.captions.drawName") }}
@@ -312,18 +365,41 @@ export default {
                         >
                     </div>
                     <label
+                        v-if="selectedGeometry === 'polygon'"
                         class="col-md-5 col-form-label"
                         for="tool-modeler3D-extrudedHeight"
                     >
                         {{ $t("modules.tools.modeler3D.draw.captions.extrudedHeight") }}
                     </label>
-                    <div class="col-md-7">
+                    <div
+                        v-if="selectedGeometry === 'polygon'"
+                        class="col-md-7"
+                    >
                         <input
                             id="tool-modeler3D-extrudedHeight"
                             class="form-control form-control-sm"
                             type="text"
                             :value="extrudedHeight"
                             @input="setExtrudedHeight($event.target.value)"
+                        >
+                    </div>
+                    <label
+                        v-if="selectedGeometry === 'line'"
+                        class="col-md-5 col-form-label"
+                        for="tool-modeler3D-lineWidth"
+                    >
+                        {{ $t("modules.tools.modeler3D.draw.captions.lineWidth") }}
+                    </label>
+                    <div
+                        v-if="selectedGeometry === 'line'"
+                        class="col-md-7"
+                    >
+                        <input
+                            id="tool-modeler3D-lineWidth"
+                            class="form-control form-control-sm"
+                            type="text"
+                            :value="lineWidth"
+                            @input="setLineWidth($event.target.value)"
                         >
                     </div>
                     <label
@@ -371,12 +447,16 @@ export default {
                         </select>
                     </div>
                     <label
+                        v-if="selectedGeometry === 'polygon'"
                         class="col-md-5 col-form-label"
                         for="tool-modeler3D-outline-color"
                     >
                         {{ $t("modules.tools.modeler3D.draw.captions.outlineColor") }}
                     </label>
-                    <div class="col-md-7">
+                    <div
+                        v-if="selectedGeometry === 'polygon'"
+                        class="col-md-7"
+                    >
                         <select
                             id="tool-modeler3D-outline-color"
                             :key="`tool-modeler3D-outline-color-select`"

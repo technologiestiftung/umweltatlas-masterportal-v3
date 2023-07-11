@@ -109,7 +109,7 @@ export default {
                     oldEntity = entities.getById(oldId);
 
                 if (oldEntity) {
-                    if (oldEntity.wasDrawn) {
+                    if (oldEntity.wasDrawn && oldEntity.polygon) {
                         oldEntity.polygon.material.color = oldEntity.originalColor;
                         oldEntity.polygon.outline = false;
                         oldEntity.polygon.outlineColor = null;
@@ -131,7 +131,7 @@ export default {
                     this.setCurrentModelPosition(null);
                 }
                 if (newEntity) {
-                    if (newEntity.wasDrawn) {
+                    if (newEntity.wasDrawn && oldEntity.polygon) {
                         this.generateCylinders();
                         this.setActiveShapePoints(newEntity.polygon.hierarchy.getValue().positions);
                         newEntity.polygon.hierarchy = new Cesium.CallbackProperty(() => new Cesium.PolygonHierarchy(this.activeShapePoints), false);

@@ -154,9 +154,16 @@ const colorOptions = [
         {caption: "80 %", value: 0.2},
         {caption: "90 %", value: 0.1},
         {caption: "100 %", value: 0.0}
+    ],
+    geometries = [
+        {caption: "Polygon", value: "polygon"},
+        {caption: "Linie", value: "line"},
+        {caption: "Rechteck", value: "rectangle"},
+        {caption: "Kreis", value: "Circle"}
     ];
 
 export {
     colorOptions,
-    transparencyOptions
+    transparencyOptions,
+    geometries
 };
