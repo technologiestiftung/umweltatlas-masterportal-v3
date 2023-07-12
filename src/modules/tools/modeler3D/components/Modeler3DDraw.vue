@@ -52,7 +52,7 @@ export default {
             eventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
             eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-            eventHandler.setInputAction(this.addPolygonPosition, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+            eventHandler.setInputAction(this.addGeometryPosition, Cesium.ScreenSpaceEventType.LEFT_CLICK);
             eventHandler.setInputAction(this.stopDrawing, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
         },
         /**
@@ -84,14 +84,21 @@ export default {
             }
         },
         /**
-         * Called on mouse leftclick. Sets the position of a pin and starts to draw polygon with 2 set pins.
+         * Called on mouse leftclick. Sets the position of a pin and starts to draw a geometry.
          * @returns {void}
          */
-        addPolygonPosition () {
+        addGeometryPosition () {
             const floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
 
-            if (this.activeShapePoints.length === 2) {
-                this.drawShape();
+            if (this.selectedGeometry === "polygon") {
+                if (this.activeShapePoints.length === 2) {
+                    this.drawShape();
+                }
+            }
+            else if (this.selectedGeometry === "line") {
+                if (this.activeShapePoints.length === 1) {
+                    this.drawShape();
+                }
             }
 
             floatingPoint.position = new Cesium.ConstantProperty(this.currentPosition);

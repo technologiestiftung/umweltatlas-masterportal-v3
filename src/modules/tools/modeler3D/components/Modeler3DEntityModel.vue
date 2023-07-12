@@ -313,7 +313,7 @@ export default {
                 @decrement-shift="scaleString = (scale - 1).toFixed(1)"
             />
         </div>
-        <div v-if="wasDrawn">
+        <div v-if="wasDrawn && selectedGeometry === 'polygon'">
             <div class="h-seperator" />
             <EntityAttribute
                 v-model="extrudedHeightString"
