@@ -8,6 +8,9 @@
 
 ### Added
 - QuickHelp: A description of the route preference `recommended route` has been added.
+- 3D:
+    - Colored highlighting for 3D Tiles has been added.
+    - GFI MapMarker appears now on top of elevations by click.
 
 ### Changed
 
