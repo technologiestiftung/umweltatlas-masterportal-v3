@@ -17,6 +17,7 @@
 
 ### Fixed
 - Print: The portal is no longer reloaded after pressing the Enter key in the title field. Instead, the print is sent.
+- GFI: Fixed GFI for Cesium TileFeatures by updating Cesium function name.
 
 ---
 ## v2.35.0 - 2023-07-05
