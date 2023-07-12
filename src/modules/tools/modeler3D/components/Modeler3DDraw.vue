@@ -6,6 +6,7 @@ import actions from "../store/actionsModeler3D";
 import getters from "../store/gettersModeler3D";
 import mutations from "../store/mutationsModeler3D";
 import proj4 from "proj4";
+import {normalizeCylinderPosition} from "./utils/draw";
 
 let eventHandler = null;
 
@@ -40,14 +41,12 @@ export default {
          * @returns {void}
          */
         startDrawing () {
+            const scene = this.scene;
+
             this.setIsDrawing(true);
             this.createCylinder({
-                position: new Cesium.CallbackProperty(() => this.currentPosition, false),
-                posIndex: this.activeShapePoints.length,
-                length: this.extrudedHeight * 2
+                posIndex: this.activeShapePoints.length
             });
-
-            const scene = this.scene;
 
             eventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
@@ -65,6 +64,8 @@ export default {
                 floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
 
             if (Cesium.defined(floatingPoint)) {
+                floatingPoint.position = new Cesium.CallbackProperty(() => normalizeCylinderPosition(floatingPoint, this.currentPosition), false);
+
                 if (this.clampToGround) {
                     const ray = scene.camera.getPickRay(event.endPosition),
                         position = scene.globe.pick(ray, scene);
@@ -94,12 +95,10 @@ export default {
                 this.drawShape();
             }
 
-            floatingPoint.position = new Cesium.ConstantProperty(this.currentPosition);
+            floatingPoint.position = normalizeCylinderPosition(floatingPoint, this.currentPosition);
 
             this.createCylinder({
-                position: new Cesium.CallbackProperty(() => this.currentPosition, false),
-                posIndex: this.activeShapePoints.length,
-                length: this.extrudedHeight * 2
+                posIndex: this.activeShapePoints.length
             });
 
             this.activeShapePoints.push(this.currentPosition);

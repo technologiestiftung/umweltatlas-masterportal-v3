@@ -109,17 +109,13 @@ const getters = {
             const positions = polygon.polygon.hierarchy.getValue().positions,
                 center = positions.reduce(
                     (sum, position) => {
-                        sum.x += position.x;
-                        sum.y += position.y;
-                        sum.z += position.z;
+                        Cesium.Cartesian3.add(sum, position, sum);
                         return sum;
                     },
                     {x: 0, y: 0, z: 0}
                 );
 
-            center.x /= positions.length;
-            center.y /= positions.length;
-            center.z /= positions.length;
+            Cesium.Cartesian3.divideByScalar(center, positions.length, center);
 
             return center;
         }
