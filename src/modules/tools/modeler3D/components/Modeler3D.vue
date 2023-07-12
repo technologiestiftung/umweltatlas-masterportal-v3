@@ -150,6 +150,7 @@ export default {
     methods: {
         ...mapActions("Tools/Modeler3D", Object.keys(actions)),
         ...mapMutations("Tools/Modeler3D", Object.keys(mutations)),
+        ...mapMutations("Tools/Gfi", {setGfiActive: "setActive"}),
 
         /**
          * Initializes the projections to select. If projection EPSG:4326 is available same is added in decimal-degree.
@@ -299,7 +300,7 @@ export default {
                                 id: object.featureId,
                                 pickId: object.pickId.key,
                                 layerId: object.tileset.layerReferenceId,
-                                name: gmlId
+                                name: gmlId || "Hidden object " + this.id
                             });
                         }
                     }

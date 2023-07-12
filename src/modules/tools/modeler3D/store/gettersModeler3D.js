@@ -1,10 +1,10 @@
 
 import {generateSimpleGetters} from "../../../../app-store/utils/generators";
-import import3DState from "./stateModeler3D";
+import modeler3DState from "./stateModeler3D";
 import {convertSexagesimalFromDecimal, convertSexagesimalToDecimal} from "../../../../utils/convertSexagesimalCoordinates";
 
 const getters = {
-    ...generateSimpleGetters(import3DState),
+    ...generateSimpleGetters(modeler3DState),
 
     // NOTE overwrite getters here if you need a special behaviour in a getter
     /**
