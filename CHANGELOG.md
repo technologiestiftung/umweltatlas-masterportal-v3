@@ -20,7 +20,6 @@
 
 ### Fixed
 - Print: The portal is no longer reloaded after pressing the Enter key in the title field. Instead, the print is sent.
-- GFI: Fixed GFI for Cesium TileFeatures by updating Cesium function name.
 - WFST-Tool can also parse Geoserver responses from DescribeFeatureType-Requests
 
 ---
