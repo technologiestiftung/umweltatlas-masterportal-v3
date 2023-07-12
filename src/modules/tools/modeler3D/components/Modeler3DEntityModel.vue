@@ -5,6 +5,7 @@ import getters from "../store/gettersModeler3D";
 import mutations from "../store/mutationsModeler3D";
 import EntityAttribute from "./ui/EntityAttribute.vue";
 import EntityAttributeSlider from "./ui/EntityAttributeSlider.vue";
+import {normalizeCylinderPosition} from "./utils/draw";
 
 export default {
     name: "Modeler3DEntityModel",
@@ -75,6 +76,10 @@ export default {
                 }
                 this.setExtrudedHeight(adjustedValue);
                 this.entities.getById(this.currentModelId).polygon.extrudedHeight = this.extrudedHeight;
+                this.entities.values.filter(ent => ent.cylinder).forEach(cyl => {
+                    cyl.cylinder.length = this.extrudedHeight + 5;
+                    cyl.position = normalizeCylinderPosition(cyl);
+                });
             }
         },
         eastingString: {
