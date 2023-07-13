@@ -197,17 +197,24 @@ export default {
                             entity.id = lastId ? lastId + 1 : 1;
                             entity.name = properties.name.getValue();
                             entity.wasDrawn = true;
-                            entity.polygon.material = new Cesium.ColorMaterialProperty(
-                                new Cesium.Color(color.red, color.green, color.blue, color.alpha)
-                            );
-                            entity.polygon.outline = true;
-                            entity.polygon.outlineColor = properties.outlineColor;
-                            entity.polygon.outlineWidth = 1;
-                            entity.polygon.height = properties.height;
-                            entity.polygon.extrudedHeight = properties.extrudedHeight;
-                            entity.polygon.extrudedHeightReference = properties.extrudedHeightReference;
-                            entity.polygon.shadows = Cesium.ShadowMode.ENABLED;
-
+                            if (entity.polygon) {
+                                entity.polygon.material = new Cesium.ColorMaterialProperty(
+                                    new Cesium.Color(color.red, color.green, color.blue, color.alpha)
+                                );
+                                entity.polygon.outline = true;
+                                entity.polygon.outlineColor = properties.outlineColor;
+                                entity.polygon.outlineWidth = 1;
+                                entity.polygon.height = properties.height;
+                                entity.polygon.extrudedHeight = properties.extrudedHeight;
+                                entity.polygon.extrudedHeightReference = properties.extrudedHeightReference;
+                                entity.polygon.shadows = Cesium.ShadowMode.ENABLED;
+                            }
+                            else if (entity.polyline) {
+                                entity.polyline.material = new Cesium.ColorMaterialProperty(
+                                    new Cesium.Color(color.red, color.green, color.blue, color.alpha)
+                                );
+                                entity.polyline.width = properties.width;
+                            }
                             entities.add(entity);
                             this.drawnModels.push({
                                 id: entity.id,

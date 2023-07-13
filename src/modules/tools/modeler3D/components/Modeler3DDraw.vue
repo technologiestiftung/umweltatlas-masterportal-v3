@@ -257,12 +257,12 @@ export default {
             });
 
             drawnEntitiesCollection.forEach(entity => {
-                const polygon = entity.polygon,
-                    positions = polygon.hierarchy.getValue().positions,
-                    color = polygon.material.color,
-                    outlineColor = polygon.outlineColor.getValue(),
+                const geometry = entity.polygon ? entity.polygon : entity.polyline,
+                    positions = entity.polygon ? entity.polygon.hierarchy.getValue().positions : entity.polyline.positions.getValue(),
+                    color = geometry.material.color,
+                    outlineColor = geometry.outlineColor?.getValue(),
                     feature = {"type": "Feature", "properties": {}, "geometry": {
-                        "type": "Polygon", "coordinates": []
+                        "type": entity.polygon ? "Polygon" : "Polyline", "coordinates": []
                     }},
                     coords = [],
                     array = [];
@@ -290,9 +290,9 @@ export default {
                 feature.properties.color.alpha = color._value.alpha;
 
                 feature.properties.outlineColor = outlineColor;
-                feature.properties.height = polygon.height;
-                feature.properties.extrudedHeight = polygon.extrudedHeight._value;
-                feature.properties.extrudedHeightReference = polygon.extrudedHeightReference._value;
+                feature.properties.height = geometry.height;
+                feature.properties.extrudedHeight = geometry.extrudedHeight?._value;
+                feature.properties.extrudedHeightReference = geometry.extrudedHeightReference?._value;
 
                 array.push(coords);
                 feature.geometry.coordinates = array;
@@ -352,7 +352,7 @@ export default {
                                 :key="'modeler3D-geometry-option-' + geometry.value"
                                 :value="geometry.value"
                             >
-                                {{ geometry.caption }}
+                                {{ $t("modules.tools.modeler3D.draw.geometries." + geometry.value) }}
                             </option>
                         </select>
                     </div>

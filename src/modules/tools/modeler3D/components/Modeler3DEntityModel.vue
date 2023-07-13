@@ -23,6 +23,24 @@ export default {
                 this.setModelName(value);
             }
         },
+        showExtrudedHeight: function () {
+            const entities = this.entities,
+                entity = entities.getById(this.currentModelId);
+
+            return Boolean(entity.polygon && entity.wasDrawn);
+        },
+        showPositioning: function () {
+            const entities = this.entities,
+                entity = entities.getById(this.currentModelId);
+
+            return Boolean(entity.polygon || !entity.wasDrawn);
+        },
+        showWidth: function () {
+            const entities = this.entities,
+                entity = entities.getById(this.currentModelId);
+
+            return Boolean(entity.polyline && entity.wasDrawn);
+        },
         /**
          * The rotation angle of the entity.
          * @type {string}
@@ -75,6 +93,20 @@ export default {
                 }
                 this.setExtrudedHeight(adjustedValue);
                 this.entities.getById(this.currentModelId).polygon.extrudedHeight = this.extrudedHeight;
+            }
+        },
+        lineWidthString: {
+            get () {
+                return this.lineWidth.toFixed(2);
+            },
+            set (value) {
+                let adjustedValue = parseFloat(value);
+
+                if (adjustedValue < 0.01) {
+                    adjustedValue = 0.01;
+                }
+                this.setLineWidth(adjustedValue);
+                this.entities.getById(this.currentModelId).polyline.width = this.lineWidth;
             }
         },
         eastingString: {
@@ -195,8 +227,12 @@ export default {
             :width-classes="['col-md-5', 'col-md-7']"
             :buttons="false"
         />
-        <div class="h-seperator" />
         <div
+            v-if="showPositioning"
+            class="h-seperator"
+        />
+        <div
+            v-if="showPositioning"
             id="projection"
             class="form-group form-group-sm row"
         >
@@ -223,7 +259,10 @@ export default {
                 </select>
             </div>
         </div>
-        <div id="position">
+        <div
+            v-if="showPositioning"
+            id="position"
+        >
             <div class="h-seperator" />
             <EntityAttribute
                 v-model="eastingString"
@@ -313,7 +352,7 @@ export default {
                 @decrement-shift="scaleString = (scale - 1).toFixed(1)"
             />
         </div>
-        <div v-if="wasDrawn && selectedGeometry === 'polygon'">
+        <div v-if="showExtrudedHeight">
             <div class="h-seperator" />
             <EntityAttribute
                 v-model="extrudedHeightString"
@@ -324,6 +363,19 @@ export default {
                 @increment-shift="extrudedHeightString = (extrudedHeight + 1).toFixed(2)"
                 @decrement="extrudedHeightString = (extrudedHeight - 0.1).toFixed(2)"
                 @decrement-shift="extrudedHeightString = (extrudedHeight - 1).toFixed(2)"
+            />
+        </div>
+        <div v-if="showWidth">
+            <div class="h-seperator" />
+            <EntityAttribute
+                v-model="lineWidthString"
+                title="line-width"
+                :label="$t('modules.tools.modeler3D.draw.captions.lineWidth')"
+                :width-classes="['col-md-8', 'col-md-4']"
+                @increment="lineWidthString = (lineWidth + 0.1).toFixed(2)"
+                @increment-shift="lineWidthString = (lineWidth + 1).toFixed(2)"
+                @decrement="lineWidthString = (lineWidth - 0.1).toFixed(2)"
+                @decrement-shift="lineWidthString = (lineWidth - 1).toFixed(2)"
             />
         </div>
         <div class="h-seperator" />

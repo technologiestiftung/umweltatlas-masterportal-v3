@@ -659,6 +659,10 @@
                         "outlineColor": "Umrissfarbe",
                         "transparency": "Transparenz",
                         "lineWidth": "Strichstärke"
+                    },
+                    "geometries": {
+                        "polygon": "Polygon",
+                        "line": "Linie"
                     }
                 },
                 "nav": {

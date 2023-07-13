@@ -157,9 +157,7 @@ const colorOptions = [
     ],
     geometries = [
         {caption: "Polygon", value: "polygon"},
-        {caption: "Linie", value: "line"},
-        {caption: "Rechteck", value: "rectangle"},
-        {caption: "Kreis", value: "Circle"}
+        {caption: "Linie", value: "line"}
     ];
 
 export {
