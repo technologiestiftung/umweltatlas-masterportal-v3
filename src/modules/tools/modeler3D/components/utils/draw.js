@@ -21,20 +21,16 @@ export function adaptCylinderToGround (cylinder, position = cylinder.position.ge
  * @returns {Cesium.Cartesian3} - the normalized position
  */
 export function adaptCylinderToPolygon (polygon, cylinder, position = cylinder.position.getValue()) {
-    if (polygon) {
-        const scene = mapCollection.getMap("3D").getCesiumScene(),
-            cartographic = Cesium.Cartographic.fromCartesian(position),
-            sampledHeight = scene.sampleHeight(cartographic, [polygon, cylinder]),
-            heightDelta = polygon.polygon.extrudedHeight - sampledHeight;
+    const scene = mapCollection.getMap("3D").getCesiumScene(),
+        cartographic = Cesium.Cartographic.fromCartesian(position),
+        sampledHeight = scene.sampleHeight(cartographic, [polygon, cylinder]),
+        heightDelta = polygon.polygon.extrudedHeight - sampledHeight;
 
-        cylinder.cylinder.length = heightDelta + 5;
+    cylinder.cylinder.length = heightDelta + 5;
 
-        cartographic.height = sampledHeight + cylinder.cylinder.length.getValue() / 2;
+    cartographic.height = sampledHeight + cylinder.cylinder.length.getValue() / 2;
 
-        return Cesium.Cartographic.toCartesian(cartographic);
-    }
-
-    return adaptCylinderUnclamped(cylinder, position);
+    return Cesium.Cartographic.toCartesian(cartographic);
 }
 
 /**

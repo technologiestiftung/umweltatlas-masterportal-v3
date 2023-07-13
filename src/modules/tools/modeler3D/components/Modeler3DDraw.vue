@@ -6,7 +6,7 @@ import actions from "../store/actionsModeler3D";
 import getters from "../store/gettersModeler3D";
 import mutations from "../store/mutationsModeler3D";
 import proj4 from "proj4";
-import {adaptCylinderToPolygon, adaptCylinderToGround} from "./utils/draw";
+import {adaptCylinderToPolygon, adaptCylinderToGround, adaptCylinderUnclamped} from "./utils/draw";
 
 let eventHandler = null;
 
@@ -53,7 +53,7 @@ export default {
             this.currentPosition = new Cesium.Cartesian3(1, 1, 1);
             floatingPoint.position = this.clampToGround ?
                 new Cesium.CallbackProperty(() => adaptCylinderToGround(floatingPoint, this.currentPosition), false) :
-                new Cesium.CallbackProperty(() => adaptCylinderToPolygon(undefined, floatingPoint, this.currentPosition), false);
+                new Cesium.CallbackProperty(() => adaptCylinderUnclamped(floatingPoint, this.currentPosition), false);
 
             eventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
