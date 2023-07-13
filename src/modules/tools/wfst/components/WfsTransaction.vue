@@ -128,7 +128,8 @@ export default {
                         <p v-if="currentInteractionConfig.Polygon.available">
                             {{ $t("common:modules.tools.wfsTransaction.polygonHint") }}
                         </p>
-                        <form id="tool-wfsTransaction-form"
+                        <form
+                            id="tool-wfsTransaction-form"
                             @submit.prevent="() => {}"
                         >
                             <template v-for="property of featureProperties">
