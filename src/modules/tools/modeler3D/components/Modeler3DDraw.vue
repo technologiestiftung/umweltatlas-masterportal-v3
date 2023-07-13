@@ -101,6 +101,9 @@ export default {
         addPolygonPosition () {
             let floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
 
+            if (this.activeShapePoints.length === 1) {
+                this.setHeight(this.altitude);
+            }
             if (this.activeShapePoints.length === 2) {
                 this.drawShape();
             }
@@ -180,7 +183,7 @@ export default {
                     wasDrawn: true,
                     clampToGround: this.clampToGround,
                     polygon: {
-                        height: this.clampToGround ? undefined : this.altitude,
+                        height: this.clampToGround ? undefined : this.height,
                         hierarchy: positionData,
                         material: new Cesium.ColorMaterialProperty(
                             Cesium.Color[this.selectedFillColor].withAlpha(this.opacity)
@@ -189,7 +192,7 @@ export default {
                         outlineWidth: 1,
                         outlineColor: Cesium.Color[this.selectedOutlineColor].withAlpha(this.opacity),
                         shadows: Cesium.ShadowMode.ENABLED,
-                        extrudedHeight: this.clampToGround ? this.extrudedHeight : this.extrudedHeight + this.altitude,
+                        extrudedHeight: this.clampToGround ? this.extrudedHeight : this.extrudedHeight + this.height,
                         extrudedHeightReference: this.clampToGround ? Cesium.HeightReference.RELATIVE_TO_GROUND : Cesium.HeightReference.NONE
                     }
                 });

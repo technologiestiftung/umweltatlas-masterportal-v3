@@ -95,6 +95,7 @@ export default {
                 entity = {
                     id: lastId ? lastId + 1 : 1,
                     name: fileName,
+                    clampToGround: true,
                     model: {
                         uri: URL.createObjectURL(file)
                     }

@@ -84,7 +84,23 @@ const actions = {
             const cylinders = entities.values.filter(ent => ent.cylinder);
 
             dispatch("movePolygon", {entity: entity, position: state.currentModelPosition});
-            cylinders.forEach(cyl => dispatch("resetCylinder", cyl));
+
+            if (!entity.clampToGround) {
+                entity.polygon.height = state.height;
+                entity.polygon.extrudedHeight = state.extrudedHeight + state.height;
+                entity.polygon.extrudedHeightReference = Cesium.HeightReference.NONE;
+            }
+            else {
+                entity.polygon.height = undefined;
+                entity.polygon.extrudedHeight = state.extrudedHeight;
+                entity.polygon.extrudedHeightReference = Cesium.HeightReference.RELATIVE_TO_GROUND;
+            }
+
+            cylinders.forEach(cyl => {
+                cyl.position = entity.clampToGround ?
+                    adaptCylinderToGround(cyl, state.cylinderPosition[cyl.positionIndex]) :
+                    adaptCylinderToPolygon(entity, cyl, state.cylinderPosition[cyl.positionIndex]);
+            });
         }
         else {
             entity.position = state.currentModelPosition;
@@ -96,27 +112,30 @@ const actions = {
      * @param {object} context - The context of the Vuex module.
      * @returns {void}
     */
-    updatePositionUI ({dispatch, getters, state}) {
+    updatePositionUI ({commit, dispatch, getters, state}) {
         const entities = getters.entities,
             entity = entities.getById(state.currentModelId),
             entityPosition = entity?.position?.getValue() || getters.getCenterFromPolygon(entity);
 
         if (entityPosition) {
             dispatch("transformFromCartesian", entityPosition);
+            commit("setHeight", entity.clampToGround ? 0.0 : entity.polygon.height.getValue());
         }
     },
-    updateUI ({dispatch, getters, state}) {
+    updateUI ({commit, dispatch, getters, state}) {
         const entities = getters.entities,
             entity = entities.getById(state.currentModelId);
 
+        commit("setAdaptToHeight", entity.clampToGround);
+
         if (entity?.polygon instanceof Cesium.PolygonGraphics) {
-            state.extrudedHeight = entity.clampToGround ? entity.polygon.extrudedHeight.getValue() : entity.polygon.extrudedHeight - entity.polygon.height;
+            commit("setExtrudedHeight", entity.clampToGround ? entity.polygon.extrudedHeight.getValue() : entity.polygon.extrudedHeight.getValue() - entity.polygon.height.getValue());
         }
         else if (entity?.model instanceof Cesium.ModelGraphics) {
             const modelFromState = state.importedModels.find(ent => ent.id === entity.id);
 
-            state.rotation = modelFromState.heading;
-            state.scale = entity.model.scale ? entity.model.scale.getValue() : 1;
+            commit("setRotation", modelFromState.heading);
+            commit("setScale", entity.model.scale ? entity.model.scale.getValue() : 1);
         }
         dispatch("updatePositionUI");
     },
