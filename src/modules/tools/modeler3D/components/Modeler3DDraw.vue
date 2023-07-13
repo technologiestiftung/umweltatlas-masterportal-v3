@@ -74,7 +74,9 @@ export default {
                 const ray = scene.camera.getPickRay(event.endPosition),
                     position = scene.globe.pick(ray, scene);
 
-                this.currentPosition = position;
+                if (this.currentPosition !== position) {
+                    this.currentPosition = position;
+                }
             }
             else {
                 const transformedCoordinates = proj4(proj4("EPSG:25832"), proj4("EPSG:4326"), [this.mouseCoordinate[0], this.mouseCoordinate[1]]),
@@ -84,7 +86,9 @@ export default {
 
                 cartographic.height = scene.sampleHeight(cartographic, ignoreObjects);
 
-                this.currentPosition = Cesium.Cartographic.toCartesian(cartographic);
+                if (this.currentPosition !== Cesium.Cartographic.toCartesian(cartographic)) {
+                    this.currentPosition = Cesium.Cartographic.toCartesian(cartographic);
+                }
             }
             if (Cesium.defined(this.currentPosition)) {
                 this.activeShapePoints.splice(floatingPoint.positionIndex, 1, this.currentPosition);
@@ -109,7 +113,7 @@ export default {
                 });
             }
             else {
-                floatingPoint.position = adaptCylinderToPolygon(polygon, floatingPoint, this.currentPosition);
+                floatingPoint.position = polygon ? adaptCylinderToPolygon(polygon, floatingPoint, this.currentPosition) : adaptCylinderUnclamped(floatingPoint, this.currentPosition);
 
                 this.createCylinder({
                     posIndex: this.activeShapePoints.length,

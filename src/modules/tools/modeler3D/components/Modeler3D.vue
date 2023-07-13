@@ -325,9 +325,12 @@ export default {
 
                 if (Cesium.defined(cylinder) && Cesium.defined(polygon)) {
                     if (polygon.clampToGround) {
-                        const ray = scene.camera.getPickRay(event.endPosition);
+                        const ray = scene.camera.getPickRay(event.endPosition),
+                            position = scene.globe.pick(ray, scene);
 
-                        this.currentPosition = scene.globe.pick(ray, scene);
+                        if (this.currentPosition !== position) {
+                            this.currentPosition = scene.globe.pick(ray, scene);
+                        }
                     }
                     else {
                         const transformedCoordinates = proj4(proj4("EPSG:25832"), proj4("EPSG:4326"), [this.mouseCoordinate[0], this.mouseCoordinate[1]]),
@@ -335,7 +338,9 @@ export default {
 
                         cartographic.height = scene.sampleHeight(cartographic, [cylinder, polygon]);
 
-                        this.currentPosition = Cesium.Cartographic.toCartesian(cartographic);
+                        if (this.currentPosition !== Cesium.Cartographic.toCartesian(cartographic)) {
+                            this.currentPosition = Cesium.Cartographic.toCartesian(cartographic);
+                        }
                     }
                     if (Cesium.defined(this.currentPosition)) {
                         this.activeShapePoints.splice(cylinder.positionIndex, 1, this.currentPosition);
@@ -367,7 +372,7 @@ export default {
                             });
                             this.movePolygon({entity: entity, position: position});
                         }
-                        else {
+                        else if (entity.position !== position) {
                             entity.position = position;
                         }
                         this.updatePositionUI();
