@@ -49,6 +49,7 @@ test/end2end/Screenshots/ScreenshotsTest
 
 debug.log
 devtools/proxyconf.json
+devtools/securedServices.js
 lintfixed.html
 npm-debug.log
 

@@ -6,6 +6,7 @@ import actions from "../store/actionsModeler3D";
 import getters from "../store/gettersModeler3D";
 import mutations from "../store/mutationsModeler3D";
 import proj4 from "proj4";
+import {normalizeCylinderPosition} from "./utils/draw";
 
 let eventHandler = null;
 
@@ -42,12 +43,14 @@ export default {
         startDrawing () {
             this.setIsDrawing(true);
             this.createCylinder({
-                position: new Cesium.CallbackProperty(() => this.currentPosition, false),
-                posIndex: this.activeShapePoints.length,
-                length: this.extrudedHeight * 2
+                posIndex: this.activeShapePoints.length
             });
 
-            const scene = this.scene;
+            const scene = this.scene,
+                floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
+
+            this.currentPosition = new Cesium.Cartesian3(1, 1, 1);
+            floatingPoint.position = new Cesium.CallbackProperty(() => normalizeCylinderPosition(floatingPoint, this.currentPosition), false);
 
             eventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
@@ -64,23 +67,21 @@ export default {
             const scene = this.scene,
                 floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
 
-            if (Cesium.defined(floatingPoint)) {
-                if (this.clampToGround) {
-                    const ray = scene.camera.getPickRay(event.endPosition),
-                        position = scene.globe.pick(ray, scene);
+            if (this.clampToGround) {
+                const ray = scene.camera.getPickRay(event.endPosition),
+                    position = scene.globe.pick(ray, scene);
 
-                    this.currentPosition = position;
-                }
-                else {
-                    const cartographic = proj4(proj4("EPSG:25832"), proj4("EPSG:4326"), [this.mouseCoordinate[0], this.mouseCoordinate[1]]),
-                        radians = Cesium.Cartographic.fromDegrees(cartographic[0], cartographic[1]),
-                        height = scene.sampleHeight(radians, [floatingPoint]);
+                this.currentPosition = position;
+            }
+            else {
+                const cartographic = proj4(proj4("EPSG:25832"), proj4("EPSG:4326"), [this.mouseCoordinate[0], this.mouseCoordinate[1]]),
+                    radians = Cesium.Cartographic.fromDegrees(cartographic[0], cartographic[1]),
+                    height = scene.sampleHeight(radians, [floatingPoint]);
 
-                    this.currentPosition = Cesium.Cartesian3.fromDegrees(cartographic[0], cartographic[1], height);
-                }
-                if (Cesium.defined(this.currentPosition)) {
-                    this.activeShapePoints.splice(floatingPoint.positionIndex, 1, this.currentPosition);
-                }
+                this.currentPosition = Cesium.Cartesian3.fromDegrees(cartographic[0], cartographic[1], height);
+            }
+            if (Cesium.defined(this.currentPosition)) {
+                this.activeShapePoints.splice(floatingPoint.positionIndex, 1, this.currentPosition);
             }
         },
         /**
@@ -88,7 +89,7 @@ export default {
          * @returns {void}
          */
         addGeometryPosition () {
-            const floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
+            let floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
 
             if (this.selectedGeometry === "polygon") {
                 if (this.activeShapePoints.length === 2) {
@@ -101,16 +102,15 @@ export default {
                 }
             }
 
-            floatingPoint.position = new Cesium.ConstantProperty(this.currentPosition);
+            floatingPoint.position = normalizeCylinderPosition(floatingPoint, this.currentPosition);
 
             this.createCylinder({
-                position: new Cesium.CallbackProperty(() => this.currentPosition, false),
-                posIndex: this.activeShapePoints.length,
-                length: this.extrudedHeight * 2
+                posIndex: this.activeShapePoints.length
             });
+            floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
+            floatingPoint.position = new Cesium.CallbackProperty(() => normalizeCylinderPosition(floatingPoint, this.currentPosition), false);
 
             this.activeShapePoints.push(this.currentPosition);
-            // floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
         },
         /**
          * Called on mouse rightclick. Completes the polygon when there are at least 3 corners or deletes it when it has less.

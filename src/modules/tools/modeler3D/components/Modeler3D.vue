@@ -13,6 +13,7 @@ import store from "../../../../app-store";
 import crs from "@masterportal/masterportalapi/src/crs";
 import proj4 from "proj4";
 import {getGfiFeaturesByTileFeature} from "../../../../api/gfi/getGfiFeaturesByTileFeature";
+import {normalizeCylinderPosition} from "./utils/draw";
 
 let eventHandler = null;
 
@@ -153,7 +154,7 @@ export default {
                         }
                     }
                     this.highlightEntity(newEntity);
-                    this.setCurrentModelPosition(newEntity?.position?.getValue());
+                    this.setCurrentModelPosition(newEntity?.position?.getValue() || this.getCenterFromPolygon(newEntity));
                     this.updateUI();
                 }
             }
@@ -165,6 +166,7 @@ export default {
     methods: {
         ...mapActions("Tools/Modeler3D", Object.keys(actions)),
         ...mapMutations("Tools/Modeler3D", Object.keys(mutations)),
+        ...mapMutations("Tools/Gfi", {setGfiActive: "setActive"}),
 
         /**
          * Initializes the projections to select. If projection EPSG:4326 is available same is added in decimal-degree.
@@ -314,7 +316,7 @@ export default {
                                 id: object.featureId,
                                 pickId: object.pickId.key,
                                 layerId: object.tileset.layerReferenceId,
-                                name: gmlId
+                                name: gmlId || "Hidden object " + this.id
                             });
                         }
                     }
@@ -333,7 +335,7 @@ export default {
                         polygon = entities.getById(this.currentModelId);
 
                     if (Cesium.defined(cylinder) && Cesium.defined(polygon)) {
-                        this.makeCylinderDynamic({cylinder: cylinder, position: position});
+                        cylinder.position = new Cesium.CallbackProperty(() => normalizeCylinderPosition(cylinder, position), false);
 
                         this.activeShapePoints.splice(cylinder.positionIndex, 1, position);
                     }
@@ -382,14 +384,14 @@ export default {
                 if (this.cylinderId) {
                     const cylinder = this.entities.getById(this.cylinderId);
 
-                    this.resetCylinder(cylinder);
+                    cylinder.position = normalizeCylinderPosition(cylinder);
                     this.setCylinderId(null);
                 }
                 else if (this.wasDrawn) {
                     const cylinders = this.entities.values.filter(ent => ent.cylinder);
 
                     cylinders.forEach((cyl) => {
-                        this.resetCylinder(cyl);
+                        cyl.position = normalizeCylinderPosition(cyl);
                     });
                 }
             }

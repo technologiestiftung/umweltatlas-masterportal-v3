@@ -184,46 +184,41 @@ export default {
                     entities = this.entities;
 
                 geojson = JSON.parse(text);
-                Cesium.GeoJsonDataSource.load(geojson, {
-                    clampToGround: true
-                })
-                    .then((dataSource) => {
-                        dataSource.entities.values.forEach(entity => {
-                            const properties = entity.properties,
-                                color = entity.properties.color.getValue(),
-                                lastElement = entities.values.slice().pop(),
-                                lastId = lastElement?.id;
 
-                            entity.id = lastId ? lastId + 1 : 1;
-                            entity.name = properties.name.getValue();
-                            entity.wasDrawn = true;
-                            if (entity.polygon) {
-                                entity.polygon.material = new Cesium.ColorMaterialProperty(
+                geojson.features.forEach(feature => {
+                    const properties = feature.properties,
+                        color = properties.color,
+                        outlineColor = properties.outlineColor,
+                        coordinates = feature.geometry.coordinates[0],
+                        lastElement = entities.values.slice().pop(),
+                        lastId = lastElement?.id,
+                        entity = new Cesium.Entity({
+                            id: lastId ? lastId + 1 : 1,
+                            name: properties.name,
+                            wasDrawn: true,
+                            polygon: {
+                                material: new Cesium.ColorMaterialProperty(
                                     new Cesium.Color(color.red, color.green, color.blue, color.alpha)
-                                );
-                                entity.polygon.outline = true;
-                                entity.polygon.outlineColor = properties.outlineColor;
-                                entity.polygon.outlineWidth = 1;
-                                entity.polygon.height = properties.height;
-                                entity.polygon.extrudedHeight = properties.extrudedHeight;
-                                entity.polygon.extrudedHeightReference = properties.extrudedHeightReference;
-                                entity.polygon.shadows = Cesium.ShadowMode.ENABLED;
+                                ),
+                                outline: true,
+                                outlineColor: new Cesium.Color(outlineColor.red, outlineColor.green, outlineColor.blue, outlineColor.alpha),
+                                outlineWidth: 1,
+                                height: properties.height,
+                                extrudedHeight: properties.extrudedHeight,
+                                extrudedHeightReference: properties.extrudedHeightReference,
+                                shadows: Cesium.ShadowMode.ENABLED,
+                                hierarchy: new Cesium.PolygonHierarchy(coordinates.map(point => Cesium.Cartesian3.fromDegrees(point[0], point[1])))
                             }
-                            else if (entity.polyline) {
-                                entity.polyline.material = new Cesium.ColorMaterialProperty(
-                                    new Cesium.Color(color.red, color.green, color.blue, color.alpha)
-                                );
-                                entity.polyline.width = properties.width;
-                            }
-                            entities.add(entity);
-                            this.drawnModels.push({
-                                id: entity.id,
-                                name: entity.name,
-                                show: true,
-                                edit: false
-                            });
                         });
+
+                    entities.add(entity);
+                    this.drawnModels.push({
+                        id: entity.id,
+                        name: entity.name,
+                        show: true,
+                        edit: false
                     });
+                });
             };
 
             reader.readAsText(file);

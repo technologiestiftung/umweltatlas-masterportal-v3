@@ -1,5 +1,6 @@
 import proj4 from "proj4";
 import store from "../../../../app-store";
+import {normalizeCylinderLengthPosition, normalizeCylinderPosition} from "../components/utils/draw";
 
 const actions = {
     /**
@@ -98,7 +99,7 @@ const actions = {
     updatePositionUI ({dispatch, getters, state}) {
         const entities = getters.entities,
             entity = entities.getById(state.currentModelId),
-            entityPosition = entity?.polygon ? getters.getCenterFromPolygon(entity) : entity?.position?.getValue();
+            entityPosition = entity?.position?.getValue() || getters.getCenterFromPolygon(entity);
 
         if (entityPosition) {
             dispatch("transformFromCartesian", entityPosition);
@@ -187,10 +188,10 @@ const actions = {
 
             hierarchy.positions.forEach((position, index) => {
                 dispatch("createCylinder", {
-                    position: position,
+                    position: normalizeCylinderLengthPosition(entity.polygon.extrudedHeight + 5, position),
                     posIndex: index,
-                    length: entity.polygon.extrudedHeight + 4,
-                    heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND
+                    length: entity.polygon.extrudedHeight + 5
+                    // heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND
                 });
             });
         }
@@ -215,7 +216,7 @@ const actions = {
      * @param {object} positionObj - The position options to create the cylinder with
      * @returns {void}
     */
-    createCylinder ({commit, getters}, {position, posIndex, length, heightReference}) {
+    createCylinder ({commit, getters, state}, {position = new Cesium.Cartesian3(), posIndex, length, heightReference}) {
         const cylinder = getters.entities.add({
             position: position,
             positionIndex: posIndex,
@@ -223,7 +224,7 @@ const actions = {
                 material: new Cesium.ColorMaterialProperty(Cesium.Color.RED),
                 bottomRadius: 0.1,
                 topRadius: 1,
-                length: length ? length : 20,
+                length: length ? length : state.extrudedHeight + 5,
                 heightReference: heightReference ? heightReference : Cesium.HeightReference.NONE
             }
         });
@@ -244,26 +245,6 @@ const actions = {
         });
     },
     /**
-     * Sets the position attribute of the given Cesium cylinder to a callback property returning the position.
-     * @param {object} _ - OMITTED - The context of the Vuex module.
-     * @param {object} cylinderOptions - Includes the cylinder and the position the callback property shall be set to.
-     * @returns {void}
-    */
-    makeCylinderDynamic (_, {cylinder, position}) {
-        cylinder.cylinder.heightReference = Cesium.HeightReference.NONE;
-        cylinder.position = new Cesium.CallbackProperty(() => position, false);
-    },
-    /**
-     * Sets the position attribute of a given Cesium cylinder back to a constant property.
-     * @param {object} _ - OMITTED - The context of the Vuex module.
-     * @param {Cesium.Entity} cylinder - The cylinder that shall be reset.
-     * @returns {void}
-    */
-    resetCylinder (_, cylinder) {
-        cylinder.position = cylinder.position.getValue();
-        cylinder.cylinder.heightReference = Cesium.HeightReference.RELATIVE_TO_GROUND;
-    },
-    /**
      * Moves a given polygon to a given new position.
      * @param {object} context - The context of the Vuex module.
      * @param {object} moveOptions - Contains the polygon and new position it shall be moved to.
@@ -278,7 +259,7 @@ const actions = {
 
             positions.forEach((pos, index) => {
                 Cesium.Cartesian3.add(pos, positionDelta, pos);
-                dispatch("makeCylinderDynamic", {cylinder: cylinders[index], position: pos});
+                cylinders[index].position = new Cesium.CallbackProperty(() => normalizeCylinderPosition(cylinders[index], pos), false);
             });
 
             dispatch("transformFromCartesian", getters.getCenterFromPolygon(entity));

@@ -1,10 +1,10 @@
 
 import {generateSimpleGetters} from "../../../../app-store/utils/generators";
-import import3DState from "./stateModeler3D";
+import modeler3DState from "./stateModeler3D";
 import {convertSexagesimalFromDecimal, convertSexagesimalToDecimal} from "../../../../utils/convertSexagesimalCoordinates";
 
 const getters = {
-    ...generateSimpleGetters(import3DState),
+    ...generateSimpleGetters(modeler3DState),
 
     // NOTE overwrite getters here if you need a special behaviour in a getter
     /**
@@ -109,17 +109,13 @@ const getters = {
             const positions = polygon.polygon.hierarchy.getValue().positions,
                 center = positions.reduce(
                     (sum, position) => {
-                        sum.x += position.x;
-                        sum.y += position.y;
-                        sum.z += position.z;
+                        Cesium.Cartesian3.add(sum, position, sum);
                         return sum;
                     },
                     {x: 0, y: 0, z: 0}
                 );
 
-            center.x /= positions.length;
-            center.y /= positions.length;
-            center.z /= positions.length;
+            Cesium.Cartesian3.divideByScalar(center, positions.length, center);
 
             return center;
         }
