@@ -7,8 +7,10 @@
 ### Added
 - QuickHelp: A description of the route preference `recommended route` has been added.
 - 3D:
-    - Colored highlighting for 3D Tiles has been added.
-    - GFI MapMarker appears now on top of elevations by click.
+  - Colored highlighting for 3D Tiles has been added.
+  - GFI MapMarker appears now on top of elevations by click.
+- Filter:
+  - Add: new parameter minZoom and maxZoom in layer configuration to make filter to react with zoom level. If the current zoom level if out of range, the filter will be deactivated.
 
 ### Changed
 
