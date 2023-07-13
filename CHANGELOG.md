@@ -23,6 +23,11 @@
 - WFST-Tool can also parse Geoserver responses from DescribeFeatureType-Requests
 
 ---
+## v2.35.1 - 2023-07-13
+### Fixed
+- GFI: Fixed GFI for Cesium TileFeatures by updating Cesium function name.
+
+---
 ## v2.35.0 - 2023-07-05
 ### Added
 - AddWMS Tool uses legendURL and MetadataURL from Capabilities.
