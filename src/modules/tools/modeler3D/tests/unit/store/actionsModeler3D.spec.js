@@ -210,7 +210,8 @@ describe("Actions", () => {
             };
             getters = {
                 scene: scene,
-                entities: entities
+                entities: entities,
+                getCenterFromPolygon: sinon.stub().returns(undefined)
             };
 
             actions.updatePositionUI({dispatch, state, getters});
