@@ -141,7 +141,7 @@ export default {
             entity.polygon.extrudedHeight = trueHeight;
             entities.values.filter(ent => ent.cylinder).forEach(cyl => {
                 cyl.cylinder.length = trueHeight + 5;
-                cyl.position = adaptCylinderToGround(cyl);
+                cyl.position = adaptCylinderToGround(cyl, cyl.position.getValue());
             });
         },
         /**

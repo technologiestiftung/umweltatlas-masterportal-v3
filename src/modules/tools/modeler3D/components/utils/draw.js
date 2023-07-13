@@ -4,11 +4,13 @@
  * @param {Cesium.Cartesian3} position - the position that should get normalized
  * @returns {Cesium.Cartesian3} - the normalized position
  */
-export function adaptCylinderToGround (cylinder, position = cylinder.position.getValue()) {
-    const scene = mapCollection.getMap("3D").getCesiumScene(),
-        cartographic = Cesium.Cartographic.fromCartesian(position);
+export function adaptCylinderToGround (cylinder, position) {
+    // TODO: Überprüfen was hier los ist!
+    const newPosition = position ? position : {x: 1, y: 1, z: 1},
+        scene = mapCollection.getMap("3D").getCesiumScene(),
+        cartographic = Cesium.Cartographic.fromCartesian(newPosition);
 
-    cartographic.height = scene.globe.getHeight(cartographic) + cylinder.cylinder.length.getValue() / 2;
+    cartographic.height = scene.globe.getHeight(cartographic) + cylinder.cylinder.length._value / 2;
 
     return Cesium.Cartographic.toCartesian(cartographic);
 }
@@ -20,7 +22,7 @@ export function adaptCylinderToGround (cylinder, position = cylinder.position.ge
  * @param {Cesium.Cartesian3} position - the position that should get normalized
  * @returns {Cesium.Cartesian3} - the normalized position
  */
-export function adaptCylinderToPolygon (polygon, cylinder, position = cylinder.position.getValue()) {
+export function adaptCylinderToPolygon (polygon, cylinder, position) {
     const scene = mapCollection.getMap("3D").getCesiumScene(),
         cartographic = Cesium.Cartographic.fromCartesian(position),
         sampledHeight = scene.sampleHeight(cartographic, [polygon, cylinder]),
@@ -28,7 +30,7 @@ export function adaptCylinderToPolygon (polygon, cylinder, position = cylinder.p
 
     cylinder.cylinder.length = heightDelta + 5;
 
-    cartographic.height = sampledHeight + cylinder.cylinder.length.getValue() / 2;
+    cartographic.height = sampledHeight + cylinder.cylinder.length._value / 2;
 
     return Cesium.Cartographic.toCartesian(cartographic);
 }
@@ -42,7 +44,7 @@ export function adaptCylinderToPolygon (polygon, cylinder, position = cylinder.p
 export function adaptCylinderUnclamped (cylinder, position) {
     const cartographic = Cesium.Cartographic.fromCartesian(position);
 
-    cartographic.height += cylinder.cylinder.length.getValue() / 2;
+    cartographic.height += cylinder.cylinder.length._value / 2;
 
     return Cesium.Cartographic.toCartesian(cartographic);
 }
