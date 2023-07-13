@@ -480,6 +480,7 @@ export default {
             <form
                 id="printToolNew"
                 class="form-horizontal"
+                @submit.prevent="print"
             >
                 <div class="form-group form-group-sm row">
                     <label

@@ -20,6 +20,14 @@ if (fse.existsSync("./devtools/proxyconf.json")) {
 else {
     proxies = require("./proxyconf_example.json");
 }
+if (fse.existsSync("./devtools/securedServices.js")) {
+    const securedServices = require("./securedServices.js");
+
+    let securedProxy = proxies["/secure_"];
+
+    securedProxy = securedServices.addHeader(securedProxy);
+    proxies["/secure_"] = securedServices.pathRewrite(securedProxy);
+}
 
 Object.keys(proxies).forEach(proxy => {
     if (proxies[proxy].agent !== undefined) {
