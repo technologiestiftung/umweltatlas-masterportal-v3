@@ -251,7 +251,7 @@ export default {
                 feature.properties.color.alpha = color._value.alpha;
 
                 feature.properties.outlineColor = outlineColor;
-                feature.properties.height = polygon.height;
+                feature.properties.height = polygon.height?._value;
                 feature.properties.extrudedHeight = polygon.extrudedHeight._value;
                 feature.properties.extrudedHeightReference = polygon.extrudedHeightReference._value;
 
