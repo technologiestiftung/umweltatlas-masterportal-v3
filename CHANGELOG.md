@@ -2,10 +2,8 @@
  All important changes in this project are stored in this file.
 
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
-
 ## Unreleased - in development
 ### __Breaking Changes__
-
 ### Added
 - QuickHelp: A description of the route preference `recommended route` has been added.
 - 3D:
