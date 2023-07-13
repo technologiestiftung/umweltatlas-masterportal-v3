@@ -91,6 +91,7 @@ export default {
 
                 eventHandler.setInputAction(this.selectObject, Cesium.ScreenSpaceEventType.LEFT_CLICK);
                 eventHandler.setInputAction(this.moveEntity, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+                eventHandler.setInputAction(this.cursorCheck, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
             }
             else {
                 eventHandler.destroy();
@@ -239,6 +240,23 @@ export default {
             wgs84ProjDez.getCode = () => "EPSG:4326-DG";
             projections.splice(index + 1, 0, wgs84ProjDez);
         },
+        cursorCheck (event) {
+            const scene = this.scene,
+                picked = scene.pick(event.endPosition),
+                entity = Cesium.defaultValue(picked?.id, picked?.primitive?.id);
+
+            if (Cesium.defined(entity) && entity instanceof Cesium.Entity) {
+                if (this.currentModelId && entity.id === this.currentModelId || entity.cylinder) {
+                    document.body.style.cursor = "grab";
+                }
+                else {
+                    document.body.style.cursor = "pointer";
+                }
+            }
+            else {
+                document.body.style.cursor = "auto";
+            }
+        },
         /**
          * Initiates the process of moving an entity.
          * @param {Event} event - The event object containing the position information.
@@ -258,6 +276,8 @@ export default {
                 this.setIsDragging(true);
                 this.originalHideOption = this.hideObjects;
                 this.setHideObjects(false);
+
+                document.body.style.cursor = "grabbing";
 
                 if (entity?.cylinder) {
                     const polygon = this.entities.getById(this.currentModelId);
@@ -409,6 +429,8 @@ export default {
                     });
                 }
                 this.setHideObjects(this.originalHideOption);
+
+                document.body.style.cursor = "auto";
             }
         },
         /**
@@ -419,6 +441,7 @@ export default {
             if (eventHandler) {
                 eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
                 eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+                eventHandler.setInputAction(this.cursorCheck, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
                 eventHandler.setInputAction(this.moveEntity, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
             }
         },
