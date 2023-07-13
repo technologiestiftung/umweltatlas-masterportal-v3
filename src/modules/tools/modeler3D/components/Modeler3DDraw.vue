@@ -50,7 +50,7 @@ export default {
                 floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
 
             this.currentPosition = new Cesium.Cartesian3(1, 1, 1);
-            floatingPoint.position = new Cesium.CallbackProperty(() => normalizeCylinderPosition(floatingPoint, this.currentPosition), false);
+            // floatingPoint.position = new Cesium.CallbackProperty(() => normalizeCylinderPosition(floatingPoint, this.currentPosition), false);
 
             eventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
@@ -291,8 +291,10 @@ export default {
 
                 feature.properties.outlineColor = outlineColor;
                 feature.properties.height = geometry.height;
+                feature.properties.clampToGround = geometry.clampToGround?._value;
                 feature.properties.extrudedHeight = geometry.extrudedHeight?._value;
                 feature.properties.extrudedHeightReference = geometry.extrudedHeightReference?._value;
+                feature.properties.width = geometry.width?._value;
 
                 array.push(coords);
                 feature.geometry.coordinates = array;
