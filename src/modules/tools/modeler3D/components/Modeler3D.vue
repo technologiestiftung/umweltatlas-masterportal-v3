@@ -394,8 +394,8 @@ export default {
                         polygon = this.entities.getById(this.currentModelId);
 
                     cylinder.position = polygon?.clampToGround ?
-                        adaptCylinderToGround(cylinder) :
-                        adaptCylinderToPolygon(polygon, cylinder);
+                        adaptCylinderToGround(cylinder, cylinder.position.getValue()) :
+                        adaptCylinderToPolygon(polygon, cylinder, cylinder.position.getValue());
                     this.setCylinderId(null);
                 }
                 else if (this.wasDrawn) {
@@ -404,8 +404,8 @@ export default {
 
                     cylinders.forEach((cyl) => {
                         cyl.position = polygon?.clampToGround ?
-                            adaptCylinderToGround(cyl) :
-                            adaptCylinderToPolygon(polygon, cyl);
+                            adaptCylinderToGround(cyl, cyl.position.getValue()) :
+                            adaptCylinderToPolygon(polygon, cyl, cyl.position.getValue());
                     });
                 }
                 this.setHideObjects(this.originalHideOption);

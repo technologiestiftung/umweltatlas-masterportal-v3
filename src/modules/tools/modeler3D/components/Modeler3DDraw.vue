@@ -43,6 +43,7 @@ export default {
         startDrawing () {
             this.setIsDrawing(true);
             this.shapeId = null;
+            this.currentPosition = {x: 1, y: 1, z: 1};
             this.createCylinder({
                 posIndex: this.activeShapePoints.length
             });
@@ -50,7 +51,6 @@ export default {
             const scene = this.scene,
                 floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
 
-            this.currentPosition = new Cesium.Cartesian3(1, 1, 1);
             floatingPoint.position = this.clampToGround ?
                 new Cesium.CallbackProperty(() => adaptCylinderToGround(floatingPoint, this.currentPosition), false) :
                 new Cesium.CallbackProperty(() => adaptCylinderUnclamped(floatingPoint, this.currentPosition), false);
@@ -123,7 +123,7 @@ export default {
             floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
             floatingPoint.position = this.clampToGround ?
                 new Cesium.CallbackProperty(() => adaptCylinderToGround(floatingPoint, this.currentPosition), false) :
-                new Cesium.CallbackProperty(() => adaptCylinderToPolygon(polygon, floatingPoint, this.currentPosition), false);
+                new Cesium.CallbackProperty(() => polygon ? adaptCylinderToPolygon(polygon, floatingPoint, this.currentPosition) : adaptCylinderUnclamped(floatingPoint, this.currentPosition), false);
 
             this.activeShapePoints.push(this.currentPosition);
         },
