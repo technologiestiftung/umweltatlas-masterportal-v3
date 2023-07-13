@@ -6,7 +6,7 @@ import actions from "../store/actionsModeler3D";
 import getters from "../store/gettersModeler3D";
 import mutations from "../store/mutationsModeler3D";
 import proj4 from "proj4";
-import {normalizeCylinderPosition} from "./utils/draw";
+import {adaptCylinderToPolygon, adaptCylinderToGround} from "./utils/draw";
 
 let eventHandler = null;
 
@@ -50,7 +50,9 @@ export default {
                 floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
 
             this.currentPosition = new Cesium.Cartesian3(1, 1, 1);
-            floatingPoint.position = new Cesium.CallbackProperty(() => normalizeCylinderPosition(floatingPoint, this.currentPosition), false);
+            floatingPoint.position = this.clampToGround ?
+                new Cesium.CallbackProperty(() => adaptCylinderToGround(floatingPoint, this.currentPosition), false) :
+                new Cesium.CallbackProperty(() => adaptCylinderToPolygon(_, floatingPoint, this.currentPosition), false);
 
             eventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
@@ -74,11 +76,14 @@ export default {
                 this.currentPosition = position;
             }
             else {
-                const cartographic = proj4(proj4("EPSG:25832"), proj4("EPSG:4326"), [this.mouseCoordinate[0], this.mouseCoordinate[1]]),
-                    radians = Cesium.Cartographic.fromDegrees(cartographic[0], cartographic[1]),
-                    height = scene.sampleHeight(radians, [floatingPoint]);
+                const transformedCoordinates = proj4(proj4("EPSG:25832"), proj4("EPSG:4326"), [this.mouseCoordinate[0], this.mouseCoordinate[1]]),
+                    cartographic = Cesium.Cartographic.fromDegrees(transformedCoordinates[0], transformedCoordinates[1]),
+                    polygon = this.entities.values.find(ent => ent.id === this.currentModelId),
+                    ignoreObjects = polygon ? [floatingPoint, polygon] : [floatingPoint];
 
-                this.currentPosition = Cesium.Cartesian3.fromDegrees(cartographic[0], cartographic[1], height);
+                cartographic.height = scene.sampleHeight(cartographic, ignoreObjects);
+
+                this.currentPosition = Cesium.Cartographic.toCartesian(cartographic);
             }
             if (Cesium.defined(this.currentPosition)) {
                 this.activeShapePoints.splice(floatingPoint.positionIndex, 1, this.currentPosition);
@@ -94,14 +99,26 @@ export default {
             if (this.activeShapePoints.length === 2) {
                 this.drawShape();
             }
+            const polygon = this.entities.getById(this.shapeId);
 
-            floatingPoint.position = normalizeCylinderPosition(floatingPoint, this.currentPosition);
+            if (this.clampToGround) {
+                floatingPoint.position = adaptCylinderToGround(floatingPoint, this.currentPosition);
+                this.createCylinder({
+                    posIndex: this.activeShapePoints.length
+                });
+            }
+            else {
+                floatingPoint.position = adaptCylinderToPolygon(polygon, floatingPoint, this.currentPosition);
 
-            this.createCylinder({
-                posIndex: this.activeShapePoints.length
-            });
+                this.createCylinder({
+                    posIndex: this.activeShapePoints.length,
+                    length: polygon ? this.extrudedHeight + polygon.polygon.height + 5 : undefined
+                });
+            }
             floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
-            floatingPoint.position = new Cesium.CallbackProperty(() => normalizeCylinderPosition(floatingPoint, this.currentPosition), false);
+            floatingPoint.position = this.clampToGround ?
+                new Cesium.CallbackProperty(() => adaptCylinderToGround(floatingPoint, this.currentPosition), false) :
+                new Cesium.CallbackProperty(() => adaptCylinderToPolygon(polygon, floatingPoint, this.currentPosition), false);
 
             this.activeShapePoints.push(this.currentPosition);
         },
@@ -156,6 +173,7 @@ export default {
                     id: lastId ? lastId + 1 : 1,
                     name: this.drawName ? this.drawName : i18next.t("common:modules.tools.modeler3D.draw.captions.drawing"),
                     wasDrawn: true,
+                    clampToGround: this.clampToGround,
                     polygon: {
                         height: this.clampToGround ? undefined : this.altitude,
                         hierarchy: positionData,
@@ -166,8 +184,8 @@ export default {
                         outlineWidth: 1,
                         outlineColor: Cesium.Color[this.selectedOutlineColor].withAlpha(this.opacity),
                         shadows: Cesium.ShadowMode.ENABLED,
-                        extrudedHeight: this.extrudedHeight,
-                        extrudedHeightReference: Cesium.HeightReference.RELATIVE_TO_GROUND
+                        extrudedHeight: this.clampToGround ? this.extrudedHeight : this.extrudedHeight + this.altitude,
+                        extrudedHeightReference: this.clampToGround ? Cesium.HeightReference.RELATIVE_TO_GROUND : Cesium.HeightReference.NONE
                     }
                 });
             }

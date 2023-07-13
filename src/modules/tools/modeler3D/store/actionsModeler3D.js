@@ -1,6 +1,6 @@
 import proj4 from "proj4";
 import store from "../../../../app-store";
-import {normalizeCylinderLengthPosition, normalizeCylinderPosition} from "../components/utils/draw";
+import {adaptCylinderToGround, adaptCylinderToPolygon} from "../components/utils/draw";
 
 const actions = {
     /**
@@ -110,7 +110,7 @@ const actions = {
             entity = entities.getById(state.currentModelId);
 
         if (entity?.polygon instanceof Cesium.PolygonGraphics) {
-            state.extrudedHeight = entity.polygon.extrudedHeight ? entity.polygon.extrudedHeight.getValue() : 20;
+            state.extrudedHeight = entity.clampToGround ? entity.polygon.extrudedHeight.getValue() : entity.polygon.extrudedHeight - entity.polygon.height;
         }
         else if (entity?.model instanceof Cesium.ModelGraphics) {
             const modelFromState = state.importedModels.find(ent => ent.id === entity.id);
@@ -182,17 +182,23 @@ const actions = {
             entity = entities.getById(state.currentModelId);
 
         if (entity?.wasDrawn && entity?.polygon?.hierarchy) {
-            const hierarchy = entity.polygon.hierarchy.getValue();
+            const hierarchy = entity.polygon.hierarchy.getValue(),
+                length = entity.clampToGround ?
+                    entity.polygon.extrudedHeight + 5 :
+                    entity.polygon.extrudedHeight - entity.polygon.height + 5;
 
             commit("setActiveShapePoints", hierarchy.positions);
 
             hierarchy.positions.forEach((position, index) => {
                 dispatch("createCylinder", {
-                    position: normalizeCylinderLengthPosition(entity.polygon.extrudedHeight + 5, position),
                     posIndex: index,
-                    length: entity.polygon.extrudedHeight + 5
-                    // heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND
+                    length: length
                 });
+                const cylinder = entities.values.find(cyl => cyl.id === state.cylinderId);
+
+                cylinder.position = entity.clampToGround ?
+                    adaptCylinderToGround(cylinder, position) :
+                    adaptCylinderToPolygon(entity, cylinder, position);
             });
         }
     },
@@ -202,7 +208,7 @@ const actions = {
      * @param {object} positionObj - The position options to create the cylinder with
      * @returns {void}
     */
-    createCylinder ({commit, getters, state}, {position = new Cesium.Cartesian3(), posIndex, length, heightReference}) {
+    createCylinder ({commit, getters, state}, {position = new Cesium.Cartesian3(), posIndex, length}) {
         const cylinder = getters.entities.add({
             position: position,
             positionIndex: posIndex,
@@ -210,8 +216,7 @@ const actions = {
                 material: new Cesium.ColorMaterialProperty(Cesium.Color.RED),
                 bottomRadius: 0.1,
                 topRadius: 1,
-                length: length ? length : state.extrudedHeight + 5,
-                heightReference: heightReference ? heightReference : Cesium.HeightReference.NONE
+                length: length ? length : state.extrudedHeight + 5
             }
         });
 
@@ -236,16 +241,15 @@ const actions = {
      * @param {object} moveOptions - Contains the polygon and new position it shall be moved to.
      * @returns {void}
     */
-    movePolygon ({dispatch, getters}, {entity, position}) {
+    movePolygon ({dispatch, getters, state}, {entity, position}) {
         if (entity && entity.wasDrawn && entity.polygon && entity.polygon.hierarchy) {
             const positions = entity.polygon.hierarchy.getValue().positions,
                 center = getters.getCenterFromPolygon(entity),
-                cylinders = getters.entities.values.filter(ent => ent.cylinder),
                 positionDelta = Cesium.Cartesian3.subtract(position, center, new Cesium.Cartesian3());
 
             positions.forEach((pos, index) => {
                 Cesium.Cartesian3.add(pos, positionDelta, pos);
-                cylinders[index].position = new Cesium.CallbackProperty(() => normalizeCylinderPosition(cylinders[index], pos), false);
+                state.cylinderPosition[index] = pos;
             });
 
             dispatch("transformFromCartesian", getters.getCenterFromPolygon(entity));
