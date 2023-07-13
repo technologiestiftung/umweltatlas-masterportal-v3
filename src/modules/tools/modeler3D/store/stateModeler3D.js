@@ -51,11 +51,13 @@ export default {
     currentProjection: {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm"},
     currentView: "import",
     cylinderId: null,
+    cylinderPosition: [],
     drawName: "",
     drawnModels: [],
     extrudedHeight: 20,
     height: 0,
     hiddenObjects: [],
+    hideObjects: true,
     highlightStyle: {
         color: "#787777",
         alpha: 1,

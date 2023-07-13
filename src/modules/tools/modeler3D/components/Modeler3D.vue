@@ -13,7 +13,7 @@ import store from "../../../../app-store";
 import crs from "@masterportal/masterportalapi/src/crs";
 import proj4 from "proj4";
 import {getGfiFeaturesByTileFeature} from "../../../../api/gfi/getGfiFeaturesByTileFeature";
-import {normalizeCylinderPosition} from "./utils/draw";
+import {adaptCylinderToGround, adaptCylinderToPolygon} from "./utils/draw";
 
 let eventHandler = null;
 
@@ -29,9 +29,9 @@ export default {
     data () {
         return {
             defaultTabClass: "",
+            currentPosition: null,
             activeTabClass: "active",
             isHovering: "",
-            hideObjects: true,
             povActive: false,
             currentCartesian: null,
             originalCursorStyle: null
@@ -40,7 +40,7 @@ export default {
     computed: {
         ...mapGetters(["namedProjections"]),
         ...mapGetters("Tools/Modeler3D", Object.keys(getters)),
-        ...mapGetters("Maps", ["altitude", "longitude", "latitude", "clickCoordinate"]),
+        ...mapGetters("Maps", ["altitude", "longitude", "latitude", "clickCoordinate", "mouseCoordinate"]),
         /**
          * Returns the CSS classes for the import tab based on the current view.
          * @returns {string} - The CSS classes for the import tab.
@@ -272,8 +272,17 @@ export default {
 
             if (entity instanceof Cesium.Entity || !event) {
                 this.setIsDragging(true);
+                this.originalHideOption = this.hideObjects;
+                this.setHideObjects(false);
 
                 if (entity?.cylinder) {
+                    const polygon = this.entities.getById(this.currentModelId);
+
+                    this.currentPosition = polygon.polygon.hierarchy.getValue().positions[entity.positionIndex];
+
+                    entity.position = polygon.clampToGround ?
+                        new Cesium.CallbackProperty(() => adaptCylinderToGround(entity, this.currentPosition), false) :
+                        new Cesium.CallbackProperty(() => adaptCylinderToPolygon(polygon, entity, this.currentPosition), false);
                     eventHandler.setInputAction(this.moveCylinder, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
                 }
                 else {
@@ -325,19 +334,32 @@ export default {
         },
         moveCylinder (event) {
             if (this.isDragging) {
-                const scene = this.scene,
-                    ray = scene.camera.getPickRay(event.endPosition),
-                    position = scene.globe.pick(ray, scene);
+                const entities = this.entities,
+                    polygon = entities.getById(this.currentModelId),
+                    cylinder = entities.getById(this.cylinderId),
+                    scene = this.scene;
 
-                if (Cesium.defined(position)) {
-                    const entities = this.entities,
-                        cylinder = entities.getById(this.cylinderId),
-                        polygon = entities.getById(this.currentModelId);
+                if (Cesium.defined(cylinder) && Cesium.defined(polygon)) {
+                    if (polygon.clampToGround) {
+                        const ray = scene.camera.getPickRay(event.endPosition),
+                            position = scene.globe.pick(ray, scene);
 
-                    if (Cesium.defined(cylinder) && Cesium.defined(polygon)) {
-                        cylinder.position = new Cesium.CallbackProperty(() => normalizeCylinderPosition(cylinder, position), false);
+                        if (this.currentPosition !== position) {
+                            this.currentPosition = scene.globe.pick(ray, scene);
+                        }
+                    }
+                    else {
+                        const transformedCoordinates = proj4(proj4("EPSG:25832"), proj4("EPSG:4326"), [this.mouseCoordinate[0], this.mouseCoordinate[1]]),
+                            cartographic = Cesium.Cartographic.fromDegrees(transformedCoordinates[0], transformedCoordinates[1]);
 
-                        this.activeShapePoints.splice(cylinder.positionIndex, 1, position);
+                        cartographic.height = scene.sampleHeight(cartographic, [cylinder, polygon]);
+
+                        if (this.currentPosition !== Cesium.Cartographic.toCartesian(cartographic)) {
+                            this.currentPosition = Cesium.Cartographic.toCartesian(cartographic);
+                        }
+                    }
+                    if (Cesium.defined(this.currentPosition)) {
+                        this.activeShapePoints.splice(cylinder.positionIndex, 1, this.currentPosition);
                     }
                 }
             }
@@ -359,6 +381,11 @@ export default {
 
                     if (Cesium.defined(entity)) {
                         if (entity.polygon) {
+                            entities.values.filter(ent => ent.cylinder).forEach((cyl, index) => {
+                                cyl.position = entity.clampToGround ?
+                                    new Cesium.CallbackProperty(() => adaptCylinderToGround(cyl, this.cylinderPosition[index]), false) :
+                                    new Cesium.CallbackProperty(() => adaptCylinderToPolygon(entity, cyl, this.cylinderPosition[index]), false);
+                            });
                             this.movePolygon({entity: entity, position: position});
                         }
                         else if (entity.polyline) {
@@ -382,18 +409,25 @@ export default {
                 this.setIsDragging(false);
 
                 if (this.cylinderId) {
-                    const cylinder = this.entities.getById(this.cylinderId);
+                    const cylinder = this.entities.getById(this.cylinderId),
+                        polygon = this.entities.getById(this.currentModelId);
 
-                    cylinder.position = normalizeCylinderPosition(cylinder);
+                    cylinder.position = polygon?.clampToGround ?
+                        adaptCylinderToGround(cylinder, cylinder.position.getValue()) :
+                        adaptCylinderToPolygon(polygon, cylinder, cylinder.position.getValue());
                     this.setCylinderId(null);
                 }
                 else if (this.wasDrawn) {
-                    const cylinders = this.entities.values.filter(ent => ent.cylinder);
+                    const cylinders = this.entities.values.filter(ent => ent.cylinder),
+                        polygon = this.entities.getById(this.currentModelId);
 
                     cylinders.forEach((cyl) => {
-                        cyl.position = normalizeCylinderPosition(cyl);
+                        cyl.position = polygon?.clampToGround ?
+                            adaptCylinderToGround(cyl, cyl.position.getValue()) :
+                            adaptCylinderToPolygon(polygon, cyl, cyl.position.getValue());
                     });
                 }
+                this.setHideObjects(this.originalHideOption);
             }
         },
         /**
@@ -550,12 +584,9 @@ export default {
         },
         changeSwitches (id) {
             if (id === "povActiveSwitch" || this.povActive) {
-                this.hideObjects = !this.hideObjects;
                 this.povActive = !this.povActive;
             }
-            else {
-                this.hideObjects = !this.hideObjects;
-            }
+            this.setHideObjects(!this.hideObjects);
         }
     }
 };

@@ -5,7 +5,7 @@ import getters from "../store/gettersModeler3D";
 import mutations from "../store/mutationsModeler3D";
 import EntityAttribute from "./ui/EntityAttribute.vue";
 import EntityAttributeSlider from "./ui/EntityAttributeSlider.vue";
-import {normalizeCylinderPosition} from "./utils/draw";
+import {adaptCylinderToGround} from "./utils/draw";
 
 export default {
     name: "Modeler3DEntityModel",
@@ -93,11 +93,7 @@ export default {
                     adjustedValue = 0.01;
                 }
                 this.setExtrudedHeight(adjustedValue);
-                this.entities.getById(this.currentModelId).polygon.extrudedHeight = this.extrudedHeight;
-                this.entities.values.filter(ent => ent.cylinder).forEach(cyl => {
-                    cyl.cylinder.length = this.extrudedHeight + 5;
-                    cyl.position = normalizeCylinderPosition(cyl);
-                });
+                this.updateExtrudedHeight();
             }
         },
         lineWidthString: {
@@ -168,6 +164,17 @@ export default {
             if (value) {
                 this.updateEntityPosition();
             }
+        },
+        updateExtrudedHeight () {
+            const entities = this.entities,
+                entity = entities.getById(this.currentModelId),
+                trueHeight = entity.clampToGround ? this.extrudedHeight : this.extrudedHeight + entity.polygon.height;
+
+            entity.polygon.extrudedHeight = trueHeight;
+            entities.values.filter(ent => ent.cylinder).forEach(cyl => {
+                cyl.cylinder.length = trueHeight + 5;
+                cyl.position = adaptCylinderToGround(cyl, cyl.position.getValue());
+            });
         },
         /**
          * Rotates the current model based on the value of the rotationAngle property.
