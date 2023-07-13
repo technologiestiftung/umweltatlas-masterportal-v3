@@ -42,6 +42,7 @@ export default {
          */
         startDrawing () {
             this.setIsDrawing(true);
+            this.shapeId = null;
             this.createCylinder({
                 posIndex: this.activeShapePoints.length
             });
@@ -52,7 +53,7 @@ export default {
             this.currentPosition = new Cesium.Cartesian3(1, 1, 1);
             floatingPoint.position = this.clampToGround ?
                 new Cesium.CallbackProperty(() => adaptCylinderToGround(floatingPoint, this.currentPosition), false) :
-                new Cesium.CallbackProperty(() => adaptCylinderToPolygon(_, floatingPoint, this.currentPosition), false);
+                new Cesium.CallbackProperty(() => adaptCylinderToPolygon(undefined, floatingPoint, this.currentPosition), false);
 
             eventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
