@@ -122,8 +122,8 @@ export default {
                             this.setExtrudedHeight(20);
                         }
                         else if (oldEntity.polyline) {
+                            oldEntity.polyline.positions = new Cesium.ConstantProperty(this.activeShapePoints);
                             oldEntity.polyline.material.color = oldEntity.originalColor;
-                            // oldEntity.polyline.positions = this.activeShapePoints;
                             this.removeCylinders();
                             this.setActiveShapePoints([]);
                             this.setCylinderId(null);
@@ -146,8 +146,10 @@ export default {
                             this.setActiveShapePoints(newEntity.polygon.hierarchy.getValue().positions);
                             newEntity.polygon.hierarchy = new Cesium.CallbackProperty(() => new Cesium.PolygonHierarchy(this.activeShapePoints), false);
                         }
-                        else {
-                            this.setActiveShapePoints(newEntity.polyline.positions.getValue().positions);
+                        else if (newEntity.polyline) {
+                            this.generateCylinders();
+                            this.setActiveShapePoints(newEntity.polyline.positions.getValue());
+                            newEntity.polyline.positions = new Cesium.CallbackProperty(() => this.activeShapePoints);
                         }
                     }
                     this.highlightEntity(newEntity);
@@ -356,6 +358,9 @@ export default {
                     if (Cesium.defined(entity)) {
                         if (entity.polygon) {
                             this.movePolygon({entity: entity, position: position});
+                        }
+                        else if (entity.polyline) {
+                            this.movePolyline({entity: entity, position: position});
                         }
                         else {
                             entity.position = position;

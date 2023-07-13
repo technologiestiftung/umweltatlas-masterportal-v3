@@ -194,6 +194,20 @@ const actions = {
                 });
             });
         }
+        else if (entity?.wasDrawn && entity?.polyline?.positions) {
+            const positions = entity.polyline.positions.getValue();
+
+            commit("setActiveShapePoints", positions);
+
+            positions.forEach((position, index) => {
+                dispatch("createCylinder", {
+                    position: position,
+                    posIndex: index,
+                    length: 4,
+                    heightReference: Cesium.HeightReference.CLAMP_TO_GROUND
+                });
+            });
+        }
     },
     /**
      * Create a singular Cesium cylinder at the given position.
@@ -268,6 +282,27 @@ const actions = {
             });
 
             dispatch("transformFromCartesian", getters.getCenterFromPolygon(entity));
+        }
+    },
+    /**
+     * Moves a given polyline to a given new position.
+     * @param {object} context - The context of the Vuex module.
+     * @param {object} moveOptions - Contains the polyline and new position it shall be moved to.
+     * @returns {void}
+    */
+    movePolyline ({dispatch, getters}, {entity, position}) {
+        if (entity && entity.wasDrawn && entity.polyline && entity.polyline.positions) {
+            const positions = entity.polyline.positions.getValue(),
+                boundingSphereCenter = Cesium.BoundingSphere.fromPoints(positions).center,
+                cylinders = getters.entities.values.filter(ent => ent.cylinder),
+                positionDelta = Cesium.Cartesian3.subtract(position, boundingSphereCenter, new Cesium.Cartesian3());
+
+            positions.forEach((pos, index) => {
+                Cesium.Cartesian3.add(pos, positionDelta, pos);
+                dispatch("makeCylinderDynamic", {cylinder: cylinders[index], position: pos});
+            });
+
+            // dispatch("transformFromCartesian", boundingSphereCenter);
         }
     }
 };
