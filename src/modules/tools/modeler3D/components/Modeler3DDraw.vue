@@ -445,6 +445,7 @@ export default {
                     <button
                         id="tool-modeler3D-modelling-interaction"
                         class="primary-button-wrapper"
+                        :disabled="isDrawing"
                         @click="startDrawing"
                     >
                         <span class="bootstrap-icon">
@@ -497,6 +498,10 @@ export default {
         }
         &:hover {
             @include primary_action_hover;
+        }
+        &:disabled {
+            background-color: $dark_grey;
+            cursor: not-allowed;
         }
     }
 </style>
