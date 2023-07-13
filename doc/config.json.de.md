@@ -1763,7 +1763,6 @@ Die Konfiguration eines Layers.
 |filterButtonDisabled|nein|Boolean|false|Nur für strategy `passive`: Der Filter-Knopf wird deaktiviert solange der Benutzer nichts im Filter ausgewählt hat.|false|
 |snippets|nein|[snippets](#markdown-header-portalconfigmenutoolfilterfilterlayersnippets)[]|[]|Konfiguration der sogenannten Snippets für das Filtern. Kann bei der minimalsten Variante ein Array von Attribut-Namen sein. Kann komplett weggelassen werden, wenn die automatische Snippet-Ermittlung verwendet werden soll.|false|
 |filterOnMove|nein|Boolean||Wenn auf `true` eingestellt, wird der Layer bei Kartenbewergung dynamisch gefilteret.|false|
-|collection|no|String||NUR FÜR VectorTiles: Die collection auf die gefiltert werden soll. Wenn es gesetzt ist, muss der parameter `baseOAFUrl` an dem layer gesetzt sein um die API Anfragen zu starten.|false|
 
 **Beispiel**
 
@@ -2410,6 +2409,8 @@ Druckmodul. Konfigurierbar für 2 Druckdienste: den High Resolution PlotService 
 |useProxy|nein|Boolean|false|Deprecated im nächsten Major-Release, da von der GDI-DE empfohlen wird einen CORS-Header einzurichten. Gibt an, ob die URL des Dienstes über einen Proxy angefragt werden soll, dabei werden die Punkte in der URL durch Unterstriche ersetzt.|false|
 |printMapMarker|nein|Boolean|false|Wenn dieses Feld auf true gesetzt ist, werden im Bildausschnitt sichtbare MapMarker mitgedruckt. Diese überdecken ggf. interessante Druckinformationen.|false|
 |overviewmapLayerId|nein|String||Über den Parameter layerId kann ein anderer Layer für die Overviewmap verwendet werden. Wird keine Id angegeben, wird der erste Layer der ausgewählten Hintergundkarten verwendet.|false|
+|layoutOrder|nein|String[]||Legt die Reihenfolge fest, in der die Layouts in der Dropdown-Liste angezeigt werden sollen. Nur in Kombination mit dem Druckdienst 'plotservice' zu verwenden.|false|
+|isPrintDrawnGeoms|nein|Boolean|false|Gibt an, ob es möglich ist, Geometrien zu drucken, die durch das Draw oder Measure Tool entstanden sind. Nur in Kombination mit dem Druckdienst 'plotservice' zu verwenden.|false|
 
 **Beispiel Konfiguration mit High Resolution PlotService**
 ```
@@ -2421,7 +2422,13 @@ Druckmodul. Konfigurierbar für 2 Druckdienste: den High Resolution PlotService 
     "filename": "Ausdruck",
     "title": "Mein Titel",
     "printService": "plotservice",
-    "printAppCapabilities": "info.json"
+    "printAppCapabilities": "info.json",
+    "layoutOrder": [
+        "Default A4 hoch",
+        "Default A4 quer",
+        "Default A3 hoch",
+        "Default A3 quer",
+    ]
 }
 ```
 

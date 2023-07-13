@@ -57,18 +57,16 @@ export default class FilterApi {
      * @param {String} layerId the layer id
      * @param {ol/Layer} layerModel the layer model
      * @param {Boolean} extern if true, the type given by layerModel is used, otherwise "tree" is used
-     * @param {String} collection the collection - needed for vectortiles
      * @param {Function} onerror a function(Error)
      * @returns {void}
      */
-    setServiceByLayerModel (layerId, layerModel, extern, collection, onerror) {
+    setServiceByLayerModel (layerId, layerModel, extern, onerror) {
         if (!isObject(layerModel)) {
             return;
         }
         const type = layerModel.get("typ").toLowerCase(),
             featureNS = layerModel.get("featureNS"),
             url = layerModel.get("url"),
-            vectorTilesBaseUrl = layerModel.get("baseOAFUrl"),
             featureType = layerModel.get("featureType");
 
         if (type === "wfs") {
@@ -128,18 +126,10 @@ export default class FilterApi {
         }
         else if (type === "vectortile") {
             if (!extern) {
-                if (!vectorTilesBaseUrl) {
-                    onerror(new Error("FilterApi.setServiceByLayerModel: VectorTiles layer must have set the 'baseOAFUrl' param."));
-                    return;
-                }
                 this.service = {
                     type,
                     extern,
-                    layerId,
-                    url: vectorTilesBaseUrl,
-                    collection,
-                    namespace: featureNS,
-                    limit: typeof layerModel.get("limit") === "undefined" ? 400 : layerModel.get("limit")
+                    layerId
                 };
             }
             else {

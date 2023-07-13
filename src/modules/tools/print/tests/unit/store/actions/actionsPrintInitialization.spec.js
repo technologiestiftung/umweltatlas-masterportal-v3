@@ -98,31 +98,44 @@ describe("src/modules/tools/print/store/actions/actionsPrintInitialization.js", 
     describe("parsePlotserviceCapabilities", function () {
         it("should parse the plotservice capabilities", done => {
             const payload = {
-                layouts: [
-                    {
-                        name: "A4 Hochformat",
-                        geoDocument: "pdf_a4_hoch"
-                    },
-                    {
-                        name: "A4 Querformat",
-                        geoDocument: "pdf_a4_quer"
-                    },
-                    {
-                        name: "A3 Hochformat",
-                        geoDocument: "pdf_a3_hoch"
-                    },
-                    {
-                        name: "A3 Querformat",
-                        geoDocument: "pdf_a3_quer"
-                    }
-                ],
-                formats: [
-                    "jpg", "png", "pdf"
-                ]
-            };
+                    layouts: [
+                        {
+                            name: "A4 Hochformat",
+                            geoDocument: "pdf_a4_hoch"
+                        },
+                        {
+                            name: "A4 Querformat",
+                            geoDocument: "pdf_a4_quer"
+                        },
+                        {
+                            name: "A3 Hochformat",
+                            geoDocument: "pdf_a3_hoch"
+                        },
+                        {
+                            name: "A3 Querformat",
+                            geoDocument: "pdf_a3_quer"
+                        }
+                    ],
+                    formats: [
+                        "jpg", "png", "pdf"
+                    ]
+                },
+                state = {
+                    layoutOrder: [
+                        "Default A4 hoch",
+                        "Default A4 quer",
+                        "Default A3 hoch",
+                        "Default A3 quer",
+                        "Default A4 hoch Legende",
+                        "Default A4 quer Legende",
+                        "Default A3 hoch Legende",
+                        "Default A3 quer Legende"
+                    ],
+                    isGfiAvailable: false
+                };
 
             // action, payload, state, rootState, expectedMutationsAndActions, getters = {}, done, rootGetters
-            testAction(parsePlotserviceCapabilities, payload, {}, {}, [
+            testAction(parsePlotserviceCapabilities, payload, state, {}, [
                 {type: "setLayoutList", payload: payload.layouts}
             ], {}, done);
         });

@@ -12,6 +12,7 @@ import Cluster from "ol/source/Cluster";
 import isObject from "../../../../utils/isObject";
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 import BuildSpec from "../utils/buildSpec";
+import {getGeometries} from "../../../../utils/prepareGeometries";
 
 /**
  * Tool to print a part of the map
@@ -33,6 +34,7 @@ export default {
         ...mapGetters("Tools/Print", Object.keys(getters)),
         ...mapGetters("Maps", ["scales, size", "scale", "getLayerById"]),
         ...mapGetters("Tools/Gfi", ["currentFeature"]),
+
         currentScale: {
             get () {
                 return this.$store.state.Tools.Print.currentScale;
@@ -127,11 +129,17 @@ export default {
                 this.setFilename(value);
                 this.isValid(value);
             }
+        },
+        isPlotService: {
+            get () {
+                return this.printService === "plotservice";
+            }
         }
     },
     watch: {
         active: function () {
             if (this.active) {
+
                 this.setIsScaleSelectedManually(false);
                 this.retrieveCapabilites();
                 this.setCurrentMapScale(this.scale);
@@ -139,6 +147,7 @@ export default {
             else {
                 this.setFileDownloads([]);
                 this.setPlotserviceIndex(-1);
+                this.setShouldPrintGeometries(false);
                 this.togglePostrenderListener();
             }
         },
@@ -271,7 +280,7 @@ export default {
             this.resetLayoutParameter();
             this.setCurrentLayoutName(value);
             this.setCurrentLayout(this.layoutList.find(layout => layout.name === value));
-            if (this.printService !== "plotservice") {
+            if (!this.isPlotService) {
                 this.getAttributeInLayoutByName("gfi");
                 this.getAttributeInLayoutByName("legend");
             }
@@ -294,6 +303,13 @@ export default {
          */
         print () {
             const currentPrintLength = this.fileDownloads.filter(file => file.finishState === false).length;
+
+            if (this.isPrintDrawnGeoms && this.isPlotService && this.shouldPrintGeometries) {
+                this.setGeometries(getGeometries(this.visibleLayerList));
+            }
+            else if (this.isPrintDrawnGeoms && this.isPlotService && !this.shouldPrintGeometries) {
+                this.setGeometries("[]");
+            }
 
             if (currentPrintLength <= 10) {
                 const index = this.fileDownloads.length;
@@ -464,6 +480,7 @@ export default {
             <form
                 id="printToolNew"
                 class="form-horizontal"
+                @submit.prevent="print"
             >
                 <div class="form-group form-group-sm row">
                     <label
@@ -652,7 +669,7 @@ export default {
                     </div>
                 </div>
                 <div
-                    v-if="printService === 'plotservice'"
+                    v-if="isPlotService"
                     class="form-group form-group-sm row"
                 >
                     <label
@@ -692,6 +709,28 @@ export default {
                                 :checked="autoAdjustScale && !isScaleSelectedManually"
                                 class="form-check-input"
                                 @change="setAutoAdjustScale($event.target.checked)"
+                            >
+                        </div>
+                    </div>
+                </div>
+                <div
+                    v-if="isPrintDrawnGeoms && isPlotService"
+                    class="form-group form-group-sm row"
+                >
+                    <label
+                        class="col-md-5 control-label"
+                        for="printGeometries"
+                    >
+                        {{ $t("common:modules.tools.print.printGeometries") }}
+                    </label>
+                    <div class="col-sm-7">
+                        <div class="checkbox">
+                            <input
+                                id="printGeometries"
+                                type="checkbox"
+                                :checked="shouldPrintGeometries"
+                                class="form-check-input"
+                                @change="setShouldPrintGeometries($event.target.checked)"
                             >
                         </div>
                     </div>
@@ -763,7 +802,7 @@ export default {
                 >
                     <div class="col-md-4 tool-print-download-title-container">
                         <span
-                            v-if="printService === 'plotservice'"
+                            v-if="isPlotService"
                             class="tool-print-download-title"
                         >
                             {{ file.filename + "." + file.outputFormat }}

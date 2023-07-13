@@ -1,4 +1,8 @@
+import store from "../../../../app-store";
 import isObject from "../../../../utils/isObject";
+import isNumber from "../../../../utils/isNumber";
+import {getMinMaxFromFetchedFeatures, getUniqueValuesFromFetchedFeatures} from "../utils/fetchAllOafProperties";
+import openlayerFunctions from "../utils/openlayerFunctions";
 import InterfaceOafExtern from "./interface.oaf.extern";
 import InterfaceWfsIntern from "./interface.wfs.intern";
 /**
@@ -30,7 +34,62 @@ export default class InterfaceVectorTilesIntern {
      * @returns {void}
      */
     getAttrTypes (service, onsuccess, onerror) {
-        return this.interfaceOafExtern.getAttrTypes(service, onsuccess, onerror);
+        const layerId = service?.layerId,
+            layerModel = openlayerFunctions.getLayerByLayerId(layerId),
+            listOfAllAttributes = {},
+            result = {};
+        let featuresInCurrentExtent = null;
+
+        if (!layerModel) {
+            if (typeof onerror === "function") {
+                onerror(new Error(`InterfaceVectorTilesIntern.getAttrTypes: cannot find layer model for given layerId ${layerId}.`));
+            }
+            return;
+        }
+
+        featuresInCurrentExtent = layerModel.layer.getSource().getFeaturesInExtent(store.getters["Maps/getCurrentExtent"]);
+
+        featuresInCurrentExtent.forEach(feature => {
+            if (typeof feature?.getProperties !== "function") {
+                return;
+            }
+
+            const properties = feature.getProperties();
+
+            Object.entries(properties).forEach(([key, value]) => {
+                if (!Array.isArray(listOfAllAttributes[key])) {
+                    listOfAllAttributes[key] = [];
+                }
+
+                if (listOfAllAttributes[key].find(attributeValue => attributeValue === value)) {
+                    return;
+                }
+                listOfAllAttributes[key].push(value);
+            });
+        });
+        Object.entries(listOfAllAttributes).forEach(([attribute, values]) => {
+            let typeofValue = "string";
+
+            for (const value of values) {
+                if (value === null || value === "" || typeof value === "undefined") {
+                    continue;
+                }
+                if (isNumber(value)) {
+                    typeofValue = "number";
+                    break;
+                }
+                const valueType = typeof value;
+
+                if (valueType === "string" || valueType === "boolean") {
+                    typeofValue = valueType;
+                    break;
+                }
+            }
+            result[attribute] = typeofValue;
+        });
+        if (typeof onsuccess === "function") {
+            onsuccess(result);
+        }
     }
 
     /**
@@ -44,7 +103,38 @@ export default class InterfaceVectorTilesIntern {
      * @returns {void}
      */
     getMinMax (service, attrName, onsuccess, onerror, minOnly, maxOnly) {
-        return this.interfaceOafExtern.getMinMax(service, attrName, onsuccess, onerror, minOnly, maxOnly);
+        const layerId = service?.layerId,
+            layerModel = openlayerFunctions.getLayerByLayerId(layerId),
+            allFetchedProperties = [];
+        let minMaxValues = null,
+            featuresInCurrentExtent = null;
+
+        if (!layerModel) {
+            if (typeof onerror === "function") {
+                onerror(new Error(`InterfaceVectorTilesIntern.getMinMax: cannot find layer model for given layerId ${layerId}.`));
+            }
+            return;
+        }
+        featuresInCurrentExtent = layerModel.layer.getSource().getFeaturesInExtent(store.getters["Maps/getCurrentExtent"]);
+
+        featuresInCurrentExtent.forEach(feature => {
+            if (typeof feature.getProperties !== "function") {
+                return;
+            }
+            allFetchedProperties.push(feature.getProperties());
+        });
+
+        minMaxValues = getMinMaxFromFetchedFeatures(allFetchedProperties, attrName, minOnly, maxOnly);
+
+        if (minMaxValues === false) {
+            if (typeof onerror === "function") {
+                onerror(new Error("InterfaceVectorTilesIntern.getMinMax: an error occurred during the creation of min max values."));
+            }
+            return;
+        }
+        if (typeof onsuccess === "function") {
+            onsuccess(minMaxValues);
+        }
     }
 
     /**
@@ -56,7 +146,40 @@ export default class InterfaceVectorTilesIntern {
      * @returns {void}
      */
     getUniqueValues (service, attrName, onsuccess, onerror) {
-        return this.interfaceOafExtern.getUniqueValues(service, attrName, onsuccess, onerror);
+        const layerId = service?.layerId,
+            layerModel = openlayerFunctions.getLayerByLayerId(layerId),
+            allFetchedProperties = [];
+
+        let featuresInCurrentExtent = null,
+            uniqueValues = null;
+
+        if (!layerModel) {
+            if (typeof onerror === "function") {
+                onerror(new Error(`InterfaceVectorTilesIntern.getUniqueValues: cannot find layer model for given layerId ${layerId}.`));
+            }
+            return;
+        }
+
+        featuresInCurrentExtent = layerModel.layer.getSource().getFeaturesInExtent(store.getters["Maps/getCurrentExtent"]);
+
+        featuresInCurrentExtent.forEach(feature => {
+            if (typeof feature.getProperties !== "function") {
+                return;
+            }
+            allFetchedProperties.push(feature.getProperties());
+        });
+
+        uniqueValues = getUniqueValuesFromFetchedFeatures(allFetchedProperties, attrName);
+
+        if (uniqueValues === false) {
+            if (typeof onerror === "function") {
+                onerror(new Error("InterfaceVectorTilesIntern.getUniqueValues: an error occurred during the creation of unique values."));
+            }
+            return;
+        }
+        if (typeof onsuccess === "function") {
+            onsuccess(uniqueValues);
+        }
     }
 
     /**
@@ -128,7 +251,7 @@ export default class InterfaceVectorTilesIntern {
             searchInMapExtent = commands?.searchInMapExtent,
             paging = commands?.paging > 0 ? commands.paging : 1000;
 
-        this.getFeaturesByLayerId(service?.layerId, service?.collection, features => {
+        this.getFeaturesByLayerId(service?.layerId, features => {
             this.filterGivenFeatures(features, filterId, snippetId, service, rules, filterGeometry, searchInMapExtent, paging, onsuccess);
         });
     }
