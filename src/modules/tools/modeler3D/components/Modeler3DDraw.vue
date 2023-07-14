@@ -6,7 +6,7 @@ import actions from "../store/actionsModeler3D";
 import getters from "../store/gettersModeler3D";
 import mutations from "../store/mutationsModeler3D";
 import proj4 from "proj4";
-import {adaptCylinderToPolygon, adaptCylinderToGround, adaptCylinderUnclamped} from "./utils/draw";
+import {adaptCylinderToEntity, adaptCylinderToGround, adaptCylinderUnclamped} from "./utils/draw";
 
 let eventHandler = null;
 
@@ -111,7 +111,7 @@ export default {
                     this.drawShape();
                 }
             }
-            const polygon = this.entities.getById(this.shapeId);
+            const entity = this.entities.getById(this.shapeId);
 
             if (this.clampToGround) {
                 floatingPoint.position = adaptCylinderToGround(floatingPoint, this.currentPosition);
@@ -120,17 +120,17 @@ export default {
                 });
             }
             else {
-                floatingPoint.position = polygon ? adaptCylinderToPolygon(polygon, floatingPoint, this.currentPosition) : adaptCylinderUnclamped(floatingPoint, this.currentPosition);
+                floatingPoint.position = entity ? adaptCylinderToEntity(entity, floatingPoint, this.currentPosition) : adaptCylinderUnclamped(floatingPoint, this.currentPosition);
 
                 this.createCylinder({
                     posIndex: this.activeShapePoints.length,
-                    length: polygon ? this.extrudedHeight + polygon.polygon.height + 5 : undefined
+                    length: entity?.polygon ? this.extrudedHeight + entity.polygon.height + 5 : undefined
                 });
             }
             floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
             floatingPoint.position = this.clampToGround ?
                 new Cesium.CallbackProperty(() => adaptCylinderToGround(floatingPoint, this.currentPosition), false) :
-                new Cesium.CallbackProperty(() => polygon ? adaptCylinderToPolygon(polygon, floatingPoint, this.currentPosition) : adaptCylinderUnclamped(floatingPoint, this.currentPosition), false);
+                new Cesium.CallbackProperty(() => entity ? adaptCylinderToEntity(entity, floatingPoint, this.currentPosition) : adaptCylinderUnclamped(floatingPoint, this.currentPosition), false);
 
             this.activeShapePoints.push(this.currentPosition);
         },
@@ -429,9 +429,9 @@ export default {
                         <input
                             id="tool-modeler3D-lineWidth"
                             class="form-control form-control-sm"
-                            type="text"
+                            type="number"
                             :value="lineWidth"
-                            @input="setLineWidth($event.target.value)"
+                            @input="setLineWidth(parseFloat($event.target.value))"
                         >
                     </div>
                     <label

@@ -1,6 +1,6 @@
 import proj4 from "proj4";
 import store from "../../../../app-store";
-import {adaptCylinderToGround, adaptCylinderToPolygon} from "../components/utils/draw";
+import {adaptCylinderToGround, adaptCylinderToEntity} from "../components/utils/draw";
 
 const actions = {
     /**
@@ -198,7 +198,7 @@ const actions = {
 
                 cylinder.position = entity.clampToGround ?
                     adaptCylinderToGround(cylinder, position) :
-                    adaptCylinderToPolygon(entity, cylinder, position);
+                    adaptCylinderToEntity(entity, cylinder, position);
             });
         }
         else if (entity?.wasDrawn && entity?.polyline?.positions) {
@@ -275,19 +275,16 @@ const actions = {
      * @param {object} moveOptions - Contains the polyline and new position it shall be moved to.
      * @returns {void}
     */
-    movePolyline ({dispatch, getters}, {entity, position}) {
+    movePolyline ({state}, {entity, position}) {
         if (entity && entity.wasDrawn && entity.polyline && entity.polyline.positions) {
             const positions = entity.polyline.positions.getValue(),
                 boundingSphereCenter = Cesium.BoundingSphere.fromPoints(positions).center,
-                cylinders = getters.entities.values.filter(ent => ent.cylinder),
                 positionDelta = Cesium.Cartesian3.subtract(position, boundingSphereCenter, new Cesium.Cartesian3());
 
             positions.forEach((pos, index) => {
                 Cesium.Cartesian3.add(pos, positionDelta, pos);
-                dispatch("makeCylinderDynamic", {cylinder: cylinders[index], position: pos});
+                state.cylinderPosition[index] = pos;
             });
-
-            // dispatch("transformFromCartesian", boundingSphereCenter);
         }
     }
 };

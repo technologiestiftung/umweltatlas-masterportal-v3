@@ -384,10 +384,8 @@ export default {
                 title="line-width"
                 :label="$t('modules.tools.modeler3D.draw.captions.lineWidth')"
                 :width-classes="['col-md-8', 'col-md-4']"
-                @increment="lineWidthString = (lineWidth + 0.1).toFixed(2)"
-                @increment-shift="lineWidthString = (lineWidth + 1).toFixed(2)"
-                @decrement="lineWidthString = (lineWidth - 0.1).toFixed(2)"
-                @decrement-shift="lineWidthString = (lineWidth - 1).toFixed(2)"
+                @increment="lineWidthString = (lineWidth + 1).toFixed(2)"
+                @decrement="lineWidthString = (lineWidth - 1).toFixed(2)"
             />
         </div>
         <div class="h-seperator" />
