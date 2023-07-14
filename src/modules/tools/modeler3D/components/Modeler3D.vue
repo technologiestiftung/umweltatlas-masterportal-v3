@@ -253,6 +253,9 @@ export default {
                     document.body.style.cursor = "pointer";
                 }
             }
+            else if (this.hideObjects && Cesium.defined(picked) && picked instanceof Cesium.Cesium3DTileFeature) {
+                document.body.style.cursor = "pointer";
+            }
             else {
                 document.body.style.cursor = "auto";
             }
