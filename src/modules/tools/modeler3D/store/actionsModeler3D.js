@@ -88,7 +88,7 @@ const actions = {
             cylinders.forEach(cyl => {
                 cyl.position = entity.clampToGround ?
                     adaptCylinderToGround(cyl, state.cylinderPosition[cyl.positionIndex]) :
-                    adaptCylinderToPolygon(entity, cyl, state.cylinderPosition[cyl.positionIndex]);
+                    adaptCylinderToEntity(entity, cyl, state.cylinderPosition[cyl.positionIndex]);
             });
         }
         else {

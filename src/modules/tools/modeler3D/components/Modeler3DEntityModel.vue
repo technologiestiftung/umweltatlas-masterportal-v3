@@ -5,7 +5,7 @@ import getters from "../store/gettersModeler3D";
 import mutations from "../store/mutationsModeler3D";
 import EntityAttribute from "./ui/EntityAttribute.vue";
 import EntityAttributeSlider from "./ui/EntityAttributeSlider.vue";
-import {adaptCylinderToGround, adaptCylinderToPolygon} from "./utils/draw";
+import {adaptCylinderToEntity, adaptCylinderToGround} from "./utils/draw";
 
 export default {
     name: "Modeler3DEntityModel",
@@ -173,7 +173,7 @@ export default {
             entity.polygon.extrudedHeight = trueHeight;
             entities.values.filter(ent => ent.cylinder).forEach(cyl => {
                 cyl.cylinder.length = trueHeight + 5;
-                cyl.position = entity.clampToGround ? adaptCylinderToGround(cyl, cyl.position.getValue()) : adaptCylinderToPolygon(entity, cyl, cyl.position.getValue());
+                cyl.position = entity.clampToGround ? adaptCylinderToGround(cyl, cyl.position.getValue()) : adaptCylinderToEntity(entity, cyl, cyl.position.getValue());
             });
         },
         /**
