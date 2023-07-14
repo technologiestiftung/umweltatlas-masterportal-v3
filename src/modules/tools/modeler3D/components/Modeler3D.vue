@@ -62,16 +62,6 @@ export default {
         optionsTabClasses: function () {
             return this.currentView === "" ? this.activeTabClass : this.defaultTabClass;
         },
-        // longitude und latitude getter der Map wurden gedreht, Bug in MasterportalApi!
-        longitudeFromClick: function () {
-            return this.longitude && this.povActive ? this.latitude.toFixed(4) : "";
-        },
-        latitudeFromClick: function () {
-            return this.latitude && this.povActive ? this.longitude.toFixed(4) : "";
-        },
-        altitudeFromClick: function () {
-            return this.altitude && this.povActive ? this.altitude.toFixed(2) : "";
-        },
         povPossible: function () {
             return this.longitude && this.latitude && this.altitude;
         }
@@ -402,7 +392,7 @@ export default {
                 const deltaY = -movement.endPosition.y + movement.startPosition.y,
                     deltaX = movement.endPosition.x - movement.startPosition.x,
 
-                    sensitivity = 0.005,
+                    sensitivity = 0.002,
                     pitch = Cesium.Math.clamp(scene.camera.pitch + sensitivity * deltaY, -Cesium.Math.PI_OVER_TWO, Cesium.Math.PI_OVER_TWO),
                     heading = scene.camera.heading + sensitivity * deltaX;
 
@@ -541,29 +531,6 @@ export default {
                                 class="cta"
                                 v-html="$t('modules.tools.modeler3D.entity.captions.povInfo')"
                             />
-                            <div>
-                                <input
-                                    v-model="longitudeFromClick"
-                                    aria-label="longitude"
-                                    type="text"
-                                    readonly
-                                    :placeholder="$t('modules.tools.modeler3D.entity.projections.hdms.eastingLabel')"
-                                >
-                                <input
-                                    v-model="latitudeFromClick"
-                                    aria-label="latitude"
-                                    type="text"
-                                    readonly
-                                    :placeholder="$t('modules.tools.modeler3D.entity.projections.hdms.northingLabel')"
-                                >
-                                <input
-                                    v-model="altitudeFromClick"
-                                    aria-label="altitude"
-                                    type="text"
-                                    readonly
-                                    :placeholder="$t('modules.tools.modeler3D.entity.projections.height')"
-                                >
-                            </div>
                             <button
                                 class="col-10 btn btn-primary btn-sm primary-button-wrapper"
                                 :disabled="!povActive || !povPossible"
