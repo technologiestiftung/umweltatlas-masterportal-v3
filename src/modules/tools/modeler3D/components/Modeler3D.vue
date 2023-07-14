@@ -113,9 +113,7 @@ export default {
                 if (oldEntity) {
                     if (oldEntity.wasDrawn) {
                         oldEntity.polygon.material.color = oldEntity.originalColor;
-                        oldEntity.polygon.outline = false;
-                        oldEntity.polygon.outlineColor = null;
-                        oldEntity.polygon.outlineWidth = null;
+                        oldEntity.polygon.outlineColor = oldEntity.originalOutlineColor;
                         oldEntity.polygon.hierarchy = new Cesium.ConstantProperty(new Cesium.PolygonHierarchy(this.activeShapePoints));
                         this.removeCylinders();
                         this.setActiveShapePoints([]);
@@ -462,6 +460,7 @@ export default {
 
             if (entity.wasDrawn) {
                 entity.originalColor = entity.polygon.material.color;
+                entity.originalOutlineColor = entity.polygon.outlineColor;
                 entity.polygon.material.color = Cesium.Color.fromAlpha(
                     Cesium.Color.fromCssColorString(color),
                     parseFloat(alpha)

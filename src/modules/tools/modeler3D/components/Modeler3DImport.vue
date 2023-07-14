@@ -197,6 +197,7 @@ export default {
                             id: lastId ? lastId + 1 : 1,
                             name: properties.name,
                             wasDrawn: true,
+                            clampToGround: properties.clampToGround,
                             polygon: {
                                 material: new Cesium.ColorMaterialProperty(
                                     new Cesium.Color(color.red, color.green, color.blue, color.alpha)

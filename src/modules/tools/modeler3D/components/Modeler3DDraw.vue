@@ -277,6 +277,7 @@ export default {
                 feature.properties.color.blue = color._value.blue;
                 feature.properties.color.alpha = color._value.alpha;
 
+                feature.properties.clampToGround = entity.clampToGround;
                 feature.properties.outlineColor = outlineColor;
                 feature.properties.height = polygon.height?._value;
                 feature.properties.extrudedHeight = polygon.extrudedHeight._value;
