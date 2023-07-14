@@ -592,11 +592,22 @@
                     "captions": {
                         "beginModelling": "Моделювання 3D-об'єкта",
                         "clampToGround": "Вирівнювати за моделлю рельєфу",
-                        "transparency": "Прозорість",
                         "color": "Колір",
+                        "drawing": "Малюнок",
                         "drawName": "Назва",
+                        "drawnModels": "Намальовані моделі:",
+                        "export": "Експорт",
+                        "exportTitle": "Експортувати всі намальовані моделі у форматі GeoJSON.",
                         "extrudedHeight": "Висота витягнутості",
-                        "drawnModels": "Намальовані моделі"
+                        "fillColor": "Колір заповнення",
+                        "geometry": "Геометрія",
+                        "outlineColor": "Колір контуру",
+                        "transparency": "Прозорість",
+                        "lineWidth": "Товщина лінії"
+                    },
+                    "geometries": {
+                        "polygon": "Багатокутник",
+                        "line": "Лінія"
                     }
                 },
                 "nav": {

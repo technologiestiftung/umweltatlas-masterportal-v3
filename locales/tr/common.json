@@ -462,12 +462,23 @@
                 "draw": {
                     "captions": {
                         "beginModelling": "3D Nesne Modelle",
-                        "clampToGround": "Yükseklik modeline hizalamak",
-                        "transparency": "Şeffaflık",
+                        "clampToGround": "Yükseklik modeline hizala",
                         "color": "Renk",
+                        "drawing": "Çizim",
                         "drawName": "İsim",
-                        "extrudedHeight": "Yükseltilmiş Yükseklik",
-                        "drawnModels": "Çizilmiş modeller:"
+                        "drawnModels": "Çizilen Modeller:",
+                        "export": "Dışa Aktar",
+                        "exportTitle": "Tüm çizilen modelleri GeoJSON formatında dışa aktar.",
+                        "extrudedHeight": "Yükseklik İçeren",
+                        "fillColor": "Dolgu Rengi",
+                        "geometry": "Geometri",
+                        "outlineColor": "Kontur Rengi",
+                        "transparency": "Saydamlık",
+                        "lineWidth": "Çizgi Kalınlığı"
+                    },
+                    "geometries": {
+                        "polygon": "Poligon",
+                        "line": "Çizgi"
                     }
                 },
                 "nav": {

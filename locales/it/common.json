@@ -631,12 +631,23 @@
                 "draw": {
                     "captions": {
                         "beginModelling": "Modellare oggetto 3D",
-                        "clampToGround": "Allineare al modello di elevazione",
-                        "transparency": "Trasparenza",
+                        "clampToGround": "Allineare al modello del terreno",
                         "color": "Colore",
+                        "drawing": "Disegno",
                         "drawName": "Nome",
+                        "drawnModels": "Modelli disegnati:",
+                        "export": "Esporta",
+                        "exportTitle": "Esporta tutti i modelli disegnati in formato GeoJSON.",
                         "extrudedHeight": "Altezza estrusa",
-                        "drawnModels": "Modelli disegnati:"
+                        "fillColor": "Colore di riempimento",
+                        "geometry": "Geometria",
+                        "outlineColor": "Colore del contorno",
+                        "transparency": "Trasparenza",
+                        "lineWidth": "Spessore linea"
+                    },
+                    "geometries": {
+                        "polygon": "Poligono",
+                        "line": "Linea"
                     }
                 },
                 "nav": {
