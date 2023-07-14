@@ -108,7 +108,7 @@ const actions = {
 
         if (entityPosition) {
             dispatch("transformFromCartesian", entityPosition);
-            commit("setHeight", entity.polygon.height.getValue());
+            commit("setHeight", entity.polygon?.height.getValue());
         }
     },
     updateUI ({commit, dispatch, getters, state}) {

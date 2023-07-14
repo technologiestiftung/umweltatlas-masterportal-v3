@@ -183,6 +183,7 @@ describe("Actions", () => {
     describe("updatePositionUI", () => {
         it("should transform entity position when it exists", () => {
             const dispatch = sinon.spy(),
+                commit = sinon.spy(),
                 state = {
                     currentModelId: "entityId"
                 };
@@ -195,10 +196,11 @@ describe("Actions", () => {
                 entities: entities
             };
 
-            actions.updatePositionUI({dispatch, state, getters});
+            actions.updatePositionUI({commit, dispatch, state, getters});
 
             expect(entities.getById.calledWith("entityId")).to.be.true;
             expect(dispatch.calledWith("transformFromCartesian", {x: 10, y: 20, z: 30})).to.be.true;
+            expect(commit.calledWith("setHeight", undefined)).to.be.true;
         });
 
         it("should not transform entity position when it doesn't exist", () => {
