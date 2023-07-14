@@ -2,12 +2,13 @@
  All important changes in this project are stored in this file.
 
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
-
 ## Unreleased - in development
 ### __Breaking Changes__
-
 ### Added
 - QuickHelp: A description of the route preference `recommended route` has been added.
+- 3D:
+    - Colored highlighting for 3D Tiles has been added.
+    - GFI MapMarker appears now on top of elevations by click.
 
 ### Changed
 
@@ -17,6 +18,11 @@
 
 ### Fixed
 - Print: The portal is no longer reloaded after pressing the Enter key in the title field. Instead, the print is sent.
+- WFST-Tool can also parse Geoserver responses from DescribeFeatureType-Requests
+
+---
+## v2.35.1 - 2023-07-13
+### Fixed
 - GFI: Fixed GFI for Cesium TileFeatures by updating Cesium function name.
 
 ---

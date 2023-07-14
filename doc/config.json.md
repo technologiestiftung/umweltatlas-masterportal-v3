@@ -1567,6 +1567,7 @@ On all GFI request types except directly fetching HTML, which is done by using `
 |icon|no|String|"bi-info-circle-fill"|CSS icon class. Icon is shown before the tool name.|false|
 |active|no|Boolean|true|Whether GFI is active initially.|false|
 |desktopType|no|String|"detached"|Used to choose a GFI template in desktop mode. If using "attached", the GFI will be positioned next to the feature. Using "detached" will place a marker on the feature and create the GFI window to the right of the map.|false|
+|coloredHighlighting3D|no|**[coloredHighlighting3D](#markdown-header-portalconfigmenutoolgficoloredhighlighting3d)**||Rule definition to override the highlighting of clicked 3D tiles.|false|
 |highlightVectorRules|no|**[highlightVectorRules](#markdown-header-portalconfigmenutoolgfihighlightvectorrules)**||Rule definition to override the styling of clicked vector data.|false|
 
 **Examples**
@@ -1577,6 +1578,10 @@ On all GFI request types except directly fetching HTML, which is done by using `
         "name": "Request information",
         "icon": "bi-info-circle-fill",
         "active": true,
+        "coloredHighlighting3D": {
+              "enabled": true,
+              "color": "GREEN"
+        },
         "highlightVectorRules": {
             "fill": {
                 "color": [215, 102, 41, 0.9]
@@ -1605,6 +1610,34 @@ On all GFI request types except directly fetching HTML, which is done by using `
 }
 ```
 
+***
+### Portalconfig.menu.tool.gfi.coloredHighlighting3D
+
+Highlight Setting of 3D Tiles.
+If e.g. a building is selected by left mouse click, it will be highlighted in the given color.
+For color configuration see **[Color-documentation](https://cesium.com/learn/cesiumjs/ref-doc/Color.html)**
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|-----------|
+|enabled|no|Boolean|true|False if coloredHighlighting3D is disabled.|false|
+|color|no|String/String[]|"RED"|Color can be configured as Array or Cesium.Color (definition e.g "GREEN" for Cesium.Color.GREEN)|false|
+
+**Example**
+
+```json
+// Example with Array
+coloredHighlighting3D: {
+    "enabled": true,
+    "color": [0, 255, 0, 255]
+}
+
+// Example with Cesium.Color
+coloredHighlighting3D: {
+    "enabled": true,
+    "color": "GREEN"
+}
+
+```
 ***
 
 ##### Portalconfig.menu.tool.gfi.highlightVectorRules

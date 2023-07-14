@@ -30,11 +30,14 @@ function receivePossibleProperties (layer, useProxy) {
  * @returns {FeatureProperty[]} If an <element> with a name of the featureType is present, an array of prepared feature properties; else an empty Array.
  */
 function parseDescribeFeatureTypeResponse (responseData, featureType) {
-    const rootElement = Object.values(new DOMParser().parseFromString(responseData, "application/xml").getElementsByTagName("element"))
-        .find(({attributes}) => Object.values(attributes).find(({localName}) => localName === "name").value === featureType);
+    const typeTag = responseData.includes("xsd:") ? "xsd:complexType" : "element",
+        elementTag = responseData.includes("xsd:") ? "xsd:element" : "element",
+        featureTypeWithoutNamespace = featureType.includes(":") ? featureType.split(":")[1] : featureType,
+        rootElement = Object.values(new DOMParser().parseFromString(responseData, "application/xml").getElementsByTagName(typeTag))
+            .find(({attributes}) => Object.values(attributes).find(({localName}) => localName === "name").value.replace("Type", "") === featureTypeWithoutNamespace);
 
     if (rootElement) {
-        return Object.values(rootElement.getElementsByTagName("element")).map(el => Object.values(el.attributes).reduce((obj, att) => {
+        return Object.values(rootElement.getElementsByTagName(elementTag)).map(el => Object.values(el.attributes).reduce((obj, att) => {
             if (att.localName === "minOccurs") {
                 obj.required = att.value === "1";
             }
@@ -49,7 +52,7 @@ function parseDescribeFeatureTypeResponse (responseData, featureType) {
             label: "",
             key: "",
             value: null,
-            type: "string",
+            type: responseData.includes("xsd:") ? "xsd:string" : "string",
             required: false
         }));
     }
