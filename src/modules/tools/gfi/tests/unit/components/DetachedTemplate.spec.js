@@ -1,10 +1,11 @@
 import Vuex from "vuex";
-import {config, mount, createLocalVue} from "@vue/test-utils";
+import {config, mount, shallowMount, createLocalVue} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 import DetachedTemplate from "../../../components/templates/DetachedTemplate.vue";
 import Feature from "ol/Feature";
 import Point from "ol/geom/Point";
+import Polygon from "ol/geom/Polygon";
 
 const localVue = createLocalVue();
 
@@ -12,14 +13,12 @@ config.mocks.$t = key => key;
 localVue.use(Vuex);
 
 describe("src/modules/tools/gfi/components/templates/DetachedTemplate.vue", () => {
-    const highlightVectorRules = {
-            image: {
-                scale: 10
-            },
-            fill: sinon.stub(),
-            stroke: sinon.stub()
-        },
-        mockMutations = {
+    let store,
+        highlightVectorRules,
+        getLayerByIdSpy,
+        highlightFeatureSpy,
+        removeHighlightFeatureSpy;
+    const mockMutations = {
             setCurrentFeature: () => sinon.stub(),
             setShowMarker: () => SVGTextPositioningElement.stub()
         },
@@ -33,11 +32,6 @@ describe("src/modules/tools/gfi/components/templates/DetachedTemplate.vue", () =
             name: "feature123"
         });
 
-    olFeature.setId("feature1");
-    olFeature.setGeometry(new Point([10, 10]));
-
-    let store;
-
     before(() => {
         mapCollection.clear();
         const map = {
@@ -49,7 +43,27 @@ describe("src/modules/tools/gfi/components/templates/DetachedTemplate.vue", () =
     });
 
     beforeEach(() => {
-        store = new Vuex.Store({
+        olFeature.setId("feature1");
+        olFeature.setGeometry(new Point([10, 10]));
+        getLayerByIdSpy = sinon.spy();
+        highlightFeatureSpy = sinon.spy();
+        removeHighlightFeatureSpy = sinon.spy();
+        highlightVectorRules = {
+            image: {
+                scale: 10
+            },
+            fill: sinon.stub(),
+            stroke: sinon.stub()
+        };
+        store = getStore();
+    });
+
+    /**
+     * Creates test store.
+     * @returns {Object} the test store
+     */
+    function getStore () {
+        return new Vuex.Store({
             namespaced: true,
             modules: {
                 Tools: {
@@ -65,12 +79,13 @@ describe("src/modules/tools/gfi/components/templates/DetachedTemplate.vue", () =
                 Maps: {
                     namespaced: true,
                     actions: {
-                        removeHighlightFeature: sinon.stub(),
-                        highlightFeature: sinon.stub(),
+                        removeHighlightFeature: removeHighlightFeatureSpy,
+                        highlightFeature: highlightFeatureSpy,
                         setCenter: sinon.stub()
                     },
                     getters: {
-                        clickCoordinate: sinon.stub()
+                        clickCoordinate: sinon.stub(),
+                        getLayerById: () => getLayerByIdSpy
                     }
                 },
                 MapMarker: {
@@ -82,7 +97,7 @@ describe("src/modules/tools/gfi/components/templates/DetachedTemplate.vue", () =
                 }
             }
         });
-    });
+    }
 
     it("should have a title", () => {
         const wrapper = mount(DetachedTemplate, {
@@ -311,6 +326,117 @@ describe("src/modules/tools/gfi/components/templates/DetachedTemplate.vue", () =
         });
 
         expect(wrapper.vm.isContentHtml).to.be.false;
+    });
+
+    describe("methods", () => {
+        describe("highlightVectorFeature", () => {
+            it("should do nothing, if highlightVectorRules is not set", () => {
+                highlightVectorRules = null;
+
+                const wrapper = shallowMount(DetachedTemplate, {
+                    propsData: {
+                        feature: {
+                            getTheme: () => "DefaultTheme",
+                            getTitle: () => "Hallo",
+                            getMimeType: () => "text/xml",
+                            getGfiUrl: () => "",
+                            getLayerId: () => sinon.stub(),
+                            getOlFeature: () => olFeature
+                        }
+                    },
+                    components: {
+                        DefaultTheme: {
+                            name: "DefaultTheme",
+                            template: "<span />"
+                        }
+                    },
+                    store: getStore(),
+                    localVue
+                });
+
+                wrapper.vm.highlightVectorFeature();
+                expect(getLayerByIdSpy.notCalled).to.be.true;
+                expect(highlightFeatureSpy.notCalled).to.be.true;
+            });
+
+            it("should call highlightFeature if feature's geometry is a point", () => {
+                const expectedArgs = {
+                    feature: olFeature,
+                    type: "increase",
+                    scale: highlightVectorRules.image.scale,
+                    layer: {id: "layerId"},
+                    styleId: undefined
+                };
+
+                shallowMount(DetachedTemplate, {
+                    propsData: {
+                        feature: {
+                            getTheme: () => "DefaultTheme",
+                            getTitle: () => "Hallo",
+                            getMimeType: () => "text/xml",
+                            getGfiUrl: () => "",
+                            getLayerId: () => "layerId",
+                            getOlFeature: () => olFeature
+                        }
+                    },
+                    components: {
+                        DefaultTheme: {
+                            name: "DefaultTheme",
+                            template: "<span />"
+                        }
+                    },
+                    store: getStore(),
+                    localVue
+                });
+
+                expect(getLayerByIdSpy.calledOnce).to.be.true;
+                expect(removeHighlightFeatureSpy.calledOnce).to.be.true;
+                expect(highlightFeatureSpy.calledOnce).to.be.true;
+                expect(highlightFeatureSpy.firstCall.args[1]).to.be.deep.equals(expectedArgs);
+            });
+
+            it("should call highlightFeature if feature's geometry is a polygon - test styleId", () => {
+                const expectedArgs = {
+                    feature: olFeature,
+                    type: "highlightPolygon",
+                    highlightStyle: {
+                        fill: highlightVectorRules.fill, stroke: highlightVectorRules.stroke
+                    },
+                    layer: {id: "layerId"},
+                    styleId: "styleId"
+                };
+
+                olFeature.setGeometry(new Polygon([[[30, 10], [40, 40], [130, 130], [240, 40], [30, 10]]]));
+                getLayerByIdSpy = sinon.stub().returns({
+                    get: () => "styleId"
+                });
+                shallowMount(DetachedTemplate, {
+                    propsData: {
+                        feature: {
+                            getTheme: () => "DefaultTheme",
+                            getTitle: () => "Hallo",
+                            getMimeType: () => "text/xml",
+                            getGfiUrl: () => "",
+                            getLayerId: () => "layerId",
+                            getOlFeature: () => olFeature
+                        }
+                    },
+                    components: {
+                        DefaultTheme: {
+                            name: "DefaultTheme",
+                            template: "<span />"
+                        }
+                    },
+                    store: getStore(),
+                    localVue
+                });
+
+                expect(getLayerByIdSpy.calledOnce).to.be.true;
+                expect(removeHighlightFeatureSpy.calledOnce).to.be.true;
+                expect(highlightFeatureSpy.calledOnce).to.be.true;
+                expect(highlightFeatureSpy.firstCall.args[1]).to.be.deep.equals(expectedArgs);
+            });
+        });
     });
 
 });

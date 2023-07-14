@@ -4,6 +4,7 @@ import ExportButtonGeoJSON from "../../../../share-components/exportButton/compo
 import openlayerFunctions from "../utils/openlayerFunctions.js";
 import isObject from "../../../../utils/isObject";
 import {GeoJSON} from "ol/format.js";
+import Feature from "ol/Feature";
 
 export default {
     name: "SnippetDownload",
@@ -25,11 +26,15 @@ export default {
         return {
             enableFileDownload: false,
             showDownload: false,
-            formats: ["CSV", "GeoJSON"],
             selectedFormat: "",
             filename: "",
             json: ""
         };
+    },
+    computed: {
+        formats () {
+            return this.filteredItems[0] instanceof Feature === false ? ["CSV"] : ["CSV", "GeoJSON"];
+        }
     },
     methods: {
         /**

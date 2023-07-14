@@ -98,7 +98,7 @@ export default class UrlHandler {
             mapHandler.initializeLayer(matchingFilter.filter.api.filterId, matchingFilter.filter.layerId, extern, error => {
                 console.warn(error);
             });
-            matchingFilter.filter.api.setServiceByLayerModel(matchingFilter.filter.layerId, mapHandler.getLayerModelByFilterId(matchingFilter.filter.api.filterId), extern, error => {
+            matchingFilter.filter.api.setServiceByLayerModel(matchingFilter.filter.layerId, mapHandler.getLayerModelByFilterId(matchingFilter.filter.api.filterId), extern, matchingFilter.filter?.collection, error => {
                 console.warn(error);
             });
             matchingFilter.filter.api.getAttrTypes(attrTypes => {

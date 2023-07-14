@@ -1,5 +1,6 @@
 import isObject from "../../../../utils/isObject.js";
 import LayerGroup from "ol/layer/Group";
+import VectorTileLayer from "../../../../core/layers/vectorTile.js";
 
 /**
  * The MapHandler has control over OL and the Map.
@@ -138,7 +139,7 @@ export default class MapHandler {
         const ids = this.getFilteredIdsByFilterId(filterId);
 
         if (Array.isArray(ids)) {
-            return ids.length;
+            return new Set(ids).size;
         }
         return 0;
     }
@@ -206,17 +207,6 @@ export default class MapHandler {
                 }
             });
             layerModel.set("isSelected", true);
-        }
-        else if (this.isLayerActivated(filterId) && ((
-            typeof layerSource?.getFeatures === "function"
-            && layerSource.getFeatures().length === 0)
-            || (typeof layerModel?.getFeatures === "function"
-            && layerModel.getFeatures().length === 0))) {
-            (layerModel.get("typ") === "SensorThings" ? layerModel : layerSource).once("featuresloadend", () => {
-                if (typeof onActivated === "function") {
-                    onActivated();
-                }
-            });
         }
         else if (!this.isLayerVisibleInMap(filterId) || !this.isLayerActivated(filterId)) {
             layerModel.set("isSelected", true);
@@ -330,8 +320,13 @@ export default class MapHandler {
         }
 
         items.forEach(item => {
-            if (isObject(item) && typeof item.getId === "function") {
-                this.filteredIds[filterId].push(item.getId());
+            if (isObject(item)) {
+                if (layerModel instanceof VectorTileLayer && typeof item.get === "function") {
+                    this.filteredIds[filterId].push(item.get("id"));
+                }
+                else if (typeof item.getId === "function") {
+                    this.filteredIds[filterId].push(item.getId());
+                }
             }
         });
 
