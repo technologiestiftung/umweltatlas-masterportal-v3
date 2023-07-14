@@ -167,12 +167,11 @@ export default {
         },
         updateExtrudedHeight () {
             const entities = this.entities,
-                entity = entities.getById(this.currentModelId),
-                trueHeight = this.extrudedHeight + entity.polygon.height;
+                entity = entities.getById(this.currentModelId);
 
-            entity.polygon.extrudedHeight = trueHeight;
+            entity.polygon.extrudedHeight = this.extrudedHeight + entity.polygon.height;
             entities.values.filter(ent => ent.cylinder).forEach(cyl => {
-                cyl.cylinder.length = trueHeight + 5;
+                cyl.cylinder.length = this.extrudedHeight + 5;
                 cyl.position = entity.clampToGround ? adaptCylinderToGround(cyl, cyl.position.getValue()) : adaptCylinderToEntity(entity, cyl, cyl.position.getValue());
             });
         },

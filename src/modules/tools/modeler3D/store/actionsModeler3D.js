@@ -86,6 +86,7 @@ const actions = {
             dispatch("movePolygon", {entity: entity, position: state.currentModelPosition});
 
             cylinders.forEach(cyl => {
+                cyl.cylinder.length = entity.polygon.extrudedHeight - entity.polygon.height + 5;
                 cyl.position = entity.clampToGround ?
                     adaptCylinderToGround(cyl, state.cylinderPosition[cyl.positionIndex]) :
                     adaptCylinderToEntity(entity, cyl, state.cylinderPosition[cyl.positionIndex]);
