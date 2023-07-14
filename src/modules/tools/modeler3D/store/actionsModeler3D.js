@@ -85,17 +85,6 @@ const actions = {
 
             dispatch("movePolygon", {entity: entity, position: state.currentModelPosition});
 
-            if (!entity.clampToGround) {
-                entity.polygon.height = state.height;
-                entity.polygon.extrudedHeight = state.extrudedHeight + state.height;
-                entity.polygon.extrudedHeightReference = Cesium.HeightReference.NONE;
-            }
-            else {
-                entity.polygon.height = undefined;
-                entity.polygon.extrudedHeight = state.extrudedHeight;
-                entity.polygon.extrudedHeightReference = Cesium.HeightReference.RELATIVE_TO_GROUND;
-            }
-
             cylinders.forEach(cyl => {
                 cyl.position = entity.clampToGround ?
                     adaptCylinderToGround(cyl, state.cylinderPosition[cyl.positionIndex]) :
@@ -119,7 +108,7 @@ const actions = {
 
         if (entityPosition) {
             dispatch("transformFromCartesian", entityPosition);
-            commit("setHeight", entity.clampToGround ? 0.0 : entity.polygon.height.getValue());
+            commit("setHeight", entity.polygon.height.getValue());
         }
     },
     updateUI ({commit, dispatch, getters, state}) {
@@ -129,7 +118,7 @@ const actions = {
         commit("setAdaptToHeight", entity.clampToGround);
 
         if (entity?.polygon instanceof Cesium.PolygonGraphics) {
-            commit("setExtrudedHeight", entity.clampToGround ? entity.polygon.extrudedHeight.getValue() : entity.polygon.extrudedHeight.getValue() - entity.polygon.height.getValue());
+            commit("setExtrudedHeight", entity.polygon.extrudedHeight.getValue() - entity.polygon.height.getValue());
         }
         else if (entity?.model instanceof Cesium.ModelGraphics) {
             const modelFromState = state.importedModels.find(ent => ent.id === entity.id);
@@ -202,9 +191,7 @@ const actions = {
 
         if (entity?.wasDrawn && entity?.polygon?.hierarchy) {
             const hierarchy = entity.polygon.hierarchy.getValue(),
-                length = entity.clampToGround ?
-                    entity.polygon.extrudedHeight + 5 :
-                    entity.polygon.extrudedHeight - entity.polygon.height + 5;
+                length = entity.polygon.extrudedHeight - entity.polygon.height + 5;
 
             commit("setActiveShapePoints", hierarchy.positions);
 
@@ -265,6 +252,12 @@ const actions = {
             const positions = entity.polygon.hierarchy.getValue().positions,
                 center = getters.getCenterFromPolygon(entity),
                 positionDelta = Cesium.Cartesian3.subtract(position, center, new Cesium.Cartesian3());
+
+            if (entity.clampToGround) {
+                state.height = getters.scene.globe.getHeight(Cesium.Cartographic.fromCartesian(center));
+            }
+            entity.polygon.height = state.height;
+            entity.polygon.extrudedHeight = state.extrudedHeight + state.height;
 
             positions.forEach((pos, index) => {
                 Cesium.Cartesian3.add(pos, positionDelta, pos);

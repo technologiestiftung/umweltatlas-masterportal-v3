@@ -136,7 +136,7 @@ export default {
         updateExtrudedHeight () {
             const entities = this.entities,
                 entity = entities.getById(this.currentModelId),
-                trueHeight = entity.clampToGround ? this.extrudedHeight : this.extrudedHeight + entity.polygon.height;
+                trueHeight = this.extrudedHeight + entity.polygon.height;
 
             entity.polygon.extrudedHeight = trueHeight;
             entities.values.filter(ent => ent.cylinder).forEach(cyl => {

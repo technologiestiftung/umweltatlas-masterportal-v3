@@ -183,7 +183,7 @@ export default {
                     wasDrawn: true,
                     clampToGround: this.clampToGround,
                     polygon: {
-                        height: this.clampToGround ? undefined : this.height,
+                        height: this.height,
                         hierarchy: positionData,
                         material: new Cesium.ColorMaterialProperty(
                             Cesium.Color[this.selectedFillColor].withAlpha(this.opacity)
@@ -192,8 +192,8 @@ export default {
                         outlineWidth: 1,
                         outlineColor: Cesium.Color[this.selectedOutlineColor].withAlpha(this.opacity),
                         shadows: Cesium.ShadowMode.ENABLED,
-                        extrudedHeight: this.clampToGround ? this.extrudedHeight : this.extrudedHeight + this.height,
-                        extrudedHeightReference: this.clampToGround ? Cesium.HeightReference.RELATIVE_TO_GROUND : Cesium.HeightReference.NONE
+                        extrudedHeight: this.extrudedHeight + this.height,
+                        extrudedHeightReference: Cesium.HeightReference.NONE
                     }
                 });
             }
