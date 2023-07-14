@@ -208,11 +208,14 @@ const actions = {
 
             positions.forEach((position, index) => {
                 dispatch("createCylinder", {
-                    position: position,
                     posIndex: index,
-                    length: 4,
-                    heightReference: Cesium.HeightReference.CLAMP_TO_GROUND
+                    length: 4
                 });
+                const cylinder = entities.values.find(cyl => cyl.id === state.cylinderId);
+
+                cylinder.position = entity.clampToGround ?
+                    adaptCylinderToGround(cylinder, position) :
+                    adaptCylinderToEntity(entity, cylinder, position);
             });
         }
     },

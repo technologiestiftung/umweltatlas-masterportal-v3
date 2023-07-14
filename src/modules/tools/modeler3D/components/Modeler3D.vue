@@ -277,7 +277,7 @@ export default {
 
                 if (entity?.cylinder) {
                     const geometry = this.entities.getById(this.currentModelId),
-                        position = geometry.polygon ? geometry.polygon.hierarchy.getValue().positions[entity.positionIndex] : geometry.polyline.positions.getValue();
+                        position = geometry.polygon ? geometry.polygon.hierarchy.getValue().positions[entity.positionIndex] : geometry.polyline.positions.getValue()[entity.positionIndex];
 
                     this.currentPosition = position;
 
