@@ -74,6 +74,10 @@ export default {
                 const ray = scene.camera.getPickRay(event.endPosition),
                     position = scene.globe.pick(ray, scene);
 
+                if (Cesium.defined(position)) {
+                    document.body.style.cursor = "copy";
+                }
+
                 if (this.currentPosition !== position) {
                     this.currentPosition = position;
                 }
@@ -83,6 +87,10 @@ export default {
                     cartographic = Cesium.Cartographic.fromDegrees(transformedCoordinates[0], transformedCoordinates[1]),
                     polygon = this.entities.values.find(ent => ent.id === this.currentModelId),
                     ignoreObjects = polygon ? [floatingPoint, polygon] : [floatingPoint];
+
+                if (cartographic) {
+                    document.body.style.cursor = "copy";
+                }
 
                 cartographic.height = scene.sampleHeight(cartographic, ignoreObjects);
 
@@ -158,6 +166,7 @@ export default {
             this.removeCylinders();
             this.currentPosition = null;
             this.setIsDrawing(false);
+            document.body.style.cursor = "auto";
             eventHandler.destroy();
         },
         /**

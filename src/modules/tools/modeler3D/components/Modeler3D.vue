@@ -255,6 +255,9 @@ export default {
             projections.splice(index + 1, 0, wgs84ProjDez);
         },
         cursorCheck (event) {
+            if (this.isDrawing) {
+                return;
+            }
             const scene = this.scene,
                 picked = scene.pick(event.endPosition),
                 entity = Cesium.defaultValue(picked?.id, picked?.primitive?.id);
