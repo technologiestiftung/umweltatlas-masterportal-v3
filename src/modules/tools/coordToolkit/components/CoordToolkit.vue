@@ -90,7 +90,7 @@ export default {
          * @returns {void}
          */
         clickCoordinate () {
-            if (this.mode !== "search") {
+            if (this.active && this.mode !== "search") {
                 this.positionClicked();
             }
         }
@@ -679,6 +679,7 @@ export default {
                     </div>
                     <div
                         v-if="isCoordInfo()"
+                        class="coordInfo"
                     >
                         {{ coordInfo?.title }}
                         <li
@@ -825,6 +826,9 @@ export default {
     }
     .form-control[readonly] {
         background-color: $light-grey;
+    }
+    .coordInfo{
+        max-width: 35vw;
     }
 </style>
 

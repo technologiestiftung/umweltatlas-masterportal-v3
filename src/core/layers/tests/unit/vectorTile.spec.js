@@ -9,6 +9,7 @@ import crs from "@masterportal/masterportalapi/src/crs";
 import {stylefunction} from "ol-mapbox-style";
 
 import store from "../../../../app-store";
+import Collection from "ol/Collection";
 
 const vtStyles = [
         {name: "Layer One", id: "l1"},
@@ -52,6 +53,29 @@ const vtStyles = [
 
 describe("core/modelList/layer/vectorTile", function () {
     afterEach(sinon.restore);
+
+    before(() => {
+        mapCollection.clear();
+        const map = {
+            id: "ol",
+            mode: "2D",
+            addInteraction: sinon.stub(),
+            removeInteraction: sinon.stub(),
+            addLayer: () => sinon.stub(),
+            getView: () => {
+                return {
+                    getResolutions: () => [2000, 1000]
+                };
+            },
+            getLayers: () => {
+                return new Collection();
+            },
+            on: () => sinon.stub()
+        };
+
+        mapCollection.clear();
+        mapCollection.addMap(map, "2D");
+    });
 
     beforeEach(() => crs.registerProjections());
 
@@ -494,6 +518,48 @@ describe("core/modelList/layer/vectorTile", function () {
 
             VectorTile.prototype.createLegendURL.call(context);
             expect(context.setLegendURL.calledOnce).to.be.true;
+        });
+    });
+
+    describe("showFeaturesByIds", function () {
+        it("should do nothing if first param is not an array", () => {
+            const mapStub = sinon.stub(store, "getters");
+            let vtLayer = null,
+                layer = null,
+                tileLoadFunction = null,
+                source = null;
+
+            mapStub.value({"Maps/projection": {getCode: () => {
+                return "EPSG:25832";
+            }}});
+
+            vtLayer = new VectorTile(attrs);
+            layer = vtLayer.get("layer");
+            source = layer.getSource();
+            tileLoadFunction = source.getTileLoadFunction();
+            vtLayer.showFeaturesByIds();
+            expect(source.getTileLoadFunction()).to.deep.equal(tileLoadFunction);
+            sinon.restore();
+        });
+        it("should set tileLoadFunction", () => {
+            const mapStub = sinon.stub(store, "getters");
+            let vtLayer = null,
+                layer = null,
+                tileLoadFunction = null,
+                source = null;
+
+            mapStub.value({"Maps/projection": {getCode: () => {
+                return "EPSG:25832";
+            }}});
+
+            vtLayer = new VectorTile(attrs);
+            layer = vtLayer.get("layer");
+            source = layer.getSource();
+            tileLoadFunction = source.getTileLoadFunction();
+            expect(tileLoadFunction.name).to.be.equal("defaultLoadFunction");
+            vtLayer.showFeaturesByIds([]);
+            expect(source.getTileLoadFunction()).to.not.be.equal("defaultLoadFunction");
+            sinon.restore();
         });
     });
 });

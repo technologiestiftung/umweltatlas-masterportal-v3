@@ -106,6 +106,11 @@ export default {
      * @returns {void}
      */
     parsePlotserviceCapabilities: function ({state, commit, dispatch}, response) {
+        const layoutOrder = state.layoutOrder;
+
+        response.layouts.sort((a, b) => {
+            return layoutOrder.indexOf(a.name) - layoutOrder.indexOf(b.name);
+        });
         commit("setLayoutList", response.layouts);
         dispatch("chooseCurrentLayout", response.layouts);
         commit("setScaleList", response.scales.map(scale => parseInt(scale.value, 10)).sort((a, b) => a - b));

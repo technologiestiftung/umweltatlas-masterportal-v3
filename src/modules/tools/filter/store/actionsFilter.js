@@ -197,7 +197,9 @@ export default {
                 additionalGeometries = await getFeaturesOfAdditionalGeometries(payload.geometrySelectorOptions.additionalGeometries);
                 context.commit("setAdditionalGeometries", {additionalGeometries});
             }
-            context.commit("setActive", true);
+            if (!payload?.setLateActive) {
+                context.commit("setActive", true);
+            }
         }
     },
     /**

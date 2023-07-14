@@ -1419,6 +1419,7 @@ Ein Ordner-Object wird dadurch definiert, dass es neben "name" und "icon" noch d
 [type:print]: # (Portalconfig.menu.tool.print)
 [type:routing]: # (Portalconfig.menu.tool.routing)
 [type:saveSelection]: # (Portalconfig.menu.tool.saveSelection)
+[type:scaleSwitcher]: # (Portalconfig.menu.tool.scaleSwitcher)
 [type:searchByCoord]: # (Portalconfig.menu.tool.searchByCoord)
 [type:selectFeatures]: # (Portalconfig.menu.tool.selectFeatures)
 [type:shadow]: # (Portalconfig.menu.tool.shadow)
@@ -1453,6 +1454,7 @@ Neben **Portalconfig.menu.tools** können auch die Pfade **Portalconfig.menu.inf
 |parcelSearch|nein|**[parcelSearch](#markdown-header-portalconfigmenutoolparcelsearch)**||_Deprecated im nächsten Major-Release. Bitte nutzen Sie stattdessen `wfsSearch`._ Mit dieser Flurstückssuche lassen sich Flurstücke über Gemarkung, Flur (in Hamburg ohne Flur) und Flurstück suchen.|false|
 |print|nein|**[print](#markdown-header-portalconfigmenutoolprint)**||Druckmodul mit dem die Karte als PDF exportiert werden kann.|false|
 |saveSelection|nein|**[saveSelection](#markdown-header-portalconfigmenutoolsaveselection)**||Werkzeug mit dem sich die aktuellen 2D Karteninhalte speichern lassen. Der Zustand der Karte wird als URL zum Abspeichern erzeugt. Dabei werden die Layer in deren Reihenfolge, Transparenz und Sichtbarkeit dargestellt. Zusätzlich wird die Zentrumskoordinate mit abgespeichert.|false|
+|scaleSwitcher|nein|**[scaleSwitcher](#markdown-header-portalconfigmenutoolscaleSwitcher)**||Werkzeug zum Ändern des aktuellen Maßstabs der Karte.|false|
 |routing|nein|**[routing](#markdown-header-portalconfigmenutoolrouting)**||Routing Modul zur Erstellung von Routenplanungen und Erreichbarkeitsanalysen.|false|
 |searchByCoord|nein|**[searchByCoord](#markdown-header-portalconfigmenutoolsearchbycoord)**||Deprecated in 3.0.0 Bitte "coordToolkit" verwenden. Koordinatensuche. Über eine Eingabemaske können das Koordinatensystem und die Koordinaten eingegeben werden. Das Werkzeug zoomt dann auf die entsprechende Koordinate und setzt einen Marker darauf.|false|
 |selectFeatures|nein|**[selectFeatures](#markdown-header-portalconfigmenutoolselectFeatures)**||Ermöglicht Auswahl von Features durch Ziehen einer Box und Einsehen derer GFI-Attribute.|false|
@@ -1509,6 +1511,7 @@ Bei allen GFI-Abfragen, außer dem direkten Beziehen von HTML, welches durch das
 |icon|nein|String|"bi-info-circle-fill"|CSS Klasse des Icons, das vor dem GFI im Menu angezeigt wird.|false|
 |active|nein|Boolean|true|Gibt an, ob das GFI per default aktiviert ist.|false|
 |desktopType|nein|String|"detached"|Gibt an welches Template für die GetFeatureInfo im Desktopmodus verwendet wird. Bei Attached wird das GFI direkt auf dem Punkt positioniert. Bei Detached wird ein Marker auf den geklickten Punkt gesetzt und das GFI wird rechts auf der Karte platziert.|false|
+|coloredHighlighting3D|nein|**[coloredHighlighting3D](#markdown-header-portalconfigmenutoolgficoloredhighlighting3d)**||Regeldefinitionen zum Überschreiben des Highlightings von angeklickten 3D tiles.|false|
 |highlightVectorRules|nein|**[highlightVectorRules](#markdown-header-portalconfigmenutoolgfihighlightvectorrules)**||Regeldefinitionen zum Überschreiben des Stylings von abgefragten Vektordaten.[highlightVectorRules](#markdown-header-portalconfigmenutoolgfihighlightvectorrules)|false|
 
 **Beispiel einer GFI Konfiguration**
@@ -1518,6 +1521,10 @@ Bei allen GFI-Abfragen, außer dem direkten Beziehen von HTML, welches durch das
     "name":"Informationen abfragen",
     "icon":"bi-info-circle-fill",
     "active":true,
+      "coloredHighlighting3D": {
+              "enabled": true,
+              "color": "GREEN"
+    },
     "highlightVectorRules": {
         "fill": {
             "color": [215, 102, 41, 0.9]
@@ -1546,7 +1553,34 @@ Bei allen GFI-Abfragen, außer dem direkten Beziehen von HTML, welches durch das
 ```
 
 ***
+### Portalconfig.menu.tool.gfi.coloredHighlighting3D
 
+Highlight Einstellungen von 3D Tiles.
+Falls z. B. ein Gebäude per Linksklick selektiert wurde, wird es in der definierten Farbe gehighlighted.
+Für mehr Informationen über die Farbmöglichkeiten: **[Color-documentation](https://cesium.com/learn/cesiumjs/ref-doc/Color.html)**
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|--------|----|-------|-----------|------|
+|enabled|nein|Boolean|true|False falls coloredHighlighting3D disabled ist.|false|
+|color|nein|String/String[]|"RED"|Color kann als Array oder Cesium.Color definiert werden(z. B. "GREEN" für Cesium.Color.GREEN)|false|
+
+**Example**
+
+```json
+//  Array Beispiel
+coloredHighlighting3D: {
+    "enabled": true,
+    "color": [0, 255, 0, 255]
+}
+
+// Cesium.Color Beispiel
+coloredHighlighting3D: {
+    "enabled": true,
+    "color": "GREEN"
+}
+
+```
+***
 ##### Portalconfig.menu.tool.gfi.highlightVectorRules
 
 Liste der Einstellungen zum Überschreiben von Vektorstyles bei GFI Abfragen.
@@ -1613,7 +1647,7 @@ Hinweis: Das Highlighting funktioniert nur, wenn der Layer in der config.json ü
 
 [inherits]: # (Portalconfig.menu.tool)
 
-Das Filterwerkzeug bietet eine Reihe von Optionen zum Filtern von Vektordaten aus WFS-, OAF-, GeoJSON- und SensorThingsAPI-Diensten an.
+Das Filterwerkzeug bietet eine Reihe von Optionen zum Filtern von Vektordaten aus WFS-, OAF-, GeoJSON-, SensorThingsAPI und VectorTiles-Diensten an.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
@@ -1754,12 +1788,13 @@ Die Konfiguration eines Layers.
 |wmsRefId|nein|String/String[]|""|Wenn der Layer gefiltert wird, wird der WMS-Layer mit der wmsRefId unsichtbar und im Themenbaum deaktiviert. Stattdessen wird der WFS aus der Filter-Konfiguration angezeigt. Nach dem Zurücksetzen des Filters wird die WMS-Ebene wieder aktiviert und wieder sichtbar.|false|
 |snippetTags|nein|Boolean|true|Wenn gefiltert wurde, wird die Einstellung des Filters als Tags über dem Filter angezeigt. Auf `false` stellen, wenn dies vermieden werden soll.|false|
 |labelFilterButton|nein|String|"common:modules.tools.filter.filterButton"|Bei passiver Strategie (`passive`): Der verwendetet Text vom Filter-Button. Kann auch ein Übersetzungs-Key sein.|false|
-|download|nein|Boolean|""|Geben Sie hier ein true für eine Export-Datei an, um das Herunterladen der auf diesem Layer gefilterten Daten zu aktivieren. Es erscheint ein Downloadbereich am Ende des Filters.|false|
+|download|nein|Boolean|""|Geben Sie hier ein true für eine Export-Datei an, um das Herunterladen der auf diesem Layer gefilterten Daten zu aktivieren. Es erscheint ein Downloadbereich am Ende des Filters. Für VectorTiles funktioniert nur der CSV-Download.|false|
 |paging|nein|Number|1000|Der Filter lädt Features Stück für Stück in die Map. Dies ermöglicht einen Ladebalken der die Usability bei großen Datenmengen verbessert. Das Paging ist die Stück-Größe. Bei zu gering eingestellter Größe wird das Filtern ausgebremst. Bei zu groß eingestellter Größe steigt die Verzögerung der Anzeige in der Karte. Der beste Wert kann nur von Fall zu Fall durch Ausprobieren ermittelt werden.|false|
 |extern|nein|Boolean|false|Stellen Sie dieses Flag auf `true` um die Filterung serverseitig durchzuführen. Dies sollte für große Datenmengen in Betracht gezogen werden, die nicht in einem Stück in den Browser geladen werden können. Es ist dann außerdem ratsam das Layer-Flag **[isNeverVisibleInTree](#markdown-header-themenconfiglayer)** auf `true` zu stellen, um das Laden des gesamten Datensatzes durch User-Interaktion über den Themenbaum zu verhindern.|false|
 |geometryName|nein|String|""|Nur für extern `true` in Verbindung mit Filterung innerhalb von Polygonen: Der Geometrie-Name der Features um eine Schnittmenge feststellen zu können.|false|
 |filterButtonDisabled|nein|Boolean|false|Nur für strategy `passive`: Der Filter-Knopf wird deaktiviert solange der Benutzer nichts im Filter ausgewählt hat.|false|
 |snippets|nein|[snippets](#markdown-header-portalconfigmenutoolfilterfilterlayersnippets)[]|[]|Konfiguration der sogenannten Snippets für das Filtern. Kann bei der minimalsten Variante ein Array von Attribut-Namen sein. Kann komplett weggelassen werden, wenn die automatische Snippet-Ermittlung verwendet werden soll.|false|
+|filterOnMove|nein|Boolean||Wenn auf `true` eingestellt, wird der Layer bei Kartenbewergung dynamisch gefilteret.|false|
 
 **Beispiel**
 
@@ -1778,6 +1813,7 @@ Dieses Beispiel konfiguriert ein Layer mit nur einem einzigen Snippet. Die Art d
     "description": "School master data and pupil numbers of Hamburg schools",
     "snippetTags": true,
     "paging": 100,
+    "filterOnMove": false,
     "snippets": [
         {
             "attrName": "rebbz_homepage"
@@ -1857,7 +1893,7 @@ Hinweis: Zeitbezogene Snippets (`date` und `dateRange`) können nur dann im Modu
 |addSelectAll|nein|Boolean|false|Nur für Snippet-Typ `dropdown` mit `multiselect: true`: Ein zusätzlicher Eintrag zum Selektieren/Deselektieren aller Werte wird angeboten.|false|
 |optionsLimit|nein|Number|20000|Nur für Snippet-Typ `dropdown`: Einer Parameter für Anzahl der Optionen in der Dropdown-List.|false|
 |localeCompareParams|nein|[localeCompareParams](#markdown-header-portalconfigmenutoolfilterfilterlayersnippetslocalecompareparams)||Nur für Snippet-Typ `dropdown`: Die Sortierung der Dropdown-Boxen kann über diesen Parameter nach eigenen Wünschen angepasst werden.|false|
-|delimitor|nein|String||Nur für Snippet-Typ `dropdown`: Sollte das Attribut eines Features ein String sein, dessen Wert mit einem Separator als Quasi-Array gedacht ist, kann durch Angabe des separierenden Zeichens (des Delimitors) die Verarbeitung des Strings als Array erzwungen werden.|false|
+|delimiter|nein|String||Nur für Snippet-Typ `dropdown`: Sollte das Attribut eines Features ein String sein, dessen Wert mit einem Separator als Quasi-Array gedacht ist, kann durch Angabe des separierenden Zeichens (des Delimiters) die Verarbeitung des Strings als Array erzwungen werden.|false|
 |renderIcons|nein|String|"none"|Nur für Snippet-Typ `dropdown` mit `display: "list"`: Wenn auf den String `fromLegend` eingestellt, werden Icons aus der Legende bezogen und links neben den Werten angezeigt. Wird hier ein Objekt angegeben, werden die Key-Namen als Wert und der Value als Bild-Pfad verwendet: {attrName: imagePath} (siehe Beispiele).|false|
 |service|nein|[service](#markdown-header-portalconfigmenutoolfilterfilterlayersnippetsservice)||Für das initiale Befüllen eines Snippets (Dropdown, Date, Slider) kann ein alternativer Service genutzt werden. Das kann unter Umständen die Performanz beim initialen Laden erhöhen. Standard ist der Service des konfigurierten [filterLayer](#markdown-header-portalconfigmenutoolfilterfilterlayer).|false|
 |children|nein|[children](#markdown-header-portalconfigmenutoolfilterfilterlayersnippetschildren)[]|[]|Konfiguration von Kind-Snippets.|true|
@@ -2320,6 +2356,18 @@ Abspeicherung des aktuellen Karteninhalts.
 
 ***
 
+#### Portalconfig.menu.tool.scaleSwitcher
+
+[inherits]: # (Portalconfig.menu.tool)
+
+Werkzeug, mit dem der aktuelle Maßstab der Karte geändert werden kann.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|isDisplayInFooter|nein|Boolean|false|Aktiviert die Auswahlliste für den Maßstab auch in der Fußzeile (Achtung: Zusammenhang mit dem Parameter **ScaleLine** in der **[config.js](config.js)**).|false|
+
+***
+
 #### Portalconfig.menu.tool.resetTree
 
 [inherits]: # (Portalconfig.menu.tool)
@@ -2383,6 +2431,7 @@ Druckmodul. Konfigurierbar für 2 Druckdienste: den High Resolution PlotService 
 |printAppId|nein|String|"master"|Id der print app des Druckdienstes. Dies gibt dem Druckdienst vor welche/s Template/s er zu verwenden hat.|false|
 |filename|nein|String|"report"|Dateiname des Druckergebnisses.|false|
 |title|nein|String|"PrintResult"|Titel des Dokuments. Erscheint als Kopfzeile.|false|
+|titleLength|nein|Number|45|Die Länge der Titelzeichen.|false|
 |version|nein|String||Flag welcher Druckdienst verwendet werden soll. Bei "HighResolutionPlotService" wird der High Resolution PlotService verwendet, wenn der Parameter nicht gesetzt wird, wird Mapfish 3 verwendet.|false|
 |isLegendSelected|nein|Boolean|false|Gibt an, ob die Checkbox, zum Legende mitdrucken, aktiviert sein soll. Wird nur angezeigt wenn der Druckdienst (Mapfish Print 3) das Drucken der Legende unterstützt.|false|
 |legendText|nein|String|"Mit Legende"|Beschreibender Text für die printLegend-Checkbox.|false|
@@ -2391,6 +2440,9 @@ Druckmodul. Konfigurierbar für 2 Druckdienste: den High Resolution PlotService 
 |defaultCapabilitiesFilter|nein|**[capabilitiesFilter](#markdown-header-portalconfigmenutoolprintcapabilitiesfilter)**||Ist für ein Attribut kein Filter in capabilitiesFilter gesetzt, wird der Wert aus diesem Objekt genommen.|false|
 |useProxy|nein|Boolean|false|Deprecated im nächsten Major-Release, da von der GDI-DE empfohlen wird einen CORS-Header einzurichten. Gibt an, ob die URL des Dienstes über einen Proxy angefragt werden soll, dabei werden die Punkte in der URL durch Unterstriche ersetzt.|false|
 |printMapMarker|nein|Boolean|false|Wenn dieses Feld auf true gesetzt ist, werden im Bildausschnitt sichtbare MapMarker mitgedruckt. Diese überdecken ggf. interessante Druckinformationen.|false|
+|overviewmapLayerId|nein|String||Über den Parameter layerId kann ein anderer Layer für die Overviewmap verwendet werden. Wird keine Id angegeben, wird der erste Layer der ausgewählten Hintergundkarten verwendet.|false|
+|layoutOrder|nein|String[]||Legt die Reihenfolge fest, in der die Layouts in der Dropdown-Liste angezeigt werden sollen. Nur in Kombination mit dem Druckdienst 'plotservice' zu verwenden.|false|
+|isPrintDrawnGeoms|nein|Boolean|false|Gibt an, ob es möglich ist, Geometrien zu drucken, die durch das Draw oder Measure Tool entstanden sind. Nur in Kombination mit dem Druckdienst 'plotservice' zu verwenden.|false|
 
 **Beispiel Konfiguration mit High Resolution PlotService**
 ```
@@ -2402,7 +2454,13 @@ Druckmodul. Konfigurierbar für 2 Druckdienste: den High Resolution PlotService 
     "filename": "Ausdruck",
     "title": "Mein Titel",
     "printService": "plotservice",
-    "printAppCapabilities": "info.json"
+    "printAppCapabilities": "info.json",
+    "layoutOrder": [
+        "Default A4 hoch",
+        "Default A4 quer",
+        "Default A3 hoch",
+        "Default A3 quer",
+    ]
 }
 ```
 
@@ -5103,7 +5161,7 @@ Neben diesen Attributen gibt es auch Typ-spezifische Attribute für **[WMS](#mar
 |isNeverVisibleInTree|nein|Boolean|false|Anzeige, ob der Layer niemals im Themenbaum sichtbar ist.|false|
 |urlIsVisible|nein|Boolean|true|Anzeige, ob die URL in der Layerinformation angezeigt werden soll.|false|
 |filterRefId|nein|Integer||Referenzierung zu einem konfigurierten Filter. Dabei ist die Id entsprechend der Position der Layer im Filter. Angefangen bei 0.|false|
-|renderer|no|String|"default"|Render-Pipeline für die Darstellung ("default" oder "webgl") (nur für Vektordaten "GeoJSON", "WFS", "OAF", "VectorBase")|false|
+|renderer|no|String|"default"|Render-Pipeline für die Darstellung ("default" oder "webgl")(nur für Vektordaten "GeoJSON", "WFS", "OAF", "VectorBase")"webgl" ist derzeit als experimentell einzustufen.|false|
 |isPointLayer|no|Boolean|false|Anzeige, ob der (Vektor)-Layer nur aus Punkt-Features besteht (nur relevant für WebGL Rendering))|false|
 
 **Beispiel mit einer Id**
@@ -5235,6 +5293,8 @@ Attribute für die WFS Suche bei highlighFeaturesByAttribute
     "escapeChar": "!"
 }
 ```
+
+***
 
 #### Themenconfig.Layer.Tileset
 

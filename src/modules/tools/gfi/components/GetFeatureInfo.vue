@@ -133,15 +133,18 @@ export default {
     },
     methods: {
         ...mapActions("Maps", ["registerListener", "unregisterListener"]),
-        ...mapActions("Tools/Gfi", ["updateClick"]),
+        ...mapActions("Tools/Gfi", ["updateClick", "highlight3DTile", "removeHighlight3DTile", "removeHighlightColor"]),
         ...mapMutations("Tools/Gfi", ["setGfiFeatures", "setCurrentFeature"]),
         /**
-         * Reset means to set the gfiFeatures to null.
+         * Resets means to set the gfiFeatures to null and revert 3D Coloring.
          * This closes the gfi window/modal/popover.
          * @returns {void}
          */
         reset: function () {
             this.setGfiFeatures(null);
+            if (this.mapMode === "3D") {
+                this.removeHighlightColor();
+            }
         },
         /**
          * Increases the index for the pagination.
@@ -189,7 +192,7 @@ export default {
         },
 
         /**
-         * hHandles the maps listener in 2D and 3D mode, when in relation to active.
+         * Handles the maps listener in 2D and 3D mode, when in relation to active.
          * @param {String} mapMode The map mode.
          * @param {Boolean} active Is gfi active.
          * @returns {void}
@@ -198,15 +201,22 @@ export default {
             if (active) {
                 if (mapMode === "2D") {
                     this.registerListener({type: "click", listener: this.updateClick});
+                    this.removeHighlight3DTile();
                 }
                 else if (mapMode === "3D") {
                     const map3D = mapCollection.getMap("3D");
 
+                    if (this.coloredHighlighting3D && this.coloredHighlighting3D?.enabled !== false) {
+                        this.highlight3DTile();
+                    }
                     this.unregisterListener({type: "click", listener: this.updateClick});
                     api.map.olcsMap.handle3DEvents({scene: map3D.getCesiumScene(), map3D: map3D, callback: (clickObject) => this.updateClick(Object.freeze(clickObject))});
                 }
             }
             else {
+                if (mapMode === "3D") {
+                    this.removeHighlight3DTile();
+                }
                 this.reset();
                 this.unregisterListener({type: "click", listener: this.updateClick});
             }
