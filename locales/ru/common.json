@@ -592,11 +592,22 @@
                     "captions": {
                         "beginModelling": "Моделирование 3D-объекта",
                         "clampToGround": "Выравнивание по модели рельефа",
-                        "transparency": "Прозрачность",
                         "color": "Цвет",
+                        "drawing": "Рисунок",
                         "drawName": "Название",
+                        "drawnModels": "Нарисованные модели:",
+                        "export": "Экспорт",
+                        "exportTitle": "Экспортировать все нарисованные модели в формате GeoJSON.",
                         "extrudedHeight": "Выдавленная высота",
-                        "drawnModels": "Рисованные модели:"
+                        "fillColor": "Цвет заливки",
+                        "geometry": "Геометрия",
+                        "outlineColor": "Цвет контура",
+                        "transparency": "Прозрачность",
+                        "lineWidth": "Толщина линии"
+                    },
+                    "geometries": {
+                        "polygon": "Полигон",
+                        "line": "Линия"
                     }
                 },
                 "nav": {

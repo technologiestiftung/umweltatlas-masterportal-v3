@@ -17,16 +17,16 @@ export function adaptCylinderToGround (cylinder, position) {
 
 /**
  * Returns a position, at which a cylinder is above ground.
- * @param {Cesium.Entity} polygon - the polygon that should be ignored by sampleHeight
+ * @param {Cesium.Entity} entity - the entity that should be ignored by sampleHeight
  * @param {Cesium.Entity} cylinder - the cylinder
  * @param {Cesium.Cartesian3} position - the position that should get normalized
  * @returns {Cesium.Cartesian3} - the normalized position
  */
-export function adaptCylinderToPolygon (polygon, cylinder, position) {
+export function adaptCylinderToEntity (entity, cylinder, position) {
     const scene = mapCollection.getMap("3D").getCesiumScene(),
         cartographic = Cesium.Cartographic.fromCartesian(position),
-        sampledHeight = scene.sampleHeight(cartographic, [polygon, cylinder]),
-        heightDelta = polygon.polygon.extrudedHeight - sampledHeight;
+        sampledHeight = scene.sampleHeight(cartographic, [entity, cylinder]),
+        heightDelta = entity.polygon ? entity.polygon.extrudedHeight - sampledHeight : sampledHeight;
 
     cylinder.cylinder.length = heightDelta + 5;
 

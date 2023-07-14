@@ -655,8 +655,14 @@
                         "exportTitle": "Alle gezeichneten Modelle in GeoJSON Format exportieren.",
                         "extrudedHeight": "Extrudierte Höhe",
                         "fillColor": "Füllfarbe",
+                        "geometry": "Geometrie",
                         "outlineColor": "Umrissfarbe",
-                        "transparency": "Transparenz"
+                        "transparency": "Transparenz",
+                        "lineWidth": "Strichstärke"
+                    },
+                    "geometries": {
+                        "polygon": "Polygon",
+                        "line": "Linie"
                     }
                 },
                 "nav": {

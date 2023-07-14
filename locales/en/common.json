@@ -645,12 +645,23 @@
                 "draw": {
                     "captions": {
                         "beginModelling": "Model 3D Object",
-                        "clampToGround": "Align to the terrain model",
+                        "clampToGround": "Align to Terrain Model",
                         "color": "Color",
+                        "drawing": "Drawing",
                         "drawName": "Name",
                         "drawnModels": "Drawn Models:",
+                        "export": "Export",
+                        "exportTitle": "Export all drawn models in GeoJSON format.",
                         "extrudedHeight": "Extruded Height",
-                        "transparency": "Transparency"
+                        "fillColor": "Fill Color",
+                        "geometry": "Geometry",
+                        "outlineColor": "Outline Color",
+                        "transparency": "Transparency",
+                        "lineWidth": "Line Width"
+                    },
+                    "geometries": {
+                        "polygon": "Polygon",
+                        "line": "Line"
                     }
                 },
                 "nav": {

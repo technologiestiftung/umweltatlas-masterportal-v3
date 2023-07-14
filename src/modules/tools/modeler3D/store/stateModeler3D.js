@@ -35,6 +35,7 @@
  * @property {Number}       rotation - the current rotation value
  * @property {Number}       scale - the scale of the current model
  * @property {String}       selectedFillColor - selected fill color for drawing 3d object
+ * @property {String}       selectedGeometry - selected geometry for drawing 3d object
  * @property {String}       selectedOutlineColor - selected outline color for drawing 3d object
  */
 
@@ -67,11 +68,13 @@ export default {
     isDragging: false,
     isDrawing: false,
     isLoading: false,
+    lineWidth: 2,
     opacity: 1,
     projections: [],
     rotation: 0,
     scale: 1,
     selectedFillColor: "",
+    selectedGeometry: "",
     selectedOutlineColor: "",
 
     // defaults for config.json parameters

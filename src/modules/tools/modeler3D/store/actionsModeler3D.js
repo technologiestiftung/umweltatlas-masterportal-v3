@@ -1,6 +1,6 @@
 import proj4 from "proj4";
 import store from "../../../../app-store";
-import {adaptCylinderToGround, adaptCylinderToPolygon} from "../components/utils/draw";
+import {adaptCylinderToGround, adaptCylinderToEntity} from "../components/utils/draw";
 
 const actions = {
     /**
@@ -204,7 +204,24 @@ const actions = {
 
                 cylinder.position = entity.clampToGround ?
                     adaptCylinderToGround(cylinder, position) :
-                    adaptCylinderToPolygon(entity, cylinder, position);
+                    adaptCylinderToEntity(entity, cylinder, position);
+            });
+        }
+        else if (entity?.wasDrawn && entity?.polyline?.positions) {
+            const positions = entity.polyline.positions.getValue();
+
+            commit("setActiveShapePoints", positions);
+
+            positions.forEach((position, index) => {
+                dispatch("createCylinder", {
+                    posIndex: index,
+                    length: 4
+                });
+                const cylinder = entities.values.find(cyl => cyl.id === state.cylinderId);
+
+                cylinder.position = entity.clampToGround ?
+                    adaptCylinderToGround(cylinder, position) :
+                    adaptCylinderToEntity(entity, cylinder, position);
             });
         }
     },
@@ -265,6 +282,24 @@ const actions = {
             });
 
             dispatch("transformFromCartesian", getters.getCenterFromPolygon(entity));
+        }
+    },
+    /**
+     * Moves a given polyline to a given new position.
+     * @param {object} context - The context of the Vuex module.
+     * @param {object} moveOptions - Contains the polyline and new position it shall be moved to.
+     * @returns {void}
+    */
+    movePolyline ({state}, {entity, position}) {
+        if (entity && entity.wasDrawn && entity.polyline && entity.polyline.positions) {
+            const positions = entity.polyline.positions.getValue(),
+                boundingSphereCenter = Cesium.BoundingSphere.fromPoints(positions).center,
+                positionDelta = Cesium.Cartesian3.subtract(position, boundingSphereCenter, new Cesium.Cartesian3());
+
+            positions.forEach((pos, index) => {
+                Cesium.Cartesian3.add(pos, positionDelta, pos);
+                state.cylinderPosition[index] = pos;
+            });
         }
     }
 };

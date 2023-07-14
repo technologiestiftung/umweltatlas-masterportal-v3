@@ -13,7 +13,7 @@ import store from "../../../../app-store";
 import crs from "@masterportal/masterportalapi/src/crs";
 import proj4 from "proj4";
 import {getGfiFeaturesByTileFeature} from "../../../../api/gfi/getGfiFeaturesByTileFeature";
-import {adaptCylinderToGround, adaptCylinderToPolygon} from "./utils/draw";
+import {adaptCylinderToGround, adaptCylinderToEntity} from "./utils/draw";
 
 let eventHandler = null;
 
@@ -112,13 +112,22 @@ export default {
 
                 if (oldEntity) {
                     if (oldEntity.wasDrawn) {
-                        oldEntity.polygon.material.color = oldEntity.originalColor;
-                        oldEntity.polygon.outlineColor = oldEntity.originalOutlineColor;
-                        oldEntity.polygon.hierarchy = new Cesium.ConstantProperty(new Cesium.PolygonHierarchy(this.activeShapePoints));
-                        this.removeCylinders();
-                        this.setActiveShapePoints([]);
-                        this.setCylinderId(null);
-                        this.setExtrudedHeight(20);
+                        if (oldEntity.polygon) {
+                            oldEntity.polygon.material.color = oldEntity.originalColor;
+                            oldEntity.polygon.outlineColor = oldEntity.originalOutlineColor;
+                            oldEntity.polygon.hierarchy = new Cesium.ConstantProperty(new Cesium.PolygonHierarchy(this.activeShapePoints));
+                            this.removeCylinders();
+                            this.setActiveShapePoints([]);
+                            this.setCylinderId(null);
+                            this.setExtrudedHeight(20);
+                        }
+                        else if (oldEntity.polyline) {
+                            oldEntity.polyline.positions = new Cesium.ConstantProperty(this.activeShapePoints);
+                            oldEntity.polyline.material.color = oldEntity.originalColor;
+                            this.removeCylinders();
+                            this.setActiveShapePoints([]);
+                            this.setCylinderId(null);
+                        }
                     }
                     else {
                         oldEntity.model.color = Cesium.Color.WHITE;
@@ -132,9 +141,16 @@ export default {
                 }
                 if (newEntity) {
                     if (newEntity.wasDrawn) {
-                        this.generateCylinders();
-                        this.setActiveShapePoints(newEntity.polygon.hierarchy.getValue().positions);
-                        newEntity.polygon.hierarchy = new Cesium.CallbackProperty(() => new Cesium.PolygonHierarchy(this.activeShapePoints), false);
+                        if (newEntity.polygon) {
+                            this.generateCylinders();
+                            this.setActiveShapePoints(newEntity.polygon.hierarchy.getValue().positions);
+                            newEntity.polygon.hierarchy = new Cesium.CallbackProperty(() => new Cesium.PolygonHierarchy(this.activeShapePoints), false);
+                        }
+                        else if (newEntity.polyline) {
+                            this.generateCylinders();
+                            this.setActiveShapePoints(newEntity.polyline.positions.getValue());
+                            newEntity.polyline.positions = new Cesium.CallbackProperty(() => this.activeShapePoints);
+                        }
                     }
                     this.highlightEntity(newEntity);
                     this.setCurrentModelPosition(newEntity?.position?.getValue() || this.getCenterFromPolygon(newEntity));
@@ -281,13 +297,14 @@ export default {
                 document.body.style.cursor = "grabbing";
 
                 if (entity?.cylinder) {
-                    const polygon = this.entities.getById(this.currentModelId);
+                    const geometry = this.entities.getById(this.currentModelId),
+                        position = geometry.polygon ? geometry.polygon.hierarchy.getValue().positions[entity.positionIndex] : geometry.polyline.positions.getValue()[entity.positionIndex];
 
-                    this.currentPosition = polygon.polygon.hierarchy.getValue().positions[entity.positionIndex];
+                    this.currentPosition = position;
 
-                    entity.position = polygon.clampToGround ?
+                    entity.position = geometry.clampToGround ?
                         new Cesium.CallbackProperty(() => adaptCylinderToGround(entity, this.currentPosition), false) :
-                        new Cesium.CallbackProperty(() => adaptCylinderToPolygon(polygon, entity, this.currentPosition), false);
+                        new Cesium.CallbackProperty(() => adaptCylinderToEntity(geometry, entity, this.currentPosition), false);
                     eventHandler.setInputAction(this.moveCylinder, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
                 }
                 else {
@@ -340,12 +357,13 @@ export default {
         moveCylinder (event) {
             if (this.isDragging) {
                 const entities = this.entities,
-                    polygon = entities.getById(this.currentModelId),
+                    entity = entities.getById(this.currentModelId),
                     cylinder = entities.getById(this.cylinderId),
                     scene = this.scene;
 
-                if (Cesium.defined(cylinder) && Cesium.defined(polygon)) {
-                    if (polygon.clampToGround) {
+                if (Cesium.defined(cylinder) && Cesium.defined(entity)) {
+
+                    if (entity.clampToGround) {
                         const ray = scene.camera.getPickRay(event.endPosition),
                             position = scene.globe.pick(ray, scene);
 
@@ -357,7 +375,7 @@ export default {
                         const transformedCoordinates = proj4(proj4("EPSG:25832"), proj4("EPSG:4326"), [this.mouseCoordinate[0], this.mouseCoordinate[1]]),
                             cartographic = Cesium.Cartographic.fromDegrees(transformedCoordinates[0], transformedCoordinates[1]);
 
-                        cartographic.height = scene.sampleHeight(cartographic, [cylinder, polygon]);
+                        cartographic.height = scene.sampleHeight(cartographic, [cylinder, entity]);
 
                         if (this.currentPosition !== Cesium.Cartographic.toCartesian(cartographic)) {
                             this.currentPosition = Cesium.Cartographic.toCartesian(cartographic);
@@ -385,15 +403,18 @@ export default {
                         entity = entities.getById(this.currentModelId);
 
                     if (Cesium.defined(entity)) {
+                        entities.values.filter(ent => ent.cylinder).forEach((cyl, index) => {
+                            cyl.position = entity.clampToGround ?
+                                new Cesium.CallbackProperty(() => adaptCylinderToGround(cyl, this.cylinderPosition[index]), false) :
+                                new Cesium.CallbackProperty(() => adaptCylinderToEntity(entity, cyl, this.cylinderPosition[index]), false);
+                        });
                         if (entity.polygon) {
-                            entities.values.filter(ent => ent.cylinder).forEach((cyl, index) => {
-                                cyl.position = entity.clampToGround ?
-                                    new Cesium.CallbackProperty(() => adaptCylinderToGround(cyl, this.cylinderPosition[index]), false) :
-                                    new Cesium.CallbackProperty(() => adaptCylinderToPolygon(entity, cyl, this.cylinderPosition[index]), false);
-                            });
                             this.movePolygon({entity: entity, position: position});
                         }
-                        else if (entity.position !== position) {
+                        else if (entity.polyline) {
+                            this.movePolyline({entity: entity, position: position});
+                        }
+                        else {
                             entity.position = position;
                         }
                         this.updatePositionUI();
@@ -412,21 +433,21 @@ export default {
 
                 if (this.cylinderId) {
                     const cylinder = this.entities.getById(this.cylinderId),
-                        polygon = this.entities.getById(this.currentModelId);
+                        entity = this.entities.getById(this.currentModelId);
 
-                    cylinder.position = polygon?.clampToGround ?
+                    cylinder.position = entity?.clampToGround ?
                         adaptCylinderToGround(cylinder, cylinder.position.getValue()) :
-                        adaptCylinderToPolygon(polygon, cylinder, cylinder.position.getValue());
+                        adaptCylinderToEntity(entity, cylinder, cylinder.position.getValue());
                     this.setCylinderId(null);
                 }
                 else if (this.wasDrawn) {
                     const cylinders = this.entities.values.filter(ent => ent.cylinder),
-                        polygon = this.entities.getById(this.currentModelId);
+                        entity = this.entities.getById(this.currentModelId);
 
                     cylinders.forEach((cyl) => {
-                        cyl.position = polygon?.clampToGround ?
+                        cyl.position = entity?.clampToGround ?
                             adaptCylinderToGround(cyl, cyl.position.getValue()) :
-                            adaptCylinderToPolygon(polygon, cyl, cyl.position.getValue());
+                            adaptCylinderToEntity(entity, cyl, cyl.position.getValue());
                     });
                 }
                 this.setHideObjects(this.originalHideOption);
@@ -459,14 +480,23 @@ export default {
                 silhouetteSize = configuredHighlightStyle?.silhouetteSize || this.highlightStyle.silhouetteSize;
 
             if (entity.wasDrawn) {
-                entity.originalColor = entity.polygon.material.color;
-                entity.originalOutlineColor = entity.polygon.outlineColor;
-                entity.polygon.material.color = Cesium.Color.fromAlpha(
-                    Cesium.Color.fromCssColorString(color),
-                    parseFloat(alpha)
-                );
-                entity.polygon.outline = true;
-                entity.polygon.outlineColor = Cesium.Color.fromCssColorString(silhouetteColor);
+                if (entity.polygon) {
+                    entity.originalColor = entity.polygon.material.color;
+                    entity.originalOutlineColor = entity.polygon.outlineColor;
+                    entity.polygon.material.color = Cesium.Color.fromAlpha(
+                        Cesium.Color.fromCssColorString(color),
+                        parseFloat(alpha)
+                    );
+                    entity.polygon.outline = true;
+                    entity.polygon.outlineColor = Cesium.Color.fromCssColorString(silhouetteColor);
+                }
+                else if (entity.polyline) {
+                    entity.originalColor = entity.polyline.material.color;
+                    entity.polyline.material.color = Cesium.Color.fromAlpha(
+                        Cesium.Color.fromCssColorString(color),
+                        parseFloat(alpha)
+                    );
+                }
             }
             else {
                 entity.model.color = Cesium.Color.fromAlpha(

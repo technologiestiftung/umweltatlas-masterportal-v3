@@ -197,21 +197,33 @@ export default {
                             id: lastId ? lastId + 1 : 1,
                             name: properties.name,
                             wasDrawn: true,
-                            clampToGround: properties.clampToGround,
-                            polygon: {
-                                material: new Cesium.ColorMaterialProperty(
-                                    new Cesium.Color(color.red, color.green, color.blue, color.alpha)
-                                ),
-                                outline: true,
-                                outlineColor: new Cesium.Color(outlineColor.red, outlineColor.green, outlineColor.blue, outlineColor.alpha),
-                                outlineWidth: 1,
-                                height: properties.height,
-                                extrudedHeight: properties.extrudedHeight,
-                                extrudedHeightReference: properties.extrudedHeightReference,
-                                shadows: Cesium.ShadowMode.ENABLED,
-                                hierarchy: new Cesium.PolygonHierarchy(coordinates.map(point => Cesium.Cartesian3.fromDegrees(point[0], point[1])))
-                            }
+                            clampToGround: properties.clampToGround
                         });
+
+                    if (feature.geometry.type === "Polygon") {
+                        entity.polygon = {
+                            material: new Cesium.ColorMaterialProperty(
+                                new Cesium.Color(color.red, color.green, color.blue, color.alpha)
+                            ),
+                            outline: true,
+                            outlineColor: new Cesium.Color(outlineColor.red, outlineColor.green, outlineColor.blue, outlineColor.alpha),
+                            outlineWidth: 1,
+                            height: coordinates[0][2],
+                            extrudedHeight: properties.extrudedHeight,
+                            extrudedHeightReference: properties.extrudedHeightReference,
+                            shadows: Cesium.ShadowMode.ENABLED,
+                            hierarchy: new Cesium.PolygonHierarchy(coordinates.map(point => Cesium.Cartesian3.fromDegrees(point[0], point[1])))
+                        };
+                    }
+                    else if (feature.geometry.type === "Polyline") {
+                        entity.polyline = {
+                            material: new Cesium.ColorMaterialProperty(
+                                new Cesium.Color(color.red, color.green, color.blue, color.alpha)
+                            ),
+                            width: properties.width,
+                            positions: coordinates.map(point => Cesium.Cartesian3.fromDegrees(point[0], point[1], point[2]))
+                        };
+                    }
 
                     entities.add(entity);
                     this.drawnModels.push({

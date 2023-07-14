@@ -464,11 +464,22 @@
                     "captions": {
                         "beginModelling": "3D-Objekt modelleren",
                         "clampToGround": "An'n Hööhenmodel anpassen",
-                        "transparency": "Deutlichkeit",
                         "color": "Farv",
+                        "drawing": "Teeken",
                         "drawName": "Naam",
+                        "drawnModels": "Tekende Modellen:",
+                        "export": "Exporteer",
+                        "exportTitle": "Alle tekende modellen exportieren as GeoJSON.",
                         "extrudedHeight": "Uutropen Heugde",
-                        "drawnModels": "Tekent Modelle"
+                        "fillColor": "Uutvullen-Farv",
+                        "geometry": "Geometrie",
+                        "outlineColor": "Umranden-Farv",
+                        "transparency": "Deutlichkeit",
+                        "lineWidth": "Linnendikte"
+                    },
+                    "geometries": {
+                        "polygon": "Poli",
+                        "line": "Lien"
                     }
                 },
                 "nav": {
