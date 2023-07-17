@@ -128,10 +128,7 @@ export default {
                         <p v-if="currentInteractionConfig.Polygon.available">
                             {{ $t("common:modules.tools.wfsTransaction.polygonHint") }}
                         </p>
-                        <form
-                            id="tool-wfsTransaction-form"
-                            @submit.prevent="() => {}"
-                        >
+                        <form id="tool-wfsTransaction-form">
                             <template v-for="property of featureProperties">
                                 <template v-if="property.type !== 'geometry'">
                                     <label
@@ -160,7 +157,7 @@ export default {
                                 <SimpleButton
                                     :interaction="save"
                                     text="common:modules.tools.wfsTransaction.form.save"
-                                    type="submit"
+                                    type="button"
                                 />
                             </div>
                         </form>
