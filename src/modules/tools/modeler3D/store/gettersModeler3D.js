@@ -1,19 +1,35 @@
 
 import {generateSimpleGetters} from "../../../../app-store/utils/generators";
-import import3DState from "./stateModeler3D";
+import modeler3DState from "./stateModeler3D";
+import {convertSexagesimalFromDecimal, convertSexagesimalToDecimal} from "../../../../utils/convertSexagesimalCoordinates";
 
 const getters = {
-    ...generateSimpleGetters(import3DState),
+    ...generateSimpleGetters(modeler3DState),
 
     // NOTE overwrite getters here if you need a special behaviour in a getter
+    /**
+     * Returns the Cesium scene.
+     * @returns {Cesium.Scene} the current cesium scene.
+     */
     scene () {
         return mapCollection.getMap("3D").getCesiumScene();
     },
+    /**
+     * Returns the default Cesium EntityCollection.
+     * @returns {Cesium.EntityCollection} the current Cesium EntityCollection.
+     */
     entities () {
         return mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities;
     },
+    /**
+     * Returns the Cesium scene.
+     * @param {Object} state state of this tool
+     * @param {String} id of the model
+     * @returns {string} the model name of the entity.
+     */
     getModelNameById: state => (id) => {
-        const model = state.importedModels.find(x => x.id === id);
+        const allModels = state.importedModels.concat(state.drawnModels),
+            model = allModels.find(x => x.id === id);
 
         return model.name;
     },
@@ -40,6 +56,73 @@ const getters = {
         const type = state.currentProjection?.projName !== "longlat" ? "cartesian" : "hdms";
 
         return "modules.tools.modeler3D.entity.projections." + type + "." + key;
+    },
+    /**
+     * Returns the value to increment the current coordinate with depending on the selected coordinate system.
+     * @param {Object} state state of this tool
+     * @param {Object} coordOptions the options to calculate the value
+     * @returns {Number} the value to increment with
+     */
+    coordAdjusted: (state) => ({shift, coordType}) => {
+        if (state.currentProjection.epsg !== "EPSG:4326" || coordType === "height") {
+            return shift ? 1 : 0.1;
+        }
+        return shift ? 0.00001 : 0.000001;
+    },
+    /**
+     * Returns the coordinate without postfixes
+     * @param {Object} state state of this tool
+     * @param {String} coord the coord string
+     * @returns {String} formatted coord
+     */
+    formatCoord: (state) => (coord) => {
+        if (state.currentProjection.id === "http://www.opengis.net/gml/srs/epsg.xml#4326-DG") {
+            return coord.split(/[\s°]+/)[0];
+        }
+        else if (state.currentProjection.projName === "longlat") {
+            return convertSexagesimalToDecimal(coord.split(/[\s°′″'"´`]+/));
+        }
+        return parseFloat(coord);
+    },
+    /**
+     * Returns the formatted coordinate with postfixes
+     * @param {Object} state state of this tool
+     * @param {Number} coord the coord string
+     * @returns {String} formatted coord
+     */
+    prettyCoord: (state) => (coord) => {
+        if (state.currentProjection.projName === "longlat" && state.currentProjection.id !== "http://www.opengis.net/gml/srs/epsg.xml#4326-DG") {
+            return convertSexagesimalFromDecimal(coord);
+        }
+        else if (state.currentProjection.id === "http://www.opengis.net/gml/srs/epsg.xml#4326-DG") {
+            return coord.toFixed(6) + "°";
+        }
+        return coord.toFixed(2);
+    },
+    /**
+     * Returns the center cartesian position of a given polygon
+     * @param {Cesium.Entity} polygon the polygon
+     * @returns {Cesium.Cartesian3} the Cartesian center position
+     */
+    getCenterFromPolygon: () => (polygon) => {
+        if (polygon?.polygon?.hierarchy) {
+            const positions = polygon.polygon.hierarchy.getValue().positions,
+                center = positions.reduce(
+                    (sum, position) => {
+                        Cesium.Cartesian3.add(sum, position, sum);
+                        return sum;
+                    },
+                    {x: 0, y: 0, z: 0}
+                );
+
+            Cesium.Cartesian3.divideByScalar(center, positions.length, center);
+
+            return center;
+        }
+        return undefined;
+    },
+    wasDrawn (state, getter) {
+        return getter.entities.getById(state.currentModelId).wasDrawn;
     }
 };
 

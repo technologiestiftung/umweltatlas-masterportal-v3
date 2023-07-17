@@ -32,6 +32,11 @@ describe("Actions", () => {
                     longitude: 0.17443853256965697,
                     latitude: 0.9346599366554966,
                     height: 6.134088691520464
+                }),
+                fromDegrees: () => ({
+                    longitude: 0.17443853256965697,
+                    latitude: 0.9346599366554966,
+                    height: 6.134088691520464
                 })
             },
             Math: {
@@ -55,7 +60,7 @@ describe("Actions", () => {
         sinon.restore();
     });
     describe("deleteEntity", () => {
-        it("should delete the entity from list and entityCollection", () => {
+        it("should delete the entity from list and entityCollection", (done) => {
             const commit = sinon.spy(),
                 state = {importedModels: [{id: 1}]},
                 id = 1;
@@ -70,11 +75,14 @@ describe("Actions", () => {
             };
 
             actions.deleteEntity({state, getters, commit}, id);
-            expect(entities.removeById.calledWith(1)).to.be.true;
-            expect(commit.calledWith("setCurrentModelId", null)).to.be.true;
+            setTimeout(() => {
+                expect(entities.removeById.calledWith(1)).to.be.true;
+                expect(commit.calledWith("setCurrentModelId", null)).to.be.true;
+                done();
+            }, 20);
         });
 
-        it("should not delete the entity when not found in list", () => {
+        it("should not delete the entity when not found in list", (done) => {
             const commit = sinon.spy(),
                 state = {importedModels: [{id: 5}]},
                 id = 1;
@@ -89,8 +97,11 @@ describe("Actions", () => {
             };
 
             actions.deleteEntity({state, getters, commit}, id);
-            expect(entities.removeById.calledWith(1)).to.be.false;
-            expect(commit.calledWith("setCurrentModelId", null)).to.be.false;
+            setTimeout(() => {
+                expect(entities.removeById.calledWith(1)).to.be.false;
+                expect(commit.calledWith("setCurrentModelId", null)).to.be.false;
+                done();
+            }, 20);
         });
     });
 
@@ -106,35 +117,6 @@ describe("Actions", () => {
 
             actions.confirmDeletion({dispatch, getters}, id);
             expect(store.dispatch.firstCall.args[0]).to.equal("ConfirmAction/addSingleAction");
-        });
-    });
-
-    describe("formatInput", () => {
-        it("should format the coordinates correctly for EPSG 4326-DG projection", () => {
-            const commit = sinon.spy(),
-                state = {currentProjection: {id: "http://www.opengis.net/gml/srs/epsg.xml#4326-DG"}},
-                coords = [{id: "northing", value: "53.552070°"}];
-
-            actions.formatInput({state, commit}, coords);
-            expect(commit.calledWith("pushCoordinates", ["53.552070", ""])).to.be.true;
-        });
-
-        it("should format the coordinates correctly for 'longlat' projection", () => {
-            const commit = sinon.spy(),
-                state = {currentProjection: {projName: "longlat"}},
-                coords = [{id: "longitude", value: "9° 59' 41''"}];
-
-            actions.formatInput({state, commit}, coords);
-            expect(commit.calledWith("pushCoordinates", ["9", "59", "41", ""])).to.be.true;
-        });
-
-        it("should format the coordinates correctly for other projections", () => {
-            const commit = sinon.spy(),
-                state = {currentProjection: {id: "otherProjection"}},
-                coords = [{id: "hochwert", value: "5936518.07"}];
-
-            actions.formatInput({state, commit}, coords);
-            expect(commit.calledWith("pushCoordinates", "5936518.07")).to.be.true;
         });
     });
 
@@ -201,6 +183,7 @@ describe("Actions", () => {
     describe("updatePositionUI", () => {
         it("should transform entity position when it exists", () => {
             const dispatch = sinon.spy(),
+                commit = sinon.spy(),
                 state = {
                     currentModelId: "entityId"
                 };
@@ -213,10 +196,11 @@ describe("Actions", () => {
                 entities: entities
             };
 
-            actions.updatePositionUI({dispatch, state, getters});
+            actions.updatePositionUI({commit, dispatch, state, getters});
 
             expect(entities.getById.calledWith("entityId")).to.be.true;
             expect(dispatch.calledWith("transformFromCartesian", {x: 10, y: 20, z: 30})).to.be.true;
+            expect(commit.calledWith("setHeight", undefined)).to.be.true;
         });
 
         it("should not transform entity position when it doesn't exist", () => {
@@ -228,7 +212,8 @@ describe("Actions", () => {
             };
             getters = {
                 scene: scene,
-                entities: entities
+                entities: entities,
+                getCenterFromPolygon: sinon.stub().returns(undefined)
             };
 
             actions.updatePositionUI({dispatch, state, getters});
@@ -249,12 +234,12 @@ describe("Actions", () => {
 
             actions.transformFromCartesian({state, commit}, entityPosition);
 
-            expect(commit.firstCall.args[0]).to.equal("setCoordinatesEasting");
-            expect(commit.firstCall.args[1]).to.eql({id: "easting", value: "9.99"});
-            expect(commit.secondCall.args[0]).to.equal("setCoordinatesNorthing");
-            expect(commit.secondCall.args[1]).to.eql({id: "northing", value: "9.99"});
+            expect(commit.firstCall.args[0]).to.equal("setCoordinateEasting");
+            expect(commit.firstCall.args[1]).to.eql(9.99455657887449);
+            expect(commit.secondCall.args[0]).to.equal("setCoordinateNorthing");
+            expect(commit.secondCall.args[1]).to.eql(9.99455657887449);
             expect(commit.thirdCall.args[0]).to.equal("setHeight");
-            expect(commit.thirdCall.args[1]).to.eql({id: "height", value: "6.13"});
+            expect(commit.thirdCall.args[1]).to.eql(6.134088691520464);
 
         });
 
@@ -267,12 +252,12 @@ describe("Actions", () => {
 
             actions.transformFromCartesian({state, commit}, entityPosition);
 
-            expect(commit.firstCall.args[0]).to.equal("setCoordinatesEasting");
-            expect(commit.firstCall.args[1]).to.eql({id: "easting", value: "609005.93"});
-            expect(commit.secondCall.args[0]).to.equal("setCoordinatesNorthing");
-            expect(commit.secondCall.args[1]).to.eql({id: "northing", value: "1104974.86"});
+            expect(commit.firstCall.args[0]).to.equal("setCoordinateEasting");
+            expect(commit.firstCall.args[1]).to.eql(609005.9265606481);
+            expect(commit.secondCall.args[0]).to.equal("setCoordinateNorthing");
+            expect(commit.secondCall.args[1]).to.eql(1104974.8560725104);
             expect(commit.thirdCall.args[0]).to.equal("setHeight");
-            expect(commit.thirdCall.args[1]).to.eql({id: "height", value: "6.13"});
+            expect(commit.thirdCall.args[1]).to.eql(6.134088691520464);
         });
     });
 
@@ -283,10 +268,9 @@ describe("Actions", () => {
                 dispatch = sinon.spy(),
                 state = {
                     adaptToHeight: false,
-                    selectedCoordinates: [["10.000000", ""], ["53.557000", ""]],
-                    coordinatesEasting: {value: "10.00°"},
-                    coordinatesNorthing: {value: "53.557°"},
-                    height: {value: "6.0"},
+                    coordinateEasting: 10.00,
+                    coordinateNorthing: 53.557,
+                    height: 6.0,
                     currentProjection: {
                         epsg: "EPSG:4326",
                         id: "someId",
@@ -296,7 +280,6 @@ describe("Actions", () => {
 
             actions.transformToCartesian({state, dispatch, commit});
 
-            expect(dispatch.calledWith("formatInput", [state.coordinatesEasting, state.coordinatesNorthing])).to.be.true;
             expect(commit.firstCall.args[0]).to.equal("setCurrentModelPosition");
             expect(commit.firstCall.args[1]).to.eql({x: 3739310.9273738265, y: 659341.4057539968, z: 5107613.232959453});
         });
@@ -306,10 +289,9 @@ describe("Actions", () => {
                 dispatch = sinon.spy(),
                 state = {
                     adaptToHeight: false,
-                    selectedCoordinates: [566242.52, 5934700.15],
-                    coordinatesEasting: {value: "566242.52"},
-                    coordinatesNorthing: {value: "5934700.15"},
-                    height: {value: "6.0"},
+                    coordinateEasting: 566242.52,
+                    coordinateNorthing: 5934700.15,
+                    height: 6.0,
                     currentProjection: {
                         epsg: "EPSG:25832",
                         id: "someId",
@@ -319,7 +301,6 @@ describe("Actions", () => {
 
             actions.transformToCartesian({state, dispatch, commit});
 
-            expect(dispatch.calledWith("formatInput", [state.coordinatesEasting, state.coordinatesNorthing])).to.be.true;
             expect(commit.firstCall.args[0]).to.equal("setCurrentModelPosition");
             expect(commit.firstCall.args[1]).to.eql({x: 3739310.9273738265, y: 659341.4057539968, z: 5107613.232959453});
         });
@@ -329,10 +310,9 @@ describe("Actions", () => {
                 dispatch = sinon.spy(),
                 state = {
                     adaptToHeight: true,
-                    selectedCoordinates: [["10.000000", ""], ["53.557000", ""]],
-                    coordinatesEasting: {value: "10.00°"},
-                    coordinatesNorthing: {value: "53.557°"},
-                    height: {value: "6.0"},
+                    coordinateEasting: 10.00,
+                    coordinateNorthing: 53.557,
+                    height: 6.0,
                     currentProjection: {
                         epsg: "EPSG:4326",
                         id: "someId",
@@ -345,13 +325,10 @@ describe("Actions", () => {
                 entities: entities
             };
 
-            global.Cesium.Cartographic = sinon.spy();
-
             actions.transformToCartesian({state, dispatch, commit, getters});
 
-            expect(dispatch.calledWith("formatInput", [state.coordinatesEasting, state.coordinatesNorthing])).to.be.true;
             expect(commit.firstCall.args[0]).to.equal("setHeight");
-            expect(commit.firstCall.args[1]).to.eql({id: "height", value: "5.79"});
+            expect(commit.firstCall.args[1]).to.eql(5.7896);
             expect(commit.secondCall.args[0]).to.equal("setCurrentModelPosition");
             expect(commit.secondCall.args[1]).to.eql({x: 3739310.9273738265, y: 659341.4057539968, z: 5107613.232959453});
         });

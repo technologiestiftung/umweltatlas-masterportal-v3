@@ -1,5 +1,7 @@
 import {expect} from "chai";
 import MapHandler from "../../../utils/mapHandler.js";
+import sinon from "sinon";
+import VectorTileLayer from "../../../../../../core/layers/vectorTile.js";
 
 describe("src/module/tools/filter/utils/mapHandler.js", () => {
     let lastError = false,
@@ -225,6 +227,22 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
             }, onerror.call);
 
             map.filteredIds.filterId = [1, 2, 3];
+            expect(map.getAmountOfFilteredItemsByFilterId("filterId")).to.equal(3);
+        });
+
+        it("should return the number of features without duplicates", () => {
+            const map = new MapHandler({
+                getLayerByLayerId: () => false,
+                showFeaturesByIds: () => false,
+                createLayerIfNotExists: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => false,
+                addLayerByLayerId: () => false,
+                getLayers: () => false,
+                setParserAttributeByLayerId: () => false
+            }, onerror.call);
+
+            map.filteredIds.filterId = [1, 2, 3, 2, 1];
             expect(map.getAmountOfFilteredItemsByFilterId("filterId")).to.equal(3);
         });
     });
@@ -617,6 +635,36 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
 
             expect(map.filteredIds.filterId).to.deep.equal([10, 20, 30]);
             expect(called_showFeaturesByIds).to.deep.equal([10, 20, 30]);
+        });
+        it("should push items to filteredIds but with the unique id of the feature and not the ol feature id", () => {
+            let called_showFeaturesByIds = false;
+            const map = new MapHandler({
+                getLayerByLayerId: () => false,
+                showFeaturesByIds: (layerId, ids) => {
+                    called_showFeaturesByIds = ids;
+                },
+                createLayerIfNotExists: () => false,
+                zoomToFilteredFeatures: () => false,
+                zoomToExtent: () => false,
+                addLayerByLayerId: () => false,
+                getLayers: () => false,
+                setParserAttributeByLayerId: () => false
+            }, onerror.call);
+
+            map.getLayerModelByFilterId = () => sinon.createStubInstance(VectorTileLayer);
+            map.layers.filterId = {
+                get: () => false
+            };
+            map.filteredIds.filterId = [];
+            map.addItemsToLayer("filterId", [
+                {get: () => 10},
+                {get: () => 20},
+                {get: () => 30}
+            ], false);
+
+            expect(map.filteredIds.filterId).to.deep.equal([10, 20, 30]);
+            expect(called_showFeaturesByIds).to.deep.equal([10, 20, 30]);
+            sinon.restore();
         });
         it("should add items to layerSource if extern is true", () => {
             let called_items = false;

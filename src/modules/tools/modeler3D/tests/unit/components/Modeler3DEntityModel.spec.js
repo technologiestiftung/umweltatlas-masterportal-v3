@@ -1,7 +1,7 @@
 import Vuex from "vuex";
 import {expect} from "chai";
 import sinon from "sinon";
-import {config, shallowMount, createLocalVue} from "@vue/test-utils";
+import {config, shallowMount, mount, createLocalVue} from "@vue/test-utils";
 import Modeler3DEntityModelComponent from "../../../components/Modeler3DEntityModel.vue";
 import Modeler3D from "../../../store/indexModeler3D";
 
@@ -10,8 +10,9 @@ const localVue = createLocalVue();
 localVue.use(Vuex);
 config.mocks.$t = key => key;
 
-describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
+describe("src/modules/tools/modeler3D/components/Modeler3DEntityModel.vue", () => {
     const entity = {
+            id: 1,
             orientation: null,
             position: {
                 getValue: () => {
@@ -111,7 +112,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
     });
 
     it("renders Modeler3DEntityModel", async () => {
-        wrapper = shallowMount(Modeler3DEntityModelComponent, {store, localVue});
+        wrapper = mount(Modeler3DEntityModelComponent, {store, localVue});
 
         expect(wrapper.find("#modeler3D-entity-view").exists()).to.be.true;
         expect(wrapper.find("#model-name").exists()).to.be.true;
@@ -138,7 +139,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
     });
 
     it("renders height buttons when adaptHeight is unchecked", async () => {
-        wrapper = shallowMount(Modeler3DEntityModelComponent, {store, localVue});
+        wrapper = mount(Modeler3DEntityModelComponent, {store, localVue});
 
         store.commit("Tools/Modeler3D/setAdaptToHeight", false);
         await wrapper.vm.$nextTick();
@@ -225,74 +226,21 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
             expect(ret).to.be.equals("modules.tools.modeler3D.entity.projections.cartesian.key");
         });
 
-        describe("adjustCoordinate method", () => {
-            it("adjustCoordinate adds value to easting coordinate", () => {
-                store.commit("Tools/Modeler3D/setCurrentProjection", {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm", epsg: "EPSG:25832"});
-
-                wrapper = shallowMount(Modeler3DEntityModelComponent, {store, localVue});
-                store.state.Tools.Modeler3D.coordinatesEasting.value = "56432.45";
-                wrapper.vm.adjustCoordinate("easting", true);
-
-                expect(Modeler3D.actions.updateEntityPosition).to.be.called;
-                expect(store.state.Tools.Modeler3D.coordinatesEasting.value).to.eql("56432.55");
-            });
-
-            it("adjustCoordinate adds value to northing coordinate", () => {
-                store.commit("Tools/Modeler3D/setCurrentProjection", {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm", epsg: "EPSG:25832"});
-
-                wrapper = shallowMount(Modeler3DEntityModelComponent, {store, localVue});
-                store.state.Tools.Modeler3D.coordinatesNorthing.value = "56432.45";
-                wrapper.vm.adjustCoordinate("northing", true);
-
-                expect(Modeler3D.actions.updateEntityPosition).to.be.called;
-                expect(store.state.Tools.Modeler3D.coordinatesNorthing.value).to.eql("56432.55");
-            });
-
-            it("adjustCoordinate adds value to height coordinate", () => {
-                store.commit("Tools/Modeler3D/setCurrentProjection", {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm", epsg: "EPSG:25832"});
-
-                wrapper = shallowMount(Modeler3DEntityModelComponent, {store, localVue});
-                store.state.Tools.Modeler3D.height.value = "6";
-                wrapper.vm.adjustCoordinate("height", true);
-
-                expect(Modeler3D.actions.updateEntityPosition).to.be.called;
-                expect(store.state.Tools.Modeler3D.height.value).to.eql("6.10");
-            });
-
-            it("adjustCoordinate adds shifted value to EPSG:4326 system", () => {
-                store.commit("Tools/Modeler3D/setCurrentProjection", {id: "http://www.opengis.net/gml/srs/epsg.xml#4326-DG", name: "EPSG:4326", projName: "longlat", epsg: "EPSG:4326"});
-
-                wrapper = shallowMount(Modeler3DEntityModelComponent, {store, localVue});
-                store.state.Tools.Modeler3D.coordinatesEasting.value = "9.4";
-                wrapper.vm.adjustCoordinate("easting", true, true);
-
-                expect(Modeler3D.actions.updateEntityPosition).to.be.called;
-                expect(store.state.Tools.Modeler3D.coordinatesEasting.value).to.eql("9.400010°");
-            });
-        });
-
         it("rotates the entity model based on input", () => {
             global.Cesium.HeadingPitchRoll = sinon.spy();
 
             wrapper = shallowMount(Modeler3DEntityModelComponent, {store, localVue});
-            wrapper.vm.rotationAngle = "90";
-            wrapper.vm.rotate();
+            wrapper.vm.rotationString = "90";
 
-            const importedModel = store.state.Tools.Modeler3D.importedModels.find(x => x.id === 1);
-
-            expect(importedModel.heading).to.eql(90);
             expect(global.Cesium.Transforms.headingPitchRollQuaternion).to.be.calledOnce;
             expect(entity.orientation).to.eql(22);
         });
 
         it("changes the scale of the entity model", () => {
             wrapper = shallowMount(Modeler3DEntityModelComponent, {store, localVue});
-            wrapper.vm.scaleVal = "2";
-            wrapper.vm.changeScale();
+            wrapper.vm.scaleString = "2";
 
-            const importedModel = store.state.Tools.Modeler3D.importedModels.find(x => x.id === 1);
-
-            expect(importedModel.scale).to.eql(2);
+            expect(store.state.Tools.Modeler3D.scale).to.eql(2);
             expect(entity.model.scale).to.eql(2);
         });
     });

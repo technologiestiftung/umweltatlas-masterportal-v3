@@ -431,7 +431,7 @@ Layer.prototype.setIsSelected = function (newValue) {
         bridge.updateLayerView(this);
         bridge.renderMenu();
     }
-    if (this.get("typ") === "WFS") {
+    if (this.get("typ") === "WFS" || this.get("typ") === "OAF") {
         // data will be loaded at first selection
         this.updateSource();
     }

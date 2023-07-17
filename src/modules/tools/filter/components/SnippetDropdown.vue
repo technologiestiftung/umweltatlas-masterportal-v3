@@ -4,7 +4,7 @@ import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createSty
 import {translateKeyWithPlausibilityCheck} from "../../../../utils/translateKeyWithPlausibilityCheck.js";
 import getIconListFromLegendModule from "../utils/getIconListFromLegend.js";
 import {getDefaultOperatorBySnippetType} from "../utils/getDefaultOperatorBySnippetType.js";
-import splitListWithdelimiter from "../utils/splitListWithdelimiter.js";
+import splitListWithDelimiter from "../utils/splitListWithDelimiter.js";
 import isObject from "../../../../utils/isObject";
 import SnippetInfo from "./SnippetInfo.vue";
 import localeCompare from "../../../../utils/localeCompare";
@@ -359,7 +359,7 @@ export default {
         else if (this.api && this.autoInit !== false) {
             this.$nextTick(() => {
                 this.api.getUniqueValues(this.attrName, list => {
-                    this.dropdownValue = this.splitListWithdelimiter(list, this.delimiter);
+                    this.dropdownValue = this.splitListWithDelimiter(list, this.delimiter);
                     this.dropdownSelected = this.getInitialDropdownSelected(this.prechecked, this.dropdownValue, this.multiselect);
                     this.$nextTick(() => {
                         this.isInitializing = false;
@@ -395,7 +395,7 @@ export default {
     },
     methods: {
         translateKeyWithPlausibilityCheck,
-        splitListWithdelimiter,
+        splitListWithDelimiter,
 
         /**
          * Emits the setSnippetPrechecked event.

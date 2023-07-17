@@ -1,6 +1,6 @@
 <script>
 import BasicFileImport from "../../../../share-components/fileImport/components/BasicFileImport.vue";
-import Modeler3DList from "./Modeler3DList.vue";
+import EntityList from "./ui/EntityList.vue";
 import RoutingLoadingSpinner from "../../routing/components/RoutingLoadingSpinner.vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import actions from "../store/actionsModeler3D";
@@ -16,7 +16,7 @@ export default {
     name: "Modeler3DImport",
     components: {
         BasicFileImport,
-        Modeler3DList,
+        EntityList,
         RoutingLoadingSpinner
     },
     emits: ["moveEntity"],
@@ -62,6 +62,9 @@ export default {
                 else if (fileExtension === "dae") {
                     this.handleDaeFile(file, fileName);
                 }
+                else if (fileExtension === "geojson") {
+                    this.handleGeoJsonFile(file);
+                }
                 else {
                     store.dispatch("Alerting/addSingleAlert", {content: i18next.t("common:modules.tools.modeler3D.import.alertingMessages.missingFormat", {format: fileExtension})}, {root: true});
                 }
@@ -92,6 +95,7 @@ export default {
                 entity = {
                     id: lastId ? lastId + 1 : 1,
                     name: fileName,
+                    clampToGround: true,
                     model: {
                         uri: URL.createObjectURL(file)
                     }
@@ -106,9 +110,8 @@ export default {
                 id: entity.id,
                 name: fileName,
                 show: true,
-                heading: 0,
-                scale: entity.model.scale,
-                edit: false
+                edit: false,
+                heading: 0
             });
             this.setImportedModels(models);
             this.setIsLoading(false);
@@ -168,6 +171,75 @@ export default {
             reader.readAsDataURL(file);
         },
         /**
+         * Handles the processing of a GEOJSON file.
+         * @param {File} file - The GEOJSON file.
+         * @param {string} fileName - The name of the file.
+         * @returns {void}
+         */
+        handleGeoJsonFile (file) {
+            const reader = new FileReader();
+            let geojson;
+
+            reader.onload = (event) => {
+                const text = event.target.result,
+                    entities = this.entities;
+
+                geojson = JSON.parse(text);
+
+                geojson.features.forEach(feature => {
+                    const properties = feature.properties,
+                        color = properties.color,
+                        outlineColor = properties.outlineColor,
+                        coordinates = feature.geometry.coordinates[0],
+                        lastElement = entities.values.slice().pop(),
+                        lastId = lastElement?.id,
+                        entity = new Cesium.Entity({
+                            id: lastId ? lastId + 1 : 1,
+                            name: properties.name,
+                            wasDrawn: true,
+                            clampToGround: properties.clampToGround
+                        });
+
+                    if (feature.geometry.type === "Polygon") {
+                        entity.polygon = {
+                            material: new Cesium.ColorMaterialProperty(
+                                new Cesium.Color(color.red, color.green, color.blue, color.alpha)
+                            ),
+                            outline: true,
+                            outlineColor: new Cesium.Color(outlineColor.red, outlineColor.green, outlineColor.blue, outlineColor.alpha),
+                            outlineWidth: 1,
+                            height: coordinates[0][2],
+                            extrudedHeight: properties.extrudedHeight,
+                            extrudedHeightReference: properties.extrudedHeightReference,
+                            shadows: Cesium.ShadowMode.ENABLED,
+                            hierarchy: new Cesium.PolygonHierarchy(coordinates.map(point => Cesium.Cartesian3.fromDegrees(point[0], point[1])))
+                        };
+                    }
+                    else if (feature.geometry.type === "Polyline") {
+                        entity.polyline = {
+                            material: new Cesium.ColorMaterialProperty(
+                                new Cesium.Color(color.red, color.green, color.blue, color.alpha)
+                            ),
+                            width: properties.width,
+                            positions: coordinates.map(point => Cesium.Cartesian3.fromDegrees(point[0], point[1], point[2]))
+                        };
+                    }
+
+                    entities.add(entity);
+                    this.drawnModels.push({
+                        id: entity.id,
+                        name: entity.name,
+                        show: true,
+                        edit: false
+                    });
+                });
+            };
+
+            reader.readAsText(file);
+            this.setCurrentView("draw");
+            this.setIsLoading(false);
+        },
+        /**
          * Toggles the visibility of a model entity.
          * @param {object} model - The model object.
          * @returns {void}
@@ -212,16 +284,14 @@ export default {
             @add-file="addFile"
         />
 
-        <Modeler3DList
+        <EntityList
             v-if="importedModels.length > 0"
             id="successfully-imported-models"
             :objects="importedModels"
             :objects-label="$t('modules.tools.modeler3D.import.captions.successfullyImportedLabel')"
             :entity="true"
-            @zoom-to="zoomTo"
-            @set-current-model-id="setCurrentModelId"
             @change-visibility="changeVisibility"
-            @confirm-deletion="confirmDeletion"
+            @zoom-to="zoomTo"
         />
     </div>
 </template>
@@ -244,86 +314,5 @@ export default {
     .h-seperator {
         margin:12px 0 12px 0;
         border: 1px solid #DDDDDD;
-    }
-
-    .primary-button-wrapper {
-        color: $white;
-        background-color: $secondary_focus;
-        display: block;
-        text-align:center;
-        padding: 8px 12px;
-        cursor: pointer;
-        margin:12px 0 0 0;
-        font-size: $font_size_big;
-        &:focus {
-            @include primary_action_focus;
-        }
-        &:hover {
-            @include primary_action_hover;
-        }
-    }
-
-    .cta {
-        margin-bottom:12px;
-    }
-
-    .red {
-        color: red;
-    }
-
-    .modelListLabel {
-        font-weight: bold;
-    }
-
-    .modelList {
-        font-size: $font_size_icon_lg;
-    }
-
-    .index {
-        width: 15%;
-    }
-
-    .inputName {
-        width: 60%;
-        cursor: text;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-
-        &:hover {
-            border-color: #8098b1;
-            outline: 0;
-            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075), 0 0 0 0.25rem rgba(0, 48, 99, 0.25);
-        }
-    }
-
-    .buttons {
-        margin-left: auto;
-    }
-
-    .inline-button {
-        cursor: pointer;
-        display: inline-block;
-        &:focus {
-            transform: translateY(-2px);
-        }
-        &:hover {
-            transform: translateY(-2px);
-        }
-        &:active {
-            transform: scale(0.98);
-        }
-    }
-
-    ul {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    li {
-        display: flex;
-        align-items: center;
-        height: 1.5rem;
     }
 </style>

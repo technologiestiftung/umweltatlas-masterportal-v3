@@ -1,13 +1,13 @@
 import {expect} from "chai";
 import sinon from "sinon";
 import {mount, config, createLocalVue} from "@vue/test-utils";
-import Modeler3DListComponent from "../../../components/Modeler3DList.vue";
+import EntityListComponent from "../../../components/ui/EntityList.vue";
 
 const localVue = createLocalVue();
 
 config.mocks.$t = key => key;
 
-describe("src/modules/tools/modeler3D/components/Modeler3DList.vue", () => {
+describe("src/modules/tools/modeler3D/components/EntityList.vue", () => {
     let wrapper;
 
     afterEach(() => {
@@ -18,7 +18,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3DList.vue", () => {
     });
 
     it("shows buttons for importedModel", async () => {
-        wrapper = mount(Modeler3DListComponent, {localVue});
+        wrapper = mount(EntityListComponent, {localVue});
         wrapper.vm.objects = [
             {
                 id: "id",
@@ -41,7 +41,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3DList.vue", () => {
     });
 
     it("shows buttons for hiddenObjects", async () => {
-        wrapper = mount(Modeler3DListComponent, {localVue});
+        wrapper = mount(EntityListComponent, {localVue});
         wrapper.vm.objects = [
             {
                 id: "id",

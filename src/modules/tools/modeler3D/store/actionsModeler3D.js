@@ -1,6 +1,6 @@
 import proj4 from "proj4";
 import store from "../../../../app-store";
-import {convertSexagesimalToDecimal, convertSexagesimalFromDecimal} from "../../../../utils/convertSexagesimalCoordinates";
+import {adaptCylinderToGround, adaptCylinderToEntity} from "../components/utils/draw";
 
 const actions = {
     /**
@@ -13,12 +13,16 @@ const actions = {
     deleteEntity ({commit, getters, state}, id) {
         const entities = getters.entities,
             entity = entities.getById(id),
-            modelIndex = state.importedModels.findIndex(x => x.id === id);
+            stateArray = entity?.wasDrawn ? state.drawnModels : state.importedModels,
+            modelIndex = stateArray.findIndex(x => x.id === id);
 
         if (modelIndex > -1 && entity) {
-            state.importedModels.splice(modelIndex, 1);
-            entities.removeById(id);
             commit("setCurrentModelId", null);
+
+            setTimeout(() => {
+                stateArray.splice(modelIndex, 1);
+                entities.removeById(id);
+            }, 10);
         }
     },
     /**
@@ -38,30 +42,17 @@ const actions = {
         });
     },
     /**
-     * Pushes the formatted coordinates in the selectedCoordinates String[].
+     * Toggles the visibility of a model entity.
      * @param {Object} context The context of the Vuex module.
-     * @param {String[]} coords the coordinates the user entered
+     * @param {object} model - The model object.
      * @returns {void}
      */
-    formatInput ({state, commit}, coords) {
-        const {currentProjection} = state;
+    changeVisibility ({getters}, model) {
+        const entities = getters.entities,
+            entity = entities.getById(model.id);
 
-        commit("setSelectedCoordinates", []);
-        for (const coord of coords) {
-            let formatter;
-
-            if (currentProjection.id === "http://www.opengis.net/gml/srs/epsg.xml#4326-DG") {
-                formatter = coordinate=>coordinate.value.split(/[\s°]+/);
-            }
-            else if (currentProjection.projName === "longlat") {
-                formatter = coordinate=>coordinate.value.split(/[\s°′″'"´`]+/);
-            }
-            else {
-                formatter = coordinate=>coordinate.value;
-            }
-
-            commit("pushCoordinates", formatter(coord));
-        }
+        entity.show = !model.show;
+        model.show = entity.show;
     },
     /**
      * Reacts on new selected projection. Sets the current projection and its name to state and updates the UI.
@@ -89,8 +80,21 @@ const actions = {
         }
 
         dispatch("transformToCartesian");
+        if (entity.polygon) {
+            const cylinders = entities.values.filter(ent => ent.cylinder);
 
-        entity.position = state.currentModelPosition;
+            dispatch("movePolygon", {entity: entity, position: state.currentModelPosition});
+
+            cylinders.forEach(cyl => {
+                cyl.cylinder.length = entity.polygon.extrudedHeight - entity.polygon.height + 5;
+                cyl.position = entity.clampToGround ?
+                    adaptCylinderToGround(cyl, state.cylinderPosition[cyl.positionIndex]) :
+                    adaptCylinderToEntity(entity, cyl, state.cylinderPosition[cyl.positionIndex]);
+            });
+        }
+        else {
+            entity.position = state.currentModelPosition;
+        }
     },
     /**
      * Reacts on changed entity position. Gets the currently selected entity position and transforms its coordinates
@@ -98,14 +102,32 @@ const actions = {
      * @param {object} context - The context of the Vuex module.
      * @returns {void}
     */
-    updatePositionUI ({dispatch, getters, state}) {
+    updatePositionUI ({commit, dispatch, getters, state}) {
         const entities = getters.entities,
             entity = entities.getById(state.currentModelId),
-            entityPosition = entity?.position?.getValue();
+            entityPosition = entity?.position?.getValue() || getters.getCenterFromPolygon(entity);
 
         if (entityPosition) {
             dispatch("transformFromCartesian", entityPosition);
+            commit("setHeight", entity.polygon?.height.getValue());
         }
+    },
+    updateUI ({commit, dispatch, getters, state}) {
+        const entities = getters.entities,
+            entity = entities.getById(state.currentModelId);
+
+        commit("setAdaptToHeight", entity.clampToGround);
+
+        if (entity?.polygon instanceof Cesium.PolygonGraphics) {
+            commit("setExtrudedHeight", entity.polygon.extrudedHeight.getValue() - entity.polygon.height.getValue());
+        }
+        else if (entity?.model instanceof Cesium.ModelGraphics) {
+            const modelFromState = state.importedModels.find(ent => ent.id === entity.id);
+
+            commit("setRotation", modelFromState.heading);
+            commit("setScale", entity.model.scale ? entity.model.scale.getValue() : 1);
+        }
+        dispatch("updatePositionUI");
     },
     /**
      * Transforms the Cartesian3 coordinates to the currently selected projection and sets it to state.
@@ -114,72 +136,171 @@ const actions = {
      * @returns {void}
     */
     transformFromCartesian ({state, commit}, entityPosition) {
-        let transformedCoordinates,
-            coordinates = Cesium.Cartographic.fromCartesian(entityPosition);
+        let coordinates = Cesium.Cartographic.fromCartesian(entityPosition);
 
-        const height = coordinates.height.toFixed(2);
+        const height = coordinates.height;
 
         coordinates = [Cesium.Math.toDegrees(coordinates.longitude), Cesium.Math.toDegrees(coordinates.latitude)];
 
-        transformedCoordinates = proj4(proj4("EPSG:4326"), state.currentProjection, coordinates);
-
-        if (state.currentProjection.projName === "longlat" && state.currentProjection.id !== "http://www.opengis.net/gml/srs/epsg.xml#4326-DG") {
-            transformedCoordinates = [convertSexagesimalFromDecimal(transformedCoordinates[0]), convertSexagesimalFromDecimal(transformedCoordinates[1])];
-        }
-        else if (state.currentProjection.id === "http://www.opengis.net/gml/srs/epsg.xml#4326-DG") {
-            transformedCoordinates = [transformedCoordinates[0].toFixed(6) + "°", transformedCoordinates[1].toFixed(6) + "°"];
-        }
-        else if (state.currentProjection.id === "http://www.opengis.net/gml/srs/epsg.xml#ETRS893GK3") {
-            if (transformedCoordinates[0].toFixed(2).length === 9) {
-                transformedCoordinates[0] = transformedCoordinates[0] + 3000000;
-            }
-            transformedCoordinates = [transformedCoordinates[0].toFixed(2), transformedCoordinates[1].toFixed(2)];
-        }
-        else {
-            transformedCoordinates = [transformedCoordinates[0].toFixed(2), transformedCoordinates[1].toFixed(2)];
+        if (state.currentProjection.epsg !== "EPSG:4326") {
+            coordinates = proj4(proj4("EPSG:4326"), state.currentProjection, coordinates);
         }
 
-        commit("setCoordinatesEasting", {id: "easting", value: transformedCoordinates[0]});
-        commit("setCoordinatesNorthing", {id: "northing", value: transformedCoordinates[1]});
-        commit("setHeight", {id: "height", value: height});
+        if (state.currentProjection.id === "http://www.opengis.net/gml/srs/epsg.xml#ETRS893GK3" && coordinates.toFixed(2).length === 9) {
+            coordinates[0] += 3000000;
+        }
+
+        commit("setCoordinateEasting", coordinates[0]);
+        commit("setCoordinateNorthing", coordinates[1]);
+        commit("setHeight", height);
     },
     /**
      * Transforms the current UI values to Cartesian3 coordinates and sets it to state.
      * @param {object} context - The context of the Vuex module.
      * @returns {void}
     */
-    transformToCartesian ({commit, dispatch, getters, state}) {
-        dispatch("formatInput", [state.coordinatesEasting, state.coordinatesNorthing]);
+    transformToCartesian ({commit, getters, state}) {
+        let coordinates = [state.coordinateEasting, state.coordinateNorthing],
+            height = state.height;
 
-        if (state.selectedCoordinates.length === 2) {
-            let coordinates,
-                height = state.height.value;
-
-            if (state.currentProjection.projName === "longlat") {
-                coordinates = convertSexagesimalToDecimal([state.selectedCoordinates[1], state.selectedCoordinates[0]]);
+        if (state.currentProjection.epsg !== "EPSG:4326") {
+            if (state.currentProjection.id.indexOf("ETRS893GK3") > -1) {
+                coordinates[0] -= 3000000;
             }
-            else if (state.currentProjection.id.indexOf("ETRS893GK3") > -1) {
-                coordinates = [state.selectedCoordinates[0] - 3000000, state.selectedCoordinates[1]];
+            coordinates = proj4(proj4(state.currentProjection.epsg), proj4("EPSG:4326"), coordinates);
+        }
+
+        if (state.adaptToHeight) {
+            const scene = getters.scene,
+                cartographic = Cesium.Cartographic.fromDegrees(coordinates[0], coordinates[1]);
+
+            height = scene.globe.getHeight(cartographic);
+
+            commit("setHeight", height);
+        }
+
+        commit("setCurrentModelPosition", Cesium.Cartesian3.fromDegrees(coordinates[0], coordinates[1], height));
+    },
+    /**
+     * Generates Cesium cylinders at all polygon positions.
+     * @param {object} context - The context of the Vuex module.
+     * @returns {void}
+    */
+    generateCylinders ({commit, dispatch, getters, state}) {
+        const entities = getters.entities,
+            entity = entities.getById(state.currentModelId);
+
+        if (entity?.wasDrawn && entity?.polygon?.hierarchy) {
+            const hierarchy = entity.polygon.hierarchy.getValue(),
+                length = entity.polygon.extrudedHeight - entity.polygon.height + 5;
+
+            commit("setActiveShapePoints", hierarchy.positions);
+
+            hierarchy.positions.forEach((position, index) => {
+                dispatch("createCylinder", {
+                    posIndex: index,
+                    length: length
+                });
+                const cylinder = entities.values.find(cyl => cyl.id === state.cylinderId);
+
+                cylinder.position = entity.clampToGround ?
+                    adaptCylinderToGround(cylinder, position) :
+                    adaptCylinderToEntity(entity, cylinder, position);
+            });
+        }
+        else if (entity?.wasDrawn && entity?.polyline?.positions) {
+            const positions = entity.polyline.positions.getValue();
+
+            commit("setActiveShapePoints", positions);
+
+            positions.forEach((position, index) => {
+                dispatch("createCylinder", {
+                    posIndex: index,
+                    length: 4
+                });
+                const cylinder = entities.values.find(cyl => cyl.id === state.cylinderId);
+
+                cylinder.position = entity.clampToGround ?
+                    adaptCylinderToGround(cylinder, position) :
+                    adaptCylinderToEntity(entity, cylinder, position);
+            });
+        }
+    },
+    /**
+     * Create a singular Cesium cylinder at the given position.
+     * @param {object} context - The context of the Vuex module.
+     * @param {object} positionObj - The position options to create the cylinder with
+     * @returns {void}
+    */
+    createCylinder ({commit, getters, state}, {position = new Cesium.Cartesian3(), posIndex, length}) {
+        const cylinder = getters.entities.add({
+            position: position,
+            positionIndex: posIndex,
+            cylinder: {
+                material: new Cesium.ColorMaterialProperty(Cesium.Color.RED),
+                bottomRadius: 0.1,
+                topRadius: 1,
+                length: length ? length : state.extrudedHeight + 5
             }
-            else {
-                coordinates = [state.selectedCoordinates[0], state.selectedCoordinates[1]];
+        });
+
+        commit("setCylinderId", cylinder.id);
+    },
+    /**
+     * Removes all Cesium cylinders from the the Cesium EntityCollection.
+     * @param {object} context - The context of the Vuex module.
+     * @returns {void}
+    */
+    removeCylinders ({getters}) {
+        const entities = getters.entities,
+            pointEntities = entities.values.filter(entity => entity.cylinder);
+
+        pointEntities.forEach(entity => {
+            entities.remove(entity);
+        });
+    },
+    /**
+     * Moves a given polygon to a given new position.
+     * @param {object} context - The context of the Vuex module.
+     * @param {object} moveOptions - Contains the polygon and new position it shall be moved to.
+     * @returns {void}
+    */
+    movePolygon ({dispatch, getters, state}, {entity, position}) {
+        if (entity && entity.wasDrawn && entity.polygon && entity.polygon.hierarchy) {
+            const positions = entity.polygon.hierarchy.getValue().positions,
+                center = getters.getCenterFromPolygon(entity),
+                positionDelta = Cesium.Cartesian3.subtract(position, center, new Cesium.Cartesian3());
+
+            if (entity.clampToGround) {
+                state.height = getters.scene.globe.getHeight(Cesium.Cartographic.fromCartesian(center));
             }
+            entity.polygon.height = state.height;
+            entity.polygon.extrudedHeight = state.extrudedHeight + state.height;
 
-            const transformedCoordinates = proj4(proj4(state.currentProjection.epsg), proj4("EPSG:4326"), coordinates);
+            positions.forEach((pos, index) => {
+                Cesium.Cartesian3.add(pos, positionDelta, pos);
+                state.cylinderPosition[index] = pos;
+            });
 
-            if (state.adaptToHeight) {
-                const scene = getters.scene,
-                    cartographic = new Cesium.Cartographic(
-                        Cesium.Math.toRadians(transformedCoordinates[0]),
-                        Cesium.Math.toRadians(transformedCoordinates[1])
-                    );
+            dispatch("transformFromCartesian", getters.getCenterFromPolygon(entity));
+        }
+    },
+    /**
+     * Moves a given polyline to a given new position.
+     * @param {object} context - The context of the Vuex module.
+     * @param {object} moveOptions - Contains the polyline and new position it shall be moved to.
+     * @returns {void}
+    */
+    movePolyline ({state}, {entity, position}) {
+        if (entity && entity.wasDrawn && entity.polyline && entity.polyline.positions) {
+            const positions = entity.polyline.positions.getValue(),
+                boundingSphereCenter = Cesium.BoundingSphere.fromPoints(positions).center,
+                positionDelta = Cesium.Cartesian3.subtract(position, boundingSphereCenter, new Cesium.Cartesian3());
 
-                height = scene.globe.getHeight(cartographic);
-
-                commit("setHeight", {id: "height", value: height.toFixed(2)});
-            }
-
-            commit("setCurrentModelPosition", Cesium.Cartesian3.fromDegrees(transformedCoordinates[0], transformedCoordinates[1], height));
+            positions.forEach((pos, index) => {
+                Cesium.Cartesian3.add(pos, positionDelta, pos);
+                state.cylinderPosition[index] = pos;
+            });
         }
     }
 };

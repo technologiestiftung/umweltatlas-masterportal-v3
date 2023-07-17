@@ -2,14 +2,19 @@
  * User type definition
  * @typedef {Object} Modeler3DState
  * @property {Boolean}      active - if true, component is rendered
+ * @property {Object[]}     activeShapePoints - Holds the positions of the currently selected shape
  * @property {Boolean}      adaptToHeight - if true, adjust height automatically on position change
- * @property {Object}       coordinatesEasting - id and value of the transformed easting coordinate displayed on the ui
- * @property {Object}       coordinatesNorthing - id and value of the transformed northing coordinate displayed on the ui
+ * @property {Number}       coordinateEasting - the raw transformed easting coordinate displayed on the ui
+ * @property {Number}       coordinateNorthing - the raw transformed northing coordinate displayed on the ui
  * @property {String}       currentModelId - id of the currently selected or added model
  * @property {Cartesian3}   currentModelPosition - position of the currently selected or added model
  * @property {Object}       currentProjection - the currently selected projection
+ * @property {String}       cylinderId - the id of the currently selected cylinder
  * @property {Boolean}      deactivateGFI - if true, component activation deactivates gfi component
- * @property {Object}       height - id and value of the transformed height coordinate displayed on the ui
+ * @property {String}       drawName name of drawing model
+ * @property {Object[]}     drawnModels - a list of currently active drawn models
+ * @property {Number}       extrudedHeight height in meters for drawing model
+ * @property {Number}       height - the raw transformed height coordinate displayed on the ui
  * @property {Object[]}     hiddenObjects - array of hidden objects
  * @property {Object}       highlightStyle default style for highlighting models
  * @property {String}       highlightStyle.color default color of highlighted model
@@ -20,25 +25,39 @@
  * @property {String}       id - internal id of component
  * @property {Object[]}     importedModels - array of imported 3D models
  * @property {Boolean}      isDragging - if true, entity is being moved by mouse
+ * @property {Boolean}      isDrawing- true if drawing is active
+ * @property {Boolean}      isLoading- true if loading of imported model is active
  * @property {String}       name - Module name
+ * @property {Float}        opacity - selected opactiy for drawing model
  * @property {Object[]}     projections - all available projections
  * @property {Boolean}      renderToWindow - if true, component is rendered in a window pane instead of sidebar
  * @property {Boolean}      resizableWindow - if true and if rendered to window pane, the pane is resizable
  * @property {Number}       rotation - the current rotation value
- * @property {Float[]}      selectedCoordinates - current coordinates in current projections as numbers
+ * @property {Number}       scale - the scale of the current model
+ * @property {String}       selectedFillColor - selected fill color for drawing 3d object
+ * @property {String}       selectedGeometry - selected geometry for drawing 3d object
+ * @property {String}       selectedOutlineColor - selected outline color for drawing 3d object
  */
 
 export default {
     active: false,
     id: "modeler3D",
+    activeShapePoints: [],
     adaptToHeight: true,
-    coordinatesEasting: {id: "easting", value: ""},
-    coordinatesNorthing: {id: "northing", value: ""},
+    coordinateEasting: 0,
+    coordinateNorthing: 0,
     currentModelId: null,
     currentModelPosition: null,
     currentProjection: {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm"},
-    height: {id: "height", value: ""},
+    currentView: "import",
+    cylinderId: null,
+    cylinderPosition: [],
+    drawName: "",
+    drawnModels: [],
+    extrudedHeight: 20,
+    height: 0,
     hiddenObjects: [],
+    hideObjects: true,
     highlightStyle: {
         color: "#787777",
         alpha: 1,
@@ -47,11 +66,16 @@ export default {
     },
     importedModels: [],
     isDragging: false,
+    isDrawing: false,
     isLoading: false,
+    lineWidth: 2,
+    opacity: 1,
     projections: [],
     rotation: 0,
     scale: 1,
-    selectedCoordinates: [],
+    selectedFillColor: "",
+    selectedGeometry: "",
+    selectedOutlineColor: "",
 
     // defaults for config.json parameters
     icon: "bi-bounding-box",

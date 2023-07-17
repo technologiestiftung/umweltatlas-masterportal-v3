@@ -409,7 +409,10 @@
                         "povInfo": "Aqui tem a possibilidade de se colocar na perspetiva de um peão. Basta clicar na posição desejada no mapa e confirmar a sua seleção clicando no botão. <br><br>Nesta vista, pode olhar em volta com o rato. Para voltar à posição inicial, prima a tecla de escape (ESC).",
                         "projectionInfo": "Atenção! Ao utilizar o sistema de coordenadas WGS84, podem ocorrer imprecisões. Recomendamos o uso de notação decimal.",
                         "rotationPlaceholder": "Incrementar/Decrementar etapas",
+                        "rotation": "Rotação",
+                        "rotationSwitch": "Etapa de Rotação",
                         "scale": "Escala",
+                        "steps": "Passos",
                         "visibilityTitle": "Mostrar/Ocultar Modelo 3D \"{{name}}\"",
                         "zoomTo": "Zoom para o Modelo 3D \"{{name}}\""
                     },
@@ -429,9 +432,7 @@
                             "northingLabel": "Latitude"
                         },
                         "height": "Altura",
-                        "projection": "Sistema de Coordenadas",
-                        "rotation": "Rotação",
-                        "rotationSwitch": "Etapa de Rotação"
+                        "projection": "Sistema de Coordenadas"
                     }
                 },
                 "import": {
@@ -447,6 +448,28 @@
                     "captions": {
                         "introFormats": "Você pode importar arquivos glTF (.gltf), arquivos OBJ (.obj) ou arquivos Collada (.dae).",
                         "successfullyImportedLabel": "Modelos 3D Importados:"
+                    }
+                },
+                "draw": {
+                    "captions": {
+                        "beginModelling": "Modelar objeto 3D",
+                        "clampToGround": "Alinhar ao modelo do terreno",
+                        "color": "Cor",
+                        "drawing": "Desenho",
+                        "drawName": "Nome",
+                        "drawnModels": "Modelos desenhados:",
+                        "export": "Exportar",
+                        "exportTitle": "Exportar todos os modelos desenhados no formato GeoJSON.",
+                        "extrudedHeight": "Altura extrudida",
+                        "fillColor": "Cor de preenchimento",
+                        "geometry": "Geometria",
+                        "outlineColor": "Cor do contorno",
+                        "transparency": "Transparência",
+                        "lineWidth": "Espessura da linha"
+                    },
+                    "geometries": {
+                        "polygon": "Polígono",
+                        "line": "Linha"
                     }
                 },
                 "nav": {

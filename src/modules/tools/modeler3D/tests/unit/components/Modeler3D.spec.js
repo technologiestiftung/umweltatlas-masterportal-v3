@@ -85,7 +85,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
 
     let store,
         wrapper,
-        origUpdatePositionUI;
+        origUpdateUI;
 
     beforeEach(() => {
         mapCollection.clear();
@@ -100,8 +100,8 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
             }
         };
 
-        origUpdatePositionUI = Modeler3D.actions.updatePositionUI;
-        Modeler3D.actions.updatePositionUI = sinon.spy();
+        origUpdateUI = Modeler3D.actions.updateUI;
+        Modeler3D.actions.updateUI = sinon.spy();
 
         store = new Vuex.Store({
             namespaces: true,
@@ -123,13 +123,14 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
         crs.registerProjections(namedProjections);
 
         store.commit("Tools/Modeler3D/setActive", true);
+        store.commit("Tools/Modeler3D/setCurrentView", "import");
         store.commit("Tools/Modeler3D/setCurrentModelId", null);
         store.commit("Tools/Modeler3D/setHiddenObjects", []);
         store.commit("Tools/Modeler3D/setImportedModels", [{id: 1, name: "modelName", heading: 120, scale: 1}]);
     });
 
     afterEach(() => {
-        Modeler3D.actions.updatePositionUI = origUpdatePositionUI;
+        Modeler3D.actions.updateUI = origUpdateUI;
 
         sinon.restore();
         if (wrapper) {
@@ -140,7 +141,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
     it("renders Modeler3D with import view", async () => {
         wrapper = shallowMount(Modeler3DComponent, {store, localVue});
 
-        wrapper.vm.currentView = "import";
+        store.commit("Tools/Modeler3D/setCurrentView", "import");
         await wrapper.vm.$nextTick();
 
         expect(wrapper.find("#tool-modeler3D").exists()).to.be.true;
@@ -149,7 +150,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
         expect(wrapper.find("#modeler3D-options-view").exists()).to.be.false;
     });
 
-    it("not renders Modeler3D", () => {
+    it("does not render Modeler3D", () => {
         store.commit("Tools/Modeler3D/setActive", false);
         wrapper = shallowMount(Modeler3DComponent, {store, localVue});
 
@@ -159,25 +160,25 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
     it("renders Modeler3D with draw view", async () => {
         wrapper = shallowMount(Modeler3DComponent, {store, localVue});
 
-        wrapper.vm.currentView = "draw";
+        store.commit("Tools/Modeler3D/setCurrentView", "draw");
         await wrapper.vm.$nextTick();
 
         expect(wrapper.find("#tool-modeler3D").exists()).to.be.true;
-        expect(wrapper.find(Modeler3DDraw).exists()).to.be.true;
-        expect(wrapper.find(Modeler3DImport).exists()).to.be.false;
+        expect(wrapper.findComponent(Modeler3DDraw).exists()).to.be.true;
+        expect(wrapper.findComponent(Modeler3DImport).exists()).to.be.false;
         expect(wrapper.find("#modeler3D-options-view").exists()).to.be.false;
     });
 
     it("renders Modeler3D with options view", async () => {
         wrapper = shallowMount(Modeler3DComponent, {store, localVue});
 
-        wrapper.vm.currentView = "";
+        store.commit("Tools/Modeler3D/setCurrentView", "");
         await wrapper.vm.$nextTick();
 
         expect(wrapper.find("#tool-modeler3D").exists()).to.be.true;
         expect(wrapper.find("#modeler3D-options-view").exists()).to.be.true;
-        expect(wrapper.find(Modeler3DDraw).exists()).to.be.false;
-        expect(wrapper.find(Modeler3DImport).exists()).to.be.false;
+        expect(wrapper.findComponent(Modeler3DDraw).exists()).to.be.false;
+        expect(wrapper.findComponent(Modeler3DImport).exists()).to.be.false;
     });
 
     it("renders Modeler3D with entity model view", async () => {
@@ -187,9 +188,9 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
         await wrapper.vm.$nextTick();
 
         expect(wrapper.find("#tool-modeler3D").exists()).to.be.true;
-        expect(wrapper.find(Modeler3DEntityModel).exists()).to.be.true;
-        expect(wrapper.find(Modeler3DDraw).exists()).to.be.false;
-        expect(wrapper.find(Modeler3DImport).exists()).to.be.false;
+        expect(wrapper.findComponent(Modeler3DEntityModel).exists()).to.be.true;
+        expect(wrapper.findComponent(Modeler3DDraw).exists()).to.be.false;
+        expect(wrapper.findComponent(Modeler3DImport).exists()).to.be.false;
         expect(wrapper.find("#modeler3D-options-view").exists()).to.be.false;
     });
 
@@ -320,8 +321,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
 
             expect(wrapper.vm.highlightEntity).to.be.calledWith(entityList[0]);
             expect(store.state.Tools.Modeler3D.currentModelPosition).to.eql("position1");
-            expect(store.state.Tools.Modeler3D.rotation).to.eql(120);
-            expect(Modeler3D.actions.updatePositionUI).to.be.called;
+            expect(Modeler3D.actions.updateUI).to.be.called;
         });
 
         it("watch to currentModelId shall reset highlighting of deselected Entity", async () => {

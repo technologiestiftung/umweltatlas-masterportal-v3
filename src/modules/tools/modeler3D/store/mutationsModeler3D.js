@@ -1,5 +1,5 @@
 import {generateSimpleMutations} from "../../../../app-store/utils/generators";
-import import3DState from "./stateModeler3D";
+import modeler3DState from "./stateModeler3D";
 
 const mutations = {
     /**
@@ -8,7 +8,7 @@ const mutations = {
      * {setKey:   (state, payload) => *   state[key] = payload * }
      * will be returned.
      */
-    ...generateSimpleMutations(import3DState),
+    ...generateSimpleMutations(modeler3DState),
     /**
      * Updates the name of a model in the state.
      * @param {object} state - The state object of the Vuex module.
@@ -16,7 +16,8 @@ const mutations = {
      * @returns {void}
      */
     setModelName: (state, name) => {
-        const model = state.importedModels.find(x => x.id === state.currentModelId);
+        const allModels = state.importedModels.concat(state.drawnModels),
+            model = allModels.find(x => x.id === state.currentModelId);
 
         model.name = name;
     },
