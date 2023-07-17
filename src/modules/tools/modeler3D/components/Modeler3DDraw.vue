@@ -25,7 +25,7 @@ export default {
     },
     computed: {
         ...mapGetters("Tools/Modeler3D", Object.keys(getters)),
-        ...mapGetters("Maps", ["altitude", "mouseCoordinate"])
+        ...mapGetters("Maps", ["mouseCoordinate"])
     },
     mounted () {
         this.setSelectedFillColor(constants.colorOptions[0].color);
@@ -110,17 +110,11 @@ export default {
             let floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
 
             if (this.activeShapePoints.length === 1) {
-                this.setHeight(this.altitude);
-            }
-            if (this.selectedGeometry === "polygon") {
-                if (this.activeShapePoints.length === 2) {
-                    this.drawShape();
-                }
-            }
-            else if (this.selectedGeometry === "line") {
-                if (this.activeShapePoints.length === 1) {
-                    this.drawShape();
-                }
+                this.setHeight(this.clampToGround ?
+                    this.scene.globe.getHeight(Cesium.Cartographic.fromCartesian(this.currentPosition)) :
+                    this.scene.sampleHeight(Cesium.Cartographic.fromCartesian(this.currentPosition), [floatingPoint])
+                );
+                this.drawShape();
             }
             const entity = this.entities.getById(this.shapeId);
 
