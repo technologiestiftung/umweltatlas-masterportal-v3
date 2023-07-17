@@ -415,7 +415,6 @@
                         "incrementTooltip": "Değeri daha kaba bir şekilde artırmak için Shift tuşunu basılı tutun.",
                         "modelName": "Model Adı",
                         "pickupPlace": "Almak veya yerleştirmek için bir içe aktarılan nesneye çift tıklayın.",
-                        "povInfo": "Burada kendinizi bir yayanın yerine koyma imkanına sahipsiniz. Harita üzerinde istediğiniz konuma tıklamanız ve düğmeye tıklayarak seçiminizi onaylamanız yeterlidir. <br><br>Bu görünümde fare ile etrafa bakabilirsiniz. Başlangıç konumuna dönmek için kaçış tuşuna (ESC) basın.",
                         "projectionInfo": "Dikkat! WGS84 koordinat sistemi kullanırken hatalar oluşabilir. Ondalık gösterimi kullanmanızı öneririz.",
                         "rotationPlaceholder": "Artış/Azalış adımları",
                         "rotation": "Döndürme",
@@ -466,6 +465,7 @@
                         "beginModelling": "3D Nesne Modelle",
                         "clampToGround": "Yükseklik modeline hizala",
                         "color": "Renk",
+                        "controlInfo": "Noktaları ayarlamak için farenin sol tuşuyla tıklayın. Çizimi bitirmek için sağ tıklayın.",
                         "drawing": "Çizim",
                         "drawName": "İsim",
                         "drawnModels": "Çizilen Modeller:",
@@ -474,6 +474,7 @@
                         "extrudedHeight": "Yükseklik İçeren",
                         "fillColor": "Dolgu Rengi",
                         "geometry": "Geometri",
+                        "introInfo": "Çizim aracı ile harita üzerinde farklı geometrik şekiller çizebilirsiniz.",
                         "outlineColor": "Kontur Rengi",
                         "transparency": "Saydamlık",
                         "lineWidth": "Çizgi Kalınlığı"
@@ -483,17 +484,24 @@
                         "line": "Çizgi"
                     }
                 },
+                "options": {
+                    "captions": {
+                        "activatePov": "Etkinleştir",
+                        "buttonDisabledText": "Lütfen önce haritadaki bir konuma tıklayın.",
+                        "hideObjectInfo": "Bu seçenek açıksa, mevcut binaları tıklayarak gizleyebilirsiniz.",
+                        "hideSwitchLabel": "Fare Tıklamasıyla Binaları Gizle",
+                        "pov": "Yaya görünümüne atla",
+                        "povInfo": "Burada kendinizi bir yayanın yerine koyma imkanına sahipsiniz. Harita üzerinde istediğiniz konuma tıklamanız ve düğmeye tıklayarak seçiminizi onaylamanız yeterlidir. <br><br>Bu görünümde fare ile etrafa bakabilirsiniz. Başlangıç konumuna dönmek için kaçış tuşuna (ESC) basın.",
+                        "visibilityTitle": "Görünürlük seçenekleri"
+                    }
+                },
                 "nav": {
                     "drawTitle": "Çiz",
                     "importTitle": "İçe Aktar",
                     "options": "Seçenekler"
                 },
                 "hiddenObjectsLabel": "Gizli Binalar:",
-                "hideSwitchLabel": "Fare Tıklamasıyla Binaları Gizle",
-                "title": "3D Modelleyici",
-                "activatePov": "Etkinleştir",
-                "pov": "Yaya görünümüne atla",
-                "buttonDisabledText": "Lütfen önce haritadaki bir konuma tıklayın."
+                "title": "3D Modelleyici"
             },
             "parcelSearch": {
                 "wrongConfig": "Geçersiz veya eksik yapılandırma",

@@ -702,76 +702,107 @@ export default {
                     <div
                         v-if="!currentView"
                         id="modeler3D-options-view"
+                        class="accordion"
                     >
-                        <div>
-                            <div class="form-check form-switch cta">
-                                <input
-                                    id="povActiveSwitch"
-                                    class="form-check-input"
-                                    type="checkbox"
-                                    role="switch"
-                                    :aria-checked="povActive"
-                                    :checked="povActive"
-                                    @change="changeSwitches('povActiveSwitch')"
+                        <div class="accordion-item">
+                            <h1
+                                id="options-headingOne"
+                                class="accordion-header"
+                            >
+                                <button
+                                    class="accordion-button"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#options-collapseOne"
+                                    aria-expanded="true"
+                                    aria-controls="options-collapseOne"
                                 >
-                                <label
-                                    class="form-check-label"
-                                    for="povActiveSwitch"
-                                >
-                                    {{ $t("modules.tools.modeler3D.activatePov") }}
-                                </label>
+                                    {{ $t("modules.tools.modeler3D.options.captions.visibilityTitle") }}
+                                </button>
+                            </h1>
+                            <div
+                                id="options-collapseOne"
+                                class="accordion-collapse collapse show"
+                                aria-labelledby="options-headingOne"
+                            >
+                                <div class="accordion-body">
+                                    <div>
+                                        <div class="form-check form-switch cta">
+                                            <input
+                                                id="povActiveSwitch"
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                role="switch"
+                                                :aria-checked="povActive"
+                                                :checked="povActive"
+                                                @change="changeSwitches('povActiveSwitch')"
+                                            >
+                                            <label
+                                                class="form-check-label"
+                                                for="povActiveSwitch"
+                                            >
+                                                {{ $t("modules.tools.modeler3D.options.captions.activatePov") }}
+                                            </label>
+                                        </div>
+                                        <p
+                                            class="cta"
+                                            v-html="$t('modules.tools.modeler3D.options.captions.povInfo')"
+                                        />
+                                        <div>
+                                            <input
+                                                v-model="longitudeFromClick"
+                                                aria-label="longitude"
+                                                type="text"
+                                                readonly
+                                                :placeholder="$t('modules.tools.modeler3D.entity.projections.hdms.eastingLabel')"
+                                            >
+                                            <input
+                                                v-model="latitudeFromClick"
+                                                aria-label="latitude"
+                                                type="text"
+                                                readonly
+                                                :placeholder="$t('modules.tools.modeler3D.entity.projections.hdms.northingLabel')"
+                                            >
+                                            <input
+                                                v-model="altitudeFromClick"
+                                                aria-label="altitude"
+                                                type="text"
+                                                readonly
+                                                :placeholder="$t('modules.tools.modeler3D.entity.projections.height')"
+                                            >
+                                        </div>
+                                        <button
+                                            class="col btn btn-primary btn-sm primary-button-wrapper"
+                                            :disabled="!povActive || !povPossible"
+                                            @click="positionPovCamera"
+                                        >
+                                            {{ povActive && povPossible ? $t("modules.tools.modeler3D.options.captions.pov") : $t("modules.tools.modeler3D.options.captions.buttonDisabledText") }}
+                                        </button>
+                                    </div>
+                                    <hr>
+                                    <div class="form-check form-switch cta">
+                                        <input
+                                            id="hideObjectsSwitch"
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            role="switch"
+                                            :aria-checked="hideObjects"
+                                            :checked="hideObjects"
+                                            @change="changeSwitches('hideObjectsSwitch')"
+                                        >
+                                        <label
+                                            class="form-check-label"
+                                            for="hideObjectsSwitch"
+                                        >
+                                            {{ $t("modules.tools.modeler3D.options.captions.hideSwitchLabel") }}
+                                        </label>
+                                    </div>
+                                    <p
+                                        class="cta"
+                                        v-html="$t('modules.tools.modeler3D.options.captions.hideObjectInfo')"
+                                    />
+                                </div>
                             </div>
-                            <p
-                                class="cta"
-                                v-html="$t('modules.tools.modeler3D.entity.captions.povInfo')"
-                            />
-                            <div>
-                                <input
-                                    v-model="longitudeFromClick"
-                                    aria-label="longitude"
-                                    type="text"
-                                    readonly
-                                    :placeholder="$t('modules.tools.modeler3D.entity.projections.hdms.eastingLabel')"
-                                >
-                                <input
-                                    v-model="latitudeFromClick"
-                                    aria-label="latitude"
-                                    type="text"
-                                    readonly
-                                    :placeholder="$t('modules.tools.modeler3D.entity.projections.hdms.northingLabel')"
-                                >
-                                <input
-                                    v-model="altitudeFromClick"
-                                    aria-label="altitude"
-                                    type="text"
-                                    readonly
-                                    :placeholder="$t('modules.tools.modeler3D.entity.projections.height')"
-                                >
-                            </div>
-                            <button
-                                class="col-10 btn btn-primary btn-sm primary-button-wrapper"
-                                :disabled="!povActive || !povPossible"
-                                @click="positionPovCamera"
-                            >
-                                {{ povActive && povPossible ? $t("modules.tools.modeler3D.pov") : $t("modules.tools.modeler3D.buttonDisabledText") }}
-                            </button>
-                        </div><hr>
-                        <div class="form-check form-switch cta">
-                            <input
-                                id="hideObjectsSwitch"
-                                class="form-check-input"
-                                type="checkbox"
-                                role="switch"
-                                :aria-checked="hideObjects"
-                                :checked="hideObjects"
-                                @change="changeSwitches('hideObjectsSwitch')"
-                            >
-                            <label
-                                class="form-check-label"
-                                for="hideObjectsSwitch"
-                            >
-                                {{ $t("modules.tools.modeler3D.hideSwitchLabel") }}
-                            </label>
                         </div>
                     </div>
                     <EntityList
@@ -793,6 +824,24 @@ export default {
 
     .cta {
         margin-bottom:12px;
+    }
+
+    .primary-button-wrapper {
+        color: $white;
+        background-color: $secondary_focus;
+        display: block;
+        text-align:center;
+        padding: 8px 12px;
+        cursor: pointer;
+        margin:12px 0 0 0;
+        width: 100%;
+        font-size: $font_size_big;
+        &:focus {
+            @include primary_action_focus;
+        }
+        &:hover {
+            @include primary_action_hover;
+        }
     }
 
     .form-switch {

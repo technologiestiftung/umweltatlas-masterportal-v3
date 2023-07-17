@@ -406,7 +406,6 @@
                         "incrementTooltip": "Mantenha premida a tecla Shift para aumentar o valor de forma mais grosseira.",
                         "modelName": "Nome do Modelo",
                         "pickupPlace": "Clique duas vezes em um objeto importado para pegá-lo ou colocá-lo.",
-                        "povInfo": "Aqui tem a possibilidade de se colocar na perspetiva de um peão. Basta clicar na posição desejada no mapa e confirmar a sua seleção clicando no botão. <br><br>Nesta vista, pode olhar em volta com o rato. Para voltar à posição inicial, prima a tecla de escape (ESC).",
                         "projectionInfo": "Atenção! Ao utilizar o sistema de coordenadas WGS84, podem ocorrer imprecisões. Recomendamos o uso de notação decimal.",
                         "rotationPlaceholder": "Incrementar/Decrementar etapas",
                         "rotation": "Rotação",
@@ -457,6 +456,7 @@
                         "beginModelling": "Modelar objeto 3D",
                         "clampToGround": "Alinhar ao modelo do terreno",
                         "color": "Cor",
+                        "controlInfo": "Clique com o botão esquerdo do rato para definir pontos. Clique com o botão direito do rato para terminar o desenho.",
                         "drawing": "Desenho",
                         "drawName": "Nome",
                         "drawnModels": "Modelos desenhados:",
@@ -465,6 +465,7 @@
                         "extrudedHeight": "Altura extrudida",
                         "fillColor": "Cor de preenchimento",
                         "geometry": "Geometria",
+                        "introInfo": "Com a ferramenta de desenho, pode desenhar diferentes formas geométricas no mapa.",
                         "outlineColor": "Cor do contorno",
                         "transparency": "Transparência",
                         "lineWidth": "Espessura da linha"
@@ -474,17 +475,24 @@
                         "line": "Linha"
                     }
                 },
+                "options": {
+                    "captions": {
+                        "activatePov": "Ativar",
+                        "buttonDisabledText": "Clique primeiro numa localização no mapa.",
+                        "hideObjectInfo": "Se esta opção estiver activada, pode ocultar edifícios existentes clicando em.",
+                        "hideSwitchLabel": "Ocultar Prédios com Clique do Mouse",
+                        "pov": "Saltar para a vista de peões",
+                        "povInfo": "Aqui tem a possibilidade de se colocar na perspetiva de um peão. Basta clicar na posição desejada no mapa e confirmar a sua seleção clicando no botão. <br><br>Nesta vista, pode olhar em volta com o rato. Para voltar à posição inicial, prima a tecla de escape (ESC).",
+                        "visibilityTitle": "Opções de visibilidade"
+                    }
+                },
                 "nav": {
                     "drawTitle": "Desenhar",
                     "importTitle": "Importar",
                     "options": "Opções"
                 },
                 "hiddenObjectsLabel": "Prédios Ocultos:",
-                "hideSwitchLabel": "Ocultar Prédios com Clique do Mouse",
-                "title": "Modelador 3D",
-                "activatePov": "Ativar",
-                "pov": "Saltar para a vista de peões",
-                "buttonDisabledText": "Clique primeiro numa localização no mapa."
+                "title": "Modelador 3D"
             },
             "parcelSearch": {
                 "wrongConfig": "Configuração inválida ou incompleta",

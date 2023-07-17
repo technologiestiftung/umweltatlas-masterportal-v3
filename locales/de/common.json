@@ -599,7 +599,6 @@
                         "incrementTooltip": "Halten Sie Shift gedrückt, um den Wert gröber zu erhöhen.",
                         "modelName": "Modell Name",
                         "pickupPlace": "Doppelklicken Sie auf ein importiertes Objekt, um es aufzuheben oder zu platzieren.",
-                        "povInfo": "Hier haben Sie die Möglichkeit, sich in die Sicht eines Fußgängers zu versetzen. Klicken Sie einfach auf die gewünschte Position in der Karte und bestätigen Sie Ihre Auswahl, indem Sie auf den Knopf klicken. <br><br>In dieser Ansicht können Sie sich mit der Maus umsehen. Um zur Ausgangsposition zurückzukehren, drücken Sie die Escape-Taste (ESC).",
                         "projectionInfo": "Achtung! Bei Nutzung des WGS84 Koordinatensystems kann es zu Ungenauigkeiten kommen. Wir empfehlen die Nutzung der Dezimal Schreibweise.",
                         "rotationPlaceholder": "Inkrement-/Dekrement-Schritte",
                         "rotation": "Rotation",
@@ -650,6 +649,7 @@
                         "beginModelling": "3D Objekt modellieren",
                         "clampToGround": "Am Höhenmodell orientieren",
                         "color": "Farbe",
+                        "controlInfo": "Klicken Sie mit der linken Maustaste um Punkte zu setzen. Mit Rechtsklick beenden Sie das Zeichnen.",
                         "drawing": "Zeichnung",
                         "drawName": "Name",
                         "drawnModels": "Gezeichnete Modelle:",
@@ -658,6 +658,7 @@
                         "extrudedHeight": "Extrudierte Höhe",
                         "fillColor": "Füllfarbe",
                         "geometry": "Geometrie",
+                        "introInfo": "Mit dem Zeichenwerkzeug können Sie unterschiedliche geometrische Formen in die Karte zeichnen.",
                         "outlineColor": "Umrissfarbe",
                         "transparency": "Transparenz",
                         "lineWidth": "Strichstärke"
@@ -667,17 +668,24 @@
                         "line": "Linie"
                     }
                 },
+                "options": {
+                    "captions": {
+                        "activatePov": "Aktivieren",
+                        "buttonDisabledText": "Klicken Sie bitte zuerst an eine Stelle in der Karte",
+                        "hideObjectInfo": "Bei eingeschalteter Option können Sie bestehende Gebäude mit einem Klick ausblenden.",
+                        "hideSwitchLabel": "Gebäude per Mausklick ausblenden",
+                        "pov": "Zur Fußgängeransicht springen",
+                        "povInfo": "Hier haben Sie die Möglichkeit, sich in die Sicht eines Fußgängers zu versetzen. Klicken Sie einfach auf die gewünschte Position in der Karte und bestätigen Sie Ihre Auswahl, indem Sie auf den Knopf klicken. <br><br>In dieser Ansicht können Sie sich mit der Maus umsehen. Um zur Ausgangsposition zurückzukehren, drücken Sie die Escape-Taste (ESC).",
+                        "visibilityTitle": "Sichtbarkeitsoptionen"
+                    }
+                },
                 "nav": {
                     "drawTitle": "Zeichnen",
                     "importTitle": "Importieren",
                     "options": "Optionen"
                 },
                 "hiddenObjectsLabel": "Ausgeblendete Gebäude:",
-                "hideSwitchLabel": "Gebäude per Mausklick ausblenden",
-                "title": "3D Modeller",
-                "activatePov": "Aktivieren",
-                "pov": "Zur Fußgängeransicht springen",
-                "buttonDisabledText": "Klicken Sie bitte zuerst an eine Stelle in der Karte"
+                "title": "3D Modeller"
             },
             "parcelSearch": {
                 "wrongConfig": "Ungültige oder unvollständige Konfiguration",
