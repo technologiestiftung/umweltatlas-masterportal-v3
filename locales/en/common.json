@@ -638,7 +638,9 @@
                         "successPartly": "The file \"{{filename}}\" was partially imported."
                     },
                     "captions": {
-                        "introFormats": "You can import glTF files (.gltf), OBJ files (.obj), or Collada files (.dae).",
+                        "introInfo": "With the Importer you can load digital urban designs into the existing 3D model of the city, visualise and analyse them.",
+                        "introInfo2": "Import your desired file simply by drag and drop or alternatively with the browser's open dialogue.",
+                        "introFormats": "You can import glTF (.gltf), OBJ (.obj), Collada (.dae) or GeoJSON (.geojson) files.",
                         "successfullyImportedLabel": "Imported 3D Models:"
                     }
                 },

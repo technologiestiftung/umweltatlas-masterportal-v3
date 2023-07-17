@@ -456,7 +456,9 @@
                         "successPartly": "De Datei \"{{filename}}\" is deels importeert."
                     },
                     "captions": {
-                        "introFormats": "Du kannst glTF-Dateien (.gltf), OBJ-Dateien (.obj) oder Collada-Dateien (.dae) importeern.",
+                        "introInfo": "Mit den Importeer kannst du digitale Städbaulich Entwürfe in dat bestahn 3D-Modell vun de Stadt laden, opmaken un ünnersöken.",
+                        "introInfo2": "Importeer eenfach mit Drag and Drop oder mit dat Opmaken-Dialog vun den Nettkieker.",
+                        "introFormats": "Du kannst glTF- (.gltf), OBJ- (.obj), Collada- (.dae) oder GeoJSON-Dateien importeern.",
                         "successfullyImportedLabel": "Importeerte 3D-Models:"
                     }
                 },

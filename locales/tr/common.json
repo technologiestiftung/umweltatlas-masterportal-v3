@@ -455,7 +455,9 @@
                         "successPartly": "\"{{filename}}\" dosyası kısmen içe aktarıldı."
                     },
                     "captions": {
-                        "introFormats": "glTF dosyaları (.gltf), OBJ dosyaları (.obj) veya Collada dosyaları (.dae) içe aktarabilirsiniz.",
+                        "introInfo": "Importer ile dijital kentsel tasarımları şehrin mevcut 3D modeline yükleyebilir, görselleştirebilir ve analiz edebilirsiniz.",
+                        "introInfo2": "İstediğiniz dosyayı sürükleyip bırakarak veya alternatif olarak tarayıcının açık diyaloğu ile içe aktarın.",
+                        "introFormats": "GlTF (*.gltf), OBJ (*.obj) Collada (*.dae) veya GeoJSON dosyaları içe aktarılabilir.",
                         "successfullyImportedLabel": "İçe Aktarılan 3D Modeller:"
                     }
                 },

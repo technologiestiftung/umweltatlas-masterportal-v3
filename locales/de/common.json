@@ -632,14 +632,16 @@
                     "alertingMessages": {
                         "featureError": "Ein Feature in dieser Datei konnte nicht gelesen werden.",
                         "fileSizeError": "Die Dateigröße überschreitet das Limit von 100 MB.",
-                        "formatError": "Die Datei \"{{filename}}\" konnte nicht gelesen werden. Bitte prüfen Sie, ob die Datei das Format *.gltf, *.obj oder *.dae hat.",
+                        "formatError": "Die Datei \"{{filename}}\" konnte nicht gelesen werden. Bitte prüfen Sie, ob die Datei das Format *.gltf, *.obj *.dae oder *.geojson hat.",
                         "missingFileContent": "Fehler beim Lesen der Datei \"{{filename}}\". Bitte überprüfen Sie den Dateityp sowie den Inhalt der Datei. Falls die Datei fehlerfrei ist, wenden Sie sich bitte an den Support.",
                         "missingFormat": "Das Dateiformat \"{{format}}\" wird nicht unterstützt. Bitte wenden Sie sich an den Support.",
                         "success": "Die Datei \"{{filename}}\" wurde erfolgreich importiert.",
                         "successPartly": "Die Datei \"{{filename}}\" wurde teilweise importiert."
                     },
                     "captions": {
-                        "introFormats": "Es können glTF-Dateien (*.gltf), OBJ-Dateien (*.obj) oder Collada-Dateien (*.dae) importiert werden.",
+                        "introInfo": "Mit dem Importer können Sie digitale städtebauliche Entwürfe in das bestehende 3D-Modell der Stadt laden, visualisieren und analysieren.",
+                        "introInfo2": "Importieren Sie Ihre gewünschte Datei einfach per Drag and Drop oder alternativ mit dem Öffnen-Dialog des Browsers.",
+                        "introFormats": "Es können glTF- (*.gltf), OBJ- (*.obj) Collada- (*.dae) oder GeoJSON-Dateien importiert werden.",
                         "successfullyImportedLabel": "Importierte 3D-Modelle:"
                     }
                 },
