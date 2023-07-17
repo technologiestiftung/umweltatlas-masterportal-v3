@@ -209,7 +209,7 @@ export default {
             layerModel = this.mapHandler.getLayerModelByFilterId(filterId);
 
         if (layerModel.get("typ") === "VectorTile" && this.mapHandler.isLayerActivated(filterId) === false) {
-            this.isLoading = true;
+            this.setIsLoading(true);
             this.mapHandler.activateLayer(filterId, this.onMounted);
         }
         else {
@@ -232,7 +232,7 @@ export default {
          */
         onMounted () {
             refreshLayerTree();
-            this.isLoading = false;
+            this.setIsLoading(false);
             compileSnippets(this.layerConfig.snippets, this.api, FilterApi, snippets => {
                 this.snippets = snippets;
                 this.setSnippetValueByState(this.filterRules);
@@ -436,7 +436,6 @@ export default {
                     };
                 });
             }, onfinish, adjust, alterMap, rules);
-
         },
         /**
          * Snippets with prechecked values are pushing their snippetId on startup, others are pushing false.
@@ -711,19 +710,24 @@ export default {
             }
         },
         /**
-         * Registering a map moveend listener.
+         * Registering a map moveend, loadend and loadstart listener.
          * @returns {void}
          */
         registerMapMoveListener () {
+            store.dispatch("Maps/registerListener", {type: "loadend", listener: this.updateSnippets.bind(this)});
+            store.dispatch("Maps/registerListener", {type: "loadstart", listener: this.setIsLoading.bind(this)});
             store.dispatch("Maps/registerListener", {type: "moveend", listener: this.updateSnippets.bind(this)});
         },
         /**
-         * Unregistering this map moveend listener.
+         * Unregistering this moveend, loadend and loadstart listener.
          * @returns {void}
          */
         unregisterMapMoveListener () {
+            store.dispatch("Maps/unregisterListener", {type: "loadend", listener: this.updateSnippets.bind(this)});
+            store.dispatch("Maps/unregisterListener", {type: "loadstart", listener: this.setIsLoading.bind(this)});
             store.dispatch("Maps/unregisterListener", {type: "moveend", listener: this.updateSnippets.bind(this)});
         },
+
         /**
          * Registering a zoom listener.
          * @param {Number} minZoom The min zoom level of the layer
@@ -749,6 +753,7 @@ export default {
                 this.outOfZoom = this.checkOutOfZoomLevel(minZoom, maxZoom, zoomLevel);
             });
         },
+
         /**
          * Checks if the current zoom level is out of zoom range.
          * @param {Number} minZoom The min zoom level of the layer
@@ -769,11 +774,28 @@ export default {
 
             return false;
         },
+
         /**
-         * Update the snippets with adjustment
+         * Setter for isLoading.
+         * @param {Boolean} [value = true] - The value for isLoading.
          * @returns {void}
          */
-        updateSnippets () {
+        setIsLoading (value = true) {
+            this.isLoading = value;
+        },
+
+        /**
+         * Update the snippets with adjustment
+         * @param {Object} evt - Openlayers MapEvent.
+         * @returns {void}
+         */
+        updateSnippets (evt) {
+            if (evt.type === "moveend" && !evt.map.loaded_) {
+                return;
+            }
+            if (evt.type === "loadend") {
+                this.setIsLoading(false);
+            }
             this.$nextTick(() => {
                 if (!this.outOfZoom) {
                     this.isLockedHandleActiveStrategy = false;

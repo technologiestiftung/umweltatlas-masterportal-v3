@@ -58,9 +58,11 @@ VectorTileLayer.prototype.createLayer = function (attrs) {
             || typeof this.layer.getSource()?.getFeaturesInExtent !== "function") {
             return;
         }
+        const features = this.layer.getSource().getFeaturesInExtent(store.getters["Maps/getCurrentExtent"]);
+
         this.layer.getSource().dispatchEvent({
             type: "featuresloadend",
-            features: this.layer.getSource().getFeaturesInExtent(store.getters["Maps/getCurrentExtent"])
+            features
         });
         this.set("sourceUpdated", true);
     }});
@@ -227,36 +229,29 @@ VectorTileLayer.prototype.createLegendURL = function () {
 };
 
 /**
- * Shows the features by given feature id's or load features hidden if second param is true.
- * @param {String[]} ids The feature id's of the rendered features.
- * @param {Boolean} loadHidden true if all features should be hidden, false otherwise. Default is false.
+ * Shows the features by given features properties.
+ * @param {[]|Object} properties - The keys of the object are the properties (as json string) of the features to be displayed.
  * @returns {void}
  */
-VectorTileLayer.prototype.showFeaturesByIds = function (ids, loadHidden = false) {
-    const source = this.layer.getSource();
-
-    if (!source || !Array.isArray(ids)) {
+VectorTileLayer.prototype.showFeaturesByIds = function (properties) {
+    if (Array.isArray(properties)) {
+        if (this.layer.get("basicInitialStyle")) {
+            this.layer.setStyle(this.layer.get("basicInitialStyle"));
+        }
         return;
     }
-    source.setTileLoadFunction((tile, url) => {
-        tile.setLoader((extent, resolution, projection) => {
-            fetch(url).then((response) => {
-                response.arrayBuffer().then((data) => {
-                    const format = tile.getFormat(),
-                        features = format.readFeatures(data, {
-                            extent: extent,
-                            featureProjection: projection
-                        });
 
-                    tile.setFeatures(loadHidden ? features : features.filter(feature => ids.includes(feature.get("id"))));
-                });
-            });
-        });
-    });
-    if (!loadHidden && this.layer.getOpacity() === 0) {
-        source.once("featuresloadend", () => {
-            this.layer.setOpacity(1);
-        });
+    if (!this.layer.get("basicInitialStyle")) {
+        this.layer.set("basicInitialStyle", this.layer.getStyle());
     }
-    source.refresh();
+
+    const defaultStyle = this.layer.getStyle();
+
+    this.layer.setStyle((feature, resolution) => {
+        if (properties[JSON.stringify(feature.getProperties())]) {
+            return defaultStyle(feature, resolution);
+        }
+        return null;
+    });
 };
+
