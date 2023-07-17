@@ -254,6 +254,11 @@ export default {
             wgs84ProjDez.getCode = () => "EPSG:4326-DG";
             projections.splice(index + 1, 0, wgs84ProjDez);
         },
+        /**
+         * Checks the map for pickable Cesium objects and changes the cursor on hover.
+         * @param {Event} event - The event object containing the position information.
+         * @returns {void}
+         */
         cursorCheck (event) {
             if (this.isDrawing) {
                 return;
@@ -357,6 +362,11 @@ export default {
                 }
             }
         },
+        /**
+         * Handles the mouse move event and performs actions when dragging a cylinder.
+         * @param {Event} event - The event object containing the position information.
+         * @returns {void}
+         */
         moveCylinder (event) {
             if (this.isDragging) {
                 const entities = this.entities,
@@ -612,6 +622,11 @@ export default {
                 });
             }
         },
+        /**
+         * Changes the state of the options switches when one changes state.
+         * @param {String} id - The id of the switch that should be changed.
+         * @returns {void}
+         */
         changeSwitches (id) {
             if (id === "povActiveSwitch" || this.povActive) {
                 this.povActive = !this.povActive;

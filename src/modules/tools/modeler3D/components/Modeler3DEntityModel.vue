@@ -165,6 +165,10 @@ export default {
             this.setAdaptToHeight(value);
             this.updateEntityPosition();
         },
+        /**
+         * Updates the extrudedHeight of the polygon and adjusts the active cylinders length and position.
+         * @returns {void}
+         */
         updateExtrudedHeight () {
             const entities = this.entities,
                 entity = entities.getById(this.currentModelId);
