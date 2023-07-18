@@ -726,6 +726,30 @@ export default {
                                 aria-labelledby="options-headingOne"
                             >
                                 <div class="accordion-body">
+                                    <h2 v-html="$t('modules.tools.modeler3D.options.captions.hideSwitchLabel')" />
+                                    <div class="form-check form-switch cta">
+                                        <input
+                                            id="hideObjectsSwitch"
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            role="switch"
+                                            :aria-checked="hideObjects"
+                                            :checked="hideObjects"
+                                            @change="changeSwitches('hideObjectsSwitch')"
+                                        >
+                                        <label
+                                            class="form-check-label"
+                                            for="hideObjectsSwitch"
+                                        >
+                                            {{ $t("modules.tools.modeler3D.options.captions.enableFunction") }}
+                                        </label>
+                                    </div>
+                                    <p
+                                        class="cta"
+                                        v-html="$t('modules.tools.modeler3D.options.captions.hideObjectInfo')"
+                                    />
+                                    <div class="h-seperator" />
+                                    <h2 v-html="$t('modules.tools.modeler3D.options.captions.povTitle')" />
                                     <div>
                                         <div class="form-check form-switch cta">
                                             <input
@@ -741,36 +765,13 @@ export default {
                                                 class="form-check-label"
                                                 for="povActiveSwitch"
                                             >
-                                                {{ $t("modules.tools.modeler3D.options.captions.activatePov") }}
+                                                {{ $t("modules.tools.modeler3D.options.captions.enableFunction") }}
                                             </label>
                                         </div>
                                         <p
                                             class="cta"
                                             v-html="$t('modules.tools.modeler3D.options.captions.povInfo')"
                                         />
-                                        <div>
-                                            <input
-                                                v-model="longitudeFromClick"
-                                                aria-label="longitude"
-                                                type="text"
-                                                readonly
-                                                :placeholder="$t('modules.tools.modeler3D.entity.projections.hdms.eastingLabel')"
-                                            >
-                                            <input
-                                                v-model="latitudeFromClick"
-                                                aria-label="latitude"
-                                                type="text"
-                                                readonly
-                                                :placeholder="$t('modules.tools.modeler3D.entity.projections.hdms.northingLabel')"
-                                            >
-                                            <input
-                                                v-model="altitudeFromClick"
-                                                aria-label="altitude"
-                                                type="text"
-                                                readonly
-                                                :placeholder="$t('modules.tools.modeler3D.entity.projections.height')"
-                                            >
-                                        </div>
                                         <button
                                             class="col btn btn-primary btn-sm primary-button-wrapper"
                                             :disabled="!povActive || !povPossible"
@@ -779,28 +780,6 @@ export default {
                                             {{ povActive && povPossible ? $t("modules.tools.modeler3D.options.captions.pov") : $t("modules.tools.modeler3D.options.captions.buttonDisabledText") }}
                                         </button>
                                     </div>
-                                    <hr>
-                                    <div class="form-check form-switch cta">
-                                        <input
-                                            id="hideObjectsSwitch"
-                                            class="form-check-input"
-                                            type="checkbox"
-                                            role="switch"
-                                            :aria-checked="hideObjects"
-                                            :checked="hideObjects"
-                                            @change="changeSwitches('hideObjectsSwitch')"
-                                        >
-                                        <label
-                                            class="form-check-label"
-                                            for="hideObjectsSwitch"
-                                        >
-                                            {{ $t("modules.tools.modeler3D.options.captions.hideSwitchLabel") }}
-                                        </label>
-                                    </div>
-                                    <p
-                                        class="cta"
-                                        v-html="$t('modules.tools.modeler3D.options.captions.hideObjectInfo')"
-                                    />
                                 </div>
                             </div>
                         </div>
@@ -822,8 +801,20 @@ export default {
     @import "~/css/mixins.scss";
     @import "~variables";
 
+    .h-seperator {
+        margin:12px 0 12px 0;
+        border: 1px solid #DDDDDD;
+    }
+
     .cta {
         margin-bottom:12px;
+    }
+
+    h2 {
+        font-size: $font_size_big;
+        font-weight: bold;
+        text-transform: none;
+        margin: 0 0 6px 0;
     }
 
     .primary-button-wrapper {

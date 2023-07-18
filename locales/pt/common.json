@@ -401,11 +401,11 @@
                         "backToList": "Voltar à Lista",
                         "delete": "Excluir Modelo",
                         "deletionTitle": "Excluir Modelo 3D \"{{name}}\"",
-                        "editInfo": "Alterar a posição e rotação do modelo selecionado.",
+                        "editInfo": "Altere os atributos do modelo selecionado.",
                         "editModel": "Editar Modelo 3D \"{{name}}\"",
                         "incrementTooltip": "Mantenha premida a tecla Shift para aumentar o valor de forma mais grosseira.",
                         "modelName": "Nome do Modelo",
-                        "pickupPlace": "Clique duas vezes em um objeto importado para pegá-lo ou colocá-lo.",
+                        "pickupPlace": "Clique duas vezes em um objeto para buscá-lo ou colocá-lo.",
                         "projectionInfo": "Atenção! Ao utilizar o sistema de coordenadas WGS84, podem ocorrer imprecisões. Recomendamos o uso de notação decimal.",
                         "rotationPlaceholder": "Incrementar/Decrementar etapas",
                         "rotation": "Rotação",
@@ -477,12 +477,13 @@
                 },
                 "options": {
                     "captions": {
-                        "activatePov": "Ativar",
                         "buttonDisabledText": "Clique primeiro numa localização no mapa.",
+                        "enableFunction": "Ativar/desativar",
                         "hideObjectInfo": "Se esta opção estiver activada, pode ocultar edifícios existentes clicando em.",
                         "hideSwitchLabel": "Ocultar Prédios com Clique do Mouse",
                         "pov": "Saltar para a vista de peões",
                         "povInfo": "Aqui tem a possibilidade de se colocar na perspetiva de um peão. Basta clicar na posição desejada no mapa e confirmar a sua seleção clicando no botão. <br><br>Nesta vista, pode olhar em volta com o rato. Para voltar à posição inicial, prima a tecla de escape (ESC).",
+                        "povTitle": "Perspectiva de pedestres",
                         "visibilityTitle": "Opções de visibilidade"
                     }
                 },

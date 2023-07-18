@@ -280,6 +280,7 @@ export default {
         id="modeler3D-import-view"
     >
         <BasicFileImport
+            :intro-formats="$t('modules.tools.modeler3D.import.captions.introFormats')"
             @add-file="addFile"
         >
             <p
@@ -289,10 +290,6 @@ export default {
             <p
                 class="cta"
                 v-html="$t('modules.tools.modeler3D.import.captions.introInfo2')"
-            />
-            <p
-                class="cta"
-                v-html="$t('modules.tools.modeler3D.import.captions.introFormats')"
             />
         </BasicFileImport>
 

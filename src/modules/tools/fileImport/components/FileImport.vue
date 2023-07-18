@@ -180,15 +180,12 @@ export default {
                 id="tool-file-import"
             >
                 <BasicFileImport
+                    :intro-formats="$t('modules.tools.fileImport.captions.introFormats')"
                     @add-file="addFile"
                 >
                     <p
                         class="cta"
                         v-html="$t('share-components.import.introInfo')"
-                    />
-                    <p
-                        class="cta"
-                        v-html="$t('modules.tools.fileImport.captions.introFormats')"
                     />
                 </BasicFileImport>
 

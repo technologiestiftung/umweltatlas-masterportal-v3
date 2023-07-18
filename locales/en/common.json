@@ -593,11 +593,11 @@
                         "backToList": "Back to List",
                         "delete": "Delete Model",
                         "deletionTitle": "Delete 3D Model \"{{name}}\"",
-                        "editInfo": "Change the position and rotation of the selected model.",
+                        "editInfo": "Change the attributes of the selected model.",
                         "editModel": "Edit 3D Model \"{{name}}\"",
                         "incrementTooltip": "Hold down Shift to increase the value more coarsely.",
                         "modelName": "Model Name",
-                        "pickupPlace": "Double-click on an imported object to pick it up or place it.",
+                        "pickupPlace": "Double-click on an object to pick it up or place it.",
                         "projectionInfo": "Attention! When using the WGS84 coordinate system, there may be inaccuracies. We recommend using decimal notation.",
                         "rotationPlaceholder": "Increment/Decrement steps",
                         "rotation": "Rotation",
@@ -669,12 +669,13 @@
                 },
                 "options": {
                     "captions": {
-                        "activatePov": "Activate",
                         "buttonDisabledText": "Please click first on a place in the map.",
+                        "enableFunction": "Activate/deactivate",
                         "hideObjectInfo": "If this option is turned on, you can hide existing buildings by clicking.",
                         "hideSwitchLabel": "Hide Buildings with Mouse Click",
                         "pov": "Jump to pedestrian view",
                         "povInfo": "Here you have the possibility to put yourself in the view of a pedestrian. Simply click on the desired position in the map and confirm your selection by clicking on the button. <br><br>In this view you can look around with the mouse. To return to the starting position, press the Escape key (ESC).",
+                        "povTitle": "Pedestrian perspective",
                         "visibilityTitle": "Visibility Options"
                     }
                 },

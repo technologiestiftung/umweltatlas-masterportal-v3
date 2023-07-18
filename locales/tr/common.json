@@ -410,11 +410,11 @@
                         "backToList": "Listeye Geri Dön",
                         "delete": "Modeli Sil",
                         "deletionTitle": "3D Modeli Sil \"{{name}}\"",
-                        "editInfo": "Seçili modelin konumunu ve döndürmesini değiştirin.",
+                        "editInfo": "Seçilen modelin özelliklerini değiştirin.",
                         "editModel": "3D Modeli Düzenle \"{{name}}\"",
                         "incrementTooltip": "Değeri daha kaba bir şekilde artırmak için Shift tuşunu basılı tutun.",
                         "modelName": "Model Adı",
-                        "pickupPlace": "Almak veya yerleştirmek için bir içe aktarılan nesneye çift tıklayın.",
+                        "pickupPlace": "Bir nesneyi almak veya yerleştirmek için çift tıklayın.",
                         "projectionInfo": "Dikkat! WGS84 koordinat sistemi kullanırken hatalar oluşabilir. Ondalık gösterimi kullanmanızı öneririz.",
                         "rotationPlaceholder": "Artış/Azalış adımları",
                         "rotation": "Döndürme",
@@ -486,12 +486,13 @@
                 },
                 "options": {
                     "captions": {
-                        "activatePov": "Etkinleştir",
                         "buttonDisabledText": "Lütfen önce haritadaki bir konuma tıklayın.",
+                        "enableFunction": "Etkinleştir/devre dışı bırak",
                         "hideObjectInfo": "Bu seçenek açıksa, mevcut binaları tıklayarak gizleyebilirsiniz.",
                         "hideSwitchLabel": "Fare Tıklamasıyla Binaları Gizle",
                         "pov": "Yaya görünümüne atla",
                         "povInfo": "Burada kendinizi bir yayanın yerine koyma imkanına sahipsiniz. Harita üzerinde istediğiniz konuma tıklamanız ve düğmeye tıklayarak seçiminizi onaylamanız yeterlidir. <br><br>Bu görünümde fare ile etrafa bakabilirsiniz. Başlangıç konumuna dönmek için kaçış tuşuna (ESC) basın.",
+                        "povTitle": "Yaya bakış açısı",
                         "visibilityTitle": "Görünürlük seçenekleri"
                     }
                 },
