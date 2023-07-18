@@ -401,12 +401,11 @@
                         "backToList": "Voltar à Lista",
                         "delete": "Excluir Modelo",
                         "deletionTitle": "Excluir Modelo 3D \"{{name}}\"",
-                        "editInfo": "Alterar a posição e rotação do modelo selecionado.",
+                        "editInfo": "Altere os atributos do modelo selecionado.",
                         "editModel": "Editar Modelo 3D \"{{name}}\"",
                         "incrementTooltip": "Mantenha premida a tecla Shift para aumentar o valor de forma mais grosseira.",
                         "modelName": "Nome do Modelo",
-                        "pickupPlace": "Clique duas vezes em um objeto importado para pegá-lo ou colocá-lo.",
-                        "povInfo": "Aqui tem a possibilidade de se colocar na perspetiva de um peão. Basta clicar na posição desejada no mapa e confirmar a sua seleção clicando no botão. <br><br>Nesta vista, pode olhar em volta com o rato. Para voltar à posição inicial, prima a tecla de escape (ESC).",
+                        "pickupPlace": "Clique duas vezes em um objeto para buscá-lo ou colocá-lo.",
                         "projectionInfo": "Atenção! Ao utilizar o sistema de coordenadas WGS84, podem ocorrer imprecisões. Recomendamos o uso de notação decimal.",
                         "rotationPlaceholder": "Incrementar/Decrementar etapas",
                         "rotation": "Rotação",
@@ -446,7 +445,9 @@
                         "successPartly": "O arquivo \"{{filename}}\" foi importado parcialmente."
                     },
                     "captions": {
-                        "introFormats": "Você pode importar arquivos glTF (.gltf), arquivos OBJ (.obj) ou arquivos Collada (.dae).",
+                        "introInfo": "Com o importador, pode carregar desenhos urbanos digitais no modelo 3D existente da cidade, visualizá-los e analisá-los.",
+                        "introInfo2": "Importar o ficheiro desejado simplesmente arrastando e largando ou, em alternativa, com a caixa de diálogo aberta do navegador.",
+                        "introFormats": "Você pode importar arquivos glTF (.gltf), OBJ (.obj), Collada (.dae) ou GeoJSON (.geojson).",
                         "successfullyImportedLabel": "Modelos 3D Importados:"
                     }
                 },
@@ -455,6 +456,7 @@
                         "beginModelling": "Modelar objeto 3D",
                         "clampToGround": "Alinhar ao modelo do terreno",
                         "color": "Cor",
+                        "controlInfo": "Clique com o botão esquerdo do rato para definir pontos. Clique com o botão direito do rato para terminar o desenho.",
                         "drawing": "Desenho",
                         "drawName": "Nome",
                         "drawnModels": "Modelos desenhados:",
@@ -463,6 +465,7 @@
                         "extrudedHeight": "Altura extrudida",
                         "fillColor": "Cor de preenchimento",
                         "geometry": "Geometria",
+                        "introInfo": "Com a ferramenta de desenho, pode desenhar diferentes formas geométricas no mapa.",
                         "outlineColor": "Cor do contorno",
                         "transparency": "Transparência",
                         "lineWidth": "Espessura da linha"
@@ -472,17 +475,25 @@
                         "line": "Linha"
                     }
                 },
+                "options": {
+                    "captions": {
+                        "buttonDisabledText": "Clique primeiro numa localização no mapa.",
+                        "enableFunction": "Ativar/desativar",
+                        "hideObjectInfo": "Se esta opção estiver activada, pode ocultar edifícios existentes clicando em.",
+                        "hideSwitchLabel": "Ocultar Prédios com Clique do Mouse",
+                        "pov": "Saltar para a vista de peões",
+                        "povInfo": "Aqui tem a possibilidade de se colocar na perspetiva de um peão. Basta clicar na posição desejada no mapa e confirmar a sua seleção clicando no botão. <br><br>Nesta vista, pode olhar em volta com o rato. Para voltar à posição inicial, prima a tecla de escape (ESC).",
+                        "povTitle": "Perspectiva de pedestres",
+                        "visibilityTitle": "Opções de visibilidade"
+                    }
+                },
                 "nav": {
                     "drawTitle": "Desenhar",
                     "importTitle": "Importar",
                     "options": "Opções"
                 },
                 "hiddenObjectsLabel": "Prédios Ocultos:",
-                "hideSwitchLabel": "Ocultar Prédios com Clique do Mouse",
-                "title": "Modelador 3D",
-                "activatePov": "Ativar",
-                "pov": "Saltar para a vista de peões",
-                "buttonDisabledText": "Clique primeiro numa localização no mapa."
+                "title": "Modelador 3D"
             },
             "parcelSearch": {
                 "wrongConfig": "Configuração inválida ou incompleta",

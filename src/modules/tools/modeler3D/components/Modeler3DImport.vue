@@ -282,7 +282,16 @@ export default {
         <BasicFileImport
             :intro-formats="$t('modules.tools.modeler3D.import.captions.introFormats')"
             @add-file="addFile"
-        />
+        >
+            <p
+                class="cta"
+                v-html="$t('modules.tools.modeler3D.import.captions.introInfo')"
+            />
+            <p
+                class="cta"
+                v-html="$t('modules.tools.modeler3D.import.captions.introInfo2')"
+            />
+        </BasicFileImport>
 
         <EntityList
             v-if="importedModels.length > 0"

@@ -354,8 +354,16 @@ export default {
 </script>
 
 <template lang="html">
-    <div>
-        <div id="modeler3D-draw-tool">
+    <div id="modeler3D-draw-tool">
+        <p
+            class="cta"
+            v-html="$t('modules.tools.modeler3D.draw.captions.introInfo')"
+        />
+        <p
+            class="cta"
+            v-html="$t('modules.tools.modeler3D.draw.captions.controlInfo')"
+        />
+        <div>
             <form
                 class="form-horizontal"
                 role="form"
