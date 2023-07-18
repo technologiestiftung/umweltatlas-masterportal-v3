@@ -185,6 +185,7 @@ export default {
                     id: lastId ? lastId + 1 : 1,
                     name: this.drawName ? this.drawName : i18next.t("common:modules.tools.modeler3D.draw.captions.drawing"),
                     wasDrawn: true,
+                    clampToGround: this.clampToGround,
                     polyline: {
                         material: new Cesium.ColorMaterialProperty(
                             Cesium.Color[this.selectedFillColor].withAlpha(this.opacity)
