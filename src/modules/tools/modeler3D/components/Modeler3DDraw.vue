@@ -415,7 +415,7 @@ export default {
                         class="col-md-5 col-form-label"
                         for="tool-modeler3D-extrudedHeight"
                     >
-                        {{ $t("modules.tools.modeler3D.draw.captions.extrudedHeight") }}
+                        {{ $t("modules.tools.modeler3D.draw.captions.extrudedHeight") + " [m]" }}
                     </label>
                     <div
                         v-if="selectedGeometry === 'polygon'"
@@ -434,7 +434,7 @@ export default {
                         class="col-md-5 col-form-label"
                         for="tool-modeler3D-lineWidth"
                     >
-                        {{ $t("modules.tools.modeler3D.draw.captions.lineWidth") }}
+                        {{ $t("modules.tools.modeler3D.draw.captions.lineWidth") + " [Pixel]" }}
                     </label>
                     <div
                         v-if="selectedGeometry === 'line'"

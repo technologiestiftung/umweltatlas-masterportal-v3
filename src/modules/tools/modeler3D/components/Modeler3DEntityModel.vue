@@ -84,10 +84,10 @@ export default {
         },
         extrudedHeightString: {
             get () {
-                return this.extrudedHeight.toFixed(2) + "m";
+                return this.extrudedHeight.toFixed(2);
             },
             set (value) {
-                let adjustedValue = parseFloat(value.split("m")[0]);
+                let adjustedValue = parseFloat(value);
 
                 if (adjustedValue < 0.01) {
                     adjustedValue = 0.01;
@@ -304,7 +304,7 @@ export default {
             <EntityAttribute
                 v-model="heightString"
                 title="height"
-                :label="$t('modules.tools.modeler3D.entity.projections.height')"
+                :label="$t('modules.tools.modeler3D.entity.projections.height') + ' [m]'"
                 :width-classes="['col-md-5', 'col-md-6']"
                 :keep-height="true"
                 :buttons="!adaptToHeight"
@@ -342,7 +342,7 @@ export default {
             <div class="h-seperator" />
             <EntityAttribute
                 v-model="rotationString"
-                :label="$t('modules.tools.modeler3D.entity.captions.rotation')"
+                :label="$t('modules.tools.modeler3D.entity.captions.rotation' + ' [°]')"
                 :width-classes="['col-md-8', 'col-md-3']"
                 :buttons="false"
             />
@@ -372,7 +372,7 @@ export default {
             <EntityAttribute
                 v-model="extrudedHeightString"
                 title="extruded-height"
-                :label="$t('modules.tools.modeler3D.draw.captions.extrudedHeight')"
+                :label="$t('modules.tools.modeler3D.draw.captions.extrudedHeight') + ' [m]'"
                 :width-classes="['col-md-8', 'col-md-4']"
                 @increment="extrudedHeightString = (extrudedHeight + 0.1).toFixed(2)"
                 @increment-shift="extrudedHeightString = (extrudedHeight + 1).toFixed(2)"
@@ -385,7 +385,7 @@ export default {
             <EntityAttribute
                 v-model="lineWidthString"
                 title="line-width"
-                :label="$t('modules.tools.modeler3D.draw.captions.lineWidth')"
+                :label="$t('modules.tools.modeler3D.draw.captions.lineWidth') + ' [Pixel]'"
                 :width-classes="['col-md-8', 'col-md-4']"
                 @increment="lineWidthString = (lineWidth + 1).toFixed(2)"
                 @decrement="lineWidthString = (lineWidth - 1).toFixed(2)"
