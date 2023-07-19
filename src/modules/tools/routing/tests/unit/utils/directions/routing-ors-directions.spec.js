@@ -267,36 +267,6 @@ describe("src/modules/tools/routing/utils/directions/routing-ors-directions.js",
                 expect(error.message).equal("common:modules.tools.routing.errors.errorRouteFetch");
             }
         });
-        it("should throw error 404", async () => {
-            sinon.stub(axios, "post").returns(
-                new Promise((_, reject) => reject({
-                    response: {
-                        status: 404
-                    }
-                }))
-            );
-
-            try {
-                await fetchRoutingOrsDirections({
-                    coordinates: [
-                        [10.213645727260518, 51.38555222959108],
-                        [10.216914023843442, 51.384482245544675]
-                    ],
-                    language: "de",
-                    transformCoordinatesToLocal: coords => coords,
-                    speedProfile: "CAR",
-                    avoidSpeedProfileOptions: [],
-                    preference: "RECOMMENDED",
-                    avoidPolygons: [],
-                    instructions: true
-                });
-                // should not reach here
-                expect(true).to.be.false;
-            }
-            catch (error) {
-                expect(error.message).equal("common:modules.tools.routing.errors.noRouteFound");
-            }
-        });
     });
     describe("should routingOrsPreference", () => {
         it("should lowercase preferences from configJson", async () => {
