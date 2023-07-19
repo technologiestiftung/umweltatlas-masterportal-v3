@@ -342,7 +342,7 @@ export default {
             <div class="h-seperator" />
             <EntityAttribute
                 v-model="rotationString"
-                :label="$t('modules.tools.modeler3D.entity.captions.rotation' + ' [°]')"
+                :label="$t('modules.tools.modeler3D.entity.captions.rotation') + ' [°]'"
                 :width-classes="['col-md-8', 'col-md-3']"
                 :buttons="false"
             />
