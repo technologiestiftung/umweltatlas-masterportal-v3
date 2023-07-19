@@ -182,7 +182,12 @@ export default {
                 <BasicFileImport
                     :intro-formats="$t('modules.tools.fileImport.captions.introFormats')"
                     @add-file="addFile"
-                />
+                >
+                    <p
+                        class="cta"
+                        v-html="$t('share-components.import.introInfo')"
+                    />
+                </BasicFileImport>
 
                 <div v-if="importedFileNames.length > 0">
                     <div class="h-seperator" />

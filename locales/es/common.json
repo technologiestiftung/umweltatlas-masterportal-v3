@@ -410,12 +410,11 @@
                         "backToList": "Volver a la lista",
                         "delete": "Eliminar modelo",
                         "deletionTitle": "Eliminar modelo 3D \"{{name}}\"",
-                        "editInfo": "Cambiar la posición y rotación del modelo seleccionado.",
+                        "editInfo": "Modificar los atributos del modelo seleccionado.",
                         "editModel": "Editar modelo 3D \"{{name}}\"",
                         "incrementTooltip": "Mantenga pulsada la tecla Mayús para aumentar el valor de forma más aproximada.",
                         "modelName": "Nombre del modelo",
-                        "pickupPlace": "Haz doble clic en un objeto importado para recogerlo o colocarlo.",
-                        "povInfo": "Aquí tiene la posibilidad de ponerse en el punto de vista de un peatón. En cuanto sitúe el cilindro en el mapa con un clic del ratón, entrará en la vista peatonal en este punto. <br><br>En esta vista puede mirar a su alrededor con el ratón. Para volver a la posición inicial, pulse la tecla de escape (ESC).",
+                        "pickupPlace": "Haga doble clic en un objeto para recogerlo o colocarlo.",
                         "projectionInfo": "¡Atención! Al utilizar el sistema de coordenadas WGS84, puede haber imprecisiones. Se recomienda utilizar la notación decimal.",
                         "rotationPlaceholder": "Incremento/decremento de pasos",
                         "rotation": "Rotación",
@@ -455,7 +454,9 @@
                         "successPartly": "El archivo \"{{filename}}\" se importó parcialmente."
                     },
                     "captions": {
-                        "introFormats": "Puedes importar archivos glTF (.gltf), archivos OBJ (.obj) o archivos Collada (.dae).",
+                        "introInfo": "Con el Importador puede cargar diseños urbanos digitales en el modelo 3D existente de la ciudad, visualizarlos y analizarlos.",
+                        "introInfo2": "Importe el archivo deseado simplemente arrastrando y soltando o, alternativamente, con el diálogo de apertura del navegador.",
+                        "introFormats": "Puedes importar archivos glTF (.gltf), OBJ (.obj), Collada (.dae) o GeoJSON (.geojson).",
                         "successfullyImportedLabel": "Modelos 3D importados:"
                     }
                 },
@@ -464,6 +465,7 @@
                         "beginModelling": "Modelar objeto 3D",
                         "clampToGround": "Alinear al modelo de terreno",
                         "color": "Color",
+                        "controlInfo": "Haga clic con el botón izquierdo del ratón para fijar los puntos. Haga clic con el botón derecho para terminar de dibujar.",
                         "drawing": "Dibujo",
                         "drawName": "Nombre",
                         "drawnModels": "Modelos dibujados:",
@@ -472,6 +474,7 @@
                         "extrudedHeight": "Altura extruida",
                         "fillColor": "Color de relleno",
                         "geometry": "Geometría",
+                        "introInfo": "Con la herramienta de dibujo puedes dibujar diferentes formas geométricas en el mapa.",
                         "outlineColor": "Color de contorno",
                         "transparency": "Transparencia",
                         "lineWidth": "Ancho de línea"
@@ -481,15 +484,23 @@
                         "line": "Línea"
                     }
                 },
+                "options": {
+                    "captions": {
+                        "enableFunction": "Activar/desactivar",
+                        "hideObjectInfo": "Si esta opción está activada, puede ocultar los edificios existentes haciendo clic.",
+                        "hideSwitchLabel": "Ocultar edificios con clic del ratón",
+                        "povInfo": "Aquí tiene la posibilidad de ponerse en el punto de vista de un peatón. En cuanto sitúe el cilindro en el mapa con un clic del ratón, entrará en la vista peatonal en este punto. <br><br>En esta vista puede mirar a su alrededor con el ratón. Para volver a la posición inicial, pulse la tecla de escape (ESC).",
+                        "povTitle": "Perspectiva peatonal",
+                        "visibilityTitle": "Opciones de visibilidad"
+                    }
+                },
                 "nav": {
                     "drawTitle": "Dibujar",
                     "importTitle": "Importar",
                     "options": "Opciones"
                 },
                 "hiddenObjectsLabel": "Edificios ocultos:",
-                "hideSwitchLabel": "Ocultar edificios con clic del ratón",
-                "title": "Modelador 3D",
-                "activatePov": "Activar"
+                "title": "Modelador 3D"
             },
             "parcelSearch": {
                 "wrongConfig": "Configuración inválida o incompleta",

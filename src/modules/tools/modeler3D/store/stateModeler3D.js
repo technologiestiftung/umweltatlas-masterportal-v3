@@ -10,12 +10,14 @@
  * @property {Cartesian3}   currentModelPosition - position of the currently selected or added model
  * @property {Object}       currentProjection - the currently selected projection
  * @property {String}       cylinderId - the id of the currently selected cylinder
+ * @property {Object[]}     cylinderPosition - an array of all active cylinder positions
  * @property {Boolean}      deactivateGFI - if true, component activation deactivates gfi component
  * @property {String}       drawName name of drawing model
  * @property {Object[]}     drawnModels - a list of currently active drawn models
  * @property {Number}       extrudedHeight height in meters for drawing model
  * @property {Number}       height - the raw transformed height coordinate displayed on the ui
  * @property {Object[]}     hiddenObjects - array of hidden objects
+ * @property {Boolean}      hideObjects - if true, user can hide TileFeatures with click
  * @property {Object}       highlightStyle default style for highlighting models
  * @property {String}       highlightStyle.color default color of highlighted model
  * @property {Number}       highlightStyle.alpha default transparency for color of highlighted model

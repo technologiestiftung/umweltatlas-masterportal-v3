@@ -593,12 +593,11 @@
                         "backToList": "Back to List",
                         "delete": "Delete Model",
                         "deletionTitle": "Delete 3D Model \"{{name}}\"",
-                        "editInfo": "Change the position and rotation of the selected model.",
+                        "editInfo": "Change the attributes of the selected model.",
                         "editModel": "Edit 3D Model \"{{name}}\"",
                         "incrementTooltip": "Hold down Shift to increase the value more coarsely.",
                         "modelName": "Model Name",
-                        "pickupPlace": "Double-click on an imported object to pick it up or place it.",
-                        "povInfo": "Here you have the possibility to put yourself in the view of a pedestrian. As soon as you set the cylinder in the map with a mouse click, you will enter the pedestrian view at this point. <br><br>In this view you can look around with the mouse. To return to the starting position, press the Escape key (ESC).",
+                        "pickupPlace": "Double-click on an object to pick it up or place it.",
                         "projectionInfo": "Attention! When using the WGS84 coordinate system, there may be inaccuracies. We recommend using decimal notation.",
                         "rotationPlaceholder": "Increment/Decrement steps",
                         "rotation": "Rotation",
@@ -638,7 +637,9 @@
                         "successPartly": "The file \"{{filename}}\" was partially imported."
                     },
                     "captions": {
-                        "introFormats": "You can import glTF files (.gltf), OBJ files (.obj), or Collada files (.dae).",
+                        "introInfo": "With the Importer you can load digital urban designs into the existing 3D model of the city, visualise and analyse them.",
+                        "introInfo2": "Import your desired file simply by drag and drop or alternatively with the browser's open dialogue.",
+                        "introFormats": "You can import glTF (.gltf), OBJ (.obj), Collada (.dae) or GeoJSON (.geojson) files.",
                         "successfullyImportedLabel": "Imported 3D Models:"
                     }
                 },
@@ -647,6 +648,7 @@
                         "beginModelling": "Model 3D Object",
                         "clampToGround": "Align to Terrain Model",
                         "color": "Color",
+                        "controlInfo": "Click with the left mouse button to set points. Right-click to finish drawing.",
                         "drawing": "Drawing",
                         "drawName": "Name",
                         "drawnModels": "Drawn Models:",
@@ -655,6 +657,7 @@
                         "extrudedHeight": "Extruded Height",
                         "fillColor": "Fill Color",
                         "geometry": "Geometry",
+                        "introInfo": "With the drawing tool you can draw different geometric shapes on the map.",
                         "outlineColor": "Outline Color",
                         "transparency": "Transparency",
                         "lineWidth": "Line Width"
@@ -664,15 +667,23 @@
                         "line": "Line"
                     }
                 },
+                "options": {
+                    "captions": {
+                        "enableFunction": "Activate/deactivate",
+                        "hideObjectInfo": "If this option is turned on, you can hide existing buildings by clicking.",
+                        "hideSwitchLabel": "Hide Buildings with Mouse Click",
+                        "povInfo": "Here you have the possibility to put yourself in the view of a pedestrian. As soon as you set the cylinder in the map with a mouse click, you will enter the pedestrian view at this point. <br><br>In this view you can look around with the mouse. To return to the starting position, press the Escape key (ESC).",
+                        "povTitle": "Pedestrian perspective",
+                        "visibilityTitle": "Visibility Options"
+                    }
+                },
                 "nav": {
                     "drawTitle": "Draw",
                     "importTitle": "Import",
                     "options": "Options"
                 },
                 "hiddenObjectsLabel": "Hidden Buildings:",
-                "hideSwitchLabel": "Hide Buildings with Mouse Click",
-                "title": "3D Modeler",
-                "activatePov": "Activate"
+                "title": "3D Modeler"
             },
             "parcelSearch": {
                 "wrongConfig": "Invalid or incomplete configuration",
