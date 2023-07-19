@@ -4474,7 +4474,7 @@ Possibility to define additional preferences for the different speed profiles (a
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|speedProfile|nein|String[]|-|Which preferences should be available for the speedProfile.|false|
+|speedProfile|nein|String[]||Which preferences should be available for the speedProfile.|false|
 
 **Beispiel**
 ```

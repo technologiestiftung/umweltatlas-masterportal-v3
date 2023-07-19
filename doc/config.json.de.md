@@ -4418,7 +4418,7 @@ Möglichkeit eigene Routenpräferenzen (zusätzlich zum BKG-Dienst) für speedPr
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|speedProfile|nein|String[]|-|Welche Präferenzen für das angegebene speedProfile verfügbar sein sollen.|false|
+|speedProfile|nein|String[]||Welche Präferenzen für das angegebene speedProfile verfügbar sein sollen.|false|
 
 **Beispiel**
 ```
