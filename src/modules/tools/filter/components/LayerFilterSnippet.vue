@@ -102,7 +102,8 @@ export default {
             filteredItems: [],
             isLockedHandleActiveStrategy: false,
             filterButtonDisabled: false,
-            isLoading: false
+            isLoading: false,
+            outOfZoom: false
         };
     },
     computed: {
@@ -247,6 +248,10 @@ export default {
                 && this.isLayerFilterSelected(this.layerConfig.filterId)
                 || this.isLayerFilterSelected === true)) {
                 this.handleActiveStrategy();
+            }
+
+            if (typeof this.layerConfig.minZoom === "number" || typeof this.layerConfig.maxZoom === "number") {
+                this.checkZoomLevel(this.layerConfig.minZoom, this.layerConfig.maxZoom);
             }
 
             if (this.layerConfig.filterOnMove === true && this.layerConfig?.strategy === "active") {
@@ -720,13 +725,64 @@ export default {
             store.dispatch("Maps/unregisterListener", {type: "moveend", listener: this.updateSnippets.bind(this)});
         },
         /**
+         * Registering a zoom listener.
+         * @param {Number} minZoom The min zoom level of the layer
+         * @param {Number} maxZoom The max zoom level of the layer
+         * @returns {void}
+         */
+        checkZoomLevel (minZoom, maxZoom) {
+            let currentScale = store.getters["Maps/scale"],
+                zoomLevel = store.getters["Maps/getView"].getZoom();
+
+            this.outOfZoom = this.checkOutOfZoomLevel(minZoom, maxZoom, zoomLevel);
+
+            store.watch((state, getters) => getters["Maps/scale"], scale => {
+                if (scale > currentScale) {
+                    zoomLevel = zoomLevel - 1;
+                }
+                else {
+                    zoomLevel = zoomLevel + 1;
+                }
+
+                currentScale = scale;
+
+                this.outOfZoom = this.checkOutOfZoomLevel(minZoom, maxZoom, zoomLevel);
+            });
+        },
+        /**
+         * Checks if the current zoom level is out of zoom range.
+         * @param {Number} minZoom The min zoom level of the layer
+         * @param {Number} maxZoom The max zoom level of the layer
+         * @param {Number} zoomLevel The current zoom level of the layer
+         * @returns {Boolean} true if the zoom level is out of the range.
+         */
+        checkOutOfZoomLevel (minZoom, maxZoom, zoomLevel) {
+            if (typeof minZoom === "number" && typeof maxZoom === "number") {
+                return zoomLevel < minZoom || zoomLevel > maxZoom;
+            }
+            else if (typeof minZoom === "number" && typeof maxZoom !== "number") {
+                return zoomLevel < minZoom;
+            }
+            else if (typeof minZoom !== "number" && typeof maxZoom === "number") {
+                return zoomLevel > maxZoom;
+            }
+
+            return false;
+        },
+        /**
          * Update the snippets with adjustment
          * @returns {void}
          */
         updateSnippets () {
             this.$nextTick(() => {
-                this.isLockedHandleActiveStrategy = false;
-                this.handleActiveStrategy();
+                if (!this.outOfZoom) {
+                    this.isLockedHandleActiveStrategy = false;
+                    this.handleActiveStrategy();
+                }
+                else {
+                    this.amountOfFilteredItems = 0;
+                    this.stopFilter();
+                }
             });
         },
         /**
@@ -859,8 +915,19 @@ export default {
 
 <template>
     <div
-        class="panel-body"
+        :class="['panel-body', outOfZoom ? 'disabled' : '']"
     >
+        <div
+            v-if="outOfZoom"
+            class="diabled-overlayer"
+        >
+            <div class="info">
+                <span>
+                    <i class="bi bi-exclamation-circle-fill" />
+                    {{ $t("modules.tools.filter.filterResult.disabledInfo") }}
+                </span>
+            </div>
+        </div>
         <div
             v-if="isLoading"
             class="d-flex justify-content-center"
@@ -880,7 +947,7 @@ export default {
                 {{ translateKeyWithPlausibilityCheck(layerConfig.description, key => $t(key)) }}
             </div>
             <div
-                v-if="layerConfig.snippetTags !== false"
+                v-if="layerConfig.snippetTags !== false && !outOfZoom"
                 class="snippetTags"
             >
                 <div
@@ -914,7 +981,7 @@ export default {
                 </div>
             </div>
             <div
-                v-if="layerConfig.showHits !== false && typeof amountOfFilteredItems === 'number'"
+                v-if="layerConfig.showHits !== false && typeof amountOfFilteredItems === 'number' && !outOfZoom"
                 class="filter-result"
             >
                 <span>
@@ -1196,6 +1263,27 @@ export default {
     }
     .panel-body {
         padding: 0 5px;
+        position: relative;
+        &.disabled {
+            padding: 50px 5px 0;
+        }
+        .diabled-overlayer {
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(227, 227, 227, 0.4);
+            .info {
+                font-family: $font_family_accent;
+                font-size: $font-size-lg;
+                color: $light_red;
+                margin-top: 10px;
+                display: inline-block;
+                width: 100%;
+            }
+        }
     }
     .panel-heading {
         padding: 5px;
@@ -1206,16 +1294,19 @@ export default {
         margin-top: 10px;
         display: inline-block;
         width: 100%;
+
         span {
             width: 50%;
             display: inline-block;
             float: left;
+
             &:last-child {
                 text-align: right;
                 padding-right: 10px;
             }
         }
     }
+
     .snippet {
         display: inline-block;
         margin-bottom: 20px;

@@ -26,7 +26,14 @@ export default function VectorTileLayer (attrs) {
     this.createLayer(Object.assign(defaults, attrs));
     // call the super-layer
     Layer.call(this, Object.assign(defaults, attrs), this.layer, !attrs.isChildLayer);
-    this.setConfiguredLayerStyle();
+
+    // set the style only at the first selection of the layer
+    if (attrs.isSelected) {
+        this.setConfiguredLayerStyle();
+    }
+    else {
+        this.layer.once("change:visible", () => this.setConfiguredLayerStyle());
+    }
 }
 
 // Link prototypes and add prototype methods, means VTL uses all methods and properties of Layer
@@ -41,7 +48,8 @@ VectorTileLayer.prototype = Object.create(Layer.prototype);
  */
 VectorTileLayer.prototype.createLayer = function (attrs) {
     const layerParams = {
-        gfiAttributes: attrs.gfiAttributes
+        gfiAttributes: attrs.gfiAttributes,
+        visible: attrs.isSelected
     };
 
     this.layer = vectorTile.createLayer(attrs, {layerParams});

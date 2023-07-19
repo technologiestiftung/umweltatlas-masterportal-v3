@@ -113,7 +113,6 @@ export default {
             Radio.trigger("Map", "clickedWindowPosition", clickObject);
         }
     },
-
     /**
      * Deactivates the 3d mode.
      * @param {Object} param store context.

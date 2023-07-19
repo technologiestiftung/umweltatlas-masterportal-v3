@@ -1511,6 +1511,7 @@ Bei allen GFI-Abfragen, außer dem direkten Beziehen von HTML, welches durch das
 |icon|nein|String|"bi-info-circle-fill"|CSS Klasse des Icons, das vor dem GFI im Menu angezeigt wird.|false|
 |active|nein|Boolean|true|Gibt an, ob das GFI per default aktiviert ist.|false|
 |desktopType|nein|String|"detached"|Gibt an welches Template für die GetFeatureInfo im Desktopmodus verwendet wird. Bei Attached wird das GFI direkt auf dem Punkt positioniert. Bei Detached wird ein Marker auf den geklickten Punkt gesetzt und das GFI wird rechts auf der Karte platziert.|false|
+|coloredHighlighting3D|nein|**[coloredHighlighting3D](#markdown-header-portalconfigmenutoolgficoloredhighlighting3d)**||Regeldefinitionen zum Überschreiben des Highlightings von angeklickten 3D tiles.|false|
 |highlightVectorRules|nein|**[highlightVectorRules](#markdown-header-portalconfigmenutoolgfihighlightvectorrules)**||Regeldefinitionen zum Überschreiben des Stylings von abgefragten Vektordaten.[highlightVectorRules](#markdown-header-portalconfigmenutoolgfihighlightvectorrules)|false|
 
 **Beispiel einer GFI Konfiguration**
@@ -1520,6 +1521,10 @@ Bei allen GFI-Abfragen, außer dem direkten Beziehen von HTML, welches durch das
     "name":"Informationen abfragen",
     "icon":"bi-info-circle-fill",
     "active":true,
+      "coloredHighlighting3D": {
+              "enabled": true,
+              "color": "GREEN"
+    },
     "highlightVectorRules": {
         "fill": {
             "color": [215, 102, 41, 0.9]
@@ -1548,7 +1553,34 @@ Bei allen GFI-Abfragen, außer dem direkten Beziehen von HTML, welches durch das
 ```
 
 ***
+### Portalconfig.menu.tool.gfi.coloredHighlighting3D
 
+Highlight Einstellungen von 3D Tiles.
+Falls z. B. ein Gebäude per Linksklick selektiert wurde, wird es in der definierten Farbe gehighlighted.
+Für mehr Informationen über die Farbmöglichkeiten: **[Color-documentation](https://cesium.com/learn/cesiumjs/ref-doc/Color.html)**
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|--------|----|-------|-----------|------|
+|enabled|nein|Boolean|true|False falls coloredHighlighting3D disabled ist.|false|
+|color|nein|String/String[]|"RED"|Color kann als Array oder Cesium.Color definiert werden(z. B. "GREEN" für Cesium.Color.GREEN)|false|
+
+**Example**
+
+```json
+//  Array Beispiel
+coloredHighlighting3D: {
+    "enabled": true,
+    "color": [0, 255, 0, 255]
+}
+
+// Cesium.Color Beispiel
+coloredHighlighting3D: {
+    "enabled": true,
+    "color": "GREEN"
+}
+
+```
+***
 ##### Portalconfig.menu.tool.gfi.highlightVectorRules
 
 Liste der Einstellungen zum Überschreiben von Vektorstyles bei GFI Abfragen.
@@ -1763,6 +1795,8 @@ Die Konfiguration eines Layers.
 |filterButtonDisabled|nein|Boolean|false|Nur für strategy `passive`: Der Filter-Knopf wird deaktiviert solange der Benutzer nichts im Filter ausgewählt hat.|false|
 |snippets|nein|[snippets](#markdown-header-portalconfigmenutoolfilterfilterlayersnippets)[]|[]|Konfiguration der sogenannten Snippets für das Filtern. Kann bei der minimalsten Variante ein Array von Attribut-Namen sein. Kann komplett weggelassen werden, wenn die automatische Snippet-Ermittlung verwendet werden soll.|false|
 |filterOnMove|nein|Boolean||Wenn auf `true` eingestellt, wird der Layer bei Kartenbewergung dynamisch gefilteret.|false|
+|minZoom|nein|Number||Die minimale Zoomstufe. Wenn die aktuelle Zoomstufe kleiner als “minZoom” ist, wird der aktuelle Filter deaktiviert.|false|
+|maxZoom|nein|Number||Die maximale Zoomstufe. Wenn die aktuelle Zoomstufe größer als “maxZoom” ist, wird der aktuelle Filter deaktiviert.|false|
 
 **Beispiel**
 
@@ -1782,6 +1816,8 @@ Dieses Beispiel konfiguriert ein Layer mit nur einem einzigen Snippet. Die Art d
     "snippetTags": true,
     "paging": 100,
     "filterOnMove": false,
+    "minZoom": 7,
+    "maxZoom": 14,
     "snippets": [
         {
             "attrName": "rebbz_homepage"
