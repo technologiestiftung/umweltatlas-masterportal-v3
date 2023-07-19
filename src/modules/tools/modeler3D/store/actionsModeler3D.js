@@ -109,9 +109,17 @@ const actions = {
 
         if (entityPosition) {
             dispatch("transformFromCartesian", entityPosition);
-            commit("setHeight", entity.polygon?.height.getValue());
+            if (entity.polygon) {
+                commit("setHeight", entity.polygon.height.getValue());
+            }
         }
     },
+    /**
+     * Reacts on changed entity position. Gets the currently selected entity position and transforms its coordinates
+     * to the currently selected projection.
+     * @param {object} context - The context of the Vuex module.
+     * @returns {void}
+    */
     updateUI ({commit, dispatch, getters, state}) {
         const entities = getters.entities,
             entity = entities.getById(state.currentModelId);
