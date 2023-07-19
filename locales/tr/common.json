@@ -415,7 +415,7 @@
                         "incrementTooltip": "Değeri daha kaba bir şekilde artırmak için Shift tuşunu basılı tutun.",
                         "modelName": "Model Adı",
                         "pickupPlace": "Almak veya yerleştirmek için bir içe aktarılan nesneye çift tıklayın.",
-                        "povInfo": "Burada kendinizi bir yayanın yerine koyma imkanına sahipsiniz. Harita üzerinde istediğiniz konuma tıklamanız ve düğmeye tıklayarak seçiminizi onaylamanız yeterlidir. <br><br>Bu görünümde fare ile etrafa bakabilirsiniz. Başlangıç konumuna dönmek için kaçış tuşuna (ESC) basın.",
+                        "povInfo": "Burada kendinizi bir yayanın yerine koyma imkanına sahipsiniz. Silindiri bir fare tıklamasıyla haritaya yerleştirir yerleştirmez, bu noktada yaya görünümüne gireceksiniz. <br><br>Bu görünümde fare ile etrafa bakabilirsiniz. Başlangıç konumuna dönmek için kaçış tuşuna (ESC) basın.",
                         "projectionInfo": "Dikkat! WGS84 koordinat sistemi kullanırken hatalar oluşabilir. Ondalık gösterimi kullanmanızı öneririz.",
                         "rotationPlaceholder": "Artış/Azalış adımları",
                         "rotation": "Döndürme",
@@ -489,9 +489,7 @@
                 "hiddenObjectsLabel": "Gizli Binalar:",
                 "hideSwitchLabel": "Fare Tıklamasıyla Binaları Gizle",
                 "title": "3D Modelleyici",
-                "activatePov": "Etkinleştir",
-                "pov": "Yaya görünümüne atla",
-                "buttonDisabledText": "Lütfen önce haritadaki bir konuma tıklayın."
+                "activatePov": "Etkinleştir"
             },
             "parcelSearch": {
                 "wrongConfig": "Geçersiz veya eksik yapılandırma",

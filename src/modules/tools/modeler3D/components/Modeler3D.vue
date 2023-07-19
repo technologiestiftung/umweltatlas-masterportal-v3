@@ -13,7 +13,7 @@ import store from "../../../../app-store";
 import crs from "@masterportal/masterportalapi/src/crs";
 import proj4 from "proj4";
 import {getGfiFeaturesByTileFeature} from "../../../../api/gfi/getGfiFeaturesByTileFeature";
-import {adaptCylinderToGround, adaptCylinderToEntity} from "./utils/draw";
+import {adaptCylinderToGround, adaptCylinderToEntity, adaptCylinderUnclamped} from "./utils/draw";
 
 let eventHandler = null;
 
@@ -31,8 +31,6 @@ export default {
             defaultTabClass: "",
             currentPosition: null,
             activeTabClass: "active",
-            isHovering: "",
-            povActive: false,
             currentCartesian: null,
             originalCursorStyle: null
         };
@@ -62,8 +60,13 @@ export default {
         optionsTabClasses: function () {
             return this.currentView === "" ? this.activeTabClass : this.defaultTabClass;
         },
-        povPossible: function () {
-            return this.longitude && this.latitude && this.altitude;
+        /**
+         * Checks if it is possible to enter point of view (POV) mode.
+         * Returns true if `longitude`, `latitude`, and `altitude` properties are defined and truthy, otherwise false.
+         * @returns {boolean} - Indicates whether POV mode is possible.
+         */
+        povPossible () {
+            return Boolean(this.longitude && this.latitude && this.altitude);
         }
     },
     watch: {
@@ -598,15 +601,106 @@ export default {
                         eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
                         document.removeEventListener("keydown", this.escapeKeyHandler);
                         document.body.style.cursor = this.originalCursorStyle;
+                        this.changeCursor();
                     }
                 });
             }
         },
+        resetPov () {
+            this.setPovActive(false);
+            this.entities.removeById(this.cylinderId);
+            document.body.style.cursor = this.originalCursorStyle;
+            eventHandler.setInputAction(this.selectObject, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+            eventHandler.setInputAction(this.cursorCheck, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+        },
+        /**
+         * Toggles the active state of a switch and performs related actions.
+         * If the provided ID is "povActiveSwitch" or the current state of `this.povActive` is true,
+         * it removes an entity by ID, resets the cursor style, and toggles `this.povActive`.
+         * Finally, it updates the cursor style and toggles the visibility of objects.
+         *
+         * @param {string} id - The ID of the switch.
+         * @returns {void}
+         */
         changeSwitches (id) {
-            if (id === "povActiveSwitch" || this.povActive) {
-                this.povActive = !this.povActive;
+            if (id === "povActiveSwitch") {
+                if (this.povActive) {
+                    this.resetPov();
+                }
+                else {
+                    this.setPovActive(true);
+                    this.setHideObjects(false);
+                    eventHandler.setInputAction(this.cursorCheck, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+                }
             }
-            this.setHideObjects(!this.hideObjects);
+            else if (id === "hideObjectsSwitch" || this.hideObjects) {
+                this.setHideObjects(!this.hideObjects);
+                this.resetPov();
+                // document.body.style.cursor = this.originalCursorStyle;
+            }
+
+        },
+        /**
+         * Event handler for click events.
+         * Updates the cursor style, removes the MOUSE_MOVE input action, and adds the selectObject function as the LEFT_CLICK input action.
+         * @returns {void}
+         */
+        clickHandler () {
+            document.body.style.cursor = this.originalCursorStyle;
+            eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+            eventHandler.setInputAction(this.selectObject, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+            this.positionPovCamera();
+        },
+        /**
+         * Event handler for move events.
+         * Transforms the mouse coordinates, retrieves the povCylinder by ID,
+         * updates the cursor style, samples the height at the transformed coordinates,
+         * and updates the currentCartesian position if it has changed.
+         * @returns {void}
+         */
+        moveHandler () {
+            if (this.mouseCoordinate) {
+                const transformedCoordinates = proj4(proj4("EPSG:25832"), proj4("EPSG:4326"), [this.mouseCoordinate[0], this.mouseCoordinate[1]]),
+                    cartographic = Cesium.Cartographic.fromDegrees(transformedCoordinates[0], transformedCoordinates[1]),
+                    povCylinder = this.entities.getById(this.cylinderId),
+                    currentCartesian = Cesium.Cartographic.toCartesian(cartographic);
+
+                if (cartographic) {
+                    document.body.style.cursor = "copy";
+                }
+
+                cartographic.height = this.scene.sampleHeight(cartographic, [povCylinder]);
+
+                if (!Cesium.Cartesian3.equals(this.currentCartesian, currentCartesian)) {
+                    this.currentCartesian = currentCartesian;
+                }
+            }
+        },
+        /**
+         * Changes the cursor and sets input actions based on the state of `this.povActive`.
+         * If `this.povActive` is true, it retrieves the povCylinder by ID and performs the following actions:
+         * - If the povCylinder doesn't exist, it creates a cylinder, sets its position, and assigns it to povCylinder.
+         * - It sets the moveHandler function as the input action for MOUSE_MOVE events.
+         * - It sets the clickHandler function as the input action for LEFT_CLICK events.
+         * @returns {void}
+         */
+        changeCursor () {
+            if (this.povActive) {
+                let povCylinder = this.entities.getById(this.cylinderId);
+
+                if (!povCylinder) {
+                    const payload = {
+                        posIndex: 0,
+                        length: 10
+                    };
+
+                    this.createCylinder(payload);
+                    povCylinder = this.entities.getById(this.cylinderId);
+                    povCylinder.position = new Cesium.CallbackProperty(() => adaptCylinderUnclamped(povCylinder, this.currentCartesian), false);
+                }
+                eventHandler.setInputAction(this.moveHandler, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+                eventHandler.setInputAction(this.clickHandler, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+            }
         }
     }
 };
@@ -641,7 +735,7 @@ export default {
                                 href="#"
                                 class="nav-link"
                                 :class="importTabClasses"
-                                @click.prevent="setCurrentView('import')"
+                                @click.prevent="setCurrentView('import'), resetPov()"
                             >{{ $t("modules.tools.modeler3D.nav.importTitle") }}</a>
                         </li>
                         <li
@@ -653,7 +747,7 @@ export default {
                                 href="#"
                                 class="nav-link"
                                 :class="drawTabClasses"
-                                @click.prevent="setCurrentView('draw')"
+                                @click.prevent="setCurrentView('draw'), resetPov()"
                             >{{ $t("modules.tools.modeler3D.nav.drawTitle") }}</a>
                         </li>
                         <li
@@ -665,7 +759,7 @@ export default {
                                 href="#"
                                 class="nav-link"
                                 :class="optionsTabClasses"
-                                @click.prevent="setCurrentView('')"
+                                @click.prevent="setCurrentView(''), resetPov()"
                             >{{ $t("modules.tools.modeler3D.nav.options") }}</a>
                         </li>
                     </ul>
@@ -687,7 +781,7 @@ export default {
                                     role="switch"
                                     :aria-checked="povActive"
                                     :checked="povActive"
-                                    @change="changeSwitches('povActiveSwitch')"
+                                    @change="changeSwitches('povActiveSwitch'), changeCursor()"
                                 >
                                 <label
                                     class="form-check-label"
@@ -700,13 +794,6 @@ export default {
                                 class="cta"
                                 v-html="$t('modules.tools.modeler3D.entity.captions.povInfo')"
                             />
-                            <button
-                                class="col-10 btn btn-primary btn-sm primary-button-wrapper"
-                                :disabled="!povActive || !povPossible"
-                                @click="positionPovCamera"
-                            >
-                                {{ povActive && povPossible ? $t("modules.tools.modeler3D.pov") : $t("modules.tools.modeler3D.buttonDisabledText") }}
-                            </button>
                         </div><hr>
                         <div class="form-check form-switch cta">
                             <input

@@ -20,11 +20,6 @@ export default {
         RoutingLoadingSpinner
     },
     emits: ["moveEntity"],
-    data () {
-        return {
-            isHovering: false
-        };
-    },
     computed: {
         ...mapGetters(["namedProjections"]),
         ...mapGetters("Tools/Modeler3D", Object.keys(getters))
