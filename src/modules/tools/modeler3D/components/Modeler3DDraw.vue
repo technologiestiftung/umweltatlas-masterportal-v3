@@ -217,8 +217,7 @@ export default {
                         outlineWidth: 1,
                         outlineColor: Cesium.Color[this.selectedOutlineColor].withAlpha(this.opacity),
                         shadows: Cesium.ShadowMode.ENABLED,
-                        extrudedHeight: this.extrudedHeight + this.height,
-                        extrudedHeightReference: Cesium.HeightReference.NONE
+                        extrudedHeight: this.extrudedHeight + this.height
                     }
                 });
             }
@@ -282,7 +281,10 @@ export default {
         exportToGeoJson () {
             const entities = this.entities,
                 drawnEntitiesCollection = [],
-                jsonGlob = {"type": "FeatureCollection", "features": []},
+                jsonGlob = {
+                    type: "FeatureCollection",
+                    features: []
+                },
                 features = [];
 
             entities.values.forEach(entity => {
@@ -296,25 +298,22 @@ export default {
                     positions = entity.polygon ? entity.polygon.hierarchy.getValue().positions : entity.polyline.positions.getValue(),
                     color = geometry.material.color.getValue(),
                     outlineColor = geometry.outlineColor?.getValue(),
-                    feature = {"type": "Feature", "properties": {}, "geometry": {
-                        "type": entity.polygon ? "Polygon" : "Polyline", "coordinates": []
-                    }},
-                    coords = [],
-                    array = [];
+                    feature = {
+                        type: "Feature",
+                        properties: {},
+                        geometry: {
+                            type: entity.polygon ? "Polygon" : "Polyline",
+                            coordinates: [[]]
+                        }};
 
                 positions.forEach(position => {
-                    const cartesian = new Cesium.Cartesian3(
-                            position.x,
-                            position.y,
-                            position.z
-                        ),
-                        cartographic = Cesium.Cartographic.fromCartesian(cartesian),
+                    const cartographic = Cesium.Cartographic.fromCartesian(position),
                         longitude = Cesium.Math.toDegrees(cartographic.longitude),
                         latitude = Cesium.Math.toDegrees(cartographic.latitude),
                         altitude = entity.polygon ? geometry.height.getValue() : cartographic.height,
                         coordXY = [Number(longitude), Number(latitude), Number(altitude)];
 
-                    coords.push(coordXY);
+                    feature.geometry.coordinates[0].push(coordXY);
                 });
 
                 feature.properties.name = entity.name;
@@ -324,14 +323,11 @@ export default {
                 if (entity.polygon) {
                     feature.properties.outlineColor = outlineColor;
                     feature.properties.extrudedHeight = geometry.extrudedHeight.getValue();
-                    feature.properties.extrudedHeightReference = geometry.extrudedHeightReference.getValue();
                 }
                 else if (entity.polyline) {
-                    feature.properties.width = geometry.width._value;
+                    feature.properties.width = geometry.width.getValue();
                 }
 
-                array.push(coords);
-                feature.geometry.coordinates = array;
                 features.push(feature);
             });
 
