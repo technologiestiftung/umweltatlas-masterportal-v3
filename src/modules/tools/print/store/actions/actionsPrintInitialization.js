@@ -7,6 +7,8 @@ import getVisibleLayer from "./../../utils/getVisibleLayer";
 import {createEmpty, extendCoordinate} from "ol/extent.js";
 import {apply as applyTransform} from "ol/transform.js";
 import getProxyUrl from "../../../../../utils/getProxyUrl";
+import {autoDrawMask} from "olcs/print/drawCesiumMask.ts";
+import {computeRectangle} from "olcs/print/computeRectangle.ts";
 
 let lastPrintedExtent;
 
@@ -195,7 +197,8 @@ export default {
      * @returns {void}
      */
     togglePostrenderListener: function ({state, dispatch, commit}) {
-        const foundVectorTileLayers = [];
+        const foundVectorTileLayers = [],
+            ol3d = mapCollection.getMap("3D");
 
         getVisibleLayer(state.printMapMarker);
 
@@ -214,10 +217,21 @@ export default {
             const canvasLayer = Canvas.getCanvasLayer(state.visibleLayerList);
 
             commit("setEventListener", canvasLayer.on("postrender", evt => dispatch("createPrintMask", evt)));
+            if (ol3d) {
+                autoDrawMask(ol3d.getCesiumScene(), () => {
+                    const evt = {ol3d: ol3d};
+
+                    dispatch("compute3DPrintMask", evt);
+                    return evt.printRectangle.scaling;
+                });
+            }
         }
         else if (!state.active) {
             dispatch("Maps/unregisterListener", {type: state.eventListener}, {root: true});
             commit("setEventListener", undefined);
+            if (ol3d) {
+                autoDrawMask(ol3d.getCesiumScene(), null);
+            }
             if (state.invisibleLayer) {
                 dispatch("setOriginalPrintLayer");
                 commit("setHintInfo", "");
@@ -323,6 +337,15 @@ export default {
         }
     },
 
+    compute3DPrintMask: function ({dispatch, state}, evt) {
+        dispatch("getPrintMapSize");
+        dispatch("getPrintMapScales");
+        evt.printRectangle = computeRectangle(
+            evt.ol3d.getCesiumScene().canvas,
+            state.layoutMapInfo[0],
+            state.layoutMapInfo[1]);
+    },
+
     /**
      * draws the print page rectangle onto the canvas
      * @param {Object} param.state the state
@@ -337,8 +360,8 @@ export default {
         const frameState = evt.frameState,
             context = evt.context,
             drawMaskOpt = {
-                "frameState": evt.frameState,
-                "context": evt.context
+                "frameState": frameState,
+                "context": context
             },
             canvasPrintOptions = {
                 "pixelToCoordinateTransform": frameState.pixelToCoordinateTransform,

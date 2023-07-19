@@ -208,6 +208,7 @@ export default {
             "togglePostrenderListener",
             "createMapFishServiceUrl",
             "startPrint",
+            "startPrint3d",
             "getOptimalResolution",
             "updateCanvasLayer",
             "getAttributeInLayoutByName"
@@ -312,7 +313,8 @@ export default {
             }
 
             if (currentPrintLength <= 10) {
-                const index = this.fileDownloads.length;
+                const index = this.fileDownloads.length,
+                    layoutAttributes = this.getLayoutAttributes(this.currentLayout, ["subtitle", "textField", "author", "overviewMap", "source"]);
 
                 this.addFileDownload({
                     index: index,
@@ -324,13 +326,24 @@ export default {
                 });
 
                 this.setPrintStarted(true);
-                this.startPrint({
-                    index,
-                    getResponse: async (url, payload) => {
-                        return axios.post(url, payload);
-                    },
-                    layoutAttributes: this.getLayoutAttributes(this.currentLayout, ["subtitle", "textField", "author", "overviewMap", "source"])
-                });
+                if (Radio.request("Map", "getMapMode") === "2D") {
+                    this.startPrint({
+                        index,
+                        getResponse: async (url, payload) => {
+                            return axios.post(url, payload);
+                        },
+                        layoutAttributes
+                    });
+                }
+                else {
+                    this.startPrint3d({
+                        index,
+                        getResponse: async (url, payload) => {
+                            return axios.post(url, payload);
+                        },
+                        layoutAttributes
+                    });
+                }
             }
             else {
                 this.addSingleAlert(this.$t("common:modules.tools.print.alertMessage"));
