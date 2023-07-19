@@ -11,6 +11,8 @@
   - GFI MapMarker appears now on top of elevations by click.
 - Filter:
   - Add: new parameter minZoom and maxZoom in layer configuration to make filter to react with zoom level. If the current zoom level if out of range, the filter will be deactivated.
+- Routing:
+    - Possibility to define additional preferences for the different speed profiles (additionally to the BKG service)  (requires own modified backend).
 
 ### Changed
  - dependencies:
