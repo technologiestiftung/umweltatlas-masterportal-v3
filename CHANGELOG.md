@@ -21,6 +21,7 @@
 ### Fixed
 - Print: The portal is no longer reloaded after pressing the Enter key in the title field. Instead, the print is sent.
 - WFST-Tool can also parse Geoserver responses from DescribeFeatureType-Requests
+- WFST-Tool with fixed language pack in nested i18next json
 
 ---
 ## v2.35.1 - 2023-07-13
