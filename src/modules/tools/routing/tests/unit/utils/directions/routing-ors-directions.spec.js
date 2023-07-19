@@ -5,9 +5,9 @@ import sinon from "sinon";
 import {RoutingDirections} from "../../../../utils/classes/routing-directions";
 import {RoutingDirectionsSegment} from "../../../../utils/classes/routing-directions-segment";
 import {RoutingDirectionsStep} from "../../../../utils/classes/routing-directions-step";
-import {fetchRoutingOrsDirections} from "../../../../utils/directions/routing-ors-directions";
+import {fetchRoutingOrsDirections, routingOrsPreference} from "../../../../utils/directions/routing-ors-directions";
 
-describe.only("src/modules/tools/routing/utils/directions/routing-ors-directions.js", () => {
+describe("src/modules/tools/routing/utils/directions/routing-ors-directions.js", () => {
     beforeEach(() => {
         sinon.stub(i18next, "t").callsFake((...args) => args);
         store.getters = {
@@ -142,7 +142,7 @@ describe.only("src/modules/tools/routing/utils/directions/routing-ors-directions
                     ],
                     lineStringWaypointIndex: [0, 5]
                 });
-console.log (result)
+
             expectedResult.segments.push(
                 new RoutingDirectionsSegment({
                     distance: 262.4,
@@ -266,6 +266,68 @@ console.log (result)
             catch (error) {
                 expect(error.message).equal("common:modules.tools.routing.errors.errorRouteFetch");
             }
+        });
+        it("should throw error 404", async () => {
+            sinon.stub(axios, "post").returns(
+                new Promise((_, reject) => reject({
+                    response: {
+                        status: 404
+                    }
+                }))
+            );
+
+            try {
+                await fetchRoutingOrsDirections({
+                    coordinates: [
+                        [10.213645727260518, 51.38555222959108],
+                        [10.216914023843442, 51.384482245544675]
+                    ],
+                    language: "de",
+                    transformCoordinatesToLocal: coords => coords,
+                    speedProfile: "CAR",
+                    avoidSpeedProfileOptions: [],
+                    preference: "RECOMMENDED",
+                    avoidPolygons: [],
+                    instructions: true
+                });
+                // should not reach here
+                expect(true).to.be.false;
+            }
+            catch (error) {
+                expect(error.message).equal("common:modules.tools.routing.errors.noRouteFound");
+            }
+        });
+    });
+    describe("should routingOrsPreference", () => {
+        it("should lowercase preferences from configJson", async () => {
+            store.state.configJson = {
+                Portalconfig: {
+                    menu: {
+                        tools: {
+                            children: {
+                                routing: {
+                                    directionsSettings: {
+                                        preferences: {
+                                            CYCLING: ["GREEN", "RECOMMENDED"]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            const result = routingOrsPreference("GREEN", "CYCLING");
+
+            expect(result).to.eql("green");
+
+            store.state.configJson.Portalconfig.menu.tools.children.routing.directionsSettings.preferences = undefined;
+        });
+        it("should lowercase preferences without configJson", async () => {
+            const result = routingOrsPreference("RECOMMENDED", "CYCLING");
+
+            expect(result).to.eql("recommended");
         });
     });
 });

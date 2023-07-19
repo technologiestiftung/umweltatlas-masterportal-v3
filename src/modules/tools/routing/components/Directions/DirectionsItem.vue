@@ -55,9 +55,7 @@ export default {
     },
     async created () {
         this.initDirections();
-        this.preferencesFromConfig = this.configJson.Portalconfig.menu.tools.children.routing.directionsSettings.preferences;
-        console.log(this.preferencesFromConfig)
-        console.log(this.preferencesFromConfig)
+        this.preferencesFromConfig = this.configJson.Portalconfig.menu.tools.children.routing?.directionsSettings?.preferences;
     },
     beforeDestroy () {
         this.closeDirections();
@@ -72,7 +70,6 @@ export default {
          * @returns {void}
          */
         changeSpeedProfile (speedProfileId) {
-            console.log(speedProfileId)
             if (this.isInputDisabled) {
                 return;
             }
@@ -85,7 +82,6 @@ export default {
          * @returns {void}
          */
         changePreference (preferenceId) {
-            console.log(preferenceId)
             this.settings.preference = preferenceId;
             this.findDirections();
         },
