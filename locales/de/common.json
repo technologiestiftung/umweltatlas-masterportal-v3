@@ -979,7 +979,8 @@
                     "preferenceLabel": "Präferenz",
                     "preference": {
                         "RECOMMENDED": "Empfohlene Route",
-                        "SHORTEST": "Kürzeste Route"
+                        "SHORTEST": "Kürzeste Route",
+                        "GREEN": "Grüne Route"
                     }
                 },
                 "isochrones": {

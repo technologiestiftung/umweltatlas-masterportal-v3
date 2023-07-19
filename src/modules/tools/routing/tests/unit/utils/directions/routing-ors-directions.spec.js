@@ -7,7 +7,7 @@ import {RoutingDirectionsSegment} from "../../../../utils/classes/routing-direct
 import {RoutingDirectionsStep} from "../../../../utils/classes/routing-directions-step";
 import {fetchRoutingOrsDirections} from "../../../../utils/directions/routing-ors-directions";
 
-describe("src/modules/tools/routing/utils/directions/routing-ors-directions.js", () => {
+describe.only("src/modules/tools/routing/utils/directions/routing-ors-directions.js", () => {
     beforeEach(() => {
         sinon.stub(i18next, "t").callsFake((...args) => args);
         store.getters = {
@@ -142,7 +142,7 @@ describe("src/modules/tools/routing/utils/directions/routing-ors-directions.js",
                     ],
                     lineStringWaypointIndex: [0, 5]
                 });
-
+console.log (result)
             expectedResult.segments.push(
                 new RoutingDirectionsSegment({
                     distance: 262.4,

@@ -1,5 +1,5 @@
 <script>
-import {mapGetters, mapActions, mapMutations} from "vuex";
+import {mapGetters, mapActions, mapMutations, mapState} from "vuex";
 import getters from "../../store/directions/gettersDirections";
 import actions from "../../store/directions/actionsDirections";
 import mutations from "../../store/directions/mutationsDirections";
@@ -29,10 +29,14 @@ export default {
     data () {
         return {
             constants,
-            constantsRouting
+            constantsRouting,
+            preferencesFromConfig: null
         };
     },
     computed: {
+        ...mapState([
+            "configJson"
+        ]),
         ...mapGetters("Tools/Routing/Directions", Object.keys(getters)),
         /**
          * Checks if current map mode is "AVOID_AREAS"
@@ -51,6 +55,9 @@ export default {
     },
     async created () {
         this.initDirections();
+        this.preferencesFromConfig = this.configJson.Portalconfig.menu.tools.children.routing.directionsSettings.preferences;
+        console.log(this.preferencesFromConfig)
+        console.log(this.preferencesFromConfig)
     },
     beforeDestroy () {
         this.closeDirections();
@@ -65,6 +72,7 @@ export default {
          * @returns {void}
          */
         changeSpeedProfile (speedProfileId) {
+            console.log(speedProfileId)
             if (this.isInputDisabled) {
                 return;
             }
@@ -77,6 +85,7 @@ export default {
          * @returns {void}
          */
         changePreference (preferenceId) {
+            console.log(preferenceId)
             this.settings.preference = preferenceId;
             this.findDirections();
         },
@@ -368,7 +377,7 @@ export default {
             @change="changePreference($event.target.value)"
         >
             <option
-                v-for="option in constants.preferenceOptions"
+                v-for="option in preferencesFromConfig?.hasOwnProperty(settings.speedProfile) ? preferencesFromConfig[settings.speedProfile] : constants.preferenceOptions"
                 :id="option"
                 :key="'routing-directions-preference-' + option"
                 :value="option"

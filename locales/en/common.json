@@ -978,7 +978,8 @@
                     "preferenceLabel": "Preference",
                     "preference": {
                         "RECOMMENDED": "Recommended",
-                        "SHORTEST": "Shortest"
+                        "SHORTEST": "Shortest",
+                        "GREEN": "Green"
                     }
                 },
                 "isochrones": {
