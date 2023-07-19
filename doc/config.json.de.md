@@ -3839,7 +3839,7 @@ Konfiguration für die Vorschläge von Nutzereingaben.
 [inherits]: # (Portalconfig.menu.tool)
 
 WFS-T Modul zur Visualisierung (*GetFeature*), Erstellung (*insert*), Veränderung (*update*) und Löschen (*delete*) von Features eines bestehenden Web Feature Service (*WFS*), welcher Transaktionen entgegennehmen kann.
-Zur Nutzung dieses Moduls muss ein WFS-T Layer bereitgestellt werden. Bitte beachten Sie **[services.json](services.json.md)** für weitere Konfigurationsinformationen.
+Zur Nutzung dieses Moduls muss ein WFS-T Layer mit der Version 1.1.0 bereitgestellt werden. Bitte beachten Sie **[services.json](services.json.md)** für weitere Konfigurationsinformationen.
 
 Beim Bearbeiten eines Features / Hinzufügen von Attributen zu einem neuen Features werden bestimmte Werte in der Nutzeroberfläche angezeigt. Die Werte als auch dessen Label stehen im direkten Zusammenhang mit den `gfiAttributes` des Dienstes. Bitte beachten Sie **[services.json](services.json.md)** für weitere Informationen.
 

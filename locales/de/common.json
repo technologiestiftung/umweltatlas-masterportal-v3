@@ -876,9 +876,9 @@
                 "transaction": {
                     "success": {
                         "baseSuccess": "Das {{transaction}} der Geometrie und ihrer Parameter war erfolgreich.",
-                        "delete": "$t(common:modules.tools.wfsTransaction.transaction.success.baseSuccess, {\"transaction\": 'Löschen'})",
-                        "insert": "$t(common:modules.tools.wfsTransaction.transaction.success.baseSuccess, {\"transaction\": 'Speichern'})",
-                        "selectedUpdate" : "$t(common:modules.tools.wfsTransaction.transaction.success.baseSuccess, {\"transaction\": 'Bearbeiten'})"
+                        "delete": "$t(common:modules.tools.wfsTransaction.transaction.success.baseSuccess, {\"transaction\": \"Löschen\"})",
+                        "insert": "$t(common:modules.tools.wfsTransaction.transaction.success.baseSuccess, {\"transaction\": \"Speichern\"})",
+                        "selectedUpdate" : "$t(common:modules.tools.wfsTransaction.transaction.success.baseSuccess, {\"transaction\": \"Bearbeiten\"})"
                     },
                     "error": {
                         "genericFailedTransaction": "Das Speichern bzw. Löschen der Geometrie und ihrer Parameter ist leider fehlgeschlagen. Bitte wenden Sie sich an Ihren Administrator.",
