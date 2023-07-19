@@ -851,13 +851,6 @@ export default {
                                             class="cta"
                                             v-html="$t('modules.tools.modeler3D.options.captions.povInfo')"
                                         />
-                                        <button
-                                            class="col btn btn-primary btn-sm primary-button-wrapper"
-                                            :disabled="!povActive || !povPossible"
-                                            @click="positionPovCamera"
-                                        >
-                                            {{ povActive && povPossible ? $t("modules.tools.modeler3D.options.captions.pov") : $t("modules.tools.modeler3D.options.captions.buttonDisabledText") }}
-                                        </button>
                                     </div>
                                 </div>
                             </div>
