@@ -4411,6 +4411,7 @@ Routing-tool directions options.
 |serviceId|yes|String||Which service should be used for the request.|false|
 |speedProfile|no|String|"CAR"|Which speed profile should be selected by default.|false|
 |preference|no|String|"RECOMMENDED"|Which type of directions should be used by default.|false|
+|customPreferences|nein|**[customPreferences](#markdown-header-portalconfigmenutoolroutingdirectionssettingscustompreferences)**||Possibility to define additional preferences for the different speed profiles (additionally to the BKG service)  (❗ requires own modified backend ❗)|false|
 |styleRoute|no|**[styleRoute](#markdown-header-portalconfigmenutoolroutingdirectionssettingsstyleroute)**||Stylerouteoptions|false|
 |styleWaypoint|no|**[styleWaypoint](#markdown-header-portalconfigmenutoolroutingdirectionssettingsstylewaypoint)**||Stylewaypointoptions|false|
 |styleAvoidAreas|no|**[styleAvoidAreas](#markdown-header-portalconfigmenutoolroutingdirectionssettingsstyleavoidareas)**||Styleavoidareasoptions|false|
@@ -4425,6 +4426,9 @@ Routing-tool directions options.
         "serviceId": "bkg_ors",
         "speedProfile": "CAR",
         "preference": "RECOMMENDED",
+          "customPreferences": {
+                "CYCLING": ["RECOMMENDED", "SHORTEST", "GREEN"]
+        },
         "styleRoute": {
             "fillColor": [255, 44, 0],
             "width": 6,
@@ -4462,7 +4466,28 @@ Routing-tool directions options.
 ```
 
 ***
+#### Portalconfig.menu.tool.routing.directionsSettings.customPreferences
 
+Routing-tool directions route customPreferences.
+Possibility to define additional preferences for the different speed profiles (additionally to the BKG service)  (❗ requires own modified backend ❗)
+
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|speedProfile|nein|String[]|-|Which preferences should be available for the speedProfile.|false|
+
+**Beispiel**
+```
+#!json
+{
+    "customPreferences": {
+       "CYCLING": ["RECOMMENDED", "SHORTEST", "GREEN"],
+       "CAR": ["RECOMMENDED", "SHORTEST", "GREEN"]
+    }
+}
+```
+
+***
 #### Portalconfig.menu.tool.routing.directionsSettings.styleRoute
 
 Routing-tool directions route style options.

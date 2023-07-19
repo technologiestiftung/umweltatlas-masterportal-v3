@@ -14,7 +14,7 @@ import routingOrsAvoidOption from "../avoidoptions/routing-ors-avoidoptions";
  * @returns {String} translated service value
  */
 function routingOrsPreference (preference, speedProfile) {
-    const preferenceConfigs = store.state.configJson?.Portalconfig.menu.tools.children.routing.directionsSettings.preferences;
+    const preferenceConfigs = store.state.configJson?.Portalconfig.menu.tools.children.routing.directionsSettings.customPreferences;
 
     if (preferenceConfigs && preferenceConfigs[speedProfile]?.includes(preference)) {
         return preference.toLowerCase();

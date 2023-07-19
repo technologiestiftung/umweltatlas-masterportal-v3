@@ -307,7 +307,7 @@ describe("src/modules/tools/routing/utils/directions/routing-ors-directions.js",
                             children: {
                                 routing: {
                                     directionsSettings: {
-                                        preferences: {
+                                        customPreferences: {
                                             CYCLING: ["GREEN", "RECOMMENDED"]
                                         }
                                     }
@@ -322,7 +322,7 @@ describe("src/modules/tools/routing/utils/directions/routing-ors-directions.js",
 
             expect(result).to.eql("green");
 
-            store.state.configJson.Portalconfig.menu.tools.children.routing.directionsSettings.preferences = undefined;
+            store.state.configJson.Portalconfig.menu.tools.children.routing.directionsSettings.customPreferences = undefined;
         });
         it("should lowercase preferences without configJson", async () => {
             const result = routingOrsPreference("RECOMMENDED", "CYCLING");

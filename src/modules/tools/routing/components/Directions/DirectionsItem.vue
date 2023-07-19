@@ -55,7 +55,7 @@ export default {
     },
     async created () {
         this.initDirections();
-        this.preferencesFromConfig = this.configJson.Portalconfig.menu.tools.children.routing?.directionsSettings?.preferences;
+        this.preferencesFromConfig = this.configJson.Portalconfig.menu.tools.children.routing?.directionsSettings?.customPreferences;
     },
     beforeDestroy () {
         this.closeDirections();
