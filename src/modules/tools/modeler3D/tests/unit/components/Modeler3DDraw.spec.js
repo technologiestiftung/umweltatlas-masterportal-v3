@@ -38,14 +38,15 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
         entities = {
             getById: sinon.stub().returns(entity),
             add: sinon.stub(),
-            values: [{id: "FloatingPointId", positionIndex: 0}]
+            values: [{id: "FloatingPointId", positionIndex: 0, cylinder: {length: 4}}]
         },
         scene = {
             camera: {
                 getPickRay: sinon.stub().returns(pickRayResult)
             },
             globe: {
-                pick: sinon.stub().returns({})
+                pick: sinon.stub().returns({}),
+                getHeight: sinon.stub().returns(5)
             },
             sampleHeight: sinon.stub()
         },
@@ -75,6 +76,15 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
         mapCollection.addMap(map3D, "3D");
 
         global.Cesium = {
+            Color: {
+                ALICEBLUE: {
+                    withAlpha: () => "#F0F8FF"
+                }},
+            CallbackProperty: sinon.stub(),
+            ColorMaterialProperty: sinon.stub(),
+            ShadowMode: {
+                ENABLED: 1
+            },
             defined: sinon.stub().returns(true),
             Cartographic: {
                 toCartesian: () => ({
@@ -83,6 +93,11 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
                     z: 5107613.232959453
                 }),
                 fromDegrees: () => ({
+                    longitude: 0.17443853256965697,
+                    latitude: 0.9346599366554966,
+                    height: 6.134088691520464
+                }),
+                fromCartesian: () => ({
                     longitude: 0.17443853256965697,
                     latitude: 0.9346599366554966,
                     height: 6.134088691520464
@@ -105,9 +120,11 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
                 }
             }
         });
+        wrapper = shallowMount(Modeler3DDrawComponent, {store, localVue});
 
         store.commit("Tools/Modeler3D/setActive", true);
         store.commit("Tools/Modeler3D/setCurrentView", "draw");
+        store.commit("Tools/Modeler3D/setCylinderId", "FloatingPointId");
     });
 
     afterEach(() => {
@@ -116,11 +133,10 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
         if (wrapper) {
             wrapper.destroy();
         }
+        entities.values = [{id: "FloatingPointId", positionIndex: 0, cylinder: {length: 4}}];
     });
 
     describe("renders Modeler3DDraw", async () => {
-        wrapper = shallowMount(Modeler3DDrawComponent, {store, localVue});
-
         expect(wrapper.find("#modeler3D-draw-tool").exists()).to.be.true;
         expect(wrapper.find("#tool-modeler3D-geometry").exists()).to.be.true;
         expect(wrapper.find("#modeler3D-draw-name").exists()).to.be.true;
@@ -148,10 +164,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
                 endPosition: {x: 0, y: 0}
             };
 
-            wrapper = shallowMount(Modeler3DDrawComponent, {store, localVue});
             wrapper.vm.clampToGround = true;
-            store.commit("Tools/Modeler3D/setCylinderId", "FloatingPointId");
-
             wrapper.vm.onMouseMove(mouseMoveEvent);
 
             expect(scene.camera.getPickRay.calledOnceWith(mouseMoveEvent.endPosition)).to.be.true;
@@ -165,15 +178,41 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
                 endPosition: {x: 0, y: 0}
             };
 
-            wrapper = shallowMount(Modeler3DDrawComponent, {store, localVue});
             wrapper.vm.clampToGround = false;
-            store.commit("Tools/Modeler3D/setCylinderId", "FloatingPointId");
-
             wrapper.vm.onMouseMove(mouseMoveEvent);
 
             expect(document.body.style.cursor).to.equal("copy");
             expect(wrapper.vm.currentPosition).to.eql(Cartesian3Coordinates);
             expect(wrapper.vm.activeShapePoints[0]).to.eql(Cartesian3Coordinates);
         });
+    });
+    it("should add new geometry position and call drawShape when activeShapePoints length is 1", () => {
+        const mockShape = {
+            id: 1,
+            name: "Mock Shape",
+            wasDrawn: true,
+            clampToGround: false,
+            polygon: {
+                height: 10,
+                extrudedHeight: 0
+            }
+        };
+
+        wrapper.vm.clampToGround = true;
+        entities.values.push(mockShape);
+        wrapper.vm.activeShapePoints = [{x: 100, y: 200, z: 300}];
+        global.Cesium.ShadowMode = {
+            ENABLED: 1
+        };
+        global.Cesium.HeightReference = {
+            NONE: 0
+        };
+
+        wrapper.vm.addGeometryPosition();
+
+        expect(scene.globe.getHeight.calledOnce).to.be.true;
+        expect(scene.sampleHeight.called).to.be.false;
+        expect(scene.globe.pick.called).to.be.false;
+        expect(wrapper.vm.activeShapePoints).to.have.lengthOf(1);
     });
 });

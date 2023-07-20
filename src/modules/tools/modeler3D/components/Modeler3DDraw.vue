@@ -171,7 +171,7 @@ export default {
             const entities = this.entities,
                 models = this.drawnModels,
                 lastElement = entities.values.slice().pop(),
-                lastId = lastElement?.id,
+                lastId = lastElement ? lastElement.id : null,
                 positionData = new Cesium.CallbackProperty(() => {
                     if (this.selectedGeometry === "polygon") {
                         return new Cesium.PolygonHierarchy(this.activeShapePoints);
