@@ -15,6 +15,7 @@
 ### Changed
  - dependencies:
          - cesium to @cesium/engine
+         - @masterportal/masterportalapi: 2.20.0 to 2.21.0
 
 ### Deprecated
 
