@@ -1,8 +1,5 @@
 <script>
-import {mapActions, mapGetters, mapMutations} from "vuex";
-import actions from "../../store/actionsModeler3D";
-import getters from "../../store/gettersModeler3D";
-import mutations from "../../store/mutationsModeler3D";
+import {mapActions, mapMutations} from "vuex";
 
 export default {
     name: "EntityList",
@@ -31,12 +28,9 @@ export default {
             isHovering: ""
         };
     },
-    computed: {
-        ...mapGetters("Tools/Modeler3D", Object.keys(getters))
-    },
     methods: {
-        ...mapActions("Tools/Modeler3D", Object.keys(actions)),
-        ...mapMutations("Tools/Modeler3D", Object.keys(mutations))
+        ...mapActions("Tools/Modeler3D", ["confirmDeletion"]),
+        ...mapMutations("Tools/Modeler3D", ["setCurrentModelId"])
     }
 };
 </script>
