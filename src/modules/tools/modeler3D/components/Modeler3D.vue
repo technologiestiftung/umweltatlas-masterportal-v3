@@ -879,6 +879,14 @@ export default {
         border: 1px solid #DDDDDD;
     }
 
+    .nav-link {
+        font-size: $font_size_big;
+    }
+
+    .accordion-button {
+        font-size: 0.95rem;
+    }
+
     .cta {
         margin-bottom:12px;
     }
