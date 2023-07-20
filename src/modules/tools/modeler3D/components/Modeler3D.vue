@@ -672,14 +672,15 @@ export default {
             if (this.mouseCoordinate) {
                 const transformedCoordinates = proj4(proj4("EPSG:25832"), proj4("EPSG:4326"), [this.mouseCoordinate[0], this.mouseCoordinate[1]]),
                     cartographic = Cesium.Cartographic.fromDegrees(transformedCoordinates[0], transformedCoordinates[1]),
-                    povCylinder = this.entities.getById(this.cylinderId),
-                    currentCartesian = Cesium.Cartographic.toCartesian(cartographic);
+                    povCylinder = this.entities.getById(this.cylinderId);
+                let currentCartesian;
 
                 if (cartographic) {
+                    cartographic.height = this.scene.sampleHeight(cartographic, [povCylinder]);
+                    currentCartesian = Cesium.Cartographic.toCartesian(cartographic);
+
                     document.body.style.cursor = "copy";
                 }
-
-                cartographic.height = this.scene.sampleHeight(cartographic, [povCylinder]);
 
                 if (!Cesium.Cartesian3.equals(this.currentCartesian, currentCartesian)) {
                     this.currentCartesian = currentCartesian;
