@@ -477,12 +477,10 @@
                 },
                 "options": {
                     "captions": {
-                        "buttonDisabledText": "Clique primeiro numa localização no mapa.",
                         "enableFunction": "Ativar/desativar",
                         "hideObjectInfo": "Se esta opção estiver activada, pode ocultar edifícios existentes clicando em.",
                         "hideSwitchLabel": "Ocultar Prédios com Clique do Mouse",
-                        "pov": "Saltar para a vista de peões",
-                        "povInfo": "Aqui tem a possibilidade de se colocar na perspetiva de um peão. Basta clicar na posição desejada no mapa e confirmar a sua seleção clicando no botão. <br><br>Nesta vista, pode olhar em volta com o rato. Para voltar à posição inicial, prima a tecla de escape (ESC).",
+                        "povInfo": "Aqui tem a possibilidade de se colocar na perspetiva de um peão. Assim que colocar o cilindro no mapa com um clique do rato, entrará na vista pedestre neste ponto. <br><br>Nesta vista, pode olhar em volta com o rato. Para voltar à posição inicial, prima a tecla de escape (ESC).",
                         "povTitle": "Perspectiva de pedestres",
                         "visibilityTitle": "Opções de visibilidade"
                     }

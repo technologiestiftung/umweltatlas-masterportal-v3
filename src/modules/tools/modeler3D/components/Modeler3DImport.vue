@@ -20,11 +20,6 @@ export default {
         RoutingLoadingSpinner
     },
     emits: ["moveEntity"],
-    data () {
-        return {
-            isHovering: false
-        };
-    },
     computed: {
         ...mapGetters(["namedProjections"]),
         ...mapGetters("Tools/Modeler3D", Object.keys(getters))
@@ -221,6 +216,7 @@ export default {
                                 new Cesium.Color(color.red, color.green, color.blue, color.alpha)
                             ),
                             width: properties.width,
+                            clampToGround: properties.clampToGround,
                             positions: coordinates.map(point => Cesium.Cartesian3.fromDegrees(point[0], point[1], point[2]))
                         };
                     }

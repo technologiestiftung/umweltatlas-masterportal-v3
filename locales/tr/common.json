@@ -486,12 +486,10 @@
                 },
                 "options": {
                     "captions": {
-                        "buttonDisabledText": "Lütfen önce haritadaki bir konuma tıklayın.",
                         "enableFunction": "Etkinleştir/devre dışı bırak",
                         "hideObjectInfo": "Bu seçenek açıksa, mevcut binaları tıklayarak gizleyebilirsiniz.",
                         "hideSwitchLabel": "Fare Tıklamasıyla Binaları Gizle",
-                        "pov": "Yaya görünümüne atla",
-                        "povInfo": "Burada kendinizi bir yayanın yerine koyma imkanına sahipsiniz. Harita üzerinde istediğiniz konuma tıklamanız ve düğmeye tıklayarak seçiminizi onaylamanız yeterlidir. <br><br>Bu görünümde fare ile etrafa bakabilirsiniz. Başlangıç konumuna dönmek için kaçış tuşuna (ESC) basın.",
+                        "povInfo": "Burada kendinizi bir yayanın yerine koyma imkanına sahipsiniz. Silindiri bir fare tıklamasıyla haritaya yerleştirir yerleştirmez, bu noktada yaya görünümüne gireceksiniz. <br><br>Bu görünümde fare ile etrafa bakabilirsiniz. Başlangıç konumuna dönmek için kaçış tuşuna (ESC) basın.",
                         "povTitle": "Yaya bakış açısı",
                         "visibilityTitle": "Görünürlük seçenekleri"
                     }

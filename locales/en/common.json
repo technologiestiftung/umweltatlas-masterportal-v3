@@ -669,12 +669,10 @@
                 },
                 "options": {
                     "captions": {
-                        "buttonDisabledText": "Please click first on a place in the map.",
                         "enableFunction": "Activate/deactivate",
                         "hideObjectInfo": "If this option is turned on, you can hide existing buildings by clicking.",
                         "hideSwitchLabel": "Hide Buildings with Mouse Click",
-                        "pov": "Jump to pedestrian view",
-                        "povInfo": "Here you have the possibility to put yourself in the view of a pedestrian. Simply click on the desired position in the map and confirm your selection by clicking on the button. <br><br>In this view you can look around with the mouse. To return to the starting position, press the Escape key (ESC).",
+                        "povInfo": "Here you have the possibility to put yourself in the view of a pedestrian. As soon as you set the cylinder in the map with a mouse click, you will enter the pedestrian view at this point. <br><br>In this view you can look around with the mouse. To return to the starting position, press the Escape key (ESC).",
                         "povTitle": "Pedestrian perspective",
                         "visibilityTitle": "Visibility Options"
                     }

@@ -487,12 +487,10 @@
                 },
                 "options": {
                     "captions": {
-                        "buttonDisabledText": "Begünn di toeerst an en Steed in de Kaart.",
                         "enableFunction": "Funktion de-/aktivieren",
                         "hideObjectInfo": "Wenn anmaakt, kannst du dat bestännige Gebüüd mit en Klk-Hint anmaken.",
                         "hideSwitchLabel": "Buudenge verstecken mit Mausklick",
-                        "pov": "To `n Footgängeransicht springen",
-                        "povInfo": "Hier hest du de Mööglichkeit, sik in de Sicht vun en Footgänger to versetten. Gah eenfach op de vörsehn Positschoon op de Kaart un beglööv dien Utwahl dör Anklicken vun den Knoop. <br><br>In düsse Ansicht kannst du sück mit de Muus ümkieken. Üm torüch to de Utgangspositschoon torüchtokehren, drück de Escape-Taste (ESC).",
+                        "povInfo": "Hier hest du de Mööglichkeit, sik in de Sicht vun en Footgänger to versetten. Sodraad du den Zylinder mit en Muusklick op de Kaart settst, hest du an düsse Steed in de Footgängeransicht keemen. <br><br>In düsse Ansicht kannst du sück mit de Muus ümkieken. Üm torüch to de Utgangspositschoon torüchtokehren, drück de Escape-Taste (ESC).",
                         "povTitle": "Fußgängerperspektive",
                         "visibilityTitle": "Sichtborkeitsoptschonen"
                     }
