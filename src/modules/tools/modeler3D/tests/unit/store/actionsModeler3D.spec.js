@@ -19,7 +19,15 @@ describe("Actions", () => {
     beforeEach(() => {
         mapCollection.clear();
         mapCollection.addMap(map3D, "3D");
+
         global.Cesium = {
+            PolygonGraphics: function () {
+                this.height = {getValue: sinon.stub().returns(5.0)};
+                this.extrudedHeight = {getValue: sinon.stub().returns(20.0)};
+            },
+            ModelGraphics: function () {
+                this.scale = {getValue: sinon.stub().returns(1.0)};
+            },
             Cartesian3: {
                 fromDegrees: () => ({
                     x: 3739310.9273738265,
@@ -189,7 +197,9 @@ describe("Actions", () => {
                 };
 
             entities = {
-                getById: sinon.stub().returns({position: {getValue: sinon.stub().returns({x: 10, y: 20, z: 30})}})
+                getById: sinon.stub().returns({
+                    position: {getValue: sinon.stub().returns({x: 10, y: 20, z: 30})}
+                })
             };
             getters = {
                 scene: scene,
@@ -200,7 +210,7 @@ describe("Actions", () => {
 
             expect(entities.getById.calledWith("entityId")).to.be.true;
             expect(dispatch.calledWith("transformFromCartesian", {x: 10, y: 20, z: 30})).to.be.true;
-            expect(commit.calledWith("setHeight", undefined)).to.be.true;
+            expect(commit.called).to.be.false;
         });
 
         it("should not transform entity position when it doesn't exist", () => {

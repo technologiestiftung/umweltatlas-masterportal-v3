@@ -25,7 +25,7 @@ export default {
     },
     computed: {
         ...mapGetters("Tools/Modeler3D", Object.keys(getters)),
-        ...mapGetters("Maps", ["altitude", "mouseCoordinate"])
+        ...mapGetters("Maps", ["mouseCoordinate"])
     },
     mounted () {
         this.setSelectedFillColor(constants.colorOptions[0].color);
@@ -110,17 +110,11 @@ export default {
             let floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
 
             if (this.activeShapePoints.length === 1) {
-                this.setHeight(this.altitude);
-            }
-            if (this.selectedGeometry === "polygon") {
-                if (this.activeShapePoints.length === 2) {
-                    this.drawShape();
-                }
-            }
-            else if (this.selectedGeometry === "line") {
-                if (this.activeShapePoints.length === 1) {
-                    this.drawShape();
-                }
+                this.setHeight(this.clampToGround ?
+                    this.scene.globe.getHeight(Cesium.Cartographic.fromCartesian(this.currentPosition)) :
+                    this.scene.sampleHeight(Cesium.Cartographic.fromCartesian(this.currentPosition), [floatingPoint])
+                );
+                this.drawShape();
             }
             const entity = this.entities.getById(this.shapeId);
 
@@ -191,6 +185,7 @@ export default {
                     id: lastId ? lastId + 1 : 1,
                     name: this.drawName ? this.drawName : i18next.t("common:modules.tools.modeler3D.draw.captions.drawing"),
                     wasDrawn: true,
+                    clampToGround: this.clampToGround,
                     polyline: {
                         material: new Cesium.ColorMaterialProperty(
                             Cesium.Color[this.selectedFillColor].withAlpha(this.opacity)
@@ -420,7 +415,7 @@ export default {
                         class="col-md-5 col-form-label"
                         for="tool-modeler3D-extrudedHeight"
                     >
-                        {{ $t("modules.tools.modeler3D.draw.captions.extrudedHeight") }}
+                        {{ $t("modules.tools.modeler3D.draw.captions.extrudedHeight") + " [m]" }}
                     </label>
                     <div
                         v-if="selectedGeometry === 'polygon'"
@@ -439,7 +434,7 @@ export default {
                         class="col-md-5 col-form-label"
                         for="tool-modeler3D-lineWidth"
                     >
-                        {{ $t("modules.tools.modeler3D.draw.captions.lineWidth") }}
+                        {{ $t("modules.tools.modeler3D.draw.captions.lineWidth") + " [Pixel]" }}
                     </label>
                     <div
                         v-if="selectedGeometry === 'line'"

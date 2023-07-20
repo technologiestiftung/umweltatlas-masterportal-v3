@@ -658,7 +658,7 @@
                         "extrudedHeight": "Extrudierte Höhe",
                         "fillColor": "Füllfarbe",
                         "geometry": "Geometrie",
-                        "introInfo": "Mit dem Zeichenwerkzeug können Sie unterschiedliche geometrische Formen in die Karte zeichnen.",
+                        "introInfo": "Über diese Funktion können Sie 3D-Objekte in die Karte zeichnen und diese individuell bearbeiten und gestalten. Sie können so Gebäude skizieren und anschließend z.B. Schattensimulationen durchführen.<br><br>Das Tool ermöglicht zudem das Zeichnen auf bereits bestehenden Gebäuden sowie importierten Objekten. Voraussetzung ist, dass Sie die Geländehöhe aktiviert haben.<br><br>Über die Exportfunktion können Sie Ihre Entwürfe exportieren und zu einem späteren Zeitpunkt über den Importer wieder in die Anwendung laden.",
                         "outlineColor": "Umrissfarbe",
                         "transparency": "Transparenz",
                         "lineWidth": "Strichstärke"
@@ -671,9 +671,10 @@
                 "options": {
                     "captions": {
                         "enableFunction": "Funktion de-/aktivieren",
-                        "hideObjectInfo": "Bei eingeschalteter Option können Sie bestehende Gebäude mit einem Klick ausblenden.",
+                        "hideObjectInfo": "Bestandsgebäude können in ihrer Darstellung deaktiviert werden, um so z.B. importierte Elemente auf dem entsprechenden Grundstück zu platzieren.<br><br>Starten Sie diese Funktion über Aktivieren und klicken Sie auf die gewünschten Objekte, sodass es nun in der Ansicht deaktiviert wird.<br><br>Alle ausgeblendeten Objekte erscheinen in einer Liste und können dort wieder aktiviert werden. ",
                         "hideSwitchLabel": "Gebäude per Mausklick ausblenden",
-                        "povInfo": "Hier haben Sie die Möglichkeit, sich in die Sicht eines Fußgängers zu versetzen. Sobald Sie den Zylinder in der Karte mit einem Mausklick setzen, gelangen Sie an dieser Stelle in die Fußgängeransicht. <br><br>In dieser Ansicht können Sie sich mit der Maus umsehen. Um zur Ausgangsposition zurückzukehren, drücken Sie die Escape-Taste (ESC).",
+                        "pov": "Zur Fußgängeransicht springen",
+                        "povInfo": "Hier haben Sie die Möglichkeit die Sichtperspektive von Fußgänger*innen einzunehmen und sich so in der Stadt umzuschauen.<br><br>Navigieren Sie an die gewünschte Position, sobald Sie den Zylinder in der Karte mit einem Mausklick setzen, gelangen Sie an dieser Stelle in die Fußgängeransicht.<br><br>Mit Mausbewegungen können Sie Ihr Sichtfeld verändern. Um zur Ausgangsposition zurückzukehren, drücken Sie die Escape-Taste (ESC).",
                         "povTitle": "Fußgängerperspektive",
                         "visibilityTitle": "Sichtbarkeitsoptionen"
                     }
