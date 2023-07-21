@@ -26,7 +26,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
             direction: {}
         },
         entity = {
-            id: 1,
+            id: "1",
             orientation: null,
             position: {
                 getValue: () => {
@@ -42,7 +42,8 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
         },
         scene = {
             camera: {
-                getPickRay: sinon.stub().returns(pickRayResult)
+                getPickRay: sinon.stub().returns(pickRayResult),
+                flyTo: sinon.spy()
             },
             globe: {
                 pick: sinon.stub().returns({}),
@@ -70,6 +71,10 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
         wrapper;
 
     beforeEach(() => {
+        global.URL = {
+            createObjectURL: sinon.stub(),
+            revokeObjectURL: sinon.stub()
+        };
         originalCreateCylinder = Modeler3D.actions.createCylinder;
         Modeler3D.actions.createCylinder = sinon.spy();
         mapCollection.clear();
@@ -86,6 +91,10 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
                 ENABLED: 1
             },
             defined: sinon.stub().returns(true),
+            Cartesian3: sinon.stub(),
+            Math: {
+                toDegrees: () => 9.99455657887449
+            },
             Cartographic: {
                 toCartesian: () => ({
                     x: 3739310.9273738265,
@@ -214,5 +223,35 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
         expect(scene.sampleHeight.called).to.be.false;
         expect(scene.globe.pick.called).to.be.false;
         expect(wrapper.vm.activeShapePoints).to.have.lengthOf(1);
+    });
+    it("should export the GeoJson", () => {
+        entities.values = [
+            {
+                id: "FloatingPointId",
+                positionIndex: 0,
+                polyline: {
+                    material: {
+                        color: {
+                            getValue: () => {
+                                return "WHITE";
+                            }
+                        }
+                    },
+                    positions: {
+                        getValue: () => {
+                            return [4, 3, 3];
+                        }
+                    },
+                    width: 2
+                }
+            }
+        ];
+        wrapper.vm.exportToGeoJson();
+        wrapper.vm.downloadGeoJson = sinon.spy();
+
+        expect(wrapper.vm.downloadGeoJson.calledWith(sinon.match(JSON.stringify(sinon.match({
+            type: "FeatureCollection",
+            features: sinon.match.array
+        })))));
     });
 });
