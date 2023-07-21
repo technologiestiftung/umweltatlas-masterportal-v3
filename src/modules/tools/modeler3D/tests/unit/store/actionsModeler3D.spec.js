@@ -19,6 +19,7 @@ describe("Actions", () => {
     beforeEach(() => {
         mapCollection.clear();
         mapCollection.addMap(map3D, "3D");
+
         global.Cesium = {
             PolygonGraphics: function (options) {
                 this.extrudedHeight = {
@@ -328,7 +329,9 @@ describe("Actions", () => {
                 };
 
             entities = {
-                getById: sinon.stub().returns({position: {getValue: sinon.stub().returns({x: 10, y: 20, z: 30})}})
+                getById: sinon.stub().returns({
+                    position: {getValue: sinon.stub().returns({x: 10, y: 20, z: 30})}
+                })
             };
             getters = {
                 scene: scene,

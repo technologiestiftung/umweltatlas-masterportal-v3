@@ -410,12 +410,11 @@
                         "backToList": "Listeye Geri Dön",
                         "delete": "Modeli Sil",
                         "deletionTitle": "3D Modeli Sil \"{{name}}\"",
-                        "editInfo": "Seçili modelin konumunu ve döndürmesini değiştirin.",
+                        "editInfo": "Seçilen modelin özelliklerini değiştirin.",
                         "editModel": "3D Modeli Düzenle \"{{name}}\"",
                         "incrementTooltip": "Değeri daha kaba bir şekilde artırmak için Shift tuşunu basılı tutun.",
                         "modelName": "Model Adı",
-                        "pickupPlace": "Almak veya yerleştirmek için bir içe aktarılan nesneye çift tıklayın.",
-                        "povInfo": "Burada kendinizi bir yayanın yerine koyma imkanına sahipsiniz. Harita üzerinde istediğiniz konuma tıklamanız ve düğmeye tıklayarak seçiminizi onaylamanız yeterlidir. <br><br>Bu görünümde fare ile etrafa bakabilirsiniz. Başlangıç konumuna dönmek için kaçış tuşuna (ESC) basın.",
+                        "pickupPlace": "Bir nesneyi almak veya yerleştirmek için çift tıklayın.",
                         "projectionInfo": "Dikkat! WGS84 koordinat sistemi kullanırken hatalar oluşabilir. Ondalık gösterimi kullanmanızı öneririz.",
                         "rotationPlaceholder": "Artış/Azalış adımları",
                         "rotation": "Döndürme",
@@ -455,7 +454,9 @@
                         "successPartly": "\"{{filename}}\" dosyası kısmen içe aktarıldı."
                     },
                     "captions": {
-                        "introFormats": "glTF dosyaları (.gltf), OBJ dosyaları (.obj) veya Collada dosyaları (.dae) içe aktarabilirsiniz.",
+                        "introInfo": "Importer ile dijital kentsel tasarımları şehrin mevcut 3D modeline yükleyebilir, görselleştirebilir ve analiz edebilirsiniz.",
+                        "introInfo2": "İstediğiniz dosyayı sürükleyip bırakarak veya alternatif olarak tarayıcının açık diyaloğu ile içe aktarın.",
+                        "introFormats": "GlTF (*.gltf), OBJ (*.obj) Collada (*.dae) veya GeoJSON dosyaları içe aktarılabilir.",
                         "successfullyImportedLabel": "İçe Aktarılan 3D Modeller:"
                     }
                 },
@@ -464,6 +465,7 @@
                         "beginModelling": "3D Nesne Modelle",
                         "clampToGround": "Yükseklik modeline hizala",
                         "color": "Renk",
+                        "controlInfo": "Noktaları ayarlamak için farenin sol tuşuyla tıklayın. Çizimi bitirmek için sağ tıklayın.",
                         "drawing": "Çizim",
                         "drawName": "İsim",
                         "drawnModels": "Çizilen Modeller:",
@@ -472,6 +474,7 @@
                         "extrudedHeight": "Yükseklik İçeren",
                         "fillColor": "Dolgu Rengi",
                         "geometry": "Geometri",
+                        "introInfo": "Çizim aracı ile harita üzerinde farklı geometrik şekiller çizebilirsiniz.",
                         "outlineColor": "Kontur Rengi",
                         "transparency": "Saydamlık",
                         "lineWidth": "Çizgi Kalınlığı"
@@ -481,17 +484,23 @@
                         "line": "Çizgi"
                     }
                 },
+                "options": {
+                    "captions": {
+                        "enableFunction": "Etkinleştir/devre dışı bırak",
+                        "hideObjectInfo": "Bu seçenek açıksa, mevcut binaları tıklayarak gizleyebilirsiniz.",
+                        "hideSwitchLabel": "Fare Tıklamasıyla Binaları Gizle",
+                        "povInfo": "Burada kendinizi bir yayanın yerine koyma imkanına sahipsiniz. Silindiri bir fare tıklamasıyla haritaya yerleştirir yerleştirmez, bu noktada yaya görünümüne gireceksiniz. <br><br>Bu görünümde fare ile etrafa bakabilirsiniz. Başlangıç konumuna dönmek için kaçış tuşuna (ESC) basın.",
+                        "povTitle": "Yaya bakış açısı",
+                        "visibilityTitle": "Görünürlük seçenekleri"
+                    }
+                },
                 "nav": {
                     "drawTitle": "Çiz",
                     "importTitle": "İçe Aktar",
                     "options": "Seçenekler"
                 },
                 "hiddenObjectsLabel": "Gizli Binalar:",
-                "hideSwitchLabel": "Fare Tıklamasıyla Binaları Gizle",
-                "title": "3D Modelleyici",
-                "activatePov": "Etkinleştir",
-                "pov": "Yaya görünümüne atla",
-                "buttonDisabledText": "Lütfen önce haritadaki bir konuma tıklayın."
+                "title": "3D Modelleyici"
             },
             "parcelSearch": {
                 "wrongConfig": "Geçersiz veya eksik yapılandırma",

@@ -2,13 +2,6 @@
 export default {
     name: "BasicFileImport",
     props: {
-        introInfo: {
-            type: String,
-            default () {
-                return i18next.t("common:share-components.import.introInfo");
-            },
-            required: false
-        },
         dropZone: {
             type: String,
             default () {
@@ -118,14 +111,7 @@ export default {
 
 <template lang="html">
     <div id="basic-file-import">
-        <p
-            class="cta"
-            v-html="introInfo"
-        />
-        <p
-            class="cta"
-            v-html="introFormats"
-        />
+        <slot />
         <div
             class="vh-center-outer-wrapper drop-area-fake"
             :class="dropZoneAdditionalClass"

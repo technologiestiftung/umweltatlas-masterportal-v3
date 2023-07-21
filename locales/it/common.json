@@ -579,12 +579,11 @@
                         "backToList": "Torna alla lista",
                         "delete": "Elimina modello",
                         "deletionTitle": "Elimina modello 3D \"{{name}}\"",
-                        "editInfo": "Modifica la posizione e la rotazione del modello selezionato.",
+                        "editInfo": "Modificare gli attributi del modello selezionato.",
                         "editModel": "Modifica modello 3D \"{{name}}\"",
                         "incrementTooltip": "Tenere premuto Shift per aumentare il valore in modo più grossolano.",
                         "modelName": "Nome del modello",
-                        "pickupPlace": "Fai doppio clic su un oggetto importato per prenderlo o posizionarlo.",
-                        "povInfo": "Qui avete la possibilità di mettervi nella visuale di un pedone. È sufficiente fare clic sulla posizione desiderata sulla mappa e confermare la selezione facendo clic sul pulsante. <br><br>In questa visuale è possibile guardarsi intorno con il mouse. Per tornare alla posizione iniziale, premere il tasto di escape (ESC).",
+                        "pickupPlace": "Fare doppio clic su un oggetto per raccoglierlo o posizionarlo.",
                         "projectionInfo": "Attenzione! Quando si utilizza il sistema di coordinate WGS84, potrebbero verificarsi imprecisioni. Si consiglia di utilizzare la notazione decimale.",
                         "rotationPlaceholder": "Incremento/Decremento passi",
                         "rotation": "Rotazione",
@@ -624,7 +623,9 @@
                         "successPartly": "Il file \"{{filename}}\" è stato importato parzialmente."
                     },
                     "captions": {
-                        "introFormats": "È possibile importare file glTF (.gltf), file OBJ (.obj) o file Collada (.dae).",
+                        "introInfo": "Con l'Importer è possibile caricare progetti urbani digitali nel modello 3D esistente della città, visualizzarli e analizzarli.",
+                        "introInfo2": "Importare il file desiderato semplicemente trascinandolo o in alternativa con la finestra di dialogo aperta dal browser.",
+                        "introFormats": "È possibile importare file glTF (.gltf), OBJ (.obj) Collada (.dae), o file GeoJSON (.geojson).",
                         "successfullyImportedLabel": "Modelli 3D importati:"
                     }
                 },
@@ -633,6 +634,7 @@
                         "beginModelling": "Modellare oggetto 3D",
                         "clampToGround": "Allineare al modello del terreno",
                         "color": "Colore",
+                        "controlInfo": "Fare clic con il pulsante sinistro del mouse per impostare i punti. Fare clic con il pulsante destro del mouse per terminare il disegno.",
                         "drawing": "Disegno",
                         "drawName": "Nome",
                         "drawnModels": "Modelli disegnati:",
@@ -641,6 +643,7 @@
                         "extrudedHeight": "Altezza estrusa",
                         "fillColor": "Colore di riempimento",
                         "geometry": "Geometria",
+                        "introInfo": "Con lo strumento di disegno è possibile disegnare diverse forme geometriche sulla mappa.",
                         "outlineColor": "Colore del contorno",
                         "transparency": "Trasparenza",
                         "lineWidth": "Spessore linea"
@@ -650,17 +653,23 @@
                         "line": "Linea"
                     }
                 },
+                "options": {
+                    "captions": {
+                        "enableFunction": "Attivare/disattivare",
+                        "hideObjectInfo": "Se questa opzione è attivata, è possibile nascondere gli edifici esistenti facendo clic.",
+                        "hideSwitchLabel": "Nascondi edifici con clic del mouse",
+                        "povInfo": "Qui avete la possibilità di mettervi nella visuale di un pedone. Non appena si posiziona il cilindro sulla mappa con un clic del mouse, si accede alla vista pedonale. <br><br>In questa visuale è possibile guardarsi intorno con il mouse. Per tornare alla posizione iniziale, premere il tasto di escape (ESC).",
+                        "povTitle": "Prospettiva pedonale",
+                        "visibilityTitle": "Opzioni di visibilità"
+                    }
+                },
                 "nav": {
                     "drawTitle": "Disegna",
                     "importTitle": "Importa",
                     "options": "Opzioni"
                 },
                 "hiddenObjectsLabel": "Edifici nascosti:",
-                "hideSwitchLabel": "Nascondi edifici con clic del mouse",
-                "title": "Modellatore 3D",
-                "activatePov": "Attivare",
-                "pov": "Vai alla vista pedonale",
-                "buttonDisabledText": "Cliccare prima su una località della mappa."
+                "title": "Modellatore 3D"
             },
             "parcelSearch": {
                 "wrongConfig": "Configurazione non valida o incompleta",

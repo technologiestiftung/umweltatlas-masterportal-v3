@@ -109,7 +109,7 @@ const actions = {
 
         if (entityPosition) {
             dispatch("transformFromCartesian", entityPosition);
-            if (entity.polygon) {
+            if (entity?.polygon instanceof Cesium.PolygonGraphics) {
                 commit("setHeight", entity.polygon.height.getValue());
             }
         }

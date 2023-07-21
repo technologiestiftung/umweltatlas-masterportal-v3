@@ -13,7 +13,7 @@ import store from "../../../../app-store";
 import crs from "@masterportal/masterportalapi/src/crs";
 import proj4 from "proj4";
 import {getGfiFeaturesByTileFeature} from "../../../../api/gfi/getGfiFeaturesByTileFeature";
-import {adaptCylinderToGround, adaptCylinderToEntity} from "./utils/draw";
+import {adaptCylinderToGround, adaptCylinderToEntity, adaptCylinderUnclamped} from "./utils/draw";
 
 let eventHandler = null;
 
@@ -31,8 +31,6 @@ export default {
             defaultTabClass: "",
             currentPosition: null,
             activeTabClass: "active",
-            isHovering: "",
-            povActive: false,
             currentCartesian: null,
             originalCursorStyle: null
         };
@@ -62,18 +60,13 @@ export default {
         optionsTabClasses: function () {
             return this.currentView === "" ? this.activeTabClass : this.defaultTabClass;
         },
-        // longitude und latitude getter der Map wurden gedreht, Bug in MasterportalApi!
-        longitudeFromClick: function () {
-            return this.longitude && this.povActive ? this.latitude.toFixed(4) : "";
-        },
-        latitudeFromClick: function () {
-            return this.latitude && this.povActive ? this.longitude.toFixed(4) : "";
-        },
-        altitudeFromClick: function () {
-            return this.altitude && this.povActive ? this.altitude.toFixed(2) : "";
-        },
-        povPossible: function () {
-            return this.longitude && this.latitude && this.altitude;
+        /**
+         * Checks if it is possible to enter point of view (POV) mode.
+         * Returns true if `longitude`, `latitude`, and `altitude` properties are defined and truthy, otherwise false.
+         * @returns {boolean} - Indicates whether POV mode is possible.
+         */
+        povPossible () {
+            return Boolean(this.longitude && this.latitude && this.altitude);
         }
     },
     watch: {
@@ -254,6 +247,11 @@ export default {
             wgs84ProjDez.getCode = () => "EPSG:4326-DG";
             projections.splice(index + 1, 0, wgs84ProjDez);
         },
+        /**
+         * Checks the map for pickable Cesium objects and changes the cursor on hover.
+         * @param {Event} event - The event object containing the position information.
+         * @returns {void}
+         */
         cursorCheck (event) {
             if (this.isDrawing) {
                 return;
@@ -357,6 +355,11 @@ export default {
                 }
             }
         },
+        /**
+         * Handles the mouse move event and performs actions when dragging a cylinder.
+         * @param {Event} event - The event object containing the position information.
+         * @returns {void}
+         */
         moveCylinder (event) {
             if (this.isDragging) {
                 const entities = this.entities,
@@ -574,7 +577,7 @@ export default {
                 const deltaY = -movement.endPosition.y + movement.startPosition.y,
                     deltaX = movement.endPosition.x - movement.startPosition.x,
 
-                    sensitivity = 0.005,
+                    sensitivity = 0.002,
                     pitch = Cesium.Math.clamp(scene.camera.pitch + sensitivity * deltaY, -Cesium.Math.PI_OVER_TWO, Cesium.Math.PI_OVER_TWO),
                     heading = scene.camera.heading + sensitivity * deltaX;
 
@@ -608,15 +611,107 @@ export default {
                         eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
                         document.removeEventListener("keydown", this.escapeKeyHandler);
                         document.body.style.cursor = this.originalCursorStyle;
+                        this.changeCursor();
                     }
                 });
             }
         },
+        resetPov () {
+            this.setPovActive(false);
+            this.entities.removeById(this.cylinderId);
+            document.body.style.cursor = this.originalCursorStyle;
+            eventHandler.setInputAction(this.selectObject, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+            eventHandler.setInputAction(this.cursorCheck, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+        },
+        /**
+         * Toggles the active state of a switch and performs related actions.
+         * If the provided ID is "povActiveSwitch" or the current state of `this.povActive` is true,
+         * it removes an entity by ID, resets the cursor style, and toggles `this.povActive`.
+         * Finally, it updates the cursor style and toggles the visibility of objects.
+         *
+         * @param {string} id - The ID of the switch.
+         * @returns {void}
+         */
         changeSwitches (id) {
-            if (id === "povActiveSwitch" || this.povActive) {
-                this.povActive = !this.povActive;
+            if (id === "povActiveSwitch") {
+                if (this.povActive) {
+                    this.resetPov();
+                }
+                else {
+                    this.setPovActive(true);
+                    this.setHideObjects(false);
+                    eventHandler.setInputAction(this.cursorCheck, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+                }
             }
-            this.setHideObjects(!this.hideObjects);
+            else if (id === "hideObjectsSwitch" || this.hideObjects) {
+                this.setHideObjects(!this.hideObjects);
+                this.resetPov();
+                // document.body.style.cursor = this.originalCursorStyle;
+            }
+
+        },
+        /**
+         * Event handler for click events.
+         * Updates the cursor style, removes the MOUSE_MOVE input action, and adds the selectObject function as the LEFT_CLICK input action.
+         * @returns {void}
+         */
+        clickHandler () {
+            document.body.style.cursor = this.originalCursorStyle;
+            eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+            eventHandler.setInputAction(this.selectObject, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+            this.positionPovCamera();
+        },
+        /**
+         * Event handler for move events.
+         * Transforms the mouse coordinates, retrieves the povCylinder by ID,
+         * updates the cursor style, samples the height at the transformed coordinates,
+         * and updates the currentCartesian position if it has changed.
+         * @returns {void}
+         */
+        moveHandler () {
+            if (this.mouseCoordinate) {
+                const transformedCoordinates = proj4(proj4("EPSG:25832"), proj4("EPSG:4326"), [this.mouseCoordinate[0], this.mouseCoordinate[1]]),
+                    cartographic = Cesium.Cartographic.fromDegrees(transformedCoordinates[0], transformedCoordinates[1]),
+                    povCylinder = this.entities.getById(this.cylinderId);
+                let currentCartesian;
+
+                if (cartographic) {
+                    cartographic.height = this.scene.sampleHeight(cartographic, [povCylinder]);
+                    currentCartesian = Cesium.Cartographic.toCartesian(cartographic);
+
+                    document.body.style.cursor = "copy";
+                }
+
+                if (!Cesium.Cartesian3.equals(this.currentCartesian, currentCartesian)) {
+                    this.currentCartesian = currentCartesian;
+                }
+            }
+        },
+        /**
+         * Changes the cursor and sets input actions based on the state of `this.povActive`.
+         * If `this.povActive` is true, it retrieves the povCylinder by ID and performs the following actions:
+         * - If the povCylinder doesn't exist, it creates a cylinder, sets its position, and assigns it to povCylinder.
+         * - It sets the moveHandler function as the input action for MOUSE_MOVE events.
+         * - It sets the clickHandler function as the input action for LEFT_CLICK events.
+         * @returns {void}
+         */
+        changeCursor () {
+            if (this.povActive) {
+                let povCylinder = this.entities.getById(this.cylinderId);
+
+                if (!povCylinder) {
+                    const payload = {
+                        posIndex: 0,
+                        length: 10
+                    };
+
+                    this.createCylinder(payload);
+                    povCylinder = this.entities.getById(this.cylinderId);
+                    povCylinder.position = new Cesium.CallbackProperty(() => adaptCylinderUnclamped(povCylinder, this.currentCartesian), false);
+                }
+                eventHandler.setInputAction(this.moveHandler, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+                eventHandler.setInputAction(this.clickHandler, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+            }
         }
     }
 };
@@ -651,7 +746,7 @@ export default {
                                 href="#"
                                 class="nav-link"
                                 :class="importTabClasses"
-                                @click.prevent="setCurrentView('import')"
+                                @click.prevent="setCurrentView('import'), resetPov()"
                             >{{ $t("modules.tools.modeler3D.nav.importTitle") }}</a>
                         </li>
                         <li
@@ -663,7 +758,7 @@ export default {
                                 href="#"
                                 class="nav-link"
                                 :class="drawTabClasses"
-                                @click.prevent="setCurrentView('draw')"
+                                @click.prevent="setCurrentView('draw'), resetPov()"
                             >{{ $t("modules.tools.modeler3D.nav.drawTitle") }}</a>
                         </li>
                         <li
@@ -675,7 +770,7 @@ export default {
                                 href="#"
                                 class="nav-link"
                                 :class="optionsTabClasses"
-                                @click.prevent="setCurrentView('')"
+                                @click.prevent="setCurrentView(''), resetPov()"
                             >{{ $t("modules.tools.modeler3D.nav.options") }}</a>
                         </li>
                     </ul>
@@ -687,76 +782,79 @@ export default {
                     <div
                         v-if="!currentView"
                         id="modeler3D-options-view"
+                        class="accordion"
                     >
-                        <div>
-                            <div class="form-check form-switch cta">
-                                <input
-                                    id="povActiveSwitch"
-                                    class="form-check-input"
-                                    type="checkbox"
-                                    role="switch"
-                                    :aria-checked="povActive"
-                                    :checked="povActive"
-                                    @change="changeSwitches('povActiveSwitch')"
+                        <div class="accordion-item">
+                            <h1
+                                id="options-headingOne"
+                                class="accordion-header"
+                            >
+                                <button
+                                    class="accordion-button"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#options-collapseOne"
+                                    aria-expanded="true"
+                                    aria-controls="options-collapseOne"
                                 >
-                                <label
-                                    class="form-check-label"
-                                    for="povActiveSwitch"
-                                >
-                                    {{ $t("modules.tools.modeler3D.activatePov") }}
-                                </label>
+                                    {{ $t("modules.tools.modeler3D.options.captions.visibilityTitle") }}
+                                </button>
+                            </h1>
+                            <div
+                                id="options-collapseOne"
+                                class="accordion-collapse collapse show"
+                                aria-labelledby="options-headingOne"
+                            >
+                                <div class="accordion-body">
+                                    <h2 v-html="$t('modules.tools.modeler3D.options.captions.hideSwitchLabel')" />
+                                    <div class="form-check form-switch cta">
+                                        <input
+                                            id="hideObjectsSwitch"
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            role="switch"
+                                            :aria-checked="hideObjects"
+                                            :checked="hideObjects"
+                                            @change="changeSwitches('hideObjectsSwitch')"
+                                        >
+                                        <label
+                                            class="form-check-label"
+                                            for="hideObjectsSwitch"
+                                        >
+                                            {{ $t("modules.tools.modeler3D.options.captions.enableFunction") }}
+                                        </label>
+                                    </div>
+                                    <p
+                                        class="cta"
+                                        v-html="$t('modules.tools.modeler3D.options.captions.hideObjectInfo')"
+                                    />
+                                    <div class="h-seperator" />
+                                    <h2 v-html="$t('modules.tools.modeler3D.options.captions.povTitle')" />
+                                    <div>
+                                        <div class="form-check form-switch cta">
+                                            <input
+                                                id="povActiveSwitch"
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                role="switch"
+                                                :aria-checked="povActive"
+                                                :checked="povActive"
+                                                @change="changeSwitches('povActiveSwitch'), changeCursor()"
+                                            >
+                                            <label
+                                                class="form-check-label"
+                                                for="povActiveSwitch"
+                                            >
+                                                {{ $t("modules.tools.modeler3D.options.captions.enableFunction") }}
+                                            </label>
+                                        </div>
+                                        <p
+                                            class="cta"
+                                            v-html="$t('modules.tools.modeler3D.options.captions.povInfo')"
+                                        />
+                                    </div>
+                                </div>
                             </div>
-                            <p
-                                class="cta"
-                                v-html="$t('modules.tools.modeler3D.entity.captions.povInfo')"
-                            />
-                            <div>
-                                <input
-                                    v-model="longitudeFromClick"
-                                    aria-label="longitude"
-                                    type="text"
-                                    readonly
-                                    :placeholder="$t('modules.tools.modeler3D.entity.projections.hdms.eastingLabel')"
-                                >
-                                <input
-                                    v-model="latitudeFromClick"
-                                    aria-label="latitude"
-                                    type="text"
-                                    readonly
-                                    :placeholder="$t('modules.tools.modeler3D.entity.projections.hdms.northingLabel')"
-                                >
-                                <input
-                                    v-model="altitudeFromClick"
-                                    aria-label="altitude"
-                                    type="text"
-                                    readonly
-                                    :placeholder="$t('modules.tools.modeler3D.entity.projections.height')"
-                                >
-                            </div>
-                            <button
-                                class="col-10 btn btn-primary btn-sm primary-button-wrapper"
-                                :disabled="!povActive || !povPossible"
-                                @click="positionPovCamera"
-                            >
-                                {{ povActive && povPossible ? $t("modules.tools.modeler3D.pov") : $t("modules.tools.modeler3D.buttonDisabledText") }}
-                            </button>
-                        </div><hr>
-                        <div class="form-check form-switch cta">
-                            <input
-                                id="hideObjectsSwitch"
-                                class="form-check-input"
-                                type="checkbox"
-                                role="switch"
-                                :aria-checked="hideObjects"
-                                :checked="hideObjects"
-                                @change="changeSwitches('hideObjectsSwitch')"
-                            >
-                            <label
-                                class="form-check-label"
-                                for="hideObjectsSwitch"
-                            >
-                                {{ $t("modules.tools.modeler3D.hideSwitchLabel") }}
-                            </label>
                         </div>
                     </div>
                     <EntityList
@@ -776,8 +874,46 @@ export default {
     @import "~/css/mixins.scss";
     @import "~variables";
 
+    .h-seperator {
+        margin:12px 0 12px 0;
+        border: 1px solid #DDDDDD;
+    }
+
+    .nav-link {
+        font-size: $font_size_big;
+    }
+
+    .accordion-button {
+        font-size: 0.95rem;
+    }
+
     .cta {
         margin-bottom:12px;
+    }
+
+    h2 {
+        font-size: $font_size_big;
+        font-weight: bold;
+        text-transform: none;
+        margin: 0 0 6px 0;
+    }
+
+    .primary-button-wrapper {
+        color: $white;
+        background-color: $secondary_focus;
+        display: block;
+        text-align:center;
+        padding: 8px 12px;
+        cursor: pointer;
+        margin:12px 0 0 0;
+        width: 100%;
+        font-size: $font_size_big;
+        &:focus {
+            @include primary_action_focus;
+        }
+        &:hover {
+            @include primary_action_hover;
+        }
     }
 
     .form-switch {

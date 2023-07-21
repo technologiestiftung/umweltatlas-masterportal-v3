@@ -411,12 +411,11 @@
                         "backToList": "Trügg to List",
                         "delete": "Model löschen",
                         "deletionTitle": "3D-Model \"{{name}}\" löschen",
-                        "editInfo": "De Position un Röötwen vun dat utwählte Model verännern.",
+                        "editInfo": "De Attributen vun dat utwählte Model verännern.",
                         "editModel": "3D-Model \"{{name}}\" ännern",
                         "incrementTooltip": "Holl Shift drückt, üm den Weert gröber to stiegen.",
                         "modelName": "Modelnaam",
-                        "pickupPlace": "Dubbelt op en importeert Objekt klicken, um dat op tonehm'n oder to sett'n.",
-                        "povInfo": "Hier hest du de Mööglichkeit, sik in de Sicht vun en Footgänger to versetten. Gah eenfach op de vörsehn Positschoon op de Kaart un beglööv dien Utwahl dör Anklicken vun den Knoop. <br><br>In düsse Ansicht kannst du sück mit de Muus ümkieken. Üm torüch to de Utgangspositschoon torüchtokehren, drück de Escape-Taste (ESC).",
+                        "pickupPlace": "Dubbelt op en Objekt klicken, um dat op tonehm'n oder to sett'n.",
                         "projectionInfo": "Oppepas! Wenn du dat WGS84-Koordinatensystem bruukst, köönt Fehlers in de Genauigkeit opträen. Wi raadt an, dekommaale Notatschoon to bruk'n.",
                         "rotationPlaceholder": "Inkrassieren/Unkrassieren vun Schritten",
                         "rotation": "Dreehn",
@@ -456,7 +455,9 @@
                         "successPartly": "De Datei \"{{filename}}\" is deels importeert."
                     },
                     "captions": {
-                        "introFormats": "Du kannst glTF-Dateien (.gltf), OBJ-Dateien (.obj) oder Collada-Dateien (.dae) importeern.",
+                        "introInfo": "Mit den Importeer kannst du digitale Städbaulich Entwürfe in dat bestahn 3D-Modell vun de Stadt laden, opmaken un ünnersöken.",
+                        "introInfo2": "Importeer eenfach mit Drag and Drop oder mit dat Opmaken-Dialog vun den Nettkieker.",
+                        "introFormats": "Du kannst glTF- (.gltf), OBJ- (.obj), Collada- (.dae) oder GeoJSON-Dateien importeern.",
                         "successfullyImportedLabel": "Importeerte 3D-Models:"
                     }
                 },
@@ -465,6 +466,7 @@
                         "beginModelling": "3D-Objekt modelleren",
                         "clampToGround": "An'n Hööhenmodel anpassen",
                         "color": "Farv",
+                        "controlInfo": "Gah mit de linke Steed üm Punkten to setten. Mit Rechtsklick op dat Teken trech dat Teken af.",
                         "drawing": "Teeken",
                         "drawName": "Naam",
                         "drawnModels": "Tekende Modellen:",
@@ -473,6 +475,7 @@
                         "extrudedHeight": "Uutropen Heugde",
                         "fillColor": "Uutvullen-Farv",
                         "geometry": "Geometrie",
+                        "introInfo": "Mit dat Tekenwarktüüg kannst du verschedene geometrische Formen op de Kaart teken.",
                         "outlineColor": "Umranden-Farv",
                         "transparency": "Deutlichkeit",
                         "lineWidth": "Linnendikte"
@@ -482,17 +485,23 @@
                         "line": "Lien"
                     }
                 },
+                "options": {
+                    "captions": {
+                        "enableFunction": "Funktion de-/aktivieren",
+                        "hideObjectInfo": "Wenn anmaakt, kannst du dat bestännige Gebüüd mit en Klk-Hint anmaken.",
+                        "hideSwitchLabel": "Buudenge verstecken mit Mausklick",
+                        "povInfo": "Hier hest du de Mööglichkeit, sik in de Sicht vun en Footgänger to versetten. Sodraad du den Zylinder mit en Muusklick op de Kaart settst, hest du an düsse Steed in de Footgängeransicht keemen. <br><br>In düsse Ansicht kannst du sück mit de Muus ümkieken. Üm torüch to de Utgangspositschoon torüchtokehren, drück de Escape-Taste (ESC).",
+                        "povTitle": "Fußgängerperspektive",
+                        "visibilityTitle": "Sichtborkeitsoptschonen"
+                    }
+                },
                 "nav": {
                     "drawTitle": "Trecken",
                     "importTitle": "Importeern",
                     "options": "Opties"
                 },
                 "hiddenObjectsLabel": "Verstopte Buudenge:",
-                "hideSwitchLabel": "Buudenge verstecken mit Mausklick",
-                "title": "3D-Modelleur",
-                "activatePov": "Anmaken",
-                "pov": "To `n Footgängeransicht springen",
-                "buttonDisabledText": "Begünn di toeerst an en Steed in de Kaart."
+                "title": "3D-Modelleur"
             },
             "parcelSearch": {
                 "wrongConfig": "De Konfiguration giff dat nich",

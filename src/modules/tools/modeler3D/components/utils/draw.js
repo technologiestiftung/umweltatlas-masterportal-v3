@@ -42,7 +42,8 @@ export function adaptCylinderToEntity (entity, cylinder, position) {
  * @returns {Cesium.Cartesian3} - the normalized position
  */
 export function adaptCylinderUnclamped (cylinder, position) {
-    const cartographic = Cesium.Cartographic.fromCartesian(position);
+    const newPosition = position ? position : {x: 1, y: 1, z: 1},
+        cartographic = Cesium.Cartographic.fromCartesian(newPosition);
 
     cartographic.height += cylinder.cylinder.length._value / 2;
 
