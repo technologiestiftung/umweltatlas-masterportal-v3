@@ -21,6 +21,7 @@ import openlayerFunctions from "../utils/openlayerFunctions";
 import {refreshLayerTree} from "../../../../../src/core/layers/RadioBridge";
 import {isRule} from "../utils/isRule.js";
 import store from "../../../../app-store";
+import {mapGetters} from "vuex";
 
 export default {
     name: "LayerFilterSnippet",
@@ -107,6 +108,8 @@ export default {
         };
     },
     computed: {
+        ...mapGetters("Maps", ["scale", "getView"]),
+
         labelFilterButton () {
             if (typeof this.layerConfig.labelFilterButton === "string") {
                 return translateKeyWithPlausibilityCheck(this.layerConfig.labelFilterButton, key => this.$t(key));
@@ -735,8 +738,8 @@ export default {
          * @returns {void}
          */
         checkZoomLevel (minZoom, maxZoom) {
-            let currentScale = store.getters["Maps/scale"],
-                zoomLevel = store.getters["Maps/getView"].getZoom();
+            let currentScale = this.scale,
+                zoomLevel = this.getView.getZoom();
 
             this.outOfZoom = this.checkOutOfZoomLevel(minZoom, maxZoom, zoomLevel);
 
