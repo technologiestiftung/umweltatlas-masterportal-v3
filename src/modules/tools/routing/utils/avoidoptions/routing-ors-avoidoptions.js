@@ -1,9 +1,15 @@
 /**
  * Translates the AvoidOption in the corresponding value for the service
  * @param {String} avoidOption set by the user
+ * @param {String} speedProfile set by the user
  * @returns {String} translated service value
  */
-export default function routingOrsAvoidOption (avoidOption) {
+export default function routingOrsAvoidOption (avoidOption, speedProfile) {
+    const avoidFeatureConfig = this.$store.state.configJson?.Portalconfig.menu.tools.children.routing.directionsSettings.customAvoidFeatures;
+
+    if (avoidFeatureConfig && avoidFeatureConfig[speedProfile]?.includes(avoidOption)) {
+        return avoidOption.toLowerCase();
+    }
     switch (avoidOption) {
         case "HIGHWAYS": return "highways";
         case "TOLLWAYS": return "tollways";
