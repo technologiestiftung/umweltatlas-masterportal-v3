@@ -40,11 +40,7 @@ const getters = {
      * @returns {Object} projection
      */
     getProjectionById: state => (id) => {
-        const projections = state.projections;
-
-        return projections.find(projection => {
-            return projection.id === id;
-        });
+        return state.projections.find(projection => projection.id === id);
     },
     /**
      * Returns the label name depending on the selected coordinate system.
@@ -77,10 +73,10 @@ const getters = {
      */
     formatCoord: (state) => (coord) => {
         if (state.currentProjection.id === "http://www.opengis.net/gml/srs/epsg.xml#4326-DG") {
-            return coord.split(/[\s°]+/)[0];
+            return parseFloat(coord.split(/[\s°]+/)[0]);
         }
         else if (state.currentProjection.projName === "longlat") {
-            return convertSexagesimalToDecimal(coord.split(/[\s°′″'"´`]+/));
+            return convertSexagesimalToDecimal([coord.split(/[\s°′″'"´`]+/), "0"])[1];
         }
         return parseFloat(coord);
     },
@@ -91,11 +87,11 @@ const getters = {
      * @returns {String} formatted coord
      */
     prettyCoord: (state) => (coord) => {
-        if (state.currentProjection.projName === "longlat" && state.currentProjection.id !== "http://www.opengis.net/gml/srs/epsg.xml#4326-DG") {
-            return convertSexagesimalFromDecimal(coord);
-        }
-        else if (state.currentProjection.id === "http://www.opengis.net/gml/srs/epsg.xml#4326-DG") {
+        if (state.currentProjection.id === "http://www.opengis.net/gml/srs/epsg.xml#4326-DG") {
             return coord.toFixed(6) + "°";
+        }
+        else if (state.currentProjection.projName === "longlat") {
+            return convertSexagesimalFromDecimal(coord);
         }
         return coord.toFixed(2);
     },
@@ -122,7 +118,7 @@ const getters = {
         return undefined;
     },
     wasDrawn (state, getter) {
-        return getter.entities.getById(state.currentModelId).wasDrawn;
+        return getter.entities.getById(state.currentModelId)?.wasDrawn;
     }
 };
 

@@ -47,18 +47,20 @@ export default {
                 return;
             }
 
-            reader.onload = () => {
-                if (fileExtension === "gltf") {
-                    this.handleGltfFile(file, fileName);
-                }
-                else if (fileExtension === "obj") {
-                    this.handleObjFile(file, fileName);
+            if (fileExtension === "gltf") {
+                this.handleGltfFile(file, fileName);
+                return;
+            }
+
+            reader.onload = (event) => {
+                if (fileExtension === "obj") {
+                    this.handleObjFile(event.target.result, fileName);
                 }
                 else if (fileExtension === "dae") {
-                    this.handleDaeFile(file, fileName);
+                    this.handleDaeFile(event.target.result, fileName);
                 }
                 else if (fileExtension === "geojson") {
-                    this.handleGeoJsonFile(file);
+                    this.handleGeoJsonFile(event.target.result);
                 }
                 else {
                     store.dispatch("Alerting/addSingleAlert", {content: i18next.t("common:modules.tools.modeler3D.import.alertingMessages.missingFormat", {format: fileExtension})}, {root: true});
@@ -69,32 +71,32 @@ export default {
                 console.error("Error reading the file:", e.target.error);
             };
 
-            if (fileExtension === "gltf") {
-                reader.readAsArrayBuffer(file);
+            if (fileExtension === "dae") {
+                reader.readAsDataURL(file);
             }
             else {
                 reader.readAsText(file);
             }
         },
         /**
-         * Handles the processing of a GLTF file.
-         * @param {File} file - The GLTF file.
-         * @param {string} fileName - The name of the file.
+         * Handles the processing of GLTF content.
+         * @param {Blob} blob - The GLTF content.
+         * @param {String} fileName - The name of the file.
          * @returns {void}
          */
-        handleGltfFile (file, fileName) {
+        handleGltfFile (blob, fileName) {
             const entities = this.entities,
                 lastElement = entities.values.slice().pop(),
                 lastId = lastElement?.id,
                 models = this.importedModels,
-                entity = {
+                entity = new Cesium.Entity({
                     id: lastId ? lastId + 1 : 1,
                     name: fileName,
                     clampToGround: true,
                     model: {
-                        uri: URL.createObjectURL(file)
+                        uri: URL.createObjectURL(blob)
                     }
-                };
+                });
 
             this.setCurrentModelId(entity.id);
             this.$emit("emit-move");
@@ -112,126 +114,104 @@ export default {
             this.setIsLoading(false);
         },
         /**
-         * Handles the processing of an OBJ file.
-         * @param {File} file - The OBJ file.
-         * @param {string} fileName - The name of the file.
+         * Handles the processing of OBJ content.
+         * @param {String} content - The OBJ content.
+         * @param {String} fileName - The name of the file.
          * @returns {void}
          */
-        handleObjFile (file, fileName) {
-            const reader = new FileReader();
+        handleObjFile (content, fileName) {
+            const objLoader = new OBJLoader(),
+                objData = objLoader.parse(content),
+                gltfExporter = new GLTFExporter();
 
-            reader.onload = (event) => {
-                const objText = event.target.result,
-                    objLoader = new OBJLoader(),
-                    objData = objLoader.parse(objText),
-                    gltfExporter = new GLTFExporter();
+            gltfExporter.parse(objData, (gltfData) => {
+                const gltfJson = JSON.stringify(gltfData),
+                    blob = new Blob([gltfJson], {type: "model/gltf+json"});
 
-                gltfExporter.parse(objData, (gltfData) => {
-                    const gltfJson = JSON.stringify(gltfData),
-                        blob = new Blob([gltfJson], {type: "model/gltf+json"});
-
-                    this.handleGltfFile(blob, fileName);
-                });
-            };
-            reader.readAsText(file);
+                this.handleGltfFile(blob, fileName);
+            });
         },
         /**
          * Handles the processing of a DAE file.
-         * @param {File} file - The DAE file.
-         * @param {string} fileName - The name of the file.
+         * @param {String} content - The DAE content.
+         * @param {String} fileName - The name of the file.
          * @returns {void}
          */
-        handleDaeFile (file, fileName) {
-            const reader = new FileReader();
+        handleDaeFile (content, fileName) {
+            const colladaLoader = new ColladaLoader();
 
-            reader.onload = (event) => {
-                const daeText = event.target.result,
-                    colladaLoader = new ColladaLoader();
+            colladaLoader.load(content, (collada) => {
+                const exporter = new GLTFExporter();
 
-                colladaLoader.load(daeText, (collada) => {
-                    const exporter = new GLTFExporter();
+                exporter.parse(collada.scene, (gltfData) => {
+                    const gltfLoader = new GLTFLoader();
 
-                    exporter.parse(collada.scene, (gltfData) => {
-                        const gltfLoader = new GLTFLoader();
+                    gltfLoader.parse(gltfData, "", () => {
+                        const gltfJson = JSON.stringify(gltfData),
+                            blob = new Blob([gltfJson], {type: "model/gltf+json"});
 
-                        gltfLoader.parse(gltfData, "", () => {
-                            const gltfJson = JSON.stringify(gltfData),
-                                blob = new Blob([gltfJson], {type: "model/gltf+json"});
-
-                            this.handleGltfFile(blob, fileName);
-                        });
+                        this.handleGltfFile(blob, fileName);
                     });
                 });
-            };
-            reader.readAsDataURL(file);
+            });
         },
         /**
-         * Handles the processing of a GEOJSON file.
-         * @param {File} file - The GEOJSON file.
-         * @param {string} fileName - The name of the file.
+         * Handles the processing of GeoJSON content.
+         * @param {String} content - The GeoJSON content.
+         * @param {String} fileName - The name of the file.
          * @returns {void}
          */
-        handleGeoJsonFile (file) {
-            const reader = new FileReader();
-            let geojson;
+        handleGeoJsonFile (content) {
+            const entities = this.entities,
+                geojson = JSON.parse(content);
 
-            reader.onload = (event) => {
-                const text = event.target.result,
-                    entities = this.entities;
-
-                geojson = JSON.parse(text);
-
-                geojson.features.forEach(feature => {
-                    const properties = feature.properties,
-                        color = properties.color,
-                        outlineColor = properties.outlineColor,
-                        coordinates = feature.geometry.coordinates[0],
-                        lastElement = entities.values.slice().pop(),
-                        lastId = lastElement?.id,
-                        entity = new Cesium.Entity({
-                            id: lastId ? lastId + 1 : 1,
-                            name: properties.name,
-                            wasDrawn: true,
-                            clampToGround: properties.clampToGround
-                        });
-
-                    if (feature.geometry.type === "Polygon") {
-                        entity.polygon = {
-                            material: new Cesium.ColorMaterialProperty(
-                                new Cesium.Color(color.red, color.green, color.blue, color.alpha)
-                            ),
-                            outline: true,
-                            outlineColor: new Cesium.Color(outlineColor.red, outlineColor.green, outlineColor.blue, outlineColor.alpha),
-                            outlineWidth: 1,
-                            height: coordinates[0][2],
-                            extrudedHeight: properties.extrudedHeight,
-                            extrudedHeightReference: properties.extrudedHeightReference,
-                            shadows: Cesium.ShadowMode.ENABLED,
-                            hierarchy: new Cesium.PolygonHierarchy(coordinates.map(point => Cesium.Cartesian3.fromDegrees(point[0], point[1])))
-                        };
-                    }
-                    else if (feature.geometry.type === "Polyline") {
-                        entity.polyline = {
-                            material: new Cesium.ColorMaterialProperty(
-                                new Cesium.Color(color.red, color.green, color.blue, color.alpha)
-                            ),
-                            width: properties.width,
-                            clampToGround: properties.clampToGround,
-                            positions: coordinates.map(point => Cesium.Cartesian3.fromDegrees(point[0], point[1], point[2]))
-                        };
-                    }
-
-                    entities.add(entity);
-                    this.drawnModels.push({
-                        id: entity.id,
-                        name: entity.name,
-                        show: true,
-                        edit: false
+            geojson.features.forEach(feature => {
+                const properties = feature.properties,
+                    color = properties.color,
+                    outlineColor = properties.outlineColor,
+                    coordinates = feature.geometry.coordinates[0],
+                    lastElement = entities.values.slice().pop(),
+                    lastId = lastElement?.id,
+                    entity = new Cesium.Entity({
+                        id: lastId ? lastId + 1 : 1,
+                        name: properties.name,
+                        wasDrawn: true,
+                        clampToGround: properties.clampToGround
                     });
-                });
-            };
 
-            reader.readAsText(file);
+                if (feature.geometry.type === "Polygon") {
+                    entity.polygon = {
+                        material: new Cesium.ColorMaterialProperty(
+                            new Cesium.Color(color.red, color.green, color.blue, color.alpha)
+                        ),
+                        outline: true,
+                        outlineColor: new Cesium.Color(outlineColor.red, outlineColor.green, outlineColor.blue, outlineColor.alpha),
+                        outlineWidth: 1,
+                        height: coordinates[0][2],
+                        extrudedHeight: properties.extrudedHeight,
+                        shadows: Cesium.ShadowMode.ENABLED,
+                        hierarchy: new Cesium.PolygonHierarchy(coordinates.map(point => Cesium.Cartesian3.fromDegrees(point[0], point[1])))
+                    };
+                }
+                else if (feature.geometry.type === "Polyline") {
+                    entity.polyline = {
+                        material: new Cesium.ColorMaterialProperty(
+                            new Cesium.Color(color.red, color.green, color.blue, color.alpha)
+                        ),
+                        width: properties.width,
+                        positions: coordinates.map(point => Cesium.Cartesian3.fromDegrees(point[0], point[1], point[2]))
+                    };
+                }
+
+                entities.add(entity);
+                this.drawnModels.push({
+                    id: entity.id,
+                    name: entity.name,
+                    show: true,
+                    edit: false
+                });
+            });
+
             this.setCurrentView("draw");
             this.setIsLoading(false);
         },
@@ -290,7 +270,7 @@ export default {
         </BasicFileImport>
 
         <EntityList
-            v-if="importedModels.length > 0"
+            v-if="importedModels?.length > 0"
             id="successfully-imported-models"
             :objects="importedModels"
             :objects-label="$t('modules.tools.modeler3D.import.captions.successfullyImportedLabel')"

@@ -1,6 +1,6 @@
 import proj4 from "proj4";
 import store from "../../../../app-store";
-import {adaptCylinderToGround, adaptCylinderToEntity} from "../components/utils/draw";
+import {adaptCylinderToGround, adaptCylinderToEntity} from "../utils/draw";
 
 const actions = {
     /**
@@ -114,6 +114,12 @@ const actions = {
             }
         }
     },
+    /**
+     * Reacts on changed entity position. Gets the currently selected entity position and transforms its coordinates
+     * to the currently selected projection.
+     * @param {object} context - The context of the Vuex module.
+     * @returns {void}
+    */
     updateUI ({commit, dispatch, getters, state}) {
         const entities = getters.entities,
             entity = entities.getById(state.currentModelId);
