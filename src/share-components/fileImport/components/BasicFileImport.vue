@@ -112,6 +112,10 @@ export default {
 <template lang="html">
     <div id="basic-file-import">
         <slot />
+        <p
+            class="cta"
+            v-html="introFormats"
+        />
         <div
             class="vh-center-outer-wrapper drop-area-fake"
             :class="dropZoneAdditionalClass"
