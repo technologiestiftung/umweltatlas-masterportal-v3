@@ -266,7 +266,7 @@ export default {
         />
 
         <EntityList
-            v-if="importedModels.length > 0"
+            v-if="importedModels?.length > 0"
             id="successfully-imported-models"
             :objects="importedModels"
             :objects-label="$t('modules.tools.modeler3D.import.captions.successfullyImportedLabel')"
