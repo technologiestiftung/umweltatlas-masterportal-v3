@@ -113,6 +113,9 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
                 })
             }
         };
+        global.Cesium.HeightReference = {
+            NONE: 0
+        };
 
         store = new Vuex.Store({
             namespaces: true,
@@ -213,9 +216,6 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
         global.Cesium.ShadowMode = {
             ENABLED: 1
         };
-        global.Cesium.HeightReference = {
-            NONE: 0
-        };
 
         wrapper.vm.addGeometryPosition();
 
@@ -253,5 +253,23 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
             type: "FeatureCollection",
             features: sinon.match.array
         })))));
+    });
+    it("should draw shapes when selectedGeometry is 'line' and activeShapePoints has at least 2 points", () => {
+        store.commit("Tools/Modeler3D/setSelectedGeometry", "line");
+        wrapper.vm.activeShapePoints = [{x: 100, y: 200, z: 300}, {x: 200, y: 300, z: 400}];
+        wrapper.vm.drawShape();
+
+        expect(entities.add.calledWith(sinon.match({id: sinon.match.string, polyline: sinon.match.object}))).to.be.true;
+    });
+    it("should draw shapes when selectedGeometry is 'polygon' and activeShapePoints has at least 3 points", () => {
+        store.commit("Tools/Modeler3D/setSelectedGeometry", "polygon");
+
+        wrapper.vm.activeShapePoints = [
+            {x: 100, y: 200, z: 300},
+            {x: 200, y: 300, z: 400},
+            {x: 300, y: 400, z: 500}
+        ];
+        wrapper.vm.drawShape();
+        expect(entities.add.calledWith(sinon.match({id: sinon.match.string, polygon: sinon.match.object}))).to.be.true;
     });
 });

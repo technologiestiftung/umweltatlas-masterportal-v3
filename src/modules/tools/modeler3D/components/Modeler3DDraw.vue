@@ -181,7 +181,7 @@ export default {
             let shape;
 
             if (this.selectedGeometry === "line") {
-                shape = this.entities.add({
+                shape = {
                     id: lastId ? lastId + 1 : 1,
                     name: this.drawName ? this.drawName : i18next.t("common:modules.tools.modeler3D.draw.captions.drawing"),
                     wasDrawn: true,
@@ -194,10 +194,10 @@ export default {
                         clampToGround: this.clampToGround,
                         width: this.lineWidth
                     }
-                });
+                };
             }
             else if (this.selectedGeometry === "polygon") {
-                shape = this.entities.add({
+                shape = {
                     id: lastId ? lastId + 1 : 1,
                     name: this.drawName ? this.drawName : i18next.t("common:modules.tools.modeler3D.draw.captions.drawing"),
                     wasDrawn: true,
@@ -215,8 +215,9 @@ export default {
                         extrudedHeight: this.extrudedHeight + this.height,
                         extrudedHeightReference: Cesium.HeightReference.NONE
                     }
-                });
+                };
             }
+            this.entities.add(shape);
             models.push({
                 id: shape.id,
                 name: shape.name,
