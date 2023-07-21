@@ -5,7 +5,7 @@ import getters from "../store/gettersModeler3D";
 import mutations from "../store/mutationsModeler3D";
 import EntityAttribute from "./ui/EntityAttribute.vue";
 import EntityAttributeSlider from "./ui/EntityAttributeSlider.vue";
-import {adaptCylinderToEntity, adaptCylinderToGround} from "./utils/draw";
+import {adaptCylinderToEntity, adaptCylinderToGround} from "../utils/draw";
 
 export default {
     name: "Modeler3DEntityModel",
@@ -28,19 +28,19 @@ export default {
             const entities = this.entities,
                 entity = entities.getById(this.currentModelId);
 
-            return Boolean(entity.polygon && entity.wasDrawn);
+            return Boolean(entity?.polygon && entity?.wasDrawn);
         },
         showPositioning: function () {
             const entities = this.entities,
                 entity = entities.getById(this.currentModelId);
 
-            return Boolean(entity.polygon || !entity.wasDrawn);
+            return Boolean(entity?.polygon || !entity?.wasDrawn);
         },
         showWidth: function () {
             const entities = this.entities,
                 entity = entities.getById(this.currentModelId);
 
-            return Boolean(entity.polyline && entity.wasDrawn);
+            return Boolean(entity?.polyline && entity?.wasDrawn);
         },
         /**
          * The rotation angle of the entity.
@@ -161,9 +161,11 @@ export default {
         checkedAdapt (value) {
             const entity = this.entities.getById(this.currentModelId);
 
-            entity.clampToGround = value;
-            this.setAdaptToHeight(value);
-            this.updateEntityPosition();
+            if (entity) {
+                entity.clampToGround = value;
+                this.setAdaptToHeight(value);
+                this.updateEntityPosition();
+            }
         },
         /**
          * Updates the extrudedHeight of the polygon and adjusts the active cylinders length and position.
@@ -173,11 +175,13 @@ export default {
             const entities = this.entities,
                 entity = entities.getById(this.currentModelId);
 
-            entity.polygon.extrudedHeight = this.extrudedHeight + entity.polygon.height;
-            entities.values.filter(ent => ent.cylinder).forEach(cyl => {
-                cyl.cylinder.length = this.extrudedHeight + 5;
-                cyl.position = entity.clampToGround ? adaptCylinderToGround(cyl, cyl.position.getValue()) : adaptCylinderToEntity(entity, cyl, cyl.position.getValue());
-            });
+            if (entity && entity.polygon instanceof Cesium.PolygonGraphics) {
+                entity.polygon.extrudedHeight = this.extrudedHeight + entity.polygon.height;
+                entities.values.filter(ent => ent.cylinder).forEach(cyl => {
+                    cyl.cylinder.length = this.extrudedHeight + 5;
+                    cyl.position = entity.clampToGround ? adaptCylinderToGround(cyl, cyl.position.getValue()) : adaptCylinderToEntity(entity, cyl, cyl.position.getValue());
+                });
+            }
         },
         /**
          * Rotates the current model based on the value of the rotationAngle property.
@@ -196,22 +200,24 @@ export default {
                     new Cesium.HeadingPitchRoll(heading, 0, 0)
                 );
 
-            modelFromState.heading = this.rotation;
+            if (modelFromState && entity) {
+                modelFromState.heading = this.rotation;
 
-            if (entity.wasDrawn) {
-                const positions = entity.polygon.hierarchy.getValue().positions,
-                    center = this.getCenterFromPolygon(entity),
-                    rotatedPositions = positions.map(pos => {
-                        const relativePosition = Cesium.Cartesian3.subtract(pos, center),
-                            rotatedRelativePosition = Cesium.Matrix3.multiplyByVector(orientationMatrix, relativePosition);
+                if (entity.wasDrawn) {
+                    const positions = entity.polygon.hierarchy.getValue().positions,
+                        center = this.getCenterFromPolygon(entity),
+                        rotatedPositions = positions.map(pos => {
+                            const relativePosition = Cesium.Cartesian3.subtract(pos, center),
+                                rotatedRelativePosition = Cesium.Matrix3.multiplyByVector(orientationMatrix, relativePosition);
 
-                        return Cesium.Cartesian3.add(rotatedRelativePosition, center, new Cesium.Cartesian3());
-                    });
+                            return Cesium.Cartesian3.add(rotatedRelativePosition, center, new Cesium.Cartesian3());
+                        });
 
-                entity.polygon.hierarchy = new Cesium.PolygonHierarchy(rotatedPositions);
-            }
-            else {
-                entity.orientation = orientationMatrix;
+                    entity.polygon.hierarchy = new Cesium.PolygonHierarchy(rotatedPositions);
+                }
+                else {
+                    entity.orientation = orientationMatrix;
+                }
             }
         }
     }

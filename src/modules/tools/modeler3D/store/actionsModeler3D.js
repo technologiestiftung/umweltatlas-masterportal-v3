@@ -1,6 +1,6 @@
 import proj4 from "proj4";
 import store from "../../../../app-store";
-import {adaptCylinderToGround, adaptCylinderToEntity} from "../components/utils/draw";
+import {adaptCylinderToGround, adaptCylinderToEntity} from "../utils/draw";
 
 const actions = {
     /**

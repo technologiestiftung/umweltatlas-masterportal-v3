@@ -6,7 +6,7 @@ import actions from "../store/actionsModeler3D";
 import getters from "../store/gettersModeler3D";
 import mutations from "../store/mutationsModeler3D";
 import proj4 from "proj4";
-import {adaptCylinderToEntity, adaptCylinderToGround, adaptCylinderUnclamped} from "./utils/draw";
+import {adaptCylinderToEntity, adaptCylinderToGround, adaptCylinderUnclamped} from "../utils/draw";
 
 let eventHandler = null;
 

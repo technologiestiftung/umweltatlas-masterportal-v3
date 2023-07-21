@@ -14,6 +14,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3DEntityModel.vue", () =
     const entity = {
             id: 1,
             orientation: null,
+            clampToGround: true,
             position: {
                 getValue: () => {
                     return {x: 100, y: 100, z: 100};
@@ -22,7 +23,28 @@ describe("src/modules/tools/modeler3D/components/Modeler3DEntityModel.vue", () =
             model: {scale: 1}
         },
         entities = {
-            getById: sinon.stub().returns(entity)
+            getById: sinon.stub().returns(entity),
+            values: [
+                {
+                    id: 1,
+                    cylinder: {length: {_value: 10}},
+                    position: {getValue: () => ({x: 10, y: 20, z: 30})}
+                },
+                {
+                    id: 2,
+                    cylinder: {length: {_value: 10}},
+                    position: {getValue: () => ({x: 20, y: 30, z: 10})}
+                },
+                {
+                    id: 3,
+                    cylinder: {length: {_value: 10}},
+                    position: {getValue: () => ({x: 30, y: 10, z: 20})}
+                }
+            ]
+        },
+        scene = {
+            globe: {getHeight: () => 5},
+            sampleHeight: () => 5
         },
         map3D = {
             id: "1",
@@ -33,7 +55,8 @@ describe("src/modules/tools/modeler3D/components/Modeler3DEntityModel.vue", () =
                         entities: entities
                     }
                 };
-            }
+            },
+            getCesiumScene: () => scene
         };
 
     let store,
@@ -46,6 +69,20 @@ describe("src/modules/tools/modeler3D/components/Modeler3DEntityModel.vue", () =
         mapCollection.addMap(map3D, "3D");
 
         global.Cesium = {
+            PolygonGraphics: function (options) {
+                this.extrudedHeight = {
+                    _value: options.extrudedHeight,
+                    getValue: () => this.extrudedHeight._value
+                };
+                this.height = {
+                    _value: options.height,
+                    getValue: () => this.height._value
+                };
+            },
+            Cartographic: {
+                fromCartesian: () => ({longitude: 9, latitude: 50, height: 5}),
+                toCartesian: () => ({x: 10, y: 20, z: 30})
+            },
             Math: {
                 toRadians: (val) => {
                     return val / 10;
@@ -111,7 +148,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3DEntityModel.vue", () =
         }
     });
 
-    it("renders Modeler3DEntityModel", async () => {
+    it("renders Modeler3DEntityModel", () => {
         wrapper = mount(Modeler3DEntityModelComponent, {store, localVue});
 
         expect(wrapper.find("#modeler3D-entity-view").exists()).to.be.true;
@@ -226,6 +263,19 @@ describe("src/modules/tools/modeler3D/components/Modeler3DEntityModel.vue", () =
             expect(ret).to.be.equals("modules.tools.modeler3D.entity.projections.cartesian.key");
         });
 
+        it("updates the extruded height of the polygon and adjusts cylinders", () => {
+            entity.polygon = new global.Cesium.PolygonGraphics({
+                extrudedHeight: 20,
+                height: 5
+            });
+            wrapper = shallowMount(Modeler3DEntityModelComponent, {store, localVue});
+            wrapper.vm.extrudedHeightString = "25";
+
+            expect(store.state.Tools.Modeler3D.extrudedHeight).to.eql(25);
+            expect(entities.values[0].cylinder.length).to.eql(30);
+            expect(entities.values[0].position).to.eql({x: 10, y: 20, z: 30});
+        });
+
         it("rotates the entity model based on input", () => {
             global.Cesium.HeadingPitchRoll = sinon.spy();
 
@@ -242,6 +292,24 @@ describe("src/modules/tools/modeler3D/components/Modeler3DEntityModel.vue", () =
 
             expect(store.state.Tools.Modeler3D.scale).to.eql(2);
             expect(entity.model.scale).to.eql(2);
+        });
+
+        it("changes coordinates of the entity", () => {
+            wrapper = shallowMount(Modeler3DEntityModelComponent, {store, localVue});
+            wrapper.vm.eastingString = "120.50";
+
+            expect(store.state.Tools.Modeler3D.coordinateEasting).to.eql(120.5);
+            expect(Modeler3D.actions.updateEntityPosition.called).to.be.true;
+
+            wrapper.vm.northingString = "150.00";
+
+            expect(store.state.Tools.Modeler3D.coordinateNorthing).to.eql(150);
+            expect(Modeler3D.actions.updateEntityPosition.called).to.be.true;
+
+            wrapper.vm.heightString = "10.20";
+
+            expect(store.state.Tools.Modeler3D.height).to.eql(10.2);
+            expect(Modeler3D.actions.updateEntityPosition.called).to.be.true;
         });
     });
 });

@@ -43,20 +43,6 @@ const mutations = {
             state.currentProjection = projections[0];
         }
         state.projections = projections;
-    },
-    /**
-     * Pushes the coordinates to the selectedCoordinates Array in the state.
-     * @param {Object} state the state of coordToolkit-module
-     * @param {Object} payload payload object.
-     * @returns {void}
-     */
-    pushCoordinates: (state, payload) => {
-        let coord = payload;
-
-        if (state.currentProjection.epsg !== "EPSG:4326") {
-            coord = parseFloat(payload);
-        }
-        state.selectedCoordinates.push(coord);
     }
 };
 

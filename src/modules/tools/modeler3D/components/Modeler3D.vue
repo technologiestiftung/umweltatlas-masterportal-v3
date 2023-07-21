@@ -13,7 +13,7 @@ import store from "../../../../app-store";
 import crs from "@masterportal/masterportalapi/src/crs";
 import proj4 from "proj4";
 import {getGfiFeaturesByTileFeature} from "../../../../api/gfi/getGfiFeaturesByTileFeature";
-import {adaptCylinderToGround, adaptCylinderToEntity, adaptCylinderUnclamped} from "./utils/draw";
+import {adaptCylinderToGround, adaptCylinderToEntity, adaptCylinderUnclamped} from "../utils/draw";
 
 let eventHandler = null;
 

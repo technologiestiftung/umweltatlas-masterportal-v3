@@ -118,7 +118,7 @@ const getters = {
         return undefined;
     },
     wasDrawn (state, getter) {
-        return getter.entities.getById(state.currentModelId).wasDrawn;
+        return getter.entities.getById(state.currentModelId)?.wasDrawn;
     }
 };
 

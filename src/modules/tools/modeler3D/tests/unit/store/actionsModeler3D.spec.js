@@ -353,7 +353,7 @@ describe("Actions", () => {
                 };
 
             entities = {
-                getById: sinon.stub().returns({polygon: {height: {getValue: () => 5}}})
+                getById: sinon.stub().returns({polygon: new Cesium.PolygonGraphics({height: 5})})
             };
             getters = {
                 scene: scene,
