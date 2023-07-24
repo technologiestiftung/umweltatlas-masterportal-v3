@@ -13,6 +13,7 @@
   - Add: new parameter minZoom and maxZoom in layer configuration to make filter to react with zoom level. If the current zoom level if out of range, the filter will be deactivated.
 - Routing:
     - Possibility to define additional preferences for the different speed profiles (additionally to the BKG service)  (requires own modified backend).
+    - Possibility to define additional avoid features for the different speed profiles (additionally to the BKG service) (requires own modified backend).
 - GFI:
     - highlightFeature also works for line geometries
     - new parameter: hideMapMarkerOnVectorHighlight
