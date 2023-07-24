@@ -4359,7 +4359,7 @@ Routing-Werkzeug Routenplanung Optionen.
 |speedProfile|nein|String|"CAR"|Welches Geschwindigkeitsprofil verwendet werden soll.|false|
 |preference|nein|String|"RECOMMENDED"|Welche Art der Routenplanung verwendet werden soll.|false|
 |customPreferences|nein|**[customPreferences](#markdown-header-portalconfigmenutoolroutingdirectionssettingscustompreferences)**||Möglichkeit eigene Routenpräferenzen (zusätzlich zum BKG-Dienst) für die unterschiedlichen speedProfiles zu definieren (erfordert eigenes Backend)|false|
-|customAvoidFeatures|nein|**[customAvoidFeatures](#markdown-header-portalconfigmenutoolroutingdirectionssettingscustomavoidfeatures)**||Möglichkeit eigene Optionen für 'Verkehrswege meiden' (zusätzlich zum BKG-Dienst) für die unterschiedlichen speedProfiles zu definieren (erfordert eigenes Backend)|false|
+|customAvoidFeatures|nein|**[customAvoidFeatures](#markdown-header-portalconfigmenutoolroutingdirectionssettingscustomavoidfeatures)**||Möglichkeit eigene Optionen für Verkehrswege meiden (zusätzlich zum BKG-Dienst) für die unterschiedlichen speedProfiles zu definieren (erfordert eigenes Backend)|false|
 |styleRoute|nein|**[styleRoute](#markdown-header-portalconfigmenutoolroutingdirectionssettingsstyleroute)**||Stylerouteoptionen|false|
 |styleWaypoint|nein|**[styleWaypoint](#markdown-header-portalconfigmenutoolroutingdirectionssettingsstylewaypoint)**||Stylewaypointoptionen|false|
 |styleAvoidAreas|nein|**[styleAvoidAreas](#markdown-header-portalconfigmenutoolroutingdirectionssettingsstyleavoidareas)**||Styleavoidareasoptionen|false|
@@ -4419,10 +4419,11 @@ Routing-Werkzeug Routenplanung Optionen.
 ***
 #### Portalconfig.menu.tool.routing.directionsSettings.customAvoidFeatures
 Routing-Werkzeug Routenplanung Routen customAvoidFeatures.
-Möglichkeit eigene Optionen für 'Verkehrswege meiden' (zusätzlich zum BKG-Dienst) für speedProfiles zu definieren (erfordert eigenes Backend).
+Möglichkeit eigene Optionen für Verkehrswege meiden (zusätzlich zum BKG-Dienst) für speedProfiles zu definieren (erfordert eigenes Backend).
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |speedProfile|nein|String[]||Welche Optionen für ´Verkehrswege meiden´ für das angegebene speedProfile verfügbar sein sollen.|false|
+
 **Beispiel**
 ```
 #!json
