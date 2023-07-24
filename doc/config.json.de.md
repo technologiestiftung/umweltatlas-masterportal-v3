@@ -4371,7 +4371,7 @@ Routing-Werkzeug Routenplanung Optionen.
         "speedProfile": "CAR",
         "preference": "RECOMMENDED",
         "customPreferences": {
-                "CYCLING": ["RECOMMENDED", "SHORTEST", "GREEN"]
+            "CYCLING": ["RECOMMENDED", "SHORTEST", "GREEN"]
         },
         "styleRoute": {
             "fillColor": [255, 44, 0],

@@ -4426,8 +4426,8 @@ Routing-tool directions options.
         "serviceId": "bkg_ors",
         "speedProfile": "CAR",
         "preference": "RECOMMENDED",
-          "customPreferences": {
-                "CYCLING": ["RECOMMENDED", "SHORTEST", "GREEN"]
+        "customPreferences": {
+            "CYCLING": ["RECOMMENDED", "SHORTEST", "GREEN"]
         },
         "styleRoute": {
             "fillColor": [255, 44, 0],
