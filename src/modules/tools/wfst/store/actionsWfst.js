@@ -173,6 +173,7 @@ const actions = {
      * @returns {void}
      */
     async save ({dispatch, getters}) {
+        let featureWithProperties = null;
         const feature = modifyFeature ? modifyFeature : drawLayer.getSource().getFeatures()[0],
             {currentLayerIndex, featureProperties, layerInformation, selectedInteraction, layerIds} = getters,
             error = getters.savingErrorMessage(feature),
@@ -195,8 +196,8 @@ const actions = {
             }, {root: true});
             return;
         }
-        // eslint-disable-next-line one-var
-        const featureWithProperties = await addFeaturePropertiesToFeature(
+
+        featureWithProperties = await addFeaturePropertiesToFeature(
             {
                 id: feature.getId() || modifyFeatureSaveId,
                 geometryName: feature.getGeometryName(),
@@ -235,7 +236,6 @@ const actions = {
             await dispatch("Alerting/addSingleAlert", {
                 category: "Info",
                 displayClass: "info",
-                // TODO Key `common:modules.tools.wfsTransaction.transaction.${messageKey}`
                 content: i18next.t(`Error: ${e.message}`),
                 mustBeConfirmed: false
             }, {root: true});
