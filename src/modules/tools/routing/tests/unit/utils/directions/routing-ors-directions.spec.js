@@ -5,7 +5,7 @@ import sinon from "sinon";
 import {RoutingDirections} from "../../../../utils/classes/routing-directions";
 import {RoutingDirectionsSegment} from "../../../../utils/classes/routing-directions-segment";
 import {RoutingDirectionsStep} from "../../../../utils/classes/routing-directions-step";
-import {fetchRoutingOrsDirections} from "../../../../utils/directions/routing-ors-directions";
+import {fetchRoutingOrsDirections, routingOrsPreference} from "../../../../utils/directions/routing-ors-directions";
 
 describe("src/modules/tools/routing/utils/directions/routing-ors-directions.js", () => {
     beforeEach(() => {
@@ -266,6 +266,38 @@ describe("src/modules/tools/routing/utils/directions/routing-ors-directions.js",
             catch (error) {
                 expect(error.message).equal("common:modules.tools.routing.errors.errorRouteFetch");
             }
+        });
+    });
+    describe("should routingOrsPreference", () => {
+        it("should lowercase preferences from configJson", async () => {
+            store.state.configJson = {
+                Portalconfig: {
+                    menu: {
+                        tools: {
+                            children: {
+                                routing: {
+                                    directionsSettings: {
+                                        customPreferences: {
+                                            CYCLING: ["GREEN", "RECOMMENDED"]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            const result = routingOrsPreference("GREEN", "CYCLING");
+
+            expect(result).to.eql("green");
+
+            store.state.configJson.Portalconfig.menu.tools.children.routing.directionsSettings.customPreferences = undefined;
+        });
+        it("should lowercase preferences without configJson", async () => {
+            const result = routingOrsPreference("RECOMMENDED", "CYCLING");
+
+            expect(result).to.eql("recommended");
         });
     });
 });

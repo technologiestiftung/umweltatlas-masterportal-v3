@@ -28,6 +28,7 @@ const vtStyles = [
         name: "InsideJob",
         origin: [-20037508.342787, 20037508.342787],
         resolutions: [78271.51696401172, 305.7481131406708, 152.8740565703354, 76.4370282851677, 2.3886571339114906],
+        isSelected: true,
         styleId: "999962",
         tileSize: 512,
         transparency: 0,
@@ -207,7 +208,7 @@ describe("core/modelList/layer/vectorTile", function () {
             expect(layer.get("id")).to.equal(attrs.id);
             expect(layer.get("name")).to.equal(attrs.name);
             expect(layer.getOpacity()).to.equal(1);
-            expect(layer.getVisible()).to.be.false;
+            expect(layer.getVisible()).to.be.true;
 
             expect(source.zDirection).to.equal(1);
             expect(source.getProjection().getCode()).to.equal("EPSG:3857");

@@ -56,24 +56,15 @@ function getFeaturesByLayerId (layerId) {
 /**
  * Gets the features of a vector tile layer by layer id and the collection.
  * @param {Number} layerId The layerId to get the model by.
- * @param {Function} onsuccess The callback function to call on success - returns {ol/render/Feature[]}.
- * @returns {void}
+ * @returns {ol/render/Feature[]} The features of the layer in current extent.
  */
-function getVectorTileFeaturesByLayerId (layerId, onsuccess) {
+function getVectorTileFeaturesByLayerId (layerId) {
     if (typeof layerId === "undefined") {
-        return;
+        return [];
     }
     const layerModel = getLayerByLayerId(layerId);
 
-    layerModel.layer.getSource().once("featuresloadend", event => {
-        const renderedFeatures = event.features;
-
-        if (typeof onsuccess === "function") {
-            onsuccess(renderedFeatures);
-        }
-    });
-    layerModel.layer.setOpacity(0);
-    layerModel.showFeaturesByIds([], true);
+    return layerModel.layer.getSource().getFeaturesInExtent(store.getters["Maps/getCurrentExtent"]);
 }
 
 /**

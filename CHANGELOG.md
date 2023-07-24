@@ -7,10 +7,16 @@
 ### Added
 - QuickHelp: A description of the route preference `recommended route` has been added.
 - 3D:
-    - Colored highlighting for 3D Tiles has been added.
-    - GFI MapMarker appears now on top of elevations by click.
+  - Colored highlighting for 3D Tiles has been added.
+  - GFI MapMarker appears now on top of elevations by click.
+- Filter:
+  - Add: new parameter minZoom and maxZoom in layer configuration to make filter to react with zoom level. If the current zoom level if out of range, the filter will be deactivated.
+- Routing:
+    - Possibility to define additional preferences for the different speed profiles (additionally to the BKG service)  (requires own modified backend).
 
 ### Changed
+ - dependencies:
+         - @masterportal/masterportalapi: 2.20.0 to 2.21.0 (with cesium 1.106.0 to @cesium/engine 2.4.1)
 
 ### Deprecated
 
@@ -19,6 +25,8 @@
 ### Fixed
 - Print: The portal is no longer reloaded after pressing the Enter key in the title field. Instead, the print is sent.
 - WFST-Tool can also parse Geoserver responses from DescribeFeatureType-Requests
+- WFST-Tool with fixed language pack in nested i18next json
+- Issue #1057: Filter: Checkbox Snippet does not response right in activation and deactivation.
 
 ---
 ## v2.35.1 - 2023-07-13
