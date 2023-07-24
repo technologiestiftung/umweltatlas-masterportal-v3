@@ -22,11 +22,13 @@ describe("should routingOrsAvoidOptions", () => {
             }
         };
         const result = routingOrsAvoidOption("UNPAVEDROADS", "CYCLING");
+
         expect(result).to.eql("unpavedroads");
         store.state.configJson.Portalconfig.menu.tools.children.routing.directionsSettings.customAvoidFeatures = undefined;
     });
     it("should lowercase preferences without configJson", async () => {
         const result = routingOrsAvoidOption("STEPS", "CYCLING");
+
         expect(result).to.eql("steps");
     });
 });
