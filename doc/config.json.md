@@ -2657,7 +2657,7 @@ Print module, configurable for 2 print services: *High Resolution PlotService* a
 {
     "print": {
         "name": "Karte drucken",
-        "icon": "bi-printer-fill",
+        "icon": "bi-printer",
         "printServiceId": "123456",
         "filename": "Print",
         "title": "My Title",
@@ -2680,7 +2680,7 @@ Print module, configurable for 2 print services: *High Resolution PlotService* a
 {
     "print": {
         "name": "Karte drucken",
-        "icon": "bi-printer-fill",
+        "icon": "bi-printer",
         "printServiceId": "mapfish_printservice_id",
         "printAppId": "mrh",
         "filename": "Print",

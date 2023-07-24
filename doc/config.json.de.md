@@ -2581,7 +2581,7 @@ Druckmodul. Konfigurierbar für 2 Druckdienste: den High Resolution PlotService 
 #!json
 "print": {
     "name": "Karte drucken",
-    "icon": "bi-printer-fill",
+    "icon": "bi-printer",
     "printServiceId": "123456",
     "filename": "Ausdruck",
     "title": "Mein Titel",
@@ -2601,7 +2601,7 @@ Druckmodul. Konfigurierbar für 2 Druckdienste: den High Resolution PlotService 
 #!json
 "print": {
     "name": "Karte drucken",
-    "icon": "bi-printer-fill",
+    "icon": "bi-printer",
     "printServiceId": "mapfish_printservice_id",
     "printAppId": "mrh",
     "filename": "Ausdruck",
