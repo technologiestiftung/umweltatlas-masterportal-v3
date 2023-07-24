@@ -1623,10 +1623,11 @@ Hinweis: Das Highlighting funktioniert nur, wenn der Layer in der config.json ü
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |width|nein|Integer|1|Mögliche Einstellung: width|false|
+|color|nein|Float[]|[255, 255, 255, 0.5]|Mögliche Einstellung: color (RGBA)|false|
 
 ```
 #!json
-"stroke": { "width": 4 }
+"stroke": { "width": 4, "color": [215, 102, 41, 0.9] }
 ```
 
 ***

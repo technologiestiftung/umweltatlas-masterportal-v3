@@ -1683,10 +1683,11 @@ Hint: highlighting only works if there is a styleId in config.json configured fo
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |width|no|Integer|1|Stroke line width|false|
+|color|no|Float[]|[255, 255, 255, 0.5]|RGBA value|false|
 
 ```json
 {
-    "stroke": { "width": 4 }
+    "stroke": { "width": 4, "color": [215, 102, 41, 0.9] }
 }
 ```
 

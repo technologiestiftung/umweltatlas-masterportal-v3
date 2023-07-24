@@ -118,7 +118,20 @@ export default {
                         feature: this.feature.getOlFeature(),
                         type: "highlightPolygon",
                         highlightStyle: {
-                            fill: this.highlightVectorRules.fill, stroke: this.highlightVectorRules.stroke
+                            fill: this.highlightVectorRules.fill,
+                            stroke: this.highlightVectorRules.stroke
+                        },
+                        layer: {id: this.feature.getLayerId()},
+                        styleId
+                    });
+                }
+                else if (this.feature.getOlFeature()?.getGeometry()?.getType() === "LineString") {
+                    this.highlightFeature({
+                        feature: this.feature.getOlFeature(),
+                        type: "highlightLine",
+                        highlightStyle: {
+                            fill: this.highlightVectorRules.fill,
+                            stroke: this.highlightVectorRules.stroke
                         },
                         layer: {id: this.feature.getLayerId()},
                         styleId
