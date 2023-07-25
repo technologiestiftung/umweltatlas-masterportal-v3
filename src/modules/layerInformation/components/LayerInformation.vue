@@ -58,7 +58,7 @@ export default {
         showInformation () {
             return this.active;
         },
-        legendURL  () {
+        legendURL () {
             return this.layerInfo.legendURL;
         }
     },
