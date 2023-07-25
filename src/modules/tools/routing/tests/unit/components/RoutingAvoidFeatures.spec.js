@@ -251,4 +251,58 @@ describe("src/modules/tools/routing/components/RoutingAvoidFeatures.vue", () => 
         expect(wrapper.emitted().removeAvoidOption.length).equal(1);
         expect(wrapper.emitted().removeAvoidOption[0]).deep.to.equal(["HIGHWAYS"]);
     });
+    it("checks updateAvoidSpeedProfileOptions to add speedProfile", async () => {
+        wrapper = shallowMount(RoutingAvoidFeaturesComponent, {
+            store,
+            localVue,
+            data: () => ({
+                avoidSpeedProfileOptionsConstants: [{id: "HIGHWAYS", availableProfiles: ["CYCLING"]}],
+                showAvoidFeatures: true
+            }),
+            propsData: {
+                settings: {
+                    speedProfile: "CYCLING"
+                }
+            }
+        });
+        wrapper.vm.updateAvoidSpeedProfileOptions("HIGHWAYS", "CAR");
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.avoidSpeedProfileOptionsConstants[0].availableProfiles).deep.to.equal(["CYCLING", "CAR"]);
+    });
+    it("checks updateAvoidSpeedProfileOptions to add speedProfile with new avoidFeature", async () => {
+        wrapper = shallowMount(RoutingAvoidFeaturesComponent, {
+            store,
+            localVue,
+            data: () => ({
+                avoidSpeedProfileOptionsConstants: [{id: "HIGHWAYS", availableProfiles: ["CYCLING"]}],
+                showAvoidFeatures: true
+            }),
+            propsData: {
+                settings: {
+                    speedProfile: "CYCLING"
+                }
+            }
+        });
+        wrapper.vm.updateAvoidSpeedProfileOptions("New", "CAR");
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.avoidSpeedProfileOptionsConstants[1].id).deep.to.equal("New");
+    });
+    it("removes existing speedProfile from avoidSpeedProfileOptionsConstants", async () => {
+        wrapper = shallowMount(RoutingAvoidFeaturesComponent, {
+            store,
+            localVue,
+            data: () => ({
+                avoidSpeedProfileOptionsConstants: [{id: "HIGHWAYS", availableProfiles: ["CYCLING", "CAR"]}],
+                showAvoidFeatures: true
+            }),
+            propsData: {
+                settings: {
+                    speedProfile: "CYCLING"
+                }
+            }
+        });
+        wrapper.vm.removeDefaultSetting("CAR");
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.avoidSpeedProfileOptionsConstants[0].availableProfiles).deep.to.equal(["CYCLING"]);
+    });
 });

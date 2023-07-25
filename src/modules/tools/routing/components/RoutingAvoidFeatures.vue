@@ -33,8 +33,8 @@ export default {
          * @returns {Object[]} settings
          */
         avoidSpeedProfileOptions ({settings}) {
-            return this.avoidSpeedProfileOptionsConstants.filter(
-                (option) => option.availableProfiles.includes(settings.speedProfile)
+            return this.avoidSpeedProfileOptionsConstants?.filter(
+                (option) => option.availableProfiles?.includes(settings.speedProfile)
             );
         }
     },
@@ -104,7 +104,7 @@ export default {
          * @returns {Boolean} true if option is checked
          */
         getIsRoutingAvoidFeaturesOptionsChecked (option) {
-            return this.activeAvoidFeaturesOptions.includes(option.id);
+            return this.activeAvoidFeaturesOptions?.includes(option.id);
         },
         /**
          * Emits an event on user input
