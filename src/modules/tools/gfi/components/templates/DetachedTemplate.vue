@@ -25,7 +25,7 @@ export default {
     },
     computed: {
         ...mapGetters("Maps", ["clickCoordinate", "getLayerById"]),
-        ...mapGetters("Tools/Gfi", ["centerMapToClickPoint", "showMarker", "highlightVectorRules", "currentFeature"]),
+        ...mapGetters("Tools/Gfi", ["centerMapToClickPoint", "showMarker", "highlightVectorRules", "currentFeature", "hideMapMarkerOnVectorHighlight"]),
 
         /**
          * Returns the title of the gfi.
@@ -104,6 +104,10 @@ export default {
                     styleId = layer?.get("styleId");
 
                 this.removeHighlighting();
+                if (this.hideMapMarkerOnVectorHighlight) {
+                    this.hideMarker();
+                }
+
                 if (this.feature.getOlFeature()?.getGeometry()?.getType() === "Point") {
                     this.highlightFeature({
                         feature: this.feature.getOlFeature(),

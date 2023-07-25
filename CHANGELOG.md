@@ -13,7 +13,8 @@
   - Add: new parameter minZoom and maxZoom in layer configuration to make filter to react with zoom level. If the current zoom level if out of range, the filter will be deactivated.
 - Routing:
     - Possibility to define additional preferences for the different speed profiles (additionally to the BKG service)  (requires own modified backend).
-
+- GFI:
+    - new parameter: hideMapMarkerOnVectorHighlight
 ### Changed
  - dependencies:
          - @masterportal/masterportalapi: 2.20.0 to 2.21.0 (with cesium 1.106.0 to @cesium/engine 2.4.1)

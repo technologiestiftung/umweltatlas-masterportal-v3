@@ -1567,6 +1567,7 @@ On all GFI request types except directly fetching HTML, which is done by using `
 |desktopType|no|String|"detached"|Used to choose a GFI template in desktop mode. If using "attached", the GFI will be positioned next to the feature. Using "detached" will place a marker on the feature and create the GFI window to the right of the map.|false|
 |coloredHighlighting3D|no|**[coloredHighlighting3D](#markdown-header-portalconfigmenutoolgficoloredhighlighting3d)**||Rule definition to override the highlighting of clicked 3D tiles.|false|
 |highlightVectorRules|no|**[highlightVectorRules](#markdown-header-portalconfigmenutoolgfihighlightvectorrules)**||Rule definition to override the styling of clicked vector data.|false|
+|hideMapMarkerOnVectorHighlight|no|Boolean|false|If set to true, the mapmarker won't be shown on vector highlighting. Only applies for the DetachedTemplate|false|
 
 **Examples**
 
@@ -1593,7 +1594,8 @@ On all GFI request types except directly fetching HTML, which is done by using `
             "text": {
                 "scale": 2
             }
-        }
+        },
+        "hideMapMarkerOnVectorHighlight": true
     }
 }
 ```
