@@ -14,6 +14,7 @@
 - Routing:
     - Possibility to define additional preferences for the different speed profiles (additionally to the BKG service)  (requires own modified backend).
 - GFI:
+    - highlightFeature also works for line geometries
     - new parameter: hideMapMarkerOnVectorHighlight
 ### Changed
  - dependencies:
@@ -27,7 +28,6 @@
 - Print: The portal is no longer reloaded after pressing the Enter key in the title field. Instead, the print is sent.
 - WFST-Tool can also parse Geoserver responses from DescribeFeatureType-Requests
 - WFST-Tool with fixed language pack in nested i18next json
-- gfi-highlight-feature also works for line-geometries
 ---
 ## v2.35.1 - 2023-07-13
 ### Fixed
