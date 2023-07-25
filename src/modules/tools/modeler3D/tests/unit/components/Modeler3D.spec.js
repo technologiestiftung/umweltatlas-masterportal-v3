@@ -145,8 +145,8 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
         await wrapper.vm.$nextTick();
 
         expect(wrapper.find("#tool-modeler3D").exists()).to.be.true;
-        expect(wrapper.find(Modeler3DImport).exists()).to.be.true;
-        expect(wrapper.find(Modeler3DDraw).exists()).to.be.false;
+        expect(wrapper.findComponent(Modeler3DImport).exists()).to.be.true;
+        expect(wrapper.findComponent(Modeler3DDraw).exists()).to.be.false;
         expect(wrapper.find("#modeler3D-options-view").exists()).to.be.false;
     });
 

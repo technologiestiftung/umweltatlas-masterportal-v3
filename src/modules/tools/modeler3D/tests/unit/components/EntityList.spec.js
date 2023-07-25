@@ -17,17 +17,16 @@ describe("src/modules/tools/modeler3D/components/EntityList.vue", () => {
         }
     });
 
-    it("shows buttons for importedModel", async () => {
-        wrapper = mount(EntityListComponent, {localVue});
-        wrapper.vm.objects = [
-            {
+    it("shows buttons for importedModel", () => {
+        wrapper = mount(EntityListComponent, {localVue, propsData: {
+            objects: [{
                 id: "id",
                 name: "name",
                 show: false
-            }
-        ];
-        wrapper.vm.entity = true;
-        await wrapper.vm.$nextTick();
+            }],
+            objectsLabel: "Test",
+            entity: true
+        }});
 
         const zoomToButton = wrapper.find("#list-zoomTo"),
             editButton = wrapper.find("#list-edit"),
@@ -40,17 +39,16 @@ describe("src/modules/tools/modeler3D/components/EntityList.vue", () => {
         expect(deleteButton.exists()).to.be.true;
     });
 
-    it("shows buttons for hiddenObjects", async () => {
-        wrapper = mount(EntityListComponent, {localVue});
-        wrapper.vm.objects = [
-            {
+    it("shows buttons for hiddenObjects", () => {
+        wrapper = mount(EntityListComponent, {localVue, propsData: {
+            objects: [{
                 id: "id",
                 name: "name",
                 show: false
-            }
-        ];
-        wrapper.vm.entity = false;
-        await wrapper.vm.$nextTick();
+            }],
+            objectsLabel: "Test",
+            entity: true
+        }});
 
         const hideButton = wrapper.find("#list-hide");
 

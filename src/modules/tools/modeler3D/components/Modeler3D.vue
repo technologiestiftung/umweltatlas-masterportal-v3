@@ -109,18 +109,15 @@ export default {
                             oldEntity.polygon.material.color = oldEntity.originalColor;
                             oldEntity.polygon.outlineColor = oldEntity.originalOutlineColor;
                             oldEntity.polygon.hierarchy = new Cesium.ConstantProperty(new Cesium.PolygonHierarchy(this.activeShapePoints));
-                            this.removeCylinders();
-                            this.setActiveShapePoints([]);
-                            this.setCylinderId(null);
                             this.setExtrudedHeight(20);
                         }
                         else if (oldEntity.polyline) {
                             oldEntity.polyline.positions = new Cesium.ConstantProperty(this.activeShapePoints);
                             oldEntity.polyline.material.color = oldEntity.originalColor;
-                            this.removeCylinders();
-                            this.setActiveShapePoints([]);
-                            this.setCylinderId(null);
                         }
+                        this.removeCylinders();
+                        this.setActiveShapePoints([]);
+                        this.setCylinderId(null);
                     }
                     else {
                         oldEntity.model.color = Cesium.Color.WHITE;

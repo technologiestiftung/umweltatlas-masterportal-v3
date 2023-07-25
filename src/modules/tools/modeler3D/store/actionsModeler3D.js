@@ -10,19 +10,20 @@ const actions = {
      * @param {string} id - The ID of the entity to delete.
      * @returns {void}
      */
-    deleteEntity ({commit, getters, state}, id) {
+    deleteEntity ({commit, dispatch, getters, state}, id) {
         const entities = getters.entities,
             entity = entities.getById(id),
             stateArray = entity?.wasDrawn ? state.drawnModels : state.importedModels,
             modelIndex = stateArray.findIndex(x => x.id === id);
 
         if (modelIndex > -1 && entity) {
+            dispatch("removeCylinders");
+            commit("setActiveShapePoints", []);
+            commit("setCylinderId", null);
             commit("setCurrentModelId", null);
 
-            setTimeout(() => {
-                stateArray.splice(modelIndex, 1);
-                entities.removeById(id);
-            }, 10);
+            stateArray.splice(modelIndex, 1);
+            entities.removeById(id);
         }
     },
     /**
@@ -128,6 +129,9 @@ const actions = {
 
         if (entity?.polygon instanceof Cesium.PolygonGraphics) {
             commit("setExtrudedHeight", entity.polygon.extrudedHeight.getValue() - entity.polygon.height.getValue());
+        }
+        else if (entity?.polyline instanceof Cesium.PolylineGraphics) {
+            commit("setLineWidth", entity.polyline.width.getValue());
         }
         else if (entity?.model instanceof Cesium.ModelGraphics) {
             const modelFromState = state.importedModels.find(ent => ent.id === entity.id);

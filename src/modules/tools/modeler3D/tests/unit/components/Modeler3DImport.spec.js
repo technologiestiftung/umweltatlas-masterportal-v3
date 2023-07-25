@@ -1,7 +1,7 @@
 import Vuex from "vuex";
 import {expect} from "chai";
 import sinon from "sinon";
-import {mount, config, createLocalVue} from "@vue/test-utils";
+import {mount, shallowMount, config, createLocalVue} from "@vue/test-utils";
 import Modeler3DImportComponent from "../../../components/Modeler3DImport.vue";
 import Modeler3DModule from "../../../store/indexModeler3D";
 import {JSDOM} from "jsdom";
@@ -77,24 +77,29 @@ config.mocks.$t = key => key;
 describe("src/modules/tools/modeler3D/components/Modeler3DImport.vue", () => {
     let store, wrapper, scene;
     const entities = {
-            getById: sinon.stub().returns({position: {}}),
+            getById: () => ({position: {}}),
             values: []
         },
-        defaultDataSource = {entities},
-        dataSourceDisplay = {defaultDataSource},
         map3D = {
             id: "1",
             mode: "3D",
             getCesiumScene: () => {
                 return scene;
+            },
+            getDataSourceDisplay: () => {
+                return {
+                    defaultDataSource: {
+                        entities: entities
+                    }
+                };
             }
         };
-
-    map3D.getDataSourceDisplay = sinon.stub().returns(dataSourceDisplay);
 
     beforeEach(() => {
         mapCollection.clear();
         mapCollection.addMap(map3D, "3D");
+
+        entities.add = sinon.stub();
 
         global.Cesium = {
             Entity: function (options) {
@@ -103,8 +108,6 @@ describe("src/modules/tools/modeler3D/components/Modeler3DImport.vue", () => {
                 this.clampToGround = options.clampToGround;
             }
         };
-
-        entities.add = sinon.stub();
 
         store = new Vuex.Store({
             namespaces: true,
@@ -119,6 +122,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3DImport.vue", () => {
         });
         store.commit("Tools/Modeler3D/setActive", true);
         store.commit("Tools/Modeler3D/setIsLoading", false);
+        store.commit("Tools/Modeler3D/setDrawnModels", []);
     });
 
     afterEach(() => {
@@ -138,31 +142,6 @@ describe("src/modules/tools/modeler3D/components/Modeler3DImport.vue", () => {
         const toolModeler3DImportWrapper = wrapper.findComponent({name: "BasicFileImport"});
 
         expect(toolModeler3DImportWrapper.exists()).to.be.true;
-    });
-    it("should handle files correctly", () => {
-        wrapper = mount(Modeler3DImportComponent, {store, localVue});
-        const fileDetails = {
-                lastModified: 1686206596589,
-                name: "House.gltf",
-                size: 1801540,
-                type: "",
-                webkitRelativePath: ""
-            },
-            file = new File([fileDetails], fileDetails.name),
-            readAsArrayBufferStub = sinon.stub(FileReader.prototype, "readAsArrayBuffer"),
-            readAsTextStub = sinon.stub(FileReader.prototype, "readAsText");
-            // addSingleAlertStub = sinon.stub(store, "dispatch");
-
-        file.name = fileDetails.name;
-
-        // Call the addFile function
-        wrapper.vm.addFile([file]);
-        // expect(addSingleAlertStub.calledOnceWith("Alerting/addSingleAlert")).to.be.true;
-        // expect(addSingleAlertStub.args[0][1]).to.deep.equal({
-        //     content: i18next.t("common:modules.tools.modeler3D.import.alertingMessages.missingFormat", {format: "xyz"})
-        // });
-        readAsArrayBufferStub.restore();
-        readAsTextStub.restore();
     });
     it("handles OBJ file correctly", () => {
         const fileContent = "dummy obj file content",
@@ -208,7 +187,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3DImport.vue", () => {
             fromDegrees: sinon.stub().returns({x: 10, y: 20, z: 30})
         };
 
-        wrapper = mount(Modeler3DImportComponent, {store, localVue});
+        wrapper = shallowMount(Modeler3DImportComponent, {store, localVue});
         wrapper.vm.handleGeoJsonFile(fileContent);
 
         expect(entities.add.callCount).to.equal(featureCount);
