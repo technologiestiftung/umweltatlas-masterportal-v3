@@ -134,7 +134,6 @@ export default {
                         feature: this.feature.getOlFeature(),
                         type: "highlightLine",
                         highlightStyle: {
-                            fill: this.highlightVectorRules.fill,
                             stroke: this.highlightVectorRules.stroke
                         },
                         layer: {id: this.feature.getLayerId()},
