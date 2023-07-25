@@ -371,21 +371,7 @@
               "Layer": [
                 {
                   "id": "24050",
-                  "name": "Area1"
-                },
-                {
-                  "id": "24122",
-                  "name": "Area3",
-                  "visibility": true
-                }
-              ]
-            },
-            {
-              "Titel": "3D-Gebäudemodell (LoD3.0- HH) hochauflösend",
-              "Layer": [
-                {
-                  "id": "24078",
-                  "name": "Area1 hochauflösend",
+                  "name": "Area1",
                   "visibility": true
                 }
               ]
@@ -420,17 +406,7 @@
                     "UUID_9e1430a9-017b-4275-9852-42ebb9808307",
                     "UUID_ef12f1ea-bd0d-4123-ab4c-38e1e762bc11",
                     "UUID_d88f2906-864d-4015-ae0e-3d03359d9ca3"
-                  ]
-                }
-              ]
-            },
-            {
-              "Titel": "Bäume",
-              "Layer": [
-                {
-                  "id": "16102",
-                  "name": "3D-Straßenbaumkataster",
-                  "visibility": true
+                  ]        
                 }
               ]
             }
