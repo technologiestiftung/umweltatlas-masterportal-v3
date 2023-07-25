@@ -36,20 +36,9 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
             model: {scale: 1}
         },
         entities = {
-            getById: sinon.stub().returns(entity),
-            add: sinon.stub(),
-            values: [{id: "FloatingPointId", positionIndex: 0, cylinder: {length: 4}}]
-        },
-        scene = {
-            camera: {
-                getPickRay: sinon.stub().returns(pickRayResult),
-                flyTo: sinon.spy()
-            },
-            globe: {
-                pick: sinon.stub().returns({}),
-                getHeight: sinon.stub().returns(5)
-            },
-            sampleHeight: sinon.stub()
+            getById: () => entity,
+            values: [{id: "FloatingPointId", positionIndex: 0, cylinder: {length: 4}}],
+            add: () => entity
         },
         map3D = {
             id: "1",
@@ -68,7 +57,8 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
 
     let store,
         originalCreateCylinder,
-        wrapper;
+        wrapper,
+        scene;
 
     beforeEach(() => {
         global.URL = {
@@ -79,6 +69,20 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
         Modeler3D.actions.createCylinder = sinon.spy();
         mapCollection.clear();
         mapCollection.addMap(map3D, "3D");
+
+        entities.add = sinon.stub();
+
+        scene = {
+            camera: {
+                getPickRay: sinon.stub().returns(pickRayResult),
+                flyTo: sinon.spy()
+            },
+            globe: {
+                pick: sinon.stub().returns({}),
+                getHeight: sinon.stub().returns(5)
+            },
+            sampleHeight: sinon.stub().returns(5)
+        };
 
         global.Cesium = {
             Color: {
@@ -197,79 +201,85 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
             expect(wrapper.vm.currentPosition).to.eql(Cartesian3Coordinates);
             expect(wrapper.vm.activeShapePoints[0]).to.eql(Cartesian3Coordinates);
         });
-    });
-    it("should add new geometry position and call drawShape when activeShapePoints length is 1", () => {
-        const mockShape = {
-            id: 1,
-            name: "Mock Shape",
-            wasDrawn: true,
-            clampToGround: false,
-            polygon: {
-                height: 10,
-                extrudedHeight: 0
-            }
-        };
 
-        wrapper.vm.clampToGround = true;
-        entities.values.push(mockShape);
-        wrapper.vm.activeShapePoints = [{x: 100, y: 200, z: 300}];
-        global.Cesium.ShadowMode = {
-            ENABLED: 1
-        };
-
-        wrapper.vm.addGeometryPosition();
-
-        expect(scene.globe.getHeight.calledOnce).to.be.true;
-        expect(scene.sampleHeight.called).to.be.false;
-        expect(scene.globe.pick.called).to.be.false;
-        expect(wrapper.vm.activeShapePoints).to.have.lengthOf(1);
-    });
-    it("should export the GeoJson", () => {
-        entities.values = [
-            {
-                id: "FloatingPointId",
-                positionIndex: 0,
-                polyline: {
-                    material: {
-                        color: {
-                            getValue: () => {
-                                return "WHITE";
-                            }
-                        }
-                    },
-                    positions: {
-                        getValue: () => {
-                            return [4, 3, 3];
-                        }
-                    },
-                    width: 2
+        it("should add new geometry position and call drawShape when activeShapePoints length is 1", () => {
+            const mockShape = {
+                id: 1,
+                name: "Mock Shape",
+                wasDrawn: true,
+                clampToGround: true,
+                polygon: {
+                    height: 10,
+                    extrudedHeight: 0
                 }
-            }
-        ];
-        wrapper.vm.exportToGeoJson();
-        wrapper.vm.downloadGeoJson = sinon.spy();
+            };
 
-        expect(wrapper.vm.downloadGeoJson.calledWith(sinon.match(JSON.stringify(sinon.match({
-            type: "FeatureCollection",
-            features: sinon.match.array
-        })))));
-    });
-    it("should draw shapes when selectedGeometry is 'line' and activeShapePoints has at least 2 points", () => {
-        store.commit("Tools/Modeler3D/setSelectedGeometry", "line");
-        wrapper.vm.activeShapePoints = [{x: 100, y: 200, z: 300}, {x: 200, y: 300, z: 400}];
-        wrapper.vm.drawShape();
+            wrapper.vm.clampToGround = true;
+            entities.values.push(mockShape);
+            store.commit("Tools/Modeler3D/setActiveShapePoints", [{x: 100, y: 200, z: 300}]);
+            global.Cesium.ShadowMode = {
+                ENABLED: 1
+            };
 
-        expect(entities.add.calledWith(sinon.match({id: sinon.match.string, polyline: sinon.match.object}))).to.be.true;
-    });
-    it("should draw shapes when selectedGeometry is 'polygon' and activeShapePoints has at least 3 points", () => {
-        store.commit("Tools/Modeler3D/setSelectedGeometry", "polygon");
+            wrapper.vm.addGeometryPosition();
 
-        wrapper.vm.activeShapePoints = [
-            {x: 100, y: 200, z: 300},
-            {x: 200, y: 300, z: 400},
-            {x: 300, y: 400, z: 500}
-        ];
-        wrapper.vm.drawShape();
-        expect(entities.add.calledWith(sinon.match({id: sinon.match.string, polygon: sinon.match.object}))).to.be.true;
+            expect(scene.globe.getHeight.called).to.be.true;
+            expect(scene.sampleHeight.called).to.be.false;
+            expect(scene.globe.pick.called).to.be.false;
+            expect(wrapper.vm.activeShapePoints).to.have.lengthOf(2);
+        });
+
+        it("should export the GeoJson", () => {
+            entities.values = [
+                {
+                    id: "FloatingPointId",
+                    positionIndex: 0,
+                    polyline: {
+                        material: {
+                            color: {
+                                getValue: () => {
+                                    return "WHITE";
+                                }
+                            }
+                        },
+                        positions: {
+                            getValue: () => {
+                                return [4, 3, 3];
+                            }
+                        },
+                        width: {
+                            getValue: () => 2
+                        }
+                    }
+                }
+            ];
+            wrapper.vm.exportToGeoJson();
+            wrapper.vm.downloadGeoJson = sinon.spy();
+
+            expect(wrapper.vm.downloadGeoJson.calledWith(sinon.match(JSON.stringify(sinon.match({
+                type: "FeatureCollection",
+                features: sinon.match.array
+            })))));
+        });
+
+        it("should draw shapes when selectedGeometry is 'line' and activeShapePoints has at least 2 points", () => {
+            store.commit("Tools/Modeler3D/setSelectedGeometry", "line");
+            store.commit("Tools/Modeler3D/setActiveShapePoints", [{x: 100, y: 200, z: 300}, {x: 200, y: 300, z: 400}]);
+            wrapper.vm.drawShape();
+
+            expect(entities.add.calledWith(sinon.match({id: sinon.match.string, polyline: sinon.match.object}))).to.be.true;
+        });
+
+        it("should draw shapes when selectedGeometry is 'polygon' and activeShapePoints has at least 3 points", () => {
+            store.commit("Tools/Modeler3D/setSelectedGeometry", "polygon");
+
+            store.commit("Tools/Modeler3D/setActiveShapePoints", [
+                {x: 100, y: 200, z: 300},
+                {x: 200, y: 300, z: 400},
+                {x: 300, y: 400, z: 500}
+            ]);
+            wrapper.vm.drawShape();
+            expect(entities.add.calledWith(sinon.match({id: sinon.match.string, polygon: sinon.match.object}))).to.be.true;
+        });
     });
 });

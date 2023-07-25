@@ -216,6 +216,7 @@ export default {
                     }
                 };
             }
+
             this.entities.add(shape);
             models.push({
                 id: shape.id,
@@ -423,7 +424,7 @@ export default {
                             class="form-control form-control-sm"
                             type="text"
                             :value="extrudedHeight"
-                            @input="setExtrudedHeight($event.target.value)"
+                            @input="setExtrudedHeight(parseFloat($event.target.value))"
                         >
                     </div>
                     <label

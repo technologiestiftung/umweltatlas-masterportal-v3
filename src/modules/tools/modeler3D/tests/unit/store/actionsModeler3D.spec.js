@@ -21,6 +21,12 @@ describe("Actions", () => {
         mapCollection.addMap(map3D, "3D");
 
         global.Cesium = {
+            PolylineGraphics: function (options) {
+                this.width = {
+                    _value: options.width,
+                    getValue: () => this.width._value
+                };
+            },
             PolygonGraphics: function (options) {
                 this.extrudedHeight = {
                     _value: options.extrudedHeight,
@@ -32,11 +38,9 @@ describe("Actions", () => {
                 };
             },
             ModelGraphics: function (options) {
-                this.model = {
-                    scale: {
-                        _value: options.scale,
-                        getValue: () => this.model.scale._value
-                    }
+                this.scale = {
+                    _value: options.scale,
+                    getValue: () => this.scale._value
                 };
             },
             Cartesian3: function () {
@@ -100,8 +104,9 @@ describe("Actions", () => {
         sinon.restore();
     });
     describe("deleteEntity", () => {
-        it("should delete the entity from list and entityCollection", (done) => {
-            const commit = sinon.spy(),
+        it("should delete the entity from list and entityCollection", () => {
+            const dispatch = sinon.spy(),
+                commit = sinon.spy(),
                 state = {importedModels: [{id: 1}]},
                 id = 1;
 
@@ -114,16 +119,18 @@ describe("Actions", () => {
                 entities: entities
             };
 
-            actions.deleteEntity({state, getters, commit}, id);
-            setTimeout(() => {
-                expect(entities.removeById.calledWith(1)).to.be.true;
-                expect(commit.calledWith("setCurrentModelId", null)).to.be.true;
-                done();
-            }, 20);
+            actions.deleteEntity({state, dispatch, getters, commit}, id);
+
+            expect(dispatch.calledWith("removeCylinders")).to.be.true;
+            expect(commit.firstCall.calledWith("setActiveShapePoints", [])).to.be.true;
+            expect(commit.secondCall.calledWith("setCylinderId", null)).to.be.true;
+            expect(commit.thirdCall.calledWith("setCurrentModelId", null)).to.be.true;
+            expect(entities.removeById.calledWith(1)).to.be.true;
         });
 
-        it("should not delete the entity when not found in list", (done) => {
-            const commit = sinon.spy(),
+        it("should not delete the entity when not found in list", () => {
+            const dispatch = sinon.spy(),
+                commit = sinon.spy(),
                 state = {importedModels: [{id: 5}]},
                 id = 1;
 
@@ -136,12 +143,11 @@ describe("Actions", () => {
                 entities: entities
             };
 
-            actions.deleteEntity({state, getters, commit}, id);
-            setTimeout(() => {
-                expect(entities.removeById.calledWith(1)).to.be.false;
-                expect(commit.calledWith("setCurrentModelId", null)).to.be.false;
-                done();
-            }, 20);
+            actions.deleteEntity({state, dispatch, getters, commit}, id);
+
+            expect(dispatch.called).to.be.false;
+            expect(commit.called).to.be.false;
+            expect(entities.removeById.called).to.be.false;
         });
     });
 
@@ -393,15 +399,17 @@ describe("Actions", () => {
     });
 
     describe("updateUI", () => {
-        const entity = {
-            clampToGround: true
-        };
-
         it("should update the entity UI when entity is a polygon", () => {
-            entity.polygon = new Cesium.PolygonGraphics({
-                extrudedHeight: 25,
-                height: 10
-            });
+            const entity = {
+                    clampToGround: true,
+                    polygon: new Cesium.PolygonGraphics({
+                        extrudedHeight: 25,
+                        height: 10
+                    })
+                },
+                commit = sinon.spy(),
+                dispatch = sinon.spy(),
+                state = {currentModelId: "polygonId"};
 
             entities = {
                 getById: sinon.stub().returns(entity)
@@ -410,10 +418,6 @@ describe("Actions", () => {
                 entities: entities
             };
 
-            const commit = sinon.spy(),
-                dispatch = sinon.spy(),
-                state = {currentModelId: "polygonId"};
-
             actions.updateUI({commit, dispatch, getters, state});
 
             expect(entities.getById.calledWith("polygonId")).to.be.true;
@@ -421,6 +425,68 @@ describe("Actions", () => {
             expect(commit.firstCall.args[1]).to.be.true;
             expect(commit.secondCall.args[0]).to.equal("setExtrudedHeight");
             expect(commit.secondCall.args[1]).to.equal(15);
+            expect(dispatch.calledWith("updatePositionUI"));
+        });
+
+        it("should update the entity UI when entity is a polyline", () => {
+            const entity = {
+                    clampToGround: true,
+                    polyline: new Cesium.PolylineGraphics({
+                        width: 20
+                    })
+                },
+                commit = sinon.spy(),
+                dispatch = sinon.spy(),
+                state = {currentModelId: "polylineId"};
+
+            entities = {
+                getById: sinon.stub().returns(entity)
+            };
+            getters = {
+                entities: entities
+            };
+
+            actions.updateUI({commit, dispatch, getters, state});
+
+            expect(entities.getById.calledWith("polylineId")).to.be.true;
+            expect(commit.firstCall.args[0]).to.equal("setAdaptToHeight");
+            expect(commit.firstCall.args[1]).to.be.true;
+            expect(commit.secondCall.args[0]).to.equal("setLineWidth");
+            expect(commit.secondCall.args[1]).to.equal(20);
+            expect(dispatch.calledWith("updatePositionUI"));
+        });
+
+        it("should update the entity UI when entity is a model", () => {
+            const entity = {
+                    id: "modelId",
+                    clampToGround: true,
+                    model: new Cesium.ModelGraphics({
+                        scale: 2
+                    })
+                },
+                commit = sinon.spy(),
+                dispatch = sinon.spy(),
+                state = {
+                    currentModelId: "modelId",
+                    importedModels: [{id: "modelId", heading: 90}]
+                };
+
+            entities = {
+                getById: sinon.stub().returns(entity)
+            };
+            getters = {
+                entities: entities
+            };
+
+            actions.updateUI({commit, dispatch, getters, state});
+
+            expect(entities.getById.calledWith("modelId")).to.be.true;
+            expect(commit.firstCall.args[0]).to.equal("setAdaptToHeight");
+            expect(commit.firstCall.args[1]).to.be.true;
+            expect(commit.secondCall.args[0]).to.equal("setRotation");
+            expect(commit.secondCall.args[1]).to.equal(90);
+            expect(commit.thirdCall.args[0]).to.equal("setScale");
+            expect(commit.thirdCall.args[1]).to.equal(2);
             expect(dispatch.calledWith("updatePositionUI"));
         });
     });

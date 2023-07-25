@@ -10,7 +10,7 @@ const {setProjections} = mutations,
         ["EPSG:4326", "+title=WGS 84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"]
     ];
 
-describe("src/modules/tools/import3D/store/mutationsImport3D.js", () => {
+describe("src/modules/tools/modeler3D/store/mutationsModeler3D.js", () => {
 
     before(() => {
         crs.registerProjections(namedProjections);
