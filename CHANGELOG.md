@@ -26,8 +26,10 @@
 
 ### Fixed
 - Print: The portal is no longer reloaded after pressing the Enter key in the title field. Instead, the print is sent.
-- WFST-Tool can also parse Geoserver responses from DescribeFeatureType-Requests
-- WFST-Tool with fixed language pack in nested i18next json
+- WFST-Tool:
+    - can also parse Geoserver responses from DescribeFeatureType-Requests
+    - fixed language pack in nested i18next json
+- Issue #1057: Filter: Checkbox Snippet does not response right in activation and deactivation.
 ---
 ## v2.35.1 - 2023-07-13
 ### Fixed
