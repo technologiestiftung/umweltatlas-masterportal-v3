@@ -595,9 +595,18 @@
           "visibility": true
         },
         {
-          "id": "12884",
-          "name": "Gebäude LoD2",
-          "gfiAttributes": "showAll",
+          "id": "24050",
+          "name": "Area1",
+          "visibility": true
+        },
+        {
+          "id": "24122",
+          "name": "Area3",
+          "visibility": true
+        },
+        {
+          "id": "16102",
+          "name": "3D-Straßenbaumkataster",
           "visibility": true
         },
         {
