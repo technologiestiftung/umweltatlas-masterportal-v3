@@ -305,4 +305,22 @@ describe("src/modules/tools/routing/components/RoutingAvoidFeatures.vue", () => 
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.avoidSpeedProfileOptionsConstants[0].availableProfiles).deep.to.equal(["CYCLING"]);
     });
+    it("syncs the avoidFeatures from configs", async () => {
+        wrapper = shallowMount(RoutingAvoidFeaturesComponent, {
+            store,
+            localVue,
+            data: () => ({
+                avoidSpeedProfileOptionsConstants: [{id: "HIGHWAYS", availableProfiles: ["CYCLING"]}],
+                showAvoidFeatures: true
+            }),
+            propsData: {
+                settings: {
+                    speedProfile: "CYCLING"
+                }
+            }
+        });
+        wrapper.vm.syncAvoidFeatures({"CAR": ["HIGHWAYS"]});
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.avoidSpeedProfileOptionsConstants[0].availableProfiles).deep.to.equal(["CYCLING", "CAR"]);
+    });
 });
