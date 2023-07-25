@@ -136,6 +136,9 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
             defaultValue: () => {
                 return new global.Cesium.Entity("entityId");
             },
+            Cartesian3: {
+                equals: () => false
+            },
             Cartographic: {
                 fromDegrees: () => ({
                     longitude: 0.17443853256965697,
@@ -570,6 +573,19 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
             expect(entityList[0].polyline.material.color).to.eql(
                 global.Cesium.Color.fromAlpha(global.Cesium.Color.fromCssColorString("RED"), parseFloat(1.0))
             );
+        });
+        it("should handle the mouse move event for the pov cylinder", async () => {
+            wrapper = shallowMount(Modeler3DComponent, {store, localVue});
+            store.commit("Tools/Modeler3D/setCylinderId", 2);
+            await wrapper.vm.$nextTick();
+
+            wrapper.vm.moveHandler();
+            expect(document.body.style.cursor).to.equal("copy");
+            expect(wrapper.vm.currentCartesian).to.eql({
+                x: 3739310.9273738265,
+                y: 659341.4057539968,
+                z: 5107613.232959453
+            });
         });
     });
 });
