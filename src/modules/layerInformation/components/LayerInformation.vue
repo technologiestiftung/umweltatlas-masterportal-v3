@@ -169,7 +169,13 @@ export default {
          * @returns {String} GetCapabilities URL
          */
         getGetCapabilitiesUrl ({url, typ}) {
-            return typ === "OAF" ? url : `${url}?SERVICE=${typ}&REQUEST=GetCapabilities`;
+            const urlObject = new URL(url);
+
+            if (typ !== "OAF") {
+                urlObject.searchParams.set("SERVICE", typ);
+                urlObject.searchParams.set("REQUEST", "GetCapabilities");
+            }
+            return urlObject.href;
         }
     }
 };
