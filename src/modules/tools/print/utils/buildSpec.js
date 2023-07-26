@@ -550,6 +550,18 @@ const BuildSpecModel = {
                     });
                     geometryType = feature.getGeometry().getType();
 
+                    // if an icon is shown, apply style offsets to geometry
+                    if (geometryType === "Point" && style.getImage() instanceof Icon && style.getImage().getScale() > 0) {
+                        const coords = clonedFeature.getGeometry().getCoordinates(),
+                            offsetStyle = styleObjectFromStyleList.rules?.find(({style: {imageOffsetX, imageOffsetY}}) => imageOffsetX || imageOffsetY)?.style,
+                            [posX, posY] = mapCollection.getMap("2D").getPixelFromCoordinate(coords),
+                            [offsetX, offsetY] = [offsetStyle.imageOffsetX ?? 0, offsetStyle.imageOffsetY ?? 0],
+                            mapScaleFactor = store.state.Tools.Print.currentScale / store.state.Tools.Print.currentMapScale,
+                            transformedCoords = mapCollection.getMap("2D").getCoordinateFromPixel([posX - offsetX * mapScaleFactor, posY - offsetY * mapScaleFactor, 0]);
+
+                        clonedFeature.getGeometry().setCoordinates(transformedCoords);
+                    }
+
                     // if style has geometryFunction, take geometry from style Function
                     styleGeometryFunction = style.getGeometryFunction();
                     if (styleGeometryFunction !== null && styleGeometryFunction !== undefined) {
