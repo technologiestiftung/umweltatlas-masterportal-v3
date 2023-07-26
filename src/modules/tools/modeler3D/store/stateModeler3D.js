@@ -49,6 +49,13 @@ export default {
     adaptToHeight: true,
     coordinateEasting: 0,
     coordinateNorthing: 0,
+    currentLayout: {
+        fillColor: [255, 255, 255],
+        fillTransparency: 0,
+        strokeColor: [0, 0, 0],
+        strokeWidth: 1,
+        extrudedHeight: 20
+    },
     currentModelId: null,
     currentModelPosition: null,
     currentProjection: {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm"},
@@ -57,6 +64,7 @@ export default {
     cylinderPosition: [],
     drawName: "",
     drawnModels: [],
+    drawTypes: ["line", "polygon"],
     extrudedHeight: 20,
     height: 0,
     hiddenObjects: [],
@@ -77,8 +85,9 @@ export default {
     projections: [],
     rotation: 0,
     scale: 1,
+    selectedDrawType: "",
+    selectedDrawTypeMain: "",
     selectedFillColor: "",
-    selectedGeometry: "",
     selectedOutlineColor: "",
 
     // defaults for config.json parameters

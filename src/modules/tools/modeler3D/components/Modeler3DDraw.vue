@@ -1,6 +1,4 @@
 <script>
-import EntityList from "./ui/EntityList.vue";
-import * as constants from "../store/constantsModeler3D";
 import {mapGetters, mapActions, mapMutations} from "vuex";
 import actions from "../store/actionsModeler3D";
 import getters from "../store/gettersModeler3D";
@@ -8,17 +6,22 @@ import mutations from "../store/mutationsModeler3D";
 import proj4 from "proj4";
 import {adaptCylinderToEntity, adaptCylinderToGround, adaptCylinderUnclamped} from "../utils/draw";
 
+import DrawTypes from "./ui/DrawTypes.vue";
+import DrawLayout from "./ui/DrawLayout.vue";
+import EntityList from "./ui/EntityList.vue";
+
 let eventHandler = null;
 
 export default {
     name: "Modeler3DDraw",
     components: {
+        DrawTypes,
+        DrawLayout,
         EntityList
     },
     data () {
         return {
             clampToGround: true,
-            constants: constants,
             currentPosition: null,
             shapeId: null
         };
@@ -26,11 +29,6 @@ export default {
     computed: {
         ...mapGetters("Tools/Modeler3D", Object.keys(getters)),
         ...mapGetters("Maps", ["mouseCoordinate"])
-    },
-    mounted () {
-        this.setSelectedFillColor(constants.colorOptions[0].color);
-        this.setSelectedGeometry(constants.geometries[0].value);
-        this.setSelectedOutlineColor(constants.colorOptions[0].color);
     },
     methods: {
         ...mapActions("Tools/Modeler3D", Object.keys(actions)),
@@ -41,6 +39,8 @@ export default {
          * @returns {void}
          */
         startDrawing () {
+            this.setExtrudedHeight(this.currentLayout.extrudedHeight);
+            this.setLineWidth(this.currentLayout.strokeWidth);
             this.setIsDrawing(true);
             this.shapeId = null;
             this.currentPosition = {x: 1, y: 1, z: 1};
@@ -159,6 +159,7 @@ export default {
             this.setActiveShapePoints([]);
             this.removeCylinders();
             this.currentPosition = null;
+            this.shapeId = null;
             this.setIsDrawing(false);
             document.body.style.cursor = "auto";
             eventHandler.destroy();
@@ -173,14 +174,14 @@ export default {
                 lastElement = entities.values.slice().pop(),
                 lastId = lastElement ? lastElement.id : null,
                 positionData = new Cesium.CallbackProperty(() => {
-                    if (this.selectedGeometry === "polygon") {
+                    if (this.selectedDrawType === "polygon") {
                         return new Cesium.PolygonHierarchy(this.activeShapePoints);
                     }
                     return this.activeShapePoints;
                 }, false);
             let shape;
 
-            if (this.selectedGeometry === "line") {
+            if (this.selectedDrawType === "line") {
                 shape = {
                     id: lastId ? lastId + 1 : 1,
                     name: this.drawName ? this.drawName : i18next.t("common:modules.tools.modeler3D.draw.captions.drawing"),
@@ -188,7 +189,7 @@ export default {
                     clampToGround: this.clampToGround,
                     polyline: {
                         material: new Cesium.ColorMaterialProperty(
-                            Cesium.Color[this.selectedFillColor].withAlpha(this.opacity)
+                            Cesium.Color.fromBytes(...this.currentLayout.strokeColor).withAlpha(1 - this.currentLayout.fillTransparency / 100)
                         ),
                         positions: positionData,
                         clampToGround: this.clampToGround,
@@ -196,7 +197,7 @@ export default {
                     }
                 };
             }
-            else if (this.selectedGeometry === "polygon") {
+            else if (this.selectedDrawType === "polygon") {
                 shape = {
                     id: lastId ? lastId + 1 : 1,
                     name: this.drawName ? this.drawName : i18next.t("common:modules.tools.modeler3D.draw.captions.drawing"),
@@ -206,11 +207,10 @@ export default {
                         height: this.height,
                         hierarchy: positionData,
                         material: new Cesium.ColorMaterialProperty(
-                            Cesium.Color[this.selectedFillColor].withAlpha(this.opacity)
+                            Cesium.Color.fromBytes(...this.currentLayout.fillColor).withAlpha(1 - this.currentLayout.fillTransparency / 100)
                         ),
                         outline: true,
-                        outlineWidth: 1,
-                        outlineColor: Cesium.Color[this.selectedOutlineColor].withAlpha(this.opacity),
+                        outlineColor: Cesium.Color.fromBytes(...this.currentLayout.strokeColor).withAlpha(1 - this.currentLayout.fillTransparency / 100),
                         shadows: Cesium.ShadowMode.ENABLED,
                         extrudedHeight: this.extrudedHeight + this.height
                     }
@@ -226,6 +226,11 @@ export default {
             });
             this.setDrawnModels(models);
             this.shapeId = shape.id;
+        },
+        restartDrawing (layout) {
+            this.setCurrentLayout(layout);
+            this.stopDrawing();
+            this.startDrawing();
         },
         /**
          * Zooms the camera to the specified entity.
@@ -362,162 +367,27 @@ export default {
             class="cta"
             v-html="$t('modules.tools.modeler3D.draw.captions.controlInfo')"
         />
+        <div class="h-seperator" />
         <div>
-            <form
-                class="form-horizontal"
-                role="form"
-                @submit.prevent
+            <div
+                class="form-group form-group-sm row"
             >
-                <div
-                    class="form-group form-group-sm row"
+                <label
+                    class="col-md-5 col-form-label"
+                    for="modeler3D-draw-name"
                 >
-                    <label
-                        class="col-md-5 col-form-label"
-                        for="tool-modeler3D-geometry"
+                    {{ $t("modules.tools.modeler3D.draw.captions.drawName") }}
+                </label>
+                <div class="col-md-7">
+                    <input
+                        id="modeler3D-draw-name"
+                        class="form-control form-control-sm"
+                        type="text"
+                        :value="drawName"
+                        @input="setDrawName($event.target.value)"
                     >
-                        {{ $t("modules.tools.modeler3D.draw.captions.geometry") }}
-                    </label>
-                    <div class="col-md-7">
-                        <select
-                            id="tool-modeler3D-geometry"
-                            :key="`tool-modeler3D-geometry-select`"
-                            class="form-select form-select-sm"
-                            @change="setSelectedGeometry($event.target.value)"
-                        >
-                            <option
-                                v-for="geometry in constants.geometries"
-                                :key="'modeler3D-geometry-option-' + geometry.value"
-                                :value="geometry.value"
-                            >
-                                {{ $t("modules.tools.modeler3D.draw.geometries." + geometry.value) }}
-                            </option>
-                        </select>
-                    </div>
-                    <label
-                        class="col-md-5 col-form-label"
-                        for="modeler3D-draw-name"
-                    >
-                        {{ $t("modules.tools.modeler3D.draw.captions.drawName") }}
-                    </label>
-                    <div class="col-md-7">
-                        <input
-                            id="modeler3D-draw-name"
-                            class="form-control form-control-sm"
-                            type="text"
-                            :value="drawName"
-                            @input="setDrawName($event.target.value)"
-                        >
-                    </div>
-                    <label
-                        v-if="selectedGeometry === 'polygon'"
-                        class="col-md-5 col-form-label"
-                        for="tool-modeler3D-extrudedHeight"
-                    >
-                        {{ $t("modules.tools.modeler3D.draw.captions.extrudedHeight") + " [m]" }}
-                    </label>
-                    <div
-                        v-if="selectedGeometry === 'polygon'"
-                        class="col-md-7"
-                    >
-                        <input
-                            id="tool-modeler3D-extrudedHeight"
-                            class="form-control form-control-sm"
-                            type="text"
-                            :value="extrudedHeight"
-                            @input="setExtrudedHeight(parseFloat($event.target.value))"
-                        >
-                    </div>
-                    <label
-                        v-if="selectedGeometry === 'line'"
-                        class="col-md-5 col-form-label"
-                        for="tool-modeler3D-lineWidth"
-                    >
-                        {{ $t("modules.tools.modeler3D.draw.captions.lineWidth") + " [Pixel]" }}
-                    </label>
-                    <div
-                        v-if="selectedGeometry === 'line'"
-                        class="col-md-7"
-                    >
-                        <input
-                            id="tool-modeler3D-lineWidth"
-                            class="form-control form-control-sm"
-                            type="number"
-                            :value="lineWidth"
-                            @input="setLineWidth(parseFloat($event.target.value))"
-                        >
-                    </div>
-                    <label
-                        class="col-md-5 col-form-label"
-                        for="tool-modeler3D-transparency"
-                    >
-                        {{ $t("modules.tools.modeler3D.draw.captions.transparency") }}
-                    </label>
-                    <div class="col-md-7">
-                        <select
-                            id="tool-modeler3D-transparency"
-                            :key="`tool-modeler3D-transparency-select`"
-                            class="form-select form-select-sm"
-                            @change="setOpacity(parseFloat($event.target.value))"
-                        >
-                            <option
-                                v-for="option in constants.transparencyOptions"
-                                :key="'modeler3D-opacity-option-' + option.value"
-                                :value="option.value"
-                            >
-                                {{ option.caption }}
-                            </option>
-                        </select>
-                    </div>
-                    <label
-                        class="col-md-5 col-form-label"
-                        for="tool-modeler3D-fill-color"
-                    >
-                        {{ $t("modules.tools.modeler3D.draw.captions.fillColor") }}
-                    </label>
-                    <div class="col-md-7">
-                        <select
-                            id="tool-modeler3D-fill-color"
-                            :key="`tool-modeler3D-color-select`"
-                            class="form-select form-select-sm"
-                            @change="setSelectedFillColor($event.target.value)"
-                        >
-                            <option
-                                v-for="option in constants.colorOptions"
-                                :key="'modeler3D-fill-color-option-' + option.color"
-                                :value="option.color"
-                            >
-                                {{ option.color }}
-                            </option>
-                        </select>
-                    </div>
-                    <label
-                        v-if="selectedGeometry === 'polygon'"
-                        class="col-md-5 col-form-label"
-                        for="tool-modeler3D-outline-color"
-                    >
-                        {{ $t("modules.tools.modeler3D.draw.captions.outlineColor") }}
-                    </label>
-                    <div
-                        v-if="selectedGeometry === 'polygon'"
-                        class="col-md-7"
-                    >
-                        <select
-                            id="tool-modeler3D-outline-color"
-                            :key="`tool-modeler3D-outline-color-select`"
-                            class="form-select form-select-sm"
-                            @change="setSelectedOutlineColor($event.target.value)"
-                        >
-                            <option
-                                v-for="option in constants.colorOptions"
-                                :key="'modeler3D-outline-color-option-' + option.color"
-                                :value="option.color"
-                            >
-                                {{ option.color }}
-                            </option>
-                        </select>
-                    </div>
                 </div>
-            </form>
+            </div>
             <div class="form-check form-switch cta">
                 <input
                     id="clampToGroundSwitch"
@@ -536,26 +406,41 @@ export default {
                 </label>
             </div>
         </div>
-        <hr>
+        <div class="d-flex flex-column">
+            <label
+                class="col-md-5 col-form-label"
+                for="tool-modeler3d-draw-types"
+            >
+                Zeichenform
+            </label>
+            <DrawTypes
+                id="tool-modeler3d-draw-types"
+                :current-layout="currentLayout"
+                :draw-types="drawTypes"
+                :selected-draw-type="selectedDrawType"
+                :selected-draw-type-main="selectedDrawTypeMain"
+                :set-selected-draw-type="setSelectedDrawType"
+                :set-selected-draw-type-main="setSelectedDrawTypeMain"
+                @start-drawing="startDrawing"
+                @stop-drawing="stopDrawing"
+            />
+        </div>
         <div
-            class="form-horizontal"
-            role="form"
+            v-if="selectedDrawType !== ''"
+            class="d-flex flex-column flex-wrap"
         >
-            <div class="form-group form-group-sm row">
-                <div class="col-12 d-grid gap-2">
-                    <button
-                        id="tool-modeler3D-modelling-interaction"
-                        class="primary-button-wrapper"
-                        :disabled="isDrawing"
-                        @click="startDrawing"
-                    >
-                        <span class="bootstrap-icon">
-                            <i class="bi-pencil-fill" />
-                        </span>
-                        {{ $t("modules.tools.modeler3D.draw.captions.beginModelling") }}
-                    </button>
-                </div>
-            </div>
+            <label
+                class="col-md-5 col-form-label"
+                for="tool-modeler3d-draw-types"
+            >
+                Optionen
+            </label>
+            <DrawLayout
+                :current-layout="currentLayout"
+                :selected-draw-type="selectedDrawType"
+                :stroke-range="strokeRange"
+                @update-layout="restartDrawing"
+            />
         </div>
         <EntityList
             v-if="drawnModels.length > 0"
@@ -584,6 +469,10 @@ export default {
     .h-seperator {
         margin:12px 0 12px 0;
         border: 1px solid #DDDDDD;
+    }
+
+    .col-form-label {
+        font-size: $font_size_big;
     }
 
     .primary-button-wrapper {
