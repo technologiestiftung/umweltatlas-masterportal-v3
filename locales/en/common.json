@@ -470,7 +470,8 @@
                 },
                 "filterResult": {
                     "label": "All filtered Counts",
-                    "unit": "{{amountOfFilteredItems}} Results"
+                    "unit": "{{amountOfFilteredItems}} Results",
+                    "disabledInfo": "The filter is disabled in current zoom level"
                 },
                 "geometryFilter": {
                     "activate": "Set area for filtering",
@@ -970,9 +971,9 @@
                 "transaction": {
                     "success": {
                         "baseSuccess": "{{transaction}} the geometry and its parameters was successful.",
-                        "delete": "$t(common:modules.tools.wfsTransaction.transaction.success.baseSuccess, {\"transaction\": 'Deletion of'})",
-                        "insert": "$t(common:modules.tools.wfsTransaction.transaction.success.baseSuccess, {\"transaction\": 'Insertion of'})",
-                        "selectedUpdate": "$t(common:modules.tools.wfsTransaction.transaction.success.baseSuccess, {\"transaction\": 'Updating'})"
+                        "delete": "$t(common:modules.tools.wfsTransaction.transaction.success.baseSuccess, {\"transaction\": \"Deletion of\"})",
+                        "insert": "$t(common:modules.tools.wfsTransaction.transaction.success.baseSuccess, {\"transaction\": \"Insertion of\"})",
+                        "selectedUpdate" : "$t(common:modules.tools.wfsTransaction.transaction.success.baseSuccess, {\"transaction\": \"Updating\"})"
                     },
                     "error": {
                         "genericFailedTransaction": "An error occurred while saving / deleting the geometry and its parameters. Please contact the administrator.",
@@ -1072,7 +1073,8 @@
                     "preferenceLabel": "Preference",
                     "preference": {
                         "RECOMMENDED": "Recommended",
-                        "SHORTEST": "Shortest"
+                        "SHORTEST": "Shortest",
+                        "GREEN": "Green"
                     }
                 },
                 "isochrones": {

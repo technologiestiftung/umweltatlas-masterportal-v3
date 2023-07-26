@@ -471,7 +471,8 @@
                 },
                 "filterResult": {
                     "label": "Alle Filter-Treffer",
-                    "unit": "{{amountOfFilteredItems}} Treffer"
+                    "unit": "{{amountOfFilteredItems}} Treffer",
+                    "disabledInfo": "Der Filter ist in der aktuellen Zoomstufe deaktiviert."
                 },
                 "geometryFilter": {
                     "activate": "Gebiet für Filterung setzen",
@@ -973,9 +974,9 @@
                 "transaction": {
                     "success": {
                         "baseSuccess": "Das {{transaction}} der Geometrie und ihrer Parameter war erfolgreich.",
-                        "delete": "$t(common:modules.tools.wfsTransaction.transaction.success.baseSuccess, {\"transaction\": 'Löschen'})",
-                        "insert": "$t(common:modules.tools.wfsTransaction.transaction.success.baseSuccess, {\"transaction\": 'Speichern'})",
-                        "selectedUpdate": "$t(common:modules.tools.wfsTransaction.transaction.success.baseSuccess, {\"transaction\": 'Bearbeiten'})"
+                        "delete": "$t(common:modules.tools.wfsTransaction.transaction.success.baseSuccess, {\"transaction\": \"Löschen\"})",
+                        "insert": "$t(common:modules.tools.wfsTransaction.transaction.success.baseSuccess, {\"transaction\": \"Speichern\"})",
+                        "selectedUpdate" : "$t(common:modules.tools.wfsTransaction.transaction.success.baseSuccess, {\"transaction\": \"Bearbeiten\"})"
                     },
                     "error": {
                         "genericFailedTransaction": "Das Speichern bzw. Löschen der Geometrie und ihrer Parameter ist leider fehlgeschlagen. Bitte wenden Sie sich an Ihren Administrator.",
@@ -1075,7 +1076,8 @@
                     "preferenceLabel": "Präferenz",
                     "preference": {
                         "RECOMMENDED": "Empfohlene Route",
-                        "SHORTEST": "Kürzeste Route"
+                        "SHORTEST": "Kürzeste Route",
+                        "GREEN": "Grüne Route"
                     }
                 },
                 "isochrones": {
