@@ -47,6 +47,7 @@ describe("src/core/maps/store/actions/actionsMapAttributesMapper.js", () => {
             expect(commit.secondCall.args).to.deep.equal([
                 "setClickCartesianCoordinate", [12, 99]
             ]);
+            expect(commit.callCount).to.equal(5);
         });
     });
 
