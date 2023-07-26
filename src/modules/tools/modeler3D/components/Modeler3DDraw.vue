@@ -230,6 +230,11 @@ export default {
             this.setDrawnModels(models);
             this.shapeId = shape.id;
         },
+        /**
+         * Resets the drawing to adjust to changes
+         * @param {Object} layout - The new layout with current values
+         * @returns {void}
+         */
         resetDrawing (layout) {
             if (layout) {
                 this.setCurrentLayout(layout);

@@ -6,6 +6,7 @@
  * @property {Boolean}      adaptToHeight - if true, adjust height automatically on position change
  * @property {Number}       coordinateEasting - the raw transformed easting coordinate displayed on the ui
  * @property {Number}       coordinateNorthing - the raw transformed northing coordinate displayed on the ui
+ * @property {Object}       currentLayout - The current draw layout with all current values
  * @property {String}       currentModelId - id of the currently selected or added model
  * @property {Cartesian3}   currentModelPosition - position of the currently selected or added model
  * @property {Object}       currentProjection - the currently selected projection
@@ -14,6 +15,7 @@
  * @property {Boolean}      deactivateGFI - if true, component activation deactivates gfi component
  * @property {String}       drawName name of drawing model
  * @property {Object[]}     drawnModels - a list of currently active drawn models
+ * @property {String[]}     drawTypes - an array of supported draw types
  * @property {Number}       extrudedHeight height in meters for drawing model
  * @property {Number}       height - the raw transformed height coordinate displayed on the ui
  * @property {Object[]}     hiddenObjects - array of hidden objects
@@ -37,8 +39,8 @@
  * @property {Boolean}      resizableWindow - if true and if rendered to window pane, the pane is resizable
  * @property {Number}       rotation - the current rotation value
  * @property {Number}       scale - the scale of the current model
+ * @property {String}       selectedDrawType - selected geometry for drawing 3d object
  * @property {String}       selectedFillColor - selected fill color for drawing 3d object
- * @property {String}       selectedGeometry - selected geometry for drawing 3d object
  * @property {String}       selectedOutlineColor - selected outline color for drawing 3d object
  */
 
