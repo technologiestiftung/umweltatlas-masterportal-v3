@@ -86,9 +86,10 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
 
         global.Cesium = {
             Color: {
-                ALICEBLUE: {
-                    withAlpha: () => "#F0F8FF"
-                }},
+                fromBytes: sinon.stub().returns({
+                    withAlpha: sinon.stub()
+                })
+            },
             CallbackProperty: sinon.stub(),
             ColorMaterialProperty: sinon.stub(),
             ShadowMode: {
@@ -214,6 +215,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
                 }
             };
 
+            store.commit("Tools/Modeler3D/setSelectedDrawType", "polygon");
             wrapper.vm.clampToGround = true;
             entities.values.push(mockShape);
             store.commit("Tools/Modeler3D/setActiveShapePoints", [{x: 100, y: 200, z: 300}]);
@@ -263,15 +265,15 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
         });
 
         it("should draw shapes when selectedGeometry is 'line' and activeShapePoints has at least 2 points", () => {
-            store.commit("Tools/Modeler3D/setSelectedGeometry", "line");
+            store.commit("Tools/Modeler3D/setSelectedDrawType", "line");
             store.commit("Tools/Modeler3D/setActiveShapePoints", [{x: 100, y: 200, z: 300}, {x: 200, y: 300, z: 400}]);
             wrapper.vm.drawShape();
 
-            expect(entities.add.calledWith(sinon.match({id: sinon.match.string, polyline: sinon.match.object}))).to.be.true;
+            expect(entities.add.calledWith(sinon.match({id: sinon.match.number, polyline: sinon.match.object}))).to.be.true;
         });
 
         it("should draw shapes when selectedGeometry is 'polygon' and activeShapePoints has at least 3 points", () => {
-            store.commit("Tools/Modeler3D/setSelectedGeometry", "polygon");
+            store.commit("Tools/Modeler3D/setSelectedDrawType", "polygon");
 
             store.commit("Tools/Modeler3D/setActiveShapePoints", [
                 {x: 100, y: 200, z: 300},
@@ -279,7 +281,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
                 {x: 300, y: 400, z: 500}
             ]);
             wrapper.vm.drawShape();
-            expect(entities.add.calledWith(sinon.match({id: sinon.match.string, polygon: sinon.match.object}))).to.be.true;
+            expect(entities.add.calledWith(sinon.match({id: sinon.match.number, polygon: sinon.match.object}))).to.be.true;
         });
     });
 });
