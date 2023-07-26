@@ -16,6 +16,8 @@
 - GFI:
     - highlightFeature also works for line geometries
     - new parameter: hideMapMarkerOnVectorHighlight
+- WFST:
+    - further input type "short" and "float"
 ### Changed
 - The following packages have been updated:
     - dependencies:
@@ -31,6 +33,7 @@
 - WFST-Tool:
     - can also parse Geoserver responses from DescribeFeatureType-Requests
     - fixed language pack in nested i18next json
+    - correct handling of boolean attributes
 - Issue #1057: Filter: Checkbox Snippet does not response right in activation and deactivation.
 ---
 ## v2.35.1 - 2023-07-13

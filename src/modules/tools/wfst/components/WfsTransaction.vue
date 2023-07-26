@@ -57,7 +57,7 @@ export default {
             if (type === "string") {
                 return "text";
             }
-            if (["integer", "int", "decimal"].includes(type)) {
+            if (["integer", "int", "decimal", "short", "float"].includes(type)) {
                 return "number";
             }
             if (type === "boolean") {
@@ -139,6 +139,16 @@ export default {
                                         {{ $t(property.label) }}
                                     </label>
                                     <input
+                                        v-if="getInputType(property.type) ==='checkbox'"
+                                        :id="`tool-wfsTransaction-form-input-${property.key}`"
+                                        :key="`${property.key}-input`"
+                                        :type="getInputType(property.type)"
+                                        :required="property.required"
+                                        :checked="property.value"
+                                        @input="event => setFeatureProperty({key: property.key, type: getInputType(property.type), value: event.target.checked})"
+                                    >
+                                    <input
+                                        v-else
                                         :id="`tool-wfsTransaction-form-input-${property.key}`"
                                         :key="`${property.key}-input`"
                                         class="form-control"
