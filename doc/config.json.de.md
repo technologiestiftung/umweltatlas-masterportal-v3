@@ -1513,6 +1513,7 @@ Bei allen GFI-Abfragen, außer dem direkten Beziehen von HTML, welches durch das
 |desktopType|nein|String|"detached"|Gibt an welches Template für die GetFeatureInfo im Desktopmodus verwendet wird. Bei Attached wird das GFI direkt auf dem Punkt positioniert. Bei Detached wird ein Marker auf den geklickten Punkt gesetzt und das GFI wird rechts auf der Karte platziert.|false|
 |coloredHighlighting3D|nein|**[coloredHighlighting3D](#markdown-header-portalconfigmenutoolgficoloredhighlighting3d)**||Regeldefinitionen zum Überschreiben des Highlightings von angeklickten 3D tiles.|false|
 |highlightVectorRules|nein|**[highlightVectorRules](#markdown-header-portalconfigmenutoolgfihighlightvectorrules)**||Regeldefinitionen zum Überschreiben des Stylings von abgefragten Vektordaten.[highlightVectorRules](#markdown-header-portalconfigmenutoolgfihighlightvectorrules)|false|
+|hideMapMarkerOnVectorHighlight|no|Boolean|false|Wenn Wert auf true gesetzt ist, wird der MapMarker beim VectorHighlighting nicht mit angezeigt. Gilt nur für das DetachedTemplate.|false|
 
 **Beispiel einer GFI Konfiguration**
 ```
@@ -1538,7 +1539,8 @@ Bei allen GFI-Abfragen, außer dem direkten Beziehen von HTML, welches durch das
         "text": {
             "scale": 2
         }
-    }
+    },
+    "hideMapMarkerOnVectorHighlight": true
 }
 ```
 
@@ -1623,10 +1625,11 @@ Hinweis: Das Highlighting funktioniert nur, wenn der Layer in der config.json ü
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |width|nein|Integer|1|Mögliche Einstellung: width|false|
+|color|nein|Float[]|[255, 255, 255, 0.5]|Mögliche Einstellung: color (RGBA)|false|
 
 ```
 #!json
-"stroke": { "width": 4 }
+"stroke": { "width": 4, "color": [215, 102, 41, 0.9] }
 ```
 
 ***
