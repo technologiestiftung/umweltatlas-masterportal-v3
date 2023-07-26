@@ -474,11 +474,12 @@
                         "exportTitle": "Alle tekende modellen exportieren as GeoJSON.",
                         "extrudedHeight": "Uutropen Heugde",
                         "fillColor": "Uutvullen-Farv",
+                        "fillTransparency": "Deutlichkeit",
                         "geometry": "Geometrie",
                         "introInfo": "Mit dat Tekenwarktüüg kannst du verschedene geometrische Formen op de Kaart teken.",
-                        "outlineColor": "Umranden-Farv",
-                        "transparency": "Deutlichkeit",
-                        "lineWidth": "Linnendikte"
+                        "options": "Opties",
+                        "strokeColor": "Umranden-Farv",
+                        "strokeWidth": "Linnendikte"
                     },
                     "geometries": {
                         "polygon": "Poli",

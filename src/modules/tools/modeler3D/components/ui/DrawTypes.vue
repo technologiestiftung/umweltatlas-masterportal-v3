@@ -98,14 +98,13 @@ export default {
                 this.setSelectedDrawTypeMain(this.selectedDrawTypeMain !== drawType ? drawType : "");
             }
 
-            if (this.selectedDrawType === drawType || this.selectedDrawType !== "") {
-                this.$emit("stop-drawing");
-                this.setSelectedDrawType("");
-            }
-            else {
+            this.$emit("stop-drawing");
+
+            if (this.selectedDrawType !== drawType) {
                 this.setSelectedDrawType(drawType);
-                this.$emit("start-drawing");
             }
+
+            this.$emit("start-drawing");
         }
     }
 };
@@ -117,7 +116,7 @@ export default {
             v-for="drawType in drawTypes"
             :id="'draw-' + drawType"
             :key="drawType"
-            :aria="$t('common:shared.modules.draw.drawTypes.' + drawType)"
+            :aria="$t('common:modules.tools.modeler3D.draw.geometries.' + drawType)"
             :class-array="[
                 'btn-primary',
                 'me-3',

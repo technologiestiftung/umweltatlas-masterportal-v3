@@ -602,11 +602,12 @@
                         "exportTitle": "Экспортировать все нарисованные модели в формате GeoJSON.",
                         "extrudedHeight": "Выдавленная высота",
                         "fillColor": "Цвет заливки",
+                        "fillTransparency": "Прозрачность",
                         "geometry": "Геометрия",
                         "introInfo": "С помощью инструмента рисования можно рисовать на карте различные геометрические фигуры.",
-                        "outlineColor": "Цвет контура",
-                        "transparency": "Прозрачность",
-                        "lineWidth": "Толщина линии"
+                        "options": "Настройки",
+                        "strokeColor": "Цвет контура",
+                        "strokeWidth": "Толщина линии"
                     },
                     "geometries": {
                         "polygon": "Полигон",

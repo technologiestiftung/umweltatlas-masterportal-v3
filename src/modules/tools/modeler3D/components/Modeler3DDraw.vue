@@ -144,25 +144,27 @@ export default {
          * @returns {void}
          */
         stopDrawing () {
-            const shape = this.entities.getById(this.shapeId);
+            if (this.isDrawing) {
+                const shape = this.entities.getById(this.shapeId);
 
-            if (shape?.polygon && this.activeShapePoints.length > 2) {
-                shape.polygon.hierarchy = new Cesium.ConstantProperty(new Cesium.PolygonHierarchy(this.activeShapePoints));
-            }
-            if (shape?.polyline && this.activeShapePoints.length >= 2) {
-                shape.polyline.positions = this.activeShapePoints;
-            }
-            else if (shape && shape.polygon && this.activeShapePoints.length < 3) {
-                this.deleteEntity(shape.id);
-            }
+                if (shape?.polygon && this.activeShapePoints.length > 2) {
+                    shape.polygon.hierarchy = new Cesium.ConstantProperty(new Cesium.PolygonHierarchy(this.activeShapePoints));
+                }
+                if (shape?.polyline && this.activeShapePoints.length >= 2) {
+                    shape.polyline.positions = this.activeShapePoints;
+                }
+                else if (shape && shape.polygon && this.activeShapePoints.length < 3) {
+                    this.deleteEntity(shape.id);
+                }
 
-            this.setActiveShapePoints([]);
-            this.removeCylinders();
-            this.currentPosition = null;
-            this.shapeId = null;
-            this.setIsDrawing(false);
-            document.body.style.cursor = "auto";
-            eventHandler.destroy();
+                this.setActiveShapePoints([]);
+                this.removeCylinders();
+                this.currentPosition = null;
+                this.shapeId = null;
+                this.setIsDrawing(false);
+                document.body.style.cursor = "auto";
+                eventHandler.destroy();
+            }
         },
         /**
          * Creates the drawn shape in the EntityCollection and sets its attributes.
@@ -171,8 +173,9 @@ export default {
         drawShape () {
             const entities = this.entities,
                 models = this.drawnModels,
-                lastElement = entities.values.slice().pop(),
-                lastId = lastElement ? lastElement.id : null,
+                lastElement = entities.values.filter(ent => !ent.cylinder).slice().pop(),
+                lastId = lastElement ? lastElement.id : undefined,
+                shapeId = lastId ? lastId + 1 : 1,
                 positionData = new Cesium.CallbackProperty(() => {
                     if (this.selectedDrawType === "polygon") {
                         return new Cesium.PolygonHierarchy(this.activeShapePoints);
@@ -183,8 +186,8 @@ export default {
 
             if (this.selectedDrawType === "line") {
                 shape = {
-                    id: lastId ? lastId + 1 : 1,
-                    name: this.drawName ? this.drawName : i18next.t("common:modules.tools.modeler3D.draw.captions.drawing"),
+                    id: shapeId,
+                    name: this.drawName ? this.drawName : i18next.t("common:modules.tools.modeler3D.draw.captions.drawing") + ` ${shapeId}`,
                     wasDrawn: true,
                     clampToGround: this.clampToGround,
                     polyline: {
@@ -199,8 +202,8 @@ export default {
             }
             else if (this.selectedDrawType === "polygon") {
                 shape = {
-                    id: lastId ? lastId + 1 : 1,
-                    name: this.drawName ? this.drawName : i18next.t("common:modules.tools.modeler3D.draw.captions.drawing"),
+                    id: shapeId,
+                    name: this.drawName ? this.drawName : i18next.t("common:modules.tools.modeler3D.draw.captions.drawing") + ` ${shapeId}`,
                     wasDrawn: true,
                     clampToGround: this.clampToGround,
                     polygon: {
@@ -217,7 +220,7 @@ export default {
                 };
             }
 
-            this.entities.add(shape);
+            entities.add(shape);
             models.push({
                 id: shape.id,
                 name: shape.name,
@@ -227,10 +230,14 @@ export default {
             this.setDrawnModels(models);
             this.shapeId = shape.id;
         },
-        restartDrawing (layout) {
-            this.setCurrentLayout(layout);
-            this.stopDrawing();
-            this.startDrawing();
+        resetDrawing (layout) {
+            if (layout) {
+                this.setCurrentLayout(layout);
+            }
+            if (this.isDrawing) {
+                this.stopDrawing();
+                this.startDrawing();
+            }
         },
         /**
          * Zooms the camera to the specified entity.
@@ -369,6 +376,23 @@ export default {
         />
         <div class="h-seperator" />
         <div>
+            <div class="form-check form-switch cta">
+                <input
+                    id="clampToGroundSwitch"
+                    class="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    :aria-checked="clampToGround"
+                    :checked="clampToGround"
+                    @change="clampToGround = !clampToGround; resetDrawing();"
+                >
+                <label
+                    class="form-check-label"
+                    for="clampToGroundSwitch"
+                >
+                    {{ $t("modules.tools.modeler3D.draw.captions.clampToGround") }}
+                </label>
+            </div>
             <div
                 class="form-group form-group-sm row"
             >
@@ -388,30 +412,13 @@ export default {
                     >
                 </div>
             </div>
-            <div class="form-check form-switch cta">
-                <input
-                    id="clampToGroundSwitch"
-                    class="form-check-input"
-                    type="checkbox"
-                    role="switch"
-                    :aria-checked="clampToGround"
-                    :checked="clampToGround"
-                    @change="clampToGround = !clampToGround"
-                >
-                <label
-                    class="form-check-label"
-                    for="clampToGroundSwitch"
-                >
-                    {{ $t("modules.tools.modeler3D.draw.captions.clampToGround") }}
-                </label>
-            </div>
         </div>
         <div class="d-flex flex-column">
             <label
                 class="col-md-5 col-form-label"
                 for="tool-modeler3d-draw-types"
             >
-                Zeichenform
+                {{ $t("modules.tools.modeler3D.draw.captions.geometry") }}
             </label>
             <DrawTypes
                 id="tool-modeler3d-draw-types"
@@ -433,13 +440,12 @@ export default {
                 class="col-md-5 col-form-label"
                 for="tool-modeler3d-draw-types"
             >
-                Optionen
+                {{ $t("modules.tools.modeler3D.draw.captions.options") }}
             </label>
             <DrawLayout
                 :current-layout="currentLayout"
                 :selected-draw-type="selectedDrawType"
-                :stroke-range="strokeRange"
-                @update-layout="restartDrawing"
+                @update-layout="resetDrawing"
             />
         </div>
         <EntityList
@@ -459,20 +465,23 @@ export default {
 <style lang="scss" scoped>
     @import "~/css/mixins.scss";
     @import "~variables";
+
     .cta {
         margin-bottom:12px;
     }
-    .form-switch {
+
+    .form-switch,
+    .col-form-label {
         font-size: $font_size_big;
+    }
+
+    .form-check-input {
+        cursor: pointer;
     }
 
     .h-seperator {
         margin:12px 0 12px 0;
         border: 1px solid #DDDDDD;
-    }
-
-    .col-form-label {
-        font-size: $font_size_big;
     }
 
     .primary-button-wrapper {

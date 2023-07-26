@@ -473,11 +473,12 @@
                         "exportTitle": "Tüm çizilen modelleri GeoJSON formatında dışa aktar.",
                         "extrudedHeight": "Yükseklik İçeren",
                         "fillColor": "Dolgu Rengi",
+                        "fillTransparency": "Saydamlık",
                         "geometry": "Geometri",
                         "introInfo": "Çizim aracı ile harita üzerinde farklı geometrik şekiller çizebilirsiniz.",
-                        "outlineColor": "Kontur Rengi",
-                        "transparency": "Saydamlık",
-                        "lineWidth": "Çizgi Kalınlığı"
+                        "options": "Seçenekler",
+                        "strokeColor": "Kontur Rengi",
+                        "strokeWidth": "Çizgi Kalınlığı"
                     },
                     "geometries": {
                         "polygon": "Poligon",

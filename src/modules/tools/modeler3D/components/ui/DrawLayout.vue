@@ -144,8 +144,8 @@ export default {
                     activeLayoutKey === layoutKey ? 'active' : ''
                 ]"
                 type="button"
-                :aria-label="$t('common:shared.modules.draw.drawLayout.' + layoutKey)"
-                :title="$t('common:shared.modules.draw.drawLayout.' + layoutKey)"
+                :aria-label="$t('common:modules.tools.modeler3D.draw.captions.' + layoutKey)"
+                :title="$t('common:modules.tools.modeler3D.draw.captions.' + layoutKey)"
                 @click="setActiveLayoutKey(layoutKey)"
             >
                 <label

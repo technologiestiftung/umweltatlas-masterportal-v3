@@ -657,11 +657,12 @@
                         "exportTitle": "Alle gezeichneten Modelle in GeoJSON Format exportieren.",
                         "extrudedHeight": "Extrudierte Höhe",
                         "fillColor": "Füllfarbe",
+                        "fillTransparency": "Transparenz",
                         "geometry": "Geometrie",
                         "introInfo": "Über diese Funktion können Sie 3D-Objekte in die Karte zeichnen und diese individuell bearbeiten und gestalten. Sie können so Gebäude skizieren und anschließend z.B. Schattensimulationen durchführen.<br><br>Das Tool ermöglicht zudem das Zeichnen auf bereits bestehenden Gebäuden sowie importierten Objekten. Voraussetzung ist, dass Sie die Geländehöhe aktiviert haben.<br><br>Über die Exportfunktion können Sie Ihre Entwürfe exportieren und zu einem späteren Zeitpunkt über den Importer wieder in die Anwendung laden.",
-                        "outlineColor": "Umrissfarbe",
-                        "transparency": "Transparenz",
-                        "lineWidth": "Strichstärke"
+                        "options": "Optionen",
+                        "strokeColor": "Umrissfarbe",
+                        "strokeWidth": "Strichstärke"
                     },
                     "geometries": {
                         "polygon": "Polygon",

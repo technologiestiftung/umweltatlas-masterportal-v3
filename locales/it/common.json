@@ -642,11 +642,12 @@
                         "exportTitle": "Esporta tutti i modelli disegnati in formato GeoJSON.",
                         "extrudedHeight": "Altezza estrusa",
                         "fillColor": "Colore di riempimento",
+                        "fillTransparency": "Trasparenza",
                         "geometry": "Geometria",
                         "introInfo": "Con lo strumento di disegno è possibile disegnare diverse forme geometriche sulla mappa.",
-                        "outlineColor": "Colore del contorno",
-                        "transparency": "Trasparenza",
-                        "lineWidth": "Spessore linea"
+                        "options": "Opzioni",
+                        "strokeColor": "Colore del contorno",
+                        "strokeWidth": "Spessore linea"
                     },
                     "geometries": {
                         "polygon": "Poligono",

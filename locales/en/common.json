@@ -656,11 +656,12 @@
                         "exportTitle": "Export all drawn models in GeoJSON format.",
                         "extrudedHeight": "Extruded Height",
                         "fillColor": "Fill Color",
+                        "fillTransparency": "Transparency",
                         "geometry": "Geometry",
                         "introInfo": "With the drawing tool you can draw different geometric shapes on the map.",
-                        "outlineColor": "Outline Color",
-                        "transparency": "Transparency",
-                        "lineWidth": "Line Width"
+                        "options": "Options",
+                        "strokeColor": "Outline Color",
+                        "strokeWidth": "Line Width"
                     },
                     "geometries": {
                         "polygon": "Polygon",
