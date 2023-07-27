@@ -407,30 +407,30 @@
             "modeler3D": {
                 "entity": {
                     "captions": {
-                        "backToList": "Volver a la lista",
-                        "delete": "Eliminar modelo",
-                        "deletionTitle": "Eliminar modelo 3D \"{{name}}\"",
-                        "editInfo": "Modificar los atributos del modelo seleccionado.",
-                        "editModel": "Editar modelo 3D \"{{name}}\"",
-                        "incrementTooltip": "Mantenga pulsada la tecla Mayús para aumentar el valor de forma más aproximada.",
-                        "modelName": "Nombre del modelo",
-                        "pickupPlace": "Haga doble clic en un objeto para recogerlo o colocarlo.",
-                        "projectionInfo": "¡Atención! Al utilizar el sistema de coordenadas WGS84, puede haber imprecisiones. Se recomienda utilizar la notación decimal.",
-                        "rotationPlaceholder": "Incremento/decremento de pasos",
+                        "backToList": "Volver a la Lista",
+                        "delete": "Eliminar Modelo",
+                        "deletionTitle": "Eliminar Modelo 3D \"{{name}}\"",
+                        "editInfo": "Modifica los atributos del modelo seleccionado.",
+                        "editModel": "Editar Modelo 3D \"{{name}}\"",
+                        "incrementTooltip": "Mantén presionada la tecla Shift para aumentar el valor de forma más gruesa.",
+                        "modelName": "Nombre del Modelo",
+                        "pickupPlace": "Haz doble clic en un objeto para recogerlo o colocarlo.",
+                        "projectionInfo": "¡Atención! Al utilizar el sistema de coordenadas WGS84, puede haber inexactitudes. Recomendamos utilizar la notación decimal.",
+                        "rotationPlaceholder": "Pasos de Incremento/Decremento",
                         "rotation": "Rotación",
-                        "rotationSwitch": "Pasos de rotación",
+                        "rotationSwitch": "Pasos de Rotación",
                         "scale": "Escala",
                         "steps": "Pasos",
-                        "visibilityTitle": "Mostrar/ocultar modelo 3D \"{{name}}\"",
-                        "zoomTo": "Acercar al modelo 3D \"{{name}}\""
+                        "visibilityTitle": "Mostrar/Ocultar Modelo 3D \"{{name}}\"",
+                        "zoomTo": "Acercar al Modelo 3D \"{{name}}\""
                     },
                     "deleteInteraction": {
                         "confirm": "Eliminar",
                         "headline": "Atención",
-                        "text": "¿Estás seguro/a de que quieres eliminar el modelo \"{{name}}\"?"
+                        "text": "¿Estás seguro de que deseas eliminar el modelo \"{{name}}\"?"
                     },
                     "projections": {
-                        "adaptToHeight": "Adaptar a terreno",
+                        "adaptToHeight": "Adaptar al Terreno",
                         "cartesian": {
                             "eastingLabel": "Este",
                             "northingLabel": "Norte"
@@ -440,44 +440,44 @@
                             "northingLabel": "Latitud"
                         },
                         "height": "Altura",
-                        "projection": "Sistema de coordenadas"
+                        "projection": "Sistema de Coordenadas"
                     }
                 },
                 "import": {
                     "alertingMessages": {
                         "featureError": "No se pudo leer una característica en este archivo.",
-                        "fileSizeError": "El tamaño del archivo supera el límite de 100 MB.",
-                        "formatError": "No se pudo leer el archivo \"{{filename}}\". Por favor, verifica si el archivo tiene el formato *.gltf, *.obj o *.dae.",
-                        "missingFileContent": "Error al leer el archivo \"{{filename}}\". Por favor, verifica el tipo y contenido del archivo. Si el archivo no tiene errores, por favor contacta al soporte técnico.",
-                        "missingFormat": "No se admite el formato de archivo \"{{format}}\". Por favor, contacta al soporte técnico.",
+                        "fileSizeError": "El tamaño del archivo excede el límite de 100 MB.",
+                        "formatError": "No se pudo leer el archivo \"{{filename}}\". Por favor, verifica si el archivo tiene el formato *.gltf, *.obj *.dae o *.geojson.",
+                        "missingFileContent": "Error al leer el archivo \"{{filename}}\". Por favor, verifica el tipo de archivo y su contenido. Si el archivo no tiene errores, por favor, contacta al soporte.",
+                        "missingFormat": "El formato de archivo \"{{format}}\" no está soportado. Por favor, contacta al soporte.",
                         "success": "El archivo \"{{filename}}\" se importó correctamente.",
                         "successPartly": "El archivo \"{{filename}}\" se importó parcialmente."
                     },
                     "captions": {
-                        "introInfo": "Con el Importador puede cargar diseños urbanos digitales en el modelo 3D existente de la ciudad, visualizarlos y analizarlos.",
-                        "introInfo2": "Importe el archivo deseado simplemente arrastrando y soltando o, alternativamente, con el diálogo de apertura del navegador.",
-                        "introFormats": "Puedes importar archivos glTF (.gltf), OBJ (.obj), Collada (.dae) o GeoJSON (.geojson).",
-                        "successfullyImportedLabel": "Modelos 3D importados:"
+                        "introInfo": "Con el importador, puedes cargar, visualizar y analizar diseños urbanos digitales en el modelo 3D existente de la ciudad.",
+                        "introInfo2": "Simplemente importa tu archivo deseado arrastrándolo y soltándolo o usando el diálogo de apertura del navegador.",
+                        "introFormats": "Puedes importar archivos glTF (*.gltf), OBJ (*.obj), Collada (*.dae) o GeoJSON.",
+                        "successfullyImportedLabel": "Modelos 3D Importados:"
                     }
                 },
                 "draw": {
                     "captions": {
-                        "beginModelling": "Modelar objeto 3D",
-                        "clampToGround": "Alinear al modelo de terreno",
+                        "beginModelling": "Modelar Objeto 3D",
+                        "clampToGround": "Alinear al Modelo del Terreno",
                         "color": "Color",
-                        "controlInfo": "Haga clic con el botón izquierdo del ratón para fijar los puntos. Haga clic con el botón derecho para terminar de dibujar.",
+                        "controlInfo": "Haz clic con el botón izquierdo del mouse para establecer puntos. Haz clic derecho para terminar el dibujo.",
                         "drawing": "Dibujo",
                         "drawName": "Nombre",
-                        "drawnModels": "Modelos dibujados:",
+                        "drawnModels": "Modelos Dibujados:",
                         "export": "Exportar",
                         "exportTitle": "Exportar todos los modelos dibujados en formato GeoJSON.",
-                        "extrudedHeight": "Altura extruida",
-                        "fillColor": "Color de relleno",
+                        "extrudedHeight": "Altura Extruida",
+                        "fillColor": "Color de Relleno",
                         "geometry": "Geometría",
-                        "introInfo": "Con la herramienta de dibujo puedes dibujar diferentes formas geométricas en el mapa.",
-                        "outlineColor": "Color de contorno",
+                        "introInfo": "Con esta función, puedes dibujar objetos 3D en el mapa y editarlos y diseñarlos de manera individual. Puedes esbozar edificios y luego, por ejemplo, realizar simulaciones de sombras.<br><br>La herramienta también permite dibujar en edificios existentes y objetos importados. Un requisito previo es que hayas activado la altura del terreno.<br><br>Usando la función de exportación, puedes exportar tus diseños y cargarlos de nuevo en la aplicación más tarde utilizando el importador.",
+                        "outlineColor": "Color del Contorno",
                         "transparency": "Transparencia",
-                        "lineWidth": "Ancho de línea"
+                        "lineWidth": "Ancho de Línea"
                     },
                     "geometries": {
                         "polygon": "Polígono",
@@ -486,12 +486,13 @@
                 },
                 "options": {
                     "captions": {
-                        "enableFunction": "Activar/desactivar",
-                        "hideObjectInfo": "Si esta opción está activada, puede ocultar los edificios existentes haciendo clic.",
-                        "hideSwitchLabel": "Ocultar edificios con clic del ratón",
-                        "povInfo": "Aquí tiene la posibilidad de ponerse en el punto de vista de un peatón. En cuanto sitúe el cilindro en el mapa con un clic del ratón, entrará en la vista peatonal en este punto. <br><br>En esta vista puede mirar a su alrededor con el ratón. Para volver a la posición inicial, pulse la tecla de escape (ESC).",
-                        "povTitle": "Perspectiva peatonal",
-                        "visibilityTitle": "Opciones de visibilidad"
+                        "enableFunction": "Habilitar/Desactivar Función",
+                        "hideObjectInfo": "Los edificios existentes pueden desactivarse en su representación, lo que te permite colocar elementos importados en la propiedad correspondiente.<br><br>Para activar esta función, haz clic en Habilitar y haz clic en los objetos deseados para desactivarlos en la vista.<br><br>Todos los objetos ocultos aparecen en una lista y pueden reactivarse allí.",
+                        "hideSwitchLabel": "Ocultar Edificios con Clic del Ratón",
+                        "pov": "Cambiar a Vista Peatonal",
+                        "povInfo": "Aquí tienes la opción de adoptar la perspectiva de los peatones y mirar alrededor de la ciudad.<br><br>Navega hasta la posición deseada. Una vez que coloques el cilindro en el mapa con un clic del ratón, entrarás en la vista peatonal en esa ubicación.<br><br>Puedes cambiar el campo de visión con movimientos del ratón. Para volver a la posición inicial, presiona la tecla Escape (ESC).",
+                        "povTitle": "Perspectiva Peatonal",
+                        "visibilityTitle": "Opciones de Visibilidad"
                     }
                 },
                 "nav": {
@@ -499,9 +500,9 @@
                     "importTitle": "Importar",
                     "options": "Opciones"
                 },
-                "hiddenObjectsLabel": "Edificios ocultos:",
+                "hiddenObjectsLabel": "Edificios Ocultos:",
                 "title": "Modelador 3D"
-            },
+            },            
             "parcelSearch": {
                 "wrongConfig": "Configuración inválida o incompleta",
                 "districtsLoadFailed": "No se han podido cargar los términos municipales",

@@ -576,22 +576,22 @@
             "modeler3D": {
                 "entity": {
                     "captions": {
-                        "backToList": "Torna alla lista",
-                        "delete": "Elimina modello",
-                        "deletionTitle": "Elimina modello 3D \"{{name}}\"",
-                        "editInfo": "Modificare gli attributi del modello selezionato.",
-                        "editModel": "Modifica modello 3D \"{{name}}\"",
-                        "incrementTooltip": "Tenere premuto Shift per aumentare il valore in modo più grossolano.",
-                        "modelName": "Nome del modello",
-                        "pickupPlace": "Fare doppio clic su un oggetto per raccoglierlo o posizionarlo.",
-                        "projectionInfo": "Attenzione! Quando si utilizza il sistema di coordinate WGS84, potrebbero verificarsi imprecisioni. Si consiglia di utilizzare la notazione decimale.",
-                        "rotationPlaceholder": "Incremento/Decremento passi",
+                        "backToList": "Torna all'Elenco",
+                        "delete": "Elimina Modello",
+                        "deletionTitle": "Elimina Modello 3D \"{{name}}\"",
+                        "editInfo": "Modifica gli attributi del modello selezionato.",
+                        "editModel": "Modifica Modello 3D \"{{name}}\"",
+                        "incrementTooltip": "Tieni premuto Shift per aumentare il valore in modo più grossolano.",
+                        "modelName": "Nome del Modello",
+                        "pickupPlace": "Doppio clic su un oggetto per raccoglierlo o posizionarlo.",
+                        "projectionInfo": "Attenzione! Utilizzando il sistema di coordinate WGS84, potrebbero verificarsi imprecisioni. Si consiglia di utilizzare la notazione decimale.",
+                        "rotationPlaceholder": "Passi Incremento/Decremento",
                         "rotation": "Rotazione",
-                        "rotationSwitch": "Passi di rotazione",
+                        "rotationSwitch": "Passi Rotazione",
                         "scale": "Scala",
                         "steps": "Passi",
-                        "visibilityTitle": "Mostra/Nascondi modello 3D \"{{name}}\"",
-                        "zoomTo": "Zoom al modello 3D \"{{name}}\""
+                        "visibilityTitle": "Mostra/Nascondi Modello 3D \"{{name}}\"",
+                        "zoomTo": "Zoom su Modello 3D \"{{name}}\""
                     },
                     "deleteInteraction": {
                         "confirm": "Elimina",
@@ -599,7 +599,7 @@
                         "text": "Sei sicuro di voler eliminare il modello \"{{name}}\"?"
                     },
                     "projections": {
-                        "adaptToHeight": "Adatta al terreno",
+                        "adaptToHeight": "Adatta al Terreno",
                         "cartesian": {
                             "eastingLabel": "Est",
                             "northingLabel": "Nord"
@@ -609,44 +609,44 @@
                             "northingLabel": "Latitudine"
                         },
                         "height": "Altezza",
-                        "projection": "Sistema di coordinate"
+                        "projection": "Sistema di Coordinate"
                     }
                 },
                 "import": {
                     "alertingMessages": {
                         "featureError": "Impossibile leggere una caratteristica in questo file.",
                         "fileSizeError": "La dimensione del file supera il limite di 100 MB.",
-                        "formatError": "Impossibile leggere il file \"{{filename}}\". Verifica se il file ha il formato *.gltf, *.obj o *.dae.",
-                        "missingFileContent": "Errore nella lettura del file \"{{filename}}\". Verifica il tipo e il contenuto del file. Se il file è privo di errori, contatta l'assistenza.",
-                        "missingFormat": "Il formato del file \"{{format}}\" non è supportato. Contatta l'assistenza.",
+                        "formatError": "Impossibile leggere il file \"{{filename}}\". Controlla se il file ha il formato *.gltf, *.obj, *.dae o *.geojson.",
+                        "missingFileContent": "Errore durante la lettura del file \"{{filename}}\". Verifica il tipo di file e il contenuto. Se il file non ha errori, contatta il supporto.",
+                        "missingFormat": "Il formato del file \"{{format}}\" non è supportato. Contatta il supporto.",
                         "success": "Il file \"{{filename}}\" è stato importato correttamente.",
                         "successPartly": "Il file \"{{filename}}\" è stato importato parzialmente."
                     },
                     "captions": {
-                        "introInfo": "Con l'Importer è possibile caricare progetti urbani digitali nel modello 3D esistente della città, visualizzarli e analizzarli.",
-                        "introInfo2": "Importare il file desiderato semplicemente trascinandolo o in alternativa con la finestra di dialogo aperta dal browser.",
-                        "introFormats": "È possibile importare file glTF (.gltf), OBJ (.obj) Collada (.dae), o file GeoJSON (.geojson).",
-                        "successfullyImportedLabel": "Modelli 3D importati:"
+                        "introInfo": "Con l'importatore, puoi caricare, visualizzare e analizzare progetti urbani digitali nel modello 3D esistente della città.",
+                        "introInfo2": "Importa semplicemente il file desiderato trascinandolo e rilasciandolo o utilizzando la finestra di dialogo del browser.",
+                        "introFormats": "Puoi importare file glTF (*.gltf), OBJ (*.obj), Collada (*.dae) o GeoJSON.",
+                        "successfullyImportedLabel": "Modelli 3D Importati:"
                     }
                 },
                 "draw": {
                     "captions": {
-                        "beginModelling": "Modellare oggetto 3D",
-                        "clampToGround": "Allineare al modello del terreno",
+                        "beginModelling": "Modella Oggetto 3D",
+                        "clampToGround": "Allinea al Modello del Terreno",
                         "color": "Colore",
-                        "controlInfo": "Fare clic con il pulsante sinistro del mouse per impostare i punti. Fare clic con il pulsante destro del mouse per terminare il disegno.",
+                        "controlInfo": "Clicca con il pulsante sinistro del mouse per impostare i punti. Clicca con il pulsante destro per terminare il disegno.",
                         "drawing": "Disegno",
                         "drawName": "Nome",
-                        "drawnModels": "Modelli disegnati:",
+                        "drawnModels": "Modelli Disegnati:",
                         "export": "Esporta",
                         "exportTitle": "Esporta tutti i modelli disegnati in formato GeoJSON.",
-                        "extrudedHeight": "Altezza estrusa",
-                        "fillColor": "Colore di riempimento",
+                        "extrudedHeight": "Altezza Estrusa",
+                        "fillColor": "Colore di Riempimento",
                         "geometry": "Geometria",
-                        "introInfo": "Con lo strumento di disegno è possibile disegnare diverse forme geometriche sulla mappa.",
-                        "outlineColor": "Colore del contorno",
+                        "introInfo": "Con questa funzione puoi disegnare oggetti 3D sulla mappa e modificarli e progettare in modo individuale. Puoi delineare edifici e poi, ad esempio, eseguire simulazioni di ombre.<br><br>Lo strumento consente anche di disegnare su edifici esistenti e oggetti importati. Un prerequisito è che tu abbia attivato l'altezza del terreno.<br><br>Utilizzando la funzione di esportazione, puoi esportare i tuoi progetti e caricarli nuovamente nell'applicazione successivamente utilizzando l'importatore.",
+                        "outlineColor": "Colore del Contorno",
                         "transparency": "Trasparenza",
-                        "lineWidth": "Spessore linea"
+                        "lineWidth": "Spessore della Linea"
                     },
                     "geometries": {
                         "polygon": "Poligono",
@@ -655,12 +655,13 @@
                 },
                 "options": {
                     "captions": {
-                        "enableFunction": "Attivare/disattivare",
-                        "hideObjectInfo": "Se questa opzione è attivata, è possibile nascondere gli edifici esistenti facendo clic.",
-                        "hideSwitchLabel": "Nascondi edifici con clic del mouse",
-                        "povInfo": "Qui avete la possibilità di mettervi nella visuale di un pedone. Non appena si posiziona il cilindro sulla mappa con un clic del mouse, si accede alla vista pedonale. <br><br>In questa visuale è possibile guardarsi intorno con il mouse. Per tornare alla posizione iniziale, premere il tasto di escape (ESC).",
-                        "povTitle": "Prospettiva pedonale",
-                        "visibilityTitle": "Opzioni di visibilità"
+                        "enableFunction": "Abilita/Disabilita Funzione",
+                        "hideObjectInfo": "Gli edifici esistenti possono essere disabilitati nella rappresentazione, consentendoti di posizionare gli elementi importati sulla proprietà corrispondente.<br><br>Per attivare questa funzione, fai clic su Abilita e fai clic sugli oggetti desiderati per disabilitarli nella vista.<br><br>Tutti gli oggetti nascosti compaiono in un elenco e possono essere riattivati lì.",
+                        "hideSwitchLabel": "Nascondi Edifici con Clic del Mouse",
+                        "pov": "Passa alla Vista Pedonale",
+                        "povInfo": "Qui hai la possibilità di assumere la prospettiva dei pedoni e guardarti intorno alla città.<br><br>Naviga fino alla posizione desiderata. Una volta posizionato il cilindro sulla mappa con un clic del mouse, entrerai nella vista pedonale in quella posizione.<br><br>Puoi cambiare il campo visivo con movimenti del mouse. Per tornare alla posizione iniziale, premi il tasto Esc (ESC).",
+                        "povTitle": "Vista Pedonale",
+                        "visibilityTitle": "Opzioni di Visibilità"
                     }
                 },
                 "nav": {
@@ -668,9 +669,9 @@
                     "importTitle": "Importa",
                     "options": "Opzioni"
                 },
-                "hiddenObjectsLabel": "Edifici nascosti:",
+                "hiddenObjectsLabel": "Edifici Nascosti:",
                 "title": "Modellatore 3D"
-            },
+            },            
             "parcelSearch": {
                 "wrongConfig": "Configurazione non valida o incompleta",
                 "districtsLoadFailed": "I quartieri del governo non potevano essere caricati",

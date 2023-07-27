@@ -591,12 +591,12 @@
             "modeler3D": {
                 "entity": {
                     "captions": {
-                        "backToList": "Back to List",
+                        "backToList": "Back to Overview",
                         "delete": "Delete Model",
                         "deletionTitle": "Delete 3D Model \"{{name}}\"",
-                        "editInfo": "Change the attributes of the selected model.",
+                        "editInfo": "Modify the attributes of the selected model.",
                         "editModel": "Edit 3D Model \"{{name}}\"",
-                        "incrementTooltip": "Hold down Shift to increase the value more coarsely.",
+                        "incrementTooltip": "Hold Shift to increase the value coarser.",
                         "modelName": "Model Name",
                         "pickupPlace": "Double-click on an object to pick it up or place it.",
                         "projectionInfo": "Attention! When using the WGS84 coordinate system, there may be inaccuracies. We recommend using decimal notation.",
@@ -631,16 +631,16 @@
                     "alertingMessages": {
                         "featureError": "A feature in this file could not be read.",
                         "fileSizeError": "The file size exceeds the limit of 100 MB.",
-                        "formatError": "The file \"{{filename}}\" could not be read. Please check if the file has the format *.gltf, *.obj or *.dae.",
+                        "formatError": "The file \"{{filename}}\" could not be read. Please check if the file has the format *.gltf, *.obj *.dae or *.geojson.",
                         "missingFileContent": "Error reading the file \"{{filename}}\". Please check the file type and content. If the file is error-free, please contact support.",
                         "missingFormat": "The file format \"{{format}}\" is not supported. Please contact support.",
                         "success": "The file \"{{filename}}\" was successfully imported.",
                         "successPartly": "The file \"{{filename}}\" was partially imported."
                     },
                     "captions": {
-                        "introInfo": "With the Importer you can load digital urban designs into the existing 3D model of the city, visualise and analyse them.",
-                        "introInfo2": "Import your desired file simply by drag and drop or alternatively with the browser's open dialogue.",
-                        "introFormats": "You can import glTF (.gltf), OBJ (.obj), Collada (.dae) or GeoJSON (.geojson) files.",
+                        "introInfo": "With the importer, you can load, visualize, and analyze digital urban designs into the existing 3D model of the city.",
+                        "introInfo2": "Simply import your desired file by dragging and dropping or alternatively using the browser's open dialog.",
+                        "introFormats": "You can import glTF- (*.gltf), OBJ- (*.obj), Collada- (*.dae), or GeoJSON-files.",
                         "successfullyImportedLabel": "Imported 3D Models:"
                     }
                 },
@@ -649,7 +649,7 @@
                         "beginModelling": "Model 3D Object",
                         "clampToGround": "Align to Terrain Model",
                         "color": "Color",
-                        "controlInfo": "Click with the left mouse button to set points. Right-click to finish drawing.",
+                        "controlInfo": "Click with the left mouse button to set points. Right-click to finish the drawing.",
                         "drawing": "Drawing",
                         "drawName": "Name",
                         "drawnModels": "Drawn Models:",
@@ -658,7 +658,7 @@
                         "extrudedHeight": "Extruded Height",
                         "fillColor": "Fill Color",
                         "geometry": "Geometry",
-                        "introInfo": "With the drawing tool you can draw different geometric shapes on the map.",
+                        "introInfo": "With this function, you can draw 3D objects on the map and edit and design them individually. You can sketch buildings and then, for example, perform shadow simulations.<br><br>The tool also allows drawing on existing buildings and imported objects. A prerequisite is that you have activated the terrain height.<br><br>Using the export function, you can export your designs and load them back into the application later using the importer.",
                         "outlineColor": "Outline Color",
                         "transparency": "Transparency",
                         "lineWidth": "Line Width"
@@ -670,11 +670,12 @@
                 },
                 "options": {
                     "captions": {
-                        "enableFunction": "Activate/deactivate",
-                        "hideObjectInfo": "If this option is turned on, you can hide existing buildings by clicking.",
+                        "enableFunction": "Enable/Disable Function",
+                        "hideObjectInfo": "Existing buildings can be deactivated in their representation, allowing you to place imported elements on the corresponding property.<br><br>To activate this function, click Enable and click on the desired objects to deactivate them in the view.<br><br>All hidden objects appear in a list and can be reactivated there.",
                         "hideSwitchLabel": "Hide Buildings with Mouse Click",
-                        "povInfo": "Here you have the possibility to put yourself in the view of a pedestrian. As soon as you set the cylinder in the map with a mouse click, you will enter the pedestrian view at this point. <br><br>In this view you can look around with the mouse. To return to the starting position, press the Escape key (ESC).",
-                        "povTitle": "Pedestrian perspective",
+                        "pov": "Jump to Pedestrian View",
+                        "povInfo": "Here you have the option to take the perspective of pedestrians and look around the city.<br><br>Navigate to the desired position. Once you set the cylinder on the map with a mouse click, you will enter the pedestrian view at that location.<br><br>You can change your field of view with mouse movements. To return to the starting position, press the Escape key (ESC).",
+                        "povTitle": "Pedestrian Perspective",
                         "visibilityTitle": "Visibility Options"
                     }
                 },
@@ -685,7 +686,7 @@
                 },
                 "hiddenObjectsLabel": "Hidden Buildings:",
                 "title": "3D Modeler"
-            },
+            },            
             "parcelSearch": {
                 "wrongConfig": "Invalid or incomplete configuration",
                 "districtsLoadFailed": "Districts could not be loaded",
