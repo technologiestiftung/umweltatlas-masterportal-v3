@@ -306,6 +306,12 @@ export default {
                     eventHandler.setInputAction(this.moveCylinder, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
                 }
                 else {
+                    this.entities.values.filter(ent => ent.cylinder).forEach((cyl, index) => {
+                        cyl.position = entity.clampToGround ?
+                            new Cesium.CallbackProperty(() => adaptCylinderToGround(cyl, this.cylinderPosition[index]), false) :
+                            new Cesium.CallbackProperty(() => adaptCylinderToEntity(entity, cyl, this.cylinderPosition[index]), false);
+                    });
+
                     eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
                 }
                 eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
@@ -414,11 +420,6 @@ export default {
                 return;
             }
 
-            entities.values.filter(ent => ent.cylinder).forEach((cyl, index) => {
-                cyl.position = entity.clampToGround ?
-                    new Cesium.CallbackProperty(() => adaptCylinderToGround(cyl, this.cylinderPosition[index]), false) :
-                    new Cesium.CallbackProperty(() => adaptCylinderToEntity(entity, cyl, this.cylinderPosition[index]), false);
-            });
             if (entity.polygon) {
                 this.movePolygon({entity, position});
             }
