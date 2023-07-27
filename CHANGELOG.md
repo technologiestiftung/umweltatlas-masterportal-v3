@@ -35,6 +35,7 @@
     - fixed language pack in nested i18next json
     - correct handling of boolean attributes
 - Issue #1024: LayerInformation: Fix URL generation for given query parameters in service URL
+- Issue #1045: WFSSearch: Fields will be enabled correctly for multiple search instances now
 - Issue #1057: Filter: Checkbox Snippet does not response right in activation and deactivation.
 ---
 ## v2.35.1 - 2023-07-13
