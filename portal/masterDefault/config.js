@@ -50,7 +50,6 @@ const Config = {
             "DB433BD1-1640-4FBC-A879-72402BD5CFDB", // Bodenrichtwertzonen Hamburg
             "6A0D8B9D-1BBD-441B-BA5C-6159EE41EE71", // Bodenrichtwerte für Hamburg
             "3233E124-E576-4B5D-978E-164720C4E75F", // MRH Große Verkehrsprojekte
-            "24513F73-D928-450C-A334-E30037945729", // 3D Straßenbaumkataster Hamburg
             "7595A206-F07E-470D-A6C1-2F74F0B0C64E", // 3D Hamburger Hauptkirchen
             "47233BC2-8D3F-4D9E-B760-BA153327F0E8", // HWRM-Karten 1.Zyklus Hamburg
             "BD9B5D2E-B6B8-4857-99A5-306B0411E48B", // Baustellen GeoNetBake Hamburg

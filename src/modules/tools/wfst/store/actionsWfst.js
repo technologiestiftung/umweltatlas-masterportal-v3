@@ -1,15 +1,13 @@
-import axios from "axios";
 import {Draw, Modify, Select, Translate} from "ol/interaction";
 import {platformModifierKeyOnly, primaryAction} from "ol/events/condition";
-import {exceptionCodes} from "../constantsWfst";
 import addFeaturePropertiesToFeature from "../utils/addFeaturePropertiesToFeature";
 import getLayerInformationModule from "../utils/getLayerInformation";
 import prepareFeaturePropertiesModule from "../utils/prepareFeatureProperties";
-import writeTransactionModule from "../utils/writeTransaction";
 import {getComponent} from "../../../../utils/getComponent";
 import loader from "../../../../utils/loaderOverlay";
-import handleAxiosResponse from "../../../../utils/handleAxiosResponse";
 import getProxyUrl from "../../../../utils/getProxyUrl";
+import wfs from "@masterportal/masterportalapi/src/layer/wfs";
+
 
 let drawInteraction,
     drawLayer,
@@ -47,8 +45,8 @@ const actions = {
             // eslint-disable-next-line new-cap
             sourceLayer = rootGetters["Maps/getLayerById"]({layerId: currentLayerId});
 
-        commit("setSelectedInteraction", interaction);
         if (interaction === "LineString" || interaction === "Point" || interaction === "Polygon") {
+            commit("setSelectedInteraction", "insert");
             drawLayer = await dispatch("Maps/addNewLayerIfNotExists", {layerName: "tool/wfsTransaction/vectorLayer"}, {root: true});
 
             const {style} = layerInformation[currentLayerIndex],
@@ -96,6 +94,7 @@ const actions = {
             dispatch("Maps/addInteraction", drawInteraction, {root: true});
         }
         else if (interaction === "update") {
+            commit("setSelectedInteraction", "update");
             selectInteraction = new Select({
                 layers: [sourceLayer]
             });
@@ -125,6 +124,7 @@ const actions = {
             dispatch("Maps/addInteraction", selectInteraction, {root: true});
         }
         else if (interaction === "delete") {
+            commit("setSelectedInteraction", "delete");
             selectInteraction = new Select({
                 layers: [sourceLayer]
             });
@@ -173,6 +173,7 @@ const actions = {
      * @returns {void}
      */
     async save ({dispatch, getters}) {
+        let featureWithProperties = null;
         const feature = modifyFeature ? modifyFeature : drawLayer.getSource().getFeatures()[0],
             {currentLayerIndex, featureProperties, layerInformation, selectedInteraction, layerIds} = getters,
             error = getters.savingErrorMessage(feature),
@@ -195,87 +196,61 @@ const actions = {
             }, {root: true});
             return;
         }
-        dispatch(
+
+        featureWithProperties = await addFeaturePropertiesToFeature(
+            {
+                id: feature.getId() || modifyFeatureSaveId,
+                geometryName: feature.getGeometryName(),
+                geometry: geometryFeature.getGeometry()
+            },
+            featureProperties,
+            layerInformation[currentLayerIndex].featurePrefix,
+            selectedInteraction === "selectedUpdate"
+        );
+
+        await dispatch(
             "sendTransaction",
-            await addFeaturePropertiesToFeature(
-                {
-                    id: feature.getId() || modifyFeatureSaveId,
-                    geometryName: feature.getGeometryName(),
-                    geometry: geometryFeature.getGeometry()
-                },
-                featureProperties,
-                layerInformation[currentLayerIndex].featurePrefix,
-                selectedInteraction === "selectedUpdate"
-            )
+            featureWithProperties
         );
     },
+
     /**
-     * Sends a transaction to the service and handles the response
-     * by presenting the user with an alert where the message depends on the response.
+     * Sends a transaction to the API and processes the response.
+     * Either a message is displayed to the user in case of an error, depending on the response,
+     * or the layer is refreshed and the stored feature is displayed.
      *
      * @param {module:ol/Feature} feature Feature to by inserted / updated / deleted.
-     * @returns {Promise} Promise to react to the result of the transaction.
+     * @returns {Promise} Promise containing the feature to be added, updated or deleted if transaction was successful. If transaction fails it returns null
      */
-    sendTransaction ({dispatch, getters, rootGetters}, feature) {
+    async sendTransaction ({dispatch, getters, rootGetters}, feature) {
         const {currentLayerIndex, layerInformation, selectedInteraction, useProxy} = getters,
             layer = layerInformation[currentLayerIndex],
-            transactionMethod = ["LineString", "Point", "Polygon"].includes(selectedInteraction)
-                ? "insert"
-                : selectedInteraction,
             url = useProxy ? getProxyUrl(layer.url) : layer.url;
-        let messageKey = `success.${transactionMethod}`;
+        let response;
 
         loader.show();
-        return axios.post(url, writeTransactionModule.writeTransaction(
-            feature,
-            layer,
-            transactionMethod,
-            rootGetters["Maps/projectionCode"]
-        ), {
-            withCredentials: layer.isSecured,
-            headers: {"Content-Type": "text/xml"},
-            responseType: "text/xml"
-        })
-            .then(response => handleAxiosResponse(response, "wfsTransaction.actions.sendTransaction"))
-            .then(data => {
-                const xmlDocument = new DOMParser().parseFromString(data, "text/xml"),
-                    transactionSummary = xmlDocument.getElementsByTagName("wfs:TransactionSummary");
-                let exception = null,
-                    exceptionText = null;
-
-                // NOTE: WFS-T services respond errors with the transaction as an XML response, even though it's the http code indicates different...
-                if (transactionSummary.length === 0) {
-                    messageKey = "genericFailedTransaction";
-                    exception = xmlDocument.getElementsByTagName(`${xmlDocument.getElementsByTagName("Exception").length === 0 ? "ows:" : ""}Exception`)[0];
-                    exceptionText = exception.getElementsByTagName(`${xmlDocument.getElementsByTagName("ExceptionText").length === 0 ? "ows:" : ""}ExceptionText`)[0];
-                    if (exceptionText !== undefined) {
-                        console.error("WfsTransaction: An error occurred when sending the transaction to the service.", exceptionText.textContent);
-                    }
-                    if (exception?.attributes.getNamedItem("code") || exception?.attributes.getNamedItem("exceptionCode")) {
-                        const code = exception.attributes.getNamedItem(`${exception?.attributes.getNamedItem("code") ? "c" : "exceptionC"}ode`).textContent;
-
-                        messageKey = exceptionCodes.includes(code) ? code : messageKey;
-                    }
-                    messageKey = `error.${messageKey}`;
-                }
-            })
-            .catch(error => {
-                messageKey = "error.axios";
-                console.error("WfsTransaction: An error occurred when sending the transaction to the service.", error);
-            })
-            .finally(() => {
-                loader.hide();
-                dispatch("reset");
-                getComponent(layer.id).layer.getSource().refresh();
-                dispatch("Alerting/addSingleAlert", {
-                    category: "Info",
-                    displayClass: "info",
-                    content: i18next.t(`common:modules.tools.wfsTransaction.transaction.${messageKey}`),
-                    mustBeConfirmed: false
-                }, {root: true});
-            });
+        try {
+            response = await wfs.sendTransaction(rootGetters["Maps/projectionCode"], feature, url, layer, selectedInteraction);
+        }
+        catch (e) {
+            await dispatch("Alerting/addSingleAlert", {
+                category: "Info",
+                displayClass: "info",
+                content: i18next.t(`Error: ${e.message}`),
+                mustBeConfirmed: false
+            }, {root: true});
+            response = null;
+        }
+        finally {
+            await dispatch("reset");
+            getComponent(layer.id).layer.getSource().refresh();
+            loader.hide();
+        }
+        return response;
     },
+
     setActive ({commit, dispatch, getters: {layerIds}}, active) {
+
         commit("setActive", active);
 
         if (active) {

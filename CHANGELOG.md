@@ -17,8 +17,10 @@
     - highlightFeature also works for line geometries
     - new parameter: hideMapMarkerOnVectorHighlight
 ### Changed
- - dependencies:
-         - @masterportal/masterportalapi: 2.20.0 to 2.21.0 (with cesium 1.106.0 to @cesium/engine 2.4.1)
+- The following packages have been updated:
+    - dependencies:
+        - @masterportal/masterportalapi: 2.20.0 to 2.22.0 (with cesium 1.106.0 to @cesium/engine 2.4.1)
+- WFS: Migrated writeTransaction and sendTransaction to masterportalAPI (2.22.0).
 
 ### Deprecated
 

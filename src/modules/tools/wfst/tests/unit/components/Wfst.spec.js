@@ -88,7 +88,7 @@ describe("src/modules/tools/wfst/components/WfsTransaction.vue", () => {
     });
     afterEach(sinon.restore);
 
-    // form -> form-Element mit input-Elementen und dazugehörigen label als auch div-Element mit 2 SimpleButton
+    // form -> form-Element mit input-Elementen und dazugehÃ¶rigen label als auch div-Element mit 2 SimpleButton
     it("renders a container for the whole tool", () => {
         const requestStub = sinon.stub(Radio, "request");
 
