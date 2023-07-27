@@ -76,7 +76,7 @@ export default {
     removeHighlight3DTile ({dispatch}) {
         dispatch("removeHighlightColor");
 
-        if (globeEventHandler instanceof Cesium.ScreenSpaceEventHandler) {
+        if (globeEventHandler !== undefined && globeEventHandler instanceof Cesium.ScreenSpaceEventHandler) {
             globeEventHandler.destroy();
         }
     },

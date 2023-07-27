@@ -371,7 +371,11 @@
               "Layer": [
                 {
                   "id": "24050",
-                  "name": "Area1",
+                  "name": "Area1"
+                },
+                {
+                  "id": "24122",
+                  "name": "Area3",
                   "visibility": true
                 }
               ]

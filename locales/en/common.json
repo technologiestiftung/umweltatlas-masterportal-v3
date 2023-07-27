@@ -953,7 +953,7 @@
                 "layerSelectLabel": "Current layer:",
                 "polygonHint": "To move a polygon, hold down the Ctrl key and move your mouse while holding the mouse button down.",
                 "interactionSelect": {
-                    "edit": "Edit geometry",
+                    "update": "Edit geometry",
                     "delete": "Delete geometry",
                     "line": "Add line",
                     "point": "Add point",
