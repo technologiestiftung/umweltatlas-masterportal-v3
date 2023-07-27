@@ -170,8 +170,9 @@ export default {
         drawShape () {
             const entities = this.entities,
                 models = this.drawnModels,
-                lastElement = entities.values.slice().pop(),
-                lastId = lastElement ? lastElement.id : null,
+                lastElement = entities.values.filter(ent => !ent.cylinder).pop(),
+                lastId = lastElement ? lastElement.id : undefined,
+                shapeId = lastId ? lastId + 1 : 1,
                 positionData = new Cesium.CallbackProperty(() => {
                     if (this.selectedGeometry === "polygon") {
                         return new Cesium.PolygonHierarchy(this.activeShapePoints);
@@ -182,8 +183,8 @@ export default {
 
             if (this.selectedGeometry === "line") {
                 shape = {
-                    id: lastId ? lastId + 1 : 1,
-                    name: this.drawName ? this.drawName : i18next.t("common:modules.tools.modeler3D.draw.captions.drawing"),
+                    id: shapeId,
+                    name: this.drawName ? this.drawName : i18next.t("common:modules.tools.modeler3D.draw.captions.drawing") + ` ${shapeId}`,
                     wasDrawn: true,
                     clampToGround: this.clampToGround,
                     polyline: {
@@ -198,8 +199,8 @@ export default {
             }
             else if (this.selectedGeometry === "polygon") {
                 shape = {
-                    id: lastId ? lastId + 1 : 1,
-                    name: this.drawName ? this.drawName : i18next.t("common:modules.tools.modeler3D.draw.captions.drawing"),
+                    id: shapeId,
+                    name: this.drawName ? this.drawName : i18next.t("common:modules.tools.modeler3D.draw.captions.drawing") + ` ${shapeId}`,
                     wasDrawn: true,
                     clampToGround: this.clampToGround,
                     polygon: {
