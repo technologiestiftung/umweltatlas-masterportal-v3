@@ -143,7 +143,7 @@ export default {
                         }
                     }
                     this.highlightEntity(newEntity);
-                    this.setCurrentModelPosition(newEntity?.position?.getValue() || this.getCenterFromPolygon(newEntity));
+                    this.setCurrentModelPosition(newEntity?.position?.getValue() || this.getCenterFromGeometry(newEntity));
                     this.updateUI();
                 }
             }
@@ -307,6 +307,8 @@ export default {
                 }
                 else {
                     this.entities.values.filter(ent => ent.cylinder).forEach((cyl, index) => {
+                        this.cylinderPosition[index] = cyl.position.getValue();
+
                         cyl.position = entity.clampToGround ?
                             new Cesium.CallbackProperty(() => adaptCylinderToGround(cyl, this.cylinderPosition[index]), false) :
                             new Cesium.CallbackProperty(() => adaptCylinderToEntity(entity, cyl, this.cylinderPosition[index]), false);

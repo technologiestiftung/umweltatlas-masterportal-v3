@@ -106,7 +106,7 @@ const actions = {
     updatePositionUI ({commit, dispatch, getters, state}) {
         const entities = getters.entities,
             entity = entities.getById(state.currentModelId),
-            entityPosition = entity?.position?.getValue() || getters.getCenterFromPolygon(entity);
+            entityPosition = entity?.position?.getValue() || getters.getCenterFromGeometry(entity);
 
         if (entityPosition) {
             dispatch("transformFromCartesian", entityPosition);
@@ -283,7 +283,7 @@ const actions = {
         }
 
         const positions = entity.polygon.hierarchy.getValue().positions,
-            center = getters.getCenterFromPolygon(entity),
+            center = getters.getCenterFromGeometry(entity),
             positionDelta = Cesium.Cartesian3.subtract(position, center, new Cesium.Cartesian3());
 
         if (entity.clampToGround) {
@@ -297,7 +297,7 @@ const actions = {
             state.cylinderPosition[index] = pos;
         });
 
-        dispatch("transformFromCartesian", getters.getCenterFromPolygon(entity));
+        dispatch("transformFromCartesian", getters.getCenterFromGeometry(entity));
     },
     /**
      * Moves a given polyline to a given new position.

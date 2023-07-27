@@ -364,7 +364,7 @@ describe("Actions", () => {
             getters = {
                 scene: scene,
                 entities: entities,
-                getCenterFromPolygon: sinon.stub().returns({x: 10, y: 20, z: 30})
+                getCenterFromGeometry: sinon.stub().returns({x: 10, y: 20, z: 30})
             };
 
             actions.updatePositionUI({commit, dispatch, state, getters});
@@ -387,7 +387,7 @@ describe("Actions", () => {
             getters = {
                 scene: scene,
                 entities: entities,
-                getCenterFromPolygon: sinon.stub().returns(undefined)
+                getCenterFromGeometry: sinon.stub().returns(undefined)
             };
 
             actions.updatePositionUI({dispatch, state, getters});
@@ -764,7 +764,7 @@ describe("Actions", () => {
 
             getters = {
                 scene: scene,
-                getCenterFromPolygon: sinon.stub().returns({x: 50, y: 50, z: 50})
+                getCenterFromGeometry: sinon.stub().returns({x: 50, y: 50, z: 50})
             };
 
             actions.movePolygon({dispatch, getters, state}, {entity, position});
