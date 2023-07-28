@@ -1,8 +1,8 @@
-import stateMap from "./stateLogin";
+import stateLogin from "./stateLogin";
 import {generateSimpleGetters} from "../../../../app-store/utils/generators";
 
 const gettersMap = {
-    ...generateSimpleGetters(stateMap),
+    ...generateSimpleGetters(stateLogin),
 
     /**
      * checks if the login is configured by config.js and thereby ready to go

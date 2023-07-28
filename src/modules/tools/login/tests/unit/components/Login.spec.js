@@ -16,7 +16,7 @@ localVue.use(Vuex);
 
 config.mocks.$t = key => key;
 
-describe("ADDONS: addons/login/components/Login.vue", () => {
+describe("src/modules/tools/login/components/Login.vue", () => {
     const
         sandbox = sinon.createSandbox(),
         mockConfigJson = {

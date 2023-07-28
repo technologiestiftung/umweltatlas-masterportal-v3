@@ -8,7 +8,6 @@
  * License: MIT
  */
 
-/* eslint-disable one-var */
 /* eslint-disable vue/multi-word-component-names */
 import {mapMutations, mapGetters, mapActions} from "vuex";
 import {getComponent} from "../../../../utils/getComponent";
@@ -98,19 +97,18 @@ export default {
         },
 
         /**
-         * Returns true iff user is logged in, else false
+         * Returns true if user is logged in, else false
          * @return {Boolean} logged in
          */
         checkLoggedIn () {
 
-            const token = Cookie.get("token");
+            const token = Cookie.get("token"),
+                refreshToken = Cookie.get("refresh_token");
 
-            this.$store.commit("Tools/Login/setAccessToken", token);
+            let loggedIn = false;
 
-            // eslint-disable-next-line one-var
-            const refreshToken = Cookie.get("refresh_token");
-
-            this.$store.commit("Tools/Login/setRefreshToken", refreshToken);
+            this.setAccessToken(token);
+            this.setRefreshToken(refreshToken);
 
             // check if token is expired
             if (this.getTokenExpiry() < 1) {
@@ -124,15 +122,14 @@ export default {
 
 
             // set logged into store
-            // eslint-disable-next-line one-var
-            const loggedIn = Boolean(token);
+            loggedIn = Boolean(token);
 
-            this.$store.commit("Tools/Login/setLoggedIn", loggedIn);
+            this.setLoggedIn(loggedIn);
 
             // set name and email into store
-            this.$store.commit("Tools/Login/setScreenName", Cookie.get("name"));
-            this.$store.commit("Tools/Login/setUsername", Cookie.get("username"));
-            this.$store.commit("Tools/Login/setEmail", Cookie.get("email"));
+            this.setScreenName(Cookie.get("name"));
+            this.setUsername(Cookie.get("username"));
+            this.setEmail(Cookie.get("email"));
 
             // set login icon
             this.setLoginIcon();
@@ -181,7 +178,6 @@ export default {
                     // dialog has been closed, login successful?
                     // this.checkLoggedIn();
 
-                    // reload window since it cannot partially update at the moment (TODO)
                     this.reload();
                 }
             }, 500);
@@ -212,12 +208,12 @@ export default {
             OIDC.eraseCookies();
 
             // reset the store
-            this.$store.commit("Tools/Login/setLoggedIn", false);
-            this.$store.commit("Tools/Login/setAccessToken", undefined);
-            this.$store.commit("Tools/Login/setRefreshToken", undefined);
-            this.$store.commit("Tools/Login/setScreenName", undefined);
-            this.$store.commit("Tools/Login/setUsername", undefined);
-            this.$store.commit("Tools/Login/setEmail", undefined);
+            this.setLoggedIn(false);
+            this.setAccessToken(undefined);
+            this.setRefreshToken(undefined);
+            this.setScreenName(undefined);
+            this.setUsername(undefined);
+            this.setEmail(undefined);
 
             // set icon to reflect login state
             this.setLoginIcon();
@@ -282,15 +278,18 @@ export default {
          */
         setLoginIcon () {
 
-            // update icon if appropriate (Desktop menu)
-            const loginIconDesktop = document.querySelector("#navbarMenu .nav-menu.desktop li.nav-item a span[name=login]");
+            let loginTextDesktop, loginItemMobileText, icon;
 
+            const loginIconDesktop = document.querySelector("#navbarMenu .nav-menu.desktop li.nav-item a span[name=login]"),
+                loginItemMobileIcon = document.querySelector("#navbarMenu .nav-menu.mobile li span[name=login]");
+
+            // update icon if appropriate (Desktop menu)
             if (loginIconDesktop) {
                 // set id for login nav item
                 loginIconDesktop.parentElement.parentElement.id = "login";
 
-                const loginTextDesktop = loginIconDesktop.parentElement;
-                const icon = loginIconDesktop.getElementsByTagName("i")[0];
+                loginTextDesktop = loginIconDesktop.parentElement;
+                icon = loginIconDesktop.getElementsByTagName("i")[0];
 
                 if (this.storePath?.loggedIn) {
                     icon.className = this.iconLogged;
@@ -303,11 +302,9 @@ export default {
             }
 
             // update icon if appropriate (Mobile menu)
-            const loginItemMobileIcon = document.querySelector("#navbarMenu .nav-menu.mobile li span[name=login]");
-
             if (loginItemMobileIcon) {
-                const loginItemMobileText = loginItemMobileIcon.nextElementSibling;
-                const icon = loginItemMobileIcon.getElementsByTagName("i")[0];
+                loginItemMobileText = loginItemMobileIcon.nextElementSibling;
+                icon = loginItemMobileIcon.getElementsByTagName("i")[0];
 
                 if (this.storePath?.loggedIn) {
                     icon.className = this.iconLogged;
