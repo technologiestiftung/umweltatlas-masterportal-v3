@@ -74,8 +74,8 @@ TileSetLayer.prototype.setVisible = function (newValue) {
  * @param {Boolean} allLayers if true, updates all layers (required to dynamically change visibility)
  * @return {void}
  */
-TileSetLayer.prototype.hideObjects = function (toHide, allLayers = false) {
-    let dirty = allLayers;
+TileSetLayer.prototype.hideObjects = function (toHide) {
+    let dirty = false;
 
     toHide.forEach((id) => {
         if (!hiddenObjects[id]) {

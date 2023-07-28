@@ -344,14 +344,13 @@ export default {
                     else if (this.hideObjects && picked instanceof Cesium.Cesium3DTileFeature) {
                         const features = getGfiFeatures.getGfiFeaturesByTileFeature(picked),
                             gmlId = features[0]?.getProperties().gmlid,
-                            tileSetModels = Radio.request("ModelList", "getModelsByAttributes", {typ: "TileSet3D"});
+                            tileSetModels = Radio.request("ModelList", "getModelsByAttributes", {typ: "TileSet3D", id: picked.tileset.layerReferenceId});
 
-                        tileSetModels.forEach(model => {
-                            model.hideObjects([gmlId], true);
-                        });
+                        tileSetModels[0].hideObjects([gmlId]);
 
                         this.hiddenObjects.push({
-                            name: gmlId
+                            name: gmlId,
+                            layerId: picked.tileset.layerReferenceId
                         });
                     }
                 }
@@ -525,9 +524,9 @@ export default {
          */
         showObject (object) {
             const objectIndex = this.hiddenObjects.findIndex(x => x.name === object.name),
-                tileSetModels = Radio.request("ModelList", "getModelsByAttributes", {typ: "TileSet3D"});
+                tileSetModels = Radio.request("ModelList", "getModelsByAttributes", {typ: "TileSet3D", id: object.layerId});
 
-            tileSetModels.forEach(model => model.showObjects([object.name]));
+            tileSetModels[0].showObjects([object.name]);
             this.hiddenObjects.splice(objectIndex, 1);
         },
         close () {
