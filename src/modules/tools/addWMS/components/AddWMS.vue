@@ -204,9 +204,20 @@ export default {
                 Radio.trigger("Parser", "addFolder", object.Title, this.getParsedTitle(object.Title), parentId, level, false, false, object.invertLayerOrder);
             }
             else {
+                const datasets = [];
+
+                if (object?.MetadataURL?.[0].OnlineResource) {
+                    datasets.push({
+                        customMetadata: true,
+                        csw_url: object.MetadataURL[0].OnlineResource,
+                        attributes: {}
+                    });
+                }
                 Radio.trigger("Parser", "addLayer", object.Title, this.getParsedTitle(object.Title), parentId, level, object.Name, this.wmsUrl, this.version, {
                     maxScale: object?.MaxScaleDenominator?.toString(),
-                    minScale: object?.MinScaleDenominator?.toString()
+                    minScale: object?.MinScaleDenominator?.toString(),
+                    legendURL: object?.Style?.[0].LegendURL?.[0].OnlineResource?.toString(),
+                    datasets
                 });
             }
         },

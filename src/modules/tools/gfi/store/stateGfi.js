@@ -10,6 +10,7 @@
  * @property {Boolean} centerMapToClickPoint specifies if the map should be centered when clicking on a feature.
  * @property {Boolean} isVisibleInMenu Indicates whether there is a menu entry for the GFI.
  * @property {Boolean} renderToWindow if true, content is rendered into a window
+ * @property {Boolean} hideMapMarkerOnVectorHighlight if true, mapmarker is hidden on vector highlighting.
  * @property {Object[]} gfiFeatures temporary array for features at click has to be moved to gfi module.
  *
  */
@@ -23,11 +24,13 @@ const state = {
     centerMapToClickPoint: false,
     showMarker: true,
     highlightVectorRules: null,
+    hideMapMarkerOnVectorHighlight: false,
     isVisibleInMenu: true,
     renderToWindow: true,
     currentPosition: null,
     currentRotation: null,
-    gfiFeatures: []
+    gfiFeatures: [],
+    coloredHighlighting3D: {}
 };
 
 export default state;

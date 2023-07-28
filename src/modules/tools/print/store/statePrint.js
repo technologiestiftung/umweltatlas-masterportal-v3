@@ -20,6 +20,7 @@
  * @property {Array} scaleList available scales of the specified print configuration
  * @property {String} currentScale current print scale
  * @property {String} title title for the report
+ * @property {Number} titleLength - title character length
  * @property {Boolean} isScaleSelectedManually is scale selected by the user over the view
  * @property {Boolean} isMetaDataAvailable true if the current layout supports meta data
  * @property {Boolean} isGfiAvailable true if the current layout supports gfi
@@ -43,6 +44,11 @@
  * @property {Integer} plotserviceIndex index for the file downloads for High Resolution Plot Service
  * @property {Object} capabilitiesFilter filter for the response of the configured print service. Possible keys are layouts and outputFormats
  * @property {Object} defaultCapabilitiesFilter If there is no key set in capabilitiesFilter, the key from this object is taken
+ * @property {String} overviewmapLayerId the layer id for the overviewmap
+ * @property {Array} layoutOrder the order in which the layouts should be shown in the dropdown
+ * @property {Array} shouldPrintGeometries if true then Print includes drawings and measures on a map
+ * @property {String} geometries payload for backend of all drawings, measures and its labels placed on a map
+ * @property {Boolean} isPrintDrawnGeoms if set to true in config.json the option to print geometries is enabled for print service 'plotservice'
  */
 const state = {
     active: false,
@@ -69,6 +75,7 @@ const state = {
     scaleList: [],
     currentScale: undefined,
     title: "PrintResult",
+    titleLength: 45,
     isScaleSelectedManually: false,
     isMetadataAvailable: false,
     metadataAttribute: null,
@@ -112,6 +119,20 @@ const state = {
     plotserviceIndex: -1,
     capabilitiesFilter: {},
     defaultCapabilitiesFilter: {},
+    overviewmapLayerId: undefined,
+    layoutOrder: [
+        "Default A4 hoch",
+        "Default A4 quer",
+        "Default A3 hoch",
+        "Default A3 quer",
+        "Default A4 hoch Legende",
+        "Default A4 quer Legende",
+        "Default A3 hoch Legende",
+        "Default A3 quer Legende"
+    ],
+    shouldPrintGeometries: false,
+    geometries: "[]",
+    isPrintDrawnGeoms: false,
     /**
      * @deprecated in the next major-release!
      * useProxy

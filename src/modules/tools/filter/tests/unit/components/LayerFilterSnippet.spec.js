@@ -14,9 +14,21 @@ localVue.use(Vuex);
 config.mocks.$t = key => key;
 
 describe("src/modules/tools/filter/components/LayerFilterSnippet.vue", () => {
-    let wrapper = null;
+    let wrapper = null,
+        mapHandler = null;
 
     beforeEach(() => {
+        mapHandler = new MapHandler();
+        mapHandler.getLayerModelByFilterId = sinon.stub().returns({
+            get: (val) => {
+                if (val === "isSelected") {
+                    return false;
+                }
+                return "TEST";
+            }
+        });
+        mapHandler.activateLayer = sinon.stub();
+
         wrapper = shallowMount(LayerFilterSnippet, {
             propsData: {
                 layerConfig: {
@@ -24,12 +36,11 @@ describe("src/modules/tools/filter/components/LayerFilterSnippet.vue", () => {
                         type: "something external"
                     }
                 },
-                mapHandler: new MapHandler({
-                    isLayerActivated: () => false
-                })
+                mapHandler
             },
             localVue
         });
+
     });
     afterEach(() => {
         if (wrapper) {
@@ -72,9 +83,7 @@ describe("src/modules/tools/filter/components/LayerFilterSnippet.vue", () => {
                         },
                         searchInMapExtent: true
                     },
-                    mapHandler: new MapHandler({
-                        isLayerActivated: () => false
-                    })
+                    mapHandler
                 },
                 localVue
             });
@@ -114,6 +123,21 @@ describe("src/modules/tools/filter/components/LayerFilterSnippet.vue", () => {
             wrapper.vm.deleteRule(0);
             await wrapper.vm.$nextTick();
             expect(wrapper.emitted().updateRules).to.be.an("array").with.lengthOf(1);
+        });
+    });
+    describe("deleteAllRules", () => {
+        it("should emit the deleteAllRules function", async () => {
+            wrapper.vm.deleteAllRules();
+            await wrapper.vm.$nextTick();
+            expect(wrapper.emitted().deleteAllRules).to.be.an("array").with.lengthOf(1);
+        });
+        it("should call handleActiveStrategy if strategy is active", async () => {
+            const spyHandleActiveStrategy = sinon.spy(wrapper.vm, "handleActiveStrategy");
+
+            await wrapper.setProps({layerConfig: {strategy: "active"}});
+            wrapper.vm.deleteAllRules();
+            await wrapper.vm.$nextTick();
+            expect(spyHandleActiveStrategy.calledOnce).to.be.true;
         });
     });
     describe("hasUnfixedRules", () => {
@@ -278,6 +302,41 @@ describe("src/modules/tools/filter/components/LayerFilterSnippet.vue", () => {
         await wrapper.vm.$nextTick();
         expect(wrapper.findComponent(SnippetDownload).exists()).to.be.true;
     });
+
+    it("should render a spinner", async () => {
+        await wrapper.setData({
+            isLoading: true
+        });
+
+        expect(wrapper.find(".spinner-border").exists()).to.be.true;
+    });
+
+    it("should call 'activateLayer' if filter layer type is VectorTile and the layer is not yet loaded", () => {
+        mapHandler.getLayerModelByFilterId = sinon.stub().returns({
+            get: (val) => {
+                if (val === "isSelected") {
+                    return false;
+                }
+                return "VectorTile";
+            }
+        });
+        mapHandler.activateLayer = sinon.stub();
+        wrapper = shallowMount(LayerFilterSnippet, {
+            propsData: {
+                layerConfig: {
+                    service: {
+                        type: "something external"
+                    },
+                    searchInMapExtent: true
+                },
+                mapHandler
+            },
+            localVue
+        });
+
+        expect(mapHandler.activateLayer.calledOnce).to.be.true;
+    });
+
     describe("setSnippetValueByState", async () => {
         await wrapper.setData({
             snippets
@@ -517,6 +576,156 @@ describe("src/modules/tools/filter/components/LayerFilterSnippet.vue", () => {
             expect(wrapper.vm.hasOnlyParentRules()).to.be.false;
             expect(stubIsRule.called).to.be.true;
             expect(stubIsParentSnippet.called).to.be.false;
+        });
+    });
+    describe("registerMapMoveListener", () => {
+        it("should not call the function registerMapMoveListener", () => {
+            const registerMapMoveListener = sinon.stub(wrapper.vm, "registerMapMoveListener");
+
+            LayerFilterSnippet.methods.registerMapMoveListener = registerMapMoveListener;
+
+            expect(wrapper.vm.registerMapMoveListener).to.be.a("function");
+            expect(registerMapMoveListener.notCalled).to.be.true;
+        });
+
+        it("should call the function registerMapMoveListener", async () => {
+            const registerMapMoveListener = sinon.stub(wrapper.vm, "registerMapMoveListener");
+
+            LayerFilterSnippet.methods.registerMapMoveListener = registerMapMoveListener;
+
+            wrapper = shallowMount(LayerFilterSnippet, {
+                propsData: {
+                    layerConfig: {
+                        service: {
+                            type: "something external"
+                        },
+                        filterOnMove: true,
+                        strategy: "active"
+                    },
+                    mapHandler
+                },
+                localVue
+            });
+
+            await wrapper.vm.$nextTick();
+            expect(registerMapMoveListener.called).to.be.true;
+        });
+    });
+    describe("unregisterMapMoveListener", () => {
+        it("should not call the function unregisterMapMoveListener", async () => {
+            const unregisterMapMoveListener = sinon.stub(wrapper.vm, "unregisterMapMoveListener");
+
+            LayerFilterSnippet.methods.unregisterMapMoveListener = unregisterMapMoveListener;
+
+            wrapper = shallowMount(LayerFilterSnippet, {
+                propsData: {
+                    layerConfig: {
+                        service: {
+                            type: "something external"
+                        }
+                    },
+                    mapHandler
+                },
+                localVue
+            });
+
+            await wrapper.vm.$nextTick();
+            wrapper.destroy();
+
+            expect(wrapper.vm.unregisterMapMoveListener).to.be.a("function");
+            expect(unregisterMapMoveListener.notCalled).to.be.true;
+        });
+
+        it("should call the function unregisterMapMoveListener", async () => {
+            const unregisterMapMoveListener = sinon.stub(wrapper.vm, "unregisterMapMoveListener");
+
+            LayerFilterSnippet.methods.registerMapMoveListener = unregisterMapMoveListener;
+
+            wrapper = shallowMount(LayerFilterSnippet, {
+                propsData: {
+                    layerConfig: {
+                        service: {
+                            type: "something external"
+                        },
+                        filterOnMove: true,
+                        strategy: "active"
+                    },
+                    mapHandler
+                },
+                localVue
+            });
+
+            await wrapper.vm.$nextTick();
+            wrapper.destroy();
+
+            expect(unregisterMapMoveListener.called).to.be.true;
+        });
+    });
+
+    describe("checkZoomLevel", () => {
+        it("should not call the function checkZoomLevel", async () => {
+            const checkZoomLevel = sinon.stub(wrapper.vm, "checkZoomLevel");
+
+            LayerFilterSnippet.methods.checkZoomLevel = checkZoomLevel;
+
+            wrapper = shallowMount(LayerFilterSnippet, {
+                propsData: {
+                    layerConfig: {
+                        service: {
+                            type: "something external"
+                        }
+                    },
+                    mapHandler
+                },
+                localVue
+            });
+
+            await wrapper.vm.$nextTick();
+            wrapper.destroy();
+
+            expect(wrapper.vm.checkZoomLevel).to.be.a("function");
+            expect(checkZoomLevel.notCalled).to.be.true;
+        });
+
+        it("should call the function checkZoomLevel", async () => {
+            const checkZoomLevel = sinon.stub(wrapper.vm, "checkZoomLevel");
+
+            LayerFilterSnippet.methods.checkZoomLevel = checkZoomLevel;
+
+            wrapper = shallowMount(LayerFilterSnippet, {
+                propsData: {
+                    layerConfig: {
+                        service: {
+                            type: "something external"
+                        },
+                        "minZoom": 15,
+                        "maxZoom": 18
+                    },
+                    mapHandler
+                },
+                localVue
+            });
+
+            await wrapper.vm.$nextTick();
+            wrapper.destroy();
+
+            expect(checkZoomLevel.called).to.be.true;
+        });
+    });
+
+    describe("checkOutOfZoomLevel", () => {
+        it("should set the variable outOfZoom false", () => {
+            expect(wrapper.vm.checkOutOfZoomLevel(undefined, undefined, undefined)).to.be.false;
+            expect(wrapper.vm.checkOutOfZoomLevel(undefined, undefined, 17)).to.be.false;
+            expect(wrapper.vm.checkOutOfZoomLevel(undefined, 18, 17)).to.be.false;
+            expect(wrapper.vm.checkOutOfZoomLevel(10, undefined, 17)).to.be.false;
+            expect(wrapper.vm.checkOutOfZoomLevel(10, 18, 17)).to.be.false;
+        });
+        it("should set the variable outOfZoom true", () => {
+            expect(wrapper.vm.checkOutOfZoomLevel(10, 16, 17)).to.be.true;
+            expect(wrapper.vm.checkOutOfZoomLevel(10, 18, 7)).to.be.true;
+            expect(wrapper.vm.checkOutOfZoomLevel(10, undefined, 7)).to.be.true;
+            expect(wrapper.vm.checkOutOfZoomLevel(undefined, 16, 17)).to.be.true;
         });
     });
 });

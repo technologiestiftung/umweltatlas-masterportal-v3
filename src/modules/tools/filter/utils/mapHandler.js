@@ -1,5 +1,6 @@
 import isObject from "../../../../utils/isObject.js";
 import LayerGroup from "ol/layer/Group";
+import VectorTileLayer from "../../../../core/layers/vectorTile.js";
 
 /**
  * The MapHandler has control over OL and the Map.
@@ -138,7 +139,10 @@ export default class MapHandler {
         const ids = this.getFilteredIdsByFilterId(filterId);
 
         if (Array.isArray(ids)) {
-            return ids.length;
+            return new Set(ids).size;
+        }
+        else if (isObject(ids)) {
+            return Object.keys(ids).length;
         }
         return 0;
     }
@@ -206,17 +210,6 @@ export default class MapHandler {
                 }
             });
             layerModel.set("isSelected", true);
-        }
-        else if (this.isLayerActivated(filterId) && ((
-            typeof layerSource?.getFeatures === "function"
-            && layerSource.getFeatures().length === 0)
-            || (typeof layerModel?.getFeatures === "function"
-            && layerModel.getFeatures().length === 0))) {
-            (layerModel.get("typ") === "SensorThings" ? layerModel : layerSource).once("featuresloadend", () => {
-                if (typeof onActivated === "function") {
-                    onActivated();
-                }
-            });
         }
         else if (!this.isLayerVisibleInMap(filterId) || !this.isLayerActivated(filterId)) {
             layerModel.set("isSelected", true);
@@ -320,21 +313,34 @@ export default class MapHandler {
      * @returns {void}
      */
     addItemsToLayer (filterId, items, extern) {
-        if (!Array.isArray(this.filteredIds[filterId]) || !Array.isArray(items)) {
+        if (!Array.isArray(this.filteredIds[filterId]) && !isObject(this.filteredIds[filterId]) || !Array.isArray(items)) {
             return;
         }
-        const layerModel = this.getLayerModelByFilterId(filterId);
+        const layerModel = this.getLayerModelByFilterId(filterId),
+            uniqueProperties = {};
 
         if (!isObject(layerModel) || typeof layerModel.get !== "function") {
             return;
         }
 
-        items.forEach(item => {
-            if (isObject(item) && typeof item.getId === "function") {
-                this.filteredIds[filterId].push(item.getId());
-            }
-        });
-
+        if (layerModel instanceof VectorTileLayer) {
+            items.forEach(item => {
+                if (!isObject(item)) {
+                    return;
+                }
+                uniqueProperties[JSON.stringify(item.getProperties())] = true;
+            });
+            this.filteredIds[filterId] = uniqueProperties;
+        }
+        else {
+            items.forEach(item => {
+                if (isObject(item)) {
+                    if (typeof item.getId === "function") {
+                        this.filteredIds[filterId].push(item.getId());
+                    }
+                }
+            });
+        }
         if (extern) {
             layerModel.get("layerSource").addFeatures(items);
         }

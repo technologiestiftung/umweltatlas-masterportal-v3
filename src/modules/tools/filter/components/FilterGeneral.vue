@@ -17,6 +17,7 @@ import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 import {getFeatureGET} from "../../../../api/wfs/getFeature";
 import {WFS} from "ol/format.js";
 import UrlHandler from "../utils/urlHandler.js";
+import Cluster from "ol/source/Cluster";
 
 export default {
     name: "FilterGeneral",
@@ -108,7 +109,8 @@ export default {
             }
         }
         this.urlHandler.readFromUrlParams(this.$store.state.urlParams?.filter, this.layerConfigs, this.mapHandler, params => {
-            this.deserializeState(params);
+            this.handleStateForAlreadyActiveLayers(params);
+            this.deserializeState({...params, setLateActive: true});
             this.addWatcherToWriteUrl();
         });
         this.addWatcherToWriteUrl();
@@ -122,7 +124,8 @@ export default {
             "updateRules",
             "deleteAllRules",
             "updateFilterHits",
-            "deserializeState"
+            "deserializeState",
+            "setRulesArray"
         ]),
         close () {
             this.setActive(false);
@@ -130,6 +133,60 @@ export default {
 
             if (model) {
                 model.set("isActive", false);
+            }
+        },
+        /**
+         * Handles the state for already activated layers by given params.
+         * The given params are set for the matching layer if it is already active but has no features loaded yet.
+         * This function edits the given param and removes the rules and
+         * accordions out of the arrays for the matching layers and leaves only the others.
+         * @param {Object} params The params object. It will be edited if there is any matching layer.
+         * @param {Object[]} params.rulesOfFilters The rules array.
+         * @param {Object[]} params.selectedAccordions The selected accordions to find the layer for.
+         * @returns {void}
+         */
+        handleStateForAlreadyActiveLayers (params) {
+            if (!isObject(params) || !Object.prototype.hasOwnProperty.call(params, "selectedAccordions")
+                || !Object.prototype.hasOwnProperty.call(params, "rulesOfFilters")) {
+                return;
+            }
+            let selecetedAccordeonsLen = Array.isArray(params?.selectedAccordions) ? params.selectedAccordions.length : 0;
+
+            while (selecetedAccordeonsLen--) {
+                const accordion = params.selectedAccordions[selecetedAccordeonsLen],
+                    rulesOfAccordeon = params.rulesOfFilters[accordion?.filterId];
+                let layerModel = null,
+                    layerSource = null;
+
+                layerModel = openlayerFunctions.getLayerByLayerId(accordion?.layerId);
+                if (!layerModel) {
+                    continue;
+                }
+                layerSource = layerModel.layer.getSource() instanceof Cluster ? layerModel.layer.getSource().getSource() : layerModel.layer.getSource();
+
+                if (!layerSource) {
+                    continue;
+                }
+                if (layerModel.get("isSelected") && ((
+                    typeof layerSource?.getFeatures === "function"
+                    && layerSource.getFeatures().length === 0)
+                    || (typeof layerModel?.getFeatures === "function"
+                    && layerModel.getFeatures().length === 0))) {
+                    (layerModel.get("typ") === "SensorThings" ? layerModel : layerSource).once("featuresloadend", async () => {
+                        const rulesOfFiltersTmp = [...this.rulesOfFilters],
+                            selectedAccordionsTmp = [...this.selectedAccordions];
+
+                        rulesOfFiltersTmp[accordion.filterId] = rulesOfAccordeon;
+                        selectedAccordionsTmp.push(accordion);
+                        await this.setRulesArray({rulesOfFilters: rulesOfFiltersTmp});
+                        this.setSelectedAccordions(selectedAccordionsTmp);
+                        if (!this.active) {
+                            this.setActive(true);
+                        }
+                    });
+                    params.selectedAccordions.splice(selecetedAccordeonsLen, 1);
+                    params.rulesOfFilters[accordion.filterId] = null;
+                }
             }
         },
         /**

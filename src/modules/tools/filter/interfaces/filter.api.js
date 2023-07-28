@@ -10,6 +10,7 @@ import InterfaceGeojsonIntern from "./interface.geojson.intern.js";
 import InterfaceGeojsonExtern from "./interface.geojson.extern.js";
 import InterfaceStaIntern from "./interface.sta.intern.js";
 import InterfaceStaExtern from "./interface.sta.extern.js";
+import InterfaceVectorTilesIntern from "./interface.vectortiles.intern";
 
 /**
  * FilterApi is the api to use in vue environment. It encapsulates the filter interfaces.
@@ -36,7 +37,8 @@ export default class FilterApi {
                 geojsonIntern: new InterfaceGeojsonIntern(FilterApi.intervalRegister, {getFeaturesByLayerId: openlayerFunctions.getFeaturesByLayerId, isFeatureInMapExtent: openlayerFunctions.isFeatureInMapExtent, isFeatureInGeometry: openlayerFunctions.isFeatureInGeometry}),
                 geojsonExtern: new InterfaceGeojsonExtern(),
                 staIntern: new InterfaceStaIntern(FilterApi.intervalRegister, {getFeaturesByLayerId: openlayerFunctions.getFeaturesByLayerId, isFeatureInMapExtent: openlayerFunctions.isFeatureInMapExtent, isFeatureInGeometry: openlayerFunctions.isFeatureInGeometry}),
-                staExtern: new InterfaceStaExtern()
+                staExtern: new InterfaceStaExtern(),
+                vectortilesIntern: new InterfaceVectorTilesIntern(FilterApi.intervalRegister, {getFeaturesByLayerId: openlayerFunctions.getVectorTileFeaturesByLayerId, isFeatureInMapExtent: openlayerFunctions.isFeatureInMapExtent, isFeatureInGeometry: openlayerFunctions.isFeatureInGeometry})
             };
         }
     }
@@ -122,6 +124,18 @@ export default class FilterApi {
                 onerror(new Error("FilterApi.setServiceByLayerModel: Filtering sta extern is not supported."));
             }
         }
+        else if (type === "vectortile") {
+            if (!extern) {
+                this.service = {
+                    type,
+                    extern,
+                    layerId
+                };
+            }
+            else {
+                onerror(new Error("FilterApi.setServiceByLayerModel: Filtering vectortiles extern is not supported."));
+            }
+        }
         else if (typeof onerror === "function") {
             onerror(new Error("FilterApi.setServiceByLayerModel: Unknown layer type " + type));
         }
@@ -186,7 +200,7 @@ export default class FilterApi {
      * @param {Number} filterId the filterId
      * @returns {void}
      */
-    getMinMax (attrName, onsuccess, onerror, minOnly, maxOnly, isDate, {rules, filterId, format}) {
+    getMinMax (attrName, onsuccess, onerror, minOnly, maxOnly, isDate, {rules, filterId, format, commands}) {
         if (!isObject(this.service)) {
             if (typeof onerror === "function") {
                 onerror(new Error("FilterApi.getMinMax: You have to set a default service first before using this function."));
@@ -222,7 +236,7 @@ export default class FilterApi {
                         obj.onerror(error);
                     }
                 });
-            }, minOnly, maxOnly, isDate, {rules, filterId, format});
+            }, minOnly, maxOnly, isDate, {rules, filterId, format, commands});
         }
         else {
             FilterApi.waitingList[cacheKey].push({onsuccess, onerror});
@@ -237,7 +251,7 @@ export default class FilterApi {
      * @param {Number} filterId the filterId
      * @returns {void}
      */
-    getUniqueValues (attrName, onsuccess, onerror, {rules, filterId}) {
+    getUniqueValues (attrName, onsuccess, onerror, {rules, filterId, commands}) {
         if (!isObject(this.service)) {
             if (typeof onerror === "function") {
                 onerror(new Error("FilterApi.getUniqueValues: You have to set a default service first before using this function."));
@@ -276,7 +290,7 @@ export default class FilterApi {
                         obj.onerror(error);
                     }
                 });
-            }, {rules, filterId});
+            }, {rules, filterId, commands});
         }
         else {
             FilterApi.waitingList[cacheKey].push({onsuccess, onerror});
@@ -357,6 +371,12 @@ export default class FilterApi {
         }
         else if (type === "sensorthings" && service.extern) {
             return FilterApi.interfaces.staExtern;
+        }
+        else if (type === "vectortile" && !service.extern) {
+            return FilterApi.interfaces.vectortilesIntern;
+        }
+        else if (type === "vectortile" && service.extern) {
+            return FilterApi.interfaces.oafExtern;
         }
         else if (typeof onerror === "function") {
             onerror(new Error("FilterApi.getInterfaceByService: Unknown service type " + type));

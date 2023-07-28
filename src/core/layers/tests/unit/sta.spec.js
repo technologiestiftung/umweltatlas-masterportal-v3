@@ -2070,34 +2070,34 @@ describe("src/core/layers/sta.js", () => {
     });
 
     describe("subscribeToSensorThings", () => {
-        it("should return false if datastreamIds is not an array", () => {
-            expect(sensorLayer.subscribeToSensorThings(undefined)).to.be.false;
-            expect(sensorLayer.subscribeToSensorThings(null)).to.be.false;
-            expect(sensorLayer.subscribeToSensorThings(123)).to.be.false;
-            expect(sensorLayer.subscribeToSensorThings("string")).to.be.false;
-            expect(sensorLayer.subscribeToSensorThings(true)).to.be.false;
-            expect(sensorLayer.subscribeToSensorThings(false)).to.be.false;
-            expect(sensorLayer.subscribeToSensorThings({})).to.be.false;
+        it("should return false if datastreamIds is not an array", async () => {
+            expect(await sensorLayer.subscribeToSensorThings(undefined)).to.be.false;
+            expect(await sensorLayer.subscribeToSensorThings(null)).to.be.false;
+            expect(await sensorLayer.subscribeToSensorThings(123)).to.be.false;
+            expect(await sensorLayer.subscribeToSensorThings("string")).to.be.false;
+            expect(await sensorLayer.subscribeToSensorThings(true)).to.be.false;
+            expect(await sensorLayer.subscribeToSensorThings(false)).to.be.false;
+            expect(await sensorLayer.subscribeToSensorThings({})).to.be.false;
         });
-        it("should return false if subscriptionTopics is not an object", () => {
-            expect(sensorLayer.subscribeToSensorThings([], undefined)).to.be.false;
-            expect(sensorLayer.subscribeToSensorThings([], null)).to.be.false;
-            expect(sensorLayer.subscribeToSensorThings([], 123)).to.be.false;
-            expect(sensorLayer.subscribeToSensorThings([], "string")).to.be.false;
-            expect(sensorLayer.subscribeToSensorThings([], true)).to.be.false;
-            expect(sensorLayer.subscribeToSensorThings([], false)).to.be.false;
-            expect(sensorLayer.subscribeToSensorThings([], [])).to.be.false;
+        it("should return false if subscriptionTopics is not an object", async () => {
+            expect(await sensorLayer.subscribeToSensorThings([], undefined)).to.be.false;
+            expect(await sensorLayer.subscribeToSensorThings([], null)).to.be.false;
+            expect(await sensorLayer.subscribeToSensorThings([], 123)).to.be.false;
+            expect(await sensorLayer.subscribeToSensorThings([], "string")).to.be.false;
+            expect(await sensorLayer.subscribeToSensorThings([], true)).to.be.false;
+            expect(await sensorLayer.subscribeToSensorThings([], false)).to.be.false;
+            expect(await sensorLayer.subscribeToSensorThings([], [])).to.be.false;
         });
-        it("should return false if mqttClient is not an object", () => {
-            expect(sensorLayer.subscribeToSensorThings([], {}, "version", undefined)).to.be.false;
-            expect(sensorLayer.subscribeToSensorThings([], {}, "version", null)).to.be.false;
-            expect(sensorLayer.subscribeToSensorThings([], {}, "version", 123)).to.be.false;
-            expect(sensorLayer.subscribeToSensorThings([], {}, "version", "string")).to.be.false;
-            expect(sensorLayer.subscribeToSensorThings([], {}, "version", true)).to.be.false;
-            expect(sensorLayer.subscribeToSensorThings([], {}, "version", false)).to.be.false;
-            expect(sensorLayer.subscribeToSensorThings([], {}, "version", [])).to.be.false;
+        it("should return false if mqttClient is not an object", async () => {
+            expect(await sensorLayer.subscribeToSensorThings([], {}, "version", undefined)).to.be.false;
+            expect(await sensorLayer.subscribeToSensorThings([], {}, "version", null)).to.be.false;
+            expect(await sensorLayer.subscribeToSensorThings([], {}, "version", 123)).to.be.false;
+            expect(await sensorLayer.subscribeToSensorThings([], {}, "version", "string")).to.be.false;
+            expect(await sensorLayer.subscribeToSensorThings([], {}, "version", true)).to.be.false;
+            expect(await sensorLayer.subscribeToSensorThings([], {}, "version", false)).to.be.false;
+            expect(await sensorLayer.subscribeToSensorThings([], {}, "version", [])).to.be.false;
         });
-        it("should return true, subscribe with expected topics and set subscription topics to true", () => {
+        it("should return true, subscribe with expected topics and set subscription topics to true", async () => {
             const topicLogger = [],
                 datastreamIds = [1, 2, 3, 4],
                 subscriptionTopics = {"1": true, "2": false, "4": false},
@@ -2107,7 +2107,7 @@ describe("src/core/layers/sta.js", () => {
                     }
                 };
 
-            expect(sensorLayer.subscribeToSensorThings(datastreamIds, subscriptionTopics, "1.0", mqttClient)).to.be.true;
+            expect(await sensorLayer.subscribeToSensorThings(datastreamIds, subscriptionTopics, "1.0", mqttClient)).to.be.true;
             expect(topicLogger).to.deep.equal([
                 "v1.0/Datastreams(2)/Observations",
                 "v1.0/Datastreams(3)/Observations",
@@ -2115,7 +2115,7 @@ describe("src/core/layers/sta.js", () => {
             ]);
             expect(subscriptionTopics).to.deep.equal({"1": true, "2": true, "4": true, "3": true});
         });
-        it("should pass through the mqttSubscribeOptions to the mqtt subscribe function", () => {
+        it("should pass through the mqttSubscribeOptions to the mqtt subscribe function", async () => {
             const optionsLogger = [],
                 datastreamIds = [1, 2, 3],
                 subscriptionTopics = {"1": true, "2": false, "3": false},
@@ -2128,7 +2128,7 @@ describe("src/core/layers/sta.js", () => {
                     foo: "bar"
                 };
 
-            expect(sensorLayer.subscribeToSensorThings(datastreamIds, subscriptionTopics, "1.0", mqttClient, mqttSubscribeOptions)).to.be.true;
+            expect(await sensorLayer.subscribeToSensorThings(datastreamIds, subscriptionTopics, "1.0", mqttClient, mqttSubscribeOptions)).to.be.true;
             expect(optionsLogger).to.deep.equal([{foo: "bar"}, {foo: "bar"}]);
         });
     });

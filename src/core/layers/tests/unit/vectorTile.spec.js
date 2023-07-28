@@ -9,6 +9,7 @@ import crs from "@masterportal/masterportalapi/src/crs";
 import {stylefunction} from "ol-mapbox-style";
 
 import store from "../../../../app-store";
+import Collection from "ol/Collection";
 
 const vtStyles = [
         {name: "Layer One", id: "l1"},
@@ -27,6 +28,7 @@ const vtStyles = [
         name: "InsideJob",
         origin: [-20037508.342787, 20037508.342787],
         resolutions: [78271.51696401172, 305.7481131406708, 152.8740565703354, 76.4370282851677, 2.3886571339114906],
+        isSelected: true,
         styleId: "999962",
         tileSize: 512,
         transparency: 0,
@@ -52,6 +54,29 @@ const vtStyles = [
 
 describe("core/modelList/layer/vectorTile", function () {
     afterEach(sinon.restore);
+
+    before(() => {
+        mapCollection.clear();
+        const map = {
+            id: "ol",
+            mode: "2D",
+            addInteraction: sinon.stub(),
+            removeInteraction: sinon.stub(),
+            addLayer: () => sinon.stub(),
+            getView: () => {
+                return {
+                    getResolutions: () => [2000, 1000]
+                };
+            },
+            getLayers: () => {
+                return new Collection();
+            },
+            on: () => sinon.stub()
+        };
+
+        mapCollection.clear();
+        mapCollection.addMap(map, "2D");
+    });
 
     beforeEach(() => crs.registerProjections());
 
@@ -183,7 +208,7 @@ describe("core/modelList/layer/vectorTile", function () {
             expect(layer.get("id")).to.equal(attrs.id);
             expect(layer.get("name")).to.equal(attrs.name);
             expect(layer.getOpacity()).to.equal(1);
-            expect(layer.getVisible()).to.be.false;
+            expect(layer.getVisible()).to.be.true;
 
             expect(source.zDirection).to.equal(1);
             expect(source.getProjection().getCode()).to.equal("EPSG:3857");
@@ -494,6 +519,48 @@ describe("core/modelList/layer/vectorTile", function () {
 
             VectorTile.prototype.createLegendURL.call(context);
             expect(context.setLegendURL.calledOnce).to.be.true;
+        });
+    });
+
+    describe("showFeaturesByIds", function () {
+        it("should do nothing if first param is not an array", () => {
+            const mapStub = sinon.stub(store, "getters");
+            let vtLayer = null,
+                layer = null,
+                tileLoadFunction = null,
+                source = null;
+
+            mapStub.value({"Maps/projection": {getCode: () => {
+                return "EPSG:25832";
+            }}});
+
+            vtLayer = new VectorTile(attrs);
+            layer = vtLayer.get("layer");
+            source = layer.getSource();
+            tileLoadFunction = source.getTileLoadFunction();
+            vtLayer.showFeaturesByIds();
+            expect(source.getTileLoadFunction()).to.deep.equal(tileLoadFunction);
+            sinon.restore();
+        });
+        it("should set tileLoadFunction", () => {
+            const mapStub = sinon.stub(store, "getters");
+            let vtLayer = null,
+                layer = null,
+                tileLoadFunction = null,
+                source = null;
+
+            mapStub.value({"Maps/projection": {getCode: () => {
+                return "EPSG:25832";
+            }}});
+
+            vtLayer = new VectorTile(attrs);
+            layer = vtLayer.get("layer");
+            source = layer.getSource();
+            tileLoadFunction = source.getTileLoadFunction();
+            expect(tileLoadFunction.name).to.be.equal("defaultLoadFunction");
+            vtLayer.showFeaturesByIds([]);
+            expect(source.getTileLoadFunction()).to.not.be.equal("defaultLoadFunction");
+            sinon.restore();
         });
     });
 });

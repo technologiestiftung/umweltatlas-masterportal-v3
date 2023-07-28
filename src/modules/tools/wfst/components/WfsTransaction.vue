@@ -157,7 +157,7 @@ export default {
                                 <SimpleButton
                                     :interaction="save"
                                     text="common:modules.tools.wfsTransaction.form.save"
-                                    type="submit"
+                                    type="button"
                                 />
                             </div>
                         </form>

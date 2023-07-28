@@ -12,7 +12,7 @@ describe("src/modules/scaleLine/components/ScaleLine.vue", () => {
     let wrapper;
 
     it("check mapMode normal -> do render", () => {
-        wrapper = createWrapper(false, "2D", "1 : 60.000", "1.2 km", true);
+        wrapper = createWrapper(false, "2D", "1 : 60.000", "1.2 km", true, false);
 
         expect(wrapper.find("#scales").exists()).to.equal(true);
         expect(wrapper.find(".scale-line").text()).to.equals("1.2 km");
@@ -20,27 +20,39 @@ describe("src/modules/scaleLine/components/ScaleLine.vue", () => {
     });
 
     it("check mapMode Oblique -> do not render", () => {
-        wrapper = createWrapper(false, "Oblique", "1 : 60.000", "1.2 km", true);
+        wrapper = createWrapper(false, "Oblique", "1 : 60.000", "1.2 km", true, false);
 
         expect(wrapper.find("#scales").exists()).to.equal(false);
     });
 
     it("check mobile=true -> do not render", () => {
-        wrapper = createWrapper(true, "2D", "1 : 60.000", "1.2 km", true);
+        wrapper = createWrapper(true, "2D", "1 : 60.000", "1.2 km", true, false);
 
         expect(wrapper.find("#scales").exists()).to.equal(false);
     });
 
     it("check scaleLine=false -> do not render", () => {
-        wrapper = createWrapper(false, "2D", "1 : 60.000", "1.2 km", false);
+        wrapper = createWrapper(false, "2D", "1 : 60.000", "1.2 km", false, false);
 
         expect(wrapper.find("#scales").exists()).to.equal(false);
     });
 
+    it("check isDisplayInFooter=false -> do not render as a select input", () => {
+        wrapper = createWrapper(false, "2D", "1 : 60.000", "1.2 km", false, false);
+
+        expect(wrapper.find("#scale-as-select").exists()).to.equal(false);
+    });
+
     it("check scaleLine is not configured in configJs -> do not render", () => {
-        wrapper = createWrapper(false, "2D", "1 : 60.000", "1.2 km", null);
+        wrapper = createWrapper(false, "2D", "1 : 60.000", "1.2 km", null, null);
 
         expect(wrapper.find("#scales").exists()).to.equal(false);
+    });
+
+    it("check isDisplayInFooter is not configured in configJson -> do not render ScaleLine as select input", () => {
+        wrapper = createWrapper(false, "2D", "1 : 60.000", "1.2 km", null, null);
+
+        expect(wrapper.find("#scale-as-select").exists()).to.equal(false);
     });
 
     // TEARDOWN - run after to each unit test
@@ -57,9 +69,10 @@ describe("src/modules/scaleLine/components/ScaleLine.vue", () => {
      * @param {string} scaleToOne  getter scaleToOne
      * @param {string} scaleWithUnit  getter scaleWithUnit
      * @param {object} scaleLineConfig  getter scaleLineConfig
+     * @param {object} isDisplayInFooter  getter scaleLineConfig
      * @return {Object} the shallowMounted wrapper
      */
-    function createWrapper (mobile, mapMode, scaleToOne, scaleWithUnit, scaleLineConfig) {
+    function createWrapper (mobile, mapMode, scaleToOne, scaleWithUnit, scaleLineConfig, isDisplayInFooter) {
         return shallowMount(ScaleLine, {
             mocks: {
                 $t: () => {
@@ -71,7 +84,8 @@ describe("src/modules/scaleLine/components/ScaleLine.vue", () => {
                 mode: () => mapMode,
                 scaleToOne: () => scaleToOne,
                 scaleWithUnit: () => scaleWithUnit,
-                scaleLineConfig: () => scaleLineConfig
+                scaleLineConfig: () => scaleLineConfig,
+                isDisplayInFooter: () => isDisplayInFooter
             },
             localVue
         });

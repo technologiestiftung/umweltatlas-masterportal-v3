@@ -41,7 +41,7 @@ In the following, all configuration options are described. For all configuration
 |proxyHost|no|String||Host name of a remote proxy with CORS configured to support the portal's domain, among others.|`"https://proxy.example.com"`|
 |quickHelp|no|Object|`{}`|Activates the QuickHelp module. This displays a window containing help text for supported functions of the modules. Available for the layer tree (CustomTree), the search bar (Searchbar) and the routing tool (RoutingTool).||
 |remoteInterface|no|**[remoteInterface](#markdown-header-remoteinterface)**||Optional remote interface configuration.||
-|scaleLine|no|Boolean|`false`|Controls whether a scale line is displayed at the bottom right of the map.|`true`|
+|scaleLine|no|Boolean|`false`|Controls whether a scale line is displayed at the bottom right of the map. To activate scale selection (as a **ScaleSwitcher**) use the configuration parameter `isDisplayInFooter` in **[config.json](config.json)**.|`true`|
 |simpleMap|no|Boolean|`false`|_Deprecated in the next major release. Please use the parameter `simpleMap` as part of the configuration of the `saveSelection` tool in the **[config.json](config.json.md)**._ Adds a SimpleMap URL to the `Save selection` dialogue. When calling this URL, the menu bar, layer tree, and map controls are deactivated. Not implemented for tree type *„light“*.|`false`|
 |startingMap3D|bi|Boolean|`false`|Controls whether the map should start in 3D mode.||
 |tree|no|**[tree](#tree)**||||

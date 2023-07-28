@@ -13,7 +13,8 @@ export default function VectorTileLayer (attrs) {
     const defaults = {
             selectedStyleID: undefined,
             useMpFonts: true,
-            useProxy: false
+            useProxy: false,
+            sourceUpdate: false
         },
         mapEPSG = store.getters["Maps/projection"].getCode(),
         vtEPSG = attrs.epsg || mapEPSG;
@@ -25,7 +26,14 @@ export default function VectorTileLayer (attrs) {
     this.createLayer(Object.assign(defaults, attrs));
     // call the super-layer
     Layer.call(this, Object.assign(defaults, attrs), this.layer, !attrs.isChildLayer);
-    this.setConfiguredLayerStyle();
+
+    // set the style only at the first selection of the layer
+    if (attrs.isSelected) {
+        this.setConfiguredLayerStyle();
+    }
+    else {
+        this.layer.once("change:visible", () => this.setConfiguredLayerStyle());
+    }
 }
 
 // Link prototypes and add prototype methods, means VTL uses all methods and properties of Layer
@@ -33,15 +41,31 @@ VectorTileLayer.prototype = Object.create(Layer.prototype);
 
 /**
  * Creates vector tile layer.
+ * Also register a listener on the map which is triggert if all feauters
+ * in current extent are loaded. This will fire a 'featuresloadend' event.
  * @param {Object} attrs the attributes for the layer
  * @return {void}
  */
 VectorTileLayer.prototype.createLayer = function (attrs) {
     const layerParams = {
-        gfiAttributes: attrs.gfiAttributes
+        gfiAttributes: attrs.gfiAttributes,
+        visible: attrs.isSelected
     };
 
     this.layer = vectorTile.createLayer(attrs, {layerParams});
+    store.dispatch("Maps/registerListener", {type: "loadend", listener: () => {
+        if (typeof this.layer.getSource !== "function"
+            || typeof this.layer.getSource()?.getFeaturesInExtent !== "function") {
+            return;
+        }
+        const features = this.layer.getSource().getFeaturesInExtent(store.getters["Maps/getCurrentExtent"]);
+
+        this.layer.getSource().dispatchEvent({
+            type: "featuresloadend",
+            features
+        });
+        this.set("sourceUpdated", true);
+    }});
 };
 
 /**
@@ -203,3 +227,31 @@ VectorTileLayer.prototype.fetchSpriteData = function (spriteUrl) {
 VectorTileLayer.prototype.createLegendURL = function () {
     this.setLegendURL([]);
 };
+
+/**
+ * Shows the features by given features properties.
+ * @param {[]|Object} properties - The keys of the object are the properties (as json string) of the features to be displayed.
+ * @returns {void}
+ */
+VectorTileLayer.prototype.showFeaturesByIds = function (properties) {
+    if (Array.isArray(properties)) {
+        if (this.layer.get("basicInitialStyle")) {
+            this.layer.setStyle(this.layer.get("basicInitialStyle"));
+        }
+        return;
+    }
+
+    if (!this.layer.get("basicInitialStyle")) {
+        this.layer.set("basicInitialStyle", this.layer.getStyle());
+    }
+
+    const defaultStyle = this.layer.getStyle();
+
+    this.layer.setStyle((feature, resolution) => {
+        if (properties[JSON.stringify(feature.getProperties())]) {
+            return defaultStyle(feature, resolution);
+        }
+        return null;
+    });
+};
+

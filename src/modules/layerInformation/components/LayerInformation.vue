@@ -47,7 +47,7 @@ export default {
             return this.downloadLinks && this.downloadLinks.length > 1;
         },
         layerUrl () {
-            return this.layerInfo.typ === "OAF" ? this.layerInfo.url : this.layerInfo.url + "?SERVICE=" + this.layerInfo.typ + "&REQUEST=GetCapabilities";
+            return Array.isArray(this.layerInfo.url) ? this.layerInfo.url.map((url, i) => ({url, typ: this.layerInfo.typ?.[i]})).map(this.getGetCapabilitiesUrl) : this.getGetCapabilitiesUrl({url: this.layerInfo.url, typ: this.layerInfo.typ});
         },
         showMoreLayers () {
             if (this.layerInfo.metaIdArray) {
@@ -58,7 +58,7 @@ export default {
         showInformation () {
             return this.active;
         },
-        legendURL  () {
+        legendURL () {
             return this.layerInfo.legendURL;
         }
     },
@@ -161,6 +161,21 @@ export default {
         },
         setConfigs () {
             this.setConfigParams(Config);
+        },
+        /**
+         * generates a GetCapabilities URL from a given service base address and type
+         * @param {String} url service base URL
+         * @param {String} typ service type (e.g., WMS)
+         * @returns {String} GetCapabilities URL
+         */
+        getGetCapabilitiesUrl ({url, typ}) {
+            const urlObject = new URL(url);
+
+            if (typ !== "OAF") {
+                urlObject.searchParams.set("SERVICE", typ);
+                urlObject.searchParams.set("REQUEST", "GetCapabilities");
+            }
+            return urlObject.href;
         }
     }
 };
@@ -376,7 +391,7 @@ export default {
                                 {{ layerInfo.layerNames[i] }}
                                 <li>
                                     <a
-                                        :href="layerUrl"
+                                        :href="layerUrl[i]"
                                         target="_blank"
                                         @click="onClick"
                                     >

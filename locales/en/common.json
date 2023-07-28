@@ -264,7 +264,7 @@
             "routingTool": {
                 "header": "Help – Routing",
                 "headerGeneral": "General",
-                "textGeneral": "The \"Routing\" tool can be used to calculate the shortest or fastest route between any number of waypoints. In addition, the analysis of the reachability from a certain starting point within a given time or driving distance is possible. Different means of transportation like car, truck, foot walking, bicycle or wheelchair can be taken into account. By clicking on the tabs (Tab) Route planning (1) and Reachability (2) you can switch to the different categories.",
+                "textGeneral": "The \"Routing\" tool can be used to calculate the shortest or recommended route between any number of waypoints. In addition, the analysis of the reachability from a certain starting point within a given time or driving distance is possible. Different means of transportation like car, truck, foot walking, bicycle or wheelchair can be taken into account. By clicking on the tabs (Tab) Route planning (1) and Reachability (2) you can switch to the different categories.",
                 "headerMeansOfTransport": "<h4>Selection means of transport</h4>",
                 "textMeansOfTransport": "You can choose between different means of transport (car, truck, etc.). The active means of transport is marked in red.",
                 "routing": {
@@ -276,7 +276,7 @@
                     "headerRestrictedAreas": "<h4>Barrier areas</h4>",
                     "textRestrictedAreas": "It is possible to define barrier areas (3), which will be \"bypassed\" accordingly during route planning. Under (2), the mode for drawing and deleting barrier areas on the map can be activated. The activated mode is marked in red.",
                     "headerAvoidTrafficRoutes": "<h4>Optimization/Avoid features</h4>",
-                    "textAvoidTrafficRoutes": "Under (1) you can select whether the recommended or the shortest route should be calculated. In addition, under (2) certain features can be excluded from the route calculation.",
+                    "textAvoidTrafficRoutes": "Under (1) you can select whether the recommended or the shortest route should be calculated. The recommended route preference checks how suitable a route is for the selected means of transport. This is done by assigning a priority to each road. When determining the priority, conditions of the road (e.g. whether there are speed reductions due to gradients) are taken into account. This priority is then used in combination with the „Fastest“ option to output a recommended route. In addition, under (2) certain features can be excluded from the route calculation.",
                     "headerRouteDescription": "<h4>Route description</h4>",
                     "textRouteDescription": "After the route has been created, a textual route description (1) (incl. distance and travel time) is displayed. When clicking on individual descriptions (2), the map view automatically zooms to the corresponding route segment (3).",
                     "headerExport": "<h4>Export Route</h4>",
@@ -374,6 +374,9 @@
             "print": {
                 "titleLabel": "Title",
                 "titlePlaceholder": "My title",
+                "subtitleLabel": "Subtitle",
+                "textFieldLabel": "Free text box",
+                "authorLabel": "Author",
                 "layoutLabel": "Layout",
                 "formatLabel": "Format",
                 "dpiLabel": "DPI",
@@ -382,6 +385,7 @@
                 "validationWarning": "The file name may only contain letters and the special characters '-' and '_'.",
                 "withLegendLabel": "With legend",
                 "autoAdjustScale": "Adjust printing scale automatically",
+                "printGeometries": "Print drawn geometries",
                 "printLabel": "Create file",
                 "downloadFile": "Download file",
                 "createDownloadFile": "Will be created...",
@@ -474,7 +478,8 @@
                 },
                 "filterResult": {
                     "label": "All filtered Counts",
-                    "unit": "{{amountOfFilteredItems}} Results"
+                    "unit": "{{amountOfFilteredItems}} Results",
+                    "disabledInfo": "The filter is disabled in current zoom level"
                 },
                 "geometryFilter": {
                     "activate": "Set area for filtering",
@@ -861,7 +866,7 @@
                 "layerSelectLabel": "Current layer:",
                 "polygonHint": "To move a polygon, hold down the Ctrl key and move your mouse while holding the mouse button down.",
                 "interactionSelect": {
-                    "edit": "Edit geometry",
+                    "update": "Edit geometry",
                     "delete": "Delete geometry",
                     "line": "Add line",
                     "point": "Add point",
@@ -879,9 +884,9 @@
                 "transaction": {
                     "success": {
                         "baseSuccess": "{{transaction}} the geometry and its parameters was successful.",
-                        "delete": "$t(common:modules.tools.wfsTransaction.transaction.success.baseSuccess, {\"transaction\": 'Deletion of'})",
-                        "insert": "$t(common:modules.tools.wfsTransaction.transaction.success.baseSuccess, {\"transaction\": 'Insertion of'})",
-                        "selectedUpdate" : "$t(common:modules.tools.wfsTransaction.transaction.success.baseSuccess, {\"transaction\": 'Updating'})"
+                        "delete": "$t(common:modules.tools.wfsTransaction.transaction.success.baseSuccess, {\"transaction\": \"Deletion of\"})",
+                        "insert": "$t(common:modules.tools.wfsTransaction.transaction.success.baseSuccess, {\"transaction\": \"Insertion of\"})",
+                        "selectedUpdate" : "$t(common:modules.tools.wfsTransaction.transaction.success.baseSuccess, {\"transaction\": \"Updating\"})"
                     },
                     "error": {
                         "genericFailedTransaction": "An error occurred while saving / deleting the geometry and its parameters. Please contact the administrator.",
@@ -981,7 +986,8 @@
                     "preferenceLabel": "Preference",
                     "preference": {
                         "RECOMMENDED": "Recommended",
-                        "SHORTEST": "Shortest"
+                        "SHORTEST": "Shortest",
+                        "GREEN": "Green"
                     }
                 },
                 "isochrones": {

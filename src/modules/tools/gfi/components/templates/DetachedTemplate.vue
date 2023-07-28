@@ -24,8 +24,8 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Maps", ["clickCoordinate"]),
-        ...mapGetters("Tools/Gfi", ["centerMapToClickPoint", "showMarker", "highlightVectorRules", "currentFeature"]),
+        ...mapGetters("Maps", ["clickCoordinate", "getLayerById"]),
+        ...mapGetters("Tools/Gfi", ["centerMapToClickPoint", "showMarker", "highlightVectorRules", "currentFeature", "hideMapMarkerOnVectorHighlight"]),
 
         /**
          * Returns the title of the gfi.
@@ -100,13 +100,21 @@ export default {
          */
         highlightVectorFeature () {
             if (this.highlightVectorRules) {
+                const layer = this.getLayerById({layerId: this.feature.getLayerId()}),
+                    styleId = layer?.get("styleId");
+
                 this.removeHighlighting();
+                if (this.hideMapMarkerOnVectorHighlight) {
+                    this.hideMarker();
+                }
+
                 if (this.feature.getOlFeature()?.getGeometry()?.getType() === "Point") {
                     this.highlightFeature({
                         feature: this.feature.getOlFeature(),
                         type: "increase",
                         scale: this.highlightVectorRules.image.scale,
-                        layer: {id: this.feature.getLayerId()}
+                        layer: {id: this.feature.getLayerId()},
+                        styleId
                     });
                 }
                 else if (this.feature.getOlFeature()?.getGeometry()?.getType() === "Polygon") {
@@ -114,9 +122,22 @@ export default {
                         feature: this.feature.getOlFeature(),
                         type: "highlightPolygon",
                         highlightStyle: {
-                            fill: this.highlightVectorRules.fill, stroke: this.highlightVectorRules.stroke
+                            fill: this.highlightVectorRules.fill,
+                            stroke: this.highlightVectorRules.stroke
                         },
-                        layer: {id: this.feature.getLayerId()}
+                        layer: {id: this.feature.getLayerId()},
+                        styleId
+                    });
+                }
+                else if (this.feature.getOlFeature()?.getGeometry()?.getType() === "LineString") {
+                    this.highlightFeature({
+                        feature: this.feature.getOlFeature(),
+                        type: "highlightLine",
+                        highlightStyle: {
+                            stroke: this.highlightVectorRules.stroke
+                        },
+                        layer: {id: this.feature.getLayerId()},
+                        styleId
                     });
                 }
             }

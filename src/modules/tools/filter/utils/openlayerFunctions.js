@@ -53,6 +53,19 @@ function getFeaturesByLayerId (layerId) {
 
     return layer.get("layer").getSource().getFeatures();
 }
+/**
+ * Gets the features of a vector tile layer by layer id and the collection.
+ * @param {Number} layerId The layerId to get the model by.
+ * @returns {ol/render/Feature[]} The features of the layer in current extent.
+ */
+function getVectorTileFeaturesByLayerId (layerId) {
+    if (typeof layerId === "undefined") {
+        return [];
+    }
+    const layerModel = getLayerByLayerId(layerId);
+
+    return layerModel.layer.getSource().getFeaturesInExtent(store.getters["Maps/getCurrentExtent"]);
+}
 
 /**
  * Returns the current browser extent.
@@ -212,6 +225,7 @@ export default {
     getMapProjection,
     createLayerIfNotExists,
     getFeaturesByLayerId,
+    getVectorTileFeaturesByLayerId,
     getLayerByLayerId,
     getCurrentExtent,
     isFeatureInMapExtent,

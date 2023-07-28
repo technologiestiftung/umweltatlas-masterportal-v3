@@ -583,7 +583,7 @@ Configuration of the menu tree.
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |highlightedFeatures|no|**[highlightedFeatures](#markdown-header-portalconfigtreehighlightedfeatures)**||Configuration in addition to feature highlighting.|false|
-|showScaleTooltip|nein|Boolean|false|Flag whether the scale range is displayed in the layer tooltip in addition to the name of the corresponding layer.|false|
+|showScaleTooltip|no|Boolean|false|Flag whether the scale range is displayed in the layer tooltip in addition to the name of the corresponding layer.|false|
 
 **Example**
 ```
@@ -643,7 +643,7 @@ Configuration of layerInformation.
 |zoom|no|Boolean|false|Defines whether zoom buttons should be displayed.|false|
 |overviewmap|no|**[overviewMap](#markdown-header-portalconfigcontrolsoverviewmap)**|false|_Deprecated in 3.0.0. Please use `overviewMap` instead._|false|
 |overviewMap|no|**[overviewMap](#markdown-header-portalconfigcontrolsoverviewmap)**|false|Overview map.|false|
-|rotation|nein|**[rotation](#markdown-header-portalconfigcontrolsrotation)**|false|Control that shows the current rotation of the map. With a click the map rotation can be set to north again. See also `mapInteractions` in config.js.md.|false|
+|rotation|no|**[rotation](#markdown-header-portalconfigcontrolsrotation)**|false|Control that shows the current rotation of the map. With a click the map rotation can be set to north again. See also `mapInteractions` in config.js.md.|false|
 |totalview|no|**[totalView](#markdown-header-portalconfigcontrolstotalview)**|false|_Deprecated in 3.0.0. Please use "totalView" instead._|false|
 |totalView|no|**[totalView](#markdown-header-portalconfigcontrolstotalview)**|false|Offers a button to return to the initial view.|false|
 |button3d|no|Boolean|false|Defines whether a 3D mode switch button is shown.|false|
@@ -757,7 +757,7 @@ The attribute rotation may be of type boolean or object. If of type boolean and 
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|
 |----|-------------|---|-------|------------|
-|showAlways|nein|Boolean|false|If the attribut is set to true the control is shown permanently . Via default it appears only if the map rotation is not equal north/0.|
+|showAlways|no|Boolean|false|If the attribut is set to true the control is shown permanently . Via default it appears only if the map rotation is not equal north/0.|
 
 **Example using type object rotation**
 ```
@@ -1490,6 +1490,7 @@ A folder object defined by a name, icon, and its children.
 [type:print]: # (Portalconfig.menu.tool.print)
 [type:routing]: # (Portalconfig.menu.tool.routing)
 [type:saveSelection]: # (Portalconfig.menu.tool.saveSelection)
+[type:scaleSwitcher]: # (Portalconfig.menu.tool.scaleSwitcher)
 [type:searchByCoord]: # (Portalconfig.menu.tool.searchByCoord)
 [type:selectFeatures]: # (Portalconfig.menu.tool.selectFeatures)
 [type:shadow]: # (Portalconfig.menu.tool.shadow)
@@ -1526,6 +1527,7 @@ Alternatively, also the paths **Portalconfig.menu.info**, **Portalconfig.menu.si
 |print|no|**[print](#markdown-header-portalconfigmenutoolprint)**||Printing module that can be used to export the map's current view as PDF.|false|
 |routing|no|**[routing](#markdown-header-portalconfigmenutoolrouting)**||Routing module to create routes and isochrones.|false|
 |saveSelection|no|**[saveSelection](#markdown-header-portalconfigmenutoolsaveselection)**||Tool that allows saving the 2D map's current state as sharable URL. This will list all currently visible layers in order, transparency, and visibility, as well as saving the center coordinate.|false|
+|scaleSwitcher|no|**[scaleSwitcher](#markdown-header-portalconfigmenutoolscaleSwitcher)**||Tool that allows changing the map's current scale.|false|
 |searchByCoord|no|**[searchByCoord](#markdown-header-portalconfigmenutoolsearchbycoord)**||_Deprecated in 3.0.0. Please use "coordToolkit" instead._ Coordinate search with switchable coordinate reference system. The tool will zoom to any given coordinate and set a marker on it.|false|
 |selectFeatures|no|**[selectFeatures](#markdown-header-portalconfigmenutoolselectfeatures)**||Allows selecting a set of vector features by letting the user draw a box on the map. Features in that box will be displayed with GFI information.|false|
 |shadow|no|**[shadow](#markdown-header-portalconfigmenutoolshadow)**||Configuration object for the 3D mode shadow time.|false|
@@ -1581,7 +1583,9 @@ On all GFI request types except directly fetching HTML, which is done by using `
 |icon|no|String|"bi-info-circle-fill"|CSS icon class. Icon is shown before the tool name.|false|
 |active|no|Boolean|true|Whether GFI is active initially.|false|
 |desktopType|no|String|"detached"|Used to choose a GFI template in desktop mode. If using "attached", the GFI will be positioned next to the feature. Using "detached" will place a marker on the feature and create the GFI window to the right of the map.|false|
+|coloredHighlighting3D|no|**[coloredHighlighting3D](#markdown-header-portalconfigmenutoolgficoloredhighlighting3d)**||Rule definition to override the highlighting of clicked 3D tiles.|false|
 |highlightVectorRules|no|**[highlightVectorRules](#markdown-header-portalconfigmenutoolgfihighlightvectorrules)**||Rule definition to override the styling of clicked vector data.|false|
+|hideMapMarkerOnVectorHighlight|no|Boolean|false|If set to true, the mapmarker won't be shown on vector highlighting. Only applies for the DetachedTemplate|false|
 
 **Examples**
 
@@ -1591,6 +1595,10 @@ On all GFI request types except directly fetching HTML, which is done by using `
         "name": "Request information",
         "icon": "bi-info-circle-fill",
         "active": true,
+        "coloredHighlighting3D": {
+              "enabled": true,
+              "color": "GREEN"
+        },
         "highlightVectorRules": {
             "fill": {
                 "color": [215, 102, 41, 0.9]
@@ -1604,7 +1612,8 @@ On all GFI request types except directly fetching HTML, which is done by using `
             "text": {
                 "scale": 2
             }
-        }
+        },
+        "hideMapMarkerOnVectorHighlight": true
     }
 }
 ```
@@ -1619,6 +1628,34 @@ On all GFI request types except directly fetching HTML, which is done by using `
 }
 ```
 
+***
+### Portalconfig.menu.tool.gfi.coloredHighlighting3D
+
+Highlight Setting of 3D Tiles.
+If e.g. a building is selected by left mouse click, it will be highlighted in the given color.
+For color configuration see **[Color-documentation](https://cesium.com/learn/cesiumjs/ref-doc/Color.html)**
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|-----------|
+|enabled|no|Boolean|true|False if coloredHighlighting3D is disabled.|false|
+|color|no|String/String[]|"RED"|Color can be configured as Array or Cesium.Color (definition e.g "GREEN" for Cesium.Color.GREEN)|false|
+
+**Example**
+
+```json
+// Example with Array
+coloredHighlighting3D: {
+    "enabled": true,
+    "color": [0, 255, 0, 255]
+}
+
+// Example with Cesium.Color
+coloredHighlighting3D: {
+    "enabled": true,
+    "color": "GREEN"
+}
+
+```
 ***
 
 ##### Portalconfig.menu.tool.gfi.highlightVectorRules
@@ -1666,10 +1703,11 @@ Hint: highlighting only works if there is a styleId in config.json configured fo
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |width|no|Integer|1|Stroke line width|false|
+|color|no|Float[]|[255, 255, 255, 0.5]|RGBA value|false|
 
 ```json
 {
-    "stroke": { "width": 4 }
+    "stroke": { "width": 4, "color": [215, 102, 41, 0.9] }
 }
 ```
 
@@ -1692,7 +1730,7 @@ Hint: highlighting only works if there is a styleId in config.json configured fo
 
 [inherits]: # (Portalconfig.menu.tool)
 
-The filter tool offers a range of options to filter vector data from WFS, OAF, GeoJSON and SensorThingsAPI services.
+The filter tool offers a range of options to filter vector data from WFS, OAF, GeoJSON, SensorThingsAPI and VectorTiles services.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
@@ -1827,18 +1865,21 @@ An object to define a layer to filter with.
 |searchInMapExtent|no|Boolean|false|Set to `true` to activate a generic checkbox, where you can set the filtering to `only filter in current browser extent`. If the extent checkbox is checked, automatic zooming is disabled. Make sure to set [loadingStrategy](#markdown-header-themenconfiglayervector) to `all` to avoid weird effects when zooming out after filtering in extent.|false|
 |searchInMapExtentInfo|no|Boolean|true|A little icon is shown right hand side of the checkbox. Clicking the icon, a standard description is shown. Set to `false` to disable this feature. Set to a individual text to use an own description or use a translation key.|false|
 |searchInMapExtentProactive|no|Boolean|true|The checkbox for filtering in the browser extent triggers direct filtering in the current browser extent under `strategy`: `active`. This can be disabled by setting `searchInMapExtentProactive`: `false`.|false|
-|searchInMapExtentPreselected|nein|Boolean|false|The checkbox for filtering in the browser extent is initially selected if `searchInMapExtentPreselected`: `true` is set.|false|
+|searchInMapExtentPreselected|no|Boolean|false|The checkbox for filtering in the browser extent is initially selected if `searchInMapExtentPreselected`: `true` is set.|false|
 |showHits|no|Boolean|true|After filtering, the hits are displayed. Set to `false` to not show the hits.|false|
 |clearAll|no|Boolean|false|After clicking button Reset all, all the features will be shown. Set to `true` to clear all the features after clicking Reselt all button.|false|
 |wmsRefId|no|String/String[]|""|If the layer is filtered, the WMS layer with `wmsRefId` will be invisible and deactivated from Tree. After resetting the layer, the WMS layer will be activated and visible again.|false|
 |snippetTags|no|Boolean|true|After filtering the current setting is displayed as tags. Set to `false` to turn of this feature.|false|
 |labelFilterButton|no|String|"common:modules.tools.filter.filterButton"|If strategy is set to `passive` only: The text of the filter button. Can be a translation key.|false|
-|download|no|Boolean|""|Enter true for a file here to activate the download of the data filtered on this layer. A download area will appear at the end of the filter.|false|
+|download|no|Boolean|""|Enter true for a file here to activate the download of the data filtered on this layer. A download area will appear at the end of the filter. For VectorTiles, only CSV download works.|false|
 |paging|no|Number|1000|The filter will load features into the map in chunks. Paging is the chunk size. If the chunk size is set too low, the filtering will be slowed down. Set the chunk size too high, the loading of the chunk will slow the filtering down. Try it out to find your fastes setup.|false|
 |extern|no|Boolean|false|When set to `true`, filtering is done on the server side. Useful for big sets of data that can't be loaded into the browser at once. Remember to set the **[isNeverVisibleInTree](#markdown-header-themenconfiglayer)** flag of the layer to `true` to avoid loading of the whole data set by user click on its entry in the tree.|false|
 |geometryName|no|String|""|Only for extern `true` in connection with filtering within polygons: The geometry name of the features to be able to detect an intersection.|false|
 |filterButtonDisabled|no|Boolean|false|Only for strategy `passive`: Disable the filter button while nothing is selected.|false|
 |snippets|no|[snippets](#markdown-header-portalconfigmenutoolfilterfilterlayersnippets)[]|[]|Configuration of snippets to adjust the filtering. Can be a minimalistic array of attribute names. Can be left empty to use the automatic identification of all snippets possible.|false|
+|filterOnMove|no|Boolean||If it is `true`, the layer will be filtered dynamically after the map moves.|false|
+|minZoom|no|Number||The minimum zoom level for current filter, if current zoom level is smaller than the minimum zoom level, the current filter will be deactivated.|false|
+|maxZoom|no|Number||The maximum zoom level for current filter, if current zoom level is bigger than the maximum zoom level, the current filter will be deactivated.|false|
 
 **Example**
 
@@ -1858,6 +1899,9 @@ In this example one snippet is set with only an attrName. The snippet type is de
     "description": "School master data and pupil numbers of Hamburg schools",
     "snippetTags": true,
     "paging": 100,
+    "filterOnMove": false,
+    "minZoom": 7,
+    "maxZoom": 14,
     "snippets": [
         {
             "attrName": "rebbz_homepage"
@@ -1937,7 +1981,7 @@ Note: Time-related snippets (`date` and `dateRange`) can only be operated in `ex
 |addSelectAll|no|Boolean|false|For type `dropdown` with `multiselect: true` only: Adds an additional entry on top of the list to select/deselect all entries.|false|
 |optionsLimit|no|Number|20000|For type `dropdown` only: Adds a limit of options in dropdown list.|false|
 |localeCompareParams|no|[localeCompareParams](#markdown-header-portalconfigmenutoolfilterfilterlayersnippetslocalecompareparams)||For type Snippet-Typ `dropdown` only: The sorting of the dropdown boxes can be adjusted according to your own wishes via this parameter.|false|
-|delimitor|no|String||For type `dropdown` only: If feature attributes are themselfs again seperated by a delimitor to act as pseudo array, setting delimitor to the sign that seperates the terms, will result in the expected outcome.|false|
+|delimiter|no|String||For type `dropdown` only: If feature attributes are themselfs again seperated by a delimiter to act as pseudo array, setting delimiter to the sign that seperates the terms, will result in the expected outcome.|false|
 |renderIcons|no|String|"none"|For type `dropdown` with `display: "list"` only: If set to `fromLegend` icons will be placed left hand side of each entry. Icons are taken from legend. Use an object with attrNames as keys and imagePath as value {attrName: imagePath} to manually set images (see example).|false|
 |service|no|[service](#markdown-header-portalconfigmenutoolfilterfilterlayersnippetsservice)||For the initial filling of a snippet (dropdown, date, slider) an alternative service can be used. This may increase the performance during initial loading. The default is the service of the configured [filterLayer](#markdown-header-portalconfigmenutoolfilterfilterlayer).|false|
 |children|no|[children](#markdown-header-portalconfigmenutoolfilterfilterlayersnippetschildren)[]|[]|Child snippet configuration.|true|
@@ -2404,6 +2448,18 @@ Tool to save the current map content as a url.
 
 ***
 
+#### Portalconfig.menu.tool.scaleSwitcher
+
+[inherits]: # (Portalconfig.menu.tool)
+
+Tool that allows changing the map's current scale.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|isDisplayInFooter|no|Boolean|false|Activates the scale selection also in the footer (note: correlation with the **ScaleLine** parameter in the **[config.js](config.js)**).|false|
+
+***
+
 #### Portalconfig.menu.tool.resetTree
 
 [inherits]: # (Portalconfig.menu.tool)
@@ -2460,13 +2516,17 @@ Print module, configurable for 2 print services: *High Resolution PlotService* a
 |printAppId|no|String|"master"|Print service print app id. This tells the print service which template(s) to use.|false|
 |filename|no|String|"report"|Print result file name.|false|
 |title|no|String|"PrintResult"|Document title appearing as header.|false|
+|titleLength|no|Number|45|The length of the title characters.|false|
 |isLegendSelected|no|Boolean|false|Defines whether a checkbox to print the legend is offered. Only used for print services supporting legend printing (Mapfish Print 3).|false|
 |legendText|no|String|"Mit Legende"|Descriptive text for the legend print checkbox.|false|
 |dpiForPdf|no|Number|200|DPI resolution for the map in the PDF file.|false|
 |capabilitiesFilter|no|**[capabilitiesFilter](#markdown-header-portalconfigmenutoolprintcapabilitiesfilter)**||Filter for the response of the configured print service. Possible keys are layouts and outputFormats.|false|
 |defaultCapabilitiesFilter|no|**[capabilitiesFilter](#markdown-header-portalconfigmenutoolprintcapabilitiesfilter)**||If there is no key set in capabilitiesFilter, the key from this object is taken.|false|
 |useProxy|no|Boolean|false|_Deprecated in the next major release. [GDI-DE](https://www.gdi-de.org/en) recommends setting CORS headers on the required services instead of using proxies._ Defines whether a service URL should be requested via proxy. For this, dots in the URL are replaced with underscores.|false|
-|printMapMarker|nein|Boolean|false|If set to true, map markers visible in the print image section will be printed. They may obstruct the view to interesting information.|false|
+|printMapMarker|no|Boolean|false|If set to true, map markers visible in the print image section will be printed. They may obstruct the view to interesting information.|false|
+|overviewmapLayerId|no|String||Allows using a different layer for the overview map element. If no Id is specified, the first layer of the selected baselayer maps is used.|false|
+|layoutOrder|no|String[]||Defines the order in which the layouts should be shown in the dropdown. Only to be used in combination with the print service 'plotservice'.|false|
+|isPrintDrawnGeoms|no|Boolean|false|Flag if it's possible to print geometries created by the Draw or Measure tool. Only to be used in combination with the print service 'plotservice'.|false|
 
 **High Resolution PlotService example configuration**
 
@@ -2480,7 +2540,13 @@ Print module, configurable for 2 print services: *High Resolution PlotService* a
         "title": "My Title",
         "printService": "plotservice",
         "printAppCapabilities": "info.json",
-        "version" : "HighResolutionPlotService"
+        "version" : "HighResolutionPlotService",
+        "layoutOrder": [
+            "Default A4 hoch",
+            "Default A4 quer",
+            "Default A3 hoch",
+            "Default A3 quer",
+        ]
     }
 }
 ```
@@ -2531,7 +2597,7 @@ Module used to draw features on the map. This includes points, which may also be
 |name|yes|String||Tool name in the menu.|false|
 |iconList|no|**[icon](#markdown-header-portalconfigmenutooldrawicon)**[]|[{"id": "iconPoint", "type": "simple_point", "value": "simple_point"}, {"id": "yellow pin", "type": "image", "scale": 2, "value": "geo-fill-ylw.svg"}]|List of symbols the user may choose from to draw colored symbols or dots. Images may be used, too, as shown in the example.|false|
 |drawSymbolSettings|no|**[drawSymbolSet](#markdown-header-portalconfigmenutooldrawdrawsymbolset)**|{"color": [55, 126, 184, 1], "opacity": 1}|Pre-configuration for symbol drawing.|false|
-|addIconsOfActiveLayers|nein|Boolean|false|Set this flag to `true` to be able to select the icons and symbols of all WFS layers activated in the topic tree as additional symbols besides the icons configured under `drawSymbolSettings`.|false|
+|addIconsOfActiveLayers|no|Boolean|false|Set this flag to `true` to be able to select the icons and symbols of all WFS layers activated in the topic tree as additional symbols besides the icons configured under `drawSymbolSettings`.|false|
 |drawLineSettings|no|**[drawLineSet](#markdown-header-portalconfigmenutooldrawdrawlineset)**|{"strokeWidth": 1, "opacityContour": 1, "colorContour": [0, 0, 0, 1]}|Pre-configuration for line drawing.|false|
 |drawCurveSettings|no|**[drawCurveSet](#markdown-header-portalconfigmenutooldrawdrawcurveset)**|{"strokeWidth": 1, "opacityContour": 1, "colorContour": [0, 0, 0, 1]}|Pre-configuration for freehand drawing.|false|
 |drawAreaSettings|no|**[drawAreaSet](#markdown-header-portalconfigmenutooldrawdrawareaset)**|{"strokeWidth": 1, "color": [55, 126, 184, 1], "opacity": 1, "colorContour": [0, 0, 0, 1], "opacityContour": 1}|Pre-configuration for area drawing.|false|
@@ -3886,7 +3952,7 @@ Configuration for the suggestions of the user input.
 [inherits]: # (Portalconfig.menu.tool)
 
 WFS-T module to visualize (*GetFeature*), create (*insert*), update (*update*) and delete (*delete*) features of a Web Feature Service (*WFS*) which is able to receive transactions.
-To use this tool, a WFS-T layer must be provided. For more configuration information see **[services.json](services.json.md)**.
+To use this tool, a WFS-T layer must be provided in version 1.1.0. For more configuration information see **[services.json](services.json.md)**.
 
 When editing properties of a feature / adding properties to a new features, the available values including its label are based on the layers configured `gfiAttributes`. For more information see **[services.json](services.json.md)**.
 
@@ -4366,6 +4432,7 @@ Routing-tool directions options.
 |serviceId|yes|String||Which service should be used for the request.|false|
 |speedProfile|no|String|"CAR"|Which speed profile should be selected by default.|false|
 |preference|no|String|"RECOMMENDED"|Which type of directions should be used by default.|false|
+|customPreferences|no|**[customPreferences](#markdown-header-portalconfigmenutoolroutingdirectionssettingscustompreferences)**||Possibility to define additional preferences for the different speed profiles (additionally to the BKG service)  (requires own modified backend)|false|
 |styleRoute|no|**[styleRoute](#markdown-header-portalconfigmenutoolroutingdirectionssettingsstyleroute)**||Stylerouteoptions|false|
 |styleWaypoint|no|**[styleWaypoint](#markdown-header-portalconfigmenutoolroutingdirectionssettingsstylewaypoint)**||Stylewaypointoptions|false|
 |styleAvoidAreas|no|**[styleAvoidAreas](#markdown-header-portalconfigmenutoolroutingdirectionssettingsstyleavoidareas)**||Styleavoidareasoptions|false|
@@ -4380,6 +4447,9 @@ Routing-tool directions options.
         "serviceId": "bkg_ors",
         "speedProfile": "CAR",
         "preference": "RECOMMENDED",
+        "customPreferences": {
+            "CYCLING": ["RECOMMENDED", "SHORTEST", "GREEN"]
+        },
         "styleRoute": {
             "fillColor": [255, 44, 0],
             "width": 6,
@@ -4417,7 +4487,28 @@ Routing-tool directions options.
 ```
 
 ***
+#### Portalconfig.menu.tool.routing.directionsSettings.customPreferences
 
+Routing-tool directions route customPreferences.
+Possibility to define additional preferences for the different speed profiles (additionally to the BKG service)  (requires own modified backend)
+
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|speedProfile|no|String[]||Which preferences should be available for the speedProfile.|false|
+
+**Beispiel**
+```
+#!json
+{
+    "customPreferences": {
+       "CYCLING": ["RECOMMENDED", "SHORTEST", "GREEN"],
+       "CAR": ["RECOMMENDED", "SHORTEST", "GREEN"]
+    }
+}
+```
+
+***
 #### Portalconfig.menu.tool.routing.directionsSettings.styleRoute
 
 Routing-tool directions route style options.
@@ -5188,7 +5279,7 @@ Layer definition. Multiple ways to define layers exist. Most attributes are defi
 |isNeverVisibleInTree|no|Boolean|false|If `true`, the layer is never visible in the topic selection tree.|false|
 |urlIsVisible|no|Boolean|true|Whether the service URL should be shown in the layer information window.|false|
 |filterRefId|no|Integer||Referencing to a configured filter. It is the order (index) of Layer in filter. Starting with 0.|false|
-|renderer|no|String|"default"|Which render pipeline to use ("default" or "webgl") (only for vector data of type "GeoJSON", "WFS", "OAF", "VectorBase")|false|
+|renderer|no|String|"default"|Which render pipeline to use ("default" or "webgl") (only for vector data of type "GeoJSON", "WFS", "OAF", "VectorBase"). "webgl" is currently classified as experimental and can lead to errors in some modules|false|
 |isPointLayer|no|Boolean|false|Whether the (vector) layer only consists of point features (only relevant for WebGL rendering)|false|
 
 **Example with one ID**
@@ -5288,6 +5379,7 @@ For such cases, define `gfiAsNewWindow` manually as described above.
 ```
 
 ***
+
 #### Themenconfig.Layer.WFS
 
 [inherits]: # (Themenconfig.Layer)
