@@ -8,6 +8,7 @@ import Modeler3D from "../../../store/indexModeler3D";
 import Modeler3DDraw from "../../../components/Modeler3DDraw.vue";
 import Modeler3DImport from "../../../components/Modeler3DImport.vue";
 import Modeler3DEntityModel from "../../../components/Modeler3DEntityModel.vue";
+import getGfiFeaturesByTileFeatureModule from "../../../../../../api/gfi/getGfiFeaturesByTileFeature";
 
 const localVue = createLocalVue();
 
@@ -361,49 +362,45 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
         it("selectObject picks object and adds it to list", () => {
             let hiddenObjects = [];
             const pickObject = new global.Cesium.Cesium3DTileFeature({
-                object: {
-                    show: true,
-                    featureId: "featureId",
-                    pickId: {key: "pickId"},
-                    tileset: {layerReferenceId: "layerId"}
-                }
-            });
+                    object: {
+                        show: true
+                    }
+                }),
+                tileSetModels = [{
+                    hideObjects: sinon.stub()
+                }],
+                radioStub = sinon.stub(Radio, "request").returns(tileSetModels);
 
             scene.pick = sinon.stub().returns(pickObject);
             global.Cesium.defined = sinon.stub().returns(true);
             global.Cesium.defaultValue = sinon.stub().returns(false);
+            sinon.stub(getGfiFeaturesByTileFeatureModule, "getGfiFeaturesByTileFeature").returns([{
+                getProperties: () => ({
+                    gmlid: "gmlId"
+                })
+            }]);
 
             wrapper = shallowMount(Modeler3DComponent, {store, localVue});
             wrapper.vm.selectObject(event);
 
             hiddenObjects = store.state.Tools.Modeler3D.hiddenObjects;
 
-            expect(pickObject.pickId.object.show).to.be.false;
+            expect(radioStub.called).to.be.true;
+            expect(getGfiFeaturesByTileFeatureModule.getGfiFeaturesByTileFeature.calledWith(pickObject));
+            expect(tileSetModels[0].hideObjects.calledWith(["gmlId"])).to.be.true;
             expect(hiddenObjects.length).to.be.equals(1);
-            expect(hiddenObjects[0].id).to.be.equals("featureId");
-            expect(hiddenObjects[0].pickId).to.be.equals("pickId");
-            expect(hiddenObjects[0].layerId).to.be.equals("layerId");
+            expect(hiddenObjects[0].name).to.be.equals("gmlId");
         });
 
         it("showObject shows the hidden object and deletes it from list", () => {
             let hiddenObjects = [];
             const object = {
-                    id: "featureId",
-                    pickId: "pickId",
-                    layerId: "layerId",
-                    name: "Object featureId"
+                    name: "gmlId"
                 },
-                pickObject = {
-                    pickId: {key: "pickId"},
-                    show: false
-                };
-
-            scene.primitives = {
-                _primitives: [{
-                    layerReferenceId: "layerId",
-                    _selectedTiles: [{content: {getFeature: sinon.stub().returns(pickObject)}}]
-                }]
-            };
+                tileSetModel = {
+                    showObjects: sinon.stub()
+                },
+                radioStub = sinon.stub(Radio, "request").returns([tileSetModel]);
 
             wrapper = shallowMount(Modeler3DComponent, {store, localVue});
             wrapper.vm.showObject(object);
@@ -411,7 +408,8 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
             hiddenObjects = store.state.Tools.Modeler3D.hiddenObjects;
 
             expect(hiddenObjects.length).to.eql(0);
-            expect(pickObject.show).to.be.true;
+            expect(radioStub.called).to.be.true;
+            expect(tileSetModel.showObjects.calledWith(["gmlId"])).to.be.true;
         });
 
         it("should set cursor to \"grab\" when Cesium.defined returns true", async () => {

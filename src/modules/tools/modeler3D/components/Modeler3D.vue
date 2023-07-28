@@ -12,7 +12,7 @@ import mutations from "../store/mutationsModeler3D";
 import store from "../../../../app-store";
 import crs from "@masterportal/masterportalapi/src/crs";
 import proj4 from "proj4";
-import {getGfiFeaturesByTileFeature} from "../../../../api/gfi/getGfiFeaturesByTileFeature";
+import getGfiFeatures from "../../../../api/gfi/getGfiFeaturesByTileFeature";
 import {adaptCylinderToGround, adaptCylinderToEntity, adaptCylinderUnclamped} from "../utils/draw";
 
 let eventHandler = null;
@@ -342,20 +342,15 @@ export default {
                         }
                     }
                     else if (this.hideObjects && picked instanceof Cesium.Cesium3DTileFeature) {
-                        const features = getGfiFeaturesByTileFeature(picked),
+                        const features = getGfiFeatures.getGfiFeaturesByTileFeature(picked),
                             gmlId = features[0]?.getProperties().gmlid,
-                            object = picked.pickId?.object;
+                            tileSetModels = Radio.request("ModelList", "getModelsByAttributes", {typ: "TileSet3D"});
 
-                        if (object) {
-                            object.show = false;
+                        tileSetModels.forEach(model => model.hideObjects([gmlId]));
 
-                            this.hiddenObjects.push({
-                                id: object.featureId,
-                                pickId: object.pickId.key,
-                                layerId: object.tileset.layerReferenceId,
-                                name: gmlId || "Hidden object " + this.id
-                            });
-                        }
+                        this.hiddenObjects.push({
+                            name: gmlId
+                        });
                     }
                 }
             }
@@ -527,22 +522,11 @@ export default {
          * @returns {void}
          */
         showObject (object) {
-            const scene = this.scene,
-                primitives = scene.primitives,
-                tileset = primitives._primitives.find(x => x.layerReferenceId === object.layerId),
-                visibleTiles = tileset._selectedTiles,
-                objectIndex = this.hiddenObjects.findIndex(x => x.id === object.id);
+            const objectIndex = this.hiddenObjects.findIndex(x => x.id === object.id),
+                tileSetModels = Radio.request("ModelList", "getModelsByAttributes", {typ: "TileSet3D"});
 
-            for (let i = 0; i < visibleTiles.length; i++) {
-                const content = visibleTiles[i].content,
-                    feature = content.getFeature(object.id);
-
-                if (feature?.pickId?.key === object.pickId) {
-                    feature.show = true;
-                    this.hiddenObjects.splice(objectIndex, 1);
-                    break;
-                }
-            }
+            tileSetModels.forEach(model => model.showObjects([object.name]));
+            this.hiddenObjects.splice(objectIndex, 1);
         },
         close () {
             this.setActive(false);
