@@ -47,7 +47,7 @@ module.exports = function () {
             open: false,
             openPage: "portal/master",
             overlay: true,
-            port: 443,
+            port: 9001,
             proxy: proxies,
             publicPath: "/build/"
         },
