@@ -367,8 +367,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
                     }
                 }),
                 tileSetModel = {
-                    hideObjects: sinon.stub(),
-                    setFeatureVisibilityLastUpdated: sinon.stub()
+                    hideObjects: sinon.stub()
                 },
                 radioStub = sinon.stub(Radio, "request").returns([tileSetModel]);
 
@@ -389,7 +388,6 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
             expect(radioStub.called).to.be.true;
             expect(getGfiFeaturesByTileFeatureModule.getGfiFeaturesByTileFeature.calledWith(pickObject));
             expect(tileSetModel.hideObjects.calledWith(["gmlId"])).to.be.true;
-            expect(tileSetModel.setFeatureVisibilityLastUpdated.called).to.be.true;
             expect(hiddenObjects.length).to.be.equals(1);
             expect(hiddenObjects[0].name).to.be.equals("gmlId");
         });

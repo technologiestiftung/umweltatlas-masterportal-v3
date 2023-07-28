@@ -347,8 +347,7 @@ export default {
                             tileSetModels = Radio.request("ModelList", "getModelsByAttributes", {typ: "TileSet3D"});
 
                         tileSetModels.forEach(model => {
-                            model.hideObjects([gmlId]);
-                            model.setFeatureVisibilityLastUpdated(Date.now());
+                            model.hideObjects([gmlId], true);
                         });
 
                         this.hiddenObjects.push({
@@ -525,7 +524,7 @@ export default {
          * @returns {void}
          */
         showObject (object) {
-            const objectIndex = this.hiddenObjects.findIndex(x => x.id === object.id),
+            const objectIndex = this.hiddenObjects.findIndex(x => x.name === object.name),
                 tileSetModels = Radio.request("ModelList", "getModelsByAttributes", {typ: "TileSet3D"});
 
             tileSetModels.forEach(model => model.showObjects([object.name]));
