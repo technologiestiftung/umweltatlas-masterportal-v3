@@ -20,7 +20,8 @@ export default {
             clampToGround: true,
             constants: constants,
             currentPosition: null,
-            shapeId: null
+            shapeId: null,
+            lastAddedPosition: null
         };
     },
     computed: {
@@ -104,11 +105,15 @@ export default {
         },
         /**
          * Called on mouse leftclick. Sets the position of a pin and starts to draw a geometry.
+         * When a position is identical to the last placed position, the function is escaped to avoid moving errors of the drawn geometry.
          * @returns {void}
          */
         addGeometryPosition () {
             let floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
 
+            if (Cesium.Cartesian3.equals(this.currentPosition, this.lastAddedPosition)) {
+                return;
+            }
             if (this.activeShapePoints.length === 1) {
                 this.setHeight(this.clampToGround ?
                     this.scene.globe.getHeight(Cesium.Cartographic.fromCartesian(this.currentPosition)) :
@@ -137,6 +142,7 @@ export default {
                 new Cesium.CallbackProperty(() => adaptCylinderToGround(floatingPoint, this.currentPosition), false) :
                 new Cesium.CallbackProperty(() => entity ? adaptCylinderToEntity(entity, floatingPoint, this.currentPosition) : adaptCylinderUnclamped(floatingPoint, this.currentPosition), false);
 
+            this.lastAddedPosition = this.currentPosition;
             this.activeShapePoints.push(this.currentPosition);
         },
         /**

@@ -95,7 +95,9 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
                 ENABLED: 1
             },
             defined: sinon.stub().returns(true),
-            Cartesian3: sinon.stub(),
+            Cartesian3: {
+                equals: sinon.stub().returns(false)
+            },
             Math: {
                 toDegrees: () => 9.99455657887449
             },

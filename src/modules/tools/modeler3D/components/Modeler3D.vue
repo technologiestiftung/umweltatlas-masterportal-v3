@@ -278,38 +278,41 @@ export default {
          * @returns {void}
          */
         moveEntity (event) {
-            let entity;
+            if (!this.isDrawing) {
+                let entity;
 
-            if (event) {
-                const scene = this.scene,
-                    picked = scene.pick(event.position);
+                if (event) {
+                    const scene = this.scene,
+                        picked = scene.pick(event.position);
 
-                entity = Cesium.defaultValue(picked?.id, picked?.primitive?.id);
+                    entity = Cesium.defaultValue(picked?.id, picked?.primitive?.id);
+                }
+
+                if (entity instanceof Cesium.Entity || !event) {
+                    this.setIsDragging(true);
+                    this.originalHideOption = this.hideObjects;
+                    this.setHideObjects(false);
+
+                    document.body.style.cursor = "grabbing";
+
+                    if (entity?.cylinder) {
+                        const geometry = this.entities.getById(this.currentModelId),
+                            position = geometry.polygon ? geometry.polygon.hierarchy.getValue().positions[entity.positionIndex] : geometry.polyline.positions.getValue()[entity.positionIndex];
+
+                        this.currentPosition = position;
+
+                        entity.position = geometry.clampToGround ?
+                            new Cesium.CallbackProperty(() => adaptCylinderToGround(entity, this.currentPosition), false) :
+                            new Cesium.CallbackProperty(() => adaptCylinderToEntity(geometry, entity, this.currentPosition), false);
+                        eventHandler.setInputAction(this.moveCylinder, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+                    }
+                    else {
+                        eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+                    }
+                    eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+                }
             }
 
-            if (entity instanceof Cesium.Entity || !event) {
-                this.setIsDragging(true);
-                this.originalHideOption = this.hideObjects;
-                this.setHideObjects(false);
-
-                document.body.style.cursor = "grabbing";
-
-                if (entity?.cylinder) {
-                    const geometry = this.entities.getById(this.currentModelId),
-                        position = geometry.polygon ? geometry.polygon.hierarchy.getValue().positions[entity.positionIndex] : geometry.polyline.positions.getValue()[entity.positionIndex];
-
-                    this.currentPosition = position;
-
-                    entity.position = geometry.clampToGround ?
-                        new Cesium.CallbackProperty(() => adaptCylinderToGround(entity, this.currentPosition), false) :
-                        new Cesium.CallbackProperty(() => adaptCylinderToEntity(geometry, entity, this.currentPosition), false);
-                    eventHandler.setInputAction(this.moveCylinder, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-                }
-                else {
-                    eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-                }
-                eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
-            }
         },
         /**
          * Selects an object based on the provided event.
@@ -358,7 +361,7 @@ export default {
          * @returns {void}
          */
         moveCylinder (event) {
-            if (this.isDragging) {
+            if (this.isDragging && !this.isDrawing) {
                 const entities = this.entities,
                     entity = entities.getById(this.currentModelId),
                     cylinder = entities.getById(this.cylinderId),
