@@ -366,10 +366,11 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
                         show: true
                     }
                 }),
-                tileSetModels = [{
-                    hideObjects: sinon.stub()
-                }],
-                radioStub = sinon.stub(Radio, "request").returns(tileSetModels);
+                tileSetModel = {
+                    hideObjects: sinon.stub(),
+                    setFeatureVisibilityLastUpdated: sinon.stub()
+                },
+                radioStub = sinon.stub(Radio, "request").returns([tileSetModel]);
 
             scene.pick = sinon.stub().returns(pickObject);
             global.Cesium.defined = sinon.stub().returns(true);
@@ -387,7 +388,8 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
 
             expect(radioStub.called).to.be.true;
             expect(getGfiFeaturesByTileFeatureModule.getGfiFeaturesByTileFeature.calledWith(pickObject));
-            expect(tileSetModels[0].hideObjects.calledWith(["gmlId"])).to.be.true;
+            expect(tileSetModel.hideObjects.calledWith(["gmlId"])).to.be.true;
+            expect(tileSetModel.setFeatureVisibilityLastUpdated.called).to.be.true;
             expect(hiddenObjects.length).to.be.equals(1);
             expect(hiddenObjects[0].name).to.be.equals("gmlId");
         });

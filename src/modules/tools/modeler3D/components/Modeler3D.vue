@@ -346,7 +346,10 @@ export default {
                             gmlId = features[0]?.getProperties().gmlid,
                             tileSetModels = Radio.request("ModelList", "getModelsByAttributes", {typ: "TileSet3D"});
 
-                        tileSetModels.forEach(model => model.hideObjects([gmlId]));
+                        tileSetModels.forEach(model => {
+                            model.hideObjects([gmlId]);
+                            model.setFeatureVisibilityLastUpdated(Date.now());
+                        });
 
                         this.hiddenObjects.push({
                             name: gmlId
