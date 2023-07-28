@@ -51,6 +51,7 @@ The configuration options listed in the following table exist:
 |quickHelp|no|**[quickHelp](#markdown-header-portalconfigquickHelp)**||Configuration of new and manipulation of existing QuickHelp windows.|false|
 |tree|no|**[tree](#markdown-header-portalconfigtree)**||Configuration of menu tree.|false|
 |layerInformation|no|**[layerInformation](#markdown-header-portalconfiglayerInformation)**||Decides if to show individual attribute in Meta data of layer information|false|
+|login|no|**[login](#markdown-header-portalconfiglogin)**||Configuration of login with an OIDC server.|false|
 
 ***
 

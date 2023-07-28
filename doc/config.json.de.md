@@ -46,6 +46,7 @@ Es existieren die im Folgenden aufgelisteten Konfigurationen:
 |quickHelp|nein|**[quickHelp](#markdown-header-portalconfigquickHelp)**||Konfiguration neuer und Manipulation bestehender QuickHelp-Fenster.|false|
 |tree|nein|**[tree](#markdown-header-portalconfigtree)**||Konfiguration des Menü-Baums.|false|
 |layerInformation|nein|**[layerInformation](#markdown-header-portalconfiglayerInformation)**||Legt fest, ob individuelle Attribute in Metadaten von layerinformation angezeigt werden soll.|false|
+|login|nein|**[login](#markdown-header-portalconfiglogin)**||Konfiguration der Anmeldung bei einem OIDC-Server.|false|
 
 ***
 
