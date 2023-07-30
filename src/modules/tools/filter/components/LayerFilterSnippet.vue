@@ -187,6 +187,12 @@ export default {
             if (typeof this.isLayerFilterSelected === "function" && this.isLayerFilterSelected(this.layerConfig.filterId) || this.isLayerFilterSelected === true) {
                 this.handleActiveStrategy();
             }
+        },
+        outOfZoom: {
+            handler (val) {
+                this.setIsLoading(!val);
+            },
+            immediate: true
         }
     },
     created () {
@@ -717,8 +723,8 @@ export default {
          * @returns {void}
          */
         registerMapMoveListener () {
+            store.dispatch("Maps/registerListener", {type: "loadstart", listener: this.updateSnippets.bind(this)});
             store.dispatch("Maps/registerListener", {type: "loadend", listener: this.updateSnippets.bind(this)});
-            store.dispatch("Maps/registerListener", {type: "loadstart", listener: this.setIsLoading.bind(this)});
             store.dispatch("Maps/registerListener", {type: "moveend", listener: this.updateSnippets.bind(this)});
         },
         /**
@@ -726,8 +732,8 @@ export default {
          * @returns {void}
          */
         unregisterMapMoveListener () {
+            store.dispatch("Maps/unregisterListener", {type: "loadstart", listener: this.updateSnippets.bind(this)});
             store.dispatch("Maps/unregisterListener", {type: "loadend", listener: this.updateSnippets.bind(this)});
-            store.dispatch("Maps/unregisterListener", {type: "loadstart", listener: this.setIsLoading.bind(this)});
             store.dispatch("Maps/unregisterListener", {type: "moveend", listener: this.updateSnippets.bind(this)});
         },
 
@@ -783,7 +789,7 @@ export default {
          * @param {Boolean} [value = true] - The value for isLoading.
          * @returns {void}
          */
-        setIsLoading (value = true) {
+        setIsLoading (value) {
             this.isLoading = value;
         },
 
@@ -795,6 +801,9 @@ export default {
         updateSnippets (evt) {
             if (evt.type === "moveend" && !evt.map.loaded_) {
                 return;
+            }
+            if (evt.type === "loadstart") {
+                this.setIsLoading(!this.outOfZoom);
             }
             if (evt.type === "loadend") {
                 this.setIsLoading(false);
