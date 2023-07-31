@@ -41,7 +41,9 @@
 - Issue #863: Print: Consider offsets for point features with icon
 - Issue #1024: LayerInformation: Fix URL generation for given query parameters in service URL
 - Issue #1045: WFSSearch: Fields will be enabled correctly for multiple search instances now
+- Issue #1052, Issue #1058: The legend for wfs is now created again via the describefeaturetype, so that a legend is now created for all wfs.
 - Issue #1057: Filter: Checkbox Snippet does not response right in activation and deactivation.
+
 ---
 ## v2.35.1 - 2023-07-13
 ### Fixed
