@@ -6,6 +6,7 @@ import DetachedTemplate from "../../../components/templates/DetachedTemplate.vue
 import Feature from "ol/Feature";
 import Point from "ol/geom/Point";
 import Polygon from "ol/geom/Polygon";
+import LineString from "ol/geom/LineString";
 
 const localVue = createLocalVue();
 
@@ -400,13 +401,55 @@ describe("src/modules/tools/gfi/components/templates/DetachedTemplate.vue", () =
                     feature: olFeature,
                     type: "highlightPolygon",
                     highlightStyle: {
-                        fill: highlightVectorRules.fill, stroke: highlightVectorRules.stroke
+                        fill: highlightVectorRules.fill,
+                        stroke: highlightVectorRules.stroke
                     },
                     layer: {id: "layerId"},
                     styleId: "styleId"
                 };
 
                 olFeature.setGeometry(new Polygon([[[30, 10], [40, 40], [130, 130], [240, 40], [30, 10]]]));
+                getLayerByIdSpy = sinon.stub().returns({
+                    get: () => "styleId"
+                });
+                shallowMount(DetachedTemplate, {
+                    propsData: {
+                        feature: {
+                            getTheme: () => "DefaultTheme",
+                            getTitle: () => "Hallo",
+                            getMimeType: () => "text/xml",
+                            getGfiUrl: () => "",
+                            getLayerId: () => "layerId",
+                            getOlFeature: () => olFeature
+                        }
+                    },
+                    components: {
+                        DefaultTheme: {
+                            name: "DefaultTheme",
+                            template: "<span />"
+                        }
+                    },
+                    store: getStore(),
+                    localVue
+                });
+
+                expect(getLayerByIdSpy.calledOnce).to.be.true;
+                expect(removeHighlightFeatureSpy.calledOnce).to.be.true;
+                expect(highlightFeatureSpy.calledOnce).to.be.true;
+                expect(highlightFeatureSpy.firstCall.args[1]).to.be.deep.equals(expectedArgs);
+            });
+            it("should call highlightFeature if feature's geometry is a linestring", () => {
+                const expectedArgs = {
+                    feature: olFeature,
+                    type: "highlightLine",
+                    highlightStyle: {
+                        stroke: highlightVectorRules.stroke
+                    },
+                    layer: {id: "layerId"},
+                    styleId: "styleId"
+                };
+
+                olFeature.setGeometry(new LineString([[30, 10], [40, 40], [130, 130], [240, 40]]));
                 getLayerByIdSpy = sinon.stub().returns({
                     get: () => "styleId"
                 });

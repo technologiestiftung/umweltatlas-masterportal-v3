@@ -125,7 +125,7 @@ export default {
          * @returns {void}
          */
         emitCurrentRule (value, startup = false) {
-            if (value) {
+            if (value === true || value !== this.value[1]) {
                 this.$emit("changeRule", {
                     snippetId: this.snippetId,
                     startup,

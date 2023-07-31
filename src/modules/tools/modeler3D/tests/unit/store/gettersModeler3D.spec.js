@@ -2,10 +2,10 @@ import {expect} from "chai";
 import getters from "../../../store/gettersModeler3D";
 import Modeler3DState from "../../../store/stateModeler3D";
 
-describe("src/modules/tools/coordToolkit/store/gettersCoordToolkit.js", () => {
+describe("src/modules/tools/modeler3D/store/gettersModeler3D.js", () => {
     let state;
 
-    describe("getters supplyCoord", () => {
+    describe("getters Modeler3D", () => {
         beforeEach(() => {
             state = Modeler3DState;
         });
@@ -103,7 +103,7 @@ describe("src/modules/tools/coordToolkit/store/gettersCoordToolkit.js", () => {
                 }
             };
 
-            expect(getters.getCenterFromPolygon()(polygon)).to.eql({x: 20, y: 20, z: 20});
+            expect(getters.getCenterFromGeometry()(polygon)).to.eql({x: 20, y: 20, z: 20});
         });
     });
 });

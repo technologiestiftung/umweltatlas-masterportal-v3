@@ -407,30 +407,30 @@
             "modeler3D": {
                 "entity": {
                     "captions": {
-                        "backToList": "Listeye Geri Dön",
+                        "backToList": "Listeye Dön",
                         "delete": "Modeli Sil",
                         "deletionTitle": "3D Modeli Sil \"{{name}}\"",
                         "editInfo": "Seçilen modelin özelliklerini değiştirin.",
                         "editModel": "3D Modeli Düzenle \"{{name}}\"",
-                        "incrementTooltip": "Değeri daha kaba bir şekilde artırmak için Shift tuşunu basılı tutun.",
+                        "incrementTooltip": "Değerleri daha kaba bir şekilde artırmak için Shift tuşunu basılı tutun.",
                         "modelName": "Model Adı",
-                        "pickupPlace": "Bir nesneyi almak veya yerleştirmek için çift tıklayın.",
-                        "projectionInfo": "Dikkat! WGS84 koordinat sistemi kullanırken hatalar oluşabilir. Ondalık gösterimi kullanmanızı öneririz.",
-                        "rotationPlaceholder": "Artış/Azalış adımları",
+                        "pickupPlace": "İçe aktarılan bir nesneyi seçmek veya yerleştirmek için çift tıklayın.",
+                        "projectionInfo": "Dikkat! WGS84 koordinat sistemini kullanırken, kesinlik eksikliği olabilir. Ondalık gösterimi kullanmanızı öneririz.",
+                        "rotationPlaceholder": "Artırma/Azaltma adımları",
                         "rotation": "Döndürme",
                         "rotationSwitch": "Döndürme Adımları",
                         "scale": "Ölçek",
                         "steps": "Adımlar",
-                        "visibilityTitle": "3D Modeli Göster/Gizle \"{{name}}\"",
-                        "zoomTo": "3D Modeline Yakınlaş \"{{name}}\""
+                        "visibilityTitle": "3D Modeli Görünür/Kapalı \"{{name}}\"",
+                        "zoomTo": "3D Modeline Yakınlaştır \"{{name}}\""
                     },
                     "deleteInteraction": {
                         "confirm": "Sil",
                         "headline": "Dikkat",
-                        "text": "\"{{name}}\" modelini silmek istediğinizden emin misiniz?"
+                        "text": "\"{{name}}\" adlı modeli silmek istediğinizden emin misiniz?"
                     },
                     "projections": {
-                        "adaptToHeight": "Araziye Uyarla",
+                        "adaptToHeight": "Yüzeye Uyarla",
                         "cartesian": {
                             "eastingLabel": "Doğu",
                             "northingLabel": "Kuzey"
@@ -447,38 +447,38 @@
                     "alertingMessages": {
                         "featureError": "Bu dosyadaki bir özellik okunamadı.",
                         "fileSizeError": "Dosya boyutu 100 MB sınırını aşıyor.",
-                        "formatError": "\"{{filename}}\" dosyası okunamadı. Lütfen dosyanın *.gltf, *.obj veya *.dae formatında olduğunu kontrol edin.",
-                        "missingFileContent": "\"{{filename}}\" dosyası okunurken hata oluştu. Dosya türünü ve içeriğini kontrol edin. Dosya hatasız ise destek birimine başvurun.",
-                        "missingFormat": "\"{{format}}\" formatı desteklenmiyor. Destek birimine başvurun.",
-                        "success": "\"{{filename}}\" dosyası başarıyla içe aktarıldı.",
-                        "successPartly": "\"{{filename}}\" dosyası kısmen içe aktarıldı."
+                        "formatError": "\"{{filename}}\" adlı dosya okunamadı. Lütfen dosyanın *.gltf, *.obj, *.dae veya *.geojson formatına sahip olduğunu kontrol edin.",
+                        "missingFileContent": "\"{{filename}}\" adlı dosyayı okurken hata oluştu. Lütfen dosya türünü ve içeriğini kontrol edin. Dosya hatasız ise lütfen destek birimine başvurun.",
+                        "missingFormat": "\"{{format}}\" dosya formatı desteklenmiyor. Lütfen destek birimine başvurun.",
+                        "success": "\"{{filename}}\" adlı dosya başarıyla içe aktarıldı.",
+                        "successPartly": "\"{{filename}}\" adlı dosya kısmen içe aktarıldı."
                     },
                     "captions": {
-                        "introInfo": "Importer ile dijital kentsel tasarımları şehrin mevcut 3D modeline yükleyebilir, görselleştirebilir ve analiz edebilirsiniz.",
-                        "introInfo2": "İstediğiniz dosyayı sürükleyip bırakarak veya alternatif olarak tarayıcının açık diyaloğu ile içe aktarın.",
-                        "introFormats": "GlTF (*.gltf), OBJ (*.obj) Collada (*.dae) veya GeoJSON dosyaları içe aktarılabilir.",
+                        "introInfo": "Bu araç ile dijital kentsel tasarımları mevcut 3D model üzerine yükleyebilir, görselleştirebilir ve analiz edebilirsiniz.",
+                        "introInfo2": "Dosyanızı sürükleyip bırakarak veya tarayıcının açma iletişim kutusunu kullanarak istediğiniz dosyayı içe aktarın.",
+                        "introFormats": "glTF (*.gltf), OBJ (*.obj), Collada (*.dae) veya GeoJSON dosyalarını içe aktarabilirsiniz.",
                         "successfullyImportedLabel": "İçe Aktarılan 3D Modeller:"
                     }
                 },
                 "draw": {
                     "captions": {
                         "beginModelling": "3D Nesne Modelle",
-                        "clampToGround": "Yükseklik modeline hizala",
+                        "clampToGround": "Zemine Uygun Hizala",
                         "color": "Renk",
-                        "controlInfo": "Noktaları ayarlamak için farenin sol tuşuyla tıklayın. Çizimi bitirmek için sağ tıklayın.",
+                        "controlInfo": "Noktaları belirlemek için sol tıklayın. Çizimi bitirmek için sağ tıklayın.",
                         "drawing": "Çizim",
-                        "drawName": "İsim",
+                        "drawName": "Adı",
                         "drawnModels": "Çizilen Modeller:",
                         "export": "Dışa Aktar",
-                        "exportTitle": "Tüm çizilen modelleri GeoJSON formatında dışa aktar.",
-                        "extrudedHeight": "Yükseklik İçeren",
+                        "exportTitle": "Tüm çizilen modelleri GeoJSON formatına dışa aktar.",
+                        "extrudedHeight": "Yükseklik Dışarı Çıkıntı",
                         "fillColor": "Dolgu Rengi",
                         "fillTransparency": "Saydamlık",
                         "geometry": "Geometri",
-                        "introInfo": "Çizim aracı ile harita üzerinde farklı geometrik şekiller çizebilirsiniz.",
-                        "options": "Seçenekler",
-                        "strokeColor": "Kontur Rengi",
-                        "strokeWidth": "Çizgi Kalınlığı"
+                        "introInfo": "Bu araç ile dijital kentsel tasarımları mevcut 3D model üzerine yükleyebilir, görselleştirebilir ve analiz edebilirsiniz.<br><br>İmport edilmiş nesnelerin üzerine de çizebilirsiniz. Bunun için yüzey yüksekliğinin aktif olması gereklidir.<br><br>Tasarımlarınızı dışa aktarabilir ve sonraki bir zamanda yine içe aktararak kullanabilirsiniz.",
+                        "outlineColor": "Çizgi Rengi",
+                        "transparency": "Saydamlık",
+                        "lineWidth": "Çizgi Genişliği"
                     },
                     "geometries": {
                         "polygon": "Poligon",
@@ -487,16 +487,17 @@
                 },
                 "options": {
                     "captions": {
-                        "enableFunction": "Etkinleştir/devre dışı bırak",
-                        "hideObjectInfo": "Bu seçenek açıksa, mevcut binaları tıklayarak gizleyebilirsiniz.",
-                        "hideSwitchLabel": "Fare Tıklamasıyla Binaları Gizle",
-                        "povInfo": "Burada kendinizi bir yayanın yerine koyma imkanına sahipsiniz. Silindiri bir fare tıklamasıyla haritaya yerleştirir yerleştirmez, bu noktada yaya görünümüne gireceksiniz. <br><br>Bu görünümde fare ile etrafa bakabilirsiniz. Başlangıç konumuna dönmek için kaçış tuşuna (ESC) basın.",
-                        "povTitle": "Yaya bakış açısı",
-                        "visibilityTitle": "Görünürlük seçenekleri"
+                        "enableFunction": "Fonksiyonu Etkinleştir/Devre Dışı Bırak",
+                        "hideObjectInfo": "Varolan binaları görüntüde devre dışı bırakarak, ithal edilen nesneleri ilgili arsaya yerleştirebilirsiniz.<br><br>Fonksiyonu etkinleştirmek için Etkinleştir düğmesini tıklayın ve ekran görüntüsünde gizlemek istediğiniz nesneleri seçin.<br><br>Tüm gizlenen nesneler liste halinde görüntülenir ve oradan tekrar etkinleştirilebilir.",
+                        "hideSwitchLabel": "Binaları Fare Tıklamasıyla Gizle",
+                        "pov": "Yaya Bakışına Geç",
+                        "povInfo": "Burada yaya bakışını alabilir ve şehirde gezinebilirsiniz.<br><br>İstenilen konuma hareket edin. Harita üzerinde silindiri fare tıklamasıyla yerleştirdiğinizde, o noktada yaya bakışına geçersiniz.<br><br>Fare hareketleriyle görüş alanınızı değiştirebilirsiniz. Başlangıç pozisyonuna dönmek için ESC (Escape) tuşuna basın.",
+                        "povTitle": "Yaya Perspektifi",
+                        "visibilityTitle": "Görünürlük Seçenekleri"
                     }
                 },
                 "nav": {
-                    "drawTitle": "Çiz",
+                    "drawTitle": "Çizim",
                     "importTitle": "İçe Aktar",
                     "options": "Seçenekler"
                 },

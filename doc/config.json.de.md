@@ -1515,6 +1515,7 @@ Bei allen GFI-Abfragen, außer dem direkten Beziehen von HTML, welches durch das
 |desktopType|nein|String|"detached"|Gibt an welches Template für die GetFeatureInfo im Desktopmodus verwendet wird. Bei Attached wird das GFI direkt auf dem Punkt positioniert. Bei Detached wird ein Marker auf den geklickten Punkt gesetzt und das GFI wird rechts auf der Karte platziert.|false|
 |coloredHighlighting3D|nein|**[coloredHighlighting3D](#markdown-header-portalconfigmenutoolgficoloredhighlighting3d)**||Regeldefinitionen zum Überschreiben des Highlightings von angeklickten 3D tiles.|false|
 |highlightVectorRules|nein|**[highlightVectorRules](#markdown-header-portalconfigmenutoolgfihighlightvectorrules)**||Regeldefinitionen zum Überschreiben des Stylings von abgefragten Vektordaten.[highlightVectorRules](#markdown-header-portalconfigmenutoolgfihighlightvectorrules)|false|
+|hideMapMarkerOnVectorHighlight|no|Boolean|false|Wenn Wert auf true gesetzt ist, wird der MapMarker beim VectorHighlighting nicht mit angezeigt. Gilt nur für das DetachedTemplate.|false|
 
 **Beispiel einer GFI Konfiguration**
 ```
@@ -1540,7 +1541,8 @@ Bei allen GFI-Abfragen, außer dem direkten Beziehen von HTML, welches durch das
         "text": {
             "scale": 2
         }
-    }
+    },
+    "hideMapMarkerOnVectorHighlight": true
 }
 ```
 
@@ -1625,10 +1627,11 @@ Hinweis: Das Highlighting funktioniert nur, wenn der Layer in der config.json ü
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |width|nein|Integer|1|Mögliche Einstellung: width|false|
+|color|nein|Float[]|[255, 255, 255, 0.5]|Mögliche Einstellung: color (RGBA)|false|
 
 ```
 #!json
-"stroke": { "width": 4 }
+"stroke": { "width": 4, "color": [215, 102, 41, 0.9] }
 ```
 
 ***
@@ -1797,6 +1800,8 @@ Die Konfiguration eines Layers.
 |filterButtonDisabled|nein|Boolean|false|Nur für strategy `passive`: Der Filter-Knopf wird deaktiviert solange der Benutzer nichts im Filter ausgewählt hat.|false|
 |snippets|nein|[snippets](#markdown-header-portalconfigmenutoolfilterfilterlayersnippets)[]|[]|Konfiguration der sogenannten Snippets für das Filtern. Kann bei der minimalsten Variante ein Array von Attribut-Namen sein. Kann komplett weggelassen werden, wenn die automatische Snippet-Ermittlung verwendet werden soll.|false|
 |filterOnMove|nein|Boolean||Wenn auf `true` eingestellt, wird der Layer bei Kartenbewergung dynamisch gefilteret.|false|
+|minZoom|nein|Number||Die minimale Zoomstufe. Wenn die aktuelle Zoomstufe kleiner als “minZoom” ist, wird der aktuelle Filter deaktiviert.|false|
+|maxZoom|nein|Number||Die maximale Zoomstufe. Wenn die aktuelle Zoomstufe größer als “maxZoom” ist, wird der aktuelle Filter deaktiviert.|false|
 
 **Beispiel**
 
@@ -1816,6 +1821,8 @@ Dieses Beispiel konfiguriert ein Layer mit nur einem einzigen Snippet. Die Art d
     "snippetTags": true,
     "paging": 100,
     "filterOnMove": false,
+    "minZoom": 7,
+    "maxZoom": 14,
     "snippets": [
         {
             "attrName": "rebbz_homepage"
@@ -3114,7 +3121,9 @@ Der 3D Modeller erlaubt es 3D Modelle in den Formaten .gltf, .dae und .obj zu im
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|highlightStyle|nein|**[highlightStyle](#markdown-header-portalconfigmenutoolmodeler3dhighlightstyle)**||Bestimmen Sie die Füllfarbe, Transparenz, Umrissfarbe und Umrissdicke|false|
+|gmlId|nein|String|"gmlid"|Bestimmen Sie den Pfad der GML ID im GFI für Gebäude in 3D Layern.|false|
+|updateAllLayers|nein|Boolean|true|Bestimmen Sie, ob beim Ausblenden von Gebäuden, alle Layer aktualisiert werden sollen.|false|
+|highlightStyle|nein|**[highlightStyle](#markdown-header-portalconfigmenutoolmodeler3dhighlightstyle)**||Bestimmen Sie die Füllfarbe, Transparenz, Umrissfarbe und Umrissdicke.|false|
 
 **Beispiel**
 
@@ -3122,6 +3131,8 @@ Der 3D Modeller erlaubt es 3D Modelle in den Formaten .gltf, .dae und .obj zu im
 {
     "modeler3D": {
         "name": "translate#common:menu.tools.modeler3D",
+        "gmlId": "gmlId",
+        "updateAllLayers": false,
         "highlightStyle": {
             "color": "#787777",
             "alpha": 1,
@@ -3136,10 +3147,10 @@ Der 3D Modeller erlaubt es 3D Modelle in den Formaten .gltf, .dae und .obj zu im
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|color|nein|String|"#787777"|Bestimmen Sie die Füllfsarbe zum Hervorheben der Entities|false|
-|alpha|nein|Number|1|Bestimmen Sie die Transparenz zum Hervorheben der Entities|false|
-|silhouetteColor|nein|String|"#E20D0F"|Bestimmen Sie die Umrissfarbe zum Hervorheben der Entities|false|
-|silhouetteSize|nein|Number|1|Bestimmen Sie die Umrissdicke zum Hervorheben der Entities|false|
+|color|nein|String|"#787777"|Bestimmen Sie die Füllfarbe zum Hervorheben der Entities.|false|
+|alpha|nein|Number|1|Bestimmen Sie die Transparenz zum Hervorheben der Entities.|false|
+|silhouetteColor|nein|String|"#E20D0F"|Bestimmen Sie die Umrissfarbe zum Hervorheben der Entities.|false|
+|silhouetteSize|nein|Number|1|Bestimmen Sie die Umrissdicke zum Hervorheben der Entities.|false|
 
 **Beispiel**
 
@@ -3921,7 +3932,7 @@ Konfiguration für die Vorschläge von Nutzereingaben.
 [inherits]: # (Portalconfig.menu.tool)
 
 WFS-T Modul zur Visualisierung (*GetFeature*), Erstellung (*insert*), Veränderung (*update*) und Löschen (*delete*) von Features eines bestehenden Web Feature Service (*WFS*), welcher Transaktionen entgegennehmen kann.
-Zur Nutzung dieses Moduls muss ein WFS-T Layer bereitgestellt werden. Bitte beachten Sie **[services.json](services.json.md)** für weitere Konfigurationsinformationen.
+Zur Nutzung dieses Moduls muss ein WFS-T Layer mit der Version 1.1.0 bereitgestellt werden. Bitte beachten Sie **[services.json](services.json.md)** für weitere Konfigurationsinformationen.
 
 Beim Bearbeiten eines Features / Hinzufügen von Attributen zu einem neuen Features werden bestimmte Werte in der Nutzeroberfläche angezeigt. Die Werte als auch dessen Label stehen im direkten Zusammenhang mit den `gfiAttributes` des Dienstes. Bitte beachten Sie **[services.json](services.json.md)** für weitere Informationen.
 
@@ -4401,6 +4412,7 @@ Routing-Werkzeug Routenplanung Optionen.
 |serviceId|ja|String||Welcher Service für die Abfrage verwendet werden soll.|false|
 |speedProfile|nein|String|"CAR"|Welches Geschwindigkeitsprofil verwendet werden soll.|false|
 |preference|nein|String|"RECOMMENDED"|Welche Art der Routenplanung verwendet werden soll.|false|
+|customPreferences|nein|**[customPreferences](#markdown-header-portalconfigmenutoolroutingdirectionssettingscustompreferences)**||Möglichkeit eigene Routenpräferenzen (zusätzlich zum BKG-Dienst) für die unterschiedlichen speedProfiles zu definieren (erfordert eigenes Backend)|false|
 |styleRoute|nein|**[styleRoute](#markdown-header-portalconfigmenutoolroutingdirectionssettingsstyleroute)**||Stylerouteoptionen|false|
 |styleWaypoint|nein|**[styleWaypoint](#markdown-header-portalconfigmenutoolroutingdirectionssettingsstylewaypoint)**||Stylewaypointoptionen|false|
 |styleAvoidAreas|nein|**[styleAvoidAreas](#markdown-header-portalconfigmenutoolroutingdirectionssettingsstyleavoidareas)**||Styleavoidareasoptionen|false|
@@ -4415,6 +4427,9 @@ Routing-Werkzeug Routenplanung Optionen.
         "serviceId": "bkg_ors",
         "speedProfile": "CAR",
         "preference": "RECOMMENDED",
+        "customPreferences": {
+            "CYCLING": ["RECOMMENDED", "SHORTEST", "GREEN"]
+        },
         "styleRoute": {
             "fillColor": [255, 44, 0],
             "width": 6,
@@ -4452,7 +4467,28 @@ Routing-Werkzeug Routenplanung Optionen.
 ```
 
 ***
+#### Portalconfig.menu.tool.routing.directionsSettings.customPreferences
 
+Routing-Werkzeug Routenplanung Routen customPreferences.
+Möglichkeit eigene Routenpräferenzen (zusätzlich zum BKG-Dienst) für speedProfiles zu definieren (erfordert eigenes Backend).
+
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|speedProfile|nein|String[]||Welche Präferenzen für das angegebene speedProfile verfügbar sein sollen.|false|
+
+**Beispiel**
+```
+#!json
+{
+    "customPreferences": {
+       "CYCLING": ["RECOMMENDED", "SHORTEST", "GREEN"],
+       "CAR": ["RECOMMENDED", "SHORTEST", "GREEN"]
+    }
+}
+```
+
+***
 #### Portalconfig.menu.tool.routing.directionsSettings.styleRoute
 
 Routing-Werkzeug Routenplanung Routen Style Optionen.

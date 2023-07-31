@@ -141,6 +141,9 @@ export default class MapHandler {
         if (Array.isArray(ids)) {
             return new Set(ids).size;
         }
+        else if (isObject(ids)) {
+            return Object.keys(ids).length;
+        }
         return 0;
     }
 
@@ -310,26 +313,34 @@ export default class MapHandler {
      * @returns {void}
      */
     addItemsToLayer (filterId, items, extern) {
-        if (!Array.isArray(this.filteredIds[filterId]) || !Array.isArray(items)) {
+        if (!Array.isArray(this.filteredIds[filterId]) && !isObject(this.filteredIds[filterId]) || !Array.isArray(items)) {
             return;
         }
-        const layerModel = this.getLayerModelByFilterId(filterId);
+        const layerModel = this.getLayerModelByFilterId(filterId),
+            uniqueProperties = {};
 
         if (!isObject(layerModel) || typeof layerModel.get !== "function") {
             return;
         }
 
-        items.forEach(item => {
-            if (isObject(item)) {
-                if (layerModel instanceof VectorTileLayer && typeof item.get === "function") {
-                    this.filteredIds[filterId].push(item.get("id"));
+        if (layerModel instanceof VectorTileLayer) {
+            items.forEach(item => {
+                if (!isObject(item)) {
+                    return;
                 }
-                else if (typeof item.getId === "function") {
-                    this.filteredIds[filterId].push(item.getId());
+                uniqueProperties[JSON.stringify(item.getProperties())] = true;
+            });
+            this.filteredIds[filterId] = uniqueProperties;
+        }
+        else {
+            items.forEach(item => {
+                if (isObject(item)) {
+                    if (typeof item.getId === "function") {
+                        this.filteredIds[filterId].push(item.getId());
+                    }
                 }
-            }
-        });
-
+            });
+        }
         if (extern) {
             layerModel.get("layerSource").addFeatures(items);
         }

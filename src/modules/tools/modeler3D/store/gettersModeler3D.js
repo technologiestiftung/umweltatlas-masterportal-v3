@@ -100,22 +100,30 @@ const getters = {
      * @param {Cesium.Entity} polygon the polygon
      * @returns {Cesium.Cartesian3} the Cartesian center position
      */
-    getCenterFromPolygon: () => (polygon) => {
-        if (polygon?.polygon?.hierarchy) {
-            const positions = polygon.polygon.hierarchy.getValue().positions,
-                center = positions.reduce(
-                    (sum, position) => {
-                        Cesium.Cartesian3.add(sum, position, sum);
-                        return sum;
-                    },
-                    {x: 0, y: 0, z: 0}
-                );
-
-            Cesium.Cartesian3.divideByScalar(center, positions.length, center);
-
-            return center;
+    getCenterFromGeometry: () => (geometry) => {
+        if (!geometry) {
+            return undefined;
         }
-        return undefined;
+        let positions;
+
+        if (geometry.polygon) {
+            positions = geometry.polygon.hierarchy.getValue().positions;
+        }
+        else if (geometry.polyline) {
+            positions = geometry.polyline.positions.getValue();
+        }
+
+        const center = positions.reduce(
+            (sum, position) => {
+                Cesium.Cartesian3.add(sum, position, sum);
+                return sum;
+            },
+            {x: 0, y: 0, z: 0}
+        );
+
+        Cesium.Cartesian3.divideByScalar(center, positions.length, center);
+
+        return center;
     },
     wasDrawn (state, getter) {
         return getter.entities.getById(state.currentModelId)?.wasDrawn;

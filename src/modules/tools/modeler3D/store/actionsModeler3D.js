@@ -106,7 +106,7 @@ const actions = {
     updatePositionUI ({commit, dispatch, getters, state}) {
         const entities = getters.entities,
             entity = entities.getById(state.currentModelId),
-            entityPosition = entity?.position?.getValue() || getters.getCenterFromPolygon(entity);
+            entityPosition = entity?.position?.getValue() || getters.getCenterFromGeometry(entity);
 
         if (entityPosition) {
             dispatch("transformFromCartesian", entityPosition);
@@ -202,7 +202,7 @@ const actions = {
         const entities = getters.entities,
             entity = entities.getById(state.currentModelId);
 
-        if (entity?.wasDrawn && entity?.polygon?.hierarchy) {
+        if (entity?.polygon?.hierarchy) {
             const hierarchy = entity.polygon.hierarchy.getValue(),
                 length = entity.polygon.extrudedHeight - entity.polygon.height + 5;
 
@@ -220,7 +220,7 @@ const actions = {
                     adaptCylinderToEntity(entity, cylinder, position);
             });
         }
-        else if (entity?.wasDrawn && entity?.polyline?.positions) {
+        else if (entity?.polyline?.positions) {
             const positions = entity.polyline.positions.getValue();
 
             commit("setActiveShapePoints", positions);
@@ -278,24 +278,26 @@ const actions = {
      * @returns {void}
     */
     movePolygon ({dispatch, getters, state}, {entity, position}) {
-        if (entity && entity.wasDrawn && entity.polygon && entity.polygon.hierarchy) {
-            const positions = entity.polygon.hierarchy.getValue().positions,
-                center = getters.getCenterFromPolygon(entity),
-                positionDelta = Cesium.Cartesian3.subtract(position, center, new Cesium.Cartesian3());
-
-            if (entity.clampToGround) {
-                state.height = getters.scene.globe.getHeight(Cesium.Cartographic.fromCartesian(center));
-            }
-            entity.polygon.height = state.height;
-            entity.polygon.extrudedHeight = state.extrudedHeight + state.height;
-
-            positions.forEach((pos, index) => {
-                Cesium.Cartesian3.add(pos, positionDelta, pos);
-                state.cylinderPosition[index] = pos;
-            });
-
-            dispatch("transformFromCartesian", getters.getCenterFromPolygon(entity));
+        if (!entity?.polygon?.hierarchy) {
+            return;
         }
+
+        const positions = entity.polygon.hierarchy.getValue().positions,
+            center = getters.getCenterFromGeometry(entity),
+            positionDelta = Cesium.Cartesian3.subtract(position, center, new Cesium.Cartesian3());
+
+        if (entity.clampToGround) {
+            state.height = getters.scene.globe.getHeight(Cesium.Cartographic.fromCartesian(center));
+        }
+        entity.polygon.height = state.height;
+        entity.polygon.extrudedHeight = state.extrudedHeight + state.height;
+
+        positions.forEach((pos, index) => {
+            Cesium.Cartesian3.add(pos, positionDelta, pos);
+            state.cylinderPosition[index] = pos;
+        });
+
+        dispatch("transformFromCartesian", getters.getCenterFromGeometry(entity));
     },
     /**
      * Moves a given polyline to a given new position.
@@ -304,16 +306,18 @@ const actions = {
      * @returns {void}
     */
     movePolyline ({state}, {entity, position}) {
-        if (entity && entity.wasDrawn && entity.polyline && entity.polyline.positions) {
-            const positions = entity.polyline.positions.getValue(),
-                boundingSphereCenter = Cesium.BoundingSphere.fromPoints(positions).center,
-                positionDelta = Cesium.Cartesian3.subtract(position, boundingSphereCenter, new Cesium.Cartesian3());
-
-            positions.forEach((pos, index) => {
-                Cesium.Cartesian3.add(pos, positionDelta, pos);
-                state.cylinderPosition[index] = pos;
-            });
+        if (!entity?.polyline?.positions) {
+            return;
         }
+
+        const positions = entity.polyline.positions.getValue(),
+            boundingSphereCenter = Cesium.BoundingSphere.fromPoints(positions).center,
+            positionDelta = Cesium.Cartesian3.subtract(position, boundingSphereCenter, new Cesium.Cartesian3());
+
+        positions.forEach((pos, index) => {
+            Cesium.Cartesian3.add(pos, positionDelta, pos);
+            state.cylinderPosition[index] = pos;
+        });
     }
 };
 

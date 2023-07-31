@@ -110,7 +110,7 @@ describe("src/modules/tools/filter/components/SnippetCheckbox.vue", () => {
     });
 
     describe("emitCurrentRule", () => {
-        it("should emit changeRule function with the expected values", () => {
+        it("should emit changeRule function with the expected values if parameter is true", () => {
             const wrapper = shallowMount(SnippetCheckbox, {
                 propsData: {
                     snippetId: 1234,
@@ -131,6 +131,33 @@ describe("src/modules/tools/filter/components/SnippetCheckbox.vue", () => {
                 attrName: "attrName",
                 operator: "EQ",
                 value: true,
+                tagTitle: "attrName"
+            });
+            wrapper.destroy();
+        });
+
+        it("should emit changeRule function with the expected values if parameter is not the second element of value", () => {
+            const wrapper = shallowMount(SnippetCheckbox, {
+                propsData: {
+                    snippetId: 1234,
+                    visible: false,
+                    attrName: "attrName",
+                    operator: "EQ",
+                    value: ["yes", "no"]
+                },
+                localVue
+            });
+
+            wrapper.vm.emitCurrentRule("yes", "startup");
+            expect(wrapper.emitted("changeRule")).to.be.an("array").and.to.have.lengthOf(1);
+            expect(wrapper.emitted("changeRule")[0]).to.be.an("array").and.to.have.lengthOf(1);
+            expect(wrapper.emitted("changeRule")[0][0]).to.deep.equal({
+                snippetId: 1234,
+                startup: "startup",
+                fixed: true,
+                attrName: "attrName",
+                operator: "EQ",
+                value: "yes",
                 tagTitle: "attrName"
             });
             wrapper.destroy();

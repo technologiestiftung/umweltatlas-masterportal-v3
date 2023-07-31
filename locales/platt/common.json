@@ -408,101 +408,101 @@
             "modeler3D": {
                 "entity": {
                     "captions": {
-                        "backToList": "Trügg to List",
-                        "delete": "Model löschen",
-                        "deletionTitle": "3D-Model \"{{name}}\" löschen",
-                        "editInfo": "De Attributen vun dat utwählte Model verännern.",
-                        "editModel": "3D-Model \"{{name}}\" ännern",
-                        "incrementTooltip": "Holl Shift drückt, üm den Weert gröber to stiegen.",
-                        "modelName": "Modelnaam",
-                        "pickupPlace": "Dubbelt op en Objekt klicken, um dat op tonehm'n oder to sett'n.",
-                        "projectionInfo": "Oppepas! Wenn du dat WGS84-Koordinatensystem bruukst, köönt Fehlers in de Genauigkeit opträen. Wi raadt an, dekommaale Notatschoon to bruk'n.",
-                        "rotationPlaceholder": "Inkrassieren/Unkrassieren vun Schritten",
-                        "rotation": "Dreehn",
-                        "rotationSwitch": "Dreeh-Schritten",
+                        "backToList": "Tüch na'n Überblick",
+                        "delete": "Modell löschen",
+                        "deletionTitle": "3D-Modell \"{{name}}\" löschen",
+                        "editInfo": "Ännere de Utseggen vun dat utwählte Modell.",
+                        "editModel": "3D-Modell \"{{name}}\" ännern",
+                        "incrementTooltip": "Holl Shift drückt, üm den Wert gröber to vergrötern.",
+                        "modelName": "Modellnaam",
+                        "pickupPlace": "Dubbelklick op 'n Inportobjekt, üm dat opnahmen oder setten.",
+                        "projectionInfo": "Achtung! Wenn du dat WGS84-Koordinatensystem bruukst, köönt dat ungenau warrn. Wi radden de Bruuk vun de Dezimalnotatschoon.",
+                        "rotationPlaceholder": "Inkrement-/Dekrement-Schritt",
+                        "rotation": "Dreehen",
+                        "rotationSwitch": "Dreehschritt",
                         "scale": "Skalierung",
-                        "steps": "Schritte",
-                        "visibilityTitle": "3D-Model \"{{name}}\" wiesen/verstecken",
-                        "zoomTo": "3D-Model \"{{name}}\" inzoomen"
+                        "steps": "Schritt",
+                        "visibilityTitle": "3D-Modell \"{{name}}\" an-/utblen",
+                        "zoomTo": "In de Richtig vun 3D-Modell \"{{name}}\" inwischen"
                     },
                     "deleteInteraction": {
                         "confirm": "Löschen",
-                        "headline": "Oppepas",
-                        "text": "Bist du sicher, dat du dat Model \"{{name}}\" löschen wüllt?"
+                        "headline": "Achtung",
+                        "text": "Bist du sicher, dat du dat Modell \"{{name}}\" löschen willst?"
                     },
                     "projections": {
                         "adaptToHeight": "An Terrain anpassen",
                         "cartesian": {
-                            "eastingLabel": "Ostwaards",
-                            "northingLabel": "Noords"
+                            "eastingLabel": "Östlich",
+                            "northingLabel": "Nördlich"
                         },
                         "hdms": {
                             "eastingLabel": "Längengrod",
-                            "northingLabel": "Breedengrod"
+                            "northingLabel": "Breitengrod"
                         },
-                        "height": "Höögte",
+                        "height": "Hööch",
                         "projection": "Koordinatensystem"
                     }
                 },
                 "import": {
                     "alertingMessages": {
-                        "featureError": "En Funktion in disse Datei kunn nich lesen warrn.",
-                        "fileSizeError": "De Dateigrött översteiht de Grenze vun 100 MB.",
-                        "formatError": "De Datei \"{{filename}}\" kunn nich lesen warrn. Kiek doch mal, ob de Datei dat Format *.gltf, *.obj oder *.dae hett.",
-                        "missingFileContent": "Fehler bi't Lesen vun de Datei \"{{filename}}\". Kiek nochmol na de Dateislag un de Inholt. Wenn de Datei fehlerfrei is, dann nipp dor an den Support.",
-                        "missingFormat": "Dat Format \"{{format}}\" vun de Datei warrt nich unterstützt. Nipp dor an den Support.",
+                        "featureError": "Een Feature in disse Datei kunn nich lesen warrn.",
+                        "fileSizeError": "De Dateigrött överstiggt dat Limit vun 100 MB.",
+                        "formatError": "De Datei \"{{filename}}\" kunn nich lesen warrn. Kiek biten, ob de Datei dat Format *.gltf, *.obj, *.dae oder *.geojson hett.",
+                        "missingFileContent": "Fehler bi dat Lesen vun de Datei \"{{filename}}\". Kiek biten dat Dateiformat un den Inholt. Wenn de Datei fehlerfree is, nehm Kontak op mit den Support.",
+                        "missingFormat": "Dat Dateiformat \"{{format}}\" ward nich ünnerstützt. Neem Kontak op mit den Support.",
                         "success": "De Datei \"{{filename}}\" is erfolgreich importeert.",
                         "successPartly": "De Datei \"{{filename}}\" is deels importeert."
                     },
                     "captions": {
-                        "introInfo": "Mit den Importeer kannst du digitale Städbaulich Entwürfe in dat bestahn 3D-Modell vun de Stadt laden, opmaken un ünnersöken.",
-                        "introInfo2": "Importeer eenfach mit Drag and Drop oder mit dat Opmaken-Dialog vun den Nettkieker.",
-                        "introFormats": "Du kannst glTF- (.gltf), OBJ- (.obj), Collada- (.dae) oder GeoJSON-Dateien importeern.",
-                        "successfullyImportedLabel": "Importeerte 3D-Models:"
+                        "introInfo": "Mit de Importierer kannst du digitale Stadtplanungsdüürlöp in dat bestehende 3D-Modell vun de Stadt laden, visualiseren un analysieren.",
+                        "introInfo2": "Importier dien wünschte Datei eenfach per Drag un Drop oder gebruuk dat Dialogfenster vun'n Browser.",
+                        "introFormats": "Du kannst glTF- (*.gltf), OBJ- (*.obj), Collada- (*.dae) oder GeoJSON-Dateien importeeren.",
+                        "successfullyImportedLabel": "Importeerte 3D-Modelle:"
                     }
                 },
                 "draw": {
                     "captions": {
-                        "beginModelling": "3D-Objekt modelleren",
-                        "clampToGround": "An'n Hööhenmodel anpassen",
+                        "beginModelling": "3D-Objekt modellieren",
+                        "clampToGround": "An Höhenmodell orienteren",
                         "color": "Farv",
-                        "controlInfo": "Gah mit de linke Steed üm Punkten to setten. Mit Rechtsklick op dat Teken trech dat Teken af.",
-                        "drawing": "Teeken",
+                        "controlInfo": "Klick mit de link Maustast, um Punten to setten. Klick mit de recht Maustast, um dat Teken af to slöten.",
+                        "drawing": "Teken",
                         "drawName": "Naam",
-                        "drawnModels": "Tekende Modellen:",
+                        "drawnModels": "Teken Modelle:",
                         "export": "Exporteer",
-                        "exportTitle": "Alle tekende modellen exportieren as GeoJSON.",
-                        "extrudedHeight": "Uutropen Heugde",
-                        "fillColor": "Uutvullen-Farv",
-                        "fillTransparency": "Deutlichkeit",
+                        "exportTitle": "All teken Modelle in GeoJSON-Format exporteer.",
+                        "extrudedHeight": "Extrudierte Hööch",
+                        "fillColor": "Füllfarv",
                         "geometry": "Geometrie",
-                        "introInfo": "Mit dat Tekenwarktüüg kannst du verschedene geometrische Formen op de Kaart teken.",
-                        "options": "Opties",
-                        "strokeColor": "Umranden-Farv",
-                        "strokeWidth": "Linnendikte"
+                        "introInfo": "Mit düsse Funktion kannst du 3D-Objekte op de Karte tekenen un disse individuell ännern un gestalten. Du kannst so Gebööde skizzeeren un achteraf bspw. Schattensimulationen utföhren.<br><br>Dat Tool ermöglicht ok dat Teken up al bestahn Gebööde un importeerte Objekte. Vörussetzung is, dat du de Terrainhööchte aktiveert hest.<br><br>Über de Export-Funktioon kannst du dien Konzepten exporteren un later wedder mit de Importierer in de Applicatschoon laden.",
+                        "outlineColor": "Umrandungsfarv",
+                        "transparency": "Dörchsichtegheid",
+                        "lineWidth": "Strichstaarkt"
                     },
                     "geometries": {
-                        "polygon": "Poli",
-                        "line": "Lien"
+                        "polygon": "Polygon",
+                        "line": "Lienie"
                     }
                 },
                 "options": {
                     "captions": {
-                        "enableFunction": "Funktion de-/aktivieren",
-                        "hideObjectInfo": "Wenn anmaakt, kannst du dat bestännige Gebüüd mit en Klk-Hint anmaken.",
-                        "hideSwitchLabel": "Buudenge verstecken mit Mausklick",
-                        "povInfo": "Hier hest du de Mööglichkeit, sik in de Sicht vun en Footgänger to versetten. Sodraad du den Zylinder mit en Muusklick op de Kaart settst, hest du an düsse Steed in de Footgängeransicht keemen. <br><br>In düsse Ansicht kannst du sück mit de Muus ümkieken. Üm torüch to de Utgangspositschoon torüchtokehren, drück de Escape-Taste (ESC).",
-                        "povTitle": "Fußgängerperspektive",
-                        "visibilityTitle": "Sichtborkeitsoptschonen"
+                        "enableFunction": "Funktschoon aktiveeren/deaktiveeren",
+                        "hideObjectInfo": "De bestahn Gebööde köönt afblen warrn in ehr Darstellun, so dat du importeerte Elemente up dat entsprecende Grundstück setten kannst.<br><br>Start düsse Funktschoon över Aktiveeren un klick op de gewünschte Objekte, dormit se nu afblen warrn in de Ankiek.<br><br>All afblendeten Objekte komen vör in een Liest un köönt dor wedder aktiveert warrn.",
+                        "hideSwitchLabel": "Gebööde mit Muusklick afblen",
+                        "pov": "To de Löper-Ankiek springen",
+                        "povInfo": "Hier hest du de Mööglichkeit, de Sichtperspektive vun de Löper to övernähmen un dienrüm in de Stadt umtekieken.<br><br>Navigeer to de gewünschte Positschoon, soweit du den Zylinder in de Karte mit 'n Muusklick setts, kumst du an disse Stee in de Löper-Ankiek.<br><br>Mit Muusbewegungen kannst du dien Sichtfeld verändern. Üm to de Anfangspositschoon torügg to kehren, drück op de Tast ESC (Escape).",
+                        "povTitle": "Löper-Perspektive",
+                        "visibilityTitle": "Sichtborheits-Optschonen"
                     }
                 },
                 "nav": {
-                    "drawTitle": "Trecken",
-                    "importTitle": "Importeern",
-                    "options": "Opties"
+                    "drawTitle": "Teken",
+                    "importTitle": "Importeer",
+                    "options": "Optschonen"
                 },
-                "hiddenObjectsLabel": "Verstopte Buudenge:",
-                "title": "3D-Modelleur"
+                "hiddenObjectsLabel": "Afblendete Gebööde:",
+                "title": "3D-Modellierer"
             },
             "parcelSearch": {
                 "wrongConfig": "De Konfiguration giff dat nich",

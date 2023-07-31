@@ -8,6 +8,7 @@ import Modeler3D from "../../../store/indexModeler3D";
 import Modeler3DDraw from "../../../components/Modeler3DDraw.vue";
 import Modeler3DImport from "../../../components/Modeler3DImport.vue";
 import Modeler3DEntityModel from "../../../components/Modeler3DEntityModel.vue";
+import getGfiFeaturesByTileFeatureModule from "../../../../../../api/gfi/getGfiFeaturesByTileFeature";
 
 const localVue = createLocalVue();
 
@@ -15,7 +16,12 @@ localVue.use(Vuex);
 config.mocks.$t = key => key;
 
 describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
-    const mockConfigJson = {
+    const mockMapGetters = {
+            mouseCoordinate: () => {
+                return [11.549606597773037, 48.17285700012215];
+            }
+        },
+        mockConfigJson = {
             Portalconfig: {
                 menu: {
                     tools: {
@@ -38,7 +44,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
         ],
         entityList = [
             {
-                id: 1,
+                id: "entityId",
                 position: {getValue: () => "position1"},
                 rotation: 0,
                 model: {
@@ -57,16 +63,30 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
                     silhouetteColor: "white",
                     silhouetteSize: 10,
                     colorBlendAmount: 2
-                }
+                },
+                cylinder: {length: 4}
             }
         ],
         entities = {
             getById: (val) => {
                 return entityList.find(x => x.id === val);
-            }
+            },
+            values: [{id: "FloatingPointId", positionIndex: 0, polygon: {length: 4}}]
+        },
+        pickRayResult = {
+            origin: {},
+            direction: {}
         },
         scene = {
-            requestRender: sinon.stub()
+            requestRender: sinon.stub(),
+            camera: {
+                getPickRay: sinon.stub().returns(pickRayResult)
+            },
+            globe: {
+                pick: sinon.stub().returns([11.549606597773037, 48.17285700012215]),
+                getHeight: sinon.stub().returns(5)
+            },
+            sampleHeight: sinon.stub()
         },
         map3D = {
             id: "1",
@@ -81,27 +101,72 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
                     }
                 };
             }
-        };
+        },
+        event = {position: "winCoords"};
 
     let store,
         wrapper,
-        origUpdateUI;
+        origUpdateUI,
+        origMovePolygon,
+        origMovePolyline,
+        origUpdatePositionUI;
 
     beforeEach(() => {
         mapCollection.clear();
         mapCollection.addMap(map3D, "3D");
 
         global.Cesium = {
+            ColorBlendMode: {
+                HIGHLIGHT: 0
+            },
+            Color: {
+                fromCssColorString: () => {
+                    return "white";
+                },
+                fromAlpha: () => {
+                    return "RED";
+                }
+            },
+            CallbackProperty: sinon.stub(),
             Entity: function (id) {
                 this.id = id;
             },
-            Cesium3DTileFeature: function (pickId) {
-                this.pickId = pickId;
+            Cesium3DTileFeature: function (options) {
+                this.tileset = options.tileset;
+            },
+            defaultValue: () => {
+                return new global.Cesium.Entity("entityId");
+            },
+            Cartesian3: {
+                equals: () => false
+            },
+            Cartographic: {
+                fromDegrees: () => ({
+                    longitude: 0.17443853256965697,
+                    latitude: 0.9346599366554966,
+                    height: 6.134088691520464
+                }),
+                fromCartesian: () => ({
+                    longitude: 0.17443853256965697,
+                    latitude: 0.9346599366554966,
+                    height: 6.134088691520464
+                }),
+                toCartesian: () => ({
+                    x: 3739310.9273738265,
+                    y: 659341.4057539968,
+                    z: 5107613.232959453
+                })
             }
         };
 
         origUpdateUI = Modeler3D.actions.updateUI;
         Modeler3D.actions.updateUI = sinon.spy();
+        origMovePolygon = Modeler3D.actions.movePolygon;
+        Modeler3D.actions.movePolygon = sinon.spy();
+        origMovePolyline = Modeler3D.actions.movePolyline;
+        Modeler3D.actions.movePolyline = sinon.spy();
+        origUpdatePositionUI = Modeler3D.actions.updatePositionUI;
+        Modeler3D.actions.updatePositionUI = sinon.spy();
 
         store = new Vuex.Store({
             namespaces: true,
@@ -111,6 +176,10 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
                     modules: {
                         Modeler3D
                     }
+                },
+                Maps: {
+                    namespaced: true,
+                    getters: mockMapGetters
                 }
             },
             getters: {
@@ -119,18 +188,21 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
             state: {
                 configJson: mockConfigJson
             }
+
         });
         crs.registerProjections(namedProjections);
 
         store.commit("Tools/Modeler3D/setActive", true);
         store.commit("Tools/Modeler3D/setCurrentView", "import");
-        store.commit("Tools/Modeler3D/setCurrentModelId", null);
         store.commit("Tools/Modeler3D/setHiddenObjects", []);
         store.commit("Tools/Modeler3D/setImportedModels", [{id: 1, name: "modelName", heading: 120, scale: 1}]);
     });
 
     afterEach(() => {
         Modeler3D.actions.updateUI = origUpdateUI;
+        Modeler3D.actions.movePolygon = origMovePolygon;
+        Modeler3D.actions.movePolyline = origMovePolyline;
+        Modeler3D.actions.updatePositionUI = origUpdatePositionUI;
 
         sinon.restore();
         if (wrapper) {
@@ -195,6 +267,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
     });
 
     it("renders hiddenObject List when set", async () => {
+        store.commit("Tools/Modeler3D/setCurrentModelId", null);
         store.commit("Tools/Modeler3D/setHiddenObjects", [
             {
                 id: "id",
@@ -209,6 +282,40 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
 
         expect(wrapper.find("#tool-modeler3D").exists()).to.be.true;
         expect(wrapper.find("#hidden-objects").exists()).to.be.true;
+    });
+
+    describe("Modeler3D.vue watcher", () => {
+        it("watch to currentModelId shall highlight selected Entity and populate UI", async () => {
+            wrapper = shallowMount(Modeler3DComponent, {store, localVue});
+
+            wrapper.vm.highlightEntity = sinon.spy();
+            store.commit("Tools/Modeler3D/setCurrentModelId", "entityId");
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.vm.highlightEntity.calledWith(entityList[0]));
+            expect(store.state.Tools.Modeler3D.currentModelPosition).to.eql("position1");
+            expect(Modeler3D.actions.updateUI.called).to.be.true;
+        });
+
+        it("watch to currentModelId shall reset highlighting of deselected Entity", async () => {
+            store.commit("Tools/Modeler3D/setCurrentModelId", 2);
+            wrapper = shallowMount(Modeler3DComponent, {store, localVue});
+            wrapper.vm.highlightEntity = sinon.spy();
+            global.Cesium.Color = {
+                WHITE: "#ffffff"
+            };
+
+            store.commit("Tools/Modeler3D/setCurrentModelId", null);
+            await wrapper.vm.$nextTick();
+
+            expect(entityList[1].model.color).to.be.equals("#ffffff");
+            expect(entityList[1].model.silhouetteColor).to.be.null;
+            expect(entityList[1].model.silhouetteSize).to.be.equals(0);
+            expect(entityList[1].model.colorBlendAmount).to.be.equals(0);
+
+            expect(scene.requestRender.called).to.be.true;
+            expect(store.state.Tools.Modeler3D.currentModelPosition).to.be.null;
+        });
     });
 
     describe("Modeler3D.vue methods", () => {
@@ -238,8 +345,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
 
         it("selectObject picks an entity", () => {
             let currentModelId = "";
-            const event = {position: "winCoords"},
-                pickObject = new global.Cesium.Entity("entityId");
+            const pickObject = new global.Cesium.Entity("entityId");
 
             scene.pick = sinon.stub().returns(pickObject);
             global.Cesium.defined = sinon.stub().returns(true);
@@ -255,51 +361,42 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
 
         it("selectObject picks object and adds it to list", () => {
             let hiddenObjects = [];
-            const event = {position: "winCoords"},
-                pickObject = new global.Cesium.Cesium3DTileFeature({
-                    object: {
-                        show: true,
-                        featureId: "featureId",
-                        pickId: {key: "pickId"},
-                        tileset: {layerReferenceId: "layerId"}
-                    }
-                });
+            const pickObject = new global.Cesium.Cesium3DTileFeature({tileset: {}}),
+                tileSetModel = {
+                    hideObjects: sinon.stub()
+                },
+                radioStub = sinon.stub(Radio, "request").returns([tileSetModel]);
 
             scene.pick = sinon.stub().returns(pickObject);
             global.Cesium.defined = sinon.stub().returns(true);
             global.Cesium.defaultValue = sinon.stub().returns(false);
+            sinon.stub(getGfiFeaturesByTileFeatureModule, "getGfiFeaturesByTileFeature").returns([{
+                getProperties: () => ({
+                    gmlid: "gmlId"
+                })
+            }]);
 
             wrapper = shallowMount(Modeler3DComponent, {store, localVue});
             wrapper.vm.selectObject(event);
 
             hiddenObjects = store.state.Tools.Modeler3D.hiddenObjects;
 
-            expect(pickObject.pickId.object.show).to.be.false;
+            expect(radioStub.called).to.be.true;
+            expect(getGfiFeaturesByTileFeatureModule.getGfiFeaturesByTileFeature.calledWith(pickObject));
+            expect(tileSetModel.hideObjects.calledWith(["gmlId"])).to.be.true;
             expect(hiddenObjects.length).to.be.equals(1);
-            expect(hiddenObjects[0].id).to.be.equals("featureId");
-            expect(hiddenObjects[0].pickId).to.be.equals("pickId");
-            expect(hiddenObjects[0].layerId).to.be.equals("layerId");
+            expect(hiddenObjects[0].name).to.be.equals("gmlId");
         });
 
         it("showObject shows the hidden object and deletes it from list", () => {
             let hiddenObjects = [];
             const object = {
-                    id: "featureId",
-                    pickId: "pickId",
-                    layerId: "layerId",
-                    name: "Object featureId"
+                    name: "gmlId"
                 },
-                pickObject = {
-                    pickId: {key: "pickId"},
-                    show: false
-                };
-
-            scene.primitives = {
-                _primitives: [{
-                    layerReferenceId: "layerId",
-                    _selectedTiles: [{content: {getFeature: sinon.stub().returns(pickObject)}}]
-                }]
-            };
+                tileSetModel = {
+                    showObjects: sinon.stub()
+                },
+                radioStub = sinon.stub(Radio, "request").returns([tileSetModel]);
 
             wrapper = shallowMount(Modeler3DComponent, {store, localVue});
             wrapper.vm.showObject(object);
@@ -307,41 +404,182 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
             hiddenObjects = store.state.Tools.Modeler3D.hiddenObjects;
 
             expect(hiddenObjects.length).to.eql(0);
-            expect(pickObject.show).to.be.true;
-        });
-    });
-
-    describe("Modeler3D.vue watcher", () => {
-        it("watch to currentModelId shall highlight selected Entity and populate UI", async () => {
-            wrapper = shallowMount(Modeler3DComponent, {store, localVue});
-
-            wrapper.vm.highlightEntity = sinon.spy();
-            store.commit("Tools/Modeler3D/setCurrentModelId", 1);
-            await wrapper.vm.$nextTick();
-
-            expect(wrapper.vm.highlightEntity).to.be.calledWith(entityList[0]);
-            expect(store.state.Tools.Modeler3D.currentModelPosition).to.eql("position1");
-            expect(Modeler3D.actions.updateUI).to.be.called;
+            expect(radioStub.called).to.be.true;
+            expect(tileSetModel.showObjects.calledWith(["gmlId"])).to.be.true;
         });
 
-        it("watch to currentModelId shall reset highlighting of deselected Entity", async () => {
-            store.commit("Tools/Modeler3D/setCurrentModelId", 2);
+        it("should set cursor to \"grab\" when Cesium.defined returns true", async () => {
             wrapper = shallowMount(Modeler3DComponent, {store, localVue});
-            wrapper.vm.highlightEntity = sinon.spy();
-            global.Cesium.Color = {
-                WHITE: "#ffffff"
+            global.Cesium.defaultValue = () => {
+                return new global.Cesium.Entity("entityId");
             };
+            store.commit("Tools/Modeler3D/setCurrentModelId", "entityId");
+            global.Cesium.defined = sinon.stub().returns(true);
 
-            store.commit("Tools/Modeler3D/setCurrentModelId", null);
+            wrapper.vm.cursorCheck(event);
+            expect(document.body.style.cursor).to.equal("grab");
+        });
+
+        it("should set cursor to \"grab\" when isDrawing is true", async () => {
+            wrapper = shallowMount(Modeler3DComponent, {store, localVue});
+            global.Cesium.defaultValue = () => {
+                return new global.Cesium.Entity("otherId");
+            };
+            store.commit("Tools/Modeler3D/setCurrentModelId", "null");
+            global.Cesium.defined = sinon.stub().returns(true);
+
+            wrapper.vm.cursorCheck(event);
+            expect(document.body.style.cursor).to.equal("pointer");
+        });
+
+        it("should set cursor to \"auto\" when Cesium.defined returns false", async () => {
+            wrapper = shallowMount(Modeler3DComponent, {store, localVue});
+            store.commit("Tools/Modeler3D/setCurrentModelId", "otherId");
+            global.Cesium.defined = sinon.stub().returns(false);
+
+            wrapper.vm.cursorCheck(event);
+            expect(document.body.style.cursor).to.equal("auto");
+        });
+
+        it("should update the position when moving a cylinder with clampToGround set to true", async () => {
+            wrapper = shallowMount(Modeler3DComponent, {store, localVue});
+            entityList[0].clampToGround = true;
+            store.commit("Tools/Modeler3D/setCurrentModelId", "entityId");
+            await wrapper.vm.$nextTick();
+            store.commit("Tools/Modeler3D/setCylinderId", 2);
+            store.commit("Tools/Modeler3D/setIsDragging", true);
+            global.Cesium.defined = sinon.stub().returns(true);
+
+            wrapper.vm.moveCylinder(event);
+            expect(wrapper.vm.currentPosition).to.eql([11.549606597773037, 48.17285700012215]);
+        });
+
+        it("should update the position when moving a cylinder with clampToGround set to false", async () => {
+            wrapper = shallowMount(Modeler3DComponent, {store, localVue});
+            entityList[0].clampToGround = false;
+            store.commit("Tools/Modeler3D/setCurrentModelId", "entityId");
+            await wrapper.vm.$nextTick();
+            store.commit("Tools/Modeler3D/setCylinderId", 2);
+            store.commit("Tools/Modeler3D/setIsDragging", true);
+            global.Cesium.defined = sinon.stub().returns(true);
+
+            wrapper.vm.moveCylinder(event);
+            expect(wrapper.vm.currentPosition).to.eql({
+                x: 3739310.9273738265,
+                y: 659341.4057539968,
+                z: 5107613.232959453
+            });
+        });
+
+        it("should perform actions when dragging a polygon", async () => {
+            wrapper = shallowMount(Modeler3DComponent, {store, localVue});
+            entityList[0].clampToGround = true;
+            entityList[0].polygon = true;
+            entityList[0].polyline = false;
+            store.commit("Tools/Modeler3D/setCurrentModelId", "entityId");
+            await wrapper.vm.$nextTick();
+            store.commit("Tools/Modeler3D/setCylinderId", 2);
+            store.commit("Tools/Modeler3D/setIsDragging", true);
+            global.Cesium.defined = sinon.stub().returns(true);
+
+            wrapper.vm.onMouseMove(event);
+            expect(Modeler3D.actions.movePolygon).to.be.called;
+            expect(Modeler3D.actions.updatePositionUI).to.be.called;
+        });
+        it("should perform actions when dragging a polyline", async () => {
+            wrapper = shallowMount(Modeler3DComponent, {store, localVue});
+            entityList[0].polygon = false;
+            entityList[0].polyline = true;
+            store.commit("Tools/Modeler3D/setCurrentModelId", "entityId");
+            await wrapper.vm.$nextTick();
+            store.commit("Tools/Modeler3D/setCylinderId", 2);
+            store.commit("Tools/Modeler3D/setIsDragging", true);
+            global.Cesium.defined = sinon.stub().returns(true);
+
+            wrapper.vm.onMouseMove(event);
+            expect(Modeler3D.actions.movePolyline).to.be.called;
+            expect(Modeler3D.actions.updatePositionUI).to.be.called;
+        });
+        it("should perform actions when dragging of a cylinder is finished", async () => {
+            wrapper = shallowMount(Modeler3DComponent, {store, localVue});
+            entityList[0].polygon = false;
+            entityList[0].polyline = false;
+            store.commit("Tools/Modeler3D/setCurrentModelId", "entityId");
+            wrapper.vm.removeInputActions = sinon.spy();
+            await wrapper.vm.$nextTick();
+            store.commit("Tools/Modeler3D/setCylinderId", 2);
+            store.commit("Tools/Modeler3D/setIsDragging", true);
+
+            wrapper.vm.onMouseUp(event);
+            expect(wrapper.vm.removeInputActions).to.be.called;
+            expect(store.state.Tools.Modeler3D.isDragging).to.be.false;
+            expect(store.state.Tools.Modeler3D.cylinderId).to.eql(null);
+            expect(document.body.style.cursor).to.equal("auto");
+        });
+        it("should perform actions when dragging of a drawn object is finished", async () => {
+            wrapper = shallowMount(Modeler3DComponent, {store, localVue});
+            entityList[0].polygon = false;
+            entityList[0].polyline = false;
+            store.commit("Tools/Modeler3D/setCurrentModelId", "entityId");
+            wrapper.vm.removeInputActions = sinon.spy();
+            await wrapper.vm.$nextTick();
+            store.commit("Tools/Modeler3D/setWasDrawn", true);
+            store.commit("Tools/Modeler3D/setIsDragging", true);
+
+            wrapper.vm.onMouseUp(event);
+            expect(wrapper.vm.removeInputActions).to.be.called;
+            expect(store.state.Tools.Modeler3D.isDragging).to.be.false;
+            expect(document.body.style.cursor).to.equal("auto");
+        });
+        it("should highlight a drawn polygon", async () => {
+            wrapper = shallowMount(Modeler3DComponent, {store, localVue});
+            entityList[0].polygon = {outline: true, outlineColor: "white", material: {
+                color: "RED"
+            }};
+            entityList[0].wasDrawn = true;
+            store.commit("Tools/Modeler3D/setCurrentModelId", "entityId");
+            await wrapper.vm.$nextTick();
+            store.commit("Tools/Modeler3D/setWasDrawn", true);
+            store.commit("Tools/Modeler3D/setIsDragging", true);
+
+            wrapper.vm.highlightEntity(entityList[0]);
+            expect(entityList[0].originalColor).to.eql(entityList[0].polygon.material.color);
+            expect(entityList[0].originalOutlineColor).to.eql(entityList[0].polygon.outlineColor);
+            expect(entityList[0].polygon.material.color).to.eql(
+                global.Cesium.Color.fromAlpha(global.Cesium.Color.fromCssColorString("RED"), parseFloat(1.0))
+            );
+            expect(entityList[0].polygon.outline).to.be.true;
+            expect(entityList[0].polygon.outlineColor).to.eql(global.Cesium.Color.fromCssColorString("white"));
+        });
+        it("should highlight a drawn polyline", async () => {
+            wrapper = shallowMount(Modeler3DComponent, {store, localVue});
+            entityList[0].polyline = {material: {
+                color: "RED"
+            }};
+            entityList[0].wasDrawn = true;
+            store.commit("Tools/Modeler3D/setCurrentModelId", "entityId");
+            await wrapper.vm.$nextTick();
+            store.commit("Tools/Modeler3D/setWasDrawn", true);
+            store.commit("Tools/Modeler3D/setIsDragging", true);
+
+            wrapper.vm.highlightEntity(entityList[0]);
+            expect(entityList[0].originalColor).to.eql(entityList[0].polyline.material.color);
+            expect(entityList[0].polyline.material.color).to.eql(
+                global.Cesium.Color.fromAlpha(global.Cesium.Color.fromCssColorString("RED"), parseFloat(1.0))
+            );
+        });
+        it("should handle the mouse move event for the pov cylinder", async () => {
+            wrapper = shallowMount(Modeler3DComponent, {store, localVue});
+            store.commit("Tools/Modeler3D/setCylinderId", 2);
             await wrapper.vm.$nextTick();
 
-            expect(entityList[1].model.color).to.be.equals("#ffffff");
-            expect(entityList[1].model.silhouetteColor).to.be.null;
-            expect(entityList[1].model.silhouetteSize).to.be.equals(0);
-            expect(entityList[1].model.colorBlendAmount).to.be.equals(0);
-
-            expect(scene.requestRender).to.be.called;
-            expect(store.state.Tools.Modeler3D.currentModelPosition).to.be.null;
+            wrapper.vm.moveHandler();
+            expect(document.body.style.cursor).to.equal("copy");
+            expect(wrapper.vm.currentCartesian).to.eql({
+                x: 3739310.9273738265,
+                y: 659341.4057539968,
+                z: 5107613.232959453
+            });
         });
     });
 });

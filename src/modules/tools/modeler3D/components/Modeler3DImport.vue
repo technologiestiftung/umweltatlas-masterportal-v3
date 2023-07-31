@@ -240,7 +240,7 @@ export default {
                 destination = Cesium.Cartographic.fromCartesian(entityPosition);
 
             scene.camera.flyTo({
-                destination: Cesium.Cartesian3.fromRadians(destination.longitude, destination.latitude, destination.height + 500)
+                destination: Cesium.Cartesian3.fromRadians(destination.longitude, destination.latitude, destination.height + 250)
             });
         }
     }
