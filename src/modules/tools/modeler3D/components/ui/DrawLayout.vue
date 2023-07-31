@@ -283,7 +283,7 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@import "~/css/mixins.css";
+@import "~/css/mixins.scss";
 @import "~variables";
 
 .btn {
