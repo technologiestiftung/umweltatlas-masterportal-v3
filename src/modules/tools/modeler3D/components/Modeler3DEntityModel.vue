@@ -205,7 +205,7 @@ export default {
 
                 if (entity.wasDrawn) {
                     const positions = entity.polygon.hierarchy.getValue().positions,
-                        center = this.getCenterFromPolygon(entity),
+                        center = this.getCenterFromGeometry(entity),
                         rotatedPositions = positions.map(pos => {
                             const relativePosition = Cesium.Cartesian3.subtract(pos, center),
                                 rotatedRelativePosition = Cesium.Matrix3.multiplyByVector(orientationMatrix, relativePosition);

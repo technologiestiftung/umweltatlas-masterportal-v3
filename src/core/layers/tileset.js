@@ -71,10 +71,11 @@ TileSetLayer.prototype.setVisible = function (newValue) {
 /**
  * hides a number of objects called in planing.js
  * @param {Array<string>} toHide A list of Object Ids which will be hidden
+ * @param {Boolean} allLayers if true, updates all layers (required to dynamically change visibility)
  * @return {void}
  */
-TileSetLayer.prototype.hideObjects = function (toHide) {
-    let dirty = false;
+TileSetLayer.prototype.hideObjects = function (toHide, allLayers) {
+    let dirty = allLayers;
 
     toHide.forEach((id) => {
         if (!hiddenObjects[id]) {

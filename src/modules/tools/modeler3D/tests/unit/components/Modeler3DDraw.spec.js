@@ -269,7 +269,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
             store.commit("Tools/Modeler3D/setActiveShapePoints", [{x: 100, y: 200, z: 300}, {x: 200, y: 300, z: 400}]);
             wrapper.vm.drawShape();
 
-            expect(entities.add.calledWith(sinon.match({id: sinon.match.string, polyline: sinon.match.object}))).to.be.true;
+            expect(entities.add.calledWith(sinon.match({id: sinon.match.number, polyline: sinon.match.object}))).to.be.true;
         });
 
         it("should draw shapes when selectedGeometry is 'polygon' and activeShapePoints has at least 3 points", () => {
@@ -281,7 +281,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
                 {x: 300, y: 400, z: 500}
             ]);
             wrapper.vm.drawShape();
-            expect(entities.add.calledWith(sinon.match({id: sinon.match.string, polygon: sinon.match.object}))).to.be.true;
+            expect(entities.add.calledWith(sinon.match({id: sinon.match.number, polygon: sinon.match.object}))).to.be.true;
         });
     });
 });

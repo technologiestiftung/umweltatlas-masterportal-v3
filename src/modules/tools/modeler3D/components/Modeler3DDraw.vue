@@ -176,8 +176,9 @@ export default {
         drawShape () {
             const entities = this.entities,
                 models = this.drawnModels,
-                lastElement = entities.values.slice().pop(),
-                lastId = lastElement ? lastElement.id : null,
+                lastElement = entities.values.filter(ent => !ent.cylinder).pop(),
+                lastId = lastElement ? lastElement.id : undefined,
+                shapeId = lastId ? lastId + 1 : 1,
                 positionData = new Cesium.CallbackProperty(() => {
                     if (this.selectedGeometry === "polygon") {
                         return new Cesium.PolygonHierarchy(this.activeShapePoints);
@@ -188,8 +189,8 @@ export default {
 
             if (this.selectedGeometry === "line") {
                 shape = {
-                    id: lastId ? lastId + 1 : 1,
-                    name: this.drawName ? this.drawName : i18next.t("common:modules.tools.modeler3D.draw.captions.drawing"),
+                    id: shapeId,
+                    name: this.drawName ? this.drawName : i18next.t("common:modules.tools.modeler3D.draw.captions.drawing") + ` ${shapeId}`,
                     wasDrawn: true,
                     clampToGround: this.clampToGround,
                     polyline: {
@@ -204,8 +205,8 @@ export default {
             }
             else if (this.selectedGeometry === "polygon") {
                 shape = {
-                    id: lastId ? lastId + 1 : 1,
-                    name: this.drawName ? this.drawName : i18next.t("common:modules.tools.modeler3D.draw.captions.drawing"),
+                    id: shapeId,
+                    name: this.drawName ? this.drawName : i18next.t("common:modules.tools.modeler3D.draw.captions.drawing") + ` ${shapeId}`,
                     wasDrawn: true,
                     clampToGround: this.clampToGround,
                     polygon: {
@@ -242,39 +243,26 @@ export default {
             const entities = this.entities,
                 entity = entities.getById(id);
 
-            if (!entity) {
-                return;
+            if (entity) {
+                let height;
+
+                if (entity.polygon) {
+                    height = entity.polygon.extrudedHeight.getValue();
+                }
+                else if (entity.polyline) {
+                    height = 0;
+                }
+
+                const center = this.getCenterFromGeometry(entity),
+                    centerCartographic = Cesium.Cartographic.fromCartesian(center),
+                    longitude = centerCartographic.longitude,
+                    latitude = centerCartographic.latitude,
+                    targetHeight = height + 250;
+
+                this.scene.camera.flyTo({
+                    destination: Cesium.Cartesian3.fromRadians(longitude, latitude, targetHeight)
+                });
             }
-
-            let positions = [],
-                height = 0;
-
-            if (entity.polygon) {
-                const hierarchy = entity.polygon.hierarchy.getValue();
-
-                positions = hierarchy.positions;
-                height = entity.polygon.extrudedHeight.getValue();
-            }
-            else if (entity.polyline) {
-                positions = entity.polyline.positions.getValue();
-                height = 0;
-            }
-
-            if (positions.length === 0) {
-                return;
-            }
-
-            // TODO: Kann man das umgehen?
-            // eslint-disable-next-line one-var
-            const boundingSphereCenter = Cesium.BoundingSphere.fromPoints(positions).center,
-                centerCartographic = Cesium.Cartographic.fromCartesian(boundingSphereCenter),
-                longitude = centerCartographic.longitude,
-                latitude = centerCartographic.latitude,
-                targetHeight = height + 100;
-
-            this.scene.camera.flyTo({
-                destination: Cesium.Cartesian3.fromRadians(longitude, latitude, targetHeight)
-            });
         },
         /**
          * Exports all drawn entities to single GeoJSON file.
