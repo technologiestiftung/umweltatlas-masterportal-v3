@@ -5,7 +5,6 @@
  * @returns {Cesium.Cartesian3} - the normalized position
  */
 export function adaptCylinderToGround (cylinder, position) {
-    // TODO: Überprüfen was hier los ist!
     const newPosition = position ? position : {x: 1, y: 1, z: 1},
         scene = mapCollection.getMap("3D").getCesiumScene(),
         cartographic = Cesium.Cartographic.fromCartesian(newPosition);
