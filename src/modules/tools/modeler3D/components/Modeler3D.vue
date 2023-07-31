@@ -347,7 +347,9 @@ export default {
                             updateAllLayers = configPath?.updateAllLayers === undefined || configPath?.updateAllLayers === true,
                             features = getGfiFeatures.getGfiFeaturesByTileFeature(picked),
                             gmlId = features[0]?.getProperties()[gmlIdPath],
-                            tileSetModels = Radio.request("ModelList", "getModelsByAttributes", {typ: "TileSet3D"});
+                            tileSetModels = updateAllLayers ?
+                                Radio.request("ModelList", "getModelsByAttributes", {typ: "TileSet3D"}) :
+                                Radio.request("ModelList", "getModelsByAttributes", {typ: "TileSet3D", id: picked.tileset.layerReferenceId});
 
                         tileSetModels.forEach(model => model.hideObjects([gmlId], updateAllLayers));
 
