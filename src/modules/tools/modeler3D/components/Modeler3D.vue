@@ -342,11 +342,14 @@ export default {
                         }
                     }
                     else if (this.hideObjects && picked instanceof Cesium.Cesium3DTileFeature) {
-                        const features = getGfiFeatures.getGfiFeaturesByTileFeature(picked),
-                            gmlId = features[0]?.getProperties().gmlid,
+                        const configPath = store.state.configJson?.Portalconfig.menu.tools.children.modeler3D,
+                            gmlIdPath = configPath?.gmlId || "gmlid",
+                            updateAllLayers = configPath?.updateAllLayers || true,
+                            features = getGfiFeatures.getGfiFeaturesByTileFeature(picked),
+                            gmlId = features[0]?.getProperties()[gmlIdPath],
                             tileSetModels = Radio.request("ModelList", "getModelsByAttributes", {typ: "TileSet3D"});
 
-                        tileSetModels.forEach(model => model.hideObjects([gmlId], true));
+                        tileSetModels.forEach(model => model.hideObjects([gmlId], updateAllLayers));
 
                         this.hiddenObjects.push({
                             name: gmlId

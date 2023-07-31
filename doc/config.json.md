@@ -3177,6 +3177,8 @@ The 3D modeler tool allows importing of 3D models in .gltf, .dae and .obj format
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
+|gmlId|no|String|"gmlid"|Specify the path to the GML ID in the GFI for buildings in 3D Layers.|false|
+|updateAllLayers|no|Boolean|true|Specify, if all layers should be updated, when buildings are hidden.|false|
 |highlightStyle|no|**[highlightStyle](#markdown-header-portalconfigmenutoolmodeler3dhighlightstyle)**||Specify the fill color, alpha, outline color and outline width for highlighting entities.|false|
 
 **Example**
@@ -3185,6 +3187,8 @@ The 3D modeler tool allows importing of 3D models in .gltf, .dae and .obj format
 {
     "modeler3D": {
         "name": "translate#common:menu.tools.modeler3D",
+        "gmlId": "gmlId",
+        "updateAllLayers": false,
         "highlightStyle": {
             "color": "#787777",
             "alpha": 1,
