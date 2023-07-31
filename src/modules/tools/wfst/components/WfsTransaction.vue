@@ -144,7 +144,7 @@ export default {
                                         :key="`${property.key}-input`"
                                         :type="getInputType(property.type)"
                                         :required="property.required"
-                                        :checked="property.value"
+                                        :checked="['true', true].includes(property.value) ? true : false"
                                         @input="event => setFeatureProperty({key: property.key, type: getInputType(property.type), value: event.target.checked})"
                                     >
                                     <input
