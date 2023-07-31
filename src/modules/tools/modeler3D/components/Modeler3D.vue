@@ -344,7 +344,7 @@ export default {
                     else if (this.hideObjects && picked instanceof Cesium.Cesium3DTileFeature) {
                         const configPath = store.state.configJson?.Portalconfig.menu.tools.children.modeler3D,
                             gmlIdPath = configPath?.gmlId || "gmlid",
-                            updateAllLayers = configPath?.updateAllLayers || true,
+                            updateAllLayers = configPath?.updateAllLayers === undefined || configPath?.updateAllLayers === true,
                             features = getGfiFeatures.getGfiFeaturesByTileFeature(picked),
                             gmlId = features[0]?.getProperties()[gmlIdPath],
                             tileSetModels = Radio.request("ModelList", "getModelsByAttributes", {typ: "TileSet3D"});
