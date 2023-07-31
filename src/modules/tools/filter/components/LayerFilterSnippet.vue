@@ -804,6 +804,7 @@ export default {
             }
             if (evt.type === "loadstart") {
                 this.setIsLoading(!this.outOfZoom);
+                return;
             }
             if (evt.type === "loadend") {
                 this.setIsLoading(false);
