@@ -361,11 +361,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
 
         it("selectObject picks object and adds it to list", () => {
             let hiddenObjects = [];
-            const pickObject = new global.Cesium.Cesium3DTileFeature({
-                    tileset: {
-                        layerReferenceId: "layerId"
-                    }
-                }),
+            const pickObject = new global.Cesium.Cesium3DTileFeature({tileset: {}}),
                 tileSetModel = {
                     hideObjects: sinon.stub()
                 },
@@ -390,14 +386,12 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
             expect(tileSetModel.hideObjects.calledWith(["gmlId"])).to.be.true;
             expect(hiddenObjects.length).to.be.equals(1);
             expect(hiddenObjects[0].name).to.be.equals("gmlId");
-            expect(hiddenObjects[0].layerId).to.be.equals("layerId");
         });
 
         it("showObject shows the hidden object and deletes it from list", () => {
             let hiddenObjects = [];
             const object = {
-                    name: "gmlId",
-                    layerId: "layerId"
+                    name: "gmlId"
                 },
                 tileSetModel = {
                     showObjects: sinon.stub()
