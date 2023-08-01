@@ -18,6 +18,9 @@
     - new parameter: hideMapMarkerOnVectorHighlight
 - WFST:
     - further input type "short" and "float"
+- MouseHover:
+  - Added highlighting Vector Layers on mouseHover as requested in Issue #836
+  - Configurable in config.js
 ### Changed
 - The following packages have been updated:
     - dependencies:
