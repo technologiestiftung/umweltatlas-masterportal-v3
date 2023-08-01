@@ -3173,7 +3173,9 @@ The measure tool allows measuring distances and areas. This includes the specifi
 
 [inherits]: # (Portalconfig.menu.tool)
 
-The 3D modeler tool allows importing of 3D models in .gltf, .dae and .obj formats and drawing extrudable 3D polygons.
+Can only be used in 3D mode!
+The 3D modeler allows to import 3D models in the formats .gltf, .dae and .obj, as well as to draw lines and extrudable 3D polygons.
+These drawings can be exported and loaded back georeferenced into the map.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|

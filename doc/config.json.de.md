@@ -3117,7 +3117,9 @@ Mit dem Messwerkzeug können Strecken und Flächen gemessen werden. Dabei werden
 
 [inherits]: # (Portalconfig.menu.tool)
 
-Der 3D Modeller erlaubt es 3D Modelle in den Formaten .gltf, .dae und .obj zu importieren, sowie extrudierbare 3D Polygone zu zeichnen.
+Nur im 3D Modus nutzbar!
+Der 3D Modeller erlaubt es 3D Modelle in den Formaten .gltf, .dae und .obj zu importieren, sowie Linien und extrudierbare 3D Polygone zu zeichnen.
+Diese Zeichnungen können exportiert und georeferenziert wieder in die Karte geladen werden.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
