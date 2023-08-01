@@ -55,26 +55,7 @@ const Config = {
     scaleLine: true,
     mouseHover: {
         numFeaturesToShow: 2,
-        infoText: "common:mouseHover.infoText",
-        highlightOnHover: true,
-        highlightVectorRulesPolygon: {
-            "fill": {
-                "color": [0, 255, 255, 0.5]
-            },
-            "stroke": {
-                "width": 4,
-                "color": [255, 0, 0, 0.9]
-            }
-        },
-        highlightVectorRulesPointLine: {
-            "stroke": {
-                "width": 8,
-                "color": [255, 0, 255, 0.9]
-            },
-            "image": {
-                "scale": 2
-            }
-        }
+        infoText: "common:mouseHover.infoText"
     },
     startingMap3D: false,
     obliqueMap: true,
