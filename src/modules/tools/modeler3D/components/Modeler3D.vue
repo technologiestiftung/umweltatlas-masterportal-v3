@@ -9,7 +9,6 @@ import {mapActions, mapGetters, mapMutations} from "vuex";
 import actions from "../store/actionsModeler3D";
 import getters from "../store/gettersModeler3D";
 import mutations from "../store/mutationsModeler3D";
-import store from "../../../../app-store";
 import crs from "@masterportal/masterportalapi/src/crs";
 import proj4 from "proj4";
 import getGfiFeatures from "../../../../api/gfi/getGfiFeaturesByTileFeature";
@@ -43,21 +42,21 @@ export default {
          * Returns the CSS classes for the import tab based on the current view.
          * @returns {string} - The CSS classes for the import tab.
          */
-        importTabClasses: function () {
+        importTabClasses () {
             return this.currentView === "import" ? this.activeTabClass : this.defaultTabClass;
         },
         /**
          * Returns the CSS classes for the draw tab based on the current view.
          * @returns {string} - The CSS classes for the draw tab.
          */
-        drawTabClasses: function () {
+        drawTabClasses () {
             return this.currentView === "draw" ? this.activeTabClass : this.defaultTabClass;
         },
         /**
          * Returns the CSS classes for the options tab based on the current view.
          * @returns {string} - The CSS classes for the options tab.
          */
-        optionsTabClasses: function () {
+        optionsTabClasses () {
             return this.currentView === "" ? this.activeTabClass : this.defaultTabClass;
         },
         /**
@@ -344,16 +343,13 @@ export default {
                         }
                     }
                     else if (this.hideObjects && picked instanceof Cesium.Cesium3DTileFeature) {
-                        const configPath = store.state.configJson?.Portalconfig.menu.tools.children.modeler3D,
-                            gmlIdPath = configPath?.gmlId || "gmlid",
-                            updateAllLayers = configPath?.updateAllLayers === undefined || configPath?.updateAllLayers === true,
-                            features = getGfiFeatures.getGfiFeaturesByTileFeature(picked),
-                            gmlId = features[0]?.getProperties()[gmlIdPath],
-                            tileSetModels = updateAllLayers ?
+                        const features = getGfiFeatures.getGfiFeaturesByTileFeature(picked),
+                            gmlId = features[0]?.getProperties()[this.gmlIdPath],
+                            tileSetModels = this.updateAllLayers ?
                                 Radio.request("ModelList", "getModelsByAttributes", {typ: "TileSet3D"}) :
                                 Radio.request("ModelList", "getModelsByAttributes", {typ: "TileSet3D", id: picked.tileset.layerReferenceId});
 
-                        tileSetModels.forEach(model => model.hideObjects([gmlId], updateAllLayers));
+                        tileSetModels.forEach(model => model.hideObjects([gmlId], this.updateAllLayers));
 
                         this.hiddenObjects.push({
                             name: gmlId
@@ -488,11 +484,10 @@ export default {
          * @returns {void}
          */
         highlightEntity (entity) {
-            const configuredHighlightStyle = store.state.configJson?.Portalconfig.menu.tools.children.modeler3D.highlightStyle,
-                color = configuredHighlightStyle?.color || this.highlightStyle.color,
-                alpha = configuredHighlightStyle?.alpha || this.highlightStyle.alpha,
-                silhouetteColor = configuredHighlightStyle?.silhouetteColor || this.highlightStyle.silhouetteColor,
-                silhouetteSize = configuredHighlightStyle?.silhouetteSize || this.highlightStyle.silhouetteSize;
+            const color = this.highlightStyle.color,
+                alpha = this.highlightStyle.alpha,
+                silhouetteColor = this.highlightStyle.silhouetteColor,
+                silhouetteSize = this.highlightStyle.silhouetteSize;
 
             if (entity.wasDrawn) {
                 if (entity.polygon) {

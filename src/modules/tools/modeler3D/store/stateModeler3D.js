@@ -15,6 +15,7 @@
  * @property {String}       drawName name of drawing model
  * @property {Object[]}     drawnModels - a list of currently active drawn models
  * @property {Number}       extrudedHeight height in meters for drawing model
+ * @property {String}       gmlIdPath - the GFI path to the gml Id
  * @property {Number}       height - the raw transformed height coordinate displayed on the ui
  * @property {Object[]}     hiddenObjects - array of hidden objects
  * @property {Boolean}      hideObjects - if true, user can hide TileFeatures with click
@@ -40,6 +41,7 @@
  * @property {String}       selectedFillColor - selected fill color for drawing 3d object
  * @property {String}       selectedGeometry - selected geometry for drawing 3d object
  * @property {String}       selectedOutlineColor - selected outline color for drawing 3d object
+ * @property {Boolean}      updateAllLayers - if hiding objects should update all layers
  */
 
 export default {
@@ -58,6 +60,7 @@ export default {
     drawName: "",
     drawnModels: [],
     extrudedHeight: 20,
+    gmlIdPath: "gmlid",
     height: 0,
     hiddenObjects: [],
     hideObjects: true,
@@ -80,6 +83,7 @@ export default {
     selectedFillColor: "",
     selectedGeometry: "",
     selectedOutlineColor: "",
+    updateAllLayers: true,
 
     // defaults for config.json parameters
     icon: "bi-bounding-box",
