@@ -5,7 +5,7 @@ import {mapGetters, mapActions, mapMutations} from "vuex";
 import actions from "../store/actionsModeler3D";
 import getters from "../store/gettersModeler3D";
 import mutations from "../store/mutationsModeler3D";
-import proj4 from "proj4";
+import crs from "@masterportal/masterportalapi/src/crs";
 import {adaptCylinderToEntity, adaptCylinderToGround, adaptCylinderUnclamped} from "../utils/draw";
 
 let eventHandler = null;
@@ -85,7 +85,7 @@ export default {
                 }
             }
             else {
-                const transformedCoordinates = proj4(proj4("EPSG:25832"), proj4("EPSG:4326"), [this.mouseCoordinate[0], this.mouseCoordinate[1]]),
+                const transformedCoordinates = crs.transformFromMapProjection(mapCollection.getMap("3D").getOlMap(), "EPSG:4326", [this.mouseCoordinate[0], this.mouseCoordinate[1]]),
                     cartographic = Cesium.Cartographic.fromDegrees(transformedCoordinates[0], transformedCoordinates[1]),
                     polygon = this.entities.values.find(ent => ent.id === this.currentModelId),
                     ignoreObjects = polygon ? [floatingPoint, polygon] : [floatingPoint];

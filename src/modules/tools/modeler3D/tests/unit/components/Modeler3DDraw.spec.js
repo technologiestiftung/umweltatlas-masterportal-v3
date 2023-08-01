@@ -52,7 +52,14 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
                         entities: entities
                     }
                 };
-            }
+            },
+            getOlMap: () => ({
+                getView: () => ({
+                    getProjection: () => ({
+                        getCode: () => "EPSG:25832"
+                    })
+                })
+            })
         };
 
     let store,

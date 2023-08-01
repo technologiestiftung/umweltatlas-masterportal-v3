@@ -10,7 +10,6 @@ import actions from "../store/actionsModeler3D";
 import getters from "../store/gettersModeler3D";
 import mutations from "../store/mutationsModeler3D";
 import crs from "@masterportal/masterportalapi/src/crs";
-import proj4 from "proj4";
 import getGfiFeatures from "../../../../api/gfi/getGfiFeaturesByTileFeature";
 import {adaptCylinderToGround, adaptCylinderToEntity, adaptCylinderUnclamped} from "../utils/draw";
 
@@ -388,7 +387,7 @@ export default {
                     }
                 }
                 else {
-                    const transformedCoordinates = proj4(proj4("EPSG:25832"), proj4("EPSG:4326"), [this.mouseCoordinate[0], this.mouseCoordinate[1]]),
+                    const transformedCoordinates = crs.transformFromMapProjection(mapCollection.getMap("3D").getOlMap(), "EPSG:4326", [this.mouseCoordinate[0], this.mouseCoordinate[1]]),
                         cartographic = Cesium.Cartographic.fromDegrees(transformedCoordinates[0], transformedCoordinates[1]);
 
                     cartographic.height = scene.sampleHeight(cartographic, [cylinder, entity]);
@@ -547,7 +546,7 @@ export default {
          */
         positionPovCamera () {
             const scene = this.scene,
-                transformedCoordinates = proj4(proj4("EPSG:25832"), proj4("EPSG:4326"), this.clickCoordinate),
+                transformedCoordinates = crs.transformFromMapProjection(mapCollection.getMap("3D").getOlMap(), "EPSG:4326", this.clickCoordinate),
                 currentPosition = scene.camera.positionCartographic,
                 destination = new Cesium.Cartographic(
                     Cesium.Math.toRadians(transformedCoordinates[0]),
@@ -669,7 +668,7 @@ export default {
                 return;
             }
 
-            const transformedCoordinates = proj4(proj4("EPSG:25832"), proj4("EPSG:4326"), [this.mouseCoordinate[0], this.mouseCoordinate[1]]),
+            const transformedCoordinates = crs.transformFromMapProjection(mapCollection.getMap("3D").getOlMap(), "EPSG:4326", [this.mouseCoordinate[0], this.mouseCoordinate[1]]),
                 cartographic = Cesium.Cartographic.fromDegrees(transformedCoordinates[0], transformedCoordinates[1]),
                 povCylinder = this.entities.getById(this.cylinderId);
             let currentCartesian;

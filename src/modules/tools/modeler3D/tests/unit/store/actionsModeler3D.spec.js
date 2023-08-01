@@ -11,9 +11,14 @@ describe("Actions", () => {
     const map3D = {
         id: "1",
         mode: "3D",
-        getCesiumScene: () => {
-            return scene;
-        }
+        getCesiumScene: () => scene,
+        getOlMap: () => ({
+            getView: () => ({
+                getProjection: () => ({
+                    getCode: () => "EPSG:25832"
+                })
+            })
+        })
     };
 
     beforeEach(() => {

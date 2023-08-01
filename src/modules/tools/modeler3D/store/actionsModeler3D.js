@@ -1,4 +1,4 @@
-import proj4 from "proj4";
+import crs from "@masterportal/masterportalapi/src/crs";
 import store from "../../../../app-store";
 import {adaptCylinderToGround, adaptCylinderToEntity} from "../utils/draw";
 
@@ -155,7 +155,7 @@ const actions = {
         coordinates = [Cesium.Math.toDegrees(coordinates.longitude), Cesium.Math.toDegrees(coordinates.latitude)];
 
         if (state.currentProjection.epsg !== "EPSG:4326") {
-            coordinates = proj4(proj4("EPSG:4326"), state.currentProjection, coordinates);
+            coordinates = crs.transform("EPSG:4326", state.currentProjection, coordinates);
         }
 
         if (state.currentProjection.id === "http://www.opengis.net/gml/srs/epsg.xml#ETRS893GK3" && coordinates.toFixed(2).length === 9) {
@@ -179,7 +179,7 @@ const actions = {
             if (state.currentProjection.id.indexOf("ETRS893GK3") > -1) {
                 coordinates[0] -= 3000000;
             }
-            coordinates = proj4(proj4(state.currentProjection.epsg), proj4("EPSG:4326"), coordinates);
+            coordinates = crs.transform(state.currentProjection, "EPSG:4326", coordinates);
         }
 
         if (state.adaptToHeight) {
