@@ -8,7 +8,6 @@
  * License: MIT
  */
 
-/* eslint-disable vue/multi-word-component-names */
 import {mapMutations, mapGetters, mapActions} from "vuex";
 import {getComponent} from "../../../../utils/getComponent";
 import getters from "../store/gettersLogin";
@@ -20,7 +19,7 @@ import Utils from "../utils/utilsLogin";
 import OIDC from "../utils/utilsOIDC";
 
 export default {
-    name: "Login",
+    name: "LoginComponent",
     components: {
         ToolTemplate
     },

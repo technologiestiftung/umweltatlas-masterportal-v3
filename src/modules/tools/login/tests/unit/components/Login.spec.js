@@ -1,7 +1,7 @@
 import Vuex from "vuex";
 import {config, shallowMount, createLocalVue} from "@vue/test-utils";
 
-import LoginComponent from "../../../components/Login.vue";
+import LoginComponent from "../../../components/LoginComponent.vue";
 import Login from "../../../store/indexLogin";
 import rootGetters from "../../../../../../app-store/getters.js";
 import Cookie from "../../../utils/utilsCookies";
@@ -16,7 +16,7 @@ localVue.use(Vuex);
 
 config.mocks.$t = key => key;
 
-describe("src/modules/tools/login/components/Login.vue", () => {
+describe("src/modules/tools/login/components/LoginComponent.vue", () => {
     const
         sandbox = sinon.createSandbox(),
         mockConfigJson = {
