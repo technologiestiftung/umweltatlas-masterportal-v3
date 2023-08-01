@@ -18,6 +18,11 @@ export default {
         feature: {
             type: Object,
             required: true
+        },
+        isUpdated: {
+            type: Boolean,
+            required: false,
+            default: false
         }
     },
     data () {
@@ -46,13 +51,12 @@ export default {
         }
     },
     mounted: function () {
-        this.placingPointMarker(this.clickCoordinate);
-        if (typeof this.currentRotation === "number") {
-            this.rotateAngle = this.currentRotation;
-            this.rotate();
-        }
-        if (this.currentPosition) {
-            this.$el.style.cssText = this.currentPosition;
+        this.gfiPosition();
+    },
+    updated: function () {
+        if (this.isUpdated) {
+            this.gfiPosition();
+            this.$emit("updateFeatureDone");
         }
     },
     beforeDestroy: function () {
@@ -68,6 +72,21 @@ export default {
 
         close () {
             this.$emit("close");
+        },
+
+        /**
+         * In case currentRotation is a number set the rotateAngle and rotate.
+         * @returns {void}
+         */
+        gfiPosition () {
+            this.placingPointMarker(this.clickCoordinate);
+            if (typeof this.currentRotation === "number") {
+                this.rotateAngle = this.currentRotation;
+                this.rotate();
+            }
+            if (this.currentPosition) {
+                this.$el.style.cssText = this.currentPosition;
+            }
         },
 
         /**

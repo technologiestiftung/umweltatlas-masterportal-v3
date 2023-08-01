@@ -29,6 +29,7 @@
     - dependencies:
         - @masterportal/masterportalapi: 2.20.0 to 2.23.0 (with cesium 1.106.0 to @cesium/engine 2.4.1)
 - WFS: Migrated writeTransaction and sendTransaction to masterportalAPI (2.22.0).
+- GFI: gfiFeatures are no longer set to null on every click, but only when there are no features or the gfi is closed
 
 ### Deprecated
 
