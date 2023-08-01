@@ -951,7 +951,8 @@
                     "HIGHWAYS": "Highways",
                     "TOLLWAYS": "Tollways",
                     "FERRIES": "Ferries",
-                    "STEPS": "Steps"
+                    "STEPS": "Steps",
+                    "UNPAVEDROADS": "Unpaved roads"
                 },
                 "batchProcessing": {
                     "header": "Batch Processing",
