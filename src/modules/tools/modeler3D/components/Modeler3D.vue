@@ -277,47 +277,49 @@ export default {
          * @returns {void}
          */
         moveEntity (event) {
-            if (!this.isDrawing) {
-                let entity;
+            if (this.isDrawing) {
+                return;
+            }
 
-                if (event) {
-                    const scene = this.scene,
-                        picked = scene.pick(event.position);
+            let entity;
 
-                    entity = Cesium.defaultValue(picked?.id, picked?.primitive?.id);
+            if (event) {
+                const scene = this.scene,
+                    picked = scene.pick(event.position);
+
+                entity = Cesium.defaultValue(picked?.id, picked?.primitive?.id);
+            }
+
+            if (entity instanceof Cesium.Entity || !event) {
+                this.setIsDragging(true);
+                this.originalHideOption = this.hideObjects;
+                this.setHideObjects(false);
+
+                document.body.style.cursor = "grabbing";
+
+                if (entity?.cylinder) {
+                    const geometry = this.entities.getById(this.currentModelId),
+                        position = geometry.polygon ? geometry.polygon.hierarchy.getValue().positions[entity.positionIndex] : geometry.polyline.positions.getValue()[entity.positionIndex];
+
+                    this.currentPosition = position;
+
+                    entity.position = geometry.clampToGround ?
+                        new Cesium.CallbackProperty(() => adaptCylinderToGround(entity, this.currentPosition), false) :
+                        new Cesium.CallbackProperty(() => adaptCylinderToEntity(geometry, entity, this.currentPosition), false);
+                    eventHandler.setInputAction(this.moveCylinder, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
                 }
+                else {
+                    this.entities.values.filter(ent => ent.cylinder).forEach((cyl, index) => {
+                        this.cylinderPosition[index] = cyl.position.getValue();
 
-                if (entity instanceof Cesium.Entity || !event) {
-                    this.setIsDragging(true);
-                    this.originalHideOption = this.hideObjects;
-                    this.setHideObjects(false);
+                        cyl.position = entity.clampToGround ?
+                            new Cesium.CallbackProperty(() => adaptCylinderToGround(cyl, this.cylinderPosition[index]), false) :
+                            new Cesium.CallbackProperty(() => adaptCylinderToEntity(entity, cyl, this.cylinderPosition[index]), false);
+                    });
 
-                    document.body.style.cursor = "grabbing";
-
-                    if (entity?.cylinder) {
-                        const geometry = this.entities.getById(this.currentModelId),
-                            position = geometry.polygon ? geometry.polygon.hierarchy.getValue().positions[entity.positionIndex] : geometry.polyline.positions.getValue()[entity.positionIndex];
-
-                        this.currentPosition = position;
-
-                        entity.position = geometry.clampToGround ?
-                            new Cesium.CallbackProperty(() => adaptCylinderToGround(entity, this.currentPosition), false) :
-                            new Cesium.CallbackProperty(() => adaptCylinderToEntity(geometry, entity, this.currentPosition), false);
-                        eventHandler.setInputAction(this.moveCylinder, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-                    }
-                    else {
-                        this.entities.values.filter(ent => ent.cylinder).forEach((cyl, index) => {
-                            this.cylinderPosition[index] = cyl.position.getValue();
-
-                            cyl.position = entity.clampToGround ?
-                                new Cesium.CallbackProperty(() => adaptCylinderToGround(cyl, this.cylinderPosition[index]), false) :
-                                new Cesium.CallbackProperty(() => adaptCylinderToEntity(entity, cyl, this.cylinderPosition[index]), false);
-                        });
-
-                        eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-                    }
-                    eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+                    eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
                 }
+                eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
             }
         },
         /**
@@ -326,35 +328,36 @@ export default {
          * @returns {void}
          */
         selectObject (event) {
-            if (!this.isDrawing) {
-                const scene = this.scene,
-                    picked = scene.pick(event.position);
+            if (this.isDrawing) {
+                return;
+            }
+            const scene = this.scene,
+                picked = scene.pick(event.position);
 
-                if (Cesium.defined(picked)) {
-                    const entity = Cesium.defaultValue(picked?.id, picked?.primitive?.id);
+            if (Cesium.defined(picked)) {
+                const entity = Cesium.defaultValue(picked?.id, picked?.primitive?.id);
 
-                    if (entity instanceof Cesium.Entity) {
-                        if (entity.cylinder) {
-                            this.setCylinderId(entity.id);
-                        }
-                        else {
-                            this.setCurrentModelId(entity.id);
-                            this.setCylinderId(null);
-                        }
+                if (entity instanceof Cesium.Entity) {
+                    if (entity.cylinder) {
+                        this.setCylinderId(entity.id);
                     }
-                    else if (this.hideObjects && picked instanceof Cesium.Cesium3DTileFeature) {
-                        const features = getGfiFeatures.getGfiFeaturesByTileFeature(picked),
-                            gmlId = features[0]?.getProperties()[this.gmlIdPath],
-                            tileSetModels = this.updateAllLayers ?
-                                Radio.request("ModelList", "getModelsByAttributes", {typ: "TileSet3D"}) :
-                                Radio.request("ModelList", "getModelsByAttributes", {typ: "TileSet3D", id: picked.tileset.layerReferenceId});
-
-                        tileSetModels.forEach(model => model.hideObjects([gmlId], this.updateAllLayers));
-
-                        this.hiddenObjects.push({
-                            name: gmlId
-                        });
+                    else {
+                        this.setCurrentModelId(entity.id);
+                        this.setCylinderId(null);
                     }
+                }
+                else if (this.hideObjects && picked instanceof Cesium.Cesium3DTileFeature) {
+                    const features = getGfiFeatures.getGfiFeaturesByTileFeature(picked),
+                        gmlId = features[0]?.getProperties()[this.gmlIdPath],
+                        tileSetModels = this.updateAllLayers ?
+                            Radio.request("ModelList", "getModelsByAttributes", {typ: "TileSet3D"}) :
+                            Radio.request("ModelList", "getModelsByAttributes", {typ: "TileSet3D", id: picked.tileset.layerReferenceId});
+
+                    tileSetModels.forEach(model => model.hideObjects([gmlId], this.updateAllLayers));
+
+                    this.hiddenObjects.push({
+                        name: gmlId
+                    });
                 }
             }
         },

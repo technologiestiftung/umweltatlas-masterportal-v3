@@ -634,7 +634,7 @@
                         "beginModelling": "Modella Oggetto 3D",
                         "clampToGround": "Allinea al Modello del Terreno",
                         "color": "Colore",
-                        "controlInfo": "Clicca con il pulsante sinistro del mouse per impostare i punti. Clicca con il pulsante destro per terminare il disegno.",
+                        "controlInfo": "Clicca con il pulsante sinistro del mouse per impostare i punti. Utilizzare il tasto destro del mouse o un doppio clic per terminare il disegno.",
                         "drawing": "Disegno",
                         "drawName": "Nome",
                         "drawnModels": "Modelli Disegnati:",

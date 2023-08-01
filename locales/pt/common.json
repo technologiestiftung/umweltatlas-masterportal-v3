@@ -456,7 +456,7 @@
                         "beginModelling": "Modelar Objeto 3D",
                         "clampToGround": "Alinhar ao Modelo de Terreno",
                         "color": "Cor",
-                        "controlInfo": "Clique com o botão esquerdo do mouse para definir pontos. Clique com o botão direito para encerrar o desenho.",
+                        "controlInfo": "Clique com o botão esquerdo do mouse para definir pontos. Utilize o botão direito do rato ou um duplo clique para terminar o desenho.",
                         "drawing": "Desenho",
                         "drawName": "Nome",
                         "drawnModels": "Modelos Desenhados:",

@@ -60,6 +60,7 @@ export default {
 
             eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
             eventHandler.setInputAction(this.addGeometryPosition, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+            eventHandler.setInputAction(this.stopDrawing, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
             eventHandler.setInputAction(this.stopDrawing, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
         },
         /**
@@ -111,9 +112,10 @@ export default {
         addGeometryPosition () {
             let floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
 
-            if (Cesium.Cartesian3.equals(this.currentPosition, this.lastAddedPosition)) {
+            if (Cesium.Cartesian3.equalsEpsilon(this.currentPosition, this.lastAddedPosition, 0.000003)) {
                 return;
             }
+            this.lastAddedPosition = this.currentPosition;
             if (this.activeShapePoints.length === 1) {
                 this.setHeight(this.clampToGround ?
                     this.scene.globe.getHeight(Cesium.Cartographic.fromCartesian(this.currentPosition)) :
@@ -142,7 +144,6 @@ export default {
                 new Cesium.CallbackProperty(() => adaptCylinderToGround(floatingPoint, this.currentPosition), false) :
                 new Cesium.CallbackProperty(() => entity ? adaptCylinderToEntity(entity, floatingPoint, this.currentPosition) : adaptCylinderUnclamped(floatingPoint, this.currentPosition), false);
 
-            this.lastAddedPosition = this.currentPosition;
             this.activeShapePoints.push(this.currentPosition);
         },
         /**
