@@ -744,7 +744,7 @@ export default {
                             <a
                                 href="#"
                                 class="nav-link"
-                                :class="importTabClasses"
+                                :class="[importTabClasses, {'disabled': isDrawing}]"
                                 @click.prevent="setCurrentView('import'), resetPov()"
                             >{{ $t("modules.tools.modeler3D.nav.importTitle") }}</a>
                         </li>
@@ -756,7 +756,7 @@ export default {
                             <a
                                 href="#"
                                 class="nav-link"
-                                :class="drawTabClasses"
+                                :class="[drawTabClasses, {'disabled': isDrawing}]"
                                 @click.prevent="setCurrentView('draw'), resetPov()"
                             >{{ $t("modules.tools.modeler3D.nav.drawTitle") }}</a>
                         </li>
@@ -768,7 +768,7 @@ export default {
                             <a
                                 href="#"
                                 class="nav-link"
-                                :class="optionsTabClasses"
+                                :class="[optionsTabClasses, {'disabled': isDrawing}]"
                                 @click.prevent="setCurrentView(''), resetPov()"
                             >{{ $t("modules.tools.modeler3D.nav.options") }}</a>
                         </li>
