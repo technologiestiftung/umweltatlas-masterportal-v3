@@ -4360,7 +4360,7 @@ Routing-tool geosearch options.
 |----|--------|----|-------|-----------|------|
 |minChars|no|Number|3|Minimum amount of characters before sending a request to an external service.|false|
 |limit|no|Number|10|Maximale amount of characters for the search.|false|
-|type|yes|String||Which type of the geosearch should be used. ("BKG", "NOMINATIM")|false|
+|type|yes|String||Which type of the geosearch should be used. ("BKG", "NOMINATIM", "LocationFinder (ESRI)")|false|
 |serviceId|yes|String||Which service should be used for the geosearch.|false|
 
 **Example**

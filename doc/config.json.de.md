@@ -4304,7 +4304,7 @@ Routing-Werkzeug Geosuche Optionen.
 |----|-------------|---|-------|------------|------|
 |minChars|nein|Number|3|Minimum an Zeichen für die Anfrage bei dem externen Service.|false|
 |limit|nein|Number|10|Maximale Anzahl an Zeichen für die Suche.|false|
-|type|ja|String||Welcher Typ für die Geosuche verwendet werden soll. Aktuell möglich sind "BKG" und "NOMINATIM".|false|
+|type|ja|String||Welcher Typ für die Geosuche verwendet werden soll. Aktuell möglich sind "BKG", "NOMINATIM" und "LocationFinder (ESRI)".|false|
 |serviceId|ja|String||Welcher Service für die Geosuche verwendet werden soll.|false|
 
 **Beispiel**
