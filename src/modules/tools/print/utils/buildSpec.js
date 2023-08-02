@@ -524,7 +524,7 @@ const BuildSpecModel = {
             styles.forEach((style, index) => {
 
                 if (style !== null) {
-                    const styleObjectFromStyleList = styleList.returnStyleObject(layer.get("id")),
+                    const styleObjectFromStyleList = styleList.returnStyleObject(layer.get("styleId")),
                         styleFromStyleList = styleObjectFromStyleList ? createStyle.getGeometryStyle(feature, styleObjectFromStyleList.rules, false, Config.wfsImgPath) : undefined;
                     let limiter = ",";
 
@@ -549,6 +549,18 @@ const BuildSpecModel = {
                         clonedFeature.ol_uid = feature.ol_uid;
                     });
                     geometryType = feature.getGeometry().getType();
+
+                    // if an icon is shown, apply style offsets to geometry
+                    if (geometryType === "Point" && style.getImage() instanceof Icon && style.getImage().getScale() > 0) {
+                        const coords = clonedFeature.getGeometry().getCoordinates(),
+                            offsetStyle = styleObjectFromStyleList.rules?.find(({style: {imageOffsetX, imageOffsetY}}) => imageOffsetX || imageOffsetY)?.style,
+                            [posX, posY] = mapCollection.getMap("2D").getPixelFromCoordinate(coords),
+                            [offsetX, offsetY] = [offsetStyle.imageOffsetX ?? 0, offsetStyle.imageOffsetY ?? 0],
+                            mapScaleFactor = store.state.Tools.Print.currentScale / store.state.Tools.Print.currentMapScale,
+                            transformedCoords = mapCollection.getMap("2D").getCoordinateFromPixel([posX - offsetX * mapScaleFactor, posY - offsetY * mapScaleFactor, 0]);
+
+                        clonedFeature.getGeometry().setCoordinates(transformedCoords);
+                    }
 
                     // if style has geometryFunction, take geometry from style Function
                     styleGeometryFunction = style.getGeometryFunction();
@@ -1122,7 +1134,7 @@ const BuildSpecModel = {
      */
     getStylingRules: function (layer, feature, styleAttributes, style, styleIndex) {
         const styleAttr = feature.get("styleId") ? "styleId" : styleAttributes,
-            styleObjectFromStyleList = styleList.returnStyleObject(layer.get("id")),
+            styleObjectFromStyleList = styleList.returnStyleObject(layer.get("styleId")),
             styleFromStyleList = styleObjectFromStyleList ? createStyle.getGeometryStyle(feature, styleObjectFromStyleList.rules, false, Config.wfsImgPath) : undefined;
 
         if (styleAttr.length === 1 && styleAttr[0] === "") {

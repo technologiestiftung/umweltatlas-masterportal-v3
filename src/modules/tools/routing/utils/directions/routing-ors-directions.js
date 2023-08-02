@@ -65,7 +65,7 @@ async function fetchRoutingOrsDirections ({
             coordinates: coordinates,
             language: language,
             options: {
-                ...avoidSpeedProfileOptions.length > 0 && {avoid_features: avoidSpeedProfileOptions.map(o => routingOrsAvoidOption(o.id))},
+                ...avoidSpeedProfileOptions.length > 0 && {avoid_features: avoidSpeedProfileOptions.map(o => routingOrsAvoidOption(o.id, speedProfile))},
                 avoid_polygons: avoidPolygons
             },
             preference: await routingOrsPreference(preference, speedProfile),

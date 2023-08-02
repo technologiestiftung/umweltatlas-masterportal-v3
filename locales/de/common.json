@@ -944,7 +944,8 @@
                     "HIGHWAYS": "Autobahn",
                     "TOLLWAYS": "Mautstraßen",
                     "FERRIES": "Fähren",
-                    "STEPS": "Treppen"
+                    "STEPS": "Treppen",
+                    "UNPAVEDROADS": "Unbefestigte Straßen"
                 },
                 "batchProcessing": {
                     "header": "Stapelverarbeitung",
