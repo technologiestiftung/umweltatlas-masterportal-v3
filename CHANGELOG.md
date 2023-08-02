@@ -16,6 +16,12 @@
 ### Removed
 
 ### Fixed
+
+
+---
+
+## v2.36.1 - 2023-08-04
+### Fixed
 - WFS: avoid createLegend undefined error
 
 ---
