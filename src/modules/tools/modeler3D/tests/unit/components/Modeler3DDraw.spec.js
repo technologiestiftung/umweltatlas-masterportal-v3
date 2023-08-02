@@ -274,7 +274,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
         });
 
         it("should draw shapes when selectedGeometry is 'line' and activeShapePoints has at least 2 points", () => {
-            store.commit("Tools/Modeler3D/setSelectedGeometry", "line");
+            store.commit("Tools/Modeler3D/setSelectedDrawType", "line");
             store.commit("Tools/Modeler3D/setActiveShapePoints", [{x: 100, y: 200, z: 300}, {x: 200, y: 300, z: 400}, {x: 300, y: 400, z: 500}]);
             wrapper.vm.drawShape();
 
