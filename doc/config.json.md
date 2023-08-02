@@ -4415,6 +4415,7 @@ Routing-tool directions options.
 |speedProfile|no|String|"CAR"|Which speed profile should be selected by default.|false|
 |preference|no|String|"RECOMMENDED"|Which type of directions should be used by default.|false|
 |customPreferences|no|**[customPreferences](#markdown-header-portalconfigmenutoolroutingdirectionssettingscustompreferences)**||Possibility to define additional preferences for the different speed profiles (additionally to the BKG service)  (requires own modified backend)|false|
+|customAvoidFeatures|nein|**[customAvoidFeatures](#markdown-header-portalconfigmenutoolroutingdirectionssettingscustomavoidfeatures)**||Possibility to define which options for avoid traffic routes for the different speed profiles are available (additionally to the BKG service) (requires own modified backend)|false|
 |styleRoute|no|**[styleRoute](#markdown-header-portalconfigmenutoolroutingdirectionssettingsstyleroute)**||Stylerouteoptions|false|
 |styleWaypoint|no|**[styleWaypoint](#markdown-header-portalconfigmenutoolroutingdirectionssettingsstylewaypoint)**||Stylewaypointoptions|false|
 |styleAvoidAreas|no|**[styleAvoidAreas](#markdown-header-portalconfigmenutoolroutingdirectionssettingsstyleavoidareas)**||Styleavoidareasoptions|false|
@@ -4431,6 +4432,9 @@ Routing-tool directions options.
         "preference": "RECOMMENDED",
         "customPreferences": {
             "CYCLING": ["RECOMMENDED", "SHORTEST", "GREEN"]
+        },
+        "customAvoidFeatures": {
+                "CYCLING": ["STEPS", "FERRIES", "UNPAVEDROADS"]
         },
         "styleRoute": {
             "fillColor": [255, 44, 0],
@@ -4469,8 +4473,27 @@ Routing-tool directions options.
 ```
 
 ***
-#### Portalconfig.menu.tool.routing.directionsSettings.customPreferences
 
+#### Portalconfig.menu.tool.routing.directionsSettings.customAvoidFeatures
+Possibility to define additional avoid features for the different speed profiles (additionally to the BKG service) (requires own modified backend).
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|speedProfile|no|String[]||Which options for avoid traffic routes should be available for the speedProfile.|false|
+
+**Example**
+```
+#!json
+{
+    "customAvoidFeatures": {
+       "CYCLING": ["STEPS", "FERRIES", "UNPAVEDROADS"],
+       "CAR": ["HIGHWAYS"]
+    }
+}
+```
+
+***
+
+#### Portalconfig.menu.tool.routing.directionsSettings.customPreferences
 Routing-tool directions route customPreferences.
 Possibility to define additional preferences for the different speed profiles (additionally to the BKG service)  (requires own modified backend)
 
