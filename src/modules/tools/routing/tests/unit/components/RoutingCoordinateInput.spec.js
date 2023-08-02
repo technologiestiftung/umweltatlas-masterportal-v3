@@ -155,8 +155,8 @@ describe("src/modules/tools/routing/components/RoutingCoordinateInput.vue", () =
         });
         wrapper.setData({
             searchResults: [
-                new RoutingGeosearchResult(8, 52, "test1"),
-                new RoutingGeosearchResult(8, 52, "test2")
+                new RoutingGeosearchResult([8, 52], "test1"),
+                new RoutingGeosearchResult([8, 52], "test2")
             ]
         });
         await wrapper.vm.$nextTick();
@@ -217,12 +217,12 @@ describe("src/modules/tools/routing/components/RoutingCoordinateInput.vue", () =
             });
             wrapper.setData({
                 searchResults: [
-                    new RoutingGeosearchResult(8, 52, "test1"),
-                    new RoutingGeosearchResult(8, 52, "test2")
+                    new RoutingGeosearchResult([8, 52], "test1"),
+                    new RoutingGeosearchResult([8, 52], "test2")
                 ]
             });
             await wrapper.vm.$nextTick();
-            wrapper.vm.selectSearchResult(new RoutingGeosearchResult(8, 52, "test1"));
+            wrapper.vm.selectSearchResult(new RoutingGeosearchResult([8, 52], "test1"));
             expect(props.waypoint.getDisplayName()).equal("test1");
             expect(wrapper.vm.search).equal("test1");
             expect(wrapper.vm.searchResults.length).equal(0);
@@ -254,8 +254,8 @@ describe("src/modules/tools/routing/components/RoutingCoordinateInput.vue", () =
             wrapper.setData({
                 search: "test",
                 searchResults: [
-                    new RoutingGeosearchResult(8, 52, "test1"),
-                    new RoutingGeosearchResult(8, 52, "test2")
+                    new RoutingGeosearchResult([8, 52], "test1"),
+                    new RoutingGeosearchResult([8, 52], "test2")
                 ]
             });
             await wrapper.vm.$nextTick();
@@ -274,8 +274,8 @@ describe("src/modules/tools/routing/components/RoutingCoordinateInput.vue", () =
             wrapper.setData({
                 search: "test",
                 searchResults: [
-                    new RoutingGeosearchResult(8, 52, "test1"),
-                    new RoutingGeosearchResult(8, 52, "test2")
+                    new RoutingGeosearchResult([8, 52], "test1"),
+                    new RoutingGeosearchResult([8, 52], "test2")
                 ]
             });
             await wrapper.vm.$nextTick();

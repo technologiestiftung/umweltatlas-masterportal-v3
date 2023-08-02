@@ -5,6 +5,7 @@ import {
 } from "../utils/geosearch/routing-nominatim-geosearch";
 import crs from "@masterportal/masterportalapi/src/crs";
 import {fetchRoutingBkgGeosearch, fetchRoutingBkgGeosearchReverse} from "../utils/geosearch/routing-bkg-geosearch";
+import {fetchRoutingLocationFinderGeosearch} from "../utils/geosearch/routing-locationFinder-geosearch";
 import * as constantsRouting from "./constantsRouting";
 
 /**
@@ -68,15 +69,22 @@ export default {
             else if (state.geosearch.type === "BKG") {
                 geosearchResults = await fetchRoutingBkgGeosearch(search);
             }
+            else if (state.geosearch.type === "LOCATIONFINDER") {
+                geosearchResults = await fetchRoutingLocationFinderGeosearch(search);
+            }
             else {
                 throw new Error("Geosearch is not configured correctly.");
             }
 
-            // Transform WGS84 Coordinates to Local Projection
+            // Transform Coordinates to Local Projection
             geosearchResults.forEach(async geosearchResult => {
+                if (!geosearchResult.getEpsg()) {
+                    geosearchResult.setEpsg("4326");
+                }
                 const coordinatesLocal = await dispatch(
-                    "Tools/Routing/transformCoordinatesWgs84ToLocalProjection",
-                    [geosearchResult.getLng(), geosearchResult.getLat()],
+                    "Tools/Routing/transformCoordinatesToLocalProjection",
+                    {coordinates: geosearchResult.getCoordinates(),
+                        epsg: geosearchResult.getEpsg()},
                     {root: true}
                 );
 
@@ -99,35 +107,41 @@ export default {
      * @returns {RoutingGeosearchResult} Returns parsed Array of RoutingGeosearchResults.
      */
     async fetchTextByCoordinates ({state, dispatch}, {coordinates}) {
-        let geosearchResult = null;
+        let geosearchResults = [];
 
         try {
             // Possible to change Geosearch by changing function depending on config
             if (state.geosearch.type === "NOMINATIM") {
-                geosearchResult = await fetchRoutingNominatimGeosearchReverse(
+                geosearchResults = await fetchRoutingNominatimGeosearchReverse(
                     coordinates
                 );
             }
             else if (state.geosearch.type === "BKG") {
-                geosearchResult = await fetchRoutingBkgGeosearchReverse(coordinates);
+                geosearchResults = await fetchRoutingBkgGeosearchReverse(coordinates);
             }
             else {
                 throw new Error("Geosearch is not configured correctly.");
             }
 
             // Transform WGS84 Coordinates to Local Projection
-            const coordinatesLocal = await dispatch(
-                "Tools/Routing/transformCoordinatesWgs84ToLocalProjection",
-                [geosearchResult.getLng(), geosearchResult.getLat()],
-                {root: true}
-            );
+            geosearchResults.forEach(async geosearchResult => {
+                if (!geosearchResult.getEpsg()) {
+                    geosearchResult.setEpsg("4326");
+                }
+                const coordinatesLocal = await dispatch(
+                    "Tools/Routing/transformCoordinatesToLocalProjection",
+                    {coordinates: geosearchResult.getCoordinates(),
+                        epsg: geosearchResult.getEpsg()},
+                    {root: true}
+                );
 
-            geosearchResult.setCoordinates(coordinatesLocal);
+                geosearchResult.setCoordinates(coordinatesLocal);
+            });
         }
         catch (err) {
             // fail silently, comment needed for linter
         }
-        return geosearchResult;
+        return geosearchResults;
     },
 
     /**
@@ -155,5 +169,21 @@ export default {
             crs.getMapProjection(mapCollection.getMap(rootState.Maps.mode)),
             coordinates
         );
+    },
+    /**
+     * Transforms the given coordinates from the wgs84 projection to the local projections
+     * @param {Object} context actions context object.
+     * @param {Object} payload parameter object.
+     * @param {[Number, Number]} payload.coordinates The layer to add.
+     * @param {String} payload.epsg coordinate system.
+     * @returns {[Number, Number]} projected local coordinates
+     */
+    transformCoordinatesToLocalProjection ({rootState}, {coordinates, epsg}) {
+        return crs.transform(
+            `EPSG:${epsg}`,
+            crs.getMapProjection(mapCollection.getMap(rootState.Maps.mode)),
+            coordinates
+        );
     }
+
 };
