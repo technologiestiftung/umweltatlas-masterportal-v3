@@ -10,7 +10,7 @@ export default {
      * @returns {void}
      */
     initialize ({state, commit, dispatch}) {
-        const {numFeaturesToShow, infoText} = Config.mouseHover,
+        const {numFeaturesToShow, infoText, highlightOnHover} = Config.mouseHover,
             map = mapCollection.getMap("2D");
         let featuresAtPixel = [];
 
@@ -31,14 +31,14 @@ export default {
             featuresAtPixel = [];
             commit("setHoverPosition", evt.coordinate);
 
-            if (Config.mouseHover.highlightOnHover) {
+            if (highlightOnHover) {
                 dispatch("Maps/removeHighlightFeature", "decrease", {root: true});
             }
 
             // works for WebGL layers that are point layers
             map.forEachFeatureAtPixel(evt.pixel, (feature, layer) => {
                 if (layer?.getVisible()) {
-                    if (Config.mouseHover.highlightOnHover) {
+                    if (highlightOnHover) {
                         dispatch("highlightFeature", {feature, layer});
                     }
 
@@ -129,12 +129,13 @@ export default {
     },
 
     highlightFeature ({dispatch, state}, {feature, layer}) {
-        const layerId = layer.get("id"),
+        const {highlightVectorRulesPointLine, highlightVectorRulesPolygon} = Config.mouseHover,
+            layerId = layer.get("id"),
             featureGeometryType = feature.getGeometry().getType(),
             featureId = feature.getId(),
             styleObj = featureGeometryType.toLowerCase().indexOf("polygon") > -1 ?
-                Config.mouseHover.highlightVectorRulesPolygon ?? state.highlightVectorRulesPolygon :
-                Config.mouseHover.highlightVectorRulesPointLine ?? state.highlightVectorRulesPointLine,
+                highlightVectorRulesPolygon ?? state.highlightVectorRulesPolygon :
+                highlightVectorRulesPointLine ?? state.highlightVectorRulesPointLine,
             highlightObject = {
                 type: featureGeometryType === "Point" || featureGeometryType === "MultiPoint" ? "increase" : "highlightPolygon",
                 id: featureId,
@@ -144,7 +145,7 @@ export default {
             },
             rawLayer = rawLayerList.getLayerWhere({id: layerId});
 
-        if (featureGeometryType === "LineString") {
+        if (featureGeometryType === "LineString" || featureGeometryType === "MultiLineString") {
             highlightObject.type = "highlightLine";
         }
         layer.id = layerId;
