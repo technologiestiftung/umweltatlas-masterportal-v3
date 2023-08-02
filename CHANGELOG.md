@@ -10,6 +10,8 @@
 - The following packages have been updated:
     - dependencies:
         - @masterportal/masterportalapi: 2.23.0 to 2.24.0 (This also raised olcs to version 2.15.0)
+- Filter:
+    - The parameter filterOnMove now only works in combination with "'multiLayerSelector': false" to create a better user experience.
 
 ### Deprecated
 

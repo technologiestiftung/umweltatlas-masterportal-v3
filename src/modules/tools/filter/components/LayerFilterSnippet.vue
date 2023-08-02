@@ -22,6 +22,7 @@ import {refreshLayerTree} from "../../../../../src/core/layers/RadioBridge";
 import {isRule} from "../utils/isRule.js";
 import store from "../../../../app-store";
 import {mapGetters} from "vuex";
+import VectorTileLayer from "../../../../core/layers/vectorTile";
 
 export default {
     name: "LayerFilterSnippet",
@@ -80,9 +81,14 @@ export default {
             default: false
         },
         isLayerFilterSelected: {
-            type: [Function, Boolean],
+            type: Boolean,
             required: false,
             default: false
+        },
+        openMultipleAccordeons: {
+            type: Boolean,
+            required: false,
+            default: true
         }
     },
     data () {
@@ -184,7 +190,7 @@ export default {
             });
         },
         filterGeometry () {
-            if (typeof this.isLayerFilterSelected === "function" && this.isLayerFilterSelected(this.layerConfig.filterId) || this.isLayerFilterSelected === true) {
+            if (this.isLayerFilterSelected === true) {
                 this.handleActiveStrategy();
             }
         },
@@ -227,8 +233,14 @@ export default {
         refreshLayerTree();
     },
     beforeDestroy () {
-        if (this.layerConfig.filterOnMove === true && this.layerConfig?.strategy === "active") {
-            this.unregisterMapMoveListener();
+        if (this.layerConfig.filterOnMove === true && !this.openMultipleAccordeons && this.layerConfig?.strategy === "active") {
+            this.$emit("registerMapMoveListener", {
+                filterId: this.layerConfig.filterId,
+                listener: false
+            });
+            if (this.mapHandler.getLayerModelByFilterId(this.layerConfig.filterId) instanceof VectorTileLayer) {
+                this.mapHandler.clearLayer(this.layerConfig.filterId, this.isExtern());
+            }
         }
     },
     methods: {
@@ -253,9 +265,7 @@ export default {
             }
             if (!this.mapHandler.isLayerActivated(this.layerConfig.filterId)
                 && isObject(this.filterGeometry)
-                && (typeof this.isLayerFilterSelected === "function"
-                && this.isLayerFilterSelected(this.layerConfig.filterId)
-                || this.isLayerFilterSelected === true)) {
+                && this.isLayerFilterSelected === true) {
                 this.handleActiveStrategy();
             }
 
@@ -263,11 +273,19 @@ export default {
                 this.checkZoomLevel(this.layerConfig.minZoom, this.layerConfig.maxZoom);
             }
 
-            if (this.layerConfig.filterOnMove === true && this.layerConfig?.strategy === "active") {
-                this.registerMapMoveListener();
+            if (this.layerConfig.filterOnMove === true && !this.openMultipleAccordeons && this.layerConfig?.strategy === "active") {
+                this.$emit("registerMapMoveListener", {
+                    filterId: this.layerConfig.filterId,
+                    listener: evt => this.updateSnippets(evt)
+                });
+                this.$nextTick(() => {
+                    if (!this.outOfZoom) {
+                        this.isLockedHandleActiveStrategy = false;
+                        this.handleActiveStrategy();
+                    }
+                });
             }
         },
-
         /**
          * Set the prechecked value for each snippet by state data.
          * @param {Object[]} rules an array of rules
@@ -717,24 +735,6 @@ export default {
                     });
                 });
             }
-        },
-        /**
-         * Registering a map moveend, loadend and loadstart listener.
-         * @returns {void}
-         */
-        registerMapMoveListener () {
-            store.dispatch("Maps/registerListener", {type: "loadstart", listener: this.updateSnippets.bind(this)});
-            store.dispatch("Maps/registerListener", {type: "loadend", listener: this.updateSnippets.bind(this)});
-            store.dispatch("Maps/registerListener", {type: "moveend", listener: this.updateSnippets.bind(this)});
-        },
-        /**
-         * Unregistering this moveend, loadend and loadstart listener.
-         * @returns {void}
-         */
-        unregisterMapMoveListener () {
-            store.dispatch("Maps/unregisterListener", {type: "loadstart", listener: this.updateSnippets.bind(this)});
-            store.dispatch("Maps/unregisterListener", {type: "loadend", listener: this.updateSnippets.bind(this)});
-            store.dispatch("Maps/unregisterListener", {type: "moveend", listener: this.updateSnippets.bind(this)});
         },
 
         /**

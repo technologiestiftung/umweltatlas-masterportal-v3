@@ -309,4 +309,29 @@ describe("src/modules/tools/filter/components/FilterGeneral.vue", () => {
             expect(param).to.deep.equal({rulesOfFilters: [null, "bar", "buz"], selectedAccordions: [{layerId: 1, filterId: 1}]});
         });
     });
+    describe("addToMapMoveListeners", () => {
+        it("should not add to listeners list", () => {
+            wrapper.vm.addToMapMoveListeners();
+            expect(wrapper.vm.mapMoveListeners).to.deep.equal({});
+            wrapper.vm.addToMapMoveListeners({});
+            expect(wrapper.vm.mapMoveListeners).to.deep.equal({});
+            wrapper.vm.addToMapMoveListeners({filterId: 0});
+            expect(wrapper.vm.mapMoveListeners).to.deep.equal({});
+        });
+        it("should add to listeners list", () => {
+            wrapper.vm.addToMapMoveListeners({filterId: 0, listener: false});
+            expect(wrapper.vm.mapMoveListeners).to.deep.equal({0: false});
+        });
+    });
+    describe("executeListeners", () => {
+        it("should call a listener if its a function", () => {
+            let foo = false;
+
+            wrapper.vm.mapMoveListeners = {0: () => {
+                foo = true;
+            }};
+            wrapper.vm.executeListeners();
+            expect(foo).to.be.true;
+        });
+    });
 });
