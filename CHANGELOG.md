@@ -4,6 +4,7 @@
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 ## Unreleased - in development
 ### __Breaking Changes__
+
 ### Added
 - QuickHelp: A description of the route preference `recommended route` has been added.
 - 3D:
@@ -22,10 +23,11 @@
 - MouseHover:
   - Added highlighting Vector Layers on mouseHover as requested in Issue #836
   - Configurable in config.js
+
 ### Changed
 - The following packages have been updated:
     - dependencies:
-        - @masterportal/masterportalapi: 2.20.0 to 2.22.0 (with cesium 1.106.0 to @cesium/engine 2.4.1)
+        - @masterportal/masterportalapi: 2.20.0 to 2.23.0 (with cesium 1.106.0 to @cesium/engine 2.4.1)
 - WFS: Migrated writeTransaction and sendTransaction to masterportalAPI (2.22.0).
 
 ### Deprecated
