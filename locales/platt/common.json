@@ -466,7 +466,7 @@
                         "beginModelling": "3D-Objekt modellieren",
                         "clampToGround": "An Höhenmodell orienteren",
                         "color": "Farv",
-                        "controlInfo": "Klick mit de link Maustast, um Punten to setten. Klick mit de recht Maustast, um dat Teken af to slöten.",
+                        "controlInfo": "Klick mit de link Maustast, um Punten to setten. Klick mit de recht Maustast oder en Dubbelklick, um dat Teken af to slöten.",
                         "drawing": "Teken",
                         "drawName": "Naam",
                         "drawnModels": "Teken Modelle:",

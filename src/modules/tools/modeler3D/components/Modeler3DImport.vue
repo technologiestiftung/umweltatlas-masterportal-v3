@@ -33,8 +33,6 @@ export default {
          * @returns {void}
          */
         addFile (files) {
-            this.setIsLoading(true);
-
             const reader = new FileReader(),
                 file = files[0],
                 fileName = file.name.split(".")[0],
@@ -52,6 +50,8 @@ export default {
                 return;
             }
 
+            this.setIsLoading(true);
+
             reader.onload = (event) => {
                 if (fileExtension === "obj") {
                     this.handleObjFile(event.target.result, fileName);
@@ -64,11 +64,13 @@ export default {
                 }
                 else {
                     store.dispatch("Alerting/addSingleAlert", {content: i18next.t("common:modules.tools.modeler3D.import.alertingMessages.missingFormat", {format: fileExtension})}, {root: true});
+                    this.setIsLoading(false);
                 }
             };
 
             reader.onerror = (e) => {
                 console.error("Error reading the file:", e.target.error);
+                this.setIsLoading(false);
             };
 
             if (fileExtension === "dae") {

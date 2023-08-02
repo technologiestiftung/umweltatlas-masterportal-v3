@@ -465,7 +465,7 @@
                         "beginModelling": "3D Nesne Modelle",
                         "clampToGround": "Zemine Uygun Hizala",
                         "color": "Renk",
-                        "controlInfo": "Noktaları belirlemek için sol tıklayın. Çizimi bitirmek için sağ tıklayın.",
+                        "controlInfo": "Noktaları belirlemek için sol tıklayın. Çizimi bitirmek için farenin sağ tuşunu veya çift tıklamayı kullanın.",
                         "drawing": "Çizim",
                         "drawName": "Adı",
                         "drawnModels": "Çizilen Modeller:",

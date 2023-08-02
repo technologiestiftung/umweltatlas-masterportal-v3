@@ -100,7 +100,14 @@ describe("src/modules/tools/modeler3D/components/Modeler3D.vue", () => {
                         entities: entities
                     }
                 };
-            }
+            },
+            getOlMap: () => ({
+                getView: () => ({
+                    getProjection: () => ({
+                        getCode: () => "EPSG:25832"
+                    })
+                })
+            })
         },
         event = {position: "winCoords"};
 

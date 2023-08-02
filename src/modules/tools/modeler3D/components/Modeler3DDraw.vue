@@ -3,7 +3,7 @@ import {mapGetters, mapActions, mapMutations} from "vuex";
 import actions from "../store/actionsModeler3D";
 import getters from "../store/gettersModeler3D";
 import mutations from "../store/mutationsModeler3D";
-import proj4 from "proj4";
+import crs from "@masterportal/masterportalapi/src/crs";
 import {adaptCylinderToEntity, adaptCylinderToGround, adaptCylinderUnclamped} from "../utils/draw";
 
 import DrawTypes from "./ui/DrawTypes.vue";
@@ -23,7 +23,8 @@ export default {
         return {
             clampToGround: true,
             currentPosition: null,
-            shapeId: null
+            shapeId: null,
+            lastAddedPosition: null
         };
     },
     computed: {
@@ -59,6 +60,7 @@ export default {
 
             eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
             eventHandler.setInputAction(this.addGeometryPosition, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+            eventHandler.setInputAction(this.stopDrawing, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
             eventHandler.setInputAction(this.stopDrawing, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
         },
         /**
@@ -83,7 +85,7 @@ export default {
                 }
             }
             else {
-                const transformedCoordinates = proj4(proj4("EPSG:25832"), proj4("EPSG:4326"), [this.mouseCoordinate[0], this.mouseCoordinate[1]]),
+                const transformedCoordinates = crs.transformFromMapProjection(mapCollection.getMap("3D").getOlMap(), "EPSG:4326", [this.mouseCoordinate[0], this.mouseCoordinate[1]]),
                     cartographic = Cesium.Cartographic.fromDegrees(transformedCoordinates[0], transformedCoordinates[1]),
                     polygon = this.entities.values.find(ent => ent.id === this.currentModelId),
                     ignoreObjects = polygon ? [floatingPoint, polygon] : [floatingPoint];
@@ -104,9 +106,15 @@ export default {
         },
         /**
          * Called on mouse leftclick. Sets the position of a pin and starts to draw a geometry.
+         * When a position is identical to the last placed position, the function is escaped to avoid moving errors of the drawn geometry.
          * @returns {void}
          */
         addGeometryPosition () {
+            if (Cesium.Cartesian3.equals(this.currentPosition, this.lastAddedPosition)) {
+                return;
+            }
+            this.lastAddedPosition = this.currentPosition;
+
             let floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
 
             if (this.activeShapePoints.length === 1) {
@@ -144,27 +152,30 @@ export default {
          * @returns {void}
          */
         stopDrawing () {
-            if (this.isDrawing) {
-                const shape = this.entities.getById(this.shapeId);
-
-                if (shape?.polygon && this.activeShapePoints.length > 2) {
-                    shape.polygon.hierarchy = new Cesium.ConstantProperty(new Cesium.PolygonHierarchy(this.activeShapePoints));
-                }
-                if (shape?.polyline && this.activeShapePoints.length >= 2) {
-                    shape.polyline.positions = this.activeShapePoints;
-                }
-                else if (shape && shape.polygon && this.activeShapePoints.length < 3) {
-                    this.deleteEntity(shape.id);
-                }
-
-                this.setActiveShapePoints([]);
-                this.removeCylinders();
-                this.currentPosition = null;
-                this.shapeId = null;
-                this.setIsDrawing(false);
-                document.body.style.cursor = "auto";
-                eventHandler.destroy();
+            if (!this.isDrawing) {
+                return;
             }
+            const shape = this.entities.getById(this.shapeId);
+
+            this.activeShapePoints.pop();
+
+            if (shape?.polygon && this.activeShapePoints.length > 2) {
+                shape.polygon.hierarchy = new Cesium.ConstantProperty(new Cesium.PolygonHierarchy(this.activeShapePoints));
+            }
+            if (shape?.polyline && this.activeShapePoints.length >= 2) {
+                shape.polyline.positions = this.activeShapePoints;
+            }
+            else if (shape && shape.polygon && this.activeShapePoints.length < 3) {
+                this.deleteEntity(shape.id);
+            }
+
+            this.setActiveShapePoints([]);
+            this.removeCylinders();
+            this.currentPosition = null;
+            this.shapeId = null;
+            this.setIsDrawing(false);
+            document.body.style.cursor = "auto";
+            eventHandler.destroy();
         },
         /**
          * Creates the drawn shape in the EntityCollection and sets its attributes.

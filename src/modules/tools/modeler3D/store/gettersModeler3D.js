@@ -112,6 +112,9 @@ const getters = {
         else if (geometry.polyline) {
             positions = geometry.polyline.positions.getValue();
         }
+        else {
+            return undefined;
+        }
 
         const center = positions.reduce(
             (sum, position) => {

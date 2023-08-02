@@ -9,9 +9,7 @@ import {mapActions, mapGetters, mapMutations} from "vuex";
 import actions from "../store/actionsModeler3D";
 import getters from "../store/gettersModeler3D";
 import mutations from "../store/mutationsModeler3D";
-import store from "../../../../app-store";
 import crs from "@masterportal/masterportalapi/src/crs";
-import proj4 from "proj4";
 import getGfiFeatures from "../../../../api/gfi/getGfiFeaturesByTileFeature";
 import {adaptCylinderToGround, adaptCylinderToEntity, adaptCylinderUnclamped} from "../utils/draw";
 
@@ -43,21 +41,21 @@ export default {
          * Returns the CSS classes for the import tab based on the current view.
          * @returns {string} - The CSS classes for the import tab.
          */
-        importTabClasses: function () {
+        importTabClasses () {
             return this.currentView === "import" ? this.activeTabClass : this.defaultTabClass;
         },
         /**
          * Returns the CSS classes for the draw tab based on the current view.
          * @returns {string} - The CSS classes for the draw tab.
          */
-        drawTabClasses: function () {
+        drawTabClasses () {
             return this.currentView === "draw" ? this.activeTabClass : this.defaultTabClass;
         },
         /**
          * Returns the CSS classes for the options tab based on the current view.
          * @returns {string} - The CSS classes for the options tab.
          */
-        optionsTabClasses: function () {
+        optionsTabClasses () {
             return this.currentView === "" ? this.activeTabClass : this.defaultTabClass;
         },
         /**
@@ -278,6 +276,10 @@ export default {
          * @returns {void}
          */
         moveEntity (event) {
+            if (this.isDrawing) {
+                return;
+            }
+
             let entity;
 
             if (event) {
@@ -325,38 +327,36 @@ export default {
          * @returns {void}
          */
         selectObject (event) {
-            if (!this.isDrawing) {
-                const scene = this.scene,
-                    picked = scene.pick(event.position);
+            if (this.isDrawing) {
+                return;
+            }
+            const scene = this.scene,
+                picked = scene.pick(event.position);
 
-                if (Cesium.defined(picked)) {
-                    const entity = Cesium.defaultValue(picked?.id, picked?.primitive?.id);
+            if (Cesium.defined(picked)) {
+                const entity = Cesium.defaultValue(picked?.id, picked?.primitive?.id);
 
-                    if (entity instanceof Cesium.Entity) {
-                        if (entity.cylinder) {
-                            this.setCylinderId(entity.id);
-                        }
-                        else {
-                            this.setCurrentModelId(entity.id);
-                            this.setCylinderId(null);
-                        }
+                if (entity instanceof Cesium.Entity) {
+                    if (entity.cylinder) {
+                        this.setCylinderId(entity.id);
                     }
-                    else if (this.hideObjects && picked instanceof Cesium.Cesium3DTileFeature) {
-                        const configPath = store.state.configJson?.Portalconfig.menu.tools.children.modeler3D,
-                            gmlIdPath = configPath?.gmlId || "gmlid",
-                            updateAllLayers = configPath?.updateAllLayers === undefined || configPath?.updateAllLayers === true,
-                            features = getGfiFeatures.getGfiFeaturesByTileFeature(picked),
-                            gmlId = features[0]?.getProperties()[gmlIdPath],
-                            tileSetModels = updateAllLayers ?
-                                Radio.request("ModelList", "getModelsByAttributes", {typ: "TileSet3D"}) :
-                                Radio.request("ModelList", "getModelsByAttributes", {typ: "TileSet3D", id: picked.tileset.layerReferenceId});
-
-                        tileSetModels.forEach(model => model.hideObjects([gmlId], updateAllLayers));
-
-                        this.hiddenObjects.push({
-                            name: gmlId
-                        });
+                    else {
+                        this.setCurrentModelId(entity.id);
+                        this.setCylinderId(null);
                     }
+                }
+                else if (this.hideObjects && picked instanceof Cesium.Cesium3DTileFeature) {
+                    const features = getGfiFeatures.getGfiFeaturesByTileFeature(picked),
+                        gmlId = features[0]?.getProperties()[this.gmlIdPath],
+                        tileSetModels = this.updateAllLayers ?
+                            Radio.request("ModelList", "getModelsByAttributes", {typ: "TileSet3D"}) :
+                            Radio.request("ModelList", "getModelsByAttributes", {typ: "TileSet3D", id: picked.tileset.layerReferenceId});
+
+                    tileSetModels.forEach(model => model.hideObjects([gmlId], this.updateAllLayers));
+
+                    this.hiddenObjects.push({
+                        name: gmlId
+                    });
                 }
             }
         },
@@ -366,7 +366,7 @@ export default {
          * @returns {void}
          */
         moveCylinder (event) {
-            if (!this.isDragging) {
+            if (!this.isDragging || this.isDrawing) {
                 return;
             }
 
@@ -387,7 +387,7 @@ export default {
                     }
                 }
                 else {
-                    const transformedCoordinates = proj4(proj4("EPSG:25832"), proj4("EPSG:4326"), [this.mouseCoordinate[0], this.mouseCoordinate[1]]),
+                    const transformedCoordinates = crs.transformFromMapProjection(mapCollection.getMap("3D").getOlMap(), "EPSG:4326", [this.mouseCoordinate[0], this.mouseCoordinate[1]]),
                         cartographic = Cesium.Cartographic.fromDegrees(transformedCoordinates[0], transformedCoordinates[1]);
 
                     cartographic.height = scene.sampleHeight(cartographic, [cylinder, entity]);
@@ -486,11 +486,10 @@ export default {
          * @returns {void}
          */
         highlightEntity (entity) {
-            const configuredHighlightStyle = store.state.configJson?.Portalconfig.menu.tools.children.modeler3D.highlightStyle,
-                color = configuredHighlightStyle?.color || this.highlightStyle.color,
-                alpha = configuredHighlightStyle?.alpha || this.highlightStyle.alpha,
-                silhouetteColor = configuredHighlightStyle?.silhouetteColor || this.highlightStyle.silhouetteColor,
-                silhouetteSize = configuredHighlightStyle?.silhouetteSize || this.highlightStyle.silhouetteSize;
+            const color = this.highlightStyle.color,
+                alpha = this.highlightStyle.alpha,
+                silhouetteColor = this.highlightStyle.silhouetteColor,
+                silhouetteSize = this.highlightStyle.silhouetteSize;
 
             if (entity.wasDrawn) {
                 if (entity.polygon) {
@@ -547,7 +546,7 @@ export default {
          */
         positionPovCamera () {
             const scene = this.scene,
-                transformedCoordinates = proj4(proj4("EPSG:25832"), proj4("EPSG:4326"), this.clickCoordinate),
+                transformedCoordinates = crs.transformFromMapProjection(mapCollection.getMap("3D").getOlMap(), "EPSG:4326", this.clickCoordinate),
                 currentPosition = scene.camera.positionCartographic,
                 destination = new Cesium.Cartographic(
                     Cesium.Math.toRadians(transformedCoordinates[0]),
@@ -669,7 +668,7 @@ export default {
                 return;
             }
 
-            const transformedCoordinates = proj4(proj4("EPSG:25832"), proj4("EPSG:4326"), [this.mouseCoordinate[0], this.mouseCoordinate[1]]),
+            const transformedCoordinates = crs.transformFromMapProjection(mapCollection.getMap("3D").getOlMap(), "EPSG:4326", [this.mouseCoordinate[0], this.mouseCoordinate[1]]),
                 cartographic = Cesium.Cartographic.fromDegrees(transformedCoordinates[0], transformedCoordinates[1]),
                 povCylinder = this.entities.getById(this.cylinderId);
             let currentCartesian;
@@ -745,7 +744,7 @@ export default {
                             <a
                                 href="#"
                                 class="nav-link"
-                                :class="importTabClasses"
+                                :class="[importTabClasses, {'disabled': isDrawing}]"
                                 @click.prevent="setCurrentView('import'), resetPov()"
                             >{{ $t("modules.tools.modeler3D.nav.importTitle") }}</a>
                         </li>
@@ -757,7 +756,7 @@ export default {
                             <a
                                 href="#"
                                 class="nav-link"
-                                :class="drawTabClasses"
+                                :class="[drawTabClasses, {'disabled': isDrawing}]"
                                 @click.prevent="setCurrentView('draw'), resetPov()"
                             >{{ $t("modules.tools.modeler3D.nav.drawTitle") }}</a>
                         </li>
@@ -769,7 +768,7 @@ export default {
                             <a
                                 href="#"
                                 class="nav-link"
-                                :class="optionsTabClasses"
+                                :class="[optionsTabClasses, {'disabled': isDrawing}]"
                                 @click.prevent="setCurrentView(''), resetPov()"
                             >{{ $t("modules.tools.modeler3D.nav.options") }}</a>
                         </li>

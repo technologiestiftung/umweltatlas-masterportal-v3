@@ -57,6 +57,20 @@ describe("src/modules/tools/wfst/components/WfsTransaction.vue", () => {
                 required: false
             },
             {
+                label: "shortAtt",
+                key: "shortAtt",
+                value: null,
+                type: "short",
+                required: false
+            },
+            {
+                label: "floatAtt",
+                key: "floatAtt",
+                value: null,
+                type: "float",
+                required: false
+            },
+            {
                 label: "boolAtt",
                 key: "boolAtt",
                 value: null,
@@ -227,6 +241,10 @@ describe("src/modules/tools/wfst/components/WfsTransaction.vue", () => {
             expect(wrapper.find("#tool-wfsTransaction-form-input-stringAtt").attributes().type).to.equal("text");
             expect(wrapper.find("#tool-wfsTransaction-form-input-numAtt").exists()).to.be.true;
             expect(wrapper.find("#tool-wfsTransaction-form-input-numAtt").attributes().type).to.equal("number");
+            expect(wrapper.find("#tool-wfsTransaction-form-input-shortAtt").exists()).to.be.true;
+            expect(wrapper.find("#tool-wfsTransaction-form-input-shortAtt").attributes().type).to.equal("short");
+            expect(wrapper.find("#tool-wfsTransaction-form-input-floatAtt").exists()).to.be.true;
+            expect(wrapper.find("#tool-wfsTransaction-form-input-floatAtt").attributes().type).to.equal("float");
             expect(wrapper.find("#tool-wfsTransaction-form-input-boolAtt").exists()).to.be.true;
             expect(wrapper.find("#tool-wfsTransaction-form-input-boolAtt").attributes().type).to.equal("checkbox");
             expect(wrapper.find("#tool-wfsTransaction-form-input-dateAtt").exists()).to.be.true;

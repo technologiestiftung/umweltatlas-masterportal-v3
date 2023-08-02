@@ -157,22 +157,35 @@ export default {
             return !this.options && this.suggestionsConfig && this.value.length >= length;
         }
     },
-    mounted () {
-        if (typeof this.selectableParameters.options === "string") {
-            if (this.selectableParameters.options === "") {
-                this.addOptions(this.selectableParameters.options);
-            }
-            else {
-                const optionsArr = this.selectableParameters.options.split(".");
-
-                // Current option is always the last part of the string
-                this.addOptions(optionsArr[optionsArr.length - 1]);
-            }
+    watch: {
+        currentInstanceIndex () {
+            this.updateCurrentInstanceOptions();
         }
+    },
+    mounted () {
+        this.updateCurrentInstanceOptions();
     },
     methods: {
         ...mapMutations("Tools/WfsSearch", Object.keys(mutations)),
         ...mapActions("Tools/WfsSearch", Object.keys(actions)),
+        /**
+         * Update the addedOptions field for the current instance.
+         *
+         * @returns {void}
+         */
+        updateCurrentInstanceOptions () {
+            if (typeof this.selectableParameters.options === "string") {
+                if (this.selectableParameters.options === "") {
+                    this.addOptions(this.selectableParameters.options);
+                }
+                else {
+                    const optionsArr = this.selectableParameters.options.split(".");
+
+                    // Current option is always the last part of the string
+                    this.addOptions(optionsArr[optionsArr.length - 1]);
+                }
+            }
+        },
         /**
          * The array check needs to be done for every property which is not required
          * to check if multiple parameters can be selected from this field and if every

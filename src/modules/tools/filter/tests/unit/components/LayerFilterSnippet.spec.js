@@ -74,7 +74,7 @@ describe("src/modules/tools/filter/components/LayerFilterSnippet.vue", () => {
         });
     });
     describe("renderCheckboxSearchInMapExtent", () => {
-        it("Should render the checkbox component correctly", () => {
+        it("Should render the checkbox component correctly", async () => {
             wrapper = shallowMount(LayerFilterSnippet, {
                 propsData: {
                     layerConfig: {
@@ -87,6 +87,10 @@ describe("src/modules/tools/filter/components/LayerFilterSnippet.vue", () => {
                 },
                 localVue
             });
+
+            wrapper.setData({outOfZoom: false});
+            await wrapper.vm.$nextTick();
+
             expect(wrapper.findComponent(SnippetCheckboxFilterInMapExtent).exists()).to.be.true;
         });
     });
@@ -123,6 +127,21 @@ describe("src/modules/tools/filter/components/LayerFilterSnippet.vue", () => {
             wrapper.vm.deleteRule(0);
             await wrapper.vm.$nextTick();
             expect(wrapper.emitted().updateRules).to.be.an("array").with.lengthOf(1);
+        });
+    });
+    describe("deleteAllRules", () => {
+        it("should emit the deleteAllRules function", async () => {
+            wrapper.vm.deleteAllRules();
+            await wrapper.vm.$nextTick();
+            expect(wrapper.emitted().deleteAllRules).to.be.an("array").with.lengthOf(1);
+        });
+        it("should call handleActiveStrategy if strategy is active", async () => {
+            const spyHandleActiveStrategy = sinon.spy(wrapper.vm, "handleActiveStrategy");
+
+            await wrapper.setProps({layerConfig: {strategy: "active"}});
+            wrapper.vm.deleteAllRules();
+            await wrapper.vm.$nextTick();
+            expect(spyHandleActiveStrategy.calledOnce).to.be.true;
         });
     });
     describe("hasUnfixedRules", () => {

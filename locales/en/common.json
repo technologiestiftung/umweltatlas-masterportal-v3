@@ -649,7 +649,7 @@
                         "beginModelling": "Model 3D Object",
                         "clampToGround": "Align to Terrain Model",
                         "color": "Color",
-                        "controlInfo": "Click with the left mouse button to set points. Right-click to finish the drawing.",
+                        "controlInfo": "Click with the left mouse button to set points. Use the right mouse button or a double click to finish drawing.",
                         "drawing": "Drawing",
                         "drawName": "Name",
                         "drawnModels": "Drawn Models:",
