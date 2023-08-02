@@ -103,7 +103,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
             },
             defined: sinon.stub().returns(true),
             Cartesian3: {
-                equalsEpsilon: sinon.stub().returns(false)
+                equals: sinon.stub().returns(false)
             },
             Math: {
                 toDegrees: () => 9.99455657887449
@@ -273,7 +273,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
 
         it("should draw shapes when selectedGeometry is 'line' and activeShapePoints has at least 2 points", () => {
             store.commit("Tools/Modeler3D/setSelectedGeometry", "line");
-            store.commit("Tools/Modeler3D/setActiveShapePoints", [{x: 100, y: 200, z: 300}, {x: 200, y: 300, z: 400}]);
+            store.commit("Tools/Modeler3D/setActiveShapePoints", [{x: 100, y: 200, z: 300}, {x: 200, y: 300, z: 400}, {x: 300, y: 400, z: 500}]);
             wrapper.vm.drawShape();
 
             expect(entities.add.calledWith(sinon.match({id: sinon.match.number, polyline: sinon.match.object}))).to.be.true;
@@ -285,7 +285,8 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
             store.commit("Tools/Modeler3D/setActiveShapePoints", [
                 {x: 100, y: 200, z: 300},
                 {x: 200, y: 300, z: 400},
-                {x: 300, y: 400, z: 500}
+                {x: 300, y: 400, z: 500},
+                {x: 400, y: 500, z: 600}
             ]);
             wrapper.vm.drawShape();
             expect(entities.add.calledWith(sinon.match({id: sinon.match.number, polygon: sinon.match.object}))).to.be.true;

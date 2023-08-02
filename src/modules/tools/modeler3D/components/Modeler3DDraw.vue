@@ -110,12 +110,13 @@ export default {
          * @returns {void}
          */
         addGeometryPosition () {
-            let floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
-
-            if (Cesium.Cartesian3.equalsEpsilon(this.currentPosition, this.lastAddedPosition, 0.000003)) {
+            if (Cesium.Cartesian3.equals(this.currentPosition, this.lastAddedPosition)) {
                 return;
             }
             this.lastAddedPosition = this.currentPosition;
+
+            let floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
+
             if (this.activeShapePoints.length === 1) {
                 this.setHeight(this.clampToGround ?
                     this.scene.globe.getHeight(Cesium.Cartographic.fromCartesian(this.currentPosition)) :
@@ -152,6 +153,8 @@ export default {
          */
         stopDrawing () {
             const shape = this.entities.getById(this.shapeId);
+
+            this.activeShapePoints.pop();
 
             if (shape?.polygon && this.activeShapePoints.length > 2) {
                 shape.polygon.hierarchy = new Cesium.ConstantProperty(new Cesium.PolygonHierarchy(this.activeShapePoints));
