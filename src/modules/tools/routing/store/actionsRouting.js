@@ -125,6 +125,9 @@ export default {
             else if (state.geosearch.type === "BKG") {
                 geosearchResults = await fetchRoutingBkgGeosearchReverse(coordinates);
             }
+            else if (state.geosearch.type === "LOCATIONFINDER") {
+                geosearchResults = null;
+            }
             else if (state.geosearch.type === "KOMOOT") {
                 geosearchResults = await fetchRoutingKomootGeosearchReverse(coordinates);
             }
