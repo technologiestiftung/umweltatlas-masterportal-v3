@@ -4360,8 +4360,11 @@ Routing-tool geosearch options.
 |----|--------|----|-------|-----------|------|
 |minChars|no|Number|3|Minimum amount of characters before sending a request to an external service.|false|
 |limit|no|Number|10|Maximale amount of characters for the search.|false|
-|type|yes|String||Which type of the geosearch should be used. ("BKG", "NOMINATIM", "LOCATIONFINDER", "KOMOOT")|false|
+|type|yes|String||Which type of the geosearch should be used. ("BKG", "NOMINATIM", "LOCATIONFINDER", "KOMOOT", "ELASTIC")|false|
 |serviceId|yes|String||Which service should be used for the geosearch.|false|
+|epsg|no|String|4326|Which EPSG code is used by the service (e.g. 4326, 25832).|false|
+|searchField|no|String||The path to the field to be searched for when using Elastic Search.|false|
+|sortField|no|String||The path to the field that specifies the sorting of the results in ascending order when using Elastic Search.|false|
 
 **Example**
 ```
@@ -4370,8 +4373,11 @@ Routing-tool geosearch options.
     "geosearch": {
         "minChars": 3,
         "limit": 10,
-        "type": "BKG",
-        "serviceId": "bkg_geosearch"
+        "type": "ELASTIC",
+        "serviceId": "elastic_geosearch",
+        "epsg": "25832",
+        "searchField": "properties.searchField",
+        "sortField": "properties.HAUSNUMMER"
     }
 }
 ```
