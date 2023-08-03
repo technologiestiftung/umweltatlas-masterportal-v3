@@ -5,21 +5,56 @@ import store from "../../../../../../app-store";
 import proj4 from "proj4";
 
 describe("Actions", () => {
-    let entities,
+    let entity,
+        entities,
         scene,
         getters;
-    const map3D = {
-        id: "1",
-        mode: "3D",
-        getCesiumScene: () => scene,
-        getOlMap: () => ({
-            getView: () => ({
-                getProjection: () => ({
-                    getCode: () => "EPSG:25832"
+    const polygon = {
+            polygon: {
+                height: 5,
+                extrudedHeight: 25
+            }
+        },
+        cylinders = [
+            {
+                position: {x: 11, y: 21, z: 31},
+                positionIndex: 0,
+                cylinder: {
+                    length: 5
+                }
+            },
+            {
+                position: {x: 12, y: 22, z: 32},
+                positionIndex: 1,
+                cylinder: {
+                    length: 5
+                }
+            },
+            {
+                position: {x: 13, y: 23, z: 33},
+                positionIndex: 2,
+                cylinder: {
+                    length: 5
+                }
+            }
+        ],
+        map3D = {
+            id: "1",
+            mode: "3D",
+            getCesiumScene: () => scene,
+            getDataSourceDisplay: () => ({
+                defaultDataSource: {
+                    entities: entities
+                }
+            }),
+            getOlMap: () => ({
+                getView: () => ({
+                    getProjection: () => ({
+                        getCode: () => "EPSG:25832"
+                    })
                 })
             })
-        })
-    };
+        };
 
     beforeEach(() => {
         mapCollection.clear();
@@ -98,14 +133,20 @@ describe("Actions", () => {
         store.getters = {
             "Maps/mode": store.state.Maps.mode
         };
+
         scene = {
             globe: {
                 getHeight: () => 5.7896
             },
             sampleHeight: () => 9
         };
+        entities = {
+            getById: sinon.spy(() => entity),
+            removeById: sinon.spy()
+        };
     });
     afterEach(() => {
+        entity = undefined;
         sinon.restore();
     });
     describe("deleteEntity", () => {
@@ -115,16 +156,9 @@ describe("Actions", () => {
                 state = {importedModels: [{id: 1}]},
                 id = 1;
 
-            entities = {
-                getById: sinon.stub().returns({id: id}),
-                removeById: sinon.spy()
-            };
-            getters = {
-                scene: scene,
-                entities: entities
-            };
+            entities.getById = sinon.stub().returns({id: id});
 
-            actions.deleteEntity({state, dispatch, getters, commit}, id);
+            actions.deleteEntity({state, dispatch, commit}, id);
 
             expect(dispatch.calledWith("removeCylinders")).to.be.true;
             expect(commit.firstCall.calledWith("setActiveShapePoints", [])).to.be.true;
@@ -139,16 +173,7 @@ describe("Actions", () => {
                 state = {importedModels: [{id: 5}]},
                 id = 1;
 
-            entities = {
-                getById: sinon.stub().returns(null),
-                removeById: sinon.spy()
-            };
-            getters = {
-                scene: scene,
-                entities: entities
-            };
-
-            actions.deleteEntity({state, dispatch, getters, commit}, id);
+            actions.deleteEntity({state, dispatch, commit}, id);
 
             expect(dispatch.called).to.be.false;
             expect(commit.called).to.be.false;
@@ -174,20 +199,16 @@ describe("Actions", () => {
     describe("changeVisibility", () => {
         it("should change the entities show attribute", () => {
             const model = {
-                    id: "someId",
-                    show: false
-                },
-                entity = {
-                    id: "someId",
-                    show: false
-                };
-
-            entities = {getById: sinon.stub().returns(entity)};
-            getters = {
-                entities: entities
+                id: "someId",
+                show: false
             };
 
-            actions.changeVisibility({getters}, model);
+            entity = {
+                id: "someId",
+                show: false
+            };
+
+            actions.changeVisibility({}, model);
 
             expect(model.show).to.be.true;
             expect(entity.show).to.be.true;
@@ -216,15 +237,9 @@ describe("Actions", () => {
                     currentModelPosition: {x: 10, y: 20, z: 30}
                 };
 
-            entities = {
-                getById: sinon.stub().returns({position: {}})
-            };
-            getters = {
-                scene: scene,
-                entities: entities
-            };
+            entity = {position: {}};
 
-            actions.updateEntityPosition({dispatch, state, getters});
+            actions.updateEntityPosition({dispatch, state});
 
             expect(entities.getById.calledWith("entityId")).to.be.true;
             expect(dispatch.calledWith("transformToCartesian")).to.be.true;
@@ -233,54 +248,19 @@ describe("Actions", () => {
 
         describe("updateEntityPosition with polygons", () => {
             const state = {
-                    currentModelId: "polygonId",
-                    currentModelPosition: {x: 10, y: 20, z: 30},
-                    cylinderPosition: [{x: 11, y: 21, z: 31}, {x: 12, y: 22, z: 32}, {x: 13, y: 23, z: 33}]
-                },
-                polygon = {
-                    polygon: {
-                        height: 5,
-                        extrudedHeight: 25
-                    }
-                },
-                cylinders = [
-                    {
-                        position: {x: 11, y: 21, z: 31},
-                        positionIndex: 0,
-                        cylinder: {
-                            length: 5
-                        }
-                    },
-                    {
-                        position: {x: 12, y: 22, z: 32},
-                        positionIndex: 1,
-                        cylinder: {
-                            length: 5
-                        }
-                    },
-                    {
-                        position: {x: 13, y: 23, z: 33},
-                        positionIndex: 2,
-                        cylinder: {
-                            length: 5
-                        }
-                    }
-                ];
+                currentModelId: "polygonId",
+                currentModelPosition: {x: 10, y: 20, z: 30},
+                cylinderPosition: [{x: 11, y: 21, z: 31}, {x: 12, y: 22, z: 32}, {x: 13, y: 23, z: 33}]
+            };
 
             it("should update the polygon position clamped to ground when it exists", () => {
                 const dispatch = sinon.spy();
 
-                entities = {
-                    values: cylinders,
-                    getById: sinon.stub().returns(polygon)
-                };
-                getters = {
-                    scene: scene,
-                    entities: entities
-                };
+                entities.values = cylinders;
                 polygon.clampToGround = true;
+                entity = polygon;
 
-                actions.updateEntityPosition({dispatch, state, getters});
+                actions.updateEntityPosition({dispatch, state});
 
                 expect(entities.getById.calledWith("polygonId")).to.be.true;
                 expect(dispatch.calledWith("transformToCartesian")).to.be.true;
@@ -292,17 +272,11 @@ describe("Actions", () => {
             it("should update the polygon position not clamped to ground when it exists", () => {
                 const dispatch = sinon.spy();
 
-                entities = {
-                    values: cylinders,
-                    getById: sinon.stub().returns(polygon)
-                };
-                getters = {
-                    scene: scene,
-                    entities: entities
-                };
+                entities.values = cylinders;
                 polygon.clampToGround = false;
+                entity = polygon;
 
-                actions.updateEntityPosition({dispatch, state, getters});
+                actions.updateEntityPosition({dispatch, state});
 
                 expect(entities.getById.calledWith("polygonId")).to.be.true;
                 expect(dispatch.calledWith("transformToCartesian")).to.be.true;
@@ -316,15 +290,7 @@ describe("Actions", () => {
             const dispatch = sinon.spy(),
                 state = {currentModelId: "nonExistentId"};
 
-            entities = {
-                getById: sinon.stub().returns(null)
-            };
-            getters = {
-                scene: scene,
-                entities: entities
-            };
-
-            actions.updateEntityPosition({dispatch, state, getters});
+            actions.updateEntityPosition({dispatch, state});
 
             expect(entities.getById.calledWith("nonExistentId")).to.be.true;
             expect(dispatch.calledWith("transformToCartesian")).to.be.false;
@@ -339,17 +305,9 @@ describe("Actions", () => {
                     currentModelId: "entityId"
                 };
 
-            entities = {
-                getById: sinon.stub().returns({
-                    position: {getValue: sinon.stub().returns({x: 10, y: 20, z: 30})}
-                })
-            };
-            getters = {
-                scene: scene,
-                entities: entities
-            };
+            entity = {position: {getValue: () => ({x: 10, y: 20, z: 30})}};
 
-            actions.updatePositionUI({commit, dispatch, state, getters});
+            actions.updatePositionUI({commit, dispatch, state});
 
             expect(entities.getById.calledWith("entityId")).to.be.true;
             expect(dispatch.calledWith("transformFromCartesian", {x: 10, y: 20, z: 30})).to.be.true;
@@ -363,12 +321,8 @@ describe("Actions", () => {
                     currentModelId: "polygonId"
                 };
 
-            entities = {
-                getById: sinon.stub().returns({polygon: new Cesium.PolygonGraphics({height: 5})})
-            };
+            entity = {polygon: new Cesium.PolygonGraphics({height: 5})};
             getters = {
-                scene: scene,
-                entities: entities,
                 getCenterFromGeometry: sinon.stub().returns({x: 10, y: 20, z: 30})
             };
 
@@ -386,12 +340,7 @@ describe("Actions", () => {
                     currentModelId: "nonExistentId"
                 };
 
-            entities = {
-                getById: sinon.stub().returns(null)
-            };
             getters = {
-                scene: scene,
-                entities: entities,
                 getCenterFromGeometry: sinon.stub().returns(undefined)
             };
 
@@ -405,25 +354,19 @@ describe("Actions", () => {
 
     describe("updateUI", () => {
         it("should update the entity UI when entity is a polygon", () => {
-            const entity = {
-                    clampToGround: true,
-                    polygon: new Cesium.PolygonGraphics({
-                        extrudedHeight: 25,
-                        height: 10
-                    })
-                },
-                commit = sinon.spy(),
+            const commit = sinon.spy(),
                 dispatch = sinon.spy(),
                 state = {currentModelId: "polygonId"};
 
-            entities = {
-                getById: sinon.stub().returns(entity)
-            };
-            getters = {
-                entities: entities
+            entity = {
+                clampToGround: true,
+                polygon: new Cesium.PolygonGraphics({
+                    extrudedHeight: 25,
+                    height: 10
+                })
             };
 
-            actions.updateUI({commit, dispatch, getters, state});
+            actions.updateUI({commit, dispatch, state});
 
             expect(entities.getById.calledWith("polygonId")).to.be.true;
             expect(commit.firstCall.args[0]).to.equal("setAdaptToHeight");
@@ -434,24 +377,18 @@ describe("Actions", () => {
         });
 
         it("should update the entity UI when entity is a polyline", () => {
-            const entity = {
-                    clampToGround: true,
-                    polyline: new Cesium.PolylineGraphics({
-                        width: 20
-                    })
-                },
-                commit = sinon.spy(),
+            const commit = sinon.spy(),
                 dispatch = sinon.spy(),
                 state = {currentModelId: "polylineId"};
 
-            entities = {
-                getById: sinon.stub().returns(entity)
-            };
-            getters = {
-                entities: entities
+            entity = {
+                clampToGround: true,
+                polyline: new Cesium.PolylineGraphics({
+                    width: 20
+                })
             };
 
-            actions.updateUI({commit, dispatch, getters, state});
+            actions.updateUI({commit, dispatch, state});
 
             expect(entities.getById.calledWith("polylineId")).to.be.true;
             expect(commit.firstCall.args[0]).to.equal("setAdaptToHeight");
@@ -462,28 +399,22 @@ describe("Actions", () => {
         });
 
         it("should update the entity UI when entity is a model", () => {
-            const entity = {
-                    id: "modelId",
-                    clampToGround: true,
-                    model: new Cesium.ModelGraphics({
-                        scale: 2
-                    })
-                },
-                commit = sinon.spy(),
+            const commit = sinon.spy(),
                 dispatch = sinon.spy(),
                 state = {
                     currentModelId: "modelId",
                     importedModels: [{id: "modelId", heading: 90}]
                 };
 
-            entities = {
-                getById: sinon.stub().returns(entity)
-            };
-            getters = {
-                entities: entities
+            entity = {
+                id: "modelId",
+                clampToGround: true,
+                model: new Cesium.ModelGraphics({
+                    scale: 2
+                })
             };
 
-            actions.updateUI({commit, dispatch, getters, state});
+            actions.updateUI({commit, dispatch, state});
 
             expect(entities.getById.calledWith("modelId")).to.be.true;
             expect(commit.firstCall.args[0]).to.equal("setAdaptToHeight");
@@ -593,12 +524,7 @@ describe("Actions", () => {
                     }
                 };
 
-            getters = {
-                scene: scene,
-                entities: entities
-            };
-
-            actions.transformToCartesian({state, dispatch, commit, getters});
+            actions.transformToCartesian({state, dispatch, commit});
 
             expect(commit.firstCall.args[0]).to.equal("setHeight");
             expect(commit.firstCall.args[1]).to.eql(5.7896);
@@ -616,42 +542,36 @@ describe("Actions", () => {
                 state = {
                     currentModelId: "polygonId",
                     cylinderId: 0
-                },
-                entity = {
-                    wasDrawn: true,
-                    clampToGround: true,
-                    polygon: {
-                        extrudedHeight: 20,
-                        height: 5,
-                        hierarchy: {
-                            getValue: () => ({positions: [{x: 10, y: 20, z: 30}, {x: 20, y: 30, z: 10}, {x: 30, y: 10, z: 20}]})
-                        }
-                    }
                 };
 
-            entities = {
-                getById: sinon.stub().returns(entity),
-                values: [
-                    {
-                        id: 1,
-                        cylinder: {length: {_value: 10}}
-                    },
-                    {
-                        id: 2,
-                        cylinder: {length: {_value: 10}}
-                    },
-                    {
-                        id: 3,
-                        cylinder: {length: {_value: 10}}
+            entity = {
+                wasDrawn: true,
+                clampToGround: true,
+                polygon: {
+                    extrudedHeight: 20,
+                    height: 5,
+                    hierarchy: {
+                        getValue: () => ({positions: [{x: 10, y: 20, z: 30}, {x: 20, y: 30, z: 10}, {x: 30, y: 10, z: 20}]})
                     }
-                ]
+                }
             };
 
-            getters = {
-                entities: entities
-            };
+            entities.values = [
+                {
+                    id: 1,
+                    cylinder: {length: {_value: 10}}
+                },
+                {
+                    id: 2,
+                    cylinder: {length: {_value: 10}}
+                },
+                {
+                    id: 3,
+                    cylinder: {length: {_value: 10}}
+                }
+            ];
 
-            actions.generateCylinders({commit, dispatch, getters, state});
+            actions.generateCylinders({commit, dispatch, state});
 
             expect(commit.calledWith("setActiveShapePoints", entity.polygon.hierarchy.getValue().positions)).to.be.true;
             expect(dispatch.callCount).to.eql(3);
@@ -668,38 +588,32 @@ describe("Actions", () => {
                 state = {
                     currentModelId: "polylineId",
                     cylinderId: 0
-                },
-                entity = {
-                    wasDrawn: true,
-                    clampToGround: true,
-                    polyline: {
-                        positions: {getValue: () => [{x: 10, y: 20, z: 30}, {x: 20, y: 30, z: 10}, {x: 30, y: 10, z: 20}]}
-                    }
                 };
 
-            entities = {
-                getById: sinon.stub().returns(entity),
-                values: [
-                    {
-                        id: 1,
-                        cylinder: {length: {_value: 10}}
-                    },
-                    {
-                        id: 2,
-                        cylinder: {length: {_value: 10}}
-                    },
-                    {
-                        id: 3,
-                        cylinder: {length: {_value: 10}}
-                    }
-                ]
+            entity = {
+                wasDrawn: true,
+                clampToGround: true,
+                polyline: {
+                    positions: {getValue: () => [{x: 10, y: 20, z: 30}, {x: 20, y: 30, z: 10}, {x: 30, y: 10, z: 20}]}
+                }
             };
 
-            getters = {
-                entities: entities
-            };
+            entities.values = [
+                {
+                    id: 1,
+                    cylinder: {length: {_value: 10}}
+                },
+                {
+                    id: 2,
+                    cylinder: {length: {_value: 10}}
+                },
+                {
+                    id: 3,
+                    cylinder: {length: {_value: 10}}
+                }
+            ];
 
-            actions.generateCylinders({commit, dispatch, getters, state});
+            actions.generateCylinders({commit, dispatch, state});
 
             expect(commit.calledWith("setActiveShapePoints", entity.polyline.positions.getValue())).to.be.true;
             expect(dispatch.callCount).to.eql(3);
@@ -720,27 +634,22 @@ describe("Actions", () => {
                 posIndex = 1,
                 length = 25;
 
-            entities = {
-                values: [],
-                add: sinon.stub().returns({
-                    id: "cylId",
-                    position: position,
-                    positionIndex: posIndex,
-                    cylinder: {
-                        length: length
-                    }
-                })
-            };
-            getters = {
-                entities: entities
-            };
+            entities.values = [];
+            entities.add = sinon.stub().returns({
+                id: "cylId",
+                position: position,
+                positionIndex: posIndex,
+                cylinder: {
+                    length: length
+                }
+            });
 
             global.Cesium.ColorMaterialProperty = function (color) {
                 this.color = color;
             };
             global.Cesium.Color = {RED: 2};
 
-            actions.createCylinder({commit, getters, state}, {position, posIndex, length});
+            actions.createCylinder({commit, state}, {position, posIndex, length});
 
             expect(commit.calledWith("setCylinderId", "cylId")).to.be.true;
         });
@@ -755,27 +664,22 @@ describe("Actions", () => {
                     cylinderPosition: [],
                     currentModelId: 1
                 },
-                entity = {
-                    id: 1,
-                    wasDrawn: true,
-                    clampToGround: true,
-                    polygon: {
-                        extrudedHeight: 20,
-                        height: 5,
-                        hierarchy: {
-                            getValue: () => ({positions: [{x: 10, y: 20, z: 30}, {x: 20, y: 30, z: 10}, {x: 30, y: 10, z: 20}]})
-                        }
-                    }
-                },
                 position = {x: 50, y: 50, z: 50};
 
-            entities = {
-                getById: sinon.stub().returns(entity)
+            entity = {
+                id: 1,
+                wasDrawn: true,
+                clampToGround: true,
+                polygon: {
+                    extrudedHeight: 20,
+                    height: 5,
+                    hierarchy: {
+                        getValue: () => ({positions: [{x: 10, y: 20, z: 30}, {x: 20, y: 30, z: 10}, {x: 30, y: 10, z: 20}]})
+                    }
+                }
             };
 
             getters = {
-                scene: scene,
-                entities: entities,
                 getCenterFromGeometry: sinon.stub().returns({x: 50, y: 50, z: 50})
             };
 
