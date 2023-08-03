@@ -423,10 +423,10 @@ export default {
             }
 
             if (entity.polygon) {
-                this.movePolygon({entity, position});
+                this.movePolygon({entityId: this.currentModelId, position});
             }
             else if (entity.polyline) {
-                this.movePolyline({entity, position});
+                this.movePolyline({entityId: this.currentModelId, position});
             }
             else {
                 entity.position = position;

@@ -84,7 +84,7 @@ const actions = {
         if (entity.polygon) {
             const cylinders = entities.values.filter(ent => ent.cylinder);
 
-            dispatch("movePolygon", {entity: entity, position: state.currentModelPosition});
+            dispatch("movePolygon", {entityId: state.currentModelId, position: state.currentModelPosition});
 
             cylinders.forEach(cyl => {
                 cyl.cylinder.length = entity.polygon.extrudedHeight - entity.polygon.height + 5;
@@ -277,27 +277,28 @@ const actions = {
      * @param {object} moveOptions - Contains the polygon and new position it shall be moved to.
      * @returns {void}
     */
-    movePolygon ({dispatch, getters, state}, {entity, position}) {
-        if (!entity?.polygon?.hierarchy) {
-            return;
+    movePolygon ({dispatch, getters, state}, {entityId, position}) {
+        const entities = getters.entities,
+            entity = entities.getById(entityId);
+
+        if (entity?.polygon?.hierarchy && position) {
+            const positions = entity?.polygon?.hierarchy.getValue().positions,
+                center = getters.getCenterFromGeometry(entity),
+                positionDelta = Cesium.Cartesian3.subtract(position, center, new Cesium.Cartesian3());
+
+            if (entity.clampToGround) {
+                state.height = getters.scene.globe.getHeight(Cesium.Cartographic.fromCartesian(center));
+            }
+            entity.polygon.height = state.height;
+            entity.polygon.extrudedHeight = state.extrudedHeight + state.height;
+
+            positions.forEach((pos, index) => {
+                Cesium.Cartesian3.add(pos, positionDelta, pos);
+                state.cylinderPosition[index] = pos;
+            });
+
+            dispatch("transformFromCartesian", getters.getCenterFromGeometry(entity));
         }
-
-        const positions = entity.polygon.hierarchy.getValue().positions,
-            center = getters.getCenterFromGeometry(entity),
-            positionDelta = Cesium.Cartesian3.subtract(position, center, new Cesium.Cartesian3());
-
-        if (entity.clampToGround) {
-            state.height = getters.scene.globe.getHeight(Cesium.Cartographic.fromCartesian(center));
-        }
-        entity.polygon.height = state.height;
-        entity.polygon.extrudedHeight = state.extrudedHeight + state.height;
-
-        positions.forEach((pos, index) => {
-            Cesium.Cartesian3.add(pos, positionDelta, pos);
-            state.cylinderPosition[index] = pos;
-        });
-
-        dispatch("transformFromCartesian", getters.getCenterFromGeometry(entity));
     },
     /**
      * Moves a given polyline to a given new position.
@@ -305,19 +306,20 @@ const actions = {
      * @param {object} moveOptions - Contains the polyline and new position it shall be moved to.
      * @returns {void}
     */
-    movePolyline ({state}, {entity, position}) {
-        if (!entity?.polyline?.positions) {
-            return;
+    movePolyline ({getters, state}, {entityId, position}) {
+        const entities = getters.entities,
+            entity = entities.getById(entityId);
+
+        if (entity?.polyline?.positions && position) {
+            const positions = entity.polyline.positions.getValue(),
+                boundingSphereCenter = Cesium.BoundingSphere.fromPoints(positions).center,
+                positionDelta = Cesium.Cartesian3.subtract(position, boundingSphereCenter, new Cesium.Cartesian3());
+
+            positions.forEach((pos, index) => {
+                Cesium.Cartesian3.add(pos, positionDelta, pos);
+                state.cylinderPosition[index] = pos;
+            });
         }
-
-        const positions = entity.polyline.positions.getValue(),
-            boundingSphereCenter = Cesium.BoundingSphere.fromPoints(positions).center,
-            positionDelta = Cesium.Cartesian3.subtract(position, boundingSphereCenter, new Cesium.Cartesian3());
-
-        positions.forEach((pos, index) => {
-            Cesium.Cartesian3.add(pos, positionDelta, pos);
-            state.cylinderPosition[index] = pos;
-        });
     }
 };
 

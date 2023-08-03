@@ -284,7 +284,7 @@ describe("Actions", () => {
 
                 expect(entities.getById.calledWith("polygonId")).to.be.true;
                 expect(dispatch.calledWith("transformToCartesian")).to.be.true;
-                expect(dispatch.calledWith("movePolygon", {entity: polygon, position: {x: 10, y: 20, z: 30}})).to.be.true;
+                expect(dispatch.calledWith("movePolygon", {entityId: "polygonId", position: {x: 10, y: 20, z: 30}})).to.be.true;
                 expect(cylinders[0].cylinder.length).to.equal(25);
                 expect(cylinders[0].position).to.eql({x: 10, y: 20, z: 30});
             });
@@ -306,7 +306,7 @@ describe("Actions", () => {
 
                 expect(entities.getById.calledWith("polygonId")).to.be.true;
                 expect(dispatch.calledWith("transformToCartesian")).to.be.true;
-                expect(dispatch.calledWith("movePolygon", {entity: polygon, position: {x: 10, y: 20, z: 30}})).to.be.true;
+                expect(dispatch.calledWith("movePolygon", {entityId: "polygonId", position: {x: 10, y: 20, z: 30}})).to.be.true;
                 expect(cylinders[0].cylinder.length).to.equal(21);
                 expect(cylinders[0].position).to.eql({x: 10, y: 20, z: 30});
             });
@@ -752,9 +752,11 @@ describe("Actions", () => {
                 state = {
                     height: 10,
                     extrudedHeight: 20,
-                    cylinderPosition: []
+                    cylinderPosition: [],
+                    currentModelId: 1
                 },
                 entity = {
+                    id: 1,
                     wasDrawn: true,
                     clampToGround: true,
                     polygon: {
@@ -767,12 +769,17 @@ describe("Actions", () => {
                 },
                 position = {x: 50, y: 50, z: 50};
 
+            entities = {
+                getById: sinon.stub().returns(entity)
+            };
+
             getters = {
                 scene: scene,
+                entities: entities,
                 getCenterFromGeometry: sinon.stub().returns({x: 50, y: 50, z: 50})
             };
 
-            actions.movePolygon({dispatch, getters, state}, {entity, position});
+            actions.movePolygon({dispatch, getters, state}, {entityId: state.currentModelId, position});
 
             expect(dispatch.calledWith("transformFromCartesian", {x: 50, y: 50, z: 50})).to.be.true;
         });
