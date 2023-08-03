@@ -10,8 +10,8 @@ const actions = {
      * @param {string} id - The ID of the entity to delete.
      * @returns {void}
      */
-    deleteEntity ({commit, dispatch, getters, state}, id) {
-        const entities = getters.entities,
+    deleteEntity ({commit, dispatch, state}, id) {
+        const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
             entity = entities.getById(id),
             stateArray = entity?.wasDrawn ? state.drawnModels : state.importedModels,
             modelIndex = stateArray.findIndex(x => x.id === id);
@@ -48,8 +48,8 @@ const actions = {
      * @param {object} model - The model object.
      * @returns {void}
      */
-    changeVisibility ({getters}, model) {
-        const entities = getters.entities,
+    changeVisibility (context, model) {
+        const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
             entity = entities.getById(model.id);
 
         entity.show = !model.show;
@@ -72,8 +72,8 @@ const actions = {
      * @param {object} context - The context of the Vuex module.
      * @returns {void}
     */
-    updateEntityPosition ({dispatch, getters, state}) {
-        const entities = getters.entities,
+    updateEntityPosition ({dispatch, state}) {
+        const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
             entity = entities.getById(state.currentModelId);
 
         if (!entity) {
@@ -104,7 +104,7 @@ const actions = {
      * @returns {void}
     */
     updatePositionUI ({commit, dispatch, getters, state}) {
-        const entities = getters.entities,
+        const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
             entity = entities.getById(state.currentModelId),
             entityPosition = entity?.position?.getValue() || getters.getCenterFromGeometry(entity);
 
@@ -121,8 +121,8 @@ const actions = {
      * @param {object} context - The context of the Vuex module.
      * @returns {void}
     */
-    updateUI ({commit, dispatch, getters, state}) {
-        const entities = getters.entities,
+    updateUI ({commit, dispatch, state}) {
+        const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
             entity = entities.getById(state.currentModelId);
 
         commit("setAdaptToHeight", entity.clampToGround);
@@ -171,7 +171,7 @@ const actions = {
      * @param {object} context - The context of the Vuex module.
      * @returns {void}
     */
-    transformToCartesian ({commit, getters, state}) {
+    transformToCartesian ({commit, state}) {
         let coordinates = [state.coordinateEasting, state.coordinateNorthing],
             height = state.height;
 
@@ -183,7 +183,7 @@ const actions = {
         }
 
         if (state.adaptToHeight) {
-            const scene = getters.scene,
+            const scene = mapCollection.getMap("3D").getCesiumScene(),
                 cartographic = Cesium.Cartographic.fromDegrees(coordinates[0], coordinates[1]);
 
             height = scene.globe.getHeight(cartographic);
@@ -198,8 +198,8 @@ const actions = {
      * @param {object} context - The context of the Vuex module.
      * @returns {void}
     */
-    generateCylinders ({commit, dispatch, getters, state}) {
-        const entities = getters.entities,
+    generateCylinders ({commit, dispatch, state}) {
+        const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
             entity = entities.getById(state.currentModelId);
 
         if (entity?.polygon?.hierarchy) {
@@ -244,17 +244,18 @@ const actions = {
      * @param {object} positionObj - The position options to create the cylinder with
      * @returns {void}
     */
-    createCylinder ({commit, getters, state}, {position = new Cesium.Cartesian3(), posIndex, length}) {
-        const cylinder = getters.entities.add({
-            position: position,
-            positionIndex: posIndex,
-            cylinder: {
-                material: new Cesium.ColorMaterialProperty(Cesium.Color.RED),
-                bottomRadius: 0.1,
-                topRadius: 1,
-                length: length ? length : state.extrudedHeight + 5
-            }
-        });
+    createCylinder ({commit, state}, {position = new Cesium.Cartesian3(), posIndex, length}) {
+        const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+            cylinder = entities.add({
+                position: position,
+                positionIndex: posIndex,
+                cylinder: {
+                    material: new Cesium.ColorMaterialProperty(Cesium.Color.RED),
+                    bottomRadius: 0.1,
+                    topRadius: 1,
+                    length: length ? length : state.extrudedHeight + 5
+                }
+            });
 
         commit("setCylinderId", cylinder.id);
     },
@@ -263,8 +264,8 @@ const actions = {
      * @param {object} context - The context of the Vuex module.
      * @returns {void}
     */
-    removeCylinders ({getters}) {
-        const entities = getters.entities,
+    removeCylinders () {
+        const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
             pointEntities = entities.values.filter(entity => entity.cylinder);
 
         pointEntities.forEach(entity => {
@@ -278,7 +279,8 @@ const actions = {
      * @returns {void}
     */
     movePolygon ({dispatch, getters, state}, {entityId, position}) {
-        const entities = getters.entities,
+        const scene = mapCollection.getMap("3D").getCesiumScene(),
+            entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
             entity = entities.getById(entityId);
 
         if (entity?.polygon?.hierarchy && position) {
@@ -287,7 +289,7 @@ const actions = {
                 positionDelta = Cesium.Cartesian3.subtract(position, center, new Cesium.Cartesian3());
 
             if (entity.clampToGround) {
-                state.height = getters.scene.globe.getHeight(Cesium.Cartographic.fromCartesian(center));
+                state.height = scene.globe.getHeight(Cesium.Cartographic.fromCartesian(center));
             }
             entity.polygon.height = state.height;
             entity.polygon.extrudedHeight = state.extrudedHeight + state.height;
@@ -306,8 +308,8 @@ const actions = {
      * @param {object} moveOptions - Contains the polyline and new position it shall be moved to.
      * @returns {void}
     */
-    movePolyline ({getters, state}, {entityId, position}) {
-        const entities = getters.entities,
+    movePolyline ({state}, {entityId, position}) {
+        const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
             entity = entities.getById(entityId);
 
         if (entity?.polyline?.positions && position) {

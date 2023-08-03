@@ -49,8 +49,9 @@ export default {
                 posIndex: this.activeShapePoints.length
             });
 
-            const scene = this.scene,
-                floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
+            const scene = mapCollection.getMap("3D").getCesiumScene(),
+                entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+                floatingPoint = entities.values.find(cyl => cyl.id === this.cylinderId);
 
             floatingPoint.position = this.clampToGround ?
                 new Cesium.CallbackProperty(() => adaptCylinderToGround(floatingPoint, this.currentPosition), false) :
@@ -69,8 +70,9 @@ export default {
          * @returns {void}
          */
         onMouseMove (event) {
-            const scene = this.scene,
-                floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
+            const scene = mapCollection.getMap("3D").getCesiumScene(),
+                entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+                floatingPoint = entities.values.find(cyl => cyl.id === this.cylinderId);
 
             if (this.clampToGround) {
                 const ray = scene.camera.getPickRay(event.endPosition),
@@ -87,7 +89,7 @@ export default {
             else {
                 const transformedCoordinates = crs.transformFromMapProjection(mapCollection.getMap("3D").getOlMap(), "EPSG:4326", [this.mouseCoordinate[0], this.mouseCoordinate[1]]),
                     cartographic = Cesium.Cartographic.fromDegrees(transformedCoordinates[0], transformedCoordinates[1]),
-                    polygon = this.entities.values.find(ent => ent.id === this.currentModelId),
+                    polygon = entities.values.find(ent => ent.id === this.currentModelId),
                     ignoreObjects = polygon ? [floatingPoint, polygon] : [floatingPoint];
 
                 if (cartographic) {
@@ -115,16 +117,20 @@ export default {
             }
             this.lastAddedPosition = this.currentPosition;
 
-            let floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities;
+            let floatingPoint = entities.values.find(cyl => cyl.id === this.cylinderId),
+                entity = null;
 
             if (this.activeShapePoints.length === 1) {
+                const scene = mapCollection.getMap("3D").getCesiumScene();
+
                 this.setHeight(this.clampToGround ?
-                    this.scene.globe.getHeight(Cesium.Cartographic.fromCartesian(this.currentPosition)) :
-                    this.scene.sampleHeight(Cesium.Cartographic.fromCartesian(this.currentPosition), [floatingPoint])
+                    scene.globe.getHeight(Cesium.Cartographic.fromCartesian(this.currentPosition)) :
+                    scene.sampleHeight(Cesium.Cartographic.fromCartesian(this.currentPosition), [floatingPoint])
                 );
                 this.drawShape();
             }
-            const entity = this.entities.getById(this.shapeId);
+            entity = entities.getById(this.shapeId);
 
             if (this.clampToGround) {
                 floatingPoint.position = adaptCylinderToGround(floatingPoint, this.currentPosition);
@@ -140,7 +146,7 @@ export default {
                     length: entity?.polygon ? this.extrudedHeight + entity.polygon.height + 5 : undefined
                 });
             }
-            floatingPoint = this.entities.values.find(cyl => cyl.id === this.cylinderId);
+            floatingPoint = entities.values.find(cyl => cyl.id === this.cylinderId);
             floatingPoint.position = this.clampToGround ?
                 new Cesium.CallbackProperty(() => adaptCylinderToGround(floatingPoint, this.currentPosition), false) :
                 new Cesium.CallbackProperty(() => entity ? adaptCylinderToEntity(entity, floatingPoint, this.currentPosition) : adaptCylinderUnclamped(floatingPoint, this.currentPosition), false);
@@ -155,7 +161,8 @@ export default {
             if (!this.isDrawing) {
                 return;
             }
-            const shape = this.entities.getById(this.shapeId);
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+                shape = entities.getById(this.shapeId);
 
             this.activeShapePoints.pop();
 
@@ -182,7 +189,7 @@ export default {
          * @returns {void}
          */
         drawShape () {
-            const entities = this.entities,
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
                 models = this.drawnModels,
                 lastElement = entities.values.filter(ent => !ent.cylinder).pop(),
                 lastId = lastElement ? lastElement.id : undefined,
@@ -261,7 +268,7 @@ export default {
          * @returns {void}
          */
         zoomTo (id) {
-            const entities = this.entities,
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
                 entity = entities.getById(id);
 
             if (entity) {
@@ -274,13 +281,14 @@ export default {
                     height = 0;
                 }
 
-                const center = this.getCenterFromGeometry(entity),
+                const scene = mapCollection.getMap("3D").getCesiumScene(),
+                    center = this.getCenterFromGeometry(entity),
                     centerCartographic = Cesium.Cartographic.fromCartesian(center),
                     longitude = centerCartographic.longitude,
                     latitude = centerCartographic.latitude,
                     targetHeight = height + 250;
 
-                this.scene.camera.flyTo({
+                scene.camera.flyTo({
                     destination: Cesium.Cartesian3.fromRadians(longitude, latitude, targetHeight)
                 });
             }
@@ -291,7 +299,7 @@ export default {
          * @returns {void}
          */
         exportToGeoJson () {
-            const entities = this.entities,
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
                 drawnEntitiesCollection = [],
                 jsonGlob = {
                     type: "FeatureCollection",

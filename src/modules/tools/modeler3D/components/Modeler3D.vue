@@ -75,7 +75,7 @@ export default {
          */
         active (isActive) {
             if (isActive) {
-                const scene = this.scene;
+                const scene = mapCollection.getMap("3D").getCesiumScene();
 
                 this.initProjections();
                 eventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
@@ -96,8 +96,8 @@ export default {
          */
         currentModelId (newId, oldId) {
             if (!this.isDrawing) {
-                const scene = this.scene,
-                    entities = this.entities,
+                const scene = mapCollection.getMap("3D").getCesiumScene(),
+                    entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
                     newEntity = entities.getById(newId),
                     oldEntity = entities.getById(oldId);
 
@@ -251,7 +251,7 @@ export default {
             if (this.isDrawing) {
                 return;
             }
-            const scene = this.scene,
+            const scene = mapCollection.getMap("3D").getCesiumScene(),
                 picked = scene.pick(event.endPosition),
                 entity = Cesium.defaultValue(picked?.id, picked?.primitive?.id);
 
@@ -283,13 +283,15 @@ export default {
             let entity;
 
             if (event) {
-                const scene = this.scene,
+                const scene = mapCollection.getMap("3D").getCesiumScene(),
                     picked = scene.pick(event.position);
 
                 entity = Cesium.defaultValue(picked?.id, picked?.primitive?.id);
             }
 
             if (entity instanceof Cesium.Entity || !event) {
+                const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities;
+
                 this.setIsDragging(true);
                 this.originalHideOption = this.hideObjects;
                 this.setHideObjects(false);
@@ -297,7 +299,7 @@ export default {
                 document.body.style.cursor = "grabbing";
 
                 if (entity?.cylinder) {
-                    const geometry = this.entities.getById(this.currentModelId),
+                    const geometry = entities.getById(this.currentModelId),
                         position = geometry.polygon ? geometry.polygon.hierarchy.getValue().positions[entity.positionIndex] : geometry.polyline.positions.getValue()[entity.positionIndex];
 
                     this.currentPosition = position;
@@ -308,7 +310,7 @@ export default {
                     eventHandler.setInputAction(this.moveCylinder, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
                 }
                 else {
-                    this.entities.values.filter(ent => ent.cylinder).forEach((cyl, index) => {
+                    entities.values.filter(ent => ent.cylinder).forEach((cyl, index) => {
                         this.cylinderPosition[index] = cyl.position.getValue();
 
                         cyl.position = entity.clampToGround ?
@@ -330,7 +332,7 @@ export default {
             if (this.isDrawing) {
                 return;
             }
-            const scene = this.scene,
+            const scene = mapCollection.getMap("3D").getCesiumScene(),
                 picked = scene.pick(event.position);
 
             if (Cesium.defined(picked)) {
@@ -370,12 +372,12 @@ export default {
                 return;
             }
 
-            const entities = this.entities,
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
                 entity = entities.getById(this.currentModelId),
                 cylinder = entities.getById(this.cylinderId);
 
             if (Cesium.defined(cylinder) && Cesium.defined(entity)) {
-                const scene = this.scene;
+                const scene = mapCollection.getMap("3D").getCesiumScene();
 
                 if (entity.clampToGround) {
                     const ray = scene.camera.getPickRay(event.endPosition),
@@ -412,10 +414,10 @@ export default {
                 return;
             }
 
-            const scene = this.scene,
+            const scene = mapCollection.getMap("3D").getCesiumScene(),
                 ray = scene.camera.getPickRay(event.endPosition),
                 position = scene.globe.pick(ray, scene),
-                entities = this.entities,
+                entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
                 entity = entities.getById(this.currentModelId);
 
             if (!Cesium.defined(position) || !Cesium.defined(entity)) {
@@ -441,13 +443,14 @@ export default {
             if (!this.isDragging) {
                 return;
             }
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities;
 
             this.removeInputActions();
             this.setIsDragging(false);
 
             if (this.cylinderId) {
-                const cylinder = this.entities.getById(this.cylinderId),
-                    entity = this.entities.getById(this.currentModelId);
+                const cylinder = entities.getById(this.cylinderId),
+                    entity = entities.getById(this.currentModelId);
 
                 cylinder.position = entity?.clampToGround ?
                     adaptCylinderToGround(cylinder, cylinder.position.getValue()) :
@@ -455,8 +458,8 @@ export default {
                 this.setCylinderId(null);
             }
             else if (this.wasDrawn) {
-                const cylinders = this.entities.values.filter(ent => ent.cylinder),
-                    entity = this.entities.getById(this.currentModelId);
+                const cylinders = entities.values.filter(ent => ent.cylinder),
+                    entity = entities.getById(this.currentModelId);
 
                 cylinders.forEach((cyl) => {
                     cyl.position = entity?.clampToGround ?
@@ -545,7 +548,7 @@ export default {
          * @returns {void}
          */
         positionPovCamera () {
-            const scene = this.scene,
+            const scene = mapCollection.getMap("3D").getCesiumScene(),
                 transformedCoordinates = crs.transformFromMapProjection(mapCollection.getMap("3D").getOlMap(), "EPSG:4326", this.clickCoordinate),
                 currentPosition = scene.camera.positionCartographic,
                 destination = new Cesium.Cartographic(
@@ -594,7 +597,7 @@ export default {
          * @returns {void}
          */
         escapeKeyHandler (e) {
-            const scene = this.scene;
+            const scene = mapCollection.getMap("3D").getCesiumScene();
 
             if (e.code === "Escape") {
                 scene.camera.flyTo({
@@ -612,8 +615,10 @@ export default {
             }
         },
         resetPov () {
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities;
+
             this.setPovActive(false);
-            this.entities.removeById(this.cylinderId);
+            entities.removeById(this.cylinderId);
             document.body.style.cursor = this.originalCursorStyle;
             eventHandler.setInputAction(this.selectObject, Cesium.ScreenSpaceEventType.LEFT_CLICK);
             eventHandler.setInputAction(this.cursorCheck, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
@@ -668,13 +673,16 @@ export default {
                 return;
             }
 
-            const transformedCoordinates = crs.transformFromMapProjection(mapCollection.getMap("3D").getOlMap(), "EPSG:4326", [this.mouseCoordinate[0], this.mouseCoordinate[1]]),
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+                transformedCoordinates = crs.transformFromMapProjection(mapCollection.getMap("3D").getOlMap(), "EPSG:4326", [this.mouseCoordinate[0], this.mouseCoordinate[1]]),
                 cartographic = Cesium.Cartographic.fromDegrees(transformedCoordinates[0], transformedCoordinates[1]),
-                povCylinder = this.entities.getById(this.cylinderId);
+                povCylinder = entities.getById(this.cylinderId);
             let currentCartesian;
 
             if (cartographic) {
-                cartographic.height = this.scene.sampleHeight(cartographic, [povCylinder]);
+                const scene = mapCollection.getMap("3D").getCesiumScene();
+
+                cartographic.height = scene.sampleHeight(cartographic, [povCylinder]);
                 currentCartesian = Cesium.Cartographic.toCartesian(cartographic);
 
                 document.body.style.cursor = "copy";
@@ -697,7 +705,8 @@ export default {
                 return;
             }
 
-            let povCylinder = this.entities.getById(this.cylinderId);
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities;
+            let povCylinder = entities.getById(this.cylinderId);
 
             if (!povCylinder) {
                 const payload = {
@@ -706,7 +715,7 @@ export default {
                 };
 
                 this.createCylinder(payload);
-                povCylinder = this.entities.getById(this.cylinderId);
+                povCylinder = entities.getById(this.cylinderId);
                 povCylinder.position = new Cesium.CallbackProperty(() => adaptCylinderUnclamped(povCylinder, this.currentCartesian), false);
             }
             eventHandler.setInputAction(this.moveHandler, Cesium.ScreenSpaceEventType.MOUSE_MOVE);

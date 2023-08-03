@@ -8,21 +8,7 @@ const getters = {
 
     // NOTE overwrite getters here if you need a special behaviour in a getter
     /**
-     * Returns the Cesium scene.
-     * @returns {Cesium.Scene} the current cesium scene.
-     */
-    scene () {
-        return mapCollection.getMap("3D").getCesiumScene();
-    },
-    /**
-     * Returns the default Cesium EntityCollection.
-     * @returns {Cesium.EntityCollection} the current Cesium EntityCollection.
-     */
-    entities () {
-        return mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities;
-    },
-    /**
-     * Returns the Cesium scene.
+     * Returns the Model name of the corresponding id.
      * @param {Object} state state of this tool
      * @param {String} id of the model
      * @returns {string} the model name of the entity.
@@ -128,8 +114,10 @@ const getters = {
 
         return center;
     },
-    wasDrawn (state, getter) {
-        return getter.entities.getById(state.currentModelId)?.wasDrawn;
+    wasDrawn (state) {
+        const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities;
+
+        return entities.getById(state.currentModelId)?.wasDrawn;
     }
 };
 

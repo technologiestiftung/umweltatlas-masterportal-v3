@@ -25,19 +25,19 @@ export default {
             }
         },
         showExtrudedHeight: function () {
-            const entities = this.entities,
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
                 entity = entities.getById(this.currentModelId);
 
             return Boolean(entity?.polygon && entity?.wasDrawn);
         },
         showPositioning: function () {
-            const entities = this.entities,
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
                 entity = entities.getById(this.currentModelId);
 
             return Boolean(entity?.polygon || !entity?.wasDrawn);
         },
         showWidth: function () {
-            const entities = this.entities,
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
                 entity = entities.getById(this.currentModelId);
 
             return Boolean(entity?.polyline && entity?.wasDrawn);
@@ -74,12 +74,13 @@ export default {
             },
             set (value) {
                 let adjustedValue = parseFloat(value.split());
+                const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities;
 
                 if (adjustedValue < 0.1) {
                     adjustedValue = 0.1;
                 }
                 this.setScale(adjustedValue);
-                this.entities.getById(this.currentModelId).model.scale = this.scale;
+                entities.getById(this.currentModelId).model.scale = this.scale;
             }
         },
         extrudedHeightString: {
@@ -102,12 +103,13 @@ export default {
             },
             set (value) {
                 let adjustedValue = parseFloat(value);
+                const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities;
 
                 if (adjustedValue < 0.01) {
                     adjustedValue = 0.01;
                 }
                 this.setLineWidth(adjustedValue);
-                this.entities.getById(this.currentModelId).polyline.width = this.lineWidth;
+                entities.getById(this.currentModelId).polyline.width = this.lineWidth;
             }
         },
         eastingString: {
@@ -159,7 +161,8 @@ export default {
          * @returns {void}
          */
         checkedAdapt (value) {
-            const entity = this.entities.getById(this.currentModelId);
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
+                entity = entities.getById(this.currentModelId);
 
             if (entity) {
                 entity.clampToGround = value;
@@ -172,7 +175,7 @@ export default {
          * @returns {void}
          */
         updateExtrudedHeight () {
-            const entities = this.entities,
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
                 entity = entities.getById(this.currentModelId);
 
             if (entity && entity.polygon instanceof Cesium.PolygonGraphics) {
@@ -189,7 +192,7 @@ export default {
          * @returns {void}
          */
         rotate () {
-            const entities = this.entities,
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
                 entity = entities.getById(this.currentModelId),
                 modelOrigin = this.wasDrawn ? this.drawnModels : this.importedModels,
                 modelFromState = modelOrigin.find(ent => ent.id === entity.id),

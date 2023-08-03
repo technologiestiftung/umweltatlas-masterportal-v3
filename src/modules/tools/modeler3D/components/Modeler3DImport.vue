@@ -87,7 +87,7 @@ export default {
          * @returns {void}
          */
         handleGltfFile (blob, fileName) {
-            const entities = this.entities,
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
                 lastElement = entities.values.slice().pop(),
                 lastId = lastElement?.id,
                 models = this.importedModels,
@@ -164,7 +164,7 @@ export default {
          * @returns {void}
          */
         handleGeoJsonFile (content) {
-            const entities = this.entities,
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
                 geojson = JSON.parse(content);
 
             geojson.features.forEach(feature => {
@@ -223,7 +223,7 @@ export default {
          * @returns {void}
          */
         changeVisibility (model) {
-            const entities = this.entities,
+            const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
                 entity = entities.getById(model.id);
 
             entity.show = !model.show;
@@ -235,8 +235,8 @@ export default {
          * @returns {void}
          */
         zoomTo (id) {
-            const scene = this.scene,
-                entities = this.entities,
+            const scene = mapCollection.getMap("3D").getCesiumScene(),
+                entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
                 entity = entities.getById(id),
                 entityPosition = entity.position.getValue(),
                 destination = Cesium.Cartographic.fromCartesian(entityPosition);
