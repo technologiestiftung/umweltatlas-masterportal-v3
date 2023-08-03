@@ -50,6 +50,9 @@ export default {
         if (missing.length > 0) {
             throw new Error("Routing tool is not configured correctly. The following required fields are missing: " + missing.map(m => m.join(".")).join(", "));
         }
+        if (state.geosearch.type === "ELASTIC" && !state.geosearch.searchField) {
+            throw new Error("Routing tool is not configured correctly. The following required fields for elastic search are missing: searchField");
+        }
     },
     /**
      * Async fetch Coordinates by text.

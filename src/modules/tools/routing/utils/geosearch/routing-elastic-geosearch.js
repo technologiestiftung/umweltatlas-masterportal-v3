@@ -10,9 +10,9 @@ import store from "../../../../../app-store";
  */
 async function fetchRoutingElasticGeosearch (search) {
     const payload = {
-            sort: [
+            sort: state.geosearch.sortField ? [
                 {[state.geosearch.sortField]: {order: "asc"}}
-            ],
+            ] : [],
             query: {
                 bool: {
                     should: [
