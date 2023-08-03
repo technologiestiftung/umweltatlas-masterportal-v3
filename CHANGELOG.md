@@ -15,6 +15,7 @@
     - Possibility to define additional preferences for the different speed profiles (additionally to the BKG service)  (requires own modified backend).
     - Possibility to define additional avoid features for the different speed profiles (additionally to the BKG service) (requires own modified backend).
     - Possibility to use *ESRI CH LocationFinder* for geosearch option.
+    - Possibility to use *Komoot* for geosearch/reverse geosearch option.
 - GFI:
     - highlightFeature also works for line geometries
     - new parameter: hideMapMarkerOnVectorHighlight

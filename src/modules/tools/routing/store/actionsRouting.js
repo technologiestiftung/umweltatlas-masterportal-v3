@@ -6,6 +6,7 @@ import {
 import crs from "@masterportal/masterportalapi/src/crs";
 import {fetchRoutingBkgGeosearch, fetchRoutingBkgGeosearchReverse} from "../utils/geosearch/routing-bkg-geosearch";
 import {fetchRoutingLocationFinderGeosearch} from "../utils/geosearch/routing-locationFinder-geosearch";
+import {fetchRoutingKomootGeosearch, fetchRoutingKomootGeosearchReverse} from "../utils/geosearch/routing-komoot-geosearch";
 import * as constantsRouting from "./constantsRouting";
 
 /**
@@ -72,6 +73,9 @@ export default {
             else if (state.geosearch.type === "LOCATIONFINDER") {
                 geosearchResults = await fetchRoutingLocationFinderGeosearch(search);
             }
+            else if (state.geosearch.type === "KOMOOT") {
+                geosearchResults = await fetchRoutingKomootGeosearch(search);
+            }
             else {
                 throw new Error("Geosearch is not configured correctly.");
             }
@@ -112,12 +116,13 @@ export default {
         try {
             // Possible to change Geosearch by changing function depending on config
             if (state.geosearch.type === "NOMINATIM") {
-                geosearchResults = await fetchRoutingNominatimGeosearchReverse(
-                    coordinates
-                );
+                geosearchResults = await fetchRoutingNominatimGeosearchReverse(coordinates);
             }
             else if (state.geosearch.type === "BKG") {
                 geosearchResults = await fetchRoutingBkgGeosearchReverse(coordinates);
+            }
+            else if (state.geosearch.type === "KOMOOT") {
+                geosearchResults = await fetchRoutingKomootGeosearchReverse(coordinates);
             }
             else {
                 throw new Error("Geosearch is not configured correctly.");
