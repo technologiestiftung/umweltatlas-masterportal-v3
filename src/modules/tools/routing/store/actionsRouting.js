@@ -7,6 +7,7 @@ import crs from "@masterportal/masterportalapi/src/crs";
 import {fetchRoutingBkgGeosearch, fetchRoutingBkgGeosearchReverse} from "../utils/geosearch/routing-bkg-geosearch";
 import {fetchRoutingLocationFinderGeosearch} from "../utils/geosearch/routing-locationFinder-geosearch";
 import {fetchRoutingKomootGeosearch, fetchRoutingKomootGeosearchReverse} from "../utils/geosearch/routing-komoot-geosearch";
+import {fetchRoutingGazetteerGeosearch} from "../utils/geosearch/routing-gazetteer-geosearch";
 import * as constantsRouting from "./constantsRouting";
 
 /**
@@ -76,6 +77,9 @@ export default {
             else if (state.geosearch.type === "KOMOOT") {
                 geosearchResults = await fetchRoutingKomootGeosearch(search);
             }
+            else if (state.geosearch.type === "GAZETTEER") {
+                geosearchResults = await fetchRoutingGazetteerGeosearch(search);
+            }
             else {
                 throw new Error("Geosearch is not configured correctly.");
             }
@@ -123,6 +127,9 @@ export default {
             }
             else if (state.geosearch.type === "KOMOOT") {
                 geosearchResults = await fetchRoutingKomootGeosearchReverse(coordinates);
+            }
+            else if (state.geosearch.type === "GAZETTEER") {
+                geosearchResults = null;
             }
             else {
                 throw new Error("Geosearch is not configured correctly.");
