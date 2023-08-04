@@ -21,15 +21,6 @@
 
 ## v2.36.1 - 2023-08-04
 ### Fixed
-<<<<<<< HEAD
-
-
----
-
-## v2.36.1 - 2023-08-04
-### Fixed
-=======
->>>>>>> 88a11d6324 (BG-4415: fix wfs createLegend error)
 - WFS: avoid createLegend undefined error
 
 ---
