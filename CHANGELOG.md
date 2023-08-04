@@ -16,6 +16,7 @@
 ### Removed
 
 ### Fixed
+- WFS: avoid createLegend undefined error
 
 ---
 
