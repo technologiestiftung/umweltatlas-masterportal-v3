@@ -5,6 +5,10 @@
 
 ## Unreleased - in development
 ### Added
+- Routing
+    - Possibility to use *ESRI CH LocationFinder* for geosearch option.
+    - Possibility to use *Komoot* for geosearch/reverse geosearch option.
+    - Possibility to use *Gazetteer* for geosearch option.
 
 ### Changed
 - The following packages have been updated:
@@ -30,8 +34,6 @@
 - Routing:
     - Possibility to define additional preferences for the different speed profiles (additionally to the BKG service)  (requires own modified backend).
     - Possibility to define additional avoid features for the different speed profiles (additionally to the BKG service) (requires own modified backend).
-    - Possibility to use *ESRI CH LocationFinder* for geosearch option.
-    - Possibility to use *Komoot* for geosearch/reverse geosearch option.
 - GFI:
     - highlightFeature also works for line geometries
     - new parameter: hideMapMarkerOnVectorHighlight

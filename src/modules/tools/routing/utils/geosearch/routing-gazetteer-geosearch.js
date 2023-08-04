@@ -1,5 +1,5 @@
 import {RoutingGeosearchResult} from "../classes/routing-geosearch-result";
-import * as searchAddress from "@masterportal/masterportalapi/src/searchAddress";
+import {search} from "@masterportal/masterportalapi/src/searchAddress";
 
 /**
  * Requests POIs from text from Gazetteer
@@ -7,7 +7,7 @@ import * as searchAddress from "@masterportal/masterportalapi/src/searchAddress"
  * @returns {RoutingGeosearchResult[]} routingGeosearchResults
  */
 async function fetchRoutingGazetteerGeosearch (searchInput) {
-    const fetchedResults = await searchAddress.search(searchInput, {
+    const fetchedResults = await search(searchInput, {
         searchAddress: true,
         searchStreets: true,
         searchHouseNumbers: true
