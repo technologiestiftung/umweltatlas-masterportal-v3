@@ -37,16 +37,16 @@ describe("src/modules/tools/gfi/store/actions/actionsGfi.js", () => {
         };
         sinon.stub(console, "warn");
     });
+    after(() => {
+        sinon.restore();
+    });
     describe("updateClick: Listener for click on the map", () => {
-        it("commits setGfiFeatures and start collectGfiFeatures", () => {
-            const dispatch = sinon.spy(),
-                commit = sinon.spy();
+        it("dispatch collectGfiFeatures", () => {
+            const dispatch = sinon.spy();
 
-            actions.updateClick({commit, dispatch});
-            expect(commit.calledOnce).to.be.true;
-            expect(dispatch.calledTwice).to.be.true;
-            expect(dispatch.firstCall.args[0]).to.equal("MapMarker/removePolygonMarker");
-            expect(dispatch.secondCall.args[0]).to.equal("collectGfiFeatures");
+            actions.updateClick({dispatch});
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.calledWith("collectGfiFeatures")).to.be.true;
         });
     });
     describe("test 3D Highlighting", () => {

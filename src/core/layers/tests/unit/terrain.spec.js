@@ -4,7 +4,7 @@ import TerrainLayer from "../../terrain";
 import store from "../../../../app-store";
 
 describe("src/core/layers/terrain.js", () => {
-    let attributes, map3D, cesiumTerrainProviderSpy, cesiumEllipsoidTerrainProviderSpy;
+    let attributes, map3D, cesiumTerrainProviderSpy, cesiumEllipsoidTerrainProviderSpy, fromUrlSpy;
 
     before(() => {
         mapCollection.clear();
@@ -35,6 +35,7 @@ describe("src/core/layers/terrain.js", () => {
         global.Cesium = {};
         global.Cesium.CesiumTerrainProvider = () => { /* no content*/ };
         global.Cesium.EllipsoidTerrainProvider = () => { /* no content*/ };
+        global.Cesium.CesiumTerrainProvider.fromUrl = () => sinon.stub();
         attributes = {
             name: "terrainTestLayer",
             id: "id",
@@ -42,10 +43,12 @@ describe("src/core/layers/terrain.js", () => {
             cesiumTerrainProviderOptions: {
                 requestVertexNormals: true
             },
+            url: "https://example.com",
             isSelected: false
         };
         cesiumTerrainProviderSpy = sinon.spy(global.Cesium, "CesiumTerrainProvider");
         cesiumEllipsoidTerrainProviderSpy = sinon.spy(global.Cesium, "EllipsoidTerrainProvider");
+        fromUrlSpy = sinon.spy(global.Cesium.CesiumTerrainProvider, "fromUrl");
         store.state.Maps.mode = "3D";
         store.getters = {
             "Maps/mode": store.state.Maps.mode
@@ -86,8 +89,8 @@ describe("src/core/layers/terrain.js", () => {
             layer = terrainLayer.get("layer");
 
         checkLayer(layer, terrainLayer, attributes);
-        expect(cesiumTerrainProviderSpy.calledTwice).to.equal(true);
-        expect(cesiumTerrainProviderSpy.calledWithMatch({requestVertexNormals: true})).to.equal(true);
+        expect(fromUrlSpy.calledTwice).to.equal(true);
+        expect(fromUrlSpy.calledWithMatch("https://example.com", {})).to.equal(true);
         expect(cesiumEllipsoidTerrainProviderSpy.notCalled).to.equal(true);
     });
     it("setVisible shall call setIsSelected", function () {
@@ -106,8 +109,8 @@ describe("src/core/layers/terrain.js", () => {
 
         terrainLayer.setIsSelected(true);
         checkLayer(layer, terrainLayer, attributes);
-        expect(cesiumTerrainProviderSpy.calledOnce).to.equal(true);
-        expect(cesiumTerrainProviderSpy.calledWithMatch({requestVertexNormals: true})).to.equal(true);
+        expect(fromUrlSpy.calledOnce).to.equal(true);
+        expect(fromUrlSpy.calledWithMatch("https://example.com", {})).to.equal(true);
         expect(cesiumEllipsoidTerrainProviderSpy.notCalled).to.equal(true);
     });
     it("setIsSelected false shall create ellipsoidTerrainProvider", function () {
@@ -117,7 +120,7 @@ describe("src/core/layers/terrain.js", () => {
         terrainLayer.setIsSelected(false);
         checkLayer(layer, terrainLayer, attributes);
         expect(cesiumEllipsoidTerrainProviderSpy.calledOnce).to.equal(true);
-        expect(cesiumTerrainProviderSpy.notCalled).to.equal(true);
+        expect(fromUrlSpy.notCalled).to.equal(true);
     });
     it("createLegend shall set legend", function () {
         attributes.legendURL = "https://legendUrl";
@@ -141,7 +144,7 @@ describe("src/core/layers/terrain.js", () => {
         checkLayer(layer, terrainLayer, attributes);
         expect(terrainLayer.get("isVisibleInMap")).to.equal(true);
         expect(cesiumEllipsoidTerrainProviderSpy.notCalled).to.equal(true);
-        expect(cesiumTerrainProviderSpy.calledOnce).to.equal(true);
+        expect(fromUrlSpy.calledOnce).to.equal(true);
     });
     it("setIsVisibleInMap to false shall set isVisibleInMap and hide layer", function () {
         const terrainLayer = new TerrainLayer(attributes),
@@ -151,7 +154,7 @@ describe("src/core/layers/terrain.js", () => {
         terrainLayer.setIsVisibleInMap(false);
         expect(terrainLayer.get("isVisibleInMap")).to.equal(false);
         expect(cesiumEllipsoidTerrainProviderSpy.calledOnce).to.equal(true);
-        expect(cesiumTerrainProviderSpy.notCalled).to.equal(true);
+        expect(fromUrlSpy.notCalled).to.equal(true);
     });
 });
 

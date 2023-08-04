@@ -1,11 +1,12 @@
 import Layer from "./layer";
-import {vectorBase} from "@masterportal/masterportalapi/src";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import getGeometryTypeFromService from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
 import store from "../../app-store";
 import * as bridge from "./RadioBridge.js";
 import Cluster from "ol/source/Cluster";
+import VectorLayer from "ol/layer/Vector.js";
+import VectorSource from "ol/source/Vector.js";
 import webgl from "./renderer/webgl";
 
 /**
@@ -18,21 +19,39 @@ export default function VectorBaseLayer (attrs) {
         supported: ["2D", "3D"],
         isClustered: false,
         altitudeMode: "clampToGround",
-        useProxy: false
+        useProxy: false,
+        sourceUpdated: false
     };
 
     this.createLayer(Object.assign(defaults, attrs));
-    // override class methods for webgl rendering
-    // has to happen before setStyle/styling
+
     if (attrs.renderer === "webgl") {
         webgl.setLayerProperties(this);
     }
-    // call the super-layer
     Layer.call(this, Object.assign(defaults, attrs), this.layer, !attrs.isChildLayer);
     this.createLegend();
 }
-// Link prototypes and add prototype methods, means VectorBaseLayer uses all methods and properties of Layer
+
 VectorBaseLayer.prototype = Object.create(Layer.prototype);
+
+/**
+ * Creates an vector Base
+ * @param {Object} attrs  attributes of the layer
+ * @returns {Object} layer
+ */
+VectorBaseLayer.prototype.createVectorLayer = function (attrs) {
+    const source = new VectorSource({
+        features: attrs.features
+    });
+
+    return new VectorLayer({
+        source: source,
+        name: attrs.name,
+        typ: attrs.typ,
+        gfiAttributes: attrs.gfiAttributes,
+        id: attrs.id
+    });
+};
 
 /**
  * creates the layer
@@ -40,23 +59,20 @@ VectorBaseLayer.prototype = Object.create(Layer.prototype);
  * @returns {void}
  */
 VectorBaseLayer.prototype.createLayer = function (attr) {
-    this.layer = vectorBase.createLayer(attr);
-
-    if (attr.isSelected) {
-        this.updateSource(this.layer, attr.features);
-    }
+    this.layer = this.createVectorLayer(attr);
 
     this.features = attr.features;
 };
 
 /**
  * Updates the layers source
- * @param {module:ol/layer/Base~BaseLayer} layer The vector base layer.
- * @param {module:ol/Feature~Feature[]} features The ol features.
  * @returns {void}
  */
-VectorBaseLayer.prototype.updateSource = function (layer, features) {
-    vectorBase.updateSource(layer, features);
+VectorBaseLayer.prototype.updateSource = function () {
+    if (this.get("sourceUpdated") === false) {
+        this.set("sourceUpdated", true);
+        this.layer.getSource().refresh();
+    }
 };
 
 /**

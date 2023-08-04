@@ -11,6 +11,7 @@ import store from "../../../../app-store";
 import {Style} from "ol/style.js";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
+import getGeometryTypeFromService from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
 import webgl from "../../renderer/webgl";
 
 describe("src/core/layers/wfs.js", () => {
@@ -40,6 +41,8 @@ describe("src/core/layers/wfs.js", () => {
         });
     });
     beforeEach(() => {
+        sinon.stub(console, "error");
+
         attributes = {
             url: "https://url.de",
             name: "wfsTestLayer",
@@ -282,9 +285,8 @@ describe("src/core/layers/wfs.js", () => {
                         imageName: "bruecke.png"
                     }
                 }],
-                legendInfos = {
-                    id: "mrh-industriekultur",
-                    legendInformation: [{
+                legendInfos = [
+                    {
                         geometryType: "Point",
                         id: "Point%7B%22properties%22%3A%7B%22kategorie%22%3A%22Bew%C3%A4sserungsanlagen%22%7D%7D",
                         label: "Bewässerungsanlagen",
@@ -295,8 +297,8 @@ describe("src/core/layers/wfs.js", () => {
                         id: "Point%7B%22properties%22%3A%7B%22kategorie%22%3A%22Br%C3%BCcken%22%7D%7D",
                         label: "Brücken",
                         styleObject: {}
-                    }]
-                },
+                    }
+                ],
                 expectedUniqueLegendInfo = [{
                     geometryType: "Point",
                     id: "Point%7B%22properties%22%3A%7B%22kategorie%22%3A%22Bew%C3%A4sserungsanlagen%22%7D%7D",
@@ -386,9 +388,8 @@ describe("src/core/layers/wfs.js", () => {
                         imageName: "bruecke.png"
                     }
                 }],
-                legendInfos = {
-                    id: "mrh-industriekultur",
-                    legendInformation: [{
+                legendInfos = [
+                    {
                         geometryType: "Point",
                         id: "1",
                         label: "Grundschule",
@@ -417,8 +418,8 @@ describe("src/core/layers/wfs.js", () => {
                         id: "5",
                         label: "Waldorfschule",
                         styleObject: {}
-                    }]
-                },
+                    }
+                ],
                 expectedUniqueLegendInfo = [{
                     geometryType: "Point",
                     id: "1",
@@ -471,21 +472,70 @@ describe("src/core/layers/wfs.js", () => {
                         imageName: "bruecke.png"
                     }
                 }],
-                legendInfos = {
-                    id: "mrh-industriekultur",
-                    legendInformation: [{
+                legendInfos = [
+                    {
                         geometryType: "Point",
                         id: "Point%7B%22properties%22%3A%7B%22kategorie%22%3A%22Bew%C3%A4sserungsanlagen%22%7D%7D",
                         label: "Bewässerungsanlagen",
                         styleObject: {}
-                    }]
-                },
+                    }
+                ],
                 expectedUniqueLegendInfo = [{
                     geometryType: "Point",
                     id: "Point%7B%22properties%22%3A%7B%22kategorie%22%3A%22Bew%C3%A4sserungsanlagen%22%7D%7D",
                     label: "Bewässerungsanlagen",
                     styleObject: {}
                 }];
+
+            expect(wfsLayer.filterUniqueLegendInfo(features, rules, legendInfos)).to.deep.equal(expectedUniqueLegendInfo);
+        });
+        it("should return legendInfos with label, if legendValue is exist", () => {
+            const wfsLayer = new WfsLayer(attributes),
+                attributes1 = {id: 1, ID_SYMBOL: "3", name: "ASN, Wertstoffhof Nord"},
+                features = [{
+                    attribute: attributes1,
+                    get: (key) => {
+                        return attributes1[key];
+                    }
+                }],
+                rules = [{
+                    conditions: {
+                        properties: {
+                            ID_SYMBOL: "3"
+                        }
+                    },
+                    style: {
+                        clusterImageName: "amt_stadt_nuernberg.png",
+                        imageName: "amt_stadt_nuernberg.png",
+                        legendValue: "Städtische Ämter"
+                    }
+                },
+                {
+                    conditions: {
+                        properties: {
+                            kategorie: "Brücken"
+                        }
+                    },
+                    style: {
+                        imageName: "bruecke.png"
+                    }
+                }],
+                legendInfos = [
+                    {
+                        geometryType: "Point",
+                        id: "Point%7B%22properties%22%3A%7B%22ID_SYMBOL%22%3A3%7D%7D",
+                        label: "Städtische Ämter",
+                        styleObject: {}
+                    }
+                ],
+                expectedUniqueLegendInfo = [
+                    {
+                        geometryType: "Point",
+                        id: "Point%7B%22properties%22%3A%7B%22ID_SYMBOL%22%3A3%7D%7D",
+                        label: "Städtische Ämter",
+                        styleObject: {}
+                    }
+                ];
 
             expect(wfsLayer.filterUniqueLegendInfo(features, rules, legendInfos)).to.deep.equal(expectedUniqueLegendInfo);
         });
@@ -543,6 +593,9 @@ describe("src/core/layers/wfs.js", () => {
         it("showAllFeatures", function () {
             sinon.stub(styleList, "returnStyleObject").returns(true);
             sinon.stub(createStyle, "createStyle").returns(new Style());
+            sinon.stub(getGeometryTypeFromService, "getGeometryTypeFromWFS").returns(new Promise(resolve => {
+                resolve({});
+            }));
             const wfsLayer = new WfsLayer(attributes),
                 layer = wfsLayer.get("layer");
 
@@ -561,6 +614,10 @@ describe("src/core/layers/wfs.js", () => {
         it("showFeaturesByIds", function () {
             sinon.stub(styleList, "returnStyleObject").returns(true);
             sinon.stub(createStyle, "createStyle").returns(new Style());
+            sinon.stub(getGeometryTypeFromService, "getGeometryTypeFromWFS").returns(new Promise(resolve => {
+                resolve({});
+            }));
+
             const wfsLayer = new WfsLayer(attributes),
                 layer = wfsLayer.get("layer"),
                 clearStub = sinon.stub(layer.getSource(), "clear");
