@@ -629,8 +629,15 @@ export default class InterfaceWfsExtern {
             }
             return;
         }
-        const result = {},
-            elementCollections = responseXML.firstElementChild.children.length !== 1 ? responseXML.firstElementChild.children : responseXML.firstElementChild.firstElementChild.children;
+        const result = {};
+        let elementCollections = responseXML.firstElementChild.children;
+
+        if (elementCollections.length === 1) {
+            elementCollections = elementCollections[0].children;
+        }
+        else {
+            elementCollections = [...elementCollections].find(el => el.tagName === "gml:featureMembers")?.children ?? elementCollections;
+        }
 
         Array.prototype.slice.call(elementCollections).forEach(element => {
             let node = this.getNodeByTagname(element, typename);

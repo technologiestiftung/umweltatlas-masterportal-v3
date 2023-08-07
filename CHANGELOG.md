@@ -26,6 +26,7 @@
 ### Removed
 
 ### Fixed
+- Issue #1061: Filter: Accept gml:featureMembers occuring with other children in XML response.
 
 ---
 
