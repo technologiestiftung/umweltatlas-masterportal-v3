@@ -8,6 +8,7 @@ import {fetchRoutingBkgGeosearch, fetchRoutingBkgGeosearchReverse} from "../util
 import {fetchRoutingLocationFinderGeosearch} from "../utils/geosearch/routing-locationFinder-geosearch";
 import {fetchRoutingKomootGeosearch, fetchRoutingKomootGeosearchReverse} from "../utils/geosearch/routing-komoot-geosearch";
 import {fetchRoutingSpecialWfsGeosearch} from "../utils/geosearch/routing-specialWfs-geosearch";
+import {fetchRoutingGazetteerGeosearch} from "../utils/geosearch/routing-gazetteer-geosearch";
 import * as constantsRouting from "./constantsRouting";
 
 /**
@@ -80,6 +81,9 @@ export default {
             else if (state.geosearch.type === "SPECIALWFS") {
                 geosearchResults = await fetchRoutingSpecialWfsGeosearch(search);
             }
+            else if (state.geosearch.type === "GAZETTEER") {
+                geosearchResults = await fetchRoutingGazetteerGeosearch(search);
+            }
             else {
                 throw new Error("Geosearch is not configured correctly.");
             }
@@ -132,6 +136,9 @@ export default {
                 geosearchResults = await fetchRoutingKomootGeosearchReverse(coordinates);
             }
             else if (state.geosearch.type === "SPECIALWFS") {
+                geosearchResults = null;
+            }
+            else if (state.geosearch.type === "GAZETTEER") {
                 geosearchResults = null;
             }
             else {
