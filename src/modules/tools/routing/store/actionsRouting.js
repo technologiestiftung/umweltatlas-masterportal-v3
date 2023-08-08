@@ -55,6 +55,11 @@ export default {
         if (state.geosearch.type === "ELASTIC" && !state.geosearch.searchField) {
             throw new Error("Routing tool is not configured correctly. The following required fields for elastic search are missing: searchField");
         }
+        if (state.geosearch.type === "SPECIALWFS") {
+            if (!state.geosearch.typeName || !state.geosearch.propertyNames || !state.geosearch.geometryName) {
+                throw new Error("Routing tool is not configured correctly. One of the following required fields for specialWfs search are missing: typeName, propertyNames or geometryName");
+            }
+        }
     },
     /**
      * Async fetch Coordinates by text.
