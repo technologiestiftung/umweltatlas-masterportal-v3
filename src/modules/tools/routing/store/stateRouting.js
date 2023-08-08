@@ -38,7 +38,10 @@ const state = {
         serviceId: null,
         epsg: "4326",
         searchField: null,
-        sortField: null
+        sortField: null,
+        typeName: null,
+        propertyNames: null,
+        geometryName: null
     },
     geosearchReverse: {
         // type: "NOMINATIM",

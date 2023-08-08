@@ -222,5 +222,4 @@ export default {
             coordinates
         );
     }
-
 };
