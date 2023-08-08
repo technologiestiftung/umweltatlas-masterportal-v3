@@ -212,19 +212,15 @@ export default {
         }
 
         commit("setVisibleLayer", state.visibleLayerList);
-
-        if (state.active && state.layoutList.length !== 0 && state.visibleLayerList.length >= 1 && state.eventListener === undefined) {
+        if (state.active && state.layoutList.length !== 0 && state.visibleLayerList.length >= 1) {
+            if (state.eventListener !== undefined) {
+                dispatch("Maps/unregisterListener", {type: state.eventListener}, {root: true});
+                commit("setEventListener", undefined);
+            }
             const canvasLayer = Canvas.getCanvasLayer(state.visibleLayerList);
 
             commit("setEventListener", canvasLayer.on("postrender", evt => dispatch("createPrintMask", evt)));
-            if (ol3d) {
-                autoDrawMask(ol3d.getCesiumScene(), () => {
-                    const evt = {ol3d: ol3d};
-
-                    dispatch("compute3DPrintMask", evt);
-                    return evt.printRectangle.scaling;
-                });
-            }
+            draw3dMask(state, dispatch, ol3d);
         }
         else if (!state.active) {
             dispatch("Maps/unregisterListener", {type: state.eventListener}, {root: true});
@@ -337,13 +333,9 @@ export default {
         }
     },
 
-    compute3DPrintMask: function ({dispatch, state}, evt) {
+    compute3DPrintMask: function ({dispatch}) {
         dispatch("getPrintMapSize");
         dispatch("getPrintMapScales");
-        evt.printRectangle = computeRectangle(
-            evt.ol3d.getCesiumScene().canvas,
-            state.layoutMapInfo[0],
-            state.layoutMapInfo[1]);
     },
 
     /**
@@ -529,3 +521,27 @@ export default {
         }
     }
 };
+
+/**
+ * Calls the autoDrawMask if ol3d is given and dispatches compute3DPrintMask in the callback
+ * for autoDrawMask function.
+ * @param {Object} state the state
+ * @param {Object} dispatch the dispatch
+ * @param {ol/Map} ol3d the 3d map
+ * @returns {void}
+ */
+function draw3dMask (state, dispatch, ol3d) {
+    if (!ol3d) {
+        return;
+    }
+    autoDrawMask(ol3d.getCesiumScene(), () => {
+        const evt = {ol3d: ol3d};
+
+        dispatch("compute3DPrintMask");
+        evt.printRectangle = computeRectangle(
+            evt.ol3d.getCesiumScene().canvas,
+            state.layoutMapInfo[0],
+            state.layoutMapInfo[1]);
+        return evt.printRectangle.scaling;
+    });
+}

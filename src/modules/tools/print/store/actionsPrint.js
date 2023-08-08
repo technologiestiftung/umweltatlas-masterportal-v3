@@ -7,6 +7,7 @@ import actionsPrintInitialization from "./actions/actionsPrintInitialization";
 import getVisibleLayer from "./../utils/getVisibleLayer";
 import {DEVICE_PIXEL_RATIO} from "ol/has.js";
 import {takeScreenshot} from "olcs/print/takeCesiumScreenshot.ts";
+import {computeRectangle} from "olcs/print/computeRectangle.ts";
 
 export default {
 
@@ -78,7 +79,11 @@ export default {
             options = (function () {
                 const evt = {ol3d: ol3d};
 
-                dispatch("compute3DPrintMask", evt);
+                dispatch("compute3DPrintMask");
+                evt.printRectangle = computeRectangle(
+                    evt.ol3d.getCesiumScene().canvas,
+                    state.layoutMapInfo[0],
+                    state.layoutMapInfo[1]);
                 return evt.printRectangle;
             })(),
             screenshot = await takeScreenshot(ol3d.getCesiumScene(), options),

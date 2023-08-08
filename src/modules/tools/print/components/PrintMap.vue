@@ -32,7 +32,7 @@ export default {
     },
     computed: {
         ...mapGetters("Tools/Print", Object.keys(getters)),
-        ...mapGetters("Maps", ["scales, size", "scale", "getLayerById"]),
+        ...mapGetters("Maps", ["scales, size", "scale", "getLayerById", "is3D"]),
         ...mapGetters("Tools/Gfi", ["currentFeature"]),
 
         currentScale: {
@@ -137,9 +137,8 @@ export default {
         }
     },
     watch: {
-        active: function () {
-            if (this.active) {
-
+        active: function (value) {
+            if (value) {
                 this.setIsScaleSelectedManually(false);
                 this.retrieveCapabilites();
                 this.setCurrentMapScale(this.scale);
@@ -154,9 +153,14 @@ export default {
         scale: function (value) {
             this.setCurrentMapScale(value);
         },
-        currentFeature: function () {
-            if (this.currentFeature === null) {
+        currentFeature: function (value) {
+            if (value === null) {
                 this.setIsGfiSelected(false);
+            }
+        },
+        is3D: function (value) {
+            if (value) {
+                this.togglePostrenderListener();
             }
         }
     },
@@ -326,8 +330,8 @@ export default {
                 });
 
                 this.setPrintStarted(true);
-                if (Radio.request("Map", "getMapMode") === "2D") {
-                    this.startPrint({
+                if (this.is3D) {
+                    this.startPrint3d({
                         index,
                         getResponse: async (url, payload) => {
                             return axios.post(url, payload);
@@ -336,7 +340,7 @@ export default {
                     });
                 }
                 else {
-                    this.startPrint3d({
+                    this.startPrint({
                         index,
                         getResponse: async (url, payload) => {
                             return axios.post(url, payload);
