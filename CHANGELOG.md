@@ -9,6 +9,7 @@
     - Possibility to use *ESRI CH LocationFinder* for geosearch option.
     - Possibility to use *Komoot* for geosearch/reverse geosearch option.
     - Possibility to use *Gazetteer* for geosearch option.
+    - Possibility to use *specialWfs* for geosearch option.
 
 ### Changed
 - The following packages have been updated:

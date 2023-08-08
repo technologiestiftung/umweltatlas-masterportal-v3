@@ -4304,8 +4304,11 @@ Routing-Werkzeug Geosuche Optionen.
 |----|-------------|---|-------|------------|------|
 |minChars|nein|Number|3|Minimum an Zeichen für die Anfrage bei dem externen Service.|false|
 |limit|nein|Number|10|Maximale Anzahl an Zeichen für die Suche.|false|
-|type|ja|String||Welcher Typ für die Geosuche verwendet werden soll. Aktuell möglich sind "BKG", "NOMINATIM", "LOCATIONFINDER", "KOMOOT" und "GAZETTEER".|false|
+|type|ja|String||Welcher Typ für die Geosuche verwendet werden soll. Aktuell möglich sind "BKG", "NOMINATIM", "LOCATIONFINDER", "KOMOOT", "GAZETTEER" und "SPECIALWFS".|false|
 |serviceId|ja|String||Welcher Service für die Geosuche verwendet werden soll.|false|
+|typeName|nein|String||Typname für die Geosuchabfrage.|false|
+|propertyNames|nein|String[]||Namen der Eigenschaften, die in die Geosuche einbezogen werden sollen.|false|
+|geometryNames|nein|String||Name des Geometriefelds für die Geosuche.|false|
 
 **Beispiel**
 ```
@@ -4314,8 +4317,13 @@ Routing-Werkzeug Geosuche Optionen.
     "geosearch": {
         "minChars": 3,
         "limit": 10,
-        "type": "BKG",
-        "serviceId": "bkg_geosearch"
+        "type": "SPECIALWFS",
+        "serviceId": "specialWfs_geosearch",
+        "typeName": "ms:strasse_nr",
+		"propertyNames": [
+			"ms:LABEL_TEXT"
+			],
+		"geometryName": "ms:msGeometry"
     }
 }
 ```
