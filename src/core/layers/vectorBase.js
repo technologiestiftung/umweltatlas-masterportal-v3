@@ -7,7 +7,6 @@ import * as bridge from "./RadioBridge.js";
 import Cluster from "ol/source/Cluster";
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
-import webgl from "./renderer/webgl";
 
 /**
  * Creates a layer of type vectorBase.
@@ -25,9 +24,6 @@ export default function VectorBaseLayer (attrs) {
 
     this.createLayer(Object.assign(defaults, attrs));
 
-    if (attrs.renderer === "webgl") {
-        webgl.setLayerProperties(this);
-    }
     Layer.call(this, Object.assign(defaults, attrs), this.layer, !attrs.isChildLayer);
     this.createLegend();
 }
