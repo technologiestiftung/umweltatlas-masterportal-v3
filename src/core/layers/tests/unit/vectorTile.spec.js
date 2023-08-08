@@ -1,15 +1,12 @@
 import VectorTile from "../../vectorTile.js";
-
+import Collection from "ol/Collection";
+import {stylefunction} from "ol-mapbox-style";
 import {expect} from "chai";
 import sinon from "sinon";
 import axios from "axios";
-
 import crs from "@masterportal/masterportalapi/src/crs";
-
-import {stylefunction} from "ol-mapbox-style";
-
 import store from "../../../../app-store";
-import Collection from "ol/Collection";
+import webgl from "../../renderer/webgl";
 
 const vtStyles = [
         {name: "Layer One", id: "l1"},
@@ -561,6 +558,29 @@ describe("core/modelList/layer/vectorTile", function () {
             vtLayer.showFeaturesByIds([]);
             expect(source.getTileLoadFunction()).to.not.be.equal("defaultLoadFunction");
             sinon.restore();
+        });
+    });
+    describe("Use WebGL renderer", () => {
+        it("Should create the layer with WebGL methods, if renderer: \"webgl\" is set", function () {
+            const mapStub = sinon.stub(store, "getters");
+            let vtLayer = null,
+                layer = null;
+
+            mapStub.value({"Maps/projection": {getCode: () => {
+                return "EPSG:25832";
+            }}});
+            vtLayer = new VectorTile({...attrs, renderer: "webgl", isPointLayer: false});
+            layer = vtLayer.get("layer");
+
+            expect(vtLayer.isDisposed).to.equal(webgl.isDisposed);
+            expect(vtLayer.setIsSelected).to.equal(webgl.setIsSelected);
+            expect(vtLayer.hideAllFeatures).to.equal(webgl.hideAllFeatures);
+            expect(vtLayer.showAllFeatures).to.equal(webgl.showAllFeatures);
+            expect(vtLayer.showFeaturesByIds).to.equal(webgl.showFeaturesByIds);
+            expect(vtLayer.setStyle).to.equal(webgl.setStyle);
+            expect(vtLayer.styling).to.equal(webgl.setStyle);
+            expect(vtLayer.source).to.equal(layer.getSource());
+            expect(layer.get("isPointLayer")).to.not.be.undefined;
         });
     });
 });

@@ -3,6 +3,7 @@ import Layer from "./layer";
 import store from "../../app-store";
 import getProxyUrl from "../../utils/getProxyUrl";
 import axios from "axios";
+import webgl from "./renderer/webgl";
 
 /**
  * Creates a layer of type vectorTile.
@@ -24,6 +25,13 @@ export default function VectorTileLayer (attrs) {
         attrs.isNeverVisibleInTree = true;
     }
     this.createLayer(Object.assign(defaults, attrs));
+
+    // override class methods for webgl rendering
+    // has to happen before setStyle
+    if (attrs.renderer === "webgl") {
+        webgl.setLayerProperties(this);
+    }
+
     // call the super-layer
     Layer.call(this, Object.assign(defaults, attrs), this.layer, !attrs.isChildLayer);
 
@@ -49,7 +57,12 @@ VectorTileLayer.prototype = Object.create(Layer.prototype);
 VectorTileLayer.prototype.createLayer = function (attrs) {
     const layerParams = {
         gfiAttributes: attrs.gfiAttributes,
-        visible: attrs.isSelected
+        visible: attrs.isSelected,
+        renderer: attrs.renderer, // use "default" (canvas) or "webgl" renderer
+        styleId: attrs.styleId, // styleId to pass to masterportalapi
+        style: attrs.style, // style function to style the layer or WebGLPoints style syntax
+        excludeTypesFromParsing: attrs.excludeTypesFromParsing, // types that should not be parsed from strings, only necessary for webgl
+        isPointLayer: attrs.isPointLayer // whether the source will only hold point data, only necessary for webgl
     };
 
     this.layer = vectorTile.createLayer(attrs, {layerParams});
