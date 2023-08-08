@@ -4306,10 +4306,10 @@ Routing-Werkzeug Geosuche Optionen.
 |limit|nein|Number|10|Maximale Anzahl an Zeichen für die Suche.|false|
 |type|ja|String||Welcher Typ für die Geosuche verwendet werden soll. Aktuell möglich sind "BKG", "NOMINATIM", "LOCATIONFINDER", "KOMOOT", "GAZETTEER", "SPECIALWFS" und "ELASTIC.|false|
 |serviceId|ja|String||Welcher Service für die Geosuche verwendet werden soll.|false|
-|typeName|nein|String||Typname für die Geosuchabfrage.|false|
-|propertyNames|nein|String[]||Namen der Eigenschaften, die in die Geosuche einbezogen werden sollen.|false|
-|geometryNames|nein|String||Name des Geometriefelds für die Geosuche.|false|
-|epsg|nein|String|4326|Welcher EPSG-Code vom Service gentutzt wird (z.B. 4326, 25832).|false|
+|typeName|nein|String||Typname für die specialWfs Geosuchabfrage.|false|
+|propertyNames|nein|String[]||Namen der Eigenschaften, die in die specialWfs Geosuche einbezogen werden sollen.|false|
+|geometryNames|nein|String||Name des Geometriefelds für die specialWfs Geosuche.|false|
+|epsg|nein|String|4326|Welcher EPSG-Code vom Service genutzt wird (z.B. 4326, 25832).|false|
 |searchField|nein|String||Der Pfad zum Feld welches bei der Nutzung von Elastic Search gesucht werden soll.|false|
 |sortField|nein|String||Der Pfad zum Feld welches bei der Nutzung von Elastic Search die Sortierung der Ergebnisse in aufsteigender Reihenfolge vorgibt.|false|
 
