@@ -83,7 +83,8 @@ async function makeWFSRequest (serviceUrl, sendObject, postData) {
         return searchResults;
     }
     catch (error) {
-        return console.error(error);
+        console.error(error);
+        throw error;
     }
 }
 
@@ -99,32 +100,27 @@ function prepareValues (data, definition) {
     const parser = new DOMParser(),
         xmlDoc = parser.parseFromString(data, "text/xml"),
         typeName = definition.typeName,
-        propertyNames = definition.propertyNames,
-        geometryName = definition.geometryName,
         elements = xmlDoc.getElementsByTagNameNS("*", typeName.split(":")[1]),
         resultList = [];
 
-
     for (let i = 0; i < elements.length; i++) {
-        const element = elements[i];
+        const element = elements[i],
+            identifierElement = element.getElementsByTagName("ms:LABEL_TEXT")[0],
+            geometryElement = element.getElementsByTagName("gml:Point")[0];
 
-        propertyNames.forEach(propertyName => {
-            if (element.getElementsByTagName(propertyName).length > 0 && element.getElementsByTagName(geometryName).length > 0) {
-                if (element.getElementsByTagName(propertyName)[0].textContent.toUpperCase().includes(definition.searchString.toUpperCase())) {
-                    const elementGeometryName = element.getElementsByTagNameNS("*", geometryName.split(":")[1])[0],
-                        elementGeometryFirstChild = elementGeometryName.firstElementChild,
-                        epsg = elementGeometryFirstChild.attributes.srsName.value,
-                        coordinates = elementGeometryFirstChild.textContent.trim().split(" "),
-                        identifier = element.getElementsByTagName(propertyName)[0].textContent;
+        if (identifierElement && geometryElement) {
+            const identifier = identifierElement.textContent,
+                coordinatesText = geometryElement.getElementsByTagName("gml:pos")[0].textContent,
+                coordinates = coordinatesText.trim().split(" ").map(Number),
+                epsg = geometryElement.getAttribute("srsName");
 
-                    resultList.push({identifier, coordinates, epsg});
-                }
-            }
-            else {
-                console.error("Missing properties in specialWFS-Response. Ignoring Feature...");
-            }
-        });
+            resultList.push({identifier, coordinates, epsg});
+        }
+        else {
+            console.error("Missing properties in specialWFS-Response. Ignoring Feature...");
+        }
     }
+
     return resultList;
 }
 
@@ -145,4 +141,4 @@ function parseRoutingSpecialWfsGeosearchResult (geosearchResult) {
     );
 }
 
-export {fetchRoutingSpecialWfsGeosearch};
+export {fetchRoutingSpecialWfsGeosearch, makeWFSRequest};

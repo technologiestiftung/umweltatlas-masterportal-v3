@@ -3,7 +3,7 @@ import sinon from "sinon";
 import {RoutingGeosearchResult} from "../../../../utils/classes/routing-geosearch-result";
 import {fetchRoutingGazetteerGeosearch} from "../../../../utils/geosearch/routing-gazetteer-geosearch";
 
-describe("src/modules/tools/routing/utils/geosearch/routing-locationFinder-geosearch.js", () => {
+describe("src/modules/tools/routing/utils/geosearch/routing-gazeteer-geosearch.js", () => {
     let promise;
 
     beforeEach(() => {
@@ -34,7 +34,7 @@ describe("src/modules/tools/routing/utils/geosearch/routing-locationFinder-geose
         global.Promise = promise;
     });
 
-    describe("should fetchRoutingLocationFinderGeosearch", () => {
+    describe("should fetchRoutingGazeteerGeosearch", () => {
         it("should process result correct", async () => {
             const result = await fetchRoutingGazetteerGeosearch(
                     "testsearch"
