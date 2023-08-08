@@ -394,7 +394,7 @@ export default {
             <EntityAttribute
                 v-model="lineWidthString"
                 title="line-width"
-                :label="$t('modules.tools.modeler3D.draw.captions.lineWidth') + ' [Pixel]'"
+                :label="$t('modules.tools.modeler3D.draw.captions.strokeWidth') + ' [Pixel]'"
                 :width-classes="['col-md-8', 'col-md-4']"
                 @increment="lineWidthString = (lineWidth + 1).toFixed(2)"
                 @decrement="lineWidthString = (lineWidth - 1).toFixed(2)"

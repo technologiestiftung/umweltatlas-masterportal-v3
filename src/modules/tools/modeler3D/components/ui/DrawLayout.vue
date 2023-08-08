@@ -304,8 +304,12 @@ export default {
         transform: translate(-50%, -50%);
         line-height: 0.5rem;
 
-        > input:hover{
-            color: $white;
+        > input {
+            color: $light_grey;
+
+            &:hover {
+                color: $white;
+            }
         }
 
         input[type="text"] {
