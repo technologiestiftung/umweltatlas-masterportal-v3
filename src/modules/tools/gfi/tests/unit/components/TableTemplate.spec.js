@@ -199,4 +199,20 @@ describe("src/modules/tools/gfi/components/templates/TableTemplate.vue", () => {
         expect(footer.text()).to.be.equal("Footer");
     });
 
+    it("should emit 'updateFeatureDone' in updated hook if isUpdated is true", async () => {
+        const wrapper = mount(TableTemplate, {
+            propsData,
+            components,
+            computed,
+            store,
+            localVue
+        });
+
+        await wrapper.setProps({isUpdated: true});
+        await wrapper.vm.$nextTick();
+
+        expect(wrapper.emitted()).to.have.property("updateFeatureDone");
+        expect(wrapper.emitted().updateFeatureDone).to.have.lengthOf(1);
+    });
+
 });

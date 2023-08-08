@@ -30,10 +30,10 @@ async function fetchRoutingLocationFinderGeosearch (search) {
 /**
  * Parses Response from LocationFinder to RoutingGeosearchResult
  * @param {Object} geosearchResult from LocationFinder
- * @param {Object} [geosearchResult.geometry] geosearchResult geometry
- * @param {[Number, Number]} [geosearchResult.geometry.coordinates] geosearchResult geometry coordinates
- * @param {Object} [geosearchResult.properties] geosearchResult properties
- * @param {String} [geosearchResult.properties.text] geosearchResult properties text
+ * @param {Number} [geosearchResult.cx] geosearchResult x coordinate
+ * @param {Number} [geosearchResult.cy] geosearchResult y coordinate
+ * @param {String} [geosearchResult.name] geosearchResult name
+ * @param {String} [geosearchResult.epsg] geosearchResult epsg
  * @returns {RoutingGeosearchResult} routingGeosearchResult
  */
 function parseRoutingLocationFinderGeosearchResult (geosearchResult) {

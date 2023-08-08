@@ -4360,13 +4360,33 @@ Routing-tool geosearch options.
 |----|--------|----|-------|-----------|------|
 |minChars|no|Number|3|Minimum amount of characters before sending a request to an external service.|false|
 |limit|no|Number|10|Maximale amount of characters for the search.|false|
-|type|yes|String||Which type of the geosearch should be used. ("BKG", "NOMINATIM", "LOCATIONFINDER", "KOMOOT", "ELASTIC")|false|
+|type|yes|String||Which type of the geosearch should be used. ("BKG", "NOMINATIM", "LOCATIONFINDER", "KOMOOT", "GAZETTEER", "SPECIALWFS", "ELASTIC")|false|
 |serviceId|yes|String||Which service should be used for the geosearch.|false|
+|typeName|no|String||Type name for the geosearch query.|false|
+|propertyNames|no|String[]||Names of properties to be included in the geosearch.|false|
+|geometryNames|no|String||Name of the geometry field for geosearch.|false|
 |epsg|no|String|4326|Which EPSG code is used by the service (e.g. 4326, 25832).|false|
 |searchField|no|String||The path to the field to be searched for when using Elastic Search.|false|
 |sortField|no|String||The path to the field that specifies the sorting of the results in ascending order when using Elastic Search.|false|
 
-**Example**
+**Exampe for SPECIALWFS**
+```
+#!json
+{
+    "geosearch": {
+        "minChars": 3,
+        "limit": 10,
+        "type": "SPECIALWFS",
+        "serviceId": "specialWfs_geosearch",
+        "typeName": "ms:strasse_nr",
+		"propertyNames": [
+			"ms:LABEL_TEXT"
+			],
+		"geometryName": "ms:msGeometry"
+    }
+}
+```
+**Exampe for ELASTIC**
 ```
 #!json
 {

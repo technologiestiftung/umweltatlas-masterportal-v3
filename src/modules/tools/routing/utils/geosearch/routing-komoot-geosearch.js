@@ -54,7 +54,9 @@ async function fetchRoutingKomootGeosearchReverse (coordinates) {
  * @param {Object} [geosearchResult.geometry] geosearchResult geometry
  * @param {[Number, Number]} [geosearchResult.geometry.coordinates] geosearchResult geometry coordinates
  * @param {Object} [geosearchResult.properties] geosearchResult properties
- * @param {String} [geosearchResult.properties.text] geosearchResult properties text
+ * @param {String} [geosearchResult.properties.housenumber] geosearchResult properties housenumber
+ * @param {String} [geosearchResult.properties.street] geosearchResult properties street
+ * @param {String} [geosearchResult.properties.name] geosearchResult properties name
  * @returns {RoutingGeosearchResult} routingGeosearchResult
  */
 function parseRoutingKomootGeosearchResult (geosearchResult) {

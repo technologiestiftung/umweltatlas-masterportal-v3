@@ -28,5 +28,24 @@ export default {
     infoBox: null,
     hoverPosition: null,
     pleaseZoom: false,
-    isActive: true
+    isActive: true,
+
+    highlightVectorRulesPolygon: {
+        "fill": {
+            "color": [255, 255, 255, 0.5]
+        },
+        "stroke": {
+            "width": 4,
+            "color": [255, 0, 0, 0.9]
+        }
+    },
+    highlightVectorRulesPointLine: {
+        "stroke": {
+            "width": 8,
+            "color": [255, 0, 255, 0.9]
+        },
+        "image": {
+            "scale": 2
+        }
+    }
 };
