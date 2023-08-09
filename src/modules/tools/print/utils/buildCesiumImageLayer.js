@@ -41,7 +41,7 @@ function takeOl3DScreenshot (scene, options) {
     });
 }
 /**
- *
+ * Creates a fake extent based on the given view and given pixels
  * @param {ol.View} view ol view
  * @param {[number, number]} pixels canvas dimensions
  * @returns {[ol.Extent]} extent
@@ -58,12 +58,12 @@ function createFakeExtent (view, pixels) {
     ];
 }
 /**
- *
- * @param {olcs.OLCesium} ol3d Ol3d
+ * Creates the print image layer for mapfish from the given 3dmap
+ * @param {olcs.OLCesium} ol3d The 3d map
  * @param {Object} options Options
  * @returns {Promise<Object>} the promise
  */
-export async function createMapfishPrintImageLayerFromCesium (ol3d, options) {
+async function createMapfishPrintImageLayerFromCesium (ol3d, options) {
     const ol2d = ol3d.getOlMap();
 
     return {
@@ -75,3 +75,8 @@ export async function createMapfishPrintImageLayerFromCesium (ol3d, options) {
         baseURL: await takeOl3DScreenshot(ol3d.getCesiumScene(), options)
     };
 }
+export default {
+    createMapfishPrintImageLayerFromCesium,
+    takeOl3DScreenshot,
+    createFakeExtent
+};

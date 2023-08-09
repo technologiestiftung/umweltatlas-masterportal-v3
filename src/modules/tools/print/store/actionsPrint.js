@@ -162,7 +162,7 @@ export default {
     },
 
     /**
-     * starts the printing process
+     * Starts the printing process
      * @param {Object} param.state the state
      * @param {Object} param.dispatch the dispatch
      * @param {Object} param.commit the commit

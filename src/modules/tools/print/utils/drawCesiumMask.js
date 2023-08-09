@@ -1,12 +1,12 @@
 let state = null;
 
 /**
- *
- * @param {olcs.OLCesium} ol3d Ol3d
+ * Draws the mask based on the given scaling
+ * @param {olcs.OLCesium} ol3d The ol 3d map
  * @param {function(): number[]} getScaling compute scaling
  * @returns {void}
  */
-export function autoDrawMask (ol3d, getScaling) {
+function autoDrawMask (ol3d, getScaling) {
     const scene = ol3d.getCesiumScene(),
         canvas = scene.canvas,
         ctx = canvas.getContext("webgl2") || canvas.getContext("webgl");
@@ -30,14 +30,14 @@ export function autoDrawMask (ol3d, getScaling) {
 }
 // CC0 from https://github.com/mdn/dom-examples/tree/main/webgl-examples/tutorial/sample2
 /**
- *
+ * Draws a scene
  * @param {WebGL2RenderingContext} gl context
  * @param {*} programInfo program and associated structures
  * @param {WebGLBuffer} buffers position buffer
  * @param {number[]} scaling scaling
  * @returns {void}
  */
-export function drawScene (gl, programInfo, buffers, scaling) {
+function drawScene (gl, programInfo, buffers, scaling) {
     // Blend
     gl.enable(gl.BLEND);
     gl.bindBuffer(gl.ARRAY_BUFFER, buffers);
@@ -92,7 +92,7 @@ export function drawScene (gl, programInfo, buffers, scaling) {
  * @param {WebGL2RenderingContext} gl context
  * @returns {WebGLBuffer} return buffer
  */
-export function initPositionBuffer (gl) {
+function initPositionBuffer (gl) {
     const positionBuffer = gl.createBuffer(),
         positions = [1.0, 1.0, -1.0, 1.0, 1.0, -1.0, -1.0, -1.0];
 
@@ -105,7 +105,7 @@ export function initPositionBuffer (gl) {
  * @param {WebGL2RenderingContext} gl context
  * @returns {function(number[]): void} draw function
  */
-export function main (gl) {
+function main (gl) {
     // Vertex shader program
     const vsSource = `
     attribute vec4 aVertexPosition;
@@ -140,7 +140,7 @@ export function main (gl) {
     };
 }
 /**
- *
+ * Initialize the shader
  * @param {WebGL2RenderingContext} gl context
  * @param {string} vsSource shader
  * @param {string} fsSource shader
@@ -165,7 +165,7 @@ function initShaderProgram (gl, vsSource, fsSource) {
     return shaderProgram;
 }
 /**
- *
+ * Loads a shader and returns it
  * @param {WebGL2RenderingContext} gl context
  * @param {number} type shader type
  * @param {string} source shader source
@@ -184,3 +184,12 @@ function loadShader (gl, type, source) {
     }
     return shader;
 }
+
+export default {
+    autoDrawMask,
+    drawScene,
+    initPositionBuffer,
+    main,
+    initShaderProgram,
+    loadShader
+};

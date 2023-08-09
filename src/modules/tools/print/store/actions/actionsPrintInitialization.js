@@ -333,6 +333,11 @@ export default {
         }
     },
 
+    /**
+     * Dispatches getPrintMapSize and getPrintMapScales.
+     * @param {Object} dispatch the dispatch
+     * @returns {void}
+     */
     compute3DPrintMask: function ({dispatch}) {
         dispatch("getPrintMapSize");
         dispatch("getPrintMapScales");
