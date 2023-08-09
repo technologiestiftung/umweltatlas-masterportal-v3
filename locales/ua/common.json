@@ -925,7 +925,8 @@
                     "HIGHWAYS": "Автомагістралі",
                     "TOLLWAYS": "Платні дороги",
                     "FERRIES": "Пороми",
-                    "STEPS": "Сходи"
+                    "STEPS": "Сходи",
+                    "UNPAVEDROADS": "ґрунтові дороги"
                 },
                 "batchProcessing": {
                     "header": "Пакетна обробка",

@@ -1023,7 +1023,8 @@
                     "HIGHWAYS": "Autostrada",
                     "TOLLWAYS": "Strade a pedaggio",
                     "FERRIES": "Traghetti",
-                    "STEPS": "Scale"
+                    "STEPS": "Scale",
+                    "UNPAVEDROADS": "Strade sterrate"
                 },
                 "batchProcessing": {
                     "header": "Elaborazione in batch",

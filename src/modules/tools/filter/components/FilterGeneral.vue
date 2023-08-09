@@ -46,7 +46,9 @@ export default {
             layerLoaded: {},
             layerFilterSnippetPostKey: "",
             urlHandler: new UrlHandler(this.mapHandler),
-            alreadyWatching: null
+            alreadyWatching: null,
+            mapMoveListeners: {},
+            mapMoveRegistered: false
         };
     },
     computed: {
@@ -114,7 +116,11 @@ export default {
             this.addWatcherToWriteUrl();
         });
         this.addWatcherToWriteUrl();
-
+    },
+    beforeDestroy () {
+        if (this.mapMoveRegistered) {
+            this.unregisterMapMoveListeners();
+        }
     },
     methods: {
         ...mapMutations("Tools/Filter", Object.keys(mutations)),
@@ -127,6 +133,7 @@ export default {
             "deserializeState",
             "setRulesArray"
         ]),
+        ...mapActions("Maps", ["registerListener", "unregisterListener"]),
         close () {
             this.setActive(false);
             const model = getComponent(this.storePath.id);
@@ -388,6 +395,53 @@ export default {
                 generatedParams = JSON.stringify(params);
 
             this.urlHandler.writeParamsToURL(generatedParams);
+        },
+        /**
+         * Registering a map moveend, loadend and loadstart listener.
+         * @returns {void}
+         */
+        registerMapMoveListeners () {
+            this.registerListener({type: "loadstart", listener: this.executeListeners.bind(this)});
+            this.registerListener({type: "loadend", listener: this.executeListeners.bind(this)});
+            this.registerListener({type: "moveend", listener: this.executeListeners.bind(this)});
+        },
+        /**
+         * Unregistering this moveend, loadend and loadstart listener.
+         * @returns {void}
+         */
+        unregisterMapMoveListeners () {
+            this.unregisterListener({type: "loadstart", listener: this.executeListeners.bind(this)});
+            this.unregisterListener({type: "loadend", listener: this.executeListeners.bind(this)});
+            this.unregisterListener({type: "moveend", listener: this.executeListeners.bind(this)});
+        },
+        /**
+         * Adds given listener callback to the mapMoveListeners list.
+         * @param {Object} options The payload.
+         * @param {Number} options.filterId The filterId to ensure that only one callback is added for the given filterId.
+         * @param {Function|Boolean} options.listener The callback to execute on mapmove. Set to false to remove the listener.
+         * @returns {void}
+         */
+        addToMapMoveListeners (options) {
+            if (!isObject(options) || !Object.prototype.hasOwnProperty.call(options, "filterId") || !Object.prototype.hasOwnProperty.call(options, "listener")) {
+                return;
+            }
+            this.mapMoveListeners[options.filterId] = options.listener;
+            if (!this.mapMoveRegistered) {
+                this.mapMoveRegistered = true;
+                this.registerMapMoveListeners();
+            }
+        },
+        /**
+         * Executes the listener for each LayerFilterSnippet that has registered to mapMoveListeners.
+         * @param {Object} evt - Openlayers MapEvent.
+         * @returns {void}
+         */
+        executeListeners (evt) {
+            Object.values(this.mapMoveListeners).forEach(mapMoveListener => {
+                if (typeof mapMoveListener === "function") {
+                    mapMoveListener(evt);
+                }
+            });
         }
     }
 };
@@ -478,19 +532,21 @@ export default {
                                                 role="tabpanel"
                                             >
                                                 <LayerFilterSnippet
-                                                    v-if="isLayerFilterSelected(slotProps.layer.filterId) || layerLoaded[slotProps.layer.filterId]"
+                                                    v-if="isLayerFilterSelected(slotProps.layer.filterId)"
                                                     :api="slotProps.layer.api"
+                                                    :is-layer-filter-selected="isLayerFilterSelected(slotProps.layer.filterId)"
                                                     :layer-config="slotProps.layer"
                                                     :map-handler="mapHandler"
                                                     :min-scale="minScale"
+                                                    :open-multiple-accordeons="multiLayerSelector"
                                                     :live-zoom-to-features="liveZoomToFeatures"
                                                     :filter-rules="rulesOfFilters[slotProps.layer.filterId]"
                                                     :filter-hits="filtersHits[slotProps.layer.filterId]"
                                                     :filter-geometry="filterGeometry"
-                                                    :is-layer-filter-selected="isLayerFilterSelected"
                                                     @updateRules="updateRules"
                                                     @deleteAllRules="deleteAllRules"
                                                     @updateFilterHits="updateFilterHits"
+                                                    @registerMapMoveListener="addToMapMoveListeners"
                                                 />
                                             </div>
                                         </template>
@@ -512,17 +568,19 @@ export default {
                             <LayerFilterSnippet
                                 :key="'layer-' + key + indexLayer + layerFilterSnippetPostKey"
                                 :api="layerConfig.api"
+                                :is-layer-filter-selected="true"
                                 :layer-config="layerConfig"
                                 :map-handler="mapHandler"
                                 :min-scale="minScale"
+                                :open-multiple-accordeons="multiLayerSelector"
                                 :live-zoom-to-features="liveZoomToFeatures"
                                 :filter-rules="rulesOfFilters[layerConfig.filterId]"
                                 :filter-hits="filtersHits[layerConfig.filterId]"
                                 :filter-geometry="filterGeometry"
-                                :is-layer-filter-selected="true"
                                 @updateRules="updateRules"
                                 @deleteAllRules="deleteAllRules"
                                 @updateFilterHits="updateFilterHits"
+                                @registerMapMoveListener="addToMapMoveListeners"
                             />
                         </template>
                     </div>
@@ -546,19 +604,21 @@ export default {
                             role="tabpanel"
                         >
                             <LayerFilterSnippet
-                                v-if="isLayerFilterSelected(slotProps.layer.filterId) || layerLoaded[slotProps.layer.filterId]"
+                                v-if="isLayerFilterSelected(slotProps.layer.filterId)"
                                 :api="slotProps.layer.api"
+                                :is-layer-filter-selected="isLayerFilterSelected(slotProps.layer.filterId)"
                                 :layer-config="slotProps.layer"
                                 :map-handler="mapHandler"
                                 :min-scale="minScale"
+                                :open-multiple-accordeons="multiLayerSelector"
                                 :live-zoom-to-features="liveZoomToFeatures"
                                 :filter-rules="rulesOfFilters[slotProps.layer.filterId]"
                                 :filter-hits="filtersHits[slotProps.layer.filterId]"
                                 :filter-geometry="filterGeometry"
-                                :is-layer-filter-selected="isLayerFilterSelected"
                                 @updateRules="updateRules"
                                 @deleteAllRules="deleteAllRules"
                                 @updateFilterHits="updateFilterHits"
+                                @registerMapMoveListener="addToMapMoveListeners"
                             />
                         </div>
                     </template>
@@ -571,17 +631,19 @@ export default {
                         <LayerFilterSnippet
                             :key="'layer-' + indexLayer + layerFilterSnippetPostKey"
                             :api="layerConfig.api"
+                            :is-layer-filter-selected="true"
                             :layer-config="layerConfig"
                             :map-handler="mapHandler"
                             :min-scale="minScale"
+                            :open-multiple-accordeons="multiLayerSelector"
                             :live-zoom-to-features="liveZoomToFeatures"
                             :filter-rules="rulesOfFilters[layerConfig.filterId]"
                             :filter-hits="filtersHits[layerConfig.filterId]"
                             :filter-geometry="filterGeometry"
-                            :is-layer-filter-selected="true"
                             @updateRules="updateRules"
                             @deleteAllRules="deleteAllRules"
                             @updateFilterHits="updateFilterHits"
+                            @registerMapMoveListener="addToMapMoveListeners"
                         />
                     </template>
                 </div>

@@ -49,6 +49,29 @@ describe("src/modules/tools/filter/components/LayerFilterSnippet.vue", () => {
         sinon.restore();
     });
 
+    describe("onMounted", () => {
+        it("should not trigger registerMapMoveListener event", () => {
+            expect(wrapper.emitted()).to.not.have.property("registerMapMoveListener");
+        });
+        it("should trigger registerMapMoveListener event if filterOnMove is configured", () => {
+            wrapper = shallowMount(LayerFilterSnippet, {
+                propsData: {
+                    layerConfig: {
+                        service: {
+                            type: "something external"
+                        },
+                        strategy: "active",
+                        filterOnMove: true
+                    },
+                    mapHandler,
+                    openMultipleAccordeons: false
+                },
+                localVue
+            });
+
+            expect(wrapper.emitted()).to.have.property("registerMapMoveListener");
+        });
+    });
     describe("hasThisSnippetTheExpectedType", () => {
         it("should return false if the given snippet has not the expected type", () => {
             expect(wrapper.vm.hasThisSnippetTheExpectedType(undefined)).to.be.false;
@@ -580,89 +603,6 @@ describe("src/modules/tools/filter/components/LayerFilterSnippet.vue", () => {
             expect(wrapper.vm.hasOnlyParentRules()).to.be.false;
             expect(stubIsRule.called).to.be.true;
             expect(stubIsParentSnippet.called).to.be.false;
-        });
-    });
-    describe("registerMapMoveListener", () => {
-        it("should not call the function registerMapMoveListener", () => {
-            const registerMapMoveListener = sinon.stub(wrapper.vm, "registerMapMoveListener");
-
-            LayerFilterSnippet.methods.registerMapMoveListener = registerMapMoveListener;
-
-            expect(wrapper.vm.registerMapMoveListener).to.be.a("function");
-            expect(registerMapMoveListener.notCalled).to.be.true;
-        });
-
-        it("should call the function registerMapMoveListener", async () => {
-            const registerMapMoveListener = sinon.stub(wrapper.vm, "registerMapMoveListener");
-
-            LayerFilterSnippet.methods.registerMapMoveListener = registerMapMoveListener;
-
-            wrapper = shallowMount(LayerFilterSnippet, {
-                propsData: {
-                    layerConfig: {
-                        service: {
-                            type: "something external"
-                        },
-                        filterOnMove: true,
-                        strategy: "active"
-                    },
-                    mapHandler
-                },
-                localVue
-            });
-
-            await wrapper.vm.$nextTick();
-            expect(registerMapMoveListener.called).to.be.true;
-        });
-    });
-    describe("unregisterMapMoveListener", () => {
-        it("should not call the function unregisterMapMoveListener", async () => {
-            const unregisterMapMoveListener = sinon.stub(wrapper.vm, "unregisterMapMoveListener");
-
-            LayerFilterSnippet.methods.unregisterMapMoveListener = unregisterMapMoveListener;
-
-            wrapper = shallowMount(LayerFilterSnippet, {
-                propsData: {
-                    layerConfig: {
-                        service: {
-                            type: "something external"
-                        }
-                    },
-                    mapHandler
-                },
-                localVue
-            });
-
-            await wrapper.vm.$nextTick();
-            wrapper.destroy();
-
-            expect(wrapper.vm.unregisterMapMoveListener).to.be.a("function");
-            expect(unregisterMapMoveListener.notCalled).to.be.true;
-        });
-
-        it("should call the function unregisterMapMoveListener", async () => {
-            const unregisterMapMoveListener = sinon.stub(wrapper.vm, "unregisterMapMoveListener");
-
-            LayerFilterSnippet.methods.registerMapMoveListener = unregisterMapMoveListener;
-
-            wrapper = shallowMount(LayerFilterSnippet, {
-                propsData: {
-                    layerConfig: {
-                        service: {
-                            type: "something external"
-                        },
-                        filterOnMove: true,
-                        strategy: "active"
-                    },
-                    mapHandler
-                },
-                localVue
-            });
-
-            await wrapper.vm.$nextTick();
-            wrapper.destroy();
-
-            expect(unregisterMapMoveListener.called).to.be.true;
         });
     });
 

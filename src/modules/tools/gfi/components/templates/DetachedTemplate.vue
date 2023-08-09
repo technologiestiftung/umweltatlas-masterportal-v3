@@ -16,6 +16,11 @@ export default {
         feature: {
             type: Object,
             required: true
+        },
+        isUpdated: {
+            type: Boolean,
+            required: false,
+            default: false
         }
     },
     data () {
@@ -60,6 +65,13 @@ export default {
     mounted: function () {
         this.highlightVectorFeature();
         this.setMarker();
+    },
+    updated: function () {
+        if (this.isUpdated) {
+            this.highlightVectorFeature();
+            this.setMarker();
+            this.$emit("updateFeatureDone");
+        }
     },
     beforeDestroy: function () {
         this.removeHighlighting();

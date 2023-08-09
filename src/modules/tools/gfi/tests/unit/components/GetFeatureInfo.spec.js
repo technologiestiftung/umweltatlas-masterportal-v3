@@ -211,6 +211,74 @@ describe("src/modules/tools/gfi/components/GetFeatureInfo.vue", () => {
         expect(wrapper.vm.pagerIndex).to.equal(0);
     });
 
+    it("should set updatedFeature to true if gfiFeatures changed and features are given", () => {
+        const wrapper = shallowMount(GfiComponent, {
+                computed: {
+                    isMobile: () => false,
+                    active: () => true,
+                    mapSize: () => [],
+                    gfiFeatures: () => [{
+                        getGfiUrl: () => null,
+                        getFeatures: () => sinon.stub(),
+                        getProperties: () => {
+                            return {};
+                        }
+                    }],
+                    gfiFeaturesReverse: () => sinon.stub()
+                },
+                store: getGfiStore,
+                localVue
+            }),
+            features = [{
+                getTheme: () => "default",
+                getTitle: () => "Feature 1",
+                getGfiUrl: () => null,
+                getMimeType: () => "text/html",
+                getAttributesToShow: () => sinon.stub(),
+                getMappedProperties: () => null,
+                getProperties: () => {
+                    return {};
+                },
+                getFeatures: () => []
+            }
+            ];
+
+        wrapper.vm.$options.watch.gfiFeatures.call(wrapper.vm, features);
+        expect(wrapper.vm.updatedFeature).to.equal(true);
+    });
+    it("should set updatedFeature to false if gfiFeatures changed and features are not given", () => {
+        const wrapper = shallowMount(GfiComponent, {
+            computed: {
+                isMobile: () => false,
+                active: () => true,
+                mapSize: () => [],
+                gfiFeatures: () => [{
+                    getGfiUrl: () => null,
+                    getFeatures: () => sinon.stub(),
+                    getProperties: () => {
+                        return {};
+                    }
+                }],
+                gfiFeaturesReverse: () => sinon.stub()
+            },
+            store: getGfiStore,
+            localVue
+        });
+
+        wrapper.vm.$options.watch.gfiFeatures.call(wrapper.vm, null);
+        expect(wrapper.vm.updatedFeature).to.equal(false);
+        wrapper.vm.$options.watch.gfiFeatures.call(wrapper.vm, {});
+        expect(wrapper.vm.updatedFeature).to.equal(false);
+        wrapper.vm.$options.watch.gfiFeatures.call(wrapper.vm, []);
+        expect(wrapper.vm.updatedFeature).to.equal(false);
+        wrapper.vm.$options.watch.gfiFeatures.call(wrapper.vm, "string");
+        expect(wrapper.vm.updatedFeature).to.equal(false);
+        wrapper.vm.$options.watch.gfiFeatures.call(wrapper.vm, undefined);
+        expect(wrapper.vm.updatedFeature).to.equal(false);
+        wrapper.vm.$options.watch.gfiFeatures.call(wrapper.vm, 12345);
+        expect(wrapper.vm.updatedFeature).to.equal(false);
+    });
+
     it("should display the footer", () => {
         const store = getGfiStore(),
             wrapper = mount(GfiComponent, {

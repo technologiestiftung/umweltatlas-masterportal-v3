@@ -1799,7 +1799,7 @@ Die Konfiguration eines Layers.
 |geometryName|nein|String|""|Nur für extern `true` in Verbindung mit Filterung innerhalb von Polygonen: Der Geometrie-Name der Features um eine Schnittmenge feststellen zu können.|false|
 |filterButtonDisabled|nein|Boolean|false|Nur für strategy `passive`: Der Filter-Knopf wird deaktiviert solange der Benutzer nichts im Filter ausgewählt hat.|false|
 |snippets|nein|[snippets](#markdown-header-portalconfigmenutoolfilterfilterlayersnippets)[]|[]|Konfiguration der sogenannten Snippets für das Filtern. Kann bei der minimalsten Variante ein Array von Attribut-Namen sein. Kann komplett weggelassen werden, wenn die automatische Snippet-Ermittlung verwendet werden soll.|false|
-|filterOnMove|nein|Boolean||Wenn auf `true` eingestellt, wird der Layer bei Kartenbewergung dynamisch gefilteret.|false|
+|filterOnMove|nein|Boolean||Wenn auf `true` eingestellt, wird der Layer bei Kartenbewergung dynamisch gefilteret. Funktioniert nur in Verbindung mit `multiLayerSelector`: `false`. Löst in dieser Verbindung beim Öffnen des Akkordeons die Filterung aus.|false|
 |minZoom|nein|Number||Die minimale Zoomstufe. Wenn die aktuelle Zoomstufe kleiner als “minZoom” ist, wird der aktuelle Filter deaktiviert.|false|
 |maxZoom|nein|Number||Die maximale Zoomstufe. Wenn die aktuelle Zoomstufe größer als “maxZoom” ist, wird der aktuelle Filter deaktiviert.|false|
 
@@ -4415,6 +4415,7 @@ Routing-Werkzeug Routenplanung Optionen.
 |speedProfile|nein|String|"CAR"|Welches Geschwindigkeitsprofil verwendet werden soll.|false|
 |preference|nein|String|"RECOMMENDED"|Welche Art der Routenplanung verwendet werden soll.|false|
 |customPreferences|nein|**[customPreferences](#markdown-header-portalconfigmenutoolroutingdirectionssettingscustompreferences)**||Möglichkeit eigene Routenpräferenzen (zusätzlich zum BKG-Dienst) für die unterschiedlichen speedProfiles zu definieren (erfordert eigenes Backend)|false|
+|customAvoidFeatures|nein|**[customAvoidFeatures](#markdown-header-portalconfigmenutoolroutingdirectionssettingscustomavoidfeatures)**||Möglichkeit eigene Optionen für Verkehrswege meiden (zusätzlich zum BKG-Dienst) für die unterschiedlichen speedProfiles zu definieren (erfordert eigenes Backend)|false|
 |styleRoute|nein|**[styleRoute](#markdown-header-portalconfigmenutoolroutingdirectionssettingsstyleroute)**||Stylerouteoptionen|false|
 |styleWaypoint|nein|**[styleWaypoint](#markdown-header-portalconfigmenutoolroutingdirectionssettingsstylewaypoint)**||Stylewaypointoptionen|false|
 |styleAvoidAreas|nein|**[styleAvoidAreas](#markdown-header-portalconfigmenutoolroutingdirectionssettingsstyleavoidareas)**||Styleavoidareasoptionen|false|
@@ -4431,6 +4432,9 @@ Routing-Werkzeug Routenplanung Optionen.
         "preference": "RECOMMENDED",
         "customPreferences": {
             "CYCLING": ["RECOMMENDED", "SHORTEST", "GREEN"]
+        },
+        "customAvoidFeatures": {
+                "CYCLING": ["STEPS", "FERRIES", "UNPAVEDROADS"]
         },
         "styleRoute": {
             "fillColor": [255, 44, 0],
@@ -4469,8 +4473,25 @@ Routing-Werkzeug Routenplanung Optionen.
 ```
 
 ***
-#### Portalconfig.menu.tool.routing.directionsSettings.customPreferences
+#### Portalconfig.menu.tool.routing.directionsSettings.customAvoidFeatures
+Routing-Werkzeug Routenplanung Routen customAvoidFeatures.
+Möglichkeit eigene Optionen für Verkehrswege meiden (zusätzlich zum BKG-Dienst) für speedProfiles zu definieren (erfordert eigenes Backend).
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|speedProfile|nein|String[]||Welche Optionen für ´Verkehrswege meiden´ für das angegebene speedProfile verfügbar sein sollen.|false|
 
+**Beispiel**
+```
+#!json
+{
+    "customAvoidFeatures": {
+       "CYCLING": ["STEPS", "FERRIES", "UNPAVEDROADS"],
+       "CAR": ["HIGHWAYS"]
+    }
+}
+```
+***
+#### Portalconfig.menu.tool.routing.directionsSettings.customPreferences
 Routing-Werkzeug Routenplanung Routen customPreferences.
 Möglichkeit eigene Routenpräferenzen (zusätzlich zum BKG-Dienst) für speedProfiles zu definieren (erfordert eigenes Backend).
 
@@ -5249,7 +5270,7 @@ Neben diesen Attributen gibt es auch Typ-spezifische Attribute für **[WMS](#mar
 |isNeverVisibleInTree|nein|Boolean|false|Anzeige, ob der Layer niemals im Themenbaum sichtbar ist.|false|
 |urlIsVisible|nein|Boolean|true|Anzeige, ob die URL in der Layerinformation angezeigt werden soll.|false|
 |filterRefId|nein|Integer||Referenzierung zu einem konfigurierten Filter. Dabei ist die Id entsprechend der Position der Layer im Filter. Angefangen bei 0.|false|
-|renderer|no|String|"default"|Render-Pipeline für die Darstellung ("default" oder "webgl")(nur für Vektordaten "GeoJSON", "WFS", "OAF", "VectorBase")"webgl" ist derzeit als experimentell einzustufen.|false|
+|renderer|no|String|"default"|Render-Pipeline für die Darstellung ("default" oder "webgl")(nur für Vektordaten "GeoJSON", "WFS", "OAF")"webgl" ist derzeit als experimentell einzustufen.|false|
 |isPointLayer|no|Boolean|false|Anzeige, ob der (Vektor)-Layer nur aus Punkt-Features besteht (nur relevant für WebGL Rendering))|false|
 
 **Beispiel mit einer Id**

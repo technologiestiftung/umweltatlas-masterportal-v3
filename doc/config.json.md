@@ -1861,7 +1861,7 @@ An object to define a layer to filter with.
 |geometryName|no|String|""|Only for extern `true` in connection with filtering within polygons: The geometry name of the features to be able to detect an intersection.|false|
 |filterButtonDisabled|no|Boolean|false|Only for strategy `passive`: Disable the filter button while nothing is selected.|false|
 |snippets|no|[snippets](#markdown-header-portalconfigmenutoolfilterfilterlayersnippets)[]|[]|Configuration of snippets to adjust the filtering. Can be a minimalistic array of attribute names. Can be left empty to use the automatic identification of all snippets possible.|false|
-|filterOnMove|no|Boolean||If it is `true`, the layer will be filtered dynamically after the map moves.|false|
+|filterOnMove|no|Boolean||If it is `true`, the layer will be filtered dynamically after the map moves. Only works with `multiLayerSelector`: `false`. With this combination the filter is triggerd when the accordeon will be opened.|false|
 |minZoom|no|Number||The minimum zoom level for current filter, if current zoom level is smaller than the minimum zoom level, the current filter will be deactivated.|false|
 |maxZoom|no|Number||The maximum zoom level for current filter, if current zoom level is bigger than the maximum zoom level, the current filter will be deactivated.|false|
 
@@ -4471,6 +4471,7 @@ Routing-tool directions options.
 |speedProfile|no|String|"CAR"|Which speed profile should be selected by default.|false|
 |preference|no|String|"RECOMMENDED"|Which type of directions should be used by default.|false|
 |customPreferences|no|**[customPreferences](#markdown-header-portalconfigmenutoolroutingdirectionssettingscustompreferences)**||Possibility to define additional preferences for the different speed profiles (additionally to the BKG service)  (requires own modified backend)|false|
+|customAvoidFeatures|nein|**[customAvoidFeatures](#markdown-header-portalconfigmenutoolroutingdirectionssettingscustomavoidfeatures)**||Possibility to define which options for avoid traffic routes for the different speed profiles are available (additionally to the BKG service) (requires own modified backend)|false|
 |styleRoute|no|**[styleRoute](#markdown-header-portalconfigmenutoolroutingdirectionssettingsstyleroute)**||Stylerouteoptions|false|
 |styleWaypoint|no|**[styleWaypoint](#markdown-header-portalconfigmenutoolroutingdirectionssettingsstylewaypoint)**||Stylewaypointoptions|false|
 |styleAvoidAreas|no|**[styleAvoidAreas](#markdown-header-portalconfigmenutoolroutingdirectionssettingsstyleavoidareas)**||Styleavoidareasoptions|false|
@@ -4487,6 +4488,9 @@ Routing-tool directions options.
         "preference": "RECOMMENDED",
         "customPreferences": {
             "CYCLING": ["RECOMMENDED", "SHORTEST", "GREEN"]
+        },
+        "customAvoidFeatures": {
+                "CYCLING": ["STEPS", "FERRIES", "UNPAVEDROADS"]
         },
         "styleRoute": {
             "fillColor": [255, 44, 0],
@@ -4525,8 +4529,27 @@ Routing-tool directions options.
 ```
 
 ***
-#### Portalconfig.menu.tool.routing.directionsSettings.customPreferences
 
+#### Portalconfig.menu.tool.routing.directionsSettings.customAvoidFeatures
+Possibility to define additional avoid features for the different speed profiles (additionally to the BKG service) (requires own modified backend).
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|speedProfile|no|String[]||Which options for avoid traffic routes should be available for the speedProfile.|false|
+
+**Example**
+```
+#!json
+{
+    "customAvoidFeatures": {
+       "CYCLING": ["STEPS", "FERRIES", "UNPAVEDROADS"],
+       "CAR": ["HIGHWAYS"]
+    }
+}
+```
+
+***
+
+#### Portalconfig.menu.tool.routing.directionsSettings.customPreferences
 Routing-tool directions route customPreferences.
 Possibility to define additional preferences for the different speed profiles (additionally to the BKG service)  (requires own modified backend)
 
@@ -5317,7 +5340,7 @@ Layer definition. Multiple ways to define layers exist. Most attributes are defi
 |isNeverVisibleInTree|no|Boolean|false|If `true`, the layer is never visible in the topic selection tree.|false|
 |urlIsVisible|no|Boolean|true|Whether the service URL should be shown in the layer information window.|false|
 |filterRefId|no|Integer||Referencing to a configured filter. It is the order (index) of Layer in filter. Starting with 0.|false|
-|renderer|no|String|"default"|Which render pipeline to use ("default" or "webgl") (only for vector data of type "GeoJSON", "WFS", "OAF", "VectorBase"). "webgl" is currently classified as experimental and can lead to errors in some modules|false|
+|renderer|no|String|"default"|Which render pipeline to use ("default" or "webgl") (only for vector data of type "GeoJSON", "WFS", "OAF"). "webgl" is currently classified as experimental and can lead to errors in some modules|false|
 |isPointLayer|no|Boolean|false|Whether the (vector) layer only consists of point features (only relevant for WebGL rendering)|false|
 
 **Example with one ID**
