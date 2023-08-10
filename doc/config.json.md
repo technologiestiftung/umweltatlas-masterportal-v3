@@ -4369,7 +4369,7 @@ Routing-tool geosearch options.
 |searchField|no|String||The path to the field to be searched for when using Elastic Search.|false|
 |sortField|no|String||The path to the field that specifies the sorting of the results in ascending order when using Elastic Search.|false|
 
-**Exampe for SPECIALWFS**
+**Example for SPECIALWFS**
 ```
 #!json
 {
@@ -4386,7 +4386,7 @@ Routing-tool geosearch options.
     }
 }
 ```
-**Exampe for ELASTIC**
+**Example for ELASTIC**
 ```
 #!json
 {
