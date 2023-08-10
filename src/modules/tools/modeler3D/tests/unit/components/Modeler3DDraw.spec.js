@@ -11,7 +11,8 @@ localVue.use(Vuex);
 config.mocks.$t = key => key;
 
 describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
-    const mockMapGetters = {
+    const globalURL = global.URL,
+        mockMapGetters = {
             mouseCoordinate: () => {
                 return [11.549606597773037, 48.17285700012215];
             }
@@ -160,6 +161,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3DDraw.vue", () => {
             wrapper.destroy();
         }
         entities.values = [{id: "FloatingPointId", positionIndex: 0, cylinder: {length: 4}}];
+        global.URL = globalURL;
     });
 
     describe("renders Modeler3DDraw", async () => {

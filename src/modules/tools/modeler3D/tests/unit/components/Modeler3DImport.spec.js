@@ -68,8 +68,6 @@ const localVue = createLocalVue(),
         ]
     };
 
-global.window = window;
-global.FileReader = window.FileReader;
 localVue.use(Vuex);
 
 config.mocks.$t = key => key;
@@ -96,6 +94,8 @@ describe("src/modules/tools/modeler3D/components/Modeler3DImport.vue", () => {
         };
 
     beforeEach(() => {
+        global.window = window;
+        global.FileReader = window.FileReader;
         mapCollection.clear();
         mapCollection.addMap(map3D, "3D");
 
@@ -130,9 +130,6 @@ describe("src/modules/tools/modeler3D/components/Modeler3DImport.vue", () => {
         if (wrapper) {
             wrapper.destroy();
         }
-    });
-
-    after(() => {
         global.document = globalDocument;
         global.window = globalWindow;
     });
