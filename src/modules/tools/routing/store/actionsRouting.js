@@ -131,7 +131,7 @@ export default {
      * @returns {RoutingGeosearchResult} Returns parsed Array of RoutingGeosearchResults.
      */
     async fetchTextByCoordinates ({state, dispatch}, {coordinates}) {
-        let geosearchResults = [];
+        let geosearchResults = null;
 
         try {
             // Possible to change Geosearch by changing function depending on config
