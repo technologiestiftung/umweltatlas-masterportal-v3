@@ -1,32 +1,15 @@
 <script>
-/**
- * Code proudly provided by:
- *   Name: KERNBLICK GmbH
- *   Email: info@kernblick.de
- *   Url: https://www.kernblick.de
- * Version: 1.0.0
- * License: MIT
- */
-
 import {mapMutations, mapGetters, mapActions} from "vuex";
 import {getComponent} from "../../../../utils/getComponent";
 import getters from "../store/gettersLogin";
 import mutations from "../store/mutationsLogin";
 import ToolTemplate from "../../ToolTemplate.vue";
 import {translateKeyWithPlausibilityCheck} from "../../../../utils/translateKeyWithPlausibilityCheck.js";
-import Cookie from "../utils/utilsCookies";
-import Utils from "../utils/utilsLogin";
-import OIDC from "../utils/utilsOIDC";
 
 export default {
     name: "LoginComponent",
     components: {
         ToolTemplate
-    },
-    data () {
-        return {
-            storePath: this.$store.state?.Tools?.Login
-        };
     },
     computed: {
         ...mapGetters("Tools/Login", Object.keys(getters))
@@ -39,30 +22,31 @@ export default {
      */
         active (isActive) {
             if (isActive) {
-                if (!this.checkLoggedIn()) {
-                    this.login();
+                if (!this.isLoggedIn()) {
+                    this.openLoginWindow();
                 }
             }
         }
     },
-    beforeCreate () {
-        // when this module is loaded, intercept with OIDC flow
-        Utils.interceptMasterportalLoad();
-    },
     created () {
-        this.$on("close", this.close);
+        this.$on("close", this.closeLoginWindow);
     },
     mounted () {
         this.$nextTick(() => {
             this.initialize();
         });
 
-        this.checkLoggedIn();
-        setInterval(() => this.checkLoggedIn(), 10_000); // check every 10 seconds
+        this.isLoggedIn();
+        setInterval(() => this.isLoggedIn(), 10_000); // check every 10 seconds
     },
     methods: {
         ...mapMutations("Tools/Login", Object.keys(mutations)),
-        ...mapActions("Tools/Login", ["initialize"]),
+        ...mapActions("Tools/Login", [
+            "initialize",
+            "logout",
+            "checkLoggedIn",
+            "getAuthCodeUrl"
+        ]),
         translateKeyWithPlausibilityCheck,
 
         /**
@@ -78,19 +62,6 @@ export default {
             return this.translateKeyWithPlausibilityCheck(translationKey, (v) => i18next.t(v));
         },
 
-        /**
-         * returns the config from config.js
-         * @returns {Object|Boolean} the config object or false on error
-         */
-        getConfigObject () {
-            if (typeof Config === "object" && Config !== null) {
-                if (typeof Config.login === "object" && Config.login !== null) {
-                    return Config.login;
-                }
-            }
-            return false;
-        },
-
         getTitle () {
             return this.translate("common:modules.login.profile") || "Profile";
         },
@@ -99,60 +70,10 @@ export default {
          * Returns true if user is logged in, else false
          * @return {Boolean} logged in
          */
-        checkLoggedIn () {
-
-            const token = Cookie.get("token"),
-                refreshToken = Cookie.get("refresh_token");
-
-            let loggedIn = false;
-
-            this.setAccessToken(token);
-            this.setRefreshToken(refreshToken);
-
-            // check if token is expired
-            if (this.getTokenExpiry() < 1) {
-                this.logout();
-                return false;
-            }
-
-            // if not, start renewing the token (if necessary)
-
-            this.renewToken();
-
-
-            // set logged into store
-            loggedIn = Boolean(token);
-
-            this.setLoggedIn(loggedIn);
-
-            // set name and email into store
-            this.setScreenName(Cookie.get("name"));
-            this.setUsername(Cookie.get("username"));
-            this.setEmail(Cookie.get("email"));
-
-            // set login icon
+        isLoggedIn () {
+            this.checkLoggedIn();
             this.setLoginIcon();
-
-            return loggedIn;
-        },
-
-        /**
-         * Returns authentication URL
-         *
-         * @param {String} clientId the client ID
-         * @param {String} redirectUri URL for redirection after login
-         *
-         * @return {String} the auth code url
-         */
-        async getAuthCodeUrl () {
-            const oidcAuthorizationEndpoint = this.getConfigObject()?.oidcAuthorizationEndpoint || this.oidcAuthorizationEndpoint,
-                oidcClientId = this.getConfigObject()?.oidcClientId || this.oidcClientId,
-                oidcRedirectUri = this.getConfigObject()?.oidcRedirectUri || this.oidcRedirectUri,
-                oidcScope = this.getConfigObject()?.oidcScope || this.oidcScope,
-
-                url = await OIDC.getAuthCodeUrl(oidcAuthorizationEndpoint, oidcClientId, oidcRedirectUri, oidcScope);
-
-            return url;
+            return this.loggedIn;
         },
 
         /**
@@ -160,7 +81,9 @@ export default {
          *
          * @return {void}
          */
-        async login () {
+        async openLoginWindow () {
+            let timer = null;
+
             // open javascript window
             const params = "width=500,height=500,status=no,location=no,menubar=no," +
                     `top=${window.screenY + (window.outerHeight - 500) / 2.5},` +
@@ -169,106 +92,48 @@ export default {
                 loginPopup = window.open(await this.getAuthCodeUrl(), this.translate("common:modules.login.login"), params);
 
             // check every x milliseconds if dialog has been closed
-            // eslint-disable-next-line one-var
-            const timer = setInterval(() => {
+            timer = setInterval(() => {
                 if (loginPopup.closed) {
                     clearInterval(timer);
 
-                    // dialog has been closed, login successful?
-                    // this.checkLoggedIn();
-
-                    this.reload();
+                    this.reloadWindow();
                 }
             }, 500);
         },
 
         /**
-         * Reload the window if possible
+         * Reload the window if possible.
+         * This will show the masterportal with new rights after login or logout.
          *
          * @return {void}
          */
-        reload () {
+        reloadWindow () {
             if (window?.location) {
                 window.location.reload();
             }
         },
 
         /**
-         * Removes all cookies and clears store
+         * Logs out the user by removing all cookies and clearing the store
          * @param {Boolean} reload if true, the window will be reloaded after logout
          *
          * @return {void}
          */
-        logout (reload = false) {
+        logoutButton (reload = false) {
             // close login window
-            this.close();
+            this.closeLoginWindow();
 
-            // erase all cookies
-            OIDC.eraseCookies();
-
-            // reset the store
-            this.setLoggedIn(false);
-            this.setAccessToken(undefined);
-            this.setRefreshToken(undefined);
-            this.setScreenName(undefined);
-            this.setUsername(undefined);
-            this.setEmail(undefined);
+            this.logout();
 
             // set icon to reflect login state
             this.setLoginIcon();
 
             // reload window since it cannot partially update at the moment (TODO)
             if (reload) {
-                this.reload();
+                this.reloadWindow();
             }
         },
 
-        /**
-         * Renews the token when the token is about to expire
-         *
-         * @return {void}
-         */
-        async renewToken () {
-
-            const expiry = this.getTokenExpiry();
-
-            // if the token will expire in the next 5 minutes, let's refresh
-            if (expiry > 0 && expiry <= 360_000) {
-
-                const oidcTokenEndpoint = this.getConfigObject()?.oidcTokenEndpoint || this.oidcTokenEndpoint,
-                    oidcClientId = this.getConfigObject()?.oidcClientId || this.oidcClientId,
-                    refreshToken = Cookie.get("refresh_token"),
-
-                    req = OIDC.refreshToken(oidcTokenEndpoint, oidcClientId, refreshToken);
-
-                if (req.status === 200) {
-                    const response = JSON.parse(req.response);
-
-                    OIDC.setCookies(response.access_token, response.id_token, response.expires_in, response.refresh_token);
-                }
-                else {
-                    console.error("Could not refresh token.", req.response);
-                }
-            }
-        },
-
-        /**
-         * Returns expiry in miliseconds from existing token.
-         * Returns 0, if token is already expired or not existing.
-         *
-         * @return {int} expiry in miliseconds
-         */
-        getTokenExpiry () {
-            if (this.accessToken) {
-                const account = Utils.parseJwt(this.accessToken),
-                    expiry = account.exp ? account.exp * 1000 : 0,
-                    timeToExpiry = expiry - Date.now();
-
-                return Math.max(0, timeToExpiry);
-            }
-            return 0;
-
-        },
 
         /**
          * Adds a login icon in the search bar
@@ -290,7 +155,7 @@ export default {
                 loginTextDesktop = loginIconDesktop.parentElement;
                 icon = loginIconDesktop.getElementsByTagName("i")[0];
 
-                if (this.storePath?.loggedIn) {
+                if (this.loggedIn) {
                     icon.className = this.iconLogged;
                     loginTextDesktop.innerHTML = String(loginIconDesktop.outerHTML) + ` ${this.translate("common:modules.login.logout")} `;
                 }
@@ -305,7 +170,7 @@ export default {
                 loginItemMobileText = loginItemMobileIcon.nextElementSibling;
                 icon = loginItemMobileIcon.getElementsByTagName("i")[0];
 
-                if (this.storePath?.loggedIn) {
+                if (this.loggedIn) {
                     icon.className = this.iconLogged;
                     loginItemMobileText.innerHTML = this.translate("common:modules.login.logout");
                 }
@@ -322,11 +187,11 @@ export default {
          * @post window is closed
          * @returns {void}
          */
-        close () {
+        closeLoginWindow () {
             this.setActive(false);
 
             // The value "isActive" of the Backbone model is also set to false to change the CSS class in the menu (menu/desktop/tool/view.toggleIsActiveClass)
-            const model = getComponent(this.storePath?.id);
+            const model = getComponent(this.id);
 
             if (model) {
                 model.set("isActive", false);
@@ -339,6 +204,7 @@ export default {
 <template lang="html">
     <ToolTemplate
         v-if="active"
+        id="login-component"
         :title="getTitle()"
         :icon="iconLogin"
         :active="active"
@@ -369,7 +235,7 @@ export default {
                 class="btn btn-logout"
                 type="button"
                 :title="translate('common:modules.login.logout')"
-                @click="logout(true)"
+                @click="logoutButton(true)"
             >
                 <span class="bootstrap-icon logout-icon">
                     <i

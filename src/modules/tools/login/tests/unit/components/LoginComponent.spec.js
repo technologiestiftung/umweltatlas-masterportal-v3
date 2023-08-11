@@ -5,6 +5,7 @@ import LoginComponent from "../../../components/LoginComponent.vue";
 import Login from "../../../store/indexLogin";
 import rootGetters from "../../../../../../app-store/getters.js";
 import Cookie from "../../../utils/utilsCookies";
+import OIDC from "../../../utils/utilsOIDC";
 
 import {expect} from "chai";
 import sinon from "sinon";
@@ -18,30 +19,12 @@ config.mocks.$t = key => key;
 
 describe("src/modules/tools/login/components/LoginComponent.vue", () => {
     const
-        sandbox = sinon.createSandbox(),
-        mockConfigJson = {
-            Portalconfig: {
-                menu: {
-                    tools: {
-                        children: {
-                            loginComponent: {
-                                oidcAuthorizationEndpoint: "https://idm.localhost",
-                                oidcTokenEndpoint: "https://idm.localhost",
-                                oidcClientId: "public_masterportal",
-                                oidcRedirectUri: "https://localhost/portal/basic/",
-                                oidcScope: "profile email openid",
-                                interceptorUrlRegex: "https?://localhost/"
-                            }
-                        }
-                    }
-                }
-            }
-        };
+        sandbox = sinon.createSandbox();
     let store,
         wrapper;
 
     // fake translate function
-    sandbox.replaceGetter(LoginComponent.methods, "translate", sinon.fake.returns("translated"));
+    // sandbox.replaceGetter(LoginComponent.methods, "translate", sinon.fake.returns("translated"));
 
     beforeEach(() => {
         store = new Vuex.Store({
@@ -58,20 +41,19 @@ describe("src/modules/tools/login/components/LoginComponent.vue", () => {
                 mobile: () => false,
                 ...rootGetters
             },
-            state: {
-                configJson: mockConfigJson
-            }
+            state: { }
         });
         store.commit("Tools/Login/setActive", true);
     });
     afterEach(() => {
         sinon.restore();
+        sandbox.restore();
         if (wrapper) {
             wrapper.destroy();
         }
     });
 
-    describe("Login template", () => {
+    describe("LoginComponent template", () => {
         it("should exist", async () => {
             wrapper = shallowMount(LoginComponent, {store, localVue});
 
@@ -112,22 +94,22 @@ describe("src/modules/tools/login/components/LoginComponent.vue", () => {
 
         it("should not call logout fn if button was not clicked", () => {
             wrapper = shallowMount(LoginComponent, {store, localVue});
-            wrapper.vm.logout = sinon.fake();
+            wrapper.vm.logoutButton = sinon.fake();
 
-            expect(wrapper.vm.logout.calledOnce).to.be.false;
+            expect(wrapper.vm.logoutButton.calledOnce).to.be.false;
         });
 
         it("should call logout fn if button is clicked", async () => {
             wrapper = shallowMount(LoginComponent, {store, localVue});
 
-            wrapper.vm.reload = sinon.fake();
-            sandbox.spy(wrapper.vm, "logout");
-            sandbox.spy(wrapper.vm, "close");
+            wrapper.vm.reloadWindow = sinon.fake();
+            sandbox.spy(wrapper.vm, "logoutButton");
+            sandbox.spy(wrapper.vm, "closeLoginWindow");
 
             await wrapper.find(".login-window button#logout-button").trigger("click");
-            expect(wrapper.vm.logout.calledOnce).to.be.true;
-            expect(wrapper.vm.close.calledOnce).to.be.true;
-            expect(wrapper.vm.reload.calledOnce).to.be.true;
+            expect(wrapper.vm.logoutButton.calledOnce).to.be.true;
+            expect(wrapper.vm.closeLoginWindow.calledOnce).to.be.true;
+            expect(wrapper.vm.reloadWindow.calledOnce).to.be.true;
         });
 
         it("should close tool if logout button is clicked", async () => {
@@ -139,18 +121,10 @@ describe("src/modules/tools/login/components/LoginComponent.vue", () => {
             expect(wrapper.find(".login-window").exists()).to.be.false;
         });
 
-        it("should call login after Login renders", () => {
-            const spyLogin = sinon.spy(LoginComponent.methods, "checkLoggedIn", ["get"]);
-
-            wrapper = shallowMount(LoginComponent, {store, localVue});
-
-            expect(spyLogin.get.calledOnce).to.be.true;
-        });
-
         it("should not be logged in after Login renders", () => {
             wrapper = shallowMount(LoginComponent, {store, localVue});
 
-            expect(wrapper.vm.checkLoggedIn()).to.be.false;
+            expect(wrapper.vm.isLoggedIn()).to.be.false;
         });
 
         it("should be logged in after Login renders", () => {
@@ -161,18 +135,20 @@ describe("src/modules/tools/login/components/LoginComponent.vue", () => {
             local_sandbox.replace(Cookie, "get", sinon.fake.returns(fakeToken));
 
             // fake that the token is not expired yet
-            local_sandbox.replaceGetter(LoginComponent.methods, "getTokenExpiry", sinon.fake.returns(1));
+            local_sandbox.stub(OIDC, "getTokenExpiry").returns(1);
 
             wrapper = shallowMount(LoginComponent, {store, localVue});
 
-            expect(wrapper.vm.checkLoggedIn()).to.be.true;
+            expect(wrapper.vm.isLoggedIn()).to.be.true;
+
+            local_sandbox.restore();
         }).timeout(5000);
 
         it("should have values from cookies after Login renders", async () => {
             const local_sandbox = sinon.createSandbox();
 
             // fake that the token is not expired yet
-            local_sandbox.replaceGetter(LoginComponent.methods, "getTokenExpiry", sinon.fake.returns(1));
+            local_sandbox.stub(OIDC, "getTokenExpiry").returns(1);
 
             // return a "valid" cookie
             local_sandbox.replace(Cookie, "get", sinon.fake.returns(fakeToken));
@@ -182,8 +158,21 @@ describe("src/modules/tools/login/components/LoginComponent.vue", () => {
             expect(wrapper.vm.$store.state.Tools.Login.screenName).to.be.equal(fakeToken);
             expect(wrapper.vm.$store.state.Tools.Login.username).to.be.equal(fakeToken);
             expect(wrapper.vm.$store.state.Tools.Login.email).to.be.equal(fakeToken);
+
+            local_sandbox.restore();
         }).timeout(5000);
 
+    });
+
+    describe("LoginComponent methods", () => {
+        it("close sets active to false", async () => {
+            wrapper = shallowMount(LoginComponent, {store, localVue});
+            wrapper.vm.closeLoginWindow();
+            await wrapper.vm.$nextTick();
+
+            expect(store.state.Tools.Login.active).to.be.false;
+            expect(wrapper.find("#login-component").exists()).to.be.false;
+        });
     });
 
 });

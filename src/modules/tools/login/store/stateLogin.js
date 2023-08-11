@@ -10,12 +10,6 @@
  * @property {String} accessToken the oidc access token, if logged in, and undefined otherwise
  * @property {String} refreshToken the oidc refresh token, if logged in, and undefined otherwise
  *
- * @property {String} oidcAuthorizationEndpoint the oidc auth endpoint, e.g. "https://idm.domain.de/auth/realms/REALM/protocol/openid-connect/auth"
- * @property {String} oidcTokenEndpoint the oidc token endpoint, e.g. "https://idm.domain.de/auth/realms/REALM/protocol/openid-connect/token"
- * @property {String} oidcClientId  the oidc client, e.g. "masterportal" (must be created in your IDM, e.g. keycloak)
- * @property {String} oidcScope the scope used for oidc, defaults to "profile email openid"
- * @property {String} oidcRedirectUri the url to redirect the oidc process to - after login
- *
  * @property {String}   id - internal id of component
  * @property {String}   name - Module name
  * @property {String}   iconLogin - icon next to title if not logged in
@@ -35,13 +29,6 @@ const state = {
     email: undefined,
     accessToken: undefined,
     refreshToken: undefined,
-
-    // oidc settings
-    oidcAuthorizationEndpoint: "https://idm.domain.de/auth/realms/REALM/protocol/openid-connect/auth",
-    oidcTokenEndpoint: "https://idm.domain.de/auth/realms/REALM/protocol/openid-connect/token",
-    oidcClientId: "masterportal",
-    oidcScope: "profile email openid",
-    oidcRedirectUri: window?.location?.href?.split("?")[0] || "localhost",
 
     // addon state and properties
     id: "login",

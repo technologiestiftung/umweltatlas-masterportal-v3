@@ -1,12 +1,28 @@
 import Cookie from "./utilsCookies";
-import Utils from "./utilsLogin";
+import {createHash} from "crypto";
 
 /**
  * if false, local storage will ne used
  */
 const useSessionStorage = false,
     verifierLength = 43,
-    cryptoLib = window.msCrypto || window.crypto;
+    cryptoLib = window.msCrypto || window.crypto || {
+        getRandomValues: array => {
+            for (let i = 0, l = array.length; i < l; i++) {
+                array[i] = Math.floor(Math.random() * 256);
+            }
+            return array;
+        },
+        subtle: {
+            digest: (algorithm, data) => {
+                return new Promise((resolve) => resolve(
+                    createHash(algorithm.toLowerCase().replace("-", ""))
+                        .update(data)
+                        .digest()
+                ));
+            }
+        }
+    };
 
 /**
  * creates a random state variable for the pkce challenge
@@ -62,38 +78,38 @@ function generateRandomString () {
  * @returns {String} the code challenge
  */
 async function createCodeChallenge (verifier) {
+    let digest = null,
+        challenge = null,
+        randomArray = null;
 
     // Calculate the SHA256 hash of the input text.
-    const randomArray = new Uint8Array(verifier.length);
+    randomArray = new Uint8Array(verifier.length);
 
     for (let i = 0; i < verifier.length; i++) {
         randomArray[i] = verifier.charCodeAt(i);
     }
-    // eslint-disable-next-line one-var
-    const digest = await cryptoLib.subtle.digest("SHA-256", randomArray);
+    digest = await cryptoLib.subtle.digest("SHA-256", randomArray);
 
     // Convert the ArrayBuffer to string using Uint8 array to convert to what btoa accepts.
     // btoa accepts chars only within ascii 0-255 and base64 encodes them.
     // Then convert the base64 encoded to base64url encoded
-    // eslint-disable-next-line one-var
-    const challenge = b64Uri(String.fromCharCode.apply(null, new Uint8Array(digest)));
+    challenge = b64Uri(String.fromCharCode.apply(null, new Uint8Array(digest)));
 
     return challenge;
 }
 
 /**
- * Creates a base64 uri for given string
+ * Creates a base64 uri for given string based on https://tools.ietf.org/html/rfc4648#section-5
  * @param {String} string create base64 uri for parameter
  * @returns {String} basr64 string
  */
 function b64Uri (string) {
-    // https://tools.ietf.org/html/rfc4648#section-5
     return btoa(string).replace(/\+/g, "-").replace(/\//g, "_").replace(/[=]+$/, "");
 }
 
 /**
  * Creates and stores the verifier into the session storage.
- * @param {Boolean} reset the verifier
+ * @param {Boolean} [reset=false] the verifier
  * @returns {String} verifier
  */
 function getVerifier (reset = false) {
@@ -194,7 +210,7 @@ function setCookies (token, id_token, expires_in, refresh_token) {
     Cookie.set("refresh_token", refresh_token, 7);
 
     // set account data as cookies
-    const account = Utils.parseJwt(token);
+    const account = parseJwt(token);
 
     Cookie.set("name", account?.name, 7);
     Cookie.set("email", account?.email, 7);
@@ -211,13 +227,82 @@ function eraseCookies () {
     Cookie.eraseAll(["token", "expires_in", "id_token", "refresh_token", "name", "username", "email", "expiry"]);
 }
 
+/**
+ * Returns expiry in miliseconds from existing token.
+ * Returns 0, if token is already expired or not existing.
+ *
+ * @param {String} token the access token
+ * @return {int} expiry in miliseconds
+ */
+function getTokenExpiry (token) {
+    const account = parseJwt(token),
+        expiry = account.exp ? account.exp * 1000 : 0,
+        timeToExpiry = expiry - Date.now();
+
+    return Math.max(0, timeToExpiry);
+}
+
+/**
+ * Renews the token when the token is about to expire
+ *
+ * @param {String} access_token the access token
+ * @param {String} refresh_token the refresh token
+ * @param {any} config the OIDC configuration
+ * @return {void}
+ */
+async function renewTokenIfNecessary (access_token, refresh_token, config) {
+
+    const expiry = getTokenExpiry(access_token);
+
+    // if the token will expire in the next minute, let's refresh
+    if (expiry > 0 && expiry <= 60_000) {
+
+        const oidcTokenEndpoint = config.oidcTokenEndpoint,
+            oidcClientId = config.oidcClientId,
+
+            req = refreshToken(oidcTokenEndpoint, oidcClientId, refresh_token);
+
+        if (req.status === 200) {
+            const response = JSON.parse(req.response);
+
+            setCookies(response.access_token, response.id_token, response.expires_in, response.refresh_token);
+        }
+        else {
+            console.error("Could not refresh token.", req.response);
+        }
+    }
+}
+
+/**
+ * Parses jwt token. This function does *not* validate the token.
+ * @param {String} token jwt token to be parsed
+ * @returns {String} parsed jwt token as object
+ */
+function parseJwt (token) {
+    if (!token) {
+        return {};
+    }
+
+    const base64Url = token.split(".")[1],
+        base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/"),
+        jsonPayload = decodeURIComponent(window.atob(base64).split("").map(function (c) {
+            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(""));
+
+    return JSON.parse(jsonPayload);
+}
+
 export default {
     createCodeChallenge,
+    generateRandomString,
     getVerifier,
     getAuthCodeUrl,
     getToken,
     getState,
     setCookies,
     eraseCookies,
-    refreshToken
+    refreshToken,
+    getTokenExpiry,
+    renewTokenIfNecessary,
+    parseJwt
 };
