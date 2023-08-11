@@ -377,6 +377,10 @@
             "name": "translate#common:menu.tools.fileImport",
             "icon": "bi-box-arrow-in-down"
           },
+          "modeler3D": {
+            "name": "translate#common:menu.tools.modeler3D",
+            "icon": "bi-bounding-box"
+          },
           "extendedFilter": {
             "name": "Erweiterter Filter",
             "icon": "bi-funnel-fill",

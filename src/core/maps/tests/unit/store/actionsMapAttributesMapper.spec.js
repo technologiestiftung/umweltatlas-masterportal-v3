@@ -41,13 +41,13 @@ describe("src/core/maps/store/actions/actionsMapAttributesMapper.js", () => {
                 };
 
             actions.updateClick({commit, getters, rootGetters}, obj);
-            expect(commit.calledTwice).to.be.true;
             expect(commit.firstCall.args).to.deep.equal([
                 "setClickCoordinate", [4, 56]
             ]);
             expect(commit.secondCall.args).to.deep.equal([
                 "setClickCartesianCoordinate", [12, 99]
             ]);
+            expect(commit.callCount).to.equal(5);
         });
     });
 

@@ -11,6 +11,7 @@ import GetFeatureInfo from "./gfi/components/GetFeatureInfo.vue";
 import LayerClusterToggler from "./layerClusterToggler/components/LayerClusterToggler.vue";
 import LayerSlider from "./layerSlider/components/LayerSlider.vue";
 import MeasureInMap from "./measure/components/MeasureInMap.vue";
+import Modeler3D from "./modeler3D/components/Modeler3D.vue";
 import PrintMap from "./print/components/PrintMap.vue";
 import RoutingTemplate from "./routing/components/RoutingTemplate.vue";
 import SaveSelection from "./saveSelection/components/SaveSelection.vue";
@@ -44,6 +45,7 @@ const state = {
         layerClusterToggler: LayerClusterToggler,
         layerSlider: LayerSlider,
         measure: MeasureInMap,
+        modeler3D: Modeler3D,
         print: PrintMap,
         routing: RoutingTemplate,
         saveSelection: SaveSelection,

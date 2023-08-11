@@ -35,6 +35,7 @@
             "supplyCoord": "Consultar coordenadas",
             "searchByCoord": "Pesquisar coordenadas",
             "fileImport": "Carregar ficheiro",
+            "modeler3D": "Modelador 3D",
             "routing": "Direções",
             "draw": "Desenhar / Escrever",
             "shadow": "Sombra",
@@ -82,17 +83,17 @@
     "time": "Horário",
     "modules": {
         "core": {
-          "modelList": {
-            "layer": {
-              "wrongStyleId": "Nenhum objecto de estilo pôde ser encontrado sob a StyleId: {{styleId}} especificada. Por favor, certifique-se de que um estilo com o StyleId: {{styleId}} é configurado no Style.json utilizado.",
-              "sensor": {
-                "httpOnError": "<strong>Ocorreu um erro inesperado ao carregar os dados do sensor da camada {{name}}</strong>"
-              }
+            "modelList": {
+                "layer": {
+                    "wrongStyleId": "Nenhum objecto de estilo pôde ser encontrado sob a StyleId: {{styleId}} especificada. Por favor, certifique-se de que um estilo com o StyleId: {{styleId}} é configurado no Style.json utilizado.",
+                    "sensor": {
+                        "httpOnError": "<strong>Ocorreu um erro inesperado ao carregar os dados do sensor da camada {{name}}</strong>"
+                    }
+                }
+            },
+            "parametricURL": {
+                "alertWrongLayerIds": "<strong>A chamada parametrizada está avariada!</strong></br>O <b>layerIds</b> nas posições: {{wrongIdsPositionsConcat}} não existem e são ignorados!"
             }
-          },
-          "parametricURL": {
-            "alertWrongLayerIds": "<strong>A chamada parametrizada está avariada!</strong></br>O <b>layerIds</b> nas posições: {{wrongIdsPositionsConcat}} não existem e são ignorados!"
-          }
         },
         "alerting": {
             "hideMessage": "Não mostrar esta mensagem de novo",
@@ -137,24 +138,24 @@
             "unknown": "desconhecido"
         },
         "layerInformation": {
-          "additionalMetadata": "Metadados adicionais",
-          "addressSuffix": "Endereço",
-          "multiAddress": "Endereços de serviço",
-          "attachFileMessage": "ao descarregar pode se necessário anexar o tipo de ficheiro",
-          "closeButton": "Fechar",
-          "downloadDataset": "Descarregar conjunto de dados",
-          "errorMessage": "A consulta dos metadados falhou. Se o problema persistir, entre em contato com o proptirtário do serviço: <b>{{cswObjCswUrl}}</b>",
-          "informationAndLegend": "Informações e legenda",
-          "lastModified": "Última alteração",
-          "legend": "Legenda",
-          "noMetadataLoaded": "Não foi possivel carregar os metadados!",
-          "noMetadataMessage": "$t(modules.cswParser.noMetadataMessage)",
-          "periodicityTitle": "Periodicidade",
-          "publicationCreation": "Publicação / Produção",
-          "buildings":"Edifício"
+            "additionalMetadata": "Metadados adicionais",
+            "addressSuffix": "Endereço",
+            "multiAddress": "Endereços de serviço",
+            "attachFileMessage": "ao descarregar pode se necessário anexar o tipo de ficheiro",
+            "closeButton": "Fechar",
+            "downloadDataset": "Descarregar conjunto de dados",
+            "errorMessage": "A consulta dos metadados falhou. Se o problema persistir, entre em contato com o proptirtário do serviço: <b>{{cswObjCswUrl}}</b>",
+            "informationAndLegend": "Informações e legenda",
+            "lastModified": "Última alteração",
+            "legend": "Legenda",
+            "noMetadataLoaded": "Não foi possivel carregar os metadados!",
+            "noMetadataMessage": "$t(modules.cswParser.noMetadataMessage)",
+            "periodicityTitle": "Periodicidade",
+            "publicationCreation": "Publicação / Produção",
+            "buildings": "Edifício"
         },
         "mapMarker": {
-          "nostyleObject": "Zu der angegebenen StyleId: {{styleId}} konnte keine Style gefunden werden. Bitte überprüfen sie ihre Konfiguration."
+            "nostyleObject": "Zu der angegebenen StyleId: {{styleId}} konnte keine Style gefunden werden. Bitte überprüfen sie ihre Konfiguration."
         },
         "featureViaURL": {
             "coordLabel": "Coordenadas",
@@ -284,13 +285,13 @@
             },
             "shadow": {
                 "shadowDisplay": "Exibição de sombras"
-              },
+            },
             "styleVT": {
-              "introText": "Vários estilos predefinidos podem ser aplicados a \"Vector Tile Layer\" para optimizar a vista para o fim específico.",
-              "noStyleableLayers": "Não há actualmente tópicos disponíveis aos quais esta ferramenta possa ser aplicada.",
-              "theme": "Tópico",
-              "chooseTheme": "Por favor seleccione o tópico activo",
-              "style": "Estilo"
+                "introText": "Vários estilos predefinidos podem ser aplicados a \"Vector Tile Layer\" para optimizar a vista para o fim específico.",
+                "noStyleableLayers": "Não há actualmente tópicos disponíveis aos quais esta ferramenta possa ser aplicada.",
+                "theme": "Tópico",
+                "chooseTheme": "Por favor seleccione o tópico activo",
+                "style": "Estilo"
             },
             "featureLister": {
                 "chooseTheme": "Escolha o tópico",
@@ -373,12 +374,9 @@
             },
             "fileImport": {
                 "captions": {
-                    "introInfo": "Importe o ficheiro desejado simplesmente por arrastar e largar ou, em alternativa, com o diálogo 'Abrir' do navegador.",
                     "introFormats": "Podem ser importados ficheiros KML (*.kml), ficheiros GPX (*.gpx) ou ficheiros GeoJson (*.geojson, *.json).",
                     "introDrawTool": "As geometrias importadas podem ser alteradas posteriormente. Para tal, utilize a ferramenta &quot;$t(common:menu.tools.draw)&quot;.",
                     "drawTool": "$t(common:menu.tools.draw) abrir",
-                    "dropzone": "Arquivar ficheiro aqui",
-                    "browse": "Seleccionar ficheiro",
                     "supportedFiletypes": {
                         "auto": "Reconhecimento automático",
                         "kml": "Ficheiro KML (*.kml)",
@@ -397,6 +395,105 @@
                 "successfullyImportedLabel": "Importado com sucesso:",
                 "title": "Importar ficheiro"
             },
+            "modeler3D": {
+                "entity": {
+                    "captions": {
+                        "backToList": "Voltar para Lista",
+                        "delete": "Apagar Modelo",
+                        "deletionTitle": "Apagar Modelo 3D \"{{name}}\"",
+                        "editInfo": "Modificar os atributos do modelo selecionado.",
+                        "editModel": "Editar Modelo 3D \"{{name}}\"",
+                        "incrementTooltip": "Mantenha a tecla Shift pressionada para aumentar o valor de forma mais grosseira.",
+                        "modelName": "Nome do Modelo",
+                        "pickupPlace": "Duplo clique em um objeto importado para pegá-lo ou posicioná-lo.",
+                        "projectionInfo": "Atenção! Ao usar o sistema de coordenadas WGS84, podem ocorrer imprecisões. Recomendamos o uso da notação decimal.",
+                        "rotationPlaceholder": "Passos de incremento/decremento",
+                        "rotation": "Rotação",
+                        "rotationSwitch": "Passos de rotação",
+                        "scale": "Escala",
+                        "steps": "Passos",
+                        "visibilityTitle": "Mostrar/Ocultar Modelo 3D \"{{name}}\"",
+                        "zoomTo": "Zoom para o Modelo 3D \"{{name}}\""
+                    },
+                    "deleteInteraction": {
+                        "confirm": "Apagar",
+                        "headline": "Atenção",
+                        "text": "Tem certeza de que deseja apagar o modelo \"{{name}}\"?"
+                    },
+                    "projections": {
+                        "adaptToHeight": "Adaptar ao Terreno",
+                        "cartesian": {
+                            "eastingLabel": "Leste",
+                            "northingLabel": "Norte"
+                        },
+                        "hdms": {
+                            "eastingLabel": "Longitude",
+                            "northingLabel": "Latitude"
+                        },
+                        "height": "Altura",
+                        "projection": "Sistema de Coordenadas"
+                    }
+                },
+                "import": {
+                    "alertingMessages": {
+                        "featureError": "Uma feature neste arquivo não pôde ser lida.",
+                        "fileSizeError": "O tamanho do arquivo excede o limite de 100 MB.",
+                        "formatError": "O arquivo \"{{filename}}\" não pôde ser lido. Por favor, verifique se o arquivo possui o formato *.gltf, *.obj, *.dae ou *.geojson.",
+                        "missingFileContent": "Erro ao ler o arquivo \"{{filename}}\". Por favor, verifique o tipo de arquivo e o conteúdo. Se o arquivo estiver sem erros, por favor, entre em contato com o suporte.",
+                        "missingFormat": "O formato do arquivo \"{{format}}\" não é suportado. Por favor, entre em contato com o suporte.",
+                        "success": "O arquivo \"{{filename}}\" foi importado com sucesso.",
+                        "successPartly": "O arquivo \"{{filename}}\" foi importado parcialmente."
+                    },
+                    "captions": {
+                        "introInfo": "Com o importador, você pode carregar, visualizar e analisar projetos de planejamento urbano digital no modelo 3D existente da cidade.",
+                        "introInfo2": "Importe o arquivo desejado simplesmente arrastando e soltando ou usando a caixa de diálogo de abertura do navegador.",
+                        "introFormats": "Você pode importar arquivos glTF (*.gltf), OBJ (*.obj), Collada (*.dae) ou GeoJSON.",
+                        "successfullyImportedLabel": "Modelos 3D Importados:"
+                    }
+                },
+                "draw": {
+                    "captions": {
+                        "beginModelling": "Modelar Objeto 3D",
+                        "clampToGround": "Alinhar ao Modelo de Terreno",
+                        "color": "Cor",
+                        "controlInfo": "Clique com o botão esquerdo do mouse para definir pontos. Utilize o botão direito do rato ou um duplo clique para terminar o desenho.",
+                        "drawing": "Desenho",
+                        "drawName": "Nome",
+                        "drawnModels": "Modelos Desenhados:",
+                        "export": "Exportar",
+                        "exportTitle": "Exportar todos os modelos desenhados para o formato GeoJSON.",
+                        "extrudedHeight": "Altura Extrudida",
+                        "fillColor": "Cor de Preenchimento",
+                        "geometry": "Geometria",
+                        "introInfo": "Com esta função, você pode desenhar objetos 3D no mapa e modificá-los e projetá-los de forma individual. Você pode esboçar edifícios e, em seguida, por exemplo, realizar simulações de sombra.<br><br>A ferramenta também permite desenhar em edifícios existentes e objetos importados. Um pré-requisito é que você tenha ativado a altura do terreno.<br><br>Usando a função de exportação, você pode exportar seus projetos e carregá-los de volta na aplicação posteriormente usando o importador.",
+                        "outlineColor": "Cor da Contorno",
+                        "transparency": "Transparência",
+                        "lineWidth": "Espessura da Linha"
+                    },
+                    "geometries": {
+                        "polygon": "Polígono",
+                        "line": "Linha"
+                    }
+                },
+                "options": {
+                    "captions": {
+                        "enableFunction": "Ativar/Desativar Função",
+                        "hideObjectInfo": "Os edifícios existentes podem ser desativados na representação, permitindo que você coloque elementos importados no terreno correspondente.<br><br>Inicie esta função através da Ativação e clique nos objetos desejados para que eles sejam desativados na visualização.<br><br>Todos os objetos ocultos aparecem em uma lista e podem ser reativados lá.",
+                        "hideSwitchLabel": "Ocultar Edifícios com Clique do Mouse",
+                        "pov": "Alternar para Visão de Pedestre",
+                        "povInfo": "Aqui você tem a possibilidade de assumir a perspectiva dos pedestres e olhar ao redor da cidade.<br><br>Navegue até a posição desejada. Assim que você colocar o cilindro no mapa com um clique do mouse, você entrará na visão de pedestre naquela posição.<br><br>Você pode mudar o campo de visão com movimentos do mouse. Para voltar à posição inicial, pressione a tecla ESC (Escape).",
+                        "povTitle": "Perspectiva de Pedestre",
+                        "visibilityTitle": "Opções de Visibilidade"
+                    }
+                },
+                "nav": {
+                    "drawTitle": "Desenhar",
+                    "importTitle": "Importar",
+                    "options": "Opções"
+                },
+                "hiddenObjectsLabel": "Edifícios Ocultos:",
+                "title": "Modelador 3D"
+            },            
             "parcelSearch": {
                 "wrongConfig": "Configuração inválida ou incompleta",
                 "districtsLoadFailed": "A área comunitária não podia ser carregada",
@@ -412,9 +509,9 @@
                 "generateReport": "Gerar relatório"
             },
             "selectFeatures": {
-              "zoomToFeature": "Zoom a esta funcionalidade",
-              "noFeatureChosen": "Nenhuma funcionalidade seleccionada. Seleccione as funcionalidades segurando Ctrl e arrastando uma caixa em torno das funcionalidades.",
-              "propertylessFeature": "Elemento sem atributos"
+                "zoomToFeature": "Zoom a esta funcionalidade",
+                "noFeatureChosen": "Nenhuma funcionalidade seleccionada. Seleccione as funcionalidades segurando Ctrl e arrastando uma caixa em torno das funcionalidades.",
+                "propertylessFeature": "Elemento sem atributos"
             },
             "supplyCoord": {
                 "title": "Consultar coordenadas",
@@ -432,46 +529,46 @@
             "gfi": {
                 "errorMessage": "Ocorreu um erro durante a consulta (GetFeatureInfo).<br>Por favor, tente novamente mais tarde. Se o problema ainda ocorrer, por favor contacte o operador do serviço.",
                 "favoriteIcons": {
-                  "compareFeatureIcon": {
-                    "toCompareList": "Inserir à lista de comparação",
-                    "fromCompareList": "Remover da lista de comparação"
-                  },
-                  "routingicon": {
-                    "routingDestination": "Tomar como alvo"
-                  }
+                    "compareFeatureIcon": {
+                        "toCompareList": "Inserir à lista de comparação",
+                        "fromCompareList": "Remover da lista de comparação"
+                    },
+                    "routingicon": {
+                        "routingDestination": "Tomar como alvo"
+                    }
                 },
                 "themes": {
                     "default": {
-                      "imgAlt": "Nenhuma imagem podia ser carregada.",
-                      "noAttributeAvailable": "Não há atributo disponível!"
+                        "imgAlt": "Nenhuma imagem podia ser carregada.",
+                        "noAttributeAvailable": "Não há atributo disponível!"
                     },
                     "sensor": {
-                      "sensor": {
-                        "dataName": "Ficheiros",
-                        "header": {
-                          "name": "Nome",
-                          "description": "Descrição",
-                          "ownerThing": "Proprietário"
+                        "sensor": {
+                            "dataName": "Ficheiros",
+                            "header": {
+                                "name": "Nome",
+                                "description": "Descrição",
+                                "ownerThing": "Proprietário"
+                            }
+                        },
+                        "sensorBarChart": {
+                            "clock": "{{value}} Hora",
+                            "chartTitleAverage": "Desativar valor médio",
+                            "month_one": "{{count}} Mês",
+                            "month_other": "{{count}} Meses",
+                            "year_one": "{{count}} Ano",
+                            "year_other": "{{count}} Anos",
+                            "previousWeekday": "Dia anterior",
+                            "nextWeekday": "Dia seguinte"
+                        },
+                        "sensorData": {
+                            "firstColumnHeaderName": "Características"
+                        },
+                        "chargingStations": {
+                            "available": "Disponibilidade",
+                            "charging": "Capacidade",
+                            "outoforder": "Fora de serviço"
                         }
-                      },
-                      "sensorBarChart": {
-                        "clock": "{{value}} Hora",
-                        "chartTitleAverage": "Desativar valor médio",
-                        "month_one": "{{count}} Mês",
-                        "month_other": "{{count}} Meses",
-                        "year_one": "{{count}} Ano",
-                        "year_other": "{{count}} Anos",
-                        "previousWeekday": "Dia anterior",
-                        "nextWeekday": "Dia seguinte"
-                      },
-                      "sensorData": {
-                        "firstColumnHeaderName": "Características"
-                      },
-                      "chargingStations": {
-                        "available": "Disponibilidade",
-                        "charging": "Capacidade",
-                        "outoforder": "Fora de serviço"
-                      }
                     }
                 }
             },
@@ -684,7 +781,7 @@
         },
         "wmsTime": {
             "layerSwiper": {
-              "title": "Confrontare gli strati"
+                "title": "Confrontare gli strati"
             }
         },
         "legend": {
@@ -714,9 +811,16 @@
             "date": "Data",
             "time": "Horário",
             "from": "a partir das",
-            "to":"até às",
+            "to": "até às",
             "incorrectEntry": "Introduza um número inteiro!",
             "outOfRangeErrorMessage": "O valor de entrada deve estar dentro do intervalo de validade {{minValueSlider}} e {{maxValueSlider}}!"
+        }
+    },
+    "share-components": {
+        "import": {
+            "browse": "Seleccionar ficheiro",
+            "dropzone": "Arquivar ficheiro aqui",
+            "introInfo": "Importe o ficheiro desejado simplesmente por arrastar e largar ou, em alternativa, com o diálogo 'Abrir' do navegador."
         }
     }
 }

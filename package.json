@@ -93,6 +93,7 @@
     "object-hash": "^3.0.0",
     "rbush": "^2.0.2",
     "rbush-knn": "^2.1.0",
+    "three": "^0.155.0",
     "vcs-oblique": "^2.0.2",
     "vue": "^2.7.14",
     "vue-multiselect": "^2.1.6",

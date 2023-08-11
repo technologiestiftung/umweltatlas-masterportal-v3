@@ -1415,6 +1415,7 @@ Ein Ordner-Object wird dadurch definiert, dass es neben "name" und "icon" noch d
 [type:layerClusterToggler]: # (Portalconfig.menu.tool.layerClusterToggler)
 [type:layerSlider]: # (Portalconfig.menu.tool.layerSlider)
 [type:measure]: # (Portalconfig.menu.tool.measure)
+[type:modeler3D]: # (Portalconfig.menu.tool.modeler3D)
 [type:parcelSearch]: # (Portalconfig.menu.tool.parcelSearch)
 [type:print]: # (Portalconfig.menu.tool.print)
 [type:routing]: # (Portalconfig.menu.tool.routing)
@@ -1451,6 +1452,7 @@ Neben **Portalconfig.menu.tools** können auch die Pfade **Portalconfig.menu.inf
 |layerClusterToggler|nein|**[layerClusterToggler](#markdown-header-portalconfigtoollayerClusterToggler)**||_Mit diesem Werkzeug lassen sich Layer in Clustern gleichzeitig aktivieren/laden und deaktivieren_|false|
 |layerSlider|nein|**[layerSlider](#markdown-header-portalconfigmenutoollayerslider)**||Mit dem Layerslider lassen sich beliebige Dienste in einer Reihenfolge abspielen. Zum Beispiel geeignet für Luftbilder aus verschiedenen Jahrgängen.|false|
 |measure|nein|**[measure](#markdown-header-portalconfigmenutoolmeasure)**||Messwerkzeug um Flächen oder Strecken zu messen. Dabei kann zwischen den Einheiten m/km/nm bzw m²/ha/km² gewechselt werden.|false|
+|modeler3D|no|**[measure](#markdown-header-portalconfigmenutoolmodeler3D)**||3D Modeller Werkzeug um 3D Modelle in den Formaten .gltf, .dae und .obj importieren zu können und extrudierbare 3D Polygone zu zeichnen.|false|
 |parcelSearch|nein|**[parcelSearch](#markdown-header-portalconfigmenutoolparcelsearch)**||_Deprecated im nächsten Major-Release. Bitte nutzen Sie stattdessen `wfsSearch`._ Mit dieser Flurstückssuche lassen sich Flurstücke über Gemarkung, Flur (in Hamburg ohne Flur) und Flurstück suchen.|false|
 |print|nein|**[print](#markdown-header-portalconfigmenutoolprint)**||Druckmodul mit dem die Karte als PDF exportiert werden kann.|false|
 |saveSelection|nein|**[saveSelection](#markdown-header-portalconfigmenutoolsaveselection)**||Werkzeug mit dem sich die aktuellen 2D Karteninhalte speichern lassen. Der Zustand der Karte wird als URL zum Abspeichern erzeugt. Dabei werden die Layer in deren Reihenfolge, Transparenz und Sichtbarkeit dargestellt. Zusätzlich wird die Zentrumskoordinate mit abgespeichert.|false|
@@ -3109,6 +3111,60 @@ Mit dem Messwerkzeug können Strecken und Flächen gemessen werden. Dabei werden
     "earthRadius": 6378137,
     "measurementAccuracy": "dynamic"
 },
+```
+
+#### Portalconfig.menu.tool.modeler3D
+
+[inherits]: # (Portalconfig.menu.tool)
+
+Nur im 3D Modus nutzbar!
+Der 3D Modeller erlaubt es 3D Modelle in den Formaten .gltf, .dae und .obj zu importieren, sowie Linien und extrudierbare 3D Polygone zu zeichnen.
+Diese Zeichnungen können exportiert und georeferenziert wieder in die Karte geladen werden.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|gmlId|nein|String|"gmlid"|Bestimmen Sie den Pfad der GML ID im GFI für Gebäude in 3D Layern.|false|
+|updateAllLayers|nein|Boolean|true|Bestimmen Sie, ob beim Ausblenden von Gebäuden, alle Layer aktualisiert werden sollen.|false|
+|highlightStyle|nein|**[highlightStyle](#markdown-header-portalconfigmenutoolmodeler3dhighlightstyle)**||Bestimmen Sie die Füllfarbe, Transparenz, Umrissfarbe und Umrissdicke.|false|
+
+**Beispiel**
+
+```json
+{
+    "modeler3D": {
+        "name": "translate#common:menu.tools.modeler3D",
+        "gmlId": "gmlId",
+        "updateAllLayers": false,
+        "highlightStyle": {
+            "color": "#787777",
+            "alpha": 1,
+            "silhouetteColor": "#E20D0F",
+            "silhouetteSize": 4
+        }
+    }
+}
+```
+
+##### Portalconfig.menu.tool.modeler3D.highlightStyle
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|color|nein|String|"#787777"|Bestimmen Sie die Füllfarbe zum Hervorheben der Entities.|false|
+|alpha|nein|Number|1|Bestimmen Sie die Transparenz zum Hervorheben der Entities.|false|
+|silhouetteColor|nein|String|"#E20D0F"|Bestimmen Sie die Umrissfarbe zum Hervorheben der Entities.|false|
+|silhouetteSize|nein|Number|1|Bestimmen Sie die Umrissdicke zum Hervorheben der Entities.|false|
+
+**Beispiel**
+
+```json
+{
+    "highlightStyle": {
+        "color": "#787777",
+        "alpha": 1,
+        "silhouetteColor": "#E20D0F",
+        "silhouetteSize": 4
+    }
+}
 ```
 
 #### Portalconfig.menu.tool.contact
