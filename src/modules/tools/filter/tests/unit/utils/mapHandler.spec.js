@@ -662,7 +662,7 @@ describe("src/module/tools/filter/utils/mapHandler.js", () => {
                 {getProperties: () => 30}
             ], false);
 
-            expect(map.filteredIds.filterId).to.deep.equal({"10": true, "20": true, "30": true});
+            expect(map.filteredIds.filterId).to.deep.equal({"properties": {"10": true, "20": true, "30": true}, "count": 3});
             expect(called_showFeaturesByIds).to.deep.equal({"10": true, "20": true, "30": true});
             sinon.restore();
         });

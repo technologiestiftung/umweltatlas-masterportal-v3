@@ -35,7 +35,13 @@ const state = {
         // type: "BKG",
         // serviceId: "bkg_geosearch"
         type: null,
-        serviceId: null
+        serviceId: null,
+        epsg: "4326",
+        searchField: null,
+        sortField: null,
+        typeName: null,
+        propertyNames: null,
+        geometryName: null
     },
     geosearchReverse: {
         // type: "NOMINATIM",

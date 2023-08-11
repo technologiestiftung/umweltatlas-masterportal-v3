@@ -1434,6 +1434,7 @@ Ein Ordner-Object wird dadurch definiert, dass es neben "name" und "icon" noch d
 [type:layerClusterToggler]: # (Portalconfig.menu.tool.layerClusterToggler)
 [type:layerSlider]: # (Portalconfig.menu.tool.layerSlider)
 [type:measure]: # (Portalconfig.menu.tool.measure)
+[type:modeler3D]: # (Portalconfig.menu.tool.modeler3D)
 [type:parcelSearch]: # (Portalconfig.menu.tool.parcelSearch)
 [type:print]: # (Portalconfig.menu.tool.print)
 [type:routing]: # (Portalconfig.menu.tool.routing)
@@ -1470,6 +1471,7 @@ Neben **Portalconfig.menu.tools** können auch die Pfade **Portalconfig.menu.inf
 |layerClusterToggler|nein|**[layerClusterToggler](#markdown-header-portalconfigtoollayerClusterToggler)**||_Mit diesem Werkzeug lassen sich Layer in Clustern gleichzeitig aktivieren/laden und deaktivieren_|false|
 |layerSlider|nein|**[layerSlider](#markdown-header-portalconfigmenutoollayerslider)**||Mit dem Layerslider lassen sich beliebige Dienste in einer Reihenfolge abspielen. Zum Beispiel geeignet für Luftbilder aus verschiedenen Jahrgängen.|false|
 |measure|nein|**[measure](#markdown-header-portalconfigmenutoolmeasure)**||Messwerkzeug um Flächen oder Strecken zu messen. Dabei kann zwischen den Einheiten m/km/nm bzw m²/ha/km² gewechselt werden.|false|
+|modeler3D|no|**[measure](#markdown-header-portalconfigmenutoolmodeler3D)**||3D Modeller Werkzeug um 3D Modelle in den Formaten .gltf, .dae und .obj importieren zu können und extrudierbare 3D Polygone zu zeichnen.|false|
 |parcelSearch|nein|**[parcelSearch](#markdown-header-portalconfigmenutoolparcelsearch)**||_Deprecated im nächsten Major-Release. Bitte nutzen Sie stattdessen `wfsSearch`._ Mit dieser Flurstückssuche lassen sich Flurstücke über Gemarkung, Flur (in Hamburg ohne Flur) und Flurstück suchen.|false|
 |print|nein|**[print](#markdown-header-portalconfigmenutoolprint)**||Druckmodul mit dem die Karte als PDF exportiert werden kann.|false|
 |saveSelection|nein|**[saveSelection](#markdown-header-portalconfigmenutoolsaveselection)**||Werkzeug mit dem sich die aktuellen 2D Karteninhalte speichern lassen. Der Zustand der Karte wird als URL zum Abspeichern erzeugt. Dabei werden die Layer in deren Reihenfolge, Transparenz und Sichtbarkeit dargestellt. Zusätzlich wird die Zentrumskoordinate mit abgespeichert.|false|
@@ -1816,7 +1818,7 @@ Die Konfiguration eines Layers.
 |geometryName|nein|String|""|Nur für extern `true` in Verbindung mit Filterung innerhalb von Polygonen: Der Geometrie-Name der Features um eine Schnittmenge feststellen zu können.|false|
 |filterButtonDisabled|nein|Boolean|false|Nur für strategy `passive`: Der Filter-Knopf wird deaktiviert solange der Benutzer nichts im Filter ausgewählt hat.|false|
 |snippets|nein|[snippets](#markdown-header-portalconfigmenutoolfilterfilterlayersnippets)[]|[]|Konfiguration der sogenannten Snippets für das Filtern. Kann bei der minimalsten Variante ein Array von Attribut-Namen sein. Kann komplett weggelassen werden, wenn die automatische Snippet-Ermittlung verwendet werden soll.|false|
-|filterOnMove|nein|Boolean||Wenn auf `true` eingestellt, wird der Layer bei Kartenbewergung dynamisch gefilteret.|false|
+|filterOnMove|nein|Boolean||Wenn auf `true` eingestellt, wird der Layer bei Kartenbewergung dynamisch gefilteret. Funktioniert nur in Verbindung mit `multiLayerSelector`: `false`. Löst in dieser Verbindung beim Öffnen des Akkordeons die Filterung aus.|false|
 |minZoom|nein|Number||Die minimale Zoomstufe. Wenn die aktuelle Zoomstufe kleiner als “minZoom” ist, wird der aktuelle Filter deaktiviert.|false|
 |maxZoom|nein|Number||Die maximale Zoomstufe. Wenn die aktuelle Zoomstufe größer als “maxZoom” ist, wird der aktuelle Filter deaktiviert.|false|
 
@@ -3130,6 +3132,60 @@ Mit dem Messwerkzeug können Strecken und Flächen gemessen werden. Dabei werden
 },
 ```
 
+#### Portalconfig.menu.tool.modeler3D
+
+[inherits]: # (Portalconfig.menu.tool)
+
+Nur im 3D Modus nutzbar!
+Der 3D Modeller erlaubt es 3D Modelle in den Formaten .gltf, .dae und .obj zu importieren, sowie Linien und extrudierbare 3D Polygone zu zeichnen.
+Diese Zeichnungen können exportiert und georeferenziert wieder in die Karte geladen werden.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|gmlId|nein|String|"gmlid"|Bestimmen Sie den Pfad der GML ID im GFI für Gebäude in 3D Layern.|false|
+|updateAllLayers|nein|Boolean|true|Bestimmen Sie, ob beim Ausblenden von Gebäuden, alle Layer aktualisiert werden sollen.|false|
+|highlightStyle|nein|**[highlightStyle](#markdown-header-portalconfigmenutoolmodeler3dhighlightstyle)**||Bestimmen Sie die Füllfarbe, Transparenz, Umrissfarbe und Umrissdicke.|false|
+
+**Beispiel**
+
+```json
+{
+    "modeler3D": {
+        "name": "translate#common:menu.tools.modeler3D",
+        "gmlId": "gmlId",
+        "updateAllLayers": false,
+        "highlightStyle": {
+            "color": "#787777",
+            "alpha": 1,
+            "silhouetteColor": "#E20D0F",
+            "silhouetteSize": 4
+        }
+    }
+}
+```
+
+##### Portalconfig.menu.tool.modeler3D.highlightStyle
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|color|nein|String|"#787777"|Bestimmen Sie die Füllfarbe zum Hervorheben der Entities.|false|
+|alpha|nein|Number|1|Bestimmen Sie die Transparenz zum Hervorheben der Entities.|false|
+|silhouetteColor|nein|String|"#E20D0F"|Bestimmen Sie die Umrissfarbe zum Hervorheben der Entities.|false|
+|silhouetteSize|nein|Number|1|Bestimmen Sie die Umrissdicke zum Hervorheben der Entities.|false|
+
+**Beispiel**
+
+```json
+{
+    "highlightStyle": {
+        "color": "#787777",
+        "alpha": 1,
+        "silhouetteColor": "#E20D0F",
+        "silhouetteSize": 4
+    }
+}
+```
+
 #### Portalconfig.menu.tool.contact
 
 [inherits]: # (Portalconfig.menu.tool)
@@ -4323,18 +4379,44 @@ Routing-Werkzeug Geosuche Optionen.
 |----|-------------|---|-------|------------|------|
 |minChars|nein|Number|3|Minimum an Zeichen für die Anfrage bei dem externen Service.|false|
 |limit|nein|Number|10|Maximale Anzahl an Zeichen für die Suche.|false|
-|type|ja|String||Welcher Typ für die Geosuche verwendet werden soll. Aktuell möglich sind "BKG" und "NOMINATIM".|false|
+|type|ja|String||Welcher Typ für die Geosuche verwendet werden soll. Aktuell möglich sind "BKG", "NOMINATIM", "LOCATIONFINDER", "KOMOOT", "GAZETTEER", "SPECIALWFS" und "ELASTIC.|false|
 |serviceId|ja|String||Welcher Service für die Geosuche verwendet werden soll.|false|
+|typeName|nein|String||Typname für die specialWfs Geosuchabfrage.|false|
+|propertyNames|nein|String[]||Namen der Eigenschaften, die in die specialWfs Geosuche einbezogen werden sollen.|false|
+|geometryNames|nein|String||Name des Geometriefelds für die specialWfs Geosuche.|false|
+|epsg|nein|String|4326|Welcher EPSG-Code vom Service genutzt wird (z.B. 4326, 25832).|false|
+|searchField|nein|String||Der Pfad zum Feld welches bei der Nutzung von Elastic Search gesucht werden soll.|false|
+|sortField|nein|String||Der Pfad zum Feld welches bei der Nutzung von Elastic Search die Sortierung der Ergebnisse in aufsteigender Reihenfolge vorgibt.|false|
 
-**Beispiel**
+**Beispiel für SPECIALWFS**
 ```
 #!json
 {
     "geosearch": {
         "minChars": 3,
         "limit": 10,
-        "type": "BKG",
-        "serviceId": "bkg_geosearch"
+        "type": "SPECIALWFS",
+        "serviceId": "specialWfs_geosearch",
+        "typeName": "ms:strasse_nr",
+		"propertyNames": [
+			"ms:LABEL_TEXT"
+			],
+		"geometryName": "ms:msGeometry"
+    }
+}
+```
+**Beispiel FÜR ELASTIC**
+```
+#!json
+{
+    "geosearch": {
+        "minChars": 3,
+        "limit": 10,
+        "type": "ELASTIC",
+        "serviceId": "elastic_geosearch",
+        "epsg": "25832",
+        "searchField": "properties.searchField",
+        "sortField": "properties.HAUSNUMMER"
     }
 }
 ```
@@ -4349,7 +4431,7 @@ Routing-Werkzeug Geosuche Reverse Optionen.
 |----|-------------|---|-------|------------|------|
 |distance|nein|Number|1000|Distanz zum Suchen in Meter für die Anfrage bei dem externen Service.|false|
 |filter|nein|String||Zusätzliche Filter für die Suche werden an die Anfrage angehangen.|false|
-|type|ja|String||Welcher Typ für die Geosuche verwendet werden soll. Aktuell möglich sind "BKG" und "NOMINATIM".|false|
+|type|ja|String||Welcher Typ für die Geosuche verwendet werden soll. Aktuell möglich sind "BKG", "NOMINATIM" und "KOMOOT".|false|
 |serviceId|ja|String||Welcher Service für die Geosuche verwendet werden soll.|false|
 
 **Beispiel**
@@ -5233,7 +5315,7 @@ Neben diesen Attributen gibt es auch Typ-spezifische Attribute für **[WMS](#mar
 |isNeverVisibleInTree|nein|Boolean|false|Anzeige, ob der Layer niemals im Themenbaum sichtbar ist.|false|
 |urlIsVisible|nein|Boolean|true|Anzeige, ob die URL in der Layerinformation angezeigt werden soll.|false|
 |filterRefId|nein|Integer||Referenzierung zu einem konfigurierten Filter. Dabei ist die Id entsprechend der Position der Layer im Filter. Angefangen bei 0.|false|
-|renderer|no|String|"default"|Render-Pipeline für die Darstellung ("default" oder "webgl")(nur für Vektordaten "GeoJSON", "WFS", "OAF", "VectorBase")"webgl" ist derzeit als experimentell einzustufen.|false|
+|renderer|no|String|"default"|Render-Pipeline für die Darstellung ("default" oder "webgl")(nur für Vektordaten "GeoJSON", "WFS", "OAF")"webgl" ist derzeit als experimentell einzustufen.|false|
 |isPointLayer|no|Boolean|false|Anzeige, ob der (Vektor)-Layer nur aus Punkt-Features besteht (nur relevant für WebGL Rendering))|false|
 
 **Beispiel mit einer Id**

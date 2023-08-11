@@ -20,6 +20,7 @@ import LayerClusterToggler from "./layerClusterToggler/store/indexLayerClusterTo
 import LayerSlider from "./layerSlider/store/indexLayerSlider";
 import Login from "./login/store/indexLogin";
 import Measure from "./measure/store/indexMeasure";
+import Modeler3D from "./modeler3D/store/indexModeler3D";
 import Print from "./print/store/indexPrint";
 import Routing from "./routing/store/indexRouting";
 import SaveSelection from "./saveSelection/store/indexSaveSelection";
@@ -53,6 +54,7 @@ export default {
         LayerSlider,
         Login,
         Measure,
+        Modeler3D,
         Print,
         Routing,
         SaveSelection,

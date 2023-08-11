@@ -59,7 +59,7 @@ describe("src/modules/tools/routing/store/isochrones/actionsIsochrones.js", () =
                 return args[1];
             }
             else if (args[0] === "Tools/Routing/fetchTextByCoordinates") {
-                return new RoutingGeosearchResult(args[1].coordinates[0], args[1].coordinates[1], "test");
+                return new RoutingGeosearchResult([args[1].coordinates[0], args[1].coordinates[1]], "test");
             }
             else if (args[0] === "Maps/removeInteraction") {
                 return state.isochronesPointDrawInteraction;

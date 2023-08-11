@@ -36,8 +36,8 @@
         "infoText": "(more objects. Please zoom.)"
     },
     "mapRegion": {
-      "twoFingerPanAlert": "Please use two fingers to pan and zoom in the map."
-   },
+        "twoFingerPanAlert": "Please use two fingers to pan and zoom in the map."
+    },
     "menu": {
         "topics": "Issues & Topics",
         "name": "Menu",
@@ -57,6 +57,7 @@
             "supplyCoord": "Query coordinates",
             "searchByCoord": "Coordinate search",
             "fileImport": "Import file",
+            "modeler3D": "3D Modeler",
             "routing": "Route planner",
             "draw": "Drawing / writing",
             "shadow": "Shadows",
@@ -69,7 +70,7 @@
             "addWms": "Add WMS",
             "scaleSwitcher": "Scale switcher",
             "selectFeatures": "Select features",
-            "legend":"Legend",
+            "legend": "Legend",
             "styleVt": "Style Vector Tile Layers",
             "bufferAnalysis": "Buffer Analysis",
             "parcelSearch": "Parcel search",
@@ -128,24 +129,24 @@
             "ua": "Українська"
         },
         "core": {
-          "modelList": {
-            "layer": {
-              "wrongStyleId": "No style object could be found with the specified StyleId: {{styleId}}. Please make sure that a style with the StyleId: {{styleId}} is configured in the Style.json used.",
-              "sensor": {
-                "httpOnError": "<strong>Unexpected error occurred while loading sensor data of layer {{name}}</strong>"
-              },
-              "wms": {
-                "allowCookies":"<strong>Please allow cookies to load this background map.</strong>",
-                "errorTimeLayer": "Error while retrieving information for the layer with the id {{id}}: {{error}}",
-                "invalidTimeLayer": "The configured layer with the id {{id}} does not contain the necessary values for a WMS-T.",
-                "warningTimeLayerQuantity": "<strong>Warning:</strong> More than one TimeLayer was initially selected. </br>Only <strong>{{name}} </strong>is displayed."
-              },
-              "errorHandling": {
-                "403": "<strong>Access to {{layerName}}is not possible!</strong></br>Unfortunately, you are not authorised to view the data for {{layerName}}. The topic has been automatically deactivated.</br></br>Please contact the office responsible for this data for access authorisation.</br></br>" ,
-                "LinkMetadata": "Contact details and further information can be found <a href={{linkMetadata}} target=\"_blank\">here</a>."
-              }
+            "modelList": {
+                "layer": {
+                    "wrongStyleId": "No style object could be found with the specified StyleId: {{styleId}}. Please make sure that a style with the StyleId: {{styleId}} is configured in the Style.json used.",
+                    "sensor": {
+                        "httpOnError": "<strong>Unexpected error occurred while loading sensor data of layer {{name}}</strong>"
+                    },
+                    "wms": {
+                        "allowCookies": "<strong>Please allow cookies to load this background map.</strong>",
+                        "errorTimeLayer": "Error while retrieving information for the layer with the id {{id}}: {{error}}",
+                        "invalidTimeLayer": "The configured layer with the id {{id}} does not contain the necessary values for a WMS-T.",
+                        "warningTimeLayerQuantity": "<strong>Warning:</strong> More than one TimeLayer was initially selected. </br>Only <strong>{{name}} </strong>is displayed."
+                    },
+                    "errorHandling": {
+                        "403": "<strong>Access to {{layerName}}is not possible!</strong></br>Unfortunately, you are not authorised to view the data for {{layerName}}. The topic has been automatically deactivated.</br></br>Please contact the office responsible for this data for access authorisation.</br></br>",
+                        "LinkMetadata": "Contact details and further information can be found <a href={{linkMetadata}} target=\"_blank\">here</a>."
+                    }
+                }
             }
-          }
         },
         "alerting": {
             "hideMessage": "Diese Meldung nicht mehr anzeigen",
@@ -178,22 +179,22 @@
             "unknown": "unknown"
         },
         "layerInformation": {
-          "additionalMetadata": "additional metadata",
-          "addressSuffix": "Address",
-          "multiAddress": "Service addresses",
-          "attachFileMessage": "Attach file type during download if necessary",
-          "closeButton": "Close",
-          "downloadDataset": "Download dataset",
-          "errorMessage": "The query of the metadata failed. If the problem persists, please contact the owner of the service: <b>{{cswObjCswUrl}}</b>",
-          "informationAndLegend": "Information and legend",
-          "lastModified": "Last modified",
-          "legend": "Legend",
-          "noMetadataLoaded": "No metadata could be loaded!",
-          "noMetadataMessage": "$t(modules.cswParser.noMetadataMessage)",
-          "periodicityTitle": "Periodicity",
-          "publicationCreation": "Publication / Creation",
-          "buildings":"Buildings",
-          "changeLayerInfo": "Switch infotext"
+            "additionalMetadata": "additional metadata",
+            "addressSuffix": "Address",
+            "multiAddress": "Service addresses",
+            "attachFileMessage": "Attach file type during download if necessary",
+            "closeButton": "Close",
+            "downloadDataset": "Download dataset",
+            "errorMessage": "The query of the metadata failed. If the problem persists, please contact the owner of the service: <b>{{cswObjCswUrl}}</b>",
+            "informationAndLegend": "Information and legend",
+            "lastModified": "Last modified",
+            "legend": "Legend",
+            "noMetadataLoaded": "No metadata could be loaded!",
+            "noMetadataMessage": "$t(modules.cswParser.noMetadataMessage)",
+            "periodicityTitle": "Periodicity",
+            "publicationCreation": "Publication / Creation",
+            "buildings": "Buildings",
+            "changeLayerInfo": "Switch infotext"
         },
         "login": {
             "login": "Login",
@@ -204,7 +205,7 @@
             "profile": "Profile"
         },
         "mapMarker": {
-          "nostyleObject": "No style could be found for the specified StyleId: {{styleId}}. Please check your configuration."
+            "nostyleObject": "No style could be found for the specified StyleId: {{styleId}}. Please check your configuration."
         },
         "menu": {
             "layer": {
@@ -346,30 +347,29 @@
                 "checkVersion": "&#10060; Adding WMS is possible only if the version of external wms layer equals or is greater than 1.3.0."
             },
             "contact": {
-              "error": {
-                "mail": "Please input a valid E-mail address",
-                "message": "Sending Email failed!",
-                "messageInput": "Your message has to be at least {{length}} characters long.",
-                "phone": "Please input your phone number",
-                "username": "Please input your name"
-              },
-              "placeholder": {
-                "mail": "Your E-mail Address",
-                "message": "Please write down your message in here and press \"$t(common:modules.tools.contact.sendButton)\".",
-                "phone": "Your phone number",
-                "username": "Your name"
-              },
-              "errorIncompleteDeclarations": "Please fill out all fields of the contact form correctly so that your request can be sent.",
-              "mailSubject": "Support request for the portal ",
-              "messageLabel": "Your message",
-              "privacyPolicy": {
-                "info": "You agree that your data may be used to process your request. You will find further information and revocation notices in the <a href=\"{{privacyPolicyLink}}\" target=\"_blank\">privacy policy</a>.",
-                "label": "Please accept the privacy policy."
-              },
-              "sendButton": "send message",
-              "successMessage": "Your request was sent successfully.",
-              "successTicket": "Your ticket number is: "
-
+                "error": {
+                    "mail": "Please input a valid E-mail address",
+                    "message": "Sending Email failed!",
+                    "messageInput": "Your message has to be at least {{length}} characters long.",
+                    "phone": "Please input your phone number",
+                    "username": "Please input your name"
+                },
+                "placeholder": {
+                    "mail": "Your E-mail Address",
+                    "message": "Please write down your message in here and press \"$t(common:modules.tools.contact.sendButton)\".",
+                    "phone": "Your phone number",
+                    "username": "Your name"
+                },
+                "errorIncompleteDeclarations": "Please fill out all fields of the contact form correctly so that your request can be sent.",
+                "mailSubject": "Support request for the portal ",
+                "messageLabel": "Your message",
+                "privacyPolicy": {
+                    "info": "You agree that your data may be used to process your request. You will find further information and revocation notices in the <a href=\"{{privacyPolicyLink}}\" target=\"_blank\">privacy policy</a>.",
+                    "label": "Please accept the privacy policy."
+                },
+                "sendButton": "send message",
+                "successMessage": "Your request was sent successfully.",
+                "successTicket": "Your ticket number is: "
             },
             "print": {
                 "titleLabel": "Title",
@@ -407,13 +407,13 @@
                 "pickDate": "Select a date:",
                 "slideHour": "Select time:",
                 "slideDate": "Select a date:"
-              },
+            },
             "styleVT": {
-              "introText": "Various predefined styles can be applied to VectorTile layers to optimize the view to match your requirements.",
-              "noStyleableLayers": "There are currently no topics to which this tool could be applied.",
-              "theme": "Theme",
-              "chooseTheme": "Please choose active theme",
-              "style": "Style"
+                "introText": "Various predefined styles can be applied to VectorTile layers to optimize the view to match your requirements.",
+                "noStyleableLayers": "There are currently no topics to which this tool could be applied.",
+                "theme": "Theme",
+                "chooseTheme": "Please choose active theme",
+                "style": "Style"
             },
             "featureLister": {
                 "chooseTheme": "Choose theme",
@@ -560,8 +560,8 @@
                     "goToComparisonlist": "To the comparison list"
                 },
                 "trueFalse": {
-                  "true": "Yes",
-                  "false": "No"
+                    "true": "Yes",
+                    "false": "No"
                 }
             },
             "saveSelection": {
@@ -573,12 +573,9 @@
             },
             "fileImport": {
                 "captions": {
-                    "introInfo": "Import your file via drag and drop or alternatively use the browse dialogue.",
                     "introFormats": "You can import KML files (*.kml), GPX files (*.gpx) or GeoJson files (*.geojson, *.json).",
                     "introDrawTool": "Use the tool &quot;$t(common:menu.tools.draw)&quot; to change imported geometries in color and style.",
                     "drawTool": "Open: $t(common:menu.tools.draw)",
-                    "dropzone": "Drop file here",
-                    "browse": "Browse files",
                     "supportedFiletypes": {
                         "auto": "Automatic filetype detection",
                         "kml": "KML-file (*.kml)",
@@ -599,6 +596,106 @@
                 "zoom": "Zoom",
                 "fileZoom": "Zoom to features of this file \"{{filename}}\""
             },
+            "modeler3D": {
+                "entity": {
+                    "captions": {
+                        "backToList": "Back to Overview",
+                        "delete": "Delete Model",
+                        "deletionTitle": "Delete 3D Model \"{{name}}\"",
+                        "editInfo": "Modify the attributes of the selected model.",
+                        "editModel": "Edit 3D Model \"{{name}}\"",
+                        "incrementTooltip": "Hold Shift to increase the value coarser.",
+                        "modelName": "Model Name",
+                        "pickupPlace": "Double-click on an object to pick it up or place it.",
+                        "projectionInfo": "Attention! When using the WGS84 coordinate system, there may be inaccuracies. We recommend using decimal notation.",
+                        "rotationPlaceholder": "Increment/Decrement steps",
+                        "rotation": "Rotation",
+                        "rotationSwitch": "Rotation Steps",
+                        "scale": "Scale",
+                        "steps": "Steps",
+                        "visibilityTitle": "Show/Hide 3D Model \"{{name}}\"",
+                        "zoomTo": "Zoom to 3D Model \"{{name}}\""
+                    },
+                    "deleteInteraction": {
+                        "confirm": "Delete",
+                        "headline": "Attention",
+                        "text": "Are you sure you want to delete the model \"{{name}}\"?"
+                    },
+                    "projections": {
+                        "adaptToHeight": "Adapt to Terrain",
+                        "cartesian": {
+                            "eastingLabel": "Easting",
+                            "northingLabel": "Northing"
+                        },
+                        "hdms": {
+                            "eastingLabel": "Longitude",
+                            "northingLabel": "Latitude"
+                        },
+                        "height": "Height",
+                        "projection": "Coordinate System"
+                    }
+                },
+                "import": {
+                    "alertingMessages": {
+                        "featureError": "A feature in this file could not be read.",
+                        "fileSizeError": "The file size exceeds the limit of 100 MB.",
+                        "formatError": "The file \"{{filename}}\" could not be read. Please check if the file has the format *.gltf, *.obj *.dae or *.geojson.",
+                        "missingFileContent": "Error reading the file \"{{filename}}\". Please check the file type and content. If the file is error-free, please contact support.",
+                        "missingFormat": "The file format \"{{format}}\" is not supported. Please contact support.",
+                        "success": "The file \"{{filename}}\" was successfully imported.",
+                        "successPartly": "The file \"{{filename}}\" was partially imported."
+                    },
+                    "captions": {
+                        "introInfo": "With the importer, you can load, visualize, and analyze digital urban designs into the existing 3D model of the city.",
+                        "introInfo2": "Simply import your desired file by dragging and dropping or alternatively using the browser's open dialog.",
+                        "introFormats": "You can import glTF- (*.gltf), OBJ- (*.obj), Collada- (*.dae), or GeoJSON-files.",
+                        "successfullyImportedLabel": "Imported 3D Models:"
+                    }
+                },
+                "draw": {
+                    "captions": {
+                        "beginModelling": "Model 3D Object",
+                        "clampToGround": "Align to Terrain Model",
+                        "color": "Color",
+                        "controlInfo": "Click with the left mouse button to set points. Use the right mouse button or a double click to finish drawing.",
+                        "drawing": "Drawing",
+                        "drawName": "Name",
+                        "drawnModels": "Drawn Models:",
+                        "export": "Export",
+                        "exportTitle": "Export all drawn models in GeoJSON format.",
+                        "extrudedHeight": "Extruded Height",
+                        "fillColor": "Fill Color",
+                        "fillTransparency": "Transparency",
+                        "geometry": "Geometry",
+                        "introInfo": "With this function, you can draw 3D objects on the map and edit and design them individually. You can sketch buildings and then, for example, perform shadow simulations.<br><br>The tool also allows drawing on existing buildings and imported objects. A prerequisite is that you have activated the terrain height.<br><br>Using the export function, you can export your designs and load them back into the application later using the importer.",
+                        "outlineColor": "Outline Color",
+                        "transparency": "Transparency",
+                        "lineWidth": "Line Width"
+                    },
+                    "geometries": {
+                        "polygon": "Polygon",
+                        "line": "Line"
+                    }
+                },
+                "options": {
+                    "captions": {
+                        "enableFunction": "Enable/Disable Function",
+                        "hideObjectInfo": "Existing buildings can be deactivated in their representation, allowing you to place imported elements on the corresponding property.<br><br>To activate this function, click Enable and click on the desired objects to deactivate them in the view.<br><br>All hidden objects appear in a list and can be reactivated there.",
+                        "hideSwitchLabel": "Hide Buildings with Mouse Click",
+                        "pov": "Jump to Pedestrian View",
+                        "povInfo": "Here you have the option to take the perspective of pedestrians and look around the city.<br><br>Navigate to the desired position. Once you set the cylinder on the map with a mouse click, you will enter the pedestrian view at that location.<br><br>You can change your field of view with mouse movements. To return to the starting position, press the Escape key (ESC).",
+                        "povTitle": "Pedestrian Perspective",
+                        "visibilityTitle": "Visibility Options"
+                    }
+                },
+                "nav": {
+                    "drawTitle": "Draw",
+                    "importTitle": "Import",
+                    "options": "Options"
+                },
+                "hiddenObjectsLabel": "Hidden Buildings:",
+                "title": "3D Modeler"
+            },            
             "parcelSearch": {
                 "wrongConfig": "Invalid or incomplete configuration",
                 "districtsLoadFailed": "Districts could not be loaded",
@@ -614,9 +711,9 @@
                 "generateReport": "Generate report"
             },
             "selectFeatures": {
-              "zoomToFeature": "Zoom to this feature",
-              "noFeatureChosen": "No feature chosen. Select features by holding down Ctrl and dragging a box around the features to choose.",
-              "propertylessFeature": "Element without attributes"
+                "zoomToFeature": "Zoom to this feature",
+                "noFeatureChosen": "No feature chosen. Select features by holding down Ctrl and dragging a box around the features to choose.",
+                "propertylessFeature": "Element without attributes"
             },
             "supplyCoord": {
                 "title": "Query Coordinates",
@@ -633,8 +730,8 @@
             "coordToolkit": {
                 "coordAndHeight": "Coordinates / Height",
                 "title": "Coordinates / Height",
-                "supply":"Query Coordinates / Height",
-                "search":"Search Coordinates",
+                "supply": "Query Coordinates / Height",
+                "search": "Search Coordinates",
                 "searchBtn": "Search",
                 "coordSystemField": "Coordinate reference system",
                 "heightLabel": "Height",
@@ -666,45 +763,45 @@
                 "errorMessage": "An error has occurred  during the information request (GetFeatureInfo).<br>Please try again later. If the problem persists, please contact the operator of the service.",
                 "favoriteIcons": {
                     "compareFeatureIcon": {
-                      "toCompareList": "Add to compare list",
-                      "fromCompareList": "Remove from compare list"
+                        "toCompareList": "Add to compare list",
+                        "fromCompareList": "Remove from compare list"
                     }
                 },
                 "themes": {
                     "default": {
-                      "imgAlt": "No image could be loaded.",
-                      "noAttributeAvailable": "No attribute available!"
+                        "imgAlt": "No image could be loaded.",
+                        "noAttributeAvailable": "No attribute available!"
                     },
                     "sensor": {
-                      "sensor": {
-                        "dataName": "Data",
-                        "header": {
-                          "name": "Name",
-                          "description": "Description",
-                          "ownerThing": "Owner"
+                        "sensor": {
+                            "dataName": "Data",
+                            "header": {
+                                "name": "Name",
+                                "description": "Description",
+                                "ownerThing": "Owner"
+                            }
+                        },
+                        "sensorBarChart": {
+                            "clock": "{{value}} o'clock",
+                            "chartTitleAverage": "Average off",
+                            "month_one": "{{count}} month",
+                            "month_other": "{{count}} months",
+                            "year_one": "{{count}} year",
+                            "year_other": "{{count}} years",
+                            "previousWeekday": "Previous Weekday",
+                            "nextWeekday": "Next weekday",
+                            "noticeTextAvailable": "(Only data with the value available are considered)",
+                            "noticeTextCharging": "(Only data with the value charging are considered).",
+                            "noticeTextOutoforder": "(Only data with the value outoforder are considered)."
+                        },
+                        "sensorData": {
+                            "firstColumnHeaderName": "Properties"
+                        },
+                        "chargingStations": {
+                            "available": "Available",
+                            "charging": "Charging",
+                            "outoforder": "Out of order"
                         }
-                      },
-                      "sensorBarChart": {
-                        "clock": "{{value}} o'clock",
-                        "chartTitleAverage": "Average off",
-                        "month_one": "{{count}} month",
-                        "month_other": "{{count}} months",
-                        "year_one": "{{count}} year",
-                        "year_other": "{{count}} years",
-                        "previousWeekday": "Previous Weekday",
-                        "nextWeekday": "Next weekday",
-                        "noticeTextAvailable": "(Only data with the value available are considered)",
-                        "noticeTextCharging": "(Only data with the value charging are considered).",
-                        "noticeTextOutoforder": "(Only data with the value outoforder are considered)."
-                      },
-                      "sensorData": {
-                        "firstColumnHeaderName": "Properties"
-                      },
-                      "chargingStations": {
-                        "available": "Available",
-                        "charging": "Charging",
-                        "outoforder": "Out of order"
-                      }
                     }
                 },
                 "boolean": {
@@ -739,13 +836,13 @@
                 "drawLayerVisible": "Show/hide drawing",
                 "clickToPlaceText": "Click on the map to place the text",
                 "download": {
-                  "createFirst": "Please create a drawing or text first!",
-                  "enterFilename": "Please enter filename",
-                  "filename": "Filename",
-                  "format": "Format",
-                  "formatNotSupported": "The {{selectedFormat}} format is not yet supported.",
-                  "pleaseChoose": "Please choose",
-                  "unknownGeometry": "Unknown geometry: <strong>{{geometry}}</strong>"
+                    "createFirst": "Please create a drawing or text first!",
+                    "enterFilename": "Please enter filename",
+                    "filename": "Filename",
+                    "format": "Format",
+                    "formatNotSupported": "The {{selectedFormat}} format is not yet supported.",
+                    "pleaseChoose": "Please choose",
+                    "unknownGeometry": "Unknown geometry: <strong>{{geometry}}</strong>"
                 },
                 "draw": "draw",
                 "geometryDrawFailed": "The transferred geometry could not be displayed.",
@@ -832,16 +929,16 @@
                 "label": "Scale"
             },
             "bufferAnalysis": {
-              "sourceSelectLabel": "source layer",
-              "targetSelectLabel": "target layer",
-              "resultTypeLabel": "result type",
-              "overlapping": "inside radius",
-              "notOverlapping": "outside radius",
-              "rangeLabel": "radius (m)",
-              "clearButton": "Reset",
-              "saveButton": "Save",
-              "sourceLayerNotFound": "Der gespeicherte Quell-Layer mit der ID {{layerId}} wurde nicht gefunden.",
-              "targetLayerNotFound": "Der gespeicherte Ziel-Layer mit der ID {{layerId}} wurde nicht gefunden."
+                "sourceSelectLabel": "source layer",
+                "targetSelectLabel": "target layer",
+                "resultTypeLabel": "result type",
+                "overlapping": "inside radius",
+                "notOverlapping": "outside radius",
+                "rangeLabel": "radius (m)",
+                "clearButton": "Reset",
+                "saveButton": "Save",
+                "sourceLayerNotFound": "Der gespeicherte Quell-Layer mit der ID {{layerId}} wurde nicht gefunden.",
+                "targetLayerNotFound": "Der gespeicherte Ziel-Layer mit der ID {{layerId}} wurde nicht gefunden."
             },
             "wfsSearch": {
                 "wrongConfig": "The layer with the id \"{{id}}\" for the search instance \"{{title}}\" is not defined.",
@@ -1145,7 +1242,7 @@
                 "choose3dLayer": "Selecting the layer \"{{hitName}}\" causes a switch to the <b>map mode: 3D!</b><br>The switch may take some time.<br><br>Do you want to switch to the <b>map mode: 3D?</b><br>"
             },
             "komoot": {
-              "errorMsg": "Searching with Komoot Photon is currently not available."
+                "errorMsg": "Searching with Komoot Photon is currently not available."
             },
             "noInitialResults": "Initial search found no hits."
         },
@@ -1242,9 +1339,9 @@
             "tooltipMessage": "Click to start and exit",
             "tooltipMessagePolygon": "Click to add a point",
             "alert": {
-              "notSupportedOption": "Graphical selection contains not supported elements! Available elements:",
-              "notSupportedSelection": "SelectedOption of the graphical selection is not supported! Available elements:",
-              "notSupportedElement": "Template element of the graphical selection is not supported! Available elements:"
+                "notSupportedOption": "Graphical selection contains not supported elements! Available elements:",
+                "notSupportedSelection": "SelectedOption of the graphical selection is not supported! Available elements:",
+                "notSupportedElement": "Template element of the graphical selection is not supported! Available elements:"
             }
         },
         "value": {
@@ -1254,7 +1351,7 @@
             "date": "Date",
             "time": "Time",
             "from": " from",
-            "to":" to",
+            "to": " to",
             "incorrectEntry": "Incorrect entry, please enter a whole number!",
             "outOfRangeErrorMessage": "The input value must be within the validity range {{minValueSlider}} and {{{maxValueSlider}}!",
             "valueEmptyErrorMessage": "The input value must not be empty!",
@@ -1264,24 +1361,79 @@
     "share-components": {
         "list": {
             "replace": {
-              "true": "yes",
-              "No": "no"
+                "true": "yes",
+                "No": "no"
             },
             "zoomToResult": "Zoom to result",
             "zoomToResults": "Zoom to selection",
             "pagination": "Pagination",
             "selection": "Row selection"
+        },
+        "import": {
+            "browse": "Browse files",
+            "dropzone": "Drop file here",
+            "introInfo": "Import your file via drag and drop or alternatively use the browse dialogue."
         }
     },
     "libraries": {
         "vue2-datepicker": {
             "lang": {
                 "formatLocale": {
-                    "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-                    "monthsShort": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-                    "weekdays": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-                    "weekdaysShort": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-                    "weekdaysMin": ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+                    "months": [
+                        "January",
+                        "February",
+                        "March",
+                        "April",
+                        "May",
+                        "June",
+                        "July",
+                        "August",
+                        "September",
+                        "October",
+                        "November",
+                        "December"
+                    ],
+                    "monthsShort": [
+                        "Jan",
+                        "Feb",
+                        "Mar",
+                        "Apr",
+                        "May",
+                        "Jun",
+                        "Jul",
+                        "Aug",
+                        "Sep",
+                        "Oct",
+                        "Nov",
+                        "Dec"
+                    ],
+                    "weekdays": [
+                        "Sunday",
+                        "Monday",
+                        "Tuesday",
+                        "Wednesday",
+                        "Thursday",
+                        "Friday",
+                        "Saturday"
+                    ],
+                    "weekdaysShort": [
+                        "Sun",
+                        "Mon",
+                        "Tue",
+                        "Wed",
+                        "Thu",
+                        "Fri",
+                        "Sat"
+                    ],
+                    "weekdaysMin": [
+                        "Su",
+                        "Mo",
+                        "Tu",
+                        "We",
+                        "Th",
+                        "Fr",
+                        "Sa"
+                    ],
                     "firstDayOfWeek": 0,
                     "firstWeekContainsDate": 1
                 }

@@ -328,7 +328,36 @@ describe("src/modules/tools/gfi/components/templates/DetachedTemplate.vue", () =
 
         expect(wrapper.vm.isContentHtml).to.be.false;
     });
+    describe("Lifecycle Hooks", () => {
+        it("should emit 'updateFeatureDone' in updated hook if isUpdated is true", async () => {
+            const wrapper = mount(DetachedTemplate, {
+                propsData: {
+                    feature: {
+                        getTheme: () => "DefaultTheme",
+                        getTitle: () => "Hallo",
+                        getMimeType: () => "text/xml",
+                        getGfiUrl: () => "",
+                        getLayerId: () => sinon.stub(),
+                        getOlFeature: () => olFeature
+                    }
+                },
+                components: {
+                    DefaultTheme: {
+                        name: "DefaultTheme",
+                        template: "<span />"
+                    }
+                },
+                store: store,
+                localVue
+            });
 
+            await wrapper.setProps({isUpdated: true});
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.emitted()).to.have.property("updateFeatureDone");
+            expect(wrapper.emitted().updateFeatureDone).to.have.lengthOf(1);
+        });
+    });
     describe("methods", () => {
         describe("highlightVectorFeature", () => {
             it("should do nothing, if highlightVectorRules is not set", () => {

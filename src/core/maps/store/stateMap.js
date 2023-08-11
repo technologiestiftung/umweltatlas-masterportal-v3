@@ -30,6 +30,7 @@
 */
 
 const state = {
+    altitude: 0,
     backgroundImage: null,
     boundingBox: null,
     center: null,
@@ -48,6 +49,8 @@ const state = {
     highlightedFeatures: [],
     highlightedFeatureStyles: [],
     loadedLayers: [],
+    longitude: null,
+    latitude: null,
     maxZoomLevel: null,
     minZoomLevel: null,
     mode: "2D",

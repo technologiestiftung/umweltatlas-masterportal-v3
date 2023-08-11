@@ -1487,6 +1487,7 @@ A folder object defined by a name, icon, and its children.
 [type:layerClusterToggler]: # (Portalconfig.menu.tool.layerClusterToggler)
 [type:layerSlider]: # (Portalconfig.menu.tool.layerSlider)
 [type:measure]: # (Portalconfig.menu.tool.measure)
+[type:modeler3D]: # (Portalconfig.menu.tool.modeler3D)
 [type:parcelSearch]: # (Portalconfig.menu.tool.parcelSearch)
 [type:print]: # (Portalconfig.menu.tool.print)
 [type:routing]: # (Portalconfig.menu.tool.routing)
@@ -1524,6 +1525,7 @@ Alternatively, also the paths **Portalconfig.menu.info**, **Portalconfig.menu.si
 |layerClusterToggler|no|**[layerClusterToggler](#markdown-header-portalconfigtoollayerClusterToggler)**||_This tool allows a cluster layers to be active and deactive together._|false|
 |layerSlider|no|**[layerSlider](#markdown-header-portalconfigmenutoollayerslider)**||The layerSlider tool allows showing arbitrary services in order. This can e.g. be used to show aerial footage from multiple years in succession.|false|
 |measure|no|**[measure](#markdown-header-portalconfigmenutoolmeasure)**||Allows measuring areas and distances in the units m/km/nm resp. m²/ha/km².|false|
+|modeler3D|no|**[measure](#markdown-header-portalconfigmenutoolmodeler3D)**||Allows importing 3D models in .gltf, .dae, .obj formats and drawing extrudable 3D polygons.|false|
 |parcelSearch|no|**[parcelSearch](#markdown-header-portalconfigmenutoolparcelsearch)**||_Deprecated in the next major release. Please use `wfsSearch` instead._ The parcel search tool allows searching for parcels by district and parcel number. Many German administrative units feature a tripartite order, hence the tool offers searching by "Gemarkung" (district), "Flur" (parcel) (not used in Hamburg), and "Flurstück" (literally "parcel piece").|false|
 |print|no|**[print](#markdown-header-portalconfigmenutoolprint)**||Printing module that can be used to export the map's current view as PDF.|false|
 |routing|no|**[routing](#markdown-header-portalconfigmenutoolrouting)**||Routing module to create routes and isochrones.|false|
@@ -1878,7 +1880,7 @@ An object to define a layer to filter with.
 |geometryName|no|String|""|Only for extern `true` in connection with filtering within polygons: The geometry name of the features to be able to detect an intersection.|false|
 |filterButtonDisabled|no|Boolean|false|Only for strategy `passive`: Disable the filter button while nothing is selected.|false|
 |snippets|no|[snippets](#markdown-header-portalconfigmenutoolfilterfilterlayersnippets)[]|[]|Configuration of snippets to adjust the filtering. Can be a minimalistic array of attribute names. Can be left empty to use the automatic identification of all snippets possible.|false|
-|filterOnMove|no|Boolean||If it is `true`, the layer will be filtered dynamically after the map moves.|false|
+|filterOnMove|no|Boolean||If it is `true`, the layer will be filtered dynamically after the map moves. Only works with `multiLayerSelector`: `false`. With this combination the filter is triggerd when the accordeon will be opened.|false|
 |minZoom|no|Number||The minimum zoom level for current filter, if current zoom level is smaller than the minimum zoom level, the current filter will be deactivated.|false|
 |maxZoom|no|Number||The maximum zoom level for current filter, if current zoom level is bigger than the maximum zoom level, the current filter will be deactivated.|false|
 
@@ -3186,6 +3188,60 @@ The measure tool allows measuring distances and areas. This includes the specifi
 }
 ```
 
+#### Portalconfig.menu.tool.modeler3D
+
+[inherits]: # (Portalconfig.menu.tool)
+
+Can only be used in 3D mode!
+The 3D modeler allows to import 3D models in the formats .gltf, .dae and .obj, as well as to draw lines and extrudable 3D polygons.
+These drawings can be exported and loaded back georeferenced into the map.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|gmlId|no|String|"gmlid"|Specify the path to the GML ID in the GFI for buildings in 3D Layers.|false|
+|updateAllLayers|no|Boolean|true|Specify, if all layers should be updated, when buildings are hidden.|false|
+|highlightStyle|no|**[highlightStyle](#markdown-header-portalconfigmenutoolmodeler3dhighlightstyle)**||Specify the fill color, alpha, outline color and outline width for highlighting entities.|false|
+
+**Example**
+
+```json
+{
+    "modeler3D": {
+        "name": "translate#common:menu.tools.modeler3D",
+        "gmlId": "gmlId",
+        "updateAllLayers": false,
+        "highlightStyle": {
+            "color": "#787777",
+            "alpha": 1,
+            "silhouetteColor": "#E20D0F",
+            "silhouetteSize": 4
+        }
+    }
+}
+```
+
+##### Portalconfig.menu.tool.modeler3D.highlightStyle
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|color|no|String|"#787777"|Specify the fill color for highlighting entities.|false|
+|alpha|no|Number|1|Specify the alpha for highlighting entities.|false|
+|silhouetteColor|no|String|"#E20D0F"|Specify the outline color for highlighting entities.|false|
+|silhouetteSize|no|Number|1|Specify the outline width for highlighting entities.|false|
+
+**Example**
+
+```json
+{
+    "highlightStyle": {
+        "color": "#787777",
+        "alpha": 1,
+        "silhouetteColor": "#E20D0F",
+        "silhouetteSize": 4
+    }
+}
+```
+
 #### Portalconfig.menu.tool.contact
 
 [inherits]: # (Portalconfig.menu.tool)
@@ -4379,18 +4435,44 @@ Routing-tool geosearch options.
 |----|--------|----|-------|-----------|------|
 |minChars|no|Number|3|Minimum amount of characters before sending a request to an external service.|false|
 |limit|no|Number|10|Maximale amount of characters for the search.|false|
-|type|yes|String||Which type of the geosearch should be used. ("BKG", "NOMINATIM")|false|
+|type|yes|String||Which type of the geosearch should be used. ("BKG", "NOMINATIM", "LOCATIONFINDER", "KOMOOT", "GAZETTEER", "SPECIALWFS", "ELASTIC")|false|
 |serviceId|yes|String||Which service should be used for the geosearch.|false|
+|typeName|no|String||Type name for the specialWfs geosearch query.|false|
+|propertyNames|no|String[]||Names of properties to be included in the specialWfs geosearch.|false|
+|geometryNames|no|String||Name of the geometry field for specialWfs geosearch.|false|
+|epsg|no|String|4326|Which EPSG code is used by the service (e.g. 4326, 25832).|false|
+|searchField|no|String||The path to the field to be searched for when using Elastic Search.|false|
+|sortField|no|String||The path to the field that specifies the sorting of the results in ascending order when using Elastic Search.|false|
 
-**Example**
+**Example for SPECIALWFS**
 ```
 #!json
 {
     "geosearch": {
         "minChars": 3,
         "limit": 10,
-        "type": "BKG",
-        "serviceId": "bkg_geosearch"
+        "type": "SPECIALWFS",
+        "serviceId": "specialWfs_geosearch",
+        "typeName": "ms:strasse_nr",
+		"propertyNames": [
+			"ms:LABEL_TEXT"
+			],
+		"geometryName": "ms:msGeometry"
+    }
+}
+```
+**Example for ELASTIC**
+```
+#!json
+{
+    "geosearch": {
+        "minChars": 3,
+        "limit": 10,
+        "type": "ELASTIC",
+        "serviceId": "elastic_geosearch",
+        "epsg": "25832",
+        "searchField": "properties.searchField",
+        "sortField": "properties.HAUSNUMMER"
     }
 }
 ```
@@ -4405,7 +4487,7 @@ Routing-tool geosearch reverse options.
 |----|--------|----|-------|-----------|------|
 |distance|no|Number|1000|Search radius in meter for the external service.|false|
 |filter|no|String||Additional filter used in the query.|false|
-|type|yes|String||Which type of geosearch reverse should be used. ("BKG", "NOMINATIM")|false|
+|type|yes|String||Which type of geosearch reverse should be used. ("BKG", "NOMINATIM", KOMOOT)|false|
 |serviceId|yes|String||Which service should be used for the geosearch reverse.|false|
 
 **Example**
@@ -5303,7 +5385,7 @@ Layer definition. Multiple ways to define layers exist. Most attributes are defi
 |isNeverVisibleInTree|no|Boolean|false|If `true`, the layer is never visible in the topic selection tree.|false|
 |urlIsVisible|no|Boolean|true|Whether the service URL should be shown in the layer information window.|false|
 |filterRefId|no|Integer||Referencing to a configured filter. It is the order (index) of Layer in filter. Starting with 0.|false|
-|renderer|no|String|"default"|Which render pipeline to use ("default" or "webgl") (only for vector data of type "GeoJSON", "WFS", "OAF", "VectorBase"). "webgl" is currently classified as experimental and can lead to errors in some modules|false|
+|renderer|no|String|"default"|Which render pipeline to use ("default" or "webgl") (only for vector data of type "GeoJSON", "WFS", "OAF"). "webgl" is currently classified as experimental and can lead to errors in some modules|false|
 |isPointLayer|no|Boolean|false|Whether the (vector) layer only consists of point features (only relevant for WebGL rendering)|false|
 
 **Example with one ID**

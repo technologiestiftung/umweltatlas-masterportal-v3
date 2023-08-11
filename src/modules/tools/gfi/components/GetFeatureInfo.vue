@@ -22,7 +22,8 @@ export default {
             // current index of the pagination and so also for the feature in the gfiFeatures
             pagerIndex: 0,
             // key for re-render child(detached) component
-            componentKey: false
+            componentKey: false,
+            updatedFeature: false
         };
     },
     computed: {
@@ -118,13 +119,17 @@ export default {
             }
         },
         /**
-         * Whenever gfiFeatures changes, set pagerIndex to zero.
+         * Whenever gfiFeatures changes, set pagerIndex to zero
+         * and set the updateFeature value to true if feature are given.
+         * @param {?Object} newValue - the current feature
          * @returns {void}
          */
-        gfiFeatures: function () {
+        gfiFeatures: function (newValue) {
             this.pagerIndex = 0;
+            this.setUpdatedFeature(Array.isArray(newValue) && newValue.length > 0);
         }
     },
+
     mounted () {
         this.handleMapListener(this.mapMode, this.active);
     },
@@ -145,6 +150,14 @@ export default {
             if (this.mapMode === "3D") {
                 this.removeHighlightColor();
             }
+        },
+        /**
+         * Set updatedFeature value.
+         * @param {Boolean} val - false if features have been updated or no features are given
+         * @returns {void}
+         */
+        setUpdatedFeature: function (val = false) {
+            this.updatedFeature = val;
         },
         /**
          * Increases the index for the pagination.
@@ -234,6 +247,8 @@ export default {
             :is="currentViewType"
             :key="componentKey"
             :feature="feature"
+            :is-updated="updatedFeature"
+            @updateFeatureDone="setUpdatedFeature()"
             @close="reset"
         >
             <!-- Slot Content for Footer -->
