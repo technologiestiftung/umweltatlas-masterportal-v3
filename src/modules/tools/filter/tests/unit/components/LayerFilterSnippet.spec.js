@@ -74,7 +74,7 @@ describe("src/modules/tools/filter/components/LayerFilterSnippet.vue", () => {
         });
     });
     describe("renderCheckboxSearchInMapExtent", () => {
-        it("Should render the checkbox component correctly", () => {
+        it("Should render the checkbox component correctly", async () => {
             wrapper = shallowMount(LayerFilterSnippet, {
                 propsData: {
                     layerConfig: {
@@ -87,6 +87,10 @@ describe("src/modules/tools/filter/components/LayerFilterSnippet.vue", () => {
                 },
                 localVue
             });
+
+            wrapper.setData({outOfZoom: false});
+            await wrapper.vm.$nextTick();
+
             expect(wrapper.findComponent(SnippetCheckboxFilterInMapExtent).exists()).to.be.true;
         });
     });
