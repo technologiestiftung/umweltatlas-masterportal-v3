@@ -615,7 +615,7 @@ export default {
                     </div>
                 </div>
                 <div
-                    v-if="dpiList.length > 0"
+                    v-if="dpiList.length > 0 && !is3D"
                     class="form-group form-group-sm row"
                 >
                     <label
@@ -641,7 +641,10 @@ export default {
                         </select>
                     </div>
                 </div>
-                <div class="form-group form-group-sm row scale">
+                <div
+                    v-if="!is3D"
+                    class="form-group form-group-sm row scale"
+                >
                     <label
                         class="col-md-5 col-form-label"
                         for="printScale"
@@ -710,6 +713,7 @@ export default {
                     </small>
                 </div>
                 <div
+                    v-if="!is3D"
                     class="form-group form-group-sm row"
                 >
                     <label
