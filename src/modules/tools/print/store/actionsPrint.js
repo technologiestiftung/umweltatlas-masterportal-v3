@@ -114,6 +114,7 @@ export default {
                 outputFormat: state.currentFormat,
                 attributes: {
                     title: state.title,
+                    is3dMode: true,
                     map: {
                         dpi: state.dpiForPdf,
                         projection: viewProjection,
