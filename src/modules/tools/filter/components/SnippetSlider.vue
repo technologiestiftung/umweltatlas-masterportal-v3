@@ -16,7 +16,7 @@ export default {
             default: null
         },
         attrName: {
-            type: String,
+            type: [String, Array],
             required: false,
             default: ""
         },
@@ -190,6 +190,7 @@ export default {
             }
             else if (this.api) {
                 this.api.getMinMax(this.attrName, minMaxObj => {
+                    console.log(minMaxObj)
                     if (!isObject(minMaxObj)) {
                         return;
                     }

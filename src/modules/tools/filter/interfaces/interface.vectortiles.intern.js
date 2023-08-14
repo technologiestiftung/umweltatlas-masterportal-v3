@@ -170,7 +170,6 @@ export default class InterfaceVectorTilesIntern {
         });
 
         uniqueValues = getUniqueValuesFromFetchedFeatures(allFetchedProperties, attrName);
-
         if (uniqueValues === false) {
             if (typeof onerror === "function") {
                 onerror(new Error("InterfaceVectorTilesIntern.getUniqueValues: an error occurred during the creation of unique values."));
@@ -178,7 +177,7 @@ export default class InterfaceVectorTilesIntern {
             return;
         }
         if (typeof onsuccess === "function") {
-            onsuccess(uniqueValues);
+            onsuccess(isObject(uniqueValues) ? Object.keys(uniqueValues) : []);
         }
     }
 

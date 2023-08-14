@@ -23,7 +23,7 @@ export default {
             default: null
         },
         attrName: {
-            type: String,
+            type: [String, Array],
             required: false,
             default: ""
         },
@@ -208,13 +208,11 @@ export default {
             return this.$t("modules.tools.filter.dropdown.noElements");
         },
         dropdownValueComputed () {
-            const dropdownValue = [];
+            let dropdownValue = [];
 
             if (!Array.isArray(this.value)) {
                 if (Array.isArray(this.dropdownValue)) {
-                    this.dropdownValue.forEach(value => {
-                        dropdownValue.push(value);
-                    });
+                    dropdownValue = [...this.dropdownValue];
                 }
                 dropdownValue.sort((a, b) => {
                     if (typeof this.localeCompareParams === "string") {
@@ -359,15 +357,17 @@ export default {
         else if (this.api && this.autoInit !== false) {
             this.$nextTick(() => {
                 this.api.getUniqueValues(this.attrName, list => {
-                    this.dropdownValue = this.splitListWithDelimiter(list, this.delimiter);
-                    this.dropdownSelected = this.getInitialDropdownSelected(this.prechecked, this.dropdownValue, this.multiselect);
                     this.$nextTick(() => {
-                        this.isInitializing = false;
-                        this.disable = false;
-                        this.emitSnippetPrechecked(this.prechecked, this.snippetId, this.visible);
-                        if (this.showAllValues && this.prechecked === "all") {
-                            this.allValues = this.dropdownSelected;
-                        }
+                        this.dropdownValue = this.splitListWithDelimiter(list, this.delimiter);
+                        this.dropdownSelected = this.getInitialDropdownSelected(this.prechecked, this.dropdownValue, this.multiselect);
+                        this.$nextTick(() => {
+                            this.isInitializing = false;
+                            this.disable = false;
+                            this.emitSnippetPrechecked(this.prechecked, this.snippetId, this.visible);
+                            if (this.showAllValues && this.prechecked === "all") {
+                                this.allValues = this.dropdownSelected;
+                            }
+                        });
                     });
                 }, error => {
                     this.disable = false;
