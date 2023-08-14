@@ -30,6 +30,7 @@ const state = {
     geosearch: {
         minChars: 3,
         limit: 10,
+        bbox: "",
         // type: "NOMINATIM",
         // serviceId: "nominatim_suche"
         // type: "BKG",

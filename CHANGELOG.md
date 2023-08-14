@@ -11,6 +11,7 @@
     - Possibility to use *Gazetteer* for geosearch option.
     - Possibility to use *specialWfs* for geosearch option.
     - Possibility to use *Elastic Search* for geosearch option.
+    - Possibility to define a bbox value for the BKG geosearch service for the different speed profiles.
 - WebGL render pipeline supports now also VectorTile layers.
 
 ### Changed
