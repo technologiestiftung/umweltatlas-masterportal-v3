@@ -75,4 +75,4 @@ function checkConfiguredBbox () {
     return false;
 }
 
-export {fetchRoutingBkgGeosearch, fetchRoutingBkgGeosearchReverse};
+export {checkConfiguredBbox, fetchRoutingBkgGeosearch, fetchRoutingBkgGeosearchReverse};

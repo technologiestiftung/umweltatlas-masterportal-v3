@@ -5,7 +5,8 @@ import sinon from "sinon";
 import {RoutingGeosearchResult} from "../../../../utils/classes/routing-geosearch-result";
 import {
     fetchRoutingBkgGeosearch,
-    fetchRoutingBkgGeosearchReverse
+    fetchRoutingBkgGeosearchReverse,
+    checkConfiguredBbox
 } from "../../../../utils/geosearch/routing-bkg-geosearch";
 
 describe("src/modules/tools/routing/utils/geosearch/routing-bkg-geosearch.js", () => {
@@ -190,6 +191,20 @@ describe("src/modules/tools/routing/utils/geosearch/routing-bkg-geosearch.js", (
             catch (error) {
                 expect(error.message).equal("testerror");
             }
+        });
+    });
+    describe("should checkConfiguredBbox", () => {
+        it("should process result as false with no configuration", () => {
+            const result = checkConfiguredBbox();
+
+            expect(result).to.be.false;
+        });
+        it("should process result correct with given bbox", () => {
+            store.commit("Tools/Routing/setGeosearch", {bbox: {"CAR": "10,20,30,40"}});
+
+            const result = checkConfiguredBbox();
+
+            expect(result).to.eql("10,20,30,40");
         });
     });
 });
