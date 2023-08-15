@@ -16,9 +16,7 @@ export default {
         LayerSelector
         // ,MapModuleDebug
     },
-    data: () => ({
-        isDevMode
-    }),
+    data: () => ({isDevMode}),
     created () {
         this.$nextTick(() => {
             if (this.readFromUrlParams() && checkIsURLQueryValid(window.location.search)) {
