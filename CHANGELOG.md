@@ -20,6 +20,7 @@
 - Filter:
     - The parameter filterOnMove now only works in combination with "'multiLayerSelector': false" to create a better user experience.
     - The filter configuration in the portal master is adapted to the new syntax.
+    - The possibility to specify the attrName with more than 2 values was added for VectorTiles layer.
 
 ### Deprecated
 

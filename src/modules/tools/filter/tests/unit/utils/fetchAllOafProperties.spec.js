@@ -52,6 +52,23 @@ describe("src/modules/tools/filter/utils/fetchAllOafProperties.js", () => {
 
             expect(getMinMaxFromFetchedFeatures(properties, "attrName", false, false)).to.deep.equal(expected);
         });
+        it("should return the expected min and max value from the given properties for multiple attrNames", () => {
+            const properties = [
+                    {attrName: 0},
+                    {attrName2: 10},
+                    {attrName1: -10},
+                    {attrName3: 20},
+                    {attrName: -20},
+                    {attrName1: 100},
+                    {attrName2: -100}
+                ],
+                expected = {
+                    min: -100,
+                    max: 100
+                };
+
+            expect(getMinMaxFromFetchedFeatures(properties, ["attrName", "attrName1", "attrName2", "attrName3"], false, false)).to.deep.equal(expected);
+        });
     });
     describe("getUniqueValuesFromFetchedFeatures", () => {
         it("should return false if allFetchedProperties is not an array", () => {
