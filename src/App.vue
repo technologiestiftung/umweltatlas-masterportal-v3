@@ -1,5 +1,5 @@
 <script>
-import {mapMutations, mapGetters} from "vuex";
+import {mapMutations} from "vuex";
 import MainNav from "./MainNav.vue";
 import MapRegion from "./MapRegion.vue";
 import isDevMode from "./utils/isDevMode";
@@ -19,9 +19,6 @@ export default {
     data: () => ({
         isDevMode
     }),
-    computed: {
-        ...mapGetters(["getRestServiceById"])
-    },
     created () {
         this.$nextTick(() => {
             if (this.readFromUrlParams() && checkIsURLQueryValid(window.location.search)) {
