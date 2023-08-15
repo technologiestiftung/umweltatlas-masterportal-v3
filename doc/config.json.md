@@ -4424,10 +4424,22 @@ Routing-tool geosearch options.
 |typeName|no|String||Type name for the specialWfs geosearch query.|false|
 |propertyNames|no|String[]||Names of properties to be included in the specialWfs geosearch.|false|
 |geometryNames|no|String||Name of the geometry field for specialWfs geosearch.|false|
+|bbox|no|**[bbox](#markdown-header-portalconfigmenutoolroutinggeosearchbbox)**||BBOX value according to the speedProfile. Coordinate System is dependent on the epsg parameter. Geosearch service must support bbox string.|false|
 |epsg|no|String|4326|Which EPSG code is used by the service (e.g. 4326, 25832).|false|
 |searchField|no|String||The path to the field to be searched for when using Elastic Search.|false|
 |sortField|no|String||The path to the field that specifies the sorting of the results in ascending order when using Elastic Search.|false|
 
+**Example for BKG**
+```
+#!json
+{
+    "geosearch": {
+        "type": "BKG",
+        "serviceId": "specialWfs_geosearch",
+        "bbox": {"CYCLING": "9.6,53.40,10.4,53.84"}
+    }
+}
+```
 **Example for SPECIALWFS**
 ```
 #!json
@@ -4458,6 +4470,23 @@ Routing-tool geosearch options.
         "searchField": "properties.searchField",
         "sortField": "properties.HAUSNUMMER"
     }
+}
+```
+
+***
+
+#### Portalconfig.menu.tool.routing.geosearch.bbox
+
+BBOX value according to the speedProfile. Coordinate System is dependent on the epsg parameter. Geosearch service must support bbox string.
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|speedProfile|no|String||Coordinate values "West,South,East,North"|false|
+
+**Example**
+```
+#!json
+{
+    "bbox": {"CYCLING": "9.6,53.40,10.4,53.84"}
 }
 ```
 
@@ -4500,7 +4529,7 @@ Routing-tool directions options.
 |speedProfile|no|String|"CAR"|Which speed profile should be selected by default.|false|
 |preference|no|String|"RECOMMENDED"|Which type of directions should be used by default.|false|
 |customPreferences|no|**[customPreferences](#markdown-header-portalconfigmenutoolroutingdirectionssettingscustompreferences)**||Possibility to define additional preferences for the different speed profiles (additionally to the BKG service)  (requires own modified backend)|false|
-|customAvoidFeatures|nein|**[customAvoidFeatures](#markdown-header-portalconfigmenutoolroutingdirectionssettingscustomavoidfeatures)**||Possibility to define which options for avoid traffic routes for the different speed profiles are available (additionally to the BKG service) (requires own modified backend)|false|
+|customAvoidFeatures|no|**[customAvoidFeatures](#markdown-header-portalconfigmenutoolroutingdirectionssettingscustomavoidfeatures)**||Possibility to define which options for avoid traffic routes for the different speed profiles are available (additionally to the BKG service) (requires own modified backend)|false|
 |styleRoute|no|**[styleRoute](#markdown-header-portalconfigmenutoolroutingdirectionssettingsstyleroute)**||Stylerouteoptions|false|
 |styleWaypoint|no|**[styleWaypoint](#markdown-header-portalconfigmenutoolroutingdirectionssettingsstylewaypoint)**||Stylewaypointoptions|false|
 |styleAvoidAreas|no|**[styleAvoidAreas](#markdown-header-portalconfigmenutoolroutingdirectionssettingsstyleavoidareas)**||Styleavoidareasoptions|false|
