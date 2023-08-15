@@ -4366,7 +4366,7 @@ Routing-Werkzeug Geosuche Optionen.
 |typeName|nein|String||Typname für die specialWfs Geosuchabfrage.|false|
 |propertyNames|nein|String[]||Namen der Eigenschaften, die in die specialWfs Geosuche einbezogen werden sollen.|false|
 |geometryNames|nein|String||Name des Geometriefelds für die specialWfs Geosuche.|false|
-|bbox|nein|**[bbox](#markdown-header-portalconfigmenutoolroutinggeosearchbbox)**||BBOX Wert zugeordnet zu einem speedProfile. Koordinatensystem ist abhängig von dem verwendeten epsg parameter. Der verwendete geosearch Dienst muss bbox Werte als String unterstützen.|false|
+|bbox|nein|**[bbox](#markdown-header-portalconfigmenutoolroutinggeosearchbbox)**||BBOX-Wert zugeordnet zu einem speedProfile. Koordinatensystem ist abhängig von dem verwendeten epsg-Parameter. Der verwendete geosearch Dienst muss bbox-Werte als String unterstützen.|false|
 |epsg|nein|String|4326|Welcher EPSG-Code vom Service genutzt wird (z.B. 4326, 25832).|false|
 |searchField|nein|String||Der Pfad zum Feld welches bei der Nutzung von Elastic Search gesucht werden soll.|false|
 |sortField|nein|String||Der Pfad zum Feld welches bei der Nutzung von Elastic Search die Sortierung der Ergebnisse in aufsteigender Reihenfolge vorgibt.|false|
@@ -4419,7 +4419,7 @@ Routing-Werkzeug Geosuche Optionen.
 
 #### Portalconfig.menu.tool.routing.geosearch.bbox
 
-BBOX Wert zugeordnet zu einem speedProfile. Koordinatensystem ist abhängig von dem verwendeten epsg parameter. Der verwendete geosearch Dienst muss bbox Werte als String unterstützen.
+BBOX-Wert zugeordnet zu einem speedProfile. Koordinatensystem ist abhängig von dem verwendeten epsg-Parameter. Der verwendete geosearch Dienst muss bbox-Werte als String unterstützen.
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |speedProfile|nein|String||Koordinatenwerte "West,Süd,Ost,Nord"|false|
