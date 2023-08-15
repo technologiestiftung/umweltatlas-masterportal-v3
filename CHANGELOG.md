@@ -11,6 +11,7 @@
     - Possibility to use *Gazetteer* for geosearch option.
     - Possibility to use *specialWfs* for geosearch option.
     - Possibility to use *Elastic Search* for geosearch option.
+- WebGL render pipeline supports now also VectorTile layers.
 
 ### Changed
 - The following packages have been updated:

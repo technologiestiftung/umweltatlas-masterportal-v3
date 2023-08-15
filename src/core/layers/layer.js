@@ -87,10 +87,14 @@ export default function Layer (attrs, layer, initialize = true) {
                 }), this.get("name"));
         }.bind(this));
         this.layer.getSource()?.on("tileloaderror", async function (evt) {
-            await this.errorHandling(await axios.get(evt.tile.src_, {withCredentials: true})
-                .catch(function (error) {
-                    return error.toJSON().status;
-                }), this.get("name"));
+            const url = evt.tile.src_ ? evt.tile.src_ : evt.tile.url_;
+
+            if (url) {
+                await this.errorHandling(await axios.get(url, {withCredentials: true})
+                    .catch(function (error) {
+                        return error.toJSON().status;
+                    }), this.get("name"));
+            }
         }.bind(this));
         this.layer.getSource()?.on("imageloaderror", async function (evt) {
             await this.errorHandling(await axios.get(evt.image.src_, {withCredentials: true})
