@@ -4,15 +4,17 @@ import AxiosUtils from "./utilsAxios";
 
 /**
  * This function is used to intercept the masterportal load to
- * - check for oidc paraters
- * - set the oidc token
+ * - check for oidc GET parameters
+ * - set the oidc token into cookies, i.e. login the user
  * - add interceptors to axios, XHR, and fetch
- * - stop masterportal from loading
  *
- * @param {*} config OIDC configuration parameters
- * @return {string} login message
+ * @return {boolean|string} login message if parameters exist, else false
  */
-export function handleLoginParameters (config) {
+export function handleLoginParameters () {
+
+    if (!Object.prototype.hasOwnProperty.call(Config, "login")) {
+        return false;
+    }
 
     /**
      * Perform oidc login, if url parameter is present
@@ -31,7 +33,8 @@ export function handleLoginParameters (config) {
     if (urlParams.has("code")) {
         let response = null;
 
-        const code = urlParams.get("code"),
+        const config = Config.login,
+            code = urlParams.get("code"),
             state = urlParams.get("state"),
             req = OIDC.getToken(config.oidcTokenEndpoint, config.oidcClientId, config.oidcRedirectUri, code);
 

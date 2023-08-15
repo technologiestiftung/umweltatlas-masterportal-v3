@@ -66,26 +66,21 @@ describe("src/modules/tools/login/store/actionsLogin.js", () => {
     describe("getAuthCodeUrl", () => {
         it("retrieves correct url", async () => {
             let url = null;
-            const state = {id: "login"},
-                oidcAuthorizationEndpoint = "https://idm.localhost/",
+            const oidcAuthorizationEndpoint = "https://idm.localhost/",
                 oidcClientId = "client",
                 oidcRedirectUri = "https://localhost",
-                oidcScope = "scope",
-                rootGetters = {
-                    // eslint-disable-next-line no-unused-vars
-                    getRestServiceById: (id) => {
-                        return {
-                            oidcAuthorizationEndpoint,
-                            oidcClientId,
-                            oidcRedirectUri,
-                            oidcScope
-                        };
-                    }
-                };
+                oidcScope = "scope";
+
+            Config.login = {
+                oidcAuthorizationEndpoint,
+                oidcClientId,
+                oidcRedirectUri,
+                oidcScope
+            };
 
             window.localStorage = global.localStorage;
 
-            url = await actionsLogin.getAuthCodeUrl({state, rootGetters});
+            url = await actionsLogin.getAuthCodeUrl();
 
             expect(url).to.contain(oidcAuthorizationEndpoint + "?response_type=code&client_id=" + oidcClientId + "&state=");
             expect(url).to.contain(oidcScope);
@@ -99,11 +94,8 @@ describe("src/modules/tools/login/store/actionsLogin.js", () => {
             let result = null;
             const local_sandbox = sinon.createSandbox(),
                 context = {
-                    state: {id: "someId"},
-                    rootGetters: {
-                        getRestServiceById: local_sandbox.stub().returns({})
-                    },
-                    commit: local_sandbox.stub()
+                    commit: local_sandbox.stub(),
+                    dispatch: local_sandbox.stub()
                 },
                 tokenExpiry = 1000; // Set token expiry in future
 
@@ -123,11 +115,8 @@ describe("src/modules/tools/login/store/actionsLogin.js", () => {
             let result = null;
             const local_sandbox = sinon.createSandbox(),
                 context = {
-                    state: {id: "someId"},
-                    rootGetters: {
-                        getRestServiceById: local_sandbox.stub().returns({})
-                    },
-                    commit: local_sandbox.stub()
+                    commit: local_sandbox.stub(),
+                    dispatch: local_sandbox.stub()
                 },
                 tokenExpiry = 0; // Set token expiry in past
 
@@ -138,13 +127,9 @@ describe("src/modules/tools/login/store/actionsLogin.js", () => {
 
             expect(result).to.be.false;
 
-            expect(context.commit.thirdCall.args[0]).to.equal("setLoggedIn");
-            expect(context.commit.thirdCall.args[1]).to.equal(false);
+            expect(context.dispatch.firstCall?.args[0]).to.equal("logout");
 
-            expect(context.commit.getCall(3).args[0]).to.equal("setAccessToken");
-            expect(context.commit.getCall(3).args[1]).to.equal(undefined);
-
-            expect(context.commit.callCount).to.equal(8);
+            expect(context.commit.callCount).to.equal(2);
 
             local_sandbox.restore();
         });

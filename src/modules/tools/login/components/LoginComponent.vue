@@ -115,7 +115,7 @@ export default {
 
         /**
          * Logs out the user by removing all cookies and clearing the store
-         * @param {Boolean} reload if true, the window will be reloaded after logout
+         * @param {Boolean} [reload = false] if true, the window will be reloaded after logout
          *
          * @return {void}
          */

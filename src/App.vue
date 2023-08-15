@@ -6,7 +6,6 @@ import isDevMode from "./utils/isDevMode";
 import PortalFooter from "./modules/portalFooter/components/PortalFooter.vue";
 import LayerSelector from "./modules/layerSelector/components/LayerSelector.vue";
 import {checkIsURLQueryValid} from "./utils/parametricUrl/stateModifier";
-import {handleLoginParameters} from "./modules/tools/login/utils/utilsLogin";
 
 export default {
     name: "App",
@@ -18,15 +17,12 @@ export default {
         // ,MapModuleDebug
     },
     data: () => ({
-        isDevMode,
-        loginMode: false // handle login parameters
+        isDevMode
     }),
     computed: {
         ...mapGetters(["getRestServiceById"])
     },
     created () {
-        this.handleLogin();
-
         this.$nextTick(() => {
             if (this.readFromUrlParams() && checkIsURLQueryValid(window.location.search)) {
                 this.setUrlParams(new URLSearchParams(window.location.search));
@@ -65,23 +61,6 @@ export default {
                     }
                 }, 5000);
             }
-        },
-
-        /**
-         * Checks if login URL parameters exist.
-         * If yes, tries to login the user with the given parameters.
-         * @returns {void}
-         */
-        handleLogin () {
-            const urlParams = new URLSearchParams(window.location.search);
-
-            if (urlParams.has("error") || urlParams.has("code")) {
-                const config = this.getRestServiceById("login");
-
-                this.loginMode = Boolean(handleLoginParameters(config));
-
-                window.close();
-            }
         }
 
     }
@@ -90,7 +69,6 @@ export default {
 
 <template>
     <div
-        v-if="!loginMode"
         id="masterportal-container"
         class="masterportal-container"
     >
