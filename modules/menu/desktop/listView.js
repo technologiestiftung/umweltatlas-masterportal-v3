@@ -170,7 +170,7 @@ const ListView = ListViewMain.extend(/** @lends ListView.prototype */{
         // overwrite the parentId on category change
         layer.forEach(layer => {
             layer.set("parentId", parentId);
-        })
+        });
         this.addOverlayViews(layer);
 
         folders = models.filter(function (model) {
