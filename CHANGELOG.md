@@ -25,6 +25,8 @@
 ### Removed
 
 ### Fixed
+- Default Tree
+    - on category change all layers are shown in the layer tree
 
 ---
 
