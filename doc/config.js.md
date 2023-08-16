@@ -518,6 +518,7 @@ Specify outline color and stroke width for highlighting lines and fill color and
 ***
 
 ## tree
+Settings for generating the tree automatically. Only works if treeType="default" in **[config.json](config.json.md)**.
 
 |Name|Required|Type|Default|Description|
 |----|--------|----|-------|-----------|
