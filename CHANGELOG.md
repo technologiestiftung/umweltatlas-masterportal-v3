@@ -27,7 +27,7 @@
 ### Fixed
 - Default Tree
     - on category change all layers are shown in the layer tree
-
+    - Config.tree.orderBy sets category
 ---
 
 ## v2.36.1 - 2023-08-04

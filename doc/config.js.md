@@ -521,7 +521,7 @@ Specify outline color and stroke width for highlighting lines and fill color and
 
 |Name|Required|Type|Default|Description|
 |----|--------|----|-------|-----------|
-|orderBy|no|String|`"OpenData"`|Category the layer tree is sorted by initially.|
+|orderBy|no|enum["Opendata", "Inspire", "Behörde"]|`"Opendata"`|Category the layer tree is sorted by initially.|
 |layerIDsToIgnore|no|Array||Array of `services.json` layer ids not to be shown in the layer tree.|
 |layerIDsToStyle|no|**[layerIDsToStyle](#markdown-header-treelayeridstostyle)**[]||Special implementation for a HVV (Hamburg public transportation) service. Contains objects to request various styles of a layer id.|
 |metaIDsToMerge|no|String[]||All layers found in the `services.json` regarding these meta IDs are merged to a single layer of the layer tree.|
@@ -544,7 +544,7 @@ Specify outline color and stroke width for highlighting lines and fill color and
 ```json
 {
     "tree": {
-        "orderBy": "opendata",
+        "orderBy": "Opendata",
         "layerIDsToIgnore": ["1912", "1913"],
         "layerIDsToStyle": [
             {
