@@ -168,8 +168,8 @@ const ListView = ListViewMain.extend(/** @lends ListView.prototype */{
         layer.reverse();
 
         // overwrite the parentId on category change
-        layer.forEach(layer => {
-            layer.set("parentId", parentId);
+        layer.forEach(layerobj => {
+            layerobj.set("parentId", parentId);
         });
         this.addOverlayViews(layer);
 
