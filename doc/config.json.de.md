@@ -2193,8 +2193,8 @@ Dies betrifft besonders Filter die mit `strategy`: `active` arbeiten.
 
 |Name|Required|Typ|Default|Description|Expert|
 |----|-------------|---|-------|------------|------|
-|input|nein|Number|1400|Nur für Snippet-Typ `sliderRange`: Die Zeit in Millisekunden die vergehen soll, bevor nach Eingabe von Zahlen und Zeichen ins Input-Feld eine Filterung ausgelöst werden soll.|false|
-|slider|nein|Number|800|Nur für Snippet-Typ `sliderRange` und `dateRange`: Die Zeit in Millisekunden die vergehen soll, bevor nach der letzten Änderung des Sliders eine Filterung ausgelöst werden soll.|false|
+|input|nein|Number|1400|Nur für Snippet-Typ `sliderRange` und `slider`: Die Zeit in Millisekunden die vergehen soll, bevor nach Eingabe von Zahlen und Zeichen ins Input-Feld eine Filterung ausgelöst werden soll.|false|
+|slider|nein|Number|800|Nur für Snippet-Typ `sliderRange`, `slider` und `dateRange`: Die Zeit in Millisekunden die vergehen soll, bevor nach der letzten Änderung des Sliders eine Filterung ausgelöst werden soll.|false|
 
 **Beispiel**
 
