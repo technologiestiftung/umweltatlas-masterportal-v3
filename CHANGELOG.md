@@ -19,12 +19,14 @@
         - @masterportal/masterportalapi: 2.23.0 to 2.24.0 (This also raised olcs to version 2.15.0)
 - Filter:
     - The parameter filterOnMove now only works in combination with "'multiLayerSelector': false" to create a better user experience.
+    - The filter configuration in the portal master is adapted to the new syntax.
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+- Issue #1061: Filter: Accept gml:featureMembers occuring with other children in XML response.
 - Default Tree
     - on category change all layers are shown in the layer tree
     - Config.tree.orderBy sets category
