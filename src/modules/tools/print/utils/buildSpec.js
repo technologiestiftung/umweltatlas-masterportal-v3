@@ -555,7 +555,7 @@ const BuildSpecModel = {
                         const coords = clonedFeature.getGeometry().getCoordinates(),
                             offsetStyle = styleObjectFromStyleList.rules?.find(({style: {imageOffsetX, imageOffsetY}}) => imageOffsetX || imageOffsetY)?.style,
                             [posX, posY] = mapCollection.getMap("2D").getPixelFromCoordinate(coords),
-                            [offsetX, offsetY] = [offsetStyle.imageOffsetX ?? 0, offsetStyle.imageOffsetY ?? 0],
+                            [offsetX, offsetY] = [offsetStyle?.imageOffsetX ?? 0, offsetStyle?.imageOffsetY ?? 0],
                             mapScaleFactor = store.state.Tools.Print.currentScale / store.state.Tools.Print.currentMapScale,
                             transformedCoords = mapCollection.getMap("2D").getCoordinateFromPixel([posX - offsetX * mapScaleFactor, posY - offsetY * mapScaleFactor, 0]);
 
@@ -1202,6 +1202,7 @@ const BuildSpecModel = {
                 return acc + `${curr}='${value}',`;
             }, "[").slice(0, -1) + "]";
         }
+
         // feature with geometry style and label style
         if (styleFromStyleList !== undefined && styleFromStyleList.attributes.labelField && styleFromStyleList.attributes.labelField.length > 0) {
             const labelField = styleFromStyleList.attributes.labelField;
