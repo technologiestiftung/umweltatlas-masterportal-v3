@@ -77,7 +77,7 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
 
         // set category based on Config.tree.orderBy
         if (Config.tree?.orderBy && this.get("categories").includes(Config.tree.orderBy)) {
-            this.setCategory(Config.tree.orderBy)
+            this.setCategory(Config.tree.orderBy);
         }
 
         channel.reply({
