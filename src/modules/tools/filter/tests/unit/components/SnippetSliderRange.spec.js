@@ -393,6 +393,21 @@ describe("src/module/tools/filter/components/SnippetSliderRange.vue", () => {
                 }});
                 expect(wrapper.vm.getMeasureWidth()).to.equal("100.0%");
             });
+            it("should return 100% if value is set to min and max and decimal places is 1", () => {
+                const api = {
+                    getMinMax: (attrName, onsuccess) => onsuccess({
+                        min: 8,
+                        max: 90
+                    })
+                };
+
+                wrapper = shallowMount(SnippetSliderRange, {localVue, propsData: {
+                    api,
+                    attrName: "attrName",
+                    decimalPlaces: 1
+                }});
+                expect(wrapper.vm.getMeasureWidth()).to.equal("100.0%");
+            });
             it("should return the correct width if value is set between min and max", async () => {
                 const api = {
                     getMinMax: (attrName, onsuccess) => onsuccess({
@@ -409,6 +424,23 @@ describe("src/module/tools/filter/components/SnippetSliderRange.vue", () => {
                 await wrapper.vm.$nextTick();
                 expect(wrapper.vm.getMeasureWidth()).to.equal("83.8%");
             });
+            it("should return the correct width if value is set between min and max and decimal places is 1", async () => {
+                const api = {
+                    getMinMax: (attrName, onsuccess) => onsuccess({
+                        min: 0.4,
+                        max: 0.8
+                    })
+                };
+
+                wrapper = shallowMount(SnippetSliderRange, {localVue, propsData: {
+                    api,
+                    attrName: "attrName",
+                    prechecked: [0.6, 0.8],
+                    decimalPlaces: 2
+                }});
+                await wrapper.vm.$nextTick();
+                expect(wrapper.vm.getMeasureWidth()).to.equal("52.5%");
+            });
         });
         describe("getMeasureLeft", () => {
             it("should return 0% if from value equals min", () => {
@@ -422,6 +454,21 @@ describe("src/module/tools/filter/components/SnippetSliderRange.vue", () => {
                 wrapper = shallowMount(SnippetSliderRange, {localVue, propsData: {
                     api,
                     attrName: "attrName"
+                }});
+                expect(wrapper.vm.getMeasureLeft()).to.equal("0.0%");
+            });
+            it("should return 0% if from value equals min and decimal places is 1", () => {
+                const api = {
+                    getMinMax: (attrName, onsuccess) => onsuccess({
+                        min: 8,
+                        max: 90
+                    })
+                };
+
+                wrapper = shallowMount(SnippetSliderRange, {localVue, propsData: {
+                    api,
+                    attrName: "attrName",
+                    decimalPlaces: 1
                 }});
                 expect(wrapper.vm.getMeasureLeft()).to.equal("0.0%");
             });
@@ -440,6 +487,23 @@ describe("src/module/tools/filter/components/SnippetSliderRange.vue", () => {
                 }});
                 await wrapper.vm.$nextTick();
                 expect(wrapper.vm.getMeasureLeft()).to.equal("4.6%");
+            });
+            it("should return correct percentage for left if from value is set and decimal places is 1", async () => {
+                const api = {
+                    getMinMax: (attrName, onsuccess) => onsuccess({
+                        min: 0.4,
+                        max: 0.8
+                    })
+                };
+
+                wrapper = shallowMount(SnippetSliderRange, {localVue, propsData: {
+                    api,
+                    attrName: "attrName",
+                    prechecked: [0.6, 0.8],
+                    decimalPlaces: 1
+                }});
+                await wrapper.vm.$nextTick();
+                expect(wrapper.vm.getMeasureLeft()).to.equal("47.5%");
             });
         });
         describe("isSelfSnippetId", () => {
