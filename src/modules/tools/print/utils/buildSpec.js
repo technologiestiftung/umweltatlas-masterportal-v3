@@ -504,6 +504,7 @@ const BuildSpecModel = {
         if (!layersToNotReverse.includes(layer.values_.id)) {
             features.reverse();
         }
+
         features.forEach(feature => {
         // features.slice(0, 20).forEach(feature => {
             const foundFeature = featuresInExtent.find(featureInExtent => featureInExtent.ol_uid === feature.ol_uid),
@@ -526,6 +527,7 @@ const BuildSpecModel = {
                 if (style !== null) {
                     const styleObjectFromStyleList = styleList.returnStyleObject(layer.get("styleId")),
                         styleFromStyleList = styleObjectFromStyleList ? createStyle.getGeometryStyle(feature, styleObjectFromStyleList.rules, false, Config.wfsImgPath) : undefined;
+
                     let limiter = ",";
 
                     clonedFeature = feature.clone();
@@ -1204,7 +1206,7 @@ const BuildSpecModel = {
         }
 
         // feature with geometry style and label style
-        if (styleFromStyleList !== undefined && styleFromStyleList.attributes.labelField && styleFromStyleList.attributes.labelField.length > 0) {
+        if (styleFromStyleList !== undefined && styleFromStyleList.attributes?.labelField && styleFromStyleList.attributes?.labelField.length > 0) {
             const labelField = styleFromStyleList.attributes.labelField;
 
             return styleAttr.reduce((acc, curr) => acc + `${curr}='${feature.get(curr)}' AND ${labelField}='${feature.get(labelField)}',`, "[").slice(0, -1)
