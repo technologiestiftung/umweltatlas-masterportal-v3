@@ -75,6 +75,11 @@ export default {
             required: false,
             default: undefined
         },
+        operatorForAttrName: {
+            type: String,
+            required: false,
+            default: "AND"
+        },
         operator: {
             type: String,
             required: false,
@@ -250,6 +255,7 @@ export default {
                 startup,
                 fixed: !this.visible,
                 attrName: this.attrName,
+                operatorForAttrName: this.operatorForAttrName,
                 operator: this.securedOperator,
                 value
             });

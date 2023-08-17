@@ -302,6 +302,7 @@ describe("src/modules/tools/filter/components/SnippetSlider.vue", () => {
                 fixed: true,
                 attrName: "attrName",
                 operator: "EQ",
+                operatorForAttrName: "AND",
                 value: "value"
             });
             wrapper.destroy();
