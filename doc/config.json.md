@@ -4424,7 +4424,7 @@ Routing-tool geosearch options.
 |typeName|no|String||Type name for the specialWfs geosearch query.|false|
 |propertyNames|no|String[]||Names of properties to be included in the specialWfs geosearch.|false|
 |geometryNames|no|String||Name of the geometry field for specialWfs geosearch.|false|
-|bbox|no|**[bbox](#markdown-header-portalconfigmenutoolroutinggeosearchbbox)**||BBOX value according to the speedProfile. Coordinate system is dependent on the epsg parameter. Geosearch service must support bbox string.|false|
+|bbox|no|**[bbox](#markdown-header-portalconfigmenutoolroutinggeosearchbbox)**||BBOX value according to the speedProfile. Coordinate system depends on the epsg parameter. Geosearch service must support bbox string.|false|
 |epsg|no|String|4326|Which EPSG code is used by the service (e.g. 4326, 25832).|false|
 |searchField|no|String||The path to the field to be searched for when using Elastic Search.|false|
 |sortField|no|String||The path to the field that specifies the sorting of the results in ascending order when using Elastic Search.|false|
@@ -4477,7 +4477,7 @@ Routing-tool geosearch options.
 
 #### Portalconfig.menu.tool.routing.geosearch.bbox
 
-BBOX value according to the speedProfile. Coordinate system is dependent on the epsg parameter. Geosearch service must support bbox string.
+BBOX value according to the speedProfile. Coordinate system depends on the epsg parameter. Geosearch service must support bbox string.
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |speedProfile|no|String||Coordinate values "West,South,East,North"|false|
