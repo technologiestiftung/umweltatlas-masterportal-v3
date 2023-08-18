@@ -1958,6 +1958,7 @@ Note: Time-related snippets (`date` and `dateRange`) can only be operated in `ex
 |timeouts|no|[timeouts](#markdown-header-portalconfigmenutoolfilterfilterlayersnippetstimeouts)||Timeouts to configure for better user experience.|false|
 |minValue|no|Number||For type `date` and `slider` only: The minimum value as number or date string. Leave empty for automatic identification of boundaries.|false|
 |maxValue|no|Number||For type `date` and `slider` only: The maximum value as number or date string. Leave empty for automatic identification of boundaries.|false|
+|decimalPlaces|nein|Number|0|Defines decimal places for the step for `slider` and `sliderRange`|false|
 |display|no|String|"default"|If snippet type `dropdown`: If set to `list`, a list is displayed instead of a dropdown box. If snippet type `dateRange`: If set to `datepicker`, only the selection via calendar will be displayed, if set to `slider`, only the slider will be displayed, if set to `all`, datepicker and slider will be displayed.|false|
 |autoInit|no|Boolean|true|For type `dropdown` only: If set to `false`: Turns off the automatic identification of value (in case of `dropdown`) or minValue/maxValue (in case of `slider(Range)` and `date(Range)`.|false|
 |placeholder|no|String|""|For type `dropdown` only: The placeholder to use. Can be a translation key.|false|
@@ -2076,7 +2077,8 @@ Example for a slider snippet. A slider for a single digit and a less or equals o
     "type": "slider",
     "operator": "LE",
     "minValue": 1,
-    "maxValue": 5
+    "maxValue": 5,
+    "decimalPlaces": 2
 }
 ```
 
@@ -2089,7 +2091,8 @@ Example for a slider range snippet. A slider range without minValue and maxValue
     "title": "Angle d'inclinaison du toit du garage",
     "attrName": "angle",
     "type": "sliderRange",
-    "operator": "BETWEEN"
+    "operator": "BETWEEN",
+    "decimalPlaces": 2
 }
 ```
 

@@ -459,8 +459,14 @@ export default {
          * @returns {String} the percentage to use for css left style
          */
         getMeasureLeft () {
-            const range = this.currentSliderMax - this.currentSliderMin,
-                left = this.sliderFrom - this.currentSliderMin;
+            let pow = 1;
+
+            if (this.decimalPlaces !== 0) {
+                pow = Math.pow(10, this.decimalPlaces);
+            }
+
+            const range = (this.currentSliderMax - this.currentSliderMin) * pow,
+                left = (this.sliderFrom - this.currentSliderMin) * pow;
 
             return String((95 / Math.max(1, range) * left).toFixed(1)) + "%";
         },
@@ -470,8 +476,14 @@ export default {
          * @returns {String} the percentage to use for css width style
          */
         getMeasureWidth () {
-            const range = this.currentSliderMax - this.currentSliderMin,
-                measure = this.sliderUntil - this.sliderFrom;
+            let pow = 1;
+
+            if (this.decimalPlaces !== 0) {
+                pow = Math.pow(10, this.decimalPlaces);
+            }
+
+            const range = (this.currentSliderMax - this.currentSliderMin) * pow,
+                measure = (this.sliderUntil - this.sliderFrom) * pow;
 
             return String((95 / Math.max(1, range) * measure + 5).toFixed(1)) + "%";
         },

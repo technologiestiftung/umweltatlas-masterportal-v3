@@ -381,6 +381,7 @@ export default {
             v-model="inRangeValue"
             :aria-label="ariaLabelSlider"
             class="input-single form-control"
+            :step="getSliderSteps(decimalPlaces)"
             type="number"
             :min="minimumValue"
             :max="maximumValue"
