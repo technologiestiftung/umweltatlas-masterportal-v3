@@ -24,7 +24,7 @@ export default {
             default: null
         },
         attrName: {
-            type: String,
+            type: [String, Array],
             required: false,
             default: ""
         },
@@ -82,6 +82,11 @@ export default {
             type: String,
             required: false,
             default: undefined
+        },
+        operatorForAttrName: {
+            type: String,
+            required: false,
+            default: "AND"
         },
         operator: {
             type: String,
@@ -294,6 +299,7 @@ export default {
                 startup,
                 fixed: !this.visible,
                 attrName: this.attrName,
+                operatorForAttrName: this.operatorForAttrName,
                 operator: this.securedOperator,
                 format: this.format,
                 value
