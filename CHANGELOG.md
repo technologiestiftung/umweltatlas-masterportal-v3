@@ -5,6 +5,7 @@
 
 ## Unreleased - in development
 ### Added
+- New Tool 3D-Modeler has been added to draw/import 3D models into the 3D map.
 - Routing
     - Possibility to use *ESRI CH LocationFinder* for geosearch option.
     - Possibility to use *Komoot* for geosearch/reverse geosearch option.
