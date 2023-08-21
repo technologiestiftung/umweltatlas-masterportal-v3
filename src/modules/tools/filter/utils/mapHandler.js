@@ -141,8 +141,8 @@ export default class MapHandler {
         if (Array.isArray(ids)) {
             return new Set(ids).size;
         }
-        else if (isObject(ids) && Object.prototype.hasOwnProperty.call(ids, "count")) {
-            return ids.count;
+        else if (isObject(ids)) {
+            return Object.keys(ids).length;
         }
         return 0;
     }
@@ -324,16 +324,12 @@ export default class MapHandler {
         }
 
         if (layerModel instanceof VectorTileLayer) {
-            uniqueProperties.properties = {};
-            uniqueProperties.count = 0;
-
             items.forEach(item => {
                 if (!isObject(item)) {
                     return;
                 }
-                uniqueProperties.properties[JSON.stringify(item.getProperties())] = true;
+                uniqueProperties[JSON.stringify(item.getProperties())] = true;
             });
-            uniqueProperties.count = items.length;
 
             this.filteredIds[filterId] = uniqueProperties;
         }
@@ -350,7 +346,7 @@ export default class MapHandler {
             layerModel.get("layerSource").addFeatures(items);
         }
         else {
-            this.handlers.showFeaturesByIds(layerModel.get("id"), isObject(this.filteredIds[filterId]) ? this.filteredIds[filterId].properties : this.filteredIds[filterId]);
+            this.handlers.showFeaturesByIds(layerModel.get("id"), this.filteredIds[filterId]);
         }
     }
 
