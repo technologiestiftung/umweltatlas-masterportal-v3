@@ -1051,6 +1051,7 @@ export default {
                         :disabled="disabled"
                         :info="snippet.info"
                         :title="getTitle(snippet, layerConfig.layerId)"
+                        :operator-for-attr-name="snippet.operatorForAttrName"
                         :operator="snippet.operator"
                         :prechecked="snippet.prechecked"
                         :snippet-id="snippet.snippetId"
