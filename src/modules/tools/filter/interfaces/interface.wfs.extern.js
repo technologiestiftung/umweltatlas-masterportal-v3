@@ -488,12 +488,13 @@ export default class InterfaceWfsExtern {
 
     /* private */
     /**
-     * Finds the node of the given node with the given tagname.
+     * Finds the node of the given node with the given tagname and/or attribute name.
      * @param {Object} responseXML the node
      * @param {String} tagname the tagname to find
+     * @param {String} [attrName] The attribute name to fetch the node for
      * @returns {Object} the node with the given tagname
      */
-    getNodeByTagname (responseXML, tagname) {
+    getNodeByTagname (responseXML, tagname, attrName) {
         let node = responseXML;
         const elements = node?.getElementsByTagNameNS("*", tagname);
 
@@ -501,7 +502,14 @@ export default class InterfaceWfsExtern {
             return node;
         }
 
-        node = elements[0];
+        if (typeof attrName !== "undefined") {
+            node = Array.from(elements).find(element => {
+                return typeof element?.getElementsByTagNameNS("*", attrName)[0] !== "undefined";
+            });
+        }
+        else {
+            node = elements[0];
+        }
 
         if (node !== null && !node.hasChildNodes()) {
             for (const childNode of responseXML.getElementsByTagName(node.tagName)) {
@@ -594,7 +602,7 @@ export default class InterfaceWfsExtern {
      * @returns {void}
      */
     parseResponseMinMax (typename, attrName, responseXML, dateParam, onsuccess, onerror) {
-        let node = this.getNodeByTagname(responseXML, typename);
+        let node = this.getNodeByTagname(responseXML, typename, attrName);
 
         if (!node) {
             if (typeof onerror === "function") {
@@ -604,6 +612,7 @@ export default class InterfaceWfsExtern {
         }
 
         node = node.getElementsByTagNameNS(node.namespaceURI, attrName)[0];
+
         if (dateParam) {
             onsuccess(this.parseMinMaxDate(responseXML, attrName, dateParam));
         }
