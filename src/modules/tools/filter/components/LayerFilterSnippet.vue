@@ -1185,6 +1185,7 @@ export default {
                         :sub-titles="snippet.subTitles"
                         :value="snippet.value"
                         :operator="snippet.operator"
+                        :operator-for-attr-name="snippet.operatorForAttrName"
                         :prechecked="snippet.prechecked"
                         :fixed-rules="fixedRules"
                         :snippet-id="snippet.snippetId"

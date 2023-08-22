@@ -82,6 +82,11 @@ export default {
             required: false,
             default: undefined
         },
+        operatorForAttrName: {
+            type: String,
+            required: false,
+            default: "AND"
+        },
         prechecked: {
             type: Array,
             required: false,
@@ -123,7 +128,8 @@ export default {
             sliderFrom: -1,
             sliderUntil: -1,
             currentSliderMin: -1,
-            currentSliderMax: -1
+            currentSliderMax: -1,
+            visibleDatepicker: false
         };
     },
     computed: {
@@ -229,8 +235,43 @@ export default {
         if (this.isPrecheckedValid(this.prechecked)) {
             this.emitCurrentRule(this.prechecked, true, true);
         }
+        if (this.operatorForAttrName !== "OR") {
+            this.visibleDatepicker = true;
+        }
+        if (Array.isArray(this.attrName) && typeof this.operatorForAttrName === "string" && this.operatorForAttrName === "OR") {
+            const promises = [];
 
-        if (Array.isArray(this.attrName) && this.attrName.length === 2) {
+            this.attrName.forEach(v => {
+                const promise = new Promise((resolve, reject) => {
+                    this.getValueListFromApi(v, list => {
+                        resolve(list);
+                    }, error => reject(error));
+                });
+
+                promises.push(promise);
+            });
+            Promise.allSettled(promises)
+                .then((results) => {
+                    const arrErr = [],
+                        concatList = [];
+
+                    results.forEach((result) => {
+                        if (result.status === "fulfilled") {
+                            concatList.push(...result.value);
+                        }
+                        else {
+                            arrErr.push(result.reason);
+                        }
+                    });
+                    this.initSlider(concatList);
+                    this.$nextTick(() => {
+                        this.isInitializing = false;
+                        this.emitSnippetPrechecked(this.prechecked, this.snippetId, this.visible);
+                        this.visibleDatepicker = true;
+                    });
+                });
+        }
+        else if (Array.isArray(this.attrName) && this.attrName.length === 2) {
             this.$nextTick(() => {
                 this.getValueListFromApi(this.attrName[0], listFrom => {
                     this.getValueListFromApi(this.attrName[1], listUntil => {
@@ -287,6 +328,7 @@ export default {
             this.initialDateRef = this.getInitialDateReference(listFrom, listUntil);
             this.currentSliderMin = 0;
             this.currentSliderMax = this.initialDateRef.length - 1;
+
             if (this.isPrecheckedValid(this.prechecked)) {
                 this.sliderFrom = this.getSliderIdxCloseToFromDate(dayjs(this.prechecked[0], this.getFormat("from")).format(this.internalFormat));
                 this.sliderUntil = this.getSliderIdxCloseToUntilDate(dayjs(this.prechecked[1], this.getFormat("until")).format(this.internalFormat));
@@ -340,7 +382,6 @@ export default {
             if (typeof this.dateFromComputed === "undefined" && typeof this.dateUntilComputed === "undefined") {
                 return this.prechecked[0] + " - " + this.prechecked[1];
             }
-
             return dayjs(this.dateFromComputed, this.internalFormat).format(this.getFormat("from")) + " - " + dayjs(this.dateUntilComputed, this.internalFormat).format(this.getFormat("until"));
         },
         /**
@@ -439,7 +480,7 @@ export default {
             this.addListToUnixAssoc(listFrom, formatFrom, minValid, maxValid, minMoment, maxMoment, unixAssoc);
             this.addListToUnixAssoc(listUntil, formatUntil, minValid, maxValid, minMoment, maxMoment, unixAssoc);
 
-            Object.values(unixAssoc).forEach(momentDate => {
+            Object.values(this.sortResultByTime(unixAssoc)).forEach(momentDate => {
                 const key = momentDate.format(this.internalFormat);
 
                 if (!Object.prototype.hasOwnProperty.call(displayAssoc, key)) {
@@ -449,6 +490,20 @@ export default {
             });
 
             return result;
+        },
+        /**
+         * Sort given List by Time
+         * @param {Object} obj A list of objects with unix-timestamps as keys.
+         * @returns {Object} A list sorted by time.
+         */
+        sortResultByTime (obj) {
+            const list = Object.keys(obj).sort((a, b) => a - b),
+                sortedResult = {};
+
+            list.forEach(function (v, i) {
+                sortedResult[i] = obj[v];
+            });
+            return sortedResult;
         },
         /**
          * Adds all entries of list into result, that are recognized and between given min and max moment.
@@ -474,7 +529,7 @@ export default {
                 return false;
             }
             list.forEach(rawDate => {
-                const momentDate = dayjs(rawDate, format, true);
+                const momentDate = dayjs(rawDate, format);
 
                 if (
                     !momentDate.isValid()
@@ -589,6 +644,7 @@ export default {
                 startup,
                 fixed: !this.visible,
                 attrName: this.attrName,
+                operatorForAttrName: this.operatorForAttrName,
                 operator: this.getOperator(),
                 format: this.format,
                 value,
@@ -675,39 +731,43 @@ export default {
             v-if="display === 'all' || display === 'datepicker'"
             class="datepickerWrapper"
         >
-            <div class="from">
-                <label
-                    v-if="subTitles"
-                    :for="'inputDateRangeFrom-' + snippetId"
-                >
-                    {{ translateKeyWithPlausibilityCheck(getSubTitleFrom(), key => $t(key)) }}
-                </label>
-                <input
-                    :id="'inputDateRangeFrom-' + snippetId"
-                    v-model="dateFromComputed"
-                    type="date"
-                    :min="dateMinComputed"
-                    :max="dateMaxComputed"
-                    :aria-label="$t('common:modules.tools.filter.ariaLabel.dateRange.from', {param: getAttrNameFrom()})"
-                    :disabled="disabled"
-                >
-            </div>
-            <div class="until">
-                <label
-                    v-if="subTitles"
-                    :for="'inputDateRangeUntil-' + snippetId"
-                >
-                    {{ translateKeyWithPlausibilityCheck(getSubTitleUntil(), key => $t(key)) }}
-                </label>
-                <input
-                    :id="'inputDateRangeUntil-' + snippetId"
-                    v-model="dateUntilComputed"
-                    type="date"
-                    :min="dateMinComputed"
-                    :max="dateMaxComputed"
-                    :aria-label="$t('common:modules.tools.filter.ariaLabel.dateRange.to', {param: getAttrNameUntil()})"
-                    :disabled="disabled"
-                >
+            <div
+                v-if="visibleDatepicker === true"
+            >
+                <div class="from">
+                    <label
+                        v-if="subTitles"
+                        :for="'inputDateRangeFrom-' + snippetId"
+                    >
+                        {{ translateKeyWithPlausibilityCheck(getSubTitleFrom(), key => $t(key)) }}
+                    </label>
+                    <input
+                        :id="'inputDateRangeFrom-' + snippetId"
+                        v-model="dateFromComputed"
+                        type="date"
+                        :min="dateMinComputed"
+                        :max="dateMaxComputed"
+                        :aria-label="$t('common:modules.tools.filter.ariaLabel.dateRange.from', {param: getAttrNameFrom()})"
+                        :disabled="disabled"
+                    >
+                </div>
+                <div class="until">
+                    <label
+                        v-if="subTitles"
+                        :for="'inputDateRangeUntil-' + snippetId"
+                    >
+                        {{ translateKeyWithPlausibilityCheck(getSubTitleUntil(), key => $t(key)) }}
+                    </label>
+                    <input
+                        :id="'inputDateRangeUntil-' + snippetId"
+                        v-model="dateUntilComputed"
+                        type="date"
+                        :min="dateMinComputed"
+                        :max="dateMaxComputed"
+                        :aria-label="$t('common:modules.tools.filter.ariaLabel.dateRange.to', {param: getAttrNameUntil()})"
+                        :disabled="disabled"
+                    >
+                </div>
             </div>
         </div>
         <div
