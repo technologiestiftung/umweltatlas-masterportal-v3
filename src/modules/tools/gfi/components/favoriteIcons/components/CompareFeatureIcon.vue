@@ -82,6 +82,7 @@ export default {
         v-if="componentExists('compareFeatures') && mode === '2D'"
         :class="'bootstrap-icon'"
         :title="titleCompareList"
+        role="button"
         tabindex="0"
         @click="toogleFeatureToCompareList"
         @keydown.enter="toogleFeatureToCompareList"

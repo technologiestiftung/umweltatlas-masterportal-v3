@@ -129,6 +129,7 @@ export default {
             <!-- eslint-disable-next-line vuejs-accessibility/mouse-events-have-key-events -->
             <div
                 class="drop-area"
+                role="presentation"
                 @drop.prevent="onDrop"
                 @dragover.prevent
                 @dragenter.prevent="onDZDragenter"
@@ -148,6 +149,7 @@ export default {
             <label
                 ref="upload-label"
                 class="upload-button-wrapper"
+                role="button"
                 tabindex="0"
                 @keydown="triggerClickOnFileInput"
             >

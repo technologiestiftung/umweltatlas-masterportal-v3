@@ -172,6 +172,8 @@ export default {
                 <span
                     v-if="search.length > 0 && search !== waypointDisplayName"
                     class="bootstrap-icon pointer form-control-feedback"
+                    role="button"
+                    tabindex="0"
                     @click="resetInput()"
                     @keydown.enter="resetInput()"
                 >
@@ -185,6 +187,8 @@ export default {
                             v-show="waypoint.index !== 0"
                             class="bootstrap-icon pointer"
                             :title="$t('common:modules.tools.routing.moveWaypointUp')"
+                            role="button"
+                            tabindex="0"
                             @click="$emit('moveWaypointUp')"
                             @keydown.enter="$emit('moveWaypointUp')"
                         >
@@ -196,6 +200,8 @@ export default {
                             v-show="waypoint.index !== countWaypoints - 1"
                             class="bootstrap-icon pointer"
                             :title="$t('common:modules.tools.routing.moveWaypointDown')"
+                            role="button"
+                            tabindex="0"
                             @click="$emit('moveWaypointDown')"
                             @keydown.enter="$emit('moveWaypointDown')"
                         >
@@ -206,6 +212,8 @@ export default {
                 <span
                     class="m-2 bootstrap-icon pointer"
                     :title="$t('common:modules.tools.routing.deleteWaypoint')"
+                    role="button"
+                    tabindex="0"
                     @click="$emit('removeWaypoint')"
                     @keydown.enter="$emit('removeWaypoint')"
                 >
@@ -221,6 +229,8 @@ export default {
             <li
                 v-for="(searchResult, index) of searchResults"
                 :key="index"
+                role="button"
+                tabindex="0"
                 class="list-group-item"
                 @mousedown="selectSearchResult(searchResult)"
             >

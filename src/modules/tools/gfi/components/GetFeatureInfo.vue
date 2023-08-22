@@ -259,6 +259,7 @@ export default {
                 <div class="gfi-footer">
                     <div
                         :class="[pagerIndex < 1 ? 'disabled' : '', 'pager-left', 'pager']"
+                        role="button"
                         tabindex="0"
                         @click="decreasePagerIndex"
                         @keydown.enter="decreasePagerIndex"
@@ -268,8 +269,9 @@ export default {
                         </span>
                     </div>
                     <div
-                        tabindex="0"
                         :class="[pagerIndex === gfiFeatures.length - 1 ? 'disabled' : '', 'pager-right', 'pager']"
+                        role="button"
+                        tabindex="0"
                         @click="increasePagerIndex"
                         @keydown.enter="increasePagerIndex"
                     >

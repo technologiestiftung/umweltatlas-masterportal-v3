@@ -82,8 +82,9 @@ export default {
             <div class="heading-element">
                 <span
                     ref="close-icon"
-                    tabindex="0"
                     class="bootstrap-icon"
+                    role="button"
+                    tabindex="0"
                     @click="close($event)"
                     @keydown="close($event)"
                 >

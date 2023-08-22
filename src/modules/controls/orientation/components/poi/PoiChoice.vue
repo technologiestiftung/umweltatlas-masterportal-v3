@@ -155,16 +155,10 @@ export default {
                 </div>
             </div>
         </div>
-        <!-- eslint-disable-next-line vuejs-accessibility/click-events-have-key-events -->
-        <div
+        <button
             class="modal-backdrop fade in"
             @click="hidePoiChoice"
         />
-        <!--
-            The previous element does not require a key interaction. It is not focusable,
-            has no semantic meaning, and other methods exist for keyboard users to leave
-            the backdropped modal dialog.
-        -->
     </div>
 </template>
 
@@ -172,6 +166,13 @@ export default {
     @import "~/css/mixins.scss";
     @import "~variables";
 
+    .modal-backdrop{
+        pointer-events: all;
+        cursor: default;
+    }
+    .modal-backdrop:focus {
+       background-color: lighten($dark_grey, 5%);
+    }
     .poi-choice {
         color: $dark_grey;
         font-size: $font_size_big;

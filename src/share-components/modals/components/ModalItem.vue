@@ -90,7 +90,9 @@ export default {
     >
         <div id="modal-1-overlay" />
         <div
-            id="modal-1-outer-wrapper"
+            id="modal-1-outer-wrapper test"
+            role="button"
+            tabindex="0"
             @mousedown="discardByClickOutside"
             @dragenter.prevent="discardByClickOutside"
         >
@@ -102,6 +104,7 @@ export default {
                     ref="discard"
                     class="bootstrap-icon"
                     title="Discard"
+                    role="button"
                     tabindex="0"
                     @click="discardByClickX"
                     @keydown.enter="discardByClickX"
@@ -133,6 +136,9 @@ export default {
     @import "~/css/mixins.scss";
     @import "~variables";
 
+    .test{
+        background-color: yellow;
+    }
     #modal-1-container{
         display:none;
 

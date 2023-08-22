@@ -84,6 +84,7 @@ export default {
 <template>
     <div
         class="modal"
+        role="button"
         tabindex="0"
         @click="closeByClickOutside"
         @keydown.enter="closeByClickOutside"
@@ -95,6 +96,8 @@ export default {
                         type="button"
                         class="close bootstrap-icon"
                         aria-label="Close"
+                        role="button"
+                        tabindex="0"
                         @click="close"
                         @keydown.enter="close"
                     >

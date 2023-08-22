@@ -146,8 +146,9 @@ export default {
         <template #rightOfTitle>
             <div class="heading-element">
                 <span
-                    tabindex="0"
                     class="bootstrap-icon"
+                    role="button"
+                    tabindex="0"
                     @click="print"
                     @keydown.enter="print"
                 >
