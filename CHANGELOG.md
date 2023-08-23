@@ -34,6 +34,7 @@
 - Default Tree
     - on category change all layers are shown in the layer tree
     - Config.tree.orderBy sets category
+- Issue #776: show only 2D layers in 2D mode and 3D layers in 3D mode
 ---
 
 ## v2.36.1 - 2023-08-04
