@@ -35,6 +35,7 @@
  * @property {Array} layoutMapInfo width and height of the map
  * @property {Array} optimalScale the optimal scale for the print
  * @property {Event} eventListener the event listener for postrender
+ * @property {function} eventListener3D the event listener remover for Cesium postrender
  * @property {Integer} dpiList optional list of available dpi values as propagated by mapfish
  * @property {Integer} dpiForPdf dpi value to be used when generating the printout
  * @property {Array} layoutNameList the layouts
@@ -98,6 +99,7 @@ const state = {
     INCHES_PER_METER: 39.37,
     icon: "bi-printer-fill",
     eventListener: undefined,
+    eventListener3D: undefined,
     dpiList: [],
     dpiForPdf: 200,
     layoutNameList: [],

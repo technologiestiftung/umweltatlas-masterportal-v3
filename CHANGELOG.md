@@ -13,6 +13,7 @@
     - Possibility to use *Elastic Search* for geosearch option.
     - Possibility to define a bbox value for the BKG geosearch service for the different speed profiles.
 - WebGL render pipeline supports now also VectorTile layers.
+- Printing is now for 3d supported.
 
 ### Changed
 - The following packages have been updated:
@@ -22,6 +23,7 @@
     - The parameter filterOnMove now only works in combination with "'multiLayerSelector': false" to create a better user experience.
     - The filter configuration in the portal master is adapted to the new syntax.
     - New Parameter `operatorForAttrName` for Snippets to allow the snippet to filter over multiple attrNames with an OR logic.
+    - Parameter `input` and `slider` now also work for the snippet type `slider`.
 
 ### Deprecated
 
