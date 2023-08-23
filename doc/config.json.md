@@ -2258,8 +2258,8 @@ This is especially true for filters that work with `strategy`: `active`.
 
 |Name|Required|Typ|Default|Description|Expert|
 |----|-------------|---|-------|------------|------|
-|input|no|Number|1400|For snippet typ `sliderRange` only: The time in milliseconds that should elapse before filtering is triggered after entering numbers and characters into the input field.|false|
-|slider|no|Number|800|For snippet typ `sliderRange` and `dateRange` only: The time in milliseconds that should elapse before filtering is triggered after the last change of the slider.|false|
+|input|no|Number|1400|For snippet typ `sliderRange` and `slider` only: The time in milliseconds that should elapse before filtering is triggered after entering numbers and characters into the input field.|false|
+|slider|no|Number|800|For snippet typ `sliderRange`, `slider` and `dateRange` only: The time in milliseconds that should elapse before filtering is triggered after the last change of the slider.|false|
 
 **Example**
 

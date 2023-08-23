@@ -20,7 +20,8 @@ const {
     drawPrintPage,
     getPrintMapSize,
     getPrintMapScales,
-    setDpiList
+    setDpiList,
+    compute3DPrintMask
 } = actions;
 
 describe("src/modules/tools/print/store/actions/actionsPrintInitialization.js", () => {
@@ -621,6 +622,23 @@ describe("src/modules/tools/print/store/actions/actionsPrintInitialization.js", 
             // action, payload, state, rootState, expectedMutationsAndActions, getters = {}, done, rootGetters
             testAction(setDpiList, undefined, state, {}, [
                 {type: "setDpiList", payload: dpis, commit: true}
+            ], {}, done);
+        });
+    });
+    describe("compute3DPrintMask", () => {
+        it("should dispatch getPrintMapSize and getPrintMapScales", done => {
+            const state = {
+                mapAttribute: {
+                    clientInfo: {
+                        width: 772,
+                        height: 1044
+                    }
+                }
+            };
+
+            testAction(compute3DPrintMask, undefined, state, {}, [
+                {type: "getPrintMapSize", payload: undefined, dispatch: true},
+                {type: "getPrintMapScales", payload: undefined, dispatch: true}
             ], {}, done);
         });
     });

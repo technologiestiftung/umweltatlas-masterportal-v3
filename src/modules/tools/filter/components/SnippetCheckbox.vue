@@ -10,7 +10,7 @@ export default {
     },
     props: {
         attrName: {
-            type: String,
+            type: [String, Array],
             required: false,
             default: ""
         },
@@ -33,6 +33,11 @@ export default {
             type: [String, Boolean],
             required: false,
             default: true
+        },
+        operatorForAttrName: {
+            type: String,
+            required: false,
+            default: "AND"
         },
         operator: {
             type: String,
@@ -131,6 +136,7 @@ export default {
                     startup,
                     fixed: !this.visible,
                     attrName: this.attrName,
+                    operatorForAttrName: this.operatorForAttrName,
                     operator: this.securedOperator,
                     value,
                     tagTitle: this.titleText

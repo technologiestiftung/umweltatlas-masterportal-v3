@@ -186,11 +186,10 @@ function getSnippetAdjustments (snippets, items, page, total) {
         }
         else if (snippet.type === "date" || snippet.type === "dateRange") {
             const format = typeof snippet.format === "string" ? snippet.format : "YYYY-MM-DD",
-                sortedValue = typeof snippet.attrName === "string" ? valueByAttrName[snippet.attrName].sort((a, b) => {
+                values = Array.isArray(snippet.attrName) ? getMergedValuesByAttrNames(snippet.attrName, valueByAttrName) : valueByAttrName[snippet.attrName],
+                sortedValue = Array.isArray(values) ? values.sort((a, b) => {
                     return snippetDateCompareFunction(a, b, format);
-                }) : valueByAttrName[snippet.attrName[0]].concat(valueByAttrName[snippet.attrName[1]]).sort((a, b) => {
-                    return snippetDateCompareFunction(a, b, format);
-                });
+                }) : [];
 
             result[snippet.snippetId] = {
                 min: sortedValue[0],
