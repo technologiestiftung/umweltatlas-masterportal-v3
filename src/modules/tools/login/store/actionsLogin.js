@@ -40,15 +40,15 @@ export default {
      * @param {Object} context the context Vue instance
      * @return {void}
      */
-    logout (context) {
+    logout ({commit}) {
         OIDC.eraseCookies();
 
-        context.commit("setLoggedIn", false);
-        context.commit("setAccessToken", undefined);
-        context.commit("setRefreshToken", undefined);
-        context.commit("setScreenName", undefined);
-        context.commit("setUsername", undefined);
-        context.commit("setEmail", undefined);
+        commit("setLoggedIn", false);
+        commit("setAccessToken", undefined);
+        commit("setRefreshToken", undefined);
+        commit("setScreenName", undefined);
+        commit("setUsername", undefined);
+        commit("setEmail", undefined);
     },
 
     /**

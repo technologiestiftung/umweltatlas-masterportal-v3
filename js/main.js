@@ -93,8 +93,6 @@ if (!("Config" in window)) {
         script.src = configPath;
     });
 
-
-    // Abwarten bis Config.js geladen ist, dann ggfs. login Parameter verarbeiten oder layer list laden
     loadConfigJs.then(() => {
         if (utilsLogin.handleLoginParameters()) {
             window.close();

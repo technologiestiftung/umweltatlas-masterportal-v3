@@ -8,7 +8,7 @@ import AxiosUtils from "./utilsAxios";
  * - set the oidc token into cookies, i.e. login the user
  * - add interceptors to axios, XHR, and fetch
  *
- * @return {boolean|string} login message if parameters exist, else false
+ * @return {Boolean|String} login message if parameters exist, else false
  */
 export function handleLoginParameters () {
 
