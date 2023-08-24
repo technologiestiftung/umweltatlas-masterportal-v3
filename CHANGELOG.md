@@ -14,6 +14,9 @@
     - Possibility to define a bbox value for the BKG geosearch service for the different speed profiles.
 - WebGL render pipeline supports now also VectorTile layers.
 - Printing is now for 3d supported.
+- Gitignore
+    - added pipeline file for bitbucket
+    - added pipeline file for gitlab
 
 ### Changed
 - The following packages have been updated:
