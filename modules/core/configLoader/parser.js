@@ -75,6 +75,11 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
     initialize: function () {
         const channel = Radio.channel("Parser");
 
+        // set category based on Config.tree.orderBy
+        if (Config.tree?.orderBy && this.get("categories").includes(Config.tree.orderBy)) {
+            this.setCategory(Config.tree.orderBy);
+        }
+
         channel.reply({
             "getItemByAttributes": this.getItemByAttributes,
             "getItemsByAttributes": this.getItemsByAttributes,
@@ -136,7 +141,6 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
                 this.addOrRemoveFolder("TimeLayer", "common:tree.subjectDataTime", this.get("overlayer_time"));
             }
         });
-
         this.parseMenu("root", this.get("portalConfig").menu);
         this.parseControls(this.get("portalConfig").controls);
         this.parseSearchBar(this.get("portalConfig").searchBar);

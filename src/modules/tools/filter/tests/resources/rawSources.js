@@ -21,9 +21,19 @@ export default [
             </gml:Envelope>
         </gml:boundedBy>
         <gml:featureMember>
+        <gml:featureMember>
+        <tlvwa:WKB xmlns:tlvwa="http://www.geoproxy.geoportal-th.de/tlvwa" gml:id="ID_WKA.2">
+            <tlvwa:Status>Bestand</tlvwa:Status>
+        </tlvwa:WKB>
+        </gml:featureMember>
         <tlvwa:WKA xmlns:tlvwa="http://www.geoproxy.geoportal-th.de/tlvwa" gml:id="ID_WKA.2">
             <tlvwa:Status>Bestand</tlvwa:Status>
         </tlvwa:WKA>
+        </gml:featureMember>
+        <gml:featureMember>
+        <tlvwa:WKB xmlns:tlvwa="http://www.geoproxy.geoportal-th.de/tlvwa" gml:id="ID_WKA.2">
+            <tlvwa:Status>Bestand</tlvwa:Status>
+        </tlvwa:WKB>
         </gml:featureMember>
     </wfs:FeatureCollection>`
 ];

@@ -165,6 +165,7 @@ describe("src/modules/tools/filter/components/SnippetDropdown.vue", () => {
                     snippetId: 1234,
                     visible: false,
                     attrName: "attrName",
+                    operatorForAttrName: "AND",
                     operator: "EQ",
                     delimiter: "|"
                 },
@@ -179,6 +180,7 @@ describe("src/modules/tools/filter/components/SnippetDropdown.vue", () => {
                 startup: "startup",
                 fixed: true,
                 attrName: "attrName",
+                operatorForAttrName: "AND",
                 operator: "EQ",
                 delimiter: "|",
                 value: "value"
@@ -191,6 +193,7 @@ describe("src/modules/tools/filter/components/SnippetDropdown.vue", () => {
                     snippetId: 1234,
                     visible: false,
                     attrName: "attrName",
+                    operatorForAttrName: "AND",
                     operator: "EQ",
                     delimiter: "|"
                 },
@@ -211,6 +214,7 @@ describe("src/modules/tools/filter/components/SnippetDropdown.vue", () => {
                 startup: "startup",
                 fixed: true,
                 attrName: "attrName",
+                operatorForAttrName: "AND",
                 operator: "EQ",
                 delimiter: "|",
                 value: ["value"]

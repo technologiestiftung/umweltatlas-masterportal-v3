@@ -51,7 +51,9 @@ async function fetchRoutingOrsDirections ({
     instructions
 }) {
     const serviceUrl = store.getters.getRestServiceById(state.directionsSettings.serviceId).url,
-        url = `${serviceUrl}/v2/directions/${routingOrsSpeedProfile(speedProfile)}/geojson`;
+        url = `${serviceUrl}/v2/directions/${routingOrsSpeedProfile(speedProfile)}/geojson`,
+        submitCoordinates = coordinates;
+
     let result = null,
         feature = null,
         first = null,
@@ -62,7 +64,7 @@ async function fetchRoutingOrsDirections ({
 
     try {
         response = await axios.post(url, {
-            coordinates: coordinates,
+            coordinates: submitCoordinates,
             language: language,
             options: {
                 ...avoidSpeedProfileOptions.length > 0 && {avoid_features: avoidSpeedProfileOptions.map(o => routingOrsAvoidOption(o.id, speedProfile))},

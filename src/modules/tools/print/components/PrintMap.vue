@@ -32,7 +32,7 @@ export default {
     },
     computed: {
         ...mapGetters("Tools/Print", Object.keys(getters)),
-        ...mapGetters("Maps", ["scales, size", "scale", "getLayerById"]),
+        ...mapGetters("Maps", ["scales, size", "scale", "getLayerById", "is3D"]),
         ...mapGetters("Tools/Gfi", ["currentFeature"]),
 
         currentScale: {
@@ -137,9 +137,8 @@ export default {
         }
     },
     watch: {
-        active: function () {
-            if (this.active) {
-
+        active: function (value) {
+            if (value) {
                 this.setIsScaleSelectedManually(false);
                 this.retrieveCapabilites();
                 this.setCurrentMapScale(this.scale);
@@ -154,9 +153,14 @@ export default {
         scale: function (value) {
             this.setCurrentMapScale(value);
         },
-        currentFeature: function () {
-            if (this.currentFeature === null) {
+        currentFeature: function (value) {
+            if (value === null) {
                 this.setIsGfiSelected(false);
+            }
+        },
+        is3D: function (value) {
+            if (value) {
+                this.togglePostrenderListener();
             }
         }
     },
@@ -208,6 +212,7 @@ export default {
             "togglePostrenderListener",
             "createMapFishServiceUrl",
             "startPrint",
+            "startPrint3d",
             "getOptimalResolution",
             "updateCanvasLayer",
             "getAttributeInLayoutByName"
@@ -312,7 +317,8 @@ export default {
             }
 
             if (currentPrintLength <= 10) {
-                const index = this.fileDownloads.length;
+                const index = this.fileDownloads.length,
+                    layoutAttributes = this.getLayoutAttributes(this.currentLayout, ["subtitle", "textField", "author", "overviewMap", "source"]);
 
                 this.addFileDownload({
                     index: index,
@@ -324,13 +330,24 @@ export default {
                 });
 
                 this.setPrintStarted(true);
-                this.startPrint({
-                    index,
-                    getResponse: async (url, payload) => {
-                        return axios.post(url, payload);
-                    },
-                    layoutAttributes: this.getLayoutAttributes(this.currentLayout, ["subtitle", "textField", "author", "overviewMap", "source"])
-                });
+                if (this.is3D) {
+                    this.startPrint3d({
+                        index,
+                        getResponse: async (url, payload) => {
+                            return axios.post(url, payload);
+                        },
+                        layoutAttributes
+                    });
+                }
+                else {
+                    this.startPrint({
+                        index,
+                        getResponse: async (url, payload) => {
+                            return axios.post(url, payload);
+                        },
+                        layoutAttributes
+                    });
+                }
             }
             else {
                 this.addSingleAlert(this.$t("common:modules.tools.print.alertMessage"));
@@ -598,7 +615,7 @@ export default {
                     </div>
                 </div>
                 <div
-                    v-if="dpiList.length > 0"
+                    v-if="dpiList.length > 0 && !is3D"
                     class="form-group form-group-sm row"
                 >
                     <label
@@ -624,7 +641,10 @@ export default {
                         </select>
                     </div>
                 </div>
-                <div class="form-group form-group-sm row scale">
+                <div
+                    v-if="!is3D"
+                    class="form-group form-group-sm row scale"
+                >
                     <label
                         class="col-md-5 col-form-label"
                         for="printScale"
@@ -693,6 +713,7 @@ export default {
                     </small>
                 </div>
                 <div
+                    v-if="!is3D"
                     class="form-group form-group-sm row"
                 >
                     <label

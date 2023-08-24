@@ -149,114 +149,325 @@
         "deactivateGFI": false,
         "isGeneric": false,
         "isInitOpen": false,
-        "allowMultipleQueriesPerLayer": false,
-        "predefinedQueries": [
+        "layers": [
           {
+            "active": false,
+            "title": "Grundschulen",
             "layerId": "8712",
-            "isActive": false,
-            "isSelected": false,
-            "name": "Grundschulen",
-            "predefinedRules": [
+            "deactivateGFI": false,
+            "strategy": "active",
+            "snippets": [
               {
                 "attrName": "kapitelbezeichnung",
-                "values": [
+                "prechecked": [
                   "Grundschulen",
                   "Langformschulen"
-                ]
+                ],
+                "visible": false,
+                "type": "dropdown",
+                "matchingMode": "OR",
+                "operator": "EQ",
+                "multiselect": true
+              },
+              {
+                "attrName": "bezirk",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Bezirk"
+              },
+              {
+                "attrName": "stadtteil",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Stadtteil"
+              },
+              {
+                "attrName": "schulform",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Schulform"
+              },
+              {
+                "attrName": "ganztagsform",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Ganztagsform"
+              },
+              {
+                "attrName": "anzahl_schueler",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Anzahl Schüler"
+              },
+              {
+                "attrName": "schwerpunktschule",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Schwerpunktschule"
+              },
+              {
+                "attrName": "bilingual",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Bilingual"
               }
             ],
-            "attributeWhiteList": {
-              "bezirk": "Bezirk",
-              "stadtteil": "Stadtteil",
-              "schulform": "Schulform",
-              "ganztagsform": "Ganztagsform",
-              "anzahl_schueler": "Anzahl Schüler",
-              "schwerpunktschule": "Schwerpunktschule",
-              "bilingual": "Bilingual"
-            }
+            "showHits": true,
+            "snippetTags": true
           },
           {
+            "active": false,
+            "title": "Stadtteilschulen",
             "layerId": "8712",
-            "isActive": false,
-            "isSelected": false,
-            "name": "Stadtteilschulen",
-            "predefinedRules": [
+            "deactivateGFI": false,
+            "strategy": "active",
+            "snippets": [
               {
                 "attrName": "kapitelbezeichnung",
-                "values": [
+                "prechecked": [
                   "Stadtteilschulen",
                   "Langformschulen"
-                ]
+                ],
+                "visible": false,
+                "type": "dropdown",
+                "matchingMode": "OR",
+                "operator": "EQ",
+                "multiselect": true
+              },
+              {
+                "attrName": "bezirk",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Bezirk"
+              },
+              {
+                "attrName": "stadtteil",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Stadtteil"
+              },
+              {
+                "attrName": "schulform",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Schulform"
+              },
+              {
+                "attrName": "ganztagsform",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Ganztagsform"
+              },
+              {
+                "attrName": "anzahl_schueler",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Schülerzahl"
+              },
+              {
+                "attrName": "schwerpunktschule",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Schwerpunktschule Inklusion"
+              },
+              {
+                "attrName": "fremdsprache",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Fremdsprachen"
+              },
+              {
+                "attrName": "fremdsprache_mit_klasse",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Fremdsprachen ab Klassenstufe"
+              },
+              {
+                "attrName": "schulische_ausrichtung",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Schwerpunkte in den Angeboten"
               }
             ],
-            "attributeWhiteList": {
-              "bezirk": "Bezirk",
-              "stadtteil": "Stadtteil",
-              "schulform": "Schulform",
-              "ganztagsform": "Ganztagsform",
-              "anzahl_schueler": "Schülerzahl",
-              "schwerpunktschule": "Schwerpunktschule Inklusion",
-              "fremdsprache": "Fremdsprachen",
-              "fremdsprache_mit_klasse": "Fremdsprachen ab Klassenstufe",
-              "schulische_ausrichtung": "Schwerpunkte in den Angeboten"
-            }
+            "showHits": true,
+            "snippetTags": true
           },
           {
+            "active": false,
+            "title": "Gymnasien",
             "layerId": "8712",
-            "isActive": false,
-            "isSelected": false,
-            "name": "Gymnasien",
             "info": "Sie finden berufliche Gymnasien ab der Klassenstufe 11 bei den Beruflichen Schulen.",
-            "predefinedRules": [
+            "deactivateGFI": false,
+            "strategy": "active",
+            "snippets": [
               {
                 "attrName": "kapitelbezeichnung",
-                "values": [
+                "prechecked": [
                   "Gymnasien"
-                ]
+                ],
+                "visible": false,
+                "type": "dropdown",
+                "matchingMode": "OR",
+                "operator": "EQ",
+                "multiselect": true
+              },
+              {
+                "attrName": "bezirk",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Bezirk"
+              },
+              {
+                "attrName": "stadtteil",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Stadtteil"
+              },
+              {
+                "attrName": "schulform",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Schulform"
+              },
+              {
+                "attrName": "ganztagsform",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Ganztagsform"
+              },
+              {
+                "attrName": "anzahl_schueler",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Schülerzahl"
+              },
+              {
+                "attrName": "fremdsprache",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Fremdsprachen"
+              },
+              {
+                "attrName": "fremdsprache_mit_klasse",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Fremdsprachen ab Klassenstufe"
+              },
+              {
+                "attrName": "schulische_ausrichtung",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Schwerpunkte in den Angeboten"
               }
             ],
-            "attributeWhiteList": {
-              "bezirk": "Bezirk",
-              "stadtteil": "Stadtteil",
-              "schulform": "Schulform",
-              "ganztagsform": "Ganztagsform",
-              "anzahl_schueler": "Schülerzahl",
-              "fremdsprache": "Fremdsprachen",
-              "fremdsprache_mit_klasse": "Fremdsprachen ab Klassenstufe",
-              "schulische_ausrichtung": "Schwerpunkte in den Angeboten"
-            }
+            "showHits": true,
+            "snippetTags": true
           },
           {
+            "active": false,
+            "title": "Sonderschulen",
             "layerId": "8712",
-            "isActive": false,
-            "isSelected": false,
-            "name": "Sonderschulen",
-            "predefinedRules": [
+            "deactivateGFI": false,
+            "strategy": "active",
+            "snippets": [
               {
                 "attrName": "kapitelbezeichnung",
-                "values": [
+                "prechecked": [
                   "Sonderschulen"
-                ]
+                ],
+                "visible": false,
+                "type": "dropdown",
+                "matchingMode": "OR",
+                "operator": "EQ",
+                "multiselect": true
+              },
+              {
+                "attrName": "bezirk",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Bezirk"
+              },
+              {
+                "attrName": "stadtteil",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Stadtteil"
+              },
+              {
+                "attrName": "ganztagsform",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Ganztagsform"
+              },
+              {
+                "attrName": "foerderart",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Förderart"
+              },
+              {
+                "attrName": "abschluss",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Abschluss"
               }
             ],
-            "attributeWhiteList": {
-              "bezirk": "Bezirk",
-              "stadtteil": "Stadtteil",
-              "ganztagsform": "Ganztagsform",
-              "foerderart": "Förderart",
-              "abschluss": "Abschluss"
-            }
+            "showHits": true,
+            "snippetTags": true
           },
           {
+            "active": true,
+            "title": "Krankenhäuser",
             "layerId": "1711",
-            "isActive": true,
-            "isSelected": true,
-            "name": "Krankenhäuser",
-            "predefinedRules": [],
-            "attributeWhiteList": {
-              "teilnahme_geburtsklinik": "Geburtshilfe",
-              "teilnahme_notversorgung": "Not- und Unfallversorgung"
-            }
+            "deactivateGFI": false,
+            "strategy": "active",
+            "snippets": [
+              {
+                "attrName": "teilnahme_geburtsklinik",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Geburtshilfe"
+              },
+              {
+                "attrName": "teilnahme_notversorgung",
+                "operator": "IN",
+                "type": "dropdown",
+                "delimiter": "|",
+                "title": "Not- und Unfallversorgung"
+              }
+            ],
+            "showHits": true,
+            "snippetTags": true
           }
         ]
       },

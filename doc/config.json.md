@@ -1969,6 +1969,7 @@ Note: Time-related snippets (`date` and `dateRange`) can only be operated in `ex
 |info|no|String||An info text or translation key. If set, a little icon will shown right hand side of the snippet. Can be set to `true` to display a default text for the snippet type.|false|
 |type|no|String||The type of this snippet. Can be one of the following: `checkbox`, `dropdown`, `text`, `slider`, `sliderRange`, `date`, `dateRange`. Will be indentified automatically if left away, following a data type rule: boolean becomes `checkbox`, string becomes `dropdown`, number becomes `sliderRange`, unknown becomes `text`.|false|
 |subTitles|no|String[]|[]|Only for snippet type `dateRange`: The additional from and to labels to be displayed above the calendar fields. As an array with two elements (e.g. ["from", "to"]). Set subTitles to true to use the values of attrName, to false to not display labels.|false|
+|operatorForAttrName|no|String|"AND"|By setting this parameter to `OR` in conjunction with attrName as an array, it is possible to filter over various attrNames with a logical OR.|false|
 |operator|no|String||The operator to connect the set value to the value in the database. Can be one of the following - depending if it makes sense for the type and is available for the used interface: `INTERSECTS`, `BETWEEN`, `EQ`, `IN`, `STARTSWITH`, `ENDSWITH`, `NE`, `GT`, `GE`, `LT`, `LE`. If left away, defaults are: boolean becomes `EQ`, string becomes `EQ`, number becomes `BETWEEN`, unknown becomes `EQ`.|false|
 |visible|no|Boolean|true|The snippet is visible. Set to `false` to hide the snippet: This gives you the power to use `prechecked` as an `always rule` to force filtering of a fixed attrName and value.|false|
 |prechecked|no|String[]/String||Initially checked value. For `dropdown`, `sliderRange` and `dateRange` an array of values, for checkbox a boolean, for slider a number, for text a string and for date a string (following the set `format`). If `visible` is set to `false`, value set by prechecked are forced for filtering. For `dropdown` with `multiselect`: If `prechecked` is set to `all`, all available values will be selected initially.|false|
@@ -1977,6 +1978,7 @@ Note: Time-related snippets (`date` and `dateRange`) can only be operated in `ex
 |timeouts|no|[timeouts](#markdown-header-portalconfigmenutoolfilterfilterlayersnippetstimeouts)||Timeouts to configure for better user experience.|false|
 |minValue|no|Number||For type `date` and `slider` only: The minimum value as number or date string. Leave empty for automatic identification of boundaries.|false|
 |maxValue|no|Number||For type `date` and `slider` only: The maximum value as number or date string. Leave empty for automatic identification of boundaries.|false|
+|decimalPlaces|nein|Number|0|Defines decimal places for the step for `slider` and `sliderRange`|false|
 |display|no|String|"default"|If snippet type `dropdown`: If set to `list`, a list is displayed instead of a dropdown box. If snippet type `dateRange`: If set to `datepicker`, only the selection via calendar will be displayed, if set to `slider`, only the slider will be displayed, if set to `all`, datepicker and slider will be displayed.|false|
 |autoInit|no|Boolean|true|For type `dropdown` only: If set to `false`: Turns off the automatic identification of value (in case of `dropdown`) or minValue/maxValue (in case of `slider(Range)` and `date(Range)`.|false|
 |placeholder|no|String|""|For type `dropdown` only: The placeholder to use. Can be a translation key.|false|
@@ -2095,7 +2097,8 @@ Example for a slider snippet. A slider for a single digit and a less or equals o
     "type": "slider",
     "operator": "LE",
     "minValue": 1,
-    "maxValue": 5
+    "maxValue": 5,
+    "decimalPlaces": 2
 }
 ```
 
@@ -2108,7 +2111,8 @@ Example for a slider range snippet. A slider range without minValue and maxValue
     "title": "Angle d'inclinaison du toit du garage",
     "attrName": "angle",
     "type": "sliderRange",
-    "operator": "BETWEEN"
+    "operator": "BETWEEN",
+    "decimalPlaces": 2
 }
 ```
 
@@ -2211,6 +2215,18 @@ Example for a slider range snippet of SensorThingsAPI (STA).
 }
 ```
 
+**Example**
+
+Example of a snippet that wants to filter over multiple attributes at once and display the features that match the set value for one of the specified attributes.
+
+```json
+{
+    "attrName": ["xpplanname", "rechtscharakterwert"],
+    "operatorForAttrName": "OR",
+    "type": "dropdown",
+}
+```
+
 ***
 #### Portalconfig.menu.tool.filter.filterLayer.snippets.children
 Child snippet configuration.
@@ -2261,8 +2277,8 @@ This is especially true for filters that work with `strategy`: `active`.
 
 |Name|Required|Typ|Default|Description|Expert|
 |----|-------------|---|-------|------------|------|
-|input|no|Number|1400|For snippet typ `sliderRange` only: The time in milliseconds that should elapse before filtering is triggered after entering numbers and characters into the input field.|false|
-|slider|no|Number|800|For snippet typ `sliderRange` and `dateRange` only: The time in milliseconds that should elapse before filtering is triggered after the last change of the slider.|false|
+|input|no|Number|1400|For snippet typ `sliderRange` and `slider` only: The time in milliseconds that should elapse before filtering is triggered after entering numbers and characters into the input field.|false|
+|slider|no|Number|800|For snippet typ `sliderRange`, `slider` and `dateRange` only: The time in milliseconds that should elapse before filtering is triggered after the last change of the slider.|false|
 
 **Example**
 
@@ -4440,10 +4456,22 @@ Routing-tool geosearch options.
 |typeName|no|String||Type name for the specialWfs geosearch query.|false|
 |propertyNames|no|String[]||Names of properties to be included in the specialWfs geosearch.|false|
 |geometryNames|no|String||Name of the geometry field for specialWfs geosearch.|false|
+|bbox|no|**[bbox](#markdown-header-portalconfigmenutoolroutinggeosearchbbox)**||BBOX value according to the speedProfile. Coordinate system depends on the epsg parameter. Geosearch service must support bbox string.|false|
 |epsg|no|String|4326|Which EPSG code is used by the service (e.g. 4326, 25832).|false|
 |searchField|no|String||The path to the field to be searched for when using Elastic Search.|false|
 |sortField|no|String||The path to the field that specifies the sorting of the results in ascending order when using Elastic Search.|false|
 
+**Example for BKG**
+```
+#!json
+{
+    "geosearch": {
+        "type": "BKG",
+        "serviceId": "bkg_geosearch",
+        "bbox": {"CYCLING": "9.6,53.40,10.4,53.84"}
+    }
+}
+```
 **Example for SPECIALWFS**
 ```
 #!json
@@ -4474,6 +4502,23 @@ Routing-tool geosearch options.
         "searchField": "properties.searchField",
         "sortField": "properties.HAUSNUMMER"
     }
+}
+```
+
+***
+
+#### Portalconfig.menu.tool.routing.geosearch.bbox
+
+BBOX value according to the speedProfile. Coordinate system depends on the epsg parameter. Geosearch service must support bbox string.
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|speedProfile|no|String||Coordinate values "West,South,East,North"|false|
+
+**Example**
+```
+#!json
+{
+    "bbox": {"CYCLING": "9.6,53.40,10.4,53.84"}
 }
 ```
 
@@ -4516,7 +4561,7 @@ Routing-tool directions options.
 |speedProfile|no|String|"CAR"|Which speed profile should be selected by default.|false|
 |preference|no|String|"RECOMMENDED"|Which type of directions should be used by default.|false|
 |customPreferences|no|**[customPreferences](#markdown-header-portalconfigmenutoolroutingdirectionssettingscustompreferences)**||Possibility to define additional preferences for the different speed profiles (additionally to the BKG service)  (requires own modified backend)|false|
-|customAvoidFeatures|nein|**[customAvoidFeatures](#markdown-header-portalconfigmenutoolroutingdirectionssettingscustomavoidfeatures)**||Possibility to define which options for avoid traffic routes for the different speed profiles are available (additionally to the BKG service) (requires own modified backend)|false|
+|customAvoidFeatures|no|**[customAvoidFeatures](#markdown-header-portalconfigmenutoolroutingdirectionssettingscustomavoidfeatures)**||Possibility to define own options for avoid traffic routes for the different speed profiles(additionally to the BKG service) (requires own modified backend)|false|
 |styleRoute|no|**[styleRoute](#markdown-header-portalconfigmenutoolroutingdirectionssettingsstyleroute)**||Stylerouteoptions|false|
 |styleWaypoint|no|**[styleWaypoint](#markdown-header-portalconfigmenutoolroutingdirectionssettingsstylewaypoint)**||Stylewaypointoptions|false|
 |styleAvoidAreas|no|**[styleAvoidAreas](#markdown-header-portalconfigmenutoolroutingdirectionssettingsstyleavoidareas)**||Styleavoidareasoptions|false|
@@ -4579,7 +4624,7 @@ Routing-tool directions options.
 Possibility to define additional avoid features for the different speed profiles (additionally to the BKG service) (requires own modified backend).
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|speedProfile|no|String[]||Which options for avoid traffic routes should be available for the speedProfile.|false|
+|speedProfile|no|String[]||Options for avoid traffic routes that should be available for the speedProfile.|false|
 
 **Example**
 ```
