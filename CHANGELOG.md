@@ -14,15 +14,17 @@
     - Possibility to use *Elastic Search* for geosearch option.
     - Possibility to define a bbox value for the BKG geosearch service for the different speed profiles.
 - WebGL render pipeline supports now also VectorTile layers.
+- Printing is now for 3d supported.
 
 ### Changed
 - The following packages have been updated:
     - dependencies:
-        - @masterportal/masterportalapi: 2.23.0 to 2.24.0 (This also raised olcs to version 2.15.0)
+        - @masterportal/masterportalapi: 2.23.0 to 2.26.0 (This also raised olcs to version 2.15.0 and ol to 7.5.1)
 - Filter:
     - The parameter filterOnMove now only works in combination with "'multiLayerSelector': false" to create a better user experience.
     - The filter configuration in the portal master is adapted to the new syntax.
-    - The possibility to specify the attrName with more than 2 values was added for VectorTiles layer.
+    - New Parameter `operatorForAttrName` for Snippets to allow the snippet to filter over multiple attrNames with an OR logic.
+    - Parameter `input` and `slider` now also work for the snippet type `slider`.
 
 ### Deprecated
 

@@ -5,24 +5,6 @@ import {getMinMaxFromFetchedFeatures, getUniqueValuesFromFetchedFeatures} from "
 import openlayerFunctions from "../utils/openlayerFunctions";
 import InterfaceOafExtern from "./interface.oaf.extern";
 import InterfaceWfsIntern from "./interface.wfs.intern";
-import {
-    between,
-    betweenForArray,
-    endswith,
-    endswithForArray,
-    equals,
-    equalsForArray,
-    ge,
-    gt,
-    inForArray,
-    inForString,
-    intersectsForArray,
-    le,
-    lt,
-    ne,
-    startswith,
-    startswithForArray
-} from "../utils/ruleValidation.js";
 /**
  * InterfaceVectorTilesIntern is the filter interface for VectorTiles filtered by OpenLayers.
  * It uses the the OAF Extern interface under the hood for api requests like getUniqueValues.
@@ -331,32 +313,7 @@ export default class InterfaceVectorTilesIntern {
      * @returns {Boolean} true if the feature matches, false if not
      */
     checkRules (feature, rules) {
-        if (typeof feature?.get !== "function" || !Array.isArray(rules)) {
-            return false;
-        }
-        const len = rules.length;
-
-        for (let i = 0; i < len; i++) {
-            if (!isObject(rules[i])) {
-                continue;
-            }
-            else if (!Array.isArray(rules[i].attrName) && Object.prototype.hasOwnProperty.call(rules[i], "attrName")) {
-                if (!this.checkRule(rules[i], this.getPropertyFromFeature(feature, rules[i].attrName))) {
-                    return false;
-                }
-            }
-            else if (Array.isArray(rules[i].attrName)) {
-                const propertiesOfFeaturesByAttrNames = [];
-
-                rules[i].attrName.forEach(attributeName => {
-                    propertiesOfFeaturesByAttrNames.push(this.getPropertyFromFeature(feature, attributeName));
-                });
-                if (!this.checkRule(rules[i], propertiesOfFeaturesByAttrNames)) {
-                    return false;
-                }
-            }
-        }
-        return true;
+        return this.interfaceWFSIntern.checkRules(feature, rules);
     }
 
     /**
@@ -369,116 +326,6 @@ export default class InterfaceVectorTilesIntern {
         return this.interfaceWFSIntern.getPropertyFromFeature(feature, attrName);
     }
 
-    /**
-     * Checks if the given feature value match with the given rule.
-     * @param {Object} rule the rule object
-     * @param {String} rule.operator the operator to use
-     * @param {*} [rule.value] a single value
-     * @param {*|*[]} featureValue the value of the feature to check
-     * @param {*} [featureValue2] the second value to check for ranges with
-     * @returns {Boolean} true if the rule matches the given feature value, false if not
-     */
-    checkRule (rule, featureValue, featureValue2) {
-        if (
-            !isObject(rule)
-            || !Object.prototype.hasOwnProperty.call(rule, "operator")
-            || !Object.prototype.hasOwnProperty.call(rule, "value")
-        ) {
-            return false;
-        }
-        if (Array.isArray(featureValue) && featureValue.length > 2) {
-            for (const featureVal of featureValue) {
-                if (typeof featureVal !== "undefined" && this.checkRuleForAttrName(rule, featureVal)) {
-                    return true;
-                }
-            }
-            return false;
-        }
-        let ruleValueA = Array.isArray(rule.value) ? rule.value[0] : rule.value,
-            ruleValueB = Array.isArray(rule.value) ? rule.value[1] : undefined,
-            featValueA = featureValue,
-            featValueB = typeof featureValue2 !== "undefined" ? featureValue2 : featureValue;
-
-        if (typeof featureValue2 === "undefined" && Array.isArray(featureValue)) {
-            featValueA = featureValue[0];
-            featValueB = featureValue[1];
-        }
-
-        if (typeof ruleValueA === "string") {
-            ruleValueA = ruleValueA.toLowerCase();
-        }
-        if (typeof ruleValueB === "string") {
-            ruleValueB = ruleValueB.toLowerCase();
-        }
-        featValueA = this.changeValueToMatchReference(featValueA, ruleValueA);
-        featValueB = this.changeValueToMatchReference(featValueB, ruleValueB);
-
-        return Array.isArray(rule.value) && (
-            rule.operator === "INTERSECTS" && intersectsForArray(featValueA, featValueB, ruleValueA, ruleValueB, rule.format)
-            || rule.operator === "BETWEEN" && betweenForArray(featValueA, featValueB, ruleValueA, ruleValueB, rule.format)
-            || rule.operator === "EQ" && equalsForArray(featValueA, rule.value, rule.format, rule.delimiter)
-            || rule.operator === "IN" && inForArray(featValueA, rule.value)
-            || rule.operator === "STARTSWITH" && startswithForArray(featValueA, rule.value)
-            || rule.operator === "ENDSWITH" && endswithForArray(featValueA, rule.value)
-        )
-        || !Array.isArray(rule.value) && typeof ruleValueA !== "undefined" && (
-            rule.operator === "BETWEEN" && between(featValueA, featValueB, ruleValueA, rule.format)
-            || rule.operator === "EQ" && equals(featValueA, ruleValueA, rule.format, rule.delimiter)
-            || rule.operator === "NE" && ne(featValueA, ruleValueA, rule.format)
-            || rule.operator === "GT" && gt(featValueA, ruleValueA, rule.format)
-            || rule.operator === "GE" && ge(featValueA, ruleValueA, rule.format)
-            || rule.operator === "LT" && lt(featValueA, ruleValueA, rule.format)
-            || rule.operator === "LE" && le(featValueA, ruleValueA, rule.format)
-            || rule.operator === "IN" && inForString(featValueA, ruleValueA)
-            || rule.operator === "STARTSWITH" && startswith(featValueA, ruleValueA)
-            || rule.operator === "ENDSWITH" && endswith(featValueA, ruleValueA)
-        );
-    }
-    /**
-     * Checks if the given feature value match with the given rule.
-     * This functions also turns the between and intersect check
-     * so that it checks if the feature value is between the rule values and not the other way around.
-     * @param {Object} rule the rule object
-     * @param {String} rule.operator the operator to use
-     * @param {*} [rule.value] a single value
-     * @param {*|*[]} featureValue the value of the feature to check
-     * @param {*} [featureValue2] the second value to check for ranges with
-     * @returns {Boolean} true if the rule matches the given feature value, false if not
-     */
-    checkRuleForAttrName (rule, featureValue) {
-        let ruleValueA = Array.isArray(rule.value) ? rule.value[0] : rule.value,
-            ruleValueB = Array.isArray(rule.value) ? rule.value[1] : undefined,
-            featValueA = featureValue;
-
-        if (typeof ruleValueA === "string") {
-            ruleValueA = ruleValueA.toLowerCase();
-        }
-        if (typeof ruleValueB === "string") {
-            ruleValueB = ruleValueB.toLowerCase();
-        }
-        featValueA = this.changeValueToMatchReference(featValueA, ruleValueA);
-
-        return Array.isArray(rule.value) && (
-            rule.operator === "INTERSECTS" && intersectsForArray(ruleValueA, ruleValueB, featValueA, featValueA, rule.format)
-            || rule.operator === "BETWEEN" && between(ruleValueA, ruleValueB, featValueA, rule.format)
-            || rule.operator === "EQ" && equalsForArray(featValueA, rule.value, rule.format, rule.delimiter)
-            || rule.operator === "IN" && inForArray(featValueA, rule.value)
-            || rule.operator === "STARTSWITH" && startswithForArray(featValueA, rule.value)
-            || rule.operator === "ENDSWITH" && endswithForArray(featValueA, rule.value)
-        )
-        || !Array.isArray(rule.value) && typeof ruleValueA !== "undefined" && (
-            rule.operator === "BETWEEN" && between(featValueA, featValueA, ruleValueA, rule.format)
-            || rule.operator === "EQ" && equals(featValueA, ruleValueA, rule.format, rule.delimiter)
-            || rule.operator === "NE" && ne(featValueA, ruleValueA, rule.format)
-            || rule.operator === "GT" && gt(featValueA, ruleValueA, rule.format)
-            || rule.operator === "GE" && ge(featValueA, ruleValueA, rule.format)
-            || rule.operator === "LT" && lt(featValueA, ruleValueA, rule.format)
-            || rule.operator === "LE" && le(featValueA, ruleValueA, rule.format)
-            || rule.operator === "IN" && inForString(featValueA, ruleValueA)
-            || rule.operator === "STARTSWITH" && startswith(featValueA, ruleValueA)
-            || rule.operator === "ENDSWITH" && endswith(featValueA, ruleValueA)
-        );
-    }
     /**
      * Checks a reference and returns the given value as type of the reference.
      * @info will also convert the value of a given array in depth

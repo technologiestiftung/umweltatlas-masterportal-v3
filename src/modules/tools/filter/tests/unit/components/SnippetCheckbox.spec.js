@@ -116,6 +116,7 @@ describe("src/modules/tools/filter/components/SnippetCheckbox.vue", () => {
                     snippetId: 1234,
                     visible: false,
                     attrName: "attrName",
+                    operatorForAttrName: "AND",
                     operator: "EQ"
                 },
                 localVue
@@ -129,6 +130,7 @@ describe("src/modules/tools/filter/components/SnippetCheckbox.vue", () => {
                 startup: "startup",
                 fixed: true,
                 attrName: "attrName",
+                operatorForAttrName: "AND",
                 operator: "EQ",
                 value: true,
                 tagTitle: "attrName"
@@ -142,6 +144,7 @@ describe("src/modules/tools/filter/components/SnippetCheckbox.vue", () => {
                     snippetId: 1234,
                     visible: false,
                     attrName: "attrName",
+                    operatorForAttrName: "AND",
                     operator: "EQ",
                     value: ["yes", "no"]
                 },
@@ -156,6 +159,7 @@ describe("src/modules/tools/filter/components/SnippetCheckbox.vue", () => {
                 startup: "startup",
                 fixed: true,
                 attrName: "attrName",
+                operatorForAttrName: "AND",
                 operator: "EQ",
                 value: "yes",
                 tagTitle: "attrName"

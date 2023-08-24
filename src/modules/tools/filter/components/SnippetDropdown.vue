@@ -107,6 +107,11 @@ export default {
             required: false,
             default: false
         },
+        operatorForAttrName: {
+            type: String,
+            required: false,
+            default: "AND"
+        },
         operator: {
             type: String,
             required: false,
@@ -279,48 +284,50 @@ export default {
                 return;
             }
 
-            if (adjusting?.start) {
-                if (this.snippetId !== adjusting.snippetId && (!Array.isArray(adjusting.snippetId) || !adjusting.snippetId.includes(this.snippetId))) {
-                    this.dropdownValue = [];
+            this.$nextTick(() => {
+                if (adjusting?.start) {
+                    if (this.snippetId !== adjusting.snippetId && (!Array.isArray(adjusting.snippetId) || !adjusting.snippetId.includes(this.snippetId))) {
+                        this.dropdownValue = [];
+                    }
+                    this.isAdjusting = true;
                 }
-                this.isAdjusting = true;
-            }
 
-            this.addDropdownValueForAdjustment(this.dropdownValue, this.value, adjusting?.adjust?.value, this.delimiter);
+                this.addDropdownValueForAdjustment(this.dropdownValue, this.value, adjusting?.adjust?.value, this.delimiter);
 
-            if (adjusting?.finish) {
-                if (Array.isArray(this.allValues)) {
-                    if (Array.isArray(adjusting?.adjust?.value)) {
-                        adjusting.adjust.value.forEach(adjustedValue => {
-                            if (!this.allValues.includes(adjustedValue)) {
-                                this.allValues.push(adjustedValue);
+                if (adjusting?.finish) {
+                    if (Array.isArray(this.allValues)) {
+                        if (Array.isArray(adjusting?.adjust?.value)) {
+                            adjusting.adjust.value.forEach(adjustedValue => {
+                                if (!this.allValues.includes(adjustedValue)) {
+                                    this.allValues.push(adjustedValue);
+                                }
+                            });
+                        }
+                        this.allValues.forEach(value => {
+                            if (!this.dropdownValue.includes(value)) {
+                                this.dropdownValue.push(value);
                             }
                         });
                     }
-                    this.allValues.forEach(value => {
-                        if (!this.dropdownValue.includes(value)) {
-                            this.dropdownValue.push(value);
+                    this.setDropdownSelectedAfterAdjustment(this.dropdownValue, this.dropdownSelected, selected => {
+                        this.setCurrentSource("adjust");
+                        this.dropdownSelected = selected;
+                    });
+
+                    this.$nextTick(() => {
+                        this.isAdjusting = false;
+
+                        if (this.delayedPrechecked === "all") {
+                            this.dropdownSelected = this.dropdownValue;
+                            this.delayedPrechecked = false;
+                        }
+                        else if (Array.isArray(this.delayedPrechecked) && this.delayedPrechecked.length) {
+                            this.dropdownSelected = this.getPrecheckedExistingInValue(this.delayedPrechecked, this.dropdownValue);
+                            this.delayedPrechecked = false;
                         }
                     });
                 }
-                this.setDropdownSelectedAfterAdjustment(this.dropdownValue, this.dropdownSelected, selected => {
-                    this.setCurrentSource("adjust");
-                    this.dropdownSelected = selected;
-                });
-
-                this.$nextTick(() => {
-                    this.isAdjusting = false;
-
-                    if (this.delayedPrechecked === "all") {
-                        this.dropdownSelected = this.dropdownValue;
-                        this.delayedPrechecked = false;
-                    }
-                    else if (Array.isArray(this.delayedPrechecked) && this.delayedPrechecked.length) {
-                        this.dropdownSelected = this.getPrecheckedExistingInValue(this.delayedPrechecked, this.dropdownValue);
-                        this.delayedPrechecked = false;
-                    }
-                });
-            }
+            });
         },
         disabled (value) {
             this.disable = typeof value === "boolean" ? value : true;
@@ -566,6 +573,7 @@ export default {
                 startup,
                 fixed: !this.visible,
                 attrName: this.attrName,
+                operatorForAttrName: this.operatorForAttrName,
                 operator: this.securedOperator,
                 delimiter: this.delimiter,
                 value: result
