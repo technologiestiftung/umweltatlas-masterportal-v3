@@ -5,7 +5,8 @@ import sinon from "sinon";
 import {RoutingGeosearchResult} from "../../../../utils/classes/routing-geosearch-result";
 import {
     fetchRoutingBkgGeosearch,
-    fetchRoutingBkgGeosearchReverse
+    fetchRoutingBkgGeosearchReverse,
+    checkConfiguredBbox
 } from "../../../../utils/geosearch/routing-bkg-geosearch";
 
 describe("src/modules/tools/routing/utils/geosearch/routing-bkg-geosearch.js", () => {
@@ -96,8 +97,8 @@ describe("src/modules/tools/routing/utils/geosearch/routing-bkg-geosearch.js", (
 
             const result = await fetchRoutingBkgGeosearch("testsearch"),
                 expectedResult = [
-                    new RoutingGeosearchResult([51.33264, 6.56089], "Krefeld"),
-                    new RoutingGeosearchResult([51.34567, 6.51518], "47804 Krefeld - Hüls")
+                    new RoutingGeosearchResult([6.56089, 51.33264], "Krefeld"),
+                    new RoutingGeosearchResult([6.51518, 51.34567], "47804 Krefeld - Hüls")
                 ];
 
             expect(result).deep.to.equal(expectedResult);
@@ -169,7 +170,7 @@ describe("src/modules/tools/routing/utils/geosearch/routing-bkg-geosearch.js", (
             );
 
             const result = await fetchRoutingBkgGeosearchReverse("testsearch"),
-                expectedResult = new RoutingGeosearchResult([51.33329, 6.56619], "47798 Krefeld - Cracau");
+                expectedResult = new RoutingGeosearchResult([6.56619, 51.33329], "47798 Krefeld - Cracau");
 
             expect(result).deep.to.eql(expectedResult);
         });
@@ -190,6 +191,20 @@ describe("src/modules/tools/routing/utils/geosearch/routing-bkg-geosearch.js", (
             catch (error) {
                 expect(error.message).equal("testerror");
             }
+        });
+    });
+    describe("should checkConfiguredBbox", () => {
+        it("should process result as false with no configuration", () => {
+            const result = checkConfiguredBbox();
+
+            expect(result).to.be.false;
+        });
+        it("should process result correct with given bbox", () => {
+            store.commit("Tools/Routing/setGeosearch", {bbox: {"CAR": "10,20,30,40"}});
+
+            const result = checkConfiguredBbox();
+
+            expect(result).to.eql("10,20,30,40");
         });
     });
 });

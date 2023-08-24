@@ -16,7 +16,8 @@ describe("src/modules/tools/Print/components/PrintMap.vue", () => {
             scales: () => scales,
             scale: sinon.stub(),
             getView: sinon.stub(),
-            getResolutionByScale: () => sinon.stub()
+            getResolutionByScale: () => sinon.stub(),
+            is3D: () => false
         },
         mockMapActions = {
             setResolutionByIndex: sinon.stub(),
@@ -24,7 +25,26 @@ describe("src/modules/tools/Print/components/PrintMap.vue", () => {
         },
         mockGfiGetters = {
             currentFeature: () => sinon.stub()
-        };
+        },
+        value = "A0 Querformat",
+        printLayout = {
+            attributes: [
+                {
+                    default: "Countries",
+                    name: "title",
+                    type: "String"
+                },
+                {
+                    name: "map",
+                    type: "MapAttributeValues"
+                }
+            ],
+            name: "A0 Querformat"
+        },
+        layoutList = [
+            printLayout
+        ];
+
     let store,
         wrapper,
         map = null;
@@ -70,6 +90,7 @@ describe("src/modules/tools/Print/components/PrintMap.vue", () => {
 
         store.commit("Tools/Print/setActive", true);
 
+        store.commit("Tools/Print/setLayoutList", layoutList);
         wrapper = mount(PrintComponent, {store, localVue});
     });
 
@@ -77,26 +98,7 @@ describe("src/modules/tools/Print/components/PrintMap.vue", () => {
 
     describe("PrintMap.vue methods", () => {
         it("method layoutChanged sets other print layout", () => {
-            const value = "A0 Querformat",
-                printLayout = {
-                    attributes: [
-                        {
-                            default: "Countries",
-                            name: "title",
-                            type: "String"
-                        },
-                        {
-                            name: "map",
-                            type: "MapAttributeValues"
-                        }
-                    ],
-                    name: "A0 Querformat"
-                },
-                layoutList = [
-                    printLayout
-                ];
 
-            store.commit("Tools/Print/setLayoutList", layoutList);
             wrapper.vm.layoutChanged(value);
             expect(store.state.Tools.Print.currentLayoutName).to.be.equals(value);
             expect(store.state.Tools.Print.currentLayout).to.be.equals(printLayout);
