@@ -110,7 +110,8 @@ export default {
             isLockedHandleActiveStrategy: false,
             filterButtonDisabled: false,
             isLoading: false,
-            outOfZoom: false
+            outOfZoom: false,
+            gfiFirstActive: false
         };
     },
     computed: {
@@ -274,6 +275,15 @@ export default {
             }
 
             if (this.layerConfig.filterOnMove === true && !this.openMultipleAccordeons && this.layerConfig?.strategy === "active") {
+                this.$watch("$store.state.Tools.Gfi.gfiFeatures", (newVal, oldVal) => {
+                    if (Array.isArray(oldVal) && !oldVal.length) {
+                        this.gfiFirstActive = true;
+                    }
+                    else {
+                        this.gfiFirstActive = false;
+                    }
+                });
+
                 this.$emit("registerMapMoveListener", {
                     filterId: this.layerConfig.filterId,
                     listener: evt => this.updateSnippets(evt)
@@ -799,6 +809,9 @@ export default {
          * @returns {void}
          */
         updateSnippets (evt) {
+            if (this.gfiFirstActive) {
+                return;
+            }
             if (evt.type === "moveend" && !evt.map.loaded_) {
                 return;
             }
