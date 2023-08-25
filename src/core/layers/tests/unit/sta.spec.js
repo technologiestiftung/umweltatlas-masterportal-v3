@@ -323,7 +323,7 @@ describe("src/core/layers/sta.js", () => {
             const staLayer = new STALayer(attributes),
                 layer = staLayer.get("layer");
 
-                staLayer.createStyle(attributes);
+            staLayer.createStyle(attributes);
             sinon.stub(layer.getSource(), "getFeatures").returns(features);
             staLayer.showAllFeatures();
 

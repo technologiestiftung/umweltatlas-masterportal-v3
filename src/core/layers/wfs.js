@@ -195,6 +195,7 @@ WFSLayer.prototype.createStyle = async function (attrs) {
 
             return createStyle.createStyle(styleObject, feat, isClusterFeature, Config.wfsImgPath);
         };
+
         this.setStyle(style);
     }
     else {
