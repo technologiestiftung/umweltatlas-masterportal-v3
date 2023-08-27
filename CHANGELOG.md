@@ -32,6 +32,7 @@
 
 ### Fixed
 - Issue #1061: Filter: Accept gml:featureMembers occuring with other children in XML response.
+- Issue #1068: Print: fixed printing of point layers.
 - Default Tree
     - on category change all layers are shown in the layer tree
     - Config.tree.orderBy sets category
