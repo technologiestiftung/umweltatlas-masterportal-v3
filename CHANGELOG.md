@@ -15,6 +15,7 @@
     - Possibility to define a bbox value for the BKG geosearch service for the different speed profiles.
 - WebGL render pipeline supports now also VectorTile layers.
 - Printing is now for 3d supported.
+- Added new module `login button` that allows the user to login with an OIDC IDM. The resulting auth token is added to all service requests (can be configured).
 
 ### Changed
 - The following packages have been updated:
