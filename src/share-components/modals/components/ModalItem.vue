@@ -90,7 +90,7 @@ export default {
     >
         <div id="modal-1-overlay" />
         <div
-            id="modal-1-outer-wrapper test"
+            id="modal-1-outer-wrapper"
             role="button"
             tabindex="0"
             @mousedown="discardByClickOutside"
@@ -136,9 +136,6 @@ export default {
     @import "~/css/mixins.scss";
     @import "~variables";
 
-    .test{
-        background-color: yellow;
-    }
     #modal-1-container{
         display:none;
 

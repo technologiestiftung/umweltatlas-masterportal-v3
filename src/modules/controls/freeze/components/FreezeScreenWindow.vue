@@ -83,7 +83,7 @@ export default {
 
 <template>
     <div
-        id="freeze-view test"
+        id="freeze-view"
         class="freeze-view freeze-activated"
         role="presentation"
         @keydown.prevent.stop="suppressKeyEvent()"
