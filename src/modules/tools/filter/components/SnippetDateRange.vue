@@ -129,7 +129,8 @@ export default {
             sliderUntil: -1,
             currentSliderMin: -1,
             currentSliderMax: -1,
-            visibleDatepicker: false
+            visibleDatepicker: false,
+            initialDateRef: []
         };
     },
     computed: {
@@ -161,38 +162,53 @@ export default {
             if (!isObject(adjusting) || this.visible === false || this.isParent) {
                 return;
             }
-            const minMoment = dayjs(adjusting?.adjust?.min, this.getFormat("from"), true),
-                maxMoment = dayjs(adjusting?.adjust?.max, this.getFormat("until"), true);
+            this.$nextTick(() => {
+                const minMoment = dayjs(adjusting?.adjust?.min, this.getFormat("from")),
+                    maxMoment = dayjs(adjusting?.adjust?.max, this.getFormat("until"));
 
 
-            if (adjusting.start) {
-                this.isAdjusting = true;
-                this.adjustMinMax = [];
-            }
-
-            if (minMoment.isValid() && (typeof this.adjustMinMax[0] === "undefined" || this.adjustMinMax[0].isBefore(minMoment))) {
-                this.adjustMinMax[0] = minMoment;
-            }
-            if (maxMoment.isValid() && (typeof this.adjustMinMax[1] === "undefined" || this.adjustMinMax[1].isAfter(maxMoment))) {
-                this.adjustMinMax[1] = maxMoment;
-            }
-
-            if (adjusting.finish) {
-                if (!this.isSelfSnippetId(adjusting?.snippetId)) {
-                    this.currentSliderMin = typeof this.adjustMinMax[0] !== "undefined" ? this.getSliderIdxCloseToFromDate(this.adjustMinMax[0].format(this.internalFormat)) : 0;
-                    this.currentSliderMax = typeof this.adjustMinMax[1] !== "undefined" ? this.getSliderIdxCloseToUntilDate(this.adjustMinMax[1].format(this.internalFormat)) : this.initialDateRef.length - 1;
-                    if (!this.hasRuleSet || this.currentSliderMin > this.sliderFrom) {
-                        this.sliderFrom = this.currentSliderMin;
-                    }
-                    if (!this.hasRuleSet || this.currentSliderMax < this.sliderUntil) {
-                        this.sliderUntil = this.currentSliderMax;
-                    }
+                if (adjusting.start) {
+                    this.isAdjusting = true;
+                    this.adjustMinMax = [];
                 }
 
-                this.$nextTick(() => {
-                    this.isAdjusting = false;
-                });
-            }
+                if (minMoment.isValid() && (typeof this.adjustMinMax[0] === "undefined" || this.adjustMinMax[0].isBefore(minMoment))) {
+                    this.adjustMinMax[0] = minMoment;
+                }
+                if (maxMoment.isValid() && (typeof this.adjustMinMax[1] === "undefined" || this.adjustMinMax[1].isAfter(maxMoment))) {
+                    this.adjustMinMax[1] = maxMoment;
+                }
+
+                if (adjusting.finish) {
+                    this.$nextTick(() => {
+                        if (!this.isSelfSnippetId(adjusting?.snippetId)) {
+                            this.currentSliderMin = typeof this.adjustMinMax[0] !== "undefined" ? this.getSliderIdxCloseToFromDate(this.adjustMinMax[0].format(this.internalFormat)) : 0;
+                            this.currentSliderMax = typeof this.adjustMinMax[1] !== "undefined" ? this.getSliderIdxCloseToUntilDate(this.adjustMinMax[1].format(this.internalFormat)) : this.initialDateRef.length - 1;
+                            if (!this.hasRuleSet || this.currentSliderMin > this.sliderFrom) {
+                                this.sliderFrom = this.currentSliderMin;
+                            }
+                            if (!this.hasRuleSet || this.currentSliderMax < this.sliderUntil) {
+                                this.sliderUntil = this.currentSliderMax;
+                            }
+                        }
+
+                        this.$nextTick(() => {
+                            this.isAdjusting = false;
+                            if (Array.isArray(this.prechecked)) {
+                                const sliderFrom = this.getSliderIdxCloseToFromDate(this.prechecked[0]),
+                                    sliderUntil = this.getSliderIdxCloseToUntilDate(this.prechecked[1]);
+
+                                if (this.currentSliderMin > sliderFrom) {
+                                    this.sliderFrom = this.currentSliderMin;
+                                }
+                                if (this.currentSliderMax < sliderUntil) {
+                                    this.sliderUntil = this.currentSliderMax;
+                                }
+                            }
+                        });
+                    });
+                }
+            });
         },
         sliderFrom (val) {
             if (parseInt(val, 10) > parseInt(this.sliderUntil, 10)) {
@@ -223,7 +239,6 @@ export default {
         this.hasRuleSet = false;
         this.adjustMinMax = [];
         this.internalFormat = "YYYY-MM-DD";
-        this.initialDateRef = [];
         this.intvEmitCurrentRule = -1;
         this.sliderMouseDown = false;
         this.operatorWhitelist = [

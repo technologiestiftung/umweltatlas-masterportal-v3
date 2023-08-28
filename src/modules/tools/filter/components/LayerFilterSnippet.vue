@@ -825,6 +825,7 @@ export default {
             this.$nextTick(() => {
                 if (!this.outOfZoom) {
                     this.isLockedHandleActiveStrategy = false;
+                    this.setSnippetValueByState(this.filterRules);
                     this.handleActiveStrategy();
                 }
                 else {
