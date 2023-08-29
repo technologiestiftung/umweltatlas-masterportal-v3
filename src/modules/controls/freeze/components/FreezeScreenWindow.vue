@@ -85,6 +85,7 @@ export default {
     <div
         id="freeze-view"
         class="freeze-view freeze-activated"
+        role="presentation"
         @keydown.prevent.stop="suppressKeyEvent()"
     >
         <p
@@ -105,7 +106,6 @@ export default {
 <style lang="scss" scoped>
     @import "~/css/mixins.scss";
     @import "~variables";
-
     .freeze-view.freeze-activated {
         z-index: 10000;
         position: fixed;

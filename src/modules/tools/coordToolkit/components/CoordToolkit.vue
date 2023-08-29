@@ -493,6 +493,8 @@ export default {
                             <label
                                 for="supplyCoordRadio"
                                 :class="{ 'form-check-label': true, 'enabled': isEnabled('supply') }"
+                                role="button"
+                                tabindex="0"
                                 @click="changeMode('supply')"
                                 @keydown.enter="changeMode('supply')"
                             >{{ $t("modules.tools.coordToolkit.supply") }}</label>
@@ -508,6 +510,8 @@ export default {
                             <label
                                 for="searchByCoordRadio"
                                 :class="{'form-check-label': true, 'enabled': isEnabled('search') }"
+                                role="button"
+                                tabindex="0"
                                 @click="changeMode('search')"
                                 @keydown.enter="changeMode('search')"
                             >{{ $t("modules.tools.coordToolkit.search") }}</label>

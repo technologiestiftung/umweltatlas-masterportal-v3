@@ -77,6 +77,8 @@ export default {
                                 class="close bootstrap-icon remove-feature"
                                 type="button"
                                 :title="$t('common:modules.tools.compareFeatures.removeFromList')"
+                                role="button"
+                                tabindex="0"
                                 @click="removeFeatureFromPreparedList({features: listOfFeatures, featureId: key, selectedLayer: selectedLayer})"
                                 @keydown.enter="removeFeatureFromPreparedList({features: listOfFeatures, featureId: key, selectedLayer: selectedLayer})"
                             >
@@ -140,6 +142,8 @@ export default {
                                 class="close bootstrap-icon remove-feature"
                                 type="button"
                                 :title="$t('common:modules.tools.compareFeatures.removeFromList')"
+                                role="button"
+                                tabindex="0"
                                 @click="removeFeatureFromPreparedList({features: listOfFeatures, featureId: key, selectedLayer: selectedLayer})"
                                 @keydown.enter="removeFeatureFromPreparedList({features: listOfFeatures, featureId: key, selectedLayer: selectedLayer})"
                             >
@@ -214,6 +218,8 @@ export default {
                                 class="close bootstrap-icon remove-feature"
                                 type="button"
                                 :title="$t('common:modules.tools.compareFeatures.removeFromList')"
+                                role="button"
+                                tabindex="0"
                                 @click="removeFeatureFromPreparedList({features: listOfFeatures, featureId: key, selectedLayer: selectedLayer})"
                                 @keydown.enter="removeFeatureFromPreparedList({features: listOfFeatures, featureId: key, selectedLayer: selectedLayer})"
                             >
@@ -279,6 +285,8 @@ export default {
                                 class="close bootstrap-icon remove-feature"
                                 type="button"
                                 :title="$t('common:modules.tools.compareFeatures.removeFromList')"
+                                role="button"
+                                tabindex="0"
                                 @click="removeFeatureFromPreparedList({features: listOfFeatures, featureId: key, selectedLayer: selectedLayer})"
                                 @keydown.enter="removeFeatureFromPreparedList({features: listOfFeatures, featureId: key, selectedLayer: selectedLayer})"
                             >

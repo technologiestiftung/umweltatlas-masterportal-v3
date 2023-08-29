@@ -211,6 +211,8 @@ export default {
                                     v-if="enableZoomToExtend"
                                     class="upload-button-wrapper"
                                     :title="$t(`common:modules.tools.fileImport.fileZoom`, {filename: filename})"
+                                    role="button"
+                                    tabindex="0"
                                     @click="zoomTo(filename)"
                                     @keydown.enter="zoomTo(filename)"
                                 >

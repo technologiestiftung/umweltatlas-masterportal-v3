@@ -303,6 +303,8 @@ export default {
                         'page-item': true,
                         'active': visiblePage === index
                     }"
+                    role="button"
+                    tabindex="0"
                     @click="setVisiblePage(index)"
                     @keyup.space.stop="setVisiblePage(index)"
                 >

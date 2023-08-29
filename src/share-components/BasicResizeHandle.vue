@@ -407,6 +407,8 @@ export default {
             'basic-resize-handle-type-' + hPos,
             'basic-resize-handle-cursor-' + cursorClass
         ]"
+        role="button"
+        tabindex="0"
         @touchstart="onTouchStart($event)"
         @mousedown="onMouseDown($event)"
         @mouseenter="storeStartingRotation"

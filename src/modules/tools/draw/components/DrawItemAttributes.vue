@@ -342,6 +342,8 @@ export default {
                     <i
                         :title="$t('common:modules.tools.draw.attributeSelect.remove')"
                         class="bi bi-trash"
+                        role="button"
+                        tabindex="0"
                         @click="removeAttribute(idx)"
                         @keypress.enter="removeAttribute(idx) "
                     />
@@ -380,6 +382,7 @@ export default {
                 </div>
                 <div
                     class="col-1"
+                    role="button"
                     tabindex="0"
                     @click="addAttributesToFeature()"
                     @keypress.enter="addAttributesToFeature()"

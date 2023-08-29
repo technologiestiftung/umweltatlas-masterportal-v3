@@ -132,6 +132,8 @@ export default {
     >
         <b
             class="pointer"
+            role="button"
+            tabindex="0"
             @click="showAvoidFeatures = !showAvoidFeatures"
             @keydown.enter="showAvoidFeatures = !showAvoidFeatures"
         >

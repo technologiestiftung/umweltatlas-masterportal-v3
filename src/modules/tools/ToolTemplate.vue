@@ -252,8 +252,9 @@ export default {
                 <span
                     v-if="!isMinified"
                     class="bootstrap-icon"
-                    tabindex="0"
                     title="Minimieren"
+                    role="button"
+                    tabindex="0"
                     @click="minifyTool($event)"
                     @keydown="minifyTool($event)"
                 >
@@ -262,8 +263,9 @@ export default {
                 <span
                     v-else
                     class="bootstrap-icon"
-                    tabindex="0"
                     title="Maximieren"
+                    role="button"
+                    tabindex="0"
                     @click="maximizeTool($event)"
                     @keydown="maximizeTool($event)"
                 >
@@ -274,6 +276,7 @@ export default {
                 <span
                     ref="close-icon"
                     class="bootstrap-icon"
+                    role="button"
                     tabindex="0"
                     @click="close($event)"
                     @keydown="close($event)"

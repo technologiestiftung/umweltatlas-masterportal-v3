@@ -221,6 +221,8 @@ export default {
                         xml:space="preserve"
                         xmlns:serif="http://www.serif.com/"
                         fill-rule="evenodd"
+                        role="button"
+                        tabindex="0"
                         @click="changeMapInteractionModeAvoidAreasEdit()"
                         @keydown.enter="changeMapInteractionModeAvoidAreasEdit()"
                     >
@@ -275,6 +277,8 @@ export default {
                         xml:space="preserve"
                         xmlns:serif="http://www.serif.com/"
                         fill-rule="evenodd"
+                        role="button"
+                        tabindex="0"
                         @click="changeMapInteractionModeAvoidAreasDelete()"
                         @keydown.enter="changeMapInteractionModeAvoidAreasDelete()"
                     >
@@ -328,6 +332,8 @@ export default {
                     <span
                         class="bootstrap-icon pointer mt-2"
                         :title="$t('common:modules.tools.routing.resetSettings')"
+                        role="button"
+                        tabindex="0"
                         @click="reset()"
                         @keydown.enter="reset()"
                     >
@@ -336,6 +342,8 @@ export default {
                     <span
                         class="bootstrap-icon pointer m-2"
                         :title="$t('common:modules.tools.routing.addWaypoint')"
+                        role="button"
+                        tabindex="0"
                         @click="addWaypoint({index: waypoints.length -1})"
                         @keydown.enter="addWaypoint({index: waypoints.length -1})"
                     >
@@ -419,6 +427,8 @@ export default {
                     <div
                         :key="'segment_header_' + segmentIndex"
                         class="d-flex pointer step pl-2 py-4"
+                        role="button"
+                        tabindex="0"
                         @mouseover="highlightRoute({fromWaypointIndex: segmentIndex, toWaypointIndex: segmentIndex + 1})"
                         @focus="highlightRoute({fromWaypointIndex: segmentIndex, toWaypointIndex: segmentIndex + 1})"
                         @mouseout="unHighlightRoute()"
@@ -426,6 +436,8 @@ export default {
                     >
                         <div
                             class="d-flex"
+                            role="button"
+                            tabindex="0"
                             @click="segment.displayDetails = !segment.displayDetails"
                             @keydown.enter="segment.displayDetails = !segment.displayDetails"
                         >
@@ -449,6 +461,8 @@ export default {
 
                         <div
                             class="d-flex flex-column ms-2 w-100"
+                            role="button"
+                            tabindex="0"
                             @click="zoomToRoute({fromWaypointIndex: segmentIndex, toWaypointIndex: segmentIndex + 1})"
                             @keydown.enter="zoomToRoute({fromWaypointIndex: segmentIndex, toWaypointIndex: segmentIndex + 1})"
                         >
@@ -478,6 +492,8 @@ export default {
                                 v-if="stepIndex !== segment.steps.length - 1"
                                 :key="'segment_' + segmentIndex + '_step_' + stepIndex"
                                 class="ms-4 d-flex flex-column"
+                                role="button"
+                                tabindex="0"
                                 @mouseover="highlightRoute({coordsIndex: step.getWaypoints()})"
                                 @focus="highlightRoute({coordsIndex: step.getWaypoints()})"
                                 @mouseout="unHighlightRoute()"
@@ -502,6 +518,8 @@ export default {
 
                 <div
                     class="d-flex pointer step pl-2 py-4"
+                    role="button"
+                    tabindex="0"
                     @mouseover="highlightRoute({
                         coordsIndex: [
                             waypoints[waypoints.length - 1].getIndexDirectionsLineString() - 1,

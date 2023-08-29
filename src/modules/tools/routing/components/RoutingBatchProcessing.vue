@@ -125,6 +125,8 @@ export default {
                 <span
                     class="col-1 bootstrap-icon pointer"
                     :title="$t('common:modules.tools.routing.batchProcessing.cancel')"
+                    role="button"
+                    tabindex="0"
                     @click="$emit('cancelProcess')"
                     @keydown.enter="$emit('cancelProcess')"
                 >
@@ -165,6 +167,7 @@ export default {
 
                 <div
                     class="drop-area"
+                    role="presentation"
                     @drop.prevent="onDrop($event)"
                     @dragover.prevent
                     @dragenter.prevent="onDZDragenter()"

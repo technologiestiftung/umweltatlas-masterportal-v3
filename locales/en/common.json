@@ -75,7 +75,8 @@
             "bufferAnalysis": "Buffer Analysis",
             "parcelSearch": "Parcel search",
             "wfsSearch": "WFS search",
-            "layerClusterToggler": "Open Layer Cluster"
+            "layerClusterToggler": "Open Layer Cluster",
+            "statisticDashboard": "Statistic Dashboard"
         },
         "contact": "Mail",
         "info": "Information"
@@ -687,7 +688,7 @@
                 },
                 "hiddenObjectsLabel": "Hidden Buildings:",
                 "title": "3D Modeler"
-            },            
+            },
             "parcelSearch": {
                 "wrongConfig": "Invalid or incomplete configuration",
                 "districtsLoadFailed": "Districts could not be loaded",
