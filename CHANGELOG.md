@@ -18,6 +18,7 @@
 - Gitignore
     - added pipeline file for bitbucket
     - added pipeline file for gitlab
+- New shared-component "TableComponent".
 
 ### Changed
 - The following packages have been updated:
