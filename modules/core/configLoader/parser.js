@@ -279,6 +279,7 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
         if (obj.visibility !== undefined) {
             obj.isSelected = obj.visibility;
             obj.isVisibleInMap = obj.visibility;
+            obj.isVisibleAfterModeChange = obj.visibility;
             delete obj.visibility;
         }
         this.get("itemList").push(obj);

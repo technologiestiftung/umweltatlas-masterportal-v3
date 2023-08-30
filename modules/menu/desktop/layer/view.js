@@ -3,6 +3,7 @@ import checkChildrenDatasets from "../../checkChildrenDatasets.js";
 import LayerBaseView from "./viewBase.js";
 import templateSettingsTransparency from "text-loader!./templateSettingsTransparency.html";
 
+
 const LayerView = LayerBaseView.extend(
     /** @lends LayerView.prototype */ {
         events: {
@@ -111,6 +112,7 @@ const LayerView = LayerBaseView.extend(
                     else if (mode === "3D" && !supported.includes("3D")) {
                         this.disableComponent();
                     }
+                    this.setConfigVisibility();
                 }
             });
             this.listenTo(Radio.channel("LayerInformation"), {
@@ -132,6 +134,9 @@ const LayerView = LayerBaseView.extend(
          * @returns {void}
          */
         render: function () {
+            this.setConfigVisibility();
+
+
             const attr = this.model.toJSON(),
                 selector = $("#" + this.model.get("parentId"));
 
@@ -251,8 +256,17 @@ const LayerView = LayerBaseView.extend(
             if (!this.model.get("isVisibleInTree")) {
                 this.remove();
             }
+        },
+
+        setConfigVisibility: function () {
+            if (this.model.get("isVisibleAfterModeChange")) {
+                this.model.setIsVisibleInMap(true);
+                this.model.setIsSelected(true);
+            }
         }
+
     }
+
 );
 
 export default LayerView;
