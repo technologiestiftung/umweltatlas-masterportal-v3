@@ -751,9 +751,10 @@ export default {
                         <span
                             v-if="showCollapseAllButton"
                             ref="collapse-all-icon"
-                            tabindex="0"
                             class="bootstrap-icon toggle-collapse-all legend"
                             :title="$t('common:modules.legend.toggleCollapseAll')"
+                            role="button"
+                            tabindex="0"
                             @click="toggleCollapseAll($event)"
                             @keydown="toggleCollapseAll($event)"
                         >
@@ -762,6 +763,7 @@ export default {
                         <span
                             ref="close-icon"
                             class="bootstrap-icon close-legend"
+                            role="button"
                             tabindex="0"
                             @click="closeLegend($event)"
                             @keydown="closeLegend($event)"

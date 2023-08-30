@@ -76,7 +76,8 @@
             "bufferAnalysis": "Buffer Analyse",
             "wfsSearch": "WFS Suche",
             "routing": "Routing",
-            "layerClusterToggler": "Layer-Gruppe öffnen"
+            "layerClusterToggler": "Layer-Gruppe öffnen",
+            "statisticDashboard": "Statistik Dashboard"
         },
         "contact": "Kontakt",
         "info": "Informationen"

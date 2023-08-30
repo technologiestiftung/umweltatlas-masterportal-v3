@@ -317,6 +317,8 @@ export default {
             'basic-drag-handle-is-enabled': isEnabled,
             'basic-drag-handle-is-dragging': isDragging
         }"
+        role="button"
+        tabindex="0"
         @touchstart="onTouchStart($event)"
         @mousedown="onMouseDown($event)"
     >

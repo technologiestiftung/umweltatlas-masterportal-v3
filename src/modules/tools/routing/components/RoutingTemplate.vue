@@ -123,6 +123,8 @@ export default {
                             'routingtooltab d-flex justify-content-center py-3 pointer',
                             activeRoutingToolOption === routingToolOption.id ? 'active' : '',
                         ]"
+                        role="button"
+                        tabindex="0"
                         @click="changeActiveRoutingToolOption(routingToolOption.id)"
                         @keydown.enter="changeActiveRoutingToolOption(routingToolOption.id)"
                     >
@@ -139,6 +141,8 @@ export default {
                     <div
                         class="d-flex flex-column justify-content-center ms-2"
                         :title="$t('common:modules.tools.routing.helpTooltip')"
+                        role="button"
+                        tabindex="0"
                         @click="toggleHelp()"
                         @keydown.enter="toggleHelp()"
                     >

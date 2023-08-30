@@ -91,6 +91,8 @@ export default {
         <div id="modal-1-overlay" />
         <div
             id="modal-1-outer-wrapper"
+            role="button"
+            tabindex="0"
             @mousedown="discardByClickOutside"
             @dragenter.prevent="discardByClickOutside"
         >
@@ -102,6 +104,7 @@ export default {
                     ref="discard"
                     class="bootstrap-icon"
                     title="Discard"
+                    role="button"
                     tabindex="0"
                     @click="discardByClickX"
                     @keydown.enter="discardByClickX"

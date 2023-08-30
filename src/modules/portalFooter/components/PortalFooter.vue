@@ -205,12 +205,16 @@ export default {
                     <span
                         v-if="isShortMenuOpen"
                         class="bi bi-chevron-down"
+                        role="button"
+                        tabindex="0"
                         @click.self="toggleMobileFooterInfo"
                         @keydown="toggleMobileFooterInfo"
                     />
                     <span
                         v-else
                         class="bi bi-chevron-up"
+                        role="button"
+                        tabindex="0"
                         @click.self="toggleMobileFooterInfo"
                         @keydown="toggleMobileFooterInfo"
                     />
@@ -224,6 +228,8 @@ export default {
                         class="separator"
                     >
                         <a
+                            role="button"
+                            tabindex="0"
                             @click="toggleFooterInfo(index)"
                             @keydown="toggleFooterInfo(index)"
                         >
@@ -264,6 +270,8 @@ export default {
                                 :key="`footer-info-link-${index}`"
                             >
                                 <a
+                                    role="button"
+                                    tabindex="0"
                                     @click="toggleFooterInfo(index)"
                                     @keydown="toggleFooterInfo(index)"
                                 >

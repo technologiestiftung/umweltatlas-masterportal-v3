@@ -5,6 +5,7 @@
 
 ## Unreleased - in development
 ### Added
+- New Tool 3D-Modeler has been added to draw/import 3D models into the 3D map.
 - Routing
     - Possibility to use *ESRI CH LocationFinder* for geosearch option.
     - Possibility to use *Komoot* for geosearch/reverse geosearch option.
@@ -18,7 +19,7 @@
 ### Changed
 - The following packages have been updated:
     - dependencies:
-        - @masterportal/masterportalapi: 2.23.0 to 2.24.0 (This also raised olcs to version 2.15.0)
+        - @masterportal/masterportalapi: 2.23.0 to 2.26.0 (This also raised olcs to version 2.15.0 and ol to 7.5.1)
 - Filter:
     - The parameter filterOnMove now only works in combination with "'multiLayerSelector': false" to create a better user experience.
     - The filter configuration in the portal master is adapted to the new syntax.
@@ -31,6 +32,7 @@
 
 ### Fixed
 - Issue #1061: Filter: Accept gml:featureMembers occuring with other children in XML response.
+- Issue #1068: Print: fixed printing of point layers.
 - Default Tree
     - on category change all layers are shown in the layer tree
     - Config.tree.orderBy sets category

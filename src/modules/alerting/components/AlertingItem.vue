@@ -227,6 +227,8 @@ export default {
                             class="confirm"
                         >
                             <a
+                                role="button"
+                                tabindex="0"
                                 @click="markAsRead(singleAlert.hash)"
                                 @keydown.enter="markAsRead(singleAlert.hash)"
                             >

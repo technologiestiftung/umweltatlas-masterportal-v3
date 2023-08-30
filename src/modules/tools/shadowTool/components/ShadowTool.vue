@@ -241,6 +241,8 @@ export default {
                 <label
                     class="form-label"
                     for="tool-shadow-checkbox"
+                    role="button"
+                    tabindex="0"
                     @click="toggleShadow(!shadowActivated)"
                     @keydown.enter="toggleShadow(!shadowActivated)"
                 >

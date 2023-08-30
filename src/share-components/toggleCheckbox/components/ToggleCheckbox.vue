@@ -74,6 +74,7 @@ export default {
     <div
         class="toggleCheckboxComponent toggle btn btn-outline-default btn-sm"
         :class="{'off': !isActive}"
+        role="button"
         tabindex="0"
         @keydown="toggle($event)"
     >
@@ -91,6 +92,8 @@ export default {
             <div
                 class="btn btn-primary btn-sm toggle-on"
                 :class="{'active': isActive}"
+                role="button"
+                tabindex="0"
                 @click="toggle($event)"
                 @keydown="toggle($event)"
             >
@@ -99,6 +102,8 @@ export default {
             <div
                 class="btn btn-outline-default btn-sm toggle-off"
                 :class="{'active': !isActive}"
+                role="button"
+                tabindex="0"
                 @click="toggle($event)"
                 @keydown="toggle($event)"
             >
@@ -106,6 +111,8 @@ export default {
             </div>
             <span
                 class="toggle-handle btn btn-outline-default btn-sm"
+                role="button"
+                tabindex="0"
                 @click="toggle($event)"
                 @keydown="toggle($event)"
             />

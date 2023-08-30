@@ -290,6 +290,8 @@ export default {
                         v-if="legendURL !== 'ignore'"
                         value="layerinfo-legend"
                         class="nav-item"
+                        role="button"
+                        tabindex="0"
                         @click="onClick"
                         @keydown.enter="onClick"
                     >
@@ -305,6 +307,8 @@ export default {
                         v-if="showDownloadLinks"
                         value="LayerInfoDataDownload"
                         class="nav-item"
+                        role="button"
+                        tabindex="0"
                         @click="onClick"
                         @keydown.enter="onClick"
                     >
@@ -320,6 +324,8 @@ export default {
                         v-if="showUrl"
                         value="url"
                         class="nav-item"
+                        role="button"
+                        tabindex="0"
                         @click="onClick"
                         @keydown.enter="onClick"
                     >

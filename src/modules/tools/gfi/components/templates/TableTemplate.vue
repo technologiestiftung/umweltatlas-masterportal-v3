@@ -139,8 +139,9 @@ export default {
     >
         <template #rightOfTitle>
             <span
-                tabindex="0"
                 class="icon-turnarticle bootstrap-icon"
+                role="button"
+                tabindex="0"
                 @click="rotate"
                 @keydown.enter="rotate"
             />
