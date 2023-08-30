@@ -18,6 +18,7 @@
 - Gitignore
     - added pipeline file for bitbucket
     - added pipeline file for gitlab
+- urls in gfiAttributes can now be custimized and shown as html tags (a, img, iframe) with custom properties
 
 ### Changed
 - The following packages have been updated:
