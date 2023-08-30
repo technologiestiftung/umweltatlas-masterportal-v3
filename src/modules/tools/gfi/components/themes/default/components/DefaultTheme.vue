@@ -300,7 +300,7 @@ export default {
                         >Link</a>
                     </td>
                     <td v-else-if="isHTML(value)">
-                        <div v-html="value"></div>
+                        <div v-html="value"/>
                     </td>
                     <td v-else-if="isPhoneNumber(value)">
                         <a :href="getPhoneNumberAsWebLink(value)">{{ value }}</a>
