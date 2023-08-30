@@ -144,7 +144,7 @@ GeoJSONLayer.prototype.createStyle = async function (attrs) {
         /**
          * Returns style function to style fature.
          * @param {ol.Feature} feature the feature to style
-         * @returns {Function} style function to style fature
+         * @returns {Function} style function to style feature
          */
         const style = (feature) => {
             const feat = feature !== undefined ? feature : this,

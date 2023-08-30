@@ -222,37 +222,6 @@ STALayer.prototype.getPropertyname = function (attrs) {
 };
 
 /**
- * Getter of style for layer.
- * @param {Object} attrs params of the raw layer
- * @returns {Function} a function to get the style with or null plus console error if no style model was found
- */
-STALayer.prototype.getStyleFunctionold = function (attrs) {
-    const styleId = attrs?.styleId,
-        styleObject = styleList.returnStyleObject(styleId);
-
-
-    if (typeof styleObject !== "undefined") {
-        this.styleRule = styleObject.rules ? styleObject.rules : null;
-        return function (feature, resolution) {
-            const feat = typeof feature !== "undefined" ? feature : this,
-                isClusterFeature = typeof feat.get("features") === "function" || typeof feat.get("features") === "object" && Boolean(feat.get("features").length > 1),
-                style = createStyle.createStyle(styleObject, feat, isClusterFeature, Config.wfsImgPath),
-                styleElement = Array.isArray(style) ? style[0] : style,
-                zoomLevel = store.getters["Maps/getView"].getZoomForResolution(resolution) + 1,
-                zoomLevelCount = store.getters["Maps/getView"].getResolutions().length;
-
-            if (styleElement?.getImage() !== null && attrs.scaleStyleByZoom) {
-                styleElement.getImage().setScale(styleElement.getImage().getScale() * zoomLevel / zoomLevelCount);
-            }
-            return style;
-        };
-    }
-    console.error(i18next.t("common:modules.core.modelList.layer.wrongStyleId", {styleId}));
-
-    return null;
-};
-
-/**
  * Initializes the style and sets it at this. If styleId is set, this is done after vector styles are loaded.
  * @param {Object} attrs attributes of the raw layer
  * @returns {void}
