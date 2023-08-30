@@ -2,6 +2,7 @@ import Template from "text-loader!./template.html";
 import checkChildrenDatasets from "../../checkChildrenDatasets.js";
 import LayerBaseView from "./viewBase.js";
 import templateSettingsTransparency from "text-loader!./templateSettingsTransparency.html";
+import store from "../../../../src/app-store/index";
 
 
 const LayerView = LayerBaseView.extend(
@@ -98,23 +99,8 @@ const LayerView = LayerBaseView.extend(
             });
             this.listenTo(Radio.channel("Map"), {
                 "change": function (mode) {
-                    const supported = this.model.get("supported");
-
-                    if (supported.indexOf(mode) >= 0) {
-                        this.enableComponent();
-                    }
-                    else if (mode === "2D" && !supported.includes("2D")) {
-                        // wait until vue MapState is updated to new mode
-                        setTimeout(() => {
-                            this.rerender();
-                        }, 200);
-                    }
-                    else if (mode === "3D" && !supported.includes("3D")) {
-                        this.disableComponent();
-                    }
-                    this.setConfigVisibility();
-                }
-            });
+                    this.checkLayersForModeVisibility(mode);
+                }});
             this.listenTo(Radio.channel("LayerInformation"), {
                 unhighlightLayerInformationIcon:
                     this.unhighlightLayerInformationIcon
@@ -134,9 +120,6 @@ const LayerView = LayerBaseView.extend(
          * @returns {void}
          */
         render: function () {
-            this.setConfigVisibility();
-
-
             const attr = this.model.toJSON(),
                 selector = $("#" + this.model.get("parentId"));
 
@@ -258,15 +241,53 @@ const LayerView = LayerBaseView.extend(
             }
         },
 
-        setConfigVisibility: function () {
-            if (this.model.get("isVisibleAfterModeChange")) {
-                this.model.setIsVisibleInMap(true);
-                this.model.setIsSelected(true);
+        checkLayersForModeVisibility: function (mode) {
+            const layers = store.state.configJson?.Themenconfig.Hintergrundkarten.Layer;
+
+            if (layers) {
+                layers.forEach(layer => {
+                    if (layer.supported) {
+                        if (mode === "2D") {
+                            if (layer.supported.includes("2D")) {
+                                if (layer.visibility === true) {
+                                    setTimeout(() => {
+                                        const layerToSwitchOn = Radio.request("ModelList", "getModelByAttributes", {id: layer.id});
+
+                                        this.enableComponent();
+                                        layerToSwitchOn.setIsSelected(true);
+                                        layerToSwitchOn.setIsVisibleInMap(true);
+                                    }, 500);
+                                }
+                            }
+                            else {
+                                const layerToSwitchOn = Radio.request("ModelList", "getModelByAttributes", {id: layer.id});
+
+                                layerToSwitchOn?.setIsSelected(false);
+                                layerToSwitchOn?.setIsVisibleInMap(false);
+                            }
+                        }
+                        else if (mode === "3D") {
+                            if (layer.supported.includes("3D")) {
+                                if (layer.visibility === true) {
+                                    const layerToSwitchOn = Radio.request("ModelList", "getModelByAttributes", {id: layer.id});
+
+                                    layerToSwitchOn.setIsSelected(true);
+                                    layerToSwitchOn.setIsVisibleInMap(true);
+                                }
+                            }
+                            else {
+                                const layerToSwitchOn = Radio.request("ModelList", "getModelByAttributes", {id: layer.id});
+
+                                this.disableComponent();
+                                layerToSwitchOn?.setIsSelected(false);
+                                layerToSwitchOn?.setIsVisibleInMap(false);
+                            }
+                        }
+                    }
+                });
             }
         }
-
     }
-
 );
 
 export default LayerView;
