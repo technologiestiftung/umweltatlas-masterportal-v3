@@ -5,12 +5,14 @@ import {getComponent} from "../../../../utils/getComponent";
 import ToolTemplate from "../../ToolTemplate.vue";
 import getters from "../store/gettersStatisticDashboard";
 import mutations from "../store/mutationsStatisticDashboard";
+import Controls from "./StatisticDashboardControls.vue";
 
 export default {
     name: "StatisticDashboard",
     components: {
         ToolTemplate,
-        TableComponent
+        TableComponent,
+        Controls
     },
     data () {
         return {
@@ -59,6 +61,20 @@ export default {
         :deactivate-gfi="deactivateGFI"
     >
         <template #toolBody>
+            <Controls
+                :descriptions="[{
+                                    title: 'Trappatoni 1',
+                                    content: 'Es gibt im Moment in diese Mannschaft, oh, einige Spieler vergessen ihnen Profi was sie sind.'
+                                },
+                                {
+                                    title: 'Trappatoni 2 ',
+                                    content: 'Ich lese nicht sehr viele Zeitungen, aber ich habe gehört viele Situationen.'
+                                },
+                                {
+                                    title: 'Trappatoni 3 ',
+                                    content: 'Letzte Spiel hatten wir in Platz drei Spitzen: Elber, Jancka und dann Zickler.'
+                                }]"
+            />
             <TableComponent
                 :data="data"
                 :select-mode="selectMode"

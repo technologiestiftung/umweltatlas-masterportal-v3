@@ -496,6 +496,13 @@
                     "geometryParseError": "Die angegebene Geometry konnte nicht geladen werden"
                 }
             },
+            "statisticDashboard": {
+                "button": {
+                  "difference": "Differenz",
+                  "table": "Tabelle",
+                  "chart": "Diagramm"
+                }
+            },
             "pendler": {
                 "animation": {
                     "domicile": "Wohnort",

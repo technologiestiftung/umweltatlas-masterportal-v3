@@ -427,6 +427,13 @@
                 "serviceThree": "Service 3",
                 "serviceFour": "Service 4"
             },
+            "statisticDashboard": {
+              "button": {
+                "difference": "Difference",
+                "table": "Table",
+                "chart": "Chart"
+              }
+          },
             "filter": {
                 "alertingMessages": {
                     "noMatchingFilterId": "The configured filter id does not exist."
