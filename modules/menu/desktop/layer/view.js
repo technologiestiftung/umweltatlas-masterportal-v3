@@ -99,8 +99,9 @@ const LayerView = LayerBaseView.extend(
             });
             this.listenTo(Radio.channel("Map"), {
                 "change": function (mode) {
-                    this.checkLayersForModeVisibility(mode);
-                }});
+                    this.setDefaultVisibleLayers(mode);
+                }
+            });
             this.listenTo(Radio.channel("LayerInformation"), {
                 unhighlightLayerInformationIcon:
                     this.unhighlightLayerInformationIcon
@@ -125,7 +126,10 @@ const LayerView = LayerBaseView.extend(
 
             this.$el.html("");
             if (this.model.get("isVisibleInTree")) {
-                this.renderDimensionSetting();
+                setTimeout(() => {
+                    this.renderDimensionSetting();
+                }, 500);
+
                 if (this.model.get("level") === 0) {
                     selector.prepend(this.$el.html(this.template(attr)));
                 }
@@ -161,8 +165,7 @@ const LayerView = LayerBaseView.extend(
             if (
                 !this.model.get("isSelected") &&
                 (this.model.get("maxScale") < scale ||
-                    this.model.get("minScale") > scale) || !this.layerHasRightDimension()
-            ) {
+                    this.model.get("minScale") > scale)) {
                 this.disableComponent();
             }
 
@@ -218,6 +221,7 @@ const LayerView = LayerBaseView.extend(
             }
         },
 
+
         /**
          * checks the dimension settings for the layer
          * @returns {boolean} if layer have the right dimension for the right mode (2D or 3D)
@@ -241,48 +245,63 @@ const LayerView = LayerBaseView.extend(
             }
         },
 
-        checkLayersForModeVisibility: function (mode) {
-            const layers = store.state.configJson?.Themenconfig.Hintergrundkarten.Layer;
+        /**
+         * filteres all layers specified in the config for the one with the attribute "visibility=true"
+         * @returns {Array} of layers
+         */
+        getDefaultVisibleLayer: function () {
+            const visibleLayers = [],
+                baseLayers = store.state.configJson?.Themenconfig.Hintergrundkarten.Layer,
+                specialLayers = store.state.configJson?.Themenconfig.Fachdaten.Layer,
+                specialLayers3D = store.state.configJson?.Themenconfig.Fachdaten_3D.Layer;
+
+            specialLayers3D.forEach(specialLayer => {
+                specialLayer.supported = ["3D"];
+            });
+
+            // eslint-disable-next-line one-var
+            const layers = [...baseLayers, ...specialLayers, ...specialLayers3D];
+
 
             if (layers) {
                 layers.forEach(layer => {
-                    if (layer.supported) {
-                        if (mode === "2D") {
-                            if (layer.supported.includes("2D")) {
-                                if (layer.visibility === true) {
-                                    setTimeout(() => {
-                                        const layerToSwitchOn = Radio.request("ModelList", "getModelByAttributes", {id: layer.id});
-
-                                        this.enableComponent();
-                                        layerToSwitchOn.setIsSelected(true);
-                                        layerToSwitchOn.setIsVisibleInMap(true);
-                                    }, 500);
-                                }
+                    if (layer.visibility) {
+                        visibleLayers.push({id: layer.id, supported: layer.supported});
+                    }
+                    else if (layer.children) {
+                        layer.children.forEach(child => {
+                            if (child.visibility) {
+                                visibleLayers.push({id: child.id, supported: child.supported});
                             }
-                            else {
-                                const layerToSwitchOn = Radio.request("ModelList", "getModelByAttributes", {id: layer.id});
+                        });
+                    }
+                });
+            }
+            return visibleLayers;
+        },
+        /**
+         * sets the default visible layers (as defined in the config) depending on their support of the mode (2D, 3D)
+         * @param {*} mode
+         */
 
-                                layerToSwitchOn?.setIsSelected(false);
-                                layerToSwitchOn?.setIsVisibleInMap(false);
-                            }
-                        }
-                        else if (mode === "3D") {
-                            if (layer.supported.includes("3D")) {
-                                if (layer.visibility === true) {
-                                    const layerToSwitchOn = Radio.request("ModelList", "getModelByAttributes", {id: layer.id});
+        setDefaultVisibleLayers: function (mode) {
+            const layers = this.getDefaultVisibleLayer();
 
-                                    layerToSwitchOn.setIsSelected(true);
-                                    layerToSwitchOn.setIsVisibleInMap(true);
-                                }
-                            }
-                            else {
-                                const layerToSwitchOn = Radio.request("ModelList", "getModelByAttributes", {id: layer.id});
+            if (layers) {
+                layers.forEach(layer => {
 
-                                this.disableComponent();
-                                layerToSwitchOn?.setIsSelected(false);
-                                layerToSwitchOn?.setIsVisibleInMap(false);
-                            }
-                        }
+                    const shouldLayerBeVisible = layer.supported?.includes(mode);
+
+                    if (shouldLayerBeVisible) {
+                        const layerToSwitchOn = Radio.request("ModelList", "getModelByAttributes", {id: layer.id});
+
+                        setTimeout(() => {
+                            this.enableComponent();
+
+                            layerToSwitchOn.setIsSelected(true);
+                            layerToSwitchOn.setIsVisibleInMap(true);
+                        }, 500);
+
                     }
                 });
             }
