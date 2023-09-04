@@ -11,12 +11,7 @@ export function isHTML (value) {
         errorNode = doc.querySelector("parsererror");
     let valid = false;
 
-    if (errorNode) {
-        // parsing failed
-        valid = false;
-    }
-    else {
-        // parsing succeeded
+    if (!errorNode) {
         valid = true;
     }
 
