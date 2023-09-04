@@ -1208,9 +1208,9 @@ With these confurations a url in the feature properties can be displayed either 
 
 |Name|Required|Type|Default|Description|Example|
 |----|--------|----|-------|-----------|-------|
-|tag|yes|enum["a", "img", "iframe"]||tag to be created|`"a"`|
-|innerHTML|no|String||innerHTML to be created. Only used for a|`"Link"`|
-|properties|no|Object||properties to be set at the html tag|`{"target": "_blank"}`|
+|tag|yes|String||tag to be created|`"a"`|
+|innerHTML|no|String||innerHTML to be created. If innerHTML is set to "%value%", the attributes value is used.|`"Link"`|
+|properties|no|Object||properties to be set at the html tag. If value is set to "%value%", the attributes value is used|`{"target": "_blank"}`|
 
 
 **gfiAttributes example object using type `html` and tag `a`**
@@ -1225,6 +1225,7 @@ With these confurations a url in the feature properties can be displayed either 
           "tag": "a",
           "innerHTML": "zum Link",
           "properties": {
+            "href": "%value%",
             "target": "_blank"
           }
         }
@@ -1245,6 +1246,7 @@ With these confurations a url in the feature properties can be displayed either 
          "html": {
           "tag": "img",
           "properties": {
+            "src": "%value%",
             "max-width": "150px"
           }
         }
@@ -1265,6 +1267,7 @@ With these confurations a url in the feature properties can be displayed either 
          "html": {
           "tag": "iframe",
           "properties": {
+            "src": "%value%",
             "width": "250px",
             "height": "250px",
             "frameborder": "0",
