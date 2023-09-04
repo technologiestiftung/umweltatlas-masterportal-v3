@@ -84,6 +84,8 @@ export default {
                 v-if="showLegendInMenu"
                 :class="{ 'open': showLegend }"
                 class="nav-item dropdown dropdown-folder legend-menu-item"
+                role="button"
+                tabindex="0"
                 @click="toggleLegend"
                 @keydown.enter.stop.prevent="toggleLegend"
                 @keydown.space.stop.prevent="toggleLegend"
@@ -106,6 +108,8 @@ export default {
             id="legend-menu"
             :class="{ open: showLegend }"
             class="list-group-item ps-1 mobile"
+            role="button"
+            tabindex="0"
             @click="toggleLegend"
             @keydown.enter="toggleLegend"
         >

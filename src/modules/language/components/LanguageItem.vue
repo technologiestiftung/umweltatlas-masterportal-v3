@@ -54,6 +54,7 @@ export default {
                     type="button"
                     class="col-1 bootstrap-icon d-flex justify-content-center"
                     tabindex="0"
+                    role="button"
                     @click="toggleLanguageWindow"
                     @keydown.enter="toggleLanguageWindow"
                 >

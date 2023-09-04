@@ -75,7 +75,8 @@
             "bufferAnalysis": "Buffer Analysis",
             "parcelSearch": "Parcel search",
             "wfsSearch": "WFS search",
-            "layerClusterToggler": "Open Layer Cluster"
+            "layerClusterToggler": "Open Layer Cluster",
+            "statisticDashboard": "Statistic Dashboard"
         },
         "contact": "Mail",
         "info": "Information"
@@ -434,6 +435,13 @@
                 "serviceThree": "Service 3",
                 "serviceFour": "Service 4"
             },
+            "statisticDashboard": {
+              "button": {
+                "difference": "Difference",
+                "table": "Table",
+                "chart": "Chart"
+              }
+          },
             "filter": {
                 "alertingMessages": {
                     "noMatchingFilterId": "The configured filter id does not exist."
@@ -695,7 +703,7 @@
                 },
                 "hiddenObjectsLabel": "Hidden Buildings:",
                 "title": "3D Modeler"
-            },            
+            },
             "parcelSearch": {
                 "wrongConfig": "Invalid or incomplete configuration",
                 "districtsLoadFailed": "Districts could not be loaded",

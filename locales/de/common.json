@@ -76,7 +76,8 @@
             "bufferAnalysis": "Buffer Analyse",
             "wfsSearch": "WFS Suche",
             "routing": "Routing",
-            "layerClusterToggler": "Layer-Gruppe öffnen"
+            "layerClusterToggler": "Layer-Gruppe öffnen",
+            "statisticDashboard": "Statistik Dashboard"
         },
         "contact": "Kontakt",
         "info": "Informationen"
@@ -501,6 +502,13 @@
                 },
                 "upload": {
                     "geometryParseError": "Die angegebene Geometry konnte nicht geladen werden"
+                }
+            },
+            "statisticDashboard": {
+                "button": {
+                  "difference": "Differenz",
+                  "table": "Tabelle",
+                  "chart": "Diagramm"
                 }
             },
             "pendler": {

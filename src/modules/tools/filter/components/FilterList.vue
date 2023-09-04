@@ -106,11 +106,15 @@ export default {
             :ref="filter.filterId"
             :key="filter.filterId"
             class="panel panel-default"
+            role="button"
+            tabindex="0"
             @click="setLayerLoaded(filter.filterId)"
             @keydown.enter="setLayerLoaded(filter.filterId)"
         >
             <h2
                 :class="['panel-title', disabled ? 'disabled' : '']"
+                role="button"
+                tabindex="0"
                 @click="updateSelectedLayers(filter.filterId)"
                 @keydown.enter="updateSelectedLayers(filter.filterId)"
             >

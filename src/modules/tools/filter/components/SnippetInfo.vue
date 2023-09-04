@@ -50,6 +50,7 @@ export default {
         <div class="info-icon">
             <span
                 :class="['bi bi-info-circle-fill', showInfo ? 'opened' : '']"
+                role="button"
                 tabindex="0"
                 @click="toggleInfo()"
                 @keydown.enter="toggleInfo()"
@@ -61,6 +62,8 @@ export default {
         >
             <div
                 class="info-text"
+                role="button"
+                tabindex="0"
                 @click="toggleInfo()"
                 @keydown="toggleInfo()"
             >
