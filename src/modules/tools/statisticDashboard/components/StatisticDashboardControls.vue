@@ -72,11 +72,11 @@ export default {
 </script>
 
 <template>
-    <div class="d-flex flex-row flex-wrap align-items-baseline justify-content-between mb-3 dashboard-controls">
+    <div class="d-flex flex-row flex-wrap align-items-center justify-content-between mb-3 dashboard-controls">
         <!-- Descriptions -->
         <div
             v-if="hasDescription"
-            class="flex-grow-1 p-2 w-50 description"
+            class="flex-grow-1 w-50 pb-1 description"
         >
             <div class="hstack gap-1">
                 <button
@@ -99,8 +99,8 @@ export default {
             </div>
         </div>
         <!-- Controls -->
-        <div class="btn-toolbar p-2">
-            <div class="btn-group btn-group-sm me-2">
+        <div class="btn-toolbar">
+            <div class="btn-group btn-group-sm me-2 pb-1">
                 <input
                     id="btnradio1"
                     type="radio"
@@ -137,21 +137,21 @@ export default {
                     <i class="bi bi-bar-chart pe-2" />{{ $t("common:modules.tools.statisticDashboard.button.chart") }}
                 </label>
             </div>
-            <div class="btn-group me-2">
+            <div class="btn-group me-2 pb-1">
                 <button
                     type="button"
-                    class="btn btn-outline-primary btn-sm lh-1"
+                    class="btn button-style-outline btn-sm lh-1"
                     @click="$emit('showDifference')"
                 >
                     <i class="bi bi-intersect pe-2" />{{ $t("common:modules.tools.statisticDashboard.button.difference") }}
                 </button>
             </div>
             <div
-                class="btn-group"
+                class="btn-group pb-1"
             >
                 <button
                     type="button"
-                    class="btn btn-primary btn-sm lh-1"
+                    class="btn btn-sm lh-1 button-style"
                     @click="$emit('downloadData')"
                 >
                     <i class="bi bi-download pe-2" />{{ $t("common:button.download") }}
@@ -176,6 +176,15 @@ export default {
             opacity: 1;
         }
     }
+}
+
+.button-style, .button-style:hover, .button-style:active, .button-style-outline:hover {
+    background-color: $light_blue;
+    color: $white;
+}
+.button-style-outline {
+    border-color: $light_blue;
+    color: $light_blue;
 }
 
 </style>

@@ -436,10 +436,23 @@
                 "serviceFour": "Service 4"
             },
             "statisticDashboard": {
+              "headings": {
+                "mrhstatistics": "MRH Statistics"
+              },
               "button": {
                 "difference": "Difference",
                 "table": "Table",
-                "chart": "Chart"
+                "chart": "Chart",
+                "add": "Add",
+                "reset": "reset"
+              },
+              "label": {
+                "category": "Category",
+                "area": "Area",
+                "year": "Year",
+                "subcategory": "Subcategory",
+                "communities": "Communities",
+                "districts": "Districts"
               }
           },
             "filter": {

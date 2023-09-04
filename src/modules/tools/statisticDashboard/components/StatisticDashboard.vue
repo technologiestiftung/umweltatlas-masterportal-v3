@@ -6,13 +6,15 @@ import ToolTemplate from "../../ToolTemplate.vue";
 import getters from "../store/gettersStatisticDashboard";
 import mutations from "../store/mutationsStatisticDashboard";
 import Controls from "./StatisticDashboardControls.vue";
+import StatisticFilter from "./StatisticDashboardFilter.vue";
 
 export default {
     name: "StatisticDashboard",
     components: {
         ToolTemplate,
         TableComponent,
-        Controls
+        Controls,
+        StatisticFilter
     },
     data () {
         return {
@@ -61,6 +63,56 @@ export default {
         :deactivate-gfi="deactivateGFI"
     >
         <template #toolBody>
+            <div class="row justify-content-between">
+                <div class="col-md-4">
+                    <h4>{{ $t("common:modules.tools.statisticDashboard.headings.mrhstatistics") }}</h4>
+                </div>
+                <div class="col-md-auto">
+                    <div class="btn-group btn-group-sm me-2">
+                        <input
+                            id="btnradio3"
+                            type="radio"
+                            class="btn-check"
+                            name="btnradioArea"
+                            autocomplete="off"
+                            checked
+                        >
+                        <label
+                            class="btn btn-outline-primary"
+                            for="btnradio3"
+                            role="button"
+                            tabindex="0"
+                        >{{ $t("common:modules.tools.statisticDashboard.label.communities") }}
+                        </label>
+                        <input
+                            id="btnradio4"
+                            type="radio"
+                            class="btn-check"
+                            name="btnradioArea"
+                            autocomplete="off"
+                        >
+                        <label
+                            class="btn btn-outline-primary"
+                            for="btnradio4"
+                            role="button"
+                            tabindex="0"
+                        >
+                            {{ $t("common:modules.tools.statisticDashboard.label.districts") }}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <StatisticFilter
+                :category="['Kategorie1', 'Kategorie2', 'Kategorie3']"
+                :sub-category="['Bevölkerungswachstum', 'Bruttoinlandsprodukt', 'Ausländer:innenanteil']"
+                :time-steps-filter="{
+                    5: 'Die letzten 5 Jahre',
+                    10: 'Die letzten 10 Jahre',
+                    all: 'Alle Jahre'
+                }"
+                :areas="['Harburg', 'Lübeck', 'Schwerin']"
+            />
+            <hr>
             <Controls
                 :descriptions="[{
                                     title: 'Trappatoni 1',
