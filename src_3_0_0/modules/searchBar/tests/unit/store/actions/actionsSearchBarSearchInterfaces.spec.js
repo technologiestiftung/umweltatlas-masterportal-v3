@@ -5,7 +5,6 @@ import sinon from "sinon";
 const {
     cleanSearchResults,
     instantiateSearchInterfaces,
-    startSearch,
     search
 } = actions;
 
