@@ -6,9 +6,20 @@
  * @returns {boolean} True if the input is an html.
  */
 export function isHTML (value) {
-    const regExp = new RegExp(/^<\/?[a-z][\s\S]*>$/i);
+    const parser = new DOMParser();
+    let doc = parser.parseFromString(value, "text/xml"),
+        errorNode = doc.querySelector("parsererror"),
+        isHTML = false;
 
-    return regExp.test(value);
+    if (errorNode) {
+        // parsing failed
+        isHTML = false;
+    } else {
+        // parsing succeeded
+        isHTML = true;
+    }
+
+    return isHTML;
 }
 
 export default {isHTML};
