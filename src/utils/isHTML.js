@@ -6,10 +6,10 @@
  * @returns {boolean} True if the input is an html.
  */
 export function isHTML (value) {
-    const parser = new DOMParser();
-    let doc = parser.parseFromString(value, "text/xml"),
-        errorNode = doc.querySelector("parsererror"),
-        isHTML = false;
+    const parser = new DOMParser(),
+        doc = parser.parseFromString(value, "text/xml"),
+        errorNode = doc.querySelector("parsererror");
+    let isHTML = false;
 
     if (errorNode) {
         // parsing failed
