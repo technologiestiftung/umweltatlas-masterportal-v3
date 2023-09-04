@@ -9,17 +9,18 @@ export function isHTML (value) {
     const parser = new DOMParser(),
         doc = parser.parseFromString(value, "text/xml"),
         errorNode = doc.querySelector("parsererror");
-    let isHTML = false;
+    let valid = false;
 
     if (errorNode) {
         // parsing failed
-        isHTML = false;
-    } else {
+        valid = false;
+    }
+    else {
         // parsing succeeded
-        isHTML = true;
+        valid = true;
     }
 
-    return isHTML;
+    return valid;
 }
 
 export default {isHTML};
