@@ -277,21 +277,3 @@ export default {
   100% { transform: rotate(360deg); }
 }
 </style>
-
-<style>
-li.nav-item#login {
-    margin: 0px 20px;
-}
-li.nav-item#login a {
-    background-color: rgb(0, 48, 99);
-    padding: 3px 7px;
-    border-radius: 17px;
-    color: white;
-    margin: 12px 0px;
-    font-weight: normal;
-}
-
-#root .dropdown {
-    border-right: none !important;
-}
-</style>
