@@ -24,7 +24,6 @@ export default {
     },
     data: function () {
         return {
-            side: undefined,
             currentComponentSide: undefined
         };
     },
@@ -169,8 +168,9 @@ export default {
         ...mapActions("Modules/SearchBar", [
             "instantiateSearchInterfaces",
             "overwriteDefaultValues",
-            "search",
-            "activateActions"
+            "activateActions",
+            "startLayerSelectionSearch",
+            "search"
         ]),
         ...mapMutations("Modules/SearchBar", [
             "addSuggestionItem",
@@ -208,6 +208,11 @@ export default {
         checkCurrentComponent (currentComponentSide) {
             if (currentComponentSide === "root") {
                 this.clickAction();
+            }
+            else if (currentComponentSide === "layerSelection") {
+                console.log("whatever");
+                this.startLayerSelectionSearch(this.currentSide);
+                this.startSearch();
             }
             else {
                 this.startSearch();

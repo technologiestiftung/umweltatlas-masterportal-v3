@@ -5,6 +5,7 @@ import sortBy from "../../../shared/js/utils/sortBy";
 import escapeId from "../../../shared/js/utils/escapeId";
 import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
 import LayerCheckBox from "../../layerTree/components/LayerCheckBox.vue";
+import SearchBar from "../../searchBar/components/SearchBar.vue";
 import LayerSelectionTreeNode from "./LayerSelectionTreeNode.vue";
 
 /**
@@ -18,6 +19,7 @@ export default {
     components: {
         FlatButton,
         LayerCheckBox,
+        SearchBar,
         LayerSelectionTreeNode
     },
     data () {
@@ -153,6 +155,31 @@ export default {
         class="w-100 layer-selection"
         aria-label=""
     >
+        <SearchBar
+            v-if="addLayerButtonSearchActive === true"
+        />
+        <div
+            v-if="activeOrFirstCategory"
+            class="form-floating mb-3"
+        >
+            <select
+                id="select_category"
+                :value="activeOrFirstCategory.key"
+                class="form-select"
+                @change.prevent="categorySelected($event.target.value)"
+            >
+                <option
+                    v-for="category in allCategories"
+                    :key="category.key"
+                    :value="category.key"
+                >
+                    {{ $t(category.name) }}
+                </option>
+            </select>
+            <label for="select_category">
+                {{ $t("common:modules.layerTree.categories") }}
+            </label>
+        </div>
         <div class="layer-selection-navigation d-flex">
             <h6 v-if="filterBaseLayer().length > 0">
                 {{ $t("common:modules.layerSelection.backgrounds") }}
