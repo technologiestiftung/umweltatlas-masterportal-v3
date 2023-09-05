@@ -40,6 +40,7 @@
 - Default Tree
     - on category change all layers are shown in the layer tree
     - Config.tree.orderBy sets category
+- Issue #1070: show quickHelp icon when search is configured as an object
 ---
 
 ## v2.36.1 - 2023-08-04
