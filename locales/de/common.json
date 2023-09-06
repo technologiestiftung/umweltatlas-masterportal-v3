@@ -505,10 +505,23 @@
                 }
             },
             "statisticDashboard": {
+              "headings": {
+                "mrhstatistics": "MRH Statistiken"
+              },
                 "button": {
                   "difference": "Differenz",
                   "table": "Tabelle",
-                  "chart": "Diagramm"
+                  "chart": "Diagramm",
+                  "add": "Hinzufügen",
+                  "reset": "zurücksetzen"
+                },
+                "label": {
+                  "category": "Kategorie",
+                  "area": "Gebiet",
+                  "year": "Jahr",
+                  "subcategory": "Unterkategorie",
+                  "communities": "Gemeinden",
+                  "districts": "Kreise"
                 }
             },
             "pendler": {
