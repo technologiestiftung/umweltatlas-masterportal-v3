@@ -4,6 +4,19 @@
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
 ## Unreleased - in development
+### __Breaking Changes__
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## v2.37.0 - 2023-09-06
 ### Added
 - New Tool 3D-Modeler has been added to draw/import 3D models into the 3D map.
 - Routing

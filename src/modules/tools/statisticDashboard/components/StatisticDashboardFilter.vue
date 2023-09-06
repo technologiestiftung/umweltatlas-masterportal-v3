@@ -274,4 +274,7 @@ export default {
     color: #000000;
 }
 
+.filtercontainer .multiselect__select {
+    height: 30px;
+}
 </style>
