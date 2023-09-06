@@ -54,6 +54,7 @@ export default {
     startLayerSelectionSearch: ({getters, dispatch, commit, rootState}, side) => {
         commit("setShowAllResults", true);
         commit("setShowAllResultsSearchInterfaceInstance", "elasticSearch_0");// topicTree
+        //commit("setCurrentAvailableCategories", "elasticSearch_0")
         dispatch("Menu/clickedMenuElement", {
             name: "common:modules.searchBar.searchResultList",
             side: side,

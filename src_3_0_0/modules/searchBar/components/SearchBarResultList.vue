@@ -35,6 +35,9 @@ export default {
             "searchResults",
             "searchResultsActive"
         ]),
+        ...mapGetters("Menu", [
+            "currentComponent"
+        ]),
 
         /**
          * Returns the result items for the current available categories.
@@ -68,6 +71,7 @@ export default {
         v-if="searchInput.length >= minCharacters && searchResultsActive && searchResults.length > 0"
         class="overflow-auto results-container"
     >
+    {{limitedSortedSearchResults?.results.categoryProvider}}
         <div id="search-bar-result-list">
             <h5
                 id="search-bar-result-heading"

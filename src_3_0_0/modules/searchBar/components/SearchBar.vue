@@ -103,7 +103,7 @@ export default {
         limitedSortedSearchResults () {
             const results = {},
                 currentShowAllList = [];
-
+            console.log("limitedSortedSearchResults", this.searchInterfaceInstances)
             results.categoryProvider = {};
             this.setSearchSuggestions([]);
             results.availableCategories = [];
@@ -133,7 +133,7 @@ export default {
                     }
                 }
             });
-
+            console.log("results:", results)
             return {results: results, currentShowAllList: currentShowAllList};
         }
     },
@@ -149,6 +149,11 @@ export default {
                     if (this.side) {
                         this.switchToRoot(this.side);
                     }
+                }
+                if (newVal === "layerSelection") {
+                     console.log("ttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt")
+                   console.log(this.limitedSortedSearchResults.results.categoryProvider)
+                   this.currentAvailableCategories = this.limitedSortedSearchResults.results.categoryProvider;
                 }
             },
             deep: true
@@ -210,7 +215,6 @@ export default {
                 this.clickAction();
             }
             else if (currentComponentSide === "layerSelection") {
-                console.log("whatever");
                 this.startLayerSelectionSearch(this.currentSide);
                 this.startSearch();
             }

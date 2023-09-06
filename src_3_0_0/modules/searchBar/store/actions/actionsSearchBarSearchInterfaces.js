@@ -76,12 +76,11 @@ export default {
         if (getters.showAllResults) {
             currentSearchInterfaceInstances = state.searchInterfaceInstances.filter(instance =>instance.searchInterfaceId === getters.showAllResultsSearchInterfaceInstance);
         }
-        console.log(state.searchInterfaceInstances, getters.showAllResultsSearchInterfaceInstance);
+
         currentSearchInterfaceInstances.forEach(instance => {
             instance.clearSearchResults();
             instance.search(searchInput)
                 .then(searchResults => {
-                    console.log(searchResults)
                     commit("addSearchResults", {searchResults});
                 })
                 .catch(error => {
