@@ -80,15 +80,12 @@ const LayerView = LayerBaseView.extend(
 
             checkChildrenDatasets(this.model);
             this.initializeDomId();
-            channel.on(
-                {
-                    rerender: this.rerender,
-                    renderSetting: this.renderTransparency,
-                    "change:isOutOfRange": this.toggleColor,
-                    "change:isVisibleInTree": this.removeIfNotVisible
-                },
-                this
-            );
+            channel.on({
+                rerender: this.rerender,
+                renderSetting: this.renderTransparency,
+                "change:isOutOfRange": this.toggleColor,
+                "change:isVisibleInTree": this.removeIfNotVisible
+            }, this);
 
             this.listenTo(this.model, {
                 "change:isSelected": this.rerender,
@@ -253,14 +250,8 @@ const LayerView = LayerBaseView.extend(
             const visibleLayers = [],
                 baseLayers = store.state.configJson?.Themenconfig.Hintergrundkarten.Layer,
                 specialLayers = store.state.configJson?.Themenconfig.Fachdaten.Layer,
-                specialLayers3D = store.state.configJson?.Themenconfig.Fachdaten_3D.Layer;
-
-            specialLayers3D.forEach(specialLayer => {
-                specialLayer.supported = ["3D"];
-            });
-
-            // eslint-disable-next-line one-var
-            const layers = [...baseLayers, ...specialLayers, ...specialLayers3D];
+                specialLayers3D = store.state.configJson?.Themenconfig.Fachdaten_3D.Layer.map(specialLayer => ({...specialLayer, supported: ["3D"]})),
+                layers = [...baseLayers, ...specialLayers, ...specialLayers3D];
 
 
             if (layers) {
