@@ -522,6 +522,9 @@
                   "statistics": "Statistiken",
                   "communities": "Gemeinden",
                   "districts": "Kreise"
+                },
+                "filterInputs": {
+                  "additional": "Sonstiges"
                 }
             },
             "pendler": {

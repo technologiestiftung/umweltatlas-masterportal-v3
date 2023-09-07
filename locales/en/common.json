@@ -448,11 +448,14 @@
               },
               "label": {
                 "category": "Category",
-                "area": "Area",
+                "area": "Region",
                 "year": "Year",
                 "statistics": "Statistics",
                 "communities": "Communities",
                 "districts": "Districts"
+              },
+              "filterInputs": {
+                "additional": "Additional"
               }
           },
             "filter": {

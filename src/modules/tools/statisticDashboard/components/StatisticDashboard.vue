@@ -9,6 +9,7 @@ import mutations from "../store/mutationsStatisticDashboard";
 import Controls from "./StatisticDashboardControls.vue";
 import StatisticFilter from "./StatisticDashboardFilter.vue";
 import FetchDataHandler from "../utils/fetchData.js";
+import StatisticsHandler from "../utils/handleStatistics.js";
 
 export default {
     name: "StatisticDashboard",
@@ -31,7 +32,13 @@ export default {
             },
             selectMode: "column",
             showHeader: true,
-            sortable: true
+            sortable: true,
+            categories: null,
+            statistics: false,
+            loadedFilterData: false,
+            timeStepsFilter: undefined,
+            regions: [],
+            areCategoriesGrouped: false
         };
     },
     computed: {
@@ -41,10 +48,15 @@ export default {
         this.$on("close", this.close);
     },
     async mounted () {
-        /* const uniqueValues = await this.getUniqueValuesForLevel(this.data[0]),
-            categories = this.getCategoriesFromStatisticAttributes(this.data[0]?.mappingFilter.statisticsAttributes);
+        const uniqueValues = await this.getUniqueValuesForLevel(this.data[0]);
 
-        console.log(uniqueValues, categories);*/
+        if (uniqueValues[this.data[0]?.mappingFilter?.regionNameAttribute?.attrName] && uniqueValues[this.data[0]?.mappingFilter?.timeAttribute?.attrName]) {
+            this.regions = Object.keys(uniqueValues[this.data[0]?.mappingFilter?.regionNameAttribute?.attrName]);
+            this.timeStepsFilter = this.getTimestepsMerged(this.data[0]?.timeStepsFilter, uniqueValues[this.data[0]?.mappingFilter?.timeAttribute?.attrName]);
+        }
+        this.areCategoriesGrouped = StatisticsHandler.hasOneGroup(this.data[0]?.mappingFilter.statisticsAttributes);
+        this.categories = StatisticsHandler.getCategoriesFromStatisticAttributes(this.data[0]?.mappingFilter.statisticsAttributes, this.areCategoriesGrouped);
+        this.loadedFilterData = true;
     },
     methods: {
         ...mapMutations("Tools/StatisticDashboard", Object.keys(mutations)),
@@ -83,23 +95,43 @@ export default {
             uniqueValues = await FetchDataHandler.getUniqueValues(layerId, [timeAttribute, regionNameAttribute], timeInputFormat, timeOutputFormat);
             return uniqueValues;
         },
-        /**
-         * Gets the categories from the statistic attributes.
-         * @param {Object} statisticsAttributes The attributes.
-         * @returns {String[]} An array of category names.
-         */
-        getCategoriesFromStatisticAttributes (statisticsAttributes) {
-            if (!isObject(statisticsAttributes)) {
-                return [];
-            }
-            const categories = {};
 
-            Object.values(statisticsAttributes).forEach(attributesObject => {
-                if (Object.prototype.hasOwnProperty.call(attributesObject, "category") && attributesObject.category) {
-                    categories[attributesObject.category] = true;
-                }
-            });
-            return Object.keys(categories);
+        /**
+         * Gets the time steps for the filter. It will merge the unique list with the given
+         * configured time steps if they are configured.
+         * @param {Object} timeSteps The time steps object with {Number: Label}.
+         * @param {Object} uniqueList The list as object with {value: true}.
+         * @returns {Object[]} The merged time steps.
+         */
+        getTimestepsMerged (timeSteps, uniqueList) {
+            const result = [];
+            let uniqueListAsArray = [];
+
+            if (isObject(uniqueList)) {
+                uniqueListAsArray = Object.keys(uniqueList);
+                uniqueListAsArray.forEach(uniqueTime => {
+                    result.push({value: uniqueTime, label: uniqueTime});
+                });
+            }
+            if (isObject(timeSteps)) {
+                Object.entries(timeSteps).forEach(([key, value]) => {
+                    const uniqueTime = key === "all" ? uniqueListAsArray : uniqueListAsArray.slice(Number(`-${key}`));
+
+                    if (Array.isArray(uniqueTime) && uniqueTime.length) {
+                        result.push({value: uniqueTime, label: value});
+                    }
+                });
+            }
+            return result;
+        },
+
+        /**
+         * Sets the statistics selected in the filter.
+         * @param {String} categoryName - The category name.
+         * @returns {void}
+         */
+        setStatistics (categoryName) {
+            this.statistics = StatisticsHandler.getStatisticsByCategory(categoryName, this.data[0]?.mappingFilter.statisticsAttributes);
         }
     }
 };
@@ -155,15 +187,25 @@ export default {
                 </div>
             </div>
             <StatisticFilter
-                :category="['Kategorie1', 'Kategorie2', 'Kategorie3']"
-                :sub-category="['Bevölkerungswachstum', 'Bruttoinlandsprodukt', 'Ausländer:innenanteil']"
-                :time-steps-filter="{
-                    5: 'Die letzten 5 Jahre',
-                    10: 'Die letzten 10 Jahre',
-                    all: 'Alle Jahre'
-                }"
-                :areas="['Harburg', 'Lübeck', 'Schwerin']"
+                v-if="loadedFilterData"
+                :categories="categories"
+                :are-categories-grouped="areCategoriesGrouped"
+                :statistics="statistics"
+                :time-steps-filter="timeStepsFilter"
+                :regions="regions"
+                @changeCategory="setStatistics"
             />
+            <div
+                v-else
+                class="d-flex justify-content-center"
+            >
+                <div
+                    class="spinner-border spinner-color"
+                    role="status"
+                >
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
             <hr>
             <Controls
                 :descriptions="[{

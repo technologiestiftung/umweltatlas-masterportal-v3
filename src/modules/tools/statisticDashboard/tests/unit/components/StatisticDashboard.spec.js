@@ -25,53 +25,6 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
     });
 
     describe("methods", () => {
-        describe("getCategoriesFromStatisticAttributes", () => {
-            it("should return an empty array if given param is not an object", () => {
-                const wrapper = shallowMount(StatisticDashboard, {
-                    localVue,
-                    store
-                });
-
-                expect(wrapper.vm.getCategoriesFromStatisticAttributes(undefined)).to.be.an("array").that.is.empty;
-                expect(wrapper.vm.getCategoriesFromStatisticAttributes([])).to.be.an("array").that.is.empty;
-                expect(wrapper.vm.getCategoriesFromStatisticAttributes(null)).to.be.an("array").that.is.empty;
-                expect(wrapper.vm.getCategoriesFromStatisticAttributes("1234")).to.be.an("array").that.is.empty;
-                expect(wrapper.vm.getCategoriesFromStatisticAttributes(1234)).to.be.an("array").that.is.empty;
-                expect(wrapper.vm.getCategoriesFromStatisticAttributes(true)).to.be.an("array").that.is.empty;
-                expect(wrapper.vm.getCategoriesFromStatisticAttributes(false)).to.be.an("array").that.is.empty;
-            });
-            it("should return an empty array if child objects has no category attribute", () => {
-                const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
-                    }),
-                    attributes = {
-                        foo: "bar",
-                        fow: {
-                            bow: "vow"
-                        }
-                    };
-
-                expect(wrapper.vm.getCategoriesFromStatisticAttributes(attributes)).to.be.an("array").that.is.empty;
-            });
-            it("should return an array with strings", () => {
-                const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
-                    }),
-                    attributes = {
-                        foo: {
-                            category: "FOO"
-                        },
-                        fow: {
-                            category: "BAR"
-                        }
-                    },
-                    expected = ["FOO", "BAR"];
-
-                expect(wrapper.vm.getCategoriesFromStatisticAttributes(attributes)).to.deep.equal(expected);
-            });
-        });
         describe("getUniqueValuesForLevel", () => {
             it("should return an empty object if first parm is not an object", async () => {
                 const wrapper = shallowMount(StatisticDashboard, {
@@ -131,6 +84,51 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
 
                 expect(fetchData.getUniqueValues.calledWith(layerId, attrNames, undefined, undefined)).to.be.true;
                 sinon.restore();
+            });
+        });
+        describe("getTimestepsMerged", () => {
+            it("should return an empty array if first param and second param are not objects", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                    localVue,
+                    store
+                });
+
+                expect(wrapper.vm.getTimestepsMerged(undefined, undefined)).to.be.an("array").that.is.empty;
+                expect(wrapper.vm.getTimestepsMerged(null, null)).to.be.an("array").that.is.empty;
+                expect(wrapper.vm.getTimestepsMerged([], [])).to.be.an("array").that.is.empty;
+                expect(wrapper.vm.getTimestepsMerged(true, true)).to.be.an("array").that.is.empty;
+                expect(wrapper.vm.getTimestepsMerged(false, false)).to.be.an("array").that.is.empty;
+                expect(wrapper.vm.getTimestepsMerged(1234, 1234)).to.be.an("array").that.is.empty;
+                expect(wrapper.vm.getTimestepsMerged("1234", "1234")).to.be.an("array").that.is.empty;
+            });
+            it("should return an empty array if second param is not an object but first is", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                    localVue,
+                    store
+                });
+
+                expect(wrapper.vm.getTimestepsMerged({foo: "bar"})).to.be.an("array").that.is.empty;
+            });
+            it("should return only the values of the second param as array", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    uniqueList = {foo: true, bar: true},
+                    expected = [{value: "foo", label: "foo"}, {value: "bar", label: "bar"}];
+
+                expect(wrapper.vm.getTimestepsMerged(undefined, uniqueList)).to.deep.equal(expected);
+            });
+            it("should return a merged array based of the given two objects", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    uniqueList = {bar: true, buz: true, foo: true},
+                    configSteps = {2: "Last 2 Years"},
+                    expected = [{value: "bar", label: "bar"}, {value: "buz", label: "buz"}, {value: "foo", label: "foo"}, {value: ["buz", "foo"], label: "Last 2 Years"}];
+
+                expect(wrapper.vm.getTimestepsMerged(configSteps, uniqueList)).to.deep.equal(expected);
             });
         });
     });

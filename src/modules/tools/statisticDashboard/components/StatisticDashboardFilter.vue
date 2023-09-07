@@ -7,78 +7,101 @@ export default {
         Multiselect
     },
     props: {
-        category: {
+        categories: {
             type: Array,
-            required: false,
-            default: () => []
+            required: true
+        },
+        areCategoriesGrouped: {
+            type: Boolean,
+            required: true
         },
         timeStepsFilter: {
-            type: Object,
-            required: false,
-            default: undefined
-        },
-        subCategory: {
             type: Array,
-            required: false,
-            default: () => []
+            required: true
         },
-        areas: {
-            type: Array,
+        statistics: {
+            type: [Object, Boolean],
             required: false,
-            default: () => []
+            default: false
+        },
+        regions: {
+            type: Array,
+            required: true
         }
     },
+    emits: ["changeCategory"],
     data () {
         return {
-            dropdownCategorySelected: "",
-            dropdownAreaSelected: [],
-            dropdownTimeSelected: [],
-            dropdownSubcategory: []
+            selectedCategory: undefined,
+            selectedRegions: [],
+            selectedDates: [],
+            selectedStatistics: []
         };
     },
     computed: {
-        classObject: function () {
-            return {
-                active: this.isActive && !this.error,
-                "text-danger": this.error && this.error.type === "fatal"
-            };
+        /**
+         * Gets the name of the selected category.
+         * @returns {String} The name.
+         */
+        selectedCategoryName () {
+            return typeof this.selectedCategory?.name !== "undefined" ? this.selectedCategory.name : "";
+        },
+
+
+        /**
+         * Gets the names of the current available statistics.
+         * @returns {String[]} The names.
+         */
+        statisticsNames () {
+            if (!this.statistics) {
+                return [];
+            }
+            return Object.keys(this.statistics).map(key => this.statistics[key].name);
+        }
+    },
+    watch: {
+        /**
+         * Resets the statistics and emits the name of the selected category.
+         * @param {Object} value - The selected category.
+         * @returns {void}
+         */
+        selectedCategory (value) {
+            this.resetStatistics();
+            this.$emit("changeCategory", value.name);
         }
     },
     methods: {
 
         /**
-         * Add or remove sub category.
-         * @param {String} name - The name of the subcategory.
+         * Add or remove a statistic.
+         * @param {String} name - The name of the statistic.
          * @returns {void}
          */
-        toggleSubCategory (name) {
-            if (!this.dropdownSubcategory.includes(name)) {
-                this.dropdownSubcategory.push(name);
+        toggleStatistic (name) {
+            if (!this.selectedStatistics.includes(name)) {
+                this.selectedStatistics.push(name);
             }
             else {
-                this.removeCategory(name);
+                this.removeStatistic(name);
             }
         },
 
         /**
-         * Remove existing subCategory
-         * @param {String} name the name of the subcategory
-         * @returns {Object[]} Array of selected subcategories
+         * Remove a existing statistic.
+         * @param {String} name - The name of the statistic.
+         * @returns {void}
          */
-        removeCategory (name) {
-            this.dropdownSubcategory = this.dropdownSubcategory.filter(badge => badge !== name);
-            return this.dropdownSubcategory;
+        removeStatistic (name) {
+            this.selectedStatistics = this.selectedStatistics.filter(statisticName => statisticName !== name);
         },
 
         /**
-         * Reset all sub categories
-         * @returns {Object[]} Array of selected subcategories
+         * Reset all statistics.
          * @returns {void}
          */
-        resetCategories () {
-            this.dropdownSubcategory = [];
+        resetStatistics () {
+            this.selectedStatistics = [];
         }
-
     }
 };
 </script>
@@ -86,7 +109,7 @@ export default {
 <template>
     <div>
         <h5 class="heading-dashboard">
-            {{ dropdownCategorySelected }} - Dashboard
+            {{ selectedCategoryName }}
         </h5>
         <div class="filtercontainer text-left mt-4">
             <div class="row mb-2">
@@ -98,13 +121,18 @@ export default {
                         {{ $t("common:modules.tools.statisticDashboard.label.category") }}</label>
                     <Multiselect
                         id="categoryfilter"
-                        v-model="dropdownCategorySelected"
-                        :options="category"
-                        :searchable="false"
+                        v-model="selectedCategory"
+                        :options="categories"
+                        :searchable="true"
                         :close-on-select="true"
                         :show-labels="false"
                         :allow-empty="false"
-                        :preselect-first="true"
+                        :multiple="false"
+                        :group-values="areCategoriesGrouped ? 'categories' : ''"
+                        :group-label="areCategoriesGrouped ? 'name' : ''"
+                        :group-select="false"
+                        track-by="name"
+                        label="name"
                     />
                 </div>
                 <div
@@ -117,9 +145,9 @@ export default {
                     </label>
                     <Multiselect
                         id="areafilter"
-                        v-model="dropdownAreaSelected"
+                        v-model="selectedRegions"
                         :multiple="true"
-                        :options="areas"
+                        :options="regions"
                         :searchable="false"
                         :close-on-select="false"
                         :clear-on-select="false"
@@ -138,15 +166,17 @@ export default {
                         {{ $t("common:modules.tools.statisticDashboard.label.year") }}</label>
                     <Multiselect
                         id="timefilter"
-                        v-model="dropdownTimeSelected"
+                        v-model="selectedDates"
                         :multiple="true"
-                        :options="Object.values(timeStepsFilter)"
+                        :options="timeStepsFilter"
                         :searchable="false"
                         :close-on-select="false"
                         :clear-on-select="false"
                         :show-labels="false"
                         :allow-empty="false"
                         :preselect-first="true"
+                        label="label"
+                        track-by="value"
                     />
                 </div>
             </div>
@@ -160,7 +190,7 @@ export default {
                     <div class="dropdown">
                         <button
                             class="btn btn-sm btn-primary rounded-pill lh-1 me-2"
-                            :v-model="dropdownSubcategory"
+                            :v-model="selectedStatistics"
                             type="button"
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
@@ -172,15 +202,15 @@ export default {
                             aria="dropdownButton"
                         >
                             <li
-                                v-for="name in subCategory"
+                                v-for="name in statisticsNames"
                                 :key="name"
                                 class="dropdown-line"
                             >
                                 <button
                                     type="button"
                                     class="btn btn-link btn-sm px-2 py-2 dropdown-item"
-                                    :class="dropdownSubcategory.includes(name) ? 'selected' : ''"
-                                    @click="toggleSubCategory(name)"
+                                    :class="selectedStatistics.includes(name) ? 'selected' : ''"
+                                    @click="toggleStatistic(name)"
                                 >
                                     {{ name }}
                                 </button>
@@ -190,25 +220,25 @@ export default {
                 </div>
                 <div class="col col-md-auto py-1">
                     <button
-                        v-for="index in dropdownSubcategory"
+                        v-for="index in selectedStatistics"
                         :key="index"
                         class="btn btn-sm btn-outline-secondary lh-1 rounded-pill shadow-none mt-1 me-2 btn-pb"
                         aria-label="Close"
-                        @click="removeCategory(index)"
+                        @click="removeStatistic(index)"
                     >
                         {{ index }}
                         <i class="bi bi-x fs-5 align-middle" />
                     </button>
                 </div>
                 <div
-                    v-if="dropdownSubcategory.length !== 0"
+                    v-if="selectedStatistics.length !== 0"
                     class="col col-md-auto py-1"
                 >
                     <button
                         id="reset-button"
                         type="button"
                         class="btn btn-link btn-sm p-0"
-                        @click="resetCategories()"
+                        @click="resetStatistics()"
                     >
                         {{ $t("common:modules.tools.statisticDashboard.button.reset") }}
                     </button>
