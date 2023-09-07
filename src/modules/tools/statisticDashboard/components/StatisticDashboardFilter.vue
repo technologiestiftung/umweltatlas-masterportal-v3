@@ -156,7 +156,7 @@ export default {
                         class="col-form-label-sm"
                         for="dropdownButton"
                     >
-                        {{ $t("common:modules.tools.statisticDashboard.label.subcategory") }}</label>
+                        {{ $t("common:modules.tools.statisticDashboard.label.statistics") }}</label>
                     <div class="dropdown">
                         <button
                             class="btn btn-sm btn-primary rounded-pill lh-1 me-2"
@@ -226,9 +226,13 @@ export default {
         color: $light_blue;
     }
 
-    .dropdown-menu > li > .dropdown-item:hover, .dropdown-menu > li > .dropdown-item:focus, .dropdown-menu > li > .dropdown-item:active, .selected {
+     .dropdown-menu > li > .dropdown-item:focus, .dropdown-menu > li > .dropdown-item:active, .selected {
         background-color: $light_blue;
-        color: #FFFFFF;
+        color: $white;
+    }
+    .dropdown-menu > li > .dropdown-item:hover {
+        background: $light_grey;
+        color: $black;
     }
 
     .btn-outline-secondary, label {
@@ -237,6 +241,10 @@ export default {
 
     .btn-pb {
         padding-bottom: 2px;
+    }
+
+    .btn-primary, .btn-primary:enabled, .btn-primary:focus {
+        background-color: $light_blue;
     }
 </style>
 
@@ -248,12 +256,12 @@ export default {
     font-size: 11px;
 }
 .filtercontainer .multiselect__tags, .filtercontainer .multiselect__tag {
-  min-height: 20px;
   font-size: 11px;
 }
 
 .filtercontainer .multiselect__tag {
     border-radius: 25px;
+    padding-top: 5px;
 }
 
 .filtercontainer .multiselect__option--selected.multiselect__option--highlight,
@@ -264,14 +272,14 @@ export default {
 .filtercontainer .multiselect__tag
  {
   background: $light_blue;
-  color: #fff;
+  color: $white;
   font-weight: normal;
 }
 
 .filtercontainer .multiselect__option--highlight,
 .filtercontainer .multiselect__option--highlight:after {
-    background: #D1D1D1;
-    color: #000000;
+    background: $light_grey;
+    color: $black;
 }
 
 .filtercontainer .multiselect__select {
