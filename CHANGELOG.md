@@ -4,6 +4,19 @@
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
 ## Unreleased - in development
+### __Breaking Changes__
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## v2.37.0 - 2023-09-06
 ### Added
 - New Tool 3D-Modeler has been added to draw/import 3D models into the 3D map.
 - Routing
@@ -15,9 +28,11 @@
     - Possibility to define a bbox value for the BKG geosearch service for the different speed profiles.
 - WebGL render pipeline supports now also VectorTile layers.
 - Printing is now for 3d supported.
+- Added new module `login button` that allows the user to login with an OIDC IDM. The resulting auth token is added to all service requests (can be configured).
 - Gitignore
     - added pipeline file for bitbucket
     - added pipeline file for gitlab
+- urls in gfiAttributes can now be custimized and shown as html tags (e.g. a, img, iframe) with custom properties
 - New shared-component "TableComponent".
 
 ### Changed

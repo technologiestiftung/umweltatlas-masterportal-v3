@@ -1069,7 +1069,8 @@ If the gfiAttributes are given as an object, a key's value may also be an object
 |----|--------|----|-------|-----------|-------|
 |name|yes|String||Name to be shown on an exact match.|`"Test"`|
 |condition|yes|enum["contains", "startsWith", "endsWith"]||Condition checked on each feature attribute.|`"startsWith"`|
-|type|no|enum["string", "date", "number", "boolean"]|`"string"`|If `"date"`, the portal will attempt to parse the attribute value to a date; If `"Number"`, the portal will attempt to parse the attribute value to with thousand seperator; If “boolean”, the portal will attempt to parse the attribute value to boolean value.|`"date"`|
+|type|no|enum["string", "date", "number", "boolean", "html"]|`"string"`|If `"date"`, the portal will attempt to parse the attribute value to a date; If `"Number"`, the portal will attempt to parse the attribute value to with thousand seperator; If “boolean”, the portal will attempt to parse the attribute value to boolean value.|`"date"`|
+|html|no|**[html](#markdown-header-gfi_attributes-html)**||Object to define the html tag properties. this is neccessary if type ist set to 'html'.|`"Test"`|
 |format|no|String/Object|`"YYYY-MM-DDTHH:mm:ss.SSSZ"/{"key": "value"}`|Data format.|`"DD.MM.YYY"`|
 |prefix|no|String||Attribute value prefix.|Add string to value without whitespace `"https://"`|
 |suffix|no|String||Attribute value suffix.|`"°C"`|
@@ -1201,6 +1202,85 @@ If the gfiAttributes are given as an object, a key's value may also be an object
 ```
 
 ***
+
+## gfiAttributes html
+With these confurations a url in the feature properties can be displayed either as a link with configurable name, or as an img-tag or as an iframe. Furthermore properties for the tag can be configured.
+
+|Name|Required|Type|Default|Description|Example|
+|----|--------|----|-------|-----------|-------|
+|tag|yes|String||tag to be created|`"a"`|
+|innerHTML|no|String||innerHTML to be created. If innerHTML is set to "%value%", the attributes value is used.|`"Link"`|
+|properties|no|Object||properties to be set at the html tag. If value is set to "%value%", the attributes value is used|`{"target": "_blank"}`|
+
+
+**gfiAttributes example object using type `html` and tag `a`**
+
+```json
+{
+   "gfiAttributes": {
+      "key1": {
+         "name": "key shown in the portal ",
+         "type": "html",
+         "html": {
+          "tag": "a",
+          "innerHTML": "zum Link",
+          "properties": {
+            "href": "%value%",
+            "target": "_blank"
+          }
+        }
+      }
+   }
+}
+
+```
+
+**gfiAttributes example object using type `html` and tag `img`**
+
+```json
+{
+   "gfiAttributes": {
+      "key1": {
+         "name": "key shown in the portal 1",
+         "type": "html",
+         "html": {
+          "tag": "img",
+          "properties": {
+            "src": "%value%",
+            "max-width": "150px"
+          }
+        }
+      }
+   }
+}
+
+```
+
+**gfiAttributes example object using type `html` and tag `iframe`**
+
+```json
+{
+   "gfiAttributes": {
+      "key1": {
+         "name": "key shown in the portal 1",
+         "type": "html",
+         "html": {
+          "tag": "iframe",
+          "properties": {
+            "src": "%value%",
+            "width": "250px",
+            "height": "250px",
+            "frameborder": "0",
+            "allow": "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture",
+            "allowfullscreen": true
+          }
+        }
+      }
+   }
+}
+
+```
+
 
 ## GeoJSON layer
 
