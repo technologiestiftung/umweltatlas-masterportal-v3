@@ -52,6 +52,7 @@
 ### Fixed
 - Issue #1061: Filter: Accept gml:featureMembers occuring with other children in XML response.
 - Issue #1068: Print: fixed printing of point layers.
+- Issue #1070: show quickHelp icon when search is configured as an object
 - Issue #776: show only 2D layers in 2D mode and 3D layers in 3D mode
 - Default Tree
     - on category change all layers are shown in the layer tree
