@@ -236,7 +236,7 @@ const LayerView = LayerBaseView.extend(
         },
 
         /**
-         * todo
+         * remove layer if it is not visible
          * @returns {void}
          */
         removeIfNotVisible: function () {
