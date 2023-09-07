@@ -52,10 +52,10 @@
 ### Fixed
 - Issue #1061: Filter: Accept gml:featureMembers occuring with other children in XML response.
 - Issue #1068: Print: fixed printing of point layers.
+- Issue #776: show only 2D layers in 2D mode and 3D layers in 3D mode
 - Default Tree
     - on category change all layers are shown in the layer tree
     - Config.tree.orderBy sets category
-- Issue #776: show only 2D layers in 2D mode and 3D layers in 3D mode
 ---
 
 ## v2.36.1 - 2023-08-04
