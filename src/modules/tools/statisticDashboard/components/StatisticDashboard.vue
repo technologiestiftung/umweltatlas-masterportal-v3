@@ -38,7 +38,8 @@ export default {
             loadedFilterData: false,
             timeStepsFilter: undefined,
             regions: [],
-            areCategoriesGrouped: false
+            areCategoriesGrouped: false,
+            sortedRows: []
         };
     },
     computed: {
@@ -132,6 +133,15 @@ export default {
          */
         setStatistics (categoryName) {
             this.statistics = StatisticsHandler.getStatisticsByCategory(categoryName, this.data[0]?.mappingFilter.statisticsAttributes);
+        },
+
+        /**
+         * Sets the sorted rows.
+         * @param {Array[]} value - An array of arrays of sorted rows.
+         * @returns {void}
+         */
+        setSortedRows (value) {
+            this.sortedRows = value;
         }
     }
 };
@@ -226,6 +236,7 @@ export default {
                 :select-mode="selectMode"
                 :show-header="showHeader"
                 :sortable="sortable"
+                @setSortedRows="setSortedRows"
             />
         </template>
     </ToolTemplate>

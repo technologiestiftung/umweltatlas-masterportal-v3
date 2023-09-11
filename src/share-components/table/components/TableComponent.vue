@@ -24,7 +24,7 @@ export default {
             default: false
         }
     },
-    emits: ["columnSelected", "rowSelected"],
+    emits: ["columnSelected", "rowSelected", "setSortedRows"],
     data () {
         return {
             selectedColumn: "",
@@ -42,6 +42,9 @@ export default {
                 this.sortedRows = newValue.items;
             },
             immediate: true
+        },
+        sortedRows (newValue) {
+            this.$emit("setSortedRows", newValue);
         }
     },
     mounted () {
