@@ -118,10 +118,32 @@ function hasOneGroup (statistics) {
     return isGroupAvailable;
 }
 
+/**
+ * Gets the keys of the statistics included in the given names.
+ * @param {Object} statistics - The configured statistics.
+ * @param {String[]} statisticsNames - The names of the statistics.
+ * @returns {String[]} The names(keys) of the statistic attributes.
+ */
+function getStatsKeysByName (statistics, statisticsNames) {
+    if (!isObject(statistics) || !Array.isArray(statisticsNames)) {
+        return [];
+    }
+    const statsKeys = [];
+
+    Object.entries(statistics).forEach(([key, statistic]) => {
+        if (statisticsNames.includes(statistic.name)) {
+            statsKeys.push(key);
+        }
+    });
+
+    return statsKeys;
+}
+
 export default {
     getCategoriesFromStatisticAttributes,
     getStatisticsByCategory,
     hasOneGroup,
     getUngroupedCategories,
-    getGroupedCategories
+    getGroupedCategories,
+    getStatsKeysByName
 };

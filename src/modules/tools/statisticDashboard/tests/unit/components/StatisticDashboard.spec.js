@@ -5,6 +5,10 @@ import StatisticDashboard from "../../../components/StatisticDashboard.vue";
 import indexStatisticDashboard from "../../../store/indexStatisticDashboard";
 import sinon from "sinon";
 import fetchData from "../../../utils/fetchData";
+import {
+    and as andFilter,
+    equalTo as equalToFilter
+} from "ol/format/filter";
 
 const localVue = createLocalVue();
 
@@ -109,13 +113,13 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
 
                 expect(wrapper.vm.getTimestepsMerged({foo: "bar"})).to.be.an("array").that.is.empty;
             });
-            it("should return only the values of the second param as array", () => {
+            it("should return only the values of the second param as array with invalid dates", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
                         localVue,
                         store
                     }),
                     uniqueList = {foo: true, bar: true},
-                    expected = [{value: "foo", label: "foo"}, {value: "bar", label: "bar"}];
+                    expected = [{value: "foo", label: "Invalid Date"}, {value: "bar", label: "Invalid Date"}];
 
                 expect(wrapper.vm.getTimestepsMerged(undefined, uniqueList)).to.deep.equal(expected);
             });
@@ -126,9 +130,117 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                     }),
                     uniqueList = {bar: true, buz: true, foo: true},
                     configSteps = {2: "Last 2 Years"},
-                    expected = [{value: "bar", label: "bar"}, {value: "buz", label: "buz"}, {value: "foo", label: "foo"}, {value: ["buz", "foo"], label: "Last 2 Years"}];
+                    expected = [{value: "bar", label: "Invalid Date"}, {value: "buz", label: "Invalid Date"}, {value: "foo", label: "Invalid Date"}, {value: ["buz", "foo"], label: "Last 2 Years"}];
 
                 expect(wrapper.vm.getTimestepsMerged(configSteps, uniqueList)).to.deep.equal(expected);
+            });
+        });
+        describe("getFilter", () => {
+            it("should return undefined if given params has the same length as the data variables", () => {
+                const regions = ["foo", "bar"],
+                    dates = ["01.01.1999", "01.01.2000"],
+                    wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    });
+
+                wrapper.vm.regions = regions;
+                wrapper.vm.dates = dates;
+
+                expect(wrapper.vm.getFilter(regions, dates)).to.be.undefined;
+            });
+            it("should call getFilterForList with expected params if regions is the same length as the data variable", () => {
+                const regions = ["foo", "bar"],
+                    dates = ["01.01.1999", "01.01.2000"],
+                    wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    getFilterForListSpy = sinon.spy(wrapper.vm, "getFilterForList");
+
+                wrapper.vm.regions = regions;
+                wrapper.vm.dates = ["01.01.1999"];
+
+                wrapper.vm.getFilter(regions, dates);
+                expect(getFilterForListSpy.calledWith(dates, undefined)).to.be.true;
+                sinon.restore();
+            });
+            it("should call getFilterForList with expected params if dates is the same length as the data variable", () => {
+                const regions = ["foo", "bar"],
+                    dates = ["01.01.1999", "01.01.2000"],
+                    wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    getFilterForListSpy = sinon.spy(wrapper.vm, "getFilterForList");
+
+                wrapper.vm.regions = ["foo"];
+                wrapper.vm.dates = dates;
+
+                wrapper.vm.getFilter(regions, dates);
+                expect(getFilterForListSpy.calledWith(regions, undefined)).to.be.true;
+                sinon.restore();
+            });
+            it("should return an and filter if given regions and dates have values but not the same length as the data values", () => {
+                const regions = ["foo"],
+                    dates = ["01.01.1999"],
+                    eq1 = equalToFilter("bar", "foo"),
+                    eq2 = equalToFilter("bow", "01.01.1999"),
+                    expected = andFilter(eq2, eq1),
+                    wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    });
+
+                wrapper.vm.regions = [...regions, "faw"];
+                wrapper.vm.dates = [...dates, "01.01.2001"];
+                wrapper.vm.selectedLevel = {
+                    mappingFilter: {
+                        timeAttribute: {
+                            attrName: "bow"
+                        },
+                        regionNameAttribute: {
+                            attrName: "bar"
+                        }
+                    }
+                };
+
+                expect(wrapper.vm.getFilter(regions, dates)).to.deep.equal(expected);
+            });
+        });
+        describe("getFilterForList", () => {
+            it("should return undefined if given list is not an array", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                    localVue,
+                    store
+                });
+
+                expect(wrapper.vm.getFilterForList(undefined)).to.be.undefined;
+                expect(wrapper.vm.getFilterForList({})).to.be.undefined;
+                expect(wrapper.vm.getFilterForList(null)).to.be.undefined;
+                expect(wrapper.vm.getFilterForList(true)).to.be.undefined;
+                expect(wrapper.vm.getFilterForList(false)).to.be.undefined;
+                expect(wrapper.vm.getFilterForList("1234")).to.be.undefined;
+                expect(wrapper.vm.getFilterForList(1234)).to.be.undefined;
+            });
+            it("should return an equalTo filter", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    result = wrapper.vm.getFilterForList(["foo"], "bar");
+
+                expect(result.tagName_).to.be.equal("PropertyIsEqualTo");
+            });
+            it("should return an equalTo filter", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    result = wrapper.vm.getFilterForList(["foo", "fow"], "bar");
+
+
+                expect(result.tagName_).to.be.equal("Or");
             });
         });
     });

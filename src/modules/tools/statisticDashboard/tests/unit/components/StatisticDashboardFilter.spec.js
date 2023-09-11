@@ -167,6 +167,88 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
         });
     });
     describe("Methods", () => {
+        describe("collectDatesValues", () => {
+            it("should return all values no matter if they are a string or an array of strings ", () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                    propsData: {
+                        categories: [],
+                        timeStepsFilter,
+                        regions,
+                        areCategoriesGrouped: false
+                    },
+                    localVue
+                });
+
+                expect(wrapper.vm.collectDatesValues([{value: "2020"}, {value: ["2021", "2022"]}])).to.deep.equals(["2020", "2021", "2022"]);
+                wrapper.destroy();
+            });
+        });
+
+        describe("allFilterSettingsSelected", () => {
+            it("should 1 if all given array are not empty", () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                    propsData: {
+                        categories: [],
+                        timeStepsFilter,
+                        regions,
+                        areCategoriesGrouped: false
+                    },
+                    localVue
+                });
+
+                expect(wrapper.vm.allFilterSettingsSelected([1], [2], [3])).to.be.equals(1);
+                wrapper.destroy();
+            });
+            it("should return 0 if at least one given arrays is empty", () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                    propsData: {
+                        categories: [],
+                        timeStepsFilter,
+                        regions,
+                        areCategoriesGrouped: false
+                    },
+                    localVue
+                });
+
+                expect(wrapper.vm.allFilterSettingsSelected([], [2], [3])).to.be.equals(0);
+                wrapper.destroy();
+            });
+        });
+
+        describe("emitFilterSettings", () => {
+            it("should emit 'changeFilterSettings' with the right values", () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                    propsData: {
+                        categories: [],
+                        timeStepsFilter,
+                        regions,
+                        areCategoriesGrouped: false
+                    },
+                    localVue
+                });
+
+                wrapper.vm.emitFilterSettings([6], [6], [6]);
+                expect(wrapper.emitted()).to.have.all.keys("changeFilterSettings");
+                expect(wrapper.emitted().changeFilterSettings).to.deep.equal([[[6], [6], [6]]]);
+                wrapper.destroy();
+            });
+            it("should not emit 'changeFilterSettings'", () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                    propsData: {
+                        categories: [],
+                        timeStepsFilter,
+                        regions,
+                        areCategoriesGrouped: false
+                    },
+                    localVue
+                });
+
+                wrapper.vm.emitFilterSettings([6], [6], []);
+                expect(wrapper.emitted()).to.be.empty;
+                wrapper.destroy();
+            });
+        });
+
         describe("toggleStatistic", () => {
             it("should add a statistic if there is not already one with that name", async () => {
                 const wrapper = shallowMount(StatisticDashboardFilter, {

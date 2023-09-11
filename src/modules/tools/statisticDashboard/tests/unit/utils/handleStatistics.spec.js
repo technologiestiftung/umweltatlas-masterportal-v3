@@ -179,4 +179,54 @@ describe("/src/modules/tools/statisticDashboard/utils/handleStatistics.js", () =
             expect(StatisticHandler.getCategoriesFromStatisticAttributes(false)).to.be.an("array").that.is.empty;
         });
     });
+
+    describe("getStatsKeysByName", () => {
+        it("should return two keys of the given statistic attributes", () => {
+            const statisticsAttributes = {
+                "statOne": {
+                    "category": "CategoryOne",
+                    "categoryGroup": "group",
+                    "name": "Edgar"
+                },
+                "statTwo": {
+                    "category": "Bruttoinlandsprodukt",
+                    "name": "Allan"
+                }
+            };
+
+            expect(StatisticHandler.getStatsKeysByName(statisticsAttributes, ["Edgar", "Allan"])).to.deep.equal(["statOne", "statTwo"]);
+        });
+
+        it("should return one key of the given statistic attributes", () => {
+            const statisticsAttributes = {
+                "statOne": {
+                    "category": "CategoryOne",
+                    "categoryGroup": "group",
+                    "name": "Edgar"
+                },
+                "statTwo": {
+                    "category": "Bruttoinlandsprodukt",
+                    "name": "Poe"
+                }
+            };
+
+            expect(StatisticHandler.getStatsKeysByName(statisticsAttributes, ["Edgar", "Allan"])).to.deep.equal(["statOne"]);
+        });
+
+        it("should return an empty array if no keys are found", () => {
+            const statisticsAttributes = {
+                "statOne": {
+                    "category": "CategoryOne",
+                    "categoryGroup": "group",
+                    "name": "Edgar"
+                },
+                "statTwo": {
+                    "category": "Bruttoinlandsprodukt",
+                    "name": "Allan"
+                }
+            };
+
+            expect(StatisticHandler.getStatsKeysByName(statisticsAttributes, ["Pos"])).to.be.an("array").that.is.empty;
+        });
+    });
 });

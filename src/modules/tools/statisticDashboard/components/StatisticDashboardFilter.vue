@@ -1,5 +1,6 @@
 <script>
 import Multiselect from "vue-multiselect";
+import isObject from "../../../../utils/isObject";
 
 export default {
     name: "StatisticDashboardFilter",
@@ -29,7 +30,7 @@ export default {
             required: true
         }
     },
-    emits: ["changeCategory"],
+    emits: ["changeCategory", "changeFilterSettings"],
     data () {
         return {
             selectedCategory: undefined,
@@ -67,11 +68,67 @@ export default {
         selectedCategory (value) {
             this.resetStatistics();
             this.$emit("changeCategory", value.name);
+        },
+
+        selectedStatistics (value) {
+            this.emitFilterSettings(value, this.selectedRegions, this.collectDatesValues(this.selectedDates));
+        },
+        selectedDates (value) {
+            this.emitFilterSettings(this.selectedStatistics, this.selectedRegions, this.collectDatesValues(value));
+        },
+        selectedRegions (value) {
+            this.emitFilterSettings(this.selectedStatistics, value, this.collectDatesValues(this.selectedDates));
         }
     },
     methods: {
         /**
-         * Adds or remove a statistic.
+         * Checks if all filter settings are selected.
+         * @param {String[]} statistics - The names of the selected statistics.
+         * @param {String[]} regions - The names of the selected regions.
+         * @param {Object[]} dates - The selected dates.
+         * @return {Number} 1 if true otherwise 0.
+         */
+        allFilterSettingsSelected (statistics, regions, dates) {
+            return statistics.length && regions.length && dates.length;
+        },
+
+        /**
+         * Emits the filter settings if all are selected.
+         * @param {String[]} statistics - The names of the selected statistics.
+         * @param {String[]} regions - The names of the selected regions.
+         * @param {Object[]} dates - The selected dates.
+         * @return {void}
+         */
+        emitFilterSettings (statistics, regions, dates) {
+            if (this.allFilterSettingsSelected(statistics, regions, dates)) {
+                this.$emit("changeFilterSettings", statistics, regions, dates);
+            }
+        },
+
+        /**
+         * Collects the dates values.
+         * @param {Object[]} dates - The selected dates.
+         * @return {String[]} The values of the selected dates.
+         */
+        collectDatesValues (dates) {
+            const datesValues = [];
+
+            dates.forEach(date => {
+                if (!isObject(date)) {
+                    return;
+                }
+                if (Array.isArray(date.value)) {
+                    datesValues.push(...date.value);
+                }
+                else {
+                    datesValues.push(date.value);
+                }
+            });
+            return datesValues;
+        },
+
+        /**
+         * Add or remove a statistic.
          * @param {String} name - The name of the statistic.
          * @returns {void}
          */
@@ -174,7 +231,7 @@ export default {
                         :allow-empty="false"
                         :preselect-first="true"
                         label="label"
-                        track-by="value"
+                        track-by="label"
                     />
                 </div>
             </div>

@@ -10,6 +10,14 @@ import Controls from "./StatisticDashboardControls.vue";
 import StatisticFilter from "./StatisticDashboardFilter.vue";
 import FetchDataHandler from "../utils/fetchData.js";
 import StatisticsHandler from "../utils/handleStatistics.js";
+import {rawLayerList} from "@masterportal/masterportalapi";
+import {getFeaturePOST} from "../../../../api/wfs/getFeature";
+import {
+    and as andFilter,
+    equalTo as equalToFilter,
+    or as orFilter
+} from "ol/format/filter";
+import dayjs from "dayjs";
 
 export default {
     name: "StatisticDashboard",
@@ -41,11 +49,13 @@ export default {
             showHeader: true,
             sortable: true,
             categories: null,
-            statistics: false,
+            statisticsByCategory: false,
             loadedFilterData: false,
-            timeStepsFilter: undefined,
+            timeStepsFilter: [],
             regions: [],
             areCategoriesGrouped: false,
+            dates: [],
+            selectedLevel: undefined,
             sortedRows: [],
             controlDescription: [{
                 title: "Trappatoni 1",
@@ -62,20 +72,25 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Tools/StatisticDashboard", Object.keys(getters))
+        ...mapGetters("Tools/StatisticDashboard", Object.keys(getters)),
+        ...mapGetters("Maps", ["projection"])
     },
     created () {
         this.$on("close", this.close);
     },
     async mounted () {
-        const uniqueValues = await this.getUniqueValuesForLevel(this.data[0]);
+        this.selectedLevel = this.data[0];
+        const uniqueValues = await this.getUniqueValuesForLevel(this.selectedLevel),
+            selectedLevelRegionNameAttribute = this.getSelectedLevelRegionNameAttribute(this.selectedLevel),
+            selectedLevelDateAttribute = this.getSelectedLevelDateAttribute(this.selectedLevel);
 
-        if (uniqueValues[this.data[0]?.mappingFilter?.regionNameAttribute?.attrName] && uniqueValues[this.data[0]?.mappingFilter?.timeAttribute?.attrName]) {
-            this.regions = Object.keys(uniqueValues[this.data[0]?.mappingFilter?.regionNameAttribute?.attrName]);
-            this.timeStepsFilter = this.getTimestepsMerged(this.data[0]?.timeStepsFilter, uniqueValues[this.data[0]?.mappingFilter?.timeAttribute?.attrName]);
+        if (uniqueValues[selectedLevelRegionNameAttribute.attrName] && uniqueValues[selectedLevelDateAttribute.attrName]) {
+            this.regions = Object.keys(uniqueValues[selectedLevelRegionNameAttribute.attrName]);
+            this.dates = Object.keys(uniqueValues[selectedLevelDateAttribute.attrName]);
+            this.timeStepsFilter = this.getTimestepsMerged(this.selectedLevel?.timeStepsFilter, uniqueValues[selectedLevelDateAttribute.attrName], selectedLevelDateAttribute.inputFormat, selectedLevelDateAttribute.outputFormat);
         }
-        this.areCategoriesGrouped = StatisticsHandler.hasOneGroup(this.data[0]?.mappingFilter.statisticsAttributes);
-        this.categories = StatisticsHandler.getCategoriesFromStatisticAttributes(this.data[0]?.mappingFilter.statisticsAttributes, this.areCategoriesGrouped);
+        this.areCategoriesGrouped = StatisticsHandler.hasOneGroup(this.getSelectedLevelStatisticsAttributes(this.selectedLevel));
+        this.categories = StatisticsHandler.getCategoriesFromStatisticAttributes(this.getSelectedLevelStatisticsAttributes(this.selectedLevel), this.areCategoriesGrouped);
         this.loadedFilterData = true;
     },
     methods: {
@@ -121,16 +136,18 @@ export default {
          * configured time steps if they are configured.
          * @param {Object} timeSteps The time steps object with {Number: Label}.
          * @param {Object} uniqueList The list as object with {value: true}.
+         * @param {String} inputFormat The input format for the date.
+         * @param {String} outputFormat The format to transform the date to.
          * @returns {Object[]} The merged time steps.
          */
-        getTimestepsMerged (timeSteps, uniqueList) {
+        getTimestepsMerged (timeSteps, uniqueList, inputFormat, outputFormat) {
             const result = [];
             let uniqueListAsArray = [];
 
             if (isObject(uniqueList)) {
                 uniqueListAsArray = Object.keys(uniqueList);
                 uniqueListAsArray.forEach(uniqueTime => {
-                    result.push({value: uniqueTime, label: uniqueTime});
+                    result.push({value: uniqueTime, label: dayjs(uniqueTime, inputFormat).format(outputFormat)});
                 });
             }
             if (isObject(timeSteps)) {
@@ -150,8 +167,8 @@ export default {
          * @param {String} categoryName - The category name.
          * @returns {void}
          */
-        setStatistics (categoryName) {
-            this.statistics = StatisticsHandler.getStatisticsByCategory(categoryName, this.data[0]?.mappingFilter.statisticsAttributes);
+        setStatisticsByCategory (categoryName) {
+            this.statisticsByCategory = StatisticsHandler.getStatisticsByCategory(categoryName, this.getSelectedLevelStatisticsAttributes(this.selectedLevel));
         },
 
         /**
@@ -161,6 +178,112 @@ export default {
          */
         setSortedRows (value) {
             this.sortedRows = value;
+        },
+
+        /**
+         * Handles the filter settings and starts a POST request based on given settings.
+         * @param {String[]} filteredStatistics The statistics.
+         * @param {String[]} regions The regions.
+         * @param {String[]} dates The dates.
+         * @returns {void}
+         */
+        async handleFilterSettings (filteredStatistics, regions, dates) {
+            const statsKeys = StatisticsHandler.getStatsKeysByName(this.statisticsByCategory, filteredStatistics),
+                selectedLayer = this.getRawLayerByLayerId(this.selectedLevel.layerId),
+                selectedLevelRegionNameAttribute = this.getSelectedLevelRegionNameAttribute(this.selectedLevel),
+                selectedLevelDateAttribute = this.getSelectedLevelDateAttribute(this.selectedLevel),
+                payload = {
+                    featureTypes: [selectedLayer.featureType],
+                    featureNS: selectedLayer.featureNS,
+                    srsName: this.projection.getCode(),
+                    propertyNames: [...statsKeys, selectedLevelRegionNameAttribute.attrName, selectedLevelDateAttribute.attrName],
+                    filter: this.getFilter(regions, dates)
+                },
+                response = await getFeaturePOST(selectedLayer.url, payload, error => {
+                    console.error(error);
+                });
+
+            console.warn(response); // Das in ein console.log(response) tauschen
+        },
+        /**
+         * Gets the filter based on given regions and dates array.
+         * Gets an Or Filter if one of them has more than one entry.
+         * Gets an And Filter if both of them has entries.
+         * Gets an EqualTo Filter if one of them has only one entry.
+         * @param {String[]} regions The regions.
+         * @param {String[]} dates The dates.
+         * @returns {ol/format/filter} The filter.
+         */
+        getFilter (regions, dates) {
+            if (!Array.isArray(regions) || !Array.isArray(dates)) {
+                return undefined;
+            }
+            const regionAttrName = this.getSelectedLevelRegionNameAttribute(this.selectedLevel)?.attrName,
+                dateAttrName = this.getSelectedLevelDateAttribute(this.selectedLevel)?.attrName;
+
+            if (regions.length === this.regions.length) {
+                if (dates.length === this.dates.length) {
+                    return undefined;
+                }
+                return this.getFilterForList(dates, dateAttrName);
+            }
+            else if (dates.length === this.dates.length) {
+                return this.getFilterForList(regions, regionAttrName);
+            }
+            return andFilter(this.getFilterForList(dates, dateAttrName), this.getFilterForList(regions, regionAttrName));
+        },
+        /**
+         * Gets the filter for given list and property.
+         * If given list has more than one entry the function returns an
+         * Or Filter otherwise an EqualTo Filter.
+         * @param {String[]} list The list to create a filter for.
+         * @param {String} propertyName The propertyName to create a filter for.
+         * @returns {ol/format/filter} The filter.
+         */
+        getFilterForList (list, propertyName) {
+            if (!Array.isArray(list) || typeof propertyName !== "string") {
+                return undefined;
+            }
+
+            const filterArray = list.map(entry => equalToFilter(propertyName, entry));
+
+            return filterArray.length > 1 ? orFilter(...filterArray) : filterArray[0];
+        },
+
+        /**
+         * Gets the currently selected layer by the given level.
+         * @param {String} layerId The layer id.
+         * @returns {Object} The layer.
+         */
+        getRawLayerByLayerId (layerId) {
+            return rawLayerList.getLayerWhere({id: layerId}) || {};
+        },
+
+        /**
+         * Gets the region attribute object by the given level.
+         * @param {Object} level The level object.
+         * @returns {Object} The region attribute object.
+         */
+        getSelectedLevelRegionNameAttribute (level) {
+            return level?.mappingFilter?.regionNameAttribute || {};
+        },
+
+        /**
+         * Gets the date attribute by the given level.
+         * @param {Object} level The level object.
+         * @returns {Object} The time attribute object.
+         */
+        getSelectedLevelDateAttribute (level) {
+            return level?.mappingFilter?.timeAttribute || {};
+        },
+
+        /**
+         * Gets the statistic attributes by the given level.
+         * @param {Object} level The level object.
+         * @returns {Object} The statistics attribute object.
+         */
+        getSelectedLevelStatisticsAttributes (level) {
+            return level?.mappingFilter.statisticsAttributes || {};
         }
     }
 };
@@ -219,10 +342,11 @@ export default {
                 v-if="loadedFilterData"
                 :categories="categories"
                 :are-categories-grouped="areCategoriesGrouped"
-                :statistics="statistics"
+                :statistics="statisticsByCategory"
                 :time-steps-filter="timeStepsFilter"
                 :regions="regions"
-                @changeCategory="setStatistics"
+                @changeCategory="setStatisticsByCategory"
+                @changeFilterSettings="handleFilterSettings"
             />
             <div
                 v-else
