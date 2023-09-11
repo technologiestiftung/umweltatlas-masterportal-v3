@@ -186,58 +186,73 @@ export default {
 </script>
 
 <template>
-    <table>
-        <thead v-if="showHeader">
-            <th
-                v-for="(column, idx) in data.headers"
-                :key="idx"
-                :class="[selectMode === 'column' && idx > 0 ? 'selectable' : '', selectedColumn === column ? 'selected' : '']"
-                @click="selectColumn(column, idx)"
-            >
-                <span>{{ column }}</span>
-                <span
-                    v-if="sortable"
-                    class="bootstrap-icon selectable"
-                    role="button"
-                    tabindex="0"
-                    :class="getIconClassByOrder(column)"
-                    @click.stop="runSorting(column)"
-                    @keypress.stop="runSorting(column)"
-                />
-            </th>
-        </thead>
-        <tbody>
-            <tr
-                v-for="(row, idx) in sortedRows"
-                :key="idx"
-                :class="[selectMode === 'row' ? 'selectable' : '', selectedRow === getStringifiedRow(row) ? 'selected' : '']"
-            >
-                <td
-                    v-for="(entry, columnIdx) in row"
-                    :key="columnIdx"
-                    :class="[selectMode === 'column' && columnIdx > 0 ? 'selectable' : '', selectedColumn === data.headers[columnIdx] ? 'selected' : '']"
-                    @click="handleTDSelect(data.headers[columnIdx], columnIdx, row)"
-                    @keypress.enter="handleTDSelect(data.headers[columnIdx], columnIdx, row)"
+    <div class="my-5 mx-5">
+        <table class="table table-sm table-hover">
+            <thead>
+                <tr v-if="showHeader">
+                    <th
+                        v-for="(column, idx) in data.headers"
+                        :key="idx"
+                        :class="[selectMode === 'column' && idx > 0 ? 'selectable' : '', selectedColumn === column ? 'selected' : '']"
+                        scope="col"
+                        @click="selectColumn(column, idx)"
+                    >
+                        <span>{{ column }}</span>
+                        <span
+                            v-if="sortable"
+                            class="bootstrap-icon selectable"
+                            role="button"
+                            tabindex="0"
+                            :class="getIconClassByOrder(column)"
+                            @click.stop="runSorting(column)"
+                            @keypress.stop="runSorting(column)"
+                        />
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr
+                    v-for="(row, idx) in sortedRows"
+                    :key="idx"
+                    :class="[selectMode === 'row' ? 'selectable' : '', selectedRow === getStringifiedRow(row) ? 'selected' : '']"
+                    scope="row"
                 >
-                    {{ entry }}
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                    <td
+                        v-for="(entry, columnIdx) in row"
+                        :key="columnIdx"
+                        :class="[selectMode === 'column' && columnIdx > 0 ? 'selectable' : '', selectedColumn === data.headers[columnIdx] ? 'selected' : '']"
+                        @click="handleTDSelect(data.headers[columnIdx], columnIdx, row)"
+                        @keypress.enter="handleTDSelect(data.headers[columnIdx], columnIdx, row)"
+                    >
+                        {{ entry }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </template>
 
 
-<style scoped>
-thead, tbody, tfoot, tr, td, th {
-    border-width: 1px;
+<style lang="scss" scoped>
+    @import "~variables";
+
+.table {
+    color: $secondary_contrast;
 }
-td, th {
-    padding: .25rem;
+.table>thead>tr>th {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-top: 1px solid #dee2e6;
+}
+.bootstrap-icon {
+   font-size: 11px;
 }
 .selectable {
-    cursor: pointer
+    cursor: pointer;
+    text-align: center;
 }
 .selected {
-    background-color: lightskyblue;
+    background-color: rgba(174, 138, 250, .5);
+    text-align: center;
 }
 </style>

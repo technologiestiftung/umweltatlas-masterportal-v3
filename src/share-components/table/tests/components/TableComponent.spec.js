@@ -22,7 +22,7 @@ describe("src/share-components/table/components/TableComponent.vue", () => {
                 localVue
             });
 
-            expect(wrapper.findAll("tr").length).to.be.equal(1);
+            expect(wrapper.findAll("th").length).to.be.equal(1);
         });
         it("should render the table with multiple columns and rows", () => {
             const wrapper = shallowMount(TableComponent, {
@@ -40,7 +40,7 @@ describe("src/share-components/table/components/TableComponent.vue", () => {
                 localVue
             });
 
-            expect(wrapper.findAll("tr").length).to.be.equal(4);
+            expect(wrapper.findAll("tr").length).to.be.equal(5);
             expect(wrapper.findAll("th").length).to.be.equal(3);
         });
 
@@ -99,7 +99,7 @@ describe("src/share-components/table/components/TableComponent.vue", () => {
                 }),
                 tds = wrapper.findAll("td"),
                 td1 = tds.at(1),
-                tr = wrapper.findAll("tr").at(0);
+                tr = wrapper.findAll("tr").at(1);
 
             td1.trigger("click");
             await wrapper.vm.$nextTick();
