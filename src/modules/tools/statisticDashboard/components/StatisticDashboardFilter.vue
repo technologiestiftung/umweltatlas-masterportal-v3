@@ -47,7 +47,6 @@ export default {
             return typeof this.selectedCategory?.name !== "undefined" ? this.selectedCategory.name : "";
         },
 
-
         /**
          * Gets the names of the current available statistics.
          * @returns {String[]} The names.
@@ -71,9 +70,8 @@ export default {
         }
     },
     methods: {
-
         /**
-         * Add or remove a statistic.
+         * Adds or remove a statistic.
          * @param {String} name - The name of the statistic.
          * @returns {void}
          */
@@ -87,7 +85,7 @@ export default {
         },
 
         /**
-         * Remove a existing statistic.
+         * Removes an existing statistic.
          * @param {String} name - The name of the statistic.
          * @returns {void}
          */
@@ -96,7 +94,7 @@ export default {
         },
 
         /**
-         * Reset all statistics.
+         * Resets all statistics.
          * @returns {void}
          */
         resetStatistics () {
@@ -256,13 +254,22 @@ export default {
         color: $light_blue;
     }
 
-     .dropdown-menu > li > .dropdown-item:focus, .dropdown-menu > li > .dropdown-item:active, .selected {
+    .dropdown-menu > li {
+        > .dropdown-item {
+            &:hover {
+                background: $light_grey;
+                color: $black;
+            }
+            &:focus, &:active {
+                background-color: $light_blue;
+                color: $white;
+            }
+        }
+    }
+
+    .selected {
         background-color: $light_blue;
         color: $white;
-    }
-    .dropdown-menu > li > .dropdown-item:hover {
-        background: $light_grey;
-        color: $black;
     }
 
     .btn-outline-secondary, label {

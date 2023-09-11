@@ -105,6 +105,60 @@ describe("src/share-components/table/components/TableComponent.vue", () => {
             await wrapper.vm.$nextTick();
             expect(tr.classes().includes("selected")).to.be.true;
         });
+        it("should render the table without fixed data", () => {
+            const wrapper = shallowMount(TableComponent, {
+                propsData: {
+                    data: {
+                        headers: ["foo", "bar", "buz"],
+                        items: [
+                            ["foo", "bar", "buz"]
+                        ]
+                    }
+                },
+                localVue
+            });
+
+            expect(wrapper.findAll(".fixed").length).to.be.equal(0);
+        });
+        it("should render the table without fixed data with the wrong format fixed data ", () => {
+            const wrapper = shallowMount(TableComponent, {
+                propsData: {
+                    data: {
+                        headers: ["foo", "bar", "buz"],
+                        items: [
+                            ["foo", "bar", "buz"]
+                        ]
+                    },
+                    fixedData: {
+                        items: null
+                    }
+                },
+                localVue
+            });
+
+            expect(wrapper.findAll(".fixed").length).to.be.equal(0);
+        });
+        it("should render the table with fixed data", () => {
+            const wrapper = shallowMount(TableComponent, {
+                propsData: {
+                    data: {
+                        headers: ["foo", "bar", "buz"],
+                        items: [
+                            ["foo", "bar", "buz"]
+                        ]
+                    },
+                    fixedData: {
+                        items: [
+                            ["foo", "bar", "buz"],
+                            ["foo", "bar", "buz"]
+                        ]
+                    }
+                },
+                localVue
+            });
+
+            expect(wrapper.findAll(".fixed").length).to.be.equal(2);
+        });
     });
     describe("methods", () => {
         describe("handleTDSelect", () => {

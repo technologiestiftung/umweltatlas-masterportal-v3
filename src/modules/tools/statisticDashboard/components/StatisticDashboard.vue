@@ -30,6 +30,13 @@ export default {
                     ["Niedersachsen", 34844, 1234]
                 ]
             },
+            testFixedData: {
+                items: [
+                    ["Bergedorf", 1234, 1234],
+                    ["Wandsbek", 23456, 1234],
+                    ["Altona", 23475, 1234]
+                ]
+            },
             selectMode: "column",
             showHeader: true,
             sortable: true,
@@ -39,7 +46,19 @@ export default {
             timeStepsFilter: undefined,
             regions: [],
             areCategoriesGrouped: false,
-            sortedRows: []
+            sortedRows: [],
+            controlDescription: [{
+                title: "Trappatoni 1",
+                content: "Es gibt im Moment in diese Mannschaft, oh, einige Spieler vergessen ihnen Profi was sie sind."
+            },
+            {
+                title: "Trappatoni 2 ",
+                content: "Ich lese nicht sehr viele Zeitungen, aber ich habe gehört viele Situationen."
+            },
+            {
+                title: "Trappatoni 3 ",
+                content: "Letzte Spiel hatten wir in Platz drei Spitzen: Elber, Jancka und dann Zickler."
+            }]
         };
     },
     computed: {
@@ -218,21 +237,11 @@ export default {
             </div>
             <hr>
             <Controls
-                :descriptions="[{
-                                    title: 'Trappatoni 1',
-                                    content: 'Es gibt im Moment in diese Mannschaft, oh, einige Spieler vergessen ihnen Profi was sie sind.'
-                                },
-                                {
-                                    title: 'Trappatoni 2 ',
-                                    content: 'Ich lese nicht sehr viele Zeitungen, aber ich habe gehört viele Situationen.'
-                                },
-                                {
-                                    title: 'Trappatoni 3 ',
-                                    content: 'Letzte Spiel hatten wir in Platz drei Spitzen: Elber, Jancka und dann Zickler.'
-                                }]"
+                :descriptions="controlDescription"
             />
             <TableComponent
                 :data="testData"
+                :fixed-data="testFixedData"
                 :select-mode="selectMode"
                 :show-header="showHeader"
                 :sortable="sortable"

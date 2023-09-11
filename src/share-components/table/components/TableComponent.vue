@@ -8,6 +8,11 @@ export default {
             type: Object,
             required: true
         },
+        fixedData: {
+            type: Object,
+            required: false,
+            default: undefined
+        },
         sortable: {
             type: Boolean,
             required: false,
@@ -230,6 +235,21 @@ export default {
                         {{ entry }}
                     </td>
                 </tr>
+                <template v-if="typeof fixedData !== 'undefined' || Array.isArray(fixedData?.items)">
+                    <tr
+                        v-for="(row, idx) in fixedData.items"
+                        :key="'fixed-'+idx"
+                        :class="[selectMode === 'row' ? 'selectable' : '', selectedRow === getStringifiedRow(row) ? 'selected' : '', 'fixed']"
+                    >
+                        <td
+                            v-for="(entry, columnIdx) in row"
+                            :key="'fixed-'+columnIdx"
+                            :class="[selectMode === 'column' && columnIdx > 0 ? 'selectable' : '', selectedColumn === data.headers[columnIdx] ? 'selected' : '']"
+                        >
+                            {{ entry }}
+                        </td>
+                    </tr>
+                </template>
             </tbody>
         </table>
     </div>
@@ -237,23 +257,36 @@ export default {
 
 
 <style lang="scss" scoped>
-    @import "~variables";
+@import "~variables";
 
 .table {
     color: $secondary_contrast;
 }
+
 .table>thead>tr>th {
     padding-top: 15px;
     padding-bottom: 15px;
     border-top: 1px solid #dee2e6;
 }
 .bootstrap-icon {
-   font-size: 11px;
+    font-size: 11px;
 }
+
 .selectable {
     cursor: pointer;
     text-align: center;
 }
+
+.fixed {
+    background-color: rgba(227, 227, 227, 0.4);
+}
+
+tr:not(.fixed) {
+    .selectable {
+        cursor: pointer
+    }
+}
+
 .selected {
     background-color: rgba(174, 138, 250, .5);
     text-align: center;
