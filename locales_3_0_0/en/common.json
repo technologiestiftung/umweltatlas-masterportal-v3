@@ -502,6 +502,7 @@
     },
     "layerSelection": {
       "addSubject": "Add subject",
+      "name": "Topic selection",
       "baselayers": "Baselayers",
       "selectAll": "Select all",
       "selectedSubjectsCount_other": "Please select a topic",

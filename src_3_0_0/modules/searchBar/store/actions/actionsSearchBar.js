@@ -51,17 +51,27 @@ export default {
      * @param {Object} side the menu side of the search
      * @returns {void}
      */
-    startLayerSelectionSearch: ({getters, dispatch, commit, rootState}, side) => {
+    startLayerSelectionSearch: ({dispatch, commit, rootState}, side) => {
         commit("setShowAllResults", true);
         commit("setShowAllResultsSearchInterfaceInstance", "elasticSearch_0");// topicTree
-        //commit("setCurrentAvailableCategories", "elasticSearch_0")
+        commit("setCurrentAvailableCategories", "Thema (externe Fachdaten)");
         dispatch("Menu/clickedMenuElement", {
             name: "common:modules.searchBar.searchResultList",
             side: side,
             type: "searchbar"
         }, {root: true});
-        rootState.Menu[side].navigation.currentComponent.props.name = "common:modules.searchBar.searchResultList";
+        commit("Menu/setCurrentComponent", {type: "layerSelection", side: side, props:[]}, {root: true});
+        rootState.Menu[side].navigation.currentComponent.props.name = "common:modules.searchBar.searchResults";
         rootState.Menu[side].navigation.history = [];
-        rootState.Menu[side].navigation.history.push({type: "layerselection", props: []});
+        rootState.Menu[side].navigation.history.push({type: "root", props: []}, {type: "layerSelection", props: {name: "common:modules.layerSelection.name"}}, {type: "layerSelection", props: {name: "common:modules.layerSelection.name"}});
+    },
+    /**
+     * Checks for addlayer search configuration (instance and topic)
+     * @param {Object} param.getters the getters
+     * @param {Object} param.rootState the rootState
+     * @param {Object} side the menu side of the search
+     * @returns {void}
+     */
+    checkLayerSelectionSearchConfig: ({getters, dispatch, commit, rootState}, side) => {
     }
 };

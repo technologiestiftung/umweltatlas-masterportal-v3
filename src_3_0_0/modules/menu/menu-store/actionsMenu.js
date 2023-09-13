@@ -149,6 +149,12 @@ export default {
             }
 
             dispatch("Modules/SearchBar/updateSearchNavigation", side, {root: true});
+
+            if (getters.currentComponent(side).type === "layerSelection") {
+                commit("Modules/SearchBar/setSearchInput", "", {root: true});
+                //todo
+                state[side].navigation.currentComponent.props.name = "common:modules.layerSelection.addSubject";
+            }
         });
     },
 

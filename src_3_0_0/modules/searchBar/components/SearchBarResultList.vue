@@ -29,11 +29,13 @@ export default {
     computed: {
         ...mapGetters("Modules/SearchBar", [
             "currentAvailableCategories",
+            "showAllResultsSearchInterfaceInstance",
             "minCharacters",
             "searchInput",
             "searchInterfaceInstances",
             "searchResults",
-            "searchResultsActive"
+            "searchResultsActive",
+            "currentSide"
         ]),
         ...mapGetters("Menu", [
             "currentComponent"
@@ -44,6 +46,9 @@ export default {
          * @returns {Object[]} The result items.
          */
         resultItems () {
+            if (this.currentComponent(this.currentSide).type === "layerSelection") {
+                return this.limitedSortedSearchResults?.currentShowAllList.filter(item => item.category === this.currentAvailableCategories && item.searchInterfaceId === this.showAllResultsSearchInterfaceInstance);
+            }
             return this.limitedSortedSearchResults?.currentShowAllList.filter(item => item.category === this.currentAvailableCategories);
         },
 
@@ -71,7 +76,6 @@ export default {
         v-if="searchInput.length >= minCharacters && searchResultsActive && searchResults.length > 0"
         class="overflow-auto results-container"
     >
-    {{limitedSortedSearchResults?.results.categoryProvider}}
         <div id="search-bar-result-list">
             <h5
                 id="search-bar-result-heading"

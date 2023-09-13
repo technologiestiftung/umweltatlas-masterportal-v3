@@ -502,6 +502,7 @@
     },
     "layerSelection": {
       "addSubject": "Thema hinzufügen",
+      "name": "Themenauswahl",
       "backgrounds": "Hintergründe",
       "selectAll": "Alle auswählen",
       "selectedSubjectsCount_other": "Bitte wählen sie ein Thema aus",

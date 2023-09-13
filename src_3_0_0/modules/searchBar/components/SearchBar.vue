@@ -24,7 +24,8 @@ export default {
     },
     data: function () {
         return {
-            currentComponentSide: undefined
+            currentComponentSide: undefined,
+            currentSearchInput: this.searchInput
         };
     },
     computed: {
@@ -103,7 +104,7 @@ export default {
         limitedSortedSearchResults () {
             const results = {},
                 currentShowAllList = [];
-            console.log("limitedSortedSearchResults", this.searchInterfaceInstances)
+
             results.categoryProvider = {};
             this.setSearchSuggestions([]);
             results.availableCategories = [];
@@ -133,7 +134,7 @@ export default {
                     }
                 }
             });
-            console.log("results:", results)
+
             return {results: results, currentShowAllList: currentShowAllList};
         }
     },
@@ -143,17 +144,21 @@ export default {
         */
         currentComponentSide: {
             handler (newVal) {
-                if (newVal === "root") {
+                if (newVal === "root" || newVal === "layerselection") {
                     this.searchInputValue = "";
                     this.$refs?.searchInput.blur();
                     if (this.side) {
                         this.switchToRoot(this.side);
                     }
                 }
-                if (newVal === "layerSelection") {
-                     console.log("ttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt")
-                   console.log(this.limitedSortedSearchResults.results.categoryProvider)
-                   this.currentAvailableCategories = this.limitedSortedSearchResults.results.categoryProvider;
+            },
+            deep: true
+        },
+        searchInputValue: {
+            handler (newVal) {
+                if (newVal === "") {
+                    // todo state[side].navigation.currentComponent.props.name = "common:modules.layerSelection.addSubject
+                    // Check subject
                 }
             },
             deep: true
@@ -182,6 +187,7 @@ export default {
             "setSearchInput",
             "setShowAllResults",
             "setSearchResultsActive",
+            "setCurrentAvailableCategories",
             "setSearchSuggestions",
             "setCurrentSide"
         ]),

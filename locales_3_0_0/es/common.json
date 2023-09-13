@@ -475,6 +475,7 @@
     "layerSelection": {
       "addSelectedSubjectsToMap": "",
       "addSubject": "",
+      "name": "Selección de tema",
       "baselayers": "",
       "selectAll": "",
       "selectedSubjectsCount_one": "",

@@ -475,6 +475,7 @@
     "layerSelection": {
       "addSelectedSubjectsToMap": "",
       "addSubject": "",
+      "name": "Выбор темы",
       "baselayers": "",
       "selectAll": "",
       "selectedSubjectsCount_one": "",
