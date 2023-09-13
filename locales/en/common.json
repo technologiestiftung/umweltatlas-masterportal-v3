@@ -436,28 +436,33 @@
                 "serviceFour": "Service 4"
             },
             "statisticDashboard": {
-              "headings": {
-                "mrhstatistics": "MRH Statistics"
-              },
-              "button": {
-                "difference": "Difference",
-                "table": "Table",
-                "chart": "Chart",
-                "add": "Add",
-                "reset": "reset",
-                "filter": "Filter"
-              },
-              "label": {
-                "category": "Category",
-                "area": "Region",
-                "year": "Year",
-                "statistics": "Statistics",
-                "communities": "Communities",
-                "districts": "Districts"
-              },
-              "filterInputs": {
-                "additional": "Additional"
-              }
+                "headings": {
+                    "mrhstatistics": "MRH Statistics"
+                },
+                "button": {
+                    "difference": "Difference",
+                    "table": "Table",
+                    "chart": "Chart",
+                    "add": "Add",
+                    "reset": "reset",
+                    "filter": "Filter"
+                },
+                "label": {
+                    "category": "Category",
+                    "area": "Region",
+                    "year": "Year",
+                    "statistics": "Statistics",
+                    "communities": "Communities",
+                    "districts": "Districts"
+                },
+                "filterInputs": {
+                    "additional": "Additional"
+                },
+                "reference": {
+                    "title": "Reference type",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod",
+                    "placeholder": "Please choose an option!"
+                }
           },
             "filter": {
                 "alertingMessages": {

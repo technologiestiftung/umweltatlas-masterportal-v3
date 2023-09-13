@@ -390,38 +390,38 @@ export default {
 <style lang="scss">
 @import "~variables";
 
-.filtercontainer .multiselect, .filtercontainer .multiselect__input, .filtercontainer .multiselect__single {
+.static-dashboard .multiselect, .filtercontainer .multiselect__input, .filtercontainer .multiselect__single {
     font-family: inherit;
     font-size: 11px;
 }
-.filtercontainer .multiselect__tags, .filtercontainer .multiselect__tag {
+.static-dashboard .multiselect__tags, .filtercontainer .multiselect__tag {
   font-size: 11px;
 }
 
-.filtercontainer .multiselect__tag {
+.static-dashboard .multiselect__tag {
     border-radius: 25px;
     padding-top: 5px;
 }
 
-.filtercontainer .multiselect__option--selected.multiselect__option--highlight,
-.filtercontainer .multiselect__option--selected.multiselect__option--highlight:after,
-.filtercontainer .multiselect__option:after,
-.filtercontainer .multiselect__option--selected,
-.filtercontainer .multiselect__option--selected:after,
-.filtercontainer .multiselect__tag
+.static-dashboard .multiselect__option--selected.multiselect__option--highlight,
+.static-dashboard .multiselect__option--selected.multiselect__option--highlight:after,
+.static-dashboard .multiselect__option:after,
+.static-dashboard .multiselect__option--selected,
+.static-dashboard .multiselect__option--selected:after,
+.static-dashboard .multiselect__tag
  {
   background: $light_blue;
   color: $white;
   font-weight: normal;
 }
 
-.filtercontainer .multiselect__option--highlight,
-.filtercontainer .multiselect__option--highlight:after {
+.static-dashboard .multiselect__option--highlight,
+.static-dashboard .multiselect__option--highlight:after {
     background: $light_grey;
     color: $black;
 }
 
-.filtercontainer .multiselect__select {
+.static-dashboard .multiselect__select {
     height: 30px;
 }
 </style>

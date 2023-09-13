@@ -297,6 +297,7 @@ export default {
         :render-to-window="renderToWindow"
         :resizable-window="resizableWindow"
         :deactivate-gfi="deactivateGFI"
+        class="static-dashboard"
     >
         <template #toolBody>
             <div class="row justify-content-between">

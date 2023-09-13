@@ -71,6 +71,18 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
             expect(wrapper.findAll(".btn-group")).lengthOf(3);
             wrapper.destroy();
         });
+
+        it("should find difference component", async () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                localVue
+            });
+
+            wrapper.setData({showDifferenceModal: true});
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.find(".difference-modal").exists()).to.be.true;
+            wrapper.destroy();
+        });
     });
 
     describe("Computed Properties", () => {
@@ -220,14 +232,16 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
             wrapper.destroy();
         });
 
-        it("should emit 'showDifference' if the user click the difference button", async () => {
+        it("should call 'showDifference' if the user click the difference button", async () => {
             const wrapper = shallowMount(StatisticDashboardControls, {
                     localVue
                 }),
                 differenceButton = wrapper.findAll("button").at(0);
 
             await differenceButton.trigger("click");
-            expect(wrapper.emitted()).to.have.all.keys("showDifference");
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.find(".difference-modal").exists()).to.be.true;
             wrapper.destroy();
         });
 

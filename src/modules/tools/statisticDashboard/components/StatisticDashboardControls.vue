@@ -1,7 +1,11 @@
 <script>
+import DifferenceModal from "./StatisticDashboardDifference.vue";
 
 export default {
     name: "StatisticDashboardControls",
+    components: {
+        DifferenceModal
+    },
     props: {
         descriptions: {
             type: Array,
@@ -11,7 +15,21 @@ export default {
     },
     data () {
         return {
-            currentDescriptionIndex: 0
+            currentDescriptionIndex: 0,
+            showDifferenceModal: false,
+            testReferenceData: {
+                "year": [
+                    {label: "2000", value: "2000"},
+                    {label: "2001", value: "2001"},
+                    {label: "2002", value: "2002"}
+                ],
+                "area": [
+                    {label: "Wandsbek", value: "Wandsbek"},
+                    {label: "Hamburg", value: "Hamburg"},
+                    {label: "Deutschland", value: "Deutschland"}
+                ]
+            },
+            referenceLabel: undefined
         };
     },
     computed: {
@@ -66,6 +84,14 @@ export default {
             else {
                 this.currentDescriptionIndex = this.descriptions.length - 1;
             }
+        },
+        /**
+         * Shows the difference modal
+         * @param {Boolean} value - true to show difference Modal
+         * @returns {void}
+         */
+        showDifference (value = true) {
+            this.showDifferenceModal = value;
         }
     }
 };
@@ -137,14 +163,21 @@ export default {
                     <i class="bi bi-bar-chart pe-2" />{{ $t("common:modules.tools.statisticDashboard.button.chart") }}
                 </label>
             </div>
-            <div class="btn-group me-2 pb-1">
+            <div class="btn-group me-2 pb-1 difference-button">
                 <button
                     type="button"
                     class="btn button-style-outline btn-sm lh-1"
-                    @click="$emit('showDifference')"
+                    @click="showDifference"
                 >
                     <i class="bi bi-intersect pe-2" />{{ $t("common:modules.tools.statisticDashboard.button.difference") }}
                 </button>
+                <template v-if="showDifferenceModal">
+                    <DifferenceModal
+                        class="difference-modal"
+                        :reference-data="testReferenceData"
+                        @showDifference="showDifference"
+                    />
+                </template>
             </div>
             <div
                 class="btn-group pb-1"
@@ -185,6 +218,20 @@ export default {
 .button-style-outline {
     border-color: $light_blue;
     color: $light_blue;
+}
+
+.difference-button {
+    position: relative;
+    .difference-modal {
+        position: absolute;
+        z-index: 1;
+        background-color: #ffffff;
+        border: 1px solid #dee2e6;
+        right: 0px;
+        top: 30px;
+        padding: 20px;
+        min-width: 210px;
+    }
 }
 
 </style>
