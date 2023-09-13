@@ -281,7 +281,15 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
             obj.isVisibleInMap = obj.visibility;
             delete obj.visibility;
         }
-        this.get("itemList").push(obj);
+
+        if (obj.id === "ExternalLayer") {
+            const overlayerIndex = this.get("itemList").findIndex((element) => element.id === "Overlayer");
+
+            this.get("itemList").splice(overlayerIndex + 1, 0, obj);
+        }
+        else {
+            this.get("itemList").push(obj);
+        }
     },
 
     /**
@@ -349,6 +357,7 @@ const Parser = Backbone.Model.extend(/** @lends Parser.prototype */{
                 folderExists = true;
             }
         });
+
         if (!folderExists) {
             this.addItem(folder);
         }

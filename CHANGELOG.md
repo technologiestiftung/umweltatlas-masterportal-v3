@@ -15,6 +15,7 @@
 ### Removed
 
 ### Fixed
+- Custom treetype can now load gdi layer via parametriUrl
 
 ## v2.37.0 - 2023-09-06
 ### Added

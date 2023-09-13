@@ -245,6 +245,10 @@ function parseLayerParams (layerIdString, visibilityString = "", transparencyStr
                 Radio.trigger("Parser", "addLayer", layerToPush.name, id, parentId, 1, layerToPush.layers, layerToPush.url, layerToPush.version, transparencyList[index], visibilityList[index]);
             }
         }
+        else if (rawLayerList.getLayerWhere({id: optionsOfLayer.id}) && treeType === "custom") {
+            console.warn("The layer with id " + optionsOfLayer.id + "is loaded from the gdi.");
+
+        }
         else if (layerConfigured === undefined) {
             layerIdsNotFound.push(id);
         }
