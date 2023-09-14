@@ -162,141 +162,164 @@ export default {
 </script>
 
 <template>
-    <div>
-        <h5 class="heading-dashboard">
-            {{ selectedCategoryName }}
-        </h5>
-        <div class="filtercontainer text-left mt-4">
-            <div class="row mb-2">
-                <div class="col-md">
-                    <label
-                        class="col-form-label-sm"
-                        for="categoryfilter"
-                    >
-                        {{ $t("common:modules.tools.statisticDashboard.label.category") }}</label>
-                    <Multiselect
-                        id="categoryfilter"
-                        v-model="selectedCategory"
-                        :options="categories"
-                        :searchable="true"
-                        :close-on-select="true"
-                        :show-labels="false"
-                        :allow-empty="false"
-                        :multiple="false"
-                        :group-values="areCategoriesGrouped ? 'categories' : ''"
-                        :group-label="areCategoriesGrouped ? 'name' : ''"
-                        :group-select="false"
-                        track-by="name"
-                        label="name"
-                    />
-                </div>
-                <div
-                    class="col-md"
+    <div
+        id="accordionFilter"
+        class="accordion"
+    >
+        <div class="accordion-item py-0">
+            <h5 class="heading-dashboard">
+                <button
+                    class="accordion-button my-0"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseFilter"
+                    aria-expanded="true"
+                    aria-controls="collapseFilter"
                 >
-                    <label
-                        class="col-form-label-sm"
-                        for="areafilter"
-                    >{{ $t("common:modules.tools.statisticDashboard.label.area") }}
-                    </label>
-                    <Multiselect
-                        id="areafilter"
-                        v-model="selectedRegions"
-                        :multiple="true"
-                        :options="regions"
-                        :searchable="false"
-                        :close-on-select="false"
-                        :clear-on-select="false"
-                        :show-labels="false"
-                        :allow-empty="false"
-                        :preselect-first="true"
-                    />
-                </div>
-                <div
-                    class="col-md"
-                >
-                    <label
-                        class="col-form-label-sm"
-                        for="timefilter"
-                    >
-                        {{ $t("common:modules.tools.statisticDashboard.label.year") }}</label>
-                    <Multiselect
-                        id="timefilter"
-                        v-model="selectedDates"
-                        :multiple="true"
-                        :options="timeStepsFilter"
-                        :searchable="false"
-                        :close-on-select="false"
-                        :clear-on-select="false"
-                        :show-labels="false"
-                        :allow-empty="false"
-                        :preselect-first="true"
-                        label="label"
-                        track-by="label"
-                    />
-                </div>
-            </div>
-            <div class="row align-items-end gx-1">
-                <div class="col col-md-auto py-1">
-                    <label
-                        class="col-form-label-sm"
-                        for="dropdownButton"
-                    >
-                        {{ $t("common:modules.tools.statisticDashboard.label.statistics") }}</label>
-                    <div class="dropdown">
-                        <button
-                            class="btn btn-sm btn-primary rounded-pill lh-1 me-2"
-                            :v-model="selectedStatistics"
-                            type="button"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                        >
-                            <i class="bi bi-plus fs-6 pe-2" />{{ $t("common:modules.tools.statisticDashboard.button.add") }}
-                        </button>
-                        <ul
-                            class="dropdown-menu"
-                            aria="dropdownButton"
-                        >
-                            <li
-                                v-for="name in statisticsNames"
-                                :key="name"
-                                class="dropdown-line"
+                    {{ $t("common:modules.tools.statisticDashboard.button.filter") }} - {{ selectedCategoryName }}
+                </button>
+            </h5>
+        </div>
+        <div
+            id="collapseFilter"
+            class="accordion-collapse collapse show py-0"
+            aria-labelledby="headingFilter"
+            data-bs-parent="#accordionExample"
+        >
+            <div class="accordion-body py-0">
+                <div class="filtercontainer text-left mt-1">
+                    <div class="row mb-2">
+                        <div class="col-md">
+                            <label
+                                class="col-form-label-sm"
+                                for="categoryfilter"
                             >
-                                <button
-                                    type="button"
-                                    class="btn btn-link btn-sm px-2 py-2 dropdown-item"
-                                    :class="selectedStatistics.includes(name) ? 'selected' : ''"
-                                    @click="toggleStatistic(name)"
-                                >
-                                    {{ name }}
-                                </button>
-                            </li>
-                        </ul>
+                                {{ $t("common:modules.tools.statisticDashboard.label.category") }}</label>
+                            <Multiselect
+                                id="categoryfilter"
+                                v-model="selectedCategory"
+                                :options="categories"
+                                :searchable="true"
+                                :close-on-select="true"
+                                :show-labels="false"
+                                :allow-empty="false"
+                                :multiple="false"
+                                :group-values="areCategoriesGrouped ? 'categories' : ''"
+                                :group-label="areCategoriesGrouped ? 'name' : ''"
+                                :group-select="false"
+                                track-by="name"
+                                label="name"
+                            />
+                        </div>
+                        <div
+                            class="col-md"
+                        >
+                            <label
+                                class="col-form-label-sm"
+                                for="areafilter"
+                            >{{ $t("common:modules.tools.statisticDashboard.label.area") }}
+                            </label>
+                            <Multiselect
+                                id="areafilter"
+                                v-model="selectedRegions"
+                                :multiple="true"
+                                :options="regions"
+                                :searchable="false"
+                                :close-on-select="false"
+                                :clear-on-select="false"
+                                :show-labels="false"
+                                :allow-empty="false"
+                                :preselect-first="true"
+                            />
+                        </div>
+                        <div
+                            class="col-md"
+                        >
+                            <label
+                                class="col-form-label-sm"
+                                for="timefilter"
+                            >
+                                {{ $t("common:modules.tools.statisticDashboard.label.year") }}</label>
+                            <Multiselect
+                                id="timefilter"
+                                v-model="selectedDates"
+                                :multiple="true"
+                                :options="timeStepsFilter"
+                                :searchable="false"
+                                :close-on-select="false"
+                                :clear-on-select="false"
+                                :show-labels="false"
+                                :allow-empty="false"
+                                :preselect-first="true"
+                                label="label"
+                                track-by="label"
+                            />
+                        </div>
                     </div>
-                </div>
-                <div class="col col-md-auto py-1">
-                    <button
-                        v-for="index in selectedStatistics"
-                        :key="index"
-                        class="btn btn-sm btn-outline-secondary lh-1 rounded-pill shadow-none mt-1 me-2 btn-pb"
-                        aria-label="Close"
-                        @click="removeStatistic(index)"
-                    >
-                        {{ index }}
-                        <i class="bi bi-x fs-5 align-middle" />
-                    </button>
-                </div>
-                <div
-                    v-if="selectedStatistics.length !== 0"
-                    class="col col-md-auto py-1"
-                >
-                    <button
-                        id="reset-button"
-                        type="button"
-                        class="btn btn-link btn-sm p-0"
-                        @click="resetStatistics()"
-                    >
-                        {{ $t("common:modules.tools.statisticDashboard.button.reset") }}
-                    </button>
+                    <div class="row align-items-end gx-1">
+                        <div class="col col-md-auto py-1">
+                            <label
+                                class="col-form-label-sm"
+                                for="dropdownButton"
+                            >
+                                {{ $t("common:modules.tools.statisticDashboard.label.statistics") }}</label>
+                            <div class="dropdown">
+                                <button
+                                    class="btn btn-sm btn-primary rounded-pill lh-1 me-2"
+                                    :v-model="selectedStatistics"
+                                    type="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                >
+                                    <i class="bi bi-plus fs-6 pe-2" />{{ $t("common:modules.tools.statisticDashboard.button.add") }}
+                                </button>
+                                <ul
+                                    class="dropdown-menu"
+                                    aria="dropdownButton"
+                                >
+                                    <li
+                                        v-for="name in statisticsNames"
+                                        :key="name"
+                                        class="dropdown-line"
+                                    >
+                                        <button
+                                            type="button"
+                                            class="btn btn-link btn-sm px-2 py-2 dropdown-item"
+                                            :class="selectedStatistics.includes(name) ? 'selected' : ''"
+                                            @click="toggleStatistic(name)"
+                                        >
+                                            {{ name }}
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col col-md-auto py-1">
+                            <button
+                                v-for="index in selectedStatistics"
+                                :key="index"
+                                class="btn btn-sm btn-outline-secondary lh-1 rounded-pill shadow-none mt-1 me-2 btn-pb"
+                                aria-label="Close"
+                                @click="removeStatistic(index)"
+                            >
+                                {{ index }}
+                                <i class="bi bi-x fs-5 align-middle" />
+                            </button>
+                        </div>
+                        <div
+                            v-if="selectedStatistics.length !== 0"
+                            class="col col-md-auto py-1"
+                        >
+                            <button
+                                id="reset-button"
+                                type="button"
+                                class="btn btn-link btn-sm p-0"
+                                @click="resetStatistics()"
+                            >
+                                {{ $t("common:modules.tools.statisticDashboard.button.reset") }}
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -305,11 +328,6 @@ export default {
 
 <style lang="scss" scoped>
     @import "~variables";
-
-    .heading-dashboard {
-        font-family: "MasterPortalFont Bold";
-        color: $light_blue;
-    }
 
     .dropdown-menu > li {
         > .dropdown-item {
@@ -339,6 +357,33 @@ export default {
 
     .btn-primary, .btn-primary:enabled, .btn-primary:focus {
         background-color: $light_blue;
+    }
+    .accordion {
+        --bs-border-color: $white;
+        .accordion-item{
+            border: none;
+            height: 4.0em;
+        }
+        .accordion-button {
+            font-family: "MasterPortalFont Bold";
+            color: $light_blue;
+            font-size: 16px;
+            width: auto;
+            margin-bottom: 0px;
+            --bs-accordion-btn-icon-width: 1em;
+                &:not(.collapsed) {
+                    background-color: $white;
+                }
+                &::after {
+                    margin-left: 10px;
+                }
+                &::before {
+                    margin-left: 0;
+                }
+                &:focus {
+                    box-shadow: none;
+                }
+        }
     }
 </style>
 

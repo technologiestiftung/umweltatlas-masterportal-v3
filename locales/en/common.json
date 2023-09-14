@@ -444,7 +444,8 @@
                 "table": "Table",
                 "chart": "Chart",
                 "add": "Add",
-                "reset": "reset"
+                "reset": "reset",
+                "filter": "Filter"
               },
               "label": {
                 "category": "Category",

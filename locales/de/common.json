@@ -513,7 +513,8 @@
                   "table": "Tabelle",
                   "chart": "Diagramm",
                   "add": "Hinzufügen",
-                  "reset": "zurücksetzen"
+                  "reset": "zurücksetzen",
+                  "filter": "Filter"
                 },
                 "label": {
                   "category": "Kategorie",
