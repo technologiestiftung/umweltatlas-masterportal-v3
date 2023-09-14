@@ -153,7 +153,8 @@ export default {
             if (getters.currentComponent(side).type === "layerSelection") {
                 commit("Modules/SearchBar/setSearchInput", "", {root: true});
                 //todo
-                state[side].navigation.currentComponent.props.name = "common:modules.layerSelection.addSubject";
+                this.setCurrentComponentPropsName({side: this.side, name: "common:modules.searchBar.searchResults"});
+                commit("setCurrentComponentPropsName", {side: side, name: "common:modules.searchBar.addSubject"});
             }
         });
     },

@@ -147,7 +147,7 @@ export default {
                 if (newVal === "root" || newVal === "layerselection") {
                     this.searchInputValue = "";
                     this.$refs?.searchInput.blur();
-                    if (this.side) {
+                    if (this.side && newVal === "root") {
                         this.switchToRoot(this.side);
                     }
                 }
@@ -157,6 +157,7 @@ export default {
         searchInputValue: {
             handler (newVal) {
                 if (newVal === "") {
+                    //this.setCurrentComponentPropsName({side: this.side, name: "common:modules.searchBar.searchResults"});
                     // todo state[side].navigation.currentComponent.props.name = "common:modules.layerSelection.addSubject
                     // Check subject
                 }
@@ -192,7 +193,8 @@ export default {
             "setCurrentSide"
         ]),
         ...mapMutations("Menu", [
-            "switchToRoot"
+            "switchToRoot",
+            "setCurrentComponentPropsName"
         ]),
         /**
          * Starts the search in searchInterfaces, if min characters are introduced, updates the result list.

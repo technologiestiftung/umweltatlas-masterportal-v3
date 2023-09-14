@@ -51,7 +51,7 @@ export default {
      * @param {Object} side the menu side of the search
      * @returns {void}
      */
-    startLayerSelectionSearch: ({dispatch, commit, rootState}, side) => {
+    startLayerSelectionSearch: ({dispatch, commit}, side) => {
         commit("setShowAllResults", true);
         commit("setShowAllResultsSearchInterfaceInstance", "elasticSearch_0");// topicTree
         commit("setCurrentAvailableCategories", "Thema (externe Fachdaten)");
@@ -60,10 +60,9 @@ export default {
             side: side,
             type: "searchbar"
         }, {root: true});
-        commit("Menu/setCurrentComponent", {type: "layerSelection", side: side, props:[]}, {root: true});
-        rootState.Menu[side].navigation.currentComponent.props.name = "common:modules.searchBar.searchResults";
-        rootState.Menu[side].navigation.history = [];
-        rootState.Menu[side].navigation.history.push({type: "root", props: []}, {type: "layerSelection", props: {name: "common:modules.layerSelection.name"}}, {type: "layerSelection", props: {name: "common:modules.layerSelection.name"}});
+        commit("Menu/setCurrentComponent", {type: "layerSelection", side: side, props: []}, {root: true});
+        commit("Menu/setCurrentComponentPropsName", {side: side, name: "common:modules.searchBar.searchResults"}, {root: true});
+        commit("Menu/setNavigationHistoryBySide", {side: side, newHistory: [{type: "root", props: []}, {type: "layerSelection", props: {name: "common:modules.layerSelection.name"}}, {type: "layerSelection", props: {name: "common:modules.layerSelection.name"}}]}, {root: true});
     },
     /**
      * Checks for addlayer search configuration (instance and topic)
