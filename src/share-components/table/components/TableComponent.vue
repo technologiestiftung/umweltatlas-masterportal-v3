@@ -267,6 +267,7 @@ export default {
     padding-top: 15px;
     padding-bottom: 15px;
     border-top: 1px solid #dee2e6;
+    font-family: "MasterPortalFont Bold";
 }
 .bootstrap-icon {
     font-size: 11px;

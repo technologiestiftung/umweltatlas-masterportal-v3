@@ -5,6 +5,7 @@ import StatisticDashboard from "../../../components/StatisticDashboard.vue";
 import indexStatisticDashboard from "../../../store/indexStatisticDashboard";
 import sinon from "sinon";
 import fetchData from "../../../utils/fetchData";
+import ChartProcessor from "../../../utils/chartProcessor";
 import {
     and as andFilter,
     equalTo as equalToFilter
@@ -308,8 +309,7 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
 
                 expect(value).to.be.equal("13");
             });
-
-            it("should return '-' if statistic value is not available", () => {
+            it("should call prepareChartData with expected params for line chart", async () => {
                 const wrapper = shallowMount(StatisticDashboard, {
                         localVue,
                         store
@@ -388,6 +388,115 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                 expect(wrapper.vm.getTableData(preparedData)).to.deep.equal(expectedValue);
             });
 
+        });
+        describe("handleChartData", () => {
+            it("should call prepareGridCharts with expected params", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    prepareGridChartsStub = sinon.stub(wrapper.vm, "prepareGridCharts");
+
+                wrapper.vm.handleChartData(["foo", "bar"], [1], [], undefined);
+                expect(prepareGridChartsStub.calledWith(["foo", "bar"], undefined, "vertical", false)).to.be.true;
+            });
+            it("should call prepareChartData with expected params for line chart", async () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    prepareChartDataStub = sinon.stub(wrapper.vm, "prepareChartData");
+
+                wrapper.vm.handleChartData(["foo"], ["region1"], ["date1", "date2"], {foo: "bar"});
+                await wrapper.vm.$nextTick();
+                expect(prepareChartDataStub.calledWith("foo", "bar", undefined, "line")).to.be.true;
+                sinon.restore();
+            });
+            it("should call prepareChartData with expected params for bar chart", async () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    prepareChartDataStub = sinon.stub(wrapper.vm, "prepareChartData");
+
+                wrapper.vm.handleChartData(["foo"], ["region1"], ["date1"], {foo: "bar"});
+                await wrapper.vm.$nextTick();
+                expect(prepareChartDataStub.calledWith("foo", "bar", undefined, "bar", "vertical")).to.be.true;
+                sinon.restore();
+            });
+            it("should call prepareChartData with expected params for bar chart horizontal", async () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    prepareChartDataStub = sinon.stub(wrapper.vm, "prepareChartData");
+
+                wrapper.vm.handleChartData(["foo"], ["region1", "region2", "region3", "region4", "region5"], ["date1"], {foo: "bar"});
+                await wrapper.vm.$nextTick();
+                expect(prepareChartDataStub.calledWith("foo", "bar", undefined, "bar", "horizontal")).to.be.true;
+                sinon.restore();
+            });
+        });
+        describe("prepareChartData", () => {
+            it("should set canvas and chart to property currentChart", () => {
+                sinon.stub(ChartProcessor, "createLineChart").returns(null);
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    topic = "fooBar",
+                    canvas = document.createElement("canvas"),
+                    expected = {};
+
+                expected[topic] = {
+                    container: canvas,
+                    chart: null
+                };
+                wrapper.vm.prepareChartData(topic, undefined, canvas, "line");
+                expect(wrapper.vm.currentChart).to.deep.equal(expected);
+                sinon.restore();
+            });
+            it("should set canvas and chart to property currentChart for bar", () => {
+                sinon.stub(ChartProcessor, "createBarChart").returns(null);
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    topic = "fooBar",
+                    canvas = document.createElement("canvas"),
+                    expected = {};
+
+                expected[topic] = {
+                    container: canvas,
+                    chart: null
+                };
+                wrapper.vm.prepareChartData(topic, undefined, canvas, "bar");
+                expect(wrapper.vm.currentChart).to.deep.equal(expected);
+                sinon.restore();
+            });
+            it("should destroy existing chart and set canvas and chart to property currentChart", async () => {
+                sinon.stub(ChartProcessor, "createLineChart").returns(null);
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    topic = "fooBar",
+                    canvas = document.createElement("canvas"),
+                    expected = {};
+
+                expected[topic] = {
+                    container: undefined,
+                    chart: null
+                };
+                wrapper.vm.currentChart[topic] = {
+                    container: canvas,
+                    chart: {destroy: () => sinon.stub()}
+                };
+                await wrapper.vm.$nextTick();
+                wrapper.vm.prepareChartData(topic, undefined, undefined, "line");
+                expect(wrapper.vm.currentChart).to.deep.equal(expected);
+                sinon.restore();
+            });
         });
     });
 

@@ -12,6 +12,7 @@ import FetchDataHandler from "../utils/fetchData.js";
 import StatisticsHandler from "../utils/handleStatistics.js";
 import {rawLayerList} from "@masterportal/masterportalapi";
 import {getFeaturePOST} from "../../../../api/wfs/getFeature";
+import ChartProcessor from "../utils/chartProcessor.js";
 import {
     and as andFilter,
     equalTo as equalToFilter,
@@ -30,15 +31,7 @@ export default {
     },
     data () {
         return {
-            tableData: [{
-                headers: ["Raumeinheit", "2023", "2022"],
-                items: [
-                    ["Harburg", 1234, 1234],
-                    ["Ludwigslust Parchim", 23456, 1234],
-                    ["Lübeck", 23475, 1234],
-                    ["Niedersachsen", 34844, 1234]
-                ]
-            }],
+            tableData: [],
             testFixedData: {
                 items: [
                     ["Bergedorf", 1234, 1234],
@@ -58,6 +51,10 @@ export default {
             dates: [],
             selectedLevel: undefined,
             sortedRows: [],
+            currentChart: {},
+            showTable: true,
+            showChart: false,
+            showGrid: false,
             controlDescription: [{
                 title: "Trappatoni 1",
                 content: "Es gibt im Moment in diese Mannschaft, oh, einige Spieler vergessen ihnen Profi was sie sind."
@@ -220,6 +217,85 @@ export default {
 
             this.statisticsData = this.prepareStatisticsData(features, filteredStatistics, regions, dates, selectedLevelDateAttribute, selectedLevelRegionNameAttribute);
             this.tableData = this.getTableData(this.statisticsData);
+            this.handleChartData(filteredStatistics, regions, dates, this.statisticsData);
+        },
+
+        /**
+         * Handles chart data and resets the showGrid property.
+         * @param {String[]} filteredStatistics The statistics.
+         * @param {String[]} regions The regions.
+         * @param {String[]} dates The dates.
+         * @param {Object} preparedData The prepared data.
+         * @returns {void}
+         */
+        handleChartData (filteredStatistics, regions, dates, preparedData) {
+            const directionBarChart = regions.length < 5 ? "vertical" : "horizontal";
+
+            this.showGrid = false;
+            if (filteredStatistics.length > 1) {
+                this.prepareGridCharts(filteredStatistics, preparedData, directionBarChart, dates.length > 1);
+            }
+            else if (regions.length >= 1) {
+                this.$nextTick(() => {
+                    if (dates.length > 1) {
+                        this.prepareChartData(filteredStatistics[0], preparedData[filteredStatistics[0]], undefined, "line");
+                        return;
+                    }
+                    this.prepareChartData(filteredStatistics[0], preparedData[filteredStatistics[0]], undefined, "bar", directionBarChart);
+                });
+            }
+        },
+        /**
+         * Prepares the charts for the grid and also creates canvas elements for each chart to render on.
+         * @param {String[]} filteredStatistics The statistics.
+         * @param {Object} preparedData The prepared data.
+         * @param {String[]} direction - Direction of bar chart.
+         * @param {Boolean} renderAsLine Flag to render line charts. Default is false.
+         * @returns {void}
+         */
+        prepareGridCharts (filteredStatistics, preparedData, direction, renderAsLine = false) {
+            this.showGrid = true;
+            this.$nextTick(() => {
+                const container = this.$refs.chartsGrid;
+
+                filteredStatistics.forEach(statistic => {
+                    const ctx = document.createElement("canvas");
+
+                    container.appendChild(ctx);
+                    if (renderAsLine) {
+                        this.prepareChartData(statistic, preparedData[statistic], ctx, "line");
+                        return;
+                    }
+                    this.prepareChartData(statistic, preparedData[statistic], ctx, "bar", direction);
+                });
+            });
+        },
+        /**
+         * Prepares the chart and also handles the destruction of previuos charts.
+         * @param {String} topic The topic of the chart.
+         * @param {Object} preparedData The data.
+         * @param {HTMLElement} canvas The canvas to render the chart on.
+         * @param {String} type The type. Can be bar or line.
+         * @param {String} direction The direction of the bar chart.
+         * @returns {void}
+         */
+        prepareChartData (topic, preparedData, canvas, type, direction) {
+            const chart = canvas || this.$refs.chart;
+
+            if (typeof this.currentChart[topic] !== "undefined") {
+                this.currentChart[topic].chart.destroy();
+                if (typeof this.currentChart[topic]?.container !== "undefined") {
+                    this.currentChart[topic].container.remove();
+                }
+            }
+            this.currentChart[topic] = {};
+            this.currentChart[topic].container = canvas ? canvas : undefined;
+            if (type === "line") {
+                this.currentChart[topic].chart = ChartProcessor.createLineChart(topic, preparedData, chart);
+            }
+            else if (type === "bar") {
+                this.currentChart[topic].chart = ChartProcessor.createBarChart(topic, preparedData, direction, chart);
+            }
         },
 
         /**
@@ -386,6 +462,14 @@ export default {
         removeReference () {
             this.setSelectedReferenceData({});
             this.referenceTag = undefined;
+        },
+        /**
+         * Toggles between chart and table.
+         * @returns {void}
+         */
+        toggleChartTable () {
+            this.showChart = !this.showChart;
+            this.showTable = !this.showTable;
         }
     }
 };
@@ -465,6 +549,8 @@ export default {
             <hr>
             <Controls
                 :descriptions="controlDescription"
+                @showChart="toggleChartTable"
+                @showTable="toggleChartTable"
             />
             <div
                 v-if="typeof referenceTag === 'string'"
@@ -481,8 +567,9 @@ export default {
                     <i class="bi bi-x fs-5 align-middle" />
                 </button>
             </div>
-            <template v-for="(data, index) in tableData">
+            <div v-show="showTable">
                 <TableComponent
+                    v-for="(data, index) in tableData"
                     :key="index"
                     :data="data"
                     :fixed-data="testFixedData"
@@ -491,7 +578,18 @@ export default {
                     :sortable="sortable"
                     @setSortedRows="setSortedRows"
                 />
-            </template>
+            </div>
+            <div v-show="showChart">
+                <canvas
+                    v-if="!showGrid"
+                    ref="chart"
+                    class="chart-container"
+                />
+                <div
+                    v-else
+                    ref="chartsGrid"
+                />
+            </div>
         </template>
     </ToolTemplate>
 </template>
