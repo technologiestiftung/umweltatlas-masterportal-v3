@@ -161,5 +161,17 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
             });
             wrapper.destroy();
         });
+
+        it("should set savedReferenceData", async () => {
+            const wrapper = shallowMount(StatisticDashboardDifference, {
+                propsData: propsData,
+                localVue,
+                store
+            });
+
+            await wrapper.find("input#reference-area").setChecked();
+            expect(wrapper.vm.savedReferenceData).to.deep.equal({});
+            wrapper.destroy();
+        });
     });
 });

@@ -69,12 +69,23 @@ export default {
             {
                 title: "Trappatoni 3 ",
                 content: "Letzte Spiel hatten wir in Platz drei Spitzen: Elber, Jancka und dann Zickler."
-            }]
+            }],
+            referenceTag: undefined
         };
     },
     computed: {
         ...mapGetters("Tools/StatisticDashboard", Object.keys(getters)),
         ...mapGetters("Maps", ["projection"])
+    },
+    watch: {
+        selectedReferenceData (val) {
+            if (isObject(val?.value) && typeof val.value.value === "string") {
+                this.referenceTag = val.value.value;
+            }
+            else if (val?.value === null) {
+                this.referenceTag = undefined;
+            }
+        }
     },
     created () {
         this.$on("close", this.close);
@@ -366,6 +377,15 @@ export default {
          */
         getSelectedLevelStatisticsAttributes (level) {
             return level?.mappingFilter.statisticsAttributes || {};
+        },
+
+        /**
+         * Removes the reference data
+         * @returns {void}
+         */
+        removeReference () {
+            this.setSelectedReferenceData({});
+            this.referenceTag = undefined;
         }
     }
 };
@@ -446,6 +466,21 @@ export default {
             <Controls
                 :descriptions="controlDescription"
             />
+            <div
+                v-if="typeof referenceTag === 'string'"
+                class="reference-tag"
+            >
+                <span>{{ $t("common:modules.tools.statisticDashboard.reference.tagLabel") }}: </span>
+                <button
+                    class="btn btn-sm btn-outline-secondary lh-1 rounded-pill shadow-none mt-1 me-2 btn-pb"
+                    aria-label="Close"
+                    @click="removeReference()"
+                    @keydown.enter="removeReference()"
+                >
+                    {{ referenceTag }}
+                    <i class="bi bi-x fs-5 align-middle" />
+                </button>
+            </div>
             <template v-for="(data, index) in tableData">
                 <TableComponent
                     :key="index"
@@ -463,4 +498,17 @@ export default {
 
 <style lang="scss" scoped>
 @import "~variables";
+
+.reference-tag {
+    float: right;
+    margin-top: -20px;
+    display: inline-flex;
+    > span {
+        padding-top: 9px;
+        margin-right: 5px;
+    }
+    button {
+        color: $dark_grey;
+    }
+}
 </style>

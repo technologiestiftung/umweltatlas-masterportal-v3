@@ -3,6 +3,7 @@ import Multiselect from "vue-multiselect";
 import {mapGetters, mapMutations} from "vuex";
 import getters from "../store/gettersStatisticDashboard";
 import mutations from "../store/mutationsStatisticDashboard";
+import isObject from "../../../../utils/isObject";
 
 export default {
     name: "StatisticDashboardDifference",
@@ -14,6 +15,11 @@ export default {
             type: Object,
             required: true
         }
+    },
+    data () {
+        return {
+            savedReferenceData: {}
+        };
     },
     computed: {
         ...mapGetters("Tools/StatisticDashboard", Object.keys(getters)),
@@ -44,8 +50,23 @@ export default {
             }
         }
     },
+    watch: {
+        selectedReferenceData (oldVal, newVal) {
+            if (Array.isArray(oldVal?.value) && !oldVal.value.length && isObject(newVal.value) && newVal.value.value) {
+                this.savedReferenceData = newVal;
+            }
+            else if (isObject(oldVal.value) && oldVal.value.value) {
+                this.savedReferenceData = oldVal;
+            }
+        }
+    },
     created () {
         this.optionData = this.referenceData[this.referenceType];
+    },
+    beforeDestroy () {
+        if (Array.isArray(this.selectedReferenceData?.value) && !this.selectedReferenceData.value.length) {
+            this.setSelectedReferenceData(this.savedReferenceData);
+        }
     },
     methods: {
         ...mapMutations("Tools/StatisticDashboard", Object.keys(mutations))

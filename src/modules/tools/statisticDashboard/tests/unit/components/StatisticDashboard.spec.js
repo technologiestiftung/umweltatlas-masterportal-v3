@@ -44,6 +44,45 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
             })
         ];
 
+    describe("Component DOM", () => {
+        it("The close button should exist", async () => {
+            const wrapper = shallowMount(StatisticDashboard, {
+                localVue,
+                store
+            });
+
+            await wrapper.setData({referenceTag: "2001"});
+            expect(wrapper.find(".reference-tag").exists()).to.be.true;
+            wrapper.destroy();
+        });
+    });
+
+    describe("Lifecycle Hooks", () => {
+        it("should set the referenceTag undefined", async () => {
+            const wrapper = shallowMount(StatisticDashboard, {
+                localVue,
+                store
+            });
+
+            await wrapper.vm.setSelectedReferenceData({value: null});
+
+            expect(wrapper.vm.referenceTag).to.be.undefined;
+            wrapper.destroy();
+        });
+
+        it("should set the referenceTag value", async () => {
+            const wrapper = shallowMount(StatisticDashboard, {
+                localVue,
+                store
+            });
+
+            await wrapper.vm.setSelectedReferenceData({value: {value: "2001"}});
+
+            expect(wrapper.vm.referenceTag).to.be.equal("2001");
+            wrapper.destroy();
+        });
+    });
+
     describe("methods", () => {
         describe("getUniqueValuesForLevel", () => {
             it("should return an empty object if first parm is not an object", async () => {
@@ -349,6 +388,21 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                 expect(wrapper.vm.getTableData(preparedData)).to.deep.equal(expectedValue);
             });
 
+        });
+    });
+
+    describe("User Interaction", () => {
+        it("should remove the reference data", async () => {
+            const wrapper = shallowMount(StatisticDashboard, {
+                localVue,
+                store
+            });
+
+            await wrapper.setData({referenceTag: "2001"});
+            await wrapper.find(".reference-tag button").trigger("click");
+            expect(wrapper.vm.selectedReferenceData).to.deep.equal({});
+            expect(wrapper.vm.referenceTag).to.be.undefined;
+            wrapper.destroy();
         });
     });
 });
