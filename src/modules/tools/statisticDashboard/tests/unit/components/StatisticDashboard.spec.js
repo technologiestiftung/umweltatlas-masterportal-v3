@@ -449,7 +449,6 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                     expected = {};
 
                 expected[topic] = {
-                    container: canvas,
                     chart: null
                 };
                 wrapper.vm.prepareChartData(topic, undefined, canvas, "line");
@@ -467,7 +466,6 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                     expected = {};
 
                 expected[topic] = {
-                    container: canvas,
                     chart: null
                 };
                 wrapper.vm.prepareChartData(topic, undefined, canvas, "bar");
@@ -481,15 +479,12 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                         store
                     }),
                     topic = "fooBar",
-                    canvas = document.createElement("canvas"),
                     expected = {};
 
                 expected[topic] = {
-                    container: undefined,
                     chart: null
                 };
                 wrapper.vm.currentChart[topic] = {
-                    container: canvas,
                     chart: {destroy: () => sinon.stub()}
                 };
                 await wrapper.vm.$nextTick();

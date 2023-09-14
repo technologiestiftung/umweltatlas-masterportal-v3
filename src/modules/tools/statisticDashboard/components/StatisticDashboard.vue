@@ -5,6 +5,7 @@ import {getComponent} from "../../../../utils/getComponent";
 import isObject from "../../../../utils/isObject";
 import ToolTemplate from "../../ToolTemplate.vue";
 import getters from "../store/gettersStatisticDashboard";
+import GridComponent from "./StatisticGridComponent.vue";
 import mutations from "../store/mutationsStatisticDashboard";
 import Controls from "./StatisticDashboardControls.vue";
 import StatisticFilter from "./StatisticDashboardFilter.vue";
@@ -26,6 +27,7 @@ export default {
     components: {
         ToolTemplate,
         TableComponent,
+        GridComponent,
         Controls,
         StatisticFilter
     },
@@ -52,6 +54,7 @@ export default {
             selectedLevel: undefined,
             sortedRows: [],
             currentChart: {},
+            chartCounts: 0,
             showTable: true,
             showChart: false,
             showGrid: false,
@@ -217,6 +220,7 @@ export default {
 
             this.statisticsData = this.prepareStatisticsData(features, filteredStatistics, regions, dates, selectedLevelDateAttribute, selectedLevelRegionNameAttribute);
             this.tableData = this.getTableData(this.statisticsData);
+            this.chartCounts = filteredStatistics.length;
             this.handleChartData(filteredStatistics, regions, dates, this.statisticsData);
         },
 
@@ -256,12 +260,9 @@ export default {
         prepareGridCharts (filteredStatistics, preparedData, direction, renderAsLine = false) {
             this.showGrid = true;
             this.$nextTick(() => {
-                const container = this.$refs.chartsGrid;
+                filteredStatistics.forEach((statistic, idx) => {
+                    const ctx = this.$refs["chart" + (idx + 1)];
 
-                filteredStatistics.forEach(statistic => {
-                    const ctx = document.createElement("canvas");
-
-                    container.appendChild(ctx);
                     if (renderAsLine) {
                         this.prepareChartData(statistic, preparedData[statistic], ctx, "line");
                         return;
@@ -284,12 +285,8 @@ export default {
 
             if (typeof this.currentChart[topic] !== "undefined") {
                 this.currentChart[topic].chart.destroy();
-                if (typeof this.currentChart[topic]?.container !== "undefined") {
-                    this.currentChart[topic].container.remove();
-                }
             }
             this.currentChart[topic] = {};
-            this.currentChart[topic].container = canvas ? canvas : undefined;
             if (type === "line") {
                 this.currentChart[topic].chart = ChartProcessor.createLineChart(topic, preparedData, chart);
             }
@@ -568,16 +565,36 @@ export default {
                 </button>
             </div>
             <div v-show="showTable">
-                <TableComponent
-                    v-for="(data, index) in tableData"
-                    :key="index"
-                    :data="data"
-                    :fixed-data="testFixedData"
-                    :select-mode="selectMode"
-                    :show-header="showHeader"
-                    :sortable="sortable"
-                    @setSortedRows="setSortedRows"
-                />
+                <div v-if="!showGrid">
+                    <TableComponent
+                        v-for="(data, index) in tableData"
+                        :key="index"
+                        :data="data"
+                        :fixed-data="testFixedData"
+                        :select-mode="selectMode"
+                        :show-header="showHeader"
+                        :sortable="sortable"
+                        @setSortedRows="setSortedRows"
+                    />
+                </div>
+                <GridComponent
+                    v-else
+                    :dates="tableData"
+                >
+                    <template
+                        slot="containers"
+                        slot-scope="props"
+                    >
+                        <TableComponent
+                            :data="props.data"
+                            :fixed-data="testFixedData"
+                            :select-mode="selectMode"
+                            :show-header="showHeader"
+                            :sortable="sortable"
+                            @setSortedRows="setSortedRows"
+                        />
+                    </template>
+                </GridComponent>
             </div>
             <div v-show="showChart">
                 <canvas
@@ -585,10 +602,19 @@ export default {
                     ref="chart"
                     class="chart-container"
                 />
-                <div
+                <GridComponent
                     v-else
-                    ref="chartsGrid"
-                />
+                    :charts-count="chartCounts"
+                >
+                    <template
+                        slot="chartContainers"
+                        slot-scope="props"
+                    >
+                        <canvas
+                            :ref="'chart' + props.data.id"
+                        />
+                    </template>
+                </GridComponent>
             </div>
         </template>
     </ToolTemplate>
