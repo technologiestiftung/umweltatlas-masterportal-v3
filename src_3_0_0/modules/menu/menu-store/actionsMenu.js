@@ -135,6 +135,7 @@ export default {
      * @param {Object} param.dispatch the dispatch
      * @param {Object} param.getters the getters
      * @param {Object} param.state the state
+     * @param {Object} param.rootGetters the rootGetters
      * @param {String} side Side on which the navigation action occurred.
      * @returns {void}
      */
@@ -152,9 +153,7 @@ export default {
 
             if (getters.currentComponent(side).type === "layerSelection") {
                 commit("Modules/SearchBar/setSearchInput", "", {root: true});
-                //todo
-                this.setCurrentComponentPropsName({side: this.side, name: "common:modules.searchBar.searchResults"});
-                commit("setCurrentComponentPropsName", {side: side, name: "common:modules.searchBar.addSubject"});
+                commit("setCurrentComponentPropsName", {side: side, name: "common:modules.layerSelection.addSubject"});
             }
         });
     },

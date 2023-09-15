@@ -25,7 +25,8 @@ export default {
     data: function () {
         return {
             currentComponentSide: undefined,
-            currentSearchInput: this.searchInput
+            currentSearchInput: this.searchInput,
+            layerSelectionPlaceHolder: this.placeholder
         };
     },
     computed: {
@@ -144,22 +145,18 @@ export default {
         */
         currentComponentSide: {
             handler (newVal) {
-                if (newVal === "root" || newVal === "layerselection") {
+                if (newVal === "root" || newVal === "layerSelection") {
                     this.searchInputValue = "";
                     this.$refs?.searchInput.blur();
                     if (this.side && newVal === "root") {
                         this.switchToRoot(this.side);
                     }
                 }
-            },
-            deep: true
-        },
-        searchInputValue: {
-            handler (newVal) {
-                if (newVal === "") {
-                    //this.setCurrentComponentPropsName({side: this.side, name: "common:modules.searchBar.searchResults"});
-                    // todo state[side].navigation.currentComponent.props.name = "common:modules.layerSelection.addSubject
-                    // Check subject
+                if (newVal === "layerSelection") {
+                    this.layerSelectionPlaceHolder = "common:modules.searchBar.search";
+                }
+                else {
+                    this.layerSelectionPlaceHolder = this.placeholder;
                 }
             },
             deep: true
@@ -272,8 +269,8 @@ export default {
                 v-model="searchInputValue"
                 type="search"
                 class="form-control"
-                :placeholder="$t(placeholder)"
-                :aria-label="$t(placeholder)"
+                :placeholder="$t(layerSelectionPlaceHolder)"
+                :aria-label="$t(layerSelectionPlaceHolder)"
                 @click="clickAction"
                 @input="checkCurrentComponent(currentComponentSide)"
                 @keydown.enter="zoomToAndMarkSearchResult(searchInputValue), checkCurrentComponent(currentComponentSide)"

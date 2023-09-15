@@ -29,6 +29,7 @@ export default {
         };
     },
     computed: {
+        ...mapGetters("Modules/SearchBar", ["searchInput"]),
         ...mapGetters("Maps", ["mode"]),
         ...mapGetters(["activeOrFirstCategory", "allCategories", "invisibleBaselayerConfigs", "portalConfig"]),
         ...mapGetters("Modules/LayerSelection", ["visible", "subjectDataLayerConfs", "baselayerConfs", "layersToAdd", "lastFolderNames", "layerInfoVisible", "highlightLayerId"]),
@@ -247,7 +248,10 @@ export default {
                 </template>
             </div>
         </div>
-        <div class="d-flex justify-content-center sticky layer-selection-add-layer-btn">
+        <div
+            v-if="searchInput===''"
+            class="d-flex justify-content-center sticky layer-selection-add-layer-btn"
+        >
             <FlatButton
                 id="layer-selection-add-layer-btn"
                 aria-label="$t('common:modules.layerSelection.addSelectedSubjectsToMap', {count: layersToAdd.length})"
