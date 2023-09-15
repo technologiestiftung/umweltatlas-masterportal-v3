@@ -63,7 +63,14 @@
       }
     },
     "tree": {
-      "addLayerButton": true,
+      "addLayerButton": {
+        "active": true,
+        "searchBar": {
+          "active": true,
+          "searchInterfaceInstance": "elasticSearch_0",
+          "searchCategory": "Thema (externe Fachdaten)"
+        }
+      },
       "layerPills": {
         "active": true
       },

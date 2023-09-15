@@ -27,8 +27,12 @@ export default {
      * @param {Object} side the menu side of the search
      * @returns {void}
      */
-    updateSearchNavigation: ({getters, rootGetters, commit}, side) => {
+    updateSearchNavigation: ({getters, commit}, side) => {
         const type = rootGetters["Menu/currentComponent"](side).type;
+        console.log(getters.showAllResults)
+        if (getters.showAllResults === true && side === getters.currentSide) {
+            console.log("update")
+            commit("setShowAllResults", false);
 
         if (getters.showAllResults === true && side === getters.currentSide) {
             if (type !== "searchbar") {
@@ -53,6 +57,7 @@ export default {
      */
     startLayerSelectionSearch: ({dispatch, commit}, side) => {
         commit("setShowAllResults", true);
+        // todo
         commit("setShowAllResultsSearchInterfaceInstance", "elasticSearch_0");// topicTree
         commit("setCurrentAvailableCategories", "Thema (externe Fachdaten)");
         dispatch("Menu/clickedMenuElement", {

@@ -27,8 +27,10 @@ describe("src_3_0_0/modules/layerTree/components/LayerTreeNode.vue", () => {
 
     beforeEach(() => {
         mapMode = "2D";
-        addLayerButton = false;
-        treeType = undefined;
+        addLayerButton = {
+            active: false
+        };
+        treeType = "light";
         layer2D_1 = {
             id: "1",
             name: "layer2D_1",

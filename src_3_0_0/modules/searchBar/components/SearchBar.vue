@@ -43,7 +43,7 @@ export default {
             "currentSide"
         ]),
         ...mapGetters("Menu",
-            {menuCurrentComponent: "currentComponent"}
+            {menuCurrentComponent: "currentComponent", previousNavigationEntryText: "previousNavigationEntryText"}
         ),
         ...mapGetters([
             "portalConfig"
@@ -160,6 +160,18 @@ export default {
                 }
             },
             deep: true
+        },
+        /**
+        * Watcher to check the searchInputValue for layerSelection module
+        */
+        searchInputValue: {
+            handler (newVal, oldVal) {
+                if (newVal === "" && oldVal !== "" && this.currentComponentSide === "layerSelection" && this.previousNavigationEntryText(this.currentSide) === this.$t("common:modules.layerSelection.name")) {
+
+                    this.navigateBack(this.currentSide);
+                }
+            },
+            deep: true
         }
     },
     mounted () {
@@ -180,6 +192,9 @@ export default {
             "startLayerSelectionSearch",
             "search"
         ]),
+        ...mapActions("Menu", [
+            "navigateBack"
+        ]),
         ...mapMutations("Modules/SearchBar", [
             "addSuggestionItem",
             "setSearchInput",
@@ -191,6 +206,9 @@ export default {
         ]),
         ...mapMutations("Menu", [
             "switchToRoot",
+            "switchToPreviousComponent",
+            "setCurrentComponentBySide",
+            "setNavigationHistoryBySide",
             "setCurrentComponentPropsName"
         ]),
         /**
@@ -220,8 +238,10 @@ export default {
                 this.clickAction();
             }
             else if (currentComponentSide === "layerSelection") {
-                this.startLayerSelectionSearch(this.currentSide);
-                this.startSearch();
+                if (this.searchInputValue.length >= this.minCharacters) {
+                    this.startLayerSelectionSearch(this.currentSide);
+                    this.startSearch();
+                }
             }
             else {
                 this.startSearch();

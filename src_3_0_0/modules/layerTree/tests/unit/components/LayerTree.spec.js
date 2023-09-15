@@ -27,8 +27,10 @@ describe("src_3_0_0/modules/layerTree/components/LayerTree.vue", () => {
 
     beforeEach(() => {
         mapMode = "2D";
-        treeType = undefined;
-        addLayerButton = false;
+        treeType = "light";
+        addLayerButton: {
+            active: false
+        },
         layer_1 = {
             id: "1",
             name: "layer_1",
@@ -201,7 +203,9 @@ describe("src_3_0_0/modules/layerTree/components/LayerTree.vue", () => {
     it("with layer button - renders the LayerTree without layers", () => {
         subjectDataLayers = [];
         layersBG = [];
-        addLayerButton = true;
+        addLayerButton = {
+            active: true
+        };
         wrapper = shallowMount(LayerTreeComponent, {
             global: {
                 plugins: [store]
@@ -249,7 +253,9 @@ describe("src_3_0_0/modules/layerTree/components/LayerTree.vue", () => {
         const spy = sinon.spy(LayerTreeComponent.methods, "showLayerSelection");
         let button = null;
 
-        addLayerButton = true;
+        addLayerButton = {
+            active: true
+        };
         wrapper = mount(LayerTreeComponent, {
             global: {
                 plugins: [store]

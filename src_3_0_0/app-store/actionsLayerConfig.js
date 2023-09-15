@@ -306,7 +306,7 @@ export default {
      */
     updateLayerConfigs ({dispatch, state}, layerContainer) {
         layerContainer.forEach(layerConf => {
-            const rawLayer = getAndMergeRawLayer(layerConf, !state.portalConfig?.tree?.addLayerButton);
+            const rawLayer = getAndMergeRawLayer(layerConf, !state.portalConfig?.tree?.addLayerButton.active);
 
             if (rawLayer) {
                 dispatch("replaceByIdInLayerConfig", {layerConfigs: [{layer: rawLayer, id: layerConf.id}]});
