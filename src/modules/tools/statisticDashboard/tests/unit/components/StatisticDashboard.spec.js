@@ -9,6 +9,7 @@ import {
     and as andFilter,
     equalTo as equalToFilter
 } from "ol/format/filter";
+import Feature from "ol/Feature.js";
 
 const localVue = createLocalVue();
 
@@ -17,16 +18,31 @@ config.mocks.$t = key => key;
 
 describe("/src/modules/tools/StatisticDashboard.vue", () => {
     const store = new Vuex.Store({
-        namespaced: true,
-        modules: {
-            Tools: {
-                namespaced: true,
-                modules: {
-                    StatisticDashboard: indexStatisticDashboard
+            namespaced: true,
+            modules: {
+                Tools: {
+                    namespaced: true,
+                    modules: {
+                        StatisticDashboard: indexStatisticDashboard
+                    }
                 }
             }
-        }
-    });
+        }),
+        featureList = [
+            new Feature({
+                bev_maennlich: "13",
+                bev_weiblich: "12",
+                jahr: "1890",
+                ort: "Hamburg"
+
+            }),
+            new Feature({
+                bev_maennlich: "113",
+                bev_weiblich: "112",
+                jahr: "1990",
+                ort: "Hamburg"
+            })
+        ];
 
     describe("methods", () => {
         describe("getUniqueValuesForLevel", () => {
@@ -242,6 +258,97 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
 
                 expect(result.tagName_).to.be.equal("Or");
             });
+        });
+        describe("getStatisticValue", () => {
+            it("should return the right statistic value", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    value = wrapper.vm.getStatisticValue(featureList, "bev_maennlich", "Hamburg", "ort", "1890", "jahr");
+
+                expect(value).to.be.equal("13");
+            });
+
+            it("should return '-' if statistic value is not available", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    value = wrapper.vm.getStatisticValue(featureList, "bev_maennlich", "Hamburg", "ort", "1790", "jahr");
+
+                expect(value).to.be.equal("-");
+            });
+        });
+        describe("prepareStatisticsData", () => {
+            it("should return an object representing the statistics from the features", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    statistics = {
+                        "Bevölkerung maennlich": {
+                            Hamburg: {
+                                "1890": "13",
+                                "1990": "113"
+                            }
+                        },
+                        "Bevölkerung weiblich": {
+                            Hamburg: {
+                                "1890": "12",
+                                "1990": "112"
+                            }
+                        }
+                    };
+
+                wrapper.vm.statisticsByCategory = {
+                    "bev_maennlich": {
+                        "name": "Bevölkerung maennlich"
+                    },
+                    "bev_weiblich": {
+                        "name": "Bevölkerung weiblich"
+                    }
+                };
+
+                expect(wrapper.vm.prepareStatisticsData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], ["1890", "1990"], {outputFormat: "YYYY", attrName: "jahr"}, {attrName: "ort"})).to.deep.equal(statistics);
+            });
+        });
+        describe("getTableData", () => {
+            it("should return the data for the table(s) from the statistics object", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    preparedData = {
+                        "Bevölkerung maennlich": {
+                            Hamburg: {
+                                "1890": "13",
+                                "1990": "113"
+                            }
+                        },
+                        "Bevölkerung weiblich": {
+                            Hamburg: {
+                                "1890": "12",
+                                "1990": "112"
+                            }
+                        }
+                    },
+                    expectedValue = [{
+                        headers: ["Gebiet", "1990", "1890"],
+                        items: [[
+                            "Hamburg", "113", "13"
+                        ]]
+                    },
+                    {
+                        headers: ["Gebiet", "1990", "1890"],
+                        items: [[
+                            "Hamburg", "112", "12"
+                        ]]
+                    }];
+
+                expect(wrapper.vm.getTableData(preparedData)).to.deep.equal(expectedValue);
+            });
+
         });
     });
 });

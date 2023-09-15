@@ -18,6 +18,7 @@ import {
     or as orFilter
 } from "ol/format/filter";
 import dayjs from "dayjs";
+import WFS from "ol/format/WFS";
 
 export default {
     name: "StatisticDashboard",
@@ -29,7 +30,7 @@ export default {
     },
     data () {
         return {
-            testData: {
+            tableData: [{
                 headers: ["Raumeinheit", "2023", "2022"],
                 items: [
                     ["Harburg", 1234, 1234],
@@ -37,7 +38,7 @@ export default {
                     ["Lübeck", 23475, 1234],
                     ["Niedersachsen", 34844, 1234]
                 ]
-            },
+            }],
             testFixedData: {
                 items: [
                     ["Bergedorf", 1234, 1234],
@@ -188,6 +189,8 @@ export default {
          * @returns {void}
          */
         async handleFilterSettings (filteredStatistics, regions, dates) {
+            this.tableData = [];
+
             const statsKeys = StatisticsHandler.getStatsKeysByName(this.statisticsByCategory, filteredStatistics),
                 selectedLayer = this.getRawLayerByLayerId(this.selectedLevel.layerId),
                 selectedLevelRegionNameAttribute = this.getSelectedLevelRegionNameAttribute(this.selectedLevel),
@@ -201,10 +204,13 @@ export default {
                 },
                 response = await getFeaturePOST(selectedLayer.url, payload, error => {
                     console.error(error);
-                });
+                }),
+                features = new WFS().readFeatures(response);
 
-            console.warn(response); // Das in ein console.log(response) tauschen
+            this.statisticsData = this.prepareStatisticsData(features, filteredStatistics, regions, dates, selectedLevelDateAttribute, selectedLevelRegionNameAttribute);
+            this.tableData = this.getTableData(this.statisticsData);
         },
+
         /**
          * Gets the filter based on given regions and dates array.
          * Gets an Or Filter if one of them has more than one entry.
@@ -248,6 +254,82 @@ export default {
             const filterArray = list.map(entry => equalToFilter(propertyName, entry));
 
             return filterArray.length > 1 ? orFilter(...filterArray) : filterArray[0];
+        },
+
+        /**
+         * Gets the data for the table from the prepared statistics.
+         * @param {Object} statisticsData - Prepared statistical data.
+         * @returns {Object[]} Data for table with header and items.
+         */
+        getTableData (statisticsData) {
+            const headers = [],
+                data = [];
+
+            Object.keys(statisticsData).forEach(statData => {
+                const items = [];
+
+                Object.entries(statisticsData[statData]).forEach(([region, years]) => {
+                    items.push([region, ...Object.values(years).reverse()]);
+                    if (headers.length === 0) {
+                        headers.push("Gebiet", ...Object.keys(years).reverse());
+                    }
+                });
+                data.push({
+                    headers,
+                    items
+                });
+            });
+            return data;
+        },
+
+        /**
+         * Prepares the statistical data from the features.
+         * @param {Object} features - The configured statistics.
+         * @param {String[]} statistics - The key to the statistic whose value is being looked for.
+         * @param {String[]} regions - The regions of the statistic wanted.
+         * @param {String[]} dates - The dates of the statsitic wanted.
+         * @param {String} dateAttribute - The configured date attribute.
+         * @param {String} regionAttribute - The configured region attribute.
+         * @returns {Object} The prepared statistical data.
+         */
+        prepareStatisticsData (features, statistics, regions, dates, dateAttribute, regionAttribute) {
+            const data = {};
+
+            statistics.forEach(stat => {
+                const statsKey = StatisticsHandler.getStatsKeysByName(this.statisticsByCategory, [stat])[0];
+
+                data[stat] = {};
+                regions.forEach(region => {
+                    data[stat][region] = {};
+                    dates.forEach(date => {
+                        const formatedDate = dayjs(date).format(dateAttribute.outputFormat),
+                            regionKey = regionAttribute.attrName,
+                            dateKey = dateAttribute.attrName;
+
+                        data[stat][region][formatedDate] = this.getStatisticValue(features, statsKey, region, regionKey, date, dateKey);
+                    });
+                });
+            });
+            return data;
+        },
+
+        /**
+         * Finds the feature based on the region and the date.
+         * Returns the corresponding value of the passed statistic from the feature.
+         * @param {Object} features - The configured statistics.
+         * @param {String[]} statisticKey - The key to the statistic whose value is being looked for.
+         * @param {String} region - The region of the statistic wanted.
+         * @param {String} regionKey - The key to the region.
+         * @param {String} date - The date of the statsitic wanted.
+         * @param {String} dateKey - The key to the date.
+         * @returns {String} The value of the given statistic.
+         */
+        getStatisticValue (features, statisticKey, region, regionKey, date, dateKey) {
+            const foundFeature = features.find(feature => {
+                return feature.get(regionKey) === region && feature.get(dateKey) === date;
+            });
+
+            return foundFeature?.get(statisticKey) || "-";
         },
 
         /**
@@ -364,14 +446,17 @@ export default {
             <Controls
                 :descriptions="controlDescription"
             />
-            <TableComponent
-                :data="testData"
-                :fixed-data="testFixedData"
-                :select-mode="selectMode"
-                :show-header="showHeader"
-                :sortable="sortable"
-                @setSortedRows="setSortedRows"
-            />
+            <template v-for="(data, index) in tableData">
+                <TableComponent
+                    :key="index"
+                    :data="data"
+                    :fixed-data="testFixedData"
+                    :select-mode="selectMode"
+                    :show-header="showHeader"
+                    :sortable="sortable"
+                    @setSortedRows="setSortedRows"
+                />
+            </template>
         </template>
     </ToolTemplate>
 </template>
