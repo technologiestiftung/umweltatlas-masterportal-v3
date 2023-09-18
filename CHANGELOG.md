@@ -16,6 +16,7 @@
 
 ### Fixed
 - Custom treetype can now load gdi layer via parametriUrl
+- Issue #889: Layer is not shown in the tree anymore
 
 ## v2.37.0 - 2023-09-06
 ### Added
