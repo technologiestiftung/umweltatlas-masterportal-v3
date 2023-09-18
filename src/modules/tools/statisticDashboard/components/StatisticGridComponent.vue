@@ -60,6 +60,7 @@ export default {
     justify-content: flex-start;
     align-items: center;
     max-width: 900px;
+    margin-top: 30px;
 }
 
 .flex-item {

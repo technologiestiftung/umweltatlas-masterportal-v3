@@ -47,6 +47,7 @@ export default {
             categories: null,
             statisticsByCategory: false,
             loadedFilterData: false,
+            loadedReferenceData: false,
             timeStepsFilter: [],
             regions: [],
             areCategoriesGrouped: false,
@@ -70,7 +71,8 @@ export default {
                 title: "Trappatoni 3 ",
                 content: "Letzte Spiel hatten wir in Platz drei Spitzen: Elber, Jancka und dann Zickler."
             }],
-            referenceTag: undefined
+            referenceTag: undefined,
+            referenceData: undefined
         };
     },
     computed: {
@@ -79,8 +81,11 @@ export default {
     },
     watch: {
         selectedReferenceData (val) {
-            if (isObject(val?.value) && typeof val.value.value === "string") {
-                this.referenceTag = val.value.value;
+            if (typeof val?.value === "string") {
+                this.referenceTag = val.value;
+            }
+            if (isObject(val?.value) && typeof val.value.label === "string") {
+                this.referenceTag = val.value.label;
             }
             else if (val?.value === null) {
                 this.referenceTag = undefined;
@@ -104,6 +109,11 @@ export default {
         this.areCategoriesGrouped = StatisticsHandler.hasOneGroup(this.getSelectedLevelStatisticsAttributes(this.selectedLevel));
         this.categories = StatisticsHandler.getCategoriesFromStatisticAttributes(this.getSelectedLevelStatisticsAttributes(this.selectedLevel), this.areCategoriesGrouped);
         this.loadedFilterData = true;
+        this.loadedReferenceData = true;
+        this.referenceData = {
+            "year": this.getTimestepsMerged(undefined, uniqueValues[selectedLevelDateAttribute.attrName], selectedLevelDateAttribute.inputFormat, selectedLevelDateAttribute.outputFormat),
+            "area": this.regions
+        };
     },
     methods: {
         ...mapMutations("Tools/StatisticDashboard", Object.keys(mutations)),
@@ -545,7 +555,9 @@ export default {
             </div>
             <hr>
             <Controls
+                v-if="loadedReferenceData"
                 :descriptions="controlDescription"
+                :reference-data="referenceData"
                 @showChart="toggleChartTable"
                 @showTable="toggleChartTable"
             />

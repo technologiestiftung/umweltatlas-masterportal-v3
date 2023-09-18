@@ -71,15 +71,27 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
             wrapper.destroy();
         });
 
-        it("should set the referenceTag value", async () => {
+        it("should set the referenceTag value with label", async () => {
             const wrapper = shallowMount(StatisticDashboard, {
                 localVue,
                 store
             });
 
-            await wrapper.vm.setSelectedReferenceData({value: {value: "2001"}});
+            await wrapper.vm.setSelectedReferenceData({value: {label: "2001", value: "2001"}});
 
             expect(wrapper.vm.referenceTag).to.be.equal("2001");
+            wrapper.destroy();
+        });
+
+        it("should set the referenceTag value with value", async () => {
+            const wrapper = shallowMount(StatisticDashboard, {
+                localVue,
+                store
+            });
+
+            await wrapper.vm.setSelectedReferenceData({value: "test"});
+
+            expect(wrapper.vm.referenceTag).to.be.equal("test");
             wrapper.destroy();
         });
     });

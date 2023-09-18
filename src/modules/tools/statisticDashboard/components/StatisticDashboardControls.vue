@@ -11,24 +11,16 @@ export default {
             type: Array,
             required: false,
             default: () => []
+        },
+        referenceData: {
+            type: Object,
+            required: true
         }
     },
     data () {
         return {
             currentDescriptionIndex: 0,
             showDifferenceModal: false,
-            testReferenceData: {
-                "year": [
-                    {label: "2000", value: "2000"},
-                    {label: "2001", value: "2001"},
-                    {label: "2002", value: "2002"}
-                ],
-                "area": [
-                    {label: "Wandsbek", value: "Wandsbek"},
-                    {label: "Hamburg", value: "Hamburg"},
-                    {label: "Deutschland", value: "Deutschland"}
-                ]
-            },
             referenceLabel: undefined
         };
     },
@@ -174,7 +166,7 @@ export default {
                 <template v-if="showDifferenceModal">
                     <DifferenceModal
                         class="difference-modal"
-                        :reference-data="testReferenceData"
+                        :reference-data="referenceData"
                         @showDifference="showDifference"
                     />
                 </template>

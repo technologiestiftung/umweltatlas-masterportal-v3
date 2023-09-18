@@ -145,8 +145,8 @@ export default {
                     :allow-empty="true"
                     :preselect-first="false"
                     :placeholder="$t('common:modules.tools.statisticDashboard.reference.placeholder')"
-                    label="label"
-                    track-by="value"
+                    :label="referenceType==='year'? 'label': ''"
+                    :track-by="referenceType==='year'? 'label': ''"
                 />
             </div>
         </div>
