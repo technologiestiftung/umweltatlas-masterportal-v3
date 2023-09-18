@@ -31,7 +31,6 @@ export default {
         const type = rootGetters["Menu/currentComponent"](side).type;
         console.log(getters.showAllResults)
         if (getters.showAllResults === true && side === getters.currentSide) {
-            console.log("update")
             commit("setShowAllResults", false);
 
         if (getters.showAllResults === true && side === getters.currentSide) {
@@ -77,5 +76,26 @@ export default {
      * @returns {void}
      */
     checkLayerSelectionSearchConfig: ({getters, dispatch, commit, rootState}, side) => {
+        const searchBar = state.portalConfig?.tree?.addLayerButton?.searchBar;
+
+        if (state.portalConfig?.tree?.addLayerButton?.active === true && searchBar.active) {
+            if (searchBar.searchInterfaceInstance || searchBar.searchCategory) {
+                if (searchBar.searchCategory && searchBar.searchInterfaceInstance) {
+                    commit("setShowAllResultsSearchInterfaceInstance", "searchBar.searchInterfaceInstanceId")
+                    commit("setShowAllResultsSearchCategory", searchBar.searchCategory)
+                } else {
+                    console.warn("Please check the searchBar configuration at tree.addLayerButton")
+                }
+            }
+        }
     }
+// todo checkfunction, searchbar with portal, tests
+
+   /*  "addLayerButton": {
+        "active": true,
+        "searchBar": {
+          "active": true,
+          "searchInterfaceInstance": "elasticSearch_0",
+          "searchCategory": "Thema (externe Fachdaten)"
+        } */
 };
