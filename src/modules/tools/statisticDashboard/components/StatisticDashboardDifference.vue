@@ -4,11 +4,13 @@ import {mapGetters, mapMutations} from "vuex";
 import getters from "../store/gettersStatisticDashboard";
 import mutations from "../store/mutationsStatisticDashboard";
 import isObject from "../../../../utils/isObject";
+import StatisticSwitcher from "./StatisticDashboardSwitcher.vue";
 
 export default {
     name: "StatisticDashboardDifference",
     components: {
-        Multiselect
+        Multiselect,
+        StatisticSwitcher
     },
     props: {
         referenceData: {
@@ -18,7 +20,13 @@ export default {
     },
     data () {
         return {
-            savedReferenceData: {}
+            savedReferenceData: {},
+            buttonGroupReference: [{
+                name: "Jahr"
+            },
+            {
+                name: "Gebiet"
+            }]
         };
     },
     computed: {
@@ -69,7 +77,16 @@ export default {
         }
     },
     methods: {
-        ...mapMutations("Tools/StatisticDashboard", Object.keys(mutations))
+        ...mapMutations("Tools/StatisticDashboard", Object.keys(mutations)),
+
+        /**
+        * Set the referenceType by given button name.
+        * @param {String} value The name of clicked button.
+        * @returns {void}
+        */
+        handleReference (value) {
+            this.referenceType = value === "Jahr" ? "year" : "area";
+        }
     }
 };
 </script>
@@ -96,41 +113,11 @@ export default {
                 </span>
             </div>
             <div class="col-md-12">
-                <div class="btn-group btn-group-sm me-2">
-                    <input
-                        id="reference-year"
-                        v-model="referenceType"
-                        type="radio"
-                        class="btn-check"
-                        name="btnradioDifference"
-                        value="year"
-                        autocomplete="off"
-                    >
-                    <label
-                        class="btn btn-outline-primary"
-                        for="reference-year"
-                        role="button"
-                        tabindex="0"
-                    >{{ $t("common:modules.tools.statisticDashboard.label.year") }}
-                    </label>
-                    <input
-                        id="reference-area"
-                        v-model="referenceType"
-                        type="radio"
-                        class="btn-check"
-                        name="btnradioDifference"
-                        value="area"
-                        autocomplete="off"
-                    >
-                    <label
-                        class="btn btn-outline-primary"
-                        for="reference-area"
-                        role="button"
-                        tabindex="0"
-                    >
-                        {{ $t("common:modules.tools.statisticDashboard.label.area") }}
-                    </label>
-                </div>
+                <StatisticSwitcher
+                    :buttons="buttonGroupReference"
+                    group="referenceGroup"
+                    @showView="handleReference"
+                />
             </div>
             <div class="col-md-12">
                 <Multiselect
@@ -165,7 +152,7 @@ export default {
     width: 28px;
     &:hover {
         color: $white;
-        background-color: $primary;
+        background-color: $light_blue;
     }
 }
 .btn-group {

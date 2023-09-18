@@ -11,6 +11,7 @@ import Controls from "./StatisticDashboardControls.vue";
 import StatisticFilter from "./StatisticDashboardFilter.vue";
 import FetchDataHandler from "../utils/fetchData.js";
 import StatisticsHandler from "../utils/handleStatistics.js";
+import StatisticSwitcher from "./StatisticDashboardSwitcher.vue";
 import {rawLayerList} from "@masterportal/masterportalapi";
 import {getFeaturePOST} from "../../../../api/wfs/getFeature";
 import ChartProcessor from "../utils/chartProcessor.js";
@@ -29,7 +30,8 @@ export default {
         TableComponent,
         GridComponent,
         Controls,
-        StatisticFilter
+        StatisticFilter,
+        StatisticSwitcher
     },
     data () {
         return {
@@ -72,7 +74,13 @@ export default {
                 content: "Letzte Spiel hatten wir in Platz drei Spitzen: Elber, Jancka und dann Zickler."
             }],
             referenceTag: undefined,
-            referenceData: undefined
+            referenceData: undefined,
+            buttonGroupRegions: [{
+                name: "Gemeinden"
+            },
+            {
+                name: "Kreise"
+            }]
         };
     },
     computed: {
@@ -498,38 +506,10 @@ export default {
                     <h4>{{ $t("common:modules.tools.statisticDashboard.headings.mrhstatistics") }}</h4>
                 </div>
                 <div class="col-md-auto">
-                    <div class="btn-group btn-group-sm me-2">
-                        <input
-                            id="btnradio3"
-                            type="radio"
-                            class="btn-check"
-                            name="btnradioArea"
-                            autocomplete="off"
-                            checked
-                        >
-                        <label
-                            class="btn btn-outline-primary"
-                            for="btnradio3"
-                            role="button"
-                            tabindex="0"
-                        >{{ $t("common:modules.tools.statisticDashboard.label.communities") }}
-                        </label>
-                        <input
-                            id="btnradio4"
-                            type="radio"
-                            class="btn-check"
-                            name="btnradioArea"
-                            autocomplete="off"
-                        >
-                        <label
-                            class="btn btn-outline-primary"
-                            for="btnradio4"
-                            role="button"
-                            tabindex="0"
-                        >
-                            {{ $t("common:modules.tools.statisticDashboard.label.districts") }}
-                        </label>
-                    </div>
+                    <StatisticSwitcher
+                        :buttons="buttonGroupRegions"
+                        group="regions"
+                    />
                 </div>
             </div>
             <StatisticFilter
@@ -558,8 +538,7 @@ export default {
                 v-if="loadedReferenceData"
                 :descriptions="controlDescription"
                 :reference-data="referenceData"
-                @showChart="toggleChartTable"
-                @showTable="toggleChartTable"
+                @showChartTable="toggleChartTable"
             />
             <div
                 v-if="typeof referenceTag === 'string'"

@@ -4,6 +4,7 @@ import Vuex from "vuex";
 import StatisticDashboardDifference from "../../../components/StatisticDashboardDifference.vue";
 import indexStatisticDashboard from "../../../store/indexStatisticDashboard";
 import Multiselect from "vue-multiselect";
+import StatisticSwitcher from "../../../components/StatisticDashboardSwitcher.vue";
 
 const localVue = createLocalVue();
 
@@ -71,36 +72,14 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
             wrapper.destroy();
         });
 
-        it("The input radio button year should exist", () => {
+        it("should find switcher component", async () => {
             const wrapper = shallowMount(StatisticDashboardDifference, {
                 propsData: propsData,
                 localVue,
                 store
             });
 
-            expect(wrapper.find("input#reference-year").exists()).to.be.true;
-            wrapper.destroy();
-        });
-
-        it("The input radio button area should exist", () => {
-            const wrapper = shallowMount(StatisticDashboardDifference, {
-                propsData: propsData,
-                localVue,
-                store
-            });
-
-            expect(wrapper.find("input#reference-area").exists()).to.be.true;
-            wrapper.destroy();
-        });
-
-        it("The input radio button area should exist", () => {
-            const wrapper = shallowMount(StatisticDashboardDifference, {
-                propsData: propsData,
-                localVue,
-                store
-            });
-
-            expect(wrapper.find("input#reference-area").exists()).to.be.true;
+            expect(wrapper.findComponent(StatisticSwitcher).exists()).to.be.true;
             wrapper.destroy();
         });
 
@@ -140,15 +119,15 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
         });
     });
 
-    describe("User Interaction", () => {
-        it("should click reference type with area", async () => {
+    describe("Methods", () => {
+        it("should set reference type with area", async () => {
             const wrapper = shallowMount(StatisticDashboardDifference, {
                 propsData: propsData,
                 localVue,
                 store
             });
 
-            await wrapper.find("input#reference-area").setChecked();
+            await wrapper.vm.handleReference("Gebiet");
             expect(wrapper.vm.selectedValue).to.deep.equal([]);
             expect(wrapper.vm.optionData).to.deep.equal([
                 {label: "Wandsbek", value: "Wandsbek"},
@@ -169,7 +148,7 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                 store
             });
 
-            await wrapper.find("input#reference-area").setChecked();
+            await wrapper.vm.handleReference("Gebiet");
             expect(wrapper.vm.savedReferenceData).to.deep.equal({});
             wrapper.destroy();
         });

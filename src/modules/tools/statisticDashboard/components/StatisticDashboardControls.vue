@@ -1,10 +1,12 @@
 <script>
 import DifferenceModal from "./StatisticDashboardDifference.vue";
+import StatisticSwitcher from "./StatisticDashboardSwitcher.vue";
 
 export default {
     name: "StatisticDashboardControls",
     components: {
-        DifferenceModal
+        DifferenceModal,
+        StatisticSwitcher
     },
     props: {
         descriptions: {
@@ -21,7 +23,17 @@ export default {
         return {
             currentDescriptionIndex: 0,
             showDifferenceModal: false,
-            referenceLabel: undefined
+            referenceLabel: undefined,
+            buttonGroupControls: [{
+                name: "Tabelle",
+                icon: "bi bi-table pe-2"
+            },
+            {
+                name: "Diagramm",
+                icon: "bi bi-bar-chart pe-2"
+            }
+            ],
+            switchValue: ""
         };
     },
     computed: {
@@ -48,6 +60,11 @@ export default {
          */
         contentDescription () {
             return this.descriptions[this.currentDescriptionIndex].content;
+        }
+    },
+    watch: {
+        switchValue () {
+            this.$emit("showChartTable");
         }
     },
     methods: {
@@ -84,6 +101,14 @@ export default {
          */
         showDifference (value = true) {
             this.showDifferenceModal = value;
+        },
+        /**
+         * Sets chart or table view
+         * @param {String} value - The name of clicked button.
+         * @returns {void}
+         */
+        handleView (value) {
+            this.switchValue = value;
         }
     }
 };
@@ -118,43 +143,11 @@ export default {
         </div>
         <!-- Controls -->
         <div class="btn-toolbar">
-            <div class="btn-group btn-group-sm me-2 pb-1">
-                <input
-                    id="btnradio1"
-                    type="radio"
-                    class="btn-check"
-                    name="btnradio"
-                    autocomplete="off"
-                    checked
-                >
-                <label
-                    class="btn btn-outline-primary"
-                    for="btnradio1"
-                    role="button"
-                    tabindex="0"
-                    @click="$emit('showTable')"
-                    @keydown.enter="$emit('showTable')"
-                >
-                    <i class="bi bi-table pe-2" />{{ $t("common:modules.tools.statisticDashboard.button.table") }}
-                </label>
-                <input
-                    id="btnradio2"
-                    type="radio"
-                    class="btn-check"
-                    name="btnradio"
-                    autocomplete="off"
-                >
-                <label
-                    class="btn btn-outline-primary"
-                    for="btnradio2"
-                    role="button"
-                    tabindex="0"
-                    @click="$emit('showChart')"
-                    @keydown.enter="$emit('showCart')"
-                >
-                    <i class="bi bi-bar-chart pe-2" />{{ $t("common:modules.tools.statisticDashboard.button.chart") }}
-                </label>
-            </div>
+            <StatisticSwitcher
+                :buttons="buttonGroupControls"
+                group="dataViews"
+                @showView="handleView"
+            />
             <div class="btn-group me-2 pb-1 difference-button">
                 <button
                     type="button"

@@ -63,12 +63,20 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
             wrapper.destroy();
         });
 
-        it("should find three button groups", () => {
+        it("should find two button groups", () => {
             const wrapper = shallowMount(StatisticDashboardControls, {
                 localVue
             });
 
-            expect(wrapper.findAll(".btn-group")).lengthOf(3);
+            expect(wrapper.findAll(".btn-group")).lengthOf(2);
+            wrapper.destroy();
+        });
+        it("should find switcher component", async () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                localVue
+            });
+
+            expect(wrapper.findComponent({name: "StatisticDashboardSwitcher"}).exists()).to.be.true;
             wrapper.destroy();
         });
 
@@ -210,28 +218,6 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
     });
 
     describe("User Interaction", () => {
-        it("should emit 'showTable' if the user click the table button", async () => {
-            const wrapper = shallowMount(StatisticDashboardControls, {
-                    localVue
-                }),
-                tableButton = wrapper.findAll(".btn-group label").at(0);
-
-            await tableButton.trigger("click");
-            expect(wrapper.emitted()).to.have.all.keys("showTable");
-            wrapper.destroy();
-        });
-
-        it("should emit 'showChart' if the user click the chart button", async () => {
-            const wrapper = shallowMount(StatisticDashboardControls, {
-                    localVue
-                }),
-                chartButton = wrapper.findAll(".btn-group label").at(1);
-
-            await chartButton.trigger("click");
-            expect(wrapper.emitted()).to.have.all.keys("showChart");
-            wrapper.destroy();
-        });
-
         it("should call 'showDifference' if the user click the difference button", async () => {
             const wrapper = shallowMount(StatisticDashboardControls, {
                     localVue
