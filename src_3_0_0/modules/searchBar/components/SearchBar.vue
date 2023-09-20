@@ -39,6 +39,9 @@ export default {
             "searchResults",
             "showAllResults",
             "suggestionListLength",
+            "showAllResultsSearchCategory", //delete
+            "showAllResultsSearchInterfaceInstance", //delete
+            "addLayerButtonSearchActive",
             "type",
             "currentSide"
         ]),
@@ -145,14 +148,14 @@ export default {
         */
         currentComponentSide: {
             handler (newVal) {
-                if (newVal === "root" || newVal === "layerSelection") {
+                if (newVal === "root" || (newVal === "layerSelection" && this.addLayerButtonSearchActive === true)) {
                     this.searchInputValue = "";
                     this.$refs?.searchInput.blur();
                     if (this.side && newVal === "root") {
                         this.switchToRoot(this.side);
                     }
                 }
-                if (newVal === "layerSelection") {
+                if (newVal === "layerSelection" && this.addLayerButtonSearchActive === true) {
                     this.layerSelectionPlaceHolder = "common:modules.searchBar.search";
                 }
                 else {
@@ -175,7 +178,9 @@ export default {
         }
     },
     mounted () {
+        this.checkLayerSelectionSearchConfig();
         this.setCurrentSide(this.portalConfig?.mainMenu?.searchBar !== undefined ? "mainMenu" : "secondaryMenu");
+        //getter!
         this.currentComponentSide = this.menuCurrentComponent(this.currentSide).type;
         this.initializeModule({configPaths: this.configPaths, type: this.type});
         this.overwriteDefaultValues();
@@ -190,6 +195,7 @@ export default {
             "overwriteDefaultValues",
             "activateActions",
             "startLayerSelectionSearch",
+            "checkLayerSelectionSearchConfig",
             "search"
         ]),
         ...mapActions("Menu", [
@@ -240,6 +246,8 @@ export default {
             else if (currentComponentSide === "layerSelection") {
                 if (this.searchInputValue.length >= this.minCharacters) {
                     this.startLayerSelectionSearch(this.currentSide);
+                    this.setCurrentAvailableCategories(this.showAllResultsSearchCategory);
+
                     this.startSearch();
                 }
             }

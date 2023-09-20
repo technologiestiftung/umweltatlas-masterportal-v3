@@ -42,9 +42,10 @@ const state = {
     searchResults: [],
     selectedSearchResults: [],
     showAllResults: false,
-    showAllResultsSearchInterfaceInstance: "elasticSearch_0", // topicTree
-    showAllResultsSearchCategory: "Thema (externe Fachdaten)",
+    showAllResultsSearchInterfaceInstance: "elasticSearch_0", // todo topicTree
+    showAllResultsSearchCategory: "Thema (externe Fachdaten)", // todo topicTree
     searchResultsActive: true,
+    addLayerButtonSearchActive: true,
     iconsByActions: {
         addLayerToTopicTree: "bi-plus-circle",
         activateLayerInTopicTree: "bi-eye",

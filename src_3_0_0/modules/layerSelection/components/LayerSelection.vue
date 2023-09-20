@@ -24,12 +24,14 @@ export default {
     },
     data () {
         return {
+            currentComponentSide: undefined,
             selectAllConfId: -1,
             selectAllConfigs: []
         };
     },
     computed: {
-        ...mapGetters("Modules/SearchBar", ["searchInput"]),
+        ...mapGetters("Modules/SearchBar", ["searchInput", "addLayerButtonSearchActive", "currentSide", "showAllResults"]),
+        ...mapGetters("Menu", {menuCurrentComponent: "currentComponent"}),
         ...mapGetters("Maps", ["mode"]),
         ...mapGetters(["activeOrFirstCategory", "allCategories", "invisibleBaselayerConfigs", "portalConfig"]),
         ...mapGetters("Modules/LayerSelection", ["visible", "subjectDataLayerConfs", "baselayerConfs", "layersToAdd", "lastFolderNames", "layerInfoVisible", "highlightLayerId"]),
@@ -49,6 +51,8 @@ export default {
         }
     },
     mounted () {
+        this.currentComponentSide = this.menuCurrentComponent(this.currentSide).type;
+
         if (this.highlightLayerId) {
             const el = document.querySelector("#layer-checkbox-" + escapeId(this.highlightLayerId));
 
@@ -182,84 +186,89 @@ export default {
             </label>
         </div>
         <div class="layer-selection-navigation d-flex">
-            <h6 v-if="filterBaseLayer().length > 0">
-                {{ $t("common:modules.layerSelection.backgrounds") }}
-            </h6>
-            <div class="d-flex justify-content-start layer-selection-navigation-baselayer">
-                <a
-                    v-if="lastFolderName !== 'root'"
-                    id="layer-selection-navigation"
-                    class="p-2 mp-menu-navigation"
-                    href="#"
-                    @click="navigate('back')"
-                    @keypress="navigate('back')"
-                >
-                    <h6 class="mp-menu-navigation-link mb-3"><p class="bi-chevron-left" />{{ lastFolderName }}</h6>
-                </a>
-                <template
-                    v-for="(bgConf, index) in filterBaseLayer()"
-                    :key="index"
-                >
-                    <div class="col baselayer">
-                        <LayerCheckBox
-                            :conf="bgConf"
-                            :is-layer-tree="false"
-                        />
-                    </div>
-                </template>
-            </div>
-            <hr
-                v-if="baselayerConfs.length > 0"
-                class="m-2"
-            >
             <div
-                v-if="activeOrFirstCategory && categorySwitcher"
-                class="form-floating mb-3"
+                v-if="showAllResults === false"
+                class="layer-selection-navigation"
             >
-                <select
-                    id="select_category"
-                    :value="activeOrFirstCategory.key"
-                    class="form-select"
-                    @change.prevent="categorySelected($event.target.value)"
-                >
-                    <option
-                        v-for="category in allCategories"
-                        :key="category.key"
-                        :value="category.key"
+                <h6 v-if="filterBaseLayer().length > 0">
+                    {{ $t("common:modules.layerSelection.backgrounds") }}
+                </h6>
+                <div class="d-flex justify-content-start layer-selection-navigation-baselayer">
+                    <a
+                        v-if="lastFolderName !== 'root'"
+                        id="layer-selection-navigation"
+                        class="p-2 mp-menu-navigation"
+                        href="#"
+                        @click="navigate('back')"
+                        @keypress="navigate('back')"
                     >
-                        {{ $t(category.name) }}
-                    </option>
-                </select>
-                <label for="select_category">
-                    {{ $t("common:modules.layerTree.categories") }}
-                </label>
-            </div>
-            <div class="align-items-left justify-content-center layer-selection-navigation-dataLayer flex-grow-1">
-                <template
-                    v-for="(conf, index) in subjectDataLayerConfs"
-                    :key="index"
+                        <h6 class="mp-menu-navigation-link mb-3"><p class="bi-chevron-left" />{{ lastFolderName }}</h6>
+                    </a>
+                    <template
+                        v-for="(bgConf, index) in filterBaseLayer()"
+                        :key="index"
+                    >
+                        <div class="col baselayer">
+                            <LayerCheckBox
+                                :conf="bgConf"
+                                :is-layer-tree="false"
+                            />
+                        </div>
+                    </template>
+                </div>
+                <hr
+                    v-if="baselayerConfs.length > 0"
+                    class="m-2"
                 >
-                    <LayerSelectionTreeNode
-                        :conf="conf"
-                        :show-select-all-check-box="selectAllConfId === conf.id"
-                        :select-all-configs="selectAllConfigs"
-                        @show-node="folderClicked"
-                    />
-                </template>
+                <div
+                    v-if="activeOrFirstCategory && categorySwitcher"
+                    class="form-floating mb-3"
+                >
+                    <select
+                        id="select_category"
+                        :value="activeOrFirstCategory.key"
+                        class="form-select"
+                        @change.prevent="categorySelected($event.target.value)"
+                    >
+                        <option
+                            v-for="category in allCategories"
+                            :key="category.key"
+                            :value="category.key"
+                        >
+                            {{ $t(category.name) }}
+                        </option>
+                    </select>
+                    <label for="select_category">
+                        {{ $t("common:modules.layerTree.categories") }}
+                    </label>
+                </div>
+                <div class="align-items-left justify-content-center layer-selection-navigation-dataLayer flex-grow-1">
+                    <template
+                        v-for="(conf, index) in subjectDataLayerConfs"
+                        :key="index"
+                    >
+                        <LayerSelectionTreeNode
+                            :conf="conf"
+                            :show-select-all-check-box="selectAllConfId === conf.id"
+                            :select-all-configs="selectAllConfigs"
+                            @show-node="folderClicked"
+                        />
+                    </template>
+                </div>
             </div>
-        </div>
-        <div
-            v-if="searchInput===''"
-            class="d-flex justify-content-center sticky layer-selection-add-layer-btn"
-        >
-            <FlatButton
-                id="layer-selection-add-layer-btn"
-                aria-label="$t('common:modules.layerSelection.addSelectedSubjectsToMap', {count: layersToAdd.length})"
-                :disabled="layersToAdd.length === 0"
-                :interaction="updateLayerTree"
-                :text="layersToAdd.length === 0 ? $t('common:modules.layerSelection.selectedSubjectsCount', {count: layersToAdd.length}) : $t('common:modules.layerSelection.addSelectedSubjectsToMap', {count: layersToAdd.length})"
-                :icon="'bi-plus-circle'"
-            />
+            <div
+                v-if="searchInput===''"
+                class="d-flex justify-content-center sticky layer-selection-add-layer-btn"
+            >
+                <FlatButton
+                    id="layer-selection-add-layer-btn"
+                    aria-label="$t('common:modules.layerSelection.addSelectedSubjectsToMap', {count: layersToAdd.length})"
+                    :disabled="layersToAdd.length === 0"
+                    :interaction="updateLayerTree"
+                    :text="layersToAdd.length === 0 ? $t('common:modules.layerSelection.selectedSubjectsCount', {count: layersToAdd.length}) : $t('common:modules.layerSelection.addSelectedSubjectsToMap', {count: layersToAdd.length})"
+                    :icon="'bi-plus-circle'"
+                />
+            </div>
         </div>
     </div>
 </template>

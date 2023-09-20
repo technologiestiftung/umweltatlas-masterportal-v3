@@ -47,7 +47,7 @@ export default {
          */
         resultItems () {
             if (this.currentComponent(this.currentSide).type === "layerSelection") {
-                return this.limitedSortedSearchResults?.currentShowAllList.filter(item => item.category === this.currentAvailableCategories && item.searchInterfaceId === this.showAllResultsSearchInterfaceInstance);
+                return this.limitedSortedSearchResults?.currentShowAllList;
             }
             return this.limitedSortedSearchResults?.currentShowAllList.filter(item => item.category === this.currentAvailableCategories);
         },
