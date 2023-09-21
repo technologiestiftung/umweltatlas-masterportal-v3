@@ -6,27 +6,32 @@ import isObject from "../../../../utils/isObject.js";
  * @param {String} topic The topic of the chart.
  * @param {Object} preparedData The prepared data.
  * @param {HTMLCanvasElement} canvas The canvas to render the chart on.
+ * @param {Boolean} renderSimple true if should be rendered as simple chart. Default is false.
  * @returns {Chart} The chart.
  */
-function createLineChart (topic, preparedData, canvas) {
+function createLineChart (topic, preparedData, canvas, renderSimple = false) {
     const chart = canvas,
         lineChartData = parsePreparedDataToLineChartFormat(preparedData),
         datasets = lineChartData?.datasets,
-        labels = lineChartData?.labels;
-
-    return new Chart(chart.getContext("2d"), {
-        type: "line",
-        data: {
-            labels,
-            datasets
-        },
-        options: {
-            title: {
-                display: true,
-                text: topic
+        labels = lineChartData?.labels,
+        config = {
+            type: "line",
+            data: {
+                labels,
+                datasets
+            },
+            options: {
+                title: {
+                    display: renderSimple,
+                    text: topic
+                }
             }
-        }
-    });
+        };
+
+    if (renderSimple) {
+        Object.assign(config.options, simpleChartOptions);
+    }
+    return new Chart(chart.getContext("2d"), config);
 }
 
 /**
@@ -35,22 +40,34 @@ function createLineChart (topic, preparedData, canvas) {
  * @param {Object} preparedData The prepared data.
  * @param {String} direction The direction to render the bar.
  * @param {HTMLElement} canvas The canvas to render the chart on.
+ * @param {Boolean} renderSimple true if should be rendered as simple chart. Default is false.
  * @returns {Chart} The chart.
  */
-function createBarChart (topic, preparedData, direction, canvas) {
+function createBarChart (topic, preparedData, direction, canvas, renderSimple = false) {
     const chart = canvas,
-        dataValues = parsePreparedDataToBarChartFormat(preparedData);
+        dataValues = parsePreparedDataToBarChartFormat(preparedData),
+        config = {
+            type: direction === "horizontal" ? "horizontalBar" : "bar",
+            data: {
+                labels: Object.keys(preparedData),
+                datasets: [{
+                    label: topic,
+                    data: dataValues
+                }]
+            },
+            options: {
+                title: {
+                    display: renderSimple,
+                    text: topic
+                }
+            }
+        };
 
-    return new Chart(chart.getContext("2d"), {
-        type: direction === "horizontal" ? "horizontalBar" : "bar",
-        data: {
-            labels: Object.keys(preparedData),
-            datasets: [{
-                label: topic,
-                data: dataValues
-            }]
-        }
-    });
+    if (renderSimple) {
+        Object.assign(config.options, simpleChartOptions);
+    }
+
+    return new Chart(chart.getContext("2d"), config);
 }
 
 /**
@@ -105,6 +122,22 @@ function parsePreparedDataToBarChartFormat (preparedData) {
     });
     return dataValues;
 }
+
+const simpleChartOptions = {
+    legend: {display: false},
+    scales: {
+        yAxes: [{
+            ticks: {
+                maxTicksLimit: 4
+            }
+        }],
+        xAxes: [{
+            ticks: {
+                maxTicksLimit: 4
+            }
+        }]
+    }
+};
 
 export default {
     createLineChart,

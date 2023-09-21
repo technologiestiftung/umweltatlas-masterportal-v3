@@ -296,13 +296,16 @@ export default {
             this.showGrid = true;
             this.$nextTick(() => {
                 filteredStatistics.forEach((statistic, idx) => {
-                    const ctx = this.$refs["chart" + (idx + 1)];
+                    const ctx = this.$refs[`chart${idx + 1}`],
+                        ctxInModal = this.$refs[`chart-modal-${idx + 1}`];
 
                     if (renderAsLine) {
-                        this.prepareChartData(statistic, preparedData[statistic], ctx, "line");
+                        this.prepareChartData(statistic, preparedData[statistic], ctx, "line", undefined, true);
+                        this.prepareChartData(statistic, preparedData[statistic], ctxInModal, "line", undefined, false, true);
                         return;
                     }
-                    this.prepareChartData(statistic, preparedData[statistic], ctx, "bar", direction);
+                    this.prepareChartData(statistic, preparedData[statistic], ctx, "bar", direction, true);
+                    this.prepareChartData(statistic, preparedData[statistic], ctxInModal, "bar", direction, false, true);
                 });
             });
         },
@@ -313,20 +316,23 @@ export default {
          * @param {HTMLElement} canvas The canvas to render the chart on.
          * @param {String} type The type. Can be bar or line.
          * @param {String} direction The direction of the bar chart.
+         * @param {Boolean} renderSimple true if should be rendered as simple chart because its in the grid. Default is false.
+         * @param {Boolean} renderToModal true if chart is rendered in modal. Default is false
          * @returns {void}
          */
-        prepareChartData (topic, preparedData, canvas, type, direction) {
-            const chart = canvas || this.$refs.chart;
+        prepareChartData (topic, preparedData, canvas, type, direction, renderSimple = false, renderToModal = false) {
+            const chart = canvas || this.$refs.chart,
+                uniqueTopic = renderToModal ? `modal-${topic}` : topic;
 
-            if (typeof this.currentChart[topic] !== "undefined") {
-                this.currentChart[topic].chart.destroy();
+            if (typeof this.currentChart[uniqueTopic] !== "undefined") {
+                this.currentChart[uniqueTopic].chart.destroy();
             }
-            this.currentChart[topic] = {};
+            this.currentChart[uniqueTopic] = {};
             if (type === "line") {
-                this.currentChart[topic].chart = ChartProcessor.createLineChart(topic, preparedData, chart);
+                this.currentChart[uniqueTopic].chart = ChartProcessor.createLineChart(topic, preparedData, chart, renderSimple);
             }
             else if (type === "bar") {
-                this.currentChart[topic].chart = ChartProcessor.createBarChart(topic, preparedData, direction, chart);
+                this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, preparedData, direction, chart, renderSimple);
             }
         },
 
@@ -612,13 +618,25 @@ export default {
                     :titles="selectedStatisticsNames"
                 >
                     <template
-                        slot="containers"
+                        slot="tableContainers"
                         slot-scope="props"
                     >
                         <TableComponent
                             :data="props.data"
                             :fixed-data="testFixedData"
                             :show-header="showHeader"
+                            @setSortedRows="setSortedRows"
+                        />
+                    </template>
+                    <template
+                        slot="tableContainersModal"
+                        slot-scope="props"
+                    >
+                        <TableComponent
+                            :data="props.data"
+                            :fixed-data="testFixedData"
+                            :show-header="showHeader"
+                            :sortable="sortable"
                             @setSortedRows="setSortedRows"
                         />
                     </template>
@@ -633,13 +651,24 @@ export default {
                 <GridComponent
                     v-else
                     :charts-count="chartCounts"
+                    :titles="selectedStatisticsNames"
                 >
                     <template
                         slot="chartContainers"
                         slot-scope="props"
                     >
                         <canvas
-                            :ref="'chart' + props.data.id"
+                            :id="'chart' + props.chartId"
+                            :ref="'chart' + props.chartId"
+                        />
+                    </template>
+                    <template
+                        slot="chartContainersModal"
+                        slot-scope="propsModal"
+                    >
+                        <canvas
+                            :id="'chart-modal-' + propsModal.chartId"
+                            :ref="'chart-modal-' + propsModal.chartId"
                         />
                     </template>
                 </GridComponent>
