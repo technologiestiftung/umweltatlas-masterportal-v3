@@ -52,6 +52,7 @@ export default {
             loadedReferenceData: false,
             timeStepsFilter: [],
             regions: [],
+            allRegions: [],
             areCategoriesGrouped: false,
             dates: [],
             selectedLevel: undefined,
@@ -119,6 +120,7 @@ export default {
 
         if (uniqueValues[selectedLevelRegionNameAttribute.attrName] && uniqueValues[selectedLevelDateAttribute.attrName]) {
             this.regions = Object.keys(uniqueValues[selectedLevelRegionNameAttribute.attrName]);
+            this.allRegions = this.getAllRegions(this.regions);
             this.dates = Object.keys(uniqueValues[selectedLevelDateAttribute.attrName]);
             this.timeStepsFilter = this.getTimestepsMerged(this.selectedLevel?.timeStepsFilter, uniqueValues[selectedLevelDateAttribute.attrName], selectedLevelDateAttribute.inputFormat, selectedLevelDateAttribute.outputFormat);
         }
@@ -197,6 +199,27 @@ export default {
                     }
                 });
             }
+            return result;
+        },
+
+        /**
+         * Gets all regions list with all option
+         * @param {String[]} regions The regions.
+         * @returns {Object[]} All regions
+         */
+        getAllRegions (regions) {
+            const result = [];
+
+            if (!Array.isArray(regions) || !regions.length) {
+                return [];
+            }
+
+            regions.forEach(region => {
+                result.push({value: region, label: region});
+            });
+
+            result.push({value: regions, label: "Alle Gebiete"});
+
             return result;
         },
 
@@ -525,7 +548,7 @@ export default {
                 :are-categories-grouped="areCategoriesGrouped"
                 :statistics="statisticsByCategory"
                 :time-steps-filter="timeStepsFilter"
-                :regions="regions"
+                :regions="allRegions"
                 @changeCategory="setStatisticsByCategory"
                 @changeFilterSettings="handleFilterSettings"
             />

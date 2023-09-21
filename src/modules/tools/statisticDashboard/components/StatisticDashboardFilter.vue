@@ -70,13 +70,13 @@ export default {
         },
 
         selectedStatistics (value) {
-            this.emitFilterSettings(value, this.selectedRegions, this.collectDatesValues(this.selectedDates));
+            this.emitFilterSettings(value, this.getSelectedRegions(this.selectedRegions), this.collectDatesValues(this.selectedDates));
         },
         selectedDates (value) {
-            this.emitFilterSettings(this.selectedStatistics, this.selectedRegions, this.collectDatesValues(value));
+            this.emitFilterSettings(this.selectedStatistics, this.getSelectedRegions(this.selectedRegions), this.collectDatesValues(value));
         },
         selectedRegions (value) {
-            this.emitFilterSettings(this.selectedStatistics, value, this.collectDatesValues(this.selectedDates));
+            this.emitFilterSettings(this.selectedStatistics, this.getSelectedRegions(value), this.collectDatesValues(this.selectedDates));
         }
     },
     methods: {
@@ -162,6 +162,21 @@ export default {
          */
         resetStatistics () {
             this.setSelectedStatistics({});
+        },
+
+        /**
+         * Gets selected regions
+         * @param {String[]} regions The regions.
+         * @returns {Object[]} All regions
+         */
+        getSelectedRegions (regions) {
+            if (!Array.isArray(regions) || !Array.isArray(regions.map(region => region.value))) {
+                return [];
+            }
+
+            const allRegions = regions.map(region => region.value).find(region => Array.isArray(region));
+
+            return typeof allRegions !== "undefined" ? allRegions : regions.map(region => region.value);
         }
     }
 };
@@ -237,6 +252,8 @@ export default {
                                 :show-labels="false"
                                 :allow-empty="true"
                                 :placeholder="$t('common:modules.tools.statisticDashboard.reference.placeholder')"
+                                label="label"
+                                track-by="label"
                             />
                         </div>
                         <div

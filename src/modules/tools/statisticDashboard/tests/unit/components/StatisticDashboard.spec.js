@@ -203,6 +203,34 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                 expect(wrapper.vm.getTimestepsMerged(configSteps, uniqueList)).to.deep.equal(expected);
             });
         });
+        describe("getAllRegions", () => {
+            it("should return an empty array if there are no regions found", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                    localVue,
+                    store
+                });
+
+                expect(wrapper.vm.getAllRegions(undefined)).to.deep.equal([]);
+                expect(wrapper.vm.getAllRegions("")).to.deep.equal([]);
+                expect(wrapper.vm.getAllRegions(true)).to.deep.equal([]);
+                expect(wrapper.vm.getAllRegions({})).to.deep.equal([]);
+                expect(wrapper.vm.getAllRegions(true)).to.deep.equal([]);
+                expect(wrapper.vm.getAllRegions(0)).to.deep.equal([]);
+            });
+
+            it("should return an array with all option", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                    localVue,
+                    store
+                });
+
+                expect(wrapper.vm.getAllRegions(["test", "test2"])).to.deep.equal([
+                    {value: "test", label: "test"},
+                    {value: "test2", label: "test2"},
+                    {value: ["test", "test2"], label: "Alle Gebiete"}
+                ]);
+            });
+        });
         describe("getFilter", () => {
             it("should return undefined if given params has the same length as the data variables", () => {
                 const regions = ["foo", "bar"],

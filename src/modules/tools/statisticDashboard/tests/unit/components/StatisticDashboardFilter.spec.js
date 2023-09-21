@@ -15,7 +15,12 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
             "Die letzten 10 Jahre",
             "Alle Jahre"
         ],
-        regions = ["Harburg", "Lübeck", "Schwerin"],
+        regions = [
+            {value: "Harburg", label: "Harburg"},
+            {value: "Lübeck", label: "Lübeck"},
+            {value: "Schwerin", label: "Schwerin"},
+            {value: ["Harburg", "Lübeck", "Schwerin"], label: "Alle Gebiete"}
+        ],
         store = new Vuex.Store({
             namespaced: true,
             modules: {
@@ -467,6 +472,67 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
 
                 wrapper.vm.resetStatistics();
                 expect(wrapper.vm.selectedStatistics).to.deep.equals({});
+                wrapper.destroy();
+            });
+        });
+        describe("getSelectedRegions", () => {
+            it("should remove empty array", () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                    propsData: {
+                        categories: [],
+                        timeStepsFilter,
+                        regions,
+                        areCategoriesGrouped: false
+                    },
+                    localVue,
+                    store
+                });
+
+                expect(wrapper.vm.getSelectedRegions(0)).to.deep.equals([]);
+                expect(wrapper.vm.getSelectedRegions(null)).to.deep.equals([]);
+                expect(wrapper.vm.getSelectedRegions(false)).to.deep.equals([]);
+                expect(wrapper.vm.getSelectedRegions("")).to.deep.equals([]);
+                expect(wrapper.vm.getSelectedRegions([])).to.deep.equals([]);
+                expect(wrapper.vm.getSelectedRegions({})).to.deep.equals([]);
+                wrapper.destroy();
+            });
+
+            it("should get selected region", () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                    propsData: {
+                        categories: [],
+                        timeStepsFilter,
+                        regions,
+                        areCategoriesGrouped: false
+                    },
+                    localVue,
+                    store
+                });
+
+                expect(wrapper.vm.getSelectedRegions([
+                    {value: "Schwerin", label: "Schwerin"},
+                    {value: "Harburg", label: "Harburg"}
+                ])).to.deep.equals(["Schwerin", "Harburg"]);
+                wrapper.destroy();
+            });
+
+            it("should get selected all regions", () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                    propsData: {
+                        categories: [],
+                        timeStepsFilter,
+                        regions,
+                        areCategoriesGrouped: false
+                    },
+                    localVue,
+                    store
+                });
+
+                expect(wrapper.vm.getSelectedRegions([
+                    {value: "Harburg", label: "Harburg"},
+                    {value: "Schwerin", label: "Schwerin"},
+                    {value: ["Harburg", "Lübeck", "Schwerin"], label: "Alle Gebiete"}
+                ])).to.deep.equals(["Harburg", "Lübeck", "Schwerin"]);
                 wrapper.destroy();
             });
         });
