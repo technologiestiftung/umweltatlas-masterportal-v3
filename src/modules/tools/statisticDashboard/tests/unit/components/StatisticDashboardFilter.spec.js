@@ -2,6 +2,7 @@ import {config, createLocalVue, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import Vuex from "vuex";
 import StatisticDashboardFilter from "../../../components/StatisticDashboardFilter.vue";
+import indexStatisticDashboard from "../../../store/indexStatisticDashboard";
 
 const localVue = createLocalVue();
 
@@ -14,7 +15,18 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
             "Die letzten 10 Jahre",
             "Alle Jahre"
         ],
-        regions = ["Harburg", "Lübeck", "Schwerin"];
+        regions = ["Harburg", "Lübeck", "Schwerin"],
+        store = new Vuex.Store({
+            namespaced: true,
+            modules: {
+                Tools: {
+                    namespaced: true,
+                    modules: {
+                        StatisticDashboard: indexStatisticDashboard
+                    }
+                }
+            }
+        });
 
     describe("Component DOM", () => {
         it("should exist", () => {
@@ -25,7 +37,8 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                     regions,
                     areCategoriesGrouped: false
                 },
-                localVue
+                localVue,
+                store
             });
 
             expect(wrapper.exists()).to.be.true;
@@ -39,7 +52,8 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                     regions,
                     areCategoriesGrouped: false
                 },
-                localVue
+                localVue,
+                store
             });
 
             expect(wrapper.find(".filtercontainer").exists()).to.be.true;
@@ -53,7 +67,8 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                     regions,
                     areCategoriesGrouped: false
                 },
-                localVue
+                localVue,
+                store
             });
 
             expect(wrapper.find("#categoryfilter").exists()).to.be.true;
@@ -67,7 +82,8 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                     regions,
                     areCategoriesGrouped: false
                 },
-                localVue
+                localVue,
+                store
             });
 
             expect(wrapper.find("#areafilter").exists()).to.be.true;
@@ -81,7 +97,8 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                     regions,
                     areCategoriesGrouped: false
                 },
-                localVue
+                localVue,
+                store
             });
 
             expect(wrapper.find("#timefilter").exists()).to.be.true;
@@ -95,13 +112,15 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                     regions,
                     areCategoriesGrouped: false
                 },
-                localVue
+                localVue,
+                store
             });
 
             expect(wrapper.find("button").exists()).to.be.true;
             wrapper.destroy();
         });
-        it("should render one button if one statistic is selected", async () => {
+
+        it("should not render button if no statistic is selected", () => {
             const wrapper = shallowMount(StatisticDashboardFilter, {
                 propsData: {
                     categories: [],
@@ -109,48 +128,14 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                     regions,
                     areCategoriesGrouped: false
                 },
-                localVue
-            });
-
-            await wrapper.setData({
-                selectedStatistics: ["stat1"]
-            });
-
-            expect(wrapper.find(".btn-outline-secondary").exists()).to.be.true;
-            wrapper.destroy();
-        });
-        it("should not render button if no statistic is selected", async () => {
-            const wrapper = shallowMount(StatisticDashboardFilter, {
-                propsData: {
-                    categories: [],
-                    timeStepsFilter,
-                    regions,
-                    areCategoriesGrouped: false
-                },
-                localVue
+                localVue,
+                store
             });
 
             expect(wrapper.find(".btn-outline-secondary").exists()).to.be.false;
             wrapper.destroy();
         });
-        it("should render reset button if statistic is selected", async () => {
-            const wrapper = shallowMount(StatisticDashboardFilter, {
-                propsData: {
-                    categories: [],
-                    timeStepsFilter,
-                    regions,
-                    areCategoriesGrouped: false
-                },
-                localVue
-            });
 
-            await wrapper.setData({
-                selectedStatistics: ["stat1"]
-            });
-
-            expect(wrapper.find("#reset-button").exists()).to.be.true;
-            wrapper.destroy();
-        });
         it("should not render reset button if no statistic is selected", () => {
             const wrapper = shallowMount(StatisticDashboardFilter, {
                 propsData: {
@@ -159,13 +144,166 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                     regions,
                     areCategoriesGrouped: false
                 },
-                localVue
+                localVue,
+                store
             });
 
             expect(wrapper.find("#reset-button").exists()).to.be.false;
             wrapper.destroy();
         });
+
+        it("should render one button if one statistic is selected", async () => {
+            const wrapper = shallowMount(StatisticDashboardFilter, {
+                propsData: {
+                    categories: [],
+                    timeStepsFilter,
+                    regions,
+                    areCategoriesGrouped: false
+                },
+                localVue,
+                store
+            });
+
+            await store.commit("Tools/StatisticDashboard/setSelectedStatistics", {"stat1": {name: "1234"}});
+
+            expect(wrapper.find(".btn-outline-secondary").exists()).to.be.true;
+            wrapper.destroy();
+        });
+
+        it("should render reset button if statistic is selected", async () => {
+            const wrapper = shallowMount(StatisticDashboardFilter, {
+                propsData: {
+                    categories: [],
+                    timeStepsFilter,
+                    regions,
+                    areCategoriesGrouped: false
+                },
+                localVue,
+                store
+            });
+
+            await store.commit("Tools/StatisticDashboard/setSelectedStatistics", {"stat1": {name: "1234"}});
+
+            expect(wrapper.find("#reset-button").exists()).to.be.true;
+            wrapper.destroy();
+        });
     });
+    describe("Computed", () => {
+        describe("areStatisticsSelected", () => {
+            it("should return false", async () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                    propsData: {
+                        categories: [],
+                        timeStepsFilter,
+                        regions,
+                        areCategoriesGrouped: false
+                    },
+                    localVue,
+                    store
+                });
+
+                await store.commit("Tools/StatisticDashboard/setSelectedStatistics", {});
+                expect(wrapper.vm.areStatisticsSelected).to.be.false;
+                wrapper.destroy();
+            });
+            it("should return false", async () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                    propsData: {
+                        categories: [],
+                        timeStepsFilter,
+                        regions,
+                        areCategoriesGrouped: false
+                    },
+                    localVue,
+                    store
+                });
+
+                await store.commit("Tools/StatisticDashboard/setSelectedStatistics", undefined);
+                expect(wrapper.vm.areStatisticsSelected).to.be.false;
+                wrapper.destroy();
+            });
+            it("should return true", async () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                    propsData: {
+                        categories: [],
+                        timeStepsFilter,
+                        regions,
+                        areCategoriesGrouped: false
+                    },
+                    localVue,
+                    store
+                });
+
+                await store.commit("Tools/StatisticDashboard/setSelectedStatistics", {"stat1": {name: "1234"}});
+                expect(wrapper.vm.areStatisticsSelected).to.be.true;
+                wrapper.destroy();
+            });
+        });
+        describe("selectedCategoryName", () => {
+            it("should return an empty string", () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                    propsData: {
+                        categories: [],
+                        timeStepsFilter,
+                        regions,
+                        areCategoriesGrouped: false
+                    },
+                    localVue,
+                    store
+                });
+
+                expect(wrapper.vm.selectedCategoryName).to.be.empty;
+                wrapper.destroy();
+            });
+            it("should return the name of the selected category", async () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                    propsData: {
+                        categories: [],
+                        timeStepsFilter,
+                        regions,
+                        areCategoriesGrouped: false
+                    },
+                    localVue,
+                    store
+                });
+
+                await wrapper.setData({
+                    selectedCategory: {
+                        name: "Kategorie 1"
+                    }
+                });
+                expect(wrapper.vm.selectedCategoryName).to.be.equal("Kategorie 1");
+                wrapper.destroy();
+            });
+        });
+    });
+
+    describe("Watchers", () => {
+        describe("selectedCategory", () => {
+            it("should emit 'changeCategory' with the name of", async () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                    propsData: {
+                        categories: [],
+                        timeStepsFilter,
+                        regions,
+                        areCategoriesGrouped: false
+                    },
+                    localVue,
+                    store
+                });
+
+                await wrapper.setData({
+                    selectedCategory: {
+                        name: "Kategorie 1"
+                    }
+                });
+
+                expect(wrapper.emitted()).to.have.all.keys("changeCategory");
+                expect(wrapper.emitted().changeCategory).to.deep.equal([["Kategorie 1"]]);
+            });
+        });
+    });
+
     describe("Methods", () => {
         describe("collectDatesValues", () => {
             it("should return all values no matter if they are a string or an array of strings ", () => {
@@ -176,7 +314,8 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                         regions,
                         areCategoriesGrouped: false
                     },
-                    localVue
+                    localVue,
+                    store
                 });
 
                 expect(wrapper.vm.collectDatesValues([{value: "2020"}, {value: ["2021", "2022"]}])).to.deep.equals(["2020", "2021", "2022"]);
@@ -185,7 +324,7 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
         });
 
         describe("allFilterSettingsSelected", () => {
-            it("should 1 if all given array are not empty", () => {
+            it("should return 1 if all given values are not empty", () => {
                 const wrapper = shallowMount(StatisticDashboardFilter, {
                     propsData: {
                         categories: [],
@@ -193,13 +332,14 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                         regions,
                         areCategoriesGrouped: false
                     },
-                    localVue
+                    localVue,
+                    store
                 });
 
-                expect(wrapper.vm.allFilterSettingsSelected([1], [2], [3])).to.be.equals(1);
+                expect(wrapper.vm.allFilterSettingsSelected({name: "name"}, [2], [3])).to.be.equals(1);
                 wrapper.destroy();
             });
-            it("should return 0 if at least one given arrays is empty", () => {
+            it("should return false if the first given value is not an object", () => {
                 const wrapper = shallowMount(StatisticDashboardFilter, {
                     propsData: {
                         categories: [],
@@ -207,10 +347,11 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                         regions,
                         areCategoriesGrouped: false
                     },
-                    localVue
+                    localVue,
+                    store
                 });
 
-                expect(wrapper.vm.allFilterSettingsSelected([], [2], [3])).to.be.equals(0);
+                expect(wrapper.vm.allFilterSettingsSelected(undefined, [2], [3])).to.be.false;
                 wrapper.destroy();
             });
         });
@@ -224,12 +365,13 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                         regions,
                         areCategoriesGrouped: false
                     },
-                    localVue
+                    localVue,
+                    store
                 });
 
-                wrapper.vm.emitFilterSettings([6], [6], [6]);
+                wrapper.vm.emitFilterSettings({name: "name"}, [6], [6]);
                 expect(wrapper.emitted()).to.have.all.keys("changeFilterSettings");
-                expect(wrapper.emitted().changeFilterSettings).to.deep.equal([[[6], [6], [6]]]);
+                expect(wrapper.emitted().changeFilterSettings).to.deep.equal([[[6], [6]]]);
                 wrapper.destroy();
             });
             it("should not emit 'changeFilterSettings'", () => {
@@ -240,7 +382,8 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                         regions,
                         areCategoriesGrouped: false
                     },
-                    localVue
+                    localVue,
+                    store
                 });
 
                 wrapper.vm.emitFilterSettings([6], [6], []);
@@ -250,7 +393,7 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
         });
 
         describe("toggleStatistic", () => {
-            it("should add a statistic if there is not already one with that name", async () => {
+            it("should add a statistic if it is not already selected", async () => {
                 const wrapper = shallowMount(StatisticDashboardFilter, {
                     propsData: {
                         categories: [],
@@ -258,17 +401,17 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                         regions,
                         areCategoriesGrouped: false
                     },
-                    localVue
+                    localVue,
+                    store
                 });
 
-                await wrapper.setData({
-                    selectedStatistics: ["stat1"]
-                });
-                wrapper.vm.toggleStatistic("stat2");
-                expect(wrapper.vm.selectedStatistics).to.deep.equals(["stat1", "stat2"]);
+                await store.commit("Tools/StatisticDashboard/setSelectedStatistics", {"stat1": {name: "1234"}});
+
+                wrapper.vm.toggleStatistic({name: "5678"}, wrapper.vm.selectedStatistics, "stat2");
+                expect(wrapper.vm.selectedStatistics).to.deep.equals({"stat1": {name: "1234"}, "stat2": {name: "5678"}});
                 wrapper.destroy();
             });
-            it("should remove a statistic if there is already one with that name", async () => {
+            it("should remove a statistic if it is already selected", async () => {
                 const wrapper = shallowMount(StatisticDashboardFilter, {
                     propsData: {
                         categories: [],
@@ -276,19 +419,19 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                         regions,
                         areCategoriesGrouped: false
                     },
-                    localVue
+                    localVue,
+                    store
                 });
 
-                await wrapper.setData({
-                    selectedStatistics: ["stat1"]
-                });
-                wrapper.vm.toggleStatistic("stat1");
-                expect(wrapper.vm.selectedStatistics).to.deep.equals([]);
+                await store.commit("Tools/StatisticDashboard/setSelectedStatistics", {"stat1": {name: "1234"}});
+
+                wrapper.vm.toggleStatistic({name: "1234"}, wrapper.vm.selectedStatistics, "stat1");
+                expect(wrapper.vm.selectedStatistics).to.deep.equals({});
                 wrapper.destroy();
             });
         });
         describe("removeStatistic", () => {
-            it("should remove statistic if the name existed", async () => {
+            it("should remove statistic if the name existed", () => {
                 const wrapper = shallowMount(StatisticDashboardFilter, {
                     propsData: {
                         categories: [],
@@ -296,14 +439,14 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                         regions,
                         areCategoriesGrouped: false
                     },
-                    localVue
+                    localVue,
+                    store
                 });
 
-                await wrapper.setData({
-                    selectedStatistics: ["stat1", "stat2"]
-                });
-                wrapper.vm.removeStatistic("stat1");
-                expect(wrapper.vm.selectedStatistics).to.deep.equals(["stat2"]);
+                store.commit("Tools/StatisticDashboard/setSelectedStatistics", {"stat1": {name: "1234"}, "stat2": {name: "5678"}});
+
+                wrapper.vm.removeStatistic(wrapper.vm.selectedStatistics, "stat1");
+                expect(wrapper.vm.selectedStatistics).to.deep.equals({"stat2": {name: "5678"}});
                 wrapper.destroy();
             });
         });
@@ -316,14 +459,14 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                         regions,
                         areCategoriesGrouped: false
                     },
-                    localVue
+                    localVue,
+                    store
                 });
 
-                await wrapper.setData({
-                    selectedStatistics: ["stat1", "stat2"]
-                });
+                await store.commit("Tools/StatisticDashboard/setSelectedStatistics", {"stat1": {name: "1234"}, "stat2": {name: "5678"}});
+
                 wrapper.vm.resetStatistics();
-                expect(wrapper.vm.selectedStatistics).to.deep.equals([]);
+                expect(wrapper.vm.selectedStatistics).to.deep.equals({});
                 wrapper.destroy();
             });
         });

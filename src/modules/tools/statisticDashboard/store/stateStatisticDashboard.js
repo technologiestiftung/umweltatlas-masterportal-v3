@@ -21,7 +21,8 @@ const state = {
     isVisibleInMenu: true,
     deactivateGFI: true,
     data: {},
-    selectedReferenceData: {}
+    selectedReferenceData: {},
+    selectedStatistics: {}
 };
 
 export default state;

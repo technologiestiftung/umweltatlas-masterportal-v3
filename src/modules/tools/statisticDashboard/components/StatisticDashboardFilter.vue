@@ -1,6 +1,7 @@
 <script>
 import Multiselect from "vue-multiselect";
 import isObject from "../../../../utils/isObject";
+import {mapGetters, mapMutations} from "vuex";
 
 export default {
     name: "StatisticDashboardFilter",
@@ -35,8 +36,7 @@ export default {
         return {
             selectedCategory: undefined,
             selectedRegions: [],
-            selectedDates: [],
-            selectedStatistics: []
+            selectedDates: []
         };
     },
     computed: {
@@ -49,15 +49,14 @@ export default {
         },
 
         /**
-         * Gets the names of the current available statistics.
-         * @returns {String[]} The names.
+         * Checks if statistics are selected.
+         * @returns {Boolean} True if at least on is selected, otherwise false.
          */
-        statisticsNames () {
-            if (!this.statistics) {
-                return [];
-            }
-            return Object.keys(this.statistics).map(key => this.statistics[key].name);
-        }
+        areStatisticsSelected () {
+            return isObject(this.selectedStatistics) && Object.keys(this.selectedStatistics).length !== 0;
+        },
+
+        ...mapGetters("Tools/StatisticDashboard", ["selectedStatistics"])
     },
     watch: {
         /**
@@ -81,27 +80,29 @@ export default {
         }
     },
     methods: {
+        ...mapMutations("Tools/StatisticDashboard", ["setSelectedStatistics"]),
+
         /**
          * Checks if all filter settings are selected.
-         * @param {String[]} statistics - The names of the selected statistics.
+         * @param {Object[]} statistics - The selected statistics.
          * @param {String[]} regions - The names of the selected regions.
          * @param {Object[]} dates - The selected dates.
          * @return {Number} 1 if true otherwise 0.
          */
         allFilterSettingsSelected (statistics, regions, dates) {
-            return statistics.length && regions.length && dates.length;
+            return isObject(statistics) && Object.keys(statistics).length && regions.length && dates.length;
         },
 
         /**
          * Emits the filter settings if all are selected.
-         * @param {String[]} statistics - The names of the selected statistics.
+         * @param {Object[]} statistics - The selected statistics.
          * @param {String[]} regions - The names of the selected regions.
          * @param {Object[]} dates - The selected dates.
          * @return {void}
          */
         emitFilterSettings (statistics, regions, dates) {
             if (this.allFilterSettingsSelected(statistics, regions, dates)) {
-                this.$emit("changeFilterSettings", statistics, regions, dates);
+                this.$emit("changeFilterSettings", regions, dates);
             }
         },
 
@@ -129,25 +130,30 @@ export default {
 
         /**
          * Add or remove a statistic.
-         * @param {String} name - The name of the statistic.
+         * @param {Object} statistic - The statistic to toggle.
+         * @param {Object[]} selectedStatistics - The selected statistics.
+         * @param {String} key - The key of the statistic to be toggled.
          * @returns {void}
          */
-        toggleStatistic (name) {
-            if (!this.selectedStatistics.includes(name)) {
-                this.selectedStatistics.push(name);
+        toggleStatistic (statistic, selectedStatistics, key) {
+            const statisticToToogle = Object.prototype.hasOwnProperty.call(selectedStatistics, key);
+
+            if (!statisticToToogle) {
+                this.$set(selectedStatistics, key, statistic);
             }
             else {
-                this.removeStatistic(name);
+                this.removeStatistic(selectedStatistics, key);
             }
         },
 
         /**
          * Removes an existing statistic.
-         * @param {String} name - The name of the statistic.
+         * @param {Object[]} selectedStatistics - The selected statistics.
+         * @param {String} key - The key of the statistic to be removed.
          * @returns {void}
          */
-        removeStatistic (name) {
-            this.selectedStatistics = this.selectedStatistics.filter(statisticName => statisticName !== name);
+        removeStatistic (selectedStatistics, key) {
+            this.$delete(selectedStatistics, key);
         },
 
         /**
@@ -155,7 +161,7 @@ export default {
          * @returns {void}
          */
         resetStatistics () {
-            this.selectedStatistics = [];
+            this.setSelectedStatistics({});
         }
     }
 };
@@ -279,17 +285,17 @@ export default {
                                     aria="dropdownButton"
                                 >
                                     <li
-                                        v-for="name in statisticsNames"
-                                        :key="name"
+                                        v-for="(stat, key, index) in statistics"
+                                        :key="index"
                                         class="dropdown-line"
                                     >
                                         <button
                                             type="button"
                                             class="btn btn-link btn-sm px-2 py-2 dropdown-item"
-                                            :class="selectedStatistics.includes(name) ? 'selected' : ''"
-                                            @click="toggleStatistic(name)"
+                                            :class="Object.prototype.hasOwnProperty.call(selectedStatistics, key) ? 'selected' : ''"
+                                            @click="toggleStatistic(stat, selectedStatistics, key)"
                                         >
-                                            {{ name }}
+                                            {{ stat.name }}
                                         </button>
                                     </li>
                                 </ul>
@@ -297,18 +303,18 @@ export default {
                         </div>
                         <div class="col col-md-auto py-1">
                             <button
-                                v-for="index in selectedStatistics"
+                                v-for="(stat, key, index) in selectedStatistics"
                                 :key="index"
                                 class="btn btn-sm btn-outline-secondary lh-1 rounded-pill shadow-none mt-1 me-2 btn-pb"
                                 aria-label="Close"
-                                @click="removeStatistic(index)"
+                                @click="removeStatistic(selectedStatistics, key)"
                             >
-                                {{ index }}
+                                {{ stat.name }}
                                 <i class="bi bi-x fs-5 align-middle" />
                             </button>
                         </div>
                         <div
-                            v-if="selectedStatistics.length !== 0"
+                            v-if="areStatisticsSelected"
                             class="col col-md-auto py-1"
                         >
                             <button

@@ -56,5 +56,19 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticGridComp
             expect(wrapper.find(".flex-item").exists()).to.be.true;
             wrapper.destroy();
         });
+
+        it("should find two titles", () => {
+            const wrapper = shallowMount(StatisticGridComponent, {
+                propsData: {
+                    dates: propsData.dates,
+                    titles: ["Titel eins", "Titel zwei"]
+                },
+                localVue,
+                store
+            });
+
+            expect(wrapper.findAll(".title").length).to.be.equal(2);
+            wrapper.destroy();
+        });
     });
 });

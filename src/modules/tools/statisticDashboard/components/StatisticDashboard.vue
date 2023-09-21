@@ -85,7 +85,15 @@ export default {
     },
     computed: {
         ...mapGetters("Tools/StatisticDashboard", Object.keys(getters)),
-        ...mapGetters("Maps", ["projection"])
+        ...mapGetters("Maps", ["projection"]),
+
+        /**
+         * Gets the names of the selected statistics.
+         * @returns {String[]} The names.
+         */
+        selectedStatisticsNames () {
+            return Object.values(this.selectedStatistics).map(statistic => statistic?.name);
+        }
     },
     watch: {
         selectedReferenceData (val) {
@@ -212,15 +220,14 @@ export default {
 
         /**
          * Handles the filter settings and starts a POST request based on given settings.
-         * @param {String[]} filteredStatistics The statistics.
-         * @param {String[]} regions The regions.
+          * @param {String[]} regions The regions.
          * @param {String[]} dates The dates.
          * @returns {void}
          */
-        async handleFilterSettings (filteredStatistics, regions, dates) {
+        async handleFilterSettings (regions, dates) {
             this.tableData = [];
 
-            const statsKeys = StatisticsHandler.getStatsKeysByName(this.statisticsByCategory, filteredStatistics),
+            const statsKeys = StatisticsHandler.getStatsKeysByName(this.statisticsByCategory, this.selectedStatisticsNames),
                 selectedLayer = this.getRawLayerByLayerId(this.selectedLevel.layerId),
                 selectedLevelRegionNameAttribute = this.getSelectedLevelRegionNameAttribute(this.selectedLevel),
                 selectedLevelDateAttribute = this.getSelectedLevelDateAttribute(this.selectedLevel),
@@ -236,10 +243,10 @@ export default {
                 }),
                 features = new WFS().readFeatures(response);
 
-            this.statisticsData = this.prepareStatisticsData(features, filteredStatistics, regions, dates, selectedLevelDateAttribute, selectedLevelRegionNameAttribute);
+            this.statisticsData = this.prepareStatisticsData(features, this.selectedStatisticsNames, regions, dates, selectedLevelDateAttribute, selectedLevelRegionNameAttribute);
             this.tableData = this.getTableData(this.statisticsData);
-            this.chartCounts = filteredStatistics.length;
-            this.handleChartData(filteredStatistics, regions, dates, this.statisticsData);
+            this.chartCounts = this.selectedStatisticsNames.length;
+            this.handleChartData(this.selectedStatisticsNames, regions, dates, this.statisticsData);
         },
 
         /**
@@ -560,17 +567,20 @@ export default {
                     <TableComponent
                         v-for="(data, index) in tableData"
                         :key="index"
+                        :title="selectedStatisticsNames[index]"
                         :data="data"
                         :fixed-data="testFixedData"
                         :select-mode="selectMode"
                         :show-header="showHeader"
                         :sortable="sortable"
+                        class="mx-5"
                         @setSortedRows="setSortedRows"
                     />
                 </div>
                 <GridComponent
                     v-else
                     :dates="tableData"
+                    :titles="selectedStatisticsNames"
                 >
                     <template
                         slot="containers"
@@ -579,9 +589,7 @@ export default {
                         <TableComponent
                             :data="props.data"
                             :fixed-data="testFixedData"
-                            :select-mode="selectMode"
                             :show-header="showHeader"
-                            :sortable="sortable"
                             @setSortedRows="setSortedRows"
                         />
                     </template>

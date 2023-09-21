@@ -11,6 +11,21 @@ config.mocks.$t = key => key;
 
 describe("src/share-components/table/components/TableComponent.vue", () => {
     describe("DOM", () => {
+        it("should render the title if present", () => {
+            const wrapper = shallowMount(TableComponent, {
+                propsData: {
+                    data: {
+                        headers: ["foo"],
+                        items: [["bar"]]
+                    },
+                    title: "Titel"
+                },
+                localVue
+            });
+
+            expect(wrapper.find("h5").text()).to.be.equal("Titel");
+        });
+
         it("should render the table with one row", () => {
             const wrapper = shallowMount(TableComponent, {
                 propsData: {

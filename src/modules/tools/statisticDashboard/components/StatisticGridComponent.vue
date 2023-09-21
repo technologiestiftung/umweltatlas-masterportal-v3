@@ -7,6 +7,11 @@ export default {
             required: false,
             default: undefined
         },
+        titles: {
+            type: Array,
+            required: false,
+            default: undefined
+        },
         chartsCount: {
             type: Number,
             required: false,
@@ -25,8 +30,14 @@ export default {
             <div
                 v-for="(data, idx) in dates"
                 :key="idx"
-                class="flex-item"
+                class="flex-item text-center"
             >
+                <div
+                    v-if="titles"
+                    class="title m-2 fs-6"
+                >
+                    {{ titles[idx] }}
+                </div>
                 <slot
                     name="containers"
                     :data="data"
@@ -61,6 +72,9 @@ export default {
     align-items: center;
     max-width: 900px;
     margin-top: 30px;
+    .title {
+        font-family: $font_family_accent;
+    }
 }
 
 .flex-item {
@@ -68,14 +82,14 @@ export default {
     flex-basis: 30%;
     flex-grow: 1;
     flex-shrink: 1;
-    border: 2px solid #e3e3e3;
+    border: 1px solid #dee2e6;
     max-width: 280px;
     min-width: 260px;
     margin: 10px;
     border-radius: 5px;
     &:hover {
-        border: 2px solid $primary;
-        background-color: #f8f9fa;
+        box-shadow: $box-shadow;
+        cursor: pointer;
     }
 }
 

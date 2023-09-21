@@ -4,6 +4,11 @@ import localeCompare from "../../../utils/localeCompare";
 export default {
     name: "TableComponent",
     props: {
+        title: {
+            type: [String, Boolean],
+            required: false,
+            default: false
+        },
         data: {
             type: Object,
             required: true
@@ -194,7 +199,13 @@ export default {
 </script>
 
 <template>
-    <div class="my-5 mx-5">
+    <div>
+        <h5
+            v-if="title"
+            class="mb-3 text-center"
+        >
+            {{ title }}
+        </h5>
         <table class="table table-sm table-hover">
             <thead>
                 <tr v-if="showHeader">
@@ -258,6 +269,10 @@ export default {
 
 <style lang="scss" scoped>
 @import "~variables";
+
+h5 {
+    font-family: $font_family_accent;
+}
 
 .table {
     color: $secondary_contrast;
