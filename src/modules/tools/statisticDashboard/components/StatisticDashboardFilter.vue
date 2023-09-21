@@ -67,7 +67,7 @@ export default {
          */
         selectedCategory (value) {
             this.resetStatistics();
-            this.$emit("changeCategory", value.name);
+            this.$emit("changeCategory", value?.name);
         },
 
         selectedStatistics (value) {
@@ -202,11 +202,12 @@ export default {
                                 :searchable="true"
                                 :close-on-select="true"
                                 :show-labels="false"
-                                :allow-empty="false"
+                                :allow-empty="true"
                                 :multiple="false"
                                 :group-values="areCategoriesGrouped ? 'categories' : ''"
                                 :group-label="areCategoriesGrouped ? 'name' : ''"
                                 :group-select="false"
+                                :placeholder="$t('common:modules.tools.statisticDashboard.reference.placeholder')"
                                 track-by="name"
                                 label="name"
                             />
@@ -228,8 +229,8 @@ export default {
                                 :close-on-select="false"
                                 :clear-on-select="false"
                                 :show-labels="false"
-                                :allow-empty="false"
-                                :preselect-first="true"
+                                :allow-empty="true"
+                                :placeholder="$t('common:modules.tools.statisticDashboard.reference.placeholder')"
                             />
                         </div>
                         <div
@@ -249,8 +250,8 @@ export default {
                                 :close-on-select="false"
                                 :clear-on-select="false"
                                 :show-labels="false"
-                                :allow-empty="false"
-                                :preselect-first="true"
+                                :allow-empty="true"
+                                :placeholder="$t('common:modules.tools.statisticDashboard.reference.placeholder')"
                                 label="label"
                                 track-by="label"
                             />
