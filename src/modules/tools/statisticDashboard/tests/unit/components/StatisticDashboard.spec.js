@@ -477,6 +477,38 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                 sinon.restore();
             });
         });
+        describe("handleReset", () => {
+            it("should reset tables and data", async () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    topic = "fooBar";
+
+
+                await wrapper.setData({tableData: [{
+                    headers: ["Gebiet", "1990", "1890"],
+                    items: [[
+                        "Hamburg", "113", "13"
+                    ]]
+                },
+                {
+                    headers: ["Gebiet", "1990", "1890"],
+                    items: [[
+                        "Hamburg", "112", "12"
+                    ]]
+                }]
+                });
+                wrapper.vm.currentChart[topic] = {
+                    chart: {destroy: () => sinon.stub()}
+                };
+                wrapper.vm.handleReset();
+                expect(wrapper.vm.tableData).to.deep.equal([]);
+                expect(wrapper.vm.currentChart).to.deep.equal({});
+                expect(wrapper.vm.showGrid).to.be.false;
+                wrapper.destroy();
+            });
+        });
         describe("prepareChartData", () => {
             it("should set canvas and chart to property currentChart", () => {
                 sinon.stub(ChartProcessor, "createLineChart").returns(null);

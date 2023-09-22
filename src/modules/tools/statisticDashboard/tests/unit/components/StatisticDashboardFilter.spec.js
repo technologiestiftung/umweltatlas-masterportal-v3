@@ -3,6 +3,7 @@ import {expect} from "chai";
 import Vuex from "vuex";
 import StatisticDashboardFilter from "../../../components/StatisticDashboardFilter.vue";
 import indexStatisticDashboard from "../../../store/indexStatisticDashboard";
+import sinon from "sinon";
 
 const localVue = createLocalVue();
 
@@ -285,7 +286,7 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
 
     describe("Watchers", () => {
         describe("selectedCategory", () => {
-            it("should emit 'changeCategory' with the name of", async () => {
+            it("should emit 'resetStatistics' and 'changeCategory' with the name of", async () => {
                 const wrapper = shallowMount(StatisticDashboardFilter, {
                     propsData: {
                         categories: [],
@@ -303,7 +304,7 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                     }
                 });
 
-                expect(wrapper.emitted()).to.have.all.keys("changeCategory");
+                expect(wrapper.emitted()).to.have.all.keys(["resetStatistics", "changeCategory"]);
                 expect(wrapper.emitted().changeCategory).to.deep.equal([["Kategorie 1"]]);
             });
         });
@@ -379,7 +380,7 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                 expect(wrapper.emitted().changeFilterSettings).to.deep.equal([[[6], [6]]]);
                 wrapper.destroy();
             });
-            it("should not emit 'changeFilterSettings'", () => {
+            it("should not emit 'changeFilterSettings' but 'resetStatistics'", () => {
                 const wrapper = shallowMount(StatisticDashboardFilter, {
                     propsData: {
                         categories: [],
@@ -392,7 +393,7 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                 });
 
                 wrapper.vm.emitFilterSettings([6], [6], []);
-                expect(wrapper.emitted()).to.be.empty;
+                expect(wrapper.emitted()).to.have.all.keys("resetStatistics");
                 wrapper.destroy();
             });
         });
@@ -454,9 +455,29 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                 expect(wrapper.vm.selectedStatistics).to.deep.equals({"stat2": {name: "5678"}});
                 wrapper.destroy();
             });
+            it("should remove the statistic and call resetStatistics if it is the last one", () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                        propsData: {
+                            categories: [],
+                            timeStepsFilter,
+                            regions,
+                            areCategoriesGrouped: false
+                        },
+                        localVue,
+                        store
+                    }),
+                    spyResetStatistics = sinon.spy(wrapper.vm, "resetStatistics");
+
+                store.commit("Tools/StatisticDashboard/setSelectedStatistics", {"stat1": {name: "1234"}});
+
+                wrapper.vm.removeStatistic(wrapper.vm.selectedStatistics, "stat1");
+                expect(wrapper.vm.selectedStatistics).to.deep.equals({});
+                expect(spyResetStatistics.calledOnce).to.be.true;
+                wrapper.destroy();
+            });
         });
         describe("resetStatistics", () => {
-            it("should remove all statistics", async () => {
+            it("should remove all statistics and emit reset", async () => {
                 const wrapper = shallowMount(StatisticDashboardFilter, {
                     propsData: {
                         categories: [],
@@ -472,6 +493,7 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
 
                 wrapper.vm.resetStatistics();
                 expect(wrapper.vm.selectedStatistics).to.deep.equals({});
+                expect(wrapper.emitted()).to.have.all.keys(["resetStatistics"]);
                 wrapper.destroy();
             });
         });

@@ -248,7 +248,6 @@ export default {
          * @returns {void}
          */
         async handleFilterSettings (regions, dates) {
-            this.tableData = [];
 
             const statsKeys = StatisticsHandler.getStatsKeysByName(this.statisticsByCategory, this.selectedStatisticsNames),
                 selectedLayer = this.getRawLayerByLayerId(this.selectedLevel.layerId),
@@ -515,6 +514,19 @@ export default {
         toggleChartTable () {
             this.showChart = !this.showChart;
             this.showTable = !this.showTable;
+        },
+        /**
+         * Reset tables and charts.
+         * @returns {void}
+         */
+        handleReset () {
+            this.tableData = [];
+            Object.values(this.currentChart).forEach(val => {
+
+                val.chart.destroy();
+            });
+            this.currentChart = {};
+            this.showGrid = false;
         }
     }
 };
@@ -551,6 +563,7 @@ export default {
                 :regions="allRegions"
                 @changeCategory="setStatisticsByCategory"
                 @changeFilterSettings="handleFilterSettings"
+                @resetStatistics="handleReset"
             />
             <div
                 v-else

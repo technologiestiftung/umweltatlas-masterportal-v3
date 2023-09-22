@@ -31,7 +31,7 @@ export default {
             required: true
         }
     },
-    emits: ["changeCategory", "changeFilterSettings"],
+    emits: ["changeCategory", "changeFilterSettings", "resetStatistics"],
     data () {
         return {
             selectedCategory: undefined,
@@ -104,6 +104,9 @@ export default {
             if (this.allFilterSettingsSelected(statistics, regions, dates)) {
                 this.$emit("changeFilterSettings", regions, dates);
             }
+            else {
+                this.$emit("resetStatistics");
+            }
         },
 
         /**
@@ -153,7 +156,12 @@ export default {
          * @returns {void}
          */
         removeStatistic (selectedStatistics, key) {
-            this.$delete(selectedStatistics, key);
+            if (Object.keys(this.selectedStatistics).length >= 2) {
+                this.$delete(selectedStatistics, key);
+            }
+            else {
+                this.resetStatistics();
+            }
         },
 
         /**
@@ -162,6 +170,7 @@ export default {
          */
         resetStatistics () {
             this.setSelectedStatistics({});
+            this.$emit("resetStatistics");
         },
 
         /**
