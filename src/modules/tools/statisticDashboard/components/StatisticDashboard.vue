@@ -1,5 +1,5 @@
 <script>
-import {mapGetters, mapMutations} from "vuex";
+import {mapGetters, mapMutations, mapActions} from "vuex";
 import TableComponent from "../../../../share-components/table/components/TableComponent.vue";
 import {getComponent} from "../../../../utils/getComponent";
 import isObject from "../../../../utils/isObject";
@@ -11,6 +11,7 @@ import Controls from "./StatisticDashboardControls.vue";
 import StatisticFilter from "./StatisticDashboardFilter.vue";
 import FetchDataHandler from "../utils/fetchData.js";
 import StatisticsHandler from "../utils/handleStatistics.js";
+import FeaturesHandler from "../utils/handleFeatures.js";
 import StatisticSwitcher from "./StatisticDashboardSwitcher.vue";
 import {rawLayerList} from "@masterportal/masterportalapi";
 import {getFeaturePOST} from "../../../../api/wfs/getFeature";
@@ -95,8 +96,9 @@ export default {
         }
 
     },
-    created () {
+    async created () {
         this.$on("close", this.close);
+        this.layer = await this.addNewLayerIfNotExists({layerName: "statistic-dashboard"});
     },
     async mounted () {
         this.selectedLevel = this.data[0];
@@ -121,6 +123,7 @@ export default {
     },
     methods: {
         ...mapMutations("Tools/StatisticDashboard", Object.keys(mutations)),
+        ...mapActions("Maps", ["addNewLayerIfNotExists"]),
 
         close () {
             this.setActive(false);
@@ -236,6 +239,8 @@ export default {
          * @returns {void}
          */
         async handleFilterSettings (regions, dates) {
+            this.layer.getSource().clear();
+            this.tableData = [];
 
             const statsKeys = StatisticsHandler.getStatsKeysByName(this.statisticsByCategory, this.selectedStatisticsNames),
                 selectedLayer = this.getRawLayerByLayerId(this.selectedLevel.layerId),
@@ -245,18 +250,22 @@ export default {
                     featureTypes: [selectedLayer.featureType],
                     featureNS: selectedLayer.featureNS,
                     srsName: this.projection.getCode(),
-                    propertyNames: [...statsKeys, selectedLevelRegionNameAttribute.attrName, selectedLevelDateAttribute.attrName],
+                    propertyNames: [...statsKeys, selectedLevelRegionNameAttribute.attrName, selectedLevelDateAttribute.attrName, this.selectedLevel.geometryAttribute],
                     filter: this.getFilter(regions, dates)
                 },
                 response = await getFeaturePOST(selectedLayer.url, payload, error => {
                     console.error(error);
                 }),
-                features = new WFS().readFeatures(response);
+                features = new WFS().readFeatures(response),
+                filteredFeatures = FeaturesHandler.filterFeaturesByKeyValue(features, selectedLevelDateAttribute.attrName, dates[0]);
 
             this.statisticsData = this.prepareStatisticsData(features, this.selectedStatisticsNames, regions, dates, selectedLevelDateAttribute, selectedLevelRegionNameAttribute);
             this.tableData = this.getTableData(this.statisticsData);
             this.chartCounts = this.selectedStatisticsNames.length;
             this.handleChartData(this.selectedStatisticsNames, regions, dates, this.statisticsData);
+
+            this.layer.getSource().addFeatures(filteredFeatures);
+            FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, statsKeys[0], this.colorScheme);
         },
 
         /**
@@ -506,6 +515,7 @@ export default {
          * @returns {void}
          */
         handleReset () {
+            this.layer.getSource().clear();
             this.tableData = [];
             Object.values(this.currentChart).forEach(val => {
 
