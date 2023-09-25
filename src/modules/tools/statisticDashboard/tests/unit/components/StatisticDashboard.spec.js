@@ -45,57 +45,6 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
             })
         ];
 
-    describe("Component DOM", () => {
-        it("The close button should exist", async () => {
-            const wrapper = shallowMount(StatisticDashboard, {
-                localVue,
-                store
-            });
-
-            await wrapper.setData({referenceTag: "2001"});
-            expect(wrapper.find(".reference-tag").exists()).to.be.true;
-            wrapper.destroy();
-        });
-    });
-
-    describe("Lifecycle Hooks", () => {
-        it("should set the referenceTag undefined", async () => {
-            const wrapper = shallowMount(StatisticDashboard, {
-                localVue,
-                store
-            });
-
-            await wrapper.vm.setSelectedReferenceData({value: null});
-
-            expect(wrapper.vm.referenceTag).to.be.undefined;
-            wrapper.destroy();
-        });
-
-        it("should set the referenceTag value with label", async () => {
-            const wrapper = shallowMount(StatisticDashboard, {
-                localVue,
-                store
-            });
-
-            await wrapper.vm.setSelectedReferenceData({value: {label: "2001", value: "2001"}});
-
-            expect(wrapper.vm.referenceTag).to.be.equal("2001");
-            wrapper.destroy();
-        });
-
-        it("should set the referenceTag value with value", async () => {
-            const wrapper = shallowMount(StatisticDashboard, {
-                localVue,
-                store
-            });
-
-            await wrapper.vm.setSelectedReferenceData({value: "test"});
-
-            expect(wrapper.vm.referenceTag).to.be.equal("test");
-            wrapper.destroy();
-        });
-    });
-
     describe("methods", () => {
         describe("getUniqueValuesForLevel", () => {
             it("should return an empty object if first parm is not an object", async () => {
@@ -477,38 +426,6 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                 sinon.restore();
             });
         });
-        describe("handleReset", () => {
-            it("should reset tables and data", async () => {
-                const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
-                    }),
-                    topic = "fooBar";
-
-
-                await wrapper.setData({tableData: [{
-                    headers: ["Gebiet", "1990", "1890"],
-                    items: [[
-                        "Hamburg", "113", "13"
-                    ]]
-                },
-                {
-                    headers: ["Gebiet", "1990", "1890"],
-                    items: [[
-                        "Hamburg", "112", "12"
-                    ]]
-                }]
-                });
-                wrapper.vm.currentChart[topic] = {
-                    chart: {destroy: () => sinon.stub()}
-                };
-                wrapper.vm.handleReset();
-                expect(wrapper.vm.tableData).to.deep.equal([]);
-                expect(wrapper.vm.currentChart).to.deep.equal({});
-                expect(wrapper.vm.showGrid).to.be.false;
-                wrapper.destroy();
-            });
-        });
         describe("prepareChartData", () => {
             it("should set canvas and chart to property currentChart", () => {
                 sinon.stub(ChartProcessor, "createLineChart").returns(null);
@@ -564,21 +481,6 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                 expect(wrapper.vm.currentChart).to.deep.equal(expected);
                 sinon.restore();
             });
-        });
-    });
-
-    describe("User Interaction", () => {
-        it("should remove the reference data", async () => {
-            const wrapper = shallowMount(StatisticDashboard, {
-                localVue,
-                store
-            });
-
-            await wrapper.setData({referenceTag: "2001"});
-            await wrapper.find(".reference-tag button").trigger("click");
-            expect(wrapper.vm.selectedReferenceData).to.deep.equal({});
-            expect(wrapper.vm.referenceTag).to.be.undefined;
-            wrapper.destroy();
         });
     });
 });

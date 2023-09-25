@@ -74,14 +74,13 @@ export default {
                 title: "Trappatoni 3 ",
                 content: "Letzte Spiel hatten wir in Platz drei Spitzen: Elber, Jancka und dann Zickler."
             }],
-            referenceTag: undefined,
-            referenceData: undefined,
             buttonGroupRegions: [{
                 name: "Gemeinden"
             },
             {
                 name: "Kreise"
-            }]
+            }],
+            referenceData: undefined
         };
     },
     computed: {
@@ -94,19 +93,6 @@ export default {
          */
         selectedStatisticsNames () {
             return Object.values(this.selectedStatistics).map(statistic => statistic?.name);
-        }
-    },
-    watch: {
-        selectedReferenceData (val) {
-            if (typeof val?.value === "string") {
-                this.referenceTag = val.value;
-            }
-            if (isObject(val?.value) && typeof val.value.label === "string") {
-                this.referenceTag = val.value.label;
-            }
-            else if (val?.value === null) {
-                this.referenceTag = undefined;
-            }
         }
     },
     created () {
@@ -500,14 +486,6 @@ export default {
         },
 
         /**
-         * Removes the reference data
-         * @returns {void}
-         */
-        removeReference () {
-            this.setSelectedReferenceData({});
-            this.referenceTag = undefined;
-        },
-        /**
          * Toggles between chart and table.
          * @returns {void}
          */
@@ -576,28 +554,13 @@ export default {
                     <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
-            <hr>
+            <hr class="mb-0">
             <Controls
                 v-if="loadedReferenceData"
                 :descriptions="controlDescription"
                 :reference-data="referenceData"
                 @showChartTable="toggleChartTable"
             />
-            <div
-                v-if="typeof referenceTag === 'string'"
-                class="reference-tag"
-            >
-                <span>{{ $t("common:modules.tools.statisticDashboard.reference.tagLabel") }}: </span>
-                <button
-                    class="btn btn-sm btn-outline-secondary lh-1 rounded-pill shadow-none mt-1 me-2 btn-pb"
-                    aria-label="Close"
-                    @click="removeReference()"
-                    @keydown.enter="removeReference()"
-                >
-                    {{ referenceTag }}
-                    <i class="bi bi-x fs-5 align-middle" />
-                </button>
-            </div>
             <div v-show="showTable">
                 <div v-if="!showGrid">
                     <TableComponent
@@ -658,16 +621,4 @@ export default {
 <style lang="scss" scoped>
 @import "~variables";
 
-.reference-tag {
-    float: right;
-    margin-top: -20px;
-    display: inline-flex;
-    > span {
-        padding-top: 9px;
-        margin-right: 5px;
-    }
-    button {
-        color: $dark_grey;
-    }
-}
 </style>

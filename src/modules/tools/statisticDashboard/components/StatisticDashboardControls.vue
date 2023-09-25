@@ -1,6 +1,10 @@
 <script>
 import DifferenceModal from "./StatisticDashboardDifference.vue";
 import StatisticSwitcher from "./StatisticDashboardSwitcher.vue";
+import isObject from "../../../../utils/isObject";
+import {mapGetters, mapMutations} from "vuex";
+import getters from "../store/gettersStatisticDashboard";
+import mutations from "../store/mutationsStatisticDashboard";
 
 export default {
     name: "StatisticDashboardControls",
@@ -33,10 +37,13 @@ export default {
                 icon: "bi bi-bar-chart pe-2"
             }
             ],
-            switchValue: ""
+            switchValue: "",
+            referenceTag: undefined
         };
     },
     computed: {
+        ...mapGetters("Tools/StatisticDashboard", Object.keys(getters)),
+
         /**
          * Checks if there is at least one description
          * @returns {Boolean} True if there is one otherwise false.
@@ -65,9 +72,22 @@ export default {
     watch: {
         switchValue () {
             this.$emit("showChartTable");
+        },
+        selectedReferenceData (val) {
+            if (typeof val?.value === "string") {
+                this.referenceTag = val.value;
+            }
+            if (isObject(val?.value) && typeof val.value.label === "string") {
+                this.referenceTag = val.value.label;
+            }
+            else if (val?.value === null) {
+                this.referenceTag = undefined;
+            }
         }
     },
     methods: {
+        ...mapMutations("Tools/StatisticDashboard", Object.keys(mutations)),
+
         /**
          * Sets the description index one higher.
          * If the index reaches the end of the descriptions,it is set back to the beginning.
@@ -109,6 +129,15 @@ export default {
          */
         handleView (value) {
             this.switchValue = value;
+        },
+
+        /**
+         * Removes the reference data
+         * @returns {void}
+         */
+        removeReference () {
+            this.setSelectedReferenceData({});
+            this.referenceTag = undefined;
         }
     }
 };
@@ -119,7 +148,7 @@ export default {
         <!-- Descriptions -->
         <div
             v-if="hasDescription"
-            class="flex-grow-1 w-50 pb-1 description"
+            class="flex-grow-1 pb-1 description"
         >
             <div class="hstack gap-1">
                 <button
@@ -145,6 +174,7 @@ export default {
         <div class="btn-toolbar">
             <StatisticSwitcher
                 :buttons="buttonGroupControls"
+                class="btn-table-diagram"
                 group="dataViews"
                 @showView="handleView"
             />
@@ -165,14 +195,20 @@ export default {
                 </template>
             </div>
             <div
-                class="btn-group pb-1"
+                v-if="typeof referenceTag === 'string'"
+                class="reference-tag"
             >
+                <div class="col-form-label-sm">
+                    {{ $t("common:modules.tools.statisticDashboard.reference.tagLabel") }}:
+                </div>
                 <button
-                    type="button"
-                    class="btn btn-sm lh-1 button-style"
-                    @click="$emit('downloadData')"
+                    class="btn btn-sm btn-outline-secondary lh-1 rounded-pill shadow-none mt-1 me-2 btn-pb"
+                    aria-label="Close"
+                    @click="removeReference()"
+                    @keydown.enter="removeReference()"
                 >
-                    <i class="bi bi-download pe-2" />{{ $t("common:button.download") }}
+                    {{ referenceTag }}
+                    <i class="bi bi-x fs-5 align-middle" />
                 </button>
             </div>
         </div>
@@ -184,6 +220,7 @@ export default {
 
 .dashboard-controls {
     .description {
+        margin-top: 25px;
         .description-content {
             width: 350px;
         }
@@ -205,8 +242,14 @@ export default {
     color: $light_blue;
 }
 
+.btn-table-diagram {
+    margin-top: 25px;
+}
+
 .difference-button {
     position: relative;
+    max-height: 30px;
+    margin-top: 25px;
     .difference-modal {
         position: absolute;
         z-index: 1;
@@ -219,4 +262,15 @@ export default {
     }
 }
 
+.reference-tag {
+    float: right;
+    > div {
+        display: block;
+        margin-left: 10px;
+        margin-bottom: -5px;
+    }
+    button {
+        color: $dark_grey;
+    }
+}
 </style>
