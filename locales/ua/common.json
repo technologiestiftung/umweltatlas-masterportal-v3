@@ -926,7 +926,11 @@
                     "TOLLWAYS": "Платні дороги",
                     "FERRIES": "Пороми",
                     "STEPS": "Сходи",
-                    "UNPAVEDROADS": "ґрунтові дороги"
+                    "UNPAVEDROADS": "ґрунтові дороги",
+                    "MIXEDTRAFFIC": "змішаний рух",
+                    "COBBLESTONE": "бруківка",
+                    "NARROWWAYS": "вузькі шляхи"
+
                 },
                 "batchProcessing": {
                     "header": "Пакетна обробка",

@@ -632,7 +632,7 @@
                 },
                 "hiddenObjectsLabel": "Скрытые здания:",
                 "title": "3D Моделер"
-            },            
+            },
             "parcelSearch": {
                 "wrongConfig": "Неверная или неполная конфигурация",
                 "districtsLoadFailed": "Район не удалось загрузить",
@@ -923,7 +923,10 @@
                     "TOLLWAYS": "Платные дороги",
                     "FERRIES": "Паромы",
                     "STEPS": "Лестницы",
-                    "UNPAVEDROADS": "грунтовые дороги"
+                    "UNPAVEDROADS": "грунтовые дороги",
+                    "MIXEDTRAFFIC": "смешанное движение",
+                    "COBBLESTONE": "булыжник",
+                    "NARROWWAYS": "узкие пути"
 
                 },
                 "batchProcessing": {

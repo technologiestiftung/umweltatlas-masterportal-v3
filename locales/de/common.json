@@ -1082,7 +1082,10 @@
                     "TOLLWAYS": "Mautstraßen",
                     "FERRIES": "Fähren",
                     "STEPS": "Treppen",
-                    "UNPAVEDROADS": "Unbefestigte Straßen"
+                    "UNPAVEDROADS": "Unbefestigte Straßen",
+                    "MIXEDTRAFFIC": "Mischverkehr",
+                    "COBBLESTONE": "Kopfsteinpflaster",
+                    "NARROWWAYS": "Engstellen"
                 },
                 "batchProcessing": {
                     "header": "Stapelverarbeitung",

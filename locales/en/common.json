@@ -1080,7 +1080,10 @@
                     "TOLLWAYS": "Tollways",
                     "FERRIES": "Ferries",
                     "STEPS": "Steps",
-                    "UNPAVEDROADS": "Unpaved roads"
+                    "UNPAVEDROADS": "Unpaved roads",
+                    "MIXEDTRAFFIC": "Mixed traffic",
+                    "COBBLESTONE": "Cobblestone",
+                    "NARROWWAYS": "Narrow ways"
                 },
                 "batchProcessing": {
                     "header": "Batch Processing",
