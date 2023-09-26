@@ -1,6 +1,7 @@
 import Vuex from "vuex";
 import {config, createLocalVue, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
+import sinon from "sinon";
 import AddWMSComponent from "../../../components/AddWMS.vue";
 import AddWMS from "../../../store/indexAddWMS";
 
@@ -29,9 +30,13 @@ describe("src/modules/tools/addWMS/components/AddWMS.vue", () => {
         };
     let store,
         wrapper,
-        componentData;
+        componentData,
+        trigger;
 
     beforeEach(() => {
+        trigger = sinon.spy();
+        sinon.stub(Radio, "trigger").callsFake(trigger);
+
         store = new Vuex.Store({
             namespaces: true,
             modules: {
@@ -67,6 +72,7 @@ describe("src/modules/tools/addWMS/components/AddWMS.vue", () => {
         if (wrapper) {
             wrapper.destroy();
         }
+        sinon.restore();
     });
 
 
@@ -227,6 +233,55 @@ describe("src/modules/tools/addWMS/components/AddWMS.vue", () => {
         it("should replace all SRS with CRS in the xml node and attribute", function () {
             expect(wrapper.vm.getReversedData(dataXml).getElementsByTagName("SRS").length).to.equal(0);
             expect(wrapper.vm.getReversedData(dataXml).getElementsByTagName("CRS").length).not.to.equal(0);
+        });
+    });
+
+    describe("parseLayer", () => {
+        it("should add one folder and two layers with unique parentId", () => {
+            const object = {
+                    Layer: [
+                        {
+                            Name: "WMS_DGM1_farbig",
+                            Title: "abc"
+                        },
+                        {
+                            Name: "WMS_DGM1_farbig_10000",
+                            Title: "def"
+                        }
+                    ],
+                    Name: "WMS_DGM1_HAMBURG",
+                    Title: "Digitales Höhenmodell Hamburg (DGM1)"
+                },
+                parentId = "external_99",
+                level = 1;
+
+            wrapper.vm.parseLayer(object, parentId, level);
+
+            expect(trigger.callCount).to.equals(3);
+            expect(trigger.firstCall.args[0]).to.equals("Parser");
+            expect(trigger.firstCall.args[1]).to.equals("addFolder");
+            expect(trigger.firstCall.args[2]).to.equals("Digitales Höhenmodell Hamburg (DGM1)");
+            expect(trigger.firstCall.args[3]).to.equals("external_100");
+            expect(trigger.firstCall.args[4]).to.equals("external_99");
+            expect(trigger.firstCall.args[5]).to.equals(1);
+            expect(trigger.firstCall.args[6]).to.be.false;
+            expect(trigger.firstCall.args[7]).to.be.false;
+
+            expect(trigger.secondCall.args[0]).to.equals("Parser");
+            expect(trigger.secondCall.args[1]).to.equals("addLayer");
+            expect(trigger.secondCall.args[2]).to.equals("abc");
+            expect(trigger.secondCall.args[3]).to.equals("abc");
+            expect(trigger.secondCall.args[4]).to.equals("external_100");
+            expect(trigger.secondCall.args[5]).to.equals(2);
+            expect(trigger.secondCall.args[6]).to.equals("WMS_DGM1_farbig");
+
+            expect(trigger.thirdCall.args[0]).to.equals("Parser");
+            expect(trigger.thirdCall.args[1]).to.equals("addLayer");
+            expect(trigger.thirdCall.args[2]).to.equals("def");
+            expect(trigger.thirdCall.args[3]).to.equals("def");
+            expect(trigger.thirdCall.args[4]).to.equals("external_100");
+            expect(trigger.thirdCall.args[5]).to.equals(2);
+            expect(trigger.thirdCall.args[6]).to.equals("WMS_DGM1_farbig_10000");
         });
     });
 });
