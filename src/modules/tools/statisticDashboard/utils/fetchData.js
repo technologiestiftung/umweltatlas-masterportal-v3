@@ -2,18 +2,15 @@ import {rawLayerList} from "@masterportal/masterportalapi";
 import {getFeatureGET} from "../../../../api/wfs/getFeature";
 import {WFS} from "ol/format.js";
 import isObject from "../../../../utils/isObject";
-import dayjs from "dayjs";
 import {describeFeatureType, getFeatureDescription} from "../../../../api/wfs/describeFeatureType";
 
 /**
  * Gets the unique values for the given attributes.
  * @param {String} layerId The layer id.
  * @param {String[]} attributesToFilter The attributes to filter.
- * @param {String} inputFormat The input format incase of an date value.
- * @param {String} outputFormat The output format incase of an date value.
  * @returns {Object} an object with following structure {attrName: uniqueListObject, attrName1: uniqueListObject}.
  */
-async function getUniqueValues (layerId, attributesToFilter, inputFormat, outputFormat) {
+async function getUniqueValues (layerId, attributesToFilter) {
     const rawLayer = rawLayerList.getLayerWhere({id: layerId});
     let response = null,
         features = null,
@@ -28,7 +25,7 @@ async function getUniqueValues (layerId, attributesToFilter, inputFormat, output
         attributesWithType = await this.getAttributesWithType(rawLayer?.url, attributesToFilter, rawLayer?.featureType);
         // TODO: handle OAF.
     }
-    return this.getUniqueValuesFromFeatures(features, attributesWithType, inputFormat, outputFormat);
+    return this.getUniqueValuesFromFeatures(features, attributesWithType);
 }
 /**
  * Gets the attributes with the matching type.
@@ -72,11 +69,9 @@ async function fetchAllDataForWFS (url, featureType, propertyNames) {
  * Gets the unique values of the features.
  * @param {Object} features The features.
  * @param {Object[]} attributes The attribute names. @see getAttributesWithType The result of this function.
- * @param {String} inputFormat The input format for the date.
- * @param {String} outputFormat The format to transform the date to.
  * @returns {Object} an object with unique values for each attrName.
  */
-function getUniqueValuesFromFeatures (features, attributes, inputFormat, outputFormat) {
+function getUniqueValuesFromFeatures (features, attributes) {
     if (!Array.isArray(features) || !Array.isArray(attributes)) {
         return {};
     }
@@ -90,10 +85,6 @@ function getUniqueValuesFromFeatures (features, attributes, inputFormat, outputF
 
             if (!isObject(result[attribute.name])) {
                 result[attribute.name] = {};
-            }
-            if (attribute.type === "date" || attribute.type === "dateTime") {
-                result[attribute.name][dayjs(property, inputFormat).format(outputFormat)] = true;
-                return;
             }
             result[attribute.name][property] = true;
         });

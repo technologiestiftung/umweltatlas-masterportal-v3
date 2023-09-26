@@ -2,6 +2,7 @@ import {config, createLocalVue, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import Vuex from "vuex";
 import StatisticDashboardControls from "../../../components/StatisticDashboardControls.vue";
+import indexStatisticDashboard from "../../../store/indexStatisticDashboard";
 
 const localVue = createLocalVue();
 
@@ -10,22 +11,34 @@ config.mocks.$t = key => key;
 
 describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboardControls.vue", () => {
     const descriptions = [{
-        title: "TitleOne",
-        content: "ContentOne"
-    },
-    {
-        title: "TitleTwo",
-        content: "ContentTwo"
-    },
-    {
-        title: "TitleThree",
-        content: "ContentThree"
-    }];
+            title: "TitleOne",
+            content: "ContentOne"
+        },
+        {
+            title: "TitleTwo",
+            content: "ContentTwo"
+        },
+        {
+            title: "TitleThree",
+            content: "ContentThree"
+        }],
+        store = new Vuex.Store({
+            namespaced: true,
+            modules: {
+                Tools: {
+                    namespaced: true,
+                    modules: {
+                        StatisticDashboard: indexStatisticDashboard
+                    }
+                }
+            }
+        });
 
     describe("Component DOM", () => {
         it("should exist", () => {
             const wrapper = shallowMount(StatisticDashboardControls, {
-                localVue
+                localVue,
+                store
             });
 
             expect(wrapper.exists()).to.be.true;
@@ -34,7 +47,8 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
 
         it("should find no description", () => {
             const wrapper = shallowMount(StatisticDashboardControls, {
-                localVue
+                localVue,
+                store
             });
 
             expect(wrapper.find(".description").exists()).to.be.false;
@@ -46,7 +60,8 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                 propsData: {
                     descriptions
                 },
-                localVue
+                localVue,
+                store
             });
 
             expect(wrapper.find(".description p").text()).to.be.equal("TitleOneContentOne");
@@ -56,19 +71,54 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
 
         it("should find a button toolbar", () => {
             const wrapper = shallowMount(StatisticDashboardControls, {
-                localVue
+                localVue,
+                store
             });
 
             expect(wrapper.find(".btn-toolbar").exists()).to.be.true;
             wrapper.destroy();
         });
 
-        it("should find three button groups", () => {
+        it("should find two button groups", () => {
             const wrapper = shallowMount(StatisticDashboardControls, {
-                localVue
+                localVue,
+                store
             });
 
-            expect(wrapper.findAll(".btn-group")).lengthOf(3);
+            expect(wrapper.findAll(".btn-group")).lengthOf(1);
+            wrapper.destroy();
+        });
+        it("should find switcher component", async () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                localVue,
+                store
+            });
+
+            expect(wrapper.findComponent({name: "StatisticDashboardSwitcher"}).exists()).to.be.true;
+            wrapper.destroy();
+        });
+
+        it("should find difference component", async () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                localVue,
+                store
+            });
+
+            wrapper.setData({showDifferenceModal: true});
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.find(".difference-modal").exists()).to.be.true;
+            wrapper.destroy();
+        });
+
+        it("The close button should exist", async () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                localVue,
+                store
+            });
+
+            await wrapper.setData({referenceTag: "2001"});
+            expect(wrapper.find(".reference-tag").exists()).to.be.true;
             wrapper.destroy();
         });
     });
@@ -76,7 +126,8 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
     describe("Computed Properties", () => {
         it("should set hasDescription to false", () => {
             const wrapper = shallowMount(StatisticDashboardControls, {
-                localVue
+                localVue,
+                store
             });
 
             expect(wrapper.vm.hasDescription).to.be.false;
@@ -88,7 +139,8 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                 propsData: {
                     descriptions
                 },
-                localVue
+                localVue,
+                store
             });
 
             expect(wrapper.vm.hasDescription).to.be.true;
@@ -100,7 +152,8 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                 propsData: {
                     descriptions
                 },
-                localVue
+                localVue,
+                store
             });
 
             expect(wrapper.vm.contentDescription).to.be.equal("ContentOne");
@@ -113,7 +166,8 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                 propsData: {
                     descriptions
                 },
-                localVue
+                localVue,
+                store
             });
 
             await wrapper.setData({
@@ -126,6 +180,44 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
         });
     });
 
+    describe("Lifecycle Hooks", () => {
+        it("should set the referenceTag undefined", async () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                localVue,
+                store
+            });
+
+            await wrapper.vm.setSelectedReferenceData({value: null});
+
+            expect(wrapper.vm.referenceTag).to.be.undefined;
+            wrapper.destroy();
+        });
+
+        it("should set the referenceTag value with label", async () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                localVue,
+                store
+            });
+
+            await wrapper.vm.setSelectedReferenceData({value: {label: "2001", value: "2001"}});
+
+            expect(wrapper.vm.referenceTag).to.be.equal("2001");
+            wrapper.destroy();
+        });
+
+        it("should set the referenceTag value with value", async () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                localVue,
+                store
+            });
+
+            await wrapper.vm.setSelectedReferenceData({value: "test"});
+
+            expect(wrapper.vm.referenceTag).to.be.equal("test");
+            wrapper.destroy();
+        });
+    });
+
     describe("Methods", () => {
         describe("nextDescription", () => {
             it("should set currentDescriptionIndex always to 0 if only one description is available", () => {
@@ -133,7 +225,8 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                     propsData: {
                         descriptions: [descriptions[0]]
                     },
-                    localVue
+                    localVue,
+                    store
                 });
 
                 wrapper.vm.nextDescription();
@@ -148,7 +241,8 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                     propsData: {
                         descriptions
                     },
-                    localVue
+                    localVue,
+                    store
                 });
 
                 expect(wrapper.vm.currentDescriptionIndex).to.be.equal(0);
@@ -167,7 +261,8 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                     propsData: {
                         descriptions: [descriptions[0]]
                     },
-                    localVue
+                    localVue,
+                    store
                 });
 
                 wrapper.vm.prevDescription();
@@ -182,7 +277,8 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                     propsData: {
                         descriptions
                     },
-                    localVue
+                    localVue,
+                    store
                 });
 
                 expect(wrapper.vm.currentDescriptionIndex).to.be.equal(0);
@@ -198,47 +294,17 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
     });
 
     describe("User Interaction", () => {
-        it("should emit 'showTable' if the user click the table button", async () => {
+        it("should call 'showDifference' if the user click the difference button", async () => {
             const wrapper = shallowMount(StatisticDashboardControls, {
-                    localVue
-                }),
-                tableButton = wrapper.findAll(".btn-group label").at(0);
-
-            await tableButton.trigger("click");
-            expect(wrapper.emitted()).to.have.all.keys("showTable");
-            wrapper.destroy();
-        });
-
-        it("should emit 'showChart' if the user click the chart button", async () => {
-            const wrapper = shallowMount(StatisticDashboardControls, {
-                    localVue
-                }),
-                chartButton = wrapper.findAll(".btn-group label").at(1);
-
-            await chartButton.trigger("click");
-            expect(wrapper.emitted()).to.have.all.keys("showChart");
-            wrapper.destroy();
-        });
-
-        it("should emit 'showDifference' if the user click the difference button", async () => {
-            const wrapper = shallowMount(StatisticDashboardControls, {
-                    localVue
+                    localVue,
+                    store
                 }),
                 differenceButton = wrapper.findAll("button").at(0);
 
             await differenceButton.trigger("click");
-            expect(wrapper.emitted()).to.have.all.keys("showDifference");
-            wrapper.destroy();
-        });
+            await wrapper.vm.$nextTick();
 
-        it("should emit 'downloadData' if the user click the download button", async () => {
-            const wrapper = shallowMount(StatisticDashboardControls, {
-                    localVue
-                }),
-                downloadButton = wrapper.findAll("button").at(1);
-
-            await downloadButton.trigger("click");
-            expect(wrapper.emitted()).to.have.all.keys("downloadData");
+            expect(wrapper.find(".difference-modal").exists()).to.be.true;
             wrapper.destroy();
         });
 
@@ -247,7 +313,8 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                     propsData: {
                         descriptions
                     },
-                    localVue
+                    localVue,
+                    store
                 }),
                 chevronLeftButton = wrapper.findAll("button.description-icons").at(0);
 
@@ -261,12 +328,26 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                     propsData: {
                         descriptions
                     },
-                    localVue
+                    localVue,
+                    store
                 }),
                 chevronRightButton = wrapper.findAll("button.description-icons").at(1);
 
             await chevronRightButton.trigger("click");
             expect(wrapper.vm.currentDescriptionIndex).to.be.equal(1);
+            wrapper.destroy();
+        });
+
+        it("should remove the reference data", async () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                localVue,
+                store
+            });
+
+            await wrapper.setData({referenceTag: "2001"});
+            await wrapper.find(".reference-tag button").trigger("click");
+            expect(wrapper.vm.selectedReferenceData).to.deep.equal({});
+            expect(wrapper.vm.referenceTag).to.be.undefined;
             wrapper.destroy();
         });
     });

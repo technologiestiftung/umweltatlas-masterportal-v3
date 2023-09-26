@@ -22,6 +22,7 @@ import StaticLink from "./staticlink/model";
 import Dropdown from "bootstrap/js/dist/dropdown";
 import Collapse from "bootstrap/js/dist/collapse";
 import uiStyle from "../../../src/utils/uiStyle";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 
 /**
  * WfsFeatureFilter
@@ -872,6 +873,11 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
                     // if more than one WMS-Time-Layer is set to be visible - only show the last one
                     this.checkTimeLayerHandling(lightModel);
                 }
+                else {
+                    const source = rawLayerList.getLayerWhere({id: paramLayer.id});
+
+                    Radio.trigger("Parser", "addGdiLayer", {id: paramLayer.id, source: source, name: source.name});
+                }
             });
             this.addModelsByAttributes({typ: "Oblique"});
         }
@@ -1022,7 +1028,7 @@ const ModelList = Backbone.Collection.extend(/** @lends ModelList.prototype */{
         if (!isMobile && !isTable) {
             dropdown = Dropdown.getInstance("#root li:first-child > .dropdown-toggle");
             // open the layerTree
-            dropdown.show();
+            dropdown?.show();
         }
         this.closeAllExpandedFolder();
 

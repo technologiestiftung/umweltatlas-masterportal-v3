@@ -11,6 +11,21 @@ config.mocks.$t = key => key;
 
 describe("src/share-components/table/components/TableComponent.vue", () => {
     describe("DOM", () => {
+        it("should render the title if present", () => {
+            const wrapper = shallowMount(TableComponent, {
+                propsData: {
+                    data: {
+                        headers: ["foo"],
+                        items: [["bar"]]
+                    },
+                    title: "Titel"
+                },
+                localVue
+            });
+
+            expect(wrapper.find("h5").text()).to.be.equal("Titel");
+        });
+
         it("should render the table with one row", () => {
             const wrapper = shallowMount(TableComponent, {
                 propsData: {
@@ -22,7 +37,7 @@ describe("src/share-components/table/components/TableComponent.vue", () => {
                 localVue
             });
 
-            expect(wrapper.findAll("tr").length).to.be.equal(1);
+            expect(wrapper.findAll("th").length).to.be.equal(1);
         });
         it("should render the table with multiple columns and rows", () => {
             const wrapper = shallowMount(TableComponent, {
@@ -40,7 +55,7 @@ describe("src/share-components/table/components/TableComponent.vue", () => {
                 localVue
             });
 
-            expect(wrapper.findAll("tr").length).to.be.equal(4);
+            expect(wrapper.findAll("tr").length).to.be.equal(5);
             expect(wrapper.findAll("th").length).to.be.equal(3);
         });
 
@@ -99,11 +114,65 @@ describe("src/share-components/table/components/TableComponent.vue", () => {
                 }),
                 tds = wrapper.findAll("td"),
                 td1 = tds.at(1),
-                tr = wrapper.findAll("tr").at(0);
+                tr = wrapper.findAll("tr").at(1);
 
             td1.trigger("click");
             await wrapper.vm.$nextTick();
             expect(tr.classes().includes("selected")).to.be.true;
+        });
+        it("should render the table without fixed data", () => {
+            const wrapper = shallowMount(TableComponent, {
+                propsData: {
+                    data: {
+                        headers: ["foo", "bar", "buz"],
+                        items: [
+                            ["foo", "bar", "buz"]
+                        ]
+                    }
+                },
+                localVue
+            });
+
+            expect(wrapper.findAll(".fixed").length).to.be.equal(0);
+        });
+        it("should render the table without fixed data with the wrong format fixed data ", () => {
+            const wrapper = shallowMount(TableComponent, {
+                propsData: {
+                    data: {
+                        headers: ["foo", "bar", "buz"],
+                        items: [
+                            ["foo", "bar", "buz"]
+                        ]
+                    },
+                    fixedData: {
+                        items: null
+                    }
+                },
+                localVue
+            });
+
+            expect(wrapper.findAll(".fixed").length).to.be.equal(0);
+        });
+        it("should render the table with fixed data", () => {
+            const wrapper = shallowMount(TableComponent, {
+                propsData: {
+                    data: {
+                        headers: ["foo", "bar", "buz"],
+                        items: [
+                            ["foo", "bar", "buz"]
+                        ]
+                    },
+                    fixedData: {
+                        items: [
+                            ["foo", "bar", "buz"],
+                            ["foo", "bar", "buz"]
+                        ]
+                    }
+                },
+                localVue
+            });
+
+            expect(wrapper.findAll(".fixed").length).to.be.equal(2);
         });
     });
     describe("methods", () => {

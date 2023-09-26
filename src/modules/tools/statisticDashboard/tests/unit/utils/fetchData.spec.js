@@ -95,9 +95,9 @@ describe("/src/modules/tools/statisticDashboard/utils/fetchData.js", () => {
                         "buz": true
                     },
                     boo: {
-                        "2019": true,
-                        "2020": true,
-                        "2021": true
+                        "2019-12-12T00:00:00": true,
+                        "2020-12-12T00:00:00": true,
+                        "2021-12-12T00:00:00": true
                     }
                 };
 
@@ -142,7 +142,7 @@ describe("/src/modules/tools/statisticDashboard/utils/fetchData.js", () => {
             sinon.stub(fetchData, "getUniqueValuesFromFeatures").returns();
 
             await fetchData.getUniqueValues("1234", ["foo"]);
-            expect(fetchData.getUniqueValuesFromFeatures.calledWith([], attributesWithType, undefined, undefined)).to.be.true;
+            expect(fetchData.getUniqueValuesFromFeatures.calledWith([], attributesWithType)).to.be.true;
             sinon.restore();
         });
     });

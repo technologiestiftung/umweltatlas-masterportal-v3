@@ -1,5 +1,7 @@
 <script>
 import Multiselect from "vue-multiselect";
+import isObject from "../../../../utils/isObject";
+import {mapGetters, mapMutations} from "vuex";
 
 export default {
     name: "StatisticDashboardFilter",
@@ -7,211 +9,350 @@ export default {
         Multiselect
     },
     props: {
-        category: {
+        categories: {
             type: Array,
-            required: false,
-            default: () => []
+            required: true
+        },
+        areCategoriesGrouped: {
+            type: Boolean,
+            required: true
         },
         timeStepsFilter: {
-            type: Object,
-            required: false,
-            default: undefined
-        },
-        subCategory: {
             type: Array,
-            required: false,
-            default: () => []
+            required: true
         },
-        areas: {
-            type: Array,
+        statistics: {
+            type: [Object, Boolean],
             required: false,
-            default: () => []
+            default: false
+        },
+        regions: {
+            type: Array,
+            required: true
         }
     },
+    emits: ["changeCategory", "changeFilterSettings", "resetStatistics"],
     data () {
         return {
-            dropdownCategorySelected: "",
-            dropdownAreaSelected: [],
-            dropdownTimeSelected: [],
-            dropdownSubcategory: []
+            selectedCategory: undefined,
+            selectedRegions: [],
+            selectedDates: []
         };
     },
     computed: {
-        classObject: function () {
-            return {
-                active: this.isActive && !this.error,
-                "text-danger": this.error && this.error.type === "fatal"
-            };
+        /**
+         * Gets the name of the selected category.
+         * @returns {String} The name.
+         */
+        selectedCategoryName () {
+            return typeof this.selectedCategory?.name !== "undefined" ? this.selectedCategory.name : "";
+        },
+
+        /**
+         * Checks if statistics are selected.
+         * @returns {Boolean} True if at least on is selected, otherwise false.
+         */
+        areStatisticsSelected () {
+            return isObject(this.selectedStatistics) && Object.keys(this.selectedStatistics).length !== 0;
+        },
+
+        ...mapGetters("Tools/StatisticDashboard", ["selectedStatistics"])
+    },
+    watch: {
+        /**
+         * Resets the statistics and emits the name of the selected category.
+         * @param {Object} value - The selected category.
+         * @returns {void}
+         */
+        selectedCategory (value) {
+            this.resetStatistics();
+            this.$emit("changeCategory", value?.name);
+        },
+
+        selectedStatistics (value) {
+            this.emitFilterSettings(value, this.getSelectedRegions(this.selectedRegions), this.collectDatesValues(this.selectedDates));
+        },
+        selectedDates (value) {
+            this.emitFilterSettings(this.selectedStatistics, this.getSelectedRegions(this.selectedRegions), this.collectDatesValues(value));
+        },
+        selectedRegions (value) {
+            this.emitFilterSettings(this.selectedStatistics, this.getSelectedRegions(value), this.collectDatesValues(this.selectedDates));
         }
     },
     methods: {
+        ...mapMutations("Tools/StatisticDashboard", ["setSelectedStatistics"]),
 
         /**
-         * Add or remove sub category.
-         * @param {String} name - The name of the subcategory.
-         * @returns {void}
+         * Checks if all filter settings are selected.
+         * @param {Object[]} statistics - The selected statistics.
+         * @param {String[]} regions - The names of the selected regions.
+         * @param {Object[]} dates - The selected dates.
+         * @return {Number} 1 if true otherwise 0.
          */
-        toggleSubCategory (name) {
-            if (!this.dropdownSubcategory.includes(name)) {
-                this.dropdownSubcategory.push(name);
+        allFilterSettingsSelected (statistics, regions, dates) {
+            return isObject(statistics) && Object.keys(statistics).length && regions.length && dates.length;
+        },
+
+        /**
+         * Emits the filter settings if all are selected.
+         * @param {Object[]} statistics - The selected statistics.
+         * @param {String[]} regions - The names of the selected regions.
+         * @param {Object[]} dates - The selected dates.
+         * @return {void}
+         */
+        emitFilterSettings (statistics, regions, dates) {
+            if (this.allFilterSettingsSelected(statistics, regions, dates)) {
+                this.$emit("changeFilterSettings", regions, dates);
             }
             else {
-                this.removeCategory(name);
+                this.$emit("resetStatistics");
             }
         },
 
         /**
-         * Remove existing subCategory
-         * @param {String} name the name of the subcategory
-         * @returns {Object[]} Array of selected subcategories
+         * Collects the dates values.
+         * @param {Object[]} dates - The selected dates.
+         * @return {String[]} The values of the selected dates.
          */
-        removeCategory (name) {
-            this.dropdownSubcategory = this.dropdownSubcategory.filter(badge => badge !== name);
-            return this.dropdownSubcategory;
+        collectDatesValues (dates) {
+            const datesValues = [];
+
+            dates.forEach(date => {
+                if (!isObject(date)) {
+                    return;
+                }
+                if (Array.isArray(date.value)) {
+                    datesValues.push(...date.value);
+                }
+                else {
+                    datesValues.push(date.value);
+                }
+            });
+            return datesValues;
         },
 
         /**
-         * Reset all sub categories
-         * @returns {Object[]} Array of selected subcategories
+         * Add or remove a statistic.
+         * @param {Object} statistic - The statistic to toggle.
+         * @param {Object[]} selectedStatistics - The selected statistics.
+         * @param {String} key - The key of the statistic to be toggled.
          * @returns {void}
          */
-        resetCategories () {
-            this.dropdownSubcategory = [];
-        }
+        toggleStatistic (statistic, selectedStatistics, key) {
+            const statisticToToogle = Object.prototype.hasOwnProperty.call(selectedStatistics, key);
 
+            if (!statisticToToogle) {
+                this.$set(selectedStatistics, key, statistic);
+            }
+            else {
+                this.removeStatistic(selectedStatistics, key);
+            }
+        },
+
+        /**
+         * Removes an existing statistic.
+         * @param {Object[]} selectedStatistics - The selected statistics.
+         * @param {String} key - The key of the statistic to be removed.
+         * @returns {void}
+         */
+        removeStatistic (selectedStatistics, key) {
+            if (Object.keys(this.selectedStatistics).length >= 2) {
+                this.$delete(selectedStatistics, key);
+            }
+            else {
+                this.resetStatistics();
+            }
+        },
+
+        /**
+         * Resets all statistics.
+         * @returns {void}
+         */
+        resetStatistics () {
+            this.setSelectedStatistics({});
+            this.$emit("resetStatistics");
+        },
+
+        /**
+         * Gets selected regions
+         * @param {String[]} regions The regions.
+         * @returns {Object[]} All regions
+         */
+        getSelectedRegions (regions) {
+            if (!Array.isArray(regions) || !Array.isArray(regions.map(region => region.value))) {
+                return [];
+            }
+
+            const allRegions = regions.map(region => region.value).find(region => Array.isArray(region));
+
+            return typeof allRegions !== "undefined" ? allRegions : regions.map(region => region.value);
+        }
     }
 };
 </script>
 
 <template>
-    <div>
-        <h5 class="heading-dashboard">
-            {{ dropdownCategorySelected }} - Dashboard
-        </h5>
-        <div class="filtercontainer text-left mt-4">
-            <div class="row mb-2">
-                <div class="col-md">
-                    <label
-                        class="col-form-label-sm"
-                        for="categoryfilter"
-                    >
-                        {{ $t("common:modules.tools.statisticDashboard.label.category") }}</label>
-                    <Multiselect
-                        id="categoryfilter"
-                        v-model="dropdownCategorySelected"
-                        :options="category"
-                        :searchable="false"
-                        :close-on-select="true"
-                        :show-labels="false"
-                        :allow-empty="false"
-                        :preselect-first="true"
-                    />
-                </div>
-                <div
-                    class="col-md"
+    <div
+        id="accordionFilter"
+        class="accordion"
+    >
+        <div class="accordion-item py-0">
+            <h5 class="heading-dashboard">
+                <button
+                    class="accordion-button my-0"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseFilter"
+                    aria-expanded="true"
+                    aria-controls="collapseFilter"
                 >
-                    <label
-                        class="col-form-label-sm"
-                        for="areafilter"
-                    >{{ $t("common:modules.tools.statisticDashboard.label.area") }}
-                    </label>
-                    <Multiselect
-                        id="areafilter"
-                        v-model="dropdownAreaSelected"
-                        :multiple="true"
-                        :options="areas"
-                        :searchable="false"
-                        :close-on-select="false"
-                        :clear-on-select="false"
-                        :show-labels="false"
-                        :allow-empty="false"
-                        :preselect-first="true"
-                    />
-                </div>
-                <div
-                    class="col-md"
-                >
-                    <label
-                        class="col-form-label-sm"
-                        for="timefilter"
-                    >
-                        {{ $t("common:modules.tools.statisticDashboard.label.year") }}</label>
-                    <Multiselect
-                        id="timefilter"
-                        v-model="dropdownTimeSelected"
-                        :multiple="true"
-                        :options="Object.values(timeStepsFilter)"
-                        :searchable="false"
-                        :close-on-select="false"
-                        :clear-on-select="false"
-                        :show-labels="false"
-                        :allow-empty="false"
-                        :preselect-first="true"
-                    />
-                </div>
-            </div>
-            <div class="row align-items-end gx-1">
-                <div class="col col-md-auto py-1">
-                    <label
-                        class="col-form-label-sm"
-                        for="dropdownButton"
-                    >
-                        {{ $t("common:modules.tools.statisticDashboard.label.statistics") }}</label>
-                    <div class="dropdown">
-                        <button
-                            class="btn btn-sm btn-primary rounded-pill lh-1 me-2"
-                            :v-model="dropdownSubcategory"
-                            type="button"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                        >
-                            <i class="bi bi-plus fs-6 pe-2" />{{ $t("common:modules.tools.statisticDashboard.button.add") }}
-                        </button>
-                        <ul
-                            class="dropdown-menu"
-                            aria="dropdownButton"
-                        >
-                            <li
-                                v-for="name in subCategory"
-                                :key="name"
-                                class="dropdown-line"
+                    {{ $t("common:modules.tools.statisticDashboard.button.filter") }} - {{ selectedCategoryName }}
+                </button>
+            </h5>
+        </div>
+        <div
+            id="collapseFilter"
+            class="accordion-collapse collapse show py-0"
+            aria-labelledby="headingFilter"
+            data-bs-parent="#accordionExample"
+        >
+            <div class="accordion-body py-0">
+                <div class="filtercontainer text-left mt-1">
+                    <div class="row mb-2">
+                        <div class="col-md">
+                            <label
+                                class="col-form-label-sm"
+                                for="categoryfilter"
                             >
-                                <button
-                                    type="button"
-                                    class="btn btn-link btn-sm px-2 py-2 dropdown-item"
-                                    :class="dropdownSubcategory.includes(name) ? 'selected' : ''"
-                                    @click="toggleSubCategory(name)"
-                                >
-                                    {{ name }}
-                                </button>
-                            </li>
-                        </ul>
+                                {{ $t("common:modules.tools.statisticDashboard.label.category") }}</label>
+                            <Multiselect
+                                id="categoryfilter"
+                                v-model="selectedCategory"
+                                :options="categories"
+                                :searchable="true"
+                                :close-on-select="true"
+                                :show-labels="false"
+                                :allow-empty="true"
+                                :multiple="false"
+                                :group-values="areCategoriesGrouped ? 'categories' : ''"
+                                :group-label="areCategoriesGrouped ? 'name' : ''"
+                                :group-select="false"
+                                :placeholder="$t('common:modules.tools.statisticDashboard.reference.placeholder')"
+                                track-by="name"
+                                label="name"
+                            />
+                        </div>
+                        <div
+                            class="col-md"
+                        >
+                            <label
+                                class="col-form-label-sm"
+                                for="areafilter"
+                            >{{ $t("common:modules.tools.statisticDashboard.label.area") }}
+                            </label>
+                            <Multiselect
+                                id="areafilter"
+                                v-model="selectedRegions"
+                                :multiple="true"
+                                :options="regions"
+                                :searchable="false"
+                                :close-on-select="false"
+                                :clear-on-select="false"
+                                :show-labels="false"
+                                :allow-empty="true"
+                                :placeholder="$t('common:modules.tools.statisticDashboard.reference.placeholder')"
+                                label="label"
+                                track-by="label"
+                            />
+                        </div>
+                        <div
+                            class="col-md"
+                        >
+                            <label
+                                class="col-form-label-sm"
+                                for="timefilter"
+                            >
+                                {{ $t("common:modules.tools.statisticDashboard.label.year") }}</label>
+                            <Multiselect
+                                id="timefilter"
+                                v-model="selectedDates"
+                                :multiple="true"
+                                :options="timeStepsFilter"
+                                :searchable="false"
+                                :close-on-select="false"
+                                :clear-on-select="false"
+                                :show-labels="false"
+                                :allow-empty="true"
+                                :placeholder="$t('common:modules.tools.statisticDashboard.reference.placeholder')"
+                                label="label"
+                                track-by="label"
+                            />
+                        </div>
                     </div>
-                </div>
-                <div class="col col-md-auto py-1">
-                    <button
-                        v-for="index in dropdownSubcategory"
-                        :key="index"
-                        class="btn btn-sm btn-outline-secondary lh-1 rounded-pill shadow-none mt-1 me-2 btn-pb"
-                        aria-label="Close"
-                        @click="removeCategory(index)"
-                    >
-                        {{ index }}
-                        <i class="bi bi-x fs-5 align-middle" />
-                    </button>
-                </div>
-                <div
-                    v-if="dropdownSubcategory.length !== 0"
-                    class="col col-md-auto py-1"
-                >
-                    <button
-                        id="reset-button"
-                        type="button"
-                        class="btn btn-link btn-sm p-0"
-                        @click="resetCategories()"
-                    >
-                        {{ $t("common:modules.tools.statisticDashboard.button.reset") }}
-                    </button>
+                    <div class="row align-items-end gx-1">
+                        <div class="col col-md-auto py-1">
+                            <label
+                                class="col-form-label-sm"
+                                for="dropdownButton"
+                            >
+                                {{ $t("common:modules.tools.statisticDashboard.label.statistics") }}</label>
+                            <div class="dropdown">
+                                <button
+                                    class="btn btn-sm btn-primary rounded-pill lh-1 me-2"
+                                    :v-model="selectedStatistics"
+                                    type="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                >
+                                    <i class="bi bi-plus fs-6 pe-2" />{{ $t("common:modules.tools.statisticDashboard.button.add") }}
+                                </button>
+                                <ul
+                                    class="dropdown-menu"
+                                    aria="dropdownButton"
+                                >
+                                    <li
+                                        v-for="(stat, key, index) in statistics"
+                                        :key="index"
+                                        class="dropdown-line"
+                                    >
+                                        <button
+                                            type="button"
+                                            class="btn btn-link btn-sm px-2 py-2 dropdown-item"
+                                            :class="Object.prototype.hasOwnProperty.call(selectedStatistics, key) ? 'selected' : ''"
+                                            @click="toggleStatistic(stat, selectedStatistics, key)"
+                                        >
+                                            {{ stat.name }}
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col col-md-auto py-1">
+                            <button
+                                v-for="(stat, key, index) in selectedStatistics"
+                                :key="index"
+                                class="btn btn-sm btn-outline-secondary lh-1 rounded-pill shadow-none mt-1 me-2 btn-pb"
+                                aria-label="Close"
+                                @click="removeStatistic(selectedStatistics, key)"
+                            >
+                                {{ stat.name }}
+                                <i class="bi bi-x fs-5 align-middle" />
+                            </button>
+                        </div>
+                        <div
+                            v-if="areStatisticsSelected"
+                            class="col col-md-auto py-1"
+                        >
+                            <button
+                                id="reset-button"
+                                type="button"
+                                class="btn btn-link btn-sm p-0"
+                                @click="resetStatistics()"
+                            >
+                                {{ $t("common:modules.tools.statisticDashboard.button.reset") }}
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -221,18 +362,22 @@ export default {
 <style lang="scss" scoped>
     @import "~variables";
 
-    .heading-dashboard {
-        font-family: "MasterPortalFont Bold";
-        color: $light_blue;
+    .dropdown-menu > li {
+        > .dropdown-item {
+            &:hover {
+                background: $light_grey;
+                color: $black;
+            }
+            &:focus, &:active {
+                background-color: $light_blue;
+                color: $white;
+            }
+        }
     }
 
-     .dropdown-menu > li > .dropdown-item:focus, .dropdown-menu > li > .dropdown-item:active, .selected {
+    .selected {
         background-color: $light_blue;
         color: $white;
-    }
-    .dropdown-menu > li > .dropdown-item:hover {
-        background: $light_grey;
-        color: $black;
     }
 
     .btn-outline-secondary, label {
@@ -246,43 +391,70 @@ export default {
     .btn-primary, .btn-primary:enabled, .btn-primary:focus {
         background-color: $light_blue;
     }
+    .accordion {
+        --bs-border-color: $white;
+        .accordion-item{
+            border: none;
+            height: 4.0em;
+        }
+        .accordion-button {
+            font-family: "MasterPortalFont Bold";
+            color: $light_blue;
+            font-size: 16px;
+            width: auto;
+            margin-bottom: 0px;
+            --bs-accordion-btn-icon-width: 1em;
+                &:not(.collapsed) {
+                    background-color: $white;
+                }
+                &::after {
+                    margin-left: 10px;
+                }
+                &::before {
+                    margin-left: 0;
+                }
+                &:focus {
+                    box-shadow: none;
+                }
+        }
+    }
 </style>
 
 <style lang="scss">
 @import "~variables";
 
-.filtercontainer .multiselect, .filtercontainer .multiselect__input, .filtercontainer .multiselect__single {
+.static-dashboard .multiselect, .filtercontainer .multiselect__input, .filtercontainer .multiselect__single {
     font-family: inherit;
     font-size: 11px;
 }
-.filtercontainer .multiselect__tags, .filtercontainer .multiselect__tag {
+.static-dashboard .multiselect__tags, .filtercontainer .multiselect__tag {
   font-size: 11px;
 }
 
-.filtercontainer .multiselect__tag {
+.static-dashboard .multiselect__tag {
     border-radius: 25px;
     padding-top: 5px;
 }
 
-.filtercontainer .multiselect__option--selected.multiselect__option--highlight,
-.filtercontainer .multiselect__option--selected.multiselect__option--highlight:after,
-.filtercontainer .multiselect__option:after,
-.filtercontainer .multiselect__option--selected,
-.filtercontainer .multiselect__option--selected:after,
-.filtercontainer .multiselect__tag
+.static-dashboard .multiselect__option--selected.multiselect__option--highlight,
+.static-dashboard .multiselect__option--selected.multiselect__option--highlight:after,
+.static-dashboard .multiselect__option:after,
+.static-dashboard .multiselect__option--selected,
+.static-dashboard .multiselect__option--selected:after,
+.static-dashboard .multiselect__tag
  {
   background: $light_blue;
   color: $white;
   font-weight: normal;
 }
 
-.filtercontainer .multiselect__option--highlight,
-.filtercontainer .multiselect__option--highlight:after {
+.static-dashboard .multiselect__option--highlight,
+.static-dashboard .multiselect__option--highlight:after {
     background: $light_grey;
     color: $black;
 }
 
-.filtercontainer .multiselect__select {
+.static-dashboard .multiselect__select {
     height: 30px;
 }
 </style>

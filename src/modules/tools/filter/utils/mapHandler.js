@@ -449,7 +449,6 @@ export default class MapHandler {
             return;
         }
 
-        wfsLayerModel.set("isNeverVisibleInTree", !active);
         wfsLayerModel.set("isSelected", active);
         Radio.trigger("ModelList", "closeAllExpandedFolder");
     }

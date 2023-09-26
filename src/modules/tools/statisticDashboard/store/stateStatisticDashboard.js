@@ -9,6 +9,7 @@
  * @property {Boolean} resizableWindow If true, window is resizable. (config-param)
  * @property {Boolean} isVisibleInMenu If true, tool is selectable in menu. (config-param)
  * @property {Boolean} deactivateGFI Flag determining if the tool should deactivate GFI. (config-param)
+ * @property {Object} selectedReferenceData the selected reference data
  */
 const state = {
     active: false,
@@ -19,7 +20,9 @@ const state = {
     resizableWindow: true,
     isVisibleInMenu: true,
     deactivateGFI: true,
-    data: {}
+    data: {},
+    selectedReferenceData: {},
+    selectedStatistics: {}
 };
 
 export default state;

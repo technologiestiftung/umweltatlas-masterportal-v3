@@ -505,23 +505,33 @@
                 }
             },
             "statisticDashboard": {
-              "headings": {
-                "mrhstatistics": "MRH Statistiken"
-              },
+                "headings": {
+                    "mrhstatistics": "MRH Statistiken"
+                },
                 "button": {
-                  "difference": "Differenz",
-                  "table": "Tabelle",
-                  "chart": "Diagramm",
-                  "add": "Hinzufügen",
-                  "reset": "zurücksetzen"
+                    "difference": "Differenz",
+                    "table": "Tabelle",
+                    "chart": "Diagramm",
+                    "add": "Hinzufügen",
+                    "reset": "zurücksetzen",
+                    "filter": "Filter"
                 },
                 "label": {
-                  "category": "Kategorie",
-                  "area": "Gebiet",
-                  "year": "Jahr",
-                  "statistics": "Statistiken",
-                  "communities": "Gemeinden",
-                  "districts": "Kreise"
+                    "category": "Kategorie",
+                    "area": "Gebiet",
+                    "year": "Jahr",
+                    "statistics": "Statistiken",
+                    "communities": "Gemeinden",
+                    "districts": "Kreise"
+                },
+                "filterInputs": {
+                    "additional": "Sonstiges"
+                },
+                "reference": {
+                    "title": "Referenzart",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod,",
+                    "placeholder": "Bitte wählen Sie eine Option aus!",
+                    "tagLabel": "Referenz"
                 }
             },
             "pendler": {
