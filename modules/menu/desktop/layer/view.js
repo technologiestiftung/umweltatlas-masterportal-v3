@@ -123,6 +123,7 @@ const LayerView = LayerBaseView.extend(
 
             this.$el.html("");
             if (this.model.get("isVisibleInTree")) {
+                // Wait for update of vuex state
                 setTimeout(() => {
                     this.renderDimensionSetting();
                 }, 500);
