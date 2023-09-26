@@ -103,7 +103,7 @@ const LayerView = LayerBaseView.extend(
                 unhighlightLayerInformationIcon:
                     this.unhighlightLayerInformationIcon
             });
-            // translates the i18n-props into current user-language. is done this way, because model's listener to languageChange reacts too late (after render, which ist riggered by creating new Menu)
+            // Translates the i18n-props into current user-language. is done this way, because model's listener to languageChange reacts too late (after render, which ist riggered by creating new Menu)
             this.model.changeLang();
             this.render();
             this.toggleColor(this.model, this.model.get("isOutOfRange"));
@@ -204,7 +204,7 @@ const LayerView = LayerBaseView.extend(
         },
 
         /**
-         * renders the setting for 2D and 3D layers
+         * Renders the setting for 2D and 3D layers
          * @return {void}
          */
         renderDimensionSetting: function () {
@@ -220,7 +220,7 @@ const LayerView = LayerBaseView.extend(
 
 
         /**
-         * checks the dimension settings for the layer
+         * Checks the dimension settings for the layer
          * @returns {boolean} if layer have the right dimension for the right mode (2D or 3D)
          */
         layerHasRightDimension: function () {
@@ -233,7 +233,7 @@ const LayerView = LayerBaseView.extend(
         },
 
         /**
-         * remove layer if it is not visible
+         * Remove layer if it is not visible
          * @returns {void}
          */
         removeIfNotVisible: function () {
@@ -243,7 +243,7 @@ const LayerView = LayerBaseView.extend(
         },
 
         /**
-         * filteres all layers specified in the config for the one with the attribute "visibility=true"
+         * Filteres all layers specified in the config for the one with the attribute "visibility=true"
          * @returns {Array} of layers
          */
         getDefaultVisibleLayer: function () {
@@ -271,7 +271,7 @@ const LayerView = LayerBaseView.extend(
             return visibleLayers;
         },
         /**
-         * sets the default visible layers (as defined in the config) depending on their support of the mode (2D, 3D)
+         * Sets the default visible layers (as defined in the config) depending on their support of the mode (2D, 3D)
          * @param {*} mode
          */
 
