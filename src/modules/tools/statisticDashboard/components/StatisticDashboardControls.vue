@@ -170,6 +170,14 @@ export default {
                 </button>
             </div>
         </div>
+        <div
+            v-else
+            class="flex-grow-1 pb-1 descriptions-placeholder"
+        >
+            <div
+                class="gap-1 empty"
+            />
+        </div>
         <!-- Controls -->
         <div class="btn-toolbar">
             <StatisticSwitcher
@@ -229,6 +237,12 @@ export default {
         }
         .description-icons:hover {
             opacity: 1;
+        }
+    }
+    .descriptions-placeholder {
+         margin-top: 10px;
+        .empty {
+            width: 350px;
         }
     }
 }

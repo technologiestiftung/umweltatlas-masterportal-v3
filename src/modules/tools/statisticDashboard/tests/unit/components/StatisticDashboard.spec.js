@@ -482,5 +482,46 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                 sinon.restore();
             });
         });
+        describe("hasDescription", () => {
+            it("should return true if a description is present", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    statistics = {statistik: {name: "Statistik1", description: "StatistikTest1"}};
+
+                expect(wrapper.vm.hasDescription(statistics)).to.be.true;
+            });
+            it("should return false if no description is present", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    statistics = {statistik: {name: "Statistik1"}};
+
+                expect(wrapper.vm.hasDescription(statistics)).to.be.false;
+            });
+            it("should return true if at least one description is present", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    statistics = {statistik: {name: "Statistik1"}, statitsik2: {name: "Statistik2", description: "StatistikTest2"}};
+
+                expect(wrapper.vm.hasDescription(statistics)).to.be.true;
+            });
+        });
+        describe("setDescriptionsOfSelectedStatistics", () => {
+            it("should return a description with title and content", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    statistics = {statistik: {name: "Statistik1", description: "StatistikTest1"}},
+                    expected = [{content: "StatistikTest1", title: "Statistik1"}];
+
+                expect(wrapper.vm.setDescriptionsOfSelectedStatistics(statistics)).to.deep.equal(expected);
+            });
+        });
     });
 });

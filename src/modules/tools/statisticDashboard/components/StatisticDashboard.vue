@@ -62,18 +62,6 @@ export default {
             showTable: true,
             showChart: false,
             showGrid: false,
-            controlDescription: [{
-                title: "Trappatoni 1",
-                content: "Es gibt im Moment in diese Mannschaft, oh, einige Spieler vergessen ihnen Profi was sie sind."
-            },
-            {
-                title: "Trappatoni 2 ",
-                content: "Ich lese nicht sehr viele Zeitungen, aber ich habe gehört viele Situationen."
-            },
-            {
-                title: "Trappatoni 3 ",
-                content: "Letzte Spiel hatten wir in Platz drei Spitzen: Elber, Jancka und dann Zickler."
-            }],
             buttonGroupRegions: [{
                 name: "Gemeinden"
             },
@@ -93,7 +81,18 @@ export default {
          */
         selectedStatisticsNames () {
             return Object.values(this.selectedStatistics).map(statistic => statistic?.name);
+        },
+        /**
+         * Gets the Descriptions of the selected statistics.
+         * @returns {Object[]} The Descriptions.
+         */
+        controlDescription () {
+            if (!this.hasDescription(this.selectedStatistics)) {
+                return [];
+            }
+            return this.setDescriptionsOfSelectedStatistics(this.selectedStatistics);
         }
+
     },
     created () {
         this.$on("close", this.close);
@@ -505,6 +504,34 @@ export default {
             });
             this.currentChart = {};
             this.showGrid = false;
+        },
+        /**
+         * Checks if at least one description is present in the statistics.
+         * @param {Object} statistics - The selected statistics.
+         * @returns {Boolean} true if a description is present.
+         */
+        hasDescription (statistics) {
+            let isDescriptionAvailable = false;
+
+            Object.values(statistics).forEach(stat => {
+                if (Object.prototype.hasOwnProperty.call(stat, "description")) {
+                    isDescriptionAvailable = true;
+                }
+            });
+            return isDescriptionAvailable;
+        },
+        /**
+         * Sets the title and the content of the descriptions of the selected statistics.
+         * @param {Object} statistics - The selected statistics.
+         * @returns {Object[]} The descriptions.
+         */
+        setDescriptionsOfSelectedStatistics (statistics) {
+            const descriptions = [];
+
+            Object.values(statistics).map(statistic => {
+                return descriptions.push({"title": statistic?.name, "content": statistic?.description !== undefined ? statistic?.description : "Diese Satistik enthält keine Beschreibung."});
+            });
+            return descriptions;
         }
     }
 };
