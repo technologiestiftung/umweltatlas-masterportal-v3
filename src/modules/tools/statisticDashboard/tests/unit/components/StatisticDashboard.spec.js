@@ -136,7 +136,7 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                         store
                     }),
                     uniqueList = {foo: true, bar: true},
-                    expected = [{value: "foo", label: "Invalid Date"}, {value: "bar", label: "Invalid Date"}];
+                    expected = [{value: "bar", label: "Invalid Date"}, {value: "foo", label: "Invalid Date"}];
 
                 expect(wrapper.vm.getTimestepsMerged(undefined, uniqueList)).to.deep.equal(expected);
             });
@@ -147,7 +147,7 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                     }),
                     uniqueList = {bar: true, buz: true, foo: true},
                     configSteps = {2: "Last 2 Years"},
-                    expected = [{value: "bar", label: "Invalid Date"}, {value: "buz", label: "Invalid Date"}, {value: "foo", label: "Invalid Date"}, {value: ["buz", "foo"], label: "Last 2 Years"}];
+                    expected = [{value: "foo", label: "Invalid Date"}, {value: "buz", label: "Invalid Date"}, {value: "bar", label: "Invalid Date"}, {value: ["buz", "foo"], label: "Last 2 Years"}];
 
                 expect(wrapper.vm.getTimestepsMerged(configSteps, uniqueList)).to.deep.equal(expected);
             });

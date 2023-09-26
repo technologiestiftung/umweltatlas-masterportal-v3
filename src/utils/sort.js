@@ -38,7 +38,7 @@ export function sortArray (input) {
  * @returns {Number} Sorting index.
  */
 export function sortAlphaNum (a, b) {
-    const regExAlpha = /[^a-zA-Z]/g,
+    const regExAlpha = /[^A-Z]/g,
         regExNum = /[^0-9]/g,
         aAlpha = String(a).replace(regExAlpha, ""),
         bAlpha = String(b).replace(regExAlpha, "");
@@ -165,11 +165,11 @@ export function isValidAddressString (string, separator, lastOccurrenceChar) {
 }
 
 /**
-* Sorting function for numalpha sorting. First sorts numerically, then alphabetically.
-* @param {*} a First comparator.
-* @param {*} b Second comparator.
-* @returns {Number} Sorting index.
-*/
+ * Sorting function for numalpha sorting. First sorts numerically, then alphabetically.
+ * @param {*} a First comparator.
+ * @param {*} b Second comparator.
+ * @returns {Number} Sorting index.
+ */
 export function sortNumAlpha (a, b) {
     const regExAlpha = /[^a-zA-Z]/g,
         regExNum = /[^0-9]/g,
@@ -216,8 +216,8 @@ export function sortObjectsNonAddress (first, second, input = []) {
  * @returns {number} Sort sequence in numbers
  */
 export function compareInputs (elementA, elementB, value) {
-    const firstElement = isNaN(parseInt(elementA[value], 10)) ? elementA[value] : parseInt(elementA[value], 10),
-        secondElement = isNaN(parseInt(elementB[value], 10)) ? elementB[value] : parseInt(elementB[value], 10);
+    const firstElement = convertInputs(elementA[value]),
+        secondElement = convertInputs(elementB[value]);
 
     if (firstElement < secondElement) {
         return -1;
@@ -227,4 +227,22 @@ export function compareInputs (elementA, elementB, value) {
     }
 
     return 0;
+}
+
+/**
+ * Converts the value to expected value.
+ * @param {Number|String} value - The value to be converted.
+ * @returns {Number|String} the expected value.
+ */
+export function convertInputs (value) {
+    let result = value;
+
+    if (!isNaN(parseInt(result, 10))) {
+        result = parseInt(result, 10);
+    }
+    else if (typeof result === "string") {
+        result = result.toUpperCase();
+    }
+
+    return result;
 }

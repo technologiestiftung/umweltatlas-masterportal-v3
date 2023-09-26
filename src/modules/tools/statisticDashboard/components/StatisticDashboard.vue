@@ -22,6 +22,7 @@ import {
 } from "ol/format/filter";
 import dayjs from "dayjs";
 import WFS from "ol/format/WFS";
+import {sort} from "../../../../utils/sort";
 
 export default {
     name: "StatisticDashboard",
@@ -104,13 +105,13 @@ export default {
             selectedLevelDateAttribute = this.getSelectedLevelDateAttribute(this.selectedLevel);
 
         if (uniqueValues[selectedLevelRegionNameAttribute.attrName] && uniqueValues[selectedLevelDateAttribute.attrName]) {
-            this.regions = Object.keys(uniqueValues[selectedLevelRegionNameAttribute.attrName]);
+            this.regions = sort("", Object.keys(uniqueValues[selectedLevelRegionNameAttribute.attrName]), "value");
             this.allRegions = this.getAllRegions(this.regions);
             this.dates = Object.keys(uniqueValues[selectedLevelDateAttribute.attrName]);
             this.timeStepsFilter = this.getTimestepsMerged(this.selectedLevel?.timeStepsFilter, uniqueValues[selectedLevelDateAttribute.attrName], selectedLevelDateAttribute.inputFormat, selectedLevelDateAttribute.outputFormat);
         }
         this.areCategoriesGrouped = StatisticsHandler.hasOneGroup(this.getSelectedLevelStatisticsAttributes(this.selectedLevel));
-        this.categories = StatisticsHandler.getCategoriesFromStatisticAttributes(this.getSelectedLevelStatisticsAttributes(this.selectedLevel), this.areCategoriesGrouped);
+        this.categories = sort("", StatisticsHandler.getCategoriesFromStatisticAttributes(this.getSelectedLevelStatisticsAttributes(this.selectedLevel), this.areCategoriesGrouped), "name");
         this.loadedFilterData = true;
         this.loadedReferenceData = true;
         this.referenceData = {
@@ -166,14 +167,16 @@ export default {
          * @returns {Object[]} The merged time steps.
          */
         getTimestepsMerged (timeSteps, uniqueList, inputFormat, outputFormat) {
-            const result = [];
-            let uniqueListAsArray = [];
+            let result = [],
+                uniqueListAsArray = [];
 
             if (isObject(uniqueList)) {
                 uniqueListAsArray = Object.keys(uniqueList);
                 uniqueListAsArray.forEach(uniqueTime => {
                     result.push({value: uniqueTime, label: dayjs(uniqueTime, inputFormat).format(outputFormat)});
                 });
+
+                result = sort("", result, "label").reverse();
             }
             if (isObject(timeSteps)) {
                 Object.entries(timeSteps).forEach(([key, value]) => {
@@ -228,7 +231,7 @@ export default {
 
         /**
          * Handles the filter settings and starts a POST request based on given settings.
-          * @param {String[]} regions The regions.
+         * @param {String[]} regions The regions.
          * @param {String[]} dates The dates.
          * @returns {void}
          */
