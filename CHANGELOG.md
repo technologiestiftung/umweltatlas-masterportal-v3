@@ -12,7 +12,7 @@
 - The following NPM packages have been updated:
   - dependencies:
     - @masterportal/masterportalapi: 2.27.0 to 2.28.0 (This also raised ol to version 7.5.2)
-
+- GFI: the gfi in 3D is not sorted reversed
 ### Deprecated
 
 ### Removed
