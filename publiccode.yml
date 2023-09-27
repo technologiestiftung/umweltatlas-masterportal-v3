@@ -73,7 +73,7 @@ logo: |-
 maintenance:
   contacts:
     - name: Markus Besenfelder
-    - affiliation:  Freie und Hansestadt Hamburg, Landesbetrieb Geoinformation und Vermessung
+      affiliation:  Freie und Hansestadt Hamburg, Landesbetrieb Geoinformation und Vermessung
   contractors:
     - name: Landesbetrieb Geoinformation und Vermessung
       until: '2025-12-01'
