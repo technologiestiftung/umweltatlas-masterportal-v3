@@ -25,12 +25,12 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
         }),
         propsData = {
             referenceData: {
-                "year": [
+                "date": [
                     {label: "2000", value: "2000"},
                     {label: "2001", value: "2001"},
                     {label: "2002", value: "2002"}
                 ],
-                "area": [
+                "region": [
                     {label: "Wandsbek", value: "Wandsbek"},
                     {label: "Hamburg", value: "Hamburg"},
                     {label: "Deutschland", value: "Deutschland"}
@@ -39,17 +39,6 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
         };
 
     describe("Component DOM", () => {
-        it("The close button should exist", () => {
-            const wrapper = shallowMount(StatisticDashboardDifference, {
-                propsData: propsData,
-                localVue,
-                store
-            });
-
-            expect(wrapper.find(".bootstrap-icon").exists()).to.be.true;
-            wrapper.destroy();
-        });
-
         it("The title should exist", () => {
             const wrapper = shallowMount(StatisticDashboardDifference, {
                 propsData: propsData,
@@ -107,20 +96,20 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
             wrapper.destroy();
         });
 
-        it("should set referenceType to year", () => {
+        it("should set referenceType to date", () => {
             const wrapper = shallowMount(StatisticDashboardDifference, {
                 propsData: propsData,
                 localVue,
                 store
             });
 
-            expect(wrapper.vm.referenceType).to.equal("year");
+            expect(wrapper.vm.referenceType).to.equal("date");
             wrapper.destroy();
         });
     });
 
     describe("Methods", () => {
-        it("should set reference type with area", async () => {
+        it("should set reference type with region", async () => {
             const wrapper = shallowMount(StatisticDashboardDifference, {
                 propsData: propsData,
                 localVue,
@@ -135,7 +124,7 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                 {label: "Deutschland", value: "Deutschland"}
             ]);
             expect(wrapper.vm.selectedReferenceData).to.deep.equal({
-                "type": "area",
+                "type": "region",
                 "value": []
             });
             wrapper.destroy();

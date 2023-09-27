@@ -115,8 +115,8 @@ export default {
         this.loadedFilterData = true;
         this.loadedReferenceData = true;
         this.referenceData = {
-            "year": this.getTimestepsMerged(undefined, uniqueValues[selectedLevelDateAttribute.attrName], selectedLevelDateAttribute.inputFormat, selectedLevelDateAttribute.outputFormat),
-            "area": this.regions
+            "date": this.getTimestepsMerged(undefined, uniqueValues[selectedLevelDateAttribute.attrName], selectedLevelDateAttribute.inputFormat, selectedLevelDateAttribute.outputFormat),
+            "region": this.regions
         };
     },
     methods: {

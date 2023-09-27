@@ -41,12 +41,15 @@ export default {
                     "type": this.referenceType,
                     "value": value
                 });
+                if (!Array.isArray(value)) {
+                    this.$emit("showDifference", false);
+                }
             }
         },
 
         referenceType: {
             get () {
-                return this.selectedReferenceData?.type ? this.selectedReferenceData.type : "year";
+                return this.selectedReferenceData?.type ? this.selectedReferenceData.type : "date";
             },
             set (value) {
                 this.selectedValue = [];
@@ -69,9 +72,11 @@ export default {
         }
     },
     created () {
+        document.addEventListener("click", this.handleClickOutside);
         this.optionData = this.referenceData[this.referenceType];
     },
     beforeDestroy () {
+        document.removeEventListener("click", this.handleClickOutside);
         if (Array.isArray(this.selectedReferenceData?.value) && !this.selectedReferenceData.value.length) {
             this.setSelectedReferenceData(this.savedReferenceData);
         }
@@ -85,7 +90,19 @@ export default {
         * @returns {void}
         */
         handleReference (value) {
-            this.referenceType = value === "Jahr" ? "year" : "area";
+            this.referenceType = value === "Jahr" ? "date" : "region";
+        },
+
+        /**
+         * Close this component when click outside.
+         * @param {Event} evt - Click event.
+         * @returns {void}
+         */
+        handleClickOutside (evt) {
+            if (evt.target.closest(".difference-button")) {
+                return;
+            }
+            this.$emit("showDifference", false);
         }
     }
 };
@@ -94,16 +111,6 @@ export default {
 <template>
     <div class="col-md-4">
         <div class="row">
-            <span
-                ref="close-icon"
-                class="bootstrap-icon"
-                role="button"
-                tabindex="0"
-                @click="$emit('showDifference', false)"
-                @keydown="$emit('showDifference', false)"
-            >
-                <i class="bi-x-lg" />
-            </span>
             <div class="col-md-12">
                 <h4>{{ $t("common:modules.tools.statisticDashboard.reference.title") }}</h4>
             </div>
@@ -132,8 +139,8 @@ export default {
                     :allow-empty="true"
                     :preselect-first="false"
                     :placeholder="$t('common:modules.tools.statisticDashboard.reference.placeholder')"
-                    :label="referenceType==='year'? 'label': ''"
-                    :track-by="referenceType==='year'? 'label': ''"
+                    :label="referenceType==='date'? 'label': ''"
+                    :track-by="referenceType==='date'? 'label': ''"
                 />
             </div>
         </div>
