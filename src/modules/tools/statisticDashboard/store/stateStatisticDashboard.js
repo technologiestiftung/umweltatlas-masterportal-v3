@@ -23,7 +23,7 @@ const state = {
     isVisibleInMenu: true,
     deactivateGFI: true,
     colorScheme: [],
-    data: {},
+    data: [],
     selectedReferenceData: {},
     selectedRegions: [],
     selectedDates: [],

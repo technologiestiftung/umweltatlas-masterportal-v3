@@ -64,12 +64,6 @@ export default {
             showTable: true,
             showChart: false,
             showGrid: false,
-            buttonGroupRegions: [{
-                name: "Gemeinden"
-            },
-            {
-                name: "Kreise"
-            }],
             referenceData: undefined
         };
     },
@@ -93,8 +87,20 @@ export default {
                 return [];
             }
             return this.setDescriptionsOfSelectedStatistics(this.selectedStatistics);
-        }
+        },
+        /**
+         * Gets the buttons with group regions
+         * @returns {Object[]} The button group regions
+         */
+        buttonGroupRegions () {
+            if (!Array.isArray(this.data) || !this.data.length) {
+                return [];
+            }
 
+            return this.data.map(value => {
+                return {name: value?.levelName};
+            });
+        }
     },
     watch: {
         selectedReferenceData () {
@@ -672,10 +678,14 @@ export default {
                         </span>
                     </div>
                 </div>
-                <div class="col-md-auto">
+                <div
+                    v-if="buttonGroupRegions.length > 1"
+                    class="col-md-auto"
+                >
                     <StatisticSwitcher
                         :buttons="buttonGroupRegions"
                         group="regions"
+                        class="level-switch"
                     />
                 </div>
             </div>

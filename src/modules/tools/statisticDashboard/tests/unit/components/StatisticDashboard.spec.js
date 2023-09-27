@@ -57,6 +57,38 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
             })
         ];
 
+    describe("Component DOM", () => {
+        it("Level name as switch button should not exist", () => {
+            const wrapper = shallowMount(StatisticDashboard, {
+                localVue,
+                store
+            });
+
+            expect(wrapper.find(".level-switch").exists()).to.be.false;
+            wrapper.destroy();
+        });
+
+        it("Level name as switch button should exist", () => {
+            const wrapper = shallowMount(StatisticDashboard, {
+                computed: {
+                    buttonGroupRegions: () => [
+                        {
+                            "levelName": "test1"
+                        },
+                        {
+                            "levelName": "test2"
+                        }
+                    ]
+                },
+                localVue,
+                store
+            });
+
+            expect(wrapper.find(".level-switch").exists()).to.be.true;
+            wrapper.destroy();
+        });
+    });
+
     describe("watchers", () => {
         it("should call 'checkFilterSettings' if selectedReferenceData is changed", async () => {
             const wrapper = shallowMount(StatisticDashboard, {
