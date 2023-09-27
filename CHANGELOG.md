@@ -17,6 +17,7 @@
 ### Fixed
 - Custom treetype can now load gdi layer via parametriUrl
 - Issue #889: Layer is not shown in the tree anymore
+- Issue #1075: Routing tool now works as menu entry or tool entry
 
 ## v2.37.0 - 2023-09-06
 ### Added
