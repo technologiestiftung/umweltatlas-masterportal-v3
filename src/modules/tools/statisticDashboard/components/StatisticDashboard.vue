@@ -606,6 +606,35 @@ export default {
                 return descriptions.push({"title": statistic?.name, "content": statistic?.description !== undefined ? statistic?.description : "Diese Satistik enthält keine Beschreibung."});
             });
             return descriptions;
+        },
+        /**
+         * Gets the metadata link.
+         * @returns {String} Empty if no metadata was found - otherwise it returns the url.
+         */
+        getMetadataLink () {
+            if (!isObject(this.selectedLevel)) {
+                return "";
+            }
+            const currentLayer = this.getRawLayerByLayerId(this.selectedLevel.layerId);
+
+            if (!isObject(currentLayer) || !Array.isArray(currentLayer.datasets) || !isObject(currentLayer.datasets[0])
+                || !currentLayer.datasets[0].show_doc_url || typeof currentLayer.datasets[0].md_id === "undefined") {
+                return "";
+            }
+
+            return `${currentLayer.datasets[0].show_doc_url}${currentLayer.datasets[0].md_id}`;
+        },
+        /**
+         * Opens the metadata in a new tab.
+         * @returns {void}
+         */
+        openMetadata () {
+            const metadataUrl = this.getMetadataLink();
+
+            if (!metadataUrl) {
+                return;
+            }
+            window.open(metadataUrl, "_blank");
         }
     }
 };
@@ -623,8 +652,25 @@ export default {
     >
         <template #toolBody>
             <div class="row justify-content-between">
-                <div class="col-md-4">
-                    <h4>{{ $t("common:modules.tools.statisticDashboard.headings.mrhstatistics") }}</h4>
+                <div class="col-md-4 d-flex align-items-center">
+                    <h4 class="mb-0">
+                        {{ $t("common:modules.tools.statisticDashboard.headings.mrhstatistics") }}
+                    </h4>
+                    <div
+                        v-if="getMetadataLink()"
+                        class="mx-2"
+                        role="button"
+                        tabindex="0"
+                        @click="openMetadata"
+                        @keypress.enter="openMetadata"
+                    >
+                        <span class="bootstrap-icon">
+                            <i
+                                class="bi-info-circle-fill"
+                                :title="$t('common:modules.tools.statisticDashboard.headings.mrhstatisticsTooltip')"
+                            />
+                        </span>
+                    </div>
                 </div>
                 <div class="col-md-auto">
                     <StatisticSwitcher
