@@ -171,6 +171,10 @@ const LayerView = LayerBaseView.extend(
                 this.model.setIsSelected(false);
             }
 
+            if (!this.layerHasRightDimension()) {
+                this.disableComponent();
+            }
+
             if (this.model.get("isSettingVisible") === true) {
                 this.$el.append(this.templateSettings(attr));
             }
