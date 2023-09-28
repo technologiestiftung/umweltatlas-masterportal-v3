@@ -64,7 +64,8 @@ export default {
             showTable: true,
             showChart: false,
             showGrid: false,
-            referenceData: undefined
+            referenceData: undefined,
+            colorArrayDifference: ["#E28574", "#89C67F"]
         };
     },
     computed: {
@@ -203,7 +204,13 @@ export default {
             }
             return result;
         },
-
+        /**
+         * Get the number at which a vertical bar chart is switched to a horizontal bar chart
+         * @returns {Number} The configured number. Default is 5.
+         */
+        getChartDirectionValue () {
+            return this.selectedLevel?.chartDirectionValue ? this.selectedLevel?.chartDirectionValue : 5;
+        },
         /**
          * Gets all regions list with all option
          * @param {String[]} regions The regions.
@@ -291,7 +298,7 @@ export default {
             this.statisticsData = this.prepareStatisticsData(features, this.selectedStatisticsNames, regions, dates, selectedLevelDateAttribute, selectedLevelRegionNameAttribute, differenceMode);
             this.tableData = this.getTableData(this.statisticsData);
             this.chartCounts = this.selectedStatisticsNames.length;
-            this.handleChartData(this.selectedStatisticsNames, regions, dates, this.statisticsData);
+            this.handleChartData(this.selectedStatisticsNames, regions, dates, this.statisticsData, differenceMode);
 
             this.layer.getSource().addFeatures(filteredFeatures);
             FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, statsKeys[0], this.colorScheme);
@@ -303,22 +310,23 @@ export default {
          * @param {String[]} regions The regions.
          * @param {String[]} dates The dates.
          * @param {Object} preparedData The prepared data.
+         * @param {String|Boolean} differenceMode - Indicates the difference mode('date' or 'region') ohterwise false.
          * @returns {void}
          */
-        handleChartData (filteredStatistics, regions, dates, preparedData) {
-            const directionBarChart = regions.length < 5 ? "vertical" : "horizontal";
+        handleChartData (filteredStatistics, regions, dates, preparedData, differenceMode) {
+            const directionBarChart = regions.length < this.getChartDirectionValue() ? "vertical" : "horizontal";
 
             this.showGrid = false;
             if (filteredStatistics.length > 1) {
-                this.prepareGridCharts(filteredStatistics, preparedData, directionBarChart, dates.length > 1);
+                this.prepareGridCharts(filteredStatistics, preparedData, directionBarChart, differenceMode, dates.length > 1);
             }
             else if (regions.length >= 1) {
                 this.$nextTick(() => {
                     if (dates.length > 1) {
-                        this.prepareChartData(filteredStatistics[0], preparedData[filteredStatistics[0]], undefined, "line");
+                        this.prepareChartData(filteredStatistics[0], preparedData[filteredStatistics[0]], undefined, "line", differenceMode);
                         return;
                     }
-                    this.prepareChartData(filteredStatistics[0], preparedData[filteredStatistics[0]], undefined, "bar", directionBarChart);
+                    this.prepareChartData(filteredStatistics[0], preparedData[filteredStatistics[0]], undefined, "bar", directionBarChart, differenceMode);
                 });
             }
         },
@@ -327,10 +335,11 @@ export default {
          * @param {String[]} filteredStatistics The statistics.
          * @param {Object} preparedData The prepared data.
          * @param {String[]} direction - Direction of bar chart.
+         * @param {String|Boolean} differenceMode - Indicates the difference mode('date' or 'region') ohterwise false.
          * @param {Boolean} renderAsLine Flag to render line charts. Default is false.
          * @returns {void}
          */
-        prepareGridCharts (filteredStatistics, preparedData, direction, renderAsLine = false) {
+        prepareGridCharts (filteredStatistics, preparedData, direction, differenceMode, renderAsLine = false) {
             this.showGrid = true;
             this.$nextTick(() => {
                 filteredStatistics.forEach((statistic, idx) => {
@@ -338,12 +347,12 @@ export default {
                         ctxInModal = this.$refs[`chart-modal-${idx + 1}`];
 
                     if (renderAsLine) {
-                        this.prepareChartData(statistic, preparedData[statistic], ctx, "line", undefined, true);
-                        this.prepareChartData(statistic, preparedData[statistic], ctxInModal, "line", undefined, false, true);
+                        this.prepareChartData(statistic, preparedData[statistic], ctx, "line", undefined, differenceMode, true);
+                        this.prepareChartData(statistic, preparedData[statistic], ctxInModal, "line", undefined, differenceMode, false, true);
                         return;
                     }
-                    this.prepareChartData(statistic, preparedData[statistic], ctx, "bar", direction, true);
-                    this.prepareChartData(statistic, preparedData[statistic], ctxInModal, "bar", direction, false, true);
+                    this.prepareChartData(statistic, preparedData[statistic], ctx, "bar", direction, differenceMode, true);
+                    this.prepareChartData(statistic, preparedData[statistic], ctxInModal, "bar", direction, differenceMode, false, true);
                 });
             });
         },
@@ -354,11 +363,12 @@ export default {
          * @param {HTMLElement} canvas The canvas to render the chart on.
          * @param {String} type The type. Can be bar or line.
          * @param {String} direction The direction of the bar chart.
+         * @param {String|Boolean} differenceMode - Indicates the difference mode('date' or 'region') ohterwise false.
          * @param {Boolean} renderSimple true if should be rendered as simple chart because its in the grid. Default is false.
          * @param {Boolean} renderToModal true if chart is rendered in modal. Default is false
          * @returns {void}
          */
-        prepareChartData (topic, preparedData, canvas, type, direction, renderSimple = false, renderToModal = false) {
+        prepareChartData (topic, preparedData, canvas, type, direction, differenceMode, renderSimple = false, renderToModal = false) {
             const chart = canvas || this.$refs.chart,
                 uniqueTopic = renderToModal ? `modal-${topic}` : topic;
 
@@ -370,7 +380,12 @@ export default {
                 this.currentChart[uniqueTopic].chart = ChartProcessor.createLineChart(topic, preparedData, chart, renderSimple);
             }
             else if (type === "bar") {
-                this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, preparedData, direction, chart, renderSimple);
+                if (typeof differenceMode === "string") {
+                    this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, preparedData, direction, chart, renderSimple, this.colorArrayDifference);
+                }
+                else {
+                    this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, preparedData, direction, chart, renderSimple);
+                }
             }
         },
 
@@ -579,7 +594,6 @@ export default {
             this.layer.getSource().clear();
             this.tableData = [];
             Object.values(this.currentChart).forEach(val => {
-
                 val.chart.destroy();
             });
             this.currentChart = {};

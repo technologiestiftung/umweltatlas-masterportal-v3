@@ -60,4 +60,48 @@ describe("/src/modules/tools/statisticDashboard/utils/chartProcessor.js", () => 
             expect(chartProcessor.parsePreparedDataToBarChartFormat(param)).to.be.deep.equal(expected);
         });
     });
+    describe("getYearFromPreparedData", () => {
+        it("should return an empty String if no object is given", () => {
+            expect(chartProcessor.getYearFromPreparedData(null)).to.be.equal("");
+            expect(chartProcessor.getYearFromPreparedData(undefined)).to.be.equal("");
+            expect(chartProcessor.getYearFromPreparedData([])).to.be.equal("");
+            expect(chartProcessor.getYearFromPreparedData(true)).to.be.equal("");
+            expect(chartProcessor.getYearFromPreparedData(false)).to.be.equal("");
+            expect(chartProcessor.getYearFromPreparedData(1234)).to.be.equal("");
+            expect(chartProcessor.getYearFromPreparedData("1234")).to.be.equal("");
+        });
+        it("should return an empty String if no object is given", () => {
+            const param = {
+                    "foo": {
+                        "2001": 1
+                    }
+                },
+                expected = "2001";
+
+            expect(chartProcessor.getYearFromPreparedData(param)).to.be.deep.equal(expected);
+        });
+    });
+    describe("getBarChartColours", () => {
+        it("should return an empty String if first param is not an Array", () => {
+            expect(chartProcessor.getBarChartColours(null, [""])).to.be.equal("");
+            expect(chartProcessor.getBarChartColours(undefined, [""])).to.be.equal("");
+            expect(chartProcessor.getBarChartColours({}, [""])).to.be.equal("");
+            expect(chartProcessor.getBarChartColours(true, [""])).to.be.equal("");
+            expect(chartProcessor.getBarChartColours(false, [""])).to.be.equal("");
+            expect(chartProcessor.getBarChartColours(1234, [""])).to.be.equal("");
+            expect(chartProcessor.getBarChartColours("1234", [""])).to.be.equal("");
+        });
+        it("should return second colour if number is negative", () => {
+            const param = [-2],
+                colour = ["#E28574", "#89C67F"];
+
+            expect(chartProcessor.getBarChartColours(param, colour)).to.deep.equal(["#E28574"]);
+        });
+        it("should return first colour if number is positive", () => {
+            const param = [2],
+                colour = ["#E28574", "#89C67F"];
+
+            expect(chartProcessor.getBarChartColours(param, colour)).to.deep.equal(["#89C67F"]);
+        });
+    });
 });

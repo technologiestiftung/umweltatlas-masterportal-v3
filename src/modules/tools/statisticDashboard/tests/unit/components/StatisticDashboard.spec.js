@@ -536,7 +536,7 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                     }),
                     prepareGridChartsStub = sinon.stub(wrapper.vm, "prepareGridCharts");
 
-                wrapper.vm.handleChartData(["foo", "bar"], [1], [], undefined);
+                wrapper.vm.handleChartData(["foo", "bar"], [1], [], undefined, false);
                 expect(prepareGridChartsStub.calledWith(["foo", "bar"], undefined, "vertical", false)).to.be.true;
             });
             it("should call prepareChartData with expected params for line chart", async () => {

@@ -40,25 +40,46 @@ function createLineChart (topic, preparedData, canvas, renderSimple = false) {
  * @param {Object} preparedData The prepared data.
  * @param {String} direction The direction to render the bar.
  * @param {HTMLElement} canvas The canvas to render the chart on.
- * @param {Boolean} renderSimple true if should be rendered as simple chart. Default is false.
+ * @param {Boolean} [renderSimple=false] -  true if should be rendered as simple chart.
+ * @param {Object[]} [colour = ["#d3d3d3"]] -  The colour to render the bar.
  * @returns {Chart} The chart.
  */
-function createBarChart (topic, preparedData, direction, canvas, renderSimple = false) {
+function createBarChart (topic, preparedData, direction, canvas, renderSimple = false, colour = ["#d3d3d3"]) {
     const chart = canvas,
         dataValues = parsePreparedDataToBarChartFormat(preparedData),
+        dataColours = getBarChartColours(dataValues, colour),
         config = {
             type: direction === "horizontal" ? "horizontalBar" : "bar",
             data: {
                 labels: Object.keys(preparedData),
                 datasets: [{
                     label: topic,
-                    data: dataValues
+                    data: dataValues,
+                    borderColor: dataColours,
+                    backgroundColor: dataColours
                 }]
             },
             options: {
+                legend: {
+                    display: false
+                },
                 title: {
-                    display: renderSimple,
-                    text: topic
+                    display: true,
+                    text: topic + " " + getYearFromPreparedData(preparedData),
+                    fontSize: 13,
+                    padding: 10
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
                 }
             }
         };
@@ -66,7 +87,7 @@ function createBarChart (topic, preparedData, direction, canvas, renderSimple = 
     if (renderSimple) {
         Object.assign(config.options, simpleChartOptions);
     }
-
+    config.options.scales.xAxes[0].position = direction === "horizontal" ? "top" : "bottom";
     return new Chart(chart.getContext("2d"), config);
 }
 
@@ -92,17 +113,14 @@ function parsePreparedDataToLineChartFormat (preparedData) {
 
         datasets.push(data);
     });
-
     if (isObject(singleDataObject)) {
         labels = Object.keys(singleDataObject);
     }
-
     return {
         datasets,
         labels
     };
 }
-
 /**
  * Parses the already prepared data to the bar chart format and returns it.
  * @param {Object} preparedData The data.
@@ -122,18 +140,54 @@ function parsePreparedDataToBarChartFormat (preparedData) {
     });
     return dataValues;
 }
+/**
+ * Parses the already prepared data to the bar chart format and returns it.
+ * @param {Object} preparedData The data.
+ * @returns {*[]} The values as array.
+ */
+function getYearFromPreparedData (preparedData) {
+    if (!isObject(preparedData)) {
+        return "";
+    }
+    const year = Object.keys(Object.values(preparedData)[0])[0];
 
+    return year;
+}
+/**
+ * Get the colour for the bar chart and returns it.
+ * @param {Object} data - The data.
+ * @param {Object[]} currentColour - The colours.
+ * @returns {Object[]} The values as array.
+ */
+function getBarChartColours (data, currentColour) {
+    if (!Array.isArray(data) && !Array.isArray(currentColour)) {
+        return "";
+    }
+    let colourValue = [];
+
+
+    if (currentColour.length === 2) {
+        colourValue = data.map((value) => value < 0 ? currentColour[0] : currentColour[1]);
+    }
+    if (currentColour.length === 1) {
+        colourValue = currentColour[0];
+    }
+
+    return colourValue;
+}
 const simpleChartOptions = {
     legend: {display: false},
     scales: {
         yAxes: [{
             ticks: {
-                maxTicksLimit: 4
+                maxTicksLimit: 4,
+                beginAtZero: true
             }
         }],
         xAxes: [{
             ticks: {
-                maxTicksLimit: 4
+                maxTicksLimit: 4,
+                beginAtZero: true
             }
         }]
     }
@@ -143,5 +197,7 @@ export default {
     createLineChart,
     createBarChart,
     parsePreparedDataToLineChartFormat,
-    parsePreparedDataToBarChartFormat
+    parsePreparedDataToBarChartFormat,
+    getYearFromPreparedData,
+    getBarChartColours
 };
