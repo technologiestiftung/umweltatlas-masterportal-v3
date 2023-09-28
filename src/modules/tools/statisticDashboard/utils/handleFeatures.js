@@ -16,27 +16,31 @@ function filterFeaturesByKeyValue (features, key, value) {
 }
 
 /**
- * Styles the features by value in the statistics.
+ * Styles the features by values in the statistics.
  * The number of colors in the scheme indicates the number of classes for the styling.
  * @param {ol/Feature[]} features - The features that are styled.
- * @param {String} statisticKey - The key of the statistic.
+ * @param {Object} statisticData - The statistic whose values are visualized.
  * @param {Number[]} colorScheme - The color scheme used for styling.
+ * @param {String} date - The date for which the values are visualized
+ * @param {String} regionKey - The key to the region in the feature.
  * @returns {void}
  */
-function styleFeaturesByStatistic (features, statisticKey, colorScheme) {
-    if (!Array.isArray(features) || typeof statisticKey !== "string" || !Array.isArray(colorScheme)) {
+function styleFeaturesByStatistic (features, statisticData, colorScheme, date, regionKey) {
+    if (!Array.isArray(features) || !Array.isArray(colorScheme)) {
         return;
     }
 
-    const statisticValues = features.map(feature => feature.get(statisticKey)),
-        minStatisticValue = Math.min(...statisticValues),
-        maxStatisticValue = Math.max(...statisticValues),
+    const statisticsValues = getStatisticValuesByDate(statisticData, date),
+        minStatisticValue = Math.min(...statisticsValues),
+        maxStatisticValue = Math.max(...statisticsValues),
         stepValues = calcStepValues(minStatisticValue, maxStatisticValue, colorScheme.length);
 
-    features.forEach(feat => {
-        feat.setStyle((feature) => {
-            const index = closestIndex(stepValues, Number(feature.get(statisticKey))),
-                defaultColor = [255, 255, 255, 0.9],
+    Object.keys(statisticData).forEach((region) => {
+        const index = closestIndex(stepValues, statisticData[region][date]),
+            foundFeature = features.find(feature => feature.get(regionKey) === region);
+
+        foundFeature.setStyle(() => {
+            const defaultColor = [255, 255, 255, 0.9],
                 fillColorScheme = typeof colorScheme[index] !== "undefined" ? colorScheme[index] : defaultColor;
 
             return new Style({
@@ -45,7 +49,7 @@ function styleFeaturesByStatistic (features, statisticKey, colorScheme) {
                 }),
                 stroke: new Stroke({
                     color: [166, 166, 166, 1],
-                    width: 0.5
+                    width: 1
                 })
             });
         });
@@ -76,6 +80,18 @@ function calcStepValues (min, max, steps = 5) {
     }
 
     return values;
+}
+
+/**
+ * Gets the values of all regions of one statistic from the given date.
+ * @param {Object} statistic - The statistic.
+ * @param {String} date - The key of the date value.
+ * @returns {String[]} The values.
+ */
+function getStatisticValuesByDate (statistic, date) {
+    return Object.keys(statistic)
+        .filter(region => typeof statistic[region][date] === "number")
+        .map(region => statistic[region][date]);
 }
 
 /**

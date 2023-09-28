@@ -307,8 +307,11 @@ export default {
             this.chartCounts = this.selectedStatisticsNames.length;
             this.handleChartData(this.selectedStatisticsNames, regions, dates, this.statisticsData, differenceMode);
 
-            this.layer.getSource().addFeatures(this.filteredFeatures);
-            FeaturesHandler.styleFeaturesByStatistic(this.filteredFeatures, statsKeys[0], this.colorScheme);
+            if (this.selectedStatisticsNames.length === 1) {
+                FeaturesHandler.styleFeaturesByStatistic(this.filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme, this.selectedDates[0].label, selectedLevelRegionNameAttribute.attrName);
+                this.layer.getSource().addFeatures(this.filteredFeatures);
+            }
+            // else TODO?
         },
 
         /**

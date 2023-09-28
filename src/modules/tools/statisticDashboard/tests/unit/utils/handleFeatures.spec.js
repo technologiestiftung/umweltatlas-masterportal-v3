@@ -62,15 +62,21 @@ describe("/src/modules/tools/statisticDashboard/utils/handleFeatures.js", () => 
     });
     describe("styleFeaturesByStatistic", () => {
         it("should set the styles correctly according to the values from the features", () => {
-            const feature1 = new Feature(),
-                feature2 = new Feature(),
-                feature3 = new Feature(),
+            const feature1 = new Feature({
+                    region: "Cuxhaven"
+                }),
+                feature2 = new Feature({
+                    region: "Stade"
+                }),
+                feature3 = new Feature({
+                    region: "Luebeck"
+                }),
                 colorScheme = [[198, 219, 239, 0.9], [158, 202, 225, 0.9], [107, 174, 214, 0.9], [49, 130, 189, 0.9], [8, 81, 156, 0.9]],
                 fill1 = {
-                    color_: [198, 219, 239, 0.9]
+                    color_: [158, 202, 225, 0.9]
                 },
                 fill2 = {
-                    color_: [107, 174, 214, 0.9]
+                    color_: [198, 219, 239, 0.9]
                 },
                 fill3 = {
                     color_: [8, 81, 156, 0.9]
@@ -82,22 +88,30 @@ describe("/src/modules/tools/statisticDashboard/utils/handleFeatures.js", () => 
                     lineDashOffset_: undefined,
                     lineJoin_: undefined,
                     miterLimit_: undefined,
-                    width_: 0.5
+                    width_: 1
+                },
+                statisticData = {
+                    "Cuxhaven": {
+                        "2018": 144,
+                        "2019": 86
+                    },
+                    "Luebeck": {
+                        "2018": 74
+                    },
+                    "Stade": {
+                        "2018": 99
+                    }
                 };
 
-            feature1.set("bruttoinlandsprodukt_mio_jahressumme", 3000);
-            feature2.set("bruttoinlandsprodukt_mio_jahressumme", 4000);
-            feature3.set("bruttoinlandsprodukt_mio_jahressumme", 5000);
-
-            FeatureHandler.styleFeaturesByStatistic([feature1, feature2, feature3], "bruttoinlandsprodukt_mio_jahressumme", colorScheme);
+            FeatureHandler.styleFeaturesByStatistic([feature1, feature2, feature3], statisticData, colorScheme, "2018", "region");
 
             expect(feature1.getStyle()(feature1).getStroke()).to.be.deep.equals(stroke);
             expect(feature2.getStyle()(feature2).getStroke()).to.be.deep.equals(stroke);
             expect(feature3.getStyle()(feature3).getStroke()).to.be.deep.equals(stroke);
 
-            expect(feature1.getStyle()(feature1).getFill()).to.be.deep.equals(fill1);
-            expect(feature2.getStyle()(feature2).getFill()).to.be.deep.equals(fill2);
-            expect(feature3.getStyle()(feature3).getFill()).to.be.deep.equals(fill3);
+            expect(feature1.getStyle()(feature1).getFill()).to.be.deep.equals(fill3);
+            expect(feature2.getStyle()(feature2).getFill()).to.be.deep.equals(fill1);
+            expect(feature3.getStyle()(feature3).getFill()).to.be.deep.equals(fill2);
         });
     });
     describe("filterFeaturesByKeyValue", () => {
