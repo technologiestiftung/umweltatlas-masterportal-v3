@@ -1,5 +1,5 @@
 <script>
-import {mapGetters, mapMutations} from "vuex";
+import {mapGetters, mapMutations, mapActions} from "vuex";
 import TableComponent from "../../../../share-components/table/components/TableComponent.vue";
 import {getComponent} from "../../../../utils/getComponent";
 import isObject from "../../../../utils/isObject";
@@ -11,6 +11,7 @@ import Controls from "./StatisticDashboardControls.vue";
 import StatisticFilter from "./StatisticDashboardFilter.vue";
 import FetchDataHandler from "../utils/fetchData.js";
 import StatisticsHandler from "../utils/handleStatistics.js";
+import FeaturesHandler from "../utils/handleFeatures.js";
 import StatisticSwitcher from "./StatisticDashboardSwitcher.vue";
 import {rawLayerList} from "@masterportal/masterportalapi";
 import {getFeaturePOST} from "../../../../api/wfs/getFeature";
@@ -95,8 +96,9 @@ export default {
         }
 
     },
-    created () {
+    async created () {
         this.$on("close", this.close);
+        this.layer = await this.addNewLayerIfNotExists({layerName: "statistic-dashboard"});
     },
     async mounted () {
         this.selectedLevel = this.data[0];
@@ -115,12 +117,13 @@ export default {
         this.loadedFilterData = true;
         this.loadedReferenceData = true;
         this.referenceData = {
-            "year": this.getTimestepsMerged(undefined, uniqueValues[selectedLevelDateAttribute.attrName], selectedLevelDateAttribute.inputFormat, selectedLevelDateAttribute.outputFormat),
-            "area": this.regions
+            "date": this.getTimestepsMerged(undefined, uniqueValues[selectedLevelDateAttribute.attrName], selectedLevelDateAttribute.inputFormat, selectedLevelDateAttribute.outputFormat),
+            "region": this.regions
         };
     },
     methods: {
         ...mapMutations("Tools/StatisticDashboard", Object.keys(mutations)),
+        ...mapActions("Maps", ["addNewLayerIfNotExists"]),
 
         close () {
             this.setActive(false);
@@ -236,6 +239,8 @@ export default {
          * @returns {void}
          */
         async handleFilterSettings (regions, dates) {
+            this.layer.getSource().clear();
+            this.tableData = [];
 
             const statsKeys = StatisticsHandler.getStatsKeysByName(this.statisticsByCategory, this.selectedStatisticsNames),
                 selectedLayer = this.getRawLayerByLayerId(this.selectedLevel.layerId),
@@ -245,18 +250,22 @@ export default {
                     featureTypes: [selectedLayer.featureType],
                     featureNS: selectedLayer.featureNS,
                     srsName: this.projection.getCode(),
-                    propertyNames: [...statsKeys, selectedLevelRegionNameAttribute.attrName, selectedLevelDateAttribute.attrName],
+                    propertyNames: [...statsKeys, selectedLevelRegionNameAttribute.attrName, selectedLevelDateAttribute.attrName, this.selectedLevel.geometryAttribute],
                     filter: this.getFilter(regions, dates)
                 },
                 response = await getFeaturePOST(selectedLayer.url, payload, error => {
                     console.error(error);
                 }),
-                features = new WFS().readFeatures(response);
+                features = new WFS().readFeatures(response),
+                filteredFeatures = FeaturesHandler.filterFeaturesByKeyValue(features, selectedLevelDateAttribute.attrName, dates[0]);
 
             this.statisticsData = this.prepareStatisticsData(features, this.selectedStatisticsNames, regions, dates, selectedLevelDateAttribute, selectedLevelRegionNameAttribute);
             this.tableData = this.getTableData(this.statisticsData);
             this.chartCounts = this.selectedStatisticsNames.length;
             this.handleChartData(this.selectedStatisticsNames, regions, dates, this.statisticsData);
+
+            this.layer.getSource().addFeatures(filteredFeatures);
+            FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, statsKeys[0], this.colorScheme);
         },
 
         /**
@@ -296,13 +305,16 @@ export default {
             this.showGrid = true;
             this.$nextTick(() => {
                 filteredStatistics.forEach((statistic, idx) => {
-                    const ctx = this.$refs["chart" + (idx + 1)];
+                    const ctx = this.$refs[`chart${idx + 1}`],
+                        ctxInModal = this.$refs[`chart-modal-${idx + 1}`];
 
                     if (renderAsLine) {
-                        this.prepareChartData(statistic, preparedData[statistic], ctx, "line");
+                        this.prepareChartData(statistic, preparedData[statistic], ctx, "line", undefined, true);
+                        this.prepareChartData(statistic, preparedData[statistic], ctxInModal, "line", undefined, false, true);
                         return;
                     }
-                    this.prepareChartData(statistic, preparedData[statistic], ctx, "bar", direction);
+                    this.prepareChartData(statistic, preparedData[statistic], ctx, "bar", direction, true);
+                    this.prepareChartData(statistic, preparedData[statistic], ctxInModal, "bar", direction, false, true);
                 });
             });
         },
@@ -313,20 +325,23 @@ export default {
          * @param {HTMLElement} canvas The canvas to render the chart on.
          * @param {String} type The type. Can be bar or line.
          * @param {String} direction The direction of the bar chart.
+         * @param {Boolean} renderSimple true if should be rendered as simple chart because its in the grid. Default is false.
+         * @param {Boolean} renderToModal true if chart is rendered in modal. Default is false
          * @returns {void}
          */
-        prepareChartData (topic, preparedData, canvas, type, direction) {
-            const chart = canvas || this.$refs.chart;
+        prepareChartData (topic, preparedData, canvas, type, direction, renderSimple = false, renderToModal = false) {
+            const chart = canvas || this.$refs.chart,
+                uniqueTopic = renderToModal ? `modal-${topic}` : topic;
 
-            if (typeof this.currentChart[topic] !== "undefined") {
-                this.currentChart[topic].chart.destroy();
+            if (typeof this.currentChart[uniqueTopic] !== "undefined") {
+                this.currentChart[uniqueTopic].chart.destroy();
             }
-            this.currentChart[topic] = {};
+            this.currentChart[uniqueTopic] = {};
             if (type === "line") {
-                this.currentChart[topic].chart = ChartProcessor.createLineChart(topic, preparedData, chart);
+                this.currentChart[uniqueTopic].chart = ChartProcessor.createLineChart(topic, preparedData, chart, renderSimple);
             }
             else if (type === "bar") {
-                this.currentChart[topic].chart = ChartProcessor.createBarChart(topic, preparedData, direction, chart);
+                this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, preparedData, direction, chart, renderSimple);
             }
         },
 
@@ -500,6 +515,7 @@ export default {
          * @returns {void}
          */
         handleReset () {
+            this.layer.getSource().clear();
             this.tableData = [];
             Object.values(this.currentChart).forEach(val => {
 
@@ -612,13 +628,25 @@ export default {
                     :titles="selectedStatisticsNames"
                 >
                     <template
-                        slot="containers"
+                        slot="tableContainers"
                         slot-scope="props"
                     >
                         <TableComponent
                             :data="props.data"
                             :fixed-data="testFixedData"
                             :show-header="showHeader"
+                            @setSortedRows="setSortedRows"
+                        />
+                    </template>
+                    <template
+                        slot="tableContainersModal"
+                        slot-scope="props"
+                    >
+                        <TableComponent
+                            :data="props.data"
+                            :fixed-data="testFixedData"
+                            :show-header="showHeader"
+                            :sortable="sortable"
                             @setSortedRows="setSortedRows"
                         />
                     </template>
@@ -633,13 +661,24 @@ export default {
                 <GridComponent
                     v-else
                     :charts-count="chartCounts"
+                    :titles="selectedStatisticsNames"
                 >
                     <template
                         slot="chartContainers"
                         slot-scope="props"
                     >
                         <canvas
-                            :ref="'chart' + props.data.id"
+                            :id="'chart' + props.chartId"
+                            :ref="'chart' + props.chartId"
+                        />
+                    </template>
+                    <template
+                        slot="chartContainersModal"
+                        slot-scope="propsModal"
+                    >
+                        <canvas
+                            :id="'chart-modal-' + propsModal.chartId"
+                            :ref="'chart-modal-' + propsModal.chartId"
                         />
                     </template>
                 </GridComponent>

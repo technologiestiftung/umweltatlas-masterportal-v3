@@ -20,6 +20,7 @@ const state = {
     resizableWindow: true,
     isVisibleInMenu: true,
     deactivateGFI: true,
+    colorScheme: [],
     data: {},
     selectedReferenceData: {},
     selectedStatistics: {}
