@@ -100,4 +100,49 @@ describe("/src/modules/tools/statisticDashboard/utils/handleFeatures.js", () => 
             expect(feature3.getStyle()(feature3).getFill()).to.be.deep.equals(fill3);
         });
     });
+    describe("filterFeaturesByKeyValue", () => {
+        it("Must return empty array, when the given features are not correct", () => {
+            const expected = [];
+
+            expect(FeatureHandler.filterFeaturesByKeyValue({})).to.be.deep.equals(expected);
+            expect(FeatureHandler.filterFeaturesByKeyValue("string")).to.be.deep.equals(expected);
+            expect(FeatureHandler.filterFeaturesByKeyValue(true)).to.be.deep.equals(expected);
+            expect(FeatureHandler.filterFeaturesByKeyValue(false)).to.be.deep.equals(expected);
+            expect(FeatureHandler.filterFeaturesByKeyValue([])).to.be.deep.equals(expected);
+            expect(FeatureHandler.filterFeaturesByKeyValue(123)).to.be.deep.equals(expected);
+        });
+        it("Must return the features according to the passed key and value", () => {
+            const feature1 = new Feature(),
+                feature2 = new Feature(),
+                feature3 = new Feature(),
+                feature4 = new Feature(),
+                key = "zeitpunkt",
+                value1 = "2000-12-31",
+                value2 = "2002.12.31",
+                value3 = "2001-12-10",
+                value4 = "Sep 2009";
+
+            let filteredFeature1 = 0,
+                filteredFeature2 = 0,
+                filteredFeature3 = 0,
+                filteredFeature4 = 0;
+
+            feature1.set(key, value1);
+            feature2.set(key, value2);
+            feature3.set(key, value3);
+            feature4.set(key, value4);
+
+            filteredFeature1 = FeatureHandler.filterFeaturesByKeyValue([feature1, feature2, feature3], key, "2000");
+            filteredFeature2 = FeatureHandler.filterFeaturesByKeyValue([feature1, feature2, feature3], key, value2);
+            filteredFeature3 = FeatureHandler.filterFeaturesByKeyValue([feature1, feature2, feature3], key, value3);
+            filteredFeature4 = FeatureHandler.filterFeaturesByKeyValue([feature1, feature2, feature3, feature4], key, "2009");
+
+            expect(filteredFeature4[0]).to.be.deep.equals(feature4);
+            expect(filteredFeature1[0]).to.be.deep.equals(feature1);
+
+            expect(filteredFeature1[0].get(key)).to.be.equal(feature1.get(key));
+            expect(filteredFeature2[0].get(key)).to.be.equal(feature2.get(key));
+            expect(filteredFeature3[0].get(key)).to.be.equal(feature3.get(key));
+        });
+    });
 });

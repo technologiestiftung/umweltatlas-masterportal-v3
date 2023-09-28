@@ -52,6 +52,8 @@ export default {
             statisticsByCategory: false,
             loadedFilterData: false,
             loadedReferenceData: false,
+            loadedFeatures: [],
+            filteredFeatures: [],
             timeStepsFilter: [],
             regions: [],
             allRegions: [],
@@ -270,6 +272,21 @@ export default {
         },
 
         /**
+         * Updates the features displayed on the map and their styles after clicking on a table column
+         * @param {String} dateStr - the chosen date from the column as string
+         * @returns {void}
+         */
+        updateFeatureStyle (dateStr) {
+            this.layer.getSource().clear();
+            const statsKeys = StatisticsHandler.getStatsKeysByName(this.statisticsByCategory, this.selectedStatisticsNames),
+                selectedLevelDateAttribute = this.getSelectedLevelDateAttribute(this.selectedLevel);
+
+            this.filteredFeatures = FeaturesHandler.filterFeaturesByKeyValue(this.loadedFeatures, selectedLevelDateAttribute.attrName, dateStr);
+            this.layer.getSource().addFeatures(this.filteredFeatures);
+            FeaturesHandler.styleFeaturesByStatistic(this.filteredFeatures, statsKeys[0], this.colorScheme);
+        },
+
+        /**
          * Handles the filter settings and starts a POST request based on given settings.
          * @param {String[]} regions - The selected regions for the statistic(s).
          * @param {String[]} dates - The selected dates for the statistic(s).
@@ -291,17 +308,18 @@ export default {
                 },
                 response = await getFeaturePOST(selectedLayer.url, payload, error => {
                     console.error(error);
-                }),
-                features = new WFS().readFeatures(response),
-                filteredFeatures = FeaturesHandler.filterFeaturesByKeyValue(features, selectedLevelDateAttribute.attrName, dates[0]);
+                });
 
-            this.statisticsData = this.prepareStatisticsData(features, this.selectedStatisticsNames, regions, dates, selectedLevelDateAttribute, selectedLevelRegionNameAttribute, differenceMode);
+            this.loadedFeatures = new WFS().readFeatures(response);
+            this.filteredFeatures = FeaturesHandler.filterFeaturesByKeyValue(this.loadedFeatures, selectedLevelDateAttribute.attrName, dates[0]);
+
+            this.statisticsData = this.prepareStatisticsData(this.loadedFeatures, this.selectedStatisticsNames, regions, dates, selectedLevelDateAttribute, selectedLevelRegionNameAttribute, differenceMode);
             this.tableData = this.getTableData(this.statisticsData);
             this.chartCounts = this.selectedStatisticsNames.length;
             this.handleChartData(this.selectedStatisticsNames, regions, dates, this.statisticsData, differenceMode);
 
-            this.layer.getSource().addFeatures(filteredFeatures);
-            FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, statsKeys[0], this.colorScheme);
+            this.layer.getSource().addFeatures(this.filteredFeatures);
+            FeaturesHandler.styleFeaturesByStatistic(this.filteredFeatures, statsKeys[0], this.colorScheme);
         },
 
         /**
@@ -745,6 +763,7 @@ export default {
                         :sortable="sortable"
                         class="mx-5"
                         @setSortedRows="setSortedRows"
+                        @columnSelected="updateFeatureStyle"
                     />
                 </div>
                 <GridComponent

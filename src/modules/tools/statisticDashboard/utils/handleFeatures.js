@@ -11,7 +11,8 @@ function filterFeaturesByKeyValue (features, key, value) {
     if (!Array.isArray(features) || typeof key !== "string" || typeof value === "undefined") {
         return [];
     }
-    return features.filter(feature => feature.get(key) === value);
+
+    return features.filter(feature => feature.get(key).split(value).length - 1 === 1);
 }
 
 /**
@@ -35,7 +36,7 @@ function styleFeaturesByStatistic (features, statisticKey, colorScheme) {
     features.forEach(feat => {
         feat.setStyle((feature) => {
             const index = closestIndex(stepValues, Number(feature.get(statisticKey))),
-                defaultColor = [198, 219, 239, 0.9],
+                defaultColor = [255, 255, 255, 0.9],
                 fillColorScheme = typeof colorScheme[index] !== "undefined" ? colorScheme[index] : defaultColor;
 
             return new Style({
