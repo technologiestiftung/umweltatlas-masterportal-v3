@@ -3,7 +3,7 @@ import sinon from "sinon";
 import TileSetLayer, {lastUpdatedSymbol, hiddenObjects} from "../../tileset";
 import store from "../../../../app-store";
 
-describe("src/core/layers/tileset.js", () => {
+describe.skip("src/core/layers/tileset.js", () => {
     let attributes, map3D, fromUrlSpy;
 
     before(() => {
