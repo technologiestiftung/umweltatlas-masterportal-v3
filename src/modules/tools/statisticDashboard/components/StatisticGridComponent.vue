@@ -62,7 +62,7 @@ export default {
                 />
                 <ModalItem
                     :show-modal="showModal[`table-${idx}`]"
-                    modal-inner-wrapper-style="min-width: 600px;"
+                    modal-inner-wrapper-style="min-width: 55rem"
                     modal-content-container-style="padding: 0.5rem"
                     @modalHid="setShowModal(`table-${idx}`, false)"
                 >
@@ -100,7 +100,7 @@ export default {
                 />
                 <ModalItem
                     :show-modal="showModal[`chart-${idx}`]"
-                    modal-inner-wrapper-style="min-width: 600px;"
+                    modal-inner-wrapper-style="min-width: 55rem"
                     modal-content-container-style="padding: 0.5rem"
                     @modalHid="setShowModal(`chart-${idx}`, false)"
                 >

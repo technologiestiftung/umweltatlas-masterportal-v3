@@ -1,4 +1,5 @@
 import Chart from "chart.js";
+import {convertToRgbaString, getCssColorMap} from "../../../../utils/convertColor.js";
 import isObject from "../../../../utils/isObject.js";
 
 /**
@@ -22,8 +23,13 @@ function createLineChart (topic, preparedData, canvas, renderSimple = false) {
             },
             options: {
                 title: {
-                    display: renderSimple,
-                    text: topic
+                    display: true,
+                    text: topic,
+                    fontSize: 13,
+                    padding: 10
+                },
+                legend: {
+                    position: "right"
                 }
             }
         };
@@ -101,17 +107,27 @@ function parsePreparedDataToLineChartFormat (preparedData) {
         return {};
     }
     const datasets = [],
-        singleDataObject = Object.values(preparedData)[0];
-    let labels = [];
+        singleDataObject = Object.values(preparedData)[0],
+        allColors = Object.values(getCssColorMap());
+    let labels = [],
+        datasetsCount = 0;
 
     Object.entries(preparedData).forEach(([region, value]) => {
-        const data = {
-            fill: false,
-            label: region,
-            data: Object.values(value)
-        };
+        if (datasetsCount >= allColors.length) {
+            datasetsCount = 0;
+        }
+        const datas = Object.values(value),
+            color = convertToRgbaString(allColors[datasetsCount]),
+            data = {
+                fill: false,
+                label: region,
+                data: datas,
+                borderColor: color,
+                backgroundColor: color
+            };
 
         datasets.push(data);
+        datasetsCount += 1;
     });
     if (isObject(singleDataObject)) {
         labels = Object.keys(singleDataObject);
