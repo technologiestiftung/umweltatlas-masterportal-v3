@@ -18,7 +18,11 @@ localVue.use(Vuex);
 config.mocks.$t = key => key;
 
 describe("/src/modules/tools/StatisticDashboard.vue", () => {
-    const store = new Vuex.Store({
+    const sourceStub = {
+            clear: sinon.stub(),
+            addFeature: sinon.stub()
+        },
+        store = new Vuex.Store({
             namespaced: true,
             modules: {
                 Tools: {
@@ -31,6 +35,13 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                     namespaced: true,
                     getters: {
                         projection: () => "EPSG:25832"
+                    },
+                    actions: {
+                        addNewLayerIfNotExists: () => {
+                            return Promise.resolve({
+                                getSource: () => sourceStub
+                            });
+                        }
                     }
                 }
             }
@@ -671,6 +682,41 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                     expected = [{content: "StatistikTest1", title: "Statistik1"}];
 
                 expect(wrapper.vm.setDescriptionsOfSelectedStatistics(statistics)).to.deep.equal(expected);
+            });
+        });
+        describe("toggleLevel", () => {
+            it("should not trigger the resetLevel function", async () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    spyResetLevel = sinon.stub(StatisticDashboard.methods, "resetLevel");
+
+                wrapper.vm.toggleLevel(null);
+                await wrapper.vm.$nextTick();
+                expect(spyResetLevel.calledOnce).to.be.false;
+                wrapper.vm.toggleLevel(true);
+                await wrapper.vm.$nextTick();
+                expect(spyResetLevel.calledOnce).to.be.false;
+                sinon.restore();
+                wrapper.destroy();
+            });
+
+            it("should not trigger the initializeData function", async () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    spyInitializeData = sinon.stub(StatisticDashboard.methods, "initializeData");
+
+                wrapper.vm.toggleLevel(null);
+                await wrapper.vm.$nextTick();
+                expect(spyInitializeData.calledOnce).to.be.false;
+                wrapper.vm.toggleLevel(true);
+                await wrapper.vm.$nextTick();
+                expect(spyInitializeData.calledOnce).to.be.false;
+                sinon.restore();
+                wrapper.destroy();
             });
         });
     });

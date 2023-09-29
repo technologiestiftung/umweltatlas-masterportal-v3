@@ -114,26 +114,9 @@ export default {
         this.$on("close", this.close);
         this.layer = await this.addNewLayerIfNotExists({layerName: "statistic-dashboard"});
     },
-    async mounted () {
+    mounted () {
         this.selectedLevel = this.data[0];
-        const uniqueValues = await this.getUniqueValuesForLevel(this.selectedLevel),
-            selectedLevelRegionNameAttribute = this.getSelectedLevelRegionNameAttribute(this.selectedLevel),
-            selectedLevelDateAttribute = this.getSelectedLevelDateAttribute(this.selectedLevel);
-
-        if (uniqueValues[selectedLevelRegionNameAttribute.attrName] && uniqueValues[selectedLevelDateAttribute.attrName]) {
-            this.regions = sort("", Object.keys(uniqueValues[selectedLevelRegionNameAttribute.attrName]), "value");
-            this.allRegions = this.getAllRegions(this.regions);
-            this.dates = Object.keys(uniqueValues[selectedLevelDateAttribute.attrName]);
-            this.timeStepsFilter = this.getTimestepsMerged(this.selectedLevel?.timeStepsFilter, uniqueValues[selectedLevelDateAttribute.attrName], selectedLevelDateAttribute.inputFormat, selectedLevelDateAttribute.outputFormat);
-        }
-        this.areCategoriesGrouped = StatisticsHandler.hasOneGroup(this.getSelectedLevelStatisticsAttributes(this.selectedLevel));
-        this.categories = sort("", StatisticsHandler.getCategoriesFromStatisticAttributes(this.getSelectedLevelStatisticsAttributes(this.selectedLevel), this.areCategoriesGrouped), "name");
-        this.loadedFilterData = true;
-        this.loadedReferenceData = true;
-        this.referenceData = {
-            "date": this.getTimestepsMerged(undefined, uniqueValues[selectedLevelDateAttribute.attrName], selectedLevelDateAttribute.inputFormat, selectedLevelDateAttribute.outputFormat),
-            "region": this.regions
-        };
+        this.initializeData(this.selectedLevel);
     },
     methods: {
         ...mapMutations("Tools/StatisticDashboard", Object.keys(mutations)),
@@ -266,7 +249,7 @@ export default {
             else if (isObject(referenceData?.value) && typeof referenceData.value.label === "string") {
                 this.handleFilterSettings(regions, [...dates, referenceData.value.value], "date");
             }
-            else {
+            else if (Array.isArray(regions) && regions.length && Array.isArray(dates) && dates.length) {
                 this.handleFilterSettings(regions, dates, false);
             }
         },
@@ -375,7 +358,7 @@ export default {
             });
         },
         /**
-         * Prepares the chart and also handles the destruction of previuos charts.
+         * Prepares the chart and also handles the destruction of previous charts.
          * @param {String} topic The topic of the chart.
          * @param {Object} preparedData The data.
          * @param {HTMLElement} canvas The canvas to render the chart on.
@@ -673,6 +656,65 @@ export default {
                 return;
             }
             window.open(metadataUrl, "_blank");
+        },
+        /**
+         * Initializes the data from selected level.
+         * @param {Object} selectedLevel - The selected level object
+         * @returns {void}
+         */
+        async initializeData (selectedLevel) {
+            if (!isObject(selectedLevel)) {
+                return;
+            }
+            const uniqueValues = await this.getUniqueValuesForLevel(selectedLevel),
+                selectedLevelRegionNameAttribute = this.getSelectedLevelRegionNameAttribute(selectedLevel),
+                selectedLevelDateAttribute = this.getSelectedLevelDateAttribute(selectedLevel);
+
+            if (uniqueValues[selectedLevelRegionNameAttribute.attrName] && uniqueValues[selectedLevelDateAttribute.attrName]) {
+                this.regions = sort("", Object.keys(uniqueValues[selectedLevelRegionNameAttribute.attrName]), "value");
+                this.allRegions = this.getAllRegions(this.regions);
+                this.dates = Object.keys(uniqueValues[selectedLevelDateAttribute.attrName]);
+                this.timeStepsFilter = this.getTimestepsMerged(selectedLevel?.timeStepsFilter, uniqueValues[selectedLevelDateAttribute.attrName], selectedLevelDateAttribute.inputFormat, selectedLevelDateAttribute.outputFormat);
+            }
+            this.areCategoriesGrouped = StatisticsHandler.hasOneGroup(this.getSelectedLevelStatisticsAttributes(selectedLevel));
+            this.categories = sort("", StatisticsHandler.getCategoriesFromStatisticAttributes(this.getSelectedLevelStatisticsAttributes(selectedLevel), this.areCategoriesGrouped), "name");
+            this.loadedFilterData = true;
+            this.loadedReferenceData = true;
+            this.referenceData = {
+                "date": this.getTimestepsMerged(undefined, uniqueValues[selectedLevelDateAttribute.attrName], selectedLevelDateAttribute.inputFormat, selectedLevelDateAttribute.outputFormat),
+                "region": this.regions
+            };
+        },
+        /**
+         * Gets the current level object.
+         * @param {String} name - The toggled level name.
+         * @returns {void}
+         */
+        toggleLevel (name) {
+            if (typeof name !== "string") {
+                return;
+            }
+
+            this.resetLevel();
+
+            this.selectLevel = this.data.find(val=> {
+                return val?.levelName === name;
+            });
+
+            this.initializeData(this.selectLevel);
+        },
+        /**
+         * Resets to the original status
+         * @returns {void}
+         */
+        resetLevel () {
+            this.loadedFilterData = false;
+            this.loadedReferenceData = false;
+            this.setSelectedRegions([]);
+            this.setSelectedDates([]);
+            this.setSelectedReferenceData({});
+            this.setSelectedStatistics({});
+            this.handleReset();
         }
     }
 };
@@ -718,6 +760,7 @@ export default {
                         :buttons="buttonGroupRegions"
                         group="regions"
                         class="level-switch"
+                        @showView="toggleLevel"
                     />
                 </div>
             </div>
