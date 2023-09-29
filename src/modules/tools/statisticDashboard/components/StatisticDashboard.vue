@@ -190,12 +190,18 @@ export default {
             return result;
         },
         /**
-         * Get the number at which a vertical bar chart is switched to a horizontal bar chart
-         * @returns {Number} The configured number. Default is 5.
+         * Get the direction of the bar chart.
+         * @param {String[]} regions - The selected regions for the statistic(s).
+         * @param {String|Boolean} differenceMode - Indicates the difference mode('date' or 'region') ohterwise false.
+         * @returns {String} horizontal or vertical.
          */
-        getChartDirectionValue () {
-            return this.selectedLevel?.chartDirectionValue ? this.selectedLevel?.chartDirectionValue : 5;
+        getChartDirection (regions, differenceMode) {
+            const regionsLength = differenceMode === false ? regions.length : regions.length - 1,
+                chartDirectionValue = this.selectedLevel?.chartDirectionValue ? this.selectedLevel?.chartDirectionValue : 5;
+
+            return regionsLength < chartDirectionValue ? "vertical" : "horizontal";
         },
+
         /**
          * Gets all regions list with all option
          * @param {String[]} regions The regions.
@@ -315,7 +321,7 @@ export default {
          * @returns {void}
          */
         handleChartData (filteredStatistics, regions, dates, preparedData, differenceMode) {
-            const directionBarChart = regions.length < this.getChartDirectionValue() ? "vertical" : "horizontal";
+            const directionBarChart = this.getChartDirection(regions, differenceMode);
 
             this.showGrid = false;
             if (filteredStatistics.length > 1) {
@@ -323,7 +329,7 @@ export default {
             }
             else if (regions.length >= 1) {
                 this.$nextTick(() => {
-                    if (dates.length > 1) {
+                    if (dates.length > 1 && !differenceMode || dates.length >= 2) {
                         this.prepareChartData(filteredStatistics[0], preparedData[filteredStatistics[0]], undefined, "line", differenceMode);
                         return;
                     }

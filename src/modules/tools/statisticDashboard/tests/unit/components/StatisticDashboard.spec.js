@@ -581,7 +581,7 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                     }),
                     prepareChartDataStub = sinon.stub(wrapper.vm, "prepareChartData");
 
-                wrapper.vm.handleChartData(["foo"], ["region1", "region2", "region3", "region4", "region5"], ["date1"], {foo: "bar"});
+                wrapper.vm.handleChartData(["foo"], ["region1", "region2", "region3", "region4", "region5"], ["date1"], {foo: "bar"}, false);
                 await wrapper.vm.$nextTick();
                 expect(prepareChartDataStub.calledWith("foo", "bar", undefined, "bar", "horizontal")).to.be.true;
                 sinon.restore();
