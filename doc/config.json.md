@@ -5540,7 +5540,8 @@ For such cases, define `gfiAsNewWindow` manually as described above.
 [inherits]: # (Themenconfig.Layer)
 
 List of typical WFS query attributes for highlightFeaturesByAttribute. For the invocation parameters see **[urlParameter](urlParameter.md)**.
-```Example invocations:
+```
+Example invocations:
 ?api/highlightFeaturesByAttribute=1&wfsId=1&attributeName=DK5&attributeValue=valueToSearchFor&attributeQuery=isequal
 ?api/highlightFeaturesByAttribute=123&wfsId=1711&attributeName=name&attributeValue=Helios%20ENDO-Klinik%20Hamburg&attributeQuery=IsLike
 ?api/highlightFeaturesByAttribute=123&wfsId=2003&attributeName=gebietsname&attributeValue=NSG%20Zollenspieker&attributeQuery=isequal
