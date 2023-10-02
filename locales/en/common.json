@@ -454,7 +454,8 @@
                     "year": "Year",
                     "statistics": "Statistics",
                     "communities": "Communities",
-                    "districts": "Districts"
+                    "districts": "Districts",
+                    "more": "more"
                 },
                 "filterInputs": {
                     "additional": "Additional"

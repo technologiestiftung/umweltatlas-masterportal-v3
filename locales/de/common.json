@@ -523,7 +523,8 @@
                     "year": "Jahr",
                     "statistics": "Statistiken",
                     "communities": "Gemeinden",
-                    "districts": "Kreise"
+                    "districts": "Kreise",
+                    "more": "mehr"
                 },
                 "filterInputs": {
                     "additional": "Sonstiges"

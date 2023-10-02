@@ -220,6 +220,8 @@ export default {
                                 :close-on-select="false"
                                 :clear-on-select="false"
                                 :show-labels="false"
+                                :limit="1"
+                                :limit-text="count => count + ' ' + $t('common:modules.tools.statisticDashboard.label.more')"
                                 :allow-empty="true"
                                 :placeholder="$t('common:modules.tools.statisticDashboard.reference.placeholder')"
                                 label="label"
@@ -244,6 +246,8 @@ export default {
                                 :close-on-select="false"
                                 :clear-on-select="false"
                                 :show-labels="false"
+                                :limit="1"
+                                :limit-text="count => count + ' ' + $t('common:modules.tools.statisticDashboard.label.more')"
                                 :allow-empty="true"
                                 :placeholder="$t('common:modules.tools.statisticDashboard.reference.placeholder')"
                                 label="label"
@@ -392,6 +396,10 @@ export default {
 }
 .static-dashboard .multiselect__tags, .filtercontainer .multiselect__tag {
   font-size: 11px;
+}
+
+.static-dashboard .multiselect__strong{
+    font-family: "MasterPortalFont Bold";
 }
 
 .static-dashboard .multiselect__tag {
