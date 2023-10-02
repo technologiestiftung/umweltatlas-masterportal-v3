@@ -274,7 +274,12 @@ const LayerView = LayerBaseView.extend(
         },
 
         getLayers: function (configObject) {
-            const layers = configObject.Layer ? configObject.Layer : configObject.Ordner;
+            let layers = [];
+
+            if (configObject) {
+                layers = configObject.Layer ? configObject.Layer : configObject.Ordner;
+            }
+
 
             return layers;
         },
