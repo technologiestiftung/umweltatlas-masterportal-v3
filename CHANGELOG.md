@@ -20,6 +20,7 @@
 ### Fixed
 - Custom treetype can now load gdi layer via parametriUrl
 - Issue #889: Layer is not shown in the tree anymore
+- Issue #1023: Fix layer information for GeoJSON
 - Issue #1074: print drawn symbols
 - Issue #1075: Routing tool now works as menu entry or tool entry
 
