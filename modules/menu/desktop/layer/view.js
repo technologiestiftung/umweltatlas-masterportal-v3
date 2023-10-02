@@ -253,11 +253,11 @@ const LayerView = LayerBaseView.extend(
          */
         getDefaultVisibleLayer: function () {
             const visibleLayers = [],
-                baseLayers = store.state.configJson?.Themenconfig.Hintergrundkarten.Layer,
-                specialLayers = store.state.configJson?.Themenconfig.Fachdaten.Layer,
-                specialLayers3D = store.state.configJson?.Themenconfig.Fachdaten_3D.Layer.map(specialLayer => ({...specialLayer, supported: ["3D"]})),
+                themenconfig = store.state.configJson?.Themenconfig,
+                baseLayers = this.getLayers(themenconfig.Hintergrundkarten),
+                specialLayers = this.getLayers(themenconfig.Fachdaten),
+                specialLayers3D = this.getLayers(themenconfig.Fachdaten_3D).map(specialLayer => ({...specialLayer, supported: ["3D"]})),
                 layers = [...baseLayers, ...specialLayers, ...specialLayers3D];
-
 
             if (layers) {
                 layers.forEach(layer => {
@@ -275,6 +275,13 @@ const LayerView = LayerBaseView.extend(
             }
             return visibleLayers;
         },
+
+        getLayers: function (configObject) {
+            const layers = configObject.Layer ? configObject.Layer : configObject.Ordner;
+
+            return layers;
+        },
+
         /**
          * Sets the default visible layers (as defined in the config) depending on their support of the mode (2D, 3D)
          * @param {*} mode
@@ -286,19 +293,37 @@ const LayerView = LayerBaseView.extend(
             if (layers) {
                 layers.forEach(layer => {
 
+                    if (!layer.supported) {
+                        layer.supported = ["2D", "3D"];
+                    }
+
                     const shouldLayerBeVisible = layer.supported?.includes(mode);
 
-                    if (shouldLayerBeVisible) {
-                        const layerToSwitchOn = Radio.request("ModelList", "getModelByAttributes", {id: layer.id});
+                    try {
+                        if (shouldLayerBeVisible) {
+                            const idsFromConfig = typeof layer.id === "string" ? [layer.id] : layer.id;
 
-                        setTimeout(() => {
-                            this.enableComponent();
+                            for (const id of idsFromConfig) {
 
-                            layerToSwitchOn.setIsSelected(true);
-                            layerToSwitchOn.setIsVisibleInMap(true);
-                        }, 500);
+                                const layerToSwitchOn = Radio.request("ModelList", "getModelByAttributes", {id: id});
 
+                                if (layerToSwitchOn) {
+                                    setTimeout(() => {
+                                        this.enableComponent();
+
+                                        layerToSwitchOn.setIsSelected(true);
+                                        layerToSwitchOn.setIsVisibleInMap(true);
+                                    }, 500);
+                                }
+
+
+                            }
+                        }
                     }
+                    catch (e) {
+                        console.error(e);
+                    }
+
                 });
             }
         }
