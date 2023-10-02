@@ -53,7 +53,6 @@ export default {
             loadedFilterData: false,
             loadedReferenceData: false,
             loadedFeatures: [],
-            filteredFeatures: [],
             timeStepsFilter: [],
             regions: [],
             allRegions: [],
@@ -67,6 +66,7 @@ export default {
             showChart: false,
             showGrid: false,
             referenceData: undefined,
+            selectedColumn: undefined,
             colorArrayDifference: ["#E28574", "#89C67F"]
         };
     },
@@ -265,18 +265,28 @@ export default {
         },
 
         /**
-         * Updates the features displayed on the map and their styles after clicking on a table column
-         * @param {String} dateStr - the chosen date from the column as string
+         * Updates the features displayed on the map and their styles.
+         * @param {String} date - The chosen date from the column.
          * @returns {void}
          */
-        updateFeatureStyle (dateStr) {
+        updateFeatureStyle (date) {
             this.layer.getSource().clear();
-            const statsKeys = StatisticsHandler.getStatsKeysByName(this.statisticsByCategory, this.selectedStatisticsNames),
-                selectedLevelDateAttribute = this.getSelectedLevelDateAttribute(this.selectedLevel);
+            const selectedLevelRegionNameAttribute = this.getSelectedLevelRegionNameAttribute(this.selectedLevel),
+                selectedLevelDateAttribute = this.getSelectedLevelDateAttribute(this.selectedLevel),
+                filteredFeatures = FeaturesHandler.filterFeaturesByKeyValue(this.loadedFeatures, selectedLevelDateAttribute.attrName, date);
 
-            this.filteredFeatures = FeaturesHandler.filterFeaturesByKeyValue(this.loadedFeatures, selectedLevelDateAttribute.attrName, dateStr);
-            this.layer.getSource().addFeatures(this.filteredFeatures);
-            FeaturesHandler.styleFeaturesByStatistic(this.filteredFeatures, statsKeys[0], this.colorScheme);
+            this.layer.getSource().addFeatures(filteredFeatures);
+            FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme, date, selectedLevelRegionNameAttribute.attrName);
+        },
+
+        /**
+         * Set the selected table column.
+         * @param {String} value - The selected column (date).
+         * @returns {void}
+         */
+        setSelectedColumn (value) {
+            this.selectedColumn = value;
+            this.updateFeatureStyle(value);
         },
 
         /**
@@ -287,7 +297,6 @@ export default {
          * @returns {void}
          */
         async handleFilterSettings (regions, dates, differenceMode) {
-            this.layer.getSource().clear();
             const statsKeys = StatisticsHandler.getStatsKeysByName(this.statisticsByCategory, this.selectedStatisticsNames),
                 selectedLayer = this.getRawLayerByLayerId(this.selectedLevel.layerId),
                 selectedLevelRegionNameAttribute = this.getSelectedLevelRegionNameAttribute(this.selectedLevel),
@@ -304,7 +313,6 @@ export default {
                 });
 
             this.loadedFeatures = new WFS().readFeatures(response);
-            this.filteredFeatures = FeaturesHandler.filterFeaturesByKeyValue(this.loadedFeatures, selectedLevelDateAttribute.attrName, dates[0]);
 
             this.statisticsData = this.prepareStatisticsData(this.loadedFeatures, this.selectedStatisticsNames, regions, dates, selectedLevelDateAttribute, selectedLevelRegionNameAttribute, differenceMode);
             this.tableData = this.getTableData(this.statisticsData);
@@ -312,8 +320,7 @@ export default {
             this.handleChartData(this.selectedStatisticsNames, regions, dates, this.statisticsData, differenceMode);
 
             if (this.selectedStatisticsNames.length === 1) {
-                FeaturesHandler.styleFeaturesByStatistic(this.filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme, this.selectedDates[0].label, selectedLevelRegionNameAttribute.attrName);
-                this.layer.getSource().addFeatures(this.filteredFeatures);
+                this.updateFeatureStyle(this.selectedColumn || dates[0]);
             }
             // else TODO?
         },
@@ -822,7 +829,7 @@ export default {
                         :sortable="sortable"
                         class="mx-5"
                         @setSortedRows="setSortedRows"
-                        @columnSelected="updateFeatureStyle"
+                        @columnSelected="setSelectedColumn"
                     />
                 </div>
                 <GridComponent
