@@ -218,9 +218,6 @@ const LayerView = LayerBaseView.extend(
                 this.model.setIsSelected(false);
                 this.disableComponent();
             }
-            else {
-                this.enableComponent();
-            }
         },
 
 
@@ -315,8 +312,6 @@ const LayerView = LayerBaseView.extend(
                                         layerToSwitchOn.setIsVisibleInMap(true);
                                     }, 500);
                                 }
-
-
                             }
                         }
                     }
