@@ -30,6 +30,18 @@ function createLineChart (topic, preparedData, canvas, renderSimple = false) {
                 },
                 legend: {
                     position: "right"
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
                 }
             }
         };
