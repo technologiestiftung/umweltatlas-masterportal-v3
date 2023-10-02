@@ -107,7 +107,9 @@ export default {
     },
     watch: {
         selectedReferenceData () {
-            this.checkFilterSettings(this.selectedRegionsValues, this.selectedDatesValues, this.selectedReferenceData);
+            // this.checkFilterSettings(this.selectedRegionsValues, this.selectedDatesValues, this.selectedReferenceData);
+            // why??
+            this.checkFilterSettings(getters.selectedRegionsValues(null, {selectedRegions: this.selectedRegions}), getters.selectedDatesValues(null, {selectedDates: this.selectedDates}), this.selectedReferenceData);
         }
     },
     async created () {
@@ -250,10 +252,12 @@ export default {
          */
         checkFilterSettings (regions, dates, referenceData) {
             if (typeof referenceData.value === "string") {
-                this.handleFilterSettings([...regions, referenceData.value], dates, "region");
+                regions.push(referenceData.value);
+                this.handleFilterSettings([...new Set(regions)], dates, "region");
             }
             else if (isObject(referenceData?.value) && typeof referenceData.value.label === "string") {
-                this.handleFilterSettings(regions, [...dates, referenceData.value.value], "date");
+                dates.push(referenceData.value.value);
+                this.handleFilterSettings(regions, [...new Set(dates)], "date");
             }
             else if (Array.isArray(regions) && regions.length && Array.isArray(dates) && dates.length) {
                 this.handleFilterSettings(regions, dates, false);
@@ -328,11 +332,11 @@ export default {
 
             this.showGrid = false;
             if (filteredStatistics.length > 1) {
-                this.prepareGridCharts(filteredStatistics, preparedData, directionBarChart, differenceMode, dates.length > 1);
+                this.prepareGridCharts(filteredStatistics, preparedData, directionBarChart, differenceMode, dates.length >= 2 && !differenceMode || dates.length >= 3 || dates.length === 2 && differenceMode === "region");
             }
             else if (regions.length >= 1) {
                 this.$nextTick(() => {
-                    if (dates.length > 1 && !differenceMode || dates.length >= 2) {
+                    if (dates.length >= 2 && !differenceMode || dates.length >= 3 || dates.length === 2 && differenceMode === "region") {
                         this.prepareChartData(filteredStatistics[0], preparedData[filteredStatistics[0]], undefined, "line", differenceMode);
                         return;
                     }
@@ -524,14 +528,17 @@ export default {
             const foundFeature = this.findFeatureByDateAndRegion(features, region, regionKey, date, dateKey);
 
             if (differenceMode === "date") {
-                const refFeature = this.findFeatureByDateAndRegion(features, region, regionKey, this.selectedReferenceData.value.value, dateKey);
+                const refFeature = this.findFeatureByDateAndRegion(features, region, regionKey, this.selectedReferenceData.value.value, dateKey),
+                    value = parseInt(foundFeature?.get(statisticKey), 10) - parseInt(refFeature?.get(statisticKey), 10);
 
-                return (parseInt(foundFeature?.get(statisticKey), 10) - parseInt(refFeature?.get(statisticKey), 10)) || "-";
+
+                return isNaN(value) ? "-" : value;
             }
             if (differenceMode === "region") {
-                const refFeature = this.findFeatureByDateAndRegion(features, this.selectedReferenceData.value, regionKey, date, dateKey);
+                const refFeature = this.findFeatureByDateAndRegion(features, this.selectedReferenceData.value, regionKey, date, dateKey),
+                    value = parseInt(foundFeature?.get(statisticKey), 10) - parseInt(refFeature?.get(statisticKey), 10);
 
-                return (parseInt(foundFeature?.get(statisticKey), 10) - parseInt(refFeature?.get(statisticKey), 10)) || "-";
+                return isNaN(value) ? "-" : value;
             }
 
             return parseInt(foundFeature?.get(statisticKey), 10) || "-";
