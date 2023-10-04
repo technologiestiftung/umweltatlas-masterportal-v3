@@ -273,6 +273,11 @@ const LayerView = LayerBaseView.extend(
             return visibleLayers;
         },
 
+        /**
+         * Get all Layers from the config.json
+         * @param {*} configObject attribute of the config object leading to the first entry containing layers, e.g. store.state.configJson.Themenconfig.Hintergrundkarten
+         * @returns {Object} of layers
+         */
         getLayers: function (configObject) {
             let layers = [];
 
