@@ -329,39 +329,40 @@ const LayerView = LayerBaseView.extend(
                         }
                     }
                 }
+            }
 
-                if (layers) {
-                    layers.forEach(layer => {
+            if (layers) {
+                layers.forEach(layer => {
 
-                        if (!layer.supported) {
-                            layer.supported = ["2D", "3D"];
-                        }
+                    if (!layer.supported) {
+                        layer.supported = ["2D", "3D"];
+                    }
 
-                        const shouldLayerBeVisible = layer.supported?.includes(mode);
+                    const shouldLayerBeVisible = layer.supported?.includes(mode);
 
-                        try {
-                            if (shouldLayerBeVisible) {
-                                const layersToSwitchOn = this.getModelById(layer.id);
+                    try {
+                        if (shouldLayerBeVisible) {
+                            const layersToSwitchOn = this.getModelById(layer.id);
 
-                                for (const layerToSwitchOn of layersToSwitchOn) {
+                            for (const layerToSwitchOn of layersToSwitchOn) {
 
-                                    setTimeout(() => {
-                                        this.enableComponent();
+                                setTimeout(() => {
+                                    this.enableComponent();
 
-                                        layerToSwitchOn.setIsSelected(true);
-                                        layerToSwitchOn.setIsVisibleInMap(true);
-                                    }, 500);
+                                    layerToSwitchOn.setIsSelected(true);
+                                    layerToSwitchOn.setIsVisibleInMap(true);
+                                }, 500);
 
-                                }
                             }
                         }
-                        catch (e) {
-                            console.error(e);
-                        }
-                    });
-                }
+                    }
+                    catch (e) {
+                        console.error(e);
+                    }
+                });
             }
-        }}
+        }
+    }
 );
 
 export default LayerView;
