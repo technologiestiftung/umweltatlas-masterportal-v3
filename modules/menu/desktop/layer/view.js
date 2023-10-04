@@ -284,9 +284,25 @@ const LayerView = LayerBaseView.extend(
             if (configObject) {
                 layers = configObject.Layer ? configObject.Layer : configObject.Ordner;
             }
-
-
             return layers;
+        },
+        /**
+         * Get a list of models that fits the given id(s)
+         * @param {*} id string or array of ids
+         * @returns {Array} list of models
+         */
+        getModelById: function (id) {
+            const idArray = typeof id === "string" ? [id] : id,
+                modelList = [];
+
+            for (const singleId of idArray) {
+                const modelBaseLayer = Radio.request("ModelList", "getModelByAttributes", {id: singleId});
+
+                if (modelBaseLayer) {
+                    modelList.push(modelBaseLayer);
+                }
+            }
+            return modelList;
         },
 
         /**
@@ -295,44 +311,57 @@ const LayerView = LayerBaseView.extend(
          */
 
         setDefaultVisibleLayers: function (mode) {
-            const layers = this.getDefaultVisibleLayer();
+            const layers = this.getDefaultVisibleLayer(),
+                singleBaseLayer = store.state.configJson?.Portalconfig.singleBaselayer;
 
-            if (layers) {
-                layers.forEach(layer => {
+            // De-select basemap layers if configuration singleBaseLayer=true
+            if (singleBaseLayer) {
+                const baseLayers = this.getLayers(store.state.configJson?.Themenconfig.Hintergrundkarten);
 
-                    if (!layer.supported) {
-                        layer.supported = ["2D", "3D"];
+                for (const baseLayer of baseLayers) {
+                    const modelBaseLayers = this.getModelById(baseLayer.id);
+
+                    for (const modelBaseLayer of modelBaseLayers) {
+
+                        if (modelBaseLayer?.attributes.isSelected) {
+                            modelBaseLayer.setIsSelected(false);
+                            modelBaseLayer.setIsVisibleInMap(false);
+                        }
                     }
+                }
 
-                    const shouldLayerBeVisible = layer.supported?.includes(mode);
+                if (layers) {
+                    layers.forEach(layer => {
 
-                    try {
-                        if (shouldLayerBeVisible) {
-                            const idsFromConfig = typeof layer.id === "string" ? [layer.id] : layer.id;
+                        if (!layer.supported) {
+                            layer.supported = ["2D", "3D"];
+                        }
 
-                            for (const id of idsFromConfig) {
+                        const shouldLayerBeVisible = layer.supported?.includes(mode);
 
-                                const layerToSwitchOn = Radio.request("ModelList", "getModelByAttributes", {id: id});
+                        try {
+                            if (shouldLayerBeVisible) {
+                                const layersToSwitchOn = this.getModelById(layer.id);
 
-                                if (layerToSwitchOn) {
+                                for (const layerToSwitchOn of layersToSwitchOn) {
+
                                     setTimeout(() => {
                                         this.enableComponent();
 
                                         layerToSwitchOn.setIsSelected(true);
                                         layerToSwitchOn.setIsVisibleInMap(true);
                                     }, 500);
+
                                 }
                             }
                         }
-                    }
-                    catch (e) {
-                        console.error(e);
-                    }
-
-                });
+                        catch (e) {
+                            console.error(e);
+                        }
+                    });
+                }
             }
-        }
-    }
+        }}
 );
 
 export default LayerView;
