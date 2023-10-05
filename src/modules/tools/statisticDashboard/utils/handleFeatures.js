@@ -39,6 +39,9 @@ function styleFeaturesByStatistic (features, statisticData, colorScheme, date, r
         const index = closestIndex(stepValues, statisticData[region][date]),
             foundFeature = features.find(feature => feature.get(regionKey) === region);
 
+        if (!foundFeature) {
+            return;
+        }
         foundFeature.setStyle(() => {
             const defaultColor = [255, 255, 255, 0.9],
                 fillColorScheme = typeof colorScheme[index] !== "undefined" ? colorScheme[index] : defaultColor;

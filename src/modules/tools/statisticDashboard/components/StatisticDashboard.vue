@@ -252,16 +252,17 @@ export default {
          * @returns {void}
          */
         checkFilterSettings (regions, dates, referenceData) {
+            if (!isObject(referenceData)) {
+                this.handleFilterSettings(regions, dates, false);
+                return;
+            }
             if (typeof referenceData.value === "string") {
                 regions.push(referenceData.value);
                 this.handleFilterSettings([...new Set(regions)], dates, "region");
             }
-            else if (isObject(referenceData?.value) && typeof referenceData.value.label === "string") {
+            else if (isObject(referenceData.value) && typeof referenceData.value.label === "string") {
                 dates.push(referenceData.value.value);
                 this.handleFilterSettings(regions, [...new Set(dates)], "date");
-            }
-            else if (Array.isArray(regions) && regions.length && Array.isArray(dates) && dates.length) {
-                this.handleFilterSettings(regions, dates, false);
             }
         },
 
@@ -534,22 +535,24 @@ export default {
          */
         getStatisticValue (features, statisticKey, region, regionKey, date, dateKey, differenceMode) {
             const foundFeature = this.findFeatureByDateAndRegion(features, region, regionKey, date, dateKey);
+            let refFeature = null,
+                value = NaN;
+
+            if (differenceMode !== "date" && differenceMode !== "region" || !this.selectedReferenceData) {
+                return parseInt(foundFeature?.get(statisticKey), 10) || "-";
+            }
 
             if (differenceMode === "date") {
-                const refFeature = this.findFeatureByDateAndRegion(features, region, regionKey, this.selectedReferenceData.value.value, dateKey),
-                    value = parseInt(foundFeature?.get(statisticKey), 10) - parseInt(refFeature?.get(statisticKey), 10);
+                refFeature = this.findFeatureByDateAndRegion(features, region, regionKey, this.selectedReferenceData.value.value, dateKey);
+                value = parseInt(foundFeature?.get(statisticKey), 10) - parseInt(refFeature?.get(statisticKey), 10);
 
 
                 return isNaN(value) ? "-" : value;
             }
-            if (differenceMode === "region") {
-                const refFeature = this.findFeatureByDateAndRegion(features, this.selectedReferenceData.value, regionKey, date, dateKey),
-                    value = parseInt(foundFeature?.get(statisticKey), 10) - parseInt(refFeature?.get(statisticKey), 10);
+            refFeature = this.findFeatureByDateAndRegion(features, this.selectedReferenceData.value, regionKey, date, dateKey);
+            value = parseInt(foundFeature?.get(statisticKey), 10) - parseInt(refFeature?.get(statisticKey), 10);
 
-                return isNaN(value) ? "-" : value;
-            }
-
-            return parseInt(foundFeature?.get(statisticKey), 10) || "-";
+            return isNaN(value) ? "-" : value;
         },
 
         /**

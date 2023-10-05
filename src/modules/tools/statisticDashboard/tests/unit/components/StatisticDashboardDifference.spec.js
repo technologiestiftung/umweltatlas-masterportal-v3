@@ -5,6 +5,7 @@ import StatisticDashboardDifference from "../../../components/StatisticDashboard
 import indexStatisticDashboard from "../../../store/indexStatisticDashboard";
 import Multiselect from "vue-multiselect";
 import StatisticSwitcher from "../../../components/StatisticDashboardSwitcher.vue";
+import sinon from "sinon";
 
 const localVue = createLocalVue();
 
@@ -84,62 +85,134 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
         });
     });
 
-    describe("Computed Properties", () => {
-        it("should set selectedValue to undefined", () => {
-            const wrapper = shallowMount(StatisticDashboardDifference, {
-                propsData: propsData,
-                localVue,
-                store
-            });
-
-            expect(wrapper.vm.selectedValue).to.be.undefined;
-            wrapper.destroy();
-        });
-
-        it("should set referenceType to date", () => {
-            const wrapper = shallowMount(StatisticDashboardDifference, {
-                propsData: propsData,
-                localVue,
-                store
-            });
-
-            expect(wrapper.vm.referenceType).to.equal("date");
-            wrapper.destroy();
-        });
-    });
-
     describe("Methods", () => {
-        it("should set reference type with region", async () => {
-            const wrapper = shallowMount(StatisticDashboardDifference, {
-                propsData: propsData,
-                localVue,
-                store
-            });
+        describe("handleClickOutside", () => {
+            it("should do nothing if closest function of param returns true", () => {
+                const wrapper = shallowMount(StatisticDashboardDifference, {
+                    propsData: propsData,
+                    localVue,
+                    store
+                });
 
-            await wrapper.vm.handleReference("Gebiet");
-            expect(wrapper.vm.selectedValue).to.deep.equal([]);
-            expect(wrapper.vm.optionData).to.deep.equal([
-                {label: "Wandsbek", value: "Wandsbek"},
-                {label: "Hamburg", value: "Hamburg"},
-                {label: "Deutschland", value: "Deutschland"}
-            ]);
-            expect(wrapper.vm.selectedReferenceData).to.deep.equal({
-                "type": "region",
-                "value": []
+                wrapper.vm.handleClickOutside({target: {closest: () => true}});
+                expect(wrapper.emitted("showDifference")).to.be.undefined;
+                wrapper.destroy();
             });
-            wrapper.destroy();
+            it("should emit showDifference with false as parameter", () => {
+                const wrapper = shallowMount(StatisticDashboardDifference, {
+                    propsData: propsData,
+                    localVue,
+                    store
+                });
+
+                wrapper.vm.handleClickOutside({target: {closest: () => false}});
+                expect(wrapper.emitted()).to.have.property("showDifference");
+                expect(wrapper.emitted().showDifference[0]).to.deep.equal([false]);
+                wrapper.destroy();
+            });
         });
+        describe("updateSelectedReferenceData", () => {
+            it("should set the selectedReferenceData to the emit object for date", () => {
+                const wrapper = shallowMount(StatisticDashboardDifference, {
+                        propsData: propsData,
+                        localVue,
+                        store
+                    }),
+                    expected = {
+                        type: "date",
+                        value: {
+                            label: "1999",
+                            value: "1999-01-01"
+                        }
+                    },
+                    setSelectedReferenceDataStub = sinon.stub(wrapper.vm, "setSelectedReferenceData");
 
-        it("should set savedReferenceData", async () => {
-            const wrapper = shallowMount(StatisticDashboardDifference, {
-                propsData: propsData,
-                localVue,
-                store
+                wrapper.vm.selectedDate = {label: "1999", value: "1999-01-01"};
+                wrapper.vm.updateSelectedReferenceData("date");
+
+                expect(setSelectedReferenceDataStub.calledWith(expected)).to.be.true;
+                expect(wrapper.vm.selectedRegion).to.be.an("string").that.is.empty;
+                wrapper.destroy();
+                sinon.restore();
             });
+            it("should set the selectedReferenceData to undefined for date if no vale for selectedDate is set", () => {
+                const wrapper = shallowMount(StatisticDashboardDifference, {
+                        propsData: propsData,
+                        localVue,
+                        store
+                    }),
+                    setSelectedReferenceDataStub = sinon.stub(wrapper.vm, "setSelectedReferenceData");
 
-            await wrapper.vm.handleReference("Gebiet");
-            expect(wrapper.vm.savedReferenceData).to.deep.equal({});
-            wrapper.destroy();
+                wrapper.vm.selectedDate = undefined;
+                wrapper.vm.updateSelectedReferenceData("date");
+
+                expect(setSelectedReferenceDataStub.calledWith(undefined)).to.be.true;
+                expect(wrapper.vm.selectedRegion).to.be.an("string").that.is.empty;
+                wrapper.destroy();
+                sinon.restore();
+            });
+            it("should set the selectedReferenceData to the emit object for region", () => {
+                const wrapper = shallowMount(StatisticDashboardDifference, {
+                        propsData: propsData,
+                        localVue,
+                        store
+                    }),
+                    expected = {
+                        type: "region",
+                        value: "Hamburg"
+                    },
+                    setSelectedReferenceDataStub = sinon.stub(wrapper.vm, "setSelectedReferenceData");
+
+                wrapper.vm.selectedRegion = "Hamburg";
+                wrapper.vm.updateSelectedReferenceData("region");
+
+                expect(setSelectedReferenceDataStub.calledWith(expected)).to.be.true;
+                expect(wrapper.vm.selectedDate).to.be.an("string").that.is.empty;
+                wrapper.destroy();
+                sinon.restore();
+            });
+            it("should set the selectedReferenceData to undefined for region", () => {
+                const wrapper = shallowMount(StatisticDashboardDifference, {
+                        propsData: propsData,
+                        localVue,
+                        store
+                    }),
+                    setSelectedReferenceDataStub = sinon.stub(wrapper.vm, "setSelectedReferenceData");
+
+                wrapper.vm.selectedRegion = undefined;
+                wrapper.vm.updateSelectedReferenceData("region");
+
+                expect(setSelectedReferenceDataStub.calledWith(undefined)).to.be.true;
+                expect(wrapper.vm.selectedDate).to.be.an("string").that.is.empty;
+                wrapper.destroy();
+                sinon.restore();
+            });
+            it("should set the selectedReferenceData", async () => {
+                const wrapper = shallowMount(StatisticDashboardDifference, {
+                        propsData: propsData,
+                        localVue,
+                        store
+                    }),
+                    setSelectedReferenceDataStub = sinon.stub(wrapper.vm, "setSelectedReferenceData");
+
+                wrapper.vm.selectedRegion = "Hamburg";
+                wrapper.vm.updateSelectedReferenceData("region");
+                expect(setSelectedReferenceDataStub.called).to.be.true;
+                wrapper.destroy();
+                sinon.restore();
+            });
+            it("should emit showDifference with false as parameter", () => {
+                const wrapper = shallowMount(StatisticDashboardDifference, {
+                    propsData: propsData,
+                    localVue,
+                    store
+                });
+
+                wrapper.vm.updateSelectedReferenceData();
+                expect(wrapper.emitted()).to.have.property("showDifference");
+                expect(wrapper.emitted().showDifference[0]).to.deep.equal([false]);
+                wrapper.destroy();
+            });
         });
     });
 });

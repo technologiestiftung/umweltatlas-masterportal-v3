@@ -24,7 +24,7 @@ const state = {
     deactivateGFI: true,
     colorScheme: [],
     data: [],
-    selectedReferenceData: {},
+    selectedReferenceData: undefined,
     selectedRegions: [],
     selectedDates: [],
     selectedStatistics: {}

@@ -16,11 +16,19 @@ export default {
             default: undefined
         }
     },
-
-    created () {
+    data () {
+        return {
+            precheckedIndex: 0
+        };
+    },
+    watch: {
+        preCheckedValue (newVal) {
+            this.precheckedIndex = this.getPrecheckedIndex(this.buttons, newVal);
+        }
+    },
+    mounted () {
         this.precheckedIndex = this.getPrecheckedIndex(this.buttons, this.preCheckedValue);
     },
-
     methods: {
         /**
          * Gets the prechecked index

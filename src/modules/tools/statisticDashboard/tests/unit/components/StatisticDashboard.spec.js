@@ -108,7 +108,7 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                 }),
                 spyCheckFilterSettings = sinon.stub(wrapper.vm, "checkFilterSettings");
 
-            store.commit("Tools/StatisticDashboard/setSelectedReferenceData", undefined);
+            store.commit("Tools/StatisticDashboard/setSelectedReferenceData", "foo");
             await wrapper.vm.$nextTick();
             expect(spyCheckFilterSettings.calledOnce).to.be.true;
             sinon.restore();

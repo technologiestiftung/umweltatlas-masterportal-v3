@@ -80,7 +80,7 @@ export default {
             if (isObject(val?.value) && typeof val.value.label === "string") {
                 this.referenceTag = val.value.label;
             }
-            else if (val?.value === null) {
+            else if (typeof val === "undefined") {
                 this.referenceTag = undefined;
             }
         }
@@ -136,7 +136,7 @@ export default {
          * @returns {void}
          */
         removeReference () {
-            this.setSelectedReferenceData({});
+            this.setSelectedReferenceData(undefined);
             this.referenceTag = undefined;
         }
     }

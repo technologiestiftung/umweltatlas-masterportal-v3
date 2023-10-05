@@ -346,7 +346,7 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
 
         describe("emitFilterSettings", () => {
             it("should emit 'changeFilterSettings' with the right values", async () => {
-                await store.commit("Tools/StatisticDashboard/setSelectedStatistics", {});
+                await store.commit("Tools/StatisticDashboard/setSelectedStatistics", undefined);
                 const wrapper = shallowMount(StatisticDashboardFilter, {
                     propsData: {
                         categories: [],
@@ -360,7 +360,7 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
 
                 wrapper.vm.emitFilterSettings({name: "name"}, [6], [6]);
                 expect(wrapper.emitted()).to.have.all.keys("changeFilterSettings");
-                expect(wrapper.emitted().changeFilterSettings).to.deep.equal([[[6], [6], {}]]);
+                expect(wrapper.emitted().changeFilterSettings).to.deep.equal([[[6], [6], undefined]]);
                 wrapper.destroy();
             });
             it("should not emit 'changeFilterSettings' but 'resetStatistics'", () => {
