@@ -7,12 +7,13 @@ import isObject from "../../../../utils/isObject.js";
  * @param {String} topic The topic of the chart.
  * @param {Object} preparedData The prepared data.
  * @param {HTMLCanvasElement} canvas The canvas to render the chart on.
+ * @param {Object[]} colors The colors to render the lines.
  * @param {Boolean} renderSimple true if should be rendered as simple chart. Default is false.
  * @returns {Chart} The chart.
  */
-function createLineChart (topic, preparedData, canvas, renderSimple = false) {
+function createLineChart (topic, preparedData, canvas, colors, renderSimple = false) {
     const chart = canvas,
-        lineChartData = parsePreparedDataToLineChartFormat(preparedData),
+        lineChartData = parsePreparedDataToLineChartFormat(preparedData, colors),
         datasets = lineChartData?.datasets,
         labels = lineChartData?.labels,
         config = {
@@ -59,13 +60,13 @@ function createLineChart (topic, preparedData, canvas, renderSimple = false) {
  * @param {String} direction The direction to render the bar.
  * @param {HTMLElement} canvas The canvas to render the chart on.
  * @param {Boolean} [renderSimple=false] -  true if should be rendered as simple chart.
- * @param {Object[]} [colour = ["#d3d3d3"]] -  The colour to render the bar.
+ * @param {Object[]} [color = ["#d3d3d3"]] -  The color to render the bar.
  * @returns {Chart} The chart.
  */
-function createBarChart (topic, preparedData, direction, canvas, renderSimple = false, colour = ["#d3d3d3"]) {
+function createBarChart (topic, preparedData, direction, canvas, renderSimple = false, color = ["#d3d3d3"]) {
     const chart = canvas,
         dataValues = parsePreparedDataToBarChartFormat(preparedData),
-        dataColours = getBarChartColours(dataValues, colour),
+        dataColors = getBarChartColors(dataValues, color),
         config = {
             type: direction === "horizontal" ? "horizontalBar" : "bar",
             data: {
@@ -73,8 +74,8 @@ function createBarChart (topic, preparedData, direction, canvas, renderSimple = 
                 datasets: [{
                     label: topic,
                     data: dataValues,
-                    borderColor: dataColours,
-                    backgroundColor: dataColours
+                    borderColor: dataColors,
+                    backgroundColor: dataColors
                 }]
             },
             options: {
@@ -112,15 +113,16 @@ function createBarChart (topic, preparedData, direction, canvas, renderSimple = 
 /**
  * Parses data to line chart format and returns it.
  * @param {Object} preparedData The data.
+ * @param {Object[]} colors The colors.
  * @returns {Object} The parsed data.
  */
-function parsePreparedDataToLineChartFormat (preparedData) {
+function parsePreparedDataToLineChartFormat (preparedData, colors) {
     if (!isObject(preparedData)) {
         return {};
     }
     const datasets = [],
         singleDataObject = Object.values(preparedData)[0],
-        allColors = Object.values(getCssColorMap());
+        allColors = colors !== undefined ? colors : Object.values(getCssColorMap());
     let labels = [],
         datasetsCount = 0;
 
@@ -182,26 +184,26 @@ function getYearFromPreparedData (preparedData) {
     return year;
 }
 /**
- * Get the colour for the bar chart and returns it.
+ * Get the color for the bar chart and returns it.
  * @param {Object} data - The data.
- * @param {Object[]} currentColour - The colours.
+ * @param {Object[]} currentColor - The colors.
  * @returns {Object[]} The values as array.
  */
-function getBarChartColours (data, currentColour) {
-    if (!Array.isArray(data) && !Array.isArray(currentColour)) {
+function getBarChartColors (data, currentColor) {
+    if (!Array.isArray(data) && !Array.isArray(currentColor)) {
         return "";
     }
-    let colourValue = [];
+    let colorValue = [];
 
 
-    if (currentColour.length === 2) {
-        colourValue = data.map((value) => value < 0 ? currentColour[0] : currentColour[1]);
+    if (currentColor.length === 2) {
+        colorValue = data.map((value) => value < 0 ? currentColor[0] : currentColor[1]);
     }
-    if (currentColour.length === 1) {
-        colourValue = currentColour[0];
+    if (currentColor.length === 1) {
+        colorValue = currentColor[0];
     }
 
-    return colourValue;
+    return colorValue;
 }
 const simpleChartOptions = {
     legend: {display: false},
@@ -227,5 +229,5 @@ export default {
     parsePreparedDataToLineChartFormat,
     parsePreparedDataToBarChartFormat,
     getYearFromPreparedData,
-    getBarChartColours
+    getBarChartColors
 };

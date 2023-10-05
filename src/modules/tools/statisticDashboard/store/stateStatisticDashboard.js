@@ -22,7 +22,7 @@ const state = {
     resizableWindow: true,
     isVisibleInMenu: true,
     deactivateGFI: true,
-    colorScheme: [],
+    colorScheme: {},
     data: [],
     selectedReferenceData: undefined,
     selectedRegions: [],

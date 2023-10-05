@@ -278,7 +278,7 @@ export default {
                 filteredFeatures = FeaturesHandler.filterFeaturesByKeyValue(this.loadedFeatures, selectedLevelDateAttribute.attrName, date);
 
             this.layer.getSource().addFeatures(filteredFeatures);
-            FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme, date, selectedLevelRegionNameAttribute.attrName);
+            FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.comparisonMap, date, selectedLevelRegionNameAttribute.attrName);
         },
 
         /**
@@ -400,7 +400,7 @@ export default {
             }
             this.currentChart[uniqueTopic] = {};
             if (type === "line") {
-                this.currentChart[uniqueTopic].chart = ChartProcessor.createLineChart(topic, preparedData, chart, renderSimple);
+                this.currentChart[uniqueTopic].chart = ChartProcessor.createLineChart(topic, preparedData, chart, this.colorScheme.lineCharts, renderSimple);
             }
             else if (type === "bar") {
                 if (typeof differenceMode === "string") {
