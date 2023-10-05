@@ -1,5 +1,4 @@
 <script>
-
 export default {
     name: "StatisticDashboardSwitcher",
     props: {
@@ -10,6 +9,33 @@ export default {
         group: {
             type: String,
             required: true
+        },
+        preCheckedValue: {
+            type: String,
+            required: false,
+            default: undefined
+        }
+    },
+
+    created () {
+        this.precheckedIndex = this.getPrecheckedIndex(this.buttons, this.preCheckedValue);
+    },
+
+    methods: {
+        /**
+         * Gets the prechecked index
+         * @param {Object[]} buttons - the buttons object in array
+         * @param {String} precheckedValue - the prechecked value
+         * @returns {Number} the prechecked index
+         */
+        getPrecheckedIndex (buttons, precheckedValue) {
+            if (!Array.isArray(buttons) || typeof precheckedValue !== "string") {
+                return 0;
+            }
+
+            const index = buttons.findIndex((button) => button?.name === precheckedValue);
+
+            return index !== -1 ? index : 0;
         }
     }
 };
@@ -31,7 +57,7 @@ export default {
                 class="btn-check"
                 :name="group"
                 autocomplete="off"
-                :checked="idx === 0"
+                :checked="idx === precheckedIndex"
             >
             <label
                 class="btn btn-outline-primary"

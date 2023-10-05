@@ -22,10 +22,10 @@ export default {
         return {
             savedReferenceData: {},
             buttonGroupReference: [{
-                name: "Jahr"
+                name: i18next.t("common:modules.tools.statisticDashboard.label.year")
             },
             {
-                name: "Gebiet"
+                name: i18next.t("common:modules.tools.statisticDashboard.label.area")
             }]
         };
     },
@@ -59,15 +59,23 @@ export default {
                     "value": []
                 });
             }
+        },
+
+        preCheckedValue () {
+            return this.referenceType === "date" ? i18next.t("common:modules.tools.statisticDashboard.label.year") : i18next.t("common:modules.tools.statisticDashboard.label.area");
         }
+
     },
     watch: {
-        selectedReferenceData (oldVal, newVal) {
-            if (Array.isArray(oldVal?.value) && !oldVal.value.length && isObject(newVal.value) && newVal.value.value) {
-                this.savedReferenceData = newVal;
-            }
-            else if (isObject(oldVal.value) && oldVal.value.value) {
+        selectedReferenceData (newVal, oldVal) {
+            if (Array.isArray(newVal?.value) && !newVal.value.length && isObject(oldVal?.value) && oldVal.value.value) {
                 this.savedReferenceData = oldVal;
+            }
+            else if (Array.isArray(newVal?.value) && !newVal.value.length && typeof oldVal?.value === "string") {
+                this.savedReferenceData = oldVal;
+            }
+            else if (isObject(newVal?.value) && newVal.value.value) {
+                this.savedReferenceData = newVal;
             }
         }
     },
@@ -122,6 +130,7 @@ export default {
             <div class="col-md-12">
                 <StatisticSwitcher
                     :buttons="buttonGroupReference"
+                    :pre-checked-value="preCheckedValue"
                     group="referenceGroup"
                     @showView="handleReference"
                 />
