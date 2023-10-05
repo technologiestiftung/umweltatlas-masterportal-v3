@@ -217,7 +217,7 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                     }),
                     uniqueList = {bar: true, buz: true, foo: true},
                     configSteps = {2: "Last 2 Years"},
-                    expected = [{value: "foo", label: "Invalid Date"}, {value: "buz", label: "Invalid Date"}, {value: "bar", label: "Invalid Date"}, {value: ["buz", "foo"], label: "Last 2 Years"}];
+                    expected = [{value: ["buz", "foo"], label: "Last 2 Years"}, {value: "foo", label: "Invalid Date"}, {value: "buz", label: "Invalid Date"}, {value: "bar", label: "Invalid Date"}];
 
                 expect(wrapper.vm.getTimestepsMerged(configSteps, uniqueList)).to.deep.equal(expected);
             });
@@ -244,9 +244,9 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                 });
 
                 expect(wrapper.vm.getAllRegions(["test", "test2"])).to.deep.equal([
+                    {value: ["test", "test2"], label: "Alle Gebiete"},
                     {value: "test", label: "test"},
-                    {value: "test2", label: "test2"},
-                    {value: ["test", "test2"], label: "Alle Gebiete"}
+                    {value: "test2", label: "test2"}
                 ]);
             });
         });

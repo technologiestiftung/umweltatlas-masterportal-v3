@@ -177,8 +177,6 @@ export default {
                 uniqueListAsArray.forEach(uniqueTime => {
                     result.push({value: uniqueTime, label: dayjs(uniqueTime, inputFormat).format(outputFormat)});
                 });
-
-                result = sort("", result, "label").reverse();
             }
             if (isObject(timeSteps)) {
                 Object.entries(timeSteps).forEach(([key, value]) => {
@@ -189,6 +187,9 @@ export default {
                     }
                 });
             }
+
+            result = sort("", result, "label").reverse();
+
             return result;
         },
         /**
@@ -216,11 +217,11 @@ export default {
                 return [];
             }
 
+            result.push({value: regions, label: "Alle Gebiete"});
+
             regions.forEach(region => {
                 result.push({value: region, label: region});
             });
-
-            result.push({value: regions, label: "Alle Gebiete"});
 
             return result;
         },
