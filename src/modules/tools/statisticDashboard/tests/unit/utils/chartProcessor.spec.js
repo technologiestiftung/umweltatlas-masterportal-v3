@@ -106,4 +106,39 @@ describe("/src/modules/tools/statisticDashboard/utils/chartProcessor.js", () => 
             expect(chartProcessor.getBarChartColors(param, color)).to.deep.equal(["#89C67F"]);
         });
     });
+    describe("splitTextByWordAndChunkSize", () => {
+        it("should split text into chunks without breaking words", () => {
+            const inputText = "This is a sample text that should be split into chunks.",
+                chunkSize = 10,
+                expectedResult = [
+                    "This is a",
+                    "sample text",
+                    "that should",
+                    "be split",
+                    "into",
+                    "chunks."
+                ],
+                result = chartProcessor.splitTextByWordAndChunkSize(inputText, chunkSize);
+
+            expect(result).to.deep.equal(expectedResult);
+        });
+
+        it("should handle an empty input text", () => {
+            const inputText = "",
+                chunkSize = 10,
+                expectedResult = [""],
+                result = chartProcessor.splitTextByWordAndChunkSize(inputText, chunkSize);
+
+            expect(result).to.deep.equal(expectedResult);
+        });
+
+        it("should handle a single word that exceeds the chunk size", () => {
+            const inputText = "Supercalifragilisticexpialidocious",
+                chunkSize = 5,
+                expectedResult = ["Supercalifragilisticexpialidocious"],
+                result = chartProcessor.splitTextByWordAndChunkSize(inputText, chunkSize);
+
+            expect(result).to.deep.equal(expectedResult);
+        });
+    });
 });

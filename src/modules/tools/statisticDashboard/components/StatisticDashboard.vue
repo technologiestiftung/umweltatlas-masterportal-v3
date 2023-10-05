@@ -39,11 +39,7 @@ export default {
         return {
             tableData: [],
             testFixedData: {
-                items: [
-                    ["Bergedorf", 1234, 1234],
-                    ["Wandsbek", 23456, 1234],
-                    ["Altona", 23475, 1234]
-                ]
+                items: []
             },
             selectMode: "column",
             showHeader: true,

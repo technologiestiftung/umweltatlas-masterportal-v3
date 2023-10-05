@@ -16,7 +16,7 @@ function createLineChart (topic, preparedData, canvas, colors, renderSimple = fa
         lineChartData = parsePreparedDataToLineChartFormat(preparedData, colors),
         datasets = lineChartData?.datasets,
         labels = lineChartData?.labels,
-        config = {
+        lineChartConfig = {
             type: "line",
             data: {
                 labels,
@@ -25,7 +25,7 @@ function createLineChart (topic, preparedData, canvas, colors, renderSimple = fa
             options: {
                 title: {
                     display: true,
-                    text: topic,
+                    text: renderSimple ? splitTextByWordAndChunkSize(topic, 30) : topic,
                     fontSize: 13,
                     padding: 10
                 },
@@ -48,9 +48,9 @@ function createLineChart (topic, preparedData, canvas, colors, renderSimple = fa
         };
 
     if (renderSimple) {
-        Object.assign(config.options, simpleChartOptions);
+        lineChartConfig.options = {...lineChartConfig.options, ...JSON.parse(JSON.stringify(simpleChartOptions))};
     }
-    return new Chart(chart.getContext("2d"), config);
+    return new Chart(chart.getContext("2d"), lineChartConfig);
 }
 
 /**
@@ -67,7 +67,7 @@ function createBarChart (topic, preparedData, direction, canvas, renderSimple = 
     const chart = canvas,
         dataValues = parsePreparedDataToBarChartFormat(preparedData),
         dataColors = getBarChartColors(dataValues, color),
-        config = {
+        barChartConfig = {
             type: direction === "horizontal" ? "horizontalBar" : "bar",
             data: {
                 labels: Object.keys(preparedData),
@@ -84,7 +84,7 @@ function createBarChart (topic, preparedData, direction, canvas, renderSimple = 
                 },
                 title: {
                     display: true,
-                    text: topic + " " + getYearFromPreparedData(preparedData),
+                    text: renderSimple ? splitTextByWordAndChunkSize(topic + " " + getYearFromPreparedData(preparedData), 30) : topic + " " + getYearFromPreparedData(preparedData),
                     fontSize: 13,
                     padding: 10
                 },
@@ -104,10 +104,13 @@ function createBarChart (topic, preparedData, direction, canvas, renderSimple = 
         };
 
     if (renderSimple) {
-        Object.assign(config.options, simpleChartOptions);
+        barChartConfig.options = {...barChartConfig.options, ...JSON.parse(JSON.stringify(simpleChartOptions))};
+        barChartConfig.options.scales.yAxes = [{
+            display: false
+        }];
     }
-    config.options.scales.xAxes[0].position = direction === "horizontal" ? "top" : "bottom";
-    return new Chart(chart.getContext("2d"), config);
+    barChartConfig.options.scales.xAxes[0].position = direction === "horizontal" ? "top" : "bottom";
+    return new Chart(chart.getContext("2d"), barChartConfig);
 }
 
 /**
@@ -205,6 +208,37 @@ function getBarChartColors (data, currentColor) {
 
     return colorValue;
 }
+/**
+ * Splits a text into chunks without breaking words.
+ * @param {String} text The text to be split.
+ * @param {Number} chunkSize The maximum character count per chunk.
+ * @returns {String[]} An array of chunks that adhere to the specified criteria.
+ */
+function splitTextByWordAndChunkSize (text, chunkSize) {
+    const chunks = [],
+        words = text.split(" ");
+    let currentChunk = "";
+
+    words.forEach(word => {
+        if (currentChunk.length + word.length <= chunkSize) {
+            currentChunk += (currentChunk.length > 0 ? " " : "") + word;
+        }
+        else {
+            if (currentChunk.length > 0) {
+                chunks.push(currentChunk);
+            }
+            currentChunk = word;
+        }
+    });
+    if (currentChunk.length > 0) {
+        chunks.push(currentChunk);
+    }
+    if (!chunks.length) {
+        chunks.push(text);
+    }
+    return chunks;
+}
+
 const simpleChartOptions = {
     legend: {display: false},
     scales: {
@@ -218,9 +252,11 @@ const simpleChartOptions = {
             ticks: {
                 maxTicksLimit: 4,
                 beginAtZero: true
-            }
+            },
+            position: "bottom"
         }]
-    }
+    },
+    aspectRatio: 1
 };
 
 export default {
@@ -229,5 +265,6 @@ export default {
     parsePreparedDataToLineChartFormat,
     parsePreparedDataToBarChartFormat,
     getYearFromPreparedData,
-    getBarChartColors
+    getBarChartColors,
+    splitTextByWordAndChunkSize
 };
