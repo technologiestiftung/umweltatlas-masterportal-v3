@@ -265,16 +265,22 @@ export default {
         /**
          * Updates the features displayed on the map and their styles.
          * @param {String} date - The chosen date from the column.
+         * @param {String|Boolean} differenceMode - Indicates the difference mode('date' or 'region') ohterwise false.
          * @returns {void}
          */
-        updateFeatureStyle (date) {
+        updateFeatureStyle (date, differenceMode = false) {
             this.layer.getSource().clear();
             const selectedLevelRegionNameAttribute = this.getSelectedLevelRegionNameAttribute(this.selectedLevel),
                 selectedLevelDateAttribute = this.getSelectedLevelDateAttribute(this.selectedLevel),
                 filteredFeatures = FeaturesHandler.filterFeaturesByKeyValue(this.loadedFeatures, selectedLevelDateAttribute.attrName, date);
 
             this.layer.getSource().addFeatures(filteredFeatures);
-            FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.comparisonMap, date, selectedLevelRegionNameAttribute.attrName);
+            if (typeof differenceMode === "string") {
+                FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.differenceMap, date, selectedLevelRegionNameAttribute.attrName);
+            }
+            else {
+                FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.comparisonMap, date, selectedLevelRegionNameAttribute.attrName);
+            }
         },
 
         /**
@@ -284,7 +290,12 @@ export default {
          */
         setSelectedColumn (value) {
             this.selectedColumn = value;
-            this.updateFeatureStyle(value);
+            if (typeof this.selectedReferenceData !== "undefined") {
+                this.updateFeatureStyle(value, this.selectedReferenceData.type);
+            }
+            else {
+                this.updateFeatureStyle(value);
+            }
         },
 
         /**
@@ -318,7 +329,7 @@ export default {
             this.handleChartData(this.selectedStatisticsNames, regions, dates, this.statisticsData, differenceMode);
 
             if (this.selectedStatisticsNames.length === 1) {
-                this.updateFeatureStyle(this.selectedColumn || dates[0]);
+                this.updateFeatureStyle(this.selectedColumn || dates[0], differenceMode);
             }
             // else TODO?
         },
