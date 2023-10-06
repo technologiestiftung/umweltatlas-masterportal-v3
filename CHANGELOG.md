@@ -22,6 +22,7 @@
         - cross-env
 
 ### Fixed
+- addWMS: Transformation for external services with EPSG:4326
 
 ---
 
