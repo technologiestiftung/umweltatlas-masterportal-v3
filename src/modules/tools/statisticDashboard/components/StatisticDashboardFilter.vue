@@ -160,7 +160,7 @@ export default {
         <div class="accordion-item py-0">
             <h5 class="heading-dashboard">
                 <button
-                    class="accordion-button my-0"
+                    class="accordion-button my-0 ps-0"
                     type="button"
                     data-bs-toggle="collapse"
                     data-bs-target="#collapseFilter"
@@ -173,11 +173,11 @@ export default {
         </div>
         <div
             id="collapseFilter"
-            class="accordion-collapse collapse show py-0"
+            class="accordion-collapse collapse show"
             aria-labelledby="headingFilter"
             data-bs-parent="#accordionExample"
         >
-            <div class="accordion-body py-0">
+            <div class="accordion-body ps-0 py-0">
                 <div class="filtercontainer text-left mt-1">
                     <div class="row mb-2">
                         <div class="col-md">
@@ -321,6 +321,7 @@ export default {
                         </div>
                     </div>
                 </div>
+                <hr class="mb-0">
             </div>
         </div>
     </div>
@@ -403,8 +404,14 @@ export default {
 }
 
 .static-dashboard .multiselect__tag {
-    border-radius: 25px;
-    padding-top: 5px;
+        border-radius: 25px;
+        padding-top: 5px;
+        .multiselect__tag-icon:after {
+            color: $white;
+        }
+        .multiselect__tag-icon:hover:after, .multiselect__tag-icon:focus:after {
+            color: $light_blue;
+        }
 }
 
 .static-dashboard .multiselect__option--selected.multiselect__option--highlight,

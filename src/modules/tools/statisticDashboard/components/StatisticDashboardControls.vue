@@ -194,7 +194,7 @@ export default {
             >
                 <button
                     type="button"
-                    class="btn button-style-outline btn-sm lh-1"
+                    :class="typeof referenceTag === 'string' || showDifferenceModal ? 'btn button-style btn-sm lh-1' : 'btn button-style-outline btn-sm lh-1'"
                     @click="showDifference"
                 >
                     <i class="bi bi-intersect pe-2" />{{ $t("common:modules.tools.statisticDashboard.button.difference") }}

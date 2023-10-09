@@ -123,7 +123,7 @@ export default {
             </div>
             <div
                 v-if="referenceType === buttonGroupReference[0].name"
-                class="col-md-12"
+                class="col-md-12 mt-2"
             >
                 <Multiselect
                     v-model="selectedDate"
@@ -139,7 +139,7 @@ export default {
             </div>
             <div
                 v-else
-                class="col-md-12"
+                class="col-md-12  mt-2"
             >
                 <Multiselect
                     id="reference-value"
@@ -174,5 +174,14 @@ export default {
 .btn-group {
     margin-top: 0.5rem;
     margin-bottom: 0.8rem;
+}
+</style>
+
+<style lang="scss">
+@import "~variables";
+
+.multiselect, .multiselect__input, .multiselect__single {
+    font-family: inherit;
+    font-size: 11px;
 }
 </style>

@@ -532,7 +532,7 @@
                 "reference": {
                     "title": "Referenzart",
                     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod,",
-                    "placeholder": "Bitte wählen Sie eine Option aus!",
+                    "placeholder": "Bitte wählen Sie eine Option!",
                     "tagLabel": "Referenz"
                 }
             },

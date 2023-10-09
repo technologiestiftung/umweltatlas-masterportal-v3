@@ -768,6 +768,7 @@ export default {
         :render-to-window="renderToWindow"
         :resizable-window="resizableWindow"
         :deactivate-gfi="deactivateGFI"
+        :initial-width="720"
         class="static-dashboard"
     >
         <template #toolBody>
@@ -826,7 +827,6 @@ export default {
                     <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
-            <hr class="mb-0">
             <Controls
                 v-if="loadedReferenceData"
                 :descriptions="controlDescription"

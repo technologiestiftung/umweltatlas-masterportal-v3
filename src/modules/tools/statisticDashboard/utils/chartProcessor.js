@@ -27,10 +27,14 @@ function createLineChart (topic, preparedData, canvas, colors, renderSimple = fa
                     display: true,
                     text: renderSimple ? splitTextByWordAndChunkSize(topic, 30) : topic,
                     fontSize: 13,
-                    padding: 10
+                    fontFamily: "MasterPortalFont Bold",
+                    fontStyle: "normal",
+                    padding: 10,
+                    fontColor: "rgb(51, 51, 51)"
                 },
                 legend: {
-                    position: "right"
+                    position: "bottom",
+                    fontSize: 10
                 },
                 scales: {
                     yAxes: [{
@@ -86,7 +90,10 @@ function createBarChart (topic, preparedData, direction, canvas, renderSimple = 
                     display: true,
                     text: renderSimple ? splitTextByWordAndChunkSize(topic + " " + getYearFromPreparedData(preparedData), 30) : topic + " " + getYearFromPreparedData(preparedData),
                     fontSize: 13,
-                    padding: 10
+                    fontFamily: "MasterPortalFont Bold",
+                    fontStyle: "normal",
+                    padding: 10,
+                    fontColor: "rgb(51, 51, 51)"
                 },
                 scales: {
                     yAxes: [{
