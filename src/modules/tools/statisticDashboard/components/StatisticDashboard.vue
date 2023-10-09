@@ -62,6 +62,7 @@ export default {
             chartCounts: 0,
             showGrid: false,
             referenceData: undefined,
+            referenceFeatures: {},
             selectedColumn: undefined,
             colorArrayDifference: ["#E28574", "#89C67F"],
             legendValue: []
@@ -337,11 +338,38 @@ export default {
         },
 
         /**
+         * Updates the created reference tag.
+         * @param {String} date the selected date
+         * @param {Object} selectedLevel the selected level
+         * @param {Object} referenceFeatures the selected region reference
+         * @returns {void}
+         */
+        updateReferenceTag (date, selectedLevel, referenceFeatures) {
+            if (typeof date !== "undefined" && isObject(selectedLevel) && isObject(referenceFeatures)) {
+                const selectedLevelDateAttribute = this.getSelectedLevelDateAttribute(selectedLevel);
+
+                if (isObject(selectedLevelDateAttribute)) {
+                    Object.entries(referenceFeatures).forEach(([key, val]) => {
+                        const formattedDate = dayjs(key).format(selectedLevelDateAttribute.outputFormat);
+
+                        if (formattedDate === date) {
+                            this.setSelectedReferenceValueTag(val);
+                        }
+                    });
+                }
+            }
+        },
+
+        /**
          * Set the selected table column.
          * @param {String} value - The selected column (date).
          * @returns {void}
          */
         setSelectedColumn (value) {
+            if (this.selectedReferenceData?.type === "region") {
+                this.updateReferenceTag(value, this.selectedLevel, this.referenceFeatures);
+            }
+
             this.selectedColumn = value;
             if (typeof this.selectedReferenceData !== "undefined") {
                 this.updateFeatureStyle(value, true, this.selectedReferenceData);
@@ -375,6 +403,10 @@ export default {
                 });
 
             this.loadedFeatures = new WFS().readFeatures(response);
+
+            if (differenceMode) {
+                this.referenceFeatures = {};
+            }
 
             this.statisticsData = this.prepareStatisticsData(this.loadedFeatures, this.selectedStatisticsNames, regions, dates, selectedLevelDateAttribute, selectedLevelRegionNameAttribute, differenceMode);
             this.tableData = this.getTableData(this.statisticsData);
@@ -605,12 +637,15 @@ export default {
             if (differenceMode === "date") {
                 refFeature = this.findFeatureByDateAndRegion(features, region, regionKey, this.selectedReferenceData.value.value, dateKey);
                 value = parseInt(foundFeature?.get(statisticKey), 10) - parseInt(refFeature?.get(statisticKey), 10);
-
+                this.setSelectedReferenceValueTag("");
 
                 return isNaN(value) ? "-" : value;
             }
             refFeature = this.findFeatureByDateAndRegion(features, this.selectedReferenceData.value, regionKey, date, dateKey);
             value = parseInt(foundFeature?.get(statisticKey), 10) - parseInt(refFeature?.get(statisticKey), 10);
+
+            this.referenceFeatures[date] = parseInt(refFeature?.get(statisticKey), 10);
+            this.setSelectedReferenceValueTag(parseInt(refFeature?.get(statisticKey), 10));
 
             return isNaN(value) ? "-" : value;
         },

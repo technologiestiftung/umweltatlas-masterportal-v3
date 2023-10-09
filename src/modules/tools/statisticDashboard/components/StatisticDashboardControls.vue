@@ -80,6 +80,16 @@ export default {
         },
         selectedReferenceData (val) {
             this.handleReferenceTag(val);
+        },
+        selectedReferenceValueTag (val) {
+            if (typeof this.referenceTag !== "undefined") {
+                if (this.referenceTag.split(":").length - 1 === 1) {
+                    this.referenceTag = this.referenceTag.split(":")[0];
+                }
+                if (typeof val === "number") {
+                    this.referenceTag = this.referenceTag + ": " + val;
+                }
+            }
         }
     },
     mounted () {
@@ -96,7 +106,7 @@ export default {
          */
         handleReferenceTag (val) {
             if (typeof val?.value === "string") {
-                this.referenceTag = val.value;
+                this.referenceTag = val.value + ": ";
             }
             if (isObject(val?.value) && typeof val.value.label === "string") {
                 this.referenceTag = val.value.label;

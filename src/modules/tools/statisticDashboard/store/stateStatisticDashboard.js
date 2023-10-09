@@ -27,6 +27,7 @@ const state = {
     data: [],
     selectedReferenceData: undefined,
     selectedCategories: [],
+    selectedReferenceValueTag: undefined,
     selectedRegions: [],
     selectedDates: [],
     selectedStatistics: {},

@@ -241,7 +241,7 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
 
             await wrapper.vm.setSelectedReferenceData({value: "test"});
 
-            expect(wrapper.vm.referenceTag).to.be.equal("test");
+            expect(wrapper.vm.referenceTag).to.be.equal("test: ");
             wrapper.destroy();
         });
     });
@@ -271,7 +271,7 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                 });
 
                 wrapper.vm.handleReferenceTag({value: "foo"});
-                expect(wrapper.vm.referenceTag).to.be.equal("foo");
+                expect(wrapper.vm.referenceTag).to.be.equal("foo: ");
                 wrapper.destroy();
             });
             it("should set the referenceTag to expected string if given param is an object with an object as value for the property value", () => {

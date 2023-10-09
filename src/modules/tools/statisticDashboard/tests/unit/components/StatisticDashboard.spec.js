@@ -382,6 +382,104 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                 expect(result.tagName_).to.be.equal("Or");
             });
         });
+        describe("updateReferenceTag", () => {
+            it("should not call the method spySetSelectedReferenceValueTag", () => {
+                store.commit("Tools/StatisticDashboard/setSelectedReferenceData", {});
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    spySetSelectedReferenceValueTag = sinon.stub(wrapper.vm, "setSelectedReferenceValueTag");
+
+                wrapper.vm.updateReferenceTag(undefined);
+
+                expect(spySetSelectedReferenceValueTag.calledOnce).to.be.false;
+
+                wrapper.destroy();
+                sinon.restore();
+            });
+            it("should not call the method spySetSelectedReferenceValueTag", () => {
+                store.commit("Tools/StatisticDashboard/setSelectedReferenceData", {});
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    spySetSelectedReferenceValueTag = sinon.stub(wrapper.vm, "setSelectedReferenceValueTag");
+
+                wrapper.vm.updateReferenceTag("2001", undefined);
+
+                expect(spySetSelectedReferenceValueTag.calledOnce).to.be.false;
+
+                wrapper.destroy();
+                sinon.restore();
+            });
+            it("should not call the method spySetSelectedReferenceValueTag", () => {
+                store.commit("Tools/StatisticDashboard/setSelectedReferenceData", {});
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    spySetSelectedReferenceValueTag = sinon.stub(wrapper.vm, "setSelectedReferenceValueTag"),
+                    selectedLevel = {
+                        "layerId": "28992",
+                        "geometryAttribute": "geom",
+                        "timeStepsFilter": {
+                            "5": "Die letzten 5 Jahre",
+                            "10": "Die letzten 10 Jahre",
+                            "all": "Alle Jahre"
+                        },
+                        "mappingFilter": {
+                            "beschaeftigte": {
+                                "name": "Beschäftigte",
+                                "category": "Beschäftigte",
+                                "useConfigName": true
+                            }
+                        }
+                    };
+
+                wrapper.vm.updateReferenceTag("2001", selectedLevel, undefined);
+
+                expect(spySetSelectedReferenceValueTag.calledOnce).to.be.false;
+
+                wrapper.destroy();
+                sinon.restore();
+            });
+            it("should call the method getSelectedLevelDateAttribute", () => {
+                store.commit("Tools/StatisticDashboard/setSelectedReferenceData", {});
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    selectedLevel = {
+                        "layerId": "28992",
+                        "geometryAttribute": "geom",
+                        "timeStepsFilter": {
+                            "5": "Die letzten 5 Jahre",
+                            "10": "Die letzten 10 Jahre",
+                            "all": "Alle Jahre"
+                        },
+                        "mappingFilter": {
+                            "beschaeftigte": {
+                                "name": "Beschäftigte",
+                                "category": "Beschäftigte",
+                                "useConfigName": true
+                            }
+                        }
+                    },
+                    referenceFeatures = {
+                        "2022-12-31": 70885,
+                        "2021-12-31": 69010
+                    },
+                    spyGetSelectedLevelDateAttribute = sinon.stub(wrapper.vm, "getSelectedLevelDateAttribute");
+
+                wrapper.vm.updateReferenceTag("2021", selectedLevel, referenceFeatures);
+
+                expect(spyGetSelectedLevelDateAttribute.calledOnce).to.be.true;
+
+                wrapper.destroy();
+                sinon.restore();
+            });
+        });
         describe("setSelectedColumn", () => {
             it("should call 'updateFeatureStyle' with the correct arguments if no reference is selected", () => {
                 store.commit("Tools/StatisticDashboard/setSelectedReferenceData", undefined);
