@@ -9,10 +9,12 @@
 ### Added
 
 ### Changed
-- The following NPM packages have been updated:
-  - dependencies:
-    - webpack: 4.46.0 to 4.47.0
 - Using the workaround `NODE_OPTIONS=--openssl-legacy-provider` for node 18 is no longer necessary.
+    - dependencies:
+        - @masterportal/masterportalapi: 2.28.0 to 2.29.0 (This also raised olcs to version 2.16.0)
+    - devDependencies:
+        - esbuild-loader: 3.0.1 to 3.1.0
+        - webpack: 4.46.0 to 4.47.0
 
 ### Deprecated
 
