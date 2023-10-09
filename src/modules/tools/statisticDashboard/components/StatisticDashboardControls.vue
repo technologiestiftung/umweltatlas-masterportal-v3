@@ -186,7 +186,12 @@ export default {
                 group="dataViews"
                 @showView="handleView"
             />
-            <div class="btn-group me-2 pb-1 difference-button">
+            <div
+                class="btn-group me-2 pb-1 difference-button"
+                data-toggle="tooltip"
+                data-placement="top"
+                :title="$t('common:modules.tools.statisticDashboard.reference.description')"
+            >
                 <button
                     type="button"
                     class="btn button-style-outline btn-sm lh-1"

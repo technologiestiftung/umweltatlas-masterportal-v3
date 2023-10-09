@@ -51,17 +51,6 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
             wrapper.destroy();
         });
 
-        it("The description should exist", () => {
-            const wrapper = shallowMount(StatisticDashboardDifference, {
-                propsData: propsData,
-                localVue,
-                store
-            });
-
-            expect(wrapper.find("span").exists()).to.be.true;
-            wrapper.destroy();
-        });
-
         it("should find switcher component", async () => {
             const wrapper = shallowMount(StatisticDashboardDifference, {
                 propsData: propsData,

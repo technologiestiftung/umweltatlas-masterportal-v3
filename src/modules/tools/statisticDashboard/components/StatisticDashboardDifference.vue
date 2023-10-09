@@ -114,11 +114,6 @@ export default {
                 <h4>{{ $t("common:modules.tools.statisticDashboard.reference.title") }}</h4>
             </div>
             <div class="col-md-12">
-                <span>
-                    {{ $t("common:modules.tools.statisticDashboard.reference.description") }}
-                </span>
-            </div>
-            <div class="col-md-12">
                 <StatisticSwitcher
                     :buttons="buttonGroupReference"
                     :pre-checked-value="referenceType"
