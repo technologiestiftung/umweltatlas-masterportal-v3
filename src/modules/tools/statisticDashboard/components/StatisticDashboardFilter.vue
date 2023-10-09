@@ -32,20 +32,14 @@ export default {
         }
     },
     emits: ["changeCategory", "changeFilterSettings", "resetStatistics"],
-    data () {
-        return {
-            selectedCategory: undefined
-        };
-    },
     computed: {
         /**
-         * Gets the name of the selected category.
-         * @returns {String} The name.
+         * Returns the categories name or joins it if it is an array.
+         * @returns {String} The name or comma seperated names.
          */
-        selectedCategoryName () {
-            return typeof this.selectedCategory?.name !== "undefined" ? this.selectedCategory.name : "";
+        selectedCategoriesName () {
+            return Array.isArray(this.selectedCategories) ? this.selectedCategories.map(category => category?.name).join(", ") : this.selectedCategories?.name;
         },
-
         /**
          * Checks if statistics are selected.
          * @returns {Boolean} True if at least on is selected, otherwise false.
@@ -54,7 +48,7 @@ export default {
             return isObject(this.selectedStatistics) && Object.keys(this.selectedStatistics).length !== 0;
         },
 
-        ...mapGetters("Tools/StatisticDashboard", ["selectedRegions", "selectedRegionsValues", "selectedDates", "selectedDatesValues", "selectedStatistics", "selectedReferenceData"])
+        ...mapGetters("Tools/StatisticDashboard", ["selectedCategories", "selectedRegions", "selectedRegionsValues", "selectedDates", "selectedDatesValues", "selectedStatistics", "selectedReferenceData"])
     },
     watch: {
         /**
@@ -62,7 +56,7 @@ export default {
          * @param {Object} value - The selected category.
          * @returns {void}
          */
-        selectedCategory (value) {
+        selectedCategories (value) {
             this.resetStatistics();
             this.$emit("changeCategory", value?.name);
         },
@@ -78,7 +72,7 @@ export default {
         }
     },
     methods: {
-        ...mapMutations("Tools/StatisticDashboard", ["setSelectedRegions", "setSelectedDates", "setSelectedStatistics"]),
+        ...mapMutations("Tools/StatisticDashboard", ["setSelectedCategories", "setSelectedRegions", "setSelectedDates", "setSelectedStatistics"]),
 
         /**
          * Checks if all filter settings are selected.
@@ -167,7 +161,7 @@ export default {
                     aria-expanded="true"
                     aria-controls="collapseFilter"
                 >
-                    {{ $t("common:modules.tools.statisticDashboard.button.filter") }} - {{ selectedCategoryName }}
+                    {{ $t("common:modules.tools.statisticDashboard.button.filter") }} - {{ selectedCategoriesName }}
                 </button>
             </h5>
         </div>
@@ -188,7 +182,7 @@ export default {
                                 {{ $t("common:modules.tools.statisticDashboard.label.category") }}</label>
                             <Multiselect
                                 id="categoryfilter"
-                                v-model="selectedCategory"
+                                :value="selectedCategories"
                                 :options="categories"
                                 :searchable="true"
                                 :close-on-select="true"
@@ -201,6 +195,7 @@ export default {
                                 :placeholder="$t('common:modules.tools.statisticDashboard.reference.placeholder')"
                                 track-by="name"
                                 label="name"
+                                @input="setSelectedCategories"
                             />
                         </div>
                         <div

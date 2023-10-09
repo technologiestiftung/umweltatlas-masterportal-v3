@@ -58,8 +58,6 @@ export default {
             sortedRows: [],
             currentChart: {},
             chartCounts: 0,
-            showTable: true,
-            showChart: false,
             showGrid: false,
             referenceData: undefined,
             selectedColumn: undefined,
@@ -99,6 +97,20 @@ export default {
             return this.data.map(value => {
                 return {name: value?.levelName};
             });
+        },
+        /**
+         * Checks if the chart should be shown.
+         * @returns {Boolean} true if it should shows the chart, false otherwise.
+         */
+        showChart () {
+            return this.chartTableToggle === "chart";
+        },
+        /**
+         * Checks if the table should be shown.
+         * @returns {Boolean} true if it should shows the table, false otherwise.
+         */
+        showTable () {
+            return this.chartTableToggle === "table";
         }
     },
     watch: {
@@ -106,6 +118,27 @@ export default {
             // this.checkFilterSettings(this.selectedRegionsValues, this.selectedDatesValues, this.selectedReferenceData);
             // why??
             this.checkFilterSettings(getters.selectedRegionsValues(null, {selectedRegions: this.selectedRegions}), getters.selectedDatesValues(null, {selectedDates: this.selectedDates}), this.selectedReferenceData);
+        },
+        active (value) {
+            if (!value) {
+                Object.values(this.currentChart).forEach(chart => {
+                    if (typeof chart?.chart?.destroy === "function") {
+                        chart.chart.destroy();
+                    }
+                });
+            }
+            else if (this.selectedStatisticsNames?.length
+                && this.selectedRegionsValues?.length
+                && this.selectedDatesValues?.length
+            ) {
+                this.handleChartData(
+                    this.selectedStatisticsNames,
+                    this.selectedRegionsValues,
+                    this.selectedDatesValues,
+                    this.statisticsData,
+                    this.selectedReferenceData?.type
+                );
+            }
         }
     },
     async created () {
@@ -624,8 +657,7 @@ export default {
          * @returns {void}
          */
         toggleChartTable () {
-            this.showChart = !this.showChart;
-            this.showTable = !this.showTable;
+            this.setChartTableToggle(this.chartTableToggle === "table" ? "chart" : "table");
         },
         /**
          * Reset tables and charts.

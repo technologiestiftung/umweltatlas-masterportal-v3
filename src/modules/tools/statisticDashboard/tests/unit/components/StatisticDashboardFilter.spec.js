@@ -258,7 +258,7 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                     store
                 });
 
-                expect(wrapper.vm.selectedCategoryName).to.be.empty;
+                expect(wrapper.vm.selectedCategoriesName).to.be.an("string").that.is.empty;
                 wrapper.destroy();
             });
             it("should return the name of the selected category", async () => {
@@ -273,12 +273,8 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                     store
                 });
 
-                await wrapper.setData({
-                    selectedCategory: {
-                        name: "Kategorie 1"
-                    }
-                });
-                expect(wrapper.vm.selectedCategoryName).to.be.equal("Kategorie 1");
+                wrapper.vm.setSelectedCategories({name: "Kategorie 1"});
+                expect(wrapper.vm.selectedCategoriesName).to.be.equal("Kategorie 1");
                 wrapper.destroy();
             });
         });
@@ -298,12 +294,8 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                     store
                 });
 
-                await wrapper.setData({
-                    selectedCategory: {
-                        name: "Kategorie 1"
-                    }
-                });
-
+                wrapper.vm.setSelectedCategories({name: "Kategorie 1"});
+                await wrapper.vm.$nextTick();
                 expect(wrapper.emitted()).to.have.all.keys(["resetStatistics", "changeCategory"]);
                 expect(wrapper.emitted().changeCategory).to.deep.equal([["Kategorie 1"]]);
             });

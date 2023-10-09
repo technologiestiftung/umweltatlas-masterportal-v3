@@ -25,9 +25,11 @@ const state = {
     colorScheme: {},
     data: [],
     selectedReferenceData: undefined,
+    selectedCategories: [],
     selectedRegions: [],
     selectedDates: [],
-    selectedStatistics: {}
+    selectedStatistics: {},
+    chartTableToggle: "table"
 };
 
 export default state;

@@ -35,8 +35,7 @@ export default {
             {
                 name: "Diagramm",
                 icon: "bi bi-bar-chart pe-2"
-            }
-            ],
+            }],
             switchValue: "",
             referenceTag: undefined
         };
@@ -67,6 +66,12 @@ export default {
          */
         contentDescription () {
             return this.descriptions[this.currentDescriptionIndex].content;
+        },
+        precheckedViewSwitcher () {
+            if (this.chartTableToggle === "table") {
+                return this.buttonGroupControls[0].name;
+            }
+            return this.buttonGroupControls[1].name;
         }
     },
     watch: {
@@ -74,6 +79,22 @@ export default {
             this.$emit("showChartTable");
         },
         selectedReferenceData (val) {
+            this.handleReferenceTag(val);
+        }
+    },
+    mounted () {
+        if (this.selectedReferenceData) {
+            this.handleReferenceTag(this.selectedReferenceData);
+        }
+    },
+    methods: {
+        ...mapMutations("Tools/StatisticDashboard", Object.keys(mutations)),
+        /**
+         * Handles the referenceTag value for given property.
+         * @param {String|Object} val The value to handle.
+         * @returns {void}
+         */
+        handleReferenceTag (val) {
             if (typeof val?.value === "string") {
                 this.referenceTag = val.value;
             }
@@ -83,11 +104,7 @@ export default {
             else if (typeof val === "undefined") {
                 this.referenceTag = undefined;
             }
-        }
-    },
-    methods: {
-        ...mapMutations("Tools/StatisticDashboard", Object.keys(mutations)),
-
+        },
         /**
          * Sets the description index one higher.
          * If the index reaches the end of the descriptions,it is set back to the beginning.
@@ -182,6 +199,7 @@ export default {
         <div class="btn-toolbar">
             <StatisticSwitcher
                 :buttons="buttonGroupControls"
+                :pre-checked-value="precheckedViewSwitcher"
                 class="btn-table-diagram"
                 group="dataViews"
                 @showView="handleView"

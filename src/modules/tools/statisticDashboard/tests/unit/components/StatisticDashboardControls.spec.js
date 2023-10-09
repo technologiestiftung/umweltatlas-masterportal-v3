@@ -178,6 +178,34 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
             expect(wrapper.vm.titleDescription).to.be.equal("TitleTwo");
             wrapper.destroy();
         });
+        it("should set precheckedViewSwitcher to buttonGroupControls 0 name", () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                    propsData: {
+                        descriptions
+                    },
+                    localVue,
+                    store
+                }),
+                expected = wrapper.vm.buttonGroupControls[0].name;
+
+            wrapper.vm.setChartTableToggle("table");
+            expect(wrapper.vm.precheckedViewSwitcher).to.be.equal(expected);
+            wrapper.destroy();
+        });
+        it("should set precheckedViewSwitcher to buttonGroupControls 1 name", () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                    propsData: {
+                        descriptions
+                    },
+                    localVue,
+                    store
+                }),
+                expected = wrapper.vm.buttonGroupControls[1].name;
+
+            wrapper.vm.setChartTableToggle("chart");
+            expect(wrapper.vm.precheckedViewSwitcher).to.be.equal(expected);
+            wrapper.destroy();
+        });
     });
 
     describe("Lifecycle Hooks", () => {
@@ -187,8 +215,8 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
                 store
             });
 
-            await wrapper.vm.setSelectedReferenceData({value: null});
-
+            wrapper.vm.setSelectedReferenceData(undefined);
+            await wrapper.vm.$nextTick();
             expect(wrapper.vm.referenceTag).to.be.undefined;
             wrapper.destroy();
         });
@@ -219,6 +247,47 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
     });
 
     describe("Methods", () => {
+        describe("handleReferenceTag", () => {
+            it("should set the referenceTag to undefined if undefined is given", () => {
+                const wrapper = shallowMount(StatisticDashboardControls, {
+                    propsData: {
+                        referenceData: {}
+                    },
+                    localVue,
+                    store
+                });
+
+                wrapper.vm.handleReferenceTag(undefined);
+                expect(wrapper.vm.referenceTag).to.be.undefined;
+                wrapper.destroy();
+            });
+            it("should set the referenceTag to expected string if given param is an object with value attribute", () => {
+                const wrapper = shallowMount(StatisticDashboardControls, {
+                    propsData: {
+                        referenceData: {}
+                    },
+                    localVue,
+                    store
+                });
+
+                wrapper.vm.handleReferenceTag({value: "foo"});
+                expect(wrapper.vm.referenceTag).to.be.equal("foo");
+                wrapper.destroy();
+            });
+            it("should set the referenceTag to expected string if given param is an object with an object as value for the property value", () => {
+                const wrapper = shallowMount(StatisticDashboardControls, {
+                    propsData: {
+                        referenceData: {}
+                    },
+                    localVue,
+                    store
+                });
+
+                wrapper.vm.handleReferenceTag({value: {label: "foo"}});
+                expect(wrapper.vm.referenceTag).to.be.equal("foo");
+                wrapper.destroy();
+            });
+        });
         describe("nextDescription", () => {
             it("should set currentDescriptionIndex always to 0 if only one description is available", () => {
                 const wrapper = shallowMount(StatisticDashboardControls, {
