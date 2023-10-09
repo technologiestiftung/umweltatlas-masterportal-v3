@@ -17,6 +17,9 @@
 ### Deprecated
 
 ### Removed
+- The following NPM packages have been removed:
+    - devDependencies:
+        - cross-env
 
 ### Fixed
 
