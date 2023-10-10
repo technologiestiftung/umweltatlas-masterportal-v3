@@ -3,6 +3,7 @@ import {expect} from "chai";
 import Vuex from "vuex";
 import StatisticDashboard from "../../../components/StatisticDashboard.vue";
 import indexStatisticDashboard from "../../../store/indexStatisticDashboard";
+import LegendComponent from "../../../components/StatisticDashboardLegend.vue";
 import sinon from "sinon";
 import fetchData from "../../../utils/fetchData";
 import ChartProcessor from "../../../utils/chartProcessor";
@@ -97,6 +98,28 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
             });
 
             expect(wrapper.find(".level-switch").exists()).to.be.true;
+            wrapper.destroy();
+        });
+
+        it("The legend component should not exist", () => {
+            const wrapper = shallowMount(StatisticDashboard, {
+                localVue,
+                store
+            });
+
+            expect(wrapper.findComponent(LegendComponent).exists()).to.be.false;
+            wrapper.destroy();
+        });
+
+        it("The legend component should exist", async () => {
+            const wrapper = shallowMount(StatisticDashboard, {
+                localVue,
+                store
+            });
+
+            await wrapper.setData({legendValue: ["legend"]});
+
+            expect(wrapper.findComponent(LegendComponent).exists()).to.be.true;
             wrapper.destroy();
         });
     });

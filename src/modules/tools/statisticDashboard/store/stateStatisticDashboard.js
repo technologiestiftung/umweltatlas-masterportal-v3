@@ -12,6 +12,7 @@
  * @property {Object} selectedReferenceData the selected reference data
  * @property {Object[]} selectedRegions - The selected regions.
  * @property {Object[]} selectedDates - The selected dates.
+ * @property {Object} legendData the legendValues with colors and value
  */
 const state = {
     active: false,
@@ -29,7 +30,8 @@ const state = {
     selectedRegions: [],
     selectedDates: [],
     selectedStatistics: {},
-    chartTableToggle: "table"
+    chartTableToggle: "table",
+    legendData: []
 };
 
 export default state;

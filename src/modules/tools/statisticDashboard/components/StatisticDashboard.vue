@@ -9,6 +9,7 @@ import GridComponent from "./StatisticGridComponent.vue";
 import mutations from "../store/mutationsStatisticDashboard";
 import Controls from "./StatisticDashboardControls.vue";
 import StatisticFilter from "./StatisticDashboardFilter.vue";
+import LegendComponent from "./StatisticDashboardLegend.vue";
 import FetchDataHandler from "../utils/fetchData.js";
 import StatisticsHandler from "../utils/handleStatistics.js";
 import FeaturesHandler from "../utils/handleFeatures.js";
@@ -33,7 +34,8 @@ export default {
         GridComponent,
         Controls,
         StatisticFilter,
-        StatisticSwitcher
+        StatisticSwitcher,
+        LegendComponent
     },
     data () {
         return {
@@ -61,7 +63,8 @@ export default {
             showGrid: false,
             referenceData: undefined,
             selectedColumn: undefined,
-            colorArrayDifference: ["#E28574", "#89C67F"]
+            colorArrayDifference: ["#E28574", "#89C67F"],
+            legendValue: []
         };
     },
     computed: {
@@ -139,6 +142,9 @@ export default {
                     this.selectedReferenceData?.type
                 );
             }
+        },
+        legendData (val) {
+            this.legendValue = FeaturesHandler.getLegendValue(val);
         }
     },
     async created () {
@@ -312,9 +318,17 @@ export default {
 
             if (!differenceMode) {
                 FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.comparisonMap, date, regionNameAttribute);
+                this.setLegendData({
+                    "color": this.colorScheme.comparisonMap,
+                    "value": FeaturesHandler.getStepValue(this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.comparisonMap, date)
+                });
                 return;
             }
             FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.differenceMap, date, regionNameAttribute);
+            this.setLegendData({
+                "color": this.colorScheme.differenceMap,
+                "value": FeaturesHandler.getStepValue(this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.differenceMap, date)
+            });
             if (selectedReferenceData?.type === "region") {
                 const referenceFeature = filteredFeatures.find(feature => feature.get(regionNameAttribute) === selectedReferenceData.value);
 
@@ -671,6 +685,7 @@ export default {
             });
             this.currentChart = {};
             this.showGrid = false;
+            this.legendValue = [];
         },
         /**
          * Checks if at least one description is present in the statistics.
@@ -864,6 +879,10 @@ export default {
                 :descriptions="controlDescription"
                 :reference-data="referenceData"
                 @showChartTable="toggleChartTable"
+            />
+            <LegendComponent
+                v-if="Array.isArray(legendValue) && legendValue.length"
+                :legend-value="legendValue"
             />
             <div v-show="showTable">
                 <div v-if="!showGrid">

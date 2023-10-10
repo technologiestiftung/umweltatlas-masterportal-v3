@@ -1,4 +1,7 @@
 import {Fill, Stroke, Style} from "ol/style.js";
+import {convertColor} from "../../../../utils/convertColor";
+import isObject from "../../../../utils/isObject";
+import thousandsSeparator from "../../../../utils/thousandsSeparator";
 
 /**
  * Filters the features by the passed key and value.
@@ -30,10 +33,7 @@ function styleFeaturesByStatistic (features, statisticData, colorScheme, date, r
         return;
     }
 
-    const statisticsValues = getStatisticValuesByDate(statisticData, date),
-        minStatisticValue = Math.min(...statisticsValues),
-        maxStatisticValue = Math.max(...statisticsValues),
-        stepValues = calcStepValues(minStatisticValue, maxStatisticValue, colorScheme.length);
+    const stepValues = getStepValue(statisticData, colorScheme, date);
 
     Object.keys(statisticData).forEach((region) => {
         const index = closestIndex(stepValues, statisticData[region][date]),
@@ -64,6 +64,21 @@ function styleFeature (feature, fillColor = [255, 255, 255, 0.9]) {
             })
         });
     });
+}
+
+/**
+ * Gets the step value.
+ * @param {Object} statisticData - The statistic whose values are visualized.
+ * @param {Number[]} colorScheme - The color scheme used for styling.
+ * @param {String} date - The date for which the values are visualized
+ * @returns {void}
+ */
+function getStepValue (statisticData, colorScheme, date) {
+    const statisticsValues = getStatisticValuesByDate(statisticData, date),
+        minStatisticValue = Math.min(...statisticsValues),
+        maxStatisticValue = Math.max(...statisticsValues);
+
+    return calcStepValues(minStatisticValue, maxStatisticValue, colorScheme.length);
 }
 
 /**
@@ -122,10 +137,105 @@ function closestIndex (arr, value) {
     return index;
 }
 
+/**
+ * Prepares the legend for polygon style.
+ * @param {Object} legendObj The legend object.
+ * @param {Object} style The styleObject.
+ * @returns {Object} - prepare legendObj
+ */
+function prepareLegendForPolygon (legendObj, style) {
+    if (!isObject(legendObj) || !isObject(style)) {
+        return legendObj;
+    }
+    const fillColor = convertColor(style.polygonFillColor, "rgbString"),
+        strokeColor = convertColor(style.polygonStrokeColor, "rgbString"),
+        strokeWidth = style.polygonStrokeWidth,
+        fillOpacity = style.polygonFillColor?.[3] || 0,
+        strokeOpacity = style.polygonStrokeColor[3] || 0;
+    let svg = "data:image/svg+xml;charset=utf-8,";
+
+    svg += "<svg height='35' width='35' version='1.1' xmlns='http://www.w3.org/2000/svg'>";
+    svg += "<polygon points='5,5 30,5 30,30 5,30' style='fill:";
+    svg += fillColor;
+    svg += ";fill-opacity:";
+    svg += fillOpacity;
+    svg += ";stroke:";
+    svg += strokeColor;
+    svg += ";stroke-opacity:";
+    svg += strokeOpacity;
+    svg += ";stroke-width:";
+    svg += strokeWidth;
+    svg += ";stroke-linecap:";
+    svg += "round";
+    svg += ";stroke-dasharray:";
+    svg += ";'/>";
+    svg += "</svg>";
+
+    legendObj.graphic = svg;
+
+    return legendObj;
+}
+
+/**
+ * Gets the Legend value
+ * @param {Object} val - The raw value of legend
+ * @returns {Object[]} the legend Value
+ */
+function getLegendValue (val) {
+    if (!isObject(val) || !val?.color || !val?.value) {
+        return [];
+    }
+
+    if (!Array.isArray(val.color) || !Array.isArray(val.value)) {
+        return [];
+    }
+
+    if (val.color.length < val.value.length) {
+        return [];
+    }
+
+    const legengValue = [];
+
+    val.value.forEach((data, index) => {
+        if (!isNaN(data) && isFinite(data)) {
+            let legendObj,
+                style;
+
+            if (index === val.value.length - 1) {
+                legendObj = {
+                    "name": thousandsSeparator(Math.round(data))
+                };
+                style = {
+                    "polygonFillColor": val.color[index],
+                    "polygonStrokeColor": val.color[index],
+                    "polygonStrokeWidth": 3
+                };
+            }
+            else {
+                legendObj = {
+                    "name": i18next.t("common:modules.tools.statisticDashboard.legend.between", {minimum: thousandsSeparator(Math.round(data)), maximum: thousandsSeparator(Math.round(val.value[index + 1]))})
+                };
+                style = {
+                    "polygonFillColor": val.color[index + 1],
+                    "polygonStrokeColor": val.color[index + 1],
+                    "polygonStrokeWidth": 3
+                };
+            }
+
+            legengValue[index] = prepareLegendForPolygon(legendObj, style);
+        }
+    });
+
+    return legengValue;
+}
+
 export default {
     filterFeaturesByKeyValue,
     styleFeaturesByStatistic,
     styleFeature,
     calcStepValues,
-    closestIndex
+    getStepValue,
+    getLegendValue,
+    closestIndex,
+    prepareLegendForPolygon
 };

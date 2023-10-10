@@ -465,6 +465,10 @@
                     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod",
                     "placeholder": "Please choose an option!",
                     "tagLabel": "Reference"
+                },
+                "legend": {
+                    "under": "under",
+                    "between": "between {{minimum}} and {{maximum}}"
                 }
           },
             "filter": {

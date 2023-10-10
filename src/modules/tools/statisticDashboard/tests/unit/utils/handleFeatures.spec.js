@@ -159,4 +159,67 @@ describe("/src/modules/tools/statisticDashboard/utils/handleFeatures.js", () => 
             expect(filteredFeature3[0].get(key)).to.be.equal(feature3.get(key));
         });
     });
+    describe("prepareLegendForPolygon", () => {
+        it("should return the parameter back if the the parameters are in the right format", () => {
+            expect(FeatureHandler.prepareLegendForPolygon("", {})).to.be.equals("");
+            expect(FeatureHandler.prepareLegendForPolygon(null, {})).to.be.null;
+            expect(FeatureHandler.prepareLegendForPolygon(undefined, {})).to.be.undefined;
+            expect(FeatureHandler.prepareLegendForPolygon(false, {})).to.be.false;
+            expect(FeatureHandler.prepareLegendForPolygon([], {})).to.be.deep.equals([]);
+
+            expect(FeatureHandler.prepareLegendForPolygon({}, "")).to.be.deep.equals({});
+            expect(FeatureHandler.prepareLegendForPolygon({}, null)).to.be.deep.equals({});
+            expect(FeatureHandler.prepareLegendForPolygon({}, undefined)).to.be.deep.equals({});
+            expect(FeatureHandler.prepareLegendForPolygon({}, false)).to.be.deep.equals({});
+            expect(FeatureHandler.prepareLegendForPolygon({}, [])).to.be.deep.equals({});
+        });
+
+        it("should return the legend object", () => {
+            const legendObj = {
+                    "name": "test"
+                },
+                style = {
+                    "polygonFillColor": [198, 219, 239, 0.9],
+                    "polygonStrokeColor": [198, 219, 239, 0.9],
+                    "polygonStrokeWidth": 3
+                },
+                expectedGraphic = "data:image/svg+xml;charset=utf-8,<svg height='35' width='35' version='1.1' xmlns='http://www.w3.org/2000/svg'><polygon points='5,5 30,5 30,30 5,30' style='fill:rgb(198, 219, 239);fill-opacity:0.9;stroke:rgb(198, 219, 239);stroke-opacity:0.9;stroke-width:3;stroke-linecap:round;stroke-dasharray:;'/></svg>";
+
+            expect(FeatureHandler.prepareLegendForPolygon(legendObj, style).name).to.be.equals("test");
+            expect(FeatureHandler.prepareLegendForPolygon(legendObj, style).graphic).to.be.equals(expectedGraphic);
+        });
+    });
+    describe("getLegendValue", () => {
+        it("should return the empty array if the parameter is in wrong format or wrong", () => {
+            expect(FeatureHandler.getLegendValue("")).to.be.deep.equals([]);
+            expect(FeatureHandler.getLegendValue(null)).to.be.deep.equals([]);
+            expect(FeatureHandler.getLegendValue(undefined)).to.be.deep.equals([]);
+            expect(FeatureHandler.getLegendValue(false)).to.be.deep.equals([]);
+            expect(FeatureHandler.getLegendValue([])).to.be.deep.equals([]);
+            expect(FeatureHandler.getLegendValue({})).to.be.deep.equals([]);
+            expect(FeatureHandler.getLegendValue(0)).to.be.deep.equals([]);
+            expect(FeatureHandler.getLegendValue({"color": []})).to.be.deep.equals([]);
+            expect(FeatureHandler.getLegendValue({"value": []})).to.be.deep.equals([]);
+            expect(FeatureHandler.getLegendValue({"color": [], "value": ["test"]})).to.be.deep.equals([]);
+        });
+
+        it("should return the legend value", () => {
+            const val = {
+                    "color": [[198, 219, 239, 0.9], [158, 202, 225, 0.9]],
+                    "value": [80, 90]
+                },
+                expectedVal = [
+                    {
+                        "graphic": "data:image/svg+xml;charset=utf-8,<svg height='35' width='35' version='1.1' xmlns='http://www.w3.org/2000/svg'><polygon points='5,5 30,5 30,30 5,30' style='fill:rgb(158, 202, 225);fill-opacity:0.9;stroke:rgb(158, 202, 225);stroke-opacity:0.9;stroke-width:3;stroke-linecap:round;stroke-dasharray:;'/></svg>",
+                        "name": "modules.tools.statisticDashboard.legend.between"
+                    },
+                    {
+                        "graphic": "data:image/svg+xml;charset=utf-8,<svg height='35' width='35' version='1.1' xmlns='http://www.w3.org/2000/svg'><polygon points='5,5 30,5 30,30 5,30' style='fill:rgb(158, 202, 225);fill-opacity:0.9;stroke:rgb(158, 202, 225);stroke-opacity:0.9;stroke-width:3;stroke-linecap:round;stroke-dasharray:;'/></svg>",
+                        "name": "90"
+                    }
+                ];
+
+            expect(FeatureHandler.getLegendValue(val)).to.be.deep.equals(expectedVal);
+        });
+    });
 });
