@@ -1,5 +1,8 @@
 image: node:18.16.0
 
+clone:
+  depth: 500       # include the last five hundred commits
+
 definitions:
   steps:
     - step: &install-e2e-tests-server-on-test-geoportal

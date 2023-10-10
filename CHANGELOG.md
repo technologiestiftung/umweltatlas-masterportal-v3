@@ -9,14 +9,37 @@
 ### Added
 
 ### Changed
+- The following NPM packages have been updated:
+  - dependencies:
+    - webpack: 4.46.0 to 4.47.0
+- Using the workaround `NODE_OPTIONS=--openssl-legacy-provider` for node 18 is no longer necessary.
 
 ### Deprecated
 
 ### Removed
+- The following NPM packages have been removed:
+    - devDependencies:
+        - cross-env
+
+### Fixed
+
+---
+
+## v2.38.0 - 2023-10-04
+### Changed
+- The following NPM packages have been updated:
+  - dependencies:
+    - @masterportal/masterportalapi: 2.27.0 to 2.28.0 (This also raised ol to version 7.5.2)
+- GFI: the gfi in 3D is not sorted reversed
 
 ### Fixed
 - Custom treetype can now load gdi layer via parametriUrl
 - Issue #889: Layer is not shown in the tree anymore
+- Issue #1023: Fix layer information for GeoJSON
+- Issue #1074: print drawn symbols
+- Issue #1075: Routing tool now works as menu entry or tool entry
+
+- AddWMS: WMS with subfolders are now displayed correctly in the topic tree again and can be switched on and off.
 
 ## v2.37.0 - 2023-09-06
 ### Added
@@ -168,7 +191,7 @@
     - the icon (arrow) to toggle information is only visible if it is configured
 
 ### Changed
-- The version of node was updated to `^16.13.2 || ^18.16.0`. If you use node 18, you must provide the environment variable `NODE_OPTIONS=--openssl-legacy-provider` or you can alter npm scripts using cross-env, e.g. `"start": "cross-env NODE_OPTIONS=--openssl-legacy-provider webpack-dev-server --config devtools/webpack.dev.js"` to avoid errors with webpack 4 (see https://github.com/webpack/webpack/issues/14532#issuecomment-947807590).
+- The version of node was updated to `^16.13.2 || ^18.16.0`. If you use node 18, you must provide the environment variable `NODE_OPTIONS=--openssl-legacy-provider` or you can alter npm scripts using cross-env, e.g. `"start": "cross-env NODE_OPTIONS=--openssl-legacy-provider webpack-dev-server --config devtools/webpack.dev.js"` to avoid errors with webpack 4 (see https://github.com/webpack/webpack/issues/14532#issuecomment-947807590). This workaround only applies up to Masterportal version 2.38.0.
 - The version of npm was updated to `^8.1.2 || ^9.5.1`
 - The following NPM packages have been updated:
     - dependencies:

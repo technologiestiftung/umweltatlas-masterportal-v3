@@ -437,7 +437,8 @@
             },
             "statisticDashboard": {
                 "headings": {
-                    "mrhstatistics": "MRH Statistics"
+                    "mrhstatistics": "MRH Statistics",
+                    "mrhstatisticsTooltip": "Link to the metadata"
                 },
                 "button": {
                     "difference": "Difference",
@@ -453,7 +454,8 @@
                     "year": "Year",
                     "statistics": "Statistics",
                     "communities": "Communities",
-                    "districts": "Districts"
+                    "districts": "Districts",
+                    "more": "more"
                 },
                 "filterInputs": {
                     "additional": "Additional"
@@ -1080,7 +1082,10 @@
                     "TOLLWAYS": "Tollways",
                     "FERRIES": "Ferries",
                     "STEPS": "Steps",
-                    "UNPAVEDROADS": "Unpaved roads"
+                    "UNPAVEDROADS": "Unpaved roads",
+                    "MIXEDTRAFFIC": "Mixed traffic",
+                    "COBBLESTONE": "Cobblestone",
+                    "NARROWWAYS": "Narrow ways"
                 },
                 "batchProcessing": {
                     "header": "Batch Processing",

@@ -133,23 +133,29 @@ describe("src/core/layers/tileset.js", () => {
             expect(hiddenObjects.id).to.be.undefined;
         });
     });
-    it("setIsSelected true shall create cesiumtilesetProvider", function () {
+    it("setIsSelected true shall create cesiumtilesetProvider", function (done) {
         const tilesetLayer = new TileSetLayer(attributes),
             layer = tilesetLayer.get("layer");
 
         tilesetLayer.setIsSelected(true);
         checkLayer(layer, tilesetLayer, attributes);
-        expect(layer.tileset.show).to.be.true;
-        expect(fromUrlSpy.calledOnce).to.equal(true);
-        expect(fromUrlSpy.calledWithMatch("https://geoportal-hamburg.de/gdi3d/datasource-data/LoD2/tileset.json", {maximumScreenSpaceError: 6})).to.equal(true);
+        layer.tileset.then((tileset) => {
+            expect(tileset.show).to.be.true;
+            expect(fromUrlSpy.calledOnce).to.equal(true);
+            expect(fromUrlSpy.calledWithMatch("https://geoportal-hamburg.de/gdi3d/datasource-data/LoD2/tileset.json", {maximumScreenSpaceError: 6})).to.equal(true);
+            done();
+        });
     });
-    it("setIsSelected false shall create ellipsoidtilesetProvider", function () {
+    it("setIsSelected false shall create ellipsoidtilesetProvider", function (done) {
         const tilesetLayer = new TileSetLayer(attributes),
             layer = tilesetLayer.get("layer");
 
         tilesetLayer.setIsSelected(false);
         checkLayer(layer, tilesetLayer, attributes);
-        expect(layer.tileset.show).to.be.false;
+        layer.tileset.then((tileset) => {
+            expect(tileset.show).to.be.false;
+            done();
+        });
     });
     it("createLegend shall set legend", function () {
         attributes.legendURL = "https://legendUrl";
@@ -176,14 +182,17 @@ describe("src/core/layers/tileset.js", () => {
         expect(fromUrlSpy.calledOnce).to.equal(true);
         expect(fromUrlSpy.calledWithMatch("https://geoportal-hamburg.de/gdi3d/datasource-data/LoD2/tileset.json", {maximumScreenSpaceError: 6})).to.equal(true);
     });
-    it("setIsVisibleInMap to false shall set isVisibleInMap and hide layer", function () {
+    it("setIsVisibleInMap to false shall set isVisibleInMap and hide layer", function (done) {
         const tilesetLayer = new TileSetLayer(attributes),
             layer = tilesetLayer.get("layer");
 
         checkLayer(layer, tilesetLayer, attributes);
         tilesetLayer.setIsVisibleInMap(false);
-        expect(tilesetLayer.get("isVisibleInMap")).to.equal(false);
-        expect(layer.tileset.show).to.be.false;
+        layer.tileset.then((tileset) => {
+            expect(tilesetLayer.get("isVisibleInMap")).to.equal(false);
+            expect(tileset.show).to.be.false;
+            done();
+        });
     });
 });
 

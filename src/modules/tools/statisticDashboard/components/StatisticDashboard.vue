@@ -1,5 +1,5 @@
 <script>
-import {mapGetters, mapMutations} from "vuex";
+import {mapGetters, mapMutations, mapActions} from "vuex";
 import TableComponent from "../../../../share-components/table/components/TableComponent.vue";
 import {getComponent} from "../../../../utils/getComponent";
 import isObject from "../../../../utils/isObject";
@@ -11,6 +11,7 @@ import Controls from "./StatisticDashboardControls.vue";
 import StatisticFilter from "./StatisticDashboardFilter.vue";
 import FetchDataHandler from "../utils/fetchData.js";
 import StatisticsHandler from "../utils/handleStatistics.js";
+import FeaturesHandler from "../utils/handleFeatures.js";
 import StatisticSwitcher from "./StatisticDashboardSwitcher.vue";
 import {rawLayerList} from "@masterportal/masterportalapi";
 import {getFeaturePOST} from "../../../../api/wfs/getFeature";
@@ -22,6 +23,7 @@ import {
 } from "ol/format/filter";
 import dayjs from "dayjs";
 import WFS from "ol/format/WFS";
+import {sort} from "../../../../utils/sort";
 
 export default {
     name: "StatisticDashboard",
@@ -37,11 +39,7 @@ export default {
         return {
             tableData: [],
             testFixedData: {
-                items: [
-                    ["Bergedorf", 1234, 1234],
-                    ["Wandsbek", 23456, 1234],
-                    ["Altona", 23475, 1234]
-                ]
+                items: []
             },
             selectMode: "column",
             showHeader: true,
@@ -50,6 +48,7 @@ export default {
             statisticsByCategory: false,
             loadedFilterData: false,
             loadedReferenceData: false,
+            loadedFeatures: [],
             timeStepsFilter: [],
             regions: [],
             allRegions: [],
@@ -62,25 +61,9 @@ export default {
             showTable: true,
             showChart: false,
             showGrid: false,
-            controlDescription: [{
-                title: "Trappatoni 1",
-                content: "Es gibt im Moment in diese Mannschaft, oh, einige Spieler vergessen ihnen Profi was sie sind."
-            },
-            {
-                title: "Trappatoni 2 ",
-                content: "Ich lese nicht sehr viele Zeitungen, aber ich habe gehört viele Situationen."
-            },
-            {
-                title: "Trappatoni 3 ",
-                content: "Letzte Spiel hatten wir in Platz drei Spitzen: Elber, Jancka und dann Zickler."
-            }],
-            buttonGroupRegions: [{
-                name: "Gemeinden"
-            },
-            {
-                name: "Kreise"
-            }],
-            referenceData: undefined
+            referenceData: undefined,
+            selectedColumn: undefined,
+            colorArrayDifference: ["#E28574", "#89C67F"]
         };
     },
     computed: {
@@ -93,34 +76,49 @@ export default {
          */
         selectedStatisticsNames () {
             return Object.values(this.selectedStatistics).map(statistic => statistic?.name);
-        }
-    },
-    created () {
-        this.$on("close", this.close);
-    },
-    async mounted () {
-        this.selectedLevel = this.data[0];
-        const uniqueValues = await this.getUniqueValuesForLevel(this.selectedLevel),
-            selectedLevelRegionNameAttribute = this.getSelectedLevelRegionNameAttribute(this.selectedLevel),
-            selectedLevelDateAttribute = this.getSelectedLevelDateAttribute(this.selectedLevel);
+        },
+        /**
+         * Gets the Descriptions of the selected statistics.
+         * @returns {Object[]} The Descriptions.
+         */
+        controlDescription () {
+            if (!this.hasDescription(this.selectedStatistics)) {
+                return [];
+            }
+            return this.setDescriptionsOfSelectedStatistics(this.selectedStatistics);
+        },
+        /**
+         * Gets the buttons with group regions
+         * @returns {Object[]} The button group regions
+         */
+        buttonGroupRegions () {
+            if (!Array.isArray(this.data) || !this.data.length) {
+                return [];
+            }
 
-        if (uniqueValues[selectedLevelRegionNameAttribute.attrName] && uniqueValues[selectedLevelDateAttribute.attrName]) {
-            this.regions = Object.keys(uniqueValues[selectedLevelRegionNameAttribute.attrName]);
-            this.allRegions = this.getAllRegions(this.regions);
-            this.dates = Object.keys(uniqueValues[selectedLevelDateAttribute.attrName]);
-            this.timeStepsFilter = this.getTimestepsMerged(this.selectedLevel?.timeStepsFilter, uniqueValues[selectedLevelDateAttribute.attrName], selectedLevelDateAttribute.inputFormat, selectedLevelDateAttribute.outputFormat);
+            return this.data.map(value => {
+                return {name: value?.levelName};
+            });
         }
-        this.areCategoriesGrouped = StatisticsHandler.hasOneGroup(this.getSelectedLevelStatisticsAttributes(this.selectedLevel));
-        this.categories = StatisticsHandler.getCategoriesFromStatisticAttributes(this.getSelectedLevelStatisticsAttributes(this.selectedLevel), this.areCategoriesGrouped);
-        this.loadedFilterData = true;
-        this.loadedReferenceData = true;
-        this.referenceData = {
-            "year": this.getTimestepsMerged(undefined, uniqueValues[selectedLevelDateAttribute.attrName], selectedLevelDateAttribute.inputFormat, selectedLevelDateAttribute.outputFormat),
-            "area": this.regions
-        };
+    },
+    watch: {
+        selectedReferenceData () {
+            // this.checkFilterSettings(this.selectedRegionsValues, this.selectedDatesValues, this.selectedReferenceData);
+            // why??
+            this.checkFilterSettings(getters.selectedRegionsValues(null, {selectedRegions: this.selectedRegions}), getters.selectedDatesValues(null, {selectedDates: this.selectedDates}), this.selectedReferenceData);
+        }
+    },
+    async created () {
+        this.$on("close", this.close);
+        this.layer = await this.addNewLayerIfNotExists({layerName: "statistic-dashboard"});
+    },
+    mounted () {
+        this.selectedLevel = this.data[0];
+        this.initializeData(this.selectedLevel);
     },
     methods: {
         ...mapMutations("Tools/StatisticDashboard", Object.keys(mutations)),
+        ...mapActions("Maps", ["addNewLayerIfNotExists"]),
 
         close () {
             this.setActive(false);
@@ -167,8 +165,8 @@ export default {
          * @returns {Object[]} The merged time steps.
          */
         getTimestepsMerged (timeSteps, uniqueList, inputFormat, outputFormat) {
-            const result = [];
-            let uniqueListAsArray = [];
+            let result = [],
+                uniqueListAsArray = [];
 
             if (isObject(uniqueList)) {
                 uniqueListAsArray = Object.keys(uniqueList);
@@ -185,7 +183,22 @@ export default {
                     }
                 });
             }
+
+            result = sort("", result, "label").reverse();
+
             return result;
+        },
+        /**
+         * Get the direction of the bar chart.
+         * @param {String[]} regions - The selected regions for the statistic(s).
+         * @param {String|Boolean} differenceMode - Indicates the difference mode('date' or 'region') ohterwise false.
+         * @returns {String} horizontal or vertical.
+         */
+        getChartDirection (regions, differenceMode) {
+            const regionsLength = differenceMode === false ? regions.length : regions.length - 1,
+                chartDirectionValue = this.selectedLevel?.chartDirectionValue ? this.selectedLevel?.chartDirectionValue : 5;
+
+            return regionsLength < chartDirectionValue ? "vertical" : "horizontal";
         },
 
         /**
@@ -200,11 +213,11 @@ export default {
                 return [];
             }
 
+            result.push({value: regions, label: "Alle Gebiete"});
+
             regions.forEach(region => {
                 result.push({value: region, label: region});
             });
-
-            result.push({value: regions, label: "Alle Gebiete"});
 
             return result;
         },
@@ -228,13 +241,71 @@ export default {
         },
 
         /**
-         * Handles the filter settings and starts a POST request based on given settings.
-          * @param {String[]} regions The regions.
-         * @param {String[]} dates The dates.
+         * Checks if there is a reference value for the regions or dates and merges them.
+         * @param {String[]} regions - The selected regions for the statistic(s).
+         * @param {String[]} dates - The selected dates for the statistic(s).
+         * @param {Object} referenceData - The selected reference data.
          * @returns {void}
          */
-        async handleFilterSettings (regions, dates) {
+        checkFilterSettings (regions, dates, referenceData) {
+            if (!isObject(referenceData)) {
+                this.handleFilterSettings(regions, dates, false);
+                return;
+            }
+            if (typeof referenceData.value === "string") {
+                regions.push(referenceData.value);
+                this.handleFilterSettings([...new Set(regions)], dates, "region");
+            }
+            else if (isObject(referenceData.value) && typeof referenceData.value.label === "string") {
+                dates.push(referenceData.value.value);
+                this.handleFilterSettings(regions, [...new Set(dates)], "date");
+            }
+        },
 
+        /**
+         * Updates the features displayed on the map and their styles.
+         * @param {String} date - The chosen date from the column.
+         * @param {String|Boolean} differenceMode - Indicates the difference mode('date' or 'region') ohterwise false.
+         * @returns {void}
+         */
+        updateFeatureStyle (date, differenceMode = false) {
+            this.layer.getSource().clear();
+            const selectedLevelRegionNameAttribute = this.getSelectedLevelRegionNameAttribute(this.selectedLevel),
+                selectedLevelDateAttribute = this.getSelectedLevelDateAttribute(this.selectedLevel),
+                filteredFeatures = FeaturesHandler.filterFeaturesByKeyValue(this.loadedFeatures, selectedLevelDateAttribute.attrName, date);
+
+            this.layer.getSource().addFeatures(filteredFeatures);
+            if (typeof differenceMode === "string") {
+                FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.differenceMap, date, selectedLevelRegionNameAttribute.attrName);
+            }
+            else {
+                FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.comparisonMap, date, selectedLevelRegionNameAttribute.attrName);
+            }
+        },
+
+        /**
+         * Set the selected table column.
+         * @param {String} value - The selected column (date).
+         * @returns {void}
+         */
+        setSelectedColumn (value) {
+            this.selectedColumn = value;
+            if (typeof this.selectedReferenceData !== "undefined") {
+                this.updateFeatureStyle(value, this.selectedReferenceData.type);
+            }
+            else {
+                this.updateFeatureStyle(value);
+            }
+        },
+
+        /**
+         * Handles the filter settings and starts a POST request based on given settings.
+         * @param {String[]} regions - The selected regions for the statistic(s).
+         * @param {String[]} dates - The selected dates for the statistic(s).
+         * @param {String|Boolean} differenceMode - Indicates the difference mode('date' or 'region') ohterwise false.
+         * @returns {void}
+         */
+        async handleFilterSettings (regions, dates, differenceMode) {
             const statsKeys = StatisticsHandler.getStatsKeysByName(this.statisticsByCategory, this.selectedStatisticsNames),
                 selectedLayer = this.getRawLayerByLayerId(this.selectedLevel.layerId),
                 selectedLevelRegionNameAttribute = this.getSelectedLevelRegionNameAttribute(this.selectedLevel),
@@ -243,18 +314,24 @@ export default {
                     featureTypes: [selectedLayer.featureType],
                     featureNS: selectedLayer.featureNS,
                     srsName: this.projection.getCode(),
-                    propertyNames: [...statsKeys, selectedLevelRegionNameAttribute.attrName, selectedLevelDateAttribute.attrName],
+                    propertyNames: [...statsKeys, selectedLevelRegionNameAttribute.attrName, selectedLevelDateAttribute.attrName, this.selectedLevel.geometryAttribute],
                     filter: this.getFilter(regions, dates)
                 },
                 response = await getFeaturePOST(selectedLayer.url, payload, error => {
                     console.error(error);
-                }),
-                features = new WFS().readFeatures(response);
+                });
 
-            this.statisticsData = this.prepareStatisticsData(features, this.selectedStatisticsNames, regions, dates, selectedLevelDateAttribute, selectedLevelRegionNameAttribute);
+            this.loadedFeatures = new WFS().readFeatures(response);
+
+            this.statisticsData = this.prepareStatisticsData(this.loadedFeatures, this.selectedStatisticsNames, regions, dates, selectedLevelDateAttribute, selectedLevelRegionNameAttribute, differenceMode);
             this.tableData = this.getTableData(this.statisticsData);
             this.chartCounts = this.selectedStatisticsNames.length;
-            this.handleChartData(this.selectedStatisticsNames, regions, dates, this.statisticsData);
+            this.handleChartData(this.selectedStatisticsNames, regions, dates, this.statisticsData, differenceMode);
+
+            if (this.selectedStatisticsNames.length === 1) {
+                this.updateFeatureStyle(this.selectedColumn || dates[0], differenceMode);
+            }
+            // else TODO?
         },
 
         /**
@@ -263,22 +340,23 @@ export default {
          * @param {String[]} regions The regions.
          * @param {String[]} dates The dates.
          * @param {Object} preparedData The prepared data.
+         * @param {String|Boolean} differenceMode - Indicates the difference mode('date' or 'region') ohterwise false.
          * @returns {void}
          */
-        handleChartData (filteredStatistics, regions, dates, preparedData) {
-            const directionBarChart = regions.length < 5 ? "vertical" : "horizontal";
+        handleChartData (filteredStatistics, regions, dates, preparedData, differenceMode) {
+            const directionBarChart = this.getChartDirection(regions, differenceMode);
 
             this.showGrid = false;
             if (filteredStatistics.length > 1) {
-                this.prepareGridCharts(filteredStatistics, preparedData, directionBarChart, dates.length > 1);
+                this.prepareGridCharts(filteredStatistics, preparedData, directionBarChart, differenceMode, dates.length >= 2 && !differenceMode || dates.length >= 3 || dates.length === 2 && differenceMode === "region");
             }
             else if (regions.length >= 1) {
                 this.$nextTick(() => {
-                    if (dates.length > 1) {
-                        this.prepareChartData(filteredStatistics[0], preparedData[filteredStatistics[0]], undefined, "line");
+                    if (dates.length >= 2 && !differenceMode || dates.length >= 3 || dates.length === 2 && differenceMode === "region") {
+                        this.prepareChartData(filteredStatistics[0], preparedData[filteredStatistics[0]], undefined, "line", differenceMode);
                         return;
                     }
-                    this.prepareChartData(filteredStatistics[0], preparedData[filteredStatistics[0]], undefined, "bar", directionBarChart);
+                    this.prepareChartData(filteredStatistics[0], preparedData[filteredStatistics[0]], undefined, "bar", directionBarChart, differenceMode);
                 });
             }
         },
@@ -287,44 +365,57 @@ export default {
          * @param {String[]} filteredStatistics The statistics.
          * @param {Object} preparedData The prepared data.
          * @param {String[]} direction - Direction of bar chart.
+         * @param {String|Boolean} differenceMode - Indicates the difference mode('date' or 'region') ohterwise false.
          * @param {Boolean} renderAsLine Flag to render line charts. Default is false.
          * @returns {void}
          */
-        prepareGridCharts (filteredStatistics, preparedData, direction, renderAsLine = false) {
+        prepareGridCharts (filteredStatistics, preparedData, direction, differenceMode, renderAsLine = false) {
             this.showGrid = true;
             this.$nextTick(() => {
                 filteredStatistics.forEach((statistic, idx) => {
-                    const ctx = this.$refs["chart" + (idx + 1)];
+                    const ctx = this.$refs[`chart${idx + 1}`],
+                        ctxInModal = this.$refs[`chart-modal-${idx + 1}`];
 
                     if (renderAsLine) {
-                        this.prepareChartData(statistic, preparedData[statistic], ctx, "line");
+                        this.prepareChartData(statistic, preparedData[statistic], ctx, "line", undefined, differenceMode, true);
+                        this.prepareChartData(statistic, preparedData[statistic], ctxInModal, "line", undefined, differenceMode, false, true);
                         return;
                     }
-                    this.prepareChartData(statistic, preparedData[statistic], ctx, "bar", direction);
+                    this.prepareChartData(statistic, preparedData[statistic], ctx, "bar", direction, differenceMode, true);
+                    this.prepareChartData(statistic, preparedData[statistic], ctxInModal, "bar", direction, differenceMode, false, true);
                 });
             });
         },
         /**
-         * Prepares the chart and also handles the destruction of previuos charts.
+         * Prepares the chart and also handles the destruction of previous charts.
          * @param {String} topic The topic of the chart.
          * @param {Object} preparedData The data.
          * @param {HTMLElement} canvas The canvas to render the chart on.
          * @param {String} type The type. Can be bar or line.
          * @param {String} direction The direction of the bar chart.
+         * @param {String|Boolean} differenceMode - Indicates the difference mode('date' or 'region') ohterwise false.
+         * @param {Boolean} renderSimple true if should be rendered as simple chart because its in the grid. Default is false.
+         * @param {Boolean} renderToModal true if chart is rendered in modal. Default is false
          * @returns {void}
          */
-        prepareChartData (topic, preparedData, canvas, type, direction) {
-            const chart = canvas || this.$refs.chart;
+        prepareChartData (topic, preparedData, canvas, type, direction, differenceMode, renderSimple = false, renderToModal = false) {
+            const chart = canvas || this.$refs.chart,
+                uniqueTopic = renderToModal ? `modal-${topic}` : topic;
 
-            if (typeof this.currentChart[topic] !== "undefined") {
-                this.currentChart[topic].chart.destroy();
+            if (typeof this.currentChart[uniqueTopic] !== "undefined") {
+                this.currentChart[uniqueTopic].chart.destroy();
             }
-            this.currentChart[topic] = {};
+            this.currentChart[uniqueTopic] = {};
             if (type === "line") {
-                this.currentChart[topic].chart = ChartProcessor.createLineChart(topic, preparedData, chart);
+                this.currentChart[uniqueTopic].chart = ChartProcessor.createLineChart(topic, preparedData, chart, this.colorScheme.lineCharts, renderSimple);
             }
             else if (type === "bar") {
-                this.currentChart[topic].chart = ChartProcessor.createBarChart(topic, preparedData, direction, chart);
+                if (typeof differenceMode === "string") {
+                    this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, preparedData, direction, chart, renderSimple, this.colorArrayDifference);
+                }
+                else {
+                    this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, preparedData, direction, chart, renderSimple);
+                }
             }
         },
 
@@ -401,15 +492,16 @@ export default {
 
         /**
          * Prepares the statistical data from the features.
-         * @param {Object} features - The configured statistics.
+         * @param {ol/Feature[]} features - The features.
          * @param {String[]} statistics - The key to the statistic whose value is being looked for.
          * @param {String[]} regions - The regions of the statistic wanted.
          * @param {String[]} dates - The dates of the statsitic wanted.
          * @param {String} dateAttribute - The configured date attribute.
          * @param {String} regionAttribute - The configured region attribute.
+         * @param {String|Boolean} differenceMode - Indicates the difference mode('date' or 'region') ohterwise false.
          * @returns {Object} The prepared statistical data.
          */
-        prepareStatisticsData (features, statistics, regions, dates, dateAttribute, regionAttribute) {
+        prepareStatisticsData (features, statistics, regions, dates, dateAttribute, regionAttribute, differenceMode) {
             const data = {};
 
             statistics.forEach(stat => {
@@ -417,13 +509,19 @@ export default {
 
                 data[stat] = {};
                 regions.forEach(region => {
+                    if (region === this.selectedReferenceData?.value) {
+                        return;
+                    }
                     data[stat][region] = {};
                     dates.forEach(date => {
+                        if (date === this.selectedReferenceData?.value?.value) {
+                            return;
+                        }
                         const formatedDate = dayjs(date).format(dateAttribute.outputFormat),
                             regionKey = regionAttribute.attrName,
                             dateKey = dateAttribute.attrName;
 
-                        data[stat][region][formatedDate] = this.getStatisticValue(features, statsKey, region, regionKey, date, dateKey);
+                        data[stat][region][formatedDate] = this.getStatisticValue(features, statsKey, region, regionKey, date, dateKey, differenceMode);
                     });
                 });
             });
@@ -433,20 +531,50 @@ export default {
         /**
          * Finds the feature based on the region and the date.
          * Returns the corresponding value of the passed statistic from the feature.
-         * @param {Object} features - The configured statistics.
+         * @param {ol/Feature[]} features - The features.
          * @param {String[]} statisticKey - The key to the statistic whose value is being looked for.
          * @param {String} region - The region of the statistic wanted.
          * @param {String} regionKey - The key to the region.
          * @param {String} date - The date of the statsitic wanted.
          * @param {String} dateKey - The key to the date.
+         * @param {String|Boolean} differenceMode - Indicates the difference mode('date' or 'region') ohterwise false.
          * @returns {String} The value of the given statistic.
          */
-        getStatisticValue (features, statisticKey, region, regionKey, date, dateKey) {
-            const foundFeature = features.find(feature => {
+        getStatisticValue (features, statisticKey, region, regionKey, date, dateKey, differenceMode) {
+            const foundFeature = this.findFeatureByDateAndRegion(features, region, regionKey, date, dateKey);
+            let refFeature = null,
+                value = NaN;
+
+            if (differenceMode !== "date" && differenceMode !== "region" || !this.selectedReferenceData) {
+                return parseInt(foundFeature?.get(statisticKey), 10) || "-";
+            }
+
+            if (differenceMode === "date") {
+                refFeature = this.findFeatureByDateAndRegion(features, region, regionKey, this.selectedReferenceData.value.value, dateKey);
+                value = parseInt(foundFeature?.get(statisticKey), 10) - parseInt(refFeature?.get(statisticKey), 10);
+
+
+                return isNaN(value) ? "-" : value;
+            }
+            refFeature = this.findFeatureByDateAndRegion(features, this.selectedReferenceData.value, regionKey, date, dateKey);
+            value = parseInt(foundFeature?.get(statisticKey), 10) - parseInt(refFeature?.get(statisticKey), 10);
+
+            return isNaN(value) ? "-" : value;
+        },
+
+        /**
+         * Finds a feature by the given region and date.
+         * @param {ol/Feature[]} features - The features.
+         * @param {String} region - The region value.
+         * @param {String} regionKey - The key to the region.
+         * @param {String} date - The date value.
+         * @param {String} dateKey - The key to the date.
+         * @returns {ol/Feature} The found feature.
+         */
+        findFeatureByDateAndRegion (features, region, regionKey, date, dateKey) {
+            return features.find(feature => {
                 return feature.get(regionKey) === region && feature.get(dateKey) === date;
             });
-
-            return foundFeature?.get(statisticKey) || "-";
         },
 
         /**
@@ -498,13 +626,129 @@ export default {
          * @returns {void}
          */
         handleReset () {
+            this.layer.getSource().clear();
             this.tableData = [];
             Object.values(this.currentChart).forEach(val => {
-
                 val.chart.destroy();
             });
             this.currentChart = {};
             this.showGrid = false;
+        },
+        /**
+         * Checks if at least one description is present in the statistics.
+         * @param {Object} statistics - The selected statistics.
+         * @returns {Boolean} true if a description is present.
+         */
+        hasDescription (statistics) {
+            let isDescriptionAvailable = false;
+
+            Object.values(statistics).forEach(stat => {
+                if (Object.prototype.hasOwnProperty.call(stat, "description")) {
+                    isDescriptionAvailable = true;
+                }
+            });
+            return isDescriptionAvailable;
+        },
+        /**
+         * Sets the title and the content of the descriptions of the selected statistics.
+         * @param {Object} statistics - The selected statistics.
+         * @returns {Object[]} The descriptions.
+         */
+        setDescriptionsOfSelectedStatistics (statistics) {
+            const descriptions = [];
+
+            Object.values(statistics).map(statistic => {
+                return descriptions.push({"title": statistic?.name, "content": statistic?.description !== undefined ? statistic?.description : "Diese Satistik enthält keine Beschreibung."});
+            });
+            return descriptions;
+        },
+        /**
+         * Gets the metadata link.
+         * @returns {String} Empty if no metadata was found - otherwise it returns the url.
+         */
+        getMetadataLink () {
+            if (!isObject(this.selectedLevel)) {
+                return "";
+            }
+            const currentLayer = this.getRawLayerByLayerId(this.selectedLevel.layerId);
+
+            if (!isObject(currentLayer) || !Array.isArray(currentLayer.datasets) || !isObject(currentLayer.datasets[0])
+                || !currentLayer.datasets[0].show_doc_url || typeof currentLayer.datasets[0].md_id === "undefined") {
+                return "";
+            }
+
+            return `${currentLayer.datasets[0].show_doc_url}${currentLayer.datasets[0].md_id}`;
+        },
+        /**
+         * Opens the metadata in a new tab.
+         * @returns {void}
+         */
+        openMetadata () {
+            const metadataUrl = this.getMetadataLink();
+
+            if (!metadataUrl) {
+                return;
+            }
+            window.open(metadataUrl, "_blank");
+        },
+        /**
+         * Initializes the data from selected level.
+         * @param {Object} selectedLevel - The selected level object
+         * @returns {void}
+         */
+        async initializeData (selectedLevel) {
+            if (!isObject(selectedLevel)) {
+                return;
+            }
+            const uniqueValues = await this.getUniqueValuesForLevel(selectedLevel),
+                selectedLevelRegionNameAttribute = this.getSelectedLevelRegionNameAttribute(selectedLevel),
+                selectedLevelDateAttribute = this.getSelectedLevelDateAttribute(selectedLevel);
+
+            if (uniqueValues[selectedLevelRegionNameAttribute.attrName] && uniqueValues[selectedLevelDateAttribute.attrName]) {
+                this.regions = sort("", Object.keys(uniqueValues[selectedLevelRegionNameAttribute.attrName]), "value");
+                this.allRegions = this.getAllRegions(this.regions);
+                this.dates = Object.keys(uniqueValues[selectedLevelDateAttribute.attrName]);
+                this.timeStepsFilter = this.getTimestepsMerged(selectedLevel?.timeStepsFilter, uniqueValues[selectedLevelDateAttribute.attrName], selectedLevelDateAttribute.inputFormat, selectedLevelDateAttribute.outputFormat);
+            }
+            this.areCategoriesGrouped = StatisticsHandler.hasOneGroup(this.getSelectedLevelStatisticsAttributes(selectedLevel));
+            this.categories = sort("", StatisticsHandler.getCategoriesFromStatisticAttributes(this.getSelectedLevelStatisticsAttributes(selectedLevel), this.areCategoriesGrouped), "name");
+            this.loadedFilterData = true;
+            this.loadedReferenceData = true;
+            this.referenceData = {
+                "date": this.getTimestepsMerged(undefined, uniqueValues[selectedLevelDateAttribute.attrName], selectedLevelDateAttribute.inputFormat, selectedLevelDateAttribute.outputFormat),
+                "region": this.regions
+            };
+        },
+        /**
+         * Gets the current level object.
+         * @param {String} name - The toggled level name.
+         * @returns {void}
+         */
+        toggleLevel (name) {
+            if (typeof name !== "string") {
+                return;
+            }
+
+            this.resetLevel();
+
+            this.selectLevel = this.data.find(val=> {
+                return val?.levelName === name;
+            });
+
+            this.initializeData(this.selectLevel);
+        },
+        /**
+         * Resets to the original status
+         * @returns {void}
+         */
+        resetLevel () {
+            this.loadedFilterData = false;
+            this.loadedReferenceData = false;
+            this.setSelectedRegions([]);
+            this.setSelectedDates([]);
+            this.setSelectedReferenceData({});
+            this.setSelectedStatistics({});
+            this.handleReset();
         }
     }
 };
@@ -522,13 +766,35 @@ export default {
     >
         <template #toolBody>
             <div class="row justify-content-between">
-                <div class="col-md-4">
-                    <h4>{{ $t("common:modules.tools.statisticDashboard.headings.mrhstatistics") }}</h4>
+                <div class="col-md-4 d-flex align-items-center">
+                    <h4 class="mb-0">
+                        {{ $t("common:modules.tools.statisticDashboard.headings.mrhstatistics") }}
+                    </h4>
+                    <div
+                        v-if="getMetadataLink()"
+                        class="mx-2"
+                        role="button"
+                        tabindex="0"
+                        @click="openMetadata"
+                        @keypress.enter="openMetadata"
+                    >
+                        <span class="bootstrap-icon">
+                            <i
+                                class="bi-info-circle-fill"
+                                :title="$t('common:modules.tools.statisticDashboard.headings.mrhstatisticsTooltip')"
+                            />
+                        </span>
+                    </div>
                 </div>
-                <div class="col-md-auto">
+                <div
+                    v-if="buttonGroupRegions.length > 1"
+                    class="col-md-auto"
+                >
                     <StatisticSwitcher
                         :buttons="buttonGroupRegions"
                         group="regions"
+                        class="level-switch"
+                        @showView="toggleLevel"
                     />
                 </div>
             </div>
@@ -540,7 +806,7 @@ export default {
                 :time-steps-filter="timeStepsFilter"
                 :regions="allRegions"
                 @changeCategory="setStatisticsByCategory"
-                @changeFilterSettings="handleFilterSettings"
+                @changeFilterSettings="checkFilterSettings"
                 @resetStatistics="handleReset"
             />
             <div
@@ -574,6 +840,7 @@ export default {
                         :sortable="sortable"
                         class="mx-5"
                         @setSortedRows="setSortedRows"
+                        @columnSelected="setSelectedColumn"
                     />
                 </div>
                 <GridComponent
@@ -582,13 +849,25 @@ export default {
                     :titles="selectedStatisticsNames"
                 >
                     <template
-                        slot="containers"
+                        slot="tableContainers"
                         slot-scope="props"
                     >
                         <TableComponent
                             :data="props.data"
                             :fixed-data="testFixedData"
                             :show-header="showHeader"
+                            @setSortedRows="setSortedRows"
+                        />
+                    </template>
+                    <template
+                        slot="tableContainersModal"
+                        slot-scope="props"
+                    >
+                        <TableComponent
+                            :data="props.data"
+                            :fixed-data="testFixedData"
+                            :show-header="showHeader"
+                            :sortable="sortable"
                             @setSortedRows="setSortedRows"
                         />
                     </template>
@@ -603,13 +882,24 @@ export default {
                 <GridComponent
                     v-else
                     :charts-count="chartCounts"
+                    :titles="selectedStatisticsNames"
                 >
                     <template
                         slot="chartContainers"
                         slot-scope="props"
                     >
                         <canvas
-                            :ref="'chart' + props.data.id"
+                            :id="'chart' + props.chartId"
+                            :ref="'chart' + props.chartId"
+                        />
+                    </template>
+                    <template
+                        slot="chartContainersModal"
+                        slot-scope="propsModal"
+                    >
+                        <canvas
+                            :id="'chart-modal-' + propsModal.chartId"
+                            :ref="'chart-modal-' + propsModal.chartId"
                         />
                     </template>
                 </GridComponent>

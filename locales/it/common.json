@@ -671,7 +671,7 @@
                 },
                 "hiddenObjectsLabel": "Edifici Nascosti:",
                 "title": "Modellatore 3D"
-            },            
+            },
             "parcelSearch": {
                 "wrongConfig": "Configurazione non valida o incompleta",
                 "districtsLoadFailed": "I quartieri del governo non potevano essere caricati",
@@ -1024,7 +1024,10 @@
                     "TOLLWAYS": "Strade a pedaggio",
                     "FERRIES": "Traghetti",
                     "STEPS": "Scale",
-                    "UNPAVEDROADS": "Strade sterrate"
+                    "UNPAVEDROADS": "Strade sterrate",
+                    "MIXEDTRAFFIC": "Traffico misto",
+                    "COBBLESTONE": "Ciottolo",
+                    "NARROWWAYS": "Collo di bottiglia"
                 },
                 "batchProcessing": {
                     "header": "Elaborazione in batch",

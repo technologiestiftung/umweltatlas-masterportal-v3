@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {sort, sortObjectsAsAddress, splitAddressString, isValidAddressString} from "../../sort.js";
+import {sort, sortObjectsAsAddress, splitAddressString, isValidAddressString, convertInputs} from "../../sort.js";
 
 describe("src/utils/sort.js", () => {
 
@@ -13,6 +13,11 @@ describe("src/utils/sort.js", () => {
             const array = ["Test 11", "Test 1", "Test 2", "Test 5"];
 
             expect(sort("", array)).to.deep.equal(["Test 1", "Test 2", "Test 5", "Test 11"]);
+        });
+        it("should sort array[String] alphanumerically with insensitive case", function () {
+            const array = ["Test 11", "test 1", "test 2", "Test 5"];
+
+            expect(sort("", array)).to.deep.equal(["test 1", "test 2", "Test 5", "Test 11"]);
         });
         it("should sort array[int] alphanumerically", function () {
             const array = [11, 1, 2, 5];
@@ -104,7 +109,18 @@ describe("src/utils/sort.js", () => {
                 {attr1: "1", attr2: ""}, {attr1: "11", attr2: "a"}, {attr1: "5", attr2: "b"}, {attr1: "5", attr2: "c"}
             ]);
         });
+        it("should sort array[object] with Strings alphanumerically first attr2, then attr1 in insensitive case", function () {
+            const array = [];
 
+            array.push({attr1: "1", attr2: ""});
+            array.push({attr1: "11", attr2: "A"});
+            array.push({attr1: "5", attr2: "b"});
+            array.push({attr1: "5", attr2: "C"});
+
+            expect(sort("", array, "attr2", "attr1")).to.deep.equal([
+                {attr1: "1", attr2: ""}, {attr1: "11", attr2: "A"}, {attr1: "5", attr2: "b"}, {attr1: "5", attr2: "C"}
+            ]);
+        });
     });
 
     describe("sortObjectsAsAddress", function () {
@@ -171,6 +187,23 @@ describe("src/utils/sort.js", () => {
         });
         it("should return false for invalid address stringsB", function () {
             expect(isValidAddressString("aStraße, 12345 Stadt", ",", " ")).to.be.false;
+        });
+    });
+
+    describe("convertInputs", function () {
+        it("should return the default parameter", function () {
+            expect(convertInputs(null)).to.be.null;
+            expect(convertInputs(false)).to.be.false;
+            expect(convertInputs([])).to.be.deep.equal([]);
+            expect(convertInputs({})).to.be.deep.equal({});
+        });
+
+        it("should return a number", function () {
+            expect(convertInputs("12")).to.be.equal(12);
+        });
+
+        it("should return a string with uppercase", function () {
+            expect(convertInputs("test")).to.be.equal("TEST");
         });
     });
 });

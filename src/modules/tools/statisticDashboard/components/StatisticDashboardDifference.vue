@@ -20,72 +20,88 @@ export default {
     },
     data () {
         return {
-            savedReferenceData: {},
             buttonGroupReference: [{
-                name: "Jahr"
+                name: i18next.t("common:modules.tools.statisticDashboard.label.year")
             },
             {
-                name: "Gebiet"
-            }]
+                name: i18next.t("common:modules.tools.statisticDashboard.label.area")
+            }],
+            dateOptions: this.referenceData.date,
+            regionOptions: this.referenceData.region,
+            selectedDate: "",
+            selectedRegion: "",
+            referenceType: ""
         };
     },
     computed: {
-        ...mapGetters("Tools/StatisticDashboard", Object.keys(getters)),
-
-        selectedValue: {
-            get () {
-                return this.selectedReferenceData.value;
-            },
-            set (value) {
-                this.setSelectedReferenceData({
-                    "type": this.referenceType,
-                    "value": value
-                });
-            }
-        },
-
-        referenceType: {
-            get () {
-                return this.selectedReferenceData?.type ? this.selectedReferenceData.type : "year";
-            },
-            set (value) {
-                this.selectedValue = [];
-                this.optionData = this.referenceData[value];
-                this.setSelectedReferenceData({
-                    "type": value,
-                    "value": []
-                });
-            }
-        }
-    },
-    watch: {
-        selectedReferenceData (oldVal, newVal) {
-            if (Array.isArray(oldVal?.value) && !oldVal.value.length && isObject(newVal.value) && newVal.value.value) {
-                this.savedReferenceData = newVal;
-            }
-            else if (isObject(oldVal.value) && oldVal.value.value) {
-                this.savedReferenceData = oldVal;
-            }
-        }
+        ...mapGetters("Tools/StatisticDashboard", Object.keys(getters))
     },
     created () {
-        this.optionData = this.referenceData[this.referenceType];
+        document.addEventListener("click", this.handleClickOutside);
+    },
+    mounted () {
+        this.handleReference(this.buttonGroupReference[0].name);
+        if (isObject(this.selectedReferenceData)) {
+            if (this.selectedReferenceData.type === "date" && isObject(this.selectedReferenceData.value)) {
+                this.selectedDate = this.selectedReferenceData.value;
+            }
+            else if (this.selectedReferenceData.type === "region") {
+                this.handleReference(this.buttonGroupReference[1].name);
+                this.selectedRegion = this.selectedReferenceData.value;
+            }
+        }
     },
     beforeDestroy () {
-        if (Array.isArray(this.selectedReferenceData?.value) && !this.selectedReferenceData.value.length) {
-            this.setSelectedReferenceData(this.savedReferenceData);
-        }
+        document.removeEventListener("click", this.handleClickOutside);
     },
     methods: {
         ...mapMutations("Tools/StatisticDashboard", Object.keys(mutations)),
 
         /**
-        * Set the referenceType by given button name.
+        * Set the dropdown type.
         * @param {String} value The name of clicked button.
         * @returns {void}
         */
         handleReference (value) {
-            this.referenceType = value === "Jahr" ? "year" : "area";
+            this.referenceType = value;
+        },
+
+        /**
+         * Close this component when click outside.
+         * @param {Event} evt - Click event.
+         * @returns {void}
+         */
+        handleClickOutside (evt) {
+            if (evt.target.closest(".difference-button")) {
+                return;
+            }
+            this.$emit("showDifference", false);
+        },
+        /**
+         * Updates the emit value.
+         * @param {String} type The type which is triggered. Can be either "date" or "region".
+         * @returns {void}
+         */
+        updateSelectedReferenceData (type) {
+            let selectedReferenceData;
+
+            if (type === "date") {
+                selectedReferenceData = this.selectedDate ? {
+                    type: "date",
+                    value: this.selectedDate
+                } : undefined;
+                this.selectedRegion = "";
+            }
+            else if (type === "region") {
+                selectedReferenceData = this.selectedRegion ? {
+                    type: "region",
+                    value: this.selectedRegion
+                } : undefined;
+                this.selectedDate = "";
+            }
+
+            this.setSelectedReferenceData(selectedReferenceData);
+            this.$emit("showDifference", false);
         }
     }
 };
@@ -94,16 +110,6 @@ export default {
 <template>
     <div class="col-md-4">
         <div class="row">
-            <span
-                ref="close-icon"
-                class="bootstrap-icon"
-                role="button"
-                tabindex="0"
-                @click="$emit('showDifference', false)"
-                @keydown="$emit('showDifference', false)"
-            >
-                <i class="bi-x-lg" />
-            </span>
             <div class="col-md-12">
                 <h4>{{ $t("common:modules.tools.statisticDashboard.reference.title") }}</h4>
             </div>
@@ -115,25 +121,40 @@ export default {
             <div class="col-md-12">
                 <StatisticSwitcher
                     :buttons="buttonGroupReference"
+                    :pre-checked-value="referenceType"
                     group="referenceGroup"
                     @showView="handleReference"
                 />
             </div>
-            <div class="col-md-12">
+            <div
+                v-if="referenceType === buttonGroupReference[0].name"
+                class="col-md-12"
+            >
+                <Multiselect
+                    v-model="selectedDate"
+                    :multiple="false"
+                    :options="dateOptions"
+                    :searchable="false"
+                    :show-labels="false"
+                    :placeholder="$t('common:modules.tools.statisticDashboard.reference.placeholder')"
+                    label="label"
+                    track-by="label"
+                    @input="updateSelectedReferenceData('date')"
+                />
+            </div>
+            <div
+                v-else
+                class="col-md-12"
+            >
                 <Multiselect
                     id="reference-value"
-                    v-model="selectedValue"
+                    v-model="selectedRegion"
                     :multiple="false"
-                    :options="optionData"
+                    :options="regionOptions"
                     :searchable="false"
-                    :close-on-select="true"
-                    :clear-on-select="false"
                     :show-labels="false"
-                    :allow-empty="true"
-                    :preselect-first="false"
                     :placeholder="$t('common:modules.tools.statisticDashboard.reference.placeholder')"
-                    :label="referenceType==='year'? 'label': ''"
-                    :track-by="referenceType==='year'? 'label': ''"
+                    @input="updateSelectedReferenceData('region')"
                 />
             </div>
         </div>

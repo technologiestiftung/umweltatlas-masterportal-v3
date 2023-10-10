@@ -210,9 +210,11 @@ export default class MapHandler {
                 }
             });
             layerModel.set("isSelected", true);
+            Radio.trigger("ModelList", "refreshLightTree");
         }
         else if (!this.isLayerVisibleInMap(filterId) || !this.isLayerActivated(filterId)) {
             layerModel.set("isSelected", true);
+            Radio.trigger("ModelList", "refreshLightTree");
             if (typeof onActivated === "function") {
                 onActivated();
             }
@@ -232,6 +234,7 @@ export default class MapHandler {
 
         if (isObject(layerModel)) {
             layerModel.set("isSelected", false);
+            Radio.trigger("ModelList", "refreshLightTree");
         }
     }
 
@@ -434,6 +437,7 @@ export default class MapHandler {
         else if (Array.isArray(wmsRefId) && wmsRefId.length) {
             wmsRefId.forEach(id => this.toggleWMSLayer(id, active, isNeverVisibleInTree));
         }
+        Radio.trigger("ModelList", "refreshLightTree");
     }
 
     /**
@@ -450,6 +454,7 @@ export default class MapHandler {
         }
 
         wfsLayerModel.set("isSelected", active);
+        Radio.trigger("ModelList", "refreshLightTree");
         Radio.trigger("ModelList", "closeAllExpandedFolder");
     }
 }

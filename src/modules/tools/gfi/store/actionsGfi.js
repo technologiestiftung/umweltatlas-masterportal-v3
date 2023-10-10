@@ -131,9 +131,12 @@ export default {
             .then(gfiFeatures => {
                 const clickPixel = rootGetters["Maps/clickPixel"],
                     clickCartesianCoordinate = rootGetters["Maps/clickCartesianCoordinate"],
-                    mode = rootGetters["Maps/mode"],
-                    allGfiFeatures = gfiFeaturesAtPixel(clickPixel, clickCoordinate, clickCartesianCoordinate, mode).concat(...gfiFeatures);
+                    mode = rootGetters["Maps/mode"];
+                let allGfiFeatures = gfiFeaturesAtPixel(clickPixel, clickCoordinate, clickCartesianCoordinate, mode).concat(...gfiFeatures);
 
+                if (mode === "3D") {
+                    allGfiFeatures = allGfiFeatures.reverse();
+                }
                 // only commit if features found
                 if (allGfiFeatures.length > 0) {
                     commit("setGfiFeatures", allGfiFeatures);

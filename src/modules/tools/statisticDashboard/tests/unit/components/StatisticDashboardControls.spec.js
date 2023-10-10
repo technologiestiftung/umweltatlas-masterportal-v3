@@ -346,7 +346,7 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
 
             await wrapper.setData({referenceTag: "2001"});
             await wrapper.find(".reference-tag button").trigger("click");
-            expect(wrapper.vm.selectedReferenceData).to.deep.equal({});
+            expect(wrapper.vm.selectedReferenceData).to.be.undefined;
             expect(wrapper.vm.referenceTag).to.be.undefined;
             wrapper.destroy();
         });

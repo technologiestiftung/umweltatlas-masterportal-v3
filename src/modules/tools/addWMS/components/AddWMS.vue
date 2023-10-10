@@ -198,10 +198,12 @@ export default {
          */
         parseLayer: function (object, parentId, level) {
             if (Object.prototype.hasOwnProperty.call(object, "Layer")) {
+                const uniqId = this.getAddWmsUniqueId();
+
+                Radio.trigger("Parser", "addFolder", object.Title, uniqId, parentId, level, false, false, object.invertLayerOrder);
                 object.Layer.forEach(layer => {
-                    this.parseLayer(layer, this.getParsedTitle(object.Title), level + 1);
+                    this.parseLayer(layer, uniqId, level + 1);
                 });
-                Radio.trigger("Parser", "addFolder", object.Title, this.getParsedTitle(object.Title), parentId, level, false, false, object.invertLayerOrder);
             }
             else {
                 const datasets = [];

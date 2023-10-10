@@ -18,13 +18,30 @@ localVue.use(Vuex);
 config.mocks.$t = key => key;
 
 describe("/src/modules/tools/StatisticDashboard.vue", () => {
-    const store = new Vuex.Store({
+    const sourceStub = {
+            clear: sinon.stub(),
+            addFeature: sinon.stub()
+        },
+        store = new Vuex.Store({
             namespaced: true,
             modules: {
                 Tools: {
                     namespaced: true,
                     modules: {
                         StatisticDashboard: indexStatisticDashboard
+                    }
+                },
+                Maps: {
+                    namespaced: true,
+                    getters: {
+                        projection: () => "EPSG:25832"
+                    },
+                    actions: {
+                        addNewLayerIfNotExists: () => {
+                            return Promise.resolve({
+                                getSource: () => sourceStub
+                            });
+                        }
                     }
                 }
             }
@@ -42,8 +59,61 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                 bev_weiblich: "112",
                 jahr: "1990",
                 ort: "Hamburg"
+            }),
+            new Feature({
+                bev_maennlich: "93",
+                bev_weiblich: "92",
+                jahr: "1990",
+                ort: "Bremen"
             })
         ];
+
+    describe("Component DOM", () => {
+        it("Level name as switch button should not exist", () => {
+            const wrapper = shallowMount(StatisticDashboard, {
+                localVue,
+                store
+            });
+
+            expect(wrapper.find(".level-switch").exists()).to.be.false;
+            wrapper.destroy();
+        });
+
+        it("Level name as switch button should exist", () => {
+            const wrapper = shallowMount(StatisticDashboard, {
+                computed: {
+                    buttonGroupRegions: () => [
+                        {
+                            "levelName": "test1"
+                        },
+                        {
+                            "levelName": "test2"
+                        }
+                    ]
+                },
+                localVue,
+                store
+            });
+
+            expect(wrapper.find(".level-switch").exists()).to.be.true;
+            wrapper.destroy();
+        });
+    });
+
+    describe("watchers", () => {
+        it("should call 'checkFilterSettings' if selectedReferenceData is changed", async () => {
+            const wrapper = shallowMount(StatisticDashboard, {
+                    localVue,
+                    store
+                }),
+                spyCheckFilterSettings = sinon.stub(wrapper.vm, "checkFilterSettings");
+
+            store.commit("Tools/StatisticDashboard/setSelectedReferenceData", "foo");
+            await wrapper.vm.$nextTick();
+            expect(spyCheckFilterSettings.calledOnce).to.be.true;
+            sinon.restore();
+        });
+    });
 
     describe("methods", () => {
         describe("getUniqueValuesForLevel", () => {
@@ -136,7 +206,7 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                         store
                     }),
                     uniqueList = {foo: true, bar: true},
-                    expected = [{value: "foo", label: "Invalid Date"}, {value: "bar", label: "Invalid Date"}];
+                    expected = [{value: "bar", label: "Invalid Date"}, {value: "foo", label: "Invalid Date"}];
 
                 expect(wrapper.vm.getTimestepsMerged(undefined, uniqueList)).to.deep.equal(expected);
             });
@@ -147,7 +217,7 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                     }),
                     uniqueList = {bar: true, buz: true, foo: true},
                     configSteps = {2: "Last 2 Years"},
-                    expected = [{value: "bar", label: "Invalid Date"}, {value: "buz", label: "Invalid Date"}, {value: "foo", label: "Invalid Date"}, {value: ["buz", "foo"], label: "Last 2 Years"}];
+                    expected = [{value: ["buz", "foo"], label: "Last 2 Years"}, {value: "foo", label: "Invalid Date"}, {value: "buz", label: "Invalid Date"}, {value: "bar", label: "Invalid Date"}];
 
                 expect(wrapper.vm.getTimestepsMerged(configSteps, uniqueList)).to.deep.equal(expected);
             });
@@ -174,9 +244,9 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                 });
 
                 expect(wrapper.vm.getAllRegions(["test", "test2"])).to.deep.equal([
+                    {value: ["test", "test2"], label: "Alle Gebiete"},
                     {value: "test", label: "test"},
-                    {value: "test2", label: "test2"},
-                    {value: ["test", "test2"], label: "Alle Gebiete"}
+                    {value: "test2", label: "test2"}
                 ]);
             });
         });
@@ -296,7 +366,7 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                     }),
                     value = wrapper.vm.getStatisticValue(featureList, "bev_maennlich", "Hamburg", "ort", "1890", "jahr");
 
-                expect(value).to.be.equal("13");
+                expect(value).to.be.equal(13);
             });
             it("should call prepareChartData with expected params for line chart", async () => {
                 const wrapper = shallowMount(StatisticDashboard, {
@@ -307,9 +377,35 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
 
                 expect(value).to.be.equal("-");
             });
+
+            it("should return the right statistic value if reference date is set", () => {
+                store.commit("Tools/StatisticDashboard/setSelectedReferenceData", {value: {value: "1990"}});
+
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    value = wrapper.vm.getStatisticValue(featureList, "bev_maennlich", "Hamburg", "ort", "1890", "jahr", "date");
+
+                expect(value).to.be.equal(-100);
+            });
+
+            it("should return the right statistic value if reference region is set", () => {
+                store.commit("Tools/StatisticDashboard/setSelectedReferenceData", {value: "Bremen"});
+
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    value = wrapper.vm.getStatisticValue(featureList, "bev_maennlich", "Hamburg", "ort", "1990", "jahr", "region");
+
+                expect(value).to.be.equal(20);
+            });
         });
         describe("prepareStatisticsData", () => {
             it("should return an object representing the statistics from the features", () => {
+                store.commit("Tools/StatisticDashboard/setSelectedReferenceData", {});
+
                 const wrapper = shallowMount(StatisticDashboard, {
                         localVue,
                         store
@@ -317,14 +413,14 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                     statistics = {
                         "Bevölkerung maennlich": {
                             Hamburg: {
-                                "1890": "13",
-                                "1990": "113"
+                                "1890": 13,
+                                "1990": 113
                             }
                         },
                         "Bevölkerung weiblich": {
                             Hamburg: {
-                                "1890": "12",
-                                "1990": "112"
+                                "1890": 12,
+                                "1990": 112
                             }
                         }
                     };
@@ -339,6 +435,71 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                 };
 
                 expect(wrapper.vm.prepareStatisticsData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], ["1890", "1990"], {outputFormat: "YYYY", attrName: "jahr"}, {attrName: "ort"})).to.deep.equal(statistics);
+            });
+
+            it("should return an object representing the statistics from the features without the reference date", async () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    statistics = {
+                        "Bevölkerung maennlich": {
+                            Hamburg: {
+                                "1990": 113
+                            }
+                        },
+                        "Bevölkerung weiblich": {
+                            Hamburg: {
+                                "1990": 112
+                            }
+                        }
+                    };
+
+                wrapper.vm.statisticsByCategory = {
+                    "bev_maennlich": {
+                        "name": "Bevölkerung maennlich"
+                    },
+                    "bev_weiblich": {
+                        "name": "Bevölkerung weiblich"
+                    }
+                };
+
+                store.commit("Tools/StatisticDashboard/setSelectedReferenceData", {value: {value: "1890"}});
+                await wrapper.vm.$nextTick();
+                expect(wrapper.vm.prepareStatisticsData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], ["1890", "1990"], {outputFormat: "YYYY", attrName: "jahr"}, {attrName: "ort"})).to.deep.equal(statistics);
+            });
+            it("should return an object representing the statistics from the features without the reference region", async () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    statistics = {
+                        "Bevölkerung maennlich": {
+                            Bremen: {
+                                "1890": "-",
+                                "1990": 93
+                            }
+                        },
+                        "Bevölkerung weiblich": {
+                            Bremen: {
+                                "1890": "-",
+                                "1990": 92
+                            }
+                        }
+                    };
+
+                wrapper.vm.statisticsByCategory = {
+                    "bev_maennlich": {
+                        "name": "Bevölkerung maennlich"
+                    },
+                    "bev_weiblich": {
+                        "name": "Bevölkerung weiblich"
+                    }
+                };
+
+                store.commit("Tools/StatisticDashboard/setSelectedReferenceData", {value: "Hamburg"});
+                await wrapper.vm.$nextTick();
+                expect(wrapper.vm.prepareStatisticsData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg", "Bremen"], ["1890", "1990"], {outputFormat: "YYYY", attrName: "jahr"}, {attrName: "ort"})).to.deep.equal(statistics);
             });
         });
         describe("getTableData", () => {
@@ -386,7 +547,7 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                     }),
                     prepareGridChartsStub = sinon.stub(wrapper.vm, "prepareGridCharts");
 
-                wrapper.vm.handleChartData(["foo", "bar"], [1], [], undefined);
+                wrapper.vm.handleChartData(["foo", "bar"], [1], [], undefined, false);
                 expect(prepareGridChartsStub.calledWith(["foo", "bar"], undefined, "vertical", false)).to.be.true;
             });
             it("should call prepareChartData with expected params for line chart", async () => {
@@ -420,7 +581,7 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                     }),
                     prepareChartDataStub = sinon.stub(wrapper.vm, "prepareChartData");
 
-                wrapper.vm.handleChartData(["foo"], ["region1", "region2", "region3", "region4", "region5"], ["date1"], {foo: "bar"});
+                wrapper.vm.handleChartData(["foo"], ["region1", "region2", "region3", "region4", "region5"], ["date1"], {foo: "bar"}, false);
                 await wrapper.vm.$nextTick();
                 expect(prepareChartDataStub.calledWith("foo", "bar", undefined, "bar", "horizontal")).to.be.true;
                 sinon.restore();
@@ -480,6 +641,82 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
                 wrapper.vm.prepareChartData(topic, undefined, undefined, "line");
                 expect(wrapper.vm.currentChart).to.deep.equal(expected);
                 sinon.restore();
+            });
+        });
+        describe("hasDescription", () => {
+            it("should return true if a description is present", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    statistics = {statistik: {name: "Statistik1", description: "StatistikTest1"}};
+
+                expect(wrapper.vm.hasDescription(statistics)).to.be.true;
+            });
+            it("should return false if no description is present", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    statistics = {statistik: {name: "Statistik1"}};
+
+                expect(wrapper.vm.hasDescription(statistics)).to.be.false;
+            });
+            it("should return true if at least one description is present", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    statistics = {statistik: {name: "Statistik1"}, statitsik2: {name: "Statistik2", description: "StatistikTest2"}};
+
+                expect(wrapper.vm.hasDescription(statistics)).to.be.true;
+            });
+        });
+        describe("setDescriptionsOfSelectedStatistics", () => {
+            it("should return a description with title and content", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    statistics = {statistik: {name: "Statistik1", description: "StatistikTest1"}},
+                    expected = [{content: "StatistikTest1", title: "Statistik1"}];
+
+                expect(wrapper.vm.setDescriptionsOfSelectedStatistics(statistics)).to.deep.equal(expected);
+            });
+        });
+        describe("toggleLevel", () => {
+            it("should not trigger the resetLevel function", async () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    spyResetLevel = sinon.stub(StatisticDashboard.methods, "resetLevel");
+
+                wrapper.vm.toggleLevel(null);
+                await wrapper.vm.$nextTick();
+                expect(spyResetLevel.calledOnce).to.be.false;
+                wrapper.vm.toggleLevel(true);
+                await wrapper.vm.$nextTick();
+                expect(spyResetLevel.calledOnce).to.be.false;
+                sinon.restore();
+                wrapper.destroy();
+            });
+
+            it("should not trigger the initializeData function", async () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    spyInitializeData = sinon.stub(StatisticDashboard.methods, "initializeData");
+
+                wrapper.vm.toggleLevel(null);
+                await wrapper.vm.$nextTick();
+                expect(spyInitializeData.calledOnce).to.be.false;
+                wrapper.vm.toggleLevel(true);
+                await wrapper.vm.$nextTick();
+                expect(spyInitializeData.calledOnce).to.be.false;
+                sinon.restore();
+                wrapper.destroy();
             });
         });
     });

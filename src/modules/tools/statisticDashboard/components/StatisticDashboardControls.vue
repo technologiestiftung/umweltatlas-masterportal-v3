@@ -80,7 +80,7 @@ export default {
             if (isObject(val?.value) && typeof val.value.label === "string") {
                 this.referenceTag = val.value.label;
             }
-            else if (val?.value === null) {
+            else if (typeof val === "undefined") {
                 this.referenceTag = undefined;
             }
         }
@@ -136,7 +136,7 @@ export default {
          * @returns {void}
          */
         removeReference () {
-            this.setSelectedReferenceData({});
+            this.setSelectedReferenceData(undefined);
             this.referenceTag = undefined;
         }
     }
@@ -169,6 +169,14 @@ export default {
                     <i class="bi bi-chevron-right" />
                 </button>
             </div>
+        </div>
+        <div
+            v-else
+            class="flex-grow-1 pb-1 descriptions-placeholder"
+        >
+            <div
+                class="gap-1 empty"
+            />
         </div>
         <!-- Controls -->
         <div class="btn-toolbar">
@@ -229,6 +237,12 @@ export default {
         }
         .description-icons:hover {
             opacity: 1;
+        }
+    }
+    .descriptions-placeholder {
+         margin-top: 10px;
+        .empty {
+            width: 350px;
         }
     }
 }
