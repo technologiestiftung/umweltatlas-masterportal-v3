@@ -20,7 +20,8 @@ config.mocks.$t = key => key;
 describe("/src/modules/tools/StatisticDashboard.vue", () => {
     const sourceStub = {
             clear: sinon.stub(),
-            addFeature: sinon.stub()
+            addFeature: sinon.stub(),
+            addFeatures: sinon.stub()
         },
         store = new Vuex.Store({
             namespaced: true,
@@ -356,6 +357,39 @@ describe("/src/modules/tools/StatisticDashboard.vue", () => {
 
 
                 expect(result.tagName_).to.be.equal("Or");
+            });
+        });
+        describe("setSelectedColumn", () => {
+            it("should call 'updateFeatureStyle' with the correct arguments if no reference is selected", () => {
+                store.commit("Tools/StatisticDashboard/setSelectedReferenceData", undefined);
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    spyUpdateFeatureStyle = sinon.stub(wrapper.vm, "updateFeatureStyle");
+
+                wrapper.vm.setSelectedColumn("2022");
+
+                expect(spyUpdateFeatureStyle.calledOnce).to.be.true;
+                expect(spyUpdateFeatureStyle.args[0]).to.deep.equal(["2022", false]);
+                wrapper.destroy();
+                sinon.restore();
+            });
+
+            it("should call 'updateFeatureStyle' with the correct arguments if reference is selected", () => {
+                store.commit("Tools/StatisticDashboard/setSelectedReferenceData", {});
+                const wrapper = shallowMount(StatisticDashboard, {
+                        localVue,
+                        store
+                    }),
+                    spyUpdateFeatureStyle = sinon.stub(wrapper.vm, "updateFeatureStyle");
+
+                wrapper.vm.setSelectedColumn("2000");
+
+                expect(spyUpdateFeatureStyle.calledOnce).to.be.true;
+                expect(spyUpdateFeatureStyle.args[0]).to.deep.equal(["2000", true, {}]);
+                wrapper.destroy();
+                sinon.restore();
             });
         });
         describe("getStatisticValue", () => {

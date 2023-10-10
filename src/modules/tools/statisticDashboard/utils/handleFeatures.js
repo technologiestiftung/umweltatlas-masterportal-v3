@@ -39,22 +39,29 @@ function styleFeaturesByStatistic (features, statisticData, colorScheme, date, r
         const index = closestIndex(stepValues, statisticData[region][date]),
             foundFeature = features.find(feature => feature.get(regionKey) === region);
 
-        if (!foundFeature) {
-            return;
-        }
-        foundFeature.setStyle(() => {
-            const defaultColor = [255, 255, 255, 0.9],
-                fillColorScheme = typeof colorScheme[index] !== "undefined" ? colorScheme[index] : defaultColor;
+        styleFeature(foundFeature, colorScheme[index]);
+    });
+}
 
-            return new Style({
-                fill: new Fill({
-                    color: fillColorScheme
-                }),
-                stroke: new Stroke({
-                    color: [166, 166, 166, 1],
-                    width: 1
-                })
-            });
+/**
+ * Sets a feature style as a function.
+ * @param {ol/Feature} feature - The feature to style.
+ * @param {Number[]} [fillColor = [255, 255, 255, 0.9]] - The fill color.
+ * @returns {void}
+ */
+function styleFeature (feature, fillColor = [255, 255, 255, 0.9]) {
+    if (typeof feature?.setStyle !== "function") {
+        return;
+    }
+    feature.setStyle(() => {
+        return new Style({
+            fill: new Fill({
+                color: fillColor
+            }),
+            stroke: new Stroke({
+                color: [166, 166, 166, 1],
+                width: 1
+            })
         });
     });
 }
@@ -118,6 +125,7 @@ function closestIndex (arr, value) {
 export default {
     filterFeaturesByKeyValue,
     styleFeaturesByStatistic,
+    styleFeature,
     calcStepValues,
     closestIndex
 };
