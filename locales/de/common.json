@@ -515,7 +515,9 @@
                     "chart": "Diagramm",
                     "add": "Hinzufügen",
                     "reset": "zurücksetzen",
-                    "filter": "Filter"
+                    "filter": "Filter",
+                    "showMore": "weitere anzeigen...",
+                    "showLess": "weniger anzeigen..."
                 },
                 "label": {
                     "category": "Kategorie",
@@ -537,7 +539,9 @@
                 },
                 "legend": {
                     "under": "unter",
-                    "between": "{{minimum}} bis unter {{maximum}}"
+                    "between": "{{minimum}} bis unter {{maximum}}",
+                    "nodata": "Die Visualisierung der Daten von mehreren Statistiken auf der Karte steht noch nicht zur Verfügung.",
+                    "legend": "Kartenlegende"
                 }
             },
             "pendler": {

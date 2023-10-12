@@ -446,7 +446,9 @@
                     "chart": "Chart",
                     "add": "Add",
                     "reset": "reset",
-                    "filter": "Filter"
+                    "filter": "Filter",
+                    "showMore": "show more...",
+                    "showLess": "show less..."
                 },
                 "label": {
                     "category": "Category",
@@ -468,7 +470,9 @@
                 },
                 "legend": {
                     "under": "under",
-                    "between": "between {{minimum}} and {{maximum}}"
+                    "between": "between {{minimum}} and {{maximum}}",
+                    "nodata": "Visualization of data from multiple statistics on the map is not yet available.",
+                    "legend": "Map legend"
                 }
           },
             "filter": {

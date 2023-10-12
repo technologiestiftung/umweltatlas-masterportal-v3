@@ -176,6 +176,42 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
             wrapper.destroy();
         });
 
+        it("should render more-button if more than five statistics are selected", async () => {
+            const wrapper = shallowMount(StatisticDashboardFilter, {
+                propsData: {
+                    categories: [],
+                    timeStepsFilter,
+                    regions,
+                    areCategoriesGrouped: false
+                },
+                localVue,
+                store
+            });
+
+            await store.commit("Tools/StatisticDashboard/setSelectedStatistics", {"stat0": {name: "1234"}, "stat1": {name: "1234"}, "stat2": {name: "1234"}, "stat3": {name: "1234"}, "stat4": {name: "1234"}, "stat5": {name: "1234"}});
+
+            expect(wrapper.find("#more-button").exists()).to.be.true;
+            wrapper.destroy();
+        });
+
+        it("should not render more-button if less than five statistics are selected", async () => {
+            const wrapper = shallowMount(StatisticDashboardFilter, {
+                propsData: {
+                    categories: [],
+                    timeStepsFilter,
+                    regions,
+                    areCategoriesGrouped: false
+                },
+                localVue,
+                store
+            });
+
+            await store.commit("Tools/StatisticDashboard/setSelectedStatistics", {"stat0": {name: "1234"}});
+
+            expect(wrapper.find("#more-button").exists()).to.be.false;
+            wrapper.destroy();
+        });
+
         it("should render reset button if statistic is selected", async () => {
             const wrapper = shallowMount(StatisticDashboardFilter, {
                 propsData: {
@@ -275,6 +311,56 @@ describe("src/modules/src/tools/statiscticDashboard/components/StatisticDashboar
 
                 wrapper.vm.setSelectedCategories({name: "Kategorie 1"});
                 expect(wrapper.vm.selectedCategoriesName).to.be.equal("Kategorie 1");
+                wrapper.destroy();
+            });
+        });
+        describe("countSelectedStatistics", () => {
+            it("should return false, if no statistic is selected", async () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                    propsData: {
+                        categories: [],
+                        timeStepsFilter,
+                        regions,
+                        areCategoriesGrouped: false
+                    },
+                    localVue,
+                    store
+                });
+
+                await store.commit("Tools/StatisticDashboard/setSelectedStatistics", {});
+                expect(wrapper.vm.countSelectedStatistics).to.be.false;
+                wrapper.destroy();
+            });
+            it("should return false, if selected statistic is undefined", async () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                    propsData: {
+                        categories: [],
+                        timeStepsFilter,
+                        regions,
+                        areCategoriesGrouped: false
+                    },
+                    localVue,
+                    store
+                });
+
+                await store.commit("Tools/StatisticDashboard/setSelectedStatistics", undefined);
+                expect(wrapper.vm.countSelectedStatistics).to.be.false;
+                wrapper.destroy();
+            });
+            it("should return true, if the number of selected statistics are more than five", async () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                    propsData: {
+                        categories: [],
+                        timeStepsFilter,
+                        regions,
+                        areCategoriesGrouped: false
+                    },
+                    localVue,
+                    store
+                });
+
+                await store.commit("Tools/StatisticDashboard/setSelectedStatistics", {"stat0": {name: "1234"}, "stat1": {name: "1234"}, "stat2": {name: "1234"}, "stat3": {name: "1234"}, "stat4": {name: "1234"}, "stat5": {name: "1234"}});
+                expect(wrapper.vm.countSelectedStatistics).to.be.true;
                 wrapper.destroy();
             });
         });

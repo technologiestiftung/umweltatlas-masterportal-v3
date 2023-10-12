@@ -32,6 +32,11 @@ export default {
         }
     },
     emits: ["changeCategory", "changeFilterSettings", "resetStatistics"],
+    data () {
+        return {
+            showAllHiddenStatistics: false
+        };
+    },
     computed: {
         /**
          * Returns the categories name or joins it if it is an array.
@@ -46,6 +51,13 @@ export default {
          */
         areStatisticsSelected () {
             return isObject(this.selectedStatistics) && Object.keys(this.selectedStatistics).length !== 0;
+        },
+        /**
+         * Returns true or false, depending on the number of statistics.
+         * @returns {Boolean} True if the number of statistics are more than five.
+         */
+        countSelectedStatistics () {
+            return isObject(this.selectedStatistics) && Object.keys(this.selectedStatistics).length > 5;
         },
 
         ...mapGetters("Tools/StatisticDashboard", ["selectedCategories", "selectedRegions", "selectedRegionsValues", "selectedDates", "selectedDatesValues", "selectedStatistics", "selectedReferenceData"])
@@ -289,21 +301,33 @@ export default {
                                 </ul>
                             </div>
                         </div>
-                        <div class="col col-md-auto py-1">
+                        <button
+                            v-for="(stat, key, index) in selectedStatistics"
+                            :key="index"
+                            class="col col-md-auto btn btn-sm btn-outline-secondary lh-1 rounded-pill shadow-none me-2 mb-1 mt-1 btn-pb"
+                            :class="index > 4 && !showAllHiddenStatistics ? 'more-statistics' : ''"
+                            aria-label="Close"
+                            @click="removeStatistic(selectedStatistics, key)"
+                        >
+                            {{ stat.name }}
+                            <i class="bi bi-x fs-5 align-middle" />
+                        </button>
+                        <div
+                            v-if="countSelectedStatistics"
+                            class="col col-md-2 py-1"
+                        >
                             <button
-                                v-for="(stat, key, index) in selectedStatistics"
-                                :key="index"
-                                class="btn btn-sm btn-outline-secondary lh-1 rounded-pill shadow-none mt-1 me-2 btn-pb"
-                                aria-label="Close"
-                                @click="removeStatistic(selectedStatistics, key)"
+                                id="more-button"
+                                type="button"
+                                class="btn btn-link btn-sm p-0"
+                                @click="showAllHiddenStatistics = !showAllHiddenStatistics"
                             >
-                                {{ stat.name }}
-                                <i class="bi bi-x fs-5 align-middle" />
+                                {{ !showAllHiddenStatistics ? $t("common:modules.tools.statisticDashboard.button.showMore") : $t("common:modules.tools.statisticDashboard.button.showLess") }}
                             </button>
                         </div>
                         <div
                             v-if="areStatisticsSelected"
-                            class="col col-md-auto py-1"
+                            class="col col-md-1 py-1"
                         >
                             <button
                                 id="reset-button"
@@ -316,8 +340,8 @@ export default {
                         </div>
                     </div>
                 </div>
-                <hr class="mb-0">
             </div>
+            <hr class="mb-0">
         </div>
     </div>
 </template>
@@ -363,7 +387,7 @@ export default {
         .accordion-button {
             font-family: "MasterPortalFont Bold";
             color: $light_blue;
-            font-size: 16px;
+            font-size: 14px;
             width: auto;
             margin-bottom: 0px;
             --bs-accordion-btn-icon-width: 1em;
@@ -380,6 +404,10 @@ export default {
                     box-shadow: none;
                 }
         }
+    }
+
+    .more-statistics {
+        display: none;
     }
 </style>
 

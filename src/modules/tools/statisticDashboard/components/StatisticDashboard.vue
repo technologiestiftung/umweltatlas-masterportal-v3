@@ -416,7 +416,16 @@ export default {
             if (this.selectedStatisticsNames.length === 1) {
                 this.updateFeatureStyle(this.selectedColumn || dates[0], differenceMode, this.selectedReferenceData);
             }
-            // else TODO?
+            else {
+                this.layer.getSource().clear();
+                const filteredFeatures = FeaturesHandler.filterFeaturesByKeyValue(this.loadedFeatures, selectedLevelDateAttribute.attrName, this.selectedColumn || dates[0]);
+
+                this.layer.getSource().addFeatures(filteredFeatures);
+
+                filteredFeatures.map(feature => {
+                    return FeaturesHandler.styleFeature(feature);
+                });
+            }
         },
 
         /**
@@ -909,15 +918,18 @@ export default {
                     <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
+            <LegendComponent
+                v-if="Array.isArray(legendValue) && legendValue.length"
+                class="mt-3"
+                :legend-value="legendValue"
+                :title="selectedStatisticsNames[0]"
+                :show-notice-text="selectedStatisticsNames.length > 1"
+            />
             <Controls
                 v-if="loadedReferenceData"
                 :descriptions="controlDescription"
                 :reference-data="referenceData"
                 @showChartTable="toggleChartTable"
-            />
-            <LegendComponent
-                v-if="Array.isArray(legendValue) && legendValue.length"
-                :legend-value="legendValue"
             />
             <div v-show="showTable">
                 <div v-if="!showGrid">
@@ -930,7 +942,6 @@ export default {
                         :select-mode="selectMode"
                         :show-header="showHeader"
                         :sortable="sortable"
-                        class="mx-5"
                         @setSortedRows="setSortedRows"
                         @columnSelected="setSelectedColumn"
                     />
