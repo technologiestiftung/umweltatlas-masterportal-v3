@@ -16,6 +16,7 @@
     - devDependencies:
         - esbuild-loader: 3.0.1 to 3.1.0
         - webpack: 4.46.0 to 4.47.0
+- Updated readme with contribution and pull request information.
 
 ### Deprecated
 
