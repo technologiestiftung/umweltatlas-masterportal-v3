@@ -27,6 +27,7 @@
 
 ### Fixed
 - addWMS: Transformation for external services with EPSG:4326
+- selectFeatures: this tool can now also be used mobile, as an area can be dragged on the map.
 
 ---
 
