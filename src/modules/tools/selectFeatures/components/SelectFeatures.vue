@@ -59,7 +59,7 @@ export default {
                     toggleCondition: never,
                     condition: never
                 }),
-                dragBox = new DragBox(this.mobile ? {condition:touchOnly} : {condition: platformModifierKeyOnly});
+                dragBox = new DragBox(this.mobile ? {condition: touchOnly} : {condition: platformModifierKeyOnly});
 
             dragBox.on("boxstart", this.clearFeatures.bind(this));
             dragBox.on("boxend", this.setFeaturesFromDrag.bind(this));
