@@ -97,6 +97,9 @@ export default {
             this.handleReferenceTag(this.selectedReferenceData);
         }
     },
+    beforeDestroy () {
+        this.setSelectedReferenceValueTag(this.referenceTag);
+    },
     methods: {
         ...mapMutations("Tools/StatisticDashboard", Object.keys(mutations)),
         /**
