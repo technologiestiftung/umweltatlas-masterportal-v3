@@ -93,7 +93,10 @@ export default {
         }
     },
     mounted () {
-        if (this.selectedReferenceData) {
+        if (typeof this.selectedReferenceValueTag !== "undefined") {
+            this.referenceTag = this.selectedReferenceValueTag;
+        }
+        else if (this.selectedReferenceData) {
             this.handleReferenceTag(this.selectedReferenceData);
         }
     },
