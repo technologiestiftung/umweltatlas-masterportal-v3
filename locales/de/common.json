@@ -713,7 +713,7 @@
             },
             "selectFeatures": {
                 "zoomToFeature": "Auf dieses Feature zoomen",
-                "noFeatureChosen": "Keine Features ausgewählt. Wählen Sie Features durch Halten von Strg und Ziehen einer Box um die auszuwählenden Features.",
+                "noFeatureChosen": "Keine Features ausgewählt. Wählen Sie Features durch Ziehen einer Box um die auszuwählenden Features bzw. Halten von Strg und Ziehen.",
                 "propertylessFeature": "Element ohne Attribute"
             },
             "supplyCoord": {
