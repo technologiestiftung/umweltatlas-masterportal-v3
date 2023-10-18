@@ -29,6 +29,7 @@
 - addWMS: Transformation for external services with EPSG:4326
 - Issue #1018:The tool selectFeatures can now also be used mobile, as an area can be dragged on the map.
 - Issue #1083: fixed the issue.
+- Fix some vulnerabilities in dependencies
 
 ---
 
@@ -45,8 +46,9 @@
 - Issue #1023: Fix layer information for GeoJSON
 - Issue #1074: print drawn symbols
 - Issue #1075: Routing tool now works as menu entry or tool entry
-
 - AddWMS: WMS with subfolders are now displayed correctly in the topic tree again and can be switched on and off.
+
+---
 
 ## v2.37.0 - 2023-09-06
 ### Added
@@ -77,10 +79,6 @@
     - New Parameter `operatorForAttrName` for Snippets to allow the snippet to filter over multiple attrNames with an OR logic.
     - Parameter `input` and `slider` now also work for the snippet type `slider`.
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 - Issue #776: show only 2D layers in 2D mode and 3D layers in 3D mode
 - Issue #1061: Filter: Accept gml:featureMembers occuring with other children in XML response.
@@ -89,6 +87,7 @@
 - Default Tree
     - on category change all layers are shown in the layer tree
     - Config.tree.orderBy sets category
+
 ---
 
 ## v2.36.1 - 2023-08-04
