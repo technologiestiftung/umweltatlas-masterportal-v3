@@ -31,7 +31,7 @@ export default {
     },
     computed: {
         ...mapGetters("Modules/SearchBar", ["searchInput", "addLayerButtonSearchActive", "currentSide", "showAllResults"]),
-        ...mapGetters("Menu", {menuCurrentComponent: "currentComponent"}),
+        ...mapGetters("Modules/Menu", {menuCurrentComponent: "currentComponent"}),
         ...mapGetters("Maps", ["mode"]),
         ...mapGetters(["activeOrFirstCategory", "allCategories", "invisibleBaselayerConfigs", "portalConfig"]),
         ...mapGetters("Modules/LayerSelection", ["visible", "subjectDataLayerConfs", "baselayerConfs", "layersToAdd", "lastFolderNames", "layerInfoVisible", "highlightLayerId"]),

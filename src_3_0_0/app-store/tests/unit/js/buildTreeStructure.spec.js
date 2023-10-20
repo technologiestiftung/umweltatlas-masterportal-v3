@@ -63,7 +63,7 @@ describe("src_3_0_0/app-store/js/buildTreeStructure.js", () => {
 
     });
     afterEach(() => {
-        sinon.restore();
+        //sinon.restore();
     });
 
     describe("build", () => {

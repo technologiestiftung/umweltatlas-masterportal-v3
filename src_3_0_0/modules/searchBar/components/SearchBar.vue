@@ -39,13 +39,12 @@ export default {
             "searchResults",
             "showAllResults",
             "suggestionListLength",
-            "showAllResultsSearchCategory", //delete
-            "showAllResultsSearchInterfaceInstance", //delete
+            "showAllResultsSearchCategory",
             "addLayerButtonSearchActive",
             "type",
             "currentSide"
         ]),
-        ...mapGetters("Menu",
+        ...mapGetters("Modules/Menu",
             {menuCurrentComponent: "currentComponent", previousNavigationEntryText: "previousNavigationEntryText"}
         ),
         ...mapGetters([
@@ -180,7 +179,6 @@ export default {
     mounted () {
         this.checkLayerSelectionSearchConfig();
         this.setCurrentSide(this.portalConfig?.mainMenu?.searchBar !== undefined ? "mainMenu" : "secondaryMenu");
-        //getter!
         this.currentComponentSide = this.menuCurrentComponent(this.currentSide).type;
         this.initializeModule({configPaths: this.configPaths, type: this.type});
         this.overwriteDefaultValues();

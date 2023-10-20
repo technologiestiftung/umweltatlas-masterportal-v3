@@ -98,6 +98,9 @@ describe("src_3_0_0/modules/searchBar/components/SearchBarResultList.vue", () =>
                                 searchInput: () => searchInput,
                                 searchResults: () => searchResults,
                                 searchInterfaceInstances: () => searchInterfaceInstances,
+                                currentSide: () => {
+                                    return "mainMenu";
+                                },
                                 searchResultsActive: () => {
                                     return true;
                                 }
@@ -105,13 +108,21 @@ describe("src_3_0_0/modules/searchBar/components/SearchBarResultList.vue", () =>
                             mutations: {
                                 setSearchResultsActive: sinon.stub()
                             }
+                        },
+                        Menu: {
+                            namespaced: true,
+                            getters: {
+                                currentComponent: () => () => ""
+                            }
                         }
                     }
                 }
             },
             state: {
                 "Menu": {
-                    "currentComponent": "",
+                    "currentComponent": () => {
+                        return {type: ""};
+                    },
                     "secondaryMenu": {
                         "currentComponent": "",
                         "navigation": {

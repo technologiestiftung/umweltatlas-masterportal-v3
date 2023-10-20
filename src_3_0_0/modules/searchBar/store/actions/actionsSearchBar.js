@@ -65,12 +65,11 @@ export default {
     },
     /**
      * Checks for addlayer search configuration (instance and topic)
-     * @param {Object} param.getters the getters
+     * @param {Object} param.commit the getters
      * @param {Object} param.rootState the rootState
-     * @param {Object} side the menu side of the search
      * @returns {void}
      */
-    checkLayerSelectionSearchConfig: ({state, getters, dispatch, commit, rootState}, side) => {
+    checkLayerSelectionSearchConfig: ({commit, rootState}) => {
         const searchBar = rootState.portalConfig?.tree?.addLayerButton?.searchBar;
 
         if (rootState.portalConfig?.tree?.addLayerButton?.active === true && searchBar.active !== undefined) {
@@ -89,13 +88,4 @@ export default {
             }
         }
     }
-// todo checkfunction, searchbar with portal, tests
-
-   /*  "addLayerButton": {
-        "active": true,
-        "searchBar": {
-          "active": true,
-          "searchInterfaceInstance": "elasticSearch_0",
-          "searchCategory": "Thema (externe Fachdaten)"
-        } */
 };

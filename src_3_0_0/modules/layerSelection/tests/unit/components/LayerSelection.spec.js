@@ -22,9 +22,11 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
         layersBG,
         layersToAdd,
         changeCategorySpy,
-        mapMode;
+        mapMode,
+        searchInput;
 
     beforeEach(() => {
+        searchInput = "Neuenfelder";
         mapMode = "2D";
         categories = [
             {
@@ -117,7 +119,37 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
                     namespaced: true,
                     modules: {
                         namespaced: true,
-                        LayerSelection
+                        LayerSelection,
+                        Menu: {
+                            namespaced: true,
+                            getters: {
+                                currentComponent: () => () => ""
+                            }
+                        },
+                        SearchBar: {
+                            namespaced: true,
+                            getters: {
+                                searchInput: () => searchInput,
+                                searchInterfaceInstances: () => [],
+                                searchResults: () => [],
+                                addLayerButtonSearchActive: () => true,
+                                showAllResults: () => true,
+                                searchResultsActive: () => true,
+                                currentSide: () => {
+                                    return "mainMenu";
+                                },
+                                minCharacters: () => 3,
+                                placeholder: () => ""
+
+                            },
+                            mutations: {
+                                setSearchSuggestions: () => "",
+                                setCurrentSide: () => ""
+                            },
+                            actions: {
+                                checkLayerSelectionSearchConfig: () => ""
+                            }
+                        }
                     }
                 },
                 Maps: {

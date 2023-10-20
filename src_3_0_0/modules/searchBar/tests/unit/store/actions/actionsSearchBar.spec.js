@@ -78,9 +78,11 @@ describe("src_3_0_0/modules/searchBar/store/actions/actionsSearchBar.js", () => 
 
             updateSearchNavigation({getters, rootGetters, commit}, "mainMenu");
 
-            expect(commit.calledOnce).to.be.true;
-            expect(commit.firstCall.args[0]).to.eql("Menu/switchToPreviousComponent");
-            expect(commit.firstCall.args[1]).to.eql("mainMenu");
+            expect(commit.calledTwice).to.be.true;
+            expect(commit.firstCall.args[0]).to.eql("setShowAllResults");
+            expect(commit.firstCall.args[1]).to.eql(false);
+            expect(commit.secondCall.args[0]).to.eql("Menu/switchToPreviousComponent");
+            expect(commit.secondCall.args[1]).to.eql("mainMenu");
         });
     });
 });

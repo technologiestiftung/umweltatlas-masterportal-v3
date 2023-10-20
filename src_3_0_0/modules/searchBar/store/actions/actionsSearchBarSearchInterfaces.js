@@ -54,7 +54,7 @@ export default {
      * @param {Object} param.state the state
      * @returns {void}
      */
-    /*  startSearch: ({dispatch, state}) => {
+    startSearch: ({dispatch, state}) => {
         if (state.searchInput.length >= parseInt(state.minCharacters, 10)) {
             dispatch("search", {searchInput: state.searchInput});
         }
