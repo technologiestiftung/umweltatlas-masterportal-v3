@@ -30,13 +30,9 @@ export default {
     updateSearchNavigation: ({getters, commit, rootGetters}, side) => {
         const type = rootGetters["Menu/currentComponent"](side).type;
 
-        console.log(getters.showAllResults)
         if (getters.showAllResults === true && side === getters.currentSide) {
-            commit("setShowAllResults", false);
-        }
-
-        if (getters.showAllResults === true && side === getters.currentSide) {
-            if (type !== "searchbar") {
+            if (type !== "searchbar" && type !== "layerselection") {
+                commit("setShowAllResults", false);
                 commit("Menu/switchToPreviousComponent", side, {root: true});
             }
             else {
