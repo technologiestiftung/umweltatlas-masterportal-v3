@@ -189,6 +189,7 @@ function mergeLayerWithSeveralIds (layerConf) {
  * @returns {Array} the filtered layer configurations
  */
 export function getAndMergeAllRawLayers (treeConfig = {}) {
+    console.log("treeConfig-------------------------------------------------------------------------------", treeConfig)
     // refactored from parserDefaultTree.js and layerList.js
     const layerList = rawLayerList.getLayerList(),
         rawLayers = [],

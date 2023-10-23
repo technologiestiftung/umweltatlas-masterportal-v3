@@ -61,7 +61,8 @@ describe("src_3_0_0/modules/searchBar/components/SearchBar.vue", () => {
                                 instantiateSearchInterfaces: sinon.stub(),
                                 overwriteDefaultValues: sinon.stub(),
                                 search: sinon.stub(),
-                                activateActions: sinon.stub()
+                                activateActions: sinon.stub(),
+                                checkLayerSelectionSearchConfig: sinon.stub()
                             },
                             getters: {
                                 configPaths: () => [],
@@ -87,19 +88,17 @@ describe("src_3_0_0/modules/searchBar/components/SearchBar.vue", () => {
                         }
                     }
                 },
+                Menu: {
+                    namespaced: true,
+                    getters: {
+                        titleBySide: () => () => true,
+                        currentComponent: () => () => "root"
+                    }
+                },
                 Maps: {
                     namespaced: true,
                     actions: {
                         removePointMarker: sinon.stub()
-                    }
-                },
-                Menu: {
-                    namespaced: true,
-                    getters: {
-                        currentComponent: () => () => "root"
-                    },
-                    mutations: {
-                        switchToRoot: sinon.spy()
                     }
                 }
             },

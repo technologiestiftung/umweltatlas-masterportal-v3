@@ -44,7 +44,7 @@ export default {
             "type",
             "currentSide"
         ]),
-        ...mapGetters("Modules/Menu",
+        ...mapGetters("Menu",
             {menuCurrentComponent: "currentComponent", previousNavigationEntryText: "previousNavigationEntryText"}
         ),
         ...mapGetters([

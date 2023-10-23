@@ -566,7 +566,10 @@ describe("src_3_0_0/app-store/actionsLayerConfig.js", () => {
                 state.portalConfig = {
                     tree: {
                         type: "auto",
-                        validLayerTypesAutoTree: ["WMS", "SENSORTHINGS", "TERRAIN3D", "TILESET3D", "OBLIQUE"]
+                        validLayerTypesAutoTree: ["WMS", "SENSORTHINGS", "TERRAIN3D", "TILESET3D", "OBLIQUE"],
+                        addLayerButton: {
+                            "active": true
+                        }
                     }
                 };
 
