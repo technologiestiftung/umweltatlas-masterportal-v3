@@ -412,7 +412,7 @@ describe("src_3_0_0/app-store/js/getAndMergeRawLayer.js", () => {
         });
 
         afterEach(() => {
-            //sinon.restore();
+            sinon.restore();
         });
 
         it("should filter by typ, datasets and layerContainer", () => {
