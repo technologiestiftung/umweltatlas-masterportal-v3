@@ -44,6 +44,16 @@
 
 ### Added
 - Add roadmap information to the readme file.
+- Add documentation for following modules:
+    - controls:
+        - fullScreen
+    - fileImport
+    - getFeatureInfo
+    - menu:
+        - portalTitle
+    - mouseHover
+    - selectFeatures
+- Configurable searchBar for the layerselection.
 
 ### Changed
 - LayerInformation: For layers that do not have metadata, the layer information can now be displayed so that the URLs and legend can be viewed th
