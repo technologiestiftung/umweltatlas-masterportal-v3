@@ -3,17 +3,24 @@ import {expect} from "chai";
 import sinon from "sinon";
 
 const {
-    updateSearchNavigation
+    updateSearchNavigation,
+    startLayerSelectionSearch,
+    checkLayerSelectionSearchConfig
+
 } = actions;
 
 describe("src_3_0_0/modules/searchBar/store/actions/actionsSearchBar.js", () => {
     let commit,
+        dispatch,
         getters,
-        rootGetters;
+        rootGetters,
+        rootState;
 
     beforeEach(() => {
         rootGetters = {};
+        rootState = {};
         commit = sinon.spy();
+        dispatch = sinon.spy();
     });
 
     describe("updateSearchNavigation", () => {
@@ -83,6 +90,56 @@ describe("src_3_0_0/modules/searchBar/store/actions/actionsSearchBar.js", () => 
             expect(commit.firstCall.args[1]).to.eql(false);
             expect(commit.secondCall.args[0]).to.eql("Menu/switchToPreviousComponent");
             expect(commit.secondCall.args[1]).to.eql("mainMenu");
+        });
+    });
+    describe("startLayerSelectionSearch", () => {
+        it("it updates the search navigation", () => {
+
+            startLayerSelectionSearch({dispatch, commit}, "mainMenu");
+
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.eql("Menu/clickedMenuElement");
+            expect(dispatch.firstCall.args[1]).to.be.deep.eql({name: "common:modules.searchBar.searchResultList", side: "mainMenu", type: "searchbar"});
+
+            expect(commit.callCount).to.equal(4);
+            expect(commit.firstCall.args[0]).to.eql("setShowAllResults");
+            expect(commit.firstCall.args[1]).to.be.true;
+            expect(commit.secondCall.args[0]).to.eql("Menu/setCurrentComponent");
+            expect(commit.secondCall.args[1]).to.deep.eql({type: "layerSelection", side: "mainMenu", props: []});
+            expect(commit.thirdCall.args[0]).to.eql("Menu/setCurrentComponentPropsName");
+            expect(commit.thirdCall.args[1]).to.deep.eql({side: "mainMenu", name: "common:modules.searchBar.searchResults"});
+            expect(commit.args[3][0]).to.equal("Menu/setNavigationHistoryBySide");
+            expect(commit.args[3][1]).to.deep.equal({side: "mainMenu", newHistory: [{type: "root", props: []}, {type: "layerSelection", props: {name: "common:modules.layerSelection.name"}}, {type: "layerSelection", props: {name: "common:modules.layerSelection.name"}}]});
+        });
+    });
+    describe("checkLayerSelectionSearchConfig", () => {
+        it("it updates searchInterfaceInstanceId, searchCategory, addLayerButton", () => {
+            rootState = {
+                portalConfig: {
+                    tree: {
+                        addLayerButton: {
+                            active: true,
+                            searchBar: {
+                                active: true,
+                                searchInterfaceInstance: "elasticSeaarch",
+                                searchInterfaceInstanceId: "elastic_0",
+                                searchCategory: "addresses"
+
+                            }
+                        }
+                    }
+                }
+            };
+
+            checkLayerSelectionSearchConfig({commit, rootState});
+
+            expect(commit.calledThrice).to.be.true;
+            expect(commit.firstCall.args[0]).to.eql("setShowAllResultsSearchInterfaceInstance");
+            expect(commit.firstCall.args[1]).to.be.eql("elastic_0");
+            expect(commit.secondCall.args[0]).to.eql("setShowAllResultsSearchCategory");
+            expect(commit.secondCall.args[1]).to.eql("addresses");
+            expect(commit.thirdCall.args[0]).to.eql("setAddLayerButtonSearchActive");
+            expect(commit.thirdCall.args[1]).to.be.true;
         });
     });
 });

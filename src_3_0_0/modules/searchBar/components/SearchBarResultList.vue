@@ -37,7 +37,7 @@ export default {
             "searchResultsActive",
             "currentSide"
         ]),
-        ...mapGetters("Modules/Menu", [
+        ...mapGetters("Menu", [
             "currentComponent"
         ]),
 

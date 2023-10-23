@@ -78,7 +78,8 @@ describe("src_3_0_0/modules/searchBar/components/SearchBarResultList.vue", () =>
                 exampleIcon: "bi-signpost-2-fill"
             },
             currentShowAllList: searchResults
-        };
+        },
+        currentComponent = {type: "test"};
 
 
     beforeEach(() => {
@@ -108,26 +109,13 @@ describe("src_3_0_0/modules/searchBar/components/SearchBarResultList.vue", () =>
                             mutations: {
                                 setSearchResultsActive: sinon.stub()
                             }
-                        },
-                        Menu: {
-                            namespaced: true,
-                            getters: {
-                                currentComponent: () => () => ""
-                            }
                         }
                     }
-                }
-            },
-            state: {
-                "Menu": {
-                    "currentComponent": () => {
-                        return {type: ""};
-                    },
-                    "secondaryMenu": {
-                        "currentComponent": "",
-                        "navigation": {
-                            "history": []
-                        }
+                },
+                Menu: {
+                    namespaced: true,
+                    getters: {
+                        currentComponent: () => () => currentComponent
                     }
                 }
             }
@@ -185,6 +173,32 @@ describe("src_3_0_0/modules/searchBar/components/SearchBarResultList.vue", () =>
 
     describe("resultItems", () => {
         it("should return result items", async () => {
+            wrapper = await shallowMount(SearchBarResultListComponent, {
+                props: {
+                    limitedSortedSearchResults
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.vm.resultItems).to.deep.equals([
+                {
+                    "category": "Adresse",
+                    "id": "BeidemNeuenKrahn2Adresse",
+                    "index": 1,
+                    "name": "Bei dem Neuen Krahn 2",
+                    "searchInterfaceId": "gazetteer",
+                    "displayedInfo": "",
+                    "icon": "bi-signpost",
+                    "imagePath": "",
+                    "toolTip": "",
+                    "events": {
+                    }
+                }
+            ]);
+        });
+        it("should return result items with type layerSelection", async () => {
             wrapper = await shallowMount(SearchBarResultListComponent, {
                 props: {
                     limitedSortedSearchResults

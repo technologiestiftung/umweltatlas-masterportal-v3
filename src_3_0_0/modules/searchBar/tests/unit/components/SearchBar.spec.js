@@ -129,6 +129,7 @@ describe("src_3_0_0/modules/searchBar/components/SearchBar.vue", () => {
             expect(wrapper.find("input").exists()).to.be.true;
             expect(wrapper.vm.currentSide).to.eql("mainMenu");
             expect(wrapper.vm.currentComponentSide).to.be.undefined;
+            expect(wrapper.vm.searchInputValue).to.deep.eql("abc-straße");
         });
     });
 

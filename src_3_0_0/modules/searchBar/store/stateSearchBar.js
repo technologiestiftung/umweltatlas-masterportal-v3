@@ -42,8 +42,8 @@ const state = {
     searchResults: [],
     selectedSearchResults: [],
     showAllResults: false,
-    showAllResultsSearchInterfaceInstance: "elasticSearch_0", // todo topicTree
-    showAllResultsSearchCategory: "Thema (externe Fachdaten)", // todo topicTree
+    showAllResultsSearchInterfaceInstance: "elasticSearch_0", // todo default topicTree
+    showAllResultsSearchCategory: "Thema (externe Fachdaten)", // todo default topicTree
     searchResultsActive: true,
     addLayerButtonSearchActive: true,
     iconsByActions: {
