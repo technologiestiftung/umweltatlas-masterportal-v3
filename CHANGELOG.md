@@ -37,6 +37,7 @@
 - Issue #1086: prepush hook runs on linux.
 - Issue #1089: When called via the url parameter ?query, no error message is displayed now.
 - Fix some vulnerabilities in dependencies
+- parametricUrl: prevented error in console when layer is not available.
 
 ---
 
