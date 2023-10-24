@@ -7,6 +7,7 @@
 ### __Breaking Changes__
 
 ### Added
+- Add roadmap information to the readme file.
 
 ### Changed
 - Using the workaround `NODE_OPTIONS=--openssl-legacy-provider` for node 18 is no longer necessary.
