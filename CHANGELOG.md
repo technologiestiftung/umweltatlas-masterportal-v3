@@ -8,6 +8,7 @@
 
 ### Added
 - Add roadmap information to the readme file.
+- Add additional wfs and wms layer param 'gfiThemeSettings' to provide the possibility of additional gfiTheme settings.
 
 ### Changed
 - Using the workaround `NODE_OPTIONS=--openssl-legacy-provider` for node 18 is no longer necessary.
