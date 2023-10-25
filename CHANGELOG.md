@@ -31,6 +31,7 @@
 - addWMS: Transformation for external services with EPSG:4326
 - Issue #1018:The tool selectFeatures can now also be used mobile, as an area can be dragged on the map.
 - Issue #1083: fixed the issue.
+- Issue #1086: prepush hook runs on linux.
 - Fix some vulnerabilities in dependencies
 
 ---
