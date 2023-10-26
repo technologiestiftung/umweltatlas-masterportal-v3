@@ -74,7 +74,7 @@ export default {
             return this.portalConfig?.tree?.type;
         },
         addLayerButton () {
-            return this.portalConfig?.tree?.addLayerButton.active ? this.portalConfig?.tree?.addLayerButton.active : this.treeType === "auto";
+            return this.portalConfig?.tree?.addLayerButton?.active ? this.portalConfig?.tree?.addLayerButton?.active : this.treeType === "auto";
         }
     },
     methods: {

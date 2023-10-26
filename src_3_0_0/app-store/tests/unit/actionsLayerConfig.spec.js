@@ -552,7 +552,7 @@ describe("src_3_0_0/app-store/actionsLayerConfig.js", () => {
         });
 
         describe("processTreeTypeAuto", () => {
-            it("process raw layers in auto tree", () => {
+            it("process raw layers in auto tree with addLayerButton", () => {
                 getters = {
                     activeOrFirstCategory: () => {
                         return {
@@ -570,6 +570,42 @@ describe("src_3_0_0/app-store/actionsLayerConfig.js", () => {
                         addLayerButton: {
                             "active": true
                         }
+                    }
+                };
+
+                state.layerConfig = layerConfig;
+                delete state.layerConfig[treeSubjectsKey];
+
+                layerList.splice(3, 2);
+                layerList.splice(4, 3);
+
+                actions.processTreeTypeAuto({commit, getters, state}, layerConfig[treeBaselayersKey].elements);
+
+                expect(commit.calledOnce).to.be.true;
+                expect(commit.firstCall.args[0]).to.equals("setLayerConfigByParentKey");
+                expect(commit.firstCall.args[1]).to.deep.equals({
+                    layerConfigs: {
+                        elements: []
+                    },
+                    parentKey: treeSubjectsKey
+                });
+                expect(buildSpy.calledOnce).to.be.true;
+            });
+            it("process raw layers in auto tree without addLayerButton", () => {
+                getters = {
+                    activeOrFirstCategory: () => {
+                        return {
+                            active: true,
+                            key: "kategorie_opendata",
+                            name: "common:tree.categoryOpendata"
+                        };
+                    }
+                };
+
+                state.portalConfig = {
+                    tree: {
+                        type: "auto",
+                        validLayerTypesAutoTree: ["WMS", "SENSORTHINGS", "TERRAIN3D", "TILESET3D", "OBLIQUE"]
                     }
                 };
 

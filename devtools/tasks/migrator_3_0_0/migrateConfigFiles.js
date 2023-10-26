@@ -69,6 +69,7 @@ function migrateTree (data, configJS) {
     if (oldTree?.highlightedFeatures) {
         newTree.highlightedFeatures = oldTree.highlightedFeatures;
     }
+    newTree.addLayerButton = {};
     newTree.addLayerButton.active = true;
     newTree.layerPills = {};
     newTree.layerPills.active = true;

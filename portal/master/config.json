@@ -66,7 +66,7 @@
       "addLayerButton": {
         "active": true,
         "searchBar": {
-          "active": true,
+          "active": false,
           "searchInterfaceInstanceId": "elasticSearch_0",
           "searchCategory": "Thema (externe Fachdaten)"
         }

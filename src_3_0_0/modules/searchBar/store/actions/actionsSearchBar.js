@@ -72,9 +72,9 @@ export default {
     checkLayerSelectionSearchConfig: ({commit, rootState}) => {
         const searchBar = rootState.portalConfig?.tree?.addLayerButton?.searchBar;
 
-        if (rootState.portalConfig?.tree?.addLayerButton?.active === true && searchBar.active !== undefined) {
+        if (rootState.portalConfig?.tree?.addLayerButton?.active === true && searchBar && searchBar?.active !== undefined) {
             if (searchBar.searchInterfaceInstance || searchBar.searchCategory) {
-                if (searchBar.searchCategory && searchBar.searchInterfaceInstanceId) {
+                if (searchBar.searchCategory && searchBar?.searchInterfaceInstanceId) {
                     commit("setShowAllResultsSearchInterfaceInstance", searchBar.searchInterfaceInstanceId);
                     commit("setShowAllResultsSearchCategory", searchBar.searchCategory);
                 }
@@ -83,9 +83,12 @@ export default {
                 }
             }
 
-            if (searchBar.active === true || searchBar.active === false) {
+            if (typeof searchBar.active === "boolean") {
                 commit("setAddLayerButtonSearchActive", searchBar.active);
             }
+        }
+        else {
+            commit("setAddLayerButtonSearchActive", false);
         }
     }
 };

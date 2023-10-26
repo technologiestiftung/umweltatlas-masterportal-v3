@@ -21,7 +21,7 @@ export default {
         ...mapGetters("Modules/LayerTree", ["menuSide"]),
         ...mapGetters("Modules/LayerSelection", {layerSelectionType: "type", layerSelectionName: "name"}),
         addLayerButton () {
-            return this.portalConfig?.tree?.addLayerButton.active ? this.portalConfig?.tree?.addLayerButton.active : this.treeType === "auto";
+            return this.portalConfig?.tree?.addLayerButton?.active ? this.portalConfig?.tree?.addLayerButton?.active : this.portalConfig?.tree?.type === "auto";
         }
     },
     methods: {
