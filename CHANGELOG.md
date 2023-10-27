@@ -35,6 +35,7 @@
 - Issue #1052 VectorStyle: path to an icon in the map or in the legend in style.json may be an icon name, a relative path to icon, a complete url or an svg.
 - Issue #1083: fixed the issue.
 - Issue #1086: prepush hook runs on linux.
+- Issue #1089: When called via the url parameter ?query, no error message is displayed now.
 - Fix some vulnerabilities in dependencies
 
 ---
