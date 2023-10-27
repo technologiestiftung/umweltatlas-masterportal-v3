@@ -890,7 +890,8 @@ The menu bar allows showing a portal name and portal image if sufficient horizon
 |backgroundImage|no|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/config.json.md#markdown-header-portalconfigmapview"|Path to an alternative background image.|false|
 |startCenter|no|**[Coordinate](#markdown-header-datatypescoordinate)**|[565874, 5934140]|Initial center coordinate.|false|
 |extent|no|**[Extent](#markdown-header-datatypesextent)**|[510000.0, 5850000.0, 625000.4, 6000000.0]|Map extent - map may not be moved outside these boundaries.|false|
-|resolution|no|Float|15.874991427504629|The initial map resolution from the `options` element. Used in preference to `zoomLevel`.|false|
+|startResolution|no|Float|15.874991427504629|The initial map resolution from the `options` element. Used in preference to `startZoomLevel`.|false|
+|resolution|nein|Float|15.874991427504629|Deprecated in 3.0.0 Please use "startResolution".|false|
 |startZoomLevel|no|Integer||The initial map zoom level from the `options` element. If `resolutions` is set, this is ignored.|false|
 |zoomLevel|no|Integer||Deprecated in 3.0.0 Please use "startZoomLevel".|false|
 |epsg|no|String|"EPSG:25832"|Coordinate reference system EPSG code. The code must be defined as a `namedProjection`.|false|

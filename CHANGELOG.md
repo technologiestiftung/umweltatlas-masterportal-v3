@@ -9,6 +9,7 @@
 ### Added
 - Add roadmap information to the readme file.
 - Add additional wfs and wms layer param 'gfiThemeSettings' to provide the possibility of additional gfiTheme settings.
+- Issue #1046: Add documentation in the config.json md-files for the `mapView` attribute `startResolution`.
 
 ### Changed
 - Using the workaround `NODE_OPTIONS=--openssl-legacy-provider` for node 18 is no longer necessary.
