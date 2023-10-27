@@ -31,8 +31,8 @@
 ### Fixed
 - addWMS: Transformation for external services with EPSG:4326
 - Issue #886: Remove warning for `Cesium could not be loaded`, if control `button3d` is not configured.
-- Issue #1018:The tool selectFeatures can now also be used mobile, as an area can be dragged on the map.
-- Issue #1052 VectorStyle: path to an icon in the map or in the legend in style.json may be an icon name, a relative path to icon, a complete url or an svg.
+- Issue #1018: The tool selectFeatures can now also be used mobile, as an area can be dragged on the map.
+- Issue #1052: VectorStyle: path to an icon in the map or in the legend in style.json may be an icon name, a relative path to icon, a complete url or an svg.
 - Issue #1083: fixed the issue.
 - Issue #1086: prepush hook runs on linux.
 - Issue #1089: When called via the url parameter ?query, no error message is displayed now.
