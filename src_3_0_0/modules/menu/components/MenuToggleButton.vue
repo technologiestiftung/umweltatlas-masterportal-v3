@@ -95,7 +95,7 @@ export default {
         top: unset;
     }
 }
-@include media-breakpoint-up(sm) {
+@include media-breakpoint-up(md) {
 
     .menu-toggle-button {
         top: 15px;

@@ -242,7 +242,7 @@ export default {
 }
 
 
-@include media-breakpoint-up(sm)  {
+@include media-breakpoint-up(md)  {
     .mp-menu {
         top: 0px;
         min-width: 0%;
@@ -273,9 +273,6 @@ export default {
         &:hover {
             background-color: $light_grey_active;
         }
-    }
-    .mp-menu-header-close-button {
-        display: none;
     }
  }
 
