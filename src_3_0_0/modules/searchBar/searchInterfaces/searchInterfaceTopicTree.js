@@ -4,6 +4,7 @@ import layerFactory from "../../../core/layers/js/layerFactory";
 
 /**
  * The search interface to the topic tree.
+ * @module modules/searchBar/searchInterfaces/SearchInterfaceTopicTree
  * @name SearchInterfaceTopicTree
  * @constructs
  * @extends SearchInterface
@@ -172,6 +173,7 @@ SearchInterfaceTopicTree.prototype.normalizeFolderResult = function (folder) {
 
 /**
  * Creates the possible actions and fills them.
+ * @override
  * Note: Folders do not have activateLayerInTopicTree action.
  * @param {Object} searchResult The search result of topic tree.
  * @returns {Object} The possible actions.

@@ -3,7 +3,7 @@ import axios from "axios";
 
 /**
  * Search interface is used as a parent element for concrete search interfaces.
- * @module modules/searchInterface
+ * @module modules/searchBar/searchInterfaces/searchInterface
  * @name SearchInterface
  * @abstract
  * @constructs

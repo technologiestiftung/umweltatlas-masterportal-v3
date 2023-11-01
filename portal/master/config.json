@@ -262,8 +262,6 @@
           },
           {
             "type": "specialWfs",
-            "minChars": 3,
-            "timeout": 10000,
             "definitions": [
               {
                 "url": "https://geodienste.hamburg.de/HH_WFS_Bebauungsplaene",

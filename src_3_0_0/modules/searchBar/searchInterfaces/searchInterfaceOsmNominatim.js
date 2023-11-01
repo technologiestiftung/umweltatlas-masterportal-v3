@@ -7,6 +7,7 @@ import {uniqueId} from "../../../shared/js/utils/uniqueId";
 
 /**
  * The search interface to the osm nominatim geocoder.
+ * @module modules/searchBar/searchInterfaces/SearchInterfaceOsmNominatim
  * @name SearchInterfaceOsmNominatim
  * @constructs
  * @extends SearchInterface
@@ -175,6 +176,7 @@ SearchInterfaceOsmNominatim.prototype.createToolTipName = function (searchResult
 
 /**
  * Creates the possible actions and fills them.
+ * @override
  * @param {Object} searchResult The search result of osm nominatim.
  * @returns {Object} The possible actions.
  */

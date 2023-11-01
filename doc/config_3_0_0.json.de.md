@@ -75,6 +75,7 @@ Der baselayerSwitcher ermnöglicht ein einfaches Wechseln bzw. Auswählen eines 
 |----|-------------|---|-------|------------|------|
 active|nein|Boolean|false|Definiert, ob der baselayerSwitcher aktiv ist.|false|
 activatedExpandable|nein|Boolean|false|Gibt an, ob der baselayerSwitcher aufgeklappt ist und alle verfügbaren baselayer angezeigt werden oder nur der aktive, welcher sich auf höchster Ebene befindet.|false|
+
 **Beispiel**
 
 ```json
@@ -126,6 +127,7 @@ Das Attribut backForward kann vom Typ Boolean oder Object sein. Wenn es vom Typ 
 |iconBack|nein|String|"skip-start-fill"|Über den Parameter iconBack kann ein anderes Icon für das Zurückschalten der Kartenansicht verwendet werden.|false|
 
 **Beispiel backForward als Object:**
+
 ```json
 "backForward" : {
     "iconForward": "bi-skip-forward-fill",
@@ -134,6 +136,7 @@ Das Attribut backForward kann vom Typ Boolean oder Object sein. Wenn es vom Typ 
 ```
 
 **Beispiel backForward als Boolean:**
+
 ```json
 "backForward": true
 ```
@@ -191,6 +194,7 @@ Ermöglicht dem User die Darstellung im Vollbildmodus (ohne Tabs und Adressleist
 |----|-------------|---|-------|------------|------|
 
 ***
+
 #### Portalconfig.controls.rotation
 Das Attribut rotation kann vom Typ Boolean oder Object sein. Wenn es vom Typ Boolean ist und auf true gesetzt ist, zeigt es das Rotation-Control nur an, wenn die Maprotation ungleich Norden/0 ist. Ist es vom Typ Object, so gelten folgende Attribute:
 
@@ -579,7 +583,15 @@ Definitionen der Suchschnittstellen.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
+|bkg|nein|**[bkg](#markdown-header-portalconfigmenusearchbarsearchInterfacesbkg)**||Konfiguration des BKG Suchdienstes.|false|
+|elasticSearch|nein|**[elasticSearch](#markdown-header-portalconfigmenusearchbarsearchInterfaceselasticsearch)**||Konfiguration des ElasticSearch Suchdienstes.|false|
 |gazetteer|nein|**[gazetteer](#markdown-header-portalconfigmenusearchbarsearchInterfacesgazetteer)**||Konfiguration des Gazetteer Suchdienstes.|false|
+|komootPhoton|nein|**[komootPhoton](#markdown-header-portalconfigmenusearchbarsearchInterfaceskomootphoton)**||Konfiguration des Komoot Photon Suchdienstes.|false|
+|locationFinder|nein|**[locationFinder](#markdown-header-portalconfigmenusearchbarsearchInterfaceslocationfinder)**||Konfiguration des LocationFinder-Suchdienstes.|false|
+|osmNominatim|nein|**[osmNominatim](#markdown-header-portalconfigmenusearchbarsearchInterfacesosmnominatim)**||Konfiguration des OpenStreetMap (OSM) Suchdienstes.|false|
+|specialWFS|nein|**[specialWFS](#markdown-header-portalconfigmenusearchbarsearchInterfacesspecialwfs)**||Konfiguration des specialWFS Suchdienstes.|false|
+|topicTree|nein|**[topicTree](#markdown-header-portalconfigmenusearchbarsearchInterfacestopictree)**||Konfiguration der Suche im Themenbaum.|false|
+|visibleVector|nein|**[visibleVector](#markdown-header-portalconfigmenusearchbarsearchInterfacesvisiblevector)**||Konfiguration der Suche über die sichtbaren Vector Layer.|false|
 
 **Beispiel**
 
@@ -600,6 +612,126 @@ Definitionen der Suchschnittstellen.
 
 ***
 
+###### Portalconfig.menu.searchBar.searchInterfaces.bkg
+Konfiguration des BKG Suchdienstes
+
+**ACHTUNG: Backend notwendig!**
+
+**Um die eigene UUID für den BKG nicht öffentlich zu machen, sollten die URLS (hier "bkg_geosearch" und "bkg_suggest") der restServices im Proxy abgefangen und umgeleitet werden.**
+
+**Beispielhafte Proxy Einstellung**
+
+```
+ProxyPass /bkg_geosearch http://sg.geodatenzentrum.de/gdz_geokodierung__[UUID]/geosearch
+<Location /bkg_geosearch>
+  ProxyPassReverse http://sg.geodatenzentrum.de/gdz_geokodierung__[UUID]/geosearch
+</Location>
+
+ProxyPass /bkg_suggest http://sg.geodatenzentrum.de/gdz_geokodierung__[UUID]/suggest
+<Location /bkg_suggest>
+  ProxyPassReverse http://sg.geodatenzentrum.de/gdz_geokodierung__[UUID]/suggest
+</Location>
+```
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|epsg|nein|String|"EPSG:25832"|EPSG-Code des zu verwendenden Koordinatensystems.|false|
+|extent|nein|**[Extent](#markdown-header-datatypesextent)**|[454591, 5809000, 700000, 6075769]|Koordinaten-Ausdehnung innerhalb dieser der Suchalgorithmus suchen soll.|false|
+|geoSearchServiceId|ja|String||Id des Suchdienstes. Wird aufgelöst in der **[rest-services.json](rest-services.json.de.md)**.|false|
+|minScore|nein|Number|0.6|Score der die Qualität der Suchergebnisse definiert.|false|
+|resultCount|nein|Integer|20|Maximale Anzahl der Suchtreffer die vom Dienst geliefert werden.|false|
+|resultEvents|nein|**[resultEvents](#markdown-header-portalconfigmenusearchbarsearchInterfacesresultEvents)**|{"onClick": ["setMarker", "zoomToResult"], "onHover": ["setMarker"], buttons: ["startRouting"]}|Aktionen, die ausgeführt werden, wenn eine Interaktion, z. B. ein Hover oder ein Klick, mit einem Element der Ergebnisliste erfolgt. Folgende events sind möglich: "setMarker", "zoomToResult", "startRouting".|false|
+|type|ja|String|"bkg"|Type der Such-Schnittstelle. Definiert welche Such-Schnittstelle konfiguriert ist.|
+
+**Beispiel**
+
+```json
+{
+    "geoSearchServiceId": "5",
+    "extent": [454591, 5809000, 700000, 6075769],
+    "resultCount": 10,
+    "epsg": "EPSG:25832",
+    "minScore": 0.6,
+    "type": "bkg"
+}
+```
+
+***
+
+###### Portalconfig.menu.searchBar.searchInterfaces.elasticSearch
+Konfiguration des Elastic Search Suchdienstes
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|hitIcon|nein|String|"bi-signpost-2-fill"|CSS Icon Klasse des Suchergebnisses. Wird vor dem Namen angezeigt.|false|
+|hitMap|nein|**[hitMap](#markdown-header-portalconfigsearchbarelasticsearchhitmap)**||Mapping Objekt. Mappt die Attribute des Ergebnis Objektes auf den entsprechenden Key.|true|
+|hitTemplate|nein|String|"default"|Template in dem die Suchergebnisse (`alle anzeigen`) angezeigt werden. Möglich sind die Werte "default" und "layer".|false|
+|hitType|nein|String|"common:modules.searchbar.type.subject"|Typ des Suchergebnisses, wird in der Auswahlliste hinter dem Namen angezeigt. Nutzen Sie den Übersetzungskey aus der Übersetzungsdatei|false|
+|resultEvents|nein|**[resultEvents](#markdown-header-portalconfigmenusearchbarsearchInterfacesresultEvents)**|{"onClick": ["addLayerToTopicTree"], "buttons": ["showInTree", "showLayerInfo"]}|Aktionen, die ausgeführt werden, wenn eine Interaktion, z. B. ein Hover oder ein Klick, mit einem Element der Ergebnisliste erfolgt. Folgende events sind möglich: "addLayerToTopicTree", "setMarker", "showInTree", "showLayerInfo", "startRouting", "zoomToResult".|false|
+|requestType|nein|enum["POST", "GET"]|"POST"|Art des Requests.|false|
+|responseEntryPath|nein|String|""|Der Pfad in der response (JSON) zum Attribut, das die gefundenen Features enthält.|false|
+|searchStringAttribute|nein|String|"searchString"|Attributname im payload für den searchString.|false|
+|serviceId|ja|String||Id des Suchdienstes. Wird aufgelöst in der **[rest-services.json](rest-services.json.de.md)**.|false|
+|type|ja|String|"elasticSearch"|Type der Such-Schnittstelle. Definiert welche Such-Schnittstelle konfiguriert ist.|
+
+Als zusätzliches property kann `payload` hinzugefügt werden. Es muss nicht zwingend gesetzt sein, und passt zur Beschreibung von **[CustomObject](#markdown-header-datatypescustomobject)**. Per default wird es als leeres Objekt `{}` gesetzt. Das Objekt beschreibt die Payload, die mitgeschickt werden soll. Es muss das Attribut für den searchString vorhalten. Für weitere Infos zu den nutzbaren Attributen siehe **[Elasticsearch Guide](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html)**. Dieses Objekt kann im Admintool nicht gepflegt werden, da dort **[CustomObject](#markdown-header-datatypescustomobject)** nicht definiert ist.
+
+ **Beispiel**
+
+```json
+{
+    "type": "elasticSearch",
+    "serviceId":"elastic",
+    "requestType": "GET",
+    "payload": {
+        "id":"query",
+        "params":{
+            "query_string":""
+        }
+    },
+    "searchStringAttribute": "query_string",
+    "responseEntryPath": "hits.hits",
+    "hitMap": {
+        "name": "_source.name",
+        "id": "_source.id",
+        "source": "_source"
+    },
+    "hitType": "common:modules.searchbar.type.subject",
+    "hitIcon": "bi-list-ul"
+}
+```
+
+***
+
+###### Portalconfig.menu.searchBar.searchInterfaces.elasticSearch.hitMap
+Mapping Objekt. Mappt die Attribute des Ergebnis Objektes auf den entsprechenden Key.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|coordinate|nein|String/String[]||Attribut value wird auf attribut key gemappt. Notwendig um das Ergebnis anzuzeigen.|false|
+|id|ja|String/String[]||Attribut value wird auf attribut key gemappt. Notwendig um das Ergebnis anzuzeigen.|false|
+|layerId|nein|String/String[]||Attribut value wird auf attribut key gemappt. Notwendig um das Ergebnis anzuzeigen.|false|
+|name|ja|String/String[]||Attribut value wird auf attribut key gemappt. Notwendig um das Ergebnis anzuzeigen.|false|
+|source|nein|String/String[]||Attribut value wird auf attribut key gemappt. Notwendig um das Ergebnis anzuzeigen.|false|
+|toolTip|nein|String/String[]||Attribut value wird auf attribut key gemappt. Notwendig um das Ergebnis anzuzeigen.|false|
+
+**Beispiel**
+
+```json
+"hitMap": {
+    "name": "_source.name",
+    "id": "_source.id",
+    "source": "_source",
+    "layerId": "_source.id",
+    "toolTip": [
+        "_source.name",
+        "_source.datasets.md_name"
+    ]
+}
+```
+
+***
+
 ###### Portalconfig.menu.searchBar.searchInterfaces.gazetteer
 Konfiguration des Gazetteer Suchdienstes
 
@@ -608,7 +740,7 @@ Konfiguration des Gazetteer Suchdienstes
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|resultEvents|nein|**[resultEvents](#markdown-header-portalconfigmenusearchbarsearchInterfacesresultEvents)**|{"onClick": ["setMarker", "zoomToResult"], "onHover": ["setMarker"]}|Aktionen, die ausgeführt werden, wenn eine Interaktion, z. B. ein Hover oder ein Klick, mit einem Element der Ergebnisliste erfolgt. Folgende events sind möglich: "setMarker", "zoomToResult".|false|
+|resultEvents|nein|**[resultEvents](#markdown-header-portalconfigmenusearchbarsearchInterfacesresultEvents)**|{"onClick": ["setMarker", "zoomToResult"], "onHover": ["setMarker"], "buttons": ["startRouting"]}|Aktionen, die ausgeführt werden, wenn eine Interaktion, z. B. ein Hover oder ein Klick, mit einem Element der Ergebnisliste erfolgt. Folgende events sind möglich: "setMarker", "startRouting", "zoomToResult".|false|
 |searchAddress|nein|Boolean||Gibt an, ob nach Adressen gesucht werden soll.|false|
 |searchDistricts|nein|Boolean||Gibt an, ob nach Bezirken gesucht werden soll.|false|
 |searchHouseNumbers|nein|Boolean||Gibt an, ob nach Straßen und Hausnummern gesucht werden soll. |false|
@@ -617,6 +749,7 @@ Konfiguration des Gazetteer Suchdienstes
 |searchStreets|nein|Boolean||Gibt an, ob nach Straßen gesucht werden soll. Vorraussetzung für **searchHouseNumbers**.|false|
 |serviceId|ja|String||Id des Suchdienstes. Wird aufgelöst in der **[rest-services.json](rest-services.json.de.md)**.|false|
 |showGeographicIdentifier|nein|Boolean|false|Gibt an ob das Attribut `geographicIdentifier` zur Anzeige des Suchergebnisses verwendet werden soll.|false|
+|type|ja|String|"gazetteer"|Type der Such-Schnittstelle. Definiert welche Such-Schnittstelle konfiguriert ist.|
 
 **Beispiel**
 
@@ -635,6 +768,256 @@ Konfiguration des Gazetteer Suchdienstes
 
 ***
 
+###### Portalconfig.menu.searchBar.searchInterfaces.komootPhoton
+Suche bei **[Komoot Photon](https://photon.komoot.io/)**.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|bbox|nein|string||Begrenzungsrechteck für die Suche.|false|
+|lang|nein|string|"de"|Sprache für die Komoot Suche. Wirkt sich auf Sprachspezifische Ortsangaben (Zum Beispiel Ländernamen) aus.|false|
+|lat|nein|Number||Breitengrad für den Suchmittelpunkt.|false|
+|limit|nein|Number||Gibt die maximale Zahl der gewünschten, ungefilterten Ergebnisse an.|false|
+|lon|nein|Number||Längengrad für den Suchmittelpunkt.|false|
+|osm_tag|nein|string||Filterung für OSM Tags (siehe https://github.com/komoot/photon#filter-results-by-tags-and-values).|false|
+|serviceId|ja|String||Gibt die ID für die URL in der **[rest-services.json](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/0d136a44a59dd3b64ec986c258763ac08603bf15/doc/rest-services.json.md)** vor.|false|
+|resultEvents|nein|**[resultEvents](#markdown-header-portalconfigmenusearchbarsearchInterfacesresultEvents)**|{"onClick": ["setMarker", "zoomToResult"], "onHover": ["setMarker"], "buttons": ["startRouting"]}|Aktionen, die ausgeführt werden, wenn eine Interaktion, z. B. ein Hover oder ein Klick, mit einem Element der Ergebnisliste erfolgt. Folgende events sind möglich: "setMarker", "startRouting", "zoomToResult".|false|
+|type|ja|String|"komootPhoton"|Type der Such-Schnittstelle. Definiert welche Such-Schnittstelle konfiguriert ist.|
+
+**Beispiel**
+
+```json
+{
+    "type": "komootPhoton",
+    "serviceId": "10",
+    "limit": 20,
+    "lang": "de",
+    "lat": 52.5,
+    "lon": 13.4,
+    "bbox": "12.5,52.05,14.05,52.75"
+}
+```
+
+***
+
+###### Portalconfig.menu.searchBar.searchInterfaces.locationFinder
+Konfiguration zur Suche unter Verwendung eines ESRI CH LocationFinders.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|classes|nein|**[LocationFinderClass](#markdown-header-portalconfigsearchbarlocationfinderLocationFinderClass)**||Kann Klassen (mit Eigenschaften) enthalten die berücksichtigt werden sollen. Wenn hier nichts angegeben wird, so werden alle Klassen berücksichtigt.|false|
+|epsg|nein|String||Koordinatensystem (EPSG-Code), in dem das Ergebnis angefragt werden soll. Standardmäßig wird  hier der Wert von Portalconfig.mapView.epsg verwendet.|false|
+|resultEvents|nein|**[resultEvents](#markdown-header-portalconfigmenusearchbarsearchInterfacesresultEvents)**|{"onClick": ["setMarker", "zoomToResult"], "onHover": ["setMarker"], "buttons": ["startRouting"]}|Aktionen, die ausgeführt werden, wenn eine Interaktion, z. B. ein Hover oder ein Klick, mit einem Element der Ergebnisliste erfolgt. Folgende events sind möglich: "setMarker", "startRouting", "zoomToResult".|false|
+|serviceId|ja|String||Gibt die ID für die URL in der **[rest-services.json](rest-services.json.de.md)** vor.|false|
+|type|ja|String|"locationFinder"|Type der Such-Schnittstelle. Definiert welche Such-Schnittstelle konfiguriert ist.|
+
+**Beispiel**
+
+```json
+{
+    "type": "locationFinder",
+    "serviceId": "locationFinder",
+    "classes": [
+        {
+            "name": "Haltestelle",
+            "icon": "bi-record-circle"
+        },
+        {
+            "name": "Straßenname"
+        }
+    ]
+}
+```
+
+***
+
+###### Portalconfig.menu.searchBar.searchInterfaces.locationFinder.LocationFinderClass
+Definition von Klassen, welche als Ergebnis berücksichtigt werden sollen.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|icon|nein|String|"bi-signpost-2-fill"|Visualisierung der Klasse durch ein Icon|false|
+|name|ja|String||Name der Klasse|false|
+|zoom|nein|String|"center"|Legt fest wie auf einen ausgewählten Treffer gezoomt werden soll. Wenn `center` ausgewählt ist, so wird auf die Zentrumskoordinate (`cx` und `cy`) gezoomt und ein Marker angezeigt. Im Falle von `bbox` wird auf die durch den LocationFinder angegebene BoundingBox (`xmin`, `ymin`, `xmax` und `ymax`) gezoomt. Ein Marker wird in dem Fall nicht angezeigt.|false|
+
+**Beispiel**
+
+```json
+{
+    "type": "locationFinder",
+    "serviceId": "10",
+    "classes": [
+        {
+			"name": "Haltestelle",
+			"icon": "bi-record-circle"
+		},
+		{
+			"name": "Adresse",
+			"icon": "bi-house-door-fill"
+		},
+		{
+			"name": "Straßenname",
+			"zoom": "bbox"
+		}
+    ]
+}
+```
+
+***
+
+###### Portalconfig.menu.searchBar.searchInterfaces.osmNominatim
+Suche bei OpenStreetMap über Stadt, Strasse und Hausnummer. Wird nur durch Klick auf die Lupe oder Enter ausgelöst, da die Anzahl der Abfragen der OSM-Suchmaschine limitiert ist.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|classes|nein|string|[]|Kann die Klassen, für die Ergebnisse erzielt werden sollen, enthalten.|false|
+|limit|nein|Number|50|Gibt die maximale Zahl der gewünschten, ungefilterten Ergebnisse an.|false|
+|resultEvents|nein|**[resultEvents](#markdown-header-portalconfigmenusearchbarsearchInterfacesresultEvents)**|{"onClick": ["setMarker", "zoomToResult"], "onHover": ["setMarker"], "buttons": ["startRouting"]}|Aktionen, die ausgeführt werden, wenn eine Interaktion, z. B. ein Hover oder ein Klick, mit einem Element der Ergebnisliste erfolgt. Folgende events sind möglich: "setMarker", "startRouting", "zoomToResult".|false|
+|serviceId|ja|String||Gibt die ID für die URL in der **[rest-services.json](rest-services.json.de.md)** vor.|false|
+|states|nein|string|""|Kann die Namen der Bundesländer enthalten. Trenner beliebig. Eventuell auch englische Ausprägungen eintragen, da die Daten frei im OpenSourceProjekt **[OpenStreetMap](https://www.openstreetmap.org)** erfasst werden können.|false|
+|type|ja|String|"gazetteer"|Type der Such-Schnittstelle. Definiert welche Such-Schnittstelle konfiguriert ist.|
+
+**Beispiel**
+
+```json
+{
+    "type": "osmNominatim",
+    "serviceId": "10",
+    "limit": 60,
+    "states": "Hamburg, Nordrhein-Westfalen, Niedersachsen, Rhineland-Palatinate Rheinland-Pfalz",
+    "classes": "place,highway,building,shop,historic,leisure,city,county"
+}
+```
+
+***
+
+###### Portalconfig.menu.searchBar.searchInterfaces.specialWFS
+Konfiguration der WFS-Suchfunktion "specialWFS": fragt Features eines WFS-Dienstes ab. Der Dienst muss hierfür WFS 2.0 Anfragen zulassen.
+
+Beispielsweise würde bei der Eingabe "Kronenmatten" der Dienst
+https://geoportal.freiburg.de/geoportal_freiburg_de/wfs/stpla_bplan/wfs_mapfile/geltungsbereiche
+folgende Anfrage mit einer xml FeatureCollection beantworten. Die Features der Collection werden anschließend als Suchergebnisse vorgeschlagen.
+
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<wfs:GetFeature service='WFS' xmlns:wfs='http://www.opengis.net/wfs' xmlns:ogc='http://www.opengis.net/ogc' xmlns:gml='http://www.opengis.net/gml' traverseXlinkDepth='*' version='1.1.0'>
+    <wfs:Query typeName='ms:geltungsbereiche'>
+        <wfs:PropertyName>ms:planbez</wfs:PropertyName>
+        <wfs:PropertyName>ms:msGeometry</wfs:PropertyName>
+        <wfs:maxFeatures>20</wfs:maxFeatures>
+        <ogc:Filter>
+            <ogc:PropertyIsLike matchCase='false' wildCard='*' singleChar='#' escapeChar='!'>
+                <ogc:PropertyName>ms:planbez</ogc:PropertyName>
+                <ogc:Literal>*Kronenmatten*</ogc:Literal>
+            </ogc:PropertyIsLike>
+        </ogc:Filter>
+    </wfs:Query>
+</wfs:GetFeature>
+```
+
+Die WFS 2 query wird dabei dynamisch durch das Masterportal erstellt. Die Konfiguration einer stored query im WFS Dienst ist hierfür nicht erforderlich.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|definitions|nein|**[definition](#markdown-header-portalconfigmenusearchbarsearchinterfacesspecialwfsdefinition)** *[]||Definition der speziellen WFS suchen.|false|
+|geometryName|nein|String|"app:geom"|Attributname der Geometrie wird benötigt um darauf zu zoomen. Kann in der **[definition](#markdown-header-portalconfigmenusearchbarsearchinterfacesspecialwfsdefinition)** überschrieben werden.|false|
+|icon|nein|String|"bi-house-fill"|Default icon das in der Vorschlagsliste erscheint. Kann in der **[definition](#markdown-header-portalconfigmenusearchbarsearchinterfacesspecialwfsdefinition)**  überschrieben werden.|false|
+|maxFeatures|nein|Integer|20|Maximale Anzahl an gefundenen Features. Kann in der **[definition](#markdown-header-portalconfigmenusearchbarsearchinterfacesspecialwfsdefinition)** überschrieben werden.|false|
+|namespaces|nein|String|"xmlns:wfs='http://www.opengis.net/wfs' xmlns:ogc='http://www.opengis.net/ogc' xmlns:gml='http://www.opengis.net/gml'"|XML Namespaces zur Abfrage von propertyNames oder geometryName (*xmlns:wfs*, *xmlns:ogc* und *xmlns:gml* werden immer genutzt). Kann in der **[definition](#markdown-header-portalconfigmenusearchbarsearchinterfacesspecialwfsdefinition)** überschrieben werden.|false|
+|resultEvents|nein|**[resultEvents](#markdown-header-portalconfigmenusearchbarsearchInterfacesresultEvents)**|{"onClick": ["highlightFeature", "setMarker", "zoomToResult"], "onHover": ["highlightFeature", "setMarker"]}|Aktionen, die ausgeführt werden, wenn eine Interaktion, z. B. ein Hover oder ein Klick, mit einem Element der Ergebnisliste erfolgt. Folgende events sind möglich: "highlightFeature", "setMarker", "zoomToResult".|false|
+|type|ja|String|"specialWFS"|Type der Such-Schnittstelle. Definiert welche Such-Schnittstelle konfiguriert ist.|
+
+**Beispiel**
+
+```json
+{
+    "type": "specialWFS",
+    "definitions": [
+        {
+            "url": "https://geodienste_hamburg_de/MRH_WFS_Rotenburg",
+            "typeName": "app:mrh_row_bplan",
+            "propertyNames": ["app:name"],
+            "name": "B-Plan",
+            "namespaces": "xmlns:app='http://www.deegree.org/app'"
+        },
+        {
+            "url": "/geodienste_hamburg_de/HH_WFS_Bebauungsplaene",
+            "typeName": "app:prosin_imverfahren",
+            "propertyNames": ["app:plan"],
+            "geometryName": "app:the_geom",
+            "name": "im Verfahren",
+            "namespaces": "xmlns:app='http://www.deegree.org/app'"
+        }
+    ]
+}
+```
+
+***
+
+###### Portalconfig.menu.searchBar.searchInterfaces.specialWFS.definition
+Konfiguration einer Definition bei der SpecialWFS Suche
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|geometryName|nein|String|"app:geom"|Attributname der Geometrie wird benötigt um darauf zu zoomen.|false|
+|icon|nein|String|"bi-house-fill"|CSS Klasse des Icons das in der Vorschlagsliste erscheint.|false|
+|maxFeatures|nein|Integer|20|Maximale Anzahl an gefundenen Features.|false|
+|name|nein|String||Name der Kategorie. Erscheint in der Vorschlagsliste.|false|
+|namespaces|nein|String||XML Namespaces zur Abfrage von propertyNames oder geometryName (*xmlns:wfs*, *xmlns:ogc* und *xmlns:gml* werden immer genutzt).|false|
+|propertyNames|nein|String[]||Array von Attributnamen. Diese Attribute werden durchsucht.|false|
+|typeName|nein|String||Der Name des abzufragenden Layers innerhalb des WFS.|false|
+|url|nein|String||URL des WFS. Je nach proxy-Konfiguration muss die relative url vom Server des Portals aus angegeben werden. |false|
+
+**Beispiel**
+
+```json
+{
+    "url": "https://geodienste_hamburg_de/HH_WFS_Bebauungsplaene",
+    "typeName": "app:prosin_imverfahren",
+    "propertyNames": ["app:plan"],
+    "geometryName": "app:the_geom",
+    "name": "im Verfahren"
+}
+```
+
+***
+
+###### Portalconfig.menu.searchBar.searchInterfaces.topicTree
+Alle Layer, die im Themenbaum des Portals sind, werden durchsucht.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|hitTemplate|nein|String|"default"|Template in dem die Suchergebnisse (`alle anzeigen`) angezeigt werden. Möglich sind die Werte "default" und "layer".|false|
+|resultEvents|nein|**[resultEvents](#markdown-header-portalconfigmenusearchbarsearchInterfacesresultEvents)**|{"onClick": ["activateLayerInTopicTree"], "buttons": ["showInTree", "showLayerInfo"]}|Aktionen, die ausgeführt werden, wenn eine Interaktion, z. B. ein Hover oder ein Klick, mit einem Element der Ergebnisliste erfolgt. Folgende events sind möglich: "activateLayerInTopicTree", "showInTree", "showLayerInfo".|false|
+|type|ja|String|"topicTree"|Type der Such-Schnittstelle. Definiert welche Such-Schnittstelle konfiguriert ist.|
+
+**Beispiel**
+
+```json
+{
+    "type": "topicTree"
+}
+```
+
+***
+
+###### Portalconfig.menu.searchBar.searchInterfaces.visibleVector
+Konfiguration der Suche über die sichtbaren VectorLayer. Bei der Layerdefinition unter "Fachdaten" muss für jeden VectorLayer, der durchsucht werden soll das Attribut "searchField" gesetzt sein. Siehe **[searchField](#markdown-header-themenconfigelementslayersvector)**
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|resultEvents|nein|**[resultEvents](#markdown-header-portalconfigmenusearchbarsearchInterfacesresultEvents)**|{"onClick": ["openGetFeatureInfo", "setMarker", "zoomToResult"], "onHover": ["setMarker"]}|Aktionen, die ausgeführt werden, wenn eine Interaktion, z. B. ein Hover oder ein Klick, mit einem Element der Ergebnisliste erfolgt. Folgende events sind möglich: "openGetFeatureInfo", "setMarker", "zoomToResult".|false|
+|type|ja|String|"visibleVector"|Type der Such-Schnittstelle. Definiert welche Such-Schnittstelle konfiguriert ist.|
+
+**Beispiel**
+
+```json
+{
+    "type": "visibleVector"
+}
+```
+
+***
+
 ##### Portalconfig.menu.searchBar.searchInterfaces.resultEvents
 Aktionen, die ausgeführt werden, wenn eine Interaktion, z. B. ein Hover oder ein Klick, mit einem Element der Ergebnisliste erfolgt.
 
@@ -645,19 +1028,32 @@ Folgende Events existieren. Welche Events konfiguriert werden können ist den Be
 - highligtFeature: Hebt das Scuhergebniss auf der Karte hervor.
 - openGetFeatureInfo: Öffnet die GetFeatureInfo zum Suchtreffer im Menü.
 - setMarker: Es wird ein Marker in der Karte platziert.
+- showInTree: Öffnet die Themenauswahl und zeigt den ausgewählten Layer an.
+- showLayerInfo: Öffnet de Layerinformationen.
+- startRouting: Starte das Modul Routing mit der angeklickten Adresse als Ziel.
 - zoomToResult: Es wird zum Suchtreffer gezoomt.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
+|buttons|nein|String[]||Buttons die bei jedem Suchergebiss in der Ergebnisliste angezeigt werden und bei Klick eine Aktion ausführen|false|
 |onClick|nein|String[]||Aktionen die auf bei einem Klick auf Ein Suchergebniss ausgeführt werden.|false|
 |onHover|nein|String[]||Aktionen die auf bei einem Hover auf Ein Suchergebniss ausgeführt werden.|false|
 
-**Beispiel**
+**Beispiel 1**
 
 ```json
 "resultEvents": {
     "onClick": ["setMarker", "zoomToResult"],
     "onHover": ["setMarker"]
+}
+```
+
+**Beispiel 2**
+
+```json
+"resultEvents": {
+    "onClick": ["activateLayerInTopicTree"],
+    "buttons": ["showInTree", "showLayerInfo"]
 }
 ```
 

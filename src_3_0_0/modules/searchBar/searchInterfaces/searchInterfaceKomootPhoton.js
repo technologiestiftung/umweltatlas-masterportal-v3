@@ -6,6 +6,7 @@ import {uniqueId} from "../../../shared/js/utils/uniqueId";
 
 /**
  * The search interface to the koomot photon geocoder.
+ * @module modules/searchBar/searchInterfaces/SearchInterfaceKomootPhoton
  * @name SearchInterfaceKomootPhoton
  * @constructs
  * @extends SearchInterface
@@ -178,6 +179,7 @@ SearchInterfaceKomootPhoton.prototype.createToolTipName = function (searchResult
 
 /**
  * Creates the possible actions and fills them.
+ * @override
  * @param {Object} searchResult The search result of komoot photon.
  * @returns {Object} The possible actions.
  */

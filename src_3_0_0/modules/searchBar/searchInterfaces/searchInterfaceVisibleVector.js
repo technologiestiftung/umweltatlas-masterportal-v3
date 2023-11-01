@@ -9,6 +9,7 @@ import {Icon} from "ol/style.js";
 
 /**
  * The search interface to the visible vector.
+ * @module modules/searchBar/searchInterfaces/SearchInterfaceVisibleVector
  * @name SearchInterfaceVisibleVector
  * @constructs
  * @extends SearchInterface
@@ -148,6 +149,7 @@ SearchInterfaceVisibleVector.prototype.getImageSourceFromStyle = function (layer
 
 /**
  * Creates the possible actions and fills them.
+ * @override
  * @param {Object} feature The search result feature of visibleVector.
  * @param {Object} layer The vector layer.
  * @returns {Object} The possible actions.

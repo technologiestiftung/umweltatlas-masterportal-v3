@@ -1,9 +1,9 @@
 /**
  * A search result with its parameters.
  * For each search result there is a default value.
- * @name SearchHitResult
+ * @module modules/searchBar/searchResults/SearchResult
+ * @name SearchResult
  * @constructs
- * @extends SearchHit
  * @param {String} category The category to which the search result should be assigned.
  * @param {String} id The id of the search result.
  * @param {String} index The index of the search results, representing the order.

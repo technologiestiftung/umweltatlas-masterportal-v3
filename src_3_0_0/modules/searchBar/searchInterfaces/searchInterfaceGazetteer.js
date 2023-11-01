@@ -4,6 +4,7 @@ import {search, setGazetteerUrl, setShowGeographicIdentifier} from "@masterporta
 
 /**
  * The search interface to the gazetteer.
+ * @module modules/searchBar/searchInterfaces/SearchInterfaceGazetteer
  * @name SearchInterfaceGazetteer
  * @constructs
  * @extends SearchInterface
@@ -143,6 +144,7 @@ SearchInterfaceGazetteer.prototype.getTranslationByType = function (type) {
 
 /**
  * Creates the possible actions and fills them.
+ * @override
  * @param {Object} searchResult The search result of gazetter.
  * @returns {Object} The possible actions.
  */

@@ -6,6 +6,7 @@ import {uniqueId} from "../../../shared/js/utils/uniqueId";
 
 /**
  * The search interface to the bkg geocoder.
+ * @module modules/searchBar/searchInterfaces/searchInterfaceBkg
  * @name SearchInterfaceBkg
  * @constructs
  * @extends SearchInterface
@@ -107,7 +108,8 @@ SearchInterfaceBkg.prototype.normalizeResult = function (searchResult) {
 
 /**
  * Creates the possible actions and fills them.
- * @param {Object} searchResult The search result of komoot photon.
+ * @override
+ * @param {Object} searchResult The search result of bkg geo search.
  * @returns {Object} The possible actions.
  */
 SearchInterfaceBkg.prototype.createPossibleActions = function (searchResult) {

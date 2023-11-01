@@ -5,6 +5,7 @@ import store from "../../../app-store";
 
 /**
  * The search interface to the location finder.
+ * @module modules/searchBar/searchInterfaces/SearchInterfaceLocationFinder
  * @name SearchInterfaceLocationFinder
  * @constructs
  * @extends SearchInterface
@@ -137,6 +138,7 @@ SearchInterfaceLocationFinder.prototype.normalizeResult = function (searchResult
 
 /**
  * Creates the possible actions and fills them.
+ * @override
  * @param {Object} searchResult The search result of locationFinder.
  * @param {Object} extendedData Extended data for searchInterface location finder.
  * @param {Object} extendedData.classDefinition Contains class definitions to use for search result.

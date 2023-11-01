@@ -4,7 +4,8 @@ import {uniqueId} from "../../../shared/js/utils/uniqueId";
 
 /**
  * The search interface to the special wfs.
- * @module modules/searchInterfaceSpecialWfs
+ * @module modules/searchBar/searchInterfaces/searchInterfaceSpecialWfs
+ * @name searchInterfaceSpecialWfs
  * @constructs
  * @extends SearchInterface
  * @param {Object} definitions Special WFS search definitions.
@@ -260,6 +261,7 @@ SearchInterfaceSpecialWfs.prototype.getInteriorAndExteriorPolygonMembers = funct
 
 /**
  * Creates the possible actions and fills them.
+ * @override
  * @param {Object} searchResult The search result.
  * @returns {Object} The possible actions.
  */

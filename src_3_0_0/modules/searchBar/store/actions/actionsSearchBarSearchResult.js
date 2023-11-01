@@ -12,6 +12,7 @@ export default {
     /**
      * Activates a layer in the topic tree.
      * @param {Object} param.dispatch the dispatch
+     * @param {Object} param.rootGetters the rootGetters
      * @param {Object} payload The payload.
      * @param {String} payload.layerId The layer id.
      * @returns {void}
@@ -40,12 +41,12 @@ export default {
         else {
             dispatch("addLayerToTopicTree", {layerId, source});
         }
-
     },
 
     /**
      * Add and activates a layer to the topic tree.
      * @param {Object} param.dispatch the dispatch
+     * @param {Object} param.rootGetters the rootGetters
      * @param {Object} payload The payload.
      * @param {String} payload.layerId The layer id.
      * @param {Object} payload.source The layer source.
@@ -78,9 +79,53 @@ export default {
     },
 
     /**
+     * Highlight feature of the search result.
+     * @param {Object} param.dispatch the dispatch
+     * @param {Object} payload The payload.
+     * @param {Object} payload.hit The search result, must contain properties 'coordinate' as Array and 'geometryType'.
+     * @returns {void}
+     */
+    highlightFeature: ({dispatch}, {hit}) => {
+        const feature = WKTUtil.getWKTGeom(hit);
+
+        dispatch("Maps/placingPolygonMarker", feature, {root: true});
+    },
+
+    /**
+     * Opens the get feature info of the search result.
+     * @param {Object} payload The payload.
+     * @param {Object} payload.feature The feature to show the info for.
+     * @param {Object} payload.layer The layer of the feature.
+     * @returns {void}
+     */
+    openGetFeatureInfo: ({commit}, {feature, layer}) => {
+        const gfiFeature = wmsGFIUtil.createGfiFeature(
+            layer,
+            "",
+            feature
+        );
+
+        commit("Modules/GetFeatureInfo/setGfiFeatures", [gfiFeature], {root: true});
+    },
+
+    /**
+     * Sets the marker to the feature of the search result.
+     * @param {Object} param.dispatch the dispatch
+     * @param {Object} payload The payload.
+     * @param {Array} payload.coordinates The coordinates to show marker at.
+     * @returns {void}
+     */
+    setMarker: ({dispatch}, {coordinates}) => {
+        const numberCoordinates = coordinates?.map(coordinate => parseFloat(coordinate, 10));
+
+        dispatch("Maps/placingPointMarker", numberCoordinates, {root: true});
+    },
+
+    /**
      * Open folders in layerSelection and shows layer to select.
      * If layer is not contained, it is added.
      * @param {Object} param.dispatch the dispatch
+     * @param {Object} param.rootGetters the rootGetters
      * @param {Object} payload The payload.
      * @param {String} payload.layerId The layer id.
      * @returns {void}
@@ -105,12 +150,14 @@ export default {
 
     /**
      * Open the layer information.
+     * @param {Object} param.commit the commit
      * @param {Object} param.dispatch the dispatch
+     * @param {Object} param.rootGetters the rootGetters
      * @param {Object} payload The payload.
      * @param {String} payload.layerId The layer id.
      * @returns {void}
      */
-    showLayerInfo: ({dispatch, commit, rootGetters}, {layerId}) => {
+    showLayerInfo: ({commit, dispatch, rootGetters}, {layerId}) => {
         let layerConfig = rootGetters.layerConfigById(layerId);
 
         if (!layerConfig) {
@@ -125,23 +172,10 @@ export default {
         }
     },
 
-
-    /**
-     * Highlight feature of the search result.
-     * @param {Object} param.dispatch the dispatch
-     * @param {Object} payload The payload.
-     * @param {Object} payload.hit The search result, must contain properties 'coordinate' as Array and 'geometryType'.
-     * @returns {void}
-     */
-    highlightFeature: ({dispatch}, {hit}) => {
-        const feature = WKTUtil.getWKTGeom(hit);
-
-        dispatch("Maps/placingPolygonMarker", feature, {root: true});
-    },
-
     /**
      * Starts the routing module and sets the routing start point to search result.
      * @param {Object} param.dispatch the dispatch
+     * @param {Object} param.rootGetters the rootGetters
      * @param {Object} payload The payload.
      * @param {Array} payload.coordinates The coordinates to start the route from.
      * @param {String} payload.name The name of the search result.
@@ -156,39 +190,6 @@ export default {
             dispatch("Menu/toggleMenu", menuSide, {root: true});
         }
         dispatch("Modules/Routing/setFirstWayPoint", {displayName: name, coordinates}, {root: true});
-    },
-
-    /**
-     * Opens the get feature info of the search result.
-     * @param {Object} payload The payload.
-     * @param {Object} payload.feature The feature to show the info for.
-     * @param {Object} payload.layer The layer of the feature.
-     * @returns {void}
-     */
-    openGetFeatureInfo: ({commit}, {feature, layer}) => {
-        const gfiFeature = wmsGFIUtil.createGfiFeature(
-            layer,
-            "",
-            feature
-        );
-
-        commit("Modules/GetFeatureInfo/setGfiFeatures", [gfiFeature], {root: true});
-        /* used in:
-            visibleVector
-        */
-    },
-
-    /**
-     * Sets the marker to the feature of the search result.
-     * @param {Object} context actions context object.
-     * @param {Object} payload The payload.
-     * @param {Array} payload.coordinates The coordinates to show marker at.
-     * @returns {void}
-     */
-    setMarker: ({dispatch}, {coordinates}) => {
-        const numberCoordinates = coordinates?.map(coordinate => parseFloat(coordinate, 10));
-
-        dispatch("Maps/placingPointMarker", numberCoordinates, {root: true});
     },
 
     /**

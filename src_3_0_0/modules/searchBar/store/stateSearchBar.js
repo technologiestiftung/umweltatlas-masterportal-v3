@@ -1,5 +1,5 @@
 /**
- * User type definition
+ * The state of the searchBar.
  * @module modules/searchBar/store/stateSearchBar
  *
  * @property {String[]} configPaths Path array of possible config locations. First one found will be used

@@ -1,7 +1,11 @@
 import {generateSimpleMutations} from "../../../shared/js/utils/generators";
 import stateSearchBar from "./stateSearchBar";
 
-const mutations = {
+/**
+ * The mutations for the searchBar.
+ * @module modules/searchBar/store/mutationssearchBar
+ */
+export default {
     ...generateSimpleMutations(stateSearchBar),
 
     /**
@@ -74,5 +78,3 @@ const mutations = {
         state.selectedSearchResults = state.selectedSearchResults.filter(item => searchResult.id !== item.id);
     }
 };
-
-export default mutations;

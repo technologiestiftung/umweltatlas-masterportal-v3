@@ -5,6 +5,7 @@ import store from "../../../app-store";
 
 /**
  * The search interface to the elasticSearch.
+ * @module modules/searchBar/searchInterfaces/SearchInterfaceElasticSearch
  * @name SearchInterfaceElasticSearch
  * @param {Object} hitMap Object mapping result object attributes to keys.
  * @param {String} hitMap.coordinate Attribute value will be mapped to the attribute key.
@@ -215,6 +216,7 @@ SearchInterfaceElasticSearch.prototype.getTranslationByType = function (type) {
 
 /**
  * Creates the possible actions and fills them.
+ * @override
  * @param {Object} searchResult The search result of elastic search.
  * @returns {Object} The possible actions.
  */
