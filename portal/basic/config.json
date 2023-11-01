@@ -242,7 +242,7 @@
         }
       ]
     },
-    "Fachdaten": {
+    "subjectlayer": {
       "elements": [
         {
           "id": "lgvline",

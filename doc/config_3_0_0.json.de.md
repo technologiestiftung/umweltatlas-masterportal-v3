@@ -4752,12 +4752,12 @@ Layerpills sind Buttons, die oberhalb der Karte die ausgewählten Layer anzeigen
 Die Themenconfig definiert, welche Inhalte an welcher Stelle im Themenbaum angezeigt werden. Es können folgende Eigenschaften konfiguriert werden:
 
 1. Layer die Hintergrundkarten beinhalten (*Baselayer*)
-2. Layer die Fachdaten beinhalten (*Fachdaten*)
+2. Layer die Fachdaten beinhalten (*subjectlayer*)
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |Baselayer|nein|**[Baselayer](#markdown-header-themenconfigbaselayer)**||Layer die Hintergrundkarten beinhalten.|false|
-|Fachdaten|nein|**[Fachdaten](#markdown-header-themenconfigfachdaten)**||Layer die Fachdaten beinhalten.|false|
+|subjectlayer|nein|**[subjectlayer](#markdown-header-themenconfigsubjectlayer)**||Layer die Fachdaten beinhalten.|false|
 
 **Beispiel**
 
@@ -4765,7 +4765,7 @@ Die Themenconfig definiert, welche Inhalte an welcher Stelle im Themenbaum angez
 {
     "Themenconfig": {
         "Baselayer": {},
-        "Fachdaten": {}
+        "subjectlayer": {}
     }
 }
 ```
@@ -4791,7 +4791,7 @@ Hier werden Layer definiert, die als Hintergrundkarten angezeigt werden sollen.
 
 ***
 
-### Themenconfig.Fachdaten
+### Themenconfig.subjectlayer
 Hier werden Layer oder Ordner mit Layern definiert, die als Fachdaten angezeigt werden sollen.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -4803,7 +4803,7 @@ Hier werden Layer oder Ordner mit Layern definiert, die als Fachdaten angezeigt 
 ```json
 {
     "Themenconfig": {
-        "Fachdaten": {}
+        "subjectlayer": {}
     }
 }
 ```
@@ -4835,12 +4835,12 @@ Hier werden Layer oder Ordner definiert. Ordner können **[elements](#markdown-h
 }
 ```
 
-**Beispiel Fachdaten**
+**Beispiel subjectlayer**
 
 ```json
 {
     "Themenconfig": {
-        "Fachdaten": {
+        "subjectlayer": {
             "elements": [
                 {
                     "id": "123",
