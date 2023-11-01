@@ -77,7 +77,7 @@ export default {
                         dataProjection: "EPSG:4326",
                         featureProjection: mapCollection.getMapView("2D").getProjection().getCode()
                     });
-                    
+
                     this.json = parser.writeFeatures(this.filteredItems);
                 }
                 this.enableFileDownload = true;
