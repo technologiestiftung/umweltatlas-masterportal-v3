@@ -4,6 +4,7 @@ import {isWebLink} from "../../../../../shared/js/utils/urlHelper.js";
 import {translateKeyWithPlausibilityCheck} from "../../../../../shared/js/utils/translateKeyWithPlausibilityCheck.js";
 import {isPhoneNumber, getPhoneNumberAsWebLink} from "../../../../../shared/js/utils/isPhoneNumber.js";
 import {isEmailAddress} from "../../../../../shared/js/utils/isEmailAddress.js";
+import {isHTML} from "../../../../../shared/js/utils/isHTML.js";
 import DefaultThemeSensorChart from "./DefaultThemeSensorChart.vue";
 import {getPropertiesWithFullKeys} from "../js/getPropertiesWithFullKeys.js";
 import {markRaw} from "vue";
@@ -98,6 +99,7 @@ export default {
         isPhoneNumber,
         getPhoneNumberAsWebLink,
         isEmailAddress,
+        isHTML,
         translateKeyWithPlausibilityCheck,
 
         /**
@@ -310,6 +312,9 @@ export default {
                             :href="value"
                             target="_blank"
                         >Link</a>
+                    </td>
+                    <td v-else-if="isHTML(value)">
+                        <div v-html="value" />
                     </td>
                     <td v-else-if="isPhoneNumber(value)">
                         <a :href="getPhoneNumberAsWebLink(value)">{{ value }}</a>
