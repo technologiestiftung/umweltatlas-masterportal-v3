@@ -381,7 +381,7 @@ Bei allen GFI-Abfragen, außer dem direkten Beziehen von HTML, welches durch das
 |highlightVectorRules|nein|**[highlightVectorRules](#markdown-header-portalconfiggetfeatureinfohighlightvectorrules)**||Regeldefinitionen zum Überschreiben des Stylings von abgefragten Vektordaten.|false|
 |icon|nein|String|"bi-info-circle-fill"|CSS Klasse des Icons, das vor dem GFI im Menu angezeigt wird.|false|
 |menuSide|nein|String|"secondaryMenu"|Gibt an in welchem Menü die Informationen angezeigt werden sollen.|false|
-|name|nein|String|"common:modules.getFeatureInfo.name"|Name des Moduls im Menü..|false|
+|name|nein|String|"common:modules.getFeatureInfo.name"|Name des Moduls im Menü.|false|
 
 **Beispiel einer GetFeatureInfo Konfiguration**
 

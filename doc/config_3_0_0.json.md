@@ -1091,7 +1091,7 @@ Modules can be divided into sections. In the menu, sections are divided with a h
 |Name|Required|Type|Default|Description|Expert|
 |----|-------------|---|-------|------------|------|
 |description|no|String||The description that should be shown in the button in the right menu.|false|
-|icon|no|String||Icon that is shown in front of the module in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
+|icon|no|String||Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |name|no|String||Name of the module in the menu.|false|
 |showDescription|no|String||Indicates whether the description of the module should be displayed in the menu.|false|
 |supportedDevices|no|String||Devices on which the module can be used and is displayed in the menu.|false|
@@ -1105,7 +1105,7 @@ The module allows for adding additional WMS layers via a provided URL.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|icon|no|String|"bi-cloud-plus"|Icon that is shown in front of the module in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
+|icon|no|String|"bi-cloud-plus"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |name|no|String|"common:modules.addWMS.name"|Name of the module in the menu.|false|
 |type|no|String|"addWMS"|The type of the module. Defines which module is configured.|false|
 
@@ -1126,7 +1126,7 @@ The module highlights features of a target layer, that are located within or out
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|icon|no|String|"bi-arrows-angle-expand"|Icon that is shown in front of the module in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
+|icon|no|String|"bi-arrows-angle-expand"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |name|no|String|"common:modules.bufferAnalysis.name"|Name of the module in the menu.|false|
 |type|no|String|"bufferAnalysis"|The type of the module. Defines which module is configured.|false|
 
@@ -1211,7 +1211,7 @@ This module can open a link, display HTML from config.json or an external file, 
 |----|--------|----|-------|-----------|------|
 |execute|no|[execute](#markdown-header-portalconfigmenusectionsmodulescustomMenuElementexecute)||Action to be executed by clicking on the menu item.|true|
 |htmlContent|no|String||HTML displayed in the module. The HTML is not validated, the responsibility for the security of the HTML lies with the operator of the portal.|false|
-|icon|no|String|"bi-asterisk"|Icon that is shown in front of the module in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
+|icon|no|String|"bi-asterisk"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |name|no|String||Name of the module in the menu.|false|
 |openURL|no|String||Url that is to be opened in a new tab by clicking on the menu item.|false|
 |pathToContent|no|String||Path to a file containing HTML displayed in the module. The HTML is not validated, the responsibility for the security of the HTML lies with the operator of the portal.|false|
@@ -1303,7 +1303,7 @@ Import "*.kml", "*.geojson" and "*.gpx" files with this module.
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |enableZoomToExtend|no|Boolean|false|To decide if the file name is shown as a button and it is able to zoom the imported features by clicking the file name|false|
-|icon|no|String|"bi-box-arrow-in-down"|Icon that is shown in front of the module in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
+|icon|no|String|"bi-box-arrow-in-down"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |name|no|String|"common:modules.fileImport.name"|Name of the module in the menu.|false|
 |type|no|String|"fileImport"|The type of the module. Defines which module is configured.|false|
 
@@ -1330,7 +1330,7 @@ In this module the language of the portal can be switched.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|icon|no|String|"bi-flag"|Icon that is shown in front of the module in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
+|icon|no|String|"bi-flag"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |layerIdList|yes|String[]|[]|List of layerIds, the layers that should be switched on or off together.|false|
 |name|no|String|"common:modules.language.name"|Name of the module in the menu.|false|
 |type|no|String|"language"|The type of the module. Defines which module is configured.|false|
@@ -1352,7 +1352,7 @@ This module allows to activate/load and deactivate layers in clusters simultaneo
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|icon|no|String|"bi-list"|Icon that is shown in front of the module in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
+|icon|no|String|"bi-list"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |layerIdList|yes|String[]|[]|List of layerIds, the layers that should be switched on or off together.|false|
 |name|no|String|"common:modules.layerClusterToggler.name"|Name of the module in the menu.|false|
 |type|no|String|"layerClusterToggler"|The type of the module. Defines which module is configured.|false|
@@ -1382,7 +1382,7 @@ The slider can switch between two modes in the interface. Layer slider type. `"p
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|icon|no|String|"bi-collection-play"|Icon that is shown in front of the module in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
+|icon|no|String|"bi-collection-play"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |layerIds|yes|**[layerId](#markdown-header-portalconfigmenusectionsmoduleslayersliderlayerid)**[]|[]|Array of layer information objects.|false|
 |name|no|String|"common:modules.layerSlider.name"|Name of the module in the menu.|false|
 |timeInterval|no|Integer|2000|Time in ms until the next layer is shown.|false|
@@ -1448,7 +1448,7 @@ The measure tool allows measuring distances and areas. This includes the specifi
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |earthRadius|no|Number|6378137|Earth radius in meters. Please mind that the earth radius should be chosen in accordance with the reference ellipsoid. E.g., GRS80 should be used for ETRS89 (EPSG:25832).|false|
-|icon|no|String|"bi-arrows-angle-expand"|Icon that is shown in front of the module in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
+|icon|no|String|"bi-arrows-angle-expand"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |lineStringUnits|no|String[]|["m", "km"]|Indicates which units for length measurements will be selectable by users. Options are "m" (metres), "km" (kilometres), "nm" (nautical miles).|false|
 |measurementAccuracy|no|String|"meter"|Indicates how accurately the measurement result is displayed for "m", "nm", "m²", "ha". Options are "decimeter" for one decimal place. "meter" for no decimal place. "dynamic" for one decimal place for results smaller 10 and no decimal place for results greater or equal 10 of the respective unit.|false|
 |name|no|String|"common:modules.measure.name"|Name of the module in the menu.|false|
@@ -1474,7 +1474,7 @@ This module shows all messages from the newsFeedPortalAlerts.json and the config
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|icon|no|String|"bi-newspaper"|Icon that is shown in front of the module in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
+|icon|no|String|"bi-newspaper"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |name|no|String|"common:modules.news.name"|Name of the module in the menu.|false|
 |type|no|String|"news"|The type of the module. Defines which module is configured.|false|
 
@@ -1495,7 +1495,7 @@ With this module a configuration file (config.json) can be reloaded at runtime. 
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|icon|no|String|"bi-upload"|Icon that is shown in front of the module in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
+|icon|no|String|"bi-upload"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |name|no|String|"common:modules.openConfig.name"|Name of the module in the menu.|false|
 |type|no|String|"openConfig"|The type of the module. Defines which module is configured.|false|
 
@@ -1525,7 +1525,7 @@ Print module, configurable for 2 print services: *High Resolution PlotService* a
 |defaultCapabilitiesFilter|no|**[capabilitiesFilter](#markdown-header-portalconfigmenutoolprintcapabilitiesfilter)**||If there is no key set in capabilitiesFilter, the key from this object is taken.|false|
 |dpiForPdf|no|Number|200|DPI resolution for the map in the PDF file.|false|
 |filename|no|String|"report"|Print result file name.|false|
-|icon|no|String|"bi-printer"|Icon that is shown in front of the module in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
+|icon|no|String|"bi-printer"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |isLegendSelected|no|Boolean|false|Defines whether a checkbox to print the legend is offered. Only used for print services supporting legend printing (Mapfish Print 3).|false|
 |name|no|String|"common:modules.print.name"|Name of the module in the menu.|false|
 |overviewmapLayerId|no|String||Allows using a different layer for the overview map element. If no Id is specified, the first layer of the selected baselayer maps is used.|false|
@@ -2205,7 +2205,7 @@ Module that allows changing the map's current scale.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|icon|no|String|"bi-arrows-angle-contract"|Icon that is shown in front of the module in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
+|icon|no|String|"bi-arrows-angle-contract"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |name|no|String|"common:modules.scaleSwitcher.name"|Name of the module in the menu.|false|
 |type|no|String|"scaleSwitcher"|The type of the module. Defines which module is configured.|false|
 
@@ -2228,7 +2228,7 @@ Allows selecting a set of vector features by letting the user draw a box on the 
 |----|--------|----|-------|-----------|------|
 |highlightVectorRulesPointLine|no|**[highlightVectorRulesPointLine](#markdown-header-portalconfigmenusectionsmodulesselectfeatureshighlightvectorrulespointline)**||Specify outline color and stroke width for highlighting lines and fill color and scale factor for highlighting points as well as a zoom parameter.|false|
 |highlightVectorRulesPolygon|no|**[highlightVectorRulesPolygon](#markdown-header-portalconfigmenusectionsmodulesselectfeatureshighlightvectorrulespolygon)**||Specify the fill color and outline color and stroke width for highlighting the polygon features as well as a zoom parameter.|false|
-|icon|no|String|"bi-hand-index"|Icon that is shown in front of the module in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
+|icon|no|String|"bi-hand-index"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |name|no|String|"common:modules.selectFeatures.name"|Name of the module in the menu.|false|
 |type|no|String|"selectFeatures"|The type of the module. Defines which module is configured.|false|
 
@@ -2372,7 +2372,7 @@ The shadow tool provides a UI element to define a point in time by using sliders
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|icon|no|String|"bi-lamp-fill"|Icon that is shown in front of the module in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
+|icon|no|String|"bi-lamp-fill"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |isShadowEnabled|no|Boolean|false|Default shadow value. `true` immediately renders shadows, `false` requires a manual confirmation.|false|
 |name|no|String|"common:modules.shadow.name"|Name of the module in the menu.|false|
 |shadowTime|no|**[shadowTime](#markdown-header-portalconfigmenusectionsmodulesshadowshadowtime)**||Default time the mdoule is started with. Recognizes "month", "day", "hour", and "minute".|false|
@@ -2421,7 +2421,7 @@ Module to share a link to the current map view. It is possible to share the curr
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|icon|no|String|"bi-share"|Icon that is shown in front of the module in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
+|icon|no|String|"bi-share"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |name|no|String|"common:modules.shareView.name"|Name of the module in the menu.|false|
 |type|no|String|"shareView"|The type of the module. Defines which module is configured.|false|
 
@@ -2441,7 +2441,7 @@ The module allows for switching the style of vector tile layers(❗) which provi
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|icon|no|String|"bi-paint-bucket"|Icon that is shown in front of the module in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
+|icon|no|String|"bi-paint-bucket"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |name|no|String|"common:modules.styleVT.name"|Name of the module in the menu.|false|
 |type|no|String|"styleVT"|The type of the module. Defines which module is configured.|false|
 
@@ -2926,7 +2926,7 @@ When editing properties of a feature / adding properties to a new feature, the a
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |delete|no|[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactiontransactionconfig)/Boolean|false|Defines which layers of `layerIds` allow delete transactions.|false|
-|icon|no|String|"bi-globe"|Icon that is shown in front of the module in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
+|icon|no|String|"bi-globe"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |layerIds|yes|String[]||Array of layer-ids defined in **[services.json](services.json.md)**.|false|
 |layerSelectLabel|no|String|"common:modules.tools.wfsTransaction.layerSelectLabel"| Please set the value directly in the language files. If given, overrides the value set for the label of the layer select box. May be a locale key.|false|
 |lineButton|no|[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactiontransactionconfig)[]/Boolean|[]|Defines which layers of `layerIds` allow insert transactions of line geometries.|false|
