@@ -769,7 +769,7 @@ Gazetteer search service configuration.
 ***
 
 ###### Portalconfig.menu.searchBar.searchInterfaces.komootPhoton
-Suche bei **[Komoot Photon](https://photon.komoot.io/)**.
+Search by **[Komoot Photon](https://photon.komoot.io/)**.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
@@ -800,7 +800,7 @@ Suche bei **[Komoot Photon](https://photon.komoot.io/)**.
 ***
 
 ###### Portalconfig.menu.searchBar.searchInterfaces.locationFinder
-Konfiguration zur Suche unter Verwendung eines ESRI CH LocationFinders.
+Configuration of the search by usage of an ESRI CH LocationFinder.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
@@ -831,7 +831,7 @@ Konfiguration zur Suche unter Verwendung eines ESRI CH LocationFinders.
 ***
 
 ###### Portalconfig.menu.searchBar.searchInterfaces.locationFinder.LocationFinderClass
-Definition von Klassen, welche als Ergebnis berücksichtigt werden sollen.
+Definition of classes that should be considered with the results.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
@@ -954,7 +954,7 @@ The WFS 2.0 query is dynamically created by the Masterportal. No stored query co
 ***
 
 ###### Portalconfig.menu.searchBar.searchInterfaces.specialWFS.definition
-Konfiguration einer Definition bei der SpecialWFS Suche
+Configuration of definition of the SpecialWFS search.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
