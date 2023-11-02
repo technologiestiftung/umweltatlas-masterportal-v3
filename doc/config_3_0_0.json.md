@@ -1080,7 +1080,7 @@ Modules can be divided into sections. In the menu, sections are divided with a h
 |scaleSwitcher|no|**[scaleSwitcher](#markdown-header-portalconfigmenusectionsmodulesSwitcher)**||Module that allows changing the map's current scale.|false|
 |selectFeatures|no|**[selectFeatures](#markdown-header-portalconfigmenusectionsmodulesselectfeatures)**||Allows selecting a set of vector features by letting the user draw a box on the map. Features in that box will be displayed with GFI information.|false|
 |shadow|no|**[shadow](#markdown-header-portalconfigmenusectionsmodulesshadow)**||Configuration object for the 3D mode shadow time.|false|
-|shareView|nein|**[shareView](#markdown-header-portalconfigmenusectionsmodulesshareview)**||Module to share a link to the map.|false|
+|shareView|nein|**[shareView](#markdown-header-portalconfigmenusectionsmodulesshareview)**||Module to share a link to the current map view.|false|
 |styleVT|no|**[styleVT](#markdown-header-portalconfigmenusectionsmodulesstyleVT)**||Style selection for VT services. Allows switching between styles of a Vector Tile Layer that provides multiple stylings via the `services.json` file.|false|
 |wfst|no|**[wfst](#markdown-header-portalconfigmenusectionsmoduleswfst)**||WFS-T module to visualize, create, update and delete features.|false|
 
@@ -2417,7 +2417,7 @@ The shadow tool provides a UI element to define a point in time by using sliders
 ***
 
 ##### Portalconfig.menu.sections.modules.shareView
-Module to share a link to the map. It is possible to share the current view as a link with url parameters, via QR code and as a Facebook link.
+Module to share a link to the current map view. It is possible to share the current view as a link with url parameters, via QR code and as a Facebook link.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
@@ -2918,17 +2918,17 @@ Configuration for the suggestions of the user input.
 
 
 ##### Portalconfig.menu.sections.modules.wfst
-WFS-T module to visualize (*GetFeature*), create (*insert*), update (*update*) and delete (*delete*) features of a Web Feature Service (*WFS*) which is able to receive transactions.
+WFS-T module to visualize (*getFeature*), create (*insert*), update (*update*) and delete (*delete*) features of a Web Feature Service (*WFS*) which is able to receive transactions.
 To use this tool, a WFS-T layer must be provided in version 1.1.0. For more configuration information see **[services.json](services.json.md)**.
 
-When editing properties of a feature / adding properties to a new features, the available values including its label are based on the layers configured `gfiAttributes`. For more information see **[services.json](services.json.md)**.
+When editing properties of a feature / adding properties to a new feature, the available values including its label are based on the layers configured `gfiAttributes`. For more information see **[services.json](services.json.md)**.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |delete|no|[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactiontransactionconfig)/Boolean|false|Defines which layers of `layerIds` allow delete transactions.|false|
 |icon|no|String|"bi-globe"|Icon that is shown in front of the module in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
-|layerIds|yes|String[]||Array of ids of layer defined in **[services.json](services.json.md)**.|false|
-|layerSelectLabel|no|String|"common:modules.tools.wfsTransaction.layerSelectLabel"| Please set the value directly in the language files._ If given, overrides the value set for the label of the layer select box. May be a locale key.|false|
+|layerIds|yes|String[]||Array of layer-ids defined in **[services.json](services.json.md)**.|false|
+|layerSelectLabel|no|String|"common:modules.tools.wfsTransaction.layerSelectLabel"| Please set the value directly in the language files. If given, overrides the value set for the label of the layer select box. May be a locale key.|false|
 |lineButton|no|[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactiontransactionconfig)[]/Boolean|[]|Defines which layers of `layerIds` allow insert transactions of line geometries.|false|
 |name|no|String|"common:modules.wfst.name"|Tool name shown in the portal.|false|
 |pointButton|no|[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactiontransactionconfig)[]/Boolean|[]|Defines which layers of `layerIds` allow insert transactions of point geometries.|false|
