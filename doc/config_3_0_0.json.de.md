@@ -1080,7 +1080,9 @@ Module lassen sich in Abschnitte (Sections) unterteilen. Im Menü werden Abschni
 |scaleSwitcher|nein|**[scaleSwitcher](#markdown-header-portalconfigmenusectionsmodulescaleSwitcher)**||Modul zum Ändern des aktuellen Maßstabs der Karte.|false|
 |selectFeatures|nein|**[selectFeatures](#markdown-header-portalconfigmenusectionsmodulesselectFeatures)**||Ermöglicht Auswahl von Features durch Ziehen einer Box und Einsehen derer GFI-Attribute.|false|
 |shadow|nein|**[shadow](#markdown-header-portalconfigmenusectionsmodulesshadow)**||Konfigurationsobjekt für die Schattenzeit im 3D-Modus.|false|
+|shareView|nein|**[shareView](#markdown-header-portalconfigmenusectionsmodulesshareview)**||Modul um einen Link zur Karte zu teilen.|false|
 |styleVT|nein|**[styleVT](#markdown-header-portalconfigmenusectionsmodulesstyleVT)**||Style-Auswahl zu VT-Diensten. Ermöglicht das Umschalten des Stylings eines Vector Tile Layers, wenn in der services.json mehrere Styles für ihn eingetragen sind.|false|
+|wfst|nein|**[wfst](#markdown-header-portalconfigmenusectionsmoduleswfst)**||WFS-T Modul mit dem Features visualisiert, erstellt, aktualisiert und gelöscht werden können.|false|
 
 ***
 
@@ -2412,9 +2414,23 @@ Das ShadowTool bietet eine Oberfläche zur Definition einer Zeitangabe. Über Sl
 ***
 
 ##### Portalconfig.menu.sections.modules.shareView
+Modul um einen Link zur Karte zu teilen. Es kann die aktuelle Ansicht als Link mit Url-Parametern, per QR-Code und als Facebook-Link geteilt werden. 
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
+|icon|nein|String|"bi-share"|Icon das im Menü vor dem Modul gezeigt wird. Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
+|name|nein|String|"common:modules.shareView.name"|Name des Modules im Menü|false|
+|type|nein|String|"shareView"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
+
+**Beispiel**
+
+```json
+{
+    "icon": "bi-share",
+    "name": "common:modules.shareView.name",
+    "type": "shareView"
+}
+```
 
 ***
 
@@ -3345,10 +3361,97 @@ Konfiguration für die Vorschläge von Nutzereingaben.
 ***
 
 ##### Portalconfig.menu.sections.modules.wfst
+WFS-T Modul zur Visualisierung (*GetFeature*), Erstellung (*insert*), Veränderung (*update*) und Löschen (*delete*) von Features eines bestehenden Web Feature Service (*WFS*), welcher Transaktionen entgegennehmen kann.
+Zur Nutzung dieses Moduls muss ein WFS-T Layer mit der Version 1.1.0 bereitgestellt werden. Bitte beachten Sie **[services.json](services.json.md)** für weitere Konfigurationsinformationen.
+
+Beim Bearbeiten eines Features / Hinzufügen von Attributen zu einem neuen Features werden bestimmte Werte in der Nutzeroberfläche angezeigt. Die Werte als auch dessen Label stehen im direkten Zusammenhang mit den `gfiAttributes` des Dienstes. Bitte beachten Sie **[services.json](services.json.md)** für weitere Informationen.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
+|delete|nein|[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfstransactiontransactionconfig)/Boolean|false|Legt fest, welche der zu `layerIds` zugehörigen Layer das Löschen von Geometrien erlauben.|false|
+|icon|nein|String|"bi-globe"|Icon das im Menü vor dem Modul gezeigt wird. Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
+|layerIds|ja|String[]||Array an Ids von in **[services.json](services.json.md)** definierten Layern.|false|
+|layerSelectLabel|nein|String|"common:modules.wfst.layerSelectLabel"|Falls gegeben wird der Wert als Label für die Layerauswahl-Select-Box verwendet. Kann ein Sprachschlüssel sein.|false|
+|lineButton|nein|[TransactionConfig](#markdown-header-portalconfigmenutoolwfsttransactiontransactionconfig)[]/Boolean|[]|Legt fest, welche der zu `layerIds` zugehörigen Layer das Hinzufügen von Linien erlauben.|false|
+|name|nein|String|"common:modules.wfst.name"|Name des Modules im Menü|false|
+|pointButton|nein|[TransactionConfig](#markdown-header-portalconfigmenutoolwfsttransactiontransactionconfig)[]/Boolean|[]|Legt fest, welche der zu `layerIds` zugehörigen Layer das Hinzufügen von Punkten erlauben.|false|
+|polygonButton|nein|[TransactionConfig](#markdown-header-portalconfigmenutoolwfsttransactiontransactionconfig)[]/Boolean|[]|Legt fest, welche der zu `layerIds` zugehörigen Layer das Hinzufügen von Polygonen erlauben.|false|
+|showConfirmModal|nein|Boolean|false|Kennzeichen, ob ein modaler Dialog angezeigt werden soll.|false|
+|toggleLayer|nein|Boolean|false|Legt fest, ob die Feature des ausgewählten Layers weiterhin angezeigt werden sollen, wenn neue Feature hinzugefügt werden.|false|
+|type|nein|String|"wfst"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
+|update|nein|[TransactionConfig](#markdown-header-portalconfigmenutoolwfsttransactiontransactionconfig)/Boolean|false|Legt fest, welche der zu `layerIds` zugehörigen Layer das Bearbeiten von Geometrien erlauben.|false|
 
+**Beispiel**
+
+```json
+{
+    "type": "wfst",
+    "name": "common:modules.wfst.name",
+    "icon": "bi-globe",
+    "layerIds": ["1234", "5678", "4389"],
+    "toggleLayer": true,
+    "pointButton": [
+        {
+            "layerId":"1234",
+            "caption": "Point test",
+            "show": true
+        },
+        {
+            "layerId": "5678",
+            "show": true,
+            "multi": true
+        }
+    ],
+    "lineButton": false,
+    "polygonButton": [
+        {
+            "layerId": "4389",
+            "show": false
+        }
+    ],
+    "update": [
+        {
+            "layerId": "4389",
+            "show": true
+        }
+    ]
+}
+```
+***
+#### Portalconfig.menu.sections.modules.wfst.TransactionConfig
+Konfiguration der verschiedenen Transaktionsmethoden für den entsprechenden Layer.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|available|ja|Boolean|true|Legt fest, ob der entsprechende Button der Transaktionsmethode für den Layer mit der gegebenen Id nutzbar sein soll.|false|
+|icon|nein|String||Bootstrap Symbol zur Anzeige innerhalb des Knopfes der Transaktionsmethode. Falls kein Wert angegeben wird, wird der Standardwert der Transaktionsmethode verwendet. Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
+|layerId|ja|String||Id des Layers, für den die Transaktionsmethode konfiguriert wird.|false|
+|multi|nein|Boolean|false|Legt fest, ob es sich bei den gezeichneten Geometrien um Multi-X-Geometrien handeln sollte. Bei Konfiguration für die Methoden `update` und `delete` hat der Parameter keine Auswirkung.|false|
+|text|nein|String|"common:modules.wfst.interactionSelect.*"|Text des Knopfes der Transaktionsmethode. Falls kein Wert vorhanden ist, wird für `*` ein Standardwert der Transaktionsmethode verwendet. Kann ein Übersetzungsschlüssel sein.|false|
+
+**Examples**
+
+```json
+{
+    "layerId": "1234",
+    "available": true,
+    "text": "Point test"
+}
+```
+
+```json
+{
+    "layerId": "5678",
+    "available": true
+}
+```
+
+```json
+{
+    "layerId": "5489",
+    "multi": true
+}
+```
 ***
 
 #### Portalconfig.menu.title
@@ -3767,7 +3870,7 @@ Neben diesen Attributen gibt es auch Typ-spezifische Attribute für die verschie
 #### Themenconfig.elements.layers.preview
 Vorschau für Baselayer im Themenbaum, wird auch im **[BaselayerSwitcher](#markdown-header-portalconfigmenusectionsmodulesbaselayerswitcher)** verwendet.
 Für die Layertypen **[VectorTile](#markdown-header-themenconfigelementslayersvectortile)**, **[WMS](#markdown-header-themenconfigelementslayersrasterwms)** und WMTS.
-Beim VectorTile-Layer wird ein abgelegtes Vorschaubild angezeigt, bei WMS- und WMTS-Layern wird ein Kartenausschnitt geladen. WMS und WMTS: bei keiner Angabe, wird ein zentrierter Kartenausschnitt geladen.
+Beim VectorTile-Layer wird ein abgelegtes Vorschaubild angezeigt, bei WMS- und WMTS-Layern wird ein Kartenausschnitt geladen. WMS und WMTS: bei keiner Angabe, wird ein zentrierter Kartenausschnitt geladen. Eine detaillierte Beschreibung ist in der Dokumentation **[LayerPreview](./vueComponents/LayerPreview.md)**
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|

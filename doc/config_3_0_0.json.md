@@ -1080,7 +1080,9 @@ Modules can be divided into sections. In the menu, sections are divided with a h
 |scaleSwitcher|no|**[scaleSwitcher](#markdown-header-portalconfigmenusectionsmodulesSwitcher)**||Module that allows changing the map's current scale.|false|
 |selectFeatures|no|**[selectFeatures](#markdown-header-portalconfigmenusectionsmodulesselectfeatures)**||Allows selecting a set of vector features by letting the user draw a box on the map. Features in that box will be displayed with GFI information.|false|
 |shadow|no|**[shadow](#markdown-header-portalconfigmenusectionsmodulesshadow)**||Configuration object for the 3D mode shadow time.|false|
+|shareView|nein|**[shareView](#markdown-header-portalconfigmenusectionsmodulesshareview)**||Module to share a link to the map.|false|
 |styleVT|no|**[styleVT](#markdown-header-portalconfigmenusectionsmodulesstyleVT)**||Style selection for VT services. Allows switching between styles of a Vector Tile Layer that provides multiple stylings via the `services.json` file.|false|
+|wfst|no|**[wfst](#markdown-header-portalconfigmenusectionsmoduleswfst)**||WFS-T module to visualize, create, update and delete features.|false|
 
 ***
 
@@ -2415,10 +2417,23 @@ The shadow tool provides a UI element to define a point in time by using sliders
 ***
 
 ##### Portalconfig.menu.sections.modules.shareView
+Module to share a link to the map. It is possible to share the current view as a link with url parameters, via QR code and as a Facebook link.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
+|icon|no|String|"bi-share"|Icon that is shown in front of the module in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
+|name|no|String|"common:modules.shareView.name"|Name of the module in the menu.|false|
+|type|no|String|"shareView"|The type of the module. Defines which module is configured.|false|
 
+**Example**
+
+```json
+{
+    "icon": "bi-share",
+    "name": "common:modules.shareView.name",
+    "type": "shareView"
+}
+```
 ***
 
 ##### Portalconfig.menu.sections.modules.
@@ -2903,9 +2918,96 @@ Configuration for the suggestions of the user input.
 
 
 ##### Portalconfig.menu.sections.modules.wfst
+WFS-T module to visualize (*GetFeature*), create (*insert*), update (*update*) and delete (*delete*) features of a Web Feature Service (*WFS*) which is able to receive transactions.
+To use this tool, a WFS-T layer must be provided in version 1.1.0. For more configuration information see **[services.json](services.json.md)**.
+
+When editing properties of a feature / adding properties to a new features, the available values including its label are based on the layers configured `gfiAttributes`. For more information see **[services.json](services.json.md)**.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
+|delete|no|[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactiontransactionconfig)/Boolean|false|Defines which layers of `layerIds` allow delete transactions.|false|
+|icon|no|String|"bi-globe"|Icon that is shown in front of the module in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
+|layerIds|yes|String[]||Array of ids of layer defined in **[services.json](services.json.md)**.|false|
+|layerSelectLabel|no|String|"common:modules.tools.wfsTransaction.layerSelectLabel"| Please set the value directly in the language files._ If given, overrides the value set for the label of the layer select box. May be a locale key.|false|
+|lineButton|no|[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactiontransactionconfig)[]/Boolean|[]|Defines which layers of `layerIds` allow insert transactions of line geometries.|false|
+|name|no|String|"common:modules.wfst.name"|Tool name shown in the portal.|false|
+|pointButton|no|[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactiontransactionconfig)[]/Boolean|[]|Defines which layers of `layerIds` allow insert transactions of point geometries.|false|
+|polygonButton|no|[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactiontransactionconfig)[]/Boolean|[]|Defines which layers of `layerIds` allow insert transactions of polygon geometries.|false|
+|showConfirmModal|no|Boolean|false|Flag if the modal dialog should be shown.|false|
+|toggleLayer|no|Boolean|false|Whether the features of the currently selected layer should stay visible when adding a new feature.|false|
+|type|no|String|"wfst"|The type of the module. Defines which module is configured.|false|
+|update|no|[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactiontransactionconfig)/Boolean|false|Defines which layers of `layerIds` allow update transactions.|false|
+**Example**
+
+```json
+{
+    "type": "wfst",
+    "name": "common:modules.wfst.name",
+    "icon": "bi-globe",
+    "layerIds": ["1234", "5678", "4389"],
+    "toggleLayer": true,
+    "pointButton": [
+        {
+            "layerId":"1234",
+            "caption": "Point test",
+            "show": true
+        },
+        {
+            "layerId": "5678",
+            "show": true,
+            "multi": true
+        }
+    ],
+    "lineButton": false,
+    "polygonButton": [
+        {
+            "layerId": "4389",
+            "show": false
+        }
+    ],
+    "update": [
+        {
+            "layerId": "4389",
+            "show": true
+        }
+    ]
+}
+```
+***
+#### Portalconfig.menu.sections.modules.wfst.TransactionConfig
+Specific configuration for transaction methods of given layers.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|available|yes|Boolean|true|Availability of the transaction method for the layer with the given id.|false|
+|icon|no|String||Bootstrap icon displayed inside the button. If no value is specified, it defaults to the default value configured for the transaction method. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
+|layerId|yes|String||Layer the transaction method is being configured for.|false|
+|multi|no|Boolean|false|Whether the drawn geometries of this layer should be Multi-X.  This parameter does not have any use for `update` and `delete`.|false|
+|text|no|String|"common:modules.wfst.interactionSelect.*"|Button text. If no value is given, `*` will be replaced with a standard value depending on the configured button. May be a locale key.|false|
+
+**Examples**
+
+```json
+{
+    "layerId": "1234",
+    "available": true,
+    "text": "Point test"
+}
+```
+
+```json
+{
+    "layerId": "5678",
+    "available": true
+}
+```
+
+```json
+{
+    "layerId": "5489",
+    "multi": true
+}
+```
 
 ***
 
@@ -3361,6 +3463,7 @@ Besides these attributes, there are also type-specific attributes for the differ
 Preview for baselayer in theme tree, also used in **[BaselayerSwitcher](#markdown-header-portalconfigmenusectionsmodulesbaselayerswitcher)**.
 For the **[VectorTile](#markdown-header-themenconfigelementslayersvectortile)**, **[WMS](#markdown-header-themenconfiggelementslayersrasterwms)** and WMTS layer types.
 With the VectorTile layer a dropped preview image is displayed, with WMS and WMTS layers a map section is loaded. WMS and WMTS: if not specified, a centered map section is loaded.
+A detailed description is available in the documentation **[LayerPreview](./vueComponents/LayerPreview.md)**
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|

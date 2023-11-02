@@ -2,10 +2,10 @@
 
 To show a preview of a layer use the module LayerPreview.
 In a div a small map image is displayed that can be used in other components.
-For WMS and WMTS layers, the image is fetched as a GetMap request. For VectorTile layers, an image is stored in the file system.
+For WMS and WMTS layers, the image is fetched as a GetMap request. If not specified, a centered map section is loaded. For VectorTile layers, an image is stored in the file system.
 
 These layer-types are supported: 
-```js
+```json
 "WMS", "WMTS", "VectorTile"
 ```
 
@@ -37,9 +37,9 @@ If property `checkable` is true, `previewClicked` is emitted to parent component
 |src|no|String||Path to preview image.|
 
 Example of a WMS-layer:
-```js
+```json
 "id": "1234",
-"name": "Digital orthophotos (foliated) Hamburg",
+"name": "Digital orthophotos",
 "shortname": "Orthophotos",
 "typ": "WMS",
 "preview":{
@@ -50,7 +50,7 @@ Example of a WMS-layer:
 ```
 
 Example of a VectorTile-layer:
-```js
+```json
 "id": "VectorTile",
 "name": "ArcGIS VectorTile",
 "shortname": "VectorTile",
