@@ -3418,7 +3418,7 @@ Beim Bearbeiten eines Features / Hinzufügen von Attributen zu einem neuen Featu
 }
 ```
 ***
-#### Portalconfig.menu.sections.modules.wfst.TransactionConfig
+###### Portalconfig.menu.sections.modules.wfst.TransactionConfig
 Konfiguration der verschiedenen Transaktionsmethoden für den entsprechenden Layer.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|

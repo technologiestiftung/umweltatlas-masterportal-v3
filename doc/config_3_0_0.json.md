@@ -2974,7 +2974,7 @@ When editing properties of a feature / adding properties to a new features, the 
 }
 ```
 ***
-#### Portalconfig.menu.sections.modules.wfst.TransactionConfig
+###### Portalconfig.menu.sections.modules.wfst.TransactionConfig
 Specific configuration for transaction methods of given layers.
 
 |Name|Required|Type|Default|Description|Expert|
