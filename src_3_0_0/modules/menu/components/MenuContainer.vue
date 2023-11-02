@@ -274,7 +274,13 @@ export default {
             background-color: $light_grey_active;
         }
     }
- }
+}
+
+@include media-breakpoint-up(lg) {
+    .mp-menu-header-close-button {
+        display: none;
+    }
+}
 
 .mp-menu-table {
     height: 200px;
