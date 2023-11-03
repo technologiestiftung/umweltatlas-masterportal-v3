@@ -98,6 +98,7 @@ Controls können in der config.json in die Ebene "expandable" verschachtelt werd
 |expandable|nein|**[expandable](#markdown-header-portalconfigcontrols)**||Mit expandable werden Controls hinter einem Button mit drei Punkten versteckt und lassen sich bei Bedarf aufklappen.|false|
 |freeze|nein|Boolean/**[freeze](#markdown-header-portalconfigcontrolsfreeze)**|false|Legt fest, ob ein "Ansicht sperren" Button angezeigt werden soll.|false|
 |fullScreen|nein|Boolean/**[fullScreen](#markdown-header-portalconfigcontrolsfullscreen)**|false|Ermöglicht dem User die Darstellung im Vollbildmodus (ohne Tabs und Adressleiste) per Klick auf den Button. Ein erneuter Klick auf den Button wechselt wieder in den normalen Modus.|false|
+|orientation|nein|**[orientation](#markdown-header-portalconfigcontrolsorientation)**||Orientation nutzt die geolocation des Browsers zur Standortbestimmung des Nutzers.|false|
 |rotation|nein|**[rotation](#markdown-header-portalconfigcontrolsrotation)**|false|Control, das die aktuelle Rotation der Karte anzeigt. Per Klick kann die Maprotation wieder auf Norden gesetzt werden. Siehe auch unter `mapInteractions` in **[config.js.md](config.js.md)**.|false|
 |startModule|nein|**[startModule](#markdown-header-portalconfigcontrolsstartModule)**|false|Zeigt Buttons für die konfigurierten Module an. Über diese lassen sich die jeweiligen Module öffnen und schließen.|false|
 |tiltView|nein|Boolean/**[tiltView](#markdown-header-portalconfigcontrolstiltView)**|false|Zeigt zwei Buttons an, mit denen sich die Kamera in der 3D-Szene hoch- bzw. runterkippen lässt.|false|
@@ -190,8 +191,32 @@ Ermöglicht dem User die Darstellung im Vollbildmodus (ohne Tabs und Adressleist
 ***
 
 #### Portalconfig.controls.orientation
+Orientation nutzt die geolocation des Browsers zur Standortbestimmung des Nutzers. Es wird eine Liste von Features in der Umgebung des Standortes angezeigt.
+
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
+|iconGeolocate|nein|String|"bi-geo-alt"|Icon das im Controls-Menü für das Control Standpunkt angezeigt wird. Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
+|iconGeolocatePOI|nein|String|"bi-record-circlet"|Icon das im Controls-Menü für das Control "In meiner Nähe" angezeigt wird. Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
+|poiDistances|nein|Boolean/Integer[]|true|Bei poiDistances=true werden die Defaultwerte verwendet. Legt fest, ob "In meiner Nähe" geladen wird und zeigt eine Liste von Features in der Umgebung an. Bei Angabe eines Array werden die darin definierten Abstände in Metern angeboten. Bei Angabe von true werden diese Abstände angeboten: [500,1000,2000].|false|
+|zoomMode|nein|enum["once", "always"]|"once"|Der Standort wird bestimmt und der Marker wird an- oder ausgeschaltet. Dafür ist es notwendig das Portal über **https** zu laden. Modi: *once* (Es wird einmalig auf den Standort gezoomt. ), *always* (Die Karte wird mit jedem Einschalten auf den Standort gezoomt.).|false|
+
+**Beispiel mit poiDistances vom Typ Boolean**
+```json
+"orientation": {
+    "iconGeolocate": "bi-geo-alt",
+    "iconGeolocatePOI": "bi-record-circle",
+    "zoomMode": "once",
+    "poiDistances": true
+}
+```
+
+**Beispiel mit poiDistances vom Typ Integer[]**
+```json
+"orientation": {
+    "zoomMode": "once",
+    "poiDistances": [500, 1000, 2000, 5000]
+}
+```
 
 ***
 
@@ -1066,8 +1091,10 @@ Module lassen sich in Abschnitte (Sections) unterteilen. Im Menü werden Abschni
 |----|-------------|---|-------|------------|------|
 |addWMS|nein|**[addWMS](#markdown-header-portalconfigmenusectionsmodulesaddWMS)**||Mit diesem Modul lassen sich Layer eines WMS laden. Die Angabe erfolgt über eine URL. Es werden alle Layer des Dienstes geladen und im Themenbaum angezeigt.|true|
 |bufferAnalysis|nein|**[bufferAnalysis](#markdown-header-portalconfigmenusectionsmodulesbufferAnalysis)**||In der Buffer-Analyse muss ein Quell-Layer, ein Buffer-Radius und ein Ziel-Layer ausgewählt werden. Buffer-Radien werden um die Features des Quell-Layers dargestellt. Sobald ein Ziel-Layer gewählt wurde, werden nur die Features dieses Layers hervorgehoben, welche sich außerhalb der Buffer-Radien befinden. Auch eine invertierte Anzeige ist möglich. Bei dieser werden nur die Features des Ziel-Layers innerhalb der Radien hervorgehoben.|false|
+|contact|nein|**[contact](#markdown-header-portalconfigmenusectionsmodulescontact)**||Das Kontaktformular bietet dem Benutzer die Möglichkeit an das konfigurierte Postfach eine Nachricht zu senden. Es können beispielsweise Fehler oder Wünsche und Anregungen gemeldet und Screenshots können beigefügt werden.|false|
 |coordToolkit|nein|**[coordToolkit](#markdown-header-portalconfigmenusectionsmodulescoordtoolkit)**||Koordinatenabfrage: Werkzeug um Koordinaten und Höhe per Maus-Klick abzufragen: Bei Klick in die Karte werden die Koordinaten in der Anzeige eingefroren und können auch direkt in die Zwischenablage kopiert werden. Koordinatensuche: Über eine Eingabemaske können das Koordinatensystem und die Koordinaten eingegeben werden. Das Werkzeug zoomt dann auf die entsprechende Koordinate und setzt einen Marker darauf. Die Koordinatensysteme werden aus der config.js bezogen.|false|
 |customMenuElement|nein|**[customMenuElement](#markdown-header-portalconfigmenusectionsmodulescustommenuelement)**||Dieses Modul kann einen Link öffnen, HTML aus config.json oder einer externen Datei anzeigen oder eine Aktion ausführen. Diese Modul kann mehrfach in der config.json konfiguriert werden.|false|
+|featureLister|nein|**[featureLister](#markdown-header-portalconfigmenusectionsmodulesfeaturelister)**||Listet alle Features eines Vektorlayers auf.|false|
 |fileImport|nein|**[fileImport](#markdown-header-portalconfigmenusectionsmodulesfileImport)**||Import von Dateien des Typs *.kml, *.geojson und *. gpx. Über dieses Modul können solche Dateien importiert werden.|false|
 |language|nein|**[language](#markdown-header-portalconfigmenusectionsmoduleslanguage)**||In diesem Modul lässt sich die Sprache des Portals umschalten.|false|
 |layerClusterToggler|nein|**[layerClusterToggler](#markdown-header-portalconfigmenusectionsmoduleslayerClusterToggler)**||Mit diesem Modul lassen sich Layer in Clustern gleichzeitig aktivieren/laden und deaktivieren.|false|
@@ -1143,9 +1170,100 @@ Mit diesem Modul lassen sich die Features eines Ziel-Layers anzeigen, die sich i
 ***
 
 ##### Portalconfig.menu.sections.modules.contact
+Mit diesem Modul, kann der Benutzer mit einem definierten Postfach Kontakt aufnehmen. Es kann eine Datei, z.B. ein Screenshot beigefügt werden.
+
+>**ACHTUNG: Backend notwendig!**
+>
+>**Das Modul Contact kommuniziert mit einem SMTP-Server und ruft dort die sendmail.php auf.**
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
+|closeAfterSend|nein|Boolean|false|Kennzeichen, ob das Kontaktfenster nach erfolgreichem Versenden einer Nachricht geschlossen werden soll.|false|
+|configuredFileExtensions|nein|[]||Zusätzliche Dateierweiterungen zu "png", "jpg" und "jpeg". Das Backend muss diese Dateitypen unterstützen.|false|
+|contactInfo|nein|String||Weitere Informationen, welche oberhalb des Kontaktformulars angezeigt werden.|false|
+|deleteAfterSend|nein|Boolean|false|Kennzeichen, ob der Inhalt des Kontaktfensters nach erfolgreichem Versenden der Nachricht gelöscht werden soll.|false|
+|fileUpload|nein|Boolean|false|Kennzeichen, ob der Dateiupload verfügbar sein soll.|false|
+|from|ja|**[email](#markdown-header-portalconfigmenusectionsmodulescontactemail)**[]||Absender der Email. Bitte den **[Hinweis zur Email-Sicherheit](#markdown-header-hinweis-zur-email-sicherheit)** beachten.|false|
+|icon|nein|String|"bi-envelope"|Icon das im Menü vor dem Modulnamen angezeigt wird. Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
+|includeSystemInfo|nein|Boolean|false|Kennzeichen, ob Systeminformationen des Absenders mitgeschickt werden sollen.|false|
+|locationOfCustomerService|nein|String|"de"|Land, in welchem sich der Kundensupport befindet. Wird verwendet für das Datum innerhalb der ticketId.|false|
+|maxFileSize|nein|Number|1048576|Die maximale Dateigröße in bytes für hochladbare Inhalte. Standard: 1MB.|false|
+|maxLines|nein|Number|5|Anzahl der Zeilen (Höhe) des Textbereiches des Formulars.|false|
+|name|nein|String|"common:modules.contact.name"|Name des Moduls im Menü.|false|
+|privacyPolicyLink|nein|String|"https://www.masterportal.org/datenschutz.html"|Link zur Datenschutzerklärung. Sollte gesetzt werden, wenn `showPrivacyPolicy` true ist.|false|
+|serviceId|ja|String||Id des Email-Dienstes der verwendet werden soll. Wird aus der **[rest-services.json](rest-services.json.md)** bezogen.|false|
+|showPrivacyPolicy|nein|Boolean|false|Kennzeichen, ob eine Checkbox angezeigt werden soll, um der Datenschutzerklärung zuzustimmen.|false|
+|subject|nein|String||Der Betreff, welcher für die Email verwendet wird.|false|
+|to|ja|**[email](#markdown-header-portalconfigmenusectionsmodulescontactemail)**[]||Adressat der Email. Bitte den **[Hinweis zur Email-Sicherheit](#markdown-header-hinweis-zur-email-sicherheit)** beachten.|false|
+|type|nein|String|"contact"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
+|withTicketNo|nein|Boolean|true|Kennzeichen, ob bei erfolgreichem Versand der Anfrage eine Ticketnummer zurückgegeben werden soll.|false|
+***
+**Beispiel**
+
+```json
+{
+    "type": "contact",
+    "name": "common:menu.contact",
+    "icon": "bi-envelope",
+    "serviceId": "123",
+    "from": [
+        {
+            "email": "lgvgeoportal-hilfe@gv.hamburg.de",
+            "name": "LGVGeoportalHilfe"
+        }
+    ],
+    "to": [
+        {
+            "email": "lgvgeoportal-hilfe@gv.hamburg.de",
+            "name": "LGVGeoportalHilfe"
+        }
+    ],
+    "fileUpload": true,
+    "includeSystemInfo": true,
+    "closeAfterSend": true,
+    "deleteAfterSend": true,
+    "withTicketNo": false
+}
+```
+
+>Hinweis zur Email-Sicherheit
+
+Von der ungeprüften Übernahme von *Sender (FROM)*, *Empfänger (TO)*, *Kopie (CC)* und *Blindkopie (BCC)* durch den SMTP-Server wird hiermit aus Sicherheitsgründen **ausdrücklich abgeraten**.
+Vor der ungeprüften Übernahme durch den SMTP-Server der Kunden-Email als *Antwort an* (REPLY-TO) wird gewarnt.
+
+Wir empfehlen dringend *FROM* und *TO* am SMTP-Server manuell fest einzustellen, ohne eine Möglichkeit zur externen Konfiguration anzubieten.
+
+>Aus Sicherheitsgründen darf der vom Masterportal an den SMTP-Server geschickte *Sender (FROM)* und der *Empfänger (TO)* nicht ungeprüft vom SMTP-Server als FROM und TO für die Email verwendet werden. Ansonsten entsteht eine Lücke über die Schad-Mails mit manipuliertem FROM und TO über den SMTP-Server versendet werden. Sollte dennoch eine Konfiguration im Masterportal gewünscht sein (siehe Beispiel oben), können die Parameter *from* und *to* unter dem Vorbehalt verwendet werden, dass *from* und *to* am SMTP-Server gegen eine **Whitelist** mit erlaubten Email-Adressen geprüft und das Versenden einer Email im Falle der Angabe inkorrekter Email-Adressen unterbunden wird.
+
+Wir empfehlen auf das automatische Setzen in *CC* (bzw. *BCC*) der Email-Adresse des Kunden zu verzichten.
+
+>Aus Sicherheitsgründen darf der Kunde nicht automatisch als *Kopie (CC)* oder *Blindkopie (BCC)* der Email gesetzt werden. Ein solcher Automatismus wird missbraucht um durch Angabe einer Fremd-Email-Adresse Schad-Mails über den SMTP-Server zu versenden.
+
+Wir empfehlen dringend *CC* und *BCC* am SMTP-Server manuell zu nullen.
+
+>Es darf keine Möglichkeit geben *Kopie (CC)* oder *Blindkopie (BCC)* über das Masterportal einzustellen. Ein solches Feature wird zum Versenden von Schad-Mails über den SMTP-Server missbraucht.
+
+Wir warnen vor der automatischen Einstellung der Kunden-Mail als *REPLY-TO*.
+
+>Die ungeprüfte Übernahme von Daten in den Email-Header ist je nach Sicherheitsstand (bzw. Alter) des SMTP-Servers mit dem Risiko verbunden, dass im einfachsten Fall durch Injektion von *Carriage Return* und *Line Feed* in z.B. *REPLY-TO* aus der Email-Header-Zeile ausgebrochen und der Email-Header selbst manipuliert wird (Beispiel: "test@example.com\r\nBCC:target1@example.com,target2@example.com,(...),target(n)@example.com"). In einem abstrakteren Fall sind auch UTF-Attacken denkbar, bei der eigentlich harmlose UTF-16- oder UTF-32-Zeichen durch Interpretation als ANSI oder UTF-8 zu Verhaltensänderungen des Email-Headers mit einem ähnlichen Ergebnis führen.
+
+***
+###### Portalconfig.menu.sections.modules.contact.email
+Email Objekt bestehend aus der Email-Adresse und dem angezeigten Namen.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|email|nein|String||Die Email-Adresse.|false|
+|name|nein|String||Der angezeigte Name.|false|
+
+**Beispiel**
+
+```json
+{
+    "email": "lgvgeoportal-hilfe@gv.hamburg.de",
+    "name":"LGVGeoportalHilfe"
+}
+```
 
 ***
 
@@ -1154,16 +1272,17 @@ Koordinaten-Werkzeug: um zusätzlich zu den 2 dimensionalen Koordinaten die Höh
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|type|nein|String|"coordToolkit"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
-|heightLayerId|nein|String||Koordinatenabfrage: Id des WMS-Layers der die Höhe im XML-Format liefert. Wenn nicht definiert, dann wird keine Höhe angezeigt.|false|
-|heightElementName|nein|String||Koordinatenabfrage: Der Element-Name unter dem die Höhe in dem XML gesucht wird|false|
-|heightValueWater|nein|String||Koordinatenabfrage: Der Wert im unter "heightElementName" definierten Element, der für eine nicht gemessene Höhe im Wasser-Bereich vom WMS geliefert wird, es wird der internationalisierte Text "Gewässerfläche, keine Höhen vorhanden" unter dem Schlüssel "common:modules.coordToolkit.noHeightWater" in der Oberfläche angezeigt. Wenn dieses Attribut nicht angegeben wird, dann wird der Text, den das WMS liefert angezeigt.|false|
-|heightValueBuilding|nein|String||Koordinatenabfrage: Der Wert im unter "heightElementName" definierten Element, der für eine nicht gemessene Höhe im Gebäude-Bereich vom WMS geliefert wird, es wird der internationalisierte Text "Gebäudefläche, keine Höhen vorhanden" unter dem Schlüssel "common:modules.coordToolkit.noHeightBuilding" in der Oberfläche angezeigt. Wenn dieses Attribut nicht angegeben wird, dann wird der Text, den das WMS liefert angezeigt.|false|
-|zoomLevel|nein|Number|7|Koordinatensuche: Gibt an, auf welches ZoomLevel gezoomt werden soll.|false|
-|showCopyButtons|nein|Boolean|true|Schalter um die Buttons zum Kopieren der Koordinaten anzuzeigen oder auszublenden.|false|
-|delimiter|nein|String|"Pipe-Symbol"|Trenner der Koordinaten beim Kopieren des Koordinatenpaares|false|
-|heightLayerInfo|nein|String|null|Hier kann eine Erläuterung für die Höhe hinterlegt werden.|false|
 |coordInfo|nein|[CoordInfo](#markdown-header-portalconfigmenusectionsmodulescoordtoolkitcoordInfo)|null|Hier kann ein Objekt mit Erläuterungen für die Koordinatenreferenzsysteme hinterlegt werden.|false|
+|delimiter|nein|String|"Pipe-Symbol"|Trenner der Koordinaten beim Kopieren des Koordinatenpaares|false|
+|heightElementName|nein|String||Koordinatenabfrage: Der Element-Name unter dem die Höhe in dem XML gesucht wird|false|
+|heightLayerId|nein|String||Koordinatenabfrage: Id des WMS-Layers der die Höhe im XML-Format liefert. Wenn nicht definiert, dann wird keine Höhe angezeigt.|false|
+|heightLayerInfo|nein|String|null|Hier kann eine Erläuterung für die Höhe hinterlegt werden.|false|
+|heightValueBuilding|nein|String||Koordinatenabfrage: Der Wert im unter "heightElementName" definierten Element, der für eine nicht gemessene Höhe im Gebäude-Bereich vom WMS geliefert wird, es wird der internationalisierte Text "Gebäudefläche, keine Höhen vorhanden" unter dem Schlüssel "common:modules.coordToolkit.noHeightBuilding" in der Oberfläche angezeigt. Wenn dieses Attribut nicht angegeben wird, dann wird der Text, den das WMS liefert angezeigt.|false|
+|heightValueWater|nein|String||Koordinatenabfrage: Der Wert im unter "heightElementName" definierten Element, der für eine nicht gemessene Höhe im Wasser-Bereich vom WMS geliefert wird, es wird der internationalisierte Text "Gewässerfläche, keine Höhen vorhanden" unter dem Schlüssel "common:modules.coordToolkit.noHeightWater" in der Oberfläche angezeigt. Wenn dieses Attribut nicht angegeben wird, dann wird der Text, den das WMS liefert angezeigt.|false|
+
+|showCopyButtons|nein|Boolean|true|Schalter um die Buttons zum Kopieren der Koordinaten anzuzeigen oder auszublenden.|false|
+|type|nein|String|"coordToolkit"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
+|zoomLevel|nein|Number|7|Koordinatensuche: Gibt an, auf welches ZoomLevel gezoomt werden soll.|false|
 
 **Beispiel**
 
@@ -1290,12 +1409,141 @@ CustomMenuElement Module `execute` vom `payload`. Der passende payload zu der Ak
 ***
 
 ##### Portalconfig.menu.sections.modules.featureLister
+Dieses Modul kann geladene Vektordaten von WFS(❗) Layern in einer Tabelle darstellen. Alle sichtbaren Vektorlayer aus der Karte werden im ersten Reiter angezeigt. Die Features des Layers werden im zweiten Reiter der Tabelle aufgelistet. Die Anzahl der angezeigten Features ist konfigurierbar.
+
+Sobald man den Mauszeiger über einem Feature in der Liste positioniert wird dieses in der Karte hervorgehoben. Durch Klick auf ein Feature werden dessen Attribute in einem dritten Reiter  sortierbar dargestellt.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
+|highlightVectorRulesPointLine|nein|**[highlightVectorRulesPointLine](#markdown-header-portalconfigmenusectionsmodulesfeaturelisterhighlightvectorrulespointline)**||Angabe der Umriss-Farbe und -Strichstärke für das Hervorheben von Linien und einer Füllfarbe sowie eines Skalierungsfaktors für das Hervorheben von Punkten und einer Zoomstufe.|false|
+|highlightVectorRulesPolygon|nein|**[highlightVectorRulesPolygon](#markdown-header-portalconfigmenusectionsmodulesfeaturelisterhighlightvectorrulespolygon)**||Angabe der Füllfarbe und der Umriss-Farbe und -Strichstärke für das Hervorheben der Polygon-Features und einer Zoomstufe.|false|
+|icon|nein|String|"bi-list"|Icon das im Menü vor dem Modulnamen angezeigt wird. Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
+|maxFeatures|nein|Integer|20|Anzahl der zu zeigenden Features. Über einen Button können weitere Features in dieser Anzahl zugeladen werden.|false|
+|name|nein|String|"common:modules.featureLister.name"|Name des Moduls im Menü.|false|
+|type|ja|String|"featureLister"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
+
+**Beispiel**
+
+```json
+"featureLister": {
+    "name": "Liste",
+    "icon": "bi-list",
+    "maxFeatures": 10,
+    "highlightVectorRulesPolygon": {
+        "fill": {
+            "color": [255, 0, 255, 0.9]
+        },
+        "stroke": {
+            "width": 4,
+            "color": [0, 0, 204, 0.9]
+        },
+        "zoomLevel": 5
+    },
+    "highlightVectorRulesPointLine": {
+        "fill": {
+            "color": [255, 0, 255, 0.9]
+        },
+        "stroke": {
+            "width": 8,
+            "color": [255, 0, 255, 0.9]
+        },
+        "image": {
+            "scale": 2
+        },
+        "zoomLevel": 5
+    }
+}
+```
+
+***
+###### Portalconfig.menu.sections.modules.featureLister.highlightVectorRulesPointLine
+Angabe der Umriss-Farbe und -Strichstärke für das Hervorheben von Linien und Füllfarbe, sowie Skalierungsfaktor für das Hervorheben von Punkten. Ebenfalls kann eine Zoomstufe angegeben werden.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|fill|nein|**[fill](#markdown-header-portalconfigmenusectionsmodulesfeaturelisterhighlightvectorrulespointlinefill)**||Mögliche Einstellung: color|false|
+|image|nein|**[image](#markdown-header-portalconfigmenusectionsmodulesfeaturelisterhighlightvectorrulespointlineimage)**||Mögliche Einstellung: scale|false|
+|stroke|nein|**[stroke](#markdown-header-portalconfigmenusectionsmodulesfeaturelisterhighlightvectorrulespointlinestroke)**||Mögliche Einstellung: width|false|
+|zoomLevel|nein|Integer|7|Mögliche Einstellung: 0-9|false|
 
 ***
 
+###### Portalconfig.menu.sections.modules.featureLister.highlightVectorRulesPointLine.fill
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|color|nein|Float[]|[255, 255, 255, 0.5]|Mögliche Einstellung: color (RGBA)|false|
+
+```json
+"fill": {
+     "color": [215, 102, 41, 0.9]
+     }
+```
+
+***
+###### Portalconfig.menu.sections.modules.featureLister.highlightVectorRulesPointLine.stroke
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|color|nein|Float[]|[255, 255, 255, 0.5]|Mögliche Einstellung: color (RGBA)|false|
+|width|nein|Integer|1|Mögliche Einstellung: width|false|
+
+```json
+"stroke": {
+    "width": 4 , 
+    "color": [255, 0, 255, 0.9]
+    }
+```
+
+***
+###### Portalconfig.menu.sections.modules.featureLister.highlightVectorRulesPointLine.image
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|scale|nein|Integer|1.5|Mögliche Einstellung: scale|false|
+
+```json
+"image": {
+    "scale": 2
+    }
+```
+
+***
+###### Portalconfig.menu.sections.modules.featureLister.highlightVectorRulesPolygon
+Angabe der Füll-Farbe und -Strichstärke für das Hervorheben von Polygonen sowie einer Zoomstufe.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|fill|nein|**[fill](#markdown-header-portalconfigmenusectionsmodulesfeaturelisterhighlightvectorrulespolygonfill)**||Mögliche Einstellung: color|false|
+|stroke|nein|**[stroke](#markdown-header-portalconfigmenusectionsmodulesfeaturelisterhighlightvectorrulespolygonstroke)**||Mögliche Einstellung: width|false|
+|zoomLevel|nein|Integer|7|Mögliche Einstellung: 0-9|false|
+
+***
+
+###### Portalconfig.menu.sections.modules.featureLister.highlightVectorRulesPolygon.fill
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|color|nein|Float[]|[255, 255, 255, 0.5]|Mögliche Einstellung: color (RGBA)|false|
+
+```json
+"fill": { 
+    "color": [215, 102, 41, 0.9] 
+    }
+```
+
+***
+
+###### Portalconfig.menu.sections.modules.featureLister.highlightVectorRulesPolygon.stroke
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|color|nein|Float[]|[255, 255, 255, 0.5]|Mögliche Einstellung: color (RGBA)|false|
+|width|nein|Integer|1|Mögliche Einstellung: width|false|
+
+```json
+"stroke": {
+     "width": 4 , 
+     "color": [255, 0, 255, 0.9]
+     }
+```
+
+***
 ##### Portalconfig.menu.sections.modules.fileImport
 Über dieses Modul können Dateien der Formate "*.kml", "*.geojson" und "*.gpx" importiert werden.
 
@@ -2268,13 +2516,13 @@ Angabe der Linienfarbe und -breite für Linien Features und der Füllfarbe und S
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |fill|nein|**[fill](#markdown-header-portalconfigmenutoolselectfeatureshighlightvectorrulespointlinefill)**||Mögliche Einstellung: color|false|
-|stroke|nein|**[stroke](#markdown-header-portalconfigmenutoolselectfeatureshighlightvectorrulespointlinestroke)**||Mögliche Einstellung: width|false|
 |image|nein|**[image](#markdown-header-portalconfigmenutoolselectfeatureshighlightvectorrulespointlineimage)**||Mögliche Einstellung: scale|false|
+|stroke|nein|**[stroke](#markdown-header-portalconfigmenutoolselectfeatureshighlightvectorrulespointlinestroke)**||Mögliche Einstellung: width|false|
 |zoomLevel|nein|Integer|7|Zoomstufe, mögliche Einstellung: 0-9|false|
 
 ***
 
-####### Portalconfig.menu.sections.modules.selectFeatures.highlightVectorRulesPointLine.fill
+###### Portalconfig.menu.sections.modules.selectFeatures.highlightVectorRulesPointLine.fill
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |color|nein|Float[]|[255, 255, 255, 0.5]|Mögliche Einstellung: color (RGBA)|false|
@@ -2289,7 +2537,7 @@ Angabe der Linienfarbe und -breite für Linien Features und der Füllfarbe und S
 
 ***
 
-####### Portalconfig.menu.sections.modules.selectFeatures.highlightVectorRulesPointLine.stroke
+###### Portalconfig.menu.sections.modules.selectFeatures.highlightVectorRulesPointLine.stroke
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |color|nein|Float[]|[255, 255, 255, 0.5]|Mögliche Einstellung: color (RGBA)|false|
@@ -2306,7 +2554,7 @@ Angabe der Linienfarbe und -breite für Linien Features und der Füllfarbe und S
 
 ***
 
-####### Portalconfig.menu.sections.modules.selectFeatures.highlightVectorRulesPointLine.image
+###### Portalconfig.menu.sections.modules.selectFeatures.highlightVectorRulesPointLine.image
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |scale|nein|Integer|1.5|Mögliche Einstellung: scale|false|
@@ -2332,7 +2580,7 @@ Angabe der Füllfarbe, Kantenfarbe und -breite für das Hervorheben von Polygon 
 
 ***
 
-####### Portalconfig.menu.sections.modules.selectFeatures.highlightVectorRulesPolygon.fill
+###### Portalconfig.menu.sections.modules.selectFeatures.highlightVectorRulesPolygon.fill
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |color|nein|Float[]|[255, 255, 255, 0.5]|Mögliche Einstellung: color (RGBA)|false|
@@ -2347,7 +2595,7 @@ Angabe der Füllfarbe, Kantenfarbe und -breite für das Hervorheben von Polygon 
 
 ***
 
-####### Portalconfig.menu.sections.modules.selectFeatures.highlightVectorRulesPolygon.stroke
+###### Portalconfig.menu.sections.modules.selectFeatures.highlightVectorRulesPolygon.stroke
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |color|nein|Float[]|[255, 255, 255, 0.5]|Mögliche Einstellung: color (RGBA)|false|
