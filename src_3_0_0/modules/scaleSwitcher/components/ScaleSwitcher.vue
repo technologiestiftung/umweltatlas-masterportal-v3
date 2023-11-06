@@ -1,7 +1,4 @@
 <script>
-import {mapMutations} from "vuex";
-import mutations from "../store/mutationsScaleSwitcher";
-
 /**
  * Module to switch the scale of the map. Listens to changes of the map's scale and sets the scale to this value.
  * @module modules/ScaleSwitcher
@@ -9,6 +6,11 @@ import mutations from "../store/mutationsScaleSwitcher";
  */
 export default {
     name: "ScaleSwitcher",
+    data () {
+        return {
+            scales: []
+        };
+    },
     computed: {
         scale: {
             get () {
@@ -34,7 +36,6 @@ export default {
         this.setFocusToFirstControl();
     },
     methods: {
-        ...mapMutations("Menu/ScaleSwitcher", Object.keys(mutations)),
 
         /**
          * Sets the focus to the first control
@@ -71,7 +72,7 @@ export default {
             id="scale-switcher-select"
             ref="scale-switcher-select"
             v-model="scale"
-            class="font-arial form-select form-select-sm float-start"
+            class="form-select"
             @change="setResolutionByIndex($event.target.selectedIndex)"
         >
             <option
