@@ -3728,8 +3728,113 @@ Im Menü kann der Portalname und ein Bild angezeigt werden.
 ### Portalconfig.mapView
 Mit verschiedenen Parametern wird die Startansicht der Karte konfiguriert und der Hintergrund festgelegt, der erscheint wenn keine Karte geladen ist.
 
+[type:Extent]: # (Datatypes.Extent)
+[type:Coordinate]: # (Datatypes.Coordinate)
+
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
+|backgroundImage|nein|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/config.json.md#markdown-header-portalconfigmapview"|Pfad zum alternativen Hintergrund angeben.|false|
+|epsg|nein|String|"EPSG:25832"|Der EPSG-Code der Projektion der Karte. Der EPSG-Code muss als namedProjection definiert sein.|false|
+|extent|nein|**[Extent](#markdown-header-datatypesextent)**|[510000.0, 5850000.0, 625000.4, 6000000.0]|Der Map-Extent.|false|
+|options|nein|**[option](#markdown-header-portalconfigmapviewoption)[]**|[{"resolution":66.14579761460263,"scale":250000,"zoomLevel":0}, {"resolution":26.458319045841044,"scale":100000,"zoomLevel":1}, {"resolution":15.874991427504629,"scale":60000,"zoomLevel":2}, {"resolution": 10.583327618336419,"scale":40000,"zoomLevel":3}, {"resolution":5.2916638091682096,"scale":20000,"zoomLevel":4}, {"resolution":2.6458319045841048,"scale":10000,"zoomLevel":5}, {"resolution":1.3229159522920524,"scale":5000,"zoomLevel":6}, {"resolution":0.6614579761460262,"scale":2500,"zoomLevel":7}, {"resolution":0.2645831904584105,"scale": 1000,"zoomLevel":8}, {"resolution":0.13229159522920521,"scale":500,"zoomLevel":9}]|Die initialen Maßstabsstufen und deren Auflösungen.|false|
+|startCenter|nein|**[Coordinate](#markdown-header-datatypescoordinate)**|[565874, 5934140]|Die initiale Zentrumskoordinate.|false|
+|startResolution|nein|Float|15.874991427504629|Die initiale Auflösung der Karte aus options. Vorzug vor startZoomLevel.|false|
+|startZoomLevel|nein|Integer||Der initiale ZoomLevel aus Options. Nachrangig zu resolution.|false|
+|twoFingerPan|nein|Boolean|false|Soll für mobile Geräte ein 2-Finger-Pan anstatt 1-Finger-Pan gesetzt werden?|false|
+
+**Beispiel:**
+```
+#!json
+"mapView": {
+    "backgroundImage": "https://geodienste.hamburg.de/lgv-config/img/backgroundCanvas.jpeg",
+    "startCenter": [561210, 5932600],
+    "options": [
+        {
+            "resolution": 611.4974492763076,
+            "scale": 2311167,
+            "zoomLevel": 0
+        },
+        {
+            "resolution": 305.7487246381551,
+            "scale": 1155583,
+            "zoomLevel": 1
+        },
+        {
+            "resolution": 152.87436231907702,
+            "scale": 577791,
+            "zoomLevel": 2
+        },
+        {
+            "resolution": 76.43718115953851,
+            "scale": 288896,
+            "zoomLevel": 3
+        },
+        {
+            "resolution": 38.21859057976939,
+            "scale": 144448,
+            "zoomLevel": 4
+        },
+        {
+            "resolution": 19.109295289884642,
+            "scale": 72223,
+            "zoomLevel": 5
+        },
+        {
+            "resolution": 9.554647644942321,
+            "scale": 36112,
+            "zoomLevel": 6
+        },
+        {
+            "resolution": 4.7773238224711605,
+            "scale": 18056,
+            "zoomLevel": 7
+        },
+        {
+            "resolution": 2.3886619112355802,
+            "scale": 9028,
+            "zoomLevel": 8
+        },
+        {
+            "resolution": 1.1943309556178034,
+            "scale": 4514,
+            "zoomLevel": 9
+        },
+        {
+            "resolution": 0.5971654778089017,
+            "scale": 2257,
+            "zoomLevel": 10
+        }
+    ],
+    "extent": [510000.0, 5850000.0, 625000.4, 6000000.0],
+    "startResolution": 15.874991427504629,
+    "startZoomLevel": 1,
+    "epsg": "EPSG:25832"
+    }
+```
+
+***
+#### Portalconfig.mapView.option
+
+Eine option definiert eine Zoomstufe. Diese muss definiert werden über die Auflösung, die Maßstabszahl und das ZoomLevel. Je höher das ZoomLevel ist, desto kleiner ist die Scale und desto näher hat man gezoomt.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|resolution|ja|Number||Auflösung der definierten Zoomstufe.|false|
+|scale|ja|Integer||Maßstabszahl der definierten Zoomstufe.|false|
+|zoomLevel|ja|Integer||Zoomstufe der definierten Zoomstufe.|false|
+
+**Beispiel einer mapview Option**
+```
+#!json
+{
+    "resolution": 611.4974492763076,
+    "scale": 2311167,
+    "zoomLevel": 0
+}
+```
+
+***
+
 
 ***
 
@@ -3757,6 +3862,53 @@ Möglichkeit den Inhalt der Fußzeile des Portals zu konfigurieren.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
+|configPaths|nein|Array|["portalConfig.portalFooter"]|Liste mit möglichen Konfigurationen, die erste die gefunden wird, wird verwendet.|false|
+|scaleLine|nein|Boolean|true|Gibt an, ob der Maßstab angezeigt werden soll.|false|
+|scaleLineWidth|nein|Number|2|Die Breite der Maßstabsanzeige in cm.|false|
+|seperator|nein|String|`&nbsp;|&nbsp;`|Die Trennung zwischen einzelnen Links.|false|
+|urls|nein|Array|[]|Urls, die im Footer angezeit werden sollen.|false|
+
+**Beispiel**
+
+```json
+"portalFooter": {
+    "urls": [
+    {
+        "bezeichnung": "common:modules.portalFooter.designation",
+        "url": "https://geoinfo.hamburg.de/",
+        "alias": "Landesbetrieb Geoinformation und Vermessung",
+        "alias_mobile": "LGV Hamburg"
+    },
+    {
+        "url": "mailto:LGVGeoPortal-Hilfe@gv.hamburg.de?subject=Kartenunstimmigkeiten%20melden&body=Zur%20weiteren%20Bearbeitung%20bitten%20wir%20Sie%20die%20nachstehenden%20Angaben%20zu%20machen.%20Bei%20Bedarf%20fügen%20Sie%20bitte%20noch%20einen%20Screenshot%20hinzu.%20Vielen%20Dank!%0A%0A1.%20Name:%0A2.%20Telefon:%0A3.%20Anliegen",
+        "alias": "common:modules.portalFooter.mapDiscrepancy"
+    }
+    ],
+    "scaleLine": true
+}
+```
+
+#### Portalconfig.portalFooter.urls
+
+Eine Url kann unterschiedlich definiert werden.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|alias|ja|String||Angezeigter Name des Links in der Desktop-Ansicht.|false|
+|alias_mobil|nein|String||Angezeigter Name des Links in der Mobile-Ansicht. Falls nicht angegeben, wird der Link in der Mobilen Ansicht nicht angezeigt.|false|
+|bezeichnung|nein|String||Angezeigte Bezeichnung vor dem Link.|false|
+|url|ja|String||Die Url für den Link.|false|
+
+**Beispiel**
+
+```json
+{
+    "bezeichnung": "common:modules.portalFooter.designation",
+    "url": "https://geoinfo.hamburg.de/",
+    "alias": "Landesbetrieb Geoinformation und Vermessung",
+    "alias_mobile": "LGV Hamburg"
+}
+```
 
 ***
 
@@ -4516,4 +4668,37 @@ Hier werden Entities3D Einheiten typische Attribute aufgelistet.
    "name": "Fernsehturm.kmz"
 }
 ```
+***
+
+# Datatypes
+In diesem Kapitel werden die erwarteten Datentypen definiert.
+
+## Datatypes.Coordinate
+
+Eine Koordinate besteht aus einem Array bestehend aus zwei Zahlen. Die erste repräsentiert den Rechtswert, die zweite den Hochwert.
+
+**Beispiel Koordinate bestehend aus Ganzzahlen(Integer)**
+```
+#!json
+[561210, 5932600]
+```
+
+**Beispiel Koordinate bestehend aus Gleitkommazahlen(Float)**
+```
+#!json
+[561210.1458, 5932600.12358]
+```
+
+***
+
+## Datatypes.Extent
+
+Ein Extent besteht aus einem Array bestehend aus vier Zahlen. Ein Extent beschreibt einen rechteckigen Gültigkeitsbereich. Dabei wird ein Rechteck aufgespannt, das durch die "linke untere" und die "rechte obere" Ecke definiert wird. Das Schema lautet [Rechtswert-Links-Unten, Hochwert-Links-Unten, Rechtswert-Rechts-Oben, Hochwert-Rechts-Oben] oder [minx, miny, maxx, maxy].
+
+**Beispiel Extent**
+```
+#!json
+[510000.0, 5850000.0, 625000.4, 6000000.0]
+```
+
 ***

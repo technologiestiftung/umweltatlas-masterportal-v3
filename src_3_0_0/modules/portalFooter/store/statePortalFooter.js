@@ -7,7 +7,7 @@
  * @property {String} seperator The seperator between urls.
  * @property {String} type The type of the portalFooter component.
  * @property {Object[]} urls Array of URL configuration objects
- * @property {String} urls[].alias Name of the link for desktop playout.
+ * @property {String} urls[].alias Name of the link for desktop layout.
  * @property {String} urls[].alias_mobil Name of the link for mobile application.
  * @property {String} urls[].bezeichnung Name before the link.
  * @property {String} urls[].url The URL to be called.
