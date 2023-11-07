@@ -177,12 +177,24 @@ describe("src_3_0_0/core/js/layers/layer2dVector.js", () => {
     });
 
     describe("loadingParams", () => {
-        it("should return loading params", () => {
+        it("should return all loading params undefined", () => {
             const layer2d = new Layer2dVector(attributes);
 
             expect(layer2d.loadingParams(attributes)).to.deep.equals({
                 xhrParameters: undefined,
-                propertyname: "",
+                propertyname: undefined,
+                bbox: undefined
+            });
+        });
+
+        it("should return loading params for isSecured and propertyNames", () => {
+            attributes.isSecured = true;
+            attributes.propertyNames = ["prop1", "prop2"];
+            const layer2d = new Layer2dVector(attributes);
+
+            expect(layer2d.loadingParams(attributes)).to.deep.equals({
+                xhrParameters: {credentials: "include"},
+                propertyname: "prop1,prop2",
                 bbox: undefined
             });
         });
