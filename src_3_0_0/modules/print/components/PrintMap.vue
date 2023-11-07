@@ -744,14 +744,13 @@ export default {
                         :text="$t('common:modules.print.downloadFile')"
                         :icon="'bi-download'"
                     />
-
-                    <button
+                    <FlatButton
                         v-else
-                        class="btn btn-outline-default modules-print-download-button-disabled rounded-pill"
+                        :aria-label="$t('common:modules.print.createDownloadFile')"
+                        :text="$t('common:modules.print.createDownloadFile')"
+                        :icon="'bi-download'"
                         disabled
-                    >
-                        {{ $t("common:modules.print.createDownloadFile") }}
-                    </button>
+                    />
                 </div>
             </div>
         </div>
@@ -802,11 +801,6 @@ export default {
             .modules-print-download-icon {
                 font-size: $font-size-lg;
                 color: darkgreen;
-            }
-
-            .modules-print-download-button-disabled {
-                border-color: $dark_grey;
-                color: $dark-grey;
             }
 
             .modules-print-download-loader {
