@@ -10,7 +10,6 @@
 
 ### Added
 - Add roadmap information to the readme file.
-- Documentation for mapView and portalfooter in config.json.
 
 ### Changed
 - LayerInformation: For layers that do not have metadata, the layer information can now be displayed so that the URLs and legend can be viewed th
