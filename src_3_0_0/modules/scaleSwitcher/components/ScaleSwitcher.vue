@@ -2,6 +2,7 @@
 /**
  * Module to switch the scale of the map. Listens to changes of the map's scale and sets the scale to this value.
  * @module modules/ScaleSwitcher
+ * @vue-data {Array} scales - The available scales.
  * @vue-computed {Number} scale - The current scale that is set in the drop down.
  */
 export default {

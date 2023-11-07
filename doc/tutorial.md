@@ -13,7 +13,8 @@ Switch to the folder `src_3_0_0/modules` and create a new folder. The folder nam
 >💡 Hint: Testing is not part of this guide, but essential to merge a pull request. See our [testing documentation](testing.md) for more information.
 
 ```
-src
+src_3_0_0
+|
 |-- modules
 |   |
 |   |-- scaleSwitcher
@@ -45,6 +46,8 @@ Open `modules/scaleSwitcher/components/ScaleSwitcher.vue` and create the Vue com
 /**
  * Module to switch the scale of the map. Listens to changes of the map's scale and sets the scale to this value.
  * @module modules/ScaleSwitcher
+ * @vue-data {Array} scales - The available scales.
+ * @vue-computed {Number} scale - The current scale that is set in the drop down.
  */
 export default {
     name: "ScaleSwitcher"
@@ -89,15 +92,15 @@ All of these properties in the state are mandatory.
 
 ```js
 /**
- * User type definition
- * @typedef {Object} ScaleSwitcherState
- * @property {Boolean} hasMouseMapInteractions If this attribute is true, then all other modules will be deactivated when this attribute is also true. Only one module with this attribute true may be open at the same time, since conflicts can arise in the card interactions.
- * @property {String} description The description that should be shown in the button in the menu.
- * @property {String} icon Icon next to title (config-param)
- * @property {String} name Displayed as title (config-param)
- * @property {String[]} supportedDevices Devices on which the module is displayed.
- * @property {String[]} supportedMapModes Map mode in which this module can be used.
- * @property {String} type The type of the module.
+ * The ScaleSwitcher State
+ * @module  modules/scaleSwitcher/store/stateScaleSwitcher
+ * @property {String} [description="common:modules.scaleSwitcher.description"] The description that should be shown in the button in the menu.
+ * @property {Boolean} [hasMouseMapInteractions=false] If this attribute is true, then all other modules will be deactivated when this attribute is also true. Only one module with this attribute true may be open at the same time, since conflicts can arise in the card interactions.
+ * @property {String} [icon="bi-arrows-angle-contract"] Icon next to title (config-param)
+ * @property {String} [name="common:modules.scaleSwitcher.name"] Displayed as title (config-param)
+ * @property {String[]} [supportedDevices=["Desktop", "Mobile", "Table"]] Devices on which the module is displayed.
+ * @property {String[]} [supportedMapModes=["2D", "3D"]] Map mode in which this module can be used.
+ * @property {String} [type= "scaleSwitcher"] The type of the module.
  *
  */
 const state = {
@@ -167,7 +170,7 @@ export default actions;
 
 ### Setting up the store/index file
 
-Open the file `src/modules/scaleSwitcher/store/indexScaleSwitcher.js`. Default export the previously created state, getters, mutations, and actions as an object. This represents a Vuex store, and is pluggable to another Vuex store as a module.
+Open the file `modules/scaleSwitcher/store/indexScaleSwitcher.js`. Default export the previously created state, getters, mutations, and actions as an object. This represents a Vuex store, and is pluggable to another Vuex store as a module.
 
 >💡 The `namespaced: true` has to be set by convention. This prevents naming conflicts stores with modules.
 
@@ -357,7 +360,7 @@ import {mapGetters, mapActions, mapMutations} from "vuex";
 
 ## Internationalization
 
-Labels should be available in multiple languages. For this, create localization keys in the translation files `locales/[de/en]/common.json`. Read the [internationalization documentation](languages.md) for more details.
+Labels should be available in multiple languages. For this, create localization keys in the translation files `locales_3_0_0/[de/en]/common.json`. Read the [internationalization documentation](languages.md) for more details.
 
 ```js
 "modules": {
@@ -400,7 +403,7 @@ To make the tool usable within a portal, it has to be configured in the portal's
 }
 ```
 
-The tool's name translation has to be added to the `locales/[de/en]/common.json` files.
+The tool's name translation has to be added to the `locales_3_0_0/[de/en]/common.json` files.
 
 ```json
 {
