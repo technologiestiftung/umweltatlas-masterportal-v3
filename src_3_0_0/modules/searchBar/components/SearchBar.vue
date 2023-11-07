@@ -277,6 +277,21 @@ export default {
 <template lang="html">
     <div id="search-bar">
         <div class="input-group mb-3">
+            <div class="form-floating">
+                <input
+                    id="searchInput"
+                    ref="searchInput"
+                    v-model="searchInputValue"
+                    type="search"
+                    class="form-control"
+                    :placeholder="$t(layerSelectionPlaceHolder)"
+                    :aria-label="$t(layerSelectionPlaceHolder)"
+                    @click="clickAction"
+                    @input="checkCurrentComponent(currentComponentSide)"
+                    @keydown.enter="zoomToAndMarkSearchResult(searchInputValue), checkCurrentComponent(currentComponentSide)"
+                >
+                <label for="searchInput">{{ $t(layerSelectionPlaceHolder) }}</label>
+            </div>
             <button
                 id="search-button"
                 class="btn btn-primary"
@@ -290,17 +305,6 @@ export default {
                     role="img"
                 />
             </button>
-            <input
-                ref="searchInput"
-                v-model="searchInputValue"
-                type="search"
-                class="form-control"
-                :placeholder="$t(layerSelectionPlaceHolder)"
-                :aria-label="$t(layerSelectionPlaceHolder)"
-                @click="clickAction"
-                @input="checkCurrentComponent(currentComponentSide)"
-                @keydown.enter="zoomToAndMarkSearchResult(searchInputValue), checkCurrentComponent(currentComponentSide)"
-            >
         </div>
         <SearchBarSuggestionList
             v-if="!showAllResults"
@@ -316,8 +320,8 @@ export default {
 <style lang="scss" scoped>
     #search-bar {
         #search-button {
-            border-top-left-radius: 5px;
-            border-bottom-left-radius: 5px;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
         }
     }
 </style>

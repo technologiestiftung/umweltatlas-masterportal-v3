@@ -62,6 +62,7 @@ export default {
             class="form-control"
             :class="classObj"
             :placeholder="placeholder"
+            :aria-label="placeholder"
             :value="value"
             :readonly="readonly"
             :maxLength="maxLength"
