@@ -68,7 +68,10 @@ export default {
             :maxLength="maxLength"
             @input="event => input(event.target.value)"
         >
-        <label :for="id">{{ $t(label) }}</label>
+        <label
+            class="input-label"
+            :for="id"
+        >{{ $t(label) }}</label>
         <slot />
     </div>
 </template>
@@ -78,5 +81,8 @@ export default {
 
 .form-control:focus ~ label {
     color: $secondary;
+}
+.input-label {
+    color: $placeholder-color;
 }
 </style>

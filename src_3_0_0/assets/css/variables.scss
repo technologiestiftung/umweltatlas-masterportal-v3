@@ -95,6 +95,7 @@ $light_red: #E10019;
 $dark_grey: #424242;
 $light_blue: #DCE2F3;
 
+$placeholder-color: lighten($dark_grey, 30%);
 $navbar-light-color: $dark_grey;
 
 $table-striped-bg: $light_blue;

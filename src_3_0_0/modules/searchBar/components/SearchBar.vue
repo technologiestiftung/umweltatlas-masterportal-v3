@@ -217,10 +217,14 @@ export default {
         ]),
         /**
          * Starts the search in searchInterfaces, if min characters are introduced, updates the result list.
+         * @param {String} currentComponentSide Current component type
          * @returns {void}
          */
-        startSearch () {
+        startSearch (currentComponentSide) {
             if (this.searchActivated) {
+                if (currentComponentSide === "root") {
+                    this.clickAction();
+                }
                 this.setSearchResultsActive(true);
                 this.search({searchInput: this.searchInputValue});
             }
@@ -231,27 +235,6 @@ export default {
          */
         focusInput () {
             this.$refs.searchInput.focus();
-        },
-        /**
-         * Handles the input action behavior of the search
-         * @param {String} currentComponentSide Current component type
-         * @returns {void}
-         */
-        checkCurrentComponent (currentComponentSide) {
-            if (currentComponentSide === "root") {
-                this.clickAction();
-            }
-            else if (currentComponentSide === "layerSelection") {
-                if (this.searchInputValue.length >= this.minCharacters) {
-                    this.startLayerSelectionSearch(this.currentSide);
-                    this.setCurrentAvailableCategories(this.showAllResultsSearchCategory);
-
-                    this.startSearch();
-                }
-            }
-            else {
-                this.startSearch();
-            }
         },
         /**
          * Zooms to and sets a marker at the given search result
@@ -286,9 +269,8 @@ export default {
                     class="form-control"
                     :placeholder="$t(layerSelectionPlaceHolder)"
                     :aria-label="$t(layerSelectionPlaceHolder)"
-                    @click="clickAction"
-                    @input="checkCurrentComponent(currentComponentSide)"
-                    @keydown.enter="zoomToAndMarkSearchResult(searchInputValue), checkCurrentComponent(currentComponentSide)"
+                    @input="startSearch(currentComponentSide)"
+                    @keydown.enter="zoomToAndMarkSearchResult(searchInputValue), startSearch(currentComponentSide)"
                 >
                 <label for="searchInput">{{ $t(layerSelectionPlaceHolder) }}</label>
             </div>
@@ -298,7 +280,7 @@ export default {
                 :disabled="!searchActivated"
                 :aria-label="$t(placeholder)"
                 type="button"
-                @click="zoomToAndMarkSearchResult(searchInputValue), checkCurrentComponent(currentComponentSide)"
+                @click="zoomToAndMarkSearchResult(searchInputValue), startSearch(currentComponentSide)"
             >
                 <i
                     class="bi-search"
@@ -318,10 +300,14 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+@import "~variables";
     #search-bar {
         #search-button {
             border-top-right-radius: 5px;
             border-bottom-right-radius: 5px;
+        }
+        .input-label {
+            color: $placeholder-color;
         }
     }
 </style>
