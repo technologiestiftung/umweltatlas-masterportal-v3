@@ -736,7 +736,7 @@ export default {
                         <i class="bi-check-lg" />
                     </div>
                 </div>
-                <div class="col-md-7 d-grid gap-2 modules-print-download-button-container">
+                <div class="col-md-7 modules-print-download-button-container">
                     <FlatButton
                         v-if="file.finishState"
                         :aria-label="$t('common:modules.print.downloadFile')"

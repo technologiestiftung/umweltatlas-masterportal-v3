@@ -172,6 +172,7 @@ describe("src_3_0_0/modules/Print/components/PrintMap.vue", () => {
             expect(wrapper.find(".modules-print-download-loader").exists()).to.be.false;
             expect(wrapper.find(".modules-print-download-icon").exists()).to.be.true;
             expect(wrapper.find(".modules-print-download-button-container").exists()).to.be.true;
+            expect(wrapper.find(".bi-download").exists()).to.be.true;
         });
 
         it("should show loader download file", () => {
@@ -187,7 +188,6 @@ describe("src_3_0_0/modules/Print/components/PrintMap.vue", () => {
                 global: {
                     plugins: [store]
                 }});
-
             expect(wrapper.find("#modules-print-downloads-container").exists()).to.be.true;
             expect(wrapper.find(".modules-print-download-title-container").exists()).to.be.true;
             expect(wrapper.find(".modules-print-download-title").exists()).to.be.true;
