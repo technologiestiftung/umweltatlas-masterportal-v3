@@ -36,9 +36,10 @@
 - Issue #1083: fixed the issue.
 - Issue #1086: prepush hook runs on linux.
 - Issue #1089: When called via the url parameter ?query, no error message is displayed now.
+- Issue #1093: Fixed the Wrong CRS in GeoJSON by Download filtered data.
 - Fix some vulnerabilities in dependencies
 - parametricUrl: show alert again if invalid layerId is used in the url.
-- Issue #1093: Fixed the Wrong CRS in GeoJSON by Download filtered data
+- prepareFeaturesFor3D is now called after loading.
 
 ---
 

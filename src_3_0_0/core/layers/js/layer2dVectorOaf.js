@@ -20,6 +20,7 @@ export default function Layer2dVectorOaf (attributes) {
 
     this.attributes = Object.assign(defaultAttributes, attributes);
     Layer2dVector.call(this, this.attributes);
+    this.prepareFeaturesFor3D(this.layer?.getSource().getFeatures());
 }
 
 Layer2dVectorOaf.prototype = Object.create(Layer2dVector.prototype);

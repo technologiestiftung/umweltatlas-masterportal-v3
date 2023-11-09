@@ -17,6 +17,7 @@ export default function Layer2dVectorVectorbase (attributes) {
     this.sourceUpdated = false;
     this.attributes = Object.assign(defaultAttributes, attributes);
     Layer2dVector.call(this, this.attributes);
+    this.prepareFeaturesFor3D(this.layer?.getSource().getFeatures());
 }
 
 Layer2dVectorVectorbase.prototype = Object.create(Layer2dVector.prototype);

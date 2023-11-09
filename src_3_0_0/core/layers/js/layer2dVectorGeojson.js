@@ -80,6 +80,7 @@ Layer2dVectorGeojson.prototype.afterLoading = function (attributes, features) {
                 feature.setId("geojson-" + attributes.id + "-feature-id-" + idx);
             }
         });
+        this.prepareFeaturesFor3D(this.layer?.getSource().getFeatures());
     }
 };
 

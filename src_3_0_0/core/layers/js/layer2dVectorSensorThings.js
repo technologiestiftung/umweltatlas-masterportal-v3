@@ -89,6 +89,7 @@ export default function Layer2dVectorSensorThings (attributes) {
     require("dayjs/locale/de.js");
     dayjs.locale("de");
     this.registerInteractionMapScaleListeners();
+    this.prepareFeaturesFor3D(this.layer?.getSource().getFeatures());
 }
 
 Layer2dVectorSensorThings.prototype = Object.create(Layer2dVector.prototype);
