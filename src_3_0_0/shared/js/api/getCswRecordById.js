@@ -220,6 +220,7 @@ function parseContactByRole (json, role) {
 export default {
     getRecordById,
     getMdIdentification,
+    getMetadata,
     parseDate,
     parseTitle
 };
