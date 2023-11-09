@@ -138,6 +138,7 @@ const actions = {
             else {
                 subjectDataLayerConfs = sortBy(rootGetters.allLayerConfigsStructured(treeSubjectsKey), (conf) => conf.type !== "folder");
                 baselayerConfs = rootGetters.allBaselayerConfigs;
+
             }
             if (subjectDataLayerConfs) {
                 dispatch("Menu/changeCurrentComponent", {type: "layerSelection", side: "mainMenu", props: {name: "common:modules.layerSelection.addSubject"}}, {root: true});

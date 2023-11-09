@@ -41,6 +41,7 @@ export default {
          * @returns {void}
          */
         showLayerSelection () {
+            console.log(treeBaselayersKey)
             const subjectDataLayerConfs = this.sort(this.allLayerConfigsStructured(treeSubjectsKey)),
                 allBaselayerConfs = this.allLayerConfigsStructured(treeBaselayersKey),
                 baselayerConfs = allBaselayerConfs.filter(config => !config.showInLayerTree);

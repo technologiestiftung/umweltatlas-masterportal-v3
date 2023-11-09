@@ -55,6 +55,7 @@ export default {
                     dispatch("moveStartModuleControls", "mainMenu");
                     dispatch("moveStartModuleControls", "secondaryMenu");
                 }
+                console.log(response.data[treeTopicConfigKey])
                 commit("setLayerConfig", response.data ? response.data[treeTopicConfigKey] : null);
                 commit("setLoadedConfigs", "configJson");
             })

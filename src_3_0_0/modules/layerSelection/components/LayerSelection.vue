@@ -163,7 +163,6 @@ export default {
         <SearchBar
             v-if="addLayerButtonSearchActive === true"
         />
-
         <div class="layer-selection-navigation d-flex">
             <div
                 v-if="showAllResults === false"
