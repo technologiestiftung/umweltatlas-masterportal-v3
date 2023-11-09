@@ -163,28 +163,7 @@ export default {
         <SearchBar
             v-if="addLayerButtonSearchActive === true"
         />
-        <div
-            v-if="activeOrFirstCategory"
-            class="form-floating mb-3"
-        >
-            <select
-                id="select_category"
-                :value="activeOrFirstCategory.key"
-                class="form-select"
-                @change.prevent="categorySelected($event.target.value)"
-            >
-                <option
-                    v-for="category in allCategories"
-                    :key="category.key"
-                    :value="category.key"
-                >
-                    {{ $t(category.name) }}
-                </option>
-            </select>
-            <label for="select_category">
-                {{ $t("common:modules.layerTree.categories") }}
-            </label>
-        </div>
+
         <div class="layer-selection-navigation d-flex">
             <div
                 v-if="showAllResults === false"
