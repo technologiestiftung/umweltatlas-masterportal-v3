@@ -33,6 +33,7 @@ export default {
         };
     },
     computed: {
+        ...mapGetters(["visibleSubjectDataLayerConfigs"]),
         ...mapGetters("Modules/FeatureLister", [
             "maxFeatures",
             "layer",
@@ -41,7 +42,7 @@ export default {
             "shownFeatures",
             "featureListView",
             "featureDetailView",
-            "selectedFeature",
+            "selectedFeatureIndex",
             "featureProperties",
             "featureDetails",
             "headers"
@@ -63,7 +64,7 @@ export default {
             if (this.featureDetailView) {
                 return this.activeTabClass;
             }
-            if (this.selectedFeature) {
+            if (this.selectedFeatureIndex !== null) {
                 return this.defaultTabClass;
             }
             return this.disabledTabClass;
@@ -79,7 +80,6 @@ export default {
                         {
                             name: layer.get("name"),
                             id: layer.get("id"),
-                            features: layerSource.getFeatures(),
                             geometryType: layerSource.getFeatures()[0] ? layerSource.getFeatures()[0].getGeometry().getType() : null
                         }
                     );
@@ -93,6 +93,7 @@ export default {
     },
     methods: {
         ...mapActions("Modules/FeatureLister", [
+            "switchBackToList",
             "switchToList",
             "clickOnFeature",
             "hoverOverFeature",
@@ -179,7 +180,7 @@ export default {
                     href="#"
                     class="nav-link"
                     :class="listTabClasses"
-                    @click.prevent="switchToList(layer)"
+                    @click.prevent="switchBackToList()"
                 >{{ $t("common:modules.featureLister.list") }}</a>
             </li>
             <li

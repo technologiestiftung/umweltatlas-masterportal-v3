@@ -1,11 +1,27 @@
 import {generateSimpleGetters} from "../../../shared/js/utils/generators";
 import featureListerState from "./stateFeatureLister";
+import layerCollection from "../../../core/layers/js/layerCollection";
 
 const getters = {
     ...generateSimpleGetters(featureListerState),
+
+    /**
+     * Returns the feature to the given index in the list of gfiFeatures.
+     * Clustering is respected.
+     * @param {Object} state state of this module
+     * @param {Number} featureIndex index of the feature in the list of gfiFeatures
+     * @returns {ol.feature} the feature to the given index
+     */
+    selectedFeature: state => featureIndex => {
+        const layer = layerCollection.getLayerById(state.layer.id),
+            featureId = state.gfiFeaturesOfLayer[featureIndex]?.id;
+
+        return layer.getLayerSource().getFeatureById(featureId)
+    || layer.getLayerSource().getFeatures().find(feat => feat.get("features")?.find(feat_ => feat_.getId() === featureId));
+    },
     /**
      * Builds and returns a two-dimensional array that contains value lists per feature based on the header
-     * @param {Object} state context object.
+     * @param {Object} state state of this module
      * @returns {Array} [[a1, b1], [a2, b2], ...] array for each line containing array for each property of the header
      */
     featureProperties: state => {
@@ -16,15 +32,16 @@ const getters = {
     /**
      * The v-for calls this function for every property of the selected feature and returns pairs of header and
      * value as an array
-     * @param {Object} state context object.
-     * @param {Object} _ featureLister store getters
+     * @param {Object} state state of this module
+     * @param {Object} _ getters of this module
      * @param {Object} __ root state
      * @param {Object} rootGetters root getters
      * @returns {Array} [header, value] for each property of the selected feature
      */
     featureDetails: (state, _, __, rootGetters) => {
-        const attributesToShow = state.selectedFeature.getAttributesToShow(),
-            featureProperties = state.selectedFeature.getProperties();
+        const gfiFeature = state.gfiFeaturesOfLayer[state.selectedFeatureIndex],
+            attributesToShow = gfiFeature.getAttributesToShow(),
+            featureProperties = gfiFeature.getProperties();
 
         return attributesToShow === "showAll"
             ? Object.entries(featureProperties)
@@ -35,8 +52,8 @@ const getters = {
     },
     /**
      * Gets a list of all property keys to show in a table header.
-     * @param {Object} state context object.
-     * @param {Object} _ featureLister store getters
+     * @param {Object} state state of this module
+     * @param {Object} _ getters of this module
      * @param {Object} __ root state
      * @param {Object} rootGetters root getters
      * @returns {Array} [key, value] for each property

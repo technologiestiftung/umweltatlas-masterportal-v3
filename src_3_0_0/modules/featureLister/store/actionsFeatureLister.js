@@ -1,29 +1,8 @@
-import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 import {getCenter} from "ol/extent";
-import layerCollection from "../../../core/layers/js/layerCollection";
 import createLayerAddToTreeModule from "../../../shared/js/utils/createLayerAddToTree";
 
 export default {
-    /**
-     * Switches to the feature list of the selected layer.
-     * @param {Object} param.state the state
-     * @param {Object} param.commit the commit
-     * @param {Object} param.dispatch the dispatch
-     * @param {Object} layer selected layer.
-     * @returns {void}
-     */
-    switchToList ({state, commit}, layer) {
-        commit("setLayer", layer);
-        if (state.layer) {
-            commit("setLayerId", layer.id);
-            commit("setGfiFeaturesOfLayer", layerCollection.getOlLayers());
-            commit("setFeatureCount", state.gfiFeaturesOfLayer.length);
-            commit("setShownFeatures", state.gfiFeaturesOfLayer.length < state.maxFeatures ? state.gfiFeaturesOfLayer.length : state.maxFeatures);
-            commit("setLayerListView", false);
-            commit("setFeatureDetailView", false);
-            commit("setFeatureListView", true);
-        }
-    },
+
     /**
      * Click event that gets triggered when clicking on a feature in the list view.
      * @param {Object} param.state the state
@@ -32,14 +11,13 @@ export default {
      * @param {String} featureIndex index of the clicked Feature
      * @returns {void}
      */
-    clickOnFeature ({state, commit, dispatch, rootGetters}, featureIndex) {
+    clickOnFeature ({state, commit, dispatch, getters, rootGetters}, featureIndex) {
         if (featureIndex !== "" && featureIndex >= 0 && featureIndex <= state.shownFeatures) {
-            const feature = state.gfiFeaturesOfLayer[featureIndex],
-                featureGeometry = state.rawFeaturesOfLayer[featureIndex].getGeometry(),
+            const feature = getters.selectedFeature(featureIndex),
+                featureGeometry = feature.getGeometry(),
                 styleObj = state.layer.geometryType.toLowerCase().indexOf("polygon") > -1 ? state.highlightVectorRulesPolygon : state.highlightVectorRulesPointLine;
 
-            commit("setSelectedFeature", feature);
-
+            commit("setSelectedFeatureIndex", featureIndex);
             dispatch("switchToDetails");
 
             if (styleObj && styleObj.zoomLevel) {
@@ -54,7 +32,7 @@ export default {
                 }
             }
             if (rootGetters.treeHighlightedFeatures?.active) {
-                createLayerAddToTreeModule.createLayerAddToTree(state.layerId, [state.layer.features[featureIndex]], rootGetters.treeHighlightedFeatures);
+                createLayerAddToTreeModule.createLayerAddToTree(state.layer.id, [feature], rootGetters.treeHighlightedFeatures);
             }
         }
     },
@@ -65,11 +43,11 @@ export default {
      * @param {String} featureIndex index of the clicked Feature
      * @returns {void}
      */
-    hoverOverFeature ({state, dispatch}, featureIndex) {
+    hoverOverFeature ({state, dispatch, getters}, featureIndex) {
         if (featureIndex !== "" && featureIndex >= 0 && featureIndex <= state.shownFeatures) {
-            const feature = state.nestedFeatures ? state.rawFeaturesOfLayer[featureIndex] : state.layer.features[featureIndex];
+            const feature = getters.selectedFeature(featureIndex);
 
-            dispatch("highlightFeature", feature.getId());
+            dispatch("highlightFeature", {feature});
         }
     },
     /**
@@ -79,34 +57,27 @@ export default {
      * @param {String} featureId id of the feature to be highlighted.
      * @returns {void}
      */
-    highlightFeature ({state, dispatch}, featureId) {
+    highlightFeature ({state, dispatch, rootGetters}, {feature}) {
         dispatch("Maps/removeHighlightFeature", "decrease", {root: true});
-        let featureGeometryType = "";
-        const layer = layerCollection.getOlLayers().find((l) => l.values_.id === state.layer.id),
-            layerFeatures = state.nestedFeatures ? state.rawFeaturesOfLayer : layer.getSource().getFeatures(),
-            featureWrapper = layerFeatures.find(feat => {
-                featureGeometryType = feat.getGeometry().getType();
-                return feat.getId().toString() === featureId;
-            }),
-            rawLayer = rawLayerList.getLayerWhere({id: state.layer.id}),
+        const layerConfig = rootGetters.layerConfigById(state.layer.id),
             styleObj = state.layer.geometryType.toLowerCase().indexOf("polygon") > -1 ? state.highlightVectorRulesPolygon : state.highlightVectorRulesPointLine,
+            featureGeometryType = feature.getGeometry().getType(),
             highlightObject = {
                 type: featureGeometryType === "Point" || featureGeometryType === "MultiPoint" ? "increase" : "highlightPolygon",
-                id: featureId,
-                layer: layer,
-                feature: featureWrapper,
+                id: feature.getId(),
+                layer: {id: state.layer.id},
+                feature: feature,
                 scale: styleObj.image?.scale
             };
 
         if (featureGeometryType === "LineString") {
             highlightObject.type = "highlightLine";
         }
-        layer.id = state.layer.id;
         if (styleObj.zoomLevel) {
             highlightObject.zoomLevel = styleObj.zoomLevel;
         }
-        if (rawLayer && rawLayer.styleId) {
-            highlightObject.styleId = rawLayer.styleId;
+        if (layerConfig && layerConfig.styleId) {
+            highlightObject.styleId = layerConfig.styleId;
         }
 
         highlightObject.highlightStyle = {
@@ -117,13 +88,35 @@ export default {
         dispatch("Maps/highlightFeature", highlightObject, {root: true});
     },
     /**
-     * Switches to the themes list of all visibile layers and resets the featureList and the selectedFeature.
+     * Switches back to the feature list of the selected layer.
+     * @param {Object} param.state the state
      * @param {Object} param.commit the commit
-     * @param {Object} param.dispatch the dispatch
      * @returns {void}
      */
-    switchToThemes ({commit}) {
-        commit("resetToThemeChooser");
+    switchBackToList ({state, commit}) {
+        if (state.layer) {
+            commit("setLayerListView", false);
+            commit("setFeatureDetailView", false);
+            commit("setFeatureListView", true);
+        }
+    },
+    /**
+     * Switches to the feature list of the selected layer.
+     * @param {Object} param.state the state
+     * @param {Object} param.commit the commit
+     * @param {Object} layer reduced selected layer, only contains name, id and geometryType
+     * @returns {void}
+     */
+    switchToList ({state, commit}, layer) {
+        commit("setLayer", layer);
+        if (layer) {
+            commit("setGfiFeaturesOfLayer");
+            commit("setFeatureCount", state.gfiFeaturesOfLayer.length);
+            commit("setShownFeatures", state.gfiFeaturesOfLayer.length < state.maxFeatures ? state.gfiFeaturesOfLayer.length : state.maxFeatures);
+            commit("setLayerListView", false);
+            commit("setFeatureDetailView", false);
+            commit("setFeatureListView", true);
+        }
     },
     /**
      * Switches to the details list of the selected feature.
@@ -133,11 +126,20 @@ export default {
      * @returns {void}
      */
     switchToDetails ({state, commit}) {
-        if (state.selectedFeature) {
+        if (state.selectedFeatureIndex !== null) {
             commit("setLayerListView", false);
             commit("setFeatureListView", false);
             commit("setFeatureDetailView", true);
         }
+    },
+    /**
+     * Switches to the themes list of all visibile layers and resets the featureList and the selectedFeature.
+     * @param {Object} param.commit the commit
+     * @param {Object} param.dispatch the dispatch
+     * @returns {void}
+     */
+    switchToThemes ({commit}) {
+        commit("resetToThemeChooser");
     },
     /**
      * Expands the feature list to show more features.

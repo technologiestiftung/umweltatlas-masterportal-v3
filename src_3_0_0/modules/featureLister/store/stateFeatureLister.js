@@ -9,7 +9,6 @@
  * @property {String} description The description that should be shown
  * @property {Number} maxFeatures default value for maxFeatures that can be overwritten in config
  * @property {Array} layerlist array of layers in the format {id, name, features}
- * @property {String} layerid id of visibleLayer to be displayed
  * @property {Object} layer layer object of the selected layer
  * @property {Boolean} layerListView if true list of visibile vector layers gets displayed
  * @property {String} currentTab id of the currently displayed tab
@@ -17,11 +16,10 @@
  * @property {String} featureCount number of total features of the selected layer
  * @property {String} shownFeatures currently count of features displayed in featureListView table
  * @property {Boolean} featureListView if true the list of features from selected layer gets displayed
- * @property {Array} rawFeaturesOfLayer array of raw features from selected layer, differs from gfiFeatures
  * @property {Boolean} nestedFeatures some features have features themself, if true they get recognized
  * @property {Boolean} featureDetailView if true the detail page of the selected feature gets displayed
  * @property {Array} headers list of headings in list
- * @property {Object} selectedFeature object of the selected feature
+ * @property {Number} selectedFeatureIndex index of the selected feature in list of gfiFeatures
  * @property {Object} highlightVectorRulesPolygon default style for highlighting polygons
  * @property {Object} highlightVectorRulesPointLine default style for highlighting lines and points
  */
@@ -35,18 +33,16 @@ const state = {
     maxFeatures: 20,
     // featureLister state
     layerlist: [],
-    layerId: "",
     layer: null,
     layerListView: true,
     gfiFeaturesOfLayer: [],
     featureCount: "",
     shownFeatures: "",
     featureListView: false,
-    rawFeaturesOfLayer: [],
     nestedFeatures: false,
     featureDetailView: false,
     headers: [],
-    selectedFeature: null,
+    selectedFeatureIndex: null,
     highlightVectorRulesPolygon: {
         "fill": {
             "color": [255, 0, 255, 0.9]
