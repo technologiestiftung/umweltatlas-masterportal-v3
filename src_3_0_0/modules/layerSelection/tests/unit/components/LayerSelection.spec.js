@@ -135,7 +135,9 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
                                     return "mainMenu";
                                 },
                                 minCharacters: () => 3,
-                                placeholder: () => ""
+                                placeholder: () => "",
+                                configPaths: () => "",
+                                type: () => ""
 
                             },
                             mutations: {
@@ -143,7 +145,9 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
                                 setCurrentSide: () => ""
                             },
                             actions: {
-                                checkLayerSelectionSearchConfig: () => ""
+                                checkLayerSelectionSearchConfig: () => "",
+                                overwriteDefaultValues: () => "",
+                                instantiateSearchInterfaces: () => ""
                             }
                         }
                     }
@@ -176,7 +180,8 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
                 }
             },
             actions: {
-                changeCategory: changeCategorySpy
+                changeCategory: changeCategorySpy,
+                initializeModule: () => ""
             }
         });
         LayerSelection.getters.layersToAdd = () => layersToAdd;
