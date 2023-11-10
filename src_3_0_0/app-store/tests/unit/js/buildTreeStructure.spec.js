@@ -93,7 +93,7 @@ describe("src_3_0_0/app-store/js/buildTreeStructure.js", () => {
 
             sinon.stub(rawLayerList, "getLayerList").returns(layerList);
 
-            getAndMergeAllRawLayers({addLayerButton: {active: true}}, true);
+            getAndMergeAllRawLayers();
             result = buildTreeStructure.build(layerConfig, categories[0], layerConfig[treeSubjectsKey].elements);
             layerConfig[treeSubjectsKey].elements.forEach(layerConf => {
                 getAndMergeRawLayer(layerConf, true);

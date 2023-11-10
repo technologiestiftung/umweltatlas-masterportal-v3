@@ -305,7 +305,7 @@ export default {
      * @returns {void}
      */
     updateLayerConfigs ({dispatch, state}, layerContainer) {
-        const addLayerBtnActive = state.portalConfig.tree?.addLayerButton?.active ? state.portalConfig.tree?.addLayerButton.active : false;
+        const addLayerBtnActive = typeof state.portalConfig.tree?.addLayerButton === "object" ? state.portalConfig.tree?.addLayerButton.active : false;
 
         layerContainer.forEach(layerConf => {
             const rawLayer = getAndMergeRawLayer(layerConf, !addLayerBtnActive);
