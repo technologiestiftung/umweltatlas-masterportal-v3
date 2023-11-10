@@ -111,7 +111,7 @@ export default {
             >
                 <p
                     v-if="item.category===categoryItem"
-                    id="searchInputLi"
+                    :id="'searchInputLi' + item.id"
                 >
                     <SearchBarSuggestionListItem
                         :search-suggestion="item"

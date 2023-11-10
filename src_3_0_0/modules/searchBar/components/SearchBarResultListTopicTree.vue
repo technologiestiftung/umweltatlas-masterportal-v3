@@ -62,7 +62,7 @@ export default {
             v-for="(item, index) in resultItems"
             :key="item.id + '-' + index"
         >
-            <span id="searchInputLi">
+            <span :id="'searchInputLi' + item.id">
                 <SearchBarResultListTopicTreeItem
                     :search-result="item"
                 />
