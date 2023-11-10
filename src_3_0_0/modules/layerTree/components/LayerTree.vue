@@ -21,7 +21,7 @@ export default {
         ...mapGetters("Modules/LayerTree", ["menuSide"]),
         ...mapGetters("Modules/LayerSelection", {layerSelectionType: "type", layerSelectionName: "name"}),
         addLayerButton () {
-            return this.portalConfig?.tree?.addLayerButton?.active ? this.portalConfig?.tree?.addLayerButton?.active : this.portalConfig?.tree?.type === "auto";
+            return typeof this.portalConfig?.tree?.addLayerButton === "object" ? this.portalConfig?.tree?.addLayerButton.active : this.portalConfig?.tree?.type === "auto";
         }
     },
     methods: {
@@ -41,7 +41,6 @@ export default {
          * @returns {void}
          */
         showLayerSelection () {
-            console.log(treeBaselayersKey)
             const subjectDataLayerConfs = this.sort(this.allLayerConfigsStructured(treeSubjectsKey)),
                 allBaselayerConfs = this.allLayerConfigsStructured(treeBaselayersKey),
                 baselayerConfs = allBaselayerConfs.filter(config => !config.showInLayerTree);

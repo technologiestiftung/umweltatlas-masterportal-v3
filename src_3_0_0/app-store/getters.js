@@ -97,7 +97,7 @@ const getters = {
      */
     allLayerConfigsStructured: (state) => (key = null) =>{
         const configs = [];
-console.log(state.layerConfig)
+
         Object.keys(state.layerConfig).forEach(layerConfigKey => {
             if (!key || layerConfigKey === key) {
                 Object.keys(state.layerConfig[layerConfigKey]).forEach(subKey => {

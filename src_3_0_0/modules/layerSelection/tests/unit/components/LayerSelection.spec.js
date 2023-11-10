@@ -23,11 +23,13 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
         layersToAdd,
         changeCategorySpy,
         mapMode,
+        showAllResults,
         searchInput;
 
     beforeEach(() => {
         searchInput = "Neuenfelder";
         mapMode = "2D";
+        showAllResults = true;
         categories = [
             {
                 "key": "kategorie_opendata",
@@ -125,7 +127,7 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
                                 searchInterfaceInstances: () => [],
                                 searchResults: () => [],
                                 addLayerButtonSearchActive: () => true,
-                                showAllResults: () => true,
+                                showAllResults: () => showAllResults,
                                 searchResultsActive: () => true,
                                 currentSide: () => {
                                     return "mainMenu";
@@ -196,7 +198,7 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
 
         expect(wrapper.find("#layer-selection").exists()).to.be.false;
     });
-    it.skip("renders the LayerSelection without layers", () => {
+    it("renders the LayerSelection without layers", () => {
         store.commit("Modules/LayerSelection/setSubjectDataLayerConfs", []);
         store.commit("Modules/LayerSelection/setBaselayerConfs", []);
         wrapper = shallowMount(LayerSelectionComponent, {
@@ -210,7 +212,8 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
         expect(wrapper.find("flat-button-stub").exists()).to.be.true;
     });
 
-    it.skip("renders the LayerSelection with folder-buttons and checkboxes for background-layers", async () => {
+    it("renders the LayerSelection with folder-buttons and checkboxes for background-layers", async () => {
+        showAllResults = false;
         wrapper = await shallowMount(LayerSelectionComponent, {
             global: {
                 plugins: [store]
@@ -222,7 +225,7 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
         expect(wrapper.find("flat-button-stub").exists()).to.be.true;
     });
 
-    it.skip("renders the LayerSelection without categories", () => {
+    it("renders the LayerSelection without categories", () => {
         categories = undefined;
         wrapper = shallowMount(LayerSelectionComponent, {
             global: {
@@ -234,7 +237,7 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
         expect(wrapper.findAll("option").length).to.be.equals(0);
     });
 
-    it.skip("renders the LayerSelection - check categories select", () => {
+    it("renders the LayerSelection - check categories select", () => {
         wrapper = shallowMount(LayerSelectionComponent, {
             global: {
                 plugins: [store]
@@ -249,7 +252,7 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
     });
 
 
-    it.skip("renders the LayerSelection with all levels of folder-buttons without bg-layers ", async () => {
+    it("renders the LayerSelection with all levels of folder-buttons without bg-layers ", async () => {
         wrapper = shallowMount(LayerSelectionComponent, {
             global: {
                 plugins: [store]
@@ -263,7 +266,7 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
         expect(LayerSelection.actions.navigateForward.calledOnce).to.be.true;
     });
 
-    it.skip("click on button to add layers shall be disabled", () => {
+    it("click on button to add layers shall be disabled", () => {
         wrapper = shallowMount(LayerSelectionComponent, {
             global: {
                 plugins: [store]
@@ -273,7 +276,7 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
         expect(wrapper.find("#layer-selection-add-layer-btn").attributes().disabled).to.be.equals("true");
     });
 
-    it.skip("click on button to add layers shall call updateLayerTree", () => {
+    it("click on button to add layers shall call updateLayerTree", () => {
         let btn = null;
 
         LayerSelection.state.visible = true;
@@ -289,7 +292,6 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
         expect(wrapper.find("#layer-selection-add-layer-btn").element.disabled).to.be.equals(false);
 
         btn.trigger("click");
-        LayerSelection.actions.updateLayerTree = sinon.spy();
         wrapper.vm.$nextTick();
 
 

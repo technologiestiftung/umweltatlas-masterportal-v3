@@ -6,7 +6,7 @@ import {treeBaselayersKey, treeSubjectsKey} from "../../../../shared/js/utils/co
 import {expect} from "chai";
 import sinon from "sinon";
 
-describe.skip("src_3_0_0/app-store/js/buildTreeStructure.js", () => {
+describe("src_3_0_0/app-store/js/buildTreeStructure.js", () => {
     const categories = [
             {
                 "key": "kategorie_opendata",

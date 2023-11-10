@@ -202,7 +202,8 @@ export function getAndMergeAllRawLayers (treeConfig = {}) {
     let relatedWMSLayerIds = [];
 
     for (let i = 0; i < layerList.length; i++) {
-        const rawLayer = addAdditional(layerList[i], !treeConfig.addLayerButton?.active),
+        const checkAddLayerButton = treeConfig.addLayerButton ? treeConfig.addLayerButton.active : false,
+            rawLayer = addAdditional(layerList[i], !checkAddLayerButton),
             layerType = rawLayer.typ?.toUpperCase();
 
         if (!validLayerTypes.includes(layerType) ||
