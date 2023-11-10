@@ -1,5 +1,5 @@
 import {createStore} from "vuex";
-import {config, shallowMount} from "@vue/test-utils";
+import {config, shallowMount, mount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 import LayerSelectionComponent from "../../../components/LayerSelection.vue";
@@ -112,6 +112,8 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
                 ]
             }];
         subjectDataLayers = layersWithFolder;
+        LayerSelection.actions.navigateForward = sinon.spy();
+        LayerSelection.actions.updateLayerTree = sinon.spy();
         store = createStore({
             namespaces: true,
             modules: {
@@ -179,8 +181,6 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
         });
         LayerSelection.getters.layersToAdd = () => layersToAdd;
         LayerSelection.state.visible = true;
-        LayerSelection.actions.navigateForward = sinon.spy();
-        LayerSelection.actions.updateLayerTree = sinon.spy();
         store.commit("Modules/LayerSelection/setSubjectDataLayerConfs", subjectDataLayers);
         store.commit("Modules/LayerSelection/setBaselayerConfs", layersBG);
     });
@@ -199,6 +199,7 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
         expect(wrapper.find("#layer-selection").exists()).to.be.false;
     });
     it("renders the LayerSelection without layers", () => {
+        searchInput = "";
         store.commit("Modules/LayerSelection/setSubjectDataLayerConfs", []);
         store.commit("Modules/LayerSelection/setBaselayerConfs", []);
         wrapper = shallowMount(LayerSelectionComponent, {
@@ -214,6 +215,7 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
 
     it("renders the LayerSelection with folder-buttons and checkboxes for background-layers", async () => {
         showAllResults = false;
+        searchInput = "";
         wrapper = await shallowMount(LayerSelectionComponent, {
             global: {
                 plugins: [store]
@@ -238,6 +240,7 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
     });
 
     it("renders the LayerSelection - check categories select", () => {
+        showAllResults = false;
         wrapper = shallowMount(LayerSelectionComponent, {
             global: {
                 plugins: [store]
@@ -267,6 +270,7 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
     });
 
     it("click on button to add layers shall be disabled", () => {
+        searchInput = "";
         wrapper = shallowMount(LayerSelectionComponent, {
             global: {
                 plugins: [store]
@@ -280,9 +284,10 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
         let btn = null;
 
         LayerSelection.state.visible = true;
+        searchInput = "";
 
         layersToAdd = ["1", "2"];
-        wrapper = shallowMount(LayerSelectionComponent, {
+        wrapper = mount(LayerSelectionComponent, {
             global: {
                 plugins: [store]
             }});
@@ -293,7 +298,6 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
 
         btn.trigger("click");
         wrapper.vm.$nextTick();
-
 
         expect(LayerSelection.actions.updateLayerTree.calledOnce).to.be.true;
     });
