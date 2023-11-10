@@ -23,7 +23,6 @@ describe("src_3_0_0/app-store/js/buildTreeStructure.js", () => {
             }
         ],
         layerConfig = {
-            addLayerButton: {active: true},
             [treeBaselayersKey]: {
                 elements: [
                     {
