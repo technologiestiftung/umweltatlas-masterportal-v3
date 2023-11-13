@@ -70,6 +70,9 @@
       "hideMessage": "Diese Meldung nicht mehr anzeigen",
       "showMessage": "Diese Meldung anzeigen"
     },
+    "aria": {
+      "sliderAria": "Schieberegeler für "
+     },
     "bufferAnalysis": {
       "clearButton": "Zurücksetzen",
       "description": "Finde heraus, was sich in einem Umkreis um ein Objekt befindet",
