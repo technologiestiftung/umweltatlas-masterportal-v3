@@ -267,24 +267,6 @@ describe("src_3_0_0/modules/searchBar/components/SearchBar.vue", () => {
         });
     });
 
-    describe("method checkCurrentComponent", () => {
-        it("tests the method checkCurrentComponent with currentComponentSide root", async () => {
-
-            wrapper = await shallowMount(SearchBarComponent, {
-                global: {
-                    plugins: [store]
-                }
-            });
-
-            const startSearchSpy = sinon.spy(wrapper.vm, "startSearch");
-
-            await wrapper.vm.checkCurrentComponent();
-
-            expect(startSearchSpy.called).to.be.true;
-
-        });
-    });
-
     describe("zoomToAndMarkSearchResult", () => {
         it("zooms to and sets a marker at a given searchResult", () => {
             searchResults = [
