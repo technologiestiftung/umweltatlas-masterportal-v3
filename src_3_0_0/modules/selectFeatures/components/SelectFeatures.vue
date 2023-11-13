@@ -18,7 +18,7 @@ import {isPhoneNumber, getPhoneNumberAsWebLink} from "../../../shared/js/utils/i
 export default {
     name: "SelectFeatures",
     computed: {
-        ...mapGetters(["ignoredKeys", "mobile"]),
+        ...mapGetters(["ignoredKeys", "isMobile"]),
         ...mapGetters("Maps", ["mode"]),
         ...mapGetters("Modules/SelectFeatures", Object.keys(getters))
     },
@@ -53,7 +53,7 @@ export default {
                     toggleCondition: never,
                     condition: never
                 }),
-                dragBox = new DragBox(this.mobile ? {condition: touchOnly} : {condition: platformModifierKeyOnly});
+                dragBox = new DragBox(this.isMobile ? {condition: touchOnly} : {condition: platformModifierKeyOnly});
 
             dragBox.on("boxstart", this.clearFeatures.bind(this));
             dragBox.on("boxend", this.setFeaturesFromDrag.bind(this));
