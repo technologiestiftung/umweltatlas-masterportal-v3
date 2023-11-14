@@ -4,6 +4,8 @@ import sinon from "sinon";
 import {config, shallowMount} from "@vue/test-utils";
 import FeatureListerComponent from "../../../components/FeatureLister.vue";
 import FeatureLister from "../../../store/indexFeatureLister";
+import layerCollection from "../../../../../core/layers/js/layerCollection";
+import getGfiFeatureModule from "../../../../../shared/js/utils/getGfiFeaturesByTileFeature";
 
 config.global.mocks.$t = key => key;
 
@@ -14,7 +16,9 @@ describe("src/modules/featureLister/components/FeatureLister.vue", () => {
     let store,
         wrapper,
         rootGetters,
-        removeHighlightFeatureSpy;
+        removeHighlightFeatureSpy,
+        features,
+        layer;
 
     beforeEach(() => {
         FeatureLister.actions.switchTabTo = sinon.spy(FeatureLister.actions.switchTabTo);
@@ -22,6 +26,39 @@ describe("src/modules/featureLister/components/FeatureLister.vue", () => {
         FeatureLister.mutations.resetToThemeChooser = sinon.spy(FeatureLister.mutations.resetToThemeChooser);
         FeatureLister.getters.headers = () => [{key: "name", value: "Name"}];
         removeHighlightFeatureSpy = sinon.spy();
+        features = [{values_: {features: [{
+            getId: () => "1"
+        },
+        {
+            getId: () => "2"
+        }
+        ]}}];
+        layer = {
+            name: "ersterLayer",
+            id: "123",
+            features: features,
+            geometryType: "Point"
+        };
+
+        sinon.stub(layerCollection, "getLayerById").returns(
+            {
+                getLayerSource: () => {
+                    return {
+                        getFeatures: () => {
+                            return features;
+                        }
+                    };
+                },
+                getLayer: () => {
+                    return {
+                        values_: []
+                    };
+                }
+            }
+        );
+        sinon.stub(getGfiFeatureModule, "getGfiFeature").returns(
+            {getAttributesToShow: () => [{key: "name", value: "Name"}], getProperties: () => [{key: "name", value: "Name"}]}
+        );
 
         store = createStore({
             modules: {
@@ -67,23 +104,23 @@ describe("src/modules/featureLister/components/FeatureLister.vue", () => {
         expect(FeatureLister.mutations.resetToThemeChooser.calledOnce).to.be.true;
     });
 
-    it("renders list of layer features", () => {
-        const layer = {name: "ersterLayer", id: "123", features: [{values_: {features: [1, 2]}}], geometryType: "Point"};
-
+    it("renders list of 2 features", () => {
         store.dispatch("Modules/FeatureLister/switchToList", {rootGetters}, layer);
         wrapper = shallowMount(FeatureListerComponent, {global: {plugins: [store]}});
 
         expect(wrapper.find("#feature-lister-list").exists()).to.be.true;
+        expect(wrapper.find("#module-feature-lister-feature-0").exists()).to.be.true;
+        expect(wrapper.find("#module-feature-lister-feature-1").exists()).to.be.true;
         expect(store.state.Modules.FeatureLister.featureDetailView).to.be.false;
         expect(store.state.Modules.FeatureLister.featureListView).to.be.true;
         expect(store.state.Modules.FeatureLister.layerListView).to.be.false;
     });
-    it("renders details of selected feature", () => {
-        const feature = {getAttributesToShow: () => [{key: "name", value: "Name"}], getProperties: () => [{key: "name", value: "Name"}]};
-
-        store.commit("Modules/FeatureLister/setSelectedFeature", feature);
+    it("renders details of selected feature", async () => {
+        store.commit("Modules/FeatureLister/setSelectedFeatureIndex", 0);
+        store.dispatch("Modules/FeatureLister/switchToList", {rootGetters}, layer);
         store.dispatch("Modules/FeatureLister/switchToDetails");
         wrapper = shallowMount(FeatureListerComponent, {global: {plugins: [store]}});
+        await wrapper.vm.$nextTick();
 
         expect(wrapper.find("#feature-lister-details").exists()).to.be.true;
         expect(store.state.Modules.FeatureLister.featureDetailView).to.be.true;

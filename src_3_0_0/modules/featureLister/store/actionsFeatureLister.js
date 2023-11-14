@@ -8,6 +8,8 @@ export default {
      * @param {Object} param.state the state
      * @param {Object} param.commit the commit
      * @param {Object} param.dispatch the dispatch
+     * @param {Object} param.getters the getters
+     * @param {Object} param.rootGetters the rootGetters
      * @param {String} featureIndex index of the clicked Feature
      * @returns {void}
      */
@@ -40,6 +42,7 @@ export default {
      * Hover event that gets triggered when hovering over a feature in the list view.
      * @param {Object} param.state the state
      * @param {Object} param.dispatch the dispatch
+     * @param {Object} param.getters the getters
      * @param {String} featureIndex index of the clicked Feature
      * @returns {void}
      */
@@ -47,17 +50,18 @@ export default {
         if (featureIndex !== "" && featureIndex >= 0 && featureIndex <= state.shownFeatures) {
             const feature = getters.selectedFeature(featureIndex);
 
-            dispatch("highlightFeature", {feature});
+            dispatch("highlightFeature", feature);
         }
     },
     /**
      * Highlights a feature depending on its geometryType.
      * @param {Object} param.state the state
      * @param {Object} param.dispatch the dispatch
-     * @param {String} featureId id of the feature to be highlighted.
+     * @param {Object} param.rootGetters the rootGetters
+     * @param {String} feature the feature to be highlighted.
      * @returns {void}
      */
-    highlightFeature ({state, dispatch, rootGetters}, {feature}) {
+    highlightFeature ({state, dispatch, rootGetters}, feature) {
         dispatch("Maps/removeHighlightFeature", "decrease", {root: true});
         const layerConfig = rootGetters.layerConfigById(state.layer.id),
             styleObj = state.layer.geometryType.toLowerCase().indexOf("polygon") > -1 ? state.highlightVectorRulesPolygon : state.highlightVectorRulesPointLine,
@@ -107,15 +111,13 @@ export default {
      * @param {Object} layer reduced selected layer, only contains name, id and geometryType
      * @returns {void}
      */
-    switchToList ({state, commit}, layer) {
+    switchToList ({state, commit, dispatch}, layer) {
         commit("setLayer", layer);
         if (layer) {
             commit("setGfiFeaturesOfLayer");
             commit("setFeatureCount", state.gfiFeaturesOfLayer.length);
             commit("setShownFeatures", state.gfiFeaturesOfLayer.length < state.maxFeatures ? state.gfiFeaturesOfLayer.length : state.maxFeatures);
-            commit("setLayerListView", false);
-            commit("setFeatureDetailView", false);
-            commit("setFeatureListView", true);
+            dispatch("switchBackToList");
         }
     },
     /**

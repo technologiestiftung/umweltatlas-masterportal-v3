@@ -1,13 +1,6 @@
 
 import {expect} from "chai";
-import {
-    getGfiFeature,
-    getLayerModelFromTileFeature,
-    getGfiFeatureByCesium3DTileFeature,
-    getGfiFeatureByCesiumEntity,
-    getGfiFeatureByOlFeature,
-    getGfiFeaturesByOlFeature
-} from "../../getGfiFeaturesByTileFeature.js";
+import getGfiFeatureProvider from "../../getGfiFeaturesByTileFeature.js";
 
 before(function () {
     i18next.init({
@@ -19,7 +12,7 @@ before(function () {
 describe("src_3_0_0/shared/js/utils/getGfiFeaturesByTileFeature.js", () => {
     describe("getGfiFeature", () => {
         it("should use default values not for properties", () => {
-            const result = getGfiFeature(null, null);
+            const result = getGfiFeatureProvider.getGfiFeature(null, null);
 
             expect(result.getTitle()).to.equal("common:shared.js.utils.buildings");
             expect(result.getProperties()).to.deep.equal(null);
@@ -31,7 +24,7 @@ describe("src_3_0_0/shared/js/utils/getGfiFeaturesByTileFeature.js", () => {
                     gfiAttributes: "gfiAttributes"
                 },
                 properties = "properties",
-                result = getGfiFeature(layerAttributes, properties);
+                result = getGfiFeatureProvider.getGfiFeature(layerAttributes, properties);
 
             expect(result.getTitle()).to.equal(layerAttributes.name);
             expect(result.getTheme()).to.equal(layerAttributes.gfiTheme);
@@ -42,7 +35,7 @@ describe("src_3_0_0/shared/js/utils/getGfiFeaturesByTileFeature.js", () => {
             const properties = {
                     attributes: "properties attributes"
                 },
-                result = getGfiFeature(null, properties);
+                result = getGfiFeatureProvider.getGfiFeature(null, properties);
 
             expect(result.getTitle()).to.equal("common:shared.js.utils.buildings");
             expect(result.getTheme()).to.equal("buildings_3d");
@@ -74,26 +67,26 @@ describe("src_3_0_0/shared/js/utils/getGfiFeaturesByTileFeature.js", () => {
             };
 
         it("should return undefined if no tileFeature is given", () => {
-            expect(getLayerModelFromTileFeature(undefined)).to.be.undefined;
-            expect(getLayerModelFromTileFeature(null)).to.be.undefined;
-            expect(getLayerModelFromTileFeature("")).to.be.undefined;
-            expect(getLayerModelFromTileFeature(0)).to.be.undefined;
-            expect(getLayerModelFromTileFeature(false)).to.be.undefined;
-            expect(getLayerModelFromTileFeature("test")).to.be.undefined;
-            expect(getLayerModelFromTileFeature(1234)).to.be.undefined;
-            expect(getLayerModelFromTileFeature(true)).to.be.undefined;
+            expect(getGfiFeatureProvider.getLayerModelFromTileFeature(undefined)).to.be.undefined;
+            expect(getGfiFeatureProvider.getLayerModelFromTileFeature(null)).to.be.undefined;
+            expect(getGfiFeatureProvider.getLayerModelFromTileFeature("")).to.be.undefined;
+            expect(getGfiFeatureProvider.getLayerModelFromTileFeature(0)).to.be.undefined;
+            expect(getGfiFeatureProvider.getLayerModelFromTileFeature(false)).to.be.undefined;
+            expect(getGfiFeatureProvider.getLayerModelFromTileFeature("test")).to.be.undefined;
+            expect(getGfiFeatureProvider.getLayerModelFromTileFeature(1234)).to.be.undefined;
+            expect(getGfiFeatureProvider.getLayerModelFromTileFeature(true)).to.be.undefined;
         });
         it("should create a filter with the Cesium3DTileFeature and apply the filter to get the model", () => {
             const tileFeature = new Cesium.Cesium3DTileFeature("Cesium3DTileFeature.layerReferenceId"),
-                result = getLayerModelFromTileFeature(tileFeature, dummy.getModelByAttributesOpt, dummy.isCesium3dTileFeature, dummy.isCesiumEntity),
+                result = getGfiFeatureProvider.getLayerModelFromTileFeature(tileFeature, dummy.getModelByAttributesOpt, dummy.isCesium3dTileFeature, dummy.isCesiumEntity),
                 expected = {id: "Cesium3DTileFeature.layerReferenceId"};
 
             expect(result).to.deep.equal(expected);
         });
         it("should return undefined if tileFeature is no Cesium3DTileFeature nor Cesium3DTilePointFeature and has no valid primitive option", () => {
-            expect(getLayerModelFromTileFeature({}, dummy.getModelByAttributesOpt, dummy.isCesium3dTileFeature, dummy.isCesiumEntity)).to.be.undefined;
-            expect(getLayerModelFromTileFeature({primitive: null}, dummy.getModelByAttributesOpt, dummy.isCesium3dTileFeature, dummy.isCesiumEntity)).to.be.undefined;
-            expect(getLayerModelFromTileFeature({primitive: true}, dummy.getModelByAttributesOpt, dummy.isCesium3dTileFeature, dummy.isCesiumEntity)).to.be.undefined;
+            expect(getGfiFeatureProvider.getLayerModelFromTileFeature({}, dummy.getModelByAttributesOpt, dummy.isCesium3dTileFeature, dummy.isCesiumEntity)).to.be.undefined;
+            expect(getGfiFeatureProvider.getLayerModelFromTileFeature({primitive: null}, dummy.getModelByAttributesOpt, dummy.isCesium3dTileFeature, dummy.isCesiumEntity)).to.be.undefined;
+            expect(getGfiFeatureProvider.getLayerModelFromTileFeature({primitive: true}, dummy.getModelByAttributesOpt, dummy.isCesium3dTileFeature, dummy.isCesiumEntity)).to.be.undefined;
         });
         it("should create a filter with a primitive.olLayer and apply the filter to get the model", () => {
             const tileFeature = {
@@ -105,7 +98,7 @@ describe("src_3_0_0/shared/js/utils/getGfiFeaturesByTileFeature.js", () => {
                         }
                     }
                 },
-                result = getLayerModelFromTileFeature(tileFeature, dummy.getModelByAttributesOpt, dummy.isCesium3dTileFeature, dummy.isCesiumEntity),
+                result = getGfiFeatureProvider.getLayerModelFromTileFeature(tileFeature, dummy.getModelByAttributesOpt, dummy.isCesium3dTileFeature, dummy.isCesiumEntity),
                 expected = {id: "primitive.olLayer.id"};
 
             expect(result).to.deep.equal(expected);
@@ -116,7 +109,7 @@ describe("src_3_0_0/shared/js/utils/getGfiFeaturesByTileFeature.js", () => {
                         id: new Cesium.Entity("Entity.layerReferenceId")
                     }
                 },
-                result = getLayerModelFromTileFeature(tileFeature, dummy.getModelByAttributesOpt, dummy.isCesium3dTileFeature, dummy.isCesiumEntity),
+                result = getGfiFeatureProvider.getLayerModelFromTileFeature(tileFeature, dummy.getModelByAttributesOpt, dummy.isCesium3dTileFeature, dummy.isCesiumEntity),
                 expected = {id: "Entity.layerReferenceId"};
 
             expect(result).to.deep.equal(expected);
@@ -133,7 +126,7 @@ describe("src_3_0_0/shared/js/utils/getGfiFeaturesByTileFeature.js", () => {
                         id: new Cesium.Entity("Entity.layerReferenceId")
                     }
                 }),
-                result = getLayerModelFromTileFeature(tileFeature, dummy.getModelByAttributesOpt, dummy.isCesium3dTileFeature, dummy.isCesiumEntity),
+                result = getGfiFeatureProvider.getLayerModelFromTileFeature(tileFeature, dummy.getModelByAttributesOpt, dummy.isCesium3dTileFeature, dummy.isCesiumEntity),
                 expected = {id: "Cesium3DTileFeature.layerReferenceId"};
 
             expect(result).to.deep.equal(expected);
@@ -149,7 +142,7 @@ describe("src_3_0_0/shared/js/utils/getGfiFeaturesByTileFeature.js", () => {
                         id: new Cesium.Entity("Entity.layerReferenceId")
                     }
                 },
-                result = getLayerModelFromTileFeature(tileFeature, dummy.getModelByAttributesOpt, dummy.isCesium3dTileFeature, dummy.isCesiumEntity),
+                result = getGfiFeatureProvider.getLayerModelFromTileFeature(tileFeature, dummy.getModelByAttributesOpt, dummy.isCesium3dTileFeature, dummy.isCesiumEntity),
                 expected = {id: "primitive.olLayer.id"};
 
             expect(result).to.deep.equal(expected);
@@ -158,24 +151,24 @@ describe("src_3_0_0/shared/js/utils/getGfiFeaturesByTileFeature.js", () => {
 
     describe("getGfiFeatureByCesium3DTileFeature", () => {
         it("should return undefined if tileFeature is no object", () => {
-            expect(getGfiFeatureByCesium3DTileFeature()).to.be.undefined;
-            expect(getGfiFeatureByCesium3DTileFeature(null)).to.be.undefined;
-            expect(getGfiFeatureByCesium3DTileFeature(1234)).to.be.undefined;
-            expect(getGfiFeatureByCesium3DTileFeature("string")).to.be.undefined;
-            expect(getGfiFeatureByCesium3DTileFeature(true)).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByCesium3DTileFeature()).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByCesium3DTileFeature(null)).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByCesium3DTileFeature(1234)).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByCesium3DTileFeature("string")).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByCesium3DTileFeature(true)).to.be.undefined;
         });
         it("should return undefined if tileFeature has no functions getPropertyIds or getProperty", () => {
-            expect(getGfiFeatureByCesium3DTileFeature({})).to.be.undefined;
-            expect(getGfiFeatureByCesium3DTileFeature([])).to.be.undefined;
-            expect(getGfiFeatureByCesium3DTileFeature({getPropertyIds: () => {
+            expect(getGfiFeatureProvider.getGfiFeatureByCesium3DTileFeature({})).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByCesium3DTileFeature([])).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByCesium3DTileFeature({getPropertyIds: () => {
                 return false;
             }})).to.be.undefined;
-            expect(getGfiFeatureByCesium3DTileFeature({getProperty: () => {
+            expect(getGfiFeatureProvider.getGfiFeatureByCesium3DTileFeature({getProperty: () => {
                 return false;
             }})).to.be.undefined;
         });
         it("should return undefined if tileFeature.getPropertyIds() does not return an array", () => {
-            expect(getGfiFeatureByCesium3DTileFeature({getPropertyIds: () => {
+            expect(getGfiFeatureProvider.getGfiFeatureByCesium3DTileFeature({getPropertyIds: () => {
                 return false;
             }, getProperty: () => {
                 return false;
@@ -196,7 +189,7 @@ describe("src_3_0_0/shared/js/utils/getGfiFeaturesByTileFeature.js", () => {
                     }
                 };
 
-            expect(getGfiFeatureByCesium3DTileFeature(tileFeature, "attributes", (attributes, properties) => {
+            expect(getGfiFeatureProvider.getGfiFeatureByCesium3DTileFeature(tileFeature, "attributes", (attributes, properties) => {
                 // getGfiFeatureOpt
                 return properties;
             })).to.deep.equal(props);
@@ -211,7 +204,7 @@ describe("src_3_0_0/shared/js/utils/getGfiFeaturesByTileFeature.js", () => {
                 }
             };
 
-            expect(getGfiFeatureByCesium3DTileFeature(tileFeature, "attributes", (attributes) => {
+            expect(getGfiFeatureProvider.getGfiFeatureByCesium3DTileFeature(tileFeature, "attributes", (attributes) => {
                 // getGfiFeatureOpt
                 return attributes;
             })).to.equal("attributes");
@@ -236,7 +229,7 @@ describe("src_3_0_0/shared/js/utils/getGfiFeaturesByTileFeature.js", () => {
                     }
                 };
 
-            expect(getGfiFeatureByCesium3DTileFeature(tileFeature, "attributes", (attributes, properties) => {
+            expect(getGfiFeatureProvider.getGfiFeatureByCesium3DTileFeature(tileFeature, "attributes", (attributes, properties) => {
                 // getGfiFeatureOpt
                 return properties;
             })).to.deep.equal(expected);
@@ -245,27 +238,27 @@ describe("src_3_0_0/shared/js/utils/getGfiFeaturesByTileFeature.js", () => {
 
     describe("getGfiFeatureByCesiumEntity", () => {
         it("should return undefined if tileFeature.primitive.id is not an object", () => {
-            expect(getGfiFeatureByCesiumEntity()).to.be.undefined;
-            expect(getGfiFeatureByCesiumEntity(null)).to.be.undefined;
-            expect(getGfiFeatureByCesiumEntity(1234)).to.be.undefined;
-            expect(getGfiFeatureByCesiumEntity("string")).to.be.undefined;
-            expect(getGfiFeatureByCesiumEntity(true)).to.be.undefined;
-            expect(getGfiFeatureByCesiumEntity([])).to.be.undefined;
-            expect(getGfiFeatureByCesiumEntity({})).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByCesiumEntity()).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByCesiumEntity(null)).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByCesiumEntity(1234)).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByCesiumEntity("string")).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByCesiumEntity(true)).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByCesiumEntity([])).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByCesiumEntity({})).to.be.undefined;
 
-            expect(getGfiFeatureByCesiumEntity({primitive: undefined})).to.be.undefined;
-            expect(getGfiFeatureByCesiumEntity({primitive: null})).to.be.undefined;
-            expect(getGfiFeatureByCesiumEntity({primitive: 1234})).to.be.undefined;
-            expect(getGfiFeatureByCesiumEntity({primitive: "string"})).to.be.undefined;
-            expect(getGfiFeatureByCesiumEntity({primitive: true})).to.be.undefined;
-            expect(getGfiFeatureByCesiumEntity({primitive: []})).to.be.undefined;
-            expect(getGfiFeatureByCesiumEntity({primitive: {}})).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByCesiumEntity({primitive: undefined})).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByCesiumEntity({primitive: null})).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByCesiumEntity({primitive: 1234})).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByCesiumEntity({primitive: "string"})).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByCesiumEntity({primitive: true})).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByCesiumEntity({primitive: []})).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByCesiumEntity({primitive: {}})).to.be.undefined;
 
-            expect(getGfiFeatureByCesiumEntity({primitive: {id: undefined}})).to.be.undefined;
-            expect(getGfiFeatureByCesiumEntity({primitive: {id: null}})).to.be.undefined;
-            expect(getGfiFeatureByCesiumEntity({primitive: {id: 1234}})).to.be.undefined;
-            expect(getGfiFeatureByCesiumEntity({primitive: {id: "string"}})).to.be.undefined;
-            expect(getGfiFeatureByCesiumEntity({primitive: {id: true}})).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByCesiumEntity({primitive: {id: undefined}})).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByCesiumEntity({primitive: {id: null}})).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByCesiumEntity({primitive: {id: 1234}})).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByCesiumEntity({primitive: {id: "string"}})).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByCesiumEntity({primitive: {id: true}})).to.be.undefined;
         });
         it("should use as properties whatever is given by tileFeature.primitive.id.attributes", () => {
             let tileFeature = null;
@@ -275,7 +268,7 @@ describe("src_3_0_0/shared/js/utils/getGfiFeaturesByTileFeature.js", () => {
                     id: {}
                 }
             };
-            expect(getGfiFeatureByCesiumEntity(tileFeature, "attributes", (attributes, properties) => {
+            expect(getGfiFeatureProvider.getGfiFeatureByCesiumEntity(tileFeature, "attributes", (attributes, properties) => {
                 // getGfiFeatureOpt
                 return properties;
             })).to.be.undefined;
@@ -285,7 +278,7 @@ describe("src_3_0_0/shared/js/utils/getGfiFeaturesByTileFeature.js", () => {
                     id: {attributes: true}
                 }
             };
-            expect(getGfiFeatureByCesiumEntity(tileFeature, "attributes", (attributes, properties) => {
+            expect(getGfiFeatureProvider.getGfiFeatureByCesiumEntity(tileFeature, "attributes", (attributes, properties) => {
                 // getGfiFeatureOpt
                 return properties;
             })).to.be.true;
@@ -295,7 +288,7 @@ describe("src_3_0_0/shared/js/utils/getGfiFeaturesByTileFeature.js", () => {
                     id: {attributes: "primitive.attributes"}
                 }
             };
-            expect(getGfiFeatureByCesiumEntity(tileFeature, "attributes", (attributes, properties) => {
+            expect(getGfiFeatureProvider.getGfiFeatureByCesiumEntity(tileFeature, "attributes", (attributes, properties) => {
                 // getGfiFeatureOpt
                 return properties;
             })).to.equal("primitive.attributes");
@@ -304,24 +297,24 @@ describe("src_3_0_0/shared/js/utils/getGfiFeaturesByTileFeature.js", () => {
 
     describe("getGfiFeatureByOlFeature", () => {
         it("should return undefined if olFeature is no object", () => {
-            expect(getGfiFeatureByOlFeature()).to.be.undefined;
-            expect(getGfiFeatureByOlFeature(null)).to.be.undefined;
-            expect(getGfiFeatureByOlFeature(1234)).to.be.undefined;
-            expect(getGfiFeatureByOlFeature("string")).to.be.undefined;
-            expect(getGfiFeatureByOlFeature(true)).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByOlFeature()).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByOlFeature(null)).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByOlFeature(1234)).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByOlFeature("string")).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByOlFeature(true)).to.be.undefined;
         });
         it("should return undefined if olFeature has no functions getProperties or getProperty", () => {
-            expect(getGfiFeatureByOlFeature({})).to.be.undefined;
-            expect(getGfiFeatureByOlFeature([])).to.be.undefined;
-            expect(getGfiFeatureByOlFeature({getProperties: () => {
+            expect(getGfiFeatureProvider.getGfiFeatureByOlFeature({})).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByOlFeature([])).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeatureByOlFeature({getProperties: () => {
                 return false;
             }})).to.be.undefined;
-            expect(getGfiFeatureByOlFeature({getProperty: () => {
+            expect(getGfiFeatureProvider.getGfiFeatureByOlFeature({getProperty: () => {
                 return false;
             }})).to.be.undefined;
         });
         it("should return undefined if olFeature.getProperties() does not return an array", () => {
-            expect(getGfiFeatureByOlFeature({getProperties: () => {
+            expect(getGfiFeatureProvider.getGfiFeatureByOlFeature({getProperties: () => {
                 return false;
             }, getProperty: () => {
                 return false;
@@ -342,7 +335,7 @@ describe("src_3_0_0/shared/js/utils/getGfiFeaturesByTileFeature.js", () => {
                     }
                 };
 
-            expect(getGfiFeatureByOlFeature(olFeature, "attributes", (attributes, properties) => {
+            expect(getGfiFeatureProvider.getGfiFeatureByOlFeature(olFeature, "attributes", (attributes, properties) => {
                 // getGfiFeatureOpt
                 return properties;
             })).to.deep.equal(props);
@@ -357,7 +350,7 @@ describe("src_3_0_0/shared/js/utils/getGfiFeaturesByTileFeature.js", () => {
                 }
             };
 
-            expect(getGfiFeatureByOlFeature(olFeature, "attributes", (attributes) => {
+            expect(getGfiFeatureProvider.getGfiFeatureByOlFeature(olFeature, "attributes", (attributes) => {
                 // getGfiFeatureOpt
                 return attributes;
             })).to.equal("attributes");
@@ -366,24 +359,24 @@ describe("src_3_0_0/shared/js/utils/getGfiFeaturesByTileFeature.js", () => {
 
     describe("getGfiFeaturesByOlFeature", () => {
         it("should return undefined if olFeature is no object", () => {
-            expect(getGfiFeaturesByOlFeature()).to.be.undefined;
-            expect(getGfiFeaturesByOlFeature(null)).to.be.undefined;
-            expect(getGfiFeaturesByOlFeature(1234)).to.be.undefined;
-            expect(getGfiFeaturesByOlFeature("string")).to.be.undefined;
-            expect(getGfiFeaturesByOlFeature(true)).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeaturesByOlFeature()).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeaturesByOlFeature(null)).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeaturesByOlFeature(1234)).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeaturesByOlFeature("string")).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeaturesByOlFeature(true)).to.be.undefined;
         });
         it("should return undefined if olFeature has no functions getProperties or getProperty", () => {
-            expect(getGfiFeaturesByOlFeature({})).to.be.undefined;
-            expect(getGfiFeaturesByOlFeature([])).to.be.undefined;
-            expect(getGfiFeaturesByOlFeature({getProperties: () => {
+            expect(getGfiFeatureProvider.getGfiFeaturesByOlFeature({})).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeaturesByOlFeature([])).to.be.undefined;
+            expect(getGfiFeatureProvider.getGfiFeaturesByOlFeature({getProperties: () => {
                 return false;
             }})).to.be.undefined;
-            expect(getGfiFeaturesByOlFeature({getProperty: () => {
+            expect(getGfiFeatureProvider.getGfiFeaturesByOlFeature({getProperty: () => {
                 return false;
             }})).to.be.undefined;
         });
         it("should return undefined if olFeature.getProperties() does not return an array", () => {
-            expect(getGfiFeaturesByOlFeature({getProperties: () => {
+            expect(getGfiFeatureProvider.getGfiFeaturesByOlFeature({getProperties: () => {
                 return false;
             }, getProperty: () => {
                 return false;
@@ -399,7 +392,7 @@ describe("src_3_0_0/shared/js/utils/getGfiFeaturesByTileFeature.js", () => {
                         return undefined;
                     }
                 },
-                result = getGfiFeaturesByOlFeature(olFeature, "attributes", (feature) => {
+                result = getGfiFeatureProvider.getGfiFeaturesByOlFeature(olFeature, "attributes", (feature) => {
                     // getGfiFeatureByOlFeatureOpt
                     return feature;
                 });
@@ -420,7 +413,7 @@ describe("src_3_0_0/shared/js/utils/getGfiFeaturesByTileFeature.js", () => {
                         return undefined;
                     }
                 },
-                result = getGfiFeaturesByOlFeature(olFeature, "attributes", (feature, attributes) => {
+                result = getGfiFeatureProvider.getGfiFeaturesByOlFeature(olFeature, "attributes", (feature, attributes) => {
                     // getGfiFeatureByOlFeatureOpt
                     return attributes;
                 });
@@ -449,7 +442,7 @@ describe("src_3_0_0/shared/js/utils/getGfiFeaturesByTileFeature.js", () => {
                         return props[key];
                     }
                 },
-                result = getGfiFeaturesByOlFeature(olFeature, "attributes", (feature) => {
+                result = getGfiFeatureProvider.getGfiFeaturesByOlFeature(olFeature, "attributes", (feature) => {
                     // getGfiFeatureByOlFeatureOpt
                     return feature;
                 });
@@ -488,7 +481,7 @@ describe("src_3_0_0/shared/js/utils/getGfiFeaturesByTileFeature.js", () => {
                         return attributes;
                     }
                 },
-                result = getGfiFeaturesByOlFeature(olFeature, "attributes", testFunctions.getGfiFeatureByOlFeatureOpt);
+                result = getGfiFeatureProvider.getGfiFeaturesByOlFeature(olFeature, "attributes", testFunctions.getGfiFeatureByOlFeatureOpt);
 
             expect(result).to.be.an("array").with.length(1);
             expect(result[0]).to.equal("attributes");

@@ -6,7 +6,7 @@ import {createGfiFeature} from "./getWmsFeaturesByMimeType";
  * @param {Object} tileFeature anything that is expected to be a 3d tile feature
  * @returns {Object[]}  an array of objects; objects are generated using ./getWmsFeaturesByMimeType->createGfiFeature
  */
-export function getGfiFeaturesByTileFeature (tileFeature) {
+function getGfiFeaturesByTileFeature (tileFeature) {
     if (tileFeature === null || typeof tileFeature !== "object") {
         return [];
     }
@@ -71,7 +71,7 @@ function isCesiumEntity (entity) {
  * @param {Object} [properties.attributes] if set, the data of the feature as simple key/value pairs
  * @returns {Object}  an object{getTheme, getTitle, getAttributesToShow, getProperties, getGfiUrl}
  */
-export function getGfiFeature (layerAttributes, properties) {
+function getGfiFeature (layerAttributes, properties) {
     const layerName = layerAttributes && layerAttributes.name ? layerAttributes.name : "common:shared.js.utils.buildings",
         gfiTheme = layerAttributes && layerAttributes.gfiTheme ? layerAttributes.gfiTheme : "buildings_3d",
         attributesToShow = layerAttributes && layerAttributes.gfiAttributes ? layerAttributes.gfiAttributes : properties?.attributes,
@@ -108,7 +108,7 @@ export function getGfiFeature (layerAttributes, properties) {
  * @param {Function} [isCesiumEntityOpt=null] a function(entity) to check if something is of instance Cesium.Entity (for testing only)
  * @returns {(Object[]|undefined)}  a model that matches the attributes gotten by tileFeature or undefined
  */
-export function getLayerModelFromTileFeature (tileFeature, getModelByAttributesOpt = null, isCesium3dTileFeatureOpt = null, isCesiumEntityOpt = null) {
+function getLayerModelFromTileFeature (tileFeature, getModelByAttributesOpt = null, isCesium3dTileFeatureOpt = null, isCesiumEntityOpt = null) {
     let filter = null;
 
     if (tileFeature === null || typeof tileFeature !== "object") {
@@ -145,7 +145,7 @@ export function getLayerModelFromTileFeature (tileFeature, getModelByAttributesO
  * @param {Function} [getGfiFeatureOpt=null] a function(attributes, properties) to get the gfiFeature with (instead of getGfiFeature; for testing only)
  * @returns {Object}  an object{getTheme, getTitle, getAttributesToShow, getProperties, getGfiUrl}
  */
-export function getGfiFeatureByCesium3DTileFeature (tileFeature, attributes, getGfiFeatureOpt = null) {
+function getGfiFeatureByCesium3DTileFeature (tileFeature, attributes, getGfiFeatureOpt = null) {
     if (
         tileFeature === null
         || typeof tileFeature !== "object"
@@ -178,7 +178,7 @@ export function getGfiFeatureByCesium3DTileFeature (tileFeature, attributes, get
  * @param {Function} [getGfiFeatureOpt=null] a function(attributes, properties) to get the gfiFeature with (instead of getGfiFeature; for testing only)
  * @returns {Object}  an object{getTheme, getTitle, getAttributesToShow, getProperties, getGfiUrl}
  */
-export function getGfiFeatureByCesiumEntity (tileFeature, attributes, getGfiFeatureOpt = null) {
+function getGfiFeatureByCesiumEntity (tileFeature, attributes, getGfiFeatureOpt = null) {
     if (
         tileFeature === null
         || typeof tileFeature !== "object"
@@ -208,7 +208,7 @@ export function getGfiFeatureByCesiumEntity (tileFeature, attributes, getGfiFeat
  * @param {Function} [getGfiFeatureOpt=null] a function(attributes, properties) to get the gfiFeature with (instead of getGfiFeature; for testing only)
  * @returns {Object}  an object{getTheme, getTitle, getAttributesToShow, getProperties, getGfiUrl}
  */
-export function getGfiFeatureByOlFeature (olFeature, attributes, getGfiFeatureOpt = null) {
+function getGfiFeatureByOlFeature (olFeature, attributes, getGfiFeatureOpt = null) {
     // do not confuse with getGfiFeaturesByOlFeature!
     if (
         olFeature === null
@@ -239,7 +239,7 @@ export function getGfiFeatureByOlFeature (olFeature, attributes, getGfiFeatureOp
  * @param {Function} [getGfiFeatureByOlFeatureOpt=null] a function(feature, attributes) to get the gfiFeature by olFeature with (instead of getGfiFeatureByOlFeature; for testing only)
  * @returns {Object[]}  an array of object{getTheme, getTitle, getAttributesToShow, getProperties, getGfiUrl}
  */
-export function getGfiFeaturesByOlFeature (olFeature, attributes, getGfiFeatureByOlFeatureOpt = null) {
+function getGfiFeaturesByOlFeature (olFeature, attributes, getGfiFeatureByOlFeatureOpt = null) {
     // do not confuse with getGfiFeatureByOlFeature!
     if (
         olFeature === null

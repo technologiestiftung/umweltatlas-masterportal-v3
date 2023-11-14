@@ -2,7 +2,7 @@ import Point from "ol/geom/Point";
 import {buffer} from "ol/extent";
 import {createGfiFeature} from "../../../shared/js/utils/getWmsFeaturesByMimeType";
 import {generateSimpleGetters} from "../../../shared/js/utils/generators";
-import {getGfiFeaturesByTileFeature} from "../../../shared/js/utils/getGfiFeaturesByTileFeature";
+import gfiFeatureProvider from "../../../shared/js/utils/getGfiFeaturesByTileFeature";
 import stateGetFeatureInfo from "./stateGetFeatureInfo";
 
 /**
@@ -90,7 +90,7 @@ export default {
 
             clickFeatures.forEach(clickFeature => {
                 if (clickFeature instanceof Cesium.Cesium3DTileFeature) {
-                    const gfiFeatures = getGfiFeaturesByTileFeature(clickFeature);
+                    const gfiFeatures = gfiFeatureProvider.getGfiFeaturesByTileFeature(clickFeature);
 
                     if (Array.isArray(gfiFeatures)) {
                         gfiFeatures.forEach(gfiFeature => {

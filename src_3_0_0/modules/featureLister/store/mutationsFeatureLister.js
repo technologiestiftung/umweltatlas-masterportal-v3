@@ -1,6 +1,6 @@
 import {generateSimpleMutations} from "../../../shared/js/utils/generators";
 import stateFeatureLister from "./stateFeatureLister";
-import {getGfiFeature} from "../../../shared/js/utils/getGfiFeaturesByTileFeature";
+import getGfiFeatureModule from "../../../shared/js/utils/getGfiFeaturesByTileFeature";
 import layerCollection from "../../../core/layers/js/layerCollection";
 
 const mutations = {
@@ -27,7 +27,7 @@ const mutations = {
             features.forEach(feature => {
                 if (feature.values_ && Object.prototype.hasOwnProperty.call(feature.values_, "features")) {
                     feature.values_.features.forEach(nestedFeature => {
-                        const gfiFeature = getGfiFeature(olLayer.values_, nestedFeature.values_);
+                        const gfiFeature = getGfiFeatureModule.getGfiFeature(olLayer.values_, nestedFeature.values_);
 
                         gfiFeature.id = nestedFeature.getId();
                         gfiFeatures.push(gfiFeature);
@@ -35,7 +35,7 @@ const mutations = {
                     state.nestedFeatures = true;
                 }
                 else {
-                    const gfiFeature = getGfiFeature(olLayer.values_, feature.values_);
+                    const gfiFeature = getGfiFeatureModule.getGfiFeature(olLayer.values_, feature.values_);
 
                     gfiFeature.id = feature.getId();
                     gfiFeatures.push(gfiFeature);
