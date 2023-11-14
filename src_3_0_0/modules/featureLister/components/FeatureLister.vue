@@ -33,7 +33,6 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["visibleSubjectDataLayerConfigs"]),
         ...mapGetters("Modules/FeatureLister", [
             "maxFeatures",
             "layer",
