@@ -19,6 +19,10 @@
     - mouseHover
     - selectFeatures
 - Configurable searchBar for the layerselection.
+- To manage dependencies of dependencies "overrides" for cesium are added to package.json and create dummy packages for it.
+- The following packages have been added:
+    - devDependencies:
+        - webpack-bundle-analyzer: 4.9.1 (For usage comment in "webpack-bundle-analyzer"-code in webpack.dev.js)
 
 ### Changed
 - LayerInformation: For layers that do not have metadata, the layer information can now be displayed so that the URLs and legend can be viewed th
@@ -77,6 +81,7 @@
 
 ### Fixed
 - Issue #1085: Corrected case at import of layer2dRasterWmsTime in src_3_0_0\core\layers\js\layerFactory.js.
+- Issue #1099: The package.json is adapted, now the size of the bundle, created with "npm run build" is reduced.
 - Mobile View: switching vertical and horizontal view works better now.
 - Close Button is now in line with Menu navigation.
 
