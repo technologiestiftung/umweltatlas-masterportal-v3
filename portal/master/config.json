@@ -333,14 +333,6 @@
             "type": "draw"
           },
           {
-            "type": "print",
-            "printServiceId": "mapfish",
-            "printAppId": "master",
-            "filename": "Ausdruck",
-            "title": "Mein Titel",
-            "currentLayoutName": "A4 Hochformat"
-          },
-          {
             "type": "selectFeatures"
           },
           {
@@ -448,6 +440,14 @@
         [
           {
             "type": "populationRequest"
+          },
+          {
+            "type": "print",
+            "printServiceId": "mapfish",
+            "printAppId": "master",
+            "filename": "Ausdruck",
+            "title": "Mein Titel",
+            "currentLayoutName": "A4 Hochformat"
           },
           {
             "type": "featureLister",

@@ -55,7 +55,7 @@ const state = {
     filename: "report",
     icon: "bi-printer",
     name: "common:modules.print.name",
-    supportedDevices: ["Desktop", "Table"],
+    supportedDevices: ["Desktop", "Mobile", "Table"],
     supportedMapModes: ["2D", "3D"],
     title: "PrintResult",
     type: "print",

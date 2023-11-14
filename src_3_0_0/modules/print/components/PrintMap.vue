@@ -710,7 +710,7 @@ export default {
                 :key="file.index"
                 class="row"
             >
-                <div class="col-md-3 modules-print-download-title-container">
+                <div class="col-3 modules-print-download-title-container">
                     <span
                         v-if="printService === 'plotservice'"
                         class="modules-print-download-title"
@@ -724,7 +724,7 @@ export default {
                         {{ file.title }}
                     </span>
                 </div>
-                <div class="col-md-2 modules-print-download-icon-container">
+                <div class="col-2 modules-print-download-icon-container">
                     <div
                         v-if="!file.finishState"
                         class="modules-print-download-loader"
@@ -736,7 +736,7 @@ export default {
                         <i class="bi-check-lg" />
                     </div>
                 </div>
-                <div class="col-md-7 modules-print-download-button-container">
+                <div class="col-7 modules-print-download-button-container">
                     <FlatButton
                         v-if="file.finishState"
                         :aria-label="$t('common:modules.print.downloadFile')"
