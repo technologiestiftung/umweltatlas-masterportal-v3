@@ -4,8 +4,8 @@ const merge = require("webpack-merge"),
     Common = require("./webpack.common.js"),
     fse = require("fs-extra"),
     HttpsProxyAgent = require("https-proxy-agent"),
-     // einkommentieren um eine grafische Darstellung vom bundle als html zu erzeugen
-    BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin,
+    // comment in to create a graphical representation of the bundle as html
+    // BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin,
     /* eslint-disable no-process-env */
     proxyServer = process.env.HTTPS_PROXY || process.env.HTTP_PROXY,
     /* eslint-disable no-process-env */
@@ -73,9 +73,9 @@ module.exports = function () {
                 }
             ]
         }
-         // einkommentieren um eine grafische Darstellung vom bundle als html unter "build/statistics.html" zu erzeugen
-        ,plugins: [
-            new BundleAnalyzerPlugin()
-        ]
+        // comment in to create a graphical representation of the bundle as html that is automatically displayed in the browser at 'npm run start'
+        // ,plugins: [
+        //     new BundleAnalyzerPlugin()
+        // ]
     }, new Common());
 };
