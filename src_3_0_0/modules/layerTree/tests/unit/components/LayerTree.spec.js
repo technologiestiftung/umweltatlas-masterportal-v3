@@ -27,7 +27,7 @@ describe("src_3_0_0/modules/layerTree/components/LayerTree.vue", () => {
 
     beforeEach(() => {
         mapMode = "2D";
-        treeType = "light";
+        treeType = "";
         addLayerButton = {
             active: false
         };
@@ -178,7 +178,8 @@ describe("src_3_0_0/modules/layerTree/components/LayerTree.vue", () => {
                         allConfigs = getNestedValues(layerConfigs, "elements", true).flat(Infinity);
 
                     return allConfigs.filter(conf => conf.showInLayerTree === true);
-                }
+                },
+                showLayerAddButton: () => addLayerButton.active
             }
         });
     });

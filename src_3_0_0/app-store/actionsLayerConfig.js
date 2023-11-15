@@ -268,7 +268,7 @@ export default {
     processTreeTypeAuto ({commit, getters, state}, layerContainer) {
         let layersStructured = [];
 
-        getAndMergeAllRawLayers(state.portalConfig?.tree);
+        getAndMergeAllRawLayers(state.portalConfig?.tree, getters.showLayerAddButton);
         layersStructured = buildTreeStructure.build(state.layerConfig, getters.activeOrFirstCategory, layerContainer);
 
         commit("setLayerConfigByParentKey", {layerConfigs: layersStructured, parentKey: treeSubjectsKey});
@@ -279,12 +279,12 @@ export default {
      * @param {Object} context the vue context
      * @param {Object} context.commit the commit
      * @param {Object} context.dispatch the dispatch
-     * @param {Object} context.rootGetters the rootGetters
+     * @param {Object} context.getters the getters
      * @param {Object} context.state the state
      * @param {Object} category the category to change to
      * @returns {void}
      */
-    changeCategory ({commit, dispatch, rootGetters, state}, category) {
+    changeCategory ({commit, dispatch, getters, state}, category) {
         const layerContainer = getNestedValues(state.layerConfig, "elements", true).flat(Infinity),
             layersStructured = buildTreeStructure.build(state.layerConfig, category, layerContainer);
 
@@ -292,7 +292,7 @@ export default {
         dispatch("Modules/LayerSelection/navigateForward", {
             lastFolderName: "root",
             subjectDataLayerConfs: layersStructured.elements,
-            baselayerConfs: rootGetters.invisibleBaselayerConfigs
+            baselayerConfs: getters.invisibleBaselayerConfigs
         }, {root: true});
     },
 
@@ -300,15 +300,13 @@ export default {
      * Updates the layer configs with raw layer attributes.
      * @param {Object} context the vue context
      * @param {Object} context.dispatch the dispatch
-     * @param {Object} context.state the state
+     * @param {Object} context.getters the getters
      * @param {Object[]} layerContainer The layer configs.
      * @returns {void}
      */
-    updateLayerConfigs ({dispatch, state}, layerContainer) {
-        const addLayerBtnActive = typeof state.portalConfig.tree?.addLayerButton === "object" ? state.portalConfig.tree?.addLayerButton.active : false;
-
+    updateLayerConfigs ({dispatch, getters}, layerContainer) {
         layerContainer.forEach(layerConf => {
-            const rawLayer = getAndMergeRawLayer(layerConf, !addLayerBtnActive);
+            const rawLayer = getAndMergeRawLayer(layerConf, !getters.showLayerAddButton);
 
             if (rawLayer) {
                 dispatch("replaceByIdInLayerConfig", {layerConfigs: [{layer: rawLayer, id: layerConf.id}]});

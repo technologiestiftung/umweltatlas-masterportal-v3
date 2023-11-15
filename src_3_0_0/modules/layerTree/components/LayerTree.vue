@@ -8,7 +8,6 @@ import ElevatedButton from "../../../shared/modules/buttons/components/ElevatedB
 /**
  * Module to display the layers in menu.
  * @module modules/layerTree/components/LayerTree
- * @vue-computed {Boolean} addLayerButton - Indicates if the layer button should be rendered.
  */
 export default {
     name: "LayerTree",
@@ -17,12 +16,9 @@ export default {
         LayerTreeNode
     },
     computed: {
-        ...mapGetters(["portalConfig", "allLayerConfigsStructured"]),
+        ...mapGetters(["portalConfig", "allLayerConfigsStructured", "showLayerAddButton"]),
         ...mapGetters("Modules/LayerTree", ["menuSide"]),
-        ...mapGetters("Modules/LayerSelection", {layerSelectionType: "type", layerSelectionName: "name"}),
-        addLayerButton () {
-            return typeof this.portalConfig?.tree?.addLayerButton === "object" ? this.portalConfig?.tree?.addLayerButton.active : this.portalConfig?.tree?.type === "auto";
-        }
+        ...mapGetters("Modules/LayerSelection", {layerSelectionType: "type", layerSelectionName: "name"})
     },
     methods: {
         ...mapActions("Modules/LayerSelection", ["navigateForward"]),
@@ -61,7 +57,7 @@ export default {
     >
         <LayerTreeNode />
         <div
-            v-if="addLayerButton"
+            v-if="showLayerAddButton"
             class="mt-4 d-flex justify-content-center sticky"
         >
             <ElevatedButton

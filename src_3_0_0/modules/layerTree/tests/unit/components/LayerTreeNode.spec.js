@@ -30,7 +30,7 @@ describe("src_3_0_0/modules/layerTree/components/LayerTreeNode.vue", () => {
         addLayerButton = {
             active: false
         };
-        treeType = "light";
+        treeType = "";
         layer2D_1 = {
             id: "1",
             name: "layer2D_1",
@@ -165,7 +165,8 @@ describe("src_3_0_0/modules/layerTree/components/LayerTreeNode.vue", () => {
                             addLayerButton: addLayerButton
                         }
                     };
-                }
+                },
+                showLayerAddButton: () => addLayerButton.active
             }
         });
     });

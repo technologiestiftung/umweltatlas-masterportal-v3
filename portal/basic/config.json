@@ -27,7 +27,7 @@
     "tree": {
       "layerPillsAmount": 2,
       "addLayerButton": {
-        "active": true,
+        "active": false,
         "searchBar": {
           "active": true,
           "searchInterfaceInstanceId": "elasticSearch_0",

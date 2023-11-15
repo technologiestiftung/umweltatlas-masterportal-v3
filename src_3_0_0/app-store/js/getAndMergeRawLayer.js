@@ -38,7 +38,7 @@ function splitId (id, seperator = ".") {
 /**
  * Adds the attribute "showInLayerTree" to raw layer.
  * Rules:
- * If no add Layer Button is configured (portalConfig.tree.addLayerButton), then always showInLayerTree = true (so showLayerInTree has no effect in config.json)
+ * If no add Layer Button is configured (portalConfig.tree.addLayerButton.active=true), then always showInLayerTree = true (so showLayerInTree has no effect in config.json)
  * If a layer has visibility= true, then also always showInLayerTree = true so it is not possible to have showInLayerTree = false and visibility: true
  * because visibility = true always results in showInLayerTree = true no matter what the config.json says.
  * If both are not true, then showInLayerTree = false (for all other treeTypes e.g. "auto") if the attribute is not already set explicitly on the layer (i.e. in config.json).
@@ -184,11 +184,12 @@ function mergeLayerWithSeveralIds (layerConf) {
  * Layers with meta_ids contained in 'metaIDsToMerge'are are merged to one layer.
  * Properties in 'layerIDsToStyle'are are assigned to dedicated layers. If an entry has more than one style, new layers are created for each style.
  * Ids are composed by origin id and styles value.
- * @param  {Object[]} treeConfig - portalConfig.tree from state, may contain 'layerIDsToIgnore', 'metaIDsToIgnore', 'metaIDsToMerge' and 'layerIDsToStyle',
+ * @param  {Object[]} [treeConfig={}] - portalConfig.tree from state, may contain 'layerIDsToIgnore', 'metaIDsToIgnore', 'metaIDsToMerge' and 'layerIDsToStyle',
  * If config 'validLayerTypes' is set, it contains layer types to be used with the tree.type 'auto'. If not configured,  ["WMS", "SENSORTHINGS", "TERRAIN3D", "TILESET3D", "OBLIQUE"] are used.
+ * @param {Boolean} [showLayerAddButton=false] if true, a button to add layer is shown
  * @returns {Array} the filtered layer configurations
  */
-export function getAndMergeAllRawLayers (treeConfig = {}) {
+export function getAndMergeAllRawLayers (treeConfig = {}, showLayerAddButton = false) {
     // refactored from parserDefaultTree.js and layerList.js
     const layerList = rawLayerList.getLayerList(),
         rawLayers = [],
@@ -202,8 +203,7 @@ export function getAndMergeAllRawLayers (treeConfig = {}) {
     let relatedWMSLayerIds = [];
 
     for (let i = 0; i < layerList.length; i++) {
-        const checkAddLayerButton = typeof treeConfig.addLayerButton === "object" ? treeConfig.addLayerButton.active : false,
-            rawLayer = addAdditional(layerList[i], !checkAddLayerButton),
+        const rawLayer = addAdditional(layerList[i], !showLayerAddButton),
             layerType = rawLayer.typ?.toUpperCase();
 
         if (!validLayerTypes.includes(layerType) ||

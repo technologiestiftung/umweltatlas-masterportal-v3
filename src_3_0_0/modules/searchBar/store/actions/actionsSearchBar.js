@@ -66,13 +66,14 @@ export default {
     /**
      * Checks for addlayer search configuration (instance and topic)
      * @param {Object} param.commit the getters
+     * @param {Object} param.rootGetters the rootGetters
      * @param {Object} param.rootState the rootState
      * @returns {void}
      */
-    checkLayerSelectionSearchConfig: ({commit, rootState}) => {
+    checkLayerSelectionSearchConfig: ({commit, rootGetters, rootState}) => {
         const searchBar = rootState.portalConfig?.tree?.addLayerButton?.searchBar;
 
-        if (rootState.portalConfig?.tree?.addLayerButton?.active === true && searchBar && searchBar?.active !== undefined) {
+        if (rootGetters.showLayerAddButton === true && searchBar && searchBar?.active !== undefined) {
             if (searchBar.searchInterfaceInstance || searchBar.searchCategory) {
                 if (searchBar.searchCategory && searchBar?.searchInterfaceInstanceId) {
                     commit("setShowAllResultsSearchInterfaceInstance", searchBar.searchInterfaceInstanceId);

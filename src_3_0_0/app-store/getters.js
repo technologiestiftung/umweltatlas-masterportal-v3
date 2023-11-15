@@ -358,12 +358,21 @@ const getters = {
     },
 
     /**
-     * Return the highlighted features.
+     * Return the tree configuartion in config.json.
      * @param {Object} state state of the app-store.
-     * @returns {Object|Boolean} The highlighted features.
+     * @returns {Object|Boolean} the tree configuartion in config.json
      */
     treeConfig: state => {
         return state?.portalConfig?.tree;
+    },
+
+    /**
+     * Returns tree.addLayerButton.active or true, if tree.type is "auto".
+     * @param {Object} state state of the app-store.
+     * @returns {Boolean} true, if a button to add layers is configured
+     */
+    showLayerAddButton: state => {
+        return typeof state?.portalConfig?.tree?.addLayerButton === "object" ? state.portalConfig.tree.addLayerButton.active : state?.portalConfig?.tree?.type === "auto";
     },
 
     /**

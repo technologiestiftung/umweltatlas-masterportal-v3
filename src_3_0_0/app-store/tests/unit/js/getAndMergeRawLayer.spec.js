@@ -434,7 +434,7 @@ describe("src_3_0_0/app-store/js/getAndMergeRawLayer.js", () => {
                 return simpleLayerList.find(entry => Object.keys(searchAttributes).every(key => entry[key] === searchAttributes[key])) || null;
             });
             sinon.stub(rawLayerList, "getLayerList").returns(simpleLayerList);
-            const result = getAndMergeAllRawLayers({validLayerTypesAutoTree: ["WMS"], addLayerButton: {active: false}});
+            const result = getAndMergeAllRawLayers({validLayerTypesAutoTree: ["WMS"]}, false);
 
             expect(result).to.be.an("array");
             expect(result.length).to.be.equals(2);
@@ -477,8 +477,7 @@ describe("src_3_0_0/app-store/js/getAndMergeRawLayer.js", () => {
             let result = null;
 
             treeConfig.layerIDsToIgnore = ["453", "452"];
-            treeConfig.addLayerButton.active = true;
-            result = getAndMergeAllRawLayers(treeConfig);
+            result = getAndMergeAllRawLayers(treeConfig, true);
             expect(result.length).to.be.equals(2);
         });
         it("layers not contained in layerIDsToIgnore should not removed from layerlist", () => {
@@ -489,8 +488,7 @@ describe("src_3_0_0/app-store/js/getAndMergeRawLayer.js", () => {
             let result = null;
 
             treeConfig.layerIDsToIgnore = ["45333", "45222"];
-            treeConfig.addLayerButton.active = true;
-            result = getAndMergeAllRawLayers(treeConfig);
+            result = getAndMergeAllRawLayers(treeConfig, true);
             expect(result.length).to.be.equals(4);
         });
         it("layers contained in metaIDsToIgnore should be removed from layerlist", () => {
@@ -501,8 +499,7 @@ describe("src_3_0_0/app-store/js/getAndMergeRawLayer.js", () => {
             let result = null;
 
             treeConfig.metaIDsToIgnore = ["md_id_453", "md_id_452"];
-            treeConfig.addLayerButton.active = true;
-            result = getAndMergeAllRawLayers(treeConfig);
+            result = getAndMergeAllRawLayers(treeConfig, true);
             expect(result.length).to.be.equals(2);
         });
         it("layers not contained in metaIDsToIgnore should not removed from layerlist", () => {
@@ -513,8 +510,7 @@ describe("src_3_0_0/app-store/js/getAndMergeRawLayer.js", () => {
             let result = null;
 
             treeConfig.metaIDsToIgnore = ["md_id_45333", "md_id_45222"];
-            treeConfig.addLayerButton.active = true;
-            result = getAndMergeAllRawLayers(treeConfig);
+            result = getAndMergeAllRawLayers(treeConfig, true);
             expect(result.length).to.be.equals(4);
         });
         it("WMS layers contained in metaIDsToMerge should be merged", () => {
@@ -542,9 +538,8 @@ describe("src_3_0_0/app-store/js/getAndMergeRawLayer.js", () => {
 
             layerList.push(layerConf);
             treeConfig.metaIDsToMerge = ["md_id_1132"];
-            treeConfig.addLayerButton.active = true;
 
-            result = getAndMergeAllRawLayers(treeConfig);
+            result = getAndMergeAllRawLayers(treeConfig, true);
             filteredResult = result.filter(layer => layer.name === "layer11322");
             expect(result.length).to.be.equals(4);
             expect(filteredResult.length).to.be.equals(0);
@@ -616,9 +611,8 @@ describe("src_3_0_0/app-store/js/getAndMergeRawLayer.js", () => {
                 filteredResult = null;
 
             treeConfig.layerIDsToStyle = layerIDsToStyle;
-            treeConfig.addLayerButton.active = true;
 
-            result = getAndMergeAllRawLayers(treeConfig);
+            result = getAndMergeAllRawLayers(treeConfig, true);
             filteredResult = result.filter(layer => layer.name === "452");
             expect(result.length).to.be.equals(7);
             expect(filteredResult.length).to.be.equals(0);

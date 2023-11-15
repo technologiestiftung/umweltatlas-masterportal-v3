@@ -17,8 +17,6 @@ draggable.compatConfig = {MODE: 3};
  * @module modules/layerTree/components/LayerTreeNode
  * @vue-data {Boolean} isOpen - Shows if node is open.
  * @vue-computed {Object} sortedLayerConfig - The v-model for sorted layerConfig.
- * @vue-computed {String} treeType - The current tree type.
- * @vue-computed {Boolean} addLayerButton - Indicates if the layer button should be rendered.
  */
 export default {
     name: "LayerTreeNode",
@@ -32,7 +30,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["portalConfig", "allLayerConfigs", "layerConfigsByAttributes"]),
+        ...mapGetters(["portalConfig", "allLayerConfigs", "layerConfigsByAttributes", "showLayerAddButton"]),
         ...mapGetters("Modules/LayerTree", ["delay", "delayOnTouchOnly", "removeOnSpill", "touchStartThreshold"]),
 
         /**
@@ -46,7 +44,7 @@ export default {
             get () {
                 let sortedLayerConfig;
 
-                if (this.addLayerButton) {
+                if (this.showLayerAddButton) {
                     sortedLayerConfig = this.layerConfigsByAttributes({showInLayerTree: true});
                 }
                 else {
@@ -69,12 +67,6 @@ export default {
                     this.replaceByIdInLayerConfig(conf);
                 });
             }
-        },
-        treeType () {
-            return this.portalConfig?.tree?.type;
-        },
-        addLayerButton () {
-            return typeof this.portalConfig?.tree?.addLayerButton === "object" ? this.portalConfig?.tree?.addLayerButton.active : this.treeType === "auto";
         }
     },
     methods: {

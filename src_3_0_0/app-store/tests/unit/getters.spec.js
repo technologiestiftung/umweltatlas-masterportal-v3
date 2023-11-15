@@ -751,4 +751,45 @@ describe("src_3_0_0/app-store/getters.js", () => {
             expect(getters.configuredModules(state)[7].type).to.be.equals("vcOblique");
         });
     });
+    describe.only("showLayerAddButton", () => {
+        let state;
+
+        beforeEach(() => {
+            state = {
+                portalConfig: {
+                    tree: {
+                        addLayerButton: {
+                            active: true
+                        }
+                    }
+                }
+            };
+        });
+
+        it("showLayerAddButton tree not configured", () => {
+            state.portalConfig.tree = undefined;
+            expect(getters.showLayerAddButton(state)).to.be.false;
+        });
+        it("showLayerAddButton addLayerButton not configured", () => {
+            state.portalConfig.tree.addLayerButton = undefined;
+            expect(getters.showLayerAddButton(state)).to.be.false;
+        });
+        it("showLayerAddButton addLayerButton active is true", () => {
+            expect(getters.showLayerAddButton(state)).to.be.true;
+        });
+        it("showLayerAddButton addLayerButton active is false", () => {
+            state.portalConfig.tree.addLayerButton.active = false;
+            expect(getters.showLayerAddButton(state)).to.be.false;
+        });
+        it("showLayerAddButton addLayerButton not configured, but tree-type 'auto'", () => {
+            state.portalConfig.tree.addLayerButton = undefined;
+            state.portalConfig.tree.type = "auto";
+            expect(getters.showLayerAddButton(state)).to.be.true;
+        });
+        it("showLayerAddButton addLayerButton not configured, but tree-type not defined", () => {
+            state.portalConfig.tree.addLayerButton = undefined;
+            expect(getters.showLayerAddButton(state)).to.be.false;
+        });
+
+    });
 });

@@ -171,7 +171,6 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
                 allCategories: () => categories,
                 portalConfig: () => {
                     return {
-                        addLayerButton: {active: false},
                         tree: {
                             addLayerButton: {active: false},
                             categories: categories
