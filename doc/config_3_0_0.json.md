@@ -95,6 +95,7 @@ Controls can be configured to be expandable so they will not initially show up i
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |backForward|no|**[backForward](#markdown-header-portalconfigcontrolsbackforward)**|false|Shows buttons to jump to previous and next map views.|false|
+|button3d|no|Boolean|false|Defines whether a 3D mode switch button is shown.|false|
 |expandable|no|**[expandable](#markdown-header-portalconfigcontrols)**||With expandable, controls are hidden behind a button with three dots and can be expanded when needed.|false|
 |freeze|no|Boolean/**[freeze](#markdown-header-portalconfigcontrolsfreeze)**|false|Whether a "lock view" button is shown.|false|
 |fullScreen|no|Boolean/**[fullScreen](#markdown-header-portalconfigcontrolsfullscreen)**|false|Allows the user to view the portal in full screen mode, that is, without the browser's tabs and address bar, by clicking a button. A second click on the element returns the view back to normal.|false|
@@ -126,6 +127,8 @@ The attribute backForward may be of type boolean or object. If of type boolean, 
 |----|--------|----|-------|-----------|------|
 |iconForward|no|String||Allows changing the icon on the forward button.|false|
 |iconBack|no|String||Allows changing the icon on the backwards button.|false|
+|supportedDevices|no|String|["Desktop"]|Devices on which the module can be used and is displayed in the menu.|false|
+|supportedMapModes|no|String|["2D", "3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
 
 **Example using type object backForward**
 
@@ -145,8 +148,14 @@ The attribute backForward may be of type boolean or object. If of type boolean, 
 ***
 
 #### Portalconfig.controls.button3d
+The button3d attribute can be of type Boolean or Object. If it is of type Boolean, it indicates the button for switching to 3D mode. If it is of type Object, the following attributes apply
+
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
+|icon2d|no|String|"https://geodienste.hamburg.de/lgv-config/img/badge-2d.svg"|A different icon can be used for the button3d control via the icon parameter if the map is in 3D mode.|false|
+|icon3d|no|String|"badge-3d"|A different icon can be used for the button3d control via the icon parameter if the map is in 2D mode.|false|
+|supportedDevices|no|String|["Desktop", "Mobile"]|Devices on which the module can be used and is displayed in the menu.|false|
+|supportedMapModes|no|String|["2D", "3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
 
 ***
 
@@ -198,6 +207,8 @@ Orientation uses the browser's geolocation to determine the user's location. A l
 |iconGeolocate|no|String|"bi-geo-alt"|Icon that is displayed in the Controls menu for the control location. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |iconGeolocatePOI|no|String|"bi-record-circle"|Icon that is displayed in the Controls menu for the "Close to me" control. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |poiDistances|no|Boolean/Integer[]|true|Defines whether the feature "Close to me", which shows a list of nearby points of interest, is provided. If an array is configured, multiple such lists with the given distance in meters are offered. When simply setting `poiDistances: true`, the used distances are `[500,1000,2000]`.|false|
+|supportedDevices|no|String|["Desktop", "Mobile"]|Devices on which the module can be used and is displayed in the menu.|false|
+|supportedMapModes|no|String|["2D", "3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
 |zoomMode|no|enum["once", "always"]|"once"|The user's location is determined and a marker turned on or off. This requires providing the portal via **https**. Modes: *once* zooms to the user's location once, *always* zooms to the user position on each activation.|false|
 
 **Example using type boolean for poiDistances**
@@ -232,6 +243,8 @@ The attribute rotation may be of type boolean or object. If of type boolean and 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |showAlways|no|Boolean|false|If the attribute is set to true, the control is shown permanently. Via default it appears only if the map rotation is not equal north/0.|
+|supportedDevices|no|String|["Desktop", "Mobile"]|Devices on which the module can be used and is displayed in the menu.|false|
+|supportedMapModes|no|String|["2D", "3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
 
 **Example using type object rotation**
 ```json
@@ -1102,6 +1115,7 @@ Modules can be divided into sections. In the menu, sections are divided with a h
 |customMenuElement|no|**[customMenuElement](#markdown-header-portalconfigmenusectionsmodulescustommenuelement)**||This module can open a link, display HTML from config.json or an external file, or perform an action. This module can be configured several times in config.json.|false|
 |featureLister|no|**[featureLister](#markdown-header-portalconfigmenusectionsmodulesfeaturelister)**||Lists all features of a vector layer and highlights a feature by mouse over.|false|
 |fileImport|no|**[fileImport](#markdown-header-portalconfigmenusectionsmodulesfileImport)**||Import KML, GeoJSON, and GPX files with this modules.|false|
+|filter|no|**[filter](#markdown-header-portalconfigmenusectionsmodulesfilter)**||Configuration for an advanced filter for vector layers.|false|
 |language|no|**[language](#markdown-header-portalconfigmenusectionsmoduleslanguage)**|In this module the language of the portal can be switched.|false|
 |layerClusterToggler|no|**[layerClusterToggler](#markdown-header-portalconfigmenusectionsmoduleslayerClusterToggler)**||This module allows a cluster layers to be active and deactive together.|false|
 |layerSlider|no|**[layerSlider](#markdown-header-portalconfigmenusectionsmoduleslayerslider)**||The layerSlider module allows showing arbitrary services in order. This can e.g. be used to show aerial footage from multiple years in succession.|false|
@@ -1113,7 +1127,7 @@ Modules can be divided into sections. In the menu, sections are divided with a h
 |scaleSwitcher|no|**[scaleSwitcher](#markdown-header-portalconfigmenusectionsmodulesSwitcher)**||Module that allows changing the map's current scale.|false|
 |selectFeatures|no|**[selectFeatures](#markdown-header-portalconfigmenusectionsmodulesselectfeatures)**||Allows selecting a set of vector features by letting the user draw a box on the map. Features in that box will be displayed with GFI information.|false|
 |shadow|no|**[shadow](#markdown-header-portalconfigmenusectionsmodulesshadow)**||Configuration object for the 3D mode shadow time.|false|
-|shareView|nein|**[shareView](#markdown-header-portalconfigmenusectionsmodulesshareview)**||Module to share a link to the current map view.|false|
+|shareView|no|**[shareView](#markdown-header-portalconfigmenusectionsmodulesshareview)**||Module to share a link to the current map view.|false|
 |styleVT|no|**[styleVT](#markdown-header-portalconfigmenusectionsmodulesstyleVT)**||Style selection for VT services. Allows switching between styles of a Vector Tile Layer that provides multiple stylings via the `services.json` file.|false|
 |wfst|no|**[wfst](#markdown-header-portalconfigmenusectionsmoduleswfst)**||WFS-T module to visualize, create, update and delete features.|false|
 
@@ -1493,7 +1507,7 @@ Specify outline color and stroke width for highlighting lines and fill color and
 
 ```json
 "stroke": {
-    "width": 4 , 
+    "width": 4 ,
     "color": [255, 0, 255, 0.9]
     }
 ```
@@ -1542,7 +1556,7 @@ Specify the fill color, the outline color and stroke width for highlighting the 
 
 ```json
 "stroke": {
-    "width": 4 , 
+    "width": 4 ,
     "color": [255, 0, 255, 0.9]
     }
 ```
@@ -1575,14 +1589,16 @@ The filter tool offers a range of options to filter vector data from WFS, OAF, G
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|geometrySelectorOptions|no|[filterGeometrySelector](#markdown-header-portalconfigmenutoolfilterfiltergeometryselector)[]|false|Options for an additional tool for filtering within a self-drawn area. If you use this tool in conjunction with external filtering (`external`: `true`), please remember to configure your layer filter with geometryName.|false|
-|layerGroups|no|[filterLayerGroups](#markdown-header-portalconfigmenutoolfilterfilterlayergroups)[]|[]|Configuration of the related layers to be filtered.|false|
-|layers|no|[filterLayer](#markdown-header-portalconfigmenutoolfilterfilterlayer)[]|[]|Configuration of layers to be filtered. Can be an array of plain layer ids also - if so the layer and all snippets are identified automatically.|false|
+|geometrySelectorOptions|no|[filterGeometrySelector](#markdown-header-portalconfigmenusectionsmodulesfilterfiltergeometryselector)[]|false|Options for an additional tool for filtering within a self-drawn area. If you use this tool in conjunction with external filtering (`external`: `true`), please remember to configure your layer filter with geometryName.|false|
+|layerGroups|no|[filterLayerGroups](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayergroups)[]|[]|Configuration of the related layers to be filtered.|false|
+|layers|no|[filterLayer](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayer)[]|[]|Configuration of layers to be filtered. Can be an array of plain layer ids also - if so the layer and all snippets are identified automatically.|false|
 |layerSelectorVisible|no|Boolean|true|To display a selector for the layers. Put to `false` to show without selector.|false|
 |liveZoomToFeatures|no|Boolean|true|Defines whether the filter immediately zooms to filter results.|false|
 |minScale|no|Integer|5000|Minimum zoom level the filter zooms in when displaying filter results.|false|
-|multiLayerSelector|no|Boolean|true|If layerSelectorVisible true, wether one can open multiple sections of the selector at the same time.|false|
-|saveTo|no|String|"void"|If set to "url", the current filter setting is saved in the URL. This allows the filter setting to be bookmarked.|false|
+|multiLayerSelector|no|Boolean|true|If `layerSelectorVisible` `true`, wether one can open multiple sections of the selector at the same time.|false|
+|name|no|String|"common:modules.filter.name"|Name of the module in the menu.|false|
+|saveTo|no|String|"void"|If set to "url", the current filter setting is saved. The shareView module can be used to create a link containing the filter settings.|false|
+|type|no|String|"filter"|The type of the module. Defines which module is configured.|false|
 
 **Example**
 
@@ -1590,32 +1606,28 @@ The following example uses only a layer id to generate the filter automatically.
 
 ```json
 {
-    "filter": {
-      "active": false,
-      "name": "Filter",
-      "icon": "bi-funnel-fill",
-      "renderToWindow": false,
-      "deactivateGFI": false,
-      "layerSelectorVisible": false,
-      "geometrySelectorOptions": {
+    "type": "filter",
+    "icon": "bi-funnel-fill",
+    "layerSelectorVisible": false,
+    "geometrySelectorOptions": {
         "visible": true
-      },
-      "layerGroups": [
+    },
+    "layerGroups":
+    [
         {
-          "title": "GRUPPE 1",
-          "layers": [
-            {
-              "layerId": "47"
-            }
-          ]
+            "title": "GRUPPE 1",
+            "layers": [
+                {
+                    "layerId": "47"
+                }
+            ]
         }
-      ],
-      "layers": [
+    ],
+    "layers": [
         {
-          "layerId": "8712"
+            "layerId": "8712"
         }
-      ]
-    }
+    ]
 }
 ```
 
@@ -1624,7 +1636,7 @@ The following example uses only a layer id to generate the filter automatically.
 #### Portalconfig.menu.sections.modules.filter.filterGeometrySelector
 
 An additional selection appears above the filter where a geometry can be selected and drawn on the map. The filter filters only in the selected area.
-If you use this tool in conjunction with external filtering (`external`: `true`), please remember to configure your layer filter with geometryName.
+If you use this modul in conjunction with external filtering (`external`: `true`), please remember to configure your layer filter with geometryName.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
@@ -1633,14 +1645,14 @@ If you use this tool in conjunction with external filtering (`external`: `true`)
 |defaultBuffer|no|Number|20|The geometry "LineString" is given a buffer (in meters) to make the LineString a "tube". This is the default distance from the center to the edge in meters.|false|
 |fillColor|no|String|"rgba(0, 0, 0, 0.33)"|The fill color of the outer area (or geometry if invertGeometry = `false`).|false|
 |geometries|no|String[]|["Polygon", "Rectangle", "Circle", "LineString"]|The selectable geometries and their order.|false|
-|invertGeometry|no|Boolean|true|true: The geometry is transparent, the outer area is displayed as a shadow. false: The fill specifications apply to the geometry itself.|false|
+|invertGeometry|no|Boolean|true|true: The geometry is transparent, the outer area is displayed as a shadow. `false`: The fill specifications apply to the geometry itself.|false|
 |strokeColor|no|String|"rgba(0, 0, 0, 1)"|The color of the border of the geometry.|false|
 |strokeWidth|no|Number|1|The thickness of the border of the geometry.|false|
 |visible|yes|Boolean|true|Activates the geometry selector.|false|
 
 **Example**
 
-Example of the minimal configuration of the filterGeometrySelector.
+Example of the minimal configuration of the `filterGeometrySelector`.
 
 ```json
 {
@@ -1650,7 +1662,7 @@ Example of the minimal configuration of the filterGeometrySelector.
 
 **Example**
 
-Example of a complete configuration with the default settings of the filterGeometrySelector.
+Example of a complete configuration with the default settings of the `filterGeometrySelector`.
 
 ```json
 {
@@ -1673,7 +1685,7 @@ Example of a complete configuration with the default settings of the filterGeome
 
 **Example**
 
-Example of a completely changed configuration of the filterGeometrySelector.
+Example of a completely changed configuration of the `filterGeometrySelector`.
 
 ```json
 {
@@ -1715,17 +1727,17 @@ An object to define a layer to filter with.
 |searchInMapExtentInfo|no|Boolean|true|A little icon is shown right hand side of the checkbox. Clicking the icon, a standard description is shown. Set to `false` to disable this feature. Set to a individual text to use an own description or use a translation key.|false|
 |searchInMapExtentPreselected|no|Boolean|false|The checkbox for filtering in the browser extent is initially selected if `searchInMapExtentPreselected`: `true` is set.|false|
 |searchInMapExtentProactive|no|Boolean|true|The checkbox for filtering in the browser extent triggers direct filtering in the current browser extent under `strategy`: `active`. This can be disabled by setting `searchInMapExtentProactive`: `false`.|false|
-|shortDescription|no|String|""|The shorter version of the description, displayed under the selector title only if layerSelectorVisible is `true` and the selector is closed. Can be a translation key also.|false|
+|shortDescription|no|String|""|The shorter version of the description, displayed under the selector title only if `layerSelectorVisible` is `true` and the selector is closed. Can be a translation key also.|false|
 |showHits|no|Boolean|true|After filtering, the hits are displayed. Set to `false` to not show the hits.|false|
-|snippets|no|[snippets](#markdown-header-portalconfigmenutoolfilterfilterlayersnippets)[]|[]|Configuration of snippets to adjust the filtering. Can be a minimalistic array of attribute names. Can be left empty to use the automatic identification of all snippets possible.|false|
+|snippets|no|[snippets](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippets)[]|[]|Configuration of snippets to adjust the filtering. Can be a minimalistic array of attribute names. Can be left empty to use the automatic identification of all snippets possible.|false|
 |snippetTags|no|Boolean|true|After filtering the current setting is displayed as tags. Set to `false` to turn of this feature.|false|
-|strategy|no|String||There are two filter strategies: `passive` - a filter button is used. And `active` - the filter will be triggered immediately by any choice made. Passive strategy is used by default.|false|
-|title|no|String||The title to use for the selector (if layerSelectorVisible true). Can be a translation key also. If not set, the layerId will be used by default.|false|
+|strategy|no|String|`passive`|There are two filter strategies: `passive` - a filter button is used. And `active` - the filter will be triggered immediately by any choice made. Passive strategy is used by default.|false|
+|title|no|String||The title to use for the selector (if `layerSelectorVisible` `true`). Can be a translation key also. If not set, the layerId will be used by default.|false|
 |wmsRefId|no|String/String[]|""|If the layer is filtered, the WMS layer with `wmsRefId` will be invisible and deactivated from Tree. After resetting the layer, the WMS layer will be activated and visible again.|false|
 
 **Example**
 
-In this example one snippet is set with only an attrName. The snippet type is detected automatically. See [filterLayerSnippets](#markdown-header-portalconfigmenutoolfilterfilterlayersnippets) for the advanced configuration of snippets.
+In this example one snippet is set with only an attrName. The snippet type is detected automatically. See [filterLayerSnippets](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippets) for the advanced configuration of snippets.
 
 ```json
 {
@@ -1765,13 +1777,13 @@ An object to define a group layer to filter with.
 
 **Example**
 
-layerGroups defines related layers. Each group has a title and a list of layers. These are displayed together in the filter.
+[layerGroups](#markdown-header-portalconfigmenusectionsmodulesfilterlayerGroups) defines related layers. Each group has a title and a list of layers. These are displayed together in the filter.
 
 ```json
 {
   "layerGroups": [
     {
-      "title": "GRUPPE 1",
+      "title": "GROUP 1",
       "layers": [
         {
           "layerId": "47"
@@ -1782,7 +1794,7 @@ layerGroups defines related layers. Each group has a title and a list of layers.
       ]
     },
     {
-      "title": "GRUPPE 2",
+      "title": "GROUP 2",
       "layers": [
         {
           "layerId": "5105"
@@ -1806,13 +1818,13 @@ Note: Time-related snippets (`date` and `dateRange`) can only be operated in `ex
 |addSelectAll|no|Boolean|false|For type `dropdown` with `multiselect: true` only: Adds an additional entry on top of the list to select/deselect all entries.|false|
 |attrName|yes|String||The attribute name used for filtering. Is to be an array if `dateRange`, `sliderRange` or `featureInfo` is used (see examples).|false|
 |autoInit|no|Boolean|true|For type `dropdown` only: If set to `false`: Turns off the automatic identification of value (in case of `dropdown`) or minValue/maxValue (in case of `slider(Range)` and `date(Range)`.|false|
-|children|no|[children](#markdown-header-portalconfigmenutoolfilterfilterlayersnippetschildren)[]|[]|Child snippet configuration.|true|
-|decimalPlaces|nein|Number|0|Defines decimal places for the step for `slider` and `sliderRange`|false|
+|children|no|[children](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippetschildren)[]|[]|Child snippet configuration.|true|
+|decimalPlaces|no|Number|0|Defines decimal places for the step for `slider` and `sliderRange`|false|
 |delimiter|no|String||For type `dropdown` only: If feature attributes are themselfs again seperated by a delimiter to act as pseudo array, setting delimiter to the sign that seperates the terms, will result in the expected outcome.|false|
 |display|no|String|"default"|If snippet type `dropdown`: If set to `list`, a list is displayed instead of a dropdown box. If snippet type `dateRange`: If set to `datepicker`, only the selection via calendar will be displayed, if set to `slider`, only the slider will be displayed, if set to `all`, datepicker and slider will be displayed.|false|
 |format|no|String|"YYYY-MM-DD"|For type `date` and `dateRange` only: The format the date is stored in the database. Leave empty for ISO8601. If the format differs from ISO8601, the snippet must be visible (`visible`: `true`) and the filter must work in `external`: `false` mode. Can be specified as an array of two different formats if an array of different attribute names is also specified as attrName and the date formats of the attribute values differ.|false|
 |info|no|String||An info text or translation key. If set, a little icon will shown right hand side of the snippet. Can be set to `true` to display a default text for the snippet type.|false|
-|localeCompareParams|no|[localeCompareParams](#markdown-header-portalconfigmenutoolfilterfilterlayersnippetslocalecompareparams)||For type Snippet-Typ `dropdown` only: The sorting of the dropdown boxes can be adjusted according to your own wishes via this parameter.|false|
+|localeCompareParams|no|[localeCompareParams](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippetslocalecompareparams)||For type Snippet-Typ `dropdown` only: The sorting of the dropdown boxes can be adjusted according to your own wishes via this parameter.|false|
 |maxValue|no|Number||For type `date` and `slider` only: The maximum value as number or date string. Leave empty for automatic identification of boundaries.|false|
 |minValue|no|Number||For type `date` and `slider` only: The minimum value as number or date string. Leave empty for automatic identification of boundaries.|false|
 |multiselect|no|Boolean|true|For type `dropdown` only: Selection of multiple entries. Set to `false` to switch to single select.|false|
@@ -1822,14 +1834,14 @@ Note: Time-related snippets (`date` and `dateRange`) can only be operated in `ex
 |placeholder|no|String|""|For type `dropdown` only: The placeholder to use. Can be a translation key.|false|
 |prechecked|no|String[]/String||Initially checked value. For `dropdown`, `sliderRange` and `dateRange` an array of values, for checkbox a boolean, for slider a number, for text a string and for date a string (following the set `format`). If `visible` is set to `false`, value set by prechecked are forced for filtering. For `dropdown` with `multiselect`: If `prechecked` is set to `all`, all available values will be selected initially.|false|
 |renderIcons|no|String|"none"|For type `dropdown` with `display: "list"` only: If set to `fromLegend` icons will be placed left hand side of each entry. Icons are taken from legend. Use an object with attrNames as keys and imagePath as value {attrName: imagePath} to manually set images (see example).|false|
-|service|no|[service](#markdown-header-portalconfigmenutoolfilterfilterlayersnippetsservice)||For the initial filling of a snippet (dropdown, date, slider) an alternative service can be used. This may increase the performance during initial loading. The default is the service of the configured [filterLayer](#markdown-header-portalconfigmenutoolfilterfilterlayer).|false|
+|service|no|[service](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippetsservice)||For the initial filling of a snippet `dropdown`, `date`, `slider` an alternative service can be used. This may increase the performance during initial loading. The default is the service of the configured [filterLayer](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayer).|false|
 |showAllValues|no|Boolean||For `dropdown` snippet type only: prevents hiding of unselected values when set to `true`. Can only be used in conjunction with `prechecked: "all"`.|false|
-|subTitles|no|String[]|[]|Only for snippet type `dateRange`: The additional from and to labels to be displayed above the calendar fields. As an array with two elements (e.g. ["from", "to"]). Set subTitles to true to use the values of attrName, to false to not display labels.|false|
-|timeouts|no|[timeouts](#markdown-header-portalconfigmenutoolfilterfilterlayersnippetstimeouts)||Timeouts to configure for better user experience.|false|
-|title|no|String||The title of the snippet. Can be a translation key. If not set, the title is taken from the gfiAttributes and if they are not present, then the attrName is used. Can be set to `false` to disable the display of a title. Can be set to `true` to force the display of the attrName.|false|
+|subTitles|no|String[]|[]|Only for snippet type `dateRange`: The additional from and to labels to be displayed above the calendar fields. As an array with two elements (e.g. ["from", "to"]). Set subTitles to true to use the values of `attrName`, to false to not display labels.|false|
+|timeouts|no|[timeouts](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippetstimeouts)||Timeouts to configure for better user experience.|false|
+|title|no|String||The title of the snippet. Can be a translation key. If not set, the title is taken from the gfiAttributes and if they are not present, then the `attrName` is used. Can be set to `false` to disable the display of a title. Can be set to `true` to force the display of the `attrName`.|false|
 |type|no|String||The type of this snippet. Can be one of the following: `checkbox`, `dropdown`, `text`, `slider`, `sliderRange`, `date`, `dateRange`. Will be indentified automatically if left away, following a data type rule: boolean becomes `checkbox`, string becomes `dropdown`, number becomes `sliderRange`, unknown becomes `text`.|false|
 |value|no|String[]||If omitted, values are determined automatically. If set for `dropdown`: The values to be selectable in the list. If set for `checkbox`: Instead of boolean values, the specified values for the `true` and `false` states should be taken (e.g. ["Yes", "No"]). For `dateRange`: start and end date for date picker and/or slider. For `sliderRange`: the min and max values.|false|
-|visible|no|Boolean|true|The snippet is visible. Set to `false` to hide the snippet: This gives you the power to use `prechecked` as an `always rule` to force filtering of a fixed attrName and value.|false|
+|visible|no|Boolean|true|The snippet is visible. Set to `false` to hide the snippet: This gives you the power to use `prechecked` as an `always rule` to force filtering of a fixed `attrName` and value.|false|
 
 **Example**
 
@@ -2032,7 +2044,7 @@ Example of a DateRange snippet. With time points preset via `prechecked` and min
 
 **Example**
 
-Example for a feature info snippet. Displays all values of the configured attribute names(attrName) of all filtered features in the filter.
+Example for a feature info snippet. Displays all values of the configured attribute names `attrName` of all filtered features in the filter.
 
 ```json
 {
@@ -2071,7 +2083,7 @@ Example of a snippet that wants to filter over multiple attributes at once and d
 #### Portalconfig.menu.sections.modules.filter.filterLayer.snippets.children
 Child snippet configuration.
 The child snippets are configured in the same way as "normal" snippets.
-See [filterLayerSnippets](#markdown-header-portalconfigmenutoolfilterfilterlayersnippets).
+See [filterLayerSnippets](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippets).
 
 The parent-child relationship can be used for the following use case:
 If a dataset is too large, preselecting an attribute can reduce the amount of subsequent filtering.
@@ -2197,7 +2209,7 @@ A string or object that supply the parameters for util function localeCompare.
 |Name|Required|Typ|Default|Description|Expert|
 |----|--------|---|-------|-----------|------|
 |locale|no|String||The locale code according ISO 3166|false|
-|options|no|[options](#markdown-header-portalconfigmenutoolfilterfilterlayersnippetslocalecompareparamsoptions)||The custom options for sorting in localeCompare|false|
+|options|no|[options](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippetslocalecompareparamsoptions)||The custom options for sorting in localeCompare|false|
 
 
 **Example Object**
@@ -2345,13 +2357,18 @@ Defines a layer slider layer.
 
 ##### Portalconfig.menu.sections.modules.legend
 
+Legend configuration options.
+
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
+|icon|no|String|"bi-lightbulb"|Legend icon.|false|
+|name|yes|String|"common:modules.legend.name"|Name of the module in the menu.|false|
+|type|no|String|"legend"|The type of the module. Defines which module is configured.|false|
 
 ***
 
 ##### Portalconfig.menu.sections.modules.measure
-The measure tool allows measuring distances and areas. This includes the specification of measurement inaccuracies.
+The measure tool allows measuring distances and areas.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|

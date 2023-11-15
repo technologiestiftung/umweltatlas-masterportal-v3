@@ -78,6 +78,7 @@
         - moment-timezone
     - devDependencies:
         - cross-env
+- `Legend` : The `showLegend` and `showCollapseAllButton` attributes have been removed
 
 ### Fixed
 - Issue #1085: Corrected case at import of layer2dRasterWmsTime in src_3_0_0\core\layers\js\layerFactory.js.
