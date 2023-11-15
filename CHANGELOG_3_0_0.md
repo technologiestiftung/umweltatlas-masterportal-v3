@@ -81,6 +81,7 @@
 - `Legend` : The `showLegend` and `showCollapseAllButton` attributes have been removed
 
 ### Fixed
+- Issue #1073: Routing: The route is updated after moving a waypoint in the map.
 - Issue #1085: Corrected case at import of layer2dRasterWmsTime in src_3_0_0\core\layers\js\layerFactory.js.
 - Issue #1099: The package.json is adapted, now the size of the bundle, created with "npm run build" is reduced.
 - Issue #1105: Added easting and nothing labels for utm projections in CoordToolkit

@@ -76,7 +76,8 @@ describe("src_3_0_0/modules/routing/store/directions/actionsDirections.js", () =
             return dispatchMocks[args[0]];
         };
         getters = {
-            directionsCoordinates: wgs84Coordinates
+            directionsCoordinates: wgs84Coordinates,
+            waypoints: waypoints
         };
 
         rootState = {

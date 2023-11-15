@@ -188,10 +188,13 @@ export default {
      * @param {Object} context actions context object.
      * @returns {Array<{Number, Number}>} wgs84 coordinates
      */
-    async getDirectionsCoordinatesWgs84 ({getters, dispatch}) {
-        const coordinates = [];
+    async getDirectionsCoordinatesWgs84 ({dispatch, getters}) {
+        const coordinates = [],
+            directionsCoordinates = getters.waypoints
+                .map(waypoint => waypoint.getCoordinates())
+                .filter(coords => coords.length === 2);
 
-        for (const coords of getters.directionsCoordinates) {
+        for (const coords of directionsCoordinates) {
             coordinates.push(
                 await dispatch(
                     "Modules/Routing/transformCoordinatesLocalToWgs84Projection",
