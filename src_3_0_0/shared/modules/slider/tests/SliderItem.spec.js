@@ -2,7 +2,6 @@ import {config, mount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 import SliderItem from "../components/SliderItem.vue";
-import {nextTick} from "vue";
 
 config.global.mocks.$t = key => key;
 
@@ -29,11 +28,9 @@ describe("src_3_0_0/shared/components/IconButton.vue", () => {
         expect(input.attributes("type")).to.equal("range");
         expect(input.attributes("class")).to.equal("slider my-2");
 
-        await input.trigger("click");
-
-        nextTick(() => {
-            expect(interactionSpy.calledOnce).to.be.true;
-        });
+        input.trigger("input");
+        await wrapper.vm.$nextTick();
+        expect(interactionSpy.calledOnce).to.be.true;
     });
 
     it("renders a slider with props that aren't required", () => {
