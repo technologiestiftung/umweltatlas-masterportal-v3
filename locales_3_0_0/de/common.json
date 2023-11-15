@@ -193,7 +193,11 @@
       "postionCoordinates": "Lagekoordinaten",
       "search": "Koordinaten suchen",
       "searchBtn": "Suche",
-      "supply": "Koordinaten / Höhe abfragen"
+      "supply": "Koordinaten / Höhe abfragen",
+      "utm": {
+        "eastingLabel": "Ostwert",
+        "northingLabel": "Nordwert"
+      }
     },
     "draw": {
       "description": "Erstelle wichtige Markierungen oder kennzeichne Flächen",

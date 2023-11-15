@@ -372,9 +372,21 @@ describe("src_3_0_0/modules/coordToolkit/components/CoordToolkit.vue", () => {
             wrapper.vm.initProjections();
             wrapper.vm.selectionChanged(event);
 
+            // Projection EPSG:4326
             ret = wrapper.vm.getLabel(key);
             expect(ret).to.be.equals("common:modules.coordToolkit.hdms.key");
+            // Projection EPSG:25832
+            value = "http://www.opengis.net/gml/srs/epsg.xml#25832";
+            event = {
+                target: {
+                    value: value
+                }
+            };
+            wrapper.vm.selectionChanged(event);
+            ret = wrapper.vm.getLabel(key);
+            expect(ret).to.be.equals("common:modules.coordToolkit.utm.key");
 
+            // Projection EPSG:31467
             value = "http://www.opengis.net/gml/srs/epsg.xml#31467";
             event = {
                 target: {

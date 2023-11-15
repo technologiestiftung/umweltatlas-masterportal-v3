@@ -65,7 +65,22 @@ export default {
      * @returns {String} the name of the label
      */
     getLabel: (state) => (key) => {
-        const type = state.currentProjection?.projName !== "longlat" ? "cartesian" : "hdms";
+        const projName = state.currentProjection?.projName;
+        let type;
+
+        switch (projName) {
+            case "longlat":
+                type = "hdms";
+                break;
+            case "utm":
+                type = "utm";
+                break;
+            case "tmerc":
+                type = "cartesian";
+                break;
+            default:
+                type = "cartesian";
+        }
 
         return "common:modules.coordToolkit." + type + "." + key;
     }

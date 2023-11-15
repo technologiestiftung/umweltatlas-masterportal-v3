@@ -193,7 +193,11 @@
       "postionCoordinates": "Location Coordinates",
       "search": "Search Coordinates",
       "searchBtn": "Search",
-      "supply": "Query Coordinates / Height"
+      "supply": "Query Coordinates / Height",
+      "utm": {
+        "eastingLabel": "Easting",
+        "northingLabel": "Northing"
+      }
     },
     "draw": {
       "description": "Create important markers or mark areas",

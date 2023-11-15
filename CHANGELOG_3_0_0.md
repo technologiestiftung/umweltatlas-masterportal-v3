@@ -83,6 +83,7 @@
 ### Fixed
 - Issue #1085: Corrected case at import of layer2dRasterWmsTime in src_3_0_0\core\layers\js\layerFactory.js.
 - Issue #1099: The package.json is adapted, now the size of the bundle, created with "npm run build" is reduced.
+- Issue #1105: Added easting and nothing labels for utm projections in CoordToolkit
 - Mobile View: switching vertical and horizontal view works better now.
 - Close Button is now in line with Menu navigation.
 
