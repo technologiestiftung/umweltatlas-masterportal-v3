@@ -65,7 +65,7 @@ export default {
     },
     /**
      * Checks for addlayer search configuration (instance and topic)
-     * @param {Object} param.commit the getters
+     * @param {Object} param.commit the commit
      * @param {Object} param.rootGetters the rootGetters
      * @param {Object} param.rootState the rootState
      * @returns {void}

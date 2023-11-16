@@ -751,7 +751,7 @@ describe("src_3_0_0/app-store/getters.js", () => {
             expect(getters.configuredModules(state)[7].type).to.be.equals("vcOblique");
         });
     });
-    describe.only("showLayerAddButton", () => {
+    describe("showLayerAddButton", () => {
         let state;
 
         beforeEach(() => {

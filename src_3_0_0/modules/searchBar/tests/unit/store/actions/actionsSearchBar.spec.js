@@ -114,6 +114,9 @@ describe("src_3_0_0/modules/searchBar/store/actions/actionsSearchBar.js", () => 
     });
     describe("checkLayerSelectionSearchConfig", () => {
         it("it updates searchInterfaceInstanceId, searchCategory, addLayerButton", () => {
+            rootGetters = {
+                showLayerAddButton: true
+            };
             rootState = {
                 portalConfig: {
                     tree: {
@@ -131,7 +134,7 @@ describe("src_3_0_0/modules/searchBar/store/actions/actionsSearchBar.js", () => 
                 }
             };
 
-            checkLayerSelectionSearchConfig({commit, rootState});
+            checkLayerSelectionSearchConfig({commit, rootGetters, rootState});
 
             expect(commit.calledThrice).to.be.true;
             expect(commit.firstCall.args[0]).to.eql("setShowAllResultsSearchInterfaceInstance");

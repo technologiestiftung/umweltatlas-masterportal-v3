@@ -279,12 +279,12 @@ export default {
      * @param {Object} context the vue context
      * @param {Object} context.commit the commit
      * @param {Object} context.dispatch the dispatch
-     * @param {Object} context.getters the getters
+     * @param {Object} context.rootGetters the rootGetters
      * @param {Object} context.state the state
      * @param {Object} category the category to change to
      * @returns {void}
      */
-    changeCategory ({commit, dispatch, getters, state}, category) {
+    changeCategory ({commit, dispatch, rootGetters, state}, category) {
         const layerContainer = getNestedValues(state.layerConfig, "elements", true).flat(Infinity),
             layersStructured = buildTreeStructure.build(state.layerConfig, category, layerContainer);
 
@@ -292,7 +292,7 @@ export default {
         dispatch("Modules/LayerSelection/navigateForward", {
             lastFolderName: "root",
             subjectDataLayerConfs: layersStructured.elements,
-            baselayerConfs: getters.invisibleBaselayerConfigs
+            baselayerConfs: rootGetters.invisibleBaselayerConfigs
         }, {root: true});
     },
 
