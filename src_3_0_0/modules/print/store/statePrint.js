@@ -49,6 +49,7 @@
  * @property {Object} capabilitiesFilter filter for the response of the configured print service. Possible keys are layouts and outputFormats
  * @property {Object} defaultCapabilitiesFilter If there is no key set in capabilitiesFilter, the key from this object is taken
  * @property {String} overviewmapLayerId the layer id for the overviewmap
+ * @property {Boolean} [showInvisibleLayerInfo=true] Defines whether an infobox is shown when layers will not be printed because they are invisible due to scale.
  */
 const state = {
     description: "common:modules.print.description",
@@ -113,6 +114,7 @@ const state = {
     progressWidth: "width: 0%",
     scaleAttribute: null,
     scaleList: [],
+    showInvisibleLayerInfo: true,
     serviceUrl: "",
     serviceId: "",
     visibleLayer: [],

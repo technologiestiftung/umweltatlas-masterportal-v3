@@ -2459,6 +2459,7 @@ Print module, configurable for 2 print services: *High Resolution PlotService* a
 |printMapMarker|no|Boolean|false|If set to true, map markers visible in the print image section will be printed. They may obstruct the view to interesting information.|false|
 |printService|no|String|"mapfish"|Flag determining which print service is in use. `plotservice` activates the *High Resolution PlotService*, if the parameter is not set, *Mapfish 3* is used.|false|
 |printServiceId|yes|String||Print service id. Resolved using the **[rest-services.json](rest-services.json.md)** file.|false|
+|showInvisibleLayerInfo|no|Boolean|true|Defines whether an infobox is shown when layers will not be printed because they are invisible due to scale.|false|
 |title|no|String|"PrintResult"|Document title appearing as header.|false|
 |type|no|String|"print"|The type of the module. Defines which module is configured.|false|
 

@@ -55,6 +55,7 @@
 - Custom treetype can now load gdi layer via parametriUrl
 - Issue #889: Layer is not shown in the tree anymore
 - Issue #1023: Fix layer information for GeoJSON
+- Issue #1064: Print: parameter to configure invisible layer info
 - Issue #1074: print drawn symbols
 - Issue #1075: Routing tool now works as menu entry or tool entry
 - AddWMS: WMS with subfolders are now displayed correctly in the topic tree again and can be switched on and off.

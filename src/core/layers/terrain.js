@@ -16,8 +16,7 @@ export default function TerrainLayer (attrs) {
         showSettings: false,
         selectionIDX: -1,
         useProxy: false,
-        legend: false,
-        isOutOfRange: false
+        legend: false
     };
 
     /**

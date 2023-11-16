@@ -536,10 +536,11 @@
       "categoryInspire": "Inspire",
       "categoryOpendata": "Opendata",
       "categoryOrganisation": "Government agencies",
-      "iconRemoveLayer": "Remove Topic from Map",
+      "iconRemoveLayer": "Remove topic from Map",
       "iconSubMenu": "Show more functions",
       "iconTransparency": "Transparency",
-      "infosAndLegend": "Show information about the data set"
+      "infosAndLegend": "Show information about the data set",
+      "invisibleLayer": "This topic can only be displayed at {{minScale}} - {{maxScale}}"
     },
     "legend": {
       "description": "Get information about the objects in the map",

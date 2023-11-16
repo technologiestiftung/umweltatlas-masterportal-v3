@@ -86,13 +86,29 @@ export function updateLayerAttributes (layer, layerConf) {
 /**
  * Processes the layer.
  * Layer is added to collection and map and layerConfig is updated.
- * @param {Layer} layer The layer configuration.
+ * @param {Layer} layer The layer of the layer collection.
  * @returns {void}
  */
 function processLayer (layer) {
     if (layer) {
         updateLayerConfig(layer);
+        setResolutions(layer);
         layerCollection.addLayer(layer);
+    }
+}
+
+/**
+ * If layer has attributes 'minScale' and 'maxScale', min- and maxResolution is set at ol.Layer.
+ * @param {Layer} layer The layer of the layer collection.
+ * @returns {void}
+ */
+function setResolutions (layer) {
+    if (layer.get("maxScale") !== undefined) {
+        const resoByMaxScale = store.getters["Maps/getResolutionByScale"](layer.get("maxScale"), "max"),
+            resoByMinScale = store.getters["Maps/getResolutionByScale"](layer.get("minScale"), "min");
+
+        layer.getLayer().setMaxResolution(resoByMaxScale + (resoByMaxScale / 100));
+        layer.getLayer().setMinResolution(resoByMinScale);
     }
 }
 

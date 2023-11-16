@@ -8,6 +8,7 @@ import escapeId from "../../../shared/js/utils/escapeId";
  * @module modules/layerTree/components/LayerCheckBox
  * @vue-prop {Object} conf - The current layer configuration.
  * @vue-prop {Boolean} isLayerTree - Shows if parent is layer tree (true) or layer selection (false).
+ * @vue-prop {Boolean} [disabled=false] - Set to true, layer shall be disabled.
  * @vue-computed {Boolean} isLayerVisible - Returns the value of layerConf's attribute visibility.
  */
 export default {
@@ -25,6 +26,11 @@ export default {
         isLayerTree: {
             type: Boolean,
             required: true
+        },
+        /** true, if layer shall be disabled. Default is false. */
+        disabled: {
+            type: Boolean,
+            default: false
         }
     },
     computed: {
@@ -139,6 +145,7 @@ export default {
     <button
         v-else
         :id="'layer-checkbox-' + escapeId(conf.id)"
+        :disabled="disabled"
         class="btn d-flex w-100 layer-tree-layer-title pe-2 p-1 btn-light"
         @click="clicked()"
         @keydown.enter="clicked()"

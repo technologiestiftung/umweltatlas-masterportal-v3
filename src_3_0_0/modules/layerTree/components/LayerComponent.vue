@@ -1,6 +1,7 @@
 <script>
 import {mapGetters} from "vuex";
 import layerFactory from "../../../core/layers/js/layerFactory";
+import thousandsSeparator from "../../../shared/js/utils/thousandsSeparator";
 import LayerCheckBox from "./LayerCheckBox.vue";
 import LayerComponentIconInfo from "./LayerComponentIconInfo.vue";
 import LayerComponentIconSubMenu from "./LayerComponentIconSubMenu.vue";
@@ -10,6 +11,7 @@ import LayerComponentSubMenu from "./LayerComponentSubMenu.vue";
  * Representation of a layer in layerTree.
  * @module modules/layerTree/components/LayerComponent
  * @vue-prop {Object} conf - The current layer configuration.
+ * @vue-data {String} tooltipText - Contains information about scales, when the layer shall be disable and is not shown in the map.
  */
 export default {
     name: "LayerComponent",
@@ -26,8 +28,26 @@ export default {
             required: true
         }
     },
+    data () {
+        return {
+            tooltipText: ""
+        };
+    },
     computed: {
-        ...mapGetters("Maps", ["mode"])
+        ...mapGetters("Maps", ["mode", "scale", "scales"])
+    },
+    mounted () {
+        if (this.conf.maxScale) {
+            let minScale = parseInt(this.conf.minScale, 10);
+
+            if (minScale === 0) {
+                minScale = this.scales[this.scales.length - 1];
+            }
+            this.tooltipText = this.$t("common:modules.layerTree.invisibleLayer", {
+                minScale: "1: " + thousandsSeparator(minScale),
+                maxScale: "1: " + thousandsSeparator(parseInt(this.conf.maxScale, 10), ".")
+            });
+        }
     },
     methods: {
         /**
@@ -49,6 +69,16 @@ export default {
          */
         isLayerTree () {
             return this.$parent.$options.name !== "LayerSelectionTreeNode";
+        },
+        /**
+         * Returns true, if this layer is not visible in the maps current scale. Returns false, if this is not the layerTree.
+         * @returns {Boolean}  true, if this layer is not visible in the maps current scale
+         */
+        scaleIsOutOfRange () {
+            if (!this.isLayerTree() || this.conf.maxScale === undefined) {
+                return false;
+            }
+            return this.scale > parseInt(this.conf.maxScale, 10) || this.scale < parseInt(this.conf.minScale, 10);
         }
     }
 };
@@ -61,10 +91,18 @@ export default {
         :class="['layer-tree-layer', 'd-flex', 'flex-column', 'justify-content-between', !isLayerTree() ? 'layer-selection': '']"
     >
         <div class="d-flex justify-content-between align-items-center handle-layer-component-drag">
-            <LayerCheckBox
-                :conf="conf"
-                :is-layer-tree="isLayerTree()"
-            />
+            <span
+                :data-bs-toggle="scaleIsOutOfRange() ? 'tooltip' : null"
+                data-bs-placement="bottom"
+                data-bs-custom-class="custom-tooltip"
+                :title="scaleIsOutOfRange() ? tooltipText : ''"
+            >
+                <LayerCheckBox
+                    :conf="conf"
+                    :disabled="scaleIsOutOfRange()"
+                    :is-layer-tree="isLayerTree()"
+                />
+            </span>
             <div
                 class="d-flex"
             >

@@ -99,7 +99,6 @@ function setAttributes (layer, id, layerName) {
     attributes.minScale = 0;
     attributes.maxScale = Infinity;
     attributes.checkForScale = false;
-    attributes.isOutOfRange = false;
     return attributes;
 }
 

@@ -185,38 +185,6 @@ Layer.prototype.toggleIsSelected = function () {
   
 };
 
-
-/**
- * Checks whether the layer is visible or not based on the scale.
- * @param {object} options - of the map, contains scale of the map
- * @returns {void}
- **/
-Layer.prototype.checkForScale = function (options) {
-    if (this.get("checkForScale") !== false) {
-        const lastValue = this.get("isOutOfRange");
-
-        if (options && parseFloat(options.scale, 10) <= parseInt(this.get("maxScale"), 10) && parseFloat(options.scale, 10) >= parseInt(this.get("minScale"), 10)) {
-            this.setIsOutOfRange(false);
-            if (lastValue !== false) {
-                bridge.outOfRangeChanged(this, false);
-            }
-        }
-        else {
-            this.setIsOutOfRange(true);
-            if (lastValue !== true) {
-                bridge.outOfRangeChanged(this, true);
-            }
-        }
-    }
-};
-/**
- * Sets the property 'isOutOfRange'.
- * @param {boolean} value to set
- * @returns {void}
- */
-Layer.prototype.setIsOutOfRange = function (value) {
-    this.set("isOutOfRange", value);
-};
 /**
  * Setter for isVisibleInMap and setter for layer.setVisible
  * @param {Boolean} newValue Flag if layer is visible in map

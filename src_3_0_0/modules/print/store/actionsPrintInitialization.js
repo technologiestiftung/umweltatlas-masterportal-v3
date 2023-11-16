@@ -230,33 +230,41 @@ export default {
     },
 
     /**
-     * Getting und showing the layer which is visible in print scale
-     * @param {Object} param.state the state
+     * Getting und showing the layer which is visible in print scale. Shows alert, if layers are not visible in the print scale.
      * @param {Object} param.commit the commit
      * @param {Object} param.dispatch the dispatch
+     * @param {Object} param.getters the getters
+     * @param {Object} param.rootGetters the rootGetters
      * @param {String} scale - the current print scale
      * @returns {void}
      */
-    setPrintLayers: function ({state, dispatch, commit}, scale) {
-        const invisibleLayer = [],
-            invisibleLayerNames = "";
-        let hintInfo = "";
+    setPrintLayers: function ({dispatch, commit, getters, rootGetters}, scale) {
+        const resoByMaxScale = rootGetters["Maps/getResolutionByScale"](scale, "max"),
+            resoByMinScale = rootGetters["Maps/getResolutionByScale"](scale, "min"),
+            invisibleLayer = [];
+        let invisibleLayerNames = "",
+            hintInfo = "";
 
-        hintInfo = i18next.t("common:modules.print.invisibleLayer", {scale: "1: " + thousandsSeparator(scale, " ")});
+        getters.visibleLayer.forEach(layer => {
+            if (resoByMaxScale > layer.getMaxResolution() || resoByMinScale < layer.getMinResolution()) {
+                invisibleLayer.push(layer);
+                invisibleLayerNames += "- " + layer.get("name") + "<br>";
+            }
+        });
+
+        hintInfo = i18next.t("common:modules.print.invisibleLayer", {scale: "1: " + thousandsSeparator(scale, ".")});
         hintInfo = hintInfo + "<br>" + invisibleLayerNames;
 
-        if (invisibleLayer.length && hintInfo !== state.hintInfo) {
+        if ((invisibleLayer.length && hintInfo !== getters.hintInfo) && getters.showInvisibleLayerInfo) {
             dispatch("Alerting/addSingleAlert", {
                 category: "info",
                 content: hintInfo
             }, {root: true});
             commit("setHintInfo", hintInfo);
         }
-
         if (!invisibleLayer.length) {
             commit("setHintInfo", "");
         }
-
         commit("setInvisibleLayer", invisibleLayer);
     },
 

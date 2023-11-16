@@ -539,7 +539,8 @@
       "iconRemoveLayer": "Thema aus Karte entfernen",
       "iconSubMenu": "Weitere Funktionen anzeigen",
       "iconTransparency": "Transparenz",
-      "infosAndLegend": "Informationen zum Datensatz anzeigen"
+      "infosAndLegend": "Informationen zum Datensatz anzeigen",
+      "invisibleLayer": "Dieses Thema kann nur im Maßstab {{minScale}} - {{maxScale}} angezeigt werden"
     },
     "legend": {
       "description": "Erhalte Informationen zu den Objekten in der Karte",

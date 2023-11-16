@@ -142,7 +142,6 @@ const LayerBaseView = Backbone.View.extend(/** @lends LayerBaseView.prototype */
             Radio.trigger("ModelList", "setIsSelectedOnParent", this.model);
         }
         this.rerender();
-        this.toggleColor(this.model, this.model.get("isOutOfRange"));
     },
 
     /**

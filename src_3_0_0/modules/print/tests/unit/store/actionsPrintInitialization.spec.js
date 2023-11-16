@@ -202,7 +202,7 @@ describe("src_3_0_0/modules/print/store/actionsPrintInitialization.js", () => {
     });
 
     describe("setPrintLayers", function () {
-        it("should Get the layer which is visible in print scale", done => {
+        it("should get the layer which is visible in print scale, shows hint", done => {
             const TileLayer = {
                     getMaxResolution: () => 66.80725559074865,
                     getMinResolution: () => 0.13229159522920522,
@@ -223,6 +223,29 @@ describe("src_3_0_0/modules/print/store/actionsPrintInitialization.js", () => {
             testAction(setPrintLayers, scale, state, {}, [
                 {type: "setHintInfo", payload: "", commit: true},
                 {type: "setInvisibleLayer", payload: [], commit: true}
+            ], {}, done, rootGetters);
+        });
+        it("should get the layer which is visible in print scale, shows no hint", done => {
+            const tileLayer = {
+                    getMaxResolution: () => 66.80725559074865,
+                    getMinResolution: () => 0.13229159522920522,
+                    setVisible: () => true
+                },
+                scale = 40000,
+                state = {
+                    visibleLayerList: [
+                        tileLayer
+                    ],
+                    eventListener: undefined,
+                    layoutList: [],
+                    showInvisibleLayerInfo: false
+                },
+                rootGetters = {
+                    "Maps/getResolutionByScale": () => 10
+                };
+
+            testAction(setPrintLayers, scale, state, {}, [
+                {type: "setInvisibleLayer", payload: [tileLayer], commit: true}
             ], {}, done, rootGetters);
         });
     });
