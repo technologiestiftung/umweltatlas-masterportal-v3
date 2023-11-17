@@ -789,10 +789,6 @@
     "Fachdaten": {
       "elements": [
         {
-          "id":"184",
-          "showInLayerTree": true
-        },
-        {
           "id": "10220",
           "name": "Dauerzählstellen (Rad) Hamburg",
           "typ": "WMS",

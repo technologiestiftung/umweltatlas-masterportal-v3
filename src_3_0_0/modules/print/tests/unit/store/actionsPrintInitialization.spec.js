@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import VectorLayer from "ol/layer/Vector.js";
 import sinon from "sinon";
 
@@ -26,7 +27,11 @@ const {
 } = actions;
 
 describe("src_3_0_0/modules/print/store/actionsPrintInitialization.js", () => {
-    let map = null;
+    let map = null,
+        commit,
+        dispatch,
+        getters,
+        rootGetters;
 
     before(() => {
         map = {
@@ -39,6 +44,20 @@ describe("src_3_0_0/modules/print/store/actionsPrintInitialization.js", () => {
         mapCollection.clear();
         mapCollection.addMap(map, "2D");
     });
+    beforeEach(() => {
+        commit = sinon.spy();
+        dispatch = sinon.spy();
+        getters = {
+            visibleLayer: [],
+            hintInfo: "",
+            showInvisibleLayerInfo: true
+        };
+        rootGetters = {
+            "Maps/getResolutionByScale": () => 10
+        };
+    });
+
+    afterEach(sinon.restore);
     describe("chooseCurrentLayout", () => {
         it("should choose the current Layout", done => {
             const payload = [
@@ -202,51 +221,60 @@ describe("src_3_0_0/modules/print/store/actionsPrintInitialization.js", () => {
     });
 
     describe("setPrintLayers", function () {
-        it("should get the layer which is visible in print scale, shows hint", done => {
-            const TileLayer = {
-                    getMaxResolution: () => 66.80725559074865,
-                    getMinResolution: () => 0.13229159522920522,
-                    setVisible: () => true
+        it("one layer is invisible in print scale, shows hint", () => {
+            const layer = {
+                    getMaxResolution: () => 66.807,
+                    getMinResolution: () => 10.132,
+                    get: () => "name"
                 },
-                scale = 40000,
-                state = {
-                    visibleLayerList: [
-                        TileLayer
-                    ],
-                    eventListener: undefined,
-                    layoutList: []
-                },
-                rootGetters = {
-                    "Maps/getResolutionByScale": () => 10
-                };
+                scale = 40000;
 
-            testAction(setPrintLayers, scale, state, {}, [
-                {type: "setHintInfo", payload: "", commit: true},
-                {type: "setInvisibleLayer", payload: [], commit: true}
-            ], {}, done, rootGetters);
+            getters.visibleLayer.push(layer);
+
+            setPrintLayers({dispatch, commit, getters, rootGetters}, scale);
+            expect(commit.calledTwice).to.be.true;
+            expect(commit.firstCall.args[0]).to.be.equals("setHintInfo");
+            expect(commit.firstCall.args[1].length > 0).to.be.true;
+            expect(commit.secondCall.args[0]).to.be.equals("setInvisibleLayer");
+            expect(commit.secondCall.args[1].length).to.be.equals(1);
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.be.equals("Alerting/addSingleAlert");
+            expect(typeof dispatch.firstCall.args[1]).to.deep.equals("object");
         });
-        it("should get the layer which is visible in print scale, shows no hint", done => {
-            const tileLayer = {
-                    getMaxResolution: () => 66.80725559074865,
-                    getMinResolution: () => 0.13229159522920522,
-                    setVisible: () => true
+        it("one layer is invisible in print scale, shows no hint, because showInvisibleLayerInfo is false", () => {
+            const layer = {
+                    getMaxResolution: () => 66.807,
+                    getMinResolution: () => 10.132,
+                    get: () => "name"
                 },
-                scale = 40000,
-                state = {
-                    visibleLayerList: [
-                        tileLayer
-                    ],
-                    eventListener: undefined,
-                    layoutList: [],
-                    showInvisibleLayerInfo: false
-                },
-                rootGetters = {
-                    "Maps/getResolutionByScale": () => 10
-                };
+                scale = 40000;
 
-            testAction(setPrintLayers, scale, state, {}, [
-                {type: "setInvisibleLayer", payload: [tileLayer], commit: true}
-            ], {}, done, rootGetters);
+            getters.visibleLayer.push(layer);
+            getters.showInvisibleLayerInfo = false;
+
+            setPrintLayers({dispatch, commit, getters, rootGetters}, scale);
+            expect(commit.calledOnce).to.be.true;
+            expect(commit.firstCall.args[0]).to.be.equals("setInvisibleLayer");
+            expect(commit.firstCall.args[1].length).to.be.equals(1);
+            expect(dispatch.notCalled).to.be.true;
+        });
+        it("no layer is invisible in print scale, shows no hint", () => {
+            const layer = {
+                    getMaxResolution: () => 66.807,
+                    getMinResolution: () => 0.132,
+                    get: () => "name"
+                },
+                scale = 40000;
+
+            getters.visibleLayer.push(layer);
+
+            setPrintLayers({dispatch, commit, getters, rootGetters}, scale);
+            expect(commit.calledTwice).to.be.true;
+            expect(commit.firstCall.args[0]).to.be.equals("setHintInfo");
+            expect(commit.firstCall.args[1]).to.be.equals("");
+            expect(commit.secondCall.args[0]).to.be.equals("setInvisibleLayer");
+            expect(commit.secondCall.args[1].length).to.be.equals(0);
+            expect(dispatch.notCalled).to.be.true;
         });
     });
 

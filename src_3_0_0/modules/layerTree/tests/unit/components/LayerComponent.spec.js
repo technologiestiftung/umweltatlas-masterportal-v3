@@ -47,7 +47,9 @@ describe("src_3_0_0/modules/layerTree/components/LayerComponent.vue", () => {
                 Maps: {
                     namespaced: true,
                     getters: {
-                        mode: () => mapMode
+                        mode: () => mapMode,
+                        scale: () => 20000,
+                        scales: () => [500, 1000, 10000, 20000, 100000]
                     }
                 }
             },
@@ -74,8 +76,7 @@ describe("src_3_0_0/modules/layerTree/components/LayerComponent.vue", () => {
 
         expect(wrapper.find("#layer-tree-layer-" + propsData.conf.id).exists()).to.be.true;
     });
-
-    it("renders the layer given as property to the component,  isLayerTree = false", () => {
+    it("renders the layer given as property to the component,  isLayerTree = false, no tooltip", () => {
         isLayerTree = false;
         layer.showInLayerTree = false;
         wrapper = shallowMount(LayerComponent, {
@@ -87,8 +88,10 @@ describe("src_3_0_0/modules/layerTree/components/LayerComponent.vue", () => {
 
         expect(wrapper.find("#layer-tree-layer-" + propsData.conf.id).exists()).to.be.true;
         expect(wrapper.findAll("layer-check-box-stub").length).to.be.equals(1);
+        expect(wrapper.find("span").attributes()["data-bs-toggle"]).to.be.undefined;
+        expect(wrapper.find("layer-check-box-stub").attributes().disabled).to.be.equals("false");
+        expect(wrapper.vm.tooltipText).to.be.equals("");
     });
-
     it("renders layer with visibility false and checkbox, icon and submenu for layerTree", () => {
         wrapper = shallowMount(LayerComponent, {
             global: {
@@ -99,8 +102,31 @@ describe("src_3_0_0/modules/layerTree/components/LayerComponent.vue", () => {
 
         expect(wrapper.find("#layer-tree-layer-" + propsData.conf.id).exists()).to.be.true;
         expect(wrapper.findAll("layer-check-box-stub").length).to.be.equals(1);
+        expect(wrapper.findAll("layer-component-icon-sub-menu-stub").length).to.be.equals(1);
+        expect(wrapper.findAll("layer-component-icon-info-stub").length).to.be.equals(1);
+        expect(wrapper.findAll("layer-component-sub-menu-stub").length).to.be.equals(1);
+        expect(wrapper.find("layer-check-box-stub").attributes().disabled).to.be.equals("false");
+        expect(wrapper.vm.tooltipText).to.be.equals("");
     });
+    it("renders layer, that is out of range with tooltip and disabled", () => {
+        layer.maxScale = "10000";
+        layer.minScale = "0";
+        wrapper = shallowMount(LayerComponent, {
+            global: {
+                plugins: [store]
+            },
+            propsData
+        });
 
+        expect(wrapper.find("#layer-tree-layer-" + propsData.conf.id).exists()).to.be.true;
+        expect(wrapper.findAll("layer-check-box-stub").length).to.be.equals(1);
+        expect(wrapper.findAll("layer-component-icon-sub-menu-stub").length).to.be.equals(1);
+        expect(wrapper.findAll("layer-component-icon-info-stub").length).to.be.equals(1);
+        expect(wrapper.findAll("layer-component-sub-menu-stub").length).to.be.equals(1);
+        expect(wrapper.find("span").attributes()["data-bs-toggle"]).to.be.equals("tooltip");
+        expect(wrapper.find("layer-check-box-stub").attributes().disabled).to.be.equals("true");
+        expect(wrapper.vm.tooltipText).to.be.equals("common:modules.layerTree.invisibleLayer");
+    });
     it("renders layer only with checkbox - no submenu", () => {
         isLayerTree = false;
         layer.showInLayerTree = false;
@@ -117,6 +143,7 @@ describe("src_3_0_0/modules/layerTree/components/LayerComponent.vue", () => {
         expect(wrapper.findAll("layer-component-icon-info-stub").length).to.be.equals(1);
         expect(wrapper.findAll("layer-component-sub-menu-stub").length).to.be.equals(0);
     });
+
     describe("methods", () => {
         it("test method show in 3D - typ not VectorTile", () => {
             mapMode = "3D";
@@ -132,7 +159,6 @@ describe("src_3_0_0/modules/layerTree/components/LayerComponent.vue", () => {
 
             expect(layerShallBeShown).to.be.true;
         });
-
         it("test method show in 3D - typ is VectorTile", () => {
             mapMode = "3D";
             propsData.conf.typ = "Vectortile";
@@ -147,6 +173,59 @@ describe("src_3_0_0/modules/layerTree/components/LayerComponent.vue", () => {
             const layerShallBeShown = wrapper.vm.show();
 
             expect(layerShallBeShown).to.be.false;
+        });
+        it("test method scaleIsOutOfRange, isLayerTree = false", () => {
+            isLayerTree = false;
+            wrapper = shallowMount(LayerComponent, {
+                global: {
+                    plugins: [store]
+                },
+                propsData
+            });
+
+            const scaleIsOutOfRange = wrapper.vm.scaleIsOutOfRange();
+
+            expect(scaleIsOutOfRange).to.be.false;
+        });
+        it("test method scaleIsOutOfRange, isLayerTree = true, conf.maxScale not set", () => {
+            wrapper = shallowMount(LayerComponent, {
+                global: {
+                    plugins: [store]
+                },
+                propsData
+            });
+
+            const scaleIsOutOfRange = wrapper.vm.scaleIsOutOfRange();
+
+            expect(scaleIsOutOfRange).to.be.false;
+        });
+        it("test method scaleIsOutOfRange, isLayerTree = true, conf.maxScale is set, is in scale", () => {
+            layer.maxScale = "100000";
+            layer.minScale = "0";
+            wrapper = shallowMount(LayerComponent, {
+                global: {
+                    plugins: [store]
+                },
+                propsData
+            });
+
+            const scaleIsOutOfRange = wrapper.vm.scaleIsOutOfRange();
+
+            expect(scaleIsOutOfRange).to.be.false;
+        });
+        it("test method scaleIsOutOfRange, isLayerTree = true, conf.maxScale is set, is not in scale", () => {
+            layer.maxScale = "10000";
+            layer.minScale = "0";
+            wrapper = shallowMount(LayerComponent, {
+                global: {
+                    plugins: [store]
+                },
+                propsData
+            });
+
+            const scaleIsOutOfRange = wrapper.vm.scaleIsOutOfRange();
+
+            expect(scaleIsOutOfRange).to.be.true;
         });
     });
 });

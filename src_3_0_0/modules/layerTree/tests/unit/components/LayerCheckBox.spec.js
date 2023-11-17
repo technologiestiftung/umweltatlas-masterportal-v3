@@ -97,15 +97,39 @@ describe("src_3_0_0/modules/layerTree/components/LayerCheckBox.vue", () => {
         expect(wrapper.find("#layer-checkbox-" + escapeId(propsData.conf.id)).exists()).to.be.true;
     });
 
-    it("renders layer with visibility false and checkbox", () => {
+    it("renders layer with visibility false and checkbox not disabled", () => {
+        let checkbox = null;
+
         wrapper = shallowMount(LayerCheckBox, {
             global: {
                 plugins: [store]
             },
             propsData
         });
+        checkbox = wrapper.find("#layer-checkbox-" + propsData.conf.id);
 
-        expect(wrapper.find("#layer-checkbox-" + propsData.conf.id).exists()).to.be.true;
+        expect(checkbox.exists()).to.be.true;
+        expect(checkbox.attributes().disabled).to.be.undefined;
+        expect(wrapper.findAll(".layer-tree-layer-checkbox").length).to.be.equals(1);
+        expect(wrapper.find(".layer-tree-layer-checkbox pe-2 bi-check2-square").exists()).to.be.false;
+        expect(wrapper.find(".layer-tree-layer-label").text()).to.equal(propsData.conf.name);
+        expect(wrapper.find("label").attributes("class")).not.to.include("bold");
+    });
+
+    it("renders layer with visibility false and checkbox disabled", () => {
+        let checkbox = null;
+
+        propsData.disabled = true;
+        wrapper = shallowMount(LayerCheckBox, {
+            global: {
+                plugins: [store]
+            },
+            propsData
+        });
+        checkbox = wrapper.find("#layer-checkbox-" + propsData.conf.id);
+
+        expect(checkbox.exists()).to.be.true;
+        expect(checkbox.attributes().disabled).to.equal("");
         expect(wrapper.findAll(".layer-tree-layer-checkbox").length).to.be.equals(1);
         expect(wrapper.find(".layer-tree-layer-checkbox pe-2 bi-check2-square").exists()).to.be.false;
         expect(wrapper.find(".layer-tree-layer-label").text()).to.equal(propsData.conf.name);

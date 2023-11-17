@@ -71,11 +71,11 @@ export default {
             return this.$parent.$options.name !== "LayerSelectionTreeNode";
         },
         /**
-         * Returns true, if this layer is not visible in the maps current scale. Returns false, if this is not the layerTree.
+         * Returns true, if this layer is not visible in the maps current scale. Returns false, if this is not the layerTree or mode is '3D'.
          * @returns {Boolean}  true, if this layer is not visible in the maps current scale
          */
         scaleIsOutOfRange () {
-            if (!this.isLayerTree() || this.conf.maxScale === undefined) {
+            if (!this.isLayerTree() || this.conf.maxScale === undefined || this.mode === "3D") {
                 return false;
             }
             return this.scale > parseInt(this.conf.maxScale, 10) || this.scale < parseInt(this.conf.minScale, 10);
