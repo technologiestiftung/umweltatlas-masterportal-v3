@@ -15,7 +15,7 @@ const actions = {
      * @param {Object} param.rootGetters the rootGetters
      * @returns {void}
      */
-    updateLayerTree ({commit, dispatch, getters, rootGetters}) {
+    updateLayerTree ({commit, dispatch, getters, rootGetters}, {layerId, value}) {
         const layerConfigs = [],
             maxBaselayerZIndex = Math.max(...rootGetters.layerConfigsByAttributes({
                 baselayer: true,
@@ -24,7 +24,7 @@ const actions = {
         let baselayerZIndex = maxBaselayerZIndex + 1,
             addToZIndex = 0;
 
-        getters.layersToAdd.forEach(layerId => {
+        // getters.layersToAdd.forEach(layerId => {
             let zIndex = rootGetters.determineZIndex(layerId) + addToZIndex;
 
             if (rootGetters.isBaselayer(layerId)) {
@@ -42,16 +42,16 @@ const actions = {
                 id: layerId,
                 layer: {
                     id: layerId,
-                    visibility: true,
+                    visibility: value,
                     showInLayerTree: true,
                     zIndex: zIndex
                 }
             });
-        });
+        // });
 
         dispatch("replaceByIdInLayerConfig", {layerConfigs: layerConfigs}, {root: true});
-        commit("clearLayerSelection");
-        commit("Menu/switchToRoot", getters.menuSide, {root: true});
+        // commit("clearLayerSelection");
+        // commit("Menu/switchToRoot", getters.menuSide, {root: true});
     },
 
     setNavigationByFolder ({commit, rootGetters}, {folder}) {

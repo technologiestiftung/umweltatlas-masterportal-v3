@@ -53,6 +53,7 @@ export default {
     },
     methods: {
         ...mapActions(["replaceByIdInLayerConfig"]),
+        ...mapActions("Modules/LayerSelection", ["updateLayerTree"]),
         ...mapMutations("Modules/LayerSelection", ["addSelectedLayer", "removeSelectedLayer"]),
         escapeId,
 
@@ -79,19 +80,21 @@ export default {
          * @returns {void}
          */
         clicked () {
-            if (!this.isLayerVisible || this.isLayerTree) {
+            // if (!this.isLayerVisible || this.isLayerTree) {
                 const value = !this.isChecked();
 
                 if (this.isLayerTree) {
                     this.visibilityInLayerTreeChanged(value);
                 }
                 else if (value) {
-                    this.addSelectedLayer({layerId: this.conf.id});
+                    // this.addSelectedLayer({layerId: this.conf.id});
+                    this.updateLayerTree({layerId: this.conf.id, value: true});
                 }
                 else {
-                    this.removeSelectedLayer({layerId: this.conf.id});
+                    // this.removeSelectedLayer({layerId: this.conf.id});
+                    this.updateLayerTree({layerId: this.conf.id, value: false});
                 }
-            }
+            // }
 
         },
         /**
@@ -99,10 +102,10 @@ export default {
          * @returns {Boolean} true, if layer checkbox is checked
          */
         isChecked () {
-            if (this.isLayerTree) {
-                return this.isLayerVisible;
-            }
-            return this.isLayerVisible || this.layersToAdd.indexOf(this.conf.id) > -1;
+            // if (this.isLayerTree) {
+            //     return this.isLayerVisible;
+            // }
+            return this.isLayerVisible;// || this.layersToAdd.indexOf(this.conf.id) > -1;
         }
     }
 };
@@ -110,7 +113,7 @@ export default {
 
 <template lang="html">
     <div
-        v-if="conf.baselayer && !conf.showInLayerTree"
+        v-if="conf.baselayer && !isLayerTree"
         class="w-100 p-1"
     >
         <LayerPreview

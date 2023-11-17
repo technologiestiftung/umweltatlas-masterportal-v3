@@ -32,7 +32,7 @@ export default {
         ...mapGetters("Modules/SearchBar", ["searchInput", "addLayerButtonSearchActive", "currentSide", "showAllResults"]),
         ...mapGetters("Menu", {menuCurrentComponent: "currentComponent"}),
         ...mapGetters("Maps", ["mode"]),
-        ...mapGetters(["activeOrFirstCategory", "allCategories", "invisibleBaselayerConfigs", "portalConfig"]),
+        ...mapGetters(["activeOrFirstCategory", "allCategories", "portalConfig"]),
         ...mapGetters("Modules/LayerSelection", ["visible", "subjectDataLayerConfs", "baselayerConfs", "layersToAdd", "lastFolderNames", "layerInfoVisible", "highlightLayerId"]),
         reducedFolderNames () {
             return this.lastFolderNames.length > 0 ? this.lastFolderNames.slice(1, this.lastFolderNames.length) : [];
@@ -42,12 +42,12 @@ export default {
         }
     },
     watch: {
-        invisibleBaselayerConfigs: {
-            handler (newVal) {
-                this.setBaselayerConfs(newVal);
-            },
-            deep: true
-        }
+        // invisibleBaselayerConfigs: {
+        //     handler (newVal) {
+        //         this.setBaselayerConfs(newVal);
+        //     },
+        //     deep: true
+        // }
     },
     mounted () {
         if (this.highlightLayerId) {
@@ -115,7 +115,7 @@ export default {
          * @returns {Boolean} true, if configuration shall be controlled by SelectAllCheckBox
          */
         isControlledBySelectAll (conf) {
-            return conf.type === "layer" && conf.showInLayerTree === false && (this.mode === "2D" ? !layerFactory.getLayerTypes3d().includes(conf.typ?.toUpperCase()) : true);
+            return conf.type === "layer" && (this.mode === "2D" ? !layerFactory.getLayerTypes3d().includes(conf.typ?.toUpperCase()) : true);
         },
         /**
          * Provides data for SelectAllCheckBox props.
@@ -256,19 +256,6 @@ export default {
                         />
                     </template>
                 </div>
-            </div>
-            <div
-                v-if="searchInput===''"
-                class="d-flex justify-content-center sticky layer-selection-add-layer-btn"
-            >
-                <FlatButton
-                    id="layer-selection-add-layer-btn"
-                    aria-label="$t('common:modules.layerSelection.addSelectedSubjectsToMap', {count: layersToAdd.length})"
-                    :disabled="layersToAdd.length === 0"
-                    :interaction="updateLayerTree"
-                    :text="layersToAdd.length === 0 ? $t('common:modules.layerSelection.selectedSubjectsCount', {count: layersToAdd.length}) : $t('common:modules.layerSelection.addSelectedSubjectsToMap', {count: layersToAdd.length})"
-                    :icon="'bi-plus-circle'"
-                />
             </div>
         </div>
     </div>

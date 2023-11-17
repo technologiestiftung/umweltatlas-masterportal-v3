@@ -68,10 +68,11 @@ export default {
             const allConfigs = getNestedValues(this.conf, "elements", true).flat(Infinity);
 
             if (this.mode === "2D") {
-                return this.isFolder && !allConfigs.every(conf => conf.showInLayerTree) && !allConfigs.every(conf => conf.is3DLayer);
+                // return this.isFolder && !allConfigs.every(conf => conf.showInLayerTree) && !allConfigs.every(conf => conf.is3DLayer);
+                return this.isFolder && !allConfigs.every(conf => conf.is3DLayer);
             }
 
-            return this.isFolder && !allConfigs.every(conf => conf.showInLayerTree);
+            return this.isFolder; //&& !allConfigs.every(conf => conf.showInLayerTree);
         }
     }
 };

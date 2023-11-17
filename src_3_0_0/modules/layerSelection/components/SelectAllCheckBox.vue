@@ -1,5 +1,5 @@
 <script>
-import {mapGetters, mapMutations} from "vuex";
+import {mapActions, mapGetters, mapMutations} from "vuex";
 
 /**
  * A Checkbox to select all layers at one time.
@@ -25,6 +25,7 @@ export default {
         ...mapGetters("Modules/LayerSelection", ["layersToAdd"])
     },
     methods: {
+        ...mapActions("Modules/LayerSelection", ["updateLayerTree"]),
         ...mapMutations("Modules/LayerSelection", ["addSelectedLayer", "removeSelectedLayer"]),
 
         /**
@@ -35,10 +36,12 @@ export default {
             this.checked = !this.checked;
             this.confs.forEach(conf => {
                 if (this.checked) {
-                    this.addSelectedLayer({layerId: conf.id});
+                    // this.addSelectedLayer({layerId: conf.id});
+                    this.updateLayerTree({layerId: conf.id, value: true});
                 }
                 else {
-                    this.removeSelectedLayer({layerId: conf.id});
+                    // this.removeSelectedLayer({layerId: conf.id});
+                    this.updateLayerTree({layerId: conf.id, value: false});
                 }
             });
 
@@ -48,7 +51,7 @@ export default {
          * @returns {Boolean} true, if select all shall be checked
          */
         isChecked () {
-            this.checked = this.confs.every((conf) => this.layersToAdd.indexOf(conf.id) > -1);
+            // this.checked = this.confs.every((conf) => this.layersToAdd.indexOf(conf.id) > -1);
             return this.checked;
         },
         /**
