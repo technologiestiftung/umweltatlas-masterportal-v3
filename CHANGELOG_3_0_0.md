@@ -67,6 +67,7 @@
 - Search Bar: Styled the input field.
 - Print: Styled loading button.
 - The roadmap dates have been updated. See [Readme](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/README.md).
+- Layers are only displayed on the 2D-map, if layers attributes minScale and maxScale are in maps scale-range. The layer is grayed out in the topic tree if it is not displayed on the map.
 
 ### Deprecated
 
