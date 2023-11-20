@@ -2835,6 +2835,7 @@ Konfigurationsoptionen für die Legende.
 |icon|nein|String|"bi-lightbulb"|Icon der Legende.|false|
 |name|ja|String|"common:modules.legend.name"|Name des Modules im Menü.|false|
 |type|nein|String|"legend"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
+|sldVersion|nein|String|""|Gibt die Styled Layer Descriptor Version an, mit der die GetLegendGraphic Requests abgesetzt werden sollen. Beispiel: "1.1.0"|false|
 
 ***
 
