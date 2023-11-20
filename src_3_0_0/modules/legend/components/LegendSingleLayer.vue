@@ -16,10 +16,8 @@ export default {
         }
     },
     computed: {
-        sld: {
-            get () {
-                return state.sldVersion;
-            }
+        sld () {
+            return state.sldVersion;
         }}
 };
 </script>
@@ -46,6 +44,7 @@ export default {
                         :alt="legendPart.name ? legendPart.name : legendObj.name"
                         :src="legendPart + (legendPart.toUpperCase().includes('GETLEGENDGRAPHIC') && sld ? '&sld_version=' + sld : '')"
                     >
+                    <div>{{ legendPart + (legendPart.toUpperCase().includes('GETLEGENDGRAPHIC') && sld ? '&sld_version=' + sld : '') }}</div>
                     <!--Legend as SVG-->
                     <div
                         v-if="legendPart.endsWith('</svg>')"
