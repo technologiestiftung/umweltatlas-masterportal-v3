@@ -20,7 +20,7 @@ import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createSty
 import {getRulesForFeature} from "@masterportal/masterportalapi/src/vectorStyle/lib/getRuleForIndex";
 import layerCollection from "../../../core/layers/js/layerCollection";
 import {uniqueId} from "../../../shared/js/utils/uniqueId.js";
-import legendStore from "../../../legend/store/indexLegend.js";
+import legendStore from "../../legend/store/indexLegend.js";
 
 const BuildSpecModel = {
     defaults: {
