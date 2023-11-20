@@ -23,6 +23,7 @@ export default {
     name: "common:modules.legend.name",
     supportedDevices: ["Desktop", "Mobile", "Table"],
     supportedMapModes: ["2D", "3D"],
+    sldVersion: "",
 
     legends: [],
     waitingLegendsInfos: [],

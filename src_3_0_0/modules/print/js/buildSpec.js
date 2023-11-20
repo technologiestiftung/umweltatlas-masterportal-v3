@@ -20,6 +20,7 @@ import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createSty
 import {getRulesForFeature} from "@masterportal/masterportalapi/src/vectorStyle/lib/getRuleForIndex";
 import layerCollection from "../../../core/layers/js/layerCollection";
 import {uniqueId} from "../../../shared/js/utils/uniqueId.js";
+import legendStore from "../../../legend/store/indexLegend.js";
 
 const BuildSpecModel = {
     defaults: {
@@ -1313,7 +1314,7 @@ const BuildSpecModel = {
                     else {
                         legendObject.layers.push({
                             layerName: legendObj.name,
-                            values: this.prepareLegendAttributes(legendObj.legend)
+                            values: this.prepareLegendAttributes(legendObj.legend, legendStore.state.sldVersion)
                         });
                     }
                 }
@@ -1360,9 +1361,10 @@ const BuildSpecModel = {
     /**
      * Prepares Attributes for legend in mapfish-print template
      * @param {Object} legend Legend of layer.
+     * @param {String} sldVersion sld version for GetLegendGraphic Requests
      * @returns {Object[]} - prepared legend attributes.
      */
-    prepareLegendAttributes: function (legend) {
+    prepareLegendAttributes: function (legend, sldVersion = "") {
         const valuesArray = [];
 
         legend.forEach(legendPart => {
@@ -1394,7 +1396,7 @@ const BuildSpecModel = {
             }
             else if (graphic.toUpperCase().includes("GETLEGENDGRAPHIC")) {
                 legendObj.legendType = "wmsGetLegendGraphic";
-                legendObj.imageUrl = graphic;
+                legendObj.imageUrl = graphic + (sldVersion ? "&sld_version=" + sldVersion : "");
             }
             else {
                 legendObj.legendType = "wfsImage";
