@@ -4,6 +4,9 @@
  * @module modules/LegendSingleLayer
  * @vue-prop {Object} legendObj - The Legend.
  */
+
+import state from "../store/stateLegend";
+
 export default {
     name: "LegendSingleLayer",
     props: {
@@ -11,7 +14,13 @@ export default {
             type: Object && undefined,
             required: true
         }
-    }
+    },
+    computed: {
+        sld: {
+            get () {
+                return state.sldVersion;
+            }
+        }}
 };
 </script>
 
@@ -35,7 +44,7 @@ export default {
                     <img
                         v-if="!legendPart.endsWith('.pdf') && !legendPart.endsWith('</svg>')"
                         :alt="legendPart.name ? legendPart.name : legendObj.name"
-                        :src="legendPart"
+                        :src="legendPart + (legendPart.toUpperCase().includes('GETLEGENDGRAPHIC') && sld ? '&sld_version=' + sld : '')"
                     >
                     <!--Legend as SVG-->
                     <div
