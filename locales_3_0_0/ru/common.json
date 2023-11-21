@@ -464,7 +464,7 @@
       "legend": "Легенда",
       "name": "Информации и легенды",
       "noMetadataLoaded": "Не удалось загрузить метаданные!",
-      "periodicityTitle": "Периодичность",
+      "periodicityTitle": "",
       "publicationCreation": "Публикация / создание"
     },
     "layerPills": {

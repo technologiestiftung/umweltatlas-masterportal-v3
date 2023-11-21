@@ -464,7 +464,7 @@
       "legend": "Leyenda",
       "name": "Información y leyenda",
       "noMetadataLoaded": "¡No se han podido cargar los metadatos!",
-      "periodicityTitle": "Periodicidad",
+      "periodicityTitle": "",
       "publicationCreation": "Publicación / Creación"
     },
     "layerPills": {
