@@ -104,9 +104,9 @@ describe("src_3_0_0/modules/searchBar/components/SearchBarResultListTopicTreeIte
 
             expect(wrapper.find("#search-bar-result-list-topic-tree-item-BeidemNeuenKrahnStraße").exists()).to.be.true;
             expect(wrapper.find("span#search-bar-result-list-topic-tree-item-checkbox-BeidemNeuenKrahnStraße").exists()).to.be.true;
-            expect(wrapper.find("label.search-bar-result-list-topic-tree-item-label").exists()).to.be.true;
-            expect(wrapper.find("label.search-bar-result-list-topic-tree-item-label > span").exists()).to.be.true;
-            expect(wrapper.find("label.search-bar-result-list-topic-tree-item-label > span").text()).to.equals("Bei dem Neuen Krahn");
+            expect(wrapper.find("span.search-bar-result-list-topic-tree-item-label").exists()).to.be.true;
+            expect(wrapper.find("span.search-bar-result-list-topic-tree-item-label > span").exists()).to.be.true;
+            expect(wrapper.find("span.search-bar-result-list-topic-tree-item-label > span").text()).to.equals("Bei dem Neuen Krahn");
             expect(wrapper.findAll("action-button-stub").length).to.be.equals(1);
             expect(wrapper.find("action-button-stub").attributes("actionname")).to.be.equals("activateLayerInTopicTree");
         });
@@ -124,9 +124,9 @@ describe("src_3_0_0/modules/searchBar/components/SearchBarResultListTopicTreeIte
 
             expect(wrapper.find("#search-bar-result-list-topic-tree-item-BeidemNeuenKrahnStraße").exists()).to.be.true;
             expect(wrapper.find("span#search-bar-result-list-topic-tree-item-checkbox-BeidemNeuenKrahnStraße").exists()).to.be.true;
-            expect(wrapper.find("label.search-bar-result-list-topic-tree-item-label").exists()).to.be.true;
-            expect(wrapper.find("label.search-bar-result-list-topic-tree-item-label > span").exists()).to.be.true;
-            expect(wrapper.find("label.search-bar-result-list-topic-tree-item-label > span").text()).to.equals("Bei dem Neuen Krahn");
+            expect(wrapper.find("span.search-bar-result-list-topic-tree-item-label").exists()).to.be.true;
+            expect(wrapper.find("span.search-bar-result-list-topic-tree-item-label > span").exists()).to.be.true;
+            expect(wrapper.find("span.search-bar-result-list-topic-tree-item-label > span").text()).to.equals("Bei dem Neuen Krahn");
             expect(wrapper.findAll("action-button-stub").length).to.be.equals(0);
         });
     });
