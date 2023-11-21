@@ -276,7 +276,7 @@ export default {
     }
 }
 
-@include media-breakpoint-up(lg) {
+@include media-breakpoint-up(sm) {
     .mp-menu-header-close-button {
         display: none;
     }

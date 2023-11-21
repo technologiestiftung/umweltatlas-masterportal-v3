@@ -220,7 +220,7 @@ export default {
     <div class="form-group-sm mx-0 mb-4">
         <div class="d-flex justify-content-between">
             <label
-                :id="'routingCoordinateInput_' + waypoint.index"
+                :id="'routingCoordinateLabel_' + waypoint.index"
                 :for="'routingCoordinateInput_' + waypoint.index"
                 class="d-flex flex-row pr-0 pl-0"
             >

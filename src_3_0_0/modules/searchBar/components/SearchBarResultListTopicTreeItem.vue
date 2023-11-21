@@ -89,7 +89,7 @@ export default {
                     }
                 ]"
             />
-            <label
+            <span
                 :class="['search-bar-result-list-topic-tree-item-label', 'mt-0 d-flex flex-column align-self-start', isChecked ? 'bold' : '']"
                 :for="'search-bar-result-list-topic-tree-item-checkbox-' + searchResult.id"
                 tabindex="0"
@@ -98,7 +98,7 @@ export default {
                 <span>
                     {{ $t(searchResult.name) }}
                 </span>
-            </label>
+            </span>
         </button>
         <div class="ms-auto mt-1 d-flex">
             <div

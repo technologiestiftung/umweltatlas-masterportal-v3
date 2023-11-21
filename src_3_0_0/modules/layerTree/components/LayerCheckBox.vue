@@ -153,7 +153,7 @@ export default {
                 }
             ]"
         />
-        <label
+        <span
             :class="['layer-tree-layer-label', 'mt-0 d-flex flex-column align-self-start', isBold ? 'bold' : '']"
             :for="'layer-tree-layer-checkbox-' + conf.id"
             tabindex="0"
@@ -169,7 +169,7 @@ export default {
             >
                 {{ $t(conf.name) }}
             </span>
-        </label>
+        </span>
     </button>
 </template>
 

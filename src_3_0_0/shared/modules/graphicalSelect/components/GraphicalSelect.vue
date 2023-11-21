@@ -303,7 +303,7 @@ export default {
                 {{ value }}
             </option>
         </select>
-        <label for="printLayout">
+        <label for="graphicalSelect">
             {{ $t(label) }}
         </label>
     </div>
