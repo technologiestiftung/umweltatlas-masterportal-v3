@@ -82,11 +82,11 @@ export default {
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 
     .title {
-        font-size: $font_size_big;
-        font-weight: bold;
+        font-size: $font-size-base;
+        font-family: $font_family_accent;
     }
     .info {
-        font-size: $font_size_big;
+        font-size: $font_size_sm;
         font-style: italic;
     }
 }
