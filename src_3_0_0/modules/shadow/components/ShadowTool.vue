@@ -270,12 +270,12 @@ export default {
             class="d-block"
         >
             <div class="d-flex justify-content-between">
-                <label
+                <span
                     class="d-flex flex-column justify-content-center form-label mb-0"
                     for="datePicker"
                 >
                     {{ $t('common:modules.shadow.pickDate') }}
-                </label>
+                </span>
                 <div
                     id="dateSelector"
                 >
