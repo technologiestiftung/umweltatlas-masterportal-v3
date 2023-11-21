@@ -28,7 +28,6 @@ describe("src_3_0_0/modules/layerInformation/components/LayerInformation.vue", (
                                 title: () => "",
                                 layerInfo: () => ({"metaIdArray": [], "url": ["https://wms.example.org/", "https://wfs.example.org/?evil=1", "./local.geojson"], "typ": ["WMS", "WFS", "GeoJSON"], "layerNames": ["X-WMS", "X-WFS", ""]}),
                                 datePublication: () => null,
-                                dateRevision: () => null,
                                 downloadLinks: () => null,
                                 periodicityKey: () => null,
                                 abstractText: () => "Test",

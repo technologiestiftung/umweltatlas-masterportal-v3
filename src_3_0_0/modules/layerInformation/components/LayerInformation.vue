@@ -10,7 +10,6 @@ import {isWebLink} from "../../../shared/js/utils/urlHelper";
  * @vue-computed {Boolean} showAdditionalMetaData - Shows if additional meta data should be displayed.
  * @vue-computed {Boolean} showCustomMetaData - Shows if custom meta data should be displayed.
  * @vue-computed {Boolean} showPublication - Shows if publication should be displayed.
- * @vue-computed {Boolean} showRevision - Shows if revision should be displayed.
  * @vue-computed {Boolean} showPeriodicity - Shows if periodicity should be displayed.
  * @vue-computed {Boolean} showDownloadLinks - Shows if download lonks should be displayed.
  * @vue-computed {Boolean} showUrl - Shows if url should be displayed.
@@ -34,7 +33,6 @@ export default {
             "abstractText",
             "customText",
             "datePublication",
-            "dateRevision",
             "downloadLinks",
             "layerInfo",
             "metaURLs",
@@ -53,9 +51,6 @@ export default {
         },
         showPublication () {
             return typeof this.datePublication !== "undefined" && this.datePublication !== null && this.datePublication !== "";
-        },
-        showRevision () {
-            return typeof this.dateRevision !== "undefined" && this.dateRevision !== null && this.dateRevision !== "";
         },
         showPeriodicity () {
             return this.periodicityKey !== "" && this.periodicityKey !== null && this.periodicityKey !== undefined;
@@ -172,9 +167,6 @@ export default {
         <br>
         <p v-if="showPublication">
             {{ $t("common:modules.layerInformation.publicationCreation") }}: {{ datePublication }}
-        </p>
-        <p v-if="showRevision">
-            {{ $t("common:modules.layerInformation.lastModified") }}: {{ dateRevision }}
         </p>
         <p v-if="showPeriodicity">
             {{ $t("common:modules.layerInformation.periodicityTitle") }}: {{ $t(periodicityKey) }}
