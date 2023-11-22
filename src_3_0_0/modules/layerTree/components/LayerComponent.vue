@@ -61,7 +61,6 @@ export default {
             if (this.isLayerTree()) {
                 return this.conf.showInLayerTree === true && showLayerTyp;
             }
-            // return this.conf.showInLayerTree === false && showLayerTyp;
             return showLayerTyp;
         },
         /**

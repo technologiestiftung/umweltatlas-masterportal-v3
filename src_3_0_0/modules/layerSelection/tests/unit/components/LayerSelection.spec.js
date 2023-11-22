@@ -1,5 +1,5 @@
 import {createStore} from "vuex";
-import {config, shallowMount, mount} from "@vue/test-utils";
+import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 import LayerSelectionComponent from "../../../components/LayerSelection.vue";
@@ -20,7 +20,6 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
         subjectDataLayers,
         layersWithFolder,
         layersBG,
-        layersToAdd,
         changeCategorySpy,
         mapMode,
         showAllResults,
@@ -48,7 +47,6 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
             }
         ];
         changeCategorySpy = sinon.spy();
-        layersToAdd = [];
         layer2D_1 = {
             id: "1",
             name: "layer2D_1",
@@ -116,7 +114,7 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
         subjectDataLayers = layersWithFolder;
         LayerSelection.actions.navigateForward = sinon.spy();
         LayerSelection.actions.navigateBack = sinon.spy();
-        LayerSelection.actions.updateLayerTree = sinon.spy();
+        LayerSelection.actions.changeVisibility = sinon.spy();
         store = createStore({
             namespaces: true,
             modules: {
@@ -186,7 +184,6 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
                 initializeModule: () => ""
             }
         });
-        LayerSelection.getters.layersToAdd = () => layersToAdd;
         LayerSelection.state.visible = true;
 
         store.commit("Modules/LayerSelection/setSubjectDataLayerConfs", subjectDataLayers);
@@ -218,7 +215,6 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
         expect(wrapper.find("#layer-selection").exists()).to.be.true;
         expect(wrapper.findAll("layer-selection-tree-node-stub").length).to.be.equals(0);
         expect(wrapper.findAll("layer-check-box-stub").length).to.be.equals(0);
-        expect(wrapper.find("flat-button-stub").exists()).to.be.true;
     });
 
     it("renders the LayerSelection with folder-buttons and checkboxes for background-layers", async () => {
@@ -232,7 +228,6 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
         expect(wrapper.find("#layer-selection").exists()).to.be.true;
         expect(wrapper.findAll("layer-check-box-stub").length).to.be.equals(2);
         expect(wrapper.findAll("layer-selection-tree-node-stub").length).to.be.equals(1);
-        expect(wrapper.find("flat-button-stub").exists()).to.be.true;
     });
 
     it("renders the LayerSelection without categories", () => {
@@ -430,28 +425,6 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
             expect(filtered[0]).to.deep.equals(layerBG_1);
             expect(filtered[1]).to.deep.equals(layerBG_2);
             expect(filtered[2]).to.deep.equals(layerBG_3);
-        });
-    });
-
-    describe("watcher", () => {
-        it("invisibleBaselayerConfigs changed", () => {
-            const newValue = [{
-                id: "WMTS",
-                name: "EOC Basemap",
-                visibility: false,
-                baselayer: true,
-                showInLayerTree: false
-            }];
-
-            wrapper = shallowMount(LayerSelectionComponent, {
-                global: {
-                    plugins: [store]
-                }});
-
-            wrapper.vm.$options.watch.invisibleBaselayerConfigs.handler.call(wrapper.vm, newValue);
-            expect(store.state.Modules.LayerSelection.baselayerConfs).to.be.an("Array");
-            expect(store.state.Modules.LayerSelection.baselayerConfs.length).to.be.equals(1);
-            expect(store.state.Modules.LayerSelection.baselayerConfs).to.be.deep.equals(newValue);
         });
     });
 });

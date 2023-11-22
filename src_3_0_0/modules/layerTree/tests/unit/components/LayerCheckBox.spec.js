@@ -15,15 +15,12 @@ describe("src_3_0_0/modules/layerTree/components/LayerCheckBox.vue", () => {
         layer,
         propsData,
         replaceByIdInLayerConfigSpy,
-        addSelectedLayerSpy,
-        removeSelectedLayerSpy,
+        changeVisibilitySpy,
         isLayerTree,
-        layersToAdd,
         highlightLayerId;
 
     beforeEach(() => {
         isLayerTree = true;
-        layersToAdd = [];
         highlightLayerId = null;
         layer = {
             id: "1",
@@ -38,8 +35,7 @@ describe("src_3_0_0/modules/layerTree/components/LayerCheckBox.vue", () => {
         };
 
         replaceByIdInLayerConfigSpy = sinon.spy();
-        addSelectedLayerSpy = sinon.spy();
-        removeSelectedLayerSpy = sinon.spy();
+        changeVisibilitySpy = sinon.spy();
         sinon.stub(layerFactory, "getLayerTypes3d").returns(["TERRAIN3D"]);
         store = createStore({
             namespaces: true,
@@ -52,12 +48,12 @@ describe("src_3_0_0/modules/layerTree/components/LayerCheckBox.vue", () => {
                         LayerSelection: {
                             namespaced: true,
                             mutations: {
-                                addSelectedLayer: addSelectedLayerSpy,
-                                removeSelectedLayer: removeSelectedLayerSpy,
                                 setHighlightLayerId: sinon.stub()
                             },
+                            actions: {
+                                changeVisibility: changeVisibilitySpy
+                            },
                             getters: {
-                                layersToAdd: () => layersToAdd,
                                 highlightLayerId: () => highlightLayerId
                             }
                         }
@@ -138,7 +134,7 @@ describe("src_3_0_0/modules/layerTree/components/LayerCheckBox.vue", () => {
 
     it("renders background-layer as simple preview", () => {
         layer.baselayer = true;
-        layer.showInLayerTree = false;
+        propsData.isLayerTree = false;
 
         wrapper = shallowMount(LayerCheckBox, {
             global: {
@@ -155,7 +151,7 @@ describe("src_3_0_0/modules/layerTree/components/LayerCheckBox.vue", () => {
 
     it("renders background-layer with preview in config", () => {
         layer.baselayer = true;
-        layer.showInLayerTree = false;
+        propsData.isLayerTree = false;
         layer.shortname = "shortname";
         layer.preview = {
             customClass: "customClass",
@@ -348,11 +344,11 @@ describe("src_3_0_0/modules/layerTree/components/LayerCheckBox.vue", () => {
 
     it("layerSelection: click on checked checkbox of layer with visibility true, call removeSelectedLayer", async () => {
         const spyArg = {
-            layerId: layer.id
+            layerId: layer.id,
+            value: true
         };
         let checkbox = null;
 
-        layersToAdd = [layer.id];
         propsData.isLayerTree = false;
         propsData.conf.visibility = false;
         wrapper = shallowMount(LayerCheckBox, {
@@ -369,8 +365,8 @@ describe("src_3_0_0/modules/layerTree/components/LayerCheckBox.vue", () => {
         checkbox.trigger("click");
         await wrapper.vm.$nextTick();
 
-        expect(removeSelectedLayerSpy.calledOnce).to.be.true;
-        expect(removeSelectedLayerSpy.firstCall.args[1]).to.be.deep.equals(spyArg);
+        expect(changeVisibilitySpy.calledOnce).to.be.true;
+        expect(changeVisibilitySpy.firstCall.args[1]).to.be.deep.equals(spyArg);
     });
 
 

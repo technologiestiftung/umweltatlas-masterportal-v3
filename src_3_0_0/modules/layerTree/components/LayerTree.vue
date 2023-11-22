@@ -16,7 +16,7 @@ export default {
         LayerTreeNode
     },
     computed: {
-        ...mapGetters(["portalConfig", "allLayerConfigsStructured", "showLayerAddButton"]),
+        ...mapGetters(["allLayerConfigsStructured", "showLayerAddButton"]),
         ...mapGetters("Modules/LayerTree", ["menuSide"]),
         ...mapGetters("Modules/LayerSelection", {layerSelectionType: "type", layerSelectionName: "name"})
     },
@@ -38,8 +38,7 @@ export default {
          */
         showLayerSelection () {
             const subjectDataLayerConfs = this.sort(this.allLayerConfigsStructured(treeSubjectsKey)),
-            baselayerConfs = this.allLayerConfigsStructured(treeBaselayersKey);
-                // baselayerConfs = allBaselayerConfs.filter(config => !config.showInLayerTree);
+                baselayerConfs = this.allLayerConfigsStructured(treeBaselayersKey);
 
             this.changeCurrentComponent({type: this.layerSelectionType, side: this.menuSide, props: {name: this.layerSelectionName}});
             this.navigateForward({lastFolderName: "root", subjectDataLayerConfs, baselayerConfs});

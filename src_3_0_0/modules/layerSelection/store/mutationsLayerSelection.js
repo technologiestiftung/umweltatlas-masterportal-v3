@@ -9,37 +9,11 @@ const mutations = {
      * @returns {void}
      */
     clearLayerSelection (state) {
-        state.layersToAdd = [];
         state.lastFolderNames = [];
         state.lastSubjectDataLayerConfs = [];
         state.lastBaselayerConfs = [];
     },
-    /**
-     * Adds the layer id to state.layersToAdd.
-     * @param {Object} state vuex state
-     * @param {String} layerId the id of the layer
-     * @returns {void}
-     */
-    addSelectedLayer (state, {layerId}) {
-        const index = state.layersToAdd.indexOf(layerId);
 
-        if (index === -1) {
-            state.layersToAdd.push(layerId);
-        }
-    },
-    /**
-     * Removes the layer id from state.layersToAdd.
-     * @param {Object} state vuex state
-     * @param {String} layerId the id of the layer
-     * @returns {void}
-     */
-    removeSelectedLayer (state, {layerId}) {
-        const index = state.layersToAdd.indexOf(layerId);
-
-        if (index > -1) {
-            state.layersToAdd.splice(index, 1);
-        }
-    },
     /**
      * Reduces state to previus navigation state.
      * @param {Object} state vuex state

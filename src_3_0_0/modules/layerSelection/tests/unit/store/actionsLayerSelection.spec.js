@@ -4,7 +4,7 @@ import collectDataByFolderModule from "../../../js/collectDataByFolder";
 
 import actions from "../../../store/actionsLayerSelection";
 
-const {updateLayerTree, navigateForward, navigateBack, setNavigationByFolder, showLayer, reset} = actions;
+const {changeVisibility, navigateForward, navigateBack, setNavigationByFolder, showLayer, reset} = actions;
 
 describe("src_3_0_0/modules/layerSelection/store/actionsLayerSelection", () => {
     let commit,
@@ -27,7 +27,6 @@ describe("src_3_0_0/modules/layerSelection/store/actionsLayerSelection", () => {
         };
         folder.elements = [layerConfig];
         getters = {
-            layersToAdd: ["1", "2"],
             menuSide: "mainMenu",
             layerConfigById: () => layerConfig,
             folderById: () => folder
@@ -45,8 +44,8 @@ describe("src_3_0_0/modules/layerSelection/store/actionsLayerSelection", () => {
 
     afterEach(sinon.restore);
 
-    describe("updateLayerTree", () => {
-        it("updateLayerTree for two layers", () => {
+    describe("changeVisibility", () => {
+        it("changeVisibility to true for one layers", () => {
             const expectedArg = {
                 layerConfigs: [
                     {
@@ -57,35 +56,19 @@ describe("src_3_0_0/modules/layerSelection/store/actionsLayerSelection", () => {
                             showInLayerTree: true,
                             zIndex: 0
                         }
-                    },
-                    {
-                        id: "2",
-                        layer: {
-                            id: "2",
-                            visibility: true,
-                            showInLayerTree: true,
-                            zIndex: 1
-                        }
                     }
                 ]
             };
 
-            updateLayerTree({commit, dispatch, getters, rootGetters});
-
-            expect(commit.calledTwice).to.be.true;
-            expect(commit.firstCall.args[0]).to.be.equals("clearLayerSelection");
-            expect(commit.firstCall.args[1]).to.be.undefined;
-            expect(commit.secondCall.args[0]).to.be.equals("Menu/switchToRoot");
-            expect(commit.secondCall.args[1]).to.be.equals("mainMenu");
+            changeVisibility({dispatch, rootGetters}, {layerId: "1", value: true});
 
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.be.equals("replaceByIdInLayerConfig");
             expect(dispatch.firstCall.args[1]).to.deep.equals(expectedArg);
         });
 
-        it("updateLayerTree for one layer and one baselayer", () => {
+        it("changeVisibility to true for one baselayer", () => {
             getters = {
-                layersToAdd: ["100", "2"],
                 menuSide: "mainMenu"
             };
 
@@ -98,20 +81,15 @@ describe("src_3_0_0/modules/layerSelection/store/actionsLayerSelection", () => {
                     zIndex: 1
                 },
                 {
-                    id: "2",
+                    id: "200",
+                    baselayer: true,
                     visibility: true,
                     showInLayerTree: true,
                     zIndex: 0
                 }
             ];
 
-            updateLayerTree({commit, dispatch, getters, rootGetters});
-
-            expect(commit.calledTwice).to.be.true;
-            expect(commit.firstCall.args[0]).to.be.equals("clearLayerSelection");
-            expect(commit.firstCall.args[1]).to.be.undefined;
-            expect(commit.secondCall.args[0]).to.be.equals("Menu/switchToRoot");
-            expect(commit.secondCall.args[1]).to.be.equals("mainMenu");
+            changeVisibility({dispatch, rootGetters}, {layerId: "100", value: true});
 
             expect(dispatch.calledTwice).to.be.true;
             expect(dispatch.firstCall.args[0]).to.be.equals("updateLayerConfigZIndex");
@@ -125,7 +103,8 @@ describe("src_3_0_0/modules/layerSelection/store/actionsLayerSelection", () => {
                         zIndex: 1
                     },
                     {
-                        id: "2",
+                        id: "200",
+                        baselayer: true,
                         visibility: true,
                         showInLayerTree: true,
                         zIndex: 0
@@ -143,15 +122,6 @@ describe("src_3_0_0/modules/layerSelection/store/actionsLayerSelection", () => {
                             visibility: true,
                             showInLayerTree: true,
                             zIndex: 2
-                        }
-                    },
-                    {
-                        id: "2",
-                        layer: {
-                            id: "2",
-                            visibility: true,
-                            showInLayerTree: true,
-                            zIndex: 0
                         }
                     }
                 ]

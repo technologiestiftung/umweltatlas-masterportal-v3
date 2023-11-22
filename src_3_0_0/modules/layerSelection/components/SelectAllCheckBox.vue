@@ -1,5 +1,6 @@
 <script>
-import {mapActions, mapGetters, mapMutations} from "vuex";
+import escapeId from "../../../shared/js/utils/escapeId";
+import {mapActions} from "vuex";
 
 /**
  * A Checkbox to select all layers at one time.
@@ -21,12 +22,8 @@ export default {
             checked: false
         };
     },
-    computed: {
-        ...mapGetters("Modules/LayerSelection", ["layersToAdd"])
-    },
     methods: {
-        ...mapActions("Modules/LayerSelection", ["updateLayerTree"]),
-        ...mapMutations("Modules/LayerSelection", ["addSelectedLayer", "removeSelectedLayer"]),
+        ...mapActions("Modules/LayerSelection", ["changeVisibility"]),
 
         /**
          * Listener for click on select all checkbox.
@@ -35,23 +32,16 @@ export default {
         clicked () {
             this.checked = !this.checked;
             this.confs.forEach(conf => {
-                if (this.checked) {
-                    // this.addSelectedLayer({layerId: conf.id});
-                    this.updateLayerTree({layerId: conf.id, value: true});
-                }
-                else {
-                    // this.removeSelectedLayer({layerId: conf.id});
-                    this.updateLayerTree({layerId: conf.id, value: false});
-                }
+                this.changeVisibility({layerId: conf.id, value: this.checked});
             });
 
         },
         /**
-         * Returns true, if select all shall be checked.
-         * @returns {Boolean} true, if select all shall be checked
+         * Returns true, if all layer configs are visible.
+         * @returns {Boolean} true,  if all layer configs are visible
          */
         isChecked () {
-            // this.checked = this.confs.every((conf) => this.layersToAdd.indexOf(conf.id) > -1);
+            this.checked = this.confs.every((conf) => conf.visibility === true);
             return this.checked;
         },
         /**
@@ -59,7 +49,7 @@ export default {
          * @returns {String} of the ids all layer configs
          */
         ids () {
-            return this.confs.map(conf => conf.id).join("-");
+            return this.confs.map(conf => escapeId(conf.id)).join("-");
         }
     }
 };

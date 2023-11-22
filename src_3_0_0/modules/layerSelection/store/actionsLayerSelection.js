@@ -5,9 +5,8 @@ import {treeSubjectsKey} from "../../../shared/js/utils/constants";
 const actions = {
 
     /**
-     * Updates the layerTree with all configs added to state.layersToAdd.
-     * Sets 'visibility' and 'showInLayerTree' to true at each layer.
-     * Clears state.layersToAdd and redirects to main menu.
+     * Updates the config to the given layer id, sets 'visibility' and 'showInLayerTree' to true at each layer.
+     * Determines the zIndex and sets it too.
      * Note: Baselayer will be set on top of the baselayer with the highest zIndex.
      * @param {Object} param.commit the commit
      * @param {Object} param.dispatch the dispatch
@@ -15,45 +14,45 @@ const actions = {
      * @param {Object} param.rootGetters the rootGetters
      * @returns {void}
      */
-    updateLayerTree ({commit, dispatch, getters, rootGetters}, {layerId, value}) {
-        const layerConfigs = [],
-            maxBaselayerZIndex = Math.max(...rootGetters.layerConfigsByAttributes({
-                baselayer: true,
+    changeVisibility ({dispatch, rootGetters}, {layerId, value}) {
+        const layerConfig = {
+            id: layerId,
+            layer: {
+                id: layerId,
+                visibility: value,
                 showInLayerTree: true
-            }).map(layer => layer.zIndex));
-        let baselayerZIndex = maxBaselayerZIndex + 1,
-            addToZIndex = 0;
+            }
+        };
+        let zIndex = -1;
 
-        // getters.layersToAdd.forEach(layerId => {
-            let zIndex = rootGetters.determineZIndex(layerId) + addToZIndex;
-
+        if (value === true) {
             if (rootGetters.isBaselayer(layerId)) {
+                const maxBaselayerZIndex = Math.max(...rootGetters.layerConfigsByAttributes({
+                    baselayer: true,
+                    showInLayerTree: true
+                }).map(layer => layer.zIndex));
+
                 dispatch("updateLayerConfigZIndex", {
                     layerContainer: rootGetters.layerConfigsByAttributes({showInLayerTree: true}),
                     maxZIndex: maxBaselayerZIndex
                 }, {root: true});
-                zIndex = baselayerZIndex++;
+                zIndex = maxBaselayerZIndex + 1;
             }
             else {
-                addToZIndex++;
+                zIndex = rootGetters.determineZIndex(layerId);
             }
+            layerConfig.layer.zIndex = zIndex;
+        }
 
-            layerConfigs.push({
-                id: layerId,
-                layer: {
-                    id: layerId,
-                    visibility: value,
-                    showInLayerTree: true,
-                    zIndex: zIndex
-                }
-            });
-        // });
-
-        dispatch("replaceByIdInLayerConfig", {layerConfigs: layerConfigs}, {root: true});
-        // commit("clearLayerSelection");
-        // commit("Menu/switchToRoot", getters.menuSide, {root: true});
+        dispatch("replaceByIdInLayerConfig", {layerConfigs: [layerConfig]}, {root: true});
     },
 
+    /**
+     * Sets the navigation state by given folder.
+     * @param {Object} param.commit the commit
+     * @param {Object} param.rootGetters the rootGetters
+     * @returns {void}
+     */
     setNavigationByFolder ({commit, rootGetters}, {folder}) {
         const data = collectDataByFolderModule.collectDataByFolder(folder, rootGetters);
 

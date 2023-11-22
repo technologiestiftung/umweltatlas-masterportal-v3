@@ -7,7 +7,6 @@
  * @property {String} [name="common:modules.layerSelection.addSubject"] name of LayerSelection
  * @property {Array} [subjectDataLayerConfs=[]] subject data layer configurations to show in layerSelection
  * @property {Array} [baselayerConfs=[]] baselayer configurations to show in layerSelection
- * @property {Array} [layersToAdd=[]] ids of layers to add to LayerTree
  * @property {Array} [lastFolderNames=[]] names of the previous folder configurations names
  * @property {Array} [lastSubjectDataLayerConfs=[]] previous subject data layer configurations
  * @property {Array} [lastBaselayerConfs=[]] previous baselayer configurations
@@ -22,7 +21,6 @@ export default {
 
     subjectDataLayerConfs: [],
     baselayerConfs: [],
-    layersToAdd: [],
     lastFolderNames: [],
     lastSubjectDataLayerConfs: [],
     lastBaselayerConfs: [],

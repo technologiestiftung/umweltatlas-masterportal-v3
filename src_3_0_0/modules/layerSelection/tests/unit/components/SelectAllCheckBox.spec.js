@@ -13,12 +13,9 @@ describe("src_3_0_0/modules/layerTree/components/SelectAllCheckBox.vue", () => {
         wrapper,
         layer,
         propsData,
-        addSelectedLayerSpy,
-        removeSelectedLayerSpy,
-        layersToAdd;
+        changeVisibilitySpy;
 
     beforeEach(() => {
-        layersToAdd = [];
         layer = {
             id: "1",
             name: "layer",
@@ -30,8 +27,7 @@ describe("src_3_0_0/modules/layerTree/components/SelectAllCheckBox.vue", () => {
             confs: [layer]
         };
 
-        addSelectedLayerSpy = sinon.spy();
-        removeSelectedLayerSpy = sinon.spy();
+        changeVisibilitySpy = sinon.spy();
         sinon.stub(layerFactory, "getLayerTypes3d").returns(["TERRAIN3D"]);
         store = createStore({
             namespaces: true,
@@ -43,12 +39,8 @@ describe("src_3_0_0/modules/layerTree/components/SelectAllCheckBox.vue", () => {
                         SelectAllCheckBox,
                         LayerSelection: {
                             namespaced: true,
-                            mutations: {
-                                addSelectedLayer: addSelectedLayerSpy,
-                                removeSelectedLayer: removeSelectedLayerSpy
-                            },
-                            getters: {
-                                layersToAdd: () => layersToAdd
+                            actions: {
+                                changeVisibility: changeVisibilitySpy
                             }
                         }
                     }
@@ -89,7 +81,7 @@ describe("src_3_0_0/modules/layerTree/components/SelectAllCheckBox.vue", () => {
     });
 
     it("renders select all checkbox - checked", () => {
-        layersToAdd.push(layer.id);
+        layer.visibility = true;
         wrapper = shallowMount(SelectAllCheckBox, {
             global: {
                 plugins: [store]
@@ -105,7 +97,7 @@ describe("src_3_0_0/modules/layerTree/components/SelectAllCheckBox.vue", () => {
         expect(wrapper.find(".layer-tree-layer-label").text()).to.equal("common:modules.layerSelection.selectAll");
     });
 
-    it("click on checkbox shall call addSelectedLayer ", async () => {
+    it("click on checkbox shall call changeVisibility with true", async () => {
         let checkbox = null;
 
         wrapper = shallowMount(SelectAllCheckBox, {
@@ -122,14 +114,15 @@ describe("src_3_0_0/modules/layerTree/components/SelectAllCheckBox.vue", () => {
         checkbox = wrapper.find("#select-all-checkbox-" + layer.id);
         checkbox.trigger("click");
         await wrapper.vm.$nextTick();
-        expect(addSelectedLayerSpy.calledOnce).to.be.true;
-        expect(addSelectedLayerSpy.firstCall.args[1]).to.be.deep.equals({layerId: layer.id});
+        expect(changeVisibilitySpy.calledOnce).to.be.true;
+        expect(changeVisibilitySpy.firstCall.args[1]).to.be.deep.equals({layerId: layer.id, value: true});
     });
 
-    it("click on checkbox shall call removeSelectedLayer ", async () => {
+    it("click on checkbox shall call changeVisibility with false", async () => {
         let checkbox = null;
 
-        layersToAdd.push(layer.id);
+        layer.visibility = true;
+
         wrapper = shallowMount(SelectAllCheckBox, {
             global: {
                 plugins: [store]
@@ -144,8 +137,8 @@ describe("src_3_0_0/modules/layerTree/components/SelectAllCheckBox.vue", () => {
         checkbox = wrapper.find("#select-all-checkbox-" + layer.id);
         checkbox.trigger("click");
         await wrapper.vm.$nextTick();
-        expect(removeSelectedLayerSpy.calledOnce).to.be.true;
-        expect(removeSelectedLayerSpy.firstCall.args[1]).to.be.deep.equals({layerId: layer.id});
+        expect(changeVisibilitySpy.calledOnce).to.be.true;
+        expect(changeVisibilitySpy.firstCall.args[1]).to.be.deep.equals({layerId: layer.id, value: false});
     });
 
     it("method ids shall return the expected string", () => {

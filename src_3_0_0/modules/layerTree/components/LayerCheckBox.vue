@@ -53,7 +53,7 @@ export default {
     },
     methods: {
         ...mapActions(["replaceByIdInLayerConfig"]),
-        ...mapActions("Modules/LayerSelection", ["updateLayerTree"]),
+        ...mapActions("Modules/LayerSelection", ["changeVisibility"]),
         ...mapMutations("Modules/LayerSelection", ["addSelectedLayer", "removeSelectedLayer"]),
         escapeId,
 
@@ -80,32 +80,15 @@ export default {
          * @returns {void}
          */
         clicked () {
-            // if (!this.isLayerVisible || this.isLayerTree) {
-                const value = !this.isChecked();
+            const value = !this.isLayerVisible;
 
-                if (this.isLayerTree) {
-                    this.visibilityInLayerTreeChanged(value);
-                }
-                else if (value) {
-                    // this.addSelectedLayer({layerId: this.conf.id});
-                    this.updateLayerTree({layerId: this.conf.id, value: true});
-                }
-                else {
-                    // this.removeSelectedLayer({layerId: this.conf.id});
-                    this.updateLayerTree({layerId: this.conf.id, value: false});
-                }
-            // }
+            if (this.isLayerTree) {
+                this.visibilityInLayerTreeChanged(value);
+            }
+            else {
+                this.changeVisibility({layerId: this.conf.id, value: value});
+            }
 
-        },
-        /**
-         * Returns true, if layer checkbox is checked.
-         * @returns {Boolean} true, if layer checkbox is checked
-         */
-        isChecked () {
-            // if (this.isLayerTree) {
-            //     return this.isLayerVisible;
-            // }
-            return this.isLayerVisible;// || this.layersToAdd.indexOf(this.conf.id) > -1;
         }
     }
 };
@@ -120,7 +103,7 @@ export default {
             :id="'layer-tree-layer-preview-' + conf.id"
             :layer-id="conf.id"
             :checkable="true"
-            :checked="isChecked()"
+            :checked="isLayerVisible"
             :zoom-level="typeof conf.preview?.zoomLevel === 'number'? conf.preview?.zoomLevel : null"
             :radius="conf.preview?.radius ? conf.preview?.radius : null"
             :center="conf.preview?.center ? conf.preview?.center : null"
@@ -158,8 +141,8 @@ export default {
             :class="[
                 'layer-tree-layer-checkbox ps-1 pe-3',
                 {
-                    'bi-check-square': isChecked(),
-                    'bi-square': !isChecked()
+                    'bi-check-square': isLayerVisible,
+                    'bi-square': !isLayerVisible
                 }
             ]"
         />

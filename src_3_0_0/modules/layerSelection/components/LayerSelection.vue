@@ -3,7 +3,6 @@ import {mapActions, mapGetters, mapMutations} from "vuex";
 import layerFactory from "../../../core/layers/js/layerFactory";
 import sortBy from "../../../shared/js/utils/sortBy";
 import escapeId from "../../../shared/js/utils/escapeId";
-import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
 import LayerCheckBox from "../../layerTree/components/LayerCheckBox.vue";
 import SearchBar from "../../searchBar/components/SearchBar.vue";
 import LayerSelectionTreeNode from "./LayerSelectionTreeNode.vue";
@@ -11,13 +10,13 @@ import LayerSelectionTreeNode from "./LayerSelectionTreeNode.vue";
 /**
  * Layer Selection
  * @module modules/LayerSelection
+ * @vue-data {Number} currentComponentSide - The layer id for the select all checkbox.
  * @vue-data {Number} selectAllConfId - The layer id for the select all checkbox.
  * @vue-data {Array} selectAllConfigs - The layer configurations for select all checkbox.
  */
 export default {
     name: "LayerSelection",
     components: {
-        FlatButton,
         LayerCheckBox,
         SearchBar,
         LayerSelectionTreeNode
@@ -30,24 +29,15 @@ export default {
     },
     computed: {
         ...mapGetters("Modules/SearchBar", ["searchInput", "addLayerButtonSearchActive", "currentSide", "showAllResults"]),
-        ...mapGetters("Menu", {menuCurrentComponent: "currentComponent"}),
         ...mapGetters("Maps", ["mode"]),
         ...mapGetters(["activeOrFirstCategory", "allCategories", "portalConfig"]),
-        ...mapGetters("Modules/LayerSelection", ["visible", "subjectDataLayerConfs", "baselayerConfs", "layersToAdd", "lastFolderNames", "layerInfoVisible", "highlightLayerId"]),
+        ...mapGetters("Modules/LayerSelection", ["visible", "subjectDataLayerConfs", "baselayerConfs", "lastFolderNames", "layerInfoVisible", "highlightLayerId"]),
         reducedFolderNames () {
             return this.lastFolderNames.length > 0 ? this.lastFolderNames.slice(1, this.lastFolderNames.length) : [];
         },
         categorySwitcher () {
             return this.portalConfig?.tree?.categories;
         }
-    },
-    watch: {
-        // invisibleBaselayerConfigs: {
-        //     handler (newVal) {
-        //         this.setBaselayerConfs(newVal);
-        //     },
-        //     deep: true
-        // }
     },
     mounted () {
         if (this.highlightLayerId) {
@@ -69,8 +59,8 @@ export default {
     },
     methods: {
         ...mapActions(["changeCategory"]),
-        ...mapActions("Modules/LayerSelection", ["updateLayerTree", "navigateBack", "navigateForward", "reset"]),
-        ...mapMutations("Modules/LayerSelection", ["setLayerInfoVisible", "setBaselayerConfs"]),
+        ...mapActions("Modules/LayerSelection", ["navigateBack", "navigateForward", "reset"]),
+        ...mapMutations("Modules/LayerSelection", ["setLayerInfoVisible"]),
 
         /**
          * Sorts the configs by type: first folder, then layer.
@@ -146,8 +136,8 @@ export default {
             }
         },
         /**
-         * Filters the baselayer by mode.
-         * @returns {void}
+         * Filters baselayers for mode '2D' or '3D'.
+         * @returns {Array} list of filtered baselayers
          */
         filterBaseLayer () {
             if (this.mode === "3D") {
@@ -306,10 +296,7 @@ export default {
 .layer-selection-subheadline {
     margin: 0px 0 15px 0;
 }
-.layer-selection-add-layer-btn {
-    position: sticky;
-    bottom: 0px;
-}
+
 .mp-menu-navigation{
     color: $black;
     display: flex;
