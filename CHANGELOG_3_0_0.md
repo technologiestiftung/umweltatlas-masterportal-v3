@@ -73,6 +73,7 @@
 - Highlighting features via URL:
     - Now accepts multiple feature ids, seperated with commas.
     - Zooms the map, so that all highlighted features are visible.
+- Layer selection: Layers can now be added directly to the map by activating the checkbox. The add layer button has been removed. All layers are always displayed, including the layers that have already been added.
 
 ### Deprecated
 
