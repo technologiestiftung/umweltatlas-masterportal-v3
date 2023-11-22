@@ -230,7 +230,7 @@ export default {
     },
 
     /**
-     * Getting und showing the layer which is visible in print scale. Shows alert, if layers are not visible in the print scale.
+     * Getting and showing the layer which is visible in print scale. Shows alert, if layers are not visible in the print scale.
      * @param {Object} param.commit the commit
      * @param {Object} param.dispatch the dispatch
      * @param {Object} param.getters the getters

@@ -11,7 +11,7 @@ import LayerComponentSubMenu from "./LayerComponentSubMenu.vue";
  * Representation of a layer in layerTree.
  * @module modules/layerTree/components/LayerComponent
  * @vue-prop {Object} conf - The current layer configuration.
- * @vue-data {String} tooltipText - Contains information about scales, when the layer shall be disable and is not shown in the map.
+ * @vue-data {String} tooltipText - Contains information about scales, when the layer shall be disabled and is not shown in the map.
  */
 export default {
     name: "LayerComponent",

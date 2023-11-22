@@ -2448,7 +2448,7 @@ Druckmodul. Konfigurierbar für 2 Druckdienste: den High Resolution PlotService 
 |printMapMarker|nein|Boolean|false|Wenn dieses Feld auf true gesetzt ist, werden im Bildausschnitt sichtbare MapMarker mitgedruckt. Diese überdecken ggf. interessante Druckinformationen.|false|
 |printService|nein|String|"mapfish"|Flag welcher Druckdienst verwendet werden soll. Bei "plotservice" wird der High Resolution PlotService verwendet, wenn der Parameter nicht gesetzt wird, wird Mapfish 3 verwendet.|false|
 |printServiceId|ja|String||Id des Druckdienstes der verwendet werden soll. Wird in der rest-services.json abgelegt.|false|
-|showInvisibleLayerInfo|no|Boolean|true|Definiert, ob eine Infobox angezeigt werden soll, wenn Layer aufgrund des Maßstabs unsichtbar sind und nicht mitgedruckt werden.|false|
+|showInvisibleLayerInfo|nein|Boolean|true|Definiert, ob eine Infobox angezeigt werden soll, wenn Layer aufgrund des Maßstabs unsichtbar sind und nicht mitgedruckt werden.|false|
 |title|nein|String|"PrintResult"|Titel des Dokuments. Erscheint als Kopfzeile.|false|
 |type|nein|String|"print"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
 
