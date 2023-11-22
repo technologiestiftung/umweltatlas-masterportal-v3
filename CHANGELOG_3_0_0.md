@@ -87,6 +87,7 @@
 - Issue #1105: Added easting and nothing labels for utm projections in CoordToolkit
 - Mobile View: switching vertical and horizontal view works better now.
 - Close Button is now in line with Menu navigation.
+- Tools are now only displayed in the mode in which they should be visible. Open tools are closed when switching to a mode, that they do not support.
 
 ---
 

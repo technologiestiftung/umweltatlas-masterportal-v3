@@ -18,14 +18,22 @@ describe("src_3_0_0/modules/menu/MenuContainerBodyRootItemElement.vue", () => {
         };
     let store,
         clickedMenuElementSpy,
-        menu;
+        resetMenuSpy,
+        menu,
+        mapMode,
+        isModuleVisible;
 
     beforeEach(() => {
         menu = {
             currentComponent: "componentType"
         };
+        isModuleVisible = true;
+        mapMode = "2D";
         clickedMenuElementSpy = sinon.spy();
-        sinon.stub(visibilityChecker, "isModuleVisible").returns(true);
+        resetMenuSpy = sinon.spy();
+        sinon.stub(visibilityChecker, "isModuleVisible").callsFake(() => {
+            return isModuleVisible;
+        });
         store = createStore({
             namespaced: true,
             modules: {
@@ -37,13 +45,14 @@ describe("src_3_0_0/modules/menu/MenuContainerBodyRootItemElement.vue", () => {
                         showDescription: () => () => false
                     },
                     actions: {
-                        clickedMenuElement: clickedMenuElementSpy
+                        clickedMenuElement: clickedMenuElementSpy,
+                        resetMenu: resetMenuSpy
                     }
                 },
                 Maps: {
                     namespaced: true,
                     getters: {
-                        mode: () => "2D"
+                        mode: () => mapMode
                     }
                 }
             },
@@ -116,4 +125,60 @@ describe("src_3_0_0/modules/menu/MenuContainerBodyRootItemElement.vue", () => {
         expect(wrapper.findComponent(LightButton).exists()).to.be.true;
         expect(clickedMenuElementSpy.notCalled).to.be.true;
     });
+
+    describe("methods", () => {
+        it("checkIsVisible shall not close currentComponent if it shall be visible on mode change", () => {
+            mapMode = "3D";
+            isModuleVisible = true;
+
+            const name = "awesomeName",
+                type = "componentType",
+                path = ["mainMenu", type],
+                wrapper = shallowMount(MenuContainerBodyRootItemElement, {
+                    global: {
+                        plugins: [store]
+                    },
+                    propsData: {
+                        icon: "bi-file-plus",
+                        name: name,
+                        path: path,
+                        properties: {
+                            type: type,
+                            supportedMapModes: ["2D", "3D"],
+                            supportedDevices: ["Desktop", "Mobile", "Table"]
+                        }}
+                });
+
+            expect(wrapper.findComponent(LightButton).exists()).to.be.true;
+            expect(resetMenuSpy.notCalled).to.be.true;
+        });
+
+        it("checkIsVisible shall close currentComponent if not shall be visible on mode change", () => {
+            mapMode = "3D";
+            isModuleVisible = false;
+
+            const name = "awesomeName",
+                type = "componentType",
+                path = ["mainMenu", type],
+                wrapper = shallowMount(MenuContainerBodyRootItemElement, {
+                    global: {
+                        plugins: [store]
+                    },
+                    propsData: {
+                        icon: "bi-file-plus",
+                        name: name,
+                        path: path,
+                        properties: {
+                            type: type,
+                            supportedMapModes: ["2D"],
+                            supportedDevices: ["Desktop", "Mobile", "Table"]
+                        }}
+                });
+
+            expect(wrapper.findComponent(LightButton).exists()).to.be.false;
+            expect(resetMenuSpy.calledOnce).to.be.true;
+            expect(resetMenuSpy.firstCall.args[1]).to.be.equals(path[0]);
+        });
+    });
+
 });

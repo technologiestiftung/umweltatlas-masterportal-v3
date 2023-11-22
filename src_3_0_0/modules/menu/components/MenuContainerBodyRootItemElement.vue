@@ -101,18 +101,23 @@ export default {
         }
     },
     methods: {
-        ...mapActions("Menu", ["clickedMenuElement"]),
+        ...mapActions("Menu", ["clickedMenuElement", "resetMenu"]),
 
         /**
          * Checks if the module is to be applied in the map- and device mode.
+         * If current visible component does not support the map- and device mode, it is destroyed.
          * @returns {Boolean} The module is shown.
          */
         checkIsVisible () {
             const supportedMapModes = this.properties.supportedMapModes,
                 supportedDevices = this.properties.supportedDevices,
-                supportedTreeTypes = this.properties.supportedTreeTypes;
+                supportedTreeTypes = this.properties.supportedTreeTypes,
+                showModule = visibilityChecker.isModuleVisible(this.mode, this.deviceMode, this.portalConfig?.tree?.type, supportedMapModes, supportedDevices, supportedTreeTypes);
 
-            return visibilityChecker.isModuleVisible(this.mode, this.deviceMode, this.portalConfig?.tree?.type, supportedMapModes, supportedDevices, supportedTreeTypes);
+            if (!showModule && this.menu.currentComponent === this.type) {
+                this.resetMenu(this.side);
+            }
+            return showModule;
         }
     }
 
