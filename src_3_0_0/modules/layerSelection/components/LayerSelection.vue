@@ -180,7 +180,7 @@ export default {
                         @click="navigate('back')"
                         @keypress="navigate('back')"
                     >
-                        <h6 class="mp-menu-navigation-link mb-3"><p class="bi-chevron-left" />{{ lastFolderName }}</h6>
+                        <h5 class="mp-menu-navigation-link mb-3 bold"><p class="bi-chevron-left" />{{ lastFolderName }}</h5>
                     </a>
                     <template
                         v-for="(bgConf, index) in filterBaseLayer()"
@@ -199,8 +199,8 @@ export default {
                     class="m-2"
                 >
                 <div
-                    v-if="activeOrFirstCategory && categorySwitcher"
-                    class="form-floating mb-3"
+                    v-if="activeOrFirstCategory && categorySwitcher && lastFolderName === 'root'"
+                    class="form-floating mb-3 mt-3"
                 >
                     <select
                         id="select_category"
