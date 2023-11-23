@@ -245,6 +245,7 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
 
     it("renders the LayerSelection - check categories select", () => {
         showAllResults = false;
+        LayerSelection.state.lastFolderNames = ["root"];
         wrapper = shallowMount(LayerSelectionComponent, {
             global: {
                 plugins: [store]
