@@ -20,7 +20,7 @@ const actions = {
             layer: {
                 id: layerId,
                 visibility: value,
-                showInLayerTree: true
+                showInLayerTree: value
             }
         };
         let zIndex = -1;
@@ -29,7 +29,7 @@ const actions = {
             if (rootGetters.isBaselayer(layerId)) {
                 const maxBaselayerZIndex = Math.max(...rootGetters.layerConfigsByAttributes({
                     baselayer: true,
-                    showInLayerTree: true
+                    showInLayerTree: value
                 }).map(layer => layer.zIndex));
 
                 dispatch("updateLayerConfigZIndex", {
