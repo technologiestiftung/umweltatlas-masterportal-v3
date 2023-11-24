@@ -67,6 +67,37 @@ describe("src_3_0_0/modules/layerSelection/store/actionsLayerSelection", () => {
             expect(dispatch.firstCall.args[1]).to.deep.equals(expectedArg);
         });
 
+        it("changeVisibility to false removes layer from layerTree", () => {
+            const expectedArg = {
+                layerConfigs: [
+                    {
+                        id: "1",
+                        layer: {
+                            id: "1",
+                            visibility: true,
+                            showInLayerTree: true,
+                            zIndex: 0
+                        }
+                    }
+                ]
+            };
+
+            changeVisibility({dispatch, rootGetters}, {layerId: "1", value: true});
+
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.be.equals("replaceByIdInLayerConfig");
+            expect(dispatch.firstCall.args[1]).to.deep.equals(expectedArg);
+
+            expectedArg.layerConfigs[0].layer.visibility = false;
+            expectedArg.layerConfigs[0].layer.showInLayerTree = false;
+            delete expectedArg.layerConfigs[0].layer.zIndex;
+
+            changeVisibility({dispatch, rootGetters}, {layerId: "1", value: false});
+            expect(dispatch.calledTwice).to.be.true;
+            expect(dispatch.secondCall.args[0]).to.be.equals("replaceByIdInLayerConfig");
+            expect(dispatch.secondCall.args[1]).to.deep.equals(expectedArg);
+        });
+
         it("changeVisibility to true for one baselayer", () => {
             getters = {
                 menuSide: "mainMenu"
