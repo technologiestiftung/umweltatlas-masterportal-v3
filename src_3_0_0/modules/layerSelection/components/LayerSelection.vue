@@ -180,7 +180,7 @@ export default {
                         @click="navigate('back')"
                         @keypress="navigate('back')"
                     >
-                        <h5 class="mp-menu-navigation-link mb-3 bold"><p class="bi-chevron-left" />{{ lastFolderName }}</h5>
+                        <h5 class="mp-menu-navigation-link mb-3 bold"><p class="bi-chevron-left me-2" />{{ lastFolderName }}</h5>
                     </a>
                     <template
                         v-for="(bgConf, index) in filterBaseLayer()"
