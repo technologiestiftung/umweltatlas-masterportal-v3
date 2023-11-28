@@ -6,7 +6,6 @@ import LayerSelectionComponent from "../../../components/LayerSelection.vue";
 import LayerSelection from "../../../store/indexLayerSelection";
 
 config.global.mocks.$t = key => key;
-config.errorHandler = (error) => console.error(error);
 
 describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () => {
     let store,
