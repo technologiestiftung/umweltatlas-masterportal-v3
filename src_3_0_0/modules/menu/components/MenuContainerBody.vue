@@ -147,6 +147,9 @@ export default {
     }
 
     @include media-breakpoint-up(sm)  {
+        #mp-body-mainMenu {
+            margin-right: .5rem;
+        }
 
         #mp-body-secondaryMenu {
             overflow-y: auto;
