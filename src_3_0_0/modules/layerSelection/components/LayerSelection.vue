@@ -24,7 +24,6 @@ export default {
     },
     data () {
         return {
-            currentComponentSide: undefined,
             selectAllConfId: -1,
             selectAllConfigs: []
         };
@@ -36,7 +35,6 @@ export default {
         ...mapGetters(["activeOrFirstCategory", "allCategories", "invisibleBaselayerConfigs", "portalConfig"]),
         ...mapGetters("Modules/LayerSelection", ["visible", "subjectDataLayerConfs", "baselayerConfs", "layersToAdd", "lastFolderNames", "layerInfoVisible", "highlightLayerId"]),
         reducedFolderNames () {
-            console.log(this.lastFolderNames);
             return this.lastFolderNames.length > 0 ? this.lastFolderNames.slice(1, this.lastFolderNames.length) : [];
         },
         categorySwitcher () {
@@ -52,8 +50,6 @@ export default {
         }
     },
     mounted () {
-        this.currentComponentSide = this.menuCurrentComponent(this.currentSide).type;
-
         if (this.highlightLayerId) {
             const el = document.querySelector("#layer-checkbox-" + escapeId(this.highlightLayerId));
 
@@ -90,7 +86,7 @@ export default {
          * @returns {void}
          */
         navigateStepsBack (steps) {
-            for (let index = 0; index < steps; index++) {
+            for (let index = 0; index < this.reducedFolderNames - steps; index++) {
                 this.navigateBack();
             }
             this.$nextTick(() => {
@@ -229,18 +225,18 @@ export default {
                     </h5>
                     <nav aria-label="breadcrumb">
                         <ol
-                            v-for="(lastFolderName, index) in reducedFolderNames"
-                            :key="index"
                             class="breadcrumb"
                         >
                             <li
-                                :class="['breadcrumb-item', index === reducedFolderNames.length -1 ? 'active': '']"
+                                v-for="(lastFolderName, index) in reducedFolderNames"
+                                :key="index"
+                                :class="['breadcrumb-item', index === (reducedFolderNames.length -1) ? 'active': '']"
                             >
                                 <a
                                     class="mp-menu-navigation"
                                     href="#"
-                                    @click="navigateStepsBack(reducedFolderNames.length-index)"
-                                    @keypress="navigateStepsBack(reducedFolderNames.length-index)"
+                                    @click="navigateStepsBack(index)"
+                                    @keypress="navigateStepsBack(index)"
                                 >
                                     <h6 class="mp-menu-navigation-link bold">{{ lastFolderName }}</h6>
                                 </a>
@@ -248,8 +244,8 @@ export default {
                         </ol>
                     </nav>
                     <template
-                        v-for="(conf, index) in subjectDataLayerConfs"
-                        :key="index"
+                        v-for="(conf, idx) in subjectDataLayerConfs"
+                        :key="idx"
                     >
                         <LayerSelectionTreeNode
                             :conf="conf"
@@ -279,6 +275,11 @@ export default {
 
 <style lang="scss" scoped>
 @import "~variables";
+
+.breadcrumb-item + .breadcrumb-item::before{
+    font-weight: bold;
+    line-height: 1.2rem;
+}
 
 .layer-selection {
     background-color: $menu-background-color;
