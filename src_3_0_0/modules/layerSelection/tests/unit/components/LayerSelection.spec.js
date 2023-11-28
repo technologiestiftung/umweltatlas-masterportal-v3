@@ -24,9 +24,11 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
         changeCategorySpy,
         mapMode,
         showAllResults,
-        searchInput;
+        searchInput,
+        lastFolderNames;
 
     beforeEach(() => {
+        lastFolderNames = [];
         searchInput = "Neuenfelder";
         mapMode = "2D";
         showAllResults = true;
@@ -114,6 +116,7 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
         subjectDataLayers = layersWithFolder;
         LayerSelection.actions.navigateForward = sinon.spy();
         LayerSelection.actions.updateLayerTree = sinon.spy();
+        LayerSelection.getters.lastFolderNames = () => lastFolderNames;
         store = createStore({
             namespaces: true,
             modules: {
@@ -184,6 +187,7 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
             }
         });
         LayerSelection.getters.layersToAdd = () => layersToAdd;
+        // LayerSelection.getters.lastFolderNames = () => lastFolderNames;
         LayerSelection.state.visible = true;
         store.commit("Modules/LayerSelection/setSubjectDataLayerConfs", subjectDataLayers);
         store.commit("Modules/LayerSelection/setBaselayerConfs", layersBG);
@@ -272,6 +276,30 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
         await wrapper.vm.$nextTick();
 
         expect(LayerSelection.actions.navigateForward.calledOnce).to.be.true;
+    });
+
+    it.only("renders the LayerSelection with all levels of folder-buttons without bg-layers ", async () => {
+        let breadCrumbs = null;
+
+        showAllResults = false;
+        lastFolderNames = ["root", "Titel Ebene 1", "Titel Ebene 2"]
+
+        wrapper = shallowMount(LayerSelectionComponent, {
+            global: {
+                plugins: [store]
+            }});
+        navigateStepsBackSpy = sinon.spy(LayerSelectionComponent.methods, 'navigateStepsBack');
+
+        expect(wrapper.find("#layer-selection").exists()).to.be.true;
+
+        // console.log(wrapper.html());
+        breadCrumbs = wrapper.findAll(".mp-menu-navigation-link");
+        expect(breadCrumbs.length).to.be.equals(2);
+        expect(breadCrumbs.at(0).text()).to.be.equals("Titel Ebene 1");
+        expect(breadCrumbs.at(1).text()).to.be.equals("Titel Ebene 2");
+        breadCrumbs.at(0).trigger("click");
+        wrapper.vm.$nextTick();
+        expect(navigateStepsBackSpy.calledOnce).to.be.true;
     });
 
     it("click on button to add layers shall be disabled", () => {

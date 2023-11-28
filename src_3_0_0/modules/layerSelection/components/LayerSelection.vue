@@ -35,8 +35,9 @@ export default {
         ...mapGetters("Maps", ["mode"]),
         ...mapGetters(["activeOrFirstCategory", "allCategories", "invisibleBaselayerConfigs", "portalConfig"]),
         ...mapGetters("Modules/LayerSelection", ["visible", "subjectDataLayerConfs", "baselayerConfs", "layersToAdd", "lastFolderNames", "layerInfoVisible", "highlightLayerId"]),
-        lastFolderName () {
-            return this.lastFolderNames[this.lastFolderNames.length - 1];
+        reducedFolderNames () {
+            console.log(this.lastFolderNames);
+            return this.lastFolderNames.length > 0 ? this.lastFolderNames.slice(1, this.lastFolderNames.length) : [];
         },
         categorySwitcher () {
             return this.portalConfig?.tree?.categories;
@@ -84,17 +85,12 @@ export default {
             return sortBy(configs, (conf) => conf.type !== "folder");
         },
         /**
-         * Navigates forwards or backwards after folder or navigation-entry was clicked.
-         * @param {String} direction 'back' or 'forward'
-         * @param {String} lastFolderName name to show in menu to navigate back to
-         * @param {Array} subjectDataLayerConfs configs to show
+         * Navigates backwards in folder-menu.
+         * @param {Number} steps amount of steps to go back
          * @returns {void}
          */
-        navigate (direction, lastFolderName, subjectDataLayerConfs) {
-            if (direction === "forward") {
-                this.navigateForward({lastFolderName, subjectDataLayerConfs: this.sort(subjectDataLayerConfs)});
-            }
-            else if (direction === "back") {
+        navigateStepsBack (steps) {
+            for (let index = 0; index < steps; index++) {
                 this.navigateBack();
             }
             this.$nextTick(() => {
@@ -110,7 +106,12 @@ export default {
          * @returns {void}
          */
         folderClicked (lastFolderName, subjectDataLayerConfs) {
-            this.navigate("forward", lastFolderName, subjectDataLayerConfs);
+            this.navigateForward({lastFolderName, subjectDataLayerConfs: this.sort(subjectDataLayerConfs)});
+            this.$nextTick(() => {
+                this.selectAllConfId = -1;
+                this.selectAllConfigs = [];
+                this.provideSelectAllProps();
+            });
         },
         /**
          * Returns true, if configuration shall be controlled by SelectAllCheckBox.
@@ -132,6 +133,11 @@ export default {
                 }
             });
         },
+        /**
+         * Changes category after selection.
+         * @param {String} value key of the category
+         * @returns {void}
+         */
         categorySelected (value) {
             if (typeof value === "string") {
                 const category = this.allCategories.find(aCategory => aCategory.key === value);
@@ -143,6 +149,10 @@ export default {
                 this.changeCategory(category);
             }
         },
+        /**
+         * Filters the baselayer by mode.
+         * @returns {void}
+         */
         filterBaseLayer () {
             if (this.mode === "3D") {
                 return this.baselayerConfs.filter(conf => !layerFactory.getLayerTypesNotVisibleIn3d().includes(conf.typ?.toUpperCase()));
@@ -192,7 +202,7 @@ export default {
                     class="m-2"
                 >
                 <div
-                    v-if="activeOrFirstCategory && categorySwitcher && lastFolderName === 'root'"
+                    v-if="activeOrFirstCategory && categorySwitcher && reducedFolderNames.length === 0"
                     class="form-floating mb-3 mt-3"
                 >
                     <select
@@ -217,16 +227,26 @@ export default {
                     <h5 class="layer-selection-subheadline">
                         {{ $t("common:modules.layerSelection.datalayer") }}
                     </h5>
-                    <a
-                        v-if="lastFolderName !== 'root'"
-                        id="layer-selection-navigation"
-                        class="p-2 mp-menu-navigation"
-                        href="#"
-                        @click="navigate('back')"
-                        @keypress="navigate('back')"
-                    >
-                        <h6 class="mp-menu-navigation-link bold"><p class="bi-chevron-left me-2" />{{ lastFolderName }}</h6>
-                    </a>
+                    <nav aria-label="breadcrumb">
+                        <ol
+                            v-for="(lastFolderName, index) in reducedFolderNames"
+                            :key="index"
+                            class="breadcrumb"
+                        >
+                            <li
+                                :class="['breadcrumb-item', index === reducedFolderNames.length -1 ? 'active': '']"
+                            >
+                                <a
+                                    class="mp-menu-navigation"
+                                    href="#"
+                                    @click="navigateStepsBack(reducedFolderNames.length-index)"
+                                    @keypress="navigateStepsBack(reducedFolderNames.length-index)"
+                                >
+                                    <h6 class="mp-menu-navigation-link bold">{{ lastFolderName }}</h6>
+                                </a>
+                            </li>
+                        </ol>
+                    </nav>
                     <template
                         v-for="(conf, index) in subjectDataLayerConfs"
                         :key="index"
@@ -259,6 +279,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "~variables";
+
 .layer-selection {
     background-color: $menu-background-color;
     left: 0px;
