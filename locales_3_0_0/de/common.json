@@ -511,6 +511,7 @@
       "addSubject": "Thema hinzufügen",
       "name": "Themenauswahl",
       "backgrounds": "Hintergründe",
+      "datalayer": "Fachdaten",
       "selectAll": "Alle auswählen",
       "selectedSubjectsCount_other": "Bitte wählen sie ein Thema aus",
       "addSelectedSubjectsToMap_one": "Ausgewähltes Thema der Karte hinzufügen",

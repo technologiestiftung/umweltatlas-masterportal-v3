@@ -168,20 +168,13 @@ export default {
                 v-if="showAllResults === false"
                 class="layer-selection-navigation"
             >
-                <h6 v-if="filterBaseLayer().length > 0">
+                <h5
+                    v-if="filterBaseLayer().length > 0"
+                    class="layer-selection-subheadline"
+                >
                     {{ $t("common:modules.layerSelection.backgrounds") }}
-                </h6>
+                </h5>
                 <div class="d-flex justify-content-start layer-selection-navigation-baselayer">
-                    <a
-                        v-if="lastFolderName !== 'root'"
-                        id="layer-selection-navigation"
-                        class="p-2 mp-menu-navigation"
-                        href="#"
-                        @click="navigate('back')"
-                        @keypress="navigate('back')"
-                    >
-                        <h5 class="mp-menu-navigation-link mb-3 bold"><p class="bi-chevron-left me-2" />{{ lastFolderName }}</h5>
-                    </a>
                     <template
                         v-for="(bgConf, index) in filterBaseLayer()"
                         :key="index"
@@ -221,6 +214,19 @@ export default {
                     </label>
                 </div>
                 <div class="align-items-left justify-content-center layer-selection-navigation-dataLayer flex-grow-1">
+                    <h5 class="layer-selection-subheadline">
+                        {{ $t("common:modules.layerSelection.datalayer") }}
+                    </h5>
+                    <a
+                        v-if="lastFolderName !== 'root'"
+                        id="layer-selection-navigation"
+                        class="p-2 mp-menu-navigation"
+                        href="#"
+                        @click="navigate('back')"
+                        @keypress="navigate('back')"
+                    >
+                        <h6 class="mp-menu-navigation-link bold"><p class="bi-chevron-left me-2" />{{ lastFolderName }}</h6>
+                    </a>
                     <template
                         v-for="(conf, index) in subjectDataLayerConfs"
                         :key="index"
@@ -285,6 +291,10 @@ export default {
     @include media-breakpoint-down(md) {
         max-height: calc(100% - 120px);
     }
+}
+
+.layer-selection-subheadline {
+    margin: 15px 0 15px 0;
 }
 .layer-selection-add-layer-btn {
     position: sticky;
