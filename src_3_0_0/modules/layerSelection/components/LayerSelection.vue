@@ -86,7 +86,7 @@ export default {
          * @returns {void}
          */
         navigateStepsBack (steps) {
-            for (let index = 0; index < this.reducedFolderNames - steps; index++) {
+            for (let index = 0; index < this.reducedFolderNames.length - steps; index++) {
                 this.navigateBack();
             }
             this.$nextTick(() => {

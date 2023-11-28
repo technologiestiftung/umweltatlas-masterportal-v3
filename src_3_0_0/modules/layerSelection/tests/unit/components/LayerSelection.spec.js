@@ -116,6 +116,7 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
             }];
         subjectDataLayers = layersWithFolder;
         LayerSelection.actions.navigateForward = sinon.spy();
+        LayerSelection.actions.navigateBack = sinon.spy();
         LayerSelection.actions.updateLayerTree = sinon.spy();
         store = createStore({
             namespaces: true,
@@ -187,7 +188,6 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
             }
         });
         LayerSelection.getters.layersToAdd = () => layersToAdd;
-        // LayerSelection.getters.lastFolderNames = () => lastFolderNames;
         LayerSelection.state.visible = true;
 
         store.commit("Modules/LayerSelection/setSubjectDataLayerConfs", subjectDataLayers);
@@ -277,6 +277,42 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
         await wrapper.vm.$nextTick();
 
         expect(LayerSelection.actions.navigateForward.calledOnce).to.be.true;
+    });
+
+    it("navigateStepsBack shall call action navigateBack", async () => {
+        const provideSelectAllPropsSpy = sinon.spy(LayerSelectionComponent.methods, "provideSelectAllProps");
+
+        lastFolderNames = ["root", "Titel Ebene 1", "Titel Ebene 2"];
+        store.commit("Modules/LayerSelection/setLastFolderNames", lastFolderNames);
+        wrapper = shallowMount(LayerSelectionComponent, {
+            global: {
+                plugins: [store]
+            }});
+
+        expect(wrapper.find("#layer-selection").exists()).to.be.true;
+
+        wrapper.vm.navigateStepsBack(0);
+        await wrapper.vm.$nextTick();
+
+        expect(LayerSelection.actions.navigateBack.calledTwice).to.be.true;
+        await wrapper.vm.$nextTick();
+        // called on created and here
+        expect(provideSelectAllPropsSpy.calledTwice).to.be.true;
+    });
+
+    it("reducedFolderNames shall deduce lastFolderNames", async () => {
+        lastFolderNames = ["root", "Titel Ebene 1", "Titel Ebene 2"];
+        store.commit("Modules/LayerSelection/setLastFolderNames", lastFolderNames);
+        wrapper = shallowMount(LayerSelectionComponent, {
+            global: {
+                plugins: [store]
+            }});
+
+        expect(wrapper.find("#layer-selection").exists()).to.be.true;
+        expect(wrapper.vm.reducedFolderNames).to.be.deep.equals(["Titel Ebene 1", "Titel Ebene 2"]);
+
+        store.commit("Modules/LayerSelection/setLastFolderNames", []);
+        expect(wrapper.vm.reducedFolderNames).to.be.deep.equals([]);
     });
 
     it("renders the LayerSelection with breadcrumbs ", async () => {
