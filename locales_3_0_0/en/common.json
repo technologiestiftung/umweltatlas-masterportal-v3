@@ -512,7 +512,8 @@
       "name": "Topic selection",
       "baselayers": "Baselayers",
       "datalayer": "Subject data",
-      "selectAll": "Select all",
+      "selectAll": "Add all",
+      "deselectAll": "Remove all",
       "selectedSubjectsCount_other": "Please select a topic",
       "addSelectedSubjectsToMap_one": "Add selected topic to the map",
       "addSelectedSubjectsToMap_other": "Add {{count}} selected topics to the map"

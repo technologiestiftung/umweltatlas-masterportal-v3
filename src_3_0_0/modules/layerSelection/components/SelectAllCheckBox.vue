@@ -50,6 +50,16 @@ export default {
          */
         ids () {
             return this.confs.map(conf => escapeId(conf.id)).join("-");
+        },
+        /**
+         * Returns label text for add all layers or remove all layers.
+         * @returns {String} the label text
+         */
+        getLabelText () {
+            if (this.isChecked()) {
+                return i18next.t("common:modules.layerSelection.deselectAll");
+            }
+            return i18next.t("common:modules.layerSelection.selectAll");
         }
     }
 };
@@ -76,9 +86,9 @@ export default {
             class="layer-tree-layer-label mt-0 d-flex flex-column align-self-start"
             :for="'select-all-checkbox-' + ids()"
             tabindex="0"
-            :aria-label="$t('common:modules.layerSelection.selectAll')"
+            :aria-label="getLabelText()"
         >
-            {{ $t("common:modules.layerSelection.selectAll") }}
+            {{ getLabelText() }}
         </span>
     </button>
 </template>

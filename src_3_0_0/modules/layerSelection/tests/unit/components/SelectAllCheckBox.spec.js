@@ -15,6 +15,13 @@ describe("src_3_0_0/modules/layerTree/components/SelectAllCheckBox.vue", () => {
         propsData,
         changeVisibilitySpy;
 
+    before(function () {
+        i18next.init({
+            lng: "cimode",
+            debug: false
+        });
+    });
+
     beforeEach(() => {
         layer = {
             id: "1",
@@ -77,7 +84,7 @@ describe("src_3_0_0/modules/layerTree/components/SelectAllCheckBox.vue", () => {
         expect(wrapper.find("#select-all-checkbox-" + layer.id).exists()).to.be.true;
         expect(wrapper.findAll(".bi-square").length).to.be.equals(1);
         expect(wrapper.findAll(".bi-check-square").length).to.be.equals(0);
-        expect(wrapper.find(".layer-tree-layer-label").text()).to.equal("common:modules.layerSelection.selectAll");
+        expect(wrapper.find(".layer-tree-layer-label").text()).to.equal("modules.layerSelection.selectAll");
     });
 
     it("renders select all checkbox - checked", () => {
@@ -94,7 +101,7 @@ describe("src_3_0_0/modules/layerTree/components/SelectAllCheckBox.vue", () => {
         expect(wrapper.find("#select-all-checkbox-" + layer.id).exists()).to.be.true;
         expect(wrapper.findAll(".bi-square").length).to.be.equals(0);
         expect(wrapper.findAll(".bi-check-square").length).to.be.equals(1);
-        expect(wrapper.find(".layer-tree-layer-label").text()).to.equal("common:modules.layerSelection.selectAll");
+        expect(wrapper.find(".layer-tree-layer-label").text()).to.equal("modules.layerSelection.deselectAll");
     });
 
     it("click on checkbox shall call changeVisibility with true", async () => {
@@ -156,5 +163,39 @@ describe("src_3_0_0/modules/layerTree/components/SelectAllCheckBox.vue", () => {
         ids = wrapper.vm.ids();
 
         expect(ids).to.be.deep.equals("1-2");
+    });
+    it("method getLabelText shall return text for not checked boxes", () => {
+        let text = null;
+
+        sinon.stub(SelectAllCheckBox.methods, "isChecked").returns(false);
+        propsData = {
+            confs: [layer, {id: "2"}]
+        };
+        wrapper = shallowMount(SelectAllCheckBox, {
+            global: {
+                plugins: [store]
+            },
+            propsData
+        });
+        text = wrapper.vm.getLabelText();
+
+        expect(text).to.be.equals("modules.layerSelection.selectAll");
+    });
+    it("method getLabelText shall return text for checked boxes", () => {
+        let text = null;
+
+        sinon.stub(SelectAllCheckBox.methods, "isChecked").returns(true);
+        propsData = {
+            confs: [layer, {id: "2"}]
+        };
+        wrapper = shallowMount(SelectAllCheckBox, {
+            global: {
+                plugins: [store]
+            },
+            propsData
+        });
+        text = wrapper.vm.getLabelText();
+
+        expect(text).to.be.equals("modules.layerSelection.deselectAll");
     });
 });

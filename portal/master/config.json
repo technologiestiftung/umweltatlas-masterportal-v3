@@ -794,13 +794,7 @@
           "typ": "WMS",
           "visibility": true
         },
-        {
-          "id": "23555",
-          "name": "Satellitenbilder Sentinel-2 CIR",
-          "url": "https://geodienste.hamburg.de/HH_WMS-T_Satellitenbilder_Sentinel-2",
-          "typ": "WMS",
-          "visibility": false
-        },
+       
         {
           "id": "4538",
           "name": "ek pv",
@@ -887,6 +881,105 @@
                   ]
                 }
               ]
+            }
+          ]
+        },
+        {
+          "name": "fehlerhafte Layer",
+          "type": "folder",
+          "elements": [
+            {
+              "id": "23555",
+              "name": "Satellitenbilder Sentinel-2 CIR",
+              "url": "https://geodienste.hamburg.de/HH_WMS-T_Satellitenbilder_Sentinel-2",
+              "typ": "WMS",
+              "visibility": false
+            },
+         {
+              "id": "OAF",
+              "styleId": "8712",
+              "name": "Schulen (Layertyp OAF)",
+              "typ": "OAF",
+              "visibility": false,
+              "url": "https://api.hamburg.de/datasets/v1/schulen",
+              "collection": "staatliche_schulen",
+              "bbox": "",
+              "bboxCrs": "",
+              "datetime": "",
+              "crs": "EPSG:25832",
+              "params": {
+                "anzahl_schueler": ">1000"
+              },
+              "legend": true
+            },
+          {
+              "id": "webgl_dipas",
+              "name": "DIPAS Data GeoJSON (WebGL)",
+              "renderer": "webgl",
+              "typ": "GeoJSON",
+              "url": "./webgl_assets/dipas.test.geojson",
+              "format": "text/html; charset=utf-8",
+              "minScale": "0",
+              "maxScale": "2500000",
+              "gfiAttributes": "showAll",
+              "layerAttribution": "nicht vorhanden",
+              "legendURL": "",
+              "loadingStrategy": "all",
+              "hitTolerance": 20,
+              "isPointLayer": true,
+              "bboxGeometry": [
+                568426.27,
+                5931985.58,
+                569614.86,
+                5933174.11
+              ],
+              "mouseHoverField": [
+                "Category",
+                "Value"
+              ],
+              "style": {
+                "symbol": {
+                  "symbolType": "circle",
+                  "size": [
+                    "interpolate",
+                    [
+                      "linear"
+                    ],
+                    [
+                      "get",
+                      "Total_votes"
+                    ],
+                    0,
+                    6,
+                    18,
+                    24
+                  ],
+                  "color": [
+                    "interpolate",
+                    [
+                      "linear"
+                    ],
+                    [
+                      "get",
+                      "compound"
+                    ],
+                    -1,
+                    [
+                      240,
+                      40,
+                      30
+                    ],
+                    1,
+                    [
+                      0,
+                      200,
+                      60
+                    ]
+                  ],
+                  "opacity": 0.8,
+                  "rotateWithView": true
+                }
+              }
             }
           ]
         },
@@ -1011,7 +1104,6 @@
             }
           }
         },
-        
         {
           "id": "20625.90024",
           "styleId": "200_300_400_600_anzahl_sus_primarstufe",
@@ -1103,8 +1195,7 @@
             "belegenheit",
             "nutzung"
           ]
-        },
-        
+        },       
         {
           "name": "3D Daten",
           "type": "folder",
