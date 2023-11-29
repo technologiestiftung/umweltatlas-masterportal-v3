@@ -24,7 +24,7 @@ describe("src_3_0_0/core/js/layers/layer3dTileset.js", () => {
         };
 
         mapCollection.clear();
-        fromUrlSpy = sinon.spy();
+
         global.Cesium = {};
         global.Cesium.Cesium3DTileset = () => { /* no content*/ };
         global.Cesium.Cesium3DTileset.fromUrl = () => sinon.stub();
