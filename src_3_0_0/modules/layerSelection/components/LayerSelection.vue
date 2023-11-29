@@ -225,6 +225,7 @@ export default {
                     </h5>
                     <nav aria-label="breadcrumb">
                         <ol
+                        v-if="reducedFolderNames.length > 0"
                             class="breadcrumb"
                         >
                             <li
@@ -316,7 +317,7 @@ export default {
 }
 
 .layer-selection-subheadline {
-    margin: 15px 0 15px 0;
+    margin: 0px 0 15px 0;
 }
 .layer-selection-add-layer-btn {
     position: sticky;
