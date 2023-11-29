@@ -197,5 +197,21 @@ export default {
         }
 
         return displayAlert;
+    },
+
+    /**
+     * Loops trough defined alerts from config.js and add it to the alerting module.
+     * @param {Object} context the vue context
+     * @param {Object} context.dispatch the commit
+     * @param {Object} alerts object with defined alerts
+     * @returns {void}
+     */
+    addAlertsFromConfig ({dispatch}, alerts) {
+        Object.values(alerts).forEach((value) => {
+            value.initial = true;
+            value.isNews = true;
+            value.initialConfirmed = value.mustBeConfirmed;
+            dispatch("addSingleAlert", value);
+        });
     }
 };

@@ -21,10 +21,23 @@ const Config = {
     styleConf: "https://geodienste.hamburg.de/lgv-config/style_v3.json",
     wfsImgPath: "https://geodienste.hamburg.de/lgv-config/img/",
     alerting: {
-        fetchBroadcastUrl: "./resources/newsFeedPortalAlerts.json"
+        fetchBroadcastUrl: "./resources/newsFeedPortalAlerts.json",
+        initalAlerts: {
+            "qs-release": {
+                category: "Portal zur Abnahme!",
+                content: "Dieses Geoportal dient der Qualitätskontrolle durch den Kunden.<br>Es ist aufgrund von möglichen Fehlern <b>nicht</b> zur Nutzung für alltägliche oder berufliche Aufgaben geeignet!<br><br>",
+                creationDate: "01/09/22",
+                mustBeConfirmed: true,
+                once: true
+            }
+        }
     },
     startingMap3D: false,
-    mapInteractions: {interactionModes: {altShiftDragRotate: true}},
+    mapInteractions: {
+        interactionModes: {
+            altShiftDragRotate: true
+        }
+    },
     cesiumLibrary: "https://geoportal-hamburg.de/mastercode/cesium/latest/Cesium.js",
     cesiumParameter: {
         fog: {

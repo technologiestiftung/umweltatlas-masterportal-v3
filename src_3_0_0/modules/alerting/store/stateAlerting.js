@@ -21,6 +21,7 @@
  * @property {Object[]} alerts array of current loaded alerts
  * @property {Object} displayedAlerts object of available alerts
  * @property {Boolean/String} fetchBroadcastUrl URL of the alert json
+ * @property {Object} initalAlerts, array of initial alerts
  * @property {Boolean} initialClosed flag to check if the initial modal was closed once
  * @property {String[]} availableCategories available alert categories
  * @property {String} localStorageDisplayedAlertsKey key name for localStorage
@@ -48,6 +49,7 @@ export default {
     alertWindowTitle: "common:modules.alerting.alertWindowTitle",
     displayedAlerts: {},
     fetchBroadcastUrl: false,
+    initalAlerts: {},
     initialClosed: false,
     availableCategories: ["news", "success", "warning", "error", "info"],
     localStorageDisplayedAlertsKey: "displayedAlerts",

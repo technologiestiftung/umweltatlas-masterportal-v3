@@ -26,6 +26,7 @@ export default {
             "configPaths",
             "displayedAlerts",
             "fetchBroadcastUrl",
+            "initalAlerts",
             "initialClosed",
             "localStorageDisplayedAlertsKey",
             "showTheModal",
@@ -63,11 +64,14 @@ export default {
         if (this.fetchBroadcastUrl !== undefined && this.fetchBroadcastUrl !== false) {
             this.fetchBroadcast(this.fetchBroadcastUrl);
         }
+
+        this.addAlertsFromConfig(this.initalAlerts);
     },
 
     methods: {
         ...mapActions(["initializeModule"]),
         ...mapActions("Alerting", [
+            "addAlertsFromConfig",
             "addSingleAlert",
             "alertHasBeenRead",
             "cleanup"

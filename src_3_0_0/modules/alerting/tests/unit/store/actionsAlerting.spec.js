@@ -3,10 +3,12 @@ import sinon from "sinon";
 import {expect} from "chai";
 
 describe("src_3_0_0/modules/alerting/store/actionsAlerting.js", () => {
-    let commit;
+    let commit,
+        dispatch;
 
     beforeEach(() => {
         commit = sinon.spy();
+        dispatch = sinon.spy();
     });
 
     afterEach(() => {
@@ -144,5 +146,15 @@ describe("src_3_0_0/modules/alerting/store/actionsAlerting.js", () => {
         expect(commit.calledOnce).to.be.true;
         expect(commit.firstCall.args[0]).to.eql("Modules/News/addNews");
         expect(commit.firstCall.args[1].content).to.eql("123");
+    });
+
+    it("addAlertsFromConfig", () => {
+        actions.addAlertsFromConfig({dispatch}, {testAlert: {"title": "testAlert"}, testAlert2: {"title": "testAlert2"}});
+
+        expect(dispatch.calledTwice).to.be.true;
+        expect(dispatch.firstCall.args[0]).to.equals("addSingleAlert");
+        expect(dispatch.firstCall.args[1].title).to.equals("testAlert");
+        expect(dispatch.secondCall.args[0]).to.equals("addSingleAlert");
+        expect(dispatch.secondCall.args[1].title).to.equals("testAlert2");
     });
 });

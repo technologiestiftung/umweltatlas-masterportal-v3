@@ -30,7 +30,7 @@ export default {
     },
 
     /**
-     * Load the config.json, check/adapt for proxy configs, check/add alert config and commit it to the state.
+     * Load the config.json, check/adapt for proxy configs.
      * @param {Object} context the vue context
      * @param {Object} context.commit the commit
      * @param {Object} context.state the state
@@ -47,9 +47,6 @@ export default {
         axios.get(targetPath)
             .then(response => {
                 updateProxyUrl(response.data);
-                if (response.data?.portalConfig.alerts) {
-                    dispatch("addAlertsFromConfigJson", response.data.portalConfig.alerts);
-                }
                 commit("setPortalConfig", response.data ? response.data[portalConfigKey] : null);
                 if (getters.isMobile) {
                     dispatch("moveStartModuleControls", "mainMenu");
@@ -179,21 +176,5 @@ export default {
             }).then(() => {
             commit("setStyleListLoaded", true);
         }).catch(error => console.error(error));
-    },
-
-    /**
-     * Loops trough defined alerts from config json and add it to the alerting module
-     * @param {Object} context the vue context
-     * @param {Object} context.dispatch the commit
-     * @param {Object} alerts object with defined alerts
-     * @returns {void}
-     */
-    addAlertsFromConfigJson ({dispatch}, alerts) {
-        Object.values(alerts).forEach((value) => {
-            value.initial = true;
-            value.isNews = true;
-            value.initialConfirmed = value.mustBeConfirmed;
-            dispatch("Alerting/addSingleAlert", value, {root: true});
-        });
     }
 };
