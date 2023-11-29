@@ -91,6 +91,7 @@
 - Mobile View: switching vertical and horizontal view works better now.
 - Close Button is now in line with Menu navigation.
 - Tools: Open tools are closed when switching to a mode, that they do not support.
+- Tree: Sorting the layers in the topic tree in the same order as via share link.
 
 ---
 

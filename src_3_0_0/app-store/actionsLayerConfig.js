@@ -109,10 +109,12 @@ export default {
      * @param {Number|String} [transparency = 0] value for transparency
      * @param {Boolean} [showInLayerTree = true] value for showInLayerTree
      * @param {Boolean} [isBaseLayer = false] value for isBaseLayer
+     * @param {Number} zIndex new zIndex of the layer in the tree
      * @returns {Boolean} true, if layer exists an was added or replaced
      */
-    addOrReplaceLayer: function ({dispatch, getters}, {layerId, visibility = true, transparency = 0, showInLayerTree = true, isBaseLayer = false}) {
+    addOrReplaceLayer: function ({dispatch, getters}, {layerId, visibility = true, transparency = 0, showInLayerTree = true, isBaseLayer = false, zIndex}) {
         const layer = getters.layerConfigById(layerId);
+        let newZIndex = zIndex;
 
         if (!layer) {
             const config = rawLayerList.getLayerWhere({id: layerId}),
@@ -133,10 +135,12 @@ export default {
             }
         }
         else {
-            let zIndex = layer.zIndex;
+            if (!newZIndex) {
+                newZIndex = layer.zIndex;
+            }
 
-            if (!layer.showInLayerTree && visibility) {
-                zIndex = getters.determineZIndex(layerId);
+            if (!zIndex && !layer.showInLayerTree && visibility) {
+                newZIndex = getters.determineZIndex(layerId);
             }
             dispatch("replaceByIdInLayerConfig", {layerConfigs: [{
                 id: layerId,
@@ -144,7 +148,7 @@ export default {
                     visibility: visibility,
                     transparency: transparency,
                     showInLayerTree: showInLayerTree,
-                    zIndex: zIndex
+                    zIndex: newZIndex
                 }
             }]});
         }

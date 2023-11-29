@@ -7,7 +7,7 @@ import menuUrlParams from "../../../modules/menu/js/menuUrlParams";
 import searchBarUrlParams from "../../../modules/searchBar/js/searchBarUrlParams";
 
 /**
- * Sets the url params ro the app-store state.
+ * Sets the url params to the app-store state.
  * @returns {void}
  */
 export function initializeUrlParams () {

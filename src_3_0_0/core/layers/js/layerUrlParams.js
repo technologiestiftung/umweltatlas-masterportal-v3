@@ -118,12 +118,13 @@ function removeCurrentLayerFromLayerTree () {
  * @returns {void}
  */
 function addLayerToLayerTree (layers) {
-    layers.forEach(layer => {
+    layers.forEach((layer, index) => {
         store.dispatch("addOrReplaceLayer", {
             layerId: layer.id,
             visibility: typeof layer.visibility === "boolean" ? layer.visibility : true,
             transparency: layer.transparency || 0,
-            showInLayerTree: true
+            showInLayerTree: true,
+            zIndex: index
         },
         {root: true}).then((success) => {
             if (!success) {
