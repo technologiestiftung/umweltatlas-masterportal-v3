@@ -145,7 +145,7 @@ Layer.prototype.setAltitudeOnGeometry = function (geometry) {
         geometry.setCoordinates(this.getMultiPointCoordinatesWithAltitude(coords));
     }
     else {
-        console.error("Type: " + type + " is not supported yet for function \"setAltitudeOnGeometry\"!");
+        console.warn("Type: " + type + " is not supported yet for function \"setAltitudeOnGeometry\"!");
     }
     return geometry;
 };
