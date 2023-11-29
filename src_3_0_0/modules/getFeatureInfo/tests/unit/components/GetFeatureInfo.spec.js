@@ -8,7 +8,8 @@ import GfiComponent from "../../../components/GetFeatureInfo.vue";
 let mockMutations,
     mockGetters,
     menuExpanded,
-    toggleMenuSpy;
+    toggleMenuSpy,
+    collectGfiFeaturesSpy;
 
 config.global.mocks.$t = key => key;
 config.global.mocks.$gfiThemeAddons = [];
@@ -23,6 +24,7 @@ config.global.mocks.$gfiThemeAddons = [];
  */
 function getGfiStore (mobile, uiStyle, gfiFeatures, mapSize) {
     mockGetters.gfiFeaturesReverse = () => gfiFeatures;
+    collectGfiFeaturesSpy = sinon.spy();
 
     return createStore({
         namespaced: true,
@@ -36,7 +38,7 @@ function getGfiStore (mobile, uiStyle, gfiFeatures, mapSize) {
                         getters: mockGetters,
                         actions: {
                             addGfiToMenu: sinon.stub(),
-                            collectGfiFeatures: sinon.stub()
+                            collectGfiFeatures: collectGfiFeaturesSpy
                         }
                     }
                 }
@@ -73,7 +75,8 @@ function getGfiStore (mobile, uiStyle, gfiFeatures, mapSize) {
             mobile: () => mobile ? mobile : sinon.stub(),
             gfiWindow: () => "",
             uiStyle: () => uiStyle ? uiStyle : sinon.stub(),
-            ignoredKeys: () => sinon.stub()
+            ignoredKeys: () => sinon.stub(),
+            visibleSubjectDataLayerConfigs: () => []
         },
         actions: {
             initializeModule: sinon.stub()
@@ -460,6 +463,102 @@ describe("src_3_0_0/modules/getFeatureInfo/components/GetFeatureInfo.vue", () =>
             wrapper.vm.$options.watch.gfiFeatures.handler.call(wrapper.vm, gfiFeaturesNew, gfiFeaturesNew);
             expect(mockMutations.setVisible.notCalled).to.be.true;
             expect(toggleMenuSpy.notCalled).to.be.true;
+        });
+    });
+    describe("watcher visibleSubjectDataLayerConfigs", () => {
+        it("visibleSubjectDataLayerConfigs changed, only one gfi visible", async () => {
+            const gfiFeatures = [{
+                    getGfiUrl: () => null,
+                    getFeatures: () => sinon.stub(),
+                    getProperties: () => sinon.stub(),
+                    getLayerId: () => "layerId"
+                }],
+                store = getGfiStore(false, "", gfiFeatures, []),
+                newVal = [],
+                oldVal = [{
+                    id: "layerId",
+                    visibility: false
+                }],
+                resetSpy = sinon.spy(GfiComponent.methods, "reset"),
+                wrapper = shallowMount(GfiComponent, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+            wrapper.vm.$options.watch.visibleSubjectDataLayerConfigs.handler.call(wrapper.vm, newVal, oldVal);
+            expect(resetSpy.calledOnce).to.be.true;
+        });
+        it("visibleSubjectDataLayerConfigs changed, two gfi visible", async () => {
+            const gfiFeatures = [{
+                    getGfiUrl: () => null,
+                    getFeatures: () => sinon.stub(),
+                    getProperties: () => sinon.stub(),
+                    getLayerId: () => "layerId1"
+                },
+                {
+                    getGfiUrl: () => null,
+                    getFeatures: () => sinon.stub(),
+                    getProperties: () => sinon.stub(),
+                    getLayerId: () => "layerId2"
+                }],
+                store = getGfiStore(false, "", gfiFeatures, []),
+                conf1 = {
+                    id: "layerId1",
+                    visibility: false
+                },
+                conf2 = {
+                    id: "layerId2",
+                    visibility: true
+                },
+                newVal = [conf2],
+                oldVal = [conf1, conf2],
+                resetSpy = sinon.spy(GfiComponent.methods, "reset"),
+
+                wrapper = shallowMount(GfiComponent, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+            wrapper.vm.$options.watch.visibleSubjectDataLayerConfigs.handler.call(wrapper.vm, newVal, oldVal);
+            expect(resetSpy.notCalled).to.be.true;
+            expect(collectGfiFeaturesSpy.calledOnce).to.be.true;
+        });
+        it("visibleSubjectDataLayerConfigs changed, other gfi visible", async () => {
+            const gfiFeatures = [{
+                    getGfiUrl: () => null,
+                    getFeatures: () => sinon.stub(),
+                    getProperties: () => sinon.stub(),
+                    getLayerId: () => "layerId1"
+                },
+                {
+                    getGfiUrl: () => null,
+                    getFeatures: () => sinon.stub(),
+                    getProperties: () => sinon.stub(),
+                    getLayerId: () => "layerId2"
+                }],
+                store = getGfiStore(false, "", gfiFeatures, []),
+                conf1 = {
+                    id: "layerId3",
+                    visibility: false
+                },
+                conf2 = {
+                    id: "layerId4",
+                    visibility: true
+                },
+                newVal = [conf2],
+                oldVal = [conf1, conf2],
+                resetSpy = sinon.spy(GfiComponent.methods, "reset"),
+                wrapper = shallowMount(GfiComponent, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+            wrapper.vm.$options.watch.visibleSubjectDataLayerConfigs.handler.call(wrapper.vm, newVal, oldVal);
+            expect(resetSpy.notCalled).to.be.true;
+            expect(collectGfiFeaturesSpy.notCalled).to.be.true;
         });
     });
 

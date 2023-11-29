@@ -25,15 +25,18 @@ export function getVisibleLayersWithGroupLayersChildren (visibleLayers) {
 }
 
 /**
- * Gets the visible wms layer at the current resolution.
+ * Gets the visible wms layer at the current resolution. Inspects 'visibleSubjectDataLayerConfigs' for just even set invisible layers.
  * @param {Number} resolution The current resolution.
+ * @param {Array} visibleSubjectDataLayerConfigs The currentlyvisible subject data layer configs.
  * @returns {Object[]} The visible wms layers.
  */
-export function getVisibleWmsLayersAtResolution (resolution) {
+export function getVisibleWmsLayersAtResolution (resolution, visibleSubjectDataLayerConfigs) {
     const visibleLayers = mapCollection.getMap("2D").getLayers().getArray().filter(layer => layer.getVisible()),
         visibleLayersWithGroupLayersChildren = getVisibleLayersWithGroupLayersChildren(visibleLayers),
         visibleLayersWms = visibleLayersWithGroupLayersChildren.filter(layer => {
-            return (layer.get("typ") === "WMS") && (resolution <= layer.get("maxResolution") && resolution >= layer.get("minResolution"));
+            return (layer.get("typ") === "WMS")
+            && (resolution <= layer.get("maxResolution") && resolution >= layer.get("minResolution")
+            && visibleSubjectDataLayerConfigs.find(config => config.id === layer.get("id")));
         });
 
     return visibleLayersWms;

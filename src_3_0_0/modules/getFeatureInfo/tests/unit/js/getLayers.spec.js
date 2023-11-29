@@ -37,49 +37,83 @@ describe("src_3_0_0/modules/getFeatureInfo/js/getLayers.js", () => {
     });
 
     describe("getVisibleWmsLayersAtResolution", () => {
-        it("returns the getVisibleWmsLayersAtResolution from grouplayer", () => {
+        let visibleSubjectDataLayerConfigs,
+            layer1,
+            layer2,
+            layer3,
+            grouplayer;
+
+        beforeEach(() => {
             const layers = [],
                 map = {
                     id: "ol",
                     mode: "2D",
-                    addLayer: (grouplayer) => {
-                        layers.push(grouplayer);
+                    addLayer: (group) => {
+                        layers.push(group);
                     },
                     getLayers: () => {
                         return grouplayer.getLayers();
                     },
                     getArray: () => [grouplayer]
                 },
-                layer1 = new Layer({
-                    visible: true,
-                    typ: "WMS",
-                    minResolution: 0.1322915952292052,
-                    maxResolution: 66.14579761460263
-                }),
-                layer2 = new Layer({
-                    visible: true,
-                    typ: "WFS",
-                    minResolution: 0.1322915952292052,
-                    maxResolution: 66.14579761460263
-                }),
-                layer3 = new Layer({
-                    visible: true,
-                    typ: "WMS",
-                    minResolution: 0.1322915952292052,
-                    maxResolution: 66.14579761460263
-                }),
-                grouplayer = new LayerGroup({
-                    layers: [layer1, layer2, layer3]
-                }),
                 state = {
                     mode: "2D"
                 };
 
+            layer1 = new Layer({
+                id: "1",
+                visible: true,
+                typ: "WMS",
+                minResolution: 0.1322915952292052,
+                maxResolution: 66.14579761460263
+            });
+            layer2 = new Layer({
+                id: "2",
+                visible: true,
+                typ: "WFS",
+                minResolution: 0.1322915952292052,
+                maxResolution: 66.14579761460263
+            });
+            layer3 = new Layer({
+                id: "3",
+                visible: true,
+                typ: "WMS",
+                minResolution: 0.1322915952292052,
+                maxResolution: 66.14579761460263
+            });
+            grouplayer = new LayerGroup({
+                layers: [layer1, layer2, layer3]
+            });
+            visibleSubjectDataLayerConfigs = [
+                {
+                    id: "1"
+                },
+                {
+                    id: "2"
+                },
+                {
+                    id: "3"
+                }
+            ];
             mapCollection.clear();
             mapCollection.addMap(map, "2D");
             addLayer(state, grouplayer);
+        });
 
-            expect(getVisibleWmsLayersAtResolution(5.2916638091682096)).to.be.an("array").that.contains(layer1, layer3);
+        it("returns the getVisibleWmsLayersAtResolution from grouplayer", () => {
+            expect(getVisibleWmsLayersAtResolution(5.2916638091682096, visibleSubjectDataLayerConfigs)).to.be.an("array").that.contains(layer1, layer3);
+        });
+
+        it("returns the getVisibleWmsLayersAtResolution from grouplayer and checks config vor visible layers", () => {
+            visibleSubjectDataLayerConfigs = [
+                {
+                    id: "2"
+                },
+                {
+                    id: "3"
+                }
+            ];
+            expect(getVisibleWmsLayersAtResolution(5.2916638091682096, visibleSubjectDataLayerConfigs)).to.be.an("array").that.contains(layer3);
         });
     });
 

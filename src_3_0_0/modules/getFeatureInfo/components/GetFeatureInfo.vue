@@ -38,7 +38,8 @@ export default {
     },
     computed: {
         ...mapGetters([
-            "ignoredKeys"
+            "ignoredKeys",
+            "visibleSubjectDataLayerConfigs"
         ]),
         ...mapGetters("Modules/GetFeatureInfo", [
             "configPaths",
@@ -119,6 +120,32 @@ export default {
             else {
                 this.changeCurrentComponent({type: this.type, side: this.menuSide, props: {name: "none"}});
             }
+        },
+        /**
+         * Detects changes in visible layers and closes gfi if layer of current shown feature was removed from map.
+         * @returns {void}
+         */
+        visibleSubjectDataLayerConfigs: {
+            handler (newVal, oldVal) {
+                if (oldVal.length !== newVal.length) {
+                    if (newVal.filter(x => !oldVal.includes(x)).length === 0) {
+                        const oldValues = oldVal.filter(x => !newVal.includes(x));
+
+                        oldValues.forEach(config => {
+                            if (this.feature.getLayerId() === config.id && config.visibility === false) {
+                                if (this.gfiFeatures.length === 1) {
+                                    this.reset();
+                                }
+                                else {
+                                    this.pagerIndex = 0;
+                                    this.collectGfiFeatures();
+                                }
+                            }
+                        });
+                    }
+                }
+            },
+            deep: true
         },
         /**
          * Whenever the map click coordinate changes collectGfiFeatures action will call.
