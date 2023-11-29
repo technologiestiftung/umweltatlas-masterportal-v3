@@ -341,7 +341,7 @@ Layer2dVector.prototype.filterUniqueLegendInfo = function (features, rules, lege
     let uniqueLegendInformation = [];
 
     rules.forEach(rule => {
-        const value = String(rule.conditions.properties[rulesKey]);
+        const value = String(rule.conditions?.properties[rulesKey]);
 
         if (conditionProperties.includes(value)) {
             const legendInformation = legendInfos.find(legendInfo => legendInfo?.label === (rule.style?.legendValue || value));

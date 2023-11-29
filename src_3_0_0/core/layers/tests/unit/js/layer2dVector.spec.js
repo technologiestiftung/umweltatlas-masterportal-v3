@@ -339,7 +339,7 @@ describe("src_3_0_0/core/js/layers/layer2dVector.js", () => {
 
     describe("filterUniqueLegendInfo", () => {
         it("returns uniqueLegendInfo for several features with same condition property (same style)", () => {
-            const wfsLayer = new Layer2dVector(attributes),
+            const vectorLayer = new Layer2dVector(attributes),
                 attributes1 = {id: 1, kategorie: "Bewässerungsanlagen", name: ""},
                 attributes2 = {id: 2, kategorie: "Bewässerungsanlagen", name: "Ludwigsluster Kanal"},
                 attributes3 = {id: 2, kategorie: "Brücken", name: "Lustige Brücke"},
@@ -409,11 +409,11 @@ describe("src_3_0_0/core/js/layers/layer2dVector.js", () => {
                     styleObject: {}
                 }];
 
-            expect(wfsLayer.filterUniqueLegendInfo(features, rules, legendInfos.legendInformation)).to.deep.equal(expectedUniqueLegendInfo);
-            expect(wfsLayer.filterUniqueLegendInfo(features, rules, legendInfos.legendInformation).length).to.not.deep.equal(features.length);
+            expect(vectorLayer.filterUniqueLegendInfo(features, rules, legendInfos.legendInformation)).to.deep.equal(expectedUniqueLegendInfo);
+            expect(vectorLayer.filterUniqueLegendInfo(features, rules, legendInfos.legendInformation).length).to.not.deep.equal(features.length);
         });
         it("return uniqueLegendInfo for feature condition property that match legendinformation", () => {
-            const wfsLayer = new Layer2dVector(attributes),
+            const vectorLayer = new Layer2dVector(attributes),
                 attributes1 = {id: 1, Schulform: "Grundschule", name: ""},
                 attributes2 = {id: 2, Schulform: "Regionale Schule", name: "Ludwigsluster Kanal"},
                 attributes3 = {id: 3, Schulform: "Waldorfschule", name: "Lustige Brücke"},
@@ -537,12 +537,12 @@ describe("src_3_0_0/core/js/layers/layer2dVector.js", () => {
                     styleObject: {}
                 }];
 
-            expect(wfsLayer.filterUniqueLegendInfo(features, rules, legendInfos.legendInformation)).to.deep.equal(expectedUniqueLegendInfo);
-            expect(wfsLayer.filterUniqueLegendInfo(features, rules, legendInfos.legendInformation).length).to.deep.equal(3);
-            expect(wfsLayer.filterUniqueLegendInfo(features, rules, legendInfos.legendInformation).length).to.deep.equal(features.length);
+            expect(vectorLayer.filterUniqueLegendInfo(features, rules, legendInfos.legendInformation)).to.deep.equal(expectedUniqueLegendInfo);
+            expect(vectorLayer.filterUniqueLegendInfo(features, rules, legendInfos.legendInformation).length).to.deep.equal(3);
+            expect(vectorLayer.filterUniqueLegendInfo(features, rules, legendInfos.legendInformation).length).to.deep.equal(features.length);
         });
         it("return uniqueLegendInfo for feature condition property (with first letter upper case) that match legendinformation (first letter lower case", () => {
-            const wfsLayer = new Layer2dVector(attributes),
+            const vectorLayer = new Layer2dVector(attributes),
                 attributes1 = {id: 1, Kategorie: "Bewässerungsanlagen", name: ""},
                 features = [{
                     attribute: attributes1,
@@ -586,7 +586,53 @@ describe("src_3_0_0/core/js/layers/layer2dVector.js", () => {
                     styleObject: {}
                 }];
 
-            expect(wfsLayer.filterUniqueLegendInfo(features, rules, legendInfos.legendInformation)).to.deep.equal(expectedUniqueLegendInfo);
+            expect(vectorLayer.filterUniqueLegendInfo(features, rules, legendInfos.legendInformation)).to.deep.equal(expectedUniqueLegendInfo);
+        });
+
+        it("should not fail if some rules have no condition", () => {
+            const vectorLayer = new Layer2dVector(attributes),
+                attributes1 = {id: 1, ID_SYMBOL: "3", name: "ASN, Wertstoffhof Nord"},
+                features = [{
+                    attribute: attributes1,
+                    get: (key) => {
+                        return attributes1[key];
+                    }
+                }],
+                rules = [{
+                    conditions: {
+                        properties: {
+                            ID_SYMBOL: "3"
+                        }
+                    },
+                    style: {
+                        clusterImageName: "amt_stadt_nuernberg.png",
+                        imageName: "amt_stadt_nuernberg.png",
+                        legendValue: "Städtische Ämter"
+                    }
+                },
+                {
+                    style: {
+                        imageName: "bruecke.png"
+                    }
+                }],
+                legendInfos = [
+                    {
+                        geometryType: "Point",
+                        id: "Point%7B%22properties%22%3A%7B%22ID_SYMBOL%22%3A3%7D%7D",
+                        label: "Städtische Ämter",
+                        styleObject: {}
+                    }
+                ],
+                expectedUniqueLegendInfo = [
+                    {
+                        geometryType: "Point",
+                        id: "Point%7B%22properties%22%3A%7B%22ID_SYMBOL%22%3A3%7D%7D",
+                        label: "Städtische Ämter",
+                        styleObject: {}
+                    }
+                ];
+
+            expect(vectorLayer.filterUniqueLegendInfo(features, rules, legendInfos)).to.deep.equal(expectedUniqueLegendInfo);
         });
     });
 });

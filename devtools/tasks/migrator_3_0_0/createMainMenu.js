@@ -135,7 +135,7 @@ function addTitle (data, mainMenu) {
             oldTitleText = oldTitle.title;
 
         newTitle = oldTitle;
-        newTitle.text = oldTitleText;
+        newTitle.text = oldTitleText || "title.text is missing";
         delete newTitle.title;
     }
     else {
