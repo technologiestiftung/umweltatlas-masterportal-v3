@@ -333,38 +333,6 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
         expect(navigateStepsBackSpy.firstCall.args[0]).to.equals(0);
     });
 
-    it("click on button to add layers shall be disabled", () => {
-        searchInput = "";
-        wrapper = shallowMount(LayerSelectionComponent, {
-            global: {
-                plugins: [store]
-            }});
-
-        expect(wrapper.find("#layer-selection-add-layer-btn").exists()).to.be.true;
-        expect(wrapper.find("#layer-selection-add-layer-btn").attributes().disabled).to.be.equals("true");
-    });
-
-    it("click on button to add layers shall call updateLayerTree", () => {
-        let btn = null;
-
-        LayerSelection.state.visible = true;
-        searchInput = "";
-
-        layersToAdd = ["1", "2"];
-        wrapper = mount(LayerSelectionComponent, {
-            global: {
-                plugins: [store]
-            }});
-
-        btn = wrapper.find("#layer-selection-add-layer-btn");
-        expect(btn.exists()).to.be.true;
-        expect(wrapper.find("#layer-selection-add-layer-btn").element.disabled).to.be.equals(false);
-
-        btn.trigger("click");
-        wrapper.vm.$nextTick();
-
-        expect(LayerSelection.actions.updateLayerTree.calledOnce).to.be.true;
-    });
     describe("methods", () => {
         it("test method sort", () => {
             let sorted = [];

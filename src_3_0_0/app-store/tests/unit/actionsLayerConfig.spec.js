@@ -973,11 +973,12 @@ describe("src_3_0_0/app-store/actionsLayerConfig.js", () => {
         it("changes the category to inspire", () => {
             actions.changeCategory({commit, dispatch, rootGetters, state}, categories[1]);
 
-            expect(commit.calledOnce).to.be.true;
+            expect(commit.calledTwice).to.be.true;
             expect(commit.firstCall.args[0]).to.equals("setLayerConfigByParentKey");
             expect(commit.firstCall.args[1].layerConfigs.elements[0].name).to.be.equals("Gebäude");
             expect(commit.firstCall.args[1].layerConfigs.elements[1].name).to.be.equals("kein INSPIRE-Thema");
             expect(commit.firstCall.args[1].parentKey).to.be.equals(treeSubjectsKey);
+            expect(commit.secondCall.args[0]).to.equals("Modules/LayerSelection/clearLayerSelection");
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equals("Modules/LayerSelection/navigateForward");
             expect(dispatch.firstCall.args[1].lastFolderName).to.equals("root");
@@ -990,11 +991,12 @@ describe("src_3_0_0/app-store/actionsLayerConfig.js", () => {
         it("changes the category to organisation", () => {
             actions.changeCategory({commit, dispatch, rootGetters, state}, categories[2]);
 
-            expect(commit.calledOnce).to.be.true;
+            expect(commit.calledTwice).to.be.true;
             expect(commit.firstCall.args[0]).to.equals("setLayerConfigByParentKey");
             expect(commit.firstCall.args[1].layerConfigs.elements[0].name).to.be.equals("Landesbetrieb Geoinformation und Vermessung");
             expect(commit.firstCall.args[1].layerConfigs.elements[1].name).to.be.equals("Landesbetrieb Straßen, Brücken und Gewässer");
             expect(commit.firstCall.args[1].parentKey).to.be.equals(treeSubjectsKey);
+            expect(commit.secondCall.args[0]).to.equals("Modules/LayerSelection/clearLayerSelection");
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equals("Modules/LayerSelection/navigateForward");
             expect(dispatch.firstCall.args[1].lastFolderName).to.equals("root");

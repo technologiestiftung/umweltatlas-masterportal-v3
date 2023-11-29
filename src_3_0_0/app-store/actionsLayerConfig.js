@@ -293,6 +293,7 @@ export default {
             layersStructured = buildTreeStructure.build(state.layerConfig, category, layerContainer);
 
         commit("setLayerConfigByParentKey", {layerConfigs: layersStructured, parentKey: treeSubjectsKey});
+        commit("Modules/LayerSelection/clearLayerSelection", {root: true});
         dispatch("Modules/LayerSelection/navigateForward", {
             lastFolderName: "root",
             subjectDataLayerConfs: layersStructured.elements,
