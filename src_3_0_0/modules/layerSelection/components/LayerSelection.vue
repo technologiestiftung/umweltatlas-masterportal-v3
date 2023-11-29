@@ -225,7 +225,7 @@ export default {
                     </h5>
                     <nav aria-label="breadcrumb">
                         <ol
-                        v-if="reducedFolderNames.length > 0"
+                            v-if="reducedFolderNames.length > 0"
                             class="breadcrumb"
                         >
                             <li
