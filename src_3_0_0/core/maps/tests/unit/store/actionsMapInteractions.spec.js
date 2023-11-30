@@ -10,11 +10,13 @@ const {
 } = actions;
 
 describe("src_3_0_0/core/maps/store/actionsMapsInteractions.js", () => {
-    let rootState;
+    let rootGetters;
 
     beforeEach(() => {
-        rootState = {
-            configJs: {}
+        rootGetters = {
+            map3dParameter: () => {
+                return {};
+            }
         };
     });
 
@@ -59,9 +61,9 @@ describe("src_3_0_0/core/maps/store/actionsMapsInteractions.js", () => {
                 tilt: 45
             };
 
-            actions.setCamera({rootState}, cameraParams);
+            actions.setCamera({rootGetters}, cameraParams);
 
-            expect(rootState.configJs.cesiumParameter.camera).to.deep.equals(cameraParams);
+            expect(rootGetters.map3dParameter.camera).to.deep.equals(cameraParams);
         });
     });
 });

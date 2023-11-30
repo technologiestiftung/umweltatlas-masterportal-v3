@@ -13,6 +13,15 @@ const getters = {
     ...generateSimpleGetters(stateAppStore),
 
     /**
+     * Returns the map3dParameter settings configuration of portalConfig.
+     * @param {Object} state state of the app-store.
+     * @returns {Object} The controls config.
+     */
+    map3dParameter: state => {
+        return state.portalConfig?.map.map3dParameter || {};
+    },
+
+    /**
      * Returns the active category configured in config.json unter 'tree'.
      * @param {Object} state state of the app-store.
      * @returns {Object|null} The active category or the first one or null if not found

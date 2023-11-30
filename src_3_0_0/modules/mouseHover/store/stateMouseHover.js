@@ -16,7 +16,7 @@ import Overlay from "ol/Overlay.js";
  * @property {String} type The type of the mouseHover component.
  */
 export default {
-    configPaths: ["portalConfig.mouseHover"],
+    configPaths: ["portalConfig.map.mouseHover"],
     overlay: new Overlay({
         id: "mousehover-overlay",
         element: document.createElement("DIV"),

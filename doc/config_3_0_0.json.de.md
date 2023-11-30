@@ -27,10 +27,9 @@ Im Abschnitt *portalConfig* können folgende Eigenschaften konfiguriert werden:
 
 1. Einträge im Mainmenu sowie Vorhandenheit jeweiliger Module und deren Reihenfolge (*mainMenu*)
 2. Konfiguration der Karte und darauf platzierter Elemente (*map*)
-3. Anzeige eines Tooltips von Features (*mouseHover*)
-4. Konfiguration der Fußzeile (*portalFooter*)
-5. Einträge im Secondarymenu sowie Vorhandenheit jeweiliger Module und deren Reihenfolge (*secondaryMenu*)
-6. Konfiguration der Themenauswahl (*tree*)
+3. Konfiguration der Fußzeile (*portalFooter*)
+4. Einträge im Secondarymenu sowie Vorhandenheit jeweiliger Module und deren Reihenfolge (*secondaryMenu*)
+5. Konfiguration der Themenauswahl (*tree*)
 
 Es existieren die im Folgenden aufgelisteten Konfigurationen:
 
@@ -38,7 +37,6 @@ Es existieren die im Folgenden aufgelisteten Konfigurationen:
 |----|-------------|---|-------|------------|------|
 |mainMenu|nein|**[menu](#markdown-header-portalconfigmenu)**||Hier können die Menüeinträge im Mainmenu und deren Anordnung konfiguriert werden. Die Reihenfolge der Module ist identisch mit der Reihenfolge in der config.json (siehe **[Modules](#markdown-header-portalconfigmenumodules)**).|false|
 |map|nein|**[map](#markdown-header-portalconfigmap)**||MKonfiguration der Karte und darauf platzierter Elemente.|false|
-|mouseHover|nein|**[mouseHover](#markdown-header-portalconfigmousehover)**||Aktiviert die MouseHover-Funktion für Vektorlayer, z.B. WFS oder GeoJSON. Für die Konfiguration pro Layer siehe **[Vector](#markdown-header-themenconfiglayervector)**.|false|
 |portalFooter|nein|**[footer](#markdown-header-footer)**||Möglichkeit den Inhalt der Fußzeile des Portals zu konfigurieren.|false|
 |secondaryMenu|nein|**[menu](#markdown-header-portalconfigmenu)**||Hier können die Menüeinträge im Secondarymenu und deren Anordnung konfiguriert werden. Die Reihenfolge der Module ist identisch mit der Reihenfolge in der config.json (siehe **[Modules](#markdown-header-portalconfigmenumodules)**).|false|
 |tree|nein|**[tree](#markdown-header-portalconfigtree)**||Möglichkeit um Einstellungen für den Themenbaum vorzunehmen.|false|
@@ -50,7 +48,6 @@ Es existieren die im Folgenden aufgelisteten Konfigurationen:
     "portalConfig": {
         "mainMenu": {},
         "map": {},
-        "mouseHover": {},
         "portalFooter": {},
         "secondaryMenu": {},
         "tree": {}
@@ -69,7 +66,9 @@ Konfiguration der Karte und darauf platzierter Elemente.
 |controls|nein|**[controls](#markdown-header-portalconfigmapcontrols)**||Mit den Controls kann festgelegt werden, welche Interaktionen in der Karte möglich sein sollen.|false|
 |getFeatureInfo|nein|**[getFeatureInfo](#markdown-header-portalconfigmapgetFeatureInfo)**||Mit der GetFeatureInfo(gfi) lassen sich Informationen zu beliebigen Layern anzeigen. Dabei werden bei einem WMS die Daten über die GetFeatureInfo geladen. Bei Vektordaten (WFS, Sensor, GeoJSON usw.) werden die angezeigten Attribute aus den Daten selbst verwendet.|false|
 |layerPills|nein|**[layerPills](#markdown-header-portalconfigmaplayerpills)**||Konfiguration der LayerPills.|false|
+|map3dParameter|no|**[map3dParameter](#markdown-header-portalconfigmapmap3dParameter)**||Cesium Attribute.||
 |mapView|nein|**[mapView](#markdown-header-portalconfigmapmapview)**||Mit verschiedenen Parametern wird die Startansicht der Karte konfiguriert und der Hintergrund festgelegt, der erscheint wenn keine Karte geladen ist.|false|
+|mouseHover|nein|**[mouseHover](#markdown-header-portalconfigmapmousehover)**||Aktiviert die MouseHover-Funktion für Vektorlayer, z.B. WFS oder GeoJSON. Für die Konfiguration pro Layer siehe **[Vector](#markdown-header-layerconfigelementslayervector)**.|false|
 
 **Beispiel**
 
@@ -80,7 +79,9 @@ Konfiguration der Karte und darauf platzierter Elemente.
         "controls": {},
         "getFeatureInfo": {},
         "layerPills": {},
-        "mapView": {}
+        "map3dParameter": {},
+        "mapView": {},
+        "mouseHover": {}
     }
 }
 ```
@@ -609,6 +610,109 @@ Layerpills sind Buttons, die oberhalb der Karte die ausgewählten Layer anzeigen
 
 ***
 
+#### portalConfig.map.map3dParameter
+Cesium Scene settings in 3D mode.
+For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Scene.html?classFilter=scene)**
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|camera|no|**[camera](#markdown-header-portalConfigmapmap3dParametercamera)**||Cesium Scene camera settings in 3D mode.|false|
+|fog|no|**[fog](#markdown-header-portalConfigmapmap3dParameterfog)**||Cesium Scene fog settings in 3D mode.||false|
+|fxaa|no|Boolean|`true`|activates *fast approximate anti-aliasing*|false|
+|globe|no|**[globe](#markdown-header-portalConfigmapmap3dParameterglobe)**||Cesium Scene globe settings in 3D mode.|false|
+|maximumScreenSpaceError|no|Number|`2.0`|Detail level in which terrain/raster tiles are fetched. 4/3 is the highest quality level.|false|
+|tileCacheSize|no|Number|`100`|terrain/raster tile cache size|false|
+
+**Example**
+
+```json
+{
+    "camera": {
+        "altitude": 127,
+        "heading": -1.2502079000000208,
+        "tilt": 45
+    },
+    "fog": {
+        "enabled": true
+    },
+    "fxaa": true,
+    "globe": {
+        "enableLighting": true
+    },
+    "maximumScreenSpaceError": 2,
+    "tileCacheSize": 20,
+}
+```
+
+***
+
+##### portalConfig.map.map3dParameter.camera
+Cesium Scene camera settings in 3D mode.
+The camera is defined by a position, orientation, and view frustum.
+For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Camera.html)**
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|altitude|no|Number||Camera's initial height in meters|false|
+|heading|no|Number||Camera's initial heading in radians|false|
+|tilt|no|Number||Camera's initial tile in radians|false|
+
+**Example**
+
+```json
+{
+    "camera": {
+        "altitude": 127,
+        "heading": -1.2502079000000208,
+        "tilt": 45
+    }
+}
+```
+
+***
+
+##### portalConfig.map.map3dParameter.fog
+Cesium Scene fog settings in 3D mode.
+Blends the atmosphere to geometry far from the camera for horizon views.
+For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Fog.html)**
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|enabled|no|Boolean|`false`|True if fog is enabled.|false|
+
+**Example**
+
+```json
+{
+    "fog": {
+        "enabled": true
+    }
+}
+```
+
+***
+
+##### portalConfig.map.map3dParameter.globe
+Cesium Scene globe settings in 3D mode.
+The globe rendered in the scene, including its terrain and imagery layers.
+For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Globe.html)**
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|enableLighting|no|Boolean|`false`|Activates light effects on the map based on the sun's position.|false|
+
+**Example**
+
+```json
+{
+    "globe": {
+        "enableLighting": true
+    }
+}
+```
+
+***
+
 #### portalConfig.map.mapView
 Mit verschiedenen Parametern wird die Startansicht der Karte konfiguriert und der Hintergrund festgelegt, der erscheint wenn keine Karte geladen ist.
 
@@ -713,6 +817,25 @@ Eine option definiert eine Zoomstufe. Diese muss definiert werden über die Aufl
     "resolution": 611.4974492763076,
     "scale": 2311167,
     "zoomLevel": 0
+}
+```
+
+***
+
+#### portalConfig.map.mouseHover
+Aktiviert die MouseHover-Funktion für Vektorlayer, z.B. WFS oder GeoJSON. Für die Konfiguration pro Layer siehe **[Vector](#markdown-header-layerconfigelementslayersvector)**.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|infoText|nein|String|"common:modules.mouseHover.infoText"| Text der angezeigt wird, wenn die Feature die Anzahl von `numFeaturesToShow` übersteigen.|false|
+|numFeaturesToShow|nein|Integer|2|Maximale Menge an Elementinformationen pro Tooltip; bei Überschreitung informiert ein Informationstext den Benutzer über den abgeschnittenen Inhalt.|false|
+
+**Beispiel**
+
+```json
+"mouseHover": {
+    "numFeaturesToShow": 1,
+    "infoText": "Beispieltext"
 }
 ```
 
@@ -4541,25 +4664,6 @@ Im Menü kann der Portalname und ein Bild angezeigt werden.
     "logo": "https://geodienste.hamburg.de/lgv-config/img/hh-logo.png",
     "link": "https://geoinfo.hamburg.de",
     "toolTip": "Landesbetrieb Geoinformation und Vermessung"
-}
-```
-
-***
-
-### portalConfig.mouseHover
-Aktiviert die MouseHover-Funktion für Vektorlayer, z.B. WFS oder GeoJSON. Für die Konfiguration pro Layer siehe **[Vector](#markdown-header-themenconfigelementslayersvector)**.
-
-|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|-------------|---|-------|------------|------|
-|infoText|nein|String|"common:modules.mouseHover.infoText"| Text der angezeigt wird, wenn die Feature die Anzahl von `numFeaturesToShow` übersteigen.|false|
-|numFeaturesToShow|nein|Integer|2|Maximale Menge an Elementinformationen pro Tooltip; bei Überschreitung informiert ein Informationstext den Benutzer über den abgeschnittenen Inhalt.|false|
-
-**Beispiel**
-
-```json
-"mouseHover": {
-    "numFeaturesToShow": 1,
-    "infoText": "Beispieltext"
 }
 ```
 

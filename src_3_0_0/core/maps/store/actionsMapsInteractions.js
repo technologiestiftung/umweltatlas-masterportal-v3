@@ -99,24 +99,24 @@ export default {
     /**
      * Sets the camera parameter
      * @param {Object} param store context
-     * @param {Object} param.rootState the rootState
+     * @param {Object} param.rootGetters the rootGetters
      * @param {Object} cameraParams The camera params.
      * @param {Object} cameraParams.altitude The camera altitude param.
      * @param {Object} cameraParams.heading The camera heading param.
      * @param {Object} cameraParams.tilt The camera tilt param.
      * @returns {void}
      */
-    setCamera ({rootState}, cameraParams) {
+    setCamera ({rootGetters}, cameraParams) {
         const map3d = mapCollection.getMap("3D");
 
         if (map3d) {
             api.map.olcsMap.setCameraParameter(cameraParams, mapCollection.getMap("3D"), Cesium);
         }
         else {
-            if (!rootState.configJs.cesiumParameter) {
-                rootState.configJs.cesiumParameter = {};
+            if (!rootGetters.map3dParameter) {
+                rootGetters.map3dParameter = {};
             }
-            rootState.configJs.cesiumParameter.camera = cameraParams;
+            rootGetters.map3dParameter.camera = cameraParams;
         }
     },
 

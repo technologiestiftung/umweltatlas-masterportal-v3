@@ -39,19 +39,6 @@ const Config = {
         }
     },
     cesiumLibrary: "https://geoportal-hamburg.de/mastercode/cesium/latest/Cesium.js",
-    cesiumParameter: {
-        fog: {
-            enabled: true,
-            density: 0.0002,
-            screenSpaceErrorFactor: 2.0
-        },
-        fxaa: true,
-        globe: {
-            enableLighting: true,
-            maximumScreenSpaceError: 2,
-            tileCacheSize: 20
-        }
-    },
     featureViaURL: {
         zoomTo: "42",
         epsg: 4326,

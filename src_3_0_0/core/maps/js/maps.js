@@ -74,7 +74,7 @@ function load3DMap (configJs) {
  */
 function create3DMap (configJs) {
     const map3d = api.map.createMap({
-        cesiumParameter: configJs?.cesiumParameter,
+        cesiumParameter: store.getters.map3dParameter,
         map2D: mapCollection.getMap("2D"),
         shadowTime: function () {
             return this.time || Cesium.JulianDate.fromDate(new Date());

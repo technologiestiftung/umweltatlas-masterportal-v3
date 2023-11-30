@@ -27,10 +27,9 @@ The section *portalConfig* controls the following properties:
 
 1. Menu entries in main menu and availability as well as order of modules (*mainMenu*)
 2. Configuration of the map and elements placed on it (*map*)
-3. Display of a tooltip of features (*mouseHover*)
-4. Footer configuration (*portalFooter*)
-5. Menu entries in secondary menu and availability as well as order of modules (*secondaryMenu*)
-6. Type of topic selection (*tree*)
+3. Footer configuration (*portalFooter*)
+4. Menu entries in secondary menu and availability as well as order of modules (*secondaryMenu*)
+5. Type of topic selection (*tree*)
 
 The configuration options listed in the following table exist:
 
@@ -38,7 +37,6 @@ The configuration options listed in the following table exist:
 |----|--------|----|-------|-----------|------|
 |mainMenu|no|**[menu](#markdown-header-portalconfigmenu)**||Menu entries in main menu and their order are configured in this entry. The order of modules corresponds to the order in the object specifying them; see **[Modules](#markdown-header-portalconfigmenumodules)**.|false|
 |map|no|**[map](#markdown-header-portalconfigmap)**||Configuration of the map and elements placed on it.|false|
-|mouseHover|no|**[mouseHover](#markdown-header-portalconfigmousehover)**||Activates the MouseHover feature for vector layers, both WFS and GeoJSON. For per-layer configuration, see the **[Vector](#markdown-header-themenconfiglayervector)**.|false|
 |portalFooter|no|**[footer](#markdown-header-footer)**||Possibility to configure the content of the portal footer.|false|
 |secondaryMenu|no|**[menu](#markdown-header-portalconfigmenu)**||Menu entries in secondary menu and their order are configured in this entry. The order of modules corresponds to the order in the object specifying them; see **[Modules](#markdown-header-portalconfigmenumodules)**.|false|
 |tree|no|**[tree](#markdown-header-portalconfigtree)**||Configuration of the topic selection tree.|false|
@@ -50,7 +48,6 @@ The configuration options listed in the following table exist:
     "portalConfig": {
         "mainMenu": {},
         "map": {},
-        "mouseHover": {},
         "portalFooter": {},
         "secondaryMenu": {},
         "tree": {}
@@ -69,7 +66,9 @@ Configuration of the map and elements placed on it.
 |controls|no|**[controls](#markdown-header-portalconfigmapcontrols)**||Allows setting which interactions are active in the map.|false|
 |getFeatureInfo|no|**[getFeatureInfo](#markdown-header-portalconfigmapgetFeatureInfo)**||Via  getFeatureInfo (GFI) information to arbitrary layers can be requested. For WMS, the data is fetched with a GetFeatureInfo request. Vector data (WFS, Sensor, GeoJSON, etc.) is already present in the client and will be shown from the already fetched information.|false|
 |layerPills|no|**[layerPills](#markdown-header-portalconfigmaplayerpills)**||Configuration of the LayerPills.|false|
+|map3dParameter|no|**[map3dParameter](#markdown-header-portalconfigmapmap3dParameter)**||Cesium params.||
 |mapView|no|**[mapView](#markdown-header-portalconfigmapmapview)**||Defines the initial map view and a background shown when no layer is selected.|false|
+|mouseHover|no|**[mouseHover](#markdown-header-portalconfigmapmousehover)**||Activates the MouseHover feature for vector layers, both WFS and GeoJSON. For per-layer configuration, see the **[Vector](#markdown-header-layerconfigelementslayervector)**.|false|
 
 **Example**
 
@@ -80,7 +79,9 @@ Configuration of the map and elements placed on it.
         "controls": {},
         "getFeatureInfo": {},
         "layerPills": {},
-        "mapView": {}
+        "map3dParameter": {},
+        "mapView": {},
+        "mouseHover": {}
     }
 }
 ```
@@ -609,6 +610,109 @@ Hint: highlighting only works if there is a styleId in config.json configured fo
 
 ***
 
+#### portalConfig.map.map3dParameter
+Cesium Scene settings in 3D mode.
+For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Scene.html?classFilter=scene)**
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|camera|no|**[camera](#markdown-header-portalConfigmapmap3dParametercamera)**||Cesium Scene camera settings in 3D mode.|false|
+|fog|no|**[fog](#markdown-header-portalConfigmapmap3dParameterfog)**||Cesium Scene fog settings in 3D mode.|false|
+|fxaa|no|Boolean|`true`|activates *fast approximate anti-aliasing*||false|
+|globe|no|**[globe](#markdown-header-portalConfigmapmap3dParameterglobe)**||Cesium Scene globe settings in 3D mode.|false|
+|maximumScreenSpaceError|no|Number|`2.0`|Detail level in which terrain/raster tiles are fetched. 4/3 is the highest quality level.|false|
+|tileCacheSize|no|Number|`100`|terrain/raster tile cache size|false|
+
+**Example**
+
+```json
+{
+    "camera": {
+        "altitude": 127,
+        "heading": -1.2502079000000208,
+        "tilt": 45
+    },
+    "fog": {
+        "enabled": true
+    },
+    "fxaa": true,
+    "globe": {
+        "enableLighting": true
+    },
+    "maximumScreenSpaceError": 2,
+    "tileCacheSize": 20,
+}
+```
+
+***
+
+##### portalConfig.map.map3dParameter.camera
+Cesium Scene camera settings in 3D mode.
+The camera is defined by a position, orientation, and view frustum.
+For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Camera.html)**
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|altitude|no|Number||Camera's initial height in meters|false|
+|heading|no|Number||Camera's initial heading in radians|false|
+|tilt|no|Number||Camera's initial tile in radians|false|
+
+**Example**
+
+```json
+{
+    "camera": {
+        "altitude": 127,
+        "heading": -1.2502079000000208,
+        "tilt": 45
+    }
+}
+```
+
+***
+
+##### portalConfig.map.map3dParameter.fog
+Cesium Scene fog settings in 3D mode.
+Blends the atmosphere to geometry far from the camera for horizon views.
+For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Fog.html)**
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|enabled|no|Boolean|`false`|True if fog is enabled.|false|
+
+**Example**
+
+```json
+{
+    "fog": {
+        "enabled": true
+    }
+}
+```
+
+***
+
+##### portalConfig.map.map3dParameter.globe
+Cesium Scene globe settings in 3D mode.
+The globe rendered in the scene, including its terrain and imagery layers.
+For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Globe.html)**
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|enableLighting|no|Boolean|`false`|Activates light effects on the map based on the sun's position.|false|
+
+**Example**
+
+```json
+{
+    "globe": {
+        "enableLighting": true
+    }
+}
+```
+
+***
+
 #### portalConfig.map.mapView
 Defines the initial map view and a background shown when no layer or map is selected.
 
@@ -714,6 +818,25 @@ An option defines a zoom level. Each zoom level is defined by resolution, scale 
     "scale": 2311167,
     "zoomLevel": 0
 }
+```
+
+***
+
+#### portalConfig.map.mouseHover
+Enables the MouseHover function for vector layers, e.g. WFS or GeoJSON. For per-layer configuration see **[Vector](#markdown-header-layerconfigelementslayersvector)**.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|infoText|no|String|"common:modules.mouseHover.infoText"| Text that will be displayed if the features exceed the number of `numFeaturesToShow`.|false|
+|numFeaturesToShow|no|Integer|2|Maximum amount of element information per tooltip; when exceeded, an information text informs the user of cut content.|false|
+
+**Example**
+
+```json
+"mouseHover": {
+    "numFeaturesToShow": 1,
+    "infoText": "Exampletext"
+},
 ```
 
 ***
@@ -4103,25 +4226,6 @@ The menu bar allows showing a portal name and portal image.
     "link": "https://geoinfo.hamburg.de",
     "toolTip": "Landesbetrieb Geoinformation und Vermessung"
 }
-```
-
-***
-
-### portalConfig.mouseHover
-Enables the MouseHover function for vector layers, e.g. WFS or GeoJSON. For per-layer configuration see **[Vector](#markdown-header-themenconfigelementslayersvector)**.
-
-|Name|Required|Type|Default|Description|Expert|
-|----|--------|----|-------|-----------|------|
-|infoText|no|String|"common:modules.mouseHover.infoText"| Text that will be displayed if the features exceed the number of `numFeaturesToShow`.|false|
-|numFeaturesToShow|no|Integer|2|Maximum amount of element information per tooltip; when exceeded, an information text informs the user of cut content.|false|
-
-**Example**
-
-```json
-"mouseHover": {
-    "numFeaturesToShow": 1,
-    "infoText": "Exampletext"
-},
 ```
 
 ***

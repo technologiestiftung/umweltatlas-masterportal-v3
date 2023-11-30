@@ -12,14 +12,17 @@
     - Fachdaten --> subjectlayer
     - Portalconfig --> portalConfig
     - Themenconfig --> layerConfig
-- The following attributes have been moved:
+- The following attributes have been moved within config.json:
     - Portalconfig.baselayerSwitcher -> portalConfig.map.baselayerSwitcher
     - Portalconfig.controls -> portalConfig.map.controls
     - Portalconfig.getFeatureInfo -> portalConfig.map.getFeatureInfo
     - Portalconfig.mapView -> portalConfig.map.mapView
+    - Portalconfig.mouseHover -> portalConfig.map.mouseHover
     - Portalconfig.tree.layerPills -> portalConfig.map.layerPills
 - The following attributes have been moved from config.json to config.js
     - Portalconfig.alerts -> alerting.initalAlerts (`alerts` has been renamed to `initalAlerts`)
+- The following attributes have been moved from config.js to config.json
+    - cesiumParameter -> portalConfig.map.map3dParameter (`cesiumParameter` has been renamed to `map3dParameter`)
 
 ### Added
 - Add roadmap information to the readme file.
