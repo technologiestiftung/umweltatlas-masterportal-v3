@@ -92,15 +92,17 @@ describe("src_3_0_0/core/js/layers/layer2dRasterWms.js", () => {
                 tilesize: 512,
                 transparent: "true",
                 url: "http://test.url",
-                version: "1.3.0"
+                version: "1.3.0",
+                extent: undefined
             });
         });
 
-        it("should return the raw layer attributes with styles", () => {
+        it("should return the raw layer attributes with styles and extent", () => {
             Object.assign(localAttributes, {
                 styles: [
                     "geofox_stations"
-                ]
+                ],
+                extent: [10, 20, 11, 22]
             });
             const wmsLayer = new Layer2dRasterWms(localAttributes);
 
@@ -115,7 +117,8 @@ describe("src_3_0_0/core/js/layers/layer2dRasterWms.js", () => {
                 tilesize: 512,
                 transparent: "true",
                 url: "http://test.url",
-                version: "1.3.0"
+                version: "1.3.0",
+                extent: [10, 20, 11, 22]
             });
         });
     });
