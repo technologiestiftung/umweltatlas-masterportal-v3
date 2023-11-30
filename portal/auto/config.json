@@ -1,27 +1,31 @@
 {
   "portalConfig": {
-    "mapView": {
-      "backgroundImage": "https://geodienste.hamburg.de/lgv-config/img/backgroundCanvas.jpeg",
-      "extent": [
-        442800,
-        5809000,
-        738000,
-        6102200
-      ],
-      "startResolution": 5.2916638091682096
-    },
-    "controls": {
-      "zoom": true,
-      "button3d": true,
-      "expandable": {
-        "totalView": true,
-        "backForward": true,
-        "fullScreen": true
+    "map": {
+      "mapView": {
+        "backgroundImage": "https://geodienste.hamburg.de/lgv-config/img/backgroundCanvas.jpeg",
+        "extent": [
+          442800,
+          5809000,
+          738000,
+          6102200
+        ],
+        "startResolution": 5.2916638091682096
+      },
+      "controls": {
+        "zoom": true,
+        "button3d": true,
+        "expandable": {
+          "totalView": true,
+          "backForward": true,
+          "fullScreen": true
+        }
+      },
+      "layerPills": {
+        "active": true
       }
     },
     "tree": {
       "type": "auto",
-      "layerPillsAmount": 5,
       "validLayerTypesAutoTree": [
         "WMS",
         "SENSORTHINGS",

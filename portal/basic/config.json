@@ -55,7 +55,6 @@
       },
       "searchBar": {
         "searchInterfaces": [
-
           {
             "type": "komootPhoton",
             "minChars": 3,
@@ -69,8 +68,14 @@
           {
             "type": "visibleVector",
             "resultEvents": {
-              "onClick": ["openGetFeatureInfo", "setMarker", "zoomToResult"],
-              "onHover": ["setMarker"]
+              "onClick": [
+                "openGetFeatureInfo",
+                "setMarker",
+                "zoomToResult"
+              ],
+              "onHover": [
+                "setMarker"
+              ]
             }
           },
           {
@@ -117,24 +122,28 @@
           {
             "type": "wfst",
             "name": "WFS-T Tool",
-            "layerIds": ["lgvline", "lgvpoint", "lgvpolygon"],
+            "layerIds": [
+              "lgvline",
+              "lgvpoint",
+              "lgvpolygon"
+            ],
             "toggleLayer": false,
             "lineButton": [
               {
-              "layerId":"lgvline",
-              "available": true
+                "layerId": "lgvline",
+                "available": true
               }
             ],
             "pointButton": [
               {
-                  "layerId":"lgvpoint",
-                  "available": true
+                "layerId": "lgvpoint",
+                "available": true
               }
             ],
             "polygonButton": [
               {
-              "layerId":"lgvpolygon",
-              "available": true
+                "layerId": "lgvpolygon",
+                "available": true
               }
             ],
             "update": "Bearbeiten!",
@@ -221,10 +230,10 @@
           "name": "Geobasiskarten (farbig)"
         },
         {
-          "id":"topplus_wmts",
+          "id": "topplus_wmts",
           "name": "TopPlusOpen (WMTS)",
           "typ": "WMTS",
-          "visibility":false,
+          "visibility": false,
           "showInLayerTree": true
         }
       ]
