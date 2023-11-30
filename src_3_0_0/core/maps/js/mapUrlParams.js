@@ -117,10 +117,17 @@ function featureViaUrl (params) {
  * @returns {void}
  */
 function highlightFeature (params) {
-    store.dispatch("Maps/highlightFeature", {
-        layerIdAndFeatureId: (params.HIGHLIGHTFEATURE || params["MAP/HIGHLIGHTFEATURE"])?.split(","),
-        type: "viaLayerIdAndFeatureId"
+    const layerId = (params.HIGHLIGHTFEATURE || params["MAP/HIGHLIGHTFEATURE"])?.split(",")[0],
+        featureIds = (params.HIGHLIGHTFEATURE || params["MAP/HIGHLIGHTFEATURE"])?.split(",");
+
+    featureIds.shift();
+    featureIds.forEach(featureId => {
+        store.dispatch("Maps/highlightFeature", {
+            layerIdAndFeatureId: [layerId, featureId],
+            type: "viaLayerIdAndFeatureId"
+        });
     });
+    store.dispatch("Maps/zoomToFilteredFeatures", {ids: featureIds, layerId: layerId, zoomOptions: {duration: 0}});
 }
 
 /**

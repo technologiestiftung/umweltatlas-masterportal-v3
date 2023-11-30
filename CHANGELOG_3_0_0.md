@@ -70,6 +70,9 @@
 - Layers are only displayed on the 2D-map, if layers attributes minScale and maxScale are in maps scale-range. The layer is grayed out in the topic tree if it is not displayed on the map.
 - Main Menu: Added margin so scrollbar is visible on desktop.
 - Search results: Layers can now be added/removed directly to/from the map by activating the checkbox. The add layer button has been removed.
+- Highlighting features via URL:
+    - now accepts multiple feature ids, seperated with commas.
+    - Zooms the map, so that all highlighted features are visible.
 
 ### Deprecated
 

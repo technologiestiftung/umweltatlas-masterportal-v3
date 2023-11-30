@@ -111,13 +111,17 @@ describe("src_3_0_0/core/maps/js/mapUrlParams.js", () => {
 
             mapUrlParams.highlightFeature(params);
 
-            expect(Object.keys(dispatchCalls).length).to.equals(1);
+            expect(Object.keys(dispatchCalls).length).to.equals(2);
             expect(dispatchCalls["Maps/highlightFeature"]).to.deep.equals({
                 layerIdAndFeatureId: ["1711", "DE.HH.UP_GESUNDHEIT_KRANKENHAEUSER_2"],
                 type: "viaLayerIdAndFeatureId"
             });
+            expect(dispatchCalls["Maps/zoomToFilteredFeatures"]).to.deep.equals({
+                ids: ["DE.HH.UP_GESUNDHEIT_KRANKENHAEUSER_2"],
+                layerId: "1711",
+                zoomOptions: {duration: 0}
+            });
         });
-
         it("should highlight a feature with MAP/HIGHLIGHTFEATURE", () => {
             const params = {
                 "MAP/HIGHLIGHTFEATURE": "1711,DE.HH.UP_GESUNDHEIT_KRANKENHAEUSER_2"
@@ -125,10 +129,33 @@ describe("src_3_0_0/core/maps/js/mapUrlParams.js", () => {
 
             mapUrlParams.highlightFeature(params);
 
-            expect(Object.keys(dispatchCalls).length).to.equals(1);
+            expect(Object.keys(dispatchCalls).length).to.equals(2);
             expect(dispatchCalls["Maps/highlightFeature"]).to.deep.equals({
                 layerIdAndFeatureId: ["1711", "DE.HH.UP_GESUNDHEIT_KRANKENHAEUSER_2"],
                 type: "viaLayerIdAndFeatureId"
+            });
+            expect(dispatchCalls["Maps/zoomToFilteredFeatures"]).to.deep.equals({
+                ids: ["DE.HH.UP_GESUNDHEIT_KRANKENHAEUSER_2"],
+                layerId: "1711",
+                zoomOptions: {duration: 0}
+            });
+        });
+        it("should highlight a list of features with HIGHLIGHTFEATURE", () => {
+            const params = {
+                HIGHLIGHTFEATURE: "1711,DE.HH.UP_GESUNDHEIT_KRANKENHAEUSER_6,DE.HH.UP_GESUNDHEIT_KRANKENHAEUSER_18,DE.HH.UP_GESUNDHEIT_KRANKENHAEUSER_29"
+            };
+
+            mapUrlParams.highlightFeature(params);
+
+            expect(Object.keys(dispatchCalls).length).to.equals(2);
+            expect(dispatchCalls["Maps/highlightFeature"]).to.deep.equals({
+                layerIdAndFeatureId: ["1711", "DE.HH.UP_GESUNDHEIT_KRANKENHAEUSER_29"],
+                type: "viaLayerIdAndFeatureId"
+            });
+            expect(dispatchCalls["Maps/zoomToFilteredFeatures"]).to.deep.equals({
+                ids: ["DE.HH.UP_GESUNDHEIT_KRANKENHAEUSER_6", "DE.HH.UP_GESUNDHEIT_KRANKENHAEUSER_18", "DE.HH.UP_GESUNDHEIT_KRANKENHAEUSER_29"],
+                layerId: "1711",
+                zoomOptions: {duration: 0}
             });
         });
     });

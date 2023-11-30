@@ -67,14 +67,6 @@ export default {
     },
 
     /**
-     * Removes the features from the point map marker.
-     * @returns {void}
-     */
-    /*   removePointMarker () {
-        mapMarker.removeMapMarker("marker_point_layer");
-    }, */
-
-    /**
      * Removes the features from the polygon map marker.
      * @returns {void}
      */

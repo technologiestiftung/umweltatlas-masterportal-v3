@@ -95,16 +95,27 @@ export default {
      * @returns {void}
      */
     zoomToFilteredFeatures ({getters, dispatch}, {ids, layerId, zoomOptions}) {
-        const layer = getters.getLayerById(layerId);
+        const layer = getters.getLayerById(layerId),
+            layerSource = layer?.getSource();
 
         if (layer?.getSource()) {
-            const layerSource = layer.getSource(),
-                source = layerSource instanceof Cluster ? layerSource.getSource() : layerSource,
-                filteredFeatures = source.getFeatures().filter(feature => ids.indexOf(feature.getId()) > -1),
+            const source = layerSource instanceof Cluster ? layerSource.getSource() : layerSource;
+            let filteredFeatures = source.getFeatures().filter(feature => ids.indexOf(feature.getId()) > -1),
                 calculatedExtent = calculateExtent(filteredFeatures);
 
             if (filteredFeatures.length > 0) {
                 dispatch("zoomToExtent", {extent: calculatedExtent, options: zoomOptions});
+            }
+            else {
+                layerSource.once("featuresloadend", () => {
+                    filteredFeatures = source.getFeatures().filter(feature => {
+                        return ids.indexOf(feature.getId()) > -1;
+                    });
+                    if (filteredFeatures.length > 0) {
+                        calculatedExtent = calculateExtent(filteredFeatures);
+                        dispatch("zoomToExtent", {extent: calculatedExtent, options: zoomOptions});
+                    }
+                });
             }
         }
     },
