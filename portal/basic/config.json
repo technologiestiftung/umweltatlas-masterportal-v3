@@ -1,18 +1,26 @@
 {
   "portalConfig": {
-    "mapView": {
-      "backgroundImage": "./resources/img/backgroundCanvas.jpeg",
-      "startCenter": [
-        561210,
-        5932600
-      ],
-      "extent": [
-        510000.0,
-        5850000.0,
-        625000.4,
-        6000000.0
-      ],
-      "startZoomLevel": 1
+    "map": {
+      "controls": {
+        "zoom": true,
+        "orientation": {
+          "zoomMode": "once"
+        }
+      },
+      "mapView": {
+        "backgroundImage": "./resources/img/backgroundCanvas.jpeg",
+        "startCenter": [
+          561210,
+          5932600
+        ],
+        "extent": [
+          510000.0,
+          5850000.0,
+          625000.4,
+          6000000.0
+        ],
+        "startZoomLevel": 1
+      }
     },
     "portalFooter": {
       "urls": [
@@ -25,7 +33,6 @@
       ]
     },
     "tree": {
-      "layerPillsAmount": 2,
       "addLayerButton": {
         "active": false,
         "searchBar": {
@@ -137,19 +144,13 @@
             "type": "legend"
           },
           {
-            "type": "scaleSwitcher",
-            "showDescription": true,
-            "description": "Stelle den Maßstab um, ganz ohne zu scrollen."
+            "type": "scaleSwitcher"
           },
           {
-            "type": "shareView",
-            "showDescription": true,
-            "description": "Teile einen Link zur Karte."
+            "type": "shareView"
           },
           {
-            "type": "measure",
-            "showDescription": true,
-            "description": "Miss eine Strecke oder Fläche."
+            "type": "measure"
           },
           {
             "type": "coordToolkit",
@@ -157,19 +158,13 @@
             "heightElementName": "value_0",
             "heightValueWater": "-20",
             "heightValueBuilding": "200",
-            "zoomLevel": 5,
-            "showDescription": true,
-            "description": "Bestimme Koordinaten aus der Karte oder suche nach Koordinaten."
+            "zoomLevel": 5
           },
           {
-            "type": "bufferAnalysis",
-            "showDescription": true,
-            "description": "Finde heraus, was sich in einem Umkreis um ein Feature befindet."
+            "type": "bufferAnalysis"
           },
           {
             "type": "layerSlider",
-            "showDescription": true,
-            "description": "Starte eine Slideshow",
             "layerIds": [
               {
                 "title": "common:modules.layerSlider.serviceOne",
@@ -191,8 +186,6 @@
           },
           {
             "type": "layerClusterToggler",
-            "showDescription": true,
-            "description": "Aktiviere oder Deaktiviere geclusterte Layer",
             "layerIdList": [
               "8712.1",
               "8712.2",
@@ -202,12 +195,6 @@
           }
         ]
       ]
-    },
-    "controls": {
-      "zoom": true,
-      "orientation": {
-        "zoomMode": "once"
-      }
     }
   },
   "layerConfig": {
