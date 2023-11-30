@@ -25,19 +25,17 @@ Die config.json besteht aus der **[portalConfig](#markdown-header-portalConfig)*
 ## portalConfig
 Im Abschnitt *portalConfig* können folgende Eigenschaften konfiguriert werden:
 
-1. Informationen zu beliebigen Layern (*getFeatureInfo*)
-2. Einträge im Mainmenu sowie Vorhandenheit jeweiliger Module und deren Reihenfolge (*mainMenu*)
-3. Konfiguration der Karte und darauf platzierter Elemente (*map*)
-4. Anzeige eines Tooltips von Features (*mouseHover*)
-5. Konfiguration der Fußzeile (*portalFooter*)
-6. Einträge im Secondarymenu sowie Vorhandenheit jeweiliger Module und deren Reihenfolge (*secondaryMenu*)
-7. Konfiguration der Themenauswahl (*tree*)
+1. Einträge im Mainmenu sowie Vorhandenheit jeweiliger Module und deren Reihenfolge (*mainMenu*)
+2. Konfiguration der Karte und darauf platzierter Elemente (*map*)
+3. Anzeige eines Tooltips von Features (*mouseHover*)
+4. Konfiguration der Fußzeile (*portalFooter*)
+5. Einträge im Secondarymenu sowie Vorhandenheit jeweiliger Module und deren Reihenfolge (*secondaryMenu*)
+6. Konfiguration der Themenauswahl (*tree*)
 
 Es existieren die im Folgenden aufgelisteten Konfigurationen:
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|getFeatureInfo|nein|**[getFeatureInfo](#markdown-header-portalconfiggetFeatureInfo)**||Mit der GetFeatureInfo(gfi) lassen sich Informationen zu beliebigen Layern anzeigen. Dabei werden bei einem WMS die Daten über die GetFeatureInfo geladen. Bei Vektordaten (WFS, Sensor, GeoJSON usw.) werden die angezeigten Attribute aus den Daten selbst verwendet.|false|
 |mainMenu|nein|**[menu](#markdown-header-portalconfigmenu)**||Hier können die Menüeinträge im Mainmenu und deren Anordnung konfiguriert werden. Die Reihenfolge der Module ist identisch mit der Reihenfolge in der config.json (siehe **[Modules](#markdown-header-portalconfigmenumodules)**).|false|
 |map|nein|**[map](#markdown-header-portalconfigmap)**||MKonfiguration der Karte und darauf platzierter Elemente.|false|
 |mouseHover|nein|**[mouseHover](#markdown-header-portalconfigmousehover)**||Aktiviert die MouseHover-Funktion für Vektorlayer, z.B. WFS oder GeoJSON. Für die Konfiguration pro Layer siehe **[Vector](#markdown-header-themenconfiglayervector)**.|false|
@@ -50,7 +48,6 @@ Es existieren die im Folgenden aufgelisteten Konfigurationen:
 ```json
 {
     "portalConfig": {
-        "getFeatureInfo": {},
         "mainMenu": {},
         "map": {},
         "mouseHover": {},
@@ -70,6 +67,7 @@ Konfiguration der Karte und darauf platzierter Elemente.
 |----|-------------|---|-------|------------|------|
 |baselayerSwitcher|nein|**[baselayerSwitcher](#markdown-header-portalconfigmapbaselayerSwitcher)**||Der baselayerSwitcher ermnöglicht ein einfaches Wechseln bzw. Auswählen einer Hintergrundkarte.|false|
 |controls|nein|**[controls](#markdown-header-portalconfigmapcontrols)**||Mit den Controls kann festgelegt werden, welche Interaktionen in der Karte möglich sein sollen.|false|
+|getFeatureInfo|nein|**[getFeatureInfo](#markdown-header-portalconfigmapgetFeatureInfo)**||Mit der GetFeatureInfo(gfi) lassen sich Informationen zu beliebigen Layern anzeigen. Dabei werden bei einem WMS die Daten über die GetFeatureInfo geladen. Bei Vektordaten (WFS, Sensor, GeoJSON usw.) werden die angezeigten Attribute aus den Daten selbst verwendet.|false|
 |layerPills|nein|**[layerPills](#markdown-header-portalconfigmaplayerpills)**||Konfiguration der LayerPills.|false|
 |mapView|nein|**[mapView](#markdown-header-portalconfigmapmapview)**||Mit verschiedenen Parametern wird die Startansicht der Karte konfiguriert und der Hintergrund festgelegt, der erscheint wenn keine Karte geladen ist.|false|
 
@@ -80,6 +78,8 @@ Konfiguration der Karte und darauf platzierter Elemente.
     "map": {
         "baselayerSwitcher": {},
         "controls": {},
+        "getFeatureInfo": {},
+        "layerPills": {},
         "mapView": {}
     }
 }
@@ -429,6 +429,165 @@ Das Attribut zoom kann vom Typ Boolean oder Object sein. Wenn es vom Typ Boolean
 
 ***
 
+#### portalConfig.map.getFeatureInfo
+Zeigt Informationen zu einem abgefragten Feature ab, indem GetFeatureInfo-Requests oder GetFeature-Requests oder geladene Vektordaten abgefragt werden.
+
+Bei allen GFI-Abfragen, außer dem direkten Beziehen von HTML, welches durch das Konfigurieren von `"text/html"` als `"infoFormat"` an einem WMS geschieht, wird das Zeichen "|" als Zeilenumbruch interpretiert. Es ist ebenso möglich `"\r\n"` oder `"\n"` zu verwenden.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|centerMapToClickPoint|nein|Boolean|false|Wenn der Parameter auf true gesetzt wird, verschiebt sich die Karte beim Klick auf ein Feature so, dass das Feature im Mittelpunkt der sichtbaren Karte liegt.|false|
+|coloredHighlighting3D|nein|**[coloredHighlighting3D](#markdown-header-portalconfiggetfeatureinfocoloredhighlighting3d)**||Regeldefinitionen zum Überschreiben des Highlightings von angeklickten 3D tiles.|false|
+|hideMapMarkerOnVectorHighlight|nein|Boolean|false|Wenn Wert auf true gesetzt ist, wird der MapMarker beim VectorHighlighting nicht mit angezeigt. Gilt nur für das DetachedTemplate.|false|
+|highlightVectorRules|nein|**[highlightVectorRules](#markdown-header-portalconfiggetfeatureinfohighlightvectorrules)**||Regeldefinitionen zum Überschreiben des Stylings von abgefragten Vektordaten.|false|
+|icon|nein|String|"bi-info-circle-fill"|CSS Klasse des Icons, das vor dem GFI im Menu angezeigt wird.|false|
+|menuSide|nein|String|"secondaryMenu"|Gibt an in welchem Menü die Informationen angezeigt werden sollen.|false|
+|name|nein|String|"common:modules.getFeatureInfo.name"|Name des Moduls im Menü.|false|
+
+**Beispiel einer GetFeatureInfo Konfiguration**
+
+```json
+"getFeatureInfo": {
+    "name":"Informationen abfragen",
+    "icon":"bi-info-circle-fill",
+    "coloredHighlighting3D": {
+        "enabled": true,
+        "color": "GREEN"
+    },
+    "highlightVectorRules": {
+        "fill": {
+            "color": [215, 102, 41, 0.9]
+        },
+        "image": {
+            "scale": 1.5
+        },
+        "stroke": {
+            "width": 4
+        },
+        "text": {
+            "scale": 2
+        }
+    },
+    "hideMapMarkerOnVectorHighlight": true
+}
+```
+
+**Beispiel einer GetFeatureInfo Konfiguration zur Informationsabfrage von Features**
+
+```json
+"getFeatureInfo":{
+    "name":"Informationen abfragen"
+}
+```
+
+***
+
+##### portalConfig.getFeatureInfo.coloredHighlighting3D
+Highlight Einstellungen von 3D Tiles.
+Falls z. B. ein Gebäude per Linksklick selektiert wurde, wird es in der definierten Farbe gehighlighted.
+Für mehr Informationen über die Farbmöglichkeiten: **[Color-documentation](https://cesium.com/learn/cesiumjs/ref-doc/Color.html)**
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|color|nein|String/String[]|"RED"|Color kann als Array oder Cesium.Color definiert werden(z. B. "GREEN" für Cesium.Color.GREEN)|false|
+|enabled|nein|Boolean|true|False falls coloredHighlighting3D disabled ist.|false|
+
+**Beispiel Array**
+
+```json
+"coloredHighlighting3D": {
+    "enabled": true,
+    "color": [0, 255, 0, 255]
+}
+```
+
+**Beispiel Cesium.Color**
+
+```json
+"coloredHighlighting3D": {
+    "enabled": true,
+    "color": "GREEN"
+}
+```
+
+***
+
+##### portalConfig.getFeatureInfo.highlightVectorRules
+Liste der Einstellungen zum Überschreiben von Vektorstyles bei GetFeatureInfo Abfragen.
+
+Hinweis: Das Highlighting funktioniert nur, wenn der Layer in der config.json über eine gültige StyleId verfügt!
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|fill|nein|**[fill](#markdown-header-portalconfiggetfeatureinfohighlightvectorrulesfill)**||Mögliche Einstellung: `color`|false|
+|image|nein|**[image](#markdown-header-portalconfiggetfeatureinfohighlightvectorrulesimage)**||Mögliche Einstellung: `scale`|false|
+|stroke|nein|**[stroke](#markdown-header-portalconfiggetfeatureinfohighlightvectorrulesstroke)**||Mögliche Einstellung: `width`|false|
+|text|nein|**[text](#markdown-header-portalconfiggetfeatureinfohighlightvectorrulestext)**||Mögliche Einstellung: `scale`|false|
+
+***
+
+###### portalConfig.getFeatureInfo.highlightVectorRules.fill
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|color|nein|Float[]|[255, 255, 255, 0.5]|Mögliche Einstellung: color (RGBA)|false|
+
+**Beispiel**
+
+```json
+"fill": {
+    "color": [215, 102, 41, 0.9]
+}
+```
+
+***
+
+###### portalConfig.getFeatureInfo.highlightVectorRules.image
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|scale|nein|Float|1|Mögliche Einstellung: scale|false|
+
+**Beispiel**
+
+```json
+"image": {
+    "scale": 1.5
+}
+```
+
+***
+
+###### portalConfig.getFeatureInfo.highlightVectorRules.stroke
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|color|nein|Float[]|[255, 255, 255, 0.5]|Mögliche Einstellung: color (RGBA)|false|
+|width|nein|Integer|1|Mögliche Einstellung: width|false|
+
+**Beispiel**
+
+```json
+"stroke": {
+    "width": 4,
+    "color": [215, 102, 41, 0.9]
+}
+```
+
+***
+
+###### portalConfig.getFeatureInfo.highlightVectorRules.text
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|scale|nein|Float|1|Mögliche Einstellung: scale|false|
+
+**Beispiel**
+
+```json
+"text": {
+    "scale": 2
+}
+```
+
+***
+
 #### portalConfig.map.layerPills
 Konfiguration, um Einstellungen für die LayerPills vorzunehmen.
 
@@ -554,167 +713,6 @@ Eine option definiert eine Zoomstufe. Diese muss definiert werden über die Aufl
     "resolution": 611.4974492763076,
     "scale": 2311167,
     "zoomLevel": 0
-}
-```
-
-***
-
-
-
-### portalConfig.getFeatureInfo
-Zeigt Informationen zu einem abgefragten Feature ab, indem GetFeatureInfo-Requests oder GetFeature-Requests oder geladene Vektordaten abgefragt werden.
-
-Bei allen GFI-Abfragen, außer dem direkten Beziehen von HTML, welches durch das Konfigurieren von `"text/html"` als `"infoFormat"` an einem WMS geschieht, wird das Zeichen "|" als Zeilenumbruch interpretiert. Es ist ebenso möglich `"\r\n"` oder `"\n"` zu verwenden.
-
-|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|-------------|---|-------|------------|------|
-|centerMapToClickPoint|nein|Boolean|false|Wenn der Parameter auf true gesetzt wird, verschiebt sich die Karte beim Klick auf ein Feature so, dass das Feature im Mittelpunkt der sichtbaren Karte liegt.|false|
-|coloredHighlighting3D|nein|**[coloredHighlighting3D](#markdown-header-portalconfiggetfeatureinfocoloredhighlighting3d)**||Regeldefinitionen zum Überschreiben des Highlightings von angeklickten 3D tiles.|false|
-|hideMapMarkerOnVectorHighlight|nein|Boolean|false|Wenn Wert auf true gesetzt ist, wird der MapMarker beim VectorHighlighting nicht mit angezeigt. Gilt nur für das DetachedTemplate.|false|
-|highlightVectorRules|nein|**[highlightVectorRules](#markdown-header-portalconfiggetfeatureinfohighlightvectorrules)**||Regeldefinitionen zum Überschreiben des Stylings von abgefragten Vektordaten.|false|
-|icon|nein|String|"bi-info-circle-fill"|CSS Klasse des Icons, das vor dem GFI im Menu angezeigt wird.|false|
-|menuSide|nein|String|"secondaryMenu"|Gibt an in welchem Menü die Informationen angezeigt werden sollen.|false|
-|name|nein|String|"common:modules.getFeatureInfo.name"|Name des Moduls im Menü.|false|
-
-**Beispiel einer GetFeatureInfo Konfiguration**
-
-```json
-"getFeatureInfo": {
-    "name":"Informationen abfragen",
-    "icon":"bi-info-circle-fill",
-    "coloredHighlighting3D": {
-        "enabled": true,
-        "color": "GREEN"
-    },
-    "highlightVectorRules": {
-        "fill": {
-            "color": [215, 102, 41, 0.9]
-        },
-        "image": {
-            "scale": 1.5
-        },
-        "stroke": {
-            "width": 4
-        },
-        "text": {
-            "scale": 2
-        }
-    },
-    "hideMapMarkerOnVectorHighlight": true
-}
-```
-
-**Beispiel einer GetFeatureInfo Konfiguration zur Informationsabfrage von Features**
-
-```json
-"getFeatureInfo":{
-    "name":"Informationen abfragen"
-}
-```
-
-***
-
-#### portalConfig.getFeatureInfo.coloredHighlighting3D
-Highlight Einstellungen von 3D Tiles.
-Falls z. B. ein Gebäude per Linksklick selektiert wurde, wird es in der definierten Farbe gehighlighted.
-Für mehr Informationen über die Farbmöglichkeiten: **[Color-documentation](https://cesium.com/learn/cesiumjs/ref-doc/Color.html)**
-
-|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|-------------|---|-------|------------|------|
-|color|nein|String/String[]|"RED"|Color kann als Array oder Cesium.Color definiert werden(z. B. "GREEN" für Cesium.Color.GREEN)|false|
-|enabled|nein|Boolean|true|False falls coloredHighlighting3D disabled ist.|false|
-
-**Beispiel Array**
-
-```json
-"coloredHighlighting3D": {
-    "enabled": true,
-    "color": [0, 255, 0, 255]
-}
-```
-
-**Beispiel Cesium.Color**
-
-```json
-"coloredHighlighting3D": {
-    "enabled": true,
-    "color": "GREEN"
-}
-```
-
-***
-
-#### portalConfig.getFeatureInfo.highlightVectorRules
-Liste der Einstellungen zum Überschreiben von Vektorstyles bei GetFeatureInfo Abfragen.
-
-Hinweis: Das Highlighting funktioniert nur, wenn der Layer in der config.json über eine gültige StyleId verfügt!
-
-|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|-------------|---|-------|------------|------|
-|fill|nein|**[fill](#markdown-header-portalconfiggetfeatureinfohighlightvectorrulesfill)**||Mögliche Einstellung: `color`|false|
-|image|nein|**[image](#markdown-header-portalconfiggetfeatureinfohighlightvectorrulesimage)**||Mögliche Einstellung: `scale`|false|
-|stroke|nein|**[stroke](#markdown-header-portalconfiggetfeatureinfohighlightvectorrulesstroke)**||Mögliche Einstellung: `width`|false|
-|text|nein|**[text](#markdown-header-portalconfiggetfeatureinfohighlightvectorrulestext)**||Mögliche Einstellung: `scale`|false|
-
-***
-
-##### portalConfig.getFeatureInfo.highlightVectorRules.fill
-|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|-------------|---|-------|------------|------|
-|color|nein|Float[]|[255, 255, 255, 0.5]|Mögliche Einstellung: color (RGBA)|false|
-
-**Beispiel**
-
-```json
-"fill": {
-    "color": [215, 102, 41, 0.9]
-}
-```
-
-***
-
-##### portalConfig.getFeatureInfo.highlightVectorRules.image
-|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|-------------|---|-------|------------|------|
-|scale|nein|Float|1|Mögliche Einstellung: scale|false|
-
-**Beispiel**
-
-```json
-"image": {
-    "scale": 1.5
-}
-```
-
-***
-
-##### portalConfig.getFeatureInfo.highlightVectorRules.stroke
-|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|-------------|---|-------|------------|------|
-|color|nein|Float[]|[255, 255, 255, 0.5]|Mögliche Einstellung: color (RGBA)|false|
-|width|nein|Integer|1|Mögliche Einstellung: width|false|
-
-**Beispiel**
-
-```json
-"stroke": {
-    "width": 4,
-    "color": [215, 102, 41, 0.9]
-}
-```
-
-***
-
-##### portalConfig.getFeatureInfo.highlightVectorRules.text
-|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|-------------|---|-------|------------|------|
-|scale|nein|Float|1|Mögliche Einstellung: scale|false|
-
-**Beispiel**
-
-```json
-"text": {
-    "scale": 2
 }
 ```
 

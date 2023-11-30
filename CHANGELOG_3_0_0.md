@@ -15,6 +15,7 @@
 - The following attributes have been moved:
     - Portalconfig.baselayerSwitcher -> portalConfig.map.baselayerSwitcher
     - Portalconfig.controls -> portalConfig.map.controls
+    - Portalconfig.getFeatureInfo -> portalConfig.map.getFeatureInfo
     - Portalconfig.mapView -> portalConfig.map.mapView
     - Portalconfig.tree.layerPills -> portalConfig.map.layerPills
 - The following attributes have been moved from config.json to config.js

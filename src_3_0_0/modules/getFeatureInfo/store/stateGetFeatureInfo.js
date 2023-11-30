@@ -3,7 +3,7 @@
  * @module modules/getFeatureInfo/store/stateGetFeatureInfo
  * @property {Boolean} [centerMapToClickPoint=false] specifies if the map should be centered when clicking on a feature.
  * @property {Object} [coloredHighlighting3D={}] The Highlight Setting of 3D Tiles.
- * @property {String[]} [configPaths=["portalConfig.getFeatureInfo"]] Path array of possible config locations. First one found will be used
+ * @property {String[]} [configPaths=["portalConfig.map.getFeatureInfo"]] Path array of possible config locations. First one found will be used
  * @property {Object} [currentFeature=null] The current feature that is displayed.
  * @property {Object[]} [gfiFeatures=[]] temporary array for features at click has to be moved to gfi module.
  * @property {Boolean} [hasMouseMapInteractions=true] If this attribute is true, then all other modules will be deactivated when this attribute is also true. Only one module with this attribute true may be open at the same time, since conflicts can arise in the card interactions.
@@ -20,7 +20,7 @@
 export default {
     centerMapToClickPoint: false,
     coloredHighlighting3D: {},
-    configPaths: ["portalConfig.getFeatureInfo"],
+    configPaths: ["portalConfig.map.getFeatureInfo"],
     currentFeature: null,
     gfiFeatures: [],
     hasMouseMapInteractions: true,

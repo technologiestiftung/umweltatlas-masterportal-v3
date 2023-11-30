@@ -31,6 +31,38 @@
           "fullScreen": true
         }
       },
+      "getFeatureInfo": {
+        "coloredHighlighting3D": {
+          "enabled": true,
+          "color": "PURPLE"
+        },
+        "highlightVectorRules": {
+          "fill": {
+            "color": [
+              215,
+              102,
+              41,
+              0.9
+            ]
+          },
+          "image": {
+            "scale": 1.5
+          },
+          "stroke": {
+            "width": 4,
+            "color": [
+              215,
+              102,
+              41,
+              0.9
+            ]
+          },
+          "text": {
+            "scale": 2
+          }
+        },
+        "hideMapMarkerOnVectorHighlight": false
+      },
       "layerPills": {
         "active": true
       },
@@ -70,38 +102,6 @@
       "highlightedFeatures": {
         "active": true
       }
-    },
-    "getFeatureInfo": {
-      "coloredHighlighting3D": {
-        "enabled": true,
-        "color": "PURPLE"
-      },
-      "highlightVectorRules": {
-        "fill": {
-          "color": [
-            215,
-            102,
-            41,
-            0.9
-          ]
-        },
-        "image": {
-          "scale": 1.5
-        },
-        "stroke": {
-          "width": 4,
-          "color": [
-            215,
-            102,
-            41,
-            0.9
-          ]
-        },
-        "text": {
-          "scale": 2
-        }
-      },
-      "hideMapMarkerOnVectorHighlight": false
     },
     "mainMenu": {
       "expanded": true,
