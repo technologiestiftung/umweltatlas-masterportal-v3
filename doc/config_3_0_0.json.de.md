@@ -28,7 +28,7 @@ Im Abschnitt *portalConfig* können folgende Eigenschaften konfiguriert werden:
 1. Schaltflächen auf der Kartenansicht sowie mögliche Interaktionen (*controls*)
 2. Informationen zu beliebigen Layern (*getFeatureInfo*)
 3. Einträge im Mainmenu sowie Vorhandenheit jeweiliger Module und deren Reihenfolge (*mainMenu*)
-4. Starteinstellungen der Kartenansicht (*mapView*)
+4. Konfiguration der Karte und darauf platzierter Elemente (*map*)
 5. Anzeige eines Tooltips von Features (*mouseHover*)
 6. Konfiguration der Fußzeile (*portalFooter*)
 7. Einträge im Secondarymenu sowie Vorhandenheit jeweiliger Module und deren Reihenfolge (*secondaryMenu*)
@@ -42,7 +42,7 @@ Es existieren die im Folgenden aufgelisteten Konfigurationen:
 |controls|nein|**[controls](#markdown-header-portalconfigcontrols)**||Mit den Controls kann festgelegt werden, welche Interaktionen in der Karte möglich sein sollen.|false|
 |getFeatureInfo|nein|**[getFeatureInfo](#markdown-header-portalconfiggetFeatureInfo)**||Mit der GetFeatureInfo(gfi) lassen sich Informationen zu beliebigen Layern anzeigen. Dabei werden bei einem WMS die Daten über die GetFeatureInfo geladen. Bei Vektordaten (WFS, Sensor, GeoJSON usw.) werden die angezeigten Attribute aus den Daten selbst verwendet.|false|
 |mainMenu|nein|**[menu](#markdown-header-portalconfigmenu)**||Hier können die Menüeinträge im Mainmenu und deren Anordnung konfiguriert werden. Die Reihenfolge der Module ist identisch mit der Reihenfolge in der config.json (siehe **[Modules](#markdown-header-portalconfigmenumodules)**).|false|
-|mapView|nein|**[mapView](#markdown-header-portalconfigmapview)**||Mit verschiedenen Parametern wird die Startansicht der Karte konfiguriert und der Hintergrund festgelegt, der erscheint wenn keine Karte geladen ist.|false|
+|map|nein|**[map](#markdown-header-portalconfigmap)**||MKonfiguration der Karte und darauf platzierter Elemente.|false|
 |mouseHover|nein|**[mouseHover](#markdown-header-portalconfigmousehover)**||Aktiviert die MouseHover-Funktion für Vektorlayer, z.B. WFS oder GeoJSON. Für die Konfiguration pro Layer siehe **[Vector](#markdown-header-themenconfiglayervector)**.|false|
 |portalFooter|nein|**[footer](#markdown-header-footer)**||Möglichkeit den Inhalt der Fußzeile des Portals zu konfigurieren.|false|
 |secondaryMenu|nein|**[menu](#markdown-header-portalconfigmenu)**||Hier können die Menüeinträge im Secondarymenu und deren Anordnung konfiguriert werden. Die Reihenfolge der Module ist identisch mit der Reihenfolge in der config.json (siehe **[Modules](#markdown-header-portalconfigmenumodules)**).|false|
@@ -57,12 +57,130 @@ Es existieren die im Folgenden aufgelisteten Konfigurationen:
         "controls": {},
         "getFeatureInfo": {},
         "mainMenu": {},
-        "mapView": {},
+        "map": {},
         "mouseHover": {},
         "portalFooter": {},
         "secondaryMenu": {},
         "tree": {}
     }
+}
+```
+
+***
+
+### portalConfig.map
+Konfiguration der Karte und darauf platzierter Elemente.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|mapView|nein|**[mapView](#markdown-header-portalconfigmapmapview)**||Mit verschiedenen Parametern wird die Startansicht der Karte konfiguriert und der Hintergrund festgelegt, der erscheint wenn keine Karte geladen ist.|false|
+
+***
+
+#### portalConfig.map.mapView
+Mit verschiedenen Parametern wird die Startansicht der Karte konfiguriert und der Hintergrund festgelegt, der erscheint wenn keine Karte geladen ist.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|backgroundImage|nein|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/config.json.md#markdown-header-portalconfigmapview"|Pfad zum alternativen Hintergrund angeben.|false|
+|epsg|nein|String|"EPSG:25832"|Der EPSG-Code der Projektion der Karte. Der EPSG-Code muss als namedProjection definiert sein.|false|
+|extent|nein|**[Extent](#markdown-header-datatypesextent)**|[510000.0, 5850000.0, 625000.4, 6000000.0]|Der Map-Extent.|false|
+|options|nein|Array|[{"resolution":66.14579761460263,"scale":250000,"zoomLevel":0}, {"resolution":26.458319045841044,"scale":100000,"zoomLevel":1}, {"resolution":15.874991427504629,"scale":60000,"zoomLevel":2}, {"resolution": 10.583327618336419,"scale":40000,"zoomLevel":3}, {"resolution":5.2916638091682096,"scale":20000,"zoomLevel":4}, {"resolution":2.6458319045841048,"scale":10000,"zoomLevel":5}, {"resolution":1.3229159522920524,"scale":5000,"zoomLevel":6}, {"resolution":0.6614579761460262,"scale":2500,"zoomLevel":7}, {"resolution":0.2645831904584105,"scale": 1000,"zoomLevel":8}, {"resolution":0.13229159522920521,"scale":500,"zoomLevel":9}]|Die initialen Maßstabsstufen und deren Auflösungen.|false|
+|startCenter|nein|Array|[565874, 5934140]|Die initiale Zentrumskoordinate.|false|
+|startResolution|nein|Float|15.874991427504629|Die initiale Auflösung der Karte aus options. Vorzug vor startZoomLevel.|false|
+|startZoomLevel|nein|Integer||Der initiale ZoomLevel aus Options. Nachrangig zu resolution.|false|
+|twoFingerPan|nein|Boolean|false|Soll für mobile Geräte ein 2-Finger-Pan anstatt 1-Finger-Pan gesetzt werden?|false|
+
+**Beispiel:**
+
+```json
+{
+    "mapView": {
+        "backgroundImage": "https://geodienste.hamburg.de/lgv-config/img/backgroundCanvas.jpeg",
+        "startCenter": [561210, 5932600],
+        "options": [
+            {
+                "resolution": 611.4974492763076,
+                "scale": 2311167,
+                "zoomLevel": 0
+            },
+            {
+                "resolution": 305.7487246381551,
+                "scale": 1155583,
+                "zoomLevel": 1
+            },
+            {
+                "resolution": 152.87436231907702,
+                "scale": 577791,
+                "zoomLevel": 2
+            },
+            {
+                "resolution": 76.43718115953851,
+                "scale": 288896,
+                "zoomLevel": 3
+            },
+            {
+                "resolution": 38.21859057976939,
+                "scale": 144448,
+                "zoomLevel": 4
+            },
+            {
+                "resolution": 19.109295289884642,
+                "scale": 72223,
+                "zoomLevel": 5
+            },
+            {
+                "resolution": 9.554647644942321,
+                "scale": 36112,
+                "zoomLevel": 6
+            },
+            {
+                "resolution": 4.7773238224711605,
+                "scale": 18056,
+                "zoomLevel": 7
+            },
+            {
+                "resolution": 2.3886619112355802,
+                "scale": 9028,
+                "zoomLevel": 8
+            },
+            {
+                "resolution": 1.1943309556178034,
+                "scale": 4514,
+                "zoomLevel": 9
+            },
+            {
+                "resolution": 0.5971654778089017,
+                "scale": 2257,
+                "zoomLevel": 10
+            }
+        ],
+        "extent": [510000.0, 5850000.0, 625000.4, 6000000.0],
+        "startResolution": 15.874991427504629,
+        "startZoomLevel": 1,
+        "epsg": "EPSG:25832"
+    }
+}
+```
+
+***
+
+##### portalConfig.map.mapView.option
+Eine option definiert eine Zoomstufe. Diese muss definiert werden über die Auflösung, die Maßstabszahl und das ZoomLevel. Je höher das ZoomLevel ist, desto kleiner ist die Scale und desto näher hat man gezoomt.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|resolution|ja|Number||Auflösung der definierten Zoomstufe.|false|
+|scale|ja|Integer||Maßstabszahl der definierten Zoomstufe.|false|
+|zoomLevel|ja|Integer||Zoomstufe der definierten Zoomstufe.|false|
+
+**Beispiel einer mapview Option**
+
+```json
+{
+    "resolution": 611.4974492763076,
+    "scale": 2311167,
+    "zoomLevel": 0
 }
 ```
 
@@ -4391,116 +4509,6 @@ Im Menü kann der Portalname und ein Bild angezeigt werden.
     "toolTip": "Landesbetrieb Geoinformation und Vermessung"
 }
 ```
-
-***
-
-### portalConfig.mapView
-Mit verschiedenen Parametern wird die Startansicht der Karte konfiguriert und der Hintergrund festgelegt, der erscheint wenn keine Karte geladen ist.
-
-|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|-------------|---|-------|------------|------|
-|backgroundImage|nein|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/config.json.md#markdown-header-portalconfigmapview"|Pfad zum alternativen Hintergrund angeben.|false|
-|epsg|nein|String|"EPSG:25832"|Der EPSG-Code der Projektion der Karte. Der EPSG-Code muss als namedProjection definiert sein.|false|
-|extent|nein|**[Extent](#markdown-header-datatypesextent)**|[510000.0, 5850000.0, 625000.4, 6000000.0]|Der Map-Extent.|false|
-|options|nein|Array|[{"resolution":66.14579761460263,"scale":250000,"zoomLevel":0}, {"resolution":26.458319045841044,"scale":100000,"zoomLevel":1}, {"resolution":15.874991427504629,"scale":60000,"zoomLevel":2}, {"resolution": 10.583327618336419,"scale":40000,"zoomLevel":3}, {"resolution":5.2916638091682096,"scale":20000,"zoomLevel":4}, {"resolution":2.6458319045841048,"scale":10000,"zoomLevel":5}, {"resolution":1.3229159522920524,"scale":5000,"zoomLevel":6}, {"resolution":0.6614579761460262,"scale":2500,"zoomLevel":7}, {"resolution":0.2645831904584105,"scale": 1000,"zoomLevel":8}, {"resolution":0.13229159522920521,"scale":500,"zoomLevel":9}]|Die initialen Maßstabsstufen und deren Auflösungen.|false|
-|startCenter|nein|Array|[565874, 5934140]|Die initiale Zentrumskoordinate.|false|
-|startResolution|nein|Float|15.874991427504629|Die initiale Auflösung der Karte aus options. Vorzug vor startZoomLevel.|false|
-|startZoomLevel|nein|Integer||Der initiale ZoomLevel aus Options. Nachrangig zu resolution.|false|
-|twoFingerPan|nein|Boolean|false|Soll für mobile Geräte ein 2-Finger-Pan anstatt 1-Finger-Pan gesetzt werden?|false|
-
-**Beispiel:**
-```
-#!json
-"mapView": {
-    "backgroundImage": "https://geodienste.hamburg.de/lgv-config/img/backgroundCanvas.jpeg",
-    "startCenter": [561210, 5932600],
-    "options": [
-        {
-            "resolution": 611.4974492763076,
-            "scale": 2311167,
-            "zoomLevel": 0
-        },
-        {
-            "resolution": 305.7487246381551,
-            "scale": 1155583,
-            "zoomLevel": 1
-        },
-        {
-            "resolution": 152.87436231907702,
-            "scale": 577791,
-            "zoomLevel": 2
-        },
-        {
-            "resolution": 76.43718115953851,
-            "scale": 288896,
-            "zoomLevel": 3
-        },
-        {
-            "resolution": 38.21859057976939,
-            "scale": 144448,
-            "zoomLevel": 4
-        },
-        {
-            "resolution": 19.109295289884642,
-            "scale": 72223,
-            "zoomLevel": 5
-        },
-        {
-            "resolution": 9.554647644942321,
-            "scale": 36112,
-            "zoomLevel": 6
-        },
-        {
-            "resolution": 4.7773238224711605,
-            "scale": 18056,
-            "zoomLevel": 7
-        },
-        {
-            "resolution": 2.3886619112355802,
-            "scale": 9028,
-            "zoomLevel": 8
-        },
-        {
-            "resolution": 1.1943309556178034,
-            "scale": 4514,
-            "zoomLevel": 9
-        },
-        {
-            "resolution": 0.5971654778089017,
-            "scale": 2257,
-            "zoomLevel": 10
-        }
-    ],
-    "extent": [510000.0, 5850000.0, 625000.4, 6000000.0],
-    "startResolution": 15.874991427504629,
-    "startZoomLevel": 1,
-    "epsg": "EPSG:25832"
-    }
-```
-
-***
-#### portalConfig.mapView.option
-
-Eine option definiert eine Zoomstufe. Diese muss definiert werden über die Auflösung, die Maßstabszahl und das ZoomLevel. Je höher das ZoomLevel ist, desto kleiner ist die Scale und desto näher hat man gezoomt.
-
-|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|-------------|---|-------|------------|------|
-|resolution|ja|Number||Auflösung der definierten Zoomstufe.|false|
-|scale|ja|Integer||Maßstabszahl der definierten Zoomstufe.|false|
-|zoomLevel|ja|Integer||Zoomstufe der definierten Zoomstufe.|false|
-
-**Beispiel einer mapview Option**
-```
-#!json
-{
-    "resolution": 611.4974492763076,
-    "scale": 2311167,
-    "zoomLevel": 0
-}
-```
-
-***
-
 
 ***
 

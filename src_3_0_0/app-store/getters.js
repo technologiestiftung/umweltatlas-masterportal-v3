@@ -321,7 +321,7 @@ const getters = {
      * @returns {Object} The controls config.
      */
     mapViewSettings: state => {
-        return state.portalConfig?.mapView || {};
+        return state.portalConfig?.map.mapView || {};
     },
 
     /**

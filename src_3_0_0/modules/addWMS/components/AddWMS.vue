@@ -25,7 +25,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["portalConfig"]),
+        ...mapGetters(["mapViewSettings"]),
         ...mapGetters("Maps", ["projection", "mode"])
     },
     mounted () {
@@ -90,7 +90,7 @@ export default {
                             capability = parser.read(data),
                             version = capability?.version,
                             checkVersion = this.isVersionEnabled(version),
-                            currentExtent = this.portalConfig.mapView?.extent;
+                            currentExtent = this.mapViewSettings?.extent;
                         let checkExtent = this.getIfInExtent(capability, currentExtent),
                             finalCapability = capability;
 

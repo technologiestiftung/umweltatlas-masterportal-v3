@@ -8,12 +8,12 @@ import mapMarker from "./mapMarker";
 
 /**
  * Create the map in different modes and update the map attributes.
- * @param {Object} portalConfig The portalConfig.
+ * @param {Object} mapViewSettings The map view settings.
  * @param {Object} configJs The config.js.
  * @returns {void}
  */
-function initializeMaps (portalConfig, configJs) {
-    create2DMap(portalConfig.mapView, configJs);
+function initializeMaps (mapViewSettings, configJs) {
+    create2DMap(mapViewSettings, configJs);
     store.dispatch("Maps/setMapAttributes");
     watchPortalConfig();
     load3DMap(configJs);
@@ -37,7 +37,7 @@ function create2DMap (mapViewSettings, configJs) {
 }
 
 /**
- * Watches the portalConfig.mapViewSettings
+ * Watches the mapViewSettings
  * Sets the changed attributes.
  * @returns {void}
  */

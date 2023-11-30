@@ -32,7 +32,7 @@ export default {
             "allConfigsLoaded",
             "configJs",
             "deviceMode",
-            "portalConfig",
+            "mapViewSettings",
             "uiStyle",
             "visibleLayerConfigs"
         ]),
@@ -53,7 +53,7 @@ export default {
                 this.addonsLoaded = true;
                 this.extendLayers();
                 this.initializeVectorStyle();
-                initializeMaps(this.portalConfig, this.configJs);
+                initializeMaps(this.mapViewSettings, this.configJs);
                 initializeLayers(this.visibleLayerConfigs);
                 startProcessUrlParams();
                 this.initializeOther();

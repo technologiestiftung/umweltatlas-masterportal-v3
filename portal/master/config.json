@@ -1,15 +1,17 @@
 {
   "portalConfig": {
+    "map": {
+      "mapView": {
+        "backgroundImage": "https://geodienste.hamburg.de/lgv-config/img/backgroundCanvas.jpeg",
+        "startZoomLevel": 4,
+        "startCenter": [
+          565874,
+          5934140
+        ]
+      }
+    },
     "baselayerSwitcher": {
       "active": true
-    },
-    "mapView": {
-      "backgroundImage": "https://geodienste.hamburg.de/lgv-config/img/backgroundCanvas.jpeg",
-      "startZoomLevel": 4,
-      "startCenter": [
-        565874,
-        5934140
-      ]
     },
     "portalFooter": {
       "urls": [
