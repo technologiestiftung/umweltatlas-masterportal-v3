@@ -114,10 +114,20 @@ export default {
          * @returns {void}
          */
         visible (value) {
+            const menuSides = ["mainMenu", "secondaryMenu"],
+                otherSide = menuSides.splice(this.menuSide, 1)[0],
+                initialSide = menuSides.splice(this.menuSide, 1)[0];
+
+            this.setMenuSide(initialSide);
+
             if (!value) {
                 this.reset();
             }
             else {
+                if (this.currentComponent(this.menuSide).type === "print") {
+                    this.setMenuSide(otherSide);
+                }
+
                 this.changeCurrentComponent({type: this.type, side: this.menuSide, props: {name: "none"}});
             }
         },
@@ -246,7 +256,8 @@ export default {
         ...mapMutations("Modules/GetFeatureInfo", [
             "setGfiFeatures",
             "setCurrentFeature",
-            "setVisible"
+            "setVisible",
+            "setMenuSide"
         ]),
         ...mapActions(["initializeModule", "removeHighlightColor"]),
         ...mapActions("Modules/GetFeatureInfo", [
