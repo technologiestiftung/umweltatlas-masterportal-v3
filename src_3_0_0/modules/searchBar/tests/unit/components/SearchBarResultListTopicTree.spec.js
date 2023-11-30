@@ -114,47 +114,4 @@ describe("src_3_0_0/modules/searchBar/components/SearchBarResultListTopicTree.vu
             expect(wrapper.findAll("search-bar-result-list-topic-tree-item-stub").length).to.equals(3);
         });
     });
-
-    // describe("activateOnClickAction", () => {
-    //     it("should add selectedSearchResults to topic tree", () => {
-    //         wrapper = shallowMount(SearchBarResultListTopicTreeComponent, {
-    //             props: {
-    //                 resultItems
-    //             },
-    //             global: {
-    //                 plugins: [store]
-    //             }
-    //         });
-
-    //         wrapper.vm.activateOnClickAction();
-
-    //         expect(activateActionsSpy.calledOnce).to.be.true;
-    //         expect(activateActionsSpy.firstCall.args[1]).to.deep.equals({
-    //             searchResult: {
-    //                 category: "Straße",
-    //                 id: "BeidemNeuenKrahnStraße",
-    //                 index: 0,
-    //                 name: "Bei dem Neuen Krahn",
-    //                 searchInterfaceId: "gazetteer",
-    //                 displayedInfo: "",
-    //                 icon: "bi-signpost",
-    //                 imagePath: "",
-    //                 toolTip: "",
-    //                 events: {
-    //                     onClick: {
-    //                         addLayerToTopicTree: {
-    //                             layerid: "BeidemNeuenKrahnStraße",
-    //                             source: {
-    //                                 abc: "def"
-    //                             }
-    //                         }
-    //                     }
-    //                 }
-    //             },
-    //             actionType: "onClick"
-    //         });
-    //         expect(setSelectedSearchResultsSpy.calledOnce).to.be.true;
-    //         expect(setSelectedSearchResultsSpy.firstCall.args[1]).to.be.deep.equals([]);
-    //     });
-    // });
 });
