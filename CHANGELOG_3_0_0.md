@@ -31,15 +31,7 @@
 
 ### Added
 - Add roadmap information to the readme file.
-- Add documentation for following modules:
-    - controls:
-        - fullScreen
-    - fileImport
-    - getFeatureInfo
-    - menu:
-        - portalTitle
-    - mouseHover
-    - selectFeatures
+- Add documentation for the config.js file.
 - Configurable searchBar for the layerselection.
 - To manage dependencies of dependencies "overrides" for cesium are added to package.json and create dummy packages for it.
 - The following packages have been added:
