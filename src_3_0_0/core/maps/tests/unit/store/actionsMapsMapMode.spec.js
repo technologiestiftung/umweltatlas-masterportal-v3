@@ -24,7 +24,9 @@ describe("src_3_0_0/core/maps/store/actionsMapsMapMode.js", () => {
         dispatch = sinon.spy();
         getters = sinon.spy();
         rootState = {
-            configJs: {}
+            portalConfig: {
+                map: {}
+            }
         };
 
         mapCollection.clear();
@@ -113,7 +115,7 @@ describe("src_3_0_0/core/maps/store/actionsMapsMapMode.js", () => {
             activateMap3d({commit, rootState});
 
             expect(commit.notCalled).to.be.true;
-            expect(rootState.configJs.startingMap3D).to.be.true;
+            expect(rootState.portalConfig.map.startingMapMode).to.equals("3D");
         });
     });
 });

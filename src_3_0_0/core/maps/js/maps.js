@@ -16,7 +16,7 @@ function initializeMaps (mapViewSettings, configJs) {
     create2DMap(mapViewSettings, configJs);
     store.dispatch("Maps/setMapAttributes");
     watchPortalConfig();
-    load3DMap(configJs);
+    load3DMap();
     mapMarker.initializeMapMarkers(configJs);
 }
 
@@ -53,26 +53,24 @@ function watchPortalConfig () {
 
 /**
  * Loads Cesium and the start creating the 3D map.
- * @param {Object} configJs The config.js.
  * @returns {void}
  */
-function load3DMap (configJs) {
+function load3DMap () {
     load3DScript.load3DScript(store.getters.cesiumLibrary, () => {
-        create3DMap(configJs);
+        create3DMap();
         store.dispatch("Maps/registerCesiumListener");
 
-        if (configJs.startingMap3D) {
-            store.dispatch("Maps/activateMap3d", "3D");
+        if (store.getters.startingMapMode === "3D") {
+            store.dispatch("Maps/activateMap3d");
         }
     });
 }
 
 /**
  * Create the 3D map.
- * @param {Object} configJs The settings of config.json file.
  * @returns {void}
  */
-function create3DMap (configJs) {
+function create3DMap () {
     const map3d = api.map.createMap({
         cesiumParameter: store.getters.map3dParameter,
         map2D: mapCollection.getMap("2D"),
@@ -86,7 +84,7 @@ function create3DMap (configJs) {
      * @see {@link https://github.com/openlayers/ol-cesium/pull/1109}
      */
     map3d.setEnabled(true);
-    map3d.setEnabled(configJs.startingMap3D);
+    map3d.setEnabled(store.getters.startingMapMode === "3D");
 
     mapCollection.addMap(map3d, "3D");
 }

@@ -32,7 +32,6 @@ const Config = {
             }
         }
     },
-    startingMap3D: false,
     mapInteractions: {
         interactionModes: {
             altShiftDragRotate: true

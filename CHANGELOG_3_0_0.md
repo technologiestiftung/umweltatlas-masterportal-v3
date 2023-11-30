@@ -23,6 +23,7 @@
     - Portalconfig.alerts -> alerting.initalAlerts (`alerts` has been renamed to `initalAlerts`)
 - The following attributes have been moved from config.js to config.json
     - cesiumParameter -> portalConfig.map.map3dParameter (`cesiumParameter` has been renamed to `map3dParameter`)
+    - startingMap3D -> portalConfig.map.startingMapMode (`startingMap3D` has been renamed to `startingMapMode`)
 
 ### Added
 - Add roadmap information to the readme file.

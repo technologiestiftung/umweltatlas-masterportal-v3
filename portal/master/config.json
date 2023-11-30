@@ -90,7 +90,8 @@
       "mouseHover": {
         "numFeaturesToShow": 2,
         "infoText": "Exampletext"
-      }
+      },
+      "startingMapMode": "3D"
     },
     "mainMenu": {
       "expanded": true,

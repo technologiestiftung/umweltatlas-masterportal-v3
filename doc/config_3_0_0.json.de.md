@@ -69,6 +69,7 @@ Konfiguration der Karte und darauf platzierter Elemente.
 |map3dParameter|no|**[map3dParameter](#markdown-header-portalconfigmapmap3dParameter)**||Cesium Attribute.||
 |mapView|nein|**[mapView](#markdown-header-portalconfigmapmapview)**||Mit verschiedenen Parametern wird die Startansicht der Karte konfiguriert und der Hintergrund festgelegt, der erscheint wenn keine Karte geladen ist.|false|
 |mouseHover|nein|**[mouseHover](#markdown-header-portalconfigmapmousehover)**||Aktiviert die MouseHover-Funktion für Vektorlayer, z.B. WFS oder GeoJSON. Für die Konfiguration pro Layer siehe **[Vector](#markdown-header-layerconfigelementslayervector)**.|false|
+|startingMapMode|nein|String|"2D"|Gibt an in welchem Modus die Karte startet. Möglich sind `2D` und `3D`|false|
 
 **Beispiel**
 
@@ -81,7 +82,8 @@ Konfiguration der Karte und darauf platzierter Elemente.
         "layerPills": {},
         "map3dParameter": {},
         "mapView": {},
-        "mouseHover": {}
+        "mouseHover": {},
+        "startingMapMode": "3D"
     }
 }
 ```

@@ -69,6 +69,7 @@ Configuration of the map and elements placed on it.
 |map3dParameter|no|**[map3dParameter](#markdown-header-portalconfigmapmap3dParameter)**||Cesium params.||
 |mapView|no|**[mapView](#markdown-header-portalconfigmapmapview)**||Defines the initial map view and a background shown when no layer is selected.|false|
 |mouseHover|no|**[mouseHover](#markdown-header-portalconfigmapmousehover)**||Activates the MouseHover feature for vector layers, both WFS and GeoJSON. For per-layer configuration, see the **[Vector](#markdown-header-layerconfigelementslayervector)**.|false|
+|startingMapMode|no|String|"2D"|Indicates the mode in which the map starts. Possible are `2D` and `3D`|false|
 
 **Example**
 
@@ -81,7 +82,8 @@ Configuration of the map and elements placed on it.
         "layerPills": {},
         "map3dParameter": {},
         "mapView": {},
-        "mouseHover": {}
+        "mouseHover": {},
+        "startingMapMode": "3D"
     }
 }
 ```

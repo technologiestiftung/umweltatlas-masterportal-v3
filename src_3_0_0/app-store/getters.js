@@ -13,15 +13,6 @@ const getters = {
     ...generateSimpleGetters(stateAppStore),
 
     /**
-     * Returns the map3dParameter settings configuration of portalConfig.
-     * @param {Object} state state of the app-store.
-     * @returns {Object} The controls config.
-     */
-    map3dParameter: state => {
-        return state.portalConfig?.map.map3dParameter || {};
-    },
-
-    /**
      * Returns the active category configured in config.json unter 'tree'.
      * @param {Object} state state of the app-store.
      * @returns {Object|null} The active category or the first one or null if not found
@@ -225,6 +216,17 @@ const getters = {
     },
 
     /**
+     * Returns all not visible baselayer configurations.
+     * @param {Object} state state of the app-store.
+     * @returns {Object[]} The layers.
+     */
+    invisibleBaselayerConfigs: (state) => {
+        const layerContainer = getters.allBaselayerConfigs(state);
+
+        return layerContainer.filter(layerConf => layerConf.visibility !== true);
+    },
+
+    /**
      * Returns the layer is a baselayer or not
      * @param {Object} state state of the app-store.
      * @returns {Boolean} Is baselayer.
@@ -242,6 +244,16 @@ const getters = {
      */
     isMobile: state => {
         return state.deviceMode === "Mobile";
+    },
+
+    /**
+     * Returns true, if moduleName is available in a menu.
+     * @param {Object} state state of the app-store.
+     * @param {String} moduleType type of the module
+     * @returns {Boolean} true, if moduleName is configured in a menu.
+     */
+    isModuleAvailable: state => moduleType =>{
+        return JSON.stringify(state.portalConfig).includes("\"type\":\"" + moduleType + "\"");
     },
 
     /**
@@ -306,31 +318,30 @@ const getters = {
     },
 
     /**
+     * Returns the map3dParameter settings configuration of portalConfig.
+     * @param {Object} state state of the app-store.
+     * @returns {Object} The controls config.
+     */
+    map3dParameter: state => {
+        return state.portalConfig?.map.map3dParameter || {};
+    },
+
+    /**
+     * Returns the mapView settings configuration of portalConfig.
+     * @param {Object} state state of the app-store.
+     * @returns {Object} The map view settings.
+     */
+    mapViewSettings: state => {
+        return state.portalConfig?.map.mapView || {};
+    },
+
+    /**
      * Returns the menu of portalConfig by side.
      * @param {Object} state state of the app-store.
      * @returns {Object} Main menu.
      */
     menuFromConfig: state => side => {
         return state.portalConfig[side] || {};
-    },
-
-    /**
-     * Returns true, if moduleName is available in a menu.
-     * @param {Object} state state of the app-store.
-     * @param {String} moduleType type of the module
-     * @returns {Boolean} true, if moduleName is configured in a menu.
-     */
-    isModuleAvailable: state => moduleType =>{
-        return JSON.stringify(state.portalConfig).includes("\"type\":\"" + moduleType + "\"");
-    },
-
-    /**
-     * Returns the mapView settings configuration of portalConfig.
-     * @param {Object} state state of the app-store.
-     * @returns {Object} The controls config.
-     */
-    mapViewSettings: state => {
-        return state.portalConfig?.map.mapView || {};
     },
 
     /**
@@ -385,6 +396,15 @@ const getters = {
     },
 
     /**
+     * Returns the starting map mode configuration of portalConfig.
+     * @param {Object} state state of the app-store.
+     * @returns {String} The map mode.
+     */
+    startingMapMode: state => {
+        return state.portalConfig?.map.startingMapMode || "2D";
+    },
+
+    /**
      * Returns the ui style of configJs.
      * @param {Object} state state of the app-store.
      * @returns {Object} The ui style.
@@ -424,17 +444,6 @@ const getters = {
         const layerContainer = getters.allBaselayerConfigs(state);
 
         return layerContainer.filter(layerConf => layerConf.visibility === true);
-    },
-
-    /**
-     * Returns all not visible baselayer configurations.
-     * @param {Object} state state of the app-store.
-     * @returns {Object[]} The layers.
-     */
-    invisibleBaselayerConfigs: (state) => {
-        const layerContainer = getters.allBaselayerConfigs(state);
-
-        return layerContainer.filter(layerConf => layerConf.visibility !== true);
     }
 };
 

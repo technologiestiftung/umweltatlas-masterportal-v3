@@ -56,7 +56,7 @@ export default {
             commit("setMode", "3D");
         }
         else {
-            rootState.configJs.startingMap3D = true;
+            rootState.portalConfig.map.startingMapMode = "3D";
         }
     }
 };
