@@ -38,7 +38,6 @@ Es existieren die im Folgenden aufgelisteten Konfigurationen:
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|baselayerSwitcher|nein|**[baselayerSwitcher](#markdown-header-portalconfigbaselayerSwitcher)**||Der baselayerSwitcher ermnöglicht ein einfaches Wechseln bzw. Auswählen einer Hintergrundkarte.|false|
 |controls|nein|**[controls](#markdown-header-portalconfigcontrols)**||Mit den Controls kann festgelegt werden, welche Interaktionen in der Karte möglich sein sollen.|false|
 |getFeatureInfo|nein|**[getFeatureInfo](#markdown-header-portalconfiggetFeatureInfo)**||Mit der GetFeatureInfo(gfi) lassen sich Informationen zu beliebigen Layern anzeigen. Dabei werden bei einem WMS die Daten über die GetFeatureInfo geladen. Bei Vektordaten (WFS, Sensor, GeoJSON usw.) werden die angezeigten Attribute aus den Daten selbst verwendet.|false|
 |mainMenu|nein|**[menu](#markdown-header-portalconfigmenu)**||Hier können die Menüeinträge im Mainmenu und deren Anordnung konfiguriert werden. Die Reihenfolge der Module ist identisch mit der Reihenfolge in der config.json (siehe **[Modules](#markdown-header-portalconfigmenumodules)**).|false|
@@ -53,7 +52,6 @@ Es existieren die im Folgenden aufgelisteten Konfigurationen:
 ```json
 {
     "portalConfig": {
-        "baselayerSwitcher":{},
         "controls": {},
         "getFeatureInfo": {},
         "mainMenu": {},
@@ -73,7 +71,38 @@ Konfiguration der Karte und darauf platzierter Elemente.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
+|baselayerSwitcher|nein|**[baselayerSwitcher](#markdown-header-portalconfigmapbaselayerSwitcher)**||Der baselayerSwitcher ermnöglicht ein einfaches Wechseln bzw. Auswählen einer Hintergrundkarte.|false|
 |mapView|nein|**[mapView](#markdown-header-portalconfigmapmapview)**||Mit verschiedenen Parametern wird die Startansicht der Karte konfiguriert und der Hintergrund festgelegt, der erscheint wenn keine Karte geladen ist.|false|
+
+**Beispiel**
+
+```json
+{
+    "portalConfig": {
+        "baselayerSwitcher":{},
+        "mapView": {},
+    }
+}
+```
+
+***
+
+#### portalConfig.map.baselayerSwitcher
+Der baselayerSwitcher ermnöglicht ein einfaches Wechseln bzw. Auswählen eines Layers, der eine Hintergrundkarte beinhaltet (baselayer).
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+active|nein|Boolean|false|Definiert, ob der baselayerSwitcher aktiv ist.|false|
+activatedExpandable|nein|Boolean|false|Gibt an, ob der baselayerSwitcher aufgeklappt ist und alle verfügbaren baselayer angezeigt werden oder nur der aktive, welcher sich auf höchster Ebene befindet.|false|
+
+**Beispiel**
+
+```json
+"baselayerSwitcher": {
+      "active": true,
+      "activatedExpandable": false
+    }
+```
 
 ***
 
@@ -182,25 +211,6 @@ Eine option definiert eine Zoomstufe. Diese muss definiert werden über die Aufl
     "scale": 2311167,
     "zoomLevel": 0
 }
-```
-
-***
-
-### portalConfig.baselayerSwitcher
-Der baselayerSwitcher ermnöglicht ein einfaches Wechseln bzw. Auswählen eines Layers, der eine Hintergrundkarte beinhaltet (baselayer).
-
-|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|-------------|---|-------|------------|------|
-active|nein|Boolean|false|Definiert, ob der baselayerSwitcher aktiv ist.|false|
-activatedExpandable|nein|Boolean|false|Gibt an, ob der baselayerSwitcher aufgeklappt ist und alle verfügbaren baselayer angezeigt werden oder nur der aktive, welcher sich auf höchster Ebene befindet.|false|
-
-**Beispiel**
-
-```json
-"baselayerSwitcher": {
-      "active": true,
-      "activatedExpandable": false
-    }
 ```
 
 ***
@@ -4942,7 +4952,7 @@ Neben diesen Attributen gibt es auch Typ-spezifische Attribute für die verschie
 ```
 ***
 #### layerConfig.elements.layers.preview
-Vorschau für baselayer im Themenbaum, wird auch im **[baselayerSwitcher](#markdown-header-portalconfigmenusectionsmodulesbaselayerswitcher)** verwendet.
+Vorschau für baselayer im Themenbaum, wird auch im **[baselayerSwitcher](#markdown-header-portalconfigmapbaselayerswitcher)** verwendet.
 Für die Layertypen **[VectorTile](#markdown-header-themenconfigelementslayersvectortile)**, **[WMS](#markdown-header-themenconfigelementslayersrasterwms)** und WMTS.
 Beim VectorTile-Layer wird ein abgelegtes Vorschaubild angezeigt, bei WMS- und WMTS-Layern wird ein Kartenausschnitt geladen. WMS und WMTS: bei keiner Angabe, wird ein zentrierter Kartenausschnitt geladen. Eine detaillierte Beschreibung ist in der Dokumentation **[LayerPreview](./vueComponents/LayerPreview.md)**
 

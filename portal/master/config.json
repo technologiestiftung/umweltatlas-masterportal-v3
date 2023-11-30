@@ -1,6 +1,9 @@
 {
   "portalConfig": {
     "map": {
+      "baselayerSwitcher": {
+        "active": true
+      },
       "mapView": {
         "backgroundImage": "https://geodienste.hamburg.de/lgv-config/img/backgroundCanvas.jpeg",
         "startZoomLevel": 4,
@@ -9,9 +12,6 @@
           5934140
         ]
       }
-    },
-    "baselayerSwitcher": {
-      "active": true
     },
     "portalFooter": {
       "urls": [

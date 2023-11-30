@@ -13,6 +13,7 @@
     - Portalconfig --> portalConfig
     - Themenconfig --> layerConfig
 - The following attributes have been moved:
+    - Portalconfig.baselayerSwitcher -> portalConfig.map.baselayerSwitcher
     - Portalconfig.mapView -> portalConfig.map.mapView
 - The following attributes have been moved from config.json to config.js
     - Portalconfig.alerts -> alerting.initalAlerts (`alerts` has been renamed to `initalAlerts`)

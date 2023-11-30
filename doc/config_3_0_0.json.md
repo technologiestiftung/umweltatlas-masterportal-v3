@@ -38,7 +38,6 @@ The configuration options listed in the following table exist:
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|baselayerSwitcher|no|**[baselayerSwitcher](#markdown-header-portalconfigbaselayerSwitcher)**||The baselayerSwitcher allows you to easily change or select a background map.|false|
 |controls|no|**[controls](#markdown-header-portalconfigcontrols)**||Allows setting which interactions are active in the map.|false|
 |getFeatureInfo|no|**[getFeatureInfo](#markdown-header-portalconfiggetFeatureInfo)**||Via  getFeatureInfo (GFI) information to arbitrary layers can be requested. For WMS, the data is fetched with a GetFeatureInfo request. Vector data (WFS, Sensor, GeoJSON, etc.) is already present in the client and will be shown from the already fetched information.|false|
 |mainMenu|no|**[menu](#markdown-header-portalconfigmenu)**||Menu entries in main menu and their order are configured in this entry. The order of modules corresponds to the order in the object specifying them; see **[Modules](#markdown-header-portalconfigmenumodules)**.|false|
@@ -53,7 +52,6 @@ The configuration options listed in the following table exist:
 ```json
 {
     "portalConfig": {
-        "baselayerSwitcher": {},
         "controls": {},
         "getFeatureInfo": {},
         "mainMenu": {},
@@ -73,7 +71,38 @@ Configuration of the map and elements placed on it.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
+|baselayerSwitcher|no|**[baselayerSwitcher](#markdown-header-portalconfigmapbaselayerSwitcher)**||The baselayerSwitcher allows you to easily change or select a background map.|false|
 |mapView|no|**[mapView](#markdown-header-portalconfigmapmapview)**||Defines the initial map view and a background shown when no layer is selected.|false|
+
+**Example**
+
+```json
+{
+    "portalConfig": {
+        "baselayerSwitcher":{},
+        "mapView": {},
+    }
+}
+```
+
+***
+
+#### portalConfig.map.baselayerSwitcher
+The baselayerSwitcher allows you to easily switch or select a baselayer.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+active|no|Boolean|false|Defines if the baselayerSwitcher is activated.|false|
+activatedExpandable|no|Boolean|false|Specifies whether the baselayerSwitcher is expanded and all available baselayers are displayed or only the active one which is on the highest level.|false|
+
+**Example**
+
+```json
+"baselayerSwitcher": {
+      "active": true,
+      "activatedExpandable": false
+    }
+```
 
 ***
 
@@ -182,25 +211,6 @@ An option defines a zoom level. Each zoom level is defined by resolution, scale 
     "scale": 2311167,
     "zoomLevel": 0
 }
-```
-
-***
-
-### portalConfig.baselayerSwitcher
-The baselayerSwitcher allows you to easily switch or select a baselayer.
-
-|Name|Required|Type|Default|Description|Expert|
-|----|--------|----|-------|-----------|------|
-active|no|Boolean|false|Defines if the baselayerSwitcher is activated.|false|
-activatedExpandable|no|Boolean|false|Specifies whether the baselayerSwitcher is expanded and all available baselayers are displayed or only the active one which is on the highest level.|false|
-
-**Example**
-
-```json
-"baselayerSwitcher": {
-      "active": true,
-      "activatedExpandable": false
-    }
 ```
 
 ***
@@ -4543,7 +4553,7 @@ Besides these attributes, there are also type-specific attributes for the differ
 ```
 ***
 #### layerConfig.elements.layers.preview
-Preview for baselayer in theme tree, also used in **[baselayerSwitcher](#markdown-header-portalconfigmenusectionsmodulesbaselayerswitcher)**.
+Preview for baselayer in theme tree, also used in **[baselayerSwitcher](#markdown-header-portalconfigmapbaselayerswitcher)**.
 For the **[VectorTile](#markdown-header-themenconfigelementslayersvectortile)**, **[WMS](#markdown-header-themenconfiggelementslayersrasterwms)** and WMTS layer types.
 With the VectorTile layer a dropped preview image is displayed, with WMS and WMTS layers a map section is loaded. WMS and WMTS: if not specified, a centered map section is loaded.
 A detailed description is available in the documentation **[LayerPreview](./vueComponents/LayerPreview.md)**
