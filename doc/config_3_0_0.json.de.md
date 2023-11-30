@@ -4401,7 +4401,7 @@ Mit verschiedenen Parametern wird die Startansicht der Karte konfiguriert und de
 |----|-------------|---|-------|------------|------|
 |backgroundImage|nein|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/config.json.md#markdown-header-portalconfigmapview"|Pfad zum alternativen Hintergrund angeben.|false|
 |epsg|nein|String|"EPSG:25832"|Der EPSG-Code der Projektion der Karte. Der EPSG-Code muss als namedProjection definiert sein.|false|
-|extent|nein|Array|[510000.0, 5850000.0, 625000.4, 6000000.0]|Der Map-Extent.|false|
+|extent|nein|**[Extent](#markdown-header-datatypesextent)**|[510000.0, 5850000.0, 625000.4, 6000000.0]|Der Map-Extent.|false|
 |options|nein|Array|[{"resolution":66.14579761460263,"scale":250000,"zoomLevel":0}, {"resolution":26.458319045841044,"scale":100000,"zoomLevel":1}, {"resolution":15.874991427504629,"scale":60000,"zoomLevel":2}, {"resolution": 10.583327618336419,"scale":40000,"zoomLevel":3}, {"resolution":5.2916638091682096,"scale":20000,"zoomLevel":4}, {"resolution":2.6458319045841048,"scale":10000,"zoomLevel":5}, {"resolution":1.3229159522920524,"scale":5000,"zoomLevel":6}, {"resolution":0.6614579761460262,"scale":2500,"zoomLevel":7}, {"resolution":0.2645831904584105,"scale": 1000,"zoomLevel":8}, {"resolution":0.13229159522920521,"scale":500,"zoomLevel":9}]|Die initialen Maßstabsstufen und deren Auflösungen.|false|
 |startCenter|nein|Array|[565874, 5934140]|Die initiale Zentrumskoordinate.|false|
 |startResolution|nein|Float|15.874991427504629|Die initiale Auflösung der Karte aus options. Vorzug vor startZoomLevel.|false|
@@ -4997,6 +4997,7 @@ Hier werden WMS typische Attribute aufgelistet.
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|--------|----|-------|-----------|------|
 |name|nein|String/String[]||Name des Layers. Falls das Attribute **styles** konfiguriert wird, muss dieses Attribute als Tpy String[] konfiguriert werden.|false|
+|extent|nein|**[Extent](#markdown-header-datatypesextent)**|[454591, 5809000, 700000, 6075769]|Ausdehnung des Layers. Wenn nicht angegeben, wird er Extent der MapView verwendet.|false|
 |featureCount|nein|Number|1|Anzahl der Features, die bei einer GetFeatureInfo-Abfrage zurückgegeben werden sollen.|false|
 |gfiAsNewWindow|nein|**[gfiAsNewWindow](#markdown-header-themenconfigelementslayersrasterwmsgfiasnewwindow)**|null|Wird nur berücksichtigt wenn infoFormat text/html ist.|true|
 |styles|nein|String[]||Werden styles angegeben, so werden diese mit an den WMS geschickt. Der Server interpretiert diese Styles und liefert die Daten entsprechend zurück.|true|
@@ -5334,4 +5335,15 @@ Hier werden Entities3D Einheiten typische Attribute aufgelistet.
    "name": "Fernsehturm.kmz"
 }
 ```
+***
+
+## Datatypes.Extent
+
+Ein Extent besteht aus einem Array bestehend aus vier Zahlen. Ein Extent beschreibt einen rechteckigen Gültigkeitsbereich. Dabei wird ein Rechteck aufgespannt, das durch die "linke untere" und die "rechte obere" Ecke definiert wird. Das Schema lautet [Rechtswert-Links-Unten, Hochwert-Links-Unten, Rechtswert-Rechts-Oben, Hochwert-Rechts-Oben] oder [minx, miny, maxx, maxy].
+
+**Beispiel Extent**
+```json
+[510000.0, 5850000.0, 625000.4, 6000000.0]
+```
+
 ***

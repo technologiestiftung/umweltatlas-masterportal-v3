@@ -3968,7 +3968,7 @@ Defines the initial map view and a background shown when no layer or map is sele
 |----|--------|----|-------|-----------|------|
 |backgroundImage|no|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/config.json.md#markdown-header-portalconfigmapview"|Path to an alternative background image.|false|
 |epsg|no|String|"EPSG:25832"|Coordinate reference system EPSG code. The code must be defined as a `namedProjection`.|false|
-|extent|no|Array|[510000.0, 5850000.0, 625000.4, 6000000.0]|Map extent - map may not be moved outside these boundaries.|false|
+|extent|no|**[Extent](#markdown-header-datatypesextent)**|[510000.0, 5850000.0, 625000.4, 6000000.0]|Map extent - map may not be moved outside these boundaries.|false|
 |options|no|Array|[{"resolution":66.14579761460263,"scale":250000,"zoomLevel":0}, {"resolution":26.458319045841044,"scale":100000,"zoomLevel":1}, {"resolution":15.874991427504629,"scale":60000,"zoomLevel":2}, {"resolution": 10.583327618336419,"scale":40000,"zoomLevel":3}, {"resolution":5.2916638091682096,"scale":20000,"zoomLevel":4}, {"resolution":2.6458319045841048,"scale":10000,"zoomLevel":5}, {"resolution":1.3229159522920524,"scale":5000,"zoomLevel":6}, {"resolution":0.6614579761460262,"scale":2500,"zoomLevel":7}, {"resolution":0.2645831904584105,"scale": 1000,"zoomLevel":8}, {"resolution":0.13229159522920521,"scale":500,"zoomLevel":9}]|Available scale levels and their resolutions.|false|
 |startCenter|nein|Array|[565874, 5934140]|Die initiale Zentrumskoordinate.|false|
 |startResolution|no|Float|15.874991427504629|The initial map resolution from the `options` element. Used in preference to `startZoomLevel`.|false|
@@ -4575,7 +4575,7 @@ StaticImage can be used to load images as layers and display them georeferenced 
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|extent|yes|Number[]|[560.00, 5950.00, 560.00, 5945.00]|Specifies the georeferencing of the image. The coordinate pair expected in EPSG:25832 format is the coordinate for the top left and bottom right corner of the image.|false|
+|extent|yes|**[Extent](#markdown-header-datatypesextent)**|[560.00, 5950.00, 560.00, 5945.00]|Specifies the georeferencing of the image. The coordinate pair expected in EPSG:25832 format is the coordinate for the top left and bottom right corner of the image.|false|
 |id|yes|String||A unique ID must be assigned among all layers.|false|
 |typ|yes|String|"StaticImage"|Sets the layer type to StaticImage, which can display static images as layers.|false|
 |url|yes|String|"https://meinedomain.de/bild.png"|Link to the image to be displayed.|false|
@@ -4600,6 +4600,7 @@ WMS typical attributes are listed here.
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |name|no|String/String[]||Name of the layer. If the **styles** attribute is configured, this attribute must be configured as Tpy String[].|false|
+|extent|no|**[Extent](#markdown-header-datatypesextent)**|[454591, 5809000, 700000, 6075769]|Extent of the layer. If not specified, it will be used extent of the map view.|false|
 |featureCount|no|Number|1|Number of features to return on a GetFeatureInfo query.|false|
 |gfiAsNewWindow|no|**[gfiAsNewWindow](#markdown-header-themenconfigelementslayersrasterwmsgfiasnewwindow)**|null|Considered only if infoFormat is text/html.|true|
 |styles|no|String[]||If styles are specified, they are also sent to the WMS. The server interprets these styles and returns the data accordingly.|true|
@@ -4932,4 +4933,16 @@ Entities3D entities typical attributes are listed here.
    "name": "Fernsehturm.kmz"
 }
 ```
+***
+
+## Datatypes.Extent
+
+An extent is an array of four numbers describing a rectangular scope. The rectangle is constructed from the "lower left" and "upper right" corner, so the scheme used is `[Easting lower left, Northing lower left, Easting upper right, Northing upper right]`, or `[minx, miny, maxx, maxy]`.
+
+**Example extent**
+
+```json
+[510000.0, 5850000.0, 625000.4, 6000000.0]
+```
+
 ***

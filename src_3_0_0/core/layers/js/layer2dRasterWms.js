@@ -57,7 +57,8 @@ Layer2dRasterWms.prototype.getRawLayerAttributes = function (attributes) {
         tilesize: attributes.tilesize,
         transparent: attributes.transparent?.toString(),
         url: attributes.url,
-        version: attributes.version
+        version: attributes.version,
+        extent: attributes.extent
     };
 
     if (attributes.styles !== undefined) {
