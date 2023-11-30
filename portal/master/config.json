@@ -18,6 +18,12 @@
       "startCenter": [
         565874,
         5934140
+      ],
+      "xxxextent": [
+        559712,
+        5936807,
+        569237,
+        5930589
       ]
     },
     "portalFooter": {
@@ -817,14 +823,20 @@
           "id": "3302",
           "name": "Trinkwasser",
           "typ": "WMS",
-          "visibility": false
+          "visibility": true
         },
         {
           "id": "8730",
-          "name": "Durchschnittliche tägliche Verkehrsstärken (Mo-So)",
+          "name": "Durchschnittliche tägliche Verkehrsstärken (Mo-So) Heidenkampsweg/Bille",
           "typ": "WMS",
           "gfiTheme": "verkehrsstaerken",
-          "visibility": false
+          "visibility": true,
+          "extent": [
+            568426.27,
+            5931985.58,
+            569614.86,
+            5933174.11
+          ]
         },
         {
           "id": "2426",
@@ -1195,7 +1207,7 @@
             "belegenheit",
             "nutzung"
           ]
-        },       
+        },
         {
           "name": "3D Daten",
           "type": "folder",
