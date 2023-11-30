@@ -73,23 +73,24 @@ Settings for multilingualism of the portal interface.
 
 **Example:**
 
-```json
+```js
 {
-"portalLanguage": {
-        "enabled": true,
-        "debug": false,
-        "languages": {
-            "de": "deutsch",
-            "en": "englisch"
+    portalLanguage: {
+        enabled: true,
+        debug: false,
+        languages: {
+            de: "Deutsch",
+            en: "English",
+            es: "Español",
+            it: "Italiano",
+            platt: "Platt",
+            pt: "Português",
+            ru: "Русский",
+            tr: "Türkçe",
+            ua: "Українська"
         },
-        "fallbackLanguage": "de",
-        "changeLanguageOnStartWhen": [
-            "querystring",
-            "localStorage",
-            "navigator",
-            "htmlTag"
-        ],
-        "loadPath": "/locales/{{lng}}/{{ns}}.json"
+        fallbackLanguage: "de",
+        changeLanguageOnStartWhen: ["querystring", "localStorage", "htmlTag"]
     }
 }
 ```
@@ -105,10 +106,10 @@ Optional remote interface configuration.
 
 **Example:**
 
-```json
+```js
 {
-    "remoteInterface": {
-        "postMessageUrl": "http://localhost:8080"
+    remoteInterface: {
+        postMessageUrl: "http://localhost:8080"
     }
 }
 ```
