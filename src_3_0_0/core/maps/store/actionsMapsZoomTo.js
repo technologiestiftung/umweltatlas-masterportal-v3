@@ -10,7 +10,7 @@ import getAndFilterFeatures from "../js/zoomToGetAndFilterFeatures";
  */
 export default {
     zoomToFeatures ({dispatch, rootGetters}, param) {
-        const config = rootGetters.configJs?.zoomTo;
+        const config = rootGetters.zoomTo;
         let addFeatures = true,
             allowedValues,
             featurePromises = "",

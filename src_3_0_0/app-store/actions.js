@@ -161,7 +161,7 @@ export default {
             highlightFeaturesPointStyleId: getters["Modules/HighlightFeatures/pointStyleId"],
             highlightFeaturesPolygonStyleId: getters["Modules/HighlightFeatures/polygonStyleId"],
             highlightFeaturesLineStyleId: getters["Modules/HighlightFeatures/lineStyleId"],
-            zoomToFeatureId: getters.configJs.zoomTo?.find(entry => entry.id === "zoomToFeatureId")?.styleId
+            zoomToFeatureId: getters.zoomTo?.find(entry => entry.id === "zoomToFeatureId")?.styleId
         };
 
         styleList.initializeStyleList(styleGetters, state.configJs, getters.allLayerConfigs, getters.configuredModules,

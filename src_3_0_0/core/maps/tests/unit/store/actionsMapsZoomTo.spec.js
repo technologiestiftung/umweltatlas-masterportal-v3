@@ -51,7 +51,7 @@ describe("src_3_0_0/core/maps/store/actionsMapsZoomTo.js", () => {
         });
         it("should resolve with a reason if a config is given but no url parameter", () => {
             sinon.stub(axios, "get").callsFake(axiosFake);
-            rootGetters.configJs.zoomTo = [{id: "zoomToFeatureId"}];
+            rootGetters.zoomTo = [{id: "zoomToFeatureId"}];
             actions.zoomToFeatures({dispatch, rootGetters}, param)
                 .then(reason => {
                     expect(consoleWarnSpy.notCalled).to.be.true;

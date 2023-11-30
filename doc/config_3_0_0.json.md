@@ -70,6 +70,7 @@ Configuration of the map and elements placed on it.
 |mapView|no|**[mapView](#markdown-header-portalconfigmapmapview)**||Defines the initial map view and a background shown when no layer is selected.|false|
 |mouseHover|no|**[mouseHover](#markdown-header-portalconfigmapmousehover)**||Activates the MouseHover feature for vector layers, both WFS and GeoJSON. For per-layer configuration, see the **[Vector](#markdown-header-layerconfigelementslayervector)**.|false|
 |startingMapMode|no|String|"2D"|Indicates the mode in which the map starts. Possible are `2D` and `3D`|false|
+|zoomTo|no|**[zoomTo](#markdown-header-portalconfigmapzoomto)**[]|Configuration for the URL query parameters `zoomToFeatureId` and `zoomToGeometry`.||
 
 **Example**
 
@@ -889,6 +890,49 @@ Enables the MouseHover function for vector layers, e.g. WFS or GeoJSON. For per-
     "numFeaturesToShow": 1,
     "infoText": "Exampletext"
 },
+```
+
+***
+
+#### portalConfig.map.zoomTo
+Configuration for the URL query parameters `zoomToFeatureId` and `zoomToGeometry`.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|addFeatures|no|Boolean|true|Specifies whether the desired features should be added to the map in a separate layer.|false|
+|allowedValues|no|Array||Only relevant when `id` equal `zoomToGeometry`. Further filters the values allowed in the URL query parameters.|false|
+|id|yes|enum["zoomToFeatureId", "zoomToGeometry"]||Id of the URL query parameter the configuration refers to.|false|
+|layerId|yes|String||Id of the layer the feature should be fetched from.|false|
+|property|yes|String||Name of the property the features should be filtered by.|false|
+|styleId|no|String||Only relevant when `id` equal `zoomToFeatureId`. Id of the `styleObject` that should be used to style the features retrieved from the service.|false|
+
+**Example**:
+
+```json
+{
+    "zoomTo": [
+        {
+            "id": "zoomToGeometry",
+            "layerId": "1692",
+            "property": "bezirk_name",
+            "allowedValues": [
+                "ALTONA",
+                "HARBURG",
+                "HAMBURG-NORD",
+                "BERGEDORF",
+                "EIMSBÜTTEL",
+                "HAMBURG-MITTE",
+                "WANDSBEK"
+            ]
+        },
+        {
+            "id": "zoomToFeatureId",
+            "layerId": "4560",
+            "property": "flaechenid",
+            "styleId": "location_eventlotse"
+        }
+    ]
+}
 ```
 
 ***

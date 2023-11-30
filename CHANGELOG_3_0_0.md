@@ -25,6 +25,7 @@
     - cesiumParameter -> portalConfig.map.map3dParameter (`cesiumParameter` has been renamed to `map3dParameter`)
     - mapInteractions -> portalConfig.map.mapInteractions
     - startingMap3D -> portalConfig.map.startingMapMode (`startingMap3D` has been renamed to `startingMapMode`)
+    - zoomTo -> portalConfig.map.zoomTo
 
 ### Added
 - Add roadmap information to the readme file.

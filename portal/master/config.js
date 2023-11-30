@@ -57,28 +57,6 @@ const Config = {
             }
         ]
     },
-    zoomTo: [
-        {
-            id: "zoomToGeometry",
-            layerId: "1692",
-            property: "bezirk_name",
-            allowedValues: [
-                "ALTONA",
-                "HARBURG",
-                "HAMBURG-NORD",
-                "BERGEDORF",
-                "EIMSBÜTTEL",
-                "HAMBURG-MITTE",
-                "WANDSBEK"
-            ]
-        },
-        {
-            id: "zoomToFeatureId",
-            layerId: "4560",
-            property: "flaechenid",
-            styleId: "location_eventlotse"
-        }
-    ],
     portalLanguage: {
         enabled: true,
         debug: false,

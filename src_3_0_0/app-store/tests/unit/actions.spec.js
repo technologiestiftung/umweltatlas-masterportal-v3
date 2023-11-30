@@ -94,14 +94,14 @@ describe("src_3_0_0/app-store/actions.js", () => {
                         mapMarker: {
                             pointStyleId: "123",
                             polygonStyleId: "abc"
-                        },
-                        zoomTo: [
-                            {
-                                id: "zoomToFeatureId",
-                                styleId: "eventlotse"
-                            }
-                        ]
-                    }
+                        }
+                    },
+                    zoomTo: [
+                        {
+                            id: "zoomToFeatureId",
+                            styleId: "eventlotse"
+                        }
+                    ]
                 },
                 firstCallArg = {
                     highlightFeaturesPointStyleId: "pointStyleId",

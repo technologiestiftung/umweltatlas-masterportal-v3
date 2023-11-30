@@ -444,6 +444,15 @@ const getters = {
         const layerContainer = getters.allBaselayerConfigs(state);
 
         return layerContainer.filter(layerConf => layerConf.visibility === true);
+    },
+
+    /**
+     * Return the zoomTo configuartion in config.json.
+     * @param {Object} state state of the app-store.
+     * @returns {Object} The zoomTo configuartion in config.json
+     */
+    zoomTo: state => {
+        return state?.portalConfig?.map?.zoomTo;
     }
 };
 

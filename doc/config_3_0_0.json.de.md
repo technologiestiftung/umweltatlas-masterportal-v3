@@ -70,6 +70,7 @@ Konfiguration der Karte und darauf platzierter Elemente.
 |mapView|nein|**[mapView](#markdown-header-portalconfigmapmapview)**||Mit verschiedenen Parametern wird die Startansicht der Karte konfiguriert und der Hintergrund festgelegt, der erscheint wenn keine Karte geladen ist.|false|
 |mouseHover|nein|**[mouseHover](#markdown-header-portalconfigmapmousehover)**||Aktiviert die MouseHover-Funktion für Vektorlayer, z.B. WFS oder GeoJSON. Für die Konfiguration pro Layer siehe **[Vector](#markdown-header-layerconfigelementslayervector)**.|false|
 |startingMapMode|nein|String|"2D"|Gibt an in welchem Modus die Karte startet. Möglich sind `2D` und `3D`|false|
+|zoomTo|nein|**[zoomTo](#markdown-header-portalconfigmapzoomto)**[]|Konfiguration für die URL-Abfrageparameter `zoomToFeatureId` und `zoomToGeometry`.||
 
 **Beispiel**
 
@@ -888,6 +889,49 @@ Aktiviert die MouseHover-Funktion für Vektorlayer, z.B. WFS oder GeoJSON. Für 
 "mouseHover": {
     "numFeaturesToShow": 1,
     "infoText": "Beispieltext"
+}
+```
+
+***
+
+#### portalConfig.map.zoomTo
+Konfiguration für die URL-Abfrageparameter `zoomToFeatureId` und `zoomToGeometry`.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|addFeatures|nein|Boolean|true|Gibt an, ob die gewünschten Merkmale in einer separaten Ebene zur Karte hinzugefügt werden sollen.|false|
+|allowedValues|nein|Array||Nur relevant, wenn `id` gleich `zoomToGeometry` ist. Filtert zusätzlich die in den URL-Abfrageparametern zulässigen Werte.|false|
+|id|ja|enum["zoomToFeatureId", "zoomToGeometry"]||Id des URL-Abfrageparameters, auf den sich die Konfiguration bezieht.|false|
+|layerId|ja|String||Id des Layers, aus der das Feature geholt werden soll.|false|
+|property|ja|String||Name der Eigenschaft, nach der die Merkmale gefiltert werden sollen.|false|
+|styleId|nein|String||Nur relevant, wenn `id` gleich `zoomToFeatureId` ist. Id des `styleObject`, das für die Gestaltung der vom Dienst abgerufenen Merkmale verwendet werden soll.|false|
+
+**Beispiel**:
+
+```json
+{
+    "zoomTo": [
+        {
+            "id": "zoomToGeometry",
+            "layerId": "1692",
+            "property": "bezirk_name",
+            "allowedValues": [
+                "ALTONA",
+                "HARBURG",
+                "HAMBURG-NORD",
+                "BERGEDORF",
+                "EIMSBÜTTEL",
+                "HAMBURG-MITTE",
+                "WANDSBEK"
+            ]
+        },
+        {
+            "id": "zoomToFeatureId",
+            "layerId": "4560",
+            "property": "flaechenid",
+            "styleId": "location_eventlotse"
+        }
+    ]
 }
 ```
 
