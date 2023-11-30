@@ -18,12 +18,6 @@
       "startCenter": [
         565874,
         5934140
-      ],
-      "xxxextent": [
-        559712,
-        5936807,
-        569237,
-        5930589
       ]
     },
     "portalFooter": {
@@ -827,16 +821,10 @@
         },
         {
           "id": "8730",
-          "name": "Durchschnittliche tägliche Verkehrsstärken (Mo-So) Heidenkampsweg/Bille",
+          "name": "Durchschnittliche tägliche Verkehrsstärken (Mo-So)",
           "typ": "WMS",
           "gfiTheme": "verkehrsstaerken",
-          "visibility": true,
-          "extent": [
-            568426.27,
-            5931985.58,
-            569614.86,
-            5933174.11
-          ]
+          "visibility": false
         },
         {
           "id": "2426",
