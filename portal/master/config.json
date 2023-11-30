@@ -31,6 +31,9 @@
           "fullScreen": true
         }
       },
+      "layerPills": {
+        "active": true
+      },
       "mapView": {
         "backgroundImage": "https://geodienste.hamburg.de/lgv-config/img/backgroundCanvas.jpeg",
         "startZoomLevel": 4,
@@ -63,9 +66,6 @@
           "searchInterfaceInstanceId": "elasticSearch_0",
           "searchCategory": "Thema (externe Fachdaten)"
         }
-      },
-      "layerPills": {
-        "active": true
       },
       "highlightedFeatures": {
         "active": true

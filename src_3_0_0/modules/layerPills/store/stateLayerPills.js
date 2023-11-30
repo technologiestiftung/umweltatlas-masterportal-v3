@@ -10,7 +10,7 @@
  */
 
 const state = {
-    configPaths: ["portalConfig.tree.layerPills"],
+    configPaths: ["portalConfig.map.layerPills"],
     supportedDevices: ["Desktop", "Mobile", "Table"],
     supportedMapModes: ["2D", "3D"],
     visibleSubjectDataLayers: [],

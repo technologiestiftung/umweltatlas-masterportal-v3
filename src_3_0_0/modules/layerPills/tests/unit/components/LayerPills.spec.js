@@ -48,7 +48,7 @@ describe("src_3_0_0/modules/LayerPills.vue", () => {
                             getters: {
                                 active: () => active,
                                 mobileOnly: () => mobileOnly,
-                                configPaths: () => ["portalConfig.tree.layerPills"],
+                                configPaths: () => ["portalConfig.map.layerPills"],
                                 type: () => "layerPills",
                                 visibleSubjectDataLayers: () => visibleSubjectDataLayers
                             },

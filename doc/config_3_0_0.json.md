@@ -70,6 +70,7 @@ Configuration of the map and elements placed on it.
 |----|-------------|---|-------|------------|------|
 |baselayerSwitcher|no|**[baselayerSwitcher](#markdown-header-portalconfigmapbaselayerSwitcher)**||The baselayerSwitcher allows you to easily change or select a background map.|false|
 |controls|no|**[controls](#markdown-header-portalconfigmapcontrols)**||Allows setting which interactions are active in the map.|false|
+|layerPills|no|**[layerPills](#markdown-header-portalconfigmaplayerpills)**||Configuration of the LayerPills.|false|
 |mapView|no|**[mapView](#markdown-header-portalconfigmapmapview)**||Defines the initial map view and a background shown when no layer is selected.|false|
 
 **Example**
@@ -424,6 +425,27 @@ The attribute zoom may be of type boolean or object. If of type boolean, it show
 
 ```json
 "zoom": true
+```
+
+***
+
+#### portalConfig.map.layerPills
+Configuration to make settings for LayerPills.
+
+Layerpills are buttons on top of the map that show the selected layers. When clicking on a LayerPill, the corresponding layer information is displayed in the menu. The close button deselects the layer. The LayerPills attribute is specified as an object and contains the following attributes:
+
+|Name|Required|Type|Default|Description|Expert|
+|----|-------------|---|-------|------------|------|
+|active|no|Boolean|false|Indicates whether LayerPills are active.|false|
+|mobileOnly|no|Boolean|false|Defines whether LayerPills should only be active in the mobile version.|false|
+
+**Example**
+
+```json
+"layerPills": {
+    "active": true,
+    "mobileOnly": true
+}
 ```
 
 ***
@@ -4169,7 +4191,6 @@ Possibility to make settings for the topic selection tree.
 |highlightedFeatures|no|**[highlightedFeatures](#markdown-header-portalconfigtreehighlightedfeatures)**||Configuration in addition to highlighting features.|false|
 |layerIDsToIgnore|no|String[]||List of `services.json` layer ids that should not be displayed in the tree and map. Only for the tree.type `auto`.|false|
 |layerIDsToStyle|no|**[layerIDsToStyle](#markdown-header-portalconfigtreelayeridstostyle)**[]||Special implementation for a HVV service (Hamburger Verkehrsbetriebe). Contains objects to query different styles of a layer ID. Only for the tree.type `auto`.|true|
-|layerPills|no|**[layerPills](#markdown-header-portalconfigtreelayerpills)**||Configuration of the LayerPills.|false|
 |metaIDsToIgnore|no|String[]||All layers found in `services.json` that match these meta IDs will not be displayed in the tree and map. Only for the tree.type `auto`.|false|
 |metaIDsToMerge|no|String[]||All layers found in `services.json` that match these meta-IDs will be merged into a single layer in the tree. Only for the tree.type `auto`.|true|
 |type|no|enum["auto"]||The topic tree is built in the same structure as the **[topicconfig](#markdown-header-themenconfig)**. If the type `auto` is configured, all layers from the [services.json](services.json.md) are offered in the tree, structured by their metadata (Geo-Online).|false|
@@ -4232,35 +4253,10 @@ Possibility to make settings for the topic selection tree.
 ```json
  "tree": {
       "addLayerButton": true,
-      "layerPills": {
-        "active": true
-      },
       "highlightedFeatures": {
         "active": true
       }
  }
-```
-
-***
-
-### portalConfig.tree.layerPills
-Configuration to make settings for LayerPills.
-
-Layerpills are buttons on top of the map that show the selected layers. When clicking on a LayerPill, the corresponding layer information is displayed in the menu. The close button deselects the layer. The LayerPills attribute is specified as an object and contains the following attributes:
-
-|Name|Required|Type|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
-|active|no|Boolean|false|Indicates whether LayerPills are active.|false|
-|mobileOnly|no|Boolean|false|Defines whether LayerPills should only be active in the mobile version.|false|
-
-
-**Example**
-
-```json
-"layerPills": {
-    "active": true,
-    "mobileOnly": true
-    }
 ```
 
 ***
@@ -4338,25 +4334,6 @@ Special implementation for a HVV service (Hamburger Verkehrsbetriebe). Contains 
         }
     ]
 }
-```
-
-***
-
-#### portalConfig.tree.layerPills
-Configuration of the LayerPills.
-
-|Name|Required|Type|Default|Description|Expert|
-|----|--------|----|-------|-----------|------|
-|active|no|Boolean|false|Indicates whether this feature is active.|false|
-|mobileOnly|no|Boolean|false|Indicates whether this feature is active only on small screens.|false|
-
-**Example**
-
-```json
-"layerPills": {
-    "active": true,
-    "mobileOnly": true
-    }
 ```
 
 ***

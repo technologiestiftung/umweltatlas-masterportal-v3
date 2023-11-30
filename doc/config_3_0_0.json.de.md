@@ -70,6 +70,7 @@ Konfiguration der Karte und darauf platzierter Elemente.
 |----|-------------|---|-------|------------|------|
 |baselayerSwitcher|nein|**[baselayerSwitcher](#markdown-header-portalconfigmapbaselayerSwitcher)**||Der baselayerSwitcher ermnöglicht ein einfaches Wechseln bzw. Auswählen einer Hintergrundkarte.|false|
 |controls|nein|**[controls](#markdown-header-portalconfigmapcontrols)**||Mit den Controls kann festgelegt werden, welche Interaktionen in der Karte möglich sein sollen.|false|
+|layerPills|nein|**[layerPills](#markdown-header-portalconfigmaplayerpills)**||Konfiguration der LayerPills.|false|
 |mapView|nein|**[mapView](#markdown-header-portalconfigmapmapview)**||Mit verschiedenen Parametern wird die Startansicht der Karte konfiguriert und der Hintergrund festgelegt, der erscheint wenn keine Karte geladen ist.|false|
 
 **Beispiel**
@@ -424,6 +425,27 @@ Das Attribut zoom kann vom Typ Boolean oder Object sein. Wenn es vom Typ Boolean
 
 ```json
 "zoom": true
+```
+
+***
+
+#### portalConfig.map.layerPills
+Konfiguration, um Einstellungen für die LayerPills vorzunehmen.
+
+Layerpills sind Buttons, die oberhalb der Karte die ausgewählten Layer anzeigen. Beim Anklicken einer LayerPill, werden die entsprechenden Layerinformationen im Menü angezeigt. Über den Schließen-Button wird der Layer abgewählt. Das Attribut LayerPills wird als Objekt angegeben und beinhaltet folgende Attribute:
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|active|nein|Boolean|false|Gibt an, ob LayerPills aktiv sind.|false|
+|mobileOnly|nein|Boolean|false|Definiert, ob LayerPills nur in der mobilen Version aktiv sein sollen.|false|
+
+**Beispiel**
+
+```json
+"layerPills": {
+    "active": true,
+    "mobileOnly": true
+}
 ```
 
 ***
@@ -4610,7 +4632,6 @@ Möglichkeit, um Einstellungen für den Themenbaum vorzunehmen.
 |highlightedFeatures|nein|**[highlightedFeatures](#markdown-header-portalconfigtreehighlightedfeatures)**||Konfiguration zusätzlich zum Highlighting von Features.|false|
 |layerIDsToIgnore|nein|String[]||Liste von `services.json`-Layer-Ids, die nicht im Baum und in der Karte angezeigt werden sollen. Nur für den tree.type `auto`.|false|
 |layerIDsToStyle|nein|**[layerIDsToStyle](#markdown-header-portalconfigtreelayeridstostyle)**[]||Spezielle Implementierung für einen HVV-Dienst (Hamburger Verkehrsbetriebe). Enthält Objekte zur Abfrage verschiedener Stile einer Layer-ID. Nur für den tree.type `auto`.|true|
-|layerPills|nein|**[layerPills](#markdown-header-portalconfigtreelayerpills)**||Konfiguration der LayerPills.|false|
 |metaIDsToIgnore|nein|String[]||Alle in der `services.json` gefundenen Layer, die diesen Meta-IDs entsprechen, werden nicht im Baum und in der Karte angezeigt. Nur für den tree.type `auto`.|false|
 |metaIDsToMerge|nein|String[]||Alle in der `services.json` gefundenen Layer, die diesen Meta-IDs entsprechen, werden zu einer einzigen Layer im Baum zusammengeführt. Nur für den tree.type `auto`.|true|
 |type|nein|enum["auto"]||Der Themenbaum ist in der gleichen Struktur aufgebaut wie die **[layerConfig](#markdown-header-themenconfig)**. Wenn der Typ `auto` konfiguriert ist, werden alle Ebenen aus der [services.json](services.json.md) im Baum angeboten, strukturiert durch ihre Metadaten (Geo-Online).|false|
@@ -4744,28 +4765,6 @@ Kombiniert den style von mehreren Layern, Namen  und Legenden.
         }
     ]
 }
-```
-
-***
-
-### portalConfig.tree.layerPills
-Konfiguration, um Einstellungen für die LayerPills vorzunehmen.
-
-Layerpills sind Buttons, die oberhalb der Karte die ausgewählten Layer anzeigen. Beim Anklicken einer LayerPill, werden die entsprechenden Layerinformationen im Menü angezeigt. Über den Schließen-Button wird der Layer abgewählt. Das Attribut LayerPills wird als Objekt angegeben und beinhaltet folgende Attribute:
-
-|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|-------------|---|-------|------------|------|
-|active|nein|Boolean|false|Gibt an, ob LayerPills aktiv sind.|false|
-|mobileOnly|nein|Boolean|false|Definiert, ob LayerPills nur in der mobilen Version aktiv sein sollen.|false|
-
-
-**Beispiel**
-
-```json
-"layerPills": {
-    "active": true,
-    "mobileOnly": true
-    }
 ```
 
 ***
