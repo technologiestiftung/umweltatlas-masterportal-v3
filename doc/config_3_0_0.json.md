@@ -573,7 +573,7 @@ On all GFI request types except directly fetching HTML, which is done by using `
 
 ***
 
-##### portalConfig.getFeatureInfo.coloredHighlighting3D
+##### portalConfig.map.getFeatureInfo.coloredHighlighting3D
 Highlight Setting of 3D Tiles.
 If e.g. a building is selected by left mouse click, it will be highlighted in the given color.
 For color configuration see **[Color-documentation](https://cesium.com/learn/cesiumjs/ref-doc/Color.html)**
@@ -603,7 +603,7 @@ For color configuration see **[Color-documentation](https://cesium.com/learn/ces
 
 ***
 
-##### portalConfig.getFeatureInfo.highlightVectorRules
+##### portalConfig.map.getFeatureInfo.highlightVectorRules
 Configuration list to overwrite vector styles on gfi requests.
 
 Hint: highlighting only works if there is a styleId in config.json configured for the layer.
@@ -617,7 +617,7 @@ Hint: highlighting only works if there is a styleId in config.json configured fo
 
 ***
 
-###### portalConfig.getFeatureInfo.highlightVectorRules.fill
+###### portalConfig.map.getFeatureInfo.highlightVectorRules.fill
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |color|no|Float[]|[255, 255, 255, 0.5]|RGBA value|false|
@@ -632,7 +632,7 @@ Hint: highlighting only works if there is a styleId in config.json configured fo
 
 ***
 
-###### portalConfig.getFeatureInfo.highlightVectorRules.image
+###### portalConfig.map.getFeatureInfo.highlightVectorRules.image
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |scale|no|Float|1|Scale number|false|
@@ -647,7 +647,7 @@ Hint: highlighting only works if there is a styleId in config.json configured fo
 
 ***
 
-###### portalConfig.getFeatureInfo.highlightVectorRules.stroke
+###### portalConfig.map.getFeatureInfo.highlightVectorRules.stroke
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |color|no|Float[]|[255, 255, 255, 0.5]|RGBA value|false|
@@ -664,7 +664,7 @@ Hint: highlighting only works if there is a styleId in config.json configured fo
 
 ***
 
-###### portalConfig.getFeatureInfo.highlightVectorRules.text
+###### portalConfig.map.getFeatureInfo.highlightVectorRules.text
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |scale|no|Float|1|Text scale number|false|
@@ -1919,37 +1919,38 @@ As soon as you position the mouse pointer over a feature in the list, it will be
 **Example**
 
 ```json
-{
-    "featureLister": {
-        "name": "List",
-        "icon": "bi-list",
-        "maxFeatures": 10,
-        "highlightVectorRulesPolygon": {
-            "fill": {
-                "color": [255, 0, 255, 0.9]
-            },
-            "stroke": {
-                "width": 4,
-                "color": [0, 0, 204, 0.9]
-            },
-            "zoomLevel": 5
+"featureLister": {
+    "name": "List",
+    "icon": "bi-list",
+    "maxFeatures": 10,
+    "highlightVectorRulesPolygon": {
+        "fill": {
+            "color": [255, 0, 255, 0.9]
         },
-        "highlightVectorRulesPointLine": {
-            "fill": {
-                "color": [255, 0, 255, 0.9]
-            },
-            "stroke": {
-                "width": 8,
-                "color": [255, 0, 255, 0.9]
-            },
-            "image": {
-                "scale": 2
-            },
-            "zoomLevel": 5
-        }
+        "stroke": {
+            "width": 4,
+            "color": [0, 0, 204, 0.9]
+        },
+        "zoomLevel": 5
+    },
+    "highlightVectorRulesPointLine": {
+        "fill": {
+            "color": [255, 0, 255, 0.9]
+        },
+        "stroke": {
+            "width": 8,
+            "color": [255, 0, 255, 0.9]
+        },
+        "image": {
+            "scale": 2
+        },
+        "zoomLevel": 5
     }
 }
 ```
+
+***
+
 ###### portalConfig.menu.sections.modules.featureLister.highlightVectorRulesPointLine
 Specify outline color and stroke width for highlighting lines and fill color and scale factor for highlighting points. Also a zoom level can be configured.
 
@@ -1961,6 +1962,7 @@ Specify outline color and stroke width for highlighting lines and fill color and
 |zoomLevel|no|Integer|7|Zoom level, possible setting: 0-9|false|
 
 ***
+
 ###### portalConfig.menu.sections.modules.featureLister.highlightVectorRulesPointLine.fill
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
@@ -1973,6 +1975,7 @@ Specify outline color and stroke width for highlighting lines and fill color and
 ```
 
 ***
+
 ###### portalConfig.menu.sections.modules.featureLister.highlightVectorRulesPointLine.stroke
 |Name|Required|Type|Default|Description|Expert|
 |----|-------------|---|-------|------------|------|
@@ -1987,6 +1990,7 @@ Specify outline color and stroke width for highlighting lines and fill color and
 ```
 
 ***
+
 ###### portalConfig.menu.sections.modules.featureLister.highlightVectorRulesPointLine.image
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
@@ -1999,6 +2003,7 @@ Specify outline color and stroke width for highlighting lines and fill color and
 ```
 
 ***
+
 ###### portalConfig.menu.sections.modules.featureLister.highlightVectorRulesPolygon
 Specify the fill color, the outline color and stroke width for highlighting the polygon features as well as a zoom level.
 
@@ -2022,6 +2027,7 @@ Specify the fill color, the outline color and stroke width for highlighting the 
 ```
 
 ***
+
 ###### portalConfig.menu.sections.modules.featureLister.highlightVectorRulesPolygon.stroke
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
@@ -2036,6 +2042,7 @@ Specify the fill color, the outline color and stroke width for highlighting the 
 ```
 
 ***
+
 ##### portalConfig.menu.sections.modules.fileImport
 Import "*.kml", "*.geojson" and "*.gpx" files with this module.
 
@@ -2058,7 +2065,6 @@ Import "*.kml", "*.geojson" and "*.gpx" files with this module.
 ***
 
 ##### portalConfig.menu.sections.modules.filter
-
 The filter tool offers a range of options to filter vector data from WFS, OAF, GeoJSON, SensorThingsAPI and VectorTiles services.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -2177,7 +2183,6 @@ Example of a completely changed configuration of the `filterGeometrySelector`.
 ***
 
 #### portalConfig.menu.sections.modules.filter.filterLayer
-
 An object to define a layer to filter with.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -2241,7 +2246,6 @@ In this example one snippet is set with only an attrName. The snippet type is de
 ***
 
 #### portalConfig.menu.sections.modules.filter.filterLayerGroups
-
 An object to define a group layer to filter with.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -2282,7 +2286,6 @@ An object to define a group layer to filter with.
 ***
 
 #### portalConfig.menu.sections.modules.filter.filterLayer.snippets
-
 An object defining a single snippet.
 
 Note: Time-related snippets (`date` and `dateRange`) can only be operated in `external` mode or as a fixed rule (`visible`: `false`) if their counterpart at the WFS service is in a correct time format (ISO8601: `YYYY-MM-DD`).
@@ -2599,7 +2602,6 @@ Example of a dropdown snippet with parent-child relationship. The `cityA` and `c
 ***
 
 #### portalConfig.menu.sections.modules.filter.filterLayer.snippets.timeouts
-
 User experience can be improved with the adjustment of timeouts.
 This is especially true for filters that work with `strategy`: `active`.
 
@@ -2673,7 +2675,6 @@ The configuration depends on the type of service.
 
 A string or object that supply the parameters for util function localeCompare.
 
-
 **Example String**
 
 "localeCompareParams": "de"
@@ -2684,7 +2685,6 @@ A string or object that supply the parameters for util function localeCompare.
 |----|--------|---|-------|-----------|------|
 |locale|no|String||The locale code according ISO 3166|false|
 |options|no|[options](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippetslocalecompareparamsoptions)||The custom options for sorting in localeCompare|false|
-
 
 **Example Object**
 
@@ -2700,7 +2700,6 @@ A string or object that supply the parameters for util function localeCompare.
 ***
 
 #### portalConfig.menu.sections.modules.filter.filterLayer.snippets.localeCompareParams.options
-
 An object for custom control of the localeCompare function used to sort dropdown boxes, the documentation is: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
 
 |Name|Required|Typ|Default|Description|Expert|
@@ -2725,7 +2724,6 @@ In this module the language of the portal can be switched.
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |icon|no|String|"bi-flag"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
-|layerIdList|yes|String[]|[]|List of layerIds, the layers that should be switched on or off together.|false|
 |name|no|String|"common:modules.language.name"|Name of the module in the menu.|false|
 |type|no|String|"language"|The type of the module. Defines which module is configured.|false|
 
@@ -2830,7 +2828,6 @@ Defines a layer slider layer.
 ***
 
 ##### portalConfig.menu.sections.modules.legend
-
 Legend configuration options.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -3194,6 +3191,7 @@ Routing-tool geosearch options.
 
 #### portalConfig.sections.modules.routing.geosearch.bbox
 BBOX value according to the speedProfile. Coordinate system depends on the epsg parameter. Geosearch service must support bbox string.
+
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |speedProfile|no|String||Coordinate values "West,South,East,North"|false|
@@ -3304,6 +3302,7 @@ Routing-tool directions options.
 
 #### portalConfig.sections.modules.routing.directionsSettings.customAvoidFeatures
 Possibility to define additional avoid features for the different speed profiles (additionally to the BKG service) (requires own modified backend).
+
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |speedProfile|no|String[]||Options for avoid traffic routes that should be available for the speedProfile.|false|
@@ -3325,7 +3324,6 @@ Possibility to define additional avoid features for the different speed profiles
 Routing-tool directions route customPreferences.
 Possibility to define additional preferences for the different speed profiles (additionally to the BKG service)  (requires own modified backend)
 
-
 |Name|Required|Type|Default|Description|Expert|
 |----|-------------|---|-------|------------|------|
 |speedProfile|no|String[]||Which preferences should be available for the speedProfile.|false|
@@ -3342,6 +3340,7 @@ Possibility to define additional preferences for the different speed profiles (a
 ```
 
 ***
+
 #### portalConfig.sections.modules.routing.directionsSettings.styleRoute
 Routing-tool directions route style options.
 
@@ -3834,6 +3833,7 @@ Module to share a link to the current map view. It is possible to share the curr
     "type": "shareView"
 }
 ```
+
 ***
 
 ##### portalConfig.menu.sections.modules.
@@ -3968,6 +3968,7 @@ A singular instance of the WFS Search which is selectable through a dropdown.
     ]
 }
 ```
+
 ***
 
 #### portalConfig.menu.sections.modules.wfsSearch.searchInstance.literal
@@ -4033,7 +4034,7 @@ However, a `field` needs to be wrapped inside a `clause` (as seen in most exampl
 
 ***
 
-#### portalConfig.menu.sections.modules.wfsSearch.searchInstance.literal.clause
+##### portalConfig.menu.sections.modules.wfsSearch.searchInstance.literal.clause
 A `clause` defines the way multiple `literals` should be queried together.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -4071,7 +4072,7 @@ A `clause` defines the way multiple `literals` should be queried together.
 
 ***
 
-#### portalConfig.menu.sections.modules.wfsSearch.searchInstance.literal.field
+##### portalConfig.menu.sections.modules.wfsSearch.searchInstance.literal.field
 A `field` represents the selection field for a value in the service.
 It is possible to use a `field` for multiple search parameters. To do this, each parameter needs to be an array where each element of the array corresponds to a single parameter of the service.
 A configuration like
@@ -4086,8 +4087,7 @@ A configuration like
 }
 ```
 
-would create a single `field` with which the user can decide whether he wants to use the input field to search for a `Parcel` or a `Communal district number` by selecting the alue through a dropdown.
-If the values are not an array, a label for the `field` will be shown instead of the dropdown.
+would create a single `field` with which the user can decide whether he wants to use the input field to search for a `Parcel` or a `Communal district number` by selecting the alue through a dropdown. If the values are not an array, a label for the `field` will be shown instead of the dropdown.
 
 If the parameter `options` is set, a select field is used, otherwise a simple text input.
 If `options` is a String, it is important that the order of the fields corresponds to the order of the objects in the external source (`selectSource`).
@@ -4186,7 +4186,7 @@ Then the order of the config should look like this:
 
 ***
 
-#### portalConfig.menu.sections.modules.wfsSearch.searchInstance.literal.field.option
+##### portalConfig.menu.sections.modules.wfsSearch.searchInstance.literal.field.option
 A selectable option for a queryable parameter.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -4306,7 +4306,7 @@ Parameters that are exclusively needed for using a WFS-G (Gazetteer).
 
 ***
 
-#### portalConfig.menu.sections.modules.wfsSearch.searchInstance.suggestions
+##### portalConfig.menu.sections.modules.wfsSearch.searchInstance.suggestions
 Configuration for the suggestions of the user input.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -4315,7 +4315,6 @@ Configuration for the suggestions of the user input.
 |length|no|Number|3|The query is triggered when the length of the input is at least as long as this parameter.|false|
 
 ***
-
 
 ##### portalConfig.menu.sections.modules.wfst
 WFS-T module to visualize (*getFeature*), create (*insert*), update (*update*) and delete (*delete*) features of a Web Feature Service (*WFS*) which is able to receive transactions.
@@ -4337,6 +4336,7 @@ When editing properties of a feature / adding properties to a new feature, the a
 |toggleLayer|no|Boolean|false|Whether the features of the currently selected layer should stay visible when adding a new feature.|false|
 |type|no|String|"wfst"|The type of the module. Defines which module is configured.|false|
 |update|no|[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactiontransactionconfig)/Boolean|false|Defines which layers of `layerIds` allow update transactions.|false|
+
 **Example**
 
 ```json
@@ -4373,7 +4373,9 @@ When editing properties of a feature / adding properties to a new feature, the a
     ]
 }
 ```
+
 ***
+
 ###### portalConfig.menu.sections.modules.wfst.TransactionConfig
 Specific configuration for transaction methods of given layers.
 
@@ -4556,16 +4558,6 @@ Possibility to make settings for the topic selection tree.
     }
 }
 ```
-**Example**
-
-```json
- "tree": {
-      "addLayerButton": true,
-      "highlightedFeatures": {
-        "active": true
-      }
- }
-```
 
 ***
 
@@ -4717,7 +4709,6 @@ Layers or folders are defined here. Folders can in turn contain **[elements](#ma
 |name|no|String|""|Layer or folder name.|false|
 |type|no|String|"layer"|Type of the lement: "layer" or "folder"|false|
 
-
 **Example baselayer**
 
 ```json
@@ -4752,6 +4743,7 @@ Layers or folders are defined here. Folders can in turn contain **[elements](#ma
 ```
 
 **Example with folders and layers**
+
 ```json
 {
 "elements": [
@@ -4788,7 +4780,9 @@ Layers or folders are defined here. Folders can in turn contain **[elements](#ma
     ]
 }
 ```
+
 ***
+
 ### layerConfig.elements.layers
 Here layers of different types are configured. Layers can be configured in many different ways. Most of the attributes are defined in **[services.json](services.json.en.md)**, but can be overridden here at the layer.
 Besides these attributes, there are also type-specific attributes for the different layer types.
@@ -4808,19 +4802,21 @@ Besides these attributes, there are also type-specific attributes for the differ
 |visibility|no|Boolean|false|Layer visibility.|false|
 
 **Example**
+
 ```json
 {
-"elements": [
-          {
-          "id": "2",
-          "name": "Example Layer",
-          "typ": "WMS",
-          "visibility": false,
-          "styleId": "3"
+    "elements": [
+        {
+            "id": "2",
+            "name": "Example Layer",
+            "typ": "WMS",
+            "visibility": false,
+            "styleId": "3"
         }
     ]
 }
 ```
+
 **Example with an array of IDs**
 
 ```json
@@ -4833,12 +4829,13 @@ Besides these attributes, there are also type-specific attributes for the differ
     ]
 }
 ```
+
 ***
+
 #### layerConfig.elements.layers.preview
 Preview for baselayer in theme tree, also used in **[baselayerSwitcher](#markdown-header-portalconfigmapbaselayerswitcher)**.
 For the **[VectorTile](#markdown-header-themenconfigelementslayersvectortile)**, **[WMS](#markdown-header-themenconfiggelementslayersrasterwms)** and WMTS layer types.
-With the VectorTile layer a dropped preview image is displayed, with WMS and WMTS layers a map section is loaded. WMS and WMTS: if not specified, a centered map section is loaded.
-A detailed description is available in the documentation **[LayerPreview](./vueComponents/LayerPreview.md)**
+With the VectorTile layer a dropped preview image is displayed, with WMS and WMTS layers a map section is loaded. WMS and WMTS: if not specified, a centered map section is loaded. A detailed description is available in the documentation **[LayerPreview](./vueComponents/LayerPreview.md)**
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
@@ -4850,12 +4847,15 @@ A detailed description is available in the documentation **[LayerPreview](./vueC
 |zoomLevel|no|Number||Zoom level from which the resolution for the loading parameters of the preview image are determined. Default is the initial zoomLevel of the map.|false|
 
 **Example VectorTile**
+
 ```json
 "preview":{
     "src": "./resources/vectorTile.png"
     }
 ```
+
 **Example WMS**
+
 ```json
  "preview": {
     "zoomLevel": 6,
@@ -4863,7 +4863,9 @@ A detailed description is available in the documentation **[LayerPreview](./vueC
     "radius": 500
     }
 ```
+
 ***
+
 #### layerConfig.elements.layers.Raster
 Raster layer typical attributes are listed here. Raster layers are of type **[StaticImage](#markdown-header-themenconfigelementslayersrasterstaticimage)**, **[WMS](#markdown-header-themenconfigelementslayersrasterwms)**, WMSTime and WMTS.
 
@@ -4893,6 +4895,7 @@ StaticImage can be used to load images as layers and display them georeferenced 
 ```
 
 ***
+
 ##### layerConfig.elements.layers.Raster.WMS
 WMS typical attributes are listed here.
 
@@ -4905,6 +4908,7 @@ WMS typical attributes are listed here.
 |styles|no|String[]||If styles are specified, they are also sent to the WMS. The server interprets these styles and returns the data accordingly.|true|
 
 **Example**
+
 ```json
 {
     "id": "4711",
@@ -4919,7 +4923,9 @@ WMS typical attributes are listed here.
     "styles": ["firstStyle", "secondStyle"]
 }
 ```
+
 ***
+
 ###### layerConfig.elements.layers.Raster.WMS.gfiAsNewWindow
 The parameter `gfiAsNewWindow` is only in use when `infoFormat` is set to `"text/html"`.
 
@@ -4941,6 +4947,7 @@ For such cases, define `gfiAsNewWindow` manually as described above.
 |specs|no|String||You may add an arbitrary amount of comma-separated properties like `{"specs": "width=800,height=700"}`. For more options, please read the documentation regarding `javascript` and `window.open`: [W3 Schools: Met win open](https://www.w3schools.com/jsref/met_win_open.asp) (German), [JavaScript Info: Popup windows](https://javascript.info/popup-windows) (English), [MDN: Window open](https://developer.mozilla.org/en-US/docs/Web/API/Window/open) (English)|true|
 
 **Example**
+
 ```json
 {
     "id": "4711",
@@ -4952,6 +4959,7 @@ For such cases, define `gfiAsNewWindow` manually as described above.
 ```
 
 ***
+
 #### layerConfig.elements.layers.Vector
 Vector typical attributes are listed here. Vector layers are of type **[WFS](#markdown-header-themenconfigelementslayersvectorwfs)**, GeoJSON (only in EPSG:4326), **[SensorLayer](sensorThings.de.md)** and OAF.
 
@@ -4968,6 +4976,7 @@ Vector typical attributes are listed here. Vector layers are of type **[WFS](#ma
 |styleId|yes|String||Id that defines the style. Id is resolved in the **[style.json](style.json.md)**.|false|
 
 **Example**
+
 ```json
 {
 "elements": [
@@ -4996,7 +5005,9 @@ Vector typical attributes are listed here. Vector layers are of type **[WFS](#ma
     ]
 }
 ```
+
 ***
+
 ##### layerConfig.elements.layers.Vector.WFS
 Attributes for the WFS search at highlightFeaturesByAttribute. For the call parameters see **[urlParameter](urlParameter.md)**.
 ```
@@ -5030,6 +5041,7 @@ Example calls:
 ```
 
 ***
+
 #### layerConfig.elements.layers.VectorTile
 VectorTile typical attributes are listed here.
 
@@ -5039,6 +5051,7 @@ VectorTile typical attributes are listed here.
 |vtStyles|no|**[vtStyle](#markdown-header-themenconfigelementslayersvectortilevtstyle)**[]||Choosable external style definitions.|false|
 
 **Example**
+
 ```json
 {
   "id": "123",
@@ -5064,7 +5077,9 @@ VectorTile typical attributes are listed here.
     }
 }
 ```
+
 ***
+
 #### layerConfig.elements.layers.VectorTile.vtStyle
 Style definitions. Available for *Vector Tile Layers* only.
 
@@ -5077,6 +5092,7 @@ Style definitions. Available for *Vector Tile Layers* only.
 |url|yes|String||URL to load a style from. The linked JSON *must* match the [Mapbox style specification](https://docs.mapbox.com/mapbox-gl-js/style-spec/).|false|
 
 **Example**
+
 ```json
 {
     "id": "Style_1",
@@ -5093,7 +5109,9 @@ Style definitions. Available for *Vector Tile Layers* only.
     ]
 }
 ```
+
 ***
+
 #### layerConfig.elements.layers.Tileset
 List of attributes typically used for tilesets.
 
@@ -5103,6 +5121,7 @@ List of attributes typically used for tilesets.
 |**[cesium3DTilesetOptions](https://cesiumjs.org/Cesium/Build/Documentation/Cesium3DTileset.html)**|no|**[cesium3DTilesetOption](#markdown-header-themenconfigelementslayerstilesetcesium3dtilesetoption)**||Cesium 3D tileset options directly forwarded to the *Cesium tileset object*. E.g. `maximumScreenSpaceError` is relevant to the visibility.|true|
 
 **Example**
+
 ```json
 {
     "id": "123456",
@@ -5110,10 +5129,11 @@ List of attributes typically used for tilesets.
     "visibility": true,
     "hiddenFeatures": ["id1", "id2"],
     "cesium3DTilesetOptions" : {
-        maximumScreenSpaceError : 6
+        "maximumScreenSpaceError" : 6
     },
 }
 ```
+
 ***
 
 #### layerConfig.elements.layers.Tileset.cesium3DTilesetOption
@@ -5124,12 +5144,15 @@ Cesium 3D tileset options directly forwarded to the *Cesium tileset object*.
 |maximumScreenSpaceError|no|Number||The maximum screen space error used for refining the level of detail. This value helps determine when a tile is refined to its successors, and therefore plays an important role in balancing performance and visual quality.|true|
 
 **Example**
+
 ```json
 "cesium3DTilesetOptions" : {
-    maximumScreenSpaceError : 6
+    "maximumScreenSpaceError" : 6
 }
 ```
+
 ***
+
 #### layerConfig.elements.layers.Terrain
 List of attributes typically used for Terrain.
 
@@ -5138,6 +5161,7 @@ List of attributes typically used for Terrain.
 |**[cesiumTerrainProviderOptions](https://cesiumjs.org/Cesium/Build/Documentation/CesiumTerrainProvider.html)**|no|**[cesiumTerrainProviderOption](#markdown-header-themenconfigelementslayersterraincesiumterrainprovideroption)**[]||Cesium TerrainProvider options directly forwarded to the *Cesium TerrainProvider* E.g. `requestVertexNormals` is used for object surface shading.|true|
 
 **Example**
+
 ```json
 {
     "id": "123456",
@@ -5148,7 +5172,9 @@ List of attributes typically used for Terrain.
     },
 }
 ```
+
 ***
+
 #### layerConfig.elements.layers.Terrain.cesiumTerrainProviderOption
 Initialization options for the CesiumTerrainProvider constructor.
 [cesiumTerrainProviderOptions]: https://cesium.com/learn/cesiumjs/ref-doc/CesiumTerrainProvider.html
@@ -5158,12 +5184,15 @@ Initialization options for the CesiumTerrainProvider constructor.
 |requestVertexNormals|no|Boolean||Flag indicating whether the client should request additional illumination information from the server, in the form of normals per vertex, if available.|true|
 
 **Example**
+
 ```json
 "cesiumTerrainProviderOptions": {
     "requestVertexNormals" : true
 }
 ```
+
 ***
+
 #### layerConfig.elements.layers.Entity3D
 List of attributes typically used for Entities 3D.
 
@@ -5189,6 +5218,7 @@ Entities3D entities typical attributes are listed here.
 
 
 **Example**
+
 ```json
 {
       "id": "123456",
@@ -5227,6 +5257,7 @@ Entities3D entities typical attributes are listed here.
 |name|no|String|""|Field that can be displayed in the GFI.|false|
 
 **Example**
+
 ```json
 {
    "name": "Fernsehturm.kmz"
