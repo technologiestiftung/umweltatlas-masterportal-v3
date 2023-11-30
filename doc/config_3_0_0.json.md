@@ -723,6 +723,7 @@ Defines the initial map view and a background shown when no layer or map is sele
 |backgroundImage|no|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/config.json.md#markdown-header-portalconfigmapview"|Path to an alternative background image.|false|
 |epsg|no|String|"EPSG:25832"|Coordinate reference system EPSG code. The code must be defined as a `namedProjection`.|false|
 |extent|no|**[Extent](#markdown-header-datatypesextent)**|[510000.0, 5850000.0, 625000.4, 6000000.0]|Map extent - map may not be moved outside these boundaries.|false|
+|mapInteractions|nein|**[mapInteractions](#markdown-header-portalconfigmapmapviewInteractions)**||Overrides the ol map interactions. Provides further configuration possibilities for control behaviour and keyboardEventTarget.|false|
 |options|no|Array|[{"resolution":66.14579761460263,"scale":250000,"zoomLevel":0}, {"resolution":26.458319045841044,"scale":100000,"zoomLevel":1}, {"resolution":15.874991427504629,"scale":60000,"zoomLevel":2}, {"resolution": 10.583327618336419,"scale":40000,"zoomLevel":3}, {"resolution":5.2916638091682096,"scale":20000,"zoomLevel":4}, {"resolution":2.6458319045841048,"scale":10000,"zoomLevel":5}, {"resolution":1.3229159522920524,"scale":5000,"zoomLevel":6}, {"resolution":0.6614579761460262,"scale":2500,"zoomLevel":7}, {"resolution":0.2645831904584105,"scale": 1000,"zoomLevel":8}, {"resolution":0.13229159522920521,"scale":500,"zoomLevel":9}]|Available scale levels and their resolutions.|false|
 |startCenter|nein|Array|[565874, 5934140]|Die initiale Zentrumskoordinate.|false|
 |startResolution|no|Float|15.874991427504629|The initial map resolution from the `options` element. Used in preference to `startZoomLevel`.|false|
@@ -798,6 +799,55 @@ Defines the initial map view and a background shown when no layer or map is sele
         "StartZoomLevel": 1,
         "epsg": "EPSG:25832"
     }
+}
+```
+
+***
+
+##### portalConfig.map.mapView.mapInteractions
+Overrides the ol map interactions. Provides further configuration possibilities for control behaviour and keyboardEventTarget.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|interactionModes|no|**[interactionModes](#markdown-header-portalconfigmapmapviewInteractionsinteractionModes)**|`{dragPan: false, altShiftDragRotate: false, pinchRotate: false}`| Interaction settings for the ol default interactions. If not set, the default setting is used.|false|
+|keyboardEventTarget|no|Boolean|false|Possibility to set the keyboard event target for the ol map e.g keyboardEventTarget: document|false|
+
+**Example:**
+
+```json
+{
+    "mapInteractions": {
+        "interactionModes": {
+            "dragPan": false,
+            "altShiftDragRotate": true,
+            "pinchRotate": false,
+            "dragZoom": true
+        },
+        "keyboardEventTarget": false
+    }
+}
+```
+
+***
+
+##### portalConfig.map.mapView.mapInteractions
+Interaction settings for the ol default interactions. If not set, the default setting is used.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|altShiftDragRotate|no|Boolean|true|Rotate the map with alt + shift + drag.|false|
+|dragPan|no|Boolean|false|Allows the user to move the map by dragging it.|false|
+|dragZoom|no|Boolean|falseAllows the user to zoom the map by clicking and dragging on the map.|false|
+|pinchRotate|no|Bvoolean|false|Allows the user to rotate the map by twisting with two fingers on a touch screen.|false|
+
+**Example**
+
+```json
+"interactionModes": {
+    "dragPan": false,
+    "altShiftDragRotate": true,
+    "pinchRotate": false,
+    "dragZoom": true
 }
 ```
 

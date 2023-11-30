@@ -85,13 +85,18 @@
         "startCenter": [
           565874,
           5934140
-        ]
+        ],
+        "mapInteractions": {
+          "interactionModes": {
+            "altShiftDragRotate": true
+          }
+        }
       },
       "mouseHover": {
         "numFeaturesToShow": 2,
         "infoText": "Exampletext"
       },
-      "startingMapMode": "3D"
+      "startingMapMode": "2D"
     },
     "mainMenu": {
       "expanded": true,

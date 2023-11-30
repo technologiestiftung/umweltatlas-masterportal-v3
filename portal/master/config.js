@@ -32,11 +32,6 @@ const Config = {
             }
         }
     },
-    mapInteractions: {
-        interactionModes: {
-            altShiftDragRotate: true
-        }
-    },
     cesiumLibrary: "https://geoportal-hamburg.de/mastercode/cesium/latest/Cesium.js",
     featureViaURL: {
         zoomTo: "42",
