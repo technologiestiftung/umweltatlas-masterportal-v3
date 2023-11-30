@@ -25,20 +25,18 @@ The configuration is separated into two sections, **[portalConfig](#markdown-hea
 ## portalConfig
 The section *portalConfig* controls the following properties:
 
-1. Map view buttons and interactions (*controls*)
-2. Informations on any layers (*getFeatureInfo*)
-3. Menu entries in main menu and availability as well as order of modules (*mainMenu*)
-4. Configuration of the map and elements placed on it (*map*)
-5. Display of a tooltip of features (*mouseHover*)
-6. Footer configuration (*portalFooter*)
-7. Menu entries in secondary menu and availability as well as order of modules (*secondaryMenu*)
-8. Type of topic selection (*tree*)
+1. Informations on any layers (*getFeatureInfo*)
+2. Menu entries in main menu and availability as well as order of modules (*mainMenu*)
+3. Configuration of the map and elements placed on it (*map*)
+4. Display of a tooltip of features (*mouseHover*)
+5. Footer configuration (*portalFooter*)
+6. Menu entries in secondary menu and availability as well as order of modules (*secondaryMenu*)
+7. Type of topic selection (*tree*)
 
 The configuration options listed in the following table exist:
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|controls|no|**[controls](#markdown-header-portalconfigcontrols)**||Allows setting which interactions are active in the map.|false|
 |getFeatureInfo|no|**[getFeatureInfo](#markdown-header-portalconfiggetFeatureInfo)**||Via  getFeatureInfo (GFI) information to arbitrary layers can be requested. For WMS, the data is fetched with a GetFeatureInfo request. Vector data (WFS, Sensor, GeoJSON, etc.) is already present in the client and will be shown from the already fetched information.|false|
 |mainMenu|no|**[menu](#markdown-header-portalconfigmenu)**||Menu entries in main menu and their order are configured in this entry. The order of modules corresponds to the order in the object specifying them; see **[Modules](#markdown-header-portalconfigmenumodules)**.|false|
 |map|no|**[map](#markdown-header-portalconfigmap)**||Configuration of the map and elements placed on it.|false|
@@ -52,7 +50,6 @@ The configuration options listed in the following table exist:
 ```json
 {
     "portalConfig": {
-        "controls": {},
         "getFeatureInfo": {},
         "mainMenu": {},
         "map": {},
@@ -72,15 +69,17 @@ Configuration of the map and elements placed on it.
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |baselayerSwitcher|no|**[baselayerSwitcher](#markdown-header-portalconfigmapbaselayerSwitcher)**||The baselayerSwitcher allows you to easily change or select a background map.|false|
+|controls|no|**[controls](#markdown-header-portalconfigmapcontrols)**||Allows setting which interactions are active in the map.|false|
 |mapView|no|**[mapView](#markdown-header-portalconfigmapmapview)**||Defines the initial map view and a background shown when no layer is selected.|false|
 
 **Example**
 
 ```json
 {
-    "portalConfig": {
-        "baselayerSwitcher":{},
-        "mapView": {},
+    "map": {
+        "baselayerSwitcher": {},
+        "controls": {},
+        "mapView": {}
     }
 }
 ```
@@ -102,6 +101,329 @@ activatedExpandable|no|Boolean|false|Specifies whether the baselayerSwitcher is 
       "active": true,
       "activatedExpandable": false
     }
+```
+
+***
+
+#### portalConfig.map.controls
+Allows setting which interactions are active in the map.
+
+Controls can be configured to be expandable so they will not initially show up in the sidebar but if you click the button with the three dots. You need to add the object "expandable" to the controls configuration.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|backForward|no|**[backForward](#markdown-header-portalconfigcontrolsbackforward)**|false|Shows buttons to jump to previous and next map views.|false|
+|button3d|no|Boolean|false|Defines whether a 3D mode switch button is shown.|false|
+|expandable|no|**[expandable](#markdown-header-portalconfigcontrols)**||With expandable, controls are hidden behind a button with three dots and can be expanded when needed.|false|
+|freeze|no|Boolean/**[freeze](#markdown-header-portalconfigcontrolsfreeze)**|false|Whether a "lock view" button is shown.|false|
+|fullScreen|no|Boolean/**[fullScreen](#markdown-header-portalconfigcontrolsfullscreen)**|false|Allows the user to view the portal in full screen mode, that is, without the browser's tabs and address bar, by clicking a button. A second click on the element returns the view back to normal.|false|
+|orientation|no|**[orientation](#markdown-header-portalconfigcontrolsorientation)**||The orientation control uses the browser's geolocation feature to determine the user's coordinates.|false|
+|rotation|no|**[rotation](#markdown-header-portalconfigcontrolsrotation)**|false|Control that shows the current rotation of the map. With a click the map rotation can be set to north again. See also `mapInteractions` in **[config.js.md](config.js.md)**.|false|
+|startModule|no|**[startModule](#markdown-header-portalconfigcontrolsstartModule)**|false|Displays buttons for the configured tools. These can be used to open and close the respective tools.|false|
+|tiltView|no|Boolean/**[tiltView](#markdown-header-portalconfigcontrolstiltView)**|false|Displays two buttons that can be used to tilt the camera up or down in the 3D scene.|false|
+|totalView|no|Boolean/**[totalView](#markdown-header-portalconfigcontrolstotalView)**|false|Offers a button to return to the initial view.|false|
+|zoom|no|Boolean/**[zoom](#markdown-header-portalconfigcontrolszoom)**|false|Defines whether zoom buttons should be displayed.|false|
+
+**Example**
+
+```json
+"controls": {
+      "backForward": true,
+      "fullScreen": true,
+      "expandable": {
+        "button3d": true
+      }
+    }
+```
+
+***
+
+##### portalConfig.map.controls.backForward
+The attribute backForward may be of type boolean or object. If of type boolean, it shows a button using the default configuration that allows the user to switch back and forth between view states. When of type object, the following attributes may be set:
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|iconForward|no|String||Allows changing the icon on the forward button.|false|
+|iconBack|no|String||Allows changing the icon on the backwards button.|false|
+|supportedDevices|no|String|["Desktop"]|Devices on which the module can be used and is displayed in the menu.|false|
+|supportedMapModes|no|String|["2D", "3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
+
+**Example using type object backForward**
+
+```json
+"backForward" : {
+    "iconForward": "bi-skip-forward-fill",
+    "iconBack": "bi-skip-backward-fill"
+}
+```
+
+**Example using type boolean backForward**
+
+```json
+"backForward": true
+```
+
+***
+
+##### portalConfig.map.controls.button3d
+The button3d attribute can be of type Boolean or Object. If it is of type Boolean, it indicates the button for switching to 3D mode. If it is of type Object, the following attributes apply
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|icon2d|no|String|"https://geodienste.hamburg.de/lgv-config/img/badge-2d.svg"|A different icon can be used for the button3d control via the icon parameter if the map is in 3D mode.|false|
+|icon3d|no|String|"badge-3d"|A different icon can be used for the button3d control via the icon parameter if the map is in 2D mode.|false|
+|supportedDevices|no|String|["Desktop", "Mobile"]|Devices on which the module can be used and is displayed in the menu.|false|
+|supportedMapModes|no|String|["2D", "3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
+
+***
+
+##### portalConfig.map.controls.freeze
+Screen is locked so that no more actions can be performed in the map. Whether a "lock view" button is shown.
+
+The freeze attribute can be of type Boolean or Object. If it is of type Boolean, it shows the buttons that are set in the default settings. If it is of type Object, the following attributes apply:
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|icon|no|String|"bi-lock"|Using the icon parameter, a different icon can be used to switch back to the home screen.|false|
+|supportedDevices|no|String|["Desktop"]|Devices on which the module can be used and is displayed in the menu.|false|
+|supportedMapModes|no|String|["2D", "3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
+
+***
+
+##### portalConfig.map.controls.fullScreen
+Allows the user to view the portal in full screen mode by clicking a button without the browser's tabs and address bar, by clicking a button. A second click on the element returns the view back to default.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|iconArrow|no|String|"arrows-fullscreen"|Using the iconArrow parameter, another icon can be used for the button to switch on fullscreen mode.|false|
+|iconExit|no|String|"fullscreen-exit"|Using the iconExit parameter, another icon can be used for the button to exit fullscreen mode.|false|
+|supportedDevices|no|String|["Desktop"]|Devices on which the module can be used and is displayed in the menu.|false|
+|supportedMapModes|no|String|["2D", "3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
+
+**Example fullScreen as Object**
+
+```json
+"fullScreen" : {
+    "iconArrow": "arrows-fullscreen",
+    "iconExit": "fullscreen-exit"
+},
+```
+
+**Example fullScreen as Boolean**
+
+```json
+"fullScreen": true
+```
+
+***
+
+##### portalConfig.map.controls.orientation
+Orientation uses the browser's geolocation to determine the user's location. A list of features in the vicinity of the location is displayed.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|iconGeolocate|no|String|"bi-geo-alt"|Icon that is displayed in the Controls menu for the control location. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
+|iconGeolocatePOI|no|String|"bi-record-circle"|Icon that is displayed in the Controls menu for the "Close to me" control. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
+|poiDistances|no|Boolean/Integer[]|true|Defines whether the feature "Close to me", which shows a list of nearby points of interest, is provided. If an array is configured, multiple such lists with the given distance in meters are offered. When simply setting `poiDistances: true`, the used distances are `[500,1000,2000]`.|false|
+|supportedDevices|no|String|["Desktop", "Mobile"]|Devices on which the module can be used and is displayed in the menu.|false|
+|supportedMapModes|no|String|["2D", "3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
+|zoomMode|no|enum["once", "always"]|"once"|The user's location is determined and a marker turned on or off. This requires providing the portal via **https**. Modes: *once* zooms to the user's location once, *always* zooms to the user position on each activation.|false|
+
+**Example using type boolean for poiDistances**
+
+```json
+"orientation": {
+    "iconGeolocate": "bi-geo-alt",
+    "iconGeolocatePOI": "bi-record-circle",
+    "zoomMode": "once",
+    "poiDistances": true
+}
+```
+
+**Example using type number[] for poiDistances**
+
+```json
+"orientation": {
+    "zoomMode": "once",
+    "poiDistances": [500, 1000, 2000, 5000]
+}
+```
+
+***
+
+##### portalConfig.map.controls.rotation
+The attribute rotation may be of type boolean or object. If of type boolean and value is set to true, the rotation control is just shown when the map rotation is not equal north/0. When of type object, the following attributes may be set:
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|showAlways|no|Boolean|false|If the attribute is set to true, the control is shown permanently. Via default it appears only if the map rotation is not equal north/0.|
+|supportedDevices|no|String|["Desktop", "Mobile"]|Devices on which the module can be used and is displayed in the menu.|false|
+|supportedMapModes|no|String|["2D", "3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
+
+**Example using type object rotation**
+
+```json
+"rotation": {
+    "showAlways": true
+}
+```
+
+**Example using type boolean rotation**
+
+```json
+"rotation": true
+```
+
+***
+
+##### portalConfig.map.controls.startModule
+The startModule attribute must be of type Object. A button is displayed for each configured module, which can be used to open and close the respective module.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|mainMenu|no|**[mainMenu](#markdown-header-portalconfigcontrolsstartModulemainMenu)**||Here you can configure the modules for which a button should be displayed. These will be displayed in the `mainMenu` when opened.|false|
+|secondaryMenu|no|**[secondaryMenu](#markdown-header-portalconfigcontrolsstartModulesecondaryMenu)**||Here you can configure the modules for which a button should be displayed. These will be displayed in the `secondaryMenu` when opened.|false|
+|supportedDevices|no|String|["Desktop", "Mobile", "Table"]|Devices on which the module can be used and is displayed in the menu.|false|
+|supportedMapModes|no|String|["2D", "3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
+
+**Example**
+
+```json
+"startModule": {
+    "mainMenu": [
+        {
+            "type": "scaleSwitcher"
+        }
+    ],
+    "secondaryMenu": [
+        {
+            "type": "myModule"
+        }
+    ]
+}
+```
+
+***
+
+###### portalConfig.map.controls.startModule.mainMenu
+Here you can configure the modules for which a button is to be displayed. These are displayed in the `mainMenu` when opened.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|-------------|---|-------|------------|------|
+|type|no|String||Type of the module that is to be displayed as a control and opened in the mainMenu when clicked.|false|
+
+**Example**
+
+```json
+"mainMenu": [
+    {
+        "type": "scaleSwitcher"
+    }
+]
+```
+
+***
+
+###### portalConfig.map.controls.startModule.secondaryMenu
+Here you can configure the modules for which a button is to be displayed. These are displayed in the `secondaryMenu` when opened.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|-------------|---|-------|------------|------|
+|type|no|String||Type of the module that is to be displayed as a control and opened in the secondaryMenu when clicked.|false|
+
+**Example**
+
+```json
+"secondaryMenu": [
+    {
+        "type": "scaleSwitcher"
+    }
+]
+```
+
+***
+
+##### portalConfig.map.controls.tiltView
+Displays two buttons that can be used to tilt the camera up or down in the 3D scene.
+
+The tiltView attribute can be of type Boolean or Object. If it is of type Boolean, it shows the buttons that are set in the default settings. If it is of type Object, the following attributes apply:
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|tiltDownIcon|no|String|"bi-caret-down-square"|The tiltDownIcon parameter can be used to specify a different icon for tilt down.|false|
+|tiltUpIcon|no|String|"bi-caret-up-square"|Using the parameter tiltUpIcon another icon can be used for tilting up the camera.|false|
+|supportedDevices|no|String|["Desktop"]|Devices on which the module can be used and is displayed in the menu.|false|
+|SupportedMapModes|no|String|["3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
+
+**Example tiltView as Object**
+
+```json
+"tiltView" : {
+    "tiltDownIcon": "bi-caret-down-square",
+    "tiltUpIcon": "bi-caret-up-square",
+},
+```
+
+**Example tiltView as boolean**
+
+```json
+"tiltView": true
+```
+
+***
+
+##### portalConfig.map.controls.totalView
+Offers a button to return to the initial view.
+
+The attribute totalView may be of type boolean or object. If of type boolean, it shows a button using the default configuration that allows the user to switch back to the initial view. When of type object, the following attributes may be set:
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|icon|no|String|"bi-skip-backward-fill"|Using the icon parameter, a different icon can be used to switch back to the home screen.|false|
+|supportedDevices|no|String|["Desktop"]|Devices on which the module can be used and is displayed in the menu.|false|
+|supportedMapModes|no|String|["2D", "3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
+
+**Example totalView as Object**
+
+```json
+"totalView" : {
+    "icon": "bi-skip-forward-fill"
+},
+```
+
+**Example totalView as Boolean**
+
+```json
+"totalView": true
+```
+
+***
+
+##### portalConfig.map.controls.zoom
+Defines whether zoom buttons should be displayed.
+
+The attribute zoom may be of type boolean or object. If of type boolean, it shows two buttons using the default configuration that allows the user to zoom in the map. When of type object, the following attributes may be set:
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|iconIn|no|String|"bi-plus-lg"|Using the icon parameter, another icon can be used for zooming in.|false|
+|iconOut|no|String|"bi-dash-lg"|Using the icon parameter, another icon can be used for zooming out.|false|
+|supportedDevices|no|String|["Desktop"]|Devices on which the module can be used and is displayed in the menu.|false|
+|supportedMapModes|no|String|["2D", "3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
+
+**Example zoom as Object**
+
+```json
+"zom" : {
+    "iconIn": "bi-plus-lg",
+    "iconOut": "bi-dash-lg"
+},
+```
+
+**Example zoom as Boolean**
+
+```json
+"zoom": true
 ```
 
 ***
@@ -211,331 +533,6 @@ An option defines a zoom level. Each zoom level is defined by resolution, scale 
     "scale": 2311167,
     "zoomLevel": 0
 }
-```
-
-***
-
-### portalConfig.controls
-Allows setting which interactions are active in the map.
-
-Controls can be configured to be expandable so they will not initially show up in the sidebar but if you click the button with the three dots. You need to add the object "expandable" to the controls configuration.
-
-|Name|Required|Type|Default|Description|Expert|
-|----|--------|----|-------|-----------|------|
-|backForward|no|**[backForward](#markdown-header-portalconfigcontrolsbackforward)**|false|Shows buttons to jump to previous and next map views.|false|
-|button3d|no|Boolean|false|Defines whether a 3D mode switch button is shown.|false|
-|expandable|no|**[expandable](#markdown-header-portalconfigcontrols)**||With expandable, controls are hidden behind a button with three dots and can be expanded when needed.|false|
-|freeze|no|Boolean/**[freeze](#markdown-header-portalconfigcontrolsfreeze)**|false|Whether a "lock view" button is shown.|false|
-|fullScreen|no|Boolean/**[fullScreen](#markdown-header-portalconfigcontrolsfullscreen)**|false|Allows the user to view the portal in full screen mode, that is, without the browser's tabs and address bar, by clicking a button. A second click on the element returns the view back to normal.|false|
-|orientation|no|**[orientation](#markdown-header-portalconfigcontrolsorientation)**||The orientation control uses the browser's geolocation feature to determine the user's coordinates.|false|
-|rotation|no|**[rotation](#markdown-header-portalconfigcontrolsrotation)**|false|Control that shows the current rotation of the map. With a click the map rotation can be set to north again. See also `mapInteractions` in **[config.js.md](config.js.md)**.|false|
-|startModule|no|**[startModule](#markdown-header-portalconfigcontrolsstartModule)**|false|Displays buttons for the configured tools. These can be used to open and close the respective tools.|false|
-|tiltView|no|Boolean/**[tiltView](#markdown-header-portalconfigcontrolstiltView)**|false|Displays two buttons that can be used to tilt the camera up or down in the 3D scene.|false|
-|totalView|no|Boolean/**[totalView](#markdown-header-portalconfigcontrolstotalView)**|false|Offers a button to return to the initial view.|false|
-|zoom|no|Boolean/**[zoom](#markdown-header-portalconfigcontrolszoom)**|false|Defines whether zoom buttons should be displayed.|false|
-
-**Example**
-
-```json
-"controls": {
-      "backForward": true,
-      "fullScreen": true,
-      "expandable": {
-        "button3d": true
-      }
-    }
-```
-
-***
-
-#### portalConfig.controls.backForward
-The attribute backForward may be of type boolean or object. If of type boolean, it shows a button using the default configuration that allows the user to switch back and forth between view states. When of type object, the following attributes may be set:
-
-|Name|Required|Type|Default|Description|Expert|
-|----|--------|----|-------|-----------|------|
-|iconForward|no|String||Allows changing the icon on the forward button.|false|
-|iconBack|no|String||Allows changing the icon on the backwards button.|false|
-|supportedDevices|no|String|["Desktop"]|Devices on which the module can be used and is displayed in the menu.|false|
-|supportedMapModes|no|String|["2D", "3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
-
-**Example using type object backForward**
-
-```json
-"backForward" : {
-    "iconForward": "bi-skip-forward-fill",
-    "iconBack": "bi-skip-backward-fill"
-}
-```
-
-**Example using type boolean backForward**
-
-```json
-"backForward": true
-```
-
-***
-
-#### portalConfig.controls.button3d
-The button3d attribute can be of type Boolean or Object. If it is of type Boolean, it indicates the button for switching to 3D mode. If it is of type Object, the following attributes apply
-
-|Name|Required|Type|Default|Description|Expert|
-|----|--------|----|-------|-----------|------|
-|icon2d|no|String|"https://geodienste.hamburg.de/lgv-config/img/badge-2d.svg"|A different icon can be used for the button3d control via the icon parameter if the map is in 3D mode.|false|
-|icon3d|no|String|"badge-3d"|A different icon can be used for the button3d control via the icon parameter if the map is in 2D mode.|false|
-|supportedDevices|no|String|["Desktop", "Mobile"]|Devices on which the module can be used and is displayed in the menu.|false|
-|supportedMapModes|no|String|["2D", "3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
-
-***
-
-#### portalConfig.controls.freeze
-Screen is locked so that no more actions can be performed in the map. Whether a "lock view" button is shown.
-
-The freeze attribute can be of type Boolean or Object. If it is of type Boolean, it shows the buttons that are set in the default settings. If it is of type Object, the following attributes apply:
-
-|Name|Required|Type|Default|Description|Expert|
-|----|--------|----|-------|-----------|------|
-|icon|no|String|"bi-lock"|Using the icon parameter, a different icon can be used to switch back to the home screen.|false|
-|supportedDevices|no|String|["Desktop"]|Devices on which the module can be used and is displayed in the menu.|false|
-|supportedMapModes|no|String|["2D", "3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
-
-***
-
-#### portalConfig.controls.fullScreen
-Allows the user to view the portal in full screen mode by clicking a button without the browser's tabs and address bar, by clicking a button. A second click on the element returns the view back to default.
-
-|Name|Required|Type|Default|Description|Expert|
-|----|--------|----|-------|-----------|------|
-|iconArrow|no|String|"arrows-fullscreen"|Using the iconArrow parameter, another icon can be used for the button to switch on fullscreen mode.|false|
-|iconExit|no|String|"fullscreen-exit"|Using the iconExit parameter, another icon can be used for the button to exit fullscreen mode.|false|
-|supportedDevices|no|String|["Desktop"]|Devices on which the module can be used and is displayed in the menu.|false|
-|supportedMapModes|no|String|["2D", "3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
-
-**Example fullScreen as Object**
-
-```json
-"fullScreen" : {
-    "iconArrow": "arrows-fullscreen",
-    "iconExit": "fullscreen-exit"
-},
-```
-
-**Example fullScreen as Boolean**
-
-```json
-"fullScreen": true
-```
-
-***
-
-#### portalConfig.controls.orientation
-Orientation uses the browser's geolocation to determine the user's location. A list of features in the vicinity of the location is displayed.
-
-|Name|Required|Type|Default|Description|Expert|
-|----|--------|----|-------|-----------|------|
-|iconGeolocate|no|String|"bi-geo-alt"|Icon that is displayed in the Controls menu for the control location. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
-|iconGeolocatePOI|no|String|"bi-record-circle"|Icon that is displayed in the Controls menu for the "Close to me" control. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
-|poiDistances|no|Boolean/Integer[]|true|Defines whether the feature "Close to me", which shows a list of nearby points of interest, is provided. If an array is configured, multiple such lists with the given distance in meters are offered. When simply setting `poiDistances: true`, the used distances are `[500,1000,2000]`.|false|
-|supportedDevices|no|String|["Desktop", "Mobile"]|Devices on which the module can be used and is displayed in the menu.|false|
-|supportedMapModes|no|String|["2D", "3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
-|zoomMode|no|enum["once", "always"]|"once"|The user's location is determined and a marker turned on or off. This requires providing the portal via **https**. Modes: *once* zooms to the user's location once, *always* zooms to the user position on each activation.|false|
-
-**Example using type boolean for poiDistances**
-
-```json
-{
-    "orientation": {
-        "iconGeolocate": "bi-geo-alt",
-        "iconGeolocatePOI": "bi-record-circle",
-        "zoomMode": "once",
-        "poiDistances": true
-    }
-}
-```
-
-**Example using type number[] for poiDistances**
-
-```json
-{
-    "orientation": {
-        "zoomMode": "once",
-        "poiDistances": [500, 1000, 2000, 5000]
-    }
-}
-```
-
-***
-
-#### portalConfig.controls.rotation
-The attribute rotation may be of type boolean or object. If of type boolean and value is set to true, the rotation control is just shown when the map rotation is not equal north/0. When of type object, the following attributes may be set:
-
-|Name|Required|Type|Default|Description|Expert|
-|----|--------|----|-------|-----------|------|
-|showAlways|no|Boolean|false|If the attribute is set to true, the control is shown permanently. Via default it appears only if the map rotation is not equal north/0.|
-|supportedDevices|no|String|["Desktop", "Mobile"]|Devices on which the module can be used and is displayed in the menu.|false|
-|supportedMapModes|no|String|["2D", "3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
-
-**Example using type object rotation**
-```json
-"rotation": {
-    "showAlways": true
-}
-```
-
-**Example using type boolean rotation**
-```json
-"rotation": true
-```
-
-***
-
-#### portalConfig.controls.startModule
-The startModule attribute must be of type Object. A button is displayed for each configured module, which can be used to open and close the respective module.
-
-|Name|Required|Type|Default|Description|Expert|
-|----|--------|----|-------|-----------|------|
-|mainMenu|no|**[mainMenu](#markdown-header-portalconfigcontrolsstartModulemainMenu)**||Here you can configure the modules for which a button should be displayed. These will be displayed in the `mainMenu` when opened.|false|
-|secondaryMenu|no|**[secondaryMenu](#markdown-header-portalconfigcontrolsstartModulesecondaryMenu)**||Here you can configure the modules for which a button should be displayed. These will be displayed in the `secondaryMenu` when opened.|false|
-|supportedDevices|no|String|["Desktop", "Mobile", "Table"]|Devices on which the module can be used and is displayed in the menu.|false|
-|supportedMapModes|no|String|["2D", "3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
-
-**Example**
-
-```json
-"startModule": {
-    "mainMenu": [
-        {
-            "type": "scaleSwitcher"
-        }
-    ],
-    "secondaryMenu": [
-        {
-            "type": "myModule"
-        }
-    ]
-}
-```
-
-***
-
-##### portalConfig.controls.startModule.mainMenu
-Here you can configure the modules for which a button is to be displayed. These are displayed in the `mainMenu` when opened.
-
-|Name|Required|Type|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
-|type|no|String||Type of the module that is to be displayed as a control and opened in the mainMenu when clicked.|false|
-
-**Example**
-
-```json
-"mainMenu": [
-    {
-        "type": "scaleSwitcher"
-    }
-]
-```
-
-***
-
-##### portalConfig.controls.startModule.secondaryMenu
-Here you can configure the modules for which a button is to be displayed. These are displayed in the `secondaryMenu` when opened.
-
-|Name|Required|Type|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
-|type|no|String||Type of the module that is to be displayed as a control and opened in the secondaryMenu when clicked.|false|
-
-**Example**
-
-```json
-"secondaryMenu": [
-    {
-        "type": "scaleSwitcher"
-    }
-]
-```
-
-***
-
-#### portalConfig.controls.tiltView
-Displays two buttons that can be used to tilt the camera up or down in the 3D scene.
-
-The tiltView attribute can be of type Boolean or Object. If it is of type Boolean, it shows the buttons that are set in the default settings. If it is of type Object, the following attributes apply:
-
-|Name|Required|Type|Default|Description|Expert|
-|----|--------|----|-------|-----------|------|
-|tiltDownIcon|no|String|"bi-caret-down-square"|The tiltDownIcon parameter can be used to specify a different icon for tilt down.|false|
-|tiltUpIcon|no|String|"bi-caret-up-square"|Using the parameter tiltUpIcon another icon can be used for tilting up the camera.|false|
-|supportedDevices|no|String|["Desktop"]|Devices on which the module can be used and is displayed in the menu.|false|
-|SupportedMapModes|no|String|["3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
-
-**Example tiltView as Object**
-
-```json
-"tiltView" : {
-    "tiltDownIcon": "bi-caret-down-square",
-    "tiltUpIcon": "bi-caret-up-square",
-},
-```
-
-**Example tiltView as boolean**
-
-```json
-"tiltView": true
-```
-
-***
-
-#### portalConfig.controls.totalView
-Offers a button to return to the initial view.
-
-The attribute totalView may be of type boolean or object. If of type boolean, it shows a button using the default configuration that allows the user to switch back to the initial view. When of type object, the following attributes may be set:
-
-|Name|Required|Type|Default|Description|Expert|
-|----|--------|----|-------|-----------|------|
-|icon|no|String|"bi-skip-backward-fill"|Using the icon parameter, a different icon can be used to switch back to the home screen.|false|
-|supportedDevices|no|String|["Desktop"]|Devices on which the module can be used and is displayed in the menu.|false|
-|supportedMapModes|no|String|["2D", "3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
-
-**Example totalView as Object**
-
-```json
-"totalView" : {
-    "icon": "bi-skip-forward-fill"
-},
-```
-
-**Example totalView as Boolean**
-
-```json
-"totalView": true
-```
-
-***
-
-#### portalConfig.controls.zoom
-Defines whether zoom buttons should be displayed.
-
-The attribute zoom may be of type boolean or object. If of type boolean, it shows two buttons using the default configuration that allows the user to zoom in the map. When of type object, the following attributes may be set:
-
-|Name|Required|Type|Default|Description|Expert|
-|----|--------|----|-------|-----------|------|
-|iconIn|no|String|"bi-plus-lg"|Using the icon parameter, another icon can be used for zooming in.|false|
-|iconOut|no|String|"bi-dash-lg"|Using the icon parameter, another icon can be used for zooming out.|false|
-|supportedDevices|no|String|["Desktop"]|Devices on which the module can be used and is displayed in the menu.|false|
-|supportedMapModes|no|String|["2D", "3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
-
-**Example zoom as Object**
-
-```json
-"zom" : {
-    "iconIn": "bi-plus-lg",
-    "iconOut": "bi-dash-lg"
-},
-```
-
-**Example zoom as Boolean**
-
-```json
-"zoom": true
 ```
 
 ***

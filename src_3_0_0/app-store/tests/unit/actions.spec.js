@@ -140,6 +140,11 @@ describe("src_3_0_0/app-store/actions.js", () => {
 
             state = {
                 portalConfig: {
+                    map: {
+                        controls: {
+                            startModule
+                        }
+                    },
                     secondaryMenu: {
                         sections: [
                             [
@@ -151,9 +156,6 @@ describe("src_3_0_0/app-store/actions.js", () => {
                                 }
                             ]
                         ]
-                    },
-                    controls: {
-                        startModule
                     }
                 }
             };
@@ -163,7 +165,7 @@ describe("src_3_0_0/app-store/actions.js", () => {
             expect(dispatch.notCalled).to.be.true;
             expect(state.portalConfig.secondaryMenu.sections[0].length).to.be.equals(3);
             expect(state.portalConfig.secondaryMenu.sections[0][2].type).to.be.equals("module_1");
-            expect(state.portalConfig.controls.startModule.secondaryMenu).to.be.deep.equals([]);
+            expect(state.portalConfig.map.controls.startModule.secondaryMenu).to.be.deep.equals([]);
 
         });
     });

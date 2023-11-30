@@ -144,7 +144,7 @@ const getters = {
      * @returns {Object} The controls config.
      */
     controlsConfig: state => {
-        return state.portalConfig?.controls || {};
+        return state.portalConfig?.map?.controls || {};
     },
 
     /**

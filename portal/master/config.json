@@ -4,6 +4,33 @@
       "baselayerSwitcher": {
         "active": true
       },
+      "controls": {
+        "rotation": true ,
+        "zoom": true,
+        "tiltView": true,
+        "startModule": {
+          "secondaryMenu": [
+            {
+              "type": "addWMS"
+            }
+          ]
+        },
+        "totalView": true,
+        "button3d": true,
+        "expandable": {
+          "backForward": true,
+          "orientation": {
+            "zoomMode": "once",
+            "poiDistances": [
+              500,
+              1000,
+              2000
+            ]
+          },
+          "freeze": true,
+          "fullScreen": true
+        }
+      },
       "mapView": {
         "backgroundImage": "https://geodienste.hamburg.de/lgv-config/img/backgroundCanvas.jpeg",
         "startZoomLevel": 4,
@@ -27,33 +54,6 @@
         }
       ],
       "scaleLine": true
-    },
-    "controls": {
-      "rotation": true ,
-      "zoom": true,
-      "tiltView": true,
-      "startModule": {
-        "secondaryMenu": [
-          {
-            "type": "addWMS"
-          }
-        ]
-      },
-      "totalView": true,
-      "button3d": true,
-      "expandable": {
-        "backForward": true,
-        "orientation": {
-          "zoomMode": "once",
-          "poiDistances": [
-            500,
-            1000,
-            2000
-          ]
-        },
-        "freeze": true,
-        "fullScreen": true
-      }
     },
     "tree": {
       "addLayerButton": {

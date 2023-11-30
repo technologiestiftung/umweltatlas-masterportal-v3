@@ -732,12 +732,13 @@ describe("src_3_0_0/app-store/getters.js", () => {
         it("configuredModules only mainMenu with 2 sections and startModule", () => {
             state.portalConfig.mainMenu.sections.push(section1);
             state.portalConfig.mainMenu.sections.push(section2);
-            state.portalConfig.controls = {};
-            state.portalConfig.controls.startModule = {};
-            state.portalConfig.controls.startModule.mainMenu = [{
+            state.portalConfig.map = {};
+            state.portalConfig.map.controls = {};
+            state.portalConfig.map.controls.startModule = {};
+            state.portalConfig.map.controls.startModule.mainMenu = [{
                 "type": "test"
             }];
-            state.portalConfig.controls.startModule.secondaryMenu = [{
+            state.portalConfig.map.controls.startModule.secondaryMenu = [{
                 "type": "vcOblique"
             }];
             expect(getters.configuredModules(state).length).to.be.equals(8);

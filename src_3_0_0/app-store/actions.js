@@ -77,7 +77,7 @@ export default {
                     state.portalConfig[side].sections[0].push(module);
                 }
             });
-            state.portalConfig.controls.startModule[side] = [];
+            state.portalConfig.map.controls.startModule[side] = [];
         }
 
     },
