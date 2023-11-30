@@ -95,43 +95,46 @@ export default {
      * @returns {void}
      */
     featureViaUrl ({dispatch, rootGetters}, urlLayers) {
-        const {layers, epsg, zoomTo} = rootGetters.configJs.featureViaURL;
+        const {layers, epsg, zoomTo} = rootGetters.featureViaURL;
         let geoJSON,
             geometryType;
 
-        urlLayers.forEach(layer => {
-            const layerId = layer.layerId,
-                features = layer.features,
-                pos = layers.findIndex(element => element.id === layerId);
+        if (layers) {
+            urlLayers.forEach(layer => {
+                const layerId = layer.layerId,
+                    features = layer.features,
+                    pos = layers?.findIndex(element => element.id === layerId);
 
-            if (pos === -1) {
-                console.error(i18next.t("common:core.maps.featureViaURL.messages.layerNotFound", {layerId}));
-                return;
-            }
-            if (!layers[pos].name) {
-                console.error(i18next.t("common:core.maps.featureViaURL.messages.noNameDefined", {layerId}));
-                return;
-            }
-            geometryType = layer.type !== undefined ? layer.type : layers[pos].geometryType;
-            if (geometryType !== "LineString" && geometryType !== "Point" && geometryType !== "Polygon" && geometryType !== "MultiPoint" && geometryType !== "MultiLineString" && geometryType !== "MultiPolygon") {
-                console.error(i18next.t("common:core.maps.featureViaURL.messages.geometryNotSupported"), {layerId, geometryType});
-                return;
-            }
-            if (!features || !Array.isArray(features) || features.length === 0) {
-                dispatch("Alerting/addSingleAlert", {content: i18next.t("common:core.maps.featureViaURL.messages.featureParsingAll"), "multipleAlert": true}, {root: true});
-                return;
-            }
-            geoJSON = createGeoJSON(features, geometryType, epsg);
-            if (geoJSON.features.length === 0) {
-                dispatch("Alerting/addSingleAlert", {content: i18next.t("common:core.maps.featureViaURL.messages.featureParsingNoneAdded"), "multipleAlert": true}, {root: true});
-            }
+                if (pos === -1) {
+                    console.error(i18next.t("common:core.maps.featureViaURL.messages.layerNotFound", {layerId}));
+                    return;
+                }
+                if (!layers[pos].name) {
+                    console.error(i18next.t("common:core.maps.featureViaURL.messages.noNameDefined", {layerId}));
+                    return;
+                }
+                geometryType = layer.type !== undefined ? layer.type : layers[pos].geometryType;
+                if (geometryType !== "LineString" && geometryType !== "Point" && geometryType !== "Polygon" && geometryType !== "MultiPoint" && geometryType !== "MultiLineString" && geometryType !== "MultiPolygon") {
+                    console.error(i18next.t("common:core.maps.featureViaURL.messages.geometryNotSupported"), {layerId, geometryType});
+                    return;
+                }
+                if (!features || !Array.isArray(features) || features.length === 0) {
+                    dispatch("Alerting/addSingleAlert", {content: i18next.t("common:core.maps.featureViaURL.messages.featureParsingAll"), "multipleAlert": true}, {root: true});
+                    return;
+                }
+                geoJSON = createGeoJSON(features, geometryType, epsg);
+                if (geoJSON.features.length === 0) {
+                    dispatch("Alerting/addSingleAlert", {content: i18next.t("common:core.maps.featureViaURL.messages.featureParsingNoneAdded"), "multipleAlert": true}, {root: true});
+                }
 
-            dispatch("createVectorLayer", {layers, pos, geoJSON});
+                dispatch("createVectorLayer", {layers, pos, geoJSON});
 
-            if (typeof zoomTo !== "undefined" && (zoomTo === layerId || zoomTo.indexOf(layerId) !== -1)) {
-                dispatch("zoomToFilteredFeatures", {ids: getFeatureIds(layerId), layerId: layerId});
-            }
-        });
+                if (typeof zoomTo !== "undefined" && (zoomTo === layerId || zoomTo.indexOf(layerId) !== -1)) {
+                    dispatch("zoomToFilteredFeatures", {ids: getFeatureIds(layerId), layerId: layerId});
+                }
+            });
+        }
+
     },
 
     /**

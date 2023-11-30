@@ -33,30 +33,6 @@ const Config = {
         }
     },
     cesiumLibrary: "https://geoportal-hamburg.de/mastercode/cesium/latest/Cesium.js",
-    featureViaURL: {
-        zoomTo: "42",
-        epsg: 4326,
-        layers: [
-            {
-                id: "42",
-                geometryType: "Point",
-                name: "Punkt Feature",
-                styleId: "location_eventlotse"
-            },
-            {
-                id: "4200",
-                geometryType: "LineString",
-                name: "Übergebene Linien Feature",
-                styleId: "mapMarkerPolygon_flaecheninfo"
-            },
-            {
-                id: "4020",
-                geometryType: "Polygon",
-                name: "Übergebene Polygon Feature",
-                styleId: "mapMarkerPolygon_flaecheninfo"
-            }
-        ]
-    },
     portalLanguage: {
         enabled: true,
         debug: false,

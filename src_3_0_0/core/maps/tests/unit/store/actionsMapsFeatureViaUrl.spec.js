@@ -15,19 +15,17 @@ describe("src_3_0_0/core/maps/actionsMapsFeatureViaUrl", () => {
 
         dispatch = sinon.spy();
         rootGetters = {
-            configJs: {
-                featureViaURL: {
-                    zoomTo: "42",
-                    epsg: 4326,
-                    layers: [
-                        {
-                            id: "42",
-                            geometryType: "Point",
-                            name: "Punkt Feature",
-                            styleId: "location_eventlotse"
-                        }
-                    ]
-                }
+            featureViaURL: {
+                zoomTo: "42",
+                epsg: 4326,
+                layers: [
+                    {
+                        id: "42",
+                        geometryType: "Point",
+                        name: "Punkt Feature",
+                        styleId: "location_eventlotse"
+                    }
+                ]
             }
         };
         sinon.stub(console, "warn").callsFake(spy);

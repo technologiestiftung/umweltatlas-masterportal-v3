@@ -64,6 +64,7 @@ Configuration of the map and elements placed on it.
 |----|-------------|---|-------|------------|------|
 |baselayerSwitcher|no|**[baselayerSwitcher](#markdown-header-portalconfigmapbaselayerSwitcher)**||The baselayerSwitcher allows you to easily change or select a background map.|false|
 |controls|no|**[controls](#markdown-header-portalconfigmapcontrols)**||Allows setting which interactions are active in the map.|false|
+|featureViaURL|no|**[featureViaURL](#markdown-header-portalconfigmapfeatureviaurl)**||Optional configuration for the URL parameter `featureViaURL`. See **[urlParameter](urlParameter.md)** for details.|false|
 |getFeatureInfo|no|**[getFeatureInfo](#markdown-header-portalconfigmapgetFeatureInfo)**||Via  getFeatureInfo (GFI) information to arbitrary layers can be requested. For WMS, the data is fetched with a GetFeatureInfo request. Vector data (WFS, Sensor, GeoJSON, etc.) is already present in the client and will be shown from the already fetched information.|false|
 |layerPills|no|**[layerPills](#markdown-header-portalconfigmaplayerpills)**||Configuration of the LayerPills.|false|
 |map3dParameter|no|**[map3dParameter](#markdown-header-portalconfigmapmap3dParameter)**||Cesium params.||
@@ -433,22 +434,86 @@ The attribute zoom may be of type boolean or object. If of type boolean, it show
 
 ***
 
-#### portalConfig.map.layerPills
-Configuration to make settings for LayerPills.
-
-Layerpills are buttons on top of the map that show the selected layers. When clicking on a LayerPill, the corresponding layer information is displayed in the menu. The close button deselects the layer. The LayerPills attribute is specified as an object and contains the following attributes:
+#### portalConfig.map.featureViaURL
+Optional configuration for the URL parameter `featureViaURL`. See **[urlParameter](urlParameter.md)** for details.
 
 |Name|Required|Type|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
-|active|no|Boolean|false|Indicates whether LayerPills are active.|false|
-|mobileOnly|no|Boolean|false|Defines whether LayerPills should only be active in the mobile version.|false|
+|----|--------|----|-------|-----------|------|
+|epsg|no|Integer|`4326`|EPSG code for coordinate reference system to translate coordinates to.|false|
+|layers|yes|**[layers](#markdown-header-portalconfigmapfeatureviaurllayers)**[]||Layer configuration array for given features.|false|
+|zoomTo||String/String[]||Id of **[layers](#markdown-header-portalconfigmapfeatureviaurllayers)** or array thereof, to which the Masterportal initially zooms. If none are given, the usual initial center coordinate is used.|false|
 
-**Example**
+**Example:**
 
 ```json
-"layerPills": {
-    "active": true,
-    "mobileOnly": true
+{
+    "featureViaURL": {
+        "epsg": 25832,
+        "zoomTo": "urlPointFeatures",
+        "layers": [
+            {
+                "id": "urlPointFeatures",
+                "geometryType": "Point",
+                "name": "URL Point Features",
+                "styleId": "url_points"
+            },
+            {
+                "id": "urlLineFeatures",
+                "geometryType": "LineString",
+                "name": "URL Line Features",
+                "styleId": "url_lines"
+            },
+            {
+                "id": "urlPolygonFeatures",
+                "geometryType": "Polygon",
+                "name": "URL Polygon Features",
+                "styleId": "url_polygons"
+            },
+            {
+                "id": "urlMultiPointFeatures",
+                "geometryType": "MultiPoint",
+                "name": "URL MultiPoint Features",
+                "styleId": "url_mulitpoints"
+            },
+            {
+                "id": "urlMultiLineStringFeatures",
+                "geometryType": "MultiLineString",
+                "name": "URL MultiLineString Features",
+                "styleId": "url_multilinestring"
+            },
+            {
+                "id": "urlMultiPolygonFeatures",
+                "geometryType": "MultiPolygon",
+                "name": "URL MultiPolygon Features",
+                "styleId": "url_multipolygons"
+            }
+        ]
+    }
+}
+```
+
+***
+
+##### portalConfig.map.featureViaURL.layers
+The parameters described apply for each entry of the **[layers](#markdown-header-portalconfigmapfeatureviaurllayers)** array.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|id|yes|String||unique ID for the layer to be created|false|
+|geometryType|yes|enum["LineString", "Point", "Polygon", "MultiPoint", "MultiLineString", "MultiPolygon"]||Geometry type of the feature to be shown.|false|
+|name|yes|String||Layer name displayed in the layer tree, the legend, and the GFI pop-up.|false
+|styleId|no|String||Style id to be used for the feature, referring to the **[style.json](style.json.md)**.|false|
+
+**Example:**
+
+```json
+{
+    "layers": [{
+        "id": "urlPolygonFeatures",
+        "geometryType": "Polygon",
+        "name": "URL Polygon Features",
+        "styleId": "url_polygons"
+    }]
 }
 ```
 
@@ -608,6 +673,27 @@ Hint: highlighting only works if there is a styleId in config.json configured fo
 ```json
 "text": {
     "scale": 2
+}
+```
+
+***
+
+#### portalConfig.map.layerPills
+Configuration to make settings for LayerPills.
+
+Layerpills are buttons on top of the map that show the selected layers. When clicking on a LayerPill, the corresponding layer information is displayed in the menu. The close button deselects the layer. The LayerPills attribute is specified as an object and contains the following attributes:
+
+|Name|Required|Type|Default|Description|Expert|
+|----|-------------|---|-------|------------|------|
+|active|no|Boolean|false|Indicates whether LayerPills are active.|false|
+|mobileOnly|no|Boolean|false|Defines whether LayerPills should only be active in the mobile version.|false|
+
+**Example**
+
+```json
+"layerPills": {
+    "active": true,
+    "mobileOnly": true
 }
 ```
 

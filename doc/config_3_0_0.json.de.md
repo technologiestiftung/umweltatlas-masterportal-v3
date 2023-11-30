@@ -64,9 +64,10 @@ Konfiguration der Karte und darauf platzierter Elemente.
 |----|-------------|---|-------|------------|------|
 |baselayerSwitcher|nein|**[baselayerSwitcher](#markdown-header-portalconfigmapbaselayerSwitcher)**||Der baselayerSwitcher ermnöglicht ein einfaches Wechseln bzw. Auswählen einer Hintergrundkarte.|false|
 |controls|nein|**[controls](#markdown-header-portalconfigmapcontrols)**||Mit den Controls kann festgelegt werden, welche Interaktionen in der Karte möglich sein sollen.|false|
+|featureViaURL|nein|**[featureViaURL](#markdown-header-portalconfigmapfeatureviaurl)**||Optionale Konfiguration für den URL-Parameter `featureViaURL`. Siehe **[urlParameter](urlParameter.md)** für Einzelheiten.|false|
 |getFeatureInfo|nein|**[getFeatureInfo](#markdown-header-portalconfigmapgetFeatureInfo)**||Mit der GetFeatureInfo(gfi) lassen sich Informationen zu beliebigen Layern anzeigen. Dabei werden bei einem WMS die Daten über die GetFeatureInfo geladen. Bei Vektordaten (WFS, Sensor, GeoJSON usw.) werden die angezeigten Attribute aus den Daten selbst verwendet.|false|
 |layerPills|nein|**[layerPills](#markdown-header-portalconfigmaplayerpills)**||Konfiguration der LayerPills.|false|
-|map3dParameter|no|**[map3dParameter](#markdown-header-portalconfigmapmap3dParameter)**||Cesium Attribute.||
+|map3dParameter|nein|**[map3dParameter](#markdown-header-portalconfigmapmap3dParameter)**||Cesium Attribute.||
 |mapView|nein|**[mapView](#markdown-header-portalconfigmapmapview)**||Mit verschiedenen Parametern wird die Startansicht der Karte konfiguriert und der Hintergrund festgelegt, der erscheint wenn keine Karte geladen ist.|false|
 |mouseHover|nein|**[mouseHover](#markdown-header-portalconfigmapmousehover)**||Aktiviert die MouseHover-Funktion für Vektorlayer, z.B. WFS oder GeoJSON. Für die Konfiguration pro Layer siehe **[Vector](#markdown-header-layerconfigelementslayervector)**.|false|
 |startingMapMode|nein|String|"2D"|Gibt an in welchem Modus die Karte startet. Möglich sind `2D` und `3D`|false|
@@ -433,6 +434,91 @@ Das Attribut zoom kann vom Typ Boolean oder Object sein. Wenn es vom Typ Boolean
 
 ***
 
+#### portalConfig.map.featureViaURL
+Optionale Konfiguration für den URL-Parameter `featureViaURL`. Siehe **[urlParameter](urlParameter.md)** für Einzelheiten.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|epsg|nein|Integer|`4326`|EPSG-Code für das Koordinatenreferenzsystem, in das die Koordinaten übersetzt werden sollen.|false|
+|layers|ja|**[layers](#markdown-header-portalconfigmapfeatureviaurllayers)**[]||Layerkonfigurations-Array für bestimmte Features.|false|
+|zoomTo||String/String[]||Id der **[layers](#markdown-header-portalconfigmapfeatureviaurllayers)** oder deren Array, auf die das Masterportal anfänglich zoomt. Wenn keine angegeben werden, wird die übliche anfängliche Zentralkoordinate verwendet.|false|
+
+**Beispiel:**
+
+```json
+{
+    "featureViaURL": {
+        "epsg": 25832,
+        "zoomTo": "urlPointFeatures",
+        "layers": [
+            {
+                "id": "urlPointFeatures",
+                "geometryType": "Point",
+                "name": "URL Point Features",
+                "styleId": "url_points"
+            },
+            {
+                "id": "urlLineFeatures",
+                "geometryType": "LineString",
+                "name": "URL Line Features",
+                "styleId": "url_lines"
+            },
+            {
+                "id": "urlPolygonFeatures",
+                "geometryType": "Polygon",
+                "name": "URL Polygon Features",
+                "styleId": "url_polygons"
+            },
+            {
+                "id": "urlMultiPointFeatures",
+                "geometryType": "MultiPoint",
+                "name": "URL MultiPoint Features",
+                "styleId": "url_mulitpoints"
+            },
+            {
+                "id": "urlMultiLineStringFeatures",
+                "geometryType": "MultiLineString",
+                "name": "URL MultiLineString Features",
+                "styleId": "url_multilinestring"
+            },
+            {
+                "id": "urlMultiPolygonFeatures",
+                "geometryType": "MultiPolygon",
+                "name": "URL MultiPolygon Features",
+                "styleId": "url_multipolygons"
+            }
+        ]
+    }
+}
+```
+
+***
+
+##### portalConfig.map.featureViaURL.layers
+Die beschriebenen Parameter gelten für jeden Eintrag des Arrays **[layers](#markdown-header-portalconfigmapfeatureviaurllayers)**.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|id|ja|String||Eindeutige ID für den zu erstellenden Layer|false|
+|geometryType|ja|enum["LineString", "Point", "Polygon", "MultiPoint", "MultiLineString", "MultiPolygon"]||Geometrietyp des anzuzeigenden Merkmals.|false|
+|name|ja|String||Layername, der im Themenbaum, in der Legende und im GFI-Pop-up angezeigt wird.|false
+|styleId|nein|String||Für das Merkmal zu verwendende StyleId, die sich auf die **[style.json](style.json.md)** bezieht.|false|
+
+**Beispiel:**
+
+```json
+{
+    "layers": [{
+        "id": "urlPolygonFeatures",
+        "geometryType": "Polygon",
+        "name": "URL Polygon Features",
+        "styleId": "url_polygons"
+    }]
+}
+```
+
+***
+
 #### portalConfig.map.getFeatureInfo
 Zeigt Informationen zu einem abgefragten Feature ab, indem GetFeatureInfo-Requests oder GetFeature-Requests oder geladene Vektordaten abgefragt werden.
 
@@ -619,12 +705,12 @@ For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Scen
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|camera|no|**[camera](#markdown-header-portalConfigmapmap3dParametercamera)**||Cesium Scene camera settings in 3D mode.|false|
-|fog|no|**[fog](#markdown-header-portalConfigmapmap3dParameterfog)**||Cesium Scene fog settings in 3D mode.||false|
-|fxaa|no|Boolean|`true`|activates *fast approximate anti-aliasing*|false|
-|globe|no|**[globe](#markdown-header-portalConfigmapmap3dParameterglobe)**||Cesium Scene globe settings in 3D mode.|false|
-|maximumScreenSpaceError|no|Number|`2.0`|Detail level in which terrain/raster tiles are fetched. 4/3 is the highest quality level.|false|
-|tileCacheSize|no|Number|`100`|terrain/raster tile cache size|false|
+|camera|nein|**[camera](#markdown-header-portalConfigmapmap3dParametercamera)**||Cesium Scene camera settings in 3D mode.|false|
+|fog|nein|**[fog](#markdown-header-portalConfigmapmap3dParameterfog)**||Cesium Scene fog settings in 3D mode.||false|
+|fxaa|nein|Boolean|`true`|activates *fast approximate anti-aliasing*|false|
+|globe|nein|**[globe](#markdown-header-portalConfigmapmap3dParameterglobe)**||Cesium Scene globe settings in 3D mode.|false|
+|maximumScreenSpaceError|nein|Number|`2.0`|Detail level in which terrain/raster tiles are fetched. 4/3 is the highest quality level.|false|
+|tileCacheSize|nein|Number|`100`|terrain/raster tile cache size|false|
 
 **Example**
 
@@ -656,9 +742,9 @@ For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Came
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|altitude|no|Number||Camera's initial height in meters|false|
-|heading|no|Number||Camera's initial heading in radians|false|
-|tilt|no|Number||Camera's initial tile in radians|false|
+|altitude|nein|Number||Camera's initial height in meters|false|
+|heading|nein|Number||Camera's initial heading in radians|false|
+|tilt|nein|Number||Camera's initial tile in radians|false|
 
 **Example**
 
@@ -681,7 +767,7 @@ For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Fog.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|enabled|no|Boolean|`false`|True if fog is enabled.|false|
+|enabled|nein|Boolean|`false`|True if fog is enabled.|false|
 
 **Example**
 
@@ -702,7 +788,7 @@ For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Glob
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|enableLighting|no|Boolean|`false`|Activates light effects on the map based on the sun's position.|false|
+|enableLighting|nein|Boolean|`false`|Activates light effects on the map based on the sun's position.|false|
 
 **Example**
 

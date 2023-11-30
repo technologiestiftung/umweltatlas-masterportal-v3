@@ -197,6 +197,15 @@ const getters = {
     },
 
     /**
+     * Return the featureViaURL configuartion in config.json.
+     * @param {Object} state state of the app-store.
+     * @returns {Object} The featureViaURL configuartion in config.json
+     */
+    featureViaURL: state => {
+        return state?.portalConfig?.map?.featureViaURL || {};
+    },
+
+    /**
      * Gets the value to an url parameter.
      * @param {Object} state state of the app-store.
      * @param {String} param The url parameter.
