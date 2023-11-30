@@ -5,9 +5,7 @@ const {
     addMultipleSearchInterfaceIds,
     addSearchInterfaceInstances,
     addSearchResults,
-    addSuggestionItem,
-    addSelectedSearchResults,
-    removeSelectedSearchResults
+    addSuggestionItem
 } = mutations;
 
 describe("src_3_0_0/modules/searchBar/store/mutationsSearchBar.spec.js", () => {
@@ -86,34 +84,6 @@ describe("src_3_0_0/modules/searchBar/store/mutationsSearchBar.spec.js", () => {
             addSuggestionItem(state, item);
 
             expect(state.searchSuggestions[0].id).to.deep.equal("test");
-        });
-    });
-
-    describe("addSelectedSearchResults", () => {
-        const item = {"id": "selectedSearchResult"};
-
-        it("Should add item to state selectedSearchResults", () => {
-            const state = {
-                selectedSearchResults: []
-            };
-
-            addSelectedSearchResults(state, item);
-
-            expect(state.selectedSearchResults[0].id).to.deep.equal("selectedSearchResult");
-        });
-    });
-
-    describe("removeSelectedSearchResults", () => {
-        const item = {"id": "removeMe"};
-
-        it("Should remove item to state selectedSearchResults", () => {
-            const state = {
-                selectedSearchResults: [{"id": "removeMe"}]
-            };
-
-            removeSelectedSearchResults(state, item);
-
-            expect(state.selectedSearchResults).to.be.an("array").that.is.empty;
         });
     });
 });

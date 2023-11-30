@@ -10,6 +10,7 @@ const {
     addLayerToTopicTree,
     highlightFeature,
     openGetFeatureInfo,
+    removeLayerFromTopicTree,
     setMarker,
     showInTree,
     showLayerInfo,
@@ -32,7 +33,7 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
         };
     });
 
-    after(() => {
+    afterEach(() => {
         sinon.restore();
     });
 
@@ -174,6 +175,41 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
                 layerId,
                 source
             });
+        });
+    });
+
+    describe("removeLayerFromTopicTree", () => {
+        it("should remove a layer from topic tree", () => {
+            const layerId = "123",
+                rootGetters = {
+                    layerConfigById: sinon.stub().returns(true)
+                };
+
+            removeLayerFromTopicTree({dispatch, rootGetters}, {layerId});
+
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equals("replaceByIdInLayerConfig");
+            expect(dispatch.firstCall.args[1]).to.be.deep.equals({
+                layerConfigs: [{
+                    id: layerId,
+                    layer: {
+                        id: layerId,
+                        visibility: false,
+                        showInLayerTree: false
+                    }
+                }]
+            });
+        });
+
+        it("should do nothing", () => {
+            const layerId = "123",
+                rootGetters = {
+                    layerConfigById: sinon.stub().returns(false)
+                };
+
+            removeLayerFromTopicTree({dispatch, rootGetters}, {layerId});
+
+            expect(dispatch.notCalled).to.be.true;
         });
     });
 

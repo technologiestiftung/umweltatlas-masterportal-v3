@@ -44,6 +44,31 @@ export default {
     },
 
     /**
+     * Removes a layer from the topic tree.
+     * @param {Object} param.dispatch the dispatch
+     * @param {Object} param.rootGetters the rootGetters
+     * @param {Object} payload The payload.
+     * @param {String} payload.layerId The layer id.
+     * @returns {void}
+     */
+    removeLayerFromTopicTree: ({dispatch, rootGetters}, {layerId}) => {
+        const layer = rootGetters.layerConfigById(layerId);
+
+        if (layer) {
+            dispatch("replaceByIdInLayerConfig", {
+                layerConfigs: [{
+                    id: layerId,
+                    layer: {
+                        id: layerId,
+                        visibility: false,
+                        showInLayerTree: false
+                    }
+                }]
+            }, {root: true});
+        }
+    },
+
+    /**
      * Add and activates a layer to the topic tree.
      * @param {Object} param.dispatch the dispatch
      * @param {Object} param.rootGetters the rootGetters

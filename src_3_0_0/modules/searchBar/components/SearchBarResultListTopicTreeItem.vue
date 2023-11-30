@@ -1,5 +1,5 @@
 <script>
-import {mapGetters, mapMutations} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 import ActionButton from "./ActionButton.vue";
 
 /**
@@ -48,23 +48,27 @@ export default {
         }
     },
     methods: {
-        ...mapMutations("Modules/SearchBar", [
-            "addSelectedSearchResults",
-            "removeSelectedSearchResults"
+        ...mapActions("Modules/SearchBar", [
+            "addLayerToTopicTree", "removeLayerFromTopicTree"
         ]),
 
         /**
-         * Add or remove the searchResult to or from the selectedSearchresults
+         * Add or remove the layer of searchResult to/from map.
          * @returns {void}
          */
         addOrRemoveLayer () {
-            if (!this.isChecked) {
-                this.addSelectedSearchResults(this.searchResult);
-            }
-            else {
-                this.removeSelectedSearchResults(this.searchResult);
+            const actionArgs = this.searchResult.events?.onClick?.activateLayerInTopicTree || this.searchResult.events?.onClick?.addLayerToTopicTree;
+
+            if (actionArgs) {
+                if (!this.isChecked) {
+                    this.addLayerToTopicTree(actionArgs);
+                }
+                else {
+                    this.removeLayerFromTopicTree(actionArgs);
+                }
             }
         }
+
     }
 };
 </script>

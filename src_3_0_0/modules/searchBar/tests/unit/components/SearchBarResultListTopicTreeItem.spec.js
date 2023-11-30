@@ -8,8 +8,8 @@ import SearchBarResultListTopicTreeItemComponent from "../../../components/Searc
 config.global.mocks.$t = key => key;
 
 describe("src_3_0_0/modules/searchBar/components/SearchBarResultListTopicTreeItem.vue", () => {
-    let addSelectedSearchResultsSpy,
-        removeSelectedSearchResultsSpy,
+    let addLayerToTopicTreeSpy,
+        removeLayerFromTopicTreeSpy,
         selectedSearchResults,
         store,
         visibleLayerConfigs,
@@ -53,14 +53,38 @@ describe("src_3_0_0/modules/searchBar/components/SearchBarResultListTopicTreeIte
             toolTip: undefined,
             events: {
             }
-        };
+        },
+        resultThree =
+    {
+        category: "Straße",
+        id: "BeidemNeuenKrahnStraße",
+        index: 2,
+        name: "Bei dem Neuen Krahn",
+        searchInterfaceId: "topicTree",
+        displayedInfo: "",
+        icon: "bi-signpost",
+        imagePath: "",
+        toolTip: "toolTipAvailable",
+        events: {
+            onClick: {
+                addLayerToTopicTree: {
+                    layerId: "123"
+                }
+            },
+            buttons: {
+                addLayerToTopicTree: {
+                    layerId: "123"
+                }
+            }
+        }
+    };
 
     beforeEach(() => {
-        searchResults = [resultOne, resultTwo];
-        addSelectedSearchResultsSpy = sinon.spy();
-        removeSelectedSearchResultsSpy = sinon.spy();
+        searchResults = [resultOne, resultTwo, resultThree];
         visibleLayerConfigs = [];
         selectedSearchResults = [];
+        addLayerToTopicTreeSpy = sinon.spy();
+        removeLayerFromTopicTreeSpy = sinon.spy();
 
         store = createStore({
             namespaces: true,
@@ -73,9 +97,9 @@ describe("src_3_0_0/modules/searchBar/components/SearchBarResultListTopicTreeIte
                             getters: {
                                 selectedSearchResults: () => selectedSearchResults
                             },
-                            mutations: {
-                                addSelectedSearchResults: addSelectedSearchResultsSpy,
-                                removeSelectedSearchResults: removeSelectedSearchResultsSpy
+                            actions: {
+                                addLayerToTopicTree: addLayerToTopicTreeSpy,
+                                removeLayerFromTopicTree: removeLayerFromTopicTreeSpy
                             }
                         }
                     }
@@ -164,7 +188,7 @@ describe("src_3_0_0/modules/searchBar/components/SearchBarResultListTopicTreeIte
     });
 
     describe("addOrRemoveLayer", () => {
-        it("should add a layer to selectedSearchResults", () => {
+        it("should add a layer to selectedSearchResults, action activateLayerInTopicTree", () => {
             wrapper = shallowMount(SearchBarResultListTopicTreeItemComponent, {
                 global: {
                     plugins: [store]
@@ -176,30 +200,29 @@ describe("src_3_0_0/modules/searchBar/components/SearchBarResultListTopicTreeIte
 
             wrapper.vm.addOrRemoveLayer();
 
-            expect(addSelectedSearchResultsSpy.calledOnce).to.be.true;
-            expect(addSelectedSearchResultsSpy.firstCall.args[0]).to.deep.equals({});
-            expect(addSelectedSearchResultsSpy.firstCall.args[1]).to.deep.equals({
-                category: "Straße",
-                id: "BeidemNeuenKrahnStraße",
-                index: 0,
-                name: "Bei dem Neuen Krahn",
-                searchInterfaceId: "gazetteer",
-                displayedInfo: "",
-                icon: "bi-signpost",
-                imagePath: "",
-                toolTip: "toolTipAvailable",
-                events: {
-                    onClick: {
-                        activateLayerInTopicTree: {
-                            layerId: "123"
-                        }
-                    }
-                }
-            });
-            expect(removeSelectedSearchResultsSpy.notCalled).to.be.true;
+            expect(addLayerToTopicTreeSpy.calledOnce).to.be.true;
+            expect(addLayerToTopicTreeSpy.firstCall.args[1]).to.deep.equals({layerId: "123"});
+            expect(removeLayerFromTopicTreeSpy.notCalled).to.be.true;
         });
 
-        it("should remove a layer from selectedSearchResults", () => {
+        it("should add a layer to selectedSearchResults, action addLayerToTopicTree", () => {
+            wrapper = shallowMount(SearchBarResultListTopicTreeItemComponent, {
+                global: {
+                    plugins: [store]
+                },
+                propsData: {
+                    searchResult: searchResults[2]
+                }
+            });
+
+            wrapper.vm.addOrRemoveLayer();
+
+            expect(addLayerToTopicTreeSpy.calledOnce).to.be.true;
+            expect(addLayerToTopicTreeSpy.firstCall.args[1]).to.deep.equals({layerId: "123"});
+            expect(removeLayerFromTopicTreeSpy.notCalled).to.be.true;
+        });
+
+        it("should remove a layer from selectedSearchResults, action activateLayerInTopicTree", () => {
             selectedSearchResults = [searchResults[0]];
 
             wrapper = shallowMount(SearchBarResultListTopicTreeItemComponent, {
@@ -213,27 +236,28 @@ describe("src_3_0_0/modules/searchBar/components/SearchBarResultListTopicTreeIte
 
             wrapper.vm.addOrRemoveLayer();
 
-            expect(removeSelectedSearchResultsSpy.calledOnce).to.be.true;
-            expect(removeSelectedSearchResultsSpy.firstCall.args[0]).to.deep.equals({});
-            expect(removeSelectedSearchResultsSpy.firstCall.args[1]).to.deep.equals({
-                category: "Straße",
-                id: "BeidemNeuenKrahnStraße",
-                index: 0,
-                name: "Bei dem Neuen Krahn",
-                searchInterfaceId: "gazetteer",
-                displayedInfo: "",
-                icon: "bi-signpost",
-                imagePath: "",
-                toolTip: "toolTipAvailable",
-                events: {
-                    onClick: {
-                        activateLayerInTopicTree: {
-                            layerId: "123"
-                        }
-                    }
+            expect(removeLayerFromTopicTreeSpy.calledOnce).to.be.true;
+            expect(removeLayerFromTopicTreeSpy.firstCall.args[1]).to.deep.equals({layerId: "123"});
+            expect(addLayerToTopicTreeSpy.notCalled).to.be.true;
+        });
+
+        it("should remove a layer from selectedSearchResults, action addLayerToTopicTree", () => {
+            selectedSearchResults = [searchResults[2]];
+
+            wrapper = shallowMount(SearchBarResultListTopicTreeItemComponent, {
+                global: {
+                    plugins: [store]
+                },
+                propsData: {
+                    searchResult: searchResults[2]
                 }
             });
-            expect(addSelectedSearchResultsSpy.notCalled).to.be.true;
+
+            wrapper.vm.addOrRemoveLayer();
+
+            expect(removeLayerFromTopicTreeSpy.calledOnce).to.be.true;
+            expect(removeLayerFromTopicTreeSpy.firstCall.args[1]).to.deep.equals({layerId: "123"});
+            expect(addLayerToTopicTreeSpy.notCalled).to.be.true;
         });
     });
 });
