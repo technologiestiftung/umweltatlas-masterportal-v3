@@ -6,12 +6,12 @@ import store from "../../../app-store";
 
 /**
  * Create the map markers and add them to the map.
- * @param {Object} configJs The settings of config.json file.
+ * @param {Object} mapMarker The mapMarker config of config.json file.
  * @returns {void}
  */
-function initializeMapMarkers (configJs) {
-    store.dispatch("Maps/addLayer", createMapMarker("POINT", configJs?.mapMarker?.pointStyleId));
-    store.dispatch("Maps/addLayer", createMapMarker("POLYGON", configJs?.mapMarker?.polygonStyleId));
+function initializeMapMarkers (mapMarker) {
+    store.dispatch("Maps/addLayer", createMapMarker("POINT", mapMarker?.pointStyleId));
+    store.dispatch("Maps/addLayer", createMapMarker("POLYGON", mapMarker?.polygonStyleId));
 }
 
 /**

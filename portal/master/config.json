@@ -103,6 +103,9 @@
           "tileCacheSize": 20
         }
       },
+      "mapMarker": {
+        "pointStyleId": "mapMarker_geo-alt-fill"
+      },
       "mapView": {
         "backgroundImage": "https://geodienste.hamburg.de/lgv-config/img/backgroundCanvas.jpeg",
         "startZoomLevel": 4,

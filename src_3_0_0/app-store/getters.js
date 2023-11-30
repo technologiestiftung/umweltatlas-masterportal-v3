@@ -327,12 +327,21 @@ const getters = {
     },
 
     /**
-     * Returns the map3dParameter settings configuration of portalConfig.
+     * Returns the map3d parameter settings configuration of portalConfig.
      * @param {Object} state state of the app-store.
-     * @returns {Object} The controls config.
+     * @returns {Object} The map3d parameter config.
      */
     map3dParameter: state => {
         return state.portalConfig?.map.map3dParameter || {};
+    },
+
+    /**
+     * Returns the map marker configuration of portalConfig.
+     * @param {Object} state state of the app-store.
+     * @returns {Object} The map marker config.
+     */
+    mapMarker: state => {
+        return state.portalConfig?.map.mapMarker || {};
     },
 
     /**

@@ -24,7 +24,8 @@
 - The following attributes have been moved from config.js to config.json
     - cesiumParameter -> portalConfig.map.map3dParameter (`cesiumParameter` has been renamed to `map3dParameter`)
     - featureViaURL -> portalConfig.map.featureViaURL
-    - mapInteractions -> portalConfig.map.mapInteractions
+    - mapInteractions -> portalConfig.map.mapView.mapInteractions
+    - mapMarker -> portalConfig.map.mapMarker
     - startingMap3D -> portalConfig.map.startingMapMode (`startingMap3D` has been renamed to `startingMapMode`)
     - zoomTo -> portalConfig.map.zoomTo
 

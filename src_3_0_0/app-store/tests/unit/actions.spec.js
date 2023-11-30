@@ -90,11 +90,9 @@ describe("src_3_0_0/app-store/actions.js", () => {
                     "Modules/HighlightFeatures/pointStyleId": "pointStyleId",
                     "Modules/HighlightFeatures/polygonStyleId": "polygonStyleId",
                     "Modules/HighlightFeatures/lineStyleId": "lineStyleId",
-                    configJs: {
-                        mapMarker: {
-                            pointStyleId: "123",
-                            polygonStyleId: "abc"
-                        }
+                    mapMarker: {
+                        pointStyleId: "123",
+                        polygonStyleId: "abc"
                     },
                     zoomTo: [
                         {

@@ -17,7 +17,7 @@ function initializeMaps (mapViewSettings, configJs) {
     store.dispatch("Maps/setMapAttributes");
     watchPortalConfig();
     load3DMap();
-    mapMarker.initializeMapMarkers(configJs);
+    mapMarker.initializeMapMarkers(store.getters.mapMarker);
 }
 
 /**

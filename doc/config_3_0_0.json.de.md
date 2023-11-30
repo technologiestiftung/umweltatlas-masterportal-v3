@@ -68,6 +68,7 @@ Konfiguration der Karte und darauf platzierter Elemente.
 |getFeatureInfo|nein|**[getFeatureInfo](#markdown-header-portalconfigmapgetFeatureInfo)**||Mit der GetFeatureInfo(gfi) lassen sich Informationen zu beliebigen Layern anzeigen. Dabei werden bei einem WMS die Daten über die GetFeatureInfo geladen. Bei Vektordaten (WFS, Sensor, GeoJSON usw.) werden die angezeigten Attribute aus den Daten selbst verwendet.|false|
 |layerPills|nein|**[layerPills](#markdown-header-portalconfigmaplayerpills)**||Konfiguration der LayerPills.|false|
 |map3dParameter|nein|**[map3dParameter](#markdown-header-portalconfigmapmap3dParameter)**||Cesium Attribute.||
+|mapMarker|nein|**[mapMarker](#markdown-header-portalconfigmapmapmarker)**||Setzt die Standardwerte des Map Markers außer Kraft. Nützlich für 3D-Marker, da die Overlays von OpenLayers nicht im 3D-Modus dargestellt werden können. Dazu muss der Map Marker als Vektorlayer definiert werden.||
 |mapView|nein|**[mapView](#markdown-header-portalconfigmapmapview)**||Mit verschiedenen Parametern wird die Startansicht der Karte konfiguriert und der Hintergrund festgelegt, der erscheint wenn keine Karte geladen ist.|false|
 |mouseHover|nein|**[mouseHover](#markdown-header-portalconfigmapmousehover)**||Aktiviert die MouseHover-Funktion für Vektorlayer, z.B. WFS oder GeoJSON. Für die Konfiguration pro Layer siehe **[Vector](#markdown-header-layerconfigelementslayervector)**.|false|
 |startingMapMode|nein|String|"2D"|Gibt an in welchem Modus die Karte startet. Möglich sind `2D` und `3D`|false|
@@ -796,6 +797,27 @@ For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Glob
 {
     "globe": {
         "enableLighting": true
+    }
+}
+```
+
+***
+
+#### portalConfig.map.mapMarker
+Setzt die Standardwerte des Map Markers außer Kraft. Nützlich für 3D-Marker, da die Overlays von OpenLayers nicht im 3D-Modus dargestellt werden können. Dazu muss der Map Marker als Vektorlayer definiert werden.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|pointStyleId|nein|String|`"defaultMapMarkerPoint"`|StyleId, um auf einen `style.json`-Punktstyle zu verweisen. Ist sie nicht gesetzt, wird die Datei `img/mapMarker.svg` verwendet.|false|
+|polygonStyleId|nein|String|`"defaultMapMarkerPolygon"`|StyleId zum Verweis auf einen `style.json`-Polygonstyle.|false|
+
+**Beispiel:**
+
+```json
+{
+    "mapMarker": {
+        "pointStyleId": "customMapMarkerPoint",
+        "polygonStyleId": "customMapMarkerPolygon"
     }
 }
 ```
