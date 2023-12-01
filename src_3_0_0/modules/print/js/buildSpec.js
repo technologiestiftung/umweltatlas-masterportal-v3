@@ -20,7 +20,6 @@ import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createSty
 import {getRulesForFeature} from "@masterportal/masterportalapi/src/vectorStyle/lib/getRuleForIndex";
 import layerCollection from "../../../core/layers/js/layerCollection";
 import {uniqueId} from "../../../shared/js/utils/uniqueId.js";
-import legendStore from "../../legend/store/indexLegend.js";
 
 const BuildSpecModel = {
     defaults: {
@@ -1314,7 +1313,7 @@ const BuildSpecModel = {
                     else {
                         legendObject.layers.push({
                             layerName: legendObj.name,
-                            values: this.prepareLegendAttributes(legendObj.legend, legendStore.state.sldVersion)
+                            values: this.prepareLegendAttributes(legendObj.legend, store.getters["Modules/Legend/sldVersion"])
                         });
                     }
                 }
