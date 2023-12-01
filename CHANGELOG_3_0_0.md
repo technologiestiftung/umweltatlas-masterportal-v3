@@ -34,7 +34,7 @@
 - Add documentation for the config.js file.
 - Configurable searchBar for the layerselection.
 - To manage dependencies of dependencies "overrides" for cesium are added to package.json and create dummy packages for it.
-- New Parameter sldVersion for legend configuration to define a Styled Layer Descriptor for the GetLegendGraphic Requests.
+- New config.json parameter `sldVersion` for legend configuration to define a `Styled Layer Descriptor` for the GetLegendGraphic requests.
 - The following packages have been added:
     - devDependencies:
         - webpack-bundle-analyzer: 4.9.1 (For usage comment in "webpack-bundle-analyzer"-code in webpack.dev.js)
