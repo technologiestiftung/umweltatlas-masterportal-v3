@@ -509,6 +509,14 @@
       "name": "Legenda",
       "noLegendForLayerInfo": "Legenda não disponível"
     },
+    "login": {
+      "login": "Iniciar sessão",
+      "logout": "Sair",
+      "progresso": "Por favor, inicie sessão na janela de contexto aberta",
+      "nome": "Nome",
+      "email": "Email",
+      "perfil": "Profile"
+    },
     "measure": {
       "area": "Área",
       "deleteMeasurements": "Apagar medidas",

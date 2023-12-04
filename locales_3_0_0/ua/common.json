@@ -509,6 +509,14 @@
       "name": "Легенда",
       "noLegendForLayerInfo": "Легенда недоступна"
     },
+    "login": {
+      "login": "Login",
+      "logout": "Вихід",
+      "progress": "Будь ласка, увійдіть у вікні, що відкрилося.",
+      "name": "Ім'я",
+      "email": "Email",
+      "profile": "Profile"
+    },
     "measure": {
       "area": "Поверхня",
       "deleteMeasurements": "Видалити вимірювання",

@@ -509,6 +509,14 @@
       "name": "Katman bilgileri",
       "noLegendForLayerInfo": "Katman bilgilerine mevcut değil"
     },
+    "login": {
+      "login": "Giriş",
+      "logout": "Logout",
+      "ilerleme": "Lütfen açılan pop-up'ta giriş yapın.",
+      "isim": "İsim",
+      "e-posta": "E-posta",
+      "Profil": "Profil"
+    },
     "measure": {
       "area": "Alan",
       "deleteMeasurements": "Ölçümleri silin",

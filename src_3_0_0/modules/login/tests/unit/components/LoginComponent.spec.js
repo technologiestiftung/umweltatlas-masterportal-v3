@@ -1,21 +1,19 @@
-import Vuex from "vuex";
-import {config, shallowMount, createLocalVue} from "@vue/test-utils";
+import {createStore} from "vuex";
+import {config, shallowMount} from "@vue/test-utils";
 
 import LoginComponent from "../../../components/LoginComponent.vue";
-import Login from "../../../store/indexLogin";
-import rootGetters from "../../../../../../app-store/getters.js";
-import Cookie from "../../../utils/utilsCookies";
-import OIDC from "../../../utils/utilsOIDC";
+import Login from "../../../store/indexLogin.js";
+import rootGetters from "../../../../../app-store/getters.js";
+import Cookie from "../../../utils/utilsCookies.js";
+import OIDC from "../../../utils/utilsOIDC.js";
 
 import {expect} from "chai";
 import sinon from "sinon";
 
-const localVue = createLocalVue(),
-    fakeToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiIsImtpZCI6IjViY2IzZThmNDM2MGI0YjI4MWRjNDM4ZTExODE4YzZlIn0.e30.LEo9imrM5zuR1yo-KMzdY62XbnL7UBO2AImB2Pf-bD35NVZlMsU7xsXMUX6petNWU61tJSFzyMk4nWZQHm3LBQ";
 
-localVue.use(Vuex);
+const fakeToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiIsImtpZCI6IjViY2IzZThmNDM2MGI0YjI4MWRjNDM4ZTExODE4YzZlIn0.e30.LEo9imrM5zuR1yo-KMzdY62XbnL7UBO2AImB2Pf-bD35NVZlMsU7xsXMUX6petNWU61tJSFzyMk4nWZQHm3LBQ";
 
-config.mocks.$t = key => key;
+config.global.mocks.$t = key => key;
 
 describe("src/modules/tools/login/components/LoginComponent.vue", () => {
     const
@@ -27,7 +25,7 @@ describe("src/modules/tools/login/components/LoginComponent.vue", () => {
     // sandbox.replaceGetter(LoginComponent.methods, "translate", sinon.fake.returns("translated"));
 
     beforeEach(() => {
-        store = new Vuex.Store({
+        store = createStore({
             namespaces: true,
             modules: {
                 Tools: {
@@ -48,27 +46,36 @@ describe("src/modules/tools/login/components/LoginComponent.vue", () => {
     afterEach(() => {
         sinon.restore();
         sandbox.restore();
-        if (wrapper) {
-            wrapper.destroy();
-        }
     });
 
     describe("LoginComponent template", () => {
         it("should exist", async () => {
-            wrapper = shallowMount(LoginComponent, {store, localVue});
+            wrapper = shallowMount(LoginComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
 
             expect(wrapper.exists()).to.be.true;
         });
 
         it("should find Tool component", async () => {
-            wrapper = shallowMount(LoginComponent, {store, localVue});
+            wrapper = shallowMount(LoginComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
             const toolWrapper = wrapper.findComponent({name: "ToolTemplate"});
 
             expect(toolWrapper.exists()).to.be.true;
         });
 
         it("should render Login", () => {
-            wrapper = shallowMount(LoginComponent, {store, localVue});
+            wrapper = shallowMount(LoginComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
 
             expect(wrapper.find(".login-window").exists()).to.be.true;
             expect(wrapper.find(".login-window button#logout-button").exists()).to.be.true;
@@ -78,7 +85,11 @@ describe("src/modules/tools/login/components/LoginComponent.vue", () => {
             store.commit("Tools/Login/setScreenName", "Max Mustermann");
             store.commit("Tools/Login/setEmail", "Max.Mustermann@domain.com");
 
-            wrapper = shallowMount(LoginComponent, {store, localVue});
+            wrapper = shallowMount(LoginComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
 
             expect(wrapper.html().includes("Max Mustermann")).to.be.true;
             expect(wrapper.html().includes("Max.Mustermann@domain.com")).to.be.true;
@@ -87,20 +98,32 @@ describe("src/modules/tools/login/components/LoginComponent.vue", () => {
         it("should not render if active is false", () => {
             store.commit("Tools/Login/setActive", false);
 
-            wrapper = shallowMount(LoginComponent, {store, localVue});
+            wrapper = shallowMount(LoginComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
 
             expect(wrapper.find(".login-window").exists()).to.be.false;
         });
 
         it("should not call logout fn if button was not clicked", () => {
-            wrapper = shallowMount(LoginComponent, {store, localVue});
+            wrapper = shallowMount(LoginComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
             wrapper.vm.logoutButton = sinon.fake();
 
             expect(wrapper.vm.logoutButton.calledOnce).to.be.false;
         });
 
         it("should call logout fn if button is clicked", async () => {
-            wrapper = shallowMount(LoginComponent, {store, localVue});
+            wrapper = shallowMount(LoginComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
 
             wrapper.vm.reloadWindow = sinon.fake();
             sandbox.spy(wrapper.vm, "logoutButton");
@@ -113,7 +136,11 @@ describe("src/modules/tools/login/components/LoginComponent.vue", () => {
         });
 
         it("should close tool if logout button is clicked", async () => {
-            wrapper = shallowMount(LoginComponent, {store, localVue});
+            wrapper = shallowMount(LoginComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
             wrapper.vm.reload = sinon.fake();
 
             await wrapper.find(".login-window button#logout-button").trigger("click");
@@ -122,7 +149,11 @@ describe("src/modules/tools/login/components/LoginComponent.vue", () => {
         });
 
         it("should not be logged in after Login renders", () => {
-            wrapper = shallowMount(LoginComponent, {store, localVue});
+            wrapper = shallowMount(LoginComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
 
             expect(wrapper.vm.isLoggedIn()).to.be.false;
         });
@@ -137,7 +168,11 @@ describe("src/modules/tools/login/components/LoginComponent.vue", () => {
             // fake that the token is not expired yet
             local_sandbox.stub(OIDC, "getTokenExpiry").returns(1);
 
-            wrapper = shallowMount(LoginComponent, {store, localVue});
+            wrapper = shallowMount(LoginComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
 
             expect(wrapper.vm.isLoggedIn()).to.be.true;
 
@@ -153,7 +188,11 @@ describe("src/modules/tools/login/components/LoginComponent.vue", () => {
             // return a "valid" cookie
             local_sandbox.replace(Cookie, "get", sinon.fake.returns(fakeToken));
 
-            wrapper = await shallowMount(LoginComponent, {store, localVue});
+            wrapper = await shallowMount(LoginComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
 
             expect(wrapper.vm.$store.state.Tools.Login.screenName).to.be.equal(fakeToken);
             expect(wrapper.vm.$store.state.Tools.Login.username).to.be.equal(fakeToken);
@@ -166,7 +205,11 @@ describe("src/modules/tools/login/components/LoginComponent.vue", () => {
 
     describe("LoginComponent methods", () => {
         it("close sets active to false", async () => {
-            wrapper = shallowMount(LoginComponent, {store, localVue});
+            wrapper = shallowMount(LoginComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
             wrapper.vm.closeLoginWindow();
             await wrapper.vm.$nextTick();
 

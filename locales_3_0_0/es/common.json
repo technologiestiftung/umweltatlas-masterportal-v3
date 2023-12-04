@@ -509,6 +509,14 @@
       "name": "Leyenda",
       "noLegendForLayerInfo": "Leyenda no disponible"
     },
+    "login": {
+      "login": "inicio de sesión",
+      "logout": "Logout",
+      "progreso": "Por favor, inicia sesión en la ventana emergente abierta",
+      "name": "Nombre",
+      "email": "Email",
+      "profile": "Perfil"
+    },
     "measure": {
       "area": "Área",
       "deleteMeasurements": "Borrar mediciones",

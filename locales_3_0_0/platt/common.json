@@ -509,6 +509,14 @@
       "name": "Legende",
       "noLegendForLayerInfo": "Legende nicht verfügbar"
     },
+    "login": {
+      "login": "Anmelden",
+      "logout": "Abmelden",
+      "progress": "Bitte meld Sie sik in dem geöffneten Aven an.",
+      "name": "Name",
+      "E-Mail": "E-Mail",
+      "Profil": "Profil"
+    },
     "measure": {
       "area": "Fläche",
       "deleteMeasurements": "Messungen löschen",

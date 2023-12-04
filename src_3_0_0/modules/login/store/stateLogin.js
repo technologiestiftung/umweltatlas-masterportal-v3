@@ -31,15 +31,16 @@ const state = {
     refreshToken: undefined,
 
     // addon state and properties
-    id: "login",
-    name: "common:menu.tools.login",
+    type: "login",
+    name: "common:modules.login.login",
     icon: "bi-door-open",
     iconLogin: "bi-door-open",
     iconLogout: "bi-door-closed",
     iconLogged: "bi-person-circle",
-    renderToWindow: true,
-    resizableWindow: true,
-    deactivateGFI: false
+    hasMouseMapInteractions: false,
+    description: "common:modules.legend.description",
+    supportedDevices: ["Desktop", "Mobile", "Table"],
+    supportedMapModes: ["2D", "3D"]
 };
 
 export default state;

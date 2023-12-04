@@ -22,6 +22,7 @@ import LayerSelection from "../layerSelection/store/indexLayerSelection";
 import LayerSlider from "../layerSlider/store/indexLayerSlider";
 import LayerTree from "../layerTree/store/indexLayerTree";
 import Legend from "../legend/store/indexLegend";
+import Login from "../login/store/indexLogin";
 import Measure from "../measure/store/indexMeasure";
 import MouseHover from "../mouseHover/store/indexMouseHover";
 import News from "../news/store/indexNewsView";
@@ -66,6 +67,7 @@ export default {
         LayerSlider: {...LayerSlider},
         LayerTree: {...LayerTree},
         Legend: {...Legend},
+        Login: {...Login},
         Measure: {...Measure},
         MouseHover: {...MouseHover},
         News: {...News},

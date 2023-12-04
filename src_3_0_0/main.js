@@ -9,6 +9,7 @@ import store from "./app-store";
 import "bootstrap/js/dist/offcanvas";
 
 import remoteInterface from "./plugins/remoteInterface";
+import utilsLogin from "../src_3_0_0/modules/login/utils/utilsLogin";
 // import {instantiateVuetify} from "./plugins/vuetify";
 import {initiateVueI18Next, initLanguage} from "./plugins/i18next";
 
@@ -35,6 +36,11 @@ const configPath = window.location.pathname.substring(0, window.location.pathnam
 // Wait until config.js is loaded
 loadConfigJs.then(() => {
     app = createApp(App);
+
+    if (utilsLogin.handleLoginParameters()) {
+        window.close();
+        return;
+    }
 
     // Load remoteInterface
     if (Object.prototype.hasOwnProperty.call(Config, "remoteInterface")) {

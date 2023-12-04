@@ -551,6 +551,14 @@
       "name": "Legende",
       "noLegendForLayerInfo": "Legende nicht verfügbar"
     },
+    "login": {
+      "login": "Login",
+      "logout": "Logout",
+      "progress": "Bitte melden Sie sich im geöffneten Popup an.",
+      "name": "Name",
+      "email": "E-Mail",
+      "profile": "Profil"
+    },
     "measure": {
       "area": "Fläche",
       "deleteMeasurements": "Messungen löschen",

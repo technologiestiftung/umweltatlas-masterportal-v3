@@ -509,6 +509,14 @@
       "name": "Легенда",
       "noLegendForLayerInfo": "Легенда недоступна"
     },
+    "login": {
+      "login": "Login",
+      "logout": "Logout",
+      "progress": "Пожалуйста, авторизуйтесь в открывшемся всплывающем окне",
+      "name": "Имя",
+      "email": "Email",
+      "profile": "Profile"
+    },
     "measure": {
       "area": "Территория",
       "deleteMeasurements": "Удалить измерения",

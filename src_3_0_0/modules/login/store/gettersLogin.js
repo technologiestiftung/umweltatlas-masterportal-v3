@@ -1,5 +1,5 @@
 import stateLogin from "./stateLogin";
-import {generateSimpleGetters} from "../../../../app-store/utils/generators";
+import {generateSimpleGetters} from "../../../shared/js/utils/generators";
 
 const gettersMap = {
     ...generateSimpleGetters(stateLogin)

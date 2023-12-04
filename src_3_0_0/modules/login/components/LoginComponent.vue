@@ -1,18 +1,15 @@
 <script>
 import {mapMutations, mapGetters, mapActions} from "vuex";
-import {getComponent} from "../../../../utils/getComponent";
 import getters from "../store/gettersLogin";
 import mutations from "../store/mutationsLogin";
-import ToolTemplate from "../../ToolTemplate.vue";
-import {translateKeyWithPlausibilityCheck} from "../../../../utils/translateKeyWithPlausibilityCheck.js";
+import {translateKeyWithPlausibilityCheck} from "../../../shared/js/utils/translateKeyWithPlausibilityCheck.js";
 
 export default {
     name: "LoginComponent",
     components: {
-        ToolTemplate
     },
     computed: {
-        ...mapGetters("Tools/Login", Object.keys(getters))
+        ...mapGetters("Modules/Login", Object.keys(getters))
     },
     watch: {
     /**
@@ -28,20 +25,13 @@ export default {
             }
         }
     },
-    created () {
-        this.$on("close", this.closeLoginWindow);
-    },
     mounted () {
-        this.$nextTick(() => {
-            this.initialize();
-        });
-
         this.isLoggedIn();
         setInterval(() => this.isLoggedIn(), 10_000); // check every 10 seconds
     },
     methods: {
-        ...mapMutations("Tools/Login", Object.keys(mutations)),
-        ...mapActions("Tools/Login", [
+        ...mapMutations("Modules/Login", Object.keys(mutations)),
+        ...mapActions("Modules/Login", [
             "initialize",
             "logout",
             "checkLoggedIn",
@@ -180,7 +170,6 @@ export default {
                 }
             }
         },
-
         /**
          * Closes the window of login by setting store active to false.
          * @pre window is opened
@@ -189,63 +178,44 @@ export default {
          */
         closeLoginWindow () {
             this.setActive(false);
-
-            // The value "isActive" of the Backbone model is also set to false to change the CSS class in the menu (menu/desktop/tool/view.toggleIsActiveClass)
-            const model = getComponent(this.id);
-
-            if (model) {
-                model.set("isActive", false);
-            }
         }
     }
 };
 </script>
 
 <template lang="html">
-    <ToolTemplate
-        v-if="active"
-        id="login-component"
-        :title="getTitle()"
-        :icon="iconLogin"
-        :active="active"
-        :render-to-window="renderToWindow"
-        :resizable-window="resizableWindow"
-        :deactivate-g-f-i="deactivateGFI"
-        class="login-window"
-    >
-        <template #toolBody>
-            <div
-                v-show="!screenName && !email"
-                class="progress-loader"
-            >
-                <div class="loader" />
-                <span>{{ $t('common:modules.login.progress') }}</span>
-            </div>
-            <div v-show="screenName">
-                <span>{{ translate('common:modules.login.name') }}:</span>
-                <span>{{ screenName }}</span>
-            </div>
-            <div v-show="email">
-                <span>{{ translate('common:modules.login.email') }}:</span>
-                <span>{{ email }}</span>
-            </div>
-            <div><p>&nbsp;</p></div>
-            <button
-                id="logout-button"
-                class="btn btn-logout"
-                type="button"
-                :title="translate('common:modules.login.logout')"
-                @click="logoutButton(true)"
-            >
-                <span class="bootstrap-icon logout-icon">
-                    <i
-                        id="logout-icon"
-                        class="bi-door-closed"
-                    /> {{ translate('common:modules.login.logout') }}
-                </span>
-            </button>
-        </template>
-    </ToolTemplate>
+    <div id="login-component">
+        <div
+            v-show="!screenName && !email"
+            class="progress-loader"
+        >
+            <div class="loader" />
+            <span>{{ $t('common:modules.login.progress') }}</span>
+        </div>
+        <div v-show="screenName">
+            <span>{{ translate('common:modules.login.name') }}:</span>
+            <span>{{ screenName }}</span>
+        </div>
+        <div v-show="email">
+            <span>{{ translate('common:modules.login.email') }}:</span>
+            <span>{{ email }}</span>
+        </div>
+        <div><p>&nbsp;</p></div>
+        <button
+            id="logout-button"
+            class="btn btn-logout"
+            type="button"
+            :title="translate('common:modules.login.logout')"
+            @click="logoutButton(true)"
+        >
+            <span class="bootstrap-icon logout-icon">
+                <i
+                    id="logout-icon"
+                    class="bi-door-closed"
+                /> {{ translate('common:modules.login.logout') }}
+            </span>
+        </button>
+    </div>
 </template>
 
 <style lang="scss" scoped>
