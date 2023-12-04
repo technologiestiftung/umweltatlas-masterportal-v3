@@ -11,23 +11,9 @@ export default {
     computed: {
         ...mapGetters("Modules/Login", Object.keys(getters))
     },
-    watch: {
-    /**
-     * Listens to the active property change.
-     * @param {Boolean} isActive Value deciding whether the tool gets activated or deactivated.
-     * @returns {void}
-     */
-        active (isActive) {
-            if (isActive) {
-                if (!this.isLoggedIn()) {
-                    this.openLoginWindow();
-                }
-            }
-        }
-    },
     mounted () {
-        this.isLoggedIn();
-        setInterval(() => this.isLoggedIn(), 10_000); // check every 10 seconds
+        this.checkLoginStatus();
+        setInterval(this.checkLoginStatus, 10000); // check every 10 seconds
     },
     methods: {
         ...mapMutations("Modules/Login", Object.keys(mutations)),
@@ -56,14 +42,11 @@ export default {
             return this.translate("common:modules.login.profile") || "Profile";
         },
 
-        /**
-         * Returns true if user is logged in, else false
-         * @return {Boolean} logged in
-         */
-        isLoggedIn () {
-            this.checkLoggedIn();
+        checkLoginStatus () {
+            if (!this.loggedIn) {
+                this.openLoginWindow();
+            }
             this.setLoginIcon();
-            return this.loggedIn;
         },
 
         /**
