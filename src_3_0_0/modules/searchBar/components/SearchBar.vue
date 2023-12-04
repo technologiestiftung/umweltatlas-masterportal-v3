@@ -167,10 +167,11 @@ export default {
         * Watcher to check the searchInputValue for layerSelection module
         */
         searchInputValue: {
+            //todocheckHandlerUsage
             handler (newVal, oldVal) {
                 if (newVal === "" && oldVal !== "" && this.currentComponentSide === "layerSelection" && this.previousNavigationEntryText(this.currentSide) === this.$t("common:modules.layerSelection.name")) {
 
-                    this.navigateBack(this.currentSide);
+                    //this.navigateBack(this.currentSide);
                 }
             },
             deep: true
@@ -235,6 +236,35 @@ export default {
          */
         focusInput () {
             this.$refs.searchInput.focus();
+        },
+        /**
+         * Handles the input action behavior of the search
+         * @param {String} currentComponentSide Current component type
+         * @returns {void}
+         */
+        checkCurrentComponent (currentComponentSide) {
+            if (currentComponentSide === "root") {
+                this.clickAction();
+            }
+            else if (currentComponentSide === "layerSelection") {
+                if (this.searchInputValue.length === 0) {
+                    this.navigateBack(this.currentSide);
+                    this.navigateBack(this.currentSide); // change history?
+                    this.startLayerSelectionSearch(this.currentSide);
+                    this.setCurrentAvailableCategories(this.showAllResultsSearchCategory);
+
+                    this.startSearch();
+                }
+                if (this.searchInputValue.length >= this.minCharacters) {
+                    this.startLayerSelectionSearch(this.currentSide);
+                    this.setCurrentAvailableCategories(this.showAllResultsSearchCategory);
+
+                    this.startSearch();
+                }
+            }
+            else {
+                this.startSearch();
+            }
         },
         /**
          * Zooms to and sets a marker at the given search result

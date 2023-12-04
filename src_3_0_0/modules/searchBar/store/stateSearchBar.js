@@ -13,6 +13,8 @@
  * @property {Number} [zoomLevel=7] Defines the zoom level to use on zooming to a result.
  *
  * @property {String} [currentAvailableCategories=""] The current available categories.
+ * @property {String} [currentActionEvent=""] Name of the last activated action event e.g. "showLayerInfo".
+ * @property {String} [currentComponentName=""] Name of the last activated action event e.g. "showLayerInfo".
  * @property {String} [searchInput=""] The search input.
  * @property {Object[]} [searchInterfaceInstances=[]] The configured searchInterfaces.
  * @property {Object[]} [searchSuggestions=[]] The suggestions of the configured searchInterfaces.
@@ -36,6 +38,9 @@ const state = {
     zoomLevel: 7,
 
     currentAvailableCategories: "",
+    currentActionEvent: "",
+    currentSearchInputValue: "",
+    currentComponentName: "",
     searchInput: "",
     searchInterfaceInstances: [],
     searchSuggestions: [],

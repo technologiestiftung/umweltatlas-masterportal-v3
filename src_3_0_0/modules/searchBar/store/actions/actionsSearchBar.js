@@ -30,7 +30,7 @@ export default {
     updateSearchNavigation: ({getters, commit, rootGetters}, side) => {
         const type = rootGetters["Menu/currentComponent"](side).type;
 
-        if (getters.showAllResults === true && side === getters.currentSide) {
+        if (getters.showAllResults === true && side === getters.currentSide && getters.currentActionEvent === "") {
             if (type !== "searchbar" && type !== "layerselection") {
                 commit("setShowAllResults", false);
                 commit("Menu/switchToPreviousComponent", side, {root: true});
@@ -44,6 +44,15 @@ export default {
         if (side !== getters.currentSide) {
             commit("Menu/switchToPreviousComponent", side, {root: true});
         }
+
+
+        if (getters.currentSearchInputValue !== "" && getters.currentActionEvent !== "") {
+            commit("Menu/setNavigationHistoryBySide", {side: side, newHistory: [{type: "root", props: []}, {type: "layerSelection", props: {name: "common:modules.layerSelection.addSubject"}}]}, {root: true});
+            commit("Modules/SearchBar/setShowAllResults", true, {root: true});
+            commit("Modules/SearchBar/setSearchInput", getters.currentSearchInputValue, {root: true});
+            commit("Modules/SearchBar/setCurrentSearchInputValue", "", {root: true});
+            commit("Modules/SearchBar/setCurrentActionEvent", "", {root: true});
+        }
     },
     /**
      * Handles the switch from the single result view to the search overview and updates the menu navigation values.
@@ -53,6 +62,7 @@ export default {
      * @returns {void}
      */
     startLayerSelectionSearch: ({dispatch, commit}, side) => {
+        //todo update
         commit("setShowAllResults", true);
         dispatch("Menu/clickedMenuElement", {
             name: "common:modules.searchBar.searchResultList",

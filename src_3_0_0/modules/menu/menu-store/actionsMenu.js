@@ -141,6 +141,9 @@ export default {
      */
     navigateBack ({commit, dispatch, getters, state, rootGetters}, side) {
         nextTick(() => {
+            //Todo make search in layerselection work again
+            // extract special behaviour
+            // introduce steps wit loops
             if (getters.currentComponent(side).type === state.currentMouseMapInteractionsComponent && getters.currentComponent(side).type !== state.defaultComponent) {
                 dispatch("changeCurrentMouseMapInteractionsComponent", {type: state.defaultComponent, side});
             }
@@ -148,12 +151,18 @@ export default {
             if (rootGetters["Modules/SearchBar/showAllResults"] === false) {
                 commit("switchToPreviousComponent", side);
             }
+            if (getters.currentComponent(side).type === "searchbar" || getters.currentComponent(side).type === "layerSelection") {
+                dispatch("Modules/SearchBar/updateSearchNavigation", side, {root: true});
+            }
 
-            dispatch("Modules/SearchBar/updateSearchNavigation", side, {root: true});
-
-            if (getters.currentComponent(side).type === "layerSelection") {
+            if (getters.currentComponent(side).type === "layerSelection" && rootGetters["Modules/SearchBar/searchInput"] !== "") {
                 commit("Modules/SearchBar/setSearchInput", "", {root: true});
                 commit("setCurrentComponentPropsName", {side: side, name: "common:modules.layerSelection.addSubject"});
+                dispatch("navigateBack", side);
+            }
+
+            if (getters.currentComponent(side).type === "layerInformation") {
+                commit("switchToPreviousComponent", side);
             }
         });
     },

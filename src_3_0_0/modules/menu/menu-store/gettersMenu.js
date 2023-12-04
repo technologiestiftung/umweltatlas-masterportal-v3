@@ -131,6 +131,15 @@ const menuGetters = {
     },
 
     /**
+     ss*sss Returnss the Text to be chosen for backward menu navigation.
+     * @param {MenuState} state Local vuex state.
+     * @returns {Boolean} Function returning false or the Text.
+     */
+    navigationHistory: (state) => side => {
+        return state[side].navigation.history;
+    },
+
+    /**
      * @param {Object} state Local vuex state.
      * @returns {Boolean} Whether the secondaryMenu should be initially open.
      */

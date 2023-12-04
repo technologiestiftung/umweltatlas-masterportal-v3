@@ -25,13 +25,13 @@ export default {
     },
     computed: {
         ...mapGetters(["isModuleAvailable"]),
-        ...mapGetters("Modules/SearchBar", ["showAllResults", "iconsByActions"])
+        ...mapGetters("Modules/SearchBar", ["showAllResults", "iconsByActions", "searchInputValue"])
     },
     methods: {
         ...mapActions("Modules/SearchBar", [
             "activateAction"
         ]),
-        ...mapMutations("Modules/SearchBar", ["setSearchResultsActive"]),
+        ...mapMutations("Modules/SearchBar", ["setSearchResultsActive", "setCurrentActionEvent", "setCurrentSearchInputValue"]),
         /**
          * Checks for special actions, if an icon for the action shall be displayed.
          * Action 'startRouting': checks if routing module is available.
@@ -48,6 +48,9 @@ export default {
          * @returns {void}
          */
         callAction () {
+            console.log(this.actionName)
+            this.setCurrentActionEvent(this.actionName);
+            this.setCurrentSearchInputValue(this.searchInput);
             this.activateAction({actionName: this.actionName, actionArgs: this.actionArgs});
 
         }

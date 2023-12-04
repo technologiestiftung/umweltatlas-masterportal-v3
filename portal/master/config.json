@@ -44,13 +44,13 @@
           {
             "id": "4200",
             "geometryType": "LineString",
-            "name": "Übergebene Linien Feature",
+            "name": "Ãœbergebene Linien Feature",
             "styleId": "mapMarkerPolygon_flaecheninfo"
           },
           {
             "id": "4020",
             "geometryType": "Polygon",
-            "name": "Übergebene Polygon Feature",
+            "name": "Ãœbergebene Polygon Feature",
             "styleId": "mapMarkerPolygon_flaecheninfo"
           }
         ]
@@ -134,7 +134,7 @@
             "HARBURG",
             "HAMBURG-NORD",
             "BERGEDORF",
-            "EIMSBÜTTEL",
+            "EIMSBÃœTTEL",
             "HAMBURG-MITTE",
             "WANDSBEK"
           ]
@@ -260,7 +260,7 @@
                 "icon": "bi-record-circle"
               },
               {
-                "name": "Straßenname"
+                "name": "StraÃŸenname"
               }
             ]
           },
@@ -397,20 +397,20 @@
             "type": "language"
           },
           {
-            "name": "benutzerdefinierte Menüelemente",
+            "name": "benutzerdefinierte MenÃ¼elemente",
             "icon": "bi-folder-plus",
             "type": "folder",
             "elements": [
               {
                 "type": "customMenuElement",
-                "name": "Url öffnen",
+                "name": "Url Ã¶ffnen",
                 "openURL": "https://geoinfo.hamburg.de/"
               },
               {
                 "type": "customMenuElement",
-                "name": "Url öffnen und HTML anzeigen",
+                "name": "Url Ã¶ffnen und HTML anzeigen",
                 "openURL": "https://geoinfo.hamburg.de/",
-                "htmlContent": "<div><h1>This is a Heading</h1><p>Es wurde eine Url geöffnet.<p/></div>"
+                "htmlContent": "<div><h1>This is a Heading</h1><p>Es wurde eine Url geÃ¶ffnet.<p/></div>"
               },
               {
                 "type": "customMenuElement",
@@ -575,15 +575,15 @@
             "heightValueWater": "-20",
             "heightValueBuilding": "200",
             "zoomLevel": 5,
-            "heightLayerInfo": "Grundlage der Höheninformation ist das \"Digitalge Höhenmodell Hamburg DGM 1\" mit Hohenangaben im Koordinatenrefenerzsystem für Höhenangaben DE_DHHN2016_NH in Metern über Normalhöhennull (NHN).",
+            "heightLayerInfo": "Grundlage der HÃ¶heninformation ist das \"Digitalge HÃ¶henmodell Hamburg DGM 1\" mit Hohenangaben im Koordinatenrefenerzsystem fÃ¼r HÃ¶henangaben DE_DHHN2016_NH in Metern Ã¼ber NormalhÃ¶hennull (NHN).",
             "coordInfo": {
-              "title": "Koordinatenreferenzsystem für 2D-Lageangaben, Erläuterungen",
+              "title": "Koordinatenreferenzsystem fÃ¼r 2D-Lageangaben, ErlÃ¤uterungen",
               "explanations": [
                 "ETRS89_UTM32, EPSG 4647 (zE-N): Bezugssystem ETRS89, Abbildungsvorschrift UTM, Zone 32",
-                "EPSG 25832: Bezugssystem ETRS89, Abbildungsvorschrift UTM, Zone 32, ist identisch mit ETRS89_UTM32 jedoch ohne Angabe der Zonenkennung „32“ beim East-Wert",
-                "ETRS89_3GK3: Bezugssystem ETRS89, Abbildungsvorschrift Gauß-Krüger, 3. Meridianstreifen",
-                "EPSG 8395: Bezugssystem ETRS89, Abbildungsvorschrift Gauß-Krüger, 3. Meridianstreifen, ist identisch mit ETRS89_3GK3 jedoch ohne Angabe der Streifenkennung „3“ beim Rechtswert",
-                "DE_DHDN_3GK3, EPSG 31467: Bezugssystem DHDN, Abbildungsvorschrift Gauß-Krüger, 3. Meridianstreifen"
+                "EPSG 25832: Bezugssystem ETRS89, Abbildungsvorschrift UTM, Zone 32, ist identisch mit ETRS89_UTM32 jedoch ohne Angabe der Zonenkennung â€ž32â€œ beim East-Wert",
+                "ETRS89_3GK3: Bezugssystem ETRS89, Abbildungsvorschrift GauÃŸ-KrÃ¼ger, 3. Meridianstreifen",
+                "EPSG 8395: Bezugssystem ETRS89, Abbildungsvorschrift GauÃŸ-KrÃ¼ger, 3. Meridianstreifen, ist identisch mit ETRS89_3GK3 jedoch ohne Angabe der Streifenkennung â€ž3â€œ beim Rechtswert",
+                "DE_DHDN_3GK3, EPSG 31467: Bezugssystem DHDN, Abbildungsvorschrift GauÃŸ-KrÃ¼ger, 3. Meridianstreifen"
               ]
             }
           },
@@ -682,7 +682,7 @@
           "alias_mobile": "LGV Hamburg"
         },
         {
-          "url": "mailto:LGVGeoPortal-Hilfe@gv.hamburg.de?subject=Kartenunstimmigkeiten%20melden&body=Zur%20weiteren%20Bearbeitung%20bitten%20wir%20Sie%20die%20nachstehenden%20Angaben%20zu%20machen.%20Bei%20Bedarf%20fügen%20Sie%20bitte%20noch%20einen%20Screenshot%20hinzu.%20Vielen%20Dank!%0A%0A1.%20Name:%0A2.%20Telefon:%0A3.%20Anliegen",
+          "url": "mailto:LGVGeoPortal-Hilfe@gv.hamburg.de?subject=Kartenunstimmigkeiten%20melden&body=Zur%20weiteren%20Bearbeitung%20bitten%20wir%20Sie%20die%20nachstehenden%20Angaben%20zu%20machen.%20Bei%20Bedarf%20fÃ¼gen%20Sie%20bitte%20noch%20einen%20Screenshot%20hinzu.%20Vielen%20Dank!%0A%0A1.%20Name:%0A2.%20Telefon:%0A3.%20Anliegen",
           "alias": "common:modules.portalFooter.mapDiscrepancy"
         }
       ],
@@ -692,7 +692,7 @@
       "addLayerButton": {
         "active": true,
         "searchBar": {
-          "active": false,
+          "active": true,
           "searchInterfaceInstanceId": "elasticSearch_0",
           "searchCategory": "Thema (externe Fachdaten)"
         }
@@ -855,7 +855,7 @@
       "elements": [
         {
           "id": "10220",
-          "name": "Dauerzählstellen (Rad) Hamburg",
+          "name": "DauerzÃ¤hlstellen (Rad) Hamburg",
           "typ": "WMS",
           "visibility": true
         },
@@ -892,7 +892,7 @@
         },
         {
           "id": "8730",
-          "name": "Durchschnittliche tägliche Verkehrsstärken (Mo-So)",
+          "name": "Durchschnittliche tÃ¤gliche VerkehrsstÃ¤rken (Mo-So)",
           "typ": "WMS",
           "gfiTheme": "verkehrsstaerken",
           "visibility": false
@@ -927,7 +927,7 @@
           "type": "folder",
           "elements": [
             {
-              "name": "Lärmschutzbereiche Flughafen Hamburg (FluLärmHmbV)",
+              "name": "LÃ¤rmschutzbereiche Flughafen Hamburg (FluLÃ¤rmHmbV)",
               "type": "folder",
               "elements": [
                 {
@@ -942,7 +942,7 @@
                   "id": "2429"
                 },
                 {
-                  "name": "Überschwemmungsgebiete",
+                  "name": "Ãœberschwemmungsgebiete",
                   "type": "folder",
                   "elements": [
                     {
@@ -970,7 +970,7 @@
         {
           "id": "1711",
           "styleId": "1711",
-          "name": "Krankenhäuser",
+          "name": "KrankenhÃ¤user",
           "typ": "WFS",
           "visibility": false,
           "loadingStrategy": "all",
@@ -983,7 +983,7 @@
           "wildCard": "%",
           "singleChar": "#",
           "escapeChar": "!",
-          "layerAttribution": "<span>Test: LayerAttribution für Krankenhäuser</span>"
+          "layerAttribution": "<span>Test: LayerAttribution fÃ¼r KrankenhÃ¤user</span>"
         },
         {
           "id": "2003",
@@ -999,7 +999,7 @@
         {
           "id": "52",
           "styleId": "52",
-          "name": "Parkhäuser",
+          "name": "ParkhÃ¤user",
           "typ": "WFS",
           "visibility": false,
           "autoRefresh": 5000
@@ -1022,18 +1022,18 @@
           "wildCard": "%",
           "singleChar": "#",
           "escapeChar": "!",
-          "layerAttribution": "<span>Test: LayerAttribution für Schulen</span>"
+          "layerAttribution": "<span>Test: LayerAttribution fÃ¼r Schulen</span>"
         },
         {
           "id": "19173",
-          "name": "Digitales Höhenmodell Hamburg (DGM1)",
+          "name": "Digitales HÃ¶henmodell Hamburg (DGM1)",
           "typ": "WMS",
           "visibility": false
         },
         {
           "id": "18104",
           "styleId": "18104",
-          "name": "Anzahl frei verfügbarer E-Lastenräder je StadtRad-Station",
+          "name": "Anzahl frei verfÃ¼gbarer E-LastenrÃ¤der je StadtRad-Station",
           "typ": "SensorThings",
           "visibility": false
         },
@@ -1087,7 +1087,7 @@
         {
           "id": "20625.90024",
           "styleId": "200_300_400_600_anzahl_sus_primarstufe",
-          "name": "Schüler*innen nach Sozialräumen (1 bis 4)",
+          "name": "SchÃ¼ler*innen nach SozialrÃ¤umen (1 bis 4)",
           "typ": "WFS",
           "visibility": false,
           "gfiAttributes": "showAll",
@@ -1125,7 +1125,7 @@
         },
         {
           "id": "GeoJSON",
-          "name": "Beiträge (GeoJSON)",
+          "name": "BeitrÃ¤ge (GeoJSON)",
           "typ": "GeoJSON",
           "visibility": false,
           "url": "./resources/example_geojson.json",
@@ -1136,7 +1136,7 @@
         },
         {
           "id": "StaticImage",
-          "name": "Lärmberechnung",
+          "name": "LÃ¤rmberechnung",
           "extent": [
             568426.27,
             5931985.58,
@@ -1163,7 +1163,7 @@
         },
         {
           "id": "1534",
-          "name": "Grünflächen (WebGL)",
+          "name": "GrÃ¼nflÃ¤chen (WebGL)",
           "renderer": "webgl",
           "typ": "WFS",
           "styleId": "1534",
@@ -1255,25 +1255,25 @@
               "elements": [
                 {
                   "id": "12883",
-                  "name": "Gelände",
+                  "name": "GelÃ¤nde",
                   "typ": "Terrain3D",
                   "visibility": true
                 }
               ]
             },
             {
-              "name": "3D Gebäudedaten",
+              "name": "3D GebÃ¤udedaten",
               "type": "folder",
               "elements": [
                 {
                   "id": "16101",
-                  "name": "Brückenflächen HH",
+                  "name": "BrÃ¼ckenflÃ¤chen HH",
                   "typ": "TileSet3D",
                   "visibility": true
                 },
                 {
                   "id": "12884",
-                  "name": "Gebäude LoD2",
+                  "name": "GebÃ¤ude LoD2",
                   "typ": "TileSet3D",
                   "visibility": true
                 },

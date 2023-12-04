@@ -112,7 +112,7 @@ const actions = {
      * @param {String} payload.layerId The layer id.
      * @returns {void}
      */
-    showLayer: ({commit, dispatch, rootGetters}, {layerId}) => {
+    showLayer: ({commit, getters, dispatch, rootGetters}, {layerId}) => {
         const layerConfig = rootGetters.layerConfigById(layerId);
 
         if (layerConfig) {
