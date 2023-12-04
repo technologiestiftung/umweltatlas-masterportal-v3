@@ -143,6 +143,9 @@ export default {
         const searchValue = rootGetters["Modules/SearchBar/searchInput"];
 
         nextTick(() => {
+            //Todo make search in layerselection work again
+            // extract special behaviour
+            // introduce steps wit loops
             if (getters.currentComponent(side).type === state.currentMouseMapInteractionsComponent && getters.currentComponent(side).type !== state.defaultComponent) {
                 dispatch("changeCurrentMouseMapInteractionsComponent", {type: state.defaultComponent, side});
             }

@@ -183,9 +183,20 @@ export default {
      * @param {String} payload.layerId The layer id.
      * @returns {void}
      */
-    showLayerInfo: ({commit, dispatch, rootGetters}, {layerId}) => {
+    showLayerInfo: ({getters, commit, dispatch, rootGetters}, {layerId}) => {
+        //todo uodate navigation history
         let layerConfig = rootGetters.layerConfigById(layerId);
 
+        console.log(getters.showAllResults, rootGetters["Menu/currentComponentName"]("mainMenu"), rootGetters["Menu/navigationHistory"]("mainMenu")[1].type, rootGetters["Menu/navigationHistory"]("mainMenu")) //searchBar or layerSelection
+        commit("Menu/setNavigationHistoryBySide", {side: "mainMenu", newHistory: []}, {root: true});
+
+       /*  commit("Menu/setNavigationHistoryBySide", {side: "mainMenu", newHistory: [{type: "root", props: []}, {
+            "props": {
+                "name": "common:modules.searchBar.searchResults"
+            },
+            "type": "searchBar"
+        }]}, {root: true}); */
+        console.log(rootGetters["Menu/navigationHistory"]("mainMenu"), "dddddddddddd");
         if (!layerConfig) {
             layerConfig = rawLayerList.getLayerWhere({id: layerId});
         }

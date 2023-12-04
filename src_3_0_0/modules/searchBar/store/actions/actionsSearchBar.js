@@ -62,6 +62,7 @@ export default {
      * @returns {void}
      */
     startLayerSelectionSearch: ({dispatch, commit}, side) => {
+        //todo update
         commit("setShowAllResults", true);
         dispatch("Menu/clickedMenuElement", {
             name: "common:modules.searchBar.searchResultList",
