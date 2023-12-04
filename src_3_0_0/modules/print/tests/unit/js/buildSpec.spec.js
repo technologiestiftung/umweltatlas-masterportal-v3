@@ -224,6 +224,114 @@ describe("src_3_0_0/modules/print/js/buildSpec", function () {
             });
         });
     });
+    describe("prepareLegendAttributes", function () {
+        it("should return prepared legend attributes for legend array of strings", function () {
+            const legend = [
+                "SomeGetLegendGraphicRequest",
+                "<svg some really short svg with fill:rgb(255,0,0);></svg>",
+                "barfoo.png"
+            ];
+
+            expect(buildSpec.prepareLegendAttributes(legend)).to.deep.equal([
+                {
+                    legendType: "wmsGetLegendGraphic",
+                    geometryType: "",
+                    imageUrl: "SomeGetLegendGraphicRequest",
+                    color: "",
+                    label: undefined
+                },
+                {
+                    legendType: "geometry",
+                    geometryType: "",
+                    imageUrl: "",
+                    color: "rgb(255,0,0)",
+                    label: undefined
+                },
+                {
+                    legendType: "wfsImage",
+                    geometryType: "",
+                    imageUrl: "barfoo.png",
+                    color: "",
+                    label: undefined
+                }
+            ]);
+        });
+        it("should return prepared legend attributes for legend array of object", function () {
+            const legend = [
+                {
+                    graphic: "SomeGetLegendGraphicRequest",
+                    name: "name_WMS"
+                },
+                {
+                    graphic: "<svg some really short svg with fill:rgb(255,0,0);></svg>",
+                    name: "name_SVG"
+                },
+                {
+                    graphic: "barfoo.png",
+                    name: "name_WFS_Image"
+                }];
+
+            expect(buildSpec.prepareLegendAttributes(legend)).to.deep.equal([
+                {
+                    legendType: "wmsGetLegendGraphic",
+                    geometryType: "",
+                    imageUrl: "SomeGetLegendGraphicRequest",
+                    color: "",
+                    label: "name_WMS"
+                },
+                {
+                    legendType: "geometry",
+                    geometryType: "",
+                    imageUrl: "",
+                    color: "rgb(255,0,0)",
+                    label: "name_SVG"
+                },
+                {
+                    legendType: "wfsImage",
+                    geometryType: "",
+                    imageUrl: "barfoo.png",
+                    color: "",
+                    label: "name_WFS_Image"
+                }
+            ]);
+        });
+        it("should return prepared legend for a svg polygon style", function () {
+            const legend = [
+                {
+                    graphic: "data:image/svg+xml;charset=utf-8,<svg height='35' width='35' version='1.1' xmlns='http://www.w3.org/2000/svg'><polygon points='5,5 30,5 30,30 5,30' style='fill:rgb(10, 200, 0);fill-opacity:0.2;stroke:rgb(0, 0, 0);stroke-opacity:1;stroke-width:1;'/></svg>",
+                    name: "name_WFS_polygon"
+                }];
+
+            expect(buildSpec.prepareLegendAttributes(legend)).to.deep.equal([
+                {
+                    legendType: "geometry",
+                    geometryType: "polygon",
+                    imageUrl: "",
+                    color: "rgba(10, 200, 0, 0.2)",
+                    label: "name_WFS_polygon",
+                    strokeColor: "rgba(0, 0, 0, 1)",
+                    strokeWidth: "1"
+                }
+            ]);
+        });
+        it("should return prepared legend attributes with sldVersion for GetLegendGraphic-Requests", function () {
+            const legend = [
+                    {
+                        graphic: "SomeGetLegendGraphicRequest",
+                        name: "name_WMS"
+                    }
+                ],
+                sldVersion = "1.1.0";
+
+            expect(buildSpec.prepareLegendAttributes(legend, sldVersion)).to.deep.equal([{
+                legendType: "wmsGetLegendGraphic",
+                geometryType: "",
+                imageUrl: "SomeGetLegendGraphicRequest&sld_version=1.1.0",
+                color: "",
+                label: "name_WMS"
+            }]);
+        });
+    });
 
     describe("prepareGfiAttributes", function () {
         it("should create gfi attributes array", function () {
