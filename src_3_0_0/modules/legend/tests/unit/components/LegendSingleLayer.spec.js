@@ -1,6 +1,7 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
 import LegendSingleLayerComponent from "../../../components/LegendSingleLayer.vue";
+import Legend from "../../../store/indexLegend";
 import {expect} from "chai";
 import sinon from "sinon";
 
@@ -10,6 +11,10 @@ describe("src_3_0_0/modules/legend/components/LegendSingleLayer.vue", () => {
     let store,
         wrapper;
 
+    Legend.getters.sldVersion = () => {
+        return "1.1.0";
+    };
+
     beforeEach(() => {
         store = createStore({
             namespaces: true,
@@ -17,10 +22,9 @@ describe("src_3_0_0/modules/legend/components/LegendSingleLayer.vue", () => {
                 Modules: {
                     namespaced: true,
                     modules: {
-                        namespaced: true
-                        // Legend
+                        namespaced: true,
+                        Legend: Legend
                     }
-
                 }
             }
         });
@@ -216,6 +220,24 @@ describe("src_3_0_0/modules/legend/components/LegendSingleLayer.vue", () => {
             expect(wrapper.find(".layer-legend > div:nth-child(2) img").exists()).to.be.true;
             expect(wrapper.find(".layer-legend > div:nth-child(2) img").attributes().src).to.equal("another_string_interpreted_as_image");
             expect(wrapper.find(".layer-legend > div:nth-child(2) span").text()).to.equal("barfoo");
+        });
+        it("renders the legend with img with sldVersion request", () => {
+            const propsData = {
+                id: "legend_myLayer",
+                legendObj: {
+                    name: "myLayer",
+                    legend: ["some_request_for_an_image?REQUEST=GetLegendGraphic"],
+                    position: 1
+                }
+            };
+
+            wrapper = shallowMount(LegendSingleLayerComponent, {
+                global: {
+                    plugins: [store]
+                },
+                propsData
+            });
+            expect(wrapper.find("#legend_myLayer > div:nth-child(1) img").attributes().src).includes("&sld_version=1.1.0");
         });
     });
     describe("renders legend with svg", () => {
