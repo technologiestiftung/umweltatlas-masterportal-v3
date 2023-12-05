@@ -1,14 +1,22 @@
 const
     PORTALCONFIG = "portalConfig",
+    PORTALCONFIG_OLD = "Portalconfig",
     TOPICS = "layerConfig",
-    BASEMAPS = "baselayer",
+    TOPICS_OLD = "Themenconfig",
+    BASEMAPS = "Baselayer",
     BASEMAPS_OLD = "Hintergrundkarten",
-    SUBJECTDATA = "subjectlayer";
+    BASEMAPS_NEW = "baselayer",
+    SUBJECTDATA = "subjectlayer",
+    SUBJECTDATA_OLD = "Fachdaten";
 
 module.exports = {
     PORTALCONFIG,
+    PORTALCONFIG_OLD,
     TOPICS,
+    TOPICS_OLD,
     BASEMAPS,
     BASEMAPS_OLD,
-    SUBJECTDATA
+    BASEMAPS_NEW,
+    SUBJECTDATA,
+    SUBJECTDATA_OLD
 };

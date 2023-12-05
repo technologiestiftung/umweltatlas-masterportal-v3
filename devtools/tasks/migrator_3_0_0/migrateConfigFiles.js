@@ -4,7 +4,7 @@ const fs = require("fs").promises,
     createMainMenu = require("./createMainMenu"),
     createSecondaryMenu = require("./createSecondaryMenu"),
     {copyDir, replaceInFile, removeAttributesFromTools} = require("./utils"),
-    {PORTALCONFIG, TOPICS, BASEMAPS, BASEMAPS_OLD, SUBJECTDATA} = require("./constants"),
+    {PORTALCONFIG, PORTALCONFIG_OLD, TOPICS, TOPICS_OLD, BASEMAPS, BASEMAPS_OLD, BASEMAPS_NEW, SUBJECTDATA, SUBJECTDATA_OLD} = require("./constants"),
     rootPath = path.resolve(__dirname, "../../../"),
     {deprecated, toolsNotToMigrate, toRemoveFromConfigJs, toRemoveFromTools} = require("./configuration"),
     migratedTools = toolsNotToMigrate.concat(deprecated);
@@ -12,11 +12,18 @@ const fs = require("fs").promises,
 /**
  * Migrates the mapView.
  * @param {Object} data content of v2 config.json
+ * @param {Object} configJS the javascript config.js content
  * @returns {Object} the migrated mapView
  */
-function readMapView (data) {
+function readMapView (data, configJS) {
     console.info("mapView");
-    return data[PORTALCONFIG].mapView;
+    const mapView = data[PORTALCONFIG_OLD].mapView || {};
+
+    if (configJS.mapInteractions) {
+        mapView.mapInteractions = configJS.mapInteractions;
+    }
+
+    return mapView;
 }
 
 /**
@@ -26,7 +33,22 @@ function readMapView (data) {
  */
 function migrateControls (data) {
     console.info("controls");
-    const controls = data[PORTALCONFIG].controls;
+    const controls = data[PORTALCONFIG_OLD].controls;
+
+    if (controls.button3d === true) {
+        controls.rotation = true;
+        controls.tiltView = true;
+    }
+
+    if (controls?.startTool?.tools?.length > 0) {
+        controls.startModule = {};
+        controls.startModule.secondaryMenu = controls.startTool.tools;
+    }
+
+    delete controls.attributions;
+    delete controls.mousePosition;
+    delete controls.orientation3d;
+    delete controls.startTool;
 
     controls.expandable = {};
     console.info("--- HINT: fill controls into expandable, to expand and collapse controlbar.");
@@ -40,7 +62,7 @@ function migrateControls (data) {
  * @returns {Object} the migrated getFeatureInfo
  */
 function migrateGFI (data) {
-    const gfi = data[PORTALCONFIG].menu.tools?.children?.gfi || data[PORTALCONFIG].menu.gfi;
+    const gfi = data[PORTALCONFIG_OLD].menu.tools?.children?.gfi || data[PORTALCONFIG_OLD].menu.gfi;
     let getFeatureInfo = null;
 
     if (gfi) {
@@ -48,6 +70,7 @@ function migrateGFI (data) {
         getFeatureInfo = {...gfi};
 
         getFeatureInfo.type = "getFeatureInfo";
+
         removeAttributesFromTools(toRemoveFromTools, getFeatureInfo);
         migratedTools.push("gfi");
     }
@@ -63,7 +86,7 @@ function migrateGFI (data) {
  */
 function migrateTree (data, configJS) {
     console.info("tree");
-    const oldTree = data[PORTALCONFIG].tree,
+    const oldTree = data[PORTALCONFIG_OLD].tree,
         newTree = {};
 
     if (oldTree?.highlightedFeatures) {
@@ -71,10 +94,8 @@ function migrateTree (data, configJS) {
     }
     newTree.addLayerButton = {};
     newTree.addLayerButton.active = true;
-    newTree.layerPills = {};
-    newTree.layerPills.active = true;
 
-    if (data[PORTALCONFIG].treeType === "default") {
+    if (data[PORTALCONFIG_OLD].treeType === "default") {
         if (configJS.tree) {
             newTree.layerIDsToIgnore = [...configJS.tree.layerIDsToIgnore];
             newTree.layerIDsToStyle = [...configJS.tree.layerIDsToStyle];
@@ -111,6 +132,42 @@ function migrateTree (data, configJS) {
 }
 
 /**
+ * Migrates the map parameters from config.js.
+ * @param {Object} configJS the javascript configJs content
+ * @returns {Object} the migrated map parameters from config.js
+ */
+function migrateMapParameters (configJS) {
+    console.info("map parameters from config.jhs");
+
+    const map = {
+        layerPills: {
+            active: true
+        }
+    };
+
+    if (configJS.cesiumParameter) {
+        map.map3dParameter = configJS.cesiumParameter;
+    }
+    if (configJS.featureViaURL) {
+        map.featureViaURL = configJS.featureViaURL;
+    }
+    if (configJS.mapMarker) {
+        map.mapMarker = configJS.mapMarker;
+    }
+    if (typeof configJS.mouseHover === "object") {
+        map.mouseHover = configJS.mouseHover;
+    }
+    if (configJS.startingMap3D === true) {
+        map.startingMapMode = "3D";
+    }
+    if (configJS.zoomTo) {
+        map.zoomTo = configJS.zoomTo;
+    }
+
+    return map;
+}
+
+/**
  * Migrates the footer.
  * @param {Object} configJS the javascript configJs content
  * @returns {Object} the migrated footer
@@ -137,12 +194,12 @@ function migrateFooter (configJS) {
  */
 function migrateTopics (data) {
     console.info(TOPICS);
-    const oldTopics = data[TOPICS],
+    const oldTopics = data[TOPICS_OLD],
         oldBaseMaps = oldTopics[BASEMAPS] || oldTopics[BASEMAPS_OLD],
-        oldSubjectData = oldTopics[SUBJECTDATA],
+        oldSubjectData = oldTopics[SUBJECTDATA_OLD],
         topics = {};
 
-    topics[BASEMAPS] = migrateBaseMaps(oldBaseMaps);
+    topics[BASEMAPS_NEW] = migrateBaseMaps(oldBaseMaps);
     topics[SUBJECTDATA] = migrateSubjectData(oldSubjectData);
     return topics;
 }
@@ -172,7 +229,7 @@ function migrateBaseMaps (oldData) {
  * @returns {Object} the migrated subject data
  */
 function migrateSubjectData (oldData) {
-    console.info("   " + SUBJECTDATA + "\n");
+    console.info("   " + SUBJECTDATA_OLD + "\n");
     const subjectData = {
         elements: []
     };
@@ -263,18 +320,19 @@ async function migrateFiles (sourcePath, destPath) {
                             const migrated = {},
                                 parsed = JSON.parse(data);
 
-                            if (!parsed[PORTALCONFIG].mainMenu) {
+                            if (!parsed[PORTALCONFIG_OLD].mainMenu) {
                                 console.info("\n#############################     migrate     #############################\n");
                                 console.info("ATTENTION --- the following tools are not migrated: ", toolsNotToMigrate.join(", ") + "\n");
                                 console.info("source: ", configJsonSrcFile, "\ndestination: ", configJsonDestFile, "\n");
                                 const gfi = migrateGFI(parsed);
 
                                 migrated[PORTALCONFIG] = {};
-                                migrated[PORTALCONFIG].mapView = readMapView(parsed);
+                                migrated[PORTALCONFIG].map = migrateMapParameters(configJS);
+                                migrated[PORTALCONFIG].map.mapView = readMapView(parsed, configJS);
                                 migrated[PORTALCONFIG].portalFooter = migrateFooter(configJS);
-                                migrated[PORTALCONFIG].controls = migrateControls(parsed);
+                                migrated[PORTALCONFIG].map.controls = migrateControls(parsed);
                                 if (gfi) {
-                                    migrated[PORTALCONFIG].getFeatureInfo = gfi;
+                                    migrated[PORTALCONFIG].map.getFeatureInfo = gfi;
                                 }
                                 migrated[PORTALCONFIG].tree = migrateTree(parsed, configJS);
                                 migrated[PORTALCONFIG].mainMenu = createMainMenu(parsed, configJS, migratedTools, toRemoveFromTools);

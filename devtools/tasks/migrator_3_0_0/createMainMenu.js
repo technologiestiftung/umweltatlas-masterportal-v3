@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-const {PORTALCONFIG} = require("./constants"),
+const {PORTALCONFIG_OLD} = require("./constants"),
     {removeAttributesFromTools} = require("./utils");
 
 module.exports = function createMainMenu (data, configJS, migratedTools, toRemoveFromTools) {
@@ -27,7 +27,7 @@ module.exports = function createMainMenu (data, configJS, migratedTools, toRemov
  */
 function fillMainSections (data, configJS, mainMenu, migratedTools, toRemoveFromTools) {
     console.info("   tools");
-    const menu = data[PORTALCONFIG].menu,
+    const menu = data[PORTALCONFIG_OLD].menu,
         tools = menu.tools?.children,
         firstSection = mainMenu.sections[0],
         secondSection = mainMenu.sections[1];
@@ -94,8 +94,8 @@ function fillMainSections (data, configJS, mainMenu, migratedTools, toRemoveFrom
  * @returns {void}
  */
 function addSearchbar (data, mainMenu) {
-    if (data[PORTALCONFIG].searchBar) {
-        const oldSearchbar = data[PORTALCONFIG].searchBar,
+    if (data[PORTALCONFIG_OLD].searchBar) {
+        const oldSearchbar = data[PORTALCONFIG_OLD].searchBar,
             newSearchbar = {
                 searchInterfaces: {}
             };
@@ -130,8 +130,8 @@ function addSearchbar (data, mainMenu) {
 function addTitle (data, mainMenu) {
     let newTitle = {};
 
-    if (data[PORTALCONFIG].portalTitle) {
-        const oldTitle = data[PORTALCONFIG].portalTitle,
+    if (data[PORTALCONFIG_OLD].portalTitle) {
+        const oldTitle = data[PORTALCONFIG_OLD].portalTitle,
             oldTitleText = oldTitle.title;
 
         newTitle = oldTitle;

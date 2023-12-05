@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-const {PORTALCONFIG} = require("./constants"),
+const {PORTALCONFIG_OLD} = require("./constants"),
     {removeAttributesFromTools} = require("./utils");
 
 module.exports = function createSecondaryMenu (data, migratedTools, toRemoveFromTools) {
@@ -23,7 +23,7 @@ module.exports = function createSecondaryMenu (data, migratedTools, toRemoveFrom
  */
 function fillSections (data, secondaryMenu, migratedTools, toRemoveFromTools) {
     console.info("   tools");
-    const menu = data[PORTALCONFIG].menu,
+    const menu = data[PORTALCONFIG_OLD].menu,
         tools = menu.tools?.children,
         section = secondaryMenu.sections[0];
 

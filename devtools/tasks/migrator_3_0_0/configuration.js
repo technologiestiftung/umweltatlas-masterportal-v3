@@ -13,6 +13,7 @@ const toolsNotToMigrate = [
         "gfiOnAddress",
         "hochWasserPrint",
         "mietenspiegelFormular",
+        "modeler3D",
         "oktagonKartenportal",
         "quickResponseCode",
         "refugeeHomes",
@@ -30,11 +31,11 @@ const toolsNotToMigrate = [
     deprecated = ["searchByCoord", "supplyCoord", "parcelSearch", "extendedFilter"],
     // toRemoveFromTools => attributes not to provide at tool-configs in v3.0.0
     toRemoveFromTools = {
-        "all": ["icon", "renderToWindow", "active", "isVisibleInMenu", "resizableWindow", "initialWidth", "glyphicon"],
+        "all": ["icon", "renderToWindow", "active", "isVisibleInMenu", "resizableWindow", "initialWidth", "glyphicon", "onlyDesktop"],
         "draw": ["enableAttributesSelector", "iconList", "addIconsOfActiveLayers"],
         "legend": ["showCollapseAllButton"],
-        "filter": ["deactivateGFI", "isInitOpen"],
-        "getFeatureInfo": ["name", "centerMapToClickPoint", "desktopType"]
+        "filter": ["deactivateGFI", "isInitOpen", "isGeneric"],
+        "getFeatureInfo": ["name", "centerMapToClickPoint", "desktopType", "type"]
     },
     toRemoveFromConfigJs = ["footer", "defaultToolId", "scaleLine", "tree.layerIDsToIgnore", "tree.layerIDsToStyle", "tree.metaIDsToMerge", "tree.metaIDsToIgnore"],
     replacementsInConfigJson = {
