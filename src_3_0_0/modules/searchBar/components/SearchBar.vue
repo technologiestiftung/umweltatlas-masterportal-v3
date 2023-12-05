@@ -66,7 +66,7 @@ export default {
          * @returns {Boolean} True if search should be executed.
          */
         searchActivated () {
-            return this.searchInputValue.length >= parseInt(this.minCharacters, 10);
+            return this.searchInputValue?.length >= parseInt(this.minCharacters, 10);
         },
         /**
          * Updates the categories to unique categories.
@@ -146,10 +146,14 @@ export default {
         * Watcher to check the current component
         */
         currentComponentSide: {
-            handler (newVal) {
+            handler (newVal) { //todo rewrite
                 if (newVal === "root" || (newVal === "layerSelection" && this.addLayerButtonSearchActive === true)) {
-                    this.searchInputValue = "";
+                    //this.searchInputValue = ""; // check where this is necessary?
                     this.$refs?.searchInput.blur();
+                    if (newVal === "root") {
+                        this.searchInputValue = "";
+                        this.navigateBack(this.currentSide);
+                    }
                     if (this.side && newVal === "root") {
                         this.switchToRoot(this.side);
                     }
@@ -169,8 +173,8 @@ export default {
         searchInputValue: {
             //todocheckHandlerUsage
             handler (newVal, oldVal) {
+                this.checkCurrentComponent(this.currentComponentSide);
                 if (newVal === "" && oldVal !== "" && this.currentComponentSide === "layerSelection" && this.previousNavigationEntryText(this.currentSide) === this.$t("common:modules.layerSelection.name")) {
-
                     //this.navigateBack(this.currentSide);
                 }
             },
@@ -247,9 +251,9 @@ export default {
                 this.clickAction();
             }
             else if (currentComponentSide === "layerSelection") {
-                if (this.searchInputValue.length === 0) {
+                if (this.searchInputValue?.length === 0) {
+                    //this.navigateBack(this.currentSide); // change history?
                     this.navigateBack(this.currentSide);
-                    this.navigateBack(this.currentSide); // change history?
                     this.startLayerSelectionSearch(this.currentSide);
                     this.setCurrentAvailableCategories(this.showAllResultsSearchCategory);
 
