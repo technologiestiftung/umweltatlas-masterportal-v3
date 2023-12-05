@@ -229,7 +229,7 @@ const getters = {
      * @param {Object} state state of the app-store.
      * @returns {Object[]} The layers.
      */
-    invisibleBaselayerConfigs: (state) => {
+    invisibleBaselayerConfigs: state => {
         const layerContainer = getters.allBaselayerConfigs(state);
 
         return layerContainer.filter(layerConf => layerConf.visibility !== true);
@@ -261,7 +261,7 @@ const getters = {
      * @param {String} moduleType type of the module
      * @returns {Boolean} true, if moduleName is configured in a menu.
      */
-    isModuleAvailable: state => moduleType =>{
+    isModuleAvailable: state => moduleType => {
         return JSON.stringify(state.portalConfig).includes("\"type\":\"" + moduleType + "\"");
     },
 
