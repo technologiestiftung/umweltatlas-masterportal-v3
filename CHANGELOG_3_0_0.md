@@ -20,7 +20,7 @@
     - Portalconfig.mouseHover -> portalConfig.map.mouseHover
     - Portalconfig.tree.layerPills -> portalConfig.map.layerPills
 - The following attributes have been moved from config.json to config.js
-    - Portalconfig.alerts -> alerting.initalAlerts (`alerts` has been renamed to `initalAlerts`)
+    - Portalconfig.alerts -> alerting.initialAlerts (`alerts` has been renamed to `initialAlerts`)
 - The following attributes have been moved from config.js to config.json
     - cesiumParameter -> portalConfig.map.map3dParameter (`cesiumParameter` has been renamed to `map3dParameter`)
     - featureViaURL -> portalConfig.map.featureViaURL

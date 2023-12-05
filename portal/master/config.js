@@ -22,7 +22,7 @@ const Config = {
     wfsImgPath: "https://geodienste.hamburg.de/lgv-config/img/",
     alerting: {
         fetchBroadcastUrl: "./resources/newsFeedPortalAlerts.json",
-        initalAlerts: {
+        initialAlerts: {
             "qs-release": {
                 category: "Portal zur Abnahme!",
                 content: "Dieses Geoportal dient der Qualitätskontrolle durch den Kunden.<br>Es ist aufgrund von möglichen Fehlern <b>nicht</b> zur Nutzung für alltägliche oder berufliche Aufgaben geeignet!<br><br>",

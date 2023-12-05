@@ -26,7 +26,7 @@ export default {
             "configPaths",
             "displayedAlerts",
             "fetchBroadcastUrl",
-            "initalAlerts",
+            "initialAlerts",
             "initialClosed",
             "localStorageDisplayedAlertsKey",
             "showTheModal",
@@ -65,7 +65,7 @@ export default {
             this.fetchBroadcast(this.fetchBroadcastUrl);
         }
 
-        this.addAlertsFromConfig(this.initalAlerts);
+        this.addAlertsFromConfig(this.initialAlerts);
     },
 
     methods: {
