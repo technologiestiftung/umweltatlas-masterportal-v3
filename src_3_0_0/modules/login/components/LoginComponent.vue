@@ -11,6 +11,18 @@ export default {
     computed: {
         ...mapGetters("Modules/Login", Object.keys(getters))
     },
+    watch: {
+        /**
+         * Listens to the active property change.
+         * @param {Boolean} isActive Value deciding whether the tool gets activated or deactivated.
+         * @returns {void}
+         */
+        active (isActive) {
+            if (isActive) {
+                this.checkLoginStatus();
+            }
+        }
+    },
     mounted () {
         this.checkLoginStatus();
         setInterval(this.checkLoginStatus, 10000); // check every 10 seconds
@@ -43,10 +55,12 @@ export default {
         },
 
         checkLoginStatus () {
+            this.checkLoggedIn();
             if (!this.loggedIn) {
                 this.openLoginWindow();
             }
             this.setLoginIcon();
+            return this.loggedIn;
         },
 
         /**

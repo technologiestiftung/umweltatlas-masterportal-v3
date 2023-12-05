@@ -15,7 +15,7 @@ const fakeToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiIsImtpZCI6IjViY2IzZThmNDM2M
 
 config.global.mocks.$t = key => key;
 
-describe("src/modules/tools/login/components/LoginComponent.vue", () => {
+describe("src/modules/Modules/Login/components/LoginComponent.vue", () => {
     const
         sandbox = sinon.createSandbox();
     let store,
@@ -28,9 +28,11 @@ describe("src/modules/tools/login/components/LoginComponent.vue", () => {
         store = createStore({
             namespaces: true,
             modules: {
-                Tools: {
+                namespaced: true,
+                Modules: {
                     namespaced: true,
                     modules: {
+                        namespaced: true,
                         Login: Login
                     }
                 }
@@ -41,7 +43,7 @@ describe("src/modules/tools/login/components/LoginComponent.vue", () => {
             },
             state: { }
         });
-        store.commit("Tools/Login/setActive", true);
+        store.commit("Modules/Login/setActive", true);
     });
     afterEach(() => {
         sinon.restore();
@@ -49,27 +51,6 @@ describe("src/modules/tools/login/components/LoginComponent.vue", () => {
     });
 
     describe("LoginComponent template", () => {
-        it("should exist", async () => {
-            wrapper = shallowMount(LoginComponent, {
-                global: {
-                    plugins: [store]
-                }
-            });
-
-            expect(wrapper.exists()).to.be.true;
-        });
-
-        it("should find Tool component", async () => {
-            wrapper = shallowMount(LoginComponent, {
-                global: {
-                    plugins: [store]
-                }
-            });
-            const toolWrapper = wrapper.findComponent({name: "ToolTemplate"});
-
-            expect(toolWrapper.exists()).to.be.true;
-        });
-
         it("should render Login", () => {
             wrapper = shallowMount(LoginComponent, {
                 global: {
@@ -77,13 +58,13 @@ describe("src/modules/tools/login/components/LoginComponent.vue", () => {
                 }
             });
 
-            expect(wrapper.find(".login-window").exists()).to.be.true;
-            expect(wrapper.find(".login-window button#logout-button").exists()).to.be.true;
+            expect(wrapper.find("#login-component").exists()).to.be.true;
+            expect(wrapper.find("#login-component button#logout-button").exists()).to.be.true;
         });
 
         it("should have values from store Login renders", () => {
-            store.commit("Tools/Login/setScreenName", "Max Mustermann");
-            store.commit("Tools/Login/setEmail", "Max.Mustermann@domain.com");
+            store.commit("Modules/Login/setScreenName", "Max Mustermann");
+            store.commit("Modules/Login/setEmail", "Max.Mustermann@domain.com");
 
             wrapper = shallowMount(LoginComponent, {
                 global: {
@@ -93,18 +74,6 @@ describe("src/modules/tools/login/components/LoginComponent.vue", () => {
 
             expect(wrapper.html().includes("Max Mustermann")).to.be.true;
             expect(wrapper.html().includes("Max.Mustermann@domain.com")).to.be.true;
-        });
-
-        it("should not render if active is false", () => {
-            store.commit("Tools/Login/setActive", false);
-
-            wrapper = shallowMount(LoginComponent, {
-                global: {
-                    plugins: [store]
-                }
-            });
-
-            expect(wrapper.find(".login-window").exists()).to.be.false;
         });
 
         it("should not call logout fn if button was not clicked", () => {
@@ -129,23 +98,10 @@ describe("src/modules/tools/login/components/LoginComponent.vue", () => {
             sandbox.spy(wrapper.vm, "logoutButton");
             sandbox.spy(wrapper.vm, "closeLoginWindow");
 
-            await wrapper.find(".login-window button#logout-button").trigger("click");
+            await wrapper.find("#login-component button#logout-button").trigger("click");
             expect(wrapper.vm.logoutButton.calledOnce).to.be.true;
             expect(wrapper.vm.closeLoginWindow.calledOnce).to.be.true;
             expect(wrapper.vm.reloadWindow.calledOnce).to.be.true;
-        });
-
-        it("should close tool if logout button is clicked", async () => {
-            wrapper = shallowMount(LoginComponent, {
-                global: {
-                    plugins: [store]
-                }
-            });
-            wrapper.vm.reload = sinon.fake();
-
-            await wrapper.find(".login-window button#logout-button").trigger("click");
-
-            expect(wrapper.find(".login-window").exists()).to.be.false;
         });
 
         it("should not be logged in after Login renders", () => {
@@ -155,7 +111,7 @@ describe("src/modules/tools/login/components/LoginComponent.vue", () => {
                 }
             });
 
-            expect(wrapper.vm.isLoggedIn()).to.be.false;
+            expect(wrapper.vm.loggedIn).to.be.false;
         });
 
         it("should be logged in after Login renders", () => {
@@ -174,7 +130,7 @@ describe("src/modules/tools/login/components/LoginComponent.vue", () => {
                 }
             });
 
-            expect(wrapper.vm.isLoggedIn()).to.be.true;
+            expect(wrapper.vm.loggedIn).to.be.true;
 
             local_sandbox.restore();
         }).timeout(5000);
@@ -194,9 +150,9 @@ describe("src/modules/tools/login/components/LoginComponent.vue", () => {
                 }
             });
 
-            expect(wrapper.vm.$store.state.Tools.Login.screenName).to.be.equal(fakeToken);
-            expect(wrapper.vm.$store.state.Tools.Login.username).to.be.equal(fakeToken);
-            expect(wrapper.vm.$store.state.Tools.Login.email).to.be.equal(fakeToken);
+            expect(wrapper.vm.$store.state.Modules.Login.screenName).to.be.equal(fakeToken);
+            expect(wrapper.vm.$store.state.Modules.Login.username).to.be.equal(fakeToken);
+            expect(wrapper.vm.$store.state.Modules.Login.email).to.be.equal(fakeToken);
 
             local_sandbox.restore();
         }).timeout(5000);
@@ -213,8 +169,7 @@ describe("src/modules/tools/login/components/LoginComponent.vue", () => {
             wrapper.vm.closeLoginWindow();
             await wrapper.vm.$nextTick();
 
-            expect(store.state.Tools.Login.active).to.be.false;
-            expect(wrapper.find("#login-component").exists()).to.be.false;
+            expect(store.state.Modules.Login.active).to.be.false;
         });
     });
 

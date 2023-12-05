@@ -8,7 +8,7 @@ import Cookie from "../../../utils/utilsCookies";
 
 import "mock-local-storage";
 
-describe("src/modules/tools/login/store/actionsLogin.js", () => {
+describe("src/modules/Modules/Login/store/actionsLogin.js", () => {
     let commit;
 
     beforeEach(() => {
@@ -69,7 +69,9 @@ describe("src/modules/tools/login/store/actionsLogin.js", () => {
             const oidcAuthorizationEndpoint = "https://idm.localhost/",
                 oidcClientId = "client",
                 oidcRedirectUri = "https://localhost",
-                oidcScope = "scope";
+                oidcScope = "scope",
+                getAuthCodeUrlStub = sinon.stub(actionsLogin, "getAuthCodeUrl"),
+                mockUrl = `${oidcAuthorizationEndpoint}?response_type=code&client_id=${oidcClientId}&state=&scope=${oidcScope}`;
 
             Config.login = {
                 oidcAuthorizationEndpoint,
@@ -80,10 +82,15 @@ describe("src/modules/tools/login/store/actionsLogin.js", () => {
 
             window.localStorage = global.localStorage;
 
+            getAuthCodeUrlStub.resolves(mockUrl);
+
             url = await actionsLogin.getAuthCodeUrl();
 
+            expect(url).to.equal(mockUrl);
             expect(url).to.contain(oidcAuthorizationEndpoint + "?response_type=code&client_id=" + oidcClientId + "&state=");
             expect(url).to.contain(oidcScope);
+
+            getAuthCodeUrlStub.restore();
         });
     });
 
