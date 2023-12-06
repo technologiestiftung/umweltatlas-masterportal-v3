@@ -291,6 +291,13 @@ describe("src_3_0_0/modules/menu/menu-store/actionsMenu.js", () => {
 
         it("should switch to previous component", async () => {
             rootGetters = {"Modules/SearchBar/showAllResults": false};
+            getters = {
+                currentComponent: () => {
+                    return {
+                        type: "searchbar"
+                    };
+                }
+            };
 
             actions.navigateBack({commit, dispatch, getters, state, rootGetters}, side);
 
@@ -298,6 +305,12 @@ describe("src_3_0_0/modules/menu/menu-store/actionsMenu.js", () => {
                 expect(commit.calledOnce).to.be.true;
                 expect(commit.firstCall.args[0]).to.equal("switchToPreviousComponent");
                 expect(commit.firstCall.args[1]).to.equal(side);
+
+                expect(dispatch.calledTwice).to.be.true;
+                expect(dispatch.firstCall.args[0]).to.equal("Modules/SearchBar/updateSearchNavigation");
+                expect(dispatch.firstCall.args[1]).to.equal(side);
+                expect(dispatch.secondCall.args[0]).to.equal("handleActionButtons");
+                expect(dispatch.secondCall.args[1]).to.equal(side);
             });
         });
 
@@ -317,6 +330,77 @@ describe("src_3_0_0/modules/menu/menu-store/actionsMenu.js", () => {
                 expect(dispatch.firstCall.args[1]).to.deep.equal({type: state.defaultComponent, side});
                 expect(dispatch.secondCall.args[0]).to.equal("handleActionButtons");
                 expect(dispatch.secondCall.args[1]).to.deep.equal(side);
+            });
+        });
+    });
+    describe("handleActionButtons", () => {
+        const side = "mainMenu";
+
+        it("should update searchbar navigation from layerinformation within main search", async () => {
+            rootGetters = {"Modules/SearchBar/Modules/SearchBar/searchInput": "",
+                "Modules/SearchBar/searchInput": "Neue"
+            };
+            getters = {
+                currentComponent: () => {
+                    return {
+                        type: "layerInformation"
+                    };
+                },
+                navigationHistory: () => {
+                    return [
+                        {type: "root"},
+                        {type: "searchBar"},
+                        {type: "searchBar"}
+                    ];
+                }
+            };
+
+            actions.handleActionButtons({commit, dispatch, getters, rootGetters}, side);
+
+            await nextTick(() => {
+                expect(commit.calledTwice).to.be.true;
+                expect(commit.firstCall.args[0]).to.equal("switchToPreviousComponent");
+                expect(commit.firstCall.args[1]).to.equal(side);
+                expect(commit.secondCall.args[0]).to.equal("Modules/SearchBar/setSearchInput");
+                expect(commit.secondCall.args[1]).to.equal("Neue");
+
+                expect(dispatch.calledOnce).to.be.true;
+                expect(dispatch.firstCall.args[0]).to.equal("Modules/SearchBar/updateSearchNavigation");
+                expect(dispatch.firstCall.args[1]).to.equal(side);
+            });
+        });
+        it("should update searchbar navigation from layerSelection", async () => {
+            rootGetters = {"Modules/SearchBar/Modules/SearchBar/searchInput": "Neue",
+                "Modules/SearchBar/searchInput": "Neue"
+            };
+            getters = {
+                currentComponent: () => {
+                    return {
+                        type: "layerSelection"
+                    };
+                },
+                navigationHistory: () => {
+                    return [
+                        {type: "root"},
+                        {type: "layerSelction"}
+                    ];
+                }
+            };
+
+            actions.handleActionButtons({commit, dispatch, getters, rootGetters}, side);
+
+            await nextTick(() => {
+                expect(commit.calledTwice).to.be.true;
+                expect(commit.firstCall.args[0]).to.equal("Modules/SearchBar/setSearchInput");
+                expect(commit.firstCall.args[1]).to.equal("");
+                expect(commit.secondCall.args[0]).to.equal("Modules/SearchBar/setCurrentSearchInputValue");
+                expect(commit.secondCall.args[1]).to.equal("");
+
+                expect(dispatch.calledTwice).to.be.true;
+                expect(dispatch.firstCall.args[0]).to.equal("Modules/SearchBar/updateSearchNavigation");
+                expect(dispatch.firstCall.args[1]).to.equal(side);
+                expect(dispatch.secondCall.args[0]).to.equal("navigateBack");
+                expect(dispatch.secondCall.args[1]).to.equal(side);
             });
         });
     });

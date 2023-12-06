@@ -184,10 +184,7 @@ export default {
      * @returns {void}
      */
     showLayerInfo: ({getters, commit, dispatch, rootGetters}, {layerId}) => {
-        //todo uodate navigation history
         let layerConfig = rootGetters.layerConfigById(layerId);
-
-       // commit("Menu/setNavigationHistoryBySide", {side: "mainMenu", newHistory: []}, {root: true});
 
         if (!layerConfig) {
             layerConfig = rawLayerList.getLayerWhere({id: layerId});

@@ -27,6 +27,7 @@ describe("src_3_0_0/modules/searchBar/store/actions/actionsSearchBar.js", () => 
         it("it updates the search navigation", () => {
             getters = {
                 currentSide: "mainMenu",
+                currentActionEvent: "",
                 searchInput: "Test",
                 minCharacters: "3",
                 showAllResults: true,
@@ -51,6 +52,7 @@ describe("src_3_0_0/modules/searchBar/store/actions/actionsSearchBar.js", () => 
         it("other side: it switches to previous component", () => {
             getters = {
                 currentSide: "NotMainMenu",
+                currentActionEvent: "",
                 searchInput: "Test",
                 minCharacters: "3",
                 showAllResults: true,
@@ -72,6 +74,7 @@ describe("src_3_0_0/modules/searchBar/store/actions/actionsSearchBar.js", () => 
         it("currentComponent is not searchbar, side is mainMenu: it switches to previous component", () => {
             getters = {
                 currentSide: "mainMenu",
+                currentActionEvent: "",
                 searchInput: "Test",
                 minCharacters: "3",
                 showAllResults: true,

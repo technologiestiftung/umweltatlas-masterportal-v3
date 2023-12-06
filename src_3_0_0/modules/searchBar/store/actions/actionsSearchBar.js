@@ -30,6 +30,8 @@ export default {
     updateSearchNavigation: ({getters, commit, rootGetters}, side) => {
         const type = rootGetters["Menu/currentComponent"](side).type;
 
+        // Do we neeed currentActionEvent?
+
         if (getters.showAllResults === true && side === getters.currentSide && getters.currentActionEvent === "") {
             if (type !== "searchbar" && type !== "layerselection") {
                 commit("setShowAllResults", false);

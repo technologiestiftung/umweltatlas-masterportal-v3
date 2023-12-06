@@ -222,11 +222,13 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
 
             showInTree({dispatch, rootGetters}, {layerId});
 
-            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.calledTwice).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equals("Modules/LayerSelection/showLayer");
             expect(dispatch.firstCall.args[1]).to.be.deep.equals({
                 layerId: "123"
             });
+            expect(dispatch.secondCall.args[0]).to.equals("Menu/navigateBack");
+            expect(dispatch.secondCall.args[1]).to.equals("mainMenu");
         });
 
         it("should call addLayerToTopicTree and showLayer", () => {
@@ -244,7 +246,7 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
 
             showInTree({dispatch, rootGetters}, {layerId});
 
-            expect(dispatch.calledTwice).to.be.true;
+            expect(dispatch.calledThrice).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equals("addLayerToTopicTree");
             expect(dispatch.firstCall.args[1]).to.be.deep.equals({
                 layerId: "123",
@@ -257,6 +259,8 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
             expect(dispatch.secondCall.args[1]).to.be.deep.equals({
                 layerId: "123"
             });
+            expect(dispatch.thirdCall.args[0]).to.equals("Menu/navigateBack");
+            expect(dispatch.thirdCall.args[1]).to.equals("mainMenu");
         });
     });
 
