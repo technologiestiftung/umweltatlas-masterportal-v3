@@ -94,6 +94,7 @@
 - Issue #1073: Routing: The route is updated after moving a waypoint in the map.
 - Issue #1085: Corrected case at import of layer2dRasterWmsTime in src_3_0_0\core\layers\js\layerFactory.js.
 - Issue #1091: VectorStyle: read geometry type from geoserver featureTypeRequest and do not fail if some rules in style.json have no condition.
+- Issue #1094: Measure Tool: unit changes not connected anymore.
 - Issue #1099: The package.json is adapted, now the size of the bundle, created with "npm run build" is reduced.
 - Issue #1105: Added easting and nothing labels for utm projections in CoordToolkit
 - Mobile View: switching vertical and horizontal view works better now.
