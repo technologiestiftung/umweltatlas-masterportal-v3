@@ -10,7 +10,8 @@
  * @property {Boolean} [hideMapMarkerOnVectorHighlight=false] if true, mapmarker is hidden on vector highlighting.
  * @property {Object} [highlightVectorRules=null] The highlight vector rules.
  * @property {String} [icon="bi-info-circle-fill"] Icon next to title (config-param).
- * @property {String} [menuSide="secondaryMenu"] Specifies in which menu the GFI should be rendered
+ * @property {String} [initialMenuSide=""] Specifies in which menu the GFI should be rendered
+ * @property {String} [menuSide="secondaryMenu"] Specifies in which the GFI should be rendered dependending on other opened moduels.
  * @property {String} [name="common:modules.getFeatureInfo.name"] Displayed as title (config-param).
  * @property {Object[]} [path=[]] Path for menu navigation
  * @property {Boolean} [showMarker=true] Specifies whether the map marker should be set on click.
@@ -27,7 +28,8 @@ export default {
     hideMapMarkerOnVectorHighlight: false,
     highlightVectorRules: null,
     icon: "bi-info-circle-fill",
-    menuSide: "secondaryMenu",
+    initialMenuSide: "mainMenu",
+    menuSide: "mainMenu",
     name: "common:modules.getFeatureInfo.name",
     path: [],
     showMarker: true,

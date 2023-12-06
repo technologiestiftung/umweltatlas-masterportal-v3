@@ -44,6 +44,7 @@ export default {
         ...mapGetters("Modules/GetFeatureInfo", [
             "configPaths",
             "currentFeature",
+            "initialMenuSide",
             "menuSide",
             "name",
             "showMarker",
@@ -114,9 +115,9 @@ export default {
          * @returns {void}
          */
         visible (value) {
-            const menuSides = ["mainMenu", "secondaryMenu"],
-                otherSide = menuSides.splice(this.menuSide, 1)[0],
-                initialSide = menuSides.splice(this.menuSide, 1)[0];
+            const initialSide = this.initialMenuSide,
+                menuSides = ["mainMenu", "secondaryMenu"],
+                otherSide = menuSides.find((element) => element !== initialSide);
 
             this.setMenuSide(initialSide);
 
