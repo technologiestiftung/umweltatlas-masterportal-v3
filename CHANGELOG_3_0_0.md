@@ -23,6 +23,7 @@
 - The following packages have been added:
     - devDependencies:
         - webpack-bundle-analyzer: 4.9.1 (For usage comment in "webpack-bundle-analyzer"-code in webpack.dev.js)
+- shared\js\utils\convertColor: added an option to convert an rgba array into a hex color with alpha value.
 
 ### Changed
 - LayerInformation: For layers that do not have metadata, the layer information can now be displayed so that the URLs and legend can be viewed th
@@ -74,6 +75,7 @@
     - Now accepts multiple feature ids, seperated with commas.
     - Zooms the map, so that all highlighted features are visible.
 - Layer selection: Layers can now be added directly to the map by activating the checkbox. The add layer button has been removed. All layers are always displayed, including the layers that have already been added.
+- Searchbar configuration 'minChars' was renamed to 'minCharacters'.
 
 ### Deprecated
 
