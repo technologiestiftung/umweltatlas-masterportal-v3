@@ -158,7 +158,7 @@ export default {
                 "
             >
                 <MenuContainerBodyRootLogo
-                    class="mb-2"
+                    class="mb-5 mt-4"
                     v-bind="titleBySide(side)"
                 />
                 <SearchBar

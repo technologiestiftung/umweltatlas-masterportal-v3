@@ -63,7 +63,7 @@ export default {
 @import "~variables";
 
 .mp-menu-logo {
-        padding: $padding;
+        padding: 0 $padding 0 $padding;
         width: 100%;
         display: flex;
         justify-content: space-around;
