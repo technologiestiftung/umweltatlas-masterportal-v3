@@ -48,7 +48,6 @@ export default {
          * @returns {void}
          */
         callAction () {
-            console.log(this.actionName)
             this.setCurrentActionEvent(this.actionName);
             this.setCurrentSearchInputValue(this.searchInput);
             this.activateAction({actionName: this.actionName, actionArgs: this.actionArgs});

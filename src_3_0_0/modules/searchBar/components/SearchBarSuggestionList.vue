@@ -80,7 +80,7 @@ export default {
 
 <template lang="html">
     <div
-        v-if="searchInput.length >= minCharacters && searchResultsActive && searchResults.length > 0"
+        v-if="searchInput?.length >= minCharacters && searchResultsActive && searchResults?.length > 0"
         class="overflow-auto suggestions-container"
     >
         <div

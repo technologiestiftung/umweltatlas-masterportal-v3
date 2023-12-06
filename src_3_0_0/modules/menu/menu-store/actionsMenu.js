@@ -141,8 +141,6 @@ export default {
      */
     navigateBack ({commit, dispatch, getters, state, rootGetters}, side) {
         nextTick(() => {
-            //Todo make search in layerselection work again
-            // extract special behaviour
             if (getters.currentComponent(side).type === state.currentMouseMapInteractionsComponent && getters.currentComponent(side).type !== state.defaultComponent) {
                 dispatch("changeCurrentMouseMapInteractionsComponent", {type: state.defaultComponent, side});
             }
@@ -150,20 +148,45 @@ export default {
             if (rootGetters["Modules/SearchBar/showAllResults"] === false) {
                 commit("switchToPreviousComponent", side);
             }
-            if (getters.currentComponent(side).type === "searchbar" || getters.currentComponent(side).type === "layerSelection") {
+            if (getters.currentComponent(side).type === "searchbar") {
                 dispatch("Modules/SearchBar/updateSearchNavigation", side, {root: true});
             }
 
-            if (getters.currentComponent(side).type === "layerSelection" && rootGetters["Modules/SearchBar/searchInput"] !== "") {
+            dispatch("handleActionButtons", side);
+        });
+    },
+
+    /**
+     * Handles the behaviour of menu navigation in action button context
+     * @param {Object} param store context
+     * @param {Object} param.commit the commit
+     * @param {Object} param.dispatch the dispatch
+     * @param {Object} param.getters the getters
+     * @param {Object} param.rootGetters the rootGetters
+     * @param {String} side Side on which the navigation action occurred.
+     * @returns {void}
+     */
+    handleActionButtons ({commit, dispatch, getters, rootGetters}, side) {
+        if (getters.currentComponent(side).type === "layerSelection") {
+            dispatch("Modules/SearchBar/updateSearchNavigation", side, {root: true});
+
+
+            if (rootGetters["Modules/SearchBar/searchInput"] !== "") {
                 commit("Modules/SearchBar/setSearchInput", "", {root: true});
                 commit("Modules/SearchBar/setCurrentSearchInputValue", "", {root: true});
-                //commit("setCurrentComponentPropsName", {side: side, name: "common:modules.layerSelection.addSubject"});
                 dispatch("navigateBack", side);
             }
-            if (getters.currentComponent(side).type === "layerInformation") {
-                commit("switchToPreviousComponent", side);
+        }
+        if (getters.currentComponent(side).type === "layerInformation") {
+            const searchValue = rootGetters["Modules/SearchBar/searchInput"];
+
+            commit("switchToPreviousComponent", side);
+            if (getters.navigationHistory(side)[1].type === "searchBar" && getters.navigationHistory(side)[2].type === "searchBar") {
+                dispatch("Modules/SearchBar/updateSearchNavigation", side, {root: true});
+                commit("Modules/SearchBar/setSearchInput", searchValue, {root: true});
             }
-        });
+        }
+
     },
 
     /**

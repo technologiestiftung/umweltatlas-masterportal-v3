@@ -47,7 +47,6 @@ export default {
 
 
         if (getters.currentSearchInputValue !== "" && getters.currentActionEvent !== "") {
-            commit("Menu/setNavigationHistoryBySide", {side: side, newHistory: [{type: "root", props: []}, {type: "layerSelection", props: {name: "common:modules.layerSelection.addSubject"}}]}, {root: true});
             commit("Modules/SearchBar/setShowAllResults", true, {root: true});
             commit("Modules/SearchBar/setSearchInput", getters.currentSearchInputValue, {root: true});
             commit("Modules/SearchBar/setCurrentSearchInputValue", "", {root: true});
@@ -62,8 +61,6 @@ export default {
      * @returns {void}
      */
     startLayerSelectionSearch: ({dispatch, commit}, side) => {
-        //todo update
-        console.log("startLayerSelectionSearch");
         commit("setShowAllResults", true);
         dispatch("Menu/clickedMenuElement", {
             name: "common:modules.searchBar.searchResultList",
@@ -85,7 +82,7 @@ export default {
         const searchBar = rootState.portalConfig?.tree?.addLayerButton?.searchBar;
 
         if (rootGetters.showLayerAddButton === true && searchBar && searchBar?.active !== undefined) {
-            if (searchBar.searchInterfaceInstance || searchBar.searchCategory) {
+            if (searchBar.searchInterfaceInstanceId || searchBar.searchCategory) {
                 if (searchBar.searchCategory && searchBar?.searchInterfaceInstanceId) {
                     commit("setShowAllResultsSearchInterfaceInstance", searchBar.searchInterfaceInstanceId);
                     commit("setShowAllResultsSearchCategory", searchBar.searchCategory);
