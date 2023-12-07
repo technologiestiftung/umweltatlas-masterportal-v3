@@ -118,12 +118,12 @@ export default {
             const menuSides = ["mainMenu", "secondaryMenu"],
                 otherSide = menuSides.find((element) => element !== this.initialMenuSide);
 
-            this.setMenuSide(this.initialMenuSide);
-
             if (!value) {
                 this.reset();
             }
             else {
+                this.setMenuSide(this.initialMenuSide);
+
                 if (this.currentComponent(this.menuSide).type === "print") {
                     this.setMenuSide(otherSide);
                 }
