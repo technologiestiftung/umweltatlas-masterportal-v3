@@ -57,7 +57,8 @@ describe("src_3_0_0/modules/fileImport/store/actionsFileImport.js", () => {
                         return {
                             addFeatures: () => sinon.stub()
                         };
-                    }
+                    },
+                    set: sinon.stub()
                 },
                 filename: "TestFile1.kml"};
 
@@ -119,7 +120,8 @@ describe("src_3_0_0/modules/fileImport/store/actionsFileImport.js", () => {
                         return {
                             addFeatures: () => sinon.stub()
                         };
-                    }
+                    },
+                    set: sinon.stub()
                 },
                 filename: "TestFile1.gpx"
             };
@@ -143,7 +145,8 @@ describe("src_3_0_0/modules/fileImport/store/actionsFileImport.js", () => {
                         return {
                             addFeatures: () => sinon.stub()
                         };
-                    }
+                    },
+                    set: sinon.stub()
                 },
                 filename: "TestFile1.json"
             };
