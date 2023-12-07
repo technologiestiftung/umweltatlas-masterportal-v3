@@ -36,7 +36,8 @@ describe("src_3_0_0/modules/measure/components/MeasureInMap.vue", () => {
         MeasureModule.actions.deleteFeatures = sinon.spy();
         MeasureModule.actions.removeIncompleteDrawing = sinon.spy();
         MeasureModule.mutations.setSelectedGeometry = sinon.spy();
-        MeasureModule.mutations.setSelectedUnit = sinon.spy();
+        MeasureModule.mutations.setSelectedLineStringUnit = sinon.spy();
+        MeasureModule.mutations.setSelectedPolygonUnit = sinon.spy();
 
         store = createStore({
             namespaces: true,
@@ -133,7 +134,7 @@ describe("src_3_0_0/modules/measure/components/MeasureInMap.vue", () => {
         unitSelect.trigger("change");
         wrapper.vm.$nextTick();
         expect(unitSelect.element.value).equals("1");
-        expect(MeasureModule.mutations.setSelectedUnit.calledOnce).to.be.true;
+        expect(MeasureModule.mutations.setSelectedLineStringUnit.calledOnce).to.be.true;
 
         // no further draw interaction recreation should have happened
         expect(MeasureModule.actions.createDrawInteraction.calledOnce).to.be.true;

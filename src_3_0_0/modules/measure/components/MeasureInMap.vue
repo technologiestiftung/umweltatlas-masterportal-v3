@@ -32,7 +32,8 @@ export default {
             "lineStringUnits",
             "polygonUnits",
             "selectedGeometry",
-            "selectedUnit",
+            "selectedLineStringUnit",
+            "selectedPolygonUnit",
             "currentUnits"
         ]),
         ...mapGetters(["uiStyle"]),
@@ -64,7 +65,7 @@ export default {
         this.removeDrawInteraction();
     },
     methods: {
-        ...mapMutations("Modules/Measure", ["setSelectedGeometry", "setSelectedUnit"]),
+        ...mapMutations("Modules/Measure", ["setSelectedGeometry", "setSelectedLineStringUnit", "setSelectedPolygonUnit"]),
         ...mapActions("Modules/Measure", ["deleteFeatures", "createDrawInteraction", "removeIncompleteDrawing", "removeDrawInteraction"]),
 
         /**
@@ -103,6 +104,14 @@ export default {
         },
         is3DMode () {
             return this.mode === "3D";
+        },
+        setSelectedUnit (value) {
+            if (this.selectedGeometry === "LineString") {
+                this.setSelectedLineStringUnit(value);
+            }
+            else {
+                this.setSelectedPolygonUnit(value);
+            }
         }
     }
 };
@@ -144,7 +153,7 @@ export default {
                 ref="measure-tool-unit-select"
                 class="form-select"
                 aria-label="..."
-                :value="selectedUnit"
+                :value="selectedGeometry === 'LineString' ? selectedLineStringUnit : selectedPolygonUnit"
                 @change="setSelectedUnit($event.target.value)"
             >
                 <option
