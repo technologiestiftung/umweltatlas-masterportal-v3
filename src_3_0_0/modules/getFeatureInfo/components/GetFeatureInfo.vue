@@ -137,7 +137,7 @@ export default {
          */
         visibleSubjectDataLayerConfigs: {
             handler (newVal, oldVal) {
-                if (oldVal.length !== newVal.length) {
+                if (oldVal.length !== newVal.length && this.feature) {
                     if (newVal.filter(x => !oldVal.includes(x)).length === 0) {
                         const oldValues = oldVal.filter(x => !newVal.includes(x));
 
