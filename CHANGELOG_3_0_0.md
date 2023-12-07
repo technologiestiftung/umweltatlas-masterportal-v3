@@ -40,6 +40,7 @@
 - shared\js\utils\convertColor: added an option to convert an rgba array into a hex color with alpha value.
 
 ### Changed
+- GetFeatureInfo: module opens in other menu when print moduel is opened
 - LayerInformation: For layers that do not have metadata, the layer information can now be displayed so that the URLs and legend can be viewed th
 - The following NPM packages have been updated:
     - dependencies:

@@ -115,11 +115,10 @@ export default {
          * @returns {void}
          */
         visible (value) {
-            const initialSide = this.initialMenuSide,
-                menuSides = ["mainMenu", "secondaryMenu"],
-                otherSide = menuSides.find((element) => element !== initialSide);
+            const menuSides = ["mainMenu", "secondaryMenu"],
+                otherSide = menuSides.find((element) => element !== this.initialMenuSide);
 
-            this.setMenuSide(initialSide);
+            this.setMenuSide(this.initialMenuSide);
 
             if (!value) {
                 this.reset();
