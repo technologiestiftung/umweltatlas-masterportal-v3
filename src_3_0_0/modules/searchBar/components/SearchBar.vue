@@ -146,16 +146,15 @@ export default {
         * Watcher to check the current component
         */
         currentComponentSide: {
-            handler (newVal) { //todo rewrite
+            handler (newVal) {
                 if (newVal === "root" || (newVal === "layerSelection" && this.addLayerButtonSearchActive === true)) {
-                    //this.searchInputValue = ""; // check where this is necessary?
                     this.$refs?.searchInput.blur();
                     if (newVal === "root") {
                         this.searchInputValue = "";
                         this.navigateBack(this.currentSide);
-                    }
-                    if (this.side && newVal === "root") {
-                        this.switchToRoot(this.side);
+                        if (this.side) {
+                            this.switchToRoot(this.side);
+                        }
                     }
                 }
                 if (newVal === "layerSelection" && this.addLayerButtonSearchActive === true) {
@@ -171,12 +170,8 @@ export default {
         * Watcher to check the searchInputValue for layerSelection module
         */
         searchInputValue: {
-            //todocheckHandlerUsage
-            handler (newVal, oldVal) {
+            handler () {
                 this.checkCurrentComponent(this.currentComponentSide);
-                if (newVal === "" && oldVal !== "" && this.currentComponentSide === "layerSelection" && this.previousNavigationEntryText(this.currentSide) === this.$t("common:modules.layerSelection.name")) {
-                    //this.navigateBack(this.currentSide);
-                }
             },
             deep: true
         }
@@ -252,7 +247,6 @@ export default {
             }
             else if (currentComponentSide === "layerSelection") {
                 if (this.searchInputValue?.length === 0) {
-                    //this.navigateBack(this.currentSide); // change history?
                     this.navigateBack(this.currentSide);
                     this.startLayerSelectionSearch(this.currentSide);
                     this.setCurrentAvailableCategories(this.showAllResultsSearchCategory);

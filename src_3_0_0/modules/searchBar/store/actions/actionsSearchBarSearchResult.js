@@ -183,7 +183,7 @@ export default {
      * @param {String} payload.layerId The layer id.
      * @returns {void}
      */
-    showLayerInfo: ({getters, commit, dispatch, rootGetters}, {layerId}) => {
+    showLayerInfo: ({commit, dispatch, rootGetters}, {layerId}) => {
         let layerConfig = rootGetters.layerConfigById(layerId);
 
         if (!layerConfig) {
