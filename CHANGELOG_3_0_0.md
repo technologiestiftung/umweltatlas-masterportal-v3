@@ -121,6 +121,7 @@
 - Tree: Sorting the layers in the topic tree in the same order as via share link.
 - GFI: shown GFI is closed if dedicated layer is removed from map.
 - OAF layers are now loaded and displayed correctly.
+- Draw: imported features can be modified and deleted. GetFeatureInfo attributes are shown on click on imported feature.
 
 ---
 

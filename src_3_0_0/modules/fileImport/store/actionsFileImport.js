@@ -365,6 +365,7 @@ export default {
         features = checkIsVisibleSetting(features);
 
         vectorLayer.getSource().addFeatures(features);
+        vectorLayer.set("gfiAttributes", customAttributes);
 
         if (featureError) {
             alertingMessage = {

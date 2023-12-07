@@ -317,18 +317,23 @@ export default {
         }
     },
     created () {
-        main.getApp().config.globalProperties.$layer = new VectorLayer({
-            source: new VectorSource(),
-            id: "importDrawLayer",
-            name: "importDrawLayer",
-            alwaysOnTop: true
-        });
-        this.checkLayer(main.getApp().config.globalProperties.$layer).then((layerExists) => {
+        let importDrawLayer = mapCollection.getMap(this.mode).getLayers().getArray().find(layer => layer.get("id") === "importDrawLayer");
+
+        if (importDrawLayer === undefined) {
+            importDrawLayer = new VectorLayer({
+                source: new VectorSource(),
+                id: "importDrawLayer",
+                name: "importDrawLayer",
+                alwaysOnTop: true
+            });
+        }
+        this.checkLayer(importDrawLayer).then((layerExists) => {
             if (!layerExists) {
-                this.addLayer(main.getApp().config.globalProperties.$layer);
-                this.setLayer(main.getApp().config.globalProperties.$layer);
+                this.addLayer(importDrawLayer);
+                this.setLayer(importDrawLayer);
             }
         });
+        main.getApp().config.globalProperties.$layer = importDrawLayer;
     },
     mounted () {
         this.startInteractions();
@@ -375,7 +380,6 @@ export default {
             "addSymbolIfNotExists",
             "addDrawStateToFeature",
             "startInteractions",
-            "setCanvasCursorByInteraction",
             "setFocusToFirstControl",
             "resetModule",
             "resetCanvasCursor",
@@ -1085,7 +1089,7 @@ export default {
             >
                 <div class="col-12 d-grid gap-2">
                     <button
-                        id="tool-draw-editInteraction"
+                        id="tool-draw-editInteraction-attributes"
                         class="btn btn-sm"
                         :class="currentInteraction === 'modifyAttributes' ? 'btn-primary' : 'btn-secondary'"
                         :disabled="!drawLayerVisible || currentInteraction === 'modifyAttributes'"

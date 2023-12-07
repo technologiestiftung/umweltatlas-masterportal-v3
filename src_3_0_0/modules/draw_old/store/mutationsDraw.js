@@ -129,7 +129,6 @@ const mutations = {
         state.drawAreaSettings.opacityContour = styleSettings.opacityContour;
         state.drawAreaSettings.strokeWidth = styleSettings.strokeWidth;
         state.drawAreaSettings.opacity = styleSettings.opacity;
-        state.drawAreaSettings.opacity = styleSettings.opacity;
     },
     /**
      * Sets the Circle Settings.
