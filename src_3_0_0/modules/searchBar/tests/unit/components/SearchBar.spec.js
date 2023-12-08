@@ -15,7 +15,11 @@ describe("src_3_0_0/modules/searchBar/components/SearchBar.vue", () => {
     ];
     let searchResults,
         store,
-        wrapper;
+        wrapper,
+        menuActionsSpy,
+        searchBarActionsSpy,
+        searchBarMutationsSpy,
+        searchInputValue;
 
 
     beforeEach(() => {
@@ -48,6 +52,30 @@ describe("src_3_0_0/modules/searchBar/components/SearchBar.vue", () => {
                 }
             }
         ];
+        menuActionsSpy = {
+            navigateBack: sinon.stub()
+        };
+
+        searchBarActionsSpy = {
+            instantiateSearchInterfaces: sinon.stub(),
+            overwriteDefaultValues: sinon.stub(),
+            search: sinon.stub(),
+            activateActions: sinon.stub(),
+            startLayerSelectionSearch: sinon.stub(),
+            checkLayerSelectionSearchConfig: sinon.stub()
+        };
+
+        searchBarMutationsSpy = {
+            addSuggestionItem: sinon.stub(),
+            setSearchInput: sinon.stub(),
+            setShowAllResults: sinon.stub(),
+            setCurrentSide: sinon.stub(),
+            setSearchResultsActive: sinon.stub(),
+            setSearchSuggestions: sinon.stub(),
+            setCurrentAvailableCategories: sinon.stub()
+        };
+
+        searchInputValue = "abc-straße";
 
         store = createStore({
             namespaced: true,
@@ -57,19 +85,14 @@ describe("src_3_0_0/modules/searchBar/components/SearchBar.vue", () => {
                     modules: {
                         SearchBar: {
                             namespaced: true,
-                            actions: {
-                                instantiateSearchInterfaces: sinon.stub(),
-                                overwriteDefaultValues: sinon.stub(),
-                                search: sinon.stub(),
-                                activateActions: sinon.stub(),
-                                checkLayerSelectionSearchConfig: sinon.stub()
-                            },
+                            actions: searchBarActionsSpy,
                             getters: {
                                 configPaths: () => [],
                                 currentSide: () => "mainMenu",
+                                showAllResultsSearchCategory: () => "",
                                 minCharacters: () => 3,
                                 placeholder: () => "ABC",
-                                searchInput: () => "abc-straße",
+                                searchInput: () => searchInputValue,
                                 searchInterfaceInstances: () => searchInterfaceInstances,
                                 searchResults: () => searchResults,
                                 searchResultsActive: () => false,
@@ -77,14 +100,7 @@ describe("src_3_0_0/modules/searchBar/components/SearchBar.vue", () => {
                                 suggestionListLength: () => 0,
                                 type: () => "searchBar"
                             },
-                            mutations: {
-                                addSuggestionItem: sinon.stub(),
-                                setSearchInput: sinon.stub(),
-                                setShowAllResults: sinon.stub(),
-                                setCurrentSide: sinon.stub(),
-                                setSearchResultsActive: sinon.stub(),
-                                setSearchSuggestions: sinon.stub()
-                            }
+                            mutations: searchBarMutationsSpy
                         }
                     }
                 },
@@ -93,7 +109,8 @@ describe("src_3_0_0/modules/searchBar/components/SearchBar.vue", () => {
                     getters: {
                         titleBySide: () => () => true,
                         currentComponent: () => () => "root"
-                    }
+                    },
+                    actions: menuActionsSpy
                 },
                 Maps: {
                     namespaced: true,
@@ -151,9 +168,6 @@ describe("src_3_0_0/modules/searchBar/components/SearchBar.vue", () => {
     describe("test input element", () => {
         it("should start search to abc-straße, if button is clicked", async () => {
             wrapper = shallowMount(SearchBarComponent, {
-                propsData: {
-                    clickAction: sinon.spy
-                },
                 global: {
                     plugins: [store]
                 }
@@ -264,6 +278,37 @@ describe("src_3_0_0/modules/searchBar/components/SearchBar.vue", () => {
                 AdresseIcon: "bi-signpost",
                 StraßeIcon: "bi-signpost"
             });
+        });
+    });
+
+    describe("checkCurrentComponent ", () => {
+        it("startSearch is executed for modules", async () => {
+            wrapper = await mount(SearchBarComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+            const startSearchSpy = sinon.spy(wrapper.vm, "startSearch");
+
+            wrapper.vm.checkCurrentComponent("someModule");
+            expect(startSearchSpy.called).to.be.true;
+        });
+        it("startSearch is executed for layerSelection", async () => {
+            searchInputValue = "";
+            wrapper = await mount(SearchBarComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+            const startSearchSpy = sinon.spy(wrapper.vm, "startSearch");
+
+            wrapper.vm.checkCurrentComponent("layerSelection");
+
+
+            expect(startSearchSpy.called).to.be.true;
+            expect(menuActionsSpy.navigateBack.called).to.be.true;
+            expect(searchBarActionsSpy.startLayerSelectionSearch.called).to.be.true;
+            expect(searchBarMutationsSpy.setCurrentAvailableCategories.called).to.be.true;
         });
     });
 

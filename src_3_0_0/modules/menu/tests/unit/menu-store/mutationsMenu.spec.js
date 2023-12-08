@@ -2,7 +2,7 @@ import {expect} from "chai";
 import mutations from "../../../menu-store/mutationsMenu.js";
 
 
-describe.skip("src_3_0_0/core/menu/menu-store/mutationsMenu.js", () => {
+describe("src_3_0_0/core/menu/menu-store/mutationsMenu.js", () => {
     let state;
 
     describe("collapseMenues", () => {

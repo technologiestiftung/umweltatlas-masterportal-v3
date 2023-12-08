@@ -14,7 +14,8 @@
  *
  * @property {String} [currentAvailableCategories=""] The current available categories.
  * @property {String} [currentActionEvent=""] Name of the last activated action event e.g. "showLayerInfo".
- * @property {String} [currentComponentName=""] Name of the last activated action event e.g. "showLayerInfo".
+ * @property {String} [currentSearchInputValue=""] Current value of the search.
+ * @property {String} [currentComponentName=""] Current component name.
  * @property {String} [searchInput=""] The search input.
  * @property {Object[]} [searchInterfaceInstances=[]] The configured searchInterfaces.
  * @property {Object[]} [searchSuggestions=[]] The suggestions of the configured searchInterfaces.

@@ -109,6 +109,7 @@ const menuGetters = {
     /**
      * Returns the Text to be chosen for backward menu navigation.
      * @param {MenuState} state Local vuex state.
+     * @param {String} side side of the menu.
      * @returns {Boolean} Function returning false or the Text.
      */
     previousNavigationEntryText: (state) => side => {
@@ -131,8 +132,9 @@ const menuGetters = {
     },
 
     /**
-     ss*sss Returnss the Text to be chosen for backward menu navigation.
+    Returns the navigation history according a side.
      * @param {MenuState} state Local vuex state.
+     * @param {String} side side of the menu.
      * @returns {Boolean} Function returning false or the Text.
      */
     navigationHistory: (state) => side => {
@@ -186,6 +188,7 @@ const menuGetters = {
 
     /**
      * @param {Object} state Local vuex state.
+     * @param {String} side side of the menu.
      * @returns {Boolean} Whether show description for modules in the menu by side.
      */
     showDescription: state => side => {
@@ -195,6 +198,7 @@ const menuGetters = {
     /**
      * @param {MenuState} _ Local vuex state (discarded).
      * @param {Object} getters Local vuex getters.
+     * @param {String} side side of the menu.
      * @returns {({title: string, idAppendix: string}|null)} Function returning an object including the title and an appendix for the titles id to make it unique; may return null if no title is configured.
      */
     titleBySide: (_, getters) => side => {
@@ -262,6 +266,7 @@ const menuGetters = {
     },
     /**
      * @param {MenuState} state Local vuex state (discarded).
+     * @param {String} side side of the menu.
      * @returns {return} The requested menu side
      */
     menuBySide: (state) => side => {

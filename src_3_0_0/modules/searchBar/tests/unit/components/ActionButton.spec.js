@@ -11,12 +11,18 @@ describe("src_3_0_0/modules/searchBar/components/ActionButton.vue", () => {
         wrapper,
         callActionSpy,
         searchBarActions,
+        searchBarMutations,
         isModuleAvailable;
 
     beforeEach(() => {
         isModuleAvailable = true;
         searchBarActions = {
             activateAction: sinon.spy()
+        };
+        searchBarMutations = {
+            setSearchResultsActive: sinon.spy(),
+            setCurrentActionEvent: sinon.spy(),
+            setCurrentSearchInputValue: sinon.spy()
         };
         store = createStore({
             namespaced: true,
@@ -28,9 +34,7 @@ describe("src_3_0_0/modules/searchBar/components/ActionButton.vue", () => {
                         SearchBar: {
                             namespaced: true,
                             actions: searchBarActions,
-                            mutations: {
-                                setSearchResultsActive: sinon.spy()
-                            },
+                            mutations: searchBarMutations,
                             getters: {
                                 iconsByActions: sinon.stub().returns(
                                     {
@@ -82,6 +86,8 @@ describe("src_3_0_0/modules/searchBar/components/ActionButton.vue", () => {
             expect(callActionSpy.calledOnce).to.be.true;
             expect(searchBarActions.activateAction.calledOnce).to.be.true;
             expect(searchBarActions.activateAction.firstCall.args[1]).to.be.deep.equals(props);
+            expect(searchBarMutations.setCurrentActionEvent.calledOnce).to.be.true;
+            expect(searchBarMutations.setCurrentSearchInputValue.calledOnce).to.be.true;
         });
 
         it("should render button with 'zoomToResult' icon", async () => {
@@ -106,6 +112,8 @@ describe("src_3_0_0/modules/searchBar/components/ActionButton.vue", () => {
             expect(callActionSpy.calledOnce).to.be.true;
             expect(searchBarActions.activateAction.calledOnce).to.be.true;
             expect(searchBarActions.activateAction.firstCall.args[1]).to.be.deep.equals(props);
+            expect(searchBarMutations.setCurrentActionEvent.calledOnce).to.be.true;
+            expect(searchBarMutations.setCurrentSearchInputValue.calledOnce).to.be.true;
         });
 
         it("should render button with 'openGetFeatureInfo' icon", async () => {
@@ -135,6 +143,8 @@ describe("src_3_0_0/modules/searchBar/components/ActionButton.vue", () => {
             expect(callActionSpy.calledOnce).to.be.true;
             expect(searchBarActions.activateAction.calledOnce).to.be.true;
             expect(searchBarActions.activateAction.firstCall.args[1]).to.be.deep.equals(props);
+            expect(searchBarMutations.setCurrentActionEvent.calledOnce).to.be.true;
+            expect(searchBarMutations.setCurrentSearchInputValue.calledOnce).to.be.true;
         });
 
         it("should render button with 'highlightFeature' icon", async () => {
@@ -164,6 +174,8 @@ describe("src_3_0_0/modules/searchBar/components/ActionButton.vue", () => {
             expect(callActionSpy.calledOnce).to.be.true;
             expect(searchBarActions.activateAction.calledOnce).to.be.true;
             expect(searchBarActions.activateAction.firstCall.args[1]).to.be.deep.equals(props);
+            expect(searchBarMutations.setCurrentActionEvent.calledOnce).to.be.true;
+            expect(searchBarMutations.setCurrentSearchInputValue.calledOnce).to.be.true;
         });
 
         it("should render button with 'activateLayerInTopicTree' icon", async () => {
@@ -191,6 +203,8 @@ describe("src_3_0_0/modules/searchBar/components/ActionButton.vue", () => {
             expect(callActionSpy.calledOnce).to.be.true;
             expect(searchBarActions.activateAction.calledOnce).to.be.true;
             expect(searchBarActions.activateAction.firstCall.args[1]).to.be.deep.equals(props);
+            expect(searchBarMutations.setCurrentActionEvent.calledOnce).to.be.true;
+            expect(searchBarMutations.setCurrentSearchInputValue.calledOnce).to.be.true;
         });
 
         it("should render button with 'addLayerToTopicTree' icon", async () => {
@@ -218,6 +232,8 @@ describe("src_3_0_0/modules/searchBar/components/ActionButton.vue", () => {
             expect(callActionSpy.calledOnce).to.be.true;
             expect(searchBarActions.activateAction.calledOnce).to.be.true;
             expect(searchBarActions.activateAction.firstCall.args[1]).to.be.deep.equals(props);
+            expect(searchBarMutations.setCurrentActionEvent.calledOnce).to.be.true;
+            expect(searchBarMutations.setCurrentSearchInputValue.calledOnce).to.be.true;
         });
     });
     describe("methods", () => {

@@ -24,13 +24,12 @@ export default {
      * Handles the switch from the single result view to the search overview and updates the menu navigation values.
      * @param {Object} param.getters the getters
      * @param {Object} param.commit the commit
+     * @param {Object} param.rootGetters the rootGetters
      * @param {Object} side the menu side of the search
      * @returns {void}
      */
     updateSearchNavigation: ({getters, commit, rootGetters}, side) => {
         const type = rootGetters["Menu/currentComponent"](side).type;
-
-        // Do we neeed currentActionEvent?
 
         if (getters.showAllResults === true && side === getters.currentSide && getters.currentActionEvent === "") {
             if (type !== "searchbar" && type !== "layerselection") {
