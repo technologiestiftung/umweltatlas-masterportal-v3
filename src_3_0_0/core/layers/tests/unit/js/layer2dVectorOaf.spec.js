@@ -97,7 +97,6 @@ describe("src_3_0_0/core/js/layers/layer2dVectorOaf.js", () => {
                 bboxCrs: "EPSG:25832",
                 clusterDistance: 10,
                 collection: "collection",
-                crs: "http://www.opengis.net/def/crs/EPSG/0/25832",
                 datetime: "time",
                 id: "1234",
                 limit: 10,

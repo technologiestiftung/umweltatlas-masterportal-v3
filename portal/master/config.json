@@ -1077,21 +1077,12 @@
           }
         },
         {
-          "id": "OAF",
+          "id": "27926",
           "styleId": "8712",
           "name": "Schulen (Layertyp OAF)",
           "typ": "OAF",
-          "visibility": false,
-          "url": "https://api.hamburg.de/datasets/v1/schulen",
-          "collection": "staatliche_schulen",
-          "bbox": "",
-          "bboxCrs": "",
-          "datetime": "",
-          "crs": "EPSG:25832",
-          "params": {
-            "anzahl_schueler": ">1000"
-          },
-          "legend": true
+          "visibility": true,
+          "gfiTheme": "schulinfo"
         },
         {
           "id": "20625.90024",

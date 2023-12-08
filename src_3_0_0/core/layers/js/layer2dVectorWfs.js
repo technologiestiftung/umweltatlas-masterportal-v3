@@ -12,6 +12,7 @@ import Layer2dVector from "./layer2dVector";
  */
 export default function Layer2dVectorWfs (attributes) {
     const defaultAttributes = {
+        crs: mapCollection.getMapView("2D").getProjection().getCode(),
         outputFormat: "XML",
         version: "1.1.0"
     };

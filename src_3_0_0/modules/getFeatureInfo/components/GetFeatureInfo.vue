@@ -132,7 +132,7 @@ export default {
                         const oldValues = oldVal.filter(x => !newVal.includes(x));
 
                         oldValues.forEach(config => {
-                            if (this.feature.getLayerId() === config.id && config.visibility === false) {
+                            if (this.feature?.getLayerId() === config.id && config.visibility === false) {
                                 if (this.gfiFeatures.length === 1) {
                                     this.reset();
                                 }

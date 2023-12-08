@@ -560,6 +560,31 @@ describe("src_3_0_0/modules/getFeatureInfo/components/GetFeatureInfo.vue", () =>
             expect(resetSpy.notCalled).to.be.true;
             expect(collectGfiFeaturesSpy.notCalled).to.be.true;
         });
+        it("visibleSubjectDataLayerConfigs call nothing, if gfiFeatures array is empty", async () => {
+            const gfiFeatures = [],
+                store = getGfiStore(false, "", gfiFeatures, []),
+                conf1 = {
+                    id: "layerId1",
+                    visibility: false
+                },
+                conf2 = {
+                    id: "layerId2",
+                    visibility: true
+                },
+                newVal = [conf2],
+                oldVal = [conf1, conf2],
+                resetSpy = sinon.spy(GfiComponent.methods, "reset"),
+
+                wrapper = shallowMount(GfiComponent, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+            wrapper.vm.$options.watch.visibleSubjectDataLayerConfigs.handler.call(wrapper.vm, newVal, oldVal);
+            expect(resetSpy.notCalled).to.be.true;
+            expect(collectGfiFeaturesSpy.notCalled).to.be.true;
+        });
     });
 
     it("should display the footer", () => {

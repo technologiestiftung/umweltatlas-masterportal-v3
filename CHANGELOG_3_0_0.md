@@ -116,6 +116,7 @@
 - Tools: Open tools are closed when switching to a mode, that they do not support.
 - Tree: Sorting the layers in the topic tree in the same order as via share link.
 - GFI: shown GFI is closed if dedicated layer is removed from map.
+- OAF layers are now loaded and displayed correctly.
 
 ---
 

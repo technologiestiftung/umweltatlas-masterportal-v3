@@ -19,7 +19,6 @@ import Cluster from "ol/source/Cluster";
 export default function Layer2dVector (attributes) {
     const defaultAttributes = {
         altitudeMode: "clampToGround",
-        crs: mapCollection.getMapView("2D").getProjection().getCode(),
         renderer: "default",
         styleId: "default"
     };
