@@ -140,6 +140,8 @@ export default {
      * @returns {void}
      */
     navigateBack ({commit, dispatch, getters, state, rootGetters}, side) {
+        const searchValue = rootGetters["Modules/SearchBar/searchInput"];
+
         nextTick(() => {
             if (getters.currentComponent(side).type === state.currentMouseMapInteractionsComponent && getters.currentComponent(side).type !== state.defaultComponent) {
                 dispatch("changeCurrentMouseMapInteractionsComponent", {type: state.defaultComponent, side});
@@ -152,7 +154,7 @@ export default {
                 dispatch("Modules/SearchBar/updateSearchNavigation", side, {root: true});
             }
 
-            dispatch("handleActionButtons", side);
+            dispatch("handleActionButtons", {side: side, searchValue: searchValue});
         });
     },
 
@@ -164,9 +166,12 @@ export default {
      * @param {Object} param.getters the getters
      * @param {Object} param.rootGetters the rootGetters
      * @param {String} side Side on which the navigation action occurred.
+     * @param {String} searchValue value of the last search input.
      * @returns {void}
      */
-    handleActionButtons ({commit, dispatch, getters, rootGetters}, side) {
+    handleActionButtons ({commit, dispatch, getters, rootGetters}, {side, searchValue}) {
+        const currentSearchInput = searchValue;
+
         if (getters.currentComponent(side).type === "layerSelection") {
             dispatch("Modules/SearchBar/updateSearchNavigation", side, {root: true});
 
@@ -177,14 +182,14 @@ export default {
                 dispatch("navigateBack", side);
             }
         }
+
         if (getters.currentComponent(side).type === "layerInformation") {
-            const searchValue = rootGetters["Modules/SearchBar/searchInput"];
 
             commit("switchToPreviousComponent", side);
-            if (getters.navigationHistory(side)[1].type === "searchBar" && getters.navigationHistory(side)[2].type === "searchBar") {
-                dispatch("Modules/SearchBar/updateSearchNavigation", side, {root: true});
-                commit("Modules/SearchBar/setSearchInput", searchValue, {root: true});
-            }
+        }
+        if (getters.navigationHistory(side)[1]?.type === "searchBar" && getters.navigationHistory(side)[2]?.type === "searchBar") {
+            dispatch("Modules/SearchBar/updateSearchNavigation", side, {root: true});
+            commit("Modules/SearchBar/setSearchInput", currentSearchInput, {root: true});
         }
 
     },

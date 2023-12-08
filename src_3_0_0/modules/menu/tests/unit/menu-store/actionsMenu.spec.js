@@ -310,7 +310,7 @@ describe("src_3_0_0/modules/menu/menu-store/actionsMenu.js", () => {
                 expect(dispatch.firstCall.args[0]).to.equal("Modules/SearchBar/updateSearchNavigation");
                 expect(dispatch.firstCall.args[1]).to.equal(side);
                 expect(dispatch.secondCall.args[0]).to.equal("handleActionButtons");
-                expect(dispatch.secondCall.args[1]).to.equal(side);
+                expect(dispatch.secondCall.args[1]).to.deep.equal({side: side, searchValue: undefined});
             });
         });
 
@@ -329,7 +329,7 @@ describe("src_3_0_0/modules/menu/menu-store/actionsMenu.js", () => {
                 expect(dispatch.firstCall.args[0]).to.equal("changeCurrentMouseMapInteractionsComponent");
                 expect(dispatch.firstCall.args[1]).to.deep.equal({type: state.defaultComponent, side});
                 expect(dispatch.secondCall.args[0]).to.equal("handleActionButtons");
-                expect(dispatch.secondCall.args[1]).to.deep.equal(side);
+                expect(dispatch.secondCall.args[1]).to.deep.equal({side: side, searchValue: undefined});
             });
         });
     });
@@ -355,7 +355,7 @@ describe("src_3_0_0/modules/menu/menu-store/actionsMenu.js", () => {
                 }
             };
 
-            actions.handleActionButtons({commit, dispatch, getters, rootGetters}, side);
+            actions.handleActionButtons({commit, dispatch, getters, rootGetters}, {side: side, searchValue: "Neue"});
 
             await nextTick(() => {
                 expect(commit.calledTwice).to.be.true;
@@ -387,7 +387,7 @@ describe("src_3_0_0/modules/menu/menu-store/actionsMenu.js", () => {
                 }
             };
 
-            actions.handleActionButtons({commit, dispatch, getters, rootGetters}, side);
+            actions.handleActionButtons({commit, dispatch, getters, rootGetters}, {side: side});
 
             await nextTick(() => {
                 expect(commit.calledTwice).to.be.true;
