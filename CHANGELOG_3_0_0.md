@@ -39,6 +39,7 @@
     - devDependencies:
         - webpack-bundle-analyzer: 4.9.1 (For usage comment in "webpack-bundle-analyzer"-code in webpack.dev.js)
 - shared\js\utils\convertColor: added an option to convert an rgba array into a hex color with alpha value.
+- Configurable searchbar for the layerSelection.
 
 ### Changed
 - GetFeatureInfo: module opens in other menu when print module is opened
