@@ -1,11 +1,11 @@
 <script>
+import {mapGetters} from "vuex";
+
 /**
  * Legend Single Layer
  * @module modules/LegendSingleLayer
  * @vue-prop {Object} legendObj - The Legend.
  */
-
-import {mapGetters} from "vuex";
 
 export default {
     name: "LegendSingleLayer",
