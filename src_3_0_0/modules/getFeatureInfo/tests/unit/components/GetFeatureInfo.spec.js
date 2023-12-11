@@ -60,7 +60,7 @@ function getGfiStore (mobile, uiStyle, gfiFeatures, mapSize) {
             Menu: {
                 namespaced: true,
                 getters: {
-                    currentComponent: () => sinon.stub(),
+                    currentComponent: () => sinon.stub().returns({type: "print"}),
                     currentMouseMapInteractionsComponent: () => "getFeatureInfo",
                     expanded: () => sinon.stub().returns(menuExpanded)
                 },
@@ -89,7 +89,8 @@ beforeEach(() => {
     mockMutations = {
         setCurrentFeature: () => sinon.stub(),
         setGfiFeatures: () => sinon.stub(),
-        setVisible: sinon.spy()
+        setVisible: sinon.spy(),
+        setMenuSide: sinon.stub()
     };
     mockGetters = {
         centerMapToClickPoint: () => sinon.stub(),
@@ -100,7 +101,8 @@ beforeEach(() => {
         showMarker: () => sinon.stub(),
         visible: () => true,
         type: () => "getFeatureInfo",
-        configPaths: () => sinon.stub()
+        configPaths: () => sinon.stub(),
+        initialMenuSide: () => "secondaryMenu"
     };
     menuExpanded = true;
     toggleMenuSpy = sinon.spy();
@@ -281,42 +283,81 @@ describe("src_3_0_0/modules/getFeatureInfo/components/GetFeatureInfo.vue", () =>
         expect(wrapper.vm.updatedFeature).to.equal(false);
     });
 
-    it("should call reset if visible is false", () => {
-        const gfiFeatures = [{
-                getGfiUrl: () => null,
-                getFeatures: () => sinon.stub(),
-                getProperties: () => {
-                    return {};
-                }
-            }],
-            store = getGfiStore(false, undefined, gfiFeatures, []),
-            spyReset = sinon.spy(GfiComponent.methods, "reset");
-        let wrapper = null;
+    describe("watcher visible", () => {
+        it("should call reset if visible is false", () => {
+            const gfiFeatures = [{
+                    getGfiUrl: () => null,
+                    getFeatures: () => sinon.stub(),
+                    getProperties: () => {
+                        return {};
+                    }
+                }],
+                store = getGfiStore(false, undefined, gfiFeatures, []),
+                spyReset = sinon.spy(GfiComponent.methods, "reset");
+            let wrapper = null;
 
-        wrapper = shallowMount(GfiComponent, {
-            components: {
-                GetFeatureInfoDetached: {
-                    name: "GetFeatureInfoDetached",
-                    template: "<span />"
+            wrapper = shallowMount(GfiComponent, {
+                components: {
+                    GetFeatureInfoDetached: {
+                        name: "GetFeatureInfoDetached",
+                        template: "<span />"
+                    },
+                    IconButton: {
+                        name: "IconButton",
+                        template: "<button>Hier</button>"
+                    }
                 },
-                IconButton: {
-                    name: "IconButton",
-                    template: "<button>Hier</button>"
+                data () {
+                    return {
+                        pagerIndex: 1
+                    };
+                },
+                global: {
+                    plugins: [store]
                 }
-            },
-            data () {
-                return {
-                    pagerIndex: 1
-                };
-            },
-            global: {
-                plugins: [store]
-            }
-        });
+            });
 
-        wrapper.vm.$options.watch.visible.call(wrapper.vm, false);
-        expect(spyReset.calledOnce).to.be.true;
+            wrapper.vm.$options.watch.visible.call(wrapper.vm, false);
+            expect(spyReset.calledOnce).to.be.true;
+        });
+        it("gfi opens on other side when print module is open", () => {
+            const gfiFeatures = [{
+                    getGfiUrl: () => "asdfdgdfgd",
+                    getFeatures: () => sinon.stub(),
+                    getProperties: () => {
+                        return {};
+                    }
+                }],
+                store = getGfiStore(false, undefined, gfiFeatures, []);
+            let wrapper = null;
+
+            wrapper = shallowMount(GfiComponent, {
+                components: {
+                    GetFeatureInfoDetached: {
+                        name: "GetFeatureInfoDetached",
+                        template: "<span />"
+                    },
+                    IconButton: {
+                        name: "IconButton",
+                        template: "<button>Hier</button>"
+                    }
+                },
+                data () {
+                    return {
+                        pagerIndex: 1
+                    };
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.$options.watch.visible.call(wrapper.vm, true);
+            expect(mockMutations.setMenuSide.calledTwice).to.be.true;
+
+        });
     });
+
 
     describe("watcher gfiFeatures", () => {
         it("should call setVisible and expand menu, if gfiFeatures changed, oldFeatures are null", () => {
