@@ -746,7 +746,8 @@
       "shareHeadline": "",
       "shareLink": "",
       "shareQR": "",
-      "shareTwitter": ""
+      "shareTwitter": "",
+      "linkCopied": ""
     },
     "styleVT": {
       "chooseTheme": "Будь ласка, виберіть активну тему",

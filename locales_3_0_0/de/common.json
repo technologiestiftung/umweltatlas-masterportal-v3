@@ -807,11 +807,12 @@
       "myMap": "Hier ist mein Kartenausschnitt: ",
       "name": "Auswahl teilen",
       "share": "Teilen",
-      "shareFacebook": "Facebook",
+      "shareFacebook": "Aktuelle Ansicht auf Facebook teilen",
       "shareHeadline": "Wie möchten Sie den Link teilen?",
-      "shareLink": "Link kopieren",
-      "shareQR": "QRCode erstellen",
-      "shareTwitter": "Twitter"
+      "shareLink": "Aktuelle Ansicht als Link kopieren",
+      "shareQR": "Aktuelle Ansicht als QRCode erstellen",
+      "shareTwitter": "Twitter",
+      "linkCopied": "Link wurde in die Zwischenablage kopiert."
     },
     "styleVT": {
       "chooseTheme": "Bitte aktives Thema auswählen",

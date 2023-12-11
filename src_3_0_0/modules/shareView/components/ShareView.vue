@@ -3,6 +3,7 @@ import {mapGetters, mapMutations} from "vuex";
 import mutations from "../store/mutationsShareView";
 import QRCode from "qrcode";
 import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
+import {Toast} from "bootstrap";
 
 /**
  * Tool to share a view via link to twitter, facebook, qrCode or copy the link as well as any other app on mobile.
@@ -81,6 +82,9 @@ export default {
          * @returns {void}
          */
         copyToClipboard () {
+            const toast = new Toast(this.$refs.copyToast);
+
+            toast.show();
             navigator.clipboard.writeText(this.url);
         }
     }
@@ -89,7 +93,7 @@ export default {
 
 <template lang="html">
     <div id="share-view">
-        <h2>{{ $t("common:modules.shareView.shareHeadline") }}</h2>
+        <h4>{{ $t("common:modules.shareView.shareHeadline") }}</h4>
         <div v-if="isMobile">
             <button
                 aria-label="$t('common:modules.shareView.share')"
@@ -103,7 +107,7 @@ export default {
         <div
             v-else
         >
-            <div class="col-12">
+            <div class="col-12 mt-3">
                 <a
                     id="facebook-btn"
                     aria-label="$t('common:modules.shareView.shareFacebook')"
@@ -148,6 +152,27 @@ export default {
                     :interaction="downloadQr"
                     :text="$t('common:modules.shareView.downloadQR')"
                     :icon="'bi-download'"
+                />
+            </div>
+        </div>
+    </div>
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div
+            ref="copyToast"
+            class="toast align-items-center"
+            role="alert"
+            aria-live="assertive"
+            aria-atomic="true"
+        >
+            <div class="d-flex">
+                <div class="toast-body">
+                    {{ $t("common:modules.shareView.linkCopied") }}
+                </div>
+                <button
+                    type="button"
+                    class="btn-close me-2 m-auto"
+                    data-bs-dismiss="toast"
+                    aria-label="Close"
                 />
             </div>
         </div>

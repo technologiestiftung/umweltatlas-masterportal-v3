@@ -744,7 +744,8 @@
       "shareHeadline": "",
       "shareLink": "",
       "shareQR": "",
-      "shareTwitter": ""
+      "shareTwitter": "",
+      "linkCopied": ""
     },
     "styleVT": {
       "chooseTheme": "Por favor seleccione o tópico activo",
