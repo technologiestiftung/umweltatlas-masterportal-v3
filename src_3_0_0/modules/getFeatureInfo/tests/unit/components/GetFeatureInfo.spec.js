@@ -9,7 +9,8 @@ let mockMutations,
     mockGetters,
     menuExpanded,
     toggleMenuSpy,
-    collectGfiFeaturesSpy;
+    collectGfiFeaturesSpy,
+    currentComponentType;
 
 config.global.mocks.$t = key => key;
 config.global.mocks.$gfiThemeAddons = [];
@@ -60,14 +61,15 @@ function getGfiStore (mobile, uiStyle, gfiFeatures, mapSize) {
             Menu: {
                 namespaced: true,
                 getters: {
-                    currentComponent: () => sinon.stub().returns({type: "print"}),
+                    currentComponent: () => sinon.stub().returns({type: currentComponentType}),
                     currentMouseMapInteractionsComponent: () => "getFeatureInfo",
                     expanded: () => sinon.stub().returns(menuExpanded)
                 },
                 actions: {
                     setMenuBackAndActivateItem: sinon.stub(),
                     resetMenu: sinon.stub(),
-                    toggleMenu: toggleMenuSpy
+                    toggleMenu: toggleMenuSpy,
+                    changeCurrentComponent: sinon.stub()
                 }
             }
         },
@@ -86,6 +88,7 @@ function getGfiStore (mobile, uiStyle, gfiFeatures, mapSize) {
 
 
 beforeEach(() => {
+    currentComponentType = "print";
     mockMutations = {
         setCurrentFeature: () => sinon.stub(),
         setGfiFeatures: () => sinon.stub(),
@@ -322,7 +325,7 @@ describe("src_3_0_0/modules/getFeatureInfo/components/GetFeatureInfo.vue", () =>
         });
         it("gfi opens on other side when print module is open", () => {
             const gfiFeatures = [{
-                    getGfiUrl: () => "asdfdgdfgd",
+                    getGfiUrl: () => "",
                     getFeatures: () => sinon.stub(),
                     getProperties: () => {
                         return {};
@@ -354,7 +357,42 @@ describe("src_3_0_0/modules/getFeatureInfo/components/GetFeatureInfo.vue", () =>
 
             wrapper.vm.$options.watch.visible.call(wrapper.vm, true);
             expect(mockMutations.setMenuSide.calledTwice).to.be.true;
+        });
+        it("gfi opens on initial side when other module is open", () => {
+            currentComponentType = "notPrint";
+            const gfiFeatures = [{
+                    getGfiUrl: () => "",
+                    getFeatures: () => sinon.stub(),
+                    getProperties: () => {
+                        return {};
+                    }
+                }],
+                store = getGfiStore(false, undefined, gfiFeatures, []);
+            let wrapper = null;
 
+            wrapper = shallowMount(GfiComponent, {
+                components: {
+                    GetFeatureInfoDetached: {
+                        name: "GetFeatureInfoDetached",
+                        template: "<span />"
+                    },
+                    IconButton: {
+                        name: "IconButton",
+                        template: "<button>Hier</button>"
+                    }
+                },
+                data () {
+                    return {
+                        pagerIndex: 1
+                    };
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.$options.watch.visible.call(wrapper.vm, true);
+            expect(mockMutations.setMenuSide.calledOnce).to.be.true;
         });
     });
 
