@@ -667,8 +667,8 @@ export default {
     openDrawTool ({dispatch, rootGetters}) {
         const menuSide = "secondaryMenu",
             menuExpanded = "Menu/expanded";
-
-        dispatch("Menu/changeCurrentComponent", {type: "draw_old", side: menuSide, props: {}}, {root: true});
+console.log(i18next.t("common:modules.draw_old.name"));
+        dispatch("Menu/changeCurrentComponent", {type: "draw_old", side: menuSide, props: {name: i18next.t("common:modules.draw_old.name")}}, {root: true});
 
         if (!rootGetters[menuExpanded](menuSide)) {
             dispatch("Menu/toggleMenu", menuSide, {root: true});
