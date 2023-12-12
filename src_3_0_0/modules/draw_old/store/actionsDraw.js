@@ -34,7 +34,7 @@ const initialState = JSON.parse(JSON.stringify(stateDraw)),
             const {styleSettings} = getters,
                 // use clones to avoid side effects
                 styleSettingsCopy = JSON.parse(JSON.stringify(styleSettings)),
-                symbol = JSON.parse(JSON.stringify(getters.symbol)),
+                symbol = getters.symbol ? JSON.parse(JSON.stringify(getters.symbol)) : "",
                 zIndex = JSON.parse(JSON.stringify(getters.zIndex)),
                 imgPath = getters.imgPath ? JSON.parse(JSON.stringify(getters.imgPath)) : "",
                 pointSize = JSON.parse(JSON.stringify(getters.pointSize));
@@ -466,6 +466,9 @@ const initialState = JSON.parse(JSON.stringify(stateDraw)),
         createSelectInteractionModifyListener ({state, commit, dispatch}) {
             state.selectInteractionModify.on("select", event => {
                 if (state.currentInteraction !== "modify" || !event.selected.length) {
+                    if(state.drawType.id === "writeText"){
+                        dispatch("updateDrawInteraction");
+                    }
                     // reset interaction - if not reset, the ol default would be used, this shouldn't be what we want at this point
                     state.selectInteractionModify.getFeatures().clear();
                     if (state.selectedFeature) {
@@ -662,7 +665,17 @@ const initialState = JSON.parse(JSON.stringify(stateDraw)),
             }
             else {
                 // setDrawType changes visibility of all select- and input-boxes
-                commit("setDrawType", feature.get("drawState").drawType);
+                let drawType = feature.get("drawState").drawType;
+
+                if(!drawType && drawState.fontSize){
+                    drawType = {geometry: "Point", id: "writeText"};
+                    commit("setDrawType", drawType);
+                    drawState = Object.assign(getters.styleSettings, drawState, {drawType: drawType});
+                    feature.set("drawState", drawState);
+                }
+                else{
+                    commit("setDrawType", drawType);
+                }
             }
             commit("setSelectedFeature", feature);
 

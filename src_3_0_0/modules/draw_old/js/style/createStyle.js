@@ -32,7 +32,7 @@ function createStyle (state, styleSettings) {
         fontSize = styleSettings.fontSize,
         strokeWidth = styleSettings.strokeWidth,
         text = styleSettings.text,
-        isSimplePoint = symbol.type ? symbol.type === "simple_point" : false;
+        isSimplePoint = symbol?.type ? symbol.type === "simple_point" : false;
     let style = new Style();
 
     if (drawType.id === "drawSymbol" && !isSimplePoint) {
