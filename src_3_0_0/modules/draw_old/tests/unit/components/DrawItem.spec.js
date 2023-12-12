@@ -23,6 +23,16 @@ describe("src_3_0_0/modules/draw/components/DrawItem.vue", () => {
         componentData;
 
     beforeEach(() => {
+        const map = {
+            id: "ol",
+            mode: "2D",
+            getLayers: () => {
+                return {
+                    getArray: () => []
+                };
+            }
+        };
+
         main.getApp().config.globalProperties.$layer = {
             visible: true,
             getVisible: () => main.getApp().config.globalProperties.$layer.visible,
@@ -66,6 +76,9 @@ describe("src_3_0_0/modules/draw/components/DrawItem.vue", () => {
             };
         };
         store.dispatch("Modules/Draw_old/startInteractions");
+
+        mapCollection.clear();
+        mapCollection.addMap(map, "2D");
     });
 
     it("sets focus to first input control", async () => {
