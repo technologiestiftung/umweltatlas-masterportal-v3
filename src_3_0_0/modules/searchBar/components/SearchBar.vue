@@ -238,14 +238,14 @@ export default {
         },
         /**
          * Handles the input action behavior of the search
-         * @param {String} currentComponentSide Current component type
+         * @param {String} currentComponentType Current component type
          * @returns {void}
          */
-        checkCurrentComponent (currentComponentSide) {
-            if (currentComponentSide === "root") {
+        checkCurrentComponent (currentComponentType) {
+            if (currentComponentType === "root") {
                 this.clickAction();
             }
-            else if (currentComponentSide === "layerSelection") {
+            else if (currentComponentType === "layerSelection") {
                 if (this.searchInputValue?.length === 0) {
                     this.navigateBack(this.currentSide);
                     this.startLayerSelectionSearch(this.currentSide);
