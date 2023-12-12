@@ -156,15 +156,6 @@
             "type": "scaleSwitcher"
           },
           {
-            "type": "login",
-            "oidcAuthorizationEndpoint": "https://idm.DOMAIN.de/auth/realms/REALM/protocol/openid-connect/auth",
-            "oidcTokenEndpoint": "https://idm.DOMAIN.de/auth/realms/REALM/protocol/openid-connect/token",
-            "oidcClientId": "masterportal",
-            "oidcScope": "profile email openid",         
-            "oidcRedirectUri": "https://localhost/portal/basic/",
-            "interceptorUrlRegex": "https?://localhost.*"
-          },
-          {
             "type": "shareView",
             "showDescription": true,
             "description": "Teile einen Link zur Karte."
