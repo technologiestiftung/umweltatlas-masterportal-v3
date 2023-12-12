@@ -668,7 +668,7 @@ export default {
         const menuSide = "secondaryMenu",
             menuExpanded = "Menu/expanded";
 
-        dispatch("Menu/changeCurrentComponent", {type: "draw", side: menuSide, props: {}}, {root: true});
+        dispatch("Menu/changeCurrentComponent", {type: "draw_old", side: menuSide, props: {}}, {root: true});
 
         if (!rootGetters[menuExpanded](menuSide)) {
             dispatch("Menu/toggleMenu", menuSide, {root: true});
