@@ -466,7 +466,7 @@ const initialState = JSON.parse(JSON.stringify(stateDraw)),
         createSelectInteractionModifyListener ({state, commit, dispatch}) {
             state.selectInteractionModify.on("select", event => {
                 if (state.currentInteraction !== "modify" || !event.selected.length) {
-                    if(state.drawType.id === "writeText"){
+                    if (state.drawType.id === "writeText") {
                         dispatch("updateDrawInteraction");
                     }
                     // reset interaction - if not reset, the ol default would be used, this shouldn't be what we want at this point
@@ -667,13 +667,13 @@ const initialState = JSON.parse(JSON.stringify(stateDraw)),
                 // setDrawType changes visibility of all select- and input-boxes
                 let drawType = feature.get("drawState").drawType;
 
-                if(!drawType && drawState.fontSize){
+                if (!drawType && drawState.fontSize) {
                     drawType = {geometry: "Point", id: "writeText"};
                     commit("setDrawType", drawType);
                     drawState = Object.assign(getters.styleSettings, drawState, {drawType: drawType});
                     feature.set("drawState", drawState);
                 }
-                else{
+                else {
                     commit("setDrawType", drawType);
                 }
             }
