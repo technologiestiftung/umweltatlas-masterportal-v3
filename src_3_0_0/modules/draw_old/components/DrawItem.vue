@@ -371,6 +371,7 @@ export default {
             "setStrokeWidth",
             "setColorContour",
             "setColor",
+            "setFontSize",
             "setSymbol",
             "setText",
             "setCircleRadius",
