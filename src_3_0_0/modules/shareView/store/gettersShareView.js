@@ -32,6 +32,15 @@ const getters = {
             menuParams = rootGetters["Menu/urlParams"];
         let shareUrl = location.origin + location.pathname + "?";
 
+        if (menuParams.main.currentComponent === "shareView") {
+            menuParams.main.currentComponent = "root";
+            delete menuParams.main.attributes;
+        }
+        else if (menuParams.secondary.currentComponent === "shareView") {
+            menuParams.secondary.currentComponent = "root";
+            delete menuParams.secondary.attributes;
+        }
+
         areAttributesValid(menuParams.main);
         areAttributesValid(menuParams.secondary);
 

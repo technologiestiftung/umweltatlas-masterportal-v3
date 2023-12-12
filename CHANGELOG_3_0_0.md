@@ -92,6 +92,7 @@
     - Zooms the map, so that all highlighted features are visible.
 - Layer selection: Layers can now be added directly to the map by activating the checkbox. The add layer button has been removed. All layers are always displayed, including the layers that have already been added.
 - Searchbar configuration 'minChars' was renamed to 'minCharacters'.
+- ShareView: New wording for buttons and Toast added for feedback after cpoying.
 
 ### Deprecated
 

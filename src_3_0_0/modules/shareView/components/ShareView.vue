@@ -156,7 +156,7 @@ export default {
             </div>
         </div>
     </div>
-    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3">
         <div
             ref="copyToast"
             class="toast align-items-center"
@@ -184,6 +184,10 @@ export default {
 
 .qrCode {
     max-width: 75%;
+}
+
+.toast {
+    z-index: 3;
 }
 
 </style>
