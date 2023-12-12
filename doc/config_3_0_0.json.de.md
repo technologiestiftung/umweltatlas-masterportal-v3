@@ -4497,7 +4497,7 @@ Möglichkeit, um Einstellungen für den Themenbaum vorzunehmen.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|addLayerButton|nein|Boolean|false|Wenn true, dann wird ein Button zum Hinzufügen von Layern dargestellt. Im Themenbaum werden initial nur sichtbare Layer und Layer mit der property `showInLayerTree = true` dargestellt. Wenn false, dann werden alle konfigurierten Layer im Themenbaum angezeigt. Bei dem tree.type `auto` wird immer ein Hinzufügen-Button angezeigt.|false|
+|addLayerButton|nein|Boolean|false|Wenn achtive:true, dann wird ein Button zum Hinzufügen von Layern dargestellt. Im Themenbaum werden initial nur sichtbare Layer und Layer mit der property `showInLayerTree = true` dargestellt. Wenn false, dann werden alle konfigurierten Layer im Themenbaum angezeigt. Bei dem tree.type `auto` wird immer ein Hinzufügen-Button angezeigt.|false|
 |categories|nein|**[categories](#markdown-header-portalconfigtreecategories)**||Konfiguration der Kategorien aus den Metadaten. Nur für den tree.type `auto`.|false|
 |highlightedFeatures|nein|**[highlightedFeatures](#markdown-header-portalconfigtreehighlightedfeatures)**||Konfiguration zusätzlich zum Highlighting von Features.|false|
 |layerIDsToIgnore|nein|String[]||Liste von `services.json`-Layer-Ids, die nicht im Baum und in der Karte angezeigt werden sollen. Nur für den tree.type `auto`.|false|
@@ -4552,7 +4552,9 @@ Möglichkeit, um Einstellungen für den Themenbaum vorzunehmen.
 ```json
 {
     "tree": {
-        "addLayerButton": true,
+        "addLayerButton": {
+            "active": true
+        },
         "highlightedFeatures": {
             "active": false
         },
@@ -4562,7 +4564,33 @@ Möglichkeit, um Einstellungen für den Themenbaum vorzunehmen.
 
 ***
 
-#### portalConfig.tree.categories
+#### Portalconfig.tree.addLayerButton
+Konfiguration des addLayerButton zur Auswahl von Layern.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|active|ja|Boolean||Gibt an, ob addLayerButton initial aktiv ist.|false|
+|searchBar|nein|String||Wenn active:true dann wird eine Themensuche innerhalb des konfigurierten SearchInterfaces und SearchCategory ermöglicht.|false|
+
+**Beispiel**
+
+```json
+{
+    "tree": {
+        "addLayerButton": {
+            "active": true,
+            "searchBar": {
+            "active": true,
+            "searchInterfaceInstanceId": "elasticSearch_0",
+            "searchCategory": "Thema (externe Fachdaten)"
+        }
+    }
+}
+```
+
+***
+
+#### Portalconfig.tree.categories
 Konfiguration der Kategorien aus den Metadaten. Nur für den tree.type `auto`.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|

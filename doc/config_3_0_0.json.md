@@ -4497,7 +4497,7 @@ Possibility to make settings for the topic selection tree.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|addLayerButton|no|Boolean|false|If true, a button for adding layers will be displayed. Initially only visible layers and layers with the property `showInLayerTree = true` are shown in the topic tree. If false, then all configured layers are shown in the topic tree. With the tree.type `auto` an add button is always shown. |false|
+|addLayerButton|no|Boolean|false|If active:true, a button for adding layers will be displayed. Initially only visible layers and layers with the property `showInLayerTree = true` are shown in the topic tree. If false, then all configured layers are shown in the topic tree. With the tree.type `auto` an add button is always shown. |false|
 |categories|no|**[categories](#markdown-header-portalconfigtreecategories)**||Configuration of the categories from the metadata. Only for the tree.type `auto`.|false|
 |highlightedFeatures|no|**[highlightedFeatures](#markdown-header-portalconfigtreehighlightedfeatures)**||Configuration in addition to highlighting features.|false|
 |layerIDsToIgnore|no|String[]||List of `services.json` layer ids that should not be displayed in the tree and map. Only for the tree.type `auto`.|false|
@@ -4552,7 +4552,9 @@ Possibility to make settings for the topic selection tree.
 ```json
 {
     "tree": {
-        "addLayerButton": true,
+        "addLayerButton": {
+            "active": true
+        },
         "highlightedFeatures": {
             "active": false
         },
@@ -4562,7 +4564,55 @@ Possibility to make settings for the topic selection tree.
 
 ***
 
-#### portalConfig.tree.categories
+### Portalconfig.tree.layerPills
+Configuration to make settings for LayerPills.
+
+Layerpills are buttons on top of the map that show the selected layers. When clicking on a LayerPill, the corresponding layer information is displayed in the menu. The close button deselects the layer. The LayerPills attribute is specified as an object and contains the following attributes:
+
+|Name|Required|Type|Default|Description|Expert|
+|----|-------------|---|-------|------------|------|
+|active|no|Boolean|false|Indicates whether LayerPills are active.|false|
+|mobileOnly|no|Boolean|false|Defines whether LayerPills should only be active in the mobile version.|false|
+
+
+**Example**
+
+```json
+"layerPills": {
+    "active": true,
+    "mobileOnly": true
+    }
+```
+
+***
+
+#### Portalconfig.tree.addLayerButton
+Configuration of the addLayerButton to select layers.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|-------------|---|-------|------------|------|
+|active|yes|Boolean||Controls if addLayerButton is shown or not.|false|
+|searchBar|no|String||If active:true then a search within the configured searchInterfaces and searchCategory is possible.|false|
+
+**Beispiel**
+
+```json
+{
+    "tree": {
+        "addLayerButton": {
+            "active": true,
+            "searchBar": {
+            "active": true,
+            "searchInterfaceInstanceId": "elasticSearch_0",
+            "searchCategory": "Thema (externe Fachdaten)"
+        }
+    }
+}
+```
+
+***
+
+#### Portalconfig.tree.categories
 Configuration of the categories from the metadata. Only for the tree.type `auto`.
 
 |Name|Required|Type|Default|Description|Expert|
