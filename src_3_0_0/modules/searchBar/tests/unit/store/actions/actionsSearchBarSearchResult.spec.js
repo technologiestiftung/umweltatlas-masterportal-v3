@@ -220,15 +220,21 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
                     layerConfigById: () => true
                 };
 
-            showInTree({dispatch, rootGetters}, {layerId});
+            showInTree({commit, dispatch, rootGetters}, {layerId});
 
-            expect(dispatch.calledTwice).to.be.true;
-            expect(dispatch.firstCall.args[0]).to.equals("Modules/LayerSelection/showLayer");
+            expect(dispatch.calledThrice).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equals("Menu/changeCurrentComponent");
             expect(dispatch.firstCall.args[1]).to.be.deep.equals({
+                type: "layerSelection",
+                side: "mainMenu",
+                props: {}
+            });
+            expect(dispatch.secondCall.args[0]).to.equals("Modules/LayerSelection/showLayer");
+            expect(dispatch.secondCall.args[1]).to.be.deep.equals({
                 layerId: "123"
             });
-            expect(dispatch.secondCall.args[0]).to.equals("Menu/navigateBack");
-            expect(dispatch.secondCall.args[1]).to.equals("mainMenu");
+            expect(dispatch.thirdCall.args[0]).to.equals("Menu/navigateBack");
+            expect(dispatch.thirdCall.args[1]).to.equals("mainMenu");
         });
 
         it("should call addLayerToTopicTree and showLayer", () => {
@@ -244,23 +250,29 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
 
             sinon.stub(rawLayerList, "getLayerWhere").returns(source);
 
-            showInTree({dispatch, rootGetters}, {layerId});
+            showInTree({commit, dispatch, rootGetters}, {layerId});
 
-            expect(dispatch.calledThrice).to.be.true;
-            expect(dispatch.firstCall.args[0]).to.equals("addLayerToTopicTree");
+            expect(dispatch.callCount).to.equal(4);
+            expect(dispatch.firstCall.args[0]).to.equals("Menu/changeCurrentComponent");
             expect(dispatch.firstCall.args[1]).to.be.deep.equals({
+                type: "layerSelection",
+                side: "mainMenu",
+                props: {}
+            });
+            expect(dispatch.secondCall.args[0]).to.equals("addLayerToTopicTree");
+            expect(dispatch.secondCall.args[1]).to.be.deep.equals({
                 layerId: "123",
                 source,
                 showInLayerTree: false,
                 visibility: false
             }
             );
-            expect(dispatch.secondCall.args[0]).to.equals("Modules/LayerSelection/showLayer");
-            expect(dispatch.secondCall.args[1]).to.be.deep.equals({
+            expect(dispatch.thirdCall.args[0]).to.equals("Modules/LayerSelection/showLayer");
+            expect(dispatch.thirdCall.args[1]).to.be.deep.equals({
                 layerId: "123"
             });
-            expect(dispatch.thirdCall.args[0]).to.equals("Menu/navigateBack");
-            expect(dispatch.thirdCall.args[1]).to.equals("mainMenu");
+            expect(dispatch.getCall(3).args[0]).to.equals("Menu/navigateBack");
+            expect(dispatch.getCall(3).args[1]).to.equals("mainMenu");
         });
     });
 
