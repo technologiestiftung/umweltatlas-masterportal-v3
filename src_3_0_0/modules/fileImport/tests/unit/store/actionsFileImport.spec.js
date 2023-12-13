@@ -270,7 +270,9 @@ describe("src_3_0_0/modules/fileImport/store/actionsFileImport.js", () => {
             expect(layer.getSource().getFeatures()[0].getStyle().getText().getTextBaseline()).to.equals("bottom");
             expect(layer.getSource().getFeatures()[0].get("drawState")).to.deep.equals({
                 fontSize: 32,
-                text: "Jungfernstieg"
+                text: "Jungfernstieg",
+                color: [228, 26, 28, 1]
+
             });
         });
 
