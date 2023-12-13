@@ -255,6 +255,7 @@ export default {
                 }
                 if (this.searchInputValue.length >= this.minCharacters) {
                     this.startLayerSelectionSearch(this.currentSide);
+                    console.log(this.showAllResultsSearchCategory)
                     this.setCurrentAvailableCategories(this.showAllResultsSearchCategory);
 
                     this.startSearch();

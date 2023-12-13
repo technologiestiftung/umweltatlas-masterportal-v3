@@ -49,6 +49,7 @@ export default {
             if (this.currentComponent(this.currentSide).type === "layerSelection") {
                 return this.limitedSortedSearchResults?.currentShowAllList;
             }
+
             return this.limitedSortedSearchResults?.currentShowAllList.filter(item => item.category === this.currentAvailableCategories);
         },
 

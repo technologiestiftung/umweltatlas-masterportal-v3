@@ -155,15 +155,17 @@ export default {
      * @param {String} payload.layerId The layer id.
      * @returns {void}
      */
-    showInTree: ({dispatch, rootGetters}, {layerId}) => {
+    showInTree: ({commit, dispatch, rootGetters}, {layerId}) => {
         let layerConfig = rootGetters.layerConfigById(layerId);
 
         if (layerConfig) {
+            dispatch("Menu/changeCurrentComponent", {type: "layerSelection", side: "mainMenu", props: {}}, {root: true});
             dispatch("Modules/LayerSelection/showLayer", {layerId}, {root: true});
         }
         else {
             layerConfig = rawLayerList.getLayerWhere({id: layerId});
             if (layerConfig) {
+                dispatch("Menu/changeCurrentComponent", {type: "layerSelection", side: "mainMenu", props: {}}, {root: true});
                 dispatch("addLayerToTopicTree", {layerId, source: layerConfig, showInLayerTree: false, visibility: false});
                 dispatch("Modules/LayerSelection/showLayer", {layerId}, {root: true});
             }
@@ -171,6 +173,7 @@ export default {
                 console.warn("Cannot show layer with id ", layerId, ": is not contained in services.json");
             }
         }
+        commit("setSearchInput", "");
         dispatch("Menu/navigateBack", "mainMenu", {root: true});
     },
 
