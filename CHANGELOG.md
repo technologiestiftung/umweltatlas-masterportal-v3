@@ -9,6 +9,11 @@
 ### Added
 
 ### Changed
+- The version of node was updated to ^18.16.0 || ^20.9.0.
+- The version of npm was updated to ^9.5.1 || ^10.1.0
+- The following NPM packages have been updated:
+    - dependencies:
+        - @masterportal/masterportalapi: 2.30.0 to 2.31.0
 
 ### Deprecated
 
