@@ -52,6 +52,3 @@ const Config = {
     }
 };
 
-if (typeof module !== "undefined") {
-    module.exports = Config;
-}
