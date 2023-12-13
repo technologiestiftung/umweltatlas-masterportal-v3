@@ -40,10 +40,7 @@ export default {
         if (matchingLayer === undefined) {
             layerConfig.zIndex = maxZIndex + 1;
             if (state.layerConfig[parentKey]) {
-                console.log("layerConfig[parentKey]", parentKey, layerConfig)
-                console.log(state.layerConfig)
                 state.layerConfig[parentKey].elements.push(layerConfig);
-                console.log(state.layerConfig)
             }
             else {
                 const folder = getters.folderById(parentKey);

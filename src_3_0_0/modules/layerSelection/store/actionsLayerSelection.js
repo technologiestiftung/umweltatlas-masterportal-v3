@@ -116,7 +116,6 @@ const actions = {
         const layerConfig = rootGetters.layerConfigById(layerId);
 
         if (layerConfig) {
-            console.log(layerConfig, "layerConfig")
             let lastFolderName = "",
                 subjectDataLayerConfs,
                 baselayerConfs,
@@ -141,7 +140,6 @@ const actions = {
 
             }
             if (subjectDataLayerConfs) {
-                console.log(subjectDataLayerConfs)
                 dispatch("Menu/changeCurrentComponent", {type: "layerSelection", side: "mainMenu", props: {name: "common:modules.layerSelection.addSubject"}}, {root: true});
                 dispatch("navigateForward", {lastFolderName, subjectDataLayerConfs, baselayerConfs});
                 commit("setHighlightLayerId", layerId);
