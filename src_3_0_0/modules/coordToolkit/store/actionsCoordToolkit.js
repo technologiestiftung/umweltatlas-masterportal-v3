@@ -11,44 +11,6 @@ import layerFactory from "../../../core/layers/js/layerFactory";
  */
 export default {
     /**
-     * Copies the coordinates to clipboard, delimited by limiter from state.
-     * @param {Object} context the vuex context
-     * @param {Object} context.state the state
-     * @param {Object} context.dispatch the dispatch
-     * @param {Array} coords coordinates to copy
-     * @returns {void}
-     */
-    copyCoordinates ({state, dispatch}, coords) {
-        if (Array.isArray(coords)) {
-            let toCopy = "";
-
-            coords.forEach(coord => {
-                toCopy += coord;
-                toCopy += state.delimiter;
-            });
-            if (toCopy.length > 0) {
-                toCopy = toCopy.substring(0, toCopy.length - 1);
-            }
-            navigator.clipboard.writeText(toCopy)
-                .then(() => {
-                    dispatch("Alerting/addSingleAlert", {
-                        category: "success",
-                        content: i18next.t("common:modules.coordToolkit.copyToClipboard.contentSaved")
-                    }, {root: true});
-                })
-                .catch(err => {
-                    dispatch("Alerting/addSingleAlert", {
-                        category: "error",
-                        content: i18next.t("common:modules.coordToolkit.copyToClipboard.contentNotSaved")
-                    }, {root: true});
-                    console.error(`CopyToClipboard: ${err}`);
-                });
-        }
-        else {
-            console.warn("Cannot copy coordinates to clipboard, coordinates:", coords);
-        }
-    },
-    /**
      * Remembers the projection and shows mapmarker at the given position.
      * @param {Object} context the vuex context
      * @param {Object} context.commit the commit

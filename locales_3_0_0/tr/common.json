@@ -148,6 +148,7 @@
         "northingLabel": "Boylam değeri"
       },
       "coordSystemField": "Koordinat sistemi",
+      "coordsCopied": "",
       "copyCoordBtn": "",
       "copyCoordsBtn": "",
       "copyToClipboard": {

@@ -148,6 +148,7 @@
         "northingLabel": "Північний напрямок"
       },
       "coordSystemField": "Система координат",
+      "coordsCopied": "",
       "copyCoordBtn": " {{value}} скопіювати",
       "copyCoordsBtn": "Скопіювати пару координат",
       "copyToClipboard": {

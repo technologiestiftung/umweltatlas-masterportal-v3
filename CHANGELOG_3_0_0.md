@@ -113,6 +113,7 @@
 - ShareView: new wording for buttons and toast added for feedback after link copying.
 - Tutorial: ScaleSwitcher tutorial was updated.
 - Layerinformation: different labels have been updated.
+- CoordToolkit: Toast added instead of Alert for feedback after copying coordinates.
 
 ### Deprecated
 

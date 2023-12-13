@@ -6,6 +6,7 @@ import mutations from "../store/mutationsCoordToolkit";
 import NavTab from "../../../shared/modules/tabs/components/NavTab.vue";
 import InputText from "../../../shared/modules/inputs/components/InputText.vue";
 import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
+import {Toast} from "bootstrap";
 
 /**
  * Toolkit to access coordinates on the map or search for coordinates.
@@ -33,6 +34,7 @@ export default {
             "coordinatesNorthing",
             "coordinatesNorthingExample",
             "currentProjection",
+            "delimiter",
             "eastingNoCoord",
             "eastingNoMatch",
             "getEastingError",
@@ -150,8 +152,7 @@ export default {
             "searchCoordinate",
             "validateInput",
             "newProjectionSelected",
-            "initHeightLayer",
-            "copyCoordinates"
+            "initHeightLayer"
         ]),
         ...mapActions("Maps", ["addInteraction", "registerListener", "removeInteraction", "unregisterListener"]),
         /**
@@ -434,7 +435,7 @@ export default {
             return this.coordInfo !== null;
         },
         /**
-         * Copies the values of the coordinate fields.
+         * Copies the coordinates to clipboard, delimited by limiter from state.
          * @param {Array} ids of the input-fields to get the coordinate values from
          * @returns {void}
          */
@@ -452,7 +453,25 @@ export default {
                 // reverted, because longlat-fields are swapped
                 values = values.reverse();
             }
-            this.copyCoordinates(values);
+
+            if (Array.isArray(values)) {
+                let toCopy = "";
+
+                values.forEach(coord => {
+                    toCopy += coord;
+                    toCopy += this.delimiter;
+                });
+                if (toCopy.length > 0) {
+                    toCopy = toCopy.substring(0, toCopy.length - 1);
+                }
+                navigator.clipboard.writeText(toCopy);
+                const toast = new Toast(this.$refs.copyCoordsToast);
+
+                toast.show();
+            }
+            else {
+                console.warn("Cannot copy coordinates to clipboard, coordinates:", values);
+            }
         },
         /**
          * Returns true, if current projection is selected.
@@ -737,6 +756,27 @@ export default {
                 </div>
             </div>
         </form>
+    </div>
+    <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3">
+        <div
+            ref="copyCoordsToast"
+            class="toast align-items-center"
+            role="alert"
+            aria-live="assertive"
+            aria-atomic="true"
+        >
+            <div class="d-flex">
+                <div class="toast-body">
+                    {{ $t("common:modules.coordToolkit.coordsCopied") }}
+                </div>
+                <button
+                    type="button"
+                    class="btn-close me-2 m-auto"
+                    data-bs-dismiss="toast"
+                    aria-label="Close"
+                />
+            </div>
+        </div>
     </div>
 </template>
 

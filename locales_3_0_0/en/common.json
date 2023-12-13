@@ -166,6 +166,7 @@
         "northingLabel": "Northing"
       },
       "coordSystemField": "Coordinate reference system",
+      "coordsCopied": "The coordinate(s) were copied to the clipboard.",
       "copyCoordBtn": " Copy {{value}}",
       "copyCoordsBtn": "Copy pair of coordinates",
       "copyToClipboard": {

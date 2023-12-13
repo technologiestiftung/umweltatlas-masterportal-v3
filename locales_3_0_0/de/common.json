@@ -166,6 +166,7 @@
         "northingLabel": "North-Wert / Hochwert"
       },
       "coordSystemField": "Koordinatenreferenzsystem",
+      "coordsCopied": "Die Koordinate(n) wurden in die Zwischenablage kopiert.",
       "copyCoordBtn": " {{- value}} kopieren",
       "copyCoordsBtn": "Koordinatenpaar kopieren",
       "copyToClipboard": {

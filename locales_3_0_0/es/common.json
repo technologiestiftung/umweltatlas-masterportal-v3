@@ -148,6 +148,7 @@
         "northingLabel": "Latitud"
       },
       "coordSystemField": "Sistema de coordenadas",
+      "coordsCopied": "",
       "copyCoordBtn": "",
       "copyCoordsBtn": "",
       "copyToClipboard": {

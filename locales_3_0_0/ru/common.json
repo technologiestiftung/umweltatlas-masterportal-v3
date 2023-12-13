@@ -148,6 +148,7 @@
         "northingLabel": "абсцисса"
       },
       "coordSystemField": "Координатная система",
+      "coordsCopied": "",
       "copyCoordsBtn": "Копировать координатную пару",
       "copyCoordBtn": " {{value}} копировать",
       "copyToClipboard": {

@@ -148,6 +148,7 @@
         "northingLabel": "Hochwert"
       },
       "coordSystemField": "Koordinatensystem",
+      "coordsCopied": "",
       "copyCoordBtn": "",
       "copyCoordsBtn": "",
       "copyToClipboard": {
