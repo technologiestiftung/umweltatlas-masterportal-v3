@@ -31,9 +31,6 @@ export default {
         ...mapGetters("Maps", ["mode"]),
         ...mapGetters(["activeOrFirstCategory", "allCategories", "portalConfig"]),
         ...mapGetters("Modules/LayerSelection", ["visible", "subjectDataLayerConfs", "baselayerConfs", "lastFolderNames", "layerInfoVisible", "highlightLayerId"]),
-        reducedFolderNames () {
-            return this.lastFolderNames.length > 0 ? this.lastFolderNames.slice(1, this.lastFolderNames.length) : [];
-        },
         categorySwitcher () {
             return this.portalConfig?.tree?.categories;
         }
@@ -66,7 +63,7 @@ export default {
          * @returns {void}
          */
         navigateStepsBack (steps) {
-            for (let index = 0; index < this.reducedFolderNames.length - steps; index++) {
+            for (let index = 0; index < this.lastFolderNames.length - steps; index++) {
                 this.navigateBack();
             }
             this.$nextTick(() => {
@@ -178,7 +175,7 @@ export default {
                     class="m-2"
                 >
                 <div
-                    v-if="activeOrFirstCategory && categorySwitcher && reducedFolderNames.length === 0"
+                    v-if="activeOrFirstCategory && categorySwitcher && lastFolderNames.length === 1"
                     class="form-floating mb-3 mt-3"
                 >
                     <select
@@ -200,27 +197,37 @@ export default {
                     </label>
                 </div>
                 <div class="align-items-left justify-content-center layer-selection-navigation-dataLayer flex-grow-1">
-                    <h5 class="layer-selection-subheadline">
+                    <h5
+                        v-if="lastFolderNames.length === 1"
+                        class="layer-selection-subheadline"
+                    >
                         {{ $t("common:modules.layerSelection.datalayer") }}
                     </h5>
                     <nav aria-label="breadcrumb">
                         <ol
-                            v-if="reducedFolderNames.length > 0"
+                            v-if="lastFolderNames.length > 1"
                             class="breadcrumb"
                         >
                             <li
-                                v-for="(lastFolderName, index) in reducedFolderNames"
+                                v-for="(lastFolderName, index) in lastFolderNames"
                                 :key="index"
-                                :class="['breadcrumb-item', index === (reducedFolderNames.length -1) ? 'active': '']"
+                                :class="['breadcrumb-item', index === (lastFolderNames.length -1) ? 'active': '']"
                             >
                                 <a
+                                    v-if="index < (lastFolderNames.length -1)"
                                     class="mp-menu-navigation"
                                     href="#"
                                     @click="navigateStepsBack(index)"
                                     @keypress="navigateStepsBack(index)"
                                 >
-                                    <h6 class="mp-menu-navigation-link bold">{{ lastFolderName }}</h6>
+                                    <h6 class="mp-menu-navigation-link bold">{{ lastFolderName === "root" ? $t("common:modules.layerSelection.datalayer") : lastFolderName }}</h6>
                                 </a>
+                                <h6
+                                    v-else
+                                    class="mp-menu-navigation-link bold no-link"
+                                >
+                                    {{ lastFolderName }}
+                                </h6>
                             </li>
                         </ol>
                     </nav>

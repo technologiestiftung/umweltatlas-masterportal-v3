@@ -288,29 +288,15 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
         wrapper.vm.navigateStepsBack(0);
         await wrapper.vm.$nextTick();
 
-        expect(LayerSelection.actions.navigateBack.calledTwice).to.be.true;
+        expect(LayerSelection.actions.navigateBack.calledThrice).to.be.true;
         await wrapper.vm.$nextTick();
         // called on created and here
         expect(provideSelectAllPropsSpy.calledTwice).to.be.true;
     });
 
-    it("reducedFolderNames shall deduce lastFolderNames", async () => {
-        lastFolderNames = ["root", "Titel Ebene 1", "Titel Ebene 2"];
-        store.commit("Modules/LayerSelection/setLastFolderNames", lastFolderNames);
-        wrapper = shallowMount(LayerSelectionComponent, {
-            global: {
-                plugins: [store]
-            }});
-
-        expect(wrapper.find("#layer-selection").exists()).to.be.true;
-        expect(wrapper.vm.reducedFolderNames).to.be.deep.equals(["Titel Ebene 1", "Titel Ebene 2"]);
-
-        store.commit("Modules/LayerSelection/setLastFolderNames", []);
-        expect(wrapper.vm.reducedFolderNames).to.be.deep.equals([]);
-    });
-
     it("renders the LayerSelection with breadcrumbs ", async () => {
-        let breadCrumbs = null;
+        let breadCrumbsA = null,
+            breadcrumbsNoLink = null;
         const navigateStepsBackSpy = sinon.spy(LayerSelectionComponent.methods, "navigateStepsBack");
 
         showAllResults = false;
@@ -323,11 +309,14 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
 
         expect(wrapper.find("#layer-selection").exists()).to.be.true;
 
-        breadCrumbs = wrapper.findAll("a");
-        expect(breadCrumbs.length).to.be.equals(2);
-        expect(breadCrumbs.at(0).text()).to.be.equals("Titel Ebene 1");
-        expect(breadCrumbs.at(1).text()).to.be.equals("Titel Ebene 2");
-        breadCrumbs.at(0).trigger("click");
+        breadCrumbsA = wrapper.findAll("a");
+        expect(breadCrumbsA.length).to.be.equals(2);
+        expect(breadCrumbsA.at(0).text()).to.be.equals("common:modules.layerSelection.datalayer");
+        expect(breadCrumbsA.at(1).text()).to.be.equals("Titel Ebene 1");
+        breadcrumbsNoLink = wrapper.findAll(".no-link");
+        expect(breadcrumbsNoLink.length).to.be.equals(1);
+        expect(breadcrumbsNoLink.at(0).text()).to.be.equals("Titel Ebene 2");
+        breadCrumbsA.at(0).trigger("click");
         await wrapper.vm.$nextTick();
         expect(navigateStepsBackSpy.calledOnce).to.be.true;
         expect(navigateStepsBackSpy.firstCall.args[0]).to.equals(0);
