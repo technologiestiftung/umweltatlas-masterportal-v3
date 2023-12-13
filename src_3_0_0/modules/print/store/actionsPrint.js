@@ -165,11 +165,11 @@ const actions = {
      * @param {Number} print.index The print index.
      * @returns {void}
      */
-    startPrint: async function ({state, dispatch, commit}, print) {
+    startPrint: async function ({state, getters, dispatch, commit}, print) {
         commit("setProgressWidth", "width: 25%");
         getVisibleLayer(state.printMapMarker);
 
-        const visibleLayerList = state.visibleLayerList,
+        const visibleLayerList = getters.visibleLayerList,
             attr = {
                 "layout": state.currentLayoutName,
                 "outputFilename": state.filename,

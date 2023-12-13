@@ -238,22 +238,14 @@ export default {
      * @param {String} scale - the current print scale
      * @returns {void}
      */
-    setPrintLayers: function ({dispatch, commit, getters, rootGetters}, scale) {
-        const resoByMaxScale = rootGetters["Maps/getResolutionByScale"](scale, "max"),
-            resoByMinScale = rootGetters["Maps/getResolutionByScale"](scale, "min"),
-            invisibleLayer = [];
-        let invisibleLayerNames = "",
+    setPrintLayers: function ({dispatch, commit, getters}, scale) {
+        let invisibleLayer = [],
             hintInfo = "";
 
-        getters.visibleLayer.forEach(layer => {
-            if (resoByMaxScale > layer.getMaxResolution() || resoByMinScale < layer.getMinResolution()) {
-                invisibleLayer.push(layer);
-                invisibleLayerNames += "- " + layer.get("name") + "<br>";
-            }
-        });
-
+        getVisibleLayer(getters.printMapMarker);
+        invisibleLayer = getters.invisibleLayer;
         hintInfo = i18next.t("common:modules.print.invisibleLayer", {scale: "1: " + thousandsSeparator(scale, ".")});
-        hintInfo = hintInfo + "<br>" + invisibleLayerNames;
+        hintInfo = hintInfo + "<br>" + getters.invisibleLayerNames;
 
         if ((invisibleLayer.length && hintInfo !== getters.hintInfo) && getters.showInvisibleLayerInfo) {
             dispatch("Alerting/addSingleAlert", {

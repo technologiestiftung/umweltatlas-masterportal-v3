@@ -21,6 +21,8 @@
  * @property {Object} currentLayout the current layout
  * @property {String} currentLayoutName the current layout's name
  * @property {Array} formatList available formats of the specified print configuration
+ * @property {Array} invisibleLayer contains layers that are not displayed in the current scale,
+ * @property {Array} invisibleLayerNames contains names of layers that are not displayed in the current scale,
  * @property {Array} scaleList available scales of the specified print configuration
  * @property {String} currentScale current print scale
  * @property {Boolean} isScaleSelectedManually is scale selected by the user over the view
@@ -83,6 +85,7 @@ const state = {
     hintInfoScale: "",
     INCHES_PER_METER: 39.37,
     invisibleLayer: [],
+    invisibleLayerNames: [],
     is3d: false,
     isGfiActive: false,
     isGfiAvailable: false,

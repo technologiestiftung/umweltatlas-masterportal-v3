@@ -128,6 +128,7 @@
 - OAF layers are now loaded and displayed correctly.
 - Draw: imported features can be modified and deleted. GetFeatureInfo attributes are shown on click on imported feature.
 - The routing module can now be saved via shareView.
+- Print: only layers are printed that are also displayed in the current scale
 
 ---
 

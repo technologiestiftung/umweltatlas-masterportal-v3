@@ -1,6 +1,7 @@
 import {expect} from "chai";
 import VectorLayer from "ol/layer/Vector.js";
 import sinon from "sinon";
+import store from "../../../../../app-store";
 
 import testAction from "../../../../../../test/unittests/VueTestUtils";
 import actions from "../../../store/actionsPrintInitialization";
@@ -45,15 +46,17 @@ describe("src_3_0_0/modules/print/store/actionsPrintInitialization.js", () => {
         mapCollection.addMap(map, "2D");
     });
     beforeEach(() => {
+        store.getters = {
+            "Maps/getResolutionByScale": () => sinon.stub()
+        };
+
         commit = sinon.spy();
         dispatch = sinon.spy();
         getters = {
             visibleLayer: [],
+            invisibleLayer: [],
             hintInfo: "",
             showInvisibleLayerInfo: true
-        };
-        rootGetters = {
-            "Maps/getResolutionByScale": () => 10
         };
     });
 
@@ -211,7 +214,6 @@ describe("src_3_0_0/modules/print/store/actionsPrintInitialization.js", () => {
                 on: () => "postrender"
             }));
 
-
             // action, payload, state, rootState, expectedMutationsAndActions, getters = {}, done, rootGetters
             testAction(togglePostrenderListener, undefined, state, {}, [
                 {type: "setVisibleLayer", payload: state.visibleLayerList, commit: true},
@@ -229,9 +231,9 @@ describe("src_3_0_0/modules/print/store/actionsPrintInitialization.js", () => {
                 },
                 scale = 40000;
 
-            getters.visibleLayer.push(layer);
+            getters.invisibleLayer.push(layer);
 
-            setPrintLayers({dispatch, commit, getters, rootGetters}, scale);
+            setPrintLayers({dispatch, commit, getters}, scale);
             expect(commit.calledTwice).to.be.true;
             expect(commit.firstCall.args[0]).to.be.equals("setHintInfo");
             expect(commit.firstCall.args[1].length > 0).to.be.true;
@@ -249,7 +251,7 @@ describe("src_3_0_0/modules/print/store/actionsPrintInitialization.js", () => {
                 },
                 scale = 40000;
 
-            getters.visibleLayer.push(layer);
+            getters.invisibleLayer.push(layer);
             getters.showInvisibleLayerInfo = false;
 
             setPrintLayers({dispatch, commit, getters, rootGetters}, scale);
