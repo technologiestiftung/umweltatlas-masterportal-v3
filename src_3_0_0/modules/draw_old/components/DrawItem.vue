@@ -372,6 +372,7 @@ export default {
             "setColorContour",
             "setColor",
             "setFontSize",
+            "setFont",
             "setSymbol",
             "setText",
             "setCircleRadius",
@@ -809,8 +810,8 @@ export default {
                     >
                         <option
                             v-for="option in iconList"
-                            :key="'draw-icon-' + (option.id ? option.id : option.caption)"
-                            :value="(option.id ? option.id : option.caption)"
+                            :key="'draw-icon-' + (option.id)"
+                            :value="(option.id)"
                             :selected="option.id === symbol.id"
                         >
                             {{ $t(getIconLabelKey(option)) }}

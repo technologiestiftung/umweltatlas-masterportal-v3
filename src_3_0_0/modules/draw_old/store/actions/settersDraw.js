@@ -288,11 +288,10 @@ function setStrokeWidth ({getters, commit, dispatch}, {target}) {
  */
 function setSymbol ({state, commit, dispatch}, {target}) {
     const selectedElement = target.options[target.selectedIndex],
-        iconList = Object.values(state.iconList);
+        iconList = Object.values(state.iconList),
+        symbol = iconList.filter(icon => icon.id === selectedElement.value)[0];
 
-    // Find the correct symbol
-    // NOTE: caption is deprecated in 3.0.0
-    commit("setSymbol", iconList.filter(icon => icon.id ? icon.id === selectedElement.value : icon.caption === selectedElement.value)[0]);
+    commit("setSymbol", symbol);
     dispatch("updateDrawInteraction");
 }
 /**

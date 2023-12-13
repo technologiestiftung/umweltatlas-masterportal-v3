@@ -466,7 +466,7 @@ const initialState = JSON.parse(JSON.stringify(stateDraw)),
         createSelectInteractionModifyListener ({state, commit, dispatch}) {
             state.selectInteractionModify.on("select", event => {
                 if (state.currentInteraction !== "modify" || !event.selected.length) {
-                    if (state.drawType.id === "writeText") {
+                    if (state.drawType.id === "writeText" || state.drawType.id === "drawSymbol") {
                         dispatch("updateDrawInteraction");
                     }
                     // reset interaction - if not reset, the ol default would be used, this shouldn't be what we want at this point

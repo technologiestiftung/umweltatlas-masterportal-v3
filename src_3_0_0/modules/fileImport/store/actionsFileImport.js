@@ -317,7 +317,8 @@ export default {
                 }));
                 feature.set("drawState", {
                     fontSize: parseInt(defaultFont.split("px")[0], 10) * style.getText().getScale(),
-                    text: style.getText().getText()
+                    text: style.getText().getText(),
+                    color: style.getText().getFill().getColor()
                 });
             }
             if (feature.getGeometry() === null) {

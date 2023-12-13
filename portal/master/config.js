@@ -51,3 +51,7 @@ const Config = {
         changeLanguageOnStartWhen: ["querystring", "localStorage", "htmlTag"]
     }
 };
+
+if (typeof module !== "undefined") {
+    module.exports = Config;
+}

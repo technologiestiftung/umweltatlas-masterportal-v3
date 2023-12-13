@@ -199,7 +199,7 @@
         "deleteAll": "Alles löschen",
         "download": "Rünner loaden",
         "draw": "Geometrie / Text zeichnen",
-        "edit": "Geometrie bearbeiten",
+        "edit": "Geometrie / Text bearbeiten",
         "editAttributes": "",
         "redo": "Wiederholen",
         "saveDrawing": "Zeichnung speichern",
@@ -873,7 +873,7 @@
         "drawEdit": {
           "delete": "Geometrie / Text löschen",
           "deleteAll": "Alles löschen",
-          "modify": "Geometrie bearbeiten",
+          "modify": "Geometrie / Text bearbeiten",
           "redo": "Wiederholen",
           "undo": "Rückgängig machen"
         },
