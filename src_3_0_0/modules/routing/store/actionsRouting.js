@@ -229,5 +229,15 @@ export default {
             crs.getMapProjection(mapCollection.getMap(rootState.Maps.mode)),
             coordinates
         );
+    },
+
+    /**
+     * Set attributes to state from url params.
+     * @param {Object} commit the commit
+     * @param {Object} params The url params
+     * @returns {void}
+     */
+    urlParams ({commit}, params) {
+        commit("updateStateFromUrlParams", params);
     }
 };

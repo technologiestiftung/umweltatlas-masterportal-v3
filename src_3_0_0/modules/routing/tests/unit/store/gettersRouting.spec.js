@@ -2,6 +2,7 @@ import {expect} from "chai";
 import gettersRouting from "../../../store/gettersRouting";
 
 describe("src_3_0_0/modules/routing/store/gettersRouting.js", () => {
+    let state;
 
     describe("filteredRoutingToolOptions", () => {
         it("should return all routingToolOptions", () => {
@@ -10,6 +11,38 @@ describe("src_3_0_0/modules/routing/store/gettersRouting.js", () => {
 
         it("should return only one valid routingToolOptions", () => {
             expect(gettersRouting.filteredRoutingToolOptions({routingToolOptions: ["DIRECTIONS", "TEST"]}).length).equal(1);
+        });
+    });
+
+    describe("urlParams", () => {
+        beforeEach(() => {
+            state = {
+                activeRoutingToolOption: "DIRECTIONS",
+                directionsSettings: {
+                    speedProfile: "CAR",
+                    preference: "RECOMMENDED"
+                },
+                isochronesSettings: {
+                    speedProfile: "CAR",
+                    isochronesMethodOption: "TIME",
+                    distanceValue: 30,
+                    intervalValue: 15,
+                    timeValue: 30
+                },
+                Directions: {
+                    mapInteractionMode: "AVOID_AREAS",
+                    routingAvoidFeaturesOptions: []
+                },
+                Isochrones: {
+                    routingAvoidFeaturesOptions: []
+                }
+            };
+        });
+
+        it("should return the routing params with attributes as a string", () => {
+            const params = gettersRouting.urlParams(state);
+
+            expect(params).to.equals("{\"activeRoutingToolOption\":\"DIRECTIONS\",\"directionsSettings\":{\"speedProfile\":\"CAR\",\"preference\":\"RECOMMENDED\"},\"isochronesSettings\":{\"speedProfile\":\"CAR\",\"isochronesMethodOption\":\"TIME\",\"distanceValue\":30,\"intervalValue\":15,\"timeValue\":30},\"Directions\":{\"mapInteractionMode\":\"AVOID_AREAS\",\"routingAvoidFeaturesOptions\":[]},\"Isochrones\":{\"routingAvoidFeaturesOptions\":[]}}");
         });
     });
 

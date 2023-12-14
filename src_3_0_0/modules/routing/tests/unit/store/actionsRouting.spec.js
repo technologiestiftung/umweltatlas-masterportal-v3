@@ -3,9 +3,12 @@ import actionsRouting from "../../../store/actionsRouting";
 import {expect} from "chai";
 
 describe("src_3_0_0/modules/routing/store/actionsRouting.js", () => {
-    let state, dispatch;
+    let commit,
+        dispatch,
+        state;
 
     beforeEach(() => {
+        commit = sinon.spy();
         dispatch = sinon.spy();
         state = {
             type: "routing",
@@ -59,5 +62,37 @@ describe("src_3_0_0/modules/routing/store/actionsRouting.js", () => {
         expect(dispatch.callCount).to.equal(2);
         expect(dispatch.firstCall.args).to.eql(["Directions/reset"]);
         expect(dispatch.secondCall.args).to.eql(["Directions/addWaypoint", {index: 0, displayName, coordinates, fromExtern: true}]);
+    });
+
+    describe("urlParams", () => {
+        it("should commit params to updateStateFromUrlParams", () => {
+            const params = {
+                activeRoutingToolOption: "DIRECTIONS",
+                directionsSettings: {
+                    speedProfile: "CAR",
+                    preference: "RECOMMENDED"
+                },
+                isochronesSettings: {
+                    speedProfile: "CAR",
+                    isochronesMethodOption: "TIME",
+                    distanceValue: 30,
+                    intervalValue: 15,
+                    timeValue: 30
+                },
+                Directions: {
+                    mapInteractionMode: "AVOID_AREAS",
+                    routingAvoidFeaturesOptions: []
+                },
+                Isochrones: {
+                    routingAvoidFeaturesOptions: []
+                }
+            };
+
+            actionsRouting.urlParams({commit}, params);
+
+            expect(commit.callCount).to.equal(1);
+            expect(commit.firstCall.args[0]).to.equal("updateStateFromUrlParams");
+            expect(commit.firstCall.args[1]).to.deep.equal(params);
+        });
     });
 });

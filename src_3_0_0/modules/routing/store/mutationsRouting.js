@@ -8,7 +8,28 @@ const mutations = {
      * {setKey:   (state, payload) => *   state[key] = payload * }
      * will be returned.
      */
-    ...generateSimpleMutations(routingState)
+    ...generateSimpleMutations(routingState),
+
+    /**
+     * Join the url params to state.
+     * @param {Object} state Context object.
+     * @param {Object} params The url params.
+     * @returns {void}
+     */
+    updateStateFromUrlParams: (state, params) => {
+        const attributes = [
+            "directionsSettings",
+            "isochronesSettings",
+            "Directions",
+            "Isochrones"
+        ];
+
+        attributes.forEach(settings => {
+            Object.assign(state[settings], params[settings]);
+        });
+
+        state.activeRoutingToolOption = params.activeRoutingToolOption || state.activeRoutingToolOption;
+    }
 };
 
 export default mutations;
