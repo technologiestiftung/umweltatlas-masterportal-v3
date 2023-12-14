@@ -1,6 +1,5 @@
 import {expect} from "chai";
 import collectDataByFolderModule from "../../../js/collectDataByFolder";
-import sinon from "sinon";
 
 describe("src_3_0_0/modules/layerSelection/js/collectDataByFolder.js", () => {
     let rootGetters,
@@ -57,10 +56,6 @@ describe("src_3_0_0/modules/layerSelection/js/collectDataByFolder.js", () => {
         };
     });
 
-    afterEach(() => {
-        sinon.restore();
-    });
-
     describe("collectDataByFolder", () => {
         it("should collect data", () => {
             const folder2 = layersWithFolder[0].elements[0].elements[2],
@@ -78,7 +73,7 @@ describe("src_3_0_0/modules/layerSelection/js/collectDataByFolder.js", () => {
             expect(data.lastSubjectDataLayerConfs[2]).to.have.deep.members(layersWithFolder[0].elements[0].elements);
 
             expect(data.lastFolderNames.length).to.be.equal(3);
-            expect(data.lastFolderNames[0]).to.be.deep.equal("");
+            expect(data.lastFolderNames[0]).to.be.deep.equal("root");
             expect(data.lastFolderNames[1]).to.be.deep.equal("Titel Ebene 1");
             expect(data.lastFolderNames[2]).to.be.deep.equal("Titel Ebene 2");
         });
