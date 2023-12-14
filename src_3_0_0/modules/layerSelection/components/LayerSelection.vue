@@ -198,7 +198,7 @@ export default {
                         {{ $t("common:modules.layerTree.categories") }}
                     </label>
                 </div>
-                <div class="align-items-left justify-content-center layer-selection-navigation-dataLayer flex-grow-1">
+                <div class="align-items-left justify-content-center layer-selection-navigation-dataLayer">
                     <h5
                         v-if="lastFolderNames.length === 1"
                         class="layer-selection-subheadline"
@@ -286,7 +286,7 @@ export default {
 .layer-selection-navigation-dataLayer {
     overflow-y: scroll;
     overflow-x: hidden;
-    max-height: calc(100% - 100px);
+    max-height: calc(100% - 300px);
     @include media-breakpoint-down(md) {
         max-height: calc(100% - 120px);
     }
