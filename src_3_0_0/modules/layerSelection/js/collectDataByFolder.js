@@ -40,7 +40,7 @@ function inspectParentFolder (folder, rootGetters, lastBaselayerConfs, lastFolde
     }
     else {
         lastBaselayerConfs.push(rootGetters.allBaselayerConfigs);
-        lastFolderNames.push("");
+        lastFolderNames.push("root");
         lastSubjectDataLayerConfs.push(sortBy(rootGetters.allLayerConfigsStructured(treeSubjectsKey), (conf) => conf.type !== "folder"));
     }
 }

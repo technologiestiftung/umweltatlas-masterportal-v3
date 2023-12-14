@@ -288,7 +288,7 @@ export default {
 <template lang="html">
     <div id="search-bar">
         <div class="input-group mb-3">
-            <div class="form-floating">
+            <div class="form-floating overflowHidden">
                 <input
                     id="searchInput"
                     ref="searchInput"
@@ -337,6 +337,10 @@ export default {
         .input-label {
             color: $placeholder-color;
         }
+    }
+    .overflowHidden{
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 </style>
 

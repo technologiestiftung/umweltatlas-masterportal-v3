@@ -56,7 +56,7 @@ export default {
             const el = document.querySelector("#layer-selection-treenode-" + escapeId(this.highlightLayerId));
 
             if (el) {
-                el.scrollIntoView({behavior: "smooth", block: "center", inline: "start"});
+                el.parentNode.scrollTop = el.offsetTop - 100;
             }
         }
     },

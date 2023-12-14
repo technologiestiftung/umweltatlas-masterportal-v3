@@ -39,6 +39,7 @@ export default {
         if (!this.layerInfoVisible) {
             this.reset();
         }
+        this.setHighlightLayerId(null);
     },
     created () {
         this.provideSelectAllProps();
@@ -47,7 +48,7 @@ export default {
     methods: {
         ...mapActions(["changeCategory"]),
         ...mapActions("Modules/LayerSelection", ["navigateBack", "navigateForward", "reset"]),
-        ...mapMutations("Modules/LayerSelection", ["setLayerInfoVisible"]),
+        ...mapMutations("Modules/LayerSelection", ["setLayerInfoVisible", "setHighlightLayerId"]),
 
         /**
          * Sorts the configs by type: first folder, then layer.
