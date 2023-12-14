@@ -117,6 +117,5 @@ button {
 .results-container {
     overflow-y: scroll;
     overflow-x: hidden;
-    max-height: 70vH;
 }
 </style>

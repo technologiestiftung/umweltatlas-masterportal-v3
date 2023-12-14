@@ -261,8 +261,6 @@ export default {
 .layer-selection {
     background-color: $menu-background-color;
     left: 0px;
-    top: 120px;
-    position: absolute;
     padding: $padding;
     height: calc(100% - 50px);
     padding-top: 0;
@@ -286,7 +284,7 @@ export default {
 .layer-selection-navigation-dataLayer {
     overflow-y: scroll;
     overflow-x: hidden;
-    max-height: calc(100% - 300px);
+    // max-height: calc(100% - 300px);
     @include media-breakpoint-down(md) {
         max-height: calc(100% - 120px);
     }
