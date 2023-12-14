@@ -857,7 +857,7 @@
           "id": "10220",
           "name": "DauerzÃ¤hlstellen (Rad) Hamburg",
           "typ": "WMS",
-          "visibility": true
+          "visibility": false
         },
         {
           "id": "23555",
@@ -901,7 +901,7 @@
           "id": "2426",
           "name": "Bezirke",
           "typ": "WMS",
-          "visibility": true
+          "visibility": false
         },
         {
           "id": "2425",
@@ -1081,7 +1081,7 @@
           "styleId": "8712",
           "name": "Schulen (Layertyp OAF)",
           "typ": "OAF",
-          "visibility": true,
+          "visibility": false,
           "gfiTheme": "schulinfo"
         },
         {
@@ -1189,7 +1189,7 @@
           "layerAttribution": "nicht vorhanden",
           "legendURL": "",
           "loadingStrategy": "all",
-          "hitTolerance": 20,
+          "visibility": true,
           "isPointLayer": true,
           "bboxGeometry": [
             568426.27,
@@ -1202,47 +1202,46 @@
             "Value"
           ],
           "style": {
-            "symbol": {
-              "symbolType": "circle",
-              "size": [
-                "interpolate",
-                [
-                  "linear"
-                ],
-                [
-                  "get",
-                  "Total_votes"
-                ],
+            "circle-rotate-with-view": false,
+            "circle-radius": [
+              "interpolate",
+              ["linear"],
+              ["get", "Total_votes"],
+              0,
+              6,
+              18,
+              24
+            ],
+            "circle-fill-color": [
+              "interpolate",
+              ["linear"],
+              ["get", "compound"],
+              -1,
+              [
+                240,
+                40,
+                30
+              ],
+              1,
+              [
                 0,
-                6,
-                18,
-                24
-              ],
-              "color": [
-                "interpolate",
-                [
-                  "linear"
-                ],
-                [
-                  "get",
-                  "compound"
-                ],
-                -1,
-                [
-                  240,
-                  40,
-                  30
-                ],
-                1,
-                [
-                  0,
-                  200,
-                  60
-                ]
-              ],
-              "opacity": 0.8,
-              "rotateWithView": true
-            }
+                200,
+                60
+              ]
+            ],
+            "circle-displacement": [
+              0,
+              0
+            ],
+            "circle-opacity": [
+              "interpolate",
+              ["linear"],
+              ["get", "Total_votes"],
+              40000,
+              0.6,
+              2000000,
+              0.92
+            ]
           }
         },
         {
