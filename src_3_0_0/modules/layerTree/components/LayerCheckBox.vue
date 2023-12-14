@@ -51,6 +51,15 @@ export default {
             return this.isLayerVisible || this.highlightLayerId === this.conf.id;
         }
     },
+    mounted () {
+        if (this.highlightLayerId === this.conf.id) {
+            const el = document.querySelector("#layer-selection-treenode-" + escapeId(this.highlightLayerId));
+
+            if (el) {
+                el.scrollIntoView({behavior: "smooth", block: "center", inline: "start"});
+            }
+        }
+    },
     methods: {
         ...mapActions(["replaceByIdInLayerConfig"]),
         ...mapActions("Modules/LayerSelection", ["changeVisibility"]),

@@ -159,12 +159,14 @@ export default {
         let layerConfig = rootGetters.layerConfigById(layerId);
 
         if (layerConfig) {
+            commit("Menu/setNavigationHistoryBySide", {side: "mainMenu", newHistory: []}, {root: true});
             dispatch("Menu/changeCurrentComponent", {type: "layerSelection", side: "mainMenu", props: {}}, {root: true});
             dispatch("Modules/LayerSelection/showLayer", {layerId}, {root: true});
         }
         else {
             layerConfig = rawLayerList.getLayerWhere({id: layerId});
             if (layerConfig) {
+                commit("Menu/setNavigationHistoryBySide", {side: "mainMenu", newHistory: []}, {root: true});
                 dispatch("Menu/changeCurrentComponent", {type: "layerSelection", side: "mainMenu", props: {}}, {root: true});
                 dispatch("addLayerToTopicTree", {layerId, source: layerConfig, showInLayerTree: false, visibility: false});
                 dispatch("Modules/LayerSelection/showLayer", {layerId}, {root: true});
@@ -189,11 +191,11 @@ export default {
     showLayerInfo: ({commit, dispatch, rootGetters}, {layerId}) => {
         let layerConfig = rootGetters.layerConfigById(layerId);
 
-        commit("Menu/setNavigationHistoryBySide", {side: "mainMenu", newHistory: []}, {root: true});
         if (!layerConfig) {
             layerConfig = rawLayerList.getLayerWhere({id: layerId});
         }
         if (layerConfig) {
+            commit("Menu/setNavigationHistoryBySide", {side: "mainMenu", newHistory: []}, {root: true});
             dispatch("Modules/LayerInformation/startLayerInformation", layerConfig, {root: true});
             commit("Modules/LayerSelection/setLayerInfoVisible", true, {root: true});
         }

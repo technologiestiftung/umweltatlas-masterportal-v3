@@ -2,7 +2,6 @@
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import layerFactory from "../../../core/layers/js/layerFactory";
 import sortBy from "../../../shared/js/utils/sortBy";
-import escapeId from "../../../shared/js/utils/escapeId";
 import LayerCheckBox from "../../layerTree/components/LayerCheckBox.vue";
 import SearchBar from "../../searchBar/components/SearchBar.vue";
 import LayerSelectionTreeNode from "./LayerSelectionTreeNode.vue";
@@ -37,15 +36,6 @@ export default {
         },
         categorySwitcher () {
             return this.portalConfig?.tree?.categories;
-        }
-    },
-    mounted () {
-        if (this.highlightLayerId) {
-            const el = document.querySelector("#layer-checkbox-" + escapeId(this.highlightLayerId));
-
-            if (el) {
-                el.scrollIntoView({behavior: "smooth", block: "nearest", inline: "start"});
-            }
         }
     },
     unmounted () {

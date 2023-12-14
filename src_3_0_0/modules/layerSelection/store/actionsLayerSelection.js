@@ -140,7 +140,6 @@ const actions = {
 
             }
             if (subjectDataLayerConfs) {
-                dispatch("Menu/changeCurrentComponent", {type: "layerSelection", side: "mainMenu", props: {name: "common:modules.layerSelection.addSubject"}}, {root: true});
                 dispatch("navigateForward", {lastFolderName, subjectDataLayerConfs, baselayerConfs});
                 commit("setHighlightLayerId", layerId);
                 commit("setVisible", true);
