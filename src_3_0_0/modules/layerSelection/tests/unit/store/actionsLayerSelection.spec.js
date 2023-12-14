@@ -278,13 +278,11 @@ describe("src_3_0_0/modules/layerSelection/store/actionsLayerSelection", () => {
 
                 showLayer({commit, dispatch, rootGetters}, {layerId});
 
-                expect(dispatch.calledThrice).to.be.true;
+                expect(dispatch.calledTwice).to.be.true;
                 expect(dispatch.firstCall.args[0]).to.be.equals("setNavigationByFolder");
                 expect(dispatch.firstCall.args[1]).to.be.deep.equals({folder});
-                expect(dispatch.secondCall.args[0]).to.be.equals("Menu/changeCurrentComponent");
-                expect(dispatch.secondCall.args[1]).to.be.deep.equals({type: "layerSelection", side: "mainMenu", props: {name: "common:modules.layerSelection.addSubject"}});
-                expect(dispatch.thirdCall.args[0]).to.be.equals("navigateForward");
-                expect(dispatch.thirdCall.args[1]).to.be.deep.equals({lastFolderName: folder.name, subjectDataLayerConfs: folder.elements, baselayerConfs: []});
+                expect(dispatch.secondCall.args[0]).to.be.equals("navigateForward");
+                expect(dispatch.secondCall.args[1]).to.be.deep.equals({lastFolderName: folder.name, subjectDataLayerConfs: folder.elements, baselayerConfs: []});
                 expect(commit.calledTwice).to.be.true;
                 expect(commit.firstCall.args[0]).to.be.equals("setHighlightLayerId");
                 expect(commit.firstCall.args[1]).to.be.equals(layerId);
@@ -298,11 +296,9 @@ describe("src_3_0_0/modules/layerSelection/store/actionsLayerSelection", () => {
                 layerConfig.parentId = null;
                 showLayer({commit, dispatch, rootGetters}, {layerId});
 
-                expect(dispatch.calledTwice).to.be.true;
-                expect(dispatch.firstCall.args[0]).to.be.equals("Menu/changeCurrentComponent");
-                expect(dispatch.firstCall.args[1]).to.be.deep.equals({type: "layerSelection", side: "mainMenu", props: {name: "common:modules.layerSelection.addSubject"}});
-                expect(dispatch.secondCall.args[0]).to.be.equals("navigateForward");
-                expect(dispatch.secondCall.args[1]).to.be.deep.equals({lastFolderName: "", subjectDataLayerConfs: [folder], baselayerConfs: [{name: "baselayer"}]});
+                expect(dispatch.calledOnce).to.be.true;
+                expect(dispatch.firstCall.args[0]).to.be.equals("navigateForward");
+                expect(dispatch.firstCall.args[1]).to.be.deep.equals({lastFolderName: "", subjectDataLayerConfs: [folder], baselayerConfs: [{name: "baselayer"}]});
                 expect(commit.calledTwice).to.be.true;
                 expect(commit.firstCall.args[0]).to.be.equals("setHighlightLayerId");
                 expect(commit.firstCall.args[1]).to.be.equals(layerId);
