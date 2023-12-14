@@ -217,7 +217,7 @@ export default {
         const menuSide = "secondaryMenu",
             menuExpanded = "Menu/expanded";
 
-        dispatch("Menu/changeCurrentComponent", {type: "routing", side: menuSide, props: {}}, {root: true});
+        dispatch("Menu/changeCurrentComponent", {type: "routing", side: menuSide, props: {name: i18next.t("common:modules.routing.name")}}, {root: true});
         if (!rootGetters[menuExpanded](menuSide)) {
             dispatch("Menu/toggleMenu", menuSide, {root: true});
         }

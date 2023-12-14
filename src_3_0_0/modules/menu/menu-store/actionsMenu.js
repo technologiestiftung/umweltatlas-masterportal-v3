@@ -146,7 +146,7 @@ export default {
             if (getters.currentComponent(side).type === state.currentMouseMapInteractionsComponent && getters.currentComponent(side).type !== state.defaultComponent) {
                 dispatch("changeCurrentMouseMapInteractionsComponent", {type: state.defaultComponent, side});
             }
-            if (rootGetters["Modules/SearchBar/showAllResults"] === false) {
+            if (rootGetters["Modules/SearchBar/showAllResults"] === false || rootGetters["Modules/SearchBar/currentSide"] !== side) {
                 commit("switchToPreviousComponent", side);
             }
             if (getters.currentComponent(side).type === "searchbar") {
@@ -198,16 +198,19 @@ export default {
      * @param {Object} param.commit the commit
      * @param {Object} param.dispatch the dispatch
      * @param {Object} param.getters the getters
+     * @param {Object} param.rootGetters the rootGetters
      * @param {Object} param.state the state
      * @param {String} side secondary or main Menu
      * @returns {void}
      */
-    resetMenu ({commit, dispatch, getters, state}, side) {
+    resetMenu ({commit, dispatch, getters, rootGetters, state}, side) {
         if (getters.currentComponent(side).type === state.currentMouseMapInteractionsComponent && getters.currentComponent(side).type !== state.defaultComponent) {
             dispatch("changeCurrentMouseMapInteractionsComponent", {type: state.defaultComponent, side});
         }
 
-        dispatch("Modules/SearchBar/updateSearchNavigation", side, {root: true});
+        if (rootGetters["Modules/SearchBar/currentSide"] === side) {
+            dispatch("Modules/SearchBar/updateSearchNavigation", side, {root: true});
+        }
         commit("switchToRoot", side);
     },
 
