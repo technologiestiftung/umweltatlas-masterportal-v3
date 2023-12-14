@@ -59,11 +59,13 @@ export default {
         },
         /**
          * Navigates backwards in folder-menu.
-         * @param {Number} steps amount of steps to go back
+         * @param {Number} level level to go back to
          * @returns {void}
          */
-        navigateStepsBack (steps) {
-            for (let index = 0; index < this.lastFolderNames.length - steps; index++) {
+        navigateStepsBack (level) {
+            const end = this.lastFolderNames.length - level - 1;
+
+            for (let index = 0; index < end; index++) {
                 this.navigateBack();
             }
             this.$nextTick(() => {
@@ -171,7 +173,7 @@ export default {
                     </template>
                 </div>
                 <hr
-                    v-if="baselayerConfs.length > 0"
+                    v-if="filterBaseLayer().length > 0"
                     class="m-2"
                 >
                 <div

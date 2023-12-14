@@ -288,7 +288,7 @@ describe("src_3_0_0/modules/layerSelection/components/LayerSelection.vue", () =>
         wrapper.vm.navigateStepsBack(0);
         await wrapper.vm.$nextTick();
 
-        expect(LayerSelection.actions.navigateBack.calledThrice).to.be.true;
+        expect(LayerSelection.actions.navigateBack.calledTwice).to.be.true;
         await wrapper.vm.$nextTick();
         // called on created and here
         expect(provideSelectAllPropsSpy.calledTwice).to.be.true;
