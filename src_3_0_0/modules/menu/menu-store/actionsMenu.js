@@ -143,20 +143,15 @@ export default {
         const searchValue = rootGetters["Modules/SearchBar/searchInput"];
 
         nextTick(() => {
-            //Todo make search in layerselection work again
-            // extract special behaviour
-            // introduce steps wit loops
             if (getters.currentComponent(side).type === state.currentMouseMapInteractionsComponent && getters.currentComponent(side).type !== state.defaultComponent) {
                 dispatch("changeCurrentMouseMapInteractionsComponent", {type: state.defaultComponent, side});
             }
-
             if (rootGetters["Modules/SearchBar/showAllResults"] === false) {
                 commit("switchToPreviousComponent", side);
             }
             if (getters.currentComponent(side).type === "searchbar") {
                 dispatch("Modules/SearchBar/updateSearchNavigation", side, {root: true});
             }
-
             dispatch("handleActionButtons", {side: side, searchValue: searchValue});
         });
     },

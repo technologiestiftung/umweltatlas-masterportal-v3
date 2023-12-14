@@ -291,9 +291,11 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equals("Modules/LayerInformation/startLayerInformation");
             expect(dispatch.firstCall.args[1]).to.be.deep.equals(config);
-            expect(commit.calledOnce).to.be.true;
-            expect(commit.firstCall.args[0]).to.equals("Modules/LayerSelection/setLayerInfoVisible");
-            expect(commit.firstCall.args[1]).to.be.true;
+            expect(commit.calledTwice).to.be.true;
+            expect(commit.firstCall.args[0]).to.equals("Menu/setNavigationHistoryBySide");
+            expect(commit.firstCall.args[1]).to.be.deep.equals({side: "mainMenu", newHistory: []});
+            expect(commit.secondCall.args[0]).to.equals("Modules/LayerSelection/setLayerInfoVisible");
+            expect(commit.secondCall.args[1]).to.be.true;
         });
 
         it("should call startLayerInformation - layer not in layerConfig", () => {
@@ -312,9 +314,11 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equals("Modules/LayerInformation/startLayerInformation");
             expect(dispatch.firstCall.args[1]).to.be.deep.equals(config);
-            expect(commit.calledOnce).to.be.true;
-            expect(commit.firstCall.args[0]).to.equals("Modules/LayerSelection/setLayerInfoVisible");
-            expect(commit.firstCall.args[1]).to.be.true;
+            expect(commit.calledTwice).to.be.true;
+            expect(commit.firstCall.args[0]).to.equals("Menu/setNavigationHistoryBySide");
+            expect(commit.firstCall.args[1]).to.be.deep.equals({side: "mainMenu", newHistory: []});
+            expect(commit.secondCall.args[0]).to.equals("Modules/LayerSelection/setLayerInfoVisible");
+            expect(commit.secondCall.args[1]).to.be.true;
         });
     });
 
