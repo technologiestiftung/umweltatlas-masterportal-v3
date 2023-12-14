@@ -287,7 +287,7 @@ describe("src_3_0_0/modules/menu/menu-store/actionsMenu.js", () => {
     });
 
     describe("navigateBack", () => {
-        const side = "mainMenu";
+        let side = "mainMenu";
 
         it("should switch to previous component", async () => {
             rootGetters = {"Modules/SearchBar/showAllResults": false};
@@ -318,6 +318,28 @@ describe("src_3_0_0/modules/menu/menu-store/actionsMenu.js", () => {
             Object.assign(state, {currentMouseMapInteractionsComponent: "abc"});
 
             rootGetters = {"Modules/SearchBar/showAllResults": false};
+
+            actions.navigateBack({commit, dispatch, getters, state, rootGetters}, side);
+
+            await nextTick(() => {
+                expect(commit.calledOnce).to.be.true;
+                expect(commit.firstCall.args[0]).to.equal("switchToPreviousComponent");
+                expect(commit.firstCall.args[1]).to.equal(side);
+                expect(dispatch.calledTwice).to.be.true;
+                expect(dispatch.firstCall.args[0]).to.equal("changeCurrentMouseMapInteractionsComponent");
+                expect(dispatch.firstCall.args[1]).to.deep.equal({type: state.defaultComponent, side});
+                expect(dispatch.secondCall.args[0]).to.equal("handleActionButtons");
+                expect(dispatch.secondCall.args[1]).to.deep.equal({side: side, searchValue: undefined});
+            });
+        });
+
+        it("should switch to previous component if searchbar showAllResults=true but on other menu side", async () => {
+            Object.assign(state, {currentMouseMapInteractionsComponent: "abc"});
+            side = "secondaryMenu";
+            rootGetters = {
+                "Modules/SearchBar/showAllResults": true,
+                "Modules/SearchBar/currentSide": "mainMenu"
+            };
 
             actions.navigateBack({commit, dispatch, getters, state, rootGetters}, side);
 
@@ -478,10 +500,11 @@ describe("src_3_0_0/modules/menu/menu-store/actionsMenu.js", () => {
     });
 
     describe("resetMenu", () => {
-        const side = "mainMenu";
+        let side = "mainMenu";
 
         it("should switch to Root but not change Interaction if already GFI", async () => {
-            actions.resetMenu({commit, dispatch, getters, state}, side);
+            rootGetters["Modules/SearchBar/currentSide"] = side;
+            actions.resetMenu({commit, dispatch, getters, rootGetters, state}, side);
 
             await nextTick(() => {
                 expect(dispatch.calledOnce).to.be.true;
@@ -495,8 +518,9 @@ describe("src_3_0_0/modules/menu/menu-store/actionsMenu.js", () => {
 
         it("should switch to Root and change Interaction if not already GFI", async () => {
             Object.assign(state, {currentMouseMapInteractionsComponent: "abc"});
+            rootGetters["Modules/SearchBar/currentSide"] = side;
 
-            actions.resetMenu({commit, dispatch, getters, state}, side);
+            actions.resetMenu({commit, dispatch, getters, rootGetters, state}, side);
 
             await nextTick(() => {
                 expect(dispatch.calledTwice).to.be.true;
@@ -504,6 +528,19 @@ describe("src_3_0_0/modules/menu/menu-store/actionsMenu.js", () => {
                 expect(dispatch.firstCall.args[1]).to.deep.equal({type: state.defaultComponent, side});
                 expect(dispatch.secondCall.args[0]).to.equal("Modules/SearchBar/updateSearchNavigation");
                 expect(dispatch.secondCall.args[1]).to.equal(side);
+                expect(commit.calledOnce).to.be.true;
+                expect(commit.firstCall.args[0]).to.equal("switchToRoot");
+                expect(commit.firstCall.args[1]).to.equal(side);
+            });
+        });
+
+        it("should switch to Root but not change searchNAvigation, if search is on other side", async () => {
+            rootGetters["Modules/SearchBar/currentSide"] = "mainMenu";
+            side = "secondaryMenu";
+            actions.resetMenu({commit, dispatch, getters, rootGetters, state}, side);
+
+            await nextTick(() => {
+                expect(dispatch.notCalled).to.be.true;
                 expect(commit.calledOnce).to.be.true;
                 expect(commit.firstCall.args[0]).to.equal("switchToRoot");
                 expect(commit.firstCall.args[1]).to.equal(side);
