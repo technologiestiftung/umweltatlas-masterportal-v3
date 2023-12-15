@@ -195,7 +195,6 @@ export default {
             layerConfig = rawLayerList.getLayerWhere({id: layerId});
         }
         if (layerConfig) {
-            commit("Menu/setNavigationHistoryBySide", {side: "mainMenu", newHistory: []}, {root: true});
             dispatch("Modules/LayerInformation/startLayerInformation", layerConfig, {root: true});
             commit("Modules/LayerSelection/setLayerInfoVisible", true, {root: true});
         }
