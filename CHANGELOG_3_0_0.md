@@ -3,7 +3,7 @@
 
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
-## Unreleased - in development
+## 2023-12-18 v3.0.0 - beta2
 ### __Breaking Changes__
 - Dropped support for NodeJS 16 and Npm 8
 - e2e tests are no longer supported
@@ -31,7 +31,7 @@
 
 ### Added
 - Add roadmap information to the readme file.
-- Add documentation for the config.js file.
+- Add documentation for the [config.js](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/config_3_0_0.js.md) and [config.json](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/config_3_0_0.json.md).
 - Configurable searchBar for the layerselection.
 - To manage dependencies of dependencies "overrides" for cesium are added to package.json and create dummy packages for it.
 - New config.json parameter `sldVersion` for legend configuration to define a `Styled Layer Descriptor` for the GetLegendGraphic requests.
@@ -40,10 +40,11 @@
         - webpack-bundle-analyzer: 4.9.1 (For usage comment in "webpack-bundle-analyzer"-code in webpack.dev.js)
 - shared\js\utils\convertColor: added an option to convert an rgba array into a hex color with alpha value.
 - Configurable searchbar for the layerSelection.
+- Add layerParam `gfiThemeSetting`.
 
 ### Changed
 - GetFeatureInfo: module opens in other menu when print module is opened
-- LayerInformation: For layers that do not have metadata, the layer information can now be displayed so that the URLs and legend can be viewed th
+- LayerInformation: for layers that do not have metadata, the layer information can now be displayed so that the URLs and legend can be accessed.
 - The following NPM packages have been updated:
     - dependencies:
         - @masterportal/masterportalapi: 2.28.0 to 2.30.0  (This also raised ol to version 8.1.0 and olcs to version 2.16.0)
@@ -82,23 +83,26 @@
         - vue-loader: 17.0.1 to 17.3.0
         - webpack: 4.46.0 to 4.47.0
         - zip-a-folder: 1.1.5 to 3.1.3
-- Search Bar: Styled the input field.
-- Print: Styled loading button.
+
+- SearchBar: styled the input field.
+- Print: styled loading button.
 - The roadmap dates have been updated. See [Readme](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/README.md).
 - Layers are only displayed on the 2D-map, if layers attributes minScale and maxScale are in maps scale-range. The layer is grayed out in the topic tree if it is not displayed on the map.
-- Main Menu: Added margin so scrollbar is visible on desktop.
-- Search results: Layers can now be added/removed directly to/from the map by activating the checkbox. The add layer button has been removed.
+- Main Menu: added margin so scrollbar is visible on desktop.
+- Search results: layers can now be added/removed directly to/from the map by activating the checkbox. The add layer button has been removed.
 - Highlighting features via URL:
     - Now accepts multiple feature ids, seperated with commas.
     - Zooms the map, so that all highlighted features are visible.
-- Layer selection: Layers can now be added directly to the map by activating the checkbox. The add layer button has been removed. All layers are always displayed, including the layers that have already been added.
+- Layer selection: layers can now be added directly to the map by activating the checkbox. The add layer button has been removed. All layers are always displayed, including the layers that have already been added.
 - Searchbar configuration 'minChars' was renamed to 'minCharacters'.
-- ShareView: New wording for buttons and Toast added for feedback after cpoying.
+- ShareView: new wording for buttons and toast added for feedback after link copying.
+- Tutorial: ScaleSwitcher tutorial was updated.
+- Layerinformation: different labels have been updated.
 
 ### Deprecated
 
 ### Removed
-- The following NPM packages are removed:
+- The following NPM packages have been removed:
     - dependencies
         - @panter/vue-i18next
         - dayjs (is loaded via @masterportal/masterportalapi)
@@ -109,16 +113,17 @@
 - `Legend` : The `showLegend` and `showCollapseAllButton` attributes have been removed
 
 ### Fixed
-- Issue #1073: Routing: The route is updated after moving a waypoint in the map.
+- Issue #1073: Routing: the route is updated after moving a waypoint in the map.
 - Issue #1085: Corrected case at import of layer2dRasterWmsTime in src_3_0_0\core\layers\js\layerFactory.js.
 - Issue #1091: VectorStyle: read geometry type from geoserver featureTypeRequest and do not fail if some rules in style.json have no condition.
 - Issue #1094: Measure Tool: unit changes not connected anymore.
 - Issue #1099: The package.json is adapted, now the size of the bundle, created with "npm run build" is reduced.
 - Issue #1105: Added easting and nothing labels for utm projections in CoordToolkit
 - Mobile View: switching vertical and horizontal view works better now.
+- Fix click issue between link of logo area and searchbar.
 - Close Button is now in line with Menu navigation.
-- Tools: Open tools are closed when switching to a mode, that they do not support.
-- Tree: Sorting the layers in the topic tree in the same order as via share link.
+- Tools: open tools are closed when switching to a mode, that they do not support.
+- Tree: sorting the layers in the topic tree in the same order as via share link.
 - GFI: shown GFI is closed if dedicated layer is removed from map.
 - OAF layers are now loaded and displayed correctly.
 - Draw: imported features can be modified and deleted. GetFeatureInfo attributes are shown on click on imported feature.
