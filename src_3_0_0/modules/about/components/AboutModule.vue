@@ -63,20 +63,20 @@ export default {
                     v-html="contact.name"
                 />
                 <p
-                    v-for="(positionName) in contact?.positionName"
+                    v-for="(positionName) in contact.positionName"
                     :key="positionName"
                     v-html="positionName"
                 />
                 <p>
-                    {{ contact?.street + "  " + contact?.postalCode }}
+                    {{ contact.street + "  " + contact.postalCode }}
                 </p>
                 <p>
-                    {{ contact?.city }}
+                    {{ contact.city }}
                 </p>
                 <a
-                    :href="contact?.email"
+                    :href="'mailto:' + contact.email"
                 >
-                    {{ contact?.email }}
+                    {{ contact.email }}
                 </a>
             </div>
         </div>
