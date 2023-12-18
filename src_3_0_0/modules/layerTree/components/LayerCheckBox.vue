@@ -182,7 +182,6 @@ export default {
         overflow: hidden;
     }
     .layer-tree-layer-label {
-        cursor: pointer;
         overflow: hidden;
         span {
             white-space: nowrap;

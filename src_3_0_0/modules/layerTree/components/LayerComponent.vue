@@ -92,6 +92,7 @@ export default {
     >
         <div class="d-flex justify-content-between align-items-center handle-layer-component-drag">
             <span
+                class="layer-checkbox-tooltip"
                 :data-bs-toggle="scaleIsOutOfRange() ? 'tooltip' : null"
                 data-bs-placement="bottom"
                 data-bs-custom-class="custom-tooltip"
@@ -130,6 +131,11 @@ export default {
     @import "~variables";
     @import "~mixins";
 
+    .layer-checkbox-tooltip {
+        overflow: hidden;
+        display: block;
+        width: 100%;
+    }
     .layer-tree-layer {
         font-size: 0.9rem;
 
