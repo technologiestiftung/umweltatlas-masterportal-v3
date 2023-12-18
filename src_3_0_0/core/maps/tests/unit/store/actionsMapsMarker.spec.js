@@ -10,6 +10,7 @@ const {
     changeMarkerStyle,
     placingPointMarker,
     placingPolygonMarker,
+    placingPolygonMarkerByGeom,
     removePointMarker,
     removePolygonMarker,
     rotatePointMarker,
@@ -105,6 +106,34 @@ describe("src_3_0_0/core/maps/store/actionsMapsMarker.js", () => {
             });
 
             placingPolygonMarker({dispatch}, feature);
+
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equals("removePolygonMarker");
+
+            expect(mapMarker.addFeatureToMapMarkerLayer.calledOnce).to.be.true;
+            expect(mapMarker.addFeatureToMapMarkerLayer.firstCall.args[0]).to.equals("marker_polygon_layer");
+            expect(mapMarker.addFeatureToMapMarkerLayer.firstCall.args[1] instanceof Feature).to.be.true;
+        });
+
+        it("place a polygon marker with geometry", () => {
+            const geometry = new Polygon([[[565086.1948534324, 5934664.461947621], [565657.6945448224, 5934738.54524095], [565625.9445619675, 5934357.545446689], [565234.3614400891, 5934346.962119071], [565086.1948534324, 5934664.461947621]]]);
+
+            placingPolygonMarker({dispatch}, geometry);
+
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equals("removePolygonMarker");
+
+            expect(mapMarker.addFeatureToMapMarkerLayer.calledOnce).to.be.true;
+            expect(mapMarker.addFeatureToMapMarkerLayer.firstCall.args[0]).to.equals("marker_polygon_layer");
+            expect(mapMarker.addFeatureToMapMarkerLayer.firstCall.args[1] instanceof Feature).to.be.true;
+        });
+    });
+
+    describe("placingPolygonMarkerByGeom", () => {
+        it("place a polygon marker with geometry", () => {
+            const geometry = new Polygon([[[565086.1948534324, 5934664.461947621], [565657.6945448224, 5934738.54524095], [565625.9445619675, 5934357.545446689], [565234.3614400891, 5934346.962119071], [565086.1948534324, 5934664.461947621]]]);
+
+            placingPolygonMarkerByGeom({dispatch}, geometry);
 
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equals("removePolygonMarker");

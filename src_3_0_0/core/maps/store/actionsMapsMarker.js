@@ -56,10 +56,20 @@ export default {
     /**
      * Adds a polygon feature to the the polygon map marker layer.
      * @param {Object} param.dispatch the dispatch
-     * @param {ol/Feature} feature The ol feature that is added to the map.
+     * @param {ol/Feature | ol/geom/SimpleGeometry} placeableObj The ol feature or geometry that is added to the map.
      * @returns {void}
      */
-    placingPolygonMarker ({dispatch}, feature) {
+    placingPolygonMarker ({dispatch}, placeableObj) {
+        let feature;
+
+        if (typeof placeableObj !== Feature) {
+            feature = new Feature({
+                geometry: placeableObj
+            });
+        }
+        else {
+            feature = placeableObj;
+        }
         const layerId = "marker_polygon_layer";
 
         dispatch("removePolygonMarker");
