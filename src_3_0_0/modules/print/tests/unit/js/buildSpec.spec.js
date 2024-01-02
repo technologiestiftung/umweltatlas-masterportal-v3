@@ -813,8 +813,7 @@ describe("src_3_0_0/modules/print/js/buildSpec", function () {
                     Verlauf: "\nLandungsbrücken - Deichtorhallen - Planten un Blomen - Wallring - Landungsbrücken\n",
                     Routeninformation: "\nLandungsbrücken - Deichtorhallen - Planten un Blomen - Wallring - Landungsbrücken\n",
                     _label: "veryCreativeLabelText"
-                },
-                id: "Erster_Gruener_Ring.1"
+                }
             });
         });
         it("should return array with polygon JSON", function () {
