@@ -21,7 +21,8 @@
 
 ### Fixed
 - MapMarker: Fix creating a feature style in placingPolygonMarkerByGeom.
-- ImportFile: The geometry display when importing more than one KML file is complete, despite identical ids at the element `Placemark` .
+- ImportFile: The geometry display when importing more than one KML file is complete, despite identical ids at the element `Placemark`.
+- Print: Printing vector features with multipolygons now works again.
 
 ---
 ## v2.40.0 - 2023-12-06

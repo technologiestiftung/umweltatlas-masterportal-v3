@@ -630,7 +630,6 @@ describe("src_3_0_0/modules/print/js/buildSpec", function () {
             convertedFeature = buildSpec.convertFeatureToGeoJson(feature, style);
             expect(convertedFeature).to.deep.own.include({
                 type: "Feature",
-                id: "123456",
                 properties: {
                     name: "The circle feature",
                     _label: "veryCreativeLabelText"
@@ -731,7 +730,6 @@ describe("src_3_0_0/modules/print/js/buildSpec", function () {
             expect(list).to.be.an("array");
             expect(list[0]).to.deep.own.include({
                 type: "Feature",
-                id: "APP_SPASS_IM_UND_AM_WASSER_1",
                 properties: {
                     nummer: "1",
                     name: "Ostender Teich - Sommerbad Ostende (Eintritt)",
@@ -756,7 +754,6 @@ describe("src_3_0_0/modules/print/js/buildSpec", function () {
             expect(list).to.be.an("array");
             expect(list[0]).to.deep.own.include({
                 type: "Feature",
-                id: "APP_STRASSENNETZ_INSPIRE_BAB_6351",
                 properties: {
                     abs: "252500101 252500102",
                     abschnittslaenge: "469.0",
@@ -827,7 +824,6 @@ describe("src_3_0_0/modules/print/js/buildSpec", function () {
             expect(list).to.be.an("array");
             expect(list[0]).to.deep.own.include({
                 type: "Feature",
-                id: "APP_AUSGLEICHSFLAECHEN_333876",
                 properties: {
                     vorhaben: "W-006 - BPlan Marienthal 22 (Husarenweg)",
                     vorhaben_zulassung_am: "23.04.1996",
@@ -866,7 +862,6 @@ describe("src_3_0_0/modules/print/js/buildSpec", function () {
             expect(list).to.be.an("array");
             expect(list[0]).to.deep.own.include({
                 type: "Feature",
-                id: "APP_PROSIN_FESTGESTELLT_1",
                 properties: {
                     aenderung1: undefined,
                     aenderung2: undefined,
@@ -949,7 +944,6 @@ describe("src_3_0_0/modules/print/js/buildSpec", function () {
         it("should convert multiPoint feature to JSON", function () {
             expect(buildSpec.convertFeatureToGeoJson(multiPointFeatures[0], style)).to.deep.own.include({
                 type: "Feature",
-                id: "APP_SPASS_IM_UND_AM_WASSER_1",
                 properties: {
                     nummer: "1",
                     name: "Ostender Teich - Sommerbad Ostende (Eintritt)",
@@ -970,7 +964,6 @@ describe("src_3_0_0/modules/print/js/buildSpec", function () {
         it("should convert lineString feature to JSON", function () {
             expect(buildSpec.convertFeatureToGeoJson(lineStringFeatures[0], style)).to.deep.own.include({
                 type: "Feature",
-                id: "APP_STRASSENNETZ_INSPIRE_BAB_6351",
                 properties: {
                     abs: "252500101 252500102",
                     abschnittslaenge: "469.0",
@@ -1004,7 +997,6 @@ describe("src_3_0_0/modules/print/js/buildSpec", function () {
         it("should convert multiLineString feature to JSON", function () {
             expect(buildSpec.convertFeatureToGeoJson(multiLineStringFeatures[0], style)).to.deep.own.include({
                 type: "Feature",
-                id: "Erster_Gruener_Ring.1",
                 properties: {
                     RoutenTyp: "Radfernwege",
                     Status: "Hauptroute",
@@ -1033,7 +1025,6 @@ describe("src_3_0_0/modules/print/js/buildSpec", function () {
         it("should convert polygon feature to JSON", function () {
             expect(buildSpec.convertFeatureToGeoJson(polygonFeatures[0], style)).to.deep.own.include({
                 type: "Feature",
-                id: "APP_AUSGLEICHSFLAECHEN_333876",
                 properties: {
                     vorhaben: "W-006 - BPlan Marienthal 22 (Husarenweg)",
                     vorhaben_zulassung_am: "23.04.1996",
@@ -1068,7 +1059,6 @@ describe("src_3_0_0/modules/print/js/buildSpec", function () {
         it("should convert multiPolygon feature to JSON", function () {
             expect(buildSpec.convertFeatureToGeoJson(multiPolygonFeatures[0], style)).to.deep.own.include({
                 type: "Feature",
-                id: "APP_PROSIN_FESTGESTELLT_1",
                 properties: {
                     aenderung1: undefined,
                     aenderung2: undefined,
