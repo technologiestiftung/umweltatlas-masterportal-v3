@@ -85,7 +85,7 @@ function getFormat (filename, selectedFiletype, supportedFiletypes, availableFor
  * Checks for OL-unsupported tags and removes them.
  * Currently unsupported tags are:
  *      - cascadingStyle
-
+ * Removes attributes from Placemark-tag, e.g. 'id': if same id is in different imported files, the features are overwritten by ol format.
  * @param {String} rawSource - KML source as string.
  * @returns {String} Returns raw string KML source without unsupported tags.
  */
@@ -97,8 +97,7 @@ function removeBadTags (rawSource) {
         return "<Style id=\"" + b + "\">";
     });
     result = result.replace(/<\/Style>\s*<\/.*?cascadingstyle>/gmi, "</Style>");
-
-    // ... remove more tags eventually
+    result = result.replace(/<Placemark.*?(>)/gmi, "<Placemark>");
 
     return result;
 }

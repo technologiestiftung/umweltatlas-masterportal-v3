@@ -20,7 +20,8 @@
 ### Removed
 
 ### Fixed
-- mapMarker: fix creating a feature style in placingPolygonMarkerByGeom.
+- MapMarker: Fix creating a feature style in placingPolygonMarkerByGeom.
+- ImportFile: The geometry display when importing more than one KML file is complete, despite identical ids at the element `Placemark` .
 
 ---
 ## v2.40.0 - 2023-12-06
@@ -59,6 +60,7 @@
 - prepareFeaturesFor3D is now called after loading
 - Geojson layer: prepareFeaturesFor3D is now called after loading.
 - Issue #1081: Transmit authorization token to services after login
+- Issue #1087: Fixed wrong type for upload files for batch processing in routing tool
 - Issue #1091: VectorStyle: read geometry type from geoserver featureTypeRequest and do not fail if some rules in style.json have no condition.
 - Issue #1093: Fixed the Wrong CRS in GeoJSON by Download filtered data
 - Issue #1099: The package.json is adapted, now the size of the bundle, created with "npm run build" is reduced.
