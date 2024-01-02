@@ -799,6 +799,7 @@ export default {
                     :max="currentSliderMax"
                     :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.min', {param: getAttrNameFrom()})"
                     :disabled="disabled"
+                    :class="{ disabledClass: disabled }"
                     @input="setCurrentSource('input')"
                 >
             </div>
@@ -811,15 +812,23 @@ export default {
                     :max="currentSliderMax"
                     :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.max', {param: getAttrNameUntil()})"
                     :disabled="disabled"
+                    :class="{ disabledClass: disabled }"
                     @input="setCurrentSource('input')"
                 >
             </div>
         </div>
-        <div class="sliderWrapper">
-            <div class="track">
+        <div
+            class="sliderWrapper"
+            :class="{ disabledClass: disabled }"
+        >
+            <div
+                class="track"
+                :class="{ disabledClass: disabled }"
+            >
                 <div
                     class="measure"
                     :style="{ left: getMeasureLeft(), width: getMeasureWidth() }"
+                    :class="{ disabledClass: disabled }"
                 />
             </div>
             <input
@@ -828,6 +837,7 @@ export default {
                 :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.min', {param: getAttrNameFrom()})"
                 class="from"
                 :disabled="disabled"
+                :class="{ disabledClass: disabled }"
                 :step="getSliderSteps(decimalPlaces)"
                 :min="currentSliderMin"
                 :max="currentSliderMax"
@@ -840,6 +850,7 @@ export default {
                 :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.max', {param: getAttrNameUntil()})"
                 class="until"
                 :disabled="disabled"
+                :class="{ disabledClass: disabled }"
                 :step="getSliderSteps(decimalPlaces)"
                 :min="currentSliderMin"
                 :max="currentSliderMax"
@@ -854,6 +865,7 @@ export default {
     @import "~mixins";
 
     .snippetSliderRangeContainer {
+        cursor: default;
         height: auto;
 
         .titleWrapper {
@@ -869,10 +881,16 @@ export default {
                 right: 0;
             }
         }
+        .disabledClass {
+            cursor: wait;
+        }
         .inputWrapper {
             position: relative;
             margin-top: 5px;
             height: 24px;
+            .disabledClass {
+                background-color: $light_grey;
+                }
             .from {
                 position: absolute;
                 left: 0;
@@ -946,9 +964,11 @@ export default {
                 -webkit-appearance: none;
                 height: 3px;
                 width: 100%;
-                cursor: pointer;
                 border-radius: 1px;
                 box-shadow: none;
+            }
+            input[type="range"]:not(.disabledClass)::-webkit-slider-thumb {
+                cursor: pointer
             }
             input[type="range"]::-moz-range-track {
                 -moz-appearance: none;
@@ -963,7 +983,6 @@ export default {
                 height: 15px;
                 width: 15px;
                 background-color: $white;
-                cursor: pointer;
                 border-radius: 10px;
                 pointer-events: auto;
                 margin-top: -5px;
@@ -975,7 +994,6 @@ export default {
                 height: 15px;
                 width: 15px;
                 background-color: $white;
-                cursor: pointer;
                 border-radius: 50%;
                 pointer-events: auto;
             }
@@ -984,7 +1002,6 @@ export default {
                 height: 15px;
                 width: 15px;
                 background-color: $white;
-                cursor: pointer;
                 border-radius: 50%;
                 pointer-events: auto;
             }
@@ -996,7 +1013,7 @@ export default {
                 background-color: $white;
                 border: 1px solid $light_blue;
             }
-            input[type="range"]:active::-webkit-slider-thumb {
+            input[type="range"]:active:not(.disabledClass)::-webkit-slider-thumb {
                 background-color: $white;
                 border: 1px solid $light_blue;
             }
@@ -1018,9 +1035,6 @@ export default {
                     right: 0;
                     top: 48px;
                 }
-            }
-            input[type="range"].disabled::-webkit-slider-thumb {
-                background-color: $light_grey;
             }
         }
     }
