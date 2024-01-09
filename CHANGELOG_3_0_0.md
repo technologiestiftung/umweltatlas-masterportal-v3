@@ -126,6 +126,7 @@
 - ShareView: new wording for buttons and toast added for feedback after link copying.
 - Tutorial: ScaleSwitcher tutorial was updated.
 - Layerinformation: different labels have been updated.
+- Migrated the tool `login` to MP3.0.0
 
 ### Deprecated
 
