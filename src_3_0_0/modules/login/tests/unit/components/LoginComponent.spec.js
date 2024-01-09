@@ -21,9 +21,6 @@ describe("src/modules/Modules/Login/components/LoginComponent.vue", () => {
     let store,
         wrapper;
 
-    // fake translate function
-    // sandbox.replaceGetter(LoginComponent.methods, "translate", sinon.fake.returns("translated"));
-
     beforeEach(() => {
         store = createStore({
             namespaces: true,
@@ -115,13 +112,9 @@ describe("src/modules/Modules/Login/components/LoginComponent.vue", () => {
         });
 
         it("should be logged in after Login renders", () => {
-            // fake that the token is not expired yet
             const local_sandbox = sinon.createSandbox();
 
-            // return a "valid" cookie
             local_sandbox.replace(Cookie, "get", sinon.fake.returns(fakeToken));
-
-            // fake that the token is not expired yet
             local_sandbox.stub(OIDC, "getTokenExpiry").returns(1);
 
             wrapper = shallowMount(LoginComponent, {
@@ -138,10 +131,7 @@ describe("src/modules/Modules/Login/components/LoginComponent.vue", () => {
         it("should have values from cookies after Login renders", async () => {
             const local_sandbox = sinon.createSandbox();
 
-            // fake that the token is not expired yet
             local_sandbox.stub(OIDC, "getTokenExpiry").returns(1);
-
-            // return a "valid" cookie
             local_sandbox.replace(Cookie, "get", sinon.fake.returns(fakeToken));
 
             wrapper = await shallowMount(LoginComponent, {

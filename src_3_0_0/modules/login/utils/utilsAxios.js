@@ -8,7 +8,6 @@ import axios from "axios";
  * @return {void}
  */
 function addInterceptor (token, interceptorUrlRegex) {
-    // Request interceptors for API calls
     axios.interceptors.request.use(
         config => {
             if (!config.url?.startsWith("http") || (interceptorUrlRegex && config.url?.match(interceptorUrlRegex))) {

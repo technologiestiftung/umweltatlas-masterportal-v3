@@ -53,7 +53,6 @@ export default {
         commit("setAccessToken", token);
         commit("setRefreshToken", refreshToken);
 
-        // check if token is expired
         if (OIDC.getTokenExpiry(token) < 1) {
             dispatch("logout");
             return false;
@@ -61,12 +60,10 @@ export default {
 
         OIDC.renewTokenIfNecessary(token, refreshToken, config);
 
-        // set logged into store
         loggedIn = Boolean(token);
 
         commit("setLoggedIn", loggedIn);
 
-        // set name and email into store
         commit("setScreenName", Cookie.get("name"));
         commit("setUsername", Cookie.get("username"));
         commit("setEmail", Cookie.get("email"));

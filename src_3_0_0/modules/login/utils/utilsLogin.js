@@ -21,7 +21,6 @@ export function handleLoginParameters () {
      */
     const urlParams = new URLSearchParams(window.location.search);
 
-    // Check if the server returned an error string
     if (urlParams.has("error")) {
         const error = urlParams.get("error"),
             error_description = urlParams.get("error_description");
@@ -29,7 +28,6 @@ export function handleLoginParameters () {
         return "<h1>" + error + "</h1><p>" + error_description + "</p>";
     }
 
-    // If the server returned an authorization code, try to trade it for an access token
     if (urlParams.has("code")) {
         let response = null;
 
@@ -38,19 +36,15 @@ export function handleLoginParameters () {
             state = urlParams.get("state"),
             req = OIDC.getToken(config.oidcTokenEndpoint, config.oidcClientId, config.oidcRedirectUri, code);
 
-        // Verify state matches what we set at the beginning
         if (OIDC.getState() !== state) {
             return "<h1>Invalid state</h1>";
         }
 
-        // erase coookies of token does not exist by IDM
         if (req?.status !== 200) {
-            // login failed
             OIDC.eraseCookies();
             return "Status: " + req?.status + " " + req?.responseText;
         }
 
-        // put token into cookie, if token exists (login succeeded)
         response = JSON.parse(req.response);
 
         OIDC.setCookies(response.access_token, response.id_token, response.expires_in, response.refresh_token);
@@ -75,8 +69,6 @@ function addAuthenticationBearerInterceptors (config) {
 
 
     if (token !== undefined) {
-
-        // check token expiry
         const account = OIDC.parseJwt(token),
             expiry = account.exp ? account.exp * 1000 : Date.now() + 10000;
 

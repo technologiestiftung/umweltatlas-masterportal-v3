@@ -82,17 +82,12 @@ async function createCodeChallenge (verifier) {
         challenge = null,
         randomArray = null;
 
-    // Calculate the SHA256 hash of the input text.
     randomArray = new Uint8Array(verifier.length);
 
     for (let i = 0; i < verifier.length; i++) {
         randomArray[i] = verifier.charCodeAt(i);
     }
     digest = await cryptoLib.subtle.digest("SHA-256", randomArray);
-
-    // Convert the ArrayBuffer to string using Uint8 array to convert to what btoa accepts.
-    // btoa accepts chars only within ascii 0-255 and base64 encodes them.
-    // Then convert the base64 encoded to base64url encoded
     challenge = b64Uri(String.fromCharCode.apply(null, new Uint8Array(digest)));
 
     return challenge;
@@ -209,7 +204,6 @@ function setCookies (token, id_token, expires_in, refresh_token) {
     Cookie.set("expires_in", expires_in, 7);
     Cookie.set("refresh_token", refresh_token, 7);
 
-    // set account data as cookies
     const account = parseJwt(token);
 
     Cookie.set("name", account?.name, 7);
@@ -254,7 +248,6 @@ async function renewTokenIfNecessary (access_token, refresh_token, config) {
 
     const expiry = getTokenExpiry(access_token);
 
-    // if the token will expire in the next minute, let's refresh
     if (expiry > 0 && expiry <= 60_000) {
 
         const oidcTokenEndpoint = config.oidcTokenEndpoint,

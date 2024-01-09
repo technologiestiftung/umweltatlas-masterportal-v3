@@ -25,7 +25,7 @@ export default {
     },
     mounted () {
         this.checkLoginStatus();
-        setInterval(this.checkLoginStatus, 10000); // check every 10 seconds
+        setInterval(this.checkLoginStatus, 10000);
     },
     methods: {
         ...mapMutations("Modules/Login", Object.keys(mutations)),
@@ -71,14 +71,12 @@ export default {
         async openLoginWindow () {
             let timer = null;
 
-            // open javascript window
             const params = "width=500,height=500,status=no,location=no,menubar=no," +
                     `top=${window.screenY + (window.outerHeight - 500) / 2.5},` +
                     `left=${window.screenX + (window.outerWidth - 500) / 2}`,
 
                 loginPopup = window.open(await this.getAuthCodeUrl(), this.translate("common:modules.login.login"), params);
 
-            // check every x milliseconds if dialog has been closed
             timer = setInterval(() => {
                 if (loginPopup.closed) {
                     clearInterval(timer);
@@ -107,15 +105,12 @@ export default {
          * @return {void}
          */
         logoutButton (reload = false) {
-            // close login window
             this.closeLoginWindow();
 
             this.logout();
 
-            // set icon to reflect login state
             this.setLoginIcon();
 
-            // reload window since it cannot partially update at the moment (TODO)
             if (reload) {
                 this.reloadWindow();
             }
@@ -134,9 +129,7 @@ export default {
             const loginIconDesktop = document.querySelector("#navbarMenu .nav-menu.desktop li.nav-item a span[name=login]"),
                 loginItemMobileIcon = document.querySelector("#navbarMenu .nav-menu.mobile li span[name=login]");
 
-            // update icon if appropriate (Desktop menu)
             if (loginIconDesktop) {
-                // set id for login nav item
                 loginIconDesktop.parentElement.parentElement.id = "login";
 
                 loginTextDesktop = loginIconDesktop.parentElement;
@@ -152,7 +145,6 @@ export default {
                 }
             }
 
-            // update icon if appropriate (Mobile menu)
             if (loginItemMobileIcon) {
                 loginItemMobileText = loginItemMobileIcon.nextElementSibling;
                 icon = loginItemMobileIcon.getElementsByTagName("i")[0];
