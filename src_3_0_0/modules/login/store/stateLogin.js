@@ -1,46 +1,46 @@
 /**
- * User type definition
- * @typedef {Object} LoginState
- * @property {Boolean} active if true, login is rendered
- *
- * @property {Boolean} loggedIn if true, user is logged in
- * @property {String} username the user that is logged in, otherwise undefined
- * @property {String} screenName the user's name that is shown in the frontend or undefined if not logged in
- * @property {String} email the user's email that is shown in the frontend or undefined if not logged in
- * @property {String} accessToken the oidc access token, if logged in, and undefined otherwise
- * @property {String} refreshToken the oidc refresh token, if logged in, and undefined otherwise
- *
- * @property {String}   id - internal id of component
- * @property {String}   name - Module name
- * @property {String}   iconLogin - icon next to title if not logged in
- * @property {String}   iconLogout - icon for logout button
- * @property {String}   iconLogged - icon next to title if logged
- * @property {Boolean}  renderToWindow - if true, component is rendered in a window pane instead of sidebar
- * @property {Boolean}  resizableWindow - if true and if rendered to window pane, the pane is resizable
- * @property {Boolean}  deactivateGFI - if true, component activation deactivates gfi component
+ * The state of the login.
+ * @module  modules/login/store/stateLogin
+ * @property {String} [icon="bi-globe"] icon next to title (config-param)
+ * @property {String} [description="common:modules.login.description"] The description that should be shown in the button in the menu.
+ * @property {Boolean} [hasMouseMapInteractions=true] If this attribute is true, then all other modules will be deactivated when this attribute is also true. Only one module with this attribute true may be open at the same time, since conflicts can arise in the card interactions.
+ * @property {String} [name="common:modules.login.name"] displayed as title (config-param)
+ * @property {String[]} [supportedDevices=["Desktop", "Mobile", "Table"]] Devices on which the module is displayed.
+ * @property {String[]} [supportedMapModes=["2D", "3D"]] Map mode in which this module can be used.
+ * @property {String} [type= "login"] the type of the component *
+ * @property {Boolean} active - Determines if the login is rendered or not.
+ * @property {Boolean} loggedIn - Indicates if the user is logged in.
+ * @property {String} [username] - The username of the logged-in user, otherwise undefined.
+ * @property {String} [screenName] - The user's name displayed in the frontend if logged in, otherwise undefined.
+ * @property {String} [email] - The user's email displayed in the frontend if logged in, otherwise undefined.
+ * @property {String} [accessToken] - The OIDC access token if logged in, otherwise undefined.
+ * @property {String} [refreshToken] - The OIDC refresh token if logged in, otherwise undefined.
+ * @property {String} [iconLogin] - Icon displayed next to title if not logged in.
+ * @property {String} [iconLogout] - Icon for the logout button.
+ * @property {String} [iconLogged] - Icon displayed next to title if logged in.
+ * @property {Boolean} [renderToWindow] - Determines if the component is rendered in a window pane instead of the sidebar.
+ * @property {Boolean} [resizableWindow] - If true and if rendered to window pane, the pane is resizable.
+ * @property {Boolean} [deactivateGFI] - If true, component activation deactivates the GFI (GetFeatureInfo) component.
  */
 const state = {
-    active: false,
+    icon: "bi-door-open",
+    description: "common:modules.legend.description",
+    hasMouseMapInteractions: false,
+    name: "common:modules.login.login",
+    supportedDevices: ["Desktop", "Mobile", "Table"],
+    supportedMapModes: ["2D", "3D"],
+    type: "login",
 
-    // login state
+    active: false,
     loggedIn: false,
     username: undefined,
     screenName: undefined,
     email: undefined,
     accessToken: undefined,
     refreshToken: undefined,
-
-    // addon state and properties
-    type: "login",
-    name: "common:modules.login.login",
-    icon: "bi-door-open",
     iconLogin: "bi-door-open",
     iconLogout: "bi-door-closed",
-    iconLogged: "bi-person-circle",
-    hasMouseMapInteractions: false,
-    description: "common:modules.legend.description",
-    supportedDevices: ["Desktop", "Mobile", "Table"],
-    supportedMapModes: ["2D", "3D"]
+    iconLogged: "bi-person-circle"
 };
 
 export default state;
