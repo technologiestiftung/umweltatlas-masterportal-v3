@@ -272,17 +272,27 @@ async function renewTokenIfNecessary (access_token, refresh_token, config) {
  * @returns {String} parsed jwt token as object
  */
 function parseJwt (token) {
-    if (!token) {
+    try {
+        if (!token) {
+            return {};
+        }
+
+        const base64Url = token.split(".")[1],
+            base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/"),
+            jsonPayload = decodeURIComponent(window.atob(base64).split("").map(function (c) {
+                return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(""));
+
+        if (!base64Url) {
+            return {};
+        }
+
+        return JSON.parse(jsonPayload);
+    }
+    catch (e) {
+        // Bei ungültigen Token oder anderen Fehlern, geben Sie ein leeres Objekt zurück
         return {};
     }
-
-    const base64Url = token.split(".")[1],
-        base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/"),
-        jsonPayload = decodeURIComponent(window.atob(base64).split("").map(function (c) {
-            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join(""));
-
-    return JSON.parse(jsonPayload);
 }
 
 export default {

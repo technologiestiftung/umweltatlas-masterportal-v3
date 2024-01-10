@@ -4,8 +4,8 @@ import {config, shallowMount} from "@vue/test-utils";
 import LoginComponent from "../../../components/LoginComponent.vue";
 import Login from "../../../store/indexLogin.js";
 import rootGetters from "../../../../../app-store/getters.js";
-import Cookie from "../../../utils/utilsCookies.js";
-import OIDC from "../../../utils/utilsOIDC.js";
+import Cookie from "../../../js/utilsCookies.js";
+import OIDC from "../../../js/utilsOIDC.js";
 
 import {expect} from "chai";
 import sinon from "sinon";

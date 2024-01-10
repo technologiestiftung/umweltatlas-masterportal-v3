@@ -3,8 +3,8 @@ import {expect} from "chai";
 import actionsLogin from "../../../store/actionsLogin";
 import stateLogin from "../../../store/stateLogin";
 
-import OIDC from "../../../utils/utilsOIDC";
-import Cookie from "../../../utils/utilsCookies";
+import OIDC from "../../../js/utilsOIDC";
+import Cookie from "../../../js/utilsCookies";
 
 import "mock-local-storage";
 

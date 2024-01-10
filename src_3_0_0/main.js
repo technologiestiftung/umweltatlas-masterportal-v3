@@ -9,7 +9,7 @@ import store from "./app-store";
 import "bootstrap/js/dist/offcanvas";
 
 import remoteInterface from "./plugins/remoteInterface";
-import utilsLogin from "../src_3_0_0/modules/login/utils/utilsLogin";
+import utilsLogin from "../src_3_0_0/modules/login/js/utilsLogin";
 // import {instantiateVuetify} from "./plugins/vuetify";
 import {initiateVueI18Next, initLanguage} from "./plugins/i18next";
 
