@@ -8,12 +8,7 @@ import store from "../../../../app-store";
  * @returns {RoutingGeosearchResult[]} routingGeosearchResults
  */
 async function fetchRoutingBkgGeosearch (search) {
-    const serviceUrl = store.getters.restServiceById(state.geosearch.serviceId).url,
-        checkConfiguredBboxValue = await checkConfiguredBbox(),
-        bBoxValue = await checkConfiguredBboxValue !== false ? `&bbox=${checkConfiguredBboxValue}` : "",
-        url = `${serviceUrl}?count=${state.geosearch.limit}&properties=text`,
-        parameter = `&query=${encodeURIComponent(search)}${bBoxValue}`,
-        response = await axios.get(url + parameter);
+    const response = await axios.get(getRoutingBkgGeosearchUrl(search));
 
     if (response.status !== 200 && !response.data.success) {
         throw new Error({
@@ -25,15 +20,52 @@ async function fetchRoutingBkgGeosearch (search) {
 }
 
 /**
+ * Creates the url with the given params.
+ * @param {String} search to search for
+ * @returns {String} the url
+ */
+async function getRoutingBkgGeosearchUrl (search) {
+    console.log("state.geosearch.serviceId",state.geosearch.serviceId);
+    const serviceUrl = store.getters.restServiceById(state.geosearch.serviceId).url,
+        url = new URL(serviceUrl),
+        checkConfiguredBboxValue = await checkConfiguredBbox(),
+        bBoxValue = await checkConfiguredBboxValue !== false ? checkConfiguredBboxValue : false;
+
+    url.searchParams.set("count", state.geosearch.limit);
+    url.searchParams.set("properties", "text");
+    url.searchParams.set("query", encodeURIComponent(search));
+    if (bBoxValue) {
+        url.searchParams.set("bbox", bBoxValue);
+    }
+
+    return url;
+}
+
+/**
+ * Creates the url with the given params.
+ * @param {[Number, Number]} coordinates to search at
+ * @returns {String} the url
+ */
+function getRoutingBkgGeosearchReverseUrl (coordinates) {
+    const serviceUrl = store.getters.restServiceById(state.geosearchReverse.serviceId).url,
+        url = new URL(serviceUrl);
+
+    url.searchParams.set("lon", coordinates[0]);
+    url.searchParams.set("lat", coordinates[1]);
+    url.searchParams.set("count", "1");
+    url.searchParams.set("properties", "text");
+    url.searchParams.set("distance", state.geosearchReverse.distance);
+    url.searchParams.set("filter", state.geosearchReverse.filter ? state.geosearchReverse.filter : "typ:ort");
+    return url;
+}
+
+/**
  * Requests POI at coordinate from BKG
  * @param {Array<{Number, Number}>} coordinates to search at
  * @returns {RoutingGeosearchResult} routingGeosearchResult
  */
 async function fetchRoutingBkgGeosearchReverse (coordinates) {
-    const serviceUrl = store.getters.restServiceById(state.geosearchReverse.serviceId).url,
-        filterQuery = "&filter=" + (state.geosearchReverse.filter ? state.geosearchReverse.filter : "typ:ort"),
-        url = `${serviceUrl}?lon=${coordinates[0]}&lat=${coordinates[1]}&count=1&properties=text&distance=${state.geosearchReverse.distance}${filterQuery}`,
-        response = await axios.get(url);
+    const response = await axios.get(getRoutingBkgGeosearchReverseUrl(coordinates));
 
     if (response.status !== 200 && !response.data.success) {
         throw new Error({
@@ -74,4 +106,4 @@ function checkConfiguredBbox () {
     return false;
 }
 
-export {checkConfiguredBbox, fetchRoutingBkgGeosearch, fetchRoutingBkgGeosearchReverse};
+export {checkConfiguredBbox, fetchRoutingBkgGeosearch, fetchRoutingBkgGeosearchReverse, getRoutingBkgGeosearchReverseUrl, getRoutingBkgGeosearchUrl};

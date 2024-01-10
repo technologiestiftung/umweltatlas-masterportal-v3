@@ -81,23 +81,40 @@ function parseGazetteerResponse (responseData, namespaces, memberSuffix) {
 
 /**
  * Returns the version, storedQuery and filter to the request url for a WFS@2.0.0.
- *
+ * @param {Object} requestUrl The Url object.
  * @param {String} filter The filter consisting of Url parameters to be added to the request url.
  * @param {String} storedQueryId The Id of the stored Query of the service.
  * @returns {String} The added parts for the request url.
  */
-function storedFilter (filter, storedQueryId) {
-    return `&version=2.0.0${filter !== "" ? "&StoredQuery_ID=" + storedQueryId + filter : ""}`;
+function storedFilter (requestUrl, filter, storedQueryId) {
+    requestUrl.searchParams.set("version", "2.0.0");
+    if (filter !== "") {
+        const filterSplitted = filter.split("&");
+
+        requestUrl.searchParams.set("StoredQuery_ID", storedQueryId);
+        filterSplitted.forEach(param => {
+            if (param) {
+                const split = param.split("=");
+
+                requestUrl.searchParams.set(split[0], split[1]);
+            }
+        });
+    }
+    return requestUrl;
 }
 
 /**
  * Returns the version and filter to the request url for a WFS@1.1.0
- *
+ * @param {Object} requestUrl The Url object.
  * @param {XML[]} filter The filter written in XML.
  * @returns {String} The added parts for the request Url.
  */
-function xmlFilter (filter) {
-    return `&version=1.1.0${filter.length > 0 ? `&filter=<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc" xmlns:gml="http://www.opengis.net/gml">${adjustFilter(filter)}</ogc:Filter>` : ""}`;
+function xmlFilter (requestUrl, filter) {
+    const value = `<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc" xmlns:gml="http://www.opengis.net/gml">${adjustFilter(filter)}</ogc:Filter>`;
+
+    requestUrl.searchParams.set("version", "1.1.0");
+    requestUrl.searchParams.set("filter", value);
+    return requestUrl;
 }
 
 let currentRequest = null;
@@ -119,7 +136,7 @@ let currentRequest = null;
  * @param {?String} [featureType = null] FeatureType of the features which should be requested. Only given for queries for suggestions.
  * @returns {Promise} If the send request was successful, the found features are converted from XML to OL Features and returned.
  */
-export function searchFeatures (store, {literals, requestConfig: {gazetteer = null, layerId, maxFeatures, storedQueryId}}, service, singleValueFilter = null, featureType = null) {
+function searchFeatures (store, {literals, requestConfig: {gazetteer = null, layerId, maxFeatures, storedQueryId}}, service, singleValueFilter = null, featureType = null) {
     const fromServicesJson = Boolean(layerId);
     let filter;
 
@@ -141,6 +158,37 @@ export function searchFeatures (store, {literals, requestConfig: {gazetteer = nu
 }
 
 /**
+ * Creates the url depending on params.
+ * @param {String} urlString The base Url as defined in the services.json or rest-services.json.
+ * @param {String} typeName If the Url was defined in the services.json, the typeName is set to be added to the Url.
+ * @param {(XML | XML[] | String)} filter The filter to constrain the returned features.
+ * @param {Boolean} fromServicesJson Whether the service was defined in the services.json or the rest-service.json.
+ * @param {String} storedQueryId The Id of the Stored Query. Present when using a WFS@2.0.0.
+ * @param {(Number | String)} [maxFeatures = 8] Maximum amount of features to be returned by the service. If it is the String 'showAll' there are no restrictions.
+ * @param {?String} [featureType = null] FeatureType of the features which should be requested. Only given for queries for suggestions.
+ * @returns {Object} the created Url
+ */
+function createUrl (urlString, typeName, filter, fromServicesJson, storedQueryId, maxFeatures, featureType) {
+    let requestUrl = new URL(urlString);
+
+    if (fromServicesJson) {
+        requestUrl.searchParams.set("service", "WFS");
+        requestUrl.searchParams.set("request", "GetFeature");
+        requestUrl.searchParams.set("typeName", featureType ? featureType : typeName);
+    }
+    if (maxFeatures !== "showAll") {
+        requestUrl.searchParams.set("maxFeatures", maxFeatures);
+    }
+    if (storedQueryId) {
+        requestUrl = storedFilter(requestUrl, filter, storedQueryId);
+    }
+    else {
+        requestUrl = xmlFilter(requestUrl, filter);
+    }
+    return requestUrl;
+}
+
+/**
  * Builds the request url and sends a GetFeature request via GET to the service.
  *
  * @param {Object} store Vuex store.
@@ -156,20 +204,19 @@ export function searchFeatures (store, {literals, requestConfig: {gazetteer = nu
  *                    If an error occurs (e.g. the service is not reachable or there was no such feature) the error is caught and the message is displayed as an alert.
  */
 function sendRequest (store, {url, typeName}, filter, fromServicesJson, storedQueryId, maxFeatures = 8, featureType = null) {
-    let requestUrl = url;
-
-    if (fromServicesJson) {
-        requestUrl += `?service=WFS&request=GetFeature&typeName=${featureType ? featureType : typeName}`;
-    }
-    requestUrl += maxFeatures === "showAll" ? "" : `&maxFeatures=${maxFeatures}`;
-    requestUrl += storedQueryId ? storedFilter(filter, storedQueryId) : xmlFilter(filter);
+    const requestUrl = createUrl(url, typeName, filter, fromServicesJson, storedQueryId, maxFeatures, featureType);
 
     if (currentRequest) {
         currentRequest.cancel();
     }
     currentRequest = axios.CancelToken.source();
 
-    return axios.get(encodeURI(requestUrl))
+    return axios.get(decodeURI(requestUrl))
         .then(response => handleAxiosResponse(response, "WfsSearch, searchFeatures, sendRequest"))
         .catch(error => store.dispatch("Alerting/addSingleAlert", i18next.t("common:modules.wfsSearch.searchError", {error})));
 }
+
+export default {
+    createUrl,
+    searchFeatures
+};

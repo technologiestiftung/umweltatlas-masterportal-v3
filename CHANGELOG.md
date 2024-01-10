@@ -7,22 +7,16 @@
 ### __Breaking Changes__
 
 ### Added
+- New parameter `filterOnOpen` has been added to filterLayer in Filter. If set to true, the filter is triggered when the accordeon is clicked.
 
 ### Changed
-- The version of node was updated to ^18.16.0 || ^20.9.0.
-- The version of npm was updated to ^9.5.1 || ^10.1.0
-- The following NPM packages have been updated:
-    - dependencies:
-        - @masterportal/masterportalapi: 2.30.0 to 2.31.0
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
-- MapMarker: Fix creating a feature style in placingPolygonMarkerByGeom.
-- ImportFile: The geometry display when importing more than one KML file is complete, despite identical ids at the element `Placemark`.
-- Print: Printing vector features with multipolygons now works again.
+- Fixed error "singleBaseLayer not defined" on opening 3D folders or on adding a layer by searchbar.
 
 ---
 ## v2.41.1 - 2024-01-09
@@ -30,19 +24,47 @@
 - Fixed error "singleBaseLayer not defined" on opening 3D folders or on adding a layer by searchbar.
 
 ---
-## v2.40.0 - 2023-12-06
+## v2.41.0 - 2024-01-08
+### Changed
+- The version of node was updated to `^16.13.2 || ^18.16.0 || ^20.9.0`.
+- The version of npm was updated to `^8.1.2 || ^9.5.1 || ^10.1.0`
+- The following NPM packages have been updated:
+    - dependencies:
+        - @masterportal/masterportalapi: 2.30.0 to 2.31.0
+    - devDependencies:
+        - canvas: 2.11.0 to 2.11.2
 
+### Fixed
+- MapMarker: fix creating a feature style in placingPolygonMarkerByGeom.
+- Print: Printing vector features with multipolygons now works again.
+- LayerTree: The tooltip is now displayed correctly again for layers that are outside the displayable scale.
+- Issue #1081: the geometry display when importing more than one KML file is complete, despite identical ids at the element `Placemark` .
+- Issue #1098: fixed all urls used in routing tool and in wfsSearch tool to not use more than one questionmark.
+- Issue #1117: The tool addWMS now works again.
+---
+
+## v2.40.1 - 2023-12-07
+### Fixed
+-  defaultTree: Added missing key singleBaseLayer
+
+---
+
+## v2.40.0 - 2023-12-06
 ### Added
 - The following packages have been added:
     - devDependencies:
         - webpack-bundle-analyzer: 4.9.1
 - To manage dependencies of dependencies "overrides" for cesium are added to package.json and create dummy packages for it.
+- New Parameter sldVersion for legend configuration to define a Styled Layer Descriptor for the GetLegendGraphic requests.
+- Issue #1038: Tooltips to display area of drawn polygons/squares and length of drawn lines
 - Issue #1105: Added easting and nothing labels for utm projections in CoordToolkit
 - possibility to keep more than one tool open at the same time
 - Added parameter minChars to the locationFinder configuration of the searchBar.
 - utils/convertColor: added an option to convert an rgba array into a hex color with alpha value
 - Searchbar tree: add a layertree path to the search result. Add a typename for background layer.
 - Added opacity to configurable parameters of styleRoute
+- Added checkbox to determine if routes stay visible after closing the routing tool
+- Added square as geometryType for drawingTool.
 
 ### Changed
 - The script "npm run build" has been extended. The user can now specify the name of an addon that is excluded from bundle.
@@ -69,13 +91,14 @@
 - Issue #1087: Fixed wrong type for upload files for batch processing in routing tool
 - Issue #1091: VectorStyle: read geometry type from geoserver featureTypeRequest and do not fail if some rules in style.json have no condition.
 - Issue #1093: Fixed the Wrong CRS in GeoJSON by Download filtered data
+- Issue #1094: Measure Tool: unit changes not connected anymore.
 - Issue #1099: The package.json is adapted, now the size of the bundle, created with "npm run build" is reduced.
 - Issue #1109: Folders with identical names are searchable in searchbar tree search.
 - Search gazeteer: the results to show are arranged to prefer entries, that start with first char of searchstring.
 
 ---
-## v2.39.0 - 2023-11-01
 
+## v2.39.0 - 2023-11-01
 ### Added
 - Add roadmap information to the readme file.
 - Add additional wfs and wms layer param 'gfiThemeSettings' to provide the possibility of additional gfiTheme settings.

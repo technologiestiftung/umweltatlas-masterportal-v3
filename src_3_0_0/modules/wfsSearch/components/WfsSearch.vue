@@ -4,7 +4,7 @@ import ListItem from "../../../shared/modules/list/components/ListItem.vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import WfsSearchLiteral from "./WfsSearchLiteral.vue";
 import {createUserHelp} from "../js/literalFunctions";
-import {searchFeatures} from "../js/requests";
+import requestProvider from "../js/requests";
 import isObject from "../../../shared/js/utils/isObject";
 import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
 
@@ -96,7 +96,6 @@ export default {
             "resetResult"
         ]),
         ...mapActions("Maps", ["placingPointMarker", "setCenter", "setZoom"]),
-        searchFeatures,
         /**
          * Resets the selection and inputs fields and the results.
          * @returns {void}
@@ -115,7 +114,7 @@ export default {
          */
         async search () {
             this.setSearched(true);
-            const features = await searchFeatures(this.$store, this.currentInstance, this.service);
+            const features = await requestProvider.searchFeatures(this.$store, this.currentInstance, this.service);
 
             this.setResults([]);
             features.forEach(feature => {
