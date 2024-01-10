@@ -40,6 +40,15 @@ const getters = {
         return state.portalConfig?.tree?.categories;
     },
 
+    /**
+     * Returns the configured value for singleBaselayer.
+     * @param {Object} state state of the app-store.
+     * @returns {Array} value for singleBaselayer
+     */
+    singleBaselayer: (state) => {
+        return state.portalConfig?.tree?.singleBaselayer;
+    },
+
 
     /**
      * Returns whether all configs were loaded.

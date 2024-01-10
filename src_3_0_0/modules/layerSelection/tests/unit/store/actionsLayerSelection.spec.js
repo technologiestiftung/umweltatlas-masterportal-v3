@@ -1,6 +1,7 @@
 import {expect} from "chai";
 import sinon from "sinon";
 import collectDataByFolderModule from "../../../js/collectDataByFolder";
+import baselayerHandler from "../../../../layerSelection/js/handleSingleBaselayer";
 
 import actions from "../../../store/actionsLayerSelection";
 
@@ -12,7 +13,8 @@ describe("src_3_0_0/modules/layerSelection/store/actionsLayerSelection", () => {
         getters,
         rootGetters,
         layerConfig,
-        folder;
+        folder,
+        baselayerHandlerSpy;
 
     beforeEach(() => {
         commit = sinon.spy();
@@ -40,6 +42,7 @@ describe("src_3_0_0/modules/layerSelection/store/actionsLayerSelection", () => {
             allLayerConfigsStructured: () => [folder],
             allBaselayerConfigs: [{name: "baselayer"}]
         };
+        baselayerHandlerSpy = sinon.spy(baselayerHandler, "checkAndAdd");
     });
 
     afterEach(sinon.restore);
@@ -119,9 +122,25 @@ describe("src_3_0_0/modules/layerSelection/store/actionsLayerSelection", () => {
                     zIndex: 0
                 }
             ];
+            rootGetters.singleBaselayer = false;
+            rootGetters.visibleBaselayerConfigs = [];
 
             changeVisibility({dispatch, rootGetters}, {layerId: "100", value: true});
 
+            expect(baselayerHandlerSpy.calledOnce).to.be.true;
+            expect(baselayerHandlerSpy.firstCall.args[0]).to.be.equals(false);
+            expect(baselayerHandlerSpy.firstCall.args[1]).to.be.deep.equals([]);
+            expect(baselayerHandlerSpy.firstCall.args[2]).to.be.deep.equals([
+                {
+                    id: "100",
+                    layer: {
+                        id: "100",
+                        visibility: true,
+                        showInLayerTree: true,
+                        zIndex: 2
+                    }
+                }
+            ]);
             expect(dispatch.calledTwice).to.be.true;
             expect(dispatch.firstCall.args[0]).to.be.equals("updateLayerConfigZIndex");
             expect(dispatch.firstCall.args[1]).to.deep.equals({

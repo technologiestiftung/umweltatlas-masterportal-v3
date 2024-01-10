@@ -1,4 +1,5 @@
 import collectDataByFolderModule from "../js/collectDataByFolder";
+import baselayerHandler from "../js/handleSingleBaselayer";
 import sortBy from "../../../shared/js/utils/sortBy";
 import {treeSubjectsKey} from "../../../shared/js/utils/constants";
 
@@ -15,16 +16,18 @@ const actions = {
      * @returns {void}
      */
     changeVisibility ({dispatch, rootGetters}, {layerId, value}) {
-        const layerConfig = {
-            id: layerId,
-            layer: {
+        const layerConfigs = [],
+            layerConfig = {
                 id: layerId,
-                visibility: value,
-                showInLayerTree: value
-            }
-        };
+                layer: {
+                    id: layerId,
+                    visibility: value,
+                    showInLayerTree: value
+                }
+            };
         let zIndex = -1;
 
+        layerConfigs.push(layerConfig);
         if (value === true) {
             if (rootGetters.isBaselayer(layerId)) {
                 const maxBaselayerZIndex = Math.max(...rootGetters.layerConfigsByAttributes({
@@ -37,6 +40,7 @@ const actions = {
                     maxZIndex: maxBaselayerZIndex
                 }, {root: true});
                 zIndex = maxBaselayerZIndex + 1;
+                baselayerHandler.checkAndAdd(rootGetters.singleBaselayer, rootGetters.visibleBaselayerConfigs, layerConfigs);
             }
             else {
                 zIndex = rootGetters.determineZIndex(layerId);
@@ -44,7 +48,7 @@ const actions = {
             layerConfig.layer.zIndex = zIndex;
         }
 
-        dispatch("replaceByIdInLayerConfig", {layerConfigs: [layerConfig]}, {root: true});
+        dispatch("replaceByIdInLayerConfig", {layerConfigs}, {root: true});
     },
 
     /**

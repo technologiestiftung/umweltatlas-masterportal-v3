@@ -92,6 +92,9 @@ function migrateTree (data, configJS) {
     if (oldTree?.highlightedFeatures) {
         newTree.highlightedFeatures = oldTree.highlightedFeatures;
     }
+    if (data[PORTALCONFIG_OLD]?.singleBaselayer) {
+        newTree.singleBaselayer = data[PORTALCONFIG_OLD]?.singleBaselayer;
+    }
     newTree.addLayerButton = {};
     newTree.addLayerButton.active = true;
 

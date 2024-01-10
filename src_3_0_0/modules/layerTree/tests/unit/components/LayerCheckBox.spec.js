@@ -6,6 +6,7 @@ import sinon from "sinon";
 import escapeId from "../../../../../shared/js/utils/escapeId";
 import layerFactory from "../../../../../core/layers/js/layerFactory";
 import LayerCheckBox from "../../../components/LayerCheckBox.vue";
+import baselayerHandler from "../../../../layerSelection/js/handleSingleBaselayer";
 
 config.global.mocks.$t = key => key;
 
@@ -17,9 +18,14 @@ describe("src_3_0_0/modules/layerTree/components/LayerCheckBox.vue", () => {
         replaceByIdInLayerConfigSpy,
         changeVisibilitySpy,
         isLayerTree,
-        highlightLayerId;
+        highlightLayerId,
+        singleBaselayer,
+        visibleBaselayerConfigs,
+        baselayerHandlerSpy;
 
     beforeEach(() => {
+        singleBaselayer = false;
+        visibleBaselayerConfigs = [];
         isLayerTree = true;
         highlightLayerId = null;
         layer = {
@@ -36,6 +42,7 @@ describe("src_3_0_0/modules/layerTree/components/LayerCheckBox.vue", () => {
 
         replaceByIdInLayerConfigSpy = sinon.spy();
         changeVisibilitySpy = sinon.spy();
+        baselayerHandlerSpy = sinon.spy(baselayerHandler, "checkAndAdd");
         sinon.stub(layerFactory, "getLayerTypes3d").returns(["TERRAIN3D"]);
         store = createStore({
             namespaces: true,
@@ -62,6 +69,10 @@ describe("src_3_0_0/modules/layerTree/components/LayerCheckBox.vue", () => {
             },
             actions: {
                 replaceByIdInLayerConfig: replaceByIdInLayerConfigSpy
+            },
+            getters: {
+                singleBaselayer: () => singleBaselayer,
+                visibleBaselayerConfigs: () => visibleBaselayerConfigs
             }
         });
     });
@@ -338,6 +349,47 @@ describe("src_3_0_0/modules/layerTree/components/LayerCheckBox.vue", () => {
         checkbox.trigger("click");
         await wrapper.vm.$nextTick();
 
+        expect(replaceByIdInLayerConfigSpy.calledOnce).to.be.true;
+        expect(replaceByIdInLayerConfigSpy.firstCall.args[1]).to.be.deep.equals(spyArg);
+    });
+
+    it("singleBaselayer is true, create radio-button for baselayer", async () => {
+        const spyArg = {
+            layerConfigs: [{
+                id: layer.id,
+                layer: {
+                    id: layer.id,
+                    visibility: false
+                }
+            }]
+        };
+        let radio = null;
+
+        singleBaselayer = true;
+        propsData.conf.visibility = true;
+        propsData.conf.baselayer = true;
+        wrapper = shallowMount(LayerCheckBox, {
+            global: {
+                plugins: [store]
+            },
+            propsData
+        });
+
+        expect(wrapper.find("#layer-checkbox-" + propsData.conf.id).exists()).to.be.true;
+        expect(wrapper.findAll(".layer-tree-layer-checkbox").length).to.be.equals(1);
+        expect(wrapper.findAll(".bi-check-circle").length).to.be.equals(1);
+        expect(wrapper.findAll(".bi-check-square").length).to.be.equals(0);
+        expect(wrapper.findAll(".bi-circle").length).to.be.equals(0);
+        expect(wrapper.findAll(".bi-square").length).to.be.equals(0);
+
+        radio = wrapper.find(".bi-check-circle");
+        radio.trigger("click");
+        await wrapper.vm.$nextTick();
+
+        expect(baselayerHandlerSpy.calledOnce).to.be.true;
+        expect(baselayerHandlerSpy.firstCall.args[0]).to.be.true;
+        expect(baselayerHandlerSpy.firstCall.args[1]).to.be.deep.equals(visibleBaselayerConfigs);
+        expect(baselayerHandlerSpy.firstCall.args[2]).to.be.deep.equals(spyArg.layerConfigs);
         expect(replaceByIdInLayerConfigSpy.calledOnce).to.be.true;
         expect(replaceByIdInLayerConfigSpy.firstCall.args[1]).to.be.deep.equals(spyArg);
     });

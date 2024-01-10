@@ -1,6 +1,7 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import LayerPreview from "../../../shared/modules/layerPreview/components/LayerPreview.vue";
+import baselayerHandler from "../../layerSelection/js/handleSingleBaselayer";
 import escapeId from "../../../shared/js/utils/escapeId";
 
 /**
@@ -34,6 +35,7 @@ export default {
         }
     },
     computed: {
+        ...mapGetters(["singleBaselayer", "visibleBaselayerConfigs"]),
         ...mapGetters("Modules/LayerSelection", ["layersToAdd", "highlightLayerId"]),
 
         /**
@@ -72,17 +74,17 @@ export default {
          * @returns {void}
          */
         visibilityInLayerTreeChanged (value) {
-            this.replaceByIdInLayerConfig(
-                {
-                    layerConfigs: [{
-                        id: this.conf.id,
-                        layer: {
-                            id: this.conf.id,
-                            visibility: value
-                        }
-                    }]
+            const layerConfigs = [];
+
+            layerConfigs.push({
+                id: this.conf.id,
+                layer: {
+                    id: this.conf.id,
+                    visibility: value
                 }
-            );
+            });
+            baselayerHandler.checkAndAdd(this.singleBaselayer, this.visibleBaselayerConfigs, layerConfigs);
+            this.replaceByIdInLayerConfig({layerConfigs});
         },
         /**
          * Listener for click on layer checkbox.
@@ -150,8 +152,10 @@ export default {
             :class="[
                 'layer-tree-layer-checkbox ps-1 pe-3',
                 {
-                    'bi-check-square': isLayerVisible,
-                    'bi-square': !isLayerVisible
+                    'bi-check-square': !(conf.baselayer && singleBaselayer) && isLayerVisible,
+                    'bi-square': !(conf.baselayer && singleBaselayer) && !isLayerVisible,
+                    'bi-check-circle': conf.baselayer && singleBaselayer && isLayerVisible,
+                    'bi-circle': conf.baselayer && singleBaselayer && !isLayerVisible
                 }
             ]"
         />

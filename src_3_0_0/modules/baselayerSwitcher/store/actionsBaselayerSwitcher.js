@@ -1,3 +1,5 @@
+import baselayerHandler from "../../layerSelection/js/handleSingleBaselayer";
+
 const actions = {
     /**
      * Updates the layerTree with all configs added to state.layersToAdd.
@@ -25,6 +27,7 @@ const actions = {
                 maxZIndex: maxBaselayerZIndex
             }, {root: true});
             zIndex = baselayerZIndex++;
+            baselayerHandler.checkAndAdd(rootGetters.singleBaselayer, rootGetters.visibleBaselayerConfigs, layerConfigs);
         }
 
         layerConfigs.push({
@@ -37,7 +40,7 @@ const actions = {
             }
         });
 
-        dispatch("replaceByIdInLayerConfig", {layerConfigs: layerConfigs}, {root: true});
+        dispatch("replaceByIdInLayerConfig", {layerConfigs}, {root: true});
     }
 };
 

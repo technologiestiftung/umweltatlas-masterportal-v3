@@ -3,6 +3,19 @@
 
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
+## Unreleased - in development
+### __Breaking Changes__
+
+### Added
+- Added config.json-Parameter Portalconfig.tree.singleBaselayer. Specifies whether only one base layer may be active at any time selectable by radio-buttons in visible layers.
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
 ## 2023-12-18 v3.0.0 - beta2
 ### __Breaking Changes__
 - Dropped support for NodeJS 16 and Npm 8
