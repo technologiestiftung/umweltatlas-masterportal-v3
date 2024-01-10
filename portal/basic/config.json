@@ -156,9 +156,7 @@
             "type": "scaleSwitcher"
           },
           {
-            "type": "shareView",
-            "showDescription": true,
-            "description": "Teile einen Link zur Karte."
+            "type": "shareView"
           },
           {
             "type": "measure"
