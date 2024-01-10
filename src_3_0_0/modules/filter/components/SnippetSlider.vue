@@ -3,6 +3,7 @@ import isObject from "../../../shared/js/utils/isObject";
 import {translateKeyWithPlausibilityCheck} from "../../../shared/js/utils/translateKeyWithPlausibilityCheck.js";
 import {getDefaultOperatorBySnippetType} from "../utils/getDefaultOperatorBySnippetType.js";
 import SnippetInfo from "./SnippetInfo.vue";
+import {mapActions} from "vuex";
 
 /**
 * Snippet Slider
@@ -297,6 +298,7 @@ export default {
         });
     },
     methods: {
+        ...mapActions("Alerting", ["addSingleAlert"]),
         translateKeyWithPlausibilityCheck,
 
         /**
@@ -504,10 +506,10 @@ export default {
          */
         getAlertRangeText (value) {
             if (value === undefined) {
-                this.$store.dispatch("Alerting/addSingleAlert", i18next.t("common:snippets.slider.valueEmptyErrorMessage"));
+                this.addSingleAlert(i18next.t("common:snippets.slider.valueEmptyErrorMessage"));
             }
             else {
-                this.$store.dispatch("Alerting/addSingleAlert", i18next.t("common:snippets.slider.valueOutOfRangeErrorMessage", {
+                this.addSingleAlert(i18next.t("common:snippets.slider.valueOutOfRangeErrorMessage", {
                     inputValue: value,
                     minValueSlider: this.currentSliderMin,
                     maxValueSlider: this.currentSliderMax

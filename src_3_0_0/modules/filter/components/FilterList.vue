@@ -1,5 +1,6 @@
 <script>
 import {translateKeyWithPlausibilityCheck} from "../../../shared/js/utils/translateKeyWithPlausibilityCheck.js";
+import {mapActions} from "vuex";
 
 /**
  * Filter List
@@ -65,6 +66,7 @@ export default {
         this.scrollToView(this.jumpToId);
     },
     methods: {
+        ...mapActions("Alerting", ["addSingleAlert"]),
         translateKeyWithPlausibilityCheck,
         /**
          * Updates selectedLayers array.
@@ -102,7 +104,7 @@ export default {
                 });
             }
             else {
-                this.$store.dispatch("Alerting/addSingleAlert", i18next.t("common:modules.filter.alertingMessages.noMatchingFilterId"), {root: true});
+                this.addSingleAlert(i18next.t("common:modules.filter.alertingMessages.noMatchingFilterId"), {root: true});
             }
             this.$emit("resetJumpToId");
             if (!this.selectedLayers.some(selectedLayer => selectedLayer.filterId === filterId)) {

@@ -21,7 +21,6 @@ import layerCollection from "../../../core/layers/js/layerCollection";
 /**
  * Filter General
  * @module modules/FilterGeneral
- * @vue-data {String} storePath - Path to the store.
  * @vue-data {Object} mapHandler - The MapHandler Object.
  * @vue-data {Array} layerConfigs - List of layer configurations.
  * @vue-data {Array} selectedLayerGroups - List of selected layer groups.
@@ -39,7 +38,6 @@ export default {
     },
     data () {
         return {
-            storePath: this.$store.state.Modules.Filter,
             mapHandler: new MapHandler({
                 getLayerByLayerId: openlayerFunctions.getLayerByLayerId,
                 showFeaturesByIds: openlayerFunctions.showFeaturesByIds,
