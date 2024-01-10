@@ -25,7 +25,6 @@ async function fetchRoutingBkgGeosearch (search) {
  * @returns {String} the url
  */
 async function getRoutingBkgGeosearchUrl (search) {
-    console.log("state.geosearch.serviceId",state.geosearch.serviceId);
     const serviceUrl = store.getters.restServiceById(state.geosearch.serviceId).url,
         url = new URL(serviceUrl),
         checkConfiguredBboxValue = await checkConfiguredBbox(),
