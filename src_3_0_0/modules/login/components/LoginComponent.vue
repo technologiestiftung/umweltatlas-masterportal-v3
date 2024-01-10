@@ -1,7 +1,5 @@
 <script>
 import {mapMutations, mapGetters, mapActions} from "vuex";
-import getters from "../store/gettersLogin";
-import mutations from "../store/mutationsLogin";
 import {translateKeyWithPlausibilityCheck} from "../../../shared/js/utils/translateKeyWithPlausibilityCheck.js";
 
 export default {
@@ -9,7 +7,7 @@ export default {
     components: {
     },
     computed: {
-        ...mapGetters("Modules/Login", Object.keys(getters))
+        ...mapGetters("Modules/Login", ["loggedIn", "screenName", "email", "iconLogin", "iconLogged"])
     },
     watch: {
         /**
@@ -28,7 +26,7 @@ export default {
         setInterval(this.checkLoginStatus, 10000);
     },
     methods: {
-        ...mapMutations("Modules/Login", Object.keys(mutations)),
+        ...mapMutations("Modules/Login", ["setActive", "setLoginIcon"]),
         ...mapActions("Modules/Login", [
             "initialize",
             "logout",
