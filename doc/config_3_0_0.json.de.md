@@ -2195,6 +2195,7 @@ Die Konfiguration eines Layers.
 |extern|nein|Boolean|false|Stellen Sie dieses Flag auf `true`, um die Filterung serverseitig durchzuführen. Dies sollte für große Datenmengen in Betracht gezogen werden, die nicht in einem Stück in den Browser geladen werden können. Es ist dann außerdem ratsam das Layer-Flag **[isNeverVisibleInTree](#markdown-header-themenconfiglayer)** auf `true` zu stellen, um das Laden des gesamten Datensatzes durch User-Interaktion über den Themenbaum zu verhindern.|false|
 |filterButtonDisabled|nein|Boolean|false|Nur für strategy `passive`: Der Filter-Knopf wird deaktiviert solange der Benutzer nichts im Filter ausgewählt hat.|false|
 |filterOnMove|nein|Boolean||Wenn auf `true` eingestellt, wird der Layer bei Kartenbewegung dynamisch gefiltert. Funktioniert nur in Verbindung mit `multiLayerSelector`: `false`. Löst in dieser Verbindung beim Öffnen des Akkordeons die Filterung aus.|false|
+|filterOnOpen|nein|Boolean||Wenn auf `true` eingestellt, wird der Filter bei Klick auf das accordeon ausgelöst.|false|
 |geometryName|nein|String|""|Nur für `extern: true` in Verbindung mit Filterung innerhalb von Polygonen: Der Geometrie-Name der Features um eine Schnittmenge feststellen zu können.|false|
 |labelFilterButton|nein|String|"common:modules.tools.filter.filterButton"|Bei passiver Strategie (`passive`): Der verwendete Text vom Filter-Button. Kann auch ein Übersetzungs-Key sein.|false|
 |layerId|nein|String||Die Layer-Id, muss identisch sein mit der unter `Themenconfig` konfigurierten Id des Layers.|false|
