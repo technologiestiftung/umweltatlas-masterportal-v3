@@ -43,7 +43,7 @@ export default {
         this.setHighlightLayerId(null);
     },
     created () {
-        this.activeCategory = this.activeOrFirstCategory.key;
+        this.activeCategory = this.activeOrFirstCategory?.key;
         this.provideSelectAllProps();
         this.setLayerInfoVisible(false);
     },
