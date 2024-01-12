@@ -77,8 +77,7 @@ describe("src_3_0_0/app-store/js/buildTreeStructure.js", () => {
                 "id": "453"
             }];
 
-            sinon.stub(rawLayerList, "getLayerList").returns(shortList);
-            expect(buildTreeStructure.build()).to.be.deep.equals(shortList);
+            expect(buildTreeStructure.build(shortList)).to.be.deep.equals(shortList);
         });
 
 
@@ -92,8 +91,8 @@ describe("src_3_0_0/app-store/js/buildTreeStructure.js", () => {
 
             sinon.stub(rawLayerList, "getLayerList").returns(layerList);
 
-            getAndMergeAllRawLayers();
-            result = buildTreeStructure.build(layerConfig, categories[0], layerConfig[treeSubjectsKey].elements);
+            result = buildTreeStructure.build(getAndMergeAllRawLayers(), layerConfig, categories[0], layerConfig[treeSubjectsKey].elements);
+
             layerConfig[treeSubjectsKey].elements.forEach(layerConf => {
                 getAndMergeRawLayer(layerConf, true);
             });
@@ -115,7 +114,6 @@ describe("src_3_0_0/app-store/js/buildTreeStructure.js", () => {
             expect(result.elements[1].name).to.be.equals(result.elements[1].elements[0].datasets[0].kategorie_opendata[0]);
             expect(result.elements[1].id).include("folder-");
             expect(result.elements[1].parentId).to.be.undefined;
-
             expect(firstFolders).to.be.an("array").to.have.lengthOf(1);
             expect(firstFolders[0].id).include("folder-");
             expect(firstFolders[0].parentId).to.be.equals(result.elements[0].id);
@@ -193,10 +191,7 @@ describe("src_3_0_0/app-store/js/buildTreeStructure.js", () => {
             let result = null,
                 filteredResult = null;
 
-            sinon.stub(rawLayerList, "getLayerList").returns(layerListWithMWSTime);
-
-            getAndMergeAllRawLayers();
-            result = buildTreeStructure.build(layerConfig, categories[0]);
+            result = buildTreeStructure.build(layerListWithMWSTime, layerConfig, categories[0]);
             filteredResult = getNestedValues(result, "id").flat(Infinity);
 
             expect(result).to.be.an("object");
@@ -222,8 +217,7 @@ describe("src_3_0_0/app-store/js/buildTreeStructure.js", () => {
 
             sinon.stub(rawLayerList, "getLayerList").returns(layerList);
 
-            getAndMergeAllRawLayers();
-            result = buildTreeStructure.build(layerConfig, categories[1]);
+            result = buildTreeStructure.build(getAndMergeAllRawLayers(), layerConfig, categories[1]);
             filteredResult = getNestedValues(result, "id").flat(Infinity);
             folders = result.elements.filter(el => el.type === "folder");
             firstFolders = result.elements[0].elements.filter(el => el.type === "folder");
@@ -315,8 +309,7 @@ describe("src_3_0_0/app-store/js/buildTreeStructure.js", () => {
 
             sinon.stub(rawLayerList, "getLayerList").returns(layerList);
 
-            getAndMergeAllRawLayers();
-            result = buildTreeStructure.build(layerConfig, categories[2]);
+            result = buildTreeStructure.build(getAndMergeAllRawLayers(), layerConfig, categories[2]);
             filteredResult = getNestedValues(result, "id").flat(Infinity);
             folders = result.elements.filter(el => el.type === "folder");
             firstFolders = result.elements[0].elements.filter(el => el.type === "folder");

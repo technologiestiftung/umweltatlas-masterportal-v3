@@ -239,8 +239,6 @@ export function getAndMergeAllRawLayers (treeConfig = {}, showLayerAddButton = f
     }
     mergeByMetaIds(toMergeByMdId, rawLayers);
     removeFromLayerList(relatedWMSLayerIds, rawLayers);
-    // set rawLayerList in masterportalapi to this rawLayers
-    rawLayerList.initializeLayerList(rawLayers);
     return rawLayers;
 }
 

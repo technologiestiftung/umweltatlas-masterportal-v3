@@ -270,10 +270,8 @@ export default {
      * @returns {void}
      */
     processTreeTypeAuto ({commit, getters, state}, layerContainer) {
-        let layersStructured = [];
-
-        getAndMergeAllRawLayers(state.portalConfig?.tree, getters.showLayerAddButton);
-        layersStructured = buildTreeStructure.build(state.layerConfig, getters.activeOrFirstCategory, layerContainer);
+        const rawlayers = getAndMergeAllRawLayers(state.portalConfig?.tree, getters.showLayerAddButton),
+            layersStructured = buildTreeStructure.build(rawlayers, state.layerConfig, getters.activeOrFirstCategory, layerContainer);
 
         commit("setLayerConfigByParentKey", {layerConfigs: layersStructured, parentKey: treeSubjectsKey});
     },

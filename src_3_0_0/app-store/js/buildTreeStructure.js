@@ -10,14 +10,14 @@ import layerFactory from "../../core/layers/js/layerFactory";
  * Returns all layer from services.json to add to states layerConfig for treetype 'auto', besides background-layers.
  * The layers are sorted and grouped by metadata-name. All folders and elements get ids and parentIds.
  * @module app-store/js/buildTreeStructure
+ * @param  {Object[]} layerList - the filtered raw layer list
  * @param  {Object} layerConfig configuration of layer like in the config.json, to get background-layer from
  * @param  {String} category the category to get the tree for
  * @param  {Object} shownLayerConfs configuration of layer to show on first level of tree, configured in config.json
  * @returns {Object} tree structure as json object
  */
-function build (layerConfig, category, shownLayerConfs = []) {
-    const layerList = rawLayerList.getLayerList(),
-        categoryKey = category?.key,
+function build (layerList, layerConfig, category, shownLayerConfs = []) {
+    const categoryKey = category?.key,
         groups = {},
         folder = {},
         layersByMdName = {};
