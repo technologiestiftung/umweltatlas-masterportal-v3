@@ -206,7 +206,8 @@ describe("src_3_0_0/app-store/actionsLayerConfig.js", () => {
         commit = sinon.spy();
         dispatch = sinon.spy();
         getters = {
-            allLayerConfigsStructured: () => []
+            allLayerConfigsStructured: () => [],
+            showLayerAddButton: () => true
         };
         state = {
             configJs: {
@@ -935,15 +936,15 @@ describe("src_3_0_0/app-store/actionsLayerConfig.js", () => {
 
     describe("changeCategory", () => {
         const
-            // invisibleBaselayer = [
-            //     {
-            //         id: "baselayer1",
-            //         isBaselayer: true
-            //     }
-            // ],
-            // rootGetters = {
-            //     invisibleBaselayerConfigs: invisibleBaselayer
-            // },
+            invisibleBaselayer = [
+                {
+                    id: "baselayer1",
+                    isBaselayer: true
+                }
+            ],
+            rootGetters = {
+                invisibleBaselayerConfigs: invisibleBaselayer
+            },
             categories = [
                 {
                     "key": "kategorie_opendata",
@@ -971,41 +972,41 @@ describe("src_3_0_0/app-store/actionsLayerConfig.js", () => {
 
             state.layerConfig = layerConfig;
         });
-        // it("changes the category to inspire", () => {
-        //     actions.changeCategory({commit, dispatch, rootGetters, state}, categories[1]);
+        it("changes the category to inspire", () => {
+            actions.changeCategory({commit, dispatch, getters, rootGetters, state}, categories[1]);
 
-        //     expect(commit.calledTwice).to.be.true;
-        //     expect(commit.firstCall.args[0]).to.equals("setLayerConfigByParentKey");
-        //     expect(commit.firstCall.args[1].layerConfigs.elements[0].name).to.be.equals("Gebäude");
-        //     expect(commit.firstCall.args[1].layerConfigs.elements[1].name).to.be.equals("kein INSPIRE-Thema");
-        //     expect(commit.firstCall.args[1].parentKey).to.be.equals(treeSubjectsKey);
-        //     expect(commit.secondCall.args[0]).to.equals("Modules/LayerSelection/clearLayerSelection");
-        //     expect(dispatch.calledOnce).to.be.true;
-        //     expect(dispatch.firstCall.args[0]).to.equals("Modules/LayerSelection/navigateForward");
-        //     expect(dispatch.firstCall.args[1].lastFolderName).to.equals("root");
-        //     expect(dispatch.firstCall.args[1].subjectDataLayerConfs[0].name).to.equals("Gebäude");
-        //     expect(dispatch.firstCall.args[1].subjectDataLayerConfs[1].name).to.equals("kein INSPIRE-Thema");
-        //     expect(dispatch.firstCall.args[1].baselayerConfs).to.deep.equals(invisibleBaselayer);
-        //     expect(buildSpy.calledOnce).to.be.true;
-        // });
+            expect(commit.calledTwice).to.be.true;
+            expect(commit.firstCall.args[0]).to.equals("setLayerConfigByParentKey");
+            expect(commit.firstCall.args[1].layerConfigs.elements[0].name).to.be.equals("Gebäude");
+            expect(commit.firstCall.args[1].layerConfigs.elements[1].name).to.be.equals("kein INSPIRE-Thema");
+            expect(commit.firstCall.args[1].parentKey).to.be.equals(treeSubjectsKey);
+            expect(commit.secondCall.args[0]).to.equals("Modules/LayerSelection/clearLayerSelection");
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equals("Modules/LayerSelection/navigateForward");
+            expect(dispatch.firstCall.args[1].lastFolderName).to.equals("root");
+            expect(dispatch.firstCall.args[1].subjectDataLayerConfs[0].name).to.equals("Gebäude");
+            expect(dispatch.firstCall.args[1].subjectDataLayerConfs[1].name).to.equals("kein INSPIRE-Thema");
+            expect(dispatch.firstCall.args[1].baselayerConfs).to.deep.equals(invisibleBaselayer);
+            expect(buildSpy.calledOnce).to.be.true;
+        });
 
-        // it("changes the category to organisation", () => {
-        //     actions.changeCategory({commit, dispatch, rootGetters, state}, categories[2]);
+        it("changes the category to organisation", () => {
+            actions.changeCategory({commit, dispatch, getters, rootGetters, state}, categories[2]);
 
-        //     expect(commit.calledTwice).to.be.true;
-        //     expect(commit.firstCall.args[0]).to.equals("setLayerConfigByParentKey");
-        //     expect(commit.firstCall.args[1].layerConfigs.elements[0].name).to.be.equals("Landesbetrieb Geoinformation und Vermessung");
-        //     expect(commit.firstCall.args[1].layerConfigs.elements[1].name).to.be.equals("Landesbetrieb Straßen, Brücken und Gewässer");
-        //     expect(commit.firstCall.args[1].parentKey).to.be.equals(treeSubjectsKey);
-        //     expect(commit.secondCall.args[0]).to.equals("Modules/LayerSelection/clearLayerSelection");
-        //     expect(dispatch.calledOnce).to.be.true;
-        //     expect(dispatch.firstCall.args[0]).to.equals("Modules/LayerSelection/navigateForward");
-        //     expect(dispatch.firstCall.args[1].lastFolderName).to.equals("root");
-        //     expect(dispatch.firstCall.args[1].subjectDataLayerConfs[0].name).to.equals("Landesbetrieb Geoinformation und Vermessung");
-        //     expect(dispatch.firstCall.args[1].subjectDataLayerConfs[1].name).to.equals("Landesbetrieb Straßen, Brücken und Gewässer");
-        //     expect(dispatch.firstCall.args[1].baselayerConfs).to.deep.equals(invisibleBaselayer);
-        //     expect(buildSpy.calledOnce).to.be.true;
-        // });
+            expect(commit.calledTwice).to.be.true;
+            expect(commit.firstCall.args[0]).to.equals("setLayerConfigByParentKey");
+            expect(commit.firstCall.args[1].layerConfigs.elements[0].name).to.be.equals("Landesbetrieb Geoinformation und Vermessung");
+            expect(commit.firstCall.args[1].layerConfigs.elements[1].name).to.be.equals("Landesbetrieb Straßen, Brücken und Gewässer");
+            expect(commit.firstCall.args[1].parentKey).to.be.equals(treeSubjectsKey);
+            expect(commit.secondCall.args[0]).to.equals("Modules/LayerSelection/clearLayerSelection");
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equals("Modules/LayerSelection/navigateForward");
+            expect(dispatch.firstCall.args[1].lastFolderName).to.equals("root");
+            expect(dispatch.firstCall.args[1].subjectDataLayerConfs[0].name).to.equals("Landesbetrieb Geoinformation und Vermessung");
+            expect(dispatch.firstCall.args[1].subjectDataLayerConfs[1].name).to.equals("Landesbetrieb Straßen, Brücken und Gewässer");
+            expect(dispatch.firstCall.args[1].baselayerConfs).to.deep.equals(invisibleBaselayer);
+            expect(buildSpy.calledOnce).to.be.true;
+        });
     });
 
 });
