@@ -12,7 +12,7 @@ describe("src_3_0_0/modules/filter/components/FilterList.vue", () => {
 
     beforeEach(() => {
         store = createStore({
-            namespaces: true,
+            namespaced: true,
             modules: {
                 Alerting: {
                     namespaced: true,
