@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import {convertAttrTypeXML} from "../../../utils/convertAttrType.js";
 
-describe("src/modules/tools/filter/utils/convertAttrType.js", () => {
+describe("src_3_0_0/modules/filter/utils/convertAttrType.js", () => {
     describe("convertAttrTypeXML", () => {
         it("should return 'string' if the input is 'string'", () => {
             expect(convertAttrTypeXML("string")).to.equal("string");

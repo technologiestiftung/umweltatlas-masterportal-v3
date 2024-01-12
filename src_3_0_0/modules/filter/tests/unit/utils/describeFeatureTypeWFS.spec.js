@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import {describeFeatureTypeWFS} from "../../../utils/describeFeatureTypeWFS.js";
 
-describe("src/modules/tools/filter/utils/describeFeatureTypeWFS.js", () => {
+describe("src_3_0_0/modules/filter/utils/describeFeatureTypeWFS.js", () => {
     let lastSuccess = false,
         lastError = false,
         mock = null;

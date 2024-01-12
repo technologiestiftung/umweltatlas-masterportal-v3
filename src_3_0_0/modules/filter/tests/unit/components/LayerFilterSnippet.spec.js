@@ -11,7 +11,7 @@ import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
 
-describe("src/modules/tools/filter/components/LayerFilterSnippet.vue", () => {
+describe("src_3_0_0/modules/filter/components/LayerFilterSnippet.vue", () => {
     let wrapper = null,
         store,
         mapHandler = null;

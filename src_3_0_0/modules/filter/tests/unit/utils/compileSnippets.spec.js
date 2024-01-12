@@ -14,7 +14,7 @@ import {
     getDefaultSnippetTypeByDataType
 } from "../../../utils/compileSnippets.js";
 
-describe("src/modules/tools/filter/utils/compileSnippets.js", () => {
+describe("src_3_0_0/modules/filter/utils/compileSnippets.js", () => {
     describe("removeInvalidSnippets", () => {
         it("should return an empty array if the first parameter is not an array", () => {
             expect(removeInvalidSnippets(undefined)).to.be.an("array").and.to.be.empty;

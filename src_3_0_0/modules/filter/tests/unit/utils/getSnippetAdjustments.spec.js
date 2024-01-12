@@ -7,7 +7,7 @@ import {
     getSnippetAdjustments
 } from "../../../utils/getSnippetAdjustments.js";
 
-describe("src/modules/tools/filter/utils/getSnippetAdjustments.js", () => {
+describe("src_3_0_0/modules/filter/utils/getSnippetAdjustments.js", () => {
     describe("getMergedValuesByAttrNames", () => {
         it("should return an empty array if first param is also an empty array", () => {
             expect(getMergedValuesByAttrNames([])).to.be.an("array").and.to.be.empty;

@@ -5,7 +5,7 @@ import GeometryCollection from "ol/geom/GeometryCollection.js";
 import Polygon from "ol/geom/Polygon.js";
 
 
-describe("src/modules/tools/filter/interfaces/utils/interface.wfs.extern.js", () => {
+describe("src_3_0_0/modules/filter/interfaces/utils/interface.wfs.extern.js", () => {
     let interfaceWfsExtern = null;
 
     beforeEach(() => {

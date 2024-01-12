@@ -26,6 +26,14 @@
     },
     "tree": {
       "type": "auto",
+      "addLayerButton": {
+        "active" :true,
+        "searchBar": {
+          "active": true,
+          "searchInterfaceInstanceId": "elasticSearch_0",
+          "searchCategory": "Thema (externe Fachdaten)"
+        }
+      },
       "validLayerTypesAutoTree": [
         "WMS",
         "SENSORTHINGS",

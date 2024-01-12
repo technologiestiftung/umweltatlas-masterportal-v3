@@ -10,7 +10,7 @@ import {Polygon, LineString} from "ol/geom";
 
 config.global.mocks.$t = key => key;
 
-describe("src/modules/tools/filter/components/GeometryFilter.vue", () => {
+describe("src_3_0_0/modules/filter/components/GeometryFilter.vue", () => {
     let wrapper = null,
         sandbox,
         store;

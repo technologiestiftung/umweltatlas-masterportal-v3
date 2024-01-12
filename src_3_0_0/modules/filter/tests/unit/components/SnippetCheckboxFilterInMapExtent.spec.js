@@ -4,7 +4,7 @@ import {expect} from "chai";
 
 config.global.mocks.$t = key => key;
 
-describe("src/modules/tools/filter/components/SnippetCheckboxFilterInMapExtent.vue", () => {
+describe("src_3_0_0/modules/filter/components/SnippetCheckboxFilterInMapExtent.vue", () => {
     let wrapper;
 
     beforeEach(() => {

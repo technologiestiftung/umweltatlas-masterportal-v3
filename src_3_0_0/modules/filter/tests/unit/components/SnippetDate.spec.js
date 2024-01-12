@@ -4,7 +4,7 @@ import {expect} from "chai";
 
 config.global.mocks.$t = key => key;
 
-describe("src/modules/tools/generalFilter/components/SnippetDate.vue", () => {
+describe("src_3_0_0/modules/generalFilter/components/SnippetDate.vue", () => {
     describe("constructor", () => {
         it("should have correct default values", () => {
             const wrapper = shallowMount(SnippetDate, {});

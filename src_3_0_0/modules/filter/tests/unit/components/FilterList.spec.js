@@ -6,21 +6,19 @@ import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
 
-describe("src/modules/tools/filter/components/FilterList.vue", () => {
+describe("src_3_0_0/modules/filter/components/FilterList.vue", () => {
     let wrapper,
         store;
 
-    const mockAlertingActions = {
-        addSingleAlert: sinon.stub()
-    };
-
     beforeEach(() => {
         store = createStore({
-            namespaced: true,
+            namespaces: true,
             modules: {
                 Alerting: {
                     namespaced: true,
-                    actions: mockAlertingActions
+                    actions: {
+                        addSingleAlert: sinon.stub()
+                    }
                 }
             }
         });

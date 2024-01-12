@@ -38,6 +38,7 @@ describe("src_3_0_0/App.vue", () => {
             },
             getters: {
                 allConfigsLoaded: sinon.stub(),
+                mapViewSettings: sinon.stub(),
                 cesiumLibrary: () => {
                     return "path_to_cesium_library";
                 },

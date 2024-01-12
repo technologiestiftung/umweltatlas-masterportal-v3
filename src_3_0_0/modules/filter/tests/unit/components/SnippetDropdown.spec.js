@@ -11,7 +11,7 @@ import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
 
-describe("src/modules/tools/filter/components/SnippetDropdown.vue", () => {
+describe("src_3_0_0/modules/filter/components/SnippetDropdown.vue", () => {
     let wrapper;
 
     beforeEach(() => {

@@ -18,7 +18,7 @@ import {
     startswithForArray
 } from "../../../utils/ruleValidation.js";
 
-describe("src/modules/tools/filter/utils/ruleValidation.js", () => {
+describe("src_3_0_0/modules/filter/utils/ruleValidation.js", () => {
     describe("intersectsForArray", () => {
         it("should return true if multi value match intersects", () => {
             expect(intersectsForArray(-1, 0, 0, 10)).to.be.true;

@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import {getUniqueValuesFromFetchedFeatures, getFilterableProperties} from "../../../utils/fetchAllStaProperties";
 
-describe("src/modules/tools/filter/utils/fetchAllStaProperties.js", () => {
+describe("src_3_0_0/modules/filter/utils/fetchAllStaProperties.js", () => {
     describe("getUniqueValuesFromFetchedFeatures", () => {
         it("should return empty array if anything but object is given", () => {
             expect(getUniqueValuesFromFetchedFeatures([])).to.be.an("array").that.is.empty;

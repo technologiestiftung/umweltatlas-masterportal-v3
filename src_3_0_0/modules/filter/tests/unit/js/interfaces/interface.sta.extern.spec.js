@@ -1,7 +1,7 @@
 import InterfaceStaExtern from "../../../../js/interfaces/interface.sta.extern.js";
 import {expect} from "chai";
 
-describe("src/modules/tools/filter/interfaces/utils/interface.sta.extern.js", () => {
+describe("src_3_0_0/modules/filter/interfaces/utils/interface.sta.extern.js", () => {
     let interfaceStaExtern = null;
 
     beforeEach(() => {

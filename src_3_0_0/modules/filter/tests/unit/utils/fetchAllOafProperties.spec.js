@@ -6,7 +6,7 @@ import {
     getMinMaxFromFetchedFeatures
 } from "../../../utils/fetchAllOafProperties.js";
 
-describe("src/modules/tools/filter/utils/fetchAllOafProperties.js", () => {
+describe("src_3_0_0/modules/filter/utils/fetchAllOafProperties.js", () => {
     describe("getMinMaxFromFetchedFeatures", () => {
         it("should return false if allFetchedProperties is not an array", () => {
             expect(getMinMaxFromFetchedFeatures(undefined)).to.be.false;

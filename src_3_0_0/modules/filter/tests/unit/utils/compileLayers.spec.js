@@ -7,7 +7,7 @@ import {
     compileLayers
 } from "../../../utils/compileLayers.js";
 
-describe("src/modules/tools/filter/utils/compileLayers.js", () => {
+describe("src_3_0_0/modules/filter/utils/compileLayers.js", () => {
     describe("compileLayers", () => {
         it("should compile empty layer groups", () => {
             const

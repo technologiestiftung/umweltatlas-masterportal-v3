@@ -4,7 +4,7 @@ import {expect} from "chai";
 
 config.global.mocks.$t = key => key;
 
-describe("src/modules/tools/filter/components/SnippetInfo.vue", () => {
+describe("src_3_0_0/modules/filter/components/SnippetInfo.vue", () => {
     it("should render correctly", () => {
         const wrapper = shallowMount(SnippetInfo, {
             propsData: {

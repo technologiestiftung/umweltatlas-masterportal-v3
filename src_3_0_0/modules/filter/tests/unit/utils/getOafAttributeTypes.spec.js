@@ -8,7 +8,7 @@ import {
     isSpecifiedOafKey
 } from "../../../utils/getOafAttributeTypes.js";
 
-describe("src/modules/tools/filter/utils/getOafAttributeTypes.js", () => {
+describe("src_3_0_0/modules/filter/utils/getOafAttributeTypes.js", () => {
     describe("isSpecifiedOafKey", () => {
         it("should return true if a hard coded key is recognized", () => {
             expect(isSpecifiedOafKey("limit")).to.be.true;

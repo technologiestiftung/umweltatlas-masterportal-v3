@@ -13,7 +13,7 @@ import InterfaceStaExtern from "../../../../js/interfaces/interface.sta.extern";
 import openlayerFunctions from "../../../../utils/openlayerFunctions";
 import FilterApi from "../../../../js/interfaces/filter.api";
 
-describe("src/modules/tools/filter/interfaces/filter.api.js", () => {
+describe("src_3_0_0/modules/filter/interfaces/filter.api.js", () => {
     describe("constructor", () => {
         it("should create an instance and set expected properties to it", () => {
             const filterApi = new FilterApi(123);

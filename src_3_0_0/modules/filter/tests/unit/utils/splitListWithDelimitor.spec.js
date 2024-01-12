@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import splitListWithDelimiter from "../../../utils/splitListWithDelimiter.js";
 
-describe("src/modules/tools/filter/utils/splitListWithDelimiter.js", () => {
+describe("src_3_0_0/modules/filter/utils/splitListWithDelimiter.js", () => {
     describe("splitListWithDelimiter", () => {
         it("should return an empty array if anything but an array is given as first parameter", () => {
             expect(splitListWithDelimiter(undefined)).to.be.undefined;

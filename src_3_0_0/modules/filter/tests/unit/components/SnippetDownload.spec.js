@@ -9,7 +9,7 @@ import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
 
-describe("src/modules/tools/filter/components/SnippetDownload.vue", () => {
+describe("src_3_0_0/modules/filter/components/SnippetDownload.vue", () => {
     let wrapper = null,
         store;
 

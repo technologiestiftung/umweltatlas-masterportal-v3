@@ -6,7 +6,7 @@ import openlayerFunctions from "../../../../utils/openlayerFunctions";
 import store from "../../../../../../app-store";
 import layerCollection from "../../../../../../core/layers/js/layerCollection";
 
-describe("src/modules/tools/filter/interfaces/utils/interface.vectortiles.intern.js", () => {
+describe("src_3_0_0/modules/filter/interfaces/utils/interface.vectortiles.intern.js", () => {
     let interfaceVectorTilesIntern = null;
 
     beforeEach(() => {

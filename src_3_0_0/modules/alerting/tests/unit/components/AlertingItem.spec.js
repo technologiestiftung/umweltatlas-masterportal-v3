@@ -143,6 +143,7 @@ describe("src_3_0_0/modules/alerting/components/AlertingItem.vue", () => {
                     actions: {
                         addSingleAlert: sinon.spy(),
                         cleanup: sinon.stub(),
+                        addAlertsFromConfig: sinon.stub(),
                         alertHasBeenRead: sinon.stub()
                     },
                     getters: {
@@ -152,7 +153,8 @@ describe("src_3_0_0/modules/alerting/components/AlertingItem.vue", () => {
                         fetchBroadcastUrl: () => false,
                         showTheModal: () => true,
                         sortedAlerts: () => sortedAlerts,
-                        type: () => "alerting"
+                        type: () => "alerting",
+                        initialAlerts: () => []
                     },
                     mutations: {
                         setInitialClosed: sinon.stub(),

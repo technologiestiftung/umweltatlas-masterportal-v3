@@ -2,7 +2,7 @@ import {expect} from "chai";
 import InterfaceGeojsonExtern from "../../../../js/interfaces/interface.geojson.extern.js";
 import hash from "object-hash";
 
-describe("src/modules/tools/filter/interfaces/utils/interface.geojson.extern.js", () => {
+describe("src_3_0_0/modules/filter/interfaces/utils/interface.geojson.extern.js", () => {
     let interfaceGeojsonExtern = null,
         lastSuccess = null,
         lastError = null,

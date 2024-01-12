@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import {getDefaultOperatorBySnippetType} from "../../../utils/getDefaultOperatorBySnippetType.js";
 
-describe("src/modules/tools/filter/utils/getDefaultOperatorBySnippetType.js", () => {
+describe("src_3_0_0/modules/filter/utils/getDefaultOperatorBySnippetType.js", () => {
     describe("getDefaultOperatorBySnippetType", () => {
         it("should return operator according to the input snippet type", () => {
             expect(getDefaultOperatorBySnippetType(undefined)).to.equal("EQ");

@@ -7,7 +7,7 @@ import {nextTick} from "vue";
 
 config.global.mocks.$t = key => key;
 
-describe("src/modules/tools/filter/components/SnippetCheckbox.vue", () => {
+describe("src_3_0_0/modules/filter/components/SnippetCheckbox.vue", () => {
     describe("constructor", () => {
         it("should have correct default values", () => {
             const wrapper = shallowMount(SnippetCheckbox, {});
