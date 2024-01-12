@@ -23,7 +23,8 @@ export default {
     data () {
         return {
             selectAllConfId: -1,
-            selectAllConfigs: []
+            selectAllConfigs: [],
+            activeCategory: null
         };
     },
     computed: {
@@ -42,6 +43,7 @@ export default {
         this.setHighlightLayerId(null);
     },
     created () {
+        this.activeCategory = this.activeOrFirstCategory.key;
         this.provideSelectAllProps();
         this.setLayerInfoVisible(false);
     },
@@ -183,9 +185,9 @@ export default {
                 >
                     <select
                         id="select_category"
-                        :value="activeOrFirstCategory.key"
+                        v-model="activeCategory"
                         class="form-select"
-                        @change.prevent="categorySelected($event.target.value)"
+                        @change="categorySelected($event.target.value)"
                     >
                         <option
                             v-for="category in allCategories"

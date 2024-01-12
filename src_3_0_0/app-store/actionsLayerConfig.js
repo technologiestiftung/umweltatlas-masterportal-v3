@@ -281,14 +281,16 @@ export default {
      * @param {Object} context the vue context
      * @param {Object} context.commit the commit
      * @param {Object} context.dispatch the dispatch
+     * @param {Object} context.getters the getters
      * @param {Object} context.rootGetters the rootGetters
      * @param {Object} context.state the state
      * @param {Object} category the category to change to
      * @returns {void}
      */
-    changeCategory ({commit, dispatch, rootGetters, state}, category) {
+    changeCategory ({commit, dispatch, getters, rootGetters, state}, category) {
         const layerContainer = getNestedValues(state.layerConfig, "elements", true).flat(Infinity),
-            layersStructured = buildTreeStructure.build(state.layerConfig, category, layerContainer);
+            rawlayers = getAndMergeAllRawLayers(state.portalConfig?.tree, getters.showLayerAddButton),
+            layersStructured = buildTreeStructure.build(rawlayers, state.layerConfig, category, layerContainer);
 
         commit("setLayerConfigByParentKey", {layerConfigs: layersStructured, parentKey: treeSubjectsKey});
         commit("Modules/LayerSelection/clearLayerSelection", {root: true});
