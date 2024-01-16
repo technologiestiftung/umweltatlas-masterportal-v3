@@ -541,7 +541,8 @@
       "iconSubMenu": "Show more functions",
       "iconTransparency": "Transparency",
       "infosAndLegend": "Show information about the data set",
-      "invisibleLayer": "This topic can only be displayed at {{minScale}} - {{maxScale}}"
+      "invisibleLayer": "This topic can only be displayed at {{minScale}} - {{maxScale}}",
+      "invisibleLayerNoScale": "This topic cannot be displayed at this scale"
     },
     "legend": {
       "description": "Get information about the objects in the map",

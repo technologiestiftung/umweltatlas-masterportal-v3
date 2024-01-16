@@ -1,5 +1,6 @@
 import {expect} from "chai";
 import {treeBaselayersKey, treeSubjectsKey} from "../../../shared/js/utils/constants";
+import getNestedValues from "../../../shared/js/utils/getNestedValues";
 import getters from "../../getters";
 import stateAppStore from "../../state";
 import sinon from "sinon";
@@ -108,17 +109,15 @@ describe("src_3_0_0/app-store/getters.js", () => {
                         ]
                     }
                 },
-                state = {
-                    layerConfig: layerConfig
+                myGetters = {
+                    allLayerConfigs: getNestedValues(layerConfig, "elements", true).flat(Infinity)// layerConfig[treeSubjectsKey].elements
                 };
 
-            expect(getters.visibleLayerConfigs(stateAppStore)).to.be.an("array");
-            expect(getters.visibleLayerConfigs(stateAppStore).length).to.be.equals(0);
-            expect(getters.visibleLayerConfigs(state)).to.be.an("array");
-            expect(getters.visibleLayerConfigs(state).length).to.be.equals(2);
-            expect(getters.visibleLayerConfigs(state)[0].id).to.be.equals("453");
-            expect(getters.visibleLayerConfigs(state)[0].visibility).to.be.true;
-            expect(getters.visibleLayerConfigs(state)[1]).to.be.equals(greenLayer);
+            expect(getters.visibleLayerConfigs(null, myGetters)).to.be.an("array");
+            expect(getters.visibleLayerConfigs(null, myGetters).length).to.be.equals(2);
+            expect(getters.visibleLayerConfigs(null, myGetters)[0].id).to.be.equals("453");
+            expect(getters.visibleLayerConfigs(null, myGetters)[0].visibility).to.be.true;
+            expect(getters.visibleLayerConfigs(null, myGetters)[1]).to.be.equals(greenLayer);
         });
 
         it("should return all visible layers - ids as array", () => {
@@ -146,15 +145,13 @@ describe("src_3_0_0/app-store/getters.js", () => {
                         ]
                     }
                 },
-                state = {
-                    layerConfig: layerConfig
+                myGetters = {
+                    allLayerConfigs: layerConfig[treeBaselayersKey].elements
                 };
 
-            expect(getters.visibleLayerConfigs(stateAppStore)).to.be.an("array");
-            expect(getters.visibleLayerConfigs(stateAppStore).length).to.be.equals(0);
-            expect(getters.visibleLayerConfigs(state)).to.be.an("array");
-            expect(getters.visibleLayerConfigs(state).length).to.be.equals(1);
-            expect(getters.visibleLayerConfigs(state)[0]).to.be.equals(layer);
+            expect(getters.visibleLayerConfigs(null, myGetters)).to.be.an("array");
+            expect(getters.visibleLayerConfigs(null, myGetters).length).to.be.equals(1);
+            expect(getters.visibleLayerConfigs(null, myGetters)[0]).to.be.equals(layer);
         });
 
         it("should return all visible layers - grouped layer", () => {
@@ -177,19 +174,17 @@ describe("src_3_0_0/app-store/getters.js", () => {
                         }
                     ]
                 },
-                state = {
-                    layerConfig: layerConfig
+                myGetters = {
+                    allLayerConfigs: layerConfig.elements
                 };
 
-            expect(getters.visibleLayerConfigs(state)).to.be.an("array");
-            expect(getters.visibleLayerConfigs(state).length).to.be.equals(1);
-            expect(getters.visibleLayerConfigs(state)[0].children).to.be.an("array");
-            expect(getters.visibleLayerConfigs(state)[0].children.length).to.be.equals(2);
-            expect(getters.visibleLayerConfigs(state)[0].children[0].id).to.be.equals("682");
-            expect(getters.visibleLayerConfigs(state)[0].children[1].id).to.be.equals("1731");
-            expect(getters.visibleLayerConfigs(state)[0].id).to.be.equals("xyz");
-            expect(getters.visibleLayerConfigs(state)[0].visibility).to.be.true;
-            expect(getters.visibleLayerConfigs(state)[0].name).to.be.equals("Kita und Krankenhäuser");
+            expect(getters.visibleLayerConfigs(null, myGetters)).to.be.an("array");
+            expect(getters.visibleLayerConfigs(null, myGetters)[0].children.length).to.be.equals(2);
+            expect(getters.visibleLayerConfigs(null, myGetters)[0].children[0].id).to.be.equals("682");
+            expect(getters.visibleLayerConfigs(null, myGetters)[0].children[1].id).to.be.equals("1731");
+            expect(getters.visibleLayerConfigs(null, myGetters)[0].id).to.be.equals("xyz");
+            expect(getters.visibleLayerConfigs(null, myGetters)[0].visibility).to.be.true;
+            expect(getters.visibleLayerConfigs(null, myGetters)[0].name).to.be.equals("Kita und Krankenhäuser");
         });
     });
 
@@ -222,12 +217,12 @@ describe("src_3_0_0/app-store/getters.js", () => {
                         ]
                     }
                 },
-                state = {
-                    layerConfig: layerConfig
+                myGetters = {
+                    allBaselayerConfigs: layerConfig[treeBaselayersKey].elements
                 };
 
-            expect(getters.visibleBaselayerConfigs(state)[0]).to.deep.equal(layerConfig[treeBaselayersKey].elements[0]);
-            expect(getters.visibleBaselayerConfigs(state)[0].id).to.deep.equal("453");
+            expect(getters.visibleBaselayerConfigs(null, myGetters)[0]).to.deep.equal(layerConfig[treeBaselayersKey].elements[0]);
+            expect(getters.visibleBaselayerConfigs(null, myGetters)[0].id).to.deep.equal("453");
         });
     });
 
@@ -299,13 +294,16 @@ describe("src_3_0_0/app-store/getters.js", () => {
             expect(folders[2].id).to.be.equals("folder-3");
         });
         it("should return folder by id", () => {
-            let folder = getters.folderById(state)("folder-1");
+            const myGetters = {
+                allFolders: layersWithFolder
+            };
+            let folder = getters.folderById(null, myGetters)("folder-1");
 
             expect(folder).to.be.an("object");
             expect(folder.id).to.be.equals("folder-1");
             expect(folder.name).to.be.equals("Titel Ebene 1");
 
-            folder = getters.folderById(state)("folder-x");
+            folder = getters.folderById(null, myGetters)("folder-x");
             expect(folder).to.be.undefined;
         });
         it("should return all layerConfigs of first level", () => {
@@ -393,18 +391,18 @@ describe("src_3_0_0/app-store/getters.js", () => {
                         ]
                     }
                 },
-                state = {
-                    layerConfig: layerConfig
+                myGetters = {
+                    allLayerConfigs: layerConfig[treeBaselayersKey].elements.concat(layerConfig[treeSubjectsKey].elements)
                 };
 
-            expect(getters.layerConfigsByAttributes(state)(undefined)).to.be.an("array");
-            expect(getters.layerConfigsByAttributes(state)({id: "1132"})).to.be.an("array");
-            expect(getters.layerConfigsByAttributes(state)({id: "1132"}).length).to.be.equals(1);
-            expect(getters.layerConfigsByAttributes(state)({id: "1132"})[0]).to.be.deep.equals(greenLayer);
-            expect(getters.layerConfigsByAttributes(state)({visibility: true}).length).to.be.equals(2);
-            expect(getters.layerConfigsByAttributes(state)({visibility: true})).to.be.deep.equals([bgLayer, greenLayer]);
-            expect(getters.layerConfigsByAttributes(state)({visibility: true, id: "1132"}).length).to.be.equals(1);
-            expect(getters.layerConfigsByAttributes(state)({visibility: true, id: "453"}).length).to.be.equals(1);
+            expect(getters.layerConfigsByAttributes(null, myGetters)(undefined)).to.be.an("array");
+            expect(getters.layerConfigsByAttributes(null, myGetters)({id: "1132"})).to.be.an("array");
+            expect(getters.layerConfigsByAttributes(null, myGetters)({id: "1132"}).length).to.be.equals(1);
+            expect(getters.layerConfigsByAttributes(null, myGetters)({id: "1132"})[0]).to.be.deep.equals(greenLayer);
+            expect(getters.layerConfigsByAttributes(null, myGetters)({visibility: true}).length).to.be.equals(2);
+            expect(getters.layerConfigsByAttributes(null, myGetters)({visibility: true})).to.be.deep.equals([bgLayer, greenLayer]);
+            expect(getters.layerConfigsByAttributes(null, myGetters)({visibility: true, id: "1132"}).length).to.be.equals(1);
+            expect(getters.layerConfigsByAttributes(null, myGetters)({visibility: true, id: "453"}).length).to.be.equals(1);
             // @todo testen
             // expect(getters.layerConfigsByAttributes(state)({ gfiAttributes : {
             //     "standort" : "Standort",
@@ -415,42 +413,28 @@ describe("src_3_0_0/app-store/getters.js", () => {
 
     describe("layerUrlParams", () => {
         it("should return the layers in tree for url params", () => {
-            const state = {
-                layerConfig: {
-                    subjectlayer: {
-                        elements: [
-                            {
-                                id: "1",
-                                showInLayerTree: true,
-                                visibility: true,
-                                a: "b"
-                            },
-                            {
-                                id: "2",
-                                showInLayerTree: true,
-                                visibility: false
-                            },
-                            {
-                                id: "3",
-                                showInLayerTree: false,
-                                visibility: false
-                            }
-                        ]
-                    },
-                    baselayer: {
-                        elements: [
-                            {
-                                id: "100",
-                                transparency: "50",
-                                showInLayerTree: true,
-                                visibility: true
-                            }
-                        ]
-                    }
+            const myGetters = {
+                layerConfigsByAttributes: () => [{
+                    id: "1",
+                    showInLayerTree: true,
+                    visibility: true,
+                    a: "b"
+                },
+                {
+                    id: "2",
+                    showInLayerTree: true,
+                    visibility: false
+                },
+                {
+                    id: "100",
+                    transparency: "50",
+                    showInLayerTree: true,
+                    visibility: true
                 }
+                ]
             };
 
-            expect(getters.layerUrlParams(state)).to.deep.equals([
+            expect(getters.layerUrlParams(null, myGetters)).to.deep.equals([
                 {
                     id: "1",
                     visibility: true
@@ -469,20 +453,77 @@ describe("src_3_0_0/app-store/getters.js", () => {
     });
 
     describe("determineZIndex", () => {
-        let layerConfig, state;
+        let layerConfig, myGetters,
+            maxZIndex = -1;
+
+        beforeEach(() => {
+            layerConfig = [
+                {
+                    id: "453",
+                    baselayer: true,
+                    zIndex: 0
+                },
+                {
+                    id: "452",
+                    baselayer: true
+                },
+                {
+                    id: "451",
+                    baselayer: true
+                },
+                {
+                    id: "1132",
+                    name: "100 Jahre Stadtgruen POIs",
+                    visibility: true
+                },
+                {
+                    id: "10220",
+                    baselayer: false
+                }
+            ];
+            myGetters = {
+                maxZIndexOfLayerConfigsByParentKey: () => maxZIndex,
+                layerConfigById: (id) => layerConfig.find((config) => config.id === id)
+            };
+        });
+        it("determineZIndex for unknown layer", () => {
+            expect(getters.determineZIndex(null, myGetters)("unknown")).to.be.null;
+        });
+        it("determineZIndex for first layer with zIndex under parentKey", () => {
+            expect(getters.determineZIndex(null, myGetters)("10220")).to.be.equals(0);
+        });
+        it("determineZIndex for second layer with zIndex under parentKey", () => {
+            maxZIndex = 0;
+            expect(getters.determineZIndex(null, myGetters)("452")).to.be.equals(1);
+        });
+        it("determineZIndex for third layer with zIndex under parentKey", () => {
+            maxZIndex = 1;
+            layerConfig[1].zIndex = 1;
+            expect(getters.determineZIndex(null, myGetters)("451")).to.be.equals(2);
+        });
+        it("determineZIndex for layer with existing zIndex", () => {
+            maxZIndex = 100;
+            layerConfig[0].zIndex = 100;
+            expect(getters.determineZIndex(null, myGetters)("453")).to.be.equals(100);
+        });
+    });
+
+    describe("maxZIndexOfLayerConfigsByParentKey", () => {
+        let layerConfig, myGetters;
 
         beforeEach(() => {
             layerConfig = {
                 [treeBaselayersKey]: {
                     elements: [
                         {
-                            id: "453",
+                            id: "452",
                             baselayer: true,
                             zIndex: 0
                         },
                         {
                             id: "452",
-                            baselayer: true
+                            baselayer: true,
+                            zIndex: 1
                         },
                         {
                             id: "451",
@@ -493,37 +534,43 @@ describe("src_3_0_0/app-store/getters.js", () => {
                 [treeSubjectsKey]: {
                     elements: [
                         {
-                            id: "1132",
-                            name: "100 Jahre Stadtgruen POIs",
-                            visibility: true
+                            id: "10220",
+                            zIndex: 2
                         },
                         {
-                            id: "10220",
-                            baselayer: false
+                            id: "10221",
+                            zIndex: 3
                         }
                     ]
                 }
             };
-            state = {
-                layerConfig: layerConfig
+            myGetters = {
+                allLayerConfigsByParentKey: (key) => layerConfig[key]?.elements
             };
         });
-        it("determineZIndex for unknown layer", () => {
-            expect(getters.determineZIndex(state)("unknown")).to.be.null;
+        it("maxZIndexOfLayerConfigsByParentKey for basedata", () => {
+            expect(getters.maxZIndexOfLayerConfigsByParentKey(null, myGetters)(treeBaselayersKey)).to.be.equals(1);
         });
-        it("determineZIndex for first layer with zIndex under parentKey", () => {
-            expect(getters.determineZIndex(state)("10220")).to.be.equals(0);
+        it("maxZIndexOfLayerConfigsByParentKeyfor basedata with no zIndex", () => {
+            layerConfig[treeBaselayersKey].elements[0].zIndex = undefined;
+            layerConfig[treeBaselayersKey].elements[1].zIndex = undefined;
+            expect(getters.maxZIndexOfLayerConfigsByParentKey(null, myGetters)(treeBaselayersKey)).to.be.equals(-1);
         });
-        it("determineZIndex for second layer with zIndex under parentKey", () => {
-            expect(getters.determineZIndex(state)("452")).to.be.equals(1);
+        it("maxZIndexOfLayerConfigsByParentKeyfor basedata with no elements", () => {
+            layerConfig[treeBaselayersKey].elements = [];
+            expect(getters.maxZIndexOfLayerConfigsByParentKey(null, myGetters)(treeBaselayersKey)).to.be.equals(-1);
         });
-        it("determineZIndex for third layer with zIndex under parentKey", () => {
-            layerConfig[treeBaselayersKey].elements[1].zIndex = 1;
-            expect(getters.determineZIndex(state)("451")).to.be.equals(2);
+        it("maxZIndexOfLayerConfigsByParentKey for subjectdata", () => {
+            expect(getters.maxZIndexOfLayerConfigsByParentKey(null, myGetters)(treeSubjectsKey)).to.be.equals(3);
         });
-        it("determineZIndex for layer with existing zIndex", () => {
-            layerConfig[treeBaselayersKey].elements[0].zIndex = 100;
-            expect(getters.determineZIndex(state)("453")).to.be.equals(100);
+        it("maxZIndexOfLayerConfigsByParentKeyfor subjectdata with no zIndex", () => {
+            layerConfig[treeSubjectsKey].elements[0].zIndex = undefined;
+            layerConfig[treeSubjectsKey].elements[1].zIndex = undefined;
+            expect(getters.maxZIndexOfLayerConfigsByParentKey(null, myGetters)(treeSubjectsKey)).to.be.equals(-1);
+        });
+        it("maxZIndexOfLayerConfigsByParentKeyfor subjectdata with no elements", () => {
+            layerConfig[treeSubjectsKey].elements = [];
+            expect(getters.maxZIndexOfLayerConfigsByParentKey(null, myGetters)(treeSubjectsKey)).to.be.equals(-1);
         });
     });
 
@@ -554,14 +601,14 @@ describe("src_3_0_0/app-store/getters.js", () => {
                         ]
                     }
                 },
-                state = {
-                    layerConfig: layerConfig
+                myGetters = {
+                    allBaselayerConfigs: layerConfig[treeBaselayersKey].elements
                 };
 
-            expect(getters.invisibleBaselayerConfigs(state)).to.be.an("array");
-            expect(getters.invisibleBaselayerConfigs(state).length).to.be.equals(2);
-            expect(getters.invisibleBaselayerConfigs(state)[0].id).to.be.equals("452");
-            expect(getters.invisibleBaselayerConfigs(state)[1].id).to.be.equals("1132");
+            expect(getters.invisibleBaselayerConfigs(null, myGetters)).to.be.an("array");
+            expect(getters.invisibleBaselayerConfigs(null, myGetters).length).to.be.equals(2);
+            expect(getters.invisibleBaselayerConfigs(null, myGetters)[0].id).to.be.equals("452");
+            expect(getters.invisibleBaselayerConfigs(null, myGetters)[1].id).to.be.equals("1132");
         });
     });
     describe("isModuleAvailable", () => {
@@ -616,7 +663,7 @@ describe("src_3_0_0/app-store/getters.js", () => {
     });
 
     describe("configuredModules", () => {
-        let state;
+        let portalConfig, myGetters;
         const section1 = [
                 {
                     type: "fileImport"
@@ -655,101 +702,105 @@ describe("src_3_0_0/app-store/getters.js", () => {
             ];
 
         beforeEach(() => {
-            state = {
-                portalConfig: {
-                    mainMenu: {
-                        expanded: true,
-                        title: {
-                            text: "Title"
-                        },
-                        sections: []
-                    }
-                }
+            portalConfig = {
+                mainMenu: {
+                    expanded: true,
+                    title: {
+                        text: "Title"
+                    },
+                    sections: []
+                },
+                secondaryMenu: {}
+            };
+            myGetters = {
+                menuFromConfig: (menuName) => portalConfig[menuName],
+                controlsConfig: {}
             };
         });
 
         it("configuredModules no sections in mainMenu", () => {
-            expect(getters.configuredModules(state).length).to.be.equals(0);
+            expect(getters.configuredModules(null, myGetters).length).to.be.equals(0);
         });
         it("configuredModules only mainMenu", () => {
-            state.portalConfig.mainMenu.sections.push(section1);
-            expect(getters.configuredModules(state).length).to.be.equals(4);
-            expect(getters.configuredModules(state)[0].type).to.be.equals("fileImport");
-            expect(getters.configuredModules(state)[1].type).to.be.equals("openConfig");
-            expect(getters.configuredModules(state)[2].type).to.be.equals("contact");
-            expect(getters.configuredModules(state)[3].type).to.be.equals("language");
+            portalConfig.mainMenu.sections.push(section1);
+            expect(getters.configuredModules(null, myGetters).length).to.be.equals(4);
+            expect(getters.configuredModules(null, myGetters)[0].type).to.be.equals("fileImport");
+            expect(getters.configuredModules(null, myGetters)[1].type).to.be.equals("openConfig");
+            expect(getters.configuredModules(null, myGetters)[2].type).to.be.equals("contact");
+            expect(getters.configuredModules(null, myGetters)[3].type).to.be.equals("language");
         });
         it("configuredModules only mainMenu with 2 sections", () => {
-            state.portalConfig.mainMenu.sections.push(section1);
-            state.portalConfig.mainMenu.sections.push(section2);
-            expect(getters.configuredModules(state).length).to.be.equals(6);
-            expect(getters.configuredModules(state)[0].type).to.be.equals("fileImport");
-            expect(getters.configuredModules(state)[1].type).to.be.equals("openConfig");
-            expect(getters.configuredModules(state)[2].type).to.be.equals("contact");
-            expect(getters.configuredModules(state)[3].type).to.be.equals("language");
-            expect(getters.configuredModules(state)[4].type).to.be.equals("print");
-            expect(getters.configuredModules(state)[5].type).to.be.equals("draw");
+            portalConfig.mainMenu.sections.push(section1);
+            portalConfig.mainMenu.sections.push(section2);
+            expect(getters.configuredModules(null, myGetters).length).to.be.equals(6);
+            expect(getters.configuredModules(null, myGetters)[0].type).to.be.equals("fileImport");
+            expect(getters.configuredModules(null, myGetters)[1].type).to.be.equals("openConfig");
+            expect(getters.configuredModules(null, myGetters)[2].type).to.be.equals("contact");
+            expect(getters.configuredModules(null, myGetters)[3].type).to.be.equals("language");
+            expect(getters.configuredModules(null, myGetters)[4].type).to.be.equals("print");
+            expect(getters.configuredModules(null, myGetters)[5].type).to.be.equals("draw");
         });
         it("configuredModules mainMenu with 2 sections and secondary menu with one section", () => {
-            state.portalConfig.mainMenu.sections.push(section1);
-            state.portalConfig.mainMenu.sections.push(section2);
-            state.portalConfig.secondaryMenu = {};
-            state.portalConfig.secondaryMenu.sections = [];
-            state.portalConfig.secondaryMenu.sections.push(section1);
-            expect(getters.configuredModules(state).length).to.be.equals(10);
-            expect(getters.configuredModules(state)[0].type).to.be.equals("fileImport");
-            expect(getters.configuredModules(state)[1].type).to.be.equals("openConfig");
-            expect(getters.configuredModules(state)[2].type).to.be.equals("contact");
-            expect(getters.configuredModules(state)[3].type).to.be.equals("language");
-            expect(getters.configuredModules(state)[4].type).to.be.equals("print");
-            expect(getters.configuredModules(state)[5].type).to.be.equals("draw");
-            expect(getters.configuredModules(state)[6].type).to.be.equals("fileImport");
-            expect(getters.configuredModules(state)[7].type).to.be.equals("openConfig");
-            expect(getters.configuredModules(state)[8].type).to.be.equals("contact");
-            expect(getters.configuredModules(state)[9].type).to.be.equals("language");
+            portalConfig.mainMenu.sections.push(section1);
+            portalConfig.mainMenu.sections.push(section2);
+            portalConfig.secondaryMenu = {};
+            portalConfig.secondaryMenu.sections = [];
+            portalConfig.secondaryMenu.sections.push(section1);
+            expect(getters.configuredModules(null, myGetters).length).to.be.equals(10);
+            expect(getters.configuredModules(null, myGetters)[0].type).to.be.equals("fileImport");
+            expect(getters.configuredModules(null, myGetters)[1].type).to.be.equals("openConfig");
+            expect(getters.configuredModules(null, myGetters)[2].type).to.be.equals("contact");
+            expect(getters.configuredModules(null, myGetters)[3].type).to.be.equals("language");
+            expect(getters.configuredModules(null, myGetters)[4].type).to.be.equals("print");
+            expect(getters.configuredModules(null, myGetters)[5].type).to.be.equals("draw");
+            expect(getters.configuredModules(null, myGetters)[6].type).to.be.equals("fileImport");
+            expect(getters.configuredModules(null, myGetters)[7].type).to.be.equals("openConfig");
+            expect(getters.configuredModules(null, myGetters)[8].type).to.be.equals("contact");
+            expect(getters.configuredModules(null, myGetters)[9].type).to.be.equals("language");
         });
         it("configuredModules mainMenu with 2 sections and secondary menu with 2 section", () => {
-            state.portalConfig.mainMenu.sections.push(section1);
-            state.portalConfig.mainMenu.sections.push(section2);
-            state.portalConfig.secondaryMenu = {};
-            state.portalConfig.secondaryMenu.sections = [];
-            state.portalConfig.secondaryMenu.sections.push(section1);
-            state.portalConfig.secondaryMenu.sections.push(section2);
-            expect(getters.configuredModules(state).length).to.be.equals(12);
-            expect(getters.configuredModules(state)[0].type).to.be.equals("fileImport");
-            expect(getters.configuredModules(state)[1].type).to.be.equals("openConfig");
-            expect(getters.configuredModules(state)[2].type).to.be.equals("contact");
-            expect(getters.configuredModules(state)[3].type).to.be.equals("language");
-            expect(getters.configuredModules(state)[4].type).to.be.equals("print");
-            expect(getters.configuredModules(state)[5].type).to.be.equals("draw");
-            expect(getters.configuredModules(state)[6].type).to.be.equals("fileImport");
-            expect(getters.configuredModules(state)[7].type).to.be.equals("openConfig");
-            expect(getters.configuredModules(state)[8].type).to.be.equals("contact");
-            expect(getters.configuredModules(state)[9].type).to.be.equals("language");
-            expect(getters.configuredModules(state)[10].type).to.be.equals("print");
-            expect(getters.configuredModules(state)[11].type).to.be.equals("draw");
+            portalConfig.mainMenu.sections.push(section1);
+            portalConfig.mainMenu.sections.push(section2);
+            portalConfig.secondaryMenu = {};
+            portalConfig.secondaryMenu.sections = [];
+            portalConfig.secondaryMenu.sections.push(section1);
+            portalConfig.secondaryMenu.sections.push(section2);
+            expect(getters.configuredModules(null, myGetters).length).to.be.equals(12);
+            expect(getters.configuredModules(null, myGetters)[0].type).to.be.equals("fileImport");
+            expect(getters.configuredModules(null, myGetters)[1].type).to.be.equals("openConfig");
+            expect(getters.configuredModules(null, myGetters)[2].type).to.be.equals("contact");
+            expect(getters.configuredModules(null, myGetters)[3].type).to.be.equals("language");
+            expect(getters.configuredModules(null, myGetters)[4].type).to.be.equals("print");
+            expect(getters.configuredModules(null, myGetters)[5].type).to.be.equals("draw");
+            expect(getters.configuredModules(null, myGetters)[6].type).to.be.equals("fileImport");
+            expect(getters.configuredModules(null, myGetters)[7].type).to.be.equals("openConfig");
+            expect(getters.configuredModules(null, myGetters)[8].type).to.be.equals("contact");
+            expect(getters.configuredModules(null, myGetters)[9].type).to.be.equals("language");
+            expect(getters.configuredModules(null, myGetters)[10].type).to.be.equals("print");
+            expect(getters.configuredModules(null, myGetters)[11].type).to.be.equals("draw");
         });
         it("configuredModules only mainMenu with 2 sections and startModule", () => {
-            state.portalConfig.mainMenu.sections.push(section1);
-            state.portalConfig.mainMenu.sections.push(section2);
-            state.portalConfig.map = {};
-            state.portalConfig.map.controls = {};
-            state.portalConfig.map.controls.startModule = {};
-            state.portalConfig.map.controls.startModule.mainMenu = [{
-                "type": "test"
-            }];
-            state.portalConfig.map.controls.startModule.secondaryMenu = [{
-                "type": "vcOblique"
-            }];
-            expect(getters.configuredModules(state).length).to.be.equals(8);
-            expect(getters.configuredModules(state)[0].type).to.be.equals("fileImport");
-            expect(getters.configuredModules(state)[1].type).to.be.equals("openConfig");
-            expect(getters.configuredModules(state)[2].type).to.be.equals("contact");
-            expect(getters.configuredModules(state)[3].type).to.be.equals("language");
-            expect(getters.configuredModules(state)[4].type).to.be.equals("print");
-            expect(getters.configuredModules(state)[5].type).to.be.equals("draw");
-            expect(getters.configuredModules(state)[6].type).to.be.equals("test");
-            expect(getters.configuredModules(state)[7].type).to.be.equals("vcOblique");
+            portalConfig.mainMenu.sections.push(section1);
+            portalConfig.mainMenu.sections.push(section2);
+            myGetters.controlsConfig = {
+                startModule: {
+                    mainMenu: [{
+                        "type": "test"
+                    }],
+                    secondaryMenu: [{
+                        "type": "vcOblique"
+                    }]
+                }
+            };
+            expect(getters.configuredModules(null, myGetters).length).to.be.equals(8);
+            expect(getters.configuredModules(null, myGetters)[0].type).to.be.equals("fileImport");
+            expect(getters.configuredModules(null, myGetters)[1].type).to.be.equals("openConfig");
+            expect(getters.configuredModules(null, myGetters)[2].type).to.be.equals("contact");
+            expect(getters.configuredModules(null, myGetters)[3].type).to.be.equals("language");
+            expect(getters.configuredModules(null, myGetters)[4].type).to.be.equals("print");
+            expect(getters.configuredModules(null, myGetters)[5].type).to.be.equals("draw");
+            expect(getters.configuredModules(null, myGetters)[6].type).to.be.equals("test");
+            expect(getters.configuredModules(null, myGetters)[7].type).to.be.equals("vcOblique");
         });
     });
     describe("showLayerAddButton", () => {

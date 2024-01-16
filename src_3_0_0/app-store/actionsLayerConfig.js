@@ -227,14 +227,8 @@ export default {
      */
     extendLayers ({dispatch, getters, state}) {
         let layerContainer = [];
-        const orderedLayerConfigKeys = Object.keys(state.layerConfig).sort((a, b) => treeOrder.indexOf(a) - treeOrder.indexOf(b));
 
         dispatch("addBaselayerAttribute");
-
-        orderedLayerConfigKeys.forEach(layerConfigKey => {
-            state.layerConfig[layerConfigKey]?.elements?.reverse();
-        });
-
         layerContainer = getNestedValues(state.layerConfig, "elements", true).flat(Infinity);
         if (state.portalConfig?.tree?.type === "auto") {
             dispatch("processTreeTypeAuto", layerContainer);

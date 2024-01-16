@@ -541,7 +541,8 @@
       "iconSubMenu": "Weitere Funktionen anzeigen",
       "iconTransparency": "Transparenz",
       "infosAndLegend": "Informationen zum Datensatz anzeigen",
-      "invisibleLayer": "Dieses Thema kann nur im Maßstab {{minScale}} - {{maxScale}} angezeigt werden"
+      "invisibleLayer": "Dieses Thema kann nur im Maßstab {{minScale}} - {{maxScale}} angezeigt werden",
+      "invisibleLayerNoScale": "Dieses Thema kann in diesem Maßstab nicht angezeigt werden"
     },
     "legend": {
       "description": "Erhalte Informationen zu den Objekten in der Karte",

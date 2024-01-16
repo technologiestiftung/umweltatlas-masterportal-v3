@@ -15,7 +15,9 @@
 ### Removed
 
 ### Fixed
+- Layer selection: The order of the layers corresponds to the order of the layers in config.json.
 
+---
 ## 2023-12-18 v3.0.0 - beta2
 ### __Breaking Changes__
 - Dropped support for NodeJS 16 and Npm 8

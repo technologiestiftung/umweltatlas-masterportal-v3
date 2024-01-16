@@ -393,22 +393,12 @@ describe("src_3_0_0/app-store/actionsLayerConfig.js", () => {
             expect(dispatch.firstCall.args[1]).to.be.undefined;
             expect(dispatch.secondCall.args[0]).to.equals("updateLayerConfigs");
             expect(dispatch.secondCall.args[1]).to.deep.equals([
-                {
-                    id: "452"
-                },
-                {
-                    id: "453",
-                    visibility: true
-                },
-                {
-                    id: "10220"
-                },
-                {
-                    id: "1132",
-                    name: "100 Jahre Stadtgruen POIs",
-                    visibility: true
-                }
-            ]);
+                {id: "453", visibility: true},
+                {id: "452"},
+                {id: "1132", name: "100 Jahre Stadtgruen POIs", visibility: true},
+                {id: "10220"}
+            ]
+            );
         });
 
         it("extend layer configs for custom tree", () => {
@@ -421,25 +411,15 @@ describe("src_3_0_0/app-store/actionsLayerConfig.js", () => {
             expect(dispatch.secondCall.args[0]).to.equals("updateLayerConfigs");
             expect(dispatch.secondCall.args[1]).to.deep.equals([
                 {
-                    id: "453"
-                },
-                {
                     id: ["717", "718", "719"],
                     visibility: true,
                     name: "Geobasiskarten (farbig)"
                 },
-                {
-                    id: "1103"
-                },
-                {
-                    id: "10220"
-                },
-                {
-                    id: "10220"
-                },
-                {
-                    id: "451"
-                }
+                {id: "453"},
+                {id: "1103"},
+                {id: "10220"},
+                {id: "10220"},
+                {id: "451"}
             ]);
         });
 
@@ -504,29 +484,13 @@ describe("src_3_0_0/app-store/actionsLayerConfig.js", () => {
             expect(dispatch.firstCall.args[1]).to.be.undefined;
             expect(dispatch.secondCall.args[0]).to.equals("updateLayerConfigs");
             expect(dispatch.secondCall.args[1]).to.deep.equals([
-                {
-                    id: "717",
-                    visibility: true
-                },
-                {
-                    id: "718",
-                    visibility: true
-                },
-                {
-                    id: "719"
-                },
-                {
-                    id: "1103",
-                    visibility: true
-                },
-                {
-                    id: "10220"
-                },
-                {
-                    id: "1132",
-                    name: "100 Jahre Stadtgruen POIs",
-                    visibility: true
-                }
+                {id: "1132", name: "100 Jahre Stadtgruen POIs", visibility: true},
+                {id: "10220"},
+                {id: "717", visibility: true},
+                {id: "718", visibility: true},
+                {id: "719"},
+                {id: "1103", visibility: true}
+
             ]);
         });
 

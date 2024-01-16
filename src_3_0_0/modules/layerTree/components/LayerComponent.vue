@@ -37,7 +37,7 @@ export default {
         ...mapGetters("Maps", ["mode", "scale", "scales"])
     },
     mounted () {
-        if (this.conf.maxScale) {
+        if (this.conf.maxScale && this.conf.minScale) {
             let minScale = parseInt(this.conf.minScale, 10);
 
             if (minScale === 0) {
@@ -47,6 +47,9 @@ export default {
                 minScale: "1: " + thousandsSeparator(minScale),
                 maxScale: "1: " + thousandsSeparator(parseInt(this.conf.maxScale, 10), ".")
             });
+        }
+        else if (this.conf.maxScale || this.conf.minScale) {
+            this.tooltipText = this.$t("common:modules.layerTree.invisibleLayerNoScale");
         }
     },
     methods: {
