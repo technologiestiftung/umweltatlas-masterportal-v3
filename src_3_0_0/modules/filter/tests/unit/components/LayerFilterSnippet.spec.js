@@ -49,7 +49,8 @@ describe("src_3_0_0/modules/filter/components/LayerFilterSnippet.vue", () => {
                         type: "something external"
                     }
                 },
-                mapHandler
+                mapHandler,
+                layerSelectorVisible: false
             }
         });
     });
@@ -96,7 +97,8 @@ describe("src_3_0_0/modules/filter/components/LayerFilterSnippet.vue", () => {
                         filterId: 1,
                         searchInMapExtent: true
                     },
-                    mapHandler
+                    mapHandler,
+                    layerSelectorVisible: false
                 }
             });
             wrapper.setData({outOfZoom: false});
@@ -323,7 +325,8 @@ describe("src_3_0_0/modules/filter/components/LayerFilterSnippet.vue", () => {
                         },
                         searchInMapExtent: true
                     },
-                    mapHandler
+                    mapHandler,
+                    layerSelectorVisible: false
                 }
             });
             expect(mapHandler.activateLayer.calledOnce).to.be.true;
@@ -488,7 +491,8 @@ describe("src_3_0_0/modules/filter/components/LayerFilterSnippet.vue", () => {
                         filterOnMove: true
                     },
                     mapHandler,
-                    openMultipleAccordeons: false
+                    openMultipleAccordeons: false,
+                    layerSelectorVisible: false
                 }
             });
 
@@ -511,7 +515,8 @@ describe("src_3_0_0/modules/filter/components/LayerFilterSnippet.vue", () => {
                             type: "something external"
                         }
                     },
-                    mapHandler
+                    mapHandler,
+                    layerSelectorVisible: false
                 }
             });
             await wrapper.vm.$nextTick();
@@ -535,7 +540,8 @@ describe("src_3_0_0/modules/filter/components/LayerFilterSnippet.vue", () => {
                         "minZoom": 15,
                         "maxZoom": 18
                     },
-                    mapHandler
+                    mapHandler,
+                    layerSelectorVisible: false
                 }
             });
             await wrapper.vm.$nextTick();
