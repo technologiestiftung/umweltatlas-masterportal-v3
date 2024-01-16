@@ -67,28 +67,25 @@ describe("src_3_0_0/modules/coordToolkit/components/CoordToolkit.vue", () => {
             target: {
                 value: "http://www.opengis.net/gml/srs/epsg.xml#4326"
             }
-        },
-        copyCoordinatesSpy = sinon.spy();
+        };
     let store,
         wrapper,
         isMobile,
         text = "",
         origvalidateInput,
         originitHeightLayer,
-        origcopyCoordinates,
         origtransformCoordinatesFromTo,
-        origPositionClicked;
+        origPositionClicked,
+        copyStub;
 
     beforeEach(() => {
         origvalidateInput = CoordToolkit.actions.validateInput;
         isMobile = false;
         originitHeightLayer = CoordToolkit.actions.initHeightLayer;
-        origcopyCoordinates = CoordToolkit.actions.copyCoordinates;
         origtransformCoordinatesFromTo = CoordToolkit.actions.transformCoordinatesFromTo;
         origPositionClicked = CoordToolkit.actions.positionClicked;
         CoordToolkit.actions.validateInput = sinon.spy();
         CoordToolkit.actions.initHeightLayer = sinon.spy();
-        CoordToolkit.actions.copyCoordinates = sinon.spy();
         CoordToolkit.actions.transformCoordinatesFromTo = sinon.spy();
         CoordToolkit.actions.positionClicked = sinon.spy();
 
@@ -115,16 +112,15 @@ describe("src_3_0_0/modules/coordToolkit/components/CoordToolkit.vue", () => {
 
                 }
             },
-            actions: {
-                copyCoordinates: copyCoordinatesSpy
-            },
             getters: {
                 uiStyle: () => "",
                 isMobile: () => isMobile,
                 namedProjections: () => namedProjections
             },
             state: {
-                configJson: mockConfigJson
+                configJson: mockConfigJson,
+                coordinatesEasting: {id: "easting", value: "12345"},
+                coordinatesNorthing: {id: "northing", value: "67890"}
             }
         });
         crs.registerProjections(namedProjections);
@@ -135,14 +131,13 @@ describe("src_3_0_0/modules/coordToolkit/components/CoordToolkit.vue", () => {
                 text = aText;
             }
         };
-        sinon.stub(navigator.clipboard, "writeText").resolves(text);
+        copyStub = sinon.stub(navigator.clipboard, "writeText").resolves(text);
     });
 
     afterEach(() => {
         sinon.restore();
         CoordToolkit.actions.validateInput = origvalidateInput;
         CoordToolkit.actions.initHeightLayer = originitHeightLayer;
-        CoordToolkit.actions.copyCoordinates = origcopyCoordinates;
         CoordToolkit.actions.transformCoordinatesFromTo = origtransformCoordinatesFromTo;
         CoordToolkit.actions.positionClicked = origPositionClicked;
     });
@@ -530,6 +525,26 @@ describe("src_3_0_0/modules/coordToolkit/components/CoordToolkit.vue", () => {
             expect(wrapper.vm.getClassForNorthing()).to.be.equals("northingToTopTwoErrors");
             store.commit("Modules/CoordToolkit/setEastingNoCoord", true);
             expect(wrapper.vm.getClassForNorthing()).to.be.equals("northingToTopTwoErrorsEastNoValue");
+        });
+        it("copyCoords one value", async () => {
+            wrapper = shallowMount(CoordToolkitComponent, {
+                global: {
+                    plugins: [store]
+                }});
+            wrapper.vm.copyCoords(["coordinatesEastingField"]);
+            await wrapper.vm.$nextTick();
+
+            expect(copyStub.calledOnce).to.be.true;
+        });
+        it("copyCoords two values", async () => {
+            wrapper = shallowMount(CoordToolkitComponent, {
+                global: {
+                    plugins: [store]
+                }});
+            wrapper.vm.copyCoords(["coordinatesEastingField", "coordinatesNorthingField"]);
+            await wrapper.vm.$nextTick();
+
+            expect(copyStub.calledOnce).to.be.true;
         });
     });
 
