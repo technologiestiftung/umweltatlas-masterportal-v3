@@ -1,7 +1,7 @@
 import {createStore} from "vuex";
 import {expect} from "chai";
 import sinon from "sinon";
-import {config, shallowMount} from "@vue/test-utils";
+import {config, shallowMount, mount} from "@vue/test-utils";
 import crs from "@masterportal/masterportalapi/src/crs";
 import CoordToolkitComponent from "../../../components/CoordToolkit.vue";
 import CoordToolkit from "../../../store/indexCoordToolkit";
@@ -526,21 +526,31 @@ describe("src_3_0_0/modules/coordToolkit/components/CoordToolkit.vue", () => {
             store.commit("Modules/CoordToolkit/setEastingNoCoord", true);
             expect(wrapper.vm.getClassForNorthing()).to.be.equals("northingToTopTwoErrorsEastNoValue");
         });
+
         it("copyCoords one value", async () => {
-            wrapper = shallowMount(CoordToolkitComponent, {
+            let input = null;
+
+            wrapper = mount(CoordToolkitComponent, {
                 global: {
                     plugins: [store]
                 }});
+            wrapper.vm.changeMode("search");
+            input = wrapper.find("#coordinatesEastingField");
+            input.element.value = "12345.67";
+            await input.trigger("input");
             wrapper.vm.copyCoords(["coordinatesEastingField"]);
-            await wrapper.vm.$nextTick();
 
             expect(copyStub.calledOnce).to.be.true;
+            expect(copyStub.firstCall.args[0]).to.be.equals("12345.67");
         });
+
+
         it("copyCoords two values", async () => {
             wrapper = shallowMount(CoordToolkitComponent, {
                 global: {
                     plugins: [store]
                 }});
+
             wrapper.vm.copyCoords(["coordinatesEastingField", "coordinatesNorthingField"]);
             await wrapper.vm.$nextTick();
 

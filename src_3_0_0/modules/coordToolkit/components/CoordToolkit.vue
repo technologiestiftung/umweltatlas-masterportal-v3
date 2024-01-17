@@ -443,7 +443,7 @@ export default {
             let values = [];
 
             ids.forEach(id => {
-                const el = document.getElementById(id);
+                const el = this.$refs[id];
 
                 if (el) {
                     values.push(el.value);
@@ -561,6 +561,7 @@ export default {
             <div :class="getClassForEasting()">
                 <InputText
                     :id="'coordinatesEastingField'"
+                    ref="coordinatesEastingField"
                     :value="coordinatesEasting.value"
                     :label="$t(getLabel('eastingLabel'))"
                     :placeholder="isEnabled('search') ? $t('common:modules.coordToolkit.exampleAcronym') + coordinatesEastingExample : ''"
@@ -609,6 +610,7 @@ export default {
             <div :class="getClassForNorthing()">
                 <InputText
                     :id="'coordinatesNorthingField'"
+                    ref="coordinatesNorthingField"
                     :label="$t(getLabel('northingLabel'))"
                     :placeholder="isEnabled('search') ? $t('common:modules.coordToolkit.exampleAcronym') + coordinatesNorthingExample : ''"
                     :value="coordinatesNorthing.value"
