@@ -155,7 +155,7 @@ SearchInterfaceVisibleVector.prototype.getImageSourceFromStyle = function (layer
  * @returns {Object} The possible actions.
  */
 SearchInterfaceVisibleVector.prototype.createPossibleActions = function (feature, layer) {
-    const centerCoordinate = olExtent.getCenter(feature.getGeometry().getExtent());
+    const centerCoordinate = this.getCoordinates(feature);
 
     return {
         openGetFeatureInfo: {
@@ -163,7 +163,9 @@ SearchInterfaceVisibleVector.prototype.createPossibleActions = function (feature
             layer: layer
         },
         setMarker: {
-            coordinates: centerCoordinate
+            coordinates: centerCoordinate,
+            feature: feature,
+            layer: layer
         },
         zoomToResult: {
             coordinates: centerCoordinate
@@ -174,3 +176,36 @@ SearchInterfaceVisibleVector.prototype.createPossibleActions = function (feature
         }
     };
 };
+
+/**
+ * Returns the center coordinates of the features extent.
+ * If feature is of type MultiPolygon random coordinates inside the polygon are returned.
+ * @param {Object} feature The search result feature of visibleVector.
+ * @returns {Array} the center coordinates of the feature
+ */
+SearchInterfaceVisibleVector.prototype.getCoordinates = function (feature) {
+    let centerCoordinate = olExtent.getCenter(feature.getGeometry().getExtent());
+
+    if (feature?.getGeometry().getType() === "MultiPolygon") {
+        if (!feature.getGeometry().intersectsCoordinate(centerCoordinate)) {
+            centerCoordinate = this.getRandomCoordinate(feature.getGeometry().getCoordinates());
+        }
+    }
+    return centerCoordinate;
+};
+
+/**
+ * Determines a random coordinate given within a polygon.
+ * @param {Array} coordinates - the coordinates within a polygon.
+ * @returns {Array} - returns a random coordinate.
+ */
+SearchInterfaceVisibleVector.prototype.getRandomCoordinate = function (coordinates) {
+    if (Array.isArray(coordinates) && coordinates[coordinates.length - 1]) {
+        const randomIndex = Math.floor(Math.random() * coordinates.length);
+
+        return this.getRandomCoordinate(coordinates[randomIndex]);
+    }
+    return coordinates;
+};
+
+

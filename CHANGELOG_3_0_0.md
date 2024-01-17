@@ -17,7 +17,11 @@
 ### Removed
 
 ### Fixed
+- Issue #1084: fix wrong pointMarker placement when featureType is MultiPolygon. 
 - Layer selection: The order of the layers corresponds to the order of the layers in config.json.
+- Fixed HighlightFeature for MultiPolygons: In certain WFS layers, when polygon selection is enabled,
+    clicking on a polygon would highlight it, but multiPolygons wouldn't. This has now been corrected.
+---
 
 ---
 ## 2023-12-18 v3.0.0 - beta2

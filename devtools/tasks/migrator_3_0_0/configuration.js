@@ -26,7 +26,8 @@ const toolsNotToMigrate = [
         "verkehrsfunctions",
         "vpiDashboard",
         "vueAddon",
-        "wholeCityList"
+        "wholeCityList",
+        "staticlinks"
     ],
     deprecated = ["searchByCoord", "supplyCoord", "parcelSearch", "extendedFilter"],
     // toRemoveFromTools => attributes not to provide at tool-configs in v3.0.0

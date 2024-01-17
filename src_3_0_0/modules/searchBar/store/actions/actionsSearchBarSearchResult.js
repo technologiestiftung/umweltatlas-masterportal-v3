@@ -2,6 +2,7 @@ import {treeSubjectsKey} from "../../../../shared/js/utils/constants";
 import WKTUtil from "../../../../shared/js/utils/getWKTGeom";
 import wmsGFIUtil from "../../../../shared/js/utils/getWmsFeaturesByMimeType";
 import {rawLayerList} from "@masterportal/masterportalapi/src";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 
 
 /**
@@ -140,9 +141,28 @@ export default {
      * @param {Array} payload.coordinates The coordinates to show marker at.
      * @returns {void}
      */
-    setMarker: ({dispatch}, {coordinates}) => {
+    setMarker: ({dispatch}, {coordinates, feature, layer}) => {
         const numberCoordinates = coordinates?.map(coordinate => parseFloat(coordinate, 10));
 
+        if (layer && feature?.getGeometry().getType() === "MultiPolygon") {
+            // todo hier auch den highlightVectorRules style vom gfi nehmen? Sonst wird der GFI style genommen, aber wenn man über das Suchergebnis hovert, dann sieht es grün aus!
+            const highlightObject = {},
+                styleObject = styleList.returnStyleObject("defaultMapMarkerPolygon"),
+                style = styleObject.rules[0].style,
+                fill = {
+                    color: `rgb(${style.polygonFillColor.join(", ")})`
+                },
+                stroke = {
+                    color: `rgb(${style.polygonStrokeColor.join(", ")})`,
+                    width: style.polygonStrokeWidth[0]
+                };
+
+            highlightObject.highlightStyle = {fill, stroke};
+            highlightObject.type = "highlightMultiPolygon";
+            highlightObject.feature = feature;
+            highlightObject.styleId = layer.get("styleId");
+            dispatch("Maps/highlightFeature", highlightObject, {root: true});
+        }
         dispatch("Maps/placingPointMarker", numberCoordinates, {root: true});
     },
 

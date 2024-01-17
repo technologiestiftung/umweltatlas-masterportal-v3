@@ -97,21 +97,22 @@ function addSearchbar (data, mainMenu) {
     if (data[PORTALCONFIG_OLD].searchBar) {
         const oldSearchbar = data[PORTALCONFIG_OLD].searchBar,
             newSearchbar = {
-                searchInterfaces: {}
+                searchInterfaces: []
             };
 
         Object.entries(oldSearchbar).forEach(([searchName, searchConfig]) => {
             if (typeof searchConfig === "object") {
-                let searchKey = searchName;
+                let searchType = searchName;
 
-                if (searchConfig.minchars === 3) {
+                if (searchConfig.minChars === 3) {
                     delete searchConfig.minchars;
                 }
                 if (searchName === "tree") {
-                    searchKey = "topicTree";
+                    searchType = "topicTree";
                 }
-                console.info("   searchbar entry " + searchKey);
-                newSearchbar.searchInterfaces[searchKey] = searchConfig;
+                searchConfig.type = searchType;
+                console.info("   searchbar entry " + searchType);
+                newSearchbar.searchInterfaces.push(searchConfig);
             }
         });
         mainMenu.searchBar = newSearchbar;

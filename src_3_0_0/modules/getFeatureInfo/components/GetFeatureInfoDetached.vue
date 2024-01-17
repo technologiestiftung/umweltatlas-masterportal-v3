@@ -155,6 +155,15 @@ export default {
                             };
                             break;
                         }
+                        case "MultiPolygon":
+                        {
+                            highlightObject.type = "highlightMultiPolygon";
+                            highlightObject.highlightStyle = {
+                                fill: this.highlightVectorRules.fill,
+                                stroke: this.highlightVectorRules.stroke
+                            };
+                            break;
+                        }
                         case "LineString":
                         {
                             highlightObject.type = "highlightLine";
