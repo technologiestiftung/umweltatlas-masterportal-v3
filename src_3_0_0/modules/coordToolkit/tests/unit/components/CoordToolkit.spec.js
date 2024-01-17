@@ -537,24 +537,42 @@ describe("src_3_0_0/modules/coordToolkit/components/CoordToolkit.vue", () => {
             wrapper.vm.changeMode("search");
             input = wrapper.find("#coordinatesEastingField");
             input.element.value = "12345.67";
+
+            expect(wrapper.find(".toast").classes("show")).to.be.false;
             await input.trigger("input");
             wrapper.vm.copyCoords(["coordinatesEastingField"]);
 
             expect(copyStub.calledOnce).to.be.true;
             expect(copyStub.firstCall.args[0]).to.be.equals("12345.67");
+            expect(wrapper.find(".toast").classes("show")).to.be.true;
         });
 
 
         it("copyCoords two values", async () => {
-            wrapper = shallowMount(CoordToolkitComponent, {
+            let input = null;
+
+            wrapper = mount(CoordToolkitComponent, {
                 global: {
                     plugins: [store]
                 }});
+
+            wrapper.vm.changeMode("search");
+            input = wrapper.find("#coordinatesEastingField");
+            input.element.value = "12345.67";
+            await input.trigger("input");
+
+            input = wrapper.find("#coordinatesNorthingField");
+            input.element.value = "45678.12";
+            await input.trigger("input");
+
+            expect(wrapper.find(".toast").classes("show")).to.be.false;
 
             wrapper.vm.copyCoords(["coordinatesEastingField", "coordinatesNorthingField"]);
             await wrapper.vm.$nextTick();
 
             expect(copyStub.calledOnce).to.be.true;
+            expect(copyStub.firstCall.args[0]).to.be.equals("45678.12|12345.67");
+            expect(wrapper.find(".toast").classes("show")).to.be.true;
         });
     });
 
