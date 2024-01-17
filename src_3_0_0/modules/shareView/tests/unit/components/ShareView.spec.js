@@ -16,7 +16,10 @@ describe("src_3_0_0/modules/shareView/components/ShareView.vue", () => {
                         shareView: {
                             title: "Share",
                             icon: "bi-share",
-                            itemType: "shareView"
+                            itemType: "shareView",
+                            facebookShare: true,
+                            copyShare: true,
+                            qrShare: true
                         }
                     }
                 ]
@@ -43,7 +46,10 @@ describe("src_3_0_0/modules/shareView/components/ShareView.vue", () => {
                         ShareView: {
                             namespaced: true,
                             getters: {
-                                url: () => sinon.stub()
+                                url: () => sinon.stub(),
+                                facebookShare: () => sinon.stub(),
+                                copyShare: () => sinon.stub(),
+                                qrShare: () => sinon.stub()
                             }
                         }
                     }

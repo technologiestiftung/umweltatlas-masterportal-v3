@@ -8,6 +8,9 @@
  * @property {String[]} supportedDevices Devices on which the module is displayed.
  * @property {String[]} supportedMapModes Map mode in which this module can be used.
  * @property {String} type The type of the module.
+ * @property {Boolean} copyShare Shows if the copy link button should be there.
+ * @property {Boolean} facebookShare Shows if the facebook share button should be there.
+ * @property {Boolean} qrShare Shows if the qr Code share button should be there.
  */
 const state = {
     description: "common:modules.shareView.description",
@@ -15,7 +18,10 @@ const state = {
     name: "common:modules.shareView.name",
     supportedDevices: ["Desktop", "Mobile", "Table"],
     supportedMapModes: ["2D", "3D"],
-    type: "shareView"
+    type: "shareView",
+    copyShare: true,
+    facebookShare: false,
+    qrShare: false
 };
 
 export default state;

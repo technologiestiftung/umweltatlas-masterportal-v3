@@ -3822,9 +3822,12 @@ Modul, um einen Link zur aktuellen Karten-Ansicht zu teilen. Es kann die aktuell
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
+|copyShare|nein|Boolean|true|Gibt an, ob der Button zum Kopieren des Links im Modul sein soll.|false|
+|facebookShare|nein|Boolean|false|Gibt an, ob der Button zum Teilen des Links über Facebook im Modul sein soll.|false|
 |icon|nein|String|"bi-share"|Icon das im Menü vor dem Modulnamen angezeigt wird. Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |name|nein|String|"common:modules.shareView.name"|Name des Moduls im Menü.|false|
 |type|nein|String|"shareView"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
+|qrShare|nein|Boolean|false|Gibt an, ob der Button zum Erstellen eines QR-Codes im Modul sein soll.|false|
 
 **Beispiel**
 
@@ -3832,7 +3835,9 @@ Modul, um einen Link zur aktuellen Karten-Ansicht zu teilen. Es kann die aktuell
 {
     "icon": "bi-share",
     "name": "common:modules.shareView.name",
-    "type": "shareView"
+    "type": "shareView",
+    "facebookShare": true,
+    "qrShare": true
 }
 ```
 

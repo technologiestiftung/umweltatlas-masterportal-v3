@@ -560,7 +560,9 @@
             "type": "scaleSwitcher"
           },
           {
-            "type": "shareView"
+            "type": "shareView",
+            "facebookShare": true,
+            "qrShare": true
           },
           {
             "type": "measure"

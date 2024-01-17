@@ -21,7 +21,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Modules/ShareView", ["url"]),
+        ...mapGetters("Modules/ShareView", ["url", "facebookShare", "copyShare", "qrShare"]),
         ...mapGetters("Maps", ["getView"]),
         ...mapGetters(["visibleLayerConfigs", "isMobile"]),
 
@@ -107,7 +107,10 @@ export default {
         <div
             v-else
         >
-            <div class="col-12 mt-3">
+            <div
+                v-if="facebookShare"
+                class="col-12 mt-3"
+            >
                 <a
                     id="facebook-btn"
                     aria-label="$t('common:modules.shareView.shareFacebook')"
@@ -120,7 +123,10 @@ export default {
                     {{ $t("common:modules.shareView.shareFacebook") }}
                 </a>
             </div>
-            <div class="col-12">
+            <div
+                v-if="copyShare"
+                class="col-12"
+            >
                 <FlatButton
                     id="copy-btn"
                     aria-label="$t('common:modules.shareView.shareLink')"
@@ -129,7 +135,10 @@ export default {
                     :icon="'bi-link'"
                 />
             </div>
-            <div class="col-12">
+            <div
+                v-if="qrShare"
+                class="col-12"
+            >
                 <FlatButton
                     id="qr-btn"
                     aria-label="$t('common:modules.shareView.shareQR')"

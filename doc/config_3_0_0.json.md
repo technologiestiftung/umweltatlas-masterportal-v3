@@ -3822,9 +3822,12 @@ Module to share a link to the current map view. It is possible to share the curr
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
+|copyShare|nein|Boolean|true|Shows if the button to copy the link should be in the module.|false|
+|facebookShare|nein|Boolean|false|Shows if the button to share a link via facebook should be in the module.|false|
 |icon|no|String|"bi-share"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |name|no|String|"common:modules.shareView.name"|Name of the module in the menu.|false|
 |type|no|String|"shareView"|The type of the module. Defines which module is configured.|false|
+|qrShare|nein|Boolean|false|Shows if the button to create a qr code should be in the module.|false|
 
 **Example**
 
@@ -3832,7 +3835,9 @@ Module to share a link to the current map view. It is possible to share the curr
 {
     "icon": "bi-share",
     "name": "common:modules.shareView.name",
-    "type": "shareView"
+    "type": "shareView",
+    "facebookShare": true,
+    "qrShare": true
 }
 ```
 
