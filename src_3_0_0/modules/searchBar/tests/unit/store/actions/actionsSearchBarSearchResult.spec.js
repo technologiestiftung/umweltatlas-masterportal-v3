@@ -4,6 +4,7 @@ import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 import WKTUtil from "../../../../../../shared/js/utils/getWKTGeom";
 import wmsGFIUtil from "../../../../../../shared/js/utils/getWmsFeaturesByMimeType";
 import actions from "../../../../store/actions/actionsSearchBarSearchResult";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
 
 const {
     activateLayerInTopicTree,
@@ -379,6 +380,111 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equals("Maps/placingPointMarker");
             expect(dispatch.firstCall.args[1]).to.be.deep.equals(payload);
+        });
+
+        it("highlights multipolygon feature with style from styleList", () => {
+            const coordinates = [1234, 65432],
+                payload = [1234, 65432],
+                feature = {
+                    id: "featureId",
+                    getGeometry: () =>{
+                        return {
+                            getType: () => {
+                                return "MultiPolygon";
+                            }
+                        };
+                    }
+                },
+                layer = {
+                    get: () => {
+                        return "styleId";
+                    }
+                },
+                rootGetters = {
+                    "Modules/GetFeatureInfo/highlightVectorRules": null
+                },
+                highlightObject = {
+                    type: "highlightMultiPolygon",
+                    feature: feature,
+                    styleId: "styleId",
+                    highlightStyle: {
+                        fill: {
+                            color: "rgb(215, 102, 41, 0.9)"
+                        },
+                        stroke: {
+                            color: "rgb(215, 101, 41, 0.9)",
+                            width: 1
+                        }
+                    }
+                };
+
+            sinon.stub(styleList, "returnStyleObject").returns({
+                rules: [{
+                    style: {
+                        polygonFillColor: [215, 102, 41, 0.9],
+                        polygonStrokeColor: [215, 101, 41, 0.9],
+                        polygonStrokeWidth: [1]
+                    }
+                }]
+            });
+            setMarker({dispatch, rootGetters}, {coordinates, feature, layer});
+
+            expect(dispatch.calledTwice).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equals("Maps/highlightFeature");
+            expect(dispatch.firstCall.args[1]).to.be.deep.equals(highlightObject);
+            expect(dispatch.secondCall.args[0]).to.equals("Maps/placingPointMarker");
+            expect(dispatch.secondCall.args[1]).to.be.deep.equals(payload);
+        });
+
+        it("highlights multipolygon feature with style from GetFeatureInfo", () => {
+            const coordinates = [1234, 65432],
+                payload = [1234, 65432],
+                feature = {
+                    id: "featureId",
+                    getGeometry: () =>{
+                        return {
+                            getType: () => {
+                                return "MultiPolygon";
+                            }
+                        };
+                    }
+                },
+                layer = {
+                    get: () => {
+                        return "styleId";
+                    }
+                },
+                rootGetters = {
+                    "Modules/GetFeatureInfo/highlightVectorRules": {
+                        style: {
+                            polygonFillColor: [215, 102, 41, 0.9],
+                            polygonStrokeColor: [215, 101, 41, 0.9],
+                            polygonStrokeWidth: [1]
+                        }}
+                },
+                highlightObject = {
+                    type: "highlightMultiPolygon",
+                    feature: feature,
+                    styleId: "styleId",
+                    highlightStyle: {
+                        fill: {
+                            color: "rgb(215, 102, 41, 0.9)"
+                        },
+                        stroke: {
+                            color: "rgb(215, 101, 41, 0.9)",
+                            width: 1
+                        }
+                    }
+                };
+
+            sinon.stub(styleList, "returnStyleObject").returns(null);
+            setMarker({dispatch, rootGetters}, {coordinates, feature, layer});
+
+            expect(dispatch.calledTwice).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equals("Maps/highlightFeature");
+            expect(dispatch.firstCall.args[1]).to.be.deep.equals(highlightObject);
+            expect(dispatch.secondCall.args[0]).to.equals("Maps/placingPointMarker");
+            expect(dispatch.secondCall.args[1]).to.be.deep.equals(payload);
         });
     });
 

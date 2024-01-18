@@ -136,19 +136,24 @@ export default {
 
     /**
      * Sets the marker to the feature of the search result.
-     * @param {Object} param.dispatch the dispatch
+     * Uses the style of GFI for highlighting multi-polygon if available.
+     * @param {Object} context the vuex context
+     * @param {Object} context.dispatch the dispatch
+     * @param {Object} context.rootGetters the rootGetters
      * @param {Object} payload The payload.
      * @param {Array} payload.coordinates The coordinates to show marker at.
+     * @param {Object} payload.feature The feature to set marker at.
+     * @param {Object} payload.layer The dedicated layer.
      * @returns {void}
      */
-    setMarker: ({dispatch}, {coordinates, feature, layer}) => {
+    setMarker: ({dispatch, rootGetters}, {coordinates, feature, layer}) => {
         const numberCoordinates = coordinates?.map(coordinate => parseFloat(coordinate, 10));
 
         if (layer && feature?.getGeometry().getType() === "MultiPolygon") {
-            // todo hier auch den highlightVectorRules style vom gfi nehmen? Sonst wird der GFI style genommen, aber wenn man über das Suchergebnis hovert, dann sieht es grün aus!
             const highlightObject = {},
-                styleObject = styleList.returnStyleObject("defaultMapMarkerPolygon"),
-                style = styleObject.rules[0].style,
+                highlightVectorRules = rootGetters["Modules/GetFeatureInfo/highlightVectorRules"],
+                styleObject = highlightVectorRules ? highlightVectorRules : styleList.returnStyleObject("defaultMapMarkerPolygon"),
+                style = styleObject.rules ? styleObject.rules[0].style : styleObject.style,
                 fill = {
                     color: `rgb(${style.polygonFillColor.join(", ")})`
                 },
@@ -165,6 +170,7 @@ export default {
         }
         dispatch("Maps/placingPointMarker", numberCoordinates, {root: true});
     },
+
 
     /**
      * Open folders in layerSelection and shows layer to select.

@@ -3,6 +3,7 @@ import {expect} from "chai";
 import Feature from "ol/Feature.js";
 import {Icon} from "ol/style.js";
 import Point from "ol/geom/Point.js";
+import MultiPolygon from "ol/geom/MultiPolygon.js";
 import sinon from "sinon";
 import VectorSource from "ol/source/Vector";
 
@@ -14,14 +15,22 @@ describe("src_3_0_0/modules/searchBar/searchInterfaces/searchInterfaceVisibleVec
     let clusterLayer1,
         feature1,
         feature2,
+        featureMultiPolygon,
         layer1,
-        SearchInterface1 = null;
+        SearchInterface1 = null,
+        coordinates;
 
     before(() => {
         SearchInterface1 = new SearchInterfaceVisibleVector();
     });
 
     beforeEach(() => {
+        coordinates = [[
+            [10, 10, 0],
+            [10, 20, 0],
+            [20, 10, 0],
+            [10, 10, 0]
+        ]];
         feature1 = new Feature({
             geometry: new Point([10, 10]),
             name: "Hospital",
@@ -33,8 +42,20 @@ describe("src_3_0_0/modules/searchBar/searchInterfaces/searchInterfaceVisibleVec
             name: "School",
             searchField: "name"
         });
+        featureMultiPolygon = new Feature({
+            geometry: new MultiPolygon(coordinates),
+            name: "MultiPolygon",
+            searchField: "name"
+        });
+        featureMultiPolygon.getGeometry().getExtent = sinon.stub().returns([
+            0,
+            0,
+            500,
+            500
+        ]);
         feature1.setId("1");
         feature2.setId("2");
+        featureMultiPolygon.setId("MultiPolygon");
 
         layer1 = {
             attributes: {
@@ -81,9 +102,11 @@ describe("src_3_0_0/modules/searchBar/searchInterfaces/searchInterfaceVisibleVec
                         name: "The layer",
                         searchField: "name"
                     }],
-                    searchInput = "hos";
+                    searchInput = "hos",
+                    matchingFeatures = SearchInterface1.findMatchingFeatures(visibleVectorLayerConfigs, searchInput);
 
-                expect(SearchInterface1.findMatchingFeatures(visibleVectorLayerConfigs, searchInput)).to.deep.equals([
+                expect(matchingFeatures.length).to.equals(1);
+                expect(matchingFeatures).to.deep.equals([
                     {
                         events: {
                             onClick: {
@@ -95,7 +118,9 @@ describe("src_3_0_0/modules/searchBar/searchInterfaces/searchInterfaceVisibleVec
                                     coordinates: [
                                         10,
                                         10
-                                    ]
+                                    ],
+                                    feature: feature1,
+                                    layer: layer1
                                 },
                                 zoomToResult: {
                                     coordinates: [
@@ -109,7 +134,9 @@ describe("src_3_0_0/modules/searchBar/searchInterfaces/searchInterfaceVisibleVec
                                     coordinates: [
                                         10,
                                         10
-                                    ]
+                                    ],
+                                    feature: feature1,
+                                    layer: layer1
                                 }
                             }
                         },
@@ -169,7 +196,9 @@ describe("src_3_0_0/modules/searchBar/searchInterfaces/searchInterfaceVisibleVec
                                     coordinates: [
                                         20,
                                         20
-                                    ]
+                                    ],
+                                    feature: feature2,
+                                    layer: clusterLayer1
                                 },
                                 zoomToResult: {
                                     coordinates: [
@@ -183,7 +212,9 @@ describe("src_3_0_0/modules/searchBar/searchInterfaces/searchInterfaceVisibleVec
                                     coordinates: [
                                         20,
                                         20
-                                    ]
+                                    ],
+                                    feature: feature2,
+                                    layer: clusterLayer1
                                 }
                             }
                         },
@@ -219,7 +250,9 @@ describe("src_3_0_0/modules/searchBar/searchInterfaces/searchInterfaceVisibleVec
                                 coordinates: [
                                     10,
                                     10
-                                ]
+                                ],
+                                feature: feature1,
+                                layer: layer1
                             },
                             zoomToResult: {
                                 coordinates: [
@@ -233,7 +266,9 @@ describe("src_3_0_0/modules/searchBar/searchInterfaces/searchInterfaceVisibleVec
                                 coordinates: [
                                     10,
                                     10
-                                ]
+                                ],
+                                feature: feature1,
+                                layer: layer1
                             }
                         }
                     },
@@ -296,7 +331,9 @@ describe("src_3_0_0/modules/searchBar/searchInterfaces/searchInterfaceVisibleVec
                         coordinates: [
                             10,
                             10
-                        ]
+                        ],
+                        feature: feature1,
+                        layer: layer1
                     },
                     zoomToResult: {
                         coordinates: [
@@ -313,6 +350,36 @@ describe("src_3_0_0/modules/searchBar/searchInterfaces/searchInterfaceVisibleVec
                     }
                 }
             );
+        });
+    });
+
+
+    describe("getCoordinates", () => {
+        it("should return a random coordinate from MultiPolygon feature - center coordinates do not intersect features geometry", () => {
+            const getRandomCoordinateSpy = sinon.spy(SearchInterfaceVisibleVector.prototype, "getRandomCoordinate");
+            let result = null;
+
+            featureMultiPolygon.getGeometry().intersectsCoordinate = sinon.stub().returns(false);
+            featureMultiPolygon.getGeometry().getCoordinates = sinon.stub().returns(coordinates);
+            result = SearchInterface1.getCoordinates(featureMultiPolygon);
+
+            expect(result).to.be.an("Array");
+            expect(result.length).to.be.equals(3);
+            expect(coordinates[0]).includes(result);
+            expect(getRandomCoordinateSpy.callCount > 0).to.be.true;
+        });
+        it("should return a center coordinate from MultiPolygon feature - center coordinates do intersect features geometry", () => {
+            const getRandomCoordinateSpy = sinon.spy(SearchInterfaceVisibleVector.prototype, "getRandomCoordinate");
+            let result = null;
+
+            featureMultiPolygon.getGeometry().intersectsCoordinate = sinon.stub().returns(true);
+            featureMultiPolygon.getGeometry().getCoordinates = sinon.stub().returns(coordinates);
+            result = SearchInterface1.getCoordinates(featureMultiPolygon);
+
+            expect(result).to.be.an("Array");
+            expect(result.length).to.be.equals(2);
+            expect(result).to.be.deep.equals([250, 250]);
+            expect(getRandomCoordinateSpy.notCalled).to.be.true;
         });
     });
 });

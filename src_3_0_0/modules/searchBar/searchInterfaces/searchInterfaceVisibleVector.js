@@ -186,7 +186,7 @@ SearchInterfaceVisibleVector.prototype.createPossibleActions = function (feature
 SearchInterfaceVisibleVector.prototype.getCoordinates = function (feature) {
     let centerCoordinate = olExtent.getCenter(feature.getGeometry().getExtent());
 
-    if (feature?.getGeometry().getType() === "MultiPolygon") {
+    if (feature.getGeometry().getType() === "MultiPolygon") {
         if (!feature.getGeometry().intersectsCoordinate(centerCoordinate)) {
             centerCoordinate = this.getRandomCoordinate(feature.getGeometry().getCoordinates());
         }
