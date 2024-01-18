@@ -8,6 +8,7 @@
 
 ### Added
 - New parameter `filterOnOpen` has been added to filterLayer in Filter. If set to true, the filter is triggered when the accordeon is clicked.
+- The module Login was added.
 
 ### Changed
 
