@@ -208,10 +208,13 @@ export default {
                     >
                         {{ $t("common:modules.layerSelection.datalayer") }}
                     </h5>
-                    <nav aria-label="breadcrumb">
+                    <nav
+                        aria-label="breadcrumb"
+                        class="position-sticky top-0 bg-white py-3"
+                    >
                         <ol
                             v-if="lastFolderNames.length > 1"
-                            class="breadcrumb"
+                            class="breadcrumb mb-0"
                         >
                             <li
                                 v-for="(lastFolderName, index) in lastFolderNames"
@@ -284,9 +287,6 @@ export default {
     }
 }
 .layer-selection-navigation-dataLayer {
-    overflow-y: scroll;
-    overflow-x: hidden;
-    // height: 100%;
     @include media-breakpoint-down(md) {
         max-height: calc(100% - 120px);
     }

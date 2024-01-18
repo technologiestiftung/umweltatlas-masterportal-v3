@@ -123,7 +123,7 @@ export default {
         display: flex;
         flex-direction: column;
         align-items: stretch;
-        padding: $padding $padding $padding $padding;
+        padding: 0 $padding $padding $padding;
         font-size: $font-size-base;
         overflow-y: auto;
         max-height: 100%;
@@ -132,9 +132,11 @@ export default {
             padding: 0;
             display: none;
         }
+        div:first-child {
+            padding-top: $padding;
+        }
 
         .menu-body-component {
-            overflow-y: auto;
             /* Hide scrollbar for Firefox */
             -ms-overflow-style: none;
             scrollbar-width: none;

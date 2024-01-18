@@ -11,6 +11,7 @@
 ### Changed
 - CoordToolkit: Toast added instead of Alert for feedback after copying coordinates.
 - ShareView: Added more configuration.
+- LayerMenu: Breadcrumbs with folder location will now stick to the top when scrolling.
 
 ### Deprecated
 
