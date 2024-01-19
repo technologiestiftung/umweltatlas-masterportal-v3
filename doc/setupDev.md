@@ -151,7 +151,11 @@ $ npm run buildExamples
 
 The produced `examples.zip` and `examples-x.x.x.zip` (versioned) both contain runnable Masterportal instances (*Basic*) including a *resources* folder.
 
+
+
 ## Updating dependencies
+
+This task belongs to the owner/ package maintainers. If you don't know: Dont call the command.
 
 To update all NPM packages, run
 
