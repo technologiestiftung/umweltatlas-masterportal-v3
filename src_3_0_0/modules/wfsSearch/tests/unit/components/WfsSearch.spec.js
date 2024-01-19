@@ -155,6 +155,20 @@ describe("src_3_0_0/modules/wfsSearch/components/WfsSearch.vue", () => {
         expect(resetButton.exists()).to.be.true;
         expect(resetButton.text()).to.equal("common:modules.wfsSearch.resetButton");
     });
+    it("does not render a button to reset the UI if prop showResetButton is set to false", () => {
+        store.commit("Modules/WfsSearch/setInstances", instances);
+        const wrapper = mount(WfsSearch, {
+                global: {
+                    plugins: [store]
+                },
+                props: {
+                    showResetButton: false
+                }
+            }),
+            resetButton = wrapper.find("#module-wfsSearch-button-resetUI");
+
+        expect(resetButton.exists()).to.be.false;
+    });
     it("renders an input element of type submit to search", () => {
         store.commit("Modules/WfsSearch/setInstances", instances);
         const wrapper = mount(WfsSearch, {

@@ -11,6 +11,7 @@ import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vu
 /**
  * Wfs Search
  * @module modules/WfsSearch
+ * @vue-props {Boolean} showResetButton - Can be set to false to not render a reset button.
  * @vue-computed {Object} headers - The table heads (??).
  * @vue-computed {String} geometryName - The name of the geometry.
  * @vue-computed {Boolean} showResults - Shows if results should be displayed.
@@ -22,6 +23,13 @@ export default {
         ListItem,
         ModalItem,
         FlatButton
+    },
+    props: {
+        showResetButton: {
+            type: Boolean,
+            required: false,
+            default: true
+        }
     },
     computed: {
         ...mapGetters("Modules/WfsSearch", [
@@ -205,7 +213,10 @@ export default {
                             :disabled="requiredFields"
                         />
                     </div>
-                    <div class="col-md-12 d-flex justify-content-center">
+                    <div
+                        v-if="showResetButton"
+                        class="col-md-12 d-flex justify-content-center"
+                    >
                         <FlatButton
                             id="module-wfsSearch-button-resetUI"
                             :interaction="resetUI"
