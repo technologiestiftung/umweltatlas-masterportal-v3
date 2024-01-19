@@ -7,6 +7,7 @@ export default {
     components: {
     },
     computed: {
+        ...mapGetters(["isMobile"]),
         ...mapGetters("Modules/Login", ["loggedIn", "screenName", "email", "iconLogin", "iconLogged"])
     },
     watch: {
@@ -28,7 +29,8 @@ export default {
         setInterval(() => this.isLoggedIn(), 10_000);
     },
     methods: {
-        ...mapMutations("Modules/Login", ["setActive", "setLoginIcon"]),
+        ...mapMutations("Menu", ["setCurrentComponentPropsName"]),
+        ...mapMutations("Modules/Login", ["setActive", "setLoginIcon", "setLoggedIn", "setIcon"]),
         ...mapActions("Modules/Login", [
             "initialize",
             "logout",
@@ -124,41 +126,11 @@ export default {
          * @return {void}
          */
         setLoginIcon () {
+            const iconType = this.loggedIn ? this.iconLogged : this.iconLogin,
+                componentName = this.loggedIn ? "common:modules.login.logout" : "common:modules.login.login";
 
-            let loginTextDesktop, loginItemMobileText, icon;
-
-            const loginIconDesktop = document.querySelector("#navbarMenu .nav-menu.desktop li.nav-item a span[name=login]"),
-                loginItemMobileIcon = document.querySelector("#navbarMenu .nav-menu.mobile li span[name=login]");
-
-            if (loginIconDesktop) {
-                loginIconDesktop.parentElement.parentElement.id = "login";
-
-                loginTextDesktop = loginIconDesktop.parentElement;
-                icon = loginIconDesktop.getElementsByTagName("i")[0];
-
-                if (this.loggedIn) {
-                    icon.className = this.iconLogged;
-                    loginTextDesktop.innerHTML = String(loginIconDesktop.outerHTML) + ` ${this.translate("common:modules.login.logout")} `;
-                }
-                else {
-                    icon.className = this.iconLogin;
-                    loginTextDesktop.innerHTML = String(loginIconDesktop.outerHTML) + ` ${this.translate("common:modules.login.login")} `;
-                }
-            }
-
-            if (loginItemMobileIcon) {
-                loginItemMobileText = loginItemMobileIcon.nextElementSibling;
-                icon = loginItemMobileIcon.getElementsByTagName("i")[0];
-
-                if (this.loggedIn) {
-                    icon.className = this.iconLogged;
-                    loginItemMobileText.innerHTML = this.translate("common:modules.login.logout");
-                }
-                else {
-                    icon.className = this.iconLogin;
-                    loginItemMobileText.innerHTML = this.translate("common:modules.login.login");
-                }
-            }
+            this.setIcon(iconType);
+            this.setCurrentComponentPropsName({side: "secondaryMenu", name: componentName});
         },
         /**
          * Closes the window of login by setting store active to false.
