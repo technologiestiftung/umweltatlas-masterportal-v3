@@ -11,7 +11,7 @@
 /img/*.db
 /jsdoc
 /docHtml
-/nbproject/private/
+/nbproject/
 styleguide
 .history
 
