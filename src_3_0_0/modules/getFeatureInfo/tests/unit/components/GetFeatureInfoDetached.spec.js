@@ -22,7 +22,9 @@ describe("src_3_0_0/modules/getFeatureInfo/components/GetFeatureInfoDetached.vue
         placingPointMarkerSpy,
         layer,
         showMarker = true,
-        feature;
+        feature,
+        centerMapToClickPoint,
+        setCenterSpy;
 
     const
         mockMutations = {
@@ -30,7 +32,7 @@ describe("src_3_0_0/modules/getFeatureInfo/components/GetFeatureInfoDetached.vue
             setShowMarker: () => sinon.stub()
         },
         mockGetters = {
-            centerMapToClickPoint: () => sinon.stub(),
+            centerMapToClickPoint: () => centerMapToClickPoint,
             currentFeature: () => sinon.stub(),
             menuSide: () => sinon.stub(),
             highlightVectorRules: () => highlightVectorRules,
@@ -53,6 +55,7 @@ describe("src_3_0_0/modules/getFeatureInfo/components/GetFeatureInfoDetached.vue
 
     beforeEach(() => {
         showMarker = true;
+        centerMapToClickPoint = false;
         feature = {
             getTheme: () => "DefaultTheme",
             getTitle: () => "Hallo",
@@ -67,6 +70,7 @@ describe("src_3_0_0/modules/getFeatureInfo/components/GetFeatureInfoDetached.vue
         olFeature.setId("feature1");
         olFeature.setGeometry(new Point([10, 10]));
         getLayerByIdSpy = sinon.stub(layerCollection, "getLayerById").returns(layer);
+        setCenterSpy = sinon.spy();
         highlightFeatureSpy = sinon.spy();
         removeHighlightFeatureSpy = sinon.spy();
         placingPointMarkerSpy = sinon.spy();
@@ -95,7 +99,7 @@ describe("src_3_0_0/modules/getFeatureInfo/components/GetFeatureInfoDetached.vue
                     actions: {
                         placingPointMarker: placingPointMarkerSpy,
                         removePointMarker: sinon.stub(),
-                        setCenter: sinon.stub(),
+                        setCenter: setCenterSpy,
                         removeHighlightFeature: removeHighlightFeatureSpy,
                         highlightFeature: highlightFeatureSpy
                     },
@@ -496,6 +500,90 @@ describe("src_3_0_0/modules/getFeatureInfo/components/GetFeatureInfoDetached.vue
 
                 wrapper.vm.setMarker();
                 expect(placingPointMarkerSpy.calledTwice).to.be.true;
+            });
+            it("shall center to click coordinates, even if marker is not set", () => {
+                centerMapToClickPoint = true;
+                showMarker = false;
+                shallowMount(DetachedTemplate, {
+                    propsData: {
+                        feature: {
+                            getTheme: () => "DefaultTheme",
+                            getTitle: () => "Hallo",
+                            getMimeType: () => "text/xml",
+                            getGfiUrl: () => "",
+                            getLayerId: () => sinon.stub(),
+                            getOlFeature: () => olFeature
+                        }
+                    },
+                    components: {
+                        DefaultTheme: {
+                            name: "DefaultTheme",
+                            template: "<span />"
+                        }
+                    },
+                    global: {
+                        plugins: [store]
+                    }
+                });
+                // setMarker is called on mount
+                expect(setCenterSpy.calledOnce).to.be.true;
+                expect(placingPointMarkerSpy.notCalled).to.be.true;
+            });
+            it("shall center to click coordinates and set Marker", () => {
+                centerMapToClickPoint = true;
+                showMarker = true;
+                shallowMount(DetachedTemplate, {
+                    propsData: {
+                        feature: {
+                            getTheme: () => "DefaultTheme",
+                            getTitle: () => "Hallo",
+                            getMimeType: () => "text/xml",
+                            getGfiUrl: () => "",
+                            getLayerId: () => sinon.stub(),
+                            getOlFeature: () => olFeature
+                        }
+                    },
+                    components: {
+                        DefaultTheme: {
+                            name: "DefaultTheme",
+                            template: "<span />"
+                        }
+                    },
+                    global: {
+                        plugins: [store]
+                    }
+                });
+                // setMarker is called on mount
+                expect(setCenterSpy.calledOnce).to.be.true;
+                expect(placingPointMarkerSpy.calledOnce).to.be.true;
+            });
+            it("shall do nothing", () => {
+                centerMapToClickPoint = false;
+                showMarker = false;
+                shallowMount(DetachedTemplate, {
+                    propsData: {
+                        feature: {
+                            getTheme: () => "DefaultTheme",
+                            getTitle: () => "Hallo",
+                            getMimeType: () => "text/xml",
+                            getGfiUrl: () => "",
+                            getLayerId: () => sinon.stub(),
+                            getOlFeature: () => olFeature
+                        }
+                    },
+                    components: {
+                        DefaultTheme: {
+                            name: "DefaultTheme",
+                            template: "<span />"
+                        }
+                    },
+                    global: {
+                        plugins: [store]
+                    }
+                });
+                // setMarker is called on mount
+                expect(setCenterSpy.notCalled).to.be.true;
+                expect(placingPointMarkerSpy.notCalled).to.be.true;
             });
         });
     });
