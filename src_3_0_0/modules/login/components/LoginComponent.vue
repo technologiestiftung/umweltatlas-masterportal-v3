@@ -17,13 +17,15 @@ export default {
          */
         active (isActive) {
             if (isActive) {
-                this.checkLoginStatus();
+                if (!this.isLoggedIn()) {
+                    this.openLoginWindow();
+                }
             }
         }
     },
     mounted () {
-        this.checkLoginStatus();
-        setInterval(this.checkLoginStatus, 10000);
+        this.isLoggedIn();
+        setInterval(() => this.isLoggedIn(), 10_000);
     },
     methods: {
         ...mapMutations("Modules/Login", ["setActive", "setLoginIcon"]),
@@ -52,11 +54,12 @@ export default {
             return this.translate("common:modules.login.profile") || "Profile";
         },
 
-        checkLoginStatus () {
+        /**
+         * Returns true if user is logged in, else false
+         * @return {Boolean} logged in
+         */
+        isLoggedIn () {
             this.checkLoggedIn();
-            if (!this.loggedIn) {
-                this.openLoginWindow();
-            }
             this.setLoginIcon();
             return this.loggedIn;
         },
