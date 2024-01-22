@@ -1,7 +1,6 @@
 import {expect} from "chai";
 import {
     fetchAllOafPropertiesRecursionHelper,
-    getNextLinkFromFeatureCollection,
     getUniqueValuesFromFetchedFeatures,
     getMinMaxFromFetchedFeatures
 } from "../../../utils/fetchAllOafProperties.js";
@@ -144,54 +143,6 @@ describe("src_3_0_0/modules/filter/utils/fetchAllOafProperties.js", () => {
                 expected = {};
 
             expect(getUniqueValuesFromFetchedFeatures(properties, [])).to.deep.equal(expected);
-        });
-    });
-    describe("getNextLinkFromFeatureCollection", () => {
-        it("should return false if featureCollection is not an object", () => {
-            expect(getNextLinkFromFeatureCollection(undefined)).to.be.false;
-            expect(getNextLinkFromFeatureCollection(null)).to.be.false;
-            expect(getNextLinkFromFeatureCollection([])).to.be.false;
-            expect(getNextLinkFromFeatureCollection("string")).to.be.false;
-            expect(getNextLinkFromFeatureCollection(1234)).to.be.false;
-            expect(getNextLinkFromFeatureCollection(true)).to.be.false;
-            expect(getNextLinkFromFeatureCollection(false)).to.be.false;
-        });
-        it("should return false if featureCollection.links is not an array", () => {
-            expect(getNextLinkFromFeatureCollection({})).to.be.false;
-            expect(getNextLinkFromFeatureCollection({links: null})).to.be.false;
-            expect(getNextLinkFromFeatureCollection({links: undefined})).to.be.false;
-            expect(getNextLinkFromFeatureCollection({links: ""})).to.be.false;
-            expect(getNextLinkFromFeatureCollection({links: "string"})).to.be.false;
-            expect(getNextLinkFromFeatureCollection({links: 1234})).to.be.false;
-            expect(getNextLinkFromFeatureCollection({links: true})).to.be.false;
-            expect(getNextLinkFromFeatureCollection({links: false})).to.be.false;
-            expect(getNextLinkFromFeatureCollection({links: {}})).to.be.false;
-        });
-        it("should return false if featureCollection.links contains no objects", () => {
-            expect(getNextLinkFromFeatureCollection({links: [undefined, null, "string", 1234, true, false, []]})).to.be.false;
-        });
-        it("should return false if featureCollection.links are objects but href is not a string", () => {
-            expect(getNextLinkFromFeatureCollection({links: [
-                {href: undefined},
-                {href: null},
-                {href: []},
-                {href: {}},
-                {href: 1234},
-                {href: true},
-                {href: false}
-            ]})).to.be.false;
-        });
-        it("should return false if featureCollection.links are objects with href string but rel is not equal 'next'", () => {
-            expect(getNextLinkFromFeatureCollection({links: [{href: "string", rel: "this is not a next"}]})).to.be.false;
-        });
-        it("should return href if featureCollection.links are objects with href string and one of the rels equals 'next' and type equals 'application/geo+json'", () => {
-            expect(getNextLinkFromFeatureCollection({links: [
-                {href: "hrefA", rel: "this is not a next page"},
-                {href: "hrefB", rel: "this is not a next page"},
-                {href: "hrefC", rel: "this is not a next page"},
-                {href: "hrefD", rel: "next", type: "application/geo+json"},
-                {href: "hrefE", rel: "this is not a next page"}
-            ]})).to.equal("hrefD");
         });
     });
     describe("fetchAllOafPropertiesRecursionHelper", () => {

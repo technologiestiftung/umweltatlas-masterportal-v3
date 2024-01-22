@@ -1,3 +1,4 @@
+import getFeature from "../../../shared/js/api/oaf/getOAFFeature.js";
 import isObject from "../../../shared/js/utils/isObject.js";
 import axios from "axios";
 
@@ -55,7 +56,7 @@ function fetchAllOafPropertiesRecursionHelper (result, url, onsuccess, onerror, 
             }
             return;
         }
-        const nextLink = getNextLinkFromFeatureCollection(response.data);
+        const nextLink = getFeature.getNextLinkFromFeatureCollection(response.data);
 
         if (Array.isArray(response.data.features)) {
             response.data.features.forEach(feature => {
@@ -73,30 +74,6 @@ function fetchAllOafPropertiesRecursionHelper (result, url, onsuccess, onerror, 
             onerror(error);
         }
     });
-}
-
-/**
- * Parses the given feature collection for the next nextLink.
- * @param {Object} featureCollection the feature collection
- * @returns {String|Boolean} the next link or false if no next link exists
- */
-function getNextLinkFromFeatureCollection (featureCollection) {
-    if (!isObject(featureCollection) || !Array.isArray(featureCollection.links)) {
-        return false;
-    }
-    const len = featureCollection.links.length;
-
-    for (let i = 0; i < len; i++) {
-        if (
-            isObject(featureCollection.links[i])
-            && typeof featureCollection.links[i].href === "string"
-            && featureCollection.links[i].rel === "next"
-            && featureCollection.links[i].type === "application/geo+json"
-        ) {
-            return featureCollection.links[i].href;
-        }
-    }
-    return false;
 }
 
 /**
@@ -187,7 +164,6 @@ function getMinMaxFromFetchedFeatures (allFetchedProperties, attrName, minOnly, 
 export {
     fetchAllOafProperties,
     fetchAllOafPropertiesRecursionHelper,
-    getNextLinkFromFeatureCollection,
     getUniqueValuesFromFetchedFeatures,
     getMinMaxFromFetchedFeatures
 };
