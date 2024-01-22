@@ -353,9 +353,15 @@ export default {
         sortObjects(layers, "zIndex");
         layers.forEach(layer => {
             const param = {
-                id: layer.id,
-                visibility: layer.visibility
+                id: layer.id
             };
+
+            if (layer.visibility !== undefined) {
+                param.visibility = layer.visibility;
+            }
+            else {
+                param.visibility = false;
+            }
 
             if (layer.transparency) {
                 param.transparency = layer.transparency;

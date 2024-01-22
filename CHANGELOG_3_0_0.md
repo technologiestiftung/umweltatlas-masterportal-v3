@@ -22,6 +22,7 @@
 - Layer selection: The order of the layers corresponds to the order of the layers in config.json.
 - Fixed HighlightFeature for MultiPolygons: In certain WFS layers, when polygon selection is enabled,
     clicking on a polygon would highlight it, but multiPolygons wouldn't. This has now been corrected.
+- UrlParams: The correct layers will be visible when copying the URL.
 ---
 
 ---
