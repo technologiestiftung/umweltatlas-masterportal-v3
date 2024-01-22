@@ -209,11 +209,11 @@ export default {
                         {{ $t("common:modules.layerSelection.datalayer") }}
                     </h5>
                     <nav
+                        v-if="lastFolderNames.length > 1"
                         aria-label="breadcrumb"
                         class="position-sticky top-0 bg-white py-3"
                     >
                         <ol
-                            v-if="lastFolderNames.length > 1"
                             class="breadcrumb mb-0"
                         >
                             <li
