@@ -24,7 +24,7 @@
  */
 const state = {
     icon: "bi-door-open",
-    description: "common:modules.legend.description",
+    description: "common:modules.login.description",
     hasMouseMapInteractions: false,
     name: "common:modules.login.login",
     supportedDevices: ["Desktop", "Mobile", "Table"],

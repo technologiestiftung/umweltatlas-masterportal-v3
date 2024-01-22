@@ -552,6 +552,7 @@
       "noLegendForLayerInfo": "Legende nicht verfügbar"
     },
     "login": {
+      "description": "Melden Sie sich mit Benutzernamen und Passwort an",
       "login": "Login",
       "logout": "Logout",
       "progress": "Bitte melden Sie sich im geöffneten Popup an.",

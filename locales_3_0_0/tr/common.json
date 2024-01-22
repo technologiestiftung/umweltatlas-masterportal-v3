@@ -511,6 +511,7 @@
     },
     "login": {
       "login": "Giriş",
+      "description": "Kullanıcı adınız ve şifrenizle giriş yapın",
       "logout": "Logout",
       "ilerleme": "Lütfen açılan pop-up'ta giriş yapın.",
       "isim": "İsim",

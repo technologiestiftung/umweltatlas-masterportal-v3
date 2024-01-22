@@ -552,6 +552,7 @@
       "noLegendForLayerInfo": "No legend available"
     },
     "login": {
+      "description": "Log in with your user name and password",
       "login": "Login",
       "logout": "Logout",
       "progress": "Please login in the opened popup.",

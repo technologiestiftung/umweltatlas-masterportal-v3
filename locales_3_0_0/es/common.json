@@ -511,6 +511,7 @@
     },
     "login": {
       "login": "inicio de sesión",
+      "description": "Inicia sesión con tu nombre de usuario y contraseña",
       "logout": "Logout",
       "progreso": "Por favor, inicia sesión en la ventana emergente abierta",
       "name": "Nombre",
