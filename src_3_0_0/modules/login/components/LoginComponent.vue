@@ -30,7 +30,7 @@ export default {
     },
     methods: {
         ...mapMutations("Menu", ["setCurrentComponentPropsName"]),
-        ...mapMutations("Modules/Login", ["setActive", "setLoginIcon", "setLoggedIn", "setIcon"]),
+        ...mapMutations("Modules/Login", ["setActive", "setLoginIcon", "setIcon"]),
         ...mapActions("Modules/Login", [
             "initialize",
             "logout",
