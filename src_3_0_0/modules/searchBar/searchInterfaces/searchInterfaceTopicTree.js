@@ -36,7 +36,6 @@ SearchInterfaceTopicTree.prototype = Object.create(SearchInterface.prototype);
  */
 SearchInterfaceTopicTree.prototype.search = async function (searchInput) {
     this.searchState = "running";
-
     const searchInputRegExp = this.createRegExp(searchInput),
         foundLayers = this.searchInLayers(store.getters.allLayerConfigs, searchInputRegExp),
         foundFolders = this.searchInFolders(store.getters.layerConfig, searchInputRegExp);
@@ -70,6 +69,7 @@ SearchInterfaceTopicTree.prototype.searchInLayers = function (layerConfigs, sear
     const foundLayers = [];
 
     layerConfigs.forEach(layer => {
+
         if (store.getters["Maps/mode"] === "3D" || !layerFactory.getLayerTypes3d().includes(layer?.typ?.toUpperCase())) {
             const datasets = layer.datasets;
             let searchString = "",
@@ -79,7 +79,7 @@ SearchInterfaceTopicTree.prototype.searchInLayers = function (layerConfigs, sear
                 searchString = layer.datasets[0].md_name.replace(/ /g, "");
                 datasetsExist = true;
             }
-            else if (typeof layer.name === "string") {
+            if (typeof layer.name === "string") {
                 searchString = layer.name.replace(/ /g, "");
             }
 
