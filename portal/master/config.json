@@ -699,7 +699,7 @@
       "scaleLine": true
     },
     "tree": {
-      "singleBaselayer": true,
+      "singleBaselayer": false,
       "addLayerButton": {
         "active": true,
         "searchBar": {

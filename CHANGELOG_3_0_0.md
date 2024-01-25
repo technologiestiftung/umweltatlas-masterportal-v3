@@ -37,6 +37,7 @@
 - UrlParams: The correct layers will be visible when copying the URL.
 - Routing: Spinner will spin again when loading.
 - Contact Form: Telephone Field shows Error when entering letters and fields provide better feedback.
+- FileImport: Import of GPX-files imports routes, tracks and points. Import of geojson-files imports all besides circles.
 ---
 
 ---
