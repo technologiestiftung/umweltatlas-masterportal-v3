@@ -23,6 +23,7 @@
 ### Fixed
 - Issue #1084: fix wrong pointMarker placement when featureType is MultiPolygon. 
 - Issue #1118: The `wfsSearch` module now works with multiple select boxes.
+- Issue #1119: Routing module: the route is also displayed when the start and end points are selected via the search.
 - Issue #1120: The map view gets centered on searched coordinate again.
 - Layer selection: The order of the layers corresponds to the order of the layers in config.json.
 - Fixed HighlightFeature for MultiPolygons: In certain WFS layers, when polygon selection is enabled,
