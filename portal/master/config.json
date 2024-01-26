@@ -230,28 +230,6 @@
             }
           },
           {
-            "type": "gazetteer",
-            "serviceId": "6",
-            "searchAddress": true,
-            "searchStreets": true,
-            "searchHouseNumbers": true,
-            "searchDistricts": true,
-            "searchParcels": true,
-            "searchStreetKey": true,
-            "resultEvents": {
-              "onClick": [
-                "setMarker",
-                "zoomToResult"
-              ],
-              "onHover": [
-                "setMarker"
-              ],
-              "buttons": [
-                "startRouting"
-              ]
-            }
-          },
-          {
             "type": "locationFinder",
             "serviceId": "locationFinder",
             "classes": [
@@ -308,13 +286,21 @@
             "type": "specialWfs",
             "definitions": [
               {
+                "url": "https://geodienste.hamburg.de/HH_WFS_Krankenhaeuser",
+                "typeName": "de.hh.up:gesundheit_krankenhaeuser",
+                "propertyNames": ["de.hh.up:name"],
+                "geometryName": "de.hh.up:geom",
+                        "name": "Krankenhaus123",
+                        "namespaces": "xmlns:de.hh.up='https://registry.gdi-de.org/id/de.hh.up'"
+              },
+              {
                 "url": "https://geodienste.hamburg.de/HH_WFS_Bebauungsplaene",
                 "typeName": "app:hh_hh_festgestellt",
                 "propertyNames": [
                   "app:geltendes_planrecht"
                 ],
                 "geometryName": "app:geom",
-                "name": "common:modules.searchBar.specialWFS.terminated",
+                "name": "common:modules.searchBar.specialWFS.terminated123",
                 "namespaces": "xmlns:app='http://www.deegree.org/app'"
               },
               {
@@ -333,7 +319,7 @@
                 "propertyNames": [
                   "app:Name"
                 ],
-                "name": "common:modules.searchBar.specialWFS.childcare",
+
                 "namespaces": "xmlns:app='http://www.deegree.org/app'"
               },
               {

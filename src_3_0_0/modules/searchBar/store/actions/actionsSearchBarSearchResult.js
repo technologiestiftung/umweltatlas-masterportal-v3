@@ -112,7 +112,9 @@ export default {
      * @returns {void}
      */
     highlightFeature: ({dispatch}, {hit}) => {
-        const feature = WKTUtil.getWKTGeom(hit);
+        let feature = WKTUtil.getWKTGeom(hit);
+
+        feature = feature?.getGeometry().getType() !== "MultiPolygon" ? feature : feature?.getGeometry();
 
         dispatch("Maps/placingPolygonMarker", feature, {root: true});
     },
@@ -147,6 +149,7 @@ export default {
      * @returns {void}
      */
     setMarker: ({dispatch, rootGetters}, {coordinates, feature, layer}) => {
+
         const numberCoordinates = coordinates?.map(coordinate => parseFloat(coordinate, 10));
 
         if (layer && feature?.getGeometry().getType() === "MultiPolygon") {

@@ -148,6 +148,8 @@ export default {
         currentComponentSide: {
             handler (newVal) {
                 if (newVal === "root" || (newVal === "layerSelection" && this.addLayerButtonSearchActive === true)) {
+                    this.removePolygonMarker();
+                    this.removePointMarker();
                     this.$refs?.searchInput.blur();
                     if (newVal === "root") {
                         this.searchInputValue = "";
@@ -187,7 +189,7 @@ export default {
     },
     methods: {
         ...mapActions(["initializeModule"]),
-        ...mapActions("Maps", ["removePointMarker"]),
+        ...mapActions("Maps", ["removePointMarker", "removePolygonMarker"]),
         ...mapActions("Modules/SearchBar", [
             "instantiateSearchInterfaces",
             "overwriteDefaultValues",

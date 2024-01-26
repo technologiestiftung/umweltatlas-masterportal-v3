@@ -331,15 +331,17 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
                     name: "HafenCity12-Hamburg-Altstadt48",
                     type: "im Verfahren"
                 },
+                type = {getType: () => "MultiPolygon"},
                 feature = {
-                    id: "feature"
+                    id: "feature",
+                    getGeometry: () => type
                 },
                 stubGetWKTGeom = sinon.stub(WKTUtil, "getWKTGeom").returns(feature);
 
             highlightFeature({dispatch}, {hit});
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equals("Maps/placingPolygonMarker");
-            expect(dispatch.firstCall.args[1]).to.be.deep.equals(feature);
+            expect(dispatch.firstCall.args[1]).to.be.deep.equals(feature.getGeometry());
             expect(stubGetWKTGeom.calledOnce).to.be.true;
             expect(stubGetWKTGeom.firstCall.args[0]).to.be.deep.equals(hit);
         });
