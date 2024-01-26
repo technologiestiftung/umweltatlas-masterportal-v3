@@ -230,6 +230,28 @@
             }
           },
           {
+            "type": "gazetteer",
+            "serviceId": "6",
+            "searchAddress": true,
+            "searchStreets": true,
+            "searchHouseNumbers": true,
+            "searchDistricts": true,
+            "searchParcels": true,
+            "searchStreetKey": true,
+            "resultEvents": {
+              "onClick": [
+                "setMarker",
+                "zoomToResult"
+              ],
+              "onHover": [
+                "setMarker"
+              ],
+              "buttons": [
+                "startRouting"
+              ]
+            }
+          },
+          {
             "type": "locationFinder",
             "serviceId": "locationFinder",
             "classes": [
