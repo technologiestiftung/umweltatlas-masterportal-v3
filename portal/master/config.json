@@ -322,7 +322,7 @@
                   "app:geltendes_planrecht"
                 ],
                 "geometryName": "app:geom",
-                "name": "common:modules.searchBar.specialWFS.terminated123",
+                "name": "common:modules.searchBar.specialWFS.terminated",
                 "namespaces": "xmlns:app='http://www.deegree.org/app'"
               },
               {
