@@ -1,6 +1,9 @@
 <script>
+import SpinnerItem from "../../spinner/components/SpinnerItem.vue";
+
 export default {
     name: "FlatButton",
+    components: {SpinnerItem},
     props: {
         text: {
             type: String,
@@ -45,9 +48,9 @@ export default {
             :class="icon"
             role="img"
         />
-        <div
+        <SpinnerItem
             v-if="spinnerTrigger"
-            class="spinner-border mb-1"
+            :custom-class="'p-2'"
         />
         <span class="btn-texts">
             {{ $t(text) }}
@@ -74,13 +77,7 @@ export default {
     }
     .btn-texts {
         white-space: normal;
+        margin-left: .5rem;
     }
-}
-.spinner-border {
-    border: 4px solid $dark_blue;
-    border-radius: 50%;
-    border-top: 4px solid $primary;
-    width: 20px;
-    height: 20px;
 }
 </style>

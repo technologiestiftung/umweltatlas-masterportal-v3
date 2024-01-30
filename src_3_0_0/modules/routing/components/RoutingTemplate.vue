@@ -2,7 +2,7 @@
 import {mapGetters, mapActions, mapMutations} from "vuex";
 import mutations from "../store/mutationsRouting";
 import * as constantsRouting from "../store/constantsRouting";
-import RoutingLoadingSpinner from "./RoutingLoadingSpinner.vue";
+import SpinnerItem from "../../../shared/modules/spinner/components/SpinnerItem.vue";
 import store from "../../../app-store/index";
 
 /**
@@ -15,7 +15,7 @@ import store from "../../../app-store/index";
 export default {
     name: "RoutingTemplate",
     components: {
-        RoutingLoadingSpinner
+        SpinnerItem
     },
     data () {
         return {
@@ -78,13 +78,10 @@ export default {
                 @click="changeActiveRoutingToolOption(routingToolOption.id)"
                 @keydown.enter="changeActiveRoutingToolOption(routingToolOption.id)"
             >
-                <span class="bootstrap-icon">
-                    <i class="bi-three-dots-vertical" />
-                </span>
                 <span>{{ $t("common:modules.routing.tabs." + routingToolOption.id) }}</span>
-                <RoutingLoadingSpinner
+                <SpinnerItem
                     v-if="(routingToolOption.id === 'DIRECTIONS' && isLoadingDirections) || (routingToolOption.id === 'ISOCHRONES' && isLoadingIsochrones)"
-                    class="ms-2"
+                    :custom-class="'ms-2 spinner'"
                 />
             </button>
         </div>
@@ -112,5 +109,9 @@ export default {
     }
     .bi-question-circle-fill {
         font-size: $font_size_huge;
+    }
+    .spinner {
+        width: 1.3rem;
+        height: 1.3rem;
     }
 </style>

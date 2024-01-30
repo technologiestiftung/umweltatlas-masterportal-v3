@@ -1,16 +1,16 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import layerCollection from "../../../core/layers/js/layerCollection";
-import RoutingLoadingSpinner from "../../../modules/routing/components/RoutingLoadingSpinner.vue";
 import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
 import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
+import SpinnerItem from "../../../shared/modules/spinner/components/SpinnerItem.vue";
 
 export default {
     name: "TimeSlider",
     components: {
-        RoutingLoadingSpinner,
         FlatButton,
-        IconButton
+        IconButton,
+        SpinnerItem
     },
     props: {
         layerId: {
@@ -110,7 +110,7 @@ export default {
 
 <template>
     <div class="timeSlider-wrapper centered-box-wrapper">
-        <RoutingLoadingSpinner
+        <SpinnerItem
             v-if="!layerId"
         />
         <div

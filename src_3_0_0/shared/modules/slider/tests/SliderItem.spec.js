@@ -5,7 +5,7 @@ import SliderItem from "../components/SliderItem.vue";
 
 config.global.mocks.$t = key => key;
 
-describe("src_3_0_0/shared/components/IconButton.vue", () => {
+describe("src_3_0_0/shared/components/SliderItem.vue", () => {
     let interactionSpy;
 
     beforeEach(() => {

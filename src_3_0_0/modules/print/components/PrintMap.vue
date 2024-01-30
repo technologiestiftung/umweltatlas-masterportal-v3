@@ -14,6 +14,7 @@ import SwitchInput from "../../../shared/modules/checkboxes/components/SwitchInp
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 import BuildSpec from "../js/buildSpec";
 import layerCollection from "../../../core/layers/js/layerCollection";
+import SpinnerItem from "../../../shared/modules/spinner/components/SpinnerItem.vue";
 
 /**
  * Tool to print a part of the map
@@ -27,7 +28,7 @@ import layerCollection from "../../../core/layers/js/layerCollection";
  */
 export default {
     name: "PrintMap",
-    components: {FlatButton, InputText, SwitchInput},
+    components: {FlatButton, InputText, SwitchInput, SpinnerItem},
     data () {
         return {
             subtitle: "",
@@ -725,9 +726,8 @@ export default {
                     </span>
                 </div>
                 <div class="col-2 modules-print-download-icon-container">
-                    <div
+                    <SpinnerItem
                         v-if="!file.finishState"
-                        class="modules-print-download-loader"
                     />
                     <div
                         v-else
@@ -801,27 +801,6 @@ export default {
             .modules-print-download-icon {
                 font-size: $font-size-lg;
                 color: darkgreen;
-            }
-
-            .modules-print-download-loader {
-                border: 4px solid $primary;
-                border-radius: 50%;
-                border-top: 4px solid $dark_blue;
-                width: 25px;
-                height: 25px;
-                -webkit-animation: spin 1s linear infinite; /* Safari */
-                animation: spin 1s linear infinite;
-
-            }
-            /* Safari */
-            @-webkit-keyframes spin {
-                0% { -webkit-transform: rotate(0deg); }
-                100% { -webkit-transform: rotate(360deg); }
-            }
-
-            @keyframes spin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
             }
         }
     }

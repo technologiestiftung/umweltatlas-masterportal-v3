@@ -8,6 +8,8 @@
 
 ### Added
 - Added config.json-Parameter Portalconfig.tree.singleBaselayer. Specifies whether only one base layer may be active at any time selectable by radio-buttons in visible layers.
+- Added Shared Component for spinner.
+
 ### Changed
 - CoordToolkit: Toast added instead of Alert for feedback after copying coordinates.
 - ShareView: Added more configuration.
@@ -16,6 +18,7 @@
 ### Deprecated
 
 ### Removed
+- RoutingLoadingSpinner: Was replaced with share component SpinnerItem.
 
 ### Fixed
 - Issue #1084: fix wrong pointMarker placement when featureType is MultiPolygon. 
@@ -24,6 +27,7 @@
 - Fixed HighlightFeature for MultiPolygons: In certain WFS layers, when polygon selection is enabled,
     clicking on a polygon would highlight it, but multiPolygons wouldn't. This has now been corrected.
 - UrlParams: The correct layers will be visible when copying the URL.
+- Routing: Spinner will spin again when loading.
 ---
 
 ---
