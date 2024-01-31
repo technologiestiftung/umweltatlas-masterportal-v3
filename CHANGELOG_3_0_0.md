@@ -36,6 +36,7 @@
     clicking on a polygon would highlight it, but multiPolygons wouldn't. This has now been corrected.
 - UrlParams: The correct layers will be visible when copying the URL.
 - Routing: Spinner will spin again when loading.
+- Contact Form: Telephone Field shows Error when entering letters and fields provide better feedback.
 ---
 
 ---
