@@ -9,6 +9,7 @@
 ### Added
 - Added config.json-Parameter Portalconfig.tree.singleBaselayer. Specifies whether only one base layer may be active at any time selectable by radio-buttons in visible layers.
 - Added Shared Component for spinner.
+- 3D: Min- and MaxScale are now available for layers.
 
 ### Changed
 - CoordToolkit: Toast added instead of Alert for feedback after copying coordinates.
@@ -22,7 +23,7 @@
 - RoutingLoadingSpinner: Was replaced with share component SpinnerItem.
 
 ### Fixed
-- Issue #1084: fix wrong pointMarker placement when featureType is MultiPolygon. 
+- Issue #1084: fix wrong pointMarker placement when featureType is MultiPolygon.
 - Issue #1118: The `wfsSearch` module now works with multiple select boxes.
 - Issue #1119: Routing module: the route is also displayed when the start and end points are selected via the search.
 - Issue #1120: The map view gets centered on searched coordinate again.
