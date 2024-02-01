@@ -59,6 +59,17 @@ export default {
         state[side].navigation.currentComponent.props.name = name;
     },
 
+    /**
+     * Sets currently shown components description.
+     * @param {Object} state current state
+     * @param {String} side secondary or main Menu
+     * @param {String} description description of component
+     * @returns {void}
+     */
+    setCurrentComponentPropsDescription (state, {side, description}) {
+        state[side].navigation.currentComponent.props.description = description;
+    },
+
 
     /**
      * Sets current MenuWidth
