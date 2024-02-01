@@ -29,8 +29,8 @@ export default {
         setInterval(() => this.isLoggedIn(), 10_000);
     },
     methods: {
-        ...mapMutations("Menu", ["setCurrentComponentPropsName"]),
-        ...mapMutations("Modules/Login", ["setActive", "setLoginIcon", "setIcon"]),
+        ...mapMutations("Menu", ["setCurrentComponentPropsName", "setCurrentComponentPropsDescription"]),
+        ...mapMutations("Modules/Login", ["setActive", "setIcon"]),
         ...mapActions("Modules/Login", [
             "initialize",
             "logout",
@@ -62,7 +62,7 @@ export default {
          */
         isLoggedIn () {
             this.checkLoggedIn();
-            this.setLoginIcon();
+            this.setLoginProps();
             return this.loggedIn;
         },
 
@@ -112,7 +112,7 @@ export default {
 
             this.logout();
 
-            this.setLoginIcon();
+            this.setLoginProps();
 
             if (reload) {
                 this.reloadWindow();
@@ -121,17 +121,19 @@ export default {
 
 
         /**
-         * Adds a login icon in the search bar
-         *
+         * Sets the icon, name and description according to the login status.
          * @return {void}
          */
-        setLoginIcon () {
+        setLoginProps () {
             const iconType = this.loggedIn ? this.iconLogged : this.iconLogin,
-                componentName = this.loggedIn ? "common:modules.login.logout" : "common:modules.login.login";
+                componentName = this.loggedIn ? "common:modules.login.logout" : "common:modules.login.login",
+                componentDescription = this.loggedIn ? "common:modules.login.descriptionLoggedIn" : "common:modules.login.description";
 
             this.setIcon(iconType);
             this.setCurrentComponentPropsName({side: "secondaryMenu", name: componentName});
+            this.setCurrentComponentPropsDescription({side: "secondaryMenu", description: componentDescription});
         },
+
         /**
          * Closes the window of login by setting store active to false.
          * @pre window is opened

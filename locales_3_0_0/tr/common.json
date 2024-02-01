@@ -512,6 +512,7 @@
     "login": {
       "login": "Giriş",
       "description": "Kullanıcı adınız ve şifrenizle giriş yapın",
+      "descriptionLoggedIn": "Giriş yaptınız",
       "logout": "Logout",
       "ilerleme": "Lütfen açılan pop-up'ta giriş yapın.",
       "isim": "İsim",

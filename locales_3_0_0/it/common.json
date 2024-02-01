@@ -512,6 +512,7 @@
     "login": {
       "login": "Login",
       "description": "Accedi con il tuo nome utente e la tua password",
+      "descriptionLoggedIn": "Sei connesso",
       "logout": "Logout",
       "progress": "Effettuare il login nel popup aperto",
       "nome": "Nome",

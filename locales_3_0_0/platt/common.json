@@ -512,6 +512,7 @@
     "login": {
       "login": "Anmelden",
       "description": "Anmellen mit Stand un Passwoort",
+      "descriptionLoggedIn": "Se sünd anmellt",
       "logout": "Abmelden",
       "progress": "Bitte meld Sie sik in dem geöffneten Aven an.",
       "name": "Name",

@@ -553,6 +553,7 @@
     },
     "login": {
       "description": "Log in with your user name and password",
+      "descriptionLoggedIn": "You are logged in",
       "login": "Login",
       "logout": "Logout",
       "progress": "Please login in the opened popup.",

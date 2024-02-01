@@ -553,6 +553,7 @@
     },
     "login": {
       "description": "Melden Sie sich mit Benutzernamen und Passwort an",
+      "descriptionLoggedIn": "Sie sind angemeldet",
       "login": "Login",
       "logout": "Logout",
       "progress": "Bitte melden Sie sich im geöffneten Popup an.",

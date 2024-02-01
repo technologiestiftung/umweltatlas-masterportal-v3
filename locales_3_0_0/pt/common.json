@@ -512,6 +512,7 @@
     "login": {
       "login": "Iniciar sessão",
       "description": "Inicie sessão com o seu nome de utilizador e palavra-passe",
+      "descriptionLoggedIn": "Tem sessão iniciada",
       "logout": "Sair",
       "progresso": "Por favor, inicie sessão na janela de contexto aberta",
       "nome": "Nome",
