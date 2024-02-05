@@ -499,14 +499,14 @@ export default {
     /**
      * Takes the selected coordinates and centers the map to the new position.
      * @param {Object} context the vuex context
-     * @param {Object} context.commit the commit
+     * @param {Object} context.dispatch the dispatch
      * @param {String[]} coordinates - coordinates for new center position
      * @returns {void}
      */
-    setCenter: function ({commit}, coordinates) {
+    setCenter: function ({dispatch}, coordinates) {
         // coordinates come as string and have to be changed to numbers for setCenter from mutations to work.
         const newCoords = [parseFloat(coordinates[0]), parseFloat(coordinates[1])];
 
-        commit("Maps/setCenter", newCoords, {root: true});
+        dispatch("Maps/setCenter", newCoords, {root: true});
     }
 };
