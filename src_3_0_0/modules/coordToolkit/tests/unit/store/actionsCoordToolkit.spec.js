@@ -797,6 +797,14 @@ describe("src_3_0_0/modules/coord/store/actionsCoordToolkit.js", () => {
                 });
             });
         });
+        describe("setCenter", () => {
+            it("sets the center after search", () => {
+                actions.setCenter({dispatch}, ["12345.67", "98765.12"]);
+                expect(dispatch.calledOnce).to.be.true;
+                expect(dispatch.firstCall.args[0]).to.equal("Maps/setCenter");
+                expect(dispatch.firstCall.args[1]).to.be.deep.equal([12345.67, 98765.12]);
+            });
+        });
     });
 });
 

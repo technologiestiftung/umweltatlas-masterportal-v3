@@ -173,8 +173,8 @@ export default {
                 position = getters.getTransformedPosition(mapCollection.getMap("2D"), targetProjectionName);
 
             if (position && position[0] === 0 && position[1] === 0 && rootState.Maps.center) {
-                commit("setCoordinatesEasting", {id: "easting", value: String(rootState.Maps.center[0])});
-                commit("setCoordinatesNorthing", {id: "northing", value: String(rootState.Maps.center[1])});
+                commit("setCoordinatesEasting", {id: "easting", value: String(rootState.Maps.center[0]).substring(0, 9)});
+                commit("setCoordinatesNorthing", {id: "northing", value: String(rootState.Maps.center[1]).substring(0, 9)});
                 dispatch("moveToCoordinates", rootState.Maps.center);
             }
         }
