@@ -758,25 +758,25 @@ export default {
                 </div>
             </div>
         </form>
-    </div>
-    <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3">
-        <div
-            ref="copyCoordsToast"
-            class="toast align-items-center"
-            role="alert"
-            aria-live="assertive"
-            aria-atomic="true"
-        >
-            <div class="d-flex">
-                <div class="toast-body">
-                    {{ $t("common:modules.coordToolkit.coordsCopied") }}
+        <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3">
+            <div
+                ref="copyCoordsToast"
+                class="toast align-items-center"
+                role="alert"
+                aria-live="assertive"
+                aria-atomic="true"
+            >
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {{ $t("common:modules.coordToolkit.coordsCopied") }}
+                    </div>
+                    <button
+                        type="button"
+                        class="btn-close me-2 m-auto"
+                        data-bs-dismiss="toast"
+                        aria-label="Close"
+                    />
                 </div>
-                <button
-                    type="button"
-                    class="btn-close me-2 m-auto"
-                    data-bs-dismiss="toast"
-                    aria-label="Close"
-                />
             </div>
         </div>
     </div>
