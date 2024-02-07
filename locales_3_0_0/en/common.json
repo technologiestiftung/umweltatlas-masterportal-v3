@@ -617,6 +617,7 @@
       "formatLabel": "Format",
       "hintInfoScale": "If the selected print scale differs from the scale in the map window, can this lead to a different map layout in print.",
       "invisibleLayer": "The following topics cannot be printed in the selected print scale {{scale}}:",
+      "improveResolution": "Improve scaling resolution",
       "layoutLabel": "Layout",
       "name": "Print map",
       "outputfileTitleLabel": "Filename",

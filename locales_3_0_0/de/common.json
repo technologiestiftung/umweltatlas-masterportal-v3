@@ -617,6 +617,7 @@
       "formatLabel": "Format",
       "hintInfoScale": "Wenn der ausgewählte Druckmaßstab vom Maßstab im Kartenfenster abweicht, kann dies zu einem veränderten Kartenlayout im Druck führen.",
       "invisibleLayer": "Folgende Themen können im ausgewählten Druckmaßstab {{scale}} nicht gedruckt werden:",
+      "improveResolution": "Auflösung verbessern",
       "layoutLabel": "Layout",
       "name": "Karte Drucken",
       "outputfileTitleLabel": "Dateiname",

@@ -10,6 +10,7 @@
 - Added config.json-Parameter Portalconfig.tree.singleBaselayer. Specifies whether only one base layer may be active at any time selectable by radio-buttons in visible layers.
 - Added Shared Component for spinner.
 - 3D: Min- and MaxScale are now available for layers.
+- Print: An option "Improve scaling resolution" is implemented for 3d Layers to supply an improved and better resolution.
 
 ### Changed
 - CoordToolkit: Toast added instead of Alert for feedback after copying coordinates.

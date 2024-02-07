@@ -51,6 +51,7 @@ export default {
             "is3d",
             "isGfiAvailable",
             "isGfiSelected",
+            "isIncreased3DResolutionSelected",
             "isLegendAvailable",
             "isLegendSelected",
             "isScaleSelectedManually",
@@ -170,6 +171,9 @@ export default {
             else {
                 this.setIs3d(false);
             }
+        },
+        isIncreased3DResolutionSelected: function (value) {
+            this.update3DResolutionScale(value);
         }
     },
     created () {
@@ -190,6 +194,7 @@ export default {
                 this.updateCanvasByFeaturesLoadend(this.visibleLayerList);
                 this.setIsScaleSelectedManually(false);
                 this.setCurrentMapScale(this.scale);
+                this.setIsIncreased3DResolutionSelected(false);
             }
         });
 
@@ -210,7 +215,8 @@ export default {
             "startPrint3d",
             "getOptimalResolution",
             "updateCanvasLayer",
-            "getAttributeInLayoutByName"
+            "getAttributeInLayoutByName",
+            "update3DResolutionScale"
         ]),
         ...mapActions("Alerting", ["addSingleAlert"]),
 
@@ -675,6 +681,19 @@ export default {
                         :interaction="($event) => setIsLegendSelected($event.target.checked)"
                         :label="$t('common:modules.print.withLegendLabel')"
                         :checked="isLegendSelected"
+                    />
+                </div>
+            </div>
+            <div
+                v-if="is3d"
+            >
+                <div class="form-check form-switch mb-3 d-flex align-items-center">
+                    <SwitchInput
+                        :id="'printBetterQuality'"
+                        :aria="$t('common:modules.print.improveResolution')"
+                        :interaction="($event) => setIsIncreased3DResolutionSelected($event.target.checked)"
+                        :label="$t('common:modules.print.improveResolution')"
+                        :checked="isIncreased3DResolutionSelected"
                     />
                 </div>
             </div>

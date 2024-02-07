@@ -31,6 +31,7 @@
  * @property {Boolean} isGfiSelected true if gfi is to be printed
  * @property {Boolean} is3d true if map mode is 3D
  * @property {Boolean} isGfiActive true if gfi is active
+ * @property {Boolean} isIncreased3DResolutionSelected true if the 3d resolution is increased
  * @property {Boolean} isLegendAvailable true if the current layout supports legend
  * @property {Boolean} isLegendSelected true if the legend is to be printed
  * @property {Boolean} isScaleAvailable true if the current layout supports scale
@@ -62,7 +63,6 @@ const state = {
     supportedMapModes: ["2D", "3D"],
     title: "PrintResult",
     type: "print",
-
     autoAdjustScale: true,
     currentFormat: "pdf",
     capabilitiesFilter: {},
@@ -90,6 +90,7 @@ const state = {
     isGfiActive: false,
     isGfiAvailable: false,
     isGfiSelected: false,
+    isIncreased3DResolutionSelected: false,
     isLegendAvailable: false,
     isLegendSelected: false,
     isMapAvailable: false,

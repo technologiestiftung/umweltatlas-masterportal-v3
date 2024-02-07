@@ -205,6 +205,17 @@ describe("src_3_0_0/modules/Print/components/PrintMap.vue", () => {
             expect(store.state.Modules.Print.isLegendAvailable).to.be.equals(true);
             expect(wrapper.find("#printLegend").exists()).to.be.true;
         });
+
+        it("should not have a checkbox of improving the resolution for 3d mode", () => {
+            expect(wrapper.find("#printBetterQuality").exists()).to.be.false;
+        });
+
+        it("should have a checkbox of improving the resolution for 3d mode", async () => {
+            store.commit("Modules/Print/setIs3d", true);
+
+            await wrapper.vm.$nextTick();
+            expect(wrapper.find("#printBetterQuality").exists()).to.be.true;
+        });
     });
 
     describe("returnScale", () => {
