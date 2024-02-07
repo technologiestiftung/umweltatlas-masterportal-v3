@@ -8,6 +8,7 @@
 
 ### Added
 - Added config.json-Parameter Portalconfig.tree.singleBaselayer. Specifies whether only one base layer may be active at any time selectable by radio-buttons in visible layers.
+- Added config.json-Parameter `Portalconfig.tree.showFolderPath`. Determines whether the folder structure of visible layers is displayed. Default is false.
 - Added Shared Component for spinner.
 - 3D: Min- and MaxScale are now available for layers.
 - Print: An option "Improve scaling resolution" is implemented for 3d Layers to supply an improved and better resolution.

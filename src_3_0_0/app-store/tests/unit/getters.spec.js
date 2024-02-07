@@ -844,4 +844,33 @@ describe("src_3_0_0/app-store/getters.js", () => {
         });
 
     });
+    describe("showFolderPath", () => {
+        let state;
+
+        beforeEach(() => {
+            state = {
+                portalConfig: {
+                    tree: {
+                        showFolderPath: true
+                    }
+                }
+            };
+        });
+
+        it("tree not configured", () => {
+            state.portalConfig.tree = undefined;
+            expect(getters.showFolderPath(state)).to.be.false;
+        });
+        it("showFolderPath not configured", () => {
+            state.portalConfig.tree.showFolderPath = undefined;
+            expect(getters.showFolderPath(state)).to.be.false;
+        });
+        it("showFolderPath is false", () => {
+            state.portalConfig.tree.showFolderPath = false;
+            expect(getters.showFolderPath(state)).to.be.false;
+        });
+        it("showFolderPath is true", () => {
+            expect(getters.showFolderPath(state)).to.be.true;
+        });
+    });
 });

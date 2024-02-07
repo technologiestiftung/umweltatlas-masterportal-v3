@@ -25,7 +25,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["folderById"]),
+        ...mapGetters(["folderById", "showFolderPath"]),
         /**
          * Returns the transparency of the layer config.
          * @returns {Number} Transparency of the layer config.
@@ -47,32 +47,35 @@ export default {
     },
     methods: {
         ...mapActions("Modules/LayerTree", ["removeLayer", "updateTransparency"]),
-        getPath(){
+        /**
+         * Returns the names of all parent folders reversed and separated.
+         * @returns {String} the names of all parent folders
+         */
+        getPath () {
             let names = [];
 
-            
-                const parentId = this.layerConf.parentId;
+            if (this.showFolderPath === true) {
+                this.getNamesOfParentFolder(this.layerConf.parentId, names);
+                names = names.reverse();
+            }
+            return names.length > 0 ? names.join("/") : null;
+        },
+        /**
+         * Looks up for the names of all parent folders.
+         * @param {String} parentId id of the parent folder
+         * @param {Array} names to store names
+         * @returns {Array}  the names of all parent folders
+         */
+        getNamesOfParentFolder (parentId, names) {
+            if (parentId !== undefined) {
+                const parent = this.folderById(parentId);
 
-                if(parentId !== undefined){
-                    parent = this.folderById(parentId);
-                    if(parent){
-                        names.push(parent.name);
-                        const grandParent = this.folderById(parent.parentId);
-
-                        if(grandParent){
-                            names.push(grandParent.name);
-                            const grandGrandParent = this.folderById(grandParent.parentId);
-                            if(grandGrandParent && grandGrandParent.parentId){
-                                names.push(grandGrandParent.name);
-                            }
-                        }
-                    }
+                if (parent) {
+                    names.push(parent.name);
+                    this.getNamesOfParentFolder(parent.parentId, names);
                 }
-
-            
-
-            names = names.reverse();
-            return names.join("/");
+            }
+            return names;
         }
     }
 };
@@ -83,20 +86,24 @@ export default {
         :id="'layer-component-sub-menu-' + layerConf.id"
         class="d-flex flex-column layer-component-sub-menu"
     >
-    <div>
-        <span
-            class="path"
-        >
-                {{ getPath() }}
-        </span>
-    </div>
         <div class="remove-layer-container">
             <LightButton
                 :interaction="() => removeLayer(layerConf)"
                 :text="'common:modules.layerTree.iconRemoveLayer'"
                 icon="bi-trash3"
-                customclass="light-button"
+                customclass="light-button  w-100"
             />
+        </div>
+        <div
+            v-if="getPath()"
+            class="ms-3"
+        >
+            <i class="bi-folder foldericon" />
+            <span
+                class="path"
+            >
+                {{ getPath() }}
+            </span>
         </div>
         <div
             v-if="supportedTransparency"
@@ -126,9 +133,14 @@ export default {
 <style lang="scss" scoped>
     @import "~variables";
     .path{
-        font-size: smaller;
-        color: gray;
-    }    .layer-component-sub-menu {
+        font-size: $font-size-sm;
+        text-align: start;
+    }
+    .foldericon{
+        font-size: 1.3rem;
+        padding-right: 0.5rem;
+    }
+    .layer-component-sub-menu {
         font-size: $font-size-base;
 
         .remove-layer-container {

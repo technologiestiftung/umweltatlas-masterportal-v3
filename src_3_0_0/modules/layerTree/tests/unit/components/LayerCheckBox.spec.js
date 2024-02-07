@@ -120,7 +120,7 @@ describe("src_3_0_0/modules/layerTree/components/LayerCheckBox.vue", () => {
         expect(wrapper.findAll(".layer-tree-layer-checkbox").length).to.be.equals(1);
         expect(wrapper.find(".layer-tree-layer-checkbox pe-2 bi-check2-square").exists()).to.be.false;
         expect(wrapper.find(".layer-tree-layer-label").text()).to.equal(propsData.conf.name);
-        expect(wrapper.find("span").attributes("class")).not.to.include("bold");
+        expect(wrapper.find("span").attributes("class")).not.to.include("font-bold");
     });
 
     it("renders layer with visibility false and checkbox disabled", () => {
@@ -140,7 +140,7 @@ describe("src_3_0_0/modules/layerTree/components/LayerCheckBox.vue", () => {
         expect(wrapper.findAll(".layer-tree-layer-checkbox").length).to.be.equals(1);
         expect(wrapper.find(".layer-tree-layer-checkbox pe-2 bi-check2-square").exists()).to.be.false;
         expect(wrapper.find(".layer-tree-layer-label").text()).to.equal(propsData.conf.name);
-        expect(wrapper.find("span").attributes("class")).not.to.include("bold");
+        expect(wrapper.find("span").attributes("class")).not.to.include("font-bold");
     });
 
     it("renders background-layer as simple preview", () => {
@@ -201,7 +201,7 @@ describe("src_3_0_0/modules/layerTree/components/LayerCheckBox.vue", () => {
         expect(wrapper.findAll(".layer-tree-layer-checkbox").length).to.be.equals(1);
         expect(wrapper.find(".bi-check2-square").exists()).to.be.false;
         expect(wrapper.find(".layer-tree-layer-label").text()).to.equal(propsData.conf.shortname);
-        expect(wrapper.find("span").attributes("class")).not.to.include("bold");
+        expect(wrapper.find("span").attributes("class")).not.to.include("font-bold");
     });
 
     it("renders layer with visibility true and checkbox, name is bold", () => {
@@ -219,7 +219,7 @@ describe("src_3_0_0/modules/layerTree/components/LayerCheckBox.vue", () => {
         expect(wrapper.findAll(".layer-tree-layer-checkbox").length).to.be.equals(1);
         expect(wrapper.find(".bi-check-square").exists()).to.be.true;
         expect(wrapper.find(".layer-tree-layer-label").text()).to.equal(propsData.conf.name);
-        expect(wrapper.find(".layer-tree-layer-label").attributes("class")).to.include("bold");
+        expect(wrapper.find(".layer-tree-layer-label").attributes("class")).to.include("font-bold");
     });
 
     it("computed property isLayerVisible with visibility=false ", () => {

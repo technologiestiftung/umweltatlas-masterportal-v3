@@ -160,7 +160,7 @@ export default {
             ]"
         />
         <span
-            :class="['layer-tree-layer-label', 'mt-0 d-flex flex-column align-self-start', isBold ? 'bold' : '']"
+            :class="['layer-tree-layer-label', 'mt-0 d-flex flex-column align-self-start', isBold ? 'font-bold' : '']"
             :for="'layer-tree-layer-checkbox-' + conf.id"
             tabindex="0"
             :aria-label="$t(conf.name)"

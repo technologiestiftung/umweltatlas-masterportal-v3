@@ -7,13 +7,23 @@ import LayerComponentSubMenu from "../../../components/LayerComponentSubMenu.vue
 
 config.global.mocks.$t = key => key;
 
-describe("src_3_0_0/modules/layerTree/components/LayerComponentSubMenu.vue", () => {
+describe.only("src_3_0_0/modules/layerTree/components/LayerComponentSubMenu.vue", () => {
     let layer,
         propsData,
         removeLayerSpy,
         store,
         updateTransparencySpy,
-        wrapper;
+        wrapper,
+        showFolderPath;
+    const folder_1 = {
+            id: "folder-1",
+            name: "folder-1",
+            parentId: "folder-2"
+        },
+        folder_2 = {
+            id: "folder-2",
+            name: "folder-2"
+        };
 
     beforeEach(() => {
         layer = {
@@ -50,6 +60,18 @@ describe("src_3_0_0/modules/layerTree/components/LayerComponentSubMenu.vue", () 
                         }
                     }
                 }
+            },
+            getters: {
+                showFolderPath: () => showFolderPath,
+                folderById: () => (id) => {
+                    if (id === "folder-1") {
+                        return folder_1;
+                    }
+                    if (id === "folder-2") {
+                        return folder_2;
+                    }
+                    return null;
+                }
             }
         });
     });
@@ -58,7 +80,7 @@ describe("src_3_0_0/modules/layerTree/components/LayerComponentSubMenu.vue", () 
         sinon.restore();
     });
 
-    it("renders the sub menu given as property to the component", () => {
+    it("renders the sub menu given as property to the component without path", () => {
         wrapper = shallowMount(LayerComponentSubMenu, {
             global: {
                 plugins: [store]
@@ -67,6 +89,32 @@ describe("src_3_0_0/modules/layerTree/components/LayerComponentSubMenu.vue", () 
         });
 
         expect(wrapper.find("#layer-component-sub-menu-" + propsData.layerConf.id).exists()).to.be.true;
+        expect(wrapper.find(".path").exists()).to.be.false;
+    });
+    it("renders the sub menu given as property to the component with path and folder exists", () => {
+        showFolderPath = true;
+        layer.parentId = "folder-1";
+        wrapper = shallowMount(LayerComponentSubMenu, {
+            global: {
+                plugins: [store]
+            },
+            propsData: propsData
+        });
+
+        expect(wrapper.find("#layer-component-sub-menu-" + propsData.layerConf.id).exists()).to.be.true;
+        expect(wrapper.find(".path").exists()).to.be.true;
+    });
+    it("renders the sub menu given as property to the component without path because folder does not exists", () => {
+        showFolderPath = true;
+        wrapper = shallowMount(LayerComponentSubMenu, {
+            global: {
+                plugins: [store]
+            },
+            propsData: propsData
+        });
+
+        expect(wrapper.find("#layer-component-sub-menu-" + propsData.layerConf.id).exists()).to.be.true;
+        expect(wrapper.find(".path").exists()).to.be.false;
     });
 
     it("renders the remove-layer", () => {
@@ -187,5 +235,51 @@ describe("src_3_0_0/modules/layerTree/components/LayerComponentSubMenu.vue", () 
 
 
         expect(wrapper.find("#layer-component-icon-sub-menu-transparency-container-" + layer1.id).exists()).to.be.true;
+    });
+
+    describe("methods", () => {
+        it("getPath - no folders --> no path", () => {
+            wrapper = shallowMount(LayerComponentSubMenu, {
+                global: {
+                    plugins: [store]
+                },
+                propsData
+            });
+
+            expect(wrapper.vm.getPath()).to.be.equals(null);
+        });
+        it("getPath - reversed path from folders", () => {
+            layer.parentId = "folder-1";
+            showFolderPath = true;
+
+            wrapper = shallowMount(LayerComponentSubMenu, {
+                global: {
+                    plugins: [store]
+                },
+                propsData
+            });
+
+            expect(wrapper.vm.getPath()).to.be.equals("folder-2/folder-1");
+        });
+        it("getNamesOfParentFolder returns array with folder names", () => {
+            wrapper = shallowMount(LayerComponentSubMenu, {
+                global: {
+                    plugins: [store]
+                },
+                propsData
+            });
+
+            expect(wrapper.vm.getNamesOfParentFolder("folder-1", [])).to.be.deep.equals(["folder-1", "folder-2"]);
+        });
+        it("getNamesOfParentFolder returns empty array if parentId is undefined of folder is unknown", () => {
+            wrapper = shallowMount(LayerComponentSubMenu, {
+                global: {
+                    plugins: [store]
+                },
+                propsData
+            });
+
+            expect(wrapper.vm.getNamesOfParentFolder("folder-unknown", [])).to.be.deep.equals([]);
+        });
     });
 });
