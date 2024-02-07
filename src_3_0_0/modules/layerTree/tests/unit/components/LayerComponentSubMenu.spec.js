@@ -7,7 +7,7 @@ import LayerComponentSubMenu from "../../../components/LayerComponentSubMenu.vue
 
 config.global.mocks.$t = key => key;
 
-describe.only("src_3_0_0/modules/layerTree/components/LayerComponentSubMenu.vue", () => {
+describe("src_3_0_0/modules/layerTree/components/LayerComponentSubMenu.vue", () => {
     let layer,
         propsData,
         removeLayerSpy,
