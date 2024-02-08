@@ -29,6 +29,11 @@ export default {
             type: Boolean,
             required: false,
             default: true
+        },
+        resetParcelSearch: {
+            type: Boolean,
+            required: false,
+            default: false
         }
     },
     computed: {
@@ -80,6 +85,11 @@ export default {
         currentLocale () {
             if (this.userHelp !== "hide") {
                 createUserHelp(this.currentInstance.literals);
+            }
+        },
+        resetParcelSearch (val) {
+            if (val) {
+                this.resetUI();
             }
         }
     },
