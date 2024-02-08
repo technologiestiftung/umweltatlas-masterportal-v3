@@ -6,7 +6,7 @@ import Stroke from "ol/style/Stroke";
 import Icon from "ol/style/Icon";
 import CircleStyle from "ol/style/Circle";
 import Text from "ol/style/Text";
-// import {createDrawStyle} from "../../draw/utils/style/createDrawStyle";
+import {createDrawStyle} from "../../draw_old/js/style/createDrawStyle";
 import isObject from "../../../shared/js/utils/isObject";
 import {createEmpty as createEmptyExtent, extend} from "ol/extent";
 import {uniqueId} from "../../../shared/js/utils/uniqueId.js";
@@ -456,15 +456,15 @@ export default {
             if (!drawState) {
                 const defaultColor = [226, 26, 28, 0.9],
                     defaultFillColor = [228, 26, 28, 0.5],
-                    // defaultPointSize = 16,
+                    defaultPointSize = 16,
                     defaultStrokeWidth = 1,
                     defaultCircleRadius = 300,
                     geometryType = feature ? feature.getGeometry().getType() : "Cesium";
 
-                // if (geometryType === "Point" || geometryType === "MultiPoint") {
-                //     style = createDrawStyle(defaultColor, defaultColor, geometryType, defaultPointSize, 1, 1);
-                // }
-                if (geometryType === "LineString" || geometryType === "MultiLineString") {
+                if (geometryType === "Point" || geometryType === "MultiPoint") {
+                    style = createDrawStyle(defaultColor, defaultColor, geometryType, defaultPointSize, 1, 1);
+                }
+                else if (geometryType === "LineString" || geometryType === "MultiLineString") {
                     style = new Style({
                         stroke: new Stroke({
                             color: defaultColor,
@@ -528,10 +528,7 @@ export default {
                     });
                 }
                 else {
-                    //     style = createDrawStyle(drawState.color, drawState.color, drawState.drawType.geometry, drawState.pointSize, 1, drawState.zIndex);
-
-                    // can be removed if the createDrawStyle function works
-                    style = new Style();
+                    style = createDrawStyle(drawState.color, drawState.color, drawState.drawType.geometry, drawState.pointSize, 1, drawState.zIndex);
                 }
             }
             else if (drawState.drawType.geometry === "LineString" || drawState.drawType.geometry === "MultiLineString") {
