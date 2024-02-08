@@ -202,7 +202,7 @@ export default {
      * @param {Object} datasrc data source to import, with properties filename, layer and raw.
      * @returns {void}
      */
-    importKML ({state, dispatch, rootGetters}, datasrc) {
+    importFile ({state, dispatch, rootGetters}, datasrc) {
         const
             vectorLayer = datasrc.layer,
             fileName = datasrc.filename,

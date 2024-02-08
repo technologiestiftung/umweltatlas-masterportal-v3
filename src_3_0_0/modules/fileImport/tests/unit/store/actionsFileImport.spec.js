@@ -11,7 +11,7 @@ import sinon from "sinon";
 import {expect} from "chai";
 
 const
-    {addLayerConfig, importGeoJSON, importKML, setFeatureExtents} = actions,
+    {addLayerConfig, importGeoJSON, importFile, setFeatureExtents} = actions,
     namedProjections = [
         ["EPSG:31467", "+title=Bessel/Gauß-Krüger 3 +proj=tmerc +lat_0=0 +lon_0=9 +k=1 +x_0=3500000 +y_0=0 +ellps=bessel +datum=potsdam +units=m +no_defs"],
         ["EPSG:25832", "+title=ETRS89/UTM 32N +proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"],
@@ -68,7 +68,7 @@ describe("src_3_0_0/modules/fileImport/store/actionsFileImport.js", () => {
                 },
                 filename: "TestFile1.kml"};
 
-            testAction(importKML, payload, importedState, {}, [
+            testAction(importFile, payload, importedState, {}, [
                 {
                     type: "Alerting/addSingleAlert",
                     payload: {
@@ -82,7 +82,7 @@ describe("src_3_0_0/modules/fileImport/store/actionsFileImport.js", () => {
         it("preset \"auto\", correct kml file, wrong filename", done => {
             const payload = {raw: rawSources[0], filename: "bogus_file.bog"};
 
-            testAction(importKML, payload, importedState, {}, [{
+            testAction(importFile, payload, importedState, {}, [{
                 type: "Alerting/addSingleAlert",
                 payload: {
                     category: "error",
@@ -95,7 +95,7 @@ describe("src_3_0_0/modules/fileImport/store/actionsFileImport.js", () => {
         it("preset \"auto\", broken kml file, correct filename", done => {
             const payload = {raw: rawSources[1], filename: "TestFile1.kml"};
 
-            testAction(importKML, payload, importedState, {}, [{
+            testAction(importFile, payload, importedState, {}, [{
                 type: "Alerting/addSingleAlert",
                 payload: {
                     category: "error",
@@ -108,7 +108,7 @@ describe("src_3_0_0/modules/fileImport/store/actionsFileImport.js", () => {
         it("preset \"auto\", empty kml file, correct filename", done => {
             const payload = {raw: "", filename: "TestFile1.kml"};
 
-            testAction(importKML, payload, importedState, {}, [{
+            testAction(importFile, payload, importedState, {}, [{
                 type: "Alerting/addSingleAlert",
                 payload: {
                     category: "error",
@@ -132,7 +132,7 @@ describe("src_3_0_0/modules/fileImport/store/actionsFileImport.js", () => {
                 filename: "TestFile1.gpx"
             };
 
-            testAction(importKML, payload, importedState, {}, [
+            testAction(importFile, payload, importedState, {}, [
                 {
                     type: "Alerting/addSingleAlert",
                     payload: {
@@ -157,7 +157,7 @@ describe("src_3_0_0/modules/fileImport/store/actionsFileImport.js", () => {
                 filename: "TestFile1.json"
             };
 
-            testAction(importKML, payload, importedState, {}, [
+            testAction(importFile, payload, importedState, {}, [
                 {
                     type: "Alerting/addSingleAlert",
                     payload: {
@@ -173,7 +173,7 @@ describe("src_3_0_0/modules/fileImport/store/actionsFileImport.js", () => {
                 payload = {raw: rawSources[3], filename: "TestFile1.json"},
                 tmpState = {...importedState, ...{selectedFiletype: "gpx"}};
 
-            testAction(importKML, payload, tmpState, {}, [{
+            testAction(importFile, payload, tmpState, {}, [{
                 type: "Alerting/addSingleAlert",
                 payload: {
                     category: "error",
@@ -197,7 +197,7 @@ describe("src_3_0_0/modules/fileImport/store/actionsFileImport.js", () => {
                     }
                 };
 
-            importKML({state, dispatch, rootGetters}, payload);
+            importFile({state, dispatch, rootGetters}, payload);
             expect(dispatch.firstCall.args[0]).to.equal("Alerting/addSingleAlert");
             expect(dispatch.firstCall.args[1]).to.eql({
                 category: "success",
@@ -230,7 +230,7 @@ describe("src_3_0_0/modules/fileImport/store/actionsFileImport.js", () => {
                     0.6901960784313725
                 ];
 
-            importKML({state, dispatch, rootGetters}, payload);
+            importFile({state, dispatch, rootGetters}, payload);
             expect(dispatch.firstCall.args[0]).to.equal("Alerting/addSingleAlert");
             expect(dispatch.firstCall.args[1]).to.eql({
                 category: "success",
@@ -248,7 +248,7 @@ describe("src_3_0_0/modules/fileImport/store/actionsFileImport.js", () => {
                 selectedFiletype: "kml"
             };
 
-            importKML({state, dispatch, rootGetters}, payload);
+            importFile({state, dispatch, rootGetters}, payload);
             expect(dispatch.calledTwice).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equal("Alerting/addSingleAlert");
             expect(dispatch.secondCall.args[0]).to.equal("addImportedFilename");
@@ -256,7 +256,7 @@ describe("src_3_0_0/modules/fileImport/store/actionsFileImport.js", () => {
             expect(layer.getSource().getFeatures().length).to.equal(1);
             dispatch = sinon.spy();
             payload = {layer: layer, raw: test2KML, filename: "test2.kml"};
-            importKML({state, dispatch, rootGetters}, payload);
+            importFile({state, dispatch, rootGetters}, payload);
             expect(dispatch.calledTwice).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equal("Alerting/addSingleAlert");
             expect(dispatch.secondCall.args[0]).to.equal("addImportedFilename");
@@ -279,7 +279,7 @@ describe("src_3_0_0/modules/fileImport/store/actionsFileImport.js", () => {
                     }
                 };
 
-            importKML({state, dispatch, rootGetters}, payload);
+            importFile({state, dispatch, rootGetters}, payload);
             expect(dispatch.firstCall.args[0]).to.equal("Alerting/addSingleAlert");
             expect(dispatch.firstCall.args[1]).to.eql({
                 category: "success",

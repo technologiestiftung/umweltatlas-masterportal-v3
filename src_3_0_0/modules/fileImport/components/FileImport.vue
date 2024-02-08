@@ -40,7 +40,7 @@ export default {
     methods: {
         ...mapActions("Modules/FileImport", [
             "addLayerConfig",
-            "importKML",
+            "importFile",
             "importGeoJSON",
             "openDrawTool"
         ]),
@@ -108,7 +108,7 @@ export default {
                                     this.importGeoJSON({raw: f.target.result, layer: layer.layer, filename: file.name});
                                 }
                                 else {
-                                    this.importKML({raw: f.target.result, layer: layer.layer, filename: file.name});
+                                    this.importFile({raw: f.target.result, layer: layer.layer, filename: file.name});
                                 }
                             }
                         });
