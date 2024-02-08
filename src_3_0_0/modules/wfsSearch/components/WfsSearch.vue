@@ -11,6 +11,7 @@ import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vu
 /**
  * Wfs Search
  * @module modules/WfsSearch
+ * @vue-props {Number} zoomLevelProp - Can be set if a zoom level (after succesfull parcel search) is required that is different from the configured one.
  * @vue-props {Boolean} showResetButton - Can be set to false to not render a reset button.
  * @vue-computed {Object} headers - The table heads (??).
  * @vue-computed {String} geometryName - The name of the geometry.
@@ -25,6 +26,11 @@ export default {
         FlatButton
     },
     props: {
+        zoomLevelProp: {
+            type: Number,
+            required: false,
+            default: undefined
+        },
         showResetButton: {
             type: Boolean,
             required: false,
@@ -146,7 +152,7 @@ export default {
             else if (features.length > 0) {
                 this.placingPointMarker(features[0].getGeometry().getCoordinates());
                 this.setCenter(features[0].getGeometry().getCoordinates());
-                this.setZoom(this.zoomLevel);
+                this.setZoom(this.zoomLevelProp || this.zoomLevel);
                 this.setShowResultList(false);
             }
             else {
