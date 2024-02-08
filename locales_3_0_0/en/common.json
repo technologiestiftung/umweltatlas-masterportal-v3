@@ -656,7 +656,7 @@
       },
       "coordinateInputHelp": "Find a place or add a point by clicking on the map",
       "deleteWaypoint": "Delete Waypoint",
-"description": "Find out the fastest way to get to your destination or set a search radius",
+      "description": "Find out the fastest way to get to your destination or set a search radius",
       "directions": {
         "batchProcessing": {
           "downloadHeader": {
@@ -669,6 +669,7 @@
             "yStart": "Y-Value_Start"
           },
           "errorNoEntries": "No entries in the CSV-File",
+          "errorAllFailed": "All requests have failed. The request may be blocked by the service. The file does not contain any results.",
           "errorRowContainsEntriesNoNumber": "Coordinates in line {{row}} do not contain numbers",
           "errorSomeFailed": "{{countFailed}} Results could not be calculated correctly. The result file contains empty cells at these positions.",
           "errorToManyEntriesInFile": "Maximum number of lines exceeded ({{limit}})",
@@ -703,6 +704,7 @@
       "isochrones": {
         "batchProcessing": {
           "errorNoEntries": "No entries in the CSV-File",
+          "errorAllFailed": "All requests have failed. The request may be blocked by the service. The file does not contain any results.",
           "errorRowContainsEntriesNoNumber": "Coordinates in line {{row}} do not contain numbers",
           "errorSomeFailed": "{{countFailed}} Results could not be calculated correctly. The result file contains empty cells at these positions.",
           "errorToManyEntriesInFile": "Maximum number of lines exceeded ({{limit}})",

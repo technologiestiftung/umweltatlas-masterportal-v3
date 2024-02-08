@@ -310,10 +310,12 @@
               {
                 "url": "https://geodienste.hamburg.de/HH_WFS_Krankenhaeuser",
                 "typeName": "de.hh.up:gesundheit_krankenhaeuser",
-                "propertyNames": ["de.hh.up:name"],
+                "propertyNames": [
+                  "de.hh.up:name"
+                ],
                 "geometryName": "de.hh.up:geom",
-                        "name": "Krankenhaus123",
-                        "namespaces": "xmlns:de.hh.up='https://registry.gdi-de.org/id/de.hh.up'"
+                "name": "Krankenhaus123",
+                "namespaces": "xmlns:de.hh.up='https://registry.gdi-de.org/id/de.hh.up'"
               },
               {
                 "url": "https://geodienste.hamburg.de/HH_WFS_Bebauungsplaene",
@@ -341,7 +343,6 @@
                 "propertyNames": [
                   "app:Name"
                 ],
-
                 "namespaces": "xmlns:app='http://www.deegree.org/app'"
               },
               {
@@ -534,24 +535,54 @@
           {
             "type": "routing",
             "icon": "bi-signpost-2",
+            "name": "common:menu.tools.routing",
+            "activeRoutingToolOption": "DIRECTIONS",
+            "routingToolOptions": [
+              "DIRECTIONS",
+              "ISOCHRONES"
+            ],
+            "download": {
+              "filename": "",
+              "format": "GEOJSON"
+            },
             "geosearch": {
+              "minChars": 3,
+              "limit": 10,
               "type": "BKG",
-              "serviceId": "5",
-              "bbox": {
-                "CYCLING": "9.6,53.40,10.4,53.84"
-              }
+              "serviceId": "bkg_geosearch"
             },
             "geosearchReverse": {
+              "distance": 1000,
+              "filter": "",
               "type": "BKG",
-              "serviceId": "5"
+              "serviceId": "bkg_suggest"
             },
             "directionsSettings": {
               "type": "ORS",
               "serviceId": "bkg_ors",
-              "speedProfile": "CAR",
+              "speedProfile": "CYCLING",
+              "customPreferences": {
+                "CYCLING": [
+                  "RECOMMENDED",
+                  "SHORTEST",
+                  "GREEN"
+                ]
+              },
+              "customAvoidFeatures": {
+                "CYCLING": [
+                  "FERRIES",
+                  "STEPS",
+                  "UNPAVEDROADS",
+                  "MIXEDTRAFFIC",
+                  "NARROWWAYS",
+                  "COBBLESTONE"
+                ]
+              },
               "batchProcessing": {
-                "enabled": false,
-                "active": false
+                "enabled": true,
+                "active": true,
+                "limit": 1000,
+                "maximumConcurrentRequests": 15
               }
             },
             "isochronesSettings": {
@@ -559,8 +590,10 @@
               "serviceId": "bkg_ors",
               "speedProfile": "CAR",
               "batchProcessing": {
-                "enabled": false,
-                "active": false
+                "enabled": true,
+                "active": true,
+                "limit": 1000,
+                "maximumConcurrentRequests": 15
               }
             }
           },
@@ -1216,8 +1249,13 @@
             "circle-rotate-with-view": false,
             "circle-radius": [
               "interpolate",
-              ["linear"],
-              ["get", "Total_votes"],
+              [
+                "linear"
+              ],
+              [
+                "get",
+                "Total_votes"
+              ],
               0,
               6,
               18,
@@ -1225,8 +1263,13 @@
             ],
             "circle-fill-color": [
               "interpolate",
-              ["linear"],
-              ["get", "compound"],
+              [
+                "linear"
+              ],
+              [
+                "get",
+                "compound"
+              ],
               -1,
               [
                 240,
@@ -1246,8 +1289,13 @@
             ],
             "circle-opacity": [
               "interpolate",
-              ["linear"],
-              ["get", "Total_votes"],
+              [
+                "linear"
+              ],
+              [
+                "get",
+                "Total_votes"
+              ],
               40000,
               0.6,
               2000000,

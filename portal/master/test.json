@@ -1,0 +1,63 @@
+"routing": {
+    "name": "translate#common:menu.tools.routing",
+    "icon": "bi-signpost-2-fill",
+    "activeRoutingToolOption": "DIRECTIONS",
+    "routingToolOptions": [
+        "DIRECTIONS",
+        "ISOCHRONES"
+    ],
+    "download": {
+        "filename": "",
+        "format": "GEOJSON"
+    },
+    "geosearch": {
+        "minChars": 3,
+        "limit": 10,
+        "type": "BKG",
+        "serviceId": "bkg_geosearch"
+    },
+    "geosearchReverse": {
+        "distance": 1000,
+        "filter": "",
+        "type": "BKG",
+        "serviceId": "bkg_suggest"
+    },
+    "directionsSettings": {
+        "type": "ORS",
+        "serviceId": "bkg_ors",
+        "speedProfile": "CYCLING",
+        "customPreferences": {
+            "CYCLING": [
+                "RECOMMENDED",
+                "SHORTEST",
+                "GREEN"
+            ]
+        },
+        "customAvoidFeatures": {
+            "CYCLING": [
+                "FERRIES",
+                "STEPS",
+                "UNPAVEDROADS",
+                "MIXEDTRAFFIC",
+                "NARROWWAYS",
+                "COBBLESTONE"
+            ]
+        },
+        "batchProcessing": {
+            "enabled": true,
+            "active": true,
+            "limit": 1000,
+            "maximumConcurrentRequests": 15
+        }
+    },
+    "isochronesSettings": {
+        "type": "ORS",
+        "serviceId": "bkg_ors",
+        "speedProfile": "CAR",
+        "batchProcessing": {
+            "enabled": true,
+            "active": true,
+            "limit": 1000,
+            "maximumConcurrentRequests": 15
+        }
+    }

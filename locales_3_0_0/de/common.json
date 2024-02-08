@@ -669,6 +669,7 @@
             "yStart": "Y-Wert_Start"
           },
           "errorNoEntries": "Keine Einträge in der CSV",
+          "errorAllFailed": "Alle Anfragen sind fehlgeschlagen. Eventuell wird die Anfrage vom Dienst blockiert. Die Datei enthält keine Resultate.",
           "errorRowContainsEntriesNoNumber": "Koordinaten in Zeile {{row}} enthalten keine Zahlen",
           "errorSomeFailed": "Es konnten {{countFailed}} Ergebnisse nicht korrekt errechnet werden. Die Ergebnisdatei enthält an diesen Stellen Leerzellen.",
           "errorToManyEntriesInFile": "Maximale Anzahl an Zeilen überschritten ({{limit}})",
@@ -703,6 +704,7 @@
       "isochrones": {
         "batchProcessing": {
           "errorNoEntries": "Keine Einträge in der CSV",
+          "errorAllFailed": "Alle Anfragen sind fehlgeschlagen. Eventuell wird die Anfrage vom Dienst blockiert. Die Datei enthält keine Resultate.",
           "errorRowContainsEntriesNoNumber": "Koordinaten in Zeile {{row}} enthalten keine Zahlen",
           "errorSomeFailed": "Es konnten {{countFailed}} Ergebnisse nicht korrekt errechnet werden. Die Ergebnisdatei enthält an diesen Stellen Leerzellen.",
           "errorToManyEntriesInFile": "Maximale Anzahl an Zeilen überschritten ({{limit}})",

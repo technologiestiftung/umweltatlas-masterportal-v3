@@ -18,7 +18,8 @@ export default {
     data () {
         return {
             isProcessing: false,
-            countFailed: 0
+            countFailed: 0,
+            serviceRequests: 0
         };
     },
     computed: {
@@ -43,6 +44,7 @@ export default {
                     this.isProcessing = true;
                     this.setTaskHandler(null);
                     this.countFailed = 0;
+                    this.serviceRequests = 0;
 
                     this.resetIsochronesResult();
                     this.setIsLoadingIsochrones(true);
@@ -53,7 +55,13 @@ export default {
                         if (result) {
                             this.downloadResults(file.name, result);
                         }
-                        if (this.countFailed !== 0) {
+                        if (this.countFailed === this.serviceRequests) {
+                            this.addSingleAlert({
+                                category: this.$t("common:modules.alerting.categories.error"),
+                                content: this.$t("common:modules.routing.isochrones.batchProcessing.errorAllFailed")
+                            });
+                        }
+                        else if (this.countFailed !== 0) {
                             this.addSingleAlert({
                                 title: this.$t("common:modules.alerting.categories.error"),
                                 category: "error",
@@ -150,7 +158,7 @@ export default {
                     const line = lines[i],
                         lineParts = line.split(";");
 
-                    if (lineParts.length === 0) {
+                    if (lineParts.length === 1 && lineParts.includes("")) {
                         continue;
                     }
 
@@ -188,6 +196,7 @@ export default {
                 startLat = Number(lineParts[2]);
 
             try {
+                this.serviceRequests += 1;
                 const isochronesResult = await this.fetchIsochrones({
                     wgs84Coords: [startLon, startLat],
                     transformCoordinates: false

@@ -8,7 +8,7 @@
 
 ### Added
 - New parameter `filterOnOpen` has been added to filterLayer in Filter. If set to true, the filter is triggered when the accordeon is clicked.
-- The module Login was added.
+- Issue #1116: New alert for batchprocessing in routing tool informs the user when all requests to the service failed.
 
 ### Changed
 

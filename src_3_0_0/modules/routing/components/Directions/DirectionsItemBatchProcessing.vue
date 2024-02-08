@@ -25,14 +25,15 @@ export default {
     data () {
         return {
             isProcessing: false,
-            countFailed: 0
+            countFailed: 0,
+            serviceRequests: 0
         };
     },
     computed: {
         ...mapGetters("Modules/Routing", ["taskHandler", "directionsSettings"])
     },
     methods: {
-        ...mapMutations("Modules/Routing/Directions", ["IsLoadingDirections"]),
+        ...mapMutations("Modules/Routing/Directions", ["setIsLoadingDirections"]),
         ...mapMutations("Modules/Routing", ["setTaskHandler"]),
         ...mapActions("Modules/Routing/Directions", ["fetchDirections", "resetRoutingDirectionsResults"]),
         ...mapActions("Alerting", ["addSingleAlert"]),
@@ -50,6 +51,7 @@ export default {
                     this.isProcessing = true;
                     this.setTaskHandler(null);
                     this.countFailed = 0;
+                    this.serviceRequests = 0;
 
                     this.resetRoutingDirectionsResults();
                     this.setIsLoadingDirections(true);
@@ -60,7 +62,13 @@ export default {
                         if (result) {
                             this.downloadResults(file.name, result);
                         }
-                        if (this.countFailed !== 0) {
+                        if (this.countFailed === this.serviceRequests) {
+                            this.addSingleAlert({
+                                category: this.$t("common:modules.alerting.categories.error"),
+                                content: this.$t("common:modules.routing.directions.batchProcessing.errorAllFailed")
+                            });
+                        }
+                        else if (this.countFailed !== 0) {
                             this.addSingleAlert({
                                 category: "error",
                                 title: this.$t("common:modules.alerting.categories.error"),
@@ -166,7 +174,7 @@ export default {
                     const line = lines[i],
                         lineParts = line.split(";");
 
-                    if (lineParts.length === 0) {
+                    if (lineParts.length === 1 && lineParts.includes("")) {
                         continue;
                     }
 
@@ -214,6 +222,7 @@ export default {
                 };
 
             try {
+                this.serviceRequests += 1;
                 const directionsResult = await this.fetchDirections({
                     wgs84Coords: [
                         [startLon, startLat],
