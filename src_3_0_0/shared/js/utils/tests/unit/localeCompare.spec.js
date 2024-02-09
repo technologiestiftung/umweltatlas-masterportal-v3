@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import localeCompare from "../../localeCompare";
 
-describe("src/utils/localeCompare.js", () => {
+describe("src_3_0_0/utils/localeCompare.js", () => {
     describe("Testing localeCompare without options in German", () => {
         it("should return -1 if reference latter is before compared letter", () => {
             expect(localeCompare("a", "b", "de")).to.equal(-1);

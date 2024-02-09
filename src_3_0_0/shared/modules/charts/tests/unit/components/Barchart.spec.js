@@ -6,7 +6,7 @@ import BarchartItem from "../../../components/BarchartItem.vue";
 
 config.global.mocks.$t = key => key;
 
-describe("src/share-components/charts/components/BarchartItem.vue", () => {
+describe("src_3_0_0/share-components/charts/components/BarchartItem.vue", () => {
     let wrapper;
 
     beforeEach(() => {

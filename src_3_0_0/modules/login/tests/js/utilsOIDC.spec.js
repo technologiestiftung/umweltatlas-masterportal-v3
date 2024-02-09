@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import utilsOIDC from "../../js/utilsOIDC";
 
-describe("Login Module", () => {
+describe("src_3_0_0/modules/login/js/utilsOIDC", () => {
     describe("generateRandomString", () => {
         it("should generate a string of correct length", () => {
             const randomString = utilsOIDC.generateRandomString();

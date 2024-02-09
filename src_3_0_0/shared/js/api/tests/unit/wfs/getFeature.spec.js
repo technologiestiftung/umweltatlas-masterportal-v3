@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import {getFeatureGET, getFeaturePOST} from "../../../wfs/getFeature.js";
 
-describe("src/api/wfs/js", () => {
+describe("src_3_0_0/api/wfs/js", () => {
     describe("getFeatureGET", () => {
         it("should throw an error if the first parameter is not a string", () => {
             expect(() => getFeatureGET(undefined)).to.throw();

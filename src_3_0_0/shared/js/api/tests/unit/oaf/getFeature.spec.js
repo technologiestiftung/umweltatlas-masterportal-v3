@@ -4,7 +4,7 @@ import getOAFFeature from "../../../oaf/getOAFFeature";
 import axios from "axios";
 
 
-describe("src/shared/js/api/oaf", () => {
+describe("src_3_0_0/shared/js/api/oaf", () => {
     describe("getOAFFeatureGet", () => {
         it("should returns a promise which rejects if first param is not a string", async () => {
             let catchError = null;

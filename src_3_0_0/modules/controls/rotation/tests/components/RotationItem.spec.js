@@ -6,7 +6,7 @@ import Map from "ol/Map";
 import sinon from "sinon";
 import RotationItem from "../../store/indexRotation";
 config.global.mocks.$t = key => key;
-describe("src/modules/controls/rotation/components/RotationItem.vue", () => {
+describe("src_3_0_0/modules/controls/rotation/components/RotationItem.vue", () => {
     let store,
         wrapper;
 

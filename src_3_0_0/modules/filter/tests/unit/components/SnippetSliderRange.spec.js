@@ -5,7 +5,7 @@ import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
 
-describe("src/module/tools/filter/components/SnippetSliderRange.vue", () => {
+describe("src_3_0_0/modules/filter/components/SnippetSliderRange.vue", () => {
     let wrapper = null;
 
     afterEach(() => {

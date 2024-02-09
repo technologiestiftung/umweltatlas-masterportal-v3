@@ -6,7 +6,7 @@ import actions from "../../../store/actionsSelectFeatures";
 import stateSelectFeatures from "../../../store/stateSelectFeatures";
 
 
-describe("src/modules/tools/selectFeatures/store/actionsSelectFeatures.js", () => {
+describe("src_3_0_0/modules/selectFeatures/store/actionsSelectFeatures.js", () => {
     const visibleLayerList = [];
     let dispatch, rootGetters, state, createLayerAddToTreeStub, layerVisible, feature, layerId;
 

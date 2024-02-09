@@ -6,7 +6,7 @@ import {nextTick} from "vue";
 import MapHandler from "../../../utils/mapHandler.js";
 import Layer2dVectorTile from "../../../../../core/layers/js/layer2dVectorTile";
 
-describe("src/module/tools/filter/utils/mapHandler.js", () => {
+describe("src_3_0_0/modules/filter/utils/mapHandler.js", () => {
     let lastError = false,
         onerror = null;
 

@@ -1,5 +1,6 @@
 const {config, enableAutoUnmount} = require("@vue/test-utils");
 const canvas = require("canvas");
+const sinon = require("sinon");
 
 global.ResizeObserver = require("resize-observer-polyfill");
 
@@ -73,3 +74,8 @@ global.CanvasPattern = canvas.CanvasPattern;
  * Destroy logic is passed as callback to hook Function.
  */
 enableAutoUnmount(afterEach);
+
+// root hook to run after every test (even in other files)
+afterEach(function () {
+    sinon.restore();
+});

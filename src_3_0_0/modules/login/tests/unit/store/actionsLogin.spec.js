@@ -8,7 +8,7 @@ import Cookie from "../../../js/utilsCookies";
 
 import "mock-local-storage";
 
-describe("src/modules/Modules/Login/store/actionsLogin.js", () => {
+describe("src_3_0_0/modules/Modules/Login/store/actionsLogin.js", () => {
     let commit;
 
     beforeEach(() => {

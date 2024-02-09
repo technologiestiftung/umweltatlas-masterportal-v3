@@ -3,7 +3,7 @@ import sinon from "sinon";
 import UrlHandler from "../../../utils/urlHandler.js";
 import MapHandler from "../../../utils/mapHandler.js";
 
-describe("src/module/tools/filter/utils/mapHandler.js", () => {
+describe("src_3_0_0/modules/filter/utils/mapHandler.js", () => {
     const urlHandler = new UrlHandler();
 
     describe("getParamsFromState", () => {

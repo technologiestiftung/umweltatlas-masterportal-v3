@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import deepCopy from "../../deepCopy";
 
-describe("src/utils/deepCopy.js", () => {
+describe("src_3_0_0/utils/deepCopy.js", () => {
     describe("deepCopy", () => {
         const obj = {a: "foo", b: "bar", c: "baz"},
             date = new Date("December 17, 2020 03:24:00"),

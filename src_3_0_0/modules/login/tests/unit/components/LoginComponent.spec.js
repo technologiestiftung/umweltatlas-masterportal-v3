@@ -15,7 +15,7 @@ const fakeToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiIsImtpZCI6IjViY2IzZThmNDM2M
 
 config.global.mocks.$t = key => key;
 
-describe("src/modules/Modules/Login/components/LoginComponent.vue", () => {
+describe("src_3_0_0/modules/Modules/Login/components/LoginComponent.vue", () => {
     const
         sandbox = sinon.createSandbox();
     let store,
@@ -31,6 +31,13 @@ describe("src/modules/Modules/Login/components/LoginComponent.vue", () => {
                     modules: {
                         namespaced: true,
                         Login: Login
+                    }
+                },
+                Menu: {
+                    namespaced: true,
+                    mutations: {
+                        setCurrentComponentPropsName: sinon.stub(),
+                        setCurrentComponentPropsDescription: sinon.stub()
                     }
                 }
             },

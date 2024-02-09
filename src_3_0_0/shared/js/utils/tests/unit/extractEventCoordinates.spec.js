@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import {extractEventCoordinates} from "../../extractEventCoordinates.js";
 
-describe("src/utils/extractEventCoordinates.js", () => {
+describe("src_3_0_0/utils/extractEventCoordinates.js", () => {
     describe("extractEventCoordinates", () => {
         it("should return the first parameter unchanged if it is an array", () => {
             expect(extractEventCoordinates([])).to.be.an("array").and.to.be.empty;

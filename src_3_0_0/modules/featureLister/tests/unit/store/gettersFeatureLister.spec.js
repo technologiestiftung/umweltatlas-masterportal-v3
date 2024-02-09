@@ -4,7 +4,7 @@ import getters from "../../../store/gettersFeatureLister";
 import layerCollection from "../../../../../core/layers/js/layerCollection";
 const {featureProperties, featureDetails, headers, selectedFeature} = getters;
 
-describe("tools/featureLister/store/gettersFeatureLister", () => {
+describe("src_3_0_0/modules/featureLister/store/gettersFeatureLister", () => {
     const gfiFeature1 = {
             id: "1",
             getAttributesToShow: () => "showAll",

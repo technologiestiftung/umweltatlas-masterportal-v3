@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import cookieUtils from "../../js/utilsCookies";
 
-describe("Cookie Utils", () => {
+describe("src_3_0_0/modules/login/js/utilsCookies.js", () => {
     let mockCookieStore = {};
     const originalGlobalDocument = global.document;
 

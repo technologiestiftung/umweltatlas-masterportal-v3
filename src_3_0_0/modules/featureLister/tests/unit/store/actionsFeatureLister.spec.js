@@ -4,7 +4,7 @@ import actions from "../../../store/actionsFeatureLister";
 import layerCollection from "../../../../../core/layers/js/layerCollection";
 import createLayerAddToTreeModule from "../../../../../shared/js/utils/createLayerAddToTree";
 
-describe("modules/featureLister/store/actionsFeatureLister", () => {
+describe("src_3_0_0/modules/featureLister/store/actionsFeatureLister", () => {
     let commit, dispatch, rootGetters;
     const highlightVectorRulesPolygon = {
             "fill": {

@@ -3,7 +3,7 @@ import sinon from "sinon";
 import mutations from "../../../store/mutationsFeatureLister";
 import layerCollection from "../../../../../core/layers/js/layerCollection";
 
-describe("tools/featureLister/store/mutationsFeatureLister", () => {
+describe("src_3_0_0/modules/featureLister/store/mutationsFeatureLister", () => {
     let state, features, layer;
 
     beforeEach(() => {

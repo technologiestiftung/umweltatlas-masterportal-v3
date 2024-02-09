@@ -4,7 +4,7 @@ import ExportButtonGeoJSON from "../../../components/ExportButtonGeoJSON.vue";
 
 config.global.mocks.$t = key => key;
 
-describe("src/shared/modules/buttons/components/exportButtonGeoJSON.vue", () => {
+describe("src_3_0_0/shared/modules/buttons/components/exportButtonGeoJSON.vue", () => {
     before(() => {
         i18next.init({
             lng: "cimode",

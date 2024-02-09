@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import convertHttpLinkToSSL from "../../convertHttpLinkToSSL";
 
-describe("src/utils/convertHttpLinkToSSL.js", () => {
+describe("src_3_0_0/utils/convertHttpLinkToSSL.js", () => {
     describe("convertHttpLinkToSSL", () => {
         it("should return an empty string if anything but a string is given", () => {
             expect(convertHttpLinkToSSL(undefined)).to.be.a("string").and.to.be.empty;

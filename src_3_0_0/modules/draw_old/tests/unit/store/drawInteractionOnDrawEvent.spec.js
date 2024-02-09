@@ -7,7 +7,7 @@ import {drawInteractionOnDrawEvent, featureStyle, handleDrawEvent} from "../../.
 import main from "../../../js/main";
 
 
-describe("src/modules/tools/draw/store/actions/drawInteractionOnDrawEvent.js", () => {
+describe("src_3_0_0/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () => {
     const errorBorder = "#E10019";
     let map,
         commit,

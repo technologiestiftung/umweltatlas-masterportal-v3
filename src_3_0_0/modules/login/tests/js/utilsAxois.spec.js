@@ -3,7 +3,7 @@ import sinon from "sinon";
 import axios from "axios";
 import utils from "../../js/utilsAxios";
 
-describe("Interceptor", () => {
+describe("src_3_0_0/modules/login/js/utilsAxois.js", () => {
     let originalXMLHttpRequestOpen,
         originalFetch;
 

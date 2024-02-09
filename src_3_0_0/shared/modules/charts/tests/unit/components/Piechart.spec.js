@@ -6,7 +6,7 @@ import PiechartItem from "../../../components/PiechartItem.vue";
 
 config.global.mocks.$t = key => key;
 
-describe("src/share-components/charts/components/PiechartItem.vue", () => {
+describe("src_3_0_0/share-components/charts/components/PiechartItem.vue", () => {
     let wrapper;
 
     beforeEach(() => {

@@ -9,7 +9,7 @@ import {
 } from "../../calendar.js";
 import {expect} from "chai";
 
-describe("src/utils/calendar.js", () => {
+describe("src_3_0_0/utils/calendar.js", () => {
     describe("publicHolidayMatrix", () => {
         it("should be an object with holiday keys as strings containing objects with translationKey and getMoment function", () => {
             expect(publicHolidayMatrix).to.be.an("object");

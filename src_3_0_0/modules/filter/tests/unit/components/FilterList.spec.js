@@ -12,12 +12,14 @@ describe("src_3_0_0/modules/filter/components/FilterList.vue", () => {
 
     beforeEach(() => {
         store = createStore({
-            namespaced: true,
-            modules: {
-                Alerting: {
-                    namespaced: true,
-                    actions: {
-                        addSingleAlert: sinon.stub()
+            Modules: {
+                namespaced: true,
+                modules: {
+                    Alerting: {
+                        namespaced: true,
+                        actions: {
+                            addSingleAlert: sinon.stub()
+                        }
                     }
                 }
             }

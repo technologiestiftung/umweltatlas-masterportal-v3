@@ -6,7 +6,7 @@ import {expect} from "chai";
 import sinon from "sinon";
 import createTestFeatures from "./testHelper";
 
-describe("src/modules/tools/print/utils/buildSpec.buildStyle", function () {
+describe("src_3_0_0/modules/print/utils/buildSpecbuildStyle", function () {
     let buildSpec,
         polygonFeatures,
         getStylingRules,

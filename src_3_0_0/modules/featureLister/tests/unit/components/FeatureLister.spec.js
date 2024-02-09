@@ -9,7 +9,7 @@ import getGfiFeatureModule from "../../../../../shared/js/utils/getGfiFeaturesBy
 
 config.global.mocks.$t = key => key;
 
-describe("src/modules/featureLister/components/FeatureLister.vue", () => {
+describe("src_3_0_0/modules/featureLister/components/FeatureLister.vue", () => {
     const mockMapGetters = {
         getVisibleOlLayerList: () => [{name: "ersterLayer", id: "123", features: [{getAttributesToShow: () => "TestAttributes"}], geometryType: "Point"}, {name: "zweiterLayer", id: "456", features: [{getAttributesToShow: () => "TestAttributes"}], geometryType: "Point"}, {name: "dritterLayer", id: "789", features: [{getAttributesToShow: () => "TestAttributes"}], geometryType: "Point"}]
     };

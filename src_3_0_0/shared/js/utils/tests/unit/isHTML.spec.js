@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import {isHTML} from "../../isHTML";
 
-describe("src/utils/isHTML.js", function () {
+describe("src_3_0_0/utils/isHTML.js", function () {
     it("should return false for null", function () {
         expect(isHTML(null)).to.be.false;
     });

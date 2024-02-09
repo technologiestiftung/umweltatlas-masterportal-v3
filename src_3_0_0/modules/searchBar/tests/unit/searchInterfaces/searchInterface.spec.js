@@ -3,7 +3,7 @@ import {expect} from "chai";
 import axios from "axios";
 import sinon from "sinon";
 
-describe("src/modules/searchBar/searchInterfaces/searchInterface.js", () => {
+describe("src_3_0_0/modules/searchBar/searchInterfaces/searchInterface.js", () => {
     let SearchInterface1 = null;
 
     before(() => {

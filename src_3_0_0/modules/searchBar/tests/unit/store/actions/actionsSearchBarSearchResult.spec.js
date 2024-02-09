@@ -18,7 +18,7 @@ const {
     zoomToResult
 } = actions;
 
-describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.js", () => {
+describe("src_3_0_0/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.js", () => {
     let dispatch,
         commit,
         getters,

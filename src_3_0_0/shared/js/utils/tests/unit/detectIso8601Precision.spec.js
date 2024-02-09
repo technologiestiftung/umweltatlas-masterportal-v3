@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import detectIso8601Precision from "../../detectIso8601Precision";
 
-describe("src/utils/detectIso8601Precision.js", () => {
+describe("src_3_0_0/utils/detectIso8601Precision.js", () => {
     describe("detectIso8601Precision", () => {
         it("should throw an error if anything but a string is given", () => {
             expect(() => detectIso8601Precision(undefined)).to.throw();

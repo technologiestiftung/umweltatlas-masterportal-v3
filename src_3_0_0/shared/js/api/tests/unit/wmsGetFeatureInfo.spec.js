@@ -7,7 +7,7 @@ import handleAxiosResponse from "../../../utils/handleAxiosResponse.js";
 describe("src_3_0_0/shared/js/api/wmsGetFeatureInfo.js", () => {
     let warn;
 
-    before(() => {
+    beforeEach(() => {
         warn = sinon.spy();
         sinon.stub(console, "warn").callsFake(warn);
     });

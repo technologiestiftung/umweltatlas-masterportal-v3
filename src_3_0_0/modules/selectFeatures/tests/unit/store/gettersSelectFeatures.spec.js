@@ -8,7 +8,7 @@ const {
     name,
     icon} = getters;
 
-describe("src/modules/selectFeatures/store/gettersSelectFeatures", function () {
+describe("src_3_0_0/modules/selectFeatures/store/gettersSelectFeatures", function () {
     it("returns the type from state", function () {
         expect(type(stateSelectFeatures)).to.equals("selectFeatures");
     });

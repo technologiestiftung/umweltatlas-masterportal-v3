@@ -10,7 +10,7 @@ import Overlay from "ol/Overlay.js";
 import definitionsGraphicalSelect from "../../../js/definitionsGraphicalSelect";
 
 
-describe("src/share-components/graphicalSelect/store/actionsGraphicalSelect", () => {
+describe("src_3_0_0/share-components/graphicalSelect/store/actionsGraphicalSelect", () => {
     let commit, dispatch, context;
 
     before(() => {

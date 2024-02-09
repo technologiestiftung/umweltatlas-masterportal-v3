@@ -8,7 +8,7 @@ import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
 
-describe("src/modules/selectFeatures/components/SelectFeatures.vue", () => {
+describe("src_3_0_0/modules/selectFeatures/components/SelectFeatures.vue", () => {
     const mockMapActions = {
             addInteraction: sinon.stub(),
             removeInteraction: sinon.stub()
