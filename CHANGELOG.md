@@ -11,6 +11,7 @@
 - Issue #1116: New alert for batchprocessing in routing tool informs the user when all requests to the service failed.
 
 ### Changed
+- Added translations for Sensor Theme.
 
 ### Deprecated
 

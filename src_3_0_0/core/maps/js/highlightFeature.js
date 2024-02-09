@@ -80,7 +80,7 @@ function highlightMultiPolygon (commit, dispatch, highlightObject) {
     if (highlightObject.highlightStyle) {
         const newStyle = highlightObject.highlightStyle,
             feature = highlightObject.feature,
-            originalStyle = styleObject(highlightObject, feature),
+            originalStyle = styleObject(highlightObject, feature, false),
             clonedStyles = [];
 
         if (originalStyle) {
@@ -239,14 +239,18 @@ function increaseFeature (commit, highlightObject) {
  * Get style via styleList.
  * @param {Object} highlightObject contains several parameters for feature highlighting
  * @param {ol/feature} feature openlayers feature to highlight
- * @returns {ol/style} ol style
+ * @param {Boolean} [returnFirst = true] if true, returns the first found style, else all created styles
+ * @returns {ol/style|Array} ol style
  */
-function styleObject (highlightObject, feature) {
+function styleObject (highlightObject, feature, returnFirst = true) {
     const stylelistObject = highlightObject.styleId ? styleList.returnStyleObject(highlightObject.styleId) : styleList.returnStyleObject(highlightObject.layer.id);
     let style;
 
     if (stylelistObject !== undefined) {
         style = createStyle.createStyle(stylelistObject, feature, false, Config.wfsImgPath);
+        if (returnFirst && Array.isArray(style) && style.length > 0) {
+            style = style[0];
+        }
     }
     return style;
 }

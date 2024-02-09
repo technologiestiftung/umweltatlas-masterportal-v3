@@ -1077,10 +1077,10 @@
                     "color": "rgba(220, 0, 0, 1)",
                     "noticeText": "common:modules.getFeatureInfo.themes.sensor.sensorBarChart.noticeTextCharging"
                   },
-                  "outoforder": {
-                    "title": "common:modules.getFeatureInfo.themes.sensor.chargingStations.outoforder",
+                  "faulted": {
+                    "title": "common:modules.getFeatureInfo.themes.sensor.chargingStations.faulted",
                     "color": "rgba(175, 175, 175, 1)",
-                    "noticeText": "common:modules.getFeatureInfo.themes.sensor.sensorBarChart.noticeTextOutoforder"
+                    "noticeText": "common:modules.getFeatureInfo.themes.sensor.sensorBarChart.noticeTextFaulted"
                   }
                 }
               }
@@ -1290,7 +1290,7 @@
                 {
                   "id": "16100",
                   "name": "Hauptkirchen",
-                  "visibility": true,
+                  "visibility": false,
                   "hiddenFeatures": [
                     "DEHHALKAJ00011uJ",
                     "DEHHALKAJ0000yd2",

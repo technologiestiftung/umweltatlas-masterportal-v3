@@ -438,7 +438,8 @@
           "chargingStations": {
             "available": "Available",
             "charging": "Charging",
-            "outoforder": "Out of order"
+            "outoforder": "Out of order",
+            "faulted": "Faulted"
           },
           "sensor": {
             "dataName": "Data",
@@ -457,6 +458,7 @@
             "noticeTextAvailable": "(Only data with the value available are considered)",
             "noticeTextCharging": "(Only data with the value charging are considered).",
             "noticeTextOutoforder": "(Only data with the value outoforder are considered).",
+            "noticeTextFaulted": "(Only data with the value faulted are considered).",
             "previousWeekday": "Previous Weekday",
             "year_one": "{{count}} year",
             "year_other": "{{count}} years"
