@@ -26,6 +26,7 @@ import layerCollection from "../../../core/layers/js/layerCollection";
 * @vue-prop {Boolean} disabled - Shows if snippet is disabled.
 * @vue-prop {String} display - Sets which dates should be displayed.
 * @vue-prop {Number} filterId - The filter's id.
+* @vue-prop {Boolean} hideSelected - Whether the selected item should be hidden in the dropdown list.
 * @vue-prop {Array} info - The information for the SnippetInfo.
 * @vue-prop {Boolean} isChild - Shows if element is child element.
 * @vue-prop {Boolean} isParent - Shows if element is parent element.
@@ -127,6 +128,11 @@ export default {
             type: [String, Boolean],
             required: false,
             default: false
+        },
+        hideSelected: {
+            type: Boolean,
+            required: false,
+            default: true
         },
         info: {
             type: [String, Boolean],
@@ -800,7 +806,7 @@ export default {
                     :show-labels="false"
                     open-direction="auto"
                     :options-limit="optionsLimit"
-                    :hide-selected="true"
+                    :hide-selected="hideSelected"
                     :close-on-select="true"
                     :clear-on-select="false"
                     :loading="disable"
@@ -1015,6 +1021,9 @@ export default {
         box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
         -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
         transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    }
+    .multiselect__option--selected {
+        font-family: $font_family_accent;
     }
 </style>
 

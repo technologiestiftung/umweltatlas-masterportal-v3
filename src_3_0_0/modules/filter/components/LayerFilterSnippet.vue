@@ -1137,6 +1137,7 @@ export default {
                         :disabled="disabled"
                         :display="snippet.display"
                         :filter-id="layerConfig.filterId"
+                        :hide-selected="snippet.hideSelected"
                         :info="snippet.info"
                         :is-child="hasParentSnippet(snippet.snippetId)"
                         :is-parent="isParentSnippet(snippet.snippetId)"
