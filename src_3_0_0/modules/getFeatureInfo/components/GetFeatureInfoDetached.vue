@@ -126,6 +126,7 @@ export default {
          * @returns {void}
          */
         highlightVectorFeature () {
+            console.log(this.highlightVectorRules);
             if (this.highlightVectorRules) {
                 const layer = layerCollection.getLayerById(this.feature.getLayerId()),
                     styleId = layer?.get("styleId"),
@@ -140,7 +141,7 @@ export default {
                     this.removePointMarker();
                 }
                 this.removeHighlighting();
-
+                console.log(this.feature.getOlFeature() && typeof this.feature.getOlFeature().getGeometry === "function");
                 if (this.feature.getOlFeature() && typeof this.feature.getOlFeature().getGeometry === "function") {
                     switch (this.feature.getOlFeature().getGeometry()?.getType()) {
                         case "Point":

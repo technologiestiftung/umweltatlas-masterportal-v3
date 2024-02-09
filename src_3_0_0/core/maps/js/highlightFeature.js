@@ -15,6 +15,7 @@ export default {
  * @returns {void}
  */
     highlightFeature ({commit, dispatch}, highlightObject) {
+        console.log("highlightFeature wird aufgerufen", highlightObject);
         if (highlightObject.type === "increase") {
             this.increaseFeature(commit, highlightObject);
         }
@@ -22,7 +23,9 @@ export default {
             this.highlightViaParametricUrl(dispatch, highlightObject.layerIdAndFeatureId);
         }
         else if (highlightObject.type === "highlightPolygon") {
-            this.highlightPolygon(commit, dispatch, highlightObject);
+            // this.highlightPolygon(commit, dispatch, highlightObject);
+
+            dispatch("highlightPolygon", highlightObject);
         }
         else if (highlightObject.type === "highlightLine") {
             this.highlightLine(commit, dispatch, highlightObject);
@@ -35,12 +38,14 @@ export default {
  * @param {Object} highlightObject contains several parameters for feature highlighting
  * @returns {void}
  */
-    highlightPolygon (commit, dispatch, highlightObject) {
+    async highlightPolygon ({commit, dispatch}, highlightObject) {
+        console.log(highlightObject);
         if (highlightObject.highlightStyle) {
             const newStyle = highlightObject.highlightStyle,
                 feature = highlightObject.feature,
-                originalStyle = this.styleObject(highlightObject, feature) ? this.styleObject(highlightObject, feature) : undefined;
-
+                styleObjectPayload = {highlightObject, feature},
+                originalStyle = dispatch("styleObject", styleObjectPayload) ? await dispatch("styleObject", styleObjectPayload) : undefined;
+console.log(originalStyle);
             if (originalStyle) {
                 const clonedStyle = Array.isArray(originalStyle) ? originalStyle[0].clone() : originalStyle.clone();
 
@@ -195,8 +200,9 @@ export default {
  * @param {Boolean} [returnFirst = true] if true, returns the first found style, else all created styles
  * @returns {ol/style|Array} ol style
  */
-    styleObject (highlightObject, feature) {
-        const stylelistObject = highlightObject.styleId ? styleList.returnStyleObject(highlightObject.styleId) : styleList.returnStyleObject(highlightObject.layer.id);
+    styleObject ({}, payload) {
+        const {highlightObject, feature} = payload,
+            stylelistObject = highlightObject.styleId ? styleList.returnStyleObject(highlightObject.styleId) : styleList.returnStyleObject(highlightObject.layer.id);
         let style;
 
         if (stylelistObject !== undefined) {
