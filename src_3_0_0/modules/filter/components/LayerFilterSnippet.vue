@@ -1,5 +1,5 @@
 <script>
-import {mapGetters} from "vuex";
+import {mapGetters, mapMutations} from "vuex";
 import ProgressBar from "./ProgressBar.vue";
 import SnippetCheckbox from "./SnippetCheckbox.vue";
 import SnippetCheckboxFilterInMapExtent from "./SnippetCheckboxFilterInMapExtent.vue";
@@ -126,6 +126,11 @@ export default {
             type: Boolean,
             required: false,
             default: true
+        },
+        closeGfi: {
+            type: Boolean,
+            required: false,
+            default: false
         }
     },
     emits: ["registerMapMoveListener", "updateFilterHits", "updateRules", "deleteAllRules"],
@@ -293,6 +298,9 @@ export default {
         }
     },
     methods: {
+        ...mapMutations("Modules/GetFeatureInfo", {
+            setGfiVisible: "setVisible"
+        }),
         isRule,
         translateKeyWithPlausibilityCheck,
 
@@ -717,6 +725,9 @@ export default {
 
             this.setFormDisable(true);
             this.showStopButton(true);
+            if (this.closeGfi) {
+                this.setGfiVisible(!this.closeGfi);
+            }
 
             if (this.api instanceof FilterApi && this.mapHandler instanceof MapHandler) {
                 this.mapHandler.activateLayer(filterId, () => {

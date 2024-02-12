@@ -12,8 +12,10 @@
 - Added Shared Component for spinner.
 - 3D: Min- and MaxScale are now available for layers.
 - Print: An option "Improve scaling resolution" is implemented for 3d Layers to supply an improved and better resolution.
-- WfsSearch: a prop "resetParcelSearch" so that the wfs search parameter could be reset from outside component.
-- WfsSearch: A prop "zoomLevelProp" has been added. Can be used to set a zoom level (after search) that is different from the configured one.
+- WfsSearch:
+  - A prop "resetParcelSearch" so that the wfs search parameter could be reset from outside component.
+  - A prop "zoomLevelProp" has been added. Can be used to set a zoom level (after search) that is different from the configured one.
+- Filter: a new parameter "closeGfi" to give an option if a gfi window is open, and it could be closed after a new filtering.
 
 ### Changed
 - CoordToolkit: Toast added instead of Alert for feedback after copying coordinates.

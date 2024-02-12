@@ -2079,6 +2079,7 @@ Das Filterwerkzeug bietet eine Reihe von Optionen zum Filtern von Vektordaten au
 |name|nein|String|"common:modules.filter.name"|Name des Moduls im Menü.|false|
 |saveTo|nein|String|"void"|Wenn auf "url" gestellt ist, wird die aktuelle Filtereinstellung abgespeichert. Über das Modul shareView kann ein Link erstellt werden in dem die Einstellungen vom Filter mit enthalten sind.|false|
 |type|nein|String|"filter"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
+|closeGfi|nein|Boolean|false|Wenn closeGfi auf `true` gesetzt ist und ein GFI-Fenster geöffnet ist, wird das GFI-Fenster nach neue Filterung geschlossen.|false|
 
 **Beispiel**
 
@@ -2092,6 +2093,7 @@ Beispiel für die Konfiguration eines Filters mit einem einzigen Layer. Der Laye
     "geometrySelectorOptions": {
         "visible": true
     },
+    "closeGfi": false,
     "layerGroups":
     [
         {

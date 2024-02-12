@@ -2079,6 +2079,7 @@ The filter tool offers a range of options to filter vector data from WFS, OAF, G
 |name|no|String|"common:modules.filter.name"|Name of the module in the menu.|false|
 |saveTo|no|String|"void"|If set to "url", the current filter setting is saved. The shareView module can be used to create a link containing the filter settings.|false|
 |type|no|String|"filter"|The type of the module. Defines which module is configured.|false|
+|closeGfi|no|Boolean|false|If it is true and a gfi window is open, the gfi window could be closed after new filtering.|false|
 
 **Example**
 
@@ -2092,6 +2093,7 @@ The following example uses only a layer id to generate the filter automatically.
     "geometrySelectorOptions": {
         "visible": true
     },
+    "closeGfi": false,
     "layerGroups":
     [
         {

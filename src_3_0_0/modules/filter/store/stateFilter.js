@@ -24,9 +24,10 @@
  * @property {Object/Boolean} filterGeometry - contains geometry/area to filter in
  * @property {Boolean} geometryFeature - the geometry feature
  * @property {Number} jumpToId - contains the filterId to jump
- * @property {Boolean} hasMouseMapInteractions ff this attribute is true, then all other modules will be deactivated when this attribute is also true. Only one module with this attribute true may be open at the same time, since conflicts can arise in the card interactions.
+ * @property {Boolean} hasMouseMapInteractions If this attribute is true, then all other modules will be deactivated when this attribute is also true. Only one module with this attribute true may be open at the same time, since conflicts can arise in the card interactions.
  * @property {Array} neededUrlParams - contains the required URL params
  * @property {String} urlParams - current filter
+ * @property {Boolean} closeGfi - If it is true, the open gfi window will be closed after new filtering.
  */
 
 const state = {
@@ -55,7 +56,8 @@ const state = {
     jumpToId: undefined,
     hasMouseMapInteractions: false,
     neededUrlParams: ["rulesOfFilters", "selectedAccordions", "selectedGroups"],
-    urlParams: ""
+    urlParams: "",
+    closeGfi: false
 };
 
 export default state;
