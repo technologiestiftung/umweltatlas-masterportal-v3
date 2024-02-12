@@ -86,6 +86,20 @@ describe("src_3_0_0/modules/filter/components/FilterGeneral.vue", () => {
         expect(wrapper.find(".show").exists()).to.be.true;
         expect(wrapper.findAll(".show")).to.have.lengthOf(1);
     });
+
+    it("should render url link if configured", async () => {
+        wrapper.vm.setLinkText("Linktext");
+        await wrapper.vm.$nextTick();
+        expect(wrapper.findAll("a").filter(w => w.attributes("href")?.includes("&FILTER="))).to.have.lengthOf(1);
+    });
+
+    it("should not render url link if not configured", async () => {
+        wrapper.vm.setLinkText("");
+        await wrapper.vm.$nextTick();
+        expect(wrapper.findAll("a").filter(w => w.attributes("href")?.includes("&FILTER="))
+            .every(w => w.attributes("v-if"))).to.be.false;
+    });
+
     describe("updateSelectedGroups", () => {
         it("should remove given index from selectedGroups if found in array", async () => {
             wrapper.vm.setSelectedGroups([0, 1]);

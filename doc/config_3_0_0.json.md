@@ -2036,6 +2036,7 @@ The filter tool offers a range of options to filter vector data from WFS, OAF, G
 |multiLayerSelector|no|Boolean|true|If `layerSelectorVisible` `true`, wether one can open multiple sections of the selector at the same time.|false|
 |name|no|String|"common:modules.filter.name"|Name of the module in the menu.|false|
 |saveTo|no|String|"void"|If set to "url", the current filter setting is saved. The shareView module can be used to create a link containing the filter settings.|false|
+|linkText|no|String|""|Link text at the bottom containing a url link to the current filter setting, or empty string if no such link should be displayed. Requires "saveTo": "url"|false|
 |type|no|String|"filter"|The type of the module. Defines which module is configured.|false|
 |closeGfi|no|Boolean|false|If it is true and a gfi window is open, the gfi window could be closed after new filtering.|false|
 

@@ -27,6 +27,7 @@
  * @property {Boolean} hasMouseMapInteractions If this attribute is true, then all other modules will be deactivated when this attribute is also true. Only one module with this attribute true may be open at the same time, since conflicts can arise in the card interactions.
  * @property {Array} neededUrlParams - contains the required URL params
  * @property {String} urlParams - current filter
+ * @property {String} linkText - link text of the url link to current filter state or empty string if no such link should be rendered
  * @property {Boolean} closeGfi - If it is true, the open gfi window will be closed after new filtering.
  * @property {Boolean} preventAdjust - If it is true, the snippet will not be adjusted.
  */
@@ -59,7 +60,8 @@ const state = {
     neededUrlParams: ["rulesOfFilters", "selectedAccordions", "selectedGroups"],
     urlParams: "",
     closeGfi: false,
-    preventAdjust: false
+    preventAdjust: false,
+    linkText: ""
 };
 
 export default state;

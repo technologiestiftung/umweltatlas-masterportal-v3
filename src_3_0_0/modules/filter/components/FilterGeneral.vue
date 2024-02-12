@@ -60,6 +60,19 @@ export default {
     },
     computed: {
         ...mapGetters("Modules/Filter", Object.keys(getters)),
+        ...mapGetters({appStoreUrlParams: "urlParams"}),
+
+        currentURL () {
+            const url = new URL(window.location.href);
+
+            url.searchParams.set("MENU", "{\""
+                + (this.menuSide === "mainMenu" ? "main" : "secondary")
+                + "\":{\"currentComponent\":\"filter\"}}"
+            );
+            url.searchParams.set(this.type.toUpperCase(), this.urlParams);
+            return url;
+        },
+
         console: () => console,
         filters () {
             return this.layerConfigs.layers.filter(layer => {
@@ -105,7 +118,7 @@ export default {
                 this.setSelectedAccordions(this.transformLayerConfig(this.layerConfigs.layers, selectedFilterIds));
             }
         }
-        this.urlHandler.readFromUrlParams(this.urlParams, this.layerConfigs, this.mapHandler, params => {
+        this.urlHandler.readFromUrlParams(this.appStoreUrlParams?.[this.type.toUpperCase()], this.layerConfigs, this.mapHandler, params => {
             this.handleStateForAlreadyActiveLayers(params);
             this.deserializeState({...params, setLateActive: true});
             this.addWatcherToWriteUrl();
@@ -367,8 +380,6 @@ export default {
                 generatedParams = JSON.stringify(params);
 
             this.setUrlParams(generatedParams);
-            // @todo steht im todiscuss Ticket um zu besprechen, ob die Funktionalität weiterhin bestehen soll.
-            // this.urlHandler.writeParamsToURL(generatedParams);
         },
         /**
          * Registering a map moveend, loadend and loadstart listener.
@@ -624,6 +635,12 @@ export default {
                 />
             </div>
         </div>
+        <a
+            :v-if="linkText"
+            :href="currentURL"
+        >
+            {{ $t(linkText) }}
+        </a>
     </div>
 </template>
 

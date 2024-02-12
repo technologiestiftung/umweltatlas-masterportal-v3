@@ -1,5 +1,4 @@
 import isObject from "../../../shared/js/utils/isObject";
-// import {updateQueryStringParam} from "../../../../utils/parametricUrl/ParametricUrlBridge";
 import {addSnippetOperator, addSnippetTypes} from "./compileSnippets";
 /**
  * The UrlHandler has controll over the url of the filter and containing params.
@@ -25,14 +24,6 @@ export default class UrlHandler {
         });
         return params;
     }
-    /**
-     * Writes the given string to the params in the url.
-     * @param {String} param The params string. (Stringified state).
-     * @returns {void}
-     */
-    // writeParamsToURL (param) {
-    // updateQueryStringParam("filter", param);
-    // }
     /**
      * Reads the given params.
      * @param {String|Object} params The params to read.

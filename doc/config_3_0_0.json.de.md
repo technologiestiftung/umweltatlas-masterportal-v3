@@ -2038,6 +2038,7 @@ Das Filterwerkzeug bietet eine Reihe von Optionen zum Filtern von Vektordaten au
 |multiLayerSelector|nein|Boolean|true|Wenn `layerSelectorVisible` auf `true` gesetzt ist, kann hiermit das Verhalten zum Öffnen mehrerer Selektoren gleichzeitig eingestellt werden.|false|
 |name|nein|String|"common:modules.filter.name"|Name des Moduls im Menü.|false|
 |saveTo|nein|String|"void"|Wenn auf "url" gestellt ist, wird die aktuelle Filtereinstellung abgespeichert. Über das Modul shareView kann ein Link erstellt werden in dem die Einstellungen vom Filter mit enthalten sind.|false|
+|linkText|no|String|""|Linktext für URL-Link zur aktuellen Filtereinstellung, oder leerer String wenn kein solcher Link angezeigt werden soll. Erfordert "saveTo": "url"|false|
 |type|nein|String|"filter"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
 |closeGfi|nein|Boolean|false|Wenn closeGfi auf `true` gesetzt ist und ein GFI-Fenster geöffnet ist, wird das GFI-Fenster nach neue Filterung geschlossen.|false|
 
