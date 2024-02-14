@@ -9,11 +9,11 @@ describe("src_3_0_0/modules/filter/components/SnippetFeatureInfo.vue", () => {
     it("should have correct default values", () => {
         const wrapper = shallowMount(SnippetFeatureInfo, {});
 
-        expect(wrapper.vm.adjustment).to.be.false;
         expect(wrapper.vm.title).to.be.true;
         expect(wrapper.vm.snippetId).to.equal(0);
         expect(wrapper.vm.layerId).to.be.undefined;
         expect(wrapper.vm.visible).to.be.false;
+        expect(wrapper.vm.universalSearch).to.be.false;
     });
     it("should not render with default values", () => {
         const wrapper = shallowMount(SnippetFeatureInfo, {});
@@ -120,6 +120,55 @@ describe("src_3_0_0/modules/filter/components/SnippetFeatureInfo.vue", () => {
                 };
 
             expect(wrapper.vm.getUniqueObjectFromAttributes(["foo"], items)).to.deep.equal(expected);
+        });
+    });
+
+    describe("checkAttrInSearch", () => {
+        it("should return false if there is no universalSearch configured or in wrong format", () => {
+            const wrapper = shallowMount(SnippetFeatureInfo, {});
+
+            expect(wrapper.vm.checkAttrInSearch(undefined, "attr")).to.be.false;
+            expect(wrapper.vm.checkAttrInSearch(false, "attr")).to.be.false;
+            expect(wrapper.vm.checkAttrInSearch("", "attr")).to.be.false;
+            expect(wrapper.vm.checkAttrInSearch([], "attr")).to.be.false;
+            expect(wrapper.vm.checkAttrInSearch(0, "attr")).to.be.false;
+            expect(wrapper.vm.checkAttrInSearch({}, "attr")).to.be.false;
+        });
+
+        it("should return false if the attribute is not string", () => {
+            const wrapper = shallowMount(SnippetFeatureInfo, {}),
+                univeralSearch = {
+                    "attrName": "Wissenschaftlicher Name",
+                    "prefix": "https://www.google.com/search?q="
+                };
+
+            expect(wrapper.vm.checkAttrInSearch(univeralSearch, undefined)).to.be.false;
+            expect(wrapper.vm.checkAttrInSearch(univeralSearch, 0)).to.be.false;
+            expect(wrapper.vm.checkAttrInSearch(univeralSearch, true)).to.be.false;
+            expect(wrapper.vm.checkAttrInSearch(univeralSearch, [])).to.be.false;
+            expect(wrapper.vm.checkAttrInSearch(univeralSearch, {})).to.be.false;
+        });
+
+        it("should return false if the attribute is not configured in universalSearch", () => {
+            const wrapper = shallowMount(SnippetFeatureInfo, {}),
+                univeralSearch = {
+                    "attrName": "Wissenschaftlicher Name",
+                    "prefix": "https://www.google.com/search?q="
+                };
+
+            expect(wrapper.vm.checkAttrInSearch(univeralSearch, "attr")).to.be.false;
+            expect(wrapper.vm.checkAttrInSearch(univeralSearch, "Wissenschaftlicher")).to.be.false;
+            expect(wrapper.vm.checkAttrInSearch(univeralSearch, "Name")).to.be.false;
+        });
+
+        it("should return true if the attribute is configured in universalSearch", () => {
+            const wrapper = shallowMount(SnippetFeatureInfo, {}),
+                univeralSearch = {
+                    "attrName": "Wissenschaftlicher Name",
+                    "prefix": "https://www.google.com/search?q="
+                };
+
+            expect(wrapper.vm.checkAttrInSearch(univeralSearch, "Wissenschaftlicher Name")).to.be.true;
         });
     });
 });

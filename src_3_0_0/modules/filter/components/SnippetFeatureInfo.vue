@@ -8,24 +8,18 @@ import {translateKeyWithPlausibilityCheck} from "../../../shared/js/utils/transl
 /**
 * Snippet Info
 * @module modules/SnippetInfo
-* @vue-prop {Array} adjustment - The changes made by other snippets that change settings in this snippet. E.g. one snippet changes to "Grundschulen" and other snippets change their min value as a result of the adjustment.
 * @vue-prop {Array} attrName - The list of attribute names.
 * @vue-prop {Array} title - The title of the info.
 * @vue-prop {String} layerId - The layer id.
 * @vue-prop {Number} snippetId - The snippet id.
 * @vue-prop {Array} filteredItems - The list of filtered items.
-*
+* @vue-prop {Object} universalSearch - The configured universal search object
 * @vue-data {Object} featureInfo - (??).
 * @vue-data {Boolean} visible - Shows if the info is displayed.
 */
 export default {
     name: "SnippetFeatureInfo",
     props: {
-        adjustment: {
-            type: [Object, Boolean],
-            required: false,
-            default: false
-        },
         attrName: {
             type: Array,
             required: false,
@@ -50,6 +44,11 @@ export default {
             type: Array,
             required: false,
             default: () => []
+        },
+        universalSearch: {
+            type: [Object, Boolean],
+            required: false,
+            default: false
         }
     },
     emits: ["setSnippetPrechecked"],
@@ -192,6 +191,25 @@ export default {
             });
 
             return result;
+        },
+
+        /**
+         * Checks if the attribute should be searched in webpage.
+         * @param {Object|Boolean} universalSearch the universalSearch parameter with prefix and attribute name.
+         * @param {String} attr the attribute name
+         * @returns {Boolean} returns true if this attribute should be searched in webpage.
+         */
+        checkAttrInSearch (universalSearch, attr) {
+            if (!isObject(universalSearch)) {
+                return false;
+            }
+            if (!universalSearch?.attrName || !universalSearch?.prefix) {
+                return false;
+            }
+            if (typeof attr !== "string") {
+                return false;
+            }
+            return universalSearch.attrName === attr;
         }
     }
 };
@@ -229,6 +247,18 @@ export default {
                         class="col-sm-8"
                     >
                         {{ value }}
+                        <a
+                            v-if="checkAttrInSearch(universalSearch, key)"
+                            :href="universalSearch.prefix + value"
+                            :aria-label="value"
+                            :title="$t('common:modules.filter.universalSearchTitle')"
+                            target="_blank"
+                        >
+                            <i
+                                class="bi-search"
+                                role="img"
+                            />
+                        </a>
                     </dd>
                 </template>
             </template>
@@ -247,6 +277,12 @@ export default {
             margin-bottom: 0;
             dt {
                 font-weight: normal;
+            }
+            dd {
+                a {
+                    color: #151C27;
+                    margin-left: 20px;
+                }
             }
         }
     }

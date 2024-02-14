@@ -2323,6 +2323,7 @@ Note: Time-related snippets (`date` and `dateRange`) can only be operated in `ex
 |type|no|String||The type of this snippet. Can be one of the following: `checkbox`, `dropdown`, `text`, `slider`, `sliderRange`, `date`, `dateRange`. Will be indentified automatically if left away, following a data type rule: boolean becomes `checkbox`, string becomes `dropdown`, number becomes `sliderRange`, unknown becomes `text`.|false|
 |value|no|String[]||If omitted, values are determined automatically. If set for `dropdown`: The values to be selectable in the list. If set for `checkbox`: Instead of boolean values, the specified values for the `true` and `false` states should be taken (e.g. ["Yes", "No"]). For `dateRange`: start and end date for date picker and/or slider. For `sliderRange`: the min and max values.|false|
 |visible|no|Boolean|true|The snippet is visible. Set to `false` to hide the snippet: This gives you the power to use `prechecked` as an `always rule` to force filtering of a fixed `attrName` and value.|false|
+|universalSearch|no|[universalSearch](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippetsuniversalSearch)||Only for Snippet-Typ `featureInfo`: The filtered Value can be searched for in website|false|
 
 **Example**
 
@@ -2531,7 +2532,11 @@ Example for a feature info snippet. Displays all values of the configured attrib
 {
     "title": "Steckbrief",
     "attrName": ["tierartengruppe", "deutscher_artname", "artname", "rote_liste_d", "rote_liste_hh"],
-    "type": "featureInfo"
+    "type": "featureInfo",
+    "universalSearch": {
+      "attrName": "Wissenschaftlicher Name",
+      "prefix": "https://www.google.com/search?q="
+    }
 }
 ```
 
@@ -2717,6 +2722,28 @@ An object for custom control of the localeCompare function used to sort dropdown
 ```json
 {
     "ignorePunctuation": true
+}
+```
+
+***
+
+#### portalConfig.menu.sections.modules.filter.filterLayer.snippets.universalSearch
+
+An object for configuring a universal search of value
+
+**Object**
+
+|Name|Required|Typ|Default|Description|Expert|
+|----|--------|---|-------|-----------|------|
+|attrName|yes|String||The attribute Name|false|
+|prefix|yes|String||The Website as Prefix for searching|false|
+
+**Example**
+
+```json
+{
+    "attrName": "Wissenschaftlicher Name",
+    "prefix": "https://www.ecosia.org/search?q="
 }
 ```
 

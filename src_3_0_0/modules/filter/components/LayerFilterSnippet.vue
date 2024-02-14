@@ -1337,6 +1337,7 @@ export default {
                         :snippet-id="snippet.snippetId"
                         :visible="snippet.visible"
                         :filtered-items="filteredItems"
+                        :universal-search="snippet.universalSearch"
                         @set-snippet-prechecked="setSnippetPrechecked"
                     />
                 </div>

@@ -414,7 +414,8 @@
       },
       "upload": {
         "geometryParseError": "Could not parse given geometry"
-      }
+      },
+      "universalSearchTitle": "Search for this animal on the internet"
     },
     "getFeatureInfo": {
       "boolean": {

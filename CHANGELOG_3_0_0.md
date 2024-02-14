@@ -15,7 +15,9 @@
 - WfsSearch:
   - A prop "resetParcelSearch" so that the wfs search parameter could be reset from outside component.
   - A prop "zoomLevelProp" has been added. Can be used to set a zoom level (after search) that is different from the configured one.
-- Filter: a new parameter "closeGfi" to give an option if a gfi window is open, and it could be closed after a new filtering.
+- Filter:
+  - a new parameter "closeGfi" to give an option if a gfi window is open, and it could be closed after a new filtering.
+  - a new parameter "universalSearch" in snippet with type "featureInfo" to enable to search the attribute value in webpage.
 
 ### Changed
 - CoordToolkit: Toast added instead of Alert for feedback after copying coordinates.
