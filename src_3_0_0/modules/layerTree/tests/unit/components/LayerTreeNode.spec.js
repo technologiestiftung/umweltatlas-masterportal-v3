@@ -166,7 +166,8 @@ describe("src_3_0_0/modules/layerTree/components/LayerTreeNode.vue", () => {
                         }
                     };
                 },
-                showLayerAddButton: () => addLayerButton.active
+                showLayerAddButton: () => addLayerButton.active,
+                showFolderPath: () => true
             }
         });
     });

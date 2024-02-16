@@ -41,6 +41,45 @@ const getters = {
             isLegendChanged = true;
         }
         return isLegendChanged;
+    },
+    /**
+     * Provides state for urlParams, encodes uris in legends.
+     * @param {Object} state state of the app-store.
+     * @returns {Object} state for urlParams
+     */
+    urlParams: state => {
+        const legendsCopy = [...state.legends],
+            legendsEncoded = [];
+
+        legendsCopy.forEach(legend => {
+            const legendCopy = {...legend};
+
+            if (Array.isArray(legendCopy.legend)) {
+                const replacement = [];
+
+                legendCopy.legend.forEach(aLegend => {
+                    let encoded;
+
+                    if (typeof aLegend === "string") {
+                        encoded = encodeURIComponent(aLegend.slice());
+                    }
+                    else {
+                        encoded = {...aLegend};
+                    }
+                    replacement.push(encoded);
+                });
+                legendCopy.legend = replacement;
+                legendsEncoded.push(legendCopy);
+            }
+        });
+
+        return {
+            legends: legendsEncoded,
+            type: state.type,
+            name: state.name,
+            icon: state.icon,
+            sldVersion: state.sldVersion
+        };
     }
 
 };

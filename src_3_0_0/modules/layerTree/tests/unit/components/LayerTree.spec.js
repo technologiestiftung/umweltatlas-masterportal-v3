@@ -179,7 +179,8 @@ describe("src_3_0_0/modules/layerTree/components/LayerTree.vue", () => {
 
                     return allConfigs.filter(conf => conf.showInLayerTree === true);
                 },
-                showLayerAddButton: () => addLayerButton.active
+                showLayerAddButton: () => addLayerButton.active,
+                showFolderPath: () => true
             }
         });
     });

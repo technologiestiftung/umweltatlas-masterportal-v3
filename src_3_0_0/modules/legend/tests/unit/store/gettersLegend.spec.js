@@ -56,4 +56,45 @@ describe("src_3_0_0/modules/legend/store/gettersLegend.js", () => {
 
     });
 
+    it("urlParams", () => {
+        const state = {
+                legends: [
+                    {
+                        id: "layer1",
+                        name: "layer1Name",
+                        legend: ["https://geodienste.hamburg.de/HH_WMS_Verwaltungsgrenzen?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&FORMAT=image%2Fpng&LAYER=bezirke"],
+                        position: 0
+                    },
+                    {
+                        id: "layer2",
+                        name: "layer2Name",
+                        legend: ["https://geodienste.hamburg.de/HH_WMS_Dauerzaehlstellen_Rad?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&FORMAT=image%2Fpng&LAYER=dauerzaehlstellen_rad"],
+                        position: 1
+                    }
+                ],
+                type: "legend",
+                name: "name",
+                icon: "icon",
+                sldVersion: "sldVersion"
+            },
+            urlParamsState = getters.urlParams(state);
+
+        expect(urlParamsState).to.be.an("object");
+        expect(urlParamsState.type).to.be.equals("legend");
+        expect(urlParamsState.name).to.be.equals("name");
+        expect(urlParamsState.icon).to.be.equals("icon");
+        expect(urlParamsState.sldVersion).to.be.equals("sldVersion");
+        expect(urlParamsState.legends).to.be.an("array");
+        expect(urlParamsState.legends.length).to.be.equals(2);
+        expect(urlParamsState.legends[0].id).to.be.equals("layer1");
+        expect(urlParamsState.legends[0].name).to.be.equals("layer1Name");
+        expect(urlParamsState.legends[0].position).to.be.equals(0);
+        expect(decodeURIComponent(urlParamsState.legends[0].legend[0])).to.be.equals("https://geodienste.hamburg.de/HH_WMS_Verwaltungsgrenzen?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&FORMAT=image%2Fpng&LAYER=bezirke");
+        expect(urlParamsState.legends[1].id).to.be.equals("layer2");
+        expect(urlParamsState.legends[1].name).to.be.equals("layer2Name");
+        expect(urlParamsState.legends[1].position).to.be.equals(1);
+        expect(decodeURIComponent(urlParamsState.legends[1].legend[0])).to.be.equals("https://geodienste.hamburg.de/HH_WMS_Dauerzaehlstellen_Rad?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&FORMAT=image%2Fpng&LAYER=dauerzaehlstellen_rad");
+
+    });
+
 });
