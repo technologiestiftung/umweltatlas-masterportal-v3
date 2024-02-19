@@ -184,9 +184,10 @@ function changeLayerVisibility (layerId) {
 function setParserAttributeByLayerId (layerId, key, value) {
     const lightModels = store.getters.layerConfigById(layerId);
 
-    if (Array.isArray(lightModels) && lightModels.length === 1) {
-        lightModels[0][key] = value;
+    if (!isObject(lightModels)) {
+        return;
     }
+    lightModels[key] = value;
     store.dispatch("replaceByIdInLayerConfig", {
         layerConfigs: [{
             id: layerId,
