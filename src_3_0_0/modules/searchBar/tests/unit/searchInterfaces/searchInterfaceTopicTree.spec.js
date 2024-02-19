@@ -394,4 +394,58 @@ describe("src_3_0_0/modules/searchBar/searchInterfaces/searchInterfaceTopicTree.
             expect(SearchInterface1.createPossibleActions(searchResult)).to.deep.equals({});
         });
     });
+
+    describe("searchInTreeWithEmptyFolder", () => {
+        it("should run over empty folter and find following folder", () => {
+            const searchInput = "Überschwemmungsgebiete",
+                layerConfig = {
+                    subjectlayer: {
+                        elements: [
+                            {
+                                name: "empty Folder",
+                                type: "folder"
+                            },
+                            {
+                                name: "Überschwemmungsgebiete",
+                                type: "folder",
+                                elements: [
+                                    {
+                                        id: "1",
+                                        name: "Überschwemmungsgebiete",
+                                        typ: "WMS",
+                                        datasets: [{
+                                            md_name: "Überschwemmungsgebiete (alkis)"
+                                        }]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    baselayer: {
+                        elements: [
+                            {
+                                id: "500",
+                                name: "Geobasisdaten",
+                                typ: "WMS"
+                            }
+                        ]
+                    }
+                },
+                searchInputRegExp = SearchInterface1.createRegExp(searchInput);
+
+            expect(SearchInterface1.searchInFolders(layerConfig, searchInputRegExp)).to.deep.equals([
+                {
+                    category: "modules.searchBar.type.folder",
+                    events: {
+                        onClick: {
+                        },
+                        buttons: {}
+                    },
+                    icon: "bi-folder",
+                    id: "folder_Überschwemmungsgebiete",
+                    name: "Überschwemmungsgebiete"
+                }
+            ]);
+        });
+    });
 });

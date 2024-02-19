@@ -139,7 +139,7 @@ SearchInterfaceTopicTree.prototype.searchInFolders = function (layerConfig, sear
  * @returns {void}
  */
 SearchInterfaceTopicTree.prototype.searchInFolder = function (folder, folders) {
-    folder?.elements.forEach(element => {
+    folder?.elements?.forEach(element => {
         if (element?.type === "folder") {
             this.searchInFolder(element, folders);
             folders.push(element);

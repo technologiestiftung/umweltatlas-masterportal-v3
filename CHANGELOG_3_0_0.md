@@ -44,6 +44,7 @@
 - FileImport: Import of GPX-files imports routes, tracks and points. Import of geojson-files imports all besides circles.
 - ShareView: Legend can be shared.
 - MainMenu: Resizing doesn't cause layout problems anymore.
+- The TopicTree-Searchinterface failed if there is an empty folder in the topic tree. Now it runs over empty folders.
 ---
 
 ---
