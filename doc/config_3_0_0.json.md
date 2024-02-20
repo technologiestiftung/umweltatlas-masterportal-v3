@@ -120,15 +120,15 @@ Controls can be configured to be expandable so they will not initially show up i
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |backForward|no|**[backForward](#markdown-header-portalconfigcontrolsbackforward)**|false|Shows buttons to jump to previous and next map views.|false|
-|button3d|no|Boolean|false|Defines whether a 3D mode switch button is shown.|false|
-|expandable|no|**[expandable](#markdown-header-portalconfigcontrols)**||With expandable, controls are hidden behind a button with three dots and can be expanded when needed.|false|
+|button3d|no|Boolean/**[expandable](#markdown-header-portalconfigcontrolsbutton3d)**|false|Defines whether a 3D mode switch button is shown.|false|
+|expandable|no|Boolean||With expandable, controls are hidden behind a button with three dots and can be expanded when needed.|false|
 |freeze|no|Boolean/**[freeze](#markdown-header-portalconfigcontrolsfreeze)**|false|Whether a "lock view" button is shown.|false|
 |fullScreen|no|Boolean/**[fullScreen](#markdown-header-portalconfigcontrolsfullscreen)**|false|Allows the user to view the portal in full screen mode, that is, without the browser's tabs and address bar, by clicking a button. A second click on the element returns the view back to normal.|false|
 |orientation|no|**[orientation](#markdown-header-portalconfigcontrolsorientation)**||The orientation control uses the browser's geolocation feature to determine the user's coordinates.|false|
 |rotation|no|**[rotation](#markdown-header-portalconfigcontrolsrotation)**|false|Control that shows the current rotation of the map. With a click the map rotation can be set to north again. See also `mapInteractions` in **[config.js.md](config.js.md)**.|false|
-|startModule|no|**[startModule](#markdown-header-portalconfigcontrolsstartModule)**|false|Displays buttons for the configured tools. These can be used to open and close the respective tools.|false|
-|tiltView|no|Boolean/**[tiltView](#markdown-header-portalconfigcontrolstiltView)**|false|Displays two buttons that can be used to tilt the camera up or down in the 3D scene.|false|
-|totalView|no|Boolean/**[totalView](#markdown-header-portalconfigcontrolstotalView)**|false|Offers a button to return to the initial view.|false|
+|startModule|no|**[startModule](#markdown-header-portalconfigcontrolsstartmodule)**|false|Displays buttons for the configured tools. These can be used to open and close the respective tools.|false|
+|tiltView|no|Boolean/**[tiltView](#markdown-header-portalconfigcontrolstiltview)**|false|Displays two buttons that can be used to tilt the camera up or down in the 3D scene.|false|
+|totalView|no|Boolean/**[totalView](#markdown-header-portalconfigcontrolstotalview)**|false|Offers a button to return to the initial view.|false|
 |zoom|no|Boolean/**[zoom](#markdown-header-portalconfigcontrolszoom)**|false|Defines whether zoom buttons should be displayed.|false|
 
 **Example**
@@ -1643,6 +1643,7 @@ The contact form allows users to send messages to a configured mail address. A f
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |closeAfterSend|no|Boolean|false|Flag determining if the contact window should be closed after successfully sending a message.|false|
+|configuredFileExtensions|no|String[]||Additional file extensions to "png", "jpg" und "jpeg". The backend has to support these file types.|false|
 |contactInfo|no|String||Additional text shown above the contact form.|false|
 |deleteAfterSend|no|Boolean|false|Flag determining whether the contact form is emptied after successfully sending a message.|false|
 |fileUpload|no|Boolean|false|Flag whether the file upload should be available.|false|
@@ -4842,14 +4843,14 @@ Note: Time-related snippets (`date` and `dateRange`) can only be operated in `ex
 |addSelectAll|no|Boolean|false|For type `dropdown` with `multiselect: true` only: Adds an additional entry on top of the list to select/deselect all entries.|false|
 |attrName|yes|String||The attribute name used for filtering. Is to be an array if `dateRange`, `sliderRange` or `featureInfo` is used (see examples).|false|
 |autoInit|no|Boolean|true|For type `dropdown` only: If set to `false`: Turns off the automatic identification of value (in case of `dropdown`) or minValue/maxValue (in case of `slider(Range)` and `date(Range)`).|false|
-|children|no|**[children](#markdown-datatypesnippetschildren)**[]|[]|Child snippet configuration.|true|
+|children|no|**[children](#markdown-header-datatypessnippetschildren)**[]|[]|Child snippet configuration.|true|
 |decimalPlaces|no|Number|0|Defines decimal places for the step for `slider` and `sliderRange`|false|
 |delimiter|no|String||For type `dropdown` only: If feature attributes are themselfs again seperated by a delimiter to act as pseudo array, setting delimiter to the sign that seperates the terms, will result in the expected outcome.|false|
 |display|no|String|"default"|If snippet type `dropdown`: If set to `list`, a list is displayed instead of a dropdown box. If snippet type `dateRange`: If set to `datepicker`, only the selection via calendar will be displayed, if set to `slider`, only the slider will be displayed, if set to `all`, datepicker and slider will be displayed.|false|
 |format|no|String|"YYYY-MM-DD"|For type `date` and `dateRange` only: The format the date is stored in the database. Leave empty for ISO8601. If the format differs from ISO8601, the snippet must be visible (`visible`: `true`) and the filter must work in `external`: `false` mode. Can be specified as an array of two different formats if an array of different attribute names is also specified as attrName and the date formats of the attribute values differ.|false|
 |hideSelected|no|Boolean|true|As default behavior, the previously selected dropdown item is hidden in the dropdown list. Can be set to false to have the selected item shown and styled as selected.|false|
 |info|no|String||An info text or translation key. If set, a little icon will shown right hand side of the snippet. Can be set to `true` to display a default text for the snippet type.|false|
-|localeCompareParams|no|**[localeCompareParams](#markdown-header-datatypesnippetslocalecompareparams)**||For type Snippet-Typ `dropdown` only: The sorting of the dropdown boxes can be adjusted according to your own wishes via this parameter.|false|
+|localeCompareParams|no|**[localeCompareParams](#markdown-header-datatypessnippetslocalecompareparams)**||For type Snippet-Typ `dropdown` only: The sorting of the dropdown boxes can be adjusted according to your own wishes via this parameter.|false|
 |maxValue|no|Number||For type `date` and `slider` only: The maximum value as number or date string. Leave empty for automatic identification of boundaries.|false|
 |minValue|no|Number||For type `date` and `slider` only: The minimum value as number or date string. Leave empty for automatic identification of boundaries.|false|
 |multiselect|no|Boolean|true|For type `dropdown` only: Selection of multiple entries. Set to `false` to switch to single select.|false|
@@ -4859,10 +4860,10 @@ Note: Time-related snippets (`date` and `dateRange`) can only be operated in `ex
 |placeholder|no|String|""|For type `dropdown` only: The placeholder to use. Can be a translation key.|false|
 |prechecked|no|String[]/String||Initially checked value. For `dropdown`, `sliderRange` and `dateRange` an array of values, for checkbox a boolean, for slider a number, for text a string and for date a string (following the set `format`). If `visible` is set to `false`, value set by prechecked are forced for filtering. For `dropdown` with `multiselect`: If `prechecked` is set to `all`, all available values will be selected initially.|false|
 |renderIcons|no|String|"none"|For type `dropdown` with `display: "list"` only: If set to `fromLegend` icons will be placed left hand side of each entry. Icons are taken from legend. Use an object with attrNames as keys and imagePath as value {attrName: imagePath} to manually set images (see example).|false|
-|service|no|**[service](#markdown-header-datatypesnippetsservice)**||For the initial filling of a snippet `dropdown`, `date`, `slider` an alternative service can be used. This may increase the performance during initial loading. The default is the service of the configured **[filterLayer](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayer)**.|false|
+|service|no|**[service](#markdown-header-datatypessnippetsservice)**||For the initial filling of a snippet `dropdown`, `date`, `slider` an alternative service can be used. This may increase the performance during initial loading. The default is the service of the configured **[filterLayer](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayer)**.|false|
 |showAllValues|no|Boolean||For `dropdown` snippet type only: prevents hiding of unselected values when set to `true`. Can only be used in conjunction with `prechecked: "all"`.|false|
 |subTitles|no|String[]|[]|Only for snippet type `dateRange`: The additional from and to labels to be displayed above the calendar fields. As an array with two elements (e.g. ["from", "to"]). Set subTitles to true to use the values of `attrName`, to false to not display labels.|false|
-|timeouts|no|**[timeouts](#markdown-header-datatypesnippetstimeouts)**||Timeouts to configure for better user experience.|false|
+|timeouts|no|**[timeouts](#markdown-header-datatypessnippetstimeouts)**||Timeouts to configure for better user experience.|false|
 |title|no|String||The title of the snippet. Can be a translation key. If not set, the title is taken from the gfiAttributes and if they are not present, then the `attrName` is used. Can be set to `false` to disable the display of a title. Can be set to `true` to force the display of the `attrName`.|false|
 |type|no|String||The type of this snippet. Can be one of the following: `checkbox`, `dropdown`, `text`, `slider`, `sliderRange`, `date`, `dateRange`. Will be indentified automatically if left away, following a data type rule: boolean becomes `checkbox`, string becomes `dropdown`, number becomes `sliderRange`, unknown becomes `text`.|false|
 |value|no|String[]||If omitted, values are determined automatically. If set for `dropdown`: The values to be selectable in the list. If set for `checkbox`: Instead of boolean values, the specified values for the `true` and `false` states should be taken (e.g. ["Yes", "No"]). For `dateRange`: start and end date for date picker and/or slider. For `sliderRange`: the min and max values.|false|
@@ -5234,7 +5235,7 @@ A string or object that supply the parameters for util function localeCompare.
 |Name|Required|Typ|Default|Description|Expert|
 |----|--------|---|-------|-----------|------|
 |locale|no|String||The locale code according ISO 3166|false|
-|options|no|**[options](#markdown-header-datatypesnippetslocalecompareparamsoptions)**||The custom options for sorting in localeCompare|false|
+|options|no|**[options](#markdown-header-datatypessnippetslocalecompareparamsoptions)**||The custom options for sorting in localeCompare|false|
 
 **Example Object**
 
@@ -5326,7 +5327,7 @@ Possibility to define additional preferences for the different speed profiles (a
 
 ***
 
-## Datatype.StyleRoute
+## Datatypes.StyleRoute
 Routing-tool directions route style options.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -5355,7 +5356,7 @@ Routing-tool directions route style options.
 
 ***
 
-## Datatype.StyleWaypoint
+## Datatypes.StyleWaypoint
 Routing-tool directions waypoint style options.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -5442,7 +5443,7 @@ Routing-tool directions batch processing options.
 
 ***
 
-## Datatype.SstyleCenter
+## Datatypes.SstyleCenter
 Routing-tool isochrones centers style options.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -5469,7 +5470,7 @@ Routing-tool isochrones centers style options.
 
 ***
 
-## Datatype.StyleIsochrones
+## Datatypes.StyleIsochrones
 
 Routing-tool isochrones style options.
 
@@ -5739,7 +5740,7 @@ A selectable option for a queryable parameter.
 
 ***
 
-## Datatype.ResultList
+## Datatypes.ResultList
 Settings for the output of the found features in the result list.
 By specifying `showAll` all attributes of the found features are displayed in their original form.
 By using an object, a key of the object must represent one of the attributes of the feature,

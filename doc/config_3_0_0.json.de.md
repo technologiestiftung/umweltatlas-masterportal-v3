@@ -121,14 +121,14 @@ Controls können in der config.json in die Ebene "expandable" verschachtelt werd
 |----|-------------|---|-------|------------|------|
 |backForward|nein|**[backForward](#markdown-header-portalconfigcontrolsbackforward)**|false|Zeigt Buttons zur Steuerung der letzten und nächsten Kartenansichten an.|false|
 |button3d|nein|**[button3d](#markdown-header-portalconfigcontrolsbutton3d)**|false|Legt fest, ob ein Button für die Umschaltung in den 3D Modus angezeigt werden soll.|false|
-|expandable|nein|**[expandable](#markdown-header-portalconfigcontrols)**||Mit expandable werden Controls hinter einem Button mit drei Punkten versteckt und lassen sich bei Bedarf aufklappen.|false|
+|expandable|nein|Boolean||Mit expandable werden Controls hinter einem Button mit drei Punkten versteckt und lassen sich bei Bedarf aufklappen.|false|
 |freeze|nein|Boolean/**[freeze](#markdown-header-portalconfigcontrolsfreeze)**|false|Legt fest, ob ein "Ansicht sperren" Button angezeigt werden soll.|false|
 |fullScreen|nein|Boolean/**[fullScreen](#markdown-header-portalconfigcontrolsfullscreen)**|false|Ermöglicht dem User die Darstellung im Vollbildmodus (ohne Tabs und Adressleiste) per Klick auf den Button. Ein erneuter Klick auf den Button wechselt wieder in den normalen Modus.|false|
 |orientation|nein|**[orientation](#markdown-header-portalconfigcontrolsorientation)**||Orientation nutzt die geolocation des Browsers zur Standortbestimmung des Nutzers.|false|
 |rotation|nein|**[rotation](#markdown-header-portalconfigcontrolsrotation)**|false|Control, das die aktuelle Rotation der Karte anzeigt. Per Klick kann die Maprotation wieder auf Norden gesetzt werden. Siehe auch unter `mapInteractions` in **[config.js.md](config.js.md)**.|false|
-|startModule|nein|**[startModule](#markdown-header-portalconfigcontrolsstartModule)**|false|Zeigt Buttons für die konfigurierten Module an. Über diese lassen sich die jeweiligen Module öffnen und schließen.|false|
-|tiltView|nein|Boolean/**[tiltView](#markdown-header-portalconfigcontrolstiltView)**|false|Zeigt zwei Buttons an, mit denen sich die Kamera in der 3D-Szene hoch- bzw. runterkippen lässt.|false|
-|totalView|nein|Boolean/**[totalView](#markdown-header-portalconfigcontrolstotalView)**|false|Zeigt einen Button an, mit dem die Startansicht mit den initialen Einstellungen wiederhergestellt werden kann.|false|
+|startModule|nein|**[startModule](#markdown-header-portalconfigcontrolsstartmodule)**|false|Zeigt Buttons für die konfigurierten Module an. Über diese lassen sich die jeweiligen Module öffnen und schließen.|false|
+|tiltView|nein|Boolean/**[tiltView](#markdown-header-portalconfigcontrolstiltview)**|false|Zeigt zwei Buttons an, mit denen sich die Kamera in der 3D-Szene hoch- bzw. runterkippen lässt.|false|
+|totalView|nein|Boolean/**[totalView](#markdown-header-portalconfigcontrolstotalview)**|false|Zeigt einen Button an, mit dem die Startansicht mit den initialen Einstellungen wiederhergestellt werden kann.|false|
 |zoom|nein|Boolean/**[zoom](#markdown-header-portalconfigcontrolszoom)**|false|Legt fest, ob die Zoombuttons angezeigt werden sollen.|false|
 
 **Beispiel**
@@ -905,7 +905,7 @@ Interaction settings for the ol default interactions. If not set, the default se
 |----|-------------|---|-------|------------|------|
 |altShiftDragRotate|nein|Boolean|true|Drehe die Karte mit alt + shift + drag.|false|
 |dragPan|nein|Boolean|false|Ermöglicht es dem Benutzer, die Karte durch Ziehen zu verschieben.|false|
-|dragZoom|nein|Boolean|Ermöglicht dem Benutzer das Zoomen der Karte durch Klicken und Ziehen auf der Karte.|false|
+|dragZoom|nein|Boolean|false|Ermöglicht dem Benutzer das Zoomen der Karte durch Klicken und Ziehen auf der Karte.|false|
 |pinchRotate|nein|Boolean|false|Ermöglicht es dem Benutzer, die Karte durch Drehen mit zwei Fingern auf einem Touchscreen zu drehen.|false|
 
 **Beispiel:**
@@ -1544,8 +1544,8 @@ Module lassen sich in Abschnitte (Sections) unterteilen. Im Menü werden Abschni
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|addWMS|nein|**[addWMS](#markdown-header-portalconfigmenusectionsmodulesaddWMS)**||Mit diesem Modul lassen sich Layer eines WMS laden. Die Angabe erfolgt über eine URL. Es werden alle Layer des Dienstes geladen und im Themenbaum angezeigt.|true|
-|bufferAnalysis|nein|**[bufferAnalysis](#markdown-header-portalconfigmenusectionsmodulesbufferAnalysis)**||In der Buffer-Analyse muss ein Quell-Layer, ein Buffer-Radius und ein Ziel-Layer ausgewählt werden. Buffer-Radien werden um die Features des Quell-Layers dargestellt. Sobald ein Ziel-Layer gewählt wurde, werden nur die Features dieses Layers hervorgehoben, welche sich außerhalb der Buffer-Radien befinden. Auch eine invertierte Anzeige ist möglich. Bei dieser werden nur die Features des Ziel-Layers innerhalb der Radien hervorgehoben.|false|
+|addWMS|nein|**[addWMS](#markdown-header-portalconfigmenusectionsmodulesaddwms)**||Mit diesem Modul lassen sich Layer eines WMS laden. Die Angabe erfolgt über eine URL. Es werden alle Layer des Dienstes geladen und im Themenbaum angezeigt.|true|
+|bufferAnalysis|nein|**[bufferAnalysis](#markdown-header-portalconfigmenusectionsmodulesbufferanalysis)**||In der Buffer-Analyse muss ein Quell-Layer, ein Buffer-Radius und ein Ziel-Layer ausgewählt werden. Buffer-Radien werden um die Features des Quell-Layers dargestellt. Sobald ein Ziel-Layer gewählt wurde, werden nur die Features dieses Layers hervorgehoben, welche sich außerhalb der Buffer-Radien befinden. Auch eine invertierte Anzeige ist möglich. Bei dieser werden nur die Features des Ziel-Layers innerhalb der Radien hervorgehoben.|false|
 |contact|nein|**[contact](#markdown-header-portalconfigmenusectionsmodulescontact)**||Das Kontaktformular bietet dem Benutzer die Möglichkeit an das konfigurierte Postfach eine Nachricht zu senden. Es können beispielsweise Fehler oder Wünsche und Anregungen gemeldet und Screenshots können beigefügt werden.|false|
 |coordToolkit|nein|**[coordToolkit](#markdown-header-portalconfigmenusectionsmodulescoordtoolkit)**||Koordinatenabfrage: Werkzeug um Koordinaten und Höhe per Maus-Klick abzufragen: Bei Klick in die Karte werden die Koordinaten in der Anzeige eingefroren und können auch direkt in die Zwischenablage kopiert werden. Koordinatensuche: Über eine Eingabemaske können das Koordinatensystem und die Koordinaten eingegeben werden. Das Werkzeug zoomt dann auf die entsprechende Koordinate und setzt einen Marker darauf. Die Koordinatensysteme werden aus der config.js bezogen.|false|
 |customMenuElement|nein|**[customMenuElement](#markdown-header-portalconfigmenusectionsmodulescustommenuelement)**||Dieses Modul kann einen Link öffnen, HTML aus config.json oder einer externen Datei anzeigen oder eine Aktion ausführen. Diese Modul kann mehrfach in der config.json konfiguriert werden.|false|
@@ -1644,7 +1644,7 @@ Mit diesem Modul, kann der Benutzer mit einem definierten Postfach Kontakt aufne
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |closeAfterSend|nein|Boolean|false|Kennzeichen, ob das Kontaktfenster nach erfolgreichem Versenden einer Nachricht geschlossen werden soll.|false|
-|configuredFileExtensions|nein|[]||Zusätzliche Dateierweiterungen zu "png", "jpg" und "jpeg". Das Backend muss diese Dateitypen unterstützen.|false|
+|configuredFileExtensions|nein|String[]||Zusätzliche Dateierweiterungen zu "png", "jpg" und "jpeg". Das Backend muss diese Dateitypen unterstützen.|false|
 |contactInfo|nein|String||Weitere Informationen, welche oberhalb des Kontaktformulars angezeigt werden.|false|
 |deleteAfterSend|nein|Boolean|false|Kennzeichen, ob der Inhalt des Kontaktfensters nach erfolgreichem Versenden der Nachricht gelöscht werden soll.|false|
 |fileUpload|nein|Boolean|false|Kennzeichen, ob der Dateiupload verfügbar sein soll.|false|
@@ -1933,8 +1933,8 @@ Angabe der Umriss-Farbe und -Strichstärke für das Hervorheben von Linien und F
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |fill|nein|**[fill](#markdown-header-datatypesfill)**|[255, 255, 255, 0.5]|Mögliche Einstellung: color|false|
-|image|nein|**[image](##markdown-header-datatypesimage)**|1.5|Mögliche Einstellung: scale|false|
-|stroke|nein|**[stroke](##markdown-header-datatypesstroke)**|1|Mögliche Einstellung: width|false|
+|image|nein|**[image](#markdown-header-datatypesimage)**|1.5|Mögliche Einstellung: scale|false|
+|stroke|nein|**[stroke](#markdown-header-datatypesstroke)**|1|Mögliche Einstellung: width|false|
 |zoomLevel|nein|Integer|7|Mögliche Einstellung: 0-9|false|
 
 ***
@@ -2131,7 +2131,7 @@ Die Konfiguration eines Layers.
 |searchInMapExtentProactive|nein|Boolean|true|Die Checkbox zum Filtern im Browser-Extent löst unter `strategy`: `active` eine direkte Filterung im aktuellen Browser-Extent aus. Dies kann durch Einstellen von `searchInMapExtentProactive`: `false` abgeschaltet werden.|false|
 |shortDescription|nein|String|""|Eine kürzere Version der Beschreibung die bei Verwendung von Auswahl-Selektoren bei geschlossenen Selektoren angezeigt wird. Kann ein Übersetzungs-Key sein.|false|
 |showHits|nein|Boolean|true|Die Treffer nach einer Filterung werden als Text angezeigt. Auf `false` stellen, um die Treffer nicht anzuzeigen.|false|
-|snippets|nein|**[snippets](#markdown-datatypessnippets)**[]|[]|Konfiguration der sogenannten Snippets für das Filtern. Kann bei der minimalsten Variante ein Array von Attribut-Namen sein. Kann komplett weggelassen werden, wenn die automatische Snippet-Ermittlung verwendet werden soll.|false|
+|snippets|nein|**[snippets](#markdown-header-datatypessnippets)**[]|[]|Konfiguration der sogenannten Snippets für das Filtern. Kann bei der minimalsten Variante ein Array von Attribut-Namen sein. Kann komplett weggelassen werden, wenn die automatische Snippet-Ermittlung verwendet werden soll.|false|
 |snippetTags|nein|Boolean|true|Wenn gefiltert wurde, wird die Einstellung des Filters als Tags über dem Filter angezeigt. Auf `false` stellen, wenn dies vermieden werden soll.|false|
 |strategy|nein|String||Es gibt zwei Filter-Strategien: `passive` - Filtern nur nach Klick auf den Filter-Button. Und `active` - Filterung findet immer sofort statt, wenn die Einstellung irgendeines der Snippets verändert wird. Die passive Strategie ist der Default.|false|
 |title|nein|String||Der Titel der für den Auswahl-Selektor verwendet werden soll (nur bei `layerSelectorVisible` `true`). Kann ein Übersetzungs-Key sein. Wenn nicht eingestellt, dann wird die Layer-Id per default verwendet.|false|
@@ -3449,7 +3449,7 @@ Angabe der Linienfarbe und -breite für Linien Features und der Füllfarbe und S
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |fill|nein|**[fill](#markdown-header-datatypesfill)**|[255, 255, 255, 0.5]|Mögliche Einstellung: color|false|
-|image|nein|**[image](##markdown-header-datatypesimage)**|1.5|Mögliche Einstellung: scale|false|
+|image|nein|**[image](#markdown-header-datatypesimage)**|1.5|Mögliche Einstellung: scale|false|
 |stroke|nein|**[stroke](#markdown-header-datatypesstroke)**|1|Mögliche Einstellung: width|false|
 |zoomLevel|nein|Integer|7|Zoomstufe, mögliche Einstellung: 0-9|false|
 
@@ -4806,7 +4806,7 @@ Die Umrandung eines Elements. Es besteht aus einem Objekt mit einem Array in dem
 
 ***
 
-#### Datatype.Snippets
+## Datatypes.Snippets
 
 [type:Extent]: # (Datatypes.Snippets.Children)
 [type:Extent]: # (Datatypes.Snippets.LocalCompareParams)
@@ -4822,14 +4822,14 @@ Hinweis: Zeitbezogene Snippets (`date` und `dateRange`) können nur dann im Modu
 |addSelectAll|nein|Boolean|false|Nur für Snippet-Typ `dropdown` mit `multiselect: true`: Ein zusätzlicher Eintrag zum Selektieren/Deselektieren aller Werte wird angeboten.|false|
 |attrName|ja|String||Der Name des Attributes auf dem dieses Snippet filtern soll. Kann ein Array sein, wenn `dateRange`, `sliderRange` oder `featureInfo` verwendet wird (siehe Beispiele).|false|
 |autoInit|nein|Boolean|true|Nur für Snippet-Typ `dropdown`: Schaltet, wenn auf `false` gestellt, die automatischen Ermittlungen von Inhalts-, Min- und Max-Werten ab.|false|
-|children|nein|**[children](#markdown-datatypesnippetschildren)**[]|[]|Konfiguration von Kind-Snippets.|true|
+|children|nein|**[children](#markdown-header-datatypessnippetschildren)**[]|[]|Konfiguration von Kind-Snippets.|true|
 |decimalPlaces|nein|Number|0|Definiert Nachkommastellen für den Schritt bei `slider` und `sliderRange`|false|
 |delimiter|nein|String||Nur für Snippet-Typ `dropdown`: Sollte das Attribut eines Features ein String sein, dessen Wert mit einem Separator als Quasi-Array gedacht ist, kann durch Angabe des separierenden Zeichens (des Delimiters) die Verarbeitung des Strings als Array erzwungen werden.|false|
 |display|nein|String|"default"|Wenn Snippet-Typ `dropdown`: Wenn auf `list` eingestellt, wird anstelle einer Dropdown-Box eine Liste angezeigt. Wenn Snippet-Typ `dateRange`: Wenn auf `datepicker` eingestellt, wird nur die Auswahl über Kalender angezeigt, wenn auf `slider` eingestellt, wird nur der Slider angezeigt, wenn auf `all` eingestellt, werden Datepicker und Slider angezeigt.|false|
 |format|nein|String|"YYYY-MM-DD"|Nur für Snippet-Typ `date` und `dateRange`: Das verwendete Format des Datums in der Datenbank. Wenn nicht angegeben wird ISO8601 angenommen. Weicht das Format von ISO8601 ab, muss das Snippet sichtbar sein (`visible`: `true`) und der Filter muss im Modus `extern`: `false` arbeiten. Kann als Array von zwei unterschiedlichen Formaten angegeben werden, wenn als attrName ebenfalls ein Array unterschiedlicher Attributnamen angegeben wird und sich die Datums-Formate der Attributwerte unterscheiden.|false|
 |hideSelected|nein|Boolean|true|Standardmäßig ist beim Dropdown der ausgewählte Eintrag beim nächsten Ausklappen weg. Kann auf false gesetzt werden, um den vorher ausgewählten Eintrag sichtbar und farblich abgesetzt anzuzeigen.|false|
 |info|nein|String||Info-Text zu diesem Snippet oder ein Übersetzungs-Key. Wenn eingestellt, dann wird rechts vom Snippet ein Info-Symbol angezeigt, das bei Klick den Text darstellt. Kann auch einfach auf `true` gestellt werden, wenn ein Standard-Text ausreichend ist.|false|
-|localeCompareParams|nein|**[localeCompareParams](#markdown-header-datatypesnippetslocalecompareparams)**||Nur für Snippet-Typ `dropdown`: Die Sortierung der Dropdown-Boxen kann über diesen Parameter nach eigenen Wünschen angepasst werden.|false|
+|localeCompareParams|nein|**[localeCompareParams](#markdown-header-datatypessnippetslocalecompareparams)**||Nur für Snippet-Typ `dropdown`: Die Sortierung der Dropdown-Boxen kann über diesen Parameter nach eigenen Wünschen angepasst werden.|false|
 |maxValue|nein|Number||Nur für Snippet-Typ `date` und `slider`: Der Maximal-Wert als number oder Datums-String. Weglassen um die automatische Ermittlung der Werte zu aktivieren.|false|
 |minValue|nein|Number||Nur für Snippet-Typ `date` und `slider`: Der Minimal-Wert als number oder Datums-String. Weglassen um die automatische Ermittlung der Werte zu aktivieren.|false|
 |multiselect|nein|Boolean|true|Nur für Snippet-Typ `dropdown`: Gleichzeitige Auswahl vieler Werte. Auf `false` stellen um auf Einzelauswahl umzustellen.|false|
@@ -4839,10 +4839,10 @@ Hinweis: Zeitbezogene Snippets (`date` und `dateRange`) können nur dann im Modu
 |placeholder|nein|String|""|Nur für Snippet-Typ `dropdown`: Der Platzhalter bei Nicht-Einstellung der Dropdown. Kann ein Übersetzungs-Key sein.|false|
 |prechecked|nein|String[]/String||Initial aktiv eingestellte Werte. Für `dropdown`, `sliderRange` und `dateRange` ist dies ein Array, für checkbox ein boolean, für slider eine number, für text ein string und für date ein string der über das `format` spezifiziert werden muss. Für `dropdown` mit `multiselect`: Wird `prechecked` auf `all` eingestellt, werden initial alle verfügbaren Werte ausgewählt.|false|
 |renderIcons|nein|String|"none"|Nur für Snippet-Typ `dropdown` mit `display: "list"`: Wenn auf den String `fromLegend` eingestellt, werden Icons aus der Legende bezogen und links neben den Werten angezeigt. Wird hier ein Objekt angegeben, werden die Key-Namen als Wert und der Value als Bild-Pfad verwendet: {attrName: imagePath} (siehe Beispiele).|false|
-|service|nein|**[service](#markdown-header-datatypesnippetsservice)**||Für das initiale Befüllen eines Snippets (`dropdown`, `date`, `slider`) kann ein alternativer Service genutzt werden. Das kann unter Umständen die Performanz beim initialen Laden erhöhen. Standard ist der Service des konfigurierten **[filterLayer](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayer)**.|false|
+|service|nein|**[service](#markdown-header-datatypessnippetsservice)**||Für das initiale Befüllen eines Snippets (`dropdown`, `date`, `slider`) kann ein alternativer Service genutzt werden. Das kann unter Umständen die Performanz beim initialen Laden erhöhen. Standard ist der Service des konfigurierten **[filterLayer](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayer)**.|false|
 |showAllValues|nein|Boolean||Nur für Snippet-Typ `dropdown`: Verhindert wenn auf `true` gestellt das Verstecken der nicht ausgewählten Werte. Kann nur in Verbindung mit `prechecked: "all"` genutzt werden.|false|
 |subTitles|nein|String[]|[]|Nur für Snippet-Typ `dateRange`: Die zusätzlich über den Kalender-Feldern anzuzeigenden Von- und Bis-Bezeichnungen. Als Array mit zwei Elementen (z.B. ["von", "bis"]). Stellen Sie subTitles auf `true` um die Werte von `attrName` zu verwenden, auf false um Bezeichnungen nicht anzuzeigen.|false|
-|timeouts|nein|**[timeouts](#markdown-header-datatypesnippetstimeouts)**||Konfigurierbare Timeouts zur besseren User Experience.|false|
+|timeouts|nein|**[timeouts](#markdown-header-datatypessnippetstimeouts)**||Konfigurierbare Timeouts zur besseren User Experience.|false|
 |title|nein|String||Der Titel des Snippets. Kann ein Übersetzungs-Key sein. Wenn nicht eingestellt, wird der Titel aus den `gfiAttributes` genommen und wenn diese nicht vorhanden sind, dann wird der `attrName` verwendet. Kann auf `false` gesetzt werden um die Anzeige eines Titels zu unterbinden. Kann auf `true` gesetzt werden um die Anzeige des `attrName` zu erzwingen.|false|
 |type|nein|String||Der Snippet-Typ: `checkbox`, `dropdown`, `text`, `slider`, `sliderRange`, `date`, `dateRange`, `featureInfo`. Wird automatisch ermittelt, wenn nicht angegeben - dabei wird der Datentyp als Grundlage genommen: boolean wird zu `checkbox`, string wird zu `dropdown`, number wird zu `sliderRange`, unbekannt wird zu `text`.|false|
 |value|nein|String[]||Wenn weggelassen, werden Werte automatisch ermittelt. Wenn für `dropdown` eingestellt: Die Werte, die in der Liste auswählbar sein sollen. Wenn für `checkbox` eingestellt: Statt Boolean-Werten sollen die angegebenen Werte für die Zustände `true` und `false` genommen werden (z.B. ["Ja", "Nein"]). Für `dateRange`: Anfangs- und End-Datum für Datepicker und/oder Slider. Für `sliderRange`: Anfangs- und End-Werte.|false|
@@ -5091,7 +5091,7 @@ Beispiel für ein Snippet welches über mehrere Attribute gleichzeitig filtern u
 
 ***
 
-### Datatype.Snippets.Children
+### Datatypes.Snippets.Children
 Konfiguration von Kind-Snippets.
 Die Kind-Snippets werden nach derselben Art konfiguriert wie "normale" Snippets.
 Siehe [filterLayerSnippets](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippets).
@@ -5135,7 +5135,7 @@ Beispiel für ein Dropdown-Snippet mit Eltern-Kind-Beziehung. Die `cityA`- und `
 
 ***
 
-### Datatype.Snippets.Timeouts
+### Datatypes.Snippets.Timeouts
 Mit der Anpassung von Timeouts kann die User Experience verbessert werden.
 Dies betrifft besonders Filter die mit `strategy`: `active` arbeiten.
 
@@ -5162,7 +5162,7 @@ Ein Beispiel für ein sliderRange-Snippet mit beschleunigter Filterung nach Eing
 
 ***
 
-### Datatype.Snippets.Service
+### Datatypes.Snippets.Service
 
 Ein Objekt das einen Service für ein Snippet beschreibt. Alle Servicetypen, die der Filter unterstützt, können theoretisch genutzt werden.
 Die Konfiguration hängt vom Typ des Services ab.
@@ -5205,7 +5205,7 @@ Die Konfiguration hängt vom Typ des Services ab.
 
 ***
 
-### Datatype.Snippets.LocaleCompareParams
+### Datatypes.Snippets.LocaleCompareParams
 
 [type:Extent]: # (Datatypes.Snippets.LocalCompareParams.Options)
 
@@ -5220,7 +5220,7 @@ Ein String oder Objekt zur Steuerung der Sortierung von Dropdown-Boxen.
 |Name|Required|Typ|Default|Description|Expert|
 |----|--------|---|-------|-----------|------|
 |locale|nein|String||Der zu verwendende Ländercode nach ISO 3166|false|
-|options|nein|**[options](#markdown-header-datatypesnippetslocalecompareparamsoptions)**||Optionen für die Sortierung per localeCompare.|false|
+|options|nein|**[options](#markdown-header-datatypessnippetslocalecompareparamsoptions)**||Optionen für die Sortierung per localeCompare.|false|
 
 **Beispiel Object**
 
@@ -5235,7 +5235,7 @@ Ein String oder Objekt zur Steuerung der Sortierung von Dropdown-Boxen.
 
 ***
 
-#### Datatype.Snippets.LocaleCompareParams.Options
+#### Datatypes.Snippets.LocaleCompareParams.Options
 Ein Objekt zur benutzerdefinierten Steuerung der verwendeten localeCompare-Funktion zur Sortierung von Dropdown-Boxen, wie sie u.a. hier dokumentiert sind: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
 
 |Name|Required|Typ|Default|Description|Expert|
@@ -5254,7 +5254,7 @@ Ein Objekt zur benutzerdefinierten Steuerung der verwendeten localeCompare-Funkt
 
 ***
 
-## Datatype.Bbox
+## Datatypes.Bbox
 Ein Datentyp des Routings. BBOX-Wert zugeordnet zu einem speedProfile. Koordinatensystem ist abhängig von dem verwendeten epsg-Parameter. Der verwendete geosearch Dienst muss bbox-Werte als String unterstützen.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -5270,7 +5270,7 @@ Ein Datentyp des Routings. BBOX-Wert zugeordnet zu einem speedProfile. Koordinat
 ```
 
 ***
-## Datatype.CustomAvoidFeatures
+## Datatypes.CustomAvoidFeatures
 Routing-Werkzeug Routenplanung Routen customAvoidFeatures. Möglichkeit eigene Optionen für Verkehrswege meiden (zusätzlich zum BKG-Dienst) für speedProfiles zu definieren (erfordert eigenes Backend).
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -5373,7 +5373,7 @@ Routing-Werkzeug Routenplanung Wegpunkt Style Optionen.
 
 ***
 
-## Datatype.StyleAvoidAreas
+## Datatypes.StyleAvoidAreas
 Routing-Werkzeug Routenplanung Sperrflächen Style Optionen.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -5402,7 +5402,7 @@ Routing-Werkzeug Routenplanung Sperrflächen Style Optionen.
 
 ***
 
-## Datatype.BatchProcessing
+## Datatypes.BatchProcessing
 Routing-Werkzeug Routenplanung und Erreichbarkeitsanalysen Stapelverarbeitung Optionen.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -5428,7 +5428,7 @@ Routing-Werkzeug Routenplanung und Erreichbarkeitsanalysen Stapelverarbeitung Op
 
 ***
 
-## Datatype.StyleCenter
+## Datatypes.StyleCenter
 Routing-Werkzeug Erreichbarkeitsanalysen Center Style Optionen.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
