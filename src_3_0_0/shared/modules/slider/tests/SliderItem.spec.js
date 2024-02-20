@@ -26,7 +26,7 @@ describe("src_3_0_0/shared/components/SliderItem.vue", () => {
         expect(input.exists()).to.be.true;
         expect(input.attributes("aria-label")).to.equal("Aria-Label hier einfügen");
         expect(input.attributes("type")).to.equal("range");
-        expect(input.attributes("class")).to.equal("slider my-2");
+        expect(input.attributes("class")).to.equal("slider my-2 me-2");
 
         input.trigger("input");
         await wrapper.vm.$nextTick();
