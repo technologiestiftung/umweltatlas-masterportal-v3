@@ -18,7 +18,6 @@
 - Filter:
   - a new parameter "closeGfi" to give an option if a gfi window is open, and it could be closed after a new filtering.
   - a new parameter "universalSearch" in snippet with type "featureInfo" to enable to search the attribute value in webpage.
-- ShareView: Layer information can be shared.
 
 ### Changed
 - CoordToolkit: Toast added instead of Alert for feedback after copying coordinates.
@@ -43,7 +42,7 @@
 - Routing: Spinner will spin again when loading.
 - Contact Form: Telephone Field shows Error when entering letters and fields provide better feedback.
 - FileImport: Import of GPX-files imports routes, tracks and points. Import of geojson-files imports all besides circles.
-- ShareView: Legend can be shared.
+- ShareView: Legend and Layer information can be shared.
 - MainMenu: Resizing doesn't cause layout problems anymore.
 - The TopicTree-Searchinterface failed if there is an empty folder in the topic tree. Now it runs over empty folders.
 ---
