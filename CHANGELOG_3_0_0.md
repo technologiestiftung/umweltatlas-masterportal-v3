@@ -18,6 +18,7 @@
 - Filter:
   - a new parameter "closeGfi" to give an option if a gfi window is open, and it could be closed after a new filtering.
   - a new parameter "universalSearch" in snippet with type "featureInfo" to enable to search the attribute value in webpage.
+- ShareView: Layer information can be shared.
 
 ### Changed
 - CoordToolkit: Toast added instead of Alert for feedback after copying coordinates.

@@ -3,12 +3,6 @@ import getters from "../../../store/gettersLegend";
 import sinon from "sinon";
 
 describe("src_3_0_0/modules/legend/store/gettersLegend.js", () => {
-    // let warn;
-
-    beforeEach(() => {
-        // warn = sinon.spy();
-        // sinon.stub(console, "warn").callsFake(warn);
-    });
 
     afterEach(() => {
         sinon.restore();
