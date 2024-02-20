@@ -253,6 +253,7 @@ export default {
 
     .mp-mainMenu {
         left: 0;
+        overflow-x: hidden;
     }
 
     .mp-secondaryMenu {
