@@ -45,6 +45,7 @@
 - ShareView: Legend and Layer information can be shared.
 - MainMenu: Resizing doesn't cause layout problems anymore.
 - The TopicTree-Searchinterface failed if there is an empty folder in the topic tree. Now it runs over empty folders.
+- Layer Settings: styling of the settings menu.
 ---
 
 ---

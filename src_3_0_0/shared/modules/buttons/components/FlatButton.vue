@@ -30,6 +30,11 @@ export default {
             type: String,
             required: false,
             default: "button"
+        },
+        customclass: {
+            type: String,
+            default: null,
+            required: false
         }
     }
 };
@@ -38,6 +43,9 @@ export default {
 <template>
     <button
         class="flat-button btn btn-secondary d-flex align-items-center mb-3"
+        :class="[
+            customclass
+        ]"
         :type="type"
         :aria-label="text"
         @click="interaction"

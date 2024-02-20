@@ -61,7 +61,7 @@ export default {
     <input
         :id="id"
         type="range"
-        class="slider my-2"
+        class="slider my-2 me-2"
         :list="list"
         :value="value"
         :aria-label="aria"
@@ -73,7 +73,7 @@ export default {
     >
     <label
         :for="id"
-        class="form-label"
+        class="my-2"
     >
         {{ label }}
     </label>

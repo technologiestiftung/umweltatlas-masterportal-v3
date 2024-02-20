@@ -1,6 +1,6 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
-import LightButton from "../../../shared/modules/buttons/components/LightButton.vue";
+import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
 import layerFactory from "../../../core/layers/js/layerFactory";
 import SliderItem from "../../../shared/modules/slider/components/SliderItem.vue";
 
@@ -14,7 +14,7 @@ import SliderItem from "../../../shared/modules/slider/components/SliderItem.vue
 export default {
     name: "LayerComponentSubMenu",
     components: {
-        LightButton,
+        FlatButton,
         SliderItem
     },
     props: {
@@ -86,14 +86,6 @@ export default {
         :id="'layer-component-sub-menu-' + layerConf.id"
         class="d-flex flex-column layer-component-sub-menu"
     >
-        <div class="remove-layer-container">
-            <LightButton
-                :interaction="() => removeLayer(layerConf)"
-                :text="'common:modules.layerTree.iconRemoveLayer'"
-                icon="bi-trash3"
-                customclass="light-button  w-100"
-            />
-        </div>
         <div
             v-if="getPath()"
             class="ms-3"
@@ -105,6 +97,14 @@ export default {
                 {{ getPath() }}
             </span>
         </div>
+        <div class="remove-layer-container">
+            <FlatButton
+                :interaction="() => removeLayer(layerConf)"
+                :text="'common:modules.layerTree.iconRemoveLayer'"
+                :icon="'bi-trash3'"
+                :customclass="'mt-3'"
+            />
+        </div>
         <div
             v-if="supportedTransparency"
             :id="'layer-component-icon-sub-menu-transparency-container-' + layerConf.id"
@@ -113,6 +113,7 @@ export default {
             <i class="bi-droplet-half" />
             <label
                 :for="'layer-component-sub-menu-transparency-input-' + layerConf.id"
+                class="me-2"
             >
                 {{ $t("common:modules.layerTree.iconTransparency") + ":" }}
             </label>
@@ -142,12 +143,6 @@ export default {
     }
     .layer-component-sub-menu {
         font-size: $font-size-base;
-
-        .remove-layer-container {
-            .light-button {
-                font-size: $font-size-base;
-            }
-        }
 
         .transparency-container {
             min-height: 2.5rem;

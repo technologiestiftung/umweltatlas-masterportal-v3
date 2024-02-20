@@ -39,8 +39,7 @@ export default {
         type="button"
         class="btn btn-light d-flex align-items-center btn-description mp-btn-light"
         :class="[
-            customclass,
-
+            customclass
         ]"
         :aria-label=" $t(text)"
         @click="interaction"
