@@ -97,14 +97,6 @@ export default {
                 {{ getPath() }}
             </span>
         </div>
-        <div class="remove-layer-container">
-            <FlatButton
-                :interaction="() => removeLayer(layerConf)"
-                :text="'common:modules.layerTree.iconRemoveLayer'"
-                :icon="'bi-trash3'"
-                :customclass="'mt-3'"
-            />
-        </div>
         <div
             v-if="supportedTransparency"
             :id="'layer-component-icon-sub-menu-transparency-container-' + layerConf.id"
@@ -126,6 +118,14 @@ export default {
                 :max="100"
                 :step="1"
                 :interaction="$event => updateTransparency({layerConf, transparency: parseInt($event.target.value, 10)})"
+            />
+        </div>
+        <div class="remove-layer-container">
+            <FlatButton
+                :interaction="() => removeLayer(layerConf)"
+                :text="'common:modules.layerTree.iconRemoveLayer'"
+                :icon="'bi-trash3'"
+                :customclass="'mt-3'"
             />
         </div>
     </div>
