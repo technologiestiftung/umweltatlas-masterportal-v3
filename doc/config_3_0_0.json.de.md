@@ -38,7 +38,7 @@ Es existieren die im Folgenden aufgelisteten Konfigurationen:
 |map|nein|**[map](#markdown-header-portalconfigmap)**||MKonfiguration der Karte und darauf platzierter Elemente.|false|
 |mainMenu|nein|**[menu](#markdown-header-portalconfigmenu)**||Hier können die Menüeinträge im Mainmenu und deren Anordnung konfiguriert werden. Die Reihenfolge der Module ist identisch mit der Reihenfolge in der config.json (siehe **[Modules](#markdown-header-portalconfigmenumodules)**).|false|
 |secondaryMenu|nein|**[menu](#markdown-header-portalconfigmenu)**||Hier können die Menüeinträge im Secondarymenu und deren Anordnung konfiguriert werden. Die Reihenfolge der Module ist identisch mit der Reihenfolge in der config.json (siehe **[Modules](#markdown-header-portalconfigmenumodules)**).|false|
-|portalFooter|nein|**[footer](#markdown-header-footer)**||Möglichkeit den Inhalt der Fußzeile des Portals zu konfigurieren.|false|
+|portalFooter|nein|**[footer](#markdown-header-portalconfigportalfooter)**||Möglichkeit den Inhalt der Fußzeile des Portals zu konfigurieren.|false|
 |tree|nein|**[tree](#markdown-header-portalconfigtree)**||Möglichkeit um Einstellungen für den Themenbaum vorzunehmen.|false|
 
 **Beispiel**
@@ -113,6 +113,7 @@ activatedExpandable|nein|Boolean|false|Gibt an, ob der baselayerSwitcher aufgekl
 ***
 
 #### portalConfig.map.controls
+
 Mit den Controls kann festgelegt werden, welche Interaktionen in der Karte möglich sein sollen.
 
 Controls können in der config.json in die Ebene "expandable" verschachtelt werden und sind somit nicht mehr in der Leiste an der Seite, sondern über den Button mit den drei Punkten aufklappbar.
@@ -605,9 +606,9 @@ Für mehr Informationen über die Farbmöglichkeiten: **[Color-documentation](ht
 
 ##### portalConfig.map.getFeatureInfo.highlightVectorRules
 
-[type:Extent]: # (Datatypes.Image)
-[type:Extent]: # (Datatypes.Fill)
-[type:Extent]: # (Datatypes.Stroke)
+[type:Image]: # (Datatypes.Image)
+[type:Fill]: # (Datatypes.Fill)
+[type:Stroke]: # (Datatypes.Stroke)
 
 Liste der Einstellungen zum Überschreiben von Vektorstyles bei GetFeatureInfo Abfragen.
 
@@ -615,9 +616,9 @@ Hinweis: Das Highlighting funktioniert nur, wenn der Layer in der config.json ü
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|fill|nein|**[fill](#markdown-header-datatypesfill)**|[255, 255, 255, 0.5]|Mögliche Einstellung: `color`|false|
-|image|nein|**[image](#markdown-header-datatypesimage)**|1|Mögliche Einstellung: `scale`|false|
-|stroke|nein|**[stroke](#markdown-header-datatypesstroke)**|1|Mögliche Einstellung: `width`|false|
+|fill|nein|**[Fill](#markdown-header-datatypesfill)**|[255, 255, 255, 0.5]|Mögliche Einstellung: `color`|false|
+|image|nein|**[Image](#markdown-header-datatypesimage)**|1|Mögliche Einstellung: `scale`|false|
+|stroke|nein|**[Stroke](#markdown-header-datatypesstroke)**|1|Mögliche Einstellung: `width`|false|
 |text|nein|**[text](#markdown-header-portalconfiggetfeatureinfohighlightvectorrulestext)**||Mögliche Einstellung: `scale`|false|
 
 
@@ -877,7 +878,7 @@ Mit verschiedenen Parametern wird die Startansicht der Karte konfiguriert und de
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|interactionModes|nein|**[interactionModes](#markdown-header-portalconfigmapmapviewInteractionsinteractionModes)**|{dragPan: false, altShiftDragRotate: false, pinchRotate: false}| Interaktionseinstellungen für die ol Standardinteraktionen. Wenn nicht gesetzt, wird die Standardeinstellung verwendet.|false|
+|interactionModes|nein|**[interactionModes](#markdown-header-portalconfigmapmapviewInteractionsinteractionModes)**|{"dragPan": false, "altShiftDragRotate": false, "pinchRotate": false}| Interaktionseinstellungen für die ol Standardinteraktionen. Wenn nicht gesetzt, wird die Standardeinstellung verwendet.|false|
 |keyboardEventTarget|nein|Boolean|false|Möglichkeit, das Tastaturereignisziel für die ol-Map zu setzen z.B. keyboardEventTarget: document|false|
 
 **Beispiel:**
@@ -1092,6 +1093,7 @@ Definitionen der Suchschnittstellen.
 ###### portalConfig.menu.searchBar.searchInterfaces.bkg
 
 [type:Extent]: # (Datatypes.Extent)
+[type:resultEvents]: # (portalConfig.menu.searchBar.searchInterfaces.resultEvents)
 
 Konfiguration des BKG Suchdienstes
 
@@ -1120,7 +1122,7 @@ ProxyPass /bkg_suggest http://sg.geodatenzentrum.de/gdz_geokodierung__[UUID]/sug
 |geoSearchServiceId|ja|String||Id des Suchdienstes. Wird aufgelöst in der **[rest-services.json](rest-services.json.de.md)**.|false|
 |minScore|nein|Number|0.6|Score der die Qualität der Suchergebnisse definiert.|false|
 |resultCount|nein|Integer|20|Maximale Anzahl der Suchtreffer die vom Dienst geliefert werden.|false|
-|resultEvents|nein|**[resultEvents](#markdown-header-portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["setMarker", "zoomToResult"], "onHover": ["setMarker"], buttons: ["startRouting"]}|Aktionen, die ausgeführt werden, wenn eine Interaktion, z. B. ein Hover oder ein Klick, mit einem Element der Ergebnisliste erfolgt. Folgende events sind möglich: "setMarker", "zoomToResult", "startRouting".|false|
+|resultEvents|nein|**[resultEvents](#markdown-header-portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["setMarker", "zoomToResult"], "onHover": ["setMarker"], "buttons": ["startRouting"]}|Aktionen, die ausgeführt werden, wenn eine Interaktion, z. B. ein Hover oder ein Klick, mit einem Element der Ergebnisliste erfolgt. Folgende events sind möglich: "setMarker", "zoomToResult", "startRouting".|false|
 |type|ja|String|"bkg"|Type der Such-Schnittstelle. Definiert welche Such-Schnittstelle konfiguriert ist.|false|
 
 **Beispiel**
@@ -1139,6 +1141,9 @@ ProxyPass /bkg_suggest http://sg.geodatenzentrum.de/gdz_geokodierung__[UUID]/sug
 ***
 
 ###### portalConfig.menu.searchBar.searchInterfaces.elasticSearch
+
+[type:resultEvents]: # (portalConfig.menu.searchBar.searchInterfaces.resultEvents)
+
 Konfiguration des Elastic Search Suchdienstes
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -1213,6 +1218,9 @@ Mapping Objekt. Mappt die Attribute des Ergebnis Objektes auf den entsprechenden
 ***
 
 ###### portalConfig.menu.searchBar.searchInterfaces.gazetteer
+
+[type:ResultEvents]: # (portalConfig.menu.searchBar.searchInterfaces.resultEvents)
+
 Konfiguration des Gazetteer Suchdienstes
 
 **ACHTUNG: Backend notwendig!**
@@ -1249,6 +1257,9 @@ Konfiguration des Gazetteer Suchdienstes
 ***
 
 ###### portalConfig.menu.searchBar.searchInterfaces.komootPhoton
+
+[type:resultEvents]: # (portalConfig.menu.searchBar.searchInterfaces.resultEvents)
+
 Suche bei **[Komoot Photon](https://photon.komoot.io/)**.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -1280,6 +1291,9 @@ Suche bei **[Komoot Photon](https://photon.komoot.io/)**.
 ***
 
 ###### portalConfig.menu.searchBar.searchInterfaces.locationFinder
+
+[type:resultEvents]: # (portalConfig.menu.searchBar.searchInterfaces.resultEvents)
+
 Konfiguration zur Suche unter Verwendung eines ESRI CH LocationFinders.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -1345,6 +1359,9 @@ Definition von Klassen, welche als Ergebnis berücksichtigt werden sollen.
 ***
 
 ###### portalConfig.menu.searchBar.searchInterfaces.osmNominatim
+
+[type:resultEvents]: # (portalConfig.menu.searchBar.searchInterfaces.resultEvents)
+
 Suche bei OpenStreetMap über Stadt, Strasse und Hausnummer. Wird nur durch Klick auf die Lupe oder Enter ausgelöst, da die Anzahl der Abfragen der OSM-Suchmaschine limitiert ist.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -1371,6 +1388,9 @@ Suche bei OpenStreetMap über Stadt, Strasse und Hausnummer. Wird nur durch Klic
 ***
 
 ###### portalConfig.menu.searchBar.searchInterfaces.specialWFS
+
+[type:resultEvents]: # (portalConfig.menu.searchBar.searchInterfaces.resultEvents)
+
 Konfiguration der WFS-Suchfunktion "specialWFS": fragt Features eines WFS-Dienstes ab. Der Dienst muss hierfür WFS 2.0 Anfragen zulassen.
 
 Beispielsweise würde bei der Eingabe "Kronenmatten" der Dienst
@@ -1462,6 +1482,9 @@ Konfiguration einer Definition bei der SpecialWFS Suche
 ***
 
 ###### portalConfig.menu.searchBar.searchInterfaces.topicTree
+
+[type:resultEvents]: # (portalConfig.menu.searchBar.searchInterfaces.resultEvents)
+
 Alle Layer, die im Themenbaum des Portals sind, werden durchsucht.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -1481,6 +1504,9 @@ Alle Layer, die im Themenbaum des Portals sind, werden durchsucht.
 ***
 
 ###### portalConfig.menu.searchBar.searchInterfaces.visibleVector
+
+[type:resultEvents]: # (portalConfig.menu.searchBar.searchInterfaces.resultEvents)
+
 Konfiguration der Suche über die sichtbaren VectorLayer. Bei der Layerdefinition unter "Fachdaten" muss für jeden VectorLayer, der durchsucht werden soll das Attribut "searchField" gesetzt sein. Siehe **[searchField](#markdown-header-themenconfigelementslayersvector)**
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -1540,6 +1566,30 @@ Folgende Events existieren. Welche Events konfiguriert werden können ist den Be
 ***
 
 #### portalConfig.menu.sections
+
+[type:addWMS]: # (portalConfig.menu.sections.modules.addWMS)
+[type:bufferAnalysis]: # (portalConfig.menu.sections.modules.bufferAnalysis)
+[type:contact]: # (portalConfig.menu.sections.modules.contact)
+[type:coordToolkit]: # (portalConfig.menu.sections.modules.coordToolkit)
+[type:customMenuElement]: # (portalConfig.menu.sections.modules.customMenuElement)
+[type:featureLister]: # (portalConfig.menu.sections.modules.featureLister)
+[type:fileImport]: # (portalConfig.menu.sections.modules.fileImport)
+[type:filter]: # (portalConfig.menu.sections.modules.filter)
+[type:language]: # (portalConfig.menu.sections.modules.language)
+[type:layerClusterToggler]: # (portalConfig.menu.sections.modules)
+[type:layerSlider]: # (portalConfig.menu.sections.modules.layerClusterToggler)
+[type:measure]: # (portalConfig.menu.sections.modules.measure)
+[type:news]: # (portalConfig.menu.sections.modules.news)
+[type:openConfig]: # (portalConfig.menu.sections.modules.openConfig)
+[type:print]: # (portalConfig.menu.sections.modules.print)
+[type:routing]: # (portalConfig.menu.sections.modules.routing)
+[type:scaleSwitcher]: # (portalConfig.menu.sections.modules.scaleSwitcher)
+[type:selectFeatures]: # (portalConfig.menu.sections.modules.selectFeatures)
+[type:shadow]: # (portalConfig.menu.sections.modules.shadows)
+[type:shareView]: # (portalConfig.menu.sections.modules.shareView)
+[type:styleVT]: # (portalConfig.menu.sections.modules.styleVT)
+[type:wfst]: # (portalConfig.menu.sections.modules.wfst)
+
 Module lassen sich in Abschnitte (Sections) unterteilen. Im Menü werden Abschnitte mit einem horizontalen Strich unterteilt.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -1740,7 +1790,7 @@ Koordinaten-Werkzeug: um zusätzlich zu den 2 dimensionalen Koordinaten die Höh
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|coordInfo|nein|[CoordInfo](#markdown-header-portalconfigmenusectionsmodulescoordtoolkitcoordInfo)|null|Hier kann ein Objekt mit Erläuterungen für die Koordinatenreferenzsysteme hinterlegt werden.|false|
+|coordInfo|nein|**[coordInfo](#markdown-header-portalconfigmenusectionsmodulescoordtoolkitcoordInfo)**|null|Hier kann ein Objekt mit Erläuterungen für die Koordinatenreferenzsysteme hinterlegt werden.|false|
 |delimiter|nein|String|"Pipe-Symbol"|Trenner der Koordinaten beim Kopieren des Koordinatenpaares|false|
 |heightElementName|nein|String||Koordinatenabfrage: Der Element-Name unter dem die Höhe in dem XML gesucht wird|false|
 |heightLayerId|nein|String||Koordinatenabfrage: Id des WMS-Layers der die Höhe im XML-Format liefert. Wenn nicht definiert, dann wird keine Höhe angezeigt.|false|
@@ -1779,20 +1829,13 @@ Koordinaten-Werkzeug: um zusätzlich zu den 2 dimensionalen Koordinaten die Höh
 
 ###### portalConfig.menu.sections.modules.coordToolkit.coordInfo
 
-[inherits]: # (portalConfig.menu.folder.coordToolkit)
+[inherits]: # (portalConfig.menu.sections.modules)
+[type:Explanations]: # (Datatypes.Explanations)
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|explanations|nein|**[explanations](#markdown-header-portalconfigmenusectionsmodulescoordtoolkitcoordinfoexplanations)**[]||Array mit Erklärungen, aus denen eine Liste erstellt wird.|false|
+|explanations|nein|**[Explanations](#markdown-header-datatypesexplanations)**[]||Array mit Erklärungen, aus denen eine Liste erstellt wird.|false|
 |title|nein|string||Überschrift für die Erläuterungen zu den Koordinatenreferenzsystemen.|false|
-
-***
-
-###### portalConfig.menu.tool.coordToolkit.coordInfo.explanations
-
-[inherits]: # (portalConfig.menu.folder.coordToolkit)
-
-Kann ein Array von Erläuterungen zu den Koordinatenreferenzsystemen enthalten aus denen eine Liste erstellt wird.
 
 ***
 
@@ -1841,7 +1884,7 @@ Dieses Modul kann einen Link öffnen, HTML aus config.json oder einer externen D
 
 ###### portalConfig.menu.sections.modules.customMenuElement.execute
 
-[type:Extent]: # (Datatypes.Payload)
+[type:Payload]: # (Datatypes.Payload)
 
 CustomMenuElement Module `execute` Optionen.
 
@@ -1924,32 +1967,32 @@ Sobald man den Mauszeiger über einem Feature in der Liste positioniert wird die
 
 ###### portalConfig.menu.sections.modules.featureLister.highlightVectorRulesPointLine
 
-[type:Extent]: # (Datatypes.Fill)
-[type:Extent]: # (Datatypes.Stroke)
-[type:Extent]: # (Datatypes.Image)
+[type:Fill]: # (Datatypes.Fill)
+[type:Stroke]: # (Datatypes.Stroke)
+[type:Image]: # (Datatypes.Image)
 
 Angabe der Umriss-Farbe und -Strichstärke für das Hervorheben von Linien und Füllfarbe, sowie Skalierungsfaktor für das Hervorheben von Punkten. Ebenfalls kann eine Zoomstufe angegeben werden.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|fill|nein|**[fill](#markdown-header-datatypesfill)**|[255, 255, 255, 0.5]|Mögliche Einstellung: color|false|
-|image|nein|**[image](#markdown-header-datatypesimage)**|1.5|Mögliche Einstellung: scale|false|
-|stroke|nein|**[stroke](#markdown-header-datatypesstroke)**|1|Mögliche Einstellung: width|false|
+|fill|nein|**[Fill](#markdown-header-datatypesfill)**|[255, 255, 255, 0.5]|Mögliche Einstellung: color|false|
+|image|nein|**[Image](#markdown-header-datatypesimage)**|1.5|Mögliche Einstellung: scale|false|
+|stroke|nein|**[Stroke](#markdown-header-datatypesstroke)**|1|Mögliche Einstellung: width|false|
 |zoomLevel|nein|Integer|7|Mögliche Einstellung: 0-9|false|
 
 ***
 
 ###### portalConfig.menu.sections.modules.featureLister.highlightVectorRulesPolygon
 
-[type:Extent]: # (Datatypes.Fill)
-[type:Extent]: # (Datatypes.Stroke)
+[type:Fill]: # (Datatypes.Fill)
+[type:Stroke]: # (Datatypes.Stroke)
 
 Angabe der Füll-Farbe und -Strichstärke für das Hervorheben von Polygonen sowie einer Zoomstufe.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|fill|nein|**[fill](#markdown-header-datatypesfill)**|[255, 255, 255, 0.5]|Mögliche Einstellung: color|false|
-|stroke|nein|**[stroke](#markdown-header-datatypesstroke)**|1|Mögliche Einstellung: width|false|
+|fill|nein|**[Fill](#markdown-header-datatypesfill)**|[255, 255, 255, 0.5]|Mögliche Einstellung: color|false|
+|stroke|nein|**[Stroke](#markdown-header-datatypesstroke)**|1|Mögliche Einstellung: width|false|
 |zoomLevel|nein|Integer|7|Mögliche Einstellung: 0-9|false|
 
 ***
@@ -2103,7 +2146,7 @@ Beispiel für eine vollständig veränderte Konfiguration des `filterGeometrySel
 
 #### portalConfig.menu.sections.modules.filter.filterLayer
 
-[type:Extent]: # (Datatypes.Snippets)
+[type:Snippets]: # (Datatypes.Snippets)
 
 Die Konfiguration eines Layers.
 
@@ -2131,7 +2174,7 @@ Die Konfiguration eines Layers.
 |searchInMapExtentProactive|nein|Boolean|true|Die Checkbox zum Filtern im Browser-Extent löst unter `strategy`: `active` eine direkte Filterung im aktuellen Browser-Extent aus. Dies kann durch Einstellen von `searchInMapExtentProactive`: `false` abgeschaltet werden.|false|
 |shortDescription|nein|String|""|Eine kürzere Version der Beschreibung die bei Verwendung von Auswahl-Selektoren bei geschlossenen Selektoren angezeigt wird. Kann ein Übersetzungs-Key sein.|false|
 |showHits|nein|Boolean|true|Die Treffer nach einer Filterung werden als Text angezeigt. Auf `false` stellen, um die Treffer nicht anzuzeigen.|false|
-|snippets|nein|**[snippets](#markdown-header-datatypessnippets)**[]|[]|Konfiguration der sogenannten Snippets für das Filtern. Kann bei der minimalsten Variante ein Array von Attribut-Namen sein. Kann komplett weggelassen werden, wenn die automatische Snippet-Ermittlung verwendet werden soll.|false|
+|snippets|nein|**[Snippets](#markdown-header-datatypessnippets)**[]|[]|Konfiguration der sogenannten Snippets für das Filtern. Kann bei der minimalsten Variante ein Array von Attribut-Namen sein. Kann komplett weggelassen werden, wenn die automatische Snippet-Ermittlung verwendet werden soll.|false|
 |snippetTags|nein|Boolean|true|Wenn gefiltert wurde, wird die Einstellung des Filters als Tags über dem Filter angezeigt. Auf `false` stellen, wenn dies vermieden werden soll.|false|
 |strategy|nein|String||Es gibt zwei Filter-Strategien: `passive` - Filtern nur nach Klick auf den Filter-Button. Und `active` - Filterung findet immer sofort statt, wenn die Einstellung irgendeines der Snippets verändert wird. Die passive Strategie ist der Default.|false|
 |title|nein|String||Der Titel der für den Auswahl-Selektor verwendet werden soll (nur bei `layerSelectorVisible` `true`). Kann ein Übersetzungs-Key sein. Wenn nicht eingestellt, dann wird die Layer-Id per default verwendet.|false|
@@ -3132,7 +3175,7 @@ Routing-Werkzeug Download Optionen.
 
 #### portalConfig.menu.sections.modules.routing.geosearch
 
-[type:Extent]: # (Datatypes.Bbox)
+[type:ExtBboxent]: # (Datatypes.Bbox)
 
 Routing-Werkzeug Geosuche Optionen.
 
@@ -3145,7 +3188,7 @@ Routing-Werkzeug Geosuche Optionen.
 |typeName|nein|String||Typname für die specialWfs Geosuchabfrage.|false|
 |propertyNames|nein|String[]||Namen der Eigenschaften, die in die specialWfs Geosuche einbezogen werden sollen.|false|
 |geometryNames|nein|String||Name des Geometriefelds für die specialWfs Geosuche.|false|
-|bbox|nein|**[bbox](#markdown-header-datatypebbox)**||BBOX-Wert zugeordnet zu einem speedProfile. Koordinatensystem ist abhängig von dem verwendeten epsg-Parameter. Der verwendete geosearch Dienst muss bbox-Werte als String unterstützen.|false|
+|bbox|nein|**[Bbox](#markdown-header-datatypebbox)**||BBOX-Wert zugeordnet zu einem speedProfile. Koordinatensystem ist abhängig von dem verwendeten epsg-Parameter. Der verwendete geosearch Dienst muss bbox-Werte als String unterstützen.|false|
 |epsg|nein|String|4326|Welcher EPSG-Code vom Service genutzt wird (z.B. 4326, 25832).|false|
 |searchField|nein|String||Der Pfad zum Feld welches bei der Nutzung von Elastic Search gesucht werden soll.|false|
 |sortField|nein|String||Der Pfad zum Feld welches bei der Nutzung von Elastic Search die Sortierung der Ergebnisse in aufsteigender Reihenfolge vorgibt.|false|
@@ -3223,12 +3266,12 @@ Routing-Werkzeug Geosuche Reverse Optionen.
 
 #### portalConfig.menu.sections.modules.routing.directionsSettings
 
-[type:Extent]: # (Datatypes.BatchProcessing)
-[type:Extent]: # (Datatypes.StyleAvoidAreas)
-[type:Extent]: # (Datatypes.StyleWaypoint)
-[type:Extent]: # (Datatypes.StyleRoute)
-[type:Extent]: # (Datatypes.CustomPreferences)
-[type:Extent]: # (Datatypes.customAvoidFeatures)
+[type:BatchProcessing]: # (Datatypes.BatchProcessing)
+[type:StyleAvoidAreas]: # (Datatypes.StyleAvoidAreas)
+[type:StyleWaypoint]: # (Datatypes.StyleWaypoint)
+[type:StyleRoute]: # (Datatypes.StyleRoute)
+[type:CustomPreferences]: # (Datatypes.CustomPreferences)
+[type:CustomAvoidFeatures]: # (Datatypes.CustomAvoidFeatures)
 
 Routing-Werkzeug Routenplanung Optionen.
 
@@ -3238,12 +3281,12 @@ Routing-Werkzeug Routenplanung Optionen.
 |serviceId|ja|String||Welcher Service für die Abfrage verwendet werden soll.|false|
 |speedProfile|nein|String|"CAR"|Welches Geschwindigkeitsprofil verwendet werden soll.|false|
 |preference|nein|String|"RECOMMENDED"|Welche Art der Routenplanung verwendet werden soll.|false|
-|customPreferences|nein|**[customPreferences](#markdown-header-datatypescustompreferences)**||Möglichkeit eigene Routenpräferenzen (zusätzlich zum BKG-Dienst) für die unterschiedlichen speedProfiles zu definieren (erfordert eigenes Backend)|false|
-|customAvoidFeatures|nein|**[customAvoidFeatures](#markdown-header-datatypescustomavoidfeatures)**||Möglichkeit eigene Optionen für Verkehrswege meiden (zusätzlich zum BKG-Dienst) für die unterschiedlichen speedProfiles zu definieren (erfordert eigenes Backend)|false|
-|styleRoute|nein|**[styleRoute](#markdown-header-datatypesstyleroute)**||Stylerouteoptionen|false|
-|styleWaypoint|nein|**[styleWaypoint](#markdown-header-datatypesstylewaypoint)**||Stylewaypointoptionen|false|
-|styleAvoidAreas|nein|**[styleAvoidAreas](#markdown-header-datatypesstyleavoidareas)**||Styleavoidareasoptionen|false|
-|batchProcessing|nein|**[batchProcessing](#markdown-header-datatypesbatchprocessing)**||Batchprocessingoptionen|false|
+|customPreferences|nein|**[CustomPreferences](#markdown-header-datatypescustompreferences)**||Möglichkeit eigene Routenpräferenzen (zusätzlich zum BKG-Dienst) für die unterschiedlichen speedProfiles zu definieren (erfordert eigenes Backend)|false|
+|customAvoidFeatures|nein|**[CustomAvoidFeatures](#markdown-header-datatypescustomavoidfeatures)**||Möglichkeit eigene Optionen für Verkehrswege meiden (zusätzlich zum BKG-Dienst) für die unterschiedlichen speedProfiles zu definieren (erfordert eigenes Backend)|false|
+|styleRoute|nein|**[StyleRoute](#markdown-header-datatypesstyleroute)**||Stylerouteoptionen|false|
+|styleWaypoint|nein|**[StyleWaypoint](#markdown-header-datatypesstylewaypoint)**||Stylewaypointoptionen|false|
+|styleAvoidAreas|nein|**[StyleAvoidAreas](#markdown-header-datatypesstyleavoidareas)**||Styleavoidareasoptionen|false|
+|batchProcessing|nein|**[BatchProcessing](#markdown-header-datatypesbatchprocessing)**||Batchprocessingoptionen|false|
 
 **Beispiel**
 
@@ -3300,9 +3343,9 @@ Routing-Werkzeug Routenplanung Optionen.
 
 #### portalConfig.menu.sections.modules.routing.isochronesSettings
 
-[type:Extent]: # (Datatypes.BatchProcessing)
-[type:Extent]: # (Datatypes.StyleCenter)
-[type:Extent]: # (Datatypes.StyleIsochrones)
+[type:BatchProcessing]: # (Datatypes.BatchProcessing)
+[type:StyleCenter]: # (Datatypes.StyleCenter)
+[type:StyleIsochrones]: # (Datatypes.StyleIsochrones)
 
 Routing-Werkzeug Erreichbarkeitsanalysen Optionen.
 
@@ -3321,9 +3364,9 @@ Routing-Werkzeug Erreichbarkeitsanalysen Optionen.
 |intervalValue|nein|Number|15|Welcher Intervallwert in km/min für den Slider verwendet werden soll.|false|
 |minInterval|nein|Number|1|Welches minimale Intervall in km/min für den Slider verwendet werden soll.|false|
 |maxInterval|nein|Number|30|Welches maximale Intervall in km/min für den Slider verwendet werden soll.|false|
-|styleCenter|nein|**[styleCenter](#markdown-header-datattypesstylecenter)**||Stylecenteroptionen|false|
-|styleIsochrones|nein|**[styleIsochrones](#markdown-header-datatypesstyleisochrones)**||Styleisochronesoptionen|false|
-|batchProcessing|nein|**[batchProcessing](#markdown-header-datatypesbatchprocessing)**||Batchprocessingoptionen|false|
+|styleCenter|nein|**[StyleCenter](#markdown-header-datattypesstylecenter)**||Stylecenteroptionen|false|
+|styleIsochrones|nein|**[StyleIsochrones](#markdown-header-datatypesstyleisochrones)**||Styleisochronesoptionen|false|
+|batchProcessing|nein|**[BatchProcessing](#markdown-header-datatypesbatchprocessing)**||Batchprocessingoptionen|false|
 
 **Beispiel**
 
@@ -3440,32 +3483,32 @@ Erlaub das auswählen von Vektor Features, indem der Nutzer auf der Karte eine A
 
 ###### portalConfig.menu.sections.modules.selectFeatures.highlightVectorRulesPointLine
 
-[type:Extent]: # (Datatypes.Image)
-[type:Extent]: # (Datatypes.Fill)
-[type:Extent]: # (Datatypes.Stroke)
+[type:Image]: # (Datatypes.Image)
+[type:Fill]: # (Datatypes.Fill)
+[type:Stroke]: # (Datatypes.Stroke)
 
 Angabe der Linienfarbe und -breite für Linien Features und der Füllfarbe und Skalierung für Punkte. Sowie optional eine Zoomstufe.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|fill|nein|**[fill](#markdown-header-datatypesfill)**|[255, 255, 255, 0.5]|Mögliche Einstellung: color|false|
-|image|nein|**[image](#markdown-header-datatypesimage)**|1.5|Mögliche Einstellung: scale|false|
-|stroke|nein|**[stroke](#markdown-header-datatypesstroke)**|1|Mögliche Einstellung: width|false|
+|fill|nein|**[Fill](#markdown-header-datatypesfill)**|[255, 255, 255, 0.5]|Mögliche Einstellung: color|false|
+|image|nein|**[Image](#markdown-header-datatypesimage)**|1.5|Mögliche Einstellung: scale|false|
+|stroke|nein|**[Stroke](#markdown-header-datatypesstroke)**|1|Mögliche Einstellung: width|false|
 |zoomLevel|nein|Integer|7|Zoomstufe, mögliche Einstellung: 0-9|false|
 
 ***
 
 ###### portalConfig.menu.sections.modules.selectFeatures.highlightVectorRulesPolygon
 
-[type:Extent]: # (Datatypes.Fill)
-[type:Extent]: # (Datatypes.Stroke)
+[type:Fill]: # (Datatypes.Fill)
+[type:Stroke]: # (Datatypes.Stroke)
 
 Angabe der Füllfarbe, Kantenfarbe und -breite für das Hervorheben von Polygon Features. Sowie optional eine Zoomstufe.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|fill|nein|**[fill](#markdown-header-datatypesfill)**|[255, 255, 255, 0.5]|Mögliche Einstellung: color|false|
-|stroke|nein|**[stroke](#markdown-header-datatypesstroke)**|1|Mögliche Einstellung: width|false|
+|fill|nein|**[Fill](#markdown-header-datatypesfill)**|[255, 255, 255, 0.5]|Mögliche Einstellung: color|false|
+|stroke|nein|**[Stroke](#markdown-header-datatypesstroke)**|1|Mögliche Einstellung: width|false|
 |zoomLevel|nein|Integer|7|Zoomstufe, mögliche Einstellung: 0-9|false|
 
 ***
@@ -3637,23 +3680,23 @@ Es können mehrere Suchinstanzen (**[SearchInstances](#markdown-header-portalcon
 
 ##### portalConfig.menu.sections.modules.wfsSearch.searchInstance
 
-[type:Extent]: # (Datatypes.Literal)
-[type:Extent]: # (Datatypes.ResultList)
-[type:Extent]: # (Datatypes.RequestConfig)
-[type:Extent]: # (Datatypes.Suggestions)
+[type:Literal]: # (Datatypes.Literal)
+[type:ResultList]: # (Datatypes.ResultList)
+[type:RequestConfig]: # (Datatypes.RequestConfig)
+[type:Suggestions]: # (Datatypes.Suggestions)
 
 Eine Instanz der WFS Suche, welche durch ein Dropdown Menü im Werkzeug ausgewählt werden kann.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|literals|ja|**[literal](#markdown-header-datatypesliteral)**[]||Array an `literals`.|true|
-|requestConfig|ja|**[requestConfig](#markdown-header-datatypesrequestconfig)**||Ein Objekt, welches hauptsächlich die Id des WFS-Dienstes (`layerId` oder `restLayerId`), welcher angefragt werden soll, beinhaltet. Wenn ein WFS@2.0.0 verwendet werden soll, muss die id der gespeicherten Anfrage (Stored Query, `storedQueryId`), also der im Dienst enthaltenen Anfrage, angegeben werden. Zudem können weitere Einstellungen hinsichtlich der Anfragen hier hinzugefügt werden.|false|
+|literals|ja|**[Literal](#markdown-header-datatypesliteral)**[]||Array an `literals`.|true|
+|requestConfig|ja|**[RequestConfig](#markdown-header-datatypesrequestconfig)**||Ein Objekt, welches hauptsächlich die Id des WFS-Dienstes (`layerId` oder `restLayerId`), welcher angefragt werden soll, beinhaltet. Wenn ein WFS@2.0.0 verwendet werden soll, muss die id der gespeicherten Anfrage (Stored Query, `storedQueryId`), also der im Dienst enthaltenen Anfrage, angegeben werden. Zudem können weitere Einstellungen hinsichtlich der Anfragen hier hinzugefügt werden.|false|
 |selectSource|nein|String||Optionale Url, unter welcher eine JSON-Datei mit den verschiedenen Optionen für den Input gespeichert ist. Für eine Beispiel siehe **[https://geoportal-hamburg.de/lgv-config/gemarkungen_hh.json]**.|false|
-|suggestions|nein|**[suggestions](#markdown-header-datatypessuggestions)**||Wenn gegeben, dann wird der Service angefragt, wenn Nutzende etwas in ein Eingabefeld eingeben, um einen Vorschlag für die weitere Eingabe zu machen.|false|
+|suggestions|nein|**[Suggestions](#markdown-header-datatypessuggestions)**||Wenn gegeben, dann wird der Service angefragt, wenn Nutzende etwas in ein Eingabefeld eingeben, um einen Vorschlag für die weitere Eingabe zu machen.|false|
 |title|ja|String||Der Titel der Suche, welcher in einem Dropdown im Werkzeug dargestellt wird. Kann ein Übersetzungsschlüssel sein.|false|
 |userHelp|nein|String||Informationstext hinsichtlich des Suchformulars, welches oberhalb des Formulars für die Nutzenden angezeigt werden soll. Wenn der Parameter nicht gegeben ist, dann wird die Struktur aus der Konfiguration abgeleitet. Kann ein Übersetzungsschlüssel sein. Falls der Wert explizit auf `hide` gesetzt wurde, dann wird keine Beschreibung der Struktur des Formulars angezeigt.|false|
 |resultDialogTitle|nein|String||Überschrift der Ergebnisliste. Wenn dies nicht konfiguriert ist, wird der Name `WFS Suche` angezeigt. Kann ein Übersetzungsschlüssel sein.|false|
-|resultList|nein|**[resultList](#markdown-header-datatypesresultlist)**||Einstellungen für die Ausgabe der gefundenen Features in der Ergebnisliste. Wenn keine resultList konfiguriert ist, wird beim Ausführen der Suche direkt auf das erste gefundene Feature gezoomt.|true|
+|resultList|nein|**[ResultList](#markdown-header-datatypesresultlist)**||Einstellungen für die Ausgabe der gefundenen Features in der Ergebnisliste. Wenn keine resultList konfiguriert ist, wird beim Ausführen der Suche direkt auf das erste gefundene Feature gezoomt.|true|
 
 **Beispiel**
 
@@ -3829,7 +3872,7 @@ Möglichkeit den Inhalt der Fußzeile des Portals zu konfigurieren.
 |configPaths|nein|String[]|["portalConfig.portalFooter"]|Liste mit möglichen Konfigurationen, die erste die gefunden wird, wird verwendet.|false|
 |scaleLine|nein|Boolean|true|Gibt an, ob der Maßstab angezeigt werden soll.|false|
 |scaleLineWidth|nein|Number|2|Die Breite der Maßstabsanzeige in cm.|false|
-|seperator|nein|String|"`&nbsp;|&nbsp;`"|Die Trennung zwischen einzelnen Links.|false|
+|seperator|nein|String|"` \| `"|Die Trennung zwischen einzelnen Links.|false|
 |urls|nein|**[urls](#markdown-header-portalconfigportalFooterurls)**[]|[]|Urls, die im Footer angezeit werden sollen.|false|
 
 **Beispiel**
@@ -4808,10 +4851,10 @@ Die Umrandung eines Elements. Es besteht aus einem Objekt mit einem Array in dem
 
 ## Datatypes.Snippets
 
-[type:Extent]: # (Datatypes.Snippets.Children)
-[type:Extent]: # (Datatypes.Snippets.LocalCompareParams)
-[type:Extent]: # (Datatypes.Snippets.Service)
-[type:Extent]: # (Datatypes.Snippets.Timeouts)
+[type:Children]: # (Datatypes.Snippets.Children)
+[type:LocaleCompareParams]: # (Datatypes.Snippets.LocaleCompareParams)
+[type:Service]: # (Datatypes.Snippets.Service)
+[type:Timeouts]: # (Datatypes.Snippets.Timeouts)
 
 Ein Objekt im Filter das ein einzelnes Snippet beschreibt.
 
@@ -4822,14 +4865,14 @@ Hinweis: Zeitbezogene Snippets (`date` und `dateRange`) können nur dann im Modu
 |addSelectAll|nein|Boolean|false|Nur für Snippet-Typ `dropdown` mit `multiselect: true`: Ein zusätzlicher Eintrag zum Selektieren/Deselektieren aller Werte wird angeboten.|false|
 |attrName|ja|String||Der Name des Attributes auf dem dieses Snippet filtern soll. Kann ein Array sein, wenn `dateRange`, `sliderRange` oder `featureInfo` verwendet wird (siehe Beispiele).|false|
 |autoInit|nein|Boolean|true|Nur für Snippet-Typ `dropdown`: Schaltet, wenn auf `false` gestellt, die automatischen Ermittlungen von Inhalts-, Min- und Max-Werten ab.|false|
-|children|nein|**[children](#markdown-header-datatypessnippetschildren)**[]|[]|Konfiguration von Kind-Snippets.|true|
+|children|nein|**[Children](#markdown-header-datatypessnippetschildren)**[]|[]|Konfiguration von Kind-Snippets.|true|
 |decimalPlaces|nein|Number|0|Definiert Nachkommastellen für den Schritt bei `slider` und `sliderRange`|false|
 |delimiter|nein|String||Nur für Snippet-Typ `dropdown`: Sollte das Attribut eines Features ein String sein, dessen Wert mit einem Separator als Quasi-Array gedacht ist, kann durch Angabe des separierenden Zeichens (des Delimiters) die Verarbeitung des Strings als Array erzwungen werden.|false|
 |display|nein|String|"default"|Wenn Snippet-Typ `dropdown`: Wenn auf `list` eingestellt, wird anstelle einer Dropdown-Box eine Liste angezeigt. Wenn Snippet-Typ `dateRange`: Wenn auf `datepicker` eingestellt, wird nur die Auswahl über Kalender angezeigt, wenn auf `slider` eingestellt, wird nur der Slider angezeigt, wenn auf `all` eingestellt, werden Datepicker und Slider angezeigt.|false|
 |format|nein|String|"YYYY-MM-DD"|Nur für Snippet-Typ `date` und `dateRange`: Das verwendete Format des Datums in der Datenbank. Wenn nicht angegeben wird ISO8601 angenommen. Weicht das Format von ISO8601 ab, muss das Snippet sichtbar sein (`visible`: `true`) und der Filter muss im Modus `extern`: `false` arbeiten. Kann als Array von zwei unterschiedlichen Formaten angegeben werden, wenn als attrName ebenfalls ein Array unterschiedlicher Attributnamen angegeben wird und sich die Datums-Formate der Attributwerte unterscheiden.|false|
 |hideSelected|nein|Boolean|true|Standardmäßig ist beim Dropdown der ausgewählte Eintrag beim nächsten Ausklappen weg. Kann auf false gesetzt werden, um den vorher ausgewählten Eintrag sichtbar und farblich abgesetzt anzuzeigen.|false|
 |info|nein|String||Info-Text zu diesem Snippet oder ein Übersetzungs-Key. Wenn eingestellt, dann wird rechts vom Snippet ein Info-Symbol angezeigt, das bei Klick den Text darstellt. Kann auch einfach auf `true` gestellt werden, wenn ein Standard-Text ausreichend ist.|false|
-|localeCompareParams|nein|**[localeCompareParams](#markdown-header-datatypessnippetslocalecompareparams)**||Nur für Snippet-Typ `dropdown`: Die Sortierung der Dropdown-Boxen kann über diesen Parameter nach eigenen Wünschen angepasst werden.|false|
+|localeCompareParams|nein|**[LocaleCompareParams](#markdown-header-datatypessnippetslocalecompareparams)**||Nur für Snippet-Typ `dropdown`: Die Sortierung der Dropdown-Boxen kann über diesen Parameter nach eigenen Wünschen angepasst werden.|false|
 |maxValue|nein|Number||Nur für Snippet-Typ `date` und `slider`: Der Maximal-Wert als number oder Datums-String. Weglassen um die automatische Ermittlung der Werte zu aktivieren.|false|
 |minValue|nein|Number||Nur für Snippet-Typ `date` und `slider`: Der Minimal-Wert als number oder Datums-String. Weglassen um die automatische Ermittlung der Werte zu aktivieren.|false|
 |multiselect|nein|Boolean|true|Nur für Snippet-Typ `dropdown`: Gleichzeitige Auswahl vieler Werte. Auf `false` stellen um auf Einzelauswahl umzustellen.|false|
@@ -4839,10 +4882,10 @@ Hinweis: Zeitbezogene Snippets (`date` und `dateRange`) können nur dann im Modu
 |placeholder|nein|String|""|Nur für Snippet-Typ `dropdown`: Der Platzhalter bei Nicht-Einstellung der Dropdown. Kann ein Übersetzungs-Key sein.|false|
 |prechecked|nein|String[]/String||Initial aktiv eingestellte Werte. Für `dropdown`, `sliderRange` und `dateRange` ist dies ein Array, für checkbox ein boolean, für slider eine number, für text ein string und für date ein string der über das `format` spezifiziert werden muss. Für `dropdown` mit `multiselect`: Wird `prechecked` auf `all` eingestellt, werden initial alle verfügbaren Werte ausgewählt.|false|
 |renderIcons|nein|String|"none"|Nur für Snippet-Typ `dropdown` mit `display: "list"`: Wenn auf den String `fromLegend` eingestellt, werden Icons aus der Legende bezogen und links neben den Werten angezeigt. Wird hier ein Objekt angegeben, werden die Key-Namen als Wert und der Value als Bild-Pfad verwendet: {attrName: imagePath} (siehe Beispiele).|false|
-|service|nein|**[service](#markdown-header-datatypessnippetsservice)**||Für das initiale Befüllen eines Snippets (`dropdown`, `date`, `slider`) kann ein alternativer Service genutzt werden. Das kann unter Umständen die Performanz beim initialen Laden erhöhen. Standard ist der Service des konfigurierten **[filterLayer](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayer)**.|false|
+|service|nein|**[Service](#markdown-header-datatypessnippetsservice)**||Für das initiale Befüllen eines Snippets (`dropdown`, `date`, `slider`) kann ein alternativer Service genutzt werden. Das kann unter Umständen die Performanz beim initialen Laden erhöhen. Standard ist der Service des konfigurierten **[filterLayer](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayer)**.|false|
 |showAllValues|nein|Boolean||Nur für Snippet-Typ `dropdown`: Verhindert wenn auf `true` gestellt das Verstecken der nicht ausgewählten Werte. Kann nur in Verbindung mit `prechecked: "all"` genutzt werden.|false|
 |subTitles|nein|String[]|[]|Nur für Snippet-Typ `dateRange`: Die zusätzlich über den Kalender-Feldern anzuzeigenden Von- und Bis-Bezeichnungen. Als Array mit zwei Elementen (z.B. ["von", "bis"]). Stellen Sie subTitles auf `true` um die Werte von `attrName` zu verwenden, auf false um Bezeichnungen nicht anzuzeigen.|false|
-|timeouts|nein|**[timeouts](#markdown-header-datatypessnippetstimeouts)**||Konfigurierbare Timeouts zur besseren User Experience.|false|
+|timeouts|nein|**[Timeouts](#markdown-header-datatypessnippetstimeouts)**||Konfigurierbare Timeouts zur besseren User Experience.|false|
 |title|nein|String||Der Titel des Snippets. Kann ein Übersetzungs-Key sein. Wenn nicht eingestellt, wird der Titel aus den `gfiAttributes` genommen und wenn diese nicht vorhanden sind, dann wird der `attrName` verwendet. Kann auf `false` gesetzt werden um die Anzeige eines Titels zu unterbinden. Kann auf `true` gesetzt werden um die Anzeige des `attrName` zu erzwingen.|false|
 |type|nein|String||Der Snippet-Typ: `checkbox`, `dropdown`, `text`, `slider`, `sliderRange`, `date`, `dateRange`, `featureInfo`. Wird automatisch ermittelt, wenn nicht angegeben - dabei wird der Datentyp als Grundlage genommen: boolean wird zu `checkbox`, string wird zu `dropdown`, number wird zu `sliderRange`, unbekannt wird zu `text`.|false|
 |value|nein|String[]||Wenn weggelassen, werden Werte automatisch ermittelt. Wenn für `dropdown` eingestellt: Die Werte, die in der Liste auswählbar sein sollen. Wenn für `checkbox` eingestellt: Statt Boolean-Werten sollen die angegebenen Werte für die Zustände `true` und `false` genommen werden (z.B. ["Ja", "Nein"]). Für `dateRange`: Anfangs- und End-Datum für Datepicker und/oder Slider. Für `sliderRange`: Anfangs- und End-Werte.|false|
@@ -5207,7 +5250,7 @@ Die Konfiguration hängt vom Typ des Services ab.
 
 ### Datatypes.Snippets.LocaleCompareParams
 
-[type:Extent]: # (Datatypes.Snippets.LocalCompareParams.Options)
+[type:Options]: # (Datatypes.Snippets.LocaleCompareParams.Options)
 
 Ein String oder Objekt zur Steuerung der Sortierung von Dropdown-Boxen.
 
@@ -5220,7 +5263,7 @@ Ein String oder Objekt zur Steuerung der Sortierung von Dropdown-Boxen.
 |Name|Required|Typ|Default|Description|Expert|
 |----|--------|---|-------|-----------|------|
 |locale|nein|String||Der zu verwendende Ländercode nach ISO 3166|false|
-|options|nein|**[options](#markdown-header-datatypessnippetslocalecompareparamsoptions)**||Optionen für die Sortierung per localeCompare.|false|
+|options|nein|**[Options](#markdown-header-datatypessnippetslocalecompareparamsoptions)**||Optionen für die Sortierung per localeCompare.|false|
 
 **Beispiel Object**
 
@@ -5482,8 +5525,8 @@ Routing-Werkzeug Erreichbarkeitsanalysen Isochrone Style Optionen.
 
 ## Datatypes.Literal
 
-[type:Extent]: # (Datatypes.Literal.Clause)
-[type:Extent]: # (Datatypes.Literal.Field)
+[type:Clause]: # (Datatypes.Literal.Clause)
+[type:Field]: # (Datatypes.Literal.Field)
 
 Datatype der WFS-searchInstance.
 Ein Literal (`literal`) kann entweder eine Klausel (`clause`) als Parameter besitzen oder ein Feld (`field`). Falls beide gesetzt sind, dann wird der `clause`-Teil ignoriert.
@@ -5491,8 +5534,8 @@ Zu beachten ist jedoch, dass ein Feld innerhalb einer Klausel verpackt sein muss
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|clause|ja|**[clause](#markdown-header-datatypesliteralclause)**||Definiert die Art und Weise wie mehrere `literals` miteinander angefragt werden sollen. Kann als Gruppe von `literals` angesehen werden.|true|
-|field|nein|**[field](#markdown-header-datatypesliteralfield)**||Repräsentation eines Auswahlfeldes für einen Servicewert für den Nutzer.|true|
+|clause|ja|**[Clause](#markdown-header-datatypesliteralclause)**||Definiert die Art und Weise wie mehrere `literals` miteinander angefragt werden sollen. Kann als Gruppe von `literals` angesehen werden.|true|
+|field|nein|**[Field](#markdown-header-datatypesliteralfield)**||Repräsentation eines Auswahlfeldes für einen Servicewert für den Nutzer.|true|
 
 **Beispiele**
 
@@ -5550,13 +5593,13 @@ Zu beachten ist jedoch, dass ein Feld innerhalb einer Klausel verpackt sein muss
 
 ## Datatypes.Literal.Clause
 
-[type:Extent]: # (Datatypes.Literal)
+[type:Literal]: # (Datatypes.Literal)
 
 Eine Klausel (`clause`) definiert die Art und Weise wie verschiedene `literals` miteinander anzufragen sind.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|literals|ja|**[literal](#markdown-header-datatypesliteral)**[]||Array an `literals`.|true|
+|literals|ja|**[Literal](#markdown-header-datatypesliteral)**[]||Array an `literals`.|true|
 |type|ja|enum["and", "or"]||Die Art und Weise wie die `literals` dieser `clause` angefragt werden sollen.|false|
 
 **Beispiel**
@@ -5591,7 +5634,7 @@ Eine Klausel (`clause`) definiert die Art und Weise wie verschiedene `literals` 
 
 ## Datatypes.Literal.Field
 
-[type:Extent]: # (Datatypes.Literal.Field.Option)
+[type:Option]: # (Datatypes.Literal.Field.Option)
 
 Ein `field` repräsentiert ein Auswahlfeld für einen Wert des Services.
 Es ist möglich ein Feld für mehrere Suchparameter des Dienstes zu verwenden. Um dies zu ermöglichen, muss für jeden Parameter ein Array verwendet werden, wobei jedes Element zu einem einzelnen Wert des Dienstes gehört.
@@ -5674,7 +5717,7 @@ In diesem Fall sollte die Reihenfolge in der Konfiguration wie folgt aussehen:
 |inputPlaceholder|nein|String/String[]||Platzhalter für das UI Element. Sollte Beispieldaten enthalten. Kann ein Übersetzungsschlüssel sein.|false|
 |inputTitle|nein|String/String[]||Wert, welcher beim Hovern über das UI Element angezeigt wird. Kann ein Übersetzungsschlüssel sein.|false|
 |required|nein|Boolean/Boolean[]|false|Legt fest, ob das Feld ausgefüllt werden muss.|false|
-|options|nein|String/**[option](#markdown-header-datatypesliteralfieldoption)**[]/String[]||Falls `options` ein Array (egal ob es Strings oder **[options](#markdown-header-datatypesliteralfieldoption)**) sind, werden die gegebenen Werte für die Auswahl verwendet. Diese Optionen können entweder eine **[option](#markdown-header-datatypesliteralfieldoption)** oder einfache Werte (`String` / `Number`) sein. Im zweiten Fall werden die einfachen Werte sowohl für die Id als auch für den `displayName` verwendet.  <br /> Falls `options` ein String ist, existieren verschiedene Möglichkeiten: <ul><li>Falls der String leer ist, werden die Schlüssel der **[selectSource](#markdown-header-portalconfigmenusectionsmoduleswfssearchsearchinstance)** verwendet.</li><li>Falls der String nicht leer ist, wird angenommen, dass ein anderes Feld mit `options=""` existiert; andernfalls wird das Feld deaktiviert. Es wird zudem angenommen, dass der String ein Array in **[selectSource](#markdown-header-portalconfigmenusectionsmoduleswfssearchsearchinstance)** mit weiteren Optionen repräsentiert.</li></ul> **Zu beachten**: Der Parameter `options` kann auch als multidimensionales Array **[option](#markdown-header-datatypesliteralfieldoption)**[][] angegeben werden, welches allerdings nicht für Masterportal Admins parametrisiert werden kann. Dies findet Anwendung, wenn ein **[option](#markdown-header-datatypesliteralfieldoption)**[] verwendet werden soll, jedoch mehrere Parameter in einem `field` hinterlegt werden sollen.|true|
+|options|nein|String/**[Option](#markdown-header-datatypesliteralfieldoption)**[]/String[]||Falls `options` ein Array (egal ob es Strings oder **[Option](#markdown-header-datatypesliteralfieldoption)**) sind, werden die gegebenen Werte für die Auswahl verwendet. Diese Optionen können entweder eine **[Option](#markdown-header-datatypesliteralfieldoption)** oder einfache Werte (`String` / `Number`) sein. Im zweiten Fall werden die einfachen Werte sowohl für die Id als auch für den `displayName` verwendet.  <br /> Falls `options` ein String ist, existieren verschiedene Möglichkeiten: <ul><li>Falls der String leer ist, werden die Schlüssel der **[selectSource](#markdown-header-portalconfigmenusectionsmoduleswfssearchsearchinstance)** verwendet.</li><li>Falls der String nicht leer ist, wird angenommen, dass ein anderes Feld mit `options=""` existiert; andernfalls wird das Feld deaktiviert. Es wird zudem angenommen, dass der String ein Array in **[selectSource](#markdown-header-portalconfigmenusectionsmoduleswfssearchsearchinstance)** mit weiteren Optionen repräsentiert.</li></ul> **Zu beachten**: Der Parameter `options` kann auch als multidimensionales Array **[Option](#markdown-header-datatypesliteralfieldoption)**[][] angegeben werden, welches allerdings nicht für Masterportal Admins parametrisiert werden kann. Dies findet Anwendung, wenn ein **[Option](#markdown-header-datatypesliteralfieldoption)**[] verwendet werden soll, jedoch mehrere Parameter in einem `field` hinterlegt werden sollen.|true|
 |queryType|nein|enum["equal", "like"]/enum["equal", "like"][]||Wird für die Verwendung mit einem WFS@1.1.0 vorausgesetzt. Der `queryType` legt fest, wie das Feld mit dem Wert des Dienstes verglichen werden soll.|false|
 |usesId|nein|Boolean/Boolean[]|false|Nur relevant, wenn der Parameter `options` gesetzt und ein leerer String (Rootelement) ist. Legt fest, ob der Schlüssel des Objektes aus der externen Quelle als Wert für die Query verwendet werden soll oder ob das Objekt eine Id gesetzt hat, welche stattdessen Anwendung finden soll.|false|
 
@@ -5752,8 +5795,8 @@ Ein Schlüssel des Objektes muss eines der Attribute des Features wiedergeben, w
 
 ## Datatypes.RequestConfig
 
-[type:Extent]: # (Datatypes.RequestConfig.Gazetteer)
-[type:Extent]: # (Datatypes.RequestConfig.LikeFilter)
+[type:Gazetteer]: # (Datatypes.RequestConfig.Gazetteer)
+[type:LikeFilter]: # (Datatypes.RequestConfig.LikeFilter)
 
 Informationen über den WFS-Dienst, welcher angefragt werden soll.
 Es muss entweder `layerId` oder `restLayerId` definiert sein. Wenn `layerId` verwendet wird, dann muss zusätzlich der Layer in der **[config.json](config.json.de.md)** konfiguriert werden.
@@ -5761,9 +5804,9 @@ Falls beide Parameter gesetzt wurden, dann wird `restLayerId` verwendet.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|gazetteer|nein|**[gazetteer](#markdown-header-datatypesrequestconfiggazetteer)**||Legt fest, ob der verwendete WFS-Dienst ein WFS-G ist, welcher anders geparsed werden muss.|false|
+|gazetteer|nein|**[Gazetteer](#markdown-header-datatypesrequestconfiggazetteer)**||Legt fest, ob der verwendete WFS-Dienst ein WFS-G ist, welcher anders geparsed werden muss.|false|
 |layerId|nein|String||Id des WFS Dienstes, welcher angefragt werden soll. Informationen werden aus der **[services.json](services.json.de.md)** bezogen.|false|
-|likeFilter|nein|**[likeFilter](#markdown-header-datatypesrequestconfiglikefilter)**|{"wildCard": "*", "singleChar": "#", "escape": "!"}|Die Konfiguration des Services hinsichtlich des like Filters.|true|
+|likeFilter|nein|**[LikeFilter](#markdown-header-datatypesrequestconfiglikefilter)**|{"wildCard": "*", "singleChar": "#", "escape": "!"}|Die Konfiguration des Services hinsichtlich des like Filters.|true|
 |maxFeatures|nein|Number/String|8|Maximale Anzahl an Features, welche der Dienst zurückgeben soll. Alternativ kann auch der String `showAll` übergeben werden, um alle Ergebnisse anzuzeigen.|false|
 |restLayerId|nein|String||Id des WFS Dienstes, welcher angefragt werden soll. Informationen werden aus der **[rest-services.json](rest-services.json.de.md)** bezogen.|false|
 |storedQueryId|nein|String||Die Id der gespeicherten Anfrage (Stored Query) des WFS Dienstes, welche für die Anfrage verwendet werden soll. Es wird angenommen, dass ein WFS@2.0.0 verwendet wird, falls dieses Feld gesetzt wurde.|false|
@@ -5837,5 +5880,11 @@ Konfiguration für die Vorschläge von Nutzereingaben.
 |----|-------------|---|-------|------------|------|
 |featureType|nein|String||Wenn gegeben, wird die Anfrage mit diesem featureType statt dem aus der Definition des Services ausgeführt. Nur verwendbar, wenn der Dienst in der **[services.json](services.json.de.md)** definiert wurde.|false|
 |length|nein|Number|3|Die Anfrage wird dann ausgelöst, wenn die Inputlänge mindestens so lang ist wie der Wert dieses Parameters.|false|
+
+***
+
+## Datatypes.Explanations
+
+Kann ein Array von Erläuterungen zu den Koordinatenreferenzsystemen enthalten aus denen eine Liste erstellt wird.
 
 ***
