@@ -257,9 +257,7 @@
             "heightValueBuilding": "200",
             "zoomLevel": 5
           },
-          {
-            "type": "shareView"
-          },
+        
           {
             "type": "openConfig"
           },
@@ -312,6 +310,9 @@
         [
           {
             "type": "legend"
+          },
+          {
+            "type": "shareView"
           }
         ]
       ]
