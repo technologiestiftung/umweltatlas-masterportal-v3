@@ -1,4 +1,5 @@
 import {generateSimpleGetters} from "../../../shared/js/utils/generators";
+import {isUrl} from "../../../shared/js/utils/urlHelper";
 import legendState from "./stateLegend";
 
 const getters = {
@@ -60,7 +61,7 @@ const getters = {
                 legendCopy.legend.forEach(aLegend => {
                     let encoded;
 
-                    if (typeof aLegend === "string") {
+                    if (isUrl(aLegend)) {
                         encoded = encodeURIComponent(aLegend.slice());
                     }
                     else {
