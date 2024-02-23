@@ -110,36 +110,36 @@ describe("src_3_0_0/modules/getFeatureInfo/store/actionsGetFeatureInfo.js", () =
             const attributes = {
                     clickCoordinates: [100, 200]
                 },
-                mapMode = "2D";
+                mode = "2D";
 
             rootGetters = {
                 urlParams: {
                     MAPS:
-                        "{\"mode\":\"" + mapMode + "\"}"
+                        "{\"mode\":\"" + mode + "\"}"
                 },
                 styleListLoaded: false
             };
             actions.restoreFromUrlParams({getters, dispatch, rootGetters}, attributes);
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equal("waitAndRestore");
-            expect(dispatch.firstCall.args[1]).to.be.deep.equals({attributes, componentName: "GetFeatureInfo", clickCoordinates: attributes.clickCoordinates, mapMode});
+            expect(dispatch.firstCall.args[1]).to.be.deep.equals({attributes, componentName: "GetFeatureInfo", clickCoordinates: attributes.clickCoordinates, mode});
         });
         it("3D: call waitAndRestore", () => {
             const attributes = {
                     clickCoordinates: [100, 200]
                 },
-                mapMode = "3D";
+                mode = "3D";
 
             rootGetters = {
                 urlParams: {
                     MAPS:
-                    "{\"mode\":\"" + mapMode + "\"}"
+                    "{\"mode\":\"" + mode + "\"}"
                 }
             };
             actions.restoreFromUrlParams({getters, dispatch, rootGetters}, attributes);
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equal("waitAndRestore");
-            expect(dispatch.firstCall.args[1]).to.be.deep.equals({attributes, componentName: "GetFeatureInfo", clickCoordinates: attributes.clickCoordinates, mapMode});
+            expect(dispatch.firstCall.args[1]).to.be.deep.equals({attributes, componentName: "GetFeatureInfo", clickCoordinates: attributes.clickCoordinates, mode});
         });
     });
     describe("handleRestore3D", () => {
