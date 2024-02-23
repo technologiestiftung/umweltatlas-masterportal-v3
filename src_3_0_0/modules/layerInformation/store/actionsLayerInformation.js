@@ -1,6 +1,8 @@
+import store from "../../../app-store";
 import getCswRecordById from "../../../shared/js/api/getCswRecordById";
 import sortBy from "../../../shared/js/utils/sortBy";
 import xml2json from "../../../shared/js/utils/xml2json";
+import changeCase from "../../../shared/js/utils/changeCase";
 import axios from "axios";
 
 /**
@@ -187,7 +189,7 @@ export default {
         }
     },
 
-     /**
+    /**
      * Restores the layer info from urlParams.
      * @param {Object} param store context
      * @param {Object} param.getters the getter
@@ -196,21 +198,33 @@ export default {
      * @param {Object} attributes of urlParams
      * @returns {void}
      */
-     restoreFromUrlParams ({getters, dispatch, rootGetters}, attributes) {
+    restoreFromUrlParams ({getters, dispatch, rootGetters}, attributes) {
         const componentName = changeCase.upperFirst(getters.type),
             layerId = attributes.layerInfo.id,
-            layerConfig = store.getters.layerConfigById(layerId);
+            layerConfig = rootGetters.layerConfigById(layerId);
 
         dispatch("Menu/updateComponentState", {type: componentName, attributes}, {root: true});
         if (rootGetters.styleListLoaded) {
             dispatch("Modules/LayerInformation/startLayerInformation", layerConfig, {root: true});
         }
         else {
-            store.watch((state, getters) => getters.styleListLoaded, value => {
-                if (value) {
-                    dispatch("Modules/LayerInformation/startLayerInformation", layerConfig, {root: true});
-                }
-            });
+            dispatch("waitAndRestoreLayerInformation", layerConfig);
         }
+    },
+    /**
+     * Waits for loading finished of styleList and restores the layer information.
+     * @param {Object} param store context
+     * @param {Object} param.getters the getter
+     * @param {Object} param.dispatch the dispatch
+     * @param {Object} param.rootGetters the rootGetters
+     * @param {Object} layerConfig to restore the info of
+     * @returns {void}
+     */
+    waitAndRestoreLayerInformation ({dispatch}, layerConfig) {
+        store.watch((state, getters) => getters.styleListLoaded, value => {
+            if (value) {
+                dispatch("Modules/LayerInformation/startLayerInformation", layerConfig, {root: true});
+            }
+        });
     }
 };

@@ -1,9 +1,19 @@
+import {expect} from "chai";
+import sinon from "sinon";
 import testAction from "../../../../../../test/unittests/VueTestUtils";
 import actions from "../../../store/actionsLayerInformation";
 
 const {startLayerInformation, additionalSingleLayerInfo, setMetadataURL} = actions;
 
 describe("src_3_0_0/modules/layerInformation/store/actionsLayerInformation.js", () => {
+    let getters = {},
+        rootGetters,
+        dispatch;
+
+    beforeEach(() => {
+        dispatch = sinon.spy();
+    });
+
     describe("initialize the store", () => {
         it("should initialize the LayerInformation", done => {
             const state = {
@@ -24,14 +34,15 @@ describe("src_3_0_0/modules/layerInformation/store/actionsLayerInformation.js", 
                             md_name: "MDName"
                         }
                     ]
-                },
-                rootGetters = {
-                    "Modules/Legend/layerInfoLegend": {
-                        id: "123"
-                    },
-                    isMobile: false,
-                    "Menu/expanded": () => true
                 };
+
+            rootGetters = {
+                "Modules/Legend/layerInfoLegend": {
+                    id: "123"
+                },
+                isMobile: false,
+                "Menu/expanded": () => true
+            };
 
             testAction(startLayerInformation, layerConf, state, {}, [
                 {type: "Menu/changeCurrentComponent", payload: {
@@ -65,14 +76,15 @@ describe("src_3_0_0/modules/layerInformation/store/actionsLayerInformation.js", 
                             md_id: "123"
                         }
                     ]
-                },
-                rootGetters = {
-                    "Modules/Legend/layerInfoLegend": {
-                        id: "123"
-                    },
-                    isMobile: false,
-                    "Menu/expanded": () => true
                 };
+
+            rootGetters = {
+                "Modules/Legend/layerInfoLegend": {
+                    id: "123"
+                },
+                isMobile: false,
+                "Menu/expanded": () => true
+            };
 
             testAction(startLayerInformation, layerConf, state, {}, [
                 {type: "Menu/changeCurrentComponent", payload: {
@@ -106,14 +118,15 @@ describe("src_3_0_0/modules/layerInformation/store/actionsLayerInformation.js", 
                             md_id: "123"
                         }
                     ]
-                },
-                rootGetters = {
-                    "Modules/Legend/layerInfoLegend": {
-                        id: "123"
-                    },
-                    isMobile: true,
-                    "Menu/expanded": () => false
                 };
+
+            rootGetters = {
+                "Modules/Legend/layerInfoLegend": {
+                    id: "123"
+                },
+                isMobile: true,
+                "Menu/expanded": () => false
+            };
 
             testAction(startLayerInformation, layerConf, state, {}, [
                 {
@@ -150,14 +163,15 @@ describe("src_3_0_0/modules/layerInformation/store/actionsLayerInformation.js", 
                             md_id: "123"
                         }
                     ]
-                },
-                rootGetters = {
-                    "Modules/Legend/layerInfoLegend": {
-                        id: "123"
-                    },
-                    isMobile: true,
-                    "Menu/expanded": () => true
                 };
+
+            rootGetters = {
+                "Modules/Legend/layerInfoLegend": {
+                    id: "123"
+                },
+                isMobile: true,
+                "Menu/expanded": () => true
+            };
 
             testAction(startLayerInformation, layerConf, state, {}, [
                 {type: "Menu/changeCurrentComponent", payload: {
@@ -191,14 +205,15 @@ describe("src_3_0_0/modules/layerInformation/store/actionsLayerInformation.js", 
                             md_id: "123"
                         }
                     ]
-                },
-                rootGetters = {
-                    "Modules/Legend/layerInfoLegend": {
-                        id: "124"
-                    },
-                    isMobile: false,
-                    "Menu/expanded": () => true
                 };
+
+            rootGetters = {
+                "Modules/Legend/layerInfoLegend": {
+                    id: "124"
+                },
+                isMobile: false,
+                "Menu/expanded": () => true
+            };
 
             testAction(startLayerInformation, layerConf, state, {}, [
                 {
@@ -297,6 +312,50 @@ describe("src_3_0_0/modules/layerInformation/store/actionsLayerInformation.js", 
                 restServiceById: id => id === "2" ? {url: "https://metaver.de/trefferanzeige?cmd=doShowDocument&docuuid="} : {}
             });
         });
+
+    });
+
+    describe("restoreFromUrlParams", () => {
+        let attributes,
+            layerConfig;
+
+        beforeEach(() => {
+            attributes = {
+                layerInfo: {
+                    id: "layerId"
+                }
+            };
+            layerConfig = {
+                id: "layerId",
+                name: "name"
+            };
+            getters = {
+                type: "layerInformation"
+            };
+            rootGetters = {
+                layerConfigById: () => layerConfig,
+                styleListLoaded: true
+            };
+        });
+
+        it("styleListLoaded = true, start layer info", () => {
+            actions.restoreFromUrlParams({getters, dispatch, rootGetters}, attributes);
+            expect(dispatch.calledTwice).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equal("Menu/updateComponentState");
+            expect(dispatch.firstCall.args[1]).to.be.deep.equals({type: "LayerInformation", attributes});
+            expect(dispatch.secondCall.args[0]).to.equal("Modules/LayerInformation/startLayerInformation");
+            expect(dispatch.secondCall.args[1]).to.be.deep.equals(layerConfig);
+        });
+        it("styleListLoaded = false, wait and start layer info", () => {
+            rootGetters.styleListLoaded = false;
+            actions.restoreFromUrlParams({getters, dispatch, rootGetters}, attributes);
+            expect(dispatch.calledTwice).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equal("Menu/updateComponentState");
+            expect(dispatch.firstCall.args[1]).to.be.deep.equals({type: "LayerInformation", attributes});
+            expect(dispatch.secondCall.args[0]).to.equal("waitAndRestoreLayerInformation");
+            expect(dispatch.secondCall.args[1]).to.be.deep.equals(layerConfig);
+        });
+
 
     });
 });
