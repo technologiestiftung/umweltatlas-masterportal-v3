@@ -16,8 +16,9 @@
   - A prop "resetParcelSearch" so that the wfs search parameter could be reset from outside component.
   - A prop "zoomLevelProp" has been added. Can be used to set a zoom level (after search) that is different from the configured one.
 - Filter:
-  - a new parameter "closeGfi" to give an option if a gfi window is open, and it could be closed after a new filtering.
-  - a new parameter "universalSearch" in snippet with type "featureInfo" to enable to search the attribute value in webpage.
+  - A new parameter "closeGfi" to give an option if a gfi window is open, and it could be closed after a new filtering.
+  - A new parameter "universalSearch" in snippet with type "featureInfo" to enable to search the attribute value in webpage.
+  - A new parameter "beautifiedAttrName" in snippet with type "featureInfo" to supply beautified names for attributes.
 - LayerTree: A paramter "isNeverVisibleInTree" for layer config to supply an option to hide the layer in tree but can be loaded.
 
 ### Changed

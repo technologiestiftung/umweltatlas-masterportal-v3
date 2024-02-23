@@ -2324,6 +2324,7 @@ Note: Time-related snippets (`date` and `dateRange`) can only be operated in `ex
 |value|no|String[]||If omitted, values are determined automatically. If set for `dropdown`: The values to be selectable in the list. If set for `checkbox`: Instead of boolean values, the specified values for the `true` and `false` states should be taken (e.g. ["Yes", "No"]). For `dateRange`: start and end date for date picker and/or slider. For `sliderRange`: the min and max values.|false|
 |visible|no|Boolean|true|The snippet is visible. Set to `false` to hide the snippet: This gives you the power to use `prechecked` as an `always rule` to force filtering of a fixed `attrName` and value.|false|
 |universalSearch|no|[universalSearch](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippetsuniversalSearch)||Only for Snippet-Typ `featureInfo`: The filtered Value can be searched for in website|false|
+|beautifiedAttrName|no|[beautifiedAttrName](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippetsbeautifiedAttrName)||Only for Snippet-Typ `featureInfo`: The attribute name could be beautified.|false|
 
 **Example**
 
@@ -2536,6 +2537,10 @@ Example for a feature info snippet. Displays all values of the configured attrib
     "universalSearch": {
       "attrName": "Wissenschaftlicher Name",
       "prefix": "https://www.google.com/search?q="
+    },
+    "beautifiedAttrName": {
+      "tierartengruppe": "Tierartengruppe",
+      "familie": "Familie"
     }
 }
 ```
@@ -2744,6 +2749,26 @@ An object for configuring a universal search of value
 {
     "attrName": "Wissenschaftlicher Name",
     "prefix": "https://www.ecosia.org/search?q="
+}
+```
+
+***
+
+#### portalConfig.menu.sections.modules.filter.filterLayer.snippets.beautifiedAttrName
+
+An object for configuring beautified names for attributes in stack
+
+**Object**
+
+|Name|Required|Typ|Default|Description|Expert|
+|----|--------|---|-------|-----------|------|
+|attrName|yes|String||The attribute Name|false|
+
+**Example**
+
+```json
+{
+    "attrName": "beautified Name"
 }
 ```
 

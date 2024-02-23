@@ -1338,6 +1338,7 @@ export default {
                         :visible="snippet.visible"
                         :filtered-items="filteredItems"
                         :universal-search="snippet.universalSearch"
+                        :beautified-attr-name="snippet.beautifiedAttrName"
                         @set-snippet-prechecked="setSnippetPrechecked"
                     />
                 </div>

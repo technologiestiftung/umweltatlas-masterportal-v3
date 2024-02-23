@@ -14,6 +14,7 @@ describe("src_3_0_0/modules/filter/components/SnippetFeatureInfo.vue", () => {
         expect(wrapper.vm.layerId).to.be.undefined;
         expect(wrapper.vm.visible).to.be.false;
         expect(wrapper.vm.universalSearch).to.be.false;
+        expect(wrapper.vm.beautifiedAttrName).to.be.undefined;
     });
     it("should not render with default values", () => {
         const wrapper = shallowMount(SnippetFeatureInfo, {});

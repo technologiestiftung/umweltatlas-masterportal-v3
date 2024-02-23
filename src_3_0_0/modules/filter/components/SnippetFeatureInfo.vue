@@ -1,6 +1,5 @@
 <script>
 import isObject from "../../../shared/js/utils/isObject.js";
-import openlayerFunctions from "../utils/openlayerFunctions";
 import renameKeys from "../../../shared/js/utils/renameKeys.js";
 import beautifyKey from "../../../shared/js/utils/beautifyKey.js";
 import {translateKeyWithPlausibilityCheck} from "../../../shared/js/utils/translateKeyWithPlausibilityCheck.js";
@@ -14,6 +13,7 @@ import {translateKeyWithPlausibilityCheck} from "../../../shared/js/utils/transl
 * @vue-prop {Number} snippetId - The snippet id.
 * @vue-prop {Array} filteredItems - The list of filtered items.
 * @vue-prop {Object} universalSearch - The configured universal search object
+* @vue-prop {Object} beautifiedAttrName - The beautified attribute name
 * @vue-data {Object} featureInfo - (??).
 * @vue-data {Boolean} visible - Shows if the info is displayed.
 */
@@ -49,6 +49,11 @@ export default {
             type: [Object, Boolean],
             required: false,
             default: false
+        },
+        beautifiedAttrName: {
+            type: Object,
+            required: false,
+            default: undefined
         }
     },
     emits: ["setSnippetPrechecked"],
@@ -89,11 +94,11 @@ export default {
                     return;
                 }
 
-                if (typeof this.gfiAttributes === "undefined") {
+                if (typeof this.beautifiedAttrName === "undefined") {
                     beautifiedObjects = this.beautifyObjectKeys(attributesObject);
                 }
                 else {
-                    beautifiedObjects = renameKeys(this.gfiAttributes, attributesObject);
+                    beautifiedObjects = renameKeys(this.beautifiedAttrName, attributesObject);
                 }
 
                 Object.entries(beautifiedObjects).forEach(([key, val]) => {
@@ -122,11 +127,6 @@ export default {
             deep: true
         }
     },
-    created () {
-        if (this.layerId) {
-            this.setGfiAttributes(this.layerId);
-        }
-    },
     mounted () {
         this.$emit("setSnippetPrechecked", false);
     },
@@ -143,19 +143,6 @@ export default {
                 beautifiedObj[beautifyKey(key)] = value;
             });
             return beautifiedObj;
-        },
-
-        /**
-         * Sets the gfiAttributes of a layer by the id if available.
-         * and if gfiAttributes are an object. It can also be a string ("ignore" or "showAll").
-         * Is used to beautify the keys of the feature info.
-         * @param {String} layerId - The id of the layer.
-         * @returns {void}
-         */
-        setGfiAttributes (layerId) {
-            const layer = openlayerFunctions.getLayerByLayerId(layerId);
-
-            this.gfiAttributes = isObject(layer?.gfiAttributes) ? layer.gfiAttributes : undefined;
         },
 
         /**
