@@ -185,5 +185,32 @@ export default {
         else if (config.layerInformation === undefined) {
             commit("setShowUrlGlobal", undefined);
         }
+    },
+
+     /**
+     * Restores the layer info from urlParams.
+     * @param {Object} param store context
+     * @param {Object} param.getters the getter
+     * @param {Object} param.dispatch the dispatch
+     * @param {Object} param.rootGetters the rootGetters
+     * @param {Object} attributes of urlParams
+     * @returns {void}
+     */
+     restoreFromUrlParams ({getters, dispatch, rootGetters}, attributes) {
+        const componentName = changeCase.upperFirst(getters.type),
+            layerId = attributes.layerInfo.id,
+            layerConfig = store.getters.layerConfigById(layerId);
+
+        dispatch("Menu/updateComponentState", {type: componentName, attributes}, {root: true});
+        if (rootGetters.styleListLoaded) {
+            dispatch("Modules/LayerInformation/startLayerInformation", layerConfig, {root: true});
+        }
+        else {
+            store.watch((state, getters) => getters.styleListLoaded, value => {
+                if (value) {
+                    dispatch("Modules/LayerInformation/startLayerInformation", layerConfig, {root: true});
+                }
+            });
+        }
     }
 };

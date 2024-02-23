@@ -21,13 +21,15 @@ describe("src_3_0_0/shared/js/utils/getGfiFeaturesByTileFeature.js", () => {
             const layerAttributes = {
                     name: "name",
                     gfiTheme: "gfiTheme",
-                    gfiAttributes: "gfiAttributes"
+                    gfiAttributes: "gfiAttributes",
+                    id: "layerId"
                 },
                 properties = "properties",
                 result = getGfiFeatureProvider.getGfiFeature(layerAttributes, properties);
 
             expect(result.getTitle()).to.equal(layerAttributes.name);
             expect(result.getTheme()).to.equal(layerAttributes.gfiTheme);
+            expect(result.getLayerId()).to.equal(layerAttributes.id);
             expect(result.getAttributesToShow()).to.deep.equal(layerAttributes.gfiAttributes);
             expect(result.getProperties()).to.equal("properties");
         });

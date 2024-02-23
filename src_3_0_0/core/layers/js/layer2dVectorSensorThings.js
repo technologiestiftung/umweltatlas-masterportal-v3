@@ -459,6 +459,7 @@ Layer2dVectorSensorThings.prototype.initializeConnection = function (onsuccess, 
         gfiTheme = this.get("gfiTheme"),
         utc = this.get("utc"),
         datastreamIds = this.getDatastreamIdsInCurrentExtent(this.getLayerSource().getFeatures(), store.getters["Maps/extent"]);
+    let fireLoadEnd = false;
 
     this.callSensorThingsAPI(url, version, urlParams, currentExtent, intersect, sensorData => {
         const filteredSensorData = !updateOnly ? sensorData : sensorData.filter(data => !datastreamIds.includes(data?.properties?.dataStreamId)),
@@ -482,6 +483,7 @@ Layer2dVectorSensorThings.prototype.initializeConnection = function (onsuccess, 
                 this.prepareFeaturesFor3D(features);
             }
             layerSource.addFeatures(features);
+            fireLoadEnd = true;
         }
 
         features.forEach(feature => {
@@ -507,11 +509,18 @@ Layer2dVectorSensorThings.prototype.initializeConnection = function (onsuccess, 
                 Object.entries(copyFeatures).forEach(([id, feature]) => {
                     feature.setId(id);
                     layerSource.addFeature(feature);
+                    fireLoadEnd = true;
                 });
             }
         }
         if (this.get("observeLocation") && this.get("loadThingsOnlyInCurrentExtent")) {
             this.getHistoricalLocationsOfFeatures();
+        }
+        if (fireLoadEnd) {
+            layerSource.dispatchEvent({
+                type: "featuresloadend",
+                features: layerSource.getFeatures()
+            });
         }
     }, error => {
         console.warn(error);

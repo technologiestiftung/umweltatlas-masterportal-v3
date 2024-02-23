@@ -100,7 +100,7 @@ export default {
             "switchToDetails",
             "showMore"
         ]),
-        ...mapActions("Maps", ["areLayerFeaturesLoaded", "removeHighlightFeature"]),
+        ...mapActions("Maps", ["removeHighlightFeature"]),
         ...mapMutations("Modules/FeatureLister", [
             "resetToThemeChooser"
         ]),

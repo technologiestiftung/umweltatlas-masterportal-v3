@@ -10,6 +10,7 @@
 - Added config.json-Parameter Portalconfig.tree.singleBaselayer. Specifies whether only one base layer may be active at any time selectable by radio-buttons in visible layers.
 - Added config.json-Parameter `Portalconfig.tree.showFolderPath`. Determines whether the folder structure of visible layers is displayed. Default is false.
 - Added Shared Component for spinner.
+- ShareView: Legend, Layer information and getFeatureInfo can be shared.
 - 3D: Min- and MaxScale are now available for layers.
 - Print: An option "Improve scaling resolution" is implemented for 3d Layers to supply an improved and better resolution.
 - WfsSearch:
@@ -44,7 +45,6 @@
 - Routing: Spinner will spin again when loading.
 - Contact Form: Telephone Field shows Error when entering letters and fields provide better feedback.
 - FileImport: Import of GPX-files imports routes, tracks and points. Import of geojson-files imports all besides circles.
-- ShareView: Legend and Layer information can be shared.
 - MainMenu: Resizing doesn't cause layout problems anymore.
 - The TopicTree-Searchinterface failed if there is an empty folder in the topic tree. Now it runs over empty folders.
 - Layer Settings: styling of the settings menu.

@@ -39,4 +39,31 @@ describe("src_3_0_0/modules/getFeatureInfo/store/gettersGetFeatureInfo.js", () =
             expect(getters.gfiFeaturesReverse(state)).to.eql([feature3, feature2, feature1]);
         });
     });
+
+    describe("urlParams", () => {
+        it("returns the urlParams", () => {
+            const state = {
+                    currentFeature: {
+                        getLayerId: () => "1"
+                    },
+                    clickCoordinates: [100, 200],
+                    gfiFeatures: [{id: "feature_1"}],
+                    initialMenuSide: "mainMenu",
+                    showMarker: true,
+                    type: "getFeatureInfo",
+                    visible: true
+                },
+                urlParamsState = getters.urlParams(state);
+
+            expect(urlParamsState).to.be.an("object");
+            expect(urlParamsState.type).to.be.equals("getFeatureInfo");
+            expect(urlParamsState.clickCoordinates).to.be.deep.equals([100, 200]);
+            expect(urlParamsState.initialMenuSide).to.be.equals("mainMenu");
+            expect(urlParamsState.showMarker).to.be.true;
+            expect(urlParamsState.visible).to.be.true;
+            expect(urlParamsState.layerId).to.be.equals("1");
+            expect(urlParamsState.currentFeature).to.null;
+            expect(urlParamsState.gfiFeatures).to.be.deep.equals([]);
+        });
+    });
 });

@@ -43,7 +43,8 @@ export default {
                 }
             }, {
                 // filter WebGL layers and look at them individually
-                layerFilter: layer => layer.get("renderer") !== "WebGL"
+                layerFilter: layer => layer.get("renderer") !== "WebGL",
+                hitTolerance: 1
             });
             /** check WebGL Layers
             * use buffered coord instead of pixel for hitTolerance and to catch overlapping WebGL features
@@ -125,5 +126,21 @@ export default {
         }
 
         return state.gfiFeatures;
+    },
+
+    /**
+     * Provides state for urlParams.
+     * @param {Object} state state of the app-store.
+     * @returns {Object} state for urlParams
+     */
+    urlParams: state => {
+        const urlParamsState = Object.assign({}, state, {
+            layerId: state.currentFeature ? state.currentFeature.getLayerId() : state.gfiFeatures[0].getLayerId()
+        });
+
+        urlParamsState.currentFeature = null;
+        urlParamsState.gfiFeatures = [];
+
+        return urlParamsState;
     }
 };

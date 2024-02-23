@@ -25,7 +25,8 @@ describe("src_3_0_0/modules/getFeatureInfo/components/GetFeatureInfoDetached.vue
         showMarker = true,
         feature,
         centerMapToClickPoint,
-        setCenterSpy;
+        setCenterSpy,
+        clickCoordinateFromMap;
 
     const
         mockMutations = {
@@ -55,6 +56,7 @@ describe("src_3_0_0/modules/getFeatureInfo/components/GetFeatureInfoDetached.vue
     });
 
     beforeEach(() => {
+        clickCoordinateFromMap = [100, 200];
         showMarker = true;
         centerMapToClickPoint = false;
         feature = {
@@ -105,7 +107,7 @@ describe("src_3_0_0/modules/getFeatureInfo/components/GetFeatureInfoDetached.vue
                         highlightFeature: highlightFeatureSpy
                     },
                     getters: {
-                        clickCoordinate: sinon.stub()
+                        clickCoordinate: () => clickCoordinateFromMap
                     }
                 },
                 Menu: {
@@ -527,7 +529,30 @@ describe("src_3_0_0/modules/getFeatureInfo/components/GetFeatureInfoDetached.vue
                 wrapper.vm.setMarker();
                 expect(placingPointMarkerSpy.notCalled).to.be.true;
             });
+            it("should do nothing if clickCoordinate is not filled - used on restore by urlParams", () => {
+                highlightVectorRules = null;
+                showMarker = true;
+                centerMapToClickPoint = true;
+                clickCoordinateFromMap = null;
+                const wrapper = shallowMount(DetachedTemplate, {
+                    propsData: {
+                        feature
+                    },
+                    components: {
+                        DefaultTheme: {
+                            name: "DefaultTheme",
+                            template: "<span />"
+                        }
+                    },
+                    global: {
+                        plugins: [store]
+                    }
+                });
 
+                wrapper.vm.setMarker();
+                expect(placingPointMarkerSpy.notCalled).to.be.true;
+                expect(setCenterSpy.notCalled).to.be.true;
+            });
             it("should call placingPointMarker if showMarker is true", () => {
                 highlightVectorRules = null;
                 showMarker = true;

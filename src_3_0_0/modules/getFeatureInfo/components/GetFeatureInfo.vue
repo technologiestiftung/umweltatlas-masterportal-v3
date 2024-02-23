@@ -162,9 +162,10 @@ export default {
          * @returns {void}
          */
         clickCoordinate: {
-            handler () {
+            handler (value) {
                 if (this.currentMouseMapInteractionsComponent === this.type) {
                     this.pagerIndex = 0;
+                    this.setClickCoordinates(value);
                     this.collectGfiFeatures();
                 }
             },
@@ -257,7 +258,8 @@ export default {
             "setGfiFeatures",
             "setCurrentFeature",
             "setVisible",
-            "setMenuSide"
+            "setMenuSide",
+            "setClickCoordinates"
         ]),
         ...mapActions(["initializeModule", "removeHighlightColor"]),
         ...mapActions("Modules/GetFeatureInfo", [

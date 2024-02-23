@@ -1,6 +1,7 @@
 import menuUrlParams from "../../../js/menuUrlParams";
 import store from "../../../../../app-store";
 import {expect} from "chai";
+import sinon from "sinon";
 
 describe("src_3_0_0/modules/menu/js/menuUrlParams.js", () => {
     const dispatchCalls = {};
@@ -53,6 +54,26 @@ describe("src_3_0_0/modules/menu/js/menuUrlParams.js", () => {
                 }
             });
 
+        });
+
+        it("call 'restoreFromUrlParams' of the component which cannot be opened by menu, e.g. getFeatureInfo", () => {
+            const params = {
+                    MENU: "{\"main\":{\"currentComponent\":\"root\"},\"secondary\":{\"currentComponent\":\"getFeatureInfo\",\"attributes\":{\"menuSide\": \"secondaryMenu\", \"foo\": \"bar\"}}}"
+                },
+                restoreFromUrlParamsSpy = sinon.spy();
+            let restoreFromUrlParams = null;
+
+            store._actions = {
+                "Modules/GetFeatureInfo/restoreFromUrlParams": restoreFromUrlParamsSpy
+            };
+
+            menuUrlParams.setAttributesToComponent(params);
+            restoreFromUrlParams = dispatchCalls["Modules/GetFeatureInfo/restoreFromUrlParams"];
+
+            expect(restoreFromUrlParams).to.deep.equals({
+                menuSide: "secondaryMenu",
+                foo: "bar"
+            });
         });
     });
 

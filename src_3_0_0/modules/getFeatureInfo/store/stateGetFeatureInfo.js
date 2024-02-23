@@ -2,6 +2,7 @@
  * The state for the getFeatureInfo.
  * @module modules/getFeatureInfo/store/stateGetFeatureInfo
  * @property {Boolean} [centerMapToClickPoint=false] specifies if the map should be centered when clicking on a feature.
+ * @property {Array} [clickCoordinates=[]] coordinates of the clicked feature.
  * @property {Object} [coloredHighlighting3D={}] The Highlight Setting of 3D Tiles.
  * @property {String[]} [configPaths=["portalConfig.map.getFeatureInfo"]] Path array of possible config locations. First one found will be used
  * @property {Object} [currentFeature=null] The current feature that is displayed.
@@ -20,6 +21,7 @@
  */
 export default {
     centerMapToClickPoint: false,
+    clickCoordinates: [],
     coloredHighlighting3D: {},
     configPaths: ["portalConfig.map.getFeatureInfo"],
     currentFeature: null,

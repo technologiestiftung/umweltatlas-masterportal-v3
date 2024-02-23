@@ -73,6 +73,7 @@ function isCesiumEntity (entity) {
  */
 function getGfiFeature (layerAttributes, properties) {
     const layerName = layerAttributes && layerAttributes.name ? layerAttributes.name : "common:shared.js.utils.buildings",
+        layerId = layerAttributes && layerAttributes.id ? layerAttributes.id : "",
         gfiTheme = layerAttributes && layerAttributes.gfiTheme ? layerAttributes.gfiTheme : "buildings_3d",
         attributesToShow = layerAttributes && layerAttributes.gfiAttributes ? layerAttributes.gfiAttributes : properties?.attributes,
         featureProperties = properties?.attributes ? properties.attributes : properties,
@@ -81,6 +82,9 @@ function getGfiFeature (layerAttributes, properties) {
             get: (key) => {
                 if (key === "name") {
                     return properties?.attributes?.Objektart ? properties.attributes.Objektart : layerName;
+                }
+                else if (key === "id") {
+                    return layerId;
                 }
                 else if (key === "gfiTheme") {
                     return gfiTheme;
@@ -135,7 +139,7 @@ function getLayerModelFromTileFeature (tileFeature, getModelByAttributesOpt = nu
         return getModelByAttributesOpt(filter);
     }
 
-    return filter.id;
+    return {attributes: {id: filter.id}};
 }
 
 /**

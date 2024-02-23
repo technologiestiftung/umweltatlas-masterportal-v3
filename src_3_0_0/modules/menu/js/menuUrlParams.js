@@ -40,32 +40,17 @@ function setAttributesToComponent (params) {
     Object.keys(menuParams).forEach(menuSide => {
         const menuSideParams = changeCase.upperCaseKeys(menuParams[menuSide]),
             {currentComponent, side} = getCurrentComponent(menuSideParams.CURRENTCOMPONENT),
-            attributes = menuSideParams.ATTRIBUTES;
+            attributes = menuSideParams.ATTRIBUTES,
+            type = currentComponent ? changeCase.upperFirst(currentComponent.type) : changeCase.upperFirst(menuSideParams.CURRENTCOMPONENT);
 
         if (side) {
-            const type = changeCase.upperFirst(currentComponent.type);
-
             store.dispatch("Menu/activateCurrentComponent", {currentComponent, type, side});
-
             if (attributes) {
                 store.dispatch("Menu/updateComponentState", {type, attributes});
             }
         }
-        else if (menuSideParams.CURRENTCOMPONENT === "layerInformation" && attributes) {
-            const layerId = attributes.layerInfo.id,
-                layerConfig = store.getters.layerConfigById(layerId);
-
-            store.dispatch("Menu/updateComponentState", {type: "LayerInformation", attributes});
-            if (store.getters.styleListLoaded) {
-                store.dispatch("Modules/LayerInformation/startLayerInformation", layerConfig, {root: true});
-            }
-            else {
-                store.watch((state, getters) => getters.styleListLoaded, value => {
-                    if (value) {
-                        store.dispatch("Modules/LayerInformation/startLayerInformation", layerConfig, {root: true});
-                    }
-                });
-            }
+        else if (store._actions[`Modules/${type}/restoreFromUrlParams`]) {
+            store.dispatch(`Modules/${type}/restoreFromUrlParams`, attributes, {root: true});
         }
     });
 }

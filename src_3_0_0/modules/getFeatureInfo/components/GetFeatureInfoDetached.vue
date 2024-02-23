@@ -102,12 +102,15 @@ export default {
          * @returns {void}
          */
         setMarker () {
-            if (this.centerMapToClickPoint) {
-                this.setCenter(this.clickCoordinate);
+            if (this.clickCoordinate) {
+                if (this.centerMapToClickPoint) {
+                    this.setCenter(this.clickCoordinate);
+                }
+                if (this.showMarker) {
+                    this.placingPointMarker(this.clickCoordinate);
+                }
             }
-            if (this.showMarker) {
-                this.placingPointMarker(this.clickCoordinate);
-            }
+
         },
 
         /**

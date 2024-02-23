@@ -10,6 +10,7 @@ let mockMutations,
     menuExpanded,
     toggleMenuSpy,
     collectGfiFeaturesSpy,
+    setClickCoordinatesSpy,
     currentComponentType;
 
 config.global.mocks.$t = key => key;
@@ -89,11 +90,13 @@ function getGfiStore (mobile, uiStyle, gfiFeatures, mapSize) {
 
 beforeEach(() => {
     currentComponentType = "print";
+    setClickCoordinatesSpy = sinon.spy();
     mockMutations = {
         setCurrentFeature: () => sinon.stub(),
         setGfiFeatures: () => sinon.stub(),
         setVisible: sinon.spy(),
-        setMenuSide: sinon.stub()
+        setMenuSide: sinon.stub(),
+        setClickCoordinates: setClickCoordinatesSpy
     };
     mockGetters = {
         centerMapToClickPoint: () => sinon.stub(),
@@ -204,7 +207,8 @@ describe("src_3_0_0/modules/getFeatureInfo/components/GetFeatureInfo.vue", () =>
                     return {};
                 }
             }],
-            store = getGfiStore(false, undefined, gfiFeatures, []);
+            store = getGfiStore(false, undefined, gfiFeatures, []),
+            coordinates = [100, 200];
         let wrapper = null;
 
         wrapper = shallowMount(GfiComponent, {
@@ -228,8 +232,11 @@ describe("src_3_0_0/modules/getFeatureInfo/components/GetFeatureInfo.vue", () =>
             }
         });
 
-        wrapper.vm.$options.watch.clickCoordinate.handler.call(wrapper.vm, null);
+        wrapper.vm.$options.watch.clickCoordinate.handler.call(wrapper.vm, coordinates);
         expect(wrapper.vm.pagerIndex).to.equal(0);
+        expect(setClickCoordinatesSpy.calledOnce).to.be.true;
+        expect(setClickCoordinatesSpy.firstCall.args[1]).to.equals(coordinates);
+        expect(collectGfiFeaturesSpy.calledOnce).to.be.true;
     });
 
     it("should set updatedFeature to true if gfiFeatures changed and features are given", () => {
