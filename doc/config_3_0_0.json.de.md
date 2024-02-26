@@ -5042,6 +5042,7 @@ Hier werden Vector typische Attribute aufgelistet. Vector Layer sind vom Typ **[
 |searchField|nein|String||Attributname nach dem die Searchbar diesen Layer durchsucht.|false|
 |styleGeometryType|nein|String/String[]||Geometrietypen für einen WFS-Style, falls nur bestimmte Geometrien eines Layers angezeigt werden sollen **[siehe dazu](style.json.md#markdown-header-display-rules)**.|false|
 |styleId|ja|String||Id die den Style definiert. Id wird in der **[style.json](style.json.md)** aufgelöst.|false|
+|isNeverVisibleInTree|no|Boolean||Parameter zum Ausblenden des Layers im Themenbaum. Wenn true, ist der Layer nicht sichtbar.|false|
 
 **Beispiel**
 
@@ -5059,7 +5060,8 @@ Hier werden Vector typische Attribute aufgelistet. Vector Layer sind vom Typ **[
             "mouseHoverField": [
                 "bwp_name",
                 "bewirtschaftungsart"
-            ]
+            ],
+            "isNeverVisibleInTree": false
         },
         {
             "id" : "11111",

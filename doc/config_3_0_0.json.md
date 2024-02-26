@@ -5063,6 +5063,7 @@ Vector typical attributes are listed here. Vector layers are of type **[WFS](#ma
 |searchField|no|String||Attribute name for which the searchbar searches this layer.|false|
 |styleGeometryType|no|String/String[]||Geometry types for a WFS style, if only certain geometries of a layer are to be displayed **[see](style.json.md#markdown-header-display-rules)**.|false|
 |styleId|yes|String||Id that defines the style. Id is resolved in the **[style.json](style.json.md)**.|false|
+|isNeverVisibleInTree|no|Boolean||A parameter for layer config to supply an option to hide the layer in tree. If true, the layer will not be visible in tree.|false|
 
 **Example**
 
@@ -5080,7 +5081,8 @@ Vector typical attributes are listed here. Vector layers are of type **[WFS](#ma
             "mouseHoverField": [
                 "bwp_name",
                 "bewirtschaftungsart"
-            ]
+            ],
+            "isNeverVisibleInTree": false
         },
         {
             "id" : "11111",

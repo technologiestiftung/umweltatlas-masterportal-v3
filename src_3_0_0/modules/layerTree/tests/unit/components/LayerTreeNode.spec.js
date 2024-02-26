@@ -77,7 +77,8 @@ describe("src_3_0_0/modules/layerTree/components/LayerTreeNode.vue", () => {
             typ: "WFS",
             type: "layer",
             visibility: false,
-            showInLayerTree: true
+            showInLayerTree: true,
+            isNeverVisibleInTree: true
         };
         layers2D = [
             layer2D_1,
@@ -196,7 +197,7 @@ describe("src_3_0_0/modules/layerTree/components/LayerTreeNode.vue", () => {
         expect(wrapper.find("#layer-tree-layer-" + layer2D_1.id).exists()).to.be.true;
         expect(wrapper.find("#layer-tree-layer-" + layer2D_2.id).exists()).to.be.true;
         expect(wrapper.find("#layer-tree-layer-" + layerBG_1.id).exists()).to.be.true;
-        expect(wrapper.find("#layer-tree-layer-" + layerBG_2.id).exists()).to.be.true;
+        expect(wrapper.find("#layer-tree-layer-" + layerBG_2.id).exists()).to.be.false;
     });
     it("renders the LayerTree with 2D layers in folder structure", () => {
         subjectDataLayers = layersWithFolder;
@@ -211,13 +212,13 @@ describe("src_3_0_0/modules/layerTree/components/LayerTreeNode.vue", () => {
         expect(wrapper.find("ul").exists()).to.be.true;
         expect(wrapper.findAll("li").length).to.be.equals(3);
         expect(wrapper.find("li:nth-child(1) > div").exists()).to.be.true;
-        expect(wrapper.find("li:nth-child(2) > div").exists()).to.be.true;
+        expect(wrapper.find("li:nth-child(2) > div").exists()).to.be.false;
         // folder is only a li-tag with no children:
         expect(wrapper.find("li:nth-child(3) > div").exists()).to.be.false;
         expect(wrapper.vm.isLayerShowInLayerTree(layerBG_1)).to.be.true;
-        expect(wrapper.vm.isLayerShowInLayerTree(layerBG_2)).to.be.true;
+        expect(wrapper.vm.isLayerShowInLayerTree(layerBG_2)).to.be.false;
         expect(wrapper.find("#layer-tree-layer-" + layerBG_1.id).exists()).to.be.true;
-        expect(wrapper.find("#layer-tree-layer-" + layerBG_2.id).exists()).to.be.true;
+        expect(wrapper.find("#layer-tree-layer-" + layerBG_2.id).exists()).to.be.false;
     });
 
     it("renders the LayerTree with 3D layers", () => {
@@ -237,11 +238,11 @@ describe("src_3_0_0/modules/layerTree/components/LayerTreeNode.vue", () => {
         expect(wrapper.vm.isLayerShowInLayerTree(layer2D_2)).to.be.true;
         expect(wrapper.vm.isLayerShowInLayerTree(layer3D)).to.be.true;
         expect(wrapper.vm.isLayerShowInLayerTree(layerBG_1)).to.be.true;
-        expect(wrapper.vm.isLayerShowInLayerTree(layerBG_2)).to.be.true;
+        expect(wrapper.vm.isLayerShowInLayerTree(layerBG_2)).to.be.false;
         expect(wrapper.find("#layer-tree-layer-" + layer2D_1.id).exists()).to.be.true;
         expect(wrapper.find("#layer-tree-layer-" + layer2D_2.id).exists()).to.be.true;
         expect(wrapper.find("#layer-tree-layer-" + layer3D.id).exists()).to.be.true;
         expect(wrapper.find("#layer-tree-layer-" + layerBG_1.id).exists()).to.be.true;
-        expect(wrapper.find("#layer-tree-layer-" + layerBG_2.id).exists()).to.be.true;
+        expect(wrapper.find("#layer-tree-layer-" + layerBG_2.id).exists()).to.be.false;
     });
 });

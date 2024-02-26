@@ -18,6 +18,7 @@
 - Filter:
   - a new parameter "closeGfi" to give an option if a gfi window is open, and it could be closed after a new filtering.
   - a new parameter "universalSearch" in snippet with type "featureInfo" to enable to search the attribute value in webpage.
+- LayerTree: A paramter "isNeverVisibleInTree" for layer config to supply an option to hide the layer in tree but can be loaded.
 
 ### Changed
 - CoordToolkit: Toast added instead of Alert for feedback after copying coordinates.

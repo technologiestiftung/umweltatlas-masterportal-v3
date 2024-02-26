@@ -73,12 +73,12 @@ export default {
         ...mapActions("Modules/LayerTree", ["removeLayer", "replaceByIdInLayerConfig"]),
 
         /**
-         * Indicates if a conf is a layer and showInlayerTree has true.
+         * Indicates if a conf is a layer and showInlayerTree is true and isNeverVisibleInTree is not true
          * @param {Object} conf The current layer configuration.
          * @returns {void}
          */
         isLayerShowInLayerTree (conf) {
-            return conf?.type === "layer" && conf?.showInLayerTree === true;
+            return conf?.type === "layer" && conf?.showInLayerTree === true && conf?.isNeverVisibleInTree !== true;
         },
 
         /**
