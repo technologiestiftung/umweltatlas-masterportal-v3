@@ -2219,7 +2219,7 @@ An object to define a group layer to filter with.
 
 **Example**
 
-[layerGroups](#markdown-header-portalconfigmenusectionsmodulesfilterlayerGroups) defines related layers. Each group has a title and a list of layers. These are displayed together in the filter.
+**[layerGroups](#markdown-header-portalconfigmenusectionsmodulesfilterlayerGroups)** defines related layers. Each group has a title and a list of layers. These are displayed together in the filter.
 
 ```json
 {
@@ -2244,492 +2244,6 @@ An object to define a group layer to filter with.
       ]
     }
   ]
-}
-```
-
-***
-
-#### portalConfig.menu.sections.modules.filter.filterLayer.snippets
-An object defining a single snippet.
-
-Note: Time-related snippets (`date` and `dateRange`) can only be operated in `external` mode or as a fixed rule (`visible`: `false`) if their counterpart at the WFS service is in a correct time format (ISO8601: `YYYY-MM-DD`).
-
-|Name|Required|Type|Default|Description|Expert|
-|----|--------|----|-------|-----------|------|
-|addSelectAll|no|Boolean|false|For type `dropdown` with `multiselect: true` only: Adds an additional entry on top of the list to select/deselect all entries.|false|
-|attrName|yes|String||The attribute name used for filtering. Is to be an array if `dateRange`, `sliderRange` or `featureInfo` is used (see examples).|false|
-|autoInit|no|Boolean|true|For type `dropdown` only: If set to `false`: Turns off the automatic identification of value (in case of `dropdown`) or minValue/maxValue (in case of `slider(Range)` and `date(Range)`.|false|
-|children|no|[children](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippetschildren)[]|[]|Child snippet configuration.|true|
-|decimalPlaces|no|Number|0|Defines decimal places for the step for `slider` and `sliderRange`|false|
-|delimiter|no|String||For type `dropdown` only: If feature attributes are themselfs again seperated by a delimiter to act as pseudo array, setting delimiter to the sign that seperates the terms, will result in the expected outcome.|false|
-|display|no|String|"default"|If snippet type `dropdown`: If set to `list`, a list is displayed instead of a dropdown box. If snippet type `dateRange`: If set to `datepicker`, only the selection via calendar will be displayed, if set to `slider`, only the slider will be displayed, if set to `all`, datepicker and slider will be displayed.|false|
-|format|no|String|"YYYY-MM-DD"|For type `date` and `dateRange` only: The format the date is stored in the database. Leave empty for ISO8601. If the format differs from ISO8601, the snippet must be visible (`visible`: `true`) and the filter must work in `external`: `false` mode. Can be specified as an array of two different formats if an array of different attribute names is also specified as attrName and the date formats of the attribute values differ.|false|
-|hideSelected|no|Boolean|true|As default behavior, the previously selected dropdown item is hidden in the dropdown list. Can be set to false to have the selected item shown and styled as selected.|false|
-|info|no|String||An info text or translation key. If set, a little icon will shown right hand side of the snippet. Can be set to `true` to display a default text for the snippet type.|false|
-|localeCompareParams|no|[localeCompareParams](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippetslocalecompareparams)||For type Snippet-Typ `dropdown` only: The sorting of the dropdown boxes can be adjusted according to your own wishes via this parameter.|false|
-|maxValue|no|Number||For type `date` and `slider` only: The maximum value as number or date string. Leave empty for automatic identification of boundaries.|false|
-|minValue|no|Number||For type `date` and `slider` only: The minimum value as number or date string. Leave empty for automatic identification of boundaries.|false|
-|multiselect|no|Boolean|true|For type `dropdown` only: Selection of multiple entries. Set to `false` to switch to single select.|false|
-|operator|no|String||The operator to connect the set value to the value in the database. Can be one of the following - depending if it makes sense for the type and is available for the used interface: `INTERSECTS`, `BETWEEN`, `EQ`, `IN`, `STARTSWITH`, `ENDSWITH`, `NE`, `GT`, `GE`, `LT`, `LE`. If left away, defaults are: boolean becomes `EQ`, string becomes `EQ`, number becomes `BETWEEN`, unknown becomes `EQ`.|false|
-|operatorForAttrName|no|String|"AND"|By setting this parameter to `OR` in conjunction with attrName as an array, it is possible to filter over various attrNames with a logical OR.|false|
-|optionsLimit|no|Number|20000|For type `dropdown` only: Adds a limit of options in dropdown list.|false|
-|placeholder|no|String|""|For type `dropdown` only: The placeholder to use. Can be a translation key.|false|
-|prechecked|no|String[]/String||Initially checked value. For `dropdown`, `sliderRange` and `dateRange` an array of values, for checkbox a boolean, for slider a number, for text a string and for date a string (following the set `format`). If `visible` is set to `false`, value set by prechecked are forced for filtering. For `dropdown` with `multiselect`: If `prechecked` is set to `all`, all available values will be selected initially.|false|
-|renderIcons|no|String|"none"|For type `dropdown` with `display: "list"` only: If set to `fromLegend` icons will be placed left hand side of each entry. Icons are taken from legend. Use an object with attrNames as keys and imagePath as value {attrName: imagePath} to manually set images (see example).|false|
-|service|no|[service](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippetsservice)||For the initial filling of a snippet `dropdown`, `date`, `slider` an alternative service can be used. This may increase the performance during initial loading. The default is the service of the configured [filterLayer](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayer).|false|
-|showAllValues|no|Boolean||For `dropdown` snippet type only: prevents hiding of unselected values when set to `true`. Can only be used in conjunction with `prechecked: "all"`.|false|
-|subTitles|no|String[]|[]|Only for snippet type `dateRange`: The additional from and to labels to be displayed above the calendar fields. As an array with two elements (e.g. ["from", "to"]). Set subTitles to true to use the values of `attrName`, to false to not display labels.|false|
-|timeouts|no|[timeouts](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippetstimeouts)||Timeouts to configure for better user experience.|false|
-|title|no|String||The title of the snippet. Can be a translation key. If not set, the title is taken from the gfiAttributes and if they are not present, then the `attrName` is used. Can be set to `false` to disable the display of a title. Can be set to `true` to force the display of the `attrName`.|false|
-|type|no|String||The type of this snippet. Can be one of the following: `checkbox`, `dropdown`, `text`, `slider`, `sliderRange`, `date`, `dateRange`. Will be indentified automatically if left away, following a data type rule: boolean becomes `checkbox`, string becomes `dropdown`, number becomes `sliderRange`, unknown becomes `text`.|false|
-|value|no|String[]||If omitted, values are determined automatically. If set for `dropdown`: The values to be selectable in the list. If set for `checkbox`: Instead of boolean values, the specified values for the `true` and `false` states should be taken (e.g. ["Yes", "No"]). For `dateRange`: start and end date for date picker and/or slider. For `sliderRange`: the min and max values.|false|
-|visible|no|Boolean|true|The snippet is visible. Set to `false` to hide the snippet: This gives you the power to use `prechecked` as an `always rule` to force filtering of a fixed `attrName` and value.|false|
-|universalSearch|no|[universalSearch](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippetsuniversalSearch)||Only for Snippet-Typ `featureInfo`: The filtered Value can be searched for in website|false|
-|beautifiedAttrName|no|[beautifiedAttrName](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippetsbeautifiedAttrName)||Only for Snippet-Typ `featureInfo`: The attribute name could be beautified.|false|
-
-**Example**
-
-Example for a text snippet. A input box with placeholder will be shown for filtering free text.
-
-```json
-{
-    "title": "Description of school",
-    "attrName": "school_description",
-    "type": "text",
-    "operator": "IN",
-    "placeholder": "Search in description"
-}
-```
-
-**Example**
-
-Example for a checkbox snippet. A checkbox is shown to search for "Oui" in the database if checked. The checkbox is checked by default.
-
-```json
-{
-    "title": "A l'option végétalienne ?",
-    "attrName": "vegan_option",
-    "type": "checkbox",
-    "operator": "EQ",
-    "value": ["Oui", "Non"],
-    "prechecked": true
-}
-```
-
-**Example**
-
-Example for a dropdown snippet. A simple dropdown with single select and placeholder is used.
-
-```json
-{
-    "title": "District",
-    "attrName": "city_district",
-    "type": "dropdown",
-    "multiselect": false,
-    "placeholder": "Choose a district"
-}
-```
-
-**Example**
-
-Example for a dropdown snippet. A dropdown with multiselect and select all option, manually set icons, info, fixed value and prechecked. Displayed as list.
-
-```json
-{
-    "title": "District",
-    "attrName": "city_district",
-    "info": "Some districts of London.",
-    "type": "dropdown",
-    "display": "list",
-    "multiselect": true,
-    "optionsLimit": 20000,
-    "addSelectAll": true,
-    "value": [
-        "Whitehall and Westminster",
-        "Piccadilly and St James's",
-        "Soho and Trafalgar Square",
-        "Covent Garden and Strand",
-        "Bloomsbury and Fitzrovia"
-    ],
-    "prechecked": [
-        "Piccadilly and St James's",
-        "Soho and Trafalgar Square"
-    ],
-    "renderIcons": {
-        "Whitehall and Westminster": "https://example.com/img/whitehall.png",
-        "Piccadilly and St James's": "https://example.com/img/piccadilly.png",
-        "Soho and Trafalgar Square": "https://example.com/img/soho.png",
-        "Covent Garden and Strand": "https://example.com/img/covent.png",
-        "Bloomsbury and Fitzrovia": "https://example.com/img/bloomsbury.png"
-    },
-    "placeholder": "Choose a district"
-}
-```
-
-**Example**
-
-Example of a dropdown snippet where all available values are initially selected.
-
-```json
-{
-    "title": "District",
-    "attrName": "city_district",
-    "type": "dropdown",
-    "multiselect": true,
-    "prechecked": "all",
-    "placeholder": "Choose a district"
-}
-```
-
-**Example**
-
-Example for a slider snippet. A slider for a single digit and a less or equals operator. With minValue and maxValue to avoid automatic identification of boundaries.
-
-```json
-{
-    "title": "First classes",
-    "attrName": "number_of_first_classes",
-    "type": "slider",
-    "operator": "LE",
-    "minValue": 1,
-    "maxValue": 5,
-    "decimalPlaces": 2
-}
-```
-
-**Example**
-
-Example for a slider range snippet. A slider range without minValue and maxValue to use automatic identification of boundaries.
-
-```json
-{
-    "title": "Angle d'inclinaison du toit du garage",
-    "attrName": "angle",
-    "type": "sliderRange",
-    "operator": "BETWEEN",
-    "decimalPlaces": 2
-}
-```
-
-**Example**
-
-Example for a slider range snippet. A slider range with two attrName for min and max. With minValue and max Value to avoid automatic identification of boundaries.
-
-```json
-{
-    "title": "Angle d'inclinaison du toit du garage",
-    "attrName": ["angle_minimal", "angle_maximal"],
-    "type": "sliderRange",
-    "operator": "BETWEEN",
-    "value": [0, 90]
-}
-```
-
-**Example**
-
-Example for a date snippet. A date picker for a single date with minValue and maxValue to avoid automatic identification of boundaries.
-
-```json
-{
-    "title": "Birthday",
-    "attrName": "birthday",
-    "type": "date",
-    "format": "YYYY-MM-DD",
-    "minValue": "2000-01-01",
-    "maxValue": "2022-12-31"
-}
-```
-
-**Example**
-
-Example for a date range snippet. A date range with two attrName for min and max. With a special date format. Uses intersects operator, without minValue and maxValue to use automatic identification of boundaries.
-
-```json
-{
-    "title": "Bauzeit der Autobahnen",
-    "attrName": ["autobahn_baubeginn", "autobahn_bauende"],
-    "type": "dateRange",
-    "operator": "INTERSECTS",
-    "format": "DD.MM.YY"
-}
-```
-
-**Example**
-
-Example of a DateRange snippet. With the slider turned off (`display`: `datepicker`). With two attribute names for min and max values, two `subTitles` different from the attrName and different date formats. Additionally a period is preset. Please note that the format of the preset values is based on `format`.
-
-```json
-{
-    "type": "dateRange",
-    "title": "Auslandssemester",
-    "subTitles": ["Start der Reise", "End of Journey"],
-    "attrName": ["start", "end"],
-    "format": ["DD.MM.YYYY", "YYYY/DD/MM"],
-    "prechecked": ["01.08.2022", "2023/06/31"],
-    "display": "datepicker"
-}
-```
-
-**Example**
-
-Example of a DateRange snippet. With time points preset via `prechecked` and min and max values preset via `value`.
-
-```json
-{
-    "type": "dateRange",
-    "title": "Aktive Baustellen im ...",
-    "subTitles": ["Zeitraum von", "Zeitraum bis"],
-    "attrName": ["baubeginn", "bauende"],
-    "format": "DD.MM.YYYY",
-    "value": ["01.01.2019", "31.12.2034"],
-    "prechecked": ["07.07.2022", "25.02.2030"]
-}
-```
-
-**Example**
-
-Example for a feature info snippet. Displays all values of the configured attribute names `attrName` of all filtered features in the filter.
-
-```json
-{
-    "title": "Steckbrief",
-    "attrName": ["tierartengruppe", "deutscher_artname", "artname", "rote_liste_d", "rote_liste_hh"],
-    "type": "featureInfo",
-    "universalSearch": {
-      "attrName": "Wissenschaftlicher Name",
-      "prefix": "https://www.google.com/search?q="
-    },
-    "beautifiedAttrName": {
-      "tierartengruppe": "Tierartengruppe",
-      "familie": "Familie"
-    }
-}
-```
-
-**Example**
-
-Example for a slider range snippet of SensorThingsAPI (STA).
-
-```json
-{
-    "type": "sliderRange",
-    "title": "Anzahl der Fahrräder",
-    "attrName": "@Datastreams.0.Observations.0.result"
-}
-```
-
-**Example**
-
-Example of a snippet that wants to filter over multiple attributes at once and display the features that match the set value for one of the specified attributes.
-
-```json
-{
-    "attrName": ["xpplanname", "rechtscharakterwert"],
-    "operatorForAttrName": "OR",
-    "type": "dropdown",
-}
-```
-
-***
-
-#### portalConfig.menu.sections.modules.filter.filterLayer.snippets.children
-Child snippet configuration.
-The child snippets are configured in the same way as "normal" snippets.
-See [filterLayerSnippets](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippets).
-
-The parent-child relationship can be used for the following use case:
-If a dataset is too large, preselecting an attribute can reduce the amount of subsequent filtering.
-(Example: animal species group `mammals` as preselection would significantly reduce the data space of all animals).
-
-The `children` parameter instructs a snippet not to trigger any filtering itself, but to "feed" only its child snippets configured under `children` with the data resulting from its setting.
-(Example: `mammals` will shrink the resulting animal species to an acceptable range).
-Only the selection in one of the child snippets (example: "blue whale") finally performs the filtering.
-
-In case of using parent-child relationships, we recommend setting `snippetTags` to `false`.
-Multi-dimensional nesting (grandparent, parent, child) is not currently provided.
-
-**Example**
-
-Example of a dropdown snippet with parent-child relationship. The `cityA` and `cityB` dropdowns are initially not filled. Only when a `district` is selected do they fill with the cities of the selected district, but no filtering takes place on the map. Only the selection of a city finally initiates the filtering by the city name.
-
-```json
-{
-    "title": "District",
-    "attrName": "city_district",
-    "type": "dropdown",
-    "multiselect": false,
-    "placeholder": "Choose a district",
-    "children": [
-        {
-            "type": "dropdown",
-            "attrName": "cityA",
-            "placeholder": "cityA"
-        },
-        {
-            "type": "dropdown",
-            "attrName": "cityB",
-            "placeholder": "cityB"
-        }
-    ]
-}
-```
-
-***
-
-#### portalConfig.menu.sections.modules.filter.filterLayer.snippets.timeouts
-User experience can be improved with the adjustment of timeouts.
-This is especially true for filters that work with `strategy`: `active`.
-
-|Name|Required|Typ|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
-|input|no|Number|1400|For snippet typ `sliderRange` and `slider` only: The time in milliseconds that should elapse before filtering is triggered after entering numbers and characters into the input field.|false|
-|slider|no|Number|800|For snippet typ `sliderRange`, `slider` and `dateRange` only: The time in milliseconds that should elapse before filtering is triggered after the last change of the slider.|false|
-
-**Example**
-
-An example of a sliderRange snippet with accelerated filtering after input into the input field or changing the slider.
-
-```json
-{
-    "title": "Baustellen",
-    "attrName": ["baubeginn", "bauende"],
-    "type": "sliderRange",
-    "timeouts": {
-        "input": 800,
-        "slider": 400
-    }
-}
-```
-
-***
-
-#### portalConfig.menu.sections.modules.filter.filterLayer.snippets.service
-
-An object that describes a service for a snippet. All service types that the filter supports can theoretically be used.
-The configuration depends on the type of service.
-
-**WFS**
-|Name|Required|Typ|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
-|collection|yes|String||The collection that will be loaded. Only for OAF|false|
-|type|yes|String||The type of service.|false|
-|typename|yes|String||The feature type that will be loaded. Only for WFS|false|
-|url|yes|String||The service url.|false|
-
-**Example**
-
-```json
-{
-    "type": "WFS",
-    "url": "https://qs-geodienste.hamburg.de/HH_WFS_verbreitungskarten_tiere",
-    "typename": "verbreitung_tiere_eindeutige_liste"
-}
-```
-
-**Example GeoJSON**
-
-```json
-{
-    "type": "GeoJSON",
-    "url": "../chartjs/charts_stadtteil.geojson"
-}
-```
-**Example OAF**
-
-```json
-{
-    "url": "https://api.hamburg.de/datasets/v1/schulen",
-    "collection" : "staatliche_schulen",
-    "type": "OAF"
-}
-```
-
-***
-
-#### portalConfig.menu.sections.modules.filter.filterLayer.snippets.localeCompareParams
-
-A string or object that supply the parameters for util function localeCompare.
-
-**Example String**
-
-"localeCompareParams": "de"
-
-**Object**
-
-|Name|Required|Typ|Default|Description|Expert|
-|----|--------|---|-------|-----------|------|
-|locale|no|String||The locale code according ISO 3166|false|
-|options|no|[options](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippetslocalecompareparamsoptions)||The custom options for sorting in localeCompare|false|
-
-**Example Object**
-
-```json
-{
-    "locale": "de",
-    "options": {
-        "ignorePunctuation": true
-    }
-}
-```
-
-***
-
-#### portalConfig.menu.sections.modules.filter.filterLayer.snippets.localeCompareParams.options
-An object for custom control of the localeCompare function used to sort dropdown boxes, the documentation is: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
-
-|Name|Required|Typ|Default|Description|Expert|
-|----|--------|---|-------|-----------|------|
-|ignorePunctuation|no|Boolean|false|Determines whether punctuation will be ignored.|false|
-|numeric|no|Boolean|false|Determines whether numeric collation will be used|false|
-|sensitivity|no|String|"variant"|Determines whether string collation will be used.|false|
-
-**Example**
-
-```json
-{
-    "ignorePunctuation": true
-}
-```
-
-***
-
-#### portalConfig.menu.sections.modules.filter.filterLayer.snippets.universalSearch
-
-An object for configuring a universal search of value
-
-**Object**
-
-|Name|Required|Typ|Default|Description|Expert|
-|----|--------|---|-------|-----------|------|
-|attrName|yes|String||The attribute Name|false|
-|prefix|yes|String||The Website as Prefix for searching|false|
-
-**Example**
-
-```json
-{
-    "attrName": "Wissenschaftlicher Name",
-    "prefix": "https://www.ecosia.org/search?q="
-}
-```
-
-***
-
-#### portalConfig.menu.sections.modules.filter.filterLayer.snippets.beautifiedAttrName
-
-An object for configuring beautified names for attributes in stack
-
-**Object**
-
-|Name|Required|Typ|Default|Description|Expert|
-|----|--------|---|-------|-----------|------|
-|attrName|yes|String||The attribute Name|false|
-
-**Example**
-
-```json
-{
-    "attrName": "beautified Name"
 }
 ```
 
@@ -4854,6 +4368,8 @@ CustomMenuElement Module `execute` from `payload`. The appropriate payload for t
 [type:eParams]: # (Datatypes.Snippets.LocaleCompareParams)
 [type:Service]: # (Datatypes.Snippets.Service)
 [type:Timeouts]: # (Datatypes.Snippets.Timeouts)
+[type:UniversalSearch]: # (Datatypes.Snippets.UnversalSearch)
+[type:BeautifiedAttrName]: # (Datatypes.Snippets.BeautifiedAttrName)
 
 An object defining a single snippet for the filter.
 
@@ -4889,6 +4405,8 @@ Note: Time-related snippets (`date` and `dateRange`) can only be operated in `ex
 |type|no|String||The type of this snippet. Can be one of the following: `checkbox`, `dropdown`, `text`, `slider`, `sliderRange`, `date`, `dateRange`. Will be indentified automatically if left away, following a data type rule: boolean becomes `checkbox`, string becomes `dropdown`, number becomes `sliderRange`, unknown becomes `text`.|false|
 |value|no|String[]||If omitted, values are determined automatically. If set for `dropdown`: The values to be selectable in the list. If set for `checkbox`: Instead of boolean values, the specified values for the `true` and `false` states should be taken (e.g. ["Yes", "No"]). For `dateRange`: start and end date for date picker and/or slider. For `sliderRange`: the min and max values.|false|
 |visible|no|Boolean|true|The snippet is visible. Set to `false` to hide the snippet: This gives you the power to use `prechecked` as an `always rule` to force filtering of a fixed `attrName` and value.|false|
+|universalSearch|no|**[UniversalSearch](#markdown-header-datatypessnippetsuniversalSearch)**||Only for Snippet-Typ `featureInfo`: The filtered Value can be searched for in website|false|
+|beautifiedAttrName|no|[BeautifiedAttrName]**(#markdown-header-datatypessnippetsbeautifiedattrname)**||Only for Snippet-Typ `featureInfo`: The attribute name could be beautified.|false|
 
 **Example**
 
@@ -5097,7 +4615,15 @@ Example for a feature info snippet. Displays all values of the configured attrib
 {
     "title": "Steckbrief",
     "attrName": ["tierartengruppe", "deutscher_artname", "artname", "rote_liste_d", "rote_liste_hh"],
-    "type": "featureInfo"
+    "type": "featureInfo",
+    "universalSearch": {
+      "attrName": "Wissenschaftlicher Name",
+      "prefix": "https://www.google.com/search?q="
+    },
+    "beautifiedAttrName": {
+      "tierartengruppe": "Tierartengruppe",
+      "familie": "Familie"
+    }
 }
 ```
 
@@ -5127,7 +4653,7 @@ Example of a snippet that wants to filter over multiple attributes at once and d
 
 ***
 
-## Datatypes.Snippets.Children
+### Datatypes.Snippets.Children
 Child snippet configuration.
 The child snippets are configured in the same way as "normal" snippets.
 See [filterLayerSnippets](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippets).
@@ -5171,7 +4697,7 @@ Example of a dropdown snippet with parent-child relationship. The `cityA` and `c
 
 ***
 
-## Datatypes.Snippets.Timeouts
+### Datatypes.Snippets.Timeouts
 User experience can be improved with the adjustment of timeouts.
 This is especially true for filters that work with `strategy`: `active`.
 
@@ -5198,7 +4724,7 @@ An example of a sliderRange snippet with accelerated filtering after input into 
 
 ***
 
-## Datatypes.Snippets.Service
+### Datatypes.Snippets.Service
 
 An object that describes a service for a snippet. All service types that the filter supports can theoretically be used.
 The configuration depends on the type of service.
@@ -5241,7 +4767,7 @@ The configuration depends on the type of service.
 
 ***
 
-## Datatypes.Snippets.LocaleCompareParams
+### Datatypes.Snippets.LocaleCompareParams
 
 [type:Options]: # (Datatypes.Snippets.LocaleCompareParams.Options)
 
@@ -5271,7 +4797,7 @@ A string or object that supply the parameters for util function localeCompare.
 
 ***
 
-## Datatypes.Snippets.LocaleCompareParams.Options
+### Datatypes.Snippets.LocaleCompareParams.Options
 An object for custom control of the localeCompare function used to sort dropdown boxes, the documentation is: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
 
 |Name|Required|Typ|Default|Description|Expert|
@@ -5285,6 +4811,48 @@ An object for custom control of the localeCompare function used to sort dropdown
 ```json
 {
     "ignorePunctuation": true
+}
+```
+
+***
+
+### Datatypes.Snippets.UniversalSearch
+
+An object for configuring a universal search of value
+
+**Object**
+
+|Name|Required|Typ|Default|Description|Expert|
+|----|--------|---|-------|-----------|------|
+|attrName|yes|String||The attribute Name|false|
+|prefix|yes|String||The Website as Prefix for searching|false|
+
+**Example**
+
+```json
+{
+    "attrName": "Wissenschaftlicher Name",
+    "prefix": "https://www.ecosia.org/search?q="
+}
+```
+
+***
+
+### Datatypes.Snippets.BeautifiedAttrName
+
+An object for configuring beautified names for attributes in stack
+
+**Object**
+
+|Name|Required|Typ|Default|Description|Expert|
+|----|--------|---|-------|-----------|------|
+|attrName|yes|String||The attribute Name|false|
+
+**Example**
+
+```json
+{
+    "attrName": "beautified Name"
 }
 ```
 

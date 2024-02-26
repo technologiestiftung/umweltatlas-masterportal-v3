@@ -2146,7 +2146,7 @@ Beispiel für eine vollständig veränderte Konfiguration des `filterGeometrySel
 
 #### portalConfig.menu.sections.modules.filter.filterLayer
 
-[type:Snippets]: # (Datatypes.Snippets)
+[type:Snippets]: # (Datatypes.Filter.Snippets)
 
 Die Konfiguration eines Layers.
 
@@ -2182,7 +2182,7 @@ Die Konfiguration eines Layers.
 
 **Beispiel**
 
-Dieses Beispiel konfiguriert ein Layer mit nur einem einzigen Snippet. Die Art des Snippets und seine Einstellungen werden automatisch ermittelt. Siehe [filterLayerSnippets](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippets) um mehr zur Konfiguration von Snippets zu erfahren.
+Dieses Beispiel konfiguriert ein Layer mit nur einem einzigen Snippet. Die Art des Snippets und seine Einstellungen werden automatisch ermittelt. Siehe **[filterLayerSnippets](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippets)** um mehr zur Konfiguration von Snippets zu erfahren.
 
 ```json
 {
@@ -2221,7 +2221,7 @@ Ein Objekt zum Definieren eines Gruppen-Layers zum Filtern.
 
 **Beispiel**
 
-[layerGroups](#markdown-header-portalconfigmenusectionsmodulesfilterlayerGroups) definiert zusammengehörige Layer. Jede Gruppe hat einen Titel und eine Liste von Layern. Diese werden zusammen im Filter angezeigt.
+**[layerGroups](#markdown-header-portalconfigmenusectionsmodulesfilterlayerGroups)** definiert zusammengehörige Layer. Jede Gruppe hat einen Titel und eine Liste von Layern. Diese werden zusammen im Filter angezeigt.
 
 ```json
 {
@@ -2248,493 +2248,6 @@ Ein Objekt zum Definieren eines Gruppen-Layers zum Filtern.
   ]
 }
 ```
-
-***
-
-#### portalConfig.menu.sections.modules.filter.filterLayer.snippets
-Ein Objekt das ein einzelnes Snippet beschreibt.
-
-Hinweis: Zeitbezogene Snippets (`date` und `dateRange`) können nur dann im Modus `extern` oder als fixe Regel (`visible`: `false`) betrieben werden, wenn ihr Gegenstück am WFS-Service in einem korrekten Zeit-Format vorliegt (ISO8601: `YYYY-MM-DD`).
-
-|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|-------------|---|-------|------------|------|
-|addSelectAll|nein|Boolean|false|Nur für Snippet-Typ `dropdown` mit `multiselect: true`: Ein zusätzlicher Eintrag zum Selektieren/Deselektieren aller Werte wird angeboten.|false|
-|attrName|ja|String||Der Name des Attributes auf dem dieses Snippet filtern soll. Kann ein Array sein, wenn `dateRange`, `sliderRange` oder `featureInfo` verwendet wird (siehe Beispiele).|false|
-|autoInit|nein|Boolean|true|Nur für Snippet-Typ `dropdown`: Schaltet, wenn auf `false` gestellt, die automatischen Ermittlungen von Inhalts-, Min- und Max-Werten ab.|false|
-|children|nein|[children](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippetschildren)[]|[]|Konfiguration von Kind-Snippets.|true|
-|decimalPlaces|nein|Number|0|Definiert Nachkommastellen für den Schritt bei `slider` und `sliderRange`|false|
-|delimiter|nein|String||Nur für Snippet-Typ `dropdown`: Sollte das Attribut eines Features ein String sein, dessen Wert mit einem Separator als Quasi-Array gedacht ist, kann durch Angabe des separierenden Zeichens (des Delimiters) die Verarbeitung des Strings als Array erzwungen werden.|false|
-|display|nein|String|"default"|Wenn Snippet-Typ `dropdown`: Wenn auf `list` eingestellt, wird anstelle einer Dropdown-Box eine Liste angezeigt. Wenn Snippet-Typ `dateRange`: Wenn auf `datepicker` eingestellt, wird nur die Auswahl über Kalender angezeigt, wenn auf `slider` eingestellt, wird nur der Slider angezeigt, wenn auf `all` eingestellt, werden Datepicker und Slider angezeigt.|false|
-|format|nein|String|"YYYY-MM-DD"|Nur für Snippet-Typ `date` und `dateRange`: Das verwendete Format des Datums in der Datenbank. Wenn nicht angegeben wird ISO8601 angenommen. Weicht das Format von ISO8601 ab, muss das Snippet sichtbar sein (`visible`: `true`) und der Filter muss im Modus `extern`: `false` arbeiten. Kann als Array von zwei unterschiedlichen Formaten angegeben werden, wenn als attrName ebenfalls ein Array unterschiedlicher Attributnamen angegeben wird und sich die Datums-Formate der Attributwerte unterscheiden.|false|
-|hideSelected|nein|Boolean|true|Standardmäßig ist beim Dropdown der ausgewählte Eintrag beim nächsten Ausklappen weg. Kann auf false gesetzt werden, um den vorher ausgewählten Eintrag sichtbar und farblich abgesetzt anzuzeigen.|false|
-|info|nein|String||Info-Text zu diesem Snippet oder ein Übersetzungs-Key. Wenn eingestellt, dann wird rechts vom Snippet ein Info-Symbol angezeigt, das bei Klick den Text darstellt. Kann auch einfach auf `true` gestellt werden, wenn ein Standard-Text ausreichend ist.|false|
-|localeCompareParams|nein|[localeCompareParams](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippetslocalecompareparams)||Nur für Snippet-Typ `dropdown`: Die Sortierung der Dropdown-Boxen kann über diesen Parameter nach eigenen Wünschen angepasst werden.|false|
-|maxValue|nein|Number||Nur für Snippet-Typ `date` und `slider`: Der Maximal-Wert als number oder Datums-String. Weglassen um die automatische Ermittlung der Werte zu aktivieren.|false|
-|minValue|nein|Number||Nur für Snippet-Typ `date` und `slider`: Der Minimal-Wert als number oder Datums-String. Weglassen um die automatische Ermittlung der Werte zu aktivieren.|false|
-|multiselect|nein|Boolean|true|Nur für Snippet-Typ `dropdown`: Gleichzeitige Auswahl vieler Werte. Auf `false` stellen um auf Einzelauswahl umzustellen.|false|
-|operator|nein|String||Der logische Operator wie der eingestellte Wert mit dem Wert in der Datenbank verglichen wird. Abhängig davon ob es Sinn macht können dies folgende Werte sein: `INTERSECTS`, `BETWEEN`, `EQ`, `IN`, `STARTSWITH`, `ENDSWITH`, `NE`, `GT`, `GE`, `LT`, `LE`. Wenn weggelassen, gilt der Default: boolean wird zu `EQ`, string wird zu `EQ`, number wird zu `BETWEEN`, unbekannt wird zu `EQ`.|false|
-|operatorForAttrName|nein|String|"AND"|Durch das setzen dieses Parameters auf `OR` in Verbindung mit einem Array als attrName, wird es ermöglicht über diverse attrNames mit einem logischem OR zu filtern.|false|
-|optionsLimit|nein|Number|20000|Nur für Snippet-Typ `dropdown`: Einer Parameter für Anzahl der Optionen in der Dropdown-List.|false|
-|placeholder|nein|String|""|Nur für Snippet-Typ `dropdown`: Der Platzhalter bei Nicht-Einstellung der Dropdown. Kann ein Übersetzungs-Key sein.|false|
-|prechecked|nein|String[]/String||Initial aktiv eingestellte Werte. Für `dropdown`, `sliderRange` und `dateRange` ist dies ein Array, für checkbox ein boolean, für slider eine number, für text ein string und für date ein string der über das `format` spezifiziert werden muss. Für `dropdown` mit `multiselect`: Wird `prechecked` auf `all` eingestellt, werden initial alle verfügbaren Werte ausgewählt.|false|
-|renderIcons|nein|String|"none"|Nur für Snippet-Typ `dropdown` mit `display: "list"`: Wenn auf den String `fromLegend` eingestellt, werden Icons aus der Legende bezogen und links neben den Werten angezeigt. Wird hier ein Objekt angegeben, werden die Key-Namen als Wert und der Value als Bild-Pfad verwendet: {attrName: imagePath} (siehe Beispiele).|false|
-|service|nein|[service](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippetsservice)||Für das initiale Befüllen eines Snippets (`dropdown`, `date`, `slider`) kann ein alternativer Service genutzt werden. Das kann unter Umständen die Performanz beim initialen Laden erhöhen. Standard ist der Service des konfigurierten [filterLayer](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayer).|false|
-|showAllValues|nein|Boolean||Nur für Snippet-Typ `dropdown`: Verhindert wenn auf `true` gestellt das Verstecken der nicht ausgewählten Werte. Kann nur in Verbindung mit `prechecked: "all"` genutzt werden.|false|
-|subTitles|nein|String[]|[]|Nur für Snippet-Typ `dateRange`: Die zusätzlich über den Kalender-Feldern anzuzeigenden Von- und Bis-Bezeichnungen. Als Array mit zwei Elementen (z.B. ["von", "bis"]). Stellen Sie subTitles auf `true` um die Werte von `attrName` zu verwenden, auf false um Bezeichnungen nicht anzuzeigen.|false|
-|timeouts|nein|[timeouts](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippetstimeouts)||Konfigurierbare Timeouts zur besseren User Experience.|false|
-|title|nein|String||Der Titel des Snippets. Kann ein Übersetzungs-Key sein. Wenn nicht eingestellt, wird der Titel aus den `gfiAttributes` genommen und wenn diese nicht vorhanden sind, dann wird der `attrName` verwendet. Kann auf `false` gesetzt werden um die Anzeige eines Titels zu unterbinden. Kann auf `true` gesetzt werden um die Anzeige des `attrName` zu erzwingen.|false|
-|type|nein|String||Der Snippet-Typ: `checkbox`, `dropdown`, `text`, `slider`, `sliderRange`, `date`, `dateRange`, `featureInfo`. Wird automatisch ermittelt, wenn nicht angegeben - dabei wird der Datentyp als Grundlage genommen: boolean wird zu `checkbox`, string wird zu `dropdown`, number wird zu `sliderRange`, unbekannt wird zu `text`.|false|
-|value|nein|String[]||Wenn weggelassen, werden Werte automatisch ermittelt. Wenn für `dropdown` eingestellt: Die Werte, die in der Liste auswählbar sein sollen. Wenn für `checkbox` eingestellt: Statt Boolean-Werten sollen die angegebenen Werte für die Zustände `true` und `false` genommen werden (z.B. ["Ja", "Nein"]). Für `dateRange`: Anfangs- und End-Datum für Datepicker und/oder Slider. Für `sliderRange`: Anfangs- und End-Werte.|false|
-|visible|nein|Boolean|true|Das Snippet wird angezeigt. Auf `false` stellen um das Snippet zu verbergen: Dadurch können mithilfe von `prechecked` Werte im versteckten Snippet fest eingestellt werden, die dann bei jeder Filterung gelten.|false|
-|universalSearch|nein|[universalSearch](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippetsuniversalSearch)||Nur für Snippet-Typ `featureInfo`: Der gefilterte Wert kann im Web gesucht werden.|false|
-|beautifiedAttrName|nein|[beautifiedAttrName](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippetsbeautifiedAttrName)||Nur für Snippet-Typ `featureInfo`: Zum Überschreiben der Attributnamen, die im Steckbrief angezeigt werden.|false|
-
-**Beispiel**
-
-Beispiel für ein Text-Snippet. Eine Input-Box mit Platzhalter zur freien Filterung von einem Attribut.
-
-```json
-{
-    "title": "Description of school",
-    "attrName": "school_description",
-    "type": "text",
-    "operator": "IN",
-    "placeholder": "Search in description"
-}
-```
-
-**Beispiel**
-
-Beispiel für ein Checkbox-Snippet. Eine Checkbox die - wenn gesetzt - nach "Oui" als true-Wert filtert. Die Checkbox ist per Default angehakt.
-
-```json
-{
-    "title": "A l'option végétalienne ?",
-    "attrName": "vegan_option",
-    "type": "checkbox",
-    "operator": "EQ",
-    "value": ["Oui", "Non"],
-    "prechecked": true
-}
-```
-
-**Beispiel**
-
-Beispiel für ein Dropdown-Snippet. Eine einfache Dropdown-Box die keine Mehrfachauswahl zulässt und einen Platzhalter hat.
-
-```json
-{
-    "title": "District",
-    "attrName": "city_district",
-    "type": "dropdown",
-    "multiselect": false,
-    "placeholder": "Choose a district"
-}
-```
-
-**Beispiel**
-
-Beispiel für ein Dropdown-Snippet. Eine als Liste dargestellte Auswahl (nicht als Dropdown-Box) mit Mehrfachauswahl und Alle-Auswählen Option. Zusätzlich mit Icons, Info, festen Werten und voreingestellten Werten.
-
-```json
-{
-    "title": "District",
-    "attrName": "city_district",
-    "info": "Some districts of London.",
-    "type": "dropdown",
-    "display": "list",
-    "multiselect": true,
-    "optionsLimit": 20000,
-    "addSelectAll": true,
-    "value": [
-        "Whitehall and Westminster",
-        "Piccadilly and St James's",
-        "Soho and Trafalgar Square",
-        "Covent Garden and Strand",
-        "Bloomsbury and Fitzrovia"
-    ],
-    "prechecked": [
-        "Piccadilly and St James's",
-        "Soho and Trafalgar Square"
-    ],
-    "renderIcons": {
-        "Whitehall and Westminster": "https://example.com/img/whitehall.png",
-        "Piccadilly and St James's": "https://example.com/img/piccadilly.png",
-        "Soho and Trafalgar Square": "https://example.com/img/soho.png",
-        "Covent Garden and Strand": "https://example.com/img/covent.png",
-        "Bloomsbury and Fitzrovia": "https://example.com/img/bloomsbury.png"
-    },
-    "placeholder": "Choose a district"
-}
-```
-
-**Beispiel**
-
-Beispiel für ein Dropdown-Snippet bei dem alle verfügbaren Werte initial ausgewählt sind.
-
-```json
-{
-    "title": "District",
-    "attrName": "city_district",
-    "type": "dropdown",
-    "multiselect": true,
-    "prechecked": "all",
-    "placeholder": "Choose a district"
-}
-```
-
-**Beispiel**
-
-Beispiel für ein Slider-Snippet. Ein Slider für einen Einzelwert und Kleinergleich-Operator. Mit gesetztem minValue und maxValue, was die automatische Wertermittlung abschaltet.
-
-```json
-{
-    "title": "First classes",
-    "attrName": "number_of_first_classes",
-    "type": "slider",
-    "operator": "LE",
-    "minValue": 1,
-    "maxValue": 5,
-    "decimalPlaces": 2
-}
-```
-
-**Beispiel**
-
-Beispiel für ein SliderRange-Snippet. Eine SliderRange die ihre Grenzwerte automatisch ermittelt (wegen fehlendem minValue und maxValue).
-
-```json
-{
-    "title": "Angle d'inclinaison du toit du garage",
-    "attrName": "angle",
-    "type": "sliderRange",
-    "operator": "BETWEEN",
-    "decimalPlaces": 2
-}
-```
-
-**Beispiel**
-
-Beispiel für ein SliderRange-Snippet. Ein SliderRange mit zwei attrName-Angaben für min und max. Mit gesetztem minValue und maxValue, was die automatische Wertermittlung abschaltet.
-
-```json
-{
-    "title": "Angle d'inclinaison du toit du garage",
-    "attrName": ["angle_minimal", "angle_maximal"],
-    "type": "sliderRange",
-    "operator": "BETWEEN",
-    "value": [0, 90]
-}
-```
-
-**Beispiel**
-
-Beispiel für ein Date-Snippet. Ein Datepicker zur Auswahl eines Einzeldatums. Mit gesetztem minValue und maxValue, was die automatische Wertermittlung abschaltet.
-
-```json
-{
-    "title": "Birthday",
-    "attrName": "birthday",
-    "type": "date",
-    "format": "YYYY-MM-DD",
-    "minValue": "2000-01-01",
-    "maxValue": "2022-12-31"
-}
-```
-
-**Beispiel**
-
-Beispiel für ein DateRange-Snippet. Mit zwei Attribut-Namen für Min- und Maxwerte. Bitte das spezielle Datums-Format beachten. Benutzt den INTERSECTS-Operator und die automatische Grenzermittlung.
-
-```json
-{
-    "title": "Bauzeit der Autobahnen",
-    "attrName": ["autobahn_baubeginn", "autobahn_bauende"],
-    "type": "dateRange",
-    "operator": "INTERSECTS",
-    "format": "DD.MM.YY"
-}
-```
-
-**Beispiel**
-
-Beispiel für ein DateRange-Snippet. Mit abgestelltem Slider (`display`: `datepicker`). Mit zwei Attribut-Namen für Min- und Maxwerte, zwei vom attrName abweichenden `subTitles` und unterschiedlichen Datums-Formaten. Zusätzlich ist ein Zeitraum voreingestellt. Bitte beachten, dass sich das Format der voreingestellten Werte an `format` orientiert.
-
-```json
-{
-    "type": "dateRange",
-    "title": "Auslandssemester",
-    "subTitles": ["Start der Reise", "End of Journey"],
-    "attrName": ["start", "end"],
-    "format": ["DD.MM.YYYY", "YYYY/DD/MM"],
-    "prechecked": ["01.08.2022", "2023/06/31"],
-    "display": "datepicker"
-}
-```
-
-**Beispiel**
-
-Beispiel für ein DateRange-Snippet. Mit über `prechecked` voreingestellten Zeitpunkten und über `value` voreingestellten Min- und Max-Werten.
-
-```json
-{
-    "type": "dateRange",
-    "title": "Aktive Baustellen im ...",
-    "subTitles": ["Zeitraum von", "Zeitraum bis"],
-    "attrName": ["baubeginn", "bauende"],
-    "format": "DD.MM.YYYY",
-    "value": ["01.01.2019", "31.12.2034"],
-    "prechecked": ["07.07.2022", "25.02.2030"]
-}
-```
-
-**Beispiel**
-
-Beispiel für ein FeatureInfo-Snippet. Zeigt alle Werte der konfigurierten Attribut-Namen `attrName` aller gefilterten Features im Filter an.
-
-```json
-{
-    "title": "Steckbrief",
-    "attrName": ["tierartengruppe", "deutscher_artname", "artname", "rote_liste_d", "rote_liste_hh"],
-    "type": "featureInfo",
-    "universalSearch": {
-      "attrName": "Wissenschaftlicher Name",
-      "prefix": "https://www.google.com/search?q="
-    },
-    "beautifiedAttrName": {
-      "tierartengruppe": "Tierartengruppe",
-      "familie": "Familie"
-    }
-}
-```
-
-**Beispiel**
-
-Beispiel für ein SliderRange-Snippet für die SensorThingsAPI (STA).
-
-```json
-{
-    "type": "sliderRange",
-    "title": "Anzahl der Fahrräder",
-    "attrName": "@Datastreams.0.Observations.0.result"
-}
-```
-
-**Beispiel**
-
-Beispiel für ein Snippet welches über mehrere Attribute gleichzeitig filtern und die Features angezeigt bekommen möchte, die dem eingestellten Wert bei einem der angegeben Attributen entspricht.
-
-```json
-{
-    "attrName": ["xpplanname", "rechtscharakterwert"],
-    "operatorForAttrName": "OR",
-    "type": "dropdown",
-}
-```
-
-***
-
-#### portalConfig.menu.sections.modules.filter.filterLayer.snippets.children
-Konfiguration von Kind-Snippets.
-Die Kind-Snippets werden nach derselben Art konfiguriert wie "normale" Snippets.
-Siehe [filterLayerSnippets](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippets).
-
-Eine Eltern-Kind-Beziehung kann für folgenden Anwendungsfall benutzt werden:
-Ist ein Datensatz zu groß, kann das Vorselektieren eines Attributes die Menge der anschließenden Filterung reduzieren.
-(Beispiel: Tierartengruppe "Säugetiere" als Vorauswahl würde den Datenraum aller Tiere signifikant verkleinern.)
-
-Mit dem Parameter `children` wird ein Snippet angewiesen, selber keine Filterung auszulösen, sondern nur seine unter `children` konfigurierten Kind-Snippets mit den aus seiner Einstellung resultierenden Daten zu "füttern".
-(Beispiel: "Säugetiere" lässt die resultierenden Tierarten auf einen annehmbaren Bereich schrumpfen.)
-
-Erst die Auswahl in einem der Kind-Snippets (Beispiel: "Blauwal") führt die Filterung schließlich aus.
-Im Falle der Verwendung von Eltern-Kind-Beziehungen empfehlen wir `snippetTags` auf `false` zu stellen.
-Eine mehrdimensionale Verschachtelung (Großeltern, Eltern, Kind) ist derzeit nicht vorgesehen.
-
-**Beispiel**
-
-Beispiel für ein Dropdown-Snippet mit Eltern-Kind-Beziehung. Die `cityA`- und `cityB`-Dropdowns sind zunächst nicht gefüllt. Erst bei Auswahl eines `District` füllen sie sich mit den Städten des gewählten Bezirkes, es findet aber keine Filterung auf der Map statt. Erst die Auswahl einer Stadt initiiert schließlich die Filterung nach dem Stadtnamen.
-
-```json
-{
-    "title": "District",
-    "attrName": "city_district",
-    "type": "dropdown",
-    "multiselect": false,
-    "placeholder": "Choose a district",
-    "children": [
-        {
-            "type": "dropdown",
-            "attrName": "cityA",
-            "placeholder": "cityA"
-        },
-        {
-            "type": "dropdown",
-            "attrName": "cityB",
-            "placeholder": "cityB"
-        }
-    ]
-}
-```
-
-***
-
-#### portalConfig.menu.sections.modules.filter.filterLayer.snippets.timeouts
-Mit der Anpassung von Timeouts kann die User Experience verbessert werden.
-Dies betrifft besonders Filter die mit `strategy`: `active` arbeiten.
-
-|Name|Required|Typ|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
-|input|nein|Number|1400|Nur für Snippet-Typ `sliderRange` und `slider`: Die Zeit in Millisekunden die vergehen soll, bevor nach Eingabe von Zahlen und Zeichen ins Input-Feld eine Filterung ausgelöst werden soll.|false|
-|slider|nein|Number|800|Nur für Snippet-Typ `sliderRange`, `slider` und `dateRange`: Die Zeit in Millisekunden die vergehen soll, bevor nach der letzten Änderung des Sliders eine Filterung ausgelöst werden soll.|false|
-
-**Beispiel**
-
-Ein Beispiel für ein sliderRange-Snippet mit beschleunigter Filterung nach Eingabe ins Input-Feld bzw. Änderung des Sliders.
-
-```json
-{
-    "title": "Baustellen",
-    "attrName": ["baubeginn", "bauende"],
-    "type": "sliderRange",
-    "timeouts": {
-        "input": 800,
-        "slider": 400
-    }
-}
-```
-
-***
-
-#### portalConfig.menu.sections.modules.filter.filterLayer.snippets.service
-
-Ein Objekt das einen Service für ein Snippet beschreibt. Alle Servicetypen, die der Filter unterstützt, können theoretisch genutzt werden.
-Die Konfiguration hängt vom Typ des Services ab.
-
-**WFS**
-|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|-------------|---|-------|------------|------|
-|collection|ja|String||Die Collection die geladen wird. Nur bei OAF.|false|
-|type|ja|String||Der Typ des Services (WFS, GeoJSON oder OAF).|false|
-|typename|ja|String||Der Featuretype der geladen wird. Nur bei WFS.|false|
-|url|ja|String||Die Service Url.|false|
-
-**Beispiel WFS**
-
-```json
-{
-    "type": "WFS",
-    "url": "https://qs-geodienste.hamburg.de/HH_WFS_verbreitungskarten_tiere",
-    "typename": "verbreitung_tiere_eindeutige_liste"
-}
-```
-
-**Beispiel GeoJSON**
-
-```json
-{
-    "type": "GeoJSON",
-    "url": "../chartjs/charts_stadtteil.geojson"
-}
-```
-**Beispiel OAF**
-
-```json
-{
-    "url": "https://api.hamburg.de/datasets/v1/schulen",
-    "collection" : "staatliche_schulen",
-    "type": "OAF"
-}
-```
-
-***
-
-#### portalConfig.menu.sections.modules.filter.filterLayer.snippets.localeCompareParams
-
-Ein String oder Objekt zur Steuerung der Sortierung von Dropdown-Boxen.
-
-**Beispiel String**
-
-"localeCompareParams": "de"
-
-**Object**
-
-|Name|Required|Typ|Default|Description|Expert|
-|----|--------|---|-------|-----------|------|
-|locale|nein|String||Der zu verwendende Ländercode nach ISO 3166|false|
-|options|nein|[options](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippetslocalecompareparamsoptions)||Optionen für die Sortierung per localeCompare.|false|
-
-**Beispiel Object**
-
-```json
-{
-    "locale": "de",
-    "options": {
-        "ignorePunctuation": true
-    }
-}
-```
-
-***
-
-#### portalConfig.menu.sections.modules.filter.filterLayer.snippets.localeCompareParams.options
-Ein Objekt zur benutzerdefinierten Steuerung der verwendeten localeCompare-Funktion zur Sortierung von Dropdown-Boxen, wie sie u.a. hier dokumentiert sind: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
-
-|Name|Required|Typ|Default|Description|Expert|
-|----|--------|---|-------|-----------|------|
-|ignorePunctuation|nein|Boolean|false|Kann auf `true` eingestellt werden um Interpunktion zu ignorieren.|false|
-|numeric|nein|Boolean|false|Kann auf `true` gestellt werden, wenn Zahlen numerisch sortiert werden sollen. z.B. true: “2” < “10” bzw. false: “2” > “10”|false|
-|sensitivity|nein|String|"variant"|Einstellung zur Berücksichtigung der Zeichen-Basis (z.B. ä → ae, somit wird ä in a einsortiert).|false|
-
-**Beispiel**
-
-```json
-{
-    "ignorePunctuation": true
-}
-```
-
-***
-
-#### portalConfig.menu.sections.modules.filter.filterLayer.snippets.universalSearch
-
-Ein Objekt zur Suche der Werte im Web
-
-**Object**
-
-|Name|Required|Typ|Default|Description|Expert|
-|----|--------|---|-------|-----------|------|
-|attrName|ja|String||Der Attribute Name|false|
-|prefix|ja|String||Die Website als Prefix für die Suche|false|
-
-**Beispiel**
-
-```json
-{
-    "attrName": "Wissenschaftlicher Name",
-    "prefix": "https://www.ecosia.org/search?q="
-}
-```
-
-***
-
-#### portalConfig.menu.sections.modules.filter.filterLayer.snippets.beautifiedAttrName
-
-Ein object zur Konfiguration des Attribute-Name
-
-**Object**
-
-|Name|Required|Typ|Default|Description|Expert|
-|----|--------|---|-------|-----------|------|
-|attrName|ja|String||Der Attribute-Name|false|
-
-**Beispiel**
-
-```json
-{
-    "attrName": "beautified Name"
-}
-```
-
 ***
 
 ##### portalConfig.menu.sections.modules.language
@@ -4849,12 +4362,13 @@ Die Umrandung eines Elements. Es besteht aus einem Objekt mit einem Array in dem
 
 ***
 
-## Datatypes.Snippets
+## Datatypes.Filter.Snippets
 
 [type:Children]: # (Datatypes.Snippets.Children)
 [type:LocaleCompareParams]: # (Datatypes.Snippets.LocaleCompareParams)
 [type:Service]: # (Datatypes.Snippets.Service)
 [type:Timeouts]: # (Datatypes.Snippets.Timeouts)
+[type:UniversalSearch]: # (Datatypes.Snippets.UniversalSearch)
 
 Ein Objekt im Filter das ein einzelnes Snippet beschreibt.
 
@@ -4890,7 +4404,8 @@ Hinweis: Zeitbezogene Snippets (`date` und `dateRange`) können nur dann im Modu
 |type|nein|String||Der Snippet-Typ: `checkbox`, `dropdown`, `text`, `slider`, `sliderRange`, `date`, `dateRange`, `featureInfo`. Wird automatisch ermittelt, wenn nicht angegeben - dabei wird der Datentyp als Grundlage genommen: boolean wird zu `checkbox`, string wird zu `dropdown`, number wird zu `sliderRange`, unbekannt wird zu `text`.|false|
 |value|nein|String[]||Wenn weggelassen, werden Werte automatisch ermittelt. Wenn für `dropdown` eingestellt: Die Werte, die in der Liste auswählbar sein sollen. Wenn für `checkbox` eingestellt: Statt Boolean-Werten sollen die angegebenen Werte für die Zustände `true` und `false` genommen werden (z.B. ["Ja", "Nein"]). Für `dateRange`: Anfangs- und End-Datum für Datepicker und/oder Slider. Für `sliderRange`: Anfangs- und End-Werte.|false|
 |visible|nein|Boolean|true|Das Snippet wird angezeigt. Auf `false` stellen um das Snippet zu verbergen: Dadurch können mithilfe von `prechecked` Werte im versteckten Snippet fest eingestellt werden, die dann bei jeder Filterung gelten.|false|
-|universalSearch|nein|[universalSearch](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippetsuniversalSearch)||Nur für Snippet-Typ `featureInfo`: Der gefilterte Wert kann im Web gesucht werden.|false|
+|universalSearch|nein|**[UniversalSearch](#markdown-header-datatypessnippetsuniversalSearch)**||Nur für Snippet-Typ `featureInfo`: Der gefilterte Wert kann im Web gesucht werden.|false|
+|beautifiedAttrName|no|[BeautifiedAttrName]**(#markdown-header-datatypessnippetsbeautifiedattrname)**||Nur für Snippet-Typ `featureInfo`: Zum Überschreiben der Attributnamen, die im Steckbrief angezeigt werden.|false|
 
 
 **Beispiel**
@@ -5092,9 +4607,9 @@ Beispiel für ein DateRange-Snippet. Mit über `prechecked` voreingestellten Zei
 }
 ```
 
-**Beispiel**
+**Example**
 
-Beispiel für ein FeatureInfo-Snippet. Zeigt alle Werte der konfigurierten Attribut-Namen `attrName` aller gefilterten Features im Filter an.
+Example for a feature info snippet. Displays all values of the configured attribute names `attrName` of all filtered features in the filter.
 
 ```json
 {
@@ -5104,6 +4619,10 @@ Beispiel für ein FeatureInfo-Snippet. Zeigt alle Werte der konfigurierten Attri
     "universalSearch": {
       "attrName": "Wissenschaftlicher Name",
       "prefix": "https://www.google.com/search?q="
+    },
+    "beautifiedAttrName": {
+      "tierartengruppe": "Tierartengruppe",
+      "familie": "Familie"
     }
 }
 ```
@@ -5137,7 +4656,7 @@ Beispiel für ein Snippet welches über mehrere Attribute gleichzeitig filtern u
 ### Datatypes.Snippets.Children
 Konfiguration von Kind-Snippets.
 Die Kind-Snippets werden nach derselben Art konfiguriert wie "normale" Snippets.
-Siehe [filterLayerSnippets](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippets).
+Siehe **[filterLayerSnippets](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayersnippets).
 
 Eine Eltern-Kind-Beziehung kann für folgenden Anwendungsfall benutzt werden:
 Ist ein Datensatz zu groß, kann das Vorselektieren eines Attributes die Menge der anschließenden Filterung reduzieren.
@@ -5278,7 +4797,7 @@ Ein String oder Objekt zur Steuerung der Sortierung von Dropdown-Boxen.
 
 ***
 
-#### Datatypes.Snippets.LocaleCompareParams.Options
+### Datatypes.Snippets.LocaleCompareParams.Options
 Ein Objekt zur benutzerdefinierten Steuerung der verwendeten localeCompare-Funktion zur Sortierung von Dropdown-Boxen, wie sie u.a. hier dokumentiert sind: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
 
 |Name|Required|Typ|Default|Description|Expert|
@@ -5292,6 +4811,48 @@ Ein Objekt zur benutzerdefinierten Steuerung der verwendeten localeCompare-Funkt
 ```json
 {
     "ignorePunctuation": true
+}
+```
+
+***
+
+### Datatypes.Snippets.UniversalSearch
+
+Ein Objekt zur Suche der Werte im Web
+
+**Object**
+
+|Name|Required|Typ|Default|Description|Expert|
+|----|--------|---|-------|-----------|------|
+|attrName|ja|String||Der Attribute Name|false|
+|prefix|ja|String||Die Website als Prefix für die Suche|false|
+
+**Beispiel**
+
+```json
+{
+    "attrName": "Wissenschaftlicher Name",
+    "prefix": "https://www.ecosia.org/search?q="
+}
+```
+
+***
+
+### Datatypes.Snippets.BeautifiedAttrName
+
+Ein object zur Konfiguration des Attribute-Name
+
+**Object**
+
+|Name|Required|Typ|Default|Description|Expert|
+|----|--------|---|-------|-----------|------|
+|attrName|ja|String||Der Attribute-Name|false|
+
+**Beispiel**
+
+```json
+{
+    "attrName": "beautified Name"
 }
 ```
 
