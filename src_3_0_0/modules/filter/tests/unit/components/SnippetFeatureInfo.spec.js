@@ -40,7 +40,7 @@ describe("src_3_0_0/modules/filter/components/SnippetFeatureInfo.vue", () => {
         wrapper.vm.visible = true;
         await wrapper.vm.$nextTick();
 
-        expect(wrapper.find("h6").text()).to.be.equal("foobar");
+        expect(wrapper.find(".accordion-header").text()).to.be.equal("foobar");
     });
     it("should render without a title if title is a boolean and false", async () => {
         const wrapper = shallowMount(SnippetFeatureInfo, {
@@ -77,7 +77,7 @@ describe("src_3_0_0/modules/filter/components/SnippetFeatureInfo.vue", () => {
         wrapper.setData({featureInfo: {"foo": "bar"}});
         await wrapper.vm.$nextTick();
 
-        expect(wrapper.find("dt").text()).to.be.equal("foo:");
+        expect(wrapper.find("dt").text()).to.be.equal("foo");
         expect(wrapper.find("dd").text()).to.be.equal("bar");
     });
 
