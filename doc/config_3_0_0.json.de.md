@@ -38,7 +38,7 @@ Es existieren die im Folgenden aufgelisteten Konfigurationen:
 |map|nein|**[map](#markdown-header-portalconfigmap)**||MKonfiguration der Karte und darauf platzierter Elemente.|false|
 |mainMenu|nein|**[menu](#markdown-header-portalconfigmenu)**||Hier können die Menüeinträge im Mainmenu und deren Anordnung konfiguriert werden. Die Reihenfolge der Module ist identisch mit der Reihenfolge in der config.json (siehe **[Modules](#markdown-header-portalconfigmenumodules)**).|false|
 |secondaryMenu|nein|**[menu](#markdown-header-portalconfigmenu)**||Hier können die Menüeinträge im Secondarymenu und deren Anordnung konfiguriert werden. Die Reihenfolge der Module ist identisch mit der Reihenfolge in der config.json (siehe **[Modules](#markdown-header-portalconfigmenumodules)**).|false|
-|portalFooter|nein|**[footer](#markdown-header-portalconfigportalfooter)**||Möglichkeit den Inhalt der Fußzeile des Portals zu konfigurieren.|false|
+|portalFooter|nein|**[portalFooter](#markdown-header-portalConfigportalFooter)**||Möglichkeit den Inhalt der Fußzeile des Portals zu konfigurieren.|false|
 |tree|nein|**[tree](#markdown-header-portalconfigtree)**||Möglichkeit um Einstellungen für den Themenbaum vorzunehmen.|false|
 
 **Beispiel**
@@ -1507,7 +1507,7 @@ Alle Layer, die im Themenbaum des Portals sind, werden durchsucht.
 
 [type:resultEvents]: # (portalConfig.menu.searchBar.searchInterfaces.resultEvents)
 
-Konfiguration der Suche über die sichtbaren VectorLayer. Bei der Layerdefinition unter "Fachdaten" muss für jeden VectorLayer, der durchsucht werden soll das Attribut "searchField" gesetzt sein. Siehe **[searchField](#markdown-header-themenconfigelementslayersvector)**
+Konfiguration der Suche über die sichtbaren VectorLayer. Bei der Layerdefinition unter "Fachdaten" muss für jeden VectorLayer, der durchsucht werden soll das Attribut "searchField" gesetzt sein. Siehe **[searchField](#markdown-header-layerconfigelementslayersvector)**
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
@@ -1567,28 +1567,28 @@ Folgende Events existieren. Welche Events konfiguriert werden können ist den Be
 
 #### portalConfig.menu.sections
 
-[type:addWMS]: # (portalConfig.menu.sections.modules.addWMS)
-[type:bufferAnalysis]: # (portalConfig.menu.sections.modules.bufferAnalysis)
-[type:contact]: # (portalConfig.menu.sections.modules.contact)
-[type:coordToolkit]: # (portalConfig.menu.sections.modules.coordToolkit)
-[type:customMenuElement]: # (portalConfig.menu.sections.modules.customMenuElement)
-[type:featureLister]: # (portalConfig.menu.sections.modules.featureLister)
-[type:fileImport]: # (portalConfig.menu.sections.modules.fileImport)
-[type:filter]: # (portalConfig.menu.sections.modules.filter)
-[type:language]: # (portalConfig.menu.sections.modules.language)
+[type:addWMS]: # (portalConfig.menu.sections.modules)
+[type:bufferAnalysis]: # (portalConfig.menu.sections.modules)
+[type:contact]: # (portalConfig.menu.sections.modules)
+[type:coordToolkit]: # (portalConfig.menu.sections.modules)
+[type:customMenuElement]: # (portalConfig.menu.sections.modules)
+[type:featureLister]: # (portalConfig.menu.sections.modules)
+[type:fileImport]: # (portalConfig.menu.sections.modules)
+[type:filter]: # (portalConfig.menu.sections.modules)
+[type:language]: # (portalConfig.menu.sections.modules)
 [type:layerClusterToggler]: # (portalConfig.menu.sections.modules)
-[type:layerSlider]: # (portalConfig.menu.sections.modules.layerClusterToggler)
-[type:measure]: # (portalConfig.menu.sections.modules.measure)
-[type:news]: # (portalConfig.menu.sections.modules.news)
-[type:openConfig]: # (portalConfig.menu.sections.modules.openConfig)
-[type:print]: # (portalConfig.menu.sections.modules.print)
-[type:routing]: # (portalConfig.menu.sections.modules.routing)
-[type:scaleSwitcher]: # (portalConfig.menu.sections.modules.scaleSwitcher)
-[type:selectFeatures]: # (portalConfig.menu.sections.modules.selectFeatures)
-[type:shadow]: # (portalConfig.menu.sections.modules.shadows)
-[type:shareView]: # (portalConfig.menu.sections.modules.shareView)
-[type:styleVT]: # (portalConfig.menu.sections.modules.styleVT)
-[type:wfst]: # (portalConfig.menu.sections.modules.wfst)
+[type:layerSlider]: # (portalConfig.menu.sections.modules)
+[type:measure]: # (portalConfig.menu.sections.modules)
+[type:news]: # (portalConfig.menu.sections.modules)
+[type:openConfig]: # (portalConfig.menu.sections.modules)
+[type:print]: # (portalConfig.menu.sections.modules)
+[type:routing]: # (portalConfig.menu.sections.modules)
+[type:scaleSwitcher]: # (portalConfig.menu.sections.modules)
+[type:selectFeatures]: # (portalConfig.menu.sections.modules)
+[type:shadow]: # (portalConfig.menu.sections.modules)
+[type:shareView]: # (portalConfig.menu.sections.modules)
+[type:styleVT]: # (portalConfig.menu.sections.modules)
+[type:wfst]: # (portalConfig.menu.sections.modules)
 
 Module lassen sich in Abschnitte (Sections) unterteilen. Im Menü werden Abschnitte mit einem horizontalen Strich unterteilt.
 
@@ -2157,18 +2157,18 @@ Die Konfiguration eines Layers.
 |collection|nein|String||NUR FÜR VectorTiles: Die collection auf die gefiltert werden soll. Wenn es gesetzt ist, muss der parameter `baseOAFUrl` an dem layer gesetzt sein um die API Anfragen zu starten.|false|
 |description|nein|String|""|Die detailierte Beschreibung eines Layers bei geöffnetem Auswahl-Selektor oder immer über dem Filter wenn `layerSelectorVisible` `false` ist. Kann ein Übersetzungs-Key sein.|false|
 |download|nein|Boolean|""|Geben Sie hier ein true für eine Export-Datei an, um das Herunterladen der auf diesem Layer gefilterten Daten zu aktivieren. Es erscheint ein Downloadbereich am Ende des Filters. Für VectorTiles funktioniert nur der CSV-Download.|false|
-|extern|nein|Boolean|false|Stellen Sie dieses Flag auf `true`, um die Filterung serverseitig durchzuführen. Dies sollte für große Datenmengen in Betracht gezogen werden, die nicht in einem Stück in den Browser geladen werden können. Es ist dann außerdem ratsam das Layer-Flag **[isNeverVisibleInTree](#markdown-header-themenconfiglayer)** auf `true` zu stellen, um das Laden des gesamten Datensatzes durch User-Interaktion über den Themenbaum zu verhindern.|false|
+|extern|nein|Boolean|false|Stellen Sie dieses Flag auf `true`, um die Filterung serverseitig durchzuführen. Dies sollte für große Datenmengen in Betracht gezogen werden, die nicht in einem Stück in den Browser geladen werden können. Es ist dann außerdem ratsam das Layer-Flag **[isNeverVisibleInTree](#markdown-header-layerconfiglayer)** auf `true` zu stellen, um das Laden des gesamten Datensatzes durch User-Interaktion über den Themenbaum zu verhindern.|false|
 |filterButtonDisabled|nein|Boolean|false|Nur für strategy `passive`: Der Filter-Knopf wird deaktiviert solange der Benutzer nichts im Filter ausgewählt hat.|false|
 |filterOnMove|nein|Boolean||Wenn auf `true` eingestellt, wird der Layer bei Kartenbewegung dynamisch gefiltert. Funktioniert nur in Verbindung mit `multiLayerSelector`: `false`. Löst in dieser Verbindung beim Öffnen des Akkordeons die Filterung aus.|false|
 |filterOnOpen|nein|Boolean||Wenn auf `true` eingestellt, wird der Filter bei Klick auf das accordeon ausgelöst.|false|
 |geometryName|nein|String|""|Nur für `extern: true` in Verbindung mit Filterung innerhalb von Polygonen: Der Geometrie-Name der Features um eine Schnittmenge feststellen zu können.|false|
 |labelFilterButton|nein|String|"common:modules.tools.filter.filterButton"|Bei passiver Strategie (`passive`): Der verwendete Text vom Filter-Button. Kann auch ein Übersetzungs-Key sein.|false|
-|layerId|nein|String||Die Layer-Id, muss identisch sein mit der unter `Themenconfig` konfigurierten Id des Layers.|false|
+|layerId|nein|String||Die Layer-Id, muss identisch sein mit der unter `layerconfig` konfigurierten Id des Layers.|false|
 |maxZoom|nein|Number||Die maximale Zoomstufe. Wenn die aktuelle Zoomstufe größer als `maxZoom` ist, wird der aktuelle Filter deaktiviert.|false|
 |minZoom|nein|Number||Die minimale Zoomstufe. Wenn die aktuelle Zoomstufe kleiner als `minZoom` ist, wird der aktuelle Filter deaktiviert.|false|
 |paging|nein|Number|1000|Der Filter lädt Features Stück für Stück in die Map. Dies ermöglicht einen Ladebalken, der die Usability bei großen Datenmengen verbessert. Das Paging ist die Stück-Größe. Bei zu gering eingestellter Größe wird das Filtern ausgebremst. Bei zu groß eingestellter Größe steigt die Verzögerung der Anzeige in der Karte. Der beste Wert kann nur von Fall zu Fall durch Ausprobieren ermittelt werden.|false|
 |resetLayer|nein|Boolean|false|Auf `true` setzen, damit der Zurücksetzenknopf als reset für den ganzen Layer fungieren soll und damit auch die `prechecked` Werte ignoriert. Wird ignoriert sollte `clearAll` auf `true` gesetzt sein. Des Weiteren sollte der Parameter nicht in Verbindung mit einer niedrigen `paging` Zahl konfiguriert werden, da ansonsten beim Zurücksetzen der komplette Layer nur sehr langsam und verzögert auf der Karte angezeigt wird.|false|
-|searchInMapExtent|nein|Boolean|false|Wenn auf `true` eingestellt, wird automatisch eine generische Checkbox erzeugt, mit der die Filterung auf den Browser-Extent beschränkt werden kann. Ist die Checkbox angehakt, ist das automatische Zoomen ausgeschaltet. Bitte unbedingt **[loadingStrategy](#markdown-header-themenconfiglayervector)** auf `all` setzen, da es sonst zu ungewollten Effekten kommt, wenn nach dem Filtern herausgezoomt wird.|false|
+|searchInMapExtent|nein|Boolean|false|Wenn auf `true` eingestellt, wird automatisch eine generische Checkbox erzeugt, mit der die Filterung auf den Browser-Extent beschränkt werden kann. Ist die Checkbox angehakt, ist das automatische Zoomen ausgeschaltet. Bitte unbedingt **[loadingStrategy](#markdown-header-layerconfiglayervector)** auf `all` setzen, da es sonst zu ungewollten Effekten kommt, wenn nach dem Filtern herausgezoomt wird.|false|
 |searchInMapExtentInfo|nein|Boolean|true|Rechts von der Checkbox wird ein Info-Symbol angezeigt, bei Klick wird eine Standard-Beschreibung eingeblendet. Auf `false` stellen, wenn es nicht angezeigt werden soll. Kann auch als String mit einem eigenen Info-Text eingestellt werden oder als Übersetzungs-Key.|false|
 |searchInMapExtentPreselected|nein|Boolean|false|Die Checkbox zum Filtern im Browser-Extent ist initial ausgewählt wenn `searchInMapExtentPreselected`: `true` eingestellt ist.|false|
 |searchInMapExtentProactive|nein|Boolean|true|Die Checkbox zum Filtern im Browser-Extent löst unter `strategy`: `active` eine direkte Filterung im aktuellen Browser-Extent aus. Dies kann durch Einstellen von `searchInMapExtentProactive`: `false` abgeschaltet werden.|false|
@@ -2349,7 +2349,7 @@ Der Slider kann in der Oberfläche zwischen zwei Modi wechseln. Entweder als `"p
 
 ***
 
-###### portalConfig.menu.sections.modules.layerSlider.layerIds
+###### portalConfig.menu.sections.modules.layerSlider.layerId
 Definiert einen Layer für den Layerslider.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -2688,7 +2688,7 @@ Routing-Werkzeug Download Optionen.
 
 #### portalConfig.menu.sections.modules.routing.geosearch
 
-[type:ExtBboxent]: # (Datatypes.Bbox)
+[type:Bbox]: # (Datatypes.Bbox)
 
 Routing-Werkzeug Geosuche Optionen.
 
@@ -2701,7 +2701,7 @@ Routing-Werkzeug Geosuche Optionen.
 |typeName|nein|String||Typname für die specialWfs Geosuchabfrage.|false|
 |propertyNames|nein|String[]||Namen der Eigenschaften, die in die specialWfs Geosuche einbezogen werden sollen.|false|
 |geometryNames|nein|String||Name des Geometriefelds für die specialWfs Geosuche.|false|
-|bbox|nein|**[Bbox](#markdown-header-datatypebbox)**||BBOX-Wert zugeordnet zu einem speedProfile. Koordinatensystem ist abhängig von dem verwendeten epsg-Parameter. Der verwendete geosearch Dienst muss bbox-Werte als String unterstützen.|false|
+|bbox|nein|**[Bbox](#markdown-header-datatypesbbox)**||BBOX-Wert zugeordnet zu einem speedProfile. Koordinatensystem ist abhängig von dem verwendeten epsg-Parameter. Der verwendete geosearch Dienst muss bbox-Werte als String unterstützen.|false|
 |epsg|nein|String|4326|Welcher EPSG-Code vom Service genutzt wird (z.B. 4326, 25832).|false|
 |searchField|nein|String||Der Pfad zum Feld welches bei der Nutzung von Elastic Search gesucht werden soll.|false|
 |sortField|nein|String||Der Pfad zum Feld welches bei der Nutzung von Elastic Search die Sortierung der Ergebnisse in aufsteigender Reihenfolge vorgibt.|false|
@@ -3437,7 +3437,7 @@ Möglichkeit, um Einstellungen für den Themenbaum vorzunehmen.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|addLayerButton|nein|Boolean|false|Wenn achtive:true, dann wird ein Button zum Hinzufügen von Layern dargestellt. Im Themenbaum werden initial nur sichtbare Layer und Layer mit der property `showInLayerTree = true` dargestellt. Wenn false, dann werden alle konfigurierten Layer im Themenbaum angezeigt. Bei dem tree.type `auto` wird immer ein Hinzufügen-Button angezeigt.|false|
+|addLayerButton|nein|**[addLayerButton](#markdown-header-portalconfigtreeaddlayerbutton)**|false|Wenn achtive:true, dann wird ein Button zum Hinzufügen von Layern dargestellt. Im Themenbaum werden initial nur sichtbare Layer und Layer mit der property `showInLayerTree = true` dargestellt. Wenn false, dann werden alle konfigurierten Layer im Themenbaum angezeigt. Bei dem tree.type `auto` wird immer ein Hinzufügen-Button angezeigt.|false|
 |categories|nein|**[categories](#markdown-header-portalconfigtreecategories)**||Konfiguration der Kategorien aus den Metadaten. Nur für den tree.type `auto`.|false|
 |highlightedFeatures|nein|**[highlightedFeatures](#markdown-header-portalconfigtreehighlightedfeatures)**||Konfiguration zusätzlich zum Highlighting von Features.|false|
 |layerIDsToIgnore|nein|String[]||Liste von `services.json`-Layer-Ids, die nicht im Baum und in der Karte angezeigt werden sollen. Nur für den tree.type `auto`.|false|
@@ -3446,7 +3446,7 @@ Möglichkeit, um Einstellungen für den Themenbaum vorzunehmen.
 |metaIDsToMerge|nein|String[]||Alle in der `services.json` gefundenen Layer, die diesen Meta-IDs entsprechen, werden zu einer einzigen Layer im Baum zusammengeführt. Nur für den tree.type `auto`.|true|
 |showFolderPath|nein|Boolean|false|Legt fest, ob die Ordnerstruktur von sichtbaren Layern unter 'weitere Funktionen' angezeigt wird.|false|
 |singleBaselayer|nein|Boolean|false|Legt fest, ob nur ein Baselayer gleichzeitig ausgewählt werden kann.|false|
-|type|nein|enum["auto"]||Der Themenbaum ist in der gleichen Struktur aufgebaut wie die **[layerConfig](#markdown-header-themenconfig)**. Wenn der Typ `auto` konfiguriert ist, werden alle Ebenen aus der [services.json](services.json.md) im Baum angeboten, strukturiert durch ihre Metadaten (Geo-Online).|false|
+|type|nein|enum["auto"]||Der Themenbaum ist in der gleichen Struktur aufgebaut wie die **[layerConfig](#markdown-header-layerconfig)**. Wenn der Typ `auto` konfiguriert ist, werden alle Ebenen aus der [services.json](services.json.md) im Baum angeboten, strukturiert durch ihre Metadaten (Geo-Online).|false|
 |validLayerTypesAutoTree|nein|enum|["WMS", "SENSORTHINGS", "TERRAIN3D", "TILESET3D", "OBLIQUE"]|Layer Typen die bei dem tree.type `auto` verwendet werden sollen.|false|
 
 **Beispiel type auto**
@@ -3617,8 +3617,8 @@ Die layerConfig definiert, welche Inhalte an welcher Stelle im Themenbaum angeze
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|baselayer|nein|**[baselayer](#markdown-header-themenconfigbaselayer)**||Layer die Hintergrundkarten beinhalten.|false|
-|subjectlayer|nein|**[subjectlayer](#markdown-header-themenconfigsubjectlayer)**||Layer die subjectlayer beinhalten.|false|
+|baselayer|nein|**[baselayer](#markdown-header-layerconfigbaselayer)**||Layer die Hintergrundkarten beinhalten.|false|
+|subjectlayer|nein|**[subjectlayer](#markdown-header-layerconfigsubjectlayer)**||Layer die subjectlayer beinhalten.|false|
 
 **Beispiel**
 
@@ -3634,11 +3634,14 @@ Die layerConfig definiert, welche Inhalte an welcher Stelle im Themenbaum angeze
 ***
 
 ### layerConfig.baselayer
+
+[type:elements]: # (layerConfig.elements)
+
 Hier werden Layer definiert, die als Hintergrundkarten angezeigt werden sollen.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|elements|nein|**[elements](#markdown-header-themenconfigelements)**[]||Definition der Layer die im Themenbaum als Hintergrudnkarten angezeigt werden sollen.|false|
+|elements|nein|**[elements](#markdown-header-layerconfigelements)**[]||Definition der Layer die im Themenbaum als Hintergrudnkarten angezeigt werden sollen.|false|
 
 **Beispiel**
 
@@ -3653,11 +3656,14 @@ Hier werden Layer definiert, die als Hintergrundkarten angezeigt werden sollen.
 ***
 
 ### layerConfig.subjectlayer
+
+[type:elements]: # (layerConfig.elements)
+
 Hier werden Layer oder Ordner mit Layern definiert, die als subjectlayer angezeigt werden sollen.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|elements|nein|**[elements](#markdown-header-themenconfigelements)**[]||Definition der Layer oder Ordner die im Themenbaum als subjectlayer angezeigt werden sollen.|false|
+|elements|nein|**[elements](#markdown-header-layerconfigelements)**[]||Definition der Layer oder Ordner die im Themenbaum als subjectlayer angezeigt werden sollen.|false|
 
 **Beispiel**
 
@@ -3672,11 +3678,14 @@ Hier werden Layer oder Ordner mit Layern definiert, die als subjectlayer angezei
 ***
 
 ### layerConfig.elements
-Hier werden Layer oder Ordner definiert. Ordner können **[elements](#markdown-header-themenconfigelements)** mit Ordner oder Layern enthalten.
+
+[type:elements]: # (layerConfig.elements)
+
+Hier werden Layer oder Ordner definiert. Ordner können **[elements](#markdown-header-layerconfigelements)** mit Ordner oder Layern enthalten.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|elements|nein|**[elements](#markdown-header-themenconfigelements)**[]||Nächste Ebene mit Layern oder Ordnern unter dem type `folder`.|false|
+|elements|nein|**[elements](#markdown-header-layerconfigelements)**[]||Nächste Ebene mit Layern oder Ordnern unter dem type `folder`.|false|
 |name|nein|String|""|Name des Layers oder Ordners.|false|
 |type|nein|String|"layer"|Typ des Elements: "layer" für Layer oder "folder" für Ordner|false|
 
@@ -3755,6 +3764,9 @@ Hier werden Layer oder Ordner definiert. Ordner können **[elements](#markdown-h
 ***
 
 ### layerConfig.elements.layers
+
+[inherits]: # (layerConfig.elements)
+
 Hier werden Layer verschiedenen Typs konfiguriert. Layer können auf viele verschiedene Arten konfiguriert werden. Ein Großteil der Attribute ist in der **[services.json](services.json.de.md)** definiert, kann jedoch hier am Layer überschrieben werden.
 Neben diesen Attributen gibt es auch Typ-spezifische Attribute für die verschiedenen Layer Typen.
 
@@ -3764,7 +3776,7 @@ Neben diesen Attributen gibt es auch Typ-spezifische Attribute für die verschie
 |id|ja|String/String[]||Id des Layers. In der **[services.json](services.json.de.md)** werden die ids aufgelöst und die notwendigen Informationen herangezogen. ACHTUNG: Hierbei ist wichtig, dass die angegebenen ids dieselbe URL ansprechen, also den selben Dienst benutzen. Bei Konfiguration eines Arrays von Ids ist die Angabe der minScale und maxScale in der services.json für jeden Layer notwendig.|false|
 |isPointLayer|nein|Boolean|false|Anzeige, ob der (Vektor)-Layer nur aus Punkt-Features besteht (nur relevant für WebGL Rendering))|false|
 |name|nein|String||Name des Layers.|false|
-|preview|nein|**[preview](#markdown-header-themenconfigelementslayerspreview)**||Vorschau für baselayer vom Typ WMS, WMTS und VectorTile. WMS und WMTS: bei keiner Angabe, wird ein zentrierter Kartenausschnitt geladen.|false|
+|preview|nein|**[preview](#markdown-header-layerconfigelementslayerspreview)**||Vorschau für baselayer vom Typ WMS, WMTS und VectorTile. WMS und WMTS: bei keiner Angabe, wird ein zentrierter Kartenausschnitt geladen.|false|
 |renderer|nein|String|"default"|Render-Pipeline für die Darstellung ("default" oder "webgl")(nur für Vektordaten "GeoJSON", "WFS", "OAF")"webgl" ist derzeit als experimentell einzustufen.|false|
 |showInLayerTree|nein|Boolean|false|Wenn true, dann wird der Layer initial im Themenbaum angezeigt. Wenn portalConfig.tree.addLayerButton nicht konfiguriert ist, dann hat dieses Attribut keinen Effekt.|false|
 |transparency|nein|Integer|0|Transparenz des Layers.|false|
@@ -3805,7 +3817,7 @@ Neben diesen Attributen gibt es auch Typ-spezifische Attribute für die verschie
 
 #### layerConfig.elements.layers.preview
 Vorschau für baselayer im Themenbaum, wird auch im **[baselayerSwitcher](#markdown-header-portalconfigmapbaselayerswitcher)** verwendet.
-Für die Layertypen **[VectorTile](#markdown-header-themenconfigelementslayersvectortile)**, **[WMS](#markdown-header-themenconfigelementslayersrasterwms)** und WMTS.
+Für die Layertypen **[VectorTile](#markdown-header-layerconfigelementslayersvectortile)**, **[WMS](#markdown-header-layerconfigelementslayersrasterwms)** und WMTS.
 Beim VectorTile-Layer wird ein abgelegtes Vorschaubild angezeigt, bei WMS- und WMTS-Layern wird ein Kartenausschnitt geladen. WMS und WMTS: bei keiner Angabe, wird ein zentrierter Kartenausschnitt geladen. Eine detaillierte Beschreibung ist in der Dokumentation **[LayerPreview](./vueComponents/LayerPreview.md)**
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -3841,7 +3853,7 @@ Beim VectorTile-Layer wird ein abgelegtes Vorschaubild angezeigt, bei WMS- und W
 
 [inherits]: # (layerConfig.elements.layers)
 
-Hier werden Raster-Layer typische Attribute aufgelistet. Raster Layer sind vom Typ **[StaticImage](#markdown-header-themenconfigelementslayersrasterstaticimage)**, **[WMS](#markdown-header-themenconfigelementslayersrasterwms)**, WMSTime und WMTS.
+Hier werden Raster-Layer typische Attribute aufgelistet. Raster Layer sind vom Typ **[StaticImage](#markdown-header-layerconfigelementslayersrasterstaticimage)**, **[WMS](#markdown-header-layerconfigelementslayersrasterwms)**, WMSTime und WMTS.
 
 ***
 
@@ -3884,7 +3896,7 @@ Hier werden WMS typische Attribute aufgelistet.
 |name|nein|String/String[]||Name des Layers. Falls das Attribute **styles** konfiguriert wird, muss dieses Attribute als Tpy String[] konfiguriert werden.|false|
 |extent|nein|**[Extent](#markdown-header-datatypesextent)**|[454591, 5809000, 700000, 6075769]|Ausdehnung des Layers. Wenn nicht angegeben, wird er Extent der MapView verwendet.|false|
 |featureCount|nein|Number|1|Anzahl der Features, die bei einer GetFeatureInfo-Abfrage zurückgegeben werden sollen.|false|
-|gfiAsNewWindow|nein|**[gfiAsNewWindow](#markdown-header-themenconfigelementslayersrasterwmsgfiasnewwindow)**|null|Wird nur berücksichtigt wenn infoFormat text/html ist.|true|
+|gfiAsNewWindow|nein|**[gfiAsNewWindow](#markdown-header-layerconfigelementslayersrasterwmsgfiasnewwindow)**|null|Wird nur berücksichtigt wenn infoFormat text/html ist.|true|
 |styles|nein|String[]||Werden styles angegeben, so werden diese mit an den WMS geschickt. Der Server interpretiert diese Styles und liefert die Daten entsprechend zurück.|true|
 
 **Beispiel**
@@ -3947,7 +3959,7 @@ Stellen Sie in einem solchen Fall *gfiAsNewWindow* wie oben beschrieben manuell 
 
 [inherits]: # (layerConfig.elements.layers)
 
-Hier werden Vector typische Attribute aufgelistet. Vector Layer sind vom Typ **[WFS](#markdown-header-themenconfigelementslayersvectorwfs)**, GeoJSON (nur in EPSG:4326), **[SensorLayer](sensorThings.de.md)** und OAF.
+Hier werden Vector typische Attribute aufgelistet. Vector Layer sind vom Typ **[WFS](#markdown-header-layerconfigelementslayersvectorwfs)**, GeoJSON (nur in EPSG:4326), **[SensorLayer](sensorThings.de.md)** und OAF.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|--------|----|-------|-----------|------|
@@ -4042,7 +4054,7 @@ Hier werden VectorTile typische Attribute aufgelistet.
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|--------|----|-------|-----------|------|
 |useMpFonts|nein|Boolean|true|Schalter um die Schriftarten/Fontstacks aus externen Style-Definitionen durch die Standard-Schriftart des Masterportals zu ersetzen, um sicherzustellen dass alle Labels dargestellt werden können. Wenn auf false gesetzt, müssen die benötigten fonts ggf. separat z.B. via '<link rel=stylesheet ...>' in index.html eingebunden werden.|false|
-|vtStyles|nein|**[vtStyle](#markdown-header-themenconfigelementslayersvectortilevtstyle)**[]||Auswählbare externe Style-Definition.|false|
+|vtStyles|nein|**[vtStyle](#markdown-header-layerconfigelementslayersvectortilevtstyle)**[]||Auswählbare externe Style-Definition.|false|
 
 **Beispiel**
 
@@ -4118,7 +4130,7 @@ Hier werden Tileset typische Attribute aufgelistet.
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|--------|----|-------|-----------|------|
 |hiddenFeatures|nein|String[]|[]|Liste mit IDs, die in der Ebene versteckt werden sollen|true|
-|**[cesium3DTilesetOptions](https://cesiumjs.org/Cesium/Build/Documentation/Cesium3DTileset.html)**|nein|**[cesium3DTilesetOption](#markdown-header-themenconfigelementslayerstilesetcesium3dtilesetoption)**||Cesium 3D Tileset Options, werden direkt an das Cesium Tileset Objekt durchgereicht. maximumScreenSpaceError ist z.B. für die Sichtweite relevant.|true|
+|**[cesium3DTilesetOptions](https://cesiumjs.org/Cesium/Build/Documentation/Cesium3DTileset.html)**|nein|**[cesium3DTilesetOption](#markdown-header-layerconfigelementslayerstilesetcesium3dtilesetoption)**||Cesium 3D Tileset Options, werden direkt an das Cesium Tileset Objekt durchgereicht. maximumScreenSpaceError ist z.B. für die Sichtweite relevant.|true|
 
 **Beispiel**
 
@@ -4164,7 +4176,7 @@ Hier werden Terrain typische Attribute aufgelistet.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|--------|----|-------|-----------|------|
-|**[cesiumTerrainProviderOptions](https://cesiumjs.org/Cesium/Build/Documentation/CesiumTerrainProvider.html)**|nein|**[cesiumTerrainProviderOption](#markdown-header-themenconfigelementslayersterraincesiumterrainprovideroption)**[]||Cesium TerrainProvider Options, werden direkt an den Cesium TerrainProvider durchgereicht. requestVertexNormals ist z.B. für das Shading auf der Oberfläche relevant.|true|
+|**[cesiumTerrainProviderOptions](https://cesiumjs.org/Cesium/Build/Documentation/CesiumTerrainProvider.html)**|nein|**[cesiumTerrainProviderOption](#markdown-header-layerconfigelementslayersterraincesiumterrainprovideroption)**[]||Cesium TerrainProvider Options, werden direkt an den Cesium TerrainProvider durchgereicht. requestVertexNormals ist z.B. für das Shading auf der Oberfläche relevant.|true|
 
 **Beispiel**
 
@@ -4205,23 +4217,26 @@ Initialisierungsoptionen für den CesiumTerrainProvider-Konstruktor.
 #### layerConfig.elements.layers.Entity3D
 
 [inherits]: # (layerConfig.elements.layers)
+[type:Attribute]: # (layerConfig.elements.layers.Entity3D.entities)
 
 Hier werden Entities3D typische Attribute aufgelistet.
 
 |Name|Verpflichtend|Typ|default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|entities|ja|**[Attribute](#markdown-header-themenconfigelementslayersentities3dentities)**[]||Liste von darzustellenden Einheiten des Layers.|false|
+|entities|ja|**[Attribute](#markdown-header-layerconfigelementslayersentities3dentities)**[]||Liste von darzustellenden Einheiten des Layers.|false|
 
 #### layerConfig.elements.layers.Entity3D.entities
 
+
 [inherits]: # (layerConfig.elements.layers.Entity3D)
+[type:Attribute]: # (layerConfig.elements.layers.Entity3D.entities)
 
 Hier werden Entities3D Einheiten typische Attribute aufgelistet.
 
 |Name|Verpflichtend|Typ|default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |allowPicking|nein|Boolean|true|Ob das Modell angeklickt werden darf (GFI). Beispiel: `true`|false|
-|attributes|nein|**[Attribute](#markdown-header-themenconfigelementslayersentities3dentitiesattribute)**||Attribute für das Modell. Beispiel: `{"name": "test"}`|false|
+|attributes|nein|**[Attribute](#markdown-header-layerconfigelementslayersentities3dentitiesattribute)**||Attribute für das Modell. Beispiel: `{"name": "test"}`|false|
 |latitude|ja|Number||Breitengrad des Modell-Origins in Grad. Beispiel: `53.541831`|false|
 |longitude|ja|Number||Längengrad des Modell-Origins in Grad. Beispiel: `9.917963`|false|
 |height|nein|Number|0|Höhe des Modell-Origins. Beispiel: `10`|false|
@@ -4369,6 +4384,7 @@ Die Umrandung eines Elements. Es besteht aus einem Objekt mit einem Array in dem
 [type:Service]: # (Datatypes.Snippets.Service)
 [type:Timeouts]: # (Datatypes.Snippets.Timeouts)
 [type:UniversalSearch]: # (Datatypes.Snippets.UniversalSearch)
+[type:BeautifiedAttrName]: # (Datatypes.Snippets.BeautifiedAttrName)
 
 Ein Objekt im Filter das ein einzelnes Snippet beschreibt.
 
@@ -4405,7 +4421,7 @@ Hinweis: Zeitbezogene Snippets (`date` und `dateRange`) können nur dann im Modu
 |value|nein|String[]||Wenn weggelassen, werden Werte automatisch ermittelt. Wenn für `dropdown` eingestellt: Die Werte, die in der Liste auswählbar sein sollen. Wenn für `checkbox` eingestellt: Statt Boolean-Werten sollen die angegebenen Werte für die Zustände `true` und `false` genommen werden (z.B. ["Ja", "Nein"]). Für `dateRange`: Anfangs- und End-Datum für Datepicker und/oder Slider. Für `sliderRange`: Anfangs- und End-Werte.|false|
 |visible|nein|Boolean|true|Das Snippet wird angezeigt. Auf `false` stellen um das Snippet zu verbergen: Dadurch können mithilfe von `prechecked` Werte im versteckten Snippet fest eingestellt werden, die dann bei jeder Filterung gelten.|false|
 |universalSearch|nein|**[UniversalSearch](#markdown-header-datatypessnippetsuniversalSearch)**||Nur für Snippet-Typ `featureInfo`: Der gefilterte Wert kann im Web gesucht werden.|false|
-|beautifiedAttrName|no|[BeautifiedAttrName]**(#markdown-header-datatypessnippetsbeautifiedattrname)**||Nur für Snippet-Typ `featureInfo`: Zum Überschreiben der Attributnamen, die im Steckbrief angezeigt werden.|false|
+|beautifiedAttrName|no|**[BeautifiedAttrName](#markdown-header-datatypessnippetsbeautifiedattrname)**||Nur für Snippet-Typ `featureInfo`: Zum Überschreiben der Attributnamen, die im Steckbrief angezeigt werden.|false|
 
 
 **Beispiel**

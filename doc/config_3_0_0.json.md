@@ -37,7 +37,7 @@ The configuration options listed in the following table exist:
 |----|--------|----|-------|-----------|------|
 |mainMenu|no|**[menu](#markdown-header-portalconfigmenu)**||Menu entries in main menu and their order are configured in this entry. The order of modules corresponds to the order in the object specifying them; see **[Modules](#markdown-header-portalconfigmenumodules)**.|false|
 |map|no|**[map](#markdown-header-portalconfigmap)**||Configuration of the map and elements placed on it.|false|
-|portalFooter|no|**[footer](#markdown-header-portalconfigportalfooter)**||Possibility to configure the content of the portal footer.|false| xxx
+|portalFooter|no|**[portalFooter](#markdown-header-portalconfigportalfooter)**||Possibility to configure the content of the portal footer.|false| xxx
 |secondaryMenu|no|**[menu](#markdown-header-portalconfigmenu)**||Menu entries in secondary menu and their order are configured in this entry. The order of modules corresponds to the order in the object specifying them; see **[Modules](#markdown-header-portalconfigmenumodules)**.|false|
 |tree|no|**[tree](#markdown-header-portalconfigtree)**||Configuration of the topic selection tree.|false|
 
@@ -1505,7 +1505,7 @@ Searching all topic selection tree layers.
 
 [type:resultEvents]: # (portalConfig.menu.searchBar.searchInterfaces.resultEvents)
 
-Visible vector layer search configuration. For all vector layers supposed to be searchable, set the **[searchField](#markdown-header-themenconfigelementslayersvector)** attribute in the layer definition object "Fachdaten".
+Visible vector layer search configuration. For all vector layers supposed to be searchable, set the **[searchField](#markdown-header-layerconfigelementslayersvector)** attribute in the layer definition object "Fachdaten".
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
@@ -2155,18 +2155,18 @@ An object to define a layer to filter with.
 |collection|no|String||ONLY VectorTiles: The collection to filter. If it is set, the layer needs a `baseOAFUrl` to start the api requests|false|
 |description|no|String|""|A description of the layer, displayed when the selector is opened or no layerSelectorVisible is set to `false`. Can be a translation key also.|false|
 |download|no|Boolean|""|Enter true for a file here to activate the download of the data filtered on this layer. A download area will appear at the end of the filter. For VectorTiles, only CSV download works.|false|
-|extern|no|Boolean|false|When set to `true`, filtering is done on the server side. Useful for big sets of data that can't be loaded into the browser at once. Remember to set the **[isNeverVisibleInTree](#markdown-header-themenconfiglayer)** flag of the layer to `true` to avoid loading of the whole data set by user click on its entry in the tree.|false|
+|extern|no|Boolean|false|When set to `true`, filtering is done on the server side. Useful for big sets of data that can't be loaded into the browser at once. Remember to set the **[isNeverVisibleInTree](#markdown-header-layerconfiglayer)** flag of the layer to `true` to avoid loading of the whole data set by user click on its entry in the tree.|false|
 |filterButtonDisabled|no|Boolean|false|Only for strategy `passive`: Disable the filter button while nothing is selected.|false|
 |filterOnMove|no|Boolean||If it is `true`, the layer will be filtered dynamically after the map moves. Only works with `multiLayerSelector`: `false`. With this combination the filter is triggerd when the accordeon will be opened.|false|
 |filterOnOpen|no|Boolean||If set to `true`, the filter is triggered when the accorden is clicked.|false|
 |geometryName|no|String|""|Only for extern `true` in connection with filtering within polygons: The geometry name of the features to be able to detect an intersection.|false|
 |labelFilterButton|no|String|"common:modules.tools.filter.filterButton"|If strategy is set to `passive` only: The text of the filter button. Can be a translation key.|false|
-|layerId|no|String||The layer id of the layer to filter. Must be configured in the `Themenconfig`.|false|
+|layerId|no|String||The layer id of the layer to filter. Must be configured in the `layerconfig`.|false|
 |maxZoom|no|Number||The maximum zoom level for current filter, if current zoom level is bigger than the maximum zoom level, the current filter will be deactivated.|false|
 |minZoom|no|Number||The minimum zoom level for current filter, if current zoom level is smaller than the minimum zoom level, the current filter will be deactivated.|false|
 |paging|no|Number|1000|The filter will load features into the map in chunks. Paging is the chunk size. If the chunk size is set too low, the filtering will be slowed down. Set the chunk size too high, the loading of the chunk will slow the filtering down. Try it out to find your fastes setup.|false|
 |resetLayer|no|Boolean|false|If true it will change the reset button to a button which resets the whole layer and ignores the prechecked values. Will be ignored if `clearAll` is set to `true`. Furthermore, the parameter should not be configured in conjunction with a low `paging` number, otherwise the complete layer will be displayed on the map only very slowly and delayed when resetting.|false|
-|searchInMapExtent|no|Boolean|false|Set to `true` to activate a generic checkbox, where you can set the filtering to `only filter in current browser extent`. If the extent checkbox is checked, automatic zooming is disabled. Make sure to set **[loadingStrategy](#markdown-header-themenconfiglayervector)** to `all` to avoid weird effects when zooming out after filtering in extent.|false|
+|searchInMapExtent|no|Boolean|false|Set to `true` to activate a generic checkbox, where you can set the filtering to `only filter in current browser extent`. If the extent checkbox is checked, automatic zooming is disabled. Make sure to set **[loadingStrategy](#markdown-header-layerconfiglayervector)** to `all` to avoid weird effects when zooming out after filtering in extent.|false|
 |searchInMapExtentInfo|no|Boolean|true|A little icon is shown right hand side of the checkbox. Clicking the icon, a standard description is shown. Set to `false` to disable this feature. Set to a individual text to use an own description or use a translation key.|false|
 |searchInMapExtentPreselected|no|Boolean|false|The checkbox for filtering in the browser extent is initially selected if `searchInMapExtentPreselected`: `true` is set.|false|
 |searchInMapExtentProactive|no|Boolean|true|The checkbox for filtering in the browser extent triggers direct filtering in the current browser extent under `strategy`: `active`. This can be disabled by setting `searchInMapExtentProactive`: `false`.|false|
@@ -2348,7 +2348,7 @@ The slider can switch between two modes in the interface. Layer slider type. `"p
 
 ***
 
-###### portalConfig.menu.sections.modules.layerSlider.layerIds
+###### portalConfig.menu.sections.modules.layerSlider.layerId
 Defines a layer slider layer.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -3437,7 +3437,7 @@ Possibility to make settings for the topic selection tree.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|addLayerButton|no|Boolean|false|If active:true, a button for adding layers will be displayed. Initially only visible layers and layers with the property `showInLayerTree = true` are shown in the topic tree. If false, then all configured layers are shown in the topic tree. With the tree.type `auto` an add button is always shown. |false|
+|addLayerButton|no|**[addLayerButton](#markdown-header-portalconfigtreeaddlayerbutton)**|false|If active:true, a button for adding layers will be displayed. Initially only visible layers and layers with the property `showInLayerTree = true` are shown in the topic tree. If false, then all configured layers are shown in the topic tree. With the tree.type `auto` an add button is always shown. |false|
 |categories|no|**[categories](#markdown-header-portalconfigtreecategories)**||Configuration of the categories from the metadata. Only for the tree.type `auto`.|false|
 |highlightedFeatures|no|**[highlightedFeatures](#markdown-header-portalconfigtreehighlightedfeatures)**||Configuration in addition to highlighting features.|false|
 |layerIDsToIgnore|no|String[]||List of `services.json` layer ids that should not be displayed in the tree and map. Only for the tree.type `auto`.|false|
@@ -3446,7 +3446,7 @@ Possibility to make settings for the topic selection tree.
 |metaIDsToMerge|no|String[]||All layers found in `services.json` that match these meta-IDs will be merged into a single layer in the tree. Only for the tree.type `auto`.|true|
 |showFolderPath|no|Boolean|false|Determines whether the folder structure of visible layers is displayed in 'Show more functions'.|false|
 |singleBaselayer|no|Boolean|false|Specifies whether only one base layer may be active at any time.|false|
-|type|no|enum["auto"]||The topic tree is built in the same structure as the **[topicconfig](#markdown-header-themenconfig)**. If the type `auto` is configured, all layers from the [services.json](services.json.md) are offered in the tree, structured by their metadata (Geo-Online).|false|
+|type|no|enum["auto"]||The topic tree is built in the same structure as the **[topicconfig](#markdown-header-layerconfig)**. If the type `auto` is configured, all layers from the [services.json](services.json.md) are offered in the tree, structured by their metadata (Geo-Online).|false|
 |validLayerTypesAutoTree|no|enum|["WMS", "SENSORTHINGS", "TERRAIN3D", "TILESET3D", "OBLIQUE"]|Layer types to be used with the tree.type `auto`.|false|
 
 **Example type auto**
@@ -3617,8 +3617,8 @@ The `layerConfig` entry defines the contents and their order in the topic select
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|baselayer|no|**[baselayer](#markdown-header-themenconfigbaselayer)**||Layers containing background maps.|false|
-|subjectlayer|no|**[subjectlayer](#markdown-header-themenconfigfachdaten)**||Layers containing subject data.|false|
+|baselayer|no|**[baselayer](#markdown-header-layerconfigbaselayer)**||Layers containing background maps.|false|
+|subjectlayer|no|**[subjectlayer](#markdown-header-layerconfigfachdaten)**||Layers containing subject data.|false|
 
 **Example**
 
@@ -3634,11 +3634,14 @@ The `layerConfig` entry defines the contents and their order in the topic select
 ***
 
 ### layerConfig.baselayer
+
+[type:elements]: # (layerConfig.elements)
+
 Here you define layers to be displayed as background maps.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|elements|no|**[elements](#markdown-header-themenconfigelements)**[]||Definition of the layers to be displayed as background maps in the topic tree.|false|
+|elements|no|**[elements](#markdown-header-layerconfigelements)**[]||Definition of the layers to be displayed as background maps in the topic tree.|false|
 
 **Example**
 
@@ -3653,11 +3656,14 @@ Here you define layers to be displayed as background maps.
 ***
 
 ### layerConfig.subjectlayer
+
+[type:elements]: # (layerConfig.elements)
+
 Layers or folders with layers to be displayed as subject data are defined here.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|elements|no|**[elements](#markdown-header-themenconfigelements)**[]||Definition of the layers or folders to be displayed in the topic tree as subject data.|false|
+|elements|no|**[elements](#markdown-header-layerconfigelements)**[]||Definition of the layers or folders to be displayed in the topic tree as subject data.|false|
 
 **Example**
 
@@ -3672,13 +3678,16 @@ Layers or folders with layers to be displayed as subject data are defined here.
 ***
 
 ### layerConfig.elements
-Layers or folders are defined here. Folders can in turn contain **[elements](#markdown-header-themenconfigelements)** with folders or layers.
+
+[type:elements]: # (layerConfig.elements)
+
+Layers or folders are defined here. Folders can in turn contain **[elements](#markdown-header-layerconfigelements)** with folders or layers.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|elements|no|**[elements](#markdown-header-themenconfigelements)**[]||Next layer with layers or folders under the type `folder`.|false|
+|elements|no|**[elements](#markdown-header-layerconfigelements)**[]||Next layer with layers or folders under the type `folder`.|false|
 |name|no|String|""|Layer or folder name.|false|
-|type|no|String|"layer"|Type of the lement: "layer" or "folder"|false|
+|type|no|String|"layer"|Type of the element: "layer" or "folder"|false|
 
 **Example baselayer**
 
@@ -3755,6 +3764,9 @@ Layers or folders are defined here. Folders can in turn contain **[elements](#ma
 ***
 
 ### layerConfig.elements.layers
+
+[inherits]: # (layerConfig.elements)
+
 Here layers of different types are configured. Layers can be configured in many different ways. Most of the attributes are defined in **[services.json](services.json.en.md)**, but can be overridden here at the layer.
 Besides these attributes, there are also type-specific attributes for the different layer types.
 
@@ -3764,7 +3776,7 @@ Besides these attributes, there are also type-specific attributes for the differ
 |id|yes|String/String[]||Layer ID(s). Resolved using the **[services.json](services.json.md)** file. Please mind that the given IDs **MUST** refer to the same URL, that is, use the same service. When configuring an array of IDs, setting `minScale` and `maxScale` of each layer is required to be in the `services.json`. With the special character `.` as suffix, a LayerId can be used multiple times. Each LayerId marked with a suffix creates its own entry in the topic tree.|false|
 |isPointLayer|no|Boolean|false|Whether the (vector) layer only consists of point features (only relevant for WebGL rendering)|false|
 |name|no|String||Layer name.|false|
-|preview|no|**[preview](#markdown-header-themenconfigelementslayerspreview)**||Preview for baselayers of type WMS, WMTS and VectorTile. WMS and WMTS: if not specified, a centered map section is loaded.|false|
+|preview|no|**[preview](#markdown-header-layerconfigelementslayerspreview)**||Preview for baselayers of type WMS, WMTS and VectorTile. WMS and WMTS: if not specified, a centered map section is loaded.|false|
 |renderer|no|String|"default"|Which render pipeline to use ("default" or "webgl") (only for vector data of type "GeoJSON", "WFS", "OAF"). "webgl" is currently classified as experimental and can lead to errors in some modules|false|
 |showInLayerTree|no|Boolean|false|If true, then the layer is initially displayed in the topic tree. If portalConfig.tree.addLayerButton is not configured, then this attribute has no effect.|false|
 |transparency|no|Integer|0|Layer transparency.|false|
@@ -3808,7 +3820,7 @@ Besides these attributes, there are also type-specific attributes for the differ
 [inherits]: # (layerConfig.elements.layers)
 
 Preview for baselayer in theme tree, also used in **[baselayerSwitcher](#markdown-header-portalconfigmapbaselayerswitcher)**.
-For the **[VectorTile](#markdown-header-themenconfigelementslayersvectortile)**, **[WMS](#markdown-header-themenconfiggelementslayersrasterwms)** and WMTS layer types.
+For the **[VectorTile](#markdown-header-layerconfigelementslayersvectortile)**, **[WMS](#markdown-header-layerconfiggelementslayersrasterwms)** and WMTS layer types.
 With the VectorTile layer a dropped preview image is displayed, with WMS and WMTS layers a map section is loaded. WMS and WMTS: if not specified, a centered map section is loaded. A detailed description is available in the documentation **[LayerPreview](./vueComponents/LayerPreview.md)**
 
 |Name|Required|Type|Default|Description|Expert|
@@ -3844,7 +3856,7 @@ With the VectorTile layer a dropped preview image is displayed, with WMS and WMT
 
 [inherits]: # (layerConfig.elements.layers)
 
-Raster layer typical attributes are listed here. Raster layers are of type **[StaticImage](#markdown-header-themenconfigelementslayersrasterstaticimage)**, **[WMS](#markdown-header-themenconfigelementslayersrasterwms)**, WMSTime and WMTS.
+Raster layer typical attributes are listed here. Raster layers are of type **[StaticImage](#markdown-header-layerconfigelementslayersrasterstaticimage)**, **[WMS](#markdown-header-layerconfigelementslayersrasterwms)**, WMSTime and WMTS.
 
 ***
 
@@ -3887,7 +3899,7 @@ WMS typical attributes are listed here.
 |name|no|String/String[]||Name of the layer. If the **styles** attribute is configured, this attribute must be configured as Tpy String[].|false|
 |extent|no|**[Extent](#markdown-header-datatypesextent)**|[454591, 5809000, 700000, 6075769]|Extent of the layer. If not specified, it will be used extent of the map view.|false|
 |featureCount|no|Number|1|Number of features to return on a GetFeatureInfo query.|false|
-|gfiAsNewWindow|no|**[gfiAsNewWindow](#markdown-header-themenconfigelementslayersrasterwmsgfiasnewwindow)**|null|Considered only if infoFormat is text/html.|true|
+|gfiAsNewWindow|no|**[gfiAsNewWindow](#markdown-header-layerconfigelementslayersrasterwmsgfiasnewwindow)**|null|Considered only if infoFormat is text/html.|true|
 |styles|no|String[]||If styles are specified, they are also sent to the WMS. The server interprets these styles and returns the data accordingly.|true|
 
 **Example**
@@ -3950,7 +3962,7 @@ For such cases, define `gfiAsNewWindow` manually as described above.
 
 [inherits]: # (layerConfig.elements.layers)
 
-Vector typical attributes are listed here. Vector layers are of type **[WFS](#markdown-header-themenconfigelementslayersvectorwfs)**, GeoJSON (only in EPSG:4326), **[SensorLayer](sensorThings.de.md)** and OAF.
+Vector typical attributes are listed here. Vector layers are of type **[WFS](#markdown-header-layerconfigelementslayersvectorwfs)**, GeoJSON (only in EPSG:4326), **[SensorLayer](sensorThings.de.md)** and OAF.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
@@ -4045,7 +4057,7 @@ VectorTile typical attributes are listed here.
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |useMpFonts|no|Boolean|true|Only available in a *Vector Tile Layer*. Switch to overwrite Fontstacks of external style definitions, to assure needed fonts are available. If set to false, used fonts need to be added separately e.g. via '<link rel=stylesheet ...>' in index.html |false|
-|vtStyles|no|**[vtStyle](#markdown-header-themenconfigelementslayersvectortilevtstyle)**[]||Choosable external style definitions.|false|
+|vtStyles|no|**[vtStyle](#markdown-header-layerconfigelementslayersvectortilevtstyle)**[]||Choosable external style definitions.|false|
 
 **Example**
 
@@ -4115,13 +4127,14 @@ Style definitions. Available for *Vector Tile Layers* only.
 #### layerConfig.elements.layers.Tileset
 
 [inherits]: # (layerConfig.elements.layers)
+[type:cesium3DTilesetOption]: # (layerConfig.elements.layers.Tileset.cesium3DTilesetOption)
 
 List of attributes typically used for tilesets.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |hiddenFeatures|no|String[]|[]|List of IDs to be hidden in the plane.|true|
-|**[cesium3DTilesetOptions](https://cesiumjs.org/Cesium/Build/Documentation/Cesium3DTileset.html)**|no|**[cesium3DTilesetOption](#markdown-header-themenconfigelementslayerstilesetcesium3dtilesetoption)**||Cesium 3D tileset options directly forwarded to the *Cesium tileset object*. E.g. `maximumScreenSpaceError` is relevant to the visibility.|true|
+|**[cesium3DTilesetOption](https://cesiumjs.org/Cesium/Build/Documentation/Cesium3DTileset.html)**|no|**[cesium3DTilesetOption](#markdown-header-layerconfigelementslayerstilesetcesium3dtilesetoption)**||Cesium 3D tileset options directly forwarded to the *Cesium tileset object*. E.g. `maximumScreenSpaceError` is relevant to the visibility.|true|
 
 **Example**
 
@@ -4162,12 +4175,13 @@ Cesium 3D tileset options directly forwarded to the *Cesium tileset object*.
 #### layerConfig.elements.layers.Terrain
 
 [inherits]: # (layerConfig.elements.layers)
+[type:cesiumTerrainProviderOption]: # (layerConfig.elements.layers.Terrain.cesiumTerrainProviderOption)
 
 List of attributes typically used for Terrain.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|**[cesiumTerrainProviderOptions](https://cesiumjs.org/Cesium/Build/Documentation/CesiumTerrainProvider.html)**|no|**[cesiumTerrainProviderOption](#markdown-header-themenconfigelementslayersterraincesiumterrainprovideroption)**[]||Cesium TerrainProvider options directly forwarded to the *Cesium TerrainProvider* E.g. `requestVertexNormals` is used for object surface shading.|true|
+|**[cesiumTerrainProviderOption](https://cesiumjs.org/Cesium/Build/Documentation/CesiumTerrainProvider.html)**|no|**[cesiumTerrainProviderOption](#markdown-header-layerconfigelementslayersterraincesiumterrainprovideroption)**[]||Cesium TerrainProvider options directly forwarded to the *Cesium TerrainProvider* E.g. `requestVertexNormals` is used for object surface shading.|true|
 
 **Example**
 
@@ -4208,23 +4222,27 @@ Initialization options for the CesiumTerrainProvider constructor.
 #### layerConfig.elements.layers.Entity3D
 
 [inherits]: # (layerConfig.elements.layers)
+[type:Attribute]: # (layerConfig.elements.layers.Entity3D.entities)
 
 List of attributes typically used for Entities 3D.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|entities|yes|**[Attribute](#markdown-header-themenconfigelementslayersentities3dentities)**[]||List of entities of the layer to be displayed.|false|
+|entities|yes|**[Attribute](#markdown-header-layerconfigelementslayersentities3dentities)**[]||List of entities of the layer to be displayed.|false|
+
+***
 
 #### layerConfig.elements.layers.Entity3D.entities
 
 [inherits]: # (layerConfig.elements.layers.Entity3D)
+[type:Attribute]: # (layerConfig.elements.layers.Entity3D.entities)
 
 Entities3D entities typical attributes are listed here.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |allowPicking|no|Boolean|true|Whether the model may be clicked for GFI. Example: `true`|false|
-|attributes|no|**[Attribute](#markdown-header-themenconfigelementslayersentities3dentitiesattribute)**||Model attributes, e.g. `{"name": "test"}`|false|
+|attributes|no|**[Attribute](#markdown-header-layerconfigelementslayersentities3dentitiesattribute)**||Model attributes, e.g. `{"name": "test"}`|false|
 |latitude|yes|Number||Model origin latitude in degrees. Example: `53.541831`|false|
 |longitude|yes|Number||Model origin longitude in degrees. Example: `9.917963`|false|
 |height|no|Number|0|Model origin height. Example: `10`|false|
@@ -4368,7 +4386,7 @@ CustomMenuElement Module `execute` from `payload`. The appropriate payload for t
 [type:eParams]: # (Datatypes.Snippets.LocaleCompareParams)
 [type:Service]: # (Datatypes.Snippets.Service)
 [type:Timeouts]: # (Datatypes.Snippets.Timeouts)
-[type:UniversalSearch]: # (Datatypes.Snippets.UnversalSearch)
+[type:UniversalSearch]: # (Datatypes.Snippets.UniversalSearch)
 [type:BeautifiedAttrName]: # (Datatypes.Snippets.BeautifiedAttrName)
 
 An object defining a single snippet for the filter.
@@ -4406,7 +4424,7 @@ Note: Time-related snippets (`date` and `dateRange`) can only be operated in `ex
 |value|no|String[]||If omitted, values are determined automatically. If set for `dropdown`: The values to be selectable in the list. If set for `checkbox`: Instead of boolean values, the specified values for the `true` and `false` states should be taken (e.g. ["Yes", "No"]). For `dateRange`: start and end date for date picker and/or slider. For `sliderRange`: the min and max values.|false|
 |visible|no|Boolean|true|The snippet is visible. Set to `false` to hide the snippet: This gives you the power to use `prechecked` as an `always rule` to force filtering of a fixed `attrName` and value.|false|
 |universalSearch|no|**[UniversalSearch](#markdown-header-datatypessnippetsuniversalSearch)**||Only for Snippet-Typ `featureInfo`: The filtered Value can be searched for in website|false|
-|beautifiedAttrName|no|[BeautifiedAttrName]**(#markdown-header-datatypessnippetsbeautifiedattrname)**||Only for Snippet-Typ `featureInfo`: The attribute name could be beautified.|false|
+|beautifiedAttrName|no|**[BeautifiedAttrName](#markdown-header-datatypessnippetsbeautifiedattrname)**||Only for Snippet-Typ `featureInfo`: The attribute name could be beautified.|false|
 
 **Example**
 
@@ -5310,7 +5328,7 @@ Then the order of the config should look like this:
 
 ***
 
-## Datytpes.Literal.Field.Option
+## Datatypes.Literal.Field.Option
 A selectable option for a queryable parameter.
 
 |Name|Required|Type|Default|Description|Expert|
