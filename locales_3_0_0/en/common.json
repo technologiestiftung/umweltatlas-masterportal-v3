@@ -145,7 +145,7 @@
         "poiChoiceStop": "Quit",
         "poiChoiceTitle": "Select starting point for radius search:",
         "titleGeolocate": "Common position",
-        "titleGeolocatePOI": "Close to here",
+        "titleGeolocatePOI": "Close to here (linear distance)",
         "trackingDeniedText": "'Close to here' is not available."
       },
       "tiltView": {

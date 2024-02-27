@@ -1,6 +1,6 @@
 /**
  * User type definition
- * @typedef {Object} FreezeState
+ * @typedef {Object} OrientationState
  * @property {String} iconGeolocate Icon of the orientation geolocate button.
  * @property {String} iconGeolocatePOI Icon of the orientation geolocate POI button.
  * @property {String[]} poiDistances The distances in config.json.
@@ -9,12 +9,13 @@
  * @property {String} zoomMode The zoomMode in config.json.
  * @property {String} activeCategory The active tab in the overview table.
  * @property {String} geolocation The current geolocation.
+ * @property {Boolean} onlyFilteredFeatures If true the filtered features will be used.
  * @property {String} poiMode The mode for showing the nearby pois.
- * @property {String} poiModeCurrentPositionEnabled The status if poi mode is current position.
+ * @property {Boolean} poiModeCurrentPositionEnabled The status if poi mode is current position.
  * @property {String} position The current position.
- * @property {String} showPoi Wether POI should be shown.
- * @property {String} showPoiChoice Wether poi choice is activated.
- * @property {String} showPoiIcon Wether to show the poi icon.
+ * @property {Boolean} showPoi Wether POI should be shown.
+ * @property {Boolean} showPoiChoice Wether poi choice is activated.
+ * @property {Boolean} showPoiIcon Wether to show the poi icon.
  */
 const state = {
     iconGeolocate: "geo-alt",
@@ -26,6 +27,7 @@ const state = {
 
     activeCategory: "",
     geolocation: null,
+    onlyFilteredFeatures: false,
     poiMode: "currentPosition",
     poiModeCurrentPositionEnabled: true,
     position: null,

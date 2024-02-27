@@ -145,7 +145,7 @@
         "poiChoiceStop": "Beenden",
         "poiChoiceTitle": "Ausgangspunkt für Umkreissuche wählen:",
         "titleGeolocate": "Standpunkt",
-        "titleGeolocatePOI": "In der Nähe",
+        "titleGeolocatePOI": "In der Nähe (Luftlinie)",
         "trackingDeniedText": "'In der Nähe' nicht verfügbar."
       },
       "tiltView": {

@@ -26,6 +26,9 @@
   - A new parameter "allowEmptySelection" in snippet with type "dropdown" to allow all values to be deselected.
   - A new parameter "alternativeTextForEmptyChart" in snippet type "chart" that can be displayed instead of chart.
 - LayerTree: A paramter "isNeverVisibleInTree" for layer config to supply an option to hide the layer in tree but can be loaded.
+  - PoiOrientation:
+    - The result window can now be moved.
+    - New parameter onlyFilteredFeatures introduced, so that only filtered features are displayed in the results window.
 
 ### Changed
 - CoordToolkit: Toast added instead of Alert for feedback after copying coordinates.

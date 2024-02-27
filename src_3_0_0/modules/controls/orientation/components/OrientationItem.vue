@@ -10,6 +10,7 @@ import proj4 from "proj4";
 import * as Proj from "ol/proj.js";
 import {Circle, LineString} from "ol/geom.js";
 import layerCollection from "../../../../core/layers/js/layerCollection";
+import isObject from "../../../../shared/js/utils/isObject";
 
 /**
  * Orientation control that allows the user to locate themselves on the map.
@@ -45,6 +46,7 @@ export default {
             "geolocation",
             "iconGeolocate",
             "iconGeolocatePOI",
+            "onlyFilteredFeatures",
             "poiDistances",
             "poiMode",
             "poiModeCurrentPositionEnabled",
@@ -405,11 +407,17 @@ export default {
                 }
             });
             let featuresAll = [],
-                features = [];
+                features = [],
+                filteredFeatures = [];
 
             visibleWFSLayers.forEach(layer => {
                 if (layer.getLayerSource()) {
                     features = layer.getLayerSource().getFeaturesInExtent(circleExtent);
+                    filteredFeatures = features.filter(feat => isObject(feat.getStyle()) || (typeof feat.getStyle() === "function" && feat.getStyle()(feat) !== null));
+                    if (this.onlyFilteredFeatures === true && filteredFeatures.length > 0) {
+                        features = filteredFeatures;
+                    }
+
                     features.forEach(function (feat) {
                         Object.assign(feat, {
                             styleId: layer.get("styleId"),
