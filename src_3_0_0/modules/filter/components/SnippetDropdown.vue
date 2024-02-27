@@ -815,6 +815,14 @@ export default {
                     :group-label="(multiselect && addSelectAll) ? 'selectAllTitle' : ''"
                     @remove="setCurrentSource('dropdown')"
                 >
+                    <template #caret>
+                        <div
+                            class="multiselect__select"
+                        >
+                            <i class="bi bi-chevron-down" />
+                        </div>
+                    </template>
+
                     <template #noOptions>
                         <span>
                             {{ emptyList }}
@@ -925,13 +933,16 @@ export default {
         content: "";
         top: 50%;
         left: 50%;
-        margin: -8px 0 0 -8px;
+        margin: 0px 0 0 0px;
         width: 16px;
         height: 16px;
         border-radius: 100%;
         border: 2px solid transparent;
         border-top-color: $dark_grey;
         box-shadow: 0 0 0 1px transparent;
+    }
+    .filter-select-box-container .multiselect:focus-within {
+        border: 1px solid $form-check-input-checked-bg-color;
     }
     .filter-select-box-container .multiselect .multiselect__option {
         display: block;
@@ -945,7 +956,7 @@ export default {
         padding: 10px 12px;
     }
     .filter-select-box-container .multiselect .multiselect__option--highlight {
-        background: $light_blue;
+        background: $secondary;
         outline: none;
         color: $white;
     }
@@ -956,11 +967,11 @@ export default {
         position: relative;
         display: inline-block;
         padding: 4px 26px 4px 10px;
-        border-radius: 5px;
-        margin-right: 10px;
+        border-radius: 10px;
+        margin-right: 15px;
         color: $white;
         line-height: 1;
-        background: $light_blue;
+        background: $secondary;
         margin-bottom: 5px;
         white-space: nowrap;
         overflow: hidden;
@@ -970,7 +981,6 @@ export default {
     .filter-select-box-container .multiselect .multiselect__tags:focus-within {
         border-color: $light_blue;
         outline: 0;
-        box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%), 0 0 8px rgb(102 175 233 / 60%);
     }
     .filter-select-box-container .multiselect .multiselect__option--highlight:after {
         content: attr(data-select);
@@ -990,40 +1000,52 @@ export default {
         display: inline-block;
         margin-bottom: 0;
         padding-top: 0;
-        font-size: $font_size_big;
     }
     .filter-select-box-container .multiselect .multiselect__tag-icon:focus, .multiselect__tag-icon:hover {
         background: $light_grey;
     }
     .filter-select-box-container .multiselect__select {
-        height: 34px;
-        line-height: 14px;
+        transform: none;
     }
     .filter-select-box-container .multiselect__select::before {
         top: 64%;
+        content: none;
+    }
+    .filter-select-box-container .multiselect__select i {
+        color: #000000;
+        font-size: $font_size_sm;
+        -webkit-text-stroke: 1px;
+        display: inline-block;
+        padding-top: 60%;
     }
     .filter-select-box-container .multiselect--active {
         color: $black;
         background-color: $white;
         border-color: $light_blue;
+        border-radius: 5px;
         outline: 0;
-        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075), 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075), 0 0 0 0.25rem rgba(13, 110, 253, 0.05);
     }
     .filter-select-box-container .multiselect .multiselect__tags {
-        min-height: 34px;
+        min-height: 40px;
         font-size: $font-size-base;
-        line-height: 1.428571429;
+        line-height: 40px;
         color: $dark_grey;
         background-color: $white;
         background-image: none;
-        border: 1px solid #ccc;
-        border-radius: 0;
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
         box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
         -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
         transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
     }
     .multiselect__option--selected {
         font-family: $font_family_accent;
+        background-color: $primary;
+    }
+    .multiselect__input, .multiselect__single {
+        margin-bottom: 0px;
+        line-height: inherit;
     }
 </style>
 
