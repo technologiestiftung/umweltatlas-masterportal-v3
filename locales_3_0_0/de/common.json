@@ -362,6 +362,7 @@
       "chart": {
         "speciesCadastreAlternativeText": "Für diese Art liegen bislang noch keine tagesaktuellen Beobachtungen vor."
       },
+      "description": "Filtert die in der Karte dargestellten Objekte",
       "download": {
         "enterFilename": "Bitte Dateiname angeben",
         "filename": "Dateiname",
