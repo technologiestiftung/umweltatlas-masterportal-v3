@@ -10,7 +10,7 @@ import axios from "axios";
 
 config.global.mocks.$t = key => key;
 
-describe("src_3_0_0/modules/layerPreview/components/LayerPreview.vue", () => {
+describe.only("src_3_0_0/modules/layerPreview/components/LayerPreview.vue", () => {
     let store,
         wrapper,
         warnSpy,
@@ -37,7 +37,7 @@ describe("src_3_0_0/modules/layerPreview/components/LayerPreview.vue", () => {
             typ: "WMTS",
             type: "layer",
             capabilitiesUrl: "https://tiles.geoservice.dlr.de/service/wmts?SERVICE=WMTS&REQUEST=GetCapabilities",
-            layers: "eoc:baselayer",
+            layers: "eoc:basemap",
             optionsFromCapabilities: true
         };
         layerWMS = {
@@ -116,8 +116,55 @@ describe("src_3_0_0/modules/layerPreview/components/LayerPreview.vue", () => {
         sinon.stub(LayerPreviewComponent.methods, "calculateExtent").returns([1, 2, 3, 4]);
         getWMTSCapabilitiesStub = sinon.stub(wmts, "getWMTSCapabilities").callsFake(() => new Promise(resolve => resolve({
             Contents: {
-                Layer: []
+                Layer: [
+                    {
+                        Title: "EOC Basemap",
+                        Identifier: "eoc:basemap",
+                        Style: [
+                            {
+                                "Identifier": "_empty",
+                                "isDefault": true
+                            }
+                        ],
+                        Format: [
+                            "image/png"
+                        ],
+                        TileMatrixSetLink: [
+                            {
+                                "TileMatrixSet": "EPSG:3857"
+                            }
+                        ],
+                        ResourceURL: [
+                            {
+                                format: "image/png",
+                                template: "https://tiles.geoservice.dlr.de/service/wmts/rest/eoc:basemap/{style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}?format=image/png",
+                                resourceType: "tile"
+                            }
+                        ]
+                    }
+                ],
+                TileMatrixSet: [
+                    {
+                        Identifier: "EPSG:3857",
+                        SupportedCRS: "urn:ogc:def:crs:EPSG::3857",
+                        TileMatrix: [
+                            {
+                                Identifier: "EPSG:3857:0",
+                                ScaleDenominator: 559082263.9508929,
+                                TopLeftCorner: [
+                                    -20037508.34,
+                                    20037508
+                                ],
+                                TileWidth: 256,
+                                TileHeight: 256,
+                                MatrixWidth: 1,
+                                MatrixHeight: 1
+                            }
+                        ]
+                    }
+                ]
             }
+
         })));
         loadSpy = sinon.spy(LayerPreviewComponent.methods, "load");
         sinon.stub(axios, "get").returns(Promise.resolve({status: 200, data: []}));
@@ -185,8 +232,9 @@ describe("src_3_0_0/modules/layerPreview/components/LayerPreview.vue", () => {
 
     it("do render the LayerPreview for supported layer-typ WMTS", async () => {
         const props = {
-            layerId: "WMTS"
-        };
+                layerId: "WMTS"
+            },
+            expectedURL = "https://tiles.geoservice.dlr.de/service/wmts/rest/eoc:basemap/_empty/EPSG:3857/EPSG:3857:0/0/0?format=image/png";
 
         sinon.stub(LayerPreviewComponent.methods, "getPreviewUrl").returns(layerWMTS.capabilitiesUrl);
         wrapper = shallowMount(LayerPreviewComponent, {
@@ -203,7 +251,7 @@ describe("src_3_0_0/modules/layerPreview/components/LayerPreview.vue", () => {
         expect(getWMTSCapabilitiesStub.firstCall.args[0]).to.be.equals(layerWMTS.capabilitiesUrl);
         expect(wrapper.find("img").attributes().src.indexOf(layerWMTS.capabilitiesUrl.split("?")[0])).to.be.equals(0);
         expect(loadSpy.calledOnce).to.be.true;
-        expect(loadSpy.firstCall.args[0].indexOf(layerWMTS.capabilitiesUrl.split("?")[0])).to.be.equals(0);
+        expect(loadSpy.firstCall.args[0]).to.be.equals(expectedURL);
         expect(warnSpy.notCalled).to.be.true;
     });
 
