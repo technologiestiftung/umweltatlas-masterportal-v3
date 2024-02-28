@@ -10,7 +10,7 @@ import axios from "axios";
 
 config.global.mocks.$t = key => key;
 
-describe.only("src_3_0_0/modules/layerPreview/components/LayerPreview.vue", () => {
+describe("src_3_0_0/modules/layerPreview/components/LayerPreview.vue", () => {
     let store,
         wrapper,
         warnSpy,
