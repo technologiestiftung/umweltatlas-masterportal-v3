@@ -2,7 +2,7 @@
 import {mapGetters, mapActions, mapMutations} from "vuex";
 import {buffer} from "ol/extent";
 import {wms, wmts} from "@masterportal/masterportalapi";
-import {optionsFromCapabilities} from "ol/source/WMTS";
+import WMTS, {optionsFromCapabilities} from "ol/source/WMTS";
 import proj4 from "proj4";
 import {Point} from "ol/geom";
 import {Tooltip} from "bootstrap";
@@ -165,14 +165,14 @@ export default {
             const capabilitiesOptions = {
                     layer: layerConfig.layers
                 },
-                mapView = mapCollection.getMapView("2D"),
-                url = layerConfig.capabilitiesUrl?.split("?")[0];
-            let previewUrl,
+                mapView = mapCollection.getMapView("2D");
+            let previewUrl = null,
                 options = null,
-                transformedCoords = null,
                 tileZ = null,
                 tileCoord = null,
-                tileMatrix = null;
+                wmsWithOptions = null,
+                tile = null,
+                transformedCoords = null;
 
             if (layerConfig.tileMatrixSet) {
                 capabilitiesOptions.matrixSet = layerConfig.tileMatrixSet;
@@ -184,17 +184,11 @@ export default {
             transformedCoords = proj4(proj4(mapView.getProjection().getCode()), proj4("EPSG:3857"), this.previewCenter(this.layerId));
             tileZ = options?.tileGrid.getZForResolution(mapView.getResolutions()[this.previewZoomLevel(this.layerId)]);
             tileCoord = options?.tileGrid.getTileCoordForCoordAndZ(transformedCoords, tileZ);
-            tileMatrix = tileCoord ? "EPSG:3857:" + tileCoord[0] : "EPSG:3857:0";
 
-            previewUrl = `${url}?Service=WMTS&Request=GetTile`;
-            previewUrl += `&Version=${encodeURIComponent(capabilities.version)}`;
-            previewUrl += `&layer=${encodeURIComponent(layerConfig.layers)}`;
-            previewUrl += `&style=${encodeURIComponent(options?.style)}`;
-            previewUrl += `&Format=${encodeURIComponent(options?.format)}`;
-            previewUrl += `&tilematrixset=${encodeURIComponent(options?.matrixSet)}`;
-            previewUrl += `&TileMatrix=${encodeURIComponent(tileMatrix)}`;
-            previewUrl += `&TileCol=${tileCoord ? tileCoord[1] : "0"}`;
-            previewUrl += `&TileRow=${tileCoord ? tileCoord[2] : "0"}`;
+            wmsWithOptions = new WMTS(options);
+            tile = wmsWithOptions.getTile(tileCoord[0], tileCoord[1], tileCoord[2]);
+            tile.load();
+            previewUrl = tile.getImage().src;
             this.load(previewUrl);
         },
 
