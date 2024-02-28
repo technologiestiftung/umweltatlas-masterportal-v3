@@ -103,11 +103,15 @@ export default {
                     && clickFeature.primitive.olLayer?.get("gfiAttributes")
                     && clickFeature.primitive.olLayer?.get("gfiAttributes") !== "ignore"
                 ) {
-                    featuresAtPixel.push(createGfiFeature(
-                        clickFeature.primitive?.olLayer,
-                        "",
-                        clickFeature.primitive?.olFeature
-                    ));
+                    const containedFeature = featuresAtPixel.find(gfiFeature => gfiFeature.getLayerId() === clickFeature.primitive?.olLayer.get("id") && gfiFeature.getOlFeature().getId() === clickFeature.primitive?.olFeature.getId());
+
+                    if (!containedFeature) {
+                        featuresAtPixel.push(createGfiFeature(
+                            clickFeature.primitive?.olLayer,
+                            "",
+                            clickFeature.primitive?.olFeature
+                        ));
+                    }
                 }
             });
         }
