@@ -76,6 +76,7 @@ describe("src_3_0_0/modules/filter/components/LayerFilterSnippet.vue", () => {
             expect(wrapper.vm.hasThisSnippetTheExpectedType({type: "something"}, "something")).to.be.true;
         });
     });
+
     describe("setSearchInMapExtent", () => {
         it("should set the internal searchInMapExtent variable to the given value", () => {
             expect(wrapper.vm.searchInMapExtent).to.be.false;
@@ -83,6 +84,7 @@ describe("src_3_0_0/modules/filter/components/LayerFilterSnippet.vue", () => {
             expect(wrapper.vm.searchInMapExtent).to.be.true;
         });
     });
+
     describe("renderCheckboxSearchInMapExtent", () => {
         it("Should render the checkbox component correctly", async () => {
             wrapper = shallowMount(LayerFilterSnippet, {
@@ -108,6 +110,7 @@ describe("src_3_0_0/modules/filter/components/LayerFilterSnippet.vue", () => {
             expect(wrapper.findComponent(SnippetCheckboxFilterInMapExtent).exists()).to.be.true;
         });
     });
+
     it("should call handleActiveStrategy if strategy is active", async () => {
         const spyHandleActiveStrategy = sinon.spy(wrapper.vm, "handleActiveStrategy");
 
@@ -136,6 +139,7 @@ describe("src_3_0_0/modules/filter/components/LayerFilterSnippet.vue", () => {
             expect(wrapper.emitted().updateRules).to.be.an("array").with.lengthOf(1);
         });
     });
+
     describe("deleteRule", () => {
         it("should emit the update function", async () => {
             wrapper.vm.deleteRule(0);
@@ -143,6 +147,83 @@ describe("src_3_0_0/modules/filter/components/LayerFilterSnippet.vue", () => {
             expect(wrapper.emitted().updateRules).to.be.an("array").with.lengthOf(1);
         });
     });
+
+    describe("deleteRulesOfParallelSnippets", () => {
+        it("should not emit the update function", async () => {
+            wrapper.vm.deleteRulesOfParallelSnippets(0);
+            await wrapper.vm.$nextTick();
+            expect(wrapper.emitted().updateRules).to.be.undefined;
+
+            wrapper.vm.deleteRulesOfParallelSnippets({});
+            await wrapper.vm.$nextTick();
+            expect(wrapper.emitted().updateRules).to.be.undefined;
+
+            wrapper.vm.deleteRulesOfParallelSnippets({parent: ""});
+            await wrapper.vm.$nextTick();
+            expect(wrapper.emitted().updateRules).to.be.undefined;
+
+            wrapper.vm.deleteRulesOfParallelSnippets({parent: {children: ""}});
+            await wrapper.vm.$nextTick();
+            expect(wrapper.emitted().updateRules).to.be.undefined;
+        });
+        it("should emit the update function", async () => {
+            const snippet = {
+                snippetId: 0,
+                adjustOnlyFromParent: true,
+                parent: {
+                    children: [
+                        {snippetId: 0},
+                        {snippetId: 1}
+                    ]
+                }
+            };
+
+            wrapper.vm.deleteRulesOfParallelSnippets(snippet);
+            await wrapper.vm.$nextTick();
+            expect(wrapper.emitted().updateRules).to.be.an("array").with.lengthOf(1);
+        });
+    });
+
+    describe("isOnlyAdjustFromParent", () => {
+        it("should return false", async () => {
+            wrapper.vm.snippets = [null];
+            await wrapper.vm.$nextTick();
+            expect(wrapper.vm.isOnlyAdjustFromParent(0)).to.be.false;
+
+            wrapper.vm.snippets = [""];
+            await wrapper.vm.$nextTick();
+            expect(wrapper.vm.isOnlyAdjustFromParent(0)).to.be.false;
+
+            wrapper.vm.snippets = [0];
+            await wrapper.vm.$nextTick();
+            expect(wrapper.vm.isOnlyAdjustFromParent(0)).to.be.false;
+
+            wrapper.vm.snippets = [true];
+            await wrapper.vm.$nextTick();
+            expect(wrapper.vm.isOnlyAdjustFromParent(0)).to.be.false;
+
+            wrapper.vm.snippets = [[]];
+            await wrapper.vm.$nextTick();
+            expect(wrapper.vm.isOnlyAdjustFromParent(0)).to.be.false;
+
+            wrapper.vm.snippets = [{}];
+            await wrapper.vm.$nextTick();
+            expect(wrapper.vm.isOnlyAdjustFromParent(0)).to.be.false;
+        });
+        it("should return true", async () => {
+            const snippets = [
+                {
+                    snippetId: 0,
+                    adjustOnlyFromParent: true
+                }
+            ];
+
+            wrapper.vm.snippets = snippets;
+            await wrapper.vm.$nextTick();
+            expect(wrapper.vm.isOnlyAdjustFromParent(0)).to.be.true;
+        });
+    });
+
     describe("hasUnfixedRules", () => {
         it("should return false if there are no rules with fixed=false", () => {
             const rules = {
@@ -176,6 +257,7 @@ describe("src_3_0_0/modules/filter/components/LayerFilterSnippet.vue", () => {
             expect(wrapper.vm.hasUnfixedRules(rules)).to.be.true;
         });
     });
+
     describe("getTitle", () => {
         it("should return true if title is true", () => {
             expect(wrapper.vm.getTitle(true), 1).to.be.true;
@@ -193,6 +275,7 @@ describe("src_3_0_0/modules/filter/components/LayerFilterSnippet.vue", () => {
             expect(wrapper.vm.getTitle({}, 1)).to.be.true;
         });
     });
+
     describe("getTagTitle", () => {
         it("should return value if there is no tagTitle defined", () => {
             expect(wrapper.vm.getTagTitle({value: "title"})).to.equal("title");
@@ -412,6 +495,7 @@ describe("src_3_0_0/modules/filter/components/LayerFilterSnippet.vue", () => {
             });
         });
     });
+
     describe("setSnippetValueByState", async () => {
         await wrapper.setData({
             snippets
@@ -471,7 +555,6 @@ describe("src_3_0_0/modules/filter/components/LayerFilterSnippet.vue", () => {
         });
     });
 
-
     describe("registerMapMoveListener", () => {
         it("should not call the function registerMapMoveListener", () => {
             expect(wrapper.emitted()).to.not.have.property("registerMapMoveListener");
@@ -500,6 +583,7 @@ describe("src_3_0_0/modules/filter/components/LayerFilterSnippet.vue", () => {
             expect(wrapper.emitted()).to.have.property("registerMapMoveListener");
         });
     });
+
     describe("checkZoomLevel", () => {
         it("should not call the function checkZoomLevel", async () => {
             const checkZoomLevel = sinon.stub(wrapper.vm, "checkZoomLevel");
@@ -548,6 +632,7 @@ describe("src_3_0_0/modules/filter/components/LayerFilterSnippet.vue", () => {
             expect(checkZoomLevel.called).to.be.true;
         });
     });
+
     describe("checkOutOfZoomLevel", () => {
         it("should set the variable outOfZoom false", () => {
             expect(wrapper.vm.checkOutOfZoomLevel(undefined, undefined, undefined)).to.be.false;
@@ -563,6 +648,7 @@ describe("src_3_0_0/modules/filter/components/LayerFilterSnippet.vue", () => {
             expect(wrapper.vm.checkOutOfZoomLevel(undefined, 16, 17)).to.be.true;
         });
     });
+
     describe("deleteAllRules", () => {
         it("should emit the deleteAllRules function", async () => {
             wrapper.vm.deleteAllRules();

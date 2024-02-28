@@ -20,6 +20,7 @@
   - A new parameter "closeGfi" to give an option if a gfi window is open, and it could be closed after a new filtering.
   - A new parameter "universalSearch" in snippet with type "featureInfo" to enable to search the attribute value in webpage.
   - A new parameter "beautifiedAttrName" in snippet with type "featureInfo" to supply beautified names for attributes.
+  - A new parameter "adjustOnlyFromParent" in snippet (up to now only for "Dropdown" type) to allow adjust just from parent snippet.
 - LayerTree: A paramter "isNeverVisibleInTree" for layer config to supply an option to hide the layer in tree but can be loaded.
 
 ### Changed

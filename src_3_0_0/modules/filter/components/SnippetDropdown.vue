@@ -1,5 +1,5 @@
 <script>
-import {mapActions} from "vuex";
+import {mapActions, mapGetters, mapMutations} from "vuex";
 import Multiselect from "vue-multiselect";
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import {translateKeyWithPlausibilityCheck} from "../../../shared/js/utils/translateKeyWithPlausibilityCheck.js";
@@ -12,6 +12,7 @@ import localeCompare from "../../../shared/js/utils/localeCompare";
 import openlayerFunctions from "../utils/openlayerFunctions.js";
 import layerFactory from "../../../core/layers/js/layerFactory";
 import layerCollection from "../../../core/layers/js/layerCollection";
+import mutations from "../store/mutationsFilter";
 
 /**
 * Snippet Dropdown
@@ -20,6 +21,7 @@ import layerCollection from "../../../core/layers/js/layerCollection";
 * @vue-prop {String} attrName - The title and aria label.
 * @vue-prop {Array} addSelectAll - (??).
 * @vue-prop {Array} adjustment - The changes made by other snippets that change settings in this snippet. E.g. one snippet changes to "Grundschulen" and other snippets change their min value as a result of the adjustment.
+* @vue-prop {Boolean} adjustOnlyFromParent - adjust only from parent snippet.
 * @vue-prop {Boolean} autoInit - Shows if automatic initilization is enabled.
 * @vue-prop {Array} localeCompareParams - (???).
 * @vue-prop {String} delimiter - (???).
@@ -86,6 +88,11 @@ export default {
         },
         adjustment: {
             type: [Object, Boolean],
+            required: false,
+            default: false
+        },
+        adjustOnlyFromParent: {
+            type: Boolean,
             required: false,
             default: false
         },
@@ -246,6 +253,7 @@ export default {
         };
     },
     computed: {
+        ...mapGetters("Modules/Filter", ["preventAdjust"]),
         ariaLabelDropdown () {
             return this.$t("common:modules.filter.ariaLabel.dropdown", {param: this.attrName});
         },
@@ -335,13 +343,20 @@ export default {
                     else if (Array.isArray(value) && !value.length && this.source !== "adjust") {
                         this.deleteCurrentRule();
                     }
+
+                    if (!this.isParent && !this.adjustOnlyFromParent) {
+                        this.setPreventAdjust(true);
+                    }
+                    else {
+                        this.setPreventAdjust(false);
+                    }
                 }
                 this.allSelected = this.dropdownValue.length !== 0 && Array.isArray(this.dropdownSelected) && this.dropdownValue.length === this.dropdownSelected.length;
             },
             deep: true
         },
         adjustment (adjusting) {
-            if (!isObject(adjusting) || this.visible === false || this.isParent) {
+            if (!isObject(adjusting) || this.visible === false || this.isParent || (this.adjustOnlyFromParent && this.preventAdjust)) {
                 return;
             }
             this.$nextTick(() => {
@@ -467,6 +482,7 @@ export default {
         });
     },
     methods: {
+        ...mapMutations("Modules/Filter", Object.keys(mutations)),
         ...mapActions("Maps", ["areLayerFeaturesLoaded", "addLayer"]),
         translateKeyWithPlausibilityCheck,
         splitListWithDelimiter,
@@ -653,21 +669,6 @@ export default {
          */
         deleteCurrentRule () {
             this.$emit("deleteRule", this.snippetId);
-        },
-        /**
-         * Resets the values of this snippet.
-         * @param {Function} onsuccess the function to call on success
-         * @returns {void}
-         */
-        resetSnippet (onsuccess) {
-            if (this.visible) {
-                this.dropdownSelected = [];
-            }
-            this.$nextTick(() => {
-                if (typeof onsuccess === "function") {
-                    onsuccess();
-                }
-            });
         },
         /**
          * Select all items

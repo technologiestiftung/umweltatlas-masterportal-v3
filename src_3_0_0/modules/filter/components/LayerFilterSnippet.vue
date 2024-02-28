@@ -400,6 +400,16 @@ export default {
             return isObject(snippet) && Array.isArray(snippet.children);
         },
         /**
+         * Checks if the snippet of the given snippetId is only adjusted from parent snippet.
+         * @param {Number} snippetId the id to check
+         * @returns {Boolean} true if this snippet is only adjusted from parent snippet.
+         */
+        isOnlyAdjustFromParent (snippetId) {
+            const snippet = this.getSnippetById(snippetId);
+
+            return isObject(snippet) && snippet.adjustOnlyFromParent === true;
+        },
+        /**
          * Checks if the snippet of the given snippetId has a parent snippet.
          * @param {Number} snippetId the id to check
          * @returns {Boolean} true if this snippet has a parent snippet, false if not
@@ -554,6 +564,7 @@ export default {
                     rule
                 });
                 this.deleteRulesOfChildren(this.getSnippetById(rule.snippetId));
+                this.deleteRulesOfParallelSnippets(this.getSnippetById(rule.snippetId));
                 if (!rule.startup && (this.isStrategyActive() || this.isParentSnippet(rule.snippetId))) {
                     this.$nextTick(() => {
                         this.handleActiveStrategy(rule.snippetId);
@@ -576,6 +587,7 @@ export default {
                 rule: false
             });
             this.deleteRulesOfChildren(this.getSnippetById(snippetId));
+            this.deleteRulesOfParallelSnippets(this.getSnippetById(snippetId));
             if (this.isStrategyActive() || this.isParentSnippet(snippetId)) {
                 this.$nextTick(() => {
                     this.handleActiveStrategy(snippetId, !this.hasUnfixedRules(this.filterRules) && this.layerConfig.resetLayer && !this.layerConfig.clearAll ? true : undefined);
@@ -602,6 +614,28 @@ export default {
                     rule: false
                 });
                 this.deleteRulesOfChildren(child);
+            });
+        },
+        /**
+         * Deletes all rules set by its parallel snippets with the same parent snippet.
+         * @param {Object} snippet the snippet to remove the rules of its parallel snippets.
+         * @returns {void}
+         */
+        deleteRulesOfParallelSnippets (snippet) {
+            if (!snippet?.adjustOnlyFromParent || !isObject(snippet?.parent) || !Array.isArray(snippet?.parent.children)) {
+                return;
+            }
+
+            snippet.parent.children.forEach(child => {
+                if (typeof child?.snippetId !== "number" || child.snippetId === snippet.snippetId) {
+                    return;
+                }
+                this.$emit("updateRules", {
+                    filterId: this.layerConfig.filterId,
+                    snippetId: child.snippetId,
+                    rule: false
+                });
+                this.deleteRulesOfParallelSnippets(child);
             });
         },
         /**
@@ -750,7 +784,7 @@ export default {
                             this.mapHandler.clearLayer(filterId, this.isExtern());
                         }
 
-                        if (!this.isParentSnippet(snippetId) && !this.hasOnlyParentRules()) {
+                        if (!this.isParentSnippet(snippetId) && !this.hasOnlyParentRules() && !this.isOnlyAdjustFromParent(snippetId)) {
                             if (
                                 !this.hasUnfixedRules(filterQuestion.rules)
                                 && (
@@ -1143,6 +1177,7 @@ export default {
                         :attr-name="snippet.attrName"
                         :add-select-all="snippet.addSelectAll"
                         :adjustment="snippet.adjustment"
+                        :adjust-only-from-parent="snippet.adjustOnlyFromParent"
                         :auto-init="snippet.autoInit"
                         :delimiter="snippet.delimiter"
                         :disabled="disabled"

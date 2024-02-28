@@ -28,6 +28,7 @@
  * @property {Array} neededUrlParams - contains the required URL params
  * @property {String} urlParams - current filter
  * @property {Boolean} closeGfi - If it is true, the open gfi window will be closed after new filtering.
+ * @property {Boolean} preventAdjust - If it is true, the snippet will not be adjusted.
  */
 
 const state = {
@@ -57,7 +58,8 @@ const state = {
     hasMouseMapInteractions: false,
     neededUrlParams: ["rulesOfFilters", "selectedAccordions", "selectedGroups"],
     urlParams: "",
-    closeGfi: false
+    closeGfi: false,
+    preventAdjust: false
 };
 
 export default state;

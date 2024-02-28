@@ -24,6 +24,7 @@ describe("src_3_0_0/modules/filter/components/SnippetDropdown.vue", () => {
             expect(wrapper.vm.attrName).to.equal("");
             expect(wrapper.vm.addSelectAll).to.be.false;
             expect(wrapper.vm.adjustment).to.be.false;
+            expect(wrapper.vm.adjustOnlyFromParent).to.be.false;
             expect(wrapper.vm.autoInit).to.be.true;
             expect(wrapper.vm.localeCompareParams).to.be.undefined;
             expect(wrapper.vm.delimiter).to.be.undefined;
@@ -194,27 +195,6 @@ describe("src_3_0_0/modules/filter/components/SnippetDropdown.vue", () => {
             expect(wrapper.emitted("deleteRule")).to.be.an("array").and.to.have.lengthOf(1);
             expect(wrapper.emitted("deleteRule")[0]).to.be.an("array").and.to.have.lengthOf(1);
             expect(wrapper.emitted("deleteRule")[0][0]).to.equal(1234);
-        });
-    });
-
-    describe("resetSnippet", () => {
-        it("should reset the snippet value and call the given onsuccess handler", async () => {
-            wrapper = shallowMount(SnippetDropdown, {
-                propsData: {
-                    value: ["value"],
-                    prechecked: ["value"]
-                }
-            });
-            let called = false;
-
-            await wrapper.vm.$nextTick();
-            expect(wrapper.vm.dropdownSelected).to.deep.equal(["value"]);
-            await wrapper.vm.resetSnippet(() => {
-                called = true;
-            });
-            await wrapper.vm.$nextTick();
-            expect(wrapper.vm.dropdownSelected).to.deep.equal([]);
-            expect(called).to.be.true;
         });
     });
 

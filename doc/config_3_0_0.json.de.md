@@ -4385,6 +4385,7 @@ Die Umrandung eines Elements. Es besteht aus einem Objekt mit einem Array in dem
 [type:Timeouts]: # (Datatypes.Snippets.Timeouts)
 [type:UniversalSearch]: # (Datatypes.Snippets.UniversalSearch)
 [type:BeautifiedAttrName]: # (Datatypes.Snippets.BeautifiedAttrName)
+[type:adjustOnlyFromParent]: # (Datatypes.Snippets.adjustOnlyFromParent)
 
 Ein Objekt im Filter das ein einzelnes Snippet beschreibt.
 
@@ -4421,8 +4422,8 @@ Hinweis: Zeitbezogene Snippets (`date` und `dateRange`) können nur dann im Modu
 |value|nein|String[]||Wenn weggelassen, werden Werte automatisch ermittelt. Wenn für `dropdown` eingestellt: Die Werte, die in der Liste auswählbar sein sollen. Wenn für `checkbox` eingestellt: Statt Boolean-Werten sollen die angegebenen Werte für die Zustände `true` und `false` genommen werden (z.B. ["Ja", "Nein"]). Für `dateRange`: Anfangs- und End-Datum für Datepicker und/oder Slider. Für `sliderRange`: Anfangs- und End-Werte.|false|
 |visible|nein|Boolean|true|Das Snippet wird angezeigt. Auf `false` stellen um das Snippet zu verbergen: Dadurch können mithilfe von `prechecked` Werte im versteckten Snippet fest eingestellt werden, die dann bei jeder Filterung gelten.|false|
 |universalSearch|nein|**[UniversalSearch](#markdown-header-datatypessnippetsuniversalSearch)**||Nur für Snippet-Typ `featureInfo`: Der gefilterte Wert kann im Web gesucht werden.|false|
-|beautifiedAttrName|no|**[BeautifiedAttrName](#markdown-header-datatypessnippetsbeautifiedattrname)**||Nur für Snippet-Typ `featureInfo`: Zum Überschreiben der Attributnamen, die im Steckbrief angezeigt werden.|false|
-
+|beautifiedAttrName|nein|**[BeautifiedAttrName](#markdown-header-datatypessnippetsbeautifiedattrname)**||Nur für Snippet-Typ `featureInfo`: Zum Überschreiben der Attributnamen, die im Steckbrief angezeigt werden.|false|
+|adjustOnlyFromParent|nein|Boolean|false|Nur für Snippet-Typ `dropdown`: Wenn true, wird es nur vom Parent-Snippet nachjustiert.|false|
 
 **Beispiel**
 

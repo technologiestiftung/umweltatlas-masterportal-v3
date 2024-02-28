@@ -4388,6 +4388,7 @@ CustomMenuElement Module `execute` from `payload`. The appropriate payload for t
 [type:Timeouts]: # (Datatypes.Snippets.Timeouts)
 [type:UniversalSearch]: # (Datatypes.Snippets.UniversalSearch)
 [type:BeautifiedAttrName]: # (Datatypes.Snippets.BeautifiedAttrName)
+[type:adjustOnlyFromParent]: # (Datatypes.Snippets.adjustOnlyFromParent)
 
 An object defining a single snippet for the filter.
 
@@ -4425,6 +4426,7 @@ Note: Time-related snippets (`date` and `dateRange`) can only be operated in `ex
 |visible|no|Boolean|true|The snippet is visible. Set to `false` to hide the snippet: This gives you the power to use `prechecked` as an `always rule` to force filtering of a fixed `attrName` and value.|false|
 |universalSearch|no|**[UniversalSearch](#markdown-header-datatypessnippetsuniversalSearch)**||Only for Snippet-Typ `featureInfo`: The filtered Value can be searched for in website|false|
 |beautifiedAttrName|no|**[BeautifiedAttrName](#markdown-header-datatypessnippetsbeautifiedattrname)**||Only for Snippet-Typ `featureInfo`: The attribute name could be beautified.|false|
+|adjustOnlyFromParent|no|Boolean|false|For type `dropdown` only: If true, only adjusted from parent snippet.|false|
 
 **Example**
 
