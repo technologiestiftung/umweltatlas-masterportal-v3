@@ -40,7 +40,7 @@ describe("src_3_0_0/modules/filter/components/SnippetFeatureInfo.vue", () => {
         wrapper.vm.visible = true;
         await wrapper.vm.$nextTick();
 
-        expect(wrapper.find(".accordion-header").text()).to.be.equal("foobar");
+        expect(wrapper.find("h5").text()).to.be.equal("foobar");
     });
     it("should render without a title if title is a boolean and false", async () => {
         const wrapper = shallowMount(SnippetFeatureInfo, {
@@ -53,7 +53,7 @@ describe("src_3_0_0/modules/filter/components/SnippetFeatureInfo.vue", () => {
         wrapper.vm.visible = true;
         await wrapper.vm.$nextTick();
 
-        expect(wrapper.find("h6").exists()).to.be.false;
+        expect(wrapper.find("h5").exists()).to.be.false;
     });
 
     it("should rename object keys", () => {

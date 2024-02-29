@@ -15,7 +15,6 @@ import {translateKeyWithPlausibilityCheck} from "../../../shared/js/utils/transl
 * @vue-prop {Object} universalSearch - The configured universal search object
 * @vue-prop {Object} beautifiedAttrName - The beautified attribute name
 * @vue-data {Object} featureInfo - (??).
-* @vue-data {Boolean} visible - Shows if the info is displayed.
 */
 export default {
     name: "SnippetFeatureInfo",
@@ -56,7 +55,7 @@ export default {
             default: undefined
         }
     },
-    emits: ["setSnippetPrechecked"],
+    emits: ["setSnippetPrechecked", "setSnippetVisible"],
     data () {
         return {
             featureInfo: null,
@@ -120,9 +119,11 @@ export default {
             handler () {
                 if (isObject(this.featureInfo) && Object.keys(this.featureInfo).length > 0) {
                     this.visible = true;
+                    this.$emit("setSnippetVisible", true);
                     return;
                 }
                 this.visible = false;
+                this.$emit("setSnippetVisible", false);
             },
             deep: true
         }
@@ -207,84 +208,54 @@ export default {
         v-if="visible"
         class="snippetFeatureInfoContainer"
     >
-        <div
-            id="accordionSnippetFeatureInfo"
-            class="accordion accordion-bg accordion-flush"
-        >
-            <div class="accordion-item border-0">
-                <div
-                    v-if="title"
-                    id="flush-headingFeatureInfo"
-                    class="accordion-header ms-0"
-                >
-                    <button
-                        class="accordion-button collapsed ps-0"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#flush-collapseSnippetFeatureInfo"
-                        aria-expanded="true"
-                        aria-controls="flush-collapseSnippetFeatureInfo"
+        <h5 v-if="title">
+            {{ titleText }}
+        </h5>
+        <dl class="row">
+            <template
+                v-for="(value, key, index) in featureInfoWithoutDuplicates"
+                :key="key + index"
+            >
+                <dt class="ms-3 mt-2 mb-0">
+                    {{ key }}
+                </dt>
+                <template v-if="value === ''">
+                    <dd
+                        :key="key"
+                        class="ms-3"
                     >
-                        <i class="bi bi-list-ul mt-1 me-3" />
-                        {{ titleText }}
-                    </button>
-                </div>
-                <div
-                    id="flush-collapseSnippetFeatureInfo"
-                    class="accordion-collapse collapse show"
-                    aria-labelledby="flush-headingFeatureInfo"
-                    data-bs-parent="#accordionSnippetFeatureInfo"
-                >
-                    <div class="accordion-body pt-0">
-                        <dl class="row">
-                            <template
-                                v-for="(value, key, index) in featureInfoWithoutDuplicates"
-                                :key="key + index"
+                        ---
+                    </dd>
+                    <hr>
+                </template>
+                <template v-else>
+                    <dd
+                        :key="key"
+                        class="ms-3"
+                    >
+                        {{ value }}
+                        <a
+                            v-if="checkAttrInSearch(universalSearch, key)"
+                            :href="universalSearch.prefix + value"
+                            :aria-label="value"
+                            :title="$t('common:modules.filter.universalSearchTitle')"
+                            target="_blank"
+                        >
+                            <button
+                                class="btn btn-light ms-2"
+                                type="button"
                             >
-                                <dt class="ms-3 mt-2 mb-0">
-                                    {{ key }}
-                                </dt>
-                                <template v-if="value === ''">
-                                    <dd
-                                        :key="key"
-                                        class="ms-3"
-                                    >
-                                        ---
-                                    </dd>
-                                    <hr>
-                                </template>
-                                <template v-else>
-                                    <dd
-                                        :key="key"
-                                        class="ms-3"
-                                    >
-                                        {{ value }}
-                                        <a
-                                            v-if="checkAttrInSearch(universalSearch, key)"
-                                            :href="universalSearch.prefix + value"
-                                            :aria-label="value"
-                                            :title="$t('common:modules.filter.universalSearchTitle')"
-                                            target="_blank"
-                                        >
-                                            <button
-                                                class="btn btn-light ms-2"
-                                                type="button"
-                                            >
-                                                <i
-                                                    class="bi bi-search "
-                                                    role="img"
-                                                />
-                                            </button>
-                                        </a>
-                                    </dd>
-                                    <hr>
-                                </template>
-                            </template>
-                        </dl>
-                    </div>
-                </div>
-            </div>
-        </div>
+                                <i
+                                    class="bi bi-search "
+                                    role="img"
+                                />
+                            </button>
+                        </a>
+                    </dd>
+                    <hr>
+                </template>
+            </template>
+        </dl>
     </div>
 </template>
 
@@ -302,8 +273,5 @@ export default {
             margin: 1px 10px 1px;
             width: 85%;
         }
-        .accordion-button {
-            font-size: $font_size_icon_lg;
-        }
-        };
+    };
 </style>

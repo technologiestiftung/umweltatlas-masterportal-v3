@@ -21,6 +21,7 @@ import {getSnippetAdjustments} from "../utils/getSnippetAdjustments.js";
 import openlayerFunctions from "../utils/openlayerFunctions";
 import {isRule} from "../utils/isRule.js";
 import VectorTileLayer from "ol/layer/VectorTile";
+import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
 
 /**
  * Layer Filter Snippet
@@ -71,7 +72,8 @@ export default {
         SnippetTag,
         SnippetFeatureInfo,
         SnippetDownload,
-        ProgressBar
+        ProgressBar,
+        AccordionItem
     },
     props: {
         api: {
@@ -154,7 +156,8 @@ export default {
             filterButtonDisabled: false,
             isLoading: false,
             outOfZoom: false,
-            gfiFirstActive: false
+            gfiFirstActive: false,
+            visibleSnippet: false
         };
     },
     computed: {
@@ -550,6 +553,14 @@ export default {
          */
         setSnippetPrechecked (snippetId) {
             this.precheckedSnippets.push(snippetId);
+        },
+        /**
+         * Sets the visibility for components to true or false.
+         * @param {Boolean} isVisible the value for showing components
+         * @returns {void}
+         */
+        setSnippetVisible (isVisible) {
+            this.visibleSnippet = isVisible;
         },
         /**
          * Triggered when a rule changed at a snippet.
@@ -1363,19 +1374,26 @@ export default {
                     v-else-if="hasThisSnippetTheExpectedType(snippet, 'featureInfo')"
                     class="snippet"
                 >
-                    <SnippetFeatureInfo
-                        :ref="'snippet-' + snippet.snippetId"
-                        :attr-name="snippet.attrName"
-                        :adjustment="snippet.adjustment"
+                    <AccordionItem
+                        v-show="visibleSnippet"
+                        id="snippet-feature-info"
                         :title="snippet.title"
-                        :layer-id="layerConfig.layerId"
-                        :snippet-id="snippet.snippetId"
-                        :visible="snippet.visible"
-                        :filtered-items="filteredItems"
-                        :universal-search="snippet.universalSearch"
-                        :beautified-attr-name="snippet.beautifiedAttrName"
-                        @set-snippet-prechecked="setSnippetPrechecked"
-                    />
+                        icon="bi bi-list-ul"
+                        :is-open="true"
+                    >
+                        <SnippetFeatureInfo
+                            :ref="'snippet-' + snippet.snippetId"
+                            :attr-name="snippet.attrName"
+                            :adjustment="snippet.adjustment"
+                            :layer-id="layerConfig.layerId"
+                            :snippet-id="snippet.snippetId"
+                            :filtered-items="filteredItems"
+                            :universal-search="snippet.universalSearch"
+                            :beautified-attr-name="snippet.beautifiedAttrName"
+                            @set-snippet-prechecked="setSnippetPrechecked"
+                            @set-snippet-visible="setSnippetVisible"
+                        />
+                    </AccordionItem>
                 </div>
             </div>
             <div class="snippet">
