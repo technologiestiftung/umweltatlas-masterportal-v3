@@ -8,7 +8,14 @@ const mutations = {
      * {setKey:   (state, payload) => *   state[key] = payload * }
      * will be returned.
      */
-    ...generateSimpleMutations(directionsState)
+    ...generateSimpleMutations(directionsState),
+
+    setWaypointCoordinates (directionState, payload) {
+        const {waypoints} = directionState,
+            idx = payload.idx;
+
+        waypoints[idx].coordinates = payload.coordinates;
+    }
 };
 
 export default mutations;
