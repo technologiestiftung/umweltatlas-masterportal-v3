@@ -551,6 +551,7 @@ export default {
             emptyCoordinates = {};
 
         if (waypoints.length === 2) {
+            waypoints[index].reset();
             emptyCoordinates.idx = index;
             emptyCoordinates.coordinates = [];
             commit("setWaypointCoordinates", emptyCoordinates);
