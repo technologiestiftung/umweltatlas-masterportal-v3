@@ -478,5 +478,22 @@ describe("src_3_0_0/modules/filter/components/SnippetDropdown.vue", () => {
                 expect(wrapper.vm.getInitialDropdownSelected({}, [])).to.be.an("array").that.is.empty;
             });
         });
+
+        describe("resetSnippet", () => {
+            it("should reset the snippet", async () => {
+                wrapper = shallowMount(SnippetDropdown, {
+                    propsData: {
+                        dropdownValue: ["Altona", "Eimsbüttel", "Bergedorf"]
+                    },
+                    data: () => {
+                        return {dropdownSelected: ["Altona"]};
+                    }
+                });
+                expect(wrapper.vm.dropdownSelected).to.deep.equal(["Altona"]);
+                wrapper.vm.resetSnippet();
+                await wrapper.vm.$nextTick();
+                expect(wrapper.vm.dropdownSelected).to.deep.equal([]);
+            });
+        });
     });
 });

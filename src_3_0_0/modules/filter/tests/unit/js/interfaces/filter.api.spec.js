@@ -527,6 +527,15 @@ describe("src_3_0_0/modules/filter/interfaces/filter.api.js", () => {
                 }, undefined);
                 sinon.restore();
             });
+            it("should call onsuccess with expected dummy data if last param is set to true", () => {
+                const filterApi = new FilterApi(0),
+                    expected = {service: {}, filterId: 0, snippetId: undefined, paging: {page: 1, total: 1}, items: []};
+
+                filterApi.setService({});
+                filterApi.filter({}, result => {
+                    expect(result).to.deep.equal(expected);
+                }, undefined, true);
+            });
         });
     });
 });

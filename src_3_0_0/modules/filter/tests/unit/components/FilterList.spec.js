@@ -2,6 +2,7 @@ import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import FilterList from "../../../components/FilterList.vue";
+import IconButton from "../../../../../shared/modules/buttons/components/IconButton.vue";
 import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
@@ -12,14 +13,12 @@ describe("src_3_0_0/modules/filter/components/FilterList.vue", () => {
 
     beforeEach(() => {
         store = createStore({
-            Modules: {
-                namespaced: true,
-                modules: {
-                    Alerting: {
-                        namespaced: true,
-                        actions: {
-                            addSingleAlert: sinon.stub()
-                        }
+            namespaced: true,
+            modules: {
+                Alerting: {
+                    namespaced: true,
+                    actions: {
+                        addSingleAlert: sinon.stub()
                     }
                 }
             }
@@ -76,6 +75,33 @@ describe("src_3_0_0/modules/filter/components/FilterList.vue", () => {
             }]
         });
         expect(await wrapper.find(".layerInfoText").exists()).to.be.false;
+    });
+
+    it("should render an icon button if initialStartupReset is true on the filter", async () => {
+        wrapper.vm.hasUnfixedRules = () => true;
+        await wrapper.setProps({
+            selectedLayers: [{
+                filterId: 0
+            }],
+            filters: [{
+                filterId: 0,
+                initialStartupReset: true
+            }]
+        });
+        expect(wrapper.findComponent(IconButton).exists()).to.be.true;
+    });
+    it("should not render an icon button if initialStartupReset is false on the filter", async () => {
+        wrapper.vm.hasUnfixedRules = () => true;
+        await wrapper.setProps({
+            selectedLayers: [{
+                filterId: 0
+            }],
+            filters: [{
+                filterId: 0,
+                initialStartupReset: false
+            }]
+        });
+        expect(wrapper.findComponent(IconButton).exists()).to.be.false;
     });
 
     describe("updateSelectedLayers", () => {

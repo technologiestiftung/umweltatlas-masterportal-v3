@@ -224,40 +224,6 @@ describe("src_3_0_0/modules/filter/components/LayerFilterSnippet.vue", () => {
         });
     });
 
-    describe("hasUnfixedRules", () => {
-        it("should return false if there are no rules with fixed=false", () => {
-            const rules = {
-                snippetId: 1,
-                startup: false,
-                fixed: true,
-                attrName: "test",
-                operator: "EQ"
-            };
-
-            expect(wrapper.vm.hasUnfixedRules(rules)).to.be.false;
-        });
-        it("should return true if there are rules with fixed=false in the rules", () => {
-            const rules = [
-                {
-                    snippetId: 1,
-                    startup: false,
-                    fixed: true,
-                    attrName: "test",
-                    operator: "EQ"
-                },
-                {
-                    snippetId: 0,
-                    startup: false,
-                    fixed: false,
-                    attrName: "test",
-                    operator: "EQ"
-                }
-            ];
-
-            expect(wrapper.vm.hasUnfixedRules(rules)).to.be.true;
-        });
-    });
-
     describe("getTitle", () => {
         it("should return true if title is true", () => {
             expect(wrapper.vm.getTitle(true), 1).to.be.true;
@@ -662,6 +628,25 @@ describe("src_3_0_0/modules/filter/components/LayerFilterSnippet.vue", () => {
             wrapper.vm.deleteAllRules();
             await wrapper.vm.$nextTick();
             expect(spyHandleActiveStrategy.calledOnce).to.be.true;
+        });
+    });
+
+    describe("hasChildSnippets", () => {
+        it("should return false if anything but an array is given", () => {
+            expect(wrapper.vm.hasChildSnippets(undefined)).to.be.false;
+            expect(wrapper.vm.hasChildSnippets(null)).to.be.false;
+            expect(wrapper.vm.hasChildSnippets({})).to.be.false;
+            expect(wrapper.vm.hasChildSnippets(true)).to.be.false;
+            expect(wrapper.vm.hasChildSnippets(false)).to.be.false;
+            expect(wrapper.vm.hasChildSnippets(1234)).to.be.false;
+            expect(wrapper.vm.hasChildSnippets("1234")).to.be.false;
+        });
+        it("should return false if the given array has no snippets at all", () => {
+            expect(wrapper.vm.hasChildSnippets([])).to.be.false;
+            expect(wrapper.vm.hasChildSnippets(["foo", "bar"])).to.be.false;
+        });
+        it("should return true if the given array has child snippets", () => {
+            expect(wrapper.vm.hasChildSnippets([{children: "foo"}])).to.be.true;
         });
     });
 });

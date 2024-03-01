@@ -21,6 +21,7 @@ import {translateKeyWithPlausibilityCheck} from "../../../shared/js/utils/transl
 import {getSnippetAdjustments} from "../utils/getSnippetAdjustments.js";
 import openlayerFunctions from "../utils/openlayerFunctions";
 import {isRule} from "../utils/isRule.js";
+import {hasUnfixedRules} from "../utils/hasUnfixedRules.js";
 import VectorTileLayer from "ol/layer/VectorTile";
 import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
 
@@ -307,6 +308,7 @@ export default {
             setGfiVisible: "setVisible"
         }),
         isRule,
+        hasUnfixedRules,
         translateKeyWithPlausibilityCheck,
 
         /**
@@ -504,22 +506,6 @@ export default {
             });
         },
         /**
-         * Checks if there are rules with fixed=false in the set of rules.
-         * @param {Object[]} rules an array of rules
-         * @returns {Boolean} true if there are unfixed rules, false if no rules or only fixed rules are left
-         */
-        hasUnfixedRules (rules) {
-            const len = rules.length;
-
-            for (let i = 0; i < len; i++) {
-                if (!rules[i] || this.isRule(rules[i]) && rules[i].fixed) {
-                    continue;
-                }
-                return true;
-            }
-            return false;
-        },
-        /**
          * Handles the active strategy.
          * @param {Number|Number[]} snippetId the snippet Id(s)
          * @param {Boolean|undefined} [reset=undefined] true if filtering should reset the layer (fuzzy logic)
@@ -549,7 +535,7 @@ export default {
                         adjust: isObject(adjustments[snippet.snippetId]) ? adjustments[snippet.snippetId] : false
                     };
                 });
-            }, onfinish, adjust, alterMap, rules);
+            }, onfinish, adjust, alterMap, rules, reset);
         },
         /**
          * Snippets with prechecked values are pushing their snippetId on startup, others are pushing false.
@@ -669,7 +655,10 @@ export default {
             if (this.isStrategyActive()) {
                 this.$nextTick(() => {
                     this.isLockedHandleActiveStrategy = false;
-                    this.handleActiveStrategy(undefined, this.layerConfig.resetLayer && !this.layerConfig.clearAll ? true : undefined);
+                    this.handleActiveStrategy(
+                        undefined,
+                        this.layerConfig.resetLayer || this.layerConfig.initialStartupReset && !this.layerConfig.clearAll ? true : undefined
+                    );
                 });
             }
         },
@@ -758,9 +747,10 @@ export default {
          * @param {Boolean} adjustment true if the filter should adjust
          * @param {Boolean} alterLayer true if the layer should alter the layer items
          * @param {Object[]} rules array of rules
+         * @param {Boolean} resetFilter true if the filter should not filter at all and just clean the layer.
          * @returns {void}
          */
-        filter (snippetId = false, onsuccess = false, onfinish = false, adjustment = true, alterLayer = true, rules = false) {
+        filter (snippetId = false, onsuccess = false, onfinish = false, adjustment = true, alterLayer = true, rules = false, resetFilter = false) {
             const filterId = this.layerConfig.filterId,
                 filterQuestion = {
                     filterId,
@@ -805,7 +795,7 @@ export default {
                             if (
                                 !this.hasUnfixedRules(filterQuestion.rules)
                                 && (
-                                    this.layerConfig.clearAll || Object.prototype.hasOwnProperty.call(this.layerConfig, "wmsRefId")
+                                    this.layerConfig.clearAll || this.layerConfig.initialStartupReset || Object.prototype.hasOwnProperty.call(this.layerConfig, "wmsRefId")
                                 )
                                 && !filterQuestion.commands.filterGeometry
                             ) {
@@ -820,6 +810,7 @@ export default {
                             }
 
                             this.mapHandler.addItemsToLayer(filterId, filterAnswer.items, this.isExtern());
+
                             if (!Object.prototype.hasOwnProperty.call(this.layerConfig, "showHits") || this.layerConfig.showHits) {
                                 this.amountOfFilteredItems = this.mapHandler.getAmountOfFilteredItemsByFilterId(filterId);
                             }
@@ -854,7 +845,7 @@ export default {
                         }
                     }, error => {
                         console.warn(error);
-                    });
+                    }, this.hasChildSnippets(this.snippets) && resetFilter);
                 });
             }
         },
@@ -1065,6 +1056,24 @@ export default {
         },
         enableFilterButton () {
             this.filterButtonDisabled = false;
+        },
+        /**
+         * Checks if the given snippets has any child snippets configured.
+         * @param {Object[]} snippets A list of snippets.
+         * @returns {Boolean} true if given snippets does have childs, false if not.
+         */
+        hasChildSnippets (snippets) {
+            return Array.isArray(snippets) ?
+                snippets.some(snippet => isObject(snippet) && Object.hasOwn(snippet, "children"))
+                : false;
+        },
+        /**
+         * Resets the snippets and the rules.
+         * Currently only called by FilterGeneral to get rid of rules deleting bug for children snippets.
+         * @returns {void}
+         */
+        resetsSnippetsAndRules () {
+            this.resetAllSnippets(() => this.deleteAllRules());
         }
     }
 };

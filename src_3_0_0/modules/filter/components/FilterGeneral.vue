@@ -18,6 +18,8 @@ import UrlHandler from "../utils/urlHandler.js";
 import Cluster from "ol/source/Cluster";
 import layerCollection from "../../../core/layers/js/layerCollection";
 import {Toast} from "bootstrap";
+import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
+import {hasUnfixedRules} from "../utils/hasUnfixedRules.js";
 
 /**
  * Filter General
@@ -35,7 +37,8 @@ export default {
     components: {
         GeometryFilter,
         LayerFilterSnippet,
-        FilterList
+        FilterList,
+        IconButton
     },
     data () {
         return {
@@ -142,6 +145,7 @@ export default {
             "setRulesArray"
         ]),
         ...mapActions("Maps", ["registerListener", "unregisterListener"]),
+        hasUnfixedRules,
         /**
          * Handles the state for already activated layers by given params.
          * The given params are set for the matching layer if it is already active but has no features loaded yet.
@@ -439,6 +443,22 @@ export default {
 
             toast.show();
             navigator.clipboard.writeText(this.currentURL);
+        },
+
+        /**
+         * Resets the snippets and rules.
+         * @param {Number} id The filter id.
+         * @returns {void}
+         */
+        resetSnippetsAndRules (id) {
+            const layerFilterComp = this.$refs[`filter-${id}`];
+
+            if (Array.isArray(layerFilterComp) && typeof layerFilterComp[0]?.resetsSnippetsAndRules === "function") {
+                layerFilterComp[0].resetsSnippetsAndRules();
+            }
+            else if (typeof layerFilterComp?.resetsSnippetsAndRules === "function") {
+                layerFilterComp.resetsSnippetsAndRules();
+            }
         }
     }
 };
@@ -506,6 +526,8 @@ export default {
                                 :selected-layers="selectedAccordions"
                                 :multi-layer-selector="multiLayerSelector"
                                 :jump-to-id="jumpToId"
+                                :rules-of-filters="rulesOfFilters"
+                                @delete-all-rules="(filterId) => resetSnippetsAndRules(filterId)"
                                 @reset-jump-to-id="resetJumpToId"
                                 @selected-accordions="updateSelectedAccordions"
                                 @set-layer-loaded="setLayerLoaded"
@@ -519,6 +541,8 @@ export default {
                                     >
                                         <LayerFilterSnippet
                                             v-if="isLayerFilterSelected(slotProps.layer.filterId)"
+                                            :ref="'filter-' + slotProps.layer.filterId"
+                                            :key="slotProps.layer"
                                             :api="slotProps.layer.api"
                                             :is-layer-filter-selected="isLayerFilterSelected(slotProps.layer.filterId)"
                                             :layer-config="slotProps.layer"
@@ -554,11 +578,24 @@ export default {
                         v-for="(layerConfig, indexLayer) in preparedLayerGroups[layerGroups.indexOf(layerGroup)].layers"
                         :key="'layer-title' + key + indexLayer + layerFilterSnippetPostKey"
                     >
-                        <u>{{ layerConfig.title }}</u>
+                        <u class="text-break">{{ layerConfig.title }}</u>
+                        <div
+                            v-if="layerConfig.initialStartupReset && hasUnfixedRules(rulesOfFilters[layerConfig.filterId])"
+                            class="d-flex justify-content-end"
+                        >
+                            <IconButton
+                                icon="bi bi-arrow-counterclockwise bi-xs"
+                                :class-array="['custom-reset', 'btn-light']"
+                                :aria="$t('common:modules.filter.resetButton')"
+                                :title="$t('common:modules.filter.resetButton')"
+                                :interaction="() => resetSnippetsAndRules(layerConfig.filterId)"
+                            />
+                        </div>
                     </h2>
                     <LayerFilterSnippet
                         v-for="(layerConfig, indexLayer) in preparedLayerGroups[layerGroups.indexOf(layerGroup)].layers"
                         :key="'layer-' + key + indexLayer + layerFilterSnippetPostKey"
+                        :ref="'filter-' + layerConfig.filterId"
                         :api="layerConfig.api"
                         :is-layer-filter-selected="true"
                         :layer-config="layerConfig"
@@ -586,6 +623,8 @@ export default {
             :selected-layers="selectedAccordions"
             :multi-layer-selector="multiLayerSelector"
             :jump-to-id="jumpToId"
+            :rules-of-filters="rulesOfFilters"
+            @delete-all-rules="(filterId) => resetSnippetsAndRules(filterId)"
             @reset-jump-to-id="resetJumpToId"
             @selected-accordions="updateSelectedAccordions"
             @set-layer-loaded="setLayerLoaded"
@@ -599,6 +638,8 @@ export default {
                 >
                     <LayerFilterSnippet
                         v-if="isLayerFilterSelected(slotProps.layer.filterId) || layerLoaded[slotProps.layer.filterId]"
+                        :key="slotProps.layer"
+                        :ref="'filter-' + slotProps.layer.filterId"
                         :api="slotProps.layer.api"
                         :is-layer-filter-selected="isLayerFilterSelected"
                         :layer-config="slotProps.layer"
@@ -624,10 +665,24 @@ export default {
                 v-for="(layerConfig, indexLayer) in filters"
                 :key="'layer-title' + indexLayer + layerFilterSnippetPostKey"
             >
-                <h2>
+                <h2 class="d-flex flex-row justify-content-between align-items-center">
                     <u>{{ layerConfig.title }}</u>
+                    <div
+                        v-if="layerConfig.initialStartupReset && hasUnfixedRules(rulesOfFilters[layerConfig.filterId])"
+                        class="d-flex"
+                    >
+                        <IconButton
+                            icon="bi bi-arrow-counterclockwise bi-xs"
+                            :class-array="['custom-reset', 'btn-light']"
+                            :aria="$t('common:modules.filter.resetButton')"
+                            :title="$t('common:modules.filter.resetButton')"
+                            :interaction="() => resetSnippetsAndRules(layerConfig.filterId)"
+                        />
+                    </div>
                 </h2>
                 <LayerFilterSnippet
+                    :key="layerConfig"
+                    :ref="'filter-' + layerConfig.filterId"
                     :api="layerConfig.api"
                     :is-layer-filter-selected="true"
                     :layer-config="layerConfig"

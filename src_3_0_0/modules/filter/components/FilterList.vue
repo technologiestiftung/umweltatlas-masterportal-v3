@@ -1,6 +1,8 @@
 <script>
 import {translateKeyWithPlausibilityCheck} from "../../../shared/js/utils/translateKeyWithPlausibilityCheck.js";
 import {mapActions} from "vuex";
+import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
+import {hasUnfixedRules} from "../utils/hasUnfixedRules.js";
 
 /**
  * Filter List
@@ -9,6 +11,7 @@ import {mapActions} from "vuex";
  * @vue-prop {Array} filters - List of all the filters.
  * @vue-prop {Array} selectedLayers - List of all the selected layers.
  * @vue-prop {Number} jumpToId - The id it should scroll to.
+ * @vue-prop {Array} rulesOfFilters - List of all filter rules.
  * @vue-data {Array} itemRefs - The references to the item.
  * @vue-computed {Booleand} disabled - Shows if button should be disabled.
  * @vue-event {String} selectedAccordions - Updates the selected accordions.
@@ -18,6 +21,7 @@ import {mapActions} from "vuex";
 export default {
     name: "FilterList",
     components: {
+        IconButton
     },
     props: {
         multiLayerSelector: {
@@ -39,9 +43,14 @@ export default {
             type: Number,
             required: false,
             default: undefined
+        },
+        rulesOfFilters: {
+            type: Array,
+            required: false,
+            default: () => []
         }
     },
-    emits: ["selectedAccordions", "setLayerLoaded", "resetJumpToId"],
+    emits: ["selectedAccordions", "setLayerLoaded", "resetJumpToId", "deleteAllRules"],
     data () {
         return {
             itemRefs: []
@@ -68,6 +77,7 @@ export default {
     methods: {
         ...mapActions("Alerting", ["addSingleAlert"]),
         translateKeyWithPlausibilityCheck,
+        hasUnfixedRules,
         /**
          * Updates selectedLayers array.
          * @param {Number} filterId id which should be removed or added to selectedLayers array
@@ -115,6 +125,14 @@ export default {
             if (el) {
                 this.itemRefs.push(el);
             }
+        },
+        /**
+         * Emits 'deleteAllRules' event.
+         * @param {Number} filterId The filter id which triggers the emit.
+         * @returns {void}
+         */
+        deleteAllRulesEmit (filterId) {
+            this.$emit("deleteAllRules", filterId);
         }
     }
 };
@@ -141,11 +159,25 @@ export default {
                 @click="setLayerLoaded(filter.filterId), updateSelectedLayers(filter.filterId)"
                 @keydown.enter="setLayerLoaded(filter.filterId), updateSelectedLayers(filter.filterId)"
             >
-                <h2
-                    :class="['panel-title', disabled ? 'disabled' : '']"
-                >
-                    {{ filter.title ? filter.title : filter.layerId }}
-                </h2>
+                <div class="w-100">
+                    <h2
+                        :class="['panel-title d-flex justify-content-between align-items-center', disabled ? 'disabled' : '']"
+                    >
+                        <div>{{ filter.title ? filter.title : filter.layerId }}</div>
+                        <div
+                            v-if="filter.initialStartupReset && hasUnfixedRules(rulesOfFilters[filter.filterId]) && selectedLayers.find(layers => layers.filterId === filter.filterId)"
+                            @click.stop=""
+                        >
+                            <IconButton
+                                icon="bi bi-arrow-counterclockwise bi-xs"
+                                :class-array="['btn-light']"
+                                :aria="$t('common:modules.filter.resetButton')"
+                                :title="$t('common:modules.filter.resetButton')"
+                                :interaction="() => deleteAllRulesEmit(filter.filterId)"
+                            />
+                        </div>
+                    </h2>
+                </div>
                 <span
                     v-if="!selectedLayers.some(layers => layers.filterId === filter.filterId)"
                     class="bi bi-chevron-down float-end"

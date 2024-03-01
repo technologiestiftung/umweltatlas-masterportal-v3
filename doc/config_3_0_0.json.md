@@ -2181,6 +2181,7 @@ An object to define a layer to filter with.
 |strategy|no|String||There are two filter strategies: `passive` - a filter button is used. And `active` - the filter will be triggered immediately by any choice made. Passive strategy is used by default.|false|
 |title|no|String||The title to use for the selector (if `layerSelectorVisible` `true`). Can be a translation key also. If not set, the layerId will be used by default.|false|
 |wmsRefId|no|String/String[]|""|If the layer is filtered, the WMS layer with `wmsRefId` will be invisible and deactivated from Tree. After resetting the layer, the WMS layer will be activated and visible again.|false|
+|initialStartupReset|no|Boolean|false|If the parameter is set to `true`, a button appears to reset the filter. Please note that this prevents re-adjustment and is therefore only recommended for filter configurations with a `Datatypes.Snippets.Children`.|false|
 
 **Example**
 

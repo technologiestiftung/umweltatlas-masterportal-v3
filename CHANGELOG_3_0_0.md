@@ -25,6 +25,7 @@
   - A new parameter "linkText" to show a url link to the current filter setting at the bottom of the filter component.
   - A new parameter "allowEmptySelection" in snippet with type "dropdown" to allow all values to be deselected.
   - A new parameter "alternativeTextForEmptyChart" in snippet type "chart" that can be displayed instead of chart.
+  - A new parameter "initialStartupReset" which allows to show a reset button and reset the filter back to initial setup. It prevents the adjusting so it should not be used as a reset for filter configurations without a child snippet.
 - LayerTree: A paramter "isNeverVisibleInTree" for layer config to supply an option to hide the layer in tree but can be loaded.
   - PoiOrientation:
     - The result window can now be moved.

@@ -316,13 +316,18 @@ export default class FilterApi {
      * @param {Object} filterQuestion an object with filterId, service and rules
      * @param {Function} onsuccess a function(filterAnswer)
      * @param {Function} onerror a function(Error)
+     * @param {Boolean} [resetFilterWithoutValues=false] a flag which decides if the filter should be resettet without any values.
      * @returns {void}
      */
-    filter (filterQuestion, onsuccess, onerror) {
+    filter (filterQuestion, onsuccess, onerror, resetFilterWithoutValues = false) {
         if (!isObject(this.service)) {
             if (typeof onerror === "function") {
                 onerror(new Error("FilterApi.filter: You have to set a default service first before using this function."));
             }
+            return;
+        }
+        if (resetFilterWithoutValues) {
+            onsuccess({service: this.service, filterId: this.filterId, snippetId: undefined, paging: {page: 1, total: 1}, items: []});
             return;
         }
         const connector = this.getInterfaceByService(this.service, onerror);

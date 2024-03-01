@@ -422,7 +422,8 @@
       },
       "distributionMapLinkText": "Link to distribution map",
       "distributionMapLinkTextTitle": "Copy the link to distribution map",
-      "universalSearchTitle": "Search for this animal on the internet"
+      "universalSearchTitle": "Search for this animal on the internet",
+      "resetButton": "Reset to the original state"
     },
     "getFeatureInfo": {
       "boolean": {

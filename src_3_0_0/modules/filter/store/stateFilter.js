@@ -61,7 +61,8 @@ const state = {
     urlParams: "",
     closeGfi: false,
     preventAdjust: false,
-    linkText: ""
+    linkText: "",
+    initialStartupReset: false
 };
 
 export default state;

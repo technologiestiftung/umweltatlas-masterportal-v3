@@ -369,6 +369,9 @@ export default {
                         this.setPreventAdjust(false);
                     }
                 }
+                else if (this.adjustOnlyFromParent) {
+                    this.setPreventAdjust(false);
+                }
                 this.allSelected = this.dropdownValue.length !== 0 && Array.isArray(this.dropdownSelected) && this.dropdownValue.length === this.dropdownSelected.length;
             },
             deep: true
@@ -505,6 +508,22 @@ export default {
         translateKeyWithPlausibilityCheck,
         splitListWithDelimiter,
 
+        /**
+         * Resets the values of this snippet.
+         * @param {Function} onsuccess the function to call on success
+         * @returns {void}
+         */
+        resetSnippet (onsuccess) {
+            this.isAdjusting = true;
+            this.setCurrentSource("init");
+            this.dropdownSelected = [];
+            this.$nextTick(() => {
+                if (typeof onsuccess === "function") {
+                    onsuccess();
+                }
+                this.isAdjusting = false;
+            });
+        },
         /**
          * Emits the setSnippetPrechecked event.
          * @param {String[]|String} prechecked The prechecked values.

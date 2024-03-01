@@ -6,6 +6,7 @@ import FilterStore from "../../../store/indexFilter";
 import sinon from "sinon";
 import openlayerFunctions from "../../../utils/openlayerFunctions";
 import layerCollection from "../../../../../core/layers/js/layerCollection";
+import IconButton from "../../../../../shared/modules/buttons/components/IconButton.vue";
 
 config.global.mocks.$t = key => key;
 
@@ -38,6 +39,11 @@ describe("src_3_0_0/modules/filter/components/FilterGeneral.vue", () => {
                         namespaced: true,
                         Filter: FilterStore
                     }
+                }
+            },
+            getters: {
+                urlParams: () => {
+                    return {};
                 }
             }
         });
@@ -100,6 +106,28 @@ describe("src_3_0_0/modules/filter/components/FilterGeneral.vue", () => {
             .every(w => w.attributes("v-if"))).to.be.false;
     });
 
+    it("should render an icon button if initialStartupReset is true", async () => {
+        wrapper.vm.setLayerSelectorVisible(false);
+        wrapper.vm.hasUnfixedRules = () => true;
+        wrapper.vm.layerConfigs = {
+            layers: [{layerId: 0, title: "foo", initialStartupReset: true}]
+        };
+        await wrapper.vm.$nextTick();
+        expect(wrapper.findComponent(IconButton).exists()).to.be.true;
+        sinon.restore();
+    });
+
+    it("should not render an icon button if initialStartupReset is false", async () => {
+        wrapper.vm.setLayerSelectorVisible(false);
+        wrapper.vm.hasUnfixedRules = () => true;
+        wrapper.vm.layerConfigs = {
+            layers: [{layerId: 0, title: "foo", initialStartupReset: false}]
+        };
+        await wrapper.vm.$nextTick();
+        expect(wrapper.findComponent(IconButton).exists()).to.be.false;
+        sinon.restore();
+    });
+
     describe("updateSelectedGroups", () => {
         it("should remove given index from selectedGroups if found in array", async () => {
             wrapper.vm.setSelectedGroups([0, 1]);
@@ -148,7 +176,7 @@ describe("src_3_0_0/modules/filter/components/FilterGeneral.vue", () => {
                     multiLayerSelector: true
                 }
             });
-            const rule = [
+            const rule = [[
                 {
                     snippetId: 0,
                     startup: false,
@@ -157,7 +185,7 @@ describe("src_3_0_0/modules/filter/components/FilterGeneral.vue", () => {
                     operator: "EQ",
                     value: ["Altona"]
                 }
-            ];
+            ]];
 
             wrapper.vm.setRulesOfFilters({
                 rulesOfFilters: rule
@@ -199,7 +227,7 @@ describe("src_3_0_0/modules/filter/components/FilterGeneral.vue", () => {
         });
         it("should not remove rules of the given param if the matching layer is not activated", () => {
             const param = {
-                rulesOfFilters: ["foo", "bar", "buz"],
+                rulesOfFilters: [["foo", "bar", "buz"]],
                 selectedAccordions: [
                     {
                         layerId: 0,
@@ -238,11 +266,11 @@ describe("src_3_0_0/modules/filter/components/FilterGeneral.vue", () => {
                 }
             );
             wrapper.vm.handleStateForAlreadyActiveLayers(param);
-            expect(param).to.deep.equal({rulesOfFilters: ["foo", "bar", "buz"], selectedAccordions: [{layerId: 0, filterId: 0}, {layerId: 1, filterId: 1}]});
+            expect(param).to.deep.equal({rulesOfFilters: [["foo", "bar", "buz"]], selectedAccordions: [{layerId: 0, filterId: 0}, {layerId: 1, filterId: 1}]});
         });
         it("should remove rules of the given param if the matching layer is already activated", () => {
             const param = {
-                rulesOfFilters: ["foo", "bar", "buz"],
+                rulesOfFilters: [["foo"], ["bar"], ["buz"]],
                 selectedAccordions: [
                     {
                         layerId: 0,
@@ -281,7 +309,7 @@ describe("src_3_0_0/modules/filter/components/FilterGeneral.vue", () => {
                 }
             );
             wrapper.vm.handleStateForAlreadyActiveLayers(param);
-            expect(param).to.deep.equal({rulesOfFilters: [null, "bar", "buz"], selectedAccordions: [{layerId: 1, filterId: 1}]});
+            expect(param).to.deep.equal({rulesOfFilters: [null, ["bar"], ["buz"]], selectedAccordions: [{layerId: 1, filterId: 1}]});
         });
     });
 });
