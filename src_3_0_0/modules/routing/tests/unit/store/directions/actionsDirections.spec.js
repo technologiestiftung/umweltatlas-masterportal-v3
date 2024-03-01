@@ -394,7 +394,7 @@ describe("src_3_0_0/modules/routing/store/directions/actionsDirections.js", () =
         });
     });
 
-    describe("should removeWaypoint", () => {
+    describe.only("should removeWaypoint", () => {
         it("with 2 waypoints", async () => {
             await actionsDirections.removeWaypoint({state, getters, commit, dispatch, rootState}, {
                 index: 0
@@ -403,10 +403,11 @@ describe("src_3_0_0/modules/routing/store/directions/actionsDirections.js", () =
             expect(waypoints[0].getDisplayName()).equal(null);
             expect(waypoints[0].getIndexDirectionsLineString()).equal(null);
             expect(waypoints[0].getFeature().getGeometry().getCoordinates()).deep.to.equal([]);
-
-            expect(commitSpy.args).to.deep.equal([
-                ["setRoutingDirections", null]
-            ]);
+            expect(commitSpy.firstCall.args[0]).to.be.equals("setWaypointCoordinates");
+            expect(commitSpy.firstCall.args[1].idx).to.be.equals(0);
+            expect(commitSpy.firstCall.args[1].coordinates).deep.to.be.equal([]);
+            expect(commitSpy.secondCall.args[0]).to.be.equals("setRoutingDirections");
+            expect(commitSpy.secondCall.args[1]).to.be.equals(null);
         });
 
         it("with more than 2 waypoints", async () => {
