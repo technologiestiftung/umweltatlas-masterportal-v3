@@ -4407,6 +4407,7 @@ Note: Time-related snippets (`date` and `dateRange`) can only be operated in `ex
 |format|no|String|"YYYY-MM-DD"|For type `date` and `dateRange` only: The format the date is stored in the database. Leave empty for ISO8601. If the format differs from ISO8601, the snippet must be visible (`visible`: `true`) and the filter must work in `external`: `false` mode. Can be specified as an array of two different formats if an array of different attribute names is also specified as attrName and the date formats of the attribute values differ.|false|
 |hideSelected|no|Boolean|true|As default behavior, the previously selected dropdown item is hidden in the dropdown list. Can be set to false to have the selected item shown and styled as selected.|false|
 |info|no|String||An info text or translation key. If set, a little icon will shown right hand side of the snippet. Can be set to `true` to display a default text for the snippet type.|false|
+|type|no|String||The type of this snippet. Can be one of the following: `checkbox`, `dropdown`, `text`, `slider`, `sliderRange`, `date`, `dateRange`, `featureInfo`, `chart`. Will be
 |localeCompareParams|no|**[LocaleCompareParams](#markdown-header-datatypessnippetslocalecompareparams)**||For type Snippet-Typ `dropdown` only: The sorting of the dropdown boxes can be adjusted according to your own wishes via this parameter.|false|
 |maxValue|no|Number||For type `date` and `slider` only: The maximum value as number or date string. Leave empty for automatic identification of boundaries.|false|
 |minValue|no|Number||For type `date` and `slider` only: The minimum value as number or date string. Leave empty for automatic identification of boundaries.|false|
@@ -4429,6 +4430,7 @@ Note: Time-related snippets (`date` and `dateRange`) can only be operated in `ex
 |beautifiedAttrName|no|**[BeautifiedAttrName](#markdown-header-datatypessnippetsbeautifiedattrname)**||Only for Snippet-Typ `featureInfo`: The attribute name could be beautified.|false|
 |adjustOnlyFromParent|no|Boolean|false|For type `dropdown` only: If true, only adjusted from parent snippet.|false|
 |allowEmptySelection|no|Boolean|true|For type `dropdown` only: If `true` allows to remove all selected values. If `false` one value must be left selected.|false|
+|chartConfig|yes|[chartConfig](#markdown-header-datatypessnippetschartconfig)||Only for snippet type 'chart' in combination with 'service' (see example): The configuration for the chart. All configuration options (previously only "type: bar") of Chart.js are supported (see: https://www.chartjs.org/docs/latest/configuration/). The 'featureAttributes' parameter must also be specified. The parameter specifies the attributes behind which the data to be displayed is located (see example).|false|
 
 **Example**
 
@@ -4673,6 +4675,53 @@ Example of a snippet that wants to filter over multiple attributes at once and d
 }
 ```
 
+**Example**
+
+Example of a chart snippet. Queries the features from the configured "service" and displays the data of the configured "featureAttributes" in a bar chart.
+
+```json
+{
+    "type": "chart",
+    "title": "Phänogramm",
+    "chartConfig": {
+        "type": "bar",
+        "data": {
+            "datasets": [{
+                "label": "Label",
+                "backgroundColor": "rgba(214, 227, 255, 0.8)",
+                "featureAttributes": ["januar_1", "februar_1", "maerz_1", "april_1", "mai_1", "juni_1", "juli_1", "august_1", "september_1", "oktober_1", "november_1", "dezember_1"]
+            },
+            {
+                "label": "Label 2",
+                "backgroundColor": "rgba(214, 227, 255, 0.8)",
+                "featureAttributes": ["januar_2", "februar_2", "maerz_2", "april_2", "mai_2", "juni_2", "juli_2", "august_2", "september_2", "oktober_2", "november_2", "dezember_2"]
+            }
+        ],
+        "labels": ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]
+        },
+        "options": {
+            "plugins": {
+                "legend": {
+                    "display": false
+                }
+            }
+        }
+    },
+    "service": {
+        "extern": true,
+        "type": "WFS",
+        "url": "https://qs-geodienste.hamburg.de/HH_WFS_verbreitung_tiere",
+        "typename": "verbreitung_tiere_eindeutige_liste",
+        "featureNS": "https://registry.gdi-de.org/id/de.hh.up",
+        "featureTypes": ["verbreitung_tiere_eindeutige_liste"],
+        "filter": {
+            "attrName": "artname",
+            "operator": "EQ"
+        }
+    }
+}
+```
+
 ***
 
 ### Datatypes.Snippets.Children
@@ -4784,6 +4833,27 @@ The configuration depends on the type of service.
     "url": "https://api.hamburg.de/datasets/v1/schulen",
     "collection" : "staatliche_schulen",
     "type": "OAF"
+}
+```
+
+***
+
+#### Datatypes.Snippets.ChartConfig
+
+An object that describes a chart. Click [here](https://www.chartjs.org/docs/latest/configuration/) for more information.
+
+**Example**
+
+The top level structure of Chart.js configuration:
+
+```json
+{
+    "chartConfig": {
+        "type": 'bar',
+        "data": {},
+        "options": {},
+        "plugins": []
+    }
 }
 ```
 

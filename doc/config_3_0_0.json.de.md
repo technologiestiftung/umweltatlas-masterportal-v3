@@ -4419,13 +4419,14 @@ Hinweis: Zeitbezogene Snippets (`date` und `dateRange`) können nur dann im Modu
 |subTitles|nein|String[]|[]|Nur für Snippet-Typ `dateRange`: Die zusätzlich über den Kalender-Feldern anzuzeigenden Von- und Bis-Bezeichnungen. Als Array mit zwei Elementen (z.B. ["von", "bis"]). Stellen Sie subTitles auf `true` um die Werte von `attrName` zu verwenden, auf false um Bezeichnungen nicht anzuzeigen.|false|
 |timeouts|nein|**[Timeouts](#markdown-header-datatypessnippetstimeouts)**||Konfigurierbare Timeouts zur besseren User Experience.|false|
 |title|nein|String||Der Titel des Snippets. Kann ein Übersetzungs-Key sein. Wenn nicht eingestellt, wird der Titel aus den `gfiAttributes` genommen und wenn diese nicht vorhanden sind, dann wird der `attrName` verwendet. Kann auf `false` gesetzt werden um die Anzeige eines Titels zu unterbinden. Kann auf `true` gesetzt werden um die Anzeige des `attrName` zu erzwingen.|false|
-|type|nein|String||Der Snippet-Typ: `checkbox`, `dropdown`, `text`, `slider`, `sliderRange`, `date`, `dateRange`, `featureInfo`. Wird automatisch ermittelt, wenn nicht angegeben - dabei wird der Datentyp als Grundlage genommen: boolean wird zu `checkbox`, string wird zu `dropdown`, number wird zu `sliderRange`, unbekannt wird zu `text`.|false|
+|type|nein|String||Der Snippet-Typ: `checkbox`, `dropdown`, `text`, `slider`, `sliderRange`, `date`, `dateRange`, `featureInfo`, `chart`. Wird automatisch ermittelt, wenn nicht angegeben - dabei wird der Datentyp als Grundlage genommen: boolean wird zu `checkbox`, string wird zu `dropdown`, number wird zu `sliderRange`, unbekannt wird zu `text`.|false|
 |value|nein|String[]||Wenn weggelassen, werden Werte automatisch ermittelt. Wenn für `dropdown` eingestellt: Die Werte, die in der Liste auswählbar sein sollen. Wenn für `checkbox` eingestellt: Statt Boolean-Werten sollen die angegebenen Werte für die Zustände `true` und `false` genommen werden (z.B. ["Ja", "Nein"]). Für `dateRange`: Anfangs- und End-Datum für Datepicker und/oder Slider. Für `sliderRange`: Anfangs- und End-Werte.|false|
 |visible|nein|Boolean|true|Das Snippet wird angezeigt. Auf `false` stellen um das Snippet zu verbergen: Dadurch können mithilfe von `prechecked` Werte im versteckten Snippet fest eingestellt werden, die dann bei jeder Filterung gelten.|false|
 |universalSearch|nein|**[UniversalSearch](#markdown-header-datatypessnippetsuniversalSearch)**||Nur für Snippet-Typ `featureInfo`: Der gefilterte Wert kann im Web gesucht werden.|false|
 |beautifiedAttrName|nein|**[BeautifiedAttrName](#markdown-header-datatypessnippetsbeautifiedattrname)**||Nur für Snippet-Typ `featureInfo`: Zum Überschreiben der Attributnamen, die im Steckbrief angezeigt werden.|false|
 |adjustOnlyFromParent|nein|Boolean|false|Nur für Snippet-Typ `dropdown`: Wenn true, wird es nur vom Parent-Snippet nachjustiert.|false|
 |allowEmptySelection|nein|Boolean|true|Nur für Snippet-Typ `dropdown`: Wird `true` gesetzt, können alle ausgewählten Werte im Dropdown wieder abgewählt werden. Auf `false` setzen, wenn immer ein Wert ausgewählt bleiben soll.|false|
+|chartConfig|ja|[chartConfig](#markdown-header-datatypessnippetschartconfig)||Nur für Snippet-Typ `chart` im Zusammenspiel mit 'service' (siehe Beispiel): Die Konfiguraiton für das Diagramm. Es werden alle Konfigurationsmöglichkeiten (bisher nur "type: bar") von Chart.js unterstützt (siehe: https://www.chartjs.org/docs/latest/configuration/). Zusätzlich ist die Angabe des Parameters 'featureAttributes' erforderlich. Der Parameter gibt an, hinter welchen Attributen sich die anzuzeigenden Daten befinden (siehe Beispiel).|false|
 
 **Beispiel**
 
@@ -4669,6 +4670,52 @@ Beispiel für ein Snippet welches über mehrere Attribute gleichzeitig filtern u
     "type": "dropdown",
 }
 ```
+**Beispiel**
+
+Beispiel für ein Chart Snippet. Fragt die Features aus dem konfigurierten "service" ab und zeigt die Daten der konfigurierten "featureAttributes" in einem Balkendiagramm an.
+
+```json
+{
+    "type": "chart",
+    "title": "Phänogramm",
+    "chartConfig": {
+        "type": "bar",
+        "data": {
+            "datasets": [{
+                "label": "Label",
+                "backgroundColor": "rgba(214, 227, 255, 0.8)",
+                "featureAttributes": ["januar_1", "februar_1", "maerz_1", "april_1", "mai_1", "juni_1", "juli_1", "august_1", "september_1", "oktober_1", "november_1", "dezember_1"]
+            },
+            {
+                "label": "Label 2",
+                "backgroundColor": "rgba(214, 227, 255, 0.8)",
+                "featureAttributes": ["januar_2", "februar_2", "maerz_2", "april_2", "mai_2", "juni_2", "juli_2", "august_2", "september_2", "oktober_2", "november_2", "dezember_2"]
+            }
+        ],
+        "labels": ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]
+        },
+        "options": {
+            "plugins": {
+                "legend": {
+                    "display": false
+                }
+            }
+        }
+    },
+    "service": {
+        "extern": true,
+        "type": "WFS",
+        "url": "https://qs-geodienste.hamburg.de/HH_WFS_verbreitung_tiere",
+        "typename": "verbreitung_tiere_eindeutige_liste",
+        "featureNS": "https://registry.gdi-de.org/id/de.hh.up",
+        "featureTypes": ["verbreitung_tiere_eindeutige_liste"],
+        "filter": {
+            "attrName": "artname",
+            "operator": "EQ"
+        }
+    }
+}
+```
 
 ***
 
@@ -4785,7 +4832,26 @@ Die Konfiguration hängt vom Typ des Services ab.
 ```
 
 ***
+#### Portalconfig.menu.tool.filter.filterLayer.snippets.chartConfig
 
+Ein Objekt, das ein Diagramm beschreibt. Für weitere informationen [hier](https://www.chartjs.org/docs/latest/configuration/) klicken.
+
+**Example**
+
+Die Top-Level-Struktur der Chart.js-Konfiguration:
+
+```json
+{
+    "chartConfig": {
+        "type": 'bar',
+        "data": {},
+        "options": {},
+        "plugins": []
+    }
+}
+```
+
+***
 ### Datatypes.Snippets.LocaleCompareParams
 
 [type:Options]: # (Datatypes.Snippets.LocaleCompareParams.Options)

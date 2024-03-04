@@ -11,6 +11,7 @@ import SnippetSlider from "./SnippetSlider.vue";
 import SnippetSliderRange from "./SnippetSliderRange.vue";
 import SnippetTag from "./SnippetTag.vue";
 import SnippetFeatureInfo from "./SnippetFeatureInfo.vue";
+import SnippetChart from "./SnippetChart.vue";
 import SnippetDownload from "./SnippetDownload.vue";
 import isObject from "../../../shared/js/utils/isObject";
 import FilterApi from "../js/interfaces/filter.api.js";
@@ -71,6 +72,7 @@ export default {
         SnippetSliderRange,
         SnippetTag,
         SnippetFeatureInfo,
+        SnippetChart,
         SnippetDownload,
         ProgressBar,
         AccordionItem
@@ -1395,6 +1397,18 @@ export default {
                             @set-snippet-visible="setSnippetVisible"
                         />
                     </AccordionItem>
+                </div>
+                <div
+                    v-else-if="hasThisSnippetTheExpectedType(snippet, 'chart')"
+                    class="snippet"
+                >
+                    <SnippetChart
+                        :ref="'snippet-' + snippet.snippetId"
+                        :api="getSnippetApi(snippet)"
+                        :title="snippet.title"
+                        :filtered-items="filteredItems"
+                        :chart-config="snippet.chartConfig"
+                    />
                 </div>
             </div>
             <div class="snippet">

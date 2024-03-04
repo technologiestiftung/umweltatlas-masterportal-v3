@@ -2335,6 +2335,7 @@ Die Konfiguration hängt vom Typ des Services ab.
 |url|ja|String||Die Service Url.|false|
 |typename|ja|String||Der Featuretype der geladen wird. Nur bei WFS.|false|
 |collection|ja|String||Die Collection die geladen wird. Nur bei OAF.|false|
+|url|ja|String||Die Service Url.|false|
 
 **Beispiel WFS**
 
