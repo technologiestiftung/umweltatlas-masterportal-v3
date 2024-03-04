@@ -394,7 +394,7 @@ describe("src_3_0_0/modules/routing/store/directions/actionsDirections.js", () =
         });
     });
 
-    describe.only("should removeWaypoint", () => {
+    describe("should removeWaypoint", () => {
         it("with 2 waypoints", async () => {
             await actionsDirections.removeWaypoint({state, getters, commit, dispatch, rootState}, {
                 index: 0
