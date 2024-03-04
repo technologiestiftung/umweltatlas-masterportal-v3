@@ -45,6 +45,7 @@
 - Issue #1118: The `wfsSearch` module now works with multiple select boxes.
 - Issue #1119: Routing module: the route is also displayed when the start and end points are selected via the search.
 - Issue #1120: The map view gets centered on searched coordinate again.
+- Issue #1136: The coordinates in Routing Tool change when point is moved or deleted.
 - Issue #1144/#1146: The baselayer preview now works for WMTS Layer that have an XML as getCapabilities-URL.
 - Layer selection: The order of the layers corresponds to the order of the layers in config.json.
 - Fixed HighlightFeature for MultiPolygons: In certain WFS layers, when polygon selection is enabled,
