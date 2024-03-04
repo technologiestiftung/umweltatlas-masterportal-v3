@@ -343,15 +343,21 @@ export default {
     createDirectionsWaypointsModifyInteractionListener ({state, dispatch}) {
         const {directionsWaypointsModifyInteraction} = state;
 
-        let changedFeature;
+        let changedFeature, newCoordinates;
 
         directionsWaypointsModifyInteraction.on("modifystart", event => {
             event.features.getArray().forEach(feature => {
+                newCoordinates = event.features
+                    .getArray()[0]
+                    .getGeometry()
+                    .getCoordinates();
+
                 feature.getGeometry().once("change", () => {
                     changedFeature = feature;
                 });
             });
         });
+
 
         directionsWaypointsModifyInteraction.on("modifyend", async () => {
             const {waypoints} = state,
@@ -370,7 +376,7 @@ export default {
                 );
 
             waypoint.setDisplayName(
-                geoSearchResult ? geoSearchResult.getDisplayName() : null
+                geoSearchResult ? geoSearchResult.getDisplayName() : newCoordinates
             );
             dispatch("findDirections");
         });
