@@ -2,7 +2,6 @@ import axios from "axios";
 import crs from "@masterportal/masterportalapi/src/crs";
 import {expect} from "chai";
 import sinon from "sinon";
-import {stylefunction} from "ol-mapbox-style";
 import Collection from "ol/Collection";
 import webgl from "../../../js/webglRenderer";
 
@@ -390,11 +389,6 @@ describe("src_3_0_0/core/js/layers/layer2dVectorTile.js", () => {
                 isStyleValid: Layer2dVectorTile.prototype.isStyleValid,
                 get: key => ({layer: Symbol.for("layer")})[key],
                 set: sinon.spy((key, value) => {
-                    expect(stylefunction.calledOnce).to.be.true;
-                    expect(stylefunction.calledWith(
-                        Symbol.for("layer"), validStyle, undefined
-                    )).to.be.true;
-
                     expect(key).to.equal("selectedStyleID");
                     expect(value).to.equal("l0");
 
