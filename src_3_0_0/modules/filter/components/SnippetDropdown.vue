@@ -22,6 +22,7 @@ import mutations from "../store/mutationsFilter";
 * @vue-prop {Array} addSelectAll - (??).
 * @vue-prop {Array} adjustment - The changes made by other snippets that change settings in this snippet. E.g. one snippet changes to "Grundschulen" and other snippets change their min value as a result of the adjustment.
 * @vue-prop {Boolean} adjustOnlyFromParent - adjust only from parent snippet.
+* @vue-prop {Boolean} allowEmptySelection - allows to remove all selected values.
 * @vue-prop {Boolean} autoInit - Shows if automatic initilization is enabled.
 * @vue-prop {Array} localeCompareParams - (???).
 * @vue-prop {String} delimiter - (???).
@@ -95,6 +96,11 @@ export default {
             type: Boolean,
             required: false,
             default: false
+        },
+        allowEmptySelection: {
+            type: Boolean,
+            required: false,
+            default: true
         },
         autoInit: {
             type: Boolean,
@@ -808,6 +814,7 @@ export default {
                     open-direction="auto"
                     :options-limit="optionsLimit"
                     :hide-selected="hideSelected"
+                    :allow-empty="allowEmptySelection"
                     :close-on-select="true"
                     :clear-on-select="false"
                     :loading="disable"

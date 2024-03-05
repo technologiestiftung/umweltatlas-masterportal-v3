@@ -23,6 +23,7 @@
   - A new parameter "beautifiedAttrName" in snippet with type "featureInfo" to supply beautified names for attributes.
   - A new parameter "adjustOnlyFromParent" in snippet (up to now only for "Dropdown" type) to allow adjust just from parent snippet.
   - A new parameter "linkText" to show a url link to the current filter setting at the bottom of the filter component.
+  - A new Parameter "allowEmptySelection" in snippet with type "dropdown" to allow all values to be deselected.
 - LayerTree: A paramter "isNeverVisibleInTree" for layer config to supply an option to hide the layer in tree but can be loaded.
 
 ### Changed

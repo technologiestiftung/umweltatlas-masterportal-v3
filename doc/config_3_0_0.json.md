@@ -4428,6 +4428,7 @@ Note: Time-related snippets (`date` and `dateRange`) can only be operated in `ex
 |universalSearch|no|**[UniversalSearch](#markdown-header-datatypessnippetsuniversalSearch)**||Only for Snippet-Typ `featureInfo`: The filtered Value can be searched for in website|false|
 |beautifiedAttrName|no|**[BeautifiedAttrName](#markdown-header-datatypessnippetsbeautifiedattrname)**||Only for Snippet-Typ `featureInfo`: The attribute name could be beautified.|false|
 |adjustOnlyFromParent|no|Boolean|false|For type `dropdown` only: If true, only adjusted from parent snippet.|false|
+|allowEmptySelection|no|Boolean|true|For type `dropdown` only: If `true` allows to remove all selected values. If `false` one value must be left selected.|false|
 
 **Example**
 

@@ -1189,6 +1189,7 @@ export default {
                         :add-select-all="snippet.addSelectAll"
                         :adjustment="snippet.adjustment"
                         :adjust-only-from-parent="snippet.adjustOnlyFromParent"
+                        :allow-empty-selection="snippet.allowEmptySelection"
                         :auto-init="snippet.autoInit"
                         :delimiter="snippet.delimiter"
                         :disabled="disabled"

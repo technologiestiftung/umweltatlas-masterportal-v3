@@ -4330,7 +4330,7 @@ Das Payload für ein CustomMenuElement Module. Hier wird im Module `execute` vom
 
 ***
 
-## Datatypes.Fill 
+## Datatypes.Fill
 
 Die Füllfarbe für ein Element. Es besteht aus einem Objekt mit einem Array in dem der RGBA Farbcode angegeben ist.
 
@@ -4425,6 +4425,7 @@ Hinweis: Zeitbezogene Snippets (`date` und `dateRange`) können nur dann im Modu
 |universalSearch|nein|**[UniversalSearch](#markdown-header-datatypessnippetsuniversalSearch)**||Nur für Snippet-Typ `featureInfo`: Der gefilterte Wert kann im Web gesucht werden.|false|
 |beautifiedAttrName|nein|**[BeautifiedAttrName](#markdown-header-datatypessnippetsbeautifiedattrname)**||Nur für Snippet-Typ `featureInfo`: Zum Überschreiben der Attributnamen, die im Steckbrief angezeigt werden.|false|
 |adjustOnlyFromParent|nein|Boolean|false|Nur für Snippet-Typ `dropdown`: Wenn true, wird es nur vom Parent-Snippet nachjustiert.|false|
+|allowEmptySelection|nein|Boolean|true|Nur für Snippet-Typ `dropdown`: Wird `true` gesetzt, können alle ausgewählten Werte im Dropdown wieder abgewählt werden. Auf `false` setzen, wenn immer ein Wert ausgewählt bleiben soll.|false|
 
 **Beispiel**
 
