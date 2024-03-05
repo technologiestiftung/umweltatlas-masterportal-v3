@@ -553,14 +553,10 @@ export default {
      * @returns {void}
      */
     removeWaypoint ({state, dispatch, commit}, {index, reload = false}) {
-        const {waypoints, directionsWaypointsSource, directionsRouteSource} = state,
-            emptyCoordinates = {};
+        const {waypoints, directionsWaypointsSource, directionsRouteSource} = state;
 
         if (waypoints.length === 2) {
             waypoints[index].reset();
-            emptyCoordinates.idx = index;
-            emptyCoordinates.coordinates = [];
-            commit("setWaypointCoordinates", emptyCoordinates);
             directionsRouteSource.getFeatures().forEach(feature => feature.getGeometry().setCoordinates([]));
             commit("setRoutingDirections", null);
             return;

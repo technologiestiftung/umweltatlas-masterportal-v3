@@ -135,7 +135,6 @@ export default {
          */
         onRemoveWaypoint () {
             this.waypoint.reset();
-            this.waypoint.coordinates = [];
             this.createIsochronesPointDrawInteraction();
             this.resetIsochronesResult();
         },

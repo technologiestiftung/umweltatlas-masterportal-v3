@@ -137,6 +137,7 @@ class RoutingWaypoint {
      */
     reset () {
         this.displayName = null;
+        this.coordinates = [];
         this.indexDirectionsLineString = null;
         if (this.addedToSource) {
             this.source.removeFeature(this.feature);
