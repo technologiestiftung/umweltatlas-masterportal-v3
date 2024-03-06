@@ -69,7 +69,7 @@ Layer2dRasterWmts.prototype.createLegend = async function () {
     if ((this.get("optionsFromCapabilities") === undefined) && (legend === true)) {
         console.error("WMTS: No legendURL is specified for the layer!");
     }
-    else if (this.get("optionsFromCapabilities") && !this.get("legendURL")) {
+    else if (this.get("optionsFromCapabilities") && !this.get("legendURL") && (!legend || legend === true)) {
         try {
             const capabilitiesUrl = this.get("capabilitiesUrl"),
                 result = await wmts.getWMTSCapabilities(capabilitiesUrl);
