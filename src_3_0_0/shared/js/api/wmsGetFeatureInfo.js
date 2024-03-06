@@ -3,6 +3,7 @@ import Feature from "ol/Feature";
 import axios from "axios";
 import handleAxiosResponse from "../utils/handleAxiosResponse.js";
 import {rawLayerList} from "@masterportal/masterportalapi/src";
+import store from "../../../app-store";
 
 /**
  * Handles the GetFeatureInfo request.
@@ -16,7 +17,8 @@ import {rawLayerList} from "@masterportal/masterportalapi/src";
  * @returns {Promise<module:ol/Feature[]>}  Promise object represents the GetFeatureInfo request
  */
 export function requestGfi (mimeType, url, layer) {
-    const layerSpecification = rawLayerList.getLayerWhere({id: layer.get("id")}),
+    const layerId = layer.get("id"),
+        layerSpecification = store.getters.layerConfigById(layerId) || rawLayerList.getLayerWhere({id: layerId}),
         layerIsSecured = Boolean(layerSpecification?.isSecured);
 
     return axios({
