@@ -31,9 +31,9 @@
 - ShareView: Added more configuration.
 - LayerMenu: Breadcrumbs with folder location will now stick to the top when scrolling.
 - 3D tileset layer supports hiddenFeatures.
-- The following packages have been updated:
+- The following package has been updated:
     - dependencies:
-        - @masterportal/masterportalapi: 2.31.0 to 2.33.0 (This also raised ol to version 8.2.0 and @cesium/engine to version 6.2.0)
+        - @masterportal/masterportalapi: 2.33.0 to 2.34.0
 
 ### Deprecated
 
