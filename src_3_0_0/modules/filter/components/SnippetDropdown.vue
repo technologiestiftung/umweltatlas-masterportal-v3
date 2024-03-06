@@ -255,7 +255,8 @@ export default {
                 "ENDSWITH"
             ],
             source: "",
-            allValues: false
+            allValues: false,
+            noChangeCounter: 0
         };
     },
     computed: {
@@ -329,7 +330,7 @@ export default {
     },
     watch: {
         dropdownSelected: {
-            handler (value) {
+            handler (value, oldValue) {
                 const prechecked = this.getPrecheckedExistingInValue(this.prechecked, this.dropdownValue);
 
                 if (
@@ -344,7 +345,18 @@ export default {
                     )
                 ) {
                     if (typeof value === "string" && value || Array.isArray(value) && value.length) {
-                        this.emitCurrentRule(value, this.isInitializing);
+                        if (value?.toString() === oldValue?.toString()) {
+                            this.noChangeCounter++;
+                        }
+                        else {
+                            this.noChangeCounter = 0;
+                        }
+                        if (this.isChild && this.noChangeCounter >= 2) {
+                            this.dropdownValue = value;
+                        }
+                        else {
+                            this.emitCurrentRule(value, this.isInitializing && this.allowEmptySelection);
+                        }
                     }
                     else if (Array.isArray(value) && !value.length && this.source !== "adjust") {
                         this.deleteCurrentRule();
