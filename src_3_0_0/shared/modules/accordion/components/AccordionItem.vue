@@ -35,7 +35,7 @@ export default {
                 class="accordion-header ms-0"
             >
                 <button
-                    class="accordion-button collapsed ps-0"
+                    :class="['accordion-button ps-0', !isOpen? 'collapsed' : '']"
                     type="button"
                     data-bs-toggle="collapse"
                     :data-bs-target="`#flush-collapse-${id}`"

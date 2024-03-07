@@ -1402,13 +1402,20 @@ export default {
                     v-else-if="hasThisSnippetTheExpectedType(snippet, 'chart')"
                     class="snippet"
                 >
-                    <SnippetChart
-                        :ref="'snippet-' + snippet.snippetId"
-                        :api="getSnippetApi(snippet)"
+                    <AccordionItem
+                        v-show="visibleSnippet"
+                        id="snippet-chart"
                         :title="snippet.title"
-                        :filtered-items="filteredItems"
-                        :chart-config="snippet.chartConfig"
-                    />
+                        icon="bi bi-list-ul"
+                        :is-open="true"
+                    >
+                        <SnippetChart
+                            :ref="'snippet-' + snippet.snippetId"
+                            :api="getSnippetApi(snippet)"
+                            :filtered-items="filteredItems"
+                            :chart-config="snippet.chartConfig"
+                        />
+                    </AccordionItem>
                 </div>
             </div>
             <div class="snippet">
