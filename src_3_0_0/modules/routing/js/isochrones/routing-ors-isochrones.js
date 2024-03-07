@@ -80,8 +80,10 @@ async function fetchRoutingOrsIsochrones ({
             units: "m"
         });
     }
-    catch (e) {
-        throw new Error(i18next.t("common:modules.routing.errors.errorIsochronesFetch"));
+    catch (error) {
+        const message = error.response?.data?.error?.message ? error.response?.data?.error?.message : i18next.t("common:modules.routing.errors.errorIsochronesFetch");
+
+        throw new Error(message);
     }
 
 
