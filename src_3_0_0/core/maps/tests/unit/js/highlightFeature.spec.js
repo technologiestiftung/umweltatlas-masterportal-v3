@@ -93,6 +93,7 @@ describe("src_3_0_0/core/maps/js/highlightFeature.js", () => {
 
         afterEach(() => {
             sinon.restore();
+            sinon.stub().resetHistory();
         });
 
         it("tests type 'increase'", () => {
@@ -107,7 +108,6 @@ describe("src_3_0_0/core/maps/js/highlightFeature.js", () => {
         });
 
         it("tests type 'viaLayerIdAndFeatureId'", () => {
-
             sinon.stub(layerCollection, "getLayerById").returns(layerPolygon);
             highlightFeature.highlightFeature({commit, dispatch, getters}, highlightObjectViaId);
 
