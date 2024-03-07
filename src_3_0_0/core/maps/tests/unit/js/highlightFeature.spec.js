@@ -1,264 +1,243 @@
 import {expect} from "chai";
 import sinon from "sinon";
 import {Style, Fill, Stroke, Circle} from "ol/style.js";
-import VectorSource from "ol/source/Vector.js";
 import highlightFeature from "../../../js/highlightFeature";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import layerCollection from "../../../../layers/js/layerCollection";
 
-describe("src_3_0_0/core/maps/js/highlightFeature.js", () => {
-    const stroke = new Stroke({}),
-        fill = new Fill({}),
+describe("highlightFeature", () => {
+    let featurePoint, featurePolygon, featureLine, stylePoint, styleGeoms, dispatch, commit;
+
+    beforeEach(() => {
+        const stroke = new Stroke({}),
+            fill = new Fill({}),
+            styleObject = {
+                styleId: "defaultHighlightFeaturesPoint",
+                rules: [{
+                    style: {
+                        type: "circle",
+                        circleFillColor: [255, 255, 0, 0.9],
+                        circleRadius: 8,
+                        circleStrokeColor: [0, 0, 0, 1],
+                        circleStrokeWidth: 2
+                    }
+                }]
+            };
+
         stylePoint = new Style({
             image: new Circle({
-                fill: fill,
-                stroke: stroke,
+                fill,
+                stroke,
                 radius: 5
             })
-        }),
-        styleGeoms = new Style({
-            stroke: stroke,
-            fill: fill
-        }),
-        featurePoint = {
-            id: "testPunkt",
-            getGeometry: () => sinon.stub(),
-            getStyle: () => stylePoint,
-            setStyle: () => sinon.stub()
-        },
-        featurePolygon = {
-            id: "testPolygon",
-            getGeometry: () => sinon.stub(),
-            getStyle: () => styleGeoms,
-            setStyle: () => sinon.stub()
-        },
-        featureLine = {
-            id: "testLine",
-            getGeometry: () => sinon.stub(),
-            getStyle: () => styleGeoms,
-            setStyle: () => sinon.stub()
-        },
-        layerSource = new VectorSource({
-            getFeatureById: () => sinon.stub.returns(featurePolygon),
-            getFeatures: () => sinon.stub.returns([featurePolygon])
-        }),
-        layerPolygon = {
-            id: "id",
-            layerSource: sinon.stub().returns(layerSource),
-            getLayerById: () => sinon.stub.returns(layerPolygon)
-        },
-        highlightObjectPoint = {
-            styleId: "defaultHighlightFeaturesPoint",
-            type: "increase",
-            feature: featurePoint
-        },
-        highlightObjectViaId = {
-            styleId: "defaultHighlightFeaturesPoint",
-            layerIdAndFeatureId: [layerPolygon.id, featurePolygon.id],
-            type: "viaLayerIdAndFeatureId",
-            feature: featurePolygon
-        },
-        polygonWithoutHighlightStyle = {
-            styleId: "defaultHighlightFeaturesPolygon",
-            type: "highlightPolygon",
-            feature: featurePolygon
-        },
-        polygonWithHighlightStyle = {...polygonWithoutHighlightStyle, highlightStyle: {styleGeoms}},
-        lineWithoutHighlightStyle = {
-            styleId: "defaultHighlightFeaturesLine",
-            type: "highlightLine",
-            feature: featureLine
-        },
-        lineWithHighlightStyle = {...lineWithoutHighlightStyle, highlightStyle: {styleGeoms}};
+        });
 
-    let commit,
-        dispatch,
-        getters,
-        increaseFeatureSpy,
-        highlightViaParametricUrlSpy,
-        getHighlightFeatureSpy,
-        highlightPolygonSpy,
-        highlightLineSpy;
+        styleGeoms = new Style({
+            stroke,
+            fill
+        });
+
+        featurePoint = {
+            getId: () => "testPoint",
+            getGeometry: sinon.stub(),
+            getStyle: sinon.stub().returns(stylePoint),
+            setStyle: sinon.stub()
+        };
+
+        featurePolygon = {
+            getId: () => "testPolygon",
+            getGeometry: sinon.stub(),
+            getStyle: sinon.stub().returns(styleGeoms),
+            setStyle: sinon.stub()
+        };
+
+        featureLine = {
+            getId: () => "testLine",
+            getGeometry: sinon.stub(),
+            getStyle: sinon.stub().returns(styleGeoms),
+            setStyle: sinon.stub()
+        };
+
+        commit = sinon.spy();
+        dispatch = sinon.spy();
+        sinon.stub(createStyle, "createStyle").returns(styleGeoms);
+        sinon.stub(styleList, "returnStyleObject").returns(styleObject);
+    });
+
+    afterEach(() => {
+        sinon.restore();
+    });
+
+    describe("highlightPolygon", () => {
+        it("should highlight a polygon feature with custom style", () => {
+            const highlightObject = {
+                type: "highlightPolygon",
+                feature: featurePolygon,
+                highlightStyle: styleGeoms,
+                styleId: "styleId"
+            };
+
+            highlightFeature.highlightPolygon({commit, dispatch}, highlightObject);
+
+            expect(highlightObject.feature.setStyle.called).to.be.true;
+            expect(commit.calledWith("Maps/addHighlightedFeature", featurePolygon)).to.be.true;
+            expect(commit.calledWith("Maps/addHighlightedFeatureStyle", styleGeoms)).to.be.true;
+        });
+
+        it("should place a polygon marker if no highlightStyle is provided", () => {
+            const highlightObject = {
+                type: "highlightPolygon",
+                feature: featurePolygon,
+                layer: {id: "layerId"}
+            };
+
+            createStyle.createStyle.returns(undefined);
+            styleList.returnStyleObject.returns(undefined);
+            highlightFeature.highlightPolygon({commit, dispatch}, highlightObject);
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.calledWith("Maps/placingPolygonMarker", featurePolygon)).to.be.true;
+        });
+    });
+
+    describe("highlightLine", () => {
+        it("should highlight a line feature with custom style", () => {
+            const highlightObject = {
+                type: "highlightLine",
+                feature: featureLine,
+                highlightStyle: styleGeoms,
+                styleId: "styleId"
+            };
+
+            highlightFeature.highlightLine({commit, dispatch}, highlightObject);
+
+            expect(highlightObject.feature.setStyle.called).to.be.true;
+            expect(commit.calledWith("Maps/addHighlightedFeature", featureLine)).to.be.true;
+            expect(commit.calledWith("Maps/addHighlightedFeatureStyle", styleGeoms)).to.be.true;
+        });
+
+        it("should place a line marker if no highlightStyle is provided", () => {
+            const highlightObject = {
+                type: "highlightLine",
+                feature: featureLine,
+                layer: {id: "layerId"}
+            };
+
+            createStyle.createStyle.returns(undefined);
+            styleList.returnStyleObject.returns(undefined);
+            highlightFeature.highlightLine({commit, dispatch}, highlightObject);
+
+            expect(dispatch.calledWith("Maps/placingPolygonMarker", featureLine)).to.be.true;
+        });
+    });
+    describe("increaseFeature", () => {
+        it("should increase the feature's icon size and commit changes", () => {
+            const highlightObject = {
+                    type: "increase",
+                    feature: featurePoint,
+                    scale: 2,
+                    layer: {id: "layerId"}
+                },
+                clonedStyle = new Style({
+                    image: new Circle({
+                        stroke: new Stroke({}),
+                        fill: new Fill({}),
+                        radius: 5
+                    })
+                });
+
+            createStyle.createStyle.returns(clonedStyle);
+            styleList.returnStyleObject.returns(clonedStyle);
+
+            highlightFeature.increaseFeature({commit}, highlightObject);
+
+            sinon.assert.calledWith(commit, "Maps/addHighlightedFeature", sinon.match.same(featurePoint));
+            sinon.assert.calledWith(commit, "Maps/addHighlightedFeatureStyle", sinon.match.any);
+        });
+    });
+
+    describe("highlightViaParametricUrl", () => {
+        it("should dispatch 'Maps/placingPolygonMarker' with the found feature", async () => {
+            const layerIdAndFeatureId = ["layerId", "featureId"],
+                expectedFeature = featurePolygon;
+
+            sinon.stub(layerCollection, "getLayerById").returns({
+                layerSource: {
+                    getFeatures: () => [expectedFeature],
+                    getFeatureById: () => expectedFeature
+                }
+            });
+
+            await highlightFeature.highlightViaParametricUrl({dispatch}, layerIdAndFeatureId);
+
+            sinon.assert.calledWith(dispatch, "Maps/placingPolygonMarker", expectedFeature, {root: true});
+        });
+
+        it("should not dispatch 'Maps/placingPolygonMarker' if no feature is found", async () => {
+            const layerIdAndFeatureId = ["layerId", "featureId"];
+
+            await highlightFeature.highlightViaParametricUrl({dispatch}, layerIdAndFeatureId);
+
+            sinon.assert.notCalled(dispatch);
+        });
+    });
 
     describe("highlightFeature", () => {
+        describe("dispatch actions based on highlightObject type", () => {
+            it("should dispatch 'increaseFeature' action for 'increase' type", () => {
+                const highlightObject = {
+                    type: "increase"
+                };
 
-        beforeEach(() => {
-            commit = sinon.spy();
-            dispatch = sinon.spy();
-            increaseFeatureSpy = sinon.spy(highlightFeature, "increaseFeature");
-            highlightViaParametricUrlSpy = sinon.spy(highlightFeature, "highlightViaParametricUrl");
-            getHighlightFeatureSpy = sinon.spy(highlightFeature, "getHighlightFeature");
-            highlightPolygonSpy = sinon.spy(highlightFeature, "highlightPolygon");
-            highlightLineSpy = sinon.spy(highlightFeature, "highlightLine");
-        });
+                highlightFeature.highlightFeature({dispatch}, highlightObject);
 
-        afterEach(() => {
-            sinon.restore();
-            sinon.stub().resetHistory();
-        });
+                sinon.assert.calledWith(dispatch, "increaseFeature", highlightObject);
+            });
 
-        it("tests type 'increase'", () => {
+            it("should dispatch 'highlightViaParametricUrl' action for 'viaLayerIdAndFeatureId' type", () => {
+                const highlightObject = {
+                    type: "viaLayerIdAndFeatureId",
+                    layerIdAndFeatureId: ["layerId", "featureId"]
+                };
 
-            highlightFeature.highlightFeature({commit, dispatch, getters}, highlightObjectPoint);
-            expect(increaseFeatureSpy.called).to.be.true;
-            expect(commit.called).to.be.true;
-            expect(commit.firstCall.args[0]).to.equals("Maps/addHighlightedFeature");
-            expect(commit.firstCall.args[1]).to.equals(featurePoint);
-            expect(commit.secondCall.args[0]).to.equals("Maps/addHighlightedFeatureStyle");
-            expect(commit.secondCall.args[1]).to.equals(stylePoint);
-        });
+                highlightFeature.highlightFeature({dispatch}, highlightObject);
 
-        it("tests type 'viaLayerIdAndFeatureId'", () => {
+                sinon.assert.calledWith(dispatch, "highlightViaParametricUrl", highlightObject.layerIdAndFeatureId);
+            });
 
-            sinon.stub(layerCollection, "getLayerById").returns(layerPolygon);
-            highlightFeature.highlightFeature({commit, dispatch, getters}, highlightObjectViaId);
+            it("should dispatch 'highlightPolygon' action for 'highlightPolygon' type", () => {
+                const highlightObject = {
+                    type: "highlightPolygon"
+                };
 
-            expect(highlightViaParametricUrlSpy.called).to.be.true;
-            expect(getHighlightFeatureSpy.called).to.be.true;
-            // TODO weitere Assertions zu den dispatch actions
-        });
+                highlightFeature.highlightFeature({dispatch}, highlightObject);
 
-        it("tests type 'highlightPolygon' with highlightStyle", () => {
+                sinon.assert.calledWith(dispatch, "highlightPolygon", highlightObject);
+            });
 
-            sinon.stub(highlightFeature, "styleObject").returns(styleGeoms);
-            highlightFeature.highlightFeature({commit, dispatch, getters}, polygonWithHighlightStyle);
+            it("should dispatch 'highlightLine' action for 'highlightLine' type", () => {
+                const highlightObject = {
+                    type: "highlightLine"
+                };
 
-            expect(highlightPolygonSpy.called).to.be.true;
-            expect(commit.called).to.be.true;
-            expect(commit.firstCall.args[0]).to.equals("Maps/addHighlightedFeature");
-            expect(commit.firstCall.args[1]).to.equals(featurePolygon);
-            expect(commit.secondCall.args[0]).to.equals("Maps/addHighlightedFeatureStyle");
-            expect(commit.secondCall.args[1]).to.equals(styleGeoms);
-        });
+                highlightFeature.highlightFeature({dispatch}, highlightObject);
 
-        it("tests type 'highlightPolygon' without highlightStyle", () => {
+                sinon.assert.calledWith(dispatch, "highlightLine", highlightObject);
+            });
 
-            highlightFeature.highlightFeature({commit, dispatch, getters}, polygonWithoutHighlightStyle);
+            it("should warn for unrecognized highlight type", () => {
+                const highlightObject = {
+                        type: "unrecognizedType"
+                    },
 
-            expect(highlightPolygonSpy.called).to.be.true;
-            expect(dispatch.called).to.be.true;
-            expect(dispatch.firstCall.args[0]).to.equals("Maps/placingPolygonMarker");
-            expect(dispatch.firstCall.args[1]).to.equals(featurePolygon);
-        });
+                    consoleWarnSpy = sinon.spy(console, "warn");
 
+                highlightFeature.highlightFeature({dispatch}, highlightObject);
 
-        it("tests type 'highlightLine' with highlightStyle", () => {
+                sinon.assert.calledWith(consoleWarnSpy, `Unrecognized highlight type: ${highlightObject.type}`);
 
-            sinon.stub(highlightFeature, "styleObject").returns(styleGeoms);
-            highlightFeature.highlightFeature({commit, dispatch, getters}, lineWithHighlightStyle);
-
-            expect(highlightLineSpy.called).to.be.true;
-            expect(commit.called).to.be.true;
-            expect(commit.firstCall.args[0]).to.equals("Maps/addHighlightedFeature");
-            expect(commit.firstCall.args[1]).to.equals(featureLine);
-            expect(commit.secondCall.args[0]).to.equals("Maps/addHighlightedFeatureStyle");
-            expect(commit.secondCall.args[1]).to.equals(styleGeoms);
-        });
-
-        it("tests type 'highlightLine' without highlightStyle", () => {
-
-            sinon.stub(highlightFeature, "styleObject").returns(styleGeoms);
-            highlightFeature.highlightFeature({commit, dispatch, getters}, lineWithoutHighlightStyle);
-
-            expect(highlightLineSpy.called).to.be.true;
-            expect(dispatch.called).to.be.true;
-            expect(dispatch.firstCall.args[0]).to.equals("Maps/placingPolygonMarker");
-            expect(dispatch.firstCall.args[1]).to.equals(featureLine);
-        });
-
-        it("highlights a polygon feature", () => {
-            sinon.stub(highlightFeature, "styleObject").returns(styleGeoms);
-            highlightFeature.highlightPolygon(commit, dispatch, polygonWithHighlightStyle);
-            expect(commit.firstCall.args[0]).to.equals("Maps/addHighlightedFeature");
-            expect(commit.firstCall.args[1]).to.equals(featurePolygon);
-            expect(commit.secondCall.args[0]).to.equals("Maps/addHighlightedFeatureStyle");
-            expect(commit.secondCall.args[1] instanceof Style).to.be.true;
-        });
-
-        it("does not highlight a polygon and sets a polygonMarker instead", () => {
-            sinon.stub(highlightFeature, "styleObject").returns(null);
-
-            highlightFeature.highlightPolygon(commit, dispatch, polygonWithoutHighlightStyle);
-
-            expect(dispatch.calledOnce).to.be.true;
-            expect(dispatch.firstCall.args[0]).to.equal("Maps/placingPolygonMarker");
-            expect(dispatch.firstCall.args[1]).to.equal(featurePolygon);
-
-            expect(commit.notCalled).to.be.true;
-        });
-
-        it("highlights a line feature", () => {
-            sinon.stub(highlightFeature, "styleObject").returns(styleGeoms);
-            highlightFeature.highlightLine(commit, dispatch, lineWithHighlightStyle);
-            expect(commit.firstCall.args[0]).to.equals("Maps/addHighlightedFeature");
-            expect(commit.firstCall.args[1]).to.equals(featureLine);
-            expect(commit.secondCall.args[0]).to.equals("Maps/addHighlightedFeatureStyle");
-            expect(commit.secondCall.args[1] instanceof Style).to.be.true;
-        });
-
-        it("does not highlight a line and sets a polygonMarker instead", () => {
-            sinon.stub(highlightFeature, "styleObject").returns(null);
-
-            highlightFeature.highlightLine(commit, dispatch, lineWithoutHighlightStyle);
-
-            expect(dispatch.calledOnce).to.be.true;
-            expect(dispatch.firstCall.args[0]).to.equal("Maps/placingPolygonMarker");
-            expect(dispatch.firstCall.args[1]).to.equal(featureLine);
-
-            expect(commit.notCalled).to.be.true;
-        });
-    });
-    describe("highlightViaParametricUrl", () => {
-        let dispatchStub, getHighlightFeatureStub;
-
-        beforeEach(() => {
-            dispatchStub = sinon.stub();
-            getHighlightFeatureStub = sinon.stub(highlightFeature, "getHighlightFeature");
-        });
-
-        afterEach(() => {
-            sinon.restore();
-        });
-
-        it("should call getHighlightFeature with correct parameters", async () => {
-            const layerId = "someLayerId",
-                featureId = "someFeatureId",
-                layerIdAndFeatureId = [layerId, featureId];
-
-            await highlightFeature.highlightViaParametricUrl(dispatchStub, layerIdAndFeatureId);
-
-            sinon.assert.calledOnce(getHighlightFeatureStub);
-            sinon.assert.calledWith(getHighlightFeatureStub, layerId, featureId, dispatchStub);
-        });
-
-        it("should not call getHighlightFeature if layerIdAndFeatureId is not provided", async () => {
-            await highlightFeature.highlightViaParametricUrl(dispatchStub, null);
-
-            sinon.assert.notCalled(getHighlightFeatureStub);
-        });
-    });
-    describe("getHighlightFeature", () => {
-        let layerSourceStub, layerStub, dispatchStub;
-
-        beforeEach(() => {
-            layerSourceStub = sinon.createStubInstance(VectorSource);
-            layerStub = {layerSource: layerSourceStub};
-            dispatchStub = sinon.stub();
-
-            sinon.stub(layerCollection, "getLayerById").returns(layerStub);
-            layerSourceStub.getFeatureById.withArgs(featurePolygon.id).returns(featurePolygon);
-            layerSourceStub.getFeatures.returns([featurePolygon]);
-        });
-
-        afterEach(() => {
-            sinon.restore();
-        });
-
-        it("should find and highlight a feature if present", async () => {
-            highlightFeature.getHighlightFeature(layerPolygon.id, featurePolygon.id, dispatchStub);
-
-            await new Promise(resolve => setTimeout(resolve, 200));
-
-            sinon.assert.calledOnceWithExactly(dispatchStub, "Maps/placingPolygonMarker", featurePolygon, {root: true});
+                consoleWarnSpy.restore();
+            });
         });
     });
 });

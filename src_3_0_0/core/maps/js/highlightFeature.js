@@ -72,6 +72,15 @@ export default {
             dispatch("Maps/placingPolygonMarker", feature, {root: true});
         }
     },
+
+    /**
+     * Highlights a feature by using layer ID and feature ID provided in the URL.
+     * This function retrieves the specified feature using `getHighlightFeature`
+     * and, if the feature is found, dispatches an action to place a polygon marker on the map.
+     * @param {Object} context - The Vuex action context, which provides access to Vuex `dispatch` method.
+     * @param {Array} layerIdAndFeatureId - An array containing the layer ID as the first element and the feature ID as the second element.
+     * @returns {Promise<void>} A promise that resolves once the feature has been highlighted or when there's no feature to highlight.
+     */
     async highlightViaParametricUrl ({dispatch}, layerIdAndFeatureId) {
         if (layerIdAndFeatureId) {
             const feature = await getHighlightFeature(layerIdAndFeatureId[0], layerIdAndFeatureId[1]);
@@ -81,6 +90,7 @@ export default {
             }
         }
     },
+
     /**
  * increases the icon of the feature
  * @param {Function} commit commit function
