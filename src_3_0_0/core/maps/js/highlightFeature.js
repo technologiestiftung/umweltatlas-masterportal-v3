@@ -15,7 +15,6 @@ export default {
  * @returns {void}
  */
     highlightFeature ({commit, dispatch}, highlightObject) {
-        console.log("highlightFeature wird aufgerufen", highlightObject);
         if (highlightObject.type === "increase") {
             this.increaseFeature(commit, highlightObject);
         }
@@ -23,9 +22,7 @@ export default {
             this.highlightViaParametricUrl(dispatch, highlightObject.layerIdAndFeatureId);
         }
         else if (highlightObject.type === "highlightPolygon") {
-            // this.highlightPolygon(commit, dispatch, highlightObject);
-
-            dispatch("highlightPolygon", highlightObject);
+            this.highlightPolygon(commit, dispatch, highlightObject);
         }
         else if (highlightObject.type === "highlightLine") {
             this.highlightLine(commit, dispatch, highlightObject);
@@ -38,14 +35,12 @@ export default {
  * @param {Object} highlightObject contains several parameters for feature highlighting
  * @returns {void}
  */
-    async highlightPolygon ({commit, dispatch}, highlightObject) {
-        console.log(highlightObject);
+    highlightPolygon (commit, dispatch, highlightObject) {
         if (highlightObject.highlightStyle) {
             const newStyle = highlightObject.highlightStyle,
                 feature = highlightObject.feature,
-                styleObjectPayload = {highlightObject, feature},
-                originalStyle = dispatch("styleObject", styleObjectPayload) ? await dispatch("styleObject", styleObjectPayload) : undefined;
-console.log(originalStyle);
+                originalStyle = this.styleObject(highlightObject, feature) ? this.styleObject(highlightObject, feature) : undefined;
+
             if (originalStyle) {
                 const clonedStyle = Array.isArray(originalStyle) ? originalStyle[0].clone() : originalStyle.clone();
 
@@ -170,6 +165,7 @@ console.log(originalStyle);
 
         if (!clonedStyle) {
             if (typeof feature.getStyle()?.clone === "function") {
+            // console.log("hier gehts rein, sonst nirgends")
                 clonedStyle = feature.getStyle()?.clone();
             }
             else {
@@ -200,9 +196,8 @@ console.log(originalStyle);
  * @param {Boolean} [returnFirst = true] if true, returns the first found style, else all created styles
  * @returns {ol/style|Array} ol style
  */
-    styleObject ({}, payload) {
-        const {highlightObject, feature} = payload,
-            stylelistObject = highlightObject.styleId ? styleList.returnStyleObject(highlightObject.styleId) : styleList.returnStyleObject(highlightObject.layer.id);
+    styleObject (highlightObject, feature) {
+        const stylelistObject = highlightObject.styleId ? styleList.returnStyleObject(highlightObject.styleId) : styleList.returnStyleObject(highlightObject.layer.id);
         let style;
 
         if (stylelistObject !== undefined) {
