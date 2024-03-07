@@ -108,6 +108,7 @@ describe("src_3_0_0/core/maps/js/highlightFeature.js", () => {
         });
 
         it("tests type 'viaLayerIdAndFeatureId'", () => {
+
             sinon.stub(layerCollection, "getLayerById").returns(layerPolygon);
             highlightFeature.highlightFeature({commit, dispatch, getters}, highlightObjectViaId);
 
