@@ -220,7 +220,7 @@ export default {
          * @returns {void}
          */
         checkDateFormat () {
-            if (this.currentLocale === "de" || this.currentLocale === "platt") {
+            if (this.$i18next.language === "de-DE" || this.$i18next.language === "de" || this.$i18next.language === "platt") {
                 this.showDate = dayjs(this.date).format("DD-MM-YYYY");
                 this.pickDateFormat = "DD.MM.YYYY";
 

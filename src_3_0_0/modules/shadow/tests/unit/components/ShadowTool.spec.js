@@ -5,6 +5,9 @@ import ShadowComponent from "../../../components/ShadowTool.vue";
 import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
+config.global.mocks.$i18next = {
+    language: "de"
+};
 
 describe("src_3_0_0/modules/shadowTool/components/ShadowTool.vue", () => {
     let map3D,
@@ -102,7 +105,18 @@ describe("src_3_0_0/modules/shadowTool/components/ShadowTool.vue", () => {
             expect(timeSlider.exists()).to.be.true;
         });
 
-        it("PickDateFormat is MM.DD.YYYY without locale", () => {
+        it("PickDateFormat is DD.MM.YYYY for de", () => {
+            const wrapper = shallowMount(ShadowComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.checkDateFormat();
+            expect(wrapper.vm.pickDateFormat).to.equal("DD.MM.YYYY");
+        });
+        it("PickDateFormat is MM.DD.YYYY for en", () => {
+            config.global.mocks.$i18next.language = "en";
             const wrapper = shallowMount(ShadowComponent, {
                 global: {
                     plugins: [store]
