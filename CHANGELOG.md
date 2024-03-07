@@ -23,6 +23,7 @@
 ### Fixed
 - Issue #1115: Legend is shown for all WFS-Layers.
 - Issue #1122: GFI-Window with desktopType "attached" is shown at clicked feature, if another feature is clicked.
+- Issue #1124: fixed url used in WMS-time layer and in zoomTo environment to not use more than one questionmark.
 - Issue #1126: prevent that the "legend"-parameter from config is overwritten by capabilities request
 - Fixed error "singleBaseLayer not defined" on opening 3D folders or on adding a layer by searchbar.
 - GFI: if config Parameter `centerMapToClickPoint` is set to true, map is centered to feature on click, even if the mapmarker is not shown.

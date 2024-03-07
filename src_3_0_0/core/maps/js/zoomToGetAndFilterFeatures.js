@@ -12,7 +12,7 @@ import handleAxiosResponse from "../../../shared/js/utils/handleAxiosResponse";
  * @param {String[]} values Array of allowed values.
  * @returns {Promise<Feature[]>} If resolved, returns an array of features.
  */
-export default function (layerId, property, values) {
+async function getAndFilterFeatures (layerId, property, values) {
     const layer = rawLayerList.getLayerWhere({id: layerId});
 
     if (layer === null) {
@@ -20,7 +20,7 @@ export default function (layerId, property, values) {
     }
 
     return axios
-        .get(`${layer.url}?service=WFS&version=${layer.version}&request=GetFeature&typeName=${layer.featureType}`)
+        .get(createUrl(layer.url, layer.version, layer.featureType))
         .then(response => handleAxiosResponse(response, "utils/zoomTo/actionsZoomTo/zoomToFeatures"))
         .then(data => new WFS().readFeatures(data))
         .then(features => features.filter(feature => {
@@ -30,3 +30,24 @@ export default function (layerId, property, values) {
             return values.includes(feature.get(property).toUpperCase().trim());
         }));
 }
+/**
+ * Creates the url.
+ * @param {String} requestUrl The url of the layer.
+ * @param {String} version The version of WFS.
+ * @param {String} featureType The featureType of the layer.
+ * @returns {String} the created url
+ */
+function createUrl (requestUrl, version, featureType) {
+    const url = new URL(requestUrl);
+
+    url.searchParams.set("service", "WFS");
+    url.searchParams.set("version", version);
+    url.searchParams.set("typeName", featureType);
+    url.searchParams.set("request", "GetFeature");
+    return url;
+}
+
+export default {
+    createUrl,
+    getAndFilterFeatures
+};

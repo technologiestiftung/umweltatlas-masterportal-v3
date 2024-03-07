@@ -3,7 +3,7 @@ import VectorSource from "ol/source/Vector";
 
 import calculateExtent from "../../../shared/js/utils/calculateExtent";
 import createStyledFeatures from "../js/zoomToCreateStyledFeatures";
-import getAndFilterFeatures from "../js/zoomToGetAndFilterFeatures";
+import featureProvider from "../js/zoomToGetAndFilterFeatures";
 
 /**
  * Zoom to a feature, with url param.
@@ -49,7 +49,7 @@ export default {
                 addFeatures = config.addFeatures;
             }
 
-            return getAndFilterFeatures(layerId, property, urlValues)
+            return featureProvider.getAndFilterFeatures(layerId, property, urlValues)
                 .then(featureCollection => {
                     let filteredFeatures = featureCollection;
 
