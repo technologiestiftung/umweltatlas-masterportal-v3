@@ -17,6 +17,7 @@ import {WFS} from "ol/format.js";
 import UrlHandler from "../utils/urlHandler.js";
 import Cluster from "ol/source/Cluster";
 import layerCollection from "../../../core/layers/js/layerCollection";
+import {Toast} from "bootstrap";
 
 /**
  * Filter General
@@ -427,6 +428,17 @@ export default {
                     mapMoveListener(evt);
                 }
             });
+        },
+
+        /**
+         * Copies the url to the clipboard.
+         * @returns {void}
+         */
+        copyToClipboard () {
+            const toast = new Toast(this.$refs.copyToast);
+
+            toast.show();
+            navigator.clipboard.writeText(this.currentURL);
         }
     }
 };
@@ -638,9 +650,37 @@ export default {
         <a
             :v-if="linkText"
             :href="currentURL"
+            :title="$t('common:modules.filter.distributionMapLinkTextTitle')"
+            class="link-text"
+            @click.prevent="copyToClipboard"
         >
+            <i
+                class="bi-link"
+                role="img"
+            />
             {{ $t(linkText) }}
         </a>
+        <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3">
+            <div
+                ref="copyToast"
+                class="toast align-items-center"
+                role="alert"
+                aria-live="assertive"
+                aria-atomic="true"
+            >
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {{ $t("common:modules.shareView.linkCopied") }}
+                    </div>
+                    <button
+                        type="button"
+                        class="btn-close me-2 m-auto"
+                        data-bs-dismiss="toast"
+                        aria-label="Close"
+                    />
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -651,5 +691,10 @@ export default {
         padding: 10px;
         margin-bottom: 10px;
         border: 1px solid #ddd;
+    }
+    .link-text {
+        i {
+            font-size: 14px;
+        }
     }
 </style>

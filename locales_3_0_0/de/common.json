@@ -416,6 +416,7 @@
         "geometryParseError": "Die angegebene Geometry konnte nicht geladen werden"
       },
       "distributionMapLinkText": "Link zur Verbreitungskarte",
+      "distributionMapLinkTextTitle": "Link zur Verbreitungskarte kopieren",
       "universalSearchTitle": "Nach diesem Tier im Web suchen"
     },
     "getFeatureInfo": {

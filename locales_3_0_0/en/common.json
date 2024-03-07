@@ -416,6 +416,7 @@
         "geometryParseError": "Could not parse given geometry"
       },
       "distributionMapLinkText": "Link to distribution map",
+      "distributionMapLinkTextTitle": "Copy the link to distribution map",
       "universalSearchTitle": "Search for this animal on the internet"
     },
     "getFeatureInfo": {
