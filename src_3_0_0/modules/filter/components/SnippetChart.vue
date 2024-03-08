@@ -42,6 +42,11 @@ export default {
         chartConfig: {
             type: Object,
             required: true
+        },
+        infoText: {
+            type: [String, Boolean],
+            required: false,
+            default: false
         }
     },
     data () {
@@ -119,6 +124,17 @@ export default {
         <h6 v-if="title">
             {{ titleText }}
         </h6>
+        <div
+            v-if="infoText && !isEmpty"
+            class="row info mb-4 mt-2"
+        >
+            <span class="col-1 info-icon d-flex align-items-center justify-content-center">
+                <i class="bi-info-circle" />
+            </span>
+            <div class="col info-text">
+                {{ infoText }}
+            </div>
+        </div>
         <BarchartItem
             v-if="chartConfig.type === 'bar' && !isEmpty"
             :given-options="chartConfig.options"
@@ -131,3 +147,14 @@ export default {
         </span>
     </div>
 </template>
+
+<style lang="scss" scoped>
+    @import "~variables";
+
+.info-icon i {
+    font-size: $icon_length_small;
+}
+.info-text {
+    font-size: $font_size_sm;
+}
+</style>

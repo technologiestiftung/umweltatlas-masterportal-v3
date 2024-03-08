@@ -26,6 +26,7 @@ describe("src_3_0_0/modules/filter/components/SnippetChart.vue", () => {
             });
 
             expect(wrapper.vm.title).to.be.true;
+            expect(wrapper.vm.infoText).to.be.false;
             expect(wrapper.vm.api).to.be.null;
             expect(wrapper.vm.filteredItems).to.be.an("array");
             expect(wrapper.vm.chartConfig).to.be.an("object");
@@ -92,7 +93,35 @@ describe("src_3_0_0/modules/filter/components/SnippetChart.vue", () => {
             expect(wrapper.isVisible()).to.be.true;
             expect(wrapper.findComponent({name: "BarchartItem"}).exists()).to.be.false;
         });
+        it("should render an info text if one is given", async () => {
+            const wrapper = shallowMount(SnippetChart, {
+                props: {
+                    chartConfig,
+                    infoText: "This is an info text."
+                }
+            });
 
+            await wrapper.setData({
+                isVisible: true
+            });
+
+            expect(wrapper.find(".info-text").text()).to.be.equal("This is an info text.");
+        });
+        it("should not render an info text if no chart is present", async () => {
+            const wrapper = shallowMount(SnippetChart, {
+                props: {
+                    chartConfig,
+                    infoText: "This is an info text."
+                }
+            });
+
+            await wrapper.setData({
+                isVisible: true,
+                isEmpty: true
+            });
+
+            expect(wrapper.find(".info-text").exists()).to.be.false;
+        });
     });
 
     describe("Watcher", () => {

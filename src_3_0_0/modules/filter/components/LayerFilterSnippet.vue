@@ -1426,6 +1426,7 @@ export default {
                             :ref="'snippet-' + snippet.snippetId"
                             :api="getSnippetApi(snippet)"
                             :filtered-items="filteredItems"
+                            :info-text="snippet.infoText"
                             :chart-config="snippet.chartConfig"
                             :alternative-text-for-empty-chart="snippet.alternativeTextForEmptyChart"
                         />
