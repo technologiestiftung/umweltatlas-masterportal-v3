@@ -1029,6 +1029,11 @@
         "selection": "Row selection",
         "zoomToResult": "Zoom to result",
         "zoomToResults": "Zoom to selection"
+      },
+      "table": {
+        "download": "Download",
+        "reset": "Reset",
+        "settings": "Settings"
       }
     }
   },

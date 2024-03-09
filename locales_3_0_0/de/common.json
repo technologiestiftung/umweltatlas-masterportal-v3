@@ -1029,6 +1029,11 @@
         "selection": "Zeilenauswahl",
         "zoomToResult": "Zum Ergebnis zoomen",
         "zoomToResults": "Zur Auswahl zoomen"
+      },
+      "table": {
+        "download": "Herunterladen",
+        "reset": "Zurücksetzen",
+        "settings": "Einstellungen"
       }
     }
   },

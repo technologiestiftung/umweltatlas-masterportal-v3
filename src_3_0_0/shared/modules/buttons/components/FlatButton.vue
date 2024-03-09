@@ -82,6 +82,8 @@ export default {
     i {
         font-size: 1.125rem;
         padding-right: .5rem;
+        position: relative;
+        top: 2px;
     }
     .btn-texts {
         white-space: normal;
