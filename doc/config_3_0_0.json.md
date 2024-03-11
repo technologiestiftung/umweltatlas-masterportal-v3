@@ -119,7 +119,7 @@ Controls can be configured to be expandable so they will not initially show up i
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|backForward|no|**[backForward](#markdown-header-portalconfigcontrolsbackforward)**|false|Shows buttons to jump to previous and next map views.|false|
+|backForward|no|Boolean/**[backForward](#markdown-header-portalconfigcontrolsbackforward)**|false|Shows buttons to jump to previous and next map views.|false|
 |button3d|no|Boolean/**[button3d](#markdown-header-portalconfigcontrolsbutton3d)**|false|Defines whether a 3D mode switch button is shown.|false|
 |expandable|no|Boolean||With expandable, controls are hidden behind a button with three dots and can be expanded when needed.|false|
 |freeze|no|Boolean/**[freeze](#markdown-header-portalconfigcontrolsfreeze)**|false|Whether a "lock view" button is shown.|false|
@@ -150,8 +150,8 @@ The attribute backForward may be of type boolean or object. If of type boolean, 
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|iconForward|no|String||Allows changing the icon on the forward button.|false|
-|iconBack|no|String||Allows changing the icon on the backwards button.|false|
+|iconForward|no|String|"skip-end-fill"|Allows changing the icon on the forward button.|false|
+|iconBack|no|String|"skip-start-fill"|Allows changing the icon on the backwards button.|false|
 |supportedDevices|no|String|["Desktop"]|Devices on which the module can be used and is displayed in the menu.|false|
 |supportedMapModes|no|String|["2D", "3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
 
@@ -290,8 +290,8 @@ The startModule attribute must be of type Object. A button is displayed for each
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|mainMenu|no|**[mainMenu](#markdown-header-portalconfigcontrolsstartModulemainMenu)**||Here you can configure the modules for which a button should be displayed. These will be displayed in the `mainMenu` when opened.|false|
-|secondaryMenu|no|**[secondaryMenu](#markdown-header-portalconfigcontrolsstartModulesecondaryMenu)**||Here you can configure the modules for which a button should be displayed. These will be displayed in the `secondaryMenu` when opened.|false|
+|mainMenu|no|**[mainMenu](#markdown-header-portalconfigcontrolsstartModulemainMenu)**[]||Here you can configure the modules for which a button should be displayed. These will be displayed in the `mainMenu` when opened.|false|
+|secondaryMenu|no|**[secondaryMenu](#markdown-header-portalconfigcontrolsstartModulesecondaryMenu)**[]||Here you can configure the modules for which a button should be displayed. These will be displayed in the `secondaryMenu` when opened.|false|
 |supportedDevices|no|String|["Desktop", "Mobile", "Table"]|Devices on which the module can be used and is displayed in the menu.|false|
 |supportedMapModes|no|String|["2D", "3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
 
@@ -362,7 +362,7 @@ The tiltView attribute can be of type Boolean or Object. If it is of type Boolea
 |tiltDownIcon|no|String|"bi-caret-down-square"|The tiltDownIcon parameter can be used to specify a different icon for tilt down.|false|
 |tiltUpIcon|no|String|"bi-caret-up-square"|Using the parameter tiltUpIcon another icon can be used for tilting up the camera.|false|
 |supportedDevices|no|String|["Desktop"]|Devices on which the module can be used and is displayed in the menu.|false|
-|SupportedMapModes|no|String|["3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
+|supportedMapModes|no|String|["3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
 
 **Example tiltView as Object**
 
@@ -1194,7 +1194,7 @@ Mapping Objekt. Mappt die Attribute des Ergebnis Objektes auf den entsprechenden
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|coordinate|yes|String/String[]|"coordinate"|Attribute value will be mapped to the attribute key. Required to display a map marker.|false|
+|coordinate|no|String/String[]||Attribute value will be mapped to the attribute key. Required to display a map marker.|false|
 |id|yes|String/String[]|"id"|Attribute value will be mapped to the attribute key. Required to display results.|false|
 |layerId|yes|String/String[]||Attribute value will be mapped to the attribute key. Required to display results.|false|
 |name|yes|String/String[]|"name"|Attribute value will be mapped to the attribute key. Required to display results.|false|
@@ -1229,16 +1229,16 @@ Gazetteer search service configuration.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|resultEvents|no|**[resultEvents](#markdown-header-portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["setMarker", "zoomToResult"], "onHover": ["setMarker"]}|Actions that are executed when an interaction, such as hover or click, is performed with a result list item. The following events are possible: "setMarker", "zoomToResult".|false|
+|resultEvents|no|**[resultEvents](#markdown-header-portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["setMarker", "zoomToResult"], "onHover": ["setMarker"], "buttons": ["startRouting"]}|Actions that are executed when an interaction, such as hover or click, is performed with a result list item. The following events are possible: "setMarker", "zoomToResult".|false|
 |searchAddress|no|Boolean|false|Defines whether address search is active. For backward compatibility, if "searchAddress" is not configured, the "searchAddress" attribute is set to "true" when "searchStreets" and "searchHouseNumbers" are set to "true".|false|
 |searchDistricts|no|Boolean|false|Defines whether district search is active.|false|
 |searchHouseNumbers|no|Boolean|false|Defines whether house numbers should be searched for. Requires `searchStreets` to be set to `true`, too.|false|
 |searchParcels|no|Boolean|false|Defines whether parcels search is active.|false|
 |searchStreetKey|no|Boolean|false|Defines whether streets should be searched for by key.|false|
-|searchStreet|no|Boolean|false|Defines whether street search is active. Precondition to set `searchHouseNumbers` to `true`.|false|
+|searchStreets|no|Boolean|false|Defines whether street search is active. Precondition to set `searchHouseNumbers` to `true`.|false|
 |serviceId|yes|String||Search service id. Resolved using the **[rest-services.json](rest-services.json.md)** file.|false|
 |showGeographicIdentifier|no|Boolean|false|Specifies whether the attribute `geographicIdentifier` should be used to display the search result.|false|
-|type|yes|String|"bkg"|Search interface type. Defines which search interface is configured.|false|
+|type|yes|String|"gazetteer"|Search interface type. Defines which search interface is configured.|false|
 
 **Example**
 
@@ -2478,7 +2478,7 @@ Print module, configurable for 2 print services: *High Resolution PlotService* a
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |capabilitiesFilter|no|**[capabilitiesFilter](#markdown-header-portalconfigmenutoolprintcapabilitiesfilter)**||Filter for the response of the configured print service. Possible keys are layouts and outputFormats.|false|
-|currentLayoutName|no|String|""|Defines which layout is the default layout on opening the print tool, e.g. "A4 portrait format". If the given layout is not available oder none is provided, the first layout mentioned in the Capabilities is used.|false|
+|currentLayoutName|no|String|"A4 Hochformat"|Defines which layout is the default layout on opening the print tool, e.g. "A4 portrait format". If the given layout is not available oder none is provided, the first layout mentioned in the Capabilities is used.|false|
 |defaultCapabilitiesFilter|no|**[capabilitiesFilter](#markdown-header-portalconfigmenutoolprintcapabilitiesfilter)**||If there is no key set in capabilitiesFilter, the key from this object is taken.|false|
 |dpiForPdf|no|Number|200|DPI resolution for the map in the PDF file.|false|
 |filename|no|String|"report"|Print result file name.|false|
@@ -3065,10 +3065,10 @@ The shadow tool provides a UI element to define a point in time by using sliders
 ###### portalConfig.menu.sections.modules.shadow.shadowTime
 |Name|Required|Type|Default|Description|
 |----|--------|----|-------|-----------|
-|month|no|String||month|
-|day|no|String||day|
-|hour|no|String||hour|
-|minute|no|String||minute|
+|month|no|String||month|false|
+|day|no|String||day|false|
+|hour|no|String||hour|false|
+|minute|no|String||minute|false|
 
 **Example**
 
@@ -3273,7 +3273,7 @@ When editing properties of a feature / adding properties to a new feature, the a
 |delete|no|[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactiontransactionconfig)/Boolean|false|Defines which layers of `layerIds` allow delete transactions.|false|
 |icon|no|String|"bi-globe"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |layerIds|yes|String[]||Array of layer-ids defined in **[services.json](services.json.md)**.|false|
-|layerSelectLabel|no|String|"common:modules.tools.wfsTransaction.layerSelectLabel"| Please set the value directly in the language files. If given, overrides the value set for the label of the layer select box. May be a locale key.|false|
+|layerSelectLabel|no|String|"common:modules.wfst.layerSelectLabel"| Please set the value directly in the language files. If given, overrides the value set for the label of the layer select box. May be a locale key.|false|
 |lineButton|no|[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactiontransactionconfig)[]/Boolean|[]|Defines which layers of `layerIds` allow insert transactions of line geometries.|false|
 |name|no|String|"common:modules.wfst.name"|Tool name shown in the portal.|false|
 |pointButton|no|[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactiontransactionconfig)[]/Boolean|[]|Defines which layers of `layerIds` allow insert transactions of point geometries.|false|
@@ -4132,7 +4132,6 @@ Style definitions. Available for *Vector Tile Layers* only.
 #### layerConfig.elements.layers.Tileset
 
 [inherits]: # (layerConfig.elements.layers)
-[type:cesium3DTilesetOption]: # (layerConfig.elements.layers.Tileset.cesium3DTilesetOption)
 
 List of attributes typically used for tilesets.
 
@@ -4180,7 +4179,6 @@ Cesium 3D tileset options directly forwarded to the *Cesium tileset object*.
 #### layerConfig.elements.layers.Terrain
 
 [inherits]: # (layerConfig.elements.layers)
-[type:cesiumTerrainProviderOption]: # (layerConfig.elements.layers.Terrain.cesiumTerrainProviderOption)
 
 List of attributes typically used for Terrain.
 
@@ -4360,7 +4358,7 @@ CustomMenuElement Module `execute` from `payload`. The appropriate payload for t
 |Name|Required|Type|Default|Description|Expert|
 |----|-------------|---|-------|------------|------|
 |width|no|Integer||Possible setting: width|false|
-|color|no|Float[]||Possible setting: color (RGBA)|false|
+|color|no|Float[]|[255, 255, 255, 0.5]|Possible setting: color (RGBA)|false|
 
 ```json
 "stroke": {
@@ -4393,7 +4391,7 @@ CustomMenuElement Module `execute` from `payload`. The appropriate payload for t
 [type:Timeouts]: # (Datatypes.Snippets.Timeouts)
 [type:UniversalSearch]: # (Datatypes.Snippets.UniversalSearch)
 [type:BeautifiedAttrName]: # (Datatypes.Snippets.BeautifiedAttrName)
-[type:adjustOnlyFromParent]: # (Datatypes.Snippets.adjustOnlyFromParent)
+[type:ChartConfig]: # (Datatypes.Snippets.ChartConfig)
 
 An object defining a single snippet for the filter.
 
@@ -4411,7 +4409,7 @@ Note: Time-related snippets (`date` and `dateRange`) can only be operated in `ex
 |format|no|String|"YYYY-MM-DD"|For type `date` and `dateRange` only: The format the date is stored in the database. Leave empty for ISO8601. If the format differs from ISO8601, the snippet must be visible (`visible`: `true`) and the filter must work in `external`: `false` mode. Can be specified as an array of two different formats if an array of different attribute names is also specified as attrName and the date formats of the attribute values differ.|false|
 |hideSelected|no|Boolean|true|As default behavior, the previously selected dropdown item is hidden in the dropdown list. Can be set to false to have the selected item shown and styled as selected.|false|
 |info|no|String||An info text or translation key. If set, a little icon will shown right hand side of the snippet. Can be set to `true` to display a default text for the snippet type.|false|
-|type|no|String||The type of this snippet. Can be one of the following: `checkbox`, `dropdown`, `text`, `slider`, `sliderRange`, `date`, `dateRange`, `featureInfo`, `chart`. Will be
+|type|no|String||The type of this snippet. Can be one of the following: `checkbox`, `dropdown`, `text`, `slider`, `sliderRange`, `date`, `dateRange`, `featureInfo`, `chart`. Will be indentified automatically if left away, following a data type rule: boolean becomes `checkbox`, string becomes `dropdown`, number becomes `sliderRange`, unknown becomes `text`.|false|
 |localeCompareParams|no|**[LocaleCompareParams](#markdown-header-datatypessnippetslocalecompareparams)**||For type Snippet-Typ `dropdown` only: The sorting of the dropdown boxes can be adjusted according to your own wishes via this parameter.|false|
 |maxValue|no|Number||For type `date` and `slider` only: The maximum value as number or date string. Leave empty for automatic identification of boundaries.|false|
 |minValue|no|Number||For type `date` and `slider` only: The minimum value as number or date string. Leave empty for automatic identification of boundaries.|false|
@@ -4434,7 +4432,7 @@ Note: Time-related snippets (`date` and `dateRange`) can only be operated in `ex
 |beautifiedAttrName|no|**[BeautifiedAttrName](#markdown-header-datatypessnippetsbeautifiedattrname)**||Only for Snippet-Typ `featureInfo`: The attribute name could be beautified.|false|
 |adjustOnlyFromParent|no|Boolean|false|For type `dropdown` only: If true, only adjusted from parent snippet.|false|
 |allowEmptySelection|no|Boolean|true|For type `dropdown` only: If `true` allows to remove all selected values. If `false` one value must be left selected.|false|
-|chartConfig|yes|[chartConfig](#markdown-header-datatypessnippetschartconfig)||Only for snippet type 'chart' in combination with 'service' (see example): The configuration for the chart. All configuration options (previously only "type: bar") of Chart.js are supported (see: https://www.chartjs.org/docs/latest/configuration/). The 'featureAttributes' parameter must also be specified. The parameter specifies the attributes behind which the data to be displayed is located (see example).|false|
+|chartConfig|yes|**[ChartConfig](#markdown-header-datatypessnippetschartconfig)**||Only for snippet type 'chart' in combination with 'service' (see example): The configuration for the chart. All configuration options (previously only "type: bar") of Chart.js are supported (see: https://www.chartjs.org/docs/latest/configuration/). The 'featureAttributes' parameter must also be specified. The parameter specifies the attributes behind which the data to be displayed is located (see example).|false|
 |alternativeTextForEmptyChart|nein|String||Alternative text for snippet type `chart` that can be displayed instead of a chart.|false|
 |infoText|no|String|false|For type `chart` only: An Info text. |false|
 
@@ -4846,7 +4844,7 @@ The configuration depends on the type of service.
 
 #### Datatypes.Snippets.ChartConfig
 
-An object that describes a chart. Click [here](https://www.chartjs.org/docs/latest/configuration/) for more information.
+An object that describes a chart. Click **[here](https://www.chartjs.org/docs/latest/configuration/)** for more information.
 
 **Example**
 
@@ -5250,7 +5248,7 @@ However, a `field` needs to be wrapped inside a `clause` (as seen in most exampl
 
 ***
 
-## Datatypes.Literal.Clause
+### Datatypes.Literal.Clause
 
 [type:Literal]: # (Datatypes.Literal)
 
@@ -5291,7 +5289,7 @@ A `clause` defines the way multiple `literals` should be queried together.
 
 ***
 
-## Datatypes.Literal.Field
+### Datatypes.Literal.Field
 
 [type:Option]: # (Datatypes.Literal.Field.Option)
 
@@ -5408,7 +5406,7 @@ Then the order of the config should look like this:
 
 ***
 
-## Datatypes.Literal.Field.Option
+#### Datatypes.Literal.Field.Option
 A selectable option for a queryable parameter.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -5483,7 +5481,7 @@ If both are defined `restLayerId` is used.
 
 ***
 
-## Datatypes.RequestConfig.LikeFilter
+### Datatypes.RequestConfig.LikeFilter
 Values inside a filter for a WFS service can be compared with an `equal` or a `like`.
 If the comparison should be with a `like` then the filter needs additional properties. These may vary in value and property definition.
 For the documentation, it is assumed that the properties are called `wildCard`, `singleChar` and `escapeChar`; variations like e.g. `single` and `escape` are possible and need to be configured in line with the service. All key-value pairs are used in the request as given.
@@ -5508,7 +5506,7 @@ In this example case, the key for `escapeChar` deviates.
 
 ***
 
-## Datatypes.RequestConfig.Gazetteer
+### Datatypes.RequestConfig.Gazetteer
 Parameters that are exclusively needed for using a WFS-G (Gazetteer).
 
 |Name|Required|Type|Default|Description|Expert|

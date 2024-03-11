@@ -120,8 +120,8 @@ Controls können in der config.json in die Ebene "expandable" verschachtelt werd
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|backForward|nein|**[backForward](#markdown-header-portalconfigcontrolsbackforward)**|false|Zeigt Buttons zur Steuerung der letzten und nächsten Kartenansichten an.|false|
-|button3d|nein|**[button3d](#markdown-header-portalconfigcontrolsbutton3d)**|false|Legt fest, ob ein Button für die Umschaltung in den 3D Modus angezeigt werden soll.|false|
+|backForward|nein|Boolean/**[backForward](#markdown-header-portalconfigcontrolsbackforward)**|false|Zeigt Buttons zur Steuerung der letzten und nächsten Kartenansichten an.|false|
+|button3d|nein|Boolean/**[button3d](#markdown-header-portalconfigcontrolsbutton3d)**|false|Legt fest, ob ein Button für die Umschaltung in den 3D Modus angezeigt werden soll.|false|
 |expandable|nein|Boolean||Mit expandable werden Controls hinter einem Button mit drei Punkten versteckt und lassen sich bei Bedarf aufklappen.|false|
 |freeze|nein|Boolean/**[freeze](#markdown-header-portalconfigcontrolsfreeze)**|false|Legt fest, ob ein "Ansicht sperren" Button angezeigt werden soll.|false|
 |fullScreen|nein|Boolean/**[fullScreen](#markdown-header-portalconfigcontrolsfullscreen)**|false|Ermöglicht dem User die Darstellung im Vollbildmodus (ohne Tabs und Adressleiste) per Klick auf den Button. Ein erneuter Klick auf den Button wechselt wieder in den normalen Modus.|false|
@@ -536,7 +536,7 @@ Bei allen GFI-Abfragen, außer dem direkten Beziehen von HTML, welches durch das
 |highlightVectorRules|nein|**[highlightVectorRules](#markdown-header-portalconfiggetfeatureinfohighlightvectorrules)**||Regeldefinitionen zum Überschreiben des Stylings von abgefragten Vektordaten.|false|
 |icon|nein|String|"bi-info-circle-fill"|CSS Klasse des Icons, das vor dem GFI im Menu angezeigt wird.|false|
 |menuSide|nein|String|"secondaryMenu"|Gibt an in welchem Menü die Informationen angezeigt werden sollen.|false|
-|name|nein|String|"common:modules.getFeatureInfo.name"|Name des Moduls im Menü.|false|
+|name|ja|String|"common:modules.getFeatureInfo.name"|Name des Moduls im Menü.|false|
 
 **Beispiel einer GetFeatureInfo Konfiguration**
 
@@ -1197,11 +1197,11 @@ Mapping Objekt. Mappt die Attribute des Ergebnis Objektes auf den entsprechenden
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |coordinate|nein|String/String[]||Attribut value wird auf attribut key gemappt. Notwendig um das Ergebnis anzuzeigen.|false|
-|id|ja|String/String[]||Attribut value wird auf attribut key gemappt. Notwendig um das Ergebnis anzuzeigen.|false|
-|layerId|nein|String/String[]||Attribut value wird auf attribut key gemappt. Notwendig um das Ergebnis anzuzeigen.|false|
-|name|ja|String/String[]||Attribut value wird auf attribut key gemappt. Notwendig um das Ergebnis anzuzeigen.|false|
-|source|nein|String/String[]||Attribut value wird auf attribut key gemappt. Notwendig um das Ergebnis anzuzeigen.|false|
-|toolTip|nein|String/String[]||Attribut value wird auf attribut key gemappt. Notwendig um das Ergebnis anzuzeigen.|false|
+|id|ja|String/String[]|"id"|Attribut value wird auf attribut key gemappt. Notwendig um das Ergebnis anzuzeigen.|false|
+|layerId|ja|String/String[]||Attribut value wird auf attribut key gemappt. Notwendig um das Ergebnis anzuzeigen.|false|
+|name|ja|String/String[]|"name"|Attribut value wird auf attribut key gemappt. Notwendig um das Ergebnis anzuzeigen.|false|
+|source|ja|String/String[]|"source"|Attribut value wird auf attribut key gemappt. Notwendig um das Ergebnis anzuzeigen.|false|
+|toolTip|ja|String/String[]||Attribut value wird auf attribut key gemappt. Notwendig um das Ergebnis anzuzeigen.|false|
 
 **Beispiel**
 
@@ -1232,12 +1232,12 @@ Konfiguration des Gazetteer Suchdienstes
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |resultEvents|nein|**[resultEvents](#markdown-header-portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["setMarker", "zoomToResult"], "onHover": ["setMarker"], "buttons": ["startRouting"]}|Aktionen, die ausgeführt werden, wenn eine Interaktion, z. B. ein Hover oder ein Klick, mit einem Element der Ergebnisliste erfolgt. Folgende events sind möglich: "setMarker", "startRouting", "zoomToResult".|false|
-|searchAddress|nein|Boolean||Gibt an, ob nach Adressen gesucht werden soll.|false|
-|searchDistricts|nein|Boolean||Gibt an, ob nach Bezirken gesucht werden soll.|false|
-|searchHouseNumbers|nein|Boolean||Gibt an, ob nach Straßen und Hausnummern gesucht werden soll. |false|
-|searchParcels|nein|Boolean||Gibt an, ob nach Flurstücken gesucht werden soll.|false|
-|searchStreetKey|nein|Boolean||Gibt an, ob nach Straßenschlüsseln gesucht werden soll.|false|
-|searchStreets|nein|Boolean||Gibt an, ob nach Straßen gesucht werden soll. Vorraussetzung für **searchHouseNumbers**.|false|
+|searchAddress|nein|Boolean|false|Gibt an, ob nach Adressen gesucht werden soll.|false|
+|searchDistricts|nein|Boolean|false|Gibt an, ob nach Bezirken gesucht werden soll.|false|
+|searchHouseNumbers|nein|Boolean|false|Gibt an, ob nach Straßen und Hausnummern gesucht werden soll. |false|
+|searchParcels|nein|Boolean|false|Gibt an, ob nach Flurstücken gesucht werden soll.|false|
+|searchStreetKey|nein|Boolean|false|Gibt an, ob nach Straßenschlüsseln gesucht werden soll.|false|
+|searchStreets|nein|Boolean|false|Gibt an, ob nach Straßen gesucht werden soll. Vorraussetzung für **searchHouseNumbers**.|false|
 |serviceId|ja|String||Id des Suchdienstes. Wird aufgelöst in der **[rest-services.json](rest-services.json.de.md)**.|false|
 |showGeographicIdentifier|nein|Boolean|false|Gibt an ob das Attribut `geographicIdentifier` zur Anzeige des Suchergebnisses verwendet werden soll.|false|
 |type|ja|String|"gazetteer"|Type der Such-Schnittstelle. Definiert welche Such-Schnittstelle konfiguriert ist.|false|
@@ -1374,7 +1374,7 @@ Suche bei OpenStreetMap über Stadt, Strasse und Hausnummer. Wird nur durch Klic
 |resultEvents|nein|**[resultEvents](#markdown-header-portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["setMarker", "zoomToResult"], "onHover": ["setMarker"], "buttons": ["startRouting"]}|Aktionen, die ausgeführt werden, wenn eine Interaktion, z. B. ein Hover oder ein Klick, mit einem Element der Ergebnisliste erfolgt. Folgende events sind möglich: "setMarker", "startRouting", "zoomToResult".|false|
 |serviceId|ja|String||Gibt die ID für die URL in der **[rest-services.json](rest-services.json.de.md)** vor.|false|
 |states|nein|string|""|Kann die Namen der Bundesländer enthalten. Trenner beliebig. Eventuell auch englische Ausprägungen eintragen, da die Daten frei im OpenSourceProjekt **[OpenStreetMap](https://www.openstreetmap.org)** erfasst werden können.|false|
-|type|ja|String|"gazetteer"|Type der Such-Schnittstelle. Definiert welche Such-Schnittstelle konfiguriert ist.|false|
+|type|ja|String|"osmNominatim"|Type der Such-Schnittstelle. Definiert welche Such-Schnittstelle konfiguriert ist.|false|
 
 **Beispiel**
 
@@ -1793,14 +1793,15 @@ Koordinaten-Werkzeug: um zusätzlich zu den 2 dimensionalen Koordinaten die Höh
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|coordInfo|nein|**[coordInfo](#markdown-header-portalconfigmenusectionsmodulescoordtoolkitcoordInfo)**|null|Hier kann ein Objekt mit Erläuterungen für die Koordinatenreferenzsysteme hinterlegt werden.|false|
+|coordInfo|nein|**[coordInfo](#markdown-header-portalconfigmenusectionsmodulescoordtoolkitcoordInfo)**||Hier kann ein Objekt mit Erläuterungen für die Koordinatenreferenzsysteme hinterlegt werden.|false|
 |delimiter|nein|String|"Pipe-Symbol"|Trenner der Koordinaten beim Kopieren des Koordinatenpaares|false|
 |heightElementName|nein|String||Koordinatenabfrage: Der Element-Name unter dem die Höhe in dem XML gesucht wird|false|
 |heightLayerId|nein|String||Koordinatenabfrage: Id des WMS-Layers der die Höhe im XML-Format liefert. Wenn nicht definiert, dann wird keine Höhe angezeigt.|false|
-|heightLayerInfo|nein|String|null|Hier kann eine Erläuterung für die Höhe hinterlegt werden.|false|
+|heightLayerInfo|nein|String||Hier kann eine Erläuterung für die Höhe hinterlegt werden.|false|
 |heightValueBuilding|nein|String||Koordinatenabfrage: Der Wert im unter "heightElementName" definierten Element, der für eine nicht gemessene Höhe im Gebäude-Bereich vom WMS geliefert wird, es wird der internationalisierte Text "Gebäudefläche, keine Höhen vorhanden" unter dem Schlüssel "common:modules.coordToolkit.noHeightBuilding" in der Oberfläche angezeigt. Wenn dieses Attribut nicht angegeben wird, dann wird der Text, den das WMS liefert angezeigt.|false|
 |heightValueWater|nein|String||Koordinatenabfrage: Der Wert im unter "heightElementName" definierten Element, der für eine nicht gemessene Höhe im Wasser-Bereich vom WMS geliefert wird, es wird der internationalisierte Text "Gewässerfläche, keine Höhen vorhanden" unter dem Schlüssel "common:modules.coordToolkit.noHeightWater" in der Oberfläche angezeigt. Wenn dieses Attribut nicht angegeben wird, dann wird der Text, den das WMS liefert angezeigt.|false|
-
+|icon|no|String|"bi-globe"|Das Icon, das im Button für das Modul gezeigt wird. Hier eine Auswahl **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
+|name|no|String|"common:modules.coordToolkit.name"|Name des Moduls im Menu.|false|
 |showCopyButtons|nein|Boolean|true|Schalter um die Buttons zum Kopieren der Koordinaten anzuzeigen oder auszublenden.|false|
 |type|nein|String|"coordToolkit"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
 |zoomLevel|nein|Number|7|Koordinatensuche: Gibt an, auf welches ZoomLevel gezoomt werden soll.|false|
@@ -1832,7 +1833,7 @@ Koordinaten-Werkzeug: um zusätzlich zu den 2 dimensionalen Koordinaten die Höh
 
 ###### portalConfig.menu.sections.modules.coordToolkit.coordInfo
 
-[inherits]: # (portalConfig.menu.sections.modules)
+[inherits]: # (portalConfig.menu.sections.modules.coordToolkit)
 [type:Explanations]: # (Datatypes.Explanations)
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -2150,7 +2151,7 @@ Beispiel für eine vollständig veränderte Konfiguration des `filterGeometrySel
 
 #### portalConfig.menu.sections.modules.filter.filterLayer
 
-[type:Snippets]: # (Datatypes.Filter.Snippets)
+[type:Snippets]: # (Datatypes.Snippets)
 
 Die Konfiguration eines Layers.
 
@@ -3010,8 +3011,8 @@ Angabe der Linienfarbe und -breite für Linien Features und der Füllfarbe und S
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |fill|nein|**[Fill](#markdown-header-datatypesfill)**|[255, 255, 255, 0.5]|Mögliche Einstellung: color|false|
-|image|nein|**[Image](#markdown-header-datatypesimage)**|1.5|Mögliche Einstellung: scale|false|
-|stroke|nein|**[Stroke](#markdown-header-datatypesstroke)**|1|Mögliche Einstellung: width|false|
+|stroke|nein|**[Stroke](#markdown-header-datatypesstroke)**|1.5|Mögliche Einstellung: width|false|
+|image|nein|**[Image](#markdown-header-datatypesimage)**|1|Mögliche Einstellung: scale|false|
 |zoomLevel|nein|Integer|7|Zoomstufe, mögliche Einstellung: 0-9|false|
 
 ***
@@ -3821,6 +3822,9 @@ Neben diesen Attributen gibt es auch Typ-spezifische Attribute für die verschie
 ***
 
 #### layerConfig.elements.layers.preview
+
+[inherits]: # (layerConfig.elements.layers)
+
 Vorschau für baselayer im Themenbaum, wird auch im **[baselayerSwitcher](#markdown-header-portalconfigmapbaselayerswitcher)** verwendet.
 Für die Layertypen **[VectorTile](#markdown-header-layerconfigelementslayersvectortile)**, **[WMS](#markdown-header-layerconfigelementslayersrasterwms)** und WMTS.
 Beim VectorTile-Layer wird ein abgelegtes Vorschaubild angezeigt, bei WMS- und WMTS-Layern wird ein Kartenausschnitt geladen. WMS und WMTS: bei keiner Angabe, wird ein zentrierter Kartenausschnitt geladen. Eine detaillierte Beschreibung ist in der Dokumentation **[LayerPreview](./vueComponents/LayerPreview.md)**
@@ -4135,7 +4139,7 @@ Hier werden Tileset typische Attribute aufgelistet.
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|--------|----|-------|-----------|------|
 |hiddenFeatures|nein|String[]|[]|Liste mit IDs, die in der Ebene versteckt werden sollen|true|
-|**[cesium3DTilesetOptions](https://cesiumjs.org/Cesium/Build/Documentation/Cesium3DTileset.html)**|nein|**[cesium3DTilesetOption](#markdown-header-layerconfigelementslayerstilesetcesium3dtilesetoption)**||Cesium 3D Tileset Options, werden direkt an das Cesium Tileset Objekt durchgereicht. maximumScreenSpaceError ist z.B. für die Sichtweite relevant.|true|
+|**[cesium3DTilesetOption](https://cesiumjs.org/Cesium/Build/Documentation/Cesium3DTileset.html)**|nein|**[cesium3DTilesetOption](#markdown-header-layerconfigelementslayerstilesetcesium3dtilesetoption)**||Cesium 3D Tileset Options, werden direkt an das Cesium Tileset Objekt durchgereicht. maximumScreenSpaceError ist z.B. für die Sichtweite relevant.|true|
 
 **Beispiel**
 
@@ -4181,7 +4185,7 @@ Hier werden Terrain typische Attribute aufgelistet.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|--------|----|-------|-----------|------|
-|**[cesiumTerrainProviderOptions](https://cesiumjs.org/Cesium/Build/Documentation/CesiumTerrainProvider.html)**|nein|**[cesiumTerrainProviderOption](#markdown-header-layerconfigelementslayersterraincesiumterrainprovideroption)**[]||Cesium TerrainProvider Options, werden direkt an den Cesium TerrainProvider durchgereicht. requestVertexNormals ist z.B. für das Shading auf der Oberfläche relevant.|true|
+|**[cesiumTerrainProviderOption](https://cesiumjs.org/Cesium/Build/Documentation/CesiumTerrainProvider.html)**|nein|**[cesiumTerrainProviderOption](#markdown-header-layerconfigelementslayersterraincesiumterrainprovideroption)**[]||Cesium TerrainProvider Options, werden direkt an den Cesium TerrainProvider durchgereicht. requestVertexNormals ist z.B. für das Shading auf der Oberfläche relevant.|true|
 
 **Beispiel**
 
@@ -4356,8 +4360,8 @@ Die Umrandung eines Elements. Es besteht aus einem Objekt mit einem Array in dem
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|color|nein|Float[]|[255, 255, 255, 0.5]|Mögliche Einstellung: color (RGBA)|false|
 |width|nein|Integer||Mögliche Einstellung: width|false|
+|color|nein|Float[]|[255, 255, 255, 0.5]|Mögliche Einstellung: color (RGBA)|false|
 
 ```json
 "stroke": {
@@ -4382,7 +4386,7 @@ Die Umrandung eines Elements. Es besteht aus einem Objekt mit einem Array in dem
 
 ***
 
-## Datatypes.Filter.Snippets
+## Datatypes.Snippets
 
 [type:Children]: # (Datatypes.Snippets.Children)
 [type:LocaleCompareParams]: # (Datatypes.Snippets.LocaleCompareParams)
@@ -4390,7 +4394,7 @@ Die Umrandung eines Elements. Es besteht aus einem Objekt mit einem Array in dem
 [type:Timeouts]: # (Datatypes.Snippets.Timeouts)
 [type:UniversalSearch]: # (Datatypes.Snippets.UniversalSearch)
 [type:BeautifiedAttrName]: # (Datatypes.Snippets.BeautifiedAttrName)
-[type:adjustOnlyFromParent]: # (Datatypes.Snippets.adjustOnlyFromParent)
+[type:ChartConfig]: # (Datatypes.Snippets.ChartConfig)
 
 Ein Objekt im Filter das ein einzelnes Snippet beschreibt.
 
@@ -4430,7 +4434,7 @@ Hinweis: Zeitbezogene Snippets (`date` und `dateRange`) können nur dann im Modu
 |beautifiedAttrName|nein|**[BeautifiedAttrName](#markdown-header-datatypessnippetsbeautifiedattrname)**||Nur für Snippet-Typ `featureInfo`: Zum Überschreiben der Attributnamen, die im Steckbrief angezeigt werden.|false|
 |adjustOnlyFromParent|nein|Boolean|false|Nur für Snippet-Typ `dropdown`: Wenn true, wird es nur vom Parent-Snippet nachjustiert.|false|
 |allowEmptySelection|nein|Boolean|true|Nur für Snippet-Typ `dropdown`: Wird `true` gesetzt, können alle ausgewählten Werte im Dropdown wieder abgewählt werden. Auf `false` setzen, wenn immer ein Wert ausgewählt bleiben soll.|false|
-|chartConfig|ja|[chartConfig](#markdown-header-datatypessnippetschartconfig)||Nur für Snippet-Typ `chart` im Zusammenspiel mit 'service' (siehe Beispiel): Die Konfiguraiton für das Diagramm. Es werden alle Konfigurationsmöglichkeiten (bisher nur "type: bar") von Chart.js unterstützt (siehe: https://www.chartjs.org/docs/latest/configuration/). Zusätzlich ist die Angabe des Parameters 'featureAttributes' erforderlich. Der Parameter gibt an, hinter welchen Attributen sich die anzuzeigenden Daten befinden (siehe Beispiel).|false|
+|chartConfig|ja|**[chartConfig](#markdown-header-datatypessnippetschartconfig)**||Nur für Snippet-Typ `chart` im Zusammenspiel mit 'service' (siehe Beispiel): Die Konfiguraiton für das Diagramm. Es werden alle Konfigurationsmöglichkeiten (bisher nur "type: bar") von Chart.js unterstützt (siehe: https://www.chartjs.org/docs/latest/configuration/). Zusätzlich ist die Angabe des Parameters 'featureAttributes' erforderlich. Der Parameter gibt an, hinter welchen Attributen sich die anzuzeigenden Daten befinden (siehe Beispiel).|false|
 |alternativeTextForEmptyChart|nein|String||Alternativtext, der bei Snippet-Typ `chart` anstelle des Diagramms angezeigt wird, sofern es keine Werte enthält.|false|
 |infoText|nein|String|false|Nur für Snippet-Typ `chart`: Info-Text zu diesem Snippet. |false|
 
@@ -4838,9 +4842,9 @@ Die Konfiguration hängt vom Typ des Services ab.
 ```
 
 ***
-#### Portalconfig.menu.tool.filter.filterLayer.snippets.chartConfig
+### Datatypes.Snippets.ChartConfig
 
-Ein Objekt, das ein Diagramm beschreibt. Für weitere informationen [hier](https://www.chartjs.org/docs/latest/configuration/) klicken.
+Ein Objekt, das ein Diagramm beschreibt. Für weitere informationen **[hier](https://www.chartjs.org/docs/latest/configuration/)** klicken.
 
 **Example**
 
@@ -5243,7 +5247,7 @@ Zu beachten ist jedoch, dass ein Feld innerhalb einer Klausel verpackt sein muss
 
 ***
 
-## Datatypes.Literal.Clause
+### Datatypes.Literal.Clause
 
 [type:Literal]: # (Datatypes.Literal)
 
@@ -5284,7 +5288,7 @@ Eine Klausel (`clause`) definiert die Art und Weise wie verschiedene `literals` 
 
 ***
 
-## Datatypes.Literal.Field
+### Datatypes.Literal.Field
 
 [type:Option]: # (Datatypes.Literal.Field.Option)
 
@@ -5401,7 +5405,7 @@ In diesem Fall sollte die Reihenfolge in der Konfiguration wie folgt aussehen:
 
 ***
 
-## Datatypes.Literal.Field.Option
+#### Datatypes.Literal.Field.Option
 Eine auswählbare Option für einen anzufragenden Parameter.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -5476,7 +5480,7 @@ Falls beide Parameter gesetzt wurden, dann wird `restLayerId` verwendet.
 
 ***
 
-## Datatypes.RequestConfig.LikeFilter
+### Datatypes.RequestConfig.LikeFilter
 Innerhalb eines Filters für einen WFS-Dienst können Werte mit einem `equal` oder einem `like` verglichen werden.
 Wenn der Vergleich mit einem `like` durchgeführt werden soll, dann werden weitere Eigenschaften benötigt. Diese können sowohl im Wert, als auch in der Eigenschaftsdefinition variieren.
 Es wird für die Dokumentation angenommen, dass die Eigenschaften `wildCard`, `singleChar` und `escapeChar` heißen; Variationen wie `single` und `escape` sind jedoch auch möglich und müssen dem Dienst entsprechend für den Filter angegeben werden. Die Schlüssel-Wert-Paare des hier übergebenen Objekts werden immer wie angegeben in den Request übertragen.
@@ -5501,7 +5505,7 @@ In diesem Beispiel weicht der Key für `escapeChar` ab.
 
 ***
 
-## Datatypes.RequestConfig.Gazetteer
+### Datatypes.RequestConfig.Gazetteer
 Parameter, welche exklusiv für die Verwendung eines WFS-G (Gazetteer) benötigt werden.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
