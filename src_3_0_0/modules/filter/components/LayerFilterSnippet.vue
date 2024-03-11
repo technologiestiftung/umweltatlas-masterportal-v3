@@ -1414,6 +1414,7 @@ export default {
                             :api="getSnippetApi(snippet)"
                             :filtered-items="filteredItems"
                             :chart-config="snippet.chartConfig"
+                            :alternative-text-for-empty-chart="snippet.alternativeTextForEmptyChart"
                         />
                     </AccordionItem>
                 </div>

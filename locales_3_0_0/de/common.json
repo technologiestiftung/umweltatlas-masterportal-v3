@@ -359,6 +359,9 @@
         "confirm": "Bestätigen",
         "stop": "Abbrechen"
       },
+      "chart": {
+        "speciesCadastreAlternativeText": "Für diese Art liegen bislang noch keine tagesaktuellen Beobachtungen vor."
+      },
       "download": {
         "enterFilename": "Bitte Dateiname angeben",
         "filename": "Dateiname",

@@ -359,6 +359,9 @@
         "confirm": "Confirm",
         "stop": "Stop"
       },
+      "chart": {
+        "speciesCadastreAlternativeText": "Observation data including month of observation are not yet available for this species."
+      },
       "download": {
         "enterFilename": "Please enter filename",
         "filename": "Filename",

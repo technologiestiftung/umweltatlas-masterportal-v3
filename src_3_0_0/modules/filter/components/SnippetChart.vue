@@ -5,10 +5,13 @@ import BarchartItem from "../../../shared/modules/charts/components/BarchartItem
 /**
 * Snippet Chart
 * @module modules/SnippetChart
+* @vue-data {Boolean} isVisible - true if the component should be rendered.
+* @vue-data {Boolean} isEmpty - true if the data contain only zeroes or no data available.
 * @vue-prop {Object} api - The api.
 * @vue-prop {String|Boolean} title - The title of the chart.
 * @vue-prop {Array} filteredItems - The list of filtered items (ol features).
 * @vue-prop {Object} chartConfig - The config for the chart.
+* @vue-prop {String} alternativeTextForEmptyChart - The text to show if the chart is empty.
 */
 export default {
     name: "SnippetChart",
@@ -26,6 +29,11 @@ export default {
             required: false,
             default: true
         },
+        alternativeTextForEmptyChart: {
+            type: String,
+            required: false,
+            default: ""
+        },
         filteredItems: {
             type: Array,
             required: false,
@@ -38,7 +46,8 @@ export default {
     },
     data () {
         return {
-            isVisible: false
+            isVisible: false,
+            isEmpty: false
         };
     },
     computed: {
@@ -47,12 +56,16 @@ export default {
                 return translateKeyWithPlausibilityCheck(this.title, key => this.$t(key));
             }
             return "";
+        },
+        alternativeText () {
+            return translateKeyWithPlausibilityCheck(this.alternativeTextForEmptyChart, key => this.$t(key));
         }
     },
     watch: {
         filteredItems: {
             handler (items) {
                 this.isVisible = false;
+                this.isEmpty = true;
                 if (items.length && this.api !== null) {
                     this.api.filter({
                         rules: [{
@@ -66,6 +79,7 @@ export default {
                         console.warn(error);
                     });
                 }
+                this.isVisible = true;
             },
             deep: true
         }
@@ -86,9 +100,11 @@ export default {
 
                     dataset.featureAttributes.forEach(attr => {
                         dataset.data.push(feature.get(attr));
+                        if (this.isEmpty && feature.get(attr) > 0) {
+                            this.isEmpty = false;
+                        }
                     });
                 });
-                this.isVisible = true;
             }
         }
 
@@ -104,9 +120,14 @@ export default {
             {{ titleText }}
         </h6>
         <BarchartItem
-            v-if="chartConfig.type === 'bar'"
+            v-if="chartConfig.type === 'bar' && !isEmpty"
             :given-options="chartConfig.options"
             :data="chartConfig.data"
         />
+        <span
+            v-if="isEmpty"
+        >
+            {{ alternativeText }}
+        </span>
     </div>
 </template>

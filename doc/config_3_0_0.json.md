@@ -4431,6 +4431,7 @@ Note: Time-related snippets (`date` and `dateRange`) can only be operated in `ex
 |adjustOnlyFromParent|no|Boolean|false|For type `dropdown` only: If true, only adjusted from parent snippet.|false|
 |allowEmptySelection|no|Boolean|true|For type `dropdown` only: If `true` allows to remove all selected values. If `false` one value must be left selected.|false|
 |chartConfig|yes|[chartConfig](#markdown-header-datatypessnippetschartconfig)||Only for snippet type 'chart' in combination with 'service' (see example): The configuration for the chart. All configuration options (previously only "type: bar") of Chart.js are supported (see: https://www.chartjs.org/docs/latest/configuration/). The 'featureAttributes' parameter must also be specified. The parameter specifies the attributes behind which the data to be displayed is located (see example).|false|
+|alternativeTextForEmptyChart|nein|String||Alternative text for snippet type `chart` that can be displayed instead of a chart.|false|
 
 **Example**
 

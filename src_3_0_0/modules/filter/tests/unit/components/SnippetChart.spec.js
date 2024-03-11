@@ -56,6 +56,21 @@ describe("src_3_0_0/modules/filter/components/SnippetChart.vue", () => {
             expect(wrapper.findComponent({name: "BarchartItem"}).exists()).to.be.true;
         });
 
+        it("should render alternative text if isEmpty is true", async () => {
+            const wrapper = shallowMount(SnippetChart, {
+                props: {
+                    chartConfig
+                }
+            });
+
+            await wrapper.setData({
+                isVisible: true,
+                isEmpty: true
+            });
+            expect(wrapper.findComponent({name: "BarchartItem"}).exists()).to.be.false;
+            expect(wrapper.find("span").exists()).to.be.true;
+        });
+
         it("should not render a chart if the type is not 'bar'", async () => {
             const wrapper = shallowMount(SnippetChart, {
                 props: {
@@ -81,7 +96,7 @@ describe("src_3_0_0/modules/filter/components/SnippetChart.vue", () => {
     });
 
     describe("Watcher", () => {
-        it("should set 'isVisible' to false if 'filterItems' change", async () => {
+        it("should set 'isEmpty' to true if 'filterItems' change", async () => {
             const wrapper = shallowMount(SnippetChart, {
                 props: {
                     chartConfig,
@@ -89,7 +104,7 @@ describe("src_3_0_0/modules/filter/components/SnippetChart.vue", () => {
                 },
                 data () {
                     return {
-                        isVisible: true
+                        isEmpty: false
                     };
                 }
             });
@@ -97,13 +112,13 @@ describe("src_3_0_0/modules/filter/components/SnippetChart.vue", () => {
             await wrapper.setProps({
                 filteredItems: []
             });
-            expect(wrapper.vm.isVisible).to.be.false;
+            expect(wrapper.vm.isEmpty).to.be.true;
         });
     });
 
     describe("Methods", () => {
         describe("addChartData", () => {
-            it("should sets the correct chart data and makes the component visible", () => {
+            it("should set the correct chart data", () => {
                 const wrapper = shallowMount(SnippetChart, {
                         props: {
                             chartConfig
@@ -117,7 +132,48 @@ describe("src_3_0_0/modules/filter/components/SnippetChart.vue", () => {
 
                 wrapper.vm.addChartData(obj);
                 expect(wrapper.vm.chartConfig.data.datasets[0].data).to.deep.equal(["foo", "bar"]);
-                expect(wrapper.vm.isVisible).to.be.true;
+            });
+
+            it("should set isEmpty to false if feature contains non-zero values", () => {
+                const wrapper = shallowMount(SnippetChart, {
+                        props: {
+                            chartConfig
+                        },
+                        data () {
+                            return {
+                                isEmpty: true
+                            };
+                        }
+                    }),
+                    obj = {
+                        items: [
+                            new Feature({foo: 0, bar: 1})
+                        ]
+                    };
+
+                wrapper.vm.addChartData(obj);
+                expect(wrapper.vm.isEmpty).to.be.false;
+            });
+
+            it("should not set isEmpty to false if feature contains only zeroes", () => {
+                const wrapper = shallowMount(SnippetChart, {
+                        props: {
+                            chartConfig
+                        },
+                        data () {
+                            return {
+                                isEmpty: true
+                            };
+                        }
+                    }),
+                    obj = {
+                        items: [
+                            new Feature({foo: 0, bar: 0})
+                        ]
+                    };
+
+                wrapper.vm.addChartData(obj);
+                expect(wrapper.vm.isEmpty).to.be.true;
             });
         });
     });
