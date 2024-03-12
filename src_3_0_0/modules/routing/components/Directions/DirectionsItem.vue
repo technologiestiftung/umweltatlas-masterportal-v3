@@ -1,8 +1,5 @@
 <script>
 import {mapGetters, mapActions, mapMutations} from "vuex";
-import getters from "../../store/directions/gettersDirections";
-import actions from "../../store/directions/actionsDirections";
-import mutations from "../../store/directions/mutationsDirections";
 import IconButton from "../../../../shared/modules/buttons/components/IconButton.vue";
 import RoutingCoordinateInput from "../RoutingCoordinateInput.vue";
 import RoutingDistanceDisplay from "../RoutingDistanceDisplay.vue";
@@ -45,7 +42,16 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Modules/Routing/Directions", Object.keys(getters)),
+        ...mapGetters("Modules/Routing/Directions", [
+            "directionsRouteSource",
+            "directionsAvoidSource",
+            "isInputDisabled",
+            "mapInteractionMode",
+            "routingAvoidFeaturesOptions",
+            "routingDirections",
+            "settings",
+            "waypoints"
+        ]),
         ...mapGetters("Modules/Routing", ["directionsSettings"]),
         /**
          * Checks if current map mode is "AVOID_AREAS"
@@ -70,8 +76,23 @@ export default {
         this.closeDirections();
     },
     methods: {
-        ...mapMutations("Modules/Routing/Directions", Object.keys(mutations)),
-        ...mapActions("Modules/Routing/Directions", Object.keys(actions)),
+        ...mapMutations("Modules/Routing/Directions", [
+            "setRoutingDirections",
+            "setMapInteractionMode"
+        ]),
+        ...mapActions("Modules/Routing/Directions", [
+            "findDirections",
+            "unHighlightRoute",
+            "highlightRoute",
+            "zoomToRoute",
+            "initDirections",
+            "createInteractionFromMapInteractionMode",
+            "closeDirections",
+            "addWaypoint",
+            "removeWaypoint",
+            "moveWaypointDown",
+            "moveWaypointUp"
+        ]),
 
         /**
          * Changes the current speed profile and requests directions after

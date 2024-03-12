@@ -2,6 +2,7 @@ import {RoutingWaypoint} from "../../js/classes/routing-waypoint";
 import {fetchRoutingOrsDirections} from "../../js/directions/routing-ors-directions";
 import Feature from "ol/Feature";
 import LineString from "ol/geom/LineString";
+import {toRaw} from "vue";
 
 export default {
     /**
@@ -267,9 +268,9 @@ export default {
             commit("setMapListenerAdded", true);
         }
 
-        dispatch("Maps/addLayer", directionsRouteLayer, {root: true});
-        dispatch("Maps/addLayer", directionsWaypointsLayer, {root: true});
-        dispatch("Maps/addLayer", directionsAvoidLayer, {root: true});
+        dispatch("Maps/addLayer", toRaw(directionsRouteLayer), {root: true});
+        dispatch("Maps/addLayer", toRaw(directionsWaypointsLayer), {root: true});
+        dispatch("Maps/addLayer", toRaw(directionsAvoidLayer), {root: true});
 
 
         dispatch("createInteractionFromMapInteractionMode");
@@ -328,9 +329,9 @@ export default {
         const {directionsWaypointsLayer, directionsRouteLayer, directionsAvoidLayer} = state,
             map = await mapCollection.getMap(rootState.Maps.mode);
 
-        map.removeLayer(directionsRouteLayer);
-        map.removeLayer(directionsWaypointsLayer);
-        map.removeLayer(directionsAvoidLayer);
+        map.removeLayer(toRaw(directionsRouteLayer));
+        map.removeLayer(toRaw(directionsWaypointsLayer));
+        map.removeLayer(toRaw(directionsAvoidLayer));
 
         dispatch("removeMapInteractions");
     },
