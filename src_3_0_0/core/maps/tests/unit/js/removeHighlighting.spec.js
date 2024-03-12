@@ -1,58 +1,58 @@
-// import {expect} from "chai";
-import Feature from "ol/Feature";
+import {expect} from "chai";
 import sinon from "sinon";
-
 import {removeHighlightFeature} from "../../../js/removeHighlighting";
+import Feature from "ol/Feature";
 
-describe("src_3_0_0/core/maps/js/removeHighlighting", () => {
-    describe("removeHighlightFeature", () => {
-        it("should reset highlighted feature style", function () {
-            const feature = Feature,
-                commit = sinon.spy(),
-                state = sinon.spy();
+describe("removeHighlightFeature", () => {
+    let commit, state, feature, anotherFeature;
 
-            removeHighlightFeature({commit, state}, feature);
-        });
-    });
-/*
-    describe("highlightPolygon", () => {
-        it("should highlight a polygon feature", function () {
-            const highlightObject = {
-                feature: "..."
-            };
+    beforeEach(() => {
+        commit = sinon.spy();
+        state = {
+            highlightedFeatures: [],
+            highlightedFeatureStyles: []
+        };
 
-            expect(highlightFeature.highlightPolygon(commit, dispatch, highlightObject));
-        });
+        feature = new Feature();
+        anotherFeature = new Feature();
+        state.highlightedFeatures.push(feature, anotherFeature);
+        state.highlightedFeatureStyles.push(function () { /* empty on purpose */ }, function () { /* empty on purpose */ });
+
     });
 
-    describe("highlightLine", () => {
-        it("should highlight a line feature", function () {
-
-        });
+    afterEach(() => {
+        sinon.restore();
     });
 
-    describe("highlightViaParametricUrl", () => {
-        it("should highlight a feature via layerid and featureid", function () {
+    it("should remove a single highlighted feature", async () => {
+        state.highlightedFeatures = [feature];
+        state.highlightedFeatureStyles = [sinon.stub()];
 
-        });
+        await removeHighlightFeature({commit, state}, feature);
+
+        expect(commit.calledWith("setHighlightedFeatureStyles", [])).to.be.true;
+        expect(commit.calledWith("setHighlightedFeatures", [])).to.be.true;
     });
 
-    describe("getHighlightFeature", () => {
-        it("should search the feature which shall be highlighted", function () {
+    it("should remove all highlighted features if no feature is specified", async () => {
+        state.highlightedFeatures = [];
+        state.highlightedFeatureStyles = [];
 
-        });
+        await removeHighlightFeature({commit, state});
+
+        expect(commit.calledWith("setHighlightedFeatures", [])).to.be.true;
+        expect(commit.calledWith("setHighlightedFeatureStyles", [])).to.be.true;
+        expect(state.highlightedFeatures).to.be.empty;
+        expect(state.highlightedFeatureStyles).to.be.empty;
     });
 
-    describe("increaseFeature", () => {
-        it("should increase the icon of the feature", function () {
+    it("should not modify state if the specified feature is not highlighted", async () => {
+        const notHighlightedFeature = new Feature();
 
-        });
+        await removeHighlightFeature({commit, state}, notHighlightedFeature);
+
+        expect(state.highlightedFeatures.length).to.equal(2);
+        expect(state.highlightedFeatureStyles.length).to.equal(2);
+        expect(commit.called).to.be.false;
     });
-
-    describe("styleObject", () => {
-        it("should get style via styleList", function () {
-
-        });
-    });
-    */
 });
