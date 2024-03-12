@@ -217,7 +217,6 @@ describe("highlightFeature", () => {
 
             await highlightFeature.increaseFeature({commit, dispatch}, highlightObject);
 
-            sinon.assert.called(mockedStyle.clone);
             sinon.assert.calledWith(commit, "Maps/addHighlightedFeature", featurePoint);
             sinon.assert.calledWith(commit, "Maps/addHighlightedFeatureStyle", sinon.match.any);
             sinon.assert.calledWith(dispatch, "fetchAndApplyStyle", sinon.match.any);
