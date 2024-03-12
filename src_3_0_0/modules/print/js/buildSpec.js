@@ -6,6 +6,7 @@ import Geometry from "ol/geom/Geometry";
 import {Point} from "ol/geom.js";
 import Icon from "ol/style/Icon";
 import {fromCircle} from "ol/geom/Polygon.js";
+import CircleStyle from "ol/style/Circle";
 import VectorTileLayer from "ol/layer/VectorTile";
 import StaticImageSource from "ol/source/ImageStatic.js";
 import {convertColor} from "../../../shared/js/utils/convertColor";
@@ -931,10 +932,10 @@ const BuildSpecModel = {
      * @returns {Object} - Point Style for mapfish print.
      */
     buildPointStyle: function (style, layer) {
-        if (style.getImage()?.constructor?.name === "CircleStyle") {
+        if (style.getImage() instanceof CircleStyle) {
             return this.buildPointStyleCircle(style.getImage());
         }
-        else if (style.getImage()?.constructor?.name === "Icon" && style.getImage().getScale() > 0) {
+        else if (style.getImage() instanceof Icon && style.getImage().getScale() > 0) {
             return this.buildPointStyleIcon(style.getImage(), layer);
         }
         return this.buildTextStyle(style.getText());
@@ -1399,7 +1400,7 @@ const BuildSpecModel = {
             }
             else {
                 legendObj.legendType = "wfsImage";
-                legendObj.imageUrl = graphic;
+                legendObj.imageUrl = this.buildGraphicPath(graphic);
             }
             if (typeof legendObj.color !== "undefined") {
                 valuesArray.push(legendObj);

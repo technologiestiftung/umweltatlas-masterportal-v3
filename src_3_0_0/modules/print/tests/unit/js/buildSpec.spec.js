@@ -16,6 +16,8 @@ import layerCollection from "../../../../../core/layers/js/layerCollection";
 import sinon from "sinon";
 import BuildSpec from "../../../js/buildSpec";
 import Circle from "ol/geom/Circle.js";
+import CircleStyle from "ol/style/Circle";
+import IconStyle from "ol/style/Icon";
 
 describe("src_3_0_0/modules/print/js/buildSpec", function () {
     let buildSpec,
@@ -33,11 +35,7 @@ describe("src_3_0_0/modules/print/js/buildSpec", function () {
                 };
             },
             getImage: () => {
-                return {
-                    constructor: {
-                        name: "CircleStyle"
-                    }
-                };
+                return new CircleStyle();
             }
         },
         localWindow,
@@ -60,6 +58,7 @@ describe("src_3_0_0/modules/print/js/buildSpec", function () {
                 }
             }
         },
+        originWindow = window,
         originalStyle = style;
 
     before(() => {
@@ -77,6 +76,7 @@ describe("src_3_0_0/modules/print/js/buildSpec", function () {
         multiPolygonFeatures = createTestFeatures("resources/testFeaturesBplanMultiPolygon.xml");
         lineStringFeatures = createTestFeatures("resources/testFeaturesVerkehrsnetzLineString.xml");
         multiLineStringFeatures = createTestFeatures("resources/testFeaturesVeloroutenMultiLineString.xml");
+        global.window = {location: {origin: "https://example.com", href: "https://example.com/portal/path/"}};
     });
 
     beforeEach(() => {
@@ -93,6 +93,9 @@ describe("src_3_0_0/modules/print/js/buildSpec", function () {
         style = originalStyle;
         sinon.restore();
         global.window = localWindow;
+    });
+    after(() => {
+        global.window = originWindow;
     });
 
     describe("parseAddressToString", function () {
@@ -229,7 +232,10 @@ describe("src_3_0_0/modules/print/js/buildSpec", function () {
             const legend = [
                 "SomeGetLegendGraphicRequest",
                 "<svg some really short svg with fill:rgb(255,0,0);></svg>",
-                "barfoo.png"
+                "barfoo.png",
+                "./barfoo.png",
+                "../barfoo.png",
+                "/barfoo.png"
             ];
 
             expect(buildSpec.prepareLegendAttributes(legend)).to.deep.equal([
@@ -250,7 +256,28 @@ describe("src_3_0_0/modules/print/js/buildSpec", function () {
                 {
                     legendType: "wfsImage",
                     geometryType: "",
-                    imageUrl: "barfoo.png",
+                    imageUrl: "https://example.com/lgv-config/img//barfoo.png",
+                    color: "",
+                    label: undefined
+                },
+                {
+                    legendType: "wfsImage",
+                    geometryType: "",
+                    imageUrl: "https://example.com/portal/path/barfoo.png",
+                    color: "",
+                    label: undefined
+                },
+                {
+                    legendType: "wfsImage",
+                    geometryType: "",
+                    imageUrl: "https://example.com/portal/barfoo.png",
+                    color: "",
+                    label: undefined
+                },
+                {
+                    legendType: "wfsImage",
+                    geometryType: "",
+                    imageUrl: "https://example.com/barfoo.png",
                     color: "",
                     label: undefined
                 }
@@ -269,6 +296,18 @@ describe("src_3_0_0/modules/print/js/buildSpec", function () {
                 {
                     graphic: "barfoo.png",
                     name: "name_WFS_Image"
+                },
+                {
+                    graphic: "./barfoo.png",
+                    name: "name_WFS_Image_relative"
+                },
+                {
+                    graphic: "../barfoo.png",
+                    name: "name_WFS_Image_parent"
+                },
+                {
+                    graphic: "/barfoo.png",
+                    name: "name_WFS_Image_absolute"
                 }];
 
             expect(buildSpec.prepareLegendAttributes(legend)).to.deep.equal([
@@ -289,9 +328,30 @@ describe("src_3_0_0/modules/print/js/buildSpec", function () {
                 {
                     legendType: "wfsImage",
                     geometryType: "",
-                    imageUrl: "barfoo.png",
+                    imageUrl: "https://example.com/lgv-config/img//barfoo.png",
                     color: "",
                     label: "name_WFS_Image"
+                },
+                {
+                    legendType: "wfsImage",
+                    geometryType: "",
+                    imageUrl: "https://example.com/portal/path/barfoo.png",
+                    color: "",
+                    label: "name_WFS_Image_relative"
+                },
+                {
+                    legendType: "wfsImage",
+                    geometryType: "",
+                    imageUrl: "https://example.com/portal/barfoo.png",
+                    color: "",
+                    label: "name_WFS_Image_parent"
+                },
+                {
+                    legendType: "wfsImage",
+                    geometryType: "",
+                    imageUrl: "https://example.com/barfoo.png",
+                    color: "",
+                    label: "name_WFS_Image_absolute"
                 }
             ]);
         });
@@ -1121,14 +1181,9 @@ describe("src_3_0_0/modules/print/js/buildSpec", function () {
         it("should return circle point style if image name is pointStyleIcon", function () {
             style = {
                 getImage: () => {
-                    return {
-                        constructor: {
-                            name: "Icon"
-                        },
-                        getScale: () => {
-                            return 1;
-                        }
-                    };
+                    return new IconStyle({
+                        src: "https://example.com"
+                    });
                 }
             };
             sinon.stub(buildSpec, "buildPointStyleIcon").returns("Icon");
