@@ -4,6 +4,16 @@ import layerCollection from "../../layers/js/layerCollection";
 import {nextTick} from "vue";
 
 export default {
+    /**
+     * Determines the appropriate action to highlight a feature based on the type specified in the highlightObject.
+     * This function acts as a dispatcher that delegates the highlighting task to specific functions based on the type.
+     *
+     * @param {Object} context - The Vuex action context, which includes dispatch among other properties.
+     * @param {Object} highlightObject - An object containing information on how the feature should be highlighted.
+     * @param {string} highlightObject.type - The type of highlighting action to perform. This determines which highlighting function will be called.
+     * @param {Array} [highlightObject.layerIdAndFeatureId] - An optional array containing layer ID and feature ID, used when type is 'viaLayerIdAndFeatureId'.
+     * @returns {void}
+     */
     highlightFeature ({dispatch}, highlightObject) {
         switch (highlightObject.type) {
             case "increase":
@@ -23,10 +33,20 @@ export default {
                 break;
         }
     },
-    highlightPolygon ({commit, dispatch}, highlightObject) {
+    /**
+     * Highlights a polygon feature based on the provided highlightObject. This function can either apply a new style to the feature or place a marker on it, depending on the presence of a highlightStyle within the highlightObject.
+     *
+     * @param {Object} context - The Vuex action context, which includes commit and dispatch among other properties.
+     * @param {Object} highlightObject - An object containing information on how the polygon feature should be highlighted.
+     * @param {Object} [highlightObject.highlightStyle] - An optional style object to apply to the feature. If not provided, a default marker will be placed on the feature.
+     * @param {ol/Feature} highlightObject.feature - The OpenLayers feature object representing the polygon to be highlighted.
+     * @returns {void}
+     */
+    async highlightPolygon ({commit, dispatch}, highlightObject) {
         const newStyle = highlightObject.highlightStyle,
             feature = highlightObject.feature,
-            originalStyle = styleObject(highlightObject, feature) || undefined;
+            styleObjectPayload = {highlightObject, feature},
+            originalStyle = await dispatch("fetchAndApplyStyle", styleObjectPayload) || undefined;
 
         if (originalStyle) {
             const clonedStyle = Array.isArray(originalStyle) ? originalStyle[0].clone() : originalStyle.clone();
@@ -49,10 +69,22 @@ export default {
             dispatch("Maps/placingPolygonMarker", feature, {root: true});
         }
     },
-    highlightLine ({commit, dispatch}, highlightObject) {
+
+    /**
+     * Applies highlighting to a line feature. Similar to highlightPolygon, it clones and applies a provided custom style to the feature if available.
+     * If no custom style is provided, it dispatches an action to place a default line marker.
+     *
+     * @param {Object} context - The Vuex action context, which includes commit and dispatch methods among others.
+     * @param {Object} highlightObject - An object containing information on how the line feature should be highlighted.
+     * @param {Object} [highlightObject.highlightStyle] - An optional style object to apply to the line feature.
+     * @param {Object} highlightObject.feature - The line feature to be highlighted.
+     * @returns {void}
+     */
+    async highlightLine ({commit, dispatch}, highlightObject) {
         const newStyle = highlightObject.highlightStyle,
             feature = highlightObject.feature,
-            originalStyle = styleObject(highlightObject, feature) || undefined;
+            styleObjectPayload = {highlightObject, feature},
+            originalStyle = await dispatch("fetchAndApplyStyle", styleObjectPayload) || undefined;
 
         if (originalStyle) {
             const clonedStyle = Array.isArray(originalStyle) ? originalStyle[0].clone() : originalStyle.clone();
@@ -83,7 +115,8 @@ export default {
      */
     async highlightViaParametricUrl ({dispatch}, layerIdAndFeatureId) {
         if (layerIdAndFeatureId) {
-            const feature = await getHighlightFeature(layerIdAndFeatureId[0], layerIdAndFeatureId[1]);
+            const getHighlightFeaturePayload = {layerId: layerIdAndFeatureId[0], featureId: layerIdAndFeatureId[1]},
+                feature = await dispatch("getHighlightFeature", getHighlightFeaturePayload);
 
             if (feature) {
                 dispatch("Maps/placingPolygonMarker", feature, {root: true});
@@ -92,18 +125,29 @@ export default {
     },
 
     /**
- * increases the icon of the feature
- * @param {Function} commit commit function
- * @param {Object} highlightObject contains several parameters for feature highlighting
- * @returns {void}
- */
-    increaseFeature ({commit}, highlightObject) {
+     * increases the icon of the feature
+     * @param {Function} commit commit function
+     * @param {Object} highlightObject contains several parameters for feature highlighting
+     * @returns {void}
+     */
+    async increaseFeature ({commit, dispatch}, highlightObject) {
         const scaleFactor = highlightObject.scale ? highlightObject.scale : 1.5,
-            feature = highlightObject.feature // given already
-                ? highlightObject.feature
-                : getHighlightFeature(highlightObject.layer?.id, highlightObject.id); // get feature from layersource, incl. check against clustered features
-        let clonedStyle = styleObject(highlightObject, feature) ? styleObject(highlightObject, feature).clone() : null,
+            getHighlightFeaturePayload = {layerId: highlightObject.layer?.id, featureId: highlightObject.id},
+            styleObjectPayload = {highlightObject: highlightObject, feature: highlightObject.feature},
+            featureStyle = await dispatch("fetchAndApplyStyle", styleObjectPayload);
+
+        let feature = highlightObject.feature,
+            clonedStyle = featureStyle ? featureStyle.clone() : null,
             clonedImage = null;
+
+        if (!feature) {
+            feature = await dispatch("getHighlightFeature", getHighlightFeaturePayload);
+        }
+
+        if (!feature) {
+            console.warn(`Feature not found for layerId: ${getHighlightFeaturePayload.layerId} and featureId: ${getHighlightFeaturePayload.featureId}`);
+            return;
+        }
 
         if (!clonedStyle) {
             if (typeof feature.getStyle()?.clone === "function") {
@@ -113,6 +157,7 @@ export default {
                 clonedStyle = {...feature.getStyle()};
             }
         }
+
         clonedImage = clonedStyle && typeof clonedStyle.getImage === "function" ? clonedStyle.getImage() : undefined;
 
         if (clonedImage) {
@@ -129,59 +174,71 @@ export default {
             }
             feature.setStyle(clonedStyle);
         }
+    },
+
+    /**
+     * Asynchronously retrieves a feature by its layer ID and feature ID from the specified layer source.
+     * If the layer's features are not yet loaded, it waits for the 'featuresloadend' event before attempting to find the feature again.
+     *
+     * @param {Object} context - The Vuex action context.
+     * @param {Object} payload - The payload containing the layer ID and feature ID.
+     * @param {String} payload.layerId - The ID of the layer to search for the feature.
+     * @param {String} payload.featureId - The ID of the feature to retrieve.
+     * @returns {Promise<Object|null>} A promise that resolves to the found feature, or `null` if the feature is not found.
+     */
+    // eslint-disable-next-line no-unused-vars
+    async getHighlightFeature ({context}, {layerId, featureId}) {
+        let feature = null;
+
+        await nextTick();
+        const layerSource = layerCollection.getLayerById(layerId)?.layerSource;
+
+        if (layerSource) {
+            if (layerSource.getFeatures().length > 0) {
+                feature = layerSource.getFeatureById(featureId) ||
+                  layerSource.getFeatures().find(feat => feat.get("features")?.find(feat_ => feat_.getId() === featureId));
+            }
+            else {
+                await new Promise(resolve => {
+                    layerSource.once("featuresloadend", () => {
+                        feature = layerSource.getFeatureById(featureId) ||
+                      layerSource.getFeatures().find(feat => feat.get("features")?.find(feat_ => feat_.getId() === featureId));
+                        resolve();
+                    });
+                });
+            }
+        }
+
+        return feature;
+    },
+
+    /**
+     * Retrieves and applies a style from the styleList based on the provided highlightObject and feature.
+     * The style is then optionally committed to the Vuex store.
+     *
+     * @param {Object} context - The Vuex action context, which includes commit, dispatch, and state.
+     * @param {Object} payload - The payload containing the highlightObject and the feature.
+     * @param {Object} payload.highlightObject - Contains parameters for feature highlighting.
+     * @param {ol/feature} payload.feature - OpenLayers feature to highlight.
+     * @param {Boolean} [payload.returnFirst=true] - If true, returns the first found style, otherwise all created styles.
+     * @returns {Promise<ol/style|Array>} A promise that resolves to the OpenLayers style or an array of styles.
+     */
+    // eslint-disable-next-line no-unused-vars
+    async fetchAndApplyStyle ({context}, {highlightObject, feature, returnFirst = true}) {
+        const styleId = highlightObject.styleId || highlightObject.layer.id,
+            stylelistObject = styleList.returnStyleObject(styleId);
+        let style;
+
+        if (stylelistObject) {
+            style = createStyle.createStyle(stylelistObject, feature, false, Config.wfsImgPath);
+            if (returnFirst && Array.isArray(style) && style.length > 0) {
+                style = style[0];
+            }
+
+            return style;
+        }
+
+        console.warn(`Style not found for styleId: ${styleId}`);
+        return null;
     }
 };
-
-/**
- * Asynchronously retrieves a feature by its layer ID and feature ID. If the layer's features are not yet loaded,
- * it waits for the 'featuresloadend' event before attempting to find the feature again.
- *
- * @param {String} layerId - The ID of the layer to search for the feature.
- * @param {String} featureId - The ID of the feature to retrieve.
- * @returns {Promise<Object>} A promise that resolves to the found feature, or `undefined` if the feature is not found.
- */
-async function getHighlightFeature (layerId, featureId) {
-    let feature;
-
-    await nextTick();
-    const layerSource = layerCollection.getLayerById(layerId)?.layerSource;
-
-    if (layerSource) {
-        if (layerSource.getFeatures().length > 0) {
-            feature = layerSource.getFeatureById(featureId) ||
-                      layerSource.getFeatures().find(feat => feat.get("features")?.find(feat_ => feat_.getId() === featureId));
-        }
-        else {
-            await new Promise(resolve => {
-                layerSource.once("featuresloadend", () => {
-                    feature = layerSource.getFeatureById(featureId) ||
-                              layerSource.getFeatures().find(feat => feat.get("features")?.find(feat_ => feat_.getId() === featureId));
-                    resolve();
-                });
-            });
-        }
-    }
-
-    return feature;
-}
-
-
-/**
- * Get style via styleList.
- * @param {Object} highlightObject contains several parameters for feature highlighting
- * @param {ol/feature} feature openlayers feature to highlight
- * @param {Boolean} [returnFirst = true] if true, returns the first found style, else all created styles
- * @returns {ol/style|Array} ol style
- */
-function styleObject (highlightObject, feature, returnFirst = true) {
-    const stylelistObject = highlightObject.styleId ? styleList.returnStyleObject(highlightObject.styleId) : styleList.returnStyleObject(highlightObject.layer.id);
-    let style;
-
-    if (stylelistObject !== undefined) {
-        style = createStyle.createStyle(stylelistObject, feature, false, Config.wfsImgPath);
-        if (returnFirst && Array.isArray(style) && style.length > 0) {
-            style = style[0];
-        }
-    }
-    return style;
-}
