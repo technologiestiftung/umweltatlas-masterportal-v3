@@ -249,7 +249,12 @@ export default {
      */
     updateComponentState ({dispatch}, {type, attributes}) {
         if (this._actions[`Modules/${type}/urlParams`]) {
-            dispatch(`Modules/${type}/urlParams`, JSON.parse(attributes), {root: true});
+            if (typeof attributes === "object") {
+                dispatch(`Modules/${type}/urlParams`, attributes, {root: true});
+            }
+            else {
+                dispatch(`Modules/${type}/urlParams`, JSON.parse(attributes), {root: true});
+            }
         }
         else {
             Object.assign(this.state.Modules[type], attributes);
