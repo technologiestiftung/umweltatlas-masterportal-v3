@@ -137,6 +137,39 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
         });
 
     });
+    describe("column visibility", () => {
+        it("should render all checkboxes and include them in 'visibleHeaders'", async () => {
+            const wrapper = shallowMount(TableComponent, {
+                propsData: {
+                    data: {
+                        headers: [
+                            {name: "foo", index: 0},
+                            {name: "bar", index: 1}
+                        ]
+                    }
+                }
+            });
+
+            expect(wrapper.findAll("input[type='checkbox']")).to.have.lengthOf(2);
+            expect(wrapper.vm.visibleHeaders).to.have.lengthOf(2);
+        });
+
+        it("should not render a table column which has been deselected", async () => {
+            const wrapper = shallowMount(TableComponent, {
+                propsData: {
+                    data: {
+                        headers: [
+                            {name: "foo", index: 0},
+                            {name: "bar", index: 1}
+                        ]
+                    }
+                }
+            });
+
+            await wrapper.find("input[type='checkbox']").setValue(false);
+            expect(wrapper.vm.visibleHeaders).to.have.lengthOf(1);
+        });
+    });
     describe("methods", () => {
         describe("getIconClassByOrder", () => {
             it("should return 'bi-arrow-down-up origin-order' if sorting column name not equals current sorting name", () => {
@@ -193,14 +226,14 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                 expect(wrapper.vm.getIconClassByOrder("foo")).to.be.equals(expected);
             });
         });
-        describe("getSortOrder", () => {
+        describe("getNextSortOrder", () => {
             it("should return 'desc' order when passed 'origin'", () => {
                 const wrapper = shallowMount(TableComponent, {
                         propsData: {
                             data: {}
                         }
                     }),
-                    order = wrapper.vm.getSortOrder("origin");
+                    order = wrapper.vm.getNextSortOrder("origin");
 
                 expect(order).to.be.equal("desc");
             });
@@ -211,7 +244,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                             data: {}
                         }
                     }),
-                    order = wrapper.vm.getSortOrder("desc");
+                    order = wrapper.vm.getNextSortOrder("desc");
 
                 expect(order).to.be.equal("asc");
             });
@@ -222,7 +255,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                             data: {}
                         }
                     }),
-                    order = wrapper.vm.getSortOrder("asc");
+                    order = wrapper.vm.getNextSortOrder("asc");
 
                 expect(order).to.be.equal("origin");
             });
@@ -242,7 +275,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                             }
                         }
                     }),
-                    originRows = wrapper.vm.getSortedItems([], "foo", "origin");
+                    originRows = wrapper.vm.getSortedItems(wrapper.vm.data.items, "foo", "origin");
 
                 expect(originRows).to.deep.equal(wrapper.vm.data.items);
             });
@@ -354,12 +387,10 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                             data: {}
                         }
                     }),
-                    getSortOrderStub = sinon.stub(wrapper.vm, "getSortOrder"),
-                    getSortedItemsStub = sinon.stub(wrapper.vm, "getSortedItems");
+                    getNextSortOrderStub = sinon.stub(wrapper.vm, "getNextSortOrder");
 
                 wrapper.vm.runSorting("foo");
-                expect(getSortOrderStub.called).to.be.true;
-                expect(getSortedItemsStub.called).to.be.true;
+                expect(getNextSortOrderStub.called).to.be.true;
                 sinon.restore();
             });
             it("should set the sort order for the columns correctly", async () => {
@@ -369,7 +400,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                     }
                 });
 
-                sinon.stub(wrapper.vm, "getSortedItems");
+                sinon.stub(wrapper.vm, "getSortedItems").returns([{foo: "bar"}]);
                 await wrapper.setData({
                     currentSorting: {
                         columnName: "foo",
@@ -387,7 +418,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                     }
                 });
 
-                sinon.stub(wrapper.vm, "getSortedItems");
+                sinon.stub(wrapper.vm, "getSortedItems").returns([{foo: "bar"}]);
                 await wrapper.setData({
                     currentSorting: {
                         columnName: "foo",
@@ -405,7 +436,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                     }
                 });
 
-                sinon.stub(wrapper.vm, "getSortedItems");
+                sinon.stub(wrapper.vm, "getSortedItems").returns([{foo: "bar"}]);
                 await wrapper.setData({
                     currentSorting: {
                         columnName: "foo",

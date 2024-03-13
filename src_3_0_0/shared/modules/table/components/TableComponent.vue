@@ -37,17 +37,48 @@ export default {
 
     data () {
         return {
-            currentSorting: {},
-            sortedItems: []
+            currentSorting: {
+                columnName: "",
+                order: "origin"
+            },
+            visibleHeadersIndices: []
         };
     },
     computed: {
-        ...mapGetters("Language", ["currentLocale"])
+        ...mapGetters("Language", ["currentLocale"]),
+
+        visibleHeaders () {
+            return this.data.headers?.filter(header => this.visibleHeadersIndices.includes(header.index)) || [];
+        },
+        editedTable () {
+            const table = {
+                headers: [],
+                items: []
+            };
+
+            table.headers = this.visibleHeaders;
+            table.items = this.getSortedItems(this.data?.items, this.currentSorting.columnName,
+                this.currentSorting.order);
+            table.items = table.items.map(item => {
+                const newItem = {};
+
+                this.visibleHeaders.forEach(header => {
+                    newItem[header.name] = item[header.name];
+                });
+
+                return newItem;
+            });
+
+            return table;
+        }
     },
     watch: {
         data: {
-            handler (newData) {
-                this.sortedItems = newData.items;
+            handler () {
+                this.visibleHeadersIndices = [];
+                this.data.headers?.forEach(header => {
+                    this.visibleHeadersIndices.push(header.index);
+                });
             },
             immediate: true
         }
@@ -76,7 +107,7 @@ export default {
          * @param {String} order - The order in which the table is sorted.
          * @returns {String} The sort order. Can be origin, desc, asc.
          */
-        getSortOrder (order) {
+        getNextSortOrder (order) {
             if (order === "origin") {
                 return "desc";
             }
@@ -93,8 +124,11 @@ export default {
          * @returns {Object[]} the sorted items.
          */
         getSortedItems (items, columnToSort, order) {
+            if (!Array.isArray(items)) {
+                return [];
+            }
             if (order === "origin") {
-                return this.data.items;
+                return items;
             }
             const sorted = [...items].sort((a, b) => {
                 if (typeof a[columnToSort] === "undefined") {
@@ -115,17 +149,19 @@ export default {
          * @returns {void}
          */
         runSorting (columnName) {
-            const oldColumn = this.currentSorting;
+            const newSorting = {
+                columnName: columnName,
+                order: null
+            };
 
-            if (!oldColumn?.columnName || oldColumn.columnName !== columnName) {
-                this.currentSorting = {
-                    columnName,
-                    order: "origin"
-                };
+            if (newSorting.columnName === this.currentSorting.columnName) {
+                newSorting.order = this.getNextSortOrder(this.currentSorting.order);
+            }
+            else {
+                newSorting.order = this.getNextSortOrder("origin");
             }
 
-            this.currentSorting.order = this.getSortOrder(this.currentSorting.order);
-            this.sortedItems = this.getSortedItems(this.sortedItems, columnName, this.currentSorting.order);
+            this.currentSorting = newSorting;
         }
     }
 };
@@ -145,7 +181,7 @@ export default {
         <div>
             {{ $t(hits) }}
         </div>
-        <span class="bold text-secondary">{{ sortedItems.length }}</span>
+        <span class="bold text-secondary">{{ editedTable.items?.length || 0 }}</span>
     </div>
     <div class="btn-toolbar justify-content-between sticky-top bg-white">
         <div class="btn-group">
@@ -167,9 +203,10 @@ export default {
                         >
                             <div class="ms-2 me-auto d-flex form-check">
                                 <input
+                                    v-model="visibleHeadersIndices"
+                                    :value="column.index"
                                     class="me-2 mt-1 form-check-input"
                                     type="checkbox"
-                                    checked
                                 >
                                 <label
                                     class="text-nowrap form-check-label"
@@ -211,7 +248,7 @@ export default {
         <thead>
             <tr v-if="showHeader">
                 <th
-                    v-for="(column, idx) in data.headers"
+                    v-for="(column, idx) in editedTable.headers"
                     :key="idx"
                     class="p-2"
                 >
@@ -230,11 +267,11 @@ export default {
         </thead>
         <tbody>
             <tr
-                v-for="(item, idx) in sortedItems"
+                v-for="(item, idx) in editedTable.items"
                 :key="idx"
             >
                 <td
-                    v-for="(entry, columnIdx) in data.headers"
+                    v-for="(entry, columnIdx) in visibleHeaders"
                     :key="columnIdx"
                     class="p-2"
                 >
