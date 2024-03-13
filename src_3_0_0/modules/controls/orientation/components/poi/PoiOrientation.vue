@@ -3,7 +3,7 @@ import {mapGetters, mapMutations, mapActions} from "vuex";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import mutations from "../../store/mutationsOrientation";
-import {extractEventCoordinates} from "../../../../../../src/utils/extractEventCoordinates";
+import {extractEventCoordinates} from "../../../../../shared/js/utils/extractEventCoordinates";
 import svgFactory from "../../../../../shared/js/utils/svgFactory";
 
 /**
@@ -71,7 +71,7 @@ export default {
     },
     methods: {
         ...mapMutations("Controls/Orientation", Object.keys(mutations)),
-        ...mapActions("Maps", ["areLayerFeaturesLoaded", "zoomToExtent"]),
+        ...mapActions("Maps", ["areLayerFeaturesLoaded", "zoomToExtent", "unregisterListener"]),
 
         /**
          * Callback when close icon has been clicked.
@@ -109,6 +109,7 @@ export default {
         hidePoi () {
             this.$emit("hide");
             this.poiFeatures = [];
+            document.querySelector("#geolocatePOI").classList.remove("toggleButtonPressed");
         },
 
         /**
@@ -200,7 +201,11 @@ export default {
                 index = resolutions.indexOf(0.2645831904584105) === -1 ? resolutions.length : resolutions.indexOf(0.2645831904584105);
 
             this.zoomToExtent({extent: coordinate, options: {maxZoom: index}});
+            this.$store.dispatch("Maps/removePointMarker");
             this.$emit("hide");
+            this.setPoiMode("currentPosition");
+            this.setCurrentPositionEnabled(true);
+            document.querySelector("#geolocatePOI").classList.remove("toggleButtonPressed");
         },
 
         /**

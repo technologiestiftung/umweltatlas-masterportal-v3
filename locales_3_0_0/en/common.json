@@ -141,6 +141,7 @@
         "imgAlt": "picture for point of interest",
         "poiChoiceCurrentPostion": "Current location",
         "poiChoiceCustomPostion": "Search address or set point in map",
+        "poiChoiceClickPoint": "Set point in map",
         "poiChoiceConfirmation": "OK",
         "poiChoiceStop": "Quit",
         "poiChoiceTitle": "Select starting point for radius search:",

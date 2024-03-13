@@ -141,6 +141,7 @@
         "imgAlt": "Bild für Point of Interest",
         "poiChoiceCurrentPostion": "Standort",
         "poiChoiceCustomPostion": "Adresssuche oder Punkt in Karte setzen",
+        "poiChoiceClickPoint": "Punkt in Karte setzen",
         "poiChoiceConfirmation": "OK",
         "poiChoiceStop": "Beenden",
         "poiChoiceTitle": "Ausgangspunkt für Umkreissuche wählen:",

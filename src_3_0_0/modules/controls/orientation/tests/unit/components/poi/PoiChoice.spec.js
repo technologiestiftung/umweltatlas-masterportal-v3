@@ -20,7 +20,8 @@ describe("src_3_0_0/modules/controls/orientation/components/PoiChoice.vue", () =
                         Orientation: {
                             namespaced: true,
                             getters: {
-                                poiMode: sinon.stub()
+                                poiMode: sinon.stub(),
+                                customPosition: () => "common:modules.controls.orientation.poiChoiceCustomPostion"
                             },
                             mutations: {
                                 setShowPoiChoice: sinon.stub()

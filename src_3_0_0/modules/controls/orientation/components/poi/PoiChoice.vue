@@ -12,11 +12,11 @@ export default {
     name: "PoiChoice",
     emits: ["track"],
     computed: {
-        ...mapGetters("Controls/Orientation", ["poiMode"]),
+        ...mapGetters("Controls/Orientation", ["poiMode", "customPosition"]),
         choices () {
             return {
                 "currentPosition": this.$t("common:modules.controls.orientation.poiChoiceCurrentPostion"),
-                "customPosition": this.$t("common:modules.controls.orientation.poiChoiceCustomPostion")
+                "customPosition": this.$t(this.customPosition)
             };
         }
     },
@@ -100,6 +100,10 @@ export default {
         mapClicked (evt) {
             this.setPosition(evt.coordinate);
             this.setShowPoi(true);
+            this.unregisterListener({
+                type: "click",
+                listener: this.mapClicked
+            });
         },
 
         /**
@@ -115,6 +119,7 @@ export default {
             this.setCurrentPositionEnabled(true);
             this.$store.dispatch("Maps/removePointMarker");
             this.hidePoiChoice();
+            document.querySelector("#geolocatePOI").classList.remove("toggleButtonPressed");
         }
     }
 };

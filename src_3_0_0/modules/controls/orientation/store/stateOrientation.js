@@ -11,6 +11,7 @@
  * @property {String} geolocation The current geolocation.
  * @property {Boolean} onlyFilteredFeatures If true the filtered features will be used.
  * @property {String} poiMode The mode for showing the nearby pois.
+ * @property {String} customPosition Contains the path for the translation file.
  * @property {Boolean} poiModeCurrentPositionEnabled The status if poi mode is current position.
  * @property {String} position The current position.
  * @property {Boolean} showPoi Wether POI should be shown.
@@ -29,6 +30,7 @@ const state = {
     geolocation: null,
     onlyFilteredFeatures: false,
     poiMode: "currentPosition",
+    customPosition: "common:modules.controls.orientation.poiChoiceCustomPosition",
     poiModeCurrentPositionEnabled: true,
     position: null,
     showPoi: false,

@@ -96,10 +96,12 @@ describe("src_3_0_0/modules/controls/orientation/components/OrientationItem.vue"
     });
     describe("OrientationItem.vue methods", () => {
         const centerPosition = [0, 0],
-            distance = 10,
+            distance = 100,
             features = [{
                 getStyle: () => {
-                    return {};
+                    return {
+                        getImage: sinon.stub()
+                    };
                 },
                 getGeometry: () => {
                     return {
@@ -117,7 +119,7 @@ describe("src_3_0_0/modules/controls/orientation/components/OrientationItem.vue"
                 getGeometry: () => {
                     return {
                         getClosestPoint: () => {
-                            return [11, 10];
+                            return [15, 10];
                         }
                     };
                 },
@@ -185,6 +187,17 @@ describe("src_3_0_0/modules/controls/orientation/components/OrientationItem.vue"
 
             sinon.stub(layerCollection, "getLayerById").returns(wfsLayer);
             returnedFeatures = wrapper.vm.getVectorFeaturesInCircle(layerConfigs, distance, centerPosition);
+            expect(returnedFeatures.length).to.be.equals(1);
+        });
+        it("getVectorFeaturesInCircle returns only features in extent", () => {
+            let returnedFeatures = "";
+            const wrapper = mount(OrientationItemComponent, {
+                global: {
+                    plugins: [store]
+                }});
+
+            sinon.stub(layerCollection, "getLayerById").returns(wfsLayer);
+            returnedFeatures = wrapper.vm.getVectorFeaturesInCircle(layerConfigs, 15, centerPosition);
             expect(returnedFeatures.length).to.be.equals(1);
         });
     });

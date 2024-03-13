@@ -306,6 +306,7 @@ export default {
          * @returns {void}
          */
         getPOI () {
+            document.querySelector("#geolocatePOI").className += " toggleButtonPressed";
             this.setShowPoiChoice(true);
         },
 
@@ -407,18 +408,27 @@ export default {
                 }
             });
             let featuresAll = [],
-                features = [],
-                filteredFeatures = [];
+                features = [];
 
             visibleWFSLayers.forEach(layer => {
+                let preparedFeatures,
+                    filteredFeatures = [];
+
                 if (layer.getLayerSource()) {
                     features = layer.getLayerSource().getFeaturesInExtent(circleExtent);
-                    filteredFeatures = features.filter(feat => isObject(feat.getStyle()) || (typeof feat.getStyle() === "function" && feat.getStyle()(feat) !== null));
-                    if (this.onlyFilteredFeatures === true && filteredFeatures.length > 0) {
+                    filteredFeatures = features.filter(feat => {
+                        return (isObject(feat.getStyle()) && feat.getStyle().getImage() !== null) || (typeof feat.getStyle() === "function" && feat.getStyle()(feat) !== null);
+                    });
+                    if (this.onlyFilteredFeatures === true) {
                         features = filteredFeatures;
                     }
+                    preparedFeatures = features.filter((feat) => {
+                        const dist = this.getDistance(feat, centerPosition);
 
-                    features.forEach(function (feat) {
+                        return dist <= distance;
+                    });
+
+                    preparedFeatures.forEach(function (feat) {
                         Object.assign(feat, {
                             styleId: layer.get("styleId"),
                             layerName: layer.get("name"),
@@ -426,7 +436,7 @@ export default {
                             dist2Pos: this.getDistance(feat, centerPosition)
                         });
                     }, this);
-                    featuresAll = this.union(features, featuresAll, function (obj1, obj2) {
+                    featuresAll = this.union(preparedFeatures, featuresAll, function (obj1, obj2) {
                         return obj1 === obj2;
                     });
                 }

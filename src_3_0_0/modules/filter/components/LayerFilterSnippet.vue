@@ -320,7 +320,11 @@ export default {
                 this.setSnippetValueByState(this.filterRules);
                 if (this.layerSelectorVisible && this.layerConfig.filterOnOpen && this.layerConfig.strategy === "active") {
                     this.$nextTick(() => {
-                        this.handleActiveStrategy();
+                        this.$nextTick(() => {
+                            this.$nextTick(() => {
+                                this.handleActiveStrategy();
+                            });
+                        });
                     });
                 }
             }, error => {

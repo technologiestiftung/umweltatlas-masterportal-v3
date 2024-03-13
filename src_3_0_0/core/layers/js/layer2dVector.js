@@ -6,6 +6,7 @@ import webgl from "./webglRenderer";
 import store from "../../../app-store";
 import Layer2d from "./layer2d";
 import Cluster from "ol/source/Cluster";
+import Style from "ol/style/Style";
 
 /**
  * Creates a 2d vector layer.
@@ -250,7 +251,7 @@ Layer2dVector.prototype.hideAllFeatures = function () {
 
     features.forEach((feature) => {
         feature.set("hideInClustering", true);
-        feature.setStyle(() => null);
+        feature.setStyle(new Style());
     });
 
     layerSource.addFeatures(features);
