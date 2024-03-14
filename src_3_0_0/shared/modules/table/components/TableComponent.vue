@@ -4,13 +4,16 @@ import draggable from "vuedraggable";
 import localeCompare from "../../../js/utils/localeCompare";
 import FlatButton from "../../buttons/components/FlatButton.vue";
 import ExportButtonCSV from "../../buttons/components/ExportButtonCSV.vue";
+import IconButton from "../../buttons/components/IconButton.vue";
+import isObject from "../../../js/utils/isObject";
 
 export default {
     name: "TableComponent",
     components: {
         Draggable: draggable,
         FlatButton,
-        ExportButtonCSV
+        ExportButtonCSV,
+        IconButton
     },
     props: {
         additionalColumnsForDownload: {
@@ -59,7 +62,8 @@ export default {
             },
             visibleHeadersIndices: [],
             draggableHeader: [],
-            visibleHeaders: []
+            visibleHeaders: [],
+            fixedColumn: undefined
         };
     },
     computed: {
@@ -229,13 +233,72 @@ export default {
          * @returns {void}
          */
         resetAll () {
+            this.fixedColumn = undefined;
             this.visibleHeadersIndices = [];
             this.data.headers?.forEach(header => {
                 this.visibleHeadersIndices.push(header.index);
             });
             this.draggableHeader = this.data?.headers;
             this.currentSorting.order = "origin";
+        },
 
+        /**
+         * Toggles the fixed column.
+         * @param {String} columnName The name of the column.
+         * @returns {void}
+         */
+        toggleColumnFix (columnName) {
+            if (typeof columnName !== "string"
+                || typeof this.draggableHeader.find(header => header.name === columnName) === "undefined") {
+                return;
+            }
+            if (this.fixedColumn === columnName) {
+                this.fixedColumn = undefined;
+                return;
+            }
+            this.fixedColumn = columnName;
+            this.moveColumnToFirstPlace(columnName);
+        },
+
+        /**
+         * Moves the given column by name to the first place in array.
+         * @param {String} columnName The name of the column.
+         * @returns {void}
+         */
+        moveColumnToFirstPlace (columnName) {
+            if (typeof columnName !== "string") {
+                return;
+            }
+            const draggableCopy = JSON.parse(JSON.stringify(this.draggableHeader));
+            let oldIndex = null;
+
+            draggableCopy.forEach(draggableElement => {
+                if (!isObject(draggableElement)) {
+                    return;
+                }
+                if (draggableElement.name === columnName) {
+                    oldIndex = draggableElement.index;
+                    draggableElement.index = 0;
+                }
+                else if (oldIndex === null) {
+                    draggableElement.index += 1;
+                }
+            });
+
+            this.draggableHeader = draggableCopy.sort((a, b) => a.index - b.index);
+        },
+
+        /**
+         * Callback function which decides wether if the move is allowed to do or not.
+         * Returns false if the move goes above the fixated column.
+         * @param {Object} evt The event object. See for more info: https://github.com/SortableJS/vue.draggable.next?tab=readme-ov-file#move
+         * @returns {Boolean} false to prevent and true to do nothing.
+         */
+        preventMoveAboveFixedColumn (evt) {
+            if (this.fixedColumn && evt?.draggedContext?.futureIndex === 0) {
+                return false;
+            }
+            return true;
         }
     }
 };
@@ -269,19 +332,27 @@ export default {
                     data-bs-toggle="dropdown"
                     data-bs-auto-close="outside"
                 />
-                <div class="dropdown-menu p-0 border-0 mt-1">
+                <div
+                    class="dropdown-menu p-0 border-0 mt-1"
+                    @click.stop=""
+                >
                     <Draggable
                         v-model="draggableHeader"
                         group="people"
-                        class="dragArea no-list ps-0 ms-2"
+                        class="dragArea no-list ps-0 m-2"
                         tag="ul"
                         item-key="id"
                         handle=".list-group-item-draggable"
+                        :move="preventMoveAboveFixedColumn"
                     >
                         <template #item="{ element }">
                             <li
                                 :key="element.index"
-                                :class="['list-group-item', 'd-flex', 'justify-content-between', 'p-2', 'index+' + element.index, isHeaderVisible(element.name)? 'list-group-item-draggable' : '']"
+                                class="list-group-item d-flex justify-content-between align-items-center p-2 rounded"
+                                :class="[
+                                    'index+' + element.index,
+                                    {'list-group-item-draggable': fixedColumn !== element.name && isHeaderVisible(element.name)},
+                                    {'pinnedSelectRow': fixedColumn === element.name}]"
                             >
                                 <div class="ms-2 me-auto d-flex form-check">
                                     <input
@@ -298,9 +369,14 @@ export default {
                                         {{ element.name }}
                                     </label>
                                 </div>
-                                <div>
+                                <div class="d-flex align-items-center">
                                     <span class="me-2">
-                                        <i class="bi bi-pin-angle" />
+                                        <IconButton
+                                            :class-array="['btn-light', 'pinnedButton']"
+                                            :interaction="() => toggleColumnFix(element.name)"
+                                            :icon="fixedColumn !== element.name ? 'bi bi-pin-angle' : 'bi bi-pin-angle-fill'"
+                                            :aria="$t('common:shared.modules.table.fixColumnAriaLabel')"
+                                        />
                                     </span>
                                     <span class="me-2">
                                         <i class="bi bi-three-dots-vertical" />
@@ -341,7 +417,7 @@ export default {
                 <th
                     v-for="(column, idx) in editedTable.headers"
                     :key="idx"
-                    class="p-2"
+                    :class="['p-2', fixedColumn === column.name ? 'fixedColumn' : '']"
                 >
                     <span class="me-2">{{ column.name }}</span>
                     <span
@@ -364,7 +440,7 @@ export default {
                 <td
                     v-for="(entry, columnIdx) in visibleHeaders"
                     :key="columnIdx"
-                    class="p-2"
+                    :class="['p-2', fixedColumn === entry.name ? 'fixedColumn' : '']"
                 >
                     {{ item[entry.name] ? item[entry.name] : "" }}
                 </td>
@@ -404,9 +480,30 @@ table {
         top: 50px;
         background: $light_blue;
         font-family: $font_family_accent;
+        z-index: 2;
         span.sortable-icon {
             cursor: pointer;
         }
+    }
+    .fixedColumn, th.fixedColumn {
+        position: sticky;
+        left: 0;
+        background-color: $light_blue;
+        z-index: 1;
+    }
+    th.fixedColumn {
+        z-index: 3;
+    }
+}
+.pinnedSelectRow {
+    background-color: $light_blue;
+    & .pinnedButton {
+        background-color: $light_blue;
+        border: solid $light_blue 1px
+    }
+    & .pinnedButton:hover {
+        background-color: $white;
+        border-color: $white;
     }
 }
 </style>

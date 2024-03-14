@@ -636,5 +636,159 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                 expect(wrapper.vm.visibleHeadersIndices).to.be.deep.equal([0, 1]);
             });
         });
+        describe("toggleColumnFix", () => {
+            it("should not change fixedColumn if parameter is not type of string", () => {
+                const wrapper = shallowMount(TableComponent, {
+                        propsData: {
+                            data: {
+                                headers: [
+                                    {name: "foo", index: 0},
+                                    {name: "bar", index: 1}
+                                ]
+                            }
+                        }
+                    }),
+                    expected = "foo";
+
+                wrapper.vm.fixedColumn = expected;
+                wrapper.vm.toggleColumnFix(undefined);
+                expect(wrapper.vm.fixedColumn).to.be.equal(expected);
+                wrapper.vm.toggleColumnFix(null);
+                expect(wrapper.vm.fixedColumn).to.be.equal(expected);
+                wrapper.vm.toggleColumnFix({});
+                expect(wrapper.vm.fixedColumn).to.be.equal(expected);
+                wrapper.vm.toggleColumnFix([]);
+                expect(wrapper.vm.fixedColumn).to.be.equal(expected);
+                wrapper.vm.toggleColumnFix(true);
+                expect(wrapper.vm.fixedColumn).to.be.equal(expected);
+                wrapper.vm.toggleColumnFix(false);
+                expect(wrapper.vm.fixedColumn).to.be.equal(expected);
+                wrapper.vm.toggleColumnFix(1234);
+                expect(wrapper.vm.fixedColumn).to.be.equal(expected);
+            });
+            it("should not change fixedColumn if given string is not found in headers array", () => {
+                const wrapper = shallowMount(TableComponent, {
+                        propsData: {
+                            data: {
+                                headers: ["foo", "bar"]
+                            }
+                        }
+                    }),
+                    expected = "foo";
+
+                wrapper.vm.draggableHeader = [{name: "foo", index: 0}, {name: "bar", index: 1}];
+                wrapper.vm.fixedColumn = expected;
+                wrapper.vm.toggleColumnFix("buz");
+                expect(wrapper.vm.fixedColumn).to.be.equal(expected);
+            });
+            it("should set fixedColumn to undefined if the same column is give", () => {
+                const wrapper = shallowMount(TableComponent, {
+                        propsData: {
+                            data: {
+                                headers: [
+                                    {name: "foo", index: 0},
+                                    {name: "bar", index: 1}
+                                ]
+                            }
+                        }
+                    }),
+                    column = "foo";
+
+                wrapper.vm.fixedColumn = column;
+                wrapper.vm.toggleColumnFix(column);
+                expect(wrapper.vm.fixedColumn).to.be.undefined;
+            });
+            it("should set fixedColumns to given columnName", () => {
+                const wrapper = shallowMount(TableComponent, {
+                        propsData: {
+                            data: {
+                                headers: [
+                                    {name: "foo", index: 0},
+                                    {name: "bar", index: 1}
+                                ]
+                            }
+                        }
+                    }),
+                    column = "foo";
+
+                sinon.stub(wrapper.vm, "moveColumnToFirstPlace");
+                wrapper.vm.toggleColumnFix(column);
+                expect(wrapper.vm.fixedColumn).to.be.equal(column);
+                sinon.restore();
+            });
+        });
+        describe("moveColumnToFirstPlace", () => {
+            it("should not update the draggableHeaders if parameter is not type of string", () => {
+                const wrapper = shallowMount(TableComponent, {
+                        propsData: {
+                            data: {}
+                        },
+                        data: () => {
+                            return {
+                                draggableHeader: []
+                            };
+                        }
+                    }),
+                    expected = wrapper.vm.draggableHeader;
+
+                wrapper.vm.moveColumnToFirstPlace(undefined);
+                expect(wrapper.vm.draggableHeader).to.deep.equal(expected);
+                wrapper.vm.moveColumnToFirstPlace(null);
+                expect(wrapper.vm.draggableHeader).to.deep.equal(expected);
+                wrapper.vm.moveColumnToFirstPlace({});
+                expect(wrapper.vm.draggableHeader).to.deep.equal(expected);
+                wrapper.vm.moveColumnToFirstPlace([]);
+                expect(wrapper.vm.draggableHeader).to.deep.equal(expected);
+                wrapper.vm.moveColumnToFirstPlace(true);
+                expect(wrapper.vm.draggableHeader).to.deep.equal(expected);
+                wrapper.vm.moveColumnToFirstPlace(false);
+                expect(wrapper.vm.draggableHeader).to.deep.equal(expected);
+                wrapper.vm.moveColumnToFirstPlace(1234);
+                expect(wrapper.vm.draggableHeader).to.deep.equal(expected);
+            });
+            it("should update the draggableHeader as expected", () => {
+                const wrapper = shallowMount(TableComponent, {
+                    propsData: {
+                        data: {
+                            headers: ["foo", "bar", "buz"],
+                            items: [
+                                ["foo", "bar", "buz"],
+                                ["foo", "bar", "buz"],
+                                ["foo", "bar", "buz"],
+                                ["foo", "bar", "buz"]
+                            ]
+                        }
+                    }
+                });
+
+                wrapper.vm.draggableHeader = [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}];
+                wrapper.vm.moveColumnToFirstPlace("bar");
+                expect(wrapper.vm.draggableHeader).to.deep.equal([{name: "bar", index: 0}, {name: "foo", index: 1}, {name: "buz", index: 2}]);
+            });
+        });
+        describe("preventMoveAboveFixedColumn", () => {
+            it("should return false if fixedColumn is set and futureIndex is 0", () => {
+                const wrapper = shallowMount(TableComponent, {
+                    propsData: {
+                        data: {}
+                    }
+                });
+
+                wrapper.vm.fixedColumn = "foo";
+                expect(wrapper.vm.preventMoveAboveFixedColumn({draggedContext: {futureIndex: 0}})).to.be.false;
+            });
+            it("should return true", () => {
+                const wrapper = shallowMount(TableComponent, {
+                    propsData: {
+                        data: {}
+                    }
+                });
+
+                wrapper.vm.fixedColumn = "foo";
+                expect(wrapper.vm.preventMoveAboveFixedColumn({draggedContext: {futureIndex: 1}})).to.be.true;
+                wrapper.vm.fixedColumn = null;
+                expect(wrapper.vm.preventMoveAboveFixedColumn({draggedContext: {futureIndex: 0}})).to.be.true;
+            });
+        });
     });
 });

@@ -1038,6 +1038,7 @@
         "zoomToResults": "Zur Auswahl zoomen"
       },
       "table": {
+        "fixColumnAriaLabel": "Hier klicken um diese Spalte zu fixieren",
         "download": "Herunterladen",
         "reset": "Zurücksetzen",
         "settings": "Einstellungen"
