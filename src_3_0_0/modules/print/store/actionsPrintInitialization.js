@@ -375,7 +375,7 @@ export default {
         });
 
         commit("setOptimalScale", optimalScale);
-        commit("setCurrentScale", optimalScale);
+        commit("setCurrentScale", state.currentScaleUrlParams ? state.currentScaleUrlParams : optimalScale);
     },
 
     /**

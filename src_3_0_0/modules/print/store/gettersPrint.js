@@ -16,12 +16,13 @@ const getters = {
             currentFormat: state.currentFormat,
             currentLayoutName: state.currentLayoutName,
             currentScale: state.currentScale,
+            currentScaleUrlParams: state.currentScale,
             dpiForPdf: state.dpiForPdf,
             title: state.title,
             isGfiSelected: state.isGfiSelected,
             isLegendSelected: state.isLegendSelected
         };
-
+        
         return params;
     }
 };

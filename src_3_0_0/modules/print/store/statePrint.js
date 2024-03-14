@@ -70,6 +70,7 @@ const state = {
     currentLayoutName: "A4 Hochformat",
     currentMapScale: "",
     currentScale: undefined,
+    currentScaleUrlParams: undefined,
     defaultCapabilitiesFilter: {},
     dpiForPdf: 200,
     dpiList: [],
