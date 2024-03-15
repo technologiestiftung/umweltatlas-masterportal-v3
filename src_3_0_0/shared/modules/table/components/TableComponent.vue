@@ -13,6 +13,13 @@ export default {
         ExportButtonCSV
     },
     props: {
+        additionalColumnsForDownload: {
+            type: Array,
+            required: false,
+            default () {
+                return [];
+            }
+        },
         data: {
             type: Object,
             required: true
@@ -194,7 +201,16 @@ export default {
          * @returns {Object} The edited table data.
          */
         exportTable () {
-            return this.editedTable.items;
+            const tableToExport = this.editedTable.items;
+
+            this.additionalColumnsForDownload.forEach(column => {
+                if (typeof column?.key === "string" && typeof column?.value === "string") {
+                    tableToExport.forEach(item => {
+                        item[column.key] = column.value;
+                    });
+                }
+            });
+            return tableToExport;
         },
 
         /**

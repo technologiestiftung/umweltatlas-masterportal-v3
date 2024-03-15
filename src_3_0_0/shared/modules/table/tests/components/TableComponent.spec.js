@@ -180,6 +180,42 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
         });
     });
     describe("methods", () => {
+        describe("exportTable", () => {
+            it("should return editedTable.items if no additional columns are passed", () => {
+                const wrapper = shallowMount(TableComponent, {
+                    props: {
+                        data: {}
+                    }
+                });
+
+                expect(wrapper.vm.exportTable()).to.deep.equal(wrapper.vm.editedTable.items);
+            });
+
+            it("should return extended items if additional columns are passed", () => {
+                const wrapper = shallowMount(TableComponent, {
+                    props: {
+                        data: {
+                            headers: [{name: "Key_0", index: 0}],
+                            items: [{Key_0: "Value_0"}]
+                        },
+                        additionalColumnsForDownload: [
+                            {key: "Key_1", value: "Value_1"},
+                            {key: "Key_2", value: "Value_2"}
+                        ]
+                    }
+                });
+
+                expect(wrapper.vm.exportTable()).to.deep.equal(
+                    [
+                        {
+                            Key_0: "Value_0",
+                            Key_1: "Value_1",
+                            Key_2: "Value_2"
+                        }
+                    ]
+                );
+            });
+        });
         describe("getIconClassByOrder", () => {
             it("should return 'bi-arrow-down-up origin-order' if sorting column name not equals current sorting name", () => {
                 const wrapper = shallowMount(TableComponent, {
