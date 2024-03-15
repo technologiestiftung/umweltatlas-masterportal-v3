@@ -23,7 +23,10 @@ export default {
                 dispatch("highlightViaParametricUrl", highlightObject.layerIdAndFeatureId);
                 break;
             case "highlightPolygon":
-                dispatch("highlightPolygon", highlightObject);
+                dispatch("highlightPolygonTypes", highlightObject);
+                break;
+            case "highlightMultiPolygon":
+                dispatch("highlightPolygonTypes", highlightObject);
                 break;
             case "highlightLine":
                 dispatch("highlightLine", highlightObject);
@@ -33,37 +36,44 @@ export default {
                 break;
         }
     },
+
     /**
-     * Highlights a polygon feature based on the provided highlightObject. This function can either apply a new style to the feature or place a marker on it, depending on the presence of a highlightStyle within the highlightObject.
+     * Highlights a geometry feature (Polygon or MultiPolygon) based on the provided highlightObject.
+     * This function can either apply a new style to the feature or place a marker on it,
+     * depending on the presence of a highlightStyle within the highlightObject.
      *
      * @param {Object} context - The Vuex action context, which includes commit and dispatch among other properties.
-     * @param {Object} highlightObject - An object containing information on how the polygon feature should be highlighted.
+     * @param {Object} highlightObject - An object containing information on how the geometry feature should be highlighted.
      * @param {Object} [highlightObject.highlightStyle] - An optional style object to apply to the feature. If not provided, a default marker will be placed on the feature.
-     * @param {ol/Feature} highlightObject.feature - The OpenLayers feature object representing the polygon to be highlighted.
+     * @param {ol/Feature} highlightObject.feature - The OpenLayers feature object representing the geometry to be highlighted.
      * @returns {void}
      */
-    async highlightPolygon ({commit, dispatch}, highlightObject) {
+    async highlightPolygonTypes ({commit, dispatch}, highlightObject) {
         const newStyle = highlightObject.highlightStyle,
             feature = highlightObject.feature,
-            styleObjectPayload = {highlightObject, feature},
+            styleObjectPayload = {highlightObject, feature, returnFirst: feature.getGeometry().getType() !== "MultiPolygon"},
             originalStyle = await dispatch("fetchAndApplyStyle", styleObjectPayload) || undefined;
 
         if (originalStyle) {
-            const clonedStyle = Array.isArray(originalStyle) ? originalStyle[0].clone() : originalStyle.clone();
-
             commit("Maps/addHighlightedFeature", feature, {root: true});
             commit("Maps/addHighlightedFeatureStyle", feature.getStyle(), {root: true});
 
-            if (newStyle.fill?.color) {
-                clonedStyle.getFill().setColor(newStyle.fill.color);
+            if (Array.isArray(originalStyle)) {
+                const clonedStyles = originalStyle.map(style => {
+                    const clonedStyle = style.clone();
+
+                    applyStyleProperties(clonedStyle, newStyle);
+                    return clonedStyle;
+                });
+
+                feature.setStyle(clonedStyles);
             }
-            if (newStyle.stroke?.width) {
-                clonedStyle.getStroke().setWidth(newStyle.stroke.width);
+            else {
+                const clonedStyle = originalStyle.clone();
+
+                applyStyleProperties(clonedStyle, newStyle);
+                feature.setStyle(clonedStyle);
             }
-            if (newStyle.stroke?.color) {
-                clonedStyle.getStroke().setColor(newStyle.stroke.color);
-            }
-            feature.setStyle(clonedStyle);
         }
         else {
             dispatch("Maps/placingPolygonMarker", feature, {root: true});
@@ -92,12 +102,7 @@ export default {
             commit("Maps/addHighlightedFeature", feature, {root: true});
             commit("Maps/addHighlightedFeatureStyle", feature.getStyle(), {root: true});
 
-            if (newStyle.stroke?.width) {
-                clonedStyle.getStroke().setWidth(newStyle.stroke.width);
-            }
-            if (newStyle.stroke?.color) {
-                clonedStyle.getStroke().setColor(newStyle.stroke.color);
-            }
+            applyStyleProperties(clonedStyle, newStyle);
             feature.setStyle(clonedStyle);
         }
         else {
@@ -242,3 +247,28 @@ export default {
         return null;
     }
 };
+
+/**
+ * Applies style properties to a cloned style object.
+ *
+ * @param {ol/style/Style} clonedStyle - The cloned style object to modify.
+ * @param {Object} newStyle - The new style properties to apply.
+ * @returns {void}
+ */
+function applyStyleProperties (clonedStyle, newStyle) {
+    if (newStyle.fill?.color) {
+        clonedStyle.getFill().setColor(newStyle.fill.color);
+    }
+    if (newStyle.stroke?.width) {
+        clonedStyle.getStroke().setWidth(newStyle.stroke.width);
+    }
+    if (newStyle.stroke?.color) {
+        clonedStyle.getStroke().setColor(newStyle.stroke.color);
+    }
+    if (newStyle.stroke?.width) {
+        clonedStyle.getStroke().setWidth(newStyle.stroke.width);
+    }
+    if (newStyle.stroke?.color) {
+        clonedStyle.getStroke().setColor(newStyle.stroke.color);
+    }
+}

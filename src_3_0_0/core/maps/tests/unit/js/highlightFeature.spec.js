@@ -1,17 +1,24 @@
 import {expect} from "chai";
 import sinon from "sinon";
 import {Style, Fill, Stroke, Circle} from "ol/style.js";
+import {Polygon, MultiPolygon} from "ol/geom";
 import highlightFeature from "../../../js/highlightFeature";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import layerCollection from "../../../../layers/js/layerCollection";
 
 describe("highlightFeature", () => {
-    let featurePoint, featurePolygon, featureLine, stylePoint, styleGeoms, dispatch, commit;
+    let featurePoint, featurePolygon, featureMultiPolygon, featureLine, stylePoint, styleGeoms, dispatch, commit;
 
     beforeEach(() => {
         const stroke = new Stroke({}),
-            fill = new Fill({});
+            fill = new Fill({}),
+            polygonGeom = new Polygon([[[0, 0], [1, 1], [1, 0], [0, 0]]]),
+            multiPolygonCoordinates = [
+                [[[0, 0], [0, 1], [1, 1], [1, 0], [0, 0]]],
+                [[[2, 2], [2, 3], [3, 3], [3, 2], [2, 2]]]
+            ],
+            multiPolygonGeom = new MultiPolygon(multiPolygonCoordinates);
 
         stylePoint = new Style({
             image: new Circle({
@@ -36,7 +43,14 @@ describe("highlightFeature", () => {
 
         featurePolygon = {
             getId: () => "testPolygon",
-            getGeometry: sinon.stub(),
+            getGeometry: sinon.stub().returns(polygonGeom),
+            getStyle: sinon.stub().returns(styleGeoms),
+            setStyle: sinon.stub()
+        };
+
+        featureMultiPolygon = {
+            getId: () => "testMultiPolygon",
+            getGeometry: sinon.stub().returns(multiPolygonGeom),
             getStyle: sinon.stub().returns(styleGeoms),
             setStyle: sinon.stub()
         };
@@ -86,7 +100,17 @@ describe("highlightFeature", () => {
 
                 highlightFeature.highlightFeature({dispatch}, highlightObject);
 
-                sinon.assert.calledWith(dispatch, "highlightPolygon", highlightObject);
+                sinon.assert.calledWith(dispatch, "highlightPolygonTypes", highlightObject);
+            });
+
+            it("should dispatch 'highlightMultiPolygon' action for 'highlightMultiPolygon' type", () => {
+                const highlightObject = {
+                    type: "highlightMultiPolygon"
+                };
+
+                highlightFeature.highlightFeature({dispatch}, highlightObject);
+
+                sinon.assert.calledWith(dispatch, "highlightPolygonTypes", highlightObject);
             });
 
             it("should dispatch 'highlightLine' action for 'highlightLine' type", () => {
@@ -115,40 +139,70 @@ describe("highlightFeature", () => {
         });
     });
 
-    describe("highlightPolygon", () => {
+    describe("highlightPolygonTypes", () => {
         it("should highlight a polygon feature with custom style", async () => {
             const highlightObject = {
-                type: "highlightPolygon",
                 feature: featurePolygon,
                 highlightStyle: styleGeoms,
                 styleId: "styleId"
             };
 
-            dispatch = sinon.stub().resolves(styleGeoms);
+            dispatch = sinon.stub();
+            dispatch.withArgs("fetchAndApplyStyle", sinon.match.any).resolves(styleGeoms);
+            commit = sinon.stub();
 
-            await highlightFeature.highlightPolygon({commit, dispatch}, highlightObject);
+            await highlightFeature.highlightPolygonTypes({commit, dispatch}, highlightObject);
 
-            sinon.assert.calledWith(featurePolygon.setStyle, sinon.match.instanceOf(Style));
             sinon.assert.calledWith(commit, "Maps/addHighlightedFeature", featurePolygon);
-            sinon.assert.calledWith(commit, "Maps/addHighlightedFeatureStyle", sinon.match.instanceOf(Style));
+            sinon.assert.calledWith(commit, "Maps/addHighlightedFeatureStyle", sinon.match.any);
             sinon.assert.calledWith(dispatch, "fetchAndApplyStyle", sinon.match({
                 highlightObject: highlightObject,
                 feature: featurePolygon
             }));
+            sinon.assert.calledWith(featurePolygon.setStyle, sinon.match.instanceOf(Style));
         });
 
-        it("should place a polygon marker if no highlightStyle is provided", async () => {
+        it("should highlight a MultiPolygon feature with custom style", async () => {
+            const highlightObject = {
+                    feature: featureMultiPolygon,
+                    highlightStyle: styleGeoms,
+                    styleId: "styleId"
+                },
+                expectedStyle1 = new Style({
+                    fill: new Fill({color: "expectedFillColor1"}),
+                    stroke: new Stroke({color: "expectedStrokeColor1", width: 1})
+                }),
+                expectedStyle2 = new Style({
+                    fill: new Fill({color: "expectedFillColor2"}),
+                    stroke: new Stroke({color: "expectedStrokeColor2", width: 1})
+                });
+
+            dispatch = sinon.stub();
+            dispatch.withArgs("fetchAndApplyStyle", sinon.match.any).resolves([expectedStyle1, expectedStyle2]);
+            commit = sinon.stub();
+
+            await highlightFeature.highlightPolygonTypes({commit, dispatch}, highlightObject);
+
+            sinon.assert.calledWith(commit, "Maps/addHighlightedFeature", featureMultiPolygon);
+            sinon.assert.calledWith(commit, "Maps/addHighlightedFeatureStyle", sinon.match.any);
+            sinon.assert.calledWith(dispatch, "fetchAndApplyStyle", sinon.match({
+                highlightObject: highlightObject,
+                feature: featureMultiPolygon,
+                returnFirst: false
+            }));
+            sinon.assert.calledWith(featureMultiPolygon.setStyle, [expectedStyle1, expectedStyle2]);
+        });
+
+        it("should place a marker if no highlightStyle is provided", async () => {
             const highlightObject = {
                 type: "highlightPolygon",
                 feature: featurePolygon,
                 layer: {id: "layerId"}
             };
 
-            dispatch = sinon.stub().resolves(null);
+            dispatch = sinon.stub().withArgs("fetchAndApplyStyle", sinon.match.any).resolves(null);
 
-            dispatch.withArgs("fetchAndApplyStyle", sinon.match.any).resolves(null);
-
-            await highlightFeature.highlightPolygon({commit, dispatch}, highlightObject);
+            await highlightFeature.highlightPolygonTypes({commit, dispatch}, highlightObject);
 
             sinon.assert.calledWith(dispatch, "Maps/placingPolygonMarker", featurePolygon, {root: true});
         });
