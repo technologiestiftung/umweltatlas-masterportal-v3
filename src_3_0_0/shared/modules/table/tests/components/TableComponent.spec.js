@@ -7,21 +7,29 @@ import {createStore} from "vuex";
 config.global.mocks.$t = key => key;
 
 describe("src/shared/modules/table/components/TableComponent.vue", () => {
-    const store = createStore({
-        namespaces: true,
-        modules: {
-            Modules: {
-                namespaced: true,
-                modules: {
-                    Language: {
+    let store;
+
+    beforeEach(() => {
+        store = createStore({
+            modules: {
+                Modules: {
+                    namespaced: true,
+                    modules: {
                         namespaced: true,
-                        getters: {
-                            currentLocale: () => "de-DE"
+                        Language: {
+                            namespaced: true,
+                            getters: {
+                                currentLocale: sinon.stub()
+                            }
                         }
                     }
                 }
             }
-        }
+        });
+    });
+
+    afterEach(() => {
+        sinon.restore();
     });
 
     describe("DOM", () => {
@@ -460,7 +468,6 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
 
                 wrapper.vm.runSorting("foo");
                 expect(getNextSortOrderStub.called).to.be.true;
-                sinon.restore();
             });
             it("should set the sort order for the columns correctly", async () => {
                 const wrapper = shallowMount(TableComponent, {
@@ -481,7 +488,6 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                 });
                 wrapper.vm.runSorting("foo");
                 expect(wrapper.vm.currentSorting.order).to.be.equal("desc");
-                sinon.restore();
             });
             it("should set the sort order for the columns correctly", async () => {
                 const wrapper = shallowMount(TableComponent, {
@@ -502,7 +508,6 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                 });
                 wrapper.vm.runSorting("foo");
                 expect(wrapper.vm.currentSorting.order).to.be.equal("asc");
-                sinon.restore();
             });
             it("should set the sort order for the columns correctly", async () => {
                 const wrapper = shallowMount(TableComponent, {
@@ -523,7 +528,6 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                 });
                 wrapper.vm.runSorting("foo");
                 expect(wrapper.vm.currentSorting.order).to.be.equal("origin");
-                sinon.restore();
             });
         });
         describe("isHeaderVisible", () => {
