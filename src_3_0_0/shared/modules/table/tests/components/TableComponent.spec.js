@@ -169,6 +169,31 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
             await wrapper.find("input[type='checkbox']").setValue(false);
             expect(wrapper.vm.visibleHeaders).to.have.lengthOf(1);
         });
+        it("should render download button if 'downloadable' is true", () => {
+            const wrapper = shallowMount(TableComponent, {
+                propsData: {
+                    data: {
+                        headers: ["foo"],
+                        items: [["bar"]]
+                    },
+                    downloadable: true
+                }
+            });
+
+            expect(wrapper.find("#table-download").exists()).to.be.true;
+        });
+        it("should not render download button if 'downloadable' is not given", () => {
+            const wrapper = shallowMount(TableComponent, {
+                propsData: {
+                    data: {
+                        headers: ["foo"],
+                        items: [["bar"]]
+                    }
+                }
+            });
+
+            expect(wrapper.find("#table-download").exists()).to.be.false;
+        });
     });
     describe("methods", () => {
         describe("getIconClassByOrder", () => {

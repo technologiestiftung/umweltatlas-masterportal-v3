@@ -2,11 +2,13 @@
 import {mapGetters} from "vuex";
 import localeCompare from "../../../js/utils/localeCompare";
 import FlatButton from "../../buttons/components/FlatButton.vue";
+import ExportButtonCSV from "../../buttons/components/ExportButtonCSV.vue";
 
 export default {
     name: "TableComponent",
     components: {
-        FlatButton
+        FlatButton,
+        ExportButtonCSV
     },
     props: {
         data: {
@@ -30,6 +32,11 @@ export default {
         },
         title: {
             type: [String, Boolean],
+            required: false,
+            default: false
+        },
+        downloadable: {
+            type: Boolean,
             required: false,
             default: false
         }
@@ -162,6 +169,13 @@ export default {
             }
 
             this.currentSorting = newSorting;
+        },
+        /**
+         * Returns the edited table data for export.
+         * @returns {Object} The edited table data.
+         */
+        exportTable () {
+            return this.editedTable.items;
         }
     }
 };
@@ -235,12 +249,18 @@ export default {
                 :class="'me-3 rounded-pill'"
             />
         </div>
-        <div class="btn-group">
-            <FlatButton
+        <div
+            v-if="downloadable"
+            class="btn-group"
+        >
+            <ExportButtonCSV
                 id="table-download"
-                aria-label="$t('common:shared.modules.table.download')"
-                :text="$t('common:shared.modules.table.download')"
-                :icon="'bi-cloud-download'"
+                class="btn btn-secondary align-items-center mb-3"
+                :url="false"
+                :data="exportTable()"
+                :filename="title"
+                :use-semicolon="true"
+                :title="$t('common:shared.modules.table.download')"
             />
         </div>
     </div>
