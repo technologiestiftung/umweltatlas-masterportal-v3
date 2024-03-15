@@ -49,7 +49,8 @@
 - Issue #1118: The `wfsSearch` module now works with multiple select boxes.
 - Issue #1119: Routing module: the route is also displayed when the start and end points are selected via the search.
 - Issue #1120: The map view gets centered on searched coordinate again.
-- Issue #1136: Routing module: The coordinates change when point is moved or deleted.
+- Issue #1136: Routing module: the coordinates change when point is moved or deleted.
+- Issue #1130: Routing module: fix the bug that interval value could be smaller than minimum interval value.
 - Issue #1132:  Routing module: error messages have been improved.
 - Issue #1144/#1146: The baselayer preview now works for WMTS Layer that have an XML as getCapabilities-URL.
 - Issue #1153: The Parameter "isSecured" is now recognized if defined in the config.json.

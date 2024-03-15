@@ -58,10 +58,10 @@ export default {
 
         /**
          * Computed minimum value for the interval slider
-         * @returns {Number} maximum value for the interval slider
+         * @returns {Number} minimum value for the interval slider
          */
         minIntervalValue () {
-            return this.currentValue < this.settings.minInterval ? this.currentValue : this.settings.minInterval;
+            return this.settings.minInterval;
         }
     },
 
@@ -127,7 +127,12 @@ export default {
          * @returns {void}
          */
         setIntervalValue (intervalValue) {
-            this.settings.intervalValue = intervalValue;
+            if (intervalValue > this.minIntervalValue) {
+                this.settings.intervalValue = intervalValue;
+            }
+            else {
+                this.settings.intervalValue = this.minIntervalValue;
+            }
         },
         /**
          * Resets the input waypoint and the displayed map features
