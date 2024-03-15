@@ -120,7 +120,7 @@ describe("src_3_0_0/app-store/js/getAndMergeRawLayer.js", () => {
             result = getAndMergeRawLayer(layerConfig[treeBaselayersKey].elements[0]);
 
             expect(result).not.to.be.null;
-            expect(result.id).to.be.equals("717");
+            expect(result.id).to.be.equals("717-718-719");
             expect(result.name).to.be.equals("Geobasiskarten (farbig)");
             expect(result.layers).to.be.equals("layer717,layer718,layer719");
             expect(result.maxScale).to.be.equals(30000);
@@ -137,16 +137,9 @@ describe("src_3_0_0/app-store/js/getAndMergeRawLayer.js", () => {
                             type: "folder",
                             elements: [
                                 {
-                                    id: "xyz",
-                                    children: [
-                                        {
-                                            id: "682"
-                                        },
-                                        {
-                                            id: "1731"
-                                        }
-                                    ],
-                                    name: "Kita und Krankenhäuser"
+                                    id: ["682", "1731"],
+                                    name: "Kita und Krankenhäuser",
+                                    styleId: "styleId"
                                 }
                             ]
                         }
@@ -156,12 +149,16 @@ describe("src_3_0_0/app-store/js/getAndMergeRawLayer.js", () => {
             const simpleLayerList = [
                 {
                     id: "682",
-                    name: "name682"
+                    name: "name682",
+                    layers: "layerA,layerB",
+                    maxScale: "10000",
+                    minScale: "100"
                 },
                 {
                     id: "1731",
                     name: "name1731",
-                    layers: "layer1731"
+                    layers: "layer1731",
+                    maxScale: "20000"
                 }
             ];
             let result = null;
@@ -174,15 +171,20 @@ describe("src_3_0_0/app-store/js/getAndMergeRawLayer.js", () => {
             result = getAndMergeRawLayer(layerConfig[treeSubjectsKey].elements[0].elements[0]);
 
             expect(result).not.to.be.null;
-            expect(result.id).to.be.equals("xyz");
+            expect(result.id).to.be.equals("682-1731");
             expect(result.name).to.be.equals("Kita und Krankenhäuser");
             expect(result.typ).to.be.equals("GROUP");
+            expect(result.maxScale).to.be.equals(20000);
+            expect(result.minScale).to.be.equals(100);
+            expect(result.layers).to.be.equals("layerA,layerB,layer1731");
             expect(result.children).to.be.an("array");
             expect(result.children.length).to.be.equals(2);
             expect(result.children[0].id).to.be.equals("682");
             expect(result.children[0].name).to.be.equals("name682");
+            expect(result.children[0].styleId).to.be.equals("styleId");
             expect(result.children[1].id).to.be.equals("1731");
             expect(result.children[1].name).to.be.equals("name1731");
+            expect(result.children[1].styleId).to.be.equals("styleId");
             expect(result.children[1].layers).to.be.equals("layer1731");
         });
     });

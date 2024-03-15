@@ -523,13 +523,22 @@ describe("src_3_0_0/modules/legend/store/actionsLegend.js", () => {
         });
     });
 
-    // should be edited if grouplayer exist
-    it.skip("prepareLegendForGroupLayer", () => {
+    it("prepareLegendForGroupLayer", async () => {
         layer1 = {
-            id: "1"
+            id: "1",
+            createLegend: sinon.stub().returns(
+                new Promise((resolve) => {
+                    resolve(["legendUrl1"]);
+                })
+            )
         };
         layer2 = {
-            id: "2"
+            id: "2",
+            createLegend: sinon.stub().returns(
+                new Promise((resolve) => {
+                    resolve(["legendUrl2"]);
+                })
+            )
         };
         const layerSource = [
                 layer1,
@@ -541,7 +550,7 @@ describe("src_3_0_0/modules/legend/store/actionsLegend.js", () => {
 
         sinon.stub(legendDraw, "prepare").returns({});
 
-        prepareLegendForGroupLayer({commit, dispatch, getters}, layerSource);
+        await prepareLegendForGroupLayer({commit, dispatch, getters}, layerSource);
         expect(commit.calledOnce).to.be.true;
         expect(commit.firstCall.args[0]).to.be.equals("setPreparedLegend");
         expect(commit.firstCall.args[1]).to.be.deep.equals(["getLegendGraphicRequest", "getLegendGraphicRequest"]);

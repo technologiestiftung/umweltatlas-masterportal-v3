@@ -17,6 +17,7 @@ describe("src_3_0_0/modules/layerPreview/components/LayerPreview.vue", () => {
         layerWMTS,
         layerWMS,
         layerVectorTile,
+        layerGroup,
         getWMTSCapabilitiesStub,
         loadSpy;
 
@@ -59,6 +60,15 @@ describe("src_3_0_0/modules/layerPreview/components/LayerPreview.vue", () => {
             preview: {
                 src: "https://vectortile_url.de"
             }
+        };
+        layerGroup = {
+            id: "GROUP",
+            name: "groupLayer",
+            typ: "GROUP",
+            type: "layer",
+            children: [layerWMS, {id: "WMS2",
+                name: "layerWMS2",
+                typ: "WMS"}]
         };
 
         mapCollection.clear();
@@ -107,6 +117,9 @@ describe("src_3_0_0/modules/layerPreview/components/LayerPreview.vue", () => {
                     }
                     if (id === "VectorTile") {
                         return layerVectorTile;
+                    }
+                    if (id === "GROUP") {
+                        return layerGroup;
                     }
                     return null;
                 },
@@ -327,5 +340,28 @@ describe("src_3_0_0/modules/layerPreview/components/LayerPreview.vue", () => {
         // called Twice: once in mounted and then in this watcher
         expect(generatePreviewUrlByConfigTypeSpy.calledTwice).to.equal(true);
     });
+
+    it("do render the LayerPreview for supported layer-typ GROUP", async () => {
+        const props = {
+            layerId: "GROUP"
+        };
+
+        layerWMS.url = "https://groupUrl.de";
+
+        sinon.stub(LayerPreviewComponent.methods, "getPreviewUrl").returns(layerWMS.url);
+        wrapper = shallowMount(LayerPreviewComponent, {
+            global: {
+                plugins: [store]
+            },
+            props: props
+        });
+
+        expect(wrapper.find(".layerPreview").exists()).to.be.true;
+        expect(wrapper.find("img").attributes().src.indexOf(layerWMS.url)).to.be.equals(0);
+        expect(loadSpy.calledOnce).to.be.true;
+        expect(loadSpy.firstCall.args[0].indexOf(layerWMS.url)).to.be.equals(0);
+        expect(warnSpy.notCalled).to.be.true;
+    });
+
 
 });

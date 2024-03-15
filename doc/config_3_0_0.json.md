@@ -3858,6 +3858,32 @@ With the VectorTile layer a dropped preview image is displayed, with WMS and WMT
 
 ***
 
+#### layerConfig.elements.layers.Group
+
+[inherits]: # (layerConfig.elements.layers)
+
+A group layer is created that contains all layers of the specified ids.
+The values for minScale and maxScale are determined from all group layers.
+Baselayer: It is important here that the specified ids address the same URL, i.e. use the same service.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|id|yes|String[]||Ids of the layers to be grouped, these must be contained in the **[services.json](services.json.en.md)**. They can have different types (field `typ`).|false|
+|typ|yes|String|"GROUP "|Sets the layer typ to GROUP, which can group layers.|false|
+|styleId|no|String||Id that defines the style. Id is resolved in the **[style.json](style.json.md)**. If filled, then all grouped layers receive this style.|false|
+
+
+**Example**
+```json
+ { 
+    "id": [ "20501", "20502", "20503", "20504" ], 
+    "name": "Gruppe Freizeitrouten und Radfernwege",
+    "styleId": "4515"
+}
+```
+
+***
+
 #### layerConfig.elements.layers.Raster
 
 [inherits]: # (layerConfig.elements.layers)

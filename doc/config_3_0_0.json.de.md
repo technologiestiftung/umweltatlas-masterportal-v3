@@ -3780,7 +3780,7 @@ Neben diesen Attributen gibt es auch Typ-spezifische Attribute für die verschie
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |autoRefresh|nein|Integer||Automatischer Reload des Layers. Angabe in ms. Minimum ist 500.|false|
-|id|ja|String/String[]||Id des Layers. In der **[services.json](services.json.de.md)** werden die ids aufgelöst und die notwendigen Informationen herangezogen. ACHTUNG: Hierbei ist wichtig, dass die angegebenen ids dieselbe URL ansprechen, also den selben Dienst benutzen. Bei Konfiguration eines Arrays von Ids ist die Angabe der minScale und maxScale in der services.json für jeden Layer notwendig.|false|
+|id|ja|String/String[]||Id des Layers. In der **[services.json](services.json.de.md)** werden die ids aufgelöst und die notwendigen Informationen herangezogen. Bei Konfiguration eines Arrays von Ids wird ein Gruppenlayer erzeugt **[Group](#markdown-header-layerconfigelementslayersgroup)**|false|
 |isPointLayer|nein|Boolean|false|Anzeige, ob der (Vektor)-Layer nur aus Punkt-Features besteht (nur relevant für WebGL Rendering))|false|
 |name|nein|String||Name des Layers.|false|
 |preview|nein|**[preview](#markdown-header-layerconfigelementslayerspreview)**||Vorschau für baselayer vom Typ WMS, WMTS und VectorTile. WMS und WMTS: bei keiner Angabe, wird ein zentrierter Kartenausschnitt geladen.|false|
@@ -3855,6 +3855,31 @@ Beim VectorTile-Layer wird ein abgelegtes Vorschaubild angezeigt, bei WMS- und W
     "center": "566245.97,5938894.79",
     "radius": 500
     }
+```
+
+***
+#### layerConfig.elements.layers.Group
+
+[inherits]: # (layerConfig.elements.layers)
+
+Es wird ein Gruppenlayer erzeugt, der alle layer der angegeben ids enthält.
+Die Werte für minScale und maxScale werden aus allen Gruppen-Layer bestimmt.
+Baselayer: Hierbei ist wichtig, dass die angegebenen ids dieselbe URL ansprechen, also den selben Dienst benutzen.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|id|ja|String[]||Ids der zu gruppierenden Layer, diese müssen in der **[services.json](services.json.de.md)** enthalten sein. Sie können unterschiedliche Typen haben.|false|
+|typ|ja|String|"GROUP "|Setzt den Layertypen auf GROUP, welcher Layer gruppieren kann.|false|
+|styleId|nein|String||Id die den Style definiert. Id wird in der **[style.json](style.json.md)** aufgelöst. Wenn gefüllt, dann erhalten alle gruppierten Layer diesen style.|false|
+
+
+**Beispiel**
+```json
+ { 
+    "id": [ "20501", "20502", "20503", "20504" ], 
+    "name": "Gruppe Freizeitrouten und Radfernwege",
+    "styleId": "4515"
+}
 ```
 
 ***

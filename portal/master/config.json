@@ -754,7 +754,7 @@
           ],
           "name": "Geobasiskarten (schwarz-grau)",
           "shortname": "Karte schwarz-grau",
-          "typ": "WMS",
+          "typ": "GROUP",
           "visibility": false
         },
         {
@@ -869,6 +869,13 @@
     },
     "subjectlayer": {
       "elements": [
+        { 
+          "id": [ "20501", "20502", "20503", "20504" ], 
+          "name": "Gruppe Freizeitrouten und Radfernwege (4 WFS Layer)",
+          "styleId": "4515",
+          "visibility": true,
+          "showInLayerTree": true
+        },
         {
           "id": "10220",
           "name": "Dauerzählstellen (Rad) Hamburg",
@@ -971,7 +978,7 @@
             }
           ]
         },
-        {
+      {
           "id": "1933",
           "typ": "WMS",
           "visibility": false,

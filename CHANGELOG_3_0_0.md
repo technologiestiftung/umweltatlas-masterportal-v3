@@ -30,9 +30,10 @@
   - A new parameter "subtitle" in snippet type "chart" which allows to display any combination of text and data as a subtitle.
   - A new parameter "tooltipUnit" in snippet type "chart" that can be used to add a unit to the numbers shown in tooltip.
 - LayerTree: A paramter "isNeverVisibleInTree" for layer config to supply an option to hide the layer in tree but can be loaded.
-  - PoiOrientation:
+- PoiOrientation:
     - The result window can now be moved.
     - New parameter onlyFilteredFeatures introduced, so that only filtered features are displayed in the results window.
+- Grouped layers are supported.
 
 ### Changed
 - CoordToolkit: Toast added instead of Alert for feedback after copying coordinates.

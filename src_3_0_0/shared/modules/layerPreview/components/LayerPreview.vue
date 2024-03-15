@@ -55,7 +55,7 @@ export default {
     emits: ["previewClicked"],
     data () {
         return {
-            supportedLayerTyps: ["WMS", "WMTS", "VectorTile"],
+            supportedLayerTyps: ["WMS", "WMTS", "VectorTile", "GROUP"],
             // if smaller some WMS layers load no content in image, e.g. Geobasiskarten (Schriftplatte), handle size by css
             width: 150,
             height: 150,
@@ -126,9 +126,19 @@ export default {
          * @returns {void}
          */
         buildWMSUrl (layerConfig) {
-            let url = `${layerConfig.url}?SERVICE=WMS&REQUEST=GetMap&WIDTH=${this.width}&HEIGHT=${this.height}`;
-            const params = wms.makeParams(layerConfig);
+            let layerConfigUrl,
+                params,
+                url;
 
+            if (layerConfig.typ === "GROUP") {
+                layerConfigUrl = layerConfig.children[0].url;
+                params = wms.makeParams(layerConfig.children[0]);
+            }
+            else {
+                layerConfigUrl = layerConfig.url;
+                params = wms.makeParams(layerConfig);
+            }
+            url = `${layerConfigUrl}?SERVICE=WMS&REQUEST=GetMap&WIDTH=${this.width}&HEIGHT=${this.height}`;
             params.CRS = layerConfig.crs ? layerConfig.crs : mapCollection.getMapView("2D").getProjection().getCode();
             params.SRS = params.CRS;
             params.BBOX = this.calculateExtent();
@@ -221,7 +231,7 @@ export default {
                 this.initialize({id: this.layerId, center: this.center, zoomLevel: this.zoomLevel});
                 this.layerName = layerConfig.name;
                 if (!this.previewUrlByLayerIds[this.layerId]) {
-                    if (layerConfig.typ === "WMS") {
+                    if (layerConfig.typ === "WMS" || layerConfig.typ === "GROUP") {
                         this.buildWMSUrl(layerConfig);
                     }
                     else if (layerConfig.typ === "WMTS") {

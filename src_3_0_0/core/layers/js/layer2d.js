@@ -23,7 +23,7 @@ export default function Layer2d (attributes) {
 
     this.setLayerSource(this.getLayer()?.getSource());
     this.controlAutoRefresh(attributes);
-    this.addErrorListener();
+    this.addErrorListener(this.getLayerSource());
 }
 
 Layer2d.prototype = Object.create(Layer.prototype);
@@ -194,10 +194,11 @@ Layer.prototype.getPointCoordinatesWithAltitude = function (coord) {
 
 /**
  * Adds listener on 'featuresloaderror', 'tileloaderror' and 'imageloaderror' at layer source.
+ * @param {ol/source/Source~Source} layerSource The ol layer source.
  * @returns {void}
  */
-Layer2d.prototype.addErrorListener = function () {
-    this.getLayerSource()?.on("featuresloaderror", async function () {
+Layer2d.prototype.addErrorListener = function (layerSource) {
+    layerSource?.on("featuresloaderror", async function () {
         const url = this.attributes.url
         + "&service="
         + this.attributes.typ
@@ -210,7 +211,7 @@ Layer2d.prototype.addErrorListener = function () {
                 return error.toJSON().status;
             }), this.get("name"));
     }.bind(this));
-    this.getLayerSource()?.on("tileloaderror", async function (evt) {
+    layerSource?.on("tileloaderror", async function (evt) {
         const url = evt.tile.src_ ? evt.tile.src_ : evt.tile.url_;
 
         if (url) {
@@ -220,7 +221,7 @@ Layer2d.prototype.addErrorListener = function () {
                 }), this.get("name"));
         }
     }.bind(this));
-    this.getLayerSource()?.on("imageloaderror", async function (evt) {
+    layerSource?.on("imageloaderror", async function (evt) {
         await this.errorHandling(await axios.get(evt.image.src_, {withCredentials: true})
             .catch(function (error) {
                 return error.toJSON().status;
