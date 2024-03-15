@@ -3862,7 +3862,7 @@ Beim VectorTile-Layer wird ein abgelegtes Vorschaubild angezeigt, bei WMS- und W
 
 [inherits]: # (layerConfig.elements.layers)
 
-Es wird ein Gruppenlayer erzeugt, der alle layer der angegeben ids enthält.
+Es wird ein Gruppenlayer erzeugt, der alle Layer der angegeben ids enthält.
 Die Werte für minScale und maxScale werden aus allen Gruppen-Layer bestimmt.
 Baselayer: Hierbei ist wichtig, dass die angegebenen ids dieselbe URL ansprechen, also den selben Dienst benutzen.
 

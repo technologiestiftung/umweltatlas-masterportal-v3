@@ -978,7 +978,7 @@
             }
           ]
         },
-      {
+       {
           "id": "1933",
           "typ": "WMS",
           "visibility": false,
