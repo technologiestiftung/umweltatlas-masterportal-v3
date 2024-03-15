@@ -52,6 +52,7 @@
 - Issue #1136: Routing module: The coordinates change when point is moved or deleted.
 - Issue #1132:  Routing module: error messages have been improved.
 - Issue #1144/#1146: The baselayer preview now works for WMTS Layer that have an XML as getCapabilities-URL.
+- Issue #1153: The Parameter "isSecured" is now recognized if defined in the config.json.
 - Layer selection: The order of the layers corresponds to the order of the layers in config.json.
 - Fixed HighlightFeature for MultiPolygons: In certain WFS layers, when polygon selection is enabled,
     clicking on a polygon would highlight it, but multiPolygons wouldn't. This has now been corrected.
