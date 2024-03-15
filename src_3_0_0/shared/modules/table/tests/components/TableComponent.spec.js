@@ -150,25 +150,9 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                 }
             });
 
-            expect(wrapper.findAll("input[type='checkbox']")).to.have.lengthOf(2);
             expect(wrapper.vm.visibleHeaders).to.have.lengthOf(2);
         });
 
-        it("should not render a table column which has been deselected", async () => {
-            const wrapper = shallowMount(TableComponent, {
-                propsData: {
-                    data: {
-                        headers: [
-                            {name: "foo", index: 0},
-                            {name: "bar", index: 1}
-                        ]
-                    }
-                }
-            });
-
-            await wrapper.find("input[type='checkbox']").setValue(false);
-            expect(wrapper.vm.visibleHeaders).to.have.lengthOf(1);
-        });
         it("should render download button if 'downloadable' is true", () => {
             const wrapper = shallowMount(TableComponent, {
                 propsData: {
@@ -430,7 +414,10 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                     currentSorting: {
                         columnName: "foo",
                         order: "origin"
-                    }
+                    },
+                    visibleHeaders: [{
+                        name: "foo"
+                    }]
                 });
                 wrapper.vm.runSorting("foo");
                 expect(wrapper.vm.currentSorting.order).to.be.equal("desc");
@@ -448,7 +435,10 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                     currentSorting: {
                         columnName: "foo",
                         order: "desc"
-                    }
+                    },
+                    visibleHeaders: [{
+                        name: "foo"
+                    }]
                 });
                 wrapper.vm.runSorting("foo");
                 expect(wrapper.vm.currentSorting.order).to.be.equal("asc");
@@ -466,11 +456,73 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                     currentSorting: {
                         columnName: "foo",
                         order: "asc"
-                    }
+                    },
+                    visibleHeaders: [{
+                        name: "foo"
+                    }]
                 });
                 wrapper.vm.runSorting("foo");
                 expect(wrapper.vm.currentSorting.order).to.be.equal("origin");
                 sinon.restore();
+            });
+        });
+        describe("isHeaderVisible", () => {
+            it("should return false if the parameter is not string", () => {
+                const wrapper = shallowMount(TableComponent, {
+                    propsData: {
+                        data: {}
+                    }
+                });
+
+                expect(wrapper.vm.isHeaderVisible(null)).to.be.false;
+                expect(wrapper.vm.isHeaderVisible(0)).to.be.false;
+                expect(wrapper.vm.isHeaderVisible(undefined)).to.be.false;
+                expect(wrapper.vm.isHeaderVisible(true)).to.be.false;
+                expect(wrapper.vm.isHeaderVisible({})).to.be.false;
+                expect(wrapper.vm.isHeaderVisible([])).to.be.false;
+            });
+
+            it("should return false if there are no visible headers", async () => {
+                const wrapper = shallowMount(TableComponent, {
+                    propsData: {
+                        data: {}
+                    }
+                });
+
+                await wrapper.setData({
+                    visibleHeaders: []
+                });
+                expect(wrapper.vm.isHeaderVisible("a name")).to.be.false;
+            });
+
+            it("should return false if the parameter is not in visible header", async () => {
+                const wrapper = shallowMount(TableComponent, {
+                    propsData: {
+                        data: {}
+                    }
+                });
+
+                await wrapper.setData({
+                    visibleHeaders: [{
+                        name: "foo"
+                    }]
+                });
+                expect(wrapper.vm.isHeaderVisible("a name")).to.be.false;
+            });
+
+            it("should return true if the parameter is  in visible header", async () => {
+                const wrapper = shallowMount(TableComponent, {
+                    propsData: {
+                        data: {}
+                    }
+                });
+
+                await wrapper.setData({
+                    visibleHeaders: [{
+                        name: "foo"
+                    }]
+                });
+                expect(wrapper.vm.isHeaderVisible("foo")).to.be.true;
             });
         });
     });

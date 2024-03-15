@@ -1,5 +1,6 @@
 <script>
 import {mapGetters} from "vuex";
+import draggable from "vuedraggable";
 import localeCompare from "../../../js/utils/localeCompare";
 import FlatButton from "../../buttons/components/FlatButton.vue";
 import ExportButtonCSV from "../../buttons/components/ExportButtonCSV.vue";
@@ -7,6 +8,7 @@ import ExportButtonCSV from "../../buttons/components/ExportButtonCSV.vue";
 export default {
     name: "TableComponent",
     components: {
+        Draggable: draggable,
         FlatButton,
         ExportButtonCSV
     },
@@ -48,15 +50,14 @@ export default {
                 columnName: "",
                 order: "origin"
             },
-            visibleHeadersIndices: []
+            visibleHeadersIndices: [],
+            draggableHeader: [],
+            visibleHeaders: []
         };
     },
     computed: {
         ...mapGetters("Language", ["currentLocale"]),
 
-        visibleHeaders () {
-            return this.data.headers?.filter(header => this.visibleHeadersIndices.includes(header.index)) || [];
-        },
         editedTable () {
             const table = {
                 headers: [],
@@ -81,12 +82,30 @@ export default {
     },
     watch: {
         data: {
-            handler () {
+            handler (val) {
+                this.draggableHeader = val?.headers;
+            },
+            immediate: true
+        },
+
+        draggableHeader: {
+            handler (val) {
                 this.visibleHeadersIndices = [];
-                this.data.headers?.forEach(header => {
-                    this.visibleHeadersIndices.push(header.index);
+                val?.forEach(header => {
+                    if (!this.visibleHeaders.length || this.isHeaderVisible(header.name)) {
+                        this.visibleHeadersIndices.push(header.index);
+                    }
                 });
             },
+            deep: true,
+            immediate: true
+        },
+
+        visibleHeadersIndices: {
+            handler (val) {
+                this.visibleHeaders = this.draggableHeader?.filter(header => val.includes(header.index));
+            },
+            deep: true,
             immediate: true
         }
     },
@@ -176,6 +195,18 @@ export default {
          */
         exportTable () {
             return this.editedTable.items;
+        },
+
+        /**
+         * Check if the header is visible in the table, if the header is hidden, it could not be draggable.
+         * @param {String} name - The column name.
+         * @returns {Boolean} true if it is visible
+         */
+        isHeaderVisible (name) {
+            if (typeof name !== "string" || !this.visibleHeaders.length) {
+                return false;
+            }
+            return this.visibleHeaders.some(header => header?.name === name);
         }
     }
 };
@@ -207,38 +238,48 @@ export default {
                     :icon="'bi-gear'"
                     :class="'me-3 rounded-pill'"
                     data-bs-toggle="dropdown"
+                    data-bs-auto-close="outside"
                 />
                 <div class="dropdown-menu p-0 border-0 mt-1">
-                    <ul class="list-group">
-                        <li
-                            v-for="(column, idx) in data.headers"
-                            :key="idx"
-                            class="list-group-item d-flex justify-content-between p-2"
-                        >
-                            <div class="ms-2 me-auto d-flex form-check">
-                                <input
-                                    v-model="visibleHeadersIndices"
-                                    :value="column.index"
-                                    class="me-2 mt-1 form-check-input"
-                                    type="checkbox"
-                                >
-                                <label
-                                    class="text-nowrap form-check-label"
-                                    for="prevCheckbox"
-                                >
-                                    {{ column.name }}
-                                </label>
-                            </div>
-                            <div>
-                                <span class="me-2">
-                                    <i class="bi bi-pin-angle" />
-                                </span>
-                                <span class="me-2">
-                                    <i class="bi bi-three-dots-vertical" />
-                                </span>
-                            </div>
-                        </li>
-                    </ul>
+                    <Draggable
+                        v-model="draggableHeader"
+                        group="people"
+                        class="dragArea no-list ps-0 ms-2"
+                        tag="ul"
+                        item-key="id"
+                        handle=".list-group-item-draggable"
+                    >
+                        <template #item="{ element }">
+                            <li
+                                :key="element.index"
+                                :class="['list-group-item', 'd-flex', 'justify-content-between', 'p-2', 'index+' + element.index, isHeaderVisible(element.name)? 'list-group-item-draggable' : '']"
+                            >
+                                <div class="ms-2 me-auto d-flex form-check">
+                                    <input
+                                        :id="element.name + element.index"
+                                        v-model="visibleHeadersIndices"
+                                        :value="element.index"
+                                        class="me-2 mt-1 form-check-input"
+                                        type="checkbox"
+                                    >
+                                    <label
+                                        class="text-nowrap form-check-label"
+                                        :for="element.name + element.index"
+                                    >
+                                        {{ element.name }}
+                                    </label>
+                                </div>
+                                <div>
+                                    <span class="me-2">
+                                        <i class="bi bi-pin-angle" />
+                                    </span>
+                                    <span class="me-2">
+                                        <i class="bi bi-three-dots-vertical" />
+                                    </span>
+                                </div>
+                            </li>
+                        </template>
+                    </Draggable>
                 </div>
             </div>
             <FlatButton
@@ -311,8 +352,17 @@ export default {
 
 .dropdown-menu {
     --bs-dropdown-min-width: 25em;
-    input:hover {
+    li {
         cursor: pointer;
+        input:hover {
+            cursor: pointer;
+        }
+        .form-check-label {
+            cursor: pointer;
+        }
+        &:hover {
+            background: $light_blue;
+        }
     }
 }
 
