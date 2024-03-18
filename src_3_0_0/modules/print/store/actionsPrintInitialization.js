@@ -343,6 +343,10 @@ export default {
             canvasPrintOptions.scale = state.optimalScale;
         }
         else {
+            if (state.currentScaleUrlParams) {
+                state.currentScale = state.currentScaleUrlParams;
+                state.currentScaleUrlParams = undefined;
+            }
             canvasPrintOptions.scale = state.currentScale;
         }
 

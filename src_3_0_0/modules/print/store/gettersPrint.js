@@ -22,7 +22,7 @@ const getters = {
             isGfiSelected: state.isGfiSelected,
             isLegendSelected: state.isLegendSelected
         };
-        
+
         return params;
     }
 };
