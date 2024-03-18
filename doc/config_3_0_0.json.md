@@ -3196,7 +3196,7 @@ Multiple **[SearchInstances](#markdown-header-portalconfigmenusectionsmoduleswfs
 
 ***
 
-#### portalConfig.menu.sections.modules.wfsSearch.searchInstance
+##### portalConfig.menu.sections.modules.wfsSearch.searchInstance
 
 [type:Literal]: # (Datatypes.Literal)
 [type:ResultList]: # (Datatypes.ResultList)
@@ -4842,7 +4842,7 @@ The configuration depends on the type of service.
 
 ***
 
-#### Datatypes.Snippets.ChartConfig
+### Datatypes.Snippets.ChartConfig
 
 An object that describes a chart. Click **[here](https://www.chartjs.org/docs/latest/configuration/)** for more information.
 
