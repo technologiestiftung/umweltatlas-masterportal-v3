@@ -3063,7 +3063,7 @@ The shadow tool provides a UI element to define a point in time by using sliders
 ***
 
 ###### portalConfig.menu.sections.modules.shadow.shadowTime
-|Name|Required|Type|Default|Description|
+|Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|
 |month|no|String||month|false|
 |day|no|String||day|false|

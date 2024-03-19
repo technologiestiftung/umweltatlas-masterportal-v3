@@ -675,7 +675,7 @@ For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Scen
 |maximumScreenSpaceError|nein|Number|2.0|Detail level in which terrain/raster tiles are fetched. 4/3 is the highest quality level.|false|
 |tileCacheSize|nein|Number|100|terrain/raster tile cache size|false|
 
-**Example**
+**Beispiel**
 
 ```json
 {
@@ -709,7 +709,7 @@ For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Came
 |heading|nein|Number||Camera's initial heading in radians|false|
 |tilt|nein|Number||Camera's initial tile in radians|false|
 
-**Example**
+**Beispiel**
 
 ```json
 {
@@ -732,7 +732,7 @@ For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Fog.
 |----|-------------|---|-------|------------|------|
 |enabled|nein|Boolean|false|True if fog is enabled.|false|
 
-**Example**
+**Beispiel**
 
 ```json
 {
@@ -753,7 +753,7 @@ For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Glob
 |----|-------------|---|-------|------------|------|
 |enableLighting|nein|Boolean|false|Activates light effects on the map based on the sun's position.|false|
 
-**Example**
+**Beispiel**
 
 ```json
 {
@@ -3334,7 +3334,7 @@ Konfiguration der verschiedenen Transaktionsmethoden für den entsprechenden Lay
 |multi|nein|Boolean|false|Legt fest, ob es sich bei den gezeichneten Geometrien um Multi-X-Geometrien handeln sollte. Bei Konfiguration für die Methoden `update` und `delete` hat der Parameter keine Auswirkung.|false|
 |text|nein|String|"common:modules.wfst.interactionSelect.*"|Text des Knopfes der Transaktionsmethode. Falls kein Wert vorhanden ist, wird für `*` ein Standardwert der Transaktionsmethode verwendet. Kann ein Übersetzungsschlüssel sein.|false|
 
-**Examples**
+**Beispiele**
 
 ```json
 {
@@ -4637,7 +4637,7 @@ Beispiel für ein DateRange-Snippet. Mit über `prechecked` voreingestellten Zei
 }
 ```
 
-**Example**
+**Beispiel**
 
 Example for a feature info snippet. Displays all values of the configured attribute names `attrName` of all filtered features in the filter.
 
@@ -4846,7 +4846,7 @@ Die Konfiguration hängt vom Typ des Services ab.
 
 Ein Objekt, das ein Diagramm beschreibt. Für weitere informationen **[hier](https://www.chartjs.org/docs/latest/configuration/)** klicken.
 
-**Example**
+**Beispiel**
 
 Die Top-Level-Struktur der Chart.js-Konfiguration:
 
