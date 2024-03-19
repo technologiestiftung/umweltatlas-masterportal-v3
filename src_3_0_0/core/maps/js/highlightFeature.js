@@ -201,13 +201,13 @@ export default {
         if (layerSource) {
             if (layerSource.getFeatures().length > 0) {
                 feature = layerSource.getFeatureById(featureId) ||
-                  layerSource.getFeatures().find(feat => feat.get("features")?.find(feat_ => feat_.getId() === featureId));
+                layerSource.getFeatures().find(feat => feat.get("features")?.find(feat_ => feat_.getId() === featureId));
             }
             else {
                 await new Promise(resolve => {
                     layerSource.once("featuresloadend", () => {
                         feature = layerSource.getFeatureById(featureId) ||
-                      layerSource.getFeatures().find(feat => feat.get("features")?.find(feat_ => feat_.getId() === featureId));
+                        layerSource.getFeatures().find(feat => feat.get("features")?.find(feat_ => feat_.getId() === featureId));
                         resolve();
                     });
                 });
