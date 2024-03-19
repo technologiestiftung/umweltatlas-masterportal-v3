@@ -66,6 +66,7 @@
 - The TopicTree-Searchinterface failed if there is an empty folder in the topic tree. Now it runs over empty folders.
 - Layer Settings: styling of the settings menu.
 - Filter: Closing the filter with more than one child dropdown snippet selected and opening it again does not trigger an infinite loop anymore.
+- WfsSearch: It is now also possible to zoom in on result features with a geometry of type polygon.
 ---
 
 ---

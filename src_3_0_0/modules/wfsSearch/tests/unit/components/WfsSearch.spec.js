@@ -11,17 +11,14 @@ import WfsSearchModule from "../../../store/indexWfsSearch";
 config.global.mocks.$t = key => key;
 
 describe("src_3_0_0/modules/wfsSearch/components/WfsSearch.vue", () => {
-    const mockMapMarkerActions = {
-            removePointMarker: sinon.stub(),
-            placingPointMarker: sinon.stub()
-        },
-        mockAlertingActions = {
-            addSingleAlert: sinon.stub()
-        };
-
     let instances,
         store,
-        layer;
+        layer,
+        placingPointMarkerSpy,
+        placingPolygonMarkerSpy,
+        setCenterSpy,
+        setZoomSpy,
+        zoomToExtentSpy;
 
     beforeEach(() => {
         const map = {
@@ -32,6 +29,12 @@ describe("src_3_0_0/modules/wfsSearch/components/WfsSearch.vue", () => {
 
         mapCollection.clear();
         mapCollection.addMap(map, "2D");
+
+        placingPointMarkerSpy = sinon.spy();
+        placingPolygonMarkerSpy = sinon.spy();
+        setCenterSpy = sinon.spy();
+        setZoomSpy = sinon.spy();
+        zoomToExtentSpy = sinon.spy();
 
         instances = [{
             title: "Test WfsSearch",
@@ -70,11 +73,20 @@ describe("src_3_0_0/modules/wfsSearch/components/WfsSearch.vue", () => {
                 },
                 Maps: {
                     namespaced: true,
-                    actions: mockMapMarkerActions
+                    actions: {
+                        removePointMarker: sinon.stub(),
+                        placingPointMarker: placingPointMarkerSpy,
+                        placingPolygonMarker: placingPolygonMarkerSpy,
+                        setCenter: setCenterSpy,
+                        setZoom: setZoomSpy,
+                        zoomToExtent: zoomToExtentSpy
+                    }
                 },
                 Alerting: {
                     namespaced: true,
-                    actions: mockAlertingActions
+                    actions: {
+                        addSingleAlert: sinon.stub()
+                    }
                 }
             },
             getters: {
@@ -263,9 +275,9 @@ describe("src_3_0_0/modules/wfsSearch/components/WfsSearch.vue", () => {
 
         wrapper.vm.setZoomLevel(99);
 
-        await wrapper.vm.search();
-
-        expect(setZoomStub.calledWith(1)).to.be.true;
+        wrapper.vm.search().then(() => {
+            expect(setZoomStub.calledWith(1)).to.be.true;
+        });
     });
     it("sets zoom according to config/store if no such prop set", async () => {
         const features = [
@@ -294,8 +306,82 @@ describe("src_3_0_0/modules/wfsSearch/components/WfsSearch.vue", () => {
 
         wrapper.vm.setZoomLevel(99);
 
-        await wrapper.vm.search();
+        wrapper.vm.search().then(() => {
+            expect(setZoomStub.calledWith(99)).to.be.true;
+        });
+    });
 
-        expect(setZoomStub.calledWith(99)).to.be.true;
+    describe("markerAndZoom", () => {
+        let pointFeatures,
+            polygonFeatures;
+
+        beforeEach(() => {
+            pointFeatures = [
+                {
+                    getGeometry: () => {
+                        return {
+                            getCoordinates: () => [568366.068, 5941065.428]
+                        };
+                    }
+                }
+            ];
+            polygonFeatures = [
+                {
+                    getGeometry: () => {
+                        return {
+                            getCoordinates: () => [
+                                [456881.4, 5341325.7, 0],
+                                [456905.5, 5341311.3, 0],
+                                [456931.2, 5341295.9, 0],
+                                [456932.3, 5341295.6, 0],
+                                [456936.2, 5341294.5, 0],
+                                [456940, 5341301.7, 0],
+                                [456943.2, 5341308, 0],
+                                [456946.6, 5341314.5, 0],
+                                [456949.4, 5341319.9, 0],
+                                [456929.5, 5341329.8, 0],
+                                [456914, 5341337.5, 0],
+                                [456893, 5341347.9, 0],
+                                [456882.2, 5341327.1, 0],
+                                [456881.4, 5341325.7, 0]
+                            ],
+                            getExtent: () => [456881.4, 5341294.5, 456949.4, 5341347.9]
+                        };
+                    }
+                }
+            ];
+        });
+
+        it("should start action placingPointMarker, if the feature has a point geometry", async () => {
+            const wrapper = mount(WfsSearch, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            await wrapper.vm.markerAndZoom(pointFeatures);
+            expect(placingPointMarkerSpy.calledOnce).to.be.true;
+            expect(setCenterSpy.calledOnce).to.be.true;
+            expect(setZoomSpy.calledOnce).to.be.true;
+            expect(placingPointMarkerSpy.firstCall.args[1]).to.deep.equals([568366.068, 5941065.428]);
+            expect(setCenterSpy.firstCall.args[1]).to.deep.equals([568366.068, 5941065.428]);
+            expect(setZoomSpy.firstCall.args[1]).to.equals(99);
+        });
+
+        it("should start action placingPolygonMarker, if the feature has a polygon geometry", async () => {
+            const wrapper = mount(WfsSearch, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            await wrapper.vm.markerAndZoom(polygonFeatures);
+            expect(placingPolygonMarkerSpy.calledOnce).to.be.true;
+            expect(zoomToExtentSpy.calledOnce).to.be.true;
+            expect(placingPolygonMarkerSpy.firstCall.args[1]).to.deep.equals(polygonFeatures[0]);
+            expect(zoomToExtentSpy.firstCall.args[1]).to.deep.equals({
+                extent: [456881.4, 5341294.5, 456949.4, 5341347.9]
+            });
+        });
     });
 });

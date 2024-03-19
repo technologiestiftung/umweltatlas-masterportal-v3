@@ -112,6 +112,7 @@ describe("src_3_0_0/core/maps/store/actionsMapsMarker.js", () => {
             expect(mapMarker.addFeatureToMapMarkerLayer.calledOnce).to.be.true;
             expect(mapMarker.addFeatureToMapMarkerLayer.firstCall.args[0]).to.equals("marker_polygon_layer");
             expect(mapMarker.addFeatureToMapMarkerLayer.firstCall.args[1] instanceof Feature).to.be.true;
+            expect(mapMarker.addFeatureToMapMarkerLayer.firstCall.args[1]).to.deep.equals(feature);
         });
 
         it("place a polygon marker with geometry", () => {

@@ -62,13 +62,13 @@ export default {
     placingPolygonMarker ({dispatch}, placeableObj) {
         let feature;
 
-        if (typeof placeableObj !== Feature) {
+        if (placeableObj instanceof Feature) {
+            feature = placeableObj;
+        }
+        else {
             feature = new Feature({
                 geometry: placeableObj
             });
-        }
-        else {
-            feature = placeableObj;
         }
         const layerId = "marker_polygon_layer";
 
