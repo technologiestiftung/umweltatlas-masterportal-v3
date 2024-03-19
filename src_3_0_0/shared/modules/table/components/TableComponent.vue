@@ -223,6 +223,19 @@ export default {
                 return false;
             }
             return this.visibleHeaders.some(header => header?.name === name);
+        },
+        /**
+         * Resets the table data to original data.
+         * @returns {void}
+         */
+        resetAll () {
+            this.visibleHeadersIndices = [];
+            this.data.headers?.forEach(header => {
+                this.visibleHeadersIndices.push(header.index);
+            });
+            this.draggableHeader = this.data?.headers;
+            this.currentSorting.order = "origin";
+
         }
     }
 };
@@ -304,6 +317,7 @@ export default {
                 :text="$t('common:shared.modules.table.reset')"
                 :icon="'bi-x-circle'"
                 :class="'me-3 rounded-pill'"
+                :interaction="() => resetAll()"
             />
         </div>
         <div

@@ -1,4 +1,4 @@
-import {config, shallowMount} from "@vue/test-utils";
+import {config, shallowMount, mount} from "@vue/test-utils";
 import {expect} from "chai";
 import TableComponent from "../../components/TableComponent.vue";
 import sinon from "sinon";
@@ -177,6 +177,21 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
             });
 
             expect(wrapper.find("#table-download").exists()).to.be.false;
+        });
+    });
+    describe("User Interactions", () => {
+        it("should call 'resetAll' when the resetAll button is clicked", async () => {
+            const wrapper = mount(TableComponent, {
+                    propsData: {
+                        data: {}
+                    }
+                }),
+                button = wrapper.find("#table-reset"),
+                resetAllSpy = sinon.spy(wrapper.vm, "resetAll");
+
+            await button.trigger("click");
+            expect(resetAllSpy.calledOnce).to.be.true;
+            sinon.restore();
         });
     });
     describe("methods", () => {
@@ -559,6 +574,66 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                     }]
                 });
                 expect(wrapper.vm.isHeaderVisible("foo")).to.be.true;
+            });
+        });
+        describe("resetAll", () => {
+            it("should set sorted data to origin order", async () => {
+                const wrapper = shallowMount(TableComponent, {
+                    propsData: {
+                        data: {}
+                    }
+                });
+
+                await wrapper.setData({
+                    currentSorting: {
+                        columnName: "foo",
+                        order: "asc"
+                    },
+                    visibleHeaders: [{
+                        name: "foo"
+                    }]
+                });
+                wrapper.vm.resetAll();
+                expect(wrapper.vm.currentSorting.order).to.be.equal("origin");
+            });
+            it("should set all headers to origin order", async () => {
+                const wrapper = shallowMount(TableComponent, {
+                    propsData: {
+                        data: {
+                            headers: [
+                                {name: "foo", index: 0},
+                                {name: "bar", index: 1}
+                            ]
+                        }
+                    }
+                });
+
+                await wrapper.setData({
+                    draggableHeader: [
+                        {name: "bar", index: 1},
+                        {name: "foo", index: 0}
+                    ]
+                });
+                wrapper.vm.resetAll();
+                expect(wrapper.vm.draggableHeader).to.be.deep.equal([{name: "foo", index: 0}, {name: "bar", index: 1}]);
+            });
+            it("should set all headers to visible", async () => {
+                const wrapper = shallowMount(TableComponent, {
+                    propsData: {
+                        data: {
+                            headers: [
+                                {name: "foo", index: 0},
+                                {name: "bar", index: 1}
+                            ]
+                        }
+                    }
+                });
+
+                await wrapper.setData({
+                    visibleHeadersIndices: [0]
+                });
+                wrapper.vm.resetAll();
+                expect(wrapper.vm.visibleHeadersIndices).to.be.deep.equal([0, 1]);
             });
         });
     });
