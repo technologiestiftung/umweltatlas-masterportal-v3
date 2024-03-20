@@ -113,13 +113,7 @@ export default {
 
                         this.version = version;
                         this.wmsUrl = url;
-                        // @todo add folder external subject data if neccessary
-                        // if (Radio.request("Parser", "getItemByAttributes", {id: "ExternalLayer"}) === undefined) {
-                        //     Radio.trigger("Parser", "addFolder", "Externe Fachdaten", "ExternalLayer", "tree", 0);
-                        //     Radio.trigger("ModelList", "renderTree");
-                        //     $("#Overlayer").parent().after($("#ExternalLayer").parent());
-                        // }
-                        // Radio.trigger("Parser", "addFolder", finalCapability.Service.Title, uniqId, "ExternalLayer", 0);
+
                         finalCapability.Capability.Layer.Layer.forEach(layer => {
                             this.parseLayer(layer, uniqId, 1);
                         });
@@ -209,8 +203,6 @@ export default {
                             title: this.$t("common:modules.addWMS.alertTitleSuccess")});
                         this.$refs.wmsUrl.value = "";
                     }
-                    // @todo Radio.trigger("ModelList", "closeAllExpandedFolder");
-                    // @todo replace alert message if neccessary
                     else {
                         this.addSingleAlert({
                             content: this.$t("common:modules.addWMS.alreadyAdded"),

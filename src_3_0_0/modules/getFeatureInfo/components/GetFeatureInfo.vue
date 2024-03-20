@@ -250,7 +250,9 @@ export default {
         this.setMenuSide(this.initialMenuSide);
     },
     beforeUpdate () {
-        this.createMappedProperties(this.feature);
+        if (this.feature) {
+            this.createMappedProperties(this.feature);
+        }
     },
     methods: {
         ...mapMutations("Modules/GetFeatureInfo", [
@@ -334,7 +336,8 @@ export default {
          * @returns {Object} prepared properties - mapped by MappingObject or omitted by ignoredKeys
          */
         prepareProperties: function (properties, mappingObject, ignoredKeys) {
-            if (mappingObject === "showAll" && Array.isArray(ignoredKeys)) {
+
+            if (mappingObject === "showAll" && Array.isArray(ignoredKeys) || mappingObject === undefined) {
                 return omit(properties, ignoredKeys, true);
             }
             return mapAttributes(properties, mappingObject);

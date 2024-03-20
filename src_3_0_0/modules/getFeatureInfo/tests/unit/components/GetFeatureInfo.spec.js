@@ -292,6 +292,11 @@ describe("src_3_0_0/modules/getFeatureInfo/components/GetFeatureInfo.vue", () =>
         wrapper.vm.$options.watch.gfiFeatures.handler.call(wrapper.vm, []);
         expect(wrapper.vm.updatedFeature).to.equal(false);
     });
+    it("should show the original attribute keys if no mappedProperties are available", () => {
+        const returnedValue = GfiComponent.methods.prepareProperties({property: "property"}, undefined, ["ignoredID"]);
+
+        expect(returnedValue).to.be.deep.equals({property: "property"});
+    });
 
     describe("watcher visible", () => {
         it("should call reset if visible is false", () => {
