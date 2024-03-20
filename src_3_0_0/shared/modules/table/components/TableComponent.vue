@@ -289,7 +289,7 @@ export default {
         },
 
         /**
-         * Callback function which decides wether if the move is allowed to do or not.
+         * Callback function which decides if the move is allowed to do or not.
          * Returns false if the move goes above the fixated column.
          * @param {Object} evt The event object. See for more info: https://github.com/SortableJS/vue.draggable.next?tab=readme-ov-file#move
          * @returns {Boolean} false to prevent and true to do nothing.
@@ -378,7 +378,10 @@ export default {
                                             :aria="$t('common:shared.modules.table.fixColumnAriaLabel')"
                                         />
                                     </span>
-                                    <span class="me-2">
+                                    <span
+                                        :class="fixedColumn !== element.name && isHeaderVisible(element.name) ? '' : 'invisible'"
+                                        class="me-2"
+                                    >
                                         <i class="bi bi-three-dots-vertical" />
                                     </span>
                                 </div>
@@ -468,6 +471,13 @@ export default {
         }
         &:hover {
             background: $light_blue;
+        }
+        &.list-group-item:not(.pinnedSelectRow) {
+            label {
+                -webkit-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
         }
     }
 }
