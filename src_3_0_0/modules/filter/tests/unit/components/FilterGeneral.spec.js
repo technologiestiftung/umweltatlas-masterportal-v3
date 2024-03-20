@@ -102,8 +102,8 @@ describe("src_3_0_0/modules/filter/components/FilterGeneral.vue", () => {
     it("should not render url link if not configured", async () => {
         wrapper.vm.setLinkText("");
         await wrapper.vm.$nextTick();
-        expect(wrapper.findAll("a").filter(w => w.attributes("href")?.includes("&FILTER="))
-            .every(w => w.attributes("v-if"))).to.be.false;
+        expect(wrapper.findAll(".link-text")).to.have.lengthOf(0);
+
     });
 
     it("should render an icon button if initialStartupReset is true", async () => {
