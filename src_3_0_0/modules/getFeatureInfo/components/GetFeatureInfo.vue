@@ -122,8 +122,6 @@ export default {
                 this.reset();
             }
             else {
-                this.setMenuSide(this.initialMenuSide);
-
                 if (this.currentComponent(this.menuSide).type === "print") {
                     this.setMenuSide(otherSide);
                 }
@@ -249,6 +247,7 @@ export default {
     },
     mounted () {
         this.initializeModule({configPaths: this.configPaths, type: this.type});
+        this.setMenuSide(this.initialMenuSide);
     },
     beforeUpdate () {
         this.createMappedProperties(this.feature);
