@@ -82,7 +82,7 @@ export default {
                 const newItem = {};
 
                 this.visibleHeaders.forEach(header => {
-                    newItem[header.name] = item[header.name];
+                    newItem[header.name] = item[header.name] ?? "";
                 });
 
                 return newItem;
@@ -450,7 +450,7 @@ export default {
                     :key="columnIdx"
                     :class="['p-2', fixedColumn === entry.name ? 'fixedColumn' : '']"
                 >
-                    {{ item[entry.name] ? item[entry.name] : "" }}
+                    {{ item[entry.name] }}
                 </td>
             </tr>
         </tbody>
