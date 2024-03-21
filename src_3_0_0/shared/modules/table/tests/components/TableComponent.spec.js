@@ -635,6 +635,29 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                 wrapper.vm.resetAll();
                 expect(wrapper.vm.visibleHeadersIndices).to.be.deep.equal([0, 1]);
             });
+            it("should toggle the fixed column", async () => {
+                const wrapper = shallowMount(TableComponent, {
+                    propsData: {
+                        data: {
+                            headers: [
+                                {name: "foo", index: 0},
+                                {name: "bar", index: 1}
+                            ]
+                        }
+                    }
+                });
+
+                await wrapper.setData({
+                    fixedColumn: "foo"
+                });
+                expect(wrapper.vm.fixedColumn).to.be.equal("foo");
+                await wrapper.setData({
+                    visibleHeadersIndices: [1]
+                });
+                wrapper.vm.resetAll();
+                expect(wrapper.vm.visibleHeadersIndices).to.be.deep.equal([0, 1]);
+                expect(wrapper.vm.fixedColumn).to.be.undefined;
+            });
         });
         describe("toggleColumnFix", () => {
             it("should not change fixedColumn if parameter is not type of string", () => {

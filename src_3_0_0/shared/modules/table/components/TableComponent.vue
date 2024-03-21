@@ -115,6 +115,9 @@ export default {
         visibleHeadersIndices: {
             handler (val) {
                 this.visibleHeaders = this.draggableHeader?.filter(header => val.includes(header.index));
+                if (this.fixedColumn && !this.isHeaderVisible(this.fixedColumn)) {
+                    this.toggleColumnFix(this.fixedColumn);
+                }
             },
             deep: true,
             immediate: true
@@ -233,13 +236,15 @@ export default {
          * @returns {void}
          */
         resetAll () {
-            this.fixedColumn = undefined;
             this.visibleHeadersIndices = [];
             this.data.headers?.forEach(header => {
                 this.visibleHeadersIndices.push(header.index);
             });
             this.draggableHeader = this.data?.headers;
             this.currentSorting.order = "origin";
+            if (this.fixedColumn) {
+                this.toggleColumnFix(this.fixedColumn);
+            }
         },
 
         /**
@@ -372,7 +377,7 @@ export default {
                                 <div class="d-flex align-items-center">
                                     <span class="me-2">
                                         <IconButton
-                                            :class-array="['btn-light', 'pinnedButton']"
+                                            :class-array="['btn-light', 'pinnedButton', !isHeaderVisible(element.name) ? 'invisible' : '']"
                                             :interaction="() => toggleColumnFix(element.name)"
                                             :icon="fixedColumn !== element.name ? 'bi bi-pin-angle' : 'bi bi-pin-angle-fill'"
                                             :aria="$t('common:shared.modules.table.fixColumnAriaLabel')"
