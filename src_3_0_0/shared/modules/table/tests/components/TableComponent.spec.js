@@ -135,7 +135,50 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
 
             expect(wrapper.findAll(".sortable-icon").length).to.be.equal(1);
         });
+        it("should render table with multiselect", () => {
+            const wrapper = shallowMount(TableComponent, {
+                propsData: {
+                    data: {
+                        headers: ["foo", "bar", "buz"],
+                        items: [
+                            ["foo", "bar", "buz"]
+                        ]
+                    },
+                    filterable: true
+                }
+            });
 
+            expect(wrapper.find(".multiselect-dropdown").exists()).to.be.true;
+        });
+        it("should render table without multiselect, when filterable is false", () => {
+            const wrapper = shallowMount(TableComponent, {
+                propsData: {
+                    data: {
+                        headers: ["foo", "bar", "buz"],
+                        items: [
+                            ["foo", "bar", "buz"]
+                        ]
+                    },
+                    filterable: false
+                }
+            });
+
+            expect(wrapper.find(".multiselect-dropdown").exists()).to.be.false;
+        });
+        it("should render table without multiselect, when filterable doesn't exist", () => {
+            const wrapper = shallowMount(TableComponent, {
+                propsData: {
+                    data: {
+                        headers: ["foo", "bar", "buz"],
+                        items: [
+                            ["foo", "bar", "buz"]
+                        ]
+                    }
+                }
+            });
+
+            expect(wrapper.find(".multiselect-dropdown").exists()).to.be.false;
+        });
     });
     describe("column visibility", () => {
         it("should render all checkboxes and include them in 'visibleHeaders'", async () => {
@@ -335,7 +378,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                             }
                         }
                     }),
-                    originRows = wrapper.vm.getSortedItems(wrapper.vm.data.items, "foo", "origin");
+                    originRows = wrapper.vm.getSortedItems(wrapper.vm.data.items, "origin", "foo");
 
                 expect(originRows).to.deep.equal(wrapper.vm.data.items);
             });
@@ -405,40 +448,6 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
 
                 expect(sortedItems).to.deep.equal(expectItems);
             });
-            // it("should return the rows in ascending order with the undefined data at the beginning", () => {
-            //     const wrapper = shallowMount(TableComponent, {
-            //             propsData: {
-            //                 data: {}
-            //             }
-            //         }),
-            //         items = [
-            //             {
-            //                 "name": "klm"
-            //             },
-            //             {
-            //                 "name": "xyz"
-            //             },
-            //             {},
-            //             {
-            //                 "name": "abc"
-            //             }
-            //         ],
-            //         expectItems = [
-            //             {},
-            //             {
-            //                 "name": "abc"
-            //             },
-            //             {
-            //                 "name": "klm"
-            //             },
-            //             {
-            //                 "name": "xyz"
-            //             }
-            //         ],
-            //         sortedRows = wrapper.vm.getSortedItems(items, "asc", "name");
-
-            //     expect(sortedRows).to.deep.equal(expectItems);
-            // });
         });
         describe("runSorting", () => {
             it("should call expected functions", () => {
@@ -811,6 +820,191 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                 expect(wrapper.vm.preventMoveAboveFixedColumn({draggedContext: {futureIndex: 1}})).to.be.true;
                 wrapper.vm.fixedColumn = null;
                 expect(wrapper.vm.preventMoveAboveFixedColumn({draggedContext: {futureIndex: 0}})).to.be.true;
+            });
+        });
+        describe("getUniqueValuesByColumnName", () => {
+            const wrapper = shallowMount(TableComponent, {
+                propsData: {
+                    data: {
+                        headers: ["foo", "bar", "buz"],
+                        items: [
+                            ["foo", "bar", "buz"]
+                        ]
+                    }
+                }
+            });
+
+            it("should return an empty array if first param is not a string", () => {
+                expect(wrapper.vm.getUniqueValuesByColumnName(undefined)).to.deep.equal([]);
+                expect(wrapper.vm.getUniqueValuesByColumnName(null)).to.deep.equal([]);
+                expect(wrapper.vm.getUniqueValuesByColumnName({})).to.deep.equal([]);
+                expect(wrapper.vm.getUniqueValuesByColumnName([])).to.deep.equal([]);
+                expect(wrapper.vm.getUniqueValuesByColumnName(true)).to.deep.equal([]);
+                expect(wrapper.vm.getUniqueValuesByColumnName(false)).to.deep.equal([]);
+                expect(wrapper.vm.getUniqueValuesByColumnName(1234)).to.deep.equal([]);
+            });
+
+            it("should return an empty array if second param is not an array", () => {
+                expect(wrapper.vm.getUniqueValuesByColumnName("foo", {})).to.deep.equal([]);
+                expect(wrapper.vm.getUniqueValuesByColumnName("foo", "string")).to.deep.equal([]);
+                expect(wrapper.vm.getUniqueValuesByColumnName("foo", 1234)).to.deep.equal([]);
+                expect(wrapper.vm.getUniqueValuesByColumnName("foo", true)).to.deep.equal([]);
+                expect(wrapper.vm.getUniqueValuesByColumnName("foo", false)).to.deep.equal([]);
+                expect(wrapper.vm.getUniqueValuesByColumnName("foo", undefined)).to.deep.equal([]);
+                expect(wrapper.vm.getUniqueValuesByColumnName("foo", null)).to.deep.equal([]);
+            });
+
+            it("should return an empty array if second param is an empty array", () => {
+                expect(wrapper.vm.getUniqueValuesByColumnName("foo", [])).to.deep.equal([]);
+            });
+
+            it("should return an empty array if given head is not found in objects of the array", () => {
+                const rows = [
+                        {
+                            foo: "bar",
+                            fuz: "buz"
+                        },
+                        {
+                            foo: "bar",
+                            fuz: "buz"
+                        }
+                    ],
+                    head = "fow";
+
+                expect(wrapper.vm.getUniqueValuesByColumnName(head, rows)).to.deep.equal([]);
+            });
+
+            it("should return an array with keys as strings", () => {
+                const rows = [
+                        {
+                            foo: "bar",
+                            fuz: "buz"
+                        },
+                        {
+                            foo: "bar",
+                            fuz: "buz"
+                        }
+                    ],
+                    head = "foo";
+
+                expect(wrapper.vm.getUniqueValuesByColumnName(head, rows)).to.deep.equal(["bar"]);
+            });
+        });
+        describe("addFilter", () => {
+            const wrapper = shallowMount(TableComponent, {
+                propsData: {
+                    data: {
+                        headers: ["foo", "bar", "buz"],
+                        items: [
+                            ["foo", "bar", "buz"]
+                        ]
+                    }
+                }
+            });
+
+            it("should not update the filterObject property", () => {
+                const copy = JSON.parse(JSON.stringify(wrapper.vm.filterObject));
+
+                wrapper.vm.addFilter();
+                expect(wrapper.vm.filterObject).to.deep.equal(copy);
+            });
+
+            it("should update the filterObject property", () => {
+                const result = {foo: {bar: true}};
+
+                wrapper.vm.addFilter("bar", "foo");
+                expect(wrapper.vm.filterObject).to.deep.equal(result);
+            });
+        });
+        describe("removeFilter", () => {
+            const wrapper = shallowMount(TableComponent, {
+                propsData: {
+                    data: {
+                        headers: ["foo", "bar", "buz"],
+                        items: [
+                            ["foo", "bar", "buz"]
+                        ]
+                    }
+                }
+            });
+
+            it("should not update the filterObject property", () => {
+                const copy = JSON.parse(JSON.stringify(wrapper.vm.filterObject));
+
+                wrapper.vm.removeFilter();
+                expect(wrapper.vm.filterObject).to.deep.equal(copy);
+            });
+
+            it("should update the filterObject property", () => {
+                const result = {foo: {bar: true}};
+
+                wrapper.vm.filterObject = {foo: {bar: true, buz: true}};
+                wrapper.vm.removeFilter("buz", "foo");
+                expect(wrapper.vm.filterObject).to.deep.equal(result);
+            });
+        });
+        describe("getFilteredRows", () => {
+            const wrapper = shallowMount(TableComponent, {
+                propsData: {
+                    data: {
+                        headers: ["foo", "bar", "buz"],
+                        items: [
+                            ["foo", "bar", "buz"]
+                        ]
+                    }
+                }
+            });
+
+            it("should return an empty array if first param is not an object", () => {
+                expect(wrapper.vm.getFilteredRows(undefined)).to.be.an("array").and.to.be.empty;
+                expect(wrapper.vm.getFilteredRows(null)).to.be.an("array").and.to.be.empty;
+                expect(wrapper.vm.getFilteredRows(true)).to.be.an("array").and.to.be.empty;
+                expect(wrapper.vm.getFilteredRows(false)).to.be.an("array").and.to.be.empty;
+                expect(wrapper.vm.getFilteredRows("string")).to.be.an("array").and.to.be.empty;
+                expect(wrapper.vm.getFilteredRows(1234)).to.be.an("array").and.to.be.empty;
+                expect(wrapper.vm.getFilteredRows([])).to.be.an("array").and.to.be.empty;
+            });
+
+            it("should return an empty array if the second param is not an array", () => {
+                expect(wrapper.vm.getFilteredRows({}, undefined)).to.be.an("array").and.to.be.empty;
+                expect(wrapper.vm.getFilteredRows({}, null)).to.be.an("array").and.to.be.empty;
+                expect(wrapper.vm.getFilteredRows({}, {})).to.be.an("array").and.to.be.empty;
+                expect(wrapper.vm.getFilteredRows({}, true)).to.be.an("array").and.to.be.empty;
+                expect(wrapper.vm.getFilteredRows({}, false)).to.be.an("array").and.to.be.empty;
+                expect(wrapper.vm.getFilteredRows({}, "string")).to.be.an("array").and.to.be.empty;
+                expect(wrapper.vm.getFilteredRows({}, 1234)).to.be.an("array").and.to.be.empty;
+            });
+
+            it("should return an array of found elements", () => {
+                const filterObject = {foo: {bar: true}},
+                    rows = [
+                        {foo: "bar", fow: "wow"},
+                        {foo: "baz", fow: "wow"}
+                    ],
+                    expected = [{foo: "bar", fow: "wow"}];
+
+                expect(wrapper.vm.getFilteredRows(filterObject, rows)).to.deep.equals(expected);
+            });
+            it("should return an array of found elements", () => {
+                const filterObject = {foo: {bar: true}, fow: {wow: true}},
+                    rows = [
+                        {foo: "bar", fow: "wow"},
+                        {foo: "bar", fow: "pow"},
+                        {foo: "baz", fow: "wow"}
+                    ],
+                    expected = [{foo: "bar", fow: "wow"}];
+
+                expect(wrapper.vm.getFilteredRows(filterObject, rows)).to.deep.equals(expected);
+            });
+            it("should return an empty array if no elements found", () => {
+                const filterObject = {foob: {bar: true}, foww: {wow: true}},
+                    rows = [
+                        {foo: "bar", fow: "wow"},
+                        {foo: "bar", fow: "pow"},
+                        {foo: "baz", fow: "wow"}
+                    ];
+
+                expect(wrapper.vm.getFilteredRows(filterObject, rows)).to.be.an("array").and.to.be.empty;
             });
         });
     });

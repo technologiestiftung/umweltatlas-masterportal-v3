@@ -6,6 +6,7 @@ import FlatButton from "../../buttons/components/FlatButton.vue";
 import ExportButtonCSV from "../../buttons/components/ExportButtonCSV.vue";
 import IconButton from "../../buttons/components/IconButton.vue";
 import isObject from "../../../js/utils/isObject";
+import Multiselect from "vue-multiselect";
 
 export default {
     name: "TableComponent",
@@ -13,7 +14,8 @@ export default {
         Draggable: draggable,
         FlatButton,
         ExportButtonCSV,
-        IconButton
+        IconButton,
+        Multiselect
     },
     props: {
         additionalColumnsForDownload: {
@@ -42,6 +44,11 @@ export default {
             required: false,
             default: false
         },
+        filterable: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
         title: {
             type: [String, Boolean],
             required: false,
@@ -63,21 +70,25 @@ export default {
             visibleHeadersIndices: [],
             draggableHeader: [],
             visibleHeaders: [],
-            fixedColumn: undefined
+            fixedColumn: undefined,
+            dropdownSelected: {},
+            filterObject: {},
+            originFilteredRows: undefined
         };
     },
     computed: {
-        ...mapGetters("Language", ["currentLocale"]),
+        ...mapGetters("Modules/Language", ["currentLocale"]),
 
         editedTable () {
             const table = {
-                headers: [],
-                items: []
-            };
+                    headers: [],
+                    items: []
+                },
+                items = Object.keys(this.filterObject).length === 0 ? this.data?.items : this.editedTable?.items;
 
             table.headers = this.visibleHeaders;
-            table.items = this.getSortedItems(this.data?.items, this.currentSorting.columnName,
-                this.currentSorting.order);
+            table.items = this.getSortedItems(items, this.currentSorting.columnName, this.currentSorting.order);
+
             table.items = table.items.map(item => {
                 const newItem = {};
 
@@ -89,6 +100,12 @@ export default {
             });
 
             return table;
+        },
+        originRows: function () {
+            return this.data.items;
+        },
+        isSorted: function () {
+            return this.currentSorting.order !== "origin";
         }
     },
     watch: {
@@ -118,13 +135,155 @@ export default {
                 if (this.fixedColumn && !this.isHeaderVisible(this.fixedColumn)) {
                     this.toggleColumnFix(this.fixedColumn);
                 }
+
+                if (!Array.isArray(this.visibleHeaders)) {
+                    return;
+                }
+                const clonedFilterObject = JSON.parse(JSON.stringify(this.filterObject));
+
+                Object.keys(this.filterObject).forEach(filteredColumn => {
+                    if (!this.visibleHeaders.some(header => header.name === filteredColumn)) {
+                        delete clonedFilterObject[filteredColumn];
+                        this.dropdownSelected = {};
+                    }
+                });
+                this.filterObject = clonedFilterObject;
             },
             deep: true,
             immediate: true
+        },
+
+        filterObject: {
+            handler () {
+                const filteredRows = this.getFilteredRows(this.filterObject, this.originRows);
+
+                this.originFilteredRows = filteredRows;
+                if (this.isSorted) {
+                    this.editedTable.items = this.getSortedItems(this.originFilteredRows ? this.originFilteredRows : this.editedTable.items, this.currentSorting.columnName, this.currentSorting.order);
+                }
+                else {
+                    this.editedTable.items = filteredRows;
+                }
+            },
+            deep: true
         }
     },
     methods: {
+        /**
+         * Gets the items sorted by column and order.
+         * @param {Object[]} items - The items to sort.
+         * @param {String} columnToSort - The column name which is sorted.
+         * @param {String} order - The order to sort by. Can be origin, desc, asc.
+         * @returns {Object[]} the sorted items.
+         */
+        getSortedItems (items, columnToSort, order) {
+            if (!Array.isArray(items)) {
+                return [];
+            }
+            if (order === "origin") {
+                return items;
+            }
+            const sorted = [...items].sort((a, b) => {
+                if (typeof a[columnToSort] === "undefined") {
+                    return -1;
+                }
+                if (typeof b[columnToSort] === "undefined") {
 
+                    return 1;
+                }
+                return localeCompare(a[columnToSort], b[columnToSort], this.currentLocale, {ignorePunctuation: true});
+            });
+
+            return order === "asc" ? sorted : sorted.reverse();
+        },
+        /**
+         * Gets the rows based on given filter.
+         * @param {Object} filter The filter object.
+         * @param {Object[]} allRows All rows to filter.
+         * @returns {Object[]} the rows who matches the filter object.
+         */
+        getFilteredRows (filter, allRows) {
+            if (!isObject(filter) || !Array.isArray(allRows)) {
+                return [];
+            }
+            return allRows.filter((row) => {
+                let filterHit = true,
+                    allMatching = true;
+
+                Object.keys(filter).forEach(key => {
+                    if (!allMatching) {
+                        return;
+                    }
+                    const filterValue = typeof row[key] === "string" ? filter[key][row[key].toLowerCase()] : false;
+
+                    if (!filterValue) {
+                        allMatching = false;
+                        filterHit = false;
+                    }
+                });
+                return filterHit;
+            });
+        },
+        /**
+         * Gets the unique values for given column name.
+         * @param {String} columnName The column name.
+         * @param {Object[]} originRows The rows to iterate.
+         * @returns {String[]} the unique values.
+         */
+        getUniqueValuesByColumnName (columnName, originRows) {
+            if (typeof columnName !== "string" || !Array.isArray(originRows) || !originRows.length) {
+                return [];
+            }
+            const result = {};
+
+            originRows.forEach(row => {
+                if (typeof row[columnName] !== "undefined" && !result[row[columnName]]) {
+                    result[row[columnName]] = true;
+                }
+            });
+            return Object.keys(result).sort((a, b) => localeCompare(a, b, this.currentLocale, {ignorePunctuation: true}));
+        },
+        /**
+         * Adds a filter to the filterObject property.
+         * @param {String} selectedOption The selected option.
+         * @param {String} columnName The name of the column.
+         * @returns {void}
+         */
+        addFilter (selectedOption, columnName) {
+            if (typeof selectedOption !== "string" || typeof columnName !== "string") {
+                return;
+            }
+
+            const value = selectedOption.toLowerCase(),
+                filterObject = JSON.parse(JSON.stringify(this.filterObject));
+
+            if (!Object.prototype.hasOwnProperty.call(filterObject, columnName)) {
+                filterObject[columnName] = {};
+            }
+            filterObject[columnName][value] = true;
+            this.filterObject = filterObject;
+        },
+        /**
+         * Removes a filter from the filterObject property.
+         * @param {String} removedOption The selected option.
+         * @param {String} columnName The name of the column.
+         * @returns {void}
+         */
+        removeFilter (removedOption, columnName) {
+            if (typeof removedOption !== "string" || typeof columnName !== "string") {
+                return;
+            }
+            const value = removedOption.toLowerCase(),
+                filterObject = JSON.parse(JSON.stringify(this.filterObject));
+
+            if (Object.keys(filterObject[columnName]).length === 1) {
+                delete filterObject[columnName];
+            }
+            else {
+                delete filterObject[columnName][value];
+            }
+            this.filterObject = filterObject;
+        },
         /**
          * Gets a specific icon class to the passed order.
          * @param {String} column - The column in which the table is sorted.
@@ -155,32 +314,6 @@ export default {
                 return "asc";
             }
             return "origin";
-        },
-        /**
-         * Gets the items sorted by column and order.
-         * @param {Object[]} items - The items to sort.
-         * @param {String} columnToSort - The column name which is sorted.
-         * @param {String} order - The order to sort by. Can be origin, desc, asc.
-         * @returns {Object[]} the sorted items.
-         */
-        getSortedItems (items, columnToSort, order) {
-            if (!Array.isArray(items)) {
-                return [];
-            }
-            if (order === "origin") {
-                return items;
-            }
-            const sorted = [...items].sort((a, b) => {
-                if (typeof a[columnToSort] === "undefined") {
-                    return -1;
-                }
-                if (typeof b[columnToSort] === "undefined") {
-                    return 1;
-                }
-                return localeCompare(a[columnToSort], b[columnToSort], this.currentLocale, {ignorePunctuation: true});
-            });
-
-            return order === "asc" ? sorted : sorted.reverse();
         },
         /**
          * Sets the order and sorts the table by the given column.
@@ -242,9 +375,12 @@ export default {
             });
             this.draggableHeader = this.data?.headers;
             this.currentSorting.order = "origin";
+
             if (this.fixedColumn) {
                 this.toggleColumnFix(this.fixedColumn);
             }
+            this.filterObject = {};
+            this.dropdownSelected = {};
         },
 
         /**
@@ -427,7 +563,41 @@ export default {
                     :key="idx"
                     :class="['p-2', fixedColumn === column.name ? 'fixedColumn' : '']"
                 >
-                    <span class="me-2">{{ column.name }}</span>
+                    <span
+                        v-if="filterable"
+                        class="multiselect-dropdown"
+                    >
+                        <Multiselect
+                            id="multiselect"
+                            v-model="dropdownSelected[column.name]"
+                            :options="getUniqueValuesByColumnName(column.name, data.items)"
+                            :multiple="true"
+                            :show-labels="false"
+                            open-direction="auto"
+                            :close-on-select="true"
+                            :clear-on-select="false"
+                            :searchable="false"
+                            placeholder=""
+                            :taggable="true"
+                            class="multiselect-dropdown"
+                            @select="(selectedOption) => addFilter(selectedOption, column.name)"
+                            @remove="(removedOption) => removeFilter(removedOption, column.name)"
+                        >
+                            <template
+                                #selection
+                            >
+                                <span
+                                    class="multiselect__single"
+                                >{{ column.name }}</span>
+                            </template>
+                        </Multiselect>
+                    </span>
+                    <span
+                        v-else
+                        class="me-2"
+                    >
+                        {{ column.name }}
+                    </span>
                     <span
                         v-if="sortable"
                         class="sortable-icon"
