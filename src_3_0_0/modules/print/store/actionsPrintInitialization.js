@@ -283,6 +283,9 @@ export default {
         const visibleLayerList = state.visibleLayerList;
         let canvasLayer = {};
 
+        if (state.currentScaleUrlParams) {
+            state.currentScaleUrlParams = undefined;
+        }
         dispatch("Maps/unregisterListener", {type: state.eventListener}, {root: true});
         canvasLayer = Canvas.getCanvasLayer(visibleLayerList);
         dispatch("chooseCurrentLayout", state.layoutList);
