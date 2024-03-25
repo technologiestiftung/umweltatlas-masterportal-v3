@@ -369,6 +369,11 @@
             "type": "legend"
           },
           {
+            "type": "shareView",
+            "facebookShare": true,
+            "qrShare": true
+          },
+          {
             "type": "fileImport"
           },
           {
