@@ -361,7 +361,7 @@
         "stop": "Abbrechen"
       },
       "chart": {
-        "speciesCadastreAlternativeText": "Für diese Art liegen bislang noch keine tagesaktuellen Beobachtungen vor."
+        "speciesCadastreAlternativeText": "Für diese Art liegen bislang noch keine oder nicht genügend tagesaktuelle Beobachtungen vor."
       },
       "description": "Filtert die in der Karte dargestellten Objekte",
       "download": {

@@ -12,6 +12,7 @@ import BarchartItem from "../../../shared/modules/charts/components/BarchartItem
 * @vue-prop {Array} filteredItems - The list of filtered items (ol features).
 * @vue-prop {Object} chartConfig - The config for the chart.
 * @vue-prop {String} alternativeTextForEmptyChart - The text to show if the chart is empty.
+* @vue-prop {Array} subtitle - Array of strings and data keys used to display additional data in the subtitle of the chart.
 */
 export default {
     name: "SnippetChart",
@@ -47,6 +48,11 @@ export default {
             type: [String, Boolean],
             required: false,
             default: false
+        },
+        subtitle: {
+            type: Array,
+            required: false,
+            default: undefined
         }
     },
     data () {
@@ -110,7 +116,35 @@ export default {
                         }
                     });
                 });
+                this.updateSubtitle(this.subtitle, feature, this.chartConfig.options);
             }
+        },
+
+        /**
+         * Sets the configured subtitle.
+         * @param {Array} subtitle - Array of strings and string arrays to set text and data.
+         * @param {Object} feature - The feature containing the data to be included in the subtitle.
+         * @param {Object} options - The chartConfig options in which to insert the generated subtitle.
+         * @returns{void}
+         */
+        updateSubtitle (subtitle, feature, options) {
+            if (!Array.isArray(subtitle) || !options.plugins?.subtitle) {
+                return;
+            }
+
+            let text = "";
+
+            subtitle.forEach(element => {
+                if (typeof element === "string") {
+                    text += element;
+                }
+                else if (Array.isArray(element)) {
+                    element.forEach(attr => {
+                        text += feature.get(attr);
+                    });
+                }
+            });
+            options.plugins.subtitle.text = text;
         }
 
     }
@@ -124,6 +158,11 @@ export default {
         <h6 v-if="title">
             {{ titleText }}
         </h6>
+        <BarchartItem
+            v-if="chartConfig.type === 'bar' && !isEmpty"
+            :given-options="chartConfig.options"
+            :data="chartConfig.data"
+        />
         <div
             v-if="infoText && !isEmpty"
             class="row info mb-4 mt-2"
@@ -135,11 +174,6 @@ export default {
                 {{ infoText }}
             </div>
         </div>
-        <BarchartItem
-            v-if="chartConfig.type === 'bar' && !isEmpty"
-            :given-options="chartConfig.options"
-            :data="chartConfig.data"
-        />
         <span
             v-if="isEmpty"
         >
@@ -156,5 +190,6 @@ export default {
 }
 .info-text {
     font-size: $font_size_sm;
+    margin-top: 15px;
 }
 </style>

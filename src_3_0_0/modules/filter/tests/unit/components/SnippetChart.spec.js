@@ -205,5 +205,62 @@ describe("src_3_0_0/modules/filter/components/SnippetChart.vue", () => {
                 expect(wrapper.vm.isEmpty).to.be.true;
             });
         });
+
+        describe("updateSubtitle", () => {
+            it("should set no subtitle by default", () => {
+                const wrapper = shallowMount(SnippetChart, {
+                        props: {
+                            chartConfig
+                        }
+                    }),
+                    feature = new Feature({foo: 0, bar: 0}),
+                    options = {plugins: {}};
+
+                wrapper.vm.updateSubtitle(undefined, feature, options);
+
+                expect(options.plugins.subtitle).to.be.undefined;
+            });
+
+            it("should not change configured subtitle if subtitle is not set", () => {
+                const wrapper = shallowMount(SnippetChart, {
+                        props: {
+                            chartConfig
+                        }
+                    }),
+                    feature = new Feature({foo: 0, bar: 0}),
+                    options = {
+                        plugins: {
+                            subtitle: {
+                                text: "Untertitel"
+                            }
+                        }
+                    };
+
+                wrapper.vm.updateSubtitle(undefined, feature, options);
+
+                expect(options.plugins.subtitle.text).to.equal("Untertitel");
+            });
+
+            it("should update subtitle correctly", () => {
+                const wrapper = shallowMount(SnippetChart, {
+                        props: {
+                            chartConfig
+                        }
+                    }),
+                    subtitle = ["Der Wert von foo ist ", ["foo"], " und der von bar ist ", ["bar"], "."],
+                    feature = new Feature({foo: 2, bar: 3}),
+                    options = {
+                        plugins: {
+                            subtitle: {
+                                text: "Untertitel"
+                            }
+                        }
+                    };
+
+                wrapper.vm.updateSubtitle(subtitle, feature, options);
+
+                expect(options.plugins.subtitle.text).to.equal("Der Wert von foo ist 2 und der von bar ist 3.");
+            });
+        });
     });
 });

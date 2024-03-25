@@ -1428,6 +1428,7 @@ export default {
                             :filtered-items="filteredItems"
                             :info-text="snippet.infoText"
                             :chart-config="snippet.chartConfig"
+                            :subtitle="snippet.subtitle"
                             :alternative-text-for-empty-chart="snippet.alternativeTextForEmptyChart"
                         />
                     </AccordionItem>

@@ -361,7 +361,7 @@
         "stop": "Stop"
       },
       "chart": {
-        "speciesCadastreAlternativeText": "Observation data including month of observation are not yet available for this species."
+        "speciesCadastreAlternativeText": "Observation data including time of observation are not yet sufficiently available for this species."
       },
       "description": "Filter the objects shown on the map",
       "download": {

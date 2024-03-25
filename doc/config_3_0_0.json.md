@@ -4420,6 +4420,7 @@ Note: Time-related snippets (`date` and `dateRange`) can only be operated in `ex
 |placeholder|no|String|""|For type `dropdown` only: The placeholder to use. Can be a translation key.|false|
 |prechecked|no|String[]/String||Initially checked value. For `dropdown`, `sliderRange` and `dateRange` an array of values, for checkbox a boolean, for slider a number, for text a string and for date a string (following the set `format`). If `visible` is set to `false`, value set by prechecked are forced for filtering. For `dropdown` with `multiselect`: If `prechecked` is set to `all`, all available values will be selected initially.|false|
 |renderIcons|no|String|"none"|For type `dropdown` with `display: "list"` only: If set to `fromLegend` icons will be placed left hand side of each entry. Icons are taken from legend. Use an object with attrNames as keys and imagePath as value {attrName: imagePath} to manually set images (see example).|false|
+|subtitle|no|String[]/String[][]||Only for snippet type `chart`. Can be set to display any combination of text and data as a subtitle of the chart.|false|
 |service|no|**[Service](#markdown-header-datatypessnippetsservice)**||For the initial filling of a snippet `dropdown`, `date`, `slider` an alternative service can be used. This may increase the performance during initial loading. The default is the service of the configured **[FilterLayer](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayer)**.|false|
 |showAllValues|no|Boolean||For `dropdown` snippet type only: prevents hiding of unselected values when set to `true`. Can only be used in conjunction with `prechecked: "all"`.|false|
 |subTitles|no|String[]|[]|Only for snippet type `dateRange`: The additional from and to labels to be displayed above the calendar fields. As an array with two elements (e.g. ["from", "to"]). Set subTitles to true to use the values of `attrName`, to false to not display labels.|false|
@@ -4687,6 +4688,7 @@ Example of a chart snippet. Queries the features from the configured "service" a
 {
     "type": "chart",
     "title": "Phänogramm",
+    "subtitle": ["Anzahl Beobachtungen = ", ["anzahl_beobachtungen"]],
     "chartConfig": {
         "type": "bar",
         "data": {
@@ -4707,6 +4709,10 @@ Example of a chart snippet. Queries the features from the configured "service" a
             "plugins": {
                 "legend": {
                     "display": false
+                },
+                "subtitle": {
+                  "display": true,
+                  "position": "bottom",
                 }
             }
         }
