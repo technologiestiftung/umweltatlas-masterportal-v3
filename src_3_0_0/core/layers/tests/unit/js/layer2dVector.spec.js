@@ -338,6 +338,12 @@ describe("src_3_0_0/core/js/layers/layer2dVector.js", () => {
     });
 
     describe("filterUniqueLegendInfo", () => {
+        it("returns the given legendinfos if no features are given", () => {
+            const vectorLayer = new Layer2dVector(attributes),
+                expected = {foo: "bar"};
+
+            expect(vectorLayer.filterUniqueLegendInfo([], undefined, expected)).to.deep.equal(expected);
+        });
         it("returns uniqueLegendInfo for several features with same condition property (same style)", () => {
             const vectorLayer = new Layer2dVector(attributes),
                 attributes1 = {id: 1, kategorie: "Bewässerungsanlagen", name: ""},
@@ -633,6 +639,122 @@ describe("src_3_0_0/core/js/layers/layer2dVector.js", () => {
                 ];
 
             expect(vectorLayer.filterUniqueLegendInfo(features, rules, legendInfos)).to.deep.equal(expectedUniqueLegendInfo);
+        });
+        it("returns the filtered uniquelegendinfo for rules with arrays which has the length of 2", () => {
+            const vectorLayer = new Layer2dVector(attributes),
+                attributes1 = {id: 1, year: "1950"},
+                attributes2 = {id: 2, year: "1920"},
+                attributes3 = {id: 3, year: "2000"},
+                features = [{
+                    attribute: attributes1,
+                    get: (key) => {
+                        return attributes1[key];
+                    }
+                },
+                {
+                    attribute: attributes2,
+                    get: (key) => {
+                        return attributes2[key];
+                    }
+                },
+                {
+                    attribute: attributes3,
+                    get: (key) => {
+                        return attributes3[key];
+                    }
+                }],
+                rules = [{
+                    conditions: {
+                        properties: {
+                            year: [1, 1900]
+                        }
+                    },
+                    style: {
+                        imageName: "kanal.png",
+                        legendValue: "Before 1900"
+                    }
+                },
+                {
+                    conditions: {
+                        properties: {
+                            year: [1900, 1950]
+                        }
+                    },
+                    style: {
+                        imageName: "bruecke.png",
+                        legendValue: "1900-1949"
+                    }
+                },
+                {
+                    conditions: {
+                        properties: {
+                            year: [1950, 2000]
+                        }
+                    },
+                    style: {
+                        imageName: "bruecke.png",
+                        legendValue: "1950-1999"
+                    }
+                },
+                {
+                    conditions: {
+                        properties: {
+                            year: [2000, 200000]
+                        }
+                    },
+                    style: {
+                        imageName: "bruecke.png",
+                        legendValue: "After 2000"
+                    }
+                }],
+                legendInfos = {
+                    id: "mrh-industriekultur",
+                    legendInformation: [{
+                        geometryType: "Point",
+                        id: "1",
+                        label: "Before 1900",
+                        styleObject: {}
+                    },
+                    {
+                        geometryType: "Point",
+                        id: "2",
+                        label: "1900-1949",
+                        styleObject: {}
+                    },
+                    {
+                        geometryType: "Point",
+                        id: "3",
+                        label: "1950-1999",
+                        styleObject: {}
+                    },
+                    {
+                        geometryType: "Point",
+                        id: "4",
+                        label: "After 2000",
+                        styleObject: {}
+                    }]
+                },
+                expectedUniqueLegendInfo = [{
+                    geometryType: "Point",
+                    id: "2",
+                    label: "1900-1949",
+                    styleObject: {}
+                },
+                {
+                    geometryType: "Point",
+                    id: "3",
+                    label: "1950-1999",
+                    styleObject: {}
+                },
+                {
+                    geometryType: "Point",
+                    id: "4",
+                    label: "After 2000",
+                    styleObject: {}
+                }];
+
+            expect(vectorLayer.filterUniqueLegendInfo(features, rules, legendInfos.legendInformation)).to.deep.equal(expectedUniqueLegendInfo);
+            expect(vectorLayer.filterUniqueLegendInfo(features, rules, legendInfos.legendInformation).length).to.deep.equal(3);
         });
     });
 });

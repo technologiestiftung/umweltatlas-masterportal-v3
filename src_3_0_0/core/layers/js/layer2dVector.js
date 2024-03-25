@@ -333,22 +333,30 @@ Layer2dVector.prototype.createLegend = async function () {
  * @param {Object} features selected features
  * @param {Object} rules  the styleObject rules
  * @param {Object} legendInfos styleObject legend information
- * @returns {Object} uniqueLegendInformation as array
+ * @returns {Object[]} uniqueLegendInformation as array
  */
 Layer2dVector.prototype.filterUniqueLegendInfo = function (features, rules, legendInfos) {
+    if (!features.length) {
+        return legendInfos;
+    }
     const rulesKey = Object.keys(rules[0].conditions.properties)[0],
         conditionProperties = [...new Set(features.map(feature => feature.get(rulesKey)))];
     let uniqueLegendInformation = [];
 
     rules.forEach(rule => {
-        const value = String(rule.conditions?.properties[rulesKey]);
+        const ruleValue = rule.conditions?.properties[rulesKey],
+            value = String(ruleValue);
+        let legendInformation;
 
-        if (conditionProperties.includes(value)) {
-            const legendInformation = legendInfos.find(legendInfo => legendInfo?.label === (rule.style?.legendValue || value));
-
-            if (typeof legendInformation !== "undefined") {
-                uniqueLegendInformation.push(legendInformation);
-            }
+        if (Array.isArray(ruleValue) && ruleValue.length === 2
+            && conditionProperties.some(conditionValue => Number(conditionValue) >= ruleValue[0] && Number(conditionValue) < ruleValue[1])) {
+            legendInformation = legendInfos.find(legendInfo => legendInfo?.label === rule.style?.legendValue);
+        }
+        else if (conditionProperties.includes(value)) {
+            legendInformation = legendInfos.find(legendInfo => legendInfo?.label === (rule.style?.legendValue || value));
+        }
+        if (typeof legendInformation !== "undefined") {
+            uniqueLegendInformation.push(legendInformation);
         }
     });
 

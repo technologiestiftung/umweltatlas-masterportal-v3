@@ -843,6 +843,9 @@ export default {
                         if (typeof onfinish === "function" && this.paging?.total && this.paging?.page === this.paging?.total) {
                             onfinish();
                         }
+                        if (this.paging?.total && this.paging?.page === this.paging?.total) {
+                            this.mapHandler.createLegend(this.layerConfig.layerId);
+                        }
                     }, error => {
                         console.warn(error);
                     }, this.hasChildSnippets(this.snippets) && resetFilter);

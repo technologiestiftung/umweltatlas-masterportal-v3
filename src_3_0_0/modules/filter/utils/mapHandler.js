@@ -300,6 +300,9 @@ export default class MapHandler {
         else {
             this.handlers.showFeaturesByIds(layerConfig.id, []);
         }
+        if (typeof layerModel?.get === "function" && !layerModel.get("legendURL")) {
+            store.dispatch("Modules/Legend/removeLegend", layerModel.get("id"));
+        }
     }
 
     /**
@@ -467,5 +470,26 @@ export default class MapHandler {
                 }
             }]
         });
+    }
+
+    /**
+     * Creates the legend for the given layerId.
+     * Needed to update the legend.
+     * @param {Number} layerId The layer id.
+     * @returns {void}
+     */
+    createLegend (layerId) {
+        const layerModel = layerCollection.getLayerById(layerId),
+            layerSource = layerModel?.layerSource;
+
+        if (typeof layerModel?.get !== "function" || layerModel.get("legendURL")) {
+            return;
+        }
+
+        if (!layerSource.getFeatures().length) {
+            return;
+        }
+
+        store.dispatch("Modules/Legend/toggleLayerInLegend", {layer: layerModel, visibility: layerModel.get("visibility")});
     }
 }
