@@ -126,7 +126,7 @@ describe("src_3_0_0/modules/modules/wfst/components/WfsTransaction.vue", () => {
             }
         });
 
-        expect(wrapper.find("#tool-wfsTransaction-container").exists()).to.be.true;
+        expect(wrapper.find("#tool-wfs-transaction-container").exists()).to.be.true;
     });
     it("renders a container for the layer selection including a select element and its label", () => {
         store.commit("Modules/Wfst/setLayerIds", layerIds);
@@ -137,10 +137,10 @@ describe("src_3_0_0/modules/modules/wfst/components/WfsTransaction.vue", () => {
             }
         });
 
-        expect(wrapper.find("#tool-wfsTransaction-layerSelect-container").exists()).to.be.true;
-        expect(wrapper.find("#tool-wfsTransaction-layerSelect").exists()).to.be.true;
-        expect(wrapper.find("#tool-wfsTransaction-layerSelect-label").exists()).to.be.true;
-        expect(wrapper.find("#tool-wfsTransaction-layerSelect-label").text()).to.equal("common:modules.wfst.layerSelectLabel");
+        expect(wrapper.find(".layer-select-container").exists()).to.be.true;
+        expect(wrapper.find("#tool-wfs-transaction-layer-select-input").exists()).to.be.true;
+        expect(wrapper.find("#tool-wfs-transaction-layer-select-label").exists()).to.be.true;
+        expect(wrapper.find("#tool-wfs-transaction-layer-select-label").text()).to.equal("common:modules.wfst.layerSelectLabel");
     });
     it("renders a container including the failure message that no layer has been selected in the layer tree", async () => {
         exampleLayerOne.visibility = false;
@@ -152,8 +152,8 @@ describe("src_3_0_0/modules/modules/wfst/components/WfsTransaction.vue", () => {
             }
         });
         await wrapper.vm.$nextTick();
-        expect(wrapper.find("#tool-wfsTransaction-layerFailure").exists()).to.be.true;
-        expect(wrapper.find("#tool-wfsTransaction-layerFailure").text()).to.equal("modules.wfst.error.allLayersNotSelected");
+        expect(wrapper.find(".tool-wfs-transaction-layer-failure").exists()).to.be.true;
+        expect(wrapper.find(".tool-wfs-transaction-layer-failure").text()).to.equal("modules.wfst.error.allLayersNotSelected");
     });
     it("renders a container including the failure message that the current layer has not been selected in the layer tree", async () => {
         exampleLayerOne.visibility = false;
@@ -174,8 +174,8 @@ describe("src_3_0_0/modules/modules/wfst/components/WfsTransaction.vue", () => {
         wrapper.vm.setLayerIds = [{...exampleLayerOne, visibility: false}, exampleLayerTwo];
         wrapper.vm.setLayerInformation = [{...exampleLayerOne, visibility: false}, exampleLayerTwo];
         await wrapper.vm.$nextTick();
-        expect(wrapper.find("#tool-wfsTransaction-layerFailure").exists()).to.be.true;
-        expect(wrapper.find("#tool-wfsTransaction-layerFailure").text()).to.equal("modules.wfst.error.allLayersNotSelected");
+        expect(wrapper.find(".tool-wfs-transaction-layer-failure").exists()).to.be.true;
+        expect(wrapper.find(".tool-wfs-transaction-layer-failure").text()).to.equal("modules.wfst.error.allLayersNotSelected");
     });
     it("renders a form which includes a label and an input element for every gfi attribute of the layer", async () => {
         exampleLayerOne.visibility = true;
@@ -193,19 +193,19 @@ describe("src_3_0_0/modules/modules/wfst/components/WfsTransaction.vue", () => {
         await wrapper.vm.$nextTick();
         await wrapper.vm.$nextTick();
 
-        expect(wrapper.find("#tool-wfsTransaction-form").exists()).to.be.true;
-        expect(wrapper.find("#tool-wfsTransaction-form-input-stringAtt").exists()).to.be.true;
-        expect(wrapper.find("#tool-wfsTransaction-form-input-stringAtt").attributes().type).to.equal("text");
-        expect(wrapper.find("#tool-wfsTransaction-form-input-numAtt").exists()).to.be.true;
-        expect(wrapper.find("#tool-wfsTransaction-form-input-numAtt").attributes().type).to.equal("number");
-        expect(wrapper.find("#tool-wfsTransaction-form-input-shortAtt").exists()).to.be.true;
-        expect(wrapper.find("#tool-wfsTransaction-form-input-shortAtt").attributes().type).to.equal("number");
-        expect(wrapper.find("#tool-wfsTransaction-form-input-floatAtt").exists()).to.be.true;
-        expect(wrapper.find("#tool-wfsTransaction-form-input-floatAtt").attributes().type).to.equal("number");
-        expect(wrapper.find("#tool-wfsTransaction-form-input-boolAtt").exists()).to.be.true;
-        expect(wrapper.find("#tool-wfsTransaction-form-input-boolAtt").attributes().type).to.equal("checkbox");
-        expect(wrapper.find("#tool-wfsTransaction-form-input-dateAtt").exists()).to.be.true;
-        expect(wrapper.find("#tool-wfsTransaction-form-input-dateAtt").attributes().type).to.equal("date");
-        expect(wrapper.find("#tool-wfsTransaction-form-buttons").exists()).to.be.true;
+        expect(wrapper.find("#tool-wfs-transaction-form").exists()).to.be.true;
+        expect(wrapper.find("#tool-wfs-transaction-form-input-stringAtt").exists()).to.be.true;
+        expect(wrapper.find("#tool-wfs-transaction-form-input-stringAtt").attributes().type).to.equal("text");
+        expect(wrapper.find("#tool-wfs-transaction-form-input-numAtt").exists()).to.be.true;
+        expect(wrapper.find("#tool-wfs-transaction-form-input-numAtt").attributes().type).to.equal("number");
+        expect(wrapper.find("#tool-wfs-transaction-form-input-shortAtt").exists()).to.be.true;
+        expect(wrapper.find("#tool-wfs-transaction-form-input-shortAtt").attributes().type).to.equal("number");
+        expect(wrapper.find("#tool-wfs-transaction-form-input-floatAtt").exists()).to.be.true;
+        expect(wrapper.find("#tool-wfs-transaction-form-input-floatAtt").attributes().type).to.equal("number");
+        expect(wrapper.find("#tool-wfs-transaction-form-input-boolAtt").exists()).to.be.true;
+        expect(wrapper.find("#tool-wfs-transaction-form-input-boolAtt").attributes().type).to.equal("checkbox");
+        expect(wrapper.find("#tool-wfs-transaction-form-input-dateAtt").exists()).to.be.true;
+        expect(wrapper.find("#tool-wfs-transaction-form-input-dateAtt").attributes().type).to.equal("date");
+        expect(wrapper.find(".tool-wfs-transaction-form-buttons").exists()).to.be.true;
     });
 });

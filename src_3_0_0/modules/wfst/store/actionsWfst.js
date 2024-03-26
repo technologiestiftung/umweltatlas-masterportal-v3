@@ -72,7 +72,7 @@ const actions = {
                     source: drawLayer.getSource(),
                     type: (currentInteractionConfig[interaction].multi ? "Multi" : "") + interaction,
                     stopClick: true,
-                    geometryName: featureProperties.find(({type}) => type === "geometry").key
+                    geometryName: featureProperties.find(({type}) => type === "geometry")?.key
                 };
 
             if (interaction === "Point") {
@@ -159,6 +159,10 @@ const actions = {
             featureToDelete = null;
         }
     },
+    /**
+     * Resets all values from selected layer, all interaction, any modified feature.
+     * @returns {void}
+     */
     reset ({commit, dispatch, getters}) {
         const sourceLayer = layerCollection.getLayerById(getters.currentLayerId)?.layer,
             layerSelected = Array.isArray(getters.featureProperties);
@@ -217,8 +221,8 @@ const actions = {
                 geometry: geometryFeature.getGeometry()
             },
             featureProperties,
-            layerInformation[currentLayerIndex].featurePrefix,
-            selectedInteraction === "selectedUpdate"
+            selectedInteraction === "selectedUpdate",
+            layerInformation[currentLayerIndex].featurePrefix
         );
 
         await dispatch(
@@ -291,7 +295,7 @@ const actions = {
         commit("setFeatureProperty", {key, value});
     },
     /**
-     * Prepares the feature properties and handles user notifications
+     * Sets all feature properties based on actual layer
      * @returns {void}
      */
     async setFeatureProperties ({commit, getters: {currentLayerIndex, layerInformation}}) {
