@@ -24,6 +24,7 @@
   - A new parameter "adjustOnlyFromParent" in snippet (up to now only for "Dropdown" type) to allow adjust just from parent snippet.
   - A new parameter "linkText" to show a url link to the current filter setting at the bottom of the filter component.
   - A new parameter "allowEmptySelection" in snippet with type "dropdown" to allow all values to be deselected.
+  - A new component "SnippetChart". SnippetChart can be configured as a one of the filter snippets and renders a chart as a visual representation of the data that result from the current filter settings. Makes use of BarchartItem (LinechartItem and PiechartItem may be added in the future), which uses the chart.js library and its various configuration options.
   - A new parameter "alternativeTextForEmptyChart" in snippet type "chart" that can be displayed instead of chart.
   - A new parameter "initialStartupReset" which allows to show a reset button and reset the filter back to initial setup. It prevents the adjusting so it should not be used as a reset for filter configurations without a child snippet.
   - A new parameter "subtitle" in snippet type "chart" which allows to display any combination of text and data as a subtitle.
