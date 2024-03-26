@@ -262,5 +262,63 @@ describe("src_3_0_0/modules/filter/components/SnippetChart.vue", () => {
                 expect(options.plugins.subtitle.text).to.equal("Der Wert von foo ist 2 und der von bar ist 3.");
             });
         });
+        describe("setTooltipUnit", () => {
+            it("should set no label callback by default", () => {
+                const wrapper = shallowMount(SnippetChart, {
+                    props: {
+                        chartConfig
+                    }
+                });
+
+                expect(wrapper.vm.chartConfig.options?.plugins?.tooltip?.label).to.be.undefined;
+            });
+
+            it("should set no label callback if parameter tooltipUnit is not of type string", () => {
+                const wrapper = shallowMount(SnippetChart, {
+                    props: {
+                        chartConfig
+                    }
+                });
+
+                wrapper.vm.setTooltipUnit(true, chartConfig);
+
+                expect(wrapper.vm.chartConfig.options?.plugins?.tooltip?.label).to.be.undefined;
+            });
+
+            it("should set callback returning expected value", () => {
+                const wrapper = shallowMount(SnippetChart, {
+                    props: {
+                        chartConfig
+                    }
+                });
+
+                wrapper.vm.setTooltipUnit("%", chartConfig);
+
+                expect(wrapper.vm.chartConfig.options.plugins.tooltip.callbacks.label(
+                    {parsed: {y: 50}}
+                )).to.equal("50%");
+            });
+
+            it("should not overwrite other chart config options", () => {
+                const wrapper = shallowMount(SnippetChart, {
+                    props: {
+                        chartConfig: {
+                            ...chartConfig,
+                            options: {
+                                plugins: {
+                                    legend: {
+                                        display: true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+
+                wrapper.vm.setTooltipUnit("%", chartConfig);
+
+                expect(wrapper.vm.chartConfig.options.plugins.legend.display).to.be.true;
+            });
+        });
     });
 });

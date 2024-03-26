@@ -1429,6 +1429,7 @@ export default {
                             :info-text="snippet.infoText"
                             :chart-config="snippet.chartConfig"
                             :subtitle="snippet.subtitle"
+                            :tooltip-unit="snippet.tooltipUnit"
                             :alternative-text-for-empty-chart="snippet.alternativeTextForEmptyChart"
                         />
                     </AccordionItem>
