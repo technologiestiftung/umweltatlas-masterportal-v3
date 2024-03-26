@@ -167,4 +167,51 @@ describe("src_3_0_0/core/js/layers/layer2d.js", () => {
             expect(alertMessage.multipleAlert).to.be.equals(true);
         });
     });
+    describe("prepareFeaturesFor3D", () => {
+        it("should prepare the features if its geometry type is not GeometryCollection", () => {
+            const layer2d = new Layer2d({}),
+                features = [
+                    {
+                        "id": 1,
+                        getGeometry: () => {
+                            return {
+                                getType: () => ""
+                            };
+                        },
+                        setGeometry: () => {
+                            features[0].geometry = "geometrySet";
+                        }
+                    }
+                ];
+
+            layer2d.setAltitudeOnGeometry = sinon.stub();
+            layer2d.prepareFeaturesFor3D(features);
+
+            expect(features[0].geometry).to.equals("geometrySet");
+        });
+        it("should prepare the features if its geometry type is GeometryCollection", () => {
+            const layer2d = new Layer2d({}),
+                features = [
+                    {
+                        "id": 1,
+                        getGeometry: () => {
+                            return {
+                                getType: () => "GeometryCollection",
+                                getGeometries: () => {
+                                    return [{}];
+                                }
+                            };
+                        },
+                        setGeometry: () => {
+                            features[0].geometry = "geometrySet";
+                        }
+                    }
+                ];
+
+            layer2d.setAltitudeOnGeometry = sinon.stub();
+            layer2d.prepareFeaturesFor3D(features);
+
+            expect(features[0].geometry).to.equals("geometrySet");
+        });
+    });
 });
