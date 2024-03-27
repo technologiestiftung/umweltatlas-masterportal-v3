@@ -12,9 +12,10 @@ import layerFactory from "../../../core/layers/js/layerFactory";
  * @param {Object} [resultEvents] Actions that are executed when an interaction, such as hover or click, is performed with a result list item.
  * @param {String[]} [resultEvents.onClick=["activateLayerInTopicTree"]] Actions that are fired when clicking on a result list item.
  * @param {String} [searchInterfaceId="topicTree"] The id of the service interface.
+ * @param {String} [searchType=""] Decides whether the metadata or the name of a layer should be searched. Possible value: "metadata". If empty, name will be searched.
  * @returns {void}
  */
-export default function SearchInterfaceTopicTree ({hitTemplate, resultEvents, searchInterfaceId} = {}) {
+export default function SearchInterfaceTopicTree ({hitTemplate, resultEvents, searchInterfaceId, searchType} = {}) {
     SearchInterface.call(this,
         "client",
         searchInterfaceId || "topicTree",
@@ -24,6 +25,8 @@ export default function SearchInterfaceTopicTree ({hitTemplate, resultEvents, se
         },
         hitTemplate
     );
+
+    this.searchType = searchType || "";
 }
 
 SearchInterfaceTopicTree.prototype = Object.create(SearchInterface.prototype);
@@ -75,12 +78,15 @@ SearchInterfaceTopicTree.prototype.searchInLayers = function (layerConfigs, sear
             let searchString = "",
                 datasetsExist = false;
 
+            if (this.searchType === "metadata") {
+                searchString = layer.datasets[0].md_name.replace(/ /g, "");
+            }
+            else if (typeof layer.name === "string") {
+                searchString = layer.name.replace(/ /g, "");
+            }
             if (Array.isArray(datasets) && datasets.length > 0 && typeof datasets[0].md_name === "string") {
                 searchString = layer.datasets[0].md_name.replace(/ /g, "");
                 datasetsExist = true;
-            }
-            if (typeof layer.name === "string") {
-                searchString = layer.name.replace(/ /g, "");
             }
 
             if (searchString.search(searchInputRegExp) !== -1) {
