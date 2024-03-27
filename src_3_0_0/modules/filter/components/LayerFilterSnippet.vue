@@ -1419,7 +1419,7 @@ export default {
                         v-show="visibleSnippet"
                         id="snippet-chart"
                         :title="snippet.title"
-                        icon="bi bi-list-ul"
+                        icon="bi bi-bar-chart"
                         :is-open="true"
                     >
                         <SnippetChart

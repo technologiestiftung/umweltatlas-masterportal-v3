@@ -58,6 +58,11 @@ export default {
             type: Boolean,
             required: false,
             default: false
+        },
+        exportFileName: {
+            type: [String, Boolean],
+            required: false,
+            default: false
         }
     },
 
@@ -454,14 +459,18 @@ export default {
     </div>
     <div
         v-if="hits"
-        class="mb-3 hits"
+        class="row mb-3 hits"
     >
-        <div>
+        <div class="col col-md-auto">
             {{ $t(hits) }}
         </div>
-        <span class="bold text-secondary">{{ editedTable.items?.length || 0 }}</span>
+        <div class="bold text-secondary col col-md ps-0">
+            {{ editedTable.items?.length || 0 }}
+        </div>
     </div>
-    <div class="btn-toolbar justify-content-between sticky-top bg-white">
+    <div
+        class="btn-toolbar justify-content-between sticky-top bg-white"
+    >
         <div class="btn-group">
             <div class="btn-group">
                 <FlatButton
@@ -549,82 +558,84 @@ export default {
                 class="btn btn-secondary align-items-center mb-3"
                 :url="false"
                 :data="exportTable()"
-                :filename="title"
+                :filename="exportFileName"
                 :use-semicolon="true"
                 :title="$t('common:shared.modules.table.download')"
             />
         </div>
     </div>
-    <table class="table table-sm table-hover">
-        <thead>
-            <tr v-if="showHeader">
-                <th
-                    v-for="(column, idx) in editedTable.headers"
-                    :key="idx"
-                    :class="['p-2', fixedColumn === column.name ? 'fixedColumn' : '']"
-                >
-                    <span
-                        v-if="filterable"
-                        class="multiselect-dropdown"
+    <div class="fixed">
+        <table class="table table-sm table-hover rounded-pill">
+            <thead>
+                <tr v-if="showHeader">
+                    <th
+                        v-for="(column, idx) in editedTable.headers"
+                        :key="idx"
+                        :class="['p-2', fixedColumn === column.name ? 'fixedColumn' : '']"
                     >
-                        <Multiselect
-                            id="multiselect"
-                            v-model="dropdownSelected[column.name]"
-                            :options="getUniqueValuesByColumnName(column.name, data.items)"
-                            :multiple="true"
-                            :show-labels="false"
-                            open-direction="auto"
-                            :close-on-select="true"
-                            :clear-on-select="false"
-                            :searchable="false"
-                            placeholder=""
-                            :taggable="true"
+                        <span
+                            v-if="filterable"
                             class="multiselect-dropdown"
-                            @select="(selectedOption) => addFilter(selectedOption, column.name)"
-                            @remove="(removedOption) => removeFilter(removedOption, column.name)"
                         >
-                            <template
-                                #selection
+                            <Multiselect
+                                id="multiselect"
+                                v-model="dropdownSelected[column.name]"
+                                :options="getUniqueValuesByColumnName(column.name, data.items)"
+                                :multiple="true"
+                                :show-labels="false"
+                                open-direction="auto"
+                                :close-on-select="true"
+                                :clear-on-select="false"
+                                :searchable="false"
+                                placeholder=""
+                                :taggable="true"
+                                class="multiselect-dropdown"
+                                @select="(selectedOption) => addFilter(selectedOption, column.name)"
+                                @remove="(removedOption) => removeFilter(removedOption, column.name)"
                             >
-                                <span
-                                    class="multiselect__single"
-                                >{{ column.name }}</span>
-                            </template>
-                        </Multiselect>
-                    </span>
-                    <span
-                        v-else
-                        class="me-2"
-                    >
-                        {{ column.name }}
-                    </span>
-                    <span
-                        v-if="sortable"
-                        class="sortable-icon"
-                        role="button"
-                        tabindex="0"
-                        :class="getIconClassByOrder(column.name)"
-                        @click.stop="runSorting(column.name)"
-                        @keypress.stop="runSorting(column.name)"
-                    />
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr
-                v-for="(item, idx) in editedTable.items"
-                :key="idx"
-            >
-                <td
-                    v-for="(entry, columnIdx) in visibleHeaders"
-                    :key="columnIdx"
-                    :class="['p-2', fixedColumn === entry.name ? 'fixedColumn' : '']"
+                                <template
+                                    #selection
+                                >
+                                    <span
+                                        class="multiselect__single"
+                                    >{{ column.name }}</span>
+                                </template>
+                            </Multiselect>
+                        </span>
+                        <span
+                            v-else
+                            class="me-2"
+                        >
+                            {{ column.name }}
+                        </span>
+                        <span
+                            v-if="sortable"
+                            class="sortable-icon"
+                            role="button"
+                            tabindex="0"
+                            :class="getIconClassByOrder(column.name)"
+                            @click.stop="runSorting(column.name)"
+                            @keypress.stop="runSorting(column.name)"
+                        />
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr
+                    v-for="(item, idx) in editedTable.items"
+                    :key="idx"
                 >
-                    {{ item[entry.name] }}
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                    <td
+                        v-for="(entry, columnIdx) in visibleHeaders"
+                        :key="columnIdx"
+                        :class="['p-2', fixedColumn === entry.name ? 'fixedColumn' : '']"
+                    >
+                        {{ item[entry.name] }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </template>
 
 <style lang="scss" scoped>
@@ -636,6 +647,8 @@ export default {
 
 .dropdown-menu {
     --bs-dropdown-min-width: 25em;
+    height: 45vh;
+    overflow: auto;
     li {
         cursor: pointer;
         input:hover {
@@ -659,10 +672,13 @@ export default {
 
 table {
     table-layout: fixed;
+    --bs-table-hover-bg: #D6E3FF;
+    border-collapse: separate;
+    border-spacing: 0;
     th {
         width: 15rem;
         position: sticky;
-        top: 50px;
+        top: 0px;
         background: $light_blue;
         font-family: $font_family_accent;
         z-index: 2;
@@ -670,15 +686,34 @@ table {
             cursor: pointer;
         }
     }
+    th:first-child {
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+    }
+    th:last-child {
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
     .fixedColumn, th.fixedColumn {
         position: sticky;
         left: 0;
         background-color: $light_blue;
         z-index: 1;
     }
+    .fixedColumn {
+        border-bottom: 1px solid $light_grey_hover;
+        border-right: 1px solid $light_grey_hover;
+    }
     th.fixedColumn {
         z-index: 3;
     }
+}
+
+.fixed {
+    max-height: calc(100vh - 225px);
+    box-sizing: border-box;
+    width: 100%;
+    overflow-y: scroll;
 }
 .pinnedSelectRow {
     background-color: $light_blue;
