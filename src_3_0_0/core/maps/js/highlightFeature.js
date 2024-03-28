@@ -191,8 +191,7 @@ export default {
      * @param {String} payload.featureId - The ID of the feature to retrieve.
      * @returns {Promise<Object|null>} A promise that resolves to the found feature, or `null` if the feature is not found.
      */
-    // eslint-disable-next-line no-unused-vars
-    async getHighlightFeature ({_}, {layerId, featureId}) {
+    async getHighlightFeature (_, {layerId, featureId}) {
         let feature = null;
 
         await nextTick();
@@ -228,8 +227,7 @@ export default {
      * @param {Boolean} [payload.returnFirst=true] - If true, returns the first found style, otherwise all created styles.
      * @returns {Promise<ol/style|Array>} A promise that resolves to the OpenLayers style or an array of styles.
      */
-    // eslint-disable-next-line no-unused-vars
-    async fetchAndApplyStyle ({_}, {highlightObject, feature, returnFirst = true}) {
+    async fetchAndApplyStyle (_, {highlightObject, feature, returnFirst = true}) {
         const styleId = highlightObject.styleId || highlightObject.layer.id,
             stylelistObject = styleList.returnStyleObject(styleId);
         let style;
