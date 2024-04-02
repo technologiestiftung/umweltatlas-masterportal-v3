@@ -651,7 +651,7 @@ const BuildSpecModel = {
      * @returns {String[]} the attributes by whose value the feature is styled
      */
     getStyleAttributes: function (layer, feature) {
-                const layerId = layer.get("id"),
+        const layerId = layer.get("id"),
             styleObject = styleList.returnStyleObject(layerId);
         let styleFields = ["styleId"];
 
