@@ -651,15 +651,12 @@ const BuildSpecModel = {
      * @returns {String[]} the attributes by whose value the feature is styled
      */
     getStyleAttributes: function (layer, feature) {
-        const layerId = layer.get("id"),
+                const layerId = layer.get("id"),
             styleObject = styleList.returnStyleObject(layerId);
-        let styleFields = ["styleId"],
-            layerModel = layerCollection.getLayerById(layer.get("id"));
+        let styleFields = ["styleId"];
 
         if (styleObject !== undefined) {
-            layerModel = this.getChildModelIfGroupLayer(layerModel, layerId);
-
-            if (layerModel.get("styleId")) {
+            if (layer.get("styleId")) {
                 const featureRules = getRulesForFeature(styleObject, feature);
 
                 styleFields = featureRules?.[0]?.conditions ? Object.keys(featureRules[0].conditions.properties) : ["default"];
@@ -693,24 +690,6 @@ const BuildSpecModel = {
             }
         }
         return undefined;
-    },
-    /**
-     * Checks if model is a Group Model.
-     * If so, then the child model corresponding to layerId is returned.
-     * Otherwise the model is returned
-     * @param  {Backbone.Model} model Layer model from ModelList
-     * @param  {String} layerId Id of layer model to return
-     * @return {Backbone.Model} found layer model
-     */
-    getChildModelIfGroupLayer: function (model, layerId) {
-        let layerModel = model;
-
-        if (layerModel.get("typ") === "GROUP") {
-            layerModel = layerModel.getLayerSource().filter(childLayer => {
-                return childLayer.get("id") === layerId;
-            })[0];
-        }
-        return layerModel;
     },
     /**
      * The geometry of the feature is checked for not closed linearRing. Used for type Polygon.
