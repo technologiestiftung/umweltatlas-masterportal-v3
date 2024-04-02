@@ -571,7 +571,8 @@ export default {
                     <th
                         v-for="(column, idx) in editedTable.headers"
                         :key="idx"
-                        :class="['p-2', fixedColumn === column.name ? 'fixedColumn' : '']"
+                        class="filter-select-box-wrapper"
+                        :class="['p-0', fixedColumn === column.name ? 'fixedColumn' : '']"
                     >
                         <span
                             v-if="filterable"
@@ -675,6 +676,9 @@ table {
     --bs-table-hover-bg: #D6E3FF;
     border-collapse: separate;
     border-spacing: 0;
+    td {
+        font-size: 14px;
+    }
     th {
         width: 15rem;
         position: sticky;
@@ -683,6 +687,9 @@ table {
         font-family: $font_family_accent;
         z-index: 2;
         span.sortable-icon {
+            position: absolute;
+            top: 12px;
+            left: 187px;
             cursor: pointer;
         }
     }
@@ -710,7 +717,7 @@ table {
 }
 
 .fixed {
-    max-height: calc(100vh - 225px);
+    height: calc(100vh - 225px);
     box-sizing: border-box;
     width: 100%;
     overflow-y: scroll;
@@ -719,11 +726,67 @@ table {
     background-color: $light_blue;
     & .pinnedButton {
         background-color: $light_blue;
-        border: solid $light_blue 1px
+        border: solid $light_blue 1px;
     }
     & .pinnedButton:hover {
         background-color: $white;
         border-color: $white;
+    }
+}
+</style>
+
+<style lang="scss">
+@import "~variables";
+
+.filter-select-box-wrapper {
+    .multiselect__single {
+        background: $light_blue;
+    }
+    .multiselect__tags {
+        background: $light_blue;
+        border: none;
+        height: 20px;
+        padding: 10px 40px 0 8px;
+    }
+    border: none;
+    .multiselect-dropdown {
+        cursor: pointer;
+    }
+    .multiselect__single {
+        font-family: inherit;
+        font-size: 14px;
+        margin: 0;
+        padding: 0;
+        vertical-align: baseline;
+    }
+    .multiselect__option--highlight {
+        background: $secondary;
+        outline: none;
+        color: #fff;
+    }
+    .multiselect__option {
+        display: block;
+        padding: 10px;
+        min-height: 30px;
+        line-height: 10px;
+        font-size: 14px;
+        text-decoration: none;
+        text-transform: none;
+        vertical-align: middle;
+        position: relative;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+    .multiselect__select {
+        position: absolute;
+        width: 45px;
+        height: 20px;
+        right: 12px;
+        top: 12px;
+        padding: 4px 8px;
+        text-align: center;
+        transition: transform .2s ease;
+        background: $light_blue;
     }
 }
 </style>
