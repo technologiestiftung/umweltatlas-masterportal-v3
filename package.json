@@ -84,7 +84,7 @@
     "vuex": "^4.1.0"
   },
   "devDependencies": {
-    "@geoblocks/print": "^0.7.4",
+    "@geoblocks/print": "^0.7.8",
     "@masterportal/mpconfigparser": "^1.3.1",
     "@sinonjs/fake-timers": "^11.1.0",
     "@vue/compiler-sfc": "^3.3.4",
