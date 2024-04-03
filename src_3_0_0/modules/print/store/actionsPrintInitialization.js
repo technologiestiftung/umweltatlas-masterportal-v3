@@ -7,8 +7,8 @@ import BuildSpec from "../js/buildSpec";
 import Canvas from "../js/buildCanvas";
 import getVisibleLayer from "../js/getVisibleLayer";
 import thousandsSeparator from "../../../shared/js/utils/thousandsSeparator";
-import {autoDrawMask} from "olcs/print/drawCesiumMask";
-import {computeRectangle} from "olcs/print/computeRectangle";
+import {autoDrawMask} from "olcs/lib/olcs/print/drawCesiumMask.js";
+import {computeRectangle} from "olcs/lib/olcs/print/computeRectangle.js";
 
 let lastPrintedExtent;
 
