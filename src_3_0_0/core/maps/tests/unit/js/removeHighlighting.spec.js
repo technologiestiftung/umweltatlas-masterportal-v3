@@ -3,7 +3,7 @@ import sinon from "sinon";
 import {removeHighlightFeature} from "../../../js/removeHighlighting";
 import Feature from "ol/Feature";
 
-describe("removeHighlightFeature", () => {
+describe("src_3_0_0/core/maps/js/removeHighlightFeature", () => {
     let commit, state, feature, anotherFeature;
 
     beforeEach(() => {

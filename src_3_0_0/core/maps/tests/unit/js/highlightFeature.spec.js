@@ -7,8 +7,8 @@ import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.j
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import layerCollection from "../../../../layers/js/layerCollection";
 
-describe("highlightFeature", () => {
-    let featurePoint, featurePolygon, featureMultiPolygon, featureLine, stylePoint, styleGeoms, dispatch, commit;
+describe("src_3_0_0/core/maps/js/highlightFeature", () => {
+    let featurePoint, featurePolygon, featureMultiPolygon, featureLine, stylePoint, styleGeoms, dispatch, commit, consoleWarnSpy;
 
     beforeEach(() => {
         const stroke = new Stroke({}),
@@ -64,6 +64,8 @@ describe("highlightFeature", () => {
 
         commit = sinon.stub();
         dispatch = sinon.stub();
+        consoleWarnSpy = sinon.spy();
+        sinon.stub(console, "warn").callsFake(consoleWarnSpy);
     });
 
     afterEach(() => {
@@ -125,16 +127,12 @@ describe("highlightFeature", () => {
 
             it("should warn for unrecognized highlight type", () => {
                 const highlightObject = {
-                        type: "unrecognizedType"
-                    },
-
-                    consoleWarnSpy = sinon.spy(console, "warn");
+                    type: "unrecognizedType"
+                };
 
                 highlightFeature.highlightFeature({dispatch}, highlightObject);
 
                 sinon.assert.calledWith(consoleWarnSpy, `Unrecognized highlight type: ${highlightObject.type}`);
-
-                consoleWarnSpy.restore();
             });
         });
     });
@@ -147,9 +145,7 @@ describe("highlightFeature", () => {
                 styleId: "styleId"
             };
 
-            dispatch = sinon.stub();
             dispatch.withArgs("fetchAndApplyStyle", sinon.match.any).resolves(styleGeoms);
-            commit = sinon.stub();
 
             await highlightFeature.highlightPolygonTypes({commit, dispatch}, highlightObject);
 
@@ -177,9 +173,7 @@ describe("highlightFeature", () => {
                     stroke: new Stroke({color: "expectedStrokeColor2", width: 1})
                 });
 
-            dispatch = sinon.stub();
             dispatch.withArgs("fetchAndApplyStyle", sinon.match.any).resolves([expectedStyle1, expectedStyle2]);
-            commit = sinon.stub();
 
             await highlightFeature.highlightPolygonTypes({commit, dispatch}, highlightObject);
 
@@ -383,13 +377,10 @@ describe("highlightFeature", () => {
 
             const highlightObject = {styleId: "nonexistentStyle", layer: {id: "layerId"}},
                 feature = featurePoint,
-                consoleWarnSpy = sinon.spy(console, "warn"),
                 result = await highlightFeature.fetchAndApplyStyle({commit, dispatch}, {highlightObject, feature});
 
             expect(result).to.be.null;
             sinon.assert.calledWith(consoleWarnSpy, `Style not found for styleId: ${highlightObject.styleId}`);
-
-            consoleWarnSpy.restore();
         });
     });
 });

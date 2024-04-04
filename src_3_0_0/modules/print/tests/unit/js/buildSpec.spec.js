@@ -621,9 +621,6 @@ describe("src_3_0_0/modules/print/js/buildSpec", function () {
             });
             sinon.stub(styleList, "returnStyleObject").returns(styleObj);
         });
-        afterEach(() => {
-            sinon.restore();
-        });
 
         it("should return the style object if type is GROUP", function () {
             layerAttributes.type = "GROUP";
