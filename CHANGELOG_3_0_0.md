@@ -43,6 +43,7 @@
     - dependencies:
         - @masterportal/masterportalapi: 2.33.0 to 2.34.0
 - Changed prePushHook to check config_3_0_0.json with mpconfigparser.
+- Restructured `highlightFeature` and `removeHighlighting`.
 
 ### Deprecated
 
