@@ -23,8 +23,6 @@ export default {
                 dispatch("highlightViaParametricUrl", highlightObject.layerIdAndFeatureId);
                 break;
             case "highlightPolygon":
-                dispatch("highlightPolygonTypes", highlightObject);
-                break;
             case "highlightMultiPolygon":
                 dispatch("highlightPolygonTypes", highlightObject);
                 break;
