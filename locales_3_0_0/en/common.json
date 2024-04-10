@@ -505,6 +505,7 @@
     "layerInformation": {
       "additionalMetadata": "additional metadata",
       "addressSuffix": "Address",
+      "addressSuffixes": "Layer adresses",
       "attachFileMessage": "Attach file type during download if necessary",
       "downloadDataset": "Download dataset",
       "lastModified": "Last modified",

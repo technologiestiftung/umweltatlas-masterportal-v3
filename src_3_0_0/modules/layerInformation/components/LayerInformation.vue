@@ -69,11 +69,15 @@ export default {
         },
         legendURL  () {
             return this.layerInfo.legendURL;
+        },
+        layerTyp  () {
+            return this.layerInfo.typ !== "GROUP" ? `${this.layerInfo.typ}-${this.$t("common:modules.layerInformation.addressSuffix")}`: this.$t("common:modules.layerInformation.addressSuffixes");
         }
     },
 
     created () {
         this.setConfigParams(this.configJs);
+        console.log(this.layerInfo);
     },
 
     mounted () {
@@ -235,7 +239,7 @@ export default {
                         class="nav-link"
                         :class="{active: isActiveTab('url') }"
                         @click="setActiveTab"
-                    >{{ $t(layerInfo.typ) }} - {{ $t("common:modules.layerInformation.addressSuffix") }}
+                    >{{ layerTyp }}
                     </a>
                 </li>
             </ul>

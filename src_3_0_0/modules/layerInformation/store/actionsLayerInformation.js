@@ -30,6 +30,7 @@ export default {
             dispatch("Menu/toggleMenu", "mainMenu", {root: true});
         }
         dispatch("Menu/changeCurrentComponent", {type: "layerInformation", side: "mainMenu", props: {name}}, {root: true});
+        console.log("setLayerInfo", layerConf);
         commit("setLayerInfo", layerConf);
         dispatch("setMetadataURL", mdid);
         dispatch("additionalSingleLayerInfo");
