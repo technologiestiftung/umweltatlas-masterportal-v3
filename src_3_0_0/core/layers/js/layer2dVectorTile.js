@@ -45,7 +45,8 @@ Layer2dVectorTile.prototype = Object.create(Layer2d.prototype);
 Layer2dVectorTile.prototype.createLayer = function (attributes) {
     const rawLayerAttributes = this.getRawLayerAttributes(attributes),
         layerParams = this.getLayerParams(attributes);
-
+console.log("rawLayerAttributes",rawLayerAttributes);
+console.log("layerParams",layerParams);
     this.setLayer(vectorTile.createLayer(rawLayerAttributes, {layerParams}));
     store.dispatch("Maps/registerListener", {type: "loadend", listener: () => {
         if (typeof this.layer.getSource !== "function" || typeof this.layer.getSource()?.getFeaturesInExtent !== "function") {
@@ -137,7 +138,10 @@ Layer2dVectorTile.prototype.setConfiguredLayerStyle = function () {
 
     if (stylingPromise) {
         stylingPromise
-            .then(() => this.layer?.setVisible(this.get("visibility")))
+            .then(() => {
+                this.layer?.setVisible(this.get("visibility"));
+                console.log("layer setVisible",this.get("visibility"));
+            })
             .catch(err => console.error(err));
     }
 };
@@ -195,11 +199,13 @@ Layer2dVectorTile.prototype.setStyleByDefinition = function ({id, url, resolutio
 
                 this.fetchSpriteData(spriteDataUrl)
                     .then(spriteData => {
+                        console.log("1 setStyleByDefinition setStyle", style);
                         vectorTile.setStyle(this.getLayer(), style, {options: {resolutions: resolutions, spriteData: spriteData, spriteImageUrl: spriteImageUrl, getFonts: addMpFonts}}, url);
                         this.set("selectedStyleID", id);
                     });
             }
             else {
+                console.log("2 setStyleByDefinition setStyle", style);
                 vectorTile.setStyle(this.getLayer(), style, {resolutions: resolutions, getFonts: addMpFonts}, url);
                 this.set("selectedStyleID", id);
             }

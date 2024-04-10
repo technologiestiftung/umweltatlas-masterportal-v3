@@ -18,6 +18,7 @@ export default {
             if (layer.get("alwaysOnTop")) {
                 layer.setZIndex(9999999);
             }
+            console.log("map add layer",layer);
             map2D.addLayer(layer);
         }
         else {
