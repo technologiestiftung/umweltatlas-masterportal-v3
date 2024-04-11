@@ -1,3 +1,4 @@
+import {markRaw} from "vue";
 import api from "@masterportal/masterportalapi/src/maps/api";
 import {rawLayerList} from "@masterportal/masterportalapi/src";
 import load3DScript from "@masterportal/masterportalapi/src/lib/load3DScript";
@@ -32,6 +33,7 @@ function create2DMap (mapViewSettings, configJs) {
         ...mapViewSettings,
         layerConf: rawLayerList.getLayerList()
     }, "2D", {});
+    markRaw(map2d);
 
     mapCollection.addMap(map2d, "2D");
 }
@@ -78,7 +80,8 @@ function create3DMap () {
             return this.time || Cesium.JulianDate.fromDate(new Date());
         }
     }, "3D");
-
+    markRaw(map3d);
+    
     /**
      * Note: if the bugfix was released in an olcs version these two lines should be removed again
      * @see {@link https://github.com/openlayers/ol-cesium/pull/1109}

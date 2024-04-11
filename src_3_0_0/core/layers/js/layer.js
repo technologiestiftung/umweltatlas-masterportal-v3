@@ -1,3 +1,5 @@
+import {markRaw} from "vue";
+
 /**
  * Creates a layer.
  * @name Layer
@@ -85,7 +87,7 @@ Layer.prototype.set = function (key, value) {
  * @returns {void}
  */
 Layer.prototype.setLayer = function (value) {
-    this.layer = value;
+    this.layer = markRaw(value);
 };
 
 /**
