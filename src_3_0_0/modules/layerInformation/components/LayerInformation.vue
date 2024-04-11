@@ -71,13 +71,12 @@ export default {
             return this.layerInfo.legendURL;
         },
         layerTyp  () {
-            return this.layerInfo.typ !== "GROUP" ? `${this.layerInfo.typ}-${this.$t("common:modules.layerInformation.addressSuffix")}`: this.$t("common:modules.layerInformation.addressSuffixes");
+            return this.layerInfo.typ !== "GROUP" ? `${this.layerInfo.typ}-${this.$t("common:modules.layerInformation.addressSuffix")}` : this.$t("common:modules.layerInformation.addressSuffixes");
         }
     },
 
     created () {
         this.setConfigParams(this.configJs);
-        console.log(this.layerInfo);
     },
 
     mounted () {
