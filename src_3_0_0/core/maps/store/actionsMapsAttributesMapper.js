@@ -1,3 +1,4 @@
+import {markRaw} from "vue";
 import api from "@masterportal/masterportalapi/src/maps/api";
 import {transform, get} from "ol/proj.js";
 
@@ -109,7 +110,7 @@ export default {
         api.map.olcsMap.handle3DEvents({
             scene: scene3d,
             map3D: map3d,
-            callback: (clickObject) => dispatch("updateAttributesByClick", Object.freeze(clickObject))
+            callback: (clickObject) => dispatch("updateAttributesByClick", markRaw(clickObject))
         });
 
         eventHandler.setInputAction((evt) => dispatch("updateAttributesByPointer", evt), Cesium.ScreenSpaceEventType.MOUSE_MOVE);

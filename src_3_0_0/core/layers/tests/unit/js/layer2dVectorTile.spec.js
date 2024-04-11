@@ -84,7 +84,7 @@ describe("src_3_0_0/core/js/layers/layer2dVectorTile.js", () => {
         crs.registerProjections();
     });
 
-    after(() => {
+    afterEach(() => {
         sinon.restore();
     });
 

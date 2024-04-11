@@ -87,7 +87,7 @@ Layer.prototype.set = function (key, value) {
  * @returns {void}
  */
 Layer.prototype.setLayer = function (value) {
-    this.layer = markRaw(value);
+    this.layer = value ? markRaw(value) : value;
 };
 
 /**
