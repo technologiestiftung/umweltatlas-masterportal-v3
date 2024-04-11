@@ -41,7 +41,7 @@
 - 3D tileset layer supports hiddenFeatures.
 - The following package has been updated:
     - dependencies:
-        - @masterportal/masterportalapi: 2.33.0 to 2.34.0
+        - @masterportal/masterportalapi: 2.33.0 to 2.36.0 (This also raised ol to version 9.1.0)
 - Changed prePushHook to check config_3_0_0.json with mpconfigparser.
 - Restructured `highlightFeature` and `removeHighlighting`.
 
