@@ -78,7 +78,7 @@ describe("src_3_0_0/modules/print/js/buildSpec", function () {
         multiLineStringFeatures = createTestFeatures("resources/testFeaturesVeloroutenMultiLineString.xml");
         global.window = {location: {origin: "https://example.com", href: "https://example.com/portal/path/"}, getComputedStyle: () => {
             return {
-                transitionDuration: 1
+                transitionDuration: sinon.stub()
             };
         }};
     });
