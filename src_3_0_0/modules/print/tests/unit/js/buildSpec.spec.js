@@ -76,7 +76,11 @@ describe("src_3_0_0/modules/print/js/buildSpec", function () {
         multiPolygonFeatures = createTestFeatures("resources/testFeaturesBplanMultiPolygon.xml");
         lineStringFeatures = createTestFeatures("resources/testFeaturesVerkehrsnetzLineString.xml");
         multiLineStringFeatures = createTestFeatures("resources/testFeaturesVeloroutenMultiLineString.xml");
-        global.window = {location: {origin: "https://example.com", href: "https://example.com/portal/path/"}, getComputedStyle: sinon.stub()};
+        global.window = {location: {origin: "https://example.com", href: "https://example.com/portal/path/"}, getComputedStyle: () => {
+            return {
+                transitionDuration: 1
+            };
+        }};
     });
 
     beforeEach(() => {
