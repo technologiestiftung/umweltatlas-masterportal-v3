@@ -3869,7 +3869,7 @@ Baselayer: It is important here that the specified ids address the same URL, i.e
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |id|yes|String[]||Ids of the layers to be grouped, these must be contained in the **[services.json](services.json.en.md)**. They can have different types (field `typ`).|false|
-|typ|yes|String|"GROUP "|Sets the layer typ to GROUP, which can group layers.|false|
+|typ|yes|String|"GROUP"|Sets the layer typ to GROUP, which can group layers.|false|
 |styleId|no|String||Id that defines the style. Id is resolved in the **[style.json](style.json.md)**. If filled, then all grouped layers receive this style.|false|
 
 
