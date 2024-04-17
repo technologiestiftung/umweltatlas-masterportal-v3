@@ -35,6 +35,15 @@ Layer2dVectorWfs.prototype.createLayer = function (attributes) {
         layerParams = this.getLayerParams(attributes),
         options = this.getOptions(attributes);
 
+    if (attributes.fitCapabilitiesExtent && attributes.visibility && !attributes.encompassingBoundingBox) {
+        if (!attributes.capabilitiesUrl) {
+            console.warn("Please add a capabilitiesUrl for your layer configuration if you want to use fitCapabilitiesExtent!");
+        }
+        else {
+            this.requestCapabilitiesToFitExtent();
+        }
+    }
+
     this.setLayer(wfs.createLayer(rawLayerAttributes, {layerParams, options}));
 };
 

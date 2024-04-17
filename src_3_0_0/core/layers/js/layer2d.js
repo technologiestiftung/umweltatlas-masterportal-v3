@@ -3,6 +3,9 @@ import axios from "axios";
 
 import store from "../../../app-store";
 import Layer from "./layer";
+import {boundingExtent} from "ol/extent";
+import crs from "@masterportal/masterportalapi/src/crs";
+import handleAxiosResponse from "../../../shared/js/utils/handleAxiosResponse";
 
 /**
  * Creates a 2d layer.
@@ -78,6 +81,20 @@ Layer2d.prototype.updateLayerValues = function (attributes) {
     this.getLayer()?.setVisible(attributes.visibility);
     this.getLayer()?.setZIndex(attributes.zIndex);
     this.controlAutoRefresh(attributes);
+
+    if (attributes.fitCapabilitiesExtent && attributes.visibility && !attributes.encompassingBoundingBox) {
+        if (!attributes.capabilitiesUrl) {
+            console.warn("Please add a capabilitiesUrl for your layer configuration if you want to use fitCapabilitiesExtent!");
+
+        }
+        else {
+            this.requestCapabilitiesToFitExtent();
+            attributes.encompassingBoundingBox = true;
+        }
+    }
+    else if (attributes.fitCapabilitiesExtent && !attributes.visibility && attributes.encompassingBoundingBox) {
+        attributes.encompassingBoundingBox = false;
+    }
 };
 
 /**
@@ -265,4 +282,90 @@ Layer2d.prototype.errorHandling = function (errorCode, layerName) {
             }]
         }, {root: true});
     });
+};
+
+
+/**
+ * Extracts the bounding box from a layer node based on specified extent attributes.
+ * @param {Element} layerNode - The layer node from the GetCapabilities response.
+ * @returns {Array<Array<number>> | null} - An array representing the transformed bounding box, or null if not found.
+ */
+Layer2d.prototype.extractBoundingBox = function (layerNode) {
+    const isWMS = this.get("typ") === "WMS",
+        extentAttribute = isWMS ? "EX_GeographicBoundingBox" : "WGS84BoundingBox",
+        boundingBoxNodes = isWMS ? layerNode.querySelectorAll("BoundingBox[CRS=\"EPSG:4326\"]") : [layerNode.querySelector(extentAttribute)],
+        map = mapCollection.getMap("2D"),
+        mapView = map.getView(),
+        targetProjection = mapView.getProjection().getCode(),
+        sourceProjection = "EPSG:4326";
+
+    for (const boundingBoxNode of boundingBoxNodes) {
+        if (boundingBoxNode) {
+            let lowerCorner, upperCorner;
+
+            if (!isWMS) {
+                const trimmedText = boundingBoxNode.textContent.trim(),
+                    coordinatesArray = trimmedText.split(/\s+/);
+
+                lowerCorner = coordinatesArray.slice(0, 2).map(parseFloat);
+                upperCorner = coordinatesArray.slice(2, 4).map(parseFloat);
+            }
+            else {
+                lowerCorner = [parseFloat(boundingBoxNode.getAttribute("miny")), parseFloat(boundingBoxNode.getAttribute("minx"))];
+                upperCorner = [parseFloat(boundingBoxNode.getAttribute("maxy")), parseFloat(boundingBoxNode.getAttribute("maxx"))];
+            }
+            const transformedLowerCorner = crs.transform(sourceProjection, targetProjection, lowerCorner),
+                transformedUpperCorner = crs.transform(sourceProjection, targetProjection, upperCorner);
+
+            this.set("boundingBox", [transformedLowerCorner, transformedUpperCorner]);
+            return [transformedLowerCorner, transformedUpperCorner];
+        }
+    }
+    return null;
+};
+
+/**
+ * Requests the GetCapabilities document and parses the result.
+ * @returns {Promise} A promise that resolves with the parsed GetCapabilities object or rejects with an error.
+ */
+Layer2d.prototype.requestCapabilitiesToFitExtent = async function () {
+    const capabilitiesUrl = this.get("capabilitiesUrl"),
+        layerType = this.get("typ"),
+        nameProperty = layerType === "WFS" ? "Title" : "Name",
+        layerIdentification = layerType === "WFS" ? "FeatureType" : "Layer",
+        specificLayer = layerType === "WFS" ? this.get("featureType") : this.get("layers");
+
+    await axios.get(capabilitiesUrl)
+        .then((response) => handleAxiosResponse(response))
+        .then((xmlCapabilities) => new DOMParser().parseFromString(xmlCapabilities, "text/xml"))
+        .then((xmlDocument) => xmlDocument.querySelectorAll(layerIdentification))
+        .then((layerNodes) => layerNodes.forEach(layerNode => {
+            const layerNameNode = layerNode.querySelector(nameProperty);
+
+            if (layerNameNode && layerNameNode.textContent.includes(specificLayer)) {
+                this.zoomToLayerExtent(layerNode);
+            }
+        }))
+        .catch((error) => {
+            console.error("Request failed:", error);
+        });
+};
+
+/**
+ * Zooms the map to the extent of a given layer node. This function extracts the bounding box
+ * from the specified layer node and then adjusts the map's view to encompass this bounding box.
+ * @param {Element} layerNode - The XML node representing a layer from the GetCapabilities response.
+ * @returns {void}
+ */
+Layer2d.prototype.zoomToLayerExtent = function (layerNode) {
+    const boundingBox = this.extractBoundingBox(layerNode),
+        extent = boundingBox ? boundingExtent(boundingBox) : null,
+        map = mapCollection.getMap("2D"),
+        view = map.getView(),
+        zoom = extent ? view.getZoomForResolution(view.getResolutionForExtent(extent, map.getSize())) : null;
+
+    if (!boundingBox) {
+        return;
+    }
+    store.dispatch("Maps/zoomToExtent", {extent: extent, options: {maxZoom: zoom}}, {root: true});
 };

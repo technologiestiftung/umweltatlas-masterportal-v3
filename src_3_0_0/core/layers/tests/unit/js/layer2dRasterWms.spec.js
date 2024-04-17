@@ -9,7 +9,6 @@ describe("src_3_0_0/core/js/layers/layer2dRasterWms.js", () => {
     before(() => {
         warn = sinon.spy();
         sinon.stub(console, "warn").callsFake(warn);
-
         mapCollection.clear();
         const map = {
             id: "ol",

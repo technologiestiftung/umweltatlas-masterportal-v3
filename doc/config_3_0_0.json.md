@@ -3779,6 +3779,8 @@ Besides these attributes, there are also type-specific attributes for the differ
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |autoRefresh|no|Integer||Automatically reload layer every `autoRefresh` ms. Minimum value is 500.|false|
+|capabilitiesUrl|no|String||**[services.json](services.json.md)** value. Service's capabilities URL|false
+|fitCapabilitiesExtent|no|Boolean|false|**[services.json](services.json.md)** value. When set to `true` and a `capabilitiesUrl` is specified in the configuration, the application will fit the map extent based on the bounding box information retrieved from the GetCapabilities document.|false|
 |id|yes|String/String[]||Layer ID(s). Resolved using the **[services.json](services.json.md)** file. Please mind that the given IDs **MUST** refer to the same URL, that is, use the same service. When configuring an array of IDs, setting `minScale` and `maxScale` of each layer is required to be in the `services.json`. With the special character `.` as suffix, a LayerId can be used multiple times. Each LayerId marked with a suffix creates its own entry in the topic tree.|false|
 |isPointLayer|no|Boolean|false|Whether the (vector) layer only consists of point features (only relevant for WebGL rendering)|false|
 |name|no|String||Layer name.|false|

@@ -78,14 +78,13 @@ SearchInterfaceTopicTree.prototype.searchInLayers = function (layerConfigs, sear
             let searchString = "",
                 datasetsExist = false;
 
-            if (this.searchType === "metadata") {
+            if (this.searchType === "metadata" && Array.isArray(datasets) && datasets.length > 0 && typeof datasets[0].md_name === "string") {
                 searchString = layer.datasets[0].md_name.replace(/ /g, "");
             }
             else if (typeof layer.name === "string") {
                 searchString = layer.name.replace(/ /g, "");
             }
             if (Array.isArray(datasets) && datasets.length > 0 && typeof datasets[0].md_name === "string") {
-                searchString = layer.datasets[0].md_name.replace(/ /g, "");
                 datasetsExist = true;
             }
 

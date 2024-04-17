@@ -13,9 +13,6 @@ describe("src_3_0_0/core/js/layers/layer2dVectorWfs.js", () => {
         warn;
 
     before(() => {
-        warn = sinon.spy();
-        sinon.stub(console, "warn").callsFake(warn);
-
         mapCollection.clear();
         const map = {
             id: "ol",
@@ -35,6 +32,8 @@ describe("src_3_0_0/core/js/layers/layer2dVectorWfs.js", () => {
     });
 
     beforeEach(() => {
+        warn = sinon.spy();
+        sinon.stub(console, "warn").callsFake(warn);
         attributes = {
             id: "id",
             name: "wfsTestLayer",
@@ -86,6 +85,30 @@ describe("src_3_0_0/core/js/layers/layer2dVectorWfs.js", () => {
             expect(layer.getSource().getDistance()).to.be.equals(attributes.clusterDistance);
             expect(layer.getSource().getSource().getFormat()).to.be.an.instanceof(WFS);
             expect(typeof layer.getStyleFunction()).to.be.equals("function");
+        });
+        it("executes the function requestCapabilitiesToFitExtent because the corresponding parameters are fulfilled", () => {
+            const wfsLayer = new Layer2dVectorWfs({}),
+                requestCapabilitiesToFitExtent = sinon.stub(wfsLayer, "requestCapabilitiesToFitExtent");
+
+            wfsLayer.createLayer({
+                visibility: true,
+                fitCapabilitiesExtent: true,
+                encompassingBoundingBox: false,
+                capabilitiesUrl: "https://testUrl.de"
+            });
+
+            sinon.assert.calledOnce(requestCapabilitiesToFitExtent);
+        });
+        it("only executes the function requestCapabilitiesToFitExtent if the corresponding parameters are fulfilled", () => {
+            const wfsLayer = new Layer2dVectorWfs({});
+
+            wfsLayer.createLayer({
+                visibility: true,
+                fitCapabilitiesExtent: true,
+                encompassingBoundingBox: false
+            });
+
+            expect(warn.calledTwice).to.be.true;
         });
     });
 

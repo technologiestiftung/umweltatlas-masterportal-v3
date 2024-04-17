@@ -5,6 +5,7 @@ import sinon from "sinon";
 
 import layerFactory from "../../../../../core/layers/js/layerFactory";
 import SelectAllCheckBox from "../../../components/SelectAllCheckBox.vue";
+import layerCollection from "../../../../../core/layers/js/layerCollection";
 
 config.global.mocks.$t = key => key;
 
@@ -37,7 +38,7 @@ describe("src_3_0_0/modules/layerTree/components/SelectAllCheckBox.vue", () => {
         changeVisibilitySpy = sinon.spy();
         sinon.stub(layerFactory, "getLayerTypes3d").returns(["TERRAIN3D"]);
         store = createStore({
-            namespaces: true,
+            namespaced: true,
             modules: {
                 Modules: {
                     namespaced: true,
@@ -46,10 +47,22 @@ describe("src_3_0_0/modules/layerTree/components/SelectAllCheckBox.vue", () => {
                         SelectAllCheckBox,
                         LayerSelection: {
                             namespaced: true,
+                            getters: {
+                                encompassingBoundingBox: () => [0, 0, 0, 0]
+                            },
+                            mutations: {
+                                setEncompassingBoundingBox: () => sinon.spy()
+                            },
                             actions: {
                                 changeVisibility: changeVisibilitySpy
                             }
                         }
+                    }
+                },
+                Maps: {
+                    namespaced: true,
+                    actions: {
+                        zoomToExtent: sinon.spy()
                     }
                 }
             }
@@ -148,54 +161,83 @@ describe("src_3_0_0/modules/layerTree/components/SelectAllCheckBox.vue", () => {
         expect(changeVisibilitySpy.firstCall.args[1]).to.be.deep.equals({layerId: layer.id, value: false});
     });
 
-    it("method ids shall return the expected string", () => {
-        let ids = null;
+    describe("Methods", () => {
+        it("method calculateEncompassingBoundingBox shall set the boundingbox and call zoomToExtent", () => {
+            const setEncompassingBoundingBox = sinon.spy(SelectAllCheckBox.methods, "setEncompassingBoundingBox"),
+                zoomToExtent = sinon.spy(SelectAllCheckBox.methods, "zoomToExtent"),
+                conf = {
+                    id: "2",
+                    attributes: {
+                        boundingBox: [[0, 1], [2, 3]]
+                    }
+                };
 
-        propsData = {
-            confs: [layer, {id: "2"}]
-        };
-        wrapper = shallowMount(SelectAllCheckBox, {
-            global: {
-                plugins: [store]
-            },
-            propsData
+            sinon.stub(layerCollection, "getLayerById").returns(conf);
+            propsData = {
+                confs: [layer, {id: "2"}]
+            };
+            wrapper = shallowMount(SelectAllCheckBox, {
+                global: {
+                    plugins: [store]
+                },
+                propsData
+            });
+            wrapper.vm.calculateEncompassingBoundingBox(conf);
+
+            expect(setEncompassingBoundingBox.calledOnce).to.be.true;
+            expect(setEncompassingBoundingBox.calledWith([0, 0, 2, 3])).to.be.true;
+            expect(zoomToExtent.calledOnce).to.be.true;
         });
-        ids = wrapper.vm.ids();
 
-        expect(ids).to.be.deep.equals("1-2");
-    });
-    it("method getLabelText shall return text for not checked boxes", () => {
-        let text = null;
+        it("method ids shall return the expected string", () => {
+            let ids = null;
 
-        sinon.stub(SelectAllCheckBox.methods, "isChecked").returns(false);
-        propsData = {
-            confs: [layer, {id: "2"}]
-        };
-        wrapper = shallowMount(SelectAllCheckBox, {
-            global: {
-                plugins: [store]
-            },
-            propsData
+            propsData = {
+                confs: [layer, {id: "2"}]
+            };
+            wrapper = shallowMount(SelectAllCheckBox, {
+                global: {
+                    plugins: [store]
+                },
+                propsData
+            });
+            ids = wrapper.vm.ids();
+
+            expect(ids).to.be.deep.equals("1-2");
         });
-        text = wrapper.vm.getLabelText();
+        it("method getLabelText shall return text for not checked boxes", () => {
+            let text = null;
 
-        expect(text).to.be.equals("modules.layerSelection.selectAll");
-    });
-    it("method getLabelText shall return text for checked boxes", () => {
-        let text = null;
+            sinon.stub(SelectAllCheckBox.methods, "isChecked").returns(false);
+            propsData = {
+                confs: [layer, {id: "2"}]
+            };
+            wrapper = shallowMount(SelectAllCheckBox, {
+                global: {
+                    plugins: [store]
+                },
+                propsData
+            });
+            text = wrapper.vm.getLabelText();
 
-        sinon.stub(SelectAllCheckBox.methods, "isChecked").returns(true);
-        propsData = {
-            confs: [layer, {id: "2"}]
-        };
-        wrapper = shallowMount(SelectAllCheckBox, {
-            global: {
-                plugins: [store]
-            },
-            propsData
+            expect(text).to.be.equals("modules.layerSelection.selectAll");
         });
-        text = wrapper.vm.getLabelText();
+        it("method getLabelText shall return text for checked boxes", () => {
+            let text = null;
 
-        expect(text).to.be.equals("modules.layerSelection.deselectAll");
+            sinon.stub(SelectAllCheckBox.methods, "isChecked").returns(true);
+            propsData = {
+                confs: [layer, {id: "2"}]
+            };
+            wrapper = shallowMount(SelectAllCheckBox, {
+                global: {
+                    plugins: [store]
+                },
+                propsData
+            });
+            text = wrapper.vm.getLabelText();
+
+            expect(text).to.be.equals("modules.layerSelection.deselectAll");
+        });
     });
 });

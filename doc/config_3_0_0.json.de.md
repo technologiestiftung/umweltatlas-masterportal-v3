@@ -3780,6 +3780,8 @@ Neben diesen Attributen gibt es auch Typ-spezifische Attribute für die verschie
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |autoRefresh|nein|Integer||Automatischer Reload des Layers. Angabe in ms. Minimum ist 500.|false|
+|capabilitiesUrl|nein|String||Wert aus **[services.json](services.json.de.md)**. Capabilities URL des Dienstes|false
+|fitCapabilitiesExtent|nein|Boolean|false|Wert aus **[services.json](services.json.de.md)**. Bei Aktivierung dieser Option und Vorhandensein einer Capabilities URL in der Konfiguration, passt die Anwendung die Kartenausdehnung automatisch an die Bounding-Box-Informationen an, die sie aus der GetCapabilities-Anfrage erhält."|false|
 |id|ja|String/String[]||Id des Layers. In der **[services.json](services.json.de.md)** werden die ids aufgelöst und die notwendigen Informationen herangezogen. Bei Konfiguration eines Arrays von Ids wird ein Gruppenlayer erzeugt **[Group](#markdown-header-layerconfigelementslayersgroup)**|false|
 |isPointLayer|nein|Boolean|false|Anzeige, ob der (Vektor)-Layer nur aus Punkt-Features besteht (nur relevant für WebGL Rendering))|false|
 |name|nein|String||Name des Layers.|false|
@@ -3875,8 +3877,8 @@ Baselayer: Hierbei ist wichtig, dass die angegebenen ids dieselbe URL ansprechen
 
 **Beispiel**
 ```json
- { 
-    "id": [ "20501", "20502", "20503", "20504" ], 
+ {
+    "id": [ "20501", "20502", "20503", "20504" ],
     "name": "Gruppe Freizeitrouten und Radfernwege",
     "styleId": "4515"
 }

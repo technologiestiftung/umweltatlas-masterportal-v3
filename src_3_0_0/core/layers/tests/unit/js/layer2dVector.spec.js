@@ -59,6 +59,32 @@ describe("src_3_0_0/core/js/layers/layer2dVector.js", () => {
             expect(warn.calledOnce).to.be.true;
         });
     });
+    describe("updateLayerValues", () => {
+        it("executes the function requestCapabilitiesToFitExtent because the corresponding parameters are fulfilled", () => {
+            const wfsLayer = new Layer2dVector({}),
+                requestCapabilitiesToFitExtent = sinon.stub(wfsLayer, "requestCapabilitiesToFitExtent");
+
+            wfsLayer.updateLayerValues({
+                visibility: true,
+                fitCapabilitiesExtent: true,
+                encompassingBoundingBox: false,
+                capabilitiesUrl: "http://testUrl.de"
+            });
+
+            sinon.assert.calledOnce(requestCapabilitiesToFitExtent);
+        });
+        it("only executes the function requestCapabilitiesToFitExtent if the corresponding parameters are fulfilled", () => {
+            const wfsLayer = new Layer2dVector({});
+
+            wfsLayer.updateLayerValues({
+                visibility: true,
+                fitCapabilitiesExtent: true,
+                encompassingBoundingBox: false
+            });
+
+            expect(warn.calledTwice).to.be.true;
+        });
+    });
 
     describe("clusterGeometryFunction", () => {
         it("should return the geometry of a feature", () => {
