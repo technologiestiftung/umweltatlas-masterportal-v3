@@ -58,6 +58,7 @@ Layer2dRasterWms.prototype.createLayer = function (attributes) {
 Layer2dRasterWms.prototype.getRawLayerAttributes = function (attributes) {
     const rawLayerAttributes = {
         crs: attributes.crs,
+        cqlFilter: attributes.cqlFilter,
         format: attributes.format,
         gutter: attributes.gutter,
         id: attributes.id,

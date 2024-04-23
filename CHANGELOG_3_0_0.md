@@ -37,6 +37,7 @@
     - New parameter onlyFilteredFeatures introduced, so that only filtered features are displayed in the results window.
 - Grouped layers are supported.
 - Script to migrate masterportal configuration files to version 3.0.0 migratetes layertree with folder structure ("Ordner" in config.json version 2) and group layers.
+- Added WMS support to add CQL filters by attribute.
 
 ### Changed
 - CoordToolkit: Toast added instead of Alert for feedback after copying coordinates.

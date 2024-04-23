@@ -66,6 +66,7 @@ describe("src_3_0_0/core/js/layers/layer2dRasterWms.js", () => {
         beforeEach(() => {
             localAttributes = {
                 crs: "25832",
+                cqlFilter: "A=1",
                 format: "image/png",
                 gutter: 0,
                 id: "123456789",
@@ -83,6 +84,7 @@ describe("src_3_0_0/core/js/layers/layer2dRasterWms.js", () => {
 
             expect(wmsLayer.getRawLayerAttributes(localAttributes)).to.deep.equals({
                 crs: "25832",
+                cqlFilter: "A=1",
                 format: "image/png",
                 gutter: 0,
                 id: "123456789",
@@ -107,6 +109,7 @@ describe("src_3_0_0/core/js/layers/layer2dRasterWms.js", () => {
 
             expect(wmsLayer.getRawLayerAttributes(localAttributes)).to.deep.equals({
                 crs: "25832",
+                cqlFilter: "A=1",
                 format: "image/png",
                 gutter: 0,
                 id: "123456789",
