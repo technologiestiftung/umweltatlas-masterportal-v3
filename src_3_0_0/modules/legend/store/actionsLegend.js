@@ -8,13 +8,10 @@ import layerCollector from "../js/layerCollector";
 const actions = {
     /**
      * Creates the legend for all visible layers.
-     * Creates legend for layerInfo for all layers contained in waitingLegendsInfos.
-     * @param {Object} param.commit the commit
      * @param {Object} param.dispatch the dispatch
-     * @param {Object} param.getters the getters
      * @returns {void}
      */
-    createLegend ({commit, dispatch, getters}) {
+    createLegend ({dispatch}) {
         const allLayers = layerCollector.getLayerHolder();
 
         allLayers.forEach(layerHolder => {
@@ -31,8 +28,6 @@ const actions = {
                 dispatch("toggleLayerInLegend", {layer, visibility: layerHolder.visibility});
             }
         });
-        getters.waitingLegendsInfos?.forEach(layer => dispatch("generateLegendForLayerInfo", layer));
-        commit("setWaitingLegendsInfos", []);
     },
 
     /**

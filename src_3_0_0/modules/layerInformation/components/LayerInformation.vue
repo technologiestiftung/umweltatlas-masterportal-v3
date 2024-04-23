@@ -35,6 +35,7 @@ export default {
             "datePublication",
             "downloadLinks",
             "layerInfo",
+            "legendAvailable",
             "metaURLs",
             "noMetadataLoaded",
             "periodicityKey",
@@ -84,6 +85,9 @@ export default {
             this.setMetaDataCatalogueId(this.configJs.metaDataCatalogueId);
         }
         this.createLegendForLayerInfo(this.layerInfo.id);
+        if (!this.legendAvailable) {
+            this.activeTab = "LayerInfoDataDownload";
+        }
     },
 
     unmounted () {
@@ -203,7 +207,7 @@ export default {
         <nav role="navigation">
             <ul class="nav nav-tabs">
                 <li
-                    v-if="legendURL !== 'ignore'"
+                    v-if="legendAvailable"
                     value="layerinfo-legend"
                     class="nav-item"
                 >
@@ -246,7 +250,7 @@ export default {
 
         <div class="tab-content">
             <div
-
+                v-if="legendAvailable"
                 id="layerinfo-legend"
                 :class="getTabPaneClasses('layerinfo-legend')"
                 :show="isActiveTab('layerinfo-legend')"

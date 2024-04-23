@@ -17,6 +17,7 @@
  * @property {Boolean} [showUrlGlobal=null] parameter to globally toggle the dispaly of the service url for all layers
  * @property {String} [title=""] the layer Title
  * @property {String} [type="layerInformation"] the type of layer information
+ * @property {Boolean} [legendAvailable=true] true, if legend is available
  */
 export default {
     abstractText: "",
@@ -33,5 +34,6 @@ export default {
     periodicityKey: "",
     showUrlGlobal: null,
     title: "",
-    type: "layerInformation"
+    type: "layerInformation",
+    legendAvailable: true
 };

@@ -90,34 +90,11 @@ describe("src_3_0_0/modules/legend/store/actionsLegend.js", () => {
 
         it("createLegend shall create legend for visible layer - no waitingLegendsInfos", () => {
             layersInCollection.push(layer1);
-            const getters = {
-                waitingLegendsInfos: []
-            };
 
-            createLegend({commit, dispatch, getters});
+            createLegend({dispatch});
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.be.equals("toggleLayerInLegend");
             expect(dispatch.firstCall.args[1]).to.be.deep.equals({layer: layer1, visibility: layer1.get("visibility")});
-            expect(commit.calledOnce).to.be.true;
-            expect(commit.firstCall.args[0]).to.be.equals("setWaitingLegendsInfos");
-            expect(commit.firstCall.args[1]).to.be.deep.equals([]);
-        });
-
-        it("createLegend shall create legend for visible layer - 1 waitingLegendsInfos", () => {
-            layersInCollection.push(layer1);
-            const getters = {
-                waitingLegendsInfos: [layer2]
-            };
-
-            createLegend({commit, dispatch, getters});
-            expect(dispatch.calledTwice).to.be.true;
-            expect(dispatch.firstCall.args[0]).to.be.equals("toggleLayerInLegend");
-            expect(dispatch.firstCall.args[1]).to.be.deep.equals({layer: layer1, visibility: layer1.get("visibility")});
-            expect(dispatch.secondCall.args[0]).to.be.equals("generateLegendForLayerInfo");
-            expect(dispatch.secondCall.args[1]).to.be.deep.equals(layer2);
-            expect(commit.calledOnce).to.be.true;
-            expect(commit.firstCall.args[0]).to.be.equals("setWaitingLegendsInfos");
-            expect(commit.firstCall.args[1]).to.be.deep.equals([]);
         });
     });
 

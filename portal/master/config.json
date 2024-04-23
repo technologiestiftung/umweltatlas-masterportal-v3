@@ -873,14 +873,14 @@
           "id": [ "20501", "20502", "20503", "20504" ], 
           "name": "Gruppe Freizeitrouten und Radfernwege (4 WFS Layer)",
           "styleId": "4515",
-          "visibility": true,
+          "visibility": false,
           "showInLayerTree": true
         },
         {
           "id": "10220",
           "name": "Dauerzählstellen (Rad) Hamburg",
           "typ": "WMS",
-          "visibility": true
+          "visibility": false
         },
         {
           "id": "23555",
@@ -924,7 +924,7 @@
           "id": "2426",
           "name": "Bezirke",
           "typ": "WMS",
-          "visibility": true
+          "visibility": false
         },
         {
           "id": "2425",
@@ -1102,10 +1102,11 @@
         {
           "id": "27926",
           "styleId": "8712",
-          "name": "Schulen (Layertyp OAF)",
+          "name": "Schulen (Layertyp OAF) legend false",
           "typ": "OAF",
-          "visibility": true,
-          "gfiTheme": "schulinfo"
+          "visibility": false,
+          "gfiTheme": "schulinfo",
+          "legend": false
         },
         {
           "id": "20625.90024",
@@ -1148,7 +1149,7 @@
         },
         {
           "id": "GeoJSON",
-          "name": "Beiträge (GeoJSON)",
+          "name": "Beiträge (GeoJSON) legend true",
           "typ": "GeoJSON",
           "visibility": false,
           "url": "./resources/example_geojson.json",
@@ -1177,8 +1178,8 @@
         {
           "id": "2928",
           "styleId": "4515",
-          "name": "Linienhafte Biotope",
-          "legend": true,
+          "name": "Linienhafte Biotope legend ignore",
+          "legend": "ignore",
           "featurePrefix": "de.hh.up:",
           "wildCard": "%",
           "singleChar": "#",
@@ -1192,7 +1193,7 @@
           "styleId": "1534",
           "isPointLayer": false,
           "gfiAttributes": "showAll",
-          "legendURL": "",
+          "legendURL": "ignore",
           "loadingStrategy": "all",
           "mouseHoverField": [
             "belegenheit",
