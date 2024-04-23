@@ -30,8 +30,8 @@ function fillSections (data, secondaryMenu, migratedTools, toRemoveFromTools) {
     if (tools) {
         Object.entries(tools).forEach(([toolName, toolConfig]) => {
             if (!migratedTools.includes(toolName)) {
-                let tool = {...toolConfig},
-                    name = toolName;
+                const tool = {...toolConfig};
+                let name = toolName;
 
                 if (name.toLowerCase() === "coordtoolkit") {
                     name = "coordToolkit";
@@ -45,9 +45,18 @@ function fillSections (data, secondaryMenu, migratedTools, toRemoveFromTools) {
                     name = "draw_old";
                 }
                 if (name === "wfsSearch") {
-                    const regex = /"type":/g;
+                    tool.instances.forEach(instance => {
+                        instance.literals?.forEach(literal => {
+                            literal.literals?.forEach(subLiteral => {
+                                if (subLiteral.field) {
+                                    const type = subLiteral.field.type;
 
-                    tool = JSON.parse(JSON.stringify(tool).replace(regex, "\"queryType\":"));
+                                    delete subLiteral.field.type;
+                                    subLiteral.field.queryType = type;
+                                }
+                            });
+                        });
+                    });
                 }
                 tool.type = name;
                 deleteTranslateInName(tool);
