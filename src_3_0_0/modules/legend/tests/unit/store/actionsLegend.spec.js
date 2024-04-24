@@ -285,8 +285,7 @@ describe("src_3_0_0/modules/legend/store/actionsLegend.js", () => {
     describe("createLegendForLayerInfo", () => {
         let layerAttributes,
             layerConfig,
-            layer,
-            state;
+            layer;
 
         beforeEach(() => {
             layerAttributes = {
