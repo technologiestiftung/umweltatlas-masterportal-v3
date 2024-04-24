@@ -88,7 +88,7 @@ describe("src_3_0_0/modules/legend/store/actionsLegend.js", () => {
 
     describe("createLegend", () => {
 
-        it("createLegend shall create legend for visible layer - no waitingLegendsInfos", () => {
+        it("createLegend shall create legend for visible layer", () => {
             layersInCollection.push(layer1);
 
             createLegend({dispatch});
@@ -315,10 +315,6 @@ describe("src_3_0_0/modules/legend/store/actionsLegend.js", () => {
                     };
                 }
             };
-            state = {
-                waitingLegendsInfos: []
-            };
-
         });
 
         it("for visible layer should dispatch generateLegendForLayerInfo", async () => {
@@ -329,7 +325,6 @@ describe("src_3_0_0/modules/legend/store/actionsLegend.js", () => {
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.be.equals("generateLegendForLayerInfo");
             expect(dispatch.firstCall.args[1]).to.be.deep.equals(layer);
-            expect(state.waitingLegendsInfos.length).to.be.equals(0);
         });
 
         it("for not visible layer with legend should dispatch generateLegendForLayerInfo and take layer on and off", async () => {
