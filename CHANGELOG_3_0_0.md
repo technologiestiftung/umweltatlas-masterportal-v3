@@ -46,7 +46,7 @@
 - 3D tileset layer supports hiddenFeatures.
 - The following package has been updated:
     - dependencies:
-        - @masterportal/masterportalapi: 2.33.0 to 2.36.0 (This also raised ol to version 9.1.0)
+        - @masterportal/masterportalapi: 2.33.0 to 2.37.0 (This also raised ol to version 9.1.0)
 - Changed prePushHook to check config_3_0_0.json with mpconfigparser.
 - Restructured `highlightFeature` and `removeHighlighting`.
 - Script to migrate masterportal configuration files to version 3.0.0 is ready to use.
@@ -67,7 +67,7 @@
 - Issue #1144/#1146: The baselayer preview now works for WMTS Layer that have an XML as getCapabilities-URL.
 - Issue #1148: fixed bug in vector search so that it can handle GeometryCollection.
 - Issue #1153: The Parameter "isSecured" is now recognized if defined in the config.json.
-- Issue #1084: fix wrong pointMarker placement when featureType is MultiPolygon. 
+- Issue #1084: fix wrong pointMarker placement when featureType is MultiPolygon.
 - Layer selection: The order of the layers corresponds to the order of the layers in config.json.
 - Fixed HighlightFeature for MultiPolygons: In certain WFS layers, when polygon selection is enabled,
     clicking on a polygon would highlight it, but multiPolygons wouldn't. This has now been corrected.
