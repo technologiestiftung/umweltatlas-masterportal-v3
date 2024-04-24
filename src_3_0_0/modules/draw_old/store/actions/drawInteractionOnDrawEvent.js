@@ -117,7 +117,7 @@ export function handleDrawEvent ({state, commit, dispatch, rootState}, event) {
     if (event.feature.get("isOuterCircle")) {
         styleSettings.colorContour = styleSettings.outerColorContour;
     }
-    event.feature.setStyle(featureStyle(styleSettings));
+    event.feature.setStyle(featureStyle(styleSettings, event.feature.get("isOuterCircle")));
     event.feature.set("invisibleStyle", createStyleModule.createStyle(event.feature.get("drawState"), styleSettings));
     commit("setZIndex", state.zIndex + 1);
 }
@@ -125,12 +125,23 @@ export function handleDrawEvent ({state, commit, dispatch, rootState}, event) {
 /**
  * Returns a function to style feature.
  * @param {Object} styleSettings settings for style
+ * @param {Boolean} isOuterCircle if true, style is for isOuterCircle
  * @returns {Function} a function to style feature
  */
-export function featureStyle (styleSettings) {
+export function featureStyle (styleSettings, isOuterCircle) {
     return (feature) => {
         if (feature.get("isVisible")) {
-            return createStyleModule.createStyle(feature.get("drawState"), Object.assign({}, styleSettings, feature.get("drawState")));
+            let settings;
+
+            // NOTICE: change settings for outerCircle, else outerColor is same as innerColor (BG-5394)
+            // NOTICE: do this only for outerCircle to stay the old behaviour for all other stylings
+            if (!isOuterCircle) {
+                settings = Object.assign({}, styleSettings, feature.get("drawState"));
+            }
+            else {
+                settings = Object.assign({}, feature.get("drawState"), styleSettings);
+            }
+            return createStyleModule.createStyle(feature.get("drawState"), settings);
         }
         return undefined;
     };
