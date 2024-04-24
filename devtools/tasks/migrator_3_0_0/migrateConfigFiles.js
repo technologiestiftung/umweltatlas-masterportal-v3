@@ -500,7 +500,7 @@ async function migrateFiles (sourcePath, destPath) {
                                                     fs.copyFile(configJsSrcFile, configJsDestFile);
                                                     migrateIndexHtml(sourceFolder, destFolder, indexFile);
                                                     console.info("ATTENTION - TODO for User --- remove from config.js by yourself: ", toRemoveFromConfigJs.join(", ") + "\n");
-                                                    console.info("SUCCESSFULL MIGRATED: ", destFolder);
+                                                    console.info("SUCCESSFULLY MIGRATED: ", destFolder);
                                                 })
                                                 .catch(err => {
                                                     console.error(err);
