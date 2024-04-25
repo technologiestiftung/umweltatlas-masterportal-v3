@@ -7,7 +7,7 @@ import Layer2d from "../../../js/layer2d";
 import axios from "axios";
 import crs from "@masterportal/masterportalapi/src/crs";
 
-describe.only("src_3_0_0/core/js/layers/layer2d.js", () => {
+describe("src_3_0_0/core/js/layers/layer2d.js", () => {
     let warn,
         origDispatch;
 
