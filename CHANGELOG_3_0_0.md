@@ -47,6 +47,7 @@
 - The following package has been updated:
     - dependencies:
         - @masterportal/masterportalapi: 2.33.0 to 2.37.0 (This also raised ol to version 9.1.0)
+        - @masterportal/mpconfigparser: 1.3.1 to 1.4.0
 - Changed prePushHook to check config_3_0_0.json with mpconfigparser.
 - Restructured `highlightFeature` and `removeHighlighting`.
 - Script to migrate masterportal configuration files to version 3.0.0 is ready to use.
