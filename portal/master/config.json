@@ -881,6 +881,18 @@
           "name": "Dauerzählstellen (Rad) Hamburg",
           "typ": "WMS",
           "visibility": true
+        }, 
+        {
+          "id": "47",
+          "styleId": "47",
+          "name": "##O+++O## Ich sollte NIEMALS im Themenbaum sichtbar sein (isNeverVisibleInTree)!",
+          "isNeverVisibleInTree": true
+       },
+        {
+          "id": "10220",
+          "name": "Dauerzählstellen (Rad) Hamburg",
+          "typ": "WMS",
+          "visibility": true
         },
         {
           "id": "23555",

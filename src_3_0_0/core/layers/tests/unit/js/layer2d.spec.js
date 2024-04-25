@@ -7,7 +7,7 @@ import Layer2d from "../../../js/layer2d";
 import axios from "axios";
 import crs from "@masterportal/masterportalapi/src/crs";
 
-describe("src_3_0_0/core/js/layers/layer2d.js", () => {
+describe.only("src_3_0_0/core/js/layers/layer2d.js", () => {
     let warn,
         origDispatch;
 
@@ -16,6 +16,7 @@ describe("src_3_0_0/core/js/layers/layer2d.js", () => {
             lng: "cimode",
             debug: false
         });
+
         mapCollection.clear();
         const map = {
             id: "ol",
@@ -344,9 +345,13 @@ describe("src_3_0_0/core/js/layers/layer2d.js", () => {
             sinon.assert.calledOnce(zoomToLayerExtentSpy);
         });
         it("should handle errors from axios.get gracefully", async () => {
+            const error = sinon.spy();
+
+            sinon.stub(console, "error").callsFake(error);
             axiosGetStub.rejects(new Error("Network Error"));
             await layer.requestCapabilitiesToFitExtent();
             sinon.assert.notCalled(zoomToLayerExtentSpy);
+            sinon.assert.calledOnce(error);
         });
         it("should handle non-200 status codes from axios.get gracefully", async () => {
             axiosGetStub.resolves({
