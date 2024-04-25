@@ -652,7 +652,7 @@ const BuildSpecModel = {
      */
     getStyleAttributes: function (layer, feature) {
         const layerId = layer.get("id"),
-            styleObject = styleList.returnStyleObject(layerId);
+            styleObject = this.getStyleObject(layer, layerId);
         let styleFields = ["styleId"];
 
         if (styleObject !== undefined) {
