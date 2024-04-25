@@ -44,6 +44,11 @@ export default {
             required: false,
             default: false
         },
+        enableSettings: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
         filterable: {
             type: Boolean,
             required: false,
@@ -453,7 +458,7 @@ export default {
 <template>
     <div
         v-if="title"
-        class="mb-3 text-center bold fs-4 title"
+        class="mb-3 text-center font-bold fs-4 title"
     >
         {{ title }}
     </div>
@@ -464,14 +469,17 @@ export default {
         <div class="col col-md-auto">
             {{ $t(hits) }}
         </div>
-        <div class="bold text-secondary col col-md ps-0">
+        <div class="font-bold text-secondary col col-md ps-0">
             {{ editedTable.items?.length || 0 }}
         </div>
     </div>
     <div
         class="btn-toolbar justify-content-between sticky-top bg-white"
     >
-        <div class="btn-group">
+        <div
+            v-if="enableSettings"
+            class="btn-group"
+        >
             <div class="btn-group">
                 <FlatButton
                     id="table-settings"
@@ -574,50 +582,52 @@ export default {
                         class="filter-select-box-wrapper"
                         :class="['p-0', fixedColumn === column.name ? 'fixedColumn' : '']"
                     >
-                        <span
-                            v-if="filterable"
-                            class="multiselect-dropdown"
-                        >
-                            <Multiselect
-                                id="multiselect"
-                                v-model="dropdownSelected[column.name]"
-                                :options="getUniqueValuesByColumnName(column.name, data.items)"
-                                :multiple="true"
-                                :show-labels="false"
-                                open-direction="auto"
-                                :close-on-select="true"
-                                :clear-on-select="false"
-                                :searchable="false"
-                                placeholder=""
-                                :taggable="true"
-                                class="multiselect-dropdown"
-                                @select="(selectedOption) => addFilter(selectedOption, column.name)"
-                                @remove="(removedOption) => removeFilter(removedOption, column.name)"
+                        <div class="d-flex justify-content-between me-3">
+                            <span
+                                v-if="filterable"
+                                class="multiselect-dropdown w-100"
                             >
-                                <template
-                                    #selection
+                                <Multiselect
+                                    id="multiselect"
+                                    v-model="dropdownSelected[column.name]"
+                                    :options="getUniqueValuesByColumnName(column.name, data.items)"
+                                    :multiple="true"
+                                    :show-labels="false"
+                                    open-direction="auto"
+                                    :close-on-select="true"
+                                    :clear-on-select="false"
+                                    :searchable="false"
+                                    placeholder=""
+                                    :taggable="true"
+                                    class="multiselect-dropdown my-1"
+                                    @select="(selectedOption) => addFilter(selectedOption, column.name)"
+                                    @remove="(removedOption) => removeFilter(removedOption, column.name)"
                                 >
-                                    <span
-                                        class="multiselect__single"
-                                    >{{ column.name }}</span>
-                                </template>
-                            </Multiselect>
-                        </span>
-                        <span
-                            v-else
-                            class="me-2"
-                        >
-                            {{ column.name }}
-                        </span>
-                        <span
-                            v-if="sortable"
-                            class="sortable-icon"
-                            role="button"
-                            tabindex="0"
-                            :class="getIconClassByOrder(column.name)"
-                            @click.stop="runSorting(column.name)"
-                            @keypress.stop="runSorting(column.name)"
-                        />
+                                    <template
+                                        #selection
+                                    >
+                                        <span
+                                            class="multiselect__single"
+                                        >{{ column.name }}</span>
+                                    </template>
+                                </Multiselect>
+                            </span>
+                            <span
+                                v-else
+                                class="mx-2 my-3 th-style"
+                            >
+                                {{ column.name }}
+                            </span>
+                            <span
+                                v-if="sortable"
+                                class="my-3"
+                                role="button"
+                                tabindex="0"
+                                :class="getIconClassByOrder(column.name)"
+                                @click.stop="runSorting(column.name)"
+                                @keypress.stop="runSorting(column.name)"
+                            />
+                        </div>
                     </th>
                 </tr>
             </thead>
@@ -641,10 +651,6 @@ export default {
 
 <style lang="scss" scoped>
 @import "~variables";
-
-.bold {
-    font-family: $font_family_accent;
-}
 
 .dropdown-menu {
     --bs-dropdown-min-width: 25em;
@@ -692,6 +698,10 @@ table {
             left: 187px;
             cursor: pointer;
         }
+    }
+    .th-style {
+        display: block;
+        min-height: 1rem;
     }
     th:first-child {
         border-top-left-radius: 5px;
@@ -745,7 +755,7 @@ table {
     .multiselect__tags {
         background: $light_blue;
         border: none;
-        height: 20px;
+        height: 2.5rem;
         padding: 10px 40px 0 8px;
     }
     border: none;
@@ -754,7 +764,7 @@ table {
     }
     .multiselect__single {
         font-family: inherit;
-        font-size: 14px;
+        font-size: $font-size-sm;
         margin: 0;
         padding: 0;
         vertical-align: baseline;
@@ -767,26 +777,17 @@ table {
     .multiselect__option {
         display: block;
         padding: 10px;
-        min-height: 30px;
-        line-height: 10px;
-        font-size: 14px;
+        min-height: 2rem;
+        line-height: 1rem;
+        font-size: $font-size-sm;
         text-decoration: none;
         text-transform: none;
-        vertical-align: middle;
         position: relative;
         cursor: pointer;
         white-space: nowrap;
     }
     .multiselect__select {
-        position: absolute;
-        width: 45px;
-        height: 20px;
-        right: 12px;
-        top: 12px;
-        padding: 4px 8px;
-        text-align: center;
         transition: transform .2s ease;
-        background: $light_blue;
     }
 }
 </style>

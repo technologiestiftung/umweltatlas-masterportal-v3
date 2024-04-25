@@ -225,6 +225,7 @@ export default {
         <div
             id="map-wrapper"
             class="mp-map"
+            tabindex="0"
         >
             <div
                 id="map"

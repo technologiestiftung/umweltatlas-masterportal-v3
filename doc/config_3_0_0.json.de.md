@@ -3272,18 +3272,18 @@ Beim Bearbeiten eines Features / Hinzufügen von Attributen zu einem neuen Featu
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|delete|nein|[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfstransactiontransactionconfig)/Boolean|false|Legt fest, welche der zu `layerIds` zugehörigen Layer das Löschen von Geometrien erlauben.|false|
+|delete|nein|**[TransactionConfig](#markdown-header-pportalconfigmenusectionsmoduleswfsttransactionconfig)**/Boolean|false|Legt fest, welche der zu `layerIds` zugehörigen Layer das Löschen von Geometrien erlauben.|false|
 |icon|nein|String|"bi-globe"|Icon das im Menü vor dem Modulnamen angezeigt wird. Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |layerIds|ja|String[]||Array an Ids von in **[services.json](services.json.md)** definierten Layern.|false|
 |layerSelectLabel|nein|String|"common:modules.wfst.layerSelectLabel"|Falls gegeben, wird der Wert als Label für die Layerauswahl-Select-Box verwendet. Kann ein Sprachschlüssel sein.|false|
-|lineButton|nein|[TransactionConfig](#markdown-header-portalconfigmenutoolwfsttransactiontransactionconfig)[]/Boolean|[]|Legt fest, welche der zu `layerIds` zugehörigen Layer das Hinzufügen von Linien erlauben.|false|
+|lineButton|nein|**[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactionconfig)**[]/Boolean|[]|Legt fest, welche der zu `layerIds` zugehörigen Layer das Hinzufügen von Linien erlauben.|false|
 |name|nein|String|"common:modules.wfst.name"|Name des Moduls im Menü.|false|
-|pointButton|nein|[TransactionConfig](#markdown-header-portalconfigmenutoolwfsttransactiontransactionconfig)[]/Boolean|[]|Legt fest, welche der zu `layerIds` zugehörigen Layer das Hinzufügen von Punkten erlauben.|false|
-|polygonButton|nein|[TransactionConfig](#markdown-header-portalconfigmenutoolwfsttransactiontransactionconfig)[]/Boolean|[]|Legt fest, welche der zu `layerIds` zugehörigen Layer das Hinzufügen von Polygonen erlauben.|false|
+|pointButton|nein|**[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactionconfig)**[]/Boolean|[]|Legt fest, welche der zu `layerIds` zugehörigen Layer das Hinzufügen von Punkten erlauben.|false|
+|polygonButton|nein|**[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactionconfig)**[]/Boolean|[]|Legt fest, welche der zu `layerIds` zugehörigen Layer das Hinzufügen von Polygonen erlauben.|false|
 |showConfirmModal|nein|Boolean|false|Kennzeichen, ob ein modaler Dialog angezeigt werden soll.|false|
 |toggleLayer|nein|Boolean|false|Legt fest, ob die Feature des ausgewählten Layers weiterhin angezeigt werden sollen, wenn neue Feature hinzugefügt werden.|false|
 |type|nein|String|"wfst"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
-|update|nein|[TransactionConfig](#markdown-header-portalconfigmenutoolwfsttransactiontransactionconfig)/Boolean|false|Legt fest, welche der zu `layerIds` zugehörigen Layer das Bearbeiten von Geometrien erlauben.|false|
+|update|nein|**[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactionconfig)**/Boolean|false|Legt fest, welche der zu `layerIds` zugehörigen Layer das Bearbeiten von Geometrien erlauben.|false|
 
 **Beispiel**
 

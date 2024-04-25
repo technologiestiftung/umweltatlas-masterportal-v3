@@ -15,7 +15,7 @@
  * @property {Boolean} searched Whether the search button has been clicked.
  * @property {Object} selectedOptions The values of options which the user has entered / selected a value. The options here present are only the fields which had the parameter "options" as a String. The values inserted, have its "options" parameter as the key and the input as the value.
  * @property {?object} service An object containing information about the WFS service, which will later be filtered.
- * @property {Boolean} showResultList Whether the modal containing the results should be shown.
+ * @property {Boolean} showResultList Whether the table containing the results should be shown.
  * @property {Boolean} valuesReset If the values are reset, no values should be set on a select element.
  * @property {Number} zoomLevel zoom level to switch to on focusing a result
  * @property {Number} resultsPerPage used for pagination
