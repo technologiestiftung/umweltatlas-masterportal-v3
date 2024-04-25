@@ -56,6 +56,7 @@
 
 ### Removed
 - RoutingLoadingSpinner: Was replaced with share component SpinnerItem.
+- ModalItem in WFSSearch. Results are displayed as table now.
 
 ### Fixed
 - Issue #1118: The `wfsSearch` module now works with multiple select boxes.
