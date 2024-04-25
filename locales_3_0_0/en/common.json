@@ -818,7 +818,8 @@
     },
     "noInitialResults": "Initial search found no hits.",
     "showAll": "Show all",
-    "layerResultNotShown": "The found layer cannot be displayed."
+    "layerResultNotShown": "The found layer cannot be displayed.",
+    "layerInfoNotShown": "The layer information cannot be displayed."
     },
     "selectFeatures": {
       "description": "Get information about objects you select on the map",

@@ -818,7 +818,8 @@
     },
     "noInitialResults": "Die initiale Suche ergab keine Treffer.",
     "showAll": "Alle anzeigen",
-    "layerResultNotShown": "Der gefundene Layer kann nicht angezeigt werden."
+    "layerResultNotShown": "Der gefundene Layer kann nicht angezeigt werden.",
+    "layerInfoNotShown": "Die Layer Information kann nicht angezeigt werden."
     },
     "selectFeatures": {
       "description": "Erhalte Informationen zu Objekten die du auf der Karte auswählst",

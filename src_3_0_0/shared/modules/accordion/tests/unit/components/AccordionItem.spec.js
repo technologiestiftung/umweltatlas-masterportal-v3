@@ -11,7 +11,7 @@ describe("src_3_0_0/shared/modules/accordion/components/AccordionItem.vue", () =
 
     it("should render an accordion", async () => {
         const wrapper = mount(AccordionItem, {
-                props: {title, icon: iconString}
+                props: {id: "id", title, icon: iconString}
             }),
             accordion = wrapper.find(".accordion");
 
@@ -19,28 +19,28 @@ describe("src_3_0_0/shared/modules/accordion/components/AccordionItem.vue", () =
     });
     it("should render a title", async () => {
         const wrapper = mount(AccordionItem, {
-            props: {title, icon: iconString}
+            props: {id: "id", title, icon: iconString}
         });
 
         expect(wrapper.find(".accordion-button").text()).to.be.equal("My Title");
     });
     it("should render an icon", async () => {
         const wrapper = mount(AccordionItem, {
-            props: {title, icon: iconString}
+            props: {id: "id", title, icon: iconString}
         });
 
         expect(wrapper.find(".bi-list").exists()).to.be.true;
     });
     it("should be opened initially if isOpen is true", async () => {
         const wrapper = mount(AccordionItem, {
-            props: {title, icon: iconString, isOpen: true}
+            props: {id: "id", title, icon: iconString, isOpen: true}
         });
 
         expect(wrapper.find(".show").exists()).to.be.true;
     });
     it("should be initially closed if isOpen is not set", async () => {
         const wrapper = mount(AccordionItem, {
-            props: {title, icon: iconString}
+            props: {id: "id", title, icon: iconString}
         });
 
         expect(wrapper.find(".show").exists()).to.be.false;
