@@ -4,6 +4,7 @@ import BaselayerSwitcher from "../baselayerSwitcher/components/BaselayerSwitcher
 import BufferAnalysis from "../bufferAnalysis/components/BufferAnalysis.vue";
 import Contact from "../contact/components/ContactFormular.vue";
 import CoordToolkit from "../coordToolkit/components/CoordToolkit.vue";
+import Copyright from "../copyright/components/Copyright.vue";
 import CustomMenuElement from "../menu/components/CustomMenuElement.vue";
 import Draw from "../draw/components/DrawModule.vue";
 import Draw_old from "../draw_old/components/DrawItem.vue";
@@ -51,6 +52,7 @@ const getters = {
             bufferAnalysis: BufferAnalysis,
             contact: Contact,
             coordToolkit: CoordToolkit,
+            copyright: Copyright,
             customMenuElement: CustomMenuElement,
             draw: Draw,
             draw_old: Draw_old,

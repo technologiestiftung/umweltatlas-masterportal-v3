@@ -204,6 +204,16 @@
         "northingLabel": "Nordwert"
       }
     },
+    "copyright": {
+      "name": "Nutzungshinweise",
+      "info": "Bitte beachten Sie die Nutzungshinweise der verwendeten Geodaten",
+      "notSpecified": "Keine Angabe, wenden Sie sich ggf. an",
+      "contactOrganisation": "Organisation",
+      "contactName": "Name",
+      "contactPhone": "Tel.",
+      "contactEmail": "E-Mail",
+      "wait": "Einen Moment bitte"
+    },
     "draw": {
       "description": "Erstelle wichtige Markierungen oder kennzeichne Flächen",
       "name": "Zeichnen / Schreiben"

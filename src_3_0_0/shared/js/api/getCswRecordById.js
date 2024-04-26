@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import getNestedValues from "../utils/getNestedValues";
 import {handleAxiosError} from "../utils/handleAxiosError";
 import xml2json from "../utils/xml2json";
+import { setWebLinks } from "../utils/urlHelper";
 
 /**
  * Handles the GetRecordById request.
@@ -45,7 +46,8 @@ function getMetadata (json) {
         getRevisionDate: () => parseDate(json, "revision"),
         getDownloadLinks: () => parseDownloadLinks(json),
         getOwner: () => parseContactByRole(json, "owner"),
-        getContact: () => parseContactByRole(json, "pointOfContact")
+        getContact: () => parseContactByRole(json, "pointOfContact"),
+        getConstraints: (parseLinks = false) => parseConstraints(json, parseLinks)
     };
 }
 
@@ -72,6 +74,40 @@ function getMdIdentification (json) {
  */
 function parseTitle (json) {
     return getMdIdentification(json)?.citation?.CI_Citation?.title?.CharacterString?.getValue();
+}
+
+/**
+ * Gets the resourceConstraints of the metadata.
+ * @param {Object} json - the response
+ * @param {Boolean} parseLinks - default false, true to call setWebLinks for use contraints
+ * @returns {Object} object contains String access for access constraint and Array use for list of use contraints
+ */
+function parseConstraints (json, parseLinks = false) {
+    const constraints = getMdIdentification(json)?.resourceConstraints;
+    let access, use = [];
+
+    if (Array.isArray(constraints)) {
+        constraints.forEach(constraint => {
+            const legalConstraints = constraint.MD_LegalConstraints;
+            if (legalConstraints?.accessConstraints?.MD_RestrictionCode?.getAttributes()?.codeListValue === "otherRestrictions") {
+                access = legalConstraints?.otherConstraints?.Anchor?.getValue();
+            }
+            if (legalConstraints?.useConstraints?.MD_RestrictionCode?.getAttributes()?.codeListValue === "otherRestrictions") {
+                const otherConstraints = legalConstraints?.otherConstraints;
+                if (Array.isArray(otherConstraints)) {
+                    use = [];
+                    otherConstraints.forEach(otherConstraint => {
+                        let useConstraint = otherConstraint?.CharacterString?.getValue() || "";
+                        if (parseLinks) {
+                            useConstraint = setWebLinks(useConstraint);
+                        }
+                        use.push(useConstraint);
+                    });
+                }
+            }
+        });
+    }
+    return {access, use};
 }
 
 /**
@@ -222,5 +258,6 @@ export default {
     getMdIdentification,
     getMetadata,
     parseDate,
-    parseTitle
+    parseTitle,
+    parseConstraints
 };

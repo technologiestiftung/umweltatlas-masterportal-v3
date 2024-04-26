@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {isUrl, isWebLink} from "../../urlHelper";
+import {isUrl, isWebLink, setWebLinks} from "../../urlHelper";
 
 describe("src_3_0_0/shared/js/utils/urlHelper.js", () => {
     it("detects an URL in an incoming string", () => {
@@ -64,6 +64,21 @@ describe("src_3_0_0/shared/js/utils/urlHelper.js", () => {
         });
         it("should respond to a string beginning with // with boolean true", () => {
             expect(isWebLink("//")).to.be.true;
+        });
+    });
+
+    const testTextSetWebLinksInKlammern = "gemäß Datenlizenz Deutschland Namensnennung 2.0 (https://www.govdata.de/dl-de/by-2-0) zur Verfügung gestellt. Verwendung erlaubt, siehe https://sgx.geodatenzentrum.de/web_public/gdz/lizenz/deu/Datenlizenz_Deutschland_Ergänzungstext_Namensnennung.pdf. Der Quellenvermerk ist zu beachten.",
+    testTextSetWebLinksInJSON = '{"id":"dl-by-de/2.0","name":"Datenlizenz Deutschland Namensnennung 2.0","url":"https://www.govdata.de/dl-de/by-2-0","quelle":"Kartendarstellung: © Bundesamt für Kartographie und Geodäsie (2023), Datenquellen: https://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.html"}';
+
+    describe("setWebLinks", () => {
+        it("should leave text untouched", () => {
+            expect(setWebLinks("Hello world")).to.be.a("string").to.equal("Hello world");
+        });
+        it("should replace urls in text by a tags", () => {
+            expect(setWebLinks(testTextSetWebLinksInKlammern)).to.be.a("string").to.equal('gemäß Datenlizenz Deutschland Namensnennung 2.0 (<a href="https://www.govdata.de/dl-de/by-2-0" target="_new">https://www.govdata.de/dl-de/by-2-0</a>) zur Verfügung gestellt. Verwendung erlaubt, siehe <a href="https://sgx.geodatenzentrum.de/web_public/gdz/lizenz/deu/Datenlizenz_Deutschland_Ergänzungstext_Namensnennung.pdf" target="_new">https://sgx.geodatenzentrum.de/web_public/gdz/lizenz/deu/Datenlizenz_Deutschland_Ergänzungstext_Namensnennung.pdf</a>. Der Quellenvermerk ist zu beachten.');
+        });
+        it("should replace urls in text by a tags", () => {
+            expect(setWebLinks(testTextSetWebLinksInJSON)).to.be.a("string").to.equal('{"id":"dl-by-de/2.0","name":"Datenlizenz Deutschland Namensnennung 2.0","url":"<a href="https://www.govdata.de/dl-de/by-2-0" target="_new">https://www.govdata.de/dl-de/by-2-0</a>","quelle":"Kartendarstellung: © Bundesamt für Kartographie und Geodäsie (2023), Datenquellen: <a href="https://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.html" target="_new">https://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.html</a>"}');
         });
     });
 });

@@ -19,4 +19,12 @@ export function isWebLink (value) {
     return regExp.test(value);
 }
 
-export default {isUrl, isWebLink};
+export function setWebLinks (text) {
+    text = text.replace(
+        /((?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-ZÄÖÜ0-9+&@#/%=~_|$?!:,.]*\)|[-A-ZÄÖÜ0-9+&@#/%=~_|$?!:,.])*(?:\([-A-ZÄÖÜ0-9+&@#/%=~_|$?!:,.]*\)|[A-ZÄÖÜ0-9+&@#/%=~_|$]))/gi,
+        '<a href="$1" target="_new">$1</a>'
+    );
+    return text;
+}
+
+export default {isUrl, isWebLink, setWebLinks};
