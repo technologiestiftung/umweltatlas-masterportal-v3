@@ -125,7 +125,7 @@ Controls can be configured to be expandable so they will not initially show up i
 |freeze|no|Boolean/**[freeze](#markdown-header-portalconfigcontrolsfreeze)**|false|Whether a "lock view" button is shown.|false|
 |fullScreen|no|Boolean/**[fullScreen](#markdown-header-portalconfigcontrolsfullscreen)**|false|Allows the user to view the portal in full screen mode, that is, without the browser's tabs and address bar, by clicking a button. A second click on the element returns the view back to normal.|false|
 |orientation|no|**[orientation](#markdown-header-portalconfigcontrolsorientation)**||The orientation control uses the browser's geolocation feature to determine the user's coordinates.|false|
-|rotation|no|**[rotation](#markdown-header-portalconfigcontrolsrotation)**|false|Control that shows the current rotation of the map. With a click the map rotation can be set to north again. See also `mapInteractions` in **[config.js.md](config.js.md)**.|false|
+|rotation|no|**[rotation](#markdown-header-portalconfigcontrolsrotation)**|false|Control that shows the current rotation of the map. With a click the map rotation can be set to north again. Two additional control buttons can be configured to rotate the card clockwise and counterclockwise. See also `mapInteractions` in **[config.js.md](config.js.md)**.|false|
 |startModule|no|**[startModule](#markdown-header-portalconfigcontrolsstartmodule)**|false|Displays buttons for the configured tools. These can be used to open and close the respective tools.|false|
 |tiltView|no|Boolean/**[tiltView](#markdown-header-portalconfigcontrolstiltview)**|false|Displays two buttons that can be used to tilt the camera up or down in the 3D scene.|false|
 |totalView|no|Boolean/**[totalView](#markdown-header-portalconfigcontrolstotalview)**|false|Offers a button to return to the initial view.|false|
@@ -261,10 +261,13 @@ Orientation uses the browser's geolocation to determine the user's location. A l
 ***
 
 ##### portalConfig.map.controls.rotation
-The attribute rotation may be of type boolean or object. If of type boolean and value is set to true, the rotation control is just shown when the map rotation is not equal north/0. When of type object, the following attributes may be set:
+Controls the display of 3 control buttons: "Reset rotation", "Rotate clockwise" and "Rotate counterclockwise".
+The rotation attribute can be of type Boolean or Object. If it is of the Boolean type and set to true, it only displays the "Reset rotation" button if the map rotation is not equal to north/0. The other two buttons are always displayed. 
+If it is of type Object, the following attributes apply:
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
+|rotationIcons|no|Boolean|true|The "Rotate clockwise" and "Rotate anticlockwise" buttons are displayed.|false|
 |showAlways|no|Boolean|false|If the attribute is set to true, the control is shown permanently. Via default it appears only if the map rotation is not equal north/0.|false|
 |supportedDevices|no|String|["Desktop", "Mobile"]|Devices on which the module can be used and is displayed in the menu.|false|
 |supportedMapModes|no|String|["2D", "3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
@@ -273,7 +276,8 @@ The attribute rotation may be of type boolean or object. If of type boolean and 
 
 ```json
 "rotation": {
-    "showAlways": true
+    "showAlways": true,
+    "rotationIcons": false
 }
 ```
 

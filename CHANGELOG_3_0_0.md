@@ -39,6 +39,7 @@
 - Script to migrate masterportal configuration files to version 3.0.0 migratetes layertree with folder structure ("Ordner" in config.json version 2) and group layers.
 - Added WMS support to add CQL filters by attribute.
 - Doc-files explaining migrateConfig script added.
+- Control rotate: has been extended by two buttons to rotate the map clockwise and counterclockwise.
 
 ### Changed
 - CoordToolkit: Toast added instead of Alert for feedback after copying coordinates.

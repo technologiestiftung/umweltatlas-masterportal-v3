@@ -37,7 +37,12 @@ function migrateControls (data) {
     let addWMSConfig = null;
 
     if (controls.button3d === true) {
-        controls.rotation = true;
+        if (!controls.rotation) {
+            controls.rotation = {
+                showAlways: true,
+                rotationIcons: true
+            };
+        }
         controls.tiltView = true;
     }
 
@@ -70,7 +75,10 @@ function migrateControls (data) {
         }
         controls.startModule.secondaryMenu.push(tool);
     }
-
+    if (controls.rotation) {
+        controls.rotation = {...controls.rotation};
+        console.info("--- HINT: New Controls to rotate the map are available: Set 'rotationIcons' to true at control 'rotate' to enable them.");
+    }
     delete controls.attributions;
     delete controls.mousePosition;
     delete controls.orientation3d;
@@ -469,6 +477,7 @@ async function migrateFiles (sourcePath, destPath) {
                 copyDir(sourcePath, destPath).then(() => {
                     fs.readFile(configJsonSrcFile, "utf8")
                         .then(data => {
+                            console.log(data);
                             const migrated = {},
                                 parsed = JSON.parse(data);
 

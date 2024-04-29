@@ -149,6 +149,11 @@
         "titleGeolocatePOI": "In der Nähe (Luftlinie)",
         "trackingDeniedText": "'In der Nähe' nicht verfügbar."
       },
+      "rotation": {
+        "reset": "Rotation zurücksetzen",
+        "rotateClockwise": "Im Uhrzeigersinn drehen",
+        "rotateCounterClockwise": "Gegen den Uhrzeigersinn drehen"
+      },
       "tiltView": {
         "downButton": "Ansicht nach unten kippen",
         "upButton": "Ansicht nach oben kippen"

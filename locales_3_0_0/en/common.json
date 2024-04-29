@@ -149,6 +149,11 @@
         "titleGeolocatePOI": "Close to here (linear distance)",
         "trackingDeniedText": "'Close to here' is not available."
       },
+      "rotation": {
+        "reset": "Reset rotation",
+        "rotateClockwise": "Rotate clockwise",
+        "rotateCounterClockwise": "Rotate counterclockwise"
+      },
       "tiltView": {
         "downButton": "Tilt view down",
         "upButton": "Tilt view up"

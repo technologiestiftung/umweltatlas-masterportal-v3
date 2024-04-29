@@ -126,7 +126,7 @@ Controls können in der config.json in die Ebene "expandable" verschachtelt werd
 |freeze|nein|Boolean/**[freeze](#markdown-header-portalconfigcontrolsfreeze)**|false|Legt fest, ob ein "Ansicht sperren" Button angezeigt werden soll.|false|
 |fullScreen|nein|Boolean/**[fullScreen](#markdown-header-portalconfigcontrolsfullscreen)**|false|Ermöglicht dem User die Darstellung im Vollbildmodus (ohne Tabs und Adressleiste) per Klick auf den Button. Ein erneuter Klick auf den Button wechselt wieder in den normalen Modus.|false|
 |orientation|nein|**[orientation](#markdown-header-portalconfigcontrolsorientation)**||Orientation nutzt die geolocation des Browsers zur Standortbestimmung des Nutzers.|false|
-|rotation|nein|**[rotation](#markdown-header-portalconfigcontrolsrotation)**|false|Control, das die aktuelle Rotation der Karte anzeigt. Per Klick kann die Maprotation wieder auf Norden gesetzt werden. Siehe auch unter `mapInteractions` in **[config.js.md](config.js.md)**.|false|
+|rotation|nein|**[rotation](#markdown-header-portalconfigcontrolsrotation)**|false|Control, das die aktuelle Rotation der Karte anzeigt. Per Klick kann die Maprotation wieder auf Norden gesetzt werden. Es können 2 weitere Control-Button konfiguriert werden, die die Karte im und gegen den Uhrzeigersinn drehen. Siehe auch unter `mapInteractions` in **[config.js.md](config.js.md)**.|false|
 |startModule|nein|**[startModule](#markdown-header-portalconfigcontrolsstartmodule)**|false|Zeigt Buttons für die konfigurierten Module an. Über diese lassen sich die jeweiligen Module öffnen und schließen.|false|
 |tiltView|nein|Boolean/**[tiltView](#markdown-header-portalconfigcontrolstiltview)**|false|Zeigt zwei Buttons an, mit denen sich die Kamera in der 3D-Szene hoch- bzw. runterkippen lässt.|false|
 |totalView|nein|Boolean/**[totalView](#markdown-header-portalconfigcontrolstotalview)**|false|Zeigt einen Button an, mit dem die Startansicht mit den initialen Einstellungen wiederhergestellt werden kann.|false|
@@ -262,10 +262,13 @@ Orientation nutzt die geolocation des Browsers zur Standortbestimmung des Nutzer
 ***
 
 ##### portalConfig.map.controls.rotation
-Das Attribut rotation kann vom Typ Boolean oder Object sein. Wenn es vom Typ Boolean ist und auf true gesetzt ist, zeigt es das Rotation-Control nur an, wenn die Maprotation ungleich Norden/0 ist. Ist es vom Typ Object, so gelten folgende Attribute:
+Steuert die Anzeige von 3 Control-Buttons: "Rotation zurücksetzen", "Im Uhrzeigersinn drehen" und "Gegen den Uhrzeigersinn drehen".
+Das Attribut rotation kann vom Typ Boolean oder Object sein. Wenn es vom Typ Boolean ist und auf true gesetzt ist, zeigt es den Button "Rotation zurücksetzen" nur an, wenn die Maprotation ungleich Norden/0 ist. Die beiden anderen Buttons werden immer angezeigt. 
+Ist es vom Typ Object, so gelten folgende Attribute:
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
+|rotationIcons|nein|Boolean|true|Die Buttons "Im Uhrzeigersinn drehen" und "Gegen den Uhrzeigersinn drehen" werden angezeigt.|false|
 |showAlways|nein|Boolean|false|Ist das Attribut auf true gesetzt, wird das Control permanent angezeigt. Per default wird es nur angezeigt, wenn die Maprotation ungleich 0/Norden ist.|false|
 |supportedDevices|nein|String|["Desktop", "Mobile"]|Geräte auf denen das Modul verwendbar ist und im Menü angezeigt wird.|false|
 |supportedMapModes|nein|String|["2D", "3D"]|Karten modi in denen das Modul verwendbar ist und im Menü angezeigt wird.|false|
@@ -274,7 +277,8 @@ Das Attribut rotation kann vom Typ Boolean oder Object sein. Wenn es vom Typ Boo
 
 ```json
 "rotation": {
-    "showAlways": true
+    "showAlways": true,
+    "rotationIcons": false
 }
 ```
 
