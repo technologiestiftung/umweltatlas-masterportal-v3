@@ -268,6 +268,9 @@ Ist es vom Typ Object, so gelten folgende Attribute:
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
+|resetRotationIcon|nein|String|"bi-cursor"|Icon für den Button "Rotation zurücksetzen". Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
+|rotateCounterClockwiseIcon|nein|String|"bi-arrow-counterclockwise"|Icon für den Button "Gegen den Uhrzeigersinn drehen". Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
+|rotateClockwiseIcon|nein|String|"bi-arrow-clockwise"|Icon für den Button "Im Uhrzeigersinn drehen". Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |rotationIcons|nein|Boolean|true|Die Buttons "Im Uhrzeigersinn drehen" und "Gegen den Uhrzeigersinn drehen" werden angezeigt.|false|
 |showAlways|nein|Boolean|false|Ist das Attribut auf true gesetzt, wird das Control permanent angezeigt. Per default wird es nur angezeigt, wenn die Maprotation ungleich 0/Norden ist.|false|
 |supportedDevices|nein|String|["Desktop", "Mobile"]|Geräte auf denen das Modul verwendbar ist und im Menü angezeigt wird.|false|

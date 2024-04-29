@@ -267,6 +267,9 @@ If it is of type Object, the following attributes apply:
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
+|resetRotationIcon|no|String|"bi-cursor"|Icon for the "Reset rotation" button. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
+|rotateCounterClockwiseIcon|no|String|"bi-arrow-counterclockwise"|Icon for the "Rotate counterclockwise" button. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
+|rotateClockwiseIcon|no|String|"bi-arrow-clockwise"|Icon for the "Rotate clockwise" button. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |rotationIcons|no|Boolean|true|The "Rotate clockwise" and "Rotate anticlockwise" buttons are displayed.|false|
 |showAlways|no|Boolean|false|If the attribute is set to true, the control is shown permanently. Via default it appears only if the map rotation is not equal north/0.|false|
 |supportedDevices|no|String|["Desktop", "Mobile"]|Devices on which the module can be used and is displayed in the menu.|false|
