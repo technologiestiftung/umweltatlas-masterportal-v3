@@ -13,7 +13,7 @@ export default {
     },
     computed: {
         ...mapGetters("Controls/Rotation", ["rotation", "resetRotationIcon", "rotateClockwiseIcon", "rotateCounterClockwiseIcon", "rotationIcons", "showAlways"]),
-        ...mapGetters(["controlsConfig"])
+        ...mapGetters(["controlsConfig", "isMobile"])
     },
     mounted () {
         if (this.controlsConfig?.rotation?.showAlways) {
@@ -111,7 +111,7 @@ export default {
             :on-click="setToNorth"
         />
         <ControlIcon
-            v-if="rotationIcons"
+            v-if="rotationIcons && !isMobile"
             id="rotate-clockwise"
             class="rotate-clockwise-icon"
             :title="$t('common:modules.controls.rotation.rotateClockwise')"
@@ -119,7 +119,7 @@ export default {
             :on-click="rotateClockwise"
         />
         <ControlIcon
-            v-if="rotationIcons"
+            v-if="rotationIcons && !isMobile"
             id="rotate-counter-clockwise"
             class="rotate-counter-clockwise-icon"
             :title="$t('common:modules.controls.rotation.rotateCounterClockwise')"
