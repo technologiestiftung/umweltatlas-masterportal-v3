@@ -12,7 +12,7 @@ export default {
         ControlIcon
     },
     computed: {
-        ...mapGetters("Controls/Rotation", ["rotation", "resetRotationIcon", "rotateClockwiseIcon", "rotateCounterClockwiseIcon", "rotationIcons", "showAlways"]),
+        ...mapGetters("Controls/Rotation", ["rotation", "resetRotationIcon", "rotateClockwiseIcon", "rotateCounterClockwiseIcon", "rotationAngle", "rotationIcons", "showAlways"]),
         ...mapGetters(["controlsConfig", "isMobile"])
     },
     mounted () {
@@ -43,14 +43,12 @@ export default {
         rotateClockwise () {
             let newRotation;
 
-            if (this.rotation < this.degreesToRadians(0) && this.rotation > -1 * (this.degreesToRadians(45) + 0.1)) {
+            if (this.rotation < this.degreesToRadians(0) && this.rotation > -1 * (this.degreesToRadians(this.rotationAngle) + 0.1)) {
                 newRotation = 0;
             }
             else {
-                newRotation = this.rotation + this.degreesToRadians(45);
+                newRotation = this.rotation + this.degreesToRadians(this.rotationAngle);
             }
-
-
             this.setRotation(newRotation);
             mapCollection.getMapView("2D").animate({rotation: this.rotation});
         },
@@ -61,11 +59,11 @@ export default {
         rotateCounterClockwise () {
             let newRotation;
 
-            if (this.rotation > this.degreesToRadians(0) && this.rotation < this.degreesToRadians(45) + 0.1) {
+            if (this.rotation > this.degreesToRadians(0) && this.rotation < this.degreesToRadians(this.rotationAngle) + 0.1) {
                 newRotation = 0;
             }
             else {
-                newRotation = this.rotation - this.degreesToRadians(45);
+                newRotation = this.rotation - this.degreesToRadians(this.rotationAngle);
             }
             this.setRotation(newRotation);
             mapCollection.getMapView("2D").animate({rotation: this.rotation});
@@ -77,14 +75,6 @@ export default {
          */
         degreesToRadians (degrees) {
             return degrees * (Math.PI / 180);
-        },
-        /**
-         * Radiant to Degrees.
-         * @param {Number} rad the radiants to convert
-         * @returns {Number} degrees
-         */
-        radiansToDegrees (rad) {
-            return rad * (180 / Math.PI);
         },
         /**
          * Set the mapView to north.

@@ -6,7 +6,7 @@
       },
       "controls": {
         "rotation":  {
-          "showAlways": true,
+          "showAlways": false,
           "rotationIcons": true
           } ,
         "zoom": true,
