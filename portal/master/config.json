@@ -5,15 +5,34 @@
         "active": true
       },
       "controls": {
-        "rotation": true,
-        "xxrotation":  {
+        "rotation":  {
           "showAlways": true,
           "rotationIcons": true
           } ,
         "zoom": true,
         "tiltView": true,
+        "startModule": {
+          "secondaryMenu": [
+            {
+              "type": "addWMS"
+            }
+          ]
+        },
+        "totalView": true,
         "button3d": true,
-        "expandable": {}
+        "expandable": {
+          "backForward": true,
+          "orientation": {
+            "zoomMode": "once",
+            "poiDistances": [
+              500,
+              1000,
+              2000
+            ]
+          },
+          "freeze": true,
+          "fullScreen": true
+        }
       },
       "featureViaURL": {
         "zoomTo": "42",
@@ -857,8 +876,8 @@
           "id": [ "20501", "20502", "20503", "20504" ], 
           "name": "Gruppe Freizeitrouten und Radfernwege (4 WFS Layer)",
           "styleId": "4515",
-          "visibility": false,
-          "showInLayerTree": false
+          "visibility": true,
+          "showInLayerTree": true
         },
         {
           "id": "47",
@@ -870,7 +889,7 @@
           "id": "10220",
           "name": "Dauerzählstellen (Rad) Hamburg",
           "typ": "WMS",
-          "visibility": false
+          "visibility": true
         },
         {
           "id": "23555",
@@ -914,7 +933,7 @@
           "id": "2426",
           "name": "Bezirke",
           "typ": "WMS",
-          "visibility": false
+          "visibility": true
         },
         {
           "id": "2425",
@@ -1094,7 +1113,7 @@
           "styleId": "8712",
           "name": "Schulen (Layertyp OAF)",
           "typ": "OAF",
-          "visibility": false,
+          "visibility": true,
           "gfiTheme": "schulinfo"
         },
         {
