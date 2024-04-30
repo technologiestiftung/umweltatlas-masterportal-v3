@@ -90,7 +90,7 @@ const jsonWithMD_DataIdentification = {
                                     accessConstraints: {
                                         MD_RestrictionCode: {
                                             getAttributes: () => {
-                                                return {"codeListValue": "otherRestrictions"}
+                                                return {"codeListValue": "otherRestrictions"};
                                             }
                                         }
                                     },
@@ -106,7 +106,7 @@ const jsonWithMD_DataIdentification = {
                                     useConstraints: {
                                         MD_RestrictionCode: {
                                             getAttributes: () => {
-                                                return {"codeListValue": "otherRestrictions"}
+                                                return {"codeListValue": "otherRestrictions"};
                                             }
                                         }
                                     },
@@ -125,7 +125,7 @@ const jsonWithMD_DataIdentification = {
                                             CharacterString: {
                                                 getValue: () => "{\"id\":\"dl-by-de/2.0\",\"name\":\"Datenlizenz Deutschland Namensnennung 2.0\",\"url\":\"https://www.govdata.de/dl-de/by-2-0\",\"quelle\":\"Kartendarstellung: © Bundesamt für Kartographie und Geodäsie (2023), Datenquellen: https://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.html\"}"
                                             }
-                                        },
+                                        }
                                     ]
                                 }
                             }
@@ -162,13 +162,13 @@ describe("src_3_0_0/js/api/getCswRecordById.js", () => {
 
     describe("parseConstraints", () => {
         it("should return an object with access and use", () => {
-            expect(getCswRecordById.parseConstraints({})).to.be.an('object').that.include({access: undefined}).and.have.property("use").that.is.an('array').that.is.empty;
+            expect(getCswRecordById.parseConstraints({})).to.be.an("object").that.include({access: undefined}).and.have.property("use").that.is.an("array").that.is.empty;
         });
         it("should contain parsed data for property access", () => {
-            expect(getCswRecordById.parseConstraints(jsonWithResourceConstraints)).to.be.an('object').that.have.property("access").to.equal('Es gelten keine Zugriffsbeschränkungen');
+            expect(getCswRecordById.parseConstraints(jsonWithResourceConstraints)).to.be.an("object").that.have.property("access").to.equal("Es gelten keine Zugriffsbeschränkungen");
         });
         it("should contain parsed data for property use", () => {
-            expect(getCswRecordById.parseConstraints(jsonWithResourceConstraints)).to.be.an('object').that.have.property("use").that.is.an('array').to.have.lengthOf(3);
+            expect(getCswRecordById.parseConstraints(jsonWithResourceConstraints)).to.be.an("object").that.have.property("use").that.is.an("array").to.have.lengthOf(3);
         });
     });
 });

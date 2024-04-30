@@ -85,7 +85,7 @@ function parseTitle (json) {
 function parseConstraints (json, parseLinks = false) {
     const constraints = getMdIdentification(json)?.resourceConstraints;
     let access,
-    use = [];
+        use = [];
 
     if (Array.isArray(constraints)) {
         constraints.forEach(constraint => {

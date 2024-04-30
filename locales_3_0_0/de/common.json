@@ -204,7 +204,7 @@
         "northingLabel": "Nordwert"
       }
     },
-    "copyright": {
+    "copyrightConstraints": {
       "name": "Nutzungshinweise",
       "info": "Bitte beachten Sie die Nutzungshinweise der verwendeten Geodaten",
       "notSpecified": "Keine Angabe, wenden Sie sich ggf. an",

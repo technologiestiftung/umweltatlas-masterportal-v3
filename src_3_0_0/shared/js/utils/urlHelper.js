@@ -25,10 +25,11 @@ export function isWebLink (value) {
  * @returns {String} convertedText converted text with html links
  */
 export function setWebLinks (text) {
-    let convertedText = text.replace(
+    const convertedText = text.replace(
         /((?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-ZÄÖÜ0-9+&@#/%=~_|$?!:,.]*\)|[-A-ZÄÖÜ0-9+&@#/%=~_|$?!:,.])*(?:\([-A-ZÄÖÜ0-9+&@#/%=~_|$?!:,.]*\)|[A-ZÄÖÜ0-9+&@#/%=~_|$]))/gi,
         "<a href=\"$1\" target=\"_new\">$1</a>"
     );
+
     return convertedText;
 }
 

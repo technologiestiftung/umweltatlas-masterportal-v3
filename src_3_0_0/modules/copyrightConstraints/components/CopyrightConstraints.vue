@@ -25,13 +25,14 @@ export default {
             const visibleLayerList = this.getVisibleLayer(),
                 getMetaData = function (id) {
                     return new Promise((resolve) => {
-                       let metadata = getCswRecordById.getRecordById(
+                        const metadata = getCswRecordById.getRecordById(
                             "https://gdk.gdi-de.org/gdi-de/srv/ger/csw",
                             id
                         );
+
                         resolve(metadata);
                     });
-            };
+                };
 
             visibleLayerList.forEach((element) => {
                 getMetaData(element).then((metadata) => {
@@ -61,10 +62,11 @@ export default {
                                 (layer.get("name") !== "markerPoint" ||
                                     printMapMarker)
                             );
-                          });
+                        });
 
-            let visibleLayerListIds = [],
+            const visibleLayerListIds = [],
                 visibleLayerListMdIds = [];
+
             visibleLayerList.forEach((layer) => {
                 if (layer.values_.id) {
                     visibleLayerListIds.push(layer.values_.id);
@@ -85,7 +87,9 @@ export default {
 </script>
 
 <template lang="html">
-    <div id="copyright" class="infoText">
+    <div id="copyright"
+        class="infoText"
+    >
         <div v-if="ready">
             <div v-if="getContraints.length > 0">
                 <ul>
@@ -94,14 +98,14 @@ export default {
                         <div v-if="constraintsPerLayer.accessConstraints">
                             <ul>
                                 <li
-                                    class="copyright-details"
                                     v-if="constraintsPerLayer.accessConstraints"
+                                    class="copyright-details"
                                     v-html="constraintsPerLayer.accessConstraints.trim()"
                                 >
                                 </li>
                                 <li
-                                    class="copyright-details"
                                     v-for="useConstraint in constraintsPerLayer.useConstraints"
+                                    class="copyright-details"
                                     v-html="useConstraint.trim()"
                                 >
                                 </li>
