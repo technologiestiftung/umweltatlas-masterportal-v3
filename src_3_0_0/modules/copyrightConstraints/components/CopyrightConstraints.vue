@@ -21,21 +21,30 @@ export default {
         this.ready = true;
     },
     methods: {
-        getCswContraints () {
-            const visibleLayerList = this.getVisibleLayer(),
-                getMetaData = (id) => {
-                    return new Promise((resolve) => {
-                        const metadata = getCswRecordById.getRecordById(
-                            "https://gdk.gdi-de.org/gdi-de/srv/ger/csw",
-                            id
-                        );
+        /**
+         * gets the meta data for a layer
+         * @param {String} id meta data id of the layer
+         * @returns {Promise} meta data as Promise
+         */
+        getMetaData (id) {
+            return new Promise((resolve) => {
+                const metadata = getCswRecordById.getRecordById(
+                    "https://gdk.gdi-de.org/gdi-de/srv/ger/csw",
+                    id
+                );
 
-                        resolve(metadata);
-                    });
-                };
+                resolve(metadata);
+            });
+        },
+        /**
+         * gets the constrains for each visible layer and put them into this.constrains
+         * @returns {void}
+         */
+        getCswContraints () {
+            const visibleLayerList = this.getVisibleLayer();
 
             visibleLayerList.forEach((element) => {
-                getMetaData(element).then((metadata) => {
+                this.getMetaData(element).then((metadata) => {
                     this.contraints.push({
                         title: metadata?.getTitle(),
                         accessConstraints: metadata?.getConstraints()?.access,
@@ -47,9 +56,9 @@ export default {
         },
 
         /**
-         * sets the visible layers and set into variable
+         * gets the visible layers and detects the meta data ids for these layers
          * @param {Boolean} [printMapMarker=false] whether layer "markerPoint" should be filtered out
-         * @returns {void}
+         * @returns {Array} list of meta data ids
          */
         getVisibleLayer (printMapMarker = false) {
             const layers = mapCollection.getMap("2D").getLayers(),
