@@ -3271,18 +3271,18 @@ When editing properties of a feature / adding properties to a new feature, the a
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|delete|no|[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactiontransactionconfig)/Boolean|false|Defines which layers of `layerIds` allow delete transactions.|false|
+|delete|no|**[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactionconfig)**/Boolean|false|Defines which layers of `layerIds` allow delete transactions.|false|
 |icon|no|String|"bi-globe"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |layerIds|yes|String[]||Array of layer-ids defined in **[services.json](services.json.md)**.|false|
 |layerSelectLabel|no|String|"common:modules.wfst.layerSelectLabel"| Please set the value directly in the language files. If given, overrides the value set for the label of the layer select box. May be a locale key.|false|
-|lineButton|no|[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactiontransactionconfig)[]/Boolean|[]|Defines which layers of `layerIds` allow insert transactions of line geometries.|false|
+|lineButton|no|**[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactionconfig)**[]/Boolean|[]|Defines which layers of `layerIds` allow insert transactions of line geometries.|false|
 |name|no|String|"common:modules.wfst.name"|Tool name shown in the portal.|false|
-|pointButton|no|[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactiontransactionconfig)[]/Boolean|[]|Defines which layers of `layerIds` allow insert transactions of point geometries.|false|
-|polygonButton|no|[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactiontransactionconfig)[]/Boolean|[]|Defines which layers of `layerIds` allow insert transactions of polygon geometries.|false|
+|pointButton|no|**[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactionconfig)**[]/Boolean|[]|Defines which layers of `layerIds` allow insert transactions of point geometries.|false|
+|polygonButton|no|**[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactionconfig)**[]/Boolean|[]|Defines which layers of `layerIds` allow insert transactions of polygon geometries.|false|
 |showConfirmModal|no|Boolean|false|Flag if the modal dialog should be shown.|false|
 |toggleLayer|no|Boolean|false|Whether the features of the currently selected layer should stay visible when adding a new feature.|false|
 |type|no|String|"wfst"|The type of the module. Defines which module is configured.|false|
-|update|no|[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactiontransactionconfig)/Boolean|false|Defines which layers of `layerIds` allow update transactions.|false|
+|update|no|**[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactionconfig)**/Boolean|false|Defines which layers of `layerIds` allow update transactions.|false|
 
 **Example**
 

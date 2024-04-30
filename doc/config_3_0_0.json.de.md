@@ -3272,7 +3272,7 @@ Beim Bearbeiten eines Features / Hinzufügen von Attributen zu einem neuen Featu
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|delete|nein|**[TransactionConfig](#markdown-header-pportalconfigmenusectionsmoduleswfsttransactionconfig)**/Boolean|false|Legt fest, welche der zu `layerIds` zugehörigen Layer das Löschen von Geometrien erlauben.|false|
+|delete|nein|**[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactionconfig)**/Boolean|false|Legt fest, welche der zu `layerIds` zugehörigen Layer das Löschen von Geometrien erlauben.|false|
 |icon|nein|String|"bi-globe"|Icon das im Menü vor dem Modulnamen angezeigt wird. Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |layerIds|ja|String[]||Array an Ids von in **[services.json](services.json.md)** definierten Layern.|false|
 |layerSelectLabel|nein|String|"common:modules.wfst.layerSelectLabel"|Falls gegeben, wird der Wert als Label für die Layerauswahl-Select-Box verwendet. Kann ein Sprachschlüssel sein.|false|

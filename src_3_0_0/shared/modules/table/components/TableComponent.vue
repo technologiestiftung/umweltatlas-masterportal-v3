@@ -68,6 +68,11 @@ export default {
             type: [String, Boolean],
             required: false,
             default: false
+        },
+        id: {
+            type: String,
+            required: false,
+            default: "tableId"
         }
     },
 
@@ -474,14 +479,15 @@ export default {
         </div>
     </div>
     <div
+        :id="id"
         class="btn-toolbar justify-content-between sticky-top bg-white"
     >
         <div
-            v-if="enableSettings"
             class="btn-group"
         >
             <div class="btn-group">
                 <FlatButton
+                    v-if="enableSettings"
                     id="table-settings"
                     aria-label="$t('common:shared.modules.table.settings')"
                     :text="$t('common:shared.modules.table.settings')"
@@ -549,6 +555,7 @@ export default {
                 </div>
             </div>
             <FlatButton
+                v-if="enableSettings"
                 id="table-reset"
                 aria-label="$t('common:shared.modules.table.reset')"
                 :text="$t('common:shared.modules.table.reset')"
@@ -616,11 +623,11 @@ export default {
                                 v-else
                                 class="mx-2 my-3 th-style"
                             >
-                                {{ column.name }}
+                                {{ column.displayName ? column.displayName : column.name }}
                             </span>
                             <span
                                 v-if="sortable"
-                                class="my-3"
+                                class="my-3 sortable-icon"
                                 role="button"
                                 tabindex="0"
                                 :class="getIconClassByOrder(column.name)"
@@ -727,7 +734,7 @@ table {
 }
 
 .fixed {
-    height: calc(100vh - 225px);
+    max-height: calc(100vh - 225px);
     box-sizing: border-box;
     width: 100%;
     overflow-y: scroll;

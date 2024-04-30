@@ -6,7 +6,7 @@ import {createStore} from "vuex";
 
 config.global.mocks.$t = key => key;
 
-describe("src/shared/modules/table/components/TableComponent.vue", () => {
+describe("src_3_0_0/shared/modules/table/components/TableComponent.vue", () => {
     let store;
 
     beforeEach(() => {
@@ -143,6 +143,31 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
 
             expect(wrapper.findAll(".sortable-icon").length).to.be.equal(1);
         });
+
+        it("should render table without settings menu", () => {
+            const wrapper = shallowMount(TableComponent, {
+                propsData: {
+                    data: {
+                        headers: ["foo"]
+                    }
+                }
+            });
+
+            expect(wrapper.findAll("#table-settings").length).to.be.equal(0);
+        });
+
+        it("should render table with sorting arrows", () => {
+            const wrapper = shallowMount(TableComponent, {
+                propsData: {
+                    data: {
+                        headers: ["foo"]
+                    },
+                    enableSettings: true
+                }
+            });
+
+            expect(wrapper.findAll("#table-settings").length).to.be.equal(1);
+        });
         it("should render table with multiselect", () => {
             const wrapper = shallowMount(TableComponent, {
                 propsData: {
@@ -234,7 +259,10 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
         it("should call 'resetAll' when the resetAll button is clicked", async () => {
             const wrapper = mount(TableComponent, {
                     propsData: {
-                        data: {}
+                        data: {
+                            headers: ["foo"]
+                        },
+                        enableSettings: true
                     }
                 }),
                 button = wrapper.find("#table-reset"),

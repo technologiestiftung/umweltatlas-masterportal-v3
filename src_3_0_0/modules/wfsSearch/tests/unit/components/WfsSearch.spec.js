@@ -10,7 +10,7 @@ import WfsSearchModule from "../../../store/indexWfsSearch";
 
 config.global.mocks.$t = key => key;
 
-describe.only("src_3_0_0/modules/wfsSearch/components/WfsSearch.vue", () => {
+describe("src_3_0_0/modules/wfsSearch/components/WfsSearch.vue", () => {
     let instances,
         store,
         layer,
@@ -203,6 +203,9 @@ describe.only("src_3_0_0/modules/wfsSearch/components/WfsSearch.vue", () => {
                                 return undefined;
                             }
                         };
+                    },
+                    values_: {
+                        Ort: "Hamburg"
                     }
                 }
             ],
@@ -225,6 +228,23 @@ describe.only("src_3_0_0/modules/wfsSearch/components/WfsSearch.vue", () => {
             expect(setZoomStub.calledWith(1)).to.be.true;
         });
     });
+    it("renders a table to show the search results if the user searched and results were found", async () => {
+        store.commit("Modules/WfsSearch/setInstances", instances);
+        const wrapper = mount(WfsSearch, {
+            global: {
+                plugins: [store]
+            }
+        });
+        let resTable = null;
+
+        store.commit("Modules/WfsSearch/setSearched", true);
+        store.commit("Modules/WfsSearch/setShowResultList", true);
+        store.commit("Modules/WfsSearch/setResults", [{values_: {Ort: "Hamburg", Name: "Klaras Kita"}}]);
+        await wrapper.vm.$nextTick();
+        resTable = wrapper.find("#resultTable");
+        expect(resTable.exists()).to.be.true;
+    });
+
     it("sets zoom according to config/store if no such prop set", async () => {
         const features = [
                 {
@@ -234,6 +254,9 @@ describe.only("src_3_0_0/modules/wfsSearch/components/WfsSearch.vue", () => {
                                 return undefined;
                             }
                         };
+                    },
+                    values_: {
+                        Ort: "Hamburg"
                     }
                 }
             ],

@@ -873,8 +873,7 @@
       "resetButton": "Zurücksetzen",
       "searchButton": "Suchen",
       "searchError": "Fehler bei der Suche von Feature: {{error}}.",
-      "showResults_one": "Zeige Ergebnis",
-      "showResults_other": "Zeige Ergebnisse",
+      "showResultHeading": "Suchergebnisse:",
       "userHelp": {
         "and": "und",
         "label": "Informationen bezüglich der Suchergebnisse",

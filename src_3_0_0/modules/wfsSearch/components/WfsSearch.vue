@@ -66,7 +66,14 @@ export default {
             const {resultList} = this.currentInstance;
 
             if (isObject(resultList)) {
-                return Object.assign({}, resultList);
+                const tableHeaders = [];
+
+                Object.keys(resultList).forEach(result => {
+                    const resultName = resultList[result];
+
+                    tableHeaders.push({name: result, displayName: resultName, order: "origin"});
+                });
+                return tableHeaders;
             }
             if (resultList === "showAll") {
                 const tableHeaders = [],
@@ -120,7 +127,6 @@ export default {
     },
     created () {
         this.prepareModule();
-
     },
     unmounted () {
         this.resetModule(true);
@@ -289,10 +295,10 @@ export default {
             class="mt-5"
         >
             <span>
-                <h5>Suchergebnisse:</h5>
+                <h5>{{ $t("common:modules.wfsSearch.showResultHeading") }}</h5>
             </span>
             <TableComponent
-                id="resultTable"
+                :id="'resultTable'"
                 :data="tableData"
                 :sortable="true"
             />

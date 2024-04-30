@@ -873,8 +873,7 @@
       "resetButton": "Reset",
       "searchButton": "Search",
       "searchError": "Error while searching for the features: {{error}}.",
-      "showResults_one": "Show result",
-      "showResults_other": "Show results",
+      "showResultHeading": "Searchresults:",
       "userHelp": {
         "and": "and",
         "label": "Information regarding the results of the search",
