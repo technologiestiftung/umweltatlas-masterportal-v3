@@ -62,9 +62,8 @@ export default {
                                 (layer.get("name") !== "markerPoint" ||
                                     printMapMarker)
                             );
-                        });
-
-            const visibleLayerListIds = [],
+                        }),
+                visibleLayerListIds = [],
                 visibleLayerListMdIds = [];
 
             visibleLayerList.forEach((layer) => {
@@ -80,6 +79,7 @@ export default {
                     }
                 }
             });
+
             return visibleLayerListMdIds;
         }
     }
@@ -87,7 +87,7 @@ export default {
 </script>
 
 <template lang="html">
-    <div id="copyright"
+    <div id="copyrightConstraints"
         class="infoText"
     >
         <div v-if="ready">
@@ -112,27 +112,27 @@ export default {
                             </ul>
                         </div>
                         <div v-else>
-                            <div><i>{{ $t("common:modules.copyright.notSpecified") }}</i></div>
+                            <div><i>{{ $t("common:modules.copyrightConstraints.notSpecified") }}</i></div>
                             <ul>
                                 <li v-if="constraintsPerLayer.pointOfContact?.name">
                                     <div class="organisation">
-                                        {{ $t("common:modules.copyright.contactOrganisation") }}: {{ constraintsPerLayer.pointOfContact?.name }}
+                                        {{ $t("common:modules.copyrightConstraints.contactOrganisation") }}: {{ constraintsPerLayer.pointOfContact?.name }}
                                     </div>
                                 </li>
                                 <li v-if="constraintsPerLayer.pointOfContact?.positionName && constraintsPerLayer.pointOfContact?.positionName?.length == 1">
                                     <div class="name">
-                                        {{ $t("common:modules.copyright.contactName") }}: {{ constraintsPerLayer.pointOfContact?.positionName }}
+                                        {{ $t("common:modules.copyrightConstraints.contactName") }}: {{ constraintsPerLayer.pointOfContact?.positionName }}
                                     </div>
                                 </li>
                                 <li v-if="constraintsPerLayer.pointOfContact?.phone">
                                     <div class="">
-                                        {{ $t("common:modules.copyright.contactPhone") }}:
+                                        {{ $t("common:modules.copyrightConstraints.contactPhone") }}:
                                         {{ constraintsPerLayer.pointOfContact?.phone }}
                                     </div>
                                 </li>
                                 <li v-if="constraintsPerLayer.pointOfContact?.email">
                                     <div class="email">
-                                        {{ $t("common:modules.copyright.contactEmail") }}:
+                                        {{ $t("common:modules.copyrightConstraints.contactEmail") }}:
                                         <a
                                             class="eMailLink"
                                             :href="'mailto:' + constraintsPerLayer.pointOfContact?.email"
@@ -146,7 +146,7 @@ export default {
             </div>
         </div>
         <div v-else>
-            {{ $t("common:modules.copyright.wait") }}...
+            {{ $t("common:modules.copyrightConstraints.wait") }}...
         </div>
     </div>
 </template>
