@@ -1,5 +1,5 @@
 import {generateSimpleMutations} from "../../../shared/js/utils/generators";
-import state from "./stateCopyright";
+import state from "./stateCopyrightConstraints";
 
 const mutations = {
     ...generateSimpleMutations(state)

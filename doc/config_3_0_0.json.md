@@ -1572,7 +1572,7 @@ The following events exist. Which events can be configured can be found in the d
 [type:bufferAnalysis]: # (portalConfig.menu.sections.modules)
 [type:contact]: # (portalConfig.menu.sections.modules)
 [type:coordToolkit]: # (portalConfig.menu.sections.modules)
-[type:copyright]: # (portalConfig.menu.sections.modules)
+[type:copyrightConstraints]: # (portalConfig.menu.sections.modules)
 [type:customMenuElement]: # (portalConfig.menu.sections.modules)
 [type:featureLister]: # (portalConfig.menu.sections.modules)
 [type:fileImport]: # (portalConfig.menu.sections.modules)
@@ -1600,7 +1600,7 @@ Modules can be divided into sections. In the menu, sections are divided with a h
 |bufferAnalysis|no|**[bufferAnalysis](#markdown-header-portalconfigmenusectionsmodulesbufferanalysis)**||This buffer analysis allows the selection of a source layer, a buffer radius and a target layer. The chosen buffer radius will then be shown around features of the selected source layer. At the moment a target layer is selected, only the features of this layer will be shown, if they are outside the buffer radii. It is also possible to invert the result. In this case the resulting features will only be show if they are inside the radii.|false|
 |contact|no|**[contact](#markdown-header-portalconfigmenusectionsmodulescontact)**||The contact form allows users to send messages to a configured email address. For example, this may be used to allow users to submit errors and suggestions. A file can be appended.|false|
 |coordToolkit|no|**[coordToolkit](#markdown-header-portalconfigmenusectionsmodulescoordtoolkit)**||Coordinate query: Tool to query coordinates and altitude by mouse click: When clicking in the map, the coordinates are frozen in the display and can also be copied directly to the clipboard. Coordinate search: The coordinate system and the coordinates can be entered via an input mask. The tool then zooms to the corresponding coordinate and places a marker on it. The coordinate systems are obtained from config.js.|false|
-|copyright|nein|**[copyright](#markdown-header-portalconfigmenusectionsmodulescopyright)**||Dieses Modul lädt die Nutzungshinweise über eine CSW Schnittstelle und listed diese je eise für den Layer vorhanden, wird alternativ ein Kontakt angezeigt, bei dem man die Nutzungsbedingungen erfragen kann.|false|
+|copyrightConstraints|nein|**[copyrightConstraints](#markdown-header-portalconfigmenusectionsmodulescopyrightconstraints)**||Dieses Modul lädt die Nutzungshinweise über eine CSW Schnittstelle und listed diese je eise für den Layer vorhanden, wird alternativ ein Kontakt angezeigt, bei dem man die Nutzungsbedingungen erfragen kann.|false|
 |customMenuElement|no|**[customMenuElement](#markdown-header-portalconfigmenusectionsmodulescustommenuelement)**||This module can open a link, display HTML from config.json or an external file, or perform an action. This module can be configured several times in config.json.|false|
 |featureLister|no|**[featureLister](#markdown-header-portalconfigmenusectionsmodulesfeaturelister)**||Lists all features of a vector layer and highlights a feature by mouse over.|false|
 |fileImport|no|**[fileImport](#markdown-header-portalconfigmenusectionsmodulesfileImport)**||Import KML, GeoJSON, and GPX files with this modules.|false|
@@ -1842,7 +1842,7 @@ Coordinates tool: to display the height above sea level in addition to the 2 dim
 
 ***
 
-##### portalConfig.menu.sections.modules.copyright
+##### portalConfig.menu.sections.modules.copyrightConstraints
 
 [inherits]: # (portalConfig.menu.sections.modules)
 
@@ -1850,13 +1850,13 @@ Listet die Nutzungshinweise der aktiven Layer auf.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|type|nein|String|"copyright"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
+|type|nein|String|"copyrightConstraints"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
 
 **Beispiel**
 
 ```json
 {
-    "type": "copyright"
+    "type": "copyrightConstraints"
 }
 ```
 

@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import getNestedValues from "../utils/getNestedValues";
 import {handleAxiosError} from "../utils/handleAxiosError";
 import xml2json from "../utils/xml2json";
-import { setWebLinks } from "../utils/urlHelper";
+import {setWebLinks} from "../utils/urlHelper";
 
 /**
  * Handles the GetRecordById request.
@@ -84,20 +84,24 @@ function parseTitle (json) {
  */
 function parseConstraints (json, parseLinks = false) {
     const constraints = getMdIdentification(json)?.resourceConstraints;
-    let access, use = [];
+    let access,
+    use = [];
 
     if (Array.isArray(constraints)) {
         constraints.forEach(constraint => {
             const legalConstraints = constraint.MD_LegalConstraints;
+
             if (legalConstraints?.accessConstraints?.MD_RestrictionCode?.getAttributes()?.codeListValue === "otherRestrictions") {
                 access = legalConstraints?.otherConstraints?.Anchor?.getValue();
             }
             if (legalConstraints?.useConstraints?.MD_RestrictionCode?.getAttributes()?.codeListValue === "otherRestrictions") {
                 const otherConstraints = legalConstraints?.otherConstraints;
+
                 if (Array.isArray(otherConstraints)) {
                     use = [];
                     otherConstraints.forEach(otherConstraint => {
                         let useConstraint = otherConstraint?.CharacterString?.getValue() || "";
+
                         if (parseLinks) {
                             useConstraint = setWebLinks(useConstraint);
                         }

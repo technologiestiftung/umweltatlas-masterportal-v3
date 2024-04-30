@@ -1574,7 +1574,7 @@ Folgende Events existieren. Welche Events konfiguriert werden können ist den Be
 [type:bufferAnalysis]: # (portalConfig.menu.sections.modules)
 [type:contact]: # (portalConfig.menu.sections.modules)
 [type:coordToolkit]: # (portalConfig.menu.sections.modules)
-[type:copyright]: # (portalConfig.menu.sections.modules)
+[type:copyrightConstraints]: # (portalConfig.menu.sections.modules)
 [type:customMenuElement]: # (portalConfig.menu.sections.modules)
 [type:featureLister]: # (portalConfig.menu.sections.modules)
 [type:fileImport]: # (portalConfig.menu.sections.modules)
@@ -1602,7 +1602,7 @@ Module lassen sich in Abschnitte (Sections) unterteilen. Im Menü werden Abschni
 |bufferAnalysis|nein|**[bufferAnalysis](#markdown-header-portalconfigmenusectionsmodulesbufferanalysis)**||In der Buffer-Analyse muss ein Quell-Layer, ein Buffer-Radius und ein Ziel-Layer ausgewählt werden. Buffer-Radien werden um die Features des Quell-Layers dargestellt. Sobald ein Ziel-Layer gewählt wurde, werden nur die Features dieses Layers hervorgehoben, welche sich außerhalb der Buffer-Radien befinden. Auch eine invertierte Anzeige ist möglich. Bei dieser werden nur die Features des Ziel-Layers innerhalb der Radien hervorgehoben.|false|
 |contact|nein|**[contact](#markdown-header-portalconfigmenusectionsmodulescontact)**||Das Kontaktformular bietet dem Benutzer die Möglichkeit an das konfigurierte Postfach eine Nachricht zu senden. Es können beispielsweise Fehler oder Wünsche und Anregungen gemeldet und Screenshots können beigefügt werden.|false|
 |coordToolkit|nein|**[coordToolkit](#markdown-header-portalconfigmenusectionsmodulescoordtoolkit)**||Koordinatenabfrage: Werkzeug um Koordinaten und Höhe per Maus-Klick abzufragen: Bei Klick in die Karte werden die Koordinaten in der Anzeige eingefroren und können auch direkt in die Zwischenablage kopiert werden. Koordinatensuche: Über eine Eingabemaske können das Koordinatensystem und die Koordinaten eingegeben werden. Das Werkzeug zoomt dann auf die entsprechende Koordinate und setzt einen Marker darauf. Die Koordinatensysteme werden aus der config.js bezogen.|false|
-|copyright|nein|**[copyright](#markdown-header-portalconfigmenusectionsmodulescopyright)**||Dieses Modul lädt die Nutzungshinweise über eine CSW Schnittstelle und listed diese je Layer. Sind keine Nutzungshinweise für den Layer vorhanden, wird alternativ ein Kontakt angezeigt, bei dem man die Nutzungsbedingungen erfragen kann.|false|
+|copyrightConstraints|nein|**[copyrightConstraints](#markdown-header-portalconfigmenusectionsmodulescopyrightconstraints)**||Dieses Modul lädt die Nutzungshinweise über eine CSW Schnittstelle und listed diese je Layer. Sind keine Nutzungshinweise für den Layer vorhanden, wird alternativ ein Kontakt angezeigt, bei dem man die Nutzungsbedingungen erfragen kann.|false|
 |customMenuElement|nein|**[customMenuElement](#markdown-header-portalconfigmenusectionsmodulescustommenuelement)**||Dieses Modul kann einen Link öffnen, HTML aus config.json oder einer externen Datei anzeigen oder eine Aktion ausführen. Diese Modul kann mehrfach in der config.json konfiguriert werden.|false|
 |featureLister|nein|**[featureLister](#markdown-header-portalconfigmenusectionsmodulesfeaturelister)**||Listet alle Features eines Vektorlayers auf.|false|
 |fileImport|nein|**[fileImport](#markdown-header-portalconfigmenusectionsmodulesfileImport)**||Import von Dateien des Typs *.kml, *.geojson und *. gpx. Über dieses Modul können solche Dateien importiert werden.|false|
@@ -1845,7 +1845,7 @@ Koordinaten-Werkzeug: um zusätzlich zu den 2 dimensionalen Koordinaten die Höh
 
 ***
 
-##### portalConfig.menu.sections.modules.copyright
+##### portalConfig.menu.sections.modules.copyrightConstraints
 
 [inherits]: # (portalConfig.menu.sections.modules)
 
@@ -1853,13 +1853,13 @@ Listet die Nutzungshinweise der aktiven Layer auf.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|type|nein|String|"copyright"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
+|type|nein|String|"copyrightConstraints"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
 
 **Beispiel**
 
 ```json
 {
-    "type": "copyright"
+    "type": "copyrightConstraints"
 }
 ```
 

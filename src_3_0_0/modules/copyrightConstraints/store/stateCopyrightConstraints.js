@@ -1,17 +1,17 @@
 /**
  * The state of the Copyright Informations
- * @module  modules/copyright/store/stateCopyright
- * @typedef {Object} CopyrightState
+ * @module  modules/copyright/store/stateCopyrightConstraints
+ * @typedef {Object} CopyrightConstraintsState
  * @property {String} id id of the Copyright component
  * @property {String} name displayed as title (config-param)
  * @property {String} icon icon next to title (config-param)
  * @property {String} type (config-param)
  */
 const state = {
-    id: "copyright",
-    name: "common:modules.copyright.name",
+    id: "copyrightConstraints",
+    name: "common:modules.copyrightConstraints.name",
     icon: "bi-c-circle",
-    type: "copyright"
+    type: "copyrightConstraints"
 };
 
 export default state;

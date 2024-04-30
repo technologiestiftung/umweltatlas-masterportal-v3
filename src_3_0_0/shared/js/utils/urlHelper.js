@@ -19,12 +19,17 @@ export function isWebLink (value) {
     return regExp.test(value);
 }
 
+/**
+ * converts urls in text to html links
+ * @param {String} text the string to with maybe contains urls
+ * @returns {String} convertedText converted text with html links
+ */
 export function setWebLinks (text) {
-    text = text.replace(
+    let convertedText = text.replace(
         /((?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-ZÄÖÜ0-9+&@#/%=~_|$?!:,.]*\)|[-A-ZÄÖÜ0-9+&@#/%=~_|$?!:,.])*(?:\([-A-ZÄÖÜ0-9+&@#/%=~_|$?!:,.]*\)|[A-ZÄÖÜ0-9+&@#/%=~_|$]))/gi,
-        '<a href="$1" target="_new">$1</a>'
+        "<a href=\"$1\" target=\"_new\">$1</a>"
     );
-    return text;
+    return convertedText;
 }
 
 export default {isUrl, isWebLink, setWebLinks};

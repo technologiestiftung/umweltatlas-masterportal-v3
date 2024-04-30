@@ -6,7 +6,7 @@ import BaselayerSwitcher from "../baselayerSwitcher/store/indexBaselayerSwitcher
 import BufferAnalysis from "../bufferAnalysis/store/indexBufferAnalysis";
 import Contact from "../contact/store/indexContact";
 import CoordToolkit from "../coordToolkit/store/indexCoordToolkit";
-import Copyright from "../copyright/store/indexCopyright";
+import CopyrightConstraints from "../copyrightConstraints/store/indexCopyrightConstraints";
 import Draw from "../draw/store/indexDraw";
 import Draw_old from "../draw_old/store/indexDraw";
 import FeatureLister from "../featureLister/store/indexFeatureLister";
@@ -52,7 +52,7 @@ export default {
         BufferAnalysis: {...BufferAnalysis},
         Contact: {...Contact},
         CoordToolkit: {...CoordToolkit},
-        Copyright: {...Copyright},
+        CopyrightConstraints: {...CopyrightConstraints},
         Draw: {...Draw},
         Draw_old: {...Draw_old},
         FeatureLister: {...FeatureLister},

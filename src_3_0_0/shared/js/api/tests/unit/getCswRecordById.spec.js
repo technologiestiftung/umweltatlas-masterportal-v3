@@ -83,14 +83,14 @@ const jsonWithMD_DataIdentification = {
         GetRecordByIdResponse: {
             MD_Metadata: {
                 identificationInfo: {
-                    MD_DataIdentification : {
+                    MD_DataIdentification: {
                         resourceConstraints: [
                             {
                                 MD_LegalConstraints: {
                                     accessConstraints: {
-                                        MD_RestrictionCode : {
+                                        MD_RestrictionCode: {
                                             getAttributes: () => {
-                                                return { 'codeListValue': 'otherRestrictions' }
+                                                return {"codeListValue": "otherRestrictions"}
                                             }
                                         }
                                     },
@@ -104,9 +104,9 @@ const jsonWithMD_DataIdentification = {
                             {
                                 MD_LegalConstraints: {
                                     useConstraints: {
-                                        MD_RestrictionCode : {
+                                        MD_RestrictionCode: {
                                             getAttributes: () => {
-                                                return { 'codeListValue': 'otherRestrictions' }
+                                                return {"codeListValue": "otherRestrictions"}
                                             }
                                         }
                                     },
@@ -123,7 +123,7 @@ const jsonWithMD_DataIdentification = {
                                         },
                                         {
                                             CharacterString: {
-                                                getValue: () => '{"id":"dl-by-de/2.0","name":"Datenlizenz Deutschland Namensnennung 2.0","url":"https://www.govdata.de/dl-de/by-2-0","quelle":"Kartendarstellung: © Bundesamt für Kartographie und Geodäsie (2023), Datenquellen: https://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.html"}'
+                                                getValue: () => "{\"id\":\"dl-by-de/2.0\",\"name\":\"Datenlizenz Deutschland Namensnennung 2.0\",\"url\":\"https://www.govdata.de/dl-de/by-2-0\",\"quelle\":\"Kartendarstellung: © Bundesamt für Kartographie und Geodäsie (2023), Datenquellen: https://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.html\"}"
                                             }
                                         },
                                     ]
@@ -170,5 +170,5 @@ describe("src_3_0_0/js/api/getCswRecordById.js", () => {
         it("should contain parsed data for property use", () => {
             expect(getCswRecordById.parseConstraints(jsonWithResourceConstraints)).to.be.an('object').that.have.property("use").that.is.an('array').to.have.lengthOf(3);
         });
-    })
+    });
 });

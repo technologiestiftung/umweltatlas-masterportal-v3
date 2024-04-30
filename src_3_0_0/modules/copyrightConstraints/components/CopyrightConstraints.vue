@@ -3,9 +3,9 @@ import getCswRecordById from "../../../shared/js/api/getCswRecordById";
 import store from "../../../app-store";
 
 export default {
-    name: "Copyright",
+    name: "CopyrightConstraints",
     components: {},
-    data() {
+    data () {
         return {
             contraints: [],
             ready: false
@@ -14,23 +14,23 @@ export default {
     computed: {
         getContraints: function () {
             return this.contraints;
-        },
+        }
     },
-    mounted() {
+    mounted () {
         this.getCswContraints();
         this.ready = true;
     },
     methods: {
-        getCswContraints() {
-            const visibleLayerList = this.getVisibleLayer();
-            const getMetaData = function (id) {
-                return new Promise((resolve) => {
-                    metadata = getCswRecordById.getRecordById(
-                        "https://gdk.gdi-de.org/gdi-de/srv/ger/csw",
-                        id
-                    );
-                    resolve(metadata);
-                });
+        getCswContraints () {
+            const visibleLayerList = this.getVisibleLayer(),
+                getMetaData = function (id) {
+                    return new Promise((resolve) => {
+                       let metadata = getCswRecordById.getRecordById(
+                            "https://gdk.gdi-de.org/gdi-de/srv/ger/csw",
+                            id
+                        );
+                        resolve(metadata);
+                    });
             };
 
             visibleLayerList.forEach((element) => {
@@ -50,34 +50,36 @@ export default {
          * @param {Boolean} [printMapMarker=false] whether layer "markerPoint" should be filtered out
          * @returns {void}
          */
-        getVisibleLayer(printMapMarker = false) {
+        getVisibleLayer (printMapMarker = false) {
             const layers = mapCollection.getMap("2D").getLayers(),
                 visibleLayerList =
                     typeof layers?.getArray !== "function"
                         ? []
                         : layers.getArray().filter((layer) => {
-                              return (
-                                  layer.getVisible() === true &&
-                                  (layer.get("name") !== "markerPoint" ||
-                                      printMapMarker)
-                              );
+                            return (
+                                layer.getVisible() === true &&
+                                (layer.get("name") !== "markerPoint" ||
+                                    printMapMarker)
+                            );
                           });
 
             let visibleLayerListIds = [],
                 visibleLayerListMdIds = [];
             visibleLayerList.forEach((layer) => {
-                if (layer.values_.id)
+                if (layer.values_.id) {
                     visibleLayerListIds.push(layer.values_.id);
+                }
             });
 
             store.getters.allLayerConfigs.forEach((layer) => {
                 if (visibleLayerListIds.includes(layer.id)) {
-                    if (layer.datasets[0]?.md_id)
+                    if (layer.datasets[0]?.md_id) {
                         visibleLayerListMdIds.push(layer.datasets[0]?.md_id);
+                    }
                 }
             });
             return visibleLayerListMdIds;
-        },
+        }
     }
 };
 </script>
@@ -96,14 +98,12 @@ export default {
                                     v-if="constraintsPerLayer.accessConstraints"
                                     v-html="constraintsPerLayer.accessConstraints.trim()"
                                 >
-
                                 </li>
                                 <li
                                     class="copyright-details"
                                     v-for="useConstraint in constraintsPerLayer.useConstraints"
                                     v-html="useConstraint.trim()"
                                 >
-
                                 </li>
                             </ul>
                         </div>
@@ -148,12 +148,12 @@ export default {
 </template>
 
 <style scoped>
-.infoText {
-    max-width: 95ch;
-    word-break: break-word;
-}
+    .infoText {
+        max-width: 95ch;
+        word-break: break-word;
+    }
 
-.copyright-details {
-    white-space: pre-line;
-}
+    .copyright-details {
+        white-space: pre-line;
+    }
 </style>
