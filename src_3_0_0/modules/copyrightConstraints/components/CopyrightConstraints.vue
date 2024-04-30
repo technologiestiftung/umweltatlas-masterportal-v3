@@ -87,13 +87,20 @@ export default {
 </script>
 
 <template lang="html">
-    <div id="copyrightConstraints"
+    <div
+        id="copyrightConstraints"
         class="infoText"
     >
         <div v-if="ready">
-            <div v-if="getContraints.length > 0">
+            <div
+                v-if="getContraints.length > 0"
+                :key="constrainsList"
+            >
                 <ul>
-                    <li v-for="constraintsPerLayer in getContraints">
+                    <li
+                        v-for="(constraintsPerLayer, index) in getContraints"
+                        :key="index"
+                    >
                         {{ constraintsPerLayer.title }}
                         <div v-if="constraintsPerLayer.accessConstraints">
                             <ul>
@@ -119,7 +126,7 @@ export default {
                                         {{ $t("common:modules.copyrightConstraints.contactOrganisation") }}: {{ constraintsPerLayer.pointOfContact?.name }}
                                     </div>
                                 </li>
-                                <li v-if="constraintsPerLayer.pointOfContact?.positionName && constraintsPerLayer.pointOfContact?.positionName?.length == 1">
+                                <li v-if="constraintsPerLayer.pointOfContact?.positionName && constraintsPerLayer.pointOfContact?.positionName?.length === 1">
                                     <div class="name">
                                         {{ $t("common:modules.copyrightConstraints.contactName") }}: {{ constraintsPerLayer.pointOfContact?.positionName }}
                                     </div>
