@@ -23,7 +23,7 @@ export default {
     methods: {
         getCswContraints () {
             const visibleLayerList = this.getVisibleLayer(),
-                getMetaData = function (id) {
+                getMetaData = (id) => {
                     return new Promise((resolve) => {
                         const metadata = getCswRecordById.getRecordById(
                             "https://gdk.gdi-de.org/gdi-de/srv/ger/csw",
@@ -94,7 +94,7 @@ export default {
         <div v-if="ready">
             <div
                 v-if="getContraints.length > 0"
-                :key="constrainsList"
+                :key="getContraints.length"
             >
                 <ul>
                     <li
@@ -108,14 +108,13 @@ export default {
                                     v-if="constraintsPerLayer.accessConstraints"
                                     class="copyright-details"
                                     v-html="constraintsPerLayer.accessConstraints.trim()"
-                                >
-                                </li>
+                                />
                                 <li
-                                    v-for="useConstraint in constraintsPerLayer.useConstraints"
+                                    v-for="(useConstraint, useIndex) in constraintsPerLayer.useConstraints"
+                                    :key="useIndex"
                                     class="copyright-details"
                                     v-html="useConstraint.trim()"
-                                >
-                                </li>
+                                />
                             </ul>
                         </div>
                         <div v-else>
