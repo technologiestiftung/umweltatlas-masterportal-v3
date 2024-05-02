@@ -1,5 +1,3 @@
->**[back to Masterportal documentation](doc.md)**
-
 # Migration der configs.json von Version 2.x zu Version 3.0.0
 
 1.  Klonen des aktuellen Masterportal Git Repositories (falls noch nicht vorhanden).
