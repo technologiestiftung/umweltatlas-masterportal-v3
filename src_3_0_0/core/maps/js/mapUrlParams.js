@@ -68,6 +68,7 @@ const mapUrlParams = {
         "MAP/ZOOMTOFEATUREID": zoomToFeatures,
         "MAP/ZOOMTOGEOMETRY": zoomToFeatures,
         PROJECTION: processProjection,
+        CAMERAPOSITION: setCamera,
         TILT: setCamera,
         WFSID: highlightFeaturesByAttributes,
         ZOOMLEVEL: zoomToCoordinates
