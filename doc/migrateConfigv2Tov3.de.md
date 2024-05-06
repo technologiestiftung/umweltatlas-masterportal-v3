@@ -1,7 +1,6 @@
 # Migration der configs.json von Version 2.x zu Version 3.0.0
 
 1.  Klonen des aktuellen Masterportal Git Repositories (falls noch nicht vorhanden).
-
 ```json
 git clone https://fmlgv@bitbucket.org/geowerkstatt-hamburg/masterportal.git
 ```
