@@ -7,7 +7,9 @@
       "controls": {
         "rotation":  {
           "showAlways": false,
-          "rotationIcons": true
+          "rotationIcons": true,
+          "moveDistance": 2500,
+          "compass2d": true
           } ,
         "zoom": true,
         "tiltView": true,

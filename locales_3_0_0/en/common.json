@@ -152,7 +152,14 @@
       "rotation": {
         "reset": "Reset rotation",
         "rotateClockwise": "Rotate clockwise",
-        "rotateCounterClockwise": "Rotate counterclockwise"
+        "rotateCounterClockwise": "Rotate counterclockwise",
+        "compass": {
+          "pointerNorth": "Rotate view",
+          "moveNorth": "Move north",
+          "moveSouth": "Move south",
+          "moveWest": "Move west",
+          "moveEast": "Move east"
+      },
       },
       "tiltView": {
         "downButton": "Tilt view down",

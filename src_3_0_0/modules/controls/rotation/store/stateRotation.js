@@ -11,6 +11,8 @@
  * @property {String[]} [supportedMapModes=["2D", "3D"]] Map mode in which this module can be used.
  */
 const state = {
+    compass2d: false,
+    compass3d: true,
     resetRotationIcon: "bi-cursor",
     rotateClockwiseIcon: "bi-arrow-clockwise",
     rotateCounterClockwiseIcon: "bi-arrow-counterclockwise",
@@ -18,6 +20,7 @@ const state = {
     rotation: 0,
     rotationIcons: true,
     rotationAngle: 22.5,
+    moveDistance: 1000,
     supportedDevices: ["Desktop", "Mobile"],
     supportedMapModes: ["2D", "3D"]
 };

@@ -150,9 +150,16 @@
         "trackingDeniedText": "'In der Nähe' nicht verfügbar."
       },
       "rotation": {
-        "reset": "Rotation zurücksetzen",
+        "reset": "Drehung zurücksetzen",
         "rotateClockwise": "Im Uhrzeigersinn drehen",
-        "rotateCounterClockwise": "Gegen den Uhrzeigersinn drehen"
+        "rotateCounterClockwise": "Gegen den Uhrzeigersinn drehen",
+        "compass": {
+          "pointerNorth": "Ansicht drehen",
+          "moveNorth": "Nach Norden bewegen",
+          "moveSouth": "Nach Süden bewegen",
+          "moveWest": "Nach Westen bewegen",
+          "moveEast": "Nach Osten bewegen"
+        }
       },
       "tiltView": {
         "downButton": "Ansicht nach unten kippen",

@@ -1,10 +1,11 @@
 import {createStore} from "vuex";
 import {expect} from "chai";
 import {config, mount, shallowMount} from "@vue/test-utils";
-import RotationItemComponent from "../../components/RotationItem.vue";
+import degreesToRadians from "../../../../../../shared/js/utils/degreesToRadians";
+import RotationItemComponent from "../../../components/RotationItem.vue";
 import Map from "ol/Map";
 import sinon from "sinon";
-import RotationItem from "../../store/indexRotation";
+import RotationItem from "../../../store/indexRotation";
 
 config.global.mocks.$t = key => key;
 
@@ -13,13 +14,15 @@ describe("src_3_0_0/modules/controls/rotation/components/RotationItem.vue", () =
         wrapper,
         showAlways,
         rotationIcons,
-        isMobile;
+        isMobile,
+        mapMode;
 
     before(() => {
         mapCollection.clear();
         mapCollection.addMap(new Map(), "2D");
     });
     beforeEach(() => {
+        mapMode = "2D";
         isMobile = false;
         showAlways = false;
         rotationIcons = true;
@@ -31,6 +34,12 @@ describe("src_3_0_0/modules/controls/rotation/components/RotationItem.vue", () =
                     namespaced: true,
                     modules: {
                         Rotation: RotationItem
+                    }
+                },
+                Maps: {
+                    namespaced: true,
+                    getters: {
+                        mode: () => mapMode
                     }
                 }
             },
@@ -118,20 +127,20 @@ describe("src_3_0_0/modules/controls/rotation/components/RotationItem.vue", () =
                 }});
             mapCollection.getMapView("2D").setRotation(0);
             wrapper.vm.rotateClockwise();
-            expect(mapCollection.getMapView("2D").getRotation()).to.eql(wrapper.vm.degreesToRadians(45));
-            expect(store.getters["Controls/Rotation/rotation"]).to.eql(wrapper.vm.degreesToRadians(45));
+            expect(mapCollection.getMapView("2D").getRotation()).to.eql(degreesToRadians(45));
+            expect(store.getters["Controls/Rotation/rotation"]).to.eql(degreesToRadians(45));
             wrapper.vm.rotateClockwise();
             wrapper.vm.rotateClockwise();
-            expect(mapCollection.getMapView("2D").getRotation()).to.eql(wrapper.vm.degreesToRadians(135));
-            expect(store.getters["Controls/Rotation/rotation"]).to.eql(wrapper.vm.degreesToRadians(135));
+            expect(mapCollection.getMapView("2D").getRotation()).to.eql(degreesToRadians(135));
+            expect(store.getters["Controls/Rotation/rotation"]).to.eql(degreesToRadians(135));
         });
         it("rotateClockwise set rotation to 0 if near north", () => {
             wrapper = shallowMount(RotationItemComponent, {
                 global: {
                     plugins: [store]
                 }});
-            store.commit("Controls/Rotation/setRotation", wrapper.vm.degreesToRadians(-45), {root: true});
-            mapCollection.getMapView("2D").setRotation(wrapper.vm.degreesToRadians(-45));
+            store.commit("Controls/Rotation/setRotation", degreesToRadians(-45), {root: true});
+            mapCollection.getMapView("2D").setRotation(degreesToRadians(-45));
             wrapper.vm.rotateClockwise();
             expect(mapCollection.getMapView("2D").getRotation()).to.eql(0);
             expect(store.getters["Controls/Rotation/rotation"]).to.eql(0);
@@ -145,8 +154,8 @@ describe("src_3_0_0/modules/controls/rotation/components/RotationItem.vue", () =
             store.commit("Controls/Rotation/setRotation", 0, {root: true});
             mapCollection.getMapView("2D").setRotation(0);
             wrapper.vm.rotateClockwise();
-            expect(mapCollection.getMapView("2D").getRotation()).to.eql(wrapper.vm.degreesToRadians(90));
-            expect(store.getters["Controls/Rotation/rotation"]).to.eql(wrapper.vm.degreesToRadians(90));
+            expect(mapCollection.getMapView("2D").getRotation()).to.eql(degreesToRadians(90));
+            expect(store.getters["Controls/Rotation/rotation"]).to.eql(degreesToRadians(90));
         });
         it("rotateCounterClockwise set angle to 80", () => {
             store.commit("Controls/Rotation/setRotationAngle", 80, {root: true});
@@ -157,8 +166,8 @@ describe("src_3_0_0/modules/controls/rotation/components/RotationItem.vue", () =
             store.commit("Controls/Rotation/setRotation", 0, {root: true});
             mapCollection.getMapView("2D").setRotation(0);
             wrapper.vm.rotateClockwise();
-            expect(mapCollection.getMapView("2D").getRotation()).to.eql(wrapper.vm.degreesToRadians(80));
-            expect(store.getters["Controls/Rotation/rotation"]).to.eql(wrapper.vm.degreesToRadians(80));
+            expect(mapCollection.getMapView("2D").getRotation()).to.eql(degreesToRadians(80));
+            expect(store.getters["Controls/Rotation/rotation"]).to.eql(degreesToRadians(80));
         });
         it("rotateCounterClockwise", () => {
             wrapper = shallowMount(RotationItemComponent, {
@@ -167,20 +176,20 @@ describe("src_3_0_0/modules/controls/rotation/components/RotationItem.vue", () =
                 }});
             mapCollection.getMapView("2D").setRotation(0);
             wrapper.vm.rotateCounterClockwise();
-            expect(mapCollection.getMapView("2D").getRotation()).to.eql(wrapper.vm.degreesToRadians(-45));
-            expect(store.getters["Controls/Rotation/rotation"]).to.eql(wrapper.vm.degreesToRadians(-45));
+            expect(mapCollection.getMapView("2D").getRotation()).to.eql(degreesToRadians(-45));
+            expect(store.getters["Controls/Rotation/rotation"]).to.eql(degreesToRadians(-45));
             wrapper.vm.rotateCounterClockwise();
             wrapper.vm.rotateCounterClockwise();
-            expect(mapCollection.getMapView("2D").getRotation()).to.eql(wrapper.vm.degreesToRadians(-135));
-            expect(store.getters["Controls/Rotation/rotation"]).to.eql(wrapper.vm.degreesToRadians(-135));
+            expect(mapCollection.getMapView("2D").getRotation()).to.eql(degreesToRadians(-135));
+            expect(store.getters["Controls/Rotation/rotation"]).to.eql(degreesToRadians(-135));
         });
         it("rotateCounterClockwise set rotation to 0 if near north", () => {
             wrapper = shallowMount(RotationItemComponent, {
                 global: {
                     plugins: [store]
                 }});
-            store.commit("Controls/Rotation/setRotation", wrapper.vm.degreesToRadians(45), {root: true});
-            mapCollection.getMapView("2D").setRotation(wrapper.vm.degreesToRadians(45));
+            store.commit("Controls/Rotation/setRotation", degreesToRadians(45), {root: true});
+            mapCollection.getMapView("2D").setRotation(degreesToRadians(45));
             wrapper.vm.rotateCounterClockwise();
             expect(mapCollection.getMapView("2D").getRotation()).to.eql(0);
             expect(store.getters["Controls/Rotation/rotation"]).to.eql(0);
@@ -193,20 +202,6 @@ describe("src_3_0_0/modules/controls/rotation/components/RotationItem.vue", () =
             mapCollection.getMapView("2D").setRotation(4);
             wrapper.vm.setToNorth();
             expect(mapCollection.getMapView("2D").getRotation()).to.eql(0);
-        });
-        it("degreesToRadians", () => {
-            wrapper = shallowMount(RotationItemComponent, {
-                global: {
-                    plugins: [store]
-                }});
-            expect(wrapper.vm.degreesToRadians(0)).to.eql(0);
-            expect(wrapper.vm.degreesToRadians(180)).to.eql(Math.PI);
-            expect(wrapper.vm.degreesToRadians(360)).to.eql(2 * Math.PI);
-            expect(wrapper.vm.degreesToRadians(90)).to.eql(Math.PI / 2);
-
-            expect(wrapper.vm.degreesToRadians(-180)).to.eql(-Math.PI);
-            expect(wrapper.vm.degreesToRadians(-360)).to.eql(-2 * Math.PI);
-            expect(wrapper.vm.degreesToRadians(-90)).to.eql(Math.PI / -2);
         });
     });
 });
