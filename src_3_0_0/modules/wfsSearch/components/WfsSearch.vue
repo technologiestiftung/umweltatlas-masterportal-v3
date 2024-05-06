@@ -301,6 +301,7 @@ export default {
                 :id="'resultTable'"
                 :data="tableData"
                 :sortable="true"
+                table-class="tableHeight"
             />
         </div>
         <div v-else-if="showResultList && results.length === 0">

@@ -73,6 +73,11 @@ export default {
             type: String,
             required: false,
             default: "tableId"
+        },
+        tableClass: {
+            type: String,
+            required: false,
+            default: ""
         }
     },
 
@@ -485,7 +490,10 @@ export default {
         <div
             class="btn-group"
         >
-            <div class="btn-group">
+            <div
+                v-if="enableSettings"
+                class="btn-group"
+            >
                 <FlatButton
                     v-if="enableSettings"
                     id="table-settings"
@@ -579,7 +587,10 @@ export default {
             />
         </div>
     </div>
-    <div class="fixed">
+    <div
+        class="fixed"
+        :class="tableClass"
+    >
         <table class="table table-sm table-hover rounded-pill">
             <thead>
                 <tr v-if="showHeader">
@@ -627,7 +638,7 @@ export default {
                             </span>
                             <span
                                 v-if="sortable"
-                                class="my-3 sortable-icon"
+                                class="sortable-icon mt-1"
                                 role="button"
                                 tabindex="0"
                                 :class="getIconClassByOrder(column.name)"
@@ -738,6 +749,9 @@ table {
     box-sizing: border-box;
     width: 100%;
     overflow-y: scroll;
+}
+.tableHeight {
+    max-height: 36vh;
 }
 .pinnedSelectRow {
     background-color: $light_blue;
