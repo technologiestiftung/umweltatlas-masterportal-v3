@@ -272,7 +272,7 @@ export default {
         id="rotation-control"
     >
         <div
-            v-if="mode === '2D' && compass2d || mode === '3D' && compass3d"
+            v-if="!isMobile && (mode === '2D' && compass2d || mode === '3D' && compass3d)"
             class="compass-control btn-group"
         >
             <div class="compassContainer">
@@ -354,10 +354,10 @@ export default {
     transform: rotate(-45deg);
 }
 .compass-control{
-    position: fixed;
-     top: 50px;
-     right: 570px;
-}
+    position:absolute;
+    left: -10rem;
+    bottom: 0;
+} 
 .compassContainer {
     display: inline-block;
     position: relative;
