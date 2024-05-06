@@ -21,6 +21,7 @@
 ### Removed
 
 ### Fixed
+- Issue #859: Allow saveSelection for 3D.
 - Issue #1115: Legend is shown for all WFS-Layers.
 - Issue #1122: GFI-Window with desktopType "attached" is shown at clicked feature, if another feature is clicked.
 - Issue #1125: Routing module: Blocked areas can be deleted.

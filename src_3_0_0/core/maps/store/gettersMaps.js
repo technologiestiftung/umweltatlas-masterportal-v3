@@ -87,7 +87,6 @@ const getters = {
             params.heading = camera.heading;
             params.tilt = camera.pitch;
             params.altitude = Cesium.Cartographic.fromCartesian(camera.position).height;
-            params.cameraPosition = camera.position;
         }
 
         return `MAPS=${JSON.stringify(params)}`;

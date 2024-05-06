@@ -45,7 +45,7 @@ describe("src_3_0_0/core/maps/js/mapUrlParams.js", () => {
             expect(Object.keys(dispatchCalls).length).to.equals(3);
             expect(dispatchCalls["Maps/setCamera"]).to.deep.equals({
                 altitude: undefined,
-                heading: undefined,
+                heading: NaN,
                 tilt: undefined
             });
             expect(dispatchCalls["Maps/changeMapMode"]).to.equals("2D");
@@ -58,7 +58,7 @@ describe("src_3_0_0/core/maps/js/mapUrlParams.js", () => {
 
         it("should set map attributes for 3D map", () => {
             const params = {
-                MAPS: "{\"center\":[571278.4429867676,5938534.397334521],\"mode\":\"3D\",\"zoom\":7,\"altitude\":127,\"heading\":-1.2502079000000208,\"tilt\":45}"
+                MAPS: "{\"center\":[571278.4429867676,5938534.397334521],\"mode\":\"3D\",\"zoom\":7,\"altitude\":127,\"heading\":1.2502079000000208,\"tilt\":45}"
             };
 
             mapUrlParams.setMapAttributes(params);
@@ -342,7 +342,7 @@ describe("src_3_0_0/core/maps/js/mapUrlParams.js", () => {
         it("should set camera params for 3D map", () => {
             const params = {
                 ALTITUDE: "127",
-                HEADING: "-1.2502079000000208",
+                HEADING: "1.2502079000000208",
                 TILT: "45"
             };
 
@@ -351,7 +351,7 @@ describe("src_3_0_0/core/maps/js/mapUrlParams.js", () => {
             expect(Object.keys(dispatchCalls).length).to.equals(1);
             expect(dispatchCalls["Maps/setCamera"]).to.deep.equals({
                 altitude: "127",
-                heading: "-1.2502079000000208",
+                heading: -1.2502079000000208,
                 tilt: "45"
             });
         });

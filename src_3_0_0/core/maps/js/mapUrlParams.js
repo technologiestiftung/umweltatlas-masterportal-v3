@@ -68,7 +68,6 @@ const mapUrlParams = {
         "MAP/ZOOMTOFEATUREID": zoomToFeatures,
         "MAP/ZOOMTOGEOMETRY": zoomToFeatures,
         PROJECTION: processProjection,
-        CAMERAPOSITION: setCamera,
         TILT: setCamera,
         WFSID: highlightFeaturesByAttributes,
         ZOOMLEVEL: zoomToCoordinates
@@ -186,7 +185,7 @@ function processProjection (params) {
 function setCamera (params) {
     store.dispatch("Maps/setCamera", {
         altitude: params.ALTITUDE,
-        heading: params.HEADING,
+        heading: -params.HEADING,
         tilt: params.TILT
     });
 }
