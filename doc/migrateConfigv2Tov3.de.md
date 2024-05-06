@@ -14,11 +14,13 @@ git checkout dev_vue
 ```json
 npm run migrateConfig help
 ```
-#### 4. MigrateConfig script ohne Parameter: Die Angaben in der Konsole leiten durch die Dateikonvertierung. Es wird nach den Pfaden des zu migrierenden Portals gefragt.
+
+4. MigrateConfig script ohne Parameter: Die Angaben in der Konsole leiten durch die Dateikonvertierung. Es wird nach den Pfaden des zu migrierenden Portals gefragt.
 ```json
 npm run migrateConfig
 ```
-4. a) Zuerst muss der Portalordner des zu migrierenden Portals angegeben werden (hier `testportal_v2`) mit Pfadangabe. In dem Ordner muss sich die Ausgangsdatei config.json befinden.
+
+- Zuerst muss der Portalordner des zu migrierenden Portals angegeben werden (hier `testportal_v2`) mit Pfadangabe. In dem Ordner muss sich die Ausgangsdatei config.json befinden.
 ```json
 masterportal@3.0.0-beta2 migrateConfig
 node devtools/tasks/migrator_3_0_0/migrate.js
@@ -26,19 +28,22 @@ node devtools/tasks/migrator_3_0_0/migrate.js
 The paths to the portal or folder with portals must start from "[...]/masterportal/")!
 ? source path to the portal or folder with portals to migrate:
  (portal/master) portal/testportal_v2
- ```
-4. b) Anschließend wird um die Angabe des Zielordners (hier: `testportal_v3`) gebeten.
+```
+
+- Anschließend wird um die Angabe des Zielordners (hier: `testportal_v3`) gebeten.
 ```json
 ? destination path to store the migrated portal(s):
  (portal/destination)portal/testportal_v3
-  ```
-#### 5. MigrateConfig mit Parametern aufrufen.
+```
 
-5. a) Migration eines Portals:
+5. MigrateConfig mit Parametern aufrufen.
+
+- Migration eines Portals:
 ```json
 npm run migrateConfig source=portal/testportal_v2 dest=portal/testportal_v3
 ```
-5. b) Migration mehrerer Portale: es wird ein Ordner der mehrere Portale enthält angegeben. **ACHTUNG:** die config.json-Dateien der Portale werden überschrieben!
+- Migration mehrerer Portale: es wird ein Ordner der mehrere Portale enthält angegeben. **ACHTUNG:** die config.json-Dateien der Portale werden überschrieben!
 ```json
 npm run migrateConfig source=portal dest=portal
 ```
+

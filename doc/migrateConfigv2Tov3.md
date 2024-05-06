@@ -14,11 +14,12 @@ git checkout dev_vue
 ```json
 npm run migrateConfig help
 ```
-#### 4. MigrateConfig script without parameters: The information in the console guides you through the file conversion. You will be asked for the paths of the portal to be migrated.
+4. MigrateConfig script without parameters: The information in the console guides you through the file conversion. You will be asked for the paths of the portal to be migrated.
 ```json
 npm run migrateConfig
 ```
-4. a) First, the portal folder of the portal to be migrated must be specified (here `testportal_v2`) with path.The source file config.json must be located in the folder.
+
+- First, the portal folder of the portal to be migrated must be specified (here `testportal_v2`) with path.The source file config.json must be located in the folder.
 ```json
 masterportal@3.0.0-beta2 migrateConfig
 node devtools/tasks/migrator_3_0_0/migrate.js
@@ -26,19 +27,20 @@ node devtools/tasks/migrator_3_0_0/migrate.js
 The paths to the portal or folder with portals must start from "[...]/masterportal/")!
 ? source path to the portal or folder with portals to migrate:
  (portal/master) portal/testportal_v2
- ```
-4. b) You will then be asked to enter the destination folder (here: `testportal_v3`).
+```
+- You will then be asked to enter the destination folder (here: `testportal_v3`).
 ```json
 ? destination path to store the migrated portal(s):
  (portal/destination)portal/testportal_v3
-  ```
-#### 5. Call MigrateConfig with parameters.
+```
 
-5. a) Migration of one portal:
+5. Call MigrateConfig with parameters.
+
+- Migration of one portal:
 ```json
 npm run migrateConfig source=portal/testportal_v2 dest=portal/testportal_v3
 ```
-5. b) Migration of several portals: a folder containing several portals is specified. **ATTENTION:** the config.json files of the portals will be overwritten!
+- Migration of several portals: a folder containing several portals is specified. **ATTENTION:** the config.json files of the portals will be overwritten!
 ```json
 npm run migrateConfig source=portal dest=portal
 ```
