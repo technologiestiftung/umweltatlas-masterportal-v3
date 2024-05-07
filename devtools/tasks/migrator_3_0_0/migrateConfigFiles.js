@@ -81,7 +81,7 @@ function migrateControls (data) {
             controls.rotation.showResetRotationAlways = controls.rotation.showAlways;
             delete controls.rotation.showAlways;
         }
-        console.info("--- HINT: New Controls to rotate the map are available: Set 'rotationIcons' to true at control 'rotate' to enable them.");
+        console.info("--- HINT: New Controls to rotate the map are available: Set 'rotationIcons: true' at control 'rotate' to enable them.\n Enable compass rose in 2D with 'compass2d=true' at control 'rotate'.");
     }
     delete controls.attributions;
     delete controls.mousePosition;
