@@ -22,7 +22,7 @@ export default {
     },
     computed: {
         ...mapGetters("Maps", ["mode"]),
-        ...mapGetters("Controls/Rotation", ["compass2d", "compass3d", "moveDistance", "rotation", "resetRotationIcon", "rotateClockwiseIcon", "rotateCounterClockwiseIcon", "rotationAngle", "rotationIcons", "showAlways"]),
+        ...mapGetters("Controls/Rotation", ["compass2d", "compass3d", "moveDistance", "rotation", "showResetRotation", "resetRotationIcon", "rotateClockwiseIcon", "rotateCounterClockwiseIcon", "rotationAngle", "rotationIcons", "showResetRotationAlways"]),
         ...mapGetters(["controlsConfig", "isMobile"]),
         controlsRingIcon () {
             return "url(" + Config.wfsImgPath + "compass/3d-controls-rings.png)";
@@ -50,6 +50,7 @@ export default {
     watch: {
         /**
          * If mode is 3D, lister are added else they are removed.
+         * @param {String} newMode the new map mode.
          * @returns {void}
          */
         mode (newMode) {
@@ -64,8 +65,8 @@ export default {
         }
     },
     mounted () {
-        if (this.controlsConfig?.rotation?.showAlways) {
-            this.setShowAlways(this.controlsConfig.rotation.showAlways);
+        if (this.controlsConfig?.rotation?.showResetRotationAlways) {
+            this.setShowResetRotationAlways(this.controlsConfig.rotation.showResetRotationAlways);
         }
         this.$nextTick(() => {
             mapCollection.getMapView("2D").on("change:rotation", this.updateResetRotationIcon);
@@ -76,7 +77,7 @@ export default {
     },
     methods: {
         ...mapActions("Controls/Rotation", ["move2d", "rotateClockwise", "rotateCounterClockwise"]),
-        ...mapMutations("Controls/Rotation", ["setRotation", "setRotationIcons", "setShowAlways"]),
+        ...mapMutations("Controls/Rotation", ["setRotation", "setRotationIcons", "setShowResetRotationAlways"]),
         /**
          * Updates the rotation of the control icon. If mode 2D the and compass visible, the icon of the compass ist rotated.
          * @param {Event} event the mapView rotation event.
@@ -84,7 +85,7 @@ export default {
          */
         updateResetRotationIcon (event) {
             this.setRotation(event.target.getRotation());
-            if (this.$el.querySelector("i")) {
+            if (this.showResetRotation && this.$el.querySelector("i")) {
                 this.$el.querySelector("i").style.transform = `translate(-50%, -50%) rotate(${this.rotation}rad)`;
             }
             if (this.mode === "2D" && this.$el.querySelector("#north-pointer")) {
@@ -159,6 +160,10 @@ export default {
                 }
                 case "compass_west": {
                     scene.camera.moveLeft(this.moveDistance);
+                    break;
+                }
+                default: {
+                    console.warn("Rotation move3d event currentTarget id cannot be found! Move not possible.");
                     break;
                 }
             }
@@ -280,6 +285,8 @@ export default {
                     <div
                         id="north-pointer"
                         class="compass-pointer compass-pointer-north"
+                        role="button"
+                        tabindex="0"
                         :title="$t(`common:modules.controls.rotation.compass.pointerNorth`)"
                         @mousedown="northDown"
                     />
@@ -306,6 +313,7 @@ export default {
                         id="compass_west"
                         class="compass-west 3d-control-btn"
                         tabindex="0"
+                        role="button"
                         :title="$t(`common:modules.controls.rotation.compass.moveWest`)"
                         @click.stop="move($event)"
                         @keydown="move($event)"
@@ -314,6 +322,7 @@ export default {
                         id="compass_east"
                         class="compass-east 3d-control-btn"
                         tabindex="0"
+                        role="button"
                         :title="$t(`common:modules.controls.rotation.compass.moveEast`)"
                         @click.stop="move($event)"
                         @keydown="move($event)"
@@ -322,7 +331,7 @@ export default {
             </div>
         </div>
         <ControlIcon
-            v-if="rotation !== 0 || showAlways"
+            v-if="showResetRotation && (rotation !== 0 || showResetRotationAlways)"
             id="reset-rotation"
             class="reset-rotation-control-icon"
             :icon-name="resetRotationIcon"
@@ -355,9 +364,9 @@ export default {
 }
 .compass-control{
     position:absolute;
-    left: -10rem;
-    bottom: 0;
-} 
+    top:-9rem;
+    right:-3rem;
+}
 .compassContainer {
     display: inline-block;
     position: relative;

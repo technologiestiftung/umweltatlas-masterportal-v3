@@ -6,7 +6,8 @@
       },
       "controls": {
         "rotation":  {
-          "showAlways": false,
+          "showResetRotationAlways": true,
+          "showResetRotation": true,
           "rotationIcons": true,
           "moveDistance": 2500,
           "compass2d": true

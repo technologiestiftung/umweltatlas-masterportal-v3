@@ -39,7 +39,7 @@ function migrateControls (data) {
     if (controls.button3d === true) {
         if (!controls.rotation) {
             controls.rotation = {
-                showAlways: true,
+                showResetRotationAlways: true,
                 rotationIcons: true
             };
         }
@@ -77,6 +77,10 @@ function migrateControls (data) {
     }
     if (controls.rotation) {
         controls.rotation = {...controls.rotation};
+        if (controls.rotation.showAlways !== undefined) {
+            controls.rotation.showResetRotationAlways = controls.rotation.showAlways;
+            delete controls.rotation.showAlways;
+        }
         console.info("--- HINT: New Controls to rotate the map are available: Set 'rotationIcons' to true at control 'rotate' to enable them.");
     }
     delete controls.attributions;

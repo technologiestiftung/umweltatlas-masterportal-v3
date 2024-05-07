@@ -32,6 +32,10 @@ export default {
                 newCenter = [currentCenter[0] - distance, currentCenter[1]];
                 break;
             }
+            default: {
+                console.warn("Rotation move2d event currentTarget id cannot be found! Move not possible.");
+                break;
+            }
         }
         dispatch("Maps/setCenter", newCenter, {root: true});
     },

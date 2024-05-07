@@ -261,18 +261,22 @@ Orientation uses the browser's geolocation to determine the user's location. A l
 ***
 
 ##### portalConfig.map.controls.rotation
-Controls the display of 3 control buttons: "Reset rotation", "Rotate clockwise" and "Rotate counterclockwise".
-The rotation attribute can be of type Boolean or Object. If it is of the Boolean type and set to true, it only displays the "Reset rotation" button if the map rotation is not equal to north/0. The other two buttons are always displayed. 
+Controls the display of 3 control buttons: "Reset rotation", "Rotate clockwise" and "Rotate counterclockwise" as well as the display of a compass rose for navigation in 2D and/or 3D. The compass rose is not displayed on mobile devices.
+The rotation attribute can be of type Boolean or Object. If it is of the Boolean type and set to true, it only displays the "Reset rotation" button if the map rotation is not equal to north/0. The other two buttons are always displayed. The compass rose is then only displayed in 3D.
 If it is of type Object, the following attributes apply:
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
+|compass2d|no|Boolean|false|Controls the display of the compass rose in 2D.|false|
+|compass3d|no|Boolean|true|Controls the display of the compass rose in 3D.|false|
+|moveDistance|no|Number|1000|Distance in meters, which is used when clicking on the movement arrows of the compass rose.|false|
 |resetRotationIcon|no|String|"bi-cursor"|Icon for the "Reset rotation" button. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |rotateCounterClockwiseIcon|no|String|"bi-arrow-counterclockwise"|Icon for the "Rotate counterclockwise" button. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |rotateClockwiseIcon|no|String|"bi-arrow-clockwise"|Icon for the "Rotate clockwise" button. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |rotationIcons|no|Boolean|true|The "Rotate clockwise" and "Rotate anticlockwise" buttons are displayed.|false|
 |rotationAngle|no|Number|22.5|Angle by which the map is rotated when clicking on one of the rotate buttons.|false|
-|showAlways|no|Boolean|false|If the attribute is set to true, the control is shown permanently. Via default it appears only if the map rotation is not equal north/0.|false|
+|showResetRotation|no|Boolean|true|The "Reset rotation" button is displayed.|false|
+|showResetRotationAlways|no|Boolean|false|If the attribute is set to true, the control is shown permanently. Via default it appears only if the map rotation is not equal north/0.|false|
 |supportedDevices|no|String|["Desktop", "Mobile"]|Devices on which the module can be used and is displayed in the menu.|false|
 |supportedMapModes|no|String|["2D", "3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
 
@@ -280,7 +284,10 @@ If it is of type Object, the following attributes apply:
 
 ```json
 "rotation": {
-    "showAlways": true,
+    "compass2d": true,
+    "moveDistance": 2500,
+    "showResetRotation": true,
+    "showResetRotationAlways": false,
     "rotationIcons": false
 }
 ```

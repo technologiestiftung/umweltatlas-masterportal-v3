@@ -3,21 +3,12 @@ import sinon from "sinon";
 import {expect} from "chai";
 
 describe("src_3_0_0/modules/controls/rotation/store/actionsRotation.js", () => {
-    let commit, dispatch, getters;
+    let dispatch, getters;
 
     beforeEach(() => {
         const map2d = {
                 id: "ol",
                 mode: "2D"
-            // getView: () => {
-            //     return {
-            //         getProjection: () => {
-            //             return {
-            //                 getCode: () => "EPSG:25832"
-            //             };
-            //         }
-            //     };
-            // }
             },
             map3d = {
                 id: "olcs",
@@ -27,7 +18,6 @@ describe("src_3_0_0/modules/controls/rotation/store/actionsRotation.js", () => {
         mapCollection.clear();
         mapCollection.addMap(map2d, "2D");
         mapCollection.addMap(map3d, "3D");
-        commit = sinon.spy();
         dispatch = sinon.spy();
         getters = sinon.spy();
     });

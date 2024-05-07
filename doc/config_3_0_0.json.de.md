@@ -262,18 +262,22 @@ Orientation nutzt die geolocation des Browsers zur Standortbestimmung des Nutzer
 ***
 
 ##### portalConfig.map.controls.rotation
-Steuert die Anzeige von 3 Control-Buttons: "Rotation zurücksetzen", "Im Uhrzeigersinn drehen" und "Gegen den Uhrzeigersinn drehen".
-Das Attribut rotation kann vom Typ Boolean oder Object sein. Wenn es vom Typ Boolean ist und auf true gesetzt ist, zeigt es den Button "Rotation zurücksetzen" nur an, wenn die Maprotation ungleich Norden/0 ist. Die beiden anderen Buttons werden immer angezeigt. 
+Steuert die Anzeige von 3 Control-Buttons: "Rotation zurücksetzen", "Im Uhrzeigersinn drehen" und "Gegen den Uhrzeigersinn drehen" sowie die Anzeige einer Kompass-Rose zur Navigation in 2D und/oder 3D. Die Kompass-Rose wird nicht auf mobilen Geräten angezeigt.
+Das Attribut rotation kann vom Typ Boolean oder Object sein. Wenn es vom Typ Boolean ist und auf true gesetzt ist, zeigt es den Button "Rotation zurücksetzen" nur an, wenn die Maprotation ungleich Norden/0 ist. Die beiden anderen Buttons werden immer angezeigt. Die Kompass-Rose wird dann nur in 3D angezeigt.
 Ist es vom Typ Object, so gelten folgende Attribute:
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
+|compass2d|nein|Boolean|false|Steuert die Anzeige der Kompass-Rose in 2D.|false|
+|compass3d|nein|Boolean|true|Steuert die Anzeige der Kompass-Rose in 3D.|false|
+|moveDistance|nein|Number|1000|Distanz in Meter, die bei Klick auf die Bewegungs-Pfeile der Kompass-Rose genutzt wird.|false|
 |resetRotationIcon|nein|String|"bi-cursor"|Icon für den Button "Rotation zurücksetzen". Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |rotateCounterClockwiseIcon|nein|String|"bi-arrow-counterclockwise"|Icon für den Button "Gegen den Uhrzeigersinn drehen". Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |rotateClockwiseIcon|nein|String|"bi-arrow-clockwise"|Icon für den Button "Im Uhrzeigersinn drehen". Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |rotationAngle|nein|Number|22.5|Winkel um den die Karte gedreht wird bei Klick auf einen der Dreh-Buttons.|false|
 |rotationIcons|nein|Boolean|true|Die Buttons "Im Uhrzeigersinn drehen" und "Gegen den Uhrzeigersinn drehen" werden angezeigt.|false|
-|showAlways|nein|Boolean|false|Ist das Attribut auf true gesetzt, wird das Control permanent angezeigt. Per default wird es nur angezeigt, wenn die Maprotation ungleich 0/Norden ist.|false|
+|showResetRotation|nein|Boolean|true|Der Button "Rotation zurücksetzen" wird angezeigt.|false|
+|showResetRotationAlways|nein|Boolean|false|Ist das Attribut auf true gesetzt, wird das Control permanent angezeigt. Per default wird es nur angezeigt, wenn die Maprotation ungleich 0/Norden ist.|false|
 |supportedDevices|nein|String|["Desktop", "Mobile"]|Geräte auf denen das Modul verwendbar ist und im Menü angezeigt wird.|false|
 |supportedMapModes|nein|String|["2D", "3D"]|Karten modi in denen das Modul verwendbar ist und im Menü angezeigt wird.|false|
 
@@ -281,7 +285,10 @@ Ist es vom Typ Object, so gelten folgende Attribute:
 
 ```json
 "rotation": {
-    "showAlways": true,
+    "compass2d": true,
+    "moveDistance": 2500,
+    "showResetRotation": true,
+    "showResetRotationAlways": false,
     "rotationIcons": false
 }
 ```
