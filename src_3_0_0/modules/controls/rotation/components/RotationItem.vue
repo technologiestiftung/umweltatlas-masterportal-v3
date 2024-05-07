@@ -30,9 +30,6 @@ export default {
         pointerNorthIcon () {
             return "url(" + Config.wfsImgPath + "compass/pointer-north-short.png)";
         },
-        controlsCenterIcon () {
-            return "url(" + Config.wfsImgPath + "compass/3d-controls-center.png)";
-        },
         controlsNorthIcon () {
             return "url(" + Config.wfsImgPath + "compass/3d-controls-north.png)";
         },
@@ -405,7 +402,6 @@ export default {
 .compass-north{
     top: 20px;
     background-image: v-bind(controlsNorthIcon);
-    // background-image: v-bind(controlsNorthIcon);
 }
 .compass-south{
     bottom: 20px;
