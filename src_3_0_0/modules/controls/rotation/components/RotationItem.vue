@@ -65,9 +65,6 @@ export default {
         }
     },
     mounted () {
-        if (this.controlsConfig?.rotation?.showResetRotationAlways) {
-            this.setShowResetRotationAlways(this.controlsConfig.rotation.showResetRotationAlways);
-        }
         this.$nextTick(() => {
             mapCollection.getMapView("2D").on("change:rotation", this.updateResetRotationIcon);
         });
@@ -308,7 +305,6 @@ export default {
                         @click.stop="move($event)"
                         @keydown="move($event)"
                     />
-                    <div class="compass-center" />
                     <div
                         id="compass_west"
                         class="compass-west 3d-control-btn"
@@ -396,14 +392,6 @@ export default {
     -ms-transform-origin: 11px 67px;
     -webkit-transform-origin: 11px 67px;
     transform-origin: 11px 67px;
-}
-.compass-center{
-    position: absolute;
-    top: 40px;
-    left: 40px;
-    width: 40px;
-    height: 40px;
-    background-image: v-bind(controlsCenterIcon);
 }
 .compass-north,
 .compass-south{

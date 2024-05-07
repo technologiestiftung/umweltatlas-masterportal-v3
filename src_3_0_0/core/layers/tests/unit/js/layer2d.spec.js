@@ -354,6 +354,10 @@ describe("src_3_0_0/core/js/layers/layer2d.js", () => {
             sinon.assert.calledOnce(error);
         });
         it("should handle non-200 status codes from axios.get gracefully", async () => {
+            const errorSpy = sinon.spy();
+
+            sinon.stub(console, "error").callsFake(errorSpy);
+
             axiosGetStub.resolves({
                 status: 404,
                 statusText: "Not Found",
@@ -361,6 +365,7 @@ describe("src_3_0_0/core/js/layers/layer2d.js", () => {
             });
             await layer.requestCapabilitiesToFitExtent();
             sinon.assert.notCalled(zoomToLayerExtentSpy);
+            sinon.assert.calledOnce(errorSpy);
         });
     });
     describe("zoomToLayerExtent", () => {

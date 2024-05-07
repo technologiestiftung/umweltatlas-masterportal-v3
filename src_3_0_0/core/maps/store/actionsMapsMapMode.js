@@ -32,13 +32,10 @@ export default {
      * @returns {void}
      */
     activateMap2d ({commit}) {
-        const map2dView = mapCollection.getMapView("2D"),
-            map3d = mapCollection.getMap("3D");
+        const map3d = mapCollection.getMap("3D");
 
-        map2dView.animate({rotation: 0}, () => {
-            map3d?.setEnabled(false);
-            commit("setMode", "2D");
-        });
+        map3d?.setEnabled(false);
+        commit("setMode", "2D");
     },
 
     /**

@@ -37,7 +37,9 @@ export default {
                 break;
             }
         }
-        dispatch("Maps/setCenter", newCenter, {root: true});
+        if (newCenter !== null) {
+            dispatch("Maps/setCenter", newCenter, {root: true});
+        }
     },
     /**
      * Rotates the map view clockwise for 45 degrees in radians and sets the new rotation.
@@ -56,7 +58,7 @@ export default {
             newRotation = getters.rotation + degreesToRadians(getters.rotationAngle);
         }
         commit("setRotation", newRotation);
-        mapCollection.getMapView("2D").animate({rotation: getters.rotation});
+        mapCollection.getMapView("2D").animate({rotation: newRotation});
     },
 
     /**
@@ -76,6 +78,6 @@ export default {
             newRotation = getters.rotation - degreesToRadians(getters.rotationAngle);
         }
         commit("setRotation", newRotation);
-        mapCollection.getMapView("2D").animate({rotation: getters.rotation});
+        mapCollection.getMapView("2D").animate({rotation: newRotation});
     }
 };
