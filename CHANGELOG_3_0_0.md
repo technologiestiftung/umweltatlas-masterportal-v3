@@ -40,6 +40,7 @@
 - Added WMS support to add CQL filters by attribute.
 - Doc-files explaining migrateConfig script added.
 - Control rotate: has been extended by two buttons to rotate the map clockwise and counterclockwise. A compass rose can be shown in 2D and 3D.
+- Tooltips for layernames and folders.
 
 ### Changed
 - CoordToolkit: Toast added instead of Alert for feedback after copying coordinates.

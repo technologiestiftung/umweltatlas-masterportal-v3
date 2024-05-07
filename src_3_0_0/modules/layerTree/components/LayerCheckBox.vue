@@ -144,6 +144,9 @@ export default {
         :id="'layer-checkbox-' + escapeId(conf.id)"
         :disabled="disabled"
         class="btn d-flex w-100 layer-tree-layer-title pe-2 p-1 btn-light"
+        data-bs-toggle="tooltip"
+        data-bs-placement="top"
+        :title="conf.shortname ? conf.shortname : conf.name"
         @click="clicked()"
         @keydown.enter="clicked()"
     >
