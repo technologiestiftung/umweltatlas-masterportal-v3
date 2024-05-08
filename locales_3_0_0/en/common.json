@@ -488,7 +488,8 @@
             "firstColumnHeaderName": "Properties"
           }
         }
-      }
+      },
+      "title":"Object information"
     },
     "gfiThemes": {
       "dataTable": {

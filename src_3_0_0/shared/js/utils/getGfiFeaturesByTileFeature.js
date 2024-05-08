@@ -1,4 +1,5 @@
 import {createGfiFeature} from "./getWmsFeaturesByMimeType";
+import store from "../../../app-store";
 
 /**
  * gets an array of gfiFeatures for 3d tile features, using ./getWmsFeaturesByMimeType->createGfiFeature
@@ -62,26 +63,54 @@ function isCesiumEntity (entity) {
 }
 
 /**
+ * Returns the name of the layer or the 'Objektart' in attributes of properties.
+ * @param {Object} layerAttributes the attributes of the layer to set the feature with
+ * @param {Object} properties an object with a key "attributes" or the data of the feature as simple key/value pairs
+ * @param {Object} [properties.attributes] if set, the data of the feature as simple key/value pairs
+ * @returns {String}  the title for the gfi module
+ */
+function getLayerName (layerAttributes, properties) {
+    let layerName = null;
+
+    if (properties?.attributes?.Objektart) {
+        layerName = properties?.attributes?.Objektart;
+    }
+    else if (layerAttributes?.name) {
+        layerName = layerAttributes.name;
+    }
+    else if (layerAttributes?.id) {
+        const layerConf = store.getters.layerConfigById(layerAttributes.id);
+
+        if (layerConf) {
+            layerName = layerConf.name;
+        }
+    }
+    if (layerName === null) {
+        layerName = i18next.t("common:modules.getFeatureInfo.title");
+    }
+    return layerName;
+}
+
+/**
  * create an object representing a feature
  * @param {Object} layerAttributes the attributes of the layer to set the feature with
- * @param {String} [layerAttributes.name="Buildings"] the name of the layer
- * @param {String} [layerAttributes.gfiTheme="buildings_3d"] the title of the theme - it does not check if the theme exists
+ * @param {String} [layerAttributes.gfiTheme="DefaultTheme"] the title of the theme or "DefaultTheme"
  * @param {(Object|String)} [layerAttributes.gfiAttributes] an object of attributes to show or a string "showAll" or "ignore"
  * @param {Object} properties an object with a key "attributes" or the data of the feature as simple key/value pairs
  * @param {Object} [properties.attributes] if set, the data of the feature as simple key/value pairs
  * @returns {Object}  an object{getTheme, getTitle, getAttributesToShow, getProperties, getGfiUrl}
  */
 function getGfiFeature (layerAttributes, properties) {
-    const layerName = layerAttributes && layerAttributes.name ? layerAttributes.name : "common:shared.js.utils.buildings",
+    const layerName = getLayerName(layerAttributes, properties),
         layerId = layerAttributes && layerAttributes.id ? layerAttributes.id : "",
-        gfiTheme = layerAttributes && layerAttributes.gfiTheme ? layerAttributes.gfiTheme : "buildings_3d",
+        gfiTheme = layerAttributes && layerAttributes.gfiTheme ? layerAttributes.gfiTheme : "DefaultTheme",
         attributesToShow = layerAttributes && layerAttributes.gfiAttributes ? layerAttributes.gfiAttributes : properties?.attributes,
         featureProperties = properties?.attributes ? properties.attributes : properties,
 
         layer = {
             get: (key) => {
                 if (key === "name") {
-                    return properties?.attributes?.Objektart ? properties.attributes.Objektart : layerName;
+                    return layerName;
                 }
                 else if (key === "id") {
                     return layerId;
@@ -297,6 +326,7 @@ export default {
     getGfiFeaturesByTileFeature,
     getGfiFeature,
     getLayerModelFromTileFeature,
+    getLayerName,
     getGfiFeatureByCesium3DTileFeature,
     getGfiFeatureByCesiumEntity,
     getGfiFeatureByOlFeature,

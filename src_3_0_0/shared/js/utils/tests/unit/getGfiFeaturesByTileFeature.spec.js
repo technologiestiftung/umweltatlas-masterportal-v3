@@ -1,6 +1,7 @@
 
 import {expect} from "chai";
 import getGfiFeatureProvider from "../../getGfiFeaturesByTileFeature.js";
+import store from "../../../../../app-store";
 
 before(function () {
     i18next.init({
@@ -10,11 +11,68 @@ before(function () {
 });
 
 describe("src_3_0_0/shared/js/utils/getGfiFeaturesByTileFeature.js", () => {
+    let layerConfigByIdOrig;
+
+    beforeEach(() => {
+        layerConfigByIdOrig = store.getters.layerConfigById;
+        store.getters = {
+            layerConfigById: () => {
+                return {
+                    id: "id",
+                    name: "layerName"
+                };
+            }
+        };
+    });
+
+    afterEach(() => {
+        store.getters.layerConfigById = layerConfigByIdOrig;
+    });
+
+    describe("getLayerName", () => {
+        it("should return default name", () => {
+            const result = getGfiFeatureProvider.getLayerName(null, null);
+
+            expect(result).to.equal("modules.getFeatureInfo.title");
+        });
+        it("should return name from properties", () => {
+            const properties = {
+                    attributes: {
+                        Objektart: "propertiesName"
+                    }
+                },
+                layerAttributes = {
+                    name: "layerAttributesName"
+                },
+                result = getGfiFeatureProvider.getLayerName(layerAttributes, properties);
+
+            expect(result).to.equal("propertiesName");
+        });
+        it("should return name from layerAttributes name", () => {
+            const properties = {},
+                layerAttributes = {
+                    name: "layerAttributesName",
+                    id: "id"
+                },
+                result = getGfiFeatureProvider.getLayerName(layerAttributes, properties);
+
+            expect(result).to.equal("layerAttributesName");
+        });
+        it("should return name from layerAttributes id", () => {
+            const properties = {},
+                layerAttributes = {
+                    id: "id"
+                },
+                result = getGfiFeatureProvider.getLayerName(layerAttributes, properties);
+
+            expect(result).to.equal("layerName");
+        });
+    });
     describe("getGfiFeature", () => {
         it("should use default values not for properties", () => {
             const result = getGfiFeatureProvider.getGfiFeature(null, null);
 
-            expect(result.getTitle()).to.equal("common:shared.js.utils.buildings");
+            expect(result.getTitle()).to.equal("modules.getFeatureInfo.title");
             expect(result.getProperties()).to.deep.equal(null);
         });
         it("should get attributes and properties according to given parameters", () => {
@@ -39,8 +97,8 @@ describe("src_3_0_0/shared/js/utils/getGfiFeaturesByTileFeature.js", () => {
                 },
                 result = getGfiFeatureProvider.getGfiFeature(null, properties);
 
-            expect(result.getTitle()).to.equal("common:shared.js.utils.buildings");
-            expect(result.getTheme()).to.equal("buildings_3d");
+            expect(result.getTitle()).to.equal("modules.getFeatureInfo.title");
+            expect(result.getTheme()).to.equal("DefaultTheme");
             expect(result.getProperties()).to.equal("properties attributes");
         });
     });

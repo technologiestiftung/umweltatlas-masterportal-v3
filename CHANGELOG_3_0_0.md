@@ -86,6 +86,7 @@
 - Filter: Closing the filter with more than one child dropdown snippet selected and opening it again does not trigger an infinite loop anymore.
 - WfsSearch: It is now also possible to zoom in on result features with a geometry of type polygon.
 - Print: StyleId can now differ from layerId.
+- GetFeatureInfo: the heading has been corrected for 3D objects.
 ---
 
 ---
