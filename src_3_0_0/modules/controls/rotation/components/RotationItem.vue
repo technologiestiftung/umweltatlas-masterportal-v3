@@ -276,46 +276,46 @@ export default {
         >
             <div class="compassContainer">
                 <div class="compass">
-                    <div
+                    <button
                         id="north-pointer"
                         class="compass-pointer compass-pointer-north"
-                        role="button"
+                        type="button"
                         tabindex="0"
                         :title="$t(`common:modules.controls.rotation.compass.pointerNorth`)"
                         @mousedown="northDown"
                     />
-                    <div
+                    <button
                         id="compass_north"
                         class="compass-north 3d-control-btn"
                         tabindex="0"
                         :title="$t(`common:modules.controls.rotation.compass.moveNorth`)"
-                        role="button"
+                        type="button"
                         @click.stop="move($event)"
                         @keydown="move($event)"
                     />
-                    <div
+                    <button
                         id="compass_south"
                         class="compass-south 3d-control-btn"
                         tabindex="0"
                         :title="$t(`common:modules.controls.rotation.compass.moveSouth`)"
-                        role="button"
+                        type="button"
                         @click.stop="move($event)"
                         @keydown="move($event)"
                     />
-                    <div
+                    <button
                         id="compass_west"
                         class="compass-west 3d-control-btn"
                         tabindex="0"
-                        role="button"
+                        type="button"
                         :title="$t(`common:modules.controls.rotation.compass.moveWest`)"
                         @click.stop="move($event)"
                         @keydown="move($event)"
                     />
-                    <div
+                    <button
                         id="compass_east"
                         class="compass-east 3d-control-btn"
                         tabindex="0"
-                        role="button"
+                        type="button"
                         :title="$t(`common:modules.controls.rotation.compass.moveEast`)"
                         @click.stop="move($event)"
                         @keydown="move($event)"
@@ -352,6 +352,10 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+button{
+    border: none;
+    background-color: transparent;
+}
 .reset-rotation-control-icon{
     transform: rotate(-45deg);
 }
