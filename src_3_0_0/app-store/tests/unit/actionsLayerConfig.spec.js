@@ -266,7 +266,7 @@ describe("src_3_0_0/app-store/actionsLayerConfig.js", () => {
             expect(dispatch.firstCall.args[0]).to.equals("updateLayerConfigZIndex");
             expect(dispatch.firstCall.args[1]).to.deep.equals({
                 layerContainer: [],
-                maxZIndex: -Infinity
+                maxZIndex: Infinity
             });
             expect(dispatch.secondCall.args[0]).to.equals("addBaselayerAttribute");
             expect(dispatch.secondCall.args[1]).to.be.undefined;
@@ -302,7 +302,7 @@ describe("src_3_0_0/app-store/actionsLayerConfig.js", () => {
             expect(dispatch.firstCall.args[0]).to.equals("updateLayerConfigZIndex");
             expect(dispatch.firstCall.args[1]).to.deep.equals({
                 layerContainer: [],
-                maxZIndex: -Infinity
+                maxZIndex: Infinity
             });
             expect(dispatch.secondCall.args[0]).to.equals("addBaselayerAttribute");
             expect(dispatch.secondCall.args[1]).to.be.undefined;
@@ -331,7 +331,7 @@ describe("src_3_0_0/app-store/actionsLayerConfig.js", () => {
             expect(dispatch.firstCall.args[0]).to.equals("updateLayerConfigZIndex");
             expect(dispatch.firstCall.args[1]).to.deep.equals({
                 layerContainer: [],
-                maxZIndex: -Infinity
+                maxZIndex: Infinity
             });
             expect(dispatch.secondCall.args[0]).to.equals("addBaselayerAttribute");
             expect(dispatch.secondCall.args[1]).to.be.undefined;
@@ -360,7 +360,7 @@ describe("src_3_0_0/app-store/actionsLayerConfig.js", () => {
             expect(dispatch.firstCall.args[0]).to.equals("updateLayerConfigZIndex");
             expect(dispatch.firstCall.args[1]).to.deep.equals({
                 layerContainer: [],
-                maxZIndex: -Infinity
+                maxZIndex: Infinity
             });
             expect(dispatch.secondCall.args[0]).to.equals("addBaselayerAttribute");
             expect(dispatch.secondCall.args[1]).to.be.undefined;
