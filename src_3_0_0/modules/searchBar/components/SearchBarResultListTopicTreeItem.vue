@@ -80,6 +80,7 @@ export default {
     >
         <button
             class="d-flex flex-row p-1 pb-2 align-items-center search-bar-result-list-topic-tree-item-title btn-transparent"
+            :title="searchResult.name"
             @click="addOrRemoveLayer"
             @keydown.enter="addOrRemoveLayer"
         >
