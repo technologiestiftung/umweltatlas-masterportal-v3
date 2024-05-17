@@ -4,7 +4,8 @@
  * @property {Boolean} activatedExpandable Controls are expandend.
  */
 const state = {
-    activatedExpandable: false
+    activatedExpandable: false,
+    addonControls: {}
 };
 
 export default state;

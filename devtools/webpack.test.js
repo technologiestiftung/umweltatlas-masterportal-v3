@@ -130,7 +130,31 @@ module.exports = {
         new webpack.IgnorePlugin(/canvas/, /jsdom$/),
         new webpack.DefinePlugin({
             __VUE_OPTIONS_API__: true,
-            __VUE_PROD_DEVTOOLS__: false
+            __VUE_PROD_DEVTOOLS__: false,
+            VUE_ADDONS: JSON.stringify({
+                AddonControl: {
+                    entry: "controls/addonControl/index.js",
+                    path: "controls/addonControl",
+                    type: "control"
+                },
+                AddonGFITheme: {
+                    entry: "gfiThemes/theme/index.js",
+                    path: "gfiThemes/theme",
+                    type: "gfiTheme"
+                },
+                SearchAddon: {
+                    entry: "searchAddon/index.js",
+                    type: "searchInterface"
+                },
+                ToolAddon: {
+                    entry: "toolAddon/index.js",
+                    type: "tool"
+                },
+                JavaScriptAddon: {
+                    entry: "verkehrsfunctions/index.js",
+                    type: "javascript"
+                }
+            })
         })
     ],
     node: {

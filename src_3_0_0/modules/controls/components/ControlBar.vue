@@ -1,4 +1,5 @@
 <script>
+import {toRaw} from "vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import changeCase from "../../../shared/js/utils/changeCase";
 import visibilityChecker from "../../../shared/js/utils/visibilityChecker";
@@ -23,7 +24,7 @@ export default {
     },
     computed: {
         ...mapGetters(["controlsConfig", "deviceMode", "uiStyle", "portalConfig"]),
-        ...mapGetters("Controls", ["activatedExpandable", "componentMap"]),
+        ...mapGetters("Controls", ["addonControls", "activatedExpandable", "componentMap"]),
         ...mapGetters("Maps", ["mode"])
     },
     watch: {
@@ -55,6 +56,9 @@ export default {
             Object.entries(this.componentMap).forEach(([key, component]) => {
                 this.$options.components[key] = component;
             });
+            Object.entries(toRaw(this.addonControls)).forEach(([key, component]) => {
+                this.$options.components[key] = component;
+            });
             if (!this.isSimpleStyle()) {
                 this.prepareControls(controlsConfig);
 
@@ -80,7 +84,7 @@ export default {
          */
         prepareControls (controlsConfig, expandable = false) {
             Object.keys(controlsConfig).forEach(controlKey => {
-                if (this.componentMap[changeCase.upperFirst(controlKey)]) {
+                if (this.componentMap[changeCase.upperFirst(controlKey)] || this.addonControls[changeCase.upperFirst(controlKey)]) {
                     const controlValues = controlsConfig[controlKey];
 
                     if (controlValues === true) {
