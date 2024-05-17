@@ -69,7 +69,7 @@ Layer2dRasterWms.prototype.getRawLayerAttributes = function (attributes) {
         url: attributes.url,
         version: attributes.version,
         extent: attributes.extent,
-        isSecured: attrs.isSecured
+        isSecured: attributes.isSecured
     };
 
     if (attributes.styles !== undefined) {
