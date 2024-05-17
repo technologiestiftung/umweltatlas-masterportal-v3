@@ -75,7 +75,8 @@ describe("src_3_0_0/core/js/layers/layer2dRasterWms.js", () => {
                 tilesize: 512,
                 transparent: true,
                 url: "http://test.url",
-                version: "1.3.0"
+                version: "1.3.0",
+                isSecured: false
             };
         });
 
@@ -88,6 +89,7 @@ describe("src_3_0_0/core/js/layers/layer2dRasterWms.js", () => {
                 format: "image/png",
                 gutter: 0,
                 id: "123456789",
+                isSecured: false,
                 layers: "layer_names",
                 singleTile: false,
                 tilesize: 512,
@@ -113,6 +115,7 @@ describe("src_3_0_0/core/js/layers/layer2dRasterWms.js", () => {
                 format: "image/png",
                 gutter: 0,
                 id: "123456789",
+                isSecured: false,
                 layers: "layer_names",
                 singleTile: false,
                 STYLES: ["geofox_stations"],
