@@ -7,36 +7,211 @@
 ### __Breaking Changes__
 
 ### Added
-- New parameter `filterOnOpen` has been added to filterLayer in Filter. If set to true, the filter is triggered when the accordeon is clicked.
-- Issue #1116: New alert for batchprocessing in routing tool informs the user when all requests to the service failed.
-
+- Modeler3D:
+  - Drawn entities can be rotated.
+  - Dimensions of rectangles can now be set using forms when selected.
+  - Added copy function for drawn models.
+  - Added options section to draw overview.
 ### Changed
-- Added translations for Sensor Theme.
-- The following packages have been updated:
-    - dependencies:
-        - @masterportal/masterportalapi: 2.31.0 to 2.33.0 (This also raised ol to version 8.2.0 and @cesium/engine to version 6.2.0)
+- Modeler3D:
+  - Polygon and line highlighting has been changed
+  - Measurement labels of drawn entities can now be toggled on/off individually.
+  - Labels now move and get updated when the corresponding entity gets changed or moves.
+  - Moving entities takes cursor position into account and uses it as an anchor point.
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
-- Issue #859: Allow saveSelection for 3D.
-- Issue #1115: Legend is shown for all WFS-Layers.
-- Issue #1122: GFI-Window with desktopType "attached" is shown at clicked feature, if another feature is clicked.
-- Issue #1125: Routing module: Blocked areas can be deleted.
-- Issue #1124: fixed url used in WMS-time layer and in zoomTo environment to not use more than one questionmark.
-- Issue #1126: prevent that the "legend"-parameter from config is overwritten by capabilities request
-- Fixed error "singleBaseLayer not defined" on opening 3D folders or on adding a layer by searchbar.
-- GFI: if config Parameter `centerMapToClickPoint` is set to true, map is centered to feature on click, even if the mapmarker is not shown.
+- Measure module:
+  - Entities from other tools are now ignored when pressing "delete measurements".
+- Modeler3D:
+  - The line width of polylines can be edited again.
+  - The color picker for editing polylines shows the right color again.
+  - Selected drawn entities can be exported again as geojson.
+  - Issue #1165: Fixed a bug in scrollToLayer().
 
 ---
+
+## v2.45.1 - 2024-05-14
+### Fixed
+- Fix sensor layer features not loaded after enlarging extent.
+
+---
+
+## v2.45.0 - 2024-04-30
+### Added
+- Modeler3D:
+  - Set points while drawing can be undone with CTRL + Z and redone with CTRL + Y
+  - The movement of objects can be undone with CTRL + Z and redone with CTRL + Y
+  - Add edit function for fillColor and stroke color of drawn polygons and polylines.
+  - Rectangles can now be drawn in the drawing tool.
+  - A ready to drop-in 15m x 20m x 20m rectangle can now be chosen in the draw tool.
+- overviewMap:
+  - Adds New parameter `renderIn3d` for overviewMap. Enables the overviewMap in 3d mode.
+  - Adds New parameter `boxBorderColor` for overviewMap. Enables to configure the border color of mini overview map box.
+- WFST-Tool: Added WFS-T improvements
+  - correct transactionFeature properties order
+  - input validation
+  - gfiAttributes nested object handling
+- StatisticDashboard: New parameter subtitle to display the configurable subtitle
+
+### Changed
+- Modeler3D:
+  - Importers are now lazy loaded according to file type to enhance load times.
+  - GLB files can now be imported.
+  - Filesize limit has been removed.
+- Measure module:
+  - 3d functions have been completely reworked.
+- The following packages have been updated:
+    - dependencies:
+        - @masterportal/masterportalapi: 2.35.0 to 2.37.0 (This also raised ol to version 9.1.0)
+        - @popperjs/core: 2.11.6 to 2.11.8
+        - axios: 1.3.4 to 1.6.8
+        - crypto-js: 4.1.1 to 4.2.0
+        - dom-parser: 0.1.6 to 1.1.5
+        - i18next: 22.4.11 to 23.11.3
+        - i18next-browser-languagedetector: 7.0.1 to 7.2.1
+        - i18next-http-backend: 2.2.0 to 2.5.1
+        - jquery: 3.6.4 to 3.7.1
+        - jquery-ui: 1.13.2 to 1.13.3
+        - mqtt: 4.3.7 to 4.3.8
+        - rbush: 2.0.2 to 3.0.1
+        - rbush-knn: 2.1.0 to 3.0.1
+        - three: 0.163.0 to 0.164.1
+        - vue: 2.7.14 to 2.7.16
+        - vue-multiselect 2.1.6 to 2.1.9
+        - vue-template-compiler: 2.7.14 to 2.7.16
+        - vue2-datepicker: 3.11.0 to 3.11.1
+    - devDependencies:
+        - @geoblocks/print: 0.7.4 to 0.7.8
+        - @sinonjs/fake-timers: 10.0.2 to 11.2.2
+        - @vue/test-utils: 1.3.0 to 1.3.6
+        - chai: 4.3.7 to 4.4.1
+        - esbuild-loader: 3.1.0 to 4.1.0
+        - eslint: 8.36.0 to 8.57.0
+        - eslint-plugin-chai-friendly: 0.7.2 to 0.7.4
+        - eslint-plugin-vue: 8.3.0 to 9.3.0
+        - eslint-plugin-vuejs-accessibility: 2.2.0 to 2.3.0
+        - fs-extra: 10.1.0 to 11.2.0
+        - husky: 8.0.3 to 9.0.11
+        - inquirer: 8.2.4 to 8.2.6
+        - markdown-it: 13.0.1 to 14.1.0
+        - mocha: 10.2.0 to 10.4.0
+        - node-fetch: 3.3.0 to 3.3.2
+        - regenerator-runtime: 0.13.11 to 0.14.1
+        - replace-in-file: 6.3.5 to 7.1.0
+        - sass-loader: 10 to 10.5.2
+        - webpack-bundle-analyzer: 4.9.1 to 4.10.2
+        - zip-a-folder: 1.1.5 to 3.1.6
+- The version of node was updated to `^16.13.2 || ^18.16.0 || ^20.12.2`.
+- The version of npm was updated to `^8.1.2 || ^9.5.1 || ^10.5.0`
+
+### Fixed
+- Issue #1160: show right values for areas in Draw Tool.
+- Issue #1174: Draw: the outer outline color of the double circle is drawn as selected.
+- addWMS:
+  - Now displays metadata correctly when adding a WMS layer, if "cswId" is specified in the configuration.
+
+---
+
+## v2.44.0 - 2024-04-03
+### Added
+- PoiOrientation:
+    - Improved handling when selecting a feature from the list.
+    - `Poi` control is now displayed in the same way as `Orientation` when selected.
+    - `customPosition` can now be overwritten via config.json.
+- A layers extent can now be used from the getCapabilities request and applied when a layer gets selected.
+- Added WMS support to add CQL filters by attribute.
+
+### Changed
+- The following packages have been updated:
+    - dependencies:
+        - @masterportal/masterportalapi: 2.34.0 to 2.35.0
+
+### Fixed
+- Issue #1148: fixed bug in vector search so that it can handle GeometryCollection.
+- Issue #1154: setting of altitude and AltitudeOffset as z coordinate now works for GeometryCollection.
+- Issue #1157: using layer attribute legend: "ignore" hides legend tab in layerinformation.
+- WFST-Tool: Added WFS-T fixes & improvements.
+- WfsSearch: It is now also possible to zoom in on result features with a geometry of type polygon.
+- PoiOrientation:
+    - Only features that match the selected distance are displayed.
+- WfsSearch: Closing the WfsSearch UI and clicking on the "ResetUI"-Button now also remove the highlighting.
+
+---
+
+## v2.43.0 - 2024-03-06
+
+### __Breaking Changes__
+- Tree Search: the searchType (name or metadata) needs to be specified in the config.json and is not defaulted to "metadata" anymore.
+
+### Added
+- StatisticDashboard module in core tool modules
+- The following packages have been added:
+    - devDependencies:
+        - cross-env: 7.0.3
+- PoiOrientation:
+    - The result window can now be moved.
+    - New parameter onlyFilteredFeatures introduced, so that only filtered features are displayed in the results window.
+
+### Changed
+- The following packages have been updated:
+    - dependencies:
+        - @masterportal/masterportalapi: 2.33.0 to 2.34.0
+
+### Fixed
+- Issue #597: resolve relative path for legend images in print module.
+- Issue #775: hovering over .portal-title changes color of the title now.
+- Issue #1103: WfsSearch: fixed error with `active`=`true`.
+- Issue #1114: Pass credentials to tiled WMS layers if `isSecured` is set.
+- Issue #1124: fixed url used in WMS-time layer and in zoomTo environment to not use more than one questionmark.
+- Issue #1126: prevent that the "legend"-parameter from config is overwritten by capabilities request
+- Issue #1131: ShadowTool: fixed inital language can now also be `de-DE`.
+- Issue #1143: FileImport: open draw tool button is styled correctly.
+- Issue #1149: fixed mobile error for type custom tree portals caused by tree model.
+- Issue #1152: Layertree with background maps and `singleBaseLayer`=`true` in folder structure: When changing a background map, the previously selected background map is deselected.
+- Change env to cross-env so windows powershell can run build script
+
+
+---
+
+## v2.42.0 - 2024-02-07
+
+### Added
+- Issue #1116: New alert for batchprocessing in routing tool informs the user when all requests to the service failed.
+- Filter: A new parameter `filterOnOpen` has been added to filterLayer in Filter. If set to true, the filter is triggered when the accordeon is clicked.
+- Print: An option "Improve scaling resolution" is implemented for 3d Layers to supply an improved and better resolution.
+
+### Changed
+- The following packages have been updated:
+    - dependencies:
+        - @masterportal/masterportalapi: 2.31.0 to 2.33.0 (This also raised ol to version 8.2.0 and @cesium/engine to version 6.2.0)
+- Added translations for Sensor Theme.
+
+
+### Fixed
+- Issue #1110: Elastic Search: icons can be assigned via the search result.
+- Issue #1115: Legend is shown for all WFS-Layers.
+- Issue #1122: GFI-Window with desktopType "attached" is shown at clicked feature, if another feature is clicked.
+- GFI: if config Parameter `centerMapToClickPoint` is set to true, map is centered to feature on click, even if the mapmarker is not shown.
+- GroupLayer: deselection of Group Layer corrected when singleBaseLayer is set to true
+- ParametricUrl: Search queries by url parameter with more than one result: if one result matches exactly, the map view is zoomed to result.
+
+---
+
 ## v2.41.1 - 2024-01-09
 ### Fixed
 - Fixed error "singleBaseLayer not defined" on opening 3D folders or on adding a layer by searchbar.
 
 ---
+
 ## v2.41.0 - 2024-01-08
+### Added
+- Issue #1038: Tooltips to display area of drawn polygons/squares and length of drawn lines
+- Added square as geometryType for drawingTool.
+
 ### Changed
 - The version of node was updated to `^16.13.2 || ^18.16.0 || ^20.9.0`.
 - The version of npm was updated to `^8.1.2 || ^9.5.1 || ^10.1.0`
@@ -53,6 +228,9 @@
 - Issue #1081: the geometry display when importing more than one KML file is complete, despite identical ids at the element `Placemark` .
 - Issue #1098: fixed all urls used in routing tool and in wfsSearch tool to not use more than one questionmark.
 - Issue #1117: The tool addWMS now works again.
+- Issue #1084: fix wrong pointMarker placement when featureType is MultiPolygon.
+- Fixed HighlightFeature for MultiPolygons: In certain WFS layers, when polygon selection is enabled,
+    clicking on a polygon would highlight it, but multiPolygons wouldn't. This has now been corrected.
 ---
 
 ## v2.40.1 - 2023-12-07
@@ -68,15 +246,15 @@
         - webpack-bundle-analyzer: 4.9.1
 - To manage dependencies of dependencies "overrides" for cesium are added to package.json and create dummy packages for it.
 - New Parameter sldVersion for legend configuration to define a Styled Layer Descriptor for the GetLegendGraphic requests.
-- Issue #1038: Tooltips to display area of drawn polygons/squares and length of drawn lines
 - Issue #1105: Added easting and nothing labels for utm projections in CoordToolkit
 - possibility to keep more than one tool open at the same time
 - Added parameter minChars to the locationFinder configuration of the searchBar.
 - utils/convertColor: added an option to convert an rgba array into a hex color with alpha value
-- Searchbar tree: add a layertree path to the search result. Add a typename for background layer.
+- Searchbar tree:
+  - New 'config' parameter: searchType added. If set to "name", the field 'name' of the layer is searched for, else the field 'md_name' in the dataset is compared.
+  - Add a layertree path to the search result. Add a typename for background layer.
 - Added opacity to configurable parameters of styleRoute
 - Added checkbox to determine if routes stay visible after closing the routing tool
-- Added square as geometryType for drawingTool.
 
 ### Changed
 - The script "npm run build" has been extended. The user can now specify the name of an addon that is excluded from bundle.
