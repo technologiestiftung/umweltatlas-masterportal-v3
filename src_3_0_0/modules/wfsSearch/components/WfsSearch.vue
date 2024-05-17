@@ -147,6 +147,7 @@ export default {
         ...mapActions("Maps", [
             "placingPointMarker",
             "placingPolygonMarker",
+            "removePolygonMarker",
             "setCenter",
             "setZoom",
             "zoomToExtent"
@@ -163,6 +164,7 @@ export default {
             }
             this.resetResult();
             this.setShowResultList(false);
+            this.removePolygonMarker();
         },
         /**
          * Searches the configured service and shows adds the results to the List in the Modal.

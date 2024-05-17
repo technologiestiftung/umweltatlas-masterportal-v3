@@ -67,6 +67,7 @@ const actions = {
         commit("setService", null);
         commit("setUserHelp", "");
         dispatch("resetResult");
+        dispatch("Maps/removePolygonMarker", null, {root: true});
 
         if (closeTool) {
             commit("setCurrentInstanceIndex", 0);

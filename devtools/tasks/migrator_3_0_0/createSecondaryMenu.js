@@ -47,12 +47,17 @@ function fillSections (data, secondaryMenu, migratedTools, toRemoveFromTools) {
                 if (name === "wfsSearch") {
                     tool.instances.forEach(instance => {
                         instance.literals?.forEach(literal => {
-                            literal.literals?.forEach(subLiteral => {
+                            const lits = literal.literals ? literal.literals : literal.clause?.literals;
+
+                            lits?.forEach(subLiteral => {
                                 if (subLiteral.field) {
                                     const type = subLiteral.field.type;
 
                                     delete subLiteral.field.type;
                                     subLiteral.field.queryType = type;
+                                    if (subLiteral.field.usesId === false) {
+                                        subLiteral.field.usesId = null;
+                                    }
                                 }
                             });
                         });
