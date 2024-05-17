@@ -24,7 +24,7 @@ export default {
     },
     computed: {
         ...mapGetters(["controlsConfig", "deviceMode", "uiStyle", "portalConfig"]),
-        ...mapGetters("Controls", ["addonControls", "activatedExpandable", "componentMap"]),
+        ...mapGetters("Controls", ["activatedExpandable", "addonControls", "componentMap"]),
         ...mapGetters("Maps", ["mode"])
     },
     watch: {

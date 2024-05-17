@@ -6,8 +6,7 @@ export default {
     ...generateSimpleMutations(stateControls),
 
     /**
-     * Registers a new control element.
-     * Can be called e.g. by an addon, if Store is globally accessible.
+     * Adds a new control element to state.addonControls.
      * @param {Object} state current state
      * @param {String} name name of control in config.json
      * @returns {void}
