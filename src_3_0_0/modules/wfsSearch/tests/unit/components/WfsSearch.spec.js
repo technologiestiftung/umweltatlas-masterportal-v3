@@ -20,7 +20,8 @@ describe("src_3_0_0/modules/wfsSearch/components/WfsSearch.vue", () => {
         resetResultSpy,
         setCenterSpy,
         setZoomSpy,
-        zoomToExtentSpy;
+        zoomToExtentSpy,
+        resetResultOrig;
 
     beforeEach(() => {
         const map = {
@@ -59,6 +60,7 @@ describe("src_3_0_0/modules/wfsSearch/components/WfsSearch.vue", () => {
         layer = {
             id: "753"
         };
+        resetResultOrig = WfsSearchModule.actions.resetResult;
         WfsSearchModule.actions.resetResult = resetResultSpy;
         store = createStore({
             namespaces: true,
@@ -101,7 +103,11 @@ describe("src_3_0_0/modules/wfsSearch/components/WfsSearch.vue", () => {
             }
         });
     });
-    afterEach(sinon.restore);
+
+    afterEach(() => {
+        sinon.restore();
+        WfsSearchModule.actions.resetResult = resetResultOrig;
+    });
 
     it("renders a literal", async () => {
         store.commit("Modules/WfsSearch/setInstances", instances);
