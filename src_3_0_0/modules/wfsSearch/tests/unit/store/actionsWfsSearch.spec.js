@@ -117,8 +117,9 @@ describe("src_3_0_0/modules/wfsSearch/store/actionsWfsSearch.js", () => {
             expect(commit.secondCall.args).to.eql(["setSearched", false]);
             expect(commit.thirdCall.args).to.eql(["setService", null]);
             expect(commit.lastCall.args).to.eql(["setUserHelp", ""]);
-            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.calledTwice).to.be.true;
             expect(dispatch.firstCall.args).to.eql(["resetResult"]);
+            expect(dispatch.secondCall.args).to.deep.eql(["Maps/removePolygonMarker", null, {root: true}]);
         });
         it("should reset state parameters to their initial state and reset the tool completely", () => {
             actions.resetModule({commit, dispatch}, true);
@@ -130,8 +131,9 @@ describe("src_3_0_0/modules/wfsSearch/store/actionsWfsSearch.js", () => {
             expect(commit.getCall(3).args).to.eql(["setUserHelp", ""]);
             expect(commit.getCall(4).args).to.eql(["setCurrentInstanceIndex", 0]);
             expect(commit.getCall(5).args).to.eql(["setParsedSource", null]);
-            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.calledTwice).to.be.true;
             expect(dispatch.firstCall.args).to.eql(["resetResult"]);
+            expect(dispatch.secondCall.args).to.deep.eql(["Maps/removePolygonMarker", null, {root: true}]);
         });
     });
 

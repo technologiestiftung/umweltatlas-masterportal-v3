@@ -1,5 +1,5 @@
 import {createStore} from "vuex";
-import {config, mount} from "@vue/test-utils";
+import {config, mount, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 import requestProvider from "../../../js/requests";
@@ -16,6 +16,8 @@ describe("src_3_0_0/modules/wfsSearch/components/WfsSearch.vue", () => {
         layer,
         placingPointMarkerSpy,
         placingPolygonMarkerSpy,
+        removePolygonMarkerSpy,
+        resetResultSpy,
         setCenterSpy,
         setZoomSpy,
         zoomToExtentSpy;
@@ -35,6 +37,8 @@ describe("src_3_0_0/modules/wfsSearch/components/WfsSearch.vue", () => {
         setCenterSpy = sinon.spy();
         setZoomSpy = sinon.spy();
         zoomToExtentSpy = sinon.spy();
+        removePolygonMarkerSpy = sinon.spy();
+        resetResultSpy = sinon.spy();
 
         instances = [{
             title: "Test WfsSearch",
@@ -55,6 +59,7 @@ describe("src_3_0_0/modules/wfsSearch/components/WfsSearch.vue", () => {
         layer = {
             id: "753"
         };
+        WfsSearchModule.actions.resetResult = resetResultSpy;
         store = createStore({
             namespaces: true,
             modules: {
@@ -77,6 +82,7 @@ describe("src_3_0_0/modules/wfsSearch/components/WfsSearch.vue", () => {
                         removePointMarker: sinon.stub(),
                         placingPointMarker: placingPointMarkerSpy,
                         placingPolygonMarker: placingPolygonMarkerSpy,
+                        removePolygonMarker: removePolygonMarkerSpy,
                         setCenter: setCenterSpy,
                         setZoom: setZoomSpy,
                         zoomToExtent: zoomToExtentSpy
@@ -167,6 +173,23 @@ describe("src_3_0_0/modules/wfsSearch/components/WfsSearch.vue", () => {
 
         expect(resetButton.exists()).to.be.true;
         expect(resetButton.text()).to.equal("common:modules.wfsSearch.resetButton");
+    });
+    it("resets the UI, if the button is clicked", async () => {
+        store.commit("Modules/WfsSearch/setInstances", instances);
+
+        const wrapper = shallowMount(WfsSearch, {
+                global: {
+                    plugins: [store]
+                }
+            }),
+            resetButton = wrapper.find("#module-wfsSearch-button-resetUI");
+
+        expect(resetButton.exists()).to.be.true;
+
+        wrapper.vm.resetUI();
+        // called twice from actions.prepareModule and once from resetUI
+        expect(removePolygonMarkerSpy.calledThrice).to.be.true;
+        expect(resetResultSpy.calledThrice).to.be.true;
     });
     it("does not render a button to reset the UI if prop showResetButton is set to false", () => {
         store.commit("Modules/WfsSearch/setInstances", instances);

@@ -28,7 +28,7 @@ export default {
     <WfsSearchField
         v-if="literal.field"
         :key="`module-wfsSearch-clause-literal-field-${literal.field.id}-${literal.field.fieldName}`"
-        :dropdown-input-uses-id="literal.field.usesId === false ? null : literal.field.usesId"
+        :dropdown-input-uses-id="literal.field.usesId === true ? true : null"
         :field-id="literal.field.id"
         :suggestions-config="suggestions"
         v-bind="literal.field"
