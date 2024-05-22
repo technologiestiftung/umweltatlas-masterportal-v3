@@ -54,6 +54,7 @@
 - Changed prePushHook to check config_3_0_0.json with mpconfigparser.
 - Restructured `highlightFeature` and `removeHighlighting`.
 - Script to migrate masterportal configuration files to version 3.0.0 is ready to use.
+- Styling for Search Results to match topic tree.
 
 ### Deprecated
 

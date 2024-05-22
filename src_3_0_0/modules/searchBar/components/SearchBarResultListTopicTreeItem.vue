@@ -78,34 +78,37 @@ export default {
         :id="'search-bar-result-list-topic-tree-item-' + searchResult.id"
         class="d-flex flex-row align-items-center"
     >
-        <button
-            class="d-flex flex-row p-1 pb-2 align-items-center search-bar-result-list-topic-tree-item-title btn-transparent"
-            :title="searchResult.name"
-            @click="addOrRemoveLayer"
-            @keydown.enter="addOrRemoveLayer"
-        >
-            <span
-                :id="'search-bar-result-list-topic-tree-item-checkbox-' + searchResult.id"
-                :class="[
-                    'search-bar-result-list-topic-tree-item-checkbox ps-1 pe-3',
-                    {
-                        'bi-check-square': isChecked,
-                        'bi-square': !isChecked
-                    }
-                ]"
-            />
-            <span
-                :class="['search-bar-result-list-topic-tree-item-label', 'mt-0 d-flex flex-column align-self-start', isChecked ? 'bold' : '']"
-                :for="'search-bar-result-list-topic-tree-item-checkbox-' + searchResult.id"
-                tabindex="0"
-                :aria-label="$t(searchResult.name)"
+        <span class="search-result-checkbox">
+            <button
+                class="btn d-flex w-100 pe-2 p-1 btn-light search-bar-result-list-topic-tree-item-title"
+
+                :title="searchResult.name"
+                @click="addOrRemoveLayer"
+                @keydown.enter="addOrRemoveLayer"
             >
-                <span>
-                    {{ $t(searchResult.name) }}
+                <span
+                    :id="'search-bar-result-list-topic-tree-item-checkbox-' + searchResult.id"
+                    :class="[
+                        'search-bar-result-list-topic-tree-item-checkbox ps-1 pe-3',
+                        {
+                            'bi-check-square': isChecked,
+                            'bi-square': !isChecked
+                        }
+                    ]"
+                />
+                <span
+                    :class="['search-bar-result-list-topic-tree-item-label', 'mt-0 d-flex flex-column align-self-start', isChecked ? 'font-bold' : '']"
+                    :for="'search-bar-result-list-topic-tree-item-checkbox-' + searchResult.id"
+                    tabindex="0"
+                    :aria-label="$t(searchResult.name)"
+                >
+                    <span>
+                        {{ $t(searchResult.name) }}
+                    </span>
                 </span>
-            </span>
-        </button>
-        <div class="ms-auto mt-1 d-flex">
+            </button>
+        </span>
+        <div class="d-flex">
             <div
                 v-for="action, i in Object.keys(actions)"
                 :key="i"
@@ -132,8 +135,20 @@ export default {
     }
 }
 
+.search-result-checkbox {
+    overflow: hidden;
+    display: block;
+    width: 100%;
+}
+
 .search-bar-result-list-topic-tree-item-label {
     cursor: pointer;
+    overflow: hidden;
+    span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 }
 .btn-transparent {
     background-color: transparent;
