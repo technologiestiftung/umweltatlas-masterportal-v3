@@ -83,6 +83,7 @@ export default {
          */
         getVisibleLayer () {
             const layers = [];
+
             this.visibleLayerConfigs?.forEach(layer => {
                 if (layer.datasets) {
                     if (layer.datasets[0]?.md_id && !layers.includes(layer.datasets[0]?.md_id)) {
