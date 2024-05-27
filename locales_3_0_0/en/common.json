@@ -204,6 +204,16 @@
         "northingLabel": "Northing"
       }
     },
+    "copyrightConstraints": {
+      "name": "Copyright notices",
+      "info": "Please note the usage information for the geodata used",
+      "notSpecified": "Not specified, please contact",
+      "contactOrganisation": "Organization",
+      "contactName": "Name",
+      "contactPhone": "Phone",
+      "contactEmail": "E-Mail",
+      "wait": "Please wait"
+    },
     "draw": {
       "description": "Create important markers or mark areas",
       "name": "Drawing / Writing"

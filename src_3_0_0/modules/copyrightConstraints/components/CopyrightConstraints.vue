@@ -1,23 +1,41 @@
 <script>
 import getCswRecordById from "../../../shared/js/api/getCswRecordById";
-import store from "../../../app-store";
+import {mapGetters} from "vuex";
 
+/**
+ * Tool to show access and use constraints for all visible layer
+ * and if no constraints where given then shows point of contact information for this layer
+ * @module modules/copyrightConstraints/components/CopyrightConstraints
+ * @vue-data {Array} constraints - The constraints for each layer.
+ * @vue-data {Boolean} ready - Default false, true when all information was fetched.
+ */
 export default {
     name: "CopyrightConstraints",
-    components: {},
     data () {
         return {
-            contraints: [],
+            constraints: [],
             ready: false
         };
     },
     computed: {
-        getContraints: function () {
-            return this.contraints;
+        ...mapGetters("Modules/CopyrightConstraints", [
+            "cswUrl"
+        ]),
+        ...mapGetters(["visibleLayerConfigs"]),
+        getConstraints: function () {
+            return this.constraints;
+        }
+    },
+    watch: {
+        visibleLayerConfigs: {
+            handler () {
+                this.getCswConstraints();
+            },
+            deep: true
         }
     },
     mounted () {
-        this.getCswContraints();
+        this.getCswConstraints();
         this.ready = true;
     },
     methods: {
@@ -29,10 +47,9 @@ export default {
         getMetaData (id) {
             return new Promise((resolve) => {
                 const metadata = getCswRecordById.getRecordById(
-                    "https://gdk.gdi-de.org/gdi-de/srv/ger/csw",
+                    this.cswUrl,
                     id
                 );
-
                 resolve(metadata);
             });
         },
@@ -40,56 +57,38 @@ export default {
          * gets the constrains for each visible layer and put them into this.constrains
          * @returns {void}
          */
-        getCswContraints () {
+        getCswConstraints () {
             const visibleLayerList = this.getVisibleLayer();
 
+            this.constraints = [];
             visibleLayerList.forEach((element) => {
                 this.getMetaData(element).then((metadata) => {
-                    this.contraints.push({
-                        title: metadata?.getTitle(),
-                        accessConstraints: metadata?.getConstraints()?.access,
-                        useConstraints: metadata?.getConstraints(true)?.use,
-                        pointOfContact: metadata?.getContact()
-                    });
-                });
+                    if(!this.constraints.map((x) => x.md_id).includes(element)) {
+                        this.constraints.push({
+                            md_id: element,
+                            title: metadata?.getTitle(),
+                            accessConstraints: metadata?.getConstraints()?.access,
+                            useConstraints: metadata?.getConstraints(true)?.use,
+                            pointOfContact: metadata?.getContact()
+                        });
+                    }
+                }).catch(() => console.warn("CSW Schnittstelle ist nicht erreichbar"))
             });
         },
 
         /**
          * gets the visible layers and detects the meta data ids for these layers
-         * @param {Boolean} [printMapMarker=false] whether layer "markerPoint" should be filtered out
-         * @returns {Array} list of meta data ids
+         * @returns {Array} layers list of meta data ids
          */
-        getVisibleLayer (printMapMarker = false) {
-            const layers = mapCollection.getMap("2D").getLayers(),
-                visibleLayerList =
-                    typeof layers?.getArray !== "function"
-                        ? []
-                        : layers.getArray().filter((layer) => {
-                            return (
-                                layer.getVisible() === true &&
-                                (layer.get("name") !== "markerPoint" ||
-                                    printMapMarker)
-                            );
-                        }),
-                visibleLayerListIds = [],
-                visibleLayerListMdIds = [];
+        getVisibleLayer () {
+            const layers = [];
 
-            visibleLayerList.forEach((layer) => {
-                if (layer.values_.id) {
-                    visibleLayerListIds.push(layer.values_.id);
+            this.visibleLayerConfigs?.forEach(layer => {
+                if (layer.datasets[0]?.md_id && !layers.includes(layer.datasets[0]?.md_id)) {
+                    layers.push(layer.datasets[0]?.md_id);
                 }
             });
-
-            store.getters.allLayerConfigs.forEach((layer) => {
-                if (visibleLayerListIds.includes(layer.id)) {
-                    if (layer.datasets[0]?.md_id) {
-                        visibleLayerListMdIds.push(layer.datasets[0]?.md_id);
-                    }
-                }
-            });
-
-            return visibleLayerListMdIds;
+            return layers;
         }
     }
 };
@@ -101,13 +100,14 @@ export default {
         class="infoText"
     >
         <div v-if="ready">
+            <p>{{ $t("common:modules.copyrightConstraints.info") }}</p>
             <div
-                v-if="getContraints.length > 0"
-                :key="getContraints.length"
+                v-if="getConstraints.length > 0"
+                :key="getConstraints.length"
             >
                 <ul>
                     <li
-                        v-for="(constraintsPerLayer, index) in getContraints"
+                        v-for="(constraintsPerLayer, index) in getConstraints"
                         :key="index"
                     >
                         {{ constraintsPerLayer.title }}
