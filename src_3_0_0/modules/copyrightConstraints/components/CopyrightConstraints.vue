@@ -73,7 +73,7 @@ export default {
                             pointOfContact: metadata?.getContact()
                         });
                     }
-                }).catch(() => console.warn("CSW Schnittstelle ist nicht erreichbar");)
+                }).catch(() => console.warn("CSW Schnittstelle ist nicht erreichbar"));
             });
         },
 
