@@ -38,6 +38,15 @@ Layer2dRasterWms.prototype.createLayer = function (attributes) {
         layerParams = this.getLayerParams(attributes),
         options = this.getOptions(attributes);
 
+    if (attributes.fitCapabilitiesExtent && attributes.visibility && !attributes.encompassingBoundingBox) {
+        if (!attributes.capabilitiesUrl) {
+            console.warn("Please add a capabilitiesUrl for your layer configuration if you want to use fitCapabilitiesExtent!");
+
+        }
+        else {
+            this.requestCapabilitiesToFitExtent();
+        }
+    }
     this.setLayer(wms.createLayer(rawLayerAttributes, layerParams, options));
 };
 
@@ -49,6 +58,7 @@ Layer2dRasterWms.prototype.createLayer = function (attributes) {
 Layer2dRasterWms.prototype.getRawLayerAttributes = function (attributes) {
     const rawLayerAttributes = {
         crs: attributes.crs,
+        cqlFilter: attributes.cqlFilter,
         format: attributes.format,
         gutter: attributes.gutter,
         id: attributes.id,
@@ -58,7 +68,8 @@ Layer2dRasterWms.prototype.getRawLayerAttributes = function (attributes) {
         transparent: attributes.transparent?.toString(),
         url: attributes.url,
         version: attributes.version,
-        extent: attributes.extent
+        extent: attributes.extent,
+        isSecured: attributes.isSecured
     };
 
     if (attributes.styles !== undefined) {

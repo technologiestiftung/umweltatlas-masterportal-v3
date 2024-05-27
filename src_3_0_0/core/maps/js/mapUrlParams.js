@@ -185,7 +185,7 @@ function processProjection (params) {
 function setCamera (params) {
     store.dispatch("Maps/setCamera", {
         altitude: params.ALTITUDE,
-        heading: params.HEADING,
+        heading: -params.HEADING,
         tilt: params.TILT
     });
 }

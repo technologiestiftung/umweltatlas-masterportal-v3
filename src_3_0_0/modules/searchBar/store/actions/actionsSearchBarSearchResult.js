@@ -1,3 +1,4 @@
+import markerHelper from "../../js/marker";
 import {treeSubjectsKey} from "../../../../shared/js/utils/constants";
 import WKTUtil from "../../../../shared/js/utils/getWKTGeom";
 import wmsGFIUtil from "../../../../shared/js/utils/getWmsFeaturesByMimeType";
@@ -149,10 +150,11 @@ export default {
      * @returns {void}
      */
     setMarker: ({dispatch, rootGetters}, {coordinates, feature, layer}) => {
+        const numberCoordinates = coordinates?.map(coordinate => parseFloat(coordinate, 10)),
+            geomType = feature?.getGeometry()?.getType();
+        let coordinateForMarker = geomType === "GeometryCollection" ? markerHelper.getFirstPointCoordinates(feature, numberCoordinates) : numberCoordinates;
 
-        const numberCoordinates = coordinates?.map(coordinate => parseFloat(coordinate, 10));
-
-        if (layer && feature?.getGeometry().getType() === "MultiPolygon") {
+        if (layer && geomType === "MultiPolygon") {
             const highlightObject = {},
                 highlightVectorRules = rootGetters["Modules/GetFeatureInfo/highlightVectorRules"],
                 styleObject = highlightVectorRules ? highlightVectorRules : styleList.returnStyleObject("defaultMapMarkerPolygon"),
@@ -171,7 +173,14 @@ export default {
             highlightObject.styleId = layer.get("styleId");
             dispatch("Maps/highlightFeature", highlightObject, {root: true});
         }
-        dispatch("Maps/placingPointMarker", numberCoordinates, {root: true});
+        if (feature && geomType === "Polygon" || geomType === "MultiPolygon") {
+            const isPointInsidePolygon = markerHelper.checkIsCoordInsidePolygon(feature, coordinateForMarker);
+
+            if (!isPointInsidePolygon) {
+                coordinateForMarker = markerHelper.getRandomCoordinate(feature.getGeometry().getCoordinates());
+            }
+        }
+        dispatch("Maps/placingPointMarker", coordinateForMarker, {root: true});
     },
 
 
@@ -179,13 +188,13 @@ export default {
      * Open folders in layerSelection and shows layer to select.
      * If layer is not contained, it is added.
      * @param {Object} param.dispatch the dispatch
-     * @param {Object} param.rootGetters the rootGetters
      * @param {Object} payload The payload.
      * @param {String} payload.layerId The layer id.
+     * @param {String} payload.source The layer source from search result.
      * @returns {void}
      */
-    showInTree: ({commit, dispatch, rootGetters}, {layerId}) => {
-        let layerConfig = rootGetters.layerConfigById(layerId);
+    showInTree: async ({commit, dispatch}, {layerId, source}) => {
+        const layerConfig = await dispatch("retrieveLayerConfig", {layerId, source});
 
         if (layerConfig) {
             commit("Menu/setNavigationHistoryBySide", {side: "mainMenu", newHistory: []}, {root: true});
@@ -193,16 +202,11 @@ export default {
             dispatch("Modules/LayerSelection/showLayer", {layerId}, {root: true});
         }
         else {
-            layerConfig = rawLayerList.getLayerWhere({id: layerId});
-            if (layerConfig) {
-                commit("Menu/setNavigationHistoryBySide", {side: "mainMenu", newHistory: []}, {root: true});
-                dispatch("Menu/changeCurrentComponent", {type: "layerSelection", side: "mainMenu", props: {}}, {root: true});
-                dispatch("addLayerToTopicTree", {layerId, source: layerConfig, showInLayerTree: false, visibility: false});
-                dispatch("Modules/LayerSelection/showLayer", {layerId}, {root: true});
-            }
-            else {
-                console.warn("Cannot show layer with id ", layerId, ": is not contained in services.json");
-            }
+            console.warn("Cannot show layer with id ", layerId, ": is not contained in services.json");
+            dispatch("Alerting/addSingleAlert", {
+                category: "info",
+                content: i18next.t("common:modules.searchBar.layerResultNotShown")
+            }, {root: true});
         }
         commit("setSearchInput", "");
         dispatch("Menu/navigateBack", "mainMenu", {root: true});
@@ -212,24 +216,47 @@ export default {
      * Open the layer information.
      * @param {Object} param.commit the commit
      * @param {Object} param.dispatch the dispatch
-     * @param {Object} param.rootGetters the rootGetters
      * @param {Object} payload The payload.
      * @param {String} payload.layerId The layer id.
+     * @param {String} payload.source The layer source from search result.
      * @returns {void}
      */
-    showLayerInfo: ({commit, dispatch, rootGetters}, {layerId}) => {
-        let layerConfig = rootGetters.layerConfigById(layerId);
+    showLayerInfo: async ({commit, dispatch}, {layerId, source}) => {
+        const layerConfig = await dispatch("retrieveLayerConfig", {layerId, source});
 
-        if (!layerConfig) {
-            layerConfig = rawLayerList.getLayerWhere({id: layerId});
-        }
         if (layerConfig) {
             dispatch("Modules/LayerInformation/startLayerInformation", layerConfig, {root: true});
             commit("Modules/LayerSelection/setLayerInfoVisible", true, {root: true});
         }
         else {
             console.warn("Cannot show info for layer with id ", layerId, ": is not contained in services.json");
+            dispatch("Alerting/addSingleAlert", {
+                category: "info",
+                content: i18next.t("common:modules.searchBar.layerInfoNotShown")
+            }, {root: true});
         }
+    },
+
+    /**
+     * Returns the layerConfig for the given id.
+     * @param {Object} param.dispatch the dispatch
+     * @param {Object} param.rootGetters the rootGetters
+     * @param {Object} payload The payload.
+     * @param {String} payload.layerId The layer id.
+     * @param {String} payload.source The layer source from search result.
+     * @returns {Object} the layerConfig
+     */
+    retrieveLayerConfig: ({dispatch, rootGetters}, {layerId, source}) => {
+        let layerConfig = rootGetters.layerConfigById(layerId);
+
+        if (!layerConfig) {
+            layerConfig = rawLayerList.getLayerWhere({id: layerId});
+        }
+        if (!layerConfig && source) {
+            dispatch("addLayerToTopicTree", {layerId, source: source, showInLayerTree: false, visibility: false});
+            layerConfig = rootGetters.layerConfigById(layerId);
+        }
+        return layerConfig;
     },
 
     /**

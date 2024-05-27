@@ -3,16 +3,6 @@ import validator from "../../../js/validator";
 
 describe("src_3_0_0/modules/legend/js/validator.js", function () {
     describe("isValidLegendObj", () => {
-        // it("returns false if position is negative", () => {
-        //     const legendObj = {
-        //         id: "1",
-        //         name: "layer_1",
-        //         legend: "foo.bar",
-        //         position: -1
-        //     };
-
-        //     expect(validator.isValidLegendObj(legendObj)).to.be.equals(false);
-        // });
         it("returns false if legend is false", () => {
             const legendObj = {
                 id: "1",

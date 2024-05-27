@@ -1,6 +1,7 @@
 <script>
 import escapeId from "../../../shared/js/utils/escapeId";
-import {mapActions} from "vuex";
+import {mapActions, mapGetters, mapMutations} from "vuex";
+import layerCollection from "../../../core/layers/js/layerCollection.js";
 
 /**
  * A Checkbox to select all layers at one time.
@@ -22,8 +23,13 @@ export default {
             checked: false
         };
     },
+    computed: {
+        ...mapGetters("Modules/LayerSelection", ["encompassingBoundingBox"])
+    },
     methods: {
         ...mapActions("Modules/LayerSelection", ["changeVisibility"]),
+        ...mapActions("Maps", ["zoomToExtent"]),
+        ...mapMutations("Modules/LayerSelection", ["setEncompassingBoundingBox"]),
 
         /**
          * Listener for click on select all checkbox.
@@ -33,15 +39,83 @@ export default {
             this.checked = !this.checked;
             this.confs.forEach(conf => {
                 this.changeVisibility({layerId: conf.id, value: this.checked});
+                if (conf.fitCapabilitiesExtent === true) {
+                    this.zoomToCapabilitiesExtent(conf);
+                }
             });
+        },
+        /**
+         * Differentiation according to which case should be zoomed to the bounding box of the capabilites.
+         * @param {Object} conf current layer configuration.
+         * @returns {void}
+         */
+        zoomToCapabilitiesExtent (conf) {
+            let layer = layerCollection.getLayerById(conf.id),
+                layerSource = layer?.getLayerSource();
 
+            if ((layerSource || layerSource?.getFeatures().length > 0) && this.checked) {
+                conf.encompassingBoundingBox = true;
+                this.calculateEncompassingBoundingBox(conf);
+            }
+            else if (!this.checked) {
+                conf.encompassingBoundingBox = false;
+            }
+            else if (this.checked) {
+                this.$nextTick(() => {
+                    layer = layerCollection.getLayerById(conf.id);
+                    layerSource = layer?.getLayerSource();
+
+                    conf.encompassingBoundingBox = true;
+                    if (conf.typ === "WMS") {
+                        layerSource.once("tileloadend", function () {
+                            this.$nextTick(() => {
+                                this.calculateEncompassingBoundingBox(conf);
+                            });
+                        }.bind(this));
+                    }
+                    else if (conf.typ === "WFS") {
+                        layerSource.once("featuresloadend", function () {
+                            this.calculateEncompassingBoundingBox(conf);
+                        }.bind(this));
+                    }
+                });
+            }
+        },
+
+        /**
+         * Calculates the encompassing bounding box for all child model bounding boxes.
+         * @param {Object} conf current layer configuration.
+         * @returns {void}
+         */
+        calculateEncompassingBoundingBox (conf) {
+            const layer = layerCollection.getLayerById(conf.id);
+            let minX,
+                minY,
+                maxX,
+                maxY;
+
+            if (layer?.attributes?.boundingBox) {
+                const bbox = layer.attributes.boundingBox,
+                    [bottomLeft, topRight] = bbox;
+
+                minX = Math.min(this.encompassingBoundingBox[0], bottomLeft[0]);
+                minY = Math.min(this.encompassingBoundingBox[1], bottomLeft[1]);
+                maxX = Math.max(this.encompassingBoundingBox[2], topRight[0]);
+                maxY = Math.max(this.encompassingBoundingBox[3], topRight[1]);
+
+                this.setEncompassingBoundingBox([minX, minY, maxX, maxY]);
+                this.zoomToExtent({extent: this.encompassingBoundingBox});
+            }
         },
         /**
          * Returns true, if all layer configs are visible.
          * @returns {Boolean} true,  if all layer configs are visible
          */
         isChecked () {
-            this.checked = this.confs.every((conf) => conf.visibility === true);
+            this.checked = this.confs.every((conf) => {
+                conf.encompassingBoundingBox = false;
+                return conf.visibility === true;
+            });
             return this.checked;
         },
         /**

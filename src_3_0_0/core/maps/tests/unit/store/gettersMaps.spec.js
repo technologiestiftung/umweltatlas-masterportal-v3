@@ -6,6 +6,7 @@ import VectorSource from "ol/source/Vector";
 import gettersMap from "../../../store/gettersMaps";
 import stateMap from "../../../store/stateMaps";
 import actions from "../../../store/actionsMapsLayers";
+import sinon from "sinon";
 
 const {
     addLayer
@@ -87,6 +88,38 @@ describe("src_3_0_0/core/maps/store/gettersMap.js", () => {
 
             expect(gettersMap.isMinZoomDisplayed(stateMap)).to.be.true;
             expect(gettersMap.isMinZoomDisplayed(state)).to.be.false;
+        });
+    });
+
+    describe("urlParams", async () => {
+        it("returns urlParams for local state", () => {
+            const state = {
+                    center: [5, 8],
+                    mode: "3D",
+                    zoom: 5
+                },
+                map3d = {
+                    id: "1",
+                    mode: "3D",
+                    getCesiumScene: () => {
+                        return {"camera": {
+                            "heading": 1,
+                            "position": {x: 3742884.2199247065, y: 659588.8716800908, z: 5111473.458863588},
+                            "pitch": 0
+                        }};
+                    }
+                };
+
+            global.Cesium = {};
+            global.Cesium.Cartographic = () => { /* no content*/ };
+            global.Cesium.Cartographic.fromCartesian = () => sinon.stub();
+            global.Cesium.Cartographic.fromCartesian.height = () => sinon.stub();
+
+            mapCollection.addMap(map3d, "3D");
+
+            expect(gettersMap.urlParams(state).toString()).to.be.equal("MAPS={\"center\":[5,8],\"mode\":\"3D\",\"zoom\":5,\"heading\":1,\"tilt\":0}");
+
+            mapCollection.clear();
         });
     });
 });

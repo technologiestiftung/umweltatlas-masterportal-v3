@@ -149,6 +149,18 @@
         "titleGeolocatePOI": "In der Nähe (Luftlinie)",
         "trackingDeniedText": "'In der Nähe' nicht verfügbar."
       },
+      "rotation": {
+        "reset": "Drehung zurücksetzen",
+        "rotateClockwise": "Im Uhrzeigersinn drehen",
+        "rotateCounterClockwise": "Gegen den Uhrzeigersinn drehen",
+        "compass": {
+          "pointerNorth": "Ansicht drehen",
+          "moveNorth": "Nach Norden bewegen",
+          "moveSouth": "Nach Süden bewegen",
+          "moveWest": "Nach Westen bewegen",
+          "moveEast": "Nach Osten bewegen"
+        }
+      },
       "tiltView": {
         "downButton": "Ansicht nach unten kippen",
         "upButton": "Ansicht nach oben kippen"
@@ -486,12 +498,20 @@
             "firstColumnHeaderName": "Eigenschaften"
           }
         }
-      }
+      },
+      "title":"Objekt Information"
     },
     "gfiThemes": {
       "dataTable": {
         "sort": "Werte sortieren"
       }
+    },
+    "info": {
+        "name": "Info",
+        "disclaimer": "Haftungsausschluss",
+        "home": {
+            "name": "Hamburg"
+        }
     },
     "language": {
       "de": "Deutsch",
@@ -515,6 +535,7 @@
     "layerInformation": {
       "additionalMetadata": "weitere Informationen...",
       "addressSuffix": "Adresse",
+      "addressSuffixes": "Layer-Adressen",
       "attachFileMessage": "ggf. Datei-Typ beim Download anhängen",
       "downloadDataset": "Datensatz herunterladen",
       "lastModified": "Letzte Änderung",
@@ -559,6 +580,7 @@
       "categoryInspire": "Inspire",
       "categoryOpendata": "Opendata",
       "categoryOrganisation": "Behörde",
+      "subjectData3D": "3D Daten",
       "iconRemoveLayer": "Thema aus Karte entfernen",
       "iconSubMenu": "Weitere Funktionen anzeigen",
       "iconTransparency": "Transparenz",
@@ -819,7 +841,8 @@
     },
     "noInitialResults": "Die initiale Suche ergab keine Treffer.",
     "showAll": "Alle anzeigen",
-    "layerResultNotShown": "Der gefundene Layer kann nicht angezeigt werden."
+    "layerResultNotShown": "Der gefundene Layer kann nicht angezeigt werden.",
+    "layerInfoNotShown": "Die Layer Information kann nicht angezeigt werden."
     },
     "selectFeatures": {
       "description": "Erhalte Informationen zu Objekten die du auf der Karte auswählst",
@@ -873,8 +896,7 @@
       "resetButton": "Zurücksetzen",
       "searchButton": "Suchen",
       "searchError": "Fehler bei der Suche von Feature: {{error}}.",
-      "showResults_one": "Zeige Ergebnis",
-      "showResults_other": "Zeige Ergebnisse",
+      "showResultHeading": "Suchergebnisse:",
       "userHelp": {
         "and": "und",
         "label": "Informationen bezüglich der Suchergebnisse",

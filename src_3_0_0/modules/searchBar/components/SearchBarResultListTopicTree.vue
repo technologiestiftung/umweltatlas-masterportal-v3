@@ -29,7 +29,7 @@ export default {
 </script>
 
 <template lang="html">
-    <div class="overflow-auto results-topic-tree-container">
+    <div class="results-topic-tree-container">
         <div
             v-for="(item, index) in resultItems"
             :key="item.id + '-' + index"
@@ -44,4 +44,8 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+.results-topic-tree-container {
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
 </style>

@@ -12,6 +12,7 @@
  * @property {Array} [lastBaselayerConfs=[]] previous baselayer configurations
  * @property {Boolean} [layerInfoVisible=false] if true, layerInformation is visible
  * @property {String} [highlightLayerId=null] id of the layer to highlight
+ * @property {Array} encompassingBoundingBox contains the common bounding box for several layers
  */
 export default {
     visible: false,
@@ -25,5 +26,6 @@ export default {
     lastSubjectDataLayerConfs: [],
     lastBaselayerConfs: [],
     layerInfoVisible: false,
-    highlightLayerId: null
+    highlightLayerId: null,
+    encompassingBoundingBox: [Infinity, Infinity, -Infinity, -Infinity]
 };

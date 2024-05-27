@@ -35,6 +35,7 @@ export default {
             "datePublication",
             "downloadLinks",
             "layerInfo",
+            "legendAvailable",
             "metaURLs",
             "noMetadataLoaded",
             "periodicityKey",
@@ -69,6 +70,9 @@ export default {
         },
         legendURL  () {
             return this.layerInfo.legendURL;
+        },
+        layerTyp  () {
+            return this.layerInfo.typ !== "GROUP" ? `${this.layerInfo.typ}-${this.$t("common:modules.layerInformation.addressSuffix")}` : this.$t("common:modules.layerInformation.addressSuffixes");
         }
     },
 
@@ -81,6 +85,9 @@ export default {
             this.setMetaDataCatalogueId(this.configJs.metaDataCatalogueId);
         }
         this.createLegendForLayerInfo(this.layerInfo.id);
+        if (!this.legendAvailable) {
+            this.activeTab = "LayerInfoDataDownload";
+        }
     },
 
     unmounted () {
@@ -200,7 +207,7 @@ export default {
         <nav role="navigation">
             <ul class="nav nav-tabs">
                 <li
-                    v-if="legendURL !== 'ignore'"
+                    v-if="legendAvailable"
                     value="layerinfo-legend"
                     class="nav-item"
                 >
@@ -235,7 +242,7 @@ export default {
                         class="nav-link"
                         :class="{active: isActiveTab('url') }"
                         @click="setActiveTab"
-                    >{{ $t(layerInfo.typ) }} - {{ $t("common:modules.layerInformation.addressSuffix") }}
+                    >{{ layerTyp }}
                     </a>
                 </li>
             </ul>
@@ -243,7 +250,7 @@ export default {
 
         <div class="tab-content">
             <div
-
+                v-if="legendAvailable"
                 id="layerinfo-legend"
                 :class="getTabPaneClasses('layerinfo-legend')"
                 :show="isActiveTab('layerinfo-legend')"

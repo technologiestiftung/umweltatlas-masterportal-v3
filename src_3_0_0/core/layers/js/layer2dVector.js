@@ -42,13 +42,27 @@ Layer2dVector.prototype = Object.create(Layer2d.prototype);
  * @param {Object} attributes The new attributes.
  * @returns {void}
  */
-Layer2d.prototype.updateLayerValues = function (attributes) {
+Layer2dVector.prototype.updateLayerValues = function (attributes) {
     this.getLayer()?.setOpacity((100 - attributes.transparency) / 100);
     this.getLayer()?.setVisible(attributes.visibility);
     this.getLayer()?.setZIndex(attributes.zIndex);
     this.controlAutoRefresh(attributes);
+
     if (this.get("typ") === "WFS" && store.getters["Maps/mode"] === "3D" && this.layerSource.getFeatures().length === 0) {
         this.loadFeaturesManually(attributes);
+    }
+    if (attributes.fitCapabilitiesExtent && attributes.visibility && !attributes.encompassingBoundingBox) {
+        if (!attributes.capabilitiesUrl) {
+            console.warn("Please add a capabilitiesUrl for your layer configuration if you want to use fitCapabilitiesExtent!");
+
+        }
+        else {
+            this.requestCapabilitiesToFitExtent();
+            attributes.encompassingBoundingBox = true;
+        }
+    }
+    else if (attributes.fitCapabilitiesExtent && !attributes.visibility && attributes.encompassingBoundingBox) {
+        attributes.encompassingBoundingBox = false;
     }
 };
 

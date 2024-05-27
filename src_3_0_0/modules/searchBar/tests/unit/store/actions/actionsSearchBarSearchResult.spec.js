@@ -6,18 +6,6 @@ import wmsGFIUtil from "../../../../../../shared/js/utils/getWmsFeaturesByMimeTy
 import actions from "../../../../store/actions/actionsSearchBarSearchResult";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
 
-const {
-    activateLayerInTopicTree,
-    addLayerToTopicTree,
-    highlightFeature,
-    openGetFeatureInfo,
-    removeLayerFromTopicTree,
-    setMarker,
-    showInTree,
-    showLayerInfo,
-    zoomToResult
-} = actions;
-
 describe("src_3_0_0/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.js", () => {
     let dispatch,
         commit,
@@ -49,7 +37,7 @@ describe("src_3_0_0/modules/searchBar/store/actions/actionsSearchBarSearchResult
                     })
                 };
 
-            activateLayerInTopicTree({dispatch, rootGetters}, {layerId});
+            actions.activateLayerInTopicTree({dispatch, rootGetters}, {layerId});
 
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equals("replaceByIdInLayerConfig");
@@ -77,7 +65,7 @@ describe("src_3_0_0/modules/searchBar/store/actions/actionsSearchBarSearchResult
                     determineZIndex: () => 2
                 };
 
-            activateLayerInTopicTree({dispatch, rootGetters}, {layerId});
+            actions.activateLayerInTopicTree({dispatch, rootGetters}, {layerId});
 
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equals("replaceByIdInLayerConfig");
@@ -106,7 +94,7 @@ describe("src_3_0_0/modules/searchBar/store/actions/actionsSearchBarSearchResult
                     layerConfigById: sinon.stub().returns(undefined)
                 };
 
-            activateLayerInTopicTree({dispatch, rootGetters}, {layerId, source});
+            actions.activateLayerInTopicTree({dispatch, rootGetters}, {layerId, source});
 
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equals("addLayerToTopicTree");
@@ -138,7 +126,7 @@ describe("src_3_0_0/modules/searchBar/store/actions/actionsSearchBarSearchResult
                 };
 
             dispatch = sinon.stub().resolves(added);
-            addLayerToTopicTree({dispatch, rootGetters}, {layerId, source});
+            actions.addLayerToTopicTree({dispatch, rootGetters}, {layerId, source});
 
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equals("addLayerToLayerConfig");
@@ -168,7 +156,7 @@ describe("src_3_0_0/modules/searchBar/store/actions/actionsSearchBarSearchResult
                 };
 
             dispatch = sinon.stub().resolves(added);
-            addLayerToTopicTree({dispatch, rootGetters}, {layerId, source});
+            actions.addLayerToTopicTree({dispatch, rootGetters}, {layerId, source});
 
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equals("activateLayerInTopicTree");
@@ -186,7 +174,7 @@ describe("src_3_0_0/modules/searchBar/store/actions/actionsSearchBarSearchResult
                     layerConfigById: sinon.stub().returns(true)
                 };
 
-            removeLayerFromTopicTree({dispatch, rootGetters}, {layerId});
+            actions.removeLayerFromTopicTree({dispatch, rootGetters}, {layerId});
 
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equals("replaceByIdInLayerConfig");
@@ -208,114 +196,166 @@ describe("src_3_0_0/modules/searchBar/store/actions/actionsSearchBarSearchResult
                     layerConfigById: sinon.stub().returns(false)
                 };
 
-            removeLayerFromTopicTree({dispatch, rootGetters}, {layerId});
+            actions.removeLayerFromTopicTree({dispatch, rootGetters}, {layerId});
 
             expect(dispatch.notCalled).to.be.true;
         });
     });
 
     describe("showInTree", () => {
-        it("should call showLayer", () => {
-            const layerId = "123",
-                rootGetters = {
-                    layerConfigById: () => true
-                };
+        it("should call showLayer", async () => {
+            const layerId = "123";
 
-            showInTree({commit, dispatch, rootGetters}, {layerId});
+            dispatch = sinon.stub().resolves({id: layerId});
+            await actions.showInTree({commit, dispatch}, {layerId});
 
-            expect(dispatch.calledThrice).to.be.true;
-            expect(dispatch.firstCall.args[0]).to.equals("Menu/changeCurrentComponent");
-            expect(dispatch.firstCall.args[1]).to.be.deep.equals({
+            expect(dispatch.callCount).to.be.equals(4);
+            expect(dispatch.firstCall.args[0]).to.equals("retrieveLayerConfig");
+            expect(dispatch.firstCall.args[1]).to.be.deep.equals({layerId, source: undefined});
+            expect(dispatch.secondCall.args[0]).to.equals("Menu/changeCurrentComponent");
+            expect(dispatch.secondCall.args[1]).to.be.deep.equals({
                 type: "layerSelection",
                 side: "mainMenu",
                 props: {}
             });
-            expect(dispatch.secondCall.args[0]).to.equals("Modules/LayerSelection/showLayer");
-            expect(dispatch.secondCall.args[1]).to.be.deep.equals({
-                layerId: "123"
-            });
-            expect(dispatch.thirdCall.args[0]).to.equals("Menu/navigateBack");
-            expect(dispatch.thirdCall.args[1]).to.equals("mainMenu");
-        });
-
-        it("should call addLayerToTopicTree and showLayer", () => {
-            const layerId = "123",
-                source = {
-                    id: layerId,
-                    abc: "abc",
-                    datasets: []
-                },
-                rootGetters = {
-                    layerConfigById: () => false
-                };
-
-            sinon.stub(rawLayerList, "getLayerWhere").returns(source);
-
-            showInTree({commit, dispatch, rootGetters}, {layerId});
-
-            expect(dispatch.callCount).to.equal(4);
-            expect(dispatch.firstCall.args[0]).to.equals("Menu/changeCurrentComponent");
-            expect(dispatch.firstCall.args[1]).to.be.deep.equals({
-                type: "layerSelection",
-                side: "mainMenu",
-                props: {}
-            });
-            expect(dispatch.secondCall.args[0]).to.equals("addLayerToTopicTree");
-            expect(dispatch.secondCall.args[1]).to.be.deep.equals({
-                layerId: "123",
-                source,
-                showInLayerTree: false,
-                visibility: false
-            }
-            );
             expect(dispatch.thirdCall.args[0]).to.equals("Modules/LayerSelection/showLayer");
             expect(dispatch.thirdCall.args[1]).to.be.deep.equals({
                 layerId: "123"
             });
             expect(dispatch.getCall(3).args[0]).to.equals("Menu/navigateBack");
             expect(dispatch.getCall(3).args[1]).to.equals("mainMenu");
+            expect(commit.callCount).to.be.equals(2);
+            expect(commit.firstCall.args[0]).to.equals("Menu/setNavigationHistoryBySide");
+            expect(commit.firstCall.args[1]).to.be.deep.equals({side: "mainMenu", newHistory: []});
+            expect(commit.secondCall.args[0]).to.equals("setSearchInput");
+            expect(commit.secondCall.args[1]).to.be.equals("");
         });
+
+        it("should warn and show alert if layerConfig does not exist", async () => {
+            const layerId = "123",
+                warnSpy = sinon.spy();
+
+            sinon.stub(console, "warn").callsFake(warnSpy);
+            dispatch = sinon.stub().resolves(undefined);
+            await actions.showInTree({commit, dispatch}, {layerId});
+
+            expect(warnSpy.callCount).to.equal(1);
+            expect(dispatch.callCount).to.equal(3);
+            expect(dispatch.firstCall.args[0]).to.equals("retrieveLayerConfig");
+            expect(dispatch.firstCall.args[1]).to.be.deep.equals({layerId, source: undefined});
+            expect(dispatch.secondCall.args[0]).to.equals("Alerting/addSingleAlert");
+            expect(dispatch.secondCall.args[1]).to.be.deep.equals({
+                category: "info",
+                content: i18next.t("common:modules.searchBar.layerResultNotShown")
+            });
+            expect(dispatch.thirdCall.args[0]).to.equals("Menu/navigateBack");
+            expect(dispatch.thirdCall.args[1]).to.equals("mainMenu");
+            expect(commit.callCount).to.be.equals(1);
+            expect(commit.firstCall.args[0]).to.equals("setSearchInput");
+            expect(commit.firstCall.args[1]).to.be.equals("");
+        });
+
     });
 
     describe("showLayerInfo", () => {
-        it("should call startLayerInformation - layer in layerConfig", () => {
+        it("should call startLayerInformation - layer in layerConfig", async () => {
             const layerId = "123",
                 config = {
                     layerId
                 },
-                rootGetters = {
-                    layerConfigById: () => config
+                source = {
+                    id: "sourceId"
                 };
 
-            showLayerInfo({dispatch, commit, rootGetters}, {layerId});
+            dispatch = sinon.stub().resolves(config);
+            await actions.showLayerInfo({dispatch, commit}, {layerId, source});
 
-            expect(dispatch.calledOnce).to.be.true;
-            expect(dispatch.firstCall.args[0]).to.equals("Modules/LayerInformation/startLayerInformation");
-            expect(dispatch.firstCall.args[1]).to.be.deep.equals(config);
+            expect(dispatch.calledTwice).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equals("retrieveLayerConfig");
+            expect(dispatch.firstCall.args[1]).to.be.deep.equals({layerId, source});
+            expect(dispatch.secondCall.args[0]).to.equals("Modules/LayerInformation/startLayerInformation");
+            expect(dispatch.secondCall.args[1]).to.be.deep.equals(config);
             expect(commit.calledOnce).to.be.true;
             expect(commit.firstCall.args[0]).to.equals("Modules/LayerSelection/setLayerInfoVisible");
             expect(commit.firstCall.args[1]).to.be.true;
         });
 
-        it("should call startLayerInformation - layer not in layerConfig", () => {
+        it("should call startLayerInformation - layer not in layerConfig", async () => {
             const layerId = "123",
-                config = {
-                    layerId
-                },
+                warnSpy = sinon.spy();
+
+            sinon.stub(console, "warn").callsFake(warnSpy);
+            dispatch = sinon.stub().resolves(undefined);
+            await actions.showLayerInfo({dispatch, commit}, {layerId});
+
+            expect(warnSpy.callCount).to.equal(1);
+            expect(dispatch.callCount).to.equal(2);
+            expect(dispatch.firstCall.args[0]).to.equals("retrieveLayerConfig");
+            expect(dispatch.firstCall.args[1]).to.be.deep.equals({layerId, source: undefined});
+            expect(dispatch.secondCall.args[0]).to.equals("Alerting/addSingleAlert");
+            expect(dispatch.secondCall.args[1]).to.be.deep.equals({
+                category: "info",
+                content: i18next.t("common:modules.searchBar.layerInfoNotShown")
+            });
+        });
+    });
+
+    describe("retrieveLayerConfig", () => {
+        it("layer contained in getters, no source", () => {
+            const layerId = "123",
                 rootGetters = {
-                    layerConfigById: () => false
-                };
+                    layerConfigById: sinon.stub().returns({id: layerId})
+                },
+                getLayerWhereSpy = sinon.stub(rawLayerList, "getLayerWhere").returns("whatever"),
+                result = actions.retrieveLayerConfig({dispatch, rootGetters}, {layerId});
 
-            sinon.stub(rawLayerList, "getLayerWhere").returns(config);
+            expect(dispatch.notCalled).to.be.true;
+            expect(getLayerWhereSpy.notCalled).to.be.true;
+            expect(result).to.be.deep.equals({id: layerId});
+        });
 
-            showLayerInfo({dispatch, commit, rootGetters}, {layerId});
+        it("layer not contained in getters", () => {
+            const layerId = "123",
+                rootGetters = {
+                    layerConfigById: sinon.stub().returns(null)
+                },
+                config = {id: layerId, name: "name"},
+                getLayerWhereSpy = sinon.stub(rawLayerList, "getLayerWhere").returns(config),
+                result = actions.retrieveLayerConfig({dispatch, rootGetters}, {layerId});
+
+            expect(dispatch.notCalled).to.be.true;
+            expect(getLayerWhereSpy.calledOnce).to.be.true;
+            expect(getLayerWhereSpy.firstCall.args[0]).to.be.deep.equals({id: layerId});
+            expect(result).to.be.deep.equals(config);
+        });
+
+        it("layer not contained in getters and in rawLayerList", () => {
+            let counter = 0;
+            const layerId = "123",
+                source = {
+                    id: "sourceId"
+                },
+                config = {id: layerId, name: "name"},
+                rootGetters = {
+                    layerConfigById: sinon.stub().callsFake(
+                        () => {
+                            if (counter === 0) {
+                                counter++;
+                                return undefined;
+                            }
+                            return config;
+                        }
+                    )
+                },
+                getLayerWhereSpy = sinon.stub(rawLayerList, "getLayerWhere").returns(null),
+                result = actions.retrieveLayerConfig({dispatch, rootGetters}, {layerId, source});
 
             expect(dispatch.calledOnce).to.be.true;
-            expect(dispatch.firstCall.args[0]).to.equals("Modules/LayerInformation/startLayerInformation");
-            expect(dispatch.firstCall.args[1]).to.be.deep.equals(config);
-            expect(commit.calledOnce).to.be.true;
-            expect(commit.firstCall.args[0]).to.equals("Modules/LayerSelection/setLayerInfoVisible");
-            expect(commit.firstCall.args[1]).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equals("addLayerToTopicTree");
+            expect(dispatch.firstCall.args[1]).to.be.deep.equals({layerId, source: source, showInLayerTree: false, visibility: false});
+            expect(getLayerWhereSpy.calledOnce).to.be.true;
+            expect(getLayerWhereSpy.firstCall.args[0]).to.be.deep.equals({id: layerId});
+            expect(result).to.be.deep.equals(config);
         });
     });
 
@@ -338,7 +378,7 @@ describe("src_3_0_0/modules/searchBar/store/actions/actionsSearchBarSearchResult
                 },
                 stubGetWKTGeom = sinon.stub(WKTUtil, "getWKTGeom").returns(feature);
 
-            highlightFeature({dispatch}, {hit});
+            actions.highlightFeature({dispatch}, {hit});
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equals("Maps/placingPolygonMarker");
             expect(dispatch.firstCall.args[1]).to.be.deep.equals(feature.getGeometry());
@@ -361,7 +401,7 @@ describe("src_3_0_0/modules/searchBar/store/actions/actionsSearchBarSearchResult
                 },
                 stubCreateGfiFeature = sinon.stub(wmsGFIUtil, "createGfiFeature").returns(gfiFeature);
 
-            openGetFeatureInfo({commit}, {feature, layer});
+            actions.openGetFeatureInfo({commit}, {feature, layer});
             expect(commit.calledOnce).to.be.true;
             expect(commit.firstCall.args[0]).to.equals("Modules/GetFeatureInfo/setGfiFeatures");
             expect(commit.firstCall.args[1]).to.be.deep.equals([gfiFeature]);
@@ -377,7 +417,7 @@ describe("src_3_0_0/modules/searchBar/store/actions/actionsSearchBarSearchResult
             const coordinates = [1234, 65432],
                 payload = [1234, 65432];
 
-            setMarker({dispatch}, {coordinates});
+            actions.setMarker({dispatch}, {coordinates});
 
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equals("Maps/placingPointMarker");
@@ -393,6 +433,12 @@ describe("src_3_0_0/modules/searchBar/store/actions/actionsSearchBarSearchResult
                         return {
                             getType: () => {
                                 return "MultiPolygon";
+                            },
+                            intersectsCoordinate: () => {
+                                return coordinates;
+                            },
+                            getCoordinates: () => {
+                                return coordinates;
                             }
                         };
                     }
@@ -429,7 +475,7 @@ describe("src_3_0_0/modules/searchBar/store/actions/actionsSearchBarSearchResult
                     }
                 }]
             });
-            setMarker({dispatch, rootGetters}, {coordinates, feature, layer});
+            actions.setMarker({dispatch, rootGetters}, {coordinates, feature, layer});
 
             expect(dispatch.calledTwice).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equals("Maps/highlightFeature");
@@ -447,6 +493,9 @@ describe("src_3_0_0/modules/searchBar/store/actions/actionsSearchBarSearchResult
                         return {
                             getType: () => {
                                 return "MultiPolygon";
+                            },
+                            intersectsCoordinate: () => {
+                                return coordinates;
                             }
                         };
                     }
@@ -480,7 +529,7 @@ describe("src_3_0_0/modules/searchBar/store/actions/actionsSearchBarSearchResult
                 };
 
             sinon.stub(styleList, "returnStyleObject").returns(null);
-            setMarker({dispatch, rootGetters}, {coordinates, feature, layer});
+            actions.setMarker({dispatch, rootGetters}, {coordinates, feature, layer});
 
             expect(dispatch.calledTwice).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equals("Maps/highlightFeature");
@@ -498,7 +547,7 @@ describe("src_3_0_0/modules/searchBar/store/actions/actionsSearchBarSearchResult
                     zoom: getters.zoomLevel
                 };
 
-            zoomToResult({dispatch, getters}, {coordinates});
+            actions.zoomToResult({dispatch, getters}, {coordinates});
 
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equals("Maps/zoomToCoordinates");

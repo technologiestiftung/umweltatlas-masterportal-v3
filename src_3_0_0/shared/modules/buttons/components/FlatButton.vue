@@ -35,6 +35,11 @@ export default {
             type: String,
             default: null,
             required: false
+        },
+        secondary: {
+            type: Boolean,
+            default: false,
+            required: false
         }
     }
 };
@@ -44,7 +49,8 @@ export default {
     <button
         class="flat-button btn btn-secondary d-flex align-items-center mb-3"
         :class="[
-            customclass
+            customclass,
+            secondary ? 'btn-scnd' : ''
         ]"
         :type="type"
         :aria-label="text"
@@ -89,5 +95,11 @@ export default {
         white-space: normal;
         margin-left: .5rem;
     }
+}
+
+.btn-scnd {
+    background-color: $light-blue;
+    border-color: $light-blue;
+    color: $black;
 }
 </style>

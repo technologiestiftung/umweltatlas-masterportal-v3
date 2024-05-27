@@ -80,6 +80,15 @@ const getters = {
             zoom: state.zoom
         };
 
+        if (params.mode === "3D") {
+
+            const camera = mapCollection.getMap("3D")?.getCesiumScene()?.camera;
+
+            params.heading = camera.heading;
+            params.tilt = camera.pitch;
+            params.altitude = Cesium.Cartographic.fromCartesian(camera.position).height;
+        }
+
         return `MAPS=${JSON.stringify(params)}`;
     }
 };

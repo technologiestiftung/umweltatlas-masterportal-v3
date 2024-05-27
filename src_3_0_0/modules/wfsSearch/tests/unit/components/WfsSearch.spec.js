@@ -1,5 +1,5 @@
 import {createStore} from "vuex";
-import {config, mount} from "@vue/test-utils";
+import {config, mount, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 import requestProvider from "../../../js/requests";
@@ -16,9 +16,12 @@ describe("src_3_0_0/modules/wfsSearch/components/WfsSearch.vue", () => {
         layer,
         placingPointMarkerSpy,
         placingPolygonMarkerSpy,
+        removePolygonMarkerSpy,
+        resetResultSpy,
         setCenterSpy,
         setZoomSpy,
-        zoomToExtentSpy;
+        zoomToExtentSpy,
+        resetResultOrig;
 
     beforeEach(() => {
         const map = {
@@ -35,6 +38,8 @@ describe("src_3_0_0/modules/wfsSearch/components/WfsSearch.vue", () => {
         setCenterSpy = sinon.spy();
         setZoomSpy = sinon.spy();
         zoomToExtentSpy = sinon.spy();
+        removePolygonMarkerSpy = sinon.spy();
+        resetResultSpy = sinon.spy();
 
         instances = [{
             title: "Test WfsSearch",
@@ -55,6 +60,8 @@ describe("src_3_0_0/modules/wfsSearch/components/WfsSearch.vue", () => {
         layer = {
             id: "753"
         };
+        resetResultOrig = WfsSearchModule.actions.resetResult;
+        WfsSearchModule.actions.resetResult = resetResultSpy;
         store = createStore({
             namespaces: true,
             modules: {
@@ -77,6 +84,7 @@ describe("src_3_0_0/modules/wfsSearch/components/WfsSearch.vue", () => {
                         removePointMarker: sinon.stub(),
                         placingPointMarker: placingPointMarkerSpy,
                         placingPolygonMarker: placingPolygonMarkerSpy,
+                        removePolygonMarker: removePolygonMarkerSpy,
                         setCenter: setCenterSpy,
                         setZoom: setZoomSpy,
                         zoomToExtent: zoomToExtentSpy
@@ -95,7 +103,11 @@ describe("src_3_0_0/modules/wfsSearch/components/WfsSearch.vue", () => {
             }
         });
     });
-    afterEach(sinon.restore);
+
+    afterEach(() => {
+        sinon.restore();
+        WfsSearchModule.actions.resetResult = resetResultOrig;
+    });
 
     it("renders a literal", async () => {
         store.commit("Modules/WfsSearch/setInstances", instances);
@@ -168,6 +180,23 @@ describe("src_3_0_0/modules/wfsSearch/components/WfsSearch.vue", () => {
         expect(resetButton.exists()).to.be.true;
         expect(resetButton.text()).to.equal("common:modules.wfsSearch.resetButton");
     });
+    it("resets the UI, if the button is clicked", async () => {
+        store.commit("Modules/WfsSearch/setInstances", instances);
+
+        const wrapper = shallowMount(WfsSearch, {
+                global: {
+                    plugins: [store]
+                }
+            }),
+            resetButton = wrapper.find("#module-wfsSearch-button-resetUI");
+
+        expect(resetButton.exists()).to.be.true;
+
+        wrapper.vm.resetUI();
+        // called twice from actions.prepareModule and once from resetUI
+        expect(removePolygonMarkerSpy.calledThrice).to.be.true;
+        expect(resetResultSpy.calledThrice).to.be.true;
+    });
     it("does not render a button to reset the UI if prop showResetButton is set to false", () => {
         store.commit("Modules/WfsSearch/setInstances", instances);
         const wrapper = mount(WfsSearch, {
@@ -194,60 +223,6 @@ describe("src_3_0_0/modules/wfsSearch/components/WfsSearch.vue", () => {
         expect(searchInput.exists()).to.be.true;
         expect(searchInput.element.type).to.equal("submit");
     });
-    it.skip("renders a clickable button to show the search results if the user searched and results were found", async () => {
-        store.commit("Modules/WfsSearch/setInstances", instances);
-
-        const wrapper = mount(WfsSearch, {
-            global: {
-                plugins: [store]
-            }
-        });
-        let showResultsButton = null;
-
-        store.commit("Modules/WfsSearch/setSearched", true);
-        store.commit("Modules/WfsSearch/setResults", [{Ort: "Hamburg", Name: "KiTa Rübennasen"}]);
-        await wrapper.vm.$nextTick();
-        showResultsButton = wrapper.find("#module-wfsSearch-button-showResults");
-        showResultsButton.element.disabled = false;
-
-        expect(showResultsButton.exists()).to.be.true;
-        expect(showResultsButton.text()).to.equal("common:modules.wfsSearch.showResults (1)");
-        expect(showResultsButton.element.disabled).to.be.false;
-    });
-    it("renders a disabled button if the user searched and no results were found", async () => {
-        store.commit("Modules/WfsSearch/setInstances", instances);
-
-        const wrapper = mount(WfsSearch, {
-            global: {
-                plugins: [store]
-            }
-        });
-        let searchButton = null;
-
-        store.commit("Modules/WfsSearch/setSearched", true);
-        store.commit("Modules/WfsSearch/setResults", []);
-        await wrapper.vm.$nextTick();
-        searchButton = wrapper.find("#module-wfsSearch-button-showResults");
-
-        expect(searchButton.exists()).to.be.true;
-        expect(searchButton.text()).to.equal("common:modules.wfsSearch.showResults (0)");
-        expect(searchButton.element.disabled).to.be.true;
-    });
-    it("renders no button if the user searched but the parameter 'resultList' was not configured", () => {
-        store.commit("Modules/WfsSearch/setSearched", true);
-        store.commit("Modules/WfsSearch/setResults", [{}]);
-        delete instances[0].resultList;
-        store.commit("Modules/WfsSearch/setInstances", instances);
-        const wrapper = mount(WfsSearch, {
-                global: {
-                    plugins: [store]
-                }
-            }),
-            searchButton = wrapper.find("#module-wfsSearch-button-showResults");
-
-        expect(searchButton.exists()).to.be.false;
-    });
-
     it("sets zoom according to prop if set", async () => {
         const features = [
                 {
@@ -257,6 +232,9 @@ describe("src_3_0_0/modules/wfsSearch/components/WfsSearch.vue", () => {
                                 return undefined;
                             }
                         };
+                    },
+                    values_: {
+                        Ort: "Hamburg"
                     }
                 }
             ],
@@ -279,6 +257,23 @@ describe("src_3_0_0/modules/wfsSearch/components/WfsSearch.vue", () => {
             expect(setZoomStub.calledWith(1)).to.be.true;
         });
     });
+    it("renders a table to show the search results if the user searched and results were found", async () => {
+        store.commit("Modules/WfsSearch/setInstances", instances);
+        const wrapper = mount(WfsSearch, {
+            global: {
+                plugins: [store]
+            }
+        });
+        let resTable = null;
+
+        store.commit("Modules/WfsSearch/setSearched", true);
+        store.commit("Modules/WfsSearch/setShowResultList", true);
+        store.commit("Modules/WfsSearch/setResults", [{values_: {Ort: "Hamburg", Name: "Klaras Kita"}}]);
+        await wrapper.vm.$nextTick();
+        resTable = wrapper.find("#resultTable");
+        expect(resTable.exists()).to.be.true;
+    });
+
     it("sets zoom according to config/store if no such prop set", async () => {
         const features = [
                 {
@@ -288,6 +283,9 @@ describe("src_3_0_0/modules/wfsSearch/components/WfsSearch.vue", () => {
                                 return undefined;
                             }
                         };
+                    },
+                    values_: {
+                        Ort: "Hamburg"
                     }
                 }
             ],

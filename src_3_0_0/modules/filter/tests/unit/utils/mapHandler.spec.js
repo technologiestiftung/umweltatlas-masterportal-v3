@@ -458,7 +458,7 @@ describe("src_3_0_0/modules/filter/utils/mapHandler.js", () => {
 
             map.deactivateLayer("filterId");
             nextTick(() =>{
-                expect(store.getters.layerConfigById("filterId").visibliity).to.be.false;
+                expect(store.getters.layerConfigById("filterId").visibility).to.be.false;
             });
         });
     });

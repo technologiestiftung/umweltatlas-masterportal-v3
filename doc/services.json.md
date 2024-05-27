@@ -14,8 +14,11 @@ All layer information the portal needs to use the services is stored here. Confi
 
 |Name|Required|Type|Default|Description|Example|
 |----|--------|----|-------|-----------|-------|
+|capabilitiesUrl|no|String||Service's capabilities URL|`"https://geodienste.hamburg.de/HH_WMS_DOP10?VERSION=1.3.0&SERVICE=WMS&REQUEST=GetCapabilities"`|
+|cqlFilter|no|String||Set to the given CQL filter for requests with this layer.|`"feature_id = 1"`|
 |datasets|no|**[datasets](#markdown-header-wms_wfs_oaf_datasets)**/Boolean||Metadata specification. All metadata the layer data is referenced here. On clicking the "i" button in the layer tree, the information is retrieved by the CSW interface and shown to the user. For this, the **[rest-services.json](rest-services.json.md)** has to provide the URL of the metadata catalog resp. its CSW interface. The values *kategorie_opendata*, *kategorie_inspire*, and *kategorie_organisation* are used for layer categorization if the **[config.json](config.json.md)** has `tree.type` set to `"default"`. It is also possible to retrieve metadata with a getMetaData request, in this case there can also be additional informations displayed. To remove the "i" button altogether, explicitly set `"datasets": false`.||
 |featureCount|yes|String||Amount of features retrieved on GFI requests. Corresponds to the *GetFeatureInfo parameter "FEATURE_COUNT"*.|`"1"`|
+|fitCapabilitiesExtent|no|Boolean|false|When set to `true` and a `capabilitiesUrl` is specified in the configuration, the application will fit the map extent based on the bounding box information retrieved from the GetCapabilities document.|`true`|
 |format|yes|String||Image format of tiles requested via *GetMap*. Must match one of the service's formats listed in *Capability/Request/GetMap/Format*.|`"image/jpeg"`|
 |gfiAttributes|yes|String/**[gfiAttributes](#markdown-header-gfi_attributes)**||GFI attributes to be shown|`"ignore"`|
 |gfiTheme|yes|String/Object||Display style of GFI information for this layer. Unless `"default"` is chosen, custom templates may be used to show GFI information in another format than the default table style.|`"default"`|
@@ -25,7 +28,7 @@ All layer information the portal needs to use the services is stored here. Confi
 |layerAttribution|no|String|`"nicht vorhanden"`|Additional layer information to be shown in the portal's control element *LayerAttribution*, if configured to appear. If `"nicht vorhanden"` (technical key meaning "not available") is chosen, no layer attribution is shown.|`"nicht vorhanden"`|
 |layers|yes|String||The service's layer name. Must match a name of the service's capabilities in *Layer/Layer/Name*.|`"1"`|
 |legendURL|yes|String/String[]||`"ignore"`: No image is retrieved, `""` (empty string): The service's *GetLegendGraphic* is called.|`"ignore"`|
-|legend|no|Boolean/String/String[]||Value of the **[services.json](services.json.md)** file. URL to be used to request a static legend image. Use a boolean value to dynamically generate the legend from a WMS request or the WFS styling respectively. Use a string to link an image or a PDF file.|`false`|
+|legend|no|Boolean/String/String[]||Value of the **[services.json](services.json.md)** file. URL to be used to request a static legend image. Use a boolean value to dynamically generate the legend from a WMS request or the WFS styling respectively. Use a string to link an image or a PDF file. Use `"ignore"` or `false` for no legend.|`false`|
 |maxScale|yes|String||The layer is shown only up to this scale.|`"1000000"`|
 |minScale|yes|String||The layer is shown only down to this scale.|`"0"`|
 |name|yes|String||Arbitrary display name used in the layer tree.|`"Aerial View DOP 10"`|
@@ -66,10 +69,12 @@ All layer information the portal needs to use the services is stored here. Confi
       "layerAttribution" : "nicht vorhanden",
       "legend" : false,
       "featureCount" : "1",
+      "fitCapabilitiesExtent": true,
+      "capabilitiesUrl":  "https://geodienste.hamburg.de/HH_WMS_DOP10?VERSION=1.3.0&SERVICE=WMS&REQUEST=GetCapabilities",
       "isSecured": true,
       "authenticationUrl": "https://geodienste.hamburg.de/HH_WMS_DOP10?VERSION=1.3.0&SERVICE=WMS&REQUEST=GetCapabilities",
       "layerSequence": 1,
-      "crs": "EPSG:3857"
+      "crs": "EPSG:3857",
       "datasets" : [
          {
             "md_id" : "25DB0242-D6A3-48E2-BAE4-359FB28491BA",
@@ -144,7 +149,7 @@ WMTS layers can be added by
 |layers|yes|String||Layer name. Must match the name noted in the WMTS capabilities.|`"geolandbasemap"`|
 |layerAttribution|no|String|`"nicht vorhanden"`|Additional layer information to be shown in the portal's control element *LayerAttribution*, if configured to appear. If `"nicht vorhanden"` (technical key meaning "not available") is chosen, no layer attribution is shown.|`"nicht vorhanden"`|
 |legendURL|yes|String/String[]||Link to static legend image. `"ignore"`: No image is retrieved, `""` (empty string): The service's *GetLegendGraphic* is called.|`"ignore"`|
-|legend|no|String[]||Value of the **[services.json](services.json.md)** file. URL to be used to request a static legend image. Use a string[] to link an image or a PDF file.|`false`|
+|legend|no|String[]||Value of the **[services.json](services.json.md)** file. URL to be used to request a static legend image. Use a string[] to link an image or a PDF file. Use `"ignore"` or `false` for no legend.|`false`|
 |matrixSizes|no|Number[][]|Number of tile rows and columns of the grid for each zoom level. The values here are the `TileMatrixWidth` and `TileMatrixHeight` advertised in the GetCapabilities response of the WMTS.|[[1, 1], [2, 2], [4, 4], [8, 8], [16, 16], [32, 32], [64, 64], [128, 128], [256, 256], [512, 512], [1024, 1024], [2048, 2048], [4096, 4096], [8192, 8192], [16384, 16384], [32768, 32768], [65536, 65536], [131072, 131072], [262144, 262144], [524288, 524288]]|
 |maxScale|yes|String||The layer is shown only up to this scale.|`"1000000"`|
 |minScale|yes|String||The layer is shown only down to this scale.|`"0"`|
@@ -244,15 +249,17 @@ WMTS layers can be added by
 
 |Name|Required|Type|Default|Description|Example|
 |----|--------|----|-------|-----------|-------|
+|capabilitiesUrl|no|String||Service's capabilities URL|`"https://geodienste.hamburg.de/HH_WFS_Verkehr_opendata?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetCapabilities"`|
 |datasets|yes|**[datasets](#markdown-header-wms_wfs_oaf_datasets)**[]/Boolean||Metadata specification. All metadata of the layer data is referenced here. By clicking the "i" button in the layer tree, the information is retrieved by the CSW interface and shown to the user. For this, the **[rest-services.json](rest-services.json.md)** has to provide the URL of the metadata catalog resp. its CSW interface. The values *kategorie_opendata*, *kategorie_inspire*, and *kategorie_organisation* are used for layer categorization if the **[config.json](config.json.md)** has `tree.type` set to `"default"`. It is also possible to retrieve metadata with a getMetaData request, in this case there can also be additional informations displayed. It is also possible to retrieve metadata with a getMetaData request, in this case there can also be additional informations displayed. To remove the "i" button altogether, explicitly set `"datasets": false`.||
 |featureNS|yes|String||Usually referenced in the WFS *GetCapabilities*' header. Used to resolve the namespace given in *FeatureType/Name*.|`"http://www.deegree.org/app"`|
 |featureType|yes|String||Feature type to load. Must match a value of *FeatureTypeList/FeatureType/Name* in the *GetCapabilities* response. Provide without namespace.|`"bab_vkl"`|
 |featurePrefix|no|String||Used to identify a *FeatureType* in the service.|
+|fitCapabilitiesExtent|No|Boolean|false|When set to `true` and a `capabilitiesUrl` is specified in the configuration, the application will fit the map extent based on the bounding box information retrieved from the GetCapabilities document.|`true`|
 |gfiAttributes|yes|String/**[gfiAttributes](#markdown-header-gfi_attributes)**||GFI attributes to be shown.|`"ignore"`|
 |id|yes|String/**[wfs_id](#markdown-header-wfs_id)**||Arbitrary id or an object with id and suffix|`"44"`|
 |layerAttribution|no|String|`"nicht vorhanden"`|Additional layer information to be shown in the portal's control element *LayerAttribution*, if configured to appear. If `"nicht vorhanden"` (technical key meaning "not available") is chosen, no layer attribution is shown.|`"nicht vorhanden"`|
 |legendURL|yes|String/String[]||Link to static legend image. `"ignore"`: No image is retrieved, `""` (empty string): The service's *GetLegendGraphic* is called.|`"ignore"`|
-|legend|no|Boolean/String/String[]||Value of the **[services.json](services.json.md)** file. URL to be used to request a static legend image. Use a boolean value to dynamically generate the legend from a WMS request or the WFS styling respectively. Use a string to link an image or a PDF file.|`false`|
+|legend|no|Boolean/String/String[]||Value of the **[services.json](services.json.md)** file. URL to be used to request a static legend image. Use a boolean value to dynamically generate the legend from a WMS request or the WFS styling respectively. Use a string to link an image or a PDF file. Use `"ignore"` or `false` for no legend.|`false`|
 |name|yes|String||Arbitrary display name used in the layer tree.|`"Traffic situation on freeways"`|
 |typ|yes|String||Service type; in this case, "WFS". (**[WMS (see above)](#markdown-header-wms-layer)**, **[WMTS (see above)](#markdown-header-wmts-layer)**, and **[SensorThings-API (see below)](#markdown-header-sensor-layer)**)|`"WFS"`|
 |url|yes|String||Service URL|`"https://geodienste.hamburg.de/HH_WFS_Verkehr_opendata"`|
@@ -284,6 +291,8 @@ WMTS layers can be added by
       "format" : "image/png",
       "version" : "1.1.0",
       "featureNS" : "http://www.deegree.org/app",
+      "fitCapabilitiesExtent": true,
+      "capabilitiesUrl": "https://geodienste.hamburg.de/HH_WFS_Verkehr_opendata?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetCapabilities",
       "gfiAttributes" : "showAll",
       "wfsFilter": "ressources/xmlFilter/filterSchulenStadtteilschulen",
       "layerAttribution" : "nicht vorhanden",
@@ -519,7 +528,7 @@ For more details, consider reading the [extensive SensorThings-API documentation
 |gfiAttributes|yes|String/**[gfiAttributes](#markdown-header-gfi_attributes)**||GFI attributes to be shown. Set to "ignore" to deactivate gfiTheme.|`"ignore"`|
 |gfiTheme|yes|**[gfiTheme](#markdown-header-gfi_theme)**||Display style of GFI information for this layer. Unless `"default"` is chosen, custom templates may be used to show GFI information in another format than the default table style.|`"default"`|
 |id|yes|String||Arbitrary id|`"999999"`|
-|legend|no|Boolean/String/String[]||Value of the **[services.json](services.json.md)** file. URL to be used to request a static legend image. Use a boolean value to dynamically generate the legend from a WMS request or the WFS styling respectively. Use a string to link an image or a PDF file.|`false`|
+|legend|no|Boolean/String/String[]||Value of the **[services.json](services.json.md)** file. URL to be used to request a static legend image. Use a boolean value to dynamically generate the legend from a WMS request or the WFS styling respectively. Use a string to link an image or a PDF file. Use `"ignore"` or `false` for no legend.|`false`|
 |legendURL|yes|String/String[]||Link to static legend image. `"ignore"`: No image is retrieved, `""` (empty string): The service's *GetLegendGraphic* is called.|`"ignore"`|
 |loadThingsOnlyInCurrentExtent|no|Boolean|`false`|Whether Things are only to be fetched for the current extent. On changing the extent, another request is fired.|`true`|
 |mqttOptions|no|**[mqttOptions](#markdown-header-sensorlayermqttoptions)**||mqtt web socket connection configuration||
@@ -1314,7 +1323,7 @@ With these confurations a url in the feature properties can be displayed either 
 |id|yes|String||Arbitrary id|`"11111"`|
 |layerAttribution|no|String|`"nicht vorhanden"`|Additional layer information to be shown in the portal's control element *LayerAttribution*, if configured to appear. If `"nicht vorhanden"` (technical key meaning "not available") is chosen, no layer attribution is shown.|`"nicht vorhanden"`|
 |legendURL|yes|String/String[]||Link to static legend image. `"ignore"`: No image is retrieved, `""` (empty string): The service's *GetLegendGraphic* is called.|`"ignore"`|
-|legend|no|Boolean/String/String[]||Value of the **[services.json](services.json.md)** file. URL to be used to request a static legend image. Use a boolean value to dynamically generate the legend from a WMS request or the WFS styling respectively. Use a string to link an image or a PDF file.|`false`|
+|legend|no|Boolean/String/String[]||Value of the **[services.json](services.json.md)** file. URL to be used to request a static legend image. Use a boolean value to dynamically generate the legend from a WMS request or the WFS styling respectively. Use a string to link an image or a PDF file. Use `"ignore"` or `false` for no legend.|`false`|
 |name|yes|String||Arbitrary display name used in the layer tree.|`"local GeoJSON"`|
 |typ|yes|String||Service type; in this case, `"GeoJSON"`. |`"GeoJSON"`|
 |subTyp|no|enum["OpenSenseMap"]||SubType to fetch special data.|`"OpenSenseMap"`|
@@ -1351,7 +1360,7 @@ With these confurations a url in the feature properties can be displayed either 
 |gfiAttributes|yes|String/**[gfiAttributes](#markdown-header-gfi_attributes)**||GFI attributes to be shown.|`"ignore"`|
 |id|yes|String/**[wfs_id](#markdown-header-wfs_id)**||Arbitrary id or an object with id and suffix|`"44"`|
 |layerAttribution|no|String|`"nicht vorhanden"`|Additional layer information to be shown in the portal's control element *LayerAttribution*, if configured to appear. If `"nicht vorhanden"` (technical key meaning "not available") is chosen, no layer attribution is shown.|`"nicht vorhanden"`|
-|legend|no|Boolean/String/String[]||Value of the **[services.json](services.json.md)** file. URL to be used to request a static legend image. Use a boolean value to dynamically generate the legend from a OAF request or the OAF styling respectively. Use a string to link an image or a PDF file.|`false`|
+|legend|no|Boolean/String/String[]||Value of the **[services.json](services.json.md)** file. URL to be used to request a static legend image. Use a boolean value to dynamically generate the legend from a OAF request or the OAF styling respectively. Use a string to link an image or a PDF file. Use `"ignore"` or `false` for no legend.|`false`|
 |name|yes|String||Arbitrary display name used in the layer tree.|`"Traffic situation on freeways"`|
 |typ|yes|String||Service type; in this case, "OAF".|`"OAF"`|
 |url|yes|String||Service URL|`"https://api.hamburg.de/datasets/v1/schulen"`|
@@ -1432,7 +1441,7 @@ With these confurations a url in the feature properties can be displayed either 
 |id|yes|String||Arbitrary id|`"44"`|
 |layerAttribution|no|String|`"nicht vorhanden"`|Additional layer information to be shown in the portal's control element *LayerAttribution*, if configured to appear. If `"nicht vorhanden"` (technical key meaning "not available") is chosen, no layer attribution is shown.|`"nicht vorhanden"`|
 |legendURL|yes|String/String[]||Link to static legend image. `"ignore"`: No image is retrieved, `""` (empty string): The service's *GetLegendGraphic* is called.|`"ignore"`|
-|legend|no|Boolean/String/String[]||Value of the **[services.json](services.json.md)** file. URL to be used to request a static legend image. Use a boolean value to dynamically generate the legend from a WMS request or the WFS styling respectively. Use a string to link an image or a PDF file.|`false`|
+|legend|no|Boolean/String/String[]||Value of the **[services.json](services.json.md)** file. URL to be used to request a static legend image. Use a boolean value to dynamically generate the legend from a WMS request or the WFS styling respectively. Use a string to link an image or a PDF file. Use `"ignore"` or `false` for no legend.|`false`|
 |name|yes|String||Arbitrary display name used in the layer tree.|`"Traffic situation on freeways"`|
 |hiddenFeatures|no|Array||List of ids describing features to hide|`["id_1", "id_2"]`|
 |typ|yes|String||Service type; in this case, `"TileSet3D"`.|`"TileSet3D"`|
@@ -1483,7 +1492,7 @@ With these confurations a url in the feature properties can be displayed either 
 |id|yes|String||Arbitrary id|`"44"`|
 |layerAttribution|no|String|`"nicht vorhanden"`|Additional layer information to be shown in the portal's control element *LayerAttribution*, if configured to appear. If `"nicht vorhanden"` (technical key meaning "not available") is chosen, no layer attribution is shown.|`"nicht vorhanden"`|
 |legendURL|yes|String/String[]||Link to static legend image. `"ignore"`: No image is retrieved, `""` (empty string): The service's *GetLegendGraphic* is called.|`"ignore"`|
-|legend|no|Boolean/String/String[]||Value of the **[services.json](services.json.md)** file. URL to be used to request a static legend image. Use a boolean value to dynamically generate the legend from a WMS request or the WFS styling respectively. Use a string to link an image or a PDF file.|`false`|
+|legend|no|Boolean/String/String[]||Value of the **[services.json](services.json.md)** file. URL to be used to request a static legend image. Use a boolean value to dynamically generate the legend from a WMS request or the WFS styling respectively. Use a string to link an image or a PDF file. Use `"ignore"` or `false` for no legend.|`false`|
 |name|yes|String||Arbitrary display name used in the layer tree.|`"Charging locations"`|
 |typ|yes|String||Service type; in this case, `"Terrain3D"`.|`"Terrain3D"`|
 |url|yes|String||Service URL|`"https://geodienste.hamburg.de/terrain"`|

@@ -10,7 +10,6 @@
  * @property {String[]} supportedMapModes - Map mode in which this module can be used.
  * @property {String} sldVersion - The Verson of Style Layer Descriptor for the GetLegendGraphic request.
  * @property {Array}    legends - Contains infos about each legend.
- * @property {Array}    waitingLegendsInfos - Contains layers waiting for load end to show in layer information.
  * @property {Object}   layerInfoLegend - to show in layer information.
  * @property {Object}   preparedLegend - the prepared legend.
  *
@@ -27,7 +26,6 @@ export default {
     sldVersion: "",
 
     legends: [],
-    waitingLegendsInfos: [],
     layerInfoLegend: {},
     preparedLegend: null
 };

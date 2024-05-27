@@ -37,6 +37,7 @@ describe("src_3_0_0/modules/controls/button3d/components/TiltView.vue", () => {
             }
         };
 
+        mapCollection.clear();
         mapCollection.addMap(map3d, "3D");
 
         store = createStore({

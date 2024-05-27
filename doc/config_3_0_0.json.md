@@ -125,7 +125,7 @@ Controls can be configured to be expandable so they will not initially show up i
 |freeze|no|Boolean/**[freeze](#markdown-header-portalconfigcontrolsfreeze)**|false|Whether a "lock view" button is shown.|false|
 |fullScreen|no|Boolean/**[fullScreen](#markdown-header-portalconfigcontrolsfullscreen)**|false|Allows the user to view the portal in full screen mode, that is, without the browser's tabs and address bar, by clicking a button. A second click on the element returns the view back to normal.|false|
 |orientation|no|**[orientation](#markdown-header-portalconfigcontrolsorientation)**||The orientation control uses the browser's geolocation feature to determine the user's coordinates.|false|
-|rotation|no|**[rotation](#markdown-header-portalconfigcontrolsrotation)**|false|Control that shows the current rotation of the map. With a click the map rotation can be set to north again. See also `mapInteractions` in **[config.js.md](config.js.md)**.|false|
+|rotation|no|**[rotation](#markdown-header-portalconfigcontrolsrotation)**|false|Control that shows the current rotation of the map. With a click the map rotation can be set to north again. Two additional control buttons can be configured to rotate the card clockwise and counterclockwise. See also `mapInteractions` in **[config.js.md](config.js.md)**.|false|
 |startModule|no|**[startModule](#markdown-header-portalconfigcontrolsstartmodule)**|false|Displays buttons for the configured tools. These can be used to open and close the respective tools.|false|
 |tiltView|no|Boolean/**[tiltView](#markdown-header-portalconfigcontrolstiltview)**|false|Displays two buttons that can be used to tilt the camera up or down in the 3D scene.|false|
 |totalView|no|Boolean/**[totalView](#markdown-header-portalconfigcontrolstotalview)**|false|Offers a button to return to the initial view.|false|
@@ -261,11 +261,22 @@ Orientation uses the browser's geolocation to determine the user's location. A l
 ***
 
 ##### portalConfig.map.controls.rotation
-The attribute rotation may be of type boolean or object. If of type boolean and value is set to true, the rotation control is just shown when the map rotation is not equal north/0. When of type object, the following attributes may be set:
+Controls the display of 3 control buttons: "Reset rotation", "Rotate clockwise" and "Rotate counterclockwise" as well as the display of a compass rose for navigation in 2D and/or 3D. The compass rose is not displayed on mobile devices.
+The rotation attribute can be of type Boolean or Object. If it is of the Boolean type and set to true, it only displays the "Reset rotation" button if the map rotation is not equal to north/0. The other two buttons are always displayed. The compass rose is then only displayed in 3D.
+If it is of type Object, the following attributes apply:
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|showAlways|no|Boolean|false|If the attribute is set to true, the control is shown permanently. Via default it appears only if the map rotation is not equal north/0.|false|
+|compass2d|no|Boolean|false|Controls the display of the compass rose in 2D.|false|
+|compass3d|no|Boolean|true|Controls the display of the compass rose in 3D.|false|
+|moveDistance|no|Number|1000|Distance in meters, which is used when clicking on the movement arrows of the compass rose.|false|
+|resetRotationIcon|no|String|"bi-cursor"|Icon for the "Reset rotation" button. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
+|rotateCounterClockwiseIcon|no|String|"bi-arrow-counterclockwise"|Icon for the "Rotate counterclockwise" button. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
+|rotateClockwiseIcon|no|String|"bi-arrow-clockwise"|Icon for the "Rotate clockwise" button. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
+|rotationIcons|no|Boolean|true|The "Rotate clockwise" and "Rotate anticlockwise" buttons are displayed.|false|
+|rotationAngle|no|Number|22.5|Angle by which the map is rotated when clicking on one of the rotate buttons.|false|
+|showResetRotation|no|Boolean|true|The "Reset rotation" button is displayed.|false|
+|showResetRotationAlways|no|Boolean|false|If the attribute is set to true, the control is shown permanently. Via default it appears only if the map rotation is not equal north/0.|false|
 |supportedDevices|no|String|["Desktop", "Mobile"]|Devices on which the module can be used and is displayed in the menu.|false|
 |supportedMapModes|no|String|["2D", "3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
 
@@ -273,7 +284,11 @@ The attribute rotation may be of type boolean or object. If of type boolean and 
 
 ```json
 "rotation": {
-    "showAlways": true
+    "compass2d": true,
+    "moveDistance": 2500,
+    "showResetRotation": true,
+    "showResetRotationAlways": false,
+    "rotationIcons": false
 }
 ```
 
@@ -1492,6 +1507,7 @@ Searching all topic selection tree layers.
 |----|--------|----|-------|-----------|------|
 |hitTemplate|no|String|"default"|Template in which the search results (`show all`) are displayed. Possible values are "default" and "layer".|false|
 |resultEvents|no|**[resultEvents](#markdown-header-portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["activateLayerInTopicTree"], "buttons": ["showInTree", "showLayerInfo"]}|Actions that are executed when an interaction, such as hover or click, is performed with a result list item. The following events are possible: "activateLayerInTopicTree", "showInTree", "showLayerInfo".|false|
+|searchType|no|String|""|Decides whether the metadata or the name of a layer should be searched. Possible value: "metadata". The default value is unset so the name will be searched.|false|
 |type|yes|String|"topicTree"|Search interface type. Defines which search interface is configured.|false|
 
 **Example**
@@ -3292,18 +3308,18 @@ When editing properties of a feature / adding properties to a new feature, the a
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|delete|no|[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactiontransactionconfig)/Boolean|false|Defines which layers of `layerIds` allow delete transactions.|false|
+|delete|no|**[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactionconfig)**/Boolean|false|Defines which layers of `layerIds` allow delete transactions.|false|
 |icon|no|String|"bi-globe"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |layerIds|yes|String[]||Array of layer-ids defined in **[services.json](services.json.md)**.|false|
 |layerSelectLabel|no|String|"common:modules.wfst.layerSelectLabel"| Please set the value directly in the language files. If given, overrides the value set for the label of the layer select box. May be a locale key.|false|
-|lineButton|no|[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactiontransactionconfig)[]/Boolean|[]|Defines which layers of `layerIds` allow insert transactions of line geometries.|false|
+|lineButton|no|**[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactionconfig)**[]/Boolean|[]|Defines which layers of `layerIds` allow insert transactions of line geometries.|false|
 |name|no|String|"common:modules.wfst.name"|Tool name shown in the portal.|false|
-|pointButton|no|[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactiontransactionconfig)[]/Boolean|[]|Defines which layers of `layerIds` allow insert transactions of point geometries.|false|
-|polygonButton|no|[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactiontransactionconfig)[]/Boolean|[]|Defines which layers of `layerIds` allow insert transactions of polygon geometries.|false|
+|pointButton|no|**[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactionconfig)**[]/Boolean|[]|Defines which layers of `layerIds` allow insert transactions of point geometries.|false|
+|polygonButton|no|**[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactionconfig)**[]/Boolean|[]|Defines which layers of `layerIds` allow insert transactions of polygon geometries.|false|
 |showConfirmModal|no|Boolean|false|Flag if the modal dialog should be shown.|false|
 |toggleLayer|no|Boolean|false|Whether the features of the currently selected layer should stay visible when adding a new feature.|false|
 |type|no|String|"wfst"|The type of the module. Defines which module is configured.|false|
-|update|no|[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactiontransactionconfig)/Boolean|false|Defines which layers of `layerIds` allow update transactions.|false|
+|update|no|**[TransactionConfig](#markdown-header-portalconfigmenusectionsmoduleswfsttransactionconfig)**/Boolean|false|Defines which layers of `layerIds` allow update transactions.|false|
 
 **Example**
 
@@ -3800,6 +3816,8 @@ Besides these attributes, there are also type-specific attributes for the differ
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |autoRefresh|no|Integer||Automatically reload layer every `autoRefresh` ms. Minimum value is 500.|false|
+|capabilitiesUrl|no|String||**[services.json](services.json.md)** value. Service's capabilities URL|false
+|fitCapabilitiesExtent|no|Boolean|false|**[services.json](services.json.md)** value. When set to `true` and a `capabilitiesUrl` is specified in the configuration, the application will fit the map extent based on the bounding box information retrieved from the GetCapabilities document.|false|
 |id|yes|String/String[]||Layer ID(s). Resolved using the **[services.json](services.json.md)** file. Please mind that the given IDs **MUST** refer to the same URL, that is, use the same service. When configuring an array of IDs, setting `minScale` and `maxScale` of each layer is required to be in the `services.json`. With the special character `.` as suffix, a LayerId can be used multiple times. Each LayerId marked with a suffix creates its own entry in the topic tree.|false|
 |isPointLayer|no|Boolean|false|Whether the (vector) layer only consists of point features (only relevant for WebGL rendering)|false|
 |name|no|String||Layer name.|false|
@@ -3875,6 +3893,32 @@ With the VectorTile layer a dropped preview image is displayed, with WMS and WMT
     "center": "566245.97,5938894.79",
     "radius": 500
     }
+```
+
+***
+
+#### layerConfig.elements.layers.Group
+
+[inherits]: # (layerConfig.elements.layers)
+
+A group layer is created that contains all layers of the specified ids.
+The values for minScale and maxScale are determined from all group layers.
+Baselayer: It is important here that the specified ids address the same URL, i.e. use the same service.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|id|yes|String[]||Ids of the layers to be grouped, these must be contained in the **[services.json](services.json.en.md)**. They can have different types (field `typ`).|false|
+|typ|yes|String|"GROUP"|Sets the layer typ to GROUP, which can group layers.|false|
+|styleId|no|String||Id that defines the style. Id is resolved in the **[style.json](style.json.md)**. If filled, then all grouped layers receive this style.|false|
+
+
+**Example**
+```json
+ { 
+    "id": [ "20501", "20502", "20503", "20504" ], 
+    "name": "Gruppe Freizeitrouten und Radfernwege",
+    "styleId": "4515"
+}
 ```
 
 ***
@@ -5406,7 +5450,7 @@ Then the order of the config should look like this:
 |required|no|Boolean/Boolean[]|false|Whether the field has to be filled.|false|
 |options|no|String/**[Option](#markdown-header-datatypesliteralfieldoption)**[]/String[]||If `options` is an array (irrelevant if of strings or **[Option](#markdown-header-datatypesliteralfieldoption)**), the given values are used for selection. These options may either match **[Option](#markdown-header-datatypesliteralfieldoption)** or are plain values (`String` / `Number`). In the latter case, the plain value is used as both id and `displayName`. <br /> If it is a String, there are different possibilities: <ul><li>If the String is empty, the keys of **[selectSource](#markdown-header-portalconfigmenusectionsmoduleswfssearchsearchinstance)** are used.</li><li>If the String is not empty, it is assumed that another field with `options=""` exists; otherwise the field is disabled. It is also assumed that the String represents an array in **[selectSource](#markdown-header-portalconfigmenusectionsmoduleswfssearchsearchinstance)** providing further options.</li></ul> **Note**: It is also possible to declare the `options` as a multidimensional array **[Option](#markdown-header-datatypesliteralfieldoption)**[][]. However, this can't be used as a parameter for Masterportal Admin. This should be used if an **[Option](#markdown-header-datatypesliteralfieldoption)**[] is wanted for a `field` that uses multiples parameters.|true|
 |queryType|no|enum["equal", "like"]/enum["equal", "like"][]||Required for usage with WFS@1.1.0. The `queryType` declared how the field should be compared to the value in the service.|false|
-|usesId|no|Boolean/Boolean[]|false|Only relevant if the Parameters `options` is set and an empty String (root element). Determines whether the key of the object of the external source should be used as a value for the query or if the object has an Id which should be used.|false|
+|usesId|no|Boolean/Boolean[]|null|Only relevant if the Parameters `options` is set and an empty String (root element). Determines whether the key of the object of the external source should be used as a value for the query or if the object has an Id which should be used.|false|
 
 **Example**
 

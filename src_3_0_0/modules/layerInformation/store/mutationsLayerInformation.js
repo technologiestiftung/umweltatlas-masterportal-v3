@@ -15,17 +15,49 @@ export default {
      * @returns {void}
      */
     setLayerInfo (state, layerConf) {
+        let urls = layerConf?.url || layerConf?.capabilitiesUrl,
+            metaID = layerConf?.datasets?.length > 0 ? layerConf.datasets[0].md_id : null,
+            cswUrl = layerConf?.datasets?.length > 0 ? layerConf.datasets[0].csw_url : null,
+            customMetadata = layerConf?.datasets?.length > 0 ? layerConf.datasets[0].customMetadata : null,
+            attributes = layerConf?.datasets?.length > 0 ? layerConf.datasets[0].attributes : null,
+            showDocUrl = layerConf?.datasets?.length > 0 ? layerConf.datasets[0].attributes : null;
+        const layerNames = [];
+
+        if (layerConf?.typ === "GROUP") {
+            urls = [];
+            metaID = [];
+            layerConf.children.forEach(child => {
+                urls.push(child.url || child.capabilitiesUrl);
+                layerNames.push(child.name);
+                if (child.datasets?.length > 0) {
+                    metaID.push(child.datasets[0].md_id);
+                    if (!cswUrl) {
+                        cswUrl = child.datasets[0].csw_url;
+                    }
+                    if (!customMetadata) {
+                        customMetadata = child.datasets[0].customMetadata;
+                    }
+                    if (!attributes) {
+                        attributes = child.datasets[0].attributes;
+                    }
+                    if (!showDocUrl) {
+                        showDocUrl = child.datasets[0].attributes;
+                    }
+                }
+            });
+        }
         state.layerInfo = {
-            cswUrl: layerConf?.datasets?.length > 0 ? layerConf.datasets[0].csw_url : null,
+            cswUrl: cswUrl,
             id: layerConf?.id,
             layername: layerConf?.name,
+            layerNames: layerNames,
             legendURL: layerConf?.legendURL,
-            metaID: layerConf?.datasets?.length > 0 ? layerConf.datasets[0].md_id : null,
-            customMetadata: layerConf?.datasets?.length > 0 ? layerConf.datasets[0].customMetadata : null,
-            attributes: layerConf?.datasets?.length > 0 ? layerConf.datasets[0].customMetadata : null,
-            showDocUrl: layerConf?.datasets?.length > 0 ? layerConf.datasets[0].attributes : null,
+            metaID: metaID,
+            customMetadata: customMetadata,
+            attributes: attributes,
+            showDocUrl: showDocUrl,
             typ: layerConf?.typ,
-            url: layerConf?.url || layerConf?.capabilitiesUrl,
+            url: urls,
             urlIsVisible: layerConf?.urlIsVisible
         };
     }

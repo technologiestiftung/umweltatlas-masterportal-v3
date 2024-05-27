@@ -88,36 +88,13 @@ describe("src_3_0_0/modules/legend/store/actionsLegend.js", () => {
 
     describe("createLegend", () => {
 
-        it("createLegend shall create legend for visible layer - no waitingLegendsInfos", () => {
+        it("createLegend shall create legend for visible layer", () => {
             layersInCollection.push(layer1);
-            const getters = {
-                waitingLegendsInfos: []
-            };
 
-            createLegend({commit, dispatch, getters});
+            createLegend({dispatch});
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.be.equals("toggleLayerInLegend");
             expect(dispatch.firstCall.args[1]).to.be.deep.equals({layer: layer1, visibility: layer1.get("visibility")});
-            expect(commit.calledOnce).to.be.true;
-            expect(commit.firstCall.args[0]).to.be.equals("setWaitingLegendsInfos");
-            expect(commit.firstCall.args[1]).to.be.deep.equals([]);
-        });
-
-        it("createLegend shall create legend for visible layer - 1 waitingLegendsInfos", () => {
-            layersInCollection.push(layer1);
-            const getters = {
-                waitingLegendsInfos: [layer2]
-            };
-
-            createLegend({commit, dispatch, getters});
-            expect(dispatch.calledTwice).to.be.true;
-            expect(dispatch.firstCall.args[0]).to.be.equals("toggleLayerInLegend");
-            expect(dispatch.firstCall.args[1]).to.be.deep.equals({layer: layer1, visibility: layer1.get("visibility")});
-            expect(dispatch.secondCall.args[0]).to.be.equals("generateLegendForLayerInfo");
-            expect(dispatch.secondCall.args[1]).to.be.deep.equals(layer2);
-            expect(commit.calledOnce).to.be.true;
-            expect(commit.firstCall.args[0]).to.be.equals("setWaitingLegendsInfos");
-            expect(commit.firstCall.args[1]).to.be.deep.equals([]);
         });
     });
 
@@ -308,8 +285,7 @@ describe("src_3_0_0/modules/legend/store/actionsLegend.js", () => {
     describe("createLegendForLayerInfo", () => {
         let layerAttributes,
             layerConfig,
-            layer,
-            state;
+            layer;
 
         beforeEach(() => {
             layerAttributes = {
@@ -338,10 +314,6 @@ describe("src_3_0_0/modules/legend/store/actionsLegend.js", () => {
                     };
                 }
             };
-            state = {
-                waitingLegendsInfos: []
-            };
-
         });
 
         it("for visible layer should dispatch generateLegendForLayerInfo", async () => {
@@ -352,7 +324,6 @@ describe("src_3_0_0/modules/legend/store/actionsLegend.js", () => {
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.be.equals("generateLegendForLayerInfo");
             expect(dispatch.firstCall.args[1]).to.be.deep.equals(layer);
-            expect(state.waitingLegendsInfos.length).to.be.equals(0);
         });
 
         it("for not visible layer with legend should dispatch generateLegendForLayerInfo and take layer on and off", async () => {
@@ -523,13 +494,22 @@ describe("src_3_0_0/modules/legend/store/actionsLegend.js", () => {
         });
     });
 
-    // should be edited if grouplayer exist
-    it.skip("prepareLegendForGroupLayer", () => {
+    it("prepareLegendForGroupLayer", async () => {
         layer1 = {
-            id: "1"
+            id: "1",
+            createLegend: sinon.stub().returns(
+                new Promise((resolve) => {
+                    resolve(["legendUrl1"]);
+                })
+            )
         };
         layer2 = {
-            id: "2"
+            id: "2",
+            createLegend: sinon.stub().returns(
+                new Promise((resolve) => {
+                    resolve(["legendUrl2"]);
+                })
+            )
         };
         const layerSource = [
                 layer1,
@@ -541,7 +521,7 @@ describe("src_3_0_0/modules/legend/store/actionsLegend.js", () => {
 
         sinon.stub(legendDraw, "prepare").returns({});
 
-        prepareLegendForGroupLayer({commit, dispatch, getters}, layerSource);
+        await prepareLegendForGroupLayer({commit, dispatch, getters}, layerSource);
         expect(commit.calledOnce).to.be.true;
         expect(commit.firstCall.args[0]).to.be.equals("setPreparedLegend");
         expect(commit.firstCall.args[1]).to.be.deep.equals(["getLegendGraphicRequest", "getLegendGraphicRequest"]);

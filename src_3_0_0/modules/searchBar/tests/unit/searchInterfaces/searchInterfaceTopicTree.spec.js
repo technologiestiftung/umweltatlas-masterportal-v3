@@ -50,7 +50,6 @@ describe("src_3_0_0/modules/searchBar/searchInterfaces/searchInterfaceTopicTree.
                             typ: "WMS",
                             datasets: [{
                                 md_name: "Überschwemmungsgebiete (alkis)"
-
                             }]
                         },
                         {

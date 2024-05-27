@@ -243,10 +243,12 @@ SearchInterfaceElasticSearch.prototype.createPossibleActions = function (searchR
             name: this.getResultByPath(searchResult, this.hitMap?.name)
         },
         showInTree: {
-            layerId: this.getResultByPath(searchResult, this.hitMap?.layerId)
+            layerId: this.getResultByPath(searchResult, this.hitMap?.layerId),
+            source: this.getResultByPath(searchResult, this.hitMap?.source)
         },
         showLayerInfo: {
-            layerId: this.getResultByPath(searchResult, this.hitMap?.layerId)
+            layerId: this.getResultByPath(searchResult, this.hitMap?.layerId),
+            source: this.getResultByPath(searchResult, this.hitMap?.source)
         }
     };
 };

@@ -3,31 +3,31 @@ import Cluster from "ol/source/Cluster";
 import layerCollection from "../../../core/layers/js/layerCollection";
 import validator from "../js/validator";
 import legendDraw from "../js/legendDraw";
+import layerCollector from "../js/layerCollector";
 
 const actions = {
     /**
      * Creates the legend for all visible layers.
-     * Creates legend for layerInfo for all layers contained in waitingLegendsInfos.
-     * @param {Object} param.commit the commit
      * @param {Object} param.dispatch the dispatch
-     * @param {Object} param.getters the getters
      * @returns {void}
      */
-    createLegend ({commit, dispatch, getters}) {
-        layerCollection.getLayers().forEach(layer => {
+    createLegend ({dispatch}) {
+        const allLayers = layerCollector.getLayerHolder();
+
+        allLayers.forEach(layerHolder => {
+            const layer = layerHolder.layer;
+
             if (typeof layer.layerSource?.getFeatures === "function" && layer.getLayerSource().getFeatures().length === 0) {
                 const layerSource = layer.getLayerSource() instanceof Cluster ? layer.getLayerSource().getSource() : layer.getLayerSource();
 
                 layerSource.on("featuresloadend", () => {
-                    dispatch("toggleLayerInLegend", {layer: layer, visibility: layer.get("visibility")});
+                    dispatch("toggleLayerInLegend", {layer, visibility: layerHolder.visibility});
                 });
             }
             else {
-                dispatch("toggleLayerInLegend", {layer: layer, visibility: layer.get("visibility")});
+                dispatch("toggleLayerInLegend", {layer, visibility: layerHolder.visibility});
             }
         });
-        getters.waitingLegendsInfos?.forEach(layer => dispatch("generateLegendForLayerInfo", layer));
-        commit("setWaitingLegendsInfos", []);
     },
 
     /**
@@ -253,16 +253,18 @@ const actions = {
      * @param {ol/Layer/Source} layerSource Layer sources of group layer.
      * @returns {void}
      */
-    prepareLegendForGroupLayer ({commit, dispatch, getters}, layerSource) {
+    async prepareLegendForGroupLayer ({commit, dispatch, getters}, layerSource) {
         let legends = [];
 
-        layerSource.forEach(layer => {
-            dispatch("prepareLegend", layer.createLegend());
-            legends.push(getters.preparedLegend);
-        });
+        for (let i = 0; i < layerSource.length; i++) {
+            const layer = layerSource[i];
+
+            dispatch("prepareLegend", await layer.createLegend());
+            legends.push(await getters.preparedLegend);
+        }
+
         legends = [].concat(...legends);
         commit("setPreparedLegend", legends);
-
         return legends;
     }
 };

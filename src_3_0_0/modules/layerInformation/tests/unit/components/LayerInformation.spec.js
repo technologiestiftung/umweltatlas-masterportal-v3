@@ -7,9 +7,13 @@ import sinon from "sinon";
 config.global.mocks.$t = key => key;
 
 describe("src_3_0_0/modules/layerInformation/components/LayerInformation.vue", () => {
-    let store;
+    let store,
+        legendAvailable,
+        downloadLinks;
 
     beforeEach(() => {
+        downloadLinks = null;
+        legendAvailable = true;
         store = createStore({
             namespaced: true,
             modules: {
@@ -28,12 +32,13 @@ describe("src_3_0_0/modules/layerInformation/components/LayerInformation.vue", (
                                 title: () => "",
                                 layerInfo: () => ({"metaIdArray": [], "url": ["https://wms.example.org/", "https://wfs.example.org/?evil=1", "./local.geojson"], "typ": ["WMS", "WFS", "GeoJSON"], "layerNames": ["X-WMS", "X-WFS", ""]}),
                                 datePublication: () => null,
-                                downloadLinks: () => null,
+                                downloadLinks: () => downloadLinks,
                                 periodicityKey: () => null,
                                 abstractText: () => "Test",
                                 noMetadataLoaded: () => "",
                                 metaURLs: () => [],
                                 currentLayerName: () => "",
+                                legendAvailable: () => legendAvailable,
                                 showUrlGlobal: () => true
                             },
                             actions: {
@@ -71,14 +76,32 @@ describe("src_3_0_0/modules/layerInformation/components/LayerInformation.vue", (
         expect(wrapper.find(".subtitle")).to.exist;
     });
 
-    it("should have a close button", async () => {
+    it("should have a close button, active tab is 'layerinfo-legend'", async () => {
+        downloadLinks = ["https://download.com"];
         const wrapper = mount(LayerInformationComponent, {
             global: {
                 plugins: [store]
             }
         });
 
+        expect(wrapper.vm.activeTab).to.be.equals("layerinfo-legend");
         expect(wrapper.find(".bi-x-lg")).to.exist;
+        expect(wrapper.find("#layerinfo-legend")).to.exist;
+        expect(wrapper.findAll("li > a")[0].attributes().href).to.be.equals("#layerinfo-legend");
+    });
+
+    it("if legendAvailable is false: 'LayerInfoDataDownload' is active tab", async () => {
+        legendAvailable = false;
+        downloadLinks = ["https://download.com"];
+        const wrapper = mount(LayerInformationComponent, {
+            global: {
+                plugins: [store]
+            }
+        });
+
+        expect(wrapper.findAll("#layerinfo-legend").length).to.be.equals(0);
+        expect(wrapper.vm.activeTab).to.be.equals("LayerInfoDataDownload");
+        expect(wrapper.findAll("li > a")[0].attributes().href).to.be.equals("#LayerInfoDataDownload");
     });
 
     it("should check if dropdown for group layer to not exists", async () => {

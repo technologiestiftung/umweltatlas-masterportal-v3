@@ -1,5 +1,4 @@
 import {rawLayerList} from "@masterportal/masterportalapi/src";
-import omit from "../../shared/js/utils/omit";
 import {updateProxyUrl} from "./getProxyUrl";
 import layerFactory from "../../core/layers/js/layerFactory";
 
@@ -16,6 +15,15 @@ let zIndex = 1;
  */
 export function getAndMergeRawLayer (layerConf, showAllLayerInTree = false) {
     const rawLayer = mergeRawLayer(layerConf, rawLayerList.getLayerWhere({id: splitId(layerConf?.id)}));
+
+    if (!rawLayer && layerConf) {
+        if (layerConf.name === undefined) {
+            const text = `Layer with id ${layerConf.id} was not found in services.json and has no name!`;
+
+            console.warn(text);
+            layerConf.name = `WARN: ${text} `;
+        }
+    }
 
     // use layerConf, if layer is not available in rawLayerList (services.json)
     return addAdditional(rawLayer || layerConf, showAllLayerInTree);
@@ -68,8 +76,7 @@ export function addAdditional (rawLayer, showAllLayerInTree = false) {
 
 /**
  * Returns the extended raw layer to the id contained in the layer configuration with updated proxy settings.
- * If id contains an array of ids, the rawlayer is merged.
- * Grouped layers children are filled with the rawlayers.
+ * If id contains an array of ids, a grouped layer is created. Grouped layers children are filled with the rawlayers.
  * @param {Object} layerConf configuration of layer like in the config.json
  * @param {Object} rawLayer raw layer from services.json
  * @returns {Object} the extended and merged raw layer
@@ -79,10 +86,7 @@ function mergeRawLayer (layerConf, rawLayer) {
 
     if (layerConf) {
         if (Array.isArray(layerConf.id)) {
-            mergedLayer = mergeLayerWithSeveralIds(layerConf);
-        }
-        else if (layerConf.children) {
-            mergedLayer = fillGroupLayer(layerConf);
+            mergedLayer = mergeGroupedLayer(layerConf);
         }
         else if (rawLayer !== undefined && rawLayer !== null) {
             mergedLayer = {...rawLayer, ...layerConf};
@@ -97,81 +101,56 @@ function mergeRawLayer (layerConf, rawLayer) {
 }
 
 /**
- * Fill the grouped layer configuration.
- * @param {Object} layerConf configuartion of layer like in the config.json
- * @returns {Object} the grouped layers children are filled with the rawlayers.
- */
-function fillGroupLayer (layerConf) {
-    // refactored from parserCustomTree.js, parseTree
-    let rawLayer = {...layerConf};
-
-    if (rawLayer?.children && typeof rawLayer.id === "string") {
-        rawLayer.children = rawLayer.children.map(childLayer => {
-            let objFromRawList = null;
-
-            if (childLayer.styles && childLayer.styles[0]) {
-                objFromRawList = rawLayerList.getLayerWhere({id: childLayer.id + childLayer.styles[0]});
-            }
-            if (objFromRawList === null || objFromRawList === undefined) {
-                objFromRawList = rawLayerList.getLayerWhere({id: childLayer.id});
-            }
-            if (objFromRawList !== null && objFromRawList !== undefined) {
-                return Object.assign(objFromRawList, childLayer);
-            }
-            console.error("A layer of the group \"" + rawLayer.name + "\" with id: " + childLayer.id + " was not created. Id not contained in services.json.");
-            return undefined;
-        });
-
-        rawLayer.children = rawLayer.children.filter(function (childLayer) {
-            return childLayer !== undefined;
-        });
-
-        if (rawLayer.children.length > 0) {
-            rawLayer = Object.assign(rawLayer, {typ: "GROUP"});
-        }
-        return rawLayer;
-    }
-    return undefined;
-}
-
-/**
  * Merges layer configuration with ids property of type array.
  * @param {Object} layerConf configuartion of layer like in the config.json with ids in an array
  * @returns {Object|undefined} the merged raw layer or undefined if layer cannot be merged
  */
-function mergeLayerWithSeveralIds (layerConf) {
-    // refactored from parser.js, mergeexistingLayers and parserCustomTree.js, parseTree
+function mergeGroupedLayer (layerConf) {
     const ids = layerConf.id,
         existingLayers = [],
         maxScales = [],
-        minScales = [];
-    let mergedLayer = {};
+        minScales = [],
+        layers = [],
+        rawLayer = {...layerConf};
 
-    ids?.forEach(id => {
-        const layer = rawLayerList.getLayerWhere({id: splitId(id)});
+    layerConf.id = ids.join("-");
+    for (let index = 0; index < ids.length; index++) {
+        const id = ids[index],
+            layer = rawLayerList.getLayerWhere({id: splitId(id)});
 
         if (layer) {
             existingLayers.push(layer);
         }
         else {
-            console.warn("Layer with id ", id, " not found in services.json. Layers will no be merged!");
+            console.warn(`Layer with id:${id} and name:${layerConf.name} not found in services.json. The Layer with ids: ${ids} will not work correctly!`);
+            return layerConf;
+        }
+    }
+    if (existingLayers.length !== ids.length || ids.length === 0) {
+        return layerConf;
+    }
+    existingLayers.forEach(aLayer => {
+        if (aLayer.layers) {
+            layers.push(aLayer.layers);
+        }
+        if (layerConf.styleId) {
+            aLayer.styleId = layerConf.styleId;
+        }
+        if (aLayer.maxScale) {
+            maxScales.push(parseInt(aLayer.maxScale, 10));
+        }
+        if (aLayer.minScale) {
+            minScales.push(parseInt(aLayer.minScale, 10));
         }
     });
-    if (existingLayers.length !== ids.length || ids.length === 0) {
-        return undefined;
-    }
-    mergedLayer = {...existingLayers[0]};
-    mergedLayer.layers = existingLayers.map(value => value.layers).toString();
-    existingLayers.forEach(object => {
-        maxScales.push(parseInt(object.maxScale, 10));
-        minScales.push(parseInt(object.minScale, 10));
-    });
-    mergedLayer.maxScale = Math.max(...maxScales);
-    mergedLayer.minScale = Math.min(...minScales);
-    // sets all attributes from config at merged layer besides id-array
-    mergedLayer = Object.assign(mergedLayer, omit(layerConf, ["id"], false));
+    rawLayer.id = ids.join("-");
+    rawLayer.typ = "GROUP";
+    rawLayer.layers = layers.join(",");
+    rawLayer.children = existingLayers;// named children, because api needs it for styling groups
+    rawLayer.maxScale = Math.max(...maxScales);
+    rawLayer.minScale = Math.min(...minScales);
 
-    return mergedLayer;
+    return rawLayer;
 }
 
 /**

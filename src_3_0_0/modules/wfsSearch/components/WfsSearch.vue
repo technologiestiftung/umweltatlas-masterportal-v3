@@ -1,6 +1,5 @@
 <script>
-import ModalItem from "../../../shared/modules/modals/components/ModalItem.vue";
-import ListItem from "../../../shared/modules/list/components/ListItem.vue";
+import TableComponent from "../../../shared/modules/table/components/TableComponent.vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import WfsSearchLiteral from "./WfsSearchLiteral.vue";
 import {createUserHelp} from "../js/literalFunctions";
@@ -13,16 +12,17 @@ import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vu
  * @module modules/WfsSearch
  * @vue-props {Number} zoomLevelProp - Can be set if a zoom level (after succesfull parcel search) is required that is different from the configured one.
  * @vue-props {Boolean} showResetButton - Can be set to false to not render a reset button.
- * @vue-computed {Object} headers - The table heads (??).
+ * @vue-computed {Object} headers - The table headers für Search Results.
+ * @vue-computed {Object} resultsForTable - The results in the right format for the table.
  * @vue-computed {String} geometryName - The name of the geometry.
  * @vue-computed {Boolean} showResults - Shows if results should be displayed.
+ * @vue-computed {Object} tableData - Object for the TableComponent.
  */
 export default {
     name: "WfsSearch",
     components: {
         WfsSearchLiteral,
-        ListItem,
-        ModalItem,
+        TableComponent,
         FlatButton
     },
     props: {
@@ -66,25 +66,51 @@ export default {
             const {resultList} = this.currentInstance;
 
             if (isObject(resultList)) {
-                return Object.assign({}, resultList);
+                const tableHeaders = [];
+
+                Object.keys(resultList).forEach(result => {
+                    const resultName = resultList[result];
+
+                    tableHeaders.push({name: result, displayName: resultName, order: "origin"});
+                });
+                return tableHeaders;
             }
             if (resultList === "showAll") {
-                const lengths = this.results.map(feature => Object.keys(feature.values_).length),
+                const tableHeaders = [],
+                    lengths = this.results.map(feature => Object.keys(feature.values_).length),
                     indexOfFeatureWithMostAttr = lengths.indexOf(Math.max(...lengths));
 
-                return Object.keys(this.results[indexOfFeatureWithMostAttr].values_)
+                Object.keys(this.results[indexOfFeatureWithMostAttr].values_)
                     .reduce((acc, curr) => {
-                        acc[curr] = curr;
-                        return acc;
+                        const headerObj = {name: curr, order: "origin"};
+
+                        tableHeaders.push(headerObj);
+
+                        return tableHeaders;
                     }, {});
+                return tableHeaders;
             }
             return null;
+        },
+        resultsForTable () {
+            const resultArr = [];
+
+            if (this.results.length > 0) {
+                this.results.forEach((result) => {
+                    resultArr.push(result.values_);
+                });
+                return resultArr;
+            }
+            return this.results;
         },
         geometryName () {
             return this.results[0].getGeometryName();
         },
-        showResults () {
-            return this.showResultList;
+        tableData () {
+            return {
+                "headers": this.headers,
+                "items": this.resultsForTable
+            };
         }
     },
     watch: {
@@ -101,7 +127,6 @@ export default {
     },
     created () {
         this.prepareModule();
-
     },
     unmounted () {
         this.resetModule(true);
@@ -122,6 +147,7 @@ export default {
         ...mapActions("Maps", [
             "placingPointMarker",
             "placingPolygonMarker",
+            "removePolygonMarker",
             "setCenter",
             "setZoom",
             "zoomToExtent"
@@ -137,6 +163,8 @@ export default {
                 input.value = "";
             }
             this.resetResult();
+            this.setShowResultList(false);
+            this.removePolygonMarker();
         },
         /**
          * Searches the configured service and shows adds the results to the List in the Modal.
@@ -152,15 +180,10 @@ export default {
             });
 
             if (this.currentInstance?.resultList !== undefined) {
-                document.getElementById("module-wfsSearch-button-showResults").focus();
                 this.setShowResultList(true);
             }
             else if (features.length > 0) {
                 this.markerAndZoom(features);
-                this.setShowResultList(false);
-            }
-            else {
-                this.setShowResultList(true);
             }
         },
 
@@ -183,7 +206,6 @@ export default {
                 this.placingPolygonMarker(feature);
                 this.zoomToExtent({extent: geometry.getExtent()});
             }
-            this.setShowResultList(false);
         }
     }
 };
@@ -245,8 +267,8 @@ export default {
                         :literal="literal"
                     />
                 </div>
-                <div>
-                    <div class="col-md-12 d-flex justify-content-center mt-3">
+                <div class="row">
+                    <div class="col-md-6 d-flex justify-content-center">
                         <FlatButton
                             id="module-wfsSearch-button-search"
                             :type="'submit'"
@@ -257,60 +279,36 @@ export default {
                     </div>
                     <div
                         v-if="showResetButton"
-                        class="col-md-12 d-flex justify-content-center"
+                        class="col-md-6 d-flex justify-content-center"
                     >
                         <FlatButton
                             id="module-wfsSearch-button-resetUI"
                             :interaction="resetUI"
                             :text="$t('common:modules.wfsSearch.resetButton')"
                             :icon="'bi-x'"
-                        />
-                    </div>
-                    <div
-                        v-if="searched && instances[0].resultList !== undefined"
-                        class="col-md-12"
-                    >
-                        <FlatButton
-                            id="module-wfsSearch-button-showResults"
-                            :interaction="setShowResultList(true)"
-                            :text="$t('common:modules.wfsSearch.showResults') + ' ' + `(${results.length})`"
-                            :icon="'bi-x'"
-                            :disabled="results.length === 0 || !headers"
+                            :secondary="true"
                         />
                     </div>
                 </div>
             </form>
         </div>
-        <ModalItem
-            :title="$t(name)"
-            :show-modal="showResults"
-            modal-inner-wrapper-style="padding: 10px;min-width: 70vw;"
-            modal-content-container-style="padding: 0;overflow: auto;max-height: 70vh;"
-            @modal-hid="setShowResultList(false)"
+        <div
+            v-if="showResultList && results.length > 0"
+            class="mt-5"
         >
-            <template v-if="showResults && results.length">
-                <header>
-                    <h4>{{ currentInstance.resultDialogTitle ? $t(currentInstance.resultDialogTitle) : $t(name) }}</h4>
-                </header>
-                <ListItem
-                    :key="'module-wfsSearch-list'"
-                    :identifier="$t(name)"
-                    :geometry-name="geometryName"
-                    :table-heads="headers"
-                    :table-data="results"
-                    :on-row-click-callback="setShowResultList.bind(this, false)"
-                    :max-zoom="zoomLevel"
-                    :results-per-page="resultsPerPage"
-                    :multi-select="multiSelect"
-                />
-            </template>
-            <template v-else>
-                <header>
-                    <h4>{{ $t(name) }}</h4>
-                </header>
-                <span>{{ $t("common:modules.wfsSearch.noResults") }}</span>
-            </template>
-        </ModalItem>
+            <span>
+                <h5>{{ $t("common:modules.wfsSearch.showResultHeading") }}</h5>
+            </span>
+            <TableComponent
+                :id="'resultTable'"
+                :data="tableData"
+                :sortable="true"
+                table-class="tableHeight"
+            />
+        </div>
+        <div v-else-if="showResultList && results.length === 0">
+            {{ $t("common:modules.wfsSearch.noResults") }}
+        </div>
     </div>
 </template>
 

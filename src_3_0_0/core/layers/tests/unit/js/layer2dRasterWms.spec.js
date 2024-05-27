@@ -9,7 +9,6 @@ describe("src_3_0_0/core/js/layers/layer2dRasterWms.js", () => {
     before(() => {
         warn = sinon.spy();
         sinon.stub(console, "warn").callsFake(warn);
-
         mapCollection.clear();
         const map = {
             id: "ol",
@@ -67,6 +66,7 @@ describe("src_3_0_0/core/js/layers/layer2dRasterWms.js", () => {
         beforeEach(() => {
             localAttributes = {
                 crs: "25832",
+                cqlFilter: "A=1",
                 format: "image/png",
                 gutter: 0,
                 id: "123456789",
@@ -75,7 +75,8 @@ describe("src_3_0_0/core/js/layers/layer2dRasterWms.js", () => {
                 tilesize: 512,
                 transparent: true,
                 url: "http://test.url",
-                version: "1.3.0"
+                version: "1.3.0",
+                isSecured: false
             };
         });
 
@@ -84,9 +85,11 @@ describe("src_3_0_0/core/js/layers/layer2dRasterWms.js", () => {
 
             expect(wmsLayer.getRawLayerAttributes(localAttributes)).to.deep.equals({
                 crs: "25832",
+                cqlFilter: "A=1",
                 format: "image/png",
                 gutter: 0,
                 id: "123456789",
+                isSecured: false,
                 layers: "layer_names",
                 singleTile: false,
                 tilesize: 512,
@@ -108,9 +111,11 @@ describe("src_3_0_0/core/js/layers/layer2dRasterWms.js", () => {
 
             expect(wmsLayer.getRawLayerAttributes(localAttributes)).to.deep.equals({
                 crs: "25832",
+                cqlFilter: "A=1",
                 format: "image/png",
                 gutter: 0,
                 id: "123456789",
+                isSecured: false,
                 layers: "layer_names",
                 singleTile: false,
                 STYLES: ["geofox_stations"],

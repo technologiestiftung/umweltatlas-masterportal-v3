@@ -20,9 +20,11 @@ export default {
      */
     startLayerInformation ({commit, dispatch, rootGetters}, layerConf) {
         const name = layerConf?.datasets?.length > 0 ? layerConf.datasets[0].md_name : layerConf.name,
-            mdid = layerConf?.datasets?.length > 0 ? layerConf.datasets[0].md_id : null;
+            mdid = layerConf?.datasets?.length > 0 ? layerConf.datasets[0].md_id : null,
+            legendAvailable = layerConf.legendURL !== "ignore" && layerConf.legend !== "ignore" && layerConf.legend !== false;
 
-        if (rootGetters["Modules/Legend/layerInfoLegend"].id !== layerConf.id) {
+        commit("setLegendAvailable", legendAvailable);
+        if (legendAvailable && rootGetters["Modules/Legend/layerInfoLegend"].id !== layerConf.id) {
             commit("Modules/Legend/setLayerInfoLegend", {}, {root: true});
             dispatch("Modules/Legend/createLegendForLayerInfo", layerConf.id, {root: true});
         }

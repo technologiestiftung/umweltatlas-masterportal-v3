@@ -11,7 +11,9 @@
 - Added config.json-Parameter `Portalconfig.tree.showFolderPath`. Determines whether the folder structure of visible layers is displayed. Default is false.
 - Added Shared Component for spinner.
 - Added Shared Component for accordion.
-- ShareView: Legend, Layer information, getFeatureInfo, draw_old and wfsSearch can be shared.
+- ShareView:
+    - Legend, Layer information, getFeatureInfo, draw_old and wfsSearch can be shared.
+    - bufferAnalysis can be shared even if it is configured in both menus.
 - 3D: Min- and MaxScale are now available for layers.
 - Print: An option "Improve scaling resolution" is implemented for 3d Layers to supply an improved and better resolution.
 - WfsSearch:
@@ -30,9 +32,15 @@
   - A new parameter "subtitle" in snippet type "chart" which allows to display any combination of text and data as a subtitle.
   - A new parameter "tooltipUnit" in snippet type "chart" that can be used to add a unit to the numbers shown in tooltip.
 - LayerTree: A paramter "isNeverVisibleInTree" for layer config to supply an option to hide the layer in tree but can be loaded.
-  - PoiOrientation:
+- PoiOrientation:
     - The result window can now be moved.
     - New parameter onlyFilteredFeatures introduced, so that only filtered features are displayed in the results window.
+- Grouped layers are supported.
+- Script to migrate masterportal configuration files to version 3.0.0 migratetes layertree with folder structure ("Ordner" in config.json version 2) and group layers.
+- Added WMS support to add CQL filters by attribute.
+- Doc-files explaining migrateConfig script added.
+- Control rotate: has been extended by two buttons to rotate the map clockwise and counterclockwise. A compass rose can be shown in 2D and 3D.
+- Tooltips for layernames and folders.
 
 ### Changed
 - CoordToolkit: Toast added instead of Alert for feedback after copying coordinates.
@@ -41,14 +49,18 @@
 - 3D tileset layer supports hiddenFeatures.
 - The following package has been updated:
     - dependencies:
-        - @masterportal/masterportalapi: 2.33.0 to 2.36.0 (This also raised ol to version 9.1.0)
+        - @masterportal/masterportalapi: 2.33.0 to 2.37.0 (This also raised ol to version 9.1.0)
+        - @masterportal/mpconfigparser: 1.3.1 to 1.4.0
 - Changed prePushHook to check config_3_0_0.json with mpconfigparser.
 - Restructured `highlightFeature` and `removeHighlighting`.
+- Script to migrate masterportal configuration files to version 3.0.0 is ready to use.
+- Styling for Search Results to match topic tree.
 
 ### Deprecated
 
 ### Removed
 - RoutingLoadingSpinner: Was replaced with share component SpinnerItem.
+- ModalItem in WFSSearch. Results are displayed as table now.
 
 ### Fixed
 - Issue #1118: The `wfsSearch` module now works with multiple select boxes.
@@ -59,7 +71,10 @@
 - Issue #1132: Routing module: error messages have been improved.
 - Issue #1140: AddWMS module: GFI display works again with imported WMS.
 - Issue #1144/#1146: The baselayer preview now works for WMTS Layer that have an XML as getCapabilities-URL.
+- Issue #1148: fixed bug in vector search so that it can handle GeometryCollection.
 - Issue #1153: The Parameter "isSecured" is now recognized if defined in the config.json.
+- Issue #1084: fix wrong pointMarker placement when featureType is MultiPolygon.
+- Issue #1182: the order of the layers in the map for initially no subject layers has been corrected.
 - Layer selection: The order of the layers corresponds to the order of the layers in config.json.
 - Fixed HighlightFeature for MultiPolygons: In certain WFS layers, when polygon selection is enabled,
     clicking on a polygon would highlight it, but multiPolygons wouldn't. This has now been corrected.
@@ -72,6 +87,8 @@
 - Layer Settings: styling of the settings menu.
 - Filter: Closing the filter with more than one child dropdown snippet selected and opening it again does not trigger an infinite loop anymore.
 - WfsSearch: It is now also possible to zoom in on result features with a geometry of type polygon.
+- Print: StyleId can now differ from layerId.
+- GetFeatureInfo: the heading has been corrected for 3D objects.
 ---
 
 ---

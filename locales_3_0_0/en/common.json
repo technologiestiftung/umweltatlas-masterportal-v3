@@ -149,6 +149,18 @@
         "titleGeolocatePOI": "Close to here (linear distance)",
         "trackingDeniedText": "'Close to here' is not available."
       },
+      "rotation": {
+        "reset": "Reset rotation",
+        "rotateClockwise": "Rotate clockwise",
+        "rotateCounterClockwise": "Rotate counterclockwise",
+        "compass": {
+          "pointerNorth": "Rotate view",
+          "moveNorth": "Move north",
+          "moveSouth": "Move south",
+          "moveWest": "Move west",
+          "moveEast": "Move east"
+      },
+      },
       "tiltView": {
         "downButton": "Tilt view down",
         "upButton": "Tilt view up"
@@ -486,11 +498,19 @@
             "firstColumnHeaderName": "Properties"
           }
         }
-      }
+      },
+      "title":"Object information"
     },
     "gfiThemes": {
       "dataTable": {
         "sort": "Sort values"
+      }
+    },
+    "info": {
+      "name": "Info",
+      "disclaimer": "Legal disclaimer",
+      "home": {
+          "name": "Hamburg Town"
       }
     },
     "language": {
@@ -515,6 +535,7 @@
     "layerInformation": {
       "additionalMetadata": "additional metadata",
       "addressSuffix": "Address",
+      "addressSuffixes": "Layer adresses",
       "attachFileMessage": "Attach file type during download if necessary",
       "downloadDataset": "Download dataset",
       "lastModified": "Last modified",
@@ -559,6 +580,7 @@
       "categoryInspire": "Inspire",
       "categoryOpendata": "Opendata",
       "categoryOrganisation": "Government agencies",
+      "subjectData3D": "3D data",
       "iconRemoveLayer": "Remove topic from Map",
       "iconSubMenu": "Show more functions",
       "iconTransparency": "Transparency",
@@ -819,7 +841,8 @@
     },
     "noInitialResults": "Initial search found no hits.",
     "showAll": "Show all",
-    "layerResultNotShown": "The found layer cannot be displayed."
+    "layerResultNotShown": "The found layer cannot be displayed.",
+    "layerInfoNotShown": "The layer information cannot be displayed."
     },
     "selectFeatures": {
       "description": "Get information about objects you select on the map",
@@ -873,8 +896,7 @@
       "resetButton": "Reset",
       "searchButton": "Search",
       "searchError": "Error while searching for the features: {{error}}.",
-      "showResults_one": "Show result",
-      "showResults_other": "Show results",
+      "showResultHeading": "Searchresults:",
       "userHelp": {
         "and": "and",
         "label": "Information regarding the results of the search",

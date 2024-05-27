@@ -17,9 +17,11 @@ describe("src_3_0_0/core/maps/store/actionsMapsMapMode.js", () => {
         getters,
         map2d,
         map3d,
-        rootState;
+        rootState,
+        setEnabled3DSpy;
 
     beforeEach(() => {
+        setEnabled3DSpy = sinon.spy();
         commit = sinon.spy();
         dispatch = sinon.spy();
         getters = sinon.spy();
@@ -39,7 +41,7 @@ describe("src_3_0_0/core/maps/store/actionsMapsMapMode.js", () => {
         map3d = {
             id: "olcs",
             mode: "3D",
-            setEnabled: () => sinon.spy()
+            setEnabled: setEnabled3DSpy
         };
 
         mapCollection.addMap(map2d, "2D");
@@ -85,20 +87,17 @@ describe("src_3_0_0/core/maps/store/actionsMapsMapMode.js", () => {
             getters = {
                 mode: "2D"
             };
-
             changeMapMode({dispatch, getters}, targetMode);
-
             expect(dispatch.notCalled).to.be.true;
         });
     });
 
     describe("activateMap2d", () => {
         it("should trigger mapView animation", () => {
-            const animateSpy = sinon.spy(mapCollection.getMapView("2D"), "animate");
-
             activateMap2d({commit});
-
-            expect(animateSpy.calledOnce).to.be.true;
+            expect(commit.calledOnce).to.be.true;
+            expect(commit.firstCall.args).to.deep.equals(["setMode", "2D"]);
+            expect(setEnabled3DSpy.calledOnce).to.be.true;
         });
     });
 

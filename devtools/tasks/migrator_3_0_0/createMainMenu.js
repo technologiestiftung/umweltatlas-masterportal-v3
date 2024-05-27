@@ -2,14 +2,14 @@
 const {PORTALCONFIG_OLD} = require("./constants"),
     {removeAttributesFromTools} = require("./utils");
 
-module.exports = function createMainMenu (data, configJS, migratedTools, toRemoveFromTools) {
+module.exports = function createMainMenu (data, titleAndLogo, configJS, migratedTools, toRemoveFromTools) {
     console.info("mainMenu");
     const mainMenu = {
         expanded: true,
         sections: [[], []]
     };
 
-    addTitle(data, mainMenu);
+    addTitle(data, mainMenu, titleAndLogo);
     addSearchbar(data, mainMenu);
     fillMainSections(data, configJS, mainMenu, migratedTools, toRemoveFromTools);
 
@@ -31,7 +31,8 @@ function fillMainSections (data, configJS, mainMenu, migratedTools, toRemoveFrom
         tools = menu.tools?.children,
         firstSection = mainMenu.sections[0],
         secondSection = mainMenu.sections[1];
-    let contact = null;
+    let contact = null,
+        infoConf = null;
 
     if (tools?.print) {
         console.info("       print");
@@ -44,7 +45,7 @@ function fillMainSections (data, configJS, mainMenu, migratedTools, toRemoveFrom
     }
 
     Object.entries(menu).forEach(([menuName, menuConfig]) => {
-        if (!["info", "tree", "ansichten", "tools"].includes(menuName) && !migratedTools.includes(menuName)) {
+        if (!["tree", "ansichten", "tools"].includes(menuName) && !migratedTools.includes(menuName)) {
             const config = {...menuConfig};
 
             config.type = menuName;
@@ -53,7 +54,28 @@ function fillMainSections (data, configJS, mainMenu, migratedTools, toRemoveFrom
                 config.fileUpload = true;
                 contact = config;
             }
-            else if (menuName !== "filter") {
+            if (menuName === "info") {
+                infoConf = {};
+
+                infoConf.icon = menuConfig.icon ? menuConfig.icon : "bi-question-circle";
+                infoConf.type = "folder";
+                infoConf.name = menuConfig.name;
+                infoConf.elements = [];
+
+                if (menuConfig.children?.staticlinks) {
+                    menuConfig.children.staticlinks.forEach(staticLink => {
+                        const linkConfig = {};
+
+                        linkConfig.type = "customMenuElement";
+                        linkConfig.icon = staticLink.icon ? staticLink.icon : "bi-link";
+                        linkConfig.name = staticLink.name;
+                        linkConfig.openURL = staticLink.url;
+                        infoConf.elements.push(linkConfig);
+                    });
+                }
+
+            }
+            else if (menuName !== "filter" && menuName !== "contact") {
                 console.info("       " + menuName);
                 firstSection.push(config);
                 migratedTools.push(menuName);
@@ -67,7 +89,7 @@ function fillMainSections (data, configJS, mainMenu, migratedTools, toRemoveFrom
     });
 
     // second section
-    if (contact) {
+    if (contact !== null) {
         console.info("       contact");
         secondSection.push(contact);
         migratedTools.push("contact");
@@ -83,6 +105,19 @@ function fillMainSections (data, configJS, mainMenu, migratedTools, toRemoveFrom
         });
         migratedTools.push("language");
     }
+    if (infoConf !== null) {
+        console.info("       info");
+        secondSection.push(infoConf);
+        migratedTools.push("info");
+    }
+    console.info("       about");
+    console.info("--- HINT: about 'metaUrl' and 'metaId' have to be filled by user.");
+    secondSection.push({
+        type: "about",
+        cswUrl: "https://metaver.de/csw",
+        metaUrl: "to be filled",
+        metaId: "to be filled"
+    });
     console.info("--- HINT: add nested folders to menu containing menu entries by using type 'folder'.");
     console.info("--- HINT: display HTML or excute action or open url by using type 'customMenuElement'.");
 }
@@ -105,10 +140,19 @@ function addSearchbar (data, mainMenu) {
                 let searchType = searchName;
 
                 if (searchConfig.minChars === 3) {
-                    delete searchConfig.minchars;
+                    delete searchConfig.minChars;
+                }
+                if (searchConfig.minChar === 3) {
+                    delete searchConfig.minChar;
                 }
                 if (searchName === "tree") {
                     searchType = "topicTree";
+                }
+                if (searchName.toLowerCase() === "specialwfs") {
+                    searchType = "specialWfs";
+                }
+                if (searchName.toLowerCase() === "visiblewfs") {
+                    searchType = "visibleWfs";
                 }
                 searchConfig.type = searchType;
                 console.info("   searchbar entry " + searchType);
@@ -126,9 +170,10 @@ function addSearchbar (data, mainMenu) {
  * Adds title to main menu and fills it if content of titwl is available in v2 data.
  * @param {Object} data parsed config.json content
  * @param {Object} mainMenu v3 main menu object
+ * @param {Object} titleAndLogo from index.html
  * @returns {void}
  */
-function addTitle (data, mainMenu) {
+function addTitle (data, mainMenu, titleAndLogo) {
     let newTitle = {};
 
     if (data[PORTALCONFIG_OLD].portalTitle) {
@@ -140,9 +185,8 @@ function addTitle (data, mainMenu) {
         delete newTitle.title;
     }
     else {
-        console.warn("  no 'portalTitle' to migrate found - fill mainMenu/title with placeholder");
-        newTitle.text = "Titel des Portals";
-        newTitle.logo = "";
+        newTitle.text = titleAndLogo.title;
+        newTitle.logo = titleAndLogo.logo;
         newTitle.link = "";
         newTitle.toolTip = "toolTip";
     }

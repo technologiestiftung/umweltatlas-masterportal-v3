@@ -10,6 +10,7 @@ import store from "../../../../../app-store";
 describe("src_3_0_0/modules/searchBar/searchInterfaces/searchInterfaceElasticSearch.js", () => {
     let SearchInterface1 = null;
 
+
     before(() => {
         store.getters = {
             restServiceById: () => {
@@ -267,10 +268,28 @@ describe("src_3_0_0/modules/searchBar/searchInterfaces/searchInterfaceElasticSea
                         },
                         buttons: {
                             showInTree: {
-                                layerId: "123"
+                                layerId: "123",
+                                source: {
+                                    id: "123",
+                                    name: "Test abc",
+                                    datasets: [
+                                        {
+                                            md_name: "md name"
+                                        }
+                                    ]
+                                }
                             },
                             showLayerInfo: {
-                                layerId: "123"
+                                layerId: "123",
+                                source: {
+                                    id: "123",
+                                    name: "Test abc",
+                                    datasets: [
+                                        {
+                                            md_name: "md name"
+                                        }
+                                    ]
+                                }
                             }
                         }
                     },
@@ -315,10 +334,12 @@ describe("src_3_0_0/modules/searchBar/searchInterfaces/searchInterfaceElasticSea
                         name: searchResult._source.name
                     },
                     showInTree: {
-                        layerId: searchResult._source.id
+                        layerId: searchResult._source.id,
+                        source: searchResult._source
                     },
                     showLayerInfo: {
-                        layerId: searchResult._source.id
+                        layerId: searchResult._source.id,
+                        source: searchResult._source
                     }
                 }
             );

@@ -8,229 +8,117 @@ const {startLayerInformation, additionalSingleLayerInfo, setMetadataURL} = actio
 describe("src_3_0_0/modules/layerInformation/store/actionsLayerInformation.js", () => {
     let getters = {},
         rootGetters,
+        commit,
         dispatch;
 
     beforeEach(() => {
         dispatch = sinon.spy();
+        commit = sinon.spy();
     });
 
     describe("initialize the store", () => {
-        it("should initialize the LayerInformation", done => {
-            const state = {
-                    layerConf: {},
-                    menuSide: "mainMenu",
-                    name: "common:layerInformation",
-                    type: "layerInformation"
-                },
-                layerConf = {
-                    id: "123",
-                    metaID: "layerMetaId",
-                    layername: "name",
-                    url: "google.de",
-                    urlIsVisible: true,
-                    datasets: [
-                        {
-                            md_id: "123",
-                            md_name: "MDName"
-                        }
-                    ]
-                };
+        let layerConf,
+            menuExpanded,
+            isMobile;
+
+        beforeEach(() => {
+            isMobile = false;
+            menuExpanded = true;
+            layerConf = {
+                id: "123",
+                metaID: "layerMetaId",
+                layername: "name",
+                url: "google.de",
+                urlIsVisible: true,
+                datasets: [
+                    {
+                        md_id: "123",
+                        md_name: "MDName"
+                    }
+                ]
+            };
 
             rootGetters = {
                 "Modules/Legend/layerInfoLegend": {
                     id: "123"
                 },
-                isMobile: false,
-                "Menu/expanded": () => true
+                isMobile: () => isMobile,
+                "Menu/expanded": () => menuExpanded
             };
 
-            testAction(startLayerInformation, layerConf, state, {}, [
-                {type: "Menu/changeCurrentComponent", payload: {
-                    type: "layerInformation",
-                    side: "mainMenu",
-                    props: {name: layerConf.datasets[0].md_name}
-                }, dispatch: true},
-                {type: "setLayerInfo", payload: layerConf},
-                {type: "setMetadataURL", payload: layerConf.datasets[0].md_id, dispatch: true},
-                {type: "additionalSingleLayerInfo", payload: undefined, dispatch: true}
-            ], {}, done, rootGetters);
+        });
+        it("should initialize the LayerInformation", () => {
+            startLayerInformation({commit, dispatch, rootGetters}, layerConf);
+            expect(commit.calledTwice).to.be.true;
+            expect(commit.firstCall.args[0]).to.equal("setLegendAvailable");
+            expect(commit.firstCall.args[1]).to.be.equals(true);
+            expect(commit.secondCall.args[0]).to.equal("setLayerInfo");
+            expect(commit.secondCall.args[1]).to.be.deep.equals(layerConf);
+
+
+            expect(dispatch.calledThrice).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equal("Menu/changeCurrentComponent");
+            expect(dispatch.firstCall.args[1]).to.be.deep.equals({
+                type: "layerInformation",
+                side: "mainMenu",
+                props: {name: layerConf.datasets[0].md_name}
+            });
+            expect(dispatch.secondCall.args[0]).to.equal("setMetadataURL");
+            expect(dispatch.secondCall.args[1]).to.be.equals(layerConf.datasets[0].md_id);
+            expect(dispatch.thirdCall.args[0]).to.equal("additionalSingleLayerInfo");
+        });
+        it("should initialize the LayerInformation and create legend", () => {
+            layerConf.legendURL = "https://legend.de";
+            layerConf.id = "another";
+
+            startLayerInformation({commit, dispatch, rootGetters}, layerConf);
+            expect(commit.calledThrice).to.be.true;
+            expect(commit.firstCall.args[0]).to.equal("setLegendAvailable");
+            expect(commit.firstCall.args[1]).to.be.equals(true);
+            expect(commit.secondCall.args[0]).to.equal("Modules/Legend/setLayerInfoLegend");
+            expect(commit.secondCall.args[1]).to.be.deep.equals({});
+            expect(commit.thirdCall.args[0]).to.equal("setLayerInfo");
+            expect(commit.thirdCall.args[1]).to.be.deep.equals(layerConf);
+
+
+            expect(dispatch.callCount).to.be.equals(4);
+            expect(dispatch.firstCall.args[0]).to.equal("Modules/Legend/createLegendForLayerInfo");
+            expect(dispatch.firstCall.args[1]).to.equal(layerConf.id);
+
+            expect(dispatch.secondCall.args[0]).to.equal("Menu/changeCurrentComponent");
+            expect(dispatch.secondCall.args[1]).to.be.deep.equals({
+                type: "layerInformation",
+                side: "mainMenu",
+                props: {name: layerConf.datasets[0].md_name}
+            });
+            expect(dispatch.thirdCall.args[0]).to.equal("setMetadataURL");
+            expect(dispatch.thirdCall.args[1]).to.be.equals(layerConf.datasets[0].md_id);
+            expect(dispatch.getCall(3).args[0]).to.equal("additionalSingleLayerInfo");
         });
 
-        it("should hide the LayerInformation in menu", done => {
-            const state = {
-                    layerConf: {},
-                    menuSide: "mainMenu",
-                    name: "common:layerInformation",
-                    type: "layerInformation"
-                },
-                layerConf = {
-                    id: "123",
-                    metaID: "layerMetaId",
-                    attributes: null,
-                    customMetadata: false,
-                    layername: "name",
-                    url: "google.de",
-                    urlIsVisible: true,
-                    datasets: [
-                        {
-                            md_id: "123"
-                        }
-                    ]
-                };
+        it("should toggle the LayerInformation in menu if mobile", () => {
+            isMobile = true;
+            menuExpanded = false;
+            startLayerInformation({commit, dispatch, rootGetters}, layerConf);
+            expect(commit.calledTwice).to.be.true;
+            expect(commit.firstCall.args[0]).to.equal("setLegendAvailable");
+            expect(commit.firstCall.args[1]).to.be.equals(true);
+            expect(commit.secondCall.args[0]).to.equal("setLayerInfo");
+            expect(commit.secondCall.args[1]).to.be.deep.equals(layerConf);
 
-            rootGetters = {
-                "Modules/Legend/layerInfoLegend": {
-                    id: "123"
-                },
-                isMobile: false,
-                "Menu/expanded": () => true
-            };
+            expect(dispatch.callCount).to.be.equals(4);
+            expect(dispatch.firstCall.args[0]).to.equal("Menu/toggleMenu");
+            expect(dispatch.firstCall.args[1]).to.equal("mainMenu");
 
-            testAction(startLayerInformation, layerConf, state, {}, [
-                {type: "Menu/changeCurrentComponent", payload: {
-                    type: "layerInformation",
-                    side: "mainMenu",
-                    props: {name: layerConf.datasets[0].md_name}
-                }, dispatch: true},
-                {type: "setLayerInfo", payload: layerConf},
-                {type: "setMetadataURL", payload: layerConf.datasets[0].md_id, dispatch: true},
-                {type: "additionalSingleLayerInfo", payload: undefined, dispatch: true}
-            ], {}, done, rootGetters);
-        });
-
-        it("should open menu and show LayerInformation if mobile and menu is closed", done => {
-            const state = {
-                    layerConf: {},
-                    menuSide: "mainMenu",
-                    name: "common:layerInformation",
-                    type: "layerInformation"
-                },
-                layerConf = {
-                    id: "123",
-                    metaID: "layerMetaId",
-                    attributes: null,
-                    customMetadata: false,
-                    layername: "name",
-                    url: "google.de",
-                    urlIsVisible: true,
-                    datasets: [
-                        {
-                            md_id: "123"
-                        }
-                    ]
-                };
-
-            rootGetters = {
-                "Modules/Legend/layerInfoLegend": {
-                    id: "123"
-                },
-                isMobile: true,
-                "Menu/expanded": () => false
-            };
-
-            testAction(startLayerInformation, layerConf, state, {}, [
-                {
-                    type: "Menu/toggleMenu", payload: "mainMenu", dispatch: true
-                },
-                {type: "Menu/changeCurrentComponent", payload: {
-                    type: "layerInformation",
-                    side: "mainMenu",
-                    props: {name: layerConf.datasets[0].md_name}
-                }, dispatch: true},
-                {type: "setLayerInfo", payload: layerConf},
-                {type: "setMetadataURL", payload: layerConf.datasets[0].md_id, dispatch: true},
-                {type: "additionalSingleLayerInfo", payload: undefined, dispatch: true}
-            ], {}, done, rootGetters);
-        });
-
-        it("should not open menu and show LayerInformation if mobile and menu is open", done => {
-            const state = {
-                    layerConf: {},
-                    menuSide: "mainMenu",
-                    name: "common:layerInformation",
-                    type: "layerInformation"
-                },
-                layerConf = {
-                    id: "123",
-                    metaID: "layerMetaId",
-                    attributes: null,
-                    customMetadata: false,
-                    layername: "name",
-                    url: "google.de",
-                    urlIsVisible: true,
-                    datasets: [
-                        {
-                            md_id: "123"
-                        }
-                    ]
-                };
-
-            rootGetters = {
-                "Modules/Legend/layerInfoLegend": {
-                    id: "123"
-                },
-                isMobile: true,
-                "Menu/expanded": () => true
-            };
-
-            testAction(startLayerInformation, layerConf, state, {}, [
-                {type: "Menu/changeCurrentComponent", payload: {
-                    type: "layerInformation",
-                    side: "mainMenu",
-                    props: {name: layerConf.datasets[0].md_name}
-                }, dispatch: true},
-                {type: "setLayerInfo", payload: layerConf},
-                {type: "setMetadataURL", payload: layerConf.datasets[0].md_id, dispatch: true},
-                {type: "additionalSingleLayerInfo", payload: undefined, dispatch: true}
-            ], {}, done, rootGetters);
-        });
-
-        it("should call createLegendForLayerInfo, if legend is not created for layer with given id", done => {
-            const state = {
-                    layerConf: {},
-                    menuSide: "mainMenu",
-                    name: "common:layerInformation",
-                    type: "layerInformation"
-                },
-                layerConf = {
-                    id: "123",
-                    metaID: "layerMetaId",
-                    attributes: null,
-                    customMetadata: false,
-                    layername: "name",
-                    url: "google.de",
-                    urlIsVisible: true,
-                    datasets: [
-                        {
-                            md_id: "123"
-                        }
-                    ]
-                };
-
-            rootGetters = {
-                "Modules/Legend/layerInfoLegend": {
-                    id: "124"
-                },
-                isMobile: false,
-                "Menu/expanded": () => true
-            };
-
-            testAction(startLayerInformation, layerConf, state, {}, [
-                {
-                    type: "Modules/Legend/setLayerInfoLegend", payload: {}
-                },
-                {
-                    type: "Modules/Legend/createLegendForLayerInfo", payload: "123", dispatch: true
-                },
-                {type: "Menu/changeCurrentComponent", payload: {
-                    type: "layerInformation",
-                    side: "mainMenu",
-                    props: {name: layerConf.datasets[0].md_name}
-                }, dispatch: true},
-                {type: "setLayerInfo", payload: layerConf},
-                {type: "setMetadataURL", payload: layerConf.datasets[0].md_id, dispatch: true},
-                {type: "additionalSingleLayerInfo", payload: undefined, dispatch: true}
-            ], {}, done, rootGetters);
+            expect(dispatch.secondCall.args[0]).to.equal("Menu/changeCurrentComponent");
+            expect(dispatch.secondCall.args[1]).to.be.deep.equals({
+                type: "layerInformation",
+                side: "mainMenu",
+                props: {name: layerConf.datasets[0].md_name}
+            });
+            expect(dispatch.thirdCall.args[0]).to.equal("setMetadataURL");
+            expect(dispatch.thirdCall.args[1]).to.be.equals(layerConf.datasets[0].md_id);
+            expect(dispatch.getCall(3).args[0]).to.equal("additionalSingleLayerInfo");
         });
 
         it("should initialize the other abstract layer infos", done => {

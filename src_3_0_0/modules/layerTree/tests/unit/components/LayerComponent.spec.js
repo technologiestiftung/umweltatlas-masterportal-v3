@@ -174,6 +174,66 @@ describe("src_3_0_0/modules/layerTree/components/LayerComponent.vue", () => {
 
             expect(layerShallBeShown).to.be.false;
         });
+        it("test method show in layertree if isNeverVisibleInTree is true", () => {
+            propsData.conf.typ = "WFS";
+            propsData.conf.isNeverVisibleInTree = true;
+            isLayerTree = true;
+            wrapper = shallowMount(LayerComponent, {
+                global: {
+                    plugins: [store]
+                },
+                propsData
+            });
+
+            const layerShallBeShown = wrapper.vm.show();
+
+            expect(layerShallBeShown).to.be.false;
+        });
+        it("test method show in layertree if isNeverVisibleInTree is false", () => {
+            propsData.conf.typ = "WMS";
+            propsData.conf.isNeverVisibleInTree = false;
+            isLayerTree = true;
+            wrapper = shallowMount(LayerComponent, {
+                global: {
+                    plugins: [store]
+                },
+                propsData
+            });
+
+            const layerShallBeShown = wrapper.vm.show();
+
+            expect(layerShallBeShown).to.be.true;
+        });
+        it("test method show not in layertree if isNeverVisibleInTree is true", () => {
+            propsData.conf.typ = "WFS";
+            propsData.conf.isNeverVisibleInTree = true;
+            isLayerTree = false;
+            wrapper = shallowMount(LayerComponent, {
+                global: {
+                    plugins: [store]
+                },
+                propsData
+            });
+
+            const layerShallBeShown = wrapper.vm.show();
+
+            expect(layerShallBeShown).to.be.false;
+        });
+        it("test method show not in layertree if isNeverVisibleInTree is false", () => {
+            propsData.conf.typ = "WMS";
+            propsData.conf.isNeverVisibleInTree = false;
+            isLayerTree = false;
+            wrapper = shallowMount(LayerComponent, {
+                global: {
+                    plugins: [store]
+                },
+                propsData
+            });
+
+            const layerShallBeShown = wrapper.vm.show();
+
+            expect(layerShallBeShown).to.be.true;
+        });
         it("test method scaleIsOutOfRange, isLayerTree = false", () => {
             isLayerTree = false;
             wrapper = shallowMount(LayerComponent, {

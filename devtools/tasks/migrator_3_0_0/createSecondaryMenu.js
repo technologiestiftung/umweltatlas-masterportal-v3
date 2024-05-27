@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 const {PORTALCONFIG_OLD} = require("./constants"),
-    {removeAttributesFromTools} = require("./utils");
+    {deleteTranslateInName, removeAttributesFromTools} = require("./utils");
 
 module.exports = function createSecondaryMenu (data, migratedTools, toRemoveFromTools) {
     console.info("secondaryMenu");
@@ -30,16 +30,41 @@ function fillSections (data, secondaryMenu, migratedTools, toRemoveFromTools) {
     if (tools) {
         Object.entries(tools).forEach(([toolName, toolConfig]) => {
             if (!migratedTools.includes(toolName)) {
-                console.info("       " + toolName);
                 const tool = {...toolConfig};
+                let name = toolName;
 
-                if (toolName === "layerClusterToggler") {
-                    console.info("--- HINT configuration of LayerClusterToggler in Layers must be done by hand . 'Suffix' is replaced by direct suffix at layer id.");
+                if (name.toLowerCase() === "coordtoolkit") {
+                    name = "coordToolkit";
                 }
-                tool.type = toolName;
-                if (tool.name?.includes("translate#")) {
-                    delete tool.name;
+                console.info("       " + name);
+
+                if (name === "layerClusterToggler") {
+                    console.info("--- HINT configuration of LayerClusterToggler in Layers must be done by hand. 'Suffix' is replaced by direct suffix at layer id.");
                 }
+                if (name === "draw") {
+                    name = "draw_old";
+                }
+                if (name === "wfsSearch") {
+                    tool.instances.forEach(instance => {
+                        instance.literals?.forEach(literal => {
+                            const lits = literal.literals ? literal.literals : literal.clause?.literals;
+
+                            lits?.forEach(subLiteral => {
+                                if (subLiteral.field) {
+                                    const type = subLiteral.field.type;
+
+                                    delete subLiteral.field.type;
+                                    subLiteral.field.queryType = type;
+                                    if (subLiteral.field.usesId === false) {
+                                        subLiteral.field.usesId = null;
+                                    }
+                                }
+                            });
+                        });
+                    });
+                }
+                tool.type = name;
+                deleteTranslateInName(tool);
                 removeAttributesFromTools(toRemoveFromTools, tool);
                 section.push(tool);
                 migratedTools.push(toolName);
