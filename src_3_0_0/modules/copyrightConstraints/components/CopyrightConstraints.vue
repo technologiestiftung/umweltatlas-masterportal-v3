@@ -50,6 +50,7 @@ export default {
                     this.cswUrl,
                     id
                 );
+
                 resolve(metadata);
             });
         },
@@ -63,7 +64,7 @@ export default {
             this.constraints = [];
             visibleLayerList.forEach((element) => {
                 this.getMetaData(element).then((metadata) => {
-                    if(!this.constraints.map((x) => x.md_id).includes(element)) {
+                    if (!this.constraints.map((x) => x.md_id).includes(element)) {
                         this.constraints.push({
                             md_id: element,
                             title: metadata?.getTitle(),
@@ -72,7 +73,7 @@ export default {
                             pointOfContact: metadata?.getContact()
                         });
                     }
-                }).catch(() => console.warn("CSW Schnittstelle ist nicht erreichbar"))
+                }).catch(() => console.warn("CSW Schnittstelle ist nicht erreichbar");)
             });
         },
 
