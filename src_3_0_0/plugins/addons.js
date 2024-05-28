@@ -1,6 +1,6 @@
 import store from "../app-store";
 import main from "../main";
-import * as Vue from "vue";
+import {defineComponent} from "vue";
 
 /* eslint-disable no-undef */
 const allAddons = typeof VUE_ADDONS !== "undefined" ? VUE_ADDONS : {};
@@ -42,15 +42,14 @@ export default {
                     console.warn(e);
                     console.warn(`The module ${addonKey} does not include a Vue-component and/or vuex-store-module. Please make sure the folder contains a ${addonKey}.vue and ${addonKey}.js file. Maybe it is an backbone-addon.`, e);
                 }
-            }
-            );
+            });
 
             await Promise.all(addons);
         }
     },
 
     /**
-     * Load jaavscript addons and register store when it exists.
+     * Load javascript addons and register store when it exists.
      * @param {String} addonKey specified in config.js
      * @returns {void}
      */
@@ -58,7 +57,6 @@ export default {
         const addon = await this.loadAddon(addonKey);
 
         if (addon.store) {
-            // register the vuex store module
             store.registerModule([upperFirst(addonKey)], addon.store);
         }
     },
@@ -71,9 +69,8 @@ export default {
         const addon = await this.loadAddon(addonKey),
             name = addon.component.name.charAt(0).toLowerCase() + addon.component.name.slice(1);
 
-        Vue.defineComponent(addon.component.name, addon.component);
+        defineComponent(addon.component.name, addon.component);
         if (addon.store) {
-        // register the vuex store module
             store.registerModule(["Controls", addon.component.name], addon.store);
         }
         store.commit("Controls/registerControl", {name: name, control: addon.component});
@@ -89,12 +86,9 @@ export default {
             addonName = addon.component.name.charAt(0).toLowerCase() + addon.component.name.slice(1);
 
         main.getApp().component(addon.component.name, addon.component);
-        // Add the componentName to a global array on vue instance called $gfiThemeAddons
         main.getApp().config.globalProperties.$gfiThemeAddons.push(addon.component.name);
-        // register the vuex store module
         if (addon.store) {
             store.registerModule(["Modules", addon.component.name], addon.store);
-            // register the component
             moduleCollection[addonName] = addon.component;
         }
     },
@@ -120,9 +114,7 @@ export default {
         const addon = await this.loadAddon(addonKey),
             addonName = addon.component.name.charAt(0).toLowerCase() + addon.component.name.slice(1);
 
-        // register the vuex store module
         store.registerModule(["Modules", addon.component.name], addon.store);
-        // register the component
         moduleCollection[addonName] = addon.component;
     },
 
@@ -140,7 +132,6 @@ export default {
             ),
             addon = addonModule.default;
 
-        // Add the locale
         for (const localeKey in addon.locales) {
             i18next.addResourceBundle(localeKey, "additional", addon.locales[localeKey], true);
         }
