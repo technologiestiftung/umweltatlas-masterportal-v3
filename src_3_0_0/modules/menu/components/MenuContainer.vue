@@ -242,7 +242,7 @@ export default {
 }
 
 
-@include media-breakpoint-up(md)  {
+@include media-breakpoint-up(sm)  {
     .mp-menu {
         top: 0px;
         min-width: 0%;
@@ -277,7 +277,7 @@ export default {
     }
 }
 
-@include media-breakpoint-up(sm) {
+@include media-breakpoint-up(md) {
     .mp-menu-header-close-button {
         display: none;
     }
