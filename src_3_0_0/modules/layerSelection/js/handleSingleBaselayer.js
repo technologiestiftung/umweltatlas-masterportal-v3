@@ -6,7 +6,7 @@
  * @returns {void}
  */
 function checkAndAdd (singleBaselayer, visibleBaselayerConfigs, layerConfigs) {
-    if (singleBaselayer) {
+    if (singleBaselayer && visibleBaselayerConfigs.length >= 1) {
         visibleBaselayerConfigs.forEach(baselayerConf => {
             layerConfigs.push({
                 id: baselayerConf.id,

@@ -116,6 +116,7 @@
 - WfsSearch: It is now also possible to zoom in on result features with a geometry of type polygon.
 - Print: StyleId can now differ from layerId.
 - GetFeatureInfo: the heading has been corrected for 3D objects.
+- SingleBaseLayer: If layers change visibility, the baselayer will no longer be turned insvisible as well.
 ---
 
 ---
