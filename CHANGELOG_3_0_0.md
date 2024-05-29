@@ -42,7 +42,7 @@
 - Control rotate: has been extended by two buttons to rotate the map clockwise and counterclockwise. A compass rose can be shown in 2D and 3D.
 - Tooltips for layernames and folders.
 - Addons of type "javascript" or "control" can be loaded.
-- Map: Two finger pan is implemented for touch devices to move the map with two fingers.
+- Map: on touch devices the map can be moved with two fingers, if `twoFingerPan` is true in config.json.
 
 ### Changed
 - CoordToolkit: Toast added instead of Alert for feedback after copying coordinates.
