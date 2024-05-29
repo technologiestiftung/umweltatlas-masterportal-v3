@@ -43,7 +43,7 @@ const state = {
     // scale: null,
     // size: null,
     // zoom: null,
-    twoFingerPanStart: false
+    // twoFingerPanStart: false
 };
 
 export default state;

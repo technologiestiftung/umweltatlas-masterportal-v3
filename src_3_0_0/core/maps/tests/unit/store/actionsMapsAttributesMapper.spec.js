@@ -6,6 +6,9 @@ import View from "ol/View";
 import actions from "../../../store/actionsMapsAttributesMapper";
 
 const {
+    initTwoFingerPan,
+    oneFingerDragMessage,
+    oneFingerDragMessageEnd,
     setMapAttributes,
     registerMapListener,
     unregisterMapListener,
@@ -60,8 +63,15 @@ describe("src_3_0_0/core/maps/store/actionsMapsAttributesMapper.js", () => {
     let commit,
         dispatch,
         getters,
-        map2d;
+        map2d,
+        mapDiv;
 
+    before(() => {
+        i18next.init({
+            lng: "cimode",
+            debug: false
+        });
+    });
     beforeEach(() => {
         commit = sinon.spy();
         dispatch = sinon.spy();
@@ -84,22 +94,76 @@ describe("src_3_0_0/core/maps/store/actionsMapsAttributesMapper.js", () => {
 
         map2d.setSize([50, 50]);
         mapCollection.addMap(map2d, "2D");
+
+        document.body.innerHTML = "<div id=\"map\"></div>";
+        mapDiv = document.getElementById("map");
     });
 
     afterEach(() => {
         sinon.restore();
+        mapDiv?.remove();
     });
 
     describe("setMapAttributes", () => {
         it("Should dispatch map attributes", () => {
             setMapAttributes({dispatch});
 
-            expect(dispatch.callCount).to.equals(5);
+            expect(dispatch.callCount).to.equals(6);
             expect(dispatch.firstCall.args[0]).to.deep.equals("registerMapListener");
-            expect(dispatch.secondCall.args[0]).to.deep.equals("registerMapViewListener");
-            expect(dispatch.thirdCall.args[0]).to.deep.equals("setInitialAttributes");
-            expect(dispatch.getCall(3).args[0]).to.deep.equals("updateAttributesByMoveend");
-            expect(dispatch.getCall(4).args[0]).to.deep.equals("updateAttributesByChangeResolution");
+            expect(dispatch.secondCall.args[0]).to.deep.equals("initTwoFingerPan");
+            expect(dispatch.thirdCall.args[0]).to.deep.equals("registerMapViewListener");
+            expect(dispatch.getCall(3).args[0]).to.deep.equals("setInitialAttributes");
+            expect(dispatch.getCall(4).args[0]).to.deep.equals("updateAttributesByMoveend");
+            expect(dispatch.getCall(5).args[0]).to.deep.equals("updateAttributesByChangeResolution");
+        });
+    });
+
+    describe("initTwoFingerPan", () => {
+        it("Should do nothing, if twoFingerPan is false", () => {
+            const rootState = {
+                portalConfig: {
+                    map: {
+                        mapView: {
+                            twoFingerPan: false
+                        }
+                    }
+                }
+            };
+
+            initTwoFingerPan({dispatch, rootState});
+
+            expect(dispatch.notCalled).to.be.true;
+        });
+        it("Should do nothing, if twoFingerPan is not available", () => {
+            const rootState = {
+                portalConfig: {
+                    map: {
+                    }
+                }
+            };
+
+            initTwoFingerPan({dispatch, rootState});
+
+            expect(dispatch.notCalled).to.be.true;
+        });
+        it("adds event listener to map, if twoFingerPan is true", () => {
+            const rootState = {
+                portalConfig: {
+                    map: {
+                        mapView: {
+                            twoFingerPan: true
+                        }
+                    }
+                }
+            };
+
+            mapDiv.addEventListener = sinon.spy();
+            initTwoFingerPan({dispatch, rootState});
+
+            expect(dispatch.notCalled).to.be.true;
+            expect(mapDiv.addEventListener.calledTwice).to.be.true;
+            expect(mapDiv.addEventListener.firstCall.args[0]).to.equals("touchmove");
+            expect(mapDiv.addEventListener.secondCall.args[0]).to.equals("touchend");
         });
     });
 
@@ -229,6 +293,33 @@ describe("src_3_0_0/core/maps/store/actionsMapsAttributesMapper.js", () => {
             expect(commit.thirdCall.args).to.deep.equals(["setResolution", 2.6458319045841048]);
             expect(commit.getCall(3).args).to.deep.equals(["setScale", 10000]);
             expect(commit.getCall(4).args).to.deep.equals(["setZoom", 5]);
+        });
+    });
+    describe("oneFingerDragMessage", () => {
+        it("Should alert if targetTouches length is 1 and twoFingerPanStart is false", () => {
+            const event = {
+                targetTouches: ["1"]
+            };
+
+            oneFingerDragMessage({commit, dispatch, getters}, event);
+
+            expect(commit.notCalled).to.be.true;
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.firstCall.args).to.deep.equals(["Alerting/addSingleAlert", "core.maps.mapRegion.twoFingerPanAlert"]);
+        });
+        it("Should commit if targetTouches length is 0 and remove eventListener", () => {
+            const event = {
+                targetTouches: []
+            };
+
+            mapDiv.removeEventListener = sinon.spy();
+            oneFingerDragMessageEnd({commit, dispatch}, event);
+
+            expect(commit.calledOnce).to.be.true;
+            expect(commit.firstCall.args).to.deep.equals(["setTwoFingerPanStart", false]);
+            expect(mapDiv.removeEventListener.calledTwice).to.be.true;
+            expect(mapDiv.removeEventListener.firstCall.args[0]).to.equals("touchmove");
+            expect(mapDiv.removeEventListener.secondCall.args[0]).to.equals("touchend");
         });
     });
 });

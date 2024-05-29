@@ -17,6 +17,9 @@
       "urlParamWarning": "The parameterized call is incorrect. The layer with the id: <b>{{layerId}}</b> does not exist and will be ignored."
     },
     "maps": {
+      "mapRegion": {
+        "twoFingerPanAlert": "Please use two fingers to pan and zoom in the map."
+      },
       "featureViaURL": {
         "messages": {
           "featureParsing": "FeatureViaURL: Not all features from the URL could be parsed.",

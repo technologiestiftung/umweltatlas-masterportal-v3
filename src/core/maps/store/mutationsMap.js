@@ -119,7 +119,7 @@ const mutations = {
      */
     setScales (state, scales) {
         state.scales = scales;
-    },
+    }
 
     /**
      * Set status of the two fingers pan event.
@@ -127,9 +127,9 @@ const mutations = {
      * @param {Boolean} value Value indicating if the 2-Finger-Pan is active.
      * @returns {void}
      */
-    setTwoFingerPanStart (state, value) {
-        state.twoFingerPanStart = value;
-    }
+    // setTwoFingerPanStart (state, value) {
+    //     state.twoFingerPanStart = value;
+    // }
 };
 
 export default mutations;
