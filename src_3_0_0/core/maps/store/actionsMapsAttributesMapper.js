@@ -259,7 +259,7 @@ export default {
             return;
         }
         if (event && event.targetTouches.length === 1 && !getters.twoFingerPanStart) {
-            dispatch("Alerting/addSingleAlert", i18next.t("common:core.maps.mapRegion.twoFingerPanAlert"));
+            dispatch("Alerting/addSingleAlert", i18next.t("common:core.maps.mapRegion.twoFingerPanAlert"), {root: true});
         }
         else if (event.targetTouches.length === 2) {
             commit("setTwoFingerPanStart", true);
