@@ -493,7 +493,6 @@ async function migrateFiles (sourcePath, destPath) {
                 copyDir(sourcePath, destPath).then(() => {
                     fs.readFile(configJsonSrcFile, "utf8")
                         .then(data => {
-                            console.log(data);
                             const migrated = {},
                                 parsed = JSON.parse(data);
 
