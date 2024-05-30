@@ -268,7 +268,10 @@ export default {
                     />
                 </div>
                 <div class="row">
-                    <div class="col-md-6 d-flex justify-content-center">
+                    <div
+                        :class="[showResetButton ? 'col-md-6' : 'col']"
+                        class="d-flex justify-content-center"
+                    >
                         <FlatButton
                             id="module-wfsSearch-button-search"
                             :type="'submit'"
