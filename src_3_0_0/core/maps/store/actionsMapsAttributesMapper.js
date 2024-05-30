@@ -31,8 +31,8 @@ export default {
      * @param {Object} param.rootState the rootState
      * @returns {void}
      */
-    initTwoFingerPan ({dispatch, rootState}) {
-        if (rootState.portalConfig?.map?.mapView?.twoFingerPan) {
+    initTwoFingerPan ({dispatch, rootGetters}) {
+        if (rootGetters.twoFingerPan) {
             const mapDiv = document.getElementById("map");
 
             mapDiv.addEventListener("touchmove", (event) => dispatch("oneFingerDragMessage", event));

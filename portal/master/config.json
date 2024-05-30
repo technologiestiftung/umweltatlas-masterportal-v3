@@ -119,10 +119,10 @@
           565874,
           5934140
         ],
-        "twoFingerPan": true,
         "mapInteractions": {
           "interactionModes": {
-            "altShiftDragRotate": true
+            "altShiftDragRotate": true,
+            "twoFingerPan": true
           }
         }
       },

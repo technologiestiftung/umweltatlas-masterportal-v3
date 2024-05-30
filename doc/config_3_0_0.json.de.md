@@ -814,7 +814,6 @@ Mit verschiedenen Parametern wird die Startansicht der Karte konfiguriert und de
 |startCenter|nein|Number[]|[565874, 5934140]|Die initiale Zentrumskoordinate.|false|
 |startResolution|nein|Float|15.874991427504629|Die initiale Auflösung der Karte aus options. Vorzug vor startZoomLevel.|false|
 |startZoomLevel|nein|Integer||Der initiale ZoomLevel aus Options. Nachrangig zu resolution.|false|
-|twoFingerPan|nein|Boolean|false|Soll für mobile Geräte ein 2-Finger-Pan anstatt 1-Finger-Pan gesetzt werden?|false|
 
 **Beispiel:**
 
@@ -916,7 +915,7 @@ Mit verschiedenen Parametern wird die Startansicht der Karte konfiguriert und de
 
 ***
 
-##### portalConfig.map.mapView.mapInteractions
+##### portalConfig.map.mapView.mapInteractions.interactionModes
 Interaction settings for the ol default interactions. If not set, the default setting is used.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -925,6 +924,7 @@ Interaction settings for the ol default interactions. If not set, the default se
 |dragPan|nein|Boolean|false|Ermöglicht es dem Benutzer, die Karte durch Ziehen zu verschieben.|false|
 |dragZoom|nein|Boolean|false|Ermöglicht dem Benutzer das Zoomen der Karte durch Klicken und Ziehen auf der Karte.|false|
 |pinchRotate|nein|Boolean|false|Ermöglicht es dem Benutzer, die Karte durch Drehen mit zwei Fingern auf einem Touchscreen zu drehen.|false|
+|twoFingerPan|nein|Boolean|false|Soll für mobile Geräte ein 2-Finger-Pan anstatt 1-Finger-Pan gesetzt werden?|false|
 
 **Beispiel:**
 
@@ -933,7 +933,8 @@ Interaction settings for the ol default interactions. If not set, the default se
     "dragPan": false,
     "altShiftDragRotate": true,
     "pinchRotate": false,
-    "dragZoom": true
+    "dragZoom": true,
+    "twoFingerPan": true
 }
 ```
 

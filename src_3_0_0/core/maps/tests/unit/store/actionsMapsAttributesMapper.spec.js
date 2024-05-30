@@ -120,45 +120,28 @@ describe("src_3_0_0/core/maps/store/actionsMapsAttributesMapper.js", () => {
 
     describe("initTwoFingerPan", () => {
         it("Should do nothing, if twoFingerPan is false", () => {
-            const rootState = {
-                portalConfig: {
-                    map: {
-                        mapView: {
-                            twoFingerPan: false
-                        }
-                    }
-                }
+            const rootGetters = {
+                twoFingerPan: false
             };
 
-            initTwoFingerPan({dispatch, rootState});
+            initTwoFingerPan({dispatch, rootGetters});
 
             expect(dispatch.notCalled).to.be.true;
         });
         it("Should do nothing, if twoFingerPan is not available", () => {
-            const rootState = {
-                portalConfig: {
-                    map: {
-                    }
-                }
-            };
+            const rootGetters = {};
 
-            initTwoFingerPan({dispatch, rootState});
+            initTwoFingerPan({dispatch, rootGetters});
 
             expect(dispatch.notCalled).to.be.true;
         });
         it("adds event listener to map, if twoFingerPan is true", () => {
-            const rootState = {
-                portalConfig: {
-                    map: {
-                        mapView: {
-                            twoFingerPan: true
-                        }
-                    }
-                }
+            const rootGetters = {
+                twoFingerPan: true
             };
 
             mapDiv.addEventListener = sinon.spy();
-            initTwoFingerPan({dispatch, rootState});
+            initTwoFingerPan({dispatch, rootGetters});
 
             expect(dispatch.notCalled).to.be.true;
             expect(mapDiv.addEventListener.calledTwice).to.be.true;
