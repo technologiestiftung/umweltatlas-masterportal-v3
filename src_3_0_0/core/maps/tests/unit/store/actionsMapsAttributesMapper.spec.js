@@ -305,7 +305,7 @@ describe("src_3_0_0/core/maps/store/actionsMapsAttributesMapper.js", () => {
 
             expect(commit.notCalled).to.be.true;
             expect(dispatch.calledOnce).to.be.true;
-            expect(dispatch.firstCall.args).to.deep.equals(["Alerting/addSingleAlert", "core.maps.mapRegion.twoFingerPanAlert"]);
+            expect(dispatch.firstCall.args).to.deep.equals(["Alerting/addSingleAlert", "core.maps.mapRegion.twoFingerPanAlert", {root: true}]);
         });
         it("Should commit if targetTouches length is 0 and remove eventListener", () => {
             const event = {
