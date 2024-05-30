@@ -22,6 +22,18 @@ function readMapView (data, configJS) {
     if (configJS.mapInteractions) {
         mapView.mapInteractions = configJS.mapInteractions;
     }
+    if (mapView.twoFingerPan) {
+        if (!mapView.mapInteractions) {
+            mapView.mapInteractions = {};
+            mapView.mapInteractions.interactionModes = {
+                twoFingerPan: mapView.twoFingerPan
+            };
+        }
+        else {
+            mapView.mapInteractions.interactionModes.twoFingerPan = mapView.twoFingerPan;
+        }
+        delete mapView.twoFingerPan;
+    }
 
     return mapView;
 }
