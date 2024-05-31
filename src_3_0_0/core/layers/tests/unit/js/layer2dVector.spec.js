@@ -4,7 +4,6 @@ import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.j
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import getGeometryTypeFromService from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
 import Layer2dVector from "../../../js/layer2dVector";
-import Layer2dVectorOaf from "../../../js/layer2dVectorOaf";
 import store from "../../../../../app-store";
 
 describe("src_3_0_0/core/js/layers/layer2dVector.js", () => {
@@ -84,7 +83,7 @@ describe("src_3_0_0/core/js/layers/layer2dVector.js", () => {
             });
 
             expect(warn.calledTwice).to.be.true;
-        });    
+        });
     });
 
     describe("clusterGeometryFunction", () => {
