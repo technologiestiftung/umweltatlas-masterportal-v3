@@ -162,7 +162,7 @@
           "moveSouth": "Move south",
           "moveWest": "Move west",
           "moveEast": "Move east"
-      },
+      }
       },
       "tiltView": {
         "downButton": "Tilt view down",
