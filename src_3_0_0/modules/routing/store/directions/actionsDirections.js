@@ -327,7 +327,7 @@ export default {
      */
     async closeDirections ({rootState, state, dispatch}) {
         const {directionsWaypointsLayer, directionsRouteLayer, directionsAvoidLayer} = state,
-            map = await mapCollection.getMap(rootState.Maps.mode);
+            map = await mapCollection.getMap("2D");
 
         map.removeLayer(toRaw(directionsRouteLayer));
         map.removeLayer(toRaw(directionsWaypointsLayer));

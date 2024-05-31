@@ -131,7 +131,7 @@ export default {
      */
     closeIsochrones ({rootState, state, dispatch}) {
         const {isochronesPointLayer, isochronesAreaLayer} = state,
-            map = mapCollection.getMap(rootState.Maps.mode);
+            map = mapCollection.getMap("2D");
 
         map.removeLayer(isochronesPointLayer);
         map.removeLayer(isochronesAreaLayer);
