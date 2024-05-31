@@ -880,7 +880,7 @@
           "id": [ "20501", "20502", "20503", "20504" ], 
           "name": "Gruppe Freizeitrouten und Radfernwege (4 WFS Layer)",
           "styleId": "4515",
-          "visibility": true,
+          "visibility": false,
           "showInLayerTree": true
         },
         {
@@ -893,7 +893,7 @@
           "id": "10220",
           "name": "Dauerzählstellen (Rad) Hamburg",
           "typ": "WMS",
-          "visibility": true
+          "visibility": false
         },
         {
           "id": "23555",
@@ -937,7 +937,7 @@
           "id": "2426",
           "name": "Bezirke",
           "typ": "WMS",
-          "visibility": true
+          "visibility": false
         },
         {
           "id": "2425",
@@ -1117,7 +1117,7 @@
           "styleId": "8712",
           "name": "Schulen (Layertyp OAF)",
           "typ": "OAF",
-          "visibility": true,
+          "visibility": false,
           "gfiTheme": "schulinfo"
         },
         {
@@ -1164,6 +1164,7 @@
           "name": "Beiträge (GeoJSON)",
           "typ": "GeoJSON",
           "visibility": false,
+          "showInLayerTree": true,
           "url": "./resources/example_geojson.json",
           "styleId": "contributions",
           "legend": true,
