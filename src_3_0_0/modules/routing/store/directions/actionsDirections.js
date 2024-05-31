@@ -325,7 +325,7 @@ export default {
      * @param {Object} context actions context object.
      * @returns {void}
      */
-    async closeDirections ({rootState, state, dispatch}) {
+    async closeDirections ({state, dispatch}) {
         const {directionsWaypointsLayer, directionsRouteLayer, directionsAvoidLayer} = state,
             map = await mapCollection.getMap("2D");
 

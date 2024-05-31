@@ -129,7 +129,7 @@ export default {
      * @param {Object} context actions context object.
      * @returns {void}
      */
-    closeIsochrones ({rootState, state, dispatch}) {
+    closeIsochrones ({state, dispatch}) {
         const {isochronesPointLayer, isochronesAreaLayer} = state,
             map = mapCollection.getMap("2D");
 
