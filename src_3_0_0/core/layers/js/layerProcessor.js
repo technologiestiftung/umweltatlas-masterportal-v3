@@ -104,6 +104,9 @@ function processLayer (layer) {
  */
 export function setResolutions (layer) {
     if (layer.get("maxScale") !== undefined) {
+        // if (layer.get("minScale") === undefined) {
+        //     layer.set("minScale", 0);
+        // }
         const resoByMaxScale = store.getters["Maps/getResolutionByScale"](layer.get("maxScale"), "max"),
             resoByMinScale = store.getters["Maps/getResolutionByScale"](layer.get("minScale"), "min");
 

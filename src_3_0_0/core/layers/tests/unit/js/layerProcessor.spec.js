@@ -158,5 +158,38 @@ describe("src_3_0_0/core/js/layers/layerProcessor.js", () => {
             expect(setMinResolutionSpy.calledOnce).to.be.true;
             expect(setMinResolutionSpy.firstCall.args[0]).to.equals(0);
         });
+        it("maxScale is set at layer, minScale not", () => {
+            const setMaxResolutionSpy = sinon.spy(),
+                setMinResolutionSpy = sinon.spy(),
+                olLayer = {
+                    setMaxResolution: setMaxResolutionSpy,
+                    setMinResolution: setMinResolutionSpy
+                },
+                layer = {
+                    attributes: {
+                        typ: "WMS",
+                        maxScale: "50000"
+                    },
+                    get: (value) => {
+                        if (value === "maxScale") {
+                            return layer.attributes.maxScale;
+                        }
+                        if (value === "minScale") {
+                            return layer.attributes.minScale;
+                        }
+                        return value;
+                    },
+                    set: (key, value) => {
+                        layer.attributes[key] = value;
+                    },
+                    getLayer: sinon.stub().returns(olLayer)
+                };
+
+            setResolutions(layer);
+            expect(setMaxResolutionSpy.calledOnce).to.be.true;
+            expect(setMaxResolutionSpy.firstCall.args[0]).to.equals(505);
+            expect(setMinResolutionSpy.calledOnce).to.be.true;
+            expect(setMinResolutionSpy.firstCall.args[0]).to.equals(0);
+        });
     });
 });
