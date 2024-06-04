@@ -78,6 +78,16 @@ export default {
             type: String,
             required: false,
             default: ""
+        },
+        fixedData: {
+            type: Object,
+            required: false,
+            default: undefined
+        },
+        selectMode: {
+            type: [String, Boolean],
+            required: false,
+            default: false
         }
     },
 
