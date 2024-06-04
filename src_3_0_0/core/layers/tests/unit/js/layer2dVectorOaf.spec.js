@@ -178,7 +178,7 @@ describe("src_3_0_0/core/js/layers/layer2dVectorOaf.js", () => {
         });
     });
     describe("updateLayerValues", () => {
-        it.only("OAF: call loadFeaturesManually in updateLayerValues", () => {
+        it("OAF: call loadFeaturesManually in updateLayerValues", () => {
             const loadFeaturesManuallySpy = sinon.stub(Layer2dVectorOaf.prototype, "loadFeaturesManually"),
                 oafLayer = new Layer2dVectorOaf(attributes);
 
@@ -191,7 +191,7 @@ describe("src_3_0_0/core/js/layers/layer2dVectorOaf.js", () => {
     });
 
     describe("loadFeaturesManually", () => {
-        it.only("shall call loadFeaturesManually in API", () => {
+        it("shall call loadFeaturesManually in API", () => {
             const loadFeaturesManuallySpy = sinon.stub(Layer2dVectorOaf.prototype, "loadFeaturesManually"),
                 oafLayer = new Layer2dVectorOaf(attributes);
 
