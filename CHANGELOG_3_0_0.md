@@ -55,7 +55,7 @@
 - 3D tileset layer supports hiddenFeatures.
 - The following packages have been updated:
     - dependencies:
-        - @masterportal/masterportalapi: 2.33.0 to 2.37.0 (This also raised ol to version 9.1.0)
+        - @masterportal/masterportalapi: 2.33.0 to 2.38.0 (This also raised ol to version 9.2.4)
         - @masterportal/mpconfigparser: 1.3.1 to 1.4.0
         - axios: 1.5.1 to 1.7.1
         - bootstrap: 5.3.2 to 5.3.3
