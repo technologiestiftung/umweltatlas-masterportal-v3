@@ -207,7 +207,7 @@ export default {
         }
     }
 
-    @include media-breakpoint-down(md) {
+    @include media-breakpoint-down(sm) {
         .btn-group-controls {
             display: block;
             bottom: 10rem;
