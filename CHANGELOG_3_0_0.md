@@ -119,6 +119,7 @@
 - Print: StyleId can now differ from layerId.
 - GetFeatureInfo: the heading has been corrected for 3D objects.
 - SingleBaseLayer: If layers change visibility, the baselayer will no longer be turned insvisible as well.
+- English language: it is possible to change the language to English of the menu on the right side.
 ---
 
 ---
