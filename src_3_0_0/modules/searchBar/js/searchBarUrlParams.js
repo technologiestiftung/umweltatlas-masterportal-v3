@@ -30,12 +30,11 @@ function setQueryToSearchInput (params) {
     store.watch((state, getters) => getters["Modules/SearchBar/searchResults"], results => {
         if (results) {
             results.forEach(result => {
-                // Adresse in mehreren Suchergebnissen -> was an dieser Stelle am Besten?
                 if (result.category.includes("Adresse") && result.searchInterfaceId.includes("elastic")) {
-                    // noch 7 Results -> auf eins reduzieren wenn alle gleich?
-                    console.log("Adresse gefunden!", result.events.onClick.zoomToResult.coordinates);
-                    // erwartet Zoom Array oder Object?
-                    store.dispatch("Maps/zoomToCoordinates", result.events.onClick.zoomToResult.coordinates);
+                    const numberCoordinates = result.events.onClick.zoomToResult.coordinates?.map(coordinate => parseFloat(coordinate, 10));
+
+                    store.dispatch("Maps/zoomToCoordinates", {center: numberCoordinates});
+                    store.dispatch("Maps/placingPointMarker", numberCoordinates);
                 }
             });
         }
