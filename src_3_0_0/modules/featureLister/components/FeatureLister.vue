@@ -14,7 +14,8 @@ import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vu
  * @module modules/FeatureLister
  * @vue-data {String} defaultTabClass - The CSS-Class for the tab.
  * @vue-data {String} activeTabClass - The CSS-Class "active".
- * @vue-data {String} disabledTabClass - The CSS-Class "disabled".
+ * @vue-data {String} visibleVectorLayers - All visible vector layers.
+ * @vue-data {String} supportedLayerTypes - "WFS", "OAF", "GeoJSON"
  * @vue-computed {String} themeTabClasses - The class for the current theme-tab.
  * @vue-computed {String} listTabClasses - The class for the current list-tab.
  * @vue-computed {String} detailsTabClasses - The class for the current details-tab.
@@ -29,7 +30,8 @@ export default {
             defaultTabClass: "",
             activeTabClass: "active",
             disabledTabClass: "disabled",
-            visibleVectorLayers: []
+            visibleVectorLayers: [],
+            supportedLayerTypes: ["WFS", "OAF", "GeoJSON"]
         };
     },
     computed: {
@@ -72,14 +74,11 @@ export default {
     mounted () {
         this.$nextTick(() => {
             layerCollection.getOlLayers().forEach(async layer => {
-                if (layer instanceof VectorLayer && layer.get("typ") === "WFS" || layer.get("typ") === "GeoJSON") {
-                    const layerSource = layer.getSource();
-
+                if (layer instanceof VectorLayer && this.supportedLayerTypes.includes(layer.get("typ"))) {
                     this.visibleVectorLayers.push(
                         {
                             name: layer.get("name"),
-                            id: layer.get("id"),
-                            geometryType: layerSource.getFeatures()[0] ? layerSource.getFeatures()[0].getGeometry().getType() : null
+                            id: layer.get("id")
                         }
                     );
                 }

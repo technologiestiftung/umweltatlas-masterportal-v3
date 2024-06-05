@@ -36,8 +36,8 @@ export default {
         if (rawLayer && rawLayer.styleId) {
             highlightObject.styleId = rawLayer.styleId;
         }
-        else if (layer && layer.styleId) {
-            highlightObject.styleId = layer.styleId;
+        else if (layer && layer.get("styleId")) {
+            highlightObject.styleId = layer.get("styleId");
         }
 
         highlightObject.highlightStyle = {

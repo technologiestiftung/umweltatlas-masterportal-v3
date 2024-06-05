@@ -17,7 +17,7 @@ export default {
         if (featureIndex !== "" && featureIndex >= 0 && featureIndex <= state.shownFeatures) {
             const feature = getters.selectedFeature(featureIndex),
                 featureGeometry = feature.getGeometry(),
-                styleObj = state.layer.geometryType.toLowerCase().indexOf("polygon") > -1 ? state.highlightVectorRulesPolygon : state.highlightVectorRulesPointLine;
+                styleObj = getters.getGeometryType?.toLowerCase().indexOf("polygon") > -1 ? state.highlightVectorRulesPolygon : state.highlightVectorRulesPointLine;
 
             commit("setSelectedFeatureIndex", featureIndex);
             dispatch("switchToDetails");
@@ -57,14 +57,15 @@ export default {
      * Highlights a feature depending on its geometryType.
      * @param {Object} param.state the state
      * @param {Object} param.dispatch the dispatch
+     * @param {Object} param.getters the getters
      * @param {Object} param.rootGetters the rootGetters
      * @param {String} feature the feature to be highlighted.
      * @returns {void}
      */
-    highlightFeature ({state, dispatch, rootGetters}, feature) {
+    highlightFeature ({state, dispatch, getters, rootGetters}, feature) {
         dispatch("Maps/removeHighlightFeature", "decrease", {root: true});
         const layerConfig = rootGetters.layerConfigById(state.layer.id),
-            styleObj = state.layer.geometryType.toLowerCase().indexOf("polygon") > -1 ? state.highlightVectorRulesPolygon : state.highlightVectorRulesPointLine,
+            styleObj = getters.getGeometryType?.toLowerCase().indexOf("polygon") > -1 ? state.highlightVectorRulesPolygon : state.highlightVectorRulesPointLine,
             featureGeometryType = feature.getGeometry().getType(),
             highlightObject = {
                 type: featureGeometryType === "Point" || featureGeometryType === "MultiPoint" ? "increase" : "highlightPolygon",

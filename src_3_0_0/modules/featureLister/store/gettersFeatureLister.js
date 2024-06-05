@@ -81,6 +81,24 @@ const getters = {
 
         state.headers = headers;
         return headers;
+    },
+    /**
+     * Returns the geometry type of the layer.
+     * @param {Object} state state of this module
+     * @returns {String} the geometry type of the layer.
+     */
+    getGeometryType: state => {
+        if (state.layer.geometryType) {
+            return state.layer.geometryType;
+        }
+        const layer = layerCollection.getLayerById(state.layer.id),
+            features = layer.getLayerSource().getFeatures();
+
+        if (features.length > 0) {
+            return features[0].getGeometry().getType();
+        }
+        console.warn("Fails to highlighting feature: no geometry type for layer ", state.layer.id);
+        return null;
     }
 };
 

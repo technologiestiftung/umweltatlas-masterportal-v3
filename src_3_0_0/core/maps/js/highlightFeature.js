@@ -172,7 +172,7 @@ export default {
             }
 
             clonedImage.setScale(clonedImage.getScale() * scaleFactor);
-            if (highlightObject?.highlightStyle?.fill && highlightObject?.highlightStyle?.fill?.color) {
+            if (highlightObject?.highlightStyle?.fill && highlightObject?.highlightStyle?.fill?.color && typeof clonedImage.getFill === "function") {
                 clonedImage.getFill().setColor(highlightObject.highlightStyle.fill.color);
             }
             feature.setStyle(clonedStyle);

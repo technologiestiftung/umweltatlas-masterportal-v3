@@ -241,7 +241,7 @@ Layer2d.prototype.addErrorListener = function (layerSource) {
     layerSource?.on("imageloaderror", async function (evt) {
         await this.errorHandling(await axios.get(evt.image.src_, {withCredentials: true})
             .catch(function (error) {
-                return error.toJSON().status;
+                return typeof error.toJSON === "function" ? error.toJSON().status : 0;
             }), this.get("name"));
     }.bind(this));
 };

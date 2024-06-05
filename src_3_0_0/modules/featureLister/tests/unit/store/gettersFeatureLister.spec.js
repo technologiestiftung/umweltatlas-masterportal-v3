@@ -2,13 +2,16 @@ import {expect} from "chai";
 import sinon from "sinon";
 import getters from "../../../store/gettersFeatureLister";
 import layerCollection from "../../../../../core/layers/js/layerCollection";
-const {featureProperties, featureDetails, headers, selectedFeature} = getters;
+const {featureProperties, featureDetails, getGeometryType, headers, selectedFeature} = getters;
 
 describe("src_3_0_0/modules/featureLister/store/gettersFeatureLister", () => {
     const gfiFeature1 = {
             id: "1",
             getAttributesToShow: () => "showAll",
-            getProperties: () => ({generic: "Hallo", alpha: "Dies", beta: "ist", gamma: "ein", delta: "Test"})
+            getProperties: () => ({generic: "Hallo", alpha: "Dies", beta: "ist", gamma: "ein", delta: "Test"}),
+            getGeometry: () => ({
+                getType: () => "Polygon"
+            })
         },
         gfiFeature2 = {
             id: "2",
@@ -49,6 +52,16 @@ describe("src_3_0_0/modules/featureLister/store/gettersFeatureLister", () => {
     });
 
     afterEach(sinon.restore);
+
+    describe("getGeometryType", () => {
+        it("returns geometryType from state's layer", () => {
+            state.layer.geometryType = "Point";
+            expect(getGeometryType(state)).to.be.equal("Point");
+        });
+        it("returns geometryType of first feature", () => {
+            expect(getGeometryType(state)).to.be.equal("Polygon");
+        });
+    });
 
     describe("selectedFeature", () => {
         it("returns the feature at index 0", () => {

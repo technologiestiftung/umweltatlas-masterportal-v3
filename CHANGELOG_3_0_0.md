@@ -43,6 +43,7 @@
 - Tooltips for layernames and folders.
 - Addons of type "javascript" or "control" can be loaded.
 - Map: on touch devices the map can be moved with two fingers, if `twoFingerPan` is true in config.json.
+- FeatureLister: layers of typ OAF are supported.
 
 ### Changed
 - CoordToolkit: Toast added instead of Alert for feedback after copying coordinates.
@@ -84,7 +85,7 @@
 - Restructured `highlightFeature` and `removeHighlighting`.
 - Script to migrate masterportal configuration files to version 3.0.0 is ready to use.
 - Styling for Search Results to match topic tree.
-- Moved config.json-Parameter `twoFingerPan` from `portalConfig.map.mapView` to `portalConfig.map.mapView.mapInteractions.interactionModes`. 
+- Moved config.json-Parameter `twoFingerPan` from `portalConfig.map.mapView` to `portalConfig.map.mapView.mapInteractions.interactionModes`.
 
 ### Deprecated
 
@@ -104,6 +105,7 @@
 - Issue #1148: fixed bug in vector search so that it can handle GeometryCollection.
 - Issue #1153: The Parameter "isSecured" is now recognized if defined in the config.json.
 - Issue #1084: fix wrong pointMarker placement when featureType is MultiPolygon.
+- Issue #1095: FeatureLister: Fixed highlighting on hover and on click.
 - Layer selection: The order of the layers corresponds to the order of the layers in config.json.
 - Fixed HighlightFeature for MultiPolygons: In certain WFS layers, when polygon selection is enabled,
     clicking on a polygon would highlight it, but multiPolygons wouldn't. This has now been corrected.
@@ -353,6 +355,7 @@
 - Changes in routing-components in order to improve accessibility.
 - The layer pills are now animated, work with the menu and only show the arrow buttons when useful.
 - Proxy function handling has been centralized.
+- FeatureLister: layers of typ OAF are supported.
 
 ### Removed
 - The url parameter `TOOLS/[tool-id]` was removed. The `MENU` parameter can be used instead.
