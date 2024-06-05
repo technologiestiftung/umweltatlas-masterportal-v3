@@ -128,6 +128,7 @@
 - OAF: Layers are displayed if activated in 3D mode.
 - Layers: if only maxScale is set at layer, minScale is set to 0.
 - 3D: GFI of Cesium3DTileFeature shows correct properties.
+- SearchBar: no error is logged to console, if a search request is aborted, because the same URL is requested again.
 ---
 
 ---
