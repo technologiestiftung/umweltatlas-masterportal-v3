@@ -576,16 +576,22 @@ export default {
                 const items = [];
 
                 Object.entries(statisticsData[statData]).forEach(([region, years]) => {
-                    items.push([region, ...Object.values(years).reverse()]);
                     if (headers.length === 0) {
-                        headers.push("Gebiet", ...Object.keys(years).reverse());
+                        headers.push({name: "Gebiet"});
+                        Object.keys(years).reverse().forEach((year) => {
+                            headers.push({name: year});
+                        });
                     }
+
+                    items.push({Gebiet: region, ...years});
+
                 });
                 data.push({
                     headers,
                     items
                 });
             });
+
             return data;
         },
 

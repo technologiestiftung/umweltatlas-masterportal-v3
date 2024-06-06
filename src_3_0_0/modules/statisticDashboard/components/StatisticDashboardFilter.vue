@@ -369,6 +369,9 @@ export default {
                     background-color: $light_blue;
                     color: $white;
                 }
+                button.selected {
+                    background: $dark_blue;
+                }
             }
         }
     }
