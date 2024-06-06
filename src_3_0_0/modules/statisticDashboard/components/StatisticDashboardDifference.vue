@@ -135,7 +135,7 @@ export default {
                     :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
                     label="label"
                     track-by="label"
-                    @input="updateSelectedReferenceData('date')"
+                    @select="updateSelectedReferenceData('date')"
                 />
             </div>
             <div
@@ -150,7 +150,7 @@ export default {
                     :searchable="false"
                     :show-labels="false"
                     :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
-                    @input="updateSelectedReferenceData('region')"
+                    @select="updateSelectedReferenceData('region')"
                 />
             </div>
         </div>

@@ -305,7 +305,7 @@ export default {
     margin-top: 25px;
     .difference-modal {
         position: absolute;
-        z-index: 1;
+        z-index: 4;
         background-color: #ffffff;
         border: 1px solid #dee2e6;
         right: 0px;
