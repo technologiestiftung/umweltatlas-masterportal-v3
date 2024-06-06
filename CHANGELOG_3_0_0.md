@@ -355,7 +355,6 @@
 - Changes in routing-components in order to improve accessibility.
 - The layer pills are now animated, work with the menu and only show the arrow buttons when useful.
 - Proxy function handling has been centralized.
-- FeatureLister: layers of typ OAF are supported.
 
 ### Removed
 - The url parameter `TOOLS/[tool-id]` was removed. The `MENU` parameter can be used instead.
