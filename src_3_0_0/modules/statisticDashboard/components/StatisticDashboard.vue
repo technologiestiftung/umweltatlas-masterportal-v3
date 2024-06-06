@@ -150,13 +150,6 @@ export default {
                 this.legendValue = FeaturesHandler.getLegendValue(val);
             },
             deep: true
-        },
-
-        tableData: {
-            handler (val) {
-                console.log(val);
-            },
-            deep: true
         }
     },
     async created () {

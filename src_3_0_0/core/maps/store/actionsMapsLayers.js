@@ -45,7 +45,7 @@ export default {
                 alwaysOnTop: alwaysOnTop
             });
 
-            //@TODO use the existing method
+            // @TODO use the existing method
             const map2D = mapCollection.getMap("2D");
 
             if (!map2D.getLayers().getArray().includes(resultLayer)) {

@@ -34,10 +34,7 @@ export default {
     emits: ["changeCategory", "changeFilterSettings", "resetStatistics"],
     data () {
         return {
-            showAllHiddenStatistics: false,
-            selectedCategoriesinMultiselect: this.selectedCategories,
-            selectedRegionsinMultiselect: this.selectedRegions,
-            selectedDatesinMultiselect: this.selectedDates
+            showAllHiddenStatistics: false
         };
     },
     computed: {
@@ -71,9 +68,8 @@ export default {
          * @param {Object} value - The selected category.
          * @returns {void}
          */
-        selectedCategoriesinMultiselect: {
+        selectedCategories: {
             handler (value) {
-                this.setSelectedCategories(value);
                 this.resetStatistics();
                 this.$emit("changeCategory", value?.name);
             },
@@ -86,16 +82,14 @@ export default {
             },
             deep: true
         },
-        selectedDatesinMultiselect: {
-            handler (value) {
-                this.setSelectedDates(value);
+        selectedDates: {
+            handler () {
                 this.emitFilterSettings(this.selectedStatistics, this.selectedRegionsValues, this.selectedDatesValues);
             },
             deep: true
         },
-        selectedRegionsinMultiselect: {
-            handler (value) {
-                this.setSelectedRegions(value);
+        selectedRegions: {
+            handler () {
                 this.emitFilterSettings(this.selectedStatistics, this.selectedRegionsValues, this.selectedDatesValues);
             },
             deep: true
@@ -212,7 +206,7 @@ export default {
                                 {{ $t("common:modules.statisticDashboard.label.category") }}</label>
                             <Multiselect
                                 id="categoryfilter"
-                                v-model="selectedCategoriesinMultiselect"
+                                :model-value="selectedCategories"
                                 :options="categories"
                                 :searchable="true"
                                 :close-on-select="true"
@@ -225,6 +219,7 @@ export default {
                                 :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
                                 track-by="name"
                                 label="name"
+                                @update:model-value="setSelectedCategories"
                             />
                         </div>
                         <div class="col-sm-12">
@@ -235,7 +230,7 @@ export default {
                             </label>
                             <Multiselect
                                 id="areafilter"
-                                v-model="selectedRegionsinMultiselect"
+                                :model-value="selectedRegions"
                                 :multiple="true"
                                 :options="regions"
                                 :searchable="false"
@@ -248,6 +243,7 @@ export default {
                                 :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
                                 label="label"
                                 track-by="label"
+                                @update:model-value="setSelectedRegions"
                             />
                         </div>
                         <div class="col-sm-12">
@@ -258,7 +254,7 @@ export default {
                                 {{ $t("common:modules.statisticDashboard.label.year") }}</label>
                             <Multiselect
                                 id="timefilter"
-                                v-model="selectedDatesinMultiselect"
+                                :model-value="selectedDates"
                                 :multiple="true"
                                 :options="timeStepsFilter"
                                 :searchable="false"
@@ -271,6 +267,7 @@ export default {
                                 :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
                                 label="label"
                                 track-by="label"
+                                @update:model-value="setSelectedDates"
                             />
                         </div>
                     </div>
