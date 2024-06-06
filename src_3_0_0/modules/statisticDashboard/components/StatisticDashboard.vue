@@ -809,6 +809,10 @@ export default {
             if (!isObject(selectedLevel)) {
                 return;
             }
+
+            this.setLevelTitle(selectedLevel.levelTitle
+                ?? this.getRawLayerByLayerId(selectedLevel.layerId)?.datasets?.[0]?.md_name);
+
             const uniqueValues = await this.getUniqueValuesForLevel(selectedLevel),
                 selectedLevelRegionNameAttribute = this.getSelectedLevelRegionNameAttribute(selectedLevel),
                 selectedLevelDateAttribute = this.getSelectedLevelDateAttribute(selectedLevel);
@@ -840,11 +844,11 @@ export default {
 
             this.resetLevel();
 
-            this.selectLevel = this.data.find(val=> {
+            this.selectedLevel = this.data.find(val=> {
                 return val?.levelName === name;
             });
 
-            this.initializeData(this.selectLevel);
+            this.initializeData(this.selectedLevel);
         },
         /**
          * Resets to the original status
@@ -853,6 +857,12 @@ export default {
         resetLevel () {
             this.loadedFilterData = false;
             this.loadedReferenceData = false;
+            this.statisticsByCategory = false;
+            this.regions = [];
+            this.allRegions = [];
+            this.dates = [];
+            this.timeStepsFilter = [];
+            this.setSelectedCategories([]);
             this.setSelectedRegions([]);
             this.setSelectedDates([]);
             this.setSelectedReferenceData({});
@@ -871,7 +881,7 @@ export default {
         <div class="row justify-content-between">
             <div class="col-md-12 d-flex align-items-center">
                 <h4 class="mb-0">
-                    {{ $t(subtitle) }}
+                    {{ $t(levelTitle ?? subtitle) }}
                 </h4>
                 <div
                     v-if="getMetadataLink()"

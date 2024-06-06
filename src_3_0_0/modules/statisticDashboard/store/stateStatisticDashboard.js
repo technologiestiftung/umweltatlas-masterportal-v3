@@ -20,6 +20,7 @@ const state = {
     id: "statisticDashboard",
     name: "common:modules.statisticDashboard.name",
     subtitle: "common:modules.statisticDashboard.headings.mrhstatistics",
+    levelTitle: undefined,
     description: "common:modules.statisticDashboard.description",
     icon: "bi-bar-chart-line-fill",
     renderToWindow: false,
