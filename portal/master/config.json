@@ -1310,6 +1310,7 @@
                   "id": "12884",
                   "name": "Gebäude LoD2",
                   "typ": "TileSet3D",
+                  "gfiAttributes": "showAll",
                   "visibility": true
                 },
                 {
