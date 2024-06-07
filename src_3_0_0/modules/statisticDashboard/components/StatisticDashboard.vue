@@ -323,9 +323,18 @@ export default {
          */
         updateFeatureStyle (date, differenceMode, selectedReferenceData) {
             this.layer.getSource().clear();
+
             const regionNameAttribute = this.getSelectedLevelRegionNameAttribute(this.selectedLevel).attrName,
-                selectedLevelDateAttribute = this.getSelectedLevelDateAttribute(this.selectedLevel),
+                selectedLevelDateAttribute = this.getSelectedLevelDateAttribute(this.selectedLevel);
+
+            let filteredFeatures;
+
+            if (typeof date === "undefined" || typeof selectedLevelDateAttribute.attrName === "undefined") {
+                filteredFeatures = this.loadedFeatures;
+            }
+            else {
                 filteredFeatures = FeaturesHandler.filterFeaturesByKeyValue(this.loadedFeatures, selectedLevelDateAttribute.attrName, date);
+            }
 
             this.layer.getSource().addFeatures(filteredFeatures);
 
@@ -600,7 +609,6 @@ export default {
                 }
             }
         },
-
         /**
          * Gets the filter based on given regions and dates array.
          * Gets an Or Filter if one of them has more than one entry.
@@ -702,7 +710,7 @@ export default {
                     }
                     data[stat][region] = {};
                     dates.forEach(date => {
-                        if (date === this.selectedReferenceData?.value?.value) {
+                        if (date === this.selectedReferenceData?.value?.value || typeof date === "undefined") {
                             return;
                         }
                         const formatedDate = dayjs(date).format(dateAttribute.outputFormat),
@@ -713,6 +721,7 @@ export default {
                     });
                 });
             });
+
             return data;
         },
 

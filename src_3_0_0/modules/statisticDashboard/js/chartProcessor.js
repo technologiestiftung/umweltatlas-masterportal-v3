@@ -68,7 +68,7 @@ function createBarChart (topic, preparedData, direction, canvas, renderSimple = 
         dataValues = parsePreparedDataToBarChartFormat(preparedData),
         dataColors = getBarChartColors(dataValues, color),
         barChartConfig = {
-            type: direction === "horizontal" ? "horizontalBar" : "bar",
+            type: "bar",
             data: {
                 labels: Object.keys(preparedData),
                 datasets: [{
@@ -79,6 +79,7 @@ function createBarChart (topic, preparedData, direction, canvas, renderSimple = 
                 }]
             },
             options: {
+                indexAxis: direction === "horizontal" ? "y" : "x",
                 legend: {
                     display: false
                 },
@@ -122,6 +123,7 @@ function parsePreparedDataToLineChartFormat (preparedData, colors) {
     if (!isObject(preparedData)) {
         return {};
     }
+
     const datasets = [],
         singleDataObject = Object.values(preparedData)[0],
         allColors = colors !== undefined ? colors : Object.values(getCssColorMap());
@@ -139,7 +141,8 @@ function parsePreparedDataToLineChartFormat (preparedData, colors) {
                 label: region,
                 data: datas,
                 borderColor: color,
-                backgroundColor: color
+                backgroundColor: color,
+                borderWidth: 1
             };
 
         datasets.push(data);
@@ -148,6 +151,7 @@ function parsePreparedDataToLineChartFormat (preparedData, colors) {
     if (isObject(singleDataObject)) {
         labels = Object.keys(singleDataObject);
     }
+
     return {
         datasets,
         labels

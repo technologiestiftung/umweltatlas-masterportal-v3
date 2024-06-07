@@ -26,7 +26,8 @@ describe("src_3_0_0/modules/statisticDashboard/utils/chartProcessor.js", () => {
                             label: "foo",
                             data: [[1, 2, 3], [2, 3, 4]],
                             backgroundColor: "rgba(240, 248, 255, 1)",
-                            borderColor: "rgba(240, 248, 255, 1)"
+                            borderColor: "rgba(240, 248, 255, 1)",
+                            borderWidth: 1
                         }
                     ],
                     labels: ["bar", "bow"]

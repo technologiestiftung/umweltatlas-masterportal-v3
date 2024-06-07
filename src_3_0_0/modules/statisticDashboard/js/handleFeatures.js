@@ -11,7 +11,7 @@ import thousandsSeparator from "../../../shared/js/utils/thousandsSeparator";
  * @returns {ol/Feature[]} The filtered features.
  */
 function filterFeaturesByKeyValue (features, key, value) {
-    if (!Array.isArray(features) || typeof key !== "string" || typeof value === "undefined") {
+    if (!Array.isArray(features) || features.length === 0 || typeof key !== "string" || typeof value === "undefined") {
         return [];
     }
 

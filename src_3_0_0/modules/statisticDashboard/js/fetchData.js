@@ -91,6 +91,9 @@ function getUniqueValuesFromFeatures (features, attributes) {
         attributes.forEach(attribute => {
             const property = properties[attribute.name];
 
+            if (typeof property === "undefined") {
+                return;
+            }
             if (!isObject(result[attribute.name])) {
                 result[attribute.name] = {};
             }
