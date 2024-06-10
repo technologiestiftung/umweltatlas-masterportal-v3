@@ -44,6 +44,9 @@
 - Addons of type "javascript" or "control" can be loaded.
 - Map: on touch devices the map can be moved with two fingers, if `twoFingerPan` is true in config.json.
 - FeatureLister: layers of typ OAF are supported.
+- StatisticDashboard:
+  - Migrated from MP2 to MP3
+  - Can now load data from an OAF Rest API if an OAF layer is configured.
 
 ### Changed
 - CoordToolkit: Toast added instead of Alert for feedback after copying coordinates.

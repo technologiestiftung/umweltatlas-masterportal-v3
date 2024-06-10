@@ -16,6 +16,7 @@ import StatisticSwitcher from "./StatisticDashboardSwitcher.vue";
 import {rawLayerList} from "@masterportal/masterportalapi";
 import {getFeaturePOST} from "../../../shared/js/api/wfs/getFeature.js";
 import ChartProcessor from "../js/chartProcessor.js";
+
 import {
     and as andFilter,
     equalTo as equalToFilter,
@@ -154,6 +155,16 @@ export default {
     },
     async created () {
         this.layer = await this.addNewLayerIfNotExists({layerName: "statistic-dashboard"});
+        this.filterMap = {
+            "Or": "OR",
+            "And": "AND",
+            "PropertyIsEqualTo": "=",
+            "PropertyIsNotEqualTo": "<>",
+            "PropertyIsLessThan": "<",
+            "PropertyIsLessThanOrEqualTo": "<=",
+            "PropertyIsGreaterThan": ">",
+            "PropertyIsGreaterThanOrEqualTo": ">="
+        };
     },
     mounted () {
         this.selectedLevel = this.data[0];
@@ -383,6 +394,63 @@ export default {
         },
 
         /**
+         * Formats the filter expression based on if isDateAttribute is true.
+         * @param {String|Number} expression The expression to format.
+         * @param {Boolean} isDateAttribute The flag to decide wether formatted as date or not.
+         * @returns {String} the formatted expression.
+         */
+        formatFilterExpression (expression, isDateAttribute) {
+            if (typeof expression === "undefined" || typeof isDateAttribute !== "boolean") {
+                return expression;
+            }
+            let formattedExpression = "";
+
+            if (isDateAttribute) {
+                formattedExpression = `DATE('${expression}')`;
+            }
+            else {
+                formattedExpression = typeof expression === "string" ? `'${expression}'` : `${expression}`;
+            }
+            return formattedExpression;
+        },
+        /**
+         * Parses an existing ol filter into an OAF filter string.
+         * @param {ol/format/Filter} filter The filter to parse.
+         * @param {Object} filterMap The map to parse conditions from ol format to OAF format.
+         * @returns {String} The parsed oaf filter string.
+         */
+        parseOLFilterToOAF (filter, filterMap) {
+            if (!filter || !isObject(filterMap)) {
+                return "";
+            }
+            const operator = filterMap[filter?.tagName_],
+                dateAttributeName = this.getSelectedLevelDateAttribute(this.selectedLevel)?.attrName;
+            let parsedFilter = "";
+
+            if (!Array.isArray(filter?.conditions)) {
+                if (filter?.expression && filter?.propertyName && operator) {
+                    return `${filter.propertyName} ${operator} ${this.formatFilterExpression(filter.expression, filter.propertyName === dateAttributeName)}`;
+                }
+                return parsedFilter;
+            }
+            filter.conditions.forEach((condition, idx) => {
+                if (Object.prototype.hasOwnProperty.call(condition, "conditions")) {
+                    parsedFilter += `(${this.parseOLFilterToOAF(condition, filterMap)})`;
+                    if (idx < filter.conditions.length - 1) {
+                        parsedFilter += ` ${operator} `;
+                    }
+                    return;
+                }
+                parsedFilter += `${condition.propertyName} ${filterMap[condition.tagName_]} `;
+                parsedFilter += this.formatFilterExpression(condition.expression, condition.propertyName === dateAttributeName);
+                if (idx < filter.conditions.length - 1) {
+                    parsedFilter += ` ${operator} `;
+                }
+            });
+            return parsedFilter;
+        },
+
+        /**
          * Handles the filter settings and starts a POST request based on given settings.
          * @param {String[]} regions - The selected regions for the statistic(s).
          * @param {String[]} dates - The selected dates for the statistic(s).
@@ -400,12 +468,29 @@ export default {
                     srsName: this.projection.getCode(),
                     propertyNames: [...statsKeys, selectedLevelRegionNameAttribute.attrName, selectedLevelDateAttribute.attrName, this.selectedLevel.geometryAttribute],
                     filter: this.getFilter(regions, dates)
-                },
+                };
+            let response = null;
+
+            if (selectedLayer.typ === "WFS") {
                 response = await getFeaturePOST(selectedLayer.url, payload, error => {
                     console.error(error);
                 });
-
-            this.loadedFeatures = new WFS().readFeatures(response);
+                this.loadedFeatures = new WFS().readFeatures(response);
+            }
+            else if (selectedLayer.typ === "OAF") {
+                payload.propertyNames.splice(payload.propertyNames.indexOf(this.selectedLevel.geometryAttribute), 1);
+                this.loadedFeatures = await FetchDataHandler.getOAFFeatures(
+                    selectedLayer.url,
+                    selectedLayer.collection,
+                    payload.propertyNames,
+                    this.projection.getCode(),
+                    "http://www.opengis.net/def/crs/EPSG/0/25832",
+                    "EPSG:25832",
+                    this.parseOLFilterToOAF(payload.filter, this.filterMap),
+                    "http://www.opengis.net/def/crs/EPSG/0/25832",
+                    400
+                );
+            }
 
             if (differenceMode) {
                 this.referenceFeatures = {};

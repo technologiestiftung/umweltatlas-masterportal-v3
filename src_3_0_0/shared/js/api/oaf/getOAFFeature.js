@@ -7,11 +7,13 @@ import {GeoJSON} from "ol/format";
  * @param {String} baseUrl The base url.
  * @param {String} collection The collection.
  * @param {Number} limit The limit of features per request.
- * @param {String} filter The filter. See https://ogcapi.ogc.org/features/ for more information.
- * @param {String} filterCrs The filter crs. Needs to be set if a filter is used.
+ * @param {String} [filter] The filter. See https://ogcapi.ogc.org/features/ for more information.
+ * @param {String} [filterCrs] The filter crs. Needs to be set if a filter is used.
+ * @param {String} [crs] The crs for the geometry of the features.
+ * @param {String[]} [propertyNames] The property names to narrow the request.
  * @returns {Promise} An promise which resolves an array of oaf features.
  */
-async function getOAFFeatureGet (baseUrl, collection, limit = 400, filter = undefined, filterCrs = undefined) {
+async function getOAFFeatureGet (baseUrl, collection, limit = 400, filter = undefined, filterCrs = undefined, crs = undefined, propertyNames = undefined) {
     if (typeof baseUrl !== "string") {
         return new Promise((resolve, reject) => {
             reject(new Error(`Please provide a valid base url! Got ${baseUrl}`));
@@ -28,8 +30,12 @@ async function getOAFFeatureGet (baseUrl, collection, limit = 400, filter = unde
         });
     }
     const url = `${baseUrl}/collections/${collection}/items?limit=${limit}`,
-        extendedUrl = filter ? `${url}&filter=${filter}&filter-crs=${filterCrs}` : url,
         result = [];
+    let extendedUrl = filter ? `${url}&filter=${filter}&filter-crs=${filterCrs}&crs=${crs}` : url;
+
+    if (Array.isArray(propertyNames)) {
+        extendedUrl += `&properties=${propertyNames.join(",")}`;
+    }
 
     return this.oafRecursionHelper(result, extendedUrl);
 }

@@ -15,7 +15,7 @@ function filterFeaturesByKeyValue (features, key, value) {
         return [];
     }
 
-    return features.filter(feature => feature.get(key).split(value).length - 1 === 1);
+    return features.filter(feature => feature.get(key)?.split(value)?.length - 1 === 1);
 }
 
 /**

@@ -3,6 +3,8 @@ import {getFeatureGET} from "../../../shared/js/api/wfs/getFeature";
 import {WFS} from "ol/format.js";
 import isObject from "../../../shared/js/utils/isObject";
 import {describeFeatureType, getFeatureDescription} from "../../../shared/js/api/wfs/describeFeatureType";
+import {fetchAllOafProperties, getUniqueValuesFromFetchedFeatures as getUniqueValuesFromOAF} from "../../filter/utils/fetchAllOafProperties";
+import getOAFFeature from "../../../shared/js/api/oaf/getOAFFeature";
 
 /**
  * Gets the unique values for the given attributes.
@@ -23,7 +25,13 @@ async function getUniqueValues (layerId, attributesToFilter) {
         response = await this.fetchAllDataForWFS(rawLayer?.url, rawLayer?.featureType, attributesToFilter.join(","));
         features = new WFS().readFeatures(response);
         attributesWithType = await this.getAttributesWithType(rawLayer?.url, attributesToFilter, rawLayer?.featureType);
-        // TODO: handle OAF.
+    }
+    else if (rawLayer?.typ === "OAF") {
+        return new Promise((resolve, reject) => {
+            fetchAllOafProperties(rawLayer?.url, rawLayer?.collection, rawLayer?.limit ?? 400, properties => {
+                resolve(getUniqueValuesFromOAF(properties, attributesToFilter, true));
+            }, error => reject(error), true, attributesToFilter);
+        });
     }
     return this.getUniqueValuesFromFeatures(features, attributesWithType);
 }
@@ -93,9 +101,37 @@ function getUniqueValuesFromFeatures (features, attributes) {
     return result;
 }
 
+/**
+ * Gets the OAF features.
+ * @param {String} baseUrl The base url.
+ * @param {String} collection The collection.
+ * @param {String[]} propertyNames The property names to narrow the request.
+ * @param {String} featureProjection The projection to use for displaying the features on the map.
+ * @param {String} crs The crs for the requested geometry.
+ * @param {String} dataProjection The projection code of data.
+ * @param {ol/format/Filter} filter The filter to use.
+ * @param {String} filterCrs The filter crs.
+ * @param {Number} [limit=400] The limit per request.
+ * @returns {ol/Feature[]} An array of openlayer features.
+ */
+async function getOAFFeatures (baseUrl, collection, propertyNames, featureProjection, crs, dataProjection, filter, filterCrs, limit = 400) {
+    let features = [];
+
+    try {
+        features = await getOAFFeature.getOAFFeatureGet(baseUrl, collection, limit, filter, filterCrs, crs, propertyNames);
+    }
+    catch (error) {
+        console.error(error);
+        return [];
+    }
+
+    return getOAFFeature.readAllOAFToGeoJSON(features, {featureProjection, dataProjection});
+}
+
 export default {
     getUniqueValues,
     getAttributesWithType,
     fetchAllDataForWFS,
-    getUniqueValuesFromFeatures
+    getUniqueValuesFromFeatures,
+    getOAFFeatures
 };
