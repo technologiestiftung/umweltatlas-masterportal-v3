@@ -1,76 +1,80 @@
-import {config, createLocalVue, shallowMount} from "@vue/test-utils";
+import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
-import Vuex from "vuex";
+import {createStore} from "vuex";
 import StatisticDashboardDifference from "../../../components/StatisticDashboardDifference.vue";
 import indexStatisticDashboard from "../../../store/indexStatisticDashboard";
 import Multiselect from "vue-multiselect";
 import StatisticSwitcher from "../../../components/StatisticDashboardSwitcher.vue";
 import sinon from "sinon";
 
-const localVue = createLocalVue();
+config.global.mocks.$t = key => key;
 
-localVue.use(Vuex);
-config.mocks.$t = key => key;
+describe("src_3_0_0/modules/statiscticDashboard/components/StatisticDashboardDifference.vue", () => {
+    const propsData = {
+        referenceData: {
+            "date": [
+                {label: "2000", value: "2000"},
+                {label: "2001", value: "2001"},
+                {label: "2002", value: "2002"}
+            ],
+            "region": [
+                {label: "Wandsbek", value: "Wandsbek"},
+                {label: "Hamburg", value: "Hamburg"},
+                {label: "Deutschland", value: "Deutschland"}
+            ]
+        }
+    };
 
-describe("src/modules/tools/statiscticDashboard/components/StatisticDashboardDifference.vue", () => {
-    const store = new Vuex.Store({
+    let store;
+
+    beforeEach(() => {
+        store = createStore({
             namespaced: true,
             modules: {
-                Tools: {
+                Modules: {
                     namespaced: true,
                     modules: {
                         StatisticDashboard: indexStatisticDashboard
                     }
                 }
             }
-        }),
-        propsData = {
-            referenceData: {
-                "date": [
-                    {label: "2000", value: "2000"},
-                    {label: "2001", value: "2001"},
-                    {label: "2002", value: "2002"}
-                ],
-                "region": [
-                    {label: "Wandsbek", value: "Wandsbek"},
-                    {label: "Hamburg", value: "Hamburg"},
-                    {label: "Deutschland", value: "Deutschland"}
-                ]
-            }
-        };
+        });
+    });
+
+    afterEach(sinon.restore);
 
     describe("Component DOM", () => {
         it("The title should exist", () => {
             const wrapper = shallowMount(StatisticDashboardDifference, {
                 propsData: propsData,
-                localVue,
-                store
+                global: {
+                    plugins: [store]
+                }
             });
 
             expect(wrapper.find("h4").exists()).to.be.true;
-            wrapper.destroy();
         });
 
-        it("should find switcher component", async () => {
+        it("should find switcher component", () => {
             const wrapper = shallowMount(StatisticDashboardDifference, {
                 propsData: propsData,
-                localVue,
-                store
+                global: {
+                    plugins: [store]
+                }
             });
 
             expect(wrapper.findComponent(StatisticSwitcher).exists()).to.be.true;
-            wrapper.destroy();
         });
 
         it("The component multiselect should exist", () => {
             const wrapper = shallowMount(StatisticDashboardDifference, {
                 propsData: propsData,
-                localVue,
-                store
+                global: {
+                    plugins: [store]
+                }
             });
 
             expect(wrapper.findComponent(Multiselect).exists()).to.be.true;
-            wrapper.destroy();
         });
     });
 
@@ -79,33 +83,36 @@ describe("src/modules/tools/statiscticDashboard/components/StatisticDashboardDif
             it("should do nothing if closest function of param returns true", () => {
                 const wrapper = shallowMount(StatisticDashboardDifference, {
                     propsData: propsData,
-                    localVue,
-                    store
+                    global: {
+                        plugins: [store]
+                    }
                 });
 
                 wrapper.vm.handleClickOutside({target: {closest: () => true}});
                 expect(wrapper.emitted("showDifference")).to.be.undefined;
-                wrapper.destroy();
+
             });
             it("should emit showDifference with false as parameter", () => {
                 const wrapper = shallowMount(StatisticDashboardDifference, {
                     propsData: propsData,
-                    localVue,
-                    store
+                    global: {
+                        plugins: [store]
+                    }
                 });
 
                 wrapper.vm.handleClickOutside({target: {closest: () => false}});
                 expect(wrapper.emitted()).to.have.property("showDifference");
                 expect(wrapper.emitted().showDifference[0]).to.deep.equal([false]);
-                wrapper.destroy();
+
             });
         });
         describe("updateSelectedReferenceData", () => {
             it("should set the selectedReferenceData to the emit object for date", () => {
                 const wrapper = shallowMount(StatisticDashboardDifference, {
                         propsData: propsData,
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     expected = {
                         type: "date",
@@ -121,14 +128,15 @@ describe("src/modules/tools/statiscticDashboard/components/StatisticDashboardDif
 
                 expect(setSelectedReferenceDataStub.calledWith(expected)).to.be.true;
                 expect(wrapper.vm.selectedRegion).to.be.an("string").that.is.empty;
-                wrapper.destroy();
+
                 sinon.restore();
             });
             it("should set the selectedReferenceData to undefined for date if no vale for selectedDate is set", () => {
                 const wrapper = shallowMount(StatisticDashboardDifference, {
                         propsData: propsData,
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     setSelectedReferenceDataStub = sinon.stub(wrapper.vm, "setSelectedReferenceData");
 
@@ -137,14 +145,15 @@ describe("src/modules/tools/statiscticDashboard/components/StatisticDashboardDif
 
                 expect(setSelectedReferenceDataStub.calledWith(undefined)).to.be.true;
                 expect(wrapper.vm.selectedRegion).to.be.an("string").that.is.empty;
-                wrapper.destroy();
+
                 sinon.restore();
             });
             it("should set the selectedReferenceData to the emit object for region", () => {
                 const wrapper = shallowMount(StatisticDashboardDifference, {
                         propsData: propsData,
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     expected = {
                         type: "region",
@@ -157,14 +166,15 @@ describe("src/modules/tools/statiscticDashboard/components/StatisticDashboardDif
 
                 expect(setSelectedReferenceDataStub.calledWith(expected)).to.be.true;
                 expect(wrapper.vm.selectedDate).to.be.an("string").that.is.empty;
-                wrapper.destroy();
+
                 sinon.restore();
             });
             it("should set the selectedReferenceData to undefined for region", () => {
                 const wrapper = shallowMount(StatisticDashboardDifference, {
                         propsData: propsData,
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     setSelectedReferenceDataStub = sinon.stub(wrapper.vm, "setSelectedReferenceData");
 
@@ -173,34 +183,36 @@ describe("src/modules/tools/statiscticDashboard/components/StatisticDashboardDif
 
                 expect(setSelectedReferenceDataStub.calledWith(undefined)).to.be.true;
                 expect(wrapper.vm.selectedDate).to.be.an("string").that.is.empty;
-                wrapper.destroy();
+
                 sinon.restore();
             });
             it("should set the selectedReferenceData", async () => {
                 const wrapper = shallowMount(StatisticDashboardDifference, {
                         propsData: propsData,
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     setSelectedReferenceDataStub = sinon.stub(wrapper.vm, "setSelectedReferenceData");
 
                 wrapper.vm.selectedRegion = "Hamburg";
                 wrapper.vm.updateSelectedReferenceData("region");
                 expect(setSelectedReferenceDataStub.called).to.be.true;
-                wrapper.destroy();
+
                 sinon.restore();
             });
             it("should emit showDifference with false as parameter", () => {
                 const wrapper = shallowMount(StatisticDashboardDifference, {
                     propsData: propsData,
-                    localVue,
-                    store
+                    global: {
+                        plugins: [store]
+                    }
                 });
 
                 wrapper.vm.updateSelectedReferenceData();
                 expect(wrapper.emitted()).to.have.property("showDifference");
                 expect(wrapper.emitted().showDifference[0]).to.deep.equal([false]);
-                wrapper.destroy();
+
             });
         });
     });

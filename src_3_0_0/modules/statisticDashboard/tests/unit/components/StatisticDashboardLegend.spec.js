@@ -1,26 +1,30 @@
-import {config, createLocalVue, shallowMount} from "@vue/test-utils";
+import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
-import Vuex from "vuex";
+import {createStore} from "vuex";
 import StatisticDashboardLegend from "../../../components/StatisticDashboardLegend.vue";
 import indexStatisticDashboard from "../../../store/indexStatisticDashboard";
-const localVue = createLocalVue();
+import sinon from "sinon";
 
-localVue.use(Vuex);
-config.mocks.$t = key => key;
+config.global.mocks.$t = key => key;
 
-describe("src/modules/tools/statiscticDashboard/components/StatisticDashboardLegend.vue", () => {
+describe("src_3_0_0/modules/statiscticDashboard/components/StatisticDashboardLegend.vue", () => {
+    let store;
 
-    const store = new Vuex.Store({
-        namespaced: true,
-        modules: {
-            Tools: {
-                namespaced: true,
-                modules: {
-                    StatisticDashboard: indexStatisticDashboard
+    beforeEach(() => {
+        store = createStore({
+            namespaced: true,
+            modules: {
+                Modules: {
+                    namespaced: true,
+                    modules: {
+                        StatisticDashboard: indexStatisticDashboard
+                    }
                 }
             }
-        }
+        });
     });
+
+    afterEach(sinon.restore);
 
     describe("Component DOM", () => {
         it("The component should exist", () => {
@@ -36,15 +40,15 @@ describe("src/modules/tools/statiscticDashboard/components/StatisticDashboardLeg
                 },
                 wrapper = shallowMount(StatisticDashboardLegend, {
                     propsData: propsData,
-                    localVue,
-                    store
+                    global: {
+                        plugins: [store]
+                    }
                 });
 
             expect(wrapper.find("#legend-content").exists()).to.be.true;
             expect(wrapper.find("#collapseLegend img").exists()).to.be.true;
             expect(wrapper.find("#collapseLegend span").exists()).to.be.true;
             expect(wrapper.find("#collapseLegend span").text()).to.be.equal("90");
-            wrapper.destroy();
         });
         it("should render title", () => {
             const propsData = {
@@ -59,12 +63,12 @@ describe("src/modules/tools/statiscticDashboard/components/StatisticDashboardLeg
                 },
                 wrapper = shallowMount(StatisticDashboardLegend, {
                     propsData: propsData,
-                    localVue,
-                    store
+                    global: {
+                        plugins: [store]
+                    }
                 });
 
             expect(wrapper.find(".accordion-item").text()).to.be.include("Einwohner");
-            wrapper.destroy();
         });
         it("should render notice text", () => {
             const propsData = {
@@ -79,12 +83,12 @@ describe("src/modules/tools/statiscticDashboard/components/StatisticDashboardLeg
                 },
                 wrapper = shallowMount(StatisticDashboardLegend, {
                     propsData: propsData,
-                    localVue,
-                    store
+                    global: {
+                        plugins: [store]
+                    }
                 });
 
             expect(wrapper.find(".more-statistics").exists()).to.be.true;
-            wrapper.destroy();
         });
     });
 });

@@ -1,9 +1,10 @@
-import {config, createLocalVue, shallowMount} from "@vue/test-utils";
+import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
-import Vuex from "vuex";
+import {createStore} from "vuex";
 import StatisticDashboard from "../../../components/StatisticDashboard.vue";
 import indexStatisticDashboard from "../../../store/indexStatisticDashboard";
 import LegendComponent from "../../../components/StatisticDashboardLegend.vue";
+import StatisticSwitcherComponent from "../../../components/StatisticDashboardSwitcher.vue";
 import sinon from "sinon";
 import fetchData from "../../../js/fetchData";
 import ChartProcessor from "../../../js/chartProcessor";
@@ -13,41 +14,14 @@ import {
 } from "ol/format/filter";
 import Feature from "ol/Feature.js";
 
-const localVue = createLocalVue();
+config.global.mocks.$t = key => key;
 
-localVue.use(Vuex);
-config.mocks.$t = key => key;
-
-describe("src/modules/tools/StatisticDashboard.vue", () => {
+describe("src_3_0_0/modules/StatisticDashboard.vue", () => {
     const sourceStub = {
             clear: sinon.stub(),
             addFeature: sinon.stub(),
             addFeatures: sinon.stub()
         },
-        store = new Vuex.Store({
-            namespaced: true,
-            modules: {
-                Tools: {
-                    namespaced: true,
-                    modules: {
-                        StatisticDashboard: indexStatisticDashboard
-                    }
-                },
-                Maps: {
-                    namespaced: true,
-                    getters: {
-                        projection: () => "EPSG:25832"
-                    },
-                    actions: {
-                        addNewLayerIfNotExists: () => {
-                            return Promise.resolve({
-                                getSource: () => sourceStub
-                            });
-                        }
-                    }
-                }
-            }
-        }),
         featureList = [
             new Feature({
                 bev_maennlich: "13",
@@ -70,101 +44,162 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
             })
         ];
 
+    let store;
+
+    beforeEach(() => {
+        store = createStore({
+            namespaced: true,
+            modules: {
+                Modules: {
+                    namespaced: true,
+                    modules: {
+                        StatisticDashboard: indexStatisticDashboard
+                    }
+                },
+                Maps: {
+                    namespaced: true,
+                    getters: {
+                        projection: () => "EPSG:25832"
+                    },
+                    actions: {
+                        addNewLayerIfNotExists: () => {
+                            return Promise.resolve({
+                                getSource: () => sourceStub
+                            });
+                        }
+                    }
+                }
+            }});
+    });
+
+    afterEach(sinon.restore);
+
     describe("Component DOM", () => {
         it("Level name as switch button should not exist", () => {
-            const wrapper = shallowMount(StatisticDashboard, {
-                localVue,
-                store
-            });
+            const wrapper = shallowMount(StatisticDashboard, {global: {
+                plugins: [store]
+            }});
 
             expect(wrapper.find(".level-switch").exists()).to.be.false;
-            wrapper.destroy();
         });
 
         it("Level name as switch button should exist", () => {
-            const wrapper = shallowMount(StatisticDashboard, {
-                computed: {
-                    buttonGroupRegions: () => [
-                        {
-                            "levelName": "test1"
+            const localStore = createStore({
+                    namespaced: true,
+                    modules: {
+                        Modules: {
+                            namespaced: true,
+                            modules: {
+                                StatisticDashboard: {
+                                    namespaced: true,
+                                    getters: {
+                                        active: () => true,
+                                        subtitle: () => "test",
+                                        levelTitle: () => "test",
+                                        selectedReferenceData: () => undefined,
+                                        legendData: () => [],
+                                        chartTableToggle: () => "table",
+                                        data: () => [],
+                                        buttonGroupRegions: () => [
+                                            {
+                                                "levelName": "test1"
+                                            },
+                                            {
+                                                "levelName": "test2"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
                         },
-                        {
-                            "levelName": "test2"
+                        Maps: {
+                            namespaced: true,
+                            getters: {
+                                projection: () => "EPSG:25832"
+                            },
+                            actions: {
+                                addNewLayerIfNotExists: () => {
+                                    return Promise.resolve({
+                                        getSource: () => sourceStub
+                                    });
+                                }
+                            }
                         }
-                    ]
-                },
-                localVue,
-                store
-            });
+                    }}),
+                wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [localStore]
+                    }
+                });
 
-            expect(wrapper.find(".level-switch").exists()).to.be.true;
-            wrapper.destroy();
+            expect(wrapper.findComponent(StatisticSwitcherComponent).exists()).to.be.false;
         });
 
         it("The legend component should not exist", () => {
             const wrapper = shallowMount(StatisticDashboard, {
-                localVue,
-                store
+                global: {
+                    plugins: [store]
+                }
             });
 
             expect(wrapper.findComponent(LegendComponent).exists()).to.be.false;
-            wrapper.destroy();
         });
 
         it("The legend component should exist", async () => {
             const wrapper = shallowMount(StatisticDashboard, {
-                localVue,
-                store
+                global: {
+                    plugins: [store]
+                }
             });
 
             await wrapper.setData({legendValue: ["legend"]});
 
             expect(wrapper.findComponent(LegendComponent).exists()).to.be.true;
-            wrapper.destroy();
         });
         it("should render legend if showNoLegendData is true", async () => {
             const wrapper = shallowMount(StatisticDashboard, {
-                localVue,
-                store
+                global: {
+                    plugins: [store]
+                }
             });
 
             await wrapper.setData({showNoLegendData: true});
 
             expect(wrapper.findComponent(LegendComponent).exists()).to.be.true;
-            wrapper.destroy();
         });
         it("should not render legend if showNoLegendData is false", async () => {
             const wrapper = shallowMount(StatisticDashboard, {
-                localVue,
-                store
+                global: {
+                    plugins: [store]
+                }
             });
 
             await wrapper.setData({showNoLegendData: false});
 
             expect(wrapper.findComponent(LegendComponent).exists()).to.be.false;
-            wrapper.destroy();
         });
     });
 
     describe("watchers", () => {
         it("should not call 'checkFilterSettings' if selectedReferenceData is changed", async () => {
             const wrapper = shallowMount(StatisticDashboard, {
-                    localVue,
-                    store
+                    global: {
+                        plugins: [store]
+                    }
                 }),
                 spyCheckFilterSettings = sinon.stub(wrapper.vm, "checkFilterSettings");
 
-            store.commit("Tools/StatisticDashboard/setSelectedReferenceData", "foo");
+            store.commit("Modules/StatisticDashboard/setSelectedReferenceData", "foo");
             await wrapper.vm.$nextTick();
             expect(spyCheckFilterSettings.calledOnce).to.be.false;
             sinon.restore();
         });
 
         it("should call 'checkFilterSettings' if selectedReferenceData is changed", async () => {
-            const newStore = new Vuex.Store({
+            const newStore = createStore({
                     namespaced: true,
                     modules: {
-                        Tools: {
+                        Modules: {
                             namespaced: true,
                             modules: {
                                 StatisticDashboard: {
@@ -216,17 +251,17 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
                     }
                 }),
                 wrapper = shallowMount(StatisticDashboard, {
-                    localVue,
-                    store: newStore
+                    global: {
+                        plugins: [newStore]
+                    }
                 }),
                 spyCheckFilterSettings = sinon.stub(wrapper.vm, "checkFilterSettings");
 
-            newStore.commit("Tools/StatisticDashboard/setSelectedReferenceData", "too");
+            newStore.commit("Modules/StatisticDashboard/setSelectedReferenceData", "too");
             await wrapper.vm.$nextTick();
 
             expect(spyCheckFilterSettings.calledOnce).to.be.true;
             sinon.restore();
-            wrapper.destroy();
         });
     });
 
@@ -234,8 +269,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
         describe("getUniqueValuesForLevel", () => {
             it("should return an empty object if first parm is not an object", async () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                    localVue,
-                    store
+                    global: {
+                        plugins: [store]
+                    }
                 });
 
                 expect(await wrapper.vm.getUniqueValuesForLevel(undefined)).to.be.an("object").that.is.empty;
@@ -248,16 +284,18 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
             });
             it("should return an empty object if first param has no child object called mappingFilter", async () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                    localVue,
-                    store
+                    global: {
+                        plugins: [store]
+                    }
                 });
 
                 expect(await wrapper.vm.getUniqueValuesForLevel({})).to.be.an("object").that.is.empty;
             });
             it("should return an empty object if first param has a child object but not expected structure", async () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                    localVue,
-                    store
+                    global: {
+                        plugins: [store]
+                    }
                 });
 
                 expect(await wrapper.vm.getUniqueValuesForLevel({
@@ -266,8 +304,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
             });
             it("should call expected function with expected params", async () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     layerId = "1234",
                     attrNames = [
@@ -295,8 +334,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
         describe("getTimestepsMerged", () => {
             it("should return an empty array if first param and second param are not objects", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                    localVue,
-                    store
+                    global: {
+                        plugins: [store]
+                    }
                 });
 
                 expect(wrapper.vm.getTimestepsMerged(undefined, undefined)).to.be.an("array").that.is.empty;
@@ -309,16 +349,18 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
             });
             it("should return an empty array if second param is not an object but first is", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                    localVue,
-                    store
+                    global: {
+                        plugins: [store]
+                    }
                 });
 
                 expect(wrapper.vm.getTimestepsMerged({foo: "bar"})).to.be.an("array").that.is.empty;
             });
             it("should return only the values of the second param as array with invalid dates", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     uniqueList = {foo: true, bar: true},
                     expected = [{value: "bar", label: "Invalid Date"}, {value: "foo", label: "Invalid Date"}];
@@ -327,8 +369,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
             });
             it("should return a merged array based of the given two objects", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     uniqueList = {bar: true, buz: true, foo: true},
                     configSteps = {2: "Last 2 Years"},
@@ -340,8 +383,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
         describe("getAllRegions", () => {
             it("should return an empty array if there are no regions found", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                    localVue,
-                    store
+                    global: {
+                        plugins: [store]
+                    }
                 });
 
                 expect(wrapper.vm.getAllRegions(undefined)).to.deep.equal([]);
@@ -354,8 +398,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
 
             it("should return an array with all option", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                    localVue,
-                    store
+                    global: {
+                        plugins: [store]
+                    }
                 });
 
                 expect(wrapper.vm.getAllRegions(["test", "test2"])).to.deep.equal([
@@ -370,8 +415,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
                 const regions = ["foo", "bar"],
                     dates = ["01.01.1999", "01.01.2000"],
                     wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     });
 
                 wrapper.vm.regions = regions;
@@ -383,8 +429,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
                 const regions = ["foo", "bar"],
                     dates = ["01.01.1999", "01.01.2000"],
                     wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     getFilterForListSpy = sinon.spy(wrapper.vm, "getFilterForList");
 
@@ -399,8 +446,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
                 const regions = ["foo", "bar"],
                     dates = ["01.01.1999", "01.01.2000"],
                     wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     getFilterForListSpy = sinon.spy(wrapper.vm, "getFilterForList");
 
@@ -418,8 +466,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
                     eq2 = equalToFilter("bow", "01.01.1999"),
                     expected = andFilter(eq2, eq1),
                     wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     });
 
                 wrapper.vm.regions = [...regions, "faw"];
@@ -441,8 +490,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
         describe("getFilterForList", () => {
             it("should return undefined if given list is not an array", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                    localVue,
-                    store
+                    global: {
+                        plugins: [store]
+                    }
                 });
 
                 expect(wrapper.vm.getFilterForList(undefined)).to.be.undefined;
@@ -455,8 +505,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
             });
             it("should return an equalTo filter", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     result = wrapper.vm.getFilterForList(["foo"], "bar");
 
@@ -464,8 +515,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
             });
             it("should return an equalTo filter", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     result = wrapper.vm.getFilterForList(["foo", "fow"], "bar");
 
@@ -475,10 +527,11 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
         });
         describe("updateReferenceTag", () => {
             it("should not call the method spySetSelectedReferenceValueTag", () => {
-                store.commit("Tools/StatisticDashboard/setSelectedReferenceData", {});
+                store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {});
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     spySetSelectedReferenceValueTag = sinon.stub(wrapper.vm, "setSelectedReferenceValueTag");
 
@@ -486,14 +539,15 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
 
                 expect(spySetSelectedReferenceValueTag.calledOnce).to.be.false;
 
-                wrapper.destroy();
+
                 sinon.restore();
             });
             it("should not call the method spySetSelectedReferenceValueTag", () => {
-                store.commit("Tools/StatisticDashboard/setSelectedReferenceData", {});
+                store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {});
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     spySetSelectedReferenceValueTag = sinon.stub(wrapper.vm, "setSelectedReferenceValueTag");
 
@@ -501,14 +555,15 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
 
                 expect(spySetSelectedReferenceValueTag.calledOnce).to.be.false;
 
-                wrapper.destroy();
+
                 sinon.restore();
             });
             it("should not call the method spySetSelectedReferenceValueTag", () => {
-                store.commit("Tools/StatisticDashboard/setSelectedReferenceData", {});
+                store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {});
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     spySetSelectedReferenceValueTag = sinon.stub(wrapper.vm, "setSelectedReferenceValueTag"),
                     selectedLevel = {
@@ -532,14 +587,15 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
 
                 expect(spySetSelectedReferenceValueTag.calledOnce).to.be.false;
 
-                wrapper.destroy();
+
                 sinon.restore();
             });
             it("should call the method getSelectedLevelDateAttribute", () => {
-                store.commit("Tools/StatisticDashboard/setSelectedReferenceData", {});
+                store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {});
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     selectedLevel = {
                         "layerId": "28992",
@@ -567,16 +623,17 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
 
                 expect(spyGetSelectedLevelDateAttribute.calledOnce).to.be.true;
 
-                wrapper.destroy();
+
                 sinon.restore();
             });
         });
         describe("setSelectedColumn", () => {
             it("should call 'updateFeatureStyle' with the correct arguments if no reference is selected", () => {
-                store.commit("Tools/StatisticDashboard/setSelectedReferenceData", undefined);
+                store.commit("Modules/StatisticDashboard/setSelectedReferenceData", undefined);
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     spyUpdateFeatureStyle = sinon.stub(wrapper.vm, "updateFeatureStyle");
 
@@ -584,15 +641,16 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
 
                 expect(spyUpdateFeatureStyle.calledOnce).to.be.true;
                 expect(spyUpdateFeatureStyle.args[0]).to.deep.equal(["2022", false]);
-                wrapper.destroy();
+
                 sinon.restore();
             });
 
             it("should call 'updateFeatureStyle' with the correct arguments if reference is selected", () => {
-                store.commit("Tools/StatisticDashboard/setSelectedReferenceData", {});
+                store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {});
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     spyUpdateFeatureStyle = sinon.stub(wrapper.vm, "updateFeatureStyle");
 
@@ -600,15 +658,16 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
 
                 expect(spyUpdateFeatureStyle.calledOnce).to.be.true;
                 expect(spyUpdateFeatureStyle.args[0]).to.deep.equal(["2000", true, {}]);
-                wrapper.destroy();
+
                 sinon.restore();
             });
         });
         describe("getStatisticValue", () => {
             it("should return the right statistic value", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     value = wrapper.vm.getStatisticValue(featureList, "bev_maennlich", "Hamburg", "ort", "1890", "jahr");
 
@@ -616,8 +675,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
             });
             it("should call prepareChartData with expected params for line chart", async () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     value = wrapper.vm.getStatisticValue(featureList, "bev_maennlich", "Hamburg", "ort", "1790", "jahr");
 
@@ -625,11 +685,12 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
             });
 
             it("should return the right statistic value if reference date is set", () => {
-                store.commit("Tools/StatisticDashboard/setSelectedReferenceData", {value: {value: "1990"}});
+                store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {value: {value: "1990"}});
 
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     value = wrapper.vm.getStatisticValue(featureList, "bev_maennlich", "Hamburg", "ort", "1890", "jahr", "date");
 
@@ -637,11 +698,12 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
             });
 
             it("should return the right statistic value if reference region is set", () => {
-                store.commit("Tools/StatisticDashboard/setSelectedReferenceData", {value: "Bremen"});
+                store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {value: "Bremen"});
 
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     value = wrapper.vm.getStatisticValue(featureList, "bev_maennlich", "Hamburg", "ort", "1990", "jahr", "region");
 
@@ -650,11 +712,12 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
         });
         describe("prepareStatisticsData", () => {
             it("should return an object representing the statistics from the features", () => {
-                store.commit("Tools/StatisticDashboard/setSelectedReferenceData", {});
+                store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {});
 
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     statistics = {
                         "Bevölkerung maennlich": {
@@ -685,8 +748,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
 
             it("should return an object representing the statistics from the features without the reference date", async () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     statistics = {
                         "Bevölkerung maennlich": {
@@ -710,14 +774,15 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
                     }
                 };
 
-                store.commit("Tools/StatisticDashboard/setSelectedReferenceData", {value: {value: "1890"}});
+                store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {value: {value: "1890"}});
                 await wrapper.vm.$nextTick();
                 expect(wrapper.vm.prepareStatisticsData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], ["1890", "1990"], {outputFormat: "YYYY", attrName: "jahr"}, {attrName: "ort"})).to.deep.equal(statistics);
             });
             it("should return an object representing the statistics from the features without the reference region", async () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     statistics = {
                         "Bevölkerung maennlich": {
@@ -743,7 +808,7 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
                     }
                 };
 
-                store.commit("Tools/StatisticDashboard/setSelectedReferenceData", {value: "Hamburg"});
+                store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {value: "Hamburg"});
                 await wrapper.vm.$nextTick();
                 expect(wrapper.vm.prepareStatisticsData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg", "Bremen"], ["1890", "1990"], {outputFormat: "YYYY", attrName: "jahr"}, {attrName: "ort"})).to.deep.equal(statistics);
             });
@@ -751,8 +816,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
         describe("getTableData", () => {
             it("should return the data for the table(s) from the statistics object", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     preparedData = {
                         "Bevölkerung maennlich": {
@@ -769,27 +835,41 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
                         }
                     },
                     expectedValue = [{
-                        headers: ["Gebiet", "1990", "1890"],
-                        items: [[
-                            "Hamburg", "113", "13"
-                        ]]
+                        headers: [
+                            {name: "Gebiet"},
+                            {name: "1990"},
+                            {name: "1890"}
+                        ],
+                        items: [
+                            {
+                                "1890": "13",
+                                "1990": "113",
+                                "Gebiet": "Hamburg"
+                            }
+                        ]
                     },
                     {
-                        headers: ["Gebiet", "1990", "1890"],
-                        items: [[
-                            "Hamburg", "112", "12"
-                        ]]
+                        headers: [
+                            {name: "Gebiet"},
+                            {name: "1990"},
+                            {name: "1890"}
+                        ],
+                        items: [{
+                            "1890": "12",
+                            "1990": "112",
+                            "Gebiet": "Hamburg"
+                        }]
                     }];
 
                 expect(wrapper.vm.getTableData(preparedData)).to.deep.equal(expectedValue);
             });
-
         });
         describe("handleChartData", () => {
             it("should call prepareGridCharts with expected params", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     prepareGridChartsStub = sinon.stub(wrapper.vm, "prepareGridCharts");
 
@@ -798,8 +878,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
             });
             it("should call prepareChartData with expected params for line chart", async () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     prepareChartDataStub = sinon.stub(wrapper.vm, "prepareChartData");
 
@@ -810,8 +891,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
             });
             it("should call prepareChartData with expected params for bar chart", async () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     prepareChartDataStub = sinon.stub(wrapper.vm, "prepareChartData");
 
@@ -822,8 +904,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
             });
             it("should call prepareChartData with expected params for bar chart horizontal", async () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     prepareChartDataStub = sinon.stub(wrapper.vm, "prepareChartData");
 
@@ -837,8 +920,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
             it("should set canvas and chart to property currentChart", () => {
                 sinon.stub(ChartProcessor, "createLineChart").returns(null);
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     topic = "fooBar",
                     canvas = document.createElement("canvas"),
@@ -854,8 +938,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
             it("should set canvas and chart to property currentChart for bar", () => {
                 sinon.stub(ChartProcessor, "createBarChart").returns(null);
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     topic = "fooBar",
                     canvas = document.createElement("canvas"),
@@ -871,8 +956,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
             it("should destroy existing chart and set canvas and chart to property currentChart", async () => {
                 sinon.stub(ChartProcessor, "createLineChart").returns(null);
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     topic = "fooBar",
                     expected = {};
@@ -892,8 +978,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
         describe("hasDescription", () => {
             it("should return true if a description is present", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     statistics = {statistik: {name: "Statistik1", description: "StatistikTest1"}};
 
@@ -901,8 +988,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
             });
             it("should return false if no description is present", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     statistics = {statistik: {name: "Statistik1"}};
 
@@ -910,8 +998,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
             });
             it("should return true if at least one description is present", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     statistics = {statistik: {name: "Statistik1"}, statitsik2: {name: "Statistik2", description: "StatistikTest2"}};
 
@@ -921,8 +1010,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
         describe("setDescriptionsOfSelectedStatistics", () => {
             it("should return a description with title and content", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     statistics = {statistik: {name: "Statistik1", description: "StatistikTest1"}},
                     expected = [{content: "StatistikTest1", title: "Statistik1"}];
@@ -933,8 +1023,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
         describe("toggleLevel", () => {
             it("should not trigger the resetLevel function", async () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     spyResetLevel = sinon.stub(StatisticDashboard.methods, "resetLevel");
 
@@ -945,13 +1036,14 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
                 await wrapper.vm.$nextTick();
                 expect(spyResetLevel.calledOnce).to.be.false;
                 sinon.restore();
-                wrapper.destroy();
+
             });
 
             it("should not trigger the initializeData function", async () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     spyInitializeData = sinon.stub(StatisticDashboard.methods, "initializeData");
 
@@ -962,22 +1054,24 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
                 await wrapper.vm.$nextTick();
                 expect(spyInitializeData.calledOnce).to.be.false;
                 sinon.restore();
-                wrapper.destroy();
+
             });
         });
         describe("formatFilterExpression", () => {
             it("should return the input if first param is undefined", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                    localVue,
-                    store
+                    global: {
+                        plugins: [store]
+                    }
                 });
 
                 expect(wrapper.vm.formatFilterExpression(undefined)).to.undefined;
             });
             it("should return the input if second param is not a boolean", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                    localVue,
-                    store
+                    global: {
+                        plugins: [store]
+                    }
                 });
 
                 expect(wrapper.vm.formatFilterExpression("foo", undefined)).to.be.equal("foo");
@@ -989,8 +1083,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
             });
             it("should return the input as date parsed", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     expected = "DATE('01-01-2000')";
 
@@ -998,8 +1093,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
             });
             it("should return the input as string parsed", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     expected = "'01-01-2000'";
 
@@ -1007,8 +1103,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
             });
             it("should return the input as string parsed without single quotes", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     expected = "10";
 
@@ -1018,8 +1115,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
         describe("parseOLFilterToOAF", () => {
             it("should return an empty string if the params are not as expected", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                    localVue,
-                    store
+                    global: {
+                        plugins: [store]
+                    }
                 });
 
                 expect(wrapper.vm.parseOLFilterToOAF(undefined)).to.be.equal("");
@@ -1027,16 +1125,18 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
             });
             it("should return an empty string if the filter has no conditions or is not an filter at all", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                    localVue,
-                    store
+                    global: {
+                        plugins: [store]
+                    }
                 });
 
                 expect(wrapper.vm.parseOLFilterToOAF({}, {})).to.be.equal("");
             });
             it("should return a string if filter has no conditions but is an filter by itself", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     filter = {
                         propertyName: "foo",
@@ -1049,8 +1149,9 @@ describe("src/modules/tools/StatisticDashboard.vue", () => {
             });
             it("should return a string of a nested filter condition", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                        localVue,
-                        store
+                        global: {
+                            plugins: [store]
+                        }
                     }),
                     filter = {
                         tagName_: "And",

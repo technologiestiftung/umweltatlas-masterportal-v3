@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import chartProcessor from "../../../js/chartProcessor";
 
-describe("src/modules/tools/statisticDashboard/utils/chartProcessor.js", () => {
+describe("src_3_0_0/modules/statisticDashboard/utils/chartProcessor.js", () => {
     describe("parsePreparedDataToLineChartFormat", () => {
         it("should return an empty object if given param is not an object", () => {
             expect(chartProcessor.parsePreparedDataToLineChartFormat(null)).to.be.an("object").that.is.empty;

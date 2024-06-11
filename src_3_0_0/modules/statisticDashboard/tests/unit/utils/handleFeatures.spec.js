@@ -2,7 +2,7 @@ import {expect} from "chai";
 import FeatureHandler from "../../../js/handleFeatures";
 import Feature from "ol/Feature";
 
-describe("src/modules/tools/statisticDashboard/utils/handleFeatures.js", () => {
+describe("src_3_0_0/modules/statisticDashboard/utils/handleFeatures.js", () => {
     describe("calcStepValues", () => {
         it("should return an array with one 0 element, when the given params are not the expected", () => {
             const expected = [0];
@@ -214,7 +214,7 @@ describe("src/modules/tools/statisticDashboard/utils/handleFeatures.js", () => {
                 expectedVal = [
                     {
                         "graphic": "data:image/svg+xml;charset=utf-8,<svg height='35' width='35' version='1.1' xmlns='http://www.w3.org/2000/svg'><polygon points='5,5 30,5 30,30 5,30' style='fill:rgb(198, 219, 239);fill-opacity:0.9;stroke:rgb(198, 219, 239);stroke-opacity:0.9;stroke-width:3;stroke-linecap:round;stroke-dasharray:;'/></svg>",
-                        "name": "modules.tools.statisticDashboard.legend.between"
+                        "name": "modules.statisticDashboard.legend.between"
                     },
                     {
                         "graphic": "data:image/svg+xml;charset=utf-8,<svg height='35' width='35' version='1.1' xmlns='http://www.w3.org/2000/svg'><polygon points='5,5 30,5 30,30 5,30' style='fill:rgb(158, 202, 225);fill-opacity:0.9;stroke:rgb(158, 202, 225);stroke-opacity:0.9;stroke-width:3;stroke-linecap:round;stroke-dasharray:;'/></svg>",

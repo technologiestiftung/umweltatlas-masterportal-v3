@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import StatisticHandler from "../../../js/handleStatistics";
 
-describe("src/modules/tools/statisticDashboard/utils/handleStatistics.js", () => {
+describe("src_3_0_0/modules/statisticDashboard/utils/handleStatistics.js", () => {
     describe("hasOneGroup", () => {
         it("should return true if at least one category group is present in the statistics.", () => {
             const statisticsAttributes = {
@@ -15,7 +15,6 @@ describe("src/modules/tools/statisticDashboard/utils/handleStatistics.js", () =>
             };
 
             expect(StatisticHandler.hasOneGroup(statisticsAttributes)).to.be.true;
-
         });
         it("should return false if no category group is present in the statistics.", () => {
             const statisticsAttributes = {
@@ -44,7 +43,6 @@ describe("src/modules/tools/statisticDashboard/utils/handleStatistics.js", () =>
             };
 
             expect(StatisticHandler.getStatisticsByCategory("CategoryOne", statisticsAttributes)).to.deep.equal({statOne: statisticsAttributes.statOne});
-
         });
 
         it("should return an empty object if there are no statistics in the given category ", () => {
@@ -59,7 +57,6 @@ describe("src/modules/tools/statisticDashboard/utils/handleStatistics.js", () =>
             };
 
             expect(StatisticHandler.getStatisticsByCategory("CategoryTwo", statisticsAttributes)).to.be.an("object").that.is.empty;
-
         });
     });
 
@@ -81,7 +78,6 @@ describe("src/modules/tools/statisticDashboard/utils/handleStatistics.js", () =>
                 {name: "CategoryOne"},
                 {name: "CategoryTwo"}
             ]);
-
         });
     });
 
@@ -108,9 +104,8 @@ describe("src/modules/tools/statisticDashboard/utils/handleStatistics.js", () =>
             expect(StatisticHandler.getGroupedCategories(statisticsAttributes)).to.deep.equal([
                 {name: "GroupOne", categories: [{name: "CategoryOne"}, {name: "CategoryTwo"}]},
                 {name: "GroupTwo", categories: [{name: "CategoryThree"}]},
-                {name: "modules.tools.statisticDashboard.filterInputs.additional", categories: [{name: "CategoryAdditional"}]}
+                {name: "modules.statisticDashboard.filterInputs.additional", categories: [{name: "CategoryAdditional"}]}
             ]);
-
         });
     });
 
@@ -140,7 +135,6 @@ describe("src/modules/tools/statisticDashboard/utils/handleStatistics.js", () =>
                 {name: "CategoryThree"},
                 {name: "CategoryAdditional"}
             ]);
-
         });
 
         it("should return the categories grouped", () => {
@@ -165,7 +159,7 @@ describe("src/modules/tools/statisticDashboard/utils/handleStatistics.js", () =>
             expect(StatisticHandler.getCategoriesFromStatisticAttributes(statisticsAttributes, true)).to.deep.equal([
                 {name: "GroupOne", categories: [{name: "CategoryOne"}, {name: "CategoryTwo"}]},
                 {name: "GroupTwo", categories: [{name: "CategoryThree"}]},
-                {name: "modules.tools.statisticDashboard.filterInputs.additional", categories: [{name: "CategoryAdditional"}]}
+                {name: "modules.statisticDashboard.filterInputs.additional", categories: [{name: "CategoryAdditional"}]}
             ]);
         });
 

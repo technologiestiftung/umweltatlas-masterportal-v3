@@ -119,8 +119,6 @@ export default {
     },
     watch: {
         selectedReferenceData () {
-            // this.checkFilterSettings(this.selectedRegionsValues, this.selectedDatesValues, this.selectedReferenceData);
-            // why??
             if (this.selectedRegionsValues.length && this.selectedDates.length) {
                 this.checkFilterSettings(getters.selectedRegionsValues(null, {selectedRegions: this.selectedRegions}), getters.selectedDatesValues(null, {selectedDates: this.selectedDates}), this.selectedReferenceData);
             }

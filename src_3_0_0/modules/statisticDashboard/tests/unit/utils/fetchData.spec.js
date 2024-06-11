@@ -3,7 +3,7 @@ import fetchData from "../../../js/fetchData";
 import sinon from "sinon";
 import {rawLayerList} from "@masterportal/masterportalapi";
 
-describe("src/modules/tools/statisticDashboard/utils/fetchData.js", () => {
+describe("src_3_0_0/modules/statisticDashboard/utils/fetchData.js", () => {
     describe("getUniqueValuesFromFeatures", () => {
         it("should return an empty object if first param is not an array", () => {
             expect(fetchData.getUniqueValuesFromFeatures(undefined)).to.be.an("object").that.is.empty;

@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import getters from "../../../store/gettersStatisticDashboard.js";
 
-describe("src/modules/tools/statisticDashboard/store/gettersStatisticDashboard.js", () => {
+describe("src_3_0_0/modules/statisticDashboard/store/gettersStatisticDashboard.js", () => {
     describe("selectedDatesValues", () => {
         it("should return an empty array if no date are selected", () => {
             const values = getters.selectedDatesValues(null, {selectedDates: []});

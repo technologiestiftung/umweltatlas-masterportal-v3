@@ -151,7 +151,7 @@ export default {
          */
         removeStatistic (selectedStatistics, key) {
             if (Object.keys(this.selectedStatistics).length >= 2) {
-                this.$delete(selectedStatistics, key);
+                delete selectedStatistics[key];
             }
             else {
                 this.resetStatistics();

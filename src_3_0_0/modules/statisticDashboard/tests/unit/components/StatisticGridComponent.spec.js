@@ -1,60 +1,66 @@
-import {config, createLocalVue, shallowMount} from "@vue/test-utils";
+import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
-import Vuex from "vuex";
+import {createStore} from "vuex";
 import StatisticGridComponent from "../../../components/StatisticGridComponent.vue";
 import indexStatisticDashboard from "../../../store/indexStatisticDashboard";
-const localVue = createLocalVue();
+import sinon from "sinon";
 
-localVue.use(Vuex);
-config.mocks.$t = key => key;
+config.global.mocks.$t = key => key;
 
-describe("src/modules/tools/statiscticDashboard/components/StatisticGridComponent.vue", () => {
+describe("src_3_0_0/modules/statiscticDashboard/components/StatisticGridComponent.vue", () => {
 
-    const store = new Vuex.Store({
+    const propsData = {
+        dates: [
+            {
+                headers: ["Raumeinheit", "2023", "2022"],
+                items: [
+                    ["Harburg", 1234, 1234],
+                    ["Ludwigslust Parchim", 23456, 1234],
+                    ["Lübeck", 23475, 1234],
+                    ["Niedersachsen", 34844, 1234]
+                ]
+            },
+            {
+                headers: ["Raumeinheit", "2023", "2022"],
+                items: [
+                    ["Harburg", 1234, 1234],
+                    ["Ludwigslust Parchim", 23456, 1234],
+                    ["Lübeck", 23475, 1234],
+                    ["Niedersachsen", 34844, 1234]
+                ]
+            }
+        ]
+    };
+
+    let store;
+
+    beforeEach(() => {
+        store = createStore({
             namespaced: true,
             modules: {
-                Tools: {
+                Modules: {
                     namespaced: true,
                     modules: {
                         StatisticDashboard: indexStatisticDashboard
                     }
                 }
             }
-        }),
-        propsData = {
-            dates: [
-                {
-                    headers: ["Raumeinheit", "2023", "2022"],
-                    items: [
-                        ["Harburg", 1234, 1234],
-                        ["Ludwigslust Parchim", 23456, 1234],
-                        ["Lübeck", 23475, 1234],
-                        ["Niedersachsen", 34844, 1234]
-                    ]
-                },
-                {
-                    headers: ["Raumeinheit", "2023", "2022"],
-                    items: [
-                        ["Harburg", 1234, 1234],
-                        ["Ludwigslust Parchim", 23456, 1234],
-                        ["Lübeck", 23475, 1234],
-                        ["Niedersachsen", 34844, 1234]
-                    ]
-                }
-            ]
-        };
+        });
+    });
+
+    afterEach(sinon.restore);
 
     describe("Component DOM", () => {
         it("The component should exist", () => {
             const wrapper = shallowMount(StatisticGridComponent, {
                 propsData: propsData,
-                localVue,
-                store
+                global: {
+                    plugins: [store]
+                }
             });
 
             expect(wrapper.find(".flex-container").exists()).to.be.true;
             expect(wrapper.find(".flex-item").exists()).to.be.true;
-            wrapper.destroy();
         });
 
         it("should find two titles", () => {
@@ -63,12 +69,12 @@ describe("src/modules/tools/statiscticDashboard/components/StatisticGridComponen
                     dates: propsData.dates,
                     titles: ["Titel eins", "Titel zwei"]
                 },
-                localVue,
-                store
+                global: {
+                    plugins: [store]
+                }
             });
 
             expect(wrapper.findAll(".title").length).to.be.equal(2);
-            wrapper.destroy();
         });
     });
 });
