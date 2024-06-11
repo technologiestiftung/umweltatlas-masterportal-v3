@@ -86,6 +86,7 @@
 - Script to migrate masterportal configuration files to version 3.0.0 is ready to use.
 - Styling for Search Results to match topic tree.
 - Moved config.json-Parameter `twoFingerPan` from `portalConfig.map.mapView` to `portalConfig.map.mapView.mapInteractions.interactionModes`.
+- GetFeatureInfo: Added mutation removeGfiFeatureByLayerId to remove a GfiFeature by given layerId.
 
 ### Deprecated
 
