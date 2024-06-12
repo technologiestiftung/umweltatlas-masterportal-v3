@@ -157,9 +157,9 @@ describe("src_3_0_0/modules/copyrightConstraints/components/CopyrightConstraints
     describe("copyrightConstraints.vue methods", () => {
         it("getMetaData returns an object with properties access and use", async () => {
             const wrapper = mount(CopyrightConstraints, {
-                global: {
-                    plugins: [store]
-                }}),
+                    global: {
+                        plugins: [store]
+                    }}),
                 returnedMetaData = await wrapper.vm.getMetaData("B6A59A2B-2D40-4676-9094-0EB73039ED34");
 
             expect(returnedMetaData.getConstraints()).to.be.an("object").that.have.property("access");
@@ -195,9 +195,9 @@ describe("src_3_0_0/modules/copyrightConstraints/components/CopyrightConstraints
         }).timeout(4000);
         it("getVisibleLayer returns an array", () => {
             const wrapper = mount(CopyrightConstraints, {
-                global: {
-                    plugins: [store]
-                }}),
+                    global: {
+                        plugins: [store]
+                    }}),
                 layers = wrapper.vm.getVisibleLayer();
 
             expect(layers).to.be.an("array").to.have.lengthOf(1);
