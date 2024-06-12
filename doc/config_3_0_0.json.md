@@ -812,7 +812,6 @@ Defines the initial map view and a background shown when no layer or map is sele
 |startCenter|nein|Number[]|[565874, 5934140]|Die initiale Zentrumskoordinate.|false|
 |startResolution|no|Float|15.874991427504629|The initial map resolution from the `options` element. Used in preference to `startZoomLevel`.|false|
 |startZoomLevel|no|Integer||The initial map zoom level from the `options` element. If `resolutions` is set, this is ignored.|false|
-|twoFingerPan|no|Boolean|false|Should a 2-Finger-Pan be set on mobile devices instead of a 1-Finger-Pan?|false|
 
 **Example**
 
@@ -914,7 +913,7 @@ Overrides the ol map interactions. Provides further configuration possibilities 
 
 ***
 
-##### portalConfig.map.mapView.mapInteractions
+##### portalConfig.map.mapView.mapInteractions.interactionModes
 Interaction settings for the ol default interactions. If not set, the default setting is used.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -923,6 +922,7 @@ Interaction settings for the ol default interactions. If not set, the default se
 |dragPan|no|Boolean|false|Allows the user to move the map by dragging it.|false|
 |dragZoom|no|Boolean|false|Allows the user to zoom the map by clicking and dragging on the map.|false|
 |pinchRotate|no|Boolean|false|Allows the user to rotate the map by twisting with two fingers on a touch screen.|false|
+|twoFingerPan|no|Boolean|false|Should a 2-Finger-Pan be set on mobile devices instead of a 1-Finger-Pan?|false|
 
 **Example**
 
@@ -931,7 +931,8 @@ Interaction settings for the ol default interactions. If not set, the default se
     "dragPan": false,
     "altShiftDragRotate": true,
     "pinchRotate": false,
-    "dragZoom": true
+    "dragZoom": true,
+    "twoFingerPan": true
 }
 ```
 

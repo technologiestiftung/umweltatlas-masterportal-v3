@@ -38,8 +38,6 @@ addons
 |	|   |-- config.json.md
 |   |
 |	|-- tests
-|	|   |-- end2end
-|   |	|   |-- MyAddOn1.e2e.js
 |	|   |-- unit
 |   |	|   |-- components
 |   |   |	|   |-- MyAddOn1.spec.js
@@ -65,8 +63,6 @@ addons
 |	|   |-- config.json.md
 |   |
 |	|-- tests
-|	|   |-- end2end
-|   |	|   |-- MyGfiTheme.e2e.js
 |	|   |-- unit
 |   |	|   |-- components
 |   |   |	|   |-- MyGfiTheme.spec.js
@@ -89,8 +85,6 @@ addons
 |   |   |   |-- config.json.md
 |   |   |
 |   |   |-- tests
-|   |   |   |-- end2end
-|   |   |   |   |-- MyGfiTheme.e2e.js
 |   |   |   |-- unit
 |   |   |   |   |-- components
 |   |   |   |   |   |-- MyGfiTheme.spec.js
@@ -112,8 +106,6 @@ addons
 |	|   |-- config.json.md
 |   |
 |	|-- tests
-|	|   |-- end2end
-|   |	|   |-- MyControl.e2e.js
 |	|   |-- unit
 |   |	|   |-- components
 |   |   |	|   |-- MyControl.spec.js
@@ -136,34 +128,22 @@ addons
 |   |   |   |-- config.json.md
 |   |   |
 |   |   |-- tests
-|   |   |   |-- end2end
-|   |   |   |   |-- MyControl.e2e.js
 |   |   |   |-- unit
 |   |   |   |   |-- components
 |   |   |   |   |   |-- MyControl.spec.js
 |   |   |
 |   |   |-- package.json
 
-|-- myJavascript
+|-- mySearchInterface
 |   index.js
-|   myJavascript.js
-|   mySecondJavascript.js
-|	|-- locales
-|	|   |-- de
-|   |	|   |-- additional.json
-|	|   |-- en
-|   |	|   |-- additional.json
-|   |
-|	|-- doc
-|	|   |-- config.json.md
+|   js
+|	|-- mySearchInterfaceSearch.js
 |   |
 |	|-- tests
-|	|   |-- end2end
-|   |	|   |-- myJavascript.e2e.js
 |	|   |-- unit
-|   |   |	|-- myJavascript.spec.js
+|   |	|   |-- js
+|   |   |   |	|-- mySearchInterfaceSearch.spec.js
 |   |
-|   |-- package.json
 
 ```
 
@@ -182,6 +162,7 @@ This types of add-ons are supported:
 * GFI themes (`"type": "gfiTheme"`)
 * Controls (`"type": "control"`)
 * Javascript (`"type": "javascript"`)
+* SearchInterface (`"type": "searchInterface"`)
 
 All entries to the `addonsConf.json` defined by an object are expected to be written in Vue or pure javascript. The deprecated Backbone add-ons are always defined by a string.
 
@@ -190,7 +171,7 @@ By default, an add-on's key is the name of its folder. By using the parameter `p
 ```json
 {
   "myAddOn1": {
-    "vue": true
+     "type": "tool"
   },
   "myGfiTheme": {
     "type": "gfiTheme"
@@ -209,7 +190,10 @@ By default, an add-on's key is the name of its folder. By using the parameter `p
   },
   "myJavascript": {
     "type": "javascript"
-  }
+  },
+  "mySearchInterface": {
+    "type": "searchInterface"
+  },
 }
 ```
 

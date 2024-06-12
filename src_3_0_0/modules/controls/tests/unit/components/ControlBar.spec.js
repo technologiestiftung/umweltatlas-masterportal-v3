@@ -4,12 +4,16 @@ import {expect} from "chai";
 import sinon from "sinon";
 
 import ControlBar from "../../../components/ControlBar.vue";
+import visibilityChecker from "../../../../../shared/js/utils/visibilityChecker";
 
 config.global.mocks.$t = key => key;
 
 describe("src_3_0_0/modules/controls/components/ControlBar.vue", () => {
     let store,
-        components;
+        components,
+        addonControls,
+        controlsConfig,
+        activatedExpandable;
 
     beforeEach(() => {
         components = {
@@ -26,14 +30,18 @@ describe("src_3_0_0/modules/controls/components/ControlBar.vue", () => {
                 template: "<span />"
             }
         };
+        addonControls = {};
+        controlsConfig = sinon.stub();
+        activatedExpandable = false;
         store = createStore({
             namespaced: true,
             modules: {
                 Controls: {
                     namespaced: true,
                     getters: {
-                        activatedExpandable: sinon.stub(),
-                        componentMap: () => components
+                        activatedExpandable: () => activatedExpandable,
+                        componentMap: () => components,
+                        addonControls: () => addonControls
                     }
                 },
                 Maps: {
@@ -44,12 +52,15 @@ describe("src_3_0_0/modules/controls/components/ControlBar.vue", () => {
                 }
             },
             getters: {
-                controlsConfig: () => sinon.stub(),
+                controlsConfig: () => controlsConfig,
                 deviceMode: sinon.stub(),
-                uiStyle: sinon.stub(),
+                uiStyle: () => "",
                 portalConfig: sinon.stub()
             }
         });
+    });
+    afterEach(() => {
+        sinon.restore();
     });
 
     it("renders the buttons group", () => {
@@ -70,6 +81,44 @@ describe("src_3_0_0/modules/controls/components/ControlBar.vue", () => {
         await wrapper.vm.categorizedControls.expandable.push("control");
 
         expect(wrapper.find(".control-icon-controls").exists()).to.be.true;
+    });
+
+    it("renders the button for control from addons", async () => {
+        addonControls.AddonControl = {
+            name: "AddonControl",
+            template: "<span id=\"id\"></span>"
+        };
+        controlsConfig = {
+            AddonControl: true
+        };
+        sinon.stub(visibilityChecker, "isModuleVisible").returns(true);
+        const wrapper = mount(ControlBar, {
+            global: {
+                plugins: [store]
+            }});
+
+        await wrapper.vm.$nextTick();
+        expect(wrapper.find("#id").exists()).to.be.true;
+    });
+    it("renders the button for expandable control from addons", async () => {
+        activatedExpandable = true;
+        addonControls.AddonControl = {
+            name: "AddonControl",
+            template: "<span id=\"id\"></span>"
+        };
+        controlsConfig = {
+            expandable: {
+                AddonControl: true
+            }
+        };
+        sinon.stub(visibilityChecker, "isModuleVisible").returns(true);
+        const wrapper = mount(ControlBar, {
+            global: {
+                plugins: [store]
+            }});
+
+        await wrapper.vm.$nextTick();
+        expect(wrapper.find("#id").exists()).to.be.true;
     });
 
     describe("fillCategorizedControls", () => {

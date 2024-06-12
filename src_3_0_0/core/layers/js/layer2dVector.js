@@ -48,7 +48,7 @@ Layer2dVector.prototype.updateLayerValues = function (attributes) {
     this.getLayer()?.setZIndex(attributes.zIndex);
     this.controlAutoRefresh(attributes);
 
-    if (this.get("typ") === "WFS" && store.getters["Maps/mode"] === "3D" && this.layerSource.getFeatures().length === 0) {
+    if (this.get("typ") === "WFS" || this.get("typ") === "OAF" || this.get("typ") === "GeoJSON" && store.getters["Maps/mode"] === "3D" && this.layerSource.getFeatures().length === 0) {
         this.loadFeaturesManually(attributes);
     }
     if (attributes.fitCapabilitiesExtent && attributes.visibility && !attributes.encompassingBoundingBox) {

@@ -45,6 +45,7 @@ const state = {
     scale: null,
     scales: null,
     size: null,
+    twoFingerPanStart: false,
     zoom: null
 };
 

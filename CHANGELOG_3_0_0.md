@@ -41,20 +41,51 @@
 - Doc-files explaining migrateConfig script added.
 - Control rotate: has been extended by two buttons to rotate the map clockwise and counterclockwise. A compass rose can be shown in 2D and 3D.
 - Tooltips for layernames and folders.
+- Addons of type "javascript" or "control" can be loaded.
+- Map: on touch devices the map can be moved with two fingers, if `twoFingerPan` is true in config.json.
+- FeatureLister: layers of typ OAF are supported.
 
 ### Changed
 - CoordToolkit: Toast added instead of Alert for feedback after copying coordinates.
 - ShareView: Added more configuration.
 - LayerMenu: Breadcrumbs with folder location will now stick to the top when scrolling.
 - 3D tileset layer supports hiddenFeatures.
-- The following package has been updated:
+- The following packages have been updated:
     - dependencies:
         - @masterportal/masterportalapi: 2.33.0 to 2.37.0 (This also raised ol to version 9.1.0)
         - @masterportal/mpconfigparser: 1.3.1 to 1.4.0
+        - axios: 1.5.1 to 1.7.1
+        - bootstrap: 5.3.2 to 5.3.3
+        - bootstrap-icons: 1.11.1 to 1.11.3
+        - chart.js: 4.4.0 to 4.4.3
+        - i18next: 23.5.1 to 23.11.5
+        - i18next-browser-languagedetector: 7.1.0 to 8.0.0
+        - i18next-http-backend: 2.2.2 to 2.5.2
+        - i18next-vue: 3.0.0 to 4.0.0
+        - jsts: 2.11.0 to 2.11.3
+        - vue-multiselect: 3.0.0-beta.3 to 3.0.0
+    - devDependencies:
+        - @sinonjs/fake-timers: 11.1.0 to 11.2.2
+        - chai: 4.3.10 to 4.4.1
+        - css-loader: 1.0.1 to 4.3.0
+        - esbuild-loader: 4.0.2 to 4.1.0
+        - file-loader: 2.0.0 to 6.2.0
+        - fs-extra: 11.1.1 to 11.2.0
+        - husky: 8.0.3 to 9.0.11
+        - jsdoc: 4.0.2 to 4.0.3
+        - markdown-it: 13.0.2 to 14.1.0
+        - mocha: 10.2.0 to 10.4.0
+        - regenerator-runtime: 0.14.0 to 0.14.1
+        - replace-in-file: 7.0.1 to 7.1.0
+        - sass: 1.69.0 to 1.77.2
+        - sinon: 16.1.0 to 18.0.0
+        - webpack-bundle-analyzer: 4.9.1 to 4.10.2
+        - zip-a-folder: 3.1.3 to 3.1.6
 - Changed prePushHook to check config_3_0_0.json with mpconfigparser.
 - Restructured `highlightFeature` and `removeHighlighting`.
 - Script to migrate masterportal configuration files to version 3.0.0 is ready to use.
 - Styling for Search Results to match topic tree.
+- Moved config.json-Parameter `twoFingerPan` from `portalConfig.map.mapView` to `portalConfig.map.mapView.mapInteractions.interactionModes`.
 
 ### Deprecated
 
@@ -74,7 +105,7 @@
 - Issue #1148: fixed bug in vector search so that it can handle GeometryCollection.
 - Issue #1153: The Parameter "isSecured" is now recognized if defined in the config.json.
 - Issue #1084: fix wrong pointMarker placement when featureType is MultiPolygon.
-- Issue #1182: the order of the layers in the map for initially no subject layers has been corrected.
+- Issue #1095: FeatureLister: Fixed highlighting on hover and on click.
 - Layer selection: The order of the layers corresponds to the order of the layers in config.json.
 - Fixed HighlightFeature for MultiPolygons: In certain WFS layers, when polygon selection is enabled,
     clicking on a polygon would highlight it, but multiPolygons wouldn't. This has now been corrected.
@@ -89,6 +120,10 @@
 - WfsSearch: It is now also possible to zoom in on result features with a geometry of type polygon.
 - Print: StyleId can now differ from layerId.
 - GetFeatureInfo: the heading has been corrected for 3D objects.
+- SingleBaseLayer: If layers change visibility, the baselayer will no longer be turned insvisible as well.
+- English language: it is possible to change the language to English of the menu on the right side.
+- OAF: Layers are displayed if activated in 3D mode.
+- Layers: if only maxScale is set at layer, minScale is set to 0.
 ---
 
 ---

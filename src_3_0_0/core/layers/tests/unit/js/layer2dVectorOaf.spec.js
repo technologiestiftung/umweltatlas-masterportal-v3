@@ -39,7 +39,8 @@ describe("src_3_0_0/core/js/layers/layer2dVectorOaf.js", () => {
         attributes = {
             id: "id",
             name: "oafTestLayer",
-            typ: "OAF"
+            typ: "OAF",
+            url: "https://oaf.de"
         };
     });
 
@@ -176,6 +177,32 @@ describe("src_3_0_0/core/js/layers/layer2dVectorOaf.js", () => {
             expect(layer.get("isPointLayer")).to.not.be.undefined;
         });
     });
+    describe("updateLayerValues", () => {
+        it("OAF: call loadFeaturesManually in updateLayerValues", () => {
+            const loadFeaturesManuallySpy = sinon.stub(Layer2dVectorOaf.prototype, "loadFeaturesManually"),
+                oafLayer = new Layer2dVectorOaf(attributes);
+
+            oafLayer.updateLayerValues({
+                foo: "bla"
+            });
+
+            expect(loadFeaturesManuallySpy.calledOnce).to.be.true;
+        });
+    });
+
+    describe("loadFeaturesManually", () => {
+        it("shall call loadFeaturesManually in API", () => {
+            const loadFeaturesManuallySpy = sinon.stub(Layer2dVectorOaf.prototype, "loadFeaturesManually"),
+                oafLayer = new Layer2dVectorOaf(attributes);
+
+            oafLayer.loadFeaturesManually({
+                foo: "bla"
+            });
+
+            expect(loadFeaturesManuallySpy.calledOnce).to.be.true;
+        });
+    });
+
 
     describe("createLegend", () => {
         beforeEach(() => {

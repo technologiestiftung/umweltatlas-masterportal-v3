@@ -1,7 +1,6 @@
 import {markRaw} from "vue";
 import api from "@masterportal/masterportalapi/src/maps/api";
 import {transform, get} from "ol/proj.js";
-
 import findWhereJs from "../../../shared/js/utils/findWhereJs";
 
 /**
@@ -18,10 +17,27 @@ export default {
      */
     setMapAttributes ({dispatch}) {
         dispatch("registerMapListener");
+        dispatch("initTwoFingerPan");
         dispatch("registerMapViewListener");
         dispatch("setInitialAttributes");
         dispatch("updateAttributesByMoveend");
         dispatch("updateAttributesByChangeResolution");
+    },
+
+    /**
+     * If 'twoFingerPan' is configured event linstener are added to map.
+     * @param {Object} param store context
+     * @param {Object} param.dispatch the dispatch
+     * @param {Object} param.rootState the rootState
+     * @returns {void}
+     */
+    initTwoFingerPan ({dispatch, rootGetters}) {
+        if (rootGetters.twoFingerPan) {
+            const mapDiv = document.getElementById("map");
+
+            mapDiv.addEventListener("touchmove", (event) => dispatch("oneFingerDragMessage", event));
+            mapDiv.addEventListener("touchend", (event) => dispatch("oneFingerDragMessageEnd", event));
+        }
     },
 
     /**
@@ -227,5 +243,46 @@ export default {
         commit("setResolution", mapView.getResolution());
         commit("setScale", options?.scale);
         commit("setZoom", mapView.getZoom());
+    },
+
+    /**
+     * Opens an alert Window to inform the user to use two fingers for panning.
+     * @param {Object} param store context
+     * @param {Object} param.commit the commit
+     * @param {Object} param.dispatch the dispatch
+     * @param {Object} param.getters the getters
+     * @param {Event} event touchstart
+     * @returns {void}
+    */
+    oneFingerDragMessage ({commit, dispatch, getters}, event) {
+        if (!event) {
+            return;
+        }
+        if (event && event.targetTouches.length === 1 && !getters.twoFingerPanStart) {
+            dispatch("Alerting/addSingleAlert", i18next.t("common:core.maps.mapRegion.twoFingerPanAlert"), {root: true});
+        }
+        else if (event.targetTouches.length === 2) {
+            commit("setTwoFingerPanStart", true);
+        }
+    },
+    /**
+     * Removes the touchmove and touchend event listeners added for the two finger pan alert message.
+     * @param {Object} param store context
+     * @param {Object} param.commit the commit
+     * @param {Object} param.dispatch the dispatch
+     * @param {Event} event touchend
+     * @returns {void}
+     */
+    oneFingerDragMessageEnd ({commit, dispatch}, event) {
+        if (!event) {
+            return;
+        }
+        if (event.targetTouches?.length === 0) {
+            commit("setTwoFingerPanStart", false);
+        }
+        const mapDiv = document.getElementById("map");
+
+        mapDiv.removeEventListener("touchmove", dispatch("oneFingerDragMessage"));
+        mapDiv.removeEventListener("touchend", dispatch("oneFingerDragMessageEnd"));
     }
 };

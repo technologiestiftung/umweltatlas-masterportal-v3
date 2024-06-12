@@ -85,7 +85,7 @@ export default {
         display: none;
     }
 
-@include media-breakpoint-down(md) {
+@include media-breakpoint-down(sm) {
     .toggle-button-mainMenu {
         bottom: 8rem;
         top: unset;
@@ -95,7 +95,7 @@ export default {
         top: unset;
     }
 }
-@include media-breakpoint-up(md) {
+@include media-breakpoint-up(sm) {
 
     .menu-toggle-button {
         top: 15px;

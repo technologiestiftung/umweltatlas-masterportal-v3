@@ -107,3 +107,11 @@ Layer2dVectorOaf.prototype.createLegend = async function () {
 
     return legend;
 };
+/**
+ * Load the features manually.
+ * @param {Object} attributes The new attributes.
+ * @returns {void}
+ */
+Layer2dVectorOaf.prototype.loadFeaturesManually = function (attributes) {
+    oaf.loadFeaturesManually(this.getRawLayerAttributes(attributes), this.layer.getSource());
+};

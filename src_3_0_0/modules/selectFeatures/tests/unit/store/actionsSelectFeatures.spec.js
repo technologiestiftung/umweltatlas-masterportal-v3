@@ -22,7 +22,8 @@ describe("src_3_0_0/modules/selectFeatures/store/actionsSelectFeatures.js", () =
         layerVisible = {
             id: layerId,
             values_: {
-                id: layerId
+                id: layerId,
+                styleId: "styleId"
             },
             get: (key) => {
                 return key;
@@ -59,6 +60,7 @@ describe("src_3_0_0/modules/selectFeatures/store/actionsSelectFeatures.js", () =
             expect(dispatch.secondCall.args[1].type).to.equal("increase");
             expect(dispatch.secondCall.args[1].feature).to.deep.equal(feature);
             expect(dispatch.secondCall.args[1].layer).to.deep.equal(layerVisible);
+            expect(dispatch.secondCall.args[1].styleId).to.deep.equal("styleId");
             expect(dispatch.secondCall.args[1].highlightStyle.fill).to.deep.equal(state.highlightVectorRulesPointLine.fill);
             expect(dispatch.thirdCall.args[0]).to.equal("Maps/setCenter");
             expect(dispatch.thirdCall.args[1]).to.deep.equal([100, 100]);

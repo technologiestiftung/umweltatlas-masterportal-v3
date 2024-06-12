@@ -151,6 +151,15 @@ export default {
     },
 
     /**
+     * Returns the configured value for twoFingerPan.
+     * @param {Object} state state of the app-store.
+     * @returns {Boolean} value for twoFingerPan
+     */
+    twoFingerPan: state => {
+        return state.portalConfig?.map?.mapView?.mapInteractions?.interactionModes?.twoFingerPan;
+    },
+
+    /**
      * Returns the controls configuration of portalConfig.
      * @param {Object} state state of the app-store.
      * @returns {Object} The controls config.

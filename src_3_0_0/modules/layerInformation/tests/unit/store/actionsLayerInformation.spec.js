@@ -28,6 +28,7 @@ describe("src_3_0_0/modules/layerInformation/store/actionsLayerInformation.js", 
                 id: "123",
                 metaID: "layerMetaId",
                 layername: "name",
+                name: "name of the layer",
                 url: "google.de",
                 urlIsVisible: true,
                 datasets: [
@@ -62,6 +63,27 @@ describe("src_3_0_0/modules/layerInformation/store/actionsLayerInformation.js", 
                 type: "layerInformation",
                 side: "mainMenu",
                 props: {name: layerConf.datasets[0].md_name}
+            });
+            expect(dispatch.secondCall.args[0]).to.equal("setMetadataURL");
+            expect(dispatch.secondCall.args[1]).to.be.equals(layerConf.datasets[0].md_id);
+            expect(dispatch.thirdCall.args[0]).to.equal("additionalSingleLayerInfo");
+        });
+        it("should initialize the LayerInformation with name of layer", () => {
+            delete layerConf.datasets[0].md_name;
+            startLayerInformation({commit, dispatch, rootGetters}, layerConf);
+            expect(commit.calledTwice).to.be.true;
+            expect(commit.firstCall.args[0]).to.equal("setLegendAvailable");
+            expect(commit.firstCall.args[1]).to.be.equals(true);
+            expect(commit.secondCall.args[0]).to.equal("setLayerInfo");
+            expect(commit.secondCall.args[1]).to.be.deep.equals(layerConf);
+
+
+            expect(dispatch.calledThrice).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equal("Menu/changeCurrentComponent");
+            expect(dispatch.firstCall.args[1]).to.be.deep.equals({
+                type: "layerInformation",
+                side: "mainMenu",
+                props: {name: "name of the layer"}
             });
             expect(dispatch.secondCall.args[0]).to.equal("setMetadataURL");
             expect(dispatch.secondCall.args[1]).to.be.equals(layerConf.datasets[0].md_id);

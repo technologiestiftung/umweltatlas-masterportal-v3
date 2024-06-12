@@ -107,3 +107,12 @@ Layer2dVectorGeojson.prototype.createLegend = async function () {
     return legend;
 };
 
+/**
+ * Load the features manually.
+ * @param {Object} attributes The new attributes.
+ * @returns {void}
+ */
+Layer2dVectorGeojson.prototype.loadFeaturesManually = function (attributes) {
+    geojson.loadFeaturesManually(this.getRawLayerAttributes(attributes), this.layer.getSource());
+};
+

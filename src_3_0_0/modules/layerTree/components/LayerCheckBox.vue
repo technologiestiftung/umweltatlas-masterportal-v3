@@ -83,7 +83,9 @@ export default {
                     visibility: value
                 }
             });
-            baselayerHandler.checkAndAdd(this.singleBaselayer, this.visibleBaselayerConfigs, layerConfigs);
+            if (this.conf.baselayer) {
+                baselayerHandler.checkAndAdd(this.singleBaselayer, this.visibleBaselayerConfigs, layerConfigs);
+            }
             this.replaceByIdInLayerConfig({layerConfigs});
         },
         /**

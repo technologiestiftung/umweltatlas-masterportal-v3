@@ -17,6 +17,9 @@
       "urlParamWarning": "Der parametrisierte Aufruf ist fehlerhaft. Der Layer mit der Id: <b>{{layerId}}</b> existiert nicht und wird ignoriert."
     },
     "maps": {
+      "mapRegion": {
+        "twoFingerPanAlert": "Bitte nutzen Sie zum Navigieren und Zoomen in der Karte zwei Finger."
+      },
       "featureViaURL": {
         "messages": {
           "featureParsing": "FeatureViaURL: Es konnten nicht alle übergebenen Feature verarbeitet werden.",

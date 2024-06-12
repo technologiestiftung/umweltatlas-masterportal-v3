@@ -77,7 +77,8 @@ describe("src_3_0_0/modules/featureLister/store/actionsFeatureLister", () => {
                     highlightVectorRulesPointLine
                 },
                 getters = {
-                    selectedFeature: () => state.features[1]
+                    selectedFeature: () => state.features[1],
+                    getGeometryType: "Point"
                 },
                 createLayerAddToTreeStub = sinon.spy(createLayerAddToTreeModule, "createLayerAddToTree");
 
@@ -114,7 +115,8 @@ describe("src_3_0_0/modules/featureLister/store/actionsFeatureLister", () => {
                     highlightVectorRulesPolygon
                 },
                 getters = {
-                    selectedFeature: () => state.features[1]
+                    selectedFeature: () => state.features[1],
+                    getGeometryType: "Polygon"
                 },
                 createLayerAddToTreeStub = sinon.spy(createLayerAddToTreeModule, "createLayerAddToTree");
 
@@ -162,7 +164,7 @@ describe("src_3_0_0/modules/featureLister/store/actionsFeatureLister", () => {
 
     describe("highlightFeature", () => {
         let geometryType = "Point",
-            feature, state;
+            feature, state, getters;
 
         beforeEach(() => {
             feature = {
@@ -184,13 +186,16 @@ describe("src_3_0_0/modules/featureLister/store/actionsFeatureLister", () => {
                 highlightVectorRulesPolygon,
                 highlightVectorRulesPointLine
             };
+            getters = {
+                getGeometryType: geometryType
+            };
             rootGetters = {
                 layerConfigById: sinon.stub().returns({styleId: "123"})
             };
         });
 
         it("highlights a point feature depending on its geometryType", () => {
-            actions.highlightFeature({state, dispatch, rootGetters}, feature);
+            actions.highlightFeature({state, dispatch, getters, rootGetters}, feature);
             expect(dispatch.calledTwice).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equal("Maps/removeHighlightFeature");
             expect(dispatch.firstCall.args[1]).to.equal("decrease");
@@ -201,7 +206,7 @@ describe("src_3_0_0/modules/featureLister/store/actionsFeatureLister", () => {
         });
         it("highlights a MultiPoint feature depending on its geometryType", () => {
             geometryType = "MultiPoint";
-            actions.highlightFeature({state, dispatch, rootGetters}, feature);
+            actions.highlightFeature({state, dispatch, getters, rootGetters}, feature);
             expect(dispatch.calledTwice).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equal("Maps/removeHighlightFeature");
             expect(dispatch.firstCall.args[1]).to.equal("decrease");
@@ -210,7 +215,7 @@ describe("src_3_0_0/modules/featureLister/store/actionsFeatureLister", () => {
         });
         it("highlights a polygon feature depending on its geometryType", () => {
             geometryType = "Polygon";
-            actions.highlightFeature({state, dispatch, rootGetters}, feature);
+            actions.highlightFeature({state, dispatch, getters, rootGetters}, feature);
             expect(dispatch.calledTwice).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equal("Maps/removeHighlightFeature");
             expect(dispatch.firstCall.args[1]).to.equal("decrease");
@@ -220,7 +225,7 @@ describe("src_3_0_0/modules/featureLister/store/actionsFeatureLister", () => {
         });
         it("highlights a line feature depending on its geometryType", () => {
             geometryType = "LineString";
-            actions.highlightFeature({state, dispatch, rootGetters}, feature);
+            actions.highlightFeature({state, dispatch, getters, rootGetters}, feature);
             expect(dispatch.calledTwice).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equal("Maps/removeHighlightFeature");
             expect(dispatch.firstCall.args[1]).to.equal("decrease");

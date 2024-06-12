@@ -121,7 +121,8 @@
         ],
         "mapInteractions": {
           "interactionModes": {
-            "altShiftDragRotate": true
+            "altShiftDragRotate": true,
+            "twoFingerPan": true
           }
         }
       },

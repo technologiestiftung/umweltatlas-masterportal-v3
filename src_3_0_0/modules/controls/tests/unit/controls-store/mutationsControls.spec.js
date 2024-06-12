@@ -5,27 +5,19 @@ const {registerControl} = mutations;
 
 describe("src_3_0_0/modules/controls/controls-store/mutationsControls.js", () => {
     describe("registerControl", () => {
-        it("add hiddenMobile control to componentMap", () => {
+        it("add control to state", () => {
             const state = {
-                    mobileHiddenControls: [
-                        "BackForward",
-                        "FullScreen"
-                    ],
-                    expandableControls:
-                [
-                    "BackForward"
-                ]
+                    addonControls: []
                 },
-                name = "name";
+                control = {
+                    name: "name",
+                    template: "<span />"
+                };
 
-            registerControl(state, {name, control: null, hiddenMobile: true, expandableControls: true});
+            registerControl(state, {name: "name", control});
 
-            expect(state.mobileHiddenControls.length).to.equals(3);
-            expect(state.mobileHiddenControls).to.deep.equals(["BackForward",
-                "FullScreen", "name"]);
-            expect(state.expandableControls.length).to.equals(2);
-            expect(state.expandableControls).to.deep.equals(["BackForward",
-                "name"]);
+            expect(Object.keys(state.addonControls).length).to.equals(1);
+            expect(state.addonControls.Name).to.deep.equals(control);
         });
     });
 });
