@@ -108,14 +108,14 @@ export default {
                 v-if="getConstraints.length > 0"
                 :key="getConstraints.length"
             >
-                <ul>
+                <ul class="copyrightConstraints_layerList">
                     <li
                         v-for="(constraintsPerLayer, index) in getConstraints"
                         :key="index"
                     >
                         {{ constraintsPerLayer.title }}
                         <div v-if="constraintsPerLayer.accessConstraints">
-                            <ul>
+                            <ul class="copyrightConstraints_constraintsList">
                                 <li
                                     v-if="constraintsPerLayer.accessConstraints"
                                     class="copyright-details"
@@ -131,13 +131,21 @@ export default {
                         </div>
                         <div v-else>
                             <div><i>{{ $t("common:modules.copyrightConstraints.notSpecified") }}</i></div>
-                            <ul>
+                            <ul class="copyrightConstraints_pointOfContact">
                                 <li v-if="constraintsPerLayer.pointOfContact?.name">
                                     <div class="organisation">
                                         {{ $t("common:modules.copyrightConstraints.contactOrganisation") }}: {{ constraintsPerLayer.pointOfContact?.name }}
                                     </div>
                                 </li>
-                                <li v-if="constraintsPerLayer.pointOfContact?.positionName && constraintsPerLayer.pointOfContact?.positionName?.length === 1">
+                                <li v-if="Array.isArray(constraintsPerLayer.pointOfContact?.positionName)">
+                                    <div class="name">
+                                        {{ $t("common:modules.copyrightConstraints.contactName") }}:
+                                        <span v-for="(positionName, positionNameIndex) in constraintsPerLayer.pointOfContact?.positionName">
+                                            {{ positionNameIndex > 0 ? ", " + positionName.trim() : positionName.trim() }}
+                                        </span>
+                                    </div>
+                                </li>
+                                <li v-else-if="constraintsPerLayer.pointOfContact?.positionName && constraintsPerLayer.pointOfContact?.positionName?.length === 1">
                                     <div class="name">
                                         {{ $t("common:modules.copyrightConstraints.contactName") }}: {{ constraintsPerLayer.pointOfContact?.positionName }}
                                     </div>
