@@ -63,7 +63,7 @@ describe("src_3_0_0/modules/copyrightConstraints/components/CopyrightConstraints
                 ]
             }
         ],
-    constraints1 = 
+        constraints1 =
         [
             {
                 "md_id": "B6A59A2B-2D40-4676-9094-0EB73039ED34",
@@ -91,7 +91,7 @@ describe("src_3_0_0/modules/copyrightConstraints/components/CopyrightConstraints
                 }
             }
         ],
-    constraints2 =
+        constraints2 =
         [
             {
                 "md_id": "4E67DF32-AAC0-4410-A215-4110F8D50BBD",
@@ -159,8 +159,8 @@ describe("src_3_0_0/modules/copyrightConstraints/components/CopyrightConstraints
             const wrapper = mount(CopyrightConstraints, {
                 global: {
                     plugins: [store]
-                }});
-            const returnedMetaData = await wrapper.vm.getMetaData("B6A59A2B-2D40-4676-9094-0EB73039ED34");
+                }}),
+                returnedMetaData = await wrapper.vm.getMetaData("B6A59A2B-2D40-4676-9094-0EB73039ED34");
 
             expect(returnedMetaData.getConstraints()).to.be.an("object").that.have.property("access");
             expect(returnedMetaData.getConstraints()).to.be.an("object").that.have.property("use").that.is.an("array");
@@ -172,12 +172,12 @@ describe("src_3_0_0/modules/copyrightConstraints/components/CopyrightConstraints
                 }
             });
 
-            wrapper.vm.getCswConstraints();                          
+            wrapper.vm.getCswConstraints();
             await wrapper.setData({constraints: constraints1});
 
             let ullayerList = wrapper.find("ul.copyrightConstraints_layerList"),
-            ulConstraintsList = wrapper.find("ul.copyrightConstraints_constraintsList"),
-            ulPointOfContactList = wrapper.find("ul.copyrightConstraints_pointOfContact");
+                ulConstraintsList = wrapper.find("ul.copyrightConstraints_constraintsList"),
+                ulPointOfContactList = wrapper.find("ul.copyrightConstraints_pointOfContact");
 
             expect(ullayerList.exists()).to.be.true;
             expect(ulConstraintsList.exists()).to.be.true;
@@ -185,8 +185,8 @@ describe("src_3_0_0/modules/copyrightConstraints/components/CopyrightConstraints
 
             await wrapper.setData({constraints: constraints2});
 
-            ullayerList = wrapper.find("ul.copyrightConstraints_layerList"),
-            ulConstraintsList = wrapper.find("ul.copyrightConstraints_constraintsList"),
+            ullayerList = wrapper.find("ul.copyrightConstraints_layerList");
+            ulConstraintsList = wrapper.find("ul.copyrightConstraints_constraintsList");
             ulPointOfContactList = wrapper.find("ul.copyrightConstraints_pointOfContact");
 
             expect(ullayerList.exists()).to.be.true;
@@ -194,13 +194,12 @@ describe("src_3_0_0/modules/copyrightConstraints/components/CopyrightConstraints
             expect(ulPointOfContactList.exists()).to.be.true;
         }).timeout(4000);
         it("getVisibleLayer returns an array", () => {
-            let layers;
             const wrapper = mount(CopyrightConstraints, {
                 global: {
                     plugins: [store]
-                }});
+                }}),
+                layers = wrapper.vm.getVisibleLayer();
 
-            layers = wrapper.vm.getVisibleLayer();
             expect(layers).to.be.an("array").to.have.lengthOf(1);
         });
     });

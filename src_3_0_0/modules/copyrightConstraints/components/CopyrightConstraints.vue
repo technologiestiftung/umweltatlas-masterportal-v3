@@ -140,7 +140,10 @@ export default {
                                 <li v-if="Array.isArray(constraintsPerLayer.pointOfContact?.positionName)">
                                     <div class="name">
                                         {{ $t("common:modules.copyrightConstraints.contactName") }}:
-                                        <span v-for="(positionName, positionNameIndex) in constraintsPerLayer.pointOfContact?.positionName">
+                                        <span 
+                                            v-for="(positionName, positionNameIndex) in constraintsPerLayer.pointOfContact?.positionName"
+                                            :key="positionNameIndex"
+                                        >
                                             {{ positionNameIndex > 0 ? ", " + positionName.trim() : positionName.trim() }}
                                         </span>
                                     </div>
