@@ -950,7 +950,7 @@ export default {
             this.setSelectedCategories([]);
             this.setSelectedRegions([]);
             this.setSelectedDates([]);
-            this.setSelectedReferenceData({});
+            this.setSelectedReferenceData(undefined);
             this.setSelectedStatistics({});
             this.handleReset();
         }
