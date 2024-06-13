@@ -38,7 +38,7 @@ function setQueryToSearchInput (params) {
                 }
             });
         }
-    });
+    }, {deep: true});
 }
 
 export default {
