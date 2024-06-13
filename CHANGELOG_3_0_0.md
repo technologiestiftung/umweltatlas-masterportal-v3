@@ -48,6 +48,13 @@
   - Migrated from MP2 to MP3
   - Can now load data from an OAF Rest API if an OAF layer is configured.
 - Search for address via URL-Parameter.
+- The following packages have been added:
+    - dependencies:
+        - globals: 15.4.0
+    - devDependencies:
+        - @eslint/js: 9.3.3
+        - eslint-plugin-jsdoc: 48.2.7,
+        - eslint-plugin-mocha: 10.4.3,
 
 ### Changed
 - CoordToolkit: Toast added instead of Alert for feedback after copying coordinates.
@@ -85,6 +92,8 @@
         - sinon: 16.1.0 to 18.0.0
         - webpack-bundle-analyzer: 4.9.1 to 4.10.2
         - zip-a-folder: 3.1.3 to 3.1.6
+        - eslint-plugin-vuejs-accessibility: 2.2.0 to 2.3.0
+        - eslint-plugin-vue: 9.17.0 to 9.25.0
 - Changed prePushHook to check config_3_0_0.json with mpconfigparser.
 - Restructured `highlightFeature` and `removeHighlighting`.
 - Script to migrate masterportal configuration files to version 3.0.0 is ready to use.
@@ -97,6 +106,11 @@
 ### Removed
 - RoutingLoadingSpinner: Was replaced with share component SpinnerItem.
 - ModalItem in WFSSearch. Results are displayed as table now.
+- The following packages have been removed:
+    - devDependencies:
+        - eslint: 8.57.0
+        - eslint-plugin-chai-friendly: 0.7.2
+
 
 ### Fixed
 - Issue #1118: The `wfsSearch` module now works with multiple select boxes.
