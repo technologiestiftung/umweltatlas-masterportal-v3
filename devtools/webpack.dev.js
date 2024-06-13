@@ -1,5 +1,4 @@
-/* eslint-disable no-sync */
-/* eslint-disable global-require */
+
 const merge = require("webpack-merge"),
     Common = require("./webpack.common.js"),
     fse = require("fs-extra"),
@@ -8,7 +7,6 @@ const merge = require("webpack-merge"),
     // BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin,
     /* eslint-disable no-process-env */
     proxyServer = process.env.HTTPS_PROXY || process.env.HTTP_PROXY,
-    /* eslint-disable no-process-env */
     proxyAgent = proxyServer !== undefined ? new HttpsProxyAgent(proxyServer) : "";
 
 

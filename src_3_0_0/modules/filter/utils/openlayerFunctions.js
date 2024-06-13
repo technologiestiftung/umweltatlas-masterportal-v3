@@ -127,7 +127,6 @@ function showFeaturesByIds (layerId, ids) {
  * @returns {void}
  */
 function zoomToFilteredFeatures (minScale, featureIds, layerId, callback) {
-    // eslint-disable-next-line new-cap
     const minResolution = store.getters["Maps/getResolutionByScale"](minScale);
 
     store.dispatch("Maps/zoomToFilteredFeatures", {ids: featureIds, layerId: layerId, zoomOptions: {
@@ -144,7 +143,6 @@ function zoomToFilteredFeatures (minScale, featureIds, layerId, callback) {
  * @returns {void}
  */
 function zoomToExtent (extent, minScale, callback) {
-    // eslint-disable-next-line new-cap
     const minResolution = store.getters["Maps/getResolutionByScale"](minScale);
 
     store.dispatch("Maps/zoomToExtent", {extent, options: {

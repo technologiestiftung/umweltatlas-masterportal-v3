@@ -1,4 +1,3 @@
-/* eslint-disable no-process-env */
 const webpack = require("webpack"),
     MiniCssExtractPlugin = require("mini-css-extract-plugin"),
     path = require("path"),
