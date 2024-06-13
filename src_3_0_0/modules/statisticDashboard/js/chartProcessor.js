@@ -156,7 +156,7 @@ function parsePreparedDataToLineChartFormat (preparedData, colors) {
 /**
  * Parses the already prepared data to the bar chart format and returns it.
  * @param {Object} preparedData The data.
- * @returns {*[]} The values as array.
+ * @returns {Array} The values as array.
  */
 function parsePreparedDataToBarChartFormat (preparedData) {
     if (!isObject(preparedData)) {
@@ -175,7 +175,7 @@ function parsePreparedDataToBarChartFormat (preparedData) {
 /**
  * Parses the already prepared data to the bar chart format and returns it.
  * @param {Object} preparedData The data.
- * @returns {*[]} The values as array.
+ * @returns {Array} The values as array.
  */
 function getYearFromPreparedData (preparedData) {
     if (!isObject(preparedData)) {

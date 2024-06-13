@@ -74,7 +74,7 @@ async function oafRecursionHelper (result, url) {
 
 /**
  * Reads the given features or featureCollections and parse them to ol/GeoJSON.
- * @param {Object[]|ol/} features The array of features.
+ * @param {Object[]|ol} features The array of features.
  * @param {Object} [options={}] The options to pass to the GeoJSON constructor.
  * @returns {ol/Feature[]} an array of ol features.
  */

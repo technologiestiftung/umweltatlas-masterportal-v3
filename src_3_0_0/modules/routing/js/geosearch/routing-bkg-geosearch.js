@@ -49,7 +49,7 @@ async function getRoutingBkgGeosearchUrl (search) {
 
 /**
  * Creates the url with the given params.
- * @param {[Number, Number]} coordinates to search at
+ * @param {Array<{Number, Number}>} coordinates to search at
  * @returns {String} the url
  */
 function getRoutingBkgGeosearchReverseUrl (coordinates) {

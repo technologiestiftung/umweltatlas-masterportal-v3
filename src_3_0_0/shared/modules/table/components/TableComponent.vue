@@ -486,7 +486,7 @@ export default {
 
         /**
          * Gets the row stringified.
-         * @param {*[]} row The row.
+         * @param {Array} row The row.
          * @returns {String} the stringified row.
          */
         getStringifiedRow (row) {
@@ -495,7 +495,7 @@ export default {
         /**
          * Selects the row.
          * @emits rowSelected The row stringified.
-         * @param {*[]} row The row as array.
+         * @param {Array} row The row as array.
          * @returns {void}
          */
         selectRow (row) {
