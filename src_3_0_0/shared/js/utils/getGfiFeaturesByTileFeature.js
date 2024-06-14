@@ -167,8 +167,7 @@ function getLayerModelFromTileFeature (tileFeature, getModelByAttributesOpt = nu
     if (typeof getModelByAttributesOpt === "function") {
         return getModelByAttributesOpt(filter);
     }
-
-    return {attributes: {id: filter.id}};
+    return {attributes: store.getters.layerConfigById(filter.id)};
 }
 
 /**

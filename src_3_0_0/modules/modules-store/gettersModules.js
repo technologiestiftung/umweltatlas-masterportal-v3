@@ -36,11 +36,11 @@ import ScaleSwitcher from "../scaleSwitcher/components/ScaleSwitcher.vue";
 import SelectFeatures from "../selectFeatures/components/SelectFeatures.vue";
 import Shadow from "../shadow/components/ShadowTool.vue";
 import ShareView from "../shareView/components/ShareView.vue";
+import StatisticDashboard from "../statisticDashboard/components/StatisticDashboard.vue";
 import StyleVT from "../styleVT/components/StyleVT.vue";
 import WfsSearch from "../wfsSearch/components/WfsSearch.vue";
 import Wfst from "../wfst/components/WfsTransaction.vue";
 import WmsTime from "../wmsTime/components/WmsTime.vue";
-
 
 const getters = {
     componentMap: () => {
@@ -83,6 +83,7 @@ const getters = {
             selectFeatures: SelectFeatures,
             shadow: Shadow,
             shareView: ShareView,
+            statisticDashboard: StatisticDashboard,
             styleVT: StyleVT,
             wfsSearch: WfsSearch,
             wfst: Wfst,

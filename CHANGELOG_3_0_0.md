@@ -44,6 +44,9 @@
 - Addons of type "javascript" or "control" can be loaded.
 - Map: on touch devices the map can be moved with two fingers, if `twoFingerPan` is true in config.json.
 - FeatureLister: layers of typ OAF are supported.
+- StatisticDashboard:
+  - Migrated from MP2 to MP3
+  - Can now load data from an OAF Rest API if an OAF layer is configured.
 
 ### Changed
 - CoordToolkit: Toast added instead of Alert for feedback after copying coordinates.
@@ -125,6 +128,8 @@
 - English language: it is possible to change the language to English of the menu on the right side.
 - OAF: Layers are displayed if activated in 3D mode.
 - Layers: if only maxScale is set at layer, minScale is set to 0.
+- 3D: GFI of Cesium3DTileFeature shows correct properties.
+- SearchBar: no error is logged to console, if a search request is aborted, because the same URL is requested again.
 ---
 
 ---
