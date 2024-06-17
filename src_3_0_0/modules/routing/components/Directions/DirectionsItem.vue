@@ -443,6 +443,7 @@ export default {
                         :speed-profile-id="settings.speedProfile"
                         fill-color="#000000"
                         :tooltip="$t('common:modules.routing.speedprofiles.' + settings.speedProfile)"
+                        :class="['none-pointer-events ']"
                     />
                     <RoutingDurationDisplay :duration="routingDirections.duration" />
                     <RoutingDistanceDisplay :distance="routingDirections.distance" />
@@ -617,5 +618,8 @@ export default {
 }
 .routing-directions-preference-label {
     padding: 0 0 5px 0;
+}
+.none-pointer-events {
+    pointer-events: none;
 }
 </style>
