@@ -47,6 +47,7 @@
 - StatisticDashboard:
   - Migrated from MP2 to MP3
   - Can now load data from an OAF Rest API if an OAF layer is configured.
+- Search for address via URL-Parameter.
 
 ### Changed
 - CoordToolkit: Toast added instead of Alert for feedback after copying coordinates.
