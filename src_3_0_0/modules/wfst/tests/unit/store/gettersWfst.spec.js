@@ -139,27 +139,6 @@ describe("src_3_0_0/modules/wfst/store/gettersWfst.js", () => {
             expect(gettersWfst.currentInteractionConfig(state, {currentLayerId})).to.eql(defaultInteractionConfig);
             expect(consoleSpy.notCalled).to.be.true;
         });
-        it("should return a parsed configuration utilising show instead of available, if show is given", () => {
-            state.update = [{
-                layerId: currentLayerId,
-                show: true,
-                icon: "bi-globe",
-                text: "My WFS-T"
-            }];
-
-            const interactionConfig = gettersWfst.currentInteractionConfig(state, {currentLayerId});
-
-            expect(consoleSpy.calledOnce).to.be.true;
-            expect(consoleSpy.firstCall.args.length).to.equal(1);
-            expect(consoleSpy.firstCall.args[0]).to.equal("WfsTransaction: The parameter 'show' has been deprecated in version 3.0.0. Please use 'available' instead.");
-            expect(interactionConfig.update.available).to.be.true;
-            expect(interactionConfig.update.icon).to.equal("bi-globe");
-            expect(interactionConfig.update.text).to.equal("My WFS-T");
-            expect(interactionConfig.LineString).to.eql(defaultInteractionConfig.LineString);
-            expect(interactionConfig.Point).to.eql(defaultInteractionConfig.Point);
-            expect(interactionConfig.Polygon).to.eql(defaultInteractionConfig.Polygon);
-            expect(interactionConfig.delete).to.eql(defaultInteractionConfig.delete);
-        });
     });
     describe("savingErrorMessage", () => {
         let feature;

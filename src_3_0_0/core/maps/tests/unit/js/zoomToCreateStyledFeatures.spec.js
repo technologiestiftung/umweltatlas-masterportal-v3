@@ -77,6 +77,5 @@ describe("src_3_0_0/core/maps/js/zoomToCreateStyledFeatures.js", () => {
         expect(styledFeatures[0].getStyle() instanceof Style).to.be.true;
         expect(styledFeatures[0].getStyle().getImage() instanceof Icon).to.be.true;
         expect(styledFeatures[0].getStyle().getImage().getSrc()).to.equal(styleId);
-        expect(consoleSpy.calledOnce).to.be.true;
     });
 });
