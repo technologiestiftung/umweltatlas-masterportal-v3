@@ -859,7 +859,8 @@
       "description": "Statistic dashboard description ...",
       "headings": {
         "mrhstatistics": "MRH Statistics",
-        "mrhstatisticsTooltip": "Link to the metadata"
+        "mrhstatisticsTooltip": "Link to the metadata",
+        "addFilter": "Add Filter"
       },
       "button": {
         "difference": "Difference",
@@ -869,7 +870,8 @@
         "reset": "reset",
         "filter": "Filter",
         "showMore": "show more...",
-        "showLess": "show less..."
+        "showLess": "show less...",
+        "back": "Back"
       },
       "label": {
         "category": "Category",

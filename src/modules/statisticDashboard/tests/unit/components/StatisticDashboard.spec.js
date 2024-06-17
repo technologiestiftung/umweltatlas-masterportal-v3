@@ -178,8 +178,63 @@ describe("src/modules/StatisticDashboard.vue", () => {
 
             expect(wrapper.findComponent(LegendComponent).exists()).to.be.false;
         });
+        it("should not display statistic dashboard filter component", async () => {
+            const wrapper = shallowMount(StatisticDashboard, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            await wrapper.setData({loadedFilterData: true});
+            expect(wrapper.findComponent({name: "StatisticFilter"}).exists()).to.be.true;
+            expect(wrapper.findComponent({name: "StatisticFilter"}).isVisible()).to.be.false;
+        });
+        it("should display statistic dashboard filter component", async () => {
+            const wrapper = shallowMount(StatisticDashboard, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            await wrapper.setData({showFilter: true, loadedFilterData: true});
+            expect(wrapper.findComponent({name: "StatisticFilter"}).exists()).to.be.true;
+            expect(wrapper.findComponent({name: "StatisticFilter"}).isVisible()).to.be.true;
+        });
+        it("should render filter accordion component", async () => {
+            const wrapper = shallowMount(StatisticDashboard, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            await wrapper.setData({loadedFilterData: true});
+            expect(wrapper.findComponent({name: "AccordionItem"}).exists()).to.be.true;
+        });
     });
 
+    describe("computed properties", () => {
+        describe("selectedStatisticsNames", () => {
+            it("should return an empty array", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                expect(wrapper.vm.selectedStatisticsNames).to.be.an("array").that.is.empty;
+            });
+            it("should return the correct statistic names", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                wrapper.vm.setSelectedStatistics({stat1: {name: "Stat Eins"}, stat2: {name: "Stat Zwei"}});
+                expect(wrapper.vm.selectedStatisticsNames).to.deep.equal(["Stat Eins", "Stat Zwei"]);
+            });
+        });
+    });
     describe("watchers", () => {
         it("should not call 'checkFilterSettings' if selectedReferenceData is changed", async () => {
             const wrapper = shallowMount(StatisticDashboard, {
@@ -225,7 +280,9 @@ describe("src/modules/StatisticDashboard.vue", () => {
                                         selectedStatistics: () => undefined,
                                         chartTableToggle: () => "table",
                                         legendData: () => [],
-                                        selectedRegionsValues: () => ["test"]
+                                        selectedRegionsValues: () => ["test"],
+                                        subtitle: () => "Test",
+                                        levelTitle: () => "Test"
                                     },
                                     mutations: {
                                         setSelectedReferenceData (state, value) {
@@ -1200,6 +1257,75 @@ describe("src/modules/StatisticDashboard.vue", () => {
                     "PropertyIsGreaterThan": ">",
                     "PropertyIsGreaterThanOrEqualTo": ">="
                 })).to.be.equal(expected);
+            });
+        });
+        describe("toggleFilter", () => {
+            it("should toggle the value of showFilter", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                wrapper.vm.toggleFilter();
+                expect(wrapper.vm.showFilter).to.be.true;
+                wrapper.vm.toggleFilter();
+                expect(wrapper.vm.showFilter).to.be.false;
+            });
+        });
+        describe("removeFilter", () => {
+            it("should remove the correct date filter", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                wrapper.vm.setSelectedDates([{label: 2000, value: 2000}, {label: 666, value: 666}]);
+                wrapper.vm.setSelectedRegions([{label: "Hamburg", value: "Hamburg"}, {label: "Bremen", value: "Bremen"}]);
+                wrapper.vm.removeFilter(2000);
+                expect(wrapper.vm.selectedDates).to.deep.equal([{label: 666, value: 666}]);
+                expect(wrapper.vm.selectedRegions).to.deep.equal([{label: "Hamburg", value: "Hamburg"}, {label: "Bremen", value: "Bremen"}]);
+            });
+            it("should remove the correct region filter", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                wrapper.vm.setSelectedDates([{label: 2000, value: 2000}, {label: 666, value: 666}]);
+                wrapper.vm.setSelectedRegions([{label: "Hamburg", value: "Hamburg"}, {label: "Bremen", value: "Bremen"}]);
+                wrapper.vm.removeFilter("Bremen");
+                expect(wrapper.vm.selectedDates).to.deep.equal([{label: 2000, value: 2000}, {label: 666, value: 666}]);
+                expect(wrapper.vm.selectedRegions).to.deep.equal([{label: "Hamburg", value: "Hamburg"}]);
+            });
+            it("should remove the correct statistic filter", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                wrapper.vm.setSelectedDates([{label: 2000, value: 2000}, {label: 666, value: 666}]);
+                wrapper.vm.setSelectedRegions([{label: "Hamburg", value: "Hamburg"}, {label: "Bremen", value: "Bremen"}]);
+                wrapper.vm.setSelectedStatistics({
+                    "stat1": {
+                        category: "Kategorie 1",
+                        name: "Stat eins"
+                    },
+                    "stat2": {
+                        category: "Kategorie 2",
+                        name: "Stat zwei"
+                    }
+                });
+                wrapper.vm.removeFilter("Stat eins");
+                expect(wrapper.vm.selectedDates).to.deep.equal([{label: 2000, value: 2000}, {label: 666, value: 666}]);
+                expect(wrapper.vm.selectedRegions).to.deep.equal([{label: "Hamburg", value: "Hamburg"}, {label: "Bremen", value: "Bremen"}]);
+                expect(wrapper.vm.selectedStatistics).to.deep.equal({"stat2": {
+                    category: "Kategorie 2",
+                    name: "Stat zwei"
+                }});
             });
         });
     });

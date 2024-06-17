@@ -2,24 +2,31 @@
 import Multiselect from "vue-multiselect";
 import isObject from "../../../shared/js/utils/isObject";
 import {mapGetters, mapMutations} from "vuex";
+import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
+import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
 
 export default {
     name: "StatisticDashboardFilter",
     components: {
-        Multiselect
+        Multiselect,
+        AccordionItem,
+        FlatButton
     },
     props: {
         categories: {
             type: Array,
-            required: true
+            required: false,
+            default: () => []
         },
         areCategoriesGrouped: {
             type: Boolean,
-            required: true
+            required: false,
+            default: false
         },
         timeStepsFilter: {
             type: Array,
-            required: true
+            required: false,
+            default: () => []
         },
         statistics: {
             type: [Object, Boolean],
@@ -28,40 +35,48 @@ export default {
         },
         regions: {
             type: Array,
-            required: true
+            required: false,
+            default: () => []
         }
     },
-    emits: ["changeCategory", "changeFilterSettings", "resetStatistics"],
-    data () {
-        return {
-            showAllHiddenStatistics: false
-        };
-    },
+    emits: ["changeCategory", "changeFilterSettings", "resetStatistics", "toggleFilter"],
+
     computed: {
         /**
-         * Returns the categories name or joins it if it is an array.
-         * @returns {String} The name or comma seperated names.
+         * Gets the names of the statistics.
+         * @returns {Object[]} The names.
          */
-        selectedCategoriesName () {
-            return Array.isArray(this.selectedCategories) ? this.selectedCategories.map(category => category?.name).join(", ") : this.selectedCategories?.name;
+        statisticsNames () {
+            if (this.statistics) {
+                return Object.keys(this.statistics).map(key => {
+                    return {
+                        key: key,
+                        name: this.statistics[key]?.name
+                    };
+                });
+            }
+            return [];
         },
+
         /**
-         * Checks if statistics are selected.
-         * @returns {Boolean} True if at least on is selected, otherwise false.
+         * Gets the names of the selected statistics
+         * @returns {Object[]} The selected names.
          */
-        areStatisticsSelected () {
-            return isObject(this.selectedStatistics) && Object.keys(this.selectedStatistics).length !== 0;
-        },
-        /**
-         * Returns true or false, depending on the number of statistics.
-         * @returns {Boolean} True if the number of statistics are more than five.
-         */
-        countSelectedStatistics () {
-            return isObject(this.selectedStatistics) && Object.keys(this.selectedStatistics).length > 5;
+        selectedStatisticsNames () {
+            if (this.statistics) {
+                return Object.keys(this.selectedStatistics).map(key => {
+                    return {
+                        key: key,
+                        name: this.statistics[key]?.name
+                    };
+                });
+            }
+            return [];
         },
 
         ...mapGetters("Modules/StatisticDashboard", ["selectedCategories", "selectedRegions", "selectedRegionsValues", "selectedDates", "selectedDatesValues", "selectedStatistics", "selectedReferenceData"])
     },
+
     watch: {
         /**
          * Resets the statistics and emits the name of the selected category.
@@ -70,7 +85,7 @@ export default {
          */
         selectedCategories: {
             handler (value) {
-                this.resetStatistics();
+                this.setSelectedStatistics({});
                 this.$emit("changeCategory", value?.name);
             },
             deep: true
@@ -95,6 +110,11 @@ export default {
             deep: true
         }
     },
+
+    mounted () {
+        this.emitFilterSettings(this.selectedStatistics, this.selectedRegionsValues, this.selectedDatesValues);
+    },
+
     methods: {
         ...mapMutations("Modules/StatisticDashboard", ["setSelectedCategories", "setSelectedRegions", "setSelectedDates", "setSelectedStatistics"]),
 
@@ -126,315 +146,159 @@ export default {
         },
 
         /**
-         * Add or remove a statistic.
-         * @param {Object} statistic - The statistic to toggle.
-         * @param {Object[]} selectedStatistics - The selected statistics.
-         * @param {String} key - The key of the statistic to be toggled.
+         * Adds the given statistics
+         * @param {Object[]} statistics - The statistics to add.
          * @returns {void}
          */
-        toggleStatistic (statistic, selectedStatistics, key) {
-            const statisticToToogle = Object.prototype.hasOwnProperty.call(selectedStatistics, key);
-
-            if (!statisticToToogle) {
-                this.selectedStatistics[key] = statistic;
-            }
-            else {
-                this.removeStatistic(selectedStatistics, key);
-            }
-        },
-
-        /**
-         * Removes an existing statistic.
-         * @param {Object[]} selectedStatistics - The selected statistics.
-         * @param {String} key - The key of the statistic to be removed.
-         * @returns {void}
-         */
-        removeStatistic (selectedStatistics, key) {
-            if (Object.keys(this.selectedStatistics).length >= 2) {
-                delete selectedStatistics[key];
-            }
-            else {
-                this.resetStatistics();
-            }
-        },
-
-        /**
-         * Resets all statistics.
-         * @returns {void}
-         */
-        resetStatistics () {
+        addStatisticToSelect (statistics) {
             this.setSelectedStatistics({});
-            this.$emit("resetStatistics");
+            statistics.forEach(statistic => {
+                this.selectedStatistics[statistic?.key] = this.statistics[statistic?.key];
+            });
         }
     }
 };
 </script>
 
 <template>
-    <div
-        id="accordionFilter"
-        class="accordion"
-    >
-        <div class="accordion-item py-0">
-            <h5 class="heading-dashboard">
-                <button
-                    class="accordion-button my-0 ps-0"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#collapseFilter"
-                    aria-expanded="true"
-                    aria-controls="collapseFilter"
-                >
-                    {{ $t("common:modules.statisticDashboard.button.filter") }} - {{ selectedCategoriesName }}
-                </button>
-            </h5>
-        </div>
-        <div
-            id="collapseFilter"
-            class="accordion-collapse collapse show"
-            aria-labelledby="headingFilter"
-            data-bs-parent="#accordionExample"
+    <div>
+        <h4 class="mb-1">
+            {{ $t("common:modules.statisticDashboard.headings.addFilter") }}
+        </h4>
+        <AccordionItem
+            id="filter-accordion-statistic"
+            title="Statistiken"
+            :is-open="true"
+            :font-size="'font-size-base'"
         >
-            <div class="accordion-body ps-0 py-0">
-                <div class="filtercontainer text-left mt-1">
-                    <div class="row mb-2">
-                        <div class="col-sm-12">
-                            <label
-                                class="col-form-label-sm"
-                                for="categoryfilter"
-                            >
-                                {{ $t("common:modules.statisticDashboard.label.category") }}</label>
-                            <Multiselect
-                                id="categoryfilter"
-                                :model-value="selectedCategories"
-                                :options="categories"
-                                :searchable="true"
-                                :close-on-select="true"
-                                :show-labels="false"
-                                :allow-empty="true"
-                                :multiple="false"
-                                :group-values="areCategoriesGrouped ? 'categories' : ''"
-                                :group-label="areCategoriesGrouped ? 'name' : ''"
-                                :group-select="false"
-                                :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
-                                track-by="name"
-                                label="name"
-                                @update:model-value="setSelectedCategories"
-                            />
-                        </div>
-                        <div class="col-sm-12">
-                            <label
-                                class="col-form-label-sm"
-                                for="areafilter"
-                            >{{ $t("common:modules.statisticDashboard.label.area") }}
-                            </label>
-                            <Multiselect
-                                id="areafilter"
-                                :model-value="selectedRegions"
-                                :multiple="true"
-                                :options="regions"
-                                :searchable="false"
-                                :close-on-select="false"
-                                :clear-on-select="false"
-                                :show-labels="false"
-                                :limit="1"
-                                :limit-text="count => count + ' ' + $t('common:modules.statisticDashboard.label.more')"
-                                :allow-empty="true"
-                                :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
-                                label="label"
-                                track-by="label"
-                                @update:model-value="setSelectedRegions"
-                            />
-                        </div>
-                        <div class="col-sm-12">
-                            <label
-                                class="col-form-label-sm"
-                                for="timefilter"
-                            >
-                                {{ $t("common:modules.statisticDashboard.label.year") }}</label>
-                            <Multiselect
-                                id="timefilter"
-                                :model-value="selectedDates"
-                                :multiple="true"
-                                :options="timeStepsFilter"
-                                :searchable="false"
-                                :close-on-select="false"
-                                :clear-on-select="false"
-                                :show-labels="false"
-                                :limit="1"
-                                :limit-text="count => count + ' ' + $t('common:modules.statisticDashboard.label.more')"
-                                :allow-empty="true"
-                                :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
-                                label="label"
-                                track-by="label"
-                                @update:model-value="setSelectedDates"
-                            />
-                        </div>
-                    </div>
-                    <div class="row align-items-end gx-1">
-                        <div class="col col-md-auto py-1">
-                            <label
-                                class="col-form-label-sm"
-                                for="dropdownButton"
-                            >
-                                {{ $t("common:modules.statisticDashboard.label.statistics") }}</label>
-                            <div class="dropdown">
-                                <button
-                                    class="btn btn-sm btn-primary rounded-pill lh-1 me-2"
-                                    :v-model="selectedStatistics"
-                                    type="button"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                >
-                                    <i class="bi bi-plus fs-6 pe-2" />{{ $t("common:modules.statisticDashboard.button.add") }}
-                                </button>
-                                <ul
-                                    class="dropdown-menu"
-                                    aria="dropdownButton"
-                                >
-                                    <li
-                                        v-for="(stat, key, index) in statistics"
-                                        :key="index"
-                                        class="dropdown-line"
-                                    >
-                                        <button
-                                            type="button"
-                                            class="btn btn-link btn-sm px-2 py-2 dropdown-item"
-                                            :class="Object.prototype.hasOwnProperty.call(selectedStatistics, key) ? 'selected' : ''"
-                                            @click.stop="toggleStatistic(stat, selectedStatistics, key)"
-                                        >
-                                            {{ stat.name }}
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <button
-                            v-for="(stat, key, index) in selectedStatistics"
-                            :key="index"
-                            class="col col-md-auto btn btn-sm btn-outline-secondary lh-1 rounded-pill shadow-none me-2 mb-1 mt-1 btn-pb"
-                            :class="index > 4 && !showAllHiddenStatistics ? 'more-statistics' : ''"
-                            aria-label="Close"
-                            @click="removeStatistic(selectedStatistics, key)"
-                        >
-                            {{ stat.name }}
-                            <i class="bi bi-x fs-5 align-middle" />
-                        </button>
-                        <div
-                            v-if="countSelectedStatistics"
-                            class="col col-md-2 py-1"
-                        >
-                            <button
-                                id="more-button"
-                                type="button"
-                                class="btn btn-link btn-sm p-0"
-                                @click="showAllHiddenStatistics = !showAllHiddenStatistics"
-                            >
-                                {{ !showAllHiddenStatistics ? $t("common:modules.statisticDashboard.button.showMore") : $t("common:modules.statisticDashboard.button.showLess") }}
-                            </button>
-                        </div>
-                        <div
-                            v-if="areStatisticsSelected"
-                            class="col col-md-1 py-1"
-                        >
-                            <button
-                                id="reset-button"
-                                type="button"
-                                class="btn btn-link btn-sm p-0"
-                                @click="resetStatistics()"
-                            >
-                                {{ $t("common:modules.statisticDashboard.button.reset") }}
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-sm-12">
+                <label
+                    class="col-form-label-sm"
+                    for="categoryfilter"
+                >
+                    {{ $t("common:modules.statisticDashboard.label.category") }}</label>
+                <Multiselect
+                    id="categoryfilter"
+                    :model-value="selectedCategories"
+                    :options="categories"
+                    :searchable="true"
+                    :close-on-select="true"
+                    :show-labels="false"
+                    :allow-empty="true"
+                    :multiple="false"
+                    :group-values="areCategoriesGrouped ? 'categories' : ''"
+                    :group-label="areCategoriesGrouped ? 'name' : ''"
+                    :group-select="false"
+                    :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
+                    track-by="name"
+                    label="name"
+                    @update:model-value="setSelectedCategories"
+                />
             </div>
-            <hr class="mb-0">
+            <div class="col-sm-12">
+                <label
+                    class="col-form-label-sm"
+                    for="dropdownButton"
+                >
+                    {{ $t("common:modules.statisticDashboard.label.statistics") }}
+                </label>
+                <Multiselect
+                    id="statisticfilter"
+                    :model-value="selectedStatisticsNames"
+                    :options="statisticsNames"
+                    :searchable="true"
+                    :close-on-select="true"
+                    :show-labels="false"
+                    :allow-empty="true"
+                    :multiple="true"
+                    :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
+                    :limit="3"
+                    :limit-text="count => count + ' ' + $t('common:modules.statisticDashboard.label.more')"
+                    track-by="key"
+                    label="name"
+                    @update:model-value="addStatisticToSelect"
+                />
+            </div>
+        </AccordionItem>
+        <AccordionItem
+            id="filter-accordion-region"
+            title="Gebiete"
+            :is-open="true"
+            :font-size="'font-size-base'"
+        >
+            <div class="col-sm-12">
+                <label
+                    class="col-form-label-sm"
+                    for="categoryfilter"
+                >
+                    {{ $t("common:modules.statisticDashboard.label.area") }}</label>
+                <Multiselect
+                    id="areafilter"
+                    :model-value="selectedRegions"
+                    :multiple="true"
+                    :options="regions"
+                    :searchable="false"
+                    :close-on-select="false"
+                    :clear-on-select="false"
+                    :show-labels="false"
+                    :limit="3"
+                    :limit-text="count => count + ' ' + $t('common:modules.statisticDashboard.label.more')"
+                    :allow-empty="true"
+                    :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
+                    label="label"
+                    track-by="label"
+                    @update:model-value="setSelectedRegions"
+                />
+            </div>
+        </AccordionItem>
+        <AccordionItem
+            id="filter-accordion-date"
+            title="Jahre"
+            :is-open="true"
+            :font-size="'font-size-base'"
+        >
+            <div class="col-sm-12">
+                <label
+                    class="col-form-label-sm"
+                    for="timefilter"
+                >
+                    {{ $t("common:modules.statisticDashboard.label.year") }}</label>
+                <Multiselect
+                    id="timefilter"
+                    :model-value="selectedDates"
+                    :multiple="true"
+                    :options="timeStepsFilter"
+                    :searchable="false"
+                    :close-on-select="false"
+                    :clear-on-select="false"
+                    :show-labels="false"
+                    :limit="3"
+                    :limit-text="count => count + ' ' + $t('common:modules.statisticDashboard.label.more')"
+                    :allow-empty="true"
+                    :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
+                    label="label"
+                    track-by="label"
+                    @update:model-value="setSelectedDates"
+                />
+            </div>
+        </AccordionItem>
+        <div class="col-md-12 d-flex justify-content-center mt-2">
+            <FlatButton
+                :aria-label="$t('common:modules.statisticDashboard.button.back')"
+                :interaction="() => $emit('toggleFilter')"
+                :text="$t('common:modules.statisticDashboard.button.back')"
+                :icon="'bi-check2'"
+            />
         </div>
     </div>
 </template>
 
-<style lang="scss" scoped>
-    @import "~variables";
-
-    .dropdown-menu {
-        min-width: 400px;
-        > li {
-            > .dropdown-item {
-                &:hover {
-                    background: $light_grey;
-                    color: $black;
-                }
-                &:focus, &:active {
-                    background-color: $light_blue;
-                    color: $white;
-                }
-                button.selected {
-                    background: $dark_blue;
-                }
-            }
-        }
-    }
-
-    .selected {
-        background-color: $light_blue;
-        color: $white;
-    }
-
-    .btn-outline-secondary, label {
-        color: $dark_grey;
-    }
-
-    .btn-pb {
-        padding-bottom: 2px;
-    }
-
-    .btn-primary, .btn-primary:enabled, .btn-primary:focus {
-        background-color: $dark_blue;
-        color: $white;
-    }
-    .accordion {
-        --bs-border-color: $white;
-        .accordion-item{
-            border: none;
-            height: 4.0em;
-        }
-        .accordion-button {
-            font-family: "MasterPortalFont Bold";
-            color: $dark_blue;
-            font-size: 14px;
-            width: auto;
-            margin-bottom: 0px;
-            --bs-accordion-btn-icon-width: 1em;
-                &:not(.collapsed) {
-                    background-color: $white;
-                }
-                &::after {
-                    margin-left: 10px;
-                }
-                &::before {
-                    margin-left: 0;
-                }
-                &:focus {
-                    box-shadow: none;
-                }
-        }
-    }
-
-    .more-statistics {
-        display: none;
-    }
-</style>
-
 <style lang="scss">
 @import "~variables";
 
-.static-dashboard .multiselect, .filtercontainer .multiselect__input, .filtercontainer .multiselect__single {
+.static-dashboard .multiselect, .static-dashboard .multiselect__tags {
     font-family: inherit;
     font-size: 11px;
-}
-.static-dashboard .multiselect__tags, .filtercontainer .multiselect__tag {
-  font-size: 11px;
 }
 
 .static-dashboard .multiselect__strong{
@@ -444,11 +308,8 @@ export default {
 .static-dashboard .multiselect__tag {
         border-radius: 25px;
         padding-top: 5px;
-        .multiselect__tag-icon:after {
-            color: $white;
-        }
-        .multiselect__tag-icon:hover:after, .multiselect__tag-icon:focus:after {
-            color: $dark_blue;
+        .multiselect__tag-icon:hover {
+            background-color: $dark-blue;
         }
 }
 
@@ -457,17 +318,15 @@ export default {
 .static-dashboard .multiselect__option:after,
 .static-dashboard .multiselect__option--selected,
 .static-dashboard .multiselect__option--selected:after,
-.static-dashboard .multiselect__tag
- {
-  background: $dark_blue;
-  color: $white;
+.static-dashboard .multiselect__tag {
+  background: $light-blue;
+  color: $black;
   font-weight: normal;
 }
 
 .static-dashboard .multiselect__option--highlight,
 .static-dashboard .multiselect__option--highlight:after {
-    background: $light_grey;
-    color: $black;
+    background: $dark-blue;
 }
 
 .static-dashboard .multiselect__select {

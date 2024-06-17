@@ -859,7 +859,8 @@
       "description": "Statistic dashboard Beschreibung ...",
       "headings": {
         "mrhstatistics": "Zahlen, Daten, Fakten der MRH - Regionalstatistik",
-        "mrhstatisticsTooltip": "Link zu den Metadaten"
+        "mrhstatisticsTooltip": "Link zu den Metadaten",
+        "addFilter": "Filter hinzufügen"
       },
       "button": {
         "difference": "Differenz",
@@ -869,7 +870,8 @@
         "reset": "zurücksetzen",
         "filter": "Filter",
         "showMore": "weitere anzeigen...",
-        "showLess": "weniger anzeigen..."
+        "showLess": "weniger anzeigen...",
+        "back": "Zurück"
       },
       "label": {
         "category": "Kategorie",

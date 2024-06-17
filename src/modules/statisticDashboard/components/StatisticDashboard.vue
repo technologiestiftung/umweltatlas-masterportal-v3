@@ -1,7 +1,6 @@
 <script>
 import {mapGetters, mapMutations, mapActions} from "vuex";
 import TableComponent from "../../../shared/modules/table/components/TableComponent.vue";
-import {getComponent} from "../../../shared/js/utils/getComponent.js";
 import isObject from "../../../shared/js/utils/isObject";
 import getters from "../store/gettersStatisticDashboard";
 import GridComponent from "./StatisticGridComponent.vue";
@@ -16,6 +15,7 @@ import StatisticSwitcher from "./StatisticDashboardSwitcher.vue";
 import {rawLayerList} from "@masterportal/masterportalapi";
 import {getFeaturePOST} from "../../../shared/js/api/wfs/getFeature.js";
 import ChartProcessor from "../js/chartProcessor.js";
+import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
 
 import {
     and as andFilter,
@@ -34,7 +34,8 @@ export default {
         Controls,
         StatisticFilter,
         StatisticSwitcher,
-        LegendComponent
+        LegendComponent,
+        AccordionItem
     },
     data () {
         return {
@@ -45,7 +46,7 @@ export default {
             selectMode: "column",
             showHeader: true,
             sortable: true,
-            categories: null,
+            categories: [],
             statisticsByCategory: false,
             loadedFilterData: false,
             loadedReferenceData: false,
@@ -65,13 +66,33 @@ export default {
             selectedColumn: undefined,
             colorArrayDifference: ["#E28574", "#89C67F"],
             legendValue: [],
-            showNoLegendData: false
+            showNoLegendData: false,
+            showFilter: false,
+            showAllHiddenTags: false
         };
     },
     computed: {
         ...mapGetters("Modules/StatisticDashboard", Object.keys(getters)),
         ...mapGetters("Maps", ["projection"]),
 
+
+        /**
+         * Gets the names of the selected filters.
+         * @returns {String[]} The names.
+         */
+        selectedFilters () {
+            const selectedRegions = this.selectedRegions.map(region => region.label),
+                selectedDates = this.selectedDates.map(dates => dates.label);
+
+            return [...new Set([...this.selectedStatisticsNames, ...selectedRegions, ...selectedDates])];
+        },
+        /**
+         * Returns true or false, depending on the number of selected filters.
+         * @returns {Boolean} True if the number of filters are more than five.
+         */
+        countSelectedFilters () {
+            return this.selectedFilters.length > 5;
+        },
         /**
          * Gets the names of the selected statistics.
          * @returns {String[]} The names.
@@ -171,15 +192,8 @@ export default {
     methods: {
         ...mapMutations("Modules/StatisticDashboard", Object.keys(mutations)),
         ...mapActions("Maps", ["addNewLayerIfNotExists"]),
+        ...mapActions("Menu", ["changeCurrentComponent"]),
 
-        close () {
-            this.setActive(false);
-            const model = getComponent(this.id);
-
-            if (model) {
-                model.set("isActive", false);
-            }
-        },
         /**
          * Gets the unique values for the inputs of the filter for the given level.
          * @param {Object} level The level to get the unique values for.
@@ -562,6 +576,7 @@ export default {
          */
         prepareGridCharts (filteredStatistics, preparedData, direction, differenceMode, renderAsLine = false) {
             this.showGrid = true;
+
             this.$nextTick(() => {
                 filteredStatistics.forEach((statistic, idx) => {
                     const ctx = this.$refs[`chart${idx + 1}`],
@@ -917,6 +932,7 @@ export default {
             }
             this.areCategoriesGrouped = StatisticsHandler.hasOneGroup(this.getSelectedLevelStatisticsAttributes(selectedLevel));
             this.categories = sort("", StatisticsHandler.getCategoriesFromStatisticAttributes(this.getSelectedLevelStatisticsAttributes(selectedLevel), this.areCategoriesGrouped), "name");
+            this.setStatisticsByCategory(this.selectedCategories.name);
             this.loadedFilterData = true;
             this.loadedReferenceData = true;
             this.referenceData = {
@@ -960,6 +976,37 @@ export default {
             this.setSelectedReferenceData(undefined);
             this.setSelectedStatistics({});
             this.handleReset();
+        },
+
+        /**
+         * Toggles the show filter flag.
+         * @returns {void}
+         */
+        toggleFilter () {
+            this.showFilter = !this.showFilter;
+        },
+
+        /**
+         * Removes the given the filter.
+         * @param {String} filter - Filter to remove.
+         * @returns {void}
+         */
+        removeFilter (filter) {
+            const isFilterDate = this.selectedDates.filter(date => date.label !== filter),
+                isFilterRegion = this.selectedRegions.filter(date => date.label !== filter),
+                isFilterStatistic = Object.values(this.selectedStatistics).filter(statistic => statistic?.name !== filter);
+
+            if (isFilterDate.length !== this.selectedDates.length) {
+                this.setSelectedDates(isFilterDate);
+            }
+            else if (isFilterRegion.length !== this.selectedRegions.length) {
+                this.setSelectedRegions(isFilterRegion);
+            }
+            else if (isFilterStatistic.length !== Object.values(this.selectedStatistics).length) {
+                const keyToDelete = Object.keys(this.selectedStatistics).find(key => this.selectedStatistics[key]?.name === filter);
+
+                delete this.selectedStatistics[keyToDelete];
+            }
         }
     }
 };
@@ -970,145 +1017,185 @@ export default {
         id="modules-statisticDashboard"
         class="static-dashboard"
     >
-        <div class="row justify-content-between">
-            <div class="col-md-12 d-flex align-items-center">
-                <h4 class="mb-0">
-                    {{ $t(levelTitle ?? subtitle) }}
-                </h4>
+        <template v-if="loadedFilterData">
+            <StatisticFilter
+                v-show="showFilter"
+                :categories="categories"
+                :are-categories-grouped="areCategoriesGrouped"
+                :statistics="statisticsByCategory"
+                :time-steps-filter="timeStepsFilter"
+                :regions="allRegions"
+                @change-category="setStatisticsByCategory"
+                @change-filter-settings="checkFilterSettings"
+                @reset-statistics="handleReset"
+                @toggle-filter="toggleFilter"
+            />
+        </template>
+        <div v-show="!showFilter">
+            <div class="row justify-content-between">
+                <div class="col-md-12 d-flex align-items-center">
+                    <h4 class="mb-0">
+                        {{ $t(levelTitle ?? subtitle) }}
+                    </h4>
+                    <div
+                        v-if="getMetadataLink()"
+                        class="mx-2"
+                        role="button"
+                        tabindex="0"
+                        @click="openMetadata"
+                        @keypress.enter="openMetadata"
+                    >
+                        <span class="bootstrap-icon">
+                            <i
+                                class="bi-info-circle-fill"
+                                :title="$t('common:modules.statisticDashboard.headings.mrhstatisticsTooltip')"
+                            />
+                        </span>
+                    </div>
+                </div>
                 <div
-                    v-if="getMetadataLink()"
-                    class="mx-2"
-                    role="button"
-                    tabindex="0"
-                    @click="openMetadata"
-                    @keypress.enter="openMetadata"
+                    v-if="buttonGroupRegions.length > 1"
+                    class="col-md-auto"
                 >
-                    <span class="bootstrap-icon">
-                        <i
-                            class="bi-info-circle-fill"
-                            :title="$t('common:modules.statisticDashboard.headings.mrhstatisticsTooltip')"
-                        />
-                    </span>
+                    <StatisticSwitcher
+                        :buttons="buttonGroupRegions"
+                        group="regions"
+                        class="level-switch"
+                        @show-view="toggleLevel"
+                    />
                 </div>
             </div>
-            <div
-                v-if="buttonGroupRegions.length > 1"
-                class="col-md-auto"
+            <AccordionItem
+                v-if="loadedFilterData"
+                id="filter-accordion"
+                title="Filter"
+                icon="bi bi-sliders"
+                :is-open="true"
             >
-                <StatisticSwitcher
-                    :buttons="buttonGroupRegions"
-                    group="regions"
-                    class="level-switch"
-                    @show-view="toggleLevel"
-                />
-            </div>
-        </div>
-        <StatisticFilter
-            v-if="loadedFilterData"
-            :categories="categories"
-            :are-categories-grouped="areCategoriesGrouped"
-            :statistics="statisticsByCategory"
-            :time-steps-filter="timeStepsFilter"
-            :regions="allRegions"
-            @change-category="setStatisticsByCategory"
-            @change-filter-settings="checkFilterSettings"
-            @reset-statistics="handleReset"
-        />
-        <div
-            v-else
-            class="d-flex justify-content-center"
-        >
-            <div
-                class="spinner-border spinner-color"
-                role="status"
-            >
-                <span class="visually-hidden">Loading...</span>
-            </div>
-        </div>
-        <LegendComponent
-            v-if="Array.isArray(legendValue) && legendValue.length || showNoLegendData"
-            class="mt-3"
-            :legend-value="legendValue"
-            :title="selectedStatisticsNames[0]"
-            :show-notice-text="showNoLegendData"
-        />
-        <Controls
-            v-if="loadedReferenceData"
-            :descriptions="controlDescription"
-            :reference-data="referenceData"
-            @show-chart-table="toggleChartTable"
-        />
-        <div v-show="showTable">
-            <div v-if="!showGrid">
-                <TableComponent
-                    v-for="(data, index) in tableData"
+                <button
+                    id="add-filter-button"
+                    type="button"
+                    class="btn btn-sm btn-secondary rounded-pill lh-1 me-2 mb-2"
+                    @click="toggleFilter"
+                >
+                    <i class="bi bi-plus fs-6 pe-2" />{{ $t("common:modules.statisticDashboard.button.add") }}
+                </button>
+                <button
+                    v-for="(tag, index) in selectedFilters"
                     :key="index"
-                    :title="selectedStatisticsNames[index]"
-                    :data="data"
-                    :fixed-data="testFixedData"
-                    :select-mode="selectMode"
-                    :show-header="showHeader"
-                    :sortable="sortable"
-                    @set-sorted-rows="setSortedRows"
-                    @column-selected="setSelectedColumn"
-                />
-            </div>
-            <GridComponent
+                    class="btn btn-sm btn-outline-secondary lh-1 rounded-pill me-2 mb-2 btn-pb"
+                    :class="index > 4 && !showAllHiddenTags ? 'more-statistics' : ''"
+                    @click="removeFilter(tag)"
+                >
+                    {{ tag }}
+                    <i class="bi bi-x fs-6 align-middle" />
+                </button>
+                <button
+                    v-if="countSelectedFilters"
+                    id="more-button"
+                    type="button"
+                    class="btn btn-link btn-sm p-0"
+                    @click="showAllHiddenTags = !showAllHiddenTags"
+                >
+                    {{ !showAllHiddenTags ? $t("common:modules.statisticDashboard.button.showMore") : $t("common:modules.statisticDashboard.button.showLess") }}
+                </button>
+            </AccordionItem>
+            <div
                 v-else
-                :dates="tableData"
-                :titles="selectedStatisticsNames"
+                class="d-flex justify-content-center"
             >
-                <template
-                    #tableContainers="props"
+                <div
+                    class="spinner-border spinner-color"
+                    role="status"
                 >
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            <LegendComponent
+                v-if="Array.isArray(legendValue) && legendValue.length || showNoLegendData"
+                class="mt-3"
+                :legend-value="legendValue"
+                :title="selectedStatisticsNames[0]"
+                :show-notice-text="showNoLegendData"
+            />
+            <Controls
+                v-if="loadedReferenceData"
+                :descriptions="controlDescription"
+                :reference-data="referenceData"
+                @show-chart-table="toggleChartTable"
+            />
+            <div v-show="showTable">
+                <div v-if="!showGrid">
                     <TableComponent
-                        :data="props.data"
+                        v-for="(data, index) in tableData"
+                        :key="index"
+                        :title="selectedStatisticsNames[index]"
+                        :data="data"
                         :fixed-data="testFixedData"
-                        :show-header="showHeader"
-                        @set-sorted-rows="setSortedRows"
-                    />
-                </template>
-                <template
-                    #tableContainersModal="props"
-                >
-                    <TableComponent
-                        :data="props.data"
-                        :fixed-data="testFixedData"
+                        :select-mode="selectMode"
                         :show-header="showHeader"
                         :sortable="sortable"
                         @set-sorted-rows="setSortedRows"
+                        @column-selected="setSelectedColumn"
                     />
-                </template>
-            </GridComponent>
-        </div>
-        <div v-show="showChart">
-            <canvas
-                v-if="!showGrid"
-                ref="chart"
-                class="chart-container"
-            />
-            <GridComponent
-                v-else
-                :charts-count="chartCounts"
-                :titles="selectedStatisticsNames"
-            >
-                <template
-                    #chartContainers="props"
+                </div>
+                <GridComponent
+                    v-else
+                    :dates="tableData"
+                    :titles="selectedStatisticsNames"
                 >
-                    <canvas
-                        :id="'chart' + props.chartId"
-                        :ref="'chart' + props.chartId"
-                    />
-                </template>
-                <template
-                    #chartContainersModal="propsModal"
+                    <template
+                        #tableContainers="props"
+                    >
+                        <TableComponent
+                            :data="props.data"
+                            :fixed-data="testFixedData"
+                            :show-header="showHeader"
+                            @set-sorted-rows="setSortedRows"
+                        />
+                    </template>
+                    <template
+                        #tableContainersModal="props"
+                    >
+                        <TableComponent
+                            :data="props.data"
+                            :fixed-data="testFixedData"
+                            :show-header="showHeader"
+                            :sortable="sortable"
+                            @set-sorted-rows="setSortedRows"
+                        />
+                    </template>
+                </GridComponent>
+            </div>
+            <div v-show="showChart">
+                <canvas
+                    v-if="!showGrid"
+                    ref="chart"
+                    class="chart-container"
+                />
+                <GridComponent
+                    v-else
+                    :charts-count="chartCounts"
+                    :titles="selectedStatisticsNames"
                 >
-                    <canvas
-                        :id="'chart-modal-' + propsModal.chartId"
-                        :ref="'chart-modal-' + propsModal.chartId"
-                    />
-                </template>
-            </GridComponent>
+                    <template
+                        #chartContainers="props"
+                    >
+                        <canvas
+                            :id="'chart' + props.chartId"
+                            :ref="'chart' + props.chartId"
+                        />
+                    </template>
+                    <template
+                        #chartContainersModal="propsModal"
+                    >
+                        <canvas
+                            :id="'chart-modal-' + propsModal.chartId"
+                            :ref="'chart-modal-' + propsModal.chartId"
+                        />
+                    </template>
+                </GridComponent>
+            </div>
         </div>
     </div>
 </template>
@@ -1116,4 +1203,11 @@ export default {
 <style lang="scss" scoped>
 @import "~variables";
 
+    .btn-pb {
+        padding-bottom: 2px;
+    }
+
+    .more-statistics {
+        display: none;
+    }
 </style>
