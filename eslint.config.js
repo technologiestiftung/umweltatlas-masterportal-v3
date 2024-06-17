@@ -134,6 +134,7 @@ module.exports = [
             "no-new-symbol": "error",
             // end of changes for eslint v9
             // Layout & Formatting - These rules care about how the code looks rather than how it executes:
+            // Deprecated - These rules have been deprecated  (in ESLint v8.53.0) in accordance with the deprecation policy, and replaced by newer rules:
             "array-bracket-spacing": "error",
             "block-spacing": "error",
             "brace-style": ["error", "stroustrup"],
@@ -186,7 +187,7 @@ module.exports = [
             "space-unary-ops": "error",
             "switch-colon-spacing": "error",
             "wrap-regex": "error",
-            // Deprecated - These rules have been deprecated in accordance with the deprecation policy, and replaced by newer rules:
+            // Deprecated - These rules have been deprecated (in ESLint v7.0.0) in accordance with the deprecation policy, and replaced by newer rules:
             "callback-return": "error",
             "handle-callback-err": "error",
             "no-buffer-constructor": "error",
