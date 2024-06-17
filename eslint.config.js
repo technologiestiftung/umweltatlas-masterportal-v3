@@ -20,10 +20,7 @@ module.exports = [
                 ...globals.mocha,
                 ...globals.node,
                 ...globals.amd,
-                $: true,
-                _: true,
                 Config: true,
-                Radio: true,
                 Cesium: true,
                 i18next: true,
                 mapCollection: true,
@@ -285,29 +282,25 @@ module.exports = [
             "mocha/no-async-describe": "off",
             "mocha/max-top-level-suites": "off",
             "mocha/no-sibling-hooks": "off"
+            // "mocha/no-nested-tests": "off",
+            // "mocha/handle-done-callback": "off"
         }
     },
     {
         ignores: [
             "**/node_modules/",
-            "**/build/",
-            "**/unit/",
             "**/end2end/",
             "**/dist/",
             "**/src/",
-            "**/addons/",
+            "addons/*",
             "!addons/addons_3_0_0/",
             "**/portalconfigs/",
-            "**/scripte/",
             "**/jsdoc/",
-            "**/lib/",
-            "**/examples/",
             "**/.git/",
             "portal/*",
             "!portal/basic",
             "!portal/master",
-            "!portal/masterCustom",
-            "!portal/masterDefault"
+            "!portal/auto"
         ]
     }
 ];
