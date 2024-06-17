@@ -71,6 +71,53 @@ describe("src_3_0_0/modules/searchBar/searchInterfaces/searchInterfaceGazetteer.
                 }
             ]);
         });
+        it("shouldn't add a second result with same id", () => {
+            const searchResults = [
+                {
+                    name: "Result Name1",
+                    type: "houseNumbersForStreet",
+                    geometry: {
+                        coordinates: [10, 20]
+                    }
+                },
+                {
+                    name: "Result Name1",
+                    type: "addressUnaffixed",
+                    geometry: {
+                        coordinates: [10, 20]
+                    }
+                }];
+
+            expect(SearchInterface1.normalizeResults(searchResults)).to.deep.equals([
+                {
+                    events: {
+                        onClick: {
+                            setMarker: {
+                                coordinates: [10, 20]
+                            },
+                            zoomToResult: {
+                                coordinates: [10, 20]
+                            }
+                        },
+                        onHover: {
+                            setMarker: {
+                                coordinates: [10, 20]
+                            }
+                        },
+                        buttons: {
+                            startRouting: {
+                                coordinates: [10, 20],
+                                name: searchResults[0].name
+                            }
+                        }
+                    },
+                    category: "modules.searchBar.type.address",
+                    id: "ResultName1modules.searchBar.type.address",
+                    icon: "bi-signpost-split",
+                    name: "Result Name1"
+                }
+            ]);
+        });
     });
 
     describe("getTranslationByType", () => {

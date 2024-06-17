@@ -112,13 +112,15 @@ SearchInterfaceGazetteer.prototype.normalizeResults = function (searchResults) {
     searchResults.forEach(searchResult => {
         const translatedType = this.getTranslationByType(searchResult.type);
 
-        normalizedResults.push({
-            events: this.normalizeResultEvents(this.resultEvents, searchResult),
-            category: translatedType,
-            id: searchResult.name.replace(/ /g, "") + translatedType,
-            icon: "bi-signpost-split",
-            name: searchResult.name
-        });
+        if (!normalizedResults.some(e => e.id === searchResult.name.replace(/ /g, "") + translatedType)) {
+            normalizedResults.push({
+                events: this.normalizeResultEvents(this.resultEvents, searchResult),
+                category: translatedType,
+                id: searchResult.name.replace(/ /g, "") + translatedType,
+                icon: "bi-signpost-split",
+                name: searchResult.name
+            });
+        }
     });
 
     return normalizedResults;
