@@ -268,8 +268,7 @@ Layer2dRasterWmsTimeLayer.prototype.prepareTime = function (attrs) {
         console.warn(
             `WMS-T has '"default": ${time.default}' configured as number.
             Using number is deprecated, this field is now a string.
-            Please use '"default": "${time.default}"' instead.
-            This value is converted, but this breaks in next major release.`
+            Please use '"default": "${time.default}"' instead.`
         );
         time.default = String(time.default);
     }

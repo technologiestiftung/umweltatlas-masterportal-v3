@@ -23,10 +23,6 @@ The following i18next plugins are used:
 * [i18next-http-backend](https://github.com/i18next/i18next-http-backend) to use language files rather than hard coded translations
 * [i18next-browser-languagedetector](https://github.com/i18next/i18next-browser-languageDetector) to detect the browser language, use the localStorage, and react to the URL query
 
-An i18next language change is currently broadcasted with this `Backbone.Radio` event: `"i18next#RadioTriggerLanguageChanged"`. i18next is available as global variable (also named `i18next`) and can be accessed in browser consoles via `Backbone.i18next`.
-
->⚠️ Please mind that Backbone is deprecated and will eventually be replaced with the VueX store.
-
 ### Languages
 
 The Masterportal's main development team is seated in Hamburg, Germany. For this reason, the fallback language is currently German. You may change the fallback language within the `config.js` file.
@@ -348,111 +344,7 @@ When i18next exits in a component, a mock must be created in the associated unit
 
 ```js
 import {config} from "@vue/test-utils";
-config.mocks.$t = key => key;
-```
-
-
-## How to use i18next in production Backbone (Deprecated)
-
-This section is a guide on how to integrate i18next into your Masterportal project using MV*.
-
-### Translate your model
-
-To translate values for your model with i18next, simply set the values using the translation function of i18next. Listening to the `Backbone.Radio` event `"i18next#RadioTriggerLanguageChanged"` allows value changes to the currently chosen language at run-time.
-
-**ExampleModel:**
-
-```js
-const ExampleModel = Backbone.Model.extend(/** @lends ExampleModel.prototype */ {
-    defaults: {
-        currentLng: "",
-        exampleTitle: "",
-        exampleText: ""
-    },
-    /**
-     * @class ExampleModel
-     * @extends Backbone.Model
-     * @memberof Example
-     * @constructs
-     * @listens i18next#RadioTriggerLanguageChanged
-     */
-    initialize: function () {
-        this.listenTo(Radio.channel("i18next"), {
-            "languageChanged": this.changeLang
-        });
-
-        this.changeLang(i18next.language);
-    },
-    /**
-     * change language - sets default values for the language
-     * @param {String} lng the language changed to
-     * @returns {Void}  -
-     */
-    changeLang: function (lng) {
-        this.set({
-            currentLng: lng,
-            exampleTitle: i18next.t("common:foo.bar.exampleTitle"),
-            exampleText: i18next.t("common:foo.bar.exampleText")
-        });
-    }
-});
-
-export default ExampleModel;
-```
-
-#### Listen to your model
-
-If set up properly, the view listens to model changes and renders the template when required. The Masterportal uses *Underscore.js* for templating. To show how this SHOULD be implemented, the model from above is used to set up the MV* in the following example.
-
-**ExampleTemplate:**
-
-```html
-<!DOCTYPE html>
-<div class="title"><%= exampleTitle %></div>
-<div class="text"><%= exampleText %></div>
-```
-
-**ExampleView:**
-
-```js
-import ExampleTemplate from "text-loader!./template.html";
-import ExampleModel from "./model";
-
-const ExampleView = Backbone.View.extend(/** @lends ExampleView.prototype */{
-    /**
-     * @class ExampleView
-     * @extends Backbone.View
-     * @memberof Example
-     * @constructs
-     * @listens ExampleModel#changeExampleText
-     */
-    initialize: function () {
-        this.model = new ExampleModel();
-
-        this.listenTo(this.model, {
-            "change:currentLng": this.render
-        });
-
-        this.render();
-    },
-
-    /**
-     * renders the view
-     * @param {ExampleModel} model the model of the view
-     * @param {Boolean} value the values of the changes made to the model
-     * @returns {Void}  -
-     */
-    render: function () {
-        const template = _.template(ExampleTemplate),
-            params = this.model.toJSON();
-
-        this.$el.html(template(params));
-
-        return this;
-    }
-});
-
-export default ExampleView;
+config.global.mocks.$t = key => key;
 ```
 
 ## Unit Tests
@@ -469,6 +361,5 @@ before(function () {
         lng: "cimode",
         debug: false
     });
-    model = new Model();
 });
 ```

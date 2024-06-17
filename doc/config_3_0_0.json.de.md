@@ -3648,11 +3648,11 @@ Beim Bearbeiten eines Features / Hinzufügen von Attributen zu einem neuen Featu
         {
             "layerId":"1234",
             "caption": "Point test",
-            "show": true
+            "available": true
         },
         {
             "layerId": "5678",
-            "show": true,
+            "available": true,
             "multi": true
         }
     ],
@@ -3660,13 +3660,13 @@ Beim Bearbeiten eines Features / Hinzufügen von Attributen zu einem neuen Featu
     "polygonButton": [
         {
             "layerId": "4389",
-            "show": false
+            "available": false
         }
     ],
     "update": [
         {
             "layerId": "4389",
-            "show": true
+            "available": true
         }
     ]
 }

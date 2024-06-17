@@ -21,7 +21,7 @@ export default {
 
         // warn if deprecated param is used
         if (this.mapfishServiceId) {
-            console.warn("Print Tool: The parameter 'mapfishServiceId' is deprecated in the next major release! Please use printServiceId instead.");
+            console.warn("Print Tool: The parameter 'mapfishServiceId' is deprecated in one of the next versions! Please use printServiceId instead.");
         }
 
         // this.setServiceId(this.mapfishServiceId && this.mapfishServiceId !== "" ? this.mapfishServiceId : this.printServiceId);

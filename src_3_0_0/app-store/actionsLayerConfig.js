@@ -237,6 +237,10 @@ export default {
             const allLayerConfigsStructured = getters.allLayerConfigsStructured(),
                 folders = allLayerConfigsStructured.filter(conf => conf.type === "folder");
 
+            if (allLayerConfigsStructured.find(conf => conf.legendURL !== undefined)) {
+                console.warn("legendURL ist deprecated in one of the next versions. Please use attribute \"legend\" als Boolean or String with path to legend image or pdf.");
+            }
+
             buildTreeStructure.setIdsAtFolders(folders);
         }
         dispatch("updateLayerConfigs", layerContainer);
@@ -266,6 +270,10 @@ export default {
     processTreeTypeAuto ({commit, getters, state}, layerContainer) {
         const rawlayers = getAndMergeAllRawLayers(state.portalConfig?.tree, getters.showLayerAddButton),
             layersStructured = buildTreeStructure.build(rawlayers, state.layerConfig, getters.activeOrFirstCategory, layerContainer);
+
+        if (rawlayers.find(conf => conf.legendURL !== undefined)) {
+            console.warn("legendURL ist deprecated in one of the next versions. Please use attribute \"legend\" als Boolean or String with path to legend image or pdf.");
+        }
 
         commit("setLayerConfigByParentKey", {layerConfigs: layersStructured, parentKey: treeSubjectsKey});
     },

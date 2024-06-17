@@ -33,7 +33,7 @@ const toolsNotToMigrate = [
         "styleWMS",
         "addWMS"
     ],
-    deprecated = ["searchByCoord", "supplyCoord", "parcelSearch", "extendedFilter"],
+    deprecated = ["searchByCoord", "supplyCoord", "parcelSearch", "extendedFilter", "wfsFeatureFilter"],
     // toRemoveFromTools => attributes not to provide at tool-configs in v3.0.0
     toRemoveFromTools = {
         "all": ["renderToWindow", "active", "isVisibleInMenu", "resizableWindow", "initialWidth", "glyphicon", "onlyDesktop"],

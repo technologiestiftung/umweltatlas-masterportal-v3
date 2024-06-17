@@ -307,13 +307,13 @@ For example, the following annotations mark the parameter "Baumtyp" within the `
 ```md
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|Baumtyp|nein|enum["light", "default", "custom"]|"light"|Deprecated in 3.0.0. Use "treeType" instead.|false|
+|Baumtyp|nein|enum["light", "default", "custom"]|"light"|Deprecated in x.0.0. Use "treeType" instead.|false|
 ```
 
 ```js
 /**
  * this.updateTreeType
- * @deprecated in 3.0.0
+ * @deprecated in x.0.0
  */
 attributes = this.updateTreeType(attributes, response);
 ...
@@ -322,7 +322,7 @@ attributes = this.updateTreeType(attributes, response);
  * @param {Object} attributes Preparased portalconfig attributes.
  * @param {Object} response  Config from config.json.
  * @returns {Object} - Attributes with mapped treeType
- * @deprecated in 3.0.0. Remove whole function and call!
+ * @deprecated in x.0.0. Remove whole function and call!
  */
 updateTreeType: function (attributes, response) {
     if (response.Portalconfig.treeType !== undefined) {

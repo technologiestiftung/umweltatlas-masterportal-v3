@@ -12,8 +12,6 @@
  *
  * @property {String} printServiceId the id from the rest services json for the print app
  * @property {Object} printSettings print settings from the config.json
- * @property {String} mapfishServiceId _Deprecated. This field will no longer be used in the next major release._ the id from the rest services json for the mapfish app
- * @property {String} serviceId _Deprecated. This field will no longer be used in the next major release._ temporary used for different serviceId parameters
  * @property {String} printService the type of print service, mapfish and plotservice currently possible
  * @property {String} printAppId the identifier of one of the available mapfish print configurations
  * @property {String} printAppCapabilities URL for the page in the print service where the informations of layouts etc are,

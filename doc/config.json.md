@@ -308,7 +308,7 @@ Search configuration to use a *ESRI CH LocationFinder*.
 |----|--------|----|-------|-----------|------|
 |serviceId|yes|String||Service id. Resolved using the **[rest-services.json](rest-services.json.md)** file.|false|
 |classes|no|**[LocationFinderClass](#markdown-header-portalconfigsearchbarlocationfinderLocationFinderClass)**||May contain classes (with properties) to use in searches. If nothing is specified, all classes are considered valid.|false|
-|useProxy|no|Boolean|false|_Deprecated in the next major release. [GDI-DE](https://www.gdi-de.org/en) recommends setting CORS headers on the required services instead of using proxies._ Defines whether a service URL should be requested via proxy. For this, dots in the URL are replaced with underscores.|false|
+|useProxy|no|Boolean|false|_Deprecated in one of the next versions. [GDI-DE](https://www.gdi-de.org/en) recommends setting CORS headers on the required services instead of using proxies._ Defines whether a service URL should be requested via proxy. For this, dots in the URL are replaced with underscores.|false|
 |epsg|no|String||Coordinate reference system (EPSG-Code) to use for requests. By default, the value in `Portalconfig.mapView.epsg` is used.|false|
 
 ##### Portalconfig.searchBar.locationFinder.LocationFinderClass
@@ -593,7 +593,7 @@ SpecialWFS search definition configuration.
 |geometryName|no|String|"app:geom"|Geometry attribute name required for zoom functionality.|false|
 |maxFeatures|no|Integer|20|Maximum amount of features to be returned.|false|
 |namespaces|no|String||XML name spaces to request `propertyNames` or `geometryName`. (`xmlns:wfs`, `xmlns:ogc`, and `xmlns:gml` are always used.)|false|
-|useProxy|no|Boolean|false|_Deprecated in the next major release. [GDI-DE](https://www.gdi-de.org/en) recommends setting CORS headers on the required services instead of using proxies._ Defines whether a service URL should be requested via proxy. For this, dots in the URL are replaced with underscores.|false|
+|useProxy|no|Boolean|false|_Deprecated in one of the next versions. [GDI-DE](https://www.gdi-de.org/en) recommends setting CORS headers on the required services instead of using proxies._ Defines whether a service URL should be requested via proxy. For this, dots in the URL are replaced with underscores.|false|
 |data|no|String||_Deprecated in 3.0.0._ Filter parameter for WFS requests.|false|
 
 **Example**
@@ -1628,7 +1628,7 @@ Alternatively, also the paths **Portalconfig.menu.info**, **Portalconfig.menu.si
 |layerSlider|no|**[layerSlider](#markdown-header-portalconfigmenutoollayerslider)**||The layerSlider tool allows showing arbitrary services in order. This can e.g. be used to show aerial footage from multiple years in succession.|false|
 |measure|no|**[measure](#markdown-header-portalconfigmenutoolmeasure)**||Allows measuring areas and distances in the units m/km/nm resp. m²/ha/km².|false|
 |modeler3D|no|**[measure](#markdown-header-portalconfigmenutoolmodeler3D)**||Allows importing 3D models in .gltf, .dae, .obj formats and drawing extrudable 3D polygons.|false|
-|parcelSearch|no|**[parcelSearch](#markdown-header-portalconfigmenutoolparcelsearch)**||_Deprecated in the next major release. Please use `wfsSearch` instead._ The parcel search tool allows searching for parcels by district and parcel number. Many German administrative units feature a tripartite order, hence the tool offers searching by "Gemarkung" (district), "Flur" (parcel) (not used in Hamburg), and "Flurstück" (literally "parcel piece").|false|
+|parcelSearch|no|**[parcelSearch](#markdown-header-portalconfigmenutoolparcelsearch)**||_Deprecated in one of the next versions. Please use `wfsSearch` instead._ The parcel search tool allows searching for parcels by district and parcel number. Many German administrative units feature a tripartite order, hence the tool offers searching by "Gemarkung" (district), "Flur" (parcel) (not used in Hamburg), and "Flurstück" (literally "parcel piece").|false|
 |print|no|**[print](#markdown-header-portalconfigmenutoolprint)**||Printing module that can be used to export the map's current view as PDF.|false|
 |routing|no|**[routing](#markdown-header-portalconfigmenutoolrouting)**||Routing module to create routes and isochrones.|false|
 |saveSelection|no|**[saveSelection](#markdown-header-portalconfigmenutoolsaveselection)**||Tool that allows saving the 2D map's current state as sharable URL. This will list all currently visible layers in order, transparency, and visibility, as well as saving the center coordinate.|false|
@@ -2531,7 +2531,7 @@ Parcel search.
 
 Example request: **https://geodienste.hamburg.de/HH_WFS_DOG?service=WFS&request=GetFeature&version=2.0.0&&StoredQuery_ID=Flurstueck&gemarkung=0601&flurstuecksnummer=00011**
 
->Deprecated in the next major release. Please use **[wfsSearch](#markdown-header-portalconfigmenutoolwfssearch)** instead.
+>Deprecated in one of the next versions. Please use **[wfsSearch](#markdown-header-portalconfigmenutoolwfssearch)** instead.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
@@ -2645,7 +2645,7 @@ Print module, configurable for 2 print services: *High Resolution PlotService* a
 |dpiForPdf|no|Number|200|DPI resolution for the map in the PDF file.|false|
 |capabilitiesFilter|no|**[capabilitiesFilter](#markdown-header-portalconfigmenutoolprintcapabilitiesfilter)**||Filter for the response of the configured print service. Possible keys are layouts and outputFormats.|false|
 |defaultCapabilitiesFilter|no|**[capabilitiesFilter](#markdown-header-portalconfigmenutoolprintcapabilitiesfilter)**||If there is no key set in capabilitiesFilter, the key from this object is taken.|false|
-|useProxy|no|Boolean|false|_Deprecated in the next major release. [GDI-DE](https://www.gdi-de.org/en) recommends setting CORS headers on the required services instead of using proxies._ Defines whether a service URL should be requested via proxy. For this, dots in the URL are replaced with underscores.|false|
+|useProxy|no|Boolean|false|_Deprecated in one of the next versions. [GDI-DE](https://www.gdi-de.org/en) recommends setting CORS headers on the required services instead of using proxies._ Defines whether a service URL should be requested via proxy. For this, dots in the URL are replaced with underscores.|false|
 |printMapMarker|no|Boolean|false|If set to true, map markers visible in the print image section will be printed. They may obstruct the view to interesting information.|false|
 |overviewmapLayerId|no|String||Allows using a different layer for the overview map element. If no Id is specified, the first layer of the selected baselayer maps is used.|false|
 |layoutOrder|no|String[]||Defines the order in which the layouts should be shown in the dropdown. Only to be used in combination with the print service 'plotservice'.|false|
@@ -3375,7 +3375,7 @@ The contact form allows users to send messages to a configured mail address.
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |serviceId|yes|String||Email service id. Resolved using the **[rest-services.json](rest-services.json.md)** file.|false|
-|serviceID|no|String||_Deprecated in the next major release. Please use **serviceId** instead._ Email service id. Resolved using the **[rest-services.json](rest-services.json.md)** file.|false|
+|serviceID|no|String||_Deprecated in one of the next versions. Please use **serviceId** instead._ Email service id. Resolved using the **[rest-services.json](rest-services.json.md)** file.|false|
 |from|yes|**[email](#markdown-header-portalconfigmenutoolcontactemail)**[]||Email sender. Please mind our **[hints regarding E-Mail safety](#markdown-header-hints-regarding-e-mail-safety)**.|false|
 |to|yes|**[email](#markdown-header-portalconfigmenutoolcontactemail)**[]||Recipient of the E-Mail. Please mind our **[hints regarding E-Mail safety](#markdown-header-hints-regarding-e-mail-safety)**.|false|
 |closeAfterSend|no|Boolean|false|Flag determining if the contact window should be closed after successfully sending a message.|false|

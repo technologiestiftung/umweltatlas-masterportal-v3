@@ -46,13 +46,7 @@ const getters = {
             if (layerConfiguration === undefined) {
                 return;
             }
-            if (layerConfiguration.show !== undefined) {
-                console.warn("WfsTransaction: The parameter 'show' has been deprecated in version 3.0.0. Please use 'available' instead.");
-                configuration[val].available = layerConfiguration.show;
-            }
-            else {
-                configuration[val].available = layerConfiguration.available;
-            }
+            configuration[val].available = layerConfiguration.available;
             if (layerConfiguration.text !== undefined) {
                 configuration[val].text = layerConfiguration.text ? layerConfiguration.text : configuration[val].text;
             }

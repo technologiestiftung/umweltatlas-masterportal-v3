@@ -7,7 +7,7 @@
 ### __Breaking Changes__
 
 ### Added
-- Added config.json-Parameter Portalconfig.tree.singleBaselayer. Specifies whether only one base layer may be active at any time selectable by radio-buttons in visible layers.
+- Added config.json-Parameter `Portalconfig.tree.singleBaselayer`. Specifies whether only one base layer may be active at any time selectable by radio-buttons in visible layers.
 - Added config.json-Parameter `Portalconfig.tree.showFolderPath`. Determines whether the folder structure of visible layers is displayed. Default is false.
 - Added Shared Component for spinner.
 - Added Shared Component for accordion.
@@ -102,8 +102,35 @@
 - Styling for Search Results to match topic tree.
 - Moved config.json-Parameter `twoFingerPan` from `portalConfig.map.mapView` to `portalConfig.map.mapView.mapInteractions.interactionModes`.
 - GetFeatureInfo: Added mutation removeGfiFeatureByLayerId to remove a GfiFeature by given layerId.
+- GetFeatureInfo: module was renamed from `gfi`.
 
 ### Deprecated
+- Alerting: removed deprecated property `text`, use `content` instead.
+- Wfst: 
+    - removed deprecated property `show`, use `available` instead. 
+    - removed deprecated property `areaButton`, use `polygonButton` instead.
+    - removed deprecated property `edit`, use `update` instead.
+    - removed deprecated property `caption`, use `text` instead.
+    - removed deprecated property `useProxy`.
+- Draw_old: removed deprecated property `caption`.
+- Print: removed deprecated property `useProxy`.
+- Search interface BKG: removed deprecated property `zoomToResult`, configure `resultEvents` instead.
+- Search interface SPECIAL WFS: removed deprecated property `definition[x].data`.
+- Topic-Tree: removed deprecated property `Baumtyp`, use `tree.type` instead.
+- WfsFeatureFilter: removed deprecated tool `wfsFeatureFilter`.
+- ExtendedFilter: removed deprecated tool `extendedFilter`.
+- SearchByCoord: the deprecated tool `searchByCoord` was removed, use `coordToolkit` instead.
+- SupplyCoord: the deprecated tool `supplyCoord` was removed, use `coordToolkit` instead.
+- Parcel-Search: removed deprecated tool `parcelSearch`, use search interface `wfsSearch` instead.
+- GDI-Search: removed deprecated search `gdi`, use search interface `ELASTIC` instead.
+- Utils: removed deprecated function `isChrome`
+- index.html: removed deprecated id of div `lgv-container`, use id `masterportal-container` instead.
+- config.js: removed deprecated property `gfiWindow`.
+- Layer GEOJSON: The deprecated subTyp `OpenSenseMap` was removed.
+- map3DParameter: 
+    - the deprecated property `cesiumParameter.enableLighting` was removed, use `map3dParameter.globe.enableLighting` instead.
+    - the deprecated property `cesiumParameter.maximumScreenSpaceError` was removed, use `map3dParameter.globe.maximumScreenSpaceError` instead.
+    - the deprecated property `cesiumParameter.tileCacheSize` was removed, use `map3dParameter.globe.tileCacheSize` instead.
 
 ### Removed
 - RoutingLoadingSpinner: Was replaced with share component SpinnerItem.
@@ -112,6 +139,9 @@
     - devDependencies:
         - eslint: 8.51.0
         - eslint-plugin-chai-friendly: 0.7.2
+- QuickHelp: removed module `quickHelp`
+- Search interface BKG: removed property `zoomToResultOnHover` and `zoomToResultOnClick`, configure `resultEvents` instead.
+- getFeatureInfo: `desktopType` was removed, `detached` and `attached` are no longer provided, getFeatureInfo is displayed in sidebar.
 
 
 ### Fixed
@@ -287,7 +317,7 @@
 - Configuration:
     - The `wfsSearch` modules config.json parameter 'field'-property `type` was renamed to `queryType`
     - New config.json parameter 'tree' added. Contains:
-        - 'type' (was 'treeType' at root before), the following params are possible: "auto" ( = old "default")
+        - 'type' (was 'treeType' or 'Baumtyp' at root before), the following params are possible: "auto" ( = old "default")
         - 'addLayerButton': if active:true, a button to add layers is shown. On the first menu side only Layers configured in config.json with attribute 'showInLayerTree':true or "visibility": true is shown.
         - 'validLayerTypesAutoTree' (new parameter) only for tree type 'auto'
         - 'layerIDsToIgnore' (moved from config.js) only for tree type 'auto'
@@ -342,9 +372,6 @@
 - A new module `baseLayerSwitcher` allows to select base layers by preview images from a configurable base layer set.
 - Different modules were refactored from masterportal dev: `draw`, `filter`, `legend`, `search`, `wmsTime`, `wfst`
 - The new control `tiltView` adds two controls that allow you to tilt the 3d map up or down
-- Following [Addons](https://bitbucket.org/geowerkstatt-hamburg/addons/src/3.0.0-beta1/addons_3_0_0/) have been refactored:
-    - `sdpDownload`, `populationRequest`, `sdpDownload`, `streetsmart`, `vcOblique` and different `gfiThemes`.
-    - Additionally a mechanism was added to define searchInterfaces for the searchBar as an addon.
 - The layer tree can be filtered by categories e. g. `opendata`.
 - 3D print support has been added.
 - 3D tile highlighting was refactored from masterportal dev.
@@ -439,6 +466,10 @@
   - 'layerIDsToStyle'
 - The Control-Bar Design
 
+### Deprecated
+- Print: The deprecated attribute `mapfishServiceId` has been removed. Use `printServiceId` instead.
+- Contact: The deprecated attribute `serviceID` has been removed. Use `serviceId` instead.
+
 ### Removed
 - The following NPM packages are removed:
     - dependencies
@@ -460,5 +491,3 @@
         - eslint-plugin-you-dont-need-lodash-underscore
         - jsdoc
         - sinon-chai
-- Module print: The attribute `mapfishServiceId` has been removed. Use `printServiceId` instead.
-- Module contact: The attribute `serviceID` has been removed. Use `serviceId` instead.

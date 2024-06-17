@@ -78,7 +78,5 @@ describe("src_3_0_0/core/maps/js/zoomToCreateStyledFeatures.js", () => {
         expect(styledFeatures[0].getStyle().getImage() instanceof Icon).to.be.true;
         expect(styledFeatures[0].getStyle().getImage().getSrc()).to.equal(styleId);
         expect(consoleSpy.calledOnce).to.be.true;
-        expect(consoleSpy.firstCall.args.length).to.equal(1);
-        expect(consoleSpy.firstCall.args[0]).to.equal("zoomTo: The usage of the configuration parameter 'imgLink' will be deprecated in v3.0.0. Please use 'styleId' instead.");
     });
 });

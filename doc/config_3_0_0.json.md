@@ -3647,11 +3647,11 @@ When editing properties of a feature / adding properties to a new feature, the a
         {
             "layerId":"1234",
             "caption": "Point test",
-            "show": true
+            "available": true
         },
         {
             "layerId": "5678",
-            "show": true,
+            "available": true,
             "multi": true
         }
     ],
@@ -3659,13 +3659,13 @@ When editing properties of a feature / adding properties to a new feature, the a
     "polygonButton": [
         {
             "layerId": "4389",
-            "show": false
+            "available": false
         }
     ],
     "update": [
         {
             "layerId": "4389",
-            "show": true
+            "available": true
         }
     ]
 }

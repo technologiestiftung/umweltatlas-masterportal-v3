@@ -24,7 +24,6 @@ export default function (features, styleId) {
             let style;
 
             if (isUrl(styleId)) {
-                console.warn("zoomTo: The usage of the configuration parameter 'imgLink' will be deprecated in v3.0.0. Please use 'styleId' instead.");
                 style = new Style({
                     image: new Icon({
                         crossOrigin: "anonymous",

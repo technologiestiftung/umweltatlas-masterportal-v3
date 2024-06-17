@@ -24,7 +24,7 @@ In the following, all configuration options are described. For all configuration
 |layerSelector|no|**[layerSelector](#markdown-header-layerselector)**||Module to configure interactions with the layertree and the map, executed on a defined event.||
 |featureViaURL|no|**[featureViaURL](#markdown-header-featureviaurl)**||Optional configuration for the URL parameter `featureViaURL`. See **[urlParameter](urlParameter.md)** for details. Implemented for treeTypes *light* and *custom*.||
 |footer|no|**[footer](#markdown-header-footer)**||If set, a footer is shown and configured with this object.||
-|gfiWindow|no|String|`"detached"`|_Deprecated in the next major release. Please use the attribute "Portalconfig.menu.tool.gfi.desktopType" of the **[config.json](#config.json.md)** instead._ Display type and attribute information for all layer types. **attached**: the attribute information window is opened at click position **detached**: the attribute information window is opened at the top right of the map; a marker is set to the click position.|`"attached"`|
+|gfiWindow|no|String|`"detached"`|_Deprecated in one of the next versions. Please use the attribute "Portalconfig.menu.tool.gfi.desktopType" of the **[config.json](#config.json.md)** instead._ Display type and attribute information for all layer types. **attached**: the attribute information window is opened at click position **detached**: the attribute information window is opened at the top right of the map; a marker is set to the click position.|`"attached"`|
 |ignoredKeys|no|String[]|`["BOUNDEDBY", "SHAPE", "SHAPE_LENGTH", "SHAPE_AREA", "OBJECTID", "GLOBALID", "GEOMETRY", "SHP", "SHP_AREA", "SHP_LENGTH","GEOM"]`|List of attribute names to be ignored for attribute information lists of all layer types. Only used with "gfiAttributes": "showAll".|`["BOUNDEDBY", "SHAPE", "SHAPE_LENGTH", "SHAPE_AREA", "OBJECTID", "GLOBALID", "GEOMETRY", "SHP", "SHP_AREA", "SHP_LENGTH","GEOM"]`|
 |infoJson|no|String|`"info.json"`|Path to the `info.json` file containing additional information on snippets. The path is relative to the *index.html*.|`"info.json"`|
 |inputMap|no|Object|`{}`|If this object is set, and its field `setMarker` is set to true, the Masterportal is configured as input element for data. In that case, each click sets a Map Marker and communicates the coordinates via **[remoteInterface](remoteInterface.md)** in the chosen coordinate reference system.|`{setMarker: true, targetProjection: "EPSG:4326", setCenter: false}`|
@@ -43,13 +43,13 @@ In the following, all configuration options are described. For all configuration
 |quickHelp|no|Object|`{}`|Activates the QuickHelp module. This displays a window containing help text for supported functions of the modules. Available for the layer tree (CustomTree), the search bar (Searchbar) and the routing tool (RoutingTool).||
 |remoteInterface|no|**[remoteInterface](#markdown-header-remoteinterface)**||Optional remote interface configuration.||
 |scaleLine|no|Boolean|`false`|Controls whether a scale line is displayed at the bottom right of the map. To activate scale selection (as a **ScaleSwitcher**) use the configuration parameter `isDisplayInFooter` in **[config.json](config.json)**.|`true`|
-|simpleMap|no|Boolean|`false`|_Deprecated in the next major release. Please use the parameter `simpleMap` as part of the configuration of the `saveSelection` tool in the **[config.json](config.json.md)**._ Adds a SimpleMap URL to the `Save selection` dialogue. When calling this URL, the menu bar, layer tree, and map controls are deactivated. Not implemented for tree type *„light“*.|`false`|
+|simpleMap|no|Boolean|`false`|_Deprecated in one of the next versions. Please use the parameter `simpleMap` as part of the configuration of the `saveSelection` tool in the **[config.json](config.json.md)**._ Adds a SimpleMap URL to the `Save selection` dialogue. When calling this URL, the menu bar, layer tree, and map controls are deactivated. Not implemented for tree type *„light“*.|`false`|
 |startingMap3D|bi|Boolean|`false`|Controls whether the map should start in 3D mode.||
 |tree|no|**[tree](#tree)**||||
 |uiStyle|no|String|`"default"`|Sets the control element layout. |`table`|
 |wfsImgPath|no|String||Path to the folder holding images for the WFS styles. The path is relative to *js/main.js*.|`https://geodienste.hamburg.de/lgv-config/img/"`|
 |wpsID|no|String|`""`|Reference to a WPS interface used in various modules. The ID is resolved to a service defined in the **[rest-services.json](rest-services.json.md)** file.|`""`|
-|zoomToFeature|no|**[zoomToFeature](#markdown-header-zoomtofeature)**||_Deprecated in the next major release. Please use **[zoomTo](#markdown-header-zoomto)** instead._ Optional configuration of the URL query parameter `featureid`. For details, see **[urlParameter](urlParameter.md)**. ||
+|zoomToFeature|no|**[zoomToFeature](#markdown-header-zoomtofeature)**||_Deprecated in one of the next versions. Please use **[zoomTo](#markdown-header-zoomto)** instead._ Optional configuration of the URL query parameter `featureid`. For details, see **[urlParameter](urlParameter.md)**. ||
 |zoomTo|no|**[zoomTo](#markdown-header-zoomto)**[]|Configuration for the URL query parameters `zoomToFeatureId` and `zoomToGeometry`.||
 |layerInformation|no|**[layerInformation](#markdown-header-layerinformation)**||Configuration for the layerInformation window.||
 |vuetify|no|String|undefined|Path to the optional instance of the vuetify UI library. e.g. portal or addon specific.|`addons/cosi/vuetify/index.js`|
@@ -69,7 +69,7 @@ In the following, all configuration options are described. For all configuration
 ## cameraParameter
 
 Cesium Scene camera settings in 3D mode.
-_Deprecated in the next major release. Please use **[cesiumParameter](#markdown-header-cesiumParameter)** instead._
+_Deprecated in one of the next versions. Please use **[cesiumParameter](#markdown-header-cesiumParameter)** instead._
 
 |Name|Required|Type|Default|Description|
 |----|--------|----|-------|-----------|
@@ -450,7 +450,7 @@ Settings for generating the tree automatically. Only works if treeType="default"
 
 |Name|Required|Type|Default|Description|
 |----|--------|----|-------|-----------|
-|useProxy|no|String[]||_Deprecated in the next major release. *[GDI-DE](https://www.gdi-de.org/en)* recommends setting CORS headers on the required services instead._ Describes which metadata URLs are to be requested via proxy. The request will contain the requested URL as path, with dots replaced by underscores.|
+|useProxy|no|String[]||_Deprecated in one of the next versions. *[GDI-DE](https://www.gdi-de.org/en)* recommends setting CORS headers on the required services instead._ Describes which metadata URLs are to be requested via proxy. The request will contain the requested URL as path, with dots replaced by underscores.|
 
 **Example:**
 
@@ -511,16 +511,16 @@ Settings for generating the tree automatically. Only works if treeType="default"
 
 ## zoomToFeature
 
-_Deprecated in the next major release. Please use **[zoomTo](#markdown-header-zoomto)** instead._
+_Deprecated in one of the next versions. Please use **[zoomTo](#markdown-header-zoomto)** instead._
 
 |Name|Required|Type|Default|Description|
 |----|--------|----|-------|-----------|
-|imgLink|yes|String||Marker link. _Deprecated in the next major release._|
+|imgLink|yes|String||Marker link. _Deprecated in one of the next versions._|
 |wfsId|yes|String||ID to a WFS layer of which features to a position are requested from.|
 |attribute|yes|String||Attribute by which the WFS is filtered.|
 |styleId|no|String||A styleId from the `styles.json` may be supplied to override the map marker's design|
 |setFeature|no|Boolean|yes||Specifies a feature with which to create the specified style.
-|useProxy|no|Boolean|`false`|_Deprecated in the next major release. *[GDI-DE](https://www.gdi-de.org/en)* recommends setting CORS headers on the required services instead._ Whether the service URL is to be requested via proxy. The request will contain the requested URL as path, with dots replaced by underdashes.|
+|useProxy|no|Boolean|`false`|_Deprecated in one of the next versions. *[GDI-DE](https://www.gdi-de.org/en)* recommends setting CORS headers on the required services instead._ Whether the service URL is to be requested via proxy. The request will contain the requested URL as path, with dots replaced by underdashes.|
 |addFeatures|no|Boolean|true|Specifies whether the desired features should be added to the map in a separate layer.|
 
 **Example:**
@@ -539,11 +539,11 @@ _Deprecated in the next major release. Please use **[zoomTo](#markdown-header-zo
 
 ## zoomToGeometry
 
-_Deprecated in the next major release. Please use **[zoomTo](#markdown-header-zoomto)** instead._
+_Deprecated in one of the next versions. Please use **[zoomTo](#markdown-header-zoomto)** instead._
 
 |Name|Required|Type|Default|Description|
 |----|--------|----|-------|-----------|
-|imgLink|yes|String||Marker link. _Deprecated in the next major release._|
+|imgLink|yes|String||Marker link. _Deprecated in one of the next versions._|
 |layerId|yes|String|`"123456789"`|Id of the WFS layer the geometry is requested from.|
 |attribute|yes|String|`"district_name"`|Attribute by which the WFS is filtered.|
 |geometries|yes|String|`["DISTRICT1", "DISTRICT2"]`|Contains the geometries to be filtered from the WFS.|

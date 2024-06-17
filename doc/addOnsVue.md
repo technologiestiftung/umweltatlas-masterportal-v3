@@ -164,7 +164,7 @@ This types of add-ons are supported:
 * Javascript (`"type": "javascript"`)
 * SearchInterface (`"type": "searchInterface"`)
 
-All entries to the `addonsConf.json` defined by an object are expected to be written in Vue or pure javascript. The deprecated Backbone add-ons are always defined by a string.
+All entries to the `addonsConf.json` defined by an object are expected to be written in Vue or pure javascript.
 
 By default, an add-on's key is the name of its folder. By using the parameter `path` you may specify any other path. This way, you may group multiple add-ons in a folder.
 
