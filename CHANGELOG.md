@@ -1203,8 +1203,8 @@ Issue #764: Using parameters in WfsSearch as defined in [Filter Encoding Impleme
 
 ### Deprecated
 - Switched Icon Library from Glyphicon to Bootstrap Icons. Edited Webpack Config. Updated icon usage in vue components to use scss. Updated icon usage in backbone modules. Edited docs & tests accordingly.
-- The attribute `cameraParameter` in config.js is Deprecated in one of the next versions. Please use `cesiumParameter.camera` instead.
-- The attributes: `cesiumParameter.enableLighting`, `cesiumParameter.maximumScreenSpaceError` and `cesiumParameter.tileCacheSize` in config.js are Deprecated in one of the next versions. Please use `cesiumParameter.globe.enableLighting`, `cesiumParameter.globe.maximumScreenSpaceError`, `cesiumParameter.globe.tileCacheSize` instead.
+- The attribute `cameraParameter` in config.js is deprecated in the next major release. Please use `cesiumParameter.camera` instead.
+- The attributes: `cesiumParameter.enableLighting`, `cesiumParameter.maximumScreenSpaceError` and `cesiumParameter.tileCacheSize` in config.js are deprecated in the next major release. Please use `cesiumParameter.globe.enableLighting`, `cesiumParameter.globe.maximumScreenSpaceError`, `cesiumParameter.globe.tileCacheSize` instead.
 
 ### Fixed
 - Issue #1055: highlightFeaturesByAttribute: Improved exception handling and supporting unspecified featurePrefix now
