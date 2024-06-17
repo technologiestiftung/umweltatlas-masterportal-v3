@@ -281,9 +281,9 @@ module.exports = [
             "mocha/no-skipped-tests": "off",
             "mocha/no-async-describe": "off",
             "mocha/max-top-level-suites": "off",
-            "mocha/no-sibling-hooks": "off"
-            // "mocha/no-nested-tests": "off",
-            // "mocha/handle-done-callback": "off"
+            "mocha/no-sibling-hooks": "off",
+            "mocha/no-nested-tests": "off",
+            "mocha/handle-done-callback": "off"
         }
     },
     {

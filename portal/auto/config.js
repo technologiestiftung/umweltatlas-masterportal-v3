@@ -19,3 +19,7 @@ const Config = {
     wfsImgPath: "https://geodienste.hamburg.de/lgv-config/img/",
     cesiumLibrary: "https://geoportal-hamburg.de/mastercode/cesium/1_95/Cesium.js"
 };
+
+if (typeof module !== "undefined") {
+    module.exports = Config;
+}
