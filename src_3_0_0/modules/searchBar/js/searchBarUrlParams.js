@@ -34,13 +34,13 @@ function setQueryToSearchInput (params) {
                     const numberCoordinates = result.events.onClick.zoomToResult.coordinates?.map(coordinate => parseFloat(coordinate, 10));
 
                     if (store.getters.styleListLoaded) {
-                        store.dispatch("Maps/zoomToCoordinates", {center: numberCoordinates});
+                        store.dispatch("Maps/zoomToCoordinates", {center: numberCoordinates, zoom: store.getters["Modules/SearchBar/zoomLevel"]});
                         store.dispatch("Maps/placingPointMarker", numberCoordinates);
                     }
                     else {
                         store.watch((state, getters) => getters.styleListLoaded, val => {
                             if (val) {
-                                store.dispatch("Maps/zoomToCoordinates", {center: numberCoordinates});
+                                store.dispatch("Maps/zoomToCoordinates", {center: numberCoordinates, zoom: store.getters["Modules/SearchBar/zoomLevel"]});
                                 store.dispatch("Maps/placingPointMarker", numberCoordinates);
                             }
                         });
