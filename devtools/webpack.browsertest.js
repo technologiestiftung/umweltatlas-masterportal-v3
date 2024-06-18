@@ -1,5 +1,5 @@
 /* eslint-disable no-return-assign */
-/* eslint-disable no-process-env */
+/* eslint-disable n/no-process-env */
 const merge = require("webpack-merge"),
     Common = require("./webpack.common.js"),
     Mocha = require("mocha"),

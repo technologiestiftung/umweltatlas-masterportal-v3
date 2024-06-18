@@ -124,7 +124,7 @@ export default {
         * @returns {void}
         */
         checkVueObservation () {
-            /* eslint-disable no-process-env */
+            /* eslint-disable n/no-process-env */
             if (process.env.NODE_ENV === "development") {
                 setInterval(() => {
                     const map3d = mapCollection.getMap("3D");

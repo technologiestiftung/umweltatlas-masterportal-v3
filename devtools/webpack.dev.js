@@ -5,7 +5,7 @@ const merge = require("webpack-merge"),
     HttpsProxyAgent = require("https-proxy-agent"),
     // comment in to create a graphical representation of the bundle as html
     // BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin,
-    /* eslint-disable no-process-env */
+    /* eslint-disable n/no-process-env */
     proxyServer = process.env.HTTPS_PROXY || process.env.HTTP_PROXY,
     proxyAgent = proxyServer !== undefined ? new HttpsProxyAgent(proxyServer) : "";
 

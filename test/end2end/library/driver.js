@@ -46,7 +46,7 @@ async function loadUrl (driver, url, mode) {
  * @returns {void}
  */
 async function doLoadUrl (driver, url) {
-    /* eslint-disable no-process-env */
+    /* eslint-disable n/no-process-env */
     const testService = process.env.npm_config_testservice;
 
     if (url.indexOf("localhost") === -1) {

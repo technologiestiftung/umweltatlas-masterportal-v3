@@ -132,7 +132,7 @@ async function reclickUntilNotStale (driver, selector) {
  * @returns {void}
  */
 async function logTestingCloudUrlToTest (sessionId) {
-    /* eslint-disable no-process-env */
+    /* eslint-disable n/no-process-env */
     const testService = process.env.npm_config_testservice;
 
     if (testService === "saucelabs") {

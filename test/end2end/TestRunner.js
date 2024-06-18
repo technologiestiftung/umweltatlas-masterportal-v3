@@ -15,7 +15,7 @@ const webdriver = require("selenium-webdriver"),
         configs,
         modes
     } = require("./settings"),
-    /* eslint-disable no-process-env */
+    /* eslint-disable n/no-process-env */
     // contains saucelabs"
     testService = process.env.npm_config_testservice,
     browser = process.env.browser || "firefox,chrome,edge",
@@ -25,7 +25,7 @@ const webdriver = require("selenium-webdriver"),
     localHttpProxy = process.env.http_proxy,
     localHttpsProxy = process.env.https_proxy,
     localBypassList = ["localhost", "127.0.0.1", "10.*", "geodienste.hamburg.de", "test-geodienste.hamburg.de"],
-    /* eslint-enable no-process-env */
+    /* eslint-enable n/no-process-env */
     portalConfigs = configs;
 
 // pulling execution to separate function for JSDoc; expected input is e.g. "chrome", "bs", "chrome,firefox"
@@ -116,9 +116,9 @@ function runTests (browsers) {
     let build = "localhost";
 
 
-    /* eslint-disable-next-line no-process-env */
+    /* eslint-disable-next-line n/no-process-env */
     if (process.env.BITBUCKET_BRANCH) {
-        /* eslint-disable-next-line no-process-env */
+        /* eslint-disable-next-line n/no-process-env */
         build = "branch: " + process.env.BITBUCKET_BRANCH + " - commit: " + process.env.BITBUCKET_COMMIT + " - date:" + date;
         console.warn("Running tests on " + testService + " with name:\"" + build + "\" on Urls:");
     }
@@ -142,9 +142,9 @@ function runTests (browsers) {
                 else {
                     const caps = getCapabilities(testService);
 
-                    /* eslint-disable-next-line no-process-env */
+                    /* eslint-disable-next-line n/no-process-env */
                     if (process.env.BITBUCKET_BRANCH) {
-                        /* eslint-disable-next-line no-process-env */
+                        /* eslint-disable-next-line n/no-process-env */
                         completeUrl += "_" + process.env.BITBUCKET_BRANCH.replace(/\//g, "_");
                         console.warn(completeUrl);
                     }
