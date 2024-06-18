@@ -138,7 +138,7 @@ module.exports = [
             "no-new-symbol": "error",
             // end of changes for eslint v9
             // Layout & Formatting - These rules care about how the code looks rather than how it executes:
-            // Deprecated - The old rules have been deprecated  (in ESLint v8.53.0) in accordance with the deprecation policy, and replaced by those newer rules:
+            // Deprecated - The old rules have been deprecated (in ESLint v8.53.0) in accordance with the deprecation policy, and replaced by those newer rules:
             "@stylistic/js/array-bracket-spacing": "error",
             "@stylistic/js/block-spacing": "error",
             "@stylistic/js/brace-style": ["error", "stroustrup"],
@@ -197,7 +197,6 @@ module.exports = [
             "n/prefer-global/buffer": "error",
             "n/no-path-concat": "error",
             "n/no-process-env": "error",
-            // "n/no-process-exit": "error",
             "n/no-unpublished-import": "off",
             "n/no-missing-import": "off",
             "n/no-extraneous-import": "off",

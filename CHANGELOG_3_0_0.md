@@ -55,6 +55,8 @@
         - @eslint/js: 9.3.3
         - eslint-plugin-jsdoc: 48.2.7,
         - eslint-plugin-mocha: 10.4.3,
+        - eslint-plugin-n: 17.9.0,
+        - @stylistic/eslint-plugin-js: 2.2.1
 
 ### Changed
 - CoordToolkit: Toast added instead of Alert for feedback after copying coordinates.
@@ -108,7 +110,7 @@
 - ModalItem in WFSSearch. Results are displayed as table now.
 - The following packages have been removed:
     - devDependencies:
-        - eslint: 8.57.0
+        - eslint: 8.51.0
         - eslint-plugin-chai-friendly: 0.7.2
 
 
