@@ -5,15 +5,21 @@
 
 ## Unreleased - in development
 ### __Breaking Changes__
-- GetFeatureInfo: 
+- GetFeatureInfo:
     - module was renamed from `gfi`.
     -`desktopType` was removed, `detached` and `attached` are no longer provided, getFeatureInfo is displayed in sidebar.
+
+- Moved config.json-Parameter `twoFingerPan` from `portalConfig.map.mapView` to `portalConfig.map.mapView.mapInteractions.interactionModes`.
+
+Under the headline `deprecated` you can find several changes of removed deprecated properties and tools.
+In certain circumstances this means that you have to update your portal files (index.html, config.js and config.json) according to the new changes in order to use your portal furthermore.
 
 ### Added
 - Added config.json-Parameter `Portalconfig.tree.singleBaselayer`. Specifies whether only one base layer may be active at any time selectable by radio-buttons in visible layers.
 - Added config.json-Parameter `Portalconfig.tree.showFolderPath`. Determines whether the folder structure of visible layers is displayed. Default is false.
 - Added Shared Component for spinner.
 - Added Shared Component for accordion.
+- Added Shared Component for table with sort,display and download options.
 - ShareView:
     - Legend, Layer information, getFeatureInfo, draw_old and wfsSearch can be shared.
     - bufferAnalysis can be shared even if it is configured in both menus.
@@ -39,9 +45,9 @@
     - The result window can now be moved.
     - New parameter onlyFilteredFeatures introduced, so that only filtered features are displayed in the results window.
 - Grouped layers are supported.
-- Script to migrate masterportal configuration files to version 3.0.0 migratetes layertree with folder structure ("Ordner" in config.json version 2) and group layers.
-- Added WMS support to add CQL filters by attribute.
-- Doc-files explaining migrateConfig script added.
+- Script to migrate masterportal configuration files to version 3.0.0 migrates layertree with folder structure ("Ordner" in config.json version 2) and group layers.
+- Added general CQL filter support for layers and WMS support to add CQL filters by attribute.
+- Doc-files explaining migrateConfig script are added.
 - Control rotate: has been extended by two buttons to rotate the map clockwise and counterclockwise. A compass rose can be shown in 2D and 3D.
 - Tooltips for layernames and folders.
 - Addons of type "javascript" or "control" can be loaded.
@@ -60,15 +66,19 @@
         - eslint-plugin-mocha: 10.4.3,
         - eslint-plugin-n: 17.9.0,
         - @stylistic/eslint-plugin-js: 2.2.1
+- Added several WFS-T fixes and improvements.
+- Added searchType to treeSearch with default search by name otherwise md_name of dataset can be used.
+- Added possibility to fit layer extent from layer capabilities.
 
 ### Changed
 - CoordToolkit: Toast added instead of Alert for feedback after copying coordinates.
-- ShareView: Added more configuration.
-- LayerMenu: Breadcrumbs with folder location will now stick to the top when scrolling.
+- ShareView: Added more configuration. Sharing possibilities (Qr code, social media, ...) can now be customized.
+- LayerMenu: Breadcrumbs with folder location path will now stick to the top when scrolling.
 - 3D tileset layer supports hiddenFeatures.
+- Update node version to 20.12.2.
 - The following packages have been updated:
     - dependencies:
-        - @masterportal/masterportalapi: 2.33.0 to 2.37.0 (This also raised ol to version 9.1.0)
+        - @masterportal/masterportalapi: 2.33.0 to 2.39.0 (This also raised ol to version 9.2.4)
         - @masterportal/mpconfigparser: 1.3.1 to 1.4.0
         - axios: 1.5.1 to 1.7.1
         - bootstrap: 5.3.2 to 5.3.3
@@ -99,17 +109,18 @@
         - zip-a-folder: 3.1.3 to 3.1.6
         - eslint-plugin-vuejs-accessibility: 2.2.0 to 2.3.0
         - eslint-plugin-vue: 9.17.0 to 9.25.0
-- Changed prePushHook to check config_3_0_0.json with mpconfigparser.
+
+- Changed prePushHook to check config.json with mpconfigparser for version 3.0.0.
 - Restructured `highlightFeature` and `removeHighlighting`.
+- Improved mobile view handling e.g. through adaption of the media breakpoints.
 - Script to migrate masterportal configuration files to version 3.0.0 is ready to use.
 - Styling for Search Results to match topic tree.
-- Moved config.json-Parameter `twoFingerPan` from `portalConfig.map.mapView` to `portalConfig.map.mapView.mapInteractions.interactionModes`.
 - GetFeatureInfo: Added mutation removeGfiFeatureByLayerId to remove a GfiFeature by given layerId.
 
 ### Deprecated
 - Alerting: removed deprecated property `text`, use `content` instead.
-- Wfst: 
-    - removed deprecated property `show`, use `available` instead. 
+- Wfst:
+    - removed deprecated property `show`, use `available` instead.
     - removed deprecated property `areaButton`, use `polygonButton` instead.
     - removed deprecated property `edit`, use `update` instead.
     - removed deprecated property `caption`, use `text` instead.
@@ -129,7 +140,7 @@
 - index.html: removed deprecated class `lgv-container` of div. Update content of index.html to new structure.
 - config.js: removed deprecated property `gfiWindow`.
 - Layer GEOJSON: The deprecated subTyp `OpenSenseMap` was removed.
-- map3DParameter: 
+- map3DParameter:
     - the deprecated property `cesiumParameter.enableLighting` was removed, use `map3dParameter.globe.enableLighting` instead.
     - the deprecated property `cesiumParameter.maximumScreenSpaceError` was removed, use `map3dParameter.globe.maximumScreenSpaceError` instead.
     - the deprecated property `cesiumParameter.tileCacheSize` was removed, use `map3dParameter.globe.tileCacheSize` instead.
@@ -146,40 +157,48 @@
 
 
 ### Fixed
-- Issue #1118: The `wfsSearch` module now works with multiple select boxes.
-- Issue #1119: Routing module: the route is also displayed when the start and end points are selected via the search.
-- Issue #1120: The map view gets centered on searched coordinate again.
-- Issue #1136: Routing module: the coordinates change when point is moved or deleted.
-- Issue #1130: Routing module: fix the bug that interval value could be smaller than minimum interval value.
-- Issue #1132: Routing module: error messages have been improved.
-- Issue #1140: AddWMS module: GFI display works again with imported WMS.
-- Issue #1144/#1146: The baselayer preview now works for WMTS Layer that have an XML as getCapabilities-URL.
-- Issue #1148: fixed bug in vector search so that it can handle GeometryCollection.
-- Issue #1153: The Parameter "isSecured" is now recognized if defined in the config.json.
 - Issue #1084: fix wrong pointMarker placement when featureType is MultiPolygon.
 - Issue #1095: FeatureLister: Fixed highlighting on hover and on click.
+- Issue #1114: pass credentials to tiled WMS layers if `isSecured` is set.
+- Issue #1118: the `wfsSearch` module now works with multiple select boxes.
+- Issue #1119: Routing module: the route is also displayed when the start and end points are selected via the search.
+- Issue #1120: the map view gets centered on searched coordinate again.
+- Issue #1124: fixed url used in WMS-time layer and in zoomTo environment to not use more than one questionmark.
+- Issue #1125: Routing module: Blocked areas can be deleted again.
+- Issue #1130: Routing module: fix the bug that interval value could be smaller than minimum interval value.
+- Issue #1132: Routing module: error messages have been improved.
+- Issue #1136: Routing module: the coordinates change again when point is moved or deleted.
+- Issue #1140: AddWMS module: GFI display works again with imported WMS.
+- Issue #1144/#1146: phe baselayer preview now works for WMTS Layer that have an XML as getCapabilities-URL.
+- Issue #1148: fixed bug in vector search so that it can handle GeometryCollection.
+- Issue #1153: the Parameter "isSecured" is now recognized if defined in the config.json.
+- Issue #1174: Draw: the outer outline color of the double circle is drawn as selected.
+- Issue #1182: the order of the layers in the map for initially no subject layers has been corrected.
 - Issue #1203: Coordinates: MapMarker stays on the map until other place is selected and disappears when we leave coordinates section.
-- Layer selection: The order of the layers corresponds to the order of the layers in config.json.
-- Fixed HighlightFeature for MultiPolygons: In certain WFS layers, when polygon selection is enabled,
+- Layer selection: the order of the layers corresponds to the order of the layers in config.json.
+- AddWMS module: now displays metadata correctly when adding a WMS layer, if "cswId" is specified in the configuration.
+- Fixed HighlightFeature for MultiPolygons: in certain WFS layers, when polygon selection is enabled,
     clicking on a polygon would highlight it, but multiPolygons wouldn't. This has now been corrected.
-- UrlParams: The correct layers will be visible when copying the URL.
-- Routing: Spinner will spin again when loading.
-- Contact Form: Telephone Field shows Error when entering letters and fields provide better feedback.
-- FileImport: Import of GPX-files imports routes, tracks and points. Import of geojson-files imports all besides circles.
-- MainMenu: Resizing doesn't cause layout problems anymore.
+- UrlParams: the correct layers will be visible when copying the URL.
+- Routing: spinner will spin again when loading.
+- Contact Form: telephone number field shows error when entering letters and fields provide better feedback.
+- FileImport: import of GPX-files imports routes, tracks and points. Import of geojson-files imports all besides circles.
+- MainMenu: resizing doesn't cause layout problems anymore.
 - The TopicTree-Searchinterface failed if there is an empty folder in the topic tree. Now it runs over empty folders.
 - Layer Settings: styling of the settings menu.
-- Filter: Closing the filter with more than one child dropdown snippet selected and opening it again does not trigger an infinite loop anymore.
-- WfsSearch: It is now also possible to zoom in on result features with a geometry of type polygon.
+- Filter: closing the filter with more than one child dropdown snippet selected and opening it again does not trigger an infinite loop anymore.
+- WfsSearch: it is now also possible to zoom in on result features with a geometry of type polygon.
+- Jsdoc: Generating report works again.
 - Print: StyleId can now differ from layerId.
 - GetFeatureInfo: the heading has been corrected for 3D objects.
-- SingleBaseLayer: If layers change visibility, the baselayer will no longer be turned insvisible as well.
+- SingleBaseLayer: if layers change visibility, the baselayer will no longer be turned insvisible as well.
 - English language: it is possible to change the language to English of the menu on the right side.
-- OAF: Layers are displayed if activated in 3D mode.
+- OAF: layers are displayed if activated in 3D mode.
 - Layers: if only maxScale is set at layer, minScale is set to 0.
 - 3D: GFI of Cesium3DTileFeature shows correct properties.
 - SearchBar: no error is logged to console, if a search request is aborted, because the same URL is requested again.
 - Routing directions: no "empty" button, it is not clickable anymore
+- Legend: using `legend: ignore` doesnt show up legend tab in layerinformation.
 ---
 
 ---
@@ -294,6 +313,7 @@
 - `Legend` : The `showLegend` and `showCollapseAllButton` attributes have been removed
 
 ### Fixed
+- Issue #859: Allow saveSelection for 3D.
 - Issue #1073: Routing: the route is updated after moving a waypoint in the map.
 - Issue #1085: Corrected case at import of layer2dRasterWmsTime in src_3_0_0\core\layers\js\layerFactory.js.
 - Issue #1091: VectorStyle: read geometry type from geoserver featureTypeRequest and do not fail if some rules in style.json have no condition.
