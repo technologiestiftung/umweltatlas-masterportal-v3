@@ -29,6 +29,58 @@ describe("src_3_0_0/shared/js/utils/getGfiFeaturesByTileFeature.js", () => {
         store.getters.layerConfigById = layerConfigByIdOrig;
     });
 
+    describe("getLayerModelFromTileFeature", () => {
+        it("get id from layerReferenceId", () => {
+            const tileFeature = {
+                    tileset: {
+                        layerReferenceId: "id",
+                        primitive: {}
+                    }
+
+                },
+                result = getGfiFeatureProvider.getLayerModelFromTileFeature(tileFeature, null, () => true);
+
+            expect(result).to.be.deep.equals({attributes: {id: "id",
+                name: "layerName"}});
+        });
+
+        it("get id from olLayer", () => {
+            const tileFeature = {
+                    tileset: {
+                        primitive: {
+                            olLayer: {
+                                get: () => "id"
+                            }
+                        }
+                    }
+
+                },
+                result = getGfiFeatureProvider.getLayerModelFromTileFeature(tileFeature, null, () => true);
+
+            expect(result).to.be.deep.equals({attributes: {id: "id",
+                name: "layerName"}});
+        });
+
+        it("get id from primitive.id.layerReferenceId", () => {
+            const tileFeature = {
+                    tileset: {
+                        primitive: {
+                            id: {
+                                layerReferenceId: "id"
+                            }
+                        }
+                    }
+
+                },
+                result = getGfiFeatureProvider.getLayerModelFromTileFeature(tileFeature, null, () => true, () => true);
+
+            expect(result).to.be.deep.equals({attributes: {id: "id",
+                name: "layerName"}});
+        });
+
+
+    });
+
     describe("getLayerName", () => {
         it("should return default name", () => {
             const result = getGfiFeatureProvider.getLayerName(null, null);

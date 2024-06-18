@@ -78,9 +78,19 @@ export default {
             type: String,
             required: false,
             default: ""
+        },
+        fixedData: {
+            type: Object,
+            required: false,
+            default: undefined
+        },
+        selectMode: {
+            type: [String, Boolean],
+            required: false,
+            default: false
         }
     },
-
+    emits: ["columnSelected", "rowSelected", "setSortedRows"],
     data () {
         return {
             currentSorting: {
@@ -93,7 +103,10 @@ export default {
             fixedColumn: undefined,
             dropdownSelected: {},
             filterObject: {},
-            originFilteredRows: undefined
+            originFilteredRows: undefined,
+            selectedColumn: "",
+            selectedRow: "",
+            sortedRows: []
         };
     },
     computed: {
@@ -133,6 +146,7 @@ export default {
             handler (val) {
                 this.draggableHeader = val?.headers;
             },
+            deep: true,
             immediate: true
         },
 
@@ -186,6 +200,14 @@ export default {
                 }
             },
             deep: true
+        }
+    },
+    mounted () {
+        if (this.selectMode === "column" && Array.isArray(this.data?.headers)) {
+            this.selectColumn(this.data.headers[1], 1);
+        }
+        else if (this.selectMode === "row" && Array.isArray(this.data?.items)) {
+            this.selectRow(this.data.items[0]);
         }
     },
     methods: {
@@ -460,6 +482,44 @@ export default {
                 return false;
             }
             return true;
+        },
+
+        /**
+         * Gets the row stringified.
+         * @param {Array} row The row.
+         * @returns {String} the stringified row.
+         */
+        getStringifiedRow (row) {
+            return row.join("");
+        },
+        /**
+         * Selects the row.
+         * @emits rowSelected The row stringified.
+         * @param {Array} row The row as array.
+         * @returns {void}
+         */
+        selectRow (row) {
+            if (this.selectMode !== "row") {
+                return;
+            }
+            const stringifiedRow = this.getStringifiedRow(row);
+
+            this.selectedRow = stringifiedRow;
+            this.$emit("rowSelected", stringifiedRow);
+        },
+        /**
+         * Selects the column.
+         * @emits columnSelected The selected column name.
+         * @param {String} columnName The column name.
+         * @param {Number} idx The index of the column.
+         * @returns {void}
+         */
+        selectColumn (columnName, idx) {
+            if (this.selectMode !== "column" || !columnName || idx === 0) {
+                return;
+            }
+            this.selectedColumn = columnName;
+            this.$emit("columnSelected", this.selectedColumn?.name);
         }
     }
 };
@@ -598,7 +658,8 @@ export default {
                         v-for="(column, idx) in editedTable.headers"
                         :key="idx"
                         class="filter-select-box-wrapper"
-                        :class="['p-0', fixedColumn === column.name ? 'fixedColumn' : '']"
+                        :class="['p-0', fixedColumn === column.name ? 'fixedColumn' : '', selectMode === 'column' && idx > 0 ? 'selectable' : '', selectedColumn === column ? 'selected' : '']"
+                        @click="selectColumn(column, idx)"
                     >
                         <div class="d-flex justify-content-between me-3">
                             <span
@@ -657,12 +718,27 @@ export default {
                     <td
                         v-for="(entry, columnIdx) in visibleHeaders"
                         :key="columnIdx"
-                        :class="['p-2', fixedColumn === entry.name ? 'fixedColumn' : '']"
+                        :class="['p-2', fixedColumn === entry.name ? 'fixedColumn' : '', selectMode === 'column' && columnIdx > 0 ? 'selectable' : '', selectedColumn === visibleHeaders[columnIdx] ? 'selected' : '']"
                     >
                         {{ item[entry.name] }}
                     </td>
                 </tr>
             </tbody>
+            <template v-if="typeof fixedData !== 'undefined' || Array.isArray(fixedData?.items)">
+                <tr
+                    v-for="(row, idx) in fixedData.items"
+                    :key="'fixed-'+idx"
+                    :class="[selectMode === 'row' ? 'selectable' : '', selectedRow === getStringifiedRow(row) ? 'selected' : '', 'fixed']"
+                >
+                    <td
+                        v-for="(entry, columnIdx) in row"
+                        :key="'fixed-'+columnIdx"
+                        :class="[selectMode === 'column' && columnIdx > 0 ? 'selectable' : '', selectedColumn === visibleHeaders[columnIdx] ? 'selected' : '']"
+                    >
+                        {{ entry }}
+                    </td>
+                </tr>
+            </template>
         </table>
     </div>
 </template>
@@ -702,6 +778,7 @@ table {
     border-spacing: 0;
     td {
         font-size: 14px;
+        text-align: left;
     }
     th {
         width: 15rem;
@@ -716,18 +793,21 @@ table {
             left: 187px;
             cursor: pointer;
         }
+        &.selected {
+            background-color: rgba(174, 138, 250);
+        }
+        &:first-child {
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+        }
+        &:last-child {
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
     }
     .th-style {
         display: block;
         min-height: 1rem;
-    }
-    th:first-child {
-        border-top-left-radius: 5px;
-        border-bottom-left-radius: 5px;
-    }
-    th:last-child {
-        border-top-right-radius: 5px;
-        border-bottom-right-radius: 5px;
     }
     .fixedColumn, th.fixedColumn {
         position: sticky;
@@ -764,6 +844,12 @@ table {
         border-color: $white;
     }
 }
+
+.selected {
+    background-color: rgba(174, 138, 250, .5);
+    border-bottom: 1px solid $light_grey_hover;
+}
+
 </style>
 
 <style lang="scss">

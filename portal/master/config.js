@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 const Config = {
     addons: ["bildungsatlas", "dataTable", "dipas", "exampleSearch", "populationRequest", "schulinfo", "solaratlas", "sturmflut", "trafficCount", "trinkwasser", "verkehrsstaerken"],
     ignoredKeys: ["BOUNDEDBY", "SHAPE", "SHAPE_LENGTH", "SHAPE_AREA", "OBJECTID", "GLOBALID", "GEOMETRY", "SHP", "SHP_AREA", "SHP_LENGTH", "GEOM"],

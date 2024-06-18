@@ -128,7 +128,6 @@ const RemoteInterface = Backbone.Model.extend({
         return store.getters["Tools/SaveSelection/url"];
     },
     getWGS84MapSizeBBOX: function () {
-        // eslint-disable-next-line new-cap
         return store.getters["Maps/getProjectedBBox"]("EPSG:4326");
     },
     setPostMessageUrl: function (value) {

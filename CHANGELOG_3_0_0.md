@@ -44,6 +44,19 @@
 - Addons of type "javascript" or "control" can be loaded.
 - Map: on touch devices the map can be moved with two fingers, if `twoFingerPan` is true in config.json.
 - FeatureLister: layers of typ OAF are supported.
+- StatisticDashboard:
+  - Migrated from MP2 to MP3
+  - Can now load data from an OAF Rest API if an OAF layer is configured.
+- Search for address via URL-Parameter.
+- The following packages have been added:
+    - dependencies:
+        - globals: 15.4.0
+    - devDependencies:
+        - @eslint/js: 9.3.3
+        - eslint-plugin-jsdoc: 48.2.7,
+        - eslint-plugin-mocha: 10.4.3,
+        - eslint-plugin-n: 17.9.0,
+        - @stylistic/eslint-plugin-js: 2.2.1
 
 ### Changed
 - CoordToolkit: Toast added instead of Alert for feedback after copying coordinates.
@@ -81,17 +94,25 @@
         - sinon: 16.1.0 to 18.0.0
         - webpack-bundle-analyzer: 4.9.1 to 4.10.2
         - zip-a-folder: 3.1.3 to 3.1.6
+        - eslint-plugin-vuejs-accessibility: 2.2.0 to 2.3.0
+        - eslint-plugin-vue: 9.17.0 to 9.25.0
 - Changed prePushHook to check config_3_0_0.json with mpconfigparser.
 - Restructured `highlightFeature` and `removeHighlighting`.
 - Script to migrate masterportal configuration files to version 3.0.0 is ready to use.
 - Styling for Search Results to match topic tree.
 - Moved config.json-Parameter `twoFingerPan` from `portalConfig.map.mapView` to `portalConfig.map.mapView.mapInteractions.interactionModes`.
+- GetFeatureInfo: Added mutation removeGfiFeatureByLayerId to remove a GfiFeature by given layerId.
 
 ### Deprecated
 
 ### Removed
 - RoutingLoadingSpinner: Was replaced with share component SpinnerItem.
 - ModalItem in WFSSearch. Results are displayed as table now.
+- The following packages have been removed:
+    - devDependencies:
+        - eslint: 8.51.0
+        - eslint-plugin-chai-friendly: 0.7.2
+
 
 ### Fixed
 - Issue #1118: The `wfsSearch` module now works with multiple select boxes.
@@ -124,6 +145,9 @@
 - English language: it is possible to change the language to English of the menu on the right side.
 - OAF: Layers are displayed if activated in 3D mode.
 - Layers: if only maxScale is set at layer, minScale is set to 0.
+- 3D: GFI of Cesium3DTileFeature shows correct properties.
+- SearchBar: no error is logged to console, if a search request is aborted, because the same URL is requested again.
+- Routing directions: no "empty" button, it is not clickable anymore
 ---
 
 ---

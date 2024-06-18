@@ -84,7 +84,7 @@ export default {
                     commit("addSearchResults", {searchResults});
                 })
                 .catch(error => {
-                    if (String(error) !== "AbortError: The user aborted a request." && error.code !== "ERR_CANCELED") {
+                    if (String(error) !== "AbortError: The user aborted a request." && error.name !== "AbortError" && error.code !== "ERR_CANCELED") {
                         console.error(error);
                     }
                 });

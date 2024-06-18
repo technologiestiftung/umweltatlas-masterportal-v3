@@ -6,5 +6,8 @@ import stateGetFeatureInfo from "./stateGetFeatureInfo";
  * @module modules/getFeatureInfo/store/mutationsGetFeatureInfo
  */
 export default {
-    ...generateSimpleMutations(stateGetFeatureInfo)
+    ...generateSimpleMutations(stateGetFeatureInfo),
+    removeGfiFeatureByLayerId (state, layerId) {
+        state.gfiFeatures.splice(state.gfiFeatures.findIndex(gfiFeature => gfiFeature.getLayerId() === layerId), 1);
+    }
 };

@@ -1,14 +1,12 @@
-/* eslint-disable no-sync */
-/* eslint-disable global-require */
+
 const merge = require("webpack-merge"),
     Common = require("./webpack.common.js"),
     fse = require("fs-extra"),
     HttpsProxyAgent = require("https-proxy-agent"),
     // comment in to create a graphical representation of the bundle as html
     // BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin,
-    /* eslint-disable no-process-env */
+    /* eslint-disable n/no-process-env */
     proxyServer = process.env.HTTPS_PROXY || process.env.HTTP_PROXY,
-    /* eslint-disable no-process-env */
     proxyAgent = proxyServer !== undefined ? new HttpsProxyAgent(proxyServer) : "";
 
 

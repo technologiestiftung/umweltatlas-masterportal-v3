@@ -2,7 +2,6 @@ import store from "../app-store";
 import main from "../main";
 import {defineComponent} from "vue";
 
-/* eslint-disable no-undef */
 const allAddons = typeof VUE_ADDONS !== "undefined" ? VUE_ADDONS : {};
 
 export default {

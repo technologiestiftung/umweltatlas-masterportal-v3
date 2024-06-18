@@ -1,5 +1,8 @@
 import {Vector} from "ol/layer.js";
 import Cluster from "ol/source/Cluster";
+import VectorLayer from "ol/layer/Vector";
+import VectorSource from "ol/source/Vector";
+import store from "../../../app-store";
 
 /**
  * Interactions with the layers of the map.
@@ -24,7 +27,37 @@ export default {
             console.warn(`The layer with Id: ${layer.get("id")} was not added to the map, because the layer already exists!`);
         }
     },
+    /**
+     * Checks if the layer with the given name already exists and uses it or creates a new layer and returns it if not.
+     * @param {Object} _ context object.
+     * @param {String} payload.layerName - The name of the new layer or the already existing layer.
+     * @param {Boolean} [payload.alwaysOnTop=true] - Layers with the attribute "alwaysOnTop": true are set on top of the map.
+     * @returns {module:ol/layer/Base~BaseLaye} The found layer or a new layer with the given name.
+     */
+    async addNewLayerIfNotExists (_, {layerName, alwaysOnTop = true}) {
+        let resultLayer = store.getters["Maps/getLayerByName"](layerName);
 
+        if (!resultLayer) {
+            resultLayer = new VectorLayer({
+                id: layerName,
+                name: layerName,
+                source: new VectorSource(),
+                alwaysOnTop: alwaysOnTop
+            });
+
+            // @TODO use the existing method
+            const map2D = mapCollection.getMap("2D");
+
+            if (!map2D.getLayers().getArray().includes(resultLayer)) {
+                map2D.addLayer(resultLayer);
+            }
+            else {
+                console.warn(`The layer with Id: ${resultLayer.get("id")} was not added to the map, because the layer already exists!`);
+            }
+        }
+
+        return resultLayer;
+    },
     /**
      * Verifies if all features of a given layerId are loaded
      * and waits if the layer has not been loaded previously

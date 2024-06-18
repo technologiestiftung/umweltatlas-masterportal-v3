@@ -43,9 +43,6 @@ const FolderViewMenu = Backbone.View.extend(/** @lends FolderViewMenu.prototype 
             $("#" + this.model.get("parentId")).append(this.$el.html(this.template(attr)));
 
             // .children is only available after preceding lines
-            // eslint-disable-next-line
-            const dropdown = Dropdown.getOrCreateInstance(this.$el.children(".dropdown-toggle").get(0));
-
             if (this.model.get("isInitOpen")) {
                 // Upgrade to BT5, use JS method instead of class addition
                 dropdown.show();

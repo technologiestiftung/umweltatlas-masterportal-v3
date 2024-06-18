@@ -92,7 +92,7 @@ SearchInterfaceGazetteer.prototype.startSearch = async function (searchInput) {
     }
     catch (error) {
         this.searchState = "aborted";
-        if (String(error) !== "AbortError: The user aborted a request.") {
+        if (String(error) !== "AbortError: The user aborted a request." && error.name !== "AbortError") {
             this.searchState = "failed";
             console.error(error);
         }

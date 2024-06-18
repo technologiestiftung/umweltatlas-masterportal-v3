@@ -36,6 +36,7 @@ import SearchBar from "../searchBar/store/indexSearchBar";
 import SelectFeatures from "../selectFeatures/store/indexSelectFeatures";
 import Shadow from "../shadow/store/indexShadow";
 import ShareView from "../shareView/store/indexShareView";
+import StatisticDashboard from "../statisticDashboard/store/indexStatisticDashboard";
 import StyleVT from "../styleVT/store/indexStyleVT";
 import WfsSearch from "../wfsSearch/store/indexWfsSearch";
 import Wfst from "../wfst/store/indexWfst";
@@ -82,6 +83,7 @@ export default {
         SelectFeatures: {...SelectFeatures},
         Shadow: {...Shadow},
         ShareView: {...ShareView},
+        StatisticDashboard: {...StatisticDashboard},
         StyleVT: {...StyleVT},
         WfsSearch: {...WfsSearch},
         Wfst: {...Wfst},

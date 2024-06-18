@@ -42,7 +42,6 @@ let sbconfig,
  * @return {void}.
  */
 async function loadApp () {
-    /* eslint-disable no-undef */
     const // legacyAddons = Object.is(ADDONS, {}) ? {} : ADDONS,
         utilConfig = {},
         style = uiStyle.getUiStyle(),
@@ -50,9 +49,8 @@ async function loadApp () {
         // instantiate Vue with Vuetify Plugin if the "vuetify" flag is set in the config.js
         // returns undefined if not
         // vuetify = await instantiateVuetify();
-
-        /* eslint-disable no-undef */
         app = {};
+
     let searchbarAttributes = {};
     // styleGetters = {};
 
