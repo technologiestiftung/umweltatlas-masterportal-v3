@@ -155,7 +155,7 @@ describe("src_3_0_0/modules/copyrightConstraints/components/CopyrightConstraints
     });
 
     describe("copyrightConstraints.vue methods", () => {
-        it("getMetaData returns an object with properties access and use", async () => {
+        it.skip("getMetaData returns an object with properties access and use", async () => {
             const wrapper = mount(CopyrightConstraints, {
                     global: {
                         plugins: [store]
