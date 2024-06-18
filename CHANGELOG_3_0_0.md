@@ -5,6 +5,9 @@
 
 ## Unreleased - in development
 ### __Breaking Changes__
+- GetFeatureInfo: 
+    - module was renamed from `gfi`.
+    -`desktopType` was removed, `detached` and `attached` are no longer provided, getFeatureInfo is displayed in sidebar.
 
 ### Added
 - Added config.json-Parameter `Portalconfig.tree.singleBaselayer`. Specifies whether only one base layer may be active at any time selectable by radio-buttons in visible layers.
@@ -102,7 +105,6 @@
 - Styling for Search Results to match topic tree.
 - Moved config.json-Parameter `twoFingerPan` from `portalConfig.map.mapView` to `portalConfig.map.mapView.mapInteractions.interactionModes`.
 - GetFeatureInfo: Added mutation removeGfiFeatureByLayerId to remove a GfiFeature by given layerId.
-- GetFeatureInfo: module was renamed from `gfi`.
 
 ### Deprecated
 - Alerting: removed deprecated property `text`, use `content` instead.
@@ -141,7 +143,6 @@
         - eslint-plugin-chai-friendly: 0.7.2
 - QuickHelp: removed module `quickHelp`
 - Search interface BKG: removed property `zoomToResultOnHover` and `zoomToResultOnClick`, configure `resultEvents` instead.
-- getFeatureInfo: `desktopType` was removed, `detached` and `attached` are no longer provided, getFeatureInfo is displayed in sidebar.
 
 
 ### Fixed
