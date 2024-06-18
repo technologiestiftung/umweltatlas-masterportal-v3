@@ -118,7 +118,6 @@ export default {
         });
     },
     mounted () {
-        this.removeMarker();
         this.initProjections();
         this.setExample();
         this.setMode("supply");
@@ -335,7 +334,6 @@ export default {
          * @returns {void}
          */
         changeMode (newMode) {
-            this.removeMarker();
             if (newMode === "search") {
                 this.setMode(newMode);
                 this.setSupplyCoordInactive();
