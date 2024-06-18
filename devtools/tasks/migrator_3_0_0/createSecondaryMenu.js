@@ -36,13 +36,25 @@ function fillSections (data, secondaryMenu, migratedTools, toRemoveFromTools) {
                 if (name.toLowerCase() === "coordtoolkit") {
                     name = "coordToolkit";
                 }
+                if (name === "draw") {
+                    name = "draw_old";
+                }
                 console.info("       " + name);
-
                 if (name === "layerClusterToggler") {
                     console.info("--- HINT configuration of LayerClusterToggler in Layers must be done by hand. 'Suffix' is replaced by direct suffix at layer id.");
                 }
-                if (name === "draw") {
-                    name = "draw_old";
+                if (name === "parcelSearch") {
+                    console.info("--- HINT parcelSearch was removed, use wfsSearch instead.");
+                }
+                if (name === "draw_old") {
+                    if (Array.isArray(tool.iconList)) {
+                        tool.iconList.forEach(icon => {
+                            delete icon.caption;
+                        });
+                    }
+                }
+                if (name.toLowerCase() === "wfst") {
+                    adaptWfst(tool);
                 }
                 if (name === "wfsSearch") {
                     tool.instances.forEach(instance => {
@@ -82,5 +94,87 @@ function fillSections (data, secondaryMenu, migratedTools, toRemoveFromTools) {
             migratedTools.push(menuName);
         }
     });
+}
+
+/**
+ * Adapts tool config for wfst.
+ * @param {Object} tool the tool config
+ * @returns {void}
+ */
+function adaptWfst (tool) {
+    if (tool.useProxy !== undefined) {
+        delete tool.useProxy;
+    }
+    if (Array.isArray(tool.areaButton)) {
+        tool.polygonButton = [...tool.areaButton];
+        delete tool.areaButton;
+    }
+    else if (typeof tool.areaButton === "boolean") {
+        tool.polygonButton = tool.areaButton;
+        delete tool.areaButton;
+    }
+    if (tool.edit !== undefined) {
+        console.info("--- HINT Wfst:property 'edit' was removed. Move content to property 'update' by hand!");
+    }
+    if (Array.isArray(tool.pointButton)) {
+        tool.pointButton.forEach(pointButton => {
+            if (pointButton.show !== undefined) {
+                pointButton.available = pointButton.show;
+                delete pointButton.show;
+            }
+            if (pointButton.caption !== undefined) {
+                pointButton.text = pointButton.caption;
+                delete pointButton.caption;
+            }
+        });
+    }
+    if (Array.isArray(tool.lineButton)) {
+        tool.lineButton.forEach(lineButton => {
+            if (lineButton.show !== undefined) {
+                lineButton.available = lineButton.show;
+                delete lineButton.show;
+            }
+            if (lineButton.caption !== undefined) {
+                lineButton.text = lineButton.caption;
+                delete lineButton.caption;
+            }
+        });
+    }
+    if (Array.isArray(tool.polygonButton)) {
+        tool.polygonButton.forEach(polygonButton => {
+            if (polygonButton.show !== undefined) {
+                polygonButton.available = polygonButton.show;
+                delete polygonButton.show;
+            }
+            if (polygonButton.caption !== undefined) {
+                polygonButton.text = polygonButton.caption;
+                delete polygonButton.caption;
+            }
+        });
+    }
+    if (Array.isArray(tool.update)) {
+        tool.update.forEach(update => {
+            if (update.show !== undefined) {
+                update.available = update.show;
+                delete update.show;
+            }
+            if (update.caption !== undefined) {
+                update.text = update.caption;
+                delete update.caption;
+            }
+        });
+    }
+    if (Array.isArray(tool.delete)) {
+        tool.delete.forEach(deleteProp => {
+            if (deleteProp.show !== undefined) {
+                deleteProp.available = deleteProp.show;
+                delete deleteProp.show;
+            }
+            if (deleteProp.caption !== undefined) {
+                deleteProp.text = deleteProp.caption;
+                delete deleteProp.caption;
+            }
+        });
+    }
 }
 

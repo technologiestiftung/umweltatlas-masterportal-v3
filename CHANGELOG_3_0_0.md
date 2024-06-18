@@ -125,8 +125,8 @@
 - SupplyCoord: the deprecated tool `supplyCoord` was removed, use `coordToolkit` instead.
 - Parcel-Search: removed deprecated tool `parcelSearch`, use search interface `wfsSearch` instead.
 - GDI-Search: removed deprecated search `gdi`, use search interface `ELASTIC` instead.
-- Utils: removed deprecated function `isChrome`
-- index.html: removed deprecated id of div `lgv-container`, use id `masterportal-container` instead.
+- Utils: removed deprecated function `isChrome`.
+- index.html: removed deprecated class `lgv-container` of div. Update content of index.html to new structure.
 - config.js: removed deprecated property `gfiWindow`.
 - Layer GEOJSON: The deprecated subTyp `OpenSenseMap` was removed.
 - map3DParameter: 

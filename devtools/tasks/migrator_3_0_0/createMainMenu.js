@@ -39,6 +39,11 @@ function fillMainSections (data, configJS, mainMenu, migratedTools, toRemoveFrom
         const print = {...tools.print};
 
         print.type = "print";
+        delete print.useProxy;
+        if (print.mapfishServiceId !== undefined) {
+            print.printServiceId = print.mapfishServiceId;
+            delete print.mapfishServiceId;
+        }
         removeAttributesFromTools(toRemoveFromTools, print);
         firstSection.push(print);
         migratedTools.push("print");
@@ -90,6 +95,10 @@ function fillMainSections (data, configJS, mainMenu, migratedTools, toRemoveFrom
 
     // second section
     if (contact !== null) {
+        if (contact.serviceID !== undefined) {
+            contact.serviceId = contact.serviceID;
+            delete contact.serviceID;
+        }
         console.info("       contact");
         secondSection.push(contact);
         migratedTools.push("contact");
@@ -148,14 +157,30 @@ function addSearchbar (data, mainMenu) {
                 if (searchName === "tree") {
                     searchType = "topicTree";
                 }
+                if (searchName === "gdi") {
+                    console.info("--- HINT: deprecated " + searchType + " is no longer provided, use elastic instead.");
+                }
+                if (searchName === "bkg") {
+                    if (searchConfig.zoomToResultOnHover !== undefined || searchConfig.zoomToResultOnClick !== undefined) {
+                        console.info("--- HINT: " + searchType + " removed deprecated property zoomToResultOnHover and zoomToResultOnClick, configure resultEvents instead.");
+                    }
+                }
                 if (searchName.toLowerCase() === "specialwfs") {
                     searchType = "specialWfs";
+                    if (Array.isArray(searchConfig.definitions)) {
+                        searchConfig.definitions.forEach(definition => {
+                            delete definition.data;
+                        });
+                    }
                 }
                 if (searchName.toLowerCase() === "visiblewfs") {
                     searchType = "visibleWfs";
                 }
                 searchConfig.type = searchType;
                 console.info("   searchbar entry " + searchType);
+                if (searchConfig.zoomToResult !== undefined) {
+                    console.info("--- HINT: " + searchType + " removed deprecated property zoomToResult, configure resultEvents instead.");
+                }
                 newSearchbar.searchInterfaces.push(searchConfig);
             }
         });

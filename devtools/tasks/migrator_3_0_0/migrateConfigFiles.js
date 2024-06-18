@@ -145,6 +145,10 @@ function migrateTree (data, configJS) {
     if (data[PORTALCONFIG_OLD]?.singleBaselayer) {
         newTree.singleBaselayer = data[PORTALCONFIG_OLD]?.singleBaselayer;
     }
+    if (data[PORTALCONFIG_OLD].Baumtyp !== undefined) {
+        data[PORTALCONFIG_OLD].treeType = data[PORTALCONFIG_OLD].Baumtyp;
+        delete data[PORTALCONFIG_OLD].Baumtyp;
+    }
     newTree.addLayerButton = {};
     newTree.addLayerButton.active = true;
 
@@ -199,7 +203,40 @@ function migrateMapParameters (configJS) {
     };
 
     if (configJS.cesiumParameter) {
-        map.map3dParameter = configJS.cesiumParameter;
+        map.map3dParameter = {...configJS.cesiumParameter};
+        if (map.map3dParameter.enableLighting !== undefined) {
+            if (map.map3dParameter.globe) {
+                map.map3dParameter.globe.enableLighting = map.map3dParameter.enableLighting;
+            }
+            else {
+                map.map3dParameter.globe = {
+                    enableLighting: map.map3dParameter.enableLighting
+                };
+            }
+            delete map.map3dParameter.enableLighting;
+        }
+        if (map.map3dParameter.maximumScreenSpaceError !== undefined) {
+            if (map.map3dParameter.globe) {
+                map.map3dParameter.globe.maximumScreenSpaceError = map.map3dParameter.maximumScreenSpaceError;
+            }
+            else {
+                map.map3dParameter.globe = {
+                    maximumScreenSpaceError: map.map3dParameter.maximumScreenSpaceError
+                };
+            }
+            delete map.map3dParameter.maximumScreenSpaceError;
+        }
+        if (map.map3dParameter.tileCacheSize !== undefined) {
+            if (map.map3dParameter.globe) {
+                map.map3dParameter.globe.tileCacheSize = map.map3dParameter.tileCacheSize;
+            }
+            else {
+                map.map3dParameter.globe = {
+                    tileCacheSize: map.map3dParameter.tileCacheSize
+                };
+            }
+            delete map.map3dParameter.tileCacheSize;
+        }
     }
     if (configJS.featureViaURL) {
         map.featureViaURL = configJS.featureViaURL;
@@ -284,6 +321,18 @@ function migrateBaseMaps (oldData) {
     if (data.Layer) {
         if (JSON.stringify(data).includes("Oblique")) {
             data.Layer = data.Layer.filter(layer => layer.name !== "Oblique" && layer.typ !== "Oblique");
+        }
+        if (JSON.stringify(data).includes("Entities3D")) {
+            data.Layer = data.Layer.filter(layer => layer.typ !== "Entities3D");
+            console.warn("ATTENTION --- Removed 3d layer of typ Entities3D, must be under subjectlayer!");
+        }
+        if (JSON.stringify(data).includes("Terrain3D")) {
+            data.Layer = data.Layer.filter(layer => layer.typ !== "Terrain3D");
+            console.warn("ATTENTION --- Removed 3d layer of typ Terrain3D, must be under subjectlayer!");
+        }
+        if (JSON.stringify(data).includes("TileSet3D")) {
+            data.Layer = data.Layer.filter(layer => layer.typ !== "TileSet3D");
+            console.warn("ATTENTION --- Removed 3d layer of typ TileSet3D, must be under subjectlayer!");
         }
         createGroupLayer(data.Layer);
         layers = layers.concat(data.Layer);
@@ -423,7 +472,6 @@ function migrateIndexHtml (sourceFolder, destFolder, indexFile) {
     fs.readFile(path.resolve(sourceFolder, indexFile), "utf8")
         .then(data => {
             let result,
-
                 // removes <div id="loader"... and load of special_loaders.js from index.html - loader is no longer provided.
                 regex = /<div id="loader" [\s\S]*loaders.js"><\/script>/g;
             // removes the Cesium.js script-tag
@@ -440,8 +488,12 @@ function migrateIndexHtml (sourceFolder, destFolder, indexFile) {
             if (result.includes("Cesium.js")) {
                 result = result.replace(regexCesium, "");
             }
+            if (result.indexOf("lgv-container") > -1 || result.indexOf("masterportal-container") > -1) {
+                console.warn("IS TOO OLD - NOT MIGRATED: ", indexFile);
+            }
 
             fs.writeFile(path.resolve(destFolder, indexFile), result, "utf8");
+
         })
         .catch(err => {
             console.error("write index.html", err);
@@ -498,7 +550,8 @@ async function migrateFiles (sourcePath, destPath) {
 
                             if (!parsed[PORTALCONFIG_OLD].mainMenu) {
                                 console.info("\n#############################     migrate     #############################\n");
-                                console.info("ATTENTION --- this version will not migrate the following tools: ", toolsNotToMigrate.join(", ") + "\n");
+                                console.info("--- ATTENTION --- \nthis version will not migrate the following tools: ", toolsNotToMigrate.join(", ") + "\n");
+                                console.info("removed deprecated tools are not migrated:", deprecated.join(", ") + "\n---\n");
                                 console.info("source: ", configJsonSrcFile, "\ndestination: ", configJsonDestFile, "\n");
                                 getTitleFromHtml(sourceFolder, indexFile).then((titleAndLogo) => {
                                     const gfi = migrateGFI(parsed);
