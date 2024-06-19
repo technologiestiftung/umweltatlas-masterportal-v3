@@ -29,11 +29,11 @@ export default {
     /**
      * Sets zoom level to the map view.
      * Note: State is updated by listener.
-     * @param {Object} _ store context
+     * @param {Object} context store context
      * @param {Number} zoom The zoomLevel to zoom to.
      * @returns {void}
      */
-    setZoom (_, zoom) {
+    setZoom (context, zoom) {
         const view = mapCollection.getMapView("2D");
 
         if (zoom <= view.getMaxZoom() && zoom >= view.getMinZoom()) {
@@ -66,7 +66,7 @@ export default {
 
     /**
      * Zoom to a given extent
-     * @param {Object} _ store context.
+     * @param {Object} context store context.
      * @param {Object} payload parameter object.
      * @param {String[]} payload.extent The extent to zoom.
      * @param {Object} payload.options Options for zoom.
@@ -74,7 +74,7 @@ export default {
      * @see {@link https://openlayers.org/en/latest/apidoc/module-ol_View-View.html#fit} for more options.
      * @returns {void}
      */
-    zoomToExtent (_, {extent, options}) {
+    zoomToExtent (context, {extent, options}) {
         mapCollection.getMapView("2D").fit(extent, {
             size: mapCollection.getMap("2D").getSize(),
             ...Object.assign({duration: 800}, options)

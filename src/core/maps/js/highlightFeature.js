@@ -183,13 +183,13 @@ export default {
      * Asynchronously retrieves a feature by its layer ID and feature ID from the specified layer source.
      * If the layer's features are not yet loaded, it waits for the 'featuresloadend' event before attempting to find the feature again.
      *
-     * @param {Object} _ - The Vuex action context.
+     * @param {Object} context - The Vuex action context.
      * @param {Object} payload - The payload containing the layer ID and feature ID.
      * @param {String} payload.layerId - The ID of the layer to search for the feature.
      * @param {String} payload.featureId - The ID of the feature to retrieve.
      * @returns {Promise<Object|null>} A promise that resolves to the found feature, or `null` if the feature is not found.
      */
-    async getHighlightFeature (_, {layerId, featureId}) {
+    async getHighlightFeature (context, {layerId, featureId}) {
         let feature = null;
 
         await nextTick();
@@ -218,14 +218,14 @@ export default {
      * Retrieves and applies a style from the styleList based on the provided highlightObject and feature.
      * The style is then optionally committed to the Vuex store.
      *
-     * @param {Object} _ - The Vuex action context, which includes commit, dispatch, and state.
+     * @param {Object} context - The Vuex action context, which includes commit, dispatch, and state.
      * @param {Object} payload - The payload containing the highlightObject and the feature.
      * @param {Object} payload.highlightObject - Contains parameters for feature highlighting.
      * @param {ol/feature} payload.feature - OpenLayers feature to highlight.
      * @param {Boolean} [payload.returnFirst=true] - If true, returns the first found style, otherwise all created styles.
      * @returns {Promise<ol/style|Array>} A promise that resolves to the OpenLayers style or an array of styles.
      */
-    async fetchAndApplyStyle (_, {highlightObject, feature, returnFirst = true}) {
+    async fetchAndApplyStyle (context, {highlightObject, feature, returnFirst = true}) {
         const styleId = highlightObject.styleId || highlightObject.layer.id,
             stylelistObject = styleList.returnStyleObject(styleId);
         let style;

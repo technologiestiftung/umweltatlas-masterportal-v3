@@ -391,11 +391,11 @@ export default {
 
     /**
      * draws a mask on the whole map
-     * @param {Object} _ state
+     * @param {Object} context state
      * @param {Object} drawMaskOpt - context of the postrender event
      * @returns {void}
      */
-    drawMask: function (_, drawMaskOpt) {
+    drawMask: function (context, drawMaskOpt) {
         const mapSize = drawMaskOpt.frameState.size,
             context = drawMaskOpt.context,
             ration = drawMaskOpt.context.canvas.width > mapSize[0] ? DEVICE_PIXEL_RATIO : 1,
