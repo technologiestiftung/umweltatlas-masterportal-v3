@@ -127,7 +127,7 @@
 - Issue #1153: The Parameter "isSecured" is now recognized if defined in the config.json.
 - Issue #1084: fix wrong pointMarker placement when featureType is MultiPolygon.
 - Issue #1095: FeatureLister: Fixed highlighting on hover and on click.
-- Issue #1203: Coordinates: Mapmaker stays on the map until other place is selected and disappears when we leave coordinates section.
+- Issue #1203: Coordinates: MapMarker stays on the map until other place is selected and disappears when we leave coordinates section.
 - Layer selection: The order of the layers corresponds to the order of the layers in config.json.
 - Fixed HighlightFeature for MultiPolygons: In certain WFS layers, when polygon selection is enabled,
     clicking on a polygon would highlight it, but multiPolygons wouldn't. This has now been corrected.
