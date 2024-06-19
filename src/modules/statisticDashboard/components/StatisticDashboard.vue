@@ -619,16 +619,23 @@ export default {
 
             this.$nextTick(() => {
                 filteredStatistics.forEach((statistic, idx) => {
-                    const ctx = this.$refs[`chart${idx + 1}`],
-                        ctxInModal = this.$refs[`chart-modal-${idx + 1}`];
+                    const ctx = document.createElement("canvas"),
+                        chartContainer = this.$refs[`chart${idx + 1}`];
+
+                    if (!chartContainer) {
+                        return;
+                    }
+
+                    if (chartContainer.hasChildNodes()) {
+                        chartContainer.childNodes[0].remove();
+                    }
+                    chartContainer.appendChild(ctx);
 
                     if (renderAsLine) {
                         this.prepareChartData(statistic, preparedData[statistic], ctx, "line", undefined, differenceMode, true);
-                        this.prepareChartData(statistic, preparedData[statistic], ctxInModal, "line", undefined, differenceMode, false, true);
                         return;
                     }
                     this.prepareChartData(statistic, preparedData[statistic], ctx, "bar", direction, differenceMode, true);
-                    this.prepareChartData(statistic, preparedData[statistic], ctxInModal, "bar", direction, differenceMode, false, true);
                 });
             });
         },
@@ -645,17 +652,22 @@ export default {
          * @returns {void}
          */
         prepareChartData (topic, preparedData, canvas, type, direction, differenceMode, renderSimple = false, renderToModal = false) {
-            const chart = canvas || this.$refs.chart,
+            const canvasTmp = canvas || document.createElement("canvas"),
                 uniqueTopic = renderToModal ? `modal-${topic}` : topic;
 
-            if (typeof this.currentChart[uniqueTopic] !== "undefined") {
-                this.currentChart[uniqueTopic].chart.destroy();
+            if (!canvas && this.$refs.chartContainer) {
+                if (this.$refs.chartContainer.hasChildNodes()) {
+                    this.$refs.chartContainer.childNodes[0].remove();
+                }
+
+                this.$refs.chartContainer.appendChild(canvasTmp);
             }
+
             this.currentChart[uniqueTopic] = {};
             if (type === "line") {
                 if (preparedData && Object.keys(preparedData)?.length > this.lineLimit) {
                     if (!this.showLineLimitView) {
-                        this.currentChart[uniqueTopic].chart = ChartProcessor.createLineChart(topic, this.limitingLines(preparedData), chart, this.colorScheme.lineCharts, renderSimple);
+                        this.currentChart[uniqueTopic].chart = ChartProcessor.createLineChart(topic, this.limitingLines(preparedData), canvasTmp, this.colorScheme.lineCharts, renderSimple);
                     }
                     else {
                         const newLines = Object.keys(preparedData).filter(key => this.selectedFilteredRegions.includes(key)).reduce((obj, key) => {
@@ -663,22 +675,22 @@ export default {
                             return obj;
                         }, {});
 
-                        this.currentChart[uniqueTopic].chart = ChartProcessor.createLineChart(topic, newLines, chart, this.colorScheme.lineCharts, renderSimple);
+                        this.currentChart[uniqueTopic].chart = ChartProcessor.createLineChart(topic, newLines, canvasTmp, this.colorScheme.lineCharts, renderSimple);
                     }
 
                 }
                 else {
                     this.showLineLimitView = false;
-                    this.currentChart[uniqueTopic].chart = ChartProcessor.createLineChart(topic, preparedData, chart, this.colorScheme.lineChart, renderSimple);
+                    this.currentChart[uniqueTopic].chart = ChartProcessor.createLineChart(topic, preparedData, canvasTmp, this.colorScheme.lineChart, renderSimple);
                 }
             }
             else if (type === "bar") {
                 this.showLineLimitView = false;
                 if (typeof differenceMode === "string") {
-                    this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, preparedData, direction, chart, renderSimple, this.colorArrayDifference);
+                    this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, preparedData, direction, canvasTmp, renderSimple, this.colorArrayDifference);
                 }
                 else {
-                    this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, preparedData, direction, chart, renderSimple);
+                    this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, preparedData, direction, canvasTmp, renderSimple);
                 }
             }
         },
@@ -932,9 +944,11 @@ export default {
         handleReset () {
             this.layer?.getSource()?.clear();
             this.tableData = [];
-            Object.values(this.currentChart).forEach(val => {
-                val.chart.destroy();
-            });
+
+            if (this.$refs.chartContainer && this.$refs.chartContainer.hasChildNodes()) {
+                this.$refs.chartContainer.childNodes[0].remove();
+            }
+
             this.currentChart = {};
             this.showGrid = false;
             this.legendValue = [];
@@ -1407,9 +1421,9 @@ export default {
                         />
                     </div>
                 </div>
-                <canvas
+                <div
                     v-if="!showGrid"
-                    ref="chart"
+                    ref="chartContainer"
                     class="chart-container"
                 />
                 <GridComponent
@@ -1420,17 +1434,9 @@ export default {
                     <template
                         #chartContainers="props"
                     >
-                        <canvas
+                        <div
                             :id="'chart' + props.chartId"
                             :ref="'chart' + props.chartId"
-                        />
-                    </template>
-                    <template
-                        #chartContainersModal="propsModal"
-                    >
-                        <canvas
-                            :id="'chart-modal-' + propsModal.chartId"
-                            :ref="'chart-modal-' + propsModal.chartId"
                         />
                     </template>
                 </GridComponent>
