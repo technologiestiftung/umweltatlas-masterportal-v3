@@ -6,13 +6,6 @@ import Layer from "./LayerComponent.vue";
 import {sortObjects} from "../../../shared/js/utils/sortObjects";
 
 /**
- * Should be removed again after removing the compat mode
- * @see {@link https://www.npmjs.com/package/vuedraggable/v/4.1.0?activeTab=versions}
- * @see {@link https://github.com/SortableJS/vue.draggable.next/issues/122}
- */
-draggable.compatConfig = {MODE: 3};
-
-/**
  * Representation of a node in layertree containing folders or layers.
  * @module modules/layerTree/components/LayerTreeNode
  * @vue-data {Boolean} isOpen - Shows if node is open.

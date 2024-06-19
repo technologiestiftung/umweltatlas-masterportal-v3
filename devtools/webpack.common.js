@@ -155,14 +155,7 @@ module.exports = function () {
                 },
                 {
                     test: /\.vue$/,
-                    loader: "vue-loader",
-                    options: {
-                        compilerOptions: {
-                            compatConfig: {
-                                MODE: 3
-                            }
-                        }
-                    }
+                    loader: "vue-loader"
                 },
                 {
                     test: /\.(png|jpe?g|gif)$/i,
