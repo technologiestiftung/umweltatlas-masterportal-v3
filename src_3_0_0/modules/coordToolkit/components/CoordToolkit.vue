@@ -106,6 +106,7 @@ export default {
         }
     },
     unmounted () {
+        this.removeMarker();
         this.resetErrorMessages("all");
         this.resetValues();
         this.setSupplyCoordInactive();
