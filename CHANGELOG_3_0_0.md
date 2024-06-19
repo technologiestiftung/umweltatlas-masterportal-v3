@@ -169,7 +169,7 @@ In certain circumstances this means that you have to update your portal files (i
 - Issue #1132: Routing module: error messages have been improved.
 - Issue #1136: Routing module: the coordinates change again when point is moved or deleted.
 - Issue #1140: AddWMS module: GFI display works again with imported WMS.
-- Issue #1144/#1146: phe baselayer preview now works for WMTS Layer that have an XML as getCapabilities-URL.
+- Issue #1144/#1146: the baselayer preview now works for WMTS Layer that have an XML as getCapabilities-URL.
 - Issue #1148: fixed bug in vector search so that it can handle GeometryCollection.
 - Issue #1153: the Parameter "isSecured" is now recognized if defined in the config.json.
 - Issue #1174: Draw: the outer outline color of the double circle is drawn as selected.
