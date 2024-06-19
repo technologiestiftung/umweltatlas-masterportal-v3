@@ -78,7 +78,7 @@ In certain circumstances this means that you have to update your portal files (i
 - Update node version to 20.12.2.
 - The following packages have been updated:
     - dependencies:
-        - @masterportal/masterportalapi: 2.33.0 to 2.39.0 (This also raised ol to version 9.2.4)
+        - @masterportal/masterportalapi: 2.33.0 to 2.39.0 (This also raised ol to version 9.2.4 and @cesium/engine to 9.2.0)
         - @masterportal/mpconfigparser: 1.3.1 to 1.4.0
         - axios: 1.5.1 to 1.7.1
         - bootstrap: 5.3.2 to 5.3.3
