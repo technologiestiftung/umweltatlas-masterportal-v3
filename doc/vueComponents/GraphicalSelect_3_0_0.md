@@ -1,13 +1,13 @@
 # The GraphicalSelect Component #
 Creates a dropdown to select an area in a map by square, circle or polygon.
-Source folder: src_3_0_0\shared\modules\graphicalSelect
+Source folder: src\shared\modules\graphicalSelect
 
 Component may be used like this:
 
 ```
 <script>
 
-import GraphicalSelect from "src_3_0_0/shared/modules/graphicalSelect/components/GraphicalSelect.vue";
+import GraphicalSelect from "src/shared/modules/graphicalSelect/components/GraphicalSelect.vue";
 
 // [...]
 

@@ -230,7 +230,7 @@ In certain circumstances this means that you have to update your portal files (i
 
 ### Added
 - Add roadmap information to the readme file.
-- Add documentation for the [config.js](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/config_3_0_0.js.md) and [config.json](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/config_3_0_0.json.md).
+- Add documentation for the [config.js](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/config.js.md) and [config.json](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/config.json.md).
 - Configurable searchBar for the layerselection.
 - To manage dependencies of dependencies "overrides" for cesium are added to package.json and create dummy packages for it.
 - New config.json parameter `sldVersion` for legend configuration to define a `Styled Layer Descriptor` for the GetLegendGraphic requests.
@@ -315,7 +315,7 @@ In certain circumstances this means that you have to update your portal files (i
 ### Fixed
 - Issue #859: Allow saveSelection for 3D.
 - Issue #1073: Routing: the route is updated after moving a waypoint in the map.
-- Issue #1085: Corrected case at import of layer2dRasterWmsTime in src_3_0_0\core\layers\js\layerFactory.js.
+- Issue #1085: Corrected case at import of layer2dRasterWmsTime layerFactory.js.
 - Issue #1091: VectorStyle: read geometry type from geoserver featureTypeRequest and do not fail if some rules in style.json have no condition.
 - Issue #1094: Measure Tool: unit changes not connected anymore.
 - Issue #1099: The package.json is adapted, now the size of the bundle, created with "npm run build" is reduced.
@@ -439,6 +439,7 @@ In certain circumstances this means that you have to update your portal files (i
         - vcs-oblique
         - vue-template-compiler
         - vue2-datepicker
+        - @vue/compat
     - devDependencies:
         - raf
         - string-replace-loader
@@ -452,7 +453,7 @@ In certain circumstances this means that you have to update your portal files (i
 - `styleWMS` is no longer supported.
 
 ### Fixed
-- Issue #1072: Fixed a problem when launching the portal with addons_3_0_0.
+- Issue #1072: Fixed a problem when launching the portal with addons in version 3.0.0.
 - 3D layer tree folder issues have been fixed. Vectortile layer appearing again.
 - SpecialWFS search: Bugs related to MultiPolygon and Point handling, result handling, getWKTGeom have been resolved.
 - Controls can be shown now on mobile mode.

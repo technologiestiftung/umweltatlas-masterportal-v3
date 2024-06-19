@@ -123,8 +123,8 @@ module.exports = {
     plugins: [
         new webpack.ProvidePlugin({
             i18next: ["i18next/dist/cjs/i18next.js"],
-            mapCollection: [path.resolve(path.join(__dirname, "../src_3_0_0/core/maps/js/mapCollection.js")), "default"],
-            Config: path.resolve(__dirname, "../test/unittests/deps/testConfig")
+            mapCollection: [path.resolve(path.join(__dirname, "../src/core/maps/js/mapCollection.js")), "default"],
+            Config: path.resolve(__dirname, "../devtools/tests/testConfig")
         }),
         new VueLoaderPlugin(),
         new webpack.IgnorePlugin(/canvas/, /jsdom$/),

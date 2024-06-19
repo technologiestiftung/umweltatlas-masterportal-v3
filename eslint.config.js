@@ -302,13 +302,10 @@ module.exports = [
     {
         ignores: [
             "**/node_modules/",
-            "**/end2end/",
             "**/dist/",
-            "**/src/",
-            "addons/*",
-            "!addons/addons_3_0_0/",
             "**/portalconfigs/",
             "**/jsdoc/",
+            "**/docHtml/",
             "**/.git/",
             "portal/*",
             "!portal/basic",

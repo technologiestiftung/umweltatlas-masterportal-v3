@@ -5,9 +5,9 @@ const webpack = require("webpack"),
     {VueLoaderPlugin} = require("vue-loader"),
 
     rootPath = path.resolve(__dirname, "../"),
-    addonBasePath = path.resolve(rootPath, "addons/addons_3_0_0"),
+    addonBasePath = path.resolve(rootPath, "addons"),
     addonConfigPath = path.resolve(addonBasePath, "addonsConf.json"),
-    entryPoints = {masterportal: path.resolve(rootPath, "src_3_0_0/main.js")};
+    entryPoints = {masterportal: path.resolve(rootPath, "src/main.js")};
 
 let addonEntryPoints = {};
 
@@ -93,9 +93,8 @@ module.exports = function () {
         resolve: {
             alias: {
                 text: "text-loader",
-                vue: "@vue/compat",
-                "mixins": path.resolve(__dirname, "..", "src_3_0_0", "assets", "css", "mixins.scss"),
-                "variables": path.resolve(__dirname, "..", "src_3_0_0", "assets", "css", "variables.scss")
+                "mixins": path.resolve(__dirname, "..", "src", "assets", "css", "mixins.scss"),
+                "variables": path.resolve(__dirname, "..", "src", "assets", "css", "variables.scss")
             },
             extensions: [".tsx", ".ts", ".js"]
         },

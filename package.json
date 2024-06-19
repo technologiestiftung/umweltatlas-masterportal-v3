@@ -13,17 +13,13 @@
     "type": "git",
     "url": "https://bitbucket.org/geowerkstatt-hamburg/masterportal.git"
   },
-  "main": "src_3_0_0/main.js",
+  "main": "src/main.js",
   "scripts": {
     "start": "webpack-dev-server --config devtools/webpack.dev.js",
     "start:ssl": "webpack-dev-server --config devtools/webpack.dev.js --https --cert devtools/certificate/localhost.pem --key devtools/certificate/localhost.key",
-    "test": "mochapack --recursive --webpack-config devtools/webpack.test.js --file devtools/setupUnitTests.js \"./src_3_0_0/**/*.spec.js\" \"./addons/addons_3_0_0/*/!(node_modules)/**/*.spec.js\"",
+    "test": "mochapack --recursive --webpack-config devtools/webpack.test.js --file devtools/tests/setupUnitTests.js \"./src/**/*.spec.js\" \"./addons/*/!(node_modules)/**/*.spec.js\"",
     "test:watch": "npm run test -- --watch",
-    "browsertestWithDevServer": "env NODE_ENV=e2eTest env browser=fromCapabilities webpack-dev-server --reporter ./test/end2end/library/reporter.js --config devtools/webpack.browsertest.js",
-    "browsertestOnExternalServer": "env browser=fromCapabilities env urlPart=\\/ ./node_modules/.bin/mocha --reporter ./test/end2end/library/reporter.js ./test/end2end/TestRunner.js",
-    "browsertestOnSauceLabs": "env browser=fromCapabilities ./node_modules/.bin/mocha --reporter ./test/end2end/library/reporter.js ./test/end2end/TestRunner.js",
-    "browsertest": "env urlPart=portal/ ./node_modules/.bin/mocha --reporter ./test/end2end/library/reporter.js ./test/end2end/TestRunner.js",
-    "migrateConfig": "node devtools/tasks/migrator_3_0_0/migrate.js",
+    "migrateConfig": "node devtools/tasks/migrator/migrate.js",
     "build": "node devtools/tasks/build.js",
     "buildPortal": "node devtools/tasks/buildPortal.js",
     "buildExamples": "node devtools/tasks/exampleBuild.js && node devtools/tasks/exampleCopy.js",
@@ -37,7 +33,7 @@
     "versionHotfix:all": "npm run versionHotfix && cd addons && npm run versionHotfix && cd .. && cd portalconfigs && npm run versionHotfix && cd ..",
     "versionMinor:all": "npm run versionMinor && cd addons && npm run versionMinor && cd .. && cd portalconfigs && npm run versionMinor && cd ..",
     "versionMajor:all": "npm run versionMajor && cd addons && npm run versionMajor && cd .. && cd portalconfigs && npm run versionMajor && cd ..",
-    "prePushHook": "node ./node_modules/@masterportal/mpconfigparser/cli.js ./doc/config_3_0_0.json.md ./doc/config_3_0_0.json.de.md && eslint --max-warnings 0 \"./**/*.{vue,js}\" && npm run test",
+    "prePushHook": "node ./node_modules/@masterportal/mpconfigparser/cli.js ./doc/config.json.md ./doc/config.json.de.md && eslint --max-warnings 0 \"./**/*.{vue,js}\" && npm run test",
     "prepare": "husky install"
   },
   "@comment dependencies and devDependencies": [
@@ -61,7 +57,6 @@
   "dependencies": {
     "@masterportal/masterportalapi": "git+https://bitbucket.org/geowerkstatt-hamburg/masterportalapi.git#master",
     "@popperjs/core": "^2.11.8",
-    "@vue/compat": "^3.3.4",
     "axios": "^1.7.1",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",

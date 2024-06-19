@@ -4,7 +4,7 @@
     ],
     "recurseDepth": 10,
     "source": {
-        "include": ["./src_3_0_0", "./addons/addons_3_0_0"],
+        "include": ["./src", "./addons"],
         "includePattern": "\\.(vue|js)$",
         "excludePattern": "(node_modules\\/)|(addons|node_modules\\/)|(addons(\\/|\\\\).*(\\/|\\\\)node_modules(\\/|\\\\))|((^|\\/|\\\\)__)"
     },

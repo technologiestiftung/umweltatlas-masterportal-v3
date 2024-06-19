@@ -8,7 +8,6 @@
 .idea
 .vscode
 .history
-/img/*.db
 /jsdoc
 /docHtml
 /nbproject/
@@ -17,8 +16,6 @@ styleguide
 
 addons/*
 !addons/readme.txt
-addons/addons_3_0_0/*
-!addons/addons_3_0_0/readme.txt
 
 bowerupdate.log
 build
@@ -41,11 +38,7 @@ lgv-config
 masterportalapi
 node_modules
 portalconfigs
-stablePortale
 temp
-
-test/coverage
-test/end2end/Screenshots/ScreenshotsTest
 
 debug.log
 devtools/proxyconf.json
