@@ -397,19 +397,19 @@ export default {
      */
     drawMask: function (context, drawMaskOpt) {
         const mapSize = drawMaskOpt.frameState.size,
-            context = drawMaskOpt.context,
+            postrenderContext = drawMaskOpt.context,
             ration = drawMaskOpt.context.canvas.width > mapSize[0] ? DEVICE_PIXEL_RATIO : 1,
             mapWidth = mapSize[0] * ration,
             mapHeight = mapSize[1] * ration;
 
-        context.beginPath();
+            postrenderContext.beginPath();
         // Outside polygon, must be clockwise
-        context.moveTo(0, 0);
-        context.lineTo(mapWidth, 0);
-        context.lineTo(mapWidth, mapHeight);
-        context.lineTo(0, mapHeight);
-        context.lineTo(0, 0);
-        context.closePath();
+        postrenderContext.moveTo(0, 0);
+        postrenderContext.lineTo(mapWidth, 0);
+        postrenderContext.lineTo(mapWidth, mapHeight);
+        postrenderContext.lineTo(0, mapHeight);
+        postrenderContext.lineTo(0, 0);
+        postrenderContext.closePath();
     },
     /**
      * draws the print page
