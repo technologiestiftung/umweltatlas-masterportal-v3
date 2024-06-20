@@ -1,20 +1,35 @@
+import {Group as LayerGroup} from "ol/layer.js";
 import differenceJS from "../../../shared/js/utils/differenceJS";
 import sortBy from "../../../shared/js/utils/sortBy";
 import store from "../../../app-store";
 /**
- * sets the visible layers and set into variable
+ * Collects all visible ol layers, including layers of groups.
  * @param {Boolean} [printMapMarker=false] whether layer "markerPoint" should be filtered out
  * @returns {void}
  */
-export default function getVisibleLayer (printMapMarker = false) {
-    const layers = mapCollection.getMap("2D").getLayers(),
-        visibleLayerList = typeof layers?.getArray !== "function" ? [] : layers.getArray().filter(layer => {
-            return layer.getVisible() === true &&
+function getVisibleLayer (printMapMarker = false) {
+    const layers = mapCollection.getMap("2D").getLayers();
+    let visibleLayerList = typeof layers?.getArray !== "function" ? [] : layers.getArray().filter(layer => {
+        console.log(layer);
+        return layer.getVisible() === true &&
                 (
                     layer.get("name") !== "markerPoint" || printMapMarker
                 );
-        });
+    });
 
+    groupedLayers = visibleLayerList.filter(layer => {
+        return layer instanceof LayerGroup;
+    });
+    if (groupedLayers.length > 0) {
+        visibleLayerList = visibleLayerList.filter(layer => {
+            return !(layer instanceof LayerGroup);
+        });
+        groupedLayers.forEach(groupedLayer => {
+            groupedLayer.getLayers().forEach(gLayer => {
+                visibleLayerList.push(gLayer);
+            });
+        });
+    }
     checkLayersInResolution(visibleLayerList);
 }
 
@@ -61,3 +76,5 @@ function sortVisibleLayerListByZindex (visibleLayerList) {
     visibleLayerListWithoutZIndex.push(sortBy(visibleLayerListWithZIndex, (layer) => layer.getZIndex()));
     store.dispatch("Modules/Print/setVisibleLayerList", [].concat(...visibleLayerListWithoutZIndex));
 }
+
+export default {checkLayersInResolution, getVisibleLayer}
