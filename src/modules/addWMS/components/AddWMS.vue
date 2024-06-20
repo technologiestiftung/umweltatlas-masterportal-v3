@@ -86,7 +86,6 @@ export default {
                 .then((data) => {
                     try {
                         const parser = new WMSCapabilities(),
-                            uniqId = this.getAddWmsUniqueId(),
                             capability = parser.read(data),
                             version = capability?.version,
                             checkVersion = this.isVersionEnabled(version),
@@ -115,7 +114,7 @@ export default {
                         this.wmsUrl = url;
 
                         finalCapability.Capability.Layer.Layer.forEach(layer => {
-                            this.parseLayer(layer, uniqId, 1);
+                            this.parseLayer(layer, 1);
                         });
                     }
                     catch (e) {
@@ -153,20 +152,17 @@ export default {
         },
 
         /**
-         * Appending folders and layers to the menu based on the given layer object
+         * Creates a new layer and adds it to layerCongigs.
          * @info recursive function
-         * @param {Object} object the ol layer to hang into the menu as new folder or new layer
-         * @param {String} parentId the id of the parent object in the menu
+         * @param {Object} object the layer object to add
          * @param {Number} level the depth of the recursion
          * @return {void}
          */
-        parseLayer: function (object, parentId, level) {
+        parseLayer: function (object, level) {
             if (Object.prototype.hasOwnProperty.call(object, "Layer")) {
                 object.Layer.forEach(layer => {
-                    this.parseLayer(layer, this.getParsedTitle(object.Title), level + 1);
+                    this.parseLayer(layer, level + 1);
                 });
-                // @todo: add folder
-                // Radio.trigger("Parser", "addFolder", object.Title, this.getParsedTitle(object.Title), parentId, level, false, false, object.invertLayerOrder);
             }
             else {
                 const datasets = [];
@@ -295,18 +291,6 @@ export default {
             reversedData = new DOMParser().parseFromString(reversedData, "text/xml");
 
             return reversedData;
-        },
-
-        /**
-         * Getter for addWMS UniqueId.
-         * Counts the uniqueId 1 up.
-         * @returns {String} uniqueId - The unique id for addWMS.
-         */
-        getAddWmsUniqueId: function () {
-            const uniqueId = this.uniqueId;
-
-            this.uniqueId = uniqueId + 1;
-            return "external_" + uniqueId;
         },
 
         /**

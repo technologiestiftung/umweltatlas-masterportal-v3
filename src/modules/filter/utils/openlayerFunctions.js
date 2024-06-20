@@ -202,23 +202,6 @@ function getLayers () {
     return store.getters.allLayerConfigs;
 }
 
-/**
- * Setting the filter in table Menu
- * @param {Object} element the html element in Object
- * @returns {void}
- */
-function setFilterInTableMenu (element) {
-    Radio.trigger("TableMenu", "appendFilter", element);
-}
-
-/**
- * Returns the infos from info.json.
- * @returns {Object} an object with key value pairs as attrName and text content
- */
-function getSnippetInfos () {
-    return Radio.request("Parser", "getSnippetInfos");
-}
-
 export default {
     getMapProjection,
     getFeaturesByLayerId,
@@ -232,7 +215,5 @@ export default {
     showFeaturesByIds,
     changeLayerVisibility,
     setParserAttributeByLayerId,
-    getLayers,
-    setFilterInTableMenu,
-    getSnippetInfos
+    getLayers
 };

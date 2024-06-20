@@ -154,6 +154,7 @@ function downloadFeaturesWithoutGUI ({rootState}, payload) {
  * @returns {void}
  */
 function downloadViaRemoteInterface () {
+    // @todo
     /*
     dispatch("downloadFeaturesWithoutGUI", geomType).then(result => {
         Radio.trigger("RemoteInterface", "postMessage", {

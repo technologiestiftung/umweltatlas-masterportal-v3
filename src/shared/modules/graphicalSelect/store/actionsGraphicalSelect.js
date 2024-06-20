@@ -66,17 +66,15 @@ const actions = {
     },
     /**
      * Adds or removes the circle overlay from the map.
-     * @param {Object} context vuex element
+     * @param {Object} _ vuex context element
      * @param {Object} payload vuex element
      * @param {String} payload.type geometry type
      * @param {Object} payload.overlayCircle circleOverlay
      * @param {Object} payload.overlayTool toolOverlay
      * @todo Replace if removeOverlay, addOverlay is available in vue
-     * @fires Core#RadioTriggerMapAddOverlay
-     * @fires Core#RadioTriggerMapRemoveOverlay
      * @returns {void}
      */
-    toggleOverlay: function (context, payload) {
+    toggleOverlay: function (_, payload) {
         if (payload.type === "Circle") {
             mapCollection.getMap("2D").addOverlay(payload.overlayCircle);
         }

@@ -113,7 +113,6 @@ export default {
         /**
          * Handles (de-)activation of this Module
          * @param {Boolean} value flag if module is active
-         * @fires Core#RadioTriggerMapRemoveOverlay
          * @todo Replace if removeOverlay is available in vue
          * @returns {void}
          */
@@ -164,7 +163,6 @@ export default {
 
         /**
          * Used to hide Geometry and Textoverlays if request was unsuccessful for any reason
-         * @fires Core#RadioTriggerMapRemoveOverlay
          * @todo Replace if removeOverlay is available in vue
          * @returns {void}
          */
