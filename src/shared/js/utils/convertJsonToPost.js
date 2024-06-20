@@ -1,10 +1,5 @@
 /**
- * convertJsonToPost
- *
- * Changing from $.ajax to axios the delivery of raw data in phps post format is not natural anymore.
- * Therefore we need a script to convert a json structure to raw post data targeting phps $_POST handling.
- * This is this script.
- *
+ * Converts a json structure to raw post data targeting phps $_POST handling.
  * example: axios.post(url, convertJsonToPost(data)).then(response => { ... });
  */
 

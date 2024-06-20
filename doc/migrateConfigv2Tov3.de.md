@@ -21,7 +21,7 @@ npm run migrateConfig
 
 - Zuerst muss der Portalordner des zu migrierenden Portals angegeben werden (hier `testportal_v2`) mit Pfadangabe. In dem Ordner muss sich die Ausgangsdatei config.json befinden.
 ```json
-masterportal@3.0.0-beta2 migrateConfig
+masterportal@3.0.0 migrateConfig
 node devtools/tasks/migrator/migrate.js
 
 The paths to the portal or folder with portals must start from "[...]/masterportal/")!

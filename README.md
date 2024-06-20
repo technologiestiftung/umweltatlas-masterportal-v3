@@ -22,7 +22,7 @@ Please be aware of the following:
 
 **Structure of config.json can still be changing, docs may not be up-to-date.**
 **Changelog is wip and may also not be correct.**
-**We appreciate hints, feedback and communication of bugs! Please use the Issuetracker and tag your issue with "v3.0.0-beta2"**
+**We appreciate hints, feedback and communication of bugs! Please use the Issuetracker and tag your issue with "v3.0.0"**
 
 ## Roadmap
 Our further Roadmap is to work hard on 3.0.0 and to release wip-Versions and hopefully to be able to have a first stable Version in the mid of 2024. We will support and fix bugs for V2.x until end of 2024.
