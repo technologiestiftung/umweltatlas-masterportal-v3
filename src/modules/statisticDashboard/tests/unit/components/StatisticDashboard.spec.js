@@ -8,6 +8,7 @@ import StatisticSwitcherComponent from "../../../components/StatisticDashboardSw
 import sinon from "sinon";
 import fetchData from "../../../js/fetchData";
 import ChartProcessor from "../../../js/chartProcessor";
+import AccordionItem from "../../../../../shared/modules/accordion/components/AccordionItem.vue";
 import {
     and as andFilter,
     equalTo as equalToFilter
@@ -152,31 +153,29 @@ describe("src/modules/StatisticDashboard.vue", () => {
                 }
             });
 
-            await wrapper.setData({legendValue: ["legend"]});
+            await wrapper.setData({legendValue: ["legend"], showLegendView: true});
 
             expect(wrapper.findComponent(LegendComponent).exists()).to.be.true;
         });
-        it("should render legend if showNoLegendData is true", async () => {
-            const wrapper = shallowMount(StatisticDashboard, {
-                global: {
-                    plugins: [store]
-                }
-            });
+        it("should render the legend accordion", async () => {
+            const data = {
+                    legendValue: [
+                        {
+                            "graphic": "data:image/svg+xml;charset=utf-8,<svg height='35' width='35' version='1.1' xmlns='http://www.w3.org/2000/svg'><polygon points='5,5 30,5 30,30 5,30' style='fill:rgb(158, 202, 225);fill-opacity:0.9;stroke:rgb(158, 202, 225);stroke-opacity:0.9;stroke-width:3;stroke-linecap:round;stroke-dasharray:;'/></svg>",
+                            "name": "90"
+                        }
+                    ],
+                    showNoticeText: false
+                },
+                wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
 
-            await wrapper.setData({showNoLegendData: true});
+            await wrapper.setData(data);
 
-            expect(wrapper.findComponent(LegendComponent).exists()).to.be.true;
-        });
-        it("should not render legend if showNoLegendData is false", async () => {
-            const wrapper = shallowMount(StatisticDashboard, {
-                global: {
-                    plugins: [store]
-                }
-            });
-
-            await wrapper.setData({showNoLegendData: false});
-
-            expect(wrapper.findComponent(LegendComponent).exists()).to.be.false;
+            expect(wrapper.findAllComponents(AccordionItem).at(0).attributes().id).to.equal("legend-accordion");
         });
         it("should not display statistic dashboard filter component", async () => {
             const wrapper = shallowMount(StatisticDashboard, {

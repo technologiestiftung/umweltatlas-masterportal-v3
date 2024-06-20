@@ -895,7 +895,21 @@
         "under": "unter",
         "between": "{{minimum}} bis unter {{maximum}}",
         "nodata": "Die Visualisierung der Daten von mehreren Statistiken auf der Karte steht noch nicht zur Verfügung.",
-        "legend": "Kartenlegende"
+        "legend": "Kartenlegende",
+        "edit": "Bearbeiten",
+        "editClassification": "Klasseneinteilung bearbeiten",
+        "classification": "Klassifikation",
+        "numberOfClasses": "Anzahl der Klassen",
+        "colorPalette": "Farbpalette",
+        "betweenValues": "bis unter",
+        "opacity": "Deckkraft",
+        "back": "Zurück",
+        "reset": "Zurücksetzen",
+        "range": "Bereich",
+        "color": "Farbe",
+        "equalIntervals": "gleiche Intervalle",
+        "quantile": "nach Quantilen",
+        "customized": "benutzerdefiniert"
       }
     },
     "shadow": {

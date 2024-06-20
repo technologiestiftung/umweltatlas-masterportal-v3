@@ -895,7 +895,21 @@
         "under": "under",
         "between": "between {{minimum}} and {{maximum}}",
         "nodata": "Visualization of data from multiple statistics on the map is not yet available.",
-        "legend": "Map legend"
+        "legend": "Map legend",
+        "edit": "Edit",
+        "editClassification": "Edit classification",
+        "classification": "Classification",
+        "numberOfClasses": "Number of classes",
+        "colorPalette": "Color Palette",
+        "betweenValues": "between",
+        "opacity": "Opacity",
+        "back": "Back",
+        "reset": "Reset",
+        "range": "Range",
+        "color": "Color",
+        "equalIntervals": "Equal intervals",
+        "quantile": "Quantile",
+        "customized": "Customized"
       }
     },
     "shadow": {

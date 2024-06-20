@@ -16,6 +16,7 @@ import {rawLayerList} from "@masterportal/masterportalapi";
 import {getFeaturePOST} from "../../../shared/js/api/wfs/getFeature.js";
 import ChartProcessor from "../js/chartProcessor.js";
 import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
+import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
 
 import {
     and as andFilter,
@@ -35,7 +36,8 @@ export default {
         StatisticFilter,
         StatisticSwitcher,
         LegendComponent,
-        AccordionItem
+        AccordionItem,
+        FlatButton
     },
     data () {
         return {
@@ -68,7 +70,8 @@ export default {
             legendValue: [],
             showNoLegendData: false,
             showFilter: false,
-            showAllHiddenTags: false
+            showAllHiddenTags: false,
+            showLegendView: false
         };
     },
     computed: {
@@ -987,6 +990,14 @@ export default {
         },
 
         /**
+         * Toggle the legend view.
+         * @returns {void}
+         */
+        changeLegendView () {
+            this.showLegendView = !this.showLegendView;
+        },
+
+        /**
          * Removes the given the filter.
          * @param {String} filter - Filter to remove.
          * @returns {void}
@@ -1031,7 +1042,13 @@ export default {
                 @toggle-filter="toggleFilter"
             />
         </template>
-        <div v-show="!showFilter">
+        <template v-if="showLegendView">
+            <LegendComponent
+                class="mt-3"
+                @change-legend-view="changeLegendView"
+            />
+        </template>
+        <div v-show="!showFilter && !showLegendView">
             <div class="row justify-content-between">
                 <div class="col-md-12 d-flex align-items-center">
                     <h4 class="mb-0">
@@ -1111,13 +1128,66 @@ export default {
                     <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
-            <LegendComponent
-                v-if="Array.isArray(legendValue) && legendValue.length || showNoLegendData"
-                class="mt-3"
-                :legend-value="legendValue"
-                :title="selectedStatisticsNames[0]"
-                :show-notice-text="showNoLegendData"
-            />
+            <AccordionItem
+                v-show="Array.isArray(legendValue) && legendValue.length || showNoLegendData"
+                id="legend-accordion"
+                :title="$t('common:modules.statisticDashboard.legend.legend')"
+                icon="bi bi-map"
+                :is-open="!showNoLegendData"
+            >
+                <div
+                    id="legend-content"
+                >
+                    <div class="legend-body ps-0 py-0">
+                        <div
+                            v-if="!showNoLegendData"
+                            class="container"
+                        >
+                            <div class="row my-0">
+                                <div class="col-6 mt-2">
+                                    {{ selectedStatisticsNames[0] }}
+                                </div>
+                                <div class="col-6">
+                                    <FlatButton
+                                        id="edit-legend"
+                                        aria-label="$t('common:modules.statisticDashboard.legend.edit')"
+                                        :text="$t('common:modules.statisticDashboard.legend.edit')"
+                                        icon="bi bi-gear"
+                                        class="float-end btn-sm"
+                                        :interaction="() => changeLegendView()"
+                                    />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div
+                                    v-for="legendObj in legendValue"
+                                    :key="legendObj.name"
+                                    class="row layer"
+                                >
+                                    <div class="col">
+                                        <img
+                                            :alt="legendObj.name"
+                                            :src="legendObj.graphic"
+                                            class="col-3 col-xs px-0 left"
+                                        >
+                                        <span
+                                            class="col col-xs legend-names px-0 ms-1"
+                                        >
+                                            {{ legendObj.name }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-else>
+                            <div class="more-statistics">
+                                {{ $t("common:modules.statisticDashboard.legend.nodata") }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </AccordionItem>
+            <hr class="mb-0">
             <Controls
                 v-if="loadedReferenceData"
                 :descriptions="controlDescription"
@@ -1203,6 +1273,10 @@ export default {
 <style lang="scss" scoped>
 @import "~variables";
 
+    hr {
+    clear: both;
+    }
+
     .btn-pb {
         padding-bottom: 2px;
     }
@@ -1210,4 +1284,17 @@ export default {
     .more-statistics {
         display: none;
     }
+
+    img {
+        width: 30px;
+    }
+
+    .legend-names {
+        font-size: 12px;
+    }
+
+    .more-statistics {
+        /** @TODO **/
+        color: #525252;
+}
 </style>
