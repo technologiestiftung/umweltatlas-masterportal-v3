@@ -603,6 +603,9 @@
             }
           },
           {
+            "type": "modeler3D"
+          },
+          {
             "type": "scaleSwitcher"
           },
           {
