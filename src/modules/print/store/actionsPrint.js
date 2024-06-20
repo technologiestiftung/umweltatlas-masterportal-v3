@@ -4,7 +4,7 @@ import {DEVICE_PIXEL_RATIO} from "ol/has.js";
 import actionsPrintInitialization from "./actionsPrintInitialization";
 import BuildSpec from "../js/buildSpec";
 import getCswRecordById from "../../../shared/js/api/getCswRecordById";
-import getVisibleLayer from "../js/getVisibleLayer";
+import layerProvider from "../js/getVisibleLayer";
 import omit from "../../../shared/js/utils/omit";
 import changeCase from "../../../shared/js/utils/changeCase";
 import {takeScreenshot} from "olcs/lib/olcs/print/takeCesiumScreenshot.js";
@@ -167,7 +167,7 @@ const actions = {
      */
     startPrint: async function ({state, getters, dispatch, commit}, print) {
         commit("setProgressWidth", "width: 25%");
-        getVisibleLayer(state.printMapMarker);
+        layerProvider.getVisibleLayer(state.printMapMarker);
 
         const visibleLayerList = getters.visibleLayerList,
             attr = {

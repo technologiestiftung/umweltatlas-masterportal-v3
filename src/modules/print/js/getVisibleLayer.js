@@ -10,7 +10,7 @@ import store from "../../../app-store";
 function getVisibleLayer (printMapMarker = false) {
     const layers = mapCollection.getMap("2D").getLayers();
     let visibleLayerList = typeof layers?.getArray !== "function" ? [] : layers.getArray().filter(layer => {
-        console.log(layer);
+
         return layer.getVisible() === true &&
                 (
                     layer.get("name") !== "markerPoint" || printMapMarker
@@ -77,4 +77,4 @@ function sortVisibleLayerListByZindex (visibleLayerList) {
     store.dispatch("Modules/Print/setVisibleLayerList", [].concat(...visibleLayerListWithoutZIndex));
 }
 
-export default {checkLayersInResolution, getVisibleLayer}
+export default {getVisibleLayer};

@@ -7,7 +7,7 @@ import {Vector} from "ol/layer.js";
 import isObject from "../../../shared/js/utils/isObject";
 import mutations from "../store/mutationsPrint";
 import thousandsSeparator from "../../../shared/js/utils/thousandsSeparator";
-import getVisibleLayer from "../js/getVisibleLayer";
+import layerProvider from "../js/getVisibleLayer";
 import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
 import InputText from "../../../shared/modules/inputs/components/InputText.vue";
 import SwitchInput from "../../../shared/modules/checkboxes/components/SwitchInput.vue";
@@ -237,7 +237,7 @@ export default {
                     }
 
                     layerSource.once("featuresloadend", () => {
-                        getVisibleLayer(this.printMapMarker);
+                        layerProvider.getVisibleLayer(this.printMapMarker);
                         this.updateCanvasLayer();
                         this.togglePostrenderListener();
                     });

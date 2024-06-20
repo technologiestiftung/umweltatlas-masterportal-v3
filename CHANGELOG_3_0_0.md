@@ -206,6 +206,7 @@ In certain circumstances this means that you have to update your portal files (i
 - Routing directions: no "empty" button, it is not clickable anymore
 - Legend: using `legend: ignore` doesnt show up legend tab in layerinformation.
 - BufferAnalysis: fixed error when no targetLayer was found and warnings in console.
+- Print: no console error anymore, if printing group layers.
 ---
 
 ---

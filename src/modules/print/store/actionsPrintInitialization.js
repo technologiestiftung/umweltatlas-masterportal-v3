@@ -5,7 +5,7 @@ import {DEVICE_PIXEL_RATIO} from "ol/has.js";
 
 import BuildSpec from "../js/buildSpec";
 import Canvas from "../js/buildCanvas";
-import getVisibleLayer from "../js/getVisibleLayer";
+import layerProvider from "../js/getVisibleLayer";
 import thousandsSeparator from "../../../shared/js/utils/thousandsSeparator";
 import {autoDrawMask} from "olcs/lib/olcs/print/drawCesiumMask.js";
 import {computeRectangle} from "olcs/lib/olcs/print/computeRectangle.js";
@@ -203,7 +203,7 @@ export default {
         const foundVectorTileLayers = [],
             ol3d = mapCollection.getMap("3D");
 
-        getVisibleLayer(state.printMapMarker);
+        layerProvider.getVisibleLayer(state.printMapMarker);
 
         /*
         * Since MapFish 3 does not yet support VTL (see https://github.com/mapfish/mapfish-print/issues/659),
@@ -254,7 +254,7 @@ export default {
         let invisibleLayer = [],
             hintInfo = "";
 
-        getVisibleLayer(getters.printMapMarker);
+        layerProvider.getVisibleLayer(getters.printMapMarker);
         invisibleLayer = getters.invisibleLayer;
         hintInfo = i18next.t("common:modules.print.invisibleLayer", {scale: "1: " + thousandsSeparator(scale, ".")});
         hintInfo = hintInfo + "<br>" + getters.invisibleLayerNames;
