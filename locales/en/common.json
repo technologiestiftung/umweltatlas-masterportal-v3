@@ -910,7 +910,8 @@
         "equalIntervals": "Equal intervals",
         "quantile": "Quantile",
         "customized": "Customized"
-      }
+      },
+      "totalHint": "Because of the percentage count, the total count is not so meaningful."
     },
     "shadow": {
       "name": "Shadows",
@@ -1134,7 +1135,9 @@
         "fixColumnAriaLabel": "Click here to pin this column",
         "download": "Download",
         "reset": "Reset",
-        "settings": "Settings"
+        "settings": "Settings",
+        "total": "Total",
+        "totalTitle": "Calculate the total count of each list."
       }
     }
   },

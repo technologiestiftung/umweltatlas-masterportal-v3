@@ -910,7 +910,8 @@
         "equalIntervals": "gleiche Intervalle",
         "quantile": "nach Quantilen",
         "customized": "benutzerdefiniert"
-      }
+      },
+      "totalHint": "Unsinnige Summierung für Prozent-Werten."
     },
     "shadow": {
       "name": "Schatten",
@@ -1134,7 +1135,9 @@
         "fixColumnAriaLabel": "Hier klicken um diese Spalte zu fixieren",
         "download": "Herunterladen",
         "reset": "Zurücksetzen",
-        "settings": "Einstellungen"
+        "settings": "Einstellungen",
+        "total": "Gesamt",
+        "totalTitle": "Berechne die Gesamtzahl jeder Liste"
       }
     }
   },

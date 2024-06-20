@@ -212,6 +212,81 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
 
             expect(wrapper.find(".multiselect-dropdown").exists()).to.be.false;
         });
+        it("should not render hint text", () => {
+            const wrapper = shallowMount(TableComponent, {
+                propsData: {
+                    totalProp: true
+                }
+            });
+
+            expect(wrapper.find(".hint").exists()).to.be.false;
+        });
+        it("should render hint text", async () => {
+            const wrapper = shallowMount(TableComponent, {
+                propsData: {
+                    totalProp: {
+                        hintText: "some text"
+                    }
+                }
+            });
+
+            await wrapper.setData({showTotalData: true});
+
+            expect(wrapper.find(".hint").exists()).to.be.true;
+        });
+        it("should not render total button", () => {
+            const wrapper = shallowMount(TableComponent, {
+                propsData: {
+                    totalProp: false
+                }
+            });
+
+            expect(wrapper.find(".total-button").exists()).to.be.false;
+        });
+        it("should render total button", () => {
+            const wrapper = shallowMount(TableComponent, {
+                propsData: {
+                    totalProp: {
+                        enabled: true,
+                        hintText: "some text"
+                    }
+                }
+            });
+
+            expect(wrapper.find(".total-button").exists()).to.be.true;
+        });
+        it("should not render total row", () => {
+            const wrapper = shallowMount(TableComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.find(".total").exists()).to.be.false;
+        });
+        it("should render total row", async () => {
+            const wrapper = shallowMount(TableComponent, {
+                plugins: [store],
+                propsData: {
+                    totalProp: {
+                        enabled: true,
+                        rowTitle: true
+                    },
+                    data: {
+                        headers: [{name: "foo"}, {name: "bar"}, {name: "buz"}],
+                        items: [
+                            {foo: "Total", bar: 1, buz: 1},
+                            {foo: "Total", bar: 2, buz: 2},
+                            {foo: "Total", bar: 3, buz: 3}
+                        ]
+                    }
+                }
+            });
+
+            await wrapper.setData({showTotalData: true});
+
+            expect(wrapper.find(".total").exists()).to.be.true;
+        });
     });
     describe("column visibility", () => {
         it("should render all checkboxes and include them in 'visibleHeaders'", async () => {
@@ -1037,6 +1112,72 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                     ];
 
                 expect(wrapper.vm.getFilteredRows(filterObject, rows)).to.be.an("array").and.to.be.empty;
+            });
+        });
+        describe("checkTotalHint", () => {
+            const wrapper = shallowMount(TableComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            it("should return false if there is no hint text", () => {
+                expect(wrapper.vm.checkTotalHint(true, true)).to.be.false;
+                expect(wrapper.vm.checkTotalHint(false, true)).to.be.false;
+            });
+
+            it("should return false if the hint text is not string", () => {
+                expect(wrapper.vm.checkTotalHint({hintText: {}})).to.be.false;
+                expect(wrapper.vm.checkTotalHint({hintText: false})).to.be.false;
+                expect(wrapper.vm.checkTotalHint({hintText: []})).to.be.false;
+                expect(wrapper.vm.checkTotalHint({hintText: 0})).to.be.false;
+                expect(wrapper.vm.checkTotalHint({hintText: undefined})).to.be.false;
+            });
+
+            it("should return false if the total data is not shown", () => {
+                expect(wrapper.vm.checkTotalHint({hintText: "test"}, false)).to.be.false;
+                expect(wrapper.vm.checkTotalHint({hintText: "test"}, false)).to.be.false;
+            });
+
+            it("should return true", () => {
+                expect(wrapper.vm.checkTotalHint({hintText: "test"}, true)).to.be.true;
+            });
+        });
+        describe("getTotalData", () => {
+            it("should return empty array", () => {
+                const wrapper = shallowMount(TableComponent, {
+                    props: {
+                        data: {}
+                    }
+                });
+
+                expect(wrapper.vm.getTotalData(false)).to.deep.equal([]);
+                expect(wrapper.vm.getTotalData({enabled: false})).to.deep.equal([]);
+            });
+
+            it("should return total data", () => {
+                const wrapper = shallowMount(TableComponent, {
+                        global: {
+                            plugins: [store]
+                        }
+                    }),
+                    data = {
+                        headers: [{name: "foo"}, {name: "bar"}, {name: "buz"}],
+                        items: [
+                            {foo: "Total", bar: 1, buz: 1},
+                            {foo: "Total", bar: 2, buz: 2},
+                            {foo: "Total", bar: 3, buz: 3}
+                        ]
+                    },
+                    totalProp = {
+                        enabled: true,
+                        rowTitle: true,
+                        hintText: ""
+                    };
+
+                expect(wrapper.vm.getTotalData(totalProp, data)).to.deep.equal(
+                    ["common:shared.modules.table.total", 6, 6]
+                );
             });
         });
     });

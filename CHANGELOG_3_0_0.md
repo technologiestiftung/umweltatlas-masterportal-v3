@@ -56,6 +56,7 @@ In certain circumstances this means that you have to update your portal files (i
 - StatisticDashboard:
   - Migrated from MP2 to MP3
   - Can now load data from an OAF Rest API if an OAF layer is configured.
+  - A new parameter "addTotalCount" is implemented to decide if to add a row of total data in table.
 - Search for address via URL-Parameter.
 - The following packages have been added:
     - dependencies:
@@ -69,6 +70,8 @@ In certain circumstances this means that you have to update your portal files (i
 - Added several WFS-T fixes and improvements.
 - Added searchType to treeSearch with default search by name otherwise md_name of dataset can be used.
 - Added possibility to fit layer extent from layer capabilities.
+- shared Table:
+  - Add new prop "totalProp" to decide if to show a row of total count.
 
 ### Changed
 - CoordToolkit: Toast added instead of Alert for feedback after copying coordinates.

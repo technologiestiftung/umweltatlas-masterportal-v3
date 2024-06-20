@@ -88,6 +88,11 @@ export default {
             type: [String, Boolean],
             required: false,
             default: false
+        },
+        totalProp: {
+            type: [Object, Boolean],
+            required: false,
+            default: false
         }
     },
     emits: ["columnSelected", "rowSelected", "setSortedRows"],
@@ -106,7 +111,9 @@ export default {
             originFilteredRows: undefined,
             selectedColumn: "",
             selectedRow: "",
-            sortedRows: []
+            sortedRows: [],
+            showTotal: this.totalProp === true || this.totalProp.enabled,
+            showTotalData: false
         };
     },
     computed: {
@@ -139,6 +146,9 @@ export default {
         },
         isSorted: function () {
             return this.currentSorting.order !== "origin";
+        },
+        totalRow () {
+            return this.getTotalData(this.totalProp, this.editedTable);
         }
     },
     watch: {
@@ -520,6 +530,68 @@ export default {
             }
             this.selectedColumn = columnName;
             this.$emit("columnSelected", this.selectedColumn?.name);
+        },
+
+        /**
+         * Gets the total data.
+         * @param {Object} totalProp The total prop from parent component.
+         * @param {Object} data The editedTable data
+         * @returns {Array} The total data.
+         */
+        getTotalData (totalProp, data) {
+            if (!totalProp || !totalProp?.enabled) {
+                return [];
+            }
+
+            if (totalProp?.enabled && !totalProp?.rowTitle) {
+                // Todos
+                return [];
+            }
+
+            const totalData = [this.$t("common:shared.modules.table.total")];
+
+            if (Array.isArray(data?.headers) && Array.isArray(data?.items)) {
+                data.headers.forEach((header, index) => {
+                    if (index === 0) {
+                        return;
+                    }
+                    let value = 0;
+
+                    if (!header?.name) {
+                        return;
+                    }
+                    data.items.forEach(item => {
+                        if (!item[header.name]) {
+                            return;
+                        }
+
+                        value += item[header.name];
+                    });
+
+                    totalData.push(typeof value === "number" ? value : "-");
+                });
+            }
+
+            return totalData;
+        },
+
+        /**
+         * Toggles the total row.
+         * @param {Boolean} val The current flag to show the total row.
+         * @returns {void}
+         */
+        toggleShowTotalData (val) {
+            this.showTotalData = !val;
+        },
+
+        /**
+         * Checks if to show hint text.
+         * @param {Object} totalProp total prop.
+         * @param {Object} showTotalData show total data.
+         * @returns {Boolean} the hint text.
+         */
+        checkTotalHint (totalProp, showTotalData) {
+            return typeof totalProp?.hintText === "string" && showTotalData;
         }
     }
 };
@@ -632,6 +704,16 @@ export default {
                 :interaction="() => resetAll()"
             />
         </div>
+        <button
+            v-if="showTotal"
+            class="btn btn-secondary align-items-center mb-3 total-button"
+            :class="[showTotalData? 'active' : '']"
+            :title="$t('common:shared.modules.table.totalTitle')"
+            @click="toggleShowTotalData(showTotalData)"
+            @keydown.enter="toggleShowTotalData(showTotalData)"
+        >
+            <span class="btn-texts">&Sigma;</span>
+        </button>
         <div
             v-if="downloadable"
             class="btn-group"
@@ -723,23 +805,42 @@ export default {
                         {{ item[entry.name] }}
                     </td>
                 </tr>
-            </tbody>
-            <template v-if="typeof fixedData !== 'undefined' || Array.isArray(fixedData?.items)">
-                <tr
-                    v-for="(row, idx) in fixedData.items"
-                    :key="'fixed-'+idx"
-                    :class="[selectMode === 'row' ? 'selectable' : '', selectedRow === getStringifiedRow(row) ? 'selected' : '', 'fixed']"
-                >
-                    <td
-                        v-for="(entry, columnIdx) in row"
-                        :key="'fixed-'+columnIdx"
-                        :class="[selectMode === 'column' && columnIdx > 0 ? 'selectable' : '', selectedColumn === visibleHeaders[columnIdx] ? 'selected' : '']"
+                <template v-if="showTotalData">
+                    <tr>
+                        <td
+                            v-for="(entry, index) in totalRow"
+                            :key="'total-'+index"
+                            class="p-2 total"
+                            :class="[selectMode === 'column' && index > 0 ? 'selectable' : '', selectedColumn === visibleHeaders[index] ? 'selected' : '']"
+                        >
+                            {{ entry }}
+                        </td>
+                    </tr>
+                </template>
+                <template v-if="typeof fixedData !== 'undefined' || Array.isArray(fixedData?.items)">
+                    <tr
+                        v-for="(row, idx) in fixedData.items"
+                        :key="'fixed-'+idx"
+                        :class="[selectMode === 'row' ? 'selectable' : '', selectedRow === getStringifiedRow(row) ? 'selected' : '', 'fixed']"
                     >
-                        {{ entry }}
-                    </td>
-                </tr>
-            </template>
+                        <td
+                            v-for="(entry, columnIdx) in row"
+                            :key="'fixed-'+columnIdx"
+                            class="p-2"
+                            :class="[selectMode === 'column' && columnIdx > 0 ? 'selectable' : '', selectedColumn === visibleHeaders[columnIdx] ? 'selected' : '']"
+                        >
+                            {{ entry }}
+                        </td>
+                    </tr>
+                </template>
+            </tbody>
         </table>
+        <div
+            v-if="checkTotalHint(totalProp, showTotalData)"
+            class="hint"
+        >
+            {{ totalProp.hintText }}
+        </div>
     </div>
 </template>
 
@@ -771,6 +872,10 @@ export default {
     }
 }
 
+.btn-toolbar {
+    float: left;
+}
+
 table {
     table-layout: fixed;
     --bs-table-hover-bg: #D6E3FF;
@@ -779,6 +884,11 @@ table {
     td {
         font-size: 14px;
         text-align: left;
+        &.total:not(.selected) {
+            background: $light_blue;
+            font-family: "MasterPortalFont Bold";
+            color: #3C5F94;
+        }
     }
     th {
         width: 15rem;
@@ -848,6 +958,27 @@ table {
 .selected {
     background-color: rgba(174, 138, 250, .5);
     border-bottom: 1px solid $light_grey_hover;
+}
+
+.total-button {
+    -webkit-user-select: none; /* Chrome/Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+    -o-user-select: none;
+    user-select: none;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 36px;
+    width: 36px;
+    height: 36px;
+    color:$white;
+    &:hover, &.active {
+        background-color: #D6E3FF;
+    }
+}
+
+.hint {
+    font-size: 12px;
 }
 
 </style>

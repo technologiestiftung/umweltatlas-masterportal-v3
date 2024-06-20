@@ -1327,5 +1327,25 @@ describe("src/modules/StatisticDashboard.vue", () => {
                 }});
             });
         });
+        describe("getTotalProp", () => {
+            it("should return an object", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                expect(wrapper.vm.getTotalProp(false)).to.deep.equal({
+                    enabled: false,
+                    rowTitle: true,
+                    hintText: "common:modules.statisticDashboard.totalHint"
+                });
+                expect(wrapper.vm.getTotalProp(true)).to.deep.equal({
+                    enabled: true,
+                    rowTitle: true,
+                    hintText: "common:modules.statisticDashboard.totalHint"
+                });
+            });
+        });
     });
 });

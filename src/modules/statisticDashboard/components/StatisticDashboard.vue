@@ -1018,6 +1018,19 @@ export default {
 
                 delete this.selectedStatistics[keyToDelete];
             }
+        },
+
+        /**
+         * Gets the total prop.
+         * @param {Boolean} addTotalCount - if the total count should be added.
+         * @returns {Object} the total props for table component.
+         */
+        getTotalProp (addTotalCount) {
+            return {
+                enabled: addTotalCount,
+                rowTitle: true,
+                hintText: this.$t("common:modules.statisticDashboard.totalHint")
+            };
         }
     }
 };
@@ -1202,6 +1215,7 @@ export default {
                         :title="selectedStatisticsNames[index]"
                         :data="data"
                         :fixed-data="testFixedData"
+                        :total-prop="getTotalProp(addTotalCount, selectedStatisticsNames[index])"
                         :select-mode="selectMode"
                         :show-header="showHeader"
                         :sortable="sortable"

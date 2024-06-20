@@ -14,6 +14,7 @@
  * @property {Object[]} selectedRegions - The selected regions.
  * @property {Object[]} selectedDates - The selected dates.
  * @property {Object} legendData the legendValues with colors and value
+ * @property {Boolean} addTotalCount If true, a row with total count will be inserted in table.
  */
 const state = {
     active: false,
@@ -36,7 +37,8 @@ const state = {
     selectedDates: [],
     selectedStatistics: {},
     chartTableToggle: "table",
-    legendData: []
+    legendData: [],
+    addTotalCount: false
 };
 
 export default state;
