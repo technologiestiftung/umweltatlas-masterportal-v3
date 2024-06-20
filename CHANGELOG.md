@@ -24,6 +24,7 @@
     - After layer category switch the visible background layer were removed from layer selection.
 - Issue #1224: SecondaryMenu for mobile after closing allows to select coordinates.
 - GetFeatureInfo: Images are displayed and the size of images was adapted.
+- Login: Access Tokens are now revoked after logout
 
 ---
 
