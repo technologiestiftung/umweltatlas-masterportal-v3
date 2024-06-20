@@ -187,16 +187,23 @@ export default {
     /**
      * Open folders in layerSelection and shows layer to select.
      * If layer is not contained, it is added.
+     * @param {Object} param.commit the commit
      * @param {Object} param.dispatch the dispatch
-     * @param {Object} payload The payload.
+     * @param {Object} param.rootGetters the rootGetters
      * @param {String} payload.layerId The layer id.
      * @param {String} payload.source The layer source from search result.
      * @returns {void}
      */
-    showInTree: async ({commit, dispatch}, {layerId, source}) => {
+    showInTree: async ({commit, dispatch, rootGetters}, {layerId, source}) => {
         const layerConfig = await dispatch("retrieveLayerConfig", {layerId, source});
 
-        if (layerConfig) {
+        if (layerId.includes("folder")) {
+            commit("Menu/setNavigationHistoryBySide", {side: "mainMenu", newHistory: []}, {root: true});
+            dispatch("Menu/changeCurrentComponent", {type: "layerSelection", side: "mainMenu", props: {}}, {root: true});
+            dispatch("Modules/LayerSelection/showLayer", {layerId}, {root: true});
+            dispatch("Modules/LayerSelection/setNavigationByFolder", {folder: rootGetters.folderById(layerId)}, {root: true});
+        }
+        else if (layerConfig) {
             commit("Menu/setNavigationHistoryBySide", {side: "mainMenu", newHistory: []}, {root: true});
             dispatch("Menu/changeCurrentComponent", {type: "layerSelection", side: "mainMenu", props: {}}, {root: true});
             dispatch("Modules/LayerSelection/showLayer", {layerId, rawLayer: layerConfig}, {root: true});
