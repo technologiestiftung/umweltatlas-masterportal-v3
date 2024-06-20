@@ -2,6 +2,7 @@ import {config, shallowMount} from "@vue/test-utils";
 import SnippetSlider from "../../../components/SnippetSlider.vue";
 import {expect} from "chai";
 
+
 config.global.mocks.$t = key => key;
 
 describe("src/modules/filter/components/SnippetSlider.vue", () => {
@@ -43,16 +44,23 @@ describe("src/modules/filter/components/SnippetSlider.vue", () => {
             expect(wrapper.find(".slider-single").element.min).to.equal("0");
             expect(wrapper.find(".slider-single").element.max).to.equal("1000");
         });
+        // see https://lgv-hamburg.atlassian.net/browse/BG-5579
         it.skip("should set slider value by input text", async () => {
             const wrapper = shallowMount(SnippetSlider, {
                     propsData: {
                         minValue: 20,
-                        maxValue: 100
+                        maxValue: 100,
+                        timeoutInput: 0
                     }
                 }),
                 textInput = wrapper.find(".input-single");
 
+            await wrapper.vm.$nextTick();
+            await wrapper.vm.$nextTick();
+            await wrapper.vm.$nextTick();
             await textInput.setValue("30");
+            wrapper.vm.$nextTick();
+
             expect(wrapper.find(".input-single").element.value).to.equal("30");
             expect(wrapper.find(".slider-single").element.value).to.equal("30");
 
@@ -67,9 +75,8 @@ describe("src/modules/filter/components/SnippetSlider.vue", () => {
             await textInput.setValue("10");
             expect(wrapper.find(".input-single").element.value).to.equal("20");
             expect(wrapper.find(".slider-single").element.value).to.equal("20");
-            wrapper.destroy();
         });
-        it.skip("should set input value by slider", async () => {
+        it("should set input value by slider", async () => {
             const wrapper = shallowMount(SnippetSlider, {
                     propsData: {
                         minValue: 20,
@@ -93,8 +100,6 @@ describe("src/modules/filter/components/SnippetSlider.vue", () => {
             await sliderInput.setValue("10");
             expect(wrapper.find(".slider-single").element.value).to.equal("20");
             expect(wrapper.find(".input-single").element.value).to.equal("20");
-
-            wrapper.destroy();
         });
         it("should render hidden if visible is false", () => {
             const wrapper = shallowMount(SnippetSlider, {

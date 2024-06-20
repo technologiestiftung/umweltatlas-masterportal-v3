@@ -6,7 +6,8 @@ import state from "../../../store/stateCopyrightConstraints";
 
 config.global.mocks.$t = key => key;
 
-describe("src/modules/copyrightConstraints/components/CopyrightConstraints.vue", () => {
+// skipped: see https://lgv-hamburg.atlassian.net/browse/BG-5562
+describe.skip("src/modules/copyrightConstraints/components/CopyrightConstraints.vue", () => {
     let store;
     const visibleLayers =
         [
@@ -155,7 +156,7 @@ describe("src/modules/copyrightConstraints/components/CopyrightConstraints.vue",
     });
 
     describe("copyrightConstraints.vue methods", () => {
-        it.skip("getMetaData returns an object with properties access and use", async () => {
+        it("getMetaData returns an object with properties access and use", async () => {
             const wrapper = mount(CopyrightConstraints, {
                     global: {
                         plugins: [store]

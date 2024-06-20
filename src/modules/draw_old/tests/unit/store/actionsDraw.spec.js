@@ -375,7 +375,7 @@ describe("src/modules/draw/store/actionsDraw.js", () => {
             expect(definedFunctions.modifyend).to.have.length(1);
         });
 
-        // dependent on remoteInterface
+        // dependent on remoteInterface, see https://lgv-hamburg.atlassian.net/browse/BG-5171
         it.skip("should enable the modifyend to trigger to the RemoteInterface if Config.inputMap is defined", () => {
             const featureSymbol = Symbol(),
                 geoJSONSymbol = Symbol();

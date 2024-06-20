@@ -56,16 +56,6 @@ export default {
             itemRefs: []
         };
     },
-    computed: {
-        /**
-         * Checks if Selector should be disabled.
-         * @param {Number} filterId id to check if should be disabled
-         * @returns {Boolean} if button should be disabled
-         */
-        disabled (filterId) {
-            return !this.multiLayerSelector && this.selectedLayers.length > 0 && this.selectedLayers.some(accordion => accordion.filterId === filterId);
-        }
-    },
     watch: {
         jumpToId (newFilterId) {
             this.scrollToView(newFilterId);
@@ -133,6 +123,14 @@ export default {
          */
         deleteAllRulesEmit (filterId) {
             this.$emit("deleteAllRules", filterId);
+        },
+        /**
+         * Checks if selector should be disabled.
+         * @param {Number} filterId id to check if should be disabled
+         * @returns {Boolean} if button should be disabled
+         */
+        disabled (filterId) {
+            return !this.multiLayerSelector && this.selectedLayers.length > 0 && this.selectedLayers.some(accordion => accordion.filterId === filterId);
         }
     }
 };
@@ -161,7 +159,7 @@ export default {
             >
                 <div class="w-100">
                     <h2
-                        :class="['panel-title d-flex justify-content-between align-items-center', disabled ? 'disabled' : '']"
+                        :class="['panel-title d-flex justify-content-between align-items-center', disabled(filter.filterId) ? 'disabled' : '']"
                     >
                         <div>{{ filter.title ? filter.title : filter.layerId }}</div>
                         <div

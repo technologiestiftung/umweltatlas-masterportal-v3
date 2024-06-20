@@ -85,7 +85,7 @@ describe("src/modules/draw/store/actions/withoutGUIDraw.js", () => {
         const geomType = Symbol(),
             result = Symbol();
 
-        //  TBD: RemoteInterface needs to be implemented without Radio
+        //  RemoteInterface needs to be implemented without Radio: see https://lgv-hamburg.atlassian.net/browse/BG-5171
         it.skip("should dispatch as aspected", () => {
             dispatch = sinon.stub().resolves(result);
 

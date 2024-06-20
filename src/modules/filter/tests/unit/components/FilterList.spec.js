@@ -25,7 +25,7 @@ describe("src/modules/filter/components/FilterList.vue", () => {
         });
         wrapper = shallowMount(FilterList, {
             propsData: {
-                filters: [{filterId: 0}],
+                filters: [{filterId: 0, title: "i am a filter"}],
                 multiLayerSelector: false
             },
             global: {
@@ -38,9 +38,11 @@ describe("src/modules/filter/components/FilterList.vue", () => {
         expect(wrapper.findAll(".panel-default")).to.have.length(1);
     });
 
-    it.skip("should render filter title disabled true if multiLayerSelector is false", async () => {
+    it("should render filter title disabled true if multiLayerSelector is false", async () => {
         await wrapper.setProps({
-            selectedLayers: [0]
+            selectedLayers: [{
+                filterId: 0
+            }]
         });
         expect(wrapper.find(".disabled").exists()).to.be.true;
     });
