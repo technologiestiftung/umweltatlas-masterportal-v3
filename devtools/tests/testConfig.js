@@ -80,7 +80,6 @@ module.exports = {
         ]
     },
 
-    quickHelp: true,
     portalConf: "../../portal/master/",
     layerConf: "https://geodienste.hamburg.de/lgv-config/services-fhhnet-ALL.json",
     restConf: "https://geodienste.hamburg.de/lgv-config/rest-services-fhhnet.json",
