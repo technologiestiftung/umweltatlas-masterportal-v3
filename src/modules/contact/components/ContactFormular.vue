@@ -87,7 +87,7 @@ export default {
                         const fileNameSplit = file.name.split("."),
                             fileExtension = fileNameSplit.length > 0 ? fileNameSplit[fileNameSplit.length - 1].toLowerCase() : "";
 
-                        if (fileExtension === "png" || fileExtension === "jpg" || fileExtension === "jpeg" || this.configuredFileExtensions.includes(fileExtension)) {
+                        if (fileExtension === "png" || fileExtension === "jpg" || fileExtension === "jpeg" || fileExtension === "pdf" || this.configuredFileExtensions.includes(fileExtension)) {
                             this.fileUploaded = true;
                             const src = file.type.includes("image") ? reader.result : URL.createObjectURL(file);
 
@@ -128,7 +128,7 @@ export default {
             });
         },
         checkValid (file) {
-            if (!file.type.includes("image") && this.configuredFileExtensions.length === 0) {
+            if (!file.type.includes("image") && !file.type.includes("application/pdf") && this.configuredFileExtensions.length === 0) {
                 this.addSingleAlert({
                     category: "error",
                     content: this.$t("common:modules.contact.fileFormatMessage")
