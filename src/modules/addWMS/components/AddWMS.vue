@@ -58,29 +58,51 @@ export default {
                 this.importLayers();
             }
         },
+        /**
+         * Creates the url with the given params and checks if it is valid
+         * @returns {String} the url
+         */
+        getUrl: function () {
+            const serviceUrl = this.$el.querySelector("#wmsUrl").value.trim();
+            let url;
 
+            this.invalidUrl = false;
+            try {
+                url = new URL(serviceUrl);
+            }
+            catch (e) {
+                this.invalidUrl = true;
+                this.addSingleAlert({
+                    content: this.$t("common:modules.addWMS.errorEmptyUrl"),
+                    category: "error",
+                    title: this.$t("common:modules.addWMS.errorTitle")});
+            }
+            if (url.href.includes("http:")) {
+                this.addSingleAlert({
+                    content: this.$t("common:modules.addWMS.errorHttpsMessage"),
+                    category: "error",
+                    title: this.$t("common:modules.addWMS.errorTitle")});
+            }
+            else {
+                url.searchParams.set("request", "GetCapabilities");
+                url.searchParams.set("service", "WMS");
+            }
+            return url;
+        },
         /**
          * Importing the external wms layers
          * @returns {void}
          */
         importLayers: function () {
-            const url = this.$el.querySelector("#wmsUrl").value.trim();
+            const url = this.getUrl();
 
-            this.invalidUrl = false;
-            if (url === "") {
-                this.invalidUrl = true;
+            if (this.invalidUrl === true || url.href.includes("http:") || url.length === 0) {
                 return;
             }
-            else if (url.includes("http:")) {
-                this.addSingleAlert({
-                    content: this.$t("common:modules.addWMS.errorHttpsMessage"),
-                    category: "error",
-                    title: this.$t("common:modules.addWMS.errorTitle")});
-                return;
-            }
+
             axios({
                 timeout: 4000,
-                url: url + "?request=GetCapabilities&service=WMS"
+                url: url
             })
                 .then(response => response.data)
                 .then((data) => {
@@ -311,15 +333,13 @@ export default {
         id="addWMS"
         class="row"
     >
-        <div
+        <!-- <div
             v-if="invalidUrl"
             class="addwms_error"
         >
             {{ $t('common:modules.addWMS.errorEmptyUrl') }}
-        </div>
-        <div
-            v-else
-        >
+        </div> -->
+        <div>
             <input
                 id="wmsUrl"
                 ref="wmsUrl"
