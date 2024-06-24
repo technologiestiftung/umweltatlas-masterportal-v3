@@ -152,7 +152,7 @@ export default {
         },
 
         /**
-         * Creates a new layer and adds it to layerCongigs.
+         * Creates a new layer and adds it to layerConfigs.
          * @info recursive function
          * @param {Object} object the layer object to add
          * @param {Number} level the depth of the recursion

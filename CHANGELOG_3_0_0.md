@@ -116,6 +116,7 @@ In certain circumstances this means that you have to update your portal files (i
 - Script to migrate masterportal configuration files to version 3.0.0 is ready to use.
 - Styling for Search Results to match topic tree.
 - GetFeatureInfo: Added mutation removeGfiFeatureByLayerId to remove a GfiFeature by given layerId.
+- Remove only Version 2 relevant information from docs, jsdoc and functions.
 
 ### Deprecated
 - Alerting: removed deprecated property `text`, use `content` instead.
