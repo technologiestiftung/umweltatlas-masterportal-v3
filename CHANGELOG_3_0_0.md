@@ -200,6 +200,7 @@ In certain circumstances this means that you have to update your portal files (i
 - SearchBar: no error is logged to console, if a search request is aborted, because the same URL is requested again.
 - Routing directions: no "empty" button, it is not clickable anymore
 - Legend: using `legend: ignore` doesnt show up legend tab in layerinformation.
+- BufferAnalysis: fixed error when no targetLayer was found and warnings in console.
 ---
 
 ---

@@ -179,7 +179,7 @@ export default {
             </label>
         </div>
 
-        <div class="form-floating mb-3">
+        <div class="form-floating ">
             <input
                 id="tool-bufferAnalysis-radiusTextInput"
                 v-model="inputBufferRadius"
@@ -193,17 +193,18 @@ export default {
             <label
                 for="tool-bufferAnalysis-radiusTextInput"
             >{{ $t("common:modules.bufferAnalysis.rangeLabel") }}</label>
-            <SliderItem
-                id="tool-bufferAnalysis-radiusRangeInput"
-                :value="inputBufferRadius"
-                :aria=" $t('common:modules.aria.sliderAria') + $t('common:modules.bufferAnalysis.rangeLabel')"
-                :min="'0'"
-                :max="'3000'"
-                :step="10"
-                :disabled="!selectedSourceLayer || selectedTargetLayer"
-                :interaction="event => setNewInputBufferRadius(event.target.value)"
-            />
         </div>
+        <SliderItem
+            id="tool-bufferAnalysis-radiusRangeInput"
+            :class-array="['mb-3']"
+            :value="inputBufferRadius"
+            :aria=" $t('common:modules.aria.sliderAria') + $t('common:modules.bufferAnalysis.rangeLabel')"
+            :min="'0'"
+            :max="'3000'"
+            :step="10"
+            :disabled="(selectedSourceLayer === null) || !(selectedTargetLayer === null)"
+            :interaction="event => setNewInputBufferRadius(event.target.value)"
+        />
 
         <div class="form-floating mb-3">
             <select

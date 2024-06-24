@@ -52,6 +52,11 @@ export default {
                 return true;
             },
             required: false
+        },
+        classArray: {
+            type: Array,
+            required: false,
+            default: null
         }
     }
 };
@@ -62,6 +67,7 @@ export default {
         :id="id"
         type="range"
         class="slider my-2 me-2"
+        :class="classArray"
         :list="list"
         :value="value"
         :aria-label="aria"
