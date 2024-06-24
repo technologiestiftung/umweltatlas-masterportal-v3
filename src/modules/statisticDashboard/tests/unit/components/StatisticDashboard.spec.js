@@ -466,6 +466,76 @@ describe("src/modules/StatisticDashboard.vue", () => {
                 ]);
             });
         });
+        describe("setStatisticsByCategories", () => {
+            it("should set all statistics if the category 'alle' is passed", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                wrapper.vm.categories = [{name: "Beschäftigte"}, {name: "Bevölkerung"}];
+                wrapper.vm.selectedLevel = {
+                    "mappingFilter": {
+                        "statisticsAttributes": {
+                            "beschaeftigte": {
+                                "name": "Beschäftigte",
+                                "category": "Beschäftigte"
+                            },
+                            "bevoelkerung": {
+                                "name": "Bevölkerung",
+                                "category": "Bevölkerung"
+                            }
+                        }
+                    }
+                };
+
+                wrapper.vm.setStatisticsByCategories([{name: "alle"}]);
+                expect(wrapper.vm.statisticsByCategory).to.deep.equal([{
+                    "beschaeftigte": {
+                        "name": "Beschäftigte",
+                        "category": "Beschäftigte"
+                    }
+                },
+                {
+                    "bevoelkerung": {
+                        "name": "Bevölkerung",
+                        "category": "Bevölkerung"
+                    }
+                }]);
+            });
+            it("should set the statistics by the given category", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                wrapper.vm.categories = [{name: "Beschäftigte"}, {name: "Bevölkerung"}];
+                wrapper.vm.selectedLevel = {
+                    "mappingFilter": {
+                        "statisticsAttributes": {
+                            "beschaeftigte": {
+                                "name": "Beschäftigte",
+                                "category": "Beschäftigte"
+                            },
+                            "bevoelkerung": {
+                                "name": "Bevölkerung",
+                                "category": "Bevölkerung"
+                            }
+                        }
+                    }
+                };
+
+                wrapper.vm.setStatisticsByCategories([{name: "Beschäftigte"}]);
+                expect(wrapper.vm.statisticsByCategory).to.deep.equal([{
+                    "beschaeftigte": {
+                        "name": "Beschäftigte",
+                        "category": "Beschäftigte"
+                    }
+                }]);
+            });
+        });
         describe("getFilter", () => {
             it("should return undefined if given params has the same length as the data variables", () => {
                 const regions = ["foo", "bar"],
@@ -790,14 +860,14 @@ describe("src/modules/StatisticDashboard.vue", () => {
                         }
                     };
 
-                wrapper.vm.statisticsByCategory = {
+                wrapper.vm.statisticsByCategory = [{
                     "bev_maennlich": {
                         "name": "Bevölkerung maennlich"
                     },
                     "bev_weiblich": {
                         "name": "Bevölkerung weiblich"
                     }
-                };
+                }];
 
                 expect(wrapper.vm.prepareStatisticsData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], ["1890", "1990"], {outputFormat: "YYYY", attrName: "jahr"}, {attrName: "ort"})).to.deep.equal(statistics);
             });
@@ -821,14 +891,14 @@ describe("src/modules/StatisticDashboard.vue", () => {
                         }
                     };
 
-                wrapper.vm.statisticsByCategory = {
+                wrapper.vm.statisticsByCategory = [{
                     "bev_maennlich": {
                         "name": "Bevölkerung maennlich"
                     },
                     "bev_weiblich": {
                         "name": "Bevölkerung weiblich"
                     }
-                };
+                }];
 
                 store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {value: {value: "1890"}});
                 await wrapper.vm.$nextTick();
@@ -855,14 +925,14 @@ describe("src/modules/StatisticDashboard.vue", () => {
                         }
                     };
 
-                wrapper.vm.statisticsByCategory = {
+                wrapper.vm.statisticsByCategory = [{
                     "bev_maennlich": {
                         "name": "Bevölkerung maennlich"
                     },
                     "bev_weiblich": {
                         "name": "Bevölkerung weiblich"
                     }
-                };
+                }];
 
                 store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {value: "Hamburg"});
                 await wrapper.vm.$nextTick();

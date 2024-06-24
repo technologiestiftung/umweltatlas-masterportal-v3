@@ -2,7 +2,6 @@ import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import {createStore} from "vuex";
 import StatisticDashboardLegend from "../../../components/StatisticDashboardLegend.vue";
-import indexStatisticDashboard from "../../../store/indexStatisticDashboard";
 import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
@@ -17,7 +16,17 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardLegend.vu
                 Modules: {
                     namespaced: true,
                     modules: {
-                        StatisticDashboard: indexStatisticDashboard
+                        StatisticDashboard: {
+                            namespaced: true,
+                            mutations: {
+                                setClassificationMode: (state, options) => {
+                                    state.classificationMode = options;
+                                }
+                            },
+                            getters: {
+                                classificationMode: (state) => state.classificationMode
+                            }
+                        }
                     }
                 }
             }
@@ -91,7 +100,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardLegend.vu
                 }
             });
 
-            await wrapper.setData({selectNumberOfClasses: 5, selectClassification: "benutzerdefiniert"});
+            wrapper.vm.setClassificationMode("benutzerdefiniert");
+            await wrapper.setData({selectNumberOfClasses: 5});
 
             expect(wrapper.findAll("#value-ranges").length).to.equal(5);
         });

@@ -125,15 +125,17 @@ function hasOneGroup (statistics) {
  * @returns {String[]} The names(keys) of the statistic attributes.
  */
 function getStatsKeysByName (statistics, statisticsNames) {
-    if (!isObject(statistics) || !Array.isArray(statisticsNames)) {
+    if (!Array.isArray(statistics) || !Array.isArray(statisticsNames)) {
         return [];
     }
     const statsKeys = [];
 
-    Object.entries(statistics).forEach(([key, statistic]) => {
-        if (statisticsNames.includes(statistic.name)) {
-            statsKeys.push(key);
-        }
+    statistics.forEach(statistic => {
+        Object.entries(statistic).forEach(([key, stat]) => {
+            if (statisticsNames.includes(stat.name)) {
+                statsKeys.push(key);
+            }
+        });
     });
 
     return statsKeys;

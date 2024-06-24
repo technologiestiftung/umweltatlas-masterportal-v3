@@ -29,7 +29,7 @@ export default {
             default: () => []
         },
         statistics: {
-            type: [Object, Boolean],
+            type: [Array, Boolean],
             required: false,
             default: false
         },
@@ -42,32 +42,40 @@ export default {
     emits: ["changeCategory", "changeFilterSettings", "resetStatistics", "toggleFilter"],
 
     computed: {
+
         /**
-         * Gets the names of the statistics.
-         * @returns {Object[]} The names.
+         * Gets the statistics as array.
+         * @returns {Object[]} The statistics.
          */
-        statisticsNames () {
+        statisticsArray () {
             if (this.statistics) {
-                return Object.keys(this.statistics).map(key => {
-                    return {
-                        key: key,
-                        name: this.statistics[key]?.name
-                    };
+                const names = [];
+
+                this.statistics.forEach(stat => {
+                    Object.keys(stat).forEach(key => {
+                        names.push({
+                            key: key,
+                            name: stat[key]?.name,
+                            category: stat[key]?.category
+                        });
+                    });
                 });
+                return names;
             }
             return [];
         },
 
         /**
-         * Gets the names of the selected statistics
-         * @returns {Object[]} The selected names.
+         * Gets the selected statistics as array.
+         * @returns {Object[]} The selected statistics.
          */
-        selectedStatisticsNames () {
+        selectedStatisticsArray () {
             if (this.statistics) {
                 return Object.keys(this.selectedStatistics).map(key => {
                     return {
                         key: key,
-                        name: this.statistics[key]?.name
+                        name: this.selectedStatistics[key]?.name,
+                        category: this.selectedStatistics[key]?.category
                     };
                 });
             }
@@ -79,21 +87,23 @@ export default {
 
     watch: {
         /**
-         * Resets the statistics and emits the name of the selected category.
-         * @param {Object} value - The selected category.
+         * Resets the statistics if no category is selected and emits the names of the selected categories or an empty array.
+         * @param {Object[]} newValue - The selected categories.
          * @returns {void}
          */
         selectedCategories: {
-            handler (value) {
-                this.setSelectedStatistics({});
-                this.$emit("changeCategory", value?.name);
+            handler (newValue) {
+                if (newValue.length === 0) {
+                    this.setSelectedStatistics({});
+                }
+                this.$emit("changeCategory", newValue);
             },
             deep: true
         },
 
         selectedStatistics: {
-            handler (value) {
-                this.emitFilterSettings(value, this.selectedRegionsValues, this.selectedDatesValues);
+            handler (newValue) {
+                this.emitFilterSettings(newValue, this.selectedRegionsValues, this.selectedDatesValues);
             },
             deep: true
         },
@@ -146,14 +156,33 @@ export default {
         },
 
         /**
-         * Adds the given statistics
+         * Adds the given statistics.
          * @param {Object[]} statistics - The statistics to add.
          * @returns {void}
          */
-        addStatisticToSelect (statistics) {
+        addStatisticsToSelect (statistics) {
             this.setSelectedStatistics({});
             statistics.forEach(statistic => {
-                this.selectedStatistics[statistic?.key] = this.statistics[statistic?.key];
+                this.selectedStatistics[statistic?.key] = statistic;
+            });
+        },
+
+        /**
+         * Removes the statistics if their category is deselected.
+         * If the category "alle" is still selected, no statistics will be removed.
+         * @param {Object} category - The deselected category.
+         * @returns {void}
+         */
+        removeSelectedStatsByCategory (category) {
+            const isCategoryAllSelected = this.selectedCategories.filter(selectedCategory => selectedCategory.name === "alle").length,
+                statsToDelete = this.selectedStatisticsArray.filter(statistic => statistic.category === category.name);
+
+            if (category.name !== "alle" && isCategoryAllSelected) {
+                return;
+            }
+
+            statsToDelete.forEach(statistic => {
+                delete this.selectedStatistics[statistic.key];
             });
         }
     }
@@ -180,12 +209,13 @@ export default {
                 <Multiselect
                     id="categoryfilter"
                     :model-value="selectedCategories"
-                    :options="categories"
+                    :options="[{name: 'alle'}, ...categories]"
                     :searchable="true"
-                    :close-on-select="true"
+                    :close-on-select="false"
+                    :clear-on-select="false"
                     :show-labels="false"
                     :allow-empty="true"
-                    :multiple="false"
+                    :multiple="true"
                     :group-values="areCategoriesGrouped ? 'categories' : ''"
                     :group-label="areCategoriesGrouped ? 'name' : ''"
                     :group-select="false"
@@ -193,6 +223,7 @@ export default {
                     track-by="name"
                     label="name"
                     @update:model-value="setSelectedCategories"
+                    @remove="removeSelectedStatsByCategory"
                 />
             </div>
             <div class="col-sm-12">
@@ -204,10 +235,11 @@ export default {
                 </label>
                 <Multiselect
                     id="statisticfilter"
-                    :model-value="selectedStatisticsNames"
-                    :options="statisticsNames"
+                    :model-value="selectedStatisticsArray"
+                    :options="statisticsArray"
                     :searchable="true"
-                    :close-on-select="true"
+                    :close-on-select="false"
+                    :clear-on-select="false"
                     :show-labels="false"
                     :allow-empty="true"
                     :multiple="true"
@@ -216,7 +248,7 @@ export default {
                     :limit-text="count => count + ' ' + $t('common:modules.statisticDashboard.label.more')"
                     track-by="key"
                     label="name"
-                    @update:model-value="addStatisticToSelect"
+                    @update:model-value="addStatisticsToSelect"
                 />
             </div>
         </AccordionItem>

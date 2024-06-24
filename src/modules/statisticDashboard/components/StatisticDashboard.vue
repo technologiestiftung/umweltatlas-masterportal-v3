@@ -301,11 +301,24 @@ export default {
 
         /**
          * Sets the statistics selected in the filter.
-         * @param {String} categoryName - The category name.
+         * If the category "alle" is selected, all statistics are added.
+         * @param {Object[]} categories - The categories.
          * @returns {void}
          */
-        setStatisticsByCategory (categoryName) {
-            this.statisticsByCategory = StatisticsHandler.getStatisticsByCategory(categoryName, this.getSelectedLevelStatisticsAttributes(this.selectedLevel));
+        setStatisticsByCategories (categories) {
+            const statistics = [];
+
+            if (categories.some(category => category.name === "alle")) {
+                this.categories.forEach(category => {
+                    statistics.push(StatisticsHandler.getStatisticsByCategory(category.name, this.getSelectedLevelStatisticsAttributes(this.selectedLevel)));
+                });
+            }
+            else {
+                categories.forEach(category => {
+                    statistics.push(StatisticsHandler.getStatisticsByCategory(category.name, this.getSelectedLevelStatisticsAttributes(this.selectedLevel)));
+                });
+            }
+            this.statisticsByCategory = statistics;
         },
 
         /**
@@ -490,7 +503,7 @@ export default {
          * @returns {void}
          */
         async handleFilterSettings (regions, dates, differenceMode) {
-            const statsKeys = StatisticsHandler.getStatsKeysByName(this.statisticsByCategory, this.selectedStatisticsNames),
+            const statsKeys = Object.keys(this.selectedStatistics),
                 selectedLayer = this.getRawLayerByLayerId(this.selectedLevel.layerId),
                 selectedLevelRegionNameAttribute = this.getSelectedLevelRegionNameAttribute(this.selectedLevel),
                 selectedLevelDateAttribute = this.getSelectedLevelDateAttribute(this.selectedLevel),
@@ -717,7 +730,7 @@ export default {
          * @param {ol/Feature[]} features - The features.
          * @param {String[]} statistics - The key to the statistic whose value is being looked for.
          * @param {String[]} regions - The regions of the statistic wanted.
-         * @param {String[]} dates - The dates of the statsitic wanted.
+         * @param {String[]} dates - The dates of the statistic wanted.
          * @param {String} dateAttribute - The configured date attribute.
          * @param {String} regionAttribute - The configured region attribute.
          * @param {String|Boolean} differenceMode - Indicates the difference mode('date' or 'region') ohterwise false.
@@ -758,7 +771,7 @@ export default {
          * @param {String[]} statisticKey - The key to the statistic whose value is being looked for.
          * @param {String} region - The region of the statistic wanted.
          * @param {String} regionKey - The key to the region.
-         * @param {String} date - The date of the statsitic wanted.
+         * @param {String} date - The date of the statistic wanted.
          * @param {String} dateKey - The key to the date.
          * @param {String|Boolean} differenceMode - Indicates the difference mode('date' or 'region') ohterwise false.
          * @returns {String} The value of the given statistic.
@@ -943,7 +956,7 @@ export default {
             }
             this.areCategoriesGrouped = StatisticsHandler.hasOneGroup(this.getSelectedLevelStatisticsAttributes(selectedLevel));
             this.categories = sort("", StatisticsHandler.getCategoriesFromStatisticAttributes(this.getSelectedLevelStatisticsAttributes(selectedLevel), this.areCategoriesGrouped), "name");
-            this.setStatisticsByCategory(this.selectedCategories.name);
+            this.setStatisticsByCategories(this.selectedCategories);
             this.loadedFilterData = true;
             this.loadedReferenceData = true;
             this.referenceData = {
@@ -1057,7 +1070,7 @@ export default {
                 :statistics="statisticsByCategory"
                 :time-steps-filter="timeStepsFilter"
                 :regions="allRegions"
-                @change-category="setStatisticsByCategory"
+                @change-category="setStatisticsByCategories"
                 @change-filter-settings="checkFilterSettings"
                 @reset-statistics="handleReset"
                 @toggle-filter="toggleFilter"

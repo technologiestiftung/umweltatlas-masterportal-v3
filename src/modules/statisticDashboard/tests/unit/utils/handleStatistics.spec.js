@@ -176,51 +176,57 @@ describe("src/modules/statisticDashboard/utils/handleStatistics.js", () => {
 
     describe("getStatsKeysByName", () => {
         it("should return two keys of the given statistic attributes", () => {
-            const statisticsAttributes = {
+            const statisticsAttributes = [{
                 "statOne": {
                     "category": "CategoryOne",
                     "categoryGroup": "group",
                     "name": "Edgar"
-                },
+                }
+            },
+            {
                 "statTwo": {
                     "category": "Bruttoinlandsprodukt",
                     "name": "Allan"
                 }
-            };
+            }];
 
             expect(StatisticHandler.getStatsKeysByName(statisticsAttributes, ["Edgar", "Allan"])).to.deep.equal(["statOne", "statTwo"]);
         });
 
         it("should return one key of the given statistic attributes", () => {
-            const statisticsAttributes = {
+            const statisticsAttributes = [{
                 "statOne": {
                     "category": "CategoryOne",
                     "categoryGroup": "group",
                     "name": "Edgar"
-                },
+                }
+            },
+            {
                 "statTwo": {
                     "category": "Bruttoinlandsprodukt",
                     "name": "Poe"
                 }
-            };
+            }];
 
             expect(StatisticHandler.getStatsKeysByName(statisticsAttributes, ["Edgar", "Allan"])).to.deep.equal(["statOne"]);
         });
 
         it("should return an empty array if no keys are found", () => {
-            const statisticsAttributes = {
+            const statisticsAttributes = [{
                 "statOne": {
                     "category": "CategoryOne",
                     "categoryGroup": "group",
                     "name": "Edgar"
-                },
+                }
+            },
+            {
                 "statTwo": {
                     "category": "Bruttoinlandsprodukt",
                     "name": "Allan"
                 }
-            };
+            }];
 
-            expect(StatisticHandler.getStatsKeysByName(statisticsAttributes, ["Pos"])).to.be.an("array").that.is.empty;
+            expect(StatisticHandler.getStatsKeysByName(statisticsAttributes, ["Poe"])).to.be.an("array").that.is.empty;
         });
     });
 });
