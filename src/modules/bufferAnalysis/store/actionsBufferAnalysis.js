@@ -129,7 +129,7 @@ const actions = {
                         return true;
                     }
 
-                    if (sourcePoly.intersects(targetPoly) && !sameFeature) {
+                    if (sourcePoly?.intersects(targetPoly) && !sameFeature) {
                         dispatch("generateIntersectionPolygon", {
                             properties: targetFeature.getProperties(),
                             sourcePoly,
