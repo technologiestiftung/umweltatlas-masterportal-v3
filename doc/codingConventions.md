@@ -31,7 +31,7 @@ All the following rules must hold.
 * A.2.1 The code uses the frameworks and libraries set by *Geowerkstatt*; they are not bypassed.
 * A.2.2 No methods of *Underscore.js* are in use, except for calls to `_.template()`.
 * A.2.3 No redundant packages are installed.
-* A.2.4 The addition of packages/libraries has to be agreed on by the *LGV* team. At least 3 libs need to be evaluated before decisions can be made. Use a form from **[library evalutaion](./library evaluation/)** and add to PR.
+* A.2.4 The addition of packages/libraries has to be agreed on by the *LGV* team. At least 3 libs need to be evaluated before decisions can be made. Use a form from **[library evaluation](./library_evaluation/)** and add to PR.
 
 ---
 
@@ -60,7 +60,7 @@ All the following rules must hold.
 #### A.5 Unit tests
 
 * A.5.1 Unit tests exist for each testable function.
-* A.5.2 For each module a test file exists with file extension `.spec.js` under tests/unit. 
+* A.5.2 For each module a test file exists with file extension `.spec.js` under tests/unit.
 * A.5.3 For each function a positive test (call with plausible values) and a negative test (call with bad values, e.g. `undefined`, `[]`, `{}`, `""`, ...).
 
 ---
@@ -99,13 +99,13 @@ A.9.1 The file structure of new modules is to be created according to the follow
 ```bash
 src
 |--app-store
-|   |-- utils
+|   |-- js
+|   |-- tests
 |   |-- actions.js
 |   |-- getters.js
 |   |-- index.js
 |   |-- mutations.js
 |   |-- state.js
-|   |-- tests
 |
 |-- modules
 |   |-- exampleModule
@@ -128,44 +128,38 @@ src
 |   |   |   |   |   |-- actionsExampleModule.spec.js
 |   |   |   |   |   |-- gettersExampleModule.spec.js
 |   |   |   |   |   |-- mutationsExampleModule.spec.js
-|   |   |   |-- end2end	(module-specific)
-|   |   |   |   |-- ExampleModule.e2e.js
 |   |
 |   |-- controls
-|   |   |-- ControlBar.vue
-|   |   |-- ControlIcon.vue
-|   |   |-- gettersControls.js
-|   |   |-- indexControls.js
-|   |   |-- mutationsControls.js
+|   |   |-- components
+|   |   |   |-- ControlBar.vue
+|   |   |   |-- ControlIcon.vue
+|   |   |-- controls-store
+|   |   |   |-- actionsControls.js
+|   |   |   |-- gettersControls.js
+|   |   |   |-- indexControls.js
+|   |   |   |-- mutationsControls.js
+|   |   |   |-- stateControls.js
 |   |   |-- ...
 |   |   |-- exampleControl
 |   |   |   |-- components
 |   |   |   |-- store
 |   |   |   |-- tests
 |   |
-|   |-- tools
-|   |   |-- actionsTool.js
-|   |   |-- indexTools.js
-|   |   |-- Tool.vue
-|   |   |-- exampleTool
+|-- shared
+|   |-- js
+|   |-- modules
+|   |   |-- exampleSharedComponent
 |   |   |   |-- components
-|   |   |   |-- store
+|   |   |   |    |-- exampleSharedComponent.vue
+|   |   |   |-- js
 |   |   |   |-- tests
-|   |
-|-- share-components
-|   |-- exampleShareComponent.vue
 |
 |-- tests
-|   |--end2end
-|   |   |--exampleGlobalTest.e2e.js
+|   |-- unit
+|   |   |-- App.spec.js
 |
-|-- utils
-|   |-- exampleGlobalFunction.js
-|
-|-- addons.js
 |-- App.vue
-|-- MainNav.vue
-|-- MapRegion.vue
+|-- main.js
 ```
 
 ---

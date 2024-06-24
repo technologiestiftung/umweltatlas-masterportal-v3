@@ -1585,12 +1585,14 @@ The following events exist. Which events can be configured can be found in the d
 
 #### portalConfig.menu.sections
 
+[type:about]: # (portalConfig.menu.sections.modules)
 [type:addWMS]: # (portalConfig.menu.sections.modules)
 [type:bufferAnalysis]: # (portalConfig.menu.sections.modules)
 [type:contact]: # (portalConfig.menu.sections.modules)
 [type:coordToolkit]: # (portalConfig.menu.sections.modules)
 [type:copyrightConstraints]: # (portalConfig.menu.sections.modules)
 [type:customMenuElement]: # (portalConfig.menu.sections.modules)
+[type:draw]: # (portalConfig.menu.sections.modules)
 [type:featureLister]: # (portalConfig.menu.sections.modules)
 [type:fileImport]: # (portalConfig.menu.sections.modules)
 [type:filter]: # (portalConfig.menu.sections.modules)
@@ -1614,12 +1616,14 @@ Modules can be divided into sections. In the menu, sections are divided with a h
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
+|about|no|**[about](#markdown-header-portalconfigmenusectionsmodulesabout)**||This module displays specific portal information like description, Masterportal version, Metadata.|true|
 |addWMS|no|**[addWMS](#markdown-header-portalconfigmenusectionsmodulesaddWMS)**||This module allows loading specific WMS layers. This is done by providing a URL. All the service's layers are retrieved and offered in the layer tree in section "External technical data".|true|
 |bufferAnalysis|no|**[bufferAnalysis](#markdown-header-portalconfigmenusectionsmodulesbufferanalysis)**||This buffer analysis allows the selection of a source layer, a buffer radius and a target layer. The chosen buffer radius will then be shown around features of the selected source layer. At the moment a target layer is selected, only the features of this layer will be shown, if they are outside the buffer radii. It is also possible to invert the result. In this case the resulting features will only be show if they are inside the radii.|false|
 |contact|no|**[contact](#markdown-header-portalconfigmenusectionsmodulescontact)**||The contact form allows users to send messages to a configured email address. For example, this may be used to allow users to submit errors and suggestions. A file can be appended.|false|
 |coordToolkit|no|**[coordToolkit](#markdown-header-portalconfigmenusectionsmodulescoordtoolkit)**||Coordinate query: Tool to query coordinates and altitude by mouse click: When clicking in the map, the coordinates are frozen in the display and can also be copied directly to the clipboard. Coordinate search: The coordinate system and the coordinates can be entered via an input mask. The tool then zooms to the corresponding coordinate and places a marker on it. The coordinate systems are obtained from config.js.|false|
 |copyrightConstraints|nein|**[copyrightConstraints](#markdown-header-portalconfigmenusectionsmodulescopyrightconstraints)**||Dieses Modul lädt die Nutzungshinweise über eine CSW Schnittstelle und listed diese je eise für den Layer vorhanden, wird alternativ ein Kontakt angezeigt, bei dem man die Nutzungsbedingungen erfragen kann.|false|
 |customMenuElement|no|**[customMenuElement](#markdown-header-portalconfigmenusectionsmodulescustommenuelement)**||This module can open a link, display HTML from config.json or an external file, or perform an action. This module can be configured several times in config.json.|false|
+|draw|no|**[draw](#markdown-header-portalconfigmenusectionsmodulesdraw)**||!(The new draw module is currently within refactoring process you can use the draw module from Masterportal Version 2 with type "draw_old")! The draw tool allows painting points, lines, polygons, circles, double circles, and texts to the map. You may download these drawing as KML, GeoJSON, or GPX.|false|
 |featureLister|no|**[featureLister](#markdown-header-portalconfigmenusectionsmodulesfeaturelister)**||Lists all features of a vector layer and highlights a feature by mouse over.|false|
 |fileImport|no|**[fileImport](#markdown-header-portalconfigmenusectionsmodulesfileImport)**||Import KML, GeoJSON, and GPX files with this modules.|false|
 |filter|no|**[filter](#markdown-header-portalconfigmenusectionsmodulesfilter)**||Configuration for an advanced filter for vector layers.|false|
@@ -1652,6 +1656,46 @@ Modules can be divided into sections. In the menu, sections are divided with a h
 |supportedDevices|no|String||Devices on which the module can be used and is displayed in the menu.|false|
 |supportedMapModes|no|String||Map modes in which the module can be used and is displayed in the menu.|false|
 |type|no|String||The type of the module. Defines which module is configured.|false|
+
+***
+
+##### portalConfig.menu.sections.modules.about
+
+[inherits]: # (portalConfig.menu.sections.modules)
+
+This module displays specific portal information like description, Masterportal version, Metadata.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|icon|no|String|"bi-info-circle"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
+|name|no|String|"common:modules.about.name"|Name of the module in the menu.|false|
+|type|no|String|"about"|The type of the module. Defines which module is configured.|false|
+|abstractText|no|String|""|Description of the portal|false|
+|contact|no|String|null|Metadata contact information|false|
+|cswUrl|no|String|"../../src/assets/img/Logo_Masterportal.svg"|Metadata URL|false|
+|logoLink|no|String|"https://masterportal.org"|Logo link|false|
+|logoText|no|String|"Masterportallogo"|Text if logo is not shown|false|
+|metaDataCatalogueId|no|String|"2"|Id of the metadata service|false|
+|metaId|no|String|""|Id of the metadata object|false|
+|metaUrl|no|String|""|URL of the metadata object|false|
+|noMetadataLoaded|no|String|""|Text if no metadata is shown|false|
+|showAdditionalMetaData|no|Boolean|true|Metadata link to show extended metadata|false|
+|title|no|String|""|Metadata title |false|
+|version|no|String|""|Version information of the masterportal|false|
+|versionLink|no|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/downloads/"|Link to the masterportal version|false|
+
+**Example**
+
+```json
+{
+    "icon": "bi-cloud-circle",
+    "name": "common:modules.about.name",
+    "type": "about",
+    "cswUrl": "https://metaver.de/csw",
+    "metaUrl": "https://metaver.de/trefferanzeige?docuuid=40D48B03-AD1D-407B-B04D-B5BC6855BE15",
+    "metaId": "40D48B03-AD1D-407B-B04D-B5BC6855BE15"
+}
+```
 
 ***
 
@@ -1946,12 +1990,322 @@ CustomMenuElement Module `execute` options.
 
 ***
 
-##### portalConfig.menu.sections.modules.draw
+#### portalConfig.menu.sections.modules.draw
 
 [inherits]: # (portalConfig.menu.sections.modules)
 
+!(The new draw module is currently within refactoring process you can use the draw module from Masterportal Version 2 with type "draw_old")!
+Module used to draw features on the map. This includes points, which may also be represented by symbols, and (double) circles, polygons, polylines, and text.
+
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
+|name|yes|String||Tool name in the menu.|false|
+|iconList|no|**[icon](#markdown-header-portalconfigmenusectionsmodulesdrawicon)**[]|[{"id": "iconPoint", "type": "simple_point", "value": "simple_point"}, {"id": "yellow pin", "type": "image", "scale": 2, "value": "geo-fill-ylw.svg"}]|List of symbols the user may choose from to draw colored symbols or dots. Images may be used, too, as shown in the example.|false|
+|drawSymbolSettings|no|**[drawSymbolSet](#markdown-header-portalconfigmenusectionsmodulesdrawdrawsymbolset)**|{"color": [55, 126, 184, 1], "opacity": 1}|Pre-configuration for symbol drawing.|false|
+|addIconsOfActiveLayers|no|Boolean|false|Set this flag to `true` to be able to select the icons and symbols of all WFS layers activated in the topic tree as additional symbols besides the icons configured under `drawSymbolSettings`.|false|
+|drawLineSettings|no|**[drawLineSet](#markdown-header-portalconfigmenusectionsmodulesdrawdrawlineset)**|{"strokeWidth": 1, "opacityContour": 1, "colorContour": [0, 0, 0, 1]}|Pre-configuration for line drawing.|false|
+|drawCurveSettings|no|**[drawCurveSet](#markdown-header-portalconfigmenusectionsmodulesdrawdrawcurveset)**|{"strokeWidth": 1, "opacityContour": 1, "colorContour": [0, 0, 0, 1]}|Pre-configuration for freehand drawing.|false|
+|drawAreaSettings|no|**[drawAreaSet](#markdown-header-portalconfigmenusectionsmodulesdrawdrawareaset)**|{"strokeWidth": 1, "color": [55, 126, 184, 1], "opacity": 1, "colorContour": [0, 0, 0, 1], "opacityContour": 1}|Pre-configuration for area drawing.|false|
+|drawCircleSettings|no|**[drawCircleSet](#markdown-header-portalconfigmenusectionsmodulesdrawdrawcircleset)**|{"circleMethod": "interactive", "unit": "m", "circleRadius": null, "strokeWidth": 1, "color": [55, 126, 184, 1], "opacity": 1, "colorContour": [0, 0, 0, 1], "opacityContour": 1, "tooltipStyle": {"fontSize": "16px", "paddingTop": "3px", "paddingLeft": "3px", "paddingRight": "3px", "backgroundColor": "rgba(255, 255, 255, .9)"}}|Pre-configuration for circle drawing.|false|
+|drawDoubleCircleSettings|no|**[drawDoubleCircleSet](#markdown-header-portalconfigmenutooldrawdrawdoublecircleset)**|{"circleMethod": "defined", "unit": "m", "circleRadius": 0, "circleOuterRadius": 0, "strokeWidth": 1, "color": [55, 126, 184, 1], "opacity": 1, "colorContour": [0, 0, 0, 1], "outerColorContour": [0, 0, 0, 1], "opacityContour": 1}|Pre-configuration for double circle drawing.|false|
+|writeTextSettings|no|**[writeTextSet](#markdown-header-portalconfigmenusectionsmodulesdrawwritetextset)**|{"text": "", "fontSize": 10, "font": "Arial", "color": [55, 126, 184, 1], "opacity": 1}|Pre-configuration for text writing.|false|
+|download|no|**[download](#markdown-header-portalconfigmenusectionsmodulesdrawdownload)**|{"preSelectedFormat": "KML"}|Pre-configuration for download.|false|
+|enableAttributesSelector|no|Boolean|false|Enables an button which toggles an edit section for custom attributes on the selected feature.|false|
+|semicolonCSVDelimiter|no|Boolean|true|To decide if the semicolon is used as the delimiter for exported CSV file.|false|
+
+**Example**
+
+```
+#!json
+
+{
+    "type": "draw",
+    "name": "Draw / Write",
+    "icon": "bi-pencil-fill",
+    "iconList": [
+        {
+            "id": "iconPoint",
+            "type": "simple_point",
+            "value": "simple_point"
+        },
+        {
+            "id": "iconMeadow",
+            "type": "image",
+            "scale": 0.8,
+            "value": "meadow.png"
+        },
+        {
+            "id": "yellow pin",
+            "type": "image",
+            "scale": 2,
+            "value": "geo-fill-ylw.svg"
+        }
+    ],
+    "drawDoubleCircleSettings": {
+        "circleRadius": 1500,
+        "circleOuterRadius": 3000,
+        "strokeWidth": 3,
+        "color": [55, 126, 184, 0],
+        "opacity": 0,
+        "colorContour": [228, 26, 28, 1],
+        "opacityContour": 1,
+        "tooltipStyle": {
+            "fontSize": "14px",
+            "paddingTop": "3px",
+            "paddingLeft": "3px",
+            "paddingRight": "3px",
+            "backgroundColor": "rgba(255, 255, 255, .9)"
+        }
+    }
+    "semicolonCSVDelimiter": true
+}
+
+```
+
+***
+
+#### portalConfig.menu.sections.modules.draw.icon
+
+Dot object consisting of text, type, and value.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|id|yes|String||Symbol text displayed in the select menu. The id has to be defined in the locale file (usually `common`) as `modules.draw.iconList` child. The following entry should begin with `icon` and contain a representative description. If the key is not found, the `id` will appear as string on the user interface.|false|
+|caption|no|String||_Deprecated in 3.0.0._ Symbol text displayed in the select menu. Unlike `id`, not only the id itself, but the whole path (`modules.draw.iconList` + id) has to be given.|false|
+|type|yes|enum["image", "simple_point"]||Object type to be drawn. If `image` is chosen, the PNG or SVG file from the `value` path is drawn. By default, images are to be placed in the `/img/tools/draw/` directory and should have a height and width of 96px to scale correctly. Alternatively, a working `scale` factor must be defined. The key `simple_point` will draw a simple point.|false|
+|scale|no|number||Scale factor for images.|false|
+|value|yes|String||Value of the object to be drawn. If no path or URL is set, a file name is expected, and the *config.js* entry `wfsImgPath` is expected to be the file's location.|false|
+
+**Example**
+
+```json
+{
+    "iconList": [
+        {
+            "id": "iconPoint",
+            "type": "simple_point",
+            "value": "simple_point"
+        },
+        {
+            "id": "iconMeadow",
+            "type": "image",
+            "scale": 0.8,
+            "value": "meadow.png"
+        },
+        {
+            "id": "yellow pin",
+            "type": "image",
+            "scale": 2,
+            "value": "geo-fill-ylw.svg"
+        }
+    ]
+}
+```
+
+***
+
+
+#### portalConfig.menu.sections.modules.draw.drawSymbolSet
+
+Object to change the drawing tool's configured point symbol default value.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|color|yes|Number[]|[55, 126, 184, 1]|The pre-configured color of the symbol as RGB color. The alpha channel value is used for point coloring.|false|
+|opacity|yes|Number|1|The pre-configured transparency of symbols, given in range [0..1] for point data.|false|
+
+
+**Example**
+
+```json
+{
+    "color": [55, 126, 184, 1],
+    "opacity": 1
+}
+```
+
+***
+
+#### portalConfig.menu.sections.modules.draw.drawLineSet
+
+Object to change the drawing tool's configured line default value.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|strokeWidth|yes|Number|1|Pre-configured stroke width of lines in pixels.|false|
+|colorContour|yes|Number[]|[0, 0, 0, 1]|Pre-configured line color in RGBA.|false|
+|opacityContour|yes|Number|1|Pre-configured line transparency in range [0..1].|false|
+
+**Example**
+
+```json
+{
+    "strokeWidth": 1,
+    "opacityContour": 1,
+    "colorContour": [0, 0, 0, 1]
+}
+```
+
+***
+
+#### portalConfig.menu.sections.modules.draw.drawCurveSet
+
+Object to change the drawing tool's configured freehand drawing default value.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|strokeWidth|yes|Number|1|Pre-configured stroke width of lines in pixels.|false|
+|colorContour|yes|Number[]|[0, 0, 0, 1]|Pre-configured line color in RGBA.|false|
+|opacityContour|yes|Number|1|Pre-configured line transparency in range [0..1].|false|
+
+**Example**
+
+```json
+{
+    "strokeWidth": 1,
+    "opacityContour": 1,
+    "colorContour": [0, 0, 0, 1]
+}
+```
+
+***
+
+#### portalConfig.menu.sections.modules.draw.drawAreaSet
+
+Object to change the drawing tool's configured area default value.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|strokeWidth|yes|Number|1|Pre-configured stroke width of area borders in pixels.|false|
+|color|yes|Number[]|[55, 126, 184, 1]|Pre-configured area color in RGBA.|false|
+|opacity|yes|Number|1|Pre-configured area transparency in range [0..1].|false|
+|colorContour|yes|Number[]|[0, 0, 0, 1]|Pre-configured area border color in RGBA.|false|
+|opacityContour|yes|Number|1|Pre-configured area border transparency in range [0..1].|false|
+
+**Example**
+
+```json
+{
+    "strokeWidth": 1,
+    "color": [55, 126, 184, 1],
+    "opacity": 1,
+    "colorContour": [0, 0, 0, 1],
+    "opacityContour": 1
+}
+```
+
+***
+
+#### portalConfig.menu.sections.modules.draw.drawCircleSet
+
+Object to change the drawing tool's configured circle default value.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|circleMethod|yes|String|"interactive"|Pre-configured method of circle drawing. `"interactive"`: freehand, `"defined"`: by entering fixed values|false|
+|unit|yes|String|"m"|Pre-configured unit regarding the circle's Radius `circleRadius` when `"defined"` is chosen as `circleMethod`.|false|
+|circleRadius|yes|Number|0|Pre-configured circle Radius when `"defined"` is chosen as `circleMethod`.|false|
+|strokeWidth|yes|Number|1|Pre-configured stroke width of circle border in pixels.|false|
+|color|yes|Number[]|[55, 126, 184, 1]|Pre-configured circle color in RGBA.|false|
+|opacity|yes|Number|1|Pre-configured circle transparency in range [0..1].|false|
+|colorContour|yes|Number[]|[0, 0, 0, 1]|Pre-configured circle border color in RGBA.|false|
+|opacityContour|yes|Number|1|Pre-configured circle border transparency in range [0..1].|false|
+|tooltipStyle|no|String|{}|Pre-configured style for tooltip.|false|
+
+**Example**
+
+```
+#!json
+{
+    "circleMethod": "interactive",
+    "unit": "m",
+    "circleRadius": 0,
+    "strokeWidth": 1,
+    "color": [55, 126, 184, 1],
+    "opacity": 1,
+    "colorContour": [0, 0, 0, 1],
+    "opacityContour": 1
+}
+```
+
+***
+
+#### portalConfig.menu.sections.modules.draw.drawDoubleCircleSet
+
+Object to change the drawing tool's configured circle default value.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|circleMethod|yes|String|"defined"|Pre-configured method of circle drawing. `"interactive"`: freehand, `"defined"`: by entering fixed values|false|
+|unit|yes|String|"m"|Pre-configured unit regarding the circle's radius `circleRadius` and `circleOuterRadius` when `"defined"` is chosen as `circleMethod`.|false|
+|circleRadius|yes|Number|0|Pre-configured inner circle radius when `"defined"` is chosen as `circleMethod`.|false|
+|circleOuterRadius|yes|Number|0|Pre-configured outer circle radius when `"defined"` is chosen as `circleMethod`.|false|
+|strokeWidth|yes|Number|1|Pre-configured stroke width of circle border in pixels.|false|
+|color|yes|Number[]|[55, 126, 184, 1]|Pre-configured circle color in RGBA.|false|
+|opacity|yes|Number|1|Pre-configured double circle transparency in range [0..1].|false|
+|colorContour|yes|Number[]|[0, 0, 0, 1]|Pre-configured inner circle border color in RGBA.|false|
+|outerColorContour|yes|Number[]|[0, 0, 0, 1]|Pre-configured outer circle border color in RGBA.|false|
+|opacityContour|yes|Number|1|Pre-configured circle border transparency in range [0..1].|false|
+
+**Example**
+
+```json
+{
+    "circleMethod": "defined",
+    "unit": "m",
+    "circleRadius": 0,
+    "circleOuterRadius": 0,
+    "strokeWidth": 1,
+    "color": [55, 126, 184, 1],
+    "opacity": 1,
+    "colorContour": [0, 0, 0, 1],
+    "opacityContour": 1
+}
+```
+
+***
+
+#### portalConfig.menu.sections.modules.draw.writeTextSet
+
+Object to change the drawing tool's configured text default value.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|text|yes|String|""|Pre-configured text.|false|
+|fontSize|yes|Number|10|Pre-configured font size.|false|
+|font|yes|String|"Arial"|Pre-configured font. Restricted to `"Arial"`, `"Calibri"`, and `"Times New Roman"`.|false|
+|color|yes|Number[]|[55, 126, 184, 1]|Pre-configured font color in RGBA.|false|
+|opacity|yes|Number|1|Pre-configured font transparency in range [0..1].|false|
+
+**Example**
+
+```json
+{
+    "text": "",
+    "fontSize": 10,
+    "font": "Arial",
+    "color": [55, 126, 184, 1],
+    "opacity": 1
+}
+```
+
+***
+
+#### portalConfig.menu.sections.modules.draw.download
+
+Object to change the drawing tool's download preselected format. It should be one of "KML", "GEOJSON" and "GPX".
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|preSelectedFormat|no|enum["KML","GEOJSON","GPX"]|"KML"|Pre-configured pre-selected form.|false|
+
+**Example**
+
+```json
+{
+    "preSelectedFormat": "KML"
+}
+```
 
 ***
 

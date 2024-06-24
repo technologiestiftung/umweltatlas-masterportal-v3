@@ -51,7 +51,7 @@ module.exports = function () {
         },
         module: {
             rules: [
-                // Bootstrap Icons werden von bootstrap gelesen
+                // Bootstrap Icons are read by bootstrap
                 {
                     test: /bootstrap-icons\.(eot|svg|ttf|woff|woff2)$/,
                     loader: "file-loader",
@@ -60,7 +60,7 @@ module.exports = function () {
                         publicPath: "../../node_modules/bootstrap-icons/font/fonts"
                     }
                 },
-                // alle anderen Schriftarten
+                // all other fonts
                 {
                     test: /\.(eot|svg|ttf|woff|woff2)$/,
                     loader: "file-loader",

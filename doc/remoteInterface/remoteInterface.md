@@ -2,9 +2,9 @@
 
 [TOC]
 
-# Remote interface
+# !ATTENTION - masterportal version 3: this file is outdated, only valid for version 2!
 
-## ATTENTION - masterportal version 3: this file is outdated, only valid for version 2
+# Remote interface
 
 The remote interface allows programmatic interaction with the Masterportal. It gives access to all registered VueX actions and a set of dedicated additional functions.
 

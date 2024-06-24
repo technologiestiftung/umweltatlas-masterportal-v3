@@ -14,8 +14,8 @@
  * @property {String} logo the masterportal logo
  * @property {String} logoLink the link to https://masterportal.org
  * @property {String} logoText the alternate text if the the masterportal logo cannot be displayed
- * @property {String} metaDataCatalogueId id of the MateDataCatalogue
- * @property {String} metaId id of the MateData
+ * @property {String} metaDataCatalogueId id of the MetaDataCatalogue
+ * @property {String} metaId id of the MetaData
  * @property {String} metaUrl the metadata URL
  * @property {String} noMetadataLoaded no metadata Loaded Text
  * @property {Boolean} showAdditionalMetaData parameter to show the metadata link for more information

@@ -1,3 +1,5 @@
+# !ATTENTION - masterportal version 3: this file is outdated, only valid for version 2 - layerSelector will be added in future version 3.x release!
+
 # The layerSelector module
 
 Module to configure interactions with the layertree and the map, executed on a defined event.
