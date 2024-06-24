@@ -209,6 +209,20 @@ describe("src/modules/StatisticDashboard.vue", () => {
             await wrapper.setData({loadedFilterData: true});
             expect(wrapper.findComponent({name: "AccordionItem"}).exists()).to.be.true;
         });
+        it("should render filter search field if showLineLimitView is true", async () => {
+            const wrapper = shallowMount(StatisticDashboard, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            await wrapper.setData({
+                showLineLimitView: true,
+                showChart: true
+            });
+
+            expect(wrapper.find(".filtered-areas").exists()).to.be.true;
+        });
     });
 
     describe("computed properties", () => {
@@ -1415,6 +1429,65 @@ describe("src/modules/StatisticDashboard.vue", () => {
                     rowTitle: true,
                     hintText: "common:modules.statisticDashboard.totalHint"
                 });
+            });
+        });
+        describe("limitingLines", () => {
+            it("should return trimmed object", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        global: {
+                            plugins: [store]
+                        }
+                    }),
+                    data = {
+                        "Region1": {
+                            "2021": 80395,
+                            "2022": 73800
+                        },
+                        "Region2": {
+                            "2021": 4478,
+                            "2022": 4260
+                        },
+                        "Region3": {
+                            "2021": 6186,
+                            "2022": 6065
+                        },
+                        "Region4": {
+                            "2021": 6186,
+                            "2022": 6065
+                        }
+                    },
+                    expectedObject = {
+                        "Region1": {
+                            "2021": 80395,
+                            "2022": 73800
+                        },
+                        "Region2": {
+                            "2021": 4478,
+                            "2022": 4260
+                        },
+                        "Region3": {
+                            "2021": 6186,
+                            "2022": 6065
+                        }
+                    };
+
+                expect(wrapper.vm.limitingLines(data)).to.deep.equal(expectedObject);
+                expect(wrapper.vm.showLineLimitView).to.be.true;
+
+            });
+        });
+        describe("addSelectedFilteredRegions", () => {
+            it("should add region", async () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                wrapper.vm.selectedFilteredRegions = ["aaaa", "bbbb", "ccccc"];
+                wrapper.vm.addSelectedFilteredRegions("ddddd");
+                await wrapper.vm.$nextTick();
+                expect(wrapper.vm.selectedFilteredRegions).to.deep.equal(["aaaa", "bbbb", "ccccc", "ddddd"]);
             });
         });
     });

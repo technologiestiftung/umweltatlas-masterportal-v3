@@ -17,6 +17,7 @@ import {getFeaturePOST} from "../../../shared/js/api/wfs/getFeature.js";
 import ChartProcessor from "../js/chartProcessor.js";
 import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
 import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
+import Multiselect from "vue-multiselect";
 
 import {
     and as andFilter,
@@ -37,7 +38,8 @@ export default {
         StatisticSwitcher,
         LegendComponent,
         AccordionItem,
-        FlatButton
+        FlatButton,
+        Multiselect
     },
     data () {
         return {
@@ -71,7 +73,10 @@ export default {
             showNoLegendData: false,
             showFilter: false,
             showAllHiddenTags: false,
-            showLegendView: false
+            showLegendView: false,
+            showLineLimitView: false,
+            limitedLines: {},
+            selectedFilteredRegions: []
         };
     },
     computed: {
@@ -146,6 +151,9 @@ export default {
             if (this.selectedRegionsValues.length && this.selectedDates.length) {
                 this.checkFilterSettings(getters.selectedRegionsValues(null, {selectedRegions: this.selectedRegions}), getters.selectedDatesValues(null, {selectedDates: this.selectedDates}), this.selectedReferenceData);
             }
+        },
+        selectedRegionsValues () {
+            this.selectedFilteredRegions = this.selectedFilteredRegions.filter(name => this.selectedRegionsValues.includes(name));
         },
         active (value) {
             if (!value) {
@@ -544,6 +552,7 @@ export default {
             this.statisticsData = this.prepareStatisticsData(this.loadedFeatures, this.selectedStatisticsNames, regions, dates, selectedLevelDateAttribute, selectedLevelRegionNameAttribute, differenceMode);
             this.tableData = this.getTableData(this.statisticsData);
             this.chartCounts = this.selectedStatisticsNames.length;
+
             this.handleChartData(this.selectedStatisticsNames, regions, dates, this.statisticsData, differenceMode);
 
             if (this.selectedStatisticsNames.length === 1) {
@@ -579,6 +588,7 @@ export default {
             if (filteredStatistics.length > 1) {
                 this.prepareGridCharts(filteredStatistics, preparedData, directionBarChart, differenceMode, dates.length >= 2 && !differenceMode || dates.length >= 3 || dates.length === 2 && differenceMode === "region");
             }
+
             else if (regions.length >= 1) {
                 this.$nextTick(() => {
                     if (dates.length >= 2 && !differenceMode || dates.length >= 3 || dates.length === 2 && differenceMode === "region") {
@@ -637,9 +647,27 @@ export default {
             }
             this.currentChart[uniqueTopic] = {};
             if (type === "line") {
-                this.currentChart[uniqueTopic].chart = ChartProcessor.createLineChart(topic, preparedData, chart, this.colorScheme.lineCharts, renderSimple);
+                if (preparedData && Object.keys(preparedData)?.length > this.lineLimit) {
+                    if (!this.showLineLimitView) {
+                        this.currentChart[uniqueTopic].chart = ChartProcessor.createLineChart(topic, this.limitingLines(preparedData), chart, this.colorScheme.lineCharts, renderSimple);
+                    }
+                    else {
+                        const newLines = Object.keys(preparedData).filter(key => this.selectedFilteredRegions.includes(key)).reduce((obj, key) => {
+                            obj[key] = preparedData[key];
+                            return obj;
+                        }, {});
+
+                        this.currentChart[uniqueTopic].chart = ChartProcessor.createLineChart(topic, newLines, chart, this.colorScheme.lineCharts, renderSimple);
+                    }
+
+                }
+                else {
+                    this.showLineLimitView = false;
+                    this.currentChart[uniqueTopic].chart = ChartProcessor.createLineChart(topic, preparedData, chart, this.colorScheme.lineChart, renderSimple);
+                }
             }
             else if (type === "bar") {
+                this.showLineLimitView = false;
                 if (typeof differenceMode === "string") {
                     this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, preparedData, direction, chart, renderSimple, this.colorArrayDifference);
                 }
@@ -647,6 +675,38 @@ export default {
                     this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, preparedData, direction, chart, renderSimple);
                 }
             }
+        },
+        /**
+         * Limiting the number of the lines for line chart.
+         * @param {Object} data The data.
+         * @returns {Object} The trimmed data.
+         */
+        limitingLines (data) {
+            const limitLines = Object.fromEntries(Object.entries(data).slice(0, 3));
+
+            this.selectedFilteredRegions = Object.keys(limitLines);
+
+            this.showLineLimitView = true;
+
+            return limitLines;
+        },
+        /**
+         * Adds the selected region to chart data.
+         * @param {Array} region The selected region.
+         * @returns {void}
+         */
+        addSelectedFilteredRegions (region) {
+            this.selectedFilteredRegions.push(region);
+            this.handleChartData(this.selectedStatisticsNames, this.selectedFilteredRegions, this.selectedDatesValues, this.statisticsData, false);
+        },
+        /**
+         * Remove the selected region.
+         * @param {String} region The selected region.
+         * @returns {void}
+         */
+        removeRegion (region) {
+            this.selectedFilteredRegions = this.selectedFilteredRegions.filter(item => item !== region);
+            this.handleChartData(this.selectedStatisticsNames, this.selectedFilteredRegions, this.selectedDatesValues, this.statisticsData, false);
         },
         /**
          * Gets the filter based on given regions and dates array.
@@ -873,6 +933,7 @@ export default {
             this.showGrid = false;
             this.legendValue = [];
             this.showNoLegendData = false;
+            this.showLineLimitView = false;
         },
         /**
          * Checks if at least one description is present in the statistics.
@@ -994,6 +1055,7 @@ export default {
             this.allRegions = [];
             this.dates = [];
             this.timeStepsFilter = [];
+            this.showLineLimitView = false;
             this.setSelectedCategories([]);
             this.setSelectedRegions([]);
             this.setSelectedDates([]);
@@ -1273,6 +1335,46 @@ export default {
                 </GridComponent>
             </div>
             <div v-show="showChart">
+                <div
+                    v-if="showLineLimitView"
+                    class="filtered-areas"
+                >
+                    <div
+                        class="row info mb-4 mt-2"
+                    >
+                        <span class="col-1 info-icon d-flex align-items-center justify-content-center">
+                            <i class="bi-info-circle" />
+                        </span>
+                        <div class="col info-text">
+                            {{ $t("common:modules.statisticDashboard.infoText") }}
+                        </div>
+                    </div>
+                    <div class="row justify-content-center mb-4 mx-4">
+                        <label
+                            class="col-form-label-sm"
+                            for="line-limit-search"
+                        >
+                            {{ $t("common:modules.statisticDashboard.label.area") }}
+                        </label>
+                        <Multiselect
+                            id="line-limit-search"
+                            :model-value="selectedFilteredRegions"
+                            :multiple="true"
+                            :options="selectedRegionsValues"
+                            :searchable="true"
+                            :close-on-select="false"
+                            :clear-on-select="true"
+                            class="col col-12"
+                            :show-labels="false"
+                            :limit="3"
+                            :limit-text="count => count + ' ' + $t('common:modules.statisticDashboard.label.more')"
+                            :allow-empty="false"
+                            :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
+                            @select="addSelectedFilteredRegions"
+                            @remove="removeRegion"
+                        />
+                    </div>
+                </div>
                 <canvas
                     v-if="!showGrid"
                     ref="chart"
@@ -1331,5 +1433,12 @@ export default {
     .more-statistics {
         /** @TODO **/
         color: #525252;
-}
+    }
+    .info-icon i {
+        font-size: $icon_length_small;
+    }
+    .info-text {
+        font-size: $font_size_sm;
+        margin-top: 15px;
+    }
 </style>

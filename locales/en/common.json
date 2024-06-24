@@ -862,6 +862,7 @@
         "mrhstatisticsTooltip": "Link to the metadata",
         "addFilter": "Add Filter"
       },
+      "infoText": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
       "button": {
         "difference": "Difference",
         "table": "Table",

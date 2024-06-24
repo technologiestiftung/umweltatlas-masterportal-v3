@@ -16,6 +16,7 @@
  * @property {String} classificationMode - Method of dividing values into classes: "quantiles" or "equalIntervals".
  * @property {Object} legendData the legendValues with colors and value
  * @property {Boolean} addTotalCount If true, a row with total count will be inserted in table.
+ * @property {Number} lineLimit The number of lines from which the line diagram is limited.
  */
 const state = {
     active: false,
@@ -40,7 +41,8 @@ const state = {
     classificationMode: "quantiles",
     chartTableToggle: "table",
     legendData: [],
-    addTotalCount: false
+    addTotalCount: false,
+    lineLimit: null
 };
 
 export default state;
