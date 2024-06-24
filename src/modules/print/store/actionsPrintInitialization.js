@@ -402,7 +402,7 @@ export default {
             mapWidth = mapSize[0] * ration,
             mapHeight = mapSize[1] * ration;
 
-            postrenderContext.beginPath();
+        postrenderContext.beginPath();
         // Outside polygon, must be clockwise
         postrenderContext.moveTo(0, 0);
         postrenderContext.lineTo(mapWidth, 0);
