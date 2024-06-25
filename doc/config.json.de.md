@@ -1600,6 +1600,7 @@ Folgende Events existieren. Welche Events konfiguriert werden können ist den Be
 [type:language]: # (portalConfig.menu.sections.modules)
 [type:layerClusterToggler]: # (portalConfig.menu.sections.modules)
 [type:layerSlider]: # (portalConfig.menu.sections.modules)
+[type:login]: # (portalConfig.menu.sections.modules)
 [type:measure]: # (portalConfig.menu.sections.modules)
 [type:news]: # (portalConfig.menu.sections.modules)
 [type:openConfig]: # (portalConfig.menu.sections.modules)
@@ -1608,9 +1609,10 @@ Folgende Events existieren. Welche Events konfiguriert werden können ist den Be
 [type:scaleSwitcher]: # (portalConfig.menu.sections.modules)
 [type:selectFeatures]: # (portalConfig.menu.sections.modules)
 [type:shadow]: # (portalConfig.menu.sections.modules)
-[type:statisticDashboard]: # (portalConfig.menu.sections.modules)
 [type:shareView]: # (portalConfig.menu.sections.modules)
+[type:statisticDashboard]: # (portalConfig.menu.sections.modules)
 [type:styleVT]: # (portalConfig.menu.sections.modules)
+[type:wfsSearch]: # (portalConfig.menu.sections.modules)
 [type:wfst]: # (portalConfig.menu.sections.modules)
 
 Module lassen sich in Abschnitte (Sections) unterteilen. Im Menü werden Abschnitte mit einem horizontalen Strich unterteilt.
@@ -1624,13 +1626,14 @@ Module lassen sich in Abschnitte (Sections) unterteilen. Im Menü werden Abschni
 |coordToolkit|nein|**[coordToolkit](#markdown-header-portalconfigmenusectionsmodulescoordtoolkit)**||Koordinatenabfrage: Werkzeug um Koordinaten und Höhe per Maus-Klick abzufragen: Bei Klick in die Karte werden die Koordinaten in der Anzeige eingefroren und können auch direkt in die Zwischenablage kopiert werden. Koordinatensuche: Über eine Eingabemaske können das Koordinatensystem und die Koordinaten eingegeben werden. Das Werkzeug zoomt dann auf die entsprechende Koordinate und setzt einen Marker darauf. Die Koordinatensysteme werden aus der config.js bezogen.|false|
 |copyrightConstraints|nein|**[copyrightConstraints](#markdown-header-portalconfigmenusectionsmodulescopyrightconstraints)**||Dieses Modul lädt die Nutzungshinweise über eine CSW Schnittstelle und listed diese je Layer. Sind keine Nutzungshinweise für den Layer vorhanden, wird alternativ ein Kontakt angezeigt, bei dem man die Nutzungsbedingungen erfragen kann.|false|
 |customMenuElement|nein|**[customMenuElement](#markdown-header-portalconfigmenusectionsmodulescustommenuelement)**||Dieses Modul kann einen Link öffnen, HTML aus config.json oder einer externen Datei anzeigen oder eine Aktion ausführen. Diese Modul kann mehrfach in der config.json konfiguriert werden.|false|
-|draw|nein|**[draw](#markdown-header-portalconfigmenusectionsmodulesdraw)**||!(Das draw Modul befindet sich gerade im Refactoring. Um das gewohnte Zeichentool aus Masterportalversion 2 zu nutzen kann der type "draw_old" verwendet werden)! Mithilfe des Zeichnen-Werkzeuges können Punkte, Linien, Polygone, Kreise, Doppelkreise und Texte gezeichnet werden. Farben und Transparenzen sind voreingestellt. Die Zeichnungen können in den Formaten: KML, GeoJSON oder GPX heruntergeladen werden.(Das sich im Moment im Rectoring befindente neue draw Modul können sie mit dem type "draw" testen)|false|
+|draw|nein|**[draw](#markdown-header-portalconfigmenusectionsmodulesdraw)**||**!Attention: Das draw Modul befindet sich gerade im Refactoring. Um das gewohnte Zeichentool aus Masterportalversion 2 zu nutzen kann der type "draw_old" verwendet werden**)! Mithilfe des Zeichnen-Werkzeuges können Punkte, Linien, Polygone, Kreise, Doppelkreise und Texte gezeichnet werden. Farben und Transparenzen sind voreingestellt. Die Zeichnungen können in den Formaten: KML, GeoJSON oder GPX heruntergeladen werden.(Das sich im Moment im Rectoring befindente neue draw Modul können sie mit dem type "draw" testen)|false|
 |featureLister|nein|**[featureLister](#markdown-header-portalconfigmenusectionsmodulesfeaturelister)**||Listet alle Features eines Vektorlayers auf.|false|
 |fileImport|nein|**[fileImport](#markdown-header-portalconfigmenusectionsmodulesfileImport)**||Import von Dateien des Typs *.kml, *.geojson und *. gpx. Über dieses Modul können solche Dateien importiert werden.|false|
 |filter|nein|**[filter](#markdown-header-portalconfigmenusectionsmodulesfilter)**||Konfiguration eines fortgeschrittenen Filters für Vektordaten.|false|
 |language|nein|**[language](#markdown-header-portalconfigmenusectionsmoduleslanguage)**||In diesem Modul lässt sich die Sprache des Portals umschalten.|false|
 |layerClusterToggler|nein|**[layerClusterToggler](#markdown-header-portalconfigmenusectionsmoduleslayerClusterToggler)**||Mit diesem Modul lassen sich Layer in Clustern gleichzeitig aktivieren/laden und deaktivieren.|false|
 |layerSlider|nein|**[layerSlider](#markdown-header-portalconfigmenusectionsmoduleslayerslider)**||Mit dem Layerslider lassen sich beliebige Dienste in einer Reihenfolge abspielen. Zum Beispiel geeignet für Luftbilder aus verschiedenen Jahrgängen.|false|
+|login|nein|**[login](#markdown-header-portalconfigmenusectionsmoduleslogin)**||Konfiguration der Anmeldung bei einem OIDC-Server.|false|
 |measure|nein|**[measure](#markdown-header-portalconfigmenusectionsmodulesmeasure)**||Messwerkzeug um Flächen oder Strecken zu messen. Dabei kann zwischen den Einheiten m/km/nm bzw m²/ha/km² gewechselt werden.|false|
 |news|nein|**[news](#markdown-header-portalconfigmenusectionsmodulesnews)**||Dieses Modul zeigt alle Meldungen aus der newsFeedPortalAlerts.json und der config.json des aktuellen Portals unabhängig des "gelesen" Status.|false|
 |openConfig|nein|**[openConfig](#markdown-header-portalconfigmenusectionsmodulesopenConfig)**||Mit diesem Modul lässt sich eine Konfigurationsdatei (config.json) zur Laufzeit neu laden. Die Module und Karte werden an die neue Konfiguration angepasst.|false|
@@ -1642,6 +1645,7 @@ Module lassen sich in Abschnitte (Sections) unterteilen. Im Menü werden Abschni
 |statisticDashboard|no|**[statisticDashboard](#markdown-header-portalconfigmenusectionsmodulesstatisticDashboard)**||Werkzeug zur Anzeige von statistischen Daten.|false|
 |shareView|nein|**[shareView](#markdown-header-portalconfigmenusectionsmodulesshareview)**||Modul, um einen Link zur aktuellen Karten-Ansicht zu teilen.|false|
 |styleVT|nein|**[styleVT](#markdown-header-portalconfigmenusectionsmodulesstyleVT)**||Style-Auswahl zu VT-Diensten. Ermöglicht das Umschalten des Stylings eines Vector Tile Layers, wenn in der services.json mehrere Styles für ihn eingetragen sind.|false|
+|wfsSearch|nein|**[wfsSearch](#markdown-header-portalconfigmenusectionsmoduleswfssearch)**||Ermöglicht es ein Formular zu erstellen, um einen WFS Layer abgekoppelt von der Suchleiste mittels Filter anzufragen. Es ist möglich entweder eine gespeicherte Anfrage (Stored Query, WFS@2.0.0) zu nutzen oder eine Anfrage mithilfe der konfigurierten Parameter zu definieren (WFS@1.1.0).|false|
 |wfst|nein|**[wfst](#markdown-header-portalconfigmenusectionsmoduleswfst)**||WFS-T Modul mit dem Features visualisiert, erstellt, aktualisiert und gelöscht werden können.|false|
 
 ***
@@ -1996,7 +2000,7 @@ CustomMenuElement Module `execute` Optionen.
 
 [inherits]: # (portalConfig.menu.sections.modules)
 
-!(Das draw Modul befindet sich gerade im Refactoring. Um das gewohnte Zeichentool aus Masterportalversion 2 zu nutzen kann der type "draw_old" verwendet werden)!
+**!Attention: Das draw Modul befindet sich gerade im Refactoring. Um das gewohnte Zeichentool aus Masterportalversion 2 zu nutzen kann der type "draw_old" verwendet werden!**
 Mithilfe des Zeichnen-Werkzeuges können Punkte, Linien, Polygone, Kreise, Doppelkreise und Texte gezeichnet werden. Farben und Transparenzen sind voreingestellt. Die Zeichnungen können in den Formaten: KML, GeoJSON oder GPX heruntergeladen werden. (Das sich im Moment im rectoring befindente neue draw Modul können sie mit dem type "draw" testen)
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -2020,7 +2024,7 @@ Mithilfe des Zeichnen-Werkzeuges können Punkte, Linien, Polygone, Kreise, Doppe
 ```
 #!json
 {
-    "type": "draw",
+    "type": "draw_old",
     "name": "Zeichnen / Schreiben",
     "icon": "bi-pencil-flll",
     "iconList": [
@@ -2781,6 +2785,25 @@ Konfigurationsoptionen für die Legende.
 |name|ja|String|"common:modules.legend.name"|Name des Modules im Menü.|false|
 |type|nein|String|"legend"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
 |sldVersion|nein|String|""|Gibt die `Styled Layer Descriptor` Version an, mit der die GetLegendGraphic requests abgesetzt werden sollen. Beispiel: "1.1.0"|false|
+
+***
+
+#### portalConfig.menu.sections.modules.login
+
+[inherits]: # (portalConfig.menu.sections.modules)
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|name|ja|String||Der Name für das Module im Menü. Wird überschrieben, wenn der User eingeloggt ist.|false|
+|icon|ja|String||Das Icon neben dem Login Button im Menü. Wird geändert, wenn der User eingeloggt ist (siehe module store).|false|
+
+```json
+{
+    "type": "login",
+    "name": "translate#common:modules.login.login",
+    "icon": "bi-door-open"
+}
+```
 
 ***
 
@@ -3863,7 +3886,7 @@ Es können mehrere Suchinstanzen (**[SearchInstances](#markdown-header-portalcon
 
 ```json
 {
-    "wfsSearch": {
+    {   "type": "wfsSearch",
         "instances": [
             {
                 "requestConfig": {

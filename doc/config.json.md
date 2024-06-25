@@ -1599,6 +1599,7 @@ The following events exist. Which events can be configured can be found in the d
 [type:language]: # (portalConfig.menu.sections.modules)
 [type:layerClusterToggler]: # (portalConfig.menu.sections.modules)
 [type:layerSlider]: # (portalConfig.menu.sections.modules)
+[type:login]: # (portalConfig.menu.sections.modules)
 [type:measure]: # (portalConfig.menu.sections.modules)
 [type:news]: # (portalConfig.menu.sections.modules)
 [type:openConfig]: # (portalConfig.menu.sections.modules)
@@ -1607,9 +1608,10 @@ The following events exist. Which events can be configured can be found in the d
 [type:scaleSwitcher]: # (portalConfig.menu.sections.modules)
 [type:selectFeatures]: # (portalConfig.menu.sections.modules)
 [type:shadow]: # (portalConfig.menu.sections.modules)
-[type:statisticDashboard]: # (portalConfig.menu.sections.modules)
 [type:shareView]: # (portalConfig.menu.sections.modules)
+[type:statisticDashboard]: # (portalConfig.menu.sections.modules)
 [type:styleVT]: # (portalConfig.menu.sections.modules)
+[type:wfsSearch]: # (portalConfig.menu.sections.modules)
 [type:wfst]: # (portalConfig.menu.sections.modules)
 
 Modules can be divided into sections. In the menu, sections are divided with a horizontal line.
@@ -1623,13 +1625,14 @@ Modules can be divided into sections. In the menu, sections are divided with a h
 |coordToolkit|no|**[coordToolkit](#markdown-header-portalconfigmenusectionsmodulescoordtoolkit)**||Coordinate query: Tool to query coordinates and altitude by mouse click: When clicking in the map, the coordinates are frozen in the display and can also be copied directly to the clipboard. Coordinate search: The coordinate system and the coordinates can be entered via an input mask. The tool then zooms to the corresponding coordinate and places a marker on it. The coordinate systems are obtained from config.js.|false|
 |copyrightConstraints|nein|**[copyrightConstraints](#markdown-header-portalconfigmenusectionsmodulescopyrightconstraints)**||Dieses Modul lädt die Nutzungshinweise über eine CSW Schnittstelle und listed diese je eise für den Layer vorhanden, wird alternativ ein Kontakt angezeigt, bei dem man die Nutzungsbedingungen erfragen kann.|false|
 |customMenuElement|no|**[customMenuElement](#markdown-header-portalconfigmenusectionsmodulescustommenuelement)**||This module can open a link, display HTML from config.json or an external file, or perform an action. This module can be configured several times in config.json.|false|
-|draw|no|**[draw](#markdown-header-portalconfigmenusectionsmodulesdraw)**||!(The new draw module is currently within refactoring process you can use the draw module from Masterportal Version 2 with type "draw_old")! The draw tool allows painting points, lines, polygons, circles, double circles, and texts to the map. You may download these drawing as KML, GeoJSON, or GPX.|false|
+|draw|no|**[draw](#markdown-header-portalconfigmenusectionsmodulesdraw)**||**!Attention: the new draw module is currently within refactoring process you can use the draw module from Masterportal Version 2 with type "draw_old"!** The draw tool allows painting points, lines, polygons, circles, double circles, and texts to the map. You may download these drawing as KML, GeoJSON, or GPX.|false|
 |featureLister|no|**[featureLister](#markdown-header-portalconfigmenusectionsmodulesfeaturelister)**||Lists all features of a vector layer and highlights a feature by mouse over.|false|
 |fileImport|no|**[fileImport](#markdown-header-portalconfigmenusectionsmodulesfileImport)**||Import KML, GeoJSON, and GPX files with this modules.|false|
 |filter|no|**[filter](#markdown-header-portalconfigmenusectionsmodulesfilter)**||Configuration for an advanced filter for vector layers.|false|
 |language|no|**[language](#markdown-header-portalconfigmenusectionsmoduleslanguage)**||In this module the language of the portal can be switched.|false|
 |layerClusterToggler|no|**[layerClusterToggler](#markdown-header-portalconfigmenusectionsmoduleslayerClusterToggler)**||This module allows a cluster layers to be active and deactive together.|false|
 |layerSlider|no|**[layerSlider](#markdown-header-portalconfigmenusectionsmoduleslayerslider)**||The layerSlider module allows showing arbitrary services in order. This can e.g. be used to show aerial footage from multiple years in succession.|false|
+|login|no|**[login](#markdown-header-portalconfigmenusectionsmoduleslogin)**||Configuration of login with an OIDC server.|false|
 |measure|no|**[measure](#markdown-header-portalconfigmenusectionsmodulesmeasure)**||Allows measuring areas and distances in the units m/km/nm resp. m²/ha/km².|false|
 |news|no|**[news](#markdown-header-portalconfigmenusectionsmodulesnews)**||This module shows all messages from the newsFeedPortalAlerts.json and the config.json of the current portal regardless of the "read" status.|false|
 |openConfig|no|**[openConfig](#markdown-header-portalconfigmenusectionsmodulesopenConfig)**||ith this module a configuration file (config.json) can be reloaded at runtime. The modules and map are adapted to the new configuration.|false|
@@ -1641,6 +1644,7 @@ Modules can be divided into sections. In the menu, sections are divided with a h
 |statisticDashboard|no|**[statisticDashboard](#markdown-header-portalconfigmenusectionsmodulesstatisticDashboard)**||Displaying statistical data.|false|
 |shareView|no|**[shareView](#markdown-header-portalconfigmenusectionsmodulesshareview)**||Module to share a link to the current map view.|false|
 |styleVT|no|**[styleVT](#markdown-header-portalconfigmenusectionsmodulesstyleVT)**||Style selection for VT services. Allows switching between styles of a Vector Tile Layer that provides multiple stylings via the `services.json` file.|false|
+|wfsSearch|no|**[wfsSearch](#markdown-header-portalconfigmenusectionsmoduleswfssearch)**||Makes it possible to create a form to query WFS layers using filters. It is possible to either use a stored query (WFS@2.0.0) or define the query using the defined parameters (WFS@1.1.0).|false|
 |wfst|no|**[wfst](#markdown-header-portalconfigmenusectionsmoduleswfst)**||WFS-T module to visualize, create, update and delete features.|false|
 
 ***
@@ -1994,7 +1998,7 @@ CustomMenuElement Module `execute` options.
 
 [inherits]: # (portalConfig.menu.sections.modules)
 
-!(The new draw module is currently within refactoring process you can use the draw module from Masterportal Version 2 with type "draw_old")!
+**!Attention: the new draw module is currently within refactoring process you can use the draw module from Masterportal Version 2 with type "draw_old"!**
 Module used to draw features on the map. This includes points, which may also be represented by symbols, and (double) circles, polygons, polylines, and text.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -2019,7 +2023,7 @@ Module used to draw features on the map. This includes points, which may also be
 #!json
 
 {
-    "type": "draw",
+    "type": "draw_old",
     "name": "Draw / Write",
     "icon": "bi-pencil-fill",
     "iconList": [
@@ -2779,6 +2783,25 @@ Legend configuration options.
 |name|yes|String|"common:modules.legend.name"|Name of the module in the menu.|false|
 |type|no|String|"legend"|The type of the module. Defines which module is configured.|false|
 |sldVersion|no|String|""|Defines the `Styled Layer Descriptor` Version for the GetLegendGraphic requests, e.g. "1.1.0"|false|
+
+***
+
+#### portalConfig.menu.sections.modules.login
+
+[inherits]: # (portalConfig.menu.sections.modules)
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|name|yes|String||The name for the module in the menu. Overwritten when the user is logged in.|false|
+|icon|yes|String||The icon next to the login button in the menu. Will be changed when the user is logged in (see module store).|false|
+
+```json
+{
+    "type": "login",
+    "name": "translate#common:modules.login.login",
+    "icon": "bi-door-open"
+}
+```
 
 ***
 
@@ -3862,7 +3885,8 @@ Multiple **[SearchInstances](#markdown-header-portalconfigmenusectionsmoduleswfs
 
 ```json
 {
-    "wfsSearch": {
+    {
+        "type": "wfsSearch",
         "instances": [
             {
                 "requestConfig": {

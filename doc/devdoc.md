@@ -22,6 +22,6 @@ To write code that's not supposed to be added to the Masterportal repository, fe
 
 Further links:
 
-* **[Tutorial: Creating a new module (Scale Switcher)](vueTutorial.md)**
+* **[Tutorial: Creating a new module (Scale Switcher)](tutorial.md)**
 * **[Community Board (Developer and user forum)](https://trello.com/c/qajdXkMa/110-willkommen)**
 * **[Issue tracker](https://bitbucket.org/geowerkstatt-hamburg/masterportal/issues?status=new&status=open)**
