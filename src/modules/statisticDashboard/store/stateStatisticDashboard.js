@@ -13,6 +13,7 @@
  * @property {Object} selectedReferenceData the selected reference data
  * @property {Object[]} selectedRegions - The selected regions.
  * @property {Object[]} selectedDates - The selected dates.
+ * @property {String} classificationMode - Method of dividing values into classes: "quantiles" or "equalIntervals".
  * @property {Object} legendData the legendValues with colors and value
  * @property {Boolean} addTotalCount If true, a row with total count will be inserted in table.
  */
@@ -36,6 +37,7 @@ const state = {
     selectedRegions: [],
     selectedDates: [],
     selectedStatistics: {},
+    classificationMode: "quantiles",
     chartTableToggle: "table",
     legendData: [],
     addTotalCount: false

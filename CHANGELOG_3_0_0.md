@@ -57,6 +57,8 @@ In certain circumstances this means that you have to update your portal files (i
   - Migrated from MP2 to MP3
   - Can now load data from an OAF Rest API if an OAF layer is configured.
   - A new parameter "addTotalCount" is implemented to decide if to add a row of total data in table.
+  - New legend settings view:
+    - Classification mode: The method of dividing the values into classes can now be selected. The options are: equal intervals, quantile-orientated and custom. (Custom yet to be implemented.)
 - Search for address via URL-Parameter.
 - The following packages have been added:
     - dependencies:

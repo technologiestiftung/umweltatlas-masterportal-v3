@@ -33,11 +33,8 @@ describe("src/modules/statisticDashboard/utils/handleFeatures.js", () => {
             expect(FeatureHandler.calcStepValues(100, 1000, 1)).to.be.deep.equals(expected);
         });
         it("should return expected array", () => {
-            const expected = [100, 325, 550, 775, 1000];
-
-            expect(FeatureHandler.calcStepValues(100, 1000, undefined)).to.be.deep.equals(expected);
-            expect(FeatureHandler.calcStepValues(100, 1000, 4).length).to.be.deep.equals(4);
-            expect(FeatureHandler.calcStepValues(100, 1000, 5)).to.be.deep.equals(expected);
+            expect(FeatureHandler.calcStepValues([1, 2, 3, 99], 2)).to.deep.equal([1, 2.5]);
+            expect(FeatureHandler.calcStepValues([1, 2, 3, 99], 2, "equalIntervals")).to.deep.equal([1, 50]);
         });
     });
     describe("closestIndex", () => {
@@ -71,7 +68,7 @@ describe("src/modules/statisticDashboard/utils/handleFeatures.js", () => {
                 feature3 = new Feature({
                     region: "Luebeck"
                 }),
-                colorScheme = [[198, 219, 239, 0.9], [158, 202, 225, 0.9], [107, 174, 214, 0.9], [49, 130, 189, 0.9], [8, 81, 156, 0.9]],
+                colorScheme = [[198, 219, 239, 0.9], [158, 202, 225, 0.9], [8, 81, 156, 0.9]],
                 fill1 = {
                     patternImage_: null,
                     color_: [158, 202, 225, 0.9]
@@ -218,7 +215,7 @@ describe("src/modules/statisticDashboard/utils/handleFeatures.js", () => {
                     },
                     {
                         "graphic": "data:image/svg+xml;charset=utf-8,<svg height='35' width='35' version='1.1' xmlns='http://www.w3.org/2000/svg'><polygon points='5,5 30,5 30,30 5,30' style='fill:rgb(158, 202, 225);fill-opacity:0.9;stroke:rgb(158, 202, 225);stroke-opacity:0.9;stroke-width:3;stroke-linecap:round;stroke-dasharray:;'/></svg>",
-                        "name": "90"
+                        "name": "modules.statisticDashboard.legend.from 90"
                     }
                 ];
 

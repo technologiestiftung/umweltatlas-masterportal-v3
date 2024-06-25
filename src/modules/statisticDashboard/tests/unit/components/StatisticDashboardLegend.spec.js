@@ -54,17 +54,6 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardLegend.vu
 
             expect(wrapper.find("#class-range").exists()).to.be.true;
         });
-        it("should render value ranges if classification is 'benutzerdefiniert'", async () => {
-            const wrapper = shallowMount(StatisticDashboardLegend, {
-                global: {
-                    plugins: [store]
-                }
-            });
-
-            await wrapper.setData({selectClassification: "benutzerdefiniert"});
-
-            expect(wrapper.find("#value-ranges").exists()).to.be.true;
-        });
         it("should render color palette input", async () => {
             const wrapper = shallowMount(StatisticDashboardLegend, {
                 global: {
@@ -73,6 +62,18 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardLegend.vu
             });
 
             expect(wrapper.find("#custom-color-palette").exists()).to.be.true;
+        });
+        it("should render value ranges if classification is 'benutzerdefiniert'", async () => {
+            const wrapper = shallowMount(StatisticDashboardLegend, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.setClassificationMode("benutzerdefiniert");
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.find("#value-ranges").exists()).to.be.true;
         });
         it("should render opacity input", async () => {
             const wrapper = shallowMount(StatisticDashboardLegend, {

@@ -3136,6 +3136,7 @@ The shadow tool provides a UI element to define a point in time by using sliders
 |colorScheme|yes|**[colorScheme](#markdown-header-portalconfigmenusectionsmodulesstatisticDashboardcolorScheme)**|""|Defines the colours of the features in statisticdashboard.|false|
 |active|no|Boolean|false|If `true`, the tool is open after initializing the portal.|false|
 |data|yes|**[data](#markdown-header-portalconfigmenusectionsmodulesstatisticDashboarddata)**|""|data for statistic dashboard.|false|
+|classificationMode|no|String|"quantiles"|Method for dividing values into classes: "quantiles", "equalIntervals" or "benutzerdefiniert"|false|
 
 **Example**
 

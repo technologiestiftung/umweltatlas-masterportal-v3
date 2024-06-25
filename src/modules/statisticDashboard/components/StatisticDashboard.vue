@@ -173,6 +173,14 @@ export default {
                 this.legendValue = FeaturesHandler.getLegendValue(val);
             },
             deep: true
+        },
+        classificationMode () {
+            if (this.selectedStatisticsNames?.length === 1) {
+                this.updateFeatureStyle(this.selectedColumn || this.dates[0],
+                    this.selectedReferenceData !== undefined,
+                    this.selectedReferenceData);
+            }
+
         }
     },
     async created () {
@@ -356,17 +364,17 @@ export default {
             this.layer.getSource().addFeatures(filteredFeatures);
 
             if (!differenceMode) {
-                FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.comparisonMap, date, regionNameAttribute);
+                FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.comparisonMap, date, regionNameAttribute, this.classificationMode);
                 this.setLegendData({
                     "color": this.colorScheme.comparisonMap,
-                    "value": FeaturesHandler.getStepValue(this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.comparisonMap, date)
+                    "value": FeaturesHandler.getStepValue(this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.comparisonMap, date, this.classificationMode)
                 });
                 return;
             }
-            FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.differenceMap, date, regionNameAttribute);
+            FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.differenceMap, date, regionNameAttribute, this.classificationMode);
             this.setLegendData({
                 "color": this.colorScheme.differenceMap,
-                "value": FeaturesHandler.getStepValue(this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.differenceMap, date)
+                "value": FeaturesHandler.getStepValue(this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.differenceMap, date, this.classificationMode)
             });
             if (selectedReferenceData?.type === "region") {
                 const referenceFeature = filteredFeatures.find(feature => feature.get(regionNameAttribute) === selectedReferenceData.value);

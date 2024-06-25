@@ -1,6 +1,8 @@
 import {Fill, Stroke, Style} from "ol/style.js";
 import {convertColor} from "../../../shared/js/utils/convertColor";
 import isObject from "../../../shared/js/utils/isObject";
+import isNumber from "../../../shared/js/utils/isNumber";
+import quantile from "../../../shared/js/utils/quantile";
 import thousandsSeparator from "../../../shared/js/utils/thousandsSeparator";
 
 /**
@@ -26,14 +28,15 @@ function filterFeaturesByKeyValue (features, key, value) {
  * @param {Number[]} colorScheme - The color scheme used for styling.
  * @param {String} date - The date for which the values are visualized
  * @param {String} regionKey - The key to the region in the feature.
+ * @param {string} [classificationMode="quantiles"] Method of dividing the data into classes. "quantiles" or "equalIntervals".
  * @returns {void}
  */
-function styleFeaturesByStatistic (features, statisticData, colorScheme, date, regionKey) {
+function styleFeaturesByStatistic (features, statisticData, colorScheme, date, regionKey, classificationMode = "quantiles") {
     if (!Array.isArray(features) || !Array.isArray(colorScheme)) {
         return;
     }
 
-    const stepValues = getStepValue(statisticData, colorScheme, date);
+    const stepValues = getStepValue(statisticData, colorScheme, date, classificationMode);
 
     Object.keys(statisticData).forEach((region) => {
         const index = closestIndex(stepValues, statisticData[region][date]),
@@ -71,40 +74,66 @@ function styleFeature (feature, fillColor = [255, 255, 255, 0.9]) {
  * @param {Object} statisticData - The statistic whose values are visualized.
  * @param {Number[]} colorScheme - The color scheme used for styling.
  * @param {String} date - The date for which the values are visualized
+ * @param {string} [classificationMode="quantiles"] - Method of dividing values into classes. "quantiles" or "equalIntervals".
  * @returns {void}
  */
-function getStepValue (statisticData, colorScheme, date) {
-    const statisticsValues = getStatisticValuesByDate(statisticData, date),
-        minStatisticValue = Math.min(...statisticsValues),
-        maxStatisticValue = Math.max(...statisticsValues);
+function getStepValue (statisticData, colorScheme, date, classificationMode = "quantiles") {
+    const statisticsValues = getStatisticValuesByDate(statisticData, date);
 
-    return calcStepValues(minStatisticValue, maxStatisticValue, colorScheme.length);
+    return calcStepValues(statisticsValues, colorScheme.length, classificationMode);
 }
 
 /**
- * Calculates the values for the steps using the min and max values and the number of steps.
- * @param {Number} min - The min value.
- * @param {Number} max - The max value.
- * @param {Number} [steps=5] - The number of steps.
+ * Calculates the values for the steps.
+ * @param {Number[]} values - The values for which classes are to be defined.
+ * @param {Number} [numberOfClasses=5] The number of classes.
+ * @param {String} [classificationMode="quantiles"] Method of dividing values into classes. "quantiles" or "equalIntervals".
  * @return {Number[]} The calculated values.
  */
-function calcStepValues (min, max, steps = 5) {
-    if (typeof min !== "number" || typeof max !== "number" || typeof steps !== "number" || steps <= 1) {
+function calcStepValues (values, numberOfClasses = 5, classificationMode = "quantiles") {
+
+    if (!Array.isArray(values)
+        || !values.every(e => isNumber(e))
+        || !Number.isInteger(numberOfClasses)
+        || numberOfClasses < 1
+        || !["quantiles", "equalIntervals"].includes(classificationMode)
+    ) {
         return [0];
     }
 
-    if (min === max) {
-        return [min];
+    const
+        minValue = Math.min(...values),
+        maxValue = Math.max(...values);
+
+    if (minValue === maxValue) {
+        return [minValue];
     }
 
-    const values = [min],
-        step = (max - min) / (steps - 1);
+    let result = [];
 
-    for (let i = 0; i < steps - 1; i++) {
-        values.push(Number((values[i] + step).toFixed(2)));
+    if (classificationMode === "equalIntervals") {
+        const interval = (maxValue - minValue) / numberOfClasses;
+
+        for (let i = 0; i < numberOfClasses; i++) {
+            result.push(minValue + i * interval);
+        }
+    }
+    else if (classificationMode === "quantiles") {
+
+        const sortedValues = [...values].sort((a, b) => a - b);
+
+        result.push(sortedValues[0]);
+
+        for (let i = 1; i < numberOfClasses; i++) {
+
+            const p = 1 / numberOfClasses * i;
+
+            result.push(quantile(sortedValues, p));
+        }
+        result = [... new Set(result)];
     }
 
-    return values;
+    return result;
 }
 
 /**
@@ -203,7 +232,7 @@ function getLegendValue (val) {
 
             if (index === val.value.length - 1) {
                 legendObj = {
-                    "name": thousandsSeparator(Math.round(data))
+                    "name": i18next.t("common:modules.statisticDashboard.legend.from") + " " + thousandsSeparator(Math.round(data))
                 };
                 style = {
                     "polygonFillColor": val.color[index],

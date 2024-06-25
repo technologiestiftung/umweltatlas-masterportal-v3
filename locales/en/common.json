@@ -894,6 +894,7 @@
       "legend": {
         "under": "under",
         "between": "between {{minimum}} and {{maximum}}",
+        "from": "From",
         "nodata": "Visualization of data from multiple statistics on the map is not yet available.",
         "legend": "Map legend",
         "edit": "Edit",

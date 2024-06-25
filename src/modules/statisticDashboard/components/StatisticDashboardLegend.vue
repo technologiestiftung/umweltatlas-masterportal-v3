@@ -1,4 +1,5 @@
 <script>
+import {mapGetters, mapMutations} from "vuex";
 import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
 import InputText from "../../../shared/modules/inputs/components/InputText.vue";
 export default {
@@ -10,18 +11,21 @@ export default {
     emits: ["changeLegendView"],
     data () {
         return {
-            classification: [`${this.$t("common:modules.statisticDashboard.legend.equalIntervals")}`, `${this.$t("common:modules.statisticDashboard.legend.quantile")}`, `${this.$t("common:modules.statisticDashboard.legend.customized")}`],
             customColorPalette: [{label: "Blau", colorCode: "#35A9CE"}, {label: "Grün", colorCode: "#1CB82B"}, {label: "Rot", colorCode: "EE0FF2"}, {label: "Orange", colorCode: "#FAB505"}],
             opacity: ["50%", "60%", "70%", "80%", "90%", "100%"],
-            selectClassification: `${this.$t("common:modules.statisticDashboard.legend.equalIntervals")}`,
             selectNumberOfClasses: 2,
             selectColor: "#ffffff"
         };
     },
     computed: {
+        ...mapGetters("Modules/StatisticDashboard", ["classificationMode"]),
+
         numberOfClasses () {
             return Number(this.selectNumberOfClasses);
         }
+    },
+    methods: {
+        ...mapMutations("Modules/StatisticDashboard", ["setClassificationMode"])
     }
 };
 </script>
@@ -34,16 +38,26 @@ export default {
         <div class="form-floating mb-5">
             <select
                 id="classification"
-                v-model="selectClassification"
                 class="form-select"
+                @change="setClassificationMode($event.target.value)"
             >
                 <option
-                    v-for="(selected, i) in classification"
-                    :key="i"
-                    :value="selected"
-                    :selected="selected"
+                    value="quantiles"
+                    :selected="classificationMode === 'quantiles'"
                 >
-                    {{ selected }}
+                    {{ $t("common:modules.statisticDashboard.legend.quantile") }}
+                </option>
+                <option
+                    value="equalIntervals"
+                    :selected="classificationMode === 'equalIntervals'"
+                >
+                    {{ $t("common:modules.statisticDashboard.legend.equalIntervals") }}
+                </option>
+                <option
+                    value="benutzerdefiniert"
+                    :selected="classificationMode === 'benutzerdefiniert'"
+                >
+                    {{ $t("common:modules.statisticDashboard.legend.customized") }}
                 </option>
             </select>
             <label for="classification">
@@ -72,7 +86,7 @@ export default {
                 </div>
             </div>
         </div>
-        <div v-if="selectClassification !== 'benutzerdefiniert'">
+        <div v-if="classificationMode !== 'benutzerdefiniert'">
             <div class="form-floating mb-5">
                 <select
                     id="custom-color-palette"

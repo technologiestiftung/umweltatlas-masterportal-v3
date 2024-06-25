@@ -894,6 +894,7 @@
       "legend": {
         "under": "unter",
         "between": "{{minimum}} bis unter {{maximum}}",
+        "from": "Ab",
         "nodata": "Die Visualisierung der Daten von mehreren Statistiken auf der Karte steht noch nicht zur Verfügung.",
         "legend": "Kartenlegende",
         "edit": "Bearbeiten",
