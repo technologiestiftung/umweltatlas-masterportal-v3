@@ -77,8 +77,8 @@ To translate a config.json value, the value itself must be formatted correctly. 
 {
     "foo": {
         "bar": {
-            "exampleMenuTitle": "titulum menu",
-            "exampleLayerName": "aliquid",
+            "exampleTitle": "titulum menu",
+            "exampleDescription": "aliquid",
             "exampleSubjectData": "subject data"
         }
     }
@@ -89,21 +89,21 @@ To translate a config.json value, the value itself must be formatted correctly. 
 
 ```json
 {
-    "Portalconfig": {
-        "menu": {
-            "example": {
-                "name": "translate#common:foo.bar.exampleMenuTitle",
-                "icon": "bi-list-ul",
-                "isInitOpen": false
-            }
-        }
-    }
+     "secondaryMenu": {
+            "expanded": false,
+            "sections": [
+                [
+                    {
+                        "type": "wfsSearch",
+                        "name": "common:foo.bar.exampleTitle",
+                        "description": "common:foo.bar.exampleDescription",
+                        "zoomLevel": 7
+                        ...
+
 }
 ```
 
-The translation key must be prefixed with `"translate#"` and the file name. The structure of such a key is `translate#[filename]:[path.to.key]`, resulting in e.g. `translate#common:foo.bar.exampleMenuTitle`.
-
-The menu is programmed to react to the translation prefix `"translate#"`, and no further action is required.
+The translation key must contain the file name. The structure of such a key is `[filename]:[path.to.key]`, resulting in e.g. `common:foo.bar.exampleMenuTitle`.
 
 ### Layer tree
 
@@ -123,72 +123,32 @@ Default translations:
 
 ```json
 {
-    "Themenconfig": {
-        "Fachdaten": {
-            "name": "translate#common:foo.bar.exampleSubjectData",
-            "Layer": [
-                  {
-                    "id": "2128",
-                    "name": "translate#common:foo.bar.exampleLayerName"
-                  }
-            ]
-        }
-    }
+     "subjectlayer": {
+            "name": "common:foo.bar.exampleSubjectData"
+            "elements": [
+                {
+                    "name": "3D Daten",
+                    "type": "folder",
+                    "elements": [
+                        {
+                            "name": "3D-Basisdaten",
+                            "type": "folder",
+                            "elements": [
+                                {
+                                    "id": "12883",
+                                    "name": "Digitales Geländemodell (DGM)",
+                                    "visibility": true
+                                }
+                                ...
 }
 ```
 
 These possibilities and hierarchy exist:
 
 * `"name": "my special subjects"` is never translated
-* `"name": "translate#common:foo.bar.exampleMenuTitle"` is translated if the key exists
+* `"name": "common:foo.bar.exampleTitle"` is translated if the key exists
 * if no name is specified (that is, the field name does not exist), the default translation is applied (see above)
 
-### Tools
-
-Tools (de: "Werkzeuge") can be translated similarly to tools. This includes the menu entry within the "Tools" folder and the tool window's title.
-
-**Translatable config.json tool part:**
-
-```json
-{
-    "tools": {
-        "name": "Tools",
-        "icon": "bi-tools",
-        "children": {
-            "draw": {
-                "name": "translate#common:foo.bar.exampleMenuTitle",
-                "icon": "bi-pencil-fill"
-            },
-        }
-    }
-}
-```
-
-The following possibilities and hierarchy exist:
-
-* `"name": "Draw / Write"` is never translated
-* `"name": "translate#common:foo.bar.exampleMenuTitle"` is translated if the key exists
-* if no name is specified (that is, the field name does not exist), the name is set by the model.js (in this scenario, `../tools/draw/model.js`)
-
-#### Define tool name in the `model.js`
-
-If the field `"name"` in the `model.js` is filled, it is interpreted as default name, and not translated.
-
-```js
-const DrawTool = Tool.extend(/** @lends DrawTool.prototype */{
-    defaults: Object.assign({}, Tool.prototype.defaults, {
-        name: "Draw / Write",
-        ...
-```
-
-To add translation, use the attribute name `"nameTranslationKey"` to provide the key instead.
-
-```js
-const DrawTool = Tool.extend(/** @lends DrawTool.prototype */{
-    defaults: Object.assign({}, Tool.prototype.defaults, {
-        nameTranslationKey: "common:menu.tools.draw",
-        ...
-```
 
 ## Translation in add-ons
 
@@ -200,7 +160,7 @@ A translation is implemented this way:
 i18next.t("additional:modules.tools.example.title"),
 ```
 
-[See this for an example.](https://bitbucket.org/geowerkstatt-hamburg/addons/src/dev/populationRequest/)
+[See this for an example.](https://bitbucket.org/geowerkstatt-hamburg/addons/src/dev_vue/populationRequest/)
 
 ## Interesting i18nxt translation functions
 

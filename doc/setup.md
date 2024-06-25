@@ -29,21 +29,19 @@ This file describes the steps required to set up your first portal on your own s
             - css/
                 - masterportal.css
             - img/
-                - compass/
-                    - ... (images for display of the 3d mode compass)
                 - tools
                     - draw
                         - ... (svg files used by the draw tool)
-                - ajax-loader.gif
-                - mapMarker.svg
+                - Logo_Masterportal.svg
             - js/
                 - masterportal.js
+            - locales/
 
     The folder *Basic* comes with an example application providing the portal-specific configuration files **[config.js](config.js.md)**, **[config.json](config.json.md)**, and the index.html.
 
     Also contained is the folder *resources* providing the global configuration files **[services.json](services.json.md)**, **[rest-services.json](rest-services.json.md)**, and **[style.json](style.json.md)**, as well as the required images (folder *img*) of this portal instance.
 
-    The folder *mastercode* contains the compressed JavaScript and CSS files of the Masterportal. Here, the folder *img* holds the compass, loading screen images, the *MapMarker* icon, and svg files used in the draw tool.
+    The folder *mastercode* contains the compressed JavaScript and CSS files of the Masterportal. Here, the folder *img* holds the logo and svg files used in the draw tool.
 
 4. You may decide to change the name of the folder *examples*. Should you decide to do so, also change "examples" to your new folder name in the URLs that follow. The portal should now be available by following this link.
     - https://[web-server-name]/examples/Basic/index.html
