@@ -324,13 +324,17 @@ In certain circumstances this means that you have to update your portal files (i
 - Mobile View: switching vertical and horizontal view works better now.
 - Fix click issue between link of logo area and searchbar.
 - Close Button is now in line with Menu navigation.
-- Tools: open tools are closed when switching to a mode, that they do not support.
+- Modules: open modules are closed when switching to a mode, that they do not support.
 - Tree: sorting the layers in the topic tree in the same order as via share link.
 - GFI: shown GFI is closed if dedicated layer is removed from map.
 - OAF layers are now loaded and displayed correctly.
 - Draw: imported features can be modified and deleted. GetFeatureInfo attributes are shown on click on imported feature.
 - The routing module can now be saved via shareView.
 - Print: only layers are printed that are also displayed in the current scale
+
+### Known Issues
+- The module `modeler3D` is not yet moved to version 3. It will be added in the next minor release.
+- The zoom to searched folders in the layerTree is not yet possible. It will be added in the next minor release.
 
 ---
 
