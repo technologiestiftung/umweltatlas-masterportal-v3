@@ -40,7 +40,7 @@ Our further Roadmap is to work further on 3.0.0 and to release monthly minor rel
 * [Quick start for users](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/setup.md)
 * [Remote interface](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/remoteInterface.md)
 * [User documentation](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/doc.md)
-* [User documentation online](https://www.masterportal.org/dokumentation.html)
+* [User documentation online](https://www.masterportal.org/dokumentation)
 * [Community board (User forum and issue tracker)](https://trello.com/c/qajdXkMa/110-willkommen)
 
 ## Developer section
@@ -61,7 +61,7 @@ Our further Roadmap is to work further on 3.0.0 and to release monthly minor rel
     * Unit tests for new functions or updated tests for bugfixes
 
 #### Contributor License Agreement
-* Your contribution will be under [MIT License](https://bitbucket.org/geowerkstatt-hamburg/masterportal/raw/5e7faf83734509a15438805790d3b434428b35fc/License.txt)
+* Your contribution will be under [MIT License](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/License.txt)
 
 
 [![Sauce Test Status](https://app.eu-central-1.saucelabs.com/buildstatus/geodatenanwendungen_gv.hamburg.de)](https://app.eu-central-1.saucelabs.com/builds/dfd7abc54af1493091fbeef1b6b48ca6)
