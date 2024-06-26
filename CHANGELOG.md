@@ -200,9 +200,13 @@ In certain circumstances this means that you have to update your portal files (i
 - SearchBar: no error is logged to console, if a search request is aborted, because the same URL is requested again.
 - Routing directions: no "empty" button, it is not clickable anymore
 - Legend: using `legend: ignore` doesnt show up legend tab in layerinformation.
----
+
+### Known Issues
+- The module `modeler3D` is not yet moved to version 3. It will be added in the next minor release.
+- The zoom to searched folders in the layerTree is not yet possible. It will be added in the next minor release.
 
 ---
+
 ## 2023-12-18 v3.0.0 - beta2
 ### __Breaking Changes__
 - Dropped support for NodeJS 16 and Npm 8
@@ -331,10 +335,6 @@ In certain circumstances this means that you have to update your portal files (i
 - Draw: imported features can be modified and deleted. GetFeatureInfo attributes are shown on click on imported feature.
 - The routing module can now be saved via shareView.
 - Print: only layers are printed that are also displayed in the current scale
-
-### Known Issues
-- The module `modeler3D` is not yet moved to version 3. It will be added in the next minor release.
-- The zoom to searched folders in the layerTree is not yet possible. It will be added in the next minor release.
 
 ---
 
