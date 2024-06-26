@@ -79,7 +79,7 @@ export default {
 
     /**
      * Returns a folder by id.
-     * @param {Object} context state of the app-store.
+     * @param {Object} context The Vuex action context.
      * @param {Object} getters getters of the app-store.
      * @returns {Object} a folder by id
      */
@@ -124,7 +124,7 @@ export default {
 
     /**
      * Returns all subject data layers of layerConfig.
-     * @param {Object} context state of the app-store.
+     * @param {Object} context The Vuex action context.
      * @param {Object} getters getters of the app-store.
      * @returns {Object[]} The layers.
      */
@@ -133,7 +133,7 @@ export default {
     },
     /**
      * Returns all baselayers of layerConfig.
-     * @param {Object} context state of the app-store.
+     * @param {Object} context The Vuex action context.
      * @param {Object} getters getters of the app-store.
      * @returns {Object[]} The layers.
      */
@@ -170,7 +170,7 @@ export default {
 
     /**
      * Returns the content of all menu sections and of controls startModule menu entries.
-     * @param {Object} context state of the app-store.
+     * @param {Object} context The Vuex action context.
      * @param {Object} getters getters of the app-store.
      * @returns {Array} configs of all modules in sections and controls
      */
@@ -194,7 +194,7 @@ export default {
 
     /**
      * Returns the max zIndex of layer configs by parentKey.
-     * @param {Object} context state of the app-store.
+     * @param {Object} context The Vuex action context.
      * @param {Object} getters getters of the app-store.
      * @param {String} parentKey key of the parent
      * @returns {Number} the max zIndex
@@ -211,7 +211,7 @@ export default {
 
     /**
      * Returns the zIndex for the given layerConfig. If zIndex already exists at layerConfig, it is returned.
-     * @param {Object} context state of the app-store.
+     * @param {Object} context The Vuex action context.
      * @param {Object} getters getters of the app-store.
      * @param {String} id id of the layer
      * @returns {Number|null} the zIndex for the given layerConfig or null if layerConfig is not available
@@ -272,7 +272,7 @@ export default {
 
     /**
      * Returns all not visible baselayer configurations.
-     * @param {Object} context state of the app-store.
+     * @param {Object} context The Vuex action context.
      * @param {Object} getters getters of the app-store.
      * @returns {Object[]} The layers.
      */
@@ -284,7 +284,7 @@ export default {
 
     /**
      * Returns the layer is a baselayer or not
-     * @param {Object} context state of the app-store.
+     * @param {Object} context The Vuex action context.
      * @param {Object} getters getters of the app-store.
      * @returns {Boolean} Is baselayer.
      */
@@ -315,7 +315,7 @@ export default {
 
     /**
      * Filters the layer configs by the given attributes.
-     * @param {Object} context state of the app-store.
+     * @param {Object} context The Vuex action context.
      * @param {Object} getters getters of the app-store.
      * @returns {Array} filtered layer configs by the given attributes
      */
@@ -338,7 +338,7 @@ export default {
 
     /**
      * Returns the layer configuration with the given id.
-     * @param {Object} context state of the app-store.
+     * @param {Object} context The Vuex action context.
      * @param {Object} getters getters of the app-store.
      * @param {String} id id of the layer
      * @returns {Object|null}} the layer configuration with the given id
@@ -351,7 +351,7 @@ export default {
 
     /**
      * Returns the layer configs for url params.
-     * @param {Object} context state of the app-store.
+     * @param {Object} context The Vuex action context.
      * @param {Object} getters getters of the app-store.
      * @returns {Object[]} The layerConfigs for url params.
      */
@@ -498,7 +498,7 @@ export default {
 
     /**
      * Returns all visible layer configurations.
-     * @param {Object} context state of the app-store.
+     * @param {Object} context The Vuex action context.
      * @param {Object} getters getters of the app-store.
      * @returns {Object[]} Containing all layer configurations with property 'visibility' is true.
      */
@@ -510,7 +510,7 @@ export default {
 
     /**
      * Returns all visible subject data layer configurations.
-      * @param {Object} context state of the app-store.
+      * @param {Object} context The Vuex action context.
      * @param {Object} getters getters of the app-store.
      * @returns {Object[]} Containing all layer configurations with property 'visibility' is true.
      */
@@ -522,7 +522,7 @@ export default {
 
     /**
      * Returns all visible baselayer configurations.
-      * @param {Object} context state of the app-store.
+     * @param {Object} context The Vuex action context.
      * @param {Object} getters getters of the app-store.
      * @returns {Object[]} The layers with property 'visibility' is not true.
      */

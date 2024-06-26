@@ -66,7 +66,7 @@ export default {
 
     /**
      * Zoom to a given extent
-     * @param {Object} context store context.
+     * @param {Object} context The Vuex action context.
      * @param {Object} payload parameter object.
      * @param {String[]} payload.extent The extent to zoom.
      * @param {Object} payload.options Options for zoom.

@@ -391,7 +391,7 @@ export default {
 
     /**
      * draws a mask on the whole map
-     * @param {Object} context state
+     * @param {Object} context The Vuex action context.
      * @param {Object} drawMaskOpt - context of the postrender event
      * @returns {void}
      */

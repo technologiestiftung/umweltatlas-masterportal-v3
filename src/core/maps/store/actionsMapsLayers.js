@@ -91,7 +91,7 @@ export default {
 
     /**
      * Checks if a layer is in the map collections
-     * @param {Object} context context object.
+     * @param {Object} context The Vuex action context.
      * @param {module:ol/layer/Base~BaseLayer} layer The layer to check.
      * @returns {Boolean} if layer exists in mapCollection
      */

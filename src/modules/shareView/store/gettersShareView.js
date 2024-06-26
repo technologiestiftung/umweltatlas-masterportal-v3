@@ -20,7 +20,7 @@ const getters = {
     ...generateSimpleGetters(shareViewState),
 
     /**
-     * @param {Object} context shareView store state.
+     * @param {Object} context The Vuex action context.
      * @param {Object} __ shareView store getters.
      * @param {Object} ___ root state.
      * @param {Object} rootGetters root getters.

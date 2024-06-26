@@ -218,7 +218,7 @@ export default {
      * Retrieves and applies a style from the styleList based on the provided highlightObject and feature.
      * The style is then optionally committed to the Vuex store.
      *
-     * @param {Object} context - The Vuex action context, which includes commit, dispatch, and state.
+     * @param {Object} context - The Vuex action context.
      * @param {Object} payload - The payload containing the highlightObject and the feature.
      * @param {Object} payload.highlightObject - Contains parameters for feature highlighting.
      * @param {ol/feature} payload.feature - OpenLayers feature to highlight.

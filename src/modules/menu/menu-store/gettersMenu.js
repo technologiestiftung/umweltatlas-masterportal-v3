@@ -243,7 +243,7 @@ const menuGetters = {
      * Returns the attributes of a module.
      * If a getters `urlParams` exists in the module the attributes are obtained from it,
      * if none exists all attributes of the state are used.
-     * @param {Object} context menu store state.
+     * @param {Object} context The Vuex action context.
      * @param {Object} __ menu store getters.
      * @param {Object} rootState root state.
      * @param {Object} rootGetters root getters.
