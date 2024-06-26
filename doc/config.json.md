@@ -3514,6 +3514,7 @@ The shadow tool provides a UI element to define a point in time by using sliders
 |active|no|Boolean|false|If `true`, the tool is open after initializing the portal.|false|
 |data|yes|**[data](#markdown-header-portalconfigmenusectionsmodulesstatisticDashboarddata)**|""|data for statistic dashboard.|false|
 |classificationMode|no|String|"quantiles"|Method for dividing values into classes: "quantiles", "equalIntervals" or "benutzerdefiniert"|false|
+|allowPositiveNegativeMix|no|Boolean|false|If classification method is allowed to create classes like "from -1 to 1".|false|
 
 **Example**
 

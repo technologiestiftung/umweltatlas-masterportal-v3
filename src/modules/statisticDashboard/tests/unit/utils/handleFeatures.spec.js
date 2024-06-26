@@ -36,6 +36,12 @@ describe("src/modules/statisticDashboard/utils/handleFeatures.js", () => {
             expect(FeatureHandler.calcStepValues([1, 2, 3, 99], 2)).to.deep.equal([1, 2.5]);
             expect(FeatureHandler.calcStepValues([1, 2, 3, 99], 2, "equalIntervals")).to.deep.equal([1, 50]);
         });
+        it("should return expected array according to allowPositiveNegativeClasses", () => {
+            expect(FeatureHandler.calcStepValues([-2, 0, 2, 4], 2, "quantiles", true)).to.deep.equal([-2, 1]);
+            expect(FeatureHandler.calcStepValues([-2, 0, 2, 4], 2, "quantiles", false)).to.deep.equal([-2, 0]);
+            expect(FeatureHandler.calcStepValues([-2, 0, 2, 4], 2, "equalIntervals", true)).to.deep.equal([-2, 1]);
+            expect(FeatureHandler.calcStepValues([-2, 0, 2, 4], 2, "equalIntervals", false)).to.deep.equal([-2, 0]);
+        });
     });
     describe("closestIndex", () => {
         it("should return -1, when the given params are not the expected", () => {

@@ -29,14 +29,15 @@ function filterFeaturesByKeyValue (features, key, value) {
  * @param {String} date - The date for which the values are visualized
  * @param {String} regionKey - The key to the region in the feature.
  * @param {string} [classificationMode="quantiles"] Method of dividing the data into classes. "quantiles" or "equalIntervals".
+ * @param {Boolean} [allowPositiveNegativeClasses=false] If a class may contain both negative and positive values.
  * @returns {void}
  */
-function styleFeaturesByStatistic (features, statisticData, colorScheme, date, regionKey, classificationMode = "quantiles") {
+function styleFeaturesByStatistic (features, statisticData, colorScheme, date, regionKey, classificationMode = "quantiles", allowPositiveNegativeClasses = false) {
     if (!Array.isArray(features) || !Array.isArray(colorScheme)) {
         return;
     }
 
-    const stepValues = getStepValue(statisticData, colorScheme, date, classificationMode);
+    const stepValues = getStepValue(statisticData, colorScheme, date, classificationMode, allowPositiveNegativeClasses);
 
     Object.keys(statisticData).forEach((region) => {
         const index = closestIndex(stepValues, statisticData[region][date]),
@@ -75,12 +76,13 @@ function styleFeature (feature, fillColor = [255, 255, 255, 0.9]) {
  * @param {Number[]} colorScheme - The color scheme used for styling.
  * @param {String} date - The date for which the values are visualized
  * @param {string} [classificationMode="quantiles"] - Method of dividing values into classes. "quantiles" or "equalIntervals".
+ * @param {Boolean} [allowPositiveNegativeClasses=false] If a class may contain both negative and positive values.
  * @returns {void}
  */
-function getStepValue (statisticData, colorScheme, date, classificationMode = "quantiles") {
+function getStepValue (statisticData, colorScheme, date, classificationMode = "quantiles", allowPositiveNegativeClasses = false) {
     const statisticsValues = getStatisticValuesByDate(statisticData, date);
 
-    return calcStepValues(statisticsValues, colorScheme.length, classificationMode);
+    return calcStepValues(statisticsValues, colorScheme.length, classificationMode, allowPositiveNegativeClasses);
 }
 
 /**
@@ -88,9 +90,10 @@ function getStepValue (statisticData, colorScheme, date, classificationMode = "q
  * @param {Number[]} values - The values for which classes are to be defined.
  * @param {Number} [numberOfClasses=5] The number of classes.
  * @param {String} [classificationMode="quantiles"] Method of dividing values into classes. "quantiles" or "equalIntervals".
+ * @param {Boolean} [allowPositiveNegativeClasses=false] If a class may contain both negative and positive values.
  * @return {Number[]} The calculated values.
  */
-function calcStepValues (values, numberOfClasses = 5, classificationMode = "quantiles") {
+function calcStepValues (values, numberOfClasses = 5, classificationMode = "quantiles", allowPositiveNegativeClasses = false) {
 
     if (!Array.isArray(values)
         || !values.every(e => isNumber(e))
@@ -101,9 +104,9 @@ function calcStepValues (values, numberOfClasses = 5, classificationMode = "quan
         return [0];
     }
 
-    const
-        minValue = Math.min(...values),
-        maxValue = Math.max(...values);
+    const sortedValues = [...values].sort((a, b) => a - b),
+        minValue = sortedValues[0],
+        maxValue = sortedValues[values.length - 1];
 
     if (minValue === maxValue) {
         return [minValue];
@@ -120,8 +123,6 @@ function calcStepValues (values, numberOfClasses = 5, classificationMode = "quan
     }
     else if (classificationMode === "quantiles") {
 
-        const sortedValues = [...values].sort((a, b) => a - b);
-
         result.push(sortedValues[0]);
 
         for (let i = 1; i < numberOfClasses; i++) {
@@ -131,6 +132,30 @@ function calcStepValues (values, numberOfClasses = 5, classificationMode = "quan
             result.push(quantile(sortedValues, p));
         }
         result = [... new Set(result)];
+    }
+
+    if (!allowPositiveNegativeClasses && minValue < 0 && maxValue > 0 && !result.includes(0)) {
+        const indexOfFirstPositiveStep = result.findIndex(e => e > 0),
+            indexOfLastNegativeStep = indexOfFirstPositiveStep - 1,
+            firstPositiveStep = result[indexOfFirstPositiveStep],
+            lastNegativeStep = result[indexOfLastNegativeStep],
+            numberOfStrictlyNegativeClasses = indexOfLastNegativeStep,
+            isMixClassRatherNegative = Math.abs(lastNegativeStep) > firstPositiveStep,
+            requiredNumberOfNegativeClasses = numberOfStrictlyNegativeClasses + (isMixClassRatherNegative ? 1 : 0) || 1,
+            requiredNumberOfPositiveClasses = result.length - requiredNumberOfNegativeClasses;
+
+        result = [
+            ...calcStepValues(
+                [...sortedValues.filter(e => e < 0), 0],
+                requiredNumberOfNegativeClasses,
+                classificationMode
+            ),
+            ...calcStepValues(
+                [0, ...sortedValues.filter(e => e > 0)],
+                requiredNumberOfPositiveClasses,
+                classificationMode
+            )
+        ];
     }
 
     return result;

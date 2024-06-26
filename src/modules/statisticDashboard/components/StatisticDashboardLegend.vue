@@ -18,14 +18,14 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Modules/StatisticDashboard", ["classificationMode"]),
+        ...mapGetters("Modules/StatisticDashboard", ["classificationMode", "allowPositiveNegativeClasses"]),
 
         numberOfClasses () {
             return Number(this.selectNumberOfClasses);
         }
     },
     methods: {
-        ...mapMutations("Modules/StatisticDashboard", ["setClassificationMode"])
+        ...mapMutations("Modules/StatisticDashboard", ["setClassificationMode", "setAllowPositiveNegativeClasses"])
     }
 };
 </script>
@@ -87,6 +87,21 @@ export default {
             </div>
         </div>
         <div v-if="classificationMode !== 'benutzerdefiniert'">
+            <div class="form-check">
+                <input
+                    id="allowPosNegMix"
+                    class="form-check-input"
+                    type="checkbox"
+                    :checked="allowPositiveNegativeClasses"
+                    @change="setAllowPositiveNegativeClasses($event.target.checked)"
+                >
+                <label
+                    class="form-check-label"
+                    for="allowPosNegMix"
+                >
+                    Klassen mit positiven und negativen Werten zulassen
+                </label>
+            </div>
             <div class="form-floating mb-5">
                 <select
                     id="custom-color-palette"

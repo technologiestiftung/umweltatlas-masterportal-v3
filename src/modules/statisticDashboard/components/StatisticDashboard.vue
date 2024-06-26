@@ -188,7 +188,13 @@ export default {
                     this.selectedReferenceData !== undefined,
                     this.selectedReferenceData);
             }
-
+        },
+        allowPositiveNegativeClasses () {
+            if (this.selectedStatisticsNames?.length === 1) {
+                this.updateFeatureStyle(this.selectedColumn || this.dates[0],
+                    typeof this.selectedReferenceData !== "undefined",
+                    this.selectedReferenceData);
+            }
         }
     },
     async created () {
@@ -385,17 +391,17 @@ export default {
             this.layer.getSource().addFeatures(filteredFeatures);
 
             if (!differenceMode) {
-                FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.comparisonMap, date, regionNameAttribute, this.classificationMode);
+                FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.comparisonMap, date, regionNameAttribute, this.classificationMode, this.allowPositiveNegativeClasses);
                 this.setLegendData({
                     "color": this.colorScheme.comparisonMap,
-                    "value": FeaturesHandler.getStepValue(this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.comparisonMap, date, this.classificationMode)
+                    "value": FeaturesHandler.getStepValue(this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.comparisonMap, date, this.classificationMode, this.allowPositiveNegativeClasses)
                 });
                 return;
             }
-            FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.differenceMap, date, regionNameAttribute, this.classificationMode);
+            FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.differenceMap, date, regionNameAttribute, this.classificationMode, this.allowPositiveNegativeClasses);
             this.setLegendData({
                 "color": this.colorScheme.differenceMap,
-                "value": FeaturesHandler.getStepValue(this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.differenceMap, date, this.classificationMode)
+                "value": FeaturesHandler.getStepValue(this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.differenceMap, date, this.classificationMode, this.allowPositiveNegativeClasses)
             });
             if (selectedReferenceData?.type === "region") {
                 const referenceFeature = filteredFeatures.find(feature => feature.get(regionNameAttribute) === selectedReferenceData.value);

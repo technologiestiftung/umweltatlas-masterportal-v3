@@ -21,10 +21,14 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardLegend.vu
                             mutations: {
                                 setClassificationMode: (state, options) => {
                                     state.classificationMode = options;
+                                },
+                                setAllowPositiveNegativeClasses: (state, options) => {
+                                    state.allowPositiveNegativeClasses = options;
                                 }
                             },
                             getters: {
-                                classificationMode: (state) => state.classificationMode
+                                classificationMode: (state) => state.classificationMode,
+                                allowPositiveNegativeClasses: (state) => state.allowPositiveNegativeClasses
                             }
                         }
                     }
@@ -104,6 +108,39 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardLegend.vu
             await wrapper.setData({selectNumberOfClasses: 5});
 
             expect(wrapper.findAll("#value-ranges").length).to.equal(5);
+        });
+    });
+    describe("Allow positive negative checkbox", () => {
+        it("should show correct default status according to store", async () => {
+            const wrapper = shallowMount(StatisticDashboardLegend, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.setAllowPositiveNegativeClasses(true);
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.find("#allowPosNegMix").element.checked).to.equal(true);
+
+            wrapper.vm.setAllowPositiveNegativeClasses(false);
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.find("#allowPosNegMix").element.checked).to.equal(false);
+        });
+        it("should change value in store correctly when clicked", async () => {
+            const wrapper = shallowMount(StatisticDashboardLegend, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.setAllowPositiveNegativeClasses(false);
+
+            await wrapper.find("#allowPosNegMix").setValue(true);
+            await wrapper.find("#allowPosNegMix").trigger("change");
+
+            expect(wrapper.vm.allowPositiveNegativeClasses).to.equal(true);
         });
     });
 });

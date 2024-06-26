@@ -14,6 +14,7 @@
  * @property {Object[]} selectedRegions - The selected regions.
  * @property {Object[]} selectedDates - The selected dates.
  * @property {String} classificationMode - Method of dividing values into classes: "quantiles" or "equalIntervals".
+ * @property {Boolean} allowPositiveNegativeClasses - If classification may contain classes like "from -1 to 1".
  * @property {Object} legendData the legendValues with colors and value
  * @property {Boolean} addTotalCount If true, a row with total count will be inserted in table.
  * @property {Number} lineLimit The number of lines from which the line diagram is limited.
@@ -39,6 +40,7 @@ const state = {
     selectedDates: [],
     selectedStatistics: {},
     classificationMode: "quantiles",
+    allowPositiveNegativeClasses: false,
     chartTableToggle: "table",
     legendData: [],
     addTotalCount: false,

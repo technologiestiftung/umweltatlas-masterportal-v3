@@ -3514,7 +3514,8 @@ Das ShadowTool bietet eine Oberfläche zur Definition einer Zeitangabe. Über Sl
 |colorScheme|ja|**[colorScheme](#markdown-header-portalconfigmenusectionsmodulesstatisticDashboardcolorScheme)**|""|Definiert die Farben der Features in statisticdashboard.|false|
 |active|nein|Boolean|false|Wenn `true`, wird das Tool nach der Initialisierung des Portals geöffnet.|false|
 |data|ja|**[data](#markdown-header-portalconfigmenusectionsmodulesstatisticDashboarddata)**|""|Daten für das statistic Dashboard Werkzeug.|false|
-|classificationMode|nein|String|"quantiles"|Methode zur Klassenbildung für Chloroplethen und Legende: "quantiles", "equalIntervals" oder "benutzerdefiniert"|false|
+|classificationMode|nein|String|"quantiles"|Methode zur Klassenbildung für Choroplethen und Legende: "quantiles", "equalIntervals" oder "benutzerdefiniert"|false|
+|allowPositiveNegativeMix|nein|Boolean|false|Ob bei der Klassenbildung für Choroplethen und Legende Klassen mit sowohl negativen als auch positiven Werten erlaubt sind.|false|
 
 **Beispiel**
 
