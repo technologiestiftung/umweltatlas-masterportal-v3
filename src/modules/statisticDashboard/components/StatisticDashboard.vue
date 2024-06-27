@@ -930,7 +930,7 @@ export default {
          * @returns {void}
          */
         handleReset () {
-            this.layer.getSource().clear();
+            this.layer?.getSource()?.clear();
             this.tableData = [];
             Object.values(this.currentChart).forEach(val => {
                 val.chart.destroy();
@@ -1120,6 +1120,19 @@ export default {
                 rowTitle: true,
                 hintText: this.$t("common:modules.statisticDashboard.totalHint")
             };
+        },
+
+        /**
+         * Resets all the filter
+         * @returns {void}
+         */
+        resetAll () {
+            this.setSelectedCategories([]);
+            this.setSelectedRegions([]);
+            this.setSelectedDates([]);
+            this.setSelectedReferenceData(undefined);
+            this.setSelectedStatistics({});
+            this.handleReset();
         }
     }
 };
@@ -1208,6 +1221,16 @@ export default {
                 >
                     {{ tag }}
                     <i class="bi bi-x fs-6 align-middle" />
+                </button>
+                <button
+                    v-if="selectedFilters.length"
+                    id="reset-button"
+                    type="button"
+                    class="btn btn-sm btn-secondary rounded-pill lh-1 me-2 mb-2"
+                    @click="resetAll"
+                >
+                    <i class="bi bi-x-circle" />
+                    {{ $t("common:modules.statisticDashboard.button.reset") }}
                 </button>
                 <button
                     v-if="countSelectedFilters"

@@ -69,6 +69,7 @@ In certain circumstances this means that you have to update your portal files (i
 - FeatureLister: layers of typ OAF are supported.
 - StatisticDashboard:
   - Can now load data from an OAF Rest API if an OAF layer is configured.
+  - Reset All button.
 - Search for address via URL-Parameter.
 - The following packages have been added:
     - dependencies:
