@@ -63,6 +63,9 @@ export default {
             "currentMouseMapInteractionsComponent",
             "expanded"
         ]),
+        ...mapGetters("Maps", {
+            mapMode: "mode"
+        }),
 
         /**
          * Returns the current component type of the menu navigation by side.
@@ -281,7 +284,10 @@ export default {
         reset: function () {
             this.pagerIndex = 0;
             this.setGfiFeatures(null);
-            this.removeHighlightColor();
+
+            if (this.mapMode === "3D") {
+                this.removeHighlightColor();
+            }
         },
 
         /**
