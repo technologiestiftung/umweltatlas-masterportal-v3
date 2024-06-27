@@ -1,7 +1,7 @@
 import {generateSimpleMutations} from "../../../shared/js/utils/generators";
 import initialState from "./stateWmsTime";
 import findCurrentTimeSliderObject from "../utils/findCurrentTimeSliderObject";
-import Vue from "vue";
+import {nextTick} from "vue";
 
 const mutations = {
     ...generateSimpleMutations(initialState),
@@ -26,7 +26,7 @@ const mutations = {
         // NOTE: This is needed when the LayerSwiper is closed and no new value was selected in the second
         // TimeSlider thus newValue would be the same as defaultValue and would not trigger the update Event.
         currentObject.defaultValue = currentObject.timeRange?.[0];
-        Vue.nextTick(() => {
+        nextTick(() => {
             currentObject.defaultValue = newValue;
         });
     },

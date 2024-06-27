@@ -199,7 +199,7 @@ export default {
         if (layerConfig) {
             commit("Menu/setNavigationHistoryBySide", {side: "mainMenu", newHistory: []}, {root: true});
             dispatch("Menu/changeCurrentComponent", {type: "layerSelection", side: "mainMenu", props: {}}, {root: true});
-            dispatch("Modules/LayerSelection/showLayer", {layerId}, {root: true});
+            dispatch("Modules/LayerSelection/showLayer", {layerId, rawLayer: layerConfig}, {root: true});
         }
         else {
             console.warn("Cannot show layer with id ", layerId, ": is not contained in services.json");
@@ -252,7 +252,7 @@ export default {
         if (!layerConfig) {
             layerConfig = rawLayerList.getLayerWhere({id: layerId});
         }
-        if (!layerConfig && source) {
+        if (source) {
             dispatch("addLayerToTopicTree", {layerId, source: source, showInLayerTree: false, visibility: false});
             layerConfig = rootGetters.layerConfigById(layerId);
         }

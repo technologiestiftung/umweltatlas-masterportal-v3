@@ -220,7 +220,10 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
             });
             expect(dispatch.thirdCall.args[0]).to.equals("Modules/LayerSelection/showLayer");
             expect(dispatch.thirdCall.args[1]).to.be.deep.equals({
-                layerId: "123"
+                layerId: "123",
+                rawLayer: {
+                    id: "123"
+                }
             });
             expect(dispatch.getCall(3).args[0]).to.equals("Menu/navigateBack");
             expect(dispatch.getCall(3).args[1]).to.equals("mainMenu");
