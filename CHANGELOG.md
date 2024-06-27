@@ -108,6 +108,7 @@ In certain circumstances this means that you have to update your portal files (i
 - Added several WFS-T fixes and improvements.
 - Added `searchType` to treeSearch with default search by name otherwise md_name of dataset can be used.
 - Added possibility to fit layer extent from layer capabilities.
+- Introduced a new `compareMaps` tool that allows users to compare two different layers side by side. This tool provides functionalities for selecting and displaying two layers simultaneously, with a swiper control to adjust the visibility of each layer interactively. Users can switch between vertical and horizontal split directions for better visualization.
 
 ### Changed
 - CoordToolkit: Toast added instead of Alert for feedback after copying coordinates.
@@ -156,6 +157,7 @@ In certain circumstances this means that you have to update your portal files (i
 - Styling for Search Results to match topic tree.
 - GetFeatureInfo: Added mutation removeGfiFeatureByLayerId to remove a GfiFeature by given layerId.
 - Remove only Version 2 relevant information from docs, jsdoc and functions.
+- The `layerSwiper` functionality has been refactored and moved into the shared modules.
 
 ### Deprecated
 - Alerting: removed deprecated property `text`, use `content` instead.
