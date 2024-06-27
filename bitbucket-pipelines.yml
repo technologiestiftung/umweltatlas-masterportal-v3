@@ -1,7 +1,7 @@
 image: node:18.16.0
 
 clone:
-  depth: 500       # include the last five hundred commits
+  depth: 5000       # include the last five hundred commits
 
 pipelines:
     # Start pipeline with tag to build examples zips and copy them to the Bitbucket download folder
@@ -61,7 +61,7 @@ pipelines:
                     - git fetch --all --tags
                     - git checkout tags/$BITBUCKET_TAG
                     - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git $BITBUCKET_TAG
-                    - git clone --single-branch --branch dev https://geowerkstatt@bitbucket.org/geowerkstatt-hamburg/masterportal.git
+                    - git clone --single-branch --branch dev_vue https://geowerkstatt@bitbucket.org/geowerkstatt-hamburg/masterportal.git
                     - cd masterportal
                     - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git -f
     custom: # Pipelines that are triggered manually
@@ -84,6 +84,6 @@ pipelines:
                     - echo 'deply to opencode:'$lastTag
                     - git checkout tags/$lastTag
                     - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git $lastTag
-                    - git clone --single-branch --branch dev https://geowerkstatt@bitbucket.org/geowerkstatt-hamburg/masterportal.git
+                    - git clone --single-branch --branch dev_vue https://geowerkstatt@bitbucket.org/geowerkstatt-hamburg/masterportal.git
                     - cd masterportal
                     - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git -f
