@@ -6,7 +6,7 @@ clone:
 pipelines:
     # Start pipeline with tag to build examples zips and copy them to the Bitbucket download folder
     tags:
-        'v2.*.*':
+        'v3.*.*':
             - step:
                 name: build examples zip
                 caches:

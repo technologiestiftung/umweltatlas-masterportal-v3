@@ -7,7 +7,7 @@ categories:
   - geographic-information-systems
 description:
   de:
-    apiDocumentation: 'https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/README.md'
+    apiDocumentation: 'https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/README.md'
     documentation: 'https://www.masterportal.org/dokumentation.html'
     features:
       - OGC-konform
@@ -72,7 +72,7 @@ logo: |-
   https://www.masterportal.org/files/cto_layout/themedesigner/uploads/LGV_Masterportal_logo_quer_rgb_RZ.png
 maintenance:
   contacts:
-    - name: Markus Besenfelder
+    - name: Betrieb Webanwendungen
       affiliation:  Freie und Hansestadt Hamburg, Landesbetrieb Geoinformation und Vermessung
   contractors:
     - name: Landesbetrieb Geoinformation und Vermessung
