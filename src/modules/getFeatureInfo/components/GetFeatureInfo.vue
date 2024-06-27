@@ -284,7 +284,6 @@ export default {
         reset: function () {
             this.pagerIndex = 0;
             this.setGfiFeatures(null);
-
             if (this.mapMode === "3D") {
                 this.removeHighlightColor();
             }
