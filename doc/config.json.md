@@ -1851,6 +1851,26 @@ Email object containing email address, and display name.
 
 ***
 
+##### portalConfig.menu.sections.modules.compareMaps
+
+[inherits]: # (portalConfig.menu.sections.modules)
+
+compareMaps Tool: This tool allows users to compare two map layers side by side using a layer swiper. Users select layers from the active, visible layers, and the swiper divides the map to show each layer in separate sections. The tool supports WMS and WFS layers and ensures complete layer updates before allowing swiper movement for accurate comparison.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|type|no|String|"compareMaps"|The type of the module. Defines which module is configured.|false|
+
+**Example**
+
+```json
+{
+    "type": "compareMaps",
+}
+```
+
+***
+
 ##### portalConfig.menu.sections.modules.coordToolkit
 
 [inherits]: # (portalConfig.menu.sections.modules)
