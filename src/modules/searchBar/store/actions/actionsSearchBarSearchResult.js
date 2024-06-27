@@ -251,8 +251,12 @@ export default {
 
         if (!layerConfig) {
             layerConfig = rawLayerList.getLayerWhere({id: layerId});
+            if (source) {
+                dispatch("addLayerToTopicTree", {layerId, source: source, showInLayerTree: false, visibility: false});
+                layerConfig = rootGetters.layerConfigById(layerId);
+            }
         }
-        if (source) {
+        if (!layerConfig && source) {
             dispatch("addLayerToTopicTree", {layerId, source: source, showInLayerTree: false, visibility: false});
             layerConfig = rootGetters.layerConfigById(layerId);
         }

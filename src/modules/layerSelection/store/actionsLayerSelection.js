@@ -114,6 +114,7 @@ const actions = {
      * @param {Object} param.rootGetters the rootGetters
      * @param {Object} payload The payload.
      * @param {String} payload.layerId The layer id.
+     * @param {String} payload.rawLayer The rawLayer config.
      * @returns {void}
      */
     showLayer: ({commit, dispatch, rootGetters}, {layerId, rawLayer}) => {

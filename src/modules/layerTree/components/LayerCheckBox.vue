@@ -58,7 +58,7 @@ export default {
             const el = document.querySelector("#layer-selection-treenode-" + escapeId(this.highlightLayerId));
 
             if (el) {
-                el.parentNode.scrollTop = el.offsetTop - 100;
+                el.scrollIntoView({block: "nearest", behavior: "smooth"});
             }
         }
     },
