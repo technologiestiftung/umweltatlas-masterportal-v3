@@ -6,6 +6,7 @@ import Contact from "../contact/components/ContactFormular.vue";
 import CoordToolkit from "../coordToolkit/components/CoordToolkit.vue";
 import CopyrightConstraints from "../copyrightConstraints/components/CopyrightConstraints.vue";
 import CustomMenuElement from "../menu/components/CustomMenuElement.vue";
+import CompareMaps from "../compareMaps/components/CompareMaps.vue";
 import Draw from "../draw/components/DrawModule.vue";
 import Draw_old from "../draw_old/components/DrawItem.vue";
 import FeatureLister from "../featureLister/components/FeatureLister.vue";
@@ -21,6 +22,7 @@ import LayerPills from "../layerPills/components/LayerPills.vue";
 import LayerPreview from "../../shared/modules/layerPreview/components/LayerPreview.vue";
 import LayerSelection from "../layerSelection/components/LayerSelection.vue";
 import LayerSlider from "../layerSlider/components/LayerSlider.vue";
+import LayerSwiper from "../../shared/modules/layerSwiper/components/LayerSwiper.vue";
 import LayerTree from "../layerTree/components/LayerTree.vue";
 import Legend from "../legend/components/LegendContainer.vue";
 import LoginComponent from "../login/components/LoginComponent.vue";
@@ -53,6 +55,7 @@ const getters = {
             contact: Contact,
             coordToolkit: CoordToolkit,
             copyrightConstraints: CopyrightConstraints,
+            compareMaps: CompareMaps,
             customMenuElement: CustomMenuElement,
             draw: Draw,
             draw_old: Draw_old,
@@ -69,6 +72,7 @@ const getters = {
             layerPreview: LayerPreview,
             layerSelection: LayerSelection,
             layerSlider: LayerSlider,
+            layerSwiper: LayerSwiper,
             layerTree: LayerTree,
             legend: Legend,
             login: LoginComponent,
