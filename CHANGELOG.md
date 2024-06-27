@@ -1,9 +1,9 @@
-# Changelog Masterportal v3.0.0
+# Changelog Masterportal
  All important changes in this project are stored in this file.
 
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
-## Unreleased - in development
+## 2024-06-27 v3.0.0
 ### __Breaking Changes__
 - GetFeatureInfo:
     - module was renamed from `gfi`.
