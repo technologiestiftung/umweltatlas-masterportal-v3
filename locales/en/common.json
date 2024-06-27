@@ -90,6 +90,18 @@
       "targetLayerNotFound": "The saved target layer with the ID {{layerId}} was not found",
       "targetSelectLabel": "target layer"
     },
+    "compareMaps": {
+      "description": "Compare two maps side by side or on top of each other",
+      "firstLayer": "First Layer",
+      "horizontal": "horizontal",
+      "loadingWait": "Please wait, the tool is loading the comparison maps",
+      "name": "Compare Maps",
+      "reset": "Reset",
+      "secondLayer": "Second Layer",
+      "selectLayerOneFirst": "Please select the first layer first",
+      "splitDirection": "Direction: ",
+      "vertical": "vertical"
+    },
     "contact": {
       "addFileButton": "Add image",
       "description": "Ask questions about this portal or report bugs",

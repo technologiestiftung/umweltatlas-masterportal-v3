@@ -74,6 +74,18 @@
       "targetLayerNotFound": "Il layer di destinazione salvato con l'ID {{layerId}} non è stato trovato.",
       "targetSelectLabel": "Layer di destinazione"
     },
+    "compareMaps": {
+      "description": "Confrontare due mappe affiancate o una sopra l'altra",
+      "firstLayer": "Primo strato",
+      "horizontal": "orizzontale",
+      "loadingWait": "Attendere, lo strumento sta caricando le mappe di confronto",
+      "name": "Confronta mappe",
+      "reset": "Reimposta",
+      "secondLayer": "Secondo strato",
+      "selectLayerOneFirst": "Si prega di selezionare prima il primo strato",
+      "splitDirection": "Direzione: ",
+      "vertical": "verticale"
+    },
     "contact": {
       "addFileButton": "",
       "error": {

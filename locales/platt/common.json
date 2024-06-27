@@ -74,6 +74,18 @@
       "targetLayerNotFound": "Der gespeicherte Ziel-Layer mit der ID {{layerId}} wurde nicht gefunden.",
       "targetSelectLabel": "Ziel-Layer"
     },
+    "compareMaps": {
+      "description": "Twee Karten neveneen oder übereen vergelieken",
+      "firstLayer": "Eerste Layer",
+      "horizontal": "horizontal",
+      "loadingWait": "Bitte warten Sie, dat Tool laadt de Vergleichskarten",
+      "name": "Karten vergelieken",
+      "reset": "Resetten",
+      "secondLayer": "Tweede Layer",
+      "selectLayerOneFirst": "Bitte eerst den eersten Layer utsöken",
+      "splitDirection": "Richtung: ",
+      "vertical": "vertikal"
+    },
     "contact": {
       "addFileButton": "",
       "error": {

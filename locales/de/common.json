@@ -90,6 +90,18 @@
       "targetLayerNotFound": "Der gespeicherte Ziel-Layer mit der ID {{layerId}} wurde nicht gefunden.",
       "targetSelectLabel": "Ziel-Layer"
     },
+    "compareMaps": {
+      "description": "Zwei Karten nebeneinander oder übereinander vergleichen",
+      "firstLayer": "Erster Layer",
+      "horizontal": "horizontal",
+      "loadingWait": "Bitte warten Sie, das Tool lädt die Vergleichskarten",
+      "name": "Karten vergleichen",
+      "reset": "Zurücksetzen",
+      "secondLayer": "Zweiter Layer",
+      "selectLayerOneFirst": "Bitte wählen Sie zuerst den ersten Layer",
+      "splitDirection": "Ausrichtung: ",
+      "vertical": "vertikal"
+    },
     "contact": {
       "addFileButton": "Bild anhängen",
       "description": "Stelle Fragen zu diesem Portal oder Melde Fehler",

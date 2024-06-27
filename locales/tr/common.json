@@ -74,6 +74,18 @@
       "targetLayerNotFound": "{{layerId}} kimliğine sahip kaydedilen hedef katman bulunamadı.",
       "targetSelectLabel": "Hedef katman"
     },
+    "compareMaps": {
+      "description": "İki haritayı yan yana veya üst üste karşılaştırın",
+      "firstLayer": "Birinci Katman",
+      "horizontal": "yatay",
+      "loadingWait": "Lütfen bekleyin, araç karşılaştırma haritalarını yüklüyor",
+      "name": "Haritaları Karşılaştır",
+      "reset": "Sıfırla",
+      "secondLayer": "İkinci Katman",
+      "selectLayerOneFirst": "Lütfen önce birinci katmanı seçin",
+      "splitDirection": "Yön: ",
+      "vertical": "dikey"
+    },
     "contact": {
       "addFileButton": "",
       "error": {

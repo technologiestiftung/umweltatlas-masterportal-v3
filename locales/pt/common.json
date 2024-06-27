@@ -74,6 +74,18 @@
       "targetLayerNotFound": "",
       "targetSelectLabel": ""
     },
+    "compareMaps": {
+      "description": "Comparar dois mapas lado a lado ou um sobre o outro",
+      "firstLayer": "Primeira camada",
+      "horizontal": "horizontal",
+      "loadingWait": "Por favor, aguarde, a ferramenta está carregando os mapas de comparação",
+      "name": "Comparar Mapas",
+      "reset": "Redefinir",
+      "secondLayer": "Segunda camada",
+      "selectLayerOneFirst": "Por favor, selecione primeiro a primeira camada",
+      "splitDirection": "Direção: ",
+      "vertical": "vertical"
+    },
     "contact": {
       "addFileButton": "",
       "error": {

@@ -74,6 +74,18 @@
       "targetLayerNotFound": "Збережений цільовий шар з ідентифікатором {{layerId}} не знайдено.",
       "targetSelectLabel": "Цільовий шар"
     },
+    "compareMaps": {
+      "description": "Порівняти дві карти поруч або одну над одною",
+      "firstLayer": "Перший шар",
+      "horizontal": "горизонтально",
+      "loadingWait": "Будь ласка, зачекайте, інструмент завантажує карти для порівняння",
+      "name": "Порівняти карти",
+      "reset": "Скинути",
+      "secondLayer": "Другий шар",
+      "selectLayerOneFirst": "Будь ласка, спочатку виберіть перший шар",
+      "splitDirection": "Напрямок: ",
+      "vertical": "вертикально"
+    },
     "contact": {
       "addFileButton": "",
       "error": {

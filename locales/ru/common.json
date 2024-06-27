@@ -74,6 +74,18 @@
       "targetLayerNotFound": "Сохраненный целевой слой с идентификатором {{layerId}} не найден",
       "targetSelectLabel": "Целевой слой"
     },
+    "compareMaps": {
+      "description": "Сравнить две карты рядом друг с другом или одна на другой",
+      "firstLayer": "Первый слой",
+      "horizontal": "горизонтально",
+      "loadingWait": "Пожалуйста, подождите, инструмент загружает карты для сравнения",
+      "name": "Сравнить карты",
+      "reset": "Сбросить",
+      "secondLayer": "Второй слой",
+      "selectLayerOneFirst": "Пожалуйста, сначала выберите первый слой",
+      "splitDirection": "Направление: ",
+      "vertical": "вертикально"
+    },
     "contact": {
       "addFileButton": "",
       "error": {
