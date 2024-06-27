@@ -262,9 +262,10 @@ export default {
             "setMenuSide",
             "setClickCoordinates"
         ]),
-        ...mapActions(["initializeModule", "removeHighlightColor"]),
+        ...mapActions(["initializeModule"]),
         ...mapActions("Modules/GetFeatureInfo", [
-            "collectGfiFeatures"
+            "collectGfiFeatures",
+            "removeHighlightColor"
         ]),
         ...mapActions("Menu", [
             "changeCurrentComponent",
@@ -280,9 +281,7 @@ export default {
         reset: function () {
             this.pagerIndex = 0;
             this.setGfiFeatures(null);
-            if (this.mapMode === "3D") {
-                this.removeHighlightColor();
-            }
+            this.removeHighlightColor();
         },
 
         /**
