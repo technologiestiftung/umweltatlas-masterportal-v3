@@ -7,7 +7,7 @@
 ### __Breaking Changes__
 - GetFeatureInfo:
     - module was renamed from `gfi`.
-    -`desktopType` was removed, `detached` and `attached` are no longer provided, getFeatureInfo is displayed in sidebar.
+    - `desktopType` was removed, `detached` and `attached` are no longer provided, getFeatureInfo is displayed in sidebar.
 
 - Moved config.json-Parameter `twoFingerPan` from `portalConfig.map.mapView` to `portalConfig.map.mapView.mapInteractions.interactionModes`.
 
@@ -26,24 +26,24 @@ In certain circumstances this means that you have to update your portal files (i
 - 3D: Min- and MaxScale are now available for layers.
 - Print: An option "Improve scaling resolution" is implemented for 3d Layers to supply an improved and better resolution.
 - WfsSearch:
-  - A prop "resetParcelSearch" so that the wfs search parameter could be reset from outside component.
-  - A prop "zoomLevelProp" has been added. Can be used to set a zoom level (after search) that is different from the configured one.
+  - A prop `resetParcelSearch`, so that the wfs search parameter could be resetted from outside component.
+  - A prop `zoomLevelProp`. Can be used to set a zoom level (after search) that is different from the configured one.
 - Filter:
-  - A new parameter "closeGfi" to give an option if a gfi window is open, and it could be closed after a new filtering.
-  - A new parameter "universalSearch" in snippet with type "featureInfo" to enable to search the attribute value in webpage.
-  - A new parameter "beautifiedAttrName" in snippet with type "featureInfo" to supply beautified names for attributes.
-  - A new parameter "adjustOnlyFromParent" in snippet (up to now only for "Dropdown" type) to allow adjust just from parent snippet.
-  - A new parameter "linkText" to show a url link to the current filter setting at the bottom of the filter component.
-  - A new parameter "allowEmptySelection" in snippet with type "dropdown" to allow all values to be deselected.
-  - A new component "SnippetChart". SnippetChart can be configured as a one of the filter snippets and renders a chart as a visual representation of the data that result from the current filter settings. Makes use of BarchartItem (LinechartItem and PiechartItem may be added in the future), which uses the chart.js library and its various configuration options.
-  - A new parameter "alternativeTextForEmptyChart" in snippet type "chart" that can be displayed instead of chart.
-  - A new parameter "initialStartupReset" which allows to show a reset button and reset the filter back to initial setup. It prevents the adjusting so it should not be used as a reset for filter configurations without a child snippet.
-  - A new parameter "subtitle" in snippet type "chart" which allows to display any combination of text and data as a subtitle.
-  - A new parameter "tooltipUnit" in snippet type "chart" that can be used to add a unit to the numbers shown in tooltip.
-- LayerTree: A paramter "isNeverVisibleInTree" for layer config to supply an option to hide the layer in tree but can be loaded.
+  - A new parameter `closeGfi` to give an option if a gfi window is open, and it could be closed after a new filtering.
+  - A new parameter `universalSearch` in snippet with type "featureInfo" to enable to search the attribute value in webpage.
+  - A new parameter `beautifiedAttrName` in snippet with type "featureInfo" to supply beautified names for attributes.
+  - A new parameter `adjustOnlyFromParent` in snippet (up to now only for "Dropdown" type) to allow adjust just from parent snippet.
+  - A new parameter `linkText` to show a url link to the current filter setting at the bottom of the filter component.
+  - A new parameter `allowEmptySelection` in snippet with type "dropdown" to allow all values to be deselected.
+  - A new component `SnippetChart`. SnippetChart can be configured as a one of the filter snippets and renders a chart as a visual representation of the data that result from the current filter settings. Makes use of BarchartItem (LinechartItem and PiechartItem may be added in the future), which uses the chart.js library and its various configuration options.
+  - A new parameter `alternativeTextForEmptyChart` in snippet type "chart" that can be displayed instead of chart.
+  - A new parameter `initialStartupReset` which allows to show a reset button and reset the filter back to initial setup. It prevents the adjusting so it should not be used as a reset for filter configurations without a child snippet.
+  - A new parameter `subtitle` in snippet type "chart" which allows to display any combination of text and data as a subtitle.
+  - A new parameter `tooltipUnit` in snippet type "chart" that can be used to add a unit to the numbers shown in tooltip.
+- LayerTree: A paramter `isNeverVisibleInTree` for layer config to supply an option to hide the layer in tree but can be loaded.
 - PoiOrientation:
     - The result window can now be moved.
-    - New parameter onlyFilteredFeatures introduced, so that only filtered features are displayed in the results window.
+    - New parameter `onlyFilteredFeatures` introduced, so that only filtered features are displayed in the results window.
 - Grouped layers are supported.
 - Script to migrate masterportal configuration files to version 3.0.0 migrates layertree with folder structure ("Ordner" in config.json version 2) and group layers.
 - Added general CQL filter support for layers and WMS support to add CQL filters by attribute.
@@ -54,7 +54,6 @@ In certain circumstances this means that you have to update your portal files (i
 - Map: on touch devices the map can be moved with two fingers, if `twoFingerPan` is true in config.json.
 - FeatureLister: layers of typ OAF are supported.
 - StatisticDashboard:
-  - Migrated from MP2 to MP3
   - Can now load data from an OAF Rest API if an OAF layer is configured.
 - Search for address via URL-Parameter.
 - The following packages have been added:
@@ -67,7 +66,7 @@ In certain circumstances this means that you have to update your portal files (i
         - eslint-plugin-n: 17.9.0,
         - @stylistic/eslint-plugin-js: 2.2.1
 - Added several WFS-T fixes and improvements.
-- Added searchType to treeSearch with default search by name otherwise md_name of dataset can be used.
+- Added `searchType` to treeSearch with default search by name otherwise md_name of dataset can be used.
 - Added possibility to fit layer extent from layer capabilities.
 
 ### Changed
@@ -199,7 +198,7 @@ In certain circumstances this means that you have to update your portal files (i
 - 3D: GFI of Cesium3DTileFeature shows correct properties.
 - SearchBar: no error is logged to console, if a search request is aborted, because the same URL is requested again.
 - Routing directions: no "empty" button, it is not clickable anymore
-- Legend: using `legend: ignore` doesnt show up legend tab in layerinformation.
+- Legend: using `legend: ignore` doesnt show up legend tab in layer information.
 
 ### Known Issues
 - The module `modeler3D` is not yet moved to version 3. It will be added in the next minor release.
