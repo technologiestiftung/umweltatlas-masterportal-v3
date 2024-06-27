@@ -189,6 +189,85 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilter.vu
                 expect(wrapper.vm.selectedStatisticsArray).to.deep.equal([{key: "stat1", name: "Stat eins", category: "Kategorie 1"}]);
             });
         });
+        describe("validated", () => {
+            it("should return false if no options are chosen.", async () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                    propsData: {
+                        categories: [],
+                        timeStepsFilter,
+                        regions,
+                        areCategoriesGrouped: false
+                    },
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                await wrapper.vm.$nextTick();
+
+                expect(wrapper.vm.validated).to.be.false;
+            });
+
+            it("should return false if not all the options are chosen.", async () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                    propsData: {
+                        categories: [],
+                        timeStepsFilter,
+                        regions,
+                        areCategoriesGrouped: false,
+                        selectedCategories: []
+                    },
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                wrapper.vm.setSelectedCategories([{name: "Kategorie 1"}]);
+                await wrapper.vm.$nextTick();
+
+                expect(wrapper.vm.validated).to.be.false;
+            });
+
+            it("should return true if all the options are chosen.", async () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                    propsData: {
+                        categories: [],
+                        timeStepsFilter,
+                        regions,
+                        areCategoriesGrouped: false,
+                        selectedCategories: [{name: "Kategorie 1"}],
+                        selectedDates: ["Die letzten 5 Jahre"],
+                        selectedRegions: [{value: "Harburg", label: "Harburg"}],
+                        statistics: [{
+                            "stat1": {
+                                category: "Kategorie 1",
+                                name: "Stat eins"
+                            },
+                            "stat2": {
+                                category: "Kategorie 2",
+                                name: "Stat zwei"
+                            }
+                        }]
+                    },
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                wrapper.vm.setSelectedStatistics({"stat1": {
+                    category: "Kategorie 1",
+                    name: "Stat eins"
+                }});
+
+                wrapper.vm.setSelectedCategories([{name: "Kategorie 1"}]);
+                wrapper.vm.setSelectedDates(["Die letzten 5 Jahre"]);
+                wrapper.vm.setSelectedRegions([{value: "Harburg", label: "Harburg"}]);
+
+                await wrapper.vm.$nextTick();
+
+                expect(wrapper.vm.validated).to.be.true;
+            });
+        });
     });
 
     // describe("Watchers", () => {
@@ -230,7 +309,7 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilter.vu
                 flatButton = wrapper.findComponent({name: "FlatButton"});
 
             flatButton.vm.interaction();
-            expect(wrapper.emitted()).to.have.keys(["changeFilterSettings", "toggleFilter"]);
+            expect(wrapper.emitted()).to.have.keys(["resetStatistics", "toggleFilter"]);
         });
     });
 

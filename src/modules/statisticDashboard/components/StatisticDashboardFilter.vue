@@ -82,6 +82,18 @@ export default {
             return [];
         },
 
+        /**
+         * Check if all the input options are chosen.
+         * @returns {Boolean} true if all the input are not empty.
+         */
+        validated () {
+            if (this.selectedStatisticsArray.length && this.selectedRegions.length && this.selectedDates.length) {
+                return true;
+            }
+
+            return false;
+        },
+
         ...mapGetters("Modules/StatisticDashboard", ["selectedCategories", "selectedRegions", "selectedRegionsValues", "selectedDates", "selectedDatesValues", "selectedStatistics", "selectedReferenceData"])
     },
 
@@ -320,6 +332,7 @@ export default {
                 :interaction="() => $emit('toggleFilter')"
                 :text="$t('common:modules.statisticDashboard.button.back')"
                 :icon="'bi-check2'"
+                :disabled="!validated"
             />
         </div>
     </div>

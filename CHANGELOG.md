@@ -70,6 +70,7 @@ In certain circumstances this means that you have to update your portal files (i
 - StatisticDashboard:
   - Can now load data from an OAF Rest API if an OAF layer is configured.
   - Reset All button.
+  - Validation function in filter form.
 - Search for address via URL-Parameter.
 - The following packages have been added:
     - dependencies:
