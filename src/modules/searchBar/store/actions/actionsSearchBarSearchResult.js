@@ -291,9 +291,19 @@ export default {
      * @param {Array} payload.coordinates The coordinates to zoom to.
      * @returns {void}
      */
-    zoomToResult: ({dispatch, getters}, {coordinates}) => {
+    zoomToResult: ({dispatch, getters}, {coordinates, zoomMode = "center"}) => {
         const numberCoordinates = coordinates?.map(coordinate => parseFloat(coordinate, 10));
 
-        dispatch("Maps/zoomToCoordinates", {center: numberCoordinates, zoom: getters.zoomLevel}, {root: true});
+        if (zoomMode === "extent") {
+            const map = mapCollection.getMap("2D"),
+                view = map.getView(),
+                zoom = numberCoordinates ? view.getZoomForResolution(view.getResolutionForExtent(numberCoordinates, map.getSize())) : null;
+
+            dispatch("Maps/zoomToExtent", {extent: numberCoordinates, options: {maxZoom: zoom}}, {root: true});
+        }
+        else {
+            dispatch("Maps/zoomToCoordinates", {center: numberCoordinates, zoom: getters.zoomLevel}, {root: true});
+        }
+
     }
 };
