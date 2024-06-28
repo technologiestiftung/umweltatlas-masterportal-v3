@@ -889,7 +889,7 @@
       "reference": {
         "title": "Referenzart",
         "description": "Differenzwerte darstellen, bezogen auf ein Referenzjahr oder Gebiet",
-        "placeholder": "Bitte wählen Sie eine Option!",
+        "placeholder": "Bitte wählen Sie mind. eine Option!",
         "tagLabel": "Referenz"
       },
       "legend": {

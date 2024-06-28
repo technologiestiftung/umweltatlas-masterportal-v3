@@ -40,54 +40,23 @@ export default {
         }
     },
     emits: ["changeCategory", "changeFilterSettings", "resetStatistics", "toggleFilter"],
+    data () {
+        return {
+            sortedCategories: [],
+            sortedStatisticNames: [],
+            sortedSelectedStatistics: [],
+            sortedDates: [],
+            sortedRegions: []
+        };
+    },
 
     computed: {
-
-        /**
-         * Gets the statistics as array.
-         * @returns {Object[]} The statistics.
-         */
-        statisticsArray () {
-            if (this.statistics) {
-                const names = [];
-
-                this.statistics.forEach(stat => {
-                    Object.keys(stat).forEach(key => {
-                        names.push({
-                            key: key,
-                            name: stat[key]?.name,
-                            category: stat[key]?.category
-                        });
-                    });
-                });
-                return names;
-            }
-            return [];
-        },
-
-        /**
-         * Gets the selected statistics as array.
-         * @returns {Object[]} The selected statistics.
-         */
-        selectedStatisticsArray () {
-            if (this.statistics) {
-                return Object.keys(this.selectedStatistics).map(key => {
-                    return {
-                        key: key,
-                        name: this.selectedStatistics[key]?.name,
-                        category: this.selectedStatistics[key]?.category
-                    };
-                });
-            }
-            return [];
-        },
-
         /**
          * Check if all the input options are chosen.
          * @returns {Boolean} true if all the input are not empty.
          */
         validated () {
-            if (this.selectedStatisticsArray.length && this.selectedRegions.length && this.selectedDates.length) {
+            if (this.getSelectedStatisticNames(this.selectedStatistics).length && this.selectedRegions.length && this.selectedDates.length) {
                 return true;
             }
 
@@ -96,7 +65,6 @@ export default {
 
         ...mapGetters("Modules/StatisticDashboard", ["selectedCategories", "selectedRegions", "selectedRegionsValues", "selectedDates", "selectedDatesValues", "selectedStatistics", "selectedReferenceData"])
     },
-
     watch: {
         /**
          * Resets the statistics if no category is selected and emits the names of the selected categories or an empty array.
@@ -109,6 +77,15 @@ export default {
                     this.setSelectedStatistics({});
                 }
                 this.$emit("changeCategory", newValue);
+                this.sortedCategories = this.getCategoriesSorted(this.categories, newValue);
+            },
+            deep: true
+        },
+
+        statistics: {
+            handler () {
+                this.sortedStatisticNames = this.getStatisticNamesSorted(this.statistics, this.selectedStatistics);
+                this.sortedSelectedStatistics = this.getSelectedStatisticNames(this.selectedStatistics);
             },
             deep: true
         },
@@ -116,18 +93,22 @@ export default {
         selectedStatistics: {
             handler (newValue) {
                 this.emitFilterSettings(newValue, this.selectedRegionsValues, this.selectedDatesValues);
+                this.sortedStatisticNames = this.getStatisticNamesSorted(this.statistics, this.selectedStatistics);
+                this.sortedSelectedStatistics = this.getSelectedStatisticNames(this.selectedStatistics);
             },
             deep: true
         },
         selectedDates: {
             handler () {
                 this.emitFilterSettings(this.selectedStatistics, this.selectedRegionsValues, this.selectedDatesValues);
+                this.sortedDates = this.getDatesSorted(this.timeStepsFilter, this.selectedDates);
             },
             deep: true
         },
         selectedRegions: {
             handler () {
                 this.emitFilterSettings(this.selectedStatistics, this.selectedRegionsValues, this.selectedDatesValues);
+                this.sortedRegions = this.getRegionsSorted(this.regions, this.selectedRegions);
             },
             deep: true
         }
@@ -135,11 +116,112 @@ export default {
 
     mounted () {
         this.emitFilterSettings(this.selectedStatistics, this.selectedRegionsValues, this.selectedDatesValues);
+        this.sortedCategories = this.getCategoriesSorted(this.categories, this.selectedCategories);
+        this.sortedStatisticNames = this.getStatisticNamesSorted(this.statistics, this.selectedStatistics);
+        this.sortedSelectedStatistics = this.getSelectedStatisticNames(this.selectedStatistics);
+        this.sortedRegions = this.getRegionsSorted(this.regions, this.selectedRegions);
+        this.sortedDates = this.getDatesSorted(this.timeStepsFilter, this.selectedDates);
     },
 
     methods: {
         ...mapMutations("Modules/StatisticDashboard", ["setSelectedCategories", "setSelectedRegions", "setSelectedDates", "setSelectedStatistics"]),
+        /**
+         * Gets the categories sorted.
+         * @param {Object[]} categories The categories.
+         * @param {Object[]} selectedCategories The selected categories.
+         * @returns {Object[]} a sorted list of categories with selected ones first.
+         */
+        getCategoriesSorted (categories, selectedCategories) {
+            if (!Array.isArray(categories) || !Array.isArray(selectedCategories)) {
+                return [];
+            }
+            const nonSelectedCategories = [{name: "alle"}, ...categories].filter(category => !selectedCategories.some(selectedCategory => selectedCategory.name === category.name)),
+                result = [...selectedCategories, ...nonSelectedCategories];
 
+            return result;
+        },
+        /**
+         * Gets the statistic names sorted.
+         * @param {Object[]} statistics All statistics.
+         * @param {Object} selectedStatisticsObject The selected statistics object.
+         * @returns {Object[]} a list of all statistics sorted by selected ones first.
+         */
+        getStatisticNamesSorted (statistics, selectedStatisticsObject) {
+            if (!Array.isArray(statistics) || !isObject(selectedStatisticsObject)) {
+                return [];
+            }
+            const allStatistics = [],
+                selectedStatistics = [],
+                selectedStatisticsKeys = Object.keys(selectedStatisticsObject).sort((a, b) => selectedStatisticsObject[a].selectedOrder - selectedStatisticsObject[b].selectedOrder);
+            let notSelectedStatistics = [],
+                result = [];
+
+            statistics.forEach(stat => {
+                Object.keys(stat).forEach(key => {
+                    allStatistics.push({
+                        key: key,
+                        name: stat[key]?.name,
+                        category: stat[key]?.category
+                    });
+                });
+            });
+
+            notSelectedStatistics = allStatistics.filter(statistic => !Object.prototype.hasOwnProperty.call(selectedStatisticsObject, statistic.key));
+            selectedStatisticsKeys.forEach(key => selectedStatistics.push(allStatistics.find(stat => stat.key === key)));
+            result = [...selectedStatistics, ...notSelectedStatistics];
+
+            return result;
+        },
+        /**
+         * Gets the selected statistic names by given selected statistics object.
+         * @param {Object} selectedStatistics The selected statistic object.
+         * @returns {Object[]} the selected statistics as array of objects.
+         */
+        getSelectedStatisticNames (selectedStatistics) {
+            if (!isObject(selectedStatistics)) {
+                return [];
+            }
+            return Object.keys(selectedStatistics).map(key => {
+                return {
+                    key: key,
+                    name: selectedStatistics[key]?.name,
+                    category: selectedStatistics[key]?.category
+                };
+            });
+        },
+        /**
+         * Gets the dates sorted with the selected ones first.
+         * @param {Object[]} timeStepsFilter The timesteps filter array.
+         * @param {Object[]} selectedDates The selected dates.
+         * @returns {Object[]} the sorted array.
+         */
+        getDatesSorted (timeStepsFilter, selectedDates) {
+            if (!timeStepsFilter.length) {
+                return [];
+            }
+            if (!Array.isArray(selectedDates) || !selectedDates.length) {
+                return timeStepsFilter;
+            }
+            const notSelectedDates = timeStepsFilter.filter(timeStep => !selectedDates.some(selectedStep => selectedStep.label === timeStep.label)),
+                sortedDates = [...selectedDates, ...notSelectedDates];
+
+            return sortedDates;
+        },
+        /**
+         * Gets the regions sorted with the selected ones first.
+         * @param {Object[]} regions The regions array.
+         * @param {Object[]} selectedRegions The selected regions.
+         * @returns {Object[]} the regions sorted.
+         */
+        getRegionsSorted (regions, selectedRegions) {
+            if (!regions?.length || !Array.isArray(selectedRegions)) {
+                return [];
+            }
+            const notSelectedRegions = regions.filter(region => !selectedRegions.some(selectedRegion => selectedRegion.label === region.label)),
+                sortedRegions = [...selectedRegions, ...notSelectedRegions];
+
+            return sortedRegions;
+        },
         /**
          * Checks if all filter settings are selected.
          * @param {Object[]} statistics - The selected statistics.
@@ -174,7 +256,8 @@ export default {
          */
         addStatisticsToSelect (statistics) {
             this.setSelectedStatistics({});
-            statistics.forEach(statistic => {
+            [...statistics].forEach((statistic, selectIdx) => {
+                statistic.selectedOrder = selectIdx;
                 this.selectedStatistics[statistic?.key] = statistic;
             });
         },
@@ -186,16 +269,18 @@ export default {
          * @returns {void}
          */
         removeSelectedStatsByCategory (category) {
-            const isCategoryAllSelected = this.selectedCategories.filter(selectedCategory => selectedCategory.name === "alle").length,
-                statsToDelete = this.selectedStatisticsArray.filter(statistic => statistic.category === category.name);
+            const selectedStatisticsCopy = {...this.selectedStatistics},
+                isCategoryAllSelected = this.selectedCategories.filter(selectedCategory => selectedCategory.name === "alle").length,
+                statsToDelete = this.sortedSelectedStatistics.filter(statistic => statistic.category === category.name);
 
             if (category.name !== "alle" && isCategoryAllSelected) {
                 return;
             }
 
             statsToDelete.forEach(statistic => {
-                delete this.selectedStatistics[statistic.key];
+                delete selectedStatisticsCopy[statistic.key];
             });
+            this.setSelectedStatistics(selectedStatisticsCopy);
         }
     }
 };
@@ -221,7 +306,7 @@ export default {
                 <Multiselect
                     id="categoryfilter"
                     :model-value="selectedCategories"
-                    :options="[{name: 'alle'}, ...categories]"
+                    :options="sortedCategories"
                     :searchable="true"
                     :close-on-select="false"
                     :clear-on-select="false"
@@ -236,7 +321,13 @@ export default {
                     label="name"
                     @update:model-value="setSelectedCategories"
                     @remove="removeSelectedStatsByCategory"
-                />
+                >
+                    <template #clear>
+                        <div class="multiselect__clear">
+                            <i class="bi bi-search" />
+                        </div>
+                    </template>
+                </Multiselect>
             </div>
             <div class="col-sm-12">
                 <label
@@ -247,8 +338,8 @@ export default {
                 </label>
                 <Multiselect
                     id="statisticfilter"
-                    :model-value="selectedStatisticsArray"
-                    :options="statisticsArray"
+                    :model-value="sortedSelectedStatistics"
+                    :options="sortedStatisticNames"
                     :searchable="true"
                     :close-on-select="false"
                     :clear-on-select="false"
@@ -261,7 +352,13 @@ export default {
                     track-by="key"
                     label="name"
                     @update:model-value="addStatisticsToSelect"
-                />
+                >
+                    <template #clear>
+                        <div class="multiselect__clear">
+                            <i class="bi bi-search" />
+                        </div>
+                    </template>
+                </Multiselect>
             </div>
         </AccordionItem>
         <AccordionItem
@@ -280,8 +377,8 @@ export default {
                     id="areafilter"
                     :model-value="selectedRegions"
                     :multiple="true"
-                    :options="regions"
-                    :searchable="false"
+                    :options="sortedRegions"
+                    :searchable="true"
                     :close-on-select="false"
                     :clear-on-select="false"
                     :show-labels="false"
@@ -292,7 +389,13 @@ export default {
                     label="label"
                     track-by="label"
                     @update:model-value="setSelectedRegions"
-                />
+                >
+                    <template #clear>
+                        <div class="multiselect__clear">
+                            <i class="bi bi-search" />
+                        </div>
+                    </template>
+                </Multiselect>
             </div>
         </AccordionItem>
         <AccordionItem
@@ -311,8 +414,8 @@ export default {
                     id="timefilter"
                     :model-value="selectedDates"
                     :multiple="true"
-                    :options="timeStepsFilter"
-                    :searchable="false"
+                    :options="sortedDates"
+                    :searchable="true"
                     :close-on-select="false"
                     :clear-on-select="false"
                     :show-labels="false"
@@ -323,7 +426,13 @@ export default {
                     label="label"
                     track-by="label"
                     @update:model-value="setSelectedDates"
-                />
+                >
+                    <template #clear>
+                        <div class="multiselect__clear">
+                            <i class="bi bi-search" />
+                        </div>
+                    </template>
+                </Multiselect>
             </div>
         </AccordionItem>
         <div class="col-md-12 d-flex justify-content-center mt-2">
@@ -350,12 +459,22 @@ export default {
     font-family: "MasterPortalFont Bold";
 }
 
+.static-dashboard .multiselect__tags {
+    padding-left: 25px;
+}
+
 .static-dashboard .multiselect__tag {
         border-radius: 25px;
         padding-top: 5px;
         .multiselect__tag-icon:hover {
             background-color: $dark-blue;
         }
+}
+
+.static-dashboard .multiselect__clear {
+    position: absolute;
+    top: 12px;
+    left: 9px;
 }
 
 .static-dashboard .multiselect__option--selected.multiselect__option--highlight,

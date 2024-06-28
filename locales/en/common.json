@@ -889,7 +889,7 @@
       "reference": {
         "title": "Reference type",
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod",
-        "placeholder": "Please choose an option!",
+        "placeholder": "Please choose at least one option!",
         "tagLabel": "Reference"
       },
       "legend": {

@@ -116,79 +116,6 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilter.vu
         });
     });
     describe("Computed", () => {
-        describe("statisticsNames", () => {
-            it("should return an empty array", () => {
-                const wrapper = shallowMount(StatisticDashboardFilter, {
-                    propsData: {
-                        categories: [],
-                        timeStepsFilter,
-                        regions,
-                        areCategoriesGrouped: false
-                    },
-                    global: {
-                        plugins: [store]
-                    }
-                });
-
-                expect(wrapper.vm.statisticsArray).to.be.an("array").that.is.empty;
-
-            });
-            it("should return the names of the given statistics", () => {
-                const wrapper = shallowMount(StatisticDashboardFilter, {
-                    propsData: {
-                        categories: [],
-                        timeStepsFilter,
-                        regions,
-                        areCategoriesGrouped: false,
-                        statistics: [{
-                            "stat1": {
-                                category: "Kategorie 1",
-                                name: "Stat eins"
-                            }
-                        }]
-                    },
-                    global: {
-                        plugins: [store]
-                    }
-                });
-
-                expect(wrapper.vm.statisticsArray).to.deep.equal([{key: "stat1", name: "Stat eins", category: "Kategorie 1"}]);
-
-            });
-        });
-        describe("selectedStatisticsNames", () => {
-            it("should return an empty array", async () => {
-                const wrapper = shallowMount(StatisticDashboardFilter, {
-                    propsData: {
-                        categories: [],
-                        timeStepsFilter,
-                        regions,
-                        areCategoriesGrouped: false,
-                        statistics: [{
-                            "stat1": {
-                                category: "Kategorie 1",
-                                name: "Stat eins"
-                            }
-                        },
-                        {
-                            "stat2": {
-                                category: "Kategorie 2",
-                                name: "Stat zwei"
-                            }
-                        }]
-                    },
-                    global: {
-                        plugins: [store]
-                    }
-                });
-
-                wrapper.vm.setSelectedStatistics({"stat1": {
-                    category: "Kategorie 1",
-                    name: "Stat eins"
-                }});
-                expect(wrapper.vm.selectedStatisticsArray).to.deep.equal([{key: "stat1", name: "Stat eins", category: "Kategorie 1"}]);
-            });
-        });
         describe("validated", () => {
             it("should return false if no options are chosen.", async () => {
                 const wrapper = shallowMount(StatisticDashboardFilter, {
@@ -203,6 +130,9 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilter.vu
                     }
                 });
 
+                wrapper.vm.setSelectedStatistics({});
+                wrapper.vm.setSelectedDates([]);
+                wrapper.vm.setSelectedRegions([]);
                 await wrapper.vm.$nextTick();
 
                 expect(wrapper.vm.validated).to.be.false;
@@ -378,13 +308,13 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilter.vu
                 });
 
                 wrapper.vm.addStatisticsToSelect([{key: "stat1", name: "Stat eins"}, {key: "stat3", name: "Stat drei"}]);
-                expect(wrapper.vm.selectedStatistics).to.deep.equals({"stat1": {name: "Stat eins", key: "stat1"}, "stat3": {name: "Stat drei", key: "stat3"}});
+                expect(wrapper.vm.selectedStatistics).to.deep.equals({"stat1": {name: "Stat eins", key: "stat1", selectedOrder: 0}, "stat3": {name: "Stat drei", key: "stat3", selectedOrder: 1}});
 
             });
         });
 
         describe("removeSelectedStatsByCategory", () => {
-            it("should remove the statistics by the given category", () => {
+            it("should remove the statistics by the given category", async () => {
                 const wrapper = shallowMount(StatisticDashboardFilter, {
                     propsData: {
                         categories: [],
@@ -414,7 +344,9 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilter.vu
                     category: "Kategorie 1",
                     name: "Stat eins"
                 }});
+                await wrapper.vm.$nextTick();
                 wrapper.vm.removeSelectedStatsByCategory({name: "Kategorie 1"});
+                await wrapper.vm.$nextTick();
                 expect(wrapper.vm.selectedStatistics).to.be.an("object").to.be.empty;
             });
             it("should not remove the statistics by the given category if category 'alle' is selected", () => {
@@ -496,6 +428,303 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilter.vu
                     category: "Kategorie 1",
                     name: "Stat eins"
                 }});
+            });
+        });
+
+        describe("getCategoriesSorted", () => {
+            it("should return an empty array", () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                    propsData: {
+                        categories: [],
+                        timeStepsFilter,
+                        regions,
+                        areCategoriesGrouped: false,
+                        statistics: false
+                    },
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                expect(wrapper.vm.getCategoriesSorted()).to.be.an("array").that.is.empty;
+            });
+            it("should return the list given as it is", () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                        propsData: {
+                            categories: [],
+                            timeStepsFilter,
+                            regions,
+                            areCategoriesGrouped: false,
+                            statistics: false
+                        },
+                        global: {
+                            plugins: [store]
+                        }
+                    }),
+                    unsorted = [{name: "foo"}, {name: "bar"}],
+                    expected = [{name: "alle"}, {name: "foo"}, {name: "bar"}];
+
+                expect(wrapper.vm.getCategoriesSorted(unsorted, [])).to.deep.equal(expected);
+            });
+            it("should return the list sorted by the selected ones at first", () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                        propsData: {
+                            categories: [],
+                            timeStepsFilter,
+                            regions,
+                            areCategoriesGrouped: false,
+                            statistics: false
+                        },
+                        global: {
+                            plugins: [store]
+                        }
+                    }),
+                    unsorted = [{name: "foo"}, {name: "bar"}],
+                    expected = [{name: "bar"}, {name: "alle"}, {name: "foo"}];
+
+                expect(wrapper.vm.getCategoriesSorted(unsorted, [{name: "bar"}])).to.deep.equal(expected);
+            });
+        });
+
+        describe("getStatisticNamesSorted", () => {
+            it("should return an empty array", () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                    propsData: {
+                        categories: [],
+                        timeStepsFilter,
+                        regions,
+                        areCategoriesGrouped: false
+                    },
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                expect(wrapper.vm.getStatisticNamesSorted()).to.be.an("array").that.is.empty;
+            });
+            it("should return the names of the given statistics", () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                    propsData: {
+                        categories: [],
+                        timeStepsFilter,
+                        regions,
+                        areCategoriesGrouped: false
+                    },
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                expect(wrapper.vm.getStatisticNamesSorted(
+                    [
+                        {
+                            "stat1": {
+                                category: "Kategorie 1",
+                                name: "Stat eins"
+                            }
+                        }
+                    ], {})
+                ).to.deep.equal([{key: "stat1", name: "Stat eins", category: "Kategorie 1"}]);
+            });
+            it("should return the names of the given statistics with the selected ones at first position", async () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                    propsData: {
+                        categories: [],
+                        timeStepsFilter,
+                        regions,
+                        areCategoriesGrouped: false
+                    },
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                expect(wrapper.vm.getStatisticNamesSorted(
+                    [
+                        {
+                            "stat1": {
+                                category: "Kategorie 1",
+                                name: "Stat eins"
+                            },
+                            "stat2": {
+                                category: "Kategorie 2",
+                                name: "Stat zwei"
+                            }
+                        }
+                    ],
+                    {
+                        "stat2": {
+                            category: "Kategorie 2",
+                            name: "Stat zwei"
+                        }
+                    }
+                )).to.deep.equal([
+                    {key: "stat2", name: "Stat zwei", category: "Kategorie 2"},
+                    {key: "stat1", name: "Stat eins", category: "Kategorie 1"}
+                ]);
+            });
+        });
+
+        describe("getSelectedStatisticNames", () => {
+            it("should return an empty array", async () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                    propsData: {
+                        categories: [],
+                        timeStepsFilter,
+                        regions,
+                        areCategoriesGrouped: false,
+                        statistics: false
+                    },
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                expect(wrapper.vm.getSelectedStatisticNames()).to.be.an("array").that.is.empty;
+            });
+            it("should return an array with the selected statistic names in expected format", () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                    propsData: {
+                        categories: [],
+                        timeStepsFilter,
+                        regions,
+                        areCategoriesGrouped: false,
+                        statistics: false
+                    },
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                expect(wrapper.vm.getSelectedStatisticNames(
+                    {
+                        "stat1": {
+                            category: "Kategorie 1",
+                            name: "Stat eins"
+                        }
+                    }
+                )).to.deep.equal([{key: "stat1", name: "Stat eins", category: "Kategorie 1"}]);
+            });
+        });
+
+        describe("getDatesSorted", () => {
+            it("should return an empty array", () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                    propsData: {
+                        categories: [],
+                        timeStepsFilter: [],
+                        regions,
+                        areCategoriesGrouped: false,
+                        statistics: false
+                    },
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                expect(wrapper.vm.getDatesSorted([])).to.be.an("array").that.is.empty;
+            });
+            it("should return the array with all dates as given", () => {
+                const localTimeSteps = [
+                        {label: "Die letzten 5 Jahre", value: []},
+                        {label: "Die letzten 10 Jahre", value: []},
+                        {label: "Alle Jahre", value: []}
+                    ],
+                    wrapper = shallowMount(StatisticDashboardFilter, {
+                        propsData: {
+                            categories: [],
+                            timeStepsFilter,
+                            regions,
+                            areCategoriesGrouped: false,
+                            statistics: false
+                        },
+                        global: {
+                            plugins: [store]
+                        }
+                    });
+
+                expect(wrapper.vm.getDatesSorted(localTimeSteps)).to.deep.equal(localTimeSteps);
+            });
+            it("should return the array with the selected entries at first", () => {
+                const localTimeSteps = [
+                        {label: "Die letzten 5 Jahre", value: []},
+                        {label: "Die letzten 10 Jahre", value: []},
+                        {label: "Alle Jahre", value: []}
+                    ],
+                    wrapper = shallowMount(StatisticDashboardFilter, {
+                        propsData: {
+                            categories: [],
+                            timeStepsFilter,
+                            regions,
+                            areCategoriesGrouped: false,
+                            statistics: false
+                        },
+                        global: {
+                            plugins: [store]
+                        }
+                    });
+
+                expect(wrapper.vm.getDatesSorted(localTimeSteps, [{label: "Alle Jahre", value: []}])).to.deep.equal([
+                    {label: "Alle Jahre", value: []},
+                    {label: "Die letzten 5 Jahre", value: []},
+                    {label: "Die letzten 10 Jahre", value: []}
+                ]);
+            });
+        });
+
+        describe("regionsSorted", () => {
+            it("should return an empty array", () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                    propsData: {
+                        categories: [],
+                        timeStepsFilter,
+                        regions: [],
+                        areCategoriesGrouped: false,
+                        statistics: false
+                    },
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                expect(wrapper.vm.getRegionsSorted()).to.be.an("array").that.is.empty;
+            });
+            it("should return the array with all regions as given", () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                    propsData: {
+                        categories: [],
+                        timeStepsFilter,
+                        regions,
+                        areCategoriesGrouped: false,
+                        statistics: false
+                    },
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                expect(wrapper.vm.getRegionsSorted(regions, [])).to.deep.equal(regions);
+            });
+            it("should return the array with the selected entries at first", () => {
+                const wrapper = shallowMount(StatisticDashboardFilter, {
+                    propsData: {
+                        categories: [],
+                        timeStepsFilter,
+                        regions,
+                        areCategoriesGrouped: false,
+                        statistics: false
+                    },
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                expect(wrapper.vm.getRegionsSorted(regions, [{value: ["Harburg", "Lübeck", "Schwerin"], label: "Alle Gebiete"}])).to.deep.equal([
+                    {value: ["Harburg", "Lübeck", "Schwerin"], label: "Alle Gebiete"},
+                    {value: "Harburg", label: "Harburg"},
+                    {value: "Lübeck", label: "Lübeck"},
+                    {value: "Schwerin", label: "Schwerin"}
+                ]);
             });
         });
     });
