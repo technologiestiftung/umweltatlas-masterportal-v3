@@ -7,6 +7,8 @@
 ### __Breaking Changes__
 
 ### Added
+- SearchBar:
+    - Added the possibility to zoom to an extent from a search result.
 
 ### Changed
 
