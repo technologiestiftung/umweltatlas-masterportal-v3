@@ -43,26 +43,6 @@ describe("src/modules/statisticDashboard/utils/handleFeatures.js", () => {
             expect(FeatureHandler.calcStepValues([-2, 0, 2, 4], 2, "equalIntervals", false)).to.deep.equal([-2, 0]);
         });
     });
-    describe("closestIndex", () => {
-        it("should return -1, when the given params are not the expected", () => {
-            expect(FeatureHandler.closestIndex("string", 100)).to.be.equal(-1);
-            expect(FeatureHandler.closestIndex({}, 100)).to.be.equal(-1);
-            expect(FeatureHandler.closestIndex(true, 100)).to.be.equal(-1);
-            expect(FeatureHandler.closestIndex(false, 100)).to.be.equal(-1);
-
-            expect(FeatureHandler.closestIndex([100, 200, 300, 400, 500], "string")).to.be.equal(-1);
-            expect(FeatureHandler.closestIndex([100, 200, 300, 400, 500], {})).to.be.equal(-1);
-            expect(FeatureHandler.closestIndex([100, 200, 300, 400, 500], [])).to.be.equal(-1);
-            expect(FeatureHandler.closestIndex([100, 200, 300, 400, 500], true)).to.be.equal(-1);
-            expect(FeatureHandler.closestIndex([100, 200, 300, 400, 500], false)).to.be.equal(-1);
-        });
-        it("should return expected index", () => {
-            expect(FeatureHandler.closestIndex([100, 200, 300, 400, 500], 70)).to.be.equal(0);
-            expect(FeatureHandler.closestIndex([100, 200, 300, 400, 500], 310)).to.be.equal(2);
-            expect(FeatureHandler.closestIndex([100, 200, 300, 400, 500], 430)).to.be.equal(3);
-            expect(FeatureHandler.closestIndex([100, 200, 300, 400, 500], 770)).to.be.equal(4);
-        });
-    });
     describe("styleFeaturesByStatistic", () => {
         it("should set the styles correctly according to the values from the features", () => {
             const feature1 = new Feature({

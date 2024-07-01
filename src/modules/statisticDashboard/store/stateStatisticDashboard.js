@@ -15,6 +15,9 @@
  * @property {Object[]} selectedDates - The selected dates.
  * @property {String} classificationMode - Method of dividing values into classes: "quantiles" or "equalIntervals".
  * @property {Boolean} allowPositiveNegativeClasses - If classification may contain classes like "from -1 to 1".
+ * @property {Number} minNumberOfClasses - Minimum Number of classes selectable when editing the legend.
+ * @property {Number} maxNumberOfClasses - Maximum Number of classes selectable when editing the legend.
+ * @property {Number} numberOfClasses - Current number of classes selected in range.
  * @property {Object} legendData the legendValues with colors and value
  * @property {Boolean} addTotalCount If true, a row with total count will be inserted in table.
  * @property {Number} lineLimit The number of lines from which the line diagram is limited.
@@ -41,6 +44,9 @@ const state = {
     selectedStatistics: {},
     classificationMode: "quantiles",
     allowPositiveNegativeClasses: false,
+    minNumberOfClasses: 2,
+    maxNumberOfClasses: 5,
+    numberOfClasses: 5,
     chartTableToggle: "table",
     legendData: [],
     addTotalCount: false,

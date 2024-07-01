@@ -30,17 +30,18 @@ function filterFeaturesByKeyValue (features, key, value) {
  * @param {String} regionKey - The key to the region in the feature.
  * @param {string} [classificationMode="quantiles"] Method of dividing the data into classes. "quantiles" or "equalIntervals".
  * @param {Boolean} [allowPositiveNegativeClasses=false] If a class may contain both negative and positive values.
+ * @param {number} [numberOfClasses=5] The number of classes for classification.
  * @returns {void}
  */
-function styleFeaturesByStatistic (features, statisticData, colorScheme, date, regionKey, classificationMode = "quantiles", allowPositiveNegativeClasses = false) {
+function styleFeaturesByStatistic (features, statisticData, colorScheme, date, regionKey, classificationMode = "quantiles", allowPositiveNegativeClasses = false, numberOfClasses = 5) {
     if (!Array.isArray(features) || !Array.isArray(colorScheme)) {
         return;
     }
 
-    const stepValues = getStepValue(statisticData, colorScheme, date, classificationMode, allowPositiveNegativeClasses);
+    const stepValues = getStepValue(statisticData, colorScheme, date, classificationMode, allowPositiveNegativeClasses, numberOfClasses);
 
     Object.keys(statisticData).forEach((region) => {
-        const index = closestIndex(stepValues, statisticData[region][date]),
+        const index = stepValues.findLastIndex(e => statisticData[region][date] >= e),
             foundFeature = features.find(feature => feature.get(regionKey) === region);
 
         styleFeature(foundFeature, colorScheme[index]);
@@ -77,12 +78,13 @@ function styleFeature (feature, fillColor = [255, 255, 255, 0.9]) {
  * @param {String} date - The date for which the values are visualized
  * @param {string} [classificationMode="quantiles"] - Method of dividing values into classes. "quantiles" or "equalIntervals".
  * @param {Boolean} [allowPositiveNegativeClasses=false] If a class may contain both negative and positive values.
+ * @param {number} [numberOfClasses=5] The number of classes for classification.
  * @returns {void}
  */
-function getStepValue (statisticData, colorScheme, date, classificationMode = "quantiles", allowPositiveNegativeClasses = false) {
+function getStepValue (statisticData, colorScheme, date, classificationMode = "quantiles", allowPositiveNegativeClasses = false, numberOfClasses = 5) {
     const statisticsValues = getStatisticValuesByDate(statisticData, date);
 
-    return calcStepValues(statisticsValues, colorScheme.length, classificationMode, allowPositiveNegativeClasses);
+    return calcStepValues(statisticsValues, numberOfClasses, classificationMode, allowPositiveNegativeClasses);
 }
 
 /**
@@ -171,24 +173,6 @@ function getStatisticValuesByDate (statistic, date) {
     return Object.keys(statistic)
         .filter(region => typeof statistic[region][date] === "number")
         .map(region => statistic[region][date]);
-}
-
-/**
- * Finds the closest value in an array for the given value and return its index.
- * @param {Number[]} arr - The array to search in.
- * @param {Number} value - The value for which the closest index is searched.
- * @returns {Number} The index.
- */
-function closestIndex (arr, value) {
-    if (!Array.isArray(arr) || typeof value !== "number") {
-        return -1;
-    }
-
-    const differenceArray = arr.map(x => Math.abs(value - x)),
-        minNumber = Math.min(...differenceArray),
-        index = differenceArray.findIndex(x => x === minNumber);
-
-    return index;
 }
 
 /**
@@ -290,6 +274,5 @@ export default {
     calcStepValues,
     getStepValue,
     getLegendValue,
-    closestIndex,
     prepareLegendForPolygon
 };

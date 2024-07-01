@@ -3515,6 +3515,9 @@ The shadow tool provides a UI element to define a point in time by using sliders
 |data|yes|**[data](#markdown-header-portalconfigmenusectionsmodulesstatisticDashboarddata)**|""|data for statistic dashboard.|false|
 |classificationMode|no|String|"quantiles"|Method for dividing values into classes: "quantiles", "equalIntervals" or "benutzerdefiniert"|false|
 |allowPositiveNegativeMix|no|Boolean|false|If classification method is allowed to create classes like "from -1 to 1".|false|
+|minNumberOfClasses|no|Number|2|Minimum selectable number of classes for choropleth map and legend. At least 2.|false|
+|maxNumberOfClasses|no|Number|5|Maximum selectable number of classes for choropleth map and legend. At least 3.|false|
+|numberOfClasses|no|Number|5|Current selected number of classes.|false|
 
 **Example**
 

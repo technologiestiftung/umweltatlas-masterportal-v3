@@ -195,6 +195,13 @@ export default {
                     typeof this.selectedReferenceData !== "undefined",
                     this.selectedReferenceData);
             }
+        },
+        numberOfClasses () {
+            if (this.selectedStatisticsNames?.length === 1) {
+                this.updateFeatureStyle(this.selectedColumn || this.dates[0],
+                    typeof this.selectedReferenceData !== "undefined",
+                    this.selectedReferenceData);
+            }
         }
     },
     async created () {
@@ -213,6 +220,18 @@ export default {
     mounted () {
         this.selectedLevel = this.data[0];
         this.initializeData(this.selectedLevel);
+        if (this.minNumberOfClasses < 2) {
+            this.setMinNumberOfClasses(2);
+        }
+        if (this.maxNumberOfClasses < 3 || this.maxNumberOfClasses <= this.minNumberOfClasses) {
+            this.setMaxNumberOfClasses(Math.max(3, this.minNumberOfClasses + 1));
+        }
+        if (this.numberOfClasses < this.minNumberOfClasses) {
+            this.setNumberOfClasses(this.minNumberOfClasses);
+        }
+        if (this.numberOfClasses > this.maxNumberOfClasses) {
+            this.setNumberOfClasses(this.maxNumberOfClasses);
+        }
     },
     methods: {
         ...mapMutations("Modules/StatisticDashboard", Object.keys(mutations)),
@@ -391,17 +410,17 @@ export default {
             this.layer.getSource().addFeatures(filteredFeatures);
 
             if (!differenceMode) {
-                FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.comparisonMap, date, regionNameAttribute, this.classificationMode, this.allowPositiveNegativeClasses);
+                FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.comparisonMap, date, regionNameAttribute, this.classificationMode, this.allowPositiveNegativeClasses, this.numberOfClasses);
                 this.setLegendData({
                     "color": this.colorScheme.comparisonMap,
-                    "value": FeaturesHandler.getStepValue(this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.comparisonMap, date, this.classificationMode, this.allowPositiveNegativeClasses)
+                    "value": FeaturesHandler.getStepValue(this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.comparisonMap, date, this.classificationMode, this.allowPositiveNegativeClasses, this.numberOfClasses)
                 });
                 return;
             }
-            FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.differenceMap, date, regionNameAttribute, this.classificationMode, this.allowPositiveNegativeClasses);
+            FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.differenceMap, date, regionNameAttribute, this.classificationMode, this.allowPositiveNegativeClasses, this.numberOfClasses);
             this.setLegendData({
                 "color": this.colorScheme.differenceMap,
-                "value": FeaturesHandler.getStepValue(this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.differenceMap, date, this.classificationMode, this.allowPositiveNegativeClasses)
+                "value": FeaturesHandler.getStepValue(this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.differenceMap, date, this.classificationMode, this.allowPositiveNegativeClasses, this.numberOfClasses)
             });
             if (selectedReferenceData?.type === "region") {
                 const referenceFeature = filteredFeatures.find(feature => feature.get(regionNameAttribute) === selectedReferenceData.value);

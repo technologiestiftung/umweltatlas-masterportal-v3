@@ -13,19 +13,24 @@ export default {
         return {
             customColorPalette: [{label: "Blau", colorCode: "#35A9CE"}, {label: "Grün", colorCode: "#1CB82B"}, {label: "Rot", colorCode: "EE0FF2"}, {label: "Orange", colorCode: "#FAB505"}],
             opacity: ["50%", "60%", "70%", "80%", "90%", "100%"],
-            selectNumberOfClasses: 2,
             selectColor: "#ffffff"
         };
     },
     computed: {
-        ...mapGetters("Modules/StatisticDashboard", ["classificationMode", "allowPositiveNegativeClasses"]),
-
-        numberOfClasses () {
-            return Number(this.selectNumberOfClasses);
-        }
+        ...mapGetters("Modules/StatisticDashboard", [
+            "classificationMode",
+            "allowPositiveNegativeClasses",
+            "minNumberOfClasses",
+            "maxNumberOfClasses",
+            "numberOfClasses"
+        ])
     },
     methods: {
-        ...mapMutations("Modules/StatisticDashboard", ["setClassificationMode", "setAllowPositiveNegativeClasses"])
+        ...mapMutations("Modules/StatisticDashboard", [
+            "setClassificationMode",
+            "setAllowPositiveNegativeClasses",
+            "setNumberOfClasses"
+        ])
     }
 };
 </script>
@@ -68,23 +73,24 @@ export default {
             <label
                 for="class-range"
                 class="form-label"
-            >{{ $t('common:modules.statisticDashboard.legend.numberOfClasses') + ': ' + selectNumberOfClasses }} </label>
+            >{{ $t('common:modules.statisticDashboard.legend.numberOfClasses') + ': ' + numberOfClasses }} </label>
             <input
                 id="class-range"
-                v-model="selectNumberOfClasses"
                 type="range"
                 class="form-range"
-                :min="2"
-                :max="8"
+                :min="minNumberOfClasses"
+                :max="maxNumberOfClasses"
+                list="numbers"
+                :value="numberOfClasses"
+                @change="setNumberOfClasses(parseInt($event.target.value))"
             >
-            <div class="row justify-content-between">
-                <div class="col col-1 ">
-                    2
-                </div>
-                <div class="col col-1">
-                    8
-                </div>
-            </div>
+            <datalist id="numbers">
+                <option
+                    v-for="n in maxNumberOfClasses - minNumberOfClasses + 1"
+                    :key="n"
+                    :label="minNumberOfClasses + n - 1"
+                />
+            </datalist>
         </div>
         <div v-if="classificationMode !== 'benutzerdefiniert'">
             <div class="form-check">
@@ -209,6 +215,10 @@ export default {
     accent-color:  $secondary;
     width: 100%;
     appearance: auto;
+}
+datalist#numbers {
+    display: flex;
+    justify-content: space-between;
 }
 
 </style>
