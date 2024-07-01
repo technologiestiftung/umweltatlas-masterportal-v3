@@ -1331,6 +1331,7 @@ export default {
                         :select-mode="selectMode"
                         :show-header="showHeader"
                         :sortable="sortable"
+                        sort-by-numeric-value
                         @set-sorted-rows="setSortedRows"
                         @column-selected="setSelectedColumn"
                     />
@@ -1347,6 +1348,7 @@ export default {
                             :data="props.data"
                             :fixed-data="testFixedData"
                             :show-header="showHeader"
+                            sort-by-numeric-value
                             @set-sorted-rows="setSortedRows"
                         />
                     </template>
@@ -1358,6 +1360,7 @@ export default {
                             :fixed-data="testFixedData"
                             :show-header="showHeader"
                             :sortable="sortable"
+                            sort-by-numeric-value
                             @set-sorted-rows="setSortedRows"
                         />
                     </template>

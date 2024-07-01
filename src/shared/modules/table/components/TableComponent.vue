@@ -93,6 +93,11 @@ export default {
             type: [Object, Boolean],
             required: false,
             default: false
+        },
+        sortByNumericValue: {
+            type: Boolean,
+            required: false,
+            default: false
         }
     },
     emits: ["columnSelected", "rowSelected", "setSortedRows"],
@@ -240,8 +245,10 @@ export default {
                     return -1;
                 }
                 if (typeof b[columnToSort] === "undefined") {
-
                     return 1;
+                }
+                if (this.sortByNumericValue) {
+                    return parseFloat(a[columnToSort]) - parseFloat(b[columnToSort]);
                 }
                 return localeCompare(a[columnToSort], b[columnToSort], this.currentLocale, {ignorePunctuation: true});
             });

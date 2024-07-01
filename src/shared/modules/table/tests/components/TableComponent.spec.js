@@ -559,6 +559,73 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
 
                 expect(sortedItems).to.deep.equal(expectItems);
             });
+            it("should sort number strings by alphabet by default", () => {
+                const wrapper = shallowMount(TableComponent, {
+                        propsData: {
+                            data: {}
+                        },
+                        global: {
+                            plugins: [store]
+                        }
+                    }),
+                    items = [{
+                        "bar": "2"
+                    },
+                    {
+                        "bar": "11"
+                    },
+                    {
+                        "bar": "1"
+                    }],
+                    expectItems = [
+                        {
+                            "bar": "1"
+                        },
+                        {
+                            "bar": "11"
+                        },
+                        {
+                            "bar": "2"
+                        }
+                    ],
+                    sortedItems = wrapper.vm.getSortedItems(items, "bar", "asc");
+
+                expect(sortedItems).to.deep.equal(expectItems);
+            });
+            it("should sort number strings by their value if prop is set", () => {
+                const wrapper = shallowMount(TableComponent, {
+                        propsData: {
+                            data: {},
+                            sortByNumericValue: true
+                        },
+                        global: {
+                            plugins: [store]
+                        }
+                    }),
+                    items = [{
+                        "bar": "2"
+                    },
+                    {
+                        "bar": "11"
+                    },
+                    {
+                        "bar": "1"
+                    }],
+                    expectItems = [
+                        {
+                            "bar": "1"
+                        },
+                        {
+                            "bar": "2"
+                        },
+                        {
+                            "bar": "11"
+                        }
+                    ],
+                    sortedItems = wrapper.vm.getSortedItems(items, "bar", "asc");
+
+                expect(sortedItems).to.deep.equal(expectItems);
+            });
         });
         describe("runSorting", () => {
             it("should call expected functions", () => {
