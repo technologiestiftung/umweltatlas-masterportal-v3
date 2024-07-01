@@ -291,10 +291,10 @@ export default {
      * @param {Array} payload.coordinates The coordinates to zoom to.
      * @returns {void}
      */
-    zoomToResult: ({dispatch, getters}, {coordinates, zoomMode = "center"}) => {
+    zoomToResult: ({dispatch, getters}, {coordinates}) => {
         const numberCoordinates = coordinates?.map(coordinate => parseFloat(coordinate, 10));
 
-        if (zoomMode === "extent") {
+        if (numberCoordinates.length === 4) {
             const map = mapCollection.getMap("2D"),
                 view = map.getView(),
                 zoom = numberCoordinates ? view.getZoomForResolution(view.getResolutionForExtent(numberCoordinates, map.getSize())) : null;
