@@ -216,7 +216,7 @@ In certain circumstances this means that you have to update your portal files (i
 - 3D: GFI of Cesium3DTileFeature shows correct properties.
 - SearchBar: no error is logged to console, if a search request is aborted, because the same URL is requested again.
 - Routing directions: no "empty" button, it is not clickable anymore
-- Legend: using `legend: ignore` doesnt show up legend tab in layerinformation.
+- Legend: using `legend: ignore` doesnt show up legend tab in layer information.
 - GetFeatureInfo: color highlight disappears after closing the description
 
 ### Known Issues

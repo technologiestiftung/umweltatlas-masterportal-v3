@@ -703,6 +703,80 @@ describe("src/modules/getFeatureInfo/components/GetFeatureInfo.vue", () => {
         });
     });
 
+    describe("methods", () => {
+        describe("reset", () => {
+            it.only("should set pagerIndex to 0 and setGfiFeatures to null", () => {
+                const gfiFeatures = [{
+                        getGfiUrl: () => null,
+                        getFeatures: () => sinon.stub(),
+                        getProperties: () => {
+                            return {};
+                        }
+                    }],
+                    store = getGfiStore(false, undefined, gfiFeatures, []);
+                let wrapper = null;
+                // const wrapper = factory.getShallowMount({});
+
+                wrapper = shallowMount(GfiComponent, {
+                    components: {
+                        GetFeatureInfoDetached: {
+                            name: "GetFeatureInfoDetached",
+                            template: "<span />"
+                        },
+                        IconButton: {
+                            name: "IconButton",
+                            template: "<button>Hier</button>"
+                        }
+                    },
+                    data () {
+                        return {
+                            pagerIndex: 1
+                        };
+                    },
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                wrapper.vm.$options.watch.reset.handler.call(wrapper.vm);
+                expect(wrapper.vm.pagerIndex).to.equal(0);
+                expect(setGfiFeatures.calledOnce).to.be.true;
+                expect(setGfiFeatures.firstCall.args[1]).to.equals(null);
+
+            });
+            it.only("should call remove highlight color if the map is in 3D", () => {
+                const gfiFeatures = [{
+                        getGfiUrl: () => null,
+                        getFeatures: () => sinon.stub(),
+                        getProperties: () => {
+                            return {};
+                        }
+                    }],
+                    store = getGfiStore(false, undefined, gfiFeatures, []);
+                let wrapper = null;
+
+                wrapper = shallowMount(GfiComponent, {
+                    components: {
+                        GetFeatureInfoDetached: {
+                            name: "GetFeatureInfoDetached",
+                            template: "<span />"
+                        },
+                        IconButton: {
+                            name: "IconButton",
+                            template: "<button>Hier</button>"
+                        }
+                    },
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                wrapper.vm.$options.watch.reset.handler.call(wrapper.vm);
+                expect(removeHighlightColor.calledOnce).to.be.true;
+            });
+        });
+    });
+
     it("should display the footer", () => {
         const gfiFeatures = [{
                 getTheme: () => "default",
