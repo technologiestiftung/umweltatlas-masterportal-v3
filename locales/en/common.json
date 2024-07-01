@@ -872,7 +872,7 @@
         "filter": "Filter",
         "showMore": "show more...",
         "showLess": "show less...",
-        "back": "Back"
+        "done": "Done"
       },
       "label": {
         "category": "Category",
@@ -905,12 +905,11 @@
         "colorPalette": "Color Palette",
         "betweenValues": "between",
         "opacity": "Opacity",
-        "back": "Back",
         "reset": "Reset",
         "range": "Range",
         "color": "Color",
         "equalIntervals": "Equal intervals",
-        "quantile": "Quantile",
+        "quantile": "Equal class sizes (quantiles)",
         "customized": "Customized"
       },
       "totalHint": "Because of the percentage count, the total count is not so meaningful."

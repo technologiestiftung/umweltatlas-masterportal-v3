@@ -24,6 +24,11 @@ export default {
             type: String,
             required: false,
             default: "font-size-big"
+        },
+        colouredHeader: {
+            type: Boolean,
+            required: false,
+            default: false
         }
     }
 };
@@ -33,16 +38,20 @@ export default {
     <div
         :id="`accordion-container-${id}`"
         class="accordion accordion-bg accordion-flush"
+        :class="[!colouredHeader? 'border-0' : 'pt-2']"
     >
-        <div class="accordion-item border-0">
+        <div
+            class="accordion-item border-0"
+        >
             <div
                 v-if="title"
                 :id="`flush-heading-${id}`"
                 class="accordion-header ms-0"
             >
                 <button
-                    :class="['accordion-button ps-0 ', fontSize, !isOpen? 'collapsed' : '']"
+                    :class="['accordion-button', fontSize, !isOpen? 'collapsed' : '', !colouredHeader? 'ps-0' : 'rounded']"
                     type="button"
+                    :coloured="colouredHeader"
                     data-bs-toggle="collapse"
                     :data-bs-target="`#flush-collapse-${id}`"
                     aria-expanded="true"
@@ -61,7 +70,10 @@ export default {
                 :aria-labelledby="`flush-heading-${id}`"
                 :data-bs-parent="`#accordion-container-${id}`"
             >
-                <div class="accordion-body pt-0">
+                <div
+                    class="accordion-body"
+                    :class="['accordion-body', !colouredHeader? 'pt-0' : 'pb-2']"
+                >
                     <slot />
                 </div>
             </div>
@@ -71,6 +83,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "~variables";
+
     .accordion {
         --bs-border-color: $white;
         --bs-accordion-active-bg: $white;
@@ -81,5 +94,10 @@ export default {
         .font-size-base {
             font-size: $font-size-base;
         }
-    }
+
+   [coloured=true] {
+        background-color: $light_blue;
+   }
+
+   }
 </style>

@@ -681,7 +681,7 @@ export default {
                 }
                 else {
                     this.showLineLimitView = false;
-                    this.currentChart[uniqueTopic].chart = ChartProcessor.createLineChart(topic, preparedData, canvasTmp, this.colorScheme.lineChart, renderSimple);
+                    this.currentChart[uniqueTopic].chart = ChartProcessor.createLineChart(topic, preparedData, canvasTmp, this.colorScheme.lineCharts, renderSimple);
                 }
             }
             else if (type === "bar") {
@@ -1180,9 +1180,9 @@ export default {
         <div v-show="!showFilter && !showLegendView">
             <div class="row justify-content-between">
                 <div class="col-md-12 d-flex align-items-center">
-                    <h4 class="mb-0">
+                    <h5 class="mb-2">
                         {{ $t(levelTitle ?? subtitle) }}
-                    </h4>
+                    </h5>
                     <div
                         v-if="getMetadataLink()"
                         class="mx-2"
@@ -1201,7 +1201,7 @@ export default {
                 </div>
                 <div
                     v-if="buttonGroupRegions.length > 1"
-                    class="col-md-auto"
+                    class="col-md-auto mt-2"
                 >
                     <StatisticSwitcher
                         :buttons="buttonGroupRegions"
@@ -1267,6 +1267,10 @@ export default {
                     <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
+            <hr
+                v-if="Array.isArray(legendValue) && legendValue.length || showNoLegendData"
+                class="mb-0"
+            >
             <AccordionItem
                 v-show="Array.isArray(legendValue) && legendValue.length || showNoLegendData"
                 id="legend-accordion"
@@ -1331,6 +1335,7 @@ export default {
                 v-if="loadedReferenceData"
                 :descriptions="controlDescription"
                 :reference-data="referenceData"
+                class="mb-3"
                 @show-chart-table="toggleChartTable"
             />
             <div v-show="showTable">
@@ -1345,6 +1350,7 @@ export default {
                         :select-mode="selectMode"
                         :show-header="showHeader"
                         :sortable="sortable"
+                        :enable-settings="true"
                         sort-by-numeric-value
                         @set-sorted-rows="setSortedRows"
                         @column-selected="setSelectedColumn"
@@ -1418,7 +1424,13 @@ export default {
                             :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
                             @select="addSelectedFilteredRegions"
                             @remove="removeRegion"
-                        />
+                        >
+                            <template #clear>
+                                <div class="multiselect__clear">
+                                    <i class="bi bi-search" />
+                                </div>
+                            </template>
+                        </Multiselect>
                     </div>
                 </div>
                 <div
@@ -1479,4 +1491,20 @@ export default {
         font-size: $font_size_sm;
         margin-top: 15px;
     }
+    .chart-container {
+        min-height: 50vh;
+
+    }
+</style>
+<style lang="scss" scoped>
+@import "~variables";
+ .static-dashboard .multiselect__tags {
+    padding-left: 25px;
+}
+.static-dashboard .multiselect__clear {
+    position: absolute;
+    top: 12px;
+    left:20px;
+}
+
 </style>

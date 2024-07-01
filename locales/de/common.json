@@ -872,7 +872,7 @@
         "filter": "Filter",
         "showMore": "weitere anzeigen...",
         "showLess": "weniger anzeigen...",
-        "back": "Zurück"
+        "done": "Fertig"
       },
       "label": {
         "category": "Kategorie",
@@ -905,12 +905,11 @@
         "colorPalette": "Farbpalette",
         "betweenValues": "bis unter",
         "opacity": "Deckkraft",
-        "back": "Zurück",
         "reset": "Zurücksetzen",
         "range": "Bereich",
         "color": "Farbe",
         "equalIntervals": "gleiche Intervalle",
-        "quantile": "nach Quantilen",
+        "quantile": "gleiche Klassengrößen (Quantile)",
         "customized": "benutzerdefiniert"
       },
       "totalHint": "Unsinnige Summierung für Prozent-Werten."

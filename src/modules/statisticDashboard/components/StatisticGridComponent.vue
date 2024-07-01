@@ -141,7 +141,6 @@ export default {
     flex-basis: 30%;
     flex-grow: 1;
     flex-shrink: 1;
-    border: 1px solid #dee2e6;
     max-width: 280px;
     min-width: 260px;
     height: 280px;

@@ -288,14 +288,15 @@ export default {
 
 <template>
     <div>
-        <h4 class="mb-1">
+        <h5 class="mb-1">
             {{ $t("common:modules.statisticDashboard.headings.addFilter") }}
-        </h4>
+        </h5>
         <AccordionItem
             id="filter-accordion-statistic"
             title="Statistiken"
             :is-open="true"
             :font-size="'font-size-base'"
+            :coloured-header="true"
         >
             <div class="col-sm-12">
                 <label
@@ -366,6 +367,7 @@ export default {
             title="Gebiete"
             :is-open="true"
             :font-size="'font-size-base'"
+            :coloured-header="true"
         >
             <div class="col-sm-12">
                 <label
@@ -403,6 +405,7 @@ export default {
             title="Jahre"
             :is-open="true"
             :font-size="'font-size-base'"
+            :coloured-header="true"
         >
             <div class="col-sm-12">
                 <label
@@ -437,9 +440,9 @@ export default {
         </AccordionItem>
         <div class="col-md-12 d-flex justify-content-center mt-2">
             <FlatButton
-                :aria-label="$t('common:modules.statisticDashboard.button.back')"
+                :aria-label="$t('common:modules.statisticDashboard.button.done')"
                 :interaction="() => $emit('toggleFilter')"
-                :text="$t('common:modules.statisticDashboard.button.back')"
+                :text="$t('common:modules.statisticDashboard.button.done')"
                 :icon="'bi-check2'"
                 :disabled="!validated"
             />
@@ -469,6 +472,9 @@ export default {
         .multiselect__tag-icon:hover {
             background-color: $dark-blue;
         }
+}
+.static-dashboard .multiselect__tag-icon::after {
+    color: $black;
 }
 
 .static-dashboard .multiselect__clear {

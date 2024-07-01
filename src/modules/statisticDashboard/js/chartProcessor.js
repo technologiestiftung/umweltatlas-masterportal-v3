@@ -23,25 +23,37 @@ function createLineChart (topic, preparedData, canvas, colors, renderSimple = fa
                 datasets
             },
             options: {
-                title: {
-                    display: true,
-                    text: renderSimple ? splitTextByWordAndChunkSize(topic, 30) : topic,
-                    fontSize: 13,
-                    fontFamily: "MasterPortalFont Bold",
-                    fontStyle: "normal",
-                    padding: 10,
-                    fontColor: "rgb(51, 51, 51)"
-                },
-                legend: {
-                    position: "bottom",
-                    fontSize: 10
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: "bottom",
+                        fontSize: 10
+                    },
+                    title: {
+                        display: true,
+                        text: renderSimple ? splitTextByWordAndChunkSize(topic, 30) : topic,
+                        font: {
+                            size: 16,
+                            family: "MasterPortalFont Bold",
+                            style: "normal"
+                        },
+                        padding: 10,
+                        color: "rgb(0, 0, 0)"
+                    }
                 },
                 scales: {
                     x: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: {
+                            color: "rgb(0, 0, 0)"
+                        }
                     },
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: {
+                            color: "rgb(0, 0, 0)"
+                        }
                     }
                 }
             }
@@ -75,29 +87,42 @@ function createBarChart (topic, preparedData, direction, canvas, renderSimple = 
                     label: topic,
                     data: dataValues,
                     borderColor: dataColors,
-                    backgroundColor: dataColors
+                    backgroundColor: dataColors,
+                    hoverBackgroundColor: "rgb(214, 227, 255)"
                 }]
             },
             options: {
                 indexAxis: direction === "horizontal" ? "y" : "x",
-                legend: {
-                    display: false
-                },
-                title: {
-                    display: true,
-                    text: renderSimple ? splitTextByWordAndChunkSize(topic + " " + getYearFromPreparedData(preparedData), 30) : topic + " " + getYearFromPreparedData(preparedData),
-                    fontSize: 13,
-                    fontFamily: "MasterPortalFont Bold",
-                    fontStyle: "normal",
-                    padding: 10,
-                    fontColor: "rgb(51, 51, 51)"
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: renderSimple ? splitTextByWordAndChunkSize(topic + " " + getYearFromPreparedData(preparedData), 30) : topic + " " + getYearFromPreparedData(preparedData),
+                        font: {
+                            size: 16,
+                            family: "MasterPortalFont Bold",
+                            style: "normal"
+                        },
+                        color: "rgb(0, 0, 0)",
+                        padding: 10
+                    }
                 },
                 scales: {
                     x: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: {
+                            color: "rgb(0, 0, 0)"
+                        }
                     },
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: {
+                            color: "rgb(0, 0, 0)"
+                        }
                     }
                 }
             }
@@ -108,6 +133,14 @@ function createBarChart (topic, preparedData, direction, canvas, renderSimple = 
         barChartConfig.options.scales.y = {
             display: false
         };
+        if (direction === "horizontal") {
+            barChartConfig.options.scales.y = {
+                ticks: {
+                    mirror: true,
+                    z: 1
+                }
+            };
+        }
     }
     barChartConfig.options.scales.x.position = direction === "horizontal" ? "top" : "bottom";
     return new Chart(chart.getContext("2d"), barChartConfig);

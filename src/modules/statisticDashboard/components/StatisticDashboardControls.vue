@@ -149,14 +149,6 @@ export default {
             }
         },
         /**
-         * Shows the difference modal
-         * @param {Boolean} value - true to show difference Modal
-         * @returns {void}
-         */
-        showDifference (value = true) {
-            this.showDifferenceModal = value;
-        },
-        /**
          * Sets chart or table view
          * @param {String} value - The name of clicked button.
          * @returns {void}
@@ -212,51 +204,67 @@ export default {
             />
         </div>
         <!-- Controls -->
-        <div class="btn-toolbar">
-            <StatisticSwitcher
-                :buttons="buttonGroupControls"
-                :pre-checked-value="precheckedViewSwitcher"
-                class="btn-table-diagram"
-                group="dataViews"
-                @show-view="handleView"
-            />
-            <div
-                class="btn-group me-2 pb-1 difference-button"
-                data-toggle="tooltip"
-                data-placement="top"
-                :title="$t('common:modules.statisticDashboard.reference.description')"
-            >
-                <button
-                    type="button"
-                    :class="typeof referenceTag === 'string' || showDifferenceModal ? 'btn button-style btn-sm lh-1' : 'btn button-style-outline btn-sm lh-1'"
-                    @click="showDifference"
+        <div class="container">
+            <div class="btn-toolbar row align-items-start">
+                <StatisticSwitcher
+                    :buttons="buttonGroupControls"
+                    :pre-checked-value="precheckedViewSwitcher"
+                    class="col col-md btn-table-diagram mb-2"
+                    group="dataViews"
+                    @show-view="handleView"
+                />
+                <div
+                    class="col col-md mt-0"
                 >
-                    <i class="bi bi-intersect pe-2" />{{ $t("common:modules.statisticDashboard.button.difference") }}
-                </button>
-                <template v-if="showDifferenceModal">
-                    <DifferenceModal
-                        class="difference-modal"
-                        :reference-data="referenceData"
-                        @show-difference="showDifference"
-                    />
-                </template>
-            </div>
-            <div
-                v-if="typeof referenceTag === 'string'"
-                class="reference-tag"
-            >
-                <div class="col-form-label-sm">
-                    {{ $t("common:modules.statisticDashboard.reference.tagLabel") }}:
+                    <div
+                        class="difference-button mt-0"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        :title="$t('common:modules.statisticDashboard.reference.description')"
+                    >
+                        <button
+                            :aria-label="$t('common:modules.statisticDashboard.button.difference')"
+                            icon="bi bi-intersect"
+                            class="btn btn-light btn-sm px-3 py-2 dropdown-toggle"
+                            :class="typeof referenceTag === 'string' ? 'active' : ''"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                            data-bs-auto-close="outside"
+                        >
+                            <i
+                                class="bi bi-intersect pe-2"
+                            />
+                            {{ $t('common:modules.statisticDashboard.button.difference') }}
+                        </button>
+                        <div
+                            class="dropdown-menu p-4"
+                        >
+                            <DifferenceModal
+                                class="difference-modal"
+                                :reference-data="referenceData"
+                            />
+                        </div>
+                    </div>
                 </div>
-                <button
-                    class="btn btn-sm btn-outline-secondary lh-1 rounded-pill shadow-none mt-1 me-2 btn-pb"
-                    aria-label="Close"
-                    @click="removeReference()"
-                    @keydown.enter="removeReference()"
+                <div
+                    v-if="typeof referenceTag === 'string'"
+                    class="reference-tag row justify-content-end"
                 >
-                    {{ referenceTag }}
-                    <i class="bi bi-x fs-5 align-middle" />
-                </button>
+                    <div class="col col-auto align-self-end ">
+                        <div class="col-form-label-sm pb-0">
+                            {{ $t("common:modules.statisticDashboard.reference.tagLabel") }}:
+                        </div>
+                        <button
+                            class="btn btn-sm btn-outline-secondary lh-1 rounded-pill shadow-none me-2 btn-pb"
+                            aria-label="Close"
+                            @click="removeReference()"
+                            @keydown.enter="removeReference()"
+                        >
+                            {{ referenceTag }}
+                            <i class="bi bi-x fs-5 align-middle" />
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -286,44 +294,39 @@ export default {
     }
 }
 
-.button-style, .button-style:hover, .button-style:active, .button-style-outline:hover {
-    background-color: $dark_blue;
-    color: $white;
-}
-.button-style-outline {
-    border-color: $dark_blue;
-    color: $dark_blue;
-}
-
 .btn-table-diagram {
     margin-top: 25px;
 }
 
 .difference-button {
-    position: relative;
-    max-height: 30px;
-    margin-top: 25px;
-    .difference-modal {
-        position: absolute;
-        z-index: 4;
-        background-color: #ffffff;
-        border: 1px solid #dee2e6;
-        right: 0px;
-        top: 30px;
-        padding: 20px;
-        min-width: 210px;
-    }
+    display: inline-block;
+ }
+
+.dropdown-menu {
+    width: 60%;
+    --bs-dropdown-zindex: 1100;
 }
 
-.reference-tag {
-    float: right;
-    > div {
-        display: block;
-        margin-left: 10px;
-        margin-bottom: -5px;
-    }
-    button {
-        color: $dark_grey;
-    }
+.btn-light {
+    background-color: $light_grey;
+    color: $light_grey_inactive_contrast;
+    border-color: $light_grey;
 }
+.btn-light:hover {
+    background-color: $primary;
+    color: $black;
+    border-color: $primary;
+}
+.active, .btn.show {
+    background-color: $secondary;
+    color: $white;
+    border-color: $secondary;
+    box-shadow: none;
+}
+.reference-tag button {
+    color: $secondary;
+    &:hover {
+        color: $white;
+    }
+ }
 </style>

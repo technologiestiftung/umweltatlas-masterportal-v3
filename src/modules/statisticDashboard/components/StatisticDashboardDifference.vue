@@ -18,7 +18,6 @@ export default {
             required: true
         }
     },
-    emits: ["showDifference"],
     data () {
         return {
             buttonGroupReference: [{
@@ -76,7 +75,7 @@ export default {
             if (evt.target.closest(".difference-button")) {
                 return;
             }
-            this.$emit("showDifference", false);
+            document.querySelector(".dropdown-menu").classList.remove("show");
         },
         /**
          * Updates the emit value.
@@ -102,14 +101,13 @@ export default {
             }
 
             this.setSelectedReferenceData(selectedReferenceData);
-            this.$emit("showDifference", false);
         }
     }
 };
 </script>
 
 <template>
-    <div class="col-md-4">
+    <div class="col-md-12">
         <div class="row">
             <div class="col-md-12">
                 <h4>{{ $t("common:modules.statisticDashboard.reference.title") }}</h4>

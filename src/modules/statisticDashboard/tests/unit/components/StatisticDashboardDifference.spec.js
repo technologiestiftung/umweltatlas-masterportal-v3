@@ -79,33 +79,6 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardDifferenc
     });
 
     describe("Methods", () => {
-        describe("handleClickOutside", () => {
-            it("should do nothing if closest function of param returns true", () => {
-                const wrapper = shallowMount(StatisticDashboardDifference, {
-                    propsData: propsData,
-                    global: {
-                        plugins: [store]
-                    }
-                });
-
-                wrapper.vm.handleClickOutside({target: {closest: () => true}});
-                expect(wrapper.emitted("showDifference")).to.be.undefined;
-
-            });
-            it("should emit showDifference with false as parameter", () => {
-                const wrapper = shallowMount(StatisticDashboardDifference, {
-                    propsData: propsData,
-                    global: {
-                        plugins: [store]
-                    }
-                });
-
-                wrapper.vm.handleClickOutside({target: {closest: () => false}});
-                expect(wrapper.emitted()).to.have.property("showDifference");
-                expect(wrapper.emitted().showDifference[0]).to.deep.equal([false]);
-
-            });
-        });
         describe("updateSelectedReferenceData", () => {
             it("should set the selectedReferenceData to the emit object for date", () => {
                 const wrapper = shallowMount(StatisticDashboardDifference, {
@@ -200,19 +173,6 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardDifferenc
                 expect(setSelectedReferenceDataStub.called).to.be.true;
 
                 sinon.restore();
-            });
-            it("should emit showDifference with false as parameter", () => {
-                const wrapper = shallowMount(StatisticDashboardDifference, {
-                    propsData: propsData,
-                    global: {
-                        plugins: [store]
-                    }
-                });
-
-                wrapper.vm.updateSelectedReferenceData();
-                expect(wrapper.emitted()).to.have.property("showDifference");
-                expect(wrapper.emitted().showDifference[0]).to.deep.equal([false]);
-
             });
         });
     });

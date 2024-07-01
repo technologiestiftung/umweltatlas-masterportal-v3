@@ -94,18 +94,6 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
             expect(wrapper.find(".btn-toolbar").exists()).to.be.true;
         });
 
-        it("should find two button groups", () => {
-            const wrapper = shallowMount(StatisticDashboardControls, {
-                propsData: {
-                    referenceData
-                },
-                global: {
-                    plugins: [store]
-                }
-            });
-
-            expect(wrapper.findAll(".btn-group")).lengthOf(1);
-        });
         it("should find switcher component", () => {
             const wrapper = shallowMount(StatisticDashboardControls, {
                 propsData: {
@@ -418,23 +406,6 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
     });
 
     describe("User Interaction", () => {
-        it("should call 'showDifference' if the user click the difference button", async () => {
-            const wrapper = shallowMount(StatisticDashboardControls, {
-                    propsData: {
-                        referenceData
-                    },
-                    global: {
-                        plugins: [store]
-                    }
-                }),
-                differenceButton = wrapper.findAll("button").at(0);
-
-            await differenceButton.trigger("click");
-            await wrapper.vm.$nextTick();
-
-            expect(wrapper.find(".difference-modal").exists()).to.be.true;
-        });
-
         it("should set the description index if the user click the left chevron button", async () => {
             const wrapper = shallowMount(StatisticDashboardControls, {
                     propsData: {

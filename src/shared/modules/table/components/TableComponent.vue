@@ -911,7 +911,7 @@ table {
             cursor: pointer;
         }
         &.selected {
-            background-color: rgba(174, 138, 250);
+            background-color: $primary;
         }
         &:first-child {
             border-top-left-radius: 5px;
@@ -963,7 +963,7 @@ table {
 }
 
 .selected {
-    background-color: rgba(174, 138, 250, .5);
+    background-color: $primary;
     border-bottom: 1px solid $light_grey_hover;
 }
 
@@ -978,10 +978,6 @@ table {
     border-radius: 36px;
     width: 36px;
     height: 36px;
-    color:$white;
-    &:hover, &.active {
-        background-color: #D6E3FF;
-    }
 }
 
 .hint {

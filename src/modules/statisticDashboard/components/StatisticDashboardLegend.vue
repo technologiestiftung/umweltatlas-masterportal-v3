@@ -185,8 +185,8 @@ export default {
         <div class="d-flex justify-content-center">
             <FlatButton
                 id="back-to-dashboard"
-                :aria-label="$t('common:modules.statisticDashboard.legend.back')"
-                :text="$t('common:modules.statisticDashboard.legend.back')"
+                :aria-label="$t('common:modules.statisticDashboard.button.done')"
+                :text="$t('common:modules.statisticDashboard.button.done')"
                 :icon="'bi bi-check-lg'"
                 :class="''"
                 :interaction="() => $emit('changeLegendView')"
