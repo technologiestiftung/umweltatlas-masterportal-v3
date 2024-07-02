@@ -166,11 +166,11 @@ const menuGetters = {
     },
 
     /**
-     * @param {MenuState} context Local vuex state (discarded).
+     * @param {MenuState} state Local vuex state (discarded).
      * @param {Object} getters Local vuex getters.
      * @returns {(Object|null)} Function returning a section of the menu.
      */
-    section: (context, getters) => path => {
+    section: (state, getters) => path => {
         if (path && getters[path[0]]) {
             const section = idx(getters, path);
 
@@ -196,12 +196,12 @@ const menuGetters = {
     },
 
     /**
-     * @param {MenuState} context Local vuex state (discarded).
+     * @param {MenuState} state Local vuex state (discarded).
      * @param {Object} getters Local vuex getters.
      * @param {String} side side of the menu.
      * @returns {({title: string, idAppendix: string}|null)} Function returning an object including the title and an appendix for the titles id to make it unique; may return null if no title is configured.
      */
-    titleBySide: (context, getters) => side => {
+    titleBySide: (state, getters) => side => {
         if (side === "mainMenu" && getters.mainTitle) {
             return {...getters.mainTitle, idAppendix: side};
         }
@@ -243,13 +243,13 @@ const menuGetters = {
      * Returns the attributes of a module.
      * If a getters `urlParams` exists in the module the attributes are obtained from it,
      * if none exists all attributes of the state are used.
-     * @param {Object} context The Vuex action context.
+     * @param {Object} state state of the app-store.
      * @param {Object} __ menu store getters.
      * @param {Object} rootState root state.
      * @param {Object} rootGetters root getters.
      * @returns {Object} The component attributes.
      */
-    getComponentAttributes: (context, __, rootState, rootGetters) => currentComponent => {
+    getComponentAttributes: (state, __, rootState, rootGetters) => currentComponent => {
         let moduleAttributes;
 
         if (currentComponent !== "root") {

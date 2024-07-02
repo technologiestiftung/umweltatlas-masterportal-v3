@@ -20,13 +20,13 @@ const getters = {
     ...generateSimpleGetters(shareViewState),
 
     /**
-     * @param {Object} context The Vuex action context.
+     * @param {Object} state state of the app-store.
      * @param {Object} __ shareView store getters.
      * @param {Object} ___ root state.
      * @param {Object} rootGetters root getters.
      * @returns {String} The Url that can be copied by the user.
      */
-    url (context, __, ___, rootGetters) {
+    url (state, __, ___, rootGetters) {
         const layerParams = rootGetters.layerUrlParams,
             mapParams = rootGetters["Maps/urlParams"],
             menuParams = rootGetters["Menu/urlParams"];
