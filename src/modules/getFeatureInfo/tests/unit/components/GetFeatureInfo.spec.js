@@ -97,8 +97,8 @@ beforeEach(() => {
     mapMode = "2D";
     removeHighlightColorSpy = sinon.spy();
     mockMutations = {
-        setCurrentFeature: () => sinon.stub(),
-        setGfiFeatures: () => sinon.spy(),
+        setCurrentFeature: sinon.stub(),
+        setGfiFeatures: sinon.spy(),
         setVisible: sinon.spy(),
         setMenuSide: sinon.stub(),
         setClickCoordinates: setClickCoordinatesSpy
@@ -713,7 +713,7 @@ describe("src/modules/getFeatureInfo/components/GetFeatureInfo.vue", () => {
 
     describe("methods", () => {
         describe("reset", () => {
-            it("should set pagerIndex to 0 and setGfiFeatures to null", () => {
+            it.only("should set pagerIndex to 0 and setGfiFeatures to null", () => {
                 const gfiFeatures = [{
                         getGfiUrl: () => null,
                         getFeatures: () => sinon.stub(),
@@ -737,8 +737,8 @@ describe("src/modules/getFeatureInfo/components/GetFeatureInfo.vue", () => {
 
                 wrapper.vm.reset();
                 expect(wrapper.vm.pagerIndex).to.equal(0);
-                // expect(mockMutations.setGfiFeatures.calledOnce).to.be.true;
-                // expect(mockMutations.setGfiFeatures.firstCall.args[1]).to.equals(null);
+                expect(mockMutations.setGfiFeatures.calledOnce).to.be.true;
+                expect(mockMutations.setGfiFeatures.firstCall.args[1]).to.equals(null);
 
             });
             it("should call removeHighlightColor if the map is in 3D", () => {
