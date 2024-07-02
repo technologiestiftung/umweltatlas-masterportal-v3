@@ -737,8 +737,8 @@ describe("src/modules/getFeatureInfo/components/GetFeatureInfo.vue", () => {
 
                 wrapper.vm.reset();
                 expect(wrapper.vm.pagerIndex).to.equal(0);
-                // expect(mockMutations.setGfiFeatures.calledOnce).to.be.true;
-                // expect(mockMutations.setGfiFeatures.firstCall.args[1]).to.equals(null);
+                expect(mockMutations.setGfiFeatures.calledOnce).to.be.true;
+                expect(mockMutations.setGfiFeatures.firstCall.args[1]).to.equals(null);
 
             });
             it("should call removeHighlightColor if the map is in 3D", () => {
