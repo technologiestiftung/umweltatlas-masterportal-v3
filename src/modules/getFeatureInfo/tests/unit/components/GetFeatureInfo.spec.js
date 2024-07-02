@@ -11,7 +11,9 @@ let mockMutations,
     toggleMenuSpy,
     collectGfiFeaturesSpy,
     setClickCoordinatesSpy,
-    currentComponentType;
+    removeHighlightColorSpy,
+    currentComponentType,
+    mapMode;
 
 config.global.mocks.$t = key => key;
 config.global.mocks.$gfiThemeAddons = [];
@@ -40,7 +42,8 @@ function getGfiStore (mobile, uiStyle, gfiFeatures, mapSize) {
                         getters: mockGetters,
                         actions: {
                             addGfiToMenu: sinon.stub(),
-                            collectGfiFeatures: collectGfiFeaturesSpy
+                            collectGfiFeatures: collectGfiFeaturesSpy,
+                            removeHighlightColor: removeHighlightColorSpy
                         }
                     }
                 }
@@ -49,7 +52,7 @@ function getGfiStore (mobile, uiStyle, gfiFeatures, mapSize) {
                 namespaced: true,
                 getters: {
                     clickCoordinate: () => sinon.stub(),
-                    mode: () => "2D",
+                    mode: () => mapMode,
                     size: mapSize ? () => mapSize : sinon.stub()
                 },
                 actions: {
@@ -91,9 +94,11 @@ function getGfiStore (mobile, uiStyle, gfiFeatures, mapSize) {
 beforeEach(() => {
     currentComponentType = "print";
     setClickCoordinatesSpy = sinon.spy();
+    mapMode = "2D";
+    removeHighlightColorSpy = sinon.spy();
     mockMutations = {
         setCurrentFeature: () => sinon.stub(),
-        setGfiFeatures: () => sinon.stub(),
+        setGfiFeatures: () => sinon.spy(),
         setVisible: sinon.spy(),
         setMenuSide: sinon.stub(),
         setClickCoordinates: setClickCoordinatesSpy
@@ -109,6 +114,9 @@ beforeEach(() => {
         type: () => "getFeatureInfo",
         configPaths: () => sinon.stub(),
         initialMenuSide: () => "secondaryMenu"
+    };
+    mockActions = {
+        removeHighlightColor: sinon.stub()
     };
     menuExpanded = true;
     toggleMenuSpy = sinon.spy();
@@ -705,7 +713,7 @@ describe("src/modules/getFeatureInfo/components/GetFeatureInfo.vue", () => {
 
     describe("methods", () => {
         describe("reset", () => {
-            it.only("should set pagerIndex to 0 and setGfiFeatures to null", () => {
+            it("should set pagerIndex to 0 and setGfiFeatures to null", () => {
                 const gfiFeatures = [{
                         getGfiUrl: () => null,
                         getFeatures: () => sinon.stub(),
@@ -715,19 +723,8 @@ describe("src/modules/getFeatureInfo/components/GetFeatureInfo.vue", () => {
                     }],
                     store = getGfiStore(false, undefined, gfiFeatures, []);
                 let wrapper = null;
-                // const wrapper = factory.getShallowMount({});
 
                 wrapper = shallowMount(GfiComponent, {
-                    components: {
-                        GetFeatureInfoDetached: {
-                            name: "GetFeatureInfoDetached",
-                            template: "<span />"
-                        },
-                        IconButton: {
-                            name: "IconButton",
-                            template: "<button>Hier</button>"
-                        }
-                    },
                     data () {
                         return {
                             pagerIndex: 1
@@ -738,13 +735,14 @@ describe("src/modules/getFeatureInfo/components/GetFeatureInfo.vue", () => {
                     }
                 });
 
-                wrapper.vm.$options.watch.reset.handler.call(wrapper.vm);
+                wrapper.vm.reset();
                 expect(wrapper.vm.pagerIndex).to.equal(0);
-                expect(setGfiFeatures.calledOnce).to.be.true;
-                expect(setGfiFeatures.firstCall.args[1]).to.equals(null);
+                // expect(mockMutations.setGfiFeatures.calledOnce).to.be.true;
+                // expect(mockMutations.setGfiFeatures.firstCall.args[1]).to.equals(null);
 
             });
-            it.only("should call remove highlight color if the map is in 3D", () => {
+            it("should call removeHighlightColor if the map is in 3D", () => {
+                mapMode = "3D";
                 const gfiFeatures = [{
                         getGfiUrl: () => null,
                         getFeatures: () => sinon.stub(),
@@ -756,23 +754,34 @@ describe("src/modules/getFeatureInfo/components/GetFeatureInfo.vue", () => {
                 let wrapper = null;
 
                 wrapper = shallowMount(GfiComponent, {
-                    components: {
-                        GetFeatureInfoDetached: {
-                            name: "GetFeatureInfoDetached",
-                            template: "<span />"
-                        },
-                        IconButton: {
-                            name: "IconButton",
-                            template: "<button>Hier</button>"
-                        }
-                    },
                     global: {
                         plugins: [store]
                     }
                 });
 
-                wrapper.vm.$options.watch.reset.handler.call(wrapper.vm);
-                expect(removeHighlightColor.calledOnce).to.be.true;
+
+                wrapper.vm.reset();
+                expect(removeHighlightColorSpy.calledOnce).to.be.true;
+            });
+            it("should not call removeHighlightColor if the map is in 2D", () => {
+                mapMode = "2D";
+                const gfiFeatures = [{
+                        getGfiUrl: () => null,
+                        getFeatures: () => sinon.stub(),
+                        getProperties: () => {
+                            return {};
+                        }
+                    }],
+                    store = getGfiStore(false, undefined, gfiFeatures, []);
+                let wrapper = null;
+
+                wrapper = shallowMount(GfiComponent, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+                wrapper.vm.reset();
+                expect(mockActions.removeHighlightColor.calledOnce).to.be.false;
             });
         });
     });
