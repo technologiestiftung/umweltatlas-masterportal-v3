@@ -8,7 +8,6 @@ import GfiComponent from "../../../components/GetFeatureInfo.vue";
 let mockMutations,
     mockGetters,
     menuExpanded,
-    mockActions,
     toggleMenuSpy,
     collectGfiFeaturesSpy,
     setClickCoordinatesSpy,
