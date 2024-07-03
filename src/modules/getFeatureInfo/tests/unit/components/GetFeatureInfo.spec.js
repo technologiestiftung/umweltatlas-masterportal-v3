@@ -8,6 +8,7 @@ import GfiComponent from "../../../components/GetFeatureInfo.vue";
 let mockMutations,
     mockGetters,
     menuExpanded,
+    mockActions,
     toggleMenuSpy,
     collectGfiFeaturesSpy,
     setClickCoordinatesSpy,
@@ -725,6 +726,16 @@ describe("src/modules/getFeatureInfo/components/GetFeatureInfo.vue", () => {
                 let wrapper = null;
 
                 wrapper = shallowMount(GfiComponent, {
+                    components: {
+                        GetFeatureInfoDetached: {
+                            name: "GetFeatureInfoDetached",
+                            template: "<span />"
+                        },
+                        IconButton: {
+                            name: "IconButton",
+                            template: "<button>Hier</button>"
+                        }
+                    },
                     data () {
                         return {
                             pagerIndex: 1
