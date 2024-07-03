@@ -116,9 +116,6 @@ beforeEach(() => {
         configPaths: sinon.stub(),
         initialMenuSide: () => "secondaryMenu"
     };
-    mockActions = {
-        removeHighlightColor: sinon.stub()
-    };
     menuExpanded = true;
     toggleMenuSpy = sinon.spy();
 });
@@ -792,7 +789,7 @@ describe("src/modules/getFeatureInfo/components/GetFeatureInfo.vue", () => {
                     }
                 });
                 wrapper.vm.reset();
-                expect(mockActions.removeHighlightColor.calledOnce).to.be.false;
+                expect(removeHighlightColorSpy.calledOnce).to.be.false;
             });
         });
     });
