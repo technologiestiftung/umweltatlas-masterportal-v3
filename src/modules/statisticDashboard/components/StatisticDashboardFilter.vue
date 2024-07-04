@@ -5,13 +5,15 @@ import {mapGetters, mapMutations} from "vuex";
 import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
 import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
 import sortBy from "../../../shared/js/utils/sortBy";
+import StatisticDashboardFilterRegions from "./StatisticDashboardFilterRegions.vue";
 
 export default {
     name: "StatisticDashboardFilter",
     components: {
         Multiselect,
         AccordionItem,
-        FlatButton
+        FlatButton,
+        StatisticDashboardFilterRegions
     },
     props: {
         categories: {
@@ -35,23 +37,35 @@ export default {
             default: false
         },
         regions: {
-            type: Array,
+            type: Object,
             required: false,
-            default: () => []
+            default: () => {
+                return {};
+            }
+        },
+        selectedLevel: {
+            type: Object,
+            required: false,
+            default: () => {
+                return {};
+            }
         }
     },
+
     emits: ["changeCategory", "changeFilterSettings", "resetStatistics", "toggleFilter"],
     data () {
         return {
             sortedCategories: [],
             sortedStatisticNames: [],
             sortedSelectedStatistics: [],
-            sortedDates: [],
-            sortedRegions: []
+            sortedDates: []
         };
     },
 
     computed: {
+        ...mapGetters("Maps", ["projection"]),
+        ...mapGetters("Modules/StatisticDashboard", ["flattenedRegions", "selectedCategories", "selectedRegions", "selectedRegionsValues", "selectedDates", "selectedDatesValues", "selectedStatistics", "selectedReferenceData"]),
+
         /**
          * Check if all the input options are chosen.
          * @returns {Boolean} true if all the input are not empty.
@@ -62,9 +76,7 @@ export default {
             }
 
             return false;
-        },
-
-        ...mapGetters("Modules/StatisticDashboard", ["selectedCategories", "selectedRegions", "selectedRegionsValues", "selectedDates", "selectedDatesValues", "selectedStatistics", "selectedReferenceData"])
+        }
     },
     watch: {
         /**
@@ -109,7 +121,6 @@ export default {
         selectedRegions: {
             handler () {
                 this.emitFilterSettings(this.selectedStatistics, this.selectedRegionsValues, this.selectedDatesValues);
-                this.sortedRegions = this.getRegionsSorted(this.regions, this.selectedRegions);
             },
             deep: true
         }
@@ -120,12 +131,12 @@ export default {
         this.sortedCategories = this.getCategoriesSorted(this.categories, this.selectedCategories);
         this.sortedStatisticNames = this.getStatisticNamesSorted(this.statistics, this.selectedStatistics);
         this.sortedSelectedStatistics = this.getSelectedStatisticNames(this.selectedStatistics);
-        this.sortedRegions = this.getRegionsSorted(this.regions, this.selectedRegions);
         this.sortedDates = this.getDatesSorted(this.timeStepsFilter, this.selectedDates);
     },
 
     methods: {
         ...mapMutations("Modules/StatisticDashboard", ["setSelectedCategories", "setSelectedRegions", "setSelectedDates", "setSelectedStatistics"]),
+
         /**
          * Gets the categories sorted.
          * @param {Object[]} categories The categories.
@@ -208,21 +219,7 @@ export default {
 
             return sortedDates;
         },
-        /**
-         * Gets the regions sorted with the selected ones first.
-         * @param {Object[]} regions The regions array.
-         * @param {Object[]} selectedRegions The selected regions.
-         * @returns {Object[]} the regions sorted.
-         */
-        getRegionsSorted (regions, selectedRegions) {
-            if (!regions?.length || !Array.isArray(selectedRegions)) {
-                return [];
-            }
-            const notSelectedRegions = regions.filter(region => !selectedRegions.some(selectedRegion => selectedRegion.label === region.label)),
-                sortedRegions = [...selectedRegions, ...notSelectedRegions];
 
-            return sortedRegions;
-        },
         /**
          * Checks if all filter settings are selected.
          * @param {Object[]} statistics - The selected statistics.
@@ -370,36 +367,10 @@ export default {
             :font-size="'font-size-base'"
             :coloured-header="true"
         >
-            <div class="col-sm-12">
-                <label
-                    class="col-form-label-sm"
-                    for="categoryfilter"
-                >
-                    {{ $t("common:modules.statisticDashboard.label.area") }}</label>
-                <Multiselect
-                    id="areafilter"
-                    :model-value="selectedRegions"
-                    :multiple="true"
-                    :options="sortedRegions"
-                    :searchable="true"
-                    :close-on-select="false"
-                    :clear-on-select="false"
-                    :show-labels="false"
-                    :limit="3"
-                    :limit-text="count => count + ' ' + $t('common:modules.statisticDashboard.label.more')"
-                    :allow-empty="true"
-                    :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
-                    label="label"
-                    track-by="label"
-                    @update:model-value="setSelectedRegions"
-                >
-                    <template #clear>
-                        <div class="multiselect__clear">
-                            <i class="bi bi-search" />
-                        </div>
-                    </template>
-                </Multiselect>
-            </div>
+            <StatisticDashboardFilterRegions
+                :regions="flattenedRegions"
+                :selected-level="selectedLevel"
+            />
         </AccordionItem>
         <AccordionItem
             id="filter-accordion-date"

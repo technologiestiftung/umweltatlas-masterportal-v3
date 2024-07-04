@@ -13,7 +13,7 @@ import {GeoJSON} from "ol/format";
  * @param {String[]} [propertyNames] The property names to narrow the request.
  * @returns {Promise} An promise which resolves an array of oaf features.
  */
-async function getOAFFeatureGet (baseUrl, collection, limit = 400, filter = undefined, filterCrs = undefined, crs = undefined, propertyNames = undefined) {
+async function getOAFFeatureGet (baseUrl, collection, limit = 400, filter = undefined, filterCrs = undefined, crs = undefined, propertyNames = undefined, skipGeometry = false) {
     if (typeof baseUrl !== "string") {
         return new Promise((resolve, reject) => {
             reject(new Error(`Please provide a valid base url! Got ${baseUrl}`));
@@ -35,6 +35,10 @@ async function getOAFFeatureGet (baseUrl, collection, limit = 400, filter = unde
 
     if (Array.isArray(propertyNames)) {
         extendedUrl += `&properties=${propertyNames.join(",")}`;
+    }
+
+    if (skipGeometry) {
+        extendedUrl += `&skipGeometry=${skipGeometry}`;
     }
 
     return this.oafRecursionHelper(result, extendedUrl);

@@ -59,9 +59,9 @@ export default {
             timeStepsFilter: [],
             regions: [],
             allRegions: [],
+            selectedLevelRegionNameAttribute: [],
             areCategoriesGrouped: false,
             dates: [],
-            selectedLevel: undefined,
             sortedRows: [],
             currentChart: {},
             chartCounts: 0,
@@ -165,6 +165,9 @@ export default {
         selectedRegionsValues () {
             this.selectedFilteredRegions = this.selectedFilteredRegions.filter(name => this.selectedRegionsValues.includes(name));
             this.numberOfColouredBars = this.diagramType === "bar" & this.selectedFilteredRegions.length !== 0 ? this.selectedFilteredRegions.length : this.numberOfColouredBars;
+            if (this.flattenedRegions?.length) {
+                this.flattenedRegions[this.flattenedRegions.length - 1].selectedValues = this.selectedRegions;
+            }
         },
         chosenStatisticName (val) {
             this.chosenTableData = this.getTableData(this.statisticsData, val);
@@ -203,27 +206,6 @@ export default {
                 this.statisticsData,
                 this.selectedReferenceData?.type
             );
-        },
-        active (value) {
-            if (!value) {
-                Object.values(this.currentChart).forEach(chart => {
-                    if (typeof chart?.chart?.destroy === "function") {
-                        chart.chart.destroy();
-                    }
-                });
-            }
-            else if (this.selectedStatisticsNames?.length
-                && this.selectedRegionsValues?.length
-                && this.selectedDatesValues?.length
-            ) {
-                this.handleChartData(
-                    this.statisticNameOfChart,
-                    this.selectedRegionsValues,
-                    this.selectedDatesValues,
-                    this.statisticsData,
-                    this.selectedReferenceData?.type
-                );
-            }
         },
         legendData: {
             handler (val) {
@@ -266,7 +248,9 @@ export default {
         };
     },
     mounted () {
-        this.selectedLevel = this.data[0];
+        if (typeof this.selectedLevel === "undefined") {
+            this.setSelectedLevel(this.data[0]);
+        }
         this.initializeData(this.selectedLevel);
         if (this.minNumberOfClasses < 2) {
             this.setMinNumberOfClasses(2);
@@ -363,6 +347,7 @@ export default {
             let uniqueValues = null;
 
             uniqueValues = await FetchDataHandler.getUniqueValues(layerId, [timeAttribute, regionNameAttribute], timeInputFormat, timeOutputFormat);
+
             return uniqueValues;
         },
 
@@ -536,7 +521,7 @@ export default {
         updateFeatureStyle (date, differenceMode, selectedReferenceData) {
             this.layer.getSource().clear();
 
-            const regionNameAttribute = this.getSelectedLevelRegionNameAttribute(this.selectedLevel).attrName,
+            const regionNameAttribute = this.getSelectedLevelRegionNameAttributeInDepth(this.selectedLevel?.mappingFilter?.regionNameAttribute).attrName,
                 selectedLevelDateAttribute = this.getSelectedLevelDateAttribute(this.selectedLevel);
 
             let filteredFeatures;
@@ -679,7 +664,7 @@ export default {
         async handleFilterSettings (regions, dates, differenceMode) {
             const statsKeys = Object.keys(this.selectedStatistics),
                 selectedLayer = this.getRawLayerByLayerId(this.selectedLevel.layerId),
-                selectedLevelRegionNameAttribute = this.getSelectedLevelRegionNameAttribute(this.selectedLevel),
+                selectedLevelRegionNameAttribute = this.getSelectedLevelRegionNameAttributeInDepth(this.selectedLevel.mappingFilter.regionNameAttribute),
                 selectedLevelDateAttribute = this.getSelectedLevelDateAttribute(this.selectedLevel),
                 payload = {
                     featureTypes: [selectedLayer.featureType],
@@ -941,7 +926,7 @@ export default {
             if (!Array.isArray(regions) || !Array.isArray(dates)) {
                 return undefined;
             }
-            const regionAttrName = this.getSelectedLevelRegionNameAttribute(this.selectedLevel)?.attrName,
+            const regionAttrName = this.getSelectedLevelRegionNameAttributeInDepth(this.selectedLevel?.mappingFilter?.regionNameAttribute)?.attrName,
                 dateAttrName = this.getSelectedLevelDateAttribute(this.selectedLevel)?.attrName;
 
             if (regions.length === this.regions.length) {
@@ -1129,6 +1114,23 @@ export default {
         },
 
         /**
+         * Gets the last child object in the region hierarchy.
+         * @param {Object} region - The region hierarchy.
+         * @returns {Object} The deepest child.
+         */
+        getSelectedLevelRegionNameAttributeInDepth (region) {
+            let child;
+
+            if (!Object.prototype.hasOwnProperty.call(region, "child")) {
+                child = region;
+            }
+            if (Object.prototype.hasOwnProperty.call(region, "child")) {
+                child = this.getSelectedLevelRegionNameAttributeInDepth(region.child);
+            }
+            return child;
+        },
+
+        /**
          * Gets the date attribute by the given level.
          * @param {Object} level The level object.
          * @returns {Object} The time attribute object.
@@ -1247,15 +1249,22 @@ export default {
                 ?? this.getRawLayerByLayerId(selectedLevel.layerId)?.datasets?.[0]?.md_name);
 
             const uniqueValues = await this.getUniqueValuesForLevel(selectedLevel),
-                selectedLevelRegionNameAttribute = this.getSelectedLevelRegionNameAttribute(selectedLevel),
                 selectedLevelDateAttribute = this.getSelectedLevelDateAttribute(selectedLevel);
 
-            if (uniqueValues[selectedLevelRegionNameAttribute.attrName] && uniqueValues[selectedLevelDateAttribute.attrName]) {
-                this.regions = Object.keys(uniqueValues[selectedLevelRegionNameAttribute.attrName]).sort((a, b) => b - a);
+            this.selectedLevelRegionNameAttribute = this.getSelectedLevelRegionNameAttribute(selectedLevel);
+            if (uniqueValues[this.selectedLevelRegionNameAttribute?.attrName] && uniqueValues[selectedLevelDateAttribute?.attrName]) {
+                this.regions = Object.keys(uniqueValues[this.selectedLevelRegionNameAttribute.attrName]).sort((a, b) => b - a);
+                this.selectedLevelRegionNameAttribute.values = this.regions.map(val => {
+                    return {
+                        value: val,
+                        label: val
+                    };
+                });
                 this.allRegions = this.getAllRegions(this.regions);
                 this.dates = Object.keys(uniqueValues[selectedLevelDateAttribute.attrName]);
                 this.timeStepsFilter = this.getTimestepsMerged(selectedLevel?.timeStepsFilter, uniqueValues[selectedLevelDateAttribute.attrName], selectedLevelDateAttribute.inputFormat, selectedLevelDateAttribute.outputFormat);
             }
+
             this.areCategoriesGrouped = StatisticsHandler.hasOneGroup(this.getSelectedLevelStatisticsAttributes(selectedLevel));
             this.categories = sortBy(StatisticsHandler.getCategoriesFromStatisticAttributes(this.getSelectedLevelStatisticsAttributes(selectedLevel), this.areCategoriesGrouped), "name");
             this.setStatisticsByCategories(this.selectedCategories);
@@ -1265,6 +1274,26 @@ export default {
                 "date": this.getTimestepsMerged(undefined, uniqueValues[selectedLevelDateAttribute.attrName], selectedLevelDateAttribute.inputFormat, selectedLevelDateAttribute.outputFormat),
                 "region": this.regions
             };
+
+            if (!this.flattenedRegions.length) {
+                this.flattenRegionHierarchy(this.selectedLevelRegionNameAttribute);
+            }
+        },
+
+        /**
+         * For the template flats the region hierarchy into a list of objects.
+         * In addition, the attributes 'values' and 'selectedValues' are set on the region objects.
+         * @param {Object} regions - Represents the hierarchy of the regions.
+         * @returns {void}
+         */
+        flattenRegionHierarchy (region) {
+            region.selectedValues = [];
+            this.flattenedRegions.push(region);
+
+            if (Object.prototype.hasOwnProperty.call(region, "child")) {
+                region.child.values = [];
+                this.flattenRegionHierarchy(region.child);
+            }
         },
         /**
          * Gets the current level object.
@@ -1278,9 +1307,9 @@ export default {
 
             this.resetLevel();
 
-            this.selectedLevel = this.data.find(val=> {
+            this.setSelectedLevel(this.data.find(val=> {
                 return val?.levelName === name;
-            });
+            }));
 
             this.initializeData(this.selectedLevel);
         },
@@ -1299,6 +1328,8 @@ export default {
             this.showLimitView = false;
             this.diagramType = undefined;
             this.selectedFilteredRegions = [];
+            this.showLineLimitView = false;
+            this.setFlattenedRegions([]);
             this.setSelectedCategories([]);
             this.setSelectedRegions([]);
             this.setSelectedDates([]);
@@ -1387,7 +1418,8 @@ export default {
                 :are-categories-grouped="areCategoriesGrouped"
                 :statistics="statisticsByCategory"
                 :time-steps-filter="timeStepsFilter"
-                :regions="allRegions"
+                :regions="selectedLevelRegionNameAttribute"
+                :selected-level="selectedLevel"
                 @change-category="setStatisticsByCategories"
                 @change-filter-settings="checkFilterSettings"
                 @reset-statistics="handleReset"
@@ -1428,6 +1460,7 @@ export default {
                 >
                     <StatisticSwitcher
                         :buttons="buttonGroupRegions"
+                        :pre-checked-value="selectedLevel?.levelName"
                         group="regions"
                         class="level-switch"
                         @show-view="toggleLevel"

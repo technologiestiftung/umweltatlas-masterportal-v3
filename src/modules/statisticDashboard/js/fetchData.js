@@ -30,6 +30,7 @@ async function getUniqueValues (layerId, attributesToFilter) {
 
     return this.getUniqueValuesFromFeatures(features, attributesWithType);
 }
+
 /**
  * Gets the attributes with the matching type.
  * @param {String} url The base url.
@@ -73,11 +74,12 @@ async function fetchAllDataForWFS (url, featureType, propertyNames) {
  * @param {Object} features The features.
  * @param {Object[]} attributes The attribute names. @see getAttributesWithType The result of this function.
  * @returns {Object} an object with unique values for each attrName.
- */
+*/
 function getUniqueValuesFromFeatures (features, attributes) {
     if (!Array.isArray(features) || !Array.isArray(attributes)) {
         return {};
     }
+
     const result = {};
 
     features.forEach(feature => {

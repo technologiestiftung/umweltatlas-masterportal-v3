@@ -11,6 +11,8 @@
  * @property {Boolean} isVisibleInMenu If true, tool is selectable in menu. (config-param)
  * @property {Boolean} deactivateGFI Flag determining if the tool should deactivate GFI. (config-param)
  * @property {Object} selectedReferenceData the selected reference data
+ * @property {Object} selectedLevel - The selected level (district, county, ...).
+ * @property {Object[]} flattenedRegions - An array in which the region hierarchy is flattened.
  * @property {Object[]} selectedRegions - The selected regions.
  * @property {Object[]} selectedDates - The selected dates.
  * @property {String} classificationMode - Method of dividing values into classes: "quantiles" or "equalIntervals".
@@ -29,7 +31,6 @@
  * @property {String} chosenStatisticName the clicked chosen statistic name.
  */
 const state = {
-    active: false,
     id: "statisticDashboard",
     name: "common:modules.statisticDashboard.name",
     subtitle: "common:modules.statisticDashboard.headings.mrhstatistics",
@@ -46,6 +47,8 @@ const state = {
     selectedCategories: [],
     selectedReferenceValueTag: undefined,
     selectedRegions: [],
+    selectedLevel: undefined,
+    flattenedRegions: [],
     selectedDates: [],
     selectedStatistics: {},
     classificationMode: "quantiles",

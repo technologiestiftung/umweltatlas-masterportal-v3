@@ -112,7 +112,10 @@ describe("src/modules/StatisticDashboard.vue", () => {
                             "name": "90"
                         }
                     ],
-                    showNoticeText: false
+                    showNoticeText: false,
+                    selectedLevel: {
+                        id: ""
+                    }
                 },
                 wrapper = shallowMount(StatisticDashboard, {
                     global: {
@@ -243,6 +246,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
         });
 
     });
+
 
     describe("methods", () => {
         describe("downloadData", () => {
@@ -458,7 +462,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
                 });
 
                 wrapper.vm.categories = [{name: "Beschäftigte"}, {name: "Bevölkerung"}];
-                wrapper.vm.selectedLevel = {
+                wrapper.vm.setSelectedLevel({
                     "mappingFilter": {
                         "statisticsAttributes": {
                             "beschaeftigte": {
@@ -471,7 +475,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
                             }
                         }
                     }
-                };
+                });
 
                 wrapper.vm.setStatisticsByCategories([{name: "alle"}]);
                 expect(wrapper.vm.statisticsByCategory).to.deep.equal([{
@@ -495,7 +499,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
                 });
 
                 wrapper.vm.categories = [{name: "Beschäftigte"}, {name: "Bevölkerung"}];
-                wrapper.vm.selectedLevel = {
+                wrapper.vm.setSelectedLevel({
                     "mappingFilter": {
                         "statisticsAttributes": {
                             "beschaeftigte": {
@@ -508,7 +512,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
                             }
                         }
                     }
-                };
+                });
 
                 wrapper.vm.setStatisticsByCategories([{name: "Beschäftigte"}]);
                 expect(wrapper.vm.statisticsByCategory).to.deep.equal([{
@@ -531,6 +535,13 @@ describe("src/modules/StatisticDashboard.vue", () => {
 
                 wrapper.vm.regions = regions;
                 wrapper.vm.dates = dates;
+                wrapper.vm.setSelectedLevel({
+                    mappingFilter: {
+                        regionNameAttribute: {
+                            attrName: "bar"
+                        }
+                    }
+                });
 
                 expect(wrapper.vm.getFilter(regions, dates)).to.be.undefined;
             });
@@ -546,6 +557,13 @@ describe("src/modules/StatisticDashboard.vue", () => {
 
                 wrapper.vm.regions = regions;
                 wrapper.vm.dates = ["01.01.1999"];
+                wrapper.vm.setSelectedLevel({
+                    mappingFilter: {
+                        regionNameAttribute: {
+                            attrName: "bar"
+                        }
+                    }
+                });
 
                 wrapper.vm.getFilter(regions, dates);
                 expect(getFilterForListSpy.calledWith(dates, undefined)).to.be.true;
@@ -563,9 +581,16 @@ describe("src/modules/StatisticDashboard.vue", () => {
 
                 wrapper.vm.regions = ["foo"];
                 wrapper.vm.dates = dates;
+                wrapper.vm.setSelectedLevel({
+                    mappingFilter: {
+                        regionNameAttribute: {
+                            attrName: "bar"
+                        }
+                    }
+                });
 
                 wrapper.vm.getFilter(regions, dates);
-                expect(getFilterForListSpy.calledWith(regions, undefined)).to.be.true;
+                expect(getFilterForListSpy.calledWith(regions, "bar")).to.be.true;
                 sinon.restore();
             });
             it("should return an and filter if given regions and dates have values but not the same length as the data values", () => {
@@ -582,7 +607,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
 
                 wrapper.vm.regions = [...regions, "faw"];
                 wrapper.vm.dates = [...dates, "01.01.2001"];
-                wrapper.vm.selectedLevel = {
+                wrapper.vm.setSelectedLevel({
                     mappingFilter: {
                         timeAttribute: {
                             attrName: "bow"
@@ -591,7 +616,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
                             attrName: "bar"
                         }
                     }
-                };
+                });
 
                 expect(wrapper.vm.getFilter(regions, dates)).to.deep.equal(expected);
             });
@@ -1567,6 +1592,66 @@ describe("src/modules/StatisticDashboard.vue", () => {
                 expect(wrapper.vm.getColorPalette()).to.deep.equal(
                     [[127, 127, 127, 0.7], [0, 0, 0, 0.7]]
                 );
+            });
+        });
+        describe("getSelectedLevelRegionNameAttributeInDepth", () => {
+            it("should", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        global: {
+                            plugins: [store]
+                        }
+                    }),
+                    obj = {
+                        "attrName": "bundesland",
+                        "name": "Bundesland",
+                        "child": {
+                            "attrName": "statistisches_gebiet",
+                            "name": "Kreise und Städte",
+                            "child": {
+                                "attrName": "statistisches_gebiet",
+                                "name": "Gemeinden"
+                            }
+                        }
+                    },
+                    nameAttribute = wrapper.vm.getSelectedLevelRegionNameAttributeInDepth(obj);
+
+                expect(nameAttribute).to.deep.equal(obj.child.child);
+            });
+            it("should", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        global: {
+                            plugins: [store]
+                        }
+                    }),
+                    obj = {
+                        "attrName": "bundesland",
+                        "name": "Bundesland"
+                    },
+                    nameAttribute = wrapper.vm.getSelectedLevelRegionNameAttributeInDepth(obj);
+
+                expect(nameAttribute).to.deep.equal(obj);
+            });
+        });
+        describe("flattenRegionHierarchy", () => {
+            it("should flatten the given object", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        global: {
+                            plugins: [store]
+                        }
+                    }),
+                    obj = {
+                        "attrName": "bundesland",
+                        "name": "Bundesland",
+                        "child": {
+                            "attrName": "statistisches_gebiet",
+                            "name": "Kreise und Städte"
+                        }
+                    };
+
+                wrapper.vm.setFlattenedRegions([]);
+                wrapper.vm.flattenRegionHierarchy(obj);
+
+                expect(wrapper.vm.flattenedRegions).to.deep.equal([obj, obj.child]);
             });
         });
     });

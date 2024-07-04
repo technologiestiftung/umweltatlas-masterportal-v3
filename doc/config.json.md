@@ -3820,7 +3820,7 @@ The shadow tool provides a UI element to define a point in time by using sliders
 ```json
 {
     "attrName": "statistisches_gebiet",
-    "name": "Statistisches Gebiet"
+    "name": "Kreis"
 }
 ```
 
