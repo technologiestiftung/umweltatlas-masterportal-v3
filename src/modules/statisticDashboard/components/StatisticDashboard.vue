@@ -74,9 +74,11 @@ export default {
             showFilter: false,
             showAllHiddenTags: false,
             showLegendView: false,
-            showLineLimitView: false,
-            limitedLines: {},
-            selectedFilteredRegions: []
+            showLimitView: false,
+            selectedFilteredRegions: [],
+            allFilteredRegions: [],
+            numberOfColouredBars: 3,
+            diagramType: undefined
         };
     },
     computed: {
@@ -154,6 +156,7 @@ export default {
         },
         selectedRegionsValues () {
             this.selectedFilteredRegions = this.selectedFilteredRegions.filter(name => this.selectedRegionsValues.includes(name));
+            this.numberOfColouredBars = this.diagramType === "bar" & this.selectedFilteredRegions.length !== 0 ? this.selectedFilteredRegions.length : this.numberOfColouredBars;
         },
         active (value) {
             if (!value) {
@@ -770,48 +773,56 @@ export default {
 
             this.currentChart[uniqueTopic] = {};
             if (type === "line") {
+                this.diagramType = "line";
                 if (preparedData && Object.keys(preparedData)?.length > this.lineLimit) {
-                    if (!this.showLineLimitView) {
-                        this.currentChart[uniqueTopic].chart = ChartProcessor.createLineChart(topic, this.limitingLines(preparedData), canvasTmp, this.colorScheme.lineCharts, renderSimple);
+                    if (!this.showLimitView) {
+                        this.currentChart[uniqueTopic].chart = ChartProcessor.createLineChart(topic, this.limitingDataForChart(preparedData, 3), canvasTmp, this.colorScheme.lineCharts, renderSimple);
                     }
                     else {
-                        const newLines = Object.keys(preparedData).filter(key => this.selectedFilteredRegions.includes(key)).reduce((obj, key) => {
-                            obj[key] = preparedData[key];
-                            return obj;
-                        }, {});
-
-                        this.currentChart[uniqueTopic].chart = ChartProcessor.createLineChart(topic, newLines, canvasTmp, this.colorScheme.lineCharts, renderSimple);
+                        this.currentChart[uniqueTopic].chart = ChartProcessor.createLineChart(topic, this.getNewLimitedData(this.selectedFilteredRegions, preparedData), canvasTmp, this.colorScheme.lineCharts, renderSimple);
                     }
 
                 }
                 else {
-                    this.showLineLimitView = false;
+                    this.showLimitView = false;
                     this.currentChart[uniqueTopic].chart = ChartProcessor.createLineChart(topic, preparedData, canvasTmp, this.colorScheme.lineCharts, renderSimple);
                 }
             }
             else if (type === "bar") {
-                this.showLineLimitView = false;
-                if (typeof differenceMode === "string") {
-                    this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, preparedData, direction, canvasTmp, renderSimple, this.colorArrayDifference);
+                if (preparedData && Object.keys(preparedData)?.length > this.barLimit) {
+                    this.diagramType = "bar";
+                    if (typeof differenceMode === "string") {
+                        this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, !this.showLimitView ? this.limitingDataForChart(preparedData, this.barLimit) : this.getNewLimitedData(this.allFilteredRegions, preparedData), direction, canvasTmp, differenceMode, renderSimple, false, this.colorArrayDifference);
+                    }
+                    else {
+                        this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, !this.showLimitView ? this.limitingDataForChart(preparedData, this.barLimit) : this.getNewLimitedData(this.allFilteredRegions, preparedData), direction, canvasTmp, differenceMode, this.numberOfColouredBars, renderSimple, ["#DCE2F3", "#d3d3d3"]);
+                    }
                 }
                 else {
-                    this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, preparedData, direction, canvasTmp, renderSimple);
+                    this.showLimitView = false;
+                    if (typeof differenceMode === "string") {
+                        this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, preparedData, direction, canvasTmp, differenceMode, renderSimple, false, this.colorArrayDifference);
+                    }
+                    else {
+                        this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, preparedData, direction, canvasTmp, differenceMode, renderSimple);
+                    }
                 }
             }
         },
         /**
-         * Limiting the number of the lines for line chart.
+         * Limiting the number of data for charts.
          * @param {Object} data The data.
+         * @param {Number} number Number of data in the chart.
          * @returns {Object} The trimmed data.
          */
-        limitingLines (data) {
-            const limitLines = Object.fromEntries(Object.entries(data).slice(0, 3));
+        limitingDataForChart (data, number) {
+            const limitData = Object.fromEntries(Object.entries(data).slice(0, number));
 
-            this.selectedFilteredRegions = Object.keys(limitLines);
+            this.selectedFilteredRegions = this.diagramType === "line" ? Object.keys(limitData) : Object.keys(limitData).slice(0, 3);
+            this.allFilteredRegions = Object.keys(limitData);
+            this.showLimitView = true;
 
-            this.showLineLimitView = true;
-
-            return limitLines;
+            return limitData;
         },
         /**
          * Adds the selected region to chart data.
@@ -819,8 +830,17 @@ export default {
          * @returns {void}
          */
         addSelectedFilteredRegions (region) {
-            this.selectedFilteredRegions.push(region);
-            this.handleChartData(this.selectedStatisticsNames, this.selectedFilteredRegions, this.selectedDatesValues, this.statisticsData, false);
+            if (this.diagramType === "line") {
+                this.selectedFilteredRegions.push(region);
+                this.handleChartData(this.selectedStatisticsNames, this.selectedFilteredRegions, this.selectedDatesValues, this.statisticsData, this.selectedReferenceData?.type);
+            }
+            else if (this.diagramType === "bar") {
+                this.allFilteredRegions = this.allFilteredRegions.filter(item => item !== region);
+                this.allFilteredRegions.unshift(region);
+                this.selectedFilteredRegions.unshift(region);
+                this.numberOfColouredBars = this.selectedFilteredRegions.length;
+                this.handleChartData(this.selectedStatisticsNames, this.allFilteredRegions, this.selectedDatesValues, this.statisticsData, this.selectedReferenceData?.type);
+            }
         },
         /**
          * Remove the selected region.
@@ -828,8 +848,32 @@ export default {
          * @returns {void}
          */
         removeRegion (region) {
-            this.selectedFilteredRegions = this.selectedFilteredRegions.filter(item => item !== region);
-            this.handleChartData(this.selectedStatisticsNames, this.selectedFilteredRegions, this.selectedDatesValues, this.statisticsData, false);
+            if (this.diagramType === "line") {
+                this.selectedFilteredRegions = this.selectedFilteredRegions.filter(item => item !== region);
+                this.handleChartData(this.selectedStatisticsNames, this.selectedFilteredRegions, this.selectedDatesValues, this.statisticsData, this.selectedReferenceData?.type);
+            }
+            else if (this.diagramType === "bar") {
+                const index = this.allFilteredRegions.indexOf(region);
+
+                this.selectedFilteredRegions = this.selectedFilteredRegions.filter(item => item !== region);
+                this.allFilteredRegions.push(this.allFilteredRegions.splice(index, 1)[0]);
+                this.numberOfColouredBars = this.selectedFilteredRegions.length;
+                this.handleChartData(this.selectedStatisticsNames, this.allFilteredRegions, this.selectedDatesValues, this.statisticsData, this.selectedReferenceData?.type);
+            }
+        },
+        /**
+         * Returns only the data from the selected regions.
+         * @param {String} region The selected region.
+         * @param {String} preparedData The data.
+         * @returns {Object} The new data.
+         */
+        getNewLimitedData (selectedRegions, preparedData) {
+            const limitedData = selectedRegions.filter(key => Object.keys(preparedData).includes(key)).reduce((obj, key) => {
+                obj[key] = preparedData[key];
+                return obj;
+            }, {});
+
+            return limitedData;
         },
         /**
          * Gets the filter based on given regions and dates array.
@@ -1058,7 +1102,9 @@ export default {
             this.showGrid = false;
             this.legendValue = [];
             this.showNoLegendData = false;
-            this.showLineLimitView = false;
+            this.showLimitView = false;
+            this.diagramType = undefined;
+            this.selectedFilteredRegions = [];
         },
         /**
          * Checks if at least one description is present in the statistics.
@@ -1180,7 +1226,9 @@ export default {
             this.allRegions = [];
             this.dates = [];
             this.timeStepsFilter = [];
-            this.showLineLimitView = false;
+            this.showLimitView = false;
+            this.diagramType = undefined;
+            this.selectedFilteredRegions = [];
             this.setSelectedCategories([]);
             this.setSelectedRegions([]);
             this.setSelectedDates([]);
@@ -1495,7 +1543,7 @@ export default {
             </div>
             <div v-show="showChart">
                 <div
-                    v-if="showLineLimitView"
+                    v-if="showLimitView"
                     class="filtered-areas"
                 >
                     <div

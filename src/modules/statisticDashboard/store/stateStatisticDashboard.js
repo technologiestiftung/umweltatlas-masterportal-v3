@@ -24,6 +24,7 @@
  * @property {Object} legendData the legendValues with colors and value
  * @property {Boolean} addTotalCount If true, a row with total count will be inserted in table.
  * @property {Number} lineLimit The number of lines from which the line diagram is limited.
+ * @property {Number} barLimit The number of bars from which the line diagram is limited.
  */
 const state = {
     active: false,
@@ -62,7 +63,8 @@ const state = {
     legendData: [],
     addTotalCount: false,
     lineLimit: null,
-    downloadFilename: "Statistic Dashboard Download"
+    downloadFilename: "Statistic Dashboard Download",
+    barLimit: null
 };
 
 export default state;

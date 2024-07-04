@@ -72,13 +72,15 @@ function createLineChart (topic, preparedData, canvas, colors, renderSimple = fa
  * @param {String} direction The direction to render the bar.
  * @param {HTMLElement} canvas The canvas to render the chart on.
  * @param {Boolean} [renderSimple=false] -  true if should be rendered as simple chart.
+ * @param {String|Boolean} differenceMode - Indicates the difference mode('date' or 'region') ohterwise false.
+ * @param {Number|Boolean} numberOfColouredBars - indicates how many bars should be colored ohterwise false.
  * @param {Object[]} [color = ["#d3d3d3"]] -  The color to render the bar.
  * @returns {Chart} The chart.
  */
-function createBarChart (topic, preparedData, direction, canvas, renderSimple = false, color = ["#d3d3d3"]) {
+function createBarChart (topic, preparedData, direction, canvas, differenceMode, numberOfColouredBars = false, renderSimple = false, color = ["#d3d3d3"]) {
     const chart = canvas,
         dataValues = parsePreparedDataToBarChartFormat(preparedData),
-        dataColors = getBarChartColors(dataValues, color),
+        dataColors = getBarChartColors(dataValues, color, differenceMode, numberOfColouredBars),
         barChartConfig = {
             type: "bar",
             data: {
@@ -145,7 +147,6 @@ function createBarChart (topic, preparedData, direction, canvas, renderSimple = 
     barChartConfig.options.scales.x.position = direction === "horizontal" ? "top" : "bottom";
     return new Chart(chart.getContext("2d"), barChartConfig);
 }
-
 /**
  * Parses data to line chart format and returns it.
  * @param {Object} preparedData The data.
@@ -226,19 +227,29 @@ function getYearFromPreparedData (preparedData) {
  * Get the color for the bar chart and returns it.
  * @param {Object} data - The data.
  * @param {Object[]} currentColor - The colors.
+ * @param {String|Boolean} differenceMode - Indicates the difference mode('date' or 'region') otherwise false.
+ * @param {Number|Boolean} numberOfColouredBars - indicates how many bars should be colored otherwise false.
  * @returns {Object[]} The values as array.
- */
-function getBarChartColors (data, currentColor) {
+*/
+function getBarChartColors (data, currentColor, differenceMode, numberOfColouredBars) {
     if (!Array.isArray(data) && !Array.isArray(currentColor)) {
         return "";
     }
     let colorValue = [];
 
-
-    if (currentColor.length === 2) {
+    if (typeof differenceMode === "string") {
         colorValue = data.map((value) => value < 0 ? currentColor[0] : currentColor[1]);
     }
-    if (currentColor.length === 1) {
+    else if (!differenceMode && currentColor.length === 2) {
+        const firstChunk = data.slice(0, numberOfColouredBars),
+            secondChunk = data.slice(numberOfColouredBars, data.length);
+
+        first = firstChunk.map(val => val.length === 0 ? "" : currentColor[0]);
+        second = secondChunk.map(value => value.length === 0 ? "" : currentColor[1]);
+
+        colorValue = [...first, ...second];
+    }
+    else if (currentColor.length === 1) {
         colorValue = currentColor[0];
     }
 

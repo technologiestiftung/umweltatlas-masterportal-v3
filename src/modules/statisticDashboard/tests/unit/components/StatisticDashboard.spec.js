@@ -209,7 +209,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
             await wrapper.setData({loadedFilterData: true});
             expect(wrapper.findComponent({name: "AccordionItem"}).exists()).to.be.true;
         });
-        it("should render filter search field if showLineLimitView is true", async () => {
+        it("should render filter search field if showLimitView is true", async () => {
             const wrapper = shallowMount(StatisticDashboard, {
                 global: {
                     plugins: [store]
@@ -217,7 +217,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
             });
 
             await wrapper.setData({
-                showLineLimitView: true,
+                showLimitView: true,
                 showChart: true
             });
 
@@ -1491,49 +1491,95 @@ describe("src/modules/StatisticDashboard.vue", () => {
                 });
             });
         });
-        describe("limitingLines", () => {
-            it("should return trimmed object", () => {
-                const wrapper = shallowMount(StatisticDashboard, {
-                        global: {
-                            plugins: [store]
-                        }
-                    }),
-                    data = {
-                        "Region1": {
-                            "2021": 80395,
-                            "2022": 73800
-                        },
-                        "Region2": {
-                            "2021": 4478,
-                            "2022": 4260
-                        },
-                        "Region3": {
-                            "2021": 6186,
-                            "2022": 6065
-                        },
-                        "Region4": {
-                            "2021": 6186,
-                            "2022": 6065
-                        }
+        describe("limitingDataForChart", () => {
+            const data = {
+                    "Region1": {
+                        "2021": 80395,
+                        "2022": 73800
                     },
-                    expectedObject = {
-                        "Region1": {
-                            "2021": 80395,
-                            "2022": 73800
-                        },
-                        "Region2": {
-                            "2021": 4478,
-                            "2022": 4260
-                        },
-                        "Region3": {
-                            "2021": 6186,
-                            "2022": 6065
-                        }
-                    };
+                    "Region2": {
+                        "2021": 4478,
+                        "2022": 4260
+                    },
+                    "Region3": {
+                        "2021": 6186,
+                        "2022": 6065
+                    },
+                    "Region4": {
+                        "2021": 6186,
+                        "2022": 6065
+                    }
+                },
+                expectedObject = {
+                    "Region1": {
+                        "2021": 80395,
+                        "2022": 73800
+                    },
+                    "Region2": {
+                        "2021": 4478,
+                        "2022": 4260
+                    },
+                    "Region3": {
+                        "2021": 6186,
+                        "2022": 6065
+                    }
+                },
+                expectedBarObject = {
+                    "Region1": {
+                        "2021": 80395,
+                        "2022": 73800
+                    },
+                    "Region2": {
+                        "2021": 4478,
+                        "2022": 4260
+                    },
+                    "Region3": {
+                        "2021": 6186,
+                        "2022": 6065
+                    },
+                    "Region4": {
+                        "2021": 6186,
+                        "2022": 6065
+                    }
+                },
+                expectedArray = [
+                    "Region1",
+                    "Region2",
+                    "Region3"
+                ],
+                expectedBarArray = [
+                    "Region1",
+                    "Region2",
+                    "Region3",
+                    "Region4"
+                ];
 
-                expect(wrapper.vm.limitingLines(data)).to.deep.equal(expectedObject);
-                expect(wrapper.vm.showLineLimitView).to.be.true;
+            it("should return trimmed object for line charts", async () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
 
+                await wrapper.setData({diagramType: "line"});
+
+                expect(wrapper.vm.limitingDataForChart(data, 3)).to.deep.equal(expectedObject);
+                expect(wrapper.vm.showLimitView).to.be.true;
+                expect(wrapper.vm.selectedFilteredRegions).to.deep.equal(expectedArray);
+            });
+            it("should return trimmed object for bar charts", async () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                await wrapper.setData({diagramType: "bar"});
+
+                expect(wrapper.vm.limitingDataForChart(data, 4)).to.deep.equal(expectedBarObject);
+                expect(wrapper.vm.showLimitView).to.be.true;
+                expect(wrapper.vm.selectedFilteredRegions).to.deep.equal(expectedArray);
+                expect(wrapper.vm.allFilteredRegions).to.deep.equal(expectedBarArray);
             });
         });
         describe("addSelectedFilteredRegions", () => {
@@ -1544,10 +1590,61 @@ describe("src/modules/StatisticDashboard.vue", () => {
                     }
                 });
 
+                await wrapper.setData({diagramType: "line"});
+
                 wrapper.vm.selectedFilteredRegions = ["aaaa", "bbbb", "ccccc"];
                 wrapper.vm.addSelectedFilteredRegions("ddddd");
                 await wrapper.vm.$nextTick();
                 expect(wrapper.vm.selectedFilteredRegions).to.deep.equal(["aaaa", "bbbb", "ccccc", "ddddd"]);
+            });
+            it("should add region", async () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                await wrapper.setData({diagramType: "bar", allFilteredRegions: ["aaaa", "bbbb", "ccccc", "ddddd"]});
+
+                wrapper.vm.selectedFilteredRegions = ["aaaa", "bbbb", "ccccc"];
+                wrapper.vm.addSelectedFilteredRegions("ddddd");
+                await wrapper.vm.$nextTick();
+                expect(wrapper.vm.selectedFilteredRegions).to.deep.equal(["ddddd", "aaaa", "bbbb", "ccccc"]);
+                expect(wrapper.vm.allFilteredRegions).to.deep.equal(["ddddd", "aaaa", "bbbb", "ccccc"]);
+                expect(wrapper.vm.numberOfColouredBars).to.be.equal(4);
+            });
+        });
+        describe("removeRegion", () => {
+            it("should remove selected region", async () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                await wrapper.setData({diagramType: "line"});
+
+                wrapper.vm.selectedFilteredRegions = ["aaaa", "bbbb", "ccccc", "ddddd"];
+                wrapper.vm.removeRegion("ddddd");
+                await wrapper.vm.$nextTick();
+                expect(wrapper.vm.selectedFilteredRegions).to.deep.equal(["aaaa", "bbbb", "ccccc"]);
+            });
+            it("should add region", async () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                await wrapper.setData({diagramType: "bar", allFilteredRegions: ["aaaa", "bbbb", "ccccc", "ddddd"]});
+
+                wrapper.vm.selectedFilteredRegions = ["aaaa", "bbbb", "ccccc", "ddddd"];
+                wrapper.vm.allFilteredRegions = ["aaaa", "bbbb", "ccccc", "ddddd", "eeeee"];
+                wrapper.vm.removeRegion("ddddd");
+                await wrapper.vm.$nextTick();
+                expect(wrapper.vm.selectedFilteredRegions).to.deep.equal(["aaaa", "bbbb", "ccccc"]);
+                expect(wrapper.vm.allFilteredRegions).to.deep.equal(["aaaa", "bbbb", "ccccc", "eeeee", "ddddd"]);
+                expect(wrapper.vm.numberOfColouredBars).to.be.equal(3);
             });
         });
         describe("getColorPalette", () => {
