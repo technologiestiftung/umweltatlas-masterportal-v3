@@ -10,7 +10,8 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
     let dispatch,
         commit,
         getters,
-        zoomLevel;
+        zoomLevel,
+        map;
 
     beforeEach(() => {
         zoomLevel = 5;
@@ -20,6 +21,23 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
         getters = {
             zoomLevel: zoomLevel
         };
+        map = {
+            id: "ol",
+            mode: "2D",
+            getView: () => {
+                return {
+                    getZoomForResolution: () => 5,
+                    getResolutionForExtent: () => 5
+                };
+            },
+            getSize: () => {
+                return {
+                    getArray: () => []
+                };
+            }
+        };
+        mapCollection.clear();
+        mapCollection.addMap(map, "2D");
     });
 
     afterEach(() => {
@@ -543,7 +561,7 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
     });
 
     describe("zoomToResult", () => {
-        it("zoomToResult with coordinates ", () => {
+        it("zoomToResult with point coordinates ", () => {
             const coordinates = [1234, 65432],
                 payload = {
                     center: coordinates,
@@ -554,6 +572,21 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
 
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equals("Maps/zoomToCoordinates");
+            expect(dispatch.firstCall.args[1]).to.be.deep.equals(payload);
+        });
+        it("zoomToResult with extent coordinates ", () => {
+            const coordinates = [5.866342, 47.270111, 15.041896, 55.058338],
+                zoom = 5,
+                payload = {
+                    extent: coordinates,
+                    options: {maxZoom: zoom}
+                };
+
+
+            actions.zoomToResult({dispatch, getters}, {coordinates, options: {maxZoom: zoom}});
+
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equals("Maps/zoomToExtent");
             expect(dispatch.firstCall.args[1]).to.be.deep.equals(payload);
         });
     });
