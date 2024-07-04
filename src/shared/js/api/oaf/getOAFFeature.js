@@ -117,9 +117,48 @@ function getNextLinkFromFeatureCollection (featureCollection) {
     return false;
 }
 
+/**
+ * Gets the unique values by a scheme request.
+ * @param {String} baseUrl The base url of the dataset.
+ * @param {String} collection The collection name.
+ * @param {String[]} propertiesToGetValuesFor List of properties to get the values for. If empty it returns all attributes.
+ * @returns {Object} an object with property name as key and the unique values as object as value.
+ */
+async function getUniqueValuesByScheme (baseUrl, collection, propertiesToGetValuesFor) {
+    if (typeof baseUrl !== "string" || typeof collection !== "string" || !Array.isArray(propertiesToGetValuesFor)) {
+        return {};
+    }
+    const url = `${baseUrl}/collections/${collection}/schema`,
+        response = await axios.get(url, {
+            headers: {
+                accept: "application/schema+json"
+            }
+        }),
+        result = {};
+
+    if (response.status !== 200 || !isObject(response.data?.properties)) {
+        return {};
+    }
+
+    Object.entries(response.data.properties).forEach(([key, value]) => {
+        if (!Object.prototype.hasOwnProperty.call(value, "enum") || (propertiesToGetValuesFor.length && !propertiesToGetValuesFor.includes(key))) {
+            return;
+        }
+        const uniqueList = {};
+
+        value.enum.forEach(uniqueValue => {
+            uniqueList[uniqueValue] = true;
+        });
+        result[key] = uniqueList;
+    });
+
+    return result;
+}
+
 export default {
     getOAFFeatureGet,
     readAllOAFToGeoJSON,
     oafRecursionHelper,
-    getNextLinkFromFeatureCollection
+    getNextLinkFromFeatureCollection,
+    getUniqueValuesByScheme
 };

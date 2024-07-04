@@ -3,7 +3,6 @@ import {getFeatureGET} from "../../../shared/js/api/wfs/getFeature";
 import {WFS} from "ol/format.js";
 import isObject from "../../../shared/js/utils/isObject";
 import {describeFeatureType, getFeatureDescription} from "../../../shared/js/api/wfs/describeFeatureType";
-import {fetchAllOafProperties, getUniqueValuesFromFetchedFeatures as getUniqueValuesFromOAF} from "../../filter/utils/fetchAllOafProperties";
 import getOAFFeature from "../../../shared/js/api/oaf/getOAFFeature";
 
 /**
@@ -19,20 +18,16 @@ async function getUniqueValues (layerId, attributesToFilter) {
         attributesWithType = null;
 
     if (rawLayer === null) {
-        return [];
+        return {};
     }
-    if (rawLayer?.typ === "WFS") {
-        response = await this.fetchAllDataForWFS(rawLayer?.url, rawLayer?.featureType, attributesToFilter.join(","));
-        features = new WFS().readFeatures(response);
-        attributesWithType = await this.getAttributesWithType(rawLayer?.url, attributesToFilter, rawLayer?.featureType);
+    if (rawLayer?.typ === "OAF") {
+        response = await getOAFFeature.getUniqueValuesByScheme(rawLayer?.url, rawLayer?.collection, attributesToFilter);
+        return response;
     }
-    else if (rawLayer?.typ === "OAF") {
-        return new Promise((resolve, reject) => {
-            fetchAllOafProperties(rawLayer?.url, rawLayer?.collection, rawLayer?.limit ?? 400, properties => {
-                resolve(getUniqueValuesFromOAF(properties, attributesToFilter, true));
-            }, error => reject(error), true, attributesToFilter);
-        });
-    }
+    response = await this.fetchAllDataForWFS(rawLayer?.url, rawLayer?.featureType, attributesToFilter.join(","));
+    features = new WFS().readFeatures(response);
+    attributesWithType = await this.getAttributesWithType(rawLayer?.url, attributesToFilter, rawLayer?.featureType);
+
     return this.getUniqueValuesFromFeatures(features, attributesWithType);
 }
 /**

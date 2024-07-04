@@ -129,7 +129,7 @@ describe("src/modules/statisticDashboard/utils/fetchData.js", () => {
     describe("getUniqueValues", () => {
         it("should return an empty array if getLayerWhere returns null", async () => {
             sinon.stub(rawLayerList, "getLayerWhere").returns(null);
-            expect(await fetchData.getUniqueValues(1234)).to.be.an("array").that.is.empty;
+            expect(await fetchData.getUniqueValues(1234)).to.be.an("object").that.is.empty;
             sinon.restore();
         });
         it("should call expected functions", async () => {

@@ -130,4 +130,88 @@ describe("src/shared/js/api/oaf", () => {
             ]})).to.equal("hrefD");
         });
     });
+    describe("getUniqueValuesByScheme", () => {
+        it("should return an empty object if first param is not a string", async () => {
+            expect(await getOAFFeature.getUniqueValuesByScheme(undefined)).to.be.an("object").that.is.empty;
+            expect(await getOAFFeature.getUniqueValuesByScheme(null)).to.be.an("object").that.is.empty;
+            expect(await getOAFFeature.getUniqueValuesByScheme({})).to.be.an("object").that.is.empty;
+            expect(await getOAFFeature.getUniqueValuesByScheme([])).to.be.an("object").that.is.empty;
+            expect(await getOAFFeature.getUniqueValuesByScheme(true)).to.be.an("object").that.is.empty;
+            expect(await getOAFFeature.getUniqueValuesByScheme(false)).to.be.an("object").that.is.empty;
+            expect(await getOAFFeature.getUniqueValuesByScheme(1234)).to.be.an("object").that.is.empty;
+        });
+        it("should return an empty object if second param is not a string", async () => {
+            expect(await getOAFFeature.getUniqueValuesByScheme("foo", undefined)).to.be.an("object").that.is.empty;
+            expect(await getOAFFeature.getUniqueValuesByScheme("foo", null)).to.be.an("object").that.is.empty;
+            expect(await getOAFFeature.getUniqueValuesByScheme("foo", {})).to.be.an("object").that.is.empty;
+            expect(await getOAFFeature.getUniqueValuesByScheme("foo", [])).to.be.an("object").that.is.empty;
+            expect(await getOAFFeature.getUniqueValuesByScheme("foo", true)).to.be.an("object").that.is.empty;
+            expect(await getOAFFeature.getUniqueValuesByScheme("foo", false)).to.be.an("object").that.is.empty;
+            expect(await getOAFFeature.getUniqueValuesByScheme("foo", 1234)).to.be.an("object").that.is.empty;
+        });
+        it("should return an empty object if second param is not a string", async () => {
+            expect(await getOAFFeature.getUniqueValuesByScheme("foo", "foo", undefined)).to.be.an("object").that.is.empty;
+            expect(await getOAFFeature.getUniqueValuesByScheme("foo", "foo", {})).to.be.an("object").that.is.empty;
+            expect(await getOAFFeature.getUniqueValuesByScheme("foo", "foo", null)).to.be.an("object").that.is.empty;
+            expect(await getOAFFeature.getUniqueValuesByScheme("foo", "foo", true)).to.be.an("object").that.is.empty;
+            expect(await getOAFFeature.getUniqueValuesByScheme("foo", "foo", false)).to.be.an("object").that.is.empty;
+            expect(await getOAFFeature.getUniqueValuesByScheme("foo", "foo", 1234)).to.be.an("object").that.is.empty;
+            expect(await getOAFFeature.getUniqueValuesByScheme("foo", "foo", "1234")).to.be.an("object").that.is.empty;
+        });
+        it("should return an empty object if request was not successfull", async () => {
+            sinon.stub(axios, "get").resolves({status: 400});
+            expect(await getOAFFeature.getUniqueValuesByScheme("foo", "foo", [])).to.be.an("object").that.is.empty;
+            sinon.restore();
+        });
+        it("should return an empty object if request was successfull but without expected data", async () => {
+            sinon.stub(axios, "get").resolves({data: "foo"});
+            expect(await getOAFFeature.getUniqueValuesByScheme("foo", "foo", [])).to.be.an("object").that.is.empty;
+            sinon.restore();
+        });
+        it("should return an object with all properties", async () => {
+            const expected = {
+                foo: {bar: true, baz: true},
+                boo: {buu: true, bee: true}
+            };
+
+            sinon.stub(axios, "get").resolves({
+                status: 200,
+                data: {
+                    properties: {
+                        foo: {
+                            enum: ["bar", "baz"]
+                        },
+                        boo: {
+                            enum: ["buu", "bee"]
+                        },
+                        fee: {}
+                    }
+                }
+            });
+            expect(await getOAFFeature.getUniqueValuesByScheme("foo", "foo", [])).to.deep.equal(expected);
+            sinon.restore();
+        });
+        it("should return an object with only the expected properties", async () => {
+            const expected = {
+                boo: {buu: true, bee: true}
+            };
+
+            sinon.stub(axios, "get").resolves({
+                status: 200,
+                data: {
+                    properties: {
+                        foo: {
+                            enum: ["bar", "baz"]
+                        },
+                        boo: {
+                            enum: ["buu", "bee"]
+                        },
+                        fee: {}
+                    }
+                }
+            });
+            expect(await getOAFFeature.getUniqueValuesByScheme("foo", "foo", ["boo"])).to.deep.equal(expected);
+            sinon.restore();
+        });
+    });
 });
