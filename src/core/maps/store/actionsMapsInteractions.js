@@ -163,5 +163,22 @@ export default {
         else {
             unlistenByKey(type);
         }
-    }
+    },
+
+    /**
+     * Opens view point with the given values
+     * @param {Number[]}  payload.center center of the view
+     * @param {Number}  payload.zoom zoom of the view
+     * @param {Number}  payload.heading heading of the view
+     * @param {Number}  payload.tilt tilt of the view
+     * @param {Number}  payload.altitude altitude of the view
+     */
+    activateViewpoint ({dispatch, getters}, {heading, tilt, altitude, center, zoom}) {
+        dispatch("Maps/zoomToCoordinates", {center, zoom}, {root: true});
+        if (getters.mode === "3D") {
+            dispatch("setCamera", {
+                altitude, heading, tilt
+            });
+        }
+    },
 };
