@@ -66,4 +66,39 @@ describe("src/core/maps/store/actionsMapsInteractions.js", () => {
             expect(rootGetters.map3dParameter.camera).to.deep.equals(cameraParams);
         });
     });
+    describe("activateViewpoint", () => {
+
+        before(() => {
+            const map3d = {
+                id: "olcs",
+                mode: "3D",
+                getCesiumScene: () => {
+                    return {
+                        camera: {
+                            moveUp: "",
+                            moveDown: "",
+                            moveRight: "",
+                            moveLeft: ""
+                        }
+                    };
+                }
+            };
+
+            mapCollection.clear();
+            mapCollection.addMap(map3d, "3D");
+        });
+        it("should set camera in case of 3D mode", () => {
+            const cameraParams = {
+                    heading: -0.30858728378862876,
+                    tilt: 0.9321791580603296,
+                    altitude: 272.3469798217454
+                },
+                center = [564028.7954571751, 5934555.967867207],
+                zoom = 7.456437968949651;
+
+            actions.activateViewpoint(cameraParams, center, zoom);
+            expect(actions.setCamera.calledOnce).to.be.true;
+
+        });
+    });
 });
