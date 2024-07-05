@@ -3518,7 +3518,8 @@ The shadow tool provides a UI element to define a point in time by using sliders
 |minNumberOfClasses|no|Number|2|Minimum selectable number of classes for choropleth map and legend. At least 2.|false|
 |maxNumberOfClasses|no|Number|5|Maximum selectable number of classes for choropleth map and legend. At least 3.|false|
 |numberOfClasses|no|Number|5|Current selected number of classes.|false|
-|selectableColorPalettes|no|**[selectableColorPalettes](#markdown-header-portalconfigmenusectionsmodulesstatisticDashboardselectableColorPalettes)**|{"label": "Blau", "baseColor": [8, 81, 156]}|Available options for color palettes |false
+|selectableColorPalettes|no|**[selectableColorPalettes](#markdown-header-portalconfigmenusectionsmodulesstatisticDashboardselectableColorPalettes)**|{"label": "Blau", "baseColor": [8, 81, 156]}|Available options for color palettes |false|
+|downloadFilename|no|String|"Statistic Dashboard Download"|The filename of the exported csv file.|false|
 
 **Example**
 
@@ -3527,6 +3528,7 @@ The shadow tool provides a UI element to define a point in time by using sliders
     "name": "translate#common:menu.statisticDashboard",
     "subtitle": "common:modules.statisticDashboard.headings.mrhstatistics",
     "icon": "bi-speedometer",
+    "downloadFilename": "Downloaded_Data",
     "colorScheme": {
         "referenceRegion": [155, 155, 155, 0.7],
         "lineCharts": [[74, 0, 30, 1], [117, 18, 50, 1], [189, 47, 83, 1], [198, 81, 84, 1], [228, 121, 97, 1], [240, 168, 130, 1], [250, 212, 172, 1], [157, 185, 171, 1], [137, 192, 196, 1], [87, 158, 185, 1],

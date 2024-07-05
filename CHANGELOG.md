@@ -9,6 +9,8 @@
 ### Added
 - SearchBar:
     - Added the possibility to zoom to an extent from a search result.
+- StatisticDashboard:
+    - Added export button for CSV export.
 
 ### Changed
 

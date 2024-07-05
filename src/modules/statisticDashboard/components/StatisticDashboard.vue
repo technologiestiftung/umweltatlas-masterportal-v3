@@ -233,6 +233,47 @@ export default {
         ...mapActions("Menu", ["changeCurrentComponent"]),
 
         /**
+         * Prepares and downloads the statistic data.
+         * @param {Function} onsuccess The function which is called when the data is ready to download.
+         * @returns {void}
+         */
+        downloadData (onsuccess) {
+            if (typeof onsuccess !== "function") {
+                return;
+            }
+            const csv = {},
+                csvHeader = [""],
+                csvSubHeader = ["Gebiet"];
+            let elements = [];
+
+            if (!isObject(this.statisticsData)) {
+                onsuccess(null);
+                return;
+            }
+
+            Object.entries(this.statisticsData).forEach(([statisticName, statisticValues]) => {
+                const statisticAreaNames = Object.keys(statisticValues),
+                    statisticTimeLabels = Object.keys(statisticValues[statisticAreaNames[0]]).reverse(),
+                    amount = statisticTimeLabels.length;
+
+                csvSubHeader.push(...statisticTimeLabels);
+                for (let i = 0; i < amount; i++) {
+                    csvHeader.push(statisticName);
+                }
+                statisticAreaNames.forEach(statisticAreaName => {
+                    if (!Array.isArray(csv[statisticAreaName])) {
+                        csv[statisticAreaName] = [];
+                    }
+                    const statisticTimeValues = Object.values(statisticValues[statisticAreaName]).reverse();
+
+                    csv[statisticAreaName].push(...statisticTimeValues);
+                });
+            });
+            elements = Object.entries(csv).map(([area, values]) => [area, ...values]);
+
+            onsuccess([csvHeader, csvSubHeader, ...elements]);
+        },
+        /**
          * Performs necessary updates after the user has made changes in legend settings.
          */
         updateAfterLegendChange () {
@@ -1397,8 +1438,10 @@ export default {
                 v-if="loadedReferenceData"
                 :descriptions="controlDescription"
                 :reference-data="referenceData"
+                :enable-download="tableData.length > 0"
                 class="mb-3"
                 @show-chart-table="toggleChartTable"
+                @download="downloadData"
             />
             <div v-show="showTable">
                 <div v-if="!showGrid">

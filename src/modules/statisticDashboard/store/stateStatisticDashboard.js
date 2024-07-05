@@ -61,7 +61,8 @@ const state = {
     chartTableToggle: "table",
     legendData: [],
     addTotalCount: false,
-    lineLimit: null
+    lineLimit: null,
+    downloadFilename: "Statistic Dashboard Download"
 };
 
 export default state;

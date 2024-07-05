@@ -336,6 +336,66 @@ describe("src/modules/StatisticDashboard.vue", () => {
     });
 
     describe("methods", () => {
+        describe("downloadData", () => {
+            it("should call onsuccess without params", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        global: {
+                            plugins: [store]
+                        }
+                    }),
+                    onsuccess = sinon.stub(),
+                    statisticsData = wrapper.vm.statisticsData;
+
+                wrapper.vm.downloadData(onsuccess);
+                wrapper.vm.statisticsData = null;
+                expect(onsuccess.calledWith(null)).to.be.true;
+                wrapper.vm.statisticsData = statisticsData;
+                sinon.restore();
+            });
+            it("should call onsuccess with expected params", () => {
+                const statisticsTmp = {
+                        "Arbeitslose": {
+                            "Herzogtum Lauenburg": {
+                                "2020": 5785,
+                                "2021": 5603
+                            },
+                            "Harburg": {
+                                "2020": 6166,
+                                "2021": 6186
+                            }
+                        },
+                        "Arbeitslose 15 bis unter 25 Jahre": {
+                            "Herzogtum Lauenburg": {
+                                "2020": 643,
+                                "2021": 597
+                            },
+                            "Harburg": {
+                                "2020": 670,
+                                "2021": 591
+                            }
+                        }
+                    },
+                    wrapper = shallowMount(StatisticDashboard, {
+                        global: {
+                            plugins: [store]
+                        }
+                    }),
+                    onsuccess = sinon.stub(),
+                    statisticsData = wrapper.vm.statisticsData,
+                    expected = [
+                        ["", "Arbeitslose", "Arbeitslose", "Arbeitslose 15 bis unter 25 Jahre", "Arbeitslose 15 bis unter 25 Jahre"],
+                        ["Gebiet", "2021", "2020", "2021", "2020"],
+                        ["Herzogtum Lauenburg", 5603, 5785, 597, 643],
+                        ["Harburg", 6186, 6166, 591, 670]
+                    ];
+
+                wrapper.vm.statisticsData = statisticsTmp;
+                wrapper.vm.downloadData(onsuccess);
+                expect(onsuccess.getCall(0).args[0]).to.deep.equal(expected);
+                wrapper.vm.statisticsData = statisticsData;
+                sinon.restore();
+            });
+        });
         describe("getUniqueValuesForLevel", () => {
             it("should return an empty object if first parm is not an object", async () => {
                 const wrapper = shallowMount(StatisticDashboard, {

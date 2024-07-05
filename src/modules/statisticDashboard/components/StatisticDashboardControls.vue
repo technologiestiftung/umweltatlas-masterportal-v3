@@ -5,12 +5,14 @@ import isObject from "../../../shared/js/utils/isObject";
 import {mapGetters, mapMutations} from "vuex";
 import getters from "../store/gettersStatisticDashboard";
 import mutations from "../store/mutationsStatisticDashboard";
+import ExportButtonCSV from "../../../shared/modules/buttons/components/ExportButtonCSV.vue";
 
 export default {
     name: "StatisticDashboardControls",
     components: {
         DifferenceModal,
-        StatisticSwitcher
+        StatisticSwitcher,
+        ExportButtonCSV
     },
     props: {
         descriptions: {
@@ -21,9 +23,14 @@ export default {
         referenceData: {
             type: Object,
             required: true
+        },
+        enableDownload: {
+            type: Boolean,
+            required: false,
+            default: false
         }
     },
-    emits: ["showChartTable"],
+    emits: ["showChartTable", "download"],
     data () {
         return {
             currentDescriptionIndex: 0,
@@ -205,19 +212,19 @@ export default {
         </div>
         <!-- Controls -->
         <div class="container">
-            <div class="btn-toolbar row align-items-start">
+            <div class="btn-toolbar row">
                 <StatisticSwitcher
                     :buttons="buttonGroupControls"
                     :pre-checked-value="precheckedViewSwitcher"
-                    class="col col-md btn-table-diagram mb-2"
+                    class="col col-md btn-table-diagram mb-2 p-0"
                     group="dataViews"
                     @show-view="handleView"
                 />
                 <div
-                    class="col col-md mt-0"
+                    class="col col-md-auto mt-0 p-0 pe-1"
                 >
                     <div
-                        class="difference-button mt-0"
+                        class="difference-button mt-0 float-right text-right"
                         data-toggle="tooltip"
                         data-placement="top"
                         :title="$t('common:modules.statisticDashboard.reference.description')"
@@ -225,7 +232,7 @@ export default {
                         <button
                             :aria-label="$t('common:modules.statisticDashboard.button.difference')"
                             icon="bi bi-intersect"
-                            class="btn btn-light btn-sm px-3 py-2 dropdown-toggle"
+                            class="btn btn-light btn-sm px-3 py-2 dropdown-toggle text-right"
                             :class="typeof referenceTag === 'string' ? 'active' : ''"
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
@@ -245,6 +252,21 @@ export default {
                             />
                         </div>
                     </div>
+                </div>
+                <div
+                    class="col col-md-auto mt-0 p-0"
+                >
+                    <ExportButtonCSV
+                        id="download-button"
+                        :handler="onsuccesss => $emit('download', onsuccesss)"
+                        :filename="downloadFilename"
+                        :disabled="!enableDownload"
+                        use-semicolon
+                        class="text-nowrap btn-light btn-sm px-3 py-2 dropdown-toggle text-right"
+                    >
+                        <i class="bi bi-cloud-arrow-down-fill" />
+                        {{ $t("common:modules.statisticDashboard.button.download") }}
+                    </ExportButtonCSV>
                 </div>
                 <div
                     v-if="typeof referenceTag === 'string'"
@@ -300,7 +322,7 @@ export default {
 
 .difference-button {
     display: inline-block;
- }
+}
 
 .dropdown-menu {
     width: 60%;

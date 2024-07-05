@@ -3519,7 +3519,8 @@ Das ShadowTool bietet eine Oberfläche zur Definition einer Zeitangabe. Über Sl
 |minNumberOfClasses|nein|Number|2|Minimal auswählbare Zahl der Klassen für Choroplethen und Legende. Mindestens 2.|false|
 |maxNumberOfClasses|nein|Number|5|Maximal auswählbare Zahl der Klassen für Choroplethen und Legende. Mindestens 3.|false|
 |numberOfClasses|nein|Number|5|Aktuell ausgewählte Zahl der Klassen für Choroplethen und Legende.|false|
-|selectableColorPalettes|nein|**[selectableColorPalettes](#markdown-header-portalconfigmenusectionsmodulesstatisticDashboardselectableColorPalettes)**|{"label": "Blau", "baseColor": [8, 81, 156]}|Optionen für die Farbpalette der Choroplethen.|false
+|selectableColorPalettes|nein|**[selectableColorPalettes](#markdown-header-portalconfigmenusectionsmodulesstatisticDashboardselectableColorPalettes)**|{"label": "Blau", "baseColor": [8, 81, 156]}|Optionen für die Farbpalette der Choroplethen.|false|
+|downloadFilename|nein|String|"Statistic Dashboard Download"|Der Titel der exportierten CSV Datei.|false|
 
 **Beispiel**
 
@@ -3528,6 +3529,7 @@ Das ShadowTool bietet eine Oberfläche zur Definition einer Zeitangabe. Über Sl
     "name": "translate#common:menu.statisticDashboard",
     "subtitle": "common:modules.statisticDashboard.headings.mrhstatistics",
     "icon": "bi-speedometer",
+    "downloadFilename": "Downloaded_Data",
     "colorScheme": {
         "referenceRegion": [155, 155, 155, 0.7],
         "lineCharts": [[74, 0, 30, 1], [117, 18, 50, 1], [189, 47, 83, 1], [198, 81, 84, 1], [228, 121, 97, 1], [240, 168, 130, 1], [250, 212, 172, 1], [157, 185, 171, 1], [137, 192, 196, 1], [87, 158, 185, 1],
