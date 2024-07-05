@@ -3518,6 +3518,7 @@ The shadow tool provides a UI element to define a point in time by using sliders
 |minNumberOfClasses|no|Number|2|Minimum selectable number of classes for choropleth map and legend. At least 2.|false|
 |maxNumberOfClasses|no|Number|5|Maximum selectable number of classes for choropleth map and legend. At least 3.|false|
 |numberOfClasses|no|Number|5|Current selected number of classes.|false|
+|selectableColorPalettes|no|**[selectableColorPalettes](#markdown-header-portalconfigmenusectionsmodulesstatisticDashboardselectableColorPalettes)**|{"label": "Blau", "baseColor": [8, 81, 156]}|Available options for color palettes |false
 
 **Example**
 
@@ -3528,8 +3529,6 @@ The shadow tool provides a UI element to define a point in time by using sliders
     "icon": "bi-speedometer",
     "colorScheme": {
         "referenceRegion": [155, 155, 155, 0.7],
-        "comparisonMap": [[198, 219, 239, 0.9], [158, 202, 225, 0.9], [107, 174, 214, 0.9], [49, 130, 189, 0.9], [8, 81, 156, 0.9]],
-        "differenceMap": [[210, 226, 27, 0.9], [122, 209, 81, 0.9], [84, 197, 104, 0.9], [34, 168, 132, 0.9], [35, 136, 142, 0.9]],
         "lineCharts": [[74, 0, 30, 1], [117, 18, 50, 1], [189, 47, 83, 1], [198, 81, 84, 1], [228, 121, 97, 1], [240, 168, 130, 1], [250, 212, 172, 1], [157, 185, 171, 1], [137, 192, 196, 1], [87, 158, 185, 1],
             [57, 122, 168, 1], [28, 87, 150, 1], [22, 55, 113, 1], [16, 25, 77, 1], [118, 199, 190, 1], [62, 168, 166, 1], [32, 130, 136, 1], [0, 73, 75, 1], [224, 110, 133, 1], [204, 65, 90, 1]]
     },
@@ -3592,8 +3591,6 @@ The shadow tool provides a UI element to define a point in time by using sliders
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |referenceRegion|yes|Float[]|[]|The RGBA color of the Reference region.|false|
-|comparisonMap|yes|Float[]|[]|The list of the RGBA colors of the comparison map.|false|
-|differenceMap|yes|Float[]|[]|The list of the RGBA colors of the difference map.|false|
 |lineCharts|yes|Float[]|[]|The list of the RGBA colors of the linecharts.|false|
 
 **Example**
@@ -3601,11 +3598,27 @@ The shadow tool provides a UI element to define a point in time by using sliders
 ```json
 {
         "referenceRegion": [155, 155, 155, 0.7],
-        "comparisonMap": [[198, 219, 239, 0.9], [158, 202, 225, 0.9], [107, 174, 214, 0.9], [49, 130, 189, 0.9], [8, 81, 156, 0.9]],
-        "differenceMap": [[210, 226, 27, 0.9], [122, 209, 81, 0.9], [84, 197, 104, 0.9], [34, 168, 132, 0.9], [35, 136, 142, 0.9]],
         "lineCharts": [[74, 0, 30, 1], [117, 18, 50, 1], [189, 47, 83, 1], [198, 81, 84, 1], [228, 121, 97, 1], [240, 168, 130, 1], [250, 212, 172, 1], [157, 185, 171, 1], [137, 192, 196, 1], [87, 158, 185, 1],
             [57, 122, 168, 1], [28, 87, 150, 1], [22, 55, 113, 1], [16, 25, 77, 1], [118, 199, 190, 1], [62, 168, 166, 1], [32, 130, 136, 1], [0, 73, 75, 1], [224, 110, 133, 1], [204, 65, 90, 1]]
 }
+```
+
+#### portalConfig.menu.sections.modules.statisticDashboard.selectableColorPalettes
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|label|yes|String||The displayed name of the color palette.|false|
+|baseColor|yes|Number[]||The base color as an rgb array|false|
+
+**Beispiel**
+
+```json
+[
+        {
+            "label": "Blau",
+            "baseColor": [8, 81, 156]
+        }
+]
 ```
 
 ***

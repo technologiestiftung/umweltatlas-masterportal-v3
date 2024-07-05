@@ -183,25 +183,19 @@ export default {
             deep: true
         },
         classificationMode () {
-            if (this.selectedStatisticsNames?.length === 1) {
-                this.updateFeatureStyle(this.selectedColumn || this.dates[0],
-                    this.selectedReferenceData !== undefined,
-                    this.selectedReferenceData);
-            }
+            this.updateAfterLegendChange();
         },
         allowPositiveNegativeClasses () {
-            if (this.selectedStatisticsNames?.length === 1) {
-                this.updateFeatureStyle(this.selectedColumn || this.dates[0],
-                    typeof this.selectedReferenceData !== "undefined",
-                    this.selectedReferenceData);
-            }
+            this.updateAfterLegendChange();
         },
         numberOfClasses () {
-            if (this.selectedStatisticsNames?.length === 1) {
-                this.updateFeatureStyle(this.selectedColumn || this.dates[0],
-                    typeof this.selectedReferenceData !== "undefined",
-                    this.selectedReferenceData);
-            }
+            this.updateAfterLegendChange();
+        },
+        selectedColorPaletteIndex () {
+            this.updateAfterLegendChange();
+        },
+        opacity () {
+            this.updateAfterLegendChange();
         }
     },
     async created () {
@@ -237,6 +231,17 @@ export default {
         ...mapMutations("Modules/StatisticDashboard", Object.keys(mutations)),
         ...mapActions("Maps", ["addNewLayerIfNotExists"]),
         ...mapActions("Menu", ["changeCurrentComponent"]),
+
+        /**
+         * Performs necessary updates after the user has made changes in legend settings.
+         */
+        updateAfterLegendChange () {
+            if (this.selectedStatisticsNames?.length === 1) {
+                this.updateFeatureStyle(this.selectedColumn || this.dates[0],
+                    typeof this.selectedReferenceData !== "undefined",
+                    this.selectedReferenceData);
+            }
+        },
 
         /**
          * Gets the unique values for the inputs of the filter for the given level.
@@ -386,6 +391,44 @@ export default {
         },
 
         /**
+         * Returns the color palette for choropleth map and legend.
+         */
+        getColorPalette () {
+            const color = this.selectableColorPalettes?.[this.selectedColorPaletteIndex]?.baseColor,
+                r = color?.[0],
+                g = color?.[1],
+                b = color?.[2],
+                palette = [];
+
+            let baseColor, a;
+
+            if (typeof r === "number" && r >= 0 && r <= 255 &&
+                typeof g === "number" && g >= 0 && g <= 255 &&
+                typeof b === "number" && b >= 0 && b <= 255) {
+
+                baseColor = [r, g, b];
+            }
+            else {
+                baseColor = [0, 0, 0];
+            }
+
+            if (typeof this.opacity === "number" && this.opacity >= 0 && this.opacity <= 1) {
+                a = this.opacity;
+            }
+            else {
+                a = 0.9;
+            }
+
+            for (i = 0; i < this.numberOfClasses; i++) {
+                const newColor = baseColor.map(v => Math.floor(v + i * (255 - v) / this.numberOfClasses));
+
+                palette.unshift([...newColor, a]);
+            }
+
+            return palette;
+        },
+
+        /**
          * Updates the features displayed on the map and their styles.
          * @param {String} date - The chosen date from the column.
          * @param {Boolean} differenceMode - true if difference mode is on otherwise false.
@@ -410,17 +453,17 @@ export default {
             this.layer.getSource().addFeatures(filteredFeatures);
 
             if (!differenceMode) {
-                FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.comparisonMap, date, regionNameAttribute, this.classificationMode, this.allowPositiveNegativeClasses, this.numberOfClasses);
+                FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.getColorPalette(), date, regionNameAttribute, this.classificationMode, this.allowPositiveNegativeClasses, this.numberOfClasses);
                 this.setLegendData({
-                    "color": this.colorScheme.comparisonMap,
-                    "value": FeaturesHandler.getStepValue(this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.comparisonMap, date, this.classificationMode, this.allowPositiveNegativeClasses, this.numberOfClasses)
+                    "color": this.getColorPalette(),
+                    "value": FeaturesHandler.getStepValue(this.statisticsData[this.selectedStatisticsNames[0]], this.getColorPalette(), date, this.classificationMode, this.allowPositiveNegativeClasses, this.numberOfClasses)
                 });
                 return;
             }
-            FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.differenceMap, date, regionNameAttribute, this.classificationMode, this.allowPositiveNegativeClasses, this.numberOfClasses);
+            FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.getColorPalette(), date, regionNameAttribute, this.classificationMode, this.allowPositiveNegativeClasses, this.numberOfClasses);
             this.setLegendData({
-                "color": this.colorScheme.differenceMap,
-                "value": FeaturesHandler.getStepValue(this.statisticsData[this.selectedStatisticsNames[0]], this.colorScheme.differenceMap, date, this.classificationMode, this.allowPositiveNegativeClasses, this.numberOfClasses)
+                "color": this.getColorPalette(),
+                "value": FeaturesHandler.getStepValue(this.statisticsData[this.selectedStatisticsNames[0]], this.getColorPalette(), date, this.classificationMode, this.allowPositiveNegativeClasses, this.numberOfClasses)
             });
             if (selectedReferenceData?.type === "region") {
                 const referenceFeature = filteredFeatures.find(feature => feature.get(regionNameAttribute) === selectedReferenceData.value);

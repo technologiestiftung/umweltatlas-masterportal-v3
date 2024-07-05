@@ -27,6 +27,12 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardLegend.vu
                                 },
                                 setNumberOfClasses: (state, options) => {
                                     state.numberOfClasses = options;
+                                },
+                                setSelectedColorPaletteIndex: (state, options) => {
+                                    state.selectedColorPaletteIndex = options;
+                                },
+                                setOpacity: (state, options) => {
+                                    state.opacity = options;
                                 }
                             },
                             getters: {
@@ -34,7 +40,10 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardLegend.vu
                                 allowPositiveNegativeClasses: (state) => state.allowPositiveNegativeClasses,
                                 minNumberOfClasses: () => 2,
                                 maxNumberOfClasses: () => 5,
-                                numberOfClasses: (state) => state.numberOfClasses
+                                numberOfClasses: (state) => state.numberOfClasses,
+                                selectableColorPalettes: () => [{label: "Schwarz"}],
+                                selectedColorPaletteIndex: state => state.selectedColorPaletteIndex,
+                                opacity: state => state.opacity
                             }
                         }
                     }
@@ -177,6 +186,39 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardLegend.vu
             await wrapper.find("#allowPosNegMix").trigger("change");
 
             expect(wrapper.vm.allowPositiveNegativeClasses).to.equal(true);
+        });
+    });
+    describe("Color settings", () => {
+        it("should show correct color settings according to store", async () => {
+            const wrapper = shallowMount(StatisticDashboardLegend, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.setSelectedColorPaletteIndex(0);
+            wrapper.vm.setOpacity(0.6);
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.find("#custom-color-palette").element.value).to.equal("0");
+            expect(wrapper.find("#opacity").element.value).to.equal("0.6");
+        });
+        it("should change value in store correctly when changed", async () => {
+            const wrapper = shallowMount(StatisticDashboardLegend, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            await wrapper.find("#custom-color-palette").setValue(0);
+            await wrapper.find("#custom-color-palette").trigger("change");
+
+            expect(wrapper.vm.selectedColorPaletteIndex).to.equal(0);
+
+            await wrapper.find("#opacity").setValue("0.6");
+            await wrapper.find("#opacity").trigger("change");
+
+            expect(wrapper.vm.opacity).to.equal(0.6);
         });
     });
 });

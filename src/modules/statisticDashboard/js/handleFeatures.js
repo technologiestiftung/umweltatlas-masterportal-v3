@@ -158,6 +158,7 @@ function calcStepValues (values, numberOfClasses = 5, classificationMode = "quan
                 classificationMode
             )
         ];
+        result = [... new Set(result)];
     }
 
     return result;
@@ -189,7 +190,7 @@ function prepareLegendForPolygon (legendObj, style) {
         strokeColor = convertColor(style.polygonStrokeColor, "rgbString"),
         strokeWidth = style.polygonStrokeWidth,
         fillOpacity = style.polygonFillColor?.[3] || 0,
-        strokeOpacity = style.polygonStrokeColor[3] || 0;
+        strokeOpacity = style.polygonStrokeColor?.[3] || 0;
     let svg = "data:image/svg+xml;charset=utf-8,";
 
     svg += "<svg height='35' width='35' version='1.1' xmlns='http://www.w3.org/2000/svg'>";

@@ -73,6 +73,7 @@ In certain circumstances this means that you have to update your portal files (i
   - Can now load data from an OAF Rest API if an OAF layer is configured.
   - Reset All button.
   - Validation function in filter form.
+  - Configurable number of classes and base color for choropleth map and legend.
 - TableComponent:
   - New prop `sortByNumericValue`: Optional, defaults to false. If set to true, data elements are compared by their parsed numeric value when user triggers sorting. (By default, they are sorted by their string value.)
 - Search for address via URL-Parameter.

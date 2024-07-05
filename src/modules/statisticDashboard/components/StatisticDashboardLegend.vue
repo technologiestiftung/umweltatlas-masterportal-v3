@@ -11,8 +11,6 @@ export default {
     emits: ["changeLegendView"],
     data () {
         return {
-            customColorPalette: [{label: "Blau", colorCode: "#35A9CE"}, {label: "Grün", colorCode: "#1CB82B"}, {label: "Rot", colorCode: "EE0FF2"}, {label: "Orange", colorCode: "#FAB505"}],
-            opacity: ["50%", "60%", "70%", "80%", "90%", "100%"],
             selectColor: "#ffffff"
         };
     },
@@ -22,14 +20,19 @@ export default {
             "allowPositiveNegativeClasses",
             "minNumberOfClasses",
             "maxNumberOfClasses",
-            "numberOfClasses"
+            "numberOfClasses",
+            "selectableColorPalettes",
+            "selectedColorPaletteIndex",
+            "opacity"
         ])
     },
     methods: {
         ...mapMutations("Modules/StatisticDashboard", [
             "setClassificationMode",
             "setAllowPositiveNegativeClasses",
-            "setNumberOfClasses"
+            "setNumberOfClasses",
+            "setSelectedColorPaletteIndex",
+            "setOpacity"
         ])
     }
 };
@@ -112,14 +115,16 @@ export default {
                 <select
                     id="custom-color-palette"
                     class="form-select"
+                    :value="selectedColorPaletteIndex"
+                    @change="setSelectedColorPaletteIndex(parseInt($event.target.value))"
                 >
                     <option
-                        v-for="(color, i) in customColorPalette"
+                        v-for="(scheme, i) in selectableColorPalettes"
                         :key="i"
-                        :value="color"
-                        :selected="color"
+                        :value="i"
+                        :selected="i === selectedColorPaletteIndex"
                     >
-                        {{ color.label }}
+                        {{ scheme.label }}
                     </option>
                 </select>
                 <label for="custom-color-palette">
@@ -174,14 +179,15 @@ export default {
             <select
                 id="opacity"
                 class="form-select"
+                @change="setOpacity(parseFloat($event.target.value))"
             >
                 <option
-                    v-for="(select, i) in opacity"
-                    :key="i"
-                    :value="select"
-                    :selected="select"
+                    v-for="v in [0.5, 0.6, 0.7, 0.8, 0.9, 1]"
+                    :key="v"
+                    :value="v"
+                    :selected="v === opacity"
                 >
-                    {{ select }}
+                    {{ v.toLocaleString("de-DE", {style: "percent"}) }}
                 </option>
             </select>
             <label for="color-palette">

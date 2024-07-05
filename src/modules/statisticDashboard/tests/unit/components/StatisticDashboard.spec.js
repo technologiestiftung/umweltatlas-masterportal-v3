@@ -1490,5 +1490,22 @@ describe("src/modules/StatisticDashboard.vue", () => {
                 expect(wrapper.vm.selectedFilteredRegions).to.deep.equal(["aaaa", "bbbb", "ccccc", "ddddd"]);
             });
         });
+        describe("getColorPalette", () => {
+            it("should return expected result", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                wrapper.vm.setSelectableColorPalettes({baseColor: [0, 0, 0]});
+                wrapper.vm.setOpacity(0.7);
+                wrapper.vm.setNumberOfClasses(2);
+
+                expect(wrapper.vm.getColorPalette()).to.deep.equal(
+                    [[127, 127, 127, 0.7], [0, 0, 0, 0.7]]
+                );
+            });
+        });
     });
 });

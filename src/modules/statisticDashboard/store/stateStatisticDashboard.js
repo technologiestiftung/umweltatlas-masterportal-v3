@@ -18,6 +18,9 @@
  * @property {Number} minNumberOfClasses - Minimum Number of classes selectable when editing the legend.
  * @property {Number} maxNumberOfClasses - Maximum Number of classes selectable when editing the legend.
  * @property {Number} numberOfClasses - Current number of classes selected in range.
+ * @property {Object[]} selectableColorPalettes - Available options for color palettes.
+ * @property {selectedColorPaletteIndex} - Index of chosen color palette option.
+ * @property {Number} opacity - Opacity/alpha-channel of the colors.
  * @property {Object} legendData the legendValues with colors and value
  * @property {Boolean} addTotalCount If true, a row with total count will be inserted in table.
  * @property {Number} lineLimit The number of lines from which the line diagram is limited.
@@ -47,6 +50,14 @@ const state = {
     minNumberOfClasses: 2,
     maxNumberOfClasses: 5,
     numberOfClasses: 5,
+    selectableColorPalettes: [
+        {
+            label: "Blau",
+            baseColor: [8, 81, 156]
+        }
+    ],
+    selectedColorPaletteIndex: 0,
+    opacity: 0.9,
     chartTableToggle: "table",
     legendData: [],
     addTotalCount: false,

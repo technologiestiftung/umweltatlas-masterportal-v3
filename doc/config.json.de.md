@@ -3519,6 +3519,7 @@ Das ShadowTool bietet eine Oberfläche zur Definition einer Zeitangabe. Über Sl
 |minNumberOfClasses|nein|Number|2|Minimal auswählbare Zahl der Klassen für Choroplethen und Legende. Mindestens 2.|false|
 |maxNumberOfClasses|nein|Number|5|Maximal auswählbare Zahl der Klassen für Choroplethen und Legende. Mindestens 3.|false|
 |numberOfClasses|nein|Number|5|Aktuell ausgewählte Zahl der Klassen für Choroplethen und Legende.|false|
+|selectableColorPalettes|nein|**[selectableColorPalettes](#markdown-header-portalconfigmenusectionsmodulesstatisticDashboardselectableColorPalettes)**|{"label": "Blau", "baseColor": [8, 81, 156]}|Optionen für die Farbpalette der Choroplethen.|false
 
 **Beispiel**
 
@@ -3529,8 +3530,6 @@ Das ShadowTool bietet eine Oberfläche zur Definition einer Zeitangabe. Über Sl
     "icon": "bi-speedometer",
     "colorScheme": {
         "referenceRegion": [155, 155, 155, 0.7],
-        "comparisonMap": [[198, 219, 239, 0.9], [158, 202, 225, 0.9], [107, 174, 214, 0.9], [49, 130, 189, 0.9], [8, 81, 156, 0.9]],
-        "differenceMap": [[210, 226, 27, 0.9], [122, 209, 81, 0.9], [84, 197, 104, 0.9], [34, 168, 132, 0.9], [35, 136, 142, 0.9]],
         "lineCharts": [[74, 0, 30, 1], [117, 18, 50, 1], [189, 47, 83, 1], [198, 81, 84, 1], [228, 121, 97, 1], [240, 168, 130, 1], [250, 212, 172, 1], [157, 185, 171, 1], [137, 192, 196, 1], [87, 158, 185, 1],
             [57, 122, 168, 1], [28, 87, 150, 1], [22, 55, 113, 1], [16, 25, 77, 1], [118, 199, 190, 1], [62, 168, 166, 1], [32, 130, 136, 1], [0, 73, 75, 1], [224, 110, 133, 1], [204, 65, 90, 1]]
     },
@@ -3593,8 +3592,6 @@ Das ShadowTool bietet eine Oberfläche zur Definition einer Zeitangabe. Über Sl
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |referenceRegion|ja|Float[]|[]|Die RGBA-Farbe der Referenzregions.|false|
-|comparisonMap|ja|Float[]|[]|Die Liste mit den RGBA-Farben der Vergleichskarte.|false|
-|differenceMap|ja|Float[]|[]|Die Liste mit den RGBA-Farben der Differenzkarte.|false|
 |lineCharts|ja|Float[]|[]|Die Liste mit den RGBA-Farben der Liniendiagramme.|false|
 
 **Beispiel**
@@ -3602,10 +3599,28 @@ Das ShadowTool bietet eine Oberfläche zur Definition einer Zeitangabe. Über Sl
 ```json
 {
         "referenceRegion": [155, 155, 155, 0.7],
-        "comparisonMap": [[198, 219, 239, 0.9], [158, 202, 225, 0.9], [107, 174, 214, 0.9], [49, 130, 189, 0.9], [8, 81, 156, 0.9]],
-        "differenceMap": [[210, 226, 27, 0.9], [122, 209, 81, 0.9], [84, 197, 104, 0.9], [34, 168, 132, 0.9], [35, 136, 142, 0.9]],
         "lineCharts": [[74, 0, 30, 1], [117, 18, 50, 1], [189, 47, 83, 1], [198, 81, 84, 1], [228, 121, 97, 1], [240, 168, 130, 1], [250, 212, 172, 1], [157, 185, 171, 1], [137, 192, 196, 1], [87, 158, 185, 1],
             [57, 122, 168, 1], [28, 87, 150, 1], [22, 55, 113, 1], [16, 25, 77, 1], [118, 199, 190, 1], [62, 168, 166, 1], [32, 130, 136, 1], [0, 73, 75, 1], [224, 110, 133, 1], [204, 65, 90, 1]]
+}
+```
+
+***
+
+#### portalConfig.menu.sections.modules.statisticDashboard.selectableColorPalettes
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|label|ja|String||Der im Dropdown anzuzeigende Name der Palette.|false|
+|baseColor|ja|Number[]||Die Basisfarbe als rgb-Array.|false|
+
+**Beispiel**
+
+```json
+{
+        {
+            "label": "Blau",
+            "baseColor": [8, 81, 156]
+        }
 }
 ```
 
