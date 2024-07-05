@@ -34,6 +34,7 @@
 - Added missing parentheses in v-for loops
 - StatisticDashboard:
   - Statistics and Regions are sorted alphabetically.
+- Issue #1192: Searchbar: The TopicTree search interface supports the search for folders.
 
 ---
 ## 2024-06-27 v3.0.0

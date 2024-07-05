@@ -146,6 +146,10 @@
       "searchBar": {
         "searchInterfaces": [
           {
+            "type": "topicTree",
+            "hitTemplate": "layer"
+          },
+          {
             "type": "gazetteer",
             "serviceId": "6",
             "searchAddress": true,

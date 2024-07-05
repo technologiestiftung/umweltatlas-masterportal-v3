@@ -221,35 +221,59 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
     });
 
     describe("showInTree", () => {
-        it("should call showLayer", async () => {
-            const layerId = "123";
+        it("should call showLayer for a layer", async () => {
+            const layerId = "123",
+                payload = {side: "mainMenu", newHistory: [{type: "root", props: []}, {type: "layerSelection", props: {name: "common:modules.layerSelection.name"}}, {type: "layerSelection", props: {name: "common:modules.layerSelection.name"}}]};
 
             dispatch = sinon.stub().resolves({id: layerId});
             await actions.showInTree({commit, dispatch}, {layerId});
 
-            expect(dispatch.callCount).to.be.equals(4);
+            expect(dispatch.callCount).to.be.equals(3);
             expect(dispatch.firstCall.args[0]).to.equals("retrieveLayerConfig");
             expect(dispatch.firstCall.args[1]).to.be.deep.equals({layerId, source: undefined});
-            expect(dispatch.secondCall.args[0]).to.equals("Menu/changeCurrentComponent");
+            expect(dispatch.secondCall.args[0]).to.equals("Modules/LayerSelection/showLayer");
             expect(dispatch.secondCall.args[1]).to.be.deep.equals({
-                type: "layerSelection",
-                side: "mainMenu",
-                props: {}
+                layerId: "123"
             });
-            expect(dispatch.thirdCall.args[0]).to.equals("Modules/LayerSelection/showLayer");
-            expect(dispatch.thirdCall.args[1]).to.be.deep.equals({
-                layerId: "123",
-                rawLayer: {
-                    id: "123"
-                }
-            });
-            expect(dispatch.getCall(3).args[0]).to.equals("Menu/navigateBack");
-            expect(dispatch.getCall(3).args[1]).to.equals("mainMenu");
+            expect(dispatch.thirdCall.args[0]).to.equals("Menu/navigateBack");
+            expect(dispatch.thirdCall.args[1]).to.equals("mainMenu");
             expect(commit.callCount).to.be.equals(2);
             expect(commit.firstCall.args[0]).to.equals("Menu/setNavigationHistoryBySide");
-            expect(commit.firstCall.args[1]).to.be.deep.equals({side: "mainMenu", newHistory: []});
+            expect(commit.firstCall.args[1]).to.be.deep.equals(payload);
             expect(commit.secondCall.args[0]).to.equals("setSearchInput");
             expect(commit.secondCall.args[1]).to.be.equals("");
+        });
+
+        it("should call showLayer for a folder", async () => {
+            const layerId = "folder-1",
+                payload = {side: "mainMenu", newHistory: [{type: "root", props: []}, {type: "layerSelection", props: {name: "common:modules.layerSelection.name"}}, {type: "layerSelection", props: {name: "common:modules.layerSelection.name"}}]};
+
+            dispatch = sinon.stub().resolves({id: layerId,
+                elements: [
+                    {
+                        id: "123"
+                    }
+                ]});
+            await actions.showInTree({commit, dispatch}, {layerId});
+
+            expect(dispatch.callCount).to.be.equals(3);
+            expect(dispatch.firstCall.args[0]).to.equals("retrieveLayerConfig");
+            expect(dispatch.firstCall.args[1]).to.be.deep.equals({layerId, source: undefined});
+            expect(dispatch.secondCall.args[0]).to.equals("Modules/LayerSelection/showLayer");
+            expect(dispatch.secondCall.args[1]).to.be.deep.equals({
+                layerId: "123"
+            });
+            expect(dispatch.thirdCall.args[0]).to.equals("Menu/navigateBack");
+            expect(dispatch.thirdCall.args[1]).to.equals("mainMenu");
+            expect(commit.callCount).to.be.equals(4);
+            expect(commit.firstCall.args[0]).to.equals("Modules/SearchBar/setShowAllResults");
+            expect(commit.firstCall.args[1]).to.be.false;
+            expect(commit.secondCall.args[0]).to.equals("Menu/setNavigationHistoryBySide");
+            expect(commit.secondCall.args[1]).to.be.deep.equals(payload);
+            expect(commit.thirdCall.args[0]).to.equals("Modules/LayerSelection/setHighlightLayerId");
+            expect(commit.thirdCall.args[1]).to.be.deep.equals(null);
+            expect(commit.getCall(3).args[0]).to.equal("setSearchInput");
+            expect(commit.getCall(3).args[1]).to.be.equals("");
         });
 
         it("should warn and show alert if layerConfig does not exist", async () => {
@@ -377,6 +401,24 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
             expect(getLayerWhereSpy.calledOnce).to.be.true;
             expect(getLayerWhereSpy.firstCall.args[0]).to.be.deep.equals({id: layerId});
             expect(result).to.be.deep.equals(config);
+        });
+
+        it("folder contained in getters", () => {
+            const layerId = "folder-1",
+                folder = {
+                    id: layerId,
+                    name: "I am a folder"
+                },
+                rootGetters = {
+                    layerConfigById: sinon.stub().returns(null),
+                    folderById: sinon.stub().returns(folder)
+                },
+                getLayerWhereSpy = sinon.stub(rawLayerList, "getLayerWhere").returns(null),
+                result = actions.retrieveLayerConfig({dispatch, rootGetters}, {layerId});
+
+            expect(dispatch.notCalled).to.be.true;
+            expect(getLayerWhereSpy.notCalled).to.be.true;
+            expect(result).to.be.deep.equals(folder);
         });
     });
 

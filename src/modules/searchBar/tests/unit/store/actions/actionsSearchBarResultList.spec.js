@@ -68,6 +68,19 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarResultList.js", ()
             expect(commit.firstCall.args[1]).to.equals("abc");
         });
 
+        it("should dispatch showInTree onClick event if it is a folder", () => {
+            const actionType = "onClick";
+
+            searchResult.id = "folder-3";
+            searchResult.events.onClick = {};
+            activateActions({commit, dispatch}, {searchResult, actionType});
+
+            expect(commit.notCalled).to.be.true;
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equals("showInTree");
+            expect(dispatch.firstCall.args[1]).to.be.deep.equals({layerId: searchResult.id});
+        });
+
         it("should dispatch the onHover event", () => {
             const actionType = "onHover";
 
