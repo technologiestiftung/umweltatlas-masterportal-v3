@@ -422,7 +422,9 @@ export default {
                 return;
             }
             if (typeof referenceData.value === "string") {
-                regions.push(referenceData.value);
+                if (!regions.includes(referenceData.value)) {
+                    regions.push(referenceData.value);
+                }
                 this.handleFilterSettings([...new Set(regions)], dates, "region");
             }
             else if (isObject(referenceData.value) && typeof referenceData.value.label === "string") {
