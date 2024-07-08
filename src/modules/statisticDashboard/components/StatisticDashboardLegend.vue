@@ -85,13 +85,16 @@ export default {
                 :max="maxNumberOfClasses"
                 list="numbers"
                 :value="numberOfClasses"
-                @change="setNumberOfClasses(parseInt($event.target.value))"
+                @input="setNumberOfClasses(parseInt($event.target.value))"
             >
             <datalist id="numbers">
                 <option
-                    v-for="n in maxNumberOfClasses - minNumberOfClasses + 1"
-                    :key="n"
-                    :label="minNumberOfClasses + n - 1"
+                    :key="minNumberOfClasses"
+                    :label="minNumberOfClasses"
+                />
+                <option
+                    :key="maxNumberOfClasses"
+                    :label="maxNumberOfClasses"
                 />
             </datalist>
         </div>
