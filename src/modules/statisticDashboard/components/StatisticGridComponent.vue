@@ -1,10 +1,7 @@
 <script>
-import ModalItem from "../../../shared/modules/modals/components/ModalItem.vue";
+import {mapMutations} from "vuex";
 export default {
     name: "StatisticGridComponent",
-    components: {
-        ModalItem
-    },
     props: {
         dates: {
             type: Array,
@@ -22,15 +19,8 @@ export default {
             default: undefined
         }
     },
-    data () {
-        return {
-            showModal: {}
-        };
-    },
     methods: {
-        setShowModal (key, value) {
-            this.$set(this.showModal, key, value);
-        }
+        ...mapMutations("Modules/StatisticDashboard", ["setChosenStatisticName"])
     }
 };
 </script>
@@ -47,8 +37,8 @@ export default {
                 class="flex-item text-center"
                 role="button"
                 tabindex="0"
-                @click="setShowModal(`table-${idx}`, true)"
-                @keydown="setShowModal(`table-${idx}`, true)"
+                @click="setChosenStatisticName(titles[idx - 1])"
+                @keydown="setChosenStatisticName(titles[idx - 1])"
             >
                 <div
                     v-if="titles"
@@ -60,24 +50,6 @@ export default {
                     name="tableContainers"
                     :data="data"
                 />
-                <ModalItem
-                    :show-modal="showModal[`table-${idx}`]"
-                    modal-inner-wrapper-style="min-width: 55rem"
-                    modal-content-container-style="padding: 0.5rem"
-                    @modal-hid="setShowModal(`table-${idx}`, false)"
-                >
-                    <template #header>
-                        <h5 class="px-2 mt-2">
-                            {{ titles[idx] }}
-                        </h5>
-                    </template>
-                    <template #default>
-                        <slot
-                            name="tableContainersModal"
-                            :data="dates[idx]"
-                        />
-                    </template>
-                </ModalItem>
             </div>
         </div>
         <div
@@ -90,32 +62,14 @@ export default {
                 class="flex-item"
                 role="button"
                 tabindex="0"
-                @click="setShowModal(`chart-${idx}`, true)"
-                @keydown="setShowModal(`chart-${idx}`, true)"
+                @click="setChosenStatisticName(titles[idx - 1])"
+                @keydown="setChosenStatisticName(titles[idx - 1])"
             >
                 <slot
                     name="chartContainers"
                     :chart-id="idx"
                     class="chartContainers"
                 />
-                <ModalItem
-                    :show-modal="showModal[`chart-${idx}`]"
-                    modal-inner-wrapper-style="min-width: 55rem"
-                    modal-content-container-style="padding: 0.5rem"
-                    @modal-hid="setShowModal(`chart-${idx}`, false)"
-                >
-                    <template #header>
-                        <h5 class="px-2 mt-2">
-                            {{ titles[idx - 1] }}
-                        </h5>
-                    </template>
-                    <template #default>
-                        <slot
-                            name="chartContainersModal"
-                            :chart-id="idx"
-                        />
-                    </template>
-                </ModalItem>
             </div>
         </div>
     </div>

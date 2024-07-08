@@ -4,7 +4,6 @@ import {createStore} from "vuex";
 import StatisticDashboard from "../../../components/StatisticDashboard.vue";
 import indexStatisticDashboard from "../../../store/indexStatisticDashboard";
 import LegendComponent from "../../../components/StatisticDashboardLegend.vue";
-import StatisticSwitcherComponent from "../../../components/StatisticDashboardSwitcher.vue";
 import sinon from "sinon";
 import fetchData from "../../../js/fetchData";
 import ChartProcessor from "../../../js/chartProcessor";
@@ -82,58 +81,6 @@ describe("src/modules/StatisticDashboard.vue", () => {
             }});
 
             expect(wrapper.find(".level-switch").exists()).to.be.false;
-        });
-
-        it("Level name as switch button should exist", () => {
-            const localStore = createStore({
-                    namespaced: true,
-                    modules: {
-                        Modules: {
-                            namespaced: true,
-                            modules: {
-                                StatisticDashboard: {
-                                    namespaced: true,
-                                    getters: {
-                                        active: () => true,
-                                        subtitle: () => "test",
-                                        levelTitle: () => "test",
-                                        selectedReferenceData: () => undefined,
-                                        legendData: () => [],
-                                        chartTableToggle: () => "table",
-                                        data: () => [],
-                                        buttonGroupRegions: () => [
-                                            {
-                                                "levelName": "test1"
-                                            },
-                                            {
-                                                "levelName": "test2"
-                                            }
-                                        ]
-                                    }
-                                }
-                            }
-                        },
-                        Maps: {
-                            namespaced: true,
-                            getters: {
-                                projection: () => "EPSG:25832"
-                            },
-                            actions: {
-                                addNewLayerIfNotExists: () => {
-                                    return Promise.resolve({
-                                        getSource: () => sourceStub
-                                    });
-                                }
-                            }
-                        }
-                    }}),
-                wrapper = shallowMount(StatisticDashboard, {
-                    global: {
-                        plugins: [localStore]
-                    }
-                });
-
-            expect(wrapper.findComponent(StatisticSwitcherComponent).exists()).to.be.false;
         });
 
         it("The legend component should not exist", () => {
@@ -264,75 +211,37 @@ describe("src/modules/StatisticDashboard.vue", () => {
         });
 
         it("should call 'checkFilterSettings' if selectedReferenceData is changed", async () => {
-            const newStore = createStore({
-                    namespaced: true,
-                    modules: {
-                        Modules: {
-                            namespaced: true,
-                            modules: {
-                                StatisticDashboard: {
-                                    namespaced: true,
-                                    state: {
-                                        selectedReferenceData: undefined
-                                    },
-                                    getters: {
-                                        active: () => true,
-                                        name: () => "test",
-                                        icon: () => "bi-speedometer",
-                                        renderToWindow: () => false,
-                                        resizableWindow: () => true,
-                                        isVisibleInMenu: () => true,
-                                        deactivateGFI: () => true,
-                                        colorScheme: () => undefined,
-                                        data: () => [],
-                                        selectedReferenceData: (state) => state.selectedReferenceData,
-                                        selectedCategories: () => [],
-                                        selectedReferenceValueTag: () => undefined,
-                                        selectedRegions: () => [],
-                                        selectedDates: () => ["test"],
-                                        selectedStatistics: () => undefined,
-                                        chartTableToggle: () => "table",
-                                        legendData: () => [],
-                                        selectedRegionsValues: () => ["test"],
-                                        subtitle: () => "Test",
-                                        levelTitle: () => "Test"
-                                    },
-                                    mutations: {
-                                        setSelectedReferenceData (state, value) {
-                                            state.selectedReferenceData = value;
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        Maps: {
-                            namespaced: true,
-                            getters: {
-                                projection: () => "EPSG:25832"
-                            },
-                            actions: {
-                                addNewLayerIfNotExists: () => {
-                                    return Promise.resolve({
-                                        getSource: () => sourceStub
-                                    });
-                                }
-                            }
-                        }
-                    }
-                }),
-                wrapper = shallowMount(StatisticDashboard, {
+            const wrapper = shallowMount(StatisticDashboard, {
                     global: {
-                        plugins: [newStore]
+                        plugins: [store]
                     }
                 }),
                 spyCheckFilterSettings = sinon.stub(wrapper.vm, "checkFilterSettings");
 
-            newStore.commit("Modules/StatisticDashboard/setSelectedReferenceData", "too");
+            wrapper.vm.setSelectedReferenceData("too");
+            wrapper.vm.setSelectedDates(["too"]);
+            wrapper.vm.setSelectedRegions(["too"]);
+
             await wrapper.vm.$nextTick();
 
             expect(spyCheckFilterSettings.calledOnce).to.be.true;
             sinon.restore();
         });
+
+        it("should call 'handleChartData' if chosenStatisticName is changed", async () => {
+            const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                }),
+                spyHandleChartData = sinon.stub(wrapper.vm, "handleChartData");
+
+            store.commit("Modules/StatisticDashboard/setChosenStatisticName", "foo");
+            await wrapper.vm.$nextTick();
+            expect(spyHandleChartData.calledOnce).to.be.true;
+            sinon.restore();
+        });
+
     });
 
     describe("methods", () => {
@@ -1014,7 +923,41 @@ describe("src/modules/StatisticDashboard.vue", () => {
             });
         });
         describe("getTableData", () => {
-            it("should return the data for the table(s) from the statistics object", () => {
+            it("should return an empty object if there are no statistic data.", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                expect(wrapper.vm.getTableData({}, "")).to.deep.equal({});
+            });
+
+            it("should return an empty object if there is no chosen statistic name.", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        global: {
+                            plugins: [store]
+                        }
+                    }),
+                    preparedData = {
+                        "Bevölkerung maennlich": {
+                            Hamburg: {
+                                "1890": "13",
+                                "1990": "113"
+                            }
+                        },
+                        "Bevölkerung weiblich": {
+                            Hamburg: {
+                                "1890": "12",
+                                "1990": "112"
+                            }
+                        }
+                    };
+
+                expect(wrapper.vm.getTableData(preparedData, "")).to.deep.equal({});
+            });
+
+            it("should return the data for the table(s) from the statistics object according the chosen statistic name", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
                         global: {
                             plugins: [store]
@@ -1040,20 +983,6 @@ describe("src/modules/StatisticDashboard.vue", () => {
                             {name: "1990"},
                             {name: "1890"}
                         ],
-                        items: [
-                            {
-                                "1890": "13",
-                                "1990": "113",
-                                "Gebiet": "Hamburg"
-                            }
-                        ]
-                    },
-                    {
-                        headers: [
-                            {name: "Gebiet"},
-                            {name: "1990"},
-                            {name: "1890"}
-                        ],
                         items: [{
                             "1890": "12",
                             "1990": "112",
@@ -1061,7 +990,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
                         }]
                     }];
 
-                expect(wrapper.vm.getTableData(preparedData)).to.deep.equal(expectedValue);
+                expect(wrapper.vm.getTableData(preparedData, "Bevölkerung weiblich")).to.deep.equal(expectedValue);
             });
         });
         describe("handleChartData", () => {

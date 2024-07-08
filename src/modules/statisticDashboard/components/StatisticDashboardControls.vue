@@ -80,6 +80,15 @@ export default {
                 return this.buttonGroupControls[0].name;
             }
             return this.buttonGroupControls[1].name;
+        },
+        isStatisticsSelected () {
+            return this.selectedDatesValues.length > 0 && this.selectedRegionsValues.length > 0 && Object.keys(this.selectedStatistics)?.length > 1;
+        },
+        showStatisticnameInChart () {
+            return this.isStatisticsSelected && typeof this.chosenStatisticName === "string" && this.chosenStatisticName !== "" && this.chartTableToggle === "chart";
+        },
+        showStatisticnameInTable () {
+            return this.isStatisticsSelected && this.chartTableToggle === "table";
         }
     },
     watch: {
@@ -289,6 +298,34 @@ export default {
                 </div>
             </div>
         </div>
+        <div
+            v-if="showStatisticnameInChart"
+            class="back-overview"
+            role="button"
+            tabindex="0"
+            @click="setChosenStatisticName('')"
+            @keydown="setChosenStatisticName('')"
+        >
+            <i class="bi bi-chevron-left" />
+            <span>
+                {{ $t('common:modules.statisticDashboard.backToOverview') }}
+            </span>
+        </div>
+        <div
+            v-if="showStatisticnameInTable || showStatisticnameInChart"
+            class="container static-name"
+        >
+            <button
+                v-for="(statistic, index) in selectedStatistics"
+                :key="index"
+                :class="chosenStatisticName === statistic?.name ? 'clicked' : ''"
+                class="btn btn-sm btn-outline-secondary lh-1 rounded-pill me-2 mb-2 btn-pb"
+                @click="setChosenStatisticName(statistic?.name)"
+                @keydown="setChosenStatisticName(statistic?.name)"
+            >
+                {{ statistic?.name }}
+            </button>
+        </div>
     </div>
 </template>
 
@@ -351,4 +388,17 @@ export default {
         color: $white;
     }
  }
+
+.back-overview {
+    margin-top: 20px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.static-name {
+    margin-top: 20px;
+    .clicked {
+        background-color: $light_blue;
+    }
+}
 </style>

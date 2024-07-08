@@ -136,6 +136,106 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
             await wrapper.setData({referenceTag: "2001"});
             expect(wrapper.find(".reference-tag").exists()).to.be.true;
         });
+
+        it("should not find a back-overview element", () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                propsData: {
+                    descriptions,
+                    referenceData
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.find(".back-overview").exists()).to.be.false;
+        });
+
+        it("should find a back to overview element", async () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                propsData: {
+                    descriptions,
+                    referenceData
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.setChosenStatisticName("name");
+            wrapper.vm.setChartTableToggle("chart");
+            wrapper.vm.setSelectedDates([{value: "value1"}]);
+            wrapper.vm.setSelectedRegions([{value: "value1"}]);
+            wrapper.vm.setSelectedStatistics({
+                "Bevölkerung maennlich": {
+                    Hamburg: {
+                        "1890": "13",
+                        "1990": "113"
+                    }
+                },
+                "Bevölkerung weiblich": {
+                    Hamburg: {
+                        "1890": "12",
+                        "1990": "112"
+                    }
+                }
+            });
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.find(".back-overview").exists()).to.be.true;
+        });
+
+        it("should not find a static-name container", async () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                propsData: {
+                    descriptions,
+                    referenceData
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.setChosenStatisticName("");
+            wrapper.vm.setChartTableToggle("chart");
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.find(".static-name").exists()).to.be.false;
+        });
+
+        it("should find a static-name container", async () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                propsData: {
+                    descriptions,
+                    referenceData
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.setChosenStatisticName("name");
+            wrapper.vm.setChartTableToggle("chart");
+            wrapper.vm.setSelectedDates([{value: "value1"}]);
+            wrapper.vm.setSelectedRegions([{value: "value1"}]);
+            wrapper.vm.setSelectedStatistics({
+                "Bevölkerung maennlich": {
+                    Hamburg: {
+                        "1890": "13",
+                        "1990": "113"
+                    }
+                },
+                "Bevölkerung weiblich": {
+                    Hamburg: {
+                        "1890": "12",
+                        "1990": "112"
+                    }
+                }
+            });
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.find(".static-name").exists()).to.be.true;
+        });
     });
 
     describe("Computed Properties", () => {
@@ -228,6 +328,70 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
 
             wrapper.vm.setChartTableToggle("chart");
             expect(wrapper.vm.precheckedViewSwitcher).to.be.equal(expected);
+        });
+        it("should set showStatisticnameInChart to be false", () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                propsData: {
+                    referenceData,
+                    descriptions
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.setChosenStatisticName("");
+            wrapper.vm.setChartTableToggle("chart");
+            expect(wrapper.vm.showStatisticnameInChart).to.be.false;
+        });
+        it("should set showStatisticnameInChart to be false", () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                propsData: {
+                    referenceData,
+                    descriptions
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.setChosenStatisticName("name");
+            wrapper.vm.setChartTableToggle("table");
+            expect(wrapper.vm.showStatisticnameInChart).to.be.false;
+            wrapper.vm.setChosenStatisticName("");
+            wrapper.vm.setChartTableToggle("chart");
+            expect(wrapper.vm.showStatisticnameInChart).to.be.false;
+        });
+        it("should set showStatisticnameInChart to be true", async () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                propsData: {
+                    referenceData,
+                    descriptions
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.setChosenStatisticName("name");
+            wrapper.vm.setChartTableToggle("chart");
+            wrapper.vm.setSelectedDates([{value: "value1"}]);
+            wrapper.vm.setSelectedRegions([{value: "value1"}]);
+            wrapper.vm.setSelectedStatistics({
+                "Bevölkerung maennlich": {
+                    Hamburg: {
+                        "1890": "13",
+                        "1990": "113"
+                    }
+                },
+                "Bevölkerung weiblich": {
+                    Hamburg: {
+                        "1890": "12",
+                        "1990": "112"
+                    }
+                }
+            });
+            expect(wrapper.vm.showStatisticnameInChart).to.be.true;
         });
     });
 

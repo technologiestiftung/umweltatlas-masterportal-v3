@@ -25,6 +25,8 @@
  * @property {Boolean} addTotalCount If true, a row with total count will be inserted in table.
  * @property {Number} lineLimit The number of lines from which the line diagram is limited.
  * @property {Number} barLimit The number of bars from which the line diagram is limited.
+ * @property {String} downloadFilename the exported file name.
+ * @property {String} chosenStatisticName the clicked chosen statistic name.
  */
 const state = {
     active: false,
@@ -64,7 +66,8 @@ const state = {
     addTotalCount: false,
     lineLimit: null,
     downloadFilename: "Statistic Dashboard Download",
-    barLimit: null
+    barLimit: null,
+    chosenStatisticName: ""
 };
 
 export default state;

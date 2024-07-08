@@ -912,7 +912,8 @@
         "quantile": "gleiche Klassengrößen (Quantile)",
         "customized": "benutzerdefiniert"
       },
-      "totalHint": "Unsinnige Summierung für Prozent-Werten."
+      "totalHint": "Unsinnige Summierung für Prozent-Werten.",
+      "backToOverview": "zurück zur Übersicht"
     },
     "shadow": {
       "name": "Schatten",

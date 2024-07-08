@@ -44,6 +44,7 @@ export default {
     data () {
         return {
             tableData: [],
+            chosenTableData: [],
             testFixedData: {
                 items: []
             },
@@ -157,6 +158,32 @@ export default {
         selectedRegionsValues () {
             this.selectedFilteredRegions = this.selectedFilteredRegions.filter(name => this.selectedRegionsValues.includes(name));
             this.numberOfColouredBars = this.diagramType === "bar" & this.selectedFilteredRegions.length !== 0 ? this.selectedFilteredRegions.length : this.numberOfColouredBars;
+            this.chosenTableData = this.getTableData(this.statisticsData, this.chosenStatisticName);
+            this.handleChartData(this.selectedStatisticsNames,
+                this.selectedRegionsValues,
+                this.selectedDatesValues,
+                this.statisticsData,
+                this.selectedReferenceData?.type);
+        },
+        chosenStatisticName (val) {
+            const statisticName = typeof val === "string" && val !== "" ? [val] : this.selectedStatisticsNames;
+
+            this.chosenTableData = this.getTableData(this.statisticsData, val);
+            this.handleChartData(statisticName,
+                this.selectedRegionsValues,
+                this.selectedDatesValues,
+                this.statisticsData,
+                this.selectedReferenceData?.type);
+        },
+        selectedStatisticsNames (val, oldVal) {
+            if (Array.isArray(oldVal) && oldVal.length > 1 && Array.isArray(val) && val.length === 1 && !val.includes(this.chosenStatisticName)) {
+                this.setChosenStatisticName(val[0]);
+            }
+
+            if (!val.length) {
+                this.chosenTableData = [];
+                this.setChosenStatisticName("");
+            }
         },
         active (value) {
             if (!value) {
@@ -244,15 +271,16 @@ export default {
             if (typeof onsuccess !== "function") {
                 return;
             }
-            const csv = {},
-                csvHeader = [""],
-                csvSubHeader = ["Gebiet"];
-            let elements = [];
 
             if (!isObject(this.statisticsData)) {
                 onsuccess(null);
                 return;
             }
+
+            const csv = {},
+                csvHeader = [""],
+                csvSubHeader = ["Gebiet"];
+            let elements = [];
 
             Object.entries(this.statisticsData).forEach(([statisticName, statisticValues]) => {
                 const statisticAreaNames = Object.keys(statisticValues),
@@ -665,6 +693,7 @@ export default {
 
             this.statisticsData = this.prepareStatisticsData(this.loadedFeatures, this.selectedStatisticsNames, regions, dates, selectedLevelDateAttribute, selectedLevelRegionNameAttribute, differenceMode);
             this.tableData = this.getTableData(this.statisticsData);
+            this.chosenTableData = this.getTableData(this.statisticsData, this.chosenStatisticName);
             this.chartCounts = this.selectedStatisticsNames.length;
 
             this.handleChartData(this.selectedStatisticsNames, regions, dates, this.statisticsData, differenceMode);
@@ -923,14 +952,31 @@ export default {
         /**
          * Gets the data for the table from the prepared statistics.
          * @param {Object} statisticsData - Prepared statistical data.
-         * @returns {Object[]} Data for table with header and items.
+         * @param {undefined|String|String[]} statisticName - The chosen statistic name.
+         * @returns {Object} Data for table with header and items.
          */
-        getTableData (statisticsData) {
+        getTableData (statisticsData, statisticName = undefined) {
             const headers = [],
                 data = [];
 
+            if (typeof statisticName !== "undefined" && !isObject(statisticsData) || !Object.keys(statisticsData).length) {
+                return {};
+            }
+
+            if (statisticName === "" && Object.keys(statisticsData).length === 1) {
+                this.setChosenStatisticName(Object.keys(statisticsData)[0]);
+            }
+
+            if (statisticName === "" && Object.keys(statisticsData).length > 1) {
+                return {};
+            }
+
             Object.keys(statisticsData).forEach(statData => {
                 const items = [];
+
+                if (typeof statisticName === "string" && statisticName !== "" && statData !== statisticName) {
+                    return;
+                }
 
                 Object.entries(statisticsData[statData]).forEach(([region, years]) => {
                     if (headers.length === 0) {
@@ -943,6 +989,7 @@ export default {
                     items.push({Gebiet: region, ...years});
 
                 });
+
                 data.push({
                     headers,
                     items
@@ -1086,6 +1133,7 @@ export default {
         toggleChartTable () {
             this.setChartTableToggle(this.chartTableToggle === "table" ? "chart" : "table");
         },
+
         /**
          * Reset tables and charts.
          * @returns {void}
@@ -1494,52 +1542,21 @@ export default {
                 @download="downloadData"
             />
             <div v-show="showTable">
-                <div v-if="!showGrid">
-                    <TableComponent
-                        v-for="(data, index) in tableData"
-                        :key="index"
-                        :title="selectedStatisticsNames[index]"
-                        :data="data"
-                        :fixed-data="testFixedData"
-                        :total-prop="getTotalProp(addTotalCount, selectedStatisticsNames[index])"
-                        :select-mode="selectMode"
-                        :show-header="showHeader"
-                        :sortable="sortable"
-                        :enable-settings="true"
-                        sort-by-numeric-value
-                        @set-sorted-rows="setSortedRows"
-                        @column-selected="setSelectedColumn"
-                    />
-                </div>
-                <GridComponent
-                    v-else
-                    :dates="tableData"
-                    :titles="selectedStatisticsNames"
-                >
-                    <template
-                        #tableContainers="props"
-                    >
-                        <TableComponent
-                            :data="props.data"
-                            :fixed-data="testFixedData"
-                            :show-header="showHeader"
-                            sort-by-numeric-value
-                            @set-sorted-rows="setSortedRows"
-                        />
-                    </template>
-                    <template
-                        #tableContainersModal="props"
-                    >
-                        <TableComponent
-                            :data="props.data"
-                            :fixed-data="testFixedData"
-                            :show-header="showHeader"
-                            :sortable="sortable"
-                            sort-by-numeric-value
-                            @set-sorted-rows="setSortedRows"
-                        />
-                    </template>
-                </GridComponent>
+                <TableComponent
+                    v-for="(data, index) in chosenTableData"
+                    :key="index"
+                    :title="chosenStatisticName"
+                    :data="data"
+                    :fixed-data="testFixedData"
+                    :total-prop="getTotalProp(addTotalCount, chosenStatisticName)"
+                    :select-mode="selectMode"
+                    :show-header="showHeader"
+                    :sortable="sortable"
+                    :enable-settings="true"
+                    sort-by-numeric-value
+                    @set-sorted-rows="setSortedRows"
+                    @column-selected="setSelectedColumn"
+                />
             </div>
             <div v-show="showChart">
                 <div

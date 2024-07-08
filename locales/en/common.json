@@ -912,7 +912,8 @@
         "quantile": "Equal class sizes (quantiles)",
         "customized": "Customized"
       },
-      "totalHint": "Because of the percentage count, the total count is not so meaningful."
+      "totalHint": "Because of the percentage count, the total count is not so meaningful.",
+      "backToOverview": "Back to overview"
     },
     "shadow": {
       "name": "Shadows",
