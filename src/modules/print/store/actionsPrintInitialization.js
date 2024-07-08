@@ -226,7 +226,9 @@ export default {
             }
             const canvasLayer = Canvas.getCanvasLayer(state.visibleLayerList);
 
-            commit("setEventListener", canvasLayer.on("postrender", evt => dispatch("createPrintMask", evt)));
+            if (Object.keys(canvasLayer).length > 0) {
+                commit("setEventListener", canvasLayer.on("postrender", evt => dispatch("createPrintMask", evt)));
+            }
             draw3dMask(state, dispatch, ol3d);
         }
 
