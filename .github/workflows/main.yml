@@ -1,0 +1,30 @@
+name: Sync Bitbucket dev_vue to GitHub
+
+on:
+  #schedule:
+    #- cron: '0 0 * * *'  # Runs every day at midnight
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout the bitbucket_dev_vue branch
+      uses: actions/checkout@v2
+      with:
+        repository: 'technologiestiftung/umweltatlas-masterportal-v3'
+        ref: 'bitbucket_dev_vue'
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Pull from Bitbucket
+      run: |
+        git config --global user.email "you@example.com"
+        git config --global user.name "Your Name"
+        git remote add bitbucket https://bitbucket.org/geowerkstatt-hamburg/masterportal.git
+        git pull bitbucket dev_vue
+
+    - name: Push updates to GitHub
+      run: git push github bitbucket_dev_vue
