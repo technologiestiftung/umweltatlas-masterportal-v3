@@ -21,10 +21,10 @@ jobs:
 
     - name: Pull from Bitbucket
       run: |
-        # git config --global user.email "you@example.com"
-        # git config --global user.name "Your Name"
+        git config --global user.email "you@example.com"
+        git config --global user.name "Your Name"
         git remote add bitbucket https://bitbucket.org/geowerkstatt-hamburg/masterportal.git
-        git pull bitbucket dev_vue
+        git pull bitbucket dev_vue --ff-only  # Ensures a fast-forward pull
 
     - name: Push updates to GitHub
-      run: git push bitbucket_dev_vue
+      run: git push origin bitbucket_dev_vue
