@@ -69,7 +69,7 @@ export default {
 <template>
     <div id="legend">
         <div
-            v-for="legendObj, index in legends"
+            v-for="(legendObj, index) in legends"
             :key="index"
         >
             <div class="font-bold mt-3">

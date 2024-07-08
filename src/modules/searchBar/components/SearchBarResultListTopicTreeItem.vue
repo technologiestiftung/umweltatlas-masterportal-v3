@@ -110,7 +110,7 @@ export default {
         </span>
         <div class="d-flex">
             <div
-                v-for="action, i in Object.keys(actions)"
+                v-for="(action, i) in Object.keys(actions)"
                 :key="i"
             >
                 <ActionButton

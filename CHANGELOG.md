@@ -27,6 +27,7 @@
 ### Removed
 
 ### Fixed
+- Added missing parentheses in v-for loops
 
 ---
 ## 2024-06-27 v3.0.0
