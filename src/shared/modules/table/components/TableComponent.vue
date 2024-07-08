@@ -589,6 +589,11 @@ export default {
          */
         toggleShowTotalData (val) {
             this.showTotalData = !val;
+            this.$nextTick(() => {
+                if (!val && this.$refs.totalDataRow) {
+                    this.$refs.totalDataRow.scrollIntoView({behavior: "smooth"});
+                }
+            });
         },
 
         /**
@@ -813,7 +818,7 @@ export default {
                     </td>
                 </tr>
                 <template v-if="showTotalData">
-                    <tr>
+                    <tr ref="totalDataRow">
                         <td
                             v-for="(entry, index) in totalRow"
                             :key="'total-'+index"
