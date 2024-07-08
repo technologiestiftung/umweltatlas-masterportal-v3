@@ -158,11 +158,10 @@ export default {
     },
     watch: {
         data: {
-            handler (val) {
-                this.draggableHeader = val?.headers;
+            handler () {
+                this.setupTabelData();
             },
-            deep: true,
-            immediate: true
+            deep: true
         },
 
         draggableHeader: {
@@ -218,6 +217,7 @@ export default {
         }
     },
     mounted () {
+        this.setupTabelData();
         if (this.selectMode === "column" && Array.isArray(this.data?.headers)) {
             this.selectColumn(this.data.headers[1], 1);
         }
@@ -226,6 +226,17 @@ export default {
         }
     },
     methods: {
+        /**
+         * Setups the table data. Call it to set fresh and new table.
+         * @returns {void}
+         */
+        setupTabelData () {
+            this.visibleHeaders = this.data?.headers;
+            this.draggableHeader = this.data?.headers;
+            if (typeof this.fixedColumn !== "undefined") {
+                this.fixedColumn = undefined;
+            }
+        },
         /**
          * Gets the items sorted by column and order.
          * @param {Object[]} items - The items to sort.
@@ -535,8 +546,10 @@ export default {
             if (this.selectMode !== "column" || !columnName || idx === 0) {
                 return;
             }
-            this.selectedColumn = columnName;
-            this.$emit("columnSelected", this.selectedColumn?.name);
+            const nameOfColumn = isObject(columnName) ? columnName.name : columnName;
+
+            this.selectedColumn = nameOfColumn;
+            this.$emit("columnSelected", nameOfColumn);
         },
 
         /**
@@ -604,6 +617,15 @@ export default {
          */
         checkTotalHint (totalProp, showTotalData) {
             return typeof totalProp?.hintText === "string" && showTotalData;
+        },
+
+        /**
+         * Gets the selected class if given columnIdx is selected.
+         * @param {Number} columnIdx The column id.
+         * @returns {String} the 'selected' class if column is selected, empty string otherwise.
+         */
+        getClassForSelectedColumn (columnIdx) {
+            return isObject(this.visibleHeaders[columnIdx]) && this.selectedColumn === this.visibleHeaders[columnIdx].name ? "selected" : "";
         }
     }
 };
@@ -752,7 +774,7 @@ export default {
                         v-for="(column, idx) in editedTable.headers"
                         :key="idx"
                         class="filter-select-box-wrapper"
-                        :class="['p-0', fixedColumn === column.name ? 'fixedColumn' : '', selectMode === 'column' && idx > 0 ? 'selectable' : '', selectedColumn === column ? 'selected' : '']"
+                        :class="['p-0', fixedColumn === column.name ? 'fixedColumn' : '', selectMode === 'column' && idx > 0 ? 'selectable' : '', selectedColumn === column.name ? 'selected' : '']"
                         @click="selectColumn(column, idx)"
                     >
                         <div class="d-flex justify-content-between me-3">
@@ -812,7 +834,7 @@ export default {
                     <td
                         v-for="(entry, columnIdx) in visibleHeaders"
                         :key="columnIdx"
-                        :class="['p-2', fixedColumn === entry.name ? 'fixedColumn' : '', selectMode === 'column' && columnIdx > 0 ? 'selectable' : '', selectedColumn === visibleHeaders[columnIdx] ? 'selected' : '']"
+                        :class="['p-2', fixedColumn === entry.name ? 'fixedColumn' : '', selectMode === 'column' && columnIdx > 0 ? 'selectable' : '', getClassForSelectedColumn(columnIdx)]"
                     >
                         {{ item[entry.name] }}
                     </td>
@@ -823,7 +845,7 @@ export default {
                             v-for="(entry, index) in totalRow"
                             :key="'total-'+index"
                             class="p-2 total"
-                            :class="[selectMode === 'column' && index > 0 ? 'selectable' : '', selectedColumn === visibleHeaders[index] ? 'selected' : '']"
+                            :class="[selectMode === 'column' && index > 0 ? 'selectable' : '', getClassForSelectedColumn(index)]"
                         >
                             {{ entry }}
                         </td>
@@ -839,7 +861,7 @@ export default {
                             v-for="(entry, columnIdx) in row"
                             :key="'fixed-'+columnIdx"
                             class="p-2"
-                            :class="[selectMode === 'column' && columnIdx > 0 ? 'selectable' : '', selectedColumn === visibleHeaders[columnIdx] ? 'selected' : '']"
+                            :class="[selectMode === 'column' && columnIdx > 0 ? 'selectable' : '', getClassForSelectedColumn(columnIdx)]"
                         >
                             {{ entry }}
                         </td>

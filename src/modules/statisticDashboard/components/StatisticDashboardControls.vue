@@ -352,7 +352,7 @@ export default {
             <button
                 class="p-2 fs-5 lh-1 border-0 bg-transparent"
                 @click="prevStatistic(indexSelectedStatistics, selectedStatistics)"
-                @keydown="prevStatistic(indexSelectedStatistics, selectedStatistics)"
+                @keydown.enter="prevStatistic(indexSelectedStatistics, selectedStatistics)"
             >
                 <i class="bi bi-chevron-left" />
             </button>
@@ -362,7 +362,7 @@ export default {
             <button
                 class="p-2 fs-5 lh-1 border-0 bg-transparent"
                 @click="nextStatistic(indexSelectedStatistics, selectedStatistics)"
-                @keydown="nextStatistic(indexSelectedStatistics, selectedStatistics)"
+                @keydown.enter="nextStatistic(indexSelectedStatistics, selectedStatistics)"
             >
                 <i class="bi bi-chevron-right" />
             </button>

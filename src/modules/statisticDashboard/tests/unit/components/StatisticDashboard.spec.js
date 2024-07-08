@@ -955,9 +955,9 @@ describe("src/modules/StatisticDashboard.vue", () => {
                     },
                     expectedValue = [{
                         headers: [
-                            {name: "Gebiet"},
-                            {name: "1990"},
-                            {name: "1890"}
+                            {name: "Gebiet", index: 0},
+                            {name: "1990", index: 1},
+                            {name: "1890", index: 2}
                         ],
                         items: [{
                             "1890": "12",

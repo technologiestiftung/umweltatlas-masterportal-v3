@@ -1000,9 +1000,9 @@ export default {
 
                 Object.entries(statisticsData[statData]).forEach(([region, years]) => {
                     if (headers.length === 0) {
-                        headers.push({name: "Gebiet"});
-                        Object.keys(years).reverse().forEach((year) => {
-                            headers.push({name: year});
+                        headers.push({name: "Gebiet", index: 0});
+                        Object.keys(years).reverse().forEach((year, idx) => {
+                            headers.push({name: year, index: idx + 1});
                         });
                     }
 
