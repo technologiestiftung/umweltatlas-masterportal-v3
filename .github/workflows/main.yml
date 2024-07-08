@@ -27,4 +27,4 @@ jobs:
         git pull bitbucket dev_vue
 
     - name: Push updates to GitHub
-      run: git push github bitbucket_dev_vue
+      run: git push bitbucket_dev_vue
