@@ -10,7 +10,15 @@
 - SearchBar:
     - Added the possibility to zoom to an extent from a search result.
 - StatisticDashboard:
+    - Updated UI of the filter to match the MP 3.0 Design.
+    - Dropdowns now sort the selected entries always at the top.
+    - Statistics from different categories are now listed together in a dropdown when multiple categories are selected.
+    - Legend can now use different classifications to show data for the choropleth map and the legend.
+    - The number of data in the diagrams has been limited to a maximum value as this ensures better clarity. Once the maximum value has been reached, a selection option is provided with which the data can be searched for manually.
+    - Uses the OAF scheme request to load unique values faster.
     - Added export button for CSV export.
+- OAF:
+    - Added scheme request function in the api folder for the getOAFFeature file. This can be used for an easy and fast way to gather unique values.
 
 ### Changed
 
