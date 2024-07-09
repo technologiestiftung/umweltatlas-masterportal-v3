@@ -59,12 +59,12 @@ const menuGetters = {
     /**
      * Returns true, if a module with attribute hasMouseMapInteractions will be deactivated.
      * @param {MenuState} state Local vuex state.
-     * @param {Object} _ Local vuex getters (discarded).
-     * @param {Object} __ vuex rootState (discarded).
+     * @param {Object} getters Local vuex getters (discarded).
+     * @param {Object} rootState vuex rootState (discarded).
      * @param {Object} rootGetters vuex rootGetters.
      * @returns {Boolean} Function returning component identified via deactivateModule.
      */
-    deactivateModule: (state, _, __, rootGetters) => type => {
+    deactivateModule: (state, getters, rootState, rootGetters) => type => {
         if (rootGetters[`Modules/${changeCase.upperFirst(type)}/hasMouseMapInteractions`]
             && changeCase.upperFirst(type) !== state.activeModuleMouseMapInteractions
         ) {
@@ -244,12 +244,12 @@ const menuGetters = {
      * If a getters `urlParams` exists in the module the attributes are obtained from it,
      * if none exists all attributes of the state are used.
      * @param {Object} state state of the app-store.
-     * @param {Object} __ menu store getters.
+     * @param {Object} getters menu store getters.
      * @param {Object} rootState root state.
      * @param {Object} rootGetters root getters.
      * @returns {Object} The component attributes.
      */
-    getComponentAttributes: (state, __, rootState, rootGetters) => currentComponent => {
+    getComponentAttributes: (state, getters, rootState, rootGetters) => currentComponent => {
         let moduleAttributes;
 
         if (currentComponent !== "root") {

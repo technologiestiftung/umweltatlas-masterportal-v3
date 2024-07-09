@@ -16,17 +16,17 @@ function areAttributesValid (menu) {
     }
 }
 
-const getters = {
+const simpleGetters = {
     ...generateSimpleGetters(shareViewState),
 
     /**
      * @param {Object} state state of the app-store.
-     * @param {Object} __ shareView store getters.
-     * @param {Object} ___ root state.
+     * @param {Object} getters shareView store getters.
+     * @param {Object} rootState root state.
      * @param {Object} rootGetters root getters.
      * @returns {String} The Url that can be copied by the user.
      */
-    url (state, __, ___, rootGetters) {
+    url (state, getters, roo, rootGetters) {
         const layerParams = rootGetters.layerUrlParams,
             mapParams = rootGetters["Maps/urlParams"],
             menuParams = rootGetters["Menu/urlParams"];
@@ -52,4 +52,4 @@ const getters = {
     }
 };
 
-export default getters;
+export default simpleGetters;

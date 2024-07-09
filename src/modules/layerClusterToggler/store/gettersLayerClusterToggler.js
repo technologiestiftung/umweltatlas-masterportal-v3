@@ -1,18 +1,18 @@
 import {generateSimpleGetters} from "../../../shared/js/utils/generators";
 import stateLayerClusterToggler from "./stateLayerClusterToggler";
 
-const getters = {
+const simpleGetters = {
     ...generateSimpleGetters(stateLayerClusterToggler),
 
     /**
      * Returns the layernames of the layer id list.
      * @param {Object} state context object.
-     * @param {Object} _ layerClusterToggler store getters
-     * @param {Object} __ root state
+     * @param {Object} getters layerClusterToggler store getters
+     * @param {Object} rootState root state
      * @param {Object} rootGetters root getters
      * @returns {String[]} The layer names of the layer id list.
      */
-    layerNames: (state, _, __, rootGetters) => {
+    layerNames: (state, getters, rootState, rootGetters) => {
         const layerNames = [];
 
         state.layerIdList.forEach(layerId => {
@@ -23,4 +23,4 @@ const getters = {
     }
 };
 
-export default getters;
+export default simpleGetters;

@@ -2,7 +2,7 @@ import {generateSimpleGetters} from "../../../shared/js/utils/generators";
 import featureListerState from "./stateFeatureLister";
 import layerCollection from "../../../core/layers/js/layerCollection";
 
-const getters = {
+const simpleGetters = {
     ...generateSimpleGetters(featureListerState),
 
     /**
@@ -33,12 +33,12 @@ const getters = {
      * The v-for calls this function for every property of the selected feature and returns pairs of header and
      * value as an array
      * @param {Object} state state of this module
-     * @param {Object} _ getters of this module
-     * @param {Object} __ root state
+     * @param {Object} getters getters of this module
+     * @param {Object} rootState root state
      * @param {Object} rootGetters root getters
      * @returns {Array} [header, value] for each property of the selected feature
      */
-    featureDetails: (state, _, __, rootGetters) => {
+    featureDetails: (state, getters, rootState, rootGetters) => {
         const gfiFeature = state.gfiFeaturesOfLayer[state.selectedFeatureIndex],
             attributesToShow = gfiFeature.getAttributesToShow(),
             featureProperties = gfiFeature.getProperties();
@@ -53,12 +53,12 @@ const getters = {
     /**
      * Gets a list of all property keys to show in a table header.
      * @param {Object} state state of this module
-     * @param {Object} _ getters of this module
-     * @param {Object} __ root state
+     * @param {Object} getters getters of this module
+     * @param {Object} rootState root state
      * @param {Object} rootGetters root getters
      * @returns {Array} [key, value] for each property
      */
-    headers: (state, _, __, rootGetters) => {
+    headers: (state, getters, rootState, rootGetters) => {
         const headers = Object.entries(state.gfiFeaturesOfLayer
             .reduce((acc, it) => {
                 let keys = it.getAttributesToShow();
@@ -102,4 +102,4 @@ const getters = {
     }
 };
 
-export default getters;
+export default simpleGetters;
