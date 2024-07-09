@@ -19,6 +19,8 @@
     - Added export button for CSV export.
 - OAF:
     - Added scheme request function in the api folder for the getOAFFeature file. This can be used for an easy and fast way to gather unique values.
+- ViewPoint:
+    - Migrated from dev to dev_vue.
 
 ### Changed
 
