@@ -173,7 +173,7 @@ export default {
      * @param {Number}  payload.tilt tilt of the view
      * @param {Number}  payload.altitude altitude of the view
      */
-    activateViewpoint ({dispatch, getters}, {heading, tilt, altitude, center, zoom}) {
+    activateViewpoint ({dispatch, getters}, {altitude, heading, tilt, center, zoom}) {
         dispatch("Maps/zoomToCoordinates", {center, zoom}, {root: true});
         if (getters.mode === "3D") {
             dispatch("setCamera", {

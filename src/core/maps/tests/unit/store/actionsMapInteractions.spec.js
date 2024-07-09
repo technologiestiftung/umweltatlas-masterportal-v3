@@ -67,38 +67,25 @@ describe("src/core/maps/store/actionsMapsInteractions.js", () => {
         });
     });
     describe("activateViewpoint", () => {
-
-        before(() => {
-            const map3d = {
-                id: "olcs",
-                mode: "3D",
-                getCesiumScene: () => {
-                    return {
-                        camera: {
-                            moveUp: "",
-                            moveDown: "",
-                            moveRight: "",
-                            moveLeft: ""
-                        }
-                    };
-                }
-            };
-
-            mapCollection.clear();
-            mapCollection.addMap(map3d, "3D");
-        });
         it("should set camera in case of 3D mode", () => {
-            const cameraParams = {
-                    heading: -0.30858728378862876,
-                    tilt: 0.9321791580603296,
-                    altitude: 272.3469798217454
-                },
+            const dispatch = sinon.spy(),
+                altitude = 272.3469798217454,
+                heading = -0.30858728378862876,
+                tilt = 0.9321791580603296,
                 center = [564028.7954571751, 5934555.967867207],
                 zoom = 7.456437968949651;
 
-            actions.activateViewpoint(cameraParams, center, zoom);
-            expect(actions.setCamera.calledOnce).to.be.true;
+            getters = {
+                mode: "3D"
+            };
 
+            actions.activateViewpoint({dispatch, getters}, {altitude, heading, tilt, center, zoom});
+
+            expect(dispatch.calledTwice).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equals("Maps/zoomToCoordinates");
+            expect(dispatch.secondCall.args[0]).to.equals("setCamera");
+            expect(dispatch.firstCall.args[1]).to.deep.equals({center, zoom});
+            expect(dispatch.secondCall.args[1]).to.deep.equals({altitude, heading, tilt});
         });
     });
 });
