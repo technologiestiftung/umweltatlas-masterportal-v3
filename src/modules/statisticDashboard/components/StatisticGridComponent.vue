@@ -97,8 +97,8 @@ export default {
     flex-shrink: 1;
     max-width: 280px;
     min-width: 260px;
-    height: 280px;
-    min-height: 260px;
+    height: 320px;
+    min-height: 300px;
     overflow: hidden;
     margin: 10px;
     border-radius: 5px;

@@ -45,7 +45,8 @@ export default {
                 icon: "bi bi-bar-chart pe-2"
             }],
             switchValue: "",
-            referenceTag: undefined
+            referenceTag: undefined,
+            indexSelectedStatistics: 0
         };
     },
     computed: {
@@ -179,6 +180,35 @@ export default {
          */
         removeReference () {
             this.setSelectedReferenceData(undefined);
+        },
+        /**
+         * Sets indexSelectedStatistics after clicking previous arrow.
+         * @param {Number} index - The current indexSelectedStatistics.
+         * @param {Object} selectedStatistics - The selected statistics.
+         * @returns {void}
+         */
+        prevStatistic (index, selectedStatistics) {
+            if (!isObject(selectedStatistics) || !Object.keys(selectedStatistics).length) {
+                return;
+            }
+
+
+            this.indexSelectedStatistics = index - 1 >= 0 ? index - 1 : Object.keys(selectedStatistics).length + index - 1;
+            this.setChosenStatisticName(selectedStatistics[Object.keys(selectedStatistics)[this.indexSelectedStatistics]]?.name);
+        },
+        /**
+         * Sets indexSelectedStatistics after clicking next arrow.
+         * @param {Number} index - The current indexSelectedStatistics.
+         * @param {Object} selectedStatistics - The selected statistics.
+         * @returns {void}
+         */
+        nextStatistic (index, selectedStatistics) {
+            if (!isObject(selectedStatistics) || !Object.keys(selectedStatistics).length) {
+                return;
+            }
+
+            this.indexSelectedStatistics = index + 1 < Object.keys(selectedStatistics).length ? index + 1 : index - Object.keys(selectedStatistics).length + 1;
+            this.setChosenStatisticName(selectedStatistics[Object.keys(selectedStatistics)[this.indexSelectedStatistics]]?.name);
         }
     }
 };
@@ -306,24 +336,35 @@ export default {
             @click="setChosenStatisticName('')"
             @keydown="setChosenStatisticName('')"
         >
-            <i class="bi bi-chevron-left" />
+            <button
+                class="p-2 fs-5 lh-1 border-0 bg-transparent"
+            >
+                <i class="bi bi-chevron-left" />
+            </button>
             <span>
                 {{ $t('common:modules.statisticDashboard.backToOverview') }}
             </span>
         </div>
         <div
-            v-if="showStatisticnameInTable || showStatisticnameInChart"
+            v-if="showStatisticnameInTable"
             class="container static-name"
         >
             <button
-                v-for="(statistic, index) in selectedStatistics"
-                :key="index"
-                :class="chosenStatisticName === statistic?.name ? 'clicked' : ''"
-                class="btn btn-sm btn-outline-secondary lh-1 rounded-pill me-2 mb-2 btn-pb"
-                @click="setChosenStatisticName(statistic?.name)"
-                @keydown="setChosenStatisticName(statistic?.name)"
+                class="p-2 fs-5 lh-1 border-0 bg-transparent"
+                @click="prevStatistic(indexSelectedStatistics, selectedStatistics)"
+                @keydown="prevStatistic(indexSelectedStatistics, selectedStatistics)"
             >
-                {{ statistic?.name }}
+                <i class="bi bi-chevron-left" />
+            </button>
+            <div>
+                {{ chosenStatisticName }}
+            </div>
+            <button
+                class="p-2 fs-5 lh-1 border-0 bg-transparent"
+                @click="nextStatistic(indexSelectedStatistics, selectedStatistics)"
+                @keydown="nextStatistic(indexSelectedStatistics, selectedStatistics)"
+            >
+                <i class="bi bi-chevron-right" />
             </button>
         </div>
     </div>
@@ -397,8 +438,11 @@ export default {
 
 .static-name {
     margin-top: 20px;
-    .clicked {
-        background-color: $light_blue;
+    display: flex;
+    div {
+        width: calc(100% - 64px);
+        text-align: center;
+        padding-top: 6px;
     }
 }
 </style>

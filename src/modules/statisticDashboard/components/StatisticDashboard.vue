@@ -147,6 +147,13 @@ export default {
          */
         showTable () {
             return this.chartTableToggle === "table";
+        },
+        /**
+         * Returns the statisticName of chart.
+         * @returns {String[]} the statistic name.
+         */
+        statisticNameOfChart () {
+            return typeof this.chosenStatisticName === "string" && this.chosenStatisticName !== "" ? [this.chosenStatisticName] : this.selectedStatisticsNames;
         }
     },
     watch: {
@@ -158,22 +165,16 @@ export default {
         selectedRegionsValues () {
             this.selectedFilteredRegions = this.selectedFilteredRegions.filter(name => this.selectedRegionsValues.includes(name));
             this.numberOfColouredBars = this.diagramType === "bar" & this.selectedFilteredRegions.length !== 0 ? this.selectedFilteredRegions.length : this.numberOfColouredBars;
-            this.chosenTableData = this.getTableData(this.statisticsData, this.chosenStatisticName);
-            this.handleChartData(this.selectedStatisticsNames,
-                this.selectedRegionsValues,
-                this.selectedDatesValues,
-                this.statisticsData,
-                this.selectedReferenceData?.type);
         },
         chosenStatisticName (val) {
-            const statisticName = typeof val === "string" && val !== "" ? [val] : this.selectedStatisticsNames;
-
             this.chosenTableData = this.getTableData(this.statisticsData, val);
-            this.handleChartData(statisticName,
+            this.handleChartData(
+                this.statisticNameOfChart,
                 this.selectedRegionsValues,
                 this.selectedDatesValues,
                 this.statisticsData,
-                this.selectedReferenceData?.type);
+                this.selectedReferenceData?.type
+            );
         },
         selectedStatisticsNames (val, oldVal) {
             if (Array.isArray(oldVal) && oldVal.length > 1 && Array.isArray(val) && val.length === 1 && !val.includes(this.chosenStatisticName)) {
@@ -184,6 +185,24 @@ export default {
                 this.chosenTableData = [];
                 this.setChosenStatisticName("");
             }
+            this.handleChartData(
+                this.statisticNameOfChart,
+                this.selectedRegionsValues,
+                this.selectedDatesValues,
+                this.statisticsData,
+                this.selectedReferenceData?.type
+            );
+
+        },
+        statisticsData (val) {
+            this.chosenTableData = this.getTableData(val, this.chosenStatisticName);
+            this.handleChartData(
+                this.statisticNameOfChart,
+                this.selectedRegionsValues,
+                this.selectedDatesValues,
+                this.statisticsData,
+                this.selectedReferenceData?.type
+            );
         },
         active (value) {
             if (!value) {
@@ -198,7 +217,7 @@ export default {
                 && this.selectedDatesValues?.length
             ) {
                 this.handleChartData(
-                    this.selectedStatisticsNames,
+                    this.statisticNameOfChart,
                     this.selectedRegionsValues,
                     this.selectedDatesValues,
                     this.statisticsData,
@@ -226,6 +245,11 @@ export default {
         },
         opacity () {
             this.updateAfterLegendChange();
+        },
+        chartTableToggle (val) {
+            if (val === "table" && isObject(this.statisticsData) && Object.keys(this.statisticsData).length && this.chosenStatisticName === "") {
+                this.chosenTableData = this.getTableData(this.statisticsData, this.chosenStatisticName);
+            }
         }
     },
     async created () {
@@ -696,7 +720,7 @@ export default {
             this.chosenTableData = this.getTableData(this.statisticsData, this.chosenStatisticName);
             this.chartCounts = this.selectedStatisticsNames.length;
 
-            this.handleChartData(this.selectedStatisticsNames, regions, dates, this.statisticsData, differenceMode);
+            this.handleChartData(this.statisticNameOfChart, regions, dates, this.statisticsData, differenceMode);
 
             if (this.selectedStatisticsNames.length === 1) {
                 this.updateFeatureStyle(this.selectedColumn || dates[0], differenceMode, this.selectedReferenceData);
@@ -861,14 +885,14 @@ export default {
         addSelectedFilteredRegions (region) {
             if (this.diagramType === "line") {
                 this.selectedFilteredRegions.push(region);
-                this.handleChartData(this.selectedStatisticsNames, this.selectedFilteredRegions, this.selectedDatesValues, this.statisticsData, this.selectedReferenceData?.type);
+                this.handleChartData(this.statisticNameOfChart, this.selectedFilteredRegions, this.selectedDatesValues, this.statisticsData, this.selectedReferenceData?.type);
             }
             else if (this.diagramType === "bar") {
                 this.allFilteredRegions = this.allFilteredRegions.filter(item => item !== region);
                 this.allFilteredRegions.unshift(region);
                 this.selectedFilteredRegions.unshift(region);
                 this.numberOfColouredBars = this.selectedFilteredRegions.length;
-                this.handleChartData(this.selectedStatisticsNames, this.allFilteredRegions, this.selectedDatesValues, this.statisticsData, this.selectedReferenceData?.type);
+                this.handleChartData(this.statisticNameOfChart, this.allFilteredRegions, this.selectedDatesValues, this.statisticsData, this.selectedReferenceData?.type);
             }
         },
         /**
@@ -879,7 +903,7 @@ export default {
         removeRegion (region) {
             if (this.diagramType === "line") {
                 this.selectedFilteredRegions = this.selectedFilteredRegions.filter(item => item !== region);
-                this.handleChartData(this.selectedStatisticsNames, this.selectedFilteredRegions, this.selectedDatesValues, this.statisticsData, this.selectedReferenceData?.type);
+                this.handleChartData(this.statisticNameOfChart, this.selectedFilteredRegions, this.selectedDatesValues, this.statisticsData, this.selectedReferenceData?.type);
             }
             else if (this.diagramType === "bar") {
                 const index = this.allFilteredRegions.indexOf(region);
@@ -887,7 +911,7 @@ export default {
                 this.selectedFilteredRegions = this.selectedFilteredRegions.filter(item => item !== region);
                 this.allFilteredRegions.push(this.allFilteredRegions.splice(index, 1)[0]);
                 this.numberOfColouredBars = this.selectedFilteredRegions.length;
-                this.handleChartData(this.selectedStatisticsNames, this.allFilteredRegions, this.selectedDatesValues, this.statisticsData, this.selectedReferenceData?.type);
+                this.handleChartData(this.statisticNameOfChart, this.allFilteredRegions, this.selectedDatesValues, this.statisticsData, this.selectedReferenceData?.type);
             }
         },
         /**
@@ -953,22 +977,18 @@ export default {
          * Gets the data for the table from the prepared statistics.
          * @param {Object} statisticsData - Prepared statistical data.
          * @param {undefined|String|String[]} statisticName - The chosen statistic name.
-         * @returns {Object} Data for table with header and items.
+         * @returns {Object[]} Data for table with header and items or empty array.
          */
         getTableData (statisticsData, statisticName = undefined) {
             const headers = [],
                 data = [];
 
             if (typeof statisticName !== "undefined" && !isObject(statisticsData) || !Object.keys(statisticsData).length) {
-                return {};
+                return [];
             }
 
-            if (statisticName === "" && Object.keys(statisticsData).length === 1) {
+            if (statisticName === "" && Object.keys(statisticsData).length && this.chartTableToggle === "table") {
                 this.setChosenStatisticName(Object.keys(statisticsData)[0]);
-            }
-
-            if (statisticName === "" && Object.keys(statisticsData).length > 1) {
-                return {};
             }
 
             Object.keys(statisticsData).forEach(statData => {
@@ -1153,6 +1173,8 @@ export default {
             this.showLimitView = false;
             this.diagramType = undefined;
             this.selectedFilteredRegions = [];
+            this.chosenTableData = [];
+            this.statisticsData = undefined;
         },
         /**
          * Checks if at least one description is present in the statistics.
@@ -1545,7 +1567,7 @@ export default {
                 <TableComponent
                     v-for="(data, index) in chosenTableData"
                     :key="index"
-                    :title="chosenStatisticName"
+                    :title="tableData.length <= 1 ? chosenStatisticName : ''"
                     :data="data"
                     :fixed-data="testFixedData"
                     :total-prop="getTotalProp(addTotalCount, chosenStatisticName)"

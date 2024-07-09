@@ -923,38 +923,14 @@ describe("src/modules/StatisticDashboard.vue", () => {
             });
         });
         describe("getTableData", () => {
-            it("should return an empty object if there are no statistic data.", () => {
+            it("should return an empty array if there are no statistic data", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
                     global: {
                         plugins: [store]
                     }
                 });
 
-                expect(wrapper.vm.getTableData({}, "")).to.deep.equal({});
-            });
-
-            it("should return an empty object if there is no chosen statistic name.", () => {
-                const wrapper = shallowMount(StatisticDashboard, {
-                        global: {
-                            plugins: [store]
-                        }
-                    }),
-                    preparedData = {
-                        "Bevölkerung maennlich": {
-                            Hamburg: {
-                                "1890": "13",
-                                "1990": "113"
-                            }
-                        },
-                        "Bevölkerung weiblich": {
-                            Hamburg: {
-                                "1890": "12",
-                                "1990": "112"
-                            }
-                        }
-                    };
-
-                expect(wrapper.vm.getTableData(preparedData, "")).to.deep.equal({});
+                expect(wrapper.vm.getTableData({}, "")).to.deep.equal([]);
             });
 
             it("should return the data for the table(s) from the statistics object according the chosen statistic name", () => {

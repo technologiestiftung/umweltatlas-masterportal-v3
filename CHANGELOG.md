@@ -17,6 +17,7 @@
     - The number of data in the diagrams has been limited to a maximum value as this ensures better clarity. Once the maximum value has been reached, a selection option is provided with which the data can be searched for manually.
     - Uses the OAF scheme request to load unique values faster.
     - Added export button for CSV export.
+    - The name of multi selected statistics will be shown in a carousel.
 - OAF:
     - Added scheme request function in the api folder for the getOAFFeature file. This can be used for an easy and fast way to gather unique values.
 - ViewPoint:
