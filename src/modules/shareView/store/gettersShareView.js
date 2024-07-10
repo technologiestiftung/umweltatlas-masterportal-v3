@@ -26,7 +26,7 @@ const simpleGetters = {
      * @param {Object} rootGetters root getters.
      * @returns {String} The Url that can be copied by the user.
      */
-    url (state, getters, roo, rootGetters) {
+    url (state, getters, rootState, rootGetters) {
         const layerParams = rootGetters.layerUrlParams,
             mapParams = rootGetters["Maps/urlParams"],
             menuParams = rootGetters["Menu/urlParams"];

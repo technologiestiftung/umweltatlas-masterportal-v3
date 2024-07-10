@@ -8,8 +8,8 @@ const simpleGetters = {
 
     /**
      * @param {Object} state measure store state
-     * @param {Object} _ measure store getters
-     * @param {Object} __ root state
+     * @param {Object} getters measure store getters
+     * @param {Object} rootState root state
      * @param {Object} rootGetters root getters
      * @returns {String[]} options for measurement units
      */
