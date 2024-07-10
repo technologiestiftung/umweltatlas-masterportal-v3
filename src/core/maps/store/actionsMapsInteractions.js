@@ -167,6 +167,9 @@ export default {
 
     /**
      * Activates the selected view point with calling the zoomToCoordinates function and in case of 3D mode additionally it calls setCamera function.
+     * @param {Object} context the vuex context
+     * @param {Object} context.dispatch the dispatch
+     * @param {Object} context.getters the getters
      * @param {Number} payload.altitude altitude of the view
      * @param {Number} payload.heading heading of the view
      * @param {Number} payload.tilt tilt of the view
