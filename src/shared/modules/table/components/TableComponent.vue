@@ -29,6 +29,11 @@ export default {
             type: Object,
             required: true
         },
+        dynamicColumnTable: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
         hits: {
             type: [String, Boolean],
             required: false,
@@ -53,6 +58,11 @@ export default {
             type: Boolean,
             required: false,
             default: false
+        },
+        fontSize: {
+            type: String,
+            required: false,
+            default: "medium"
         },
         title: {
             type: [String, Boolean],
@@ -767,14 +777,17 @@ export default {
         class="fixed"
         :class="tableClass"
     >
-        <table class="table table-sm table-hover rounded-pill">
+        <table
+            class="table table-sm table-hover rounded-pill"
+            :class="[dynamicColumnTable && !filterable ? 'dynamic-column-table' : '']"
+        >
             <thead>
                 <tr v-if="showHeader">
                     <th
                         v-for="(column, idx) in editedTable.headers"
                         :key="idx"
                         class="filter-select-box-wrapper"
-                        :class="['p-0', fixedColumn === column.name ? 'fixedColumn' : '', selectMode === 'column' && idx > 0 ? 'selectable' : '', selectedColumn === column.name ? 'selected' : '']"
+                        :class="['p-0', fixedColumn === column.name ? 'fixedColumn' : '', selectMode === 'column' && idx > 0 ? 'selectable' : '', selectedColumn === column.name ? 'selected' : '', fontSize === 'medium' ? 'medium-font-size' : '', fontSize === 'small' ? 'small-font-size' : '']"
                         @click="selectColumn(column, idx)"
                     >
                         <div class="d-flex justify-content-between me-3">
@@ -834,7 +847,7 @@ export default {
                     <td
                         v-for="(entry, columnIdx) in visibleHeaders"
                         :key="columnIdx"
-                        :class="['p-2', fixedColumn === entry.name ? 'fixedColumn' : '', selectMode === 'column' && columnIdx > 0 ? 'selectable' : '', getClassForSelectedColumn(columnIdx)]"
+                        :class="['p-2', fixedColumn === entry.name ? 'fixedColumn' : '', selectMode === 'column' && columnIdx > 0 ? 'selectable' : '', getClassForSelectedColumn(columnIdx), fontSize === 'medium' ? 'medium-font-size' : '', fontSize === 'small' ? 'small-font-size' : '']"
                     >
                         {{ item[entry.name] }}
                     </td>
@@ -861,7 +874,7 @@ export default {
                             v-for="(entry, columnIdx) in row"
                             :key="'fixed-'+columnIdx"
                             class="p-2"
-                            :class="[selectMode === 'column' && columnIdx > 0 ? 'selectable' : '', getClassForSelectedColumn(columnIdx)]"
+                            :class="[selectMode === 'column' && columnIdx > 0 ? 'selectable' : '', getClassForSelectedColumn(columnIdx), fontSize === 'medium' ? 'medium-font-size' : '', fontSize === 'small' ? 'small-font-size' : '']"
                         >
                             {{ entry }}
                         </td>
@@ -910,13 +923,20 @@ export default {
     float: left;
 }
 
+.small-font-size {
+    font-size: 12px;
+}
+
+.medium-font-size {
+    font-size: 14px;
+}
+
 table {
     table-layout: fixed;
     --bs-table-hover-bg: #D6E3FF;
     border-collapse: separate;
     border-spacing: 0;
     td {
-        font-size: 14px;
         text-align: left;
         &.total:not(.selected) {
             background: $light_blue;
@@ -965,6 +985,18 @@ table {
     }
     th.fixedColumn {
         z-index: 3;
+    }
+}
+
+.dynamic-column-table {
+    table-layout: inherit;
+    th {
+        width: fit-content;
+        position: sticky;
+        span.sortable-icon {
+            position: static;
+            padding-top: 10px;
+        }
     }
 }
 

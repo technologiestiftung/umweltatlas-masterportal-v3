@@ -1606,6 +1606,8 @@ export default {
                     :total-prop="getTotalProp(addTotalCount, chosenStatisticName)"
                     :select-mode="selectMode"
                     :show-header="showHeader"
+                    :dynamic-column-table="true"
+                    :font-size="'small'"
                     :sortable="sortable"
                     :enable-settings="true"
                     sort-by-numeric-value
@@ -1687,45 +1689,45 @@ export default {
 <style lang="scss" scoped>
 @import "~variables";
 
-    hr {
+hr {
     clear: both;
-    }
+}
 
-    .btn-pb {
-        padding-bottom: 2px;
-    }
+.btn-pb {
+    padding-bottom: 2px;
+}
 
-    .more-statistics {
-        display: none;
-    }
+.more-statistics {
+    display: none;
+}
 
-    img {
-        width: 30px;
-    }
+img {
+    width: 30px;
+}
 
-    .legend-names {
-        font-size: 12px;
-    }
+.legend-names {
+    font-size: 12px;
+}
 
-    .more-statistics {
-        /** @TODO **/
-        color: #525252;
-    }
-    .info-icon i {
-        font-size: $icon_length_small;
-    }
-    .info-text {
-        font-size: $font_size_sm;
-        margin-top: 15px;
-    }
-    .chart-container {
-        min-height: 50vh;
+.more-statistics {
+    /** @TODO **/
+    color: #525252;
+}
+.info-icon i {
+    font-size: $icon_length_small;
+}
+.info-text {
+    font-size: $font_size_sm;
+    margin-top: 15px;
+}
+.chart-container {
+    min-height: 50vh;
 
-    }
+}
 </style>
 <style lang="scss" scoped>
 @import "~variables";
- .static-dashboard .multiselect__tags {
+.static-dashboard .multiselect__tags {
     padding-left: 25px;
 }
 .static-dashboard .multiselect__clear {
