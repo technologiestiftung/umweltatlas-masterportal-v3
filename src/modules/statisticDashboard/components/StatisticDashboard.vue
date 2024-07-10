@@ -493,7 +493,7 @@ export default {
                 a = 0.9;
             }
 
-            for (i = 0; i < this.numberOfClasses; i++) {
+            for (let i = 0; i < this.numberOfClasses; i++) {
                 const newColor = baseColor.map(v => Math.floor(v + i * (255 - v) / this.numberOfClasses));
 
                 palette.unshift([...newColor, a]);

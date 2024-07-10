@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import store from "../app-store";
 import main from "../main";
 import {defineComponent} from "vue";

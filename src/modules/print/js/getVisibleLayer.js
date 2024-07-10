@@ -17,9 +17,11 @@ function getVisibleLayer (printMapMarker = false) {
                 );
     });
 
-    groupedLayers = visibleLayerList.filter(layer => {
+    // eslint-disable-next-line one-var
+    const groupedLayers = visibleLayerList.filter(layer => {
         return layer instanceof LayerGroup;
     });
+
     if (groupedLayers.length > 0) {
         visibleLayerList = visibleLayerList.filter(layer => {
             return !(layer instanceof LayerGroup);
