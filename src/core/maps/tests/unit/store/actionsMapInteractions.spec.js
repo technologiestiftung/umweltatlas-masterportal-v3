@@ -73,11 +73,10 @@ describe("src/core/maps/store/actionsMapsInteractions.js", () => {
                 heading = -0.30858728378862876,
                 tilt = 0.9321791580603296,
                 center = [564028.7954571751, 5934555.967867207],
-                zoom = 7.456437968949651;
-
-            getters = {
-                mode: "3D"
-            };
+                zoom = 7.456437968949651,
+                getters = {
+                    mode: "3D"
+                };
 
             actions.activateViewpoint({dispatch, getters}, {altitude, heading, tilt, center, zoom});
 

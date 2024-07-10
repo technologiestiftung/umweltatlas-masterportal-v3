@@ -242,10 +242,9 @@ function getBarChartColors (data, currentColor, differenceMode, numberOfColoured
     }
     else if (!differenceMode && currentColor.length === 2) {
         const firstChunk = data.slice(0, numberOfColouredBars),
-            secondChunk = data.slice(numberOfColouredBars, data.length);
-
-        first = firstChunk.map(val => val.length === 0 ? "" : currentColor[0]);
-        second = secondChunk.map(value => value.length === 0 ? "" : currentColor[1]);
+            secondChunk = data.slice(numberOfColouredBars, data.length),
+            first = firstChunk.map(val => val.length === 0 ? "" : currentColor[0]),
+            second = secondChunk.map(value => value.length === 0 ? "" : currentColor[1]);
 
         colorValue = [...first, ...second];
     }
