@@ -166,12 +166,12 @@ export default {
     },
 
     /**
-     * Opens view point with the given values
-     * @param {Number[]}  payload.center center of the view
-     * @param {Number}  payload.zoom zoom of the view
-     * @param {Number}  payload.heading heading of the view
-     * @param {Number}  payload.tilt tilt of the view
-     * @param {Number}  payload.altitude altitude of the view
+     * Activates the selected view point with calling the zoomToCoordinates function and in case of 3D mode additionally it calls setCamera function.
+     * @param {Number} payload.altitude altitude of the view
+     * @param {Number} payload.heading heading of the view
+     * @param {Number} payload.tilt tilt of the view
+     * @param {Number[]} payload.center center of the view
+     * @param {Number} payload.zoom zoom of the view
      */
     activateViewpoint ({dispatch, getters}, {altitude, heading, tilt, center, zoom}) {
         dispatch("Maps/zoomToCoordinates", {center, zoom}, {root: true});
