@@ -221,9 +221,11 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
     });
 
     describe("showInTree", () => {
+        const typeLayerSelection = {type: "layerSelection", props: {name: "common:modules.layerSelection.name"}};
+
         it("should call showLayer for a layer", async () => {
             const layerId = "123",
-                payload = {side: "mainMenu", newHistory: [{type: "root", props: []}, {type: "layerSelection", props: {name: "common:modules.layerSelection.name"}}, {type: "layerSelection", props: {name: "common:modules.layerSelection.name"}}]};
+                payload = {side: "mainMenu", newHistory: [{type: "root", props: []}, typeLayerSelection, typeLayerSelection]};
 
             dispatch = sinon.stub().resolves({id: layerId});
             await actions.showInTree({commit, dispatch}, {layerId});
@@ -246,7 +248,7 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
 
         it("should call showLayer for a folder", async () => {
             const layerId = "folder-1",
-                payload = {side: "mainMenu", newHistory: [{type: "root", props: []}, {type: "layerSelection", props: {name: "common:modules.layerSelection.name"}}, {type: "layerSelection", props: {name: "common:modules.layerSelection.name"}}]};
+                payload = {side: "mainMenu", newHistory: [{type: "root", props: []}, typeLayerSelection]};
 
             dispatch = sinon.stub().resolves({id: layerId,
                 elements: [

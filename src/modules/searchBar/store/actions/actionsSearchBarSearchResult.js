@@ -195,19 +195,19 @@ export default {
      */
     showInTree: async ({commit, dispatch}, {layerId, source}) => {
         const layerConfig = await dispatch("retrieveLayerConfig", {layerId, source}),
-            setNavigationHistoryPayload = {side: "mainMenu", newHistory: [{type: "root", props: []}, {type: "layerSelection", props: {name: "common:modules.layerSelection.name"}}, {type: "layerSelection", props: {name: "common:modules.layerSelection.name"}}]};
+            typeLayerSelection = {type: "layerSelection", props: {name: "common:modules.layerSelection.name"}};
 
         if (layerId.includes("folder-")) {
             const folderChildId = layerConfig.elements[0]?.id;
 
             commit("Modules/SearchBar/setShowAllResults", false, {root: true});
-            commit("Menu/setNavigationHistoryBySide", setNavigationHistoryPayload, {root: true});
+            commit("Menu/setNavigationHistoryBySide", {side: "mainMenu", newHistory: [{type: "root", props: []}, typeLayerSelection]}, {root: true});
             dispatch("Modules/LayerSelection/showLayer", {layerId: folderChildId}, {root: true});
-            // unset highlighting, was set to folderChildId in showLayer
+            // unset the highlightLayerId in layerSelection, for not highlighting first child element of folder
             commit("Modules/LayerSelection/setHighlightLayerId", null, {root: true});
         }
         else if (layerConfig) {
-            commit("Menu/setNavigationHistoryBySide", setNavigationHistoryPayload, {root: true});
+            commit("Menu/setNavigationHistoryBySide", {side: "mainMenu", newHistory: [{type: "root", props: []}, typeLayerSelection, typeLayerSelection]}, {root: true});
             dispatch("Modules/LayerSelection/showLayer", {layerId}, {root: true});
         }
         else {
