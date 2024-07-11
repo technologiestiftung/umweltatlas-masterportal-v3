@@ -12,10 +12,8 @@ export default {
         layerCollection.getLayers().forEach(layer => {
             if (layer.get("typ") === "GROUP") {
                 if (layer.get("baselayer")) {
-                    const tempLayer = layer;
-
-                    tempLayer.getLayerSource()[0].attributes.name = tempLayer.attributes.name;
-                    allLayers.push({layer: tempLayer.getLayerSource()[0], visibility: tempLayer.get("visibility")});
+                    layer.getLayerSource()[0].attributes.name = layer.attributes.name;
+                    allLayers.push({layer: layer.getLayerSource()[0], visibility: layer.get("visibility")});
                 }
                 else {
                     layer.getLayerSource().forEach(groupedLayer => {
@@ -27,6 +25,7 @@ export default {
                 allLayers.push({layer, visibility: layer.get("visibility")});
             }
         });
+        console.log(allLayers);
         return allLayers;
     }
 };
