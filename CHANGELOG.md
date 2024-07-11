@@ -33,13 +33,14 @@
 ### Removed
 
 ### Fixed
+- Issue #1192: Searchbar: The TopicTree search interface supports the search for folders.
 - Added missing parentheses in v-for loops
 - StatisticDashboard:
   - Statistics and Regions are sorted alphabetically.
   - The information text will show under legend when there are more than one statistics selected.
 - LayerPreview for WMTS uses the crs of the service.
-- Issue #1192: Searchbar: The TopicTree search interface supports the search for folders.
 - Legend: changed the name in the legend for group and baselayer.
+- OAF-Layer: bbox and bboxCrs are respected when building url.
 
 ---
 ## 2024-06-27 v3.0.0

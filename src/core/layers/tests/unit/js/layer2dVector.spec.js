@@ -10,7 +10,8 @@ describe("src/core/js/layers/layer2dVector.js", () => {
     let attributes,
         error,
         warn,
-        styleListStub;
+        styleListStub,
+        origGetters;
 
     before(() => {
         mapCollection.clear();
@@ -29,6 +30,7 @@ describe("src/core/js/layers/layer2dVector.js", () => {
         };
 
         mapCollection.addMap(map, "2D");
+        origGetters = store.getters;
     });
 
     beforeEach(() => {
@@ -49,6 +51,7 @@ describe("src/core/js/layers/layer2dVector.js", () => {
 
     afterEach(() => {
         sinon.restore();
+        store.getters = origGetters;
     });
 
     describe("createLayer", () => {
@@ -73,9 +76,10 @@ describe("src/core/js/layers/layer2dVector.js", () => {
 
             sinon.assert.calledOnce(requestCapabilitiesToFitExtent);
         });
-        it("only executes the function requestCapabilitiesToFitExtent if the corresponding parameters are fulfilled", () => {
-            const wfsLayer = new Layer2dVector({});
+        it("only executes the function requestCapabilitiesToFitExtent, 2D: do not call loadFeaturesManually", () => {
+            const wfsLayer = new Layer2dVector({typ: "WFS"});
 
+            wfsLayer.loadFeaturesManually = sinon.spy();
             wfsLayer.updateLayerValues({
                 visibility: true,
                 fitCapabilitiesExtent: true,
@@ -83,6 +87,78 @@ describe("src/core/js/layers/layer2dVector.js", () => {
             });
 
             expect(warn.calledTwice).to.be.true;
+            expect(wfsLayer.loadFeaturesManually.notCalled).to.be.true;
+        });
+        it("3D, WFS-Layer shall call loadFeaturesManually", () => {
+            const wfsLayer = new Layer2dVector({typ: "WFS"});
+
+            wfsLayer.layerSource = {
+                getFeatures: () => []
+            };
+            wfsLayer.loadFeaturesManually = sinon.spy();
+            store.getters = {
+                "Maps/mode": "3D"
+            };
+            attributes = {
+                visibility: true
+            };
+            wfsLayer.updateLayerValues(attributes);
+
+            expect(wfsLayer.loadFeaturesManually.calledOnce).to.be.true;
+            expect(wfsLayer.loadFeaturesManually.args[0][0]).to.be.deep.equal(attributes);
+        });
+        it("3D, OAF-Layer shall call loadFeaturesManually", () => {
+            const wfsLayer = new Layer2dVector({typ: "OAF"});
+
+            wfsLayer.layerSource = {
+                getFeatures: () => []
+            };
+            wfsLayer.loadFeaturesManually = sinon.spy();
+            store.getters = {
+                "Maps/mode": "3D"
+            };
+            attributes = {
+                visibility: true
+            };
+            wfsLayer.updateLayerValues(attributes);
+
+            expect(wfsLayer.loadFeaturesManually.calledOnce).to.be.true;
+            expect(wfsLayer.loadFeaturesManually.args[0][0]).to.be.deep.equal(attributes);
+        });
+        it("3D, GeoJSON-Layer shall call loadFeaturesManually", () => {
+            const wfsLayer = new Layer2dVector({typ: "GeoJSON"});
+
+            wfsLayer.layerSource = {
+                getFeatures: () => []
+            };
+            wfsLayer.loadFeaturesManually = sinon.spy();
+            store.getters = {
+                "Maps/mode": "3D"
+            };
+            attributes = {
+                visibility: true
+            };
+            wfsLayer.updateLayerValues(attributes);
+
+            expect(wfsLayer.loadFeaturesManually.calledOnce).to.be.true;
+            expect(wfsLayer.loadFeaturesManually.args[0][0]).to.be.deep.equal(attributes);
+        });
+        it("3D, WMS-Layer shall not call loadFeaturesManually", () => {
+            const wfsLayer = new Layer2dVector({typ: "WMS"});
+
+            wfsLayer.layerSource = {
+                getFeatures: () => []
+            };
+            wfsLayer.loadFeaturesManually = sinon.spy();
+            store.getters = {
+                "Maps/mode": "3D"
+            };
+            attributes = {
+                visibility: true
+            };
+            wfsLayer.updateLayerValues(attributes);
+
+            expect(wfsLayer.loadFeaturesManually.notCalled).to.be.true;
         });
     });
 

@@ -7,11 +7,18 @@ import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.j
 import getGeometryTypeFromService from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import webgl from "../../../js/webglRenderer";
+import store from "../../../../../app-store";
+import {oaf} from "@masterportal/masterportalapi";
 import Layer2dVectorOaf from "../../../js/layer2dVectorOaf";
 
 describe("src/core/js/layers/layer2dVectorOaf.js", () => {
     let attributes,
-        warn;
+        warn,
+        origGetters;
+
+    before(() => {
+        origGetters = store.getters;
+    });
 
     before(() => {
         warn = sinon.spy();
@@ -47,6 +54,7 @@ describe("src/core/js/layers/layer2dVectorOaf.js", () => {
 
     afterEach(() => {
         sinon.restore();
+        store.getters = origGetters;
     });
 
     describe("createLayer", () => {
@@ -124,6 +132,29 @@ describe("src/core/js/layers/layer2dVectorOaf.js", () => {
                 url: "exmpale.url"
             });
         });
+        it("should return maps extent as bbox and crs as bboxCrs", () => {
+            localAttributes.bbox = undefined;
+            localAttributes.bboxCrs = undefined;
+            store.getters = {
+                "Maps/extent": [9, 5, 1, 7]
+            };
+
+            const oafLayer = new Layer2dVectorOaf(localAttributes);
+
+            expect(oafLayer.getRawLayerAttributes(localAttributes)).to.deep.equals({
+                bbox: [9, 5, 1, 7],
+                bboxCrs: "http://www.opengis.net/def/crs/EPSG/0/25832",
+                clusterDistance: 10,
+                collection: "collection",
+                crs: "http://www.opengis.net/def/crs/EPSG/0/25832",
+                datetime: "time",
+                id: "1234",
+                limit: 10,
+                offset: 10,
+                params: "params",
+                url: "exmpale.url"
+            });
+        });
     });
 
     describe("getOptions", () => {
@@ -182,24 +213,74 @@ describe("src/core/js/layers/layer2dVectorOaf.js", () => {
             const loadFeaturesManuallySpy = sinon.stub(Layer2dVectorOaf.prototype, "loadFeaturesManually"),
                 oafLayer = new Layer2dVectorOaf(attributes);
 
+            store.getters = {
+                "Maps/mode": "3D"
+            };
             oafLayer.updateLayerValues({
                 foo: "bla"
             });
 
             expect(loadFeaturesManuallySpy.calledOnce).to.be.true;
+            expect(loadFeaturesManuallySpy.args[0][0]).to.be.deep.equal({
+                foo: "bla"
+            });
         });
     });
 
     describe("loadFeaturesManually", () => {
         it("shall call loadFeaturesManually in API", () => {
-            const loadFeaturesManuallySpy = sinon.stub(Layer2dVectorOaf.prototype, "loadFeaturesManually"),
+            const loadFeaturesManuallySpy = sinon.stub(oaf, "loadFeaturesManually"),
                 oafLayer = new Layer2dVectorOaf(attributes);
 
             oafLayer.loadFeaturesManually({
-                foo: "bla"
+                limit: 100,
+                bbox: [1, 2, 3, 4]
             });
 
             expect(loadFeaturesManuallySpy.calledOnce).to.be.true;
+            expect(loadFeaturesManuallySpy.args[0][0]).to.be.deep.equals({
+                bbox: [1, 2, 3, 4],
+                bboxCrs: "http://www.opengis.net/def/crs/EPSG/0/25832",
+                clusterDistance: undefined,
+                collection: undefined,
+                crs: "http://www.opengis.net/def/crs/EPSG/0/25832",
+                datetime: undefined,
+                id: undefined,
+                limit: 100,
+                offset: undefined,
+                params: undefined,
+                url: undefined
+            }
+            );
+        });
+        it("shall call loadFeaturesManually in API and shall set bbox to undefined in 3D", () => {
+            const loadFeaturesManuallySpy = sinon.stub(oaf, "loadFeaturesManually"),
+                oafLayer = new Layer2dVectorOaf(attributes);
+
+            store.getters = {
+                "Maps/mode": "3D",
+                "Maps/extent": [9, 5, 1, 7]
+            };
+            oafLayer.loadFeaturesManually({
+                limit: 100,
+                bbox: [1, 2, 3, 4]
+            });
+
+            expect(loadFeaturesManuallySpy.calledOnce).to.be.true;
+            expect(loadFeaturesManuallySpy.args[0][0]).to.be.deep.equals({
+                bbox: undefined,
+                bboxCrs: "http://www.opengis.net/def/crs/EPSG/0/25832",
+                clusterDistance: undefined,
+                collection: undefined,
+                crs: "http://www.opengis.net/def/crs/EPSG/0/25832",
+                datetime: undefined,
+                id: undefined,
+                limit: 100,
+                offset: undefined,
+                params: undefined,
+                url: undefined
+            }
+            );
         });
     });
 
