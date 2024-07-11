@@ -27,7 +27,8 @@ module.exports = [
                 Cesium: true,
                 i18next: true,
                 mapCollection: true,
-                moduleCollection: true
+                moduleCollection: true,
+                StreetSmartApi: true
             }
         },
         plugins: {
