@@ -23,6 +23,7 @@
     - Migrated from dev to dev_vue.
 
 ### Changed
+- Eslint: no-undef eslint rule is switched on.
 
 ### Deprecated
 
