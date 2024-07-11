@@ -703,10 +703,10 @@ export default {
                     selectedLayer.collection,
                     payload.propertyNames,
                     this.projection.getCode(),
-                    "http://www.opengis.net/def/crs/EPSG/0/25832",
-                    "EPSG:25832",
+                    this.selectedLevel.oafRequestCRS,
+                    this.selectedLevel.oafDataProjectionCode,
                     this.parseOLFilterToOAF(payload.filter, this.filterMap),
-                    "http://www.opengis.net/def/crs/EPSG/0/25832",
+                    this.selectedLevel.oafRequestCRS,
                     400
                 );
             }

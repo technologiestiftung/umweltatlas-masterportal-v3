@@ -3630,6 +3630,8 @@ The shadow tool provides a UI element to define a point in time by using sliders
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|----|-----------|------|
 |layerId|yes|String|""|The id of the Layer.|false|
+|oafRequestCRS|no|String|""|Only for OAF Service - The coordinate reference system of the response geometries. I.e.: 'http://www.opengis.net/def/crs/EPSG/0/25832'|false|
+|oafDataProjectionCode|no|String|""|Only for OAF Service - The projection code of the data. Is needed to render the features on the map. I.e.: 'EPSG:25832'|false|
 |geometryAttribute|yes|String|""|Type of the geometry attribute.|false|
 |chartDirectionValue|no|String|""|Specifies the number above which the bars in the chart will be switched from vertical to horizontal.|false|
 |timeStepsFilter|yes|**[timeStepsFilter](#markdown-header-portalconfigmenusectionsmodulesstatisticDashboarddatatimeStepsFilter)**|""|An object consisting of keys and values where the key contains the number of time groupings and the value contains the description for the grouping.|false|
@@ -3640,6 +3642,8 @@ The shadow tool provides a UI element to define a point in time by using sliders
 ```json
 {
     "layerId": "28992",
+    "oafRequestCRS": "http://www.opengis.net/def/crs/EPSG/0/25832",
+    "oafDataProjectionCode": "EPSG:25832",
     "geometryAttribute": "geom",
     "chartDirectionValue": 10,
     "timeStepsFilter": {

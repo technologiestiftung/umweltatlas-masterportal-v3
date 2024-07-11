@@ -18,6 +18,7 @@
     - Uses the OAF scheme request to load unique values faster.
     - Added export button for CSV export.
     - The name of multi selected statistics will be shown in a carousel.
+    - Coordinate reference system and epsg code for OAF services are now configurable with parameter oafRequestCRS and oafDataProjectionCode.
 - OAF:
     - Added scheme request function in the api folder for the getOAFFeature file. This can be used for an easy and fast way to gather unique values.
 - ViewPoint:

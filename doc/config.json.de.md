@@ -3633,6 +3633,8 @@ Das ShadowTool bietet eine Oberfläche zur Definition einer Zeitangabe. Über Sl
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|------|------------|------|
 |layerId|ja|String|""|Die ID des Layers.|false|
+|oafRequestCRS|no|String|""|Nur für OAF-Dienste - Das Koordinatenreferenzsystem in dem die Antwort des OAF Dienstes erfolgen soll. Zum Beispiel: 'http://www.opengis.net/def/crs/EPSG/0/25832'|false|
+|oafDataProjectionCode|no|String|""|Nur für OAF-Dienste - Der Projektionscode der Daten, die vom Dienst als Antwort kommen. Wird benötigt, um die Features auf der Karte anzeigen zu können. Zum Beispiel: 'EPSG:25832'|false|
 |geometryAttribute|ja|String|""|Typ des Geometrieattributs.|false|
 |chartDirectionValue|nein|String|""|Gibt die Anzahl an, ab der die Balken im Diagramm von vertikal zu horizontal wechseln.|false|
 |timeStepsFilter|yes|**[timeStepsFilter](#markdown-header-portalconfigmenusectionsmodulesstatisticDashboarddatatimeStepsFilter)**|""|Ein Objekt welches aus Schlüsseln und Werten besteht bei denen der Schlüssel die Anzahl an Zeitgruppierungen und der Wert die Beschreibung für die Gruppierung beinhaltet.|false|
@@ -3643,6 +3645,8 @@ Das ShadowTool bietet eine Oberfläche zur Definition einer Zeitangabe. Über Sl
 ```json
 {
     "layerId": "28992",
+    "oafRequestCRS": "http://www.opengis.net/def/crs/EPSG/0/25832",
+    "oafDataProjectionCode": "EPSG:25832",
     "geometryAttribute": "geom",
     "chartDirectionValue": 10,
     "timeStepsFilter": {
