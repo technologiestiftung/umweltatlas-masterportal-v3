@@ -25,7 +25,6 @@ export default {
                 allLayers.push({layer, visibility: layer.get("visibility")});
             }
         });
-        console.log(allLayers);
         return allLayers;
     }
 };
