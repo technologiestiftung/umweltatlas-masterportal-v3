@@ -39,6 +39,8 @@
     - Added link to open imprint in about module.
 - LayerInfo:
     - Added contact information
+- ContactFormular: 
+    - Added the posibility to send attached pdf from the contact us section.
 
 ### Changed
 - Eslint: no-undef eslint rule is switched on.
