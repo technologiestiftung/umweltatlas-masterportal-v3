@@ -9,6 +9,9 @@ describe("src/modules/legend/js/layerCollector.js", function () {
         isBaselayer = false;
     const wmsLayer = {
             id: "wms",
+            attributes:{
+                name: "WMS Layer"
+            },
             get: (key) =>{
                 if (key === "typ") {
                     return "WMS";
@@ -21,6 +24,9 @@ describe("src/modules/legend/js/layerCollector.js", function () {
         },
         wfsLayer = {
             id: "wfs",
+            attributes:{
+                name: "WFS Layer"
+            },
             get: (key) =>{
                 if (key === "typ") {
                     return "WFS";
@@ -33,6 +39,9 @@ describe("src/modules/legend/js/layerCollector.js", function () {
         },
         groupLayer = {
             id: "wms",
+            attributes:{
+                name: "Group Layer"
+            },
             get: (key) =>{
                 if (key === "typ") {
                     return "GROUP";
