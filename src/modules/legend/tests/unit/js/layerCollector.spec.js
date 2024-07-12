@@ -9,7 +9,7 @@ describe("src/modules/legend/js/layerCollector.js", function () {
         isBaselayer = false;
     const wmsLayer = {
             id: "wms",
-            attributes:{
+            attributes: {
                 name: "WMS Layer"
             },
             get: (key) =>{
@@ -24,7 +24,7 @@ describe("src/modules/legend/js/layerCollector.js", function () {
         },
         wfsLayer = {
             id: "wfs",
-            attributes:{
+            attributes: {
                 name: "WFS Layer"
             },
             get: (key) =>{
@@ -39,7 +39,7 @@ describe("src/modules/legend/js/layerCollector.js", function () {
         },
         groupLayer = {
             id: "wms",
-            attributes:{
+            attributes: {
                 name: "Group Layer"
             },
             get: (key) =>{
@@ -114,6 +114,17 @@ describe("src/modules/legend/js/layerCollector.js", function () {
             expect(layerCollector.getLayerHolder()[0]).to.be.deep.equals({
                 layer: wmsLayer,
                 visibility: true
+            });
+        });
+        it("first baselayer gets the name of the group", () => {
+            isBaselayer = true;
+            layers.push(groupLayer);
+            groupedLayers.push(wmsLayer);
+            groupedLayers.push(wfsLayer);
+            layerCollector.getLayerHolder();
+
+            expect(layerCollection.getLayers()[0].attributes).to.be.deep.equals({
+                name: wmsLayer.attributes.name
             });
         });
     });
