@@ -162,11 +162,18 @@ export default {
                 this.checkFilterSettings(getters.selectedRegionsValues(null, {selectedRegions: this.selectedRegions}), getters.selectedDatesValues(null, {selectedDates: this.selectedDates}), this.selectedReferenceData);
             }
         },
+        selectedDatesValues () {
+            if (this.showLimitView) {
+                this.updateLimitedData();
+            }
+        },
         selectedRegionsValues () {
-            this.selectedFilteredRegions = this.selectedFilteredRegions.filter(name => this.selectedRegionsValues.includes(name));
-            this.numberOfColouredBars = this.diagramType === "bar" & this.selectedFilteredRegions.length !== 0 ? this.selectedFilteredRegions.length : this.numberOfColouredBars;
             if (this.flattenedRegions?.length) {
                 this.flattenedRegions[this.flattenedRegions.length - 1].selectedValues = this.selectedRegions;
+            }
+
+            if (this.showLimitView) {
+                this.updateLimitedData();
             }
         },
         chosenStatisticName (val) {
@@ -182,6 +189,7 @@ export default {
         selectedStatisticsNames (val, oldVal) {
             if (Array.isArray(oldVal) && oldVal.length > 1 && Array.isArray(val) && val.length === 1 && !val.includes(this.chosenStatisticName)) {
                 this.setChosenStatisticName(val[0]);
+                this.selectedFilteredRegions = this.selectedFilteredRegions.filter(name => this.selectedRegionsValues.includes(name));
             }
 
             if (!val.length) {
@@ -808,11 +816,10 @@ export default {
 
                 this.$refs.chartContainer.appendChild(canvasTmp);
             }
-
+            this.diagramType = type;
             this.currentChart[uniqueTopic] = {};
             if (type === "line") {
-                this.diagramType = "line";
-                if (preparedData && Object.keys(preparedData)?.length > this.lineLimit) {
+                if (this.lineLimit !== null && preparedData && Object.keys(preparedData)?.length > this.lineLimit) {
                     if (!this.showLimitView) {
                         this.currentChart[uniqueTopic].chart = ChartProcessor.createLineChart(topic, this.limitingDataForChart(preparedData, 3), canvasTmp, this.colorScheme.lineCharts, renderSimple);
                     }
@@ -827,10 +834,9 @@ export default {
                 }
             }
             else if (type === "bar") {
-                if (preparedData && Object.keys(preparedData)?.length > this.barLimit) {
-                    this.diagramType = "bar";
+                if (this.barLimit !== null && preparedData && Object.keys(preparedData)?.length > this.barLimit) {
                     if (typeof differenceMode === "string") {
-                        this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, !this.showLimitView ? this.limitingDataForChart(preparedData, this.barLimit) : this.getNewLimitedData(this.allFilteredRegions, preparedData), direction, canvasTmp, differenceMode, renderSimple, false, this.colorArrayDifference);
+                        this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, !this.showLimitView ? this.limitingDataForChart(preparedData, this.barLimit) : this.getNewLimitedData(this.allFilteredRegions, preparedData), direction, canvasTmp, differenceMode, false, renderSimple, this.colorArrayDifference);
                     }
                     else {
                         this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, !this.showLimitView ? this.limitingDataForChart(preparedData, this.barLimit) : this.getNewLimitedData(this.allFilteredRegions, preparedData), direction, canvasTmp, differenceMode, this.numberOfColouredBars, renderSimple, ["#DCE2F3", "#d3d3d3"]);
@@ -839,10 +845,10 @@ export default {
                 else {
                     this.showLimitView = false;
                     if (typeof differenceMode === "string") {
-                        this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, preparedData, direction, canvasTmp, differenceMode, renderSimple, false, this.colorArrayDifference);
+                        this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, preparedData, direction, canvasTmp, differenceMode, false, renderSimple, this.colorArrayDifference);
                     }
                     else {
-                        this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, preparedData, direction, canvasTmp, differenceMode, renderSimple);
+                        this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, preparedData, direction, canvasTmp, differenceMode, false, renderSimple);
                     }
                 }
             }
@@ -868,17 +874,11 @@ export default {
          * @returns {void}
          */
         addSelectedFilteredRegions (region) {
-            if (this.diagramType === "line") {
-                this.selectedFilteredRegions.push(region);
-                this.handleChartData(this.statisticNameOfChart, this.selectedFilteredRegions, this.selectedDatesValues, this.statisticsData, this.selectedReferenceData?.type);
-            }
-            else if (this.diagramType === "bar") {
-                this.allFilteredRegions = this.allFilteredRegions.filter(item => item !== region);
-                this.allFilteredRegions.unshift(region);
-                this.selectedFilteredRegions.unshift(region);
-                this.numberOfColouredBars = this.selectedFilteredRegions.length;
-                this.handleChartData(this.statisticNameOfChart, this.allFilteredRegions, this.selectedDatesValues, this.statisticsData, this.selectedReferenceData?.type);
-            }
+            this.selectedFilteredRegions.unshift(region);
+            this.allFilteredRegions = this.allFilteredRegions.filter(item => item !== region);
+            this.allFilteredRegions.unshift(region);
+            this.numberOfColouredBars = this.selectedFilteredRegions.length;
+            this.handleChartData(this.statisticNameOfChart, this.diagramType === "line" ? this.selectedFilteredRegions : this.allFilteredRegions, this.selectedDatesValues, this.statisticsData, this.selectedReferenceData?.type);
         },
         /**
          * Remove the selected region.
@@ -912,6 +912,14 @@ export default {
             }, {});
 
             return limitedData;
+        },
+        /**
+         * Update limit view when the filter settings change.
+         * @returns {void}
+         */
+        updateLimitedData () {
+            this.selectedFilteredRegions = this.selectedFilteredRegions.filter(name => this.selectedRegionsValues.includes(name));
+            this.numberOfColouredBars = this.selectedFilteredRegions.length;
         },
         /**
          * Gets the filter based on given regions and dates array.

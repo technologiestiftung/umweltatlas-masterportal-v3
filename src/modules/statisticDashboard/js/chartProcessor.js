@@ -23,18 +23,36 @@ function createLineChart (topic, preparedData, canvas, colors, renderSimple = fa
                 datasets
             },
             options: {
-                responsive: true,
-                maintainAspectRatio: false,
+                responsive: !renderSimple,
+                maintainAspectRatio: renderSimple,
+                aspectRatio: 1,
+                layout: {
+                    padding: {
+                        right: renderSimple ? 20 : 10
+                    }
+                },
+                interaction: {
+                    mode: "nearest",
+                    axis: "xy",
+                    intersect: false
+                },
                 plugins: {
                     legend: {
                         position: "bottom",
-                        fontSize: 10
+                        labels: {
+                            usePointStyle: true,
+                            pointStyle: "rectRounded",
+                            textAlign: renderSimple ? "left" : "center",
+                            font: {
+                                size: renderSimple ? 10 : 12
+                            }
+                        }
                     },
                     title: {
                         display: true,
                         text: renderSimple ? splitTextByWordAndChunkSize(topic, 30) : topic,
                         font: {
-                            size: 16,
+                            size: !renderSimple ? 16 : 12,
                             family: "MasterPortalFont Bold",
                             style: "normal"
                         },
@@ -71,13 +89,13 @@ function createLineChart (topic, preparedData, canvas, colors, renderSimple = fa
  * @param {Object} preparedData The prepared data.
  * @param {String} direction The direction to render the bar.
  * @param {HTMLElement} canvas The canvas to render the chart on.
- * @param {Boolean} [renderSimple=false] -  true if should be rendered as simple chart.
  * @param {String|Boolean} differenceMode - Indicates the difference mode('date' or 'region') ohterwise false.
  * @param {Number|Boolean} numberOfColouredBars - indicates how many bars should be colored ohterwise false.
+ * @param {Boolean} [renderSimple=false] -  true if should be rendered as simple chart.
  * @param {Object[]} [color = ["#d3d3d3"]] -  The color to render the bar.
  * @returns {Chart} The chart.
  */
-function createBarChart (topic, preparedData, direction, canvas, differenceMode, numberOfColouredBars = false, renderSimple = false, color = ["#d3d3d3"]) {
+function createBarChart (topic, preparedData, direction, canvas, differenceMode, numberOfColouredBars, renderSimple = false, color = ["#d3d3d3"]) {
     const chart = canvas,
         dataValues = parsePreparedDataToBarChartFormat(preparedData),
         dataColors = getBarChartColors(dataValues, color, differenceMode, numberOfColouredBars),
@@ -95,8 +113,14 @@ function createBarChart (topic, preparedData, direction, canvas, differenceMode,
             },
             options: {
                 indexAxis: direction === "horizontal" ? "y" : "x",
-                responsive: true,
-                maintainAspectRatio: false,
+                responsive: !renderSimple,
+                maintainAspectRatio: renderSimple,
+                aspectRatio: 2,
+                layout: {
+                    padding: {
+                        right: renderSimple ? 20 : 10
+                    }
+                },
                 plugins: {
                     legend: {
                         display: false
@@ -105,7 +129,7 @@ function createBarChart (topic, preparedData, direction, canvas, differenceMode,
                         display: true,
                         text: renderSimple ? splitTextByWordAndChunkSize(topic + " " + getYearFromPreparedData(preparedData), 30) : topic + " " + getYearFromPreparedData(preparedData),
                         font: {
-                            size: 16,
+                            size: !renderSimple ? 16 : 12,
                             family: "MasterPortalFont Bold",
                             style: "normal"
                         },
@@ -134,6 +158,13 @@ function createBarChart (topic, preparedData, direction, canvas, differenceMode,
         barChartConfig.options = {...barChartConfig.options, ...JSON.parse(JSON.stringify(simpleChartOptions))};
         barChartConfig.options.scales.y = {
             display: false
+        };
+        barChartConfig.options.plugins.tooltip = {
+            callbacks: {
+                label: (tooltipItem)=>{
+                    return tooltipItem.formattedValue;
+                }
+            }
         };
         if (direction === "horizontal") {
             barChartConfig.options.scales.y = {
@@ -228,7 +259,7 @@ function getYearFromPreparedData (preparedData) {
  * @param {Object} data - The data.
  * @param {Object[]} currentColor - The colors.
  * @param {String|Boolean} differenceMode - Indicates the difference mode('date' or 'region') otherwise false.
- * @param {Number|Boolean} numberOfColouredBars - indicates how many bars should be colored otherwise false.
+ * @param {Number|Boolean} numberOfColouredBars - indicates how many bars should be colored
  * @returns {Object[]} The values as array.
 */
 function getBarChartColors (data, currentColor, differenceMode, numberOfColouredBars) {

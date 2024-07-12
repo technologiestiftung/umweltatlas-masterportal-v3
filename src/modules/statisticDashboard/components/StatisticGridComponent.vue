@@ -81,9 +81,9 @@ export default {
     display:flex;
     flex-wrap: wrap;
     flex-direction: row;
-    justify-content: flex-start;
     align-items: center;
-    max-width: 900px;
+    justify-content: flex-start;
+    max-width: 100vw;
     margin-top: 30px;
     .title {
         font-family: $font_family_accent;
@@ -92,12 +92,7 @@ export default {
 
 .flex-item {
     flex: 0 1 auto;
-    flex-basis: 30%;
-    flex-grow: 1;
-    flex-shrink: 1;
-    max-width: 280px;
-    min-width: 260px;
-    height: 320px;
+    max-width: 300px;
     min-height: 300px;
     overflow: hidden;
     margin: 10px;

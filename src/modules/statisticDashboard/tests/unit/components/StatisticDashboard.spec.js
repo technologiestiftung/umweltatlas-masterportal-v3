@@ -1520,23 +1520,9 @@ describe("src/modules/StatisticDashboard.vue", () => {
                     }
                 });
 
-                await wrapper.setData({diagramType: "line"});
-
                 wrapper.vm.selectedFilteredRegions = ["aaaa", "bbbb", "ccccc"];
-                wrapper.vm.addSelectedFilteredRegions("ddddd");
-                await wrapper.vm.$nextTick();
-                expect(wrapper.vm.selectedFilteredRegions).to.deep.equal(["aaaa", "bbbb", "ccccc", "ddddd"]);
-            });
-            it("should add region", async () => {
-                const wrapper = shallowMount(StatisticDashboard, {
-                    global: {
-                        plugins: [store]
-                    }
-                });
+                wrapper.vm.allFilteredRegions = ["aaaa", "bbbb", "ccccc", "ddddd"];
 
-                await wrapper.setData({diagramType: "bar", allFilteredRegions: ["aaaa", "bbbb", "ccccc", "ddddd"]});
-
-                wrapper.vm.selectedFilteredRegions = ["aaaa", "bbbb", "ccccc"];
                 wrapper.vm.addSelectedFilteredRegions("ddddd");
                 await wrapper.vm.$nextTick();
                 expect(wrapper.vm.selectedFilteredRegions).to.deep.equal(["ddddd", "aaaa", "bbbb", "ccccc"]);
@@ -1559,7 +1545,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
                 await wrapper.vm.$nextTick();
                 expect(wrapper.vm.selectedFilteredRegions).to.deep.equal(["aaaa", "bbbb", "ccccc"]);
             });
-            it("should add region", async () => {
+            it("should remove region", async () => {
                 const wrapper = shallowMount(StatisticDashboard, {
                     global: {
                         plugins: [store]
