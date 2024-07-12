@@ -526,7 +526,7 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilter.vu
                     ], {})
                 ).to.deep.equal([{key: "stat1", name: "Stat eins", category: "Kategorie 1"}]);
             });
-            it("should return the names of the given statistics with the selected ones at first position", async () => {
+            it("should return the names of the given statistics with the right alphabetical position", async () => {
                 const wrapper = shallowMount(StatisticDashboardFilter, {
                     propsData: {
                         categories: [],
@@ -559,8 +559,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilter.vu
                         }
                     }
                 )).to.deep.equal([
-                    {key: "stat2", name: "Stat zwei", category: "Kategorie 2"},
-                    {key: "stat1", name: "Stat eins", category: "Kategorie 1"}
+                    {key: "stat1", name: "Stat eins", category: "Kategorie 1"},
+                    {key: "stat2", name: "Stat zwei", category: "Kategorie 2"}
                 ]);
             });
         });

@@ -4,6 +4,7 @@ import isObject from "../../../shared/js/utils/isObject";
 import {mapGetters, mapMutations} from "vuex";
 import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
 import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
+import sortBy from "../../../shared/js/utils/sortBy";
 
 export default {
     name: "StatisticDashboardFilter",
@@ -83,8 +84,8 @@ export default {
         },
 
         statistics: {
-            handler () {
-                this.sortedStatisticNames = this.getStatisticNamesSorted(this.statistics, this.selectedStatistics);
+            handler (val) {
+                this.sortedStatisticNames = this.getStatisticNamesSorted(val, this.selectedStatistics);
                 this.sortedSelectedStatistics = this.getSelectedStatisticNames(this.selectedStatistics);
             },
             deep: true
@@ -168,7 +169,7 @@ export default {
 
             notSelectedStatistics = allStatistics.filter(statistic => !Object.prototype.hasOwnProperty.call(selectedStatisticsObject, statistic.key));
             selectedStatisticsKeys.forEach(key => selectedStatistics.push(allStatistics.find(stat => stat.key === key)));
-            result = [...selectedStatistics, ...notSelectedStatistics];
+            result = sortBy([...selectedStatistics, ...notSelectedStatistics], "name");
 
             return result;
         },

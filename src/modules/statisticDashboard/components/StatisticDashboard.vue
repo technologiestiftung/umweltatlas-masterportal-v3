@@ -26,7 +26,7 @@ import {
 } from "ol/format/filter";
 import dayjs from "dayjs";
 import WFS from "ol/format/WFS";
-import {sort} from "../../../shared/js/utils/sort.js";
+import sortBy from "../../../shared/js/utils/sortBy";
 
 export default {
     name: "StatisticDashboard",
@@ -395,7 +395,7 @@ export default {
                 });
             }
 
-            result = sort("", result, "label").reverse();
+            result = sortBy(result, "label").reverse();
 
             return result;
         },
@@ -1251,13 +1251,13 @@ export default {
                 selectedLevelDateAttribute = this.getSelectedLevelDateAttribute(selectedLevel);
 
             if (uniqueValues[selectedLevelRegionNameAttribute.attrName] && uniqueValues[selectedLevelDateAttribute.attrName]) {
-                this.regions = sort("", Object.keys(uniqueValues[selectedLevelRegionNameAttribute.attrName]), "value");
+                this.regions = Object.keys(uniqueValues[selectedLevelRegionNameAttribute.attrName]).sort((a, b) => b - a);
                 this.allRegions = this.getAllRegions(this.regions);
                 this.dates = Object.keys(uniqueValues[selectedLevelDateAttribute.attrName]);
                 this.timeStepsFilter = this.getTimestepsMerged(selectedLevel?.timeStepsFilter, uniqueValues[selectedLevelDateAttribute.attrName], selectedLevelDateAttribute.inputFormat, selectedLevelDateAttribute.outputFormat);
             }
             this.areCategoriesGrouped = StatisticsHandler.hasOneGroup(this.getSelectedLevelStatisticsAttributes(selectedLevel));
-            this.categories = sort("", StatisticsHandler.getCategoriesFromStatisticAttributes(this.getSelectedLevelStatisticsAttributes(selectedLevel), this.areCategoriesGrouped), "name");
+            this.categories = sortBy(StatisticsHandler.getCategoriesFromStatisticAttributes(this.getSelectedLevelStatisticsAttributes(selectedLevel), this.areCategoriesGrouped), "name");
             this.setStatisticsByCategories(this.selectedCategories);
             this.loadedFilterData = true;
             this.loadedReferenceData = true;
