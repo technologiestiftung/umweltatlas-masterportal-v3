@@ -160,11 +160,13 @@ describe("src/shared/js/api/oaf", () => {
         });
         it("should return an empty object if request was not successfull", async () => {
             sinon.stub(axios, "get").resolves({status: 400});
+            sinon.stub(getOAFFeature, "getUniqueValuesFromCollection").resolves({});
             expect(await getOAFFeature.getUniqueValuesByScheme("foo", "foo", [])).to.be.an("object").that.is.empty;
             sinon.restore();
         });
         it("should return an empty object if request was successfull but without expected data", async () => {
             sinon.stub(axios, "get").resolves({data: "foo"});
+            sinon.stub(getOAFFeature, "getUniqueValuesFromCollection").resolves({});
             expect(await getOAFFeature.getUniqueValuesByScheme("foo", "foo", [])).to.be.an("object").that.is.empty;
             sinon.restore();
         });
@@ -206,6 +208,25 @@ describe("src/shared/js/api/oaf", () => {
                         boo: {
                             enum: ["buu", "bee"]
                         },
+                        fee: {}
+                    }
+                }
+            });
+            expect(await getOAFFeature.getUniqueValuesByScheme("foo", "foo", ["boo"])).to.deep.equal(expected);
+            sinon.restore();
+        });
+        it("should return an object with expected properties which weren't gathered through enums", async () => {
+            const expected = {
+                boo: {buu: true, bee: true}
+            };
+
+            sinon.stub(getOAFFeature, "getUniqueValuesFromCollection").resolves(expected);
+            sinon.stub(axios, "get").resolves({
+                status: 200,
+                data: {
+                    properties: {
+                        foo: {},
+                        boo: {},
                         fee: {}
                     }
                 }
