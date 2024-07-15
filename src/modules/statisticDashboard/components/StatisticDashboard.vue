@@ -1540,7 +1540,7 @@ export default {
                 id="legend-accordion"
                 :title="$t('common:modules.statisticDashboard.legend.legend')"
                 icon="bi bi-map"
-                :is-open="!showNoLegendData"
+                is-open
             >
                 <div
                     id="legend-content"
@@ -1703,10 +1703,6 @@ hr {
 
 .btn-pb {
     padding-bottom: 2px;
-}
-
-.more-statistics {
-    display: none;
 }
 
 img {
