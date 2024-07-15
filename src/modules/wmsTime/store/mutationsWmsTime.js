@@ -23,7 +23,6 @@ const mutations = {
         const currentObject = findCurrentTimeSliderObject(currentLayerId, objects);
 
         if (currentObject) {
-            currentObject.defaultValue = null;
             currentObject.defaultValue = newValue;
         }
     },
