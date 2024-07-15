@@ -7,10 +7,9 @@ import TimeSlider from "../../../components/TimeSlider.vue";
 
 config.global.mocks.$t = key => key;
 
-describe("src/modules/wmsTime/components/TimeSlider.vue", () => {
+describe("src_3_0_0/modules/wmsTime/components/TimeSlider.vue", () => {
     let store,
         timeSliderActive,
-        layerSwiperActive,
         winWidth;
 
     beforeEach(() => {
@@ -29,16 +28,6 @@ describe("src/modules/wmsTime/components/TimeSlider.vue", () => {
                                 },
                                 minWidth: () => {
                                     return winWidth > 800;
-                                },
-                                layerSwiper: () => {
-                                    return {
-                                        active: layerSwiperActive,
-                                        isMoving: false,
-                                        swiper: null,
-                                        targetLayer: null,
-                                        sourceLayer: null,
-                                        valueX: null
-                                    };
                                 },
                                 timeSlider: () => {
                                     return {
@@ -61,10 +50,21 @@ describe("src/modules/wmsTime/components/TimeSlider.vue", () => {
                                 setTimeSliderActive: (active) => {
                                     timeSliderActive = active;
                                 },
-                                setLayerSwiperActive: (active) => {
-                                    layerSwiperActive = active;
-                                },
                                 setTimeSliderPlaying: sinon.stub()
+                            }
+                        },
+                        LayerSwiper: {
+                            namespaced: true,
+                            state: {
+                                active: false
+                            },
+                            getters: {
+                                active: state => state.active
+                            },
+                            mutations: {
+                                setActive: (state, active) => {
+                                    state.active = active;
+                                }
                             }
                         }
                     }
@@ -72,14 +72,12 @@ describe("src/modules/wmsTime/components/TimeSlider.vue", () => {
             }
         });
         timeSliderActive = false;
-        layerSwiperActive = false;
         winWidth = 801;
     });
 
     afterEach(() => {
         winWidth = 1024;
         timeSliderActive = false;
-        layerSwiperActive = false;
         sinon.restore();
     });
 
@@ -136,7 +134,7 @@ describe("src/modules/wmsTime/components/TimeSlider.vue", () => {
     it("renders the TimeSlider component with the possibility to activate the the LayerSwiper component and the text to deactivate it if it is currently active", () => {
         winWidth = 801;
         timeSliderActive = true;
-        layerSwiperActive = true;
+        store.commit("Modules/LayerSwiper/setActive", true);
         const wrapper = shallowMount(TimeSlider, {
             global: {
                 plugins: [store]

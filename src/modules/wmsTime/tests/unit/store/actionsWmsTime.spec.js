@@ -5,8 +5,8 @@ import actions from "../../../store/actionsWmsTime";
 import initialState from "../../../store/stateWmsTime";
 import layerCollection from "../../../../../core/layers/js/layerCollection";
 
-describe("src/modules/wmsTime/store/actionsWmsTime.js", () => {
-    let commit, dispatch, getters, state, map;
+describe("src_3_0_0/modules/wmsTime/store/actionsWmsTime.js", () => {
+    let commit, dispatch, getters, rootGetters, state, map;
 
     before(() => {
         mapCollection.clear();
@@ -25,6 +25,11 @@ describe("src/modules/wmsTime/store/actionsWmsTime.js", () => {
         getters = {
             currentTimeSliderObject: {keyboardMovement: 5}
         };
+        rootGetters = {
+            "Modules/LayerSwiper/active": false,
+            visibleLayerConfigs: [],
+            layerConfigById: sinon.stub().returns({})
+        };
         map.removeLayer = sinon.spy();
         sinon.stub(layerCollection, "getOlLayers").returns(
             [
@@ -33,97 +38,48 @@ describe("src/modules/wmsTime/store/actionsWmsTime.js", () => {
                 {name: "dritterLayer", values_: {id: "789"}, features: [{getAttributesToShow: () => "TestAttributes"}], geometryType: "Point"}
             ]
         );
+        sinon.stub(layerCollection, "getLayerById").returns({
+            getLayerSource: () => ({params_: {TIME: "2020"}, updateParams: sinon.spy()}),
+            attributes: {
+                name: "bester Layer der Welt",
+                id: "123",
+                time: true,
+                url: "www.abc.de",
+                transparency: "30",
+                level: "2",
+                layers: "base",
+                version: "1.3.0",
+                parentId: "root",
+                gfiAttributes: ["name", "time"],
+                featureCount: 100
+            },
+            updateTime: sinon.spy()
+        });
     });
 
     afterEach(sinon.restore);
 
     describe("toggleSwiper", () => {
-        let id,
-            commitSpy;
-
-        /**
-         * If the mutation 'setLayerSwiperActive' is called, the value needs to be actually changed
-         * for the rest of the function to work.
-         * Otherwise the function simply calls a spy.
-         *
-         * @param {String} mutation Name of the mutation that would be called.
-         * @param {boolean/number} payload The payload that would be set in the state.
-         * @returns {void}
-         */
-        function commitWithReturn (mutation, payload) {
-            if (mutation === "setLayerSwiperActive") {
-                state.layerSwiper.active = payload;
-            }
-            commitSpy(mutation, payload);
-        }
-
         beforeEach(() => {
-            commit = commitWithReturn;
-            commitSpy = sinon.spy();
+            commit = sinon.spy();
             dispatch = sinon.spy();
-            id = "someId";
-            state = Object.assign({}, initialState);
-            sinon.stub(layerCollection, "getLayerById").returns(
-                {name: "bester Layer der Welt", values_: {id: "123"}, getSource: () => state.source, attributes: {name: "bester Layer", time: true, url: "www.abc.de"}}
-
-            );
+            state = {...initialState, layerSwiper: {active: false}};
         });
 
-        it("should trigger the Parser to add a layer, add said layer to the tree", async () => {
-            await actions.toggleSwiper({commit, state, dispatch}, id);
+        it("should activate LayerSwiper if currently inactive", async () => {
+            await actions.toggleSwiper({commit, state, dispatch, rootGetters}, "someId");
 
-            expect(commitSpy.called).to.be.true;
-            expect(commitSpy.firstCall.args).to.eql(["setLayerSwiperActive", true]);
-            expect(commitSpy.secondCall.args[0]).to.eql("setLayerSwiperSourceLayer");
-            expect(commitSpy.thirdCall.args[0]).to.eql("setLayerSwiperTargetLayer");
+            expect(commit.calledWith("Modules/LayerSwiper/setActive", true, {root: true})).to.be.true;
+            expect(commit.calledWith("Modules/LayerSwiper/setLayerSwiperSourceLayer")).to.be.true;
         });
-        it("should call remove the second layer from the Map, remove it from the tree", () => {
-            id += state.layerAppendix;
 
-            state.layerSwiper.active = true;
-            actions.toggleSwiper({commit, state, dispatch}, id);
+        it("should deactivate LayerSwiper if currently active", async () => {
+            rootGetters["Modules/LayerSwiper/active"] = true;
 
-            expect(commitSpy.called).to.be.true;
-            expect(commitSpy.firstCall.args).to.eql(["setLayerSwiperActive", false]);
-            expect(dispatch.called).to.be.true;
-        });
-    });
+            await actions.toggleSwiper({commit, state, dispatch, rootGetters}, "someId");
 
-    describe("moveSwiper", () => {
-        it("should call the functions to set the swiper according to the x-coordinate of the keydown and ArrowRight event", () => {
-            const event = {
-                type: "keydown",
-                key: "ArrowRight",
-                clientX: 750
-            };
-
-            state.layerSwiper.valueX = 750;
-            state.layerSwiper.isMoving = true;
-
-            actions.moveSwiper({state, commit, dispatch, getters}, event);
-
-            expect(commit.calledTwice).to.be.true;
-            expect(commit.firstCall.args).to.eql(["setLayerSwiperValueX", 755]);
-            expect(commit.secondCall.args).to.eql(["setLayerSwiperStyleLeft", 755]);
-            expect(dispatch.calledOnce).to.be.true;
-            expect(dispatch.firstCall.args).to.eql(["updateMap"]);
-        });
-        it("should call the functions to set the swiper according to the x-coordinate of the mousemove event", () => {
-            const event = {
-                type: "mousemove",
-                clientX: 800
-            };
-
-            state.layerSwiper.valueX = 750;
-            state.layerSwiper.isMoving = true;
-
-            actions.moveSwiper({state, commit, dispatch, getters}, event);
-
-            expect(commit.calledTwice).to.be.true;
-            expect(commit.firstCall.args).to.eql(["setLayerSwiperValueX", 800]);
-            expect(commit.secondCall.args).to.eql(["setLayerSwiperStyleLeft", 800]);
-            expect(dispatch.calledOnce).to.be.true;
-            expect(dispatch.firstCall.args).to.eql(["updateMap"]);
+            expect(commit.calledWith("Modules/LayerSwiper/setActive", false, {root: true})).to.be.true;
+            expect(dispatch.calledWith("replaceByIdInLayerConfig")).to.be.true;
         });
     });
 
@@ -133,15 +89,15 @@ describe("src/modules/wmsTime/store/actionsWmsTime.js", () => {
         });
 
         it("should call the mutation to set the windowWidth", () => {
-            actions.windowWidthChanged({commit, dispatch, state, getters});
+            actions.windowWidthChanged({commit, dispatch, state, getters, rootGetters});
 
             expect(commit.calledOnce).to.be.true;
             expect(commit.firstCall.args).to.eql(["setWindowWidth"]);
         });
         it("should set the windowWidth and toggle the swiper if conditional is met", () => {
-            state.layerSwiper.active = true;
+            rootGetters["Modules/LayerSwiper/active"] = true;
 
-            actions.windowWidthChanged({commit, dispatch, state, getters});
+            actions.windowWidthChanged({commit, dispatch, state, getters, rootGetters});
 
             expect(commit.calledOnce).to.be.true;
             expect(commit.firstCall.args).to.eql(["setWindowWidth"]);

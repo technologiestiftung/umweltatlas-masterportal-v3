@@ -3,16 +3,15 @@ import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 
 import WmsTimeComponent from "../../../components/WmsTime.vue";
-import LayerSwiper from "../../../components/LayerSwiper.vue";
+import LayerSwiper from "../../../../../shared/modules/layerSwiper/components/LayerSwiper.vue";
 import TimeSlider from "../../../components/TimeSlider.vue";
 import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
 
-describe("src/modules/wmsTime/components/WmsTime.vue", () => {
+describe("src_3_0_0/modules/wmsTime/components/WmsTime.vue", () => {
     let store,
         timeSliderActive,
-        layerSwiperActive,
         winWidth;
 
     beforeEach(() => {
@@ -29,16 +28,6 @@ describe("src/modules/wmsTime/components/WmsTime.vue", () => {
                                 timeRange: () => sinon.spy(),
                                 minWidth: () => {
                                     return winWidth > 800;
-                                },
-                                layerSwiper: () => {
-                                    return {
-                                        active: layerSwiperActive,
-                                        isMoving: false,
-                                        swiper: null,
-                                        targetLayer: null,
-                                        sourceLayer: null,
-                                        valueX: null
-                                    };
                                 },
                                 timeSlider: () => {
                                     return {
@@ -69,10 +58,21 @@ describe("src/modules/wmsTime/components/WmsTime.vue", () => {
                                 setTimeSliderActive: (active) => {
                                     timeSliderActive = active;
                                 },
-                                setLayerSwiperActive: (active) => {
-                                    layerSwiperActive = active;
-                                },
                                 setTimeSliderPlaying: sinon.stub()
+                            }
+                        },
+                        LayerSwiper: {
+                            namespaced: true,
+                            state: {
+                                active: false
+                            },
+                            getters: {
+                                active: state => state.active
+                            },
+                            mutations: {
+                                setActive: (state, active) => {
+                                    state.active = active;
+                                }
                             }
                         }
                     }
@@ -80,14 +80,12 @@ describe("src/modules/wmsTime/components/WmsTime.vue", () => {
             }
         });
         timeSliderActive = false;
-        layerSwiperActive = false;
         winWidth = 801;
     });
 
     afterEach(() => {
         winWidth = 1024;
         timeSliderActive = false;
-        layerSwiperActive = false;
         sinon.restore();
     });
 
@@ -103,21 +101,22 @@ describe("src/modules/wmsTime/components/WmsTime.vue", () => {
     });
     it("render two TimeSlider component and a LayerSwiper component if the timeSlider is active, the layerSwiper is active and the window has a minWidth of 800px", () => {
         timeSliderActive = true;
-        layerSwiperActive = true;
+        store.commit("Modules/LayerSwiper/setActive", true);
+
         const wrapper = shallowMount(WmsTimeComponent, {
                 global: {
                     plugins: [store]
-                }}),
+                }
+            }),
             timeSliderComponents = wrapper.findAllComponents(TimeSlider);
 
         expect(timeSliderComponents.length).to.equal(2);
-        expect(timeSliderComponents.at(0).element.className).to.equal("moveLeft");
-        expect(timeSliderComponents.at(1).element.className).to.equal("moveRight");
+        expect(timeSliderComponents.at(0).element.className).to.include("moveLeft");
+        expect(timeSliderComponents.at(1).element.className).to.include("moveRight");
         expect(wrapper.findComponent(LayerSwiper).exists()).to.be.true;
     });
     it("should only render one TimeSlider component and no LayerSwiper component if the window size is smaller than the minWidth of 800px", () => {
         timeSliderActive = true;
-        layerSwiperActive = true;
         winWidth = 799;
         const wrapper = shallowMount(WmsTimeComponent, {
             global: {

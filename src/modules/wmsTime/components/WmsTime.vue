@@ -1,6 +1,6 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
-import LayerSwiper from "./LayerSwiper.vue";
+import LayerSwiper from "../../../shared/modules/layerSwiper/components/LayerSwiper.vue";
 import TimeSlider from "./TimeSlider.vue";
 
 export default {
@@ -10,7 +10,10 @@ export default {
         TimeSlider
     },
     computed: {
-        ...mapGetters("Modules/WmsTime", ["currentTimeSliderObject", "layerAppendix", "layerSwiper", "minWidth", "timeSlider", "visibility"])
+        ...mapGetters("Modules/WmsTime", ["currentTimeSliderObject", "layerAppendix", "minWidth", "timeSlider"]),
+        ...mapGetters("Modules/LayerSwiper", {
+            layerSwiperActive: "active"
+        })
     },
     created () {
         window.addEventListener("resize", this.windowWidthChanged);
@@ -30,15 +33,18 @@ export default {
     >
         <TimeSlider
             v-if="timeSlider.active"
-            :class="{'moveLeft': layerSwiper.active && minWidth}"
+            :class="{'moveLeft': layerSwiperActive && minWidth}"
             :layer-id="currentTimeSliderObject.layerId"
         />
         <TimeSlider
-            v-if="timeSlider.active && layerSwiper.active && minWidth"
-            :class="{'moveRight': layerSwiper.active}"
+            v-if="timeSlider.active && layerSwiperActive && minWidth"
+            :class="{'moveRight': layerSwiperActive}"
             :layer-id="currentTimeSliderObject.layerId + layerAppendix"
         />
-        <LayerSwiper v-if="layerSwiper.active && minWidth" />
+        <LayerSwiper
+            v-if="layerSwiperActive && minWidth"
+            :current-time-slider-object="currentTimeSliderObject"
+        />
     </div>
 </template>
 
