@@ -191,7 +191,7 @@ export default {
                 capabilitiesOptions.projection = "EPSG:3857";
             }
             options = optionsFromCapabilities(capabilities, capabilitiesOptions);
-            transformedCoords = proj4(proj4(mapView.getProjection().getCode()), proj4(options.projection.getCode()), this.previewCenter(this.layerId));
+            transformedCoords = proj4(proj4(mapView.getProjection().getCode()), proj4(options.projection?.getCode() ? options.projection?.getCode() : "EPSG:3857"), this.previewCenter(this.layerId));
             tileZ = options?.tileGrid.getZForResolution(mapView.getResolutions()[this.previewZoomLevel(this.layerId)]);
             tileCoord = options?.tileGrid.getTileCoordForCoordAndZ(transformedCoords, tileZ);
 
