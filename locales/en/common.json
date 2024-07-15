@@ -202,6 +202,7 @@
       },
       "coordSystemField": "Coordinate reference system",
       "coordsCopied": "The coordinate(s) were copied to the clipboard.",
+      "coordsPair": "Pair of coordinates",
       "copyCoordBtn": " Copy {{value}}",
       "copyCoordsBtn": "Copy pair of coordinates",
       "copyToClipboard": {
@@ -223,7 +224,7 @@
       },
       "heightLabel": "Height",
       "hintSearch": "Enter the coordinates to search for",
-      "hintSupply": "Click in the map to request coordinates and height",
+      "hintSupply": "Please click the map",
       "influenceFactors": "The displayed values are subject to inaccuracies that are influenced by the following factors, among others, e.g. scale, resolution of the map and the screen.",
       "info": "Information",
       "name": "Coordinates",

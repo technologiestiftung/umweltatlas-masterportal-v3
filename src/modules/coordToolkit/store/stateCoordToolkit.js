@@ -55,7 +55,7 @@ const state = {
     delimiter: "|",
     eastingNoCoord: false,
     eastingNoMatch: false,
-    height: "",
+    height: "common:modules.coordToolkit.hintSupply",
     heightElementName: null,
     heightInfoFormat: "application/vnd.ogc.gml",
     heightLayer: null,

@@ -202,6 +202,7 @@
       },
       "coordSystemField": "Koordinatenreferenzsystem",
       "coordsCopied": "Die Koordinate(n) wurden in die Zwischenablage kopiert.",
+      "coordsPair": "Koordinatenpaar",
       "copyCoordBtn": " {{- value}} kopieren",
       "copyCoordsBtn": "Koordinatenpaar kopieren",
       "copyToClipboard": {
@@ -223,7 +224,7 @@
       },
       "heightLabel": "Höhe",
       "hintSearch": "Geben Sie die zu suchenden Koordinaten ein",
-      "hintSupply": "Klicken Sie in die Karte um Lagekoordinaten und Höhe abzufragen",
+      "hintSupply": "Bitte in Karte klicken.",
       "influenceFactors": "Die angezeigten Werte unterliegen Ungenauigkeiten, die u.a. durch folgende Faktoren beeinflusst werden, z.B. Maßstab, Auflösung der Karte und des Bildschirmes.",
       "info": "Informationen",
       "name": "Koordinaten",
