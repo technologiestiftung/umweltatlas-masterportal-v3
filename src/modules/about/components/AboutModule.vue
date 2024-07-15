@@ -248,8 +248,9 @@ export default {
         .content {
             overflow-y: auto;
 
-            .abstract > p {
+            p {
                 font-size: $font-size-base;
+                margin-bottom: 0rem;
             }
         }
 
@@ -258,11 +259,11 @@ export default {
             margin-top: auto;
 
             .logo {
-                width: 7rem;
+                width: 5rem;
             }
             .version {
                 display: flex;
-                font-size: 1.5rem;
+                font-size: small;
             }
         }
     }
