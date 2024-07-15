@@ -290,20 +290,17 @@ export default {
 <template lang="html">
     <div id="search-bar">
         <div class="input-group mb-3">
-            <div class="form-floating overflowHidden">
-                <input
-                    id="searchInput"
-                    ref="searchInput"
-                    v-model="searchInputValue"
-                    type="search"
-                    class="form-control"
-                    :placeholder="$t(layerSelectionPlaceHolder)"
-                    :aria-label="$t(layerSelectionPlaceHolder)"
-                    @input="startSearch(currentComponentSide)"
-                    @keydown.enter="zoomToAndMarkSearchResult(searchInputValue), startSearch(currentComponentSide)"
-                >
-                <label for="searchInput">{{ $t(layerSelectionPlaceHolder) }}</label>
-            </div>
+            <input
+                id="searchInput"
+                ref="searchInput"
+                v-model="searchInputValue"
+                type="search"
+                class="form-control"
+                :placeholder="$t(layerSelectionPlaceHolder)"
+                :aria-label="$t(layerSelectionPlaceHolder)"
+                @input="startSearch(currentComponentSide)"
+                @keydown.enter="zoomToAndMarkSearchResult(searchInputValue), startSearch(currentComponentSide)"
+            >
             <button
                 id="search-button"
                 class="btn btn-primary"
