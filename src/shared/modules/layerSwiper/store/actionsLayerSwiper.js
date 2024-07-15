@@ -13,7 +13,6 @@ const actions = {
      * @param {Object} context.state - The Vuex state object.
      * @param {Function} context.commit - The Vuex commit function.
      * @param {Function} context.dispatch - The Vuex dispatch function.
-     * @param {Object} context.getters - The Vuex getters object.
      * @param {KeyboardEvent|MouseEvent} event - The DOM event.
      * @returns {void}
      */
