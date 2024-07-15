@@ -17,6 +17,7 @@ import {getFeaturePOST} from "../../../shared/js/api/wfs/getFeature.js";
 import ChartProcessor from "../js/chartProcessor.js";
 import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
 import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
+import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
 import Multiselect from "vue-multiselect";
 
 import {
@@ -39,7 +40,8 @@ export default {
         LegendComponent,
         AccordionItem,
         FlatButton,
-        Multiselect
+        Multiselect,
+        IconButton
     },
     data () {
         return {
@@ -79,7 +81,10 @@ export default {
             selectedFilteredRegions: [],
             allFilteredRegions: [],
             numberOfColouredBars: 3,
-            diagramType: undefined
+            diagramType: undefined,
+            sideMenuWidth: undefined,
+            canvasSize: undefined
+
         };
     },
     computed: {
@@ -256,6 +261,9 @@ export default {
         };
     },
     mounted () {
+        this.sideMenuWidth = document.getElementById("mp-menu-secondaryMenu").style.width;
+        document.getElementById("mp-menu-secondaryMenu").style.width = "47vw";
+
         if (typeof this.selectedLevel === "undefined") {
             this.setSelectedLevel(this.data[0]);
         }
@@ -272,6 +280,9 @@ export default {
         if (this.numberOfClasses > this.maxNumberOfClasses) {
             this.setNumberOfClasses(this.maxNumberOfClasses);
         }
+    },
+    unmounted () {
+        document.getElementById("mp-menu-secondaryMenu").style.width = this.sideMenuWidth;
     },
     methods: {
         ...mapMutations("Modules/StatisticDashboard", Object.keys(mutations)),
@@ -813,7 +824,7 @@ export default {
                 if (this.$refs.chartContainer.hasChildNodes()) {
                     this.$refs.chartContainer.childNodes[0].remove();
                 }
-
+                this.$refs.chartContainer.style.height = typeof this.canvasSize !== "undefined" && type === "bar" ? this.canvasSize : "";
                 this.$refs.chartContainer.appendChild(canvasTmp);
             }
             this.diagramType = type;
@@ -874,11 +885,27 @@ export default {
          * @returns {void}
          */
         addSelectedFilteredRegions (region) {
+            if (this.allFilteredRegions.length > this.barLimit && this.diagramType === "bar") {
+                this.updateChartSize();
+            }
+
             this.selectedFilteredRegions.unshift(region);
             this.allFilteredRegions = this.allFilteredRegions.filter(item => item !== region);
             this.allFilteredRegions.unshift(region);
             this.numberOfColouredBars = this.selectedFilteredRegions.length;
             this.handleChartData(this.statisticNameOfChart, this.diagramType === "line" ? this.selectedFilteredRegions : this.allFilteredRegions, this.selectedDatesValues, this.statisticsData, this.selectedReferenceData?.type);
+        },
+        /**
+         * Increases the canvas size by 45 pixels.
+         * @returns {void}
+         */
+        updateChartSize () {
+            const chart = document.querySelector(".chart-container"),
+                totalBars = this.allFilteredRegions.length,
+                chartHeight = 400,
+                newHeight = (totalBars - this.barLimit) * 45 + chartHeight;
+
+            this.canvasSize = chart.style.height = newHeight + "px";
         },
         /**
          * Remove the selected region.
@@ -1185,6 +1212,8 @@ export default {
             this.selectedFilteredRegions = [];
             this.chosenTableData = [];
             this.statisticsData = undefined;
+            this.canvasSize = undefined;
+            this.numberOfColouredBars = 3;
         },
         /**
          * Checks if at least one description is present in the statistics.
@@ -1443,24 +1472,17 @@ export default {
         <div v-show="!showFilter && !showLegendView">
             <div class="row justify-content-between">
                 <div class="col-md-12 d-flex align-items-center">
-                    <h5 class="mb-2">
+                    <h5 class="m-0">
                         {{ $t(levelTitle ?? subtitle) }}
                     </h5>
-                    <div
+                    <IconButton
                         v-if="getMetadataLink()"
-                        class="mx-2"
-                        role="button"
-                        tabindex="0"
-                        @click="openMetadata"
-                        @keypress.enter="openMetadata"
-                    >
-                        <span class="bootstrap-icon">
-                            <i
-                                class="bi-info-circle-fill"
-                                :title="$t('common:modules.statisticDashboard.headings.mrhstatisticsTooltip')"
-                            />
-                        </span>
-                    </div>
+                        :aria="$t('common:modules.statisticDashboard.headings.mrhstatisticsTooltip')"
+                        :title="$t('common:modules.statisticDashboard.headings.mrhstatisticsTooltip')"
+                        icon="bi-info-circle"
+                        :interaction="() => openMetadata()"
+                        class="info btn btn-light btn-sm ms-1 mt-0"
+                    />
                 </div>
                 <div
                     v-if="buttonGroupRegions.length > 1"
@@ -1507,7 +1529,7 @@ export default {
                     class="btn btn-sm btn-secondary rounded-pill lh-1 me-2 mb-2"
                     @click="resetAll"
                 >
-                    <i class="bi bi-x-circle" />
+                    <i class="bi bi-x-circle fs-6 pe-2" />
                     {{ $t("common:modules.statisticDashboard.button.reset") }}
                 </button>
                 <button
@@ -1587,9 +1609,7 @@ export default {
                             </div>
                         </div>
                         <div v-else>
-                            <div class="more-statistics">
-                                {{ $t("common:modules.statisticDashboard.legend.nodata") }}
-                            </div>
+                            {{ $t("common:modules.statisticDashboard.legend.nodata") }}
                         </div>
                     </div>
                 </div>
@@ -1708,14 +1728,11 @@ hr {
 img {
     width: 30px;
 }
-
+.more-statistics {
+    display: none;
+}
 .legend-names {
     font-size: 12px;
-}
-
-.more-statistics {
-    /** @TODO **/
-    color: #525252;
 }
 .info-icon i {
     font-size: $icon_length_small;
@@ -1725,7 +1742,7 @@ img {
     margin-top: 15px;
 }
 .chart-container {
-    min-height: 50vh;
+    min-height: 60vh;
 
 }
 </style>

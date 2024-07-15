@@ -16,6 +16,17 @@ import Feature from "ol/Feature.js";
 
 config.global.mocks.$t = key => key;
 
+/**
+ * mocks secondary menu
+ * @returns {void}
+ */
+function addSecondaryMenuElement () {
+    const app = document.createElement("div");
+
+    app.setAttribute("id", "mp-menu-secondaryMenu");
+    document.body.append(app);
+}
+
 describe("src/modules/StatisticDashboard.vue", () => {
     const sourceStub = {
             clear: sinon.stub(),
@@ -47,6 +58,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
     let store;
 
     beforeEach(() => {
+        addSecondaryMenuElement();
         store = createStore({
             namespaced: true,
             modules: {

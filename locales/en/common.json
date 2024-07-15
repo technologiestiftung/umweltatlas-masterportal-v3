@@ -868,13 +868,13 @@
     },
     "statisticDashboard": {
       "name": "Statistic dashboard",
-      "description": "Statistic dashboard description ...",
+      "description": "Filter statistics by topic and display associated tables and diagrams.",
       "headings": {
         "mrhstatistics": "MRH Statistics",
         "mrhstatisticsTooltip": "Link to the metadata",
         "addFilter": "Add Filter"
       },
-      "infoText": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+      "infoText": "Note: For many areas, only a part is initially shown in the diagram (based on the table sorting). Additional areas can be added using the field at the bottom.",
       "button": {
         "difference": "Difference",
         "table": "Table",
@@ -893,14 +893,16 @@
         "statistics": "Statistics",
         "communities": "Communities",
         "districts": "Districts",
-        "more": "more"
+        "more": "more",
+        "time": "Timebased filter",
+        "geographical": "Geographical filter"
       },
       "filterInputs": {
         "additional": "Additional"
       },
       "reference": {
         "title": "Reference type",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod",
+        "description": "Differential values, related to a reference year or area.",
         "placeholder": "Please choose at least one option!",
         "tagLabel": "Reference"
       },
@@ -908,7 +910,7 @@
         "under": "under",
         "between": "between {{minimum}} and {{maximum}}",
         "from": "From",
-        "nodata": "Visualization of data from multiple statistics on the map is not yet available.",
+        "nodata": "Visualization of data from multiple statistics on the map is not available.",
         "legend": "Map legend",
         "edit": "Edit",
         "editClassification": "Edit classification",
@@ -924,7 +926,7 @@
         "quantile": "Equal class sizes (quantiles)",
         "customized": "Customized"
       },
-      "totalHint": "Because of the percentage count, the total count is not so meaningful.",
+      "totalHint": "Attention: The sum function does not distinguish between absolute numbers, percentages, mean values or relative values (e.g. inhabitants per square meter). The totals are therefore not always interpretable. Please note in the context of the selected statistics.",
       "backToOverview": "Overview of Diagrams"
     },
     "shadow": {

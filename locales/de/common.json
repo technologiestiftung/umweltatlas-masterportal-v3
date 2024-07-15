@@ -867,14 +867,14 @@
       "zoomToFeature": "Auf dieses Feature zoomen"
     },
     "statisticDashboard": {
-      "name": "Statistic dashboard",
-      "description": "Statistic dashboard Beschreibung ...",
+      "name": "Statistik Dashboard",
+      "description": "Filtere Statistiken nach Themenfeld und lasse dir zugehörige Tabellen und Diagramme anzeigen.",
       "headings": {
         "mrhstatistics": "Zahlen, Daten, Fakten der MRH - Regionalstatistik",
         "mrhstatisticsTooltip": "Link zu den Metadaten",
         "addFilter": "Filter hinzufügen"
       },
-      "infoText": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+      "infoText": "Hinweis: Bei vielen Gebieten wird zunächst nur ein Teil im Diagramm gezeigt (basierend auf der Tabellensortierung). Über das untere Feld lassen sich weitere Gebiete hinzufügen.",
       "button": {
         "difference": "Differenz",
         "table": "Tabelle",
@@ -893,7 +893,9 @@
         "statistics": "Statistiken",
         "communities": "Gemeinden",
         "districts": "Kreise",
-        "more": "mehr"
+        "more": "mehr",
+        "time": "Zeitbezogene Filter",
+        "geographical": "Geografische Filter"
       },
       "filterInputs": {
         "additional": "Sonstiges"
@@ -908,7 +910,7 @@
         "under": "unter",
         "between": "{{minimum}} bis unter {{maximum}}",
         "from": "Ab",
-        "nodata": "Die Visualisierung der Daten von mehreren Statistiken auf der Karte steht noch nicht zur Verfügung.",
+        "nodata": "Die Visualisierung der Daten von mehreren Statistiken auf der Karte steht nicht zur Verfügung.",
         "legend": "Kartenlegende",
         "edit": "Bearbeiten",
         "editClassification": "Klasseneinteilung bearbeiten",
@@ -924,7 +926,7 @@
         "quantile": "gleiche Klassengrößen (Quantile)",
         "customized": "benutzerdefiniert"
       },
-      "totalHint": "Unsinnige Summierung für Prozent-Werten.",
+      "totalHint": "Achtung: Die Summenfunktion unterscheidet nicht zwischen absoluten Zahlen, Prozenten, Mittelwerten oder relativen Größen (z.B. Einwohner pro Quadratmeter). Die Summen sind daher nicht immer interpretierbar. Bitte im Kontext der ausgewählten Statistik beachten.",
       "backToOverview": "Diagrammübersicht"
     },
     "shadow": {

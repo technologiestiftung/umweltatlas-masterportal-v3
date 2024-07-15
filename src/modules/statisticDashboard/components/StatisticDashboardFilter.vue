@@ -362,7 +362,7 @@ export default {
         </AccordionItem>
         <AccordionItem
             id="filter-accordion-region"
-            title="Gebiete"
+            :title="$t('common:modules.statisticDashboard.label.geographical')"
             :is-open="true"
             :font-size="'font-size-base'"
             :coloured-header="true"
@@ -374,7 +374,7 @@ export default {
         </AccordionItem>
         <AccordionItem
             id="filter-accordion-date"
-            title="Jahre"
+            :title="$t('common:modules.statisticDashboard.label.time')"
             :is-open="true"
             :font-size="'font-size-base'"
             :coloured-header="true"
@@ -441,9 +441,7 @@ export default {
 .static-dashboard .multiselect__tag {
         border-radius: 25px;
         padding-top: 5px;
-        .multiselect__tag-icon:hover {
-            background-color: $dark-blue;
-        }
+        color: $black;
 }
 .static-dashboard .multiselect__tag-icon::after {
     color: $black;
@@ -451,10 +449,18 @@ export default {
 
 .static-dashboard .multiselect__clear {
     position: absolute;
+    font-size: 12px;
     top: 12px;
     left: 9px;
 }
-
+.multiselect__tag-icon:focus, .multiselect__tag-icon:hover{
+  background: $secondary;
+  color: $white;
+}
+.multiselect__tag-icon:focus:after,
+.multiselect__tag-icon:hover:after {
+    color: $white;
+}
 .static-dashboard .multiselect__option--selected.multiselect__option--highlight,
 .static-dashboard .multiselect__option--selected.multiselect__option--highlight:after,
 .static-dashboard .multiselect__option:after,
@@ -468,7 +474,7 @@ export default {
 
 .static-dashboard .multiselect__option--highlight,
 .static-dashboard .multiselect__option--highlight:after {
-    background: $dark-blue;
+    background: $secondary;
 }
 
 .static-dashboard .multiselect__select {

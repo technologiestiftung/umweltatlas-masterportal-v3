@@ -644,7 +644,8 @@ export default {
 <template>
     <div
         v-if="title"
-        class="mb-3 text-center font-bold fs-4 title"
+        class="mb-3 text-center title"
+        :class="fontSize === 'small' ? 'small-title' : 'fs-4'"
     >
         {{ title }}
     </div>
@@ -918,7 +919,12 @@ export default {
         }
     }
 }
-
+.title {
+    font-family: $font_family_accent;
+}
+.small-title {
+    font-size: 16px;
+}
 .btn-toolbar {
     float: left;
 }

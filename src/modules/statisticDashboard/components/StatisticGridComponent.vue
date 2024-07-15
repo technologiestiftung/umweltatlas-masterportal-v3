@@ -78,11 +78,10 @@ export default {
 <style lang="scss" scoped>
 @import "~variables";
 .flex-container {
-    display:flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fit, 310px);
+    justify-content: center;
     max-width: 100vw;
     margin-top: 30px;
     .title {
@@ -91,11 +90,10 @@ export default {
 }
 
 .flex-item {
-    flex: 0 1 auto;
     max-width: 300px;
     min-height: 300px;
     overflow: hidden;
-    margin: 10px;
+    margin-right: 10px;
     border-radius: 5px;
     &:hover {
         box-shadow: $box-shadow;
