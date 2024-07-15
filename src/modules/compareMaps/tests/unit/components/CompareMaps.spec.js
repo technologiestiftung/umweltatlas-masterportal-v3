@@ -8,7 +8,7 @@ import mutations from "../../../store/mutationsCompareMaps";
 
 config.global.mocks.$t = key => key;
 
-describe("src_3_0_0/modules/compareMaps/components/CompareMaps.vue", () => {
+describe("src/modules/compareMaps/components/CompareMaps.vue", () => {
     let store, initializeSpy, rootCommitSpy, wrapper, map;
 
     beforeEach(() => {

@@ -5,7 +5,7 @@ import actions from "../../../store/actionsWmsTime";
 import initialState from "../../../store/stateWmsTime";
 import layerCollection from "../../../../../core/layers/js/layerCollection";
 
-describe("src_3_0_0/modules/wmsTime/store/actionsWmsTime.js", () => {
+describe("src/modules/wmsTime/store/actionsWmsTime.js", () => {
     let commit, dispatch, getters, rootGetters, state, map;
 
     before(() => {

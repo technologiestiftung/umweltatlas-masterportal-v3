@@ -9,7 +9,7 @@ import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
 
-describe("src_3_0_0/modules/wmsTime/components/WmsTime.vue", () => {
+describe("src/modules/wmsTime/components/WmsTime.vue", () => {
     let store,
         timeSliderActive,
         winWidth;

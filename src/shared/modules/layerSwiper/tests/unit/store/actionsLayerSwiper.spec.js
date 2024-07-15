@@ -1,6 +1,6 @@
 import sinon from "sinon";
 import {expect} from "chai";
-import actions from "../store/actionsLayerSwiper";
+import actions from "../../../store/actionsLayerSwiper";
 import {JSDOM} from "jsdom";
 
 describe("actions", () => {

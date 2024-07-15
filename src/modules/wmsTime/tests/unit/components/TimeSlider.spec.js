@@ -7,7 +7,7 @@ import TimeSlider from "../../../components/TimeSlider.vue";
 
 config.global.mocks.$t = key => key;
 
-describe("src_3_0_0/modules/wmsTime/components/TimeSlider.vue", () => {
+describe("src/modules/wmsTime/components/TimeSlider.vue", () => {
     let store,
         timeSliderActive,
         winWidth;
