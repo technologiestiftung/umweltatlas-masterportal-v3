@@ -806,7 +806,7 @@ Mit verschiedenen Parametern wird die Startansicht der Karte konfiguriert und de
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|backgroundImage|nein|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/config.json.md#markdown-header-portalconfigmapview"|Pfad zum alternativen Hintergrund angeben.|false|
+|backgroundImage|nein|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/config.json.md#markdown-header-portalconfigmapview"|Pfad zum alternativen Hintergrund angeben.|false|
 |epsg|nein|String|"EPSG:25832"|Der EPSG-Code der Projektion der Karte. Der EPSG-Code muss als namedProjection definiert sein.|false|
 |extent|nein|**[Extent](#markdown-header-datatypesextent)**|[510000.0, 5850000.0, 625000.4, 6000000.0]|Der Map-Extent.|false|
 |mapInteractions|nein|**[mapInteractions](#markdown-header-portalconfigmapmapviewInteractions)**||Überschreibt die ol map Interaktionen. Bietet weitere Konfigurationsmöglichkeiten für Steuerungsverhalten und keyboardEventTarget.|false|
