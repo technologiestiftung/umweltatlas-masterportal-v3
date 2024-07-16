@@ -299,7 +299,7 @@
         "pleaseChoose": "Bitte Auswählen",
         "unknownGeometry": "Unbekannte Geometrie: <strong>{{geometry}}</strong>"
       },
-      "drawLayerVisible": "Zeichnung ein-/ausblenden",
+      "drawLayerVisible": "Zeichnung sichtbar",
       "drawTypeOptions": {
         "drawArea": "Fläche",
         "drawCircle": "Kreis",

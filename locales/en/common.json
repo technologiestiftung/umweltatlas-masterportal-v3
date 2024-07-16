@@ -299,7 +299,7 @@
         "pleaseChoose": "Please choose",
         "unknownGeometry": "Unknown geometry: <strong>{{geometry}}</strong>"
       },
-      "drawLayerVisible": "Show/hide drawing",
+      "drawLayerVisible": "Show drawing",
       "drawTypeOptions": {
         "drawArea": "Area",
         "drawCircle": "Circle",
