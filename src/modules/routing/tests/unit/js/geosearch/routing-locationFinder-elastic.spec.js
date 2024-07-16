@@ -43,7 +43,7 @@ describe("src/modules/routing/js/geosearch/routing-locationFinder-elastic.js", (
                                         properties: {
                                             indexname: "StraÃŸe",
                                             sort: 2,
-                                            hitGlyphicon: "bi-signpost-2-fill",
+                                            hitGlyphicon: "bi-signpost-2",
                                             searchField: "Kieler StraÃŸe",
                                             HAUSNUMMER: 0,
                                             PLZ: 90425,
@@ -68,7 +68,7 @@ describe("src/modules/routing/js/geosearch/routing-locationFinder-elastic.js", (
                                         properties: {
                                             indexname: "Adresse",
                                             sort: 3,
-                                            hitGlyphicon: "bi-signpost-2-fill",
+                                            hitGlyphicon: "bi-signpost-2",
                                             searchField: "Kieler StraÃŸe 1",
                                             HAUSNUMMER: 1,
                                             PLZ: 90425,

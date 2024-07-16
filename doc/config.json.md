@@ -1166,7 +1166,7 @@ Elasticsearch service configuration.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|hitIcon|no|String|"bi-signpost-2-fill"|CSS icon class of search results, shown before the result name.|false|
+|hitIcon|no|String|"bi-signpost-2"|CSS icon class of search results, shown before the result name.|false|
 |hitMap|no|**[hitMap](#markdown-header-portalconfigsearchbarelasticsearchhitmap)**||Object mapping result object attributes to keys.|true|
 |hitTemplate|no|String|"default"|Template in which the search results (`show all`) are displayed. Possible values are "default" and "layer".|false|
 |hitType|no|String|"common:modules.searchbar.type.subject"|Search result type shown in the result list after the result name. Set to the translation key.|false|
@@ -1347,7 +1347,7 @@ Definition of classes that should be considered with the results.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|icon|no|String|"bi-signpost-2-fill"|Class visualization by a icon|false|
+|icon|no|String|"bi-signpost-2"|Class visualization by a icon|false|
 |name|yes|String||Class name|false|
 |zoom|no|String|"center"|Defines how to zoom to a hit on selection. If `center` is chosen, the center coordinate (`cx`, `cy`) is zoomed to and a marker is placed. If `bbox` is chosen, the LocationFinder's given BoundingBox (`xmin`, `ymin`, `xmax`, `ymax`) is zoomed to, and no marker is shown.|false|
 
@@ -3017,7 +3017,7 @@ Routing module. Enables user to plan routes between multiple points with multipl
 {
     "type": "routing",
     "name": "common:modules.routing",
-    "icon": "bi-signpost-2-fill",
+    "icon": "bi-signpost-2",
     "activeRoutingToolOption": "DIRECTIONS",
     "routingToolOptions": ["DIRECTIONS", "ISOCHRONES"],
     "download": {

@@ -44,7 +44,7 @@ describe("src/modules/searchBar/components/ActionButton.vue", () => {
                                         openGetFeatureInfo: "bi-info-circle",
                                         setMarker: "bi-geo-alt-fill",
                                         zoomToResult: "bi-zoom-in",
-                                        startRouting: "bi-signpost-2-fill"
+                                        startRouting: "bi-signpost-2"
                                     }
                                 )
                             }

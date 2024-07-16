@@ -1168,7 +1168,7 @@ Konfiguration des Elastic Search Suchdienstes
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|hitIcon|nein|String|"bi-signpost-2-fill"|CSS Icon Klasse des Suchergebnisses. Wird vor dem Namen angezeigt.|false|
+|hitIcon|nein|String|"bi-signpost-2"|CSS Icon Klasse des Suchergebnisses. Wird vor dem Namen angezeigt.|false|
 |hitMap|nein|**[hitMap](#markdown-header-portalconfigsearchbarelasticsearchhitmap)**||Mapping Objekt. Mappt die Attribute des Ergebnis Objektes auf den entsprechenden Key.|true|
 |hitTemplate|nein|String|"default"|Template in dem die Suchergebnisse (`alle anzeigen`) angezeigt werden. Möglich sind die Werte "default" und "layer".|false|
 |hitType|nein|String|"common:modules.searchbar.type.subject"|Typ des Suchergebnisses, wird in der Auswahlliste hinter dem Namen angezeigt. Nutzen Sie den Übersetzungskey aus der Übersetzungsdatei|false|
@@ -1349,7 +1349,7 @@ Definition von Klassen, welche als Ergebnis berücksichtigt werden sollen.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|icon|nein|String|"bi-signpost-2-fill"|Visualisierung der Klasse durch ein Icon|false|
+|icon|nein|String|"bi-signpost-2"|Visualisierung der Klasse durch ein Icon|false|
 |name|ja|String||Name der Klasse|false|
 |zoom|nein|String|"center"|Legt fest wie auf einen ausgewählten Treffer gezoomt werden soll. Wenn `center` ausgewählt ist, so wird auf die Zentrumskoordinate (`cx` und `cy`) gezoomt und ein Marker angezeigt. Im Falle von `bbox` wird auf die durch den LocationFinder angegebene BoundingBox (`xmin`, `ymin`, `xmax` und `ymax`) gezoomt. Ein Marker wird in dem Fall nicht angezeigt.|false|
 
@@ -3020,7 +3020,7 @@ Routing-Werkzeug. Ermöglicht Nutzern das Planen von Routen zwischen mehreren Pu
 {
     "type": "routing",
     "name": "common:modules.tools.routing",
-    "icon": "bi-signpost-2-fill",
+    "icon": "bi-signpost-2",
     "activeRoutingToolOption": "DIRECTONS",
     "routingToolOptions": ["DIRECTONS", "ISOCHRONES"],
     "download": {
