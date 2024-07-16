@@ -184,9 +184,9 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilterReg
             it("should return the array with all regions as given", () => {
                 const regions = [
                         {value: "Harburg", label: "Harburg"},
+                        {value: ["Harburg", "Lübeck", "Schwerin"], label: "Alle Gebiete"},
                         {value: "Lübeck", label: "Lübeck"},
-                        {value: "Schwerin", label: "Schwerin"},
-                        {value: ["Harburg", "Lübeck", "Schwerin"], label: "Alle Gebiete"}
+                        {value: "Schwerin", label: "Schwerin"}
                     ],
                     store = factory.createVuexStore(),
                     wrapper = shallowMount(StatisticDashboardFilterRegions, {
@@ -218,8 +218,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilterReg
                     });
 
                 expect(wrapper.vm.getRegionsSorted(regions, [{value: ["Harburg", "Lübeck", "Schwerin"], label: "Alle Gebiete"}])).to.deep.equal([
-                    {value: ["Harburg", "Lübeck", "Schwerin"], label: "Alle Gebiete"},
                     {value: "Harburg", label: "Harburg"},
+                    {value: ["Harburg", "Lübeck", "Schwerin"], label: "Alle Gebiete"},
                     {value: "Lübeck", label: "Lübeck"},
                     {value: "Schwerin", label: "Schwerin"}
                 ]);

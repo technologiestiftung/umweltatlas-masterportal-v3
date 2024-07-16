@@ -11,6 +11,7 @@ import {
 } from "ol/format/filter";
 import {getFeaturePOST} from "../../../shared/js/api/wfs/getFeature.js";
 import WFS from "ol/format/WFS";
+import sortBy from "../../../shared/js/utils/sortBy";
 
 export default {
     name: "StatisticDashboardFilterRegions",
@@ -58,7 +59,7 @@ export default {
                 return [];
             }
             const notSelectedRegions = regions.filter(region => !selectedRegions.some(selectedRegion => selectedRegion.label === region.label)),
-                sortedRegions = [...selectedRegions, ...notSelectedRegions];
+                sortedRegions = sortBy([...selectedRegions, ...notSelectedRegions], "value");
 
             return sortedRegions;
         },
