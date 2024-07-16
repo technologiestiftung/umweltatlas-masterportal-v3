@@ -21,7 +21,7 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarResultList.js", ()
 
     describe("activateActions", () => {
         const searchResult = {
-            category: "Thema (externe Fachdaten)",
+            category: "Thema",
             displayedInfo: "",
             events: {
                 onClick: {

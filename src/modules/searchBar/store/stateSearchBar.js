@@ -49,7 +49,7 @@ const state = {
     selectedSearchResults: [],
     showAllResults: false,
     showAllResultsSearchInterfaceInstance: "elasticSearch_0",
-    showAllResultsSearchCategory: "Thema (externe Fachdaten)",
+    showAllResultsSearchCategory: "Thema",
     searchResultsActive: true,
     addLayerButtonSearchActive: true,
     iconsByActions: {

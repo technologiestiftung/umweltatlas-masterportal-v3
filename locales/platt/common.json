@@ -731,7 +731,7 @@
         "location": "Ort",
         "parcel": "Flurstück",
         "street": "Stroat",
-        "subject": "Thema (externe Fachdaten)",
+        "subject": "Thema",
         "topic": "Thema (Fachdaten)"
     },
     "specialWFS": {

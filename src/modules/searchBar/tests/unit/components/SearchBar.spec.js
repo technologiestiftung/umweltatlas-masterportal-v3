@@ -356,7 +356,7 @@ describe("src/modules/searchBar/components/SearchBar.vue", () => {
         it("does not zoom to a given searchResult if not category address or street search", () => {
             searchResults = [
                 {
-                    "category": " Thema (externe Fachdaten)",
+                    "category": " Thema",
                     "id": "StaatlicheSchulenHamburg",
                     "index": 1,
                     "name": "Staatliche Schulen Hamburg",
