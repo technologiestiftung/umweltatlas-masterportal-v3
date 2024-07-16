@@ -36,7 +36,10 @@ export default {
             v-for="(item, index) in resultItems"
             :key="item.id + '-' + index"
         >
-            <p :id="'searchInputLi' + item.id">
+            <p
+                :id="'searchInputLi' + item.id"
+                class="mb-1"
+            >
                 <SearchBarResultListGeneralItem
                     :search-result="item"
                 />
