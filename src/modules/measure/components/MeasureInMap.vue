@@ -227,7 +227,4 @@ export default {
 <style lang="scss" scoped>
 @import "~variables";
 
-.inaccuracy-list {
-    max-width: 270px;
-}
 </style>
