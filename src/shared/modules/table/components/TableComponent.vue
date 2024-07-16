@@ -7,6 +7,7 @@ import ExportButtonCSV from "../../buttons/components/ExportButtonCSV.vue";
 import IconButton from "../../buttons/components/IconButton.vue";
 import isObject from "../../../js/utils/isObject";
 import Multiselect from "vue-multiselect";
+import thousandsSeparator from "../../../js/utils/thousandsSeparator";
 
 export default {
     name: "TableComponent",
@@ -236,6 +237,19 @@ export default {
         }
     },
     methods: {
+        thousandsSeparator,
+
+        /**
+         * Returns the decimal or group separator of current locale
+         * @param {String} separatorType - The type of the separator 'decimal' or 'group'
+         * @returns {String} the decimal or group separator
+         */
+        getSeparator (separatorType) {
+            const numberWithGroupAndDecimalSeparator = 1000.1;
+
+            return Intl.NumberFormat(this.$i18next.language).formatToParts(numberWithGroupAndDecimalSeparator).find(part => part.type === separatorType).value;
+        },
+
         /**
          * Setups the table data. Call it to set fresh and new table.
          * @returns {void}
@@ -848,9 +862,9 @@ export default {
                     <td
                         v-for="(entry, columnIdx) in visibleHeaders"
                         :key="columnIdx"
-                        :class="['p-2', fixedColumn === entry.name ? 'fixedColumn' : '', selectMode === 'column' && columnIdx > 0 ? 'selectable' : '', getClassForSelectedColumn(columnIdx), fontSize === 'medium' ? 'medium-font-size' : '', fontSize === 'small' ? 'small-font-size' : '']"
+                        :class="['p-2', fixedColumn === entry.name ? 'fixedColumn' : '', selectMode === 'column' && columnIdx > 0 ? 'selectable' : '', getClassForSelectedColumn(columnIdx), fontSize === 'medium' ? 'medium-font-size' : '', fontSize === 'small' ? 'small-font-size' : '', typeof item[entry.name] === 'number' ? 'pull-right' : 'pull-left']"
                     >
-                        {{ item[entry.name] }}
+                        {{ typeof item[entry.name] === 'number' ? thousandsSeparator(item[entry.name], getSeparator('group'), getSeparator('decimal')) : item[entry.name] }}
                     </td>
                 </tr>
                 <template v-if="showTotalData">
@@ -859,9 +873,9 @@ export default {
                             v-for="(entry, index) in totalRow"
                             :key="'total-'+index"
                             class="p-2 total"
-                            :class="[selectMode === 'column' && index > 0 ? 'selectable' : '', getClassForSelectedColumn(index)]"
+                            :class="[selectMode === 'column' && index > 0 ? 'selectable' : '', getClassForSelectedColumn(index), typeof entry === 'number' ? 'pull-right' : '']"
                         >
-                            {{ entry }}
+                            {{ typeof entry === 'number' ? thousandsSeparator(entry, getSeparator('group'), getSeparator('decimal')) : entry }}
                         </td>
                     </tr>
                 </template>
@@ -937,13 +951,20 @@ export default {
     font-size: 14px;
 }
 
+.pull-left {
+    text-align: left;
+}
+.pull-right {
+    text-align: right;
+    padding-right: 25px !important;
+}
+
 table {
     table-layout: fixed;
     --bs-table-hover-bg: #D6E3FF;
     border-collapse: separate;
     border-spacing: 0;
     td {
-        text-align: left;
         &.total:not(.selected) {
             background: $light_blue;
             font-family: "MasterPortalFont Bold";
