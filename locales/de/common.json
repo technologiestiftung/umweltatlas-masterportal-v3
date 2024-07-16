@@ -859,7 +859,7 @@
       "setMarker":"Marker setzen",
       "zoomToResult":"Zum Ergebnis zoomen",
       "startRouting":"Route starten",
-      "showInTree":"Thema anzeigen",
+      "showInTree":"Thema im Ordner anzeigen",
       "showLayerInfo":"Informationen und Legende"
     },
     "noInitialResults": "Die initiale Suche ergab keine Treffer.",

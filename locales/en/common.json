@@ -833,7 +833,7 @@
       "setMarker":"Set marker",
       "zoomToResult":"Zoom to result",
       "startRouting":"Start route",
-      "showInTree":"Show topic",
+      "showInTree":"Show topic in folder",
       "showLayerInfo":"Information and legend"
     },
     "showAllResults": "Show all results",
