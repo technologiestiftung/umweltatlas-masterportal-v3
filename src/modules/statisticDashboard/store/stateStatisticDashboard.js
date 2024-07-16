@@ -21,7 +21,9 @@
  * @property {Number} maxNumberOfClasses - Maximum Number of classes selectable when editing the legend.
  * @property {Number} numberOfClasses - Current number of classes selected in range.
  * @property {Object[]} selectableColorPalettes - Available options for color palettes.
- * @property {selectedColorPaletteIndex} - Index of chosen color palette option.
+ * @property {Number} selectedColorPaletteIndex - Index of chosen color palette option.
+ * @property {Number[]} stepValues - The values defining the thresolds for classification.
+ * @property {Number[][]} colorPalette - The current set of colors used for classification.
  * @property {Number} opacity - Opacity/alpha-channel of the colors.
  * @property {Object} legendData the legendValues with colors and value
  * @property {Boolean} addTotalCount If true, a row with total count will be inserted in table.
@@ -63,6 +65,8 @@ const state = {
         }
     ],
     selectedColorPaletteIndex: 0,
+    stepValues: [],
+    colorPalette: [],
     opacity: 0.9,
     chartTableToggle: "table",
     legendData: [],

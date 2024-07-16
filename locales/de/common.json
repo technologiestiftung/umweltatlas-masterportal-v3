@@ -924,7 +924,9 @@
         "color": "Farbe",
         "equalIntervals": "gleiche Intervalle",
         "quantile": "gleiche Klassengrößen (Quantile)",
-        "customized": "benutzerdefiniert"
+        "customized": "benutzerdefiniert",
+        "andAbove": "und darüber",
+        "invalidCustomStepsAlert": "Achtung: Die gewählten Bereichsgrenzen bilden keine aufsteigende Zahlenreihe!"
       },
       "totalHint": "Achtung: Die Summenfunktion unterscheidet nicht zwischen absoluten Zahlen, Prozenten, Mittelwerten oder relativen Größen (z.B. Einwohner pro Quadratmeter). Die Summen sind daher nicht immer interpretierbar. Bitte im Kontext der ausgewählten Statistik beachten.",
       "backToOverview": "Diagrammübersicht"

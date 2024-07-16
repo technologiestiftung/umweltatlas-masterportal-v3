@@ -39,6 +39,16 @@ export default {
             default: null,
             required: false
         },
+        change: {
+            type: Function,
+            default: null,
+            required: false
+        },
+        disabled: {
+            type: Boolean,
+            default: false,
+            required: false
+        },
         readonly: {
             type: Boolean,
             default: false,
@@ -66,7 +76,9 @@ export default {
             :value="value"
             :readonly="readonly"
             :maxLength="maxLength"
-            @input="event => input(event.target.value)"
+            :disabled="disabled"
+            @input="event => input?.(event.target.value)"
+            @change="event => change?.(event.target.value)"
         >
         <label
             class="input-label"

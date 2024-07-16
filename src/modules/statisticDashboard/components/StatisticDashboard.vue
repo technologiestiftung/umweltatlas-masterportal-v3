@@ -83,8 +83,9 @@ export default {
             numberOfColouredBars: 3,
             diagramType: undefined,
             sideMenuWidth: undefined,
-            canvasSize: undefined
-
+            canvasSize: undefined,
+            statisticsData: undefined,
+            noDataInColumn: undefined
         };
     },
     computed: {
@@ -226,19 +227,65 @@ export default {
             },
             deep: true
         },
-        classificationMode () {
-            this.updateAfterLegendChange();
+
+        classificationMode (val) {
+            if (val === "custom") {
+                return;
+            }
+            this.setStepValues(
+                FeaturesHandler.getStepValue(
+                    this.statisticsData[this.selectedStatisticsNames[0]],
+                    this.numberOfClasses,
+                    this.selectedColumn,
+                    val,
+                    this.allowPositiveNegativeClasses
+                ));
+            this.setColorPalette(this.createColorPalette());
         },
-        allowPositiveNegativeClasses () {
-            this.updateAfterLegendChange();
+
+        allowPositiveNegativeClasses (val) {
+            this.setStepValues(
+                FeaturesHandler.getStepValue(
+                    this.statisticsData[this.selectedStatisticsNames[0]],
+                    this.numberOfClasses,
+                    this.selectedColumn,
+                    this.classificationMode,
+                    val
+                )
+            );
         },
-        numberOfClasses () {
-            this.updateAfterLegendChange();
+
+        numberOfClasses (val, oldVal) {
+            if (this.classificationMode === "custom" && val > oldVal) {
+                return;
+            }
+            else if (this.classificationMode === "custom") {
+                this.setStepValues(this.stepValues.slice(0, val));
+                return;
+            }
+            this.setStepValues(FeaturesHandler.getStepValue(
+                this.statisticsData[this.selectedStatisticsNames[0]],
+                val,
+                this.selectedColumn,
+                this.classificationMode,
+                this.allowPositiveNegativeClasses
+            ));
+            this.setColorPalette(this.createColorPalette());
         },
+
         selectedColorPaletteIndex () {
+            this.setColorPalette(this.createColorPalette());
+        },
+
+        opacity () {
             this.updateAfterLegendChange();
         },
-        opacity () {
+
+        stepValues () {
+            this.updateAfterLegendChange();
+        },
+
+        colorPalette () {
             this.updateAfterLegendChange();
         },
         chartTableToggle (val) {
@@ -277,7 +324,7 @@ export default {
         if (this.numberOfClasses < this.minNumberOfClasses) {
             this.setNumberOfClasses(this.minNumberOfClasses);
         }
-        if (this.numberOfClasses > this.maxNumberOfClasses) {
+        else if (this.numberOfClasses > this.maxNumberOfClasses) {
             this.setNumberOfClasses(this.maxNumberOfClasses);
         }
     },
@@ -331,12 +378,15 @@ export default {
 
             onsuccess([csvHeader, csvSubHeader, ...elements]);
         },
+
         /**
          * Performs necessary updates after the user has made changes in legend settings.
+         * @returns {void}
          */
         updateAfterLegendChange () {
             if (this.selectedStatisticsNames?.length === 1) {
-                this.updateFeatureStyle(this.selectedColumn || this.dates[0],
+                this.updateFeatureStyle(
+                    this.selectedColumn,
                     typeof this.selectedReferenceData !== "undefined",
                     this.selectedReferenceData);
             }
@@ -494,15 +544,16 @@ export default {
 
         /**
          * Returns the color palette for choropleth map and legend.
+         * @returns {Number[][]} - An array of rgb arrays containing the color palette.
          */
-        getColorPalette () {
+        createColorPalette () {
             const color = this.selectableColorPalettes?.[this.selectedColorPaletteIndex]?.baseColor,
                 r = color?.[0],
                 g = color?.[1],
                 b = color?.[2],
                 palette = [];
 
-            let baseColor, a;
+            let baseColor;
 
             if (typeof r === "number" && r >= 0 && r <= 255 &&
                 typeof g === "number" && g >= 0 && g <= 255 &&
@@ -514,17 +565,10 @@ export default {
                 baseColor = [0, 0, 0];
             }
 
-            if (typeof this.opacity === "number" && this.opacity >= 0 && this.opacity <= 1) {
-                a = this.opacity;
-            }
-            else {
-                a = 0.9;
-            }
-
             for (let i = 0; i < this.numberOfClasses; i++) {
                 const newColor = baseColor.map(v => Math.floor(v + i * (255 - v) / this.numberOfClasses));
 
-                palette.unshift([...newColor, a]);
+                palette.unshift(newColor);
             }
 
             return palette;
@@ -554,20 +598,20 @@ export default {
 
             this.layer.getSource().addFeatures(filteredFeatures);
 
-            if (!differenceMode) {
-                FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.getColorPalette(), date, regionNameAttribute, this.classificationMode, this.allowPositiveNegativeClasses, this.numberOfClasses);
-                this.setLegendData({
-                    "color": this.getColorPalette(),
-                    "value": FeaturesHandler.getStepValue(this.statisticsData[this.selectedStatisticsNames[0]], this.getColorPalette(), date, this.classificationMode, this.allowPositiveNegativeClasses, this.numberOfClasses)
-                });
-                return;
-            }
-            FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.getColorPalette(), date, regionNameAttribute, this.classificationMode, this.allowPositiveNegativeClasses, this.numberOfClasses);
+            FeaturesHandler.styleFeaturesByStatistic(
+                filteredFeatures,
+                this.statisticsData[this.selectedStatisticsNames[0]],
+                this.colorPalette.map(v => [...v, this.opacity]),
+                date,
+                regionNameAttribute,
+                this.stepValues
+            );
             this.setLegendData({
-                "color": this.getColorPalette(),
-                "value": FeaturesHandler.getStepValue(this.statisticsData[this.selectedStatisticsNames[0]], this.getColorPalette(), date, this.classificationMode, this.allowPositiveNegativeClasses, this.numberOfClasses)
+                "color": this.colorPalette.map(v => [...v, this.opacity]),
+                "value": this.stepValues
             });
-            if (selectedReferenceData?.type === "region") {
+
+            if (differenceMode && selectedReferenceData?.type === "region") {
                 const referenceFeature = filteredFeatures.find(feature => feature.get(regionNameAttribute) === selectedReferenceData.value);
 
                 FeaturesHandler.styleFeature(referenceFeature, this.colorScheme.referenceRegion);
@@ -608,12 +652,24 @@ export default {
             }
 
             this.selectedColumn = value;
-            if (typeof this.selectedReferenceData !== "undefined") {
-                this.updateFeatureStyle(value, true, this.selectedReferenceData);
+            this.noDataInColumn = undefined;
+
+            if (this.classificationMode === "custom") {
+                this.noDataInColumn =
+                    FeaturesHandler.getStatisticValuesByDate(this.statisticsData[this.selectedStatisticsNames[0]], this.selectedColumn).length === 0;
+                this.updateFeatureStyle(value, typeof this.selectedReferenceData !== "undefined", this.selectedReferenceData);
+                return;
             }
-            else {
-                this.updateFeatureStyle(value, false);
-            }
+
+            this.setStepValues(
+                FeaturesHandler.getStepValue(
+                    this.statisticsData[this.selectedStatisticsNames[0]],
+                    this.numberOfClasses,
+                    this.selectedColumn,
+                    this.classificationMode,
+                    this.allowPositiveNegativeClasses
+                )
+            );
         },
 
         /**
@@ -726,9 +782,23 @@ export default {
 
             this.handleChartData(this.statisticNameOfChart, regions, dates, this.statisticsData, differenceMode);
 
-            if (this.selectedStatisticsNames.length === 1) {
-                this.updateFeatureStyle(this.selectedColumn || dates[0], differenceMode, this.selectedReferenceData);
-                this.showNoLegendData = false;
+            if (this.selectedStatisticsNames.length === 1 && this.classificationMode !== "custom") {
+                this.setStepValues(
+                    FeaturesHandler.getStepValue(
+                        this.statisticsData[this.selectedStatisticsNames[0]],
+                        this.numberOfClasses,
+                        this.selectedColumn || this.timeStepsFilter.find(v => v.value === dates[0])?.label,
+                        this.classificationMode,
+                        this.allowPositiveNegativeClasses
+                    )
+                );
+                this.setColorPalette(this.createColorPalette());
+            }
+            else if (this.selectedStatisticsNames.length === 1) {
+                this.updateFeatureStyle(
+                    this.selectedColumn,
+                    typeof this.selectedReferenceData !== "undefined",
+                    this.selectedReferenceData);
             }
             else {
                 this.layer.getSource().clear();
@@ -739,8 +809,8 @@ export default {
                 filteredFeatures.map(feature => {
                     return FeaturesHandler.styleFeature(feature);
                 });
-                this.showNoLegendData = true;
             }
+            this.showNoLegendData = this.selectedStatisticsNames.length !== 1;
         },
 
         /**
@@ -760,7 +830,7 @@ export default {
                 this.prepareGridCharts(filteredStatistics, preparedData, directionBarChart, differenceMode, dates.length >= 2 && !differenceMode || dates.length >= 3 || dates.length === 2 && differenceMode === "region");
             }
 
-            else if (regions.length >= 1) {
+            else if (regions.length >= 1 && preparedData?.[filteredStatistics[0]]) {
                 this.$nextTick(() => {
                     if (dates.length >= 2 && !differenceMode || dates.length >= 3 || dates.length === 2 && differenceMode === "region") {
                         this.prepareChartData(filteredStatistics[0], preparedData[filteredStatistics[0]], undefined, "line", differenceMode);
@@ -1554,11 +1624,11 @@ export default {
                 </div>
             </div>
             <hr
-                v-if="Array.isArray(legendValue) && legendValue.length || showNoLegendData"
+                v-if="Array.isArray(legendValue) && legendValue.length && !noDataInColumn || showNoLegendData"
                 class="mb-0"
             >
             <AccordionItem
-                v-show="Array.isArray(legendValue) && legendValue.length || showNoLegendData"
+                v-show="Array.isArray(legendValue) && legendValue.length && !noDataInColumn || showNoLegendData"
                 id="legend-accordion"
                 :title="$t('common:modules.statisticDashboard.legend.legend')"
                 icon="bi bi-map"

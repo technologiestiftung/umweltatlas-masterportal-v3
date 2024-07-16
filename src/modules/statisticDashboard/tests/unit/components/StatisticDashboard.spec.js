@@ -2,6 +2,7 @@ import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import {createStore} from "vuex";
 import StatisticDashboard from "../../../components/StatisticDashboard.vue";
+import FeatureHandler from "../../../js/handleFeatures.js";
 import indexStatisticDashboard from "../../../store/indexStatisticDashboard";
 import LegendComponent from "../../../components/StatisticDashboardLegend.vue";
 import sinon from "sinon";
@@ -774,36 +775,20 @@ describe("src/modules/StatisticDashboard.vue", () => {
             });
         });
         describe("setSelectedColumn", () => {
-            it("should call 'updateFeatureStyle' with the correct arguments if no reference is selected", () => {
+            it("should call 'getStepValue' with the correct arguments", async () => {
                 store.commit("Modules/StatisticDashboard/setSelectedReferenceData", undefined);
                 const wrapper = shallowMount(StatisticDashboard, {
                         global: {
                             plugins: [store]
                         }
                     }),
-                    spyUpdateFeatureStyle = sinon.stub(wrapper.vm, "updateFeatureStyle");
+                    stubGetStepValue = sinon.stub(FeatureHandler, "getStepValue");
 
+                await wrapper.setData({statisticsData: {}});
+                wrapper.vm.setNumberOfClasses(3);
                 wrapper.vm.setSelectedColumn("2022");
 
-                expect(spyUpdateFeatureStyle.calledOnce).to.be.true;
-                expect(spyUpdateFeatureStyle.args[0]).to.deep.equal(["2022", false]);
-
-                sinon.restore();
-            });
-
-            it("should call 'updateFeatureStyle' with the correct arguments if reference is selected", () => {
-                store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {});
-                const wrapper = shallowMount(StatisticDashboard, {
-                        global: {
-                            plugins: [store]
-                        }
-                    }),
-                    spyUpdateFeatureStyle = sinon.stub(wrapper.vm, "updateFeatureStyle");
-
-                wrapper.vm.setSelectedColumn("2000");
-
-                expect(spyUpdateFeatureStyle.calledOnce).to.be.true;
-                expect(spyUpdateFeatureStyle.args[0]).to.deep.equal(["2000", true, {}]);
+                expect(stubGetStepValue.calledWith(undefined, 3, "2022")).to.be.true;
 
                 sinon.restore();
             });
@@ -1575,7 +1560,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
                 expect(wrapper.vm.numberOfColouredBars).to.be.equal(3);
             });
         });
-        describe("getColorPalette", () => {
+        describe("createColorPalette", () => {
             it("should return expected result", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
                     global: {
@@ -1584,11 +1569,10 @@ describe("src/modules/StatisticDashboard.vue", () => {
                 });
 
                 wrapper.vm.setSelectableColorPalettes({baseColor: [0, 0, 0]});
-                wrapper.vm.setOpacity(0.7);
                 wrapper.vm.setNumberOfClasses(2);
 
-                expect(wrapper.vm.getColorPalette()).to.deep.equal(
-                    [[127, 127, 127, 0.7], [0, 0, 0, 0.7]]
+                expect(wrapper.vm.createColorPalette()).to.deep.equal(
+                    [[127, 127, 127], [0, 0, 0]]
                 );
             });
         });
