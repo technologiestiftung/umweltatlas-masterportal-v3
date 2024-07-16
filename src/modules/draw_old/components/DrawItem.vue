@@ -1028,7 +1028,7 @@ export default {
                     <button
                         id="tool-draw-drawInteraction"
                         class="btn btn-sm"
-                        :class="currentInteraction === 'draw' ? 'btn-primary' : 'btn-secondary'"
+                        :class="currentInteraction === 'draw' ? 'btn-primary' : ''"
                         :disabled="!drawLayerVisible || currentInteraction === 'draw'"
                         @click="toggleInteraction('draw'); setCanvasCursorByInteraction('draw')"
                     >
@@ -1043,7 +1043,7 @@ export default {
                 <div class="col-12 d-grid gap-2">
                     <button
                         id="tool-draw-undoInteraction"
-                        class="btn btn-sm btn-secondary"
+                        class="btn btn-sm"
                         :disabled="!drawLayerVisible"
                         @click="undoLastStep"
                     >
@@ -1058,7 +1058,7 @@ export default {
                 <div class="col-12 d-grid gap-2">
                     <button
                         id="tool-draw-redoInteraction"
-                        class="btn btn-sm btn-secondary"
+                        class="btn btn-sm"
                         :disabled="!drawLayerVisible"
                         @click="redoLastStep"
                     >
@@ -1074,7 +1074,7 @@ export default {
                     <button
                         id="tool-draw-editInteraction"
                         class="btn btn-sm"
-                        :class="currentInteraction === 'modify' ? 'btn-primary' : 'btn-secondary'"
+                        :class="currentInteraction === 'modify' ? 'btn-primary' : ''"
                         :disabled="!drawLayerVisible || currentInteraction === 'modify'"
                         @click="toggleInteraction('modify'); setCanvasCursorByInteraction('modify')"
                     >
@@ -1093,7 +1093,7 @@ export default {
                     <button
                         id="tool-draw-editInteraction-attributes"
                         class="btn btn-sm"
-                        :class="currentInteraction === 'modifyAttributes' ? 'btn-primary' : 'btn-secondary'"
+                        :class="currentInteraction === 'modifyAttributes' ? 'btn-primary' : ''"
                         :disabled="!drawLayerVisible || currentInteraction === 'modifyAttributes'"
                         @click="toggleInteraction('modifyAttributes'); setCanvasCursorByInteraction('modifyAttributes')"
                     >
@@ -1109,7 +1109,7 @@ export default {
                     <button
                         id="tool-draw-deleteInteraction"
                         class="btn btn-sm"
-                        :class="currentInteraction === 'delete' ? 'btn-primary' : 'btn-secondary'"
+                        :class="currentInteraction === 'delete' ? 'btn-primary' : ''"
                         :disabled="!drawLayerVisible || currentInteraction === 'delete'"
                         @click="toggleInteraction('delete'); setCanvasCursorByInteraction('delete')"
                     >
@@ -1124,7 +1124,7 @@ export default {
                 <div class="col-12 d-grid gap-2">
                     <button
                         id="tool-draw-deleteAllInteraction"
-                        class="btn btn-sm btn-secondary"
+                        class="btn btn-sm"
                         :disabled="!drawLayerVisible"
                         @click="clearLayer"
                     >
