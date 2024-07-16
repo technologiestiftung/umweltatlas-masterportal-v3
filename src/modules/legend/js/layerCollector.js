@@ -12,7 +12,9 @@ export default {
         layerCollection.getLayers().forEach(layer => {
             if (layer.get("typ") === "GROUP") {
                 if (layer.get("baselayer")) {
-                    layer.getLayerSource()[0].attributes.name = layer.attributes.name;
+                    if (layer.attributes.name) {
+                        layer.getLayerSource()[0].attributes.name = layer.attributes.name;
+                    }
                     allLayers.push({layer: layer.getLayerSource()[0], visibility: layer.get("visibility")});
                 }
                 else {
