@@ -93,10 +93,26 @@ function deleteTranslateInName (toolConfig) {
     }
 }
 
+/**
+ * Layer Ids with suffix are migrated.
+ * @param {Array} layers to inspect
+ * @returns {void}
+ */
+function migrateIdWithSuffix (layers) {
+    layers?.forEach(layer => {
+        if (typeof layer.id === "object") {
+            const idCopy = {...layer.id};
+
+            layer.id = idCopy.layerId + "." + idCopy.suffix;
+        }
+    });
+}
+
 module.exports = {
     copyDir,
     deleteTranslateInName,
     getToolFromOldConfig,
+    migrateIdWithSuffix,
     removeAttributesFromTools,
     replaceInFile
 };

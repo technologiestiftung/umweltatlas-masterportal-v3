@@ -24,6 +24,7 @@
     - Added scheme request function in the api folder for the getOAFFeature file. This can be used for an easy and fast way to gather unique values.
 - ViewPoint:
     - Migrated from dev to dev_vue.
+- Script to migrate masterportal configuration files to version 3.0.0 migrates ids with suffix.
 
 ### Changed
 - Eslint: no-undef eslint rule is switched on.

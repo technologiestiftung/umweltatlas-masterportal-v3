@@ -58,7 +58,6 @@ const toolsNotToMigrate = [
         "modules.searchbar": "modules.searchBar",
         "translate#common": "common",
         "translate#additional": "additional",
-        "\"clusterList\":": "\"layerIdList\":", // module LayerClusterToggler
         "\"iconFor\":": "\"iconForward\":", // control "BackForward"
         "\"type\": \"gfi\"": "\"type\":\"getFeatureInfo\""// module gfi
     };

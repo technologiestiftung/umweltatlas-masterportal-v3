@@ -3,7 +3,7 @@ const fs = require("fs").promises,
     path = require("path"),
     createMainMenu = require("./createMainMenu"),
     createSecondaryMenu = require("./createSecondaryMenu"),
-    {copyDir, deleteTranslateInName, getToolFromOldConfig, replaceInFile, removeAttributesFromTools} = require("./utils"),
+    {copyDir, deleteTranslateInName, getToolFromOldConfig, migrateIdWithSuffix, replaceInFile, removeAttributesFromTools} = require("./utils"),
     {PORTALCONFIG, PORTALCONFIG_OLD, TOPICS, TOPICS_OLD, BASEMAPS, BASEMAPS_OLD, BASEMAPS_NEW, SUBJECTDATA, SUBJECTDATA_OLD, DATA3D_OLD} = require("./constants"),
     rootPath = path.resolve(__dirname, "../../../"),
     {deprecated, toolsNotToMigrate, toRemoveFromConfigJs, toRemoveFromTools} = require("./configuration"),
@@ -313,12 +313,14 @@ function migrateBaseMaps (oldData) {
             data.Ordner.forEach(folder => {
                 if (folder.Layer) {
                     createGroupLayer(folder.Layer);
+                    migrateIdWithSuffix(folder.Layer);
                     layers = layers.concat(folder.Layer);
                 }
             });
         }
     }
     if (data.Layer) {
+        migrateIdWithSuffix(data.Layer);
         if (JSON.stringify(data).includes("Oblique")) {
             data.Layer = data.Layer.filter(layer => layer.name !== "Oblique" && layer.typ !== "Oblique");
         }
@@ -359,6 +361,7 @@ function migrateSubjectData (oldSubjectData, old3DData) {
         migrateFolderStructure(oldSubjectData, subjectData.elements);
     }
     else if (oldSubjectData?.Layer) {
+        migrateIdWithSuffix(oldSubjectData.Layer);
         createGroupLayer(oldSubjectData.Layer);
         subjectData.elements = oldSubjectData.Layer;
     }
@@ -405,6 +408,7 @@ function migrateFolderStructure (oldData, elements) {
                 layers = layers.filter(layer => layer.name !== "Oblique" && layer.typ !== "Oblique");
             }
             createGroupLayer(layers);
+            migrateIdWithSuffix(layers);
             newData.elements.push(...layers);
         }
         if (folder.Ordner) {
