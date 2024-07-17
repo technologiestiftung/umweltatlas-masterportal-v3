@@ -173,7 +173,7 @@
           },
           {
             "type": "elasticSearch",
-            "serviceId": "elasticelastic",
+            "serviceId": "elastic_address",
             "requestType": "POST",
             "epsg": "EPSG:4326",
             "searchStringAttribute": "query_str",
@@ -207,7 +207,7 @@
           },
           {
             "type": "elasticSearch",
-            "serviceId": "elastic",
+            "serviceId": "elastic_prod",
             "requestType": "GET",
             "hitTemplate": "layer",
             "payload": {

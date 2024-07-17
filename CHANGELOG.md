@@ -41,6 +41,7 @@
 - LayerPreview for WMTS uses the crs of the service.
 - Legend: changed the name in the legend for group and baselayer.
 - OAF-Layer: bbox and bboxCrs are respected when building url.
+- Auto portal: search in LayerSelection works.
 
 ---
 ## 2024-06-27 v3.0.0
