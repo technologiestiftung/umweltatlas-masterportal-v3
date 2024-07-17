@@ -39,6 +39,7 @@
 ### Removed
 
 ### Fixed
+- Fix migration of login module to Masterportal v3
 - Issue #1192: Searchbar: The TopicTree search interface supports the search for folders.
 - Added missing parentheses in v-for loops
 - StatisticDashboard:
@@ -59,7 +60,7 @@
     - Alt tag for portal logo is now used as tooltip and alt tag.
     - Placeholder of the search bar is now adopted.
     - The komoot search interface is now renamed komootPhoton.
-- 
+-
 
 ---
 ## 2024-06-27 v3.0.0
