@@ -52,6 +52,7 @@
 - Print:
     - print mask is now visible for group layer
     - zIndex and transparency from the group layer are also adopted in printing
+- Filter: onDownloadProgress function will be commented out in axios in filter.
 
 ---
 ## 2024-06-27 v3.0.0

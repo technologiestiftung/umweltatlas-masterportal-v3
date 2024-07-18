@@ -437,8 +437,8 @@ export default class InterfaceWfsExtern {
                 filter
             }),
             payload = new XMLSerializer().serializeToString(featureRequest),
-            axiosObject = typeof axiosMock === "object" && axiosMock !== null ? axiosMock : axios;
-        let progress = 1;
+            axiosObject = typeof axiosMock === "object" && axiosMock !== null ? axiosMock : axios,
+            progress = 1;
 
         this.callEmptySuccess(onsuccess, filterQuestion, progress);
 
@@ -447,8 +447,8 @@ export default class InterfaceWfsExtern {
             headers: {
                 "Content-Type": "text/xml"
             },
-            cancelToken: this.axiosCancelTokenSources[filterQuestion.filterId].token,
-            onDownloadProgress: progressEvent => {
+            cancelToken: this.axiosCancelTokenSources[filterQuestion.filterId].token
+        /*    onDownloadProgress: progressEvent => {
                 if (typeof progressEvent.total !== "number" || progressEvent.total === 0) {
                     progress = (progress + 1) % 98 + 2;
                 }
@@ -457,7 +457,7 @@ export default class InterfaceWfsExtern {
                 }
 
                 this.callEmptySuccess(onsuccess, filterQuestion, progress);
-            }
+            }   */
         })
             .then(response => {
                 if (isObject(response) && typeof response.data === "string" && typeof onsuccess === "function") {
