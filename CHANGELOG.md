@@ -42,8 +42,8 @@
 - Issue #1192: Searchbar: The TopicTree search interface supports the search for folders.
 - Added missing parentheses in v-for loops
 - StatisticDashboard:
-  - Statistics and Regions are sorted alphabetically.
-  - The information text will show under legend when there are more than one statistics selected.
+    - Statistics and Regions are sorted alphabetically.
+    - The information text will show under legend when there are more than one statistics selected.
 - LayerPreview for WMTS uses the crs of the service.
 - Legend: changed the name in the legend for group and baselayer.
 - OAF-Layer: bbox and bboxCrs are respected when building url.
@@ -54,6 +54,12 @@
     - zIndex and transparency from the group layer are also adopted in printing
 - Filter: onDownloadProgress function will be commented out in axios in filter.
 - LayerInformation: The entry `show_doc_url` in the metadata is now used again to retrieve further information.
+- Migrator:
+    - Alt tag for portal logo is now used as tooltip and alt tag.
+    - Placeholder of the search bar is now adopted.
+    - HTML entities are now decoded for folders in the menu.
+    - The komoot search interface is now renamed komootPhoton.
+- 
 
 ---
 ## 2024-06-27 v3.0.0

@@ -53,7 +53,7 @@ export default {
         <img
             v-if="logo"
             :src="logo"
-            :alt="text"
+            :alt="toolTip || text"
         >
         <h1>{{ $t(text) }}</h1>
     </a>
