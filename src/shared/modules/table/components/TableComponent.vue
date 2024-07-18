@@ -170,7 +170,7 @@ export default {
     watch: {
         data: {
             handler () {
-                this.setupTabelData();
+                this.setupTableData();
             },
             deep: true
         },
@@ -228,7 +228,7 @@ export default {
         }
     },
     mounted () {
-        this.setupTabelData();
+        this.setupTableData();
         if (this.selectMode === "column" && Array.isArray(this.data?.headers)) {
             this.selectColumn(this.data.headers[1], 1);
         }
@@ -254,7 +254,7 @@ export default {
          * Setups the table data. Call it to set fresh and new table.
          * @returns {void}
          */
-        setupTabelData () {
+        setupTableData () {
             this.visibleHeaders = this.data?.headers;
             this.draggableHeader = this.data?.headers;
             if (typeof this.fixedColumn !== "undefined") {

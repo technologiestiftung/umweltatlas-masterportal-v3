@@ -48,10 +48,19 @@ describe("src/modules/compareMaps/components/CompareMaps.vue", () => {
                         },
                         LayerSwiper: {
                             namespaced: true,
+                            actions: {
+                                updateMap: sinon.spy()
+                            },
                             mutations: {
                                 setActive: sinon.spy(),
                                 setLayerSwiperSourceLayer: sinon.spy(),
                                 setLayerSwiperTargetLayer: sinon.spy()
+                            }
+                        },
+                        LayerSelection: {
+                            namespaced: true,
+                            actions: {
+                                changeVisibility: sinon.spy()
                             }
                         }
                     }

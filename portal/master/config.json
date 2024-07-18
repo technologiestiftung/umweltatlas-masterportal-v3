@@ -938,7 +938,16 @@
           "id": "4905",
           "name": "Schwermetallmessungen",
           "typ": "WMS",
-          "visibility": false
+          "visibility": false,
+          "gfiTheme" : {
+            "name" : "DataTable",
+            "params": {
+              "isFilterable": true,
+              "isSortable": true,
+              "enableDownload": true,
+              "exportFileName": "Schwermetallmessungen"
+            }
+          }
         },
         {
           "id": "1420",

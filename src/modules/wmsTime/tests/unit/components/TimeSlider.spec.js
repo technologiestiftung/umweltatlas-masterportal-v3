@@ -66,6 +66,12 @@ describe("src/modules/wmsTime/components/TimeSlider.vue", () => {
                                     state.active = active;
                                 }
                             }
+                        },
+                        CompareMaps: {
+                            namespaced: true,
+                            getters: {
+                                active: () => false
+                            }
                         }
                     }
                 }
