@@ -54,10 +54,10 @@
     - zIndex and transparency from the group layer are also adopted in printing
 - Filter: onDownloadProgress function will be commented out in axios in filter.
 - LayerInformation: The entry `show_doc_url` in the metadata is now used again to retrieve further information.
+- Menu: HTML entities are now decoded for folders in the menu
 - Migrator:
     - Alt tag for portal logo is now used as tooltip and alt tag.
     - Placeholder of the search bar is now adopted.
-    - HTML entities are now decoded for folders in the menu.
     - The komoot search interface is now renamed komootPhoton.
 - 
 
