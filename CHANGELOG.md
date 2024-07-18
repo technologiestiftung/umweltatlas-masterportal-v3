@@ -48,6 +48,7 @@
 - Issue #1192: Searchbar: The TopicTree search interface supports the search for folders.
 - Print:
     - print mask is now visible for group layer
+    - zIndex and transparency from the group layer are also adopted in printing
 
 ---
 ## 2024-06-27 v3.0.0

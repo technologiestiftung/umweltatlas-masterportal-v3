@@ -27,6 +27,8 @@ function getVisibleLayer (printMapMarker = false) {
         });
         groupedLayers.forEach(groupedLayer => {
             groupedLayer.getLayers().forEach(gLayer => {
+                gLayer.setZIndex(groupedLayer.getZIndex());
+                gLayer.setOpacity(groupedLayer.getOpacity());
                 visibleLayerList.push(gLayer);
             });
         });
