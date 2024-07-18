@@ -12,6 +12,7 @@ const state = {
     activatedExpandable: false,
     baselayerIds: [],
     configPaths: ["portalConfig.map.baselayerSwitcher"],
+    singleBaseLayer: false,
     topBaselayerId: null,
     type: "baselayerSwitcher"
 };

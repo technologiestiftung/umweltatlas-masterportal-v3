@@ -98,8 +98,9 @@ The baselayerSwitcher allows you to easily switch or select a baselayer.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-active|no|Boolean|false|Defines if the baselayerSwitcher is activated.|false|
-activatedExpandable|no|Boolean|false|Specifies whether the baselayerSwitcher is expanded and all available baselayers are displayed or only the active one which is on the highest level.|false|
+|active|no|Boolean|false|Defines if the baselayerSwitcher is activated.|false|
+|activatedExpandable|no|Boolean|false|Specifies whether the baselayerSwitcher is expanded and all available baselayers are displayed or only the active one which is on the highest level.|false|
+|singleBaseLayer|no|Boolean|false|Switches the previous selected Layer to invisible|false
 
 **Example**
 

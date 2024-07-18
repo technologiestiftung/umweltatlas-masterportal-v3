@@ -27,6 +27,7 @@
 - Migrator: supports ids with suffix.
 - InputText:
     - Added change event handler property and disabled property.
+- BaseLayerSwitcher: Added SingleBaseLayer-Mode
 
 ### Changed
 - Eslint: no-undef eslint rule is switched on.
