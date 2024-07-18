@@ -14,7 +14,7 @@ describe("src/modules/BaselayerSwitcher.vue", () => {
         visibleBaselayerConfigs,
         originalUpdateLayerVisibilityAndZIndex;
     const vectorTileLayer = {id: "VectorTile", name: "ArcGIS VectorTile", visibility: false, baselayer: true, showInLayerTree: true, zIndex: 1},
-        layer_453 = {id: "453", name: "Geobasiskarten (HamburgDE)", visibility: true, baselayer: true, showInLayerTree: true};
+        layer_453 = {id: "453", name: "Geobasiskarten (HamburgDE)", visibility: true, baselayer: true, showInLayerTree: true, zIndex: 0};
 
     beforeEach(() => {
         baselayerConfigs = [
@@ -73,6 +73,18 @@ describe("src/modules/BaselayerSwitcher.vue", () => {
 
     describe("baselayerSwitcher DOM elements", () => {
         it("renders BaselayerSwitcher", () => {
+            store.commit("Modules/BaselayerSwitcher/setActive", true);
+            wrapper = shallowMount(BaselayerSwitcherComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.find("#baselayer-switcher").exists()).to.be.true;
+        });
+
+        it("renders BaselayerSwitcher for two Baselayers", () => {
+            store.commit("setAllBaselayerConfigs", [vectorTileLayer, layer_453]);
             store.commit("Modules/BaselayerSwitcher/setActive", true);
             wrapper = shallowMount(BaselayerSwitcherComponent, {
                 global: {

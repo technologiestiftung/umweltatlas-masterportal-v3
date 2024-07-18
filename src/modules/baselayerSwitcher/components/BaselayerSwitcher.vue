@@ -140,7 +140,7 @@ export default {
 
 <template>
     <div
-        v-if="baselayerIds.length > 1 && active"
+        v-if="baselayerIds.length > 0 && active"
         id="baselayer-switcher"
         class="btn-group-vertical my-5 btn-group-background-switcher shadow"
         role="group"

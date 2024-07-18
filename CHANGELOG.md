@@ -60,7 +60,7 @@
     - Alt tag for portal logo is now used as tooltip and alt tag.
     - Placeholder of the search bar is now adopted.
     - The komoot search interface is now renamed komootPhoton.
--
+-  BaselayerSwitcher works for two layers now
 
 ---
 ## 2024-06-27 v3.0.0
