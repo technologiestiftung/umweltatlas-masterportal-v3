@@ -4,6 +4,7 @@ import EntityList from "./ui/EntityList.vue";
 import ModelerDraw from "./Modeler3DDraw.vue";
 import ModelerImport from "./Modeler3DImport.vue";
 import NavTab from "../../../shared/modules/tabs/components/NavTab.vue";
+import SwitchInput from "../../../shared/modules/checkboxes/components/SwitchInput.vue";
 
 import {mapActions, mapGetters, mapMutations} from "vuex";
 
@@ -22,7 +23,8 @@ export default {
         EntityList,
         ModelerDraw,
         ModelerImport,
-        NavTab
+        NavTab,
+        SwitchInput
     },
     data () {
         return {
@@ -999,21 +1001,14 @@ export default {
             >
                 <h4> {{ $t('modules.modeler3D.options.captions.hideSwitchLabel') }} </h4>
                 <div class="form-check form-switch mb-4">
-                    <input
+                    <SwitchInput
                         id="hideObjectsSwitch"
-                        class="form-check-input"
-                        type="checkbox"
-                        role="switch"
-                        :aria-checked="hideObjects"
+                        aria-checked="hideObjects"
+                        :aria="$t('modules.modeler3D.options.captions.enableFunction')"
                         :checked="hideObjects"
+                        :label="$t('modules.modeler3D.options.captions.enableFunction')"
                         @change="changeSwitches('hideObjectsSwitch')"
-                    >
-                    <label
-                        class="form-check-label"
-                        for="hideObjectsSwitch"
-                    >
-                        {{ $t("modules.modeler3D.options.captions.enableFunction") }}
-                    </label>
+                    />
                 </div>
                 <p
                     class="mb-4"
@@ -1023,21 +1018,14 @@ export default {
                 <h4> {{ $t('modules.modeler3D.options.captions.povTitle') }} </h4>
                 <div>
                     <div class="form-check form-switch mb-4">
-                        <input
+                        <SwitchInput
                             id="povActiveSwitch"
-                            class="form-check-input"
-                            type="checkbox"
-                            role="switch"
-                            :aria-checked="povActive"
+                            aria-checked="povActive"
+                            :aria="$t('modules.modeler3D.options.captions.enableFunction')"
                             :checked="povActive"
+                            :label="$t('modules.modeler3D.options.captions.enableFunction')"
                             @change="changeSwitches('povActiveSwitch'), togglePovInteraction()"
-                        >
-                        <label
-                            class="form-check-label"
-                            for="povActiveSwitch"
-                        >
-                            {{ $t("modules.modeler3D.options.captions.enableFunction") }}
-                        </label>
+                        />
                     </div>
                     <p
                         class="mb-4"
