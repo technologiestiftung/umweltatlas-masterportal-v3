@@ -941,6 +941,7 @@
       "withInfoLabel": "With information"
     },
     "shareView": {
+      "copyErrorAlert": "The <b><a href=\"{{url}}\" target=\"_blank\">current view URL</a></b> could not be copied to the clipboard. This function is only available on secure websites accessible via the HTTPS protocol (https://).<br><br>Please contact the portal operator and request the establishment of a secure connection.",
       "description": "Share a link to the map",
       "downloadQR": "Download QRCode",
       "myMap": "This is my map: ",

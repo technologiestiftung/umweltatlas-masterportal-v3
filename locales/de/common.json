@@ -941,6 +941,7 @@
       "withInfoLabel": "Mit Informationen"
     },
     "shareView": {
+      "copyErrorAlert": "Die <b><a href=\"{{url}}\" target=\"_blank\">URL der aktuellen Ansicht</a></b> konnte nicht in die Zwischenablage kopiert werden. Diese Funktion ist nur auf sicheren Websites verfügbar, die über das Protokoll HTTPS (https://) zugänglich sind.<br><br>Bitte kontaktieren Sie den Betreiber des Portals und bitten Sie um die Einrichtung einer sicheren Verbindung.",
       "description": "Teile einen Link zur Karte",
       "downloadQR": "QRCode herunterladen",
       "myMap": "Hier ist mein Kartenausschnitt: ",
