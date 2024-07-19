@@ -770,7 +770,7 @@ export default {
                 entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
                 povCylinder = entities.getById(this.cylinderId);
 
-            this.originalCursorStyle = document.body.style.cursor;
+            this.originalCursorStyle = document.getElementById("map").style.cursor;
             this.currentCartesian = Cesium.Cartographic.toCartesian(currentPosition);
             destination.height = scene.sampleHeight(destination, [povCylinder]) + 1.8;
 
@@ -828,7 +828,7 @@ export default {
 
                     eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
                     document.removeEventListener("keydown", this.escapePedView);
-                    document.body.style.cursor = this.originalCursorStyle;
+                    document.getElementById("map").style.cursor = this.originalCursorStyle;
                     this.togglePovInteraction();
                 }
             });
@@ -840,7 +840,7 @@ export default {
 
             this.setPovActive(false);
             entities.removeById(this.cylinderId);
-            document.body.style.cursor = this.originalCursorStyle;
+            document.getElementById("map").style.cursor = this.originalCursorStyle;
             eventHandler.setInputAction(this.selectObject, Cesium.ScreenSpaceEventType.LEFT_CLICK);
             eventHandler.setInputAction(this.moveEntity, Cesium.ScreenSpaceEventType.LEFT_DOWN);
             eventHandler.setInputAction(this.cursorCheck, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
@@ -882,7 +882,7 @@ export default {
          * @returns {void}
          */
         clickHandler () {
-            document.body.style.cursor = this.originalCursorStyle;
+            document.getElementById("map").style.cursor = this.originalCursorStyle;
             eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
             eventHandler.setInputAction(this.selectObject, Cesium.ScreenSpaceEventType.LEFT_CLICK);
             this.positionPovCamera();
@@ -911,7 +911,7 @@ export default {
                 cartographic.height = scene.sampleHeight(cartographic, [povCylinder]);
                 currentCartesian = Cesium.Cartographic.toCartesian(cartographic);
 
-                document.body.style.cursor = "copy";
+                document.getElementById("map").style.cursor = "copy";
             }
 
             if (!Cesium.Cartesian3.equals(this.currentCartesian, currentCartesian)) {
