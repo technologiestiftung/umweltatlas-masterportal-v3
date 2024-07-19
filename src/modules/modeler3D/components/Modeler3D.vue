@@ -835,6 +835,11 @@ export default {
 
             this.resetPov();
         },
+        /**
+         * Resets the perpective / point of view and all related interactions.
+         * It resets the cursor style by removing the povCylinder.
+         * @returns {void}
+         */
         resetPov () {
             const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities;
 
