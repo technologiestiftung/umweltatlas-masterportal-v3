@@ -997,7 +997,7 @@ export default {
                 icon="bi-eye-fill"
                 :is-open="true"
             >
-                <h4 v-html="$t('modules.modeler3D.options.captions.hideSwitchLabel')" />
+                <h4> {{ $t('modules.modeler3D.options.captions.hideSwitchLabel') }} </h4>
                 <div class="form-check form-switch mb-4">
                     <input
                         id="hideObjectsSwitch"
@@ -1020,7 +1020,7 @@ export default {
                     v-html="$t('modules.modeler3D.options.captions.hideObjectInfo')"
                 />
                 <hr>
-                <h4 v-html="$t('modules.modeler3D.options.captions.povTitle')" />
+                <h4> {{ $t('modules.modeler3D.options.captions.povTitle') }} </h4>
                 <div>
                     <div class="form-check form-switch mb-4">
                         <input
