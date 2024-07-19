@@ -243,30 +243,22 @@ export default {
                                 <hr
                                     v-if="singleAlertIndex > 0 || categoryIndex > 0"
                                 >
-                                <h3
-                                    class="mt-1 ms-2 col-11"
-                                >
-                                    <b>
-                                        {{ singleAlert.title }}
-                                    </b>
-                                </h3>
-                                <button
-                                    v-if="alerts.length >1"
-                                    type="button"
-                                    class="btn btn-close btn-sm col-1"
-                                    aria-label="Close"
-                                    @click="removeAlert(singleAlert.hash);"
-                                />
                                 <div
-                                    class="d-flex justify-content-end bd-highlight mb-3"
+                                    class="d-flex justify-content-between mb-3"
                                 >
-                                    <h2
-                                        class="p-2 bd-highlight"
-                                    >
-                                        <span :class="selectCategoryClass(singleAlert.category)">
-                                            {{ $t(singleAlert.displayCategory) }}
-                                        </span>
-                                    </h2>
+                                    <h3>
+                                        {{ singleAlert.title }}
+                                    </h3>
+                                    <button
+                                        v-if="alerts.length >1"
+                                        type="button"
+                                        class="btn btn-close btn-sm col-1"
+                                        aria-label="Close"
+                                        @click="removeAlert(singleAlert.hash);"
+                                    />
+                                    <span :class="selectCategoryClass(singleAlert.category) + ' badge-pill'">
+                                        {{ $t(singleAlert.displayCategory) }}
+                                    </span>
                                 </div>
                                 <div
                                     v-html="singleAlert.content"
@@ -320,11 +312,6 @@ export default {
     /* Hide scrollbar for Edge, Chrome, Safari and Opera */
     .modal-body::-webkit-scrollbar{
         display: none;
-    }
-
-    .badge {
-        white-space: break-spaces;
-        line-height:1.25rem;
     }
 
     .badge-pill{
