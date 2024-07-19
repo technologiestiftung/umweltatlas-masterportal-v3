@@ -149,6 +149,11 @@ export default {
                     url += `&${key}=${encodeURIComponent(value)}`;
                 }
             });
+
+            if (layerConfig.preview?.src && layerConfig.preview?.src !== "") {
+                url = layerConfig.preview.src;
+            }
+
             this.load(url);
         },
 
