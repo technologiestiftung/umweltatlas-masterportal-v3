@@ -12,12 +12,6 @@ import getGfiFeatures from "../../../shared/js/utils/getGfiFeaturesByTileFeature
 import {adaptCylinderUnclamped} from "../utils/draw";
 import layerCollection from "../../../core/layers/js/layerCollection";
 
-// import VectorLayer from "ol/layer/Vector.js";
-// import VectorSource from "ol/source/Vector.js";
-// import Feature from "ol/Feature.js";
-// import {Point} from "ol/geom.js";
-// import {Fill, Style, Circle} from "ol/style.js";
-
 let eventHandler = null,
     preRenderListener;
 
@@ -877,7 +871,6 @@ export default {
                 if (this.povActive) {
                     this.escapePedView(undefined);
                 }
-                // document.body.style.cursor = this.originalCursorStyle;
             }
 
         },
