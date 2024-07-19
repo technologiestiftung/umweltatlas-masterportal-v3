@@ -962,7 +962,7 @@ export default {
     >
         <ul
             id="modeler-tabs"
-            class="nav nav-tabs nav-justified"
+            class="nav nav-tabs nav-justified mb-3"
             role="tablist"
         >
             <NavTab
@@ -1004,8 +1004,8 @@ export default {
                 icon="bi-eye-fill"
                 :is-open="true"
             >
-                <h2 v-html="$t('modules.modeler3D.options.captions.hideSwitchLabel')" />
-                <div class="form-check form-switch cta">
+                <h4 v-html="$t('modules.modeler3D.options.captions.hideSwitchLabel')" />
+                <div class="form-check form-switch mb-4">
                     <input
                         id="hideObjectsSwitch"
                         class="form-check-input"
@@ -1023,13 +1023,13 @@ export default {
                     </label>
                 </div>
                 <p
-                    class="cta"
+                    class="mb-4"
                     v-html="$t('modules.modeler3D.options.captions.hideObjectInfo')"
                 />
-                <div class="h-seperator" />
-                <h2 v-html="$t('modules.modeler3D.options.captions.povTitle')" />
+                <hr>
+                <h4 v-html="$t('modules.modeler3D.options.captions.povTitle')" />
                 <div>
-                    <div class="form-check form-switch cta">
+                    <div class="form-check form-switch mb-4">
                         <input
                             id="povActiveSwitch"
                             class="form-check-input"
@@ -1047,7 +1047,7 @@ export default {
                         </label>
                     </div>
                     <p
-                        class="cta"
+                        class="mb-4"
                         v-html="$t('modules.modeler3D.options.captions.povInfo')"
                     />
                 </div>
@@ -1076,11 +1076,6 @@ export default {
 @import "~mixins";
 @import "~variables";
 
-.h-seperator {
-    margin: 12px 0 12px 0;
-    border: 1px solid #DDDDDD;
-}
-
 .nav-link {
     font-size: $font_size_big;
 }
@@ -1089,42 +1084,4 @@ export default {
     font-size: 0.95rem;
 }
 
-.cta {
-    margin-bottom: 12px;
-}
-
-h2 {
-    font-size: $font_size_big;
-    font-weight: bold;
-    text-transform: none;
-    margin: 0 0 6px 0;
-}
-
-.primary-button-wrapper {
-    color: $white;
-    background-color: $dark_blue;
-    display: block;
-    text-align: center;
-    padding: 8px 12px;
-    cursor: pointer;
-    margin: 12px 0 0 0;
-    width: 100%;
-    font-size: $font_size_big;
-
-    &:focus {
-        @include primary_action_focus;
-    }
-
-    &:hover {
-        @include primary_action_hover;
-    }
-}
-
-.form-switch {
-    font-size: $font_size_big;
-}
-
-.nav-tabs {
-    margin-bottom: 1em;
-}
 </style>
