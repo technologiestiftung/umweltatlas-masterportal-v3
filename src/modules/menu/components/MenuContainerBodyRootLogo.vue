@@ -20,7 +20,8 @@ export default {
         /** name text */
         text: {
             type: String,
-            required: true
+            required: false,
+            default: ""
         },
         /** URL of an external website to link to */
         link: {
