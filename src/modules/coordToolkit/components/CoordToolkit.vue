@@ -726,7 +726,7 @@ export default {
                                 >
                                     <hr>
                                     <p class="mb-2">
-                                        {{ coordInfo?.title + ":"}}
+                                        {{ coordInfo?.title + ":" }}
                                     </p>
                                     <li
                                         v-for="explanation in coordInfo?.explanations"
