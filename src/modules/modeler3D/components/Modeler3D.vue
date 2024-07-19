@@ -827,7 +827,7 @@ export default {
                     eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
                     document.removeEventListener("keydown", this.escapePedView);
                     document.body.style.cursor = this.originalCursorStyle;
-                    this.changeCursor();
+                    this.togglePovInteraction();
                 }
             });
 
@@ -917,14 +917,14 @@ export default {
             }
         },
         /**
-         * Changes the cursor and sets input actions based on the state of `this.povActive`.
+         * Displays or removes a povCylinder at the cursor position depending on start or end of POV interaction, and sets input actions based on the state of `this.povActive`.
          * If `this.povActive` is true, it retrieves the povCylinder by ID and performs the following actions:
          * - If the povCylinder doesn't exist, it creates a cylinder, sets its position, and assigns it to povCylinder.
          * - It sets the moveHandler function as the input action for MOUSE_MOVE events.
          * - It sets the clickHandler function as the input action for LEFT_CLICK events.
          * @returns {void}
          */
-        changeCursor () {
+        togglePovInteraction () {
             if (!this.povActive) {
                 return;
             }
@@ -1030,7 +1030,7 @@ export default {
                             role="switch"
                             :aria-checked="povActive"
                             :checked="povActive"
-                            @change="changeSwitches('povActiveSwitch'), changeCursor()"
+                            @change="changeSwitches('povActiveSwitch'), togglePovInteraction()"
                         >
                         <label
                             class="form-check-label"
