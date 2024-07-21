@@ -1658,7 +1658,7 @@ Module lassen sich in Abschnitte (Sections) unterteilen. Im Menü werden Abschni
 
 ***
 
-##### portalConfig.menu.sections.modules.about
+##### portalConfig.menu.sections.modules.about {data-toc-label='About'}
 
 [inherits]: # (portalConfig.menu.sections.modules)
 
@@ -1926,7 +1926,7 @@ Koordinaten-Werkzeug: um zusätzlich zu den 2 dimensionalen Koordinaten die Höh
 
 ***
 
-##### portalConfig.menu.sections.modules.copyrightConstraints
+##### portalConfig.menu.sections.modules.copyrightConstraints {data-toc-label='Copyright Constraints'}
 
 [inherits]: # (portalConfig.menu.sections.modules)
 
@@ -2803,7 +2803,7 @@ Konfigurationsoptionen für die Legende.
 
 ***
 
-#### portalConfig.menu.sections.modules.login
+###### portalConfig.menu.sections.modules.login {data-toc-label='Login'}
 
 [inherits]: # (portalConfig.menu.sections.modules)
 
@@ -3534,7 +3534,7 @@ Das ShadowTool bietet eine Oberfläche zur Definition einer Zeitangabe. Über Sl
 |minNumberOfClasses|nein|Number|2|Minimal auswählbare Zahl der Klassen für Choroplethen und Legende. Mindestens 2.|false|
 |maxNumberOfClasses|nein|Number|5|Maximal auswählbare Zahl der Klassen für Choroplethen und Legende. Mindestens 3.|false|
 |numberOfClasses|nein|Number|5|Aktuell ausgewählte Zahl der Klassen für Choroplethen und Legende.|false|
-|selectableColorPalettes|nein|**[selectableColorPalettes](#markdown-header-portalconfigmenusectionsmodulesstatisticDashboardselectableColorPalettes)**|{"label": "Blau", "baseColor": [8, 81, 156]}|Optionen für die Farbpalette der Choroplethen.|false|
+|selectableColorPalettes|nein|**[selectableColorPalettes](#portalconfigmenusectionsmodulesstatisticdashboardselectablecolorpalettes)**|{"label": "Blau", "baseColor": [8, 81, 156]}|Optionen für die Farbpalette der Choroplethen.|false|
 |downloadFilename|nein|String|"Statistic Dashboard Download"|Der Titel der exportierten CSV Datei.|false|
 
 **Beispiel**
@@ -3623,7 +3623,7 @@ Das ShadowTool bietet eine Oberfläche zur Definition einer Zeitangabe. Über Sl
 
 ***
 
-#### portalConfig.menu.sections.modules.statisticDashboard.selectableColorPalettes
+###### portalConfig.menu.sections.modules.statisticDashboard.selectableColorPalettes {data-toc-label='Selectable Color Palettes'}
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
