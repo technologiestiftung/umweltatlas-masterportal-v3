@@ -23,7 +23,6 @@ All the following rules must hold.
 * A.1.3 The linter is active.
 * A.1.4 The linter detects no errors.
 * A.1.5 Files are encoded `UTF-8`.
-* A.1.6 Backbone: No arrow functions are used in templates.
 
 ---
 
@@ -32,8 +31,7 @@ All the following rules must hold.
 * A.2.1 The code uses the frameworks and libraries set by *Geowerkstatt*; they are not bypassed.
 * A.2.2 No methods of *Underscore.js* are in use, except for calls to `_.template()`.
 * A.2.3 No redundant packages are installed.
-* A.2.4 JQuery is only to be used in combination with Backbone.js.
-* A.2.5 The addition of packages/libraries has to be agreed on by the *LGV* team. At least 3 libs need to be evaluated before decisions can be made. Use a form from **[library evalutaion](./library_evaluation/Library_Evaluation.pdf)** and add to PR.
+* A.2.4 The addition of packages/libraries has to be agreed on by the *LGV* team. At least 3 libs need to be evaluated before decisions can be made. Use a form from **[library evalutaion](./library_evaluation/Library_Evaluation.pdf)** and add to PR.
 
 ---
 
@@ -56,18 +54,13 @@ All the following rules must hold.
 
 * A.4.1 The documentation is written in English.
 * A.4.2 The documentation build via `npm run buildJsDoc` does not throw an error.
-* A.4.3 Backbone: For each function a JSDoc block comment with description, parameters, return value, and possibly events, is provided.
-* A.4.4 Backbone: Class definitions are located above the `initialize()` with specification of all default values. All event listeners, event triggers, and event requests occurring are part of the class documentation.
-* A.4.5 Backbone: If a class is inherited from, a *lend* comment exists.
-* A.4.6 Backbone: Namespaces are defined in */devtools/jsdoc/namespaces.js*. They represent the folder structure and modules of the code.
-* A.4.7 Backbone: Events are defined in */devtools/jsdoc/events.js*.
 
 ---
 
 #### A.5 Unit tests
 
 * A.5.1 Unit tests exist for each testable function.
-* A.5.2 For each module a test file exists with file extension `.test.js` (Backbone) or `.spec.js` (Vue). It lives in *test/unittests/modules* within a folder structure mirroring the code folder structure.
+For each module a test file exists with file extension `.spec.js` under tests/unit.
 * A.5.3 For each function a positive test (call with plausible values) and a negative test (call with bad values, e.g. `undefined`, `[]`, `{}`, `""`, ...).
 
 ---
@@ -139,40 +132,36 @@ src
 |   |   |   |   |-- ExampleModule.e2e.js
 |   |
 |   |-- controls
-|   |   |-- ControlBar.vue
-|   |   |-- ControlIcon.vue
-|   |   |-- gettersControls.js
-|   |   |-- indexControls.js
-|   |   |-- mutationsControls.js
+|   |   |-- components
+|   |   |   |-- ControlBar.vue
+|   |   |   |-- ControlIcon.vue
+|   |   |-- controls-store
+|   |   |   |-- actionsControls.js
+|   |   |   |-- gettersControls.js
+|   |   |   |-- indexControls.js
+|   |   |   |-- mutationsControls.js
+|   |   |   |-- stateControls.js
 |   |   |-- ...
 |   |   |-- exampleControl
 |   |   |   |-- components
 |   |   |   |-- store
 |   |   |   |-- tests
 |   |
-|   |-- tools
-|   |   |-- actionsTool.js
-|   |   |-- indexTools.js
-|   |   |-- Tool.vue
-|   |   |-- exampleTool
+|-- shared
+|   |-- js
+|   |-- modules
+|   |   |-- exampleSharedComponent
 |   |   |   |-- components
-|   |   |   |-- store
+|   |   |   |    |-- exampleSharedComponent.vue
+|   |   |   |-- js
 |   |   |   |-- tests
-|   |
-|-- share-components
-|   |-- exampleShareComponent.vue
 |
 |-- tests
-|   |--end2end
-|   |   |--exampleGlobalTest.e2e.js
+|   |-- unit
+|   |   |-- App.spec.js
 |
-|-- utils
-|   |-- exampleGlobalFunction.js
-|
-|-- addons.js
 |-- App.vue
-|-- MainNav.vue
-|-- MapRegion.vue
+|-- main.js
 ```
 
 ---
@@ -206,9 +195,8 @@ The code is written as readable and understandable as possible. The goal is not 
 
 #### B.3 Vue Best Practice
 
-* B.3.1 Vue components in the `share-components` folder contain comments according to the [Vue Styleguidist](https://vue-styleguidist.github.io/).
-* B.3.2 Backbone Radio - New Vue modules should avoid using the `Backbone.Radio` where possible. Radio events in old modules can be replaced with VueX store interaction.
-* B.3.3 For requests it is recommended to use the library Axios.
+* B.3.1 Vue components in the `shared` folder contain comments according to the [Vue Styleguidist](https://vue-styleguidist.github.io/).
+* B.3.2 For requests it is recommended to use the library Axios.
 
 ---
 

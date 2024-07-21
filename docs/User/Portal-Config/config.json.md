@@ -796,7 +796,7 @@ Defines the initial map view and a background shown when no layer or map is sele
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|backgroundImage|no|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/config.json.md#portalconfigmapview"|Path to an alternative background image.|false|
+|backgroundImage|no|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/config.json.md#portalconfigmapview"|Path to an alternative background image.|false|
 |epsg|no|String|"EPSG:25832"|Coordinate reference system EPSG code. The code must be defined as a `namedProjection`.|false|
 |extent|no|**[Extent](#datatypesextent)**|[510000.0, 5850000.0, 625000.4, 6000000.0]|Map extent - map may not be moved outside these boundaries.|false|
 |mapInteractions|nein|**[mapInteractions](#portalconfigmapmapviewmapinteractions)**||Overrides the ol map interactions. Provides further configuration possibilities for control behaviour and keyboardEventTarget.|false|
@@ -1577,17 +1577,21 @@ The following events exist. Which events can be configured can be found in the d
 
 #### portalConfig.menu.sections {data-toc-label='Sections'}
 
+[type:about]: # (portalConfig.menu.sections.modules)
 [type:addWMS]: # (portalConfig.menu.sections.modules)
 [type:bufferAnalysis]: # (portalConfig.menu.sections.modules)
 [type:contact]: # (portalConfig.menu.sections.modules)
 [type:coordToolkit]: # (portalConfig.menu.sections.modules)
+[type:copyrightConstraints]: # (portalConfig.menu.sections.modules)
 [type:customMenuElement]: # (portalConfig.menu.sections.modules)
+[type:draw]: # (portalConfig.menu.sections.modules)
 [type:featureLister]: # (portalConfig.menu.sections.modules)
 [type:fileImport]: # (portalConfig.menu.sections.modules)
 [type:filter]: # (portalConfig.menu.sections.modules)
 [type:language]: # (portalConfig.menu.sections.modules)
 [type:layerClusterToggler]: # (portalConfig.menu.sections.modules)
 [type:layerSlider]: # (portalConfig.menu.sections.modules)
+[type:login]: # (portalConfig.menu.sections.modules)
 [type:measure]: # (portalConfig.menu.sections.modules)
 [type:news]: # (portalConfig.menu.sections.modules)
 [type:openConfig]: # (portalConfig.menu.sections.modules)
@@ -1598,24 +1602,30 @@ The following events exist. Which events can be configured can be found in the d
 [type:shadow]: # (portalConfig.menu.sections.modules)
 [type:statisticDashboard]: # (portalConfig.menu.sections.modules)
 [type:shareView]: # (portalConfig.menu.sections.modules)
+[type:statisticDashboard]: # (portalConfig.menu.sections.modules)
 [type:styleVT]: # (portalConfig.menu.sections.modules)
+[type:wfsSearch]: # (portalConfig.menu.sections.modules)
 [type:wfst]: # (portalConfig.menu.sections.modules)
 
 Modules can be divided into sections. In the menu, sections are divided with a horizontal line.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
+|about|no|**[about](#portalconfigmenusectionsmodulesabout)**||This module displays specific portal information like description, Masterportal version, Metadata.|true|
 |addWMS|no|**[addWMS](#portalconfigmenusectionsmodulesaddwms)**||This module allows loading specific WMS layers. This is done by providing a URL. All the service's layers are retrieved and offered in the layer tree in section "External technical data".|true|
 |bufferAnalysis|no|**[bufferAnalysis](#portalconfigmenusectionsmodulesbufferanalysis)**||This buffer analysis allows the selection of a source layer, a buffer radius and a target layer. The chosen buffer radius will then be shown around features of the selected source layer. At the moment a target layer is selected, only the features of this layer will be shown, if they are outside the buffer radii. It is also possible to invert the result. In this case the resulting features will only be show if they are inside the radii.|false|
 |contact|no|**[contact](#portalconfigmenusectionsmodulescontact)**||The contact form allows users to send messages to a configured email address. For example, this may be used to allow users to submit errors and suggestions. A file can be appended.|false|
 |coordToolkit|no|**[coordToolkit](#portalconfigmenusectionsmodulescoordtoolkit)**||Coordinate query: Tool to query coordinates and altitude by mouse click: When clicking in the map, the coordinates are frozen in the display and can also be copied directly to the clipboard. Coordinate search: The coordinate system and the coordinates can be entered via an input mask. The tool then zooms to the corresponding coordinate and places a marker on it. The coordinate systems are obtained from config.js.|false|
+|copyrightConstraints|no|**[copyrightConstraints](#portalconfigmenusectionsmodulescopyrightconstraints)**||This module loads copyright constraints via the CSW API and shows it per layer. If no information is present, the configured fallback contact information is shown.|false|
 |customMenuElement|no|**[customMenuElement](#portalconfigmenusectionsmodulescustommenuelement)**||This module can open a link, display HTML from config.json or an external file, or perform an action. This module can be configured several times in config.json.|false|
+|draw|no|**[draw](#portalconfigmenusectionsmodulesdraw)**||**!Attention: The new draw module is currently within refactoring process you can use the draw module from Masterportal Version 2 with type "draw_old")!** The draw tool allows painting points, lines, polygons, circles, double circles, and texts to the map. You may download these drawing as KML, GeoJSON, or GPX.|false|
 |featureLister|no|**[featureLister](#portalconfigmenusectionsmodulesfeaturelister)**||Lists all features of a vector layer and highlights a feature by mouse over.|false|
 |fileImport|no|**[fileImport](#portalconfigmenusectionsmodulesfileimport)**||Import KML, GeoJSON, and GPX files with this modules.|false|
 |filter|no|**[filter](#portalconfigmenusectionsmodulesfilter)**||Configuration for an advanced filter for vector layers.|false|
 |language|no|**[language](#portalconfigmenusectionsmoduleslanguage)**||In this module the language of the portal can be switched.|false|
 |layerClusterToggler|no|**[layerClusterToggler](#portalconfigmenusectionsmoduleslayerclustertoggler)**||This module allows a cluster layers to be active and deactive together.|false|
 |layerSlider|no|**[layerSlider](#portalconfigmenusectionsmoduleslayerslider)**||The layerSlider module allows showing arbitrary services in order. This can e.g. be used to show aerial footage from multiple years in succession.|false|
+|login|no|**[login](#portalconfigmenusectionsmoduleslogin)**||Configuration of login with an OIDC server.|false|
 |measure|no|**[measure](#portalconfigmenusectionsmodulesmeasure)**||Allows measuring areas and distances in the units m/km/nm resp. m²/ha/km².|false|
 |news|no|**[news](#portalconfigmenusectionsmodulesnews)**||This module shows all messages from the newsFeedPortalAlerts.json and the config.json of the current portal regardless of the "read" status.|false|
 |openConfig|no|**[openConfig](#portalconfigmenusectionsmodulesopenconfig)**||ith this module a configuration file (config.json) can be reloaded at runtime. The modules and map are adapted to the new configuration.|false|
@@ -1627,6 +1637,7 @@ Modules can be divided into sections. In the menu, sections are divided with a h
 |statisticDashboard|no|**[statisticDashboard](#portalconfigmenusectionsmodulesstatisticdashboard)**||Displaying statistical data.|false|
 |shareView|no|**[shareView](#portalconfigmenusectionsmodulesshareview)**||Module to share a link to the current map view.|false|
 |styleVT|no|**[styleVT](#portalconfigmenusectionsmodulesstylevt)**||Style selection for VT services. Allows switching between styles of a Vector Tile Layer that provides multiple stylings via the `services.json` file.|false|
+|wfsSearch|no|**[wfsSearch](#portalconfigmenusectionsmoduleswfssearch)**||Makes it possible to create a form to query WFS layers using filters. It is possible to either use a stored query (WFS@2.0.0) or define the query using the defined parameters (WFS@1.1.0).|false|
 |wfst|no|**[wfst](#portalconfigmenusectionsmoduleswfst)**||WFS-T module to visualize, create, update and delete features.|false|
 
 ***
@@ -1644,6 +1655,47 @@ Modules can be divided into sections. In the menu, sections are divided with a h
 |type|no|String||The type of the module. Defines which module is configured.|false|
 
 ***
+
+##### portalConfig.menu.sections.modules.about
+
+[inherits]: # (portalConfig.menu.sections.modules)
+
+This module displays specific portal information like description, Masterportal version, Metadata.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|icon|no|String|"bi-info-circle"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
+|name|no|String|"common:modules.about.name"|Name of the module in the menu.|false|
+|type|no|String|"about"|The type of the module. Defines which module is configured.|false|
+|abstractText|no|String|""|Description of the portal|false|
+|contact|no|String|null|Metadata contact information|false|
+|cswUrl|no|String|"../../src/assets/img/Logo_Masterportal.svg"|Metadata URL|false|
+|logoLink|no|String|"https://masterportal.org"|Logo link|false|
+|logoText|no|String|"Masterportallogo"|Text if logo is not shown|false|
+|metaDataCatalogueId|no|String|"2"|Id of the metadata service|false|
+|metaId|no|String|""|Id of the metadata object|false|
+|metaUrl|no|String|""|URL of the metadata object|false|
+|noMetadataLoaded|no|String|""|Text if no metadata is shown|false|
+|showAdditionalMetaData|no|Boolean|true|Metadata link to show extended metadata|false|
+|title|no|String|""|Metadata title |false|
+|version|no|String|""|Version information of the masterportal|false|
+|versionLink|no|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/downloads/"|Link to the masterportal version|false|
+
+**Example**
+
+```json
+{
+    "icon": "bi-cloud-circle",
+    "name": "common:modules.about.name",
+    "type": "about",
+    "cswUrl": "https://metaver.de/csw",
+    "metaUrl": "https://metaver.de/trefferanzeige?docuuid=40D48B03-AD1D-407B-B04D-B5BC6855BE15",
+    "metaId": "40D48B03-AD1D-407B-B04D-B5BC6855BE15"
+}
+```
+
+***
+
 
 ##### portalConfig.menu.sections.modules.addWMS {data-toc-label='Add WMS'}
 
@@ -1793,6 +1845,26 @@ Email object containing email address, and display name.
 
 ***
 
+##### portalConfig.menu.sections.modules.compareMaps {data-toc-label='Compare Maps'}
+
+[inherits]: # (portalConfig.menu.sections.modules)
+
+compareMaps Tool: This tool allows users to compare two map layers side by side using a layer swiper. Users select layers from the active, visible layers, and the swiper divides the map to show each layer in separate sections. The tool supports WMS and WFS layers and ensures complete layer updates before allowing swiper movement for accurate comparison.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|type|no|String|"compareMaps"|The type of the module. Defines which module is configured.|false|
+
+**Example**
+
+```json
+{
+    "type": "compareMaps",
+}
+```
+
+***
+
 ##### portalConfig.menu.sections.modules.coordToolkit {data-toc-label='Coordinate Toolkit'}
 
 [inherits]: # (portalConfig.menu.sections.modules)
@@ -1848,6 +1920,34 @@ Coordinates tool: to display the height above sea level in addition to the 2 dim
 |----|-------------|---|-------|------------|------|
 |explanations|no|**[explanations](#datatypesexplanations)**[]||Array of declarations from which a list is created.|false|
 |title|no|string||Heading for the explanations of the coordinate reference systems.|false|
+
+***
+
+##### portalConfig.menu.sections.modules.copyrightConstraints
+
+[inherits]: # (portalConfig.menu.sections.modules)
+
+Lists the copyright constraints of active layers.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|type|nein|String|"copyrightConstraints"|The type of the module. Defines which module is added. |false|
+
+**Beispiel**
+
+```json
+{
+    "type": "copyrightConstraints",
+    "name": "Copyright Information",
+    "info": "Please note the copyright information.",
+    "notSpecified": "No information available. Please contact:",
+    "contactOrganisation": "Organisation",
+    "contactName": "Name",
+    "contactPhone": "Tel.",
+    "contactEmail": "E-Mail",
+    "wait": "Loading..."
+}
+```
 
 ***
 
@@ -1920,10 +2020,317 @@ CustomMenuElement Module `execute` options.
 
 [inherits]: # (portalConfig.menu.sections.modules)
 
+!!! warning "Ongoing Refactoring"
+    The new draw module is currently within refactoring process you can use the draw module from Masterportal Version 2 with type "draw_old"!
+    Module used to draw features on the map. This includes points, which may also be represented by symbols, and (double) circles, polygons, polylines, and text.
+
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
+|name|yes|String||Tool name in the menu.|false|
+|iconList|no|**[icon](#portalconfigmenusectionsmodulesdrawicon)**[]|[{"id": "iconPoint", "type": "simple_point", "value": "simple_point"}, {"id": "yellow pin", "type": "image", "scale": 2, "value": "geo-fill-ylw.svg"}]|List of symbols the user may choose from to draw colored symbols or dots. Images may be used, too, as shown in the example.|false|
+|drawSymbolSettings|no|**[drawSymbolSet](#portalconfigmenusectionsmodulesdrawdrawsymbolset)**|{"color": [55, 126, 184, 1], "opacity": 1}|Pre-configuration for symbol drawing.|false|
+|addIconsOfActiveLayers|no|Boolean|false|Set this flag to `true` to be able to select the icons and symbols of all WFS layers activated in the topic tree as additional symbols besides the icons configured under `drawSymbolSettings`.|false|
+|drawLineSettings|no|**[drawLineSet](#portalconfigmenusectionsmodulesdrawdrawlineset)**|{"strokeWidth": 1, "opacityContour": 1, "colorContour": [0, 0, 0, 1]}|Pre-configuration for line drawing.|false|
+|drawCurveSettings|no|**[drawCurveSet](#portalconfigmenusectionsmodulesdrawdrawcurveset)**|{"strokeWidth": 1, "opacityContour": 1, "colorContour": [0, 0, 0, 1]}|Pre-configuration for freehand drawing.|false|
+|drawAreaSettings|no|**[drawAreaSet](#portalconfigmenusectionsmodulesdrawdrawareaset)**|{"strokeWidth": 1, "color": [55, 126, 184, 1], "opacity": 1, "colorContour": [0, 0, 0, 1], "opacityContour": 1}|Pre-configuration for area drawing.|false|
+|drawCircleSettings|no|**[drawCircleSet](#portalconfigmenusectionsmodulesdrawdrawcircleset)**|{"circleMethod": "interactive", "unit": "m", "circleRadius": null, "strokeWidth": 1, "color": [55, 126, 184, 1], "opacity": 1, "colorContour": [0, 0, 0, 1], "opacityContour": 1, "tooltipStyle": {"fontSize": "16px", "paddingTop": "3px", "paddingLeft": "3px", "paddingRight": "3px", "backgroundColor": "rgba(255, 255, 255, .9)"}}|Pre-configuration for circle drawing.|false|
+|drawDoubleCircleSettings|no|**[drawDoubleCircleSet](#portalconfigmenusectionsmodulesdrawdrawdoublecircleset)**|{"circleMethod": "defined", "unit": "m", "circleRadius": 0, "circleOuterRadius": 0, "strokeWidth": 1, "color": [55, 126, 184, 1], "opacity": 1, "colorContour": [0, 0, 0, 1], "outerColorContour": [0, 0, 0, 1], "opacityContour": 1}|Pre-configuration for double circle drawing.|false|
+|writeTextSettings|no|**[writeTextSet](#portalconfigmenusectionsmodulesdrawwritetextset)**|{"text": "", "fontSize": 10, "font": "Arial", "color": [55, 126, 184, 1], "opacity": 1}|Pre-configuration for text writing.|false|
+|download|no|**[download](#portalconfigmenusectionsmodulesdrawdownload)**|{"preSelectedFormat": "KML"}|Pre-configuration for download.|false|
+|enableAttributesSelector|no|Boolean|false|Enables an button which toggles an edit section for custom attributes on the selected feature.|false|
+|semicolonCSVDelimiter|no|Boolean|true|To decide if the semicolon is used as the delimiter for exported CSV file.|false|
+
+**Example**
+
+```json
+
+{
+    "type": "draw_old",
+    "name": "Draw / Write",
+    "icon": "bi-pencil-fill",
+    "iconList": [
+        {
+            "id": "iconPoint",
+            "type": "simple_point",
+            "value": "simple_point"
+        },
+        {
+            "id": "iconMeadow",
+            "type": "image",
+            "scale": 0.8,
+            "value": "meadow.png"
+        },
+        {
+            "id": "yellow pin",
+            "type": "image",
+            "scale": 2,
+            "value": "geo-fill-ylw.svg"
+        }
+    ],
+    "drawDoubleCircleSettings": {
+        "circleRadius": 1500,
+        "circleOuterRadius": 3000,
+        "strokeWidth": 3,
+        "color": [55, 126, 184, 0],
+        "opacity": 0,
+        "colorContour": [228, 26, 28, 1],
+        "opacityContour": 1,
+        "tooltipStyle": {
+            "fontSize": "14px",
+            "paddingTop": "3px",
+            "paddingLeft": "3px",
+            "paddingRight": "3px",
+            "backgroundColor": "rgba(255, 255, 255, .9)"
+        }
+    }
+    "semicolonCSVDelimiter": true
+}
+
+```
 
 ***
+
+###### portalConfig.menu.sections.modules.draw.icon {data-toc-label='Icon'}
+
+Dot object consisting of text, type, and value.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|id|yes|String||Symbol text displayed in the select menu. The id has to be defined in the locale file (usually `common`) as `modules.draw.iconList` child. The following entry should begin with `icon` and contain a representative description. If the key is not found, the `id` will appear as string on the user interface.|false|
+|caption|no|String||_Deprecated in 3.0.0._ Symbol text displayed in the select menu. Unlike `id`, not only the id itself, but the whole path (`modules.draw.iconList` + id) has to be given.|false|
+|type|yes|enum["image", "simple_point"]||Object type to be drawn. If `image` is chosen, the PNG or SVG file from the `value` path is drawn. By default, images are to be placed in the `/img/tools/draw/` directory and should have a height and width of 96px to scale correctly. Alternatively, a working `scale` factor must be defined. The key `simple_point` will draw a simple point.|false|
+|scale|no|number||Scale factor for images.|false|
+|value|yes|String||Value of the object to be drawn. If no path or URL is set, a file name is expected, and the *config.js* entry `wfsImgPath` is expected to be the file's location.|false|
+
+**Example**
+
+```json
+{
+    "iconList": [
+        {
+            "id": "iconPoint",
+            "type": "simple_point",
+            "value": "simple_point"
+        },
+        {
+            "id": "iconMeadow",
+            "type": "image",
+            "scale": 0.8,
+            "value": "meadow.png"
+        },
+        {
+            "id": "yellow pin",
+            "type": "image",
+            "scale": 2,
+            "value": "geo-fill-ylw.svg"
+        }
+    ]
+}
+```
+
+***
+
+
+###### portalConfig.menu.sections.modules.draw.drawSymbolSet {data-toc-label='Symbol Set'}
+
+Object to change the drawing tool's configured point symbol default value.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|color|yes|Number[]|[55, 126, 184, 1]|The pre-configured color of the symbol as RGB color. The alpha channel value is used for point coloring.|false|
+|opacity|yes|Number|1|The pre-configured transparency of symbols, given in range [0..1] for point data.|false|
+
+
+**Example**
+
+```json
+{
+    "color": [55, 126, 184, 1],
+    "opacity": 1
+}
+```
+
+***
+
+###### portalConfig.menu.sections.modules.draw.drawLineSet {data-toc-label='Line Set'}
+
+Object to change the drawing tool's configured line default value.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|strokeWidth|yes|Number|1|Pre-configured stroke width of lines in pixels.|false|
+|colorContour|yes|Number[]|[0, 0, 0, 1]|Pre-configured line color in RGBA.|false|
+|opacityContour|yes|Number|1|Pre-configured line transparency in range [0..1].|false|
+
+**Example**
+
+```json
+{
+    "strokeWidth": 1,
+    "opacityContour": 1,
+    "colorContour": [0, 0, 0, 1]
+}
+```
+
+***
+
+###### portalConfig.menu.sections.modules.draw.drawCurveSet {data-toc-label='Curve Set'}
+
+Object to change the drawing tool's configured freehand drawing default value.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|strokeWidth|yes|Number|1|Pre-configured stroke width of lines in pixels.|false|
+|colorContour|yes|Number[]|[0, 0, 0, 1]|Pre-configured line color in RGBA.|false|
+|opacityContour|yes|Number|1|Pre-configured line transparency in range [0..1].|false|
+
+**Example**
+
+```json
+{
+    "strokeWidth": 1,
+    "opacityContour": 1,
+    "colorContour": [0, 0, 0, 1]
+}
+```
+
+***
+
+###### portalConfig.menu.sections.modules.draw.drawAreaSet {data-toc-label='Area Set'}
+
+Object to change the drawing tool's configured area default value.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|strokeWidth|yes|Number|1|Pre-configured stroke width of area borders in pixels.|false|
+|color|yes|Number[]|[55, 126, 184, 1]|Pre-configured area color in RGBA.|false|
+|opacity|yes|Number|1|Pre-configured area transparency in range [0..1].|false|
+|colorContour|yes|Number[]|[0, 0, 0, 1]|Pre-configured area border color in RGBA.|false|
+|opacityContour|yes|Number|1|Pre-configured area border transparency in range [0..1].|false|
+
+**Example**
+
+```json
+{
+    "strokeWidth": 1,
+    "color": [55, 126, 184, 1],
+    "opacity": 1,
+    "colorContour": [0, 0, 0, 1],
+    "opacityContour": 1
+}
+```
+
+***
+
+###### portalConfig.menu.sections.modules.draw.drawCircleSet {data-toc-label='Circle Set'}
+
+Object to change the drawing tool's configured circle default value.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|circleMethod|yes|String|"interactive"|Pre-configured method of circle drawing. `"interactive"`: freehand, `"defined"`: by entering fixed values|false|
+|unit|yes|String|"m"|Pre-configured unit regarding the circle's Radius `circleRadius` when `"defined"` is chosen as `circleMethod`.|false|
+|circleRadius|yes|Number|0|Pre-configured circle Radius when `"defined"` is chosen as `circleMethod`.|false|
+|strokeWidth|yes|Number|1|Pre-configured stroke width of circle border in pixels.|false|
+|color|yes|Number[]|[55, 126, 184, 1]|Pre-configured circle color in RGBA.|false|
+|opacity|yes|Number|1|Pre-configured circle transparency in range [0..1].|false|
+|colorContour|yes|Number[]|[0, 0, 0, 1]|Pre-configured circle border color in RGBA.|false|
+|opacityContour|yes|Number|1|Pre-configured circle border transparency in range [0..1].|false|
+|tooltipStyle|no|String|{}|Pre-configured style for tooltip.|false|
+
+**Example**
+
+```json
+{
+    "circleMethod": "interactive",
+    "unit": "m",
+    "circleRadius": 0,
+    "strokeWidth": 1,
+    "color": [55, 126, 184, 1],
+    "opacity": 1,
+    "colorContour": [0, 0, 0, 1],
+    "opacityContour": 1
+}
+```
+
+***
+
+###### portalConfig.menu.sections.modules.draw.drawDoubleCircleSet {data-toc-label='Double Circle Set'}
+
+Object to change the drawing tool's configured circle default value.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|circleMethod|yes|String|"defined"|Pre-configured method of circle drawing. `"interactive"`: freehand, `"defined"`: by entering fixed values|false|
+|unit|yes|String|"m"|Pre-configured unit regarding the circle's radius `circleRadius` and `circleOuterRadius` when `"defined"` is chosen as `circleMethod`.|false|
+|circleRadius|yes|Number|0|Pre-configured inner circle radius when `"defined"` is chosen as `circleMethod`.|false|
+|circleOuterRadius|yes|Number|0|Pre-configured outer circle radius when `"defined"` is chosen as `circleMethod`.|false|
+|strokeWidth|yes|Number|1|Pre-configured stroke width of circle border in pixels.|false|
+|color|yes|Number[]|[55, 126, 184, 1]|Pre-configured circle color in RGBA.|false|
+|opacity|yes|Number|1|Pre-configured double circle transparency in range [0..1].|false|
+|colorContour|yes|Number[]|[0, 0, 0, 1]|Pre-configured inner circle border color in RGBA.|false|
+|outerColorContour|yes|Number[]|[0, 0, 0, 1]|Pre-configured outer circle border color in RGBA.|false|
+|opacityContour|yes|Number|1|Pre-configured circle border transparency in range [0..1].|false|
+
+**Example**
+
+```json
+{
+    "circleMethod": "defined",
+    "unit": "m",
+    "circleRadius": 0,
+    "circleOuterRadius": 0,
+    "strokeWidth": 1,
+    "color": [55, 126, 184, 1],
+    "opacity": 1,
+    "colorContour": [0, 0, 0, 1],
+    "opacityContour": 1
+}
+```
+
+***
+
+###### portalConfig.menu.sections.modules.draw.writeTextSet {data-toc-label='Write Text Set'}
+
+Object to change the drawing tool's configured text default value.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|text|yes|String|""|Pre-configured text.|false|
+|fontSize|yes|Number|10|Pre-configured font size.|false|
+|font|yes|String|"Arial"|Pre-configured font. Restricted to `"Arial"`, `"Calibri"`, and `"Times New Roman"`.|false|
+|color|yes|Number[]|[55, 126, 184, 1]|Pre-configured font color in RGBA.|false|
+|opacity|yes|Number|1|Pre-configured font transparency in range [0..1].|false|
+
+**Example**
+
+```json
+{
+    "text": "",
+    "fontSize": 10,
+    "font": "Arial",
+    "color": [55, 126, 184, 1],
+    "opacity": 1
+}
+```
+
+***
+
+###### portalConfig.menu.sections.modules.draw.download {data-toc-label='Download'}
+
+Object to change the drawing tool's download preselected format. It should be one of "KML", "GEOJSON" and "GPX".
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|preSelectedFormat|no|enum["KML","GEOJSON","GPX"]|"KML"|Pre-configured pre-selected form.|false|
+
+**Example**
+
+```json
+{
+    "preSelectedFormat": "KML"
+}
+```
 
 ##### portalConfig.menu.sections.modules.featureLister {data-toc-label='Feature Lister'}
 
@@ -2395,6 +2802,25 @@ Legend configuration options.
 |name|yes|String|"common:modules.legend.name"|Name of the module in the menu.|false|
 |type|no|String|"legend"|The type of the module. Defines which module is configured.|false|
 |sldVersion|no|String|""|Defines the `Styled Layer Descriptor` Version for the GetLegendGraphic requests, e.g. "1.1.0"|false|
+
+***
+
+#### portalConfig.menu.sections.modules.login
+
+[inherits]: # (portalConfig.menu.sections.modules)
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|name|yes|String||The name for the module in the menu. Overwritten when the user is logged in.|false|
+|icon|yes|String||The icon next to the login button in the menu. Will be changed when the user is logged in (see module store).|false|
+
+```json
+{
+    "type": "login",
+    "name": "translate#common:modules.login.login",
+    "icon": "bi-door-open"
+}
+```
 
 ***
 
@@ -3106,6 +3532,13 @@ The shadow tool provides a UI element to define a point in time by using sliders
 |colorScheme|yes|**[colorScheme](#portalconfigmenusectionsmodulesstatisticdashboardcolorscheme)**|""|Defines the colours of the features in statisticdashboard.|false|
 |active|no|Boolean|false|If `true`, the tool is open after initializing the portal.|false|
 |data|yes|**[data](#portalconfigmenusectionsmodulesstatisticdashboarddata)**|""|data for statistic dashboard.|false|
+|classificationMode|no|String|"quantiles"|Method for dividing values into classes: "quantiles", "equalIntervals" or "benutzerdefiniert"|false|
+|allowPositiveNegativeMix|no|Boolean|false|If classification method is allowed to create classes like "from -1 to 1".|false|
+|minNumberOfClasses|no|Number|2|Minimum selectable number of classes for choropleth map and legend. At least 2.|false|
+|maxNumberOfClasses|no|Number|5|Maximum selectable number of classes for choropleth map and legend. At least 3.|false|
+|numberOfClasses|no|Number|5|Current selected number of classes.|false|
+|selectableColorPalettes|no|**[selectableColorPalettes](#markdown-header-portalconfigmenusectionsmodulesstatisticDashboardselectableColorPalettes)**|{"label": "Blau", "baseColor": [8, 81, 156]}|Available options for color palettes |false|
+|downloadFilename|no|String|"Statistic Dashboard Download"|The filename of the exported csv file.|false|
 
 **Example**
 
@@ -3114,10 +3547,9 @@ The shadow tool provides a UI element to define a point in time by using sliders
     "name": "translate#common:menu.statisticDashboard",
     "subtitle": "common:modules.statisticDashboard.headings.mrhstatistics",
     "icon": "bi-speedometer",
+    "downloadFilename": "Downloaded_Data",
     "colorScheme": {
         "referenceRegion": [155, 155, 155, 0.7],
-        "comparisonMap": [[198, 219, 239, 0.9], [158, 202, 225, 0.9], [107, 174, 214, 0.9], [49, 130, 189, 0.9], [8, 81, 156, 0.9]],
-        "differenceMap": [[210, 226, 27, 0.9], [122, 209, 81, 0.9], [84, 197, 104, 0.9], [34, 168, 132, 0.9], [35, 136, 142, 0.9]],
         "lineCharts": [[74, 0, 30, 1], [117, 18, 50, 1], [189, 47, 83, 1], [198, 81, 84, 1], [228, 121, 97, 1], [240, 168, 130, 1], [250, 212, 172, 1], [157, 185, 171, 1], [137, 192, 196, 1], [87, 158, 185, 1],
             [57, 122, 168, 1], [28, 87, 150, 1], [22, 55, 113, 1], [16, 25, 77, 1], [118, 199, 190, 1], [62, 168, 166, 1], [32, 130, 136, 1], [0, 73, 75, 1], [224, 110, 133, 1], [204, 65, 90, 1]]
     },
@@ -3180,8 +3612,6 @@ The shadow tool provides a UI element to define a point in time by using sliders
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |referenceRegion|yes|Float[]|[]|The RGBA color of the Reference region.|false|
-|comparisonMap|yes|Float[]|[]|The list of the RGBA colors of the comparison map.|false|
-|differenceMap|yes|Float[]|[]|The list of the RGBA colors of the difference map.|false|
 |lineCharts|yes|Float[]|[]|The list of the RGBA colors of the linecharts.|false|
 
 **Example**
@@ -3189,11 +3619,29 @@ The shadow tool provides a UI element to define a point in time by using sliders
 ```json
 {
         "referenceRegion": [155, 155, 155, 0.7],
-        "comparisonMap": [[198, 219, 239, 0.9], [158, 202, 225, 0.9], [107, 174, 214, 0.9], [49, 130, 189, 0.9], [8, 81, 156, 0.9]],
-        "differenceMap": [[210, 226, 27, 0.9], [122, 209, 81, 0.9], [84, 197, 104, 0.9], [34, 168, 132, 0.9], [35, 136, 142, 0.9]],
         "lineCharts": [[74, 0, 30, 1], [117, 18, 50, 1], [189, 47, 83, 1], [198, 81, 84, 1], [228, 121, 97, 1], [240, 168, 130, 1], [250, 212, 172, 1], [157, 185, 171, 1], [137, 192, 196, 1], [87, 158, 185, 1],
             [57, 122, 168, 1], [28, 87, 150, 1], [22, 55, 113, 1], [16, 25, 77, 1], [118, 199, 190, 1], [62, 168, 166, 1], [32, 130, 136, 1], [0, 73, 75, 1], [224, 110, 133, 1], [204, 65, 90, 1]]
 }
+```
+
+***
+
+#### portalConfig.menu.sections.modules.statisticDashboard.selectableColorPalettes
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|label|yes|String||The displayed name of the color palette.|false|
+|baseColor|yes|Number[]||The base color as an rgb array|false|
+
+**Beispiel**
+
+```json
+[
+        {
+            "label": "Blau",
+            "baseColor": [8, 81, 156]
+        }
+]
 ```
 
 ***
@@ -3203,6 +3651,8 @@ The shadow tool provides a UI element to define a point in time by using sliders
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|----|-----------|------|
 |layerId|yes|String|""|The id of the Layer.|false|
+|oafRequestCRS|no|String|""|Only for OAF Service - The coordinate reference system of the response geometries. I.e.: 'http://www.opengis.net/def/crs/EPSG/0/25832'|false|
+|oafDataProjectionCode|no|String|""|Only for OAF Service - The projection code of the data. Is needed to render the features on the map. I.e.: 'EPSG:25832'|false|
 |geometryAttribute|yes|String|""|Type of the geometry attribute.|false|
 |chartDirectionValue|no|String|""|Specifies the number above which the bars in the chart will be switched from vertical to horizontal.|false|
 |timeStepsFilter|yes|**[timeStepsFilter](#portalconfigmenusectionsmodulesstatisticdashboarddatatimestepsfilter)**|""|An object consisting of keys and values where the key contains the number of time groupings and the value contains the description for the grouping.|false|
@@ -3213,6 +3663,8 @@ The shadow tool provides a UI element to define a point in time by using sliders
 ```json
 {
     "layerId": "28992",
+    "oafRequestCRS": "http://www.opengis.net/def/crs/EPSG/0/25832",
+    "oafDataProjectionCode": "EPSG:25832",
     "geometryAttribute": "geom",
     "chartDirectionValue": 10,
     "timeStepsFilter": {
@@ -3369,7 +3821,7 @@ The shadow tool provides a UI element to define a point in time by using sliders
 ```json
 {
     "attrName": "statistisches_gebiet",
-    "name": "Statistisches Gebiet"
+    "name": "Kreis"
 }
 ```
 
@@ -3477,7 +3929,8 @@ Multiple **[SearchInstances](#portalconfigmenusectionsmoduleswfssearchsearchinst
 
 ```json
 {
-    "wfsSearch": {
+    {
+        "type": "wfsSearch",
         "instances": [
             {
                 "requestConfig": {
@@ -3617,11 +4070,11 @@ When editing properties of a feature / adding properties to a new feature, the a
         {
             "layerId":"1234",
             "caption": "Point test",
-            "show": true
+            "available": true
         },
         {
             "layerId": "5678",
-            "show": true,
+            "available": true,
             "multi": true
         }
     ],
@@ -3629,13 +4082,13 @@ When editing properties of a feature / adding properties to a new feature, the a
     "polygonButton": [
         {
             "layerId": "4389",
-            "show": false
+            "available": false
         }
     ],
     "update": [
         {
             "layerId": "4389",
-            "show": true
+            "available": true
         }
     ]
 }

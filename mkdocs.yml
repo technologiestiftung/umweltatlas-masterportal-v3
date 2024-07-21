@@ -132,6 +132,5 @@ nav:
                     - Dev/vueComponents/LayerPreview.md
                     - Dev/vueComponents/layerSelector.md
             -   'Testing':
-                    -   'Unit Tests': Dev/Testing/browserTest.md
                     -   'Vue': Dev/Testing/unitTestVue.md
 

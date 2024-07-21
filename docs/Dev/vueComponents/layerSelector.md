@@ -1,5 +1,8 @@
 # The layerSelector module
 
+!!! warning "Outdated"
+    This file is outdated, only valid for version 2 - layerSelector will be added in future version 3.x release!
+
 Module to configure interactions with the layertree and the map, executed on a defined event.
 
 ## Configuration of the module

@@ -1,6 +1,7 @@
->Use the remote interface.
-
 # Remote interface
+
+!!! warning "Outdated"
+    This document is outdated and only valid for Masterportal version 2.
 
 The remote interface allows programmatic interaction with the Masterportal. It gives access to all registered VueX actions and a set of dedicated additional functions.
 
@@ -174,45 +175,6 @@ const myIframe = document.getElementById("my-iframe").contentWindow;
 iframe.postMessage("hidePosition", domain);
 ```
 
-## Generic remote interface for `Backbone.Radio` (deprecated)
-
-The functions registered to the `Backbone.Radio` element may also be used via `postMessage()`. They are called by channel and function name.
-
-> Please mind that the usage of Backbone.Radio itself is currently deprecated. Backbone will eventually be removed.
-
-|Name|Type|Explanation|
-|----|---|------------|
-|radio_channel|String|radio channel to target|
-|radio_function|String|radio channel function to call|
-|radio_para_object|Object|optional parameter object forwarded to the called function|
-|domain|String|receiver window's domain|
-
-### Example
-```js
-const myIframe = document.getElementById("my-iframe").contentWindow;
-iframe.postMessage({
-    "radio_channel": "MyRadioChannel",
-    "radio_function": "myRequestedFunction",
-    "radio_para_object": {
-        "param1": "param1",
-        "paramX": "paramX"
-    }
-}, domain);
-```
-
-This will construct and execute the following call.
-
-```js
-Radio.request(
-    "MyRadioChannel",
-    "myRequestedFunction",
-    {
-        "param1": "param1",
-        "paramX": "paramX"
-    }
-);
-```
-
 ## Masterportal communication to the parent window
 
 Previously the *top-down* communication (parent to Masterportal) has been shown. The Masterportal may also communicate in the opposite direction.
@@ -246,26 +208,6 @@ parent.postMessage({
     "param1": "param1",
     "paramX": "paramX"
 }, options.postMessageUrl);
-```
-
-## Masterportal communication to the parent window via `Backbone.Radio` (deprecated)
-
-> Please mind that the usage of Backbone.Radio itself is currently deprecated. Backbone will eventually be removed.
-
-|Name|Type|Explanation|
-|-|-|-|
-|params|Object|parameter object sent to parent window|
-
-### Example
-
-```js
-Radio.trigger(
-    "RemoteInterface",
-    "postMessage", {
-        "param1": "param1",
-        "paramX": "paramX"
-    }
-);
 ```
 
 ## Tutorial: Integration of the master portal into an iframe

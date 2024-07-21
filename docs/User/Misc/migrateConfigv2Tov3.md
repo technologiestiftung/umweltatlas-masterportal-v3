@@ -5,7 +5,7 @@
 git clone https://fmlgv@bitbucket.org/geowerkstatt-hamburg/masterportal.git
 ```
 
-2. Check out the current Masterportal 3.0.0 development branch via Git. 
+2. Check out the current Masterportal 3.0.0 development branch via Git.
 ```json
 git checkout dev_vue
 ```
@@ -20,8 +20,8 @@ npm run migrateConfig
 
 - First, the portal folder of the portal to be migrated must be specified (here `testportal_v2`) with path.The source file config.json must be located in the folder.
 ```json
-masterportal@3.0.0-beta2 migrateConfig
-node devtools/tasks/migrator_3_0_0/migrate.js
+masterportal@3.0.0 migrateConfig
+node devtools/tasks/migrator/migrate.js
 
 The paths to the portal or folder with portals must start from "[...]/masterportal/")!
 ? source path to the portal or folder with portals to migrate:

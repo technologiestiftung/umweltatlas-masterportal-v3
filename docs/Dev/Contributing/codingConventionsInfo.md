@@ -34,184 +34,6 @@ functionWithParamsAndReturn: function (param1) {
 
 ---
 
-#### A.4.4
-
-*Example for the `initialize()` function:*
-
-```js
-defaults: {
-    channel: Radio.channel("Alert"),
-    category: "alert-info",
-    isDismissable: true,
-    isConfirmable: false,
-    position: "top-center",
-    message: "",
-    animation: false
-},
-
-/**
- * @class AlertingModel
- * @extends Backbone.Model
- * @memberof Alerting
- * @constructs
- * @property {Radio.channel} channel=Radio.channel("Alert") Radio channel for communication
- * @property {String} category="alert-info" Category of alert. bootstrap css class
- * @property {Boolean} isDismissable=true Flag if alert has a dismissable button
- * @property {Boolean} isConfirmable=false Flag if alert has to be confirmed to close
- * @property {String} position="top-center" The positioning of the alert. Possible values "top-center", "center-center"
- * @property {String} message="" The message of the alert
- * @property {Boolean} animation=false Flag if Alert is animated by means of fading out
- * @fires Alerting#render
- * @fires Alerting#changePosition
- * @listens Alerting#RadioTriggerAlertAlert
- */
-initialize: function () {
-    this.listenTo(this.get("channel"), {
-        "alert": this.setParams
-    }, this);
-},
-```
-
-*Example for template instantiation:*
-
-```js
-/**
- * @member AlertingTemplate
- * @description Template used to create the alert message
- * @memberof Alerting
- */
-template: _.template(AlertingTemplate),
-```
-
----
-
-#### A.4.5
-
-*Comment on inheritance:*
-
-```js
-    const AlertingModel = Backbone.Model.extend(/** @lends AlertingModel.prototype */{
-```
-
----
-
-#### A.4.6
-
-Namespace definition.
-
-*Example namespace Alerting in Root:*
-
-```js
-/**
- * @namespace Alerting
- * @description Alerting system that responds to given events.
- * Used to have the same alert all over the portal.
- */
-```
-
-*Example namespace ModelList as Core subfolder:*
-
-```js
-/**
- * @namespace ModelList
- * @memberof Core
- * @description List module to gather all item models
- */
-```
-
-*Example nested namespace:*
-
-```js
-/**
- * @event Core.ModelList.Layer#changeIsSelected
- * @param {Backbone.Model} model The model whose attribute hat changed.
- * @param {Boolean} value The attribute value that has changed.
- * @description Fired if attribute isSelected has changed
- */
-```
-
-*Example module namespace with event of namespace Alerting:*
-```js
-/**
- * @event Alerting#RadioTriggerAlertAlert
- * @param {String/Object} alert The alert object or string needed to create the alert.
- * @example Radio.trigger("Alert", "alert", alert)
- */
-```
-
----
-
-#### A.4.7
-
-Event definition.
-
-*Example: `Radio.trigger("Channel", "Event");`*
-```js
-/**
- * @event Namespace#RadioTriggerChannelEvent
- * @description FooBar.
- * @example Radio.trigger("Channel", "Event")
- */
-```
-
-*Example: `Radio.trigger("Channel", "EventWithData", data);`*
-```js
-/**
- * @event Namespace#RadioTriggerChannelEventWithData
- * @description FooBar.
- * @param {*} data Data to be sent with the event
- * @example Radio.trigger("Channel", "Event", data)
- */
-```
-
-*Example: `Radio.request("Channel", "Event");`*
-```js
-/**
- * @event Namespace#RadioRequestChannelEvent
- * @description FooBar.
- * @returns {*} - Response of this event
- * @example Radio.request("Channel", "Event")
- */
-```
-
-*Example: `Radio.request("Channel", "EventWithData", data);`*
-```js
-/**
- * @event Namespace#RadioRequestChannelEventWithData
- * @description FooBar.
- * @param {*} data Data to be sent with the event
- * @returns {*} - Response of this evennt
- * @example Radio.request("Channel", "Event", data)
- */
-```
-
-*Example: `Model.trigger("myTrigger");`*
-```js
-/**
- * @event Namespace#MyTrigger
- * @description FooBar.
- */
-```
-
-*Example: `Model.trigger("myTriggerWithData", data);`*
-```js
-/**
- * @event Namespace#MyTriggerWithData
- * @param {*} data Data to be sent with the event
- * @description FooBar.
- */
-```
-
-*Example: `this.listenTo(this, { "change:attributeOne": this.doSomething });`*
-```js
-/**
- * @event Namespace#changeAttributeOne
- * @description FooBar.
- */
-```
-
----
-
 #### A.5.1
 
 Example for testable and untestable functions.
@@ -307,13 +129,13 @@ For example, the following annotations mark the parameter "Baumtyp" within the `
 ```md
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|Baumtyp|nein|enum["light", "default", "custom"]|"light"|Deprecated in 3.0.0. Use "treeType" instead.|false|
+|Baumtyp|nein|enum["light", "default", "custom"]|"light"|Deprecated in x.0.0. Use "treeType" instead.|false|
 ```
 
 ```js
 /**
  * this.updateTreeType
- * @deprecated in 3.0.0
+ * @deprecated in x.0.0
  */
 attributes = this.updateTreeType(attributes, response);
 ...
@@ -322,7 +144,7 @@ attributes = this.updateTreeType(attributes, response);
  * @param {Object} attributes Preparased portalconfig attributes.
  * @param {Object} response  Config from config.json.
  * @returns {Object} - Attributes with mapped treeType
- * @deprecated in 3.0.0. Remove whole function and call!
+ * @deprecated in x.0.0. Remove whole function and call!
  */
 updateTreeType: function (attributes, response) {
     if (response.Portalconfig.treeType !== undefined) {

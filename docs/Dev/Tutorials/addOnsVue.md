@@ -164,7 +164,7 @@ This types of add-ons are supported:
 * Javascript (`"type": "javascript"`)
 * SearchInterface (`"type": "searchInterface"`)
 
-All entries to the `addonsConf.json` defined by an object are expected to be written in Vue or pure javascript. The deprecated Backbone add-ons are always defined by a string.
+All entries to the `addonsConf.json` defined by an object are expected to be written in Vue or pure javascript.
 
 By default, an add-on's key is the name of its folder. By using the parameter `path` you may specify any other path. This way, you may group multiple add-ons in a folder.
 
@@ -272,42 +272,18 @@ export default {
     computed: {
         ...mapGetters("Tools/VueAddon", Object.keys(getters))
     },
-    created () {
-        this.$on("close", this.close);
-    },
     /**
      * Put initialize here if mounting occurs after config parsing
      * @returns {void}
      */
     mounted () {
         this.initialize();
-        if (this.isActive) {
-            this.setActive(true);
-        }
-        this.applyTranslationKey(this.name);
     },
     methods: {
         ...mapActions("Tools/VueAddon", [
             "initialize"
         ]),
-        ...mapMutations("Tools/VueAddon", Object.keys(mutations)),
-
-        /**
-         * Closes this tool window by setting active to false
-         * @returns {void}
-         */
-        close () {
-            this.setActive(false);
-
-            // TODO replace trigger when Menu is migrated
-            // set the backbone model to active false for changing CSS class in menu (menu/desktop/tool/view.toggleIsActiveClass)
-            // else the menu-entry for this tool is always highlighted
-            const model = Radio.request("ModelList", "getModelByAttributes", {id: this.$store.state.Tools.VueAddon.id});
-
-            if (model) {
-                model.set("isActive", false);
-            }
-        }
+        ...mapMutations("Tools/VueAddon", Object.keys(mutations))
     }
 };
 </script>

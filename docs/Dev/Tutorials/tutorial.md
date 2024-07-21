@@ -8,12 +8,12 @@ A tool to control the map scale is needed. Scales are to be chosen from a drop-d
 
 ## Creating a new tool
 
-Switch to the folder `src_3_0_0/modules` and create a new folder. The folder name should indicate the nature of the tool - e.g. `scaleSwitcher`. Create folders `components` and `store` in that folder, and the required files as shown in the example file tree below.
+Switch to the folder `src/modules` and create a new folder. The folder name should indicate the nature of the tool - e.g. `scaleSwitcher`. Create folders `components` and `store` in that folder, and the required files as shown in the example file tree below.
 
 >💡 Hint: Testing is not part of this guide, but essential to merge a pull request. See our [testing documentation](../Testing/unitTestVue.md) for more information.
 
 ```
-src_3_0_0
+src
 |
 |-- modules
 |   |
@@ -63,7 +63,7 @@ export default {
 
 ## Register the *ScaleSwitcher* component
 
-Open `src_3_0_0\modules\modules-store\gettersModules.js`, import the *ScaleSwitcher* and add it to the component map. This initializes the component and loads the *ScaleSwitcher* configuration from the `config.json`, making it available in its state. The paths `configJson.Portalconfig.mainMenu.sections.scaleSwitcher` and `configJson.Portalconfig.secondaryMenu.sections.scaleSwitcher` will be searched for *ScaleSwitcher* configuration. See the [config.json documentation](../../User/Portal-Config/config.json.md).
+Open `src\modules\modules-store\gettersModules.js`, import the *ScaleSwitcher* and add it to the component map. This initializes the component and loads the *ScaleSwitcher* configuration from the `config.json`, making it available in its state. The paths `configJson.Portalconfig.mainMenu.sections.scaleSwitcher` and `configJson.Portalconfig.secondaryMenu.sections.scaleSwitcher` will be searched for *ScaleSwitcher* configuration. See the [config.json documentation](../../User/Portal-Config/config.json.md).
 
 **Example gettersModules.js**
 ```js
@@ -193,7 +193,7 @@ export default {
 
 ## Add the Vuex module to the global store
 
-Open `src_3_0_0\modules\modules-store\indexModules.js`, import `src_3_0_0/modules/scaleSwitcher/store/indexScaleSwitcher.js`, and register it to the Vuex tool store as a *module*.
+Open `src\modules\modules-store\indexModules.js`, import `src/modules/scaleSwitcher/store/indexScaleSwitcher.js`, and register it to the Vuex tool store as a *module*.
 
 **Example indexModules.js**
 ```js
@@ -311,7 +311,7 @@ In `modules/scaleSwitcher/components/ScaleSwitcher.vue`, the template is yet to 
 
 ## Defining *scss* styling rules
 
-Within the `modules/scaleSwitcher/components/ScaleSwitcher.vue*`, styles can be added to the `style` tag. Note that the `css/variables.scss` offers a set of predefined colors and values for usage in all components. In this case, the select component is also styled globally. If you need more components such as input fields or buttons, take a look at our shared components: `src_3_0_0\shared\modules`
+Within the `modules/scaleSwitcher/components/ScaleSwitcher.vue*`, styles can be added to the `style` tag. Note that the `css/variables.scss` offers a set of predefined colors and values for usage in all components. In this case, the select component is also styled globally. If you need more components such as input fields or buttons, take a look at our shared components: `src\shared\modules`
 
 ```scss
 <style lang="scss" scoped>
