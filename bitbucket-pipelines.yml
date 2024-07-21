@@ -85,3 +85,15 @@ pipelines:
                     - git clone --single-branch --branch dev_vue https://geowerkstatt@bitbucket.org/geowerkstatt-hamburg/masterportal.git
                     - cd masterportal
                     - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git -f
+        mkdocs:
+            -   step:
+                    name: create mkdocs
+                    image: python:3.8
+                    caches:
+                        - pip
+                    script:
+                        - apt-get update && apt-get install zip
+                        - pip install -r python-dependencies.txt
+                        - mike deploy v3.0.0 # TODO: This should always run when a new version is released (= a tag is created). Perhaps use the $BITBUCKET_TAG variable here.
+                        - zip -r masterportal_docs.zip /opt/atlassian/pipelines/agent/build/site
+                        - curl -X POST --user "$bbapi_name:$bbapi_key" "https://api.bitbucket.org/2.0/repositories/geowerkstatt-hamburg/masterportal/downloads/" --form files=@"masterportal_docs.zip" --verbose;

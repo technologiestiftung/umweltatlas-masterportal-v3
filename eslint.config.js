@@ -311,7 +311,8 @@ module.exports = [
             "portal/*",
             "!portal/basic",
             "!portal/master",
-            "!portal/auto"
+            "!portal/auto",
+            "site/"
         ]
     }
 ];
