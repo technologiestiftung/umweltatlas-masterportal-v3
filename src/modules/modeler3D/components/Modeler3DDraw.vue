@@ -35,7 +35,6 @@ export default {
             shapeId: null,
             undonePointInfo: null,
             lastAddedPosition: null,
-            areaLabelId: null,
             labelList: [],
             undoneLabelInfo: null,
             isStandardRectangle: false
@@ -78,10 +77,8 @@ export default {
         ]),
         ...mapMutations("Modules/Modeler3D", [
             "setActiveShapePoints",
-            "setClampToGround",
             "setCurrentLayout",
             "setCylinderId",
-            "setDimensions",
             "setDrawnModels",
             "setCurrentModelId",
             "setExtrudedHeight",
