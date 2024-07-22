@@ -79,8 +79,10 @@ export default {
         ]),
         ...mapMutations("Modules/Modeler3D", [
             "setActiveShapePoints",
+            "setClampToGround",
             "setCurrentLayout",
             "setCylinderId",
+            "setDimensions",
             "setDrawnModels",
             "setCurrentModelId",
             "setExtrudedHeight",
@@ -106,7 +108,6 @@ export default {
             this.createCylinder({
                 posIndex: this.activeShapePoints.length
             });
-            console.log(this.clampToGround);
 
             const scene = mapCollection.getMap("3D").getCesiumScene(),
                 entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
@@ -890,7 +891,7 @@ export default {
                         :checked="clampToGround"
                         :aria="$t('modules.modeler3D.draw.captions.clampToGround')"
                         :label="$t('modules.modeler3D.draw.captions.clampToGround')"
-                        @change="clampToGround = !clampToGround; resetDrawing();"
+                        @change="setClampToGround(!clampToGround); resetDrawing();"
                     />
                 </div>
                 <div class="form-check cta">
@@ -900,7 +901,7 @@ export default {
                         :checked="dimensions"
                         :aria="$t('modules.modeler3D.draw.captions.showDimensions')"
                         :label="$t('modules.modeler3D.draw.captions.showDimensions')"
-                        @change="dimensions = !dimensions; resetDrawing();"
+                        @change="setDimensions(!dimensions); resetDrawing();"
                     />
                 </div>
             </div>
