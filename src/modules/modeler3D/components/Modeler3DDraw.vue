@@ -106,6 +106,7 @@ export default {
             this.createCylinder({
                 posIndex: this.activeShapePoints.length
             });
+            console.log(this.clampToGround);
 
             const scene = mapCollection.getMap("3D").getCesiumScene(),
                 entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
@@ -849,10 +850,9 @@ export default {
             :title="$t('modules.modeler3D.draw.captions.info')"
             icon="bi bi-info-circle"
         >
-            <p
-                class="cta"
-                v-html="$t('modules.modeler3D.draw.captions.introInfo')"
-            />
+            <p class="text-with-newlines">
+                {{ $t('modules.modeler3D.draw.captions.introInfo') }}
+            </p>
         </AccordionItem>
         <hr class="m-0">
         <div v-if="drawnModels?.length > 0">
@@ -969,10 +969,6 @@ export default {
     @import "~mixins";
     @import "~variables";
 
-   /* .cta {
-        margin-bottom:12px;
-    } */
-
     .form-check-input,
     .col-form-label {
         font-size: $font_size_big;
@@ -981,6 +977,10 @@ export default {
     .form-check-input {
         cursor: pointer;
     }
+
+    .text-with-newlines {
+    white-space: pre-wrap;
+}
 
     .primary-button-wrapper {
         color: $white;
