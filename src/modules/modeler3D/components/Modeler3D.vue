@@ -945,9 +945,10 @@ export default {
                     />
                 </div>
                 <p
-                    class="mb-4"
-                    v-html="$t('modules.modeler3D.options.captions.hideObjectInfo')"
-                />
+                    class="mb-4 text-with-newlines"
+                >
+                    {{ $t('modules.modeler3D.options.captions.hideObjectInfo') }}
+                </p>
                 <hr>
                 <h4> {{ $t('modules.modeler3D.options.captions.povTitle') }} </h4>
                 <div>
@@ -962,9 +963,10 @@ export default {
                         />
                     </div>
                     <p
-                        class="mb-4"
-                        v-html="$t('modules.modeler3D.options.captions.povInfo')"
-                    />
+                        class="mb-4 text-with-newlines"
+                    >
+                        {{ $t('modules.modeler3D.options.captions.povInfo') }}
+                    </p>
                 </div>
             </AccordionItem>
         </div>
@@ -997,6 +999,10 @@ export default {
 
 .accordion-button {
     font-size: 0.95rem;
+}
+
+.text-with-newlines {
+    white-space: pre-wrap;
 }
 
 </style>

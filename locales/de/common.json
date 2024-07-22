@@ -762,10 +762,10 @@
       "options": {
         "captions": {
           "enableFunction": "Funktion de-/aktivieren",
-          "hideObjectInfo": "Bestandsgebäude können in ihrer Darstellung deaktiviert werden, um so z.B. importierte Elemente auf dem entsprechenden Grundstück zu platzieren.<br><br>Starten Sie diese Funktion über Aktivieren und klicken Sie auf die gewünschten Objekte, sodass es nun in der Ansicht deaktiviert wird.<br><br>Alle ausgeblendeten Objekte erscheinen in einer Liste und können dort wieder aktiviert werden. ",
+          "hideObjectInfo": "Bestandsgebäude können in ihrer Darstellung deaktiviert werden, um so z.B. importierte Elemente auf dem entsprechenden Grundstück zu platzieren.\n\nStarten Sie diese Funktion über Aktivieren und klicken Sie auf die gewünschten Objekte, sodass es nun in der Ansicht deaktiviert wird.\n\nAlle ausgeblendeten Objekte erscheinen in einer Liste und können dort wieder aktiviert werden. ",
           "hideSwitchLabel": "Gebäude per Mausklick ausblenden",
           "pov": "Zur Fußgängeransicht springen",
-          "povInfo": "Hier haben Sie die Möglichkeit die Sichtperspektive von Fußgänger*innen einzunehmen und sich so in der Stadt umzuschauen.<br>Navigieren Sie an die gewünschte Position, sobald Sie den Zylinder in der Karte mit einem Mausklick setzen, gelangen Sie an dieser Stelle in die Fußgängeransicht.<br>Mit Mausbewegungen und gedrückter linker Maustaste können Sie Ihr Sichtfeld verändern. Um zur Ausgangsposition zurückzukehren, deaktivieren Sie die Funktion über den Schieberegler.",
+          "povInfo": "Hier haben Sie die Möglichkeit die Sichtperspektive von Fußgänger*innen einzunehmen und sich so in der Stadt umzuschauen.\n\nNavigieren Sie an die gewünschte Position, sobald Sie den Zylinder in der Karte mit einem Mausklick setzen, gelangen Sie an dieser Stelle in die Fußgängeransicht.\n\nMit Mausbewegungen und gedrückter linker Maustaste können Sie Ihr Sichtfeld verändern. Um zur Ausgangsposition zurückzukehren, deaktivieren Sie die Funktion über den Schieberegler.",
           "povTitle": "Fußgängerperspektive",
           "visibilityTitle": "Sichtbarkeitsoptionen"
         }
