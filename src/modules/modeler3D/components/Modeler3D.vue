@@ -145,7 +145,6 @@ export default {
             "setProjections",
             "setUseAnchorMove"
         ]),
-        ...mapMutations("controls/overviewMap/", ["setOverviewLayer"]),
 
         /**
          * Resets the old entity by calling the corresponding reset function based on the entity type.
