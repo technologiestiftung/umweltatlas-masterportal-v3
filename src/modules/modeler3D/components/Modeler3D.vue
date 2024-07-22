@@ -67,36 +67,36 @@ export default {
             "updateAllLayers",
             "useAnchorMove"
         ]),
-        ...mapGetters("Maps", ["clickCoordinate", "mouseCoordinate"]),
+        ...mapGetters("Maps", ["clickCoordinate", "mouseCoordinate"])
         /**
          * Returns the CSS classes for the import tab based on the current view.
          * @returns {string} - The CSS classes for the import tab.
          */
-        importTabClasses () {
-            return this.currentView === "modeler-import" ? this.activeTabClass : this.defaultTabClass;
-        },
+        // importTabClasses () {
+        //     return this.currentView === "modeler-import" ? this.activeTabClass : this.defaultTabClass;
+        // },
         /**
          * Returns the CSS classes for the draw tab based on the current view.
          * @returns {string} - The CSS classes for the draw tab.
          */
-        drawTabClasses () {
-            return this.currentView === "modeler-draw" ? this.activeTabClass : this.defaultTabClass;
-        },
+        // drawTabClasses () {
+        //     return this.currentView === "modeler-draw" ? this.activeTabClass : this.defaultTabClass;
+        // },
         /**
          * Returns the CSS classes for the options tab based on the current view.
          * @returns {string} - The CSS classes for the options tab.
          */
-        optionsTabClasses () {
-            return this.currentView === "" ? this.activeTabClass : this.defaultTabClass;
-        },
+        // optionsTabClasses () {
+        //     return this.currentView === "" ? this.activeTabClass : this.defaultTabClass;
+        // }
         /**
          * Checks if it is possible to enter point of view (POV) mode.
          * Returns true if `longitude`, `latitude`, and `altitude` properties are defined and truthy, otherwise false.
          * @returns {boolean} - Indicates whether POV mode is possible.
          */
-        povPossible () {
-            return Boolean(this.clickCoordinate[0] && this.clickCoordinate[1] && this.clickCoordinate[2]);
-        }
+        // povPossible () {
+        //     return Boolean(this.clickCoordinate[0] && this.clickCoordinate[1] && this.clickCoordinate[2]);
+        // }
     },
     watch: {
         /**
@@ -743,24 +743,25 @@ export default {
             if (typeof e !== "undefined" && e.code !== "Escape") {
                 return;
             }
-
             const scene = mapCollection.getMap("3D").getCesiumScene();
 
-            scene.camera.flyTo({
-                destination: this.currentCartesian,
-                complete: () => {
-                    scene.preRender.removeEventListener(preRenderListener);
-                    scene.screenSpaceCameraController.enableLook = false;
-                    scene.screenSpaceCameraController.enableTilt = true;
-                    scene.screenSpaceCameraController.enableZoom = true;
-                    scene.screenSpaceCameraController.enableRotate = true;
+            if (this.currentCartesian) {
+                scene.camera.flyTo({
+                    destination: this.currentCartesian,
+                    complete: () => {
+                        scene.preRender.removeEventListener(preRenderListener);
+                        scene.screenSpaceCameraController.enableLook = false;
+                        scene.screenSpaceCameraController.enableTilt = true;
+                        scene.screenSpaceCameraController.enableZoom = true;
+                        scene.screenSpaceCameraController.enableRotate = true;
 
-                    eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-                    document.removeEventListener("keydown", this.escapePedView);
-                    document.getElementById("map").style.cursor = this.originalCursorStyle;
-                    this.togglePovInteraction();
-                }
-            });
+                        eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+                        document.removeEventListener("keydown", this.escapePedView);
+                        document.getElementById("map").style.cursor = this.originalCursorStyle;
+                        this.togglePovInteraction();
+                    }
+                });
+            }
 
             this.resetPov();
         },
