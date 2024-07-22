@@ -130,28 +130,29 @@ export default {
                 params,
                 url;
 
-            if (layerConfig.typ === "GROUP") {
-                layerConfigUrl = layerConfig.children[0].url;
-                params = wms.makeParams(layerConfig.children[0]);
-            }
-            else {
-                layerConfigUrl = layerConfig.url;
-                params = wms.makeParams(layerConfig);
-            }
-            url = `${layerConfigUrl}?SERVICE=WMS&REQUEST=GetMap&WIDTH=${this.width}&HEIGHT=${this.height}`;
-            params.CRS = layerConfig.crs ? layerConfig.crs : mapCollection.getMapView("2D").getProjection().getCode();
-            params.SRS = params.CRS;
-            params.BBOX = this.calculateExtent();
-            params.STYLES = "";
-
-            Object.entries(params).forEach(([key, value]) => {
-                if (key !== "WIDTH" && key !== "HEIGHT") {
-                    url += `&${key}=${encodeURIComponent(value)}`;
-                }
-            });
-
             if (layerConfig.preview?.src && layerConfig.preview?.src !== "") {
                 url = layerConfig.preview.src;
+            }
+            else {
+                if (layerConfig.typ === "GROUP") {
+                    layerConfigUrl = layerConfig.children[0].url;
+                    params = wms.makeParams(layerConfig.children[0]);
+                }
+                else {
+                    layerConfigUrl = layerConfig.url;
+                    params = wms.makeParams(layerConfig);
+                }
+                url = `${layerConfigUrl}?SERVICE=WMS&REQUEST=GetMap&WIDTH=${this.width}&HEIGHT=${this.height}`;
+                params.CRS = layerConfig.crs ? layerConfig.crs : mapCollection.getMapView("2D").getProjection().getCode();
+                params.SRS = params.CRS;
+                params.BBOX = this.calculateExtent();
+                params.STYLES = "";
+
+                Object.entries(params).forEach(([key, value]) => {
+                    if (key !== "WIDTH" && key !== "HEIGHT") {
+                        url += `&${key}=${encodeURIComponent(value)}`;
+                    }
+                });
             }
 
             this.load(url);
