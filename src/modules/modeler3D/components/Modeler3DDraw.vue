@@ -884,7 +884,7 @@ export default {
             :is-open="true"
         >
             <div>
-                <div class="form-check cta">
+                <div class="form-check">
                     <SwitchInput
                         id="clampToGroundSwitch"
                         :aria-checked="clampToGround"
@@ -894,7 +894,7 @@ export default {
                         @change="setClampToGround(!clampToGround); resetDrawing();"
                     />
                 </div>
-                <div class="form-check cta">
+                <div class="form-check">
                     <SwitchInput
                         id="dimensionsSwitch"
                         :aria-checked="dimensions"
@@ -970,13 +970,9 @@ export default {
     @import "~mixins";
     @import "~variables";
 
-    .form-check-input,
+
     .col-form-label {
         font-size: $font_size_big;
-    }
-
-    .form-check-input {
-        cursor: pointer;
     }
 
     .text-with-newlines {
