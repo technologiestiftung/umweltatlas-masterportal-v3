@@ -10,6 +10,7 @@ import {mapGetters, mapActions, mapMutations} from "vuex";
 import crs from "@masterportal/masterportalapi/src/crs";
 import {adaptCylinderToEntity, adaptCylinderToGround, adaptCylinderUnclamped, calculatePolygonArea} from "../utils/draw";
 import {uniqueId} from "../../../shared/js/utils/uniqueId";
+import SwitchInput from "../../../shared/modules/checkboxes/components/SwitchInput.vue";
 
 let eventHandler = null;
 
@@ -21,7 +22,8 @@ export default {
         DrawModels,
         DrawTypes,
         EntityList,
-        EntityModel
+        EntityModel,
+        SwitchInput
     },
     provide () {
         return {
@@ -882,38 +884,24 @@ export default {
         >
             <div>
                 <div class="form-check cta">
-                    <input
+                    <SwitchInput
                         id="clampToGroundSwitch"
-                        class="form-check-input"
-                        type="checkbox"
-                        role="switch"
                         :aria-checked="clampToGround"
                         :checked="clampToGround"
+                        :aria="$t('modules.modeler3D.draw.captions.clampToGround')"
+                        :label="$t('modules.modeler3D.draw.captions.clampToGround')"
                         @change="clampToGround = !clampToGround; resetDrawing();"
-                    >
-                    <label
-                        class="form-check-label"
-                        for="clampToGroundSwitch"
-                    >
-                        {{ $t("modules.modeler3D.draw.captions.clampToGround") }}
-                    </label>
+                    />
                 </div>
                 <div class="form-check cta">
-                    <input
+                    <SwitchInput
                         id="dimensionsSwitch"
-                        class="form-check-input"
-                        type="checkbox"
-                        role="switch"
                         :aria-checked="dimensions"
                         :checked="dimensions"
+                        :aria="$t('modules.modeler3D.draw.captions.showDimensions')"
+                        :label="$t('modules.modeler3D.draw.captions.showDimensions')"
                         @change="dimensions = !dimensions; resetDrawing();"
-                    >
-                    <label
-                        class="form-check-label"
-                        for="clampToGroundSwitch"
-                    >
-                        {{ $t("modules.modeler3D.draw.captions.showDimensions") }}
-                    </label>
+                    />
                 </div>
             </div>
             <div
