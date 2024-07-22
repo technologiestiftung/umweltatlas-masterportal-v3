@@ -1166,21 +1166,21 @@ export default {
                 value = NaN;
 
             if (differenceMode !== "date" && differenceMode !== "region" || !this.selectedReferenceData) {
-                return parseInt(foundFeature?.get(statisticKey), 10) || "-";
+                return Number(parseFloat(foundFeature?.get(statisticKey)).toFixed(2)) || "-";
             }
 
             if (differenceMode === "date") {
                 refFeature = this.findFeatureByDateAndRegion(features, region, regionKey, this.selectedReferenceData.value.value, dateKey);
-                value = parseInt(foundFeature?.get(statisticKey), 10) - parseInt(refFeature?.get(statisticKey), 10);
+                value = Number((parseFloat(foundFeature?.get(statisticKey)) - parseFloat(refFeature?.get(statisticKey))).toFixed(2));
                 this.setSelectedReferenceValueTag("");
 
                 return isNaN(value) ? "-" : value;
             }
             refFeature = this.findFeatureByDateAndRegion(features, this.selectedReferenceData.value, regionKey, date, dateKey);
-            value = parseInt(foundFeature?.get(statisticKey), 10) - parseInt(refFeature?.get(statisticKey), 10);
+            value = Number((parseFloat(foundFeature?.get(statisticKey)) - parseFloat(refFeature?.get(statisticKey))).toFixed(2));
 
-            this.referenceFeatures[date] = parseInt(refFeature?.get(statisticKey), 10);
-            this.setSelectedReferenceValueTag(parseInt(refFeature?.get(statisticKey), 10));
+            this.referenceFeatures[date] = Number(parseFloat(refFeature?.get(statisticKey)).toFixed(2));
+            this.setSelectedReferenceValueTag(Number(parseFloat(refFeature?.get(statisticKey)).toFixed(2)));
 
             return isNaN(value) ? "-" : value;
         },

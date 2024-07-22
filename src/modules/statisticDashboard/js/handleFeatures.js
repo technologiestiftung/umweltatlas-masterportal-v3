@@ -231,7 +231,7 @@ function getLegendValue (val) {
 
             if (index === val.value.length - 1) {
                 legendObj = {
-                    "name": i18next.t("common:modules.statisticDashboard.legend.from") + " " + thousandsSeparator(Math.round(data))
+                    "name": i18next.t("common:modules.statisticDashboard.legend.from") + " " + thousandsSeparator(Number(Number(data).toFixed(2)))
                 };
                 style = {
                     "polygonFillColor": val.color[index],
@@ -241,7 +241,7 @@ function getLegendValue (val) {
             }
             else {
                 legendObj = {
-                    "name": i18next.t("common:modules.statisticDashboard.legend.between", {minimum: thousandsSeparator(Math.round(data)), maximum: thousandsSeparator(Math.round(val.value[index + 1]))})
+                    "name": i18next.t("common:modules.statisticDashboard.legend.between", {minimum: thousandsSeparator(Number(Number(data).toFixed(2))), maximum: thousandsSeparator(Number(Number(val.value[index + 1]).toFixed(2)))})
                 };
                 style = {
                     "polygonFillColor": val.color[index],
