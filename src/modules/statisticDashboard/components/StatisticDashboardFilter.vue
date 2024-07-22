@@ -147,7 +147,7 @@ export default {
             if (!Array.isArray(categories) || !Array.isArray(selectedCategories)) {
                 return [];
             }
-            const nonSelectedCategories = [{name: "alle"}, ...categories].filter(category => !selectedCategories.some(selectedCategory => selectedCategory.name === category.name)),
+            const nonSelectedCategories = [{name: i18next.t("common:modules.statisticDashboard.button.all")}, ...categories].filter(category => !selectedCategories.some(selectedCategory => selectedCategory.name === category.name)),
                 result = [...selectedCategories, ...nonSelectedCategories];
 
             return result;
@@ -268,10 +268,10 @@ export default {
          */
         removeSelectedStatsByCategory (category) {
             const selectedStatisticsCopy = {...this.selectedStatistics},
-                isCategoryAllSelected = this.selectedCategories.filter(selectedCategory => selectedCategory.name === "alle").length,
+                isCategoryAllSelected = this.selectedCategories.filter(selectedCategory => selectedCategory.name === i18next.t("common:modules.statisticDashboard.button.all")).length,
                 statsToDelete = this.sortedSelectedStatistics.filter(statistic => statistic.category === category.name);
 
-            if (category.name !== "alle" && isCategoryAllSelected) {
+            if (category.name !== i18next.t("common:modules.statisticDashboard.button.all") && isCategoryAllSelected) {
                 return;
             }
 

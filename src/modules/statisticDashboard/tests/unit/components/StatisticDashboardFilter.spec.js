@@ -462,7 +462,7 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilter.vu
                         }
                     }),
                     unsorted = [{name: "foo"}, {name: "bar"}],
-                    expected = [{name: "alle"}, {name: "foo"}, {name: "bar"}];
+                    expected = [{name: "modules.statisticDashboard.button.all"}, {name: "foo"}, {name: "bar"}];
 
                 expect(wrapper.vm.getCategoriesSorted(unsorted, [])).to.deep.equal(expected);
             });
@@ -480,7 +480,7 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilter.vu
                         }
                     }),
                     unsorted = [{name: "foo"}, {name: "bar"}],
-                    expected = [{name: "bar"}, {name: "alle"}, {name: "foo"}];
+                    expected = [{name: "bar"}, {name: "modules.statisticDashboard.button.all"}, {name: "foo"}];
 
                 expect(wrapper.vm.getCategoriesSorted(unsorted, [{name: "bar"}])).to.deep.equal(expected);
             });

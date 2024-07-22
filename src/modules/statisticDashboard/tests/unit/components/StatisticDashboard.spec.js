@@ -491,7 +491,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
                     }
                 });
 
-                wrapper.vm.setStatisticsByCategories([{name: "alle"}]);
+                wrapper.vm.setStatisticsByCategories([{name: i18next.t("common:modules.statisticDashboard.button.all")}]);
                 expect(wrapper.vm.statisticsByCategory).to.deep.equal([{
                     "beschaeftigte": {
                         "name": "Beschäftigte",

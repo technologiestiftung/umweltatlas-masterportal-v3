@@ -165,7 +165,7 @@ export default {
     watch: {
         selectedReferenceData () {
             if (this.selectedRegionsValues.length && this.selectedDates.length) {
-                this.checkFilterSettings(getters.selectedRegionsValues(null, {selectedRegions: this.selectedRegions}), getters.selectedDatesValues(null, {selectedDates: this.selectedDates}), this.selectedReferenceData);
+                this.checkFilterSettings(this.selectedRegionsValues, getters.selectedDatesValues(null, {selectedDates: this.selectedDates}), this.selectedReferenceData);
             }
         },
         selectedDatesValues () {
@@ -498,7 +498,7 @@ export default {
         setStatisticsByCategories (categories) {
             const statistics = [];
 
-            if (categories.some(category => category.name === "alle")) {
+            if (categories.some(category => category.name === i18next.t("common:modules.statisticDashboard.button.all"))) {
                 this.categories.forEach(category => {
                     statistics.push(StatisticsHandler.getStatisticsByCategory(category.name, this.getSelectedLevelStatisticsAttributes(this.selectedLevel)));
                 });
@@ -1510,6 +1510,8 @@ export default {
             this.setSelectedDates([]);
             this.setSelectedReferenceData(undefined);
             this.setSelectedStatistics({});
+            this.setFlattenedRegions([]);
+            this.flattenRegionHierarchy(this.selectedLevelRegionNameAttribute);
             this.handleReset();
         }
     }

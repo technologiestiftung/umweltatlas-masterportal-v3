@@ -58,10 +58,13 @@ export default {
             if (!regions?.length || !Array.isArray(selectedRegions)) {
                 return [];
             }
-            const notSelectedRegions = regions.filter(region => !selectedRegions.some(selectedRegion => selectedRegion.label === region.label)),
-                sortedRegions = sortBy([...selectedRegions, ...notSelectedRegions], "value");
+            const notSelectedRegions = sortBy(regions.filter(region => !selectedRegions.some(selectedRegion => selectedRegion.label === region.label)), "label");
 
-            return sortedRegions;
+            if (selectedRegions.some(region => region.label === i18next.t("common:modules.statisticDashboard.button.all"))) {
+                return [...selectedRegions, ...notSelectedRegions];
+            }
+
+            return [...selectedRegions, {label: i18next.t("common:modules.statisticDashboard.button.all")}, ...notSelectedRegions];
         },
 
         /**
@@ -160,6 +163,7 @@ export default {
             else {
                 selectedValues.push(value);
             }
+
             this.setSelectedValuesToRegion(selectedValues, region);
         },
 
@@ -209,6 +213,33 @@ export default {
                 return "active-button";
             }
             return "";
+        },
+
+        /**
+         * Select all the regions.
+         * @param {Object} region - The top level region.
+         * @returns {void}
+         */
+        selectAll (region) {
+            if (!Array.isArray(region?.values)) {
+                return;
+            }
+
+            if (region?.selectedValues.length === region?.values.length) {
+                this.setSelectedValuesToRegion([], region);
+                return;
+            }
+
+            region.values.forEach((value) => {
+                const selectedValues = region?.selectedValues,
+                    indexOfValue = selectedValues.map(selectedValue => selectedValue?.value).indexOf(value?.value);
+
+                if (indexOfValue === -1) {
+                    selectedValues.push(value);
+                }
+
+                this.setSelectedValuesToRegion(selectedValues, region);
+            });
         }
     }
 };
@@ -231,6 +262,14 @@ export default {
                 {{ region.name }}
             </label>
             <br>
+            <button
+                v-if="region?.values.length"
+                class="btn btn-sm btn-outline-secondary rounded-pill lh-1 me-2 mb-2 p-2"
+                @click="selectAll(region)"
+            >
+                <i class="bi bi-toggles" />
+                {{ $t("common:modules.statisticDashboard.button.all") }}
+            </button>
             <button
                 v-for="(value, idx) in region.values"
                 :id="'top-region-filter' + index"

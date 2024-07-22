@@ -133,9 +133,9 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilterReg
                 });
 
             expect(wrapper.findAllComponents(Multiselect)).to.be.an("array").with.lengthOf(1);
-            expect(wrapper.findAll("button")).to.be.an("array").with.lengthOf(2);
-            expect(wrapper.findAll("button").at(0).text()).to.be.equal("Hamen");
-            expect(wrapper.findAll("button").at(1).text()).to.be.equal("Bremburg");
+            expect(wrapper.findAll("button")).to.be.an("array").with.lengthOf(3);
+            expect(wrapper.findAll("button").at(1).text()).to.be.equal("Hamen");
+            expect(wrapper.findAll("button").at(2).text()).to.be.equal("Bremburg");
         });
     });
     describe("methods", () => {
@@ -183,8 +183,15 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilterReg
             });
             it("should return the array with all regions as given", () => {
                 const regions = [
-                        {value: "Harburg", label: "Harburg"},
                         {value: ["Harburg", "Lübeck", "Schwerin"], label: "Alle Gebiete"},
+                        {value: "Harburg", label: "Harburg"},
+                        {value: "Lübeck", label: "Lübeck"},
+                        {value: "Schwerin", label: "Schwerin"}
+                    ],
+                    expectedRegions = [
+                        {label: "modules.statisticDashboard.button.all"},
+                        {value: ["Harburg", "Lübeck", "Schwerin"], label: "Alle Gebiete"},
+                        {value: "Harburg", label: "Harburg"},
                         {value: "Lübeck", label: "Lübeck"},
                         {value: "Schwerin", label: "Schwerin"}
                     ],
@@ -198,7 +205,7 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilterReg
                         }
                     });
 
-                expect(wrapper.vm.getRegionsSorted(regions, [])).to.deep.equal(regions);
+                expect(wrapper.vm.getRegionsSorted(regions, [])).to.deep.equal(expectedRegions);
             });
             it("should return the array with the selected entries at first", () => {
                 const regions = [
@@ -218,8 +225,9 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilterReg
                     });
 
                 expect(wrapper.vm.getRegionsSorted(regions, [{value: ["Harburg", "Lübeck", "Schwerin"], label: "Alle Gebiete"}])).to.deep.equal([
-                    {value: "Harburg", label: "Harburg"},
                     {value: ["Harburg", "Lübeck", "Schwerin"], label: "Alle Gebiete"},
+                    {label: "modules.statisticDashboard.button.all"},
+                    {value: "Harburg", label: "Harburg"},
                     {value: "Lübeck", label: "Lübeck"},
                     {value: "Schwerin", label: "Schwerin"}
                 ]);
@@ -385,6 +393,28 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilterReg
                     classString = wrapper.vm.toggleButtonActive({value: "Mordor"}, [{value: "Manhatten"}]);
 
                 expect(classString).to.be.equal("");
+            });
+        });
+        describe("selectAll", () => {
+            it("should call 'setSelectedValuesToRegion' with the correct parameter", () => {
+                const store = factory.createVuexStore(),
+                    wrapper = shallowMount(StatisticDashboardFilterRegions, {
+                        propsData: {
+                            regions: []
+                        },
+                        global: {
+                            plugins: [store]
+                        }
+                    }),
+                    stubSetSelectedValuesToRegion = sinon.stub(wrapper.vm, "setSelectedValuesToRegion"),
+                    region = {
+                        values: [{value: "test1"}, {value: "test2"}],
+                        selectedValues: [{value: "Mordor"}]
+                    };
+
+                wrapper.vm.selectAll(region);
+
+                expect(stubSetSelectedValuesToRegion.calledWith([{value: "Mordor"}, {value: "test1"}, {value: "test2"}], region)).to.be.true;
             });
         });
     });
