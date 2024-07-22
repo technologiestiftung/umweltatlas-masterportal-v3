@@ -68,35 +68,6 @@ export default {
             "useAnchorMove"
         ]),
         ...mapGetters("Maps", ["clickCoordinate", "mouseCoordinate"])
-        /**
-         * Returns the CSS classes for the import tab based on the current view.
-         * @returns {string} - The CSS classes for the import tab.
-         */
-        // importTabClasses () {
-        //     return this.currentView === "modeler-import" ? this.activeTabClass : this.defaultTabClass;
-        // },
-        /**
-         * Returns the CSS classes for the draw tab based on the current view.
-         * @returns {string} - The CSS classes for the draw tab.
-         */
-        // drawTabClasses () {
-        //     return this.currentView === "modeler-draw" ? this.activeTabClass : this.defaultTabClass;
-        // },
-        /**
-         * Returns the CSS classes for the options tab based on the current view.
-         * @returns {string} - The CSS classes for the options tab.
-         */
-        // optionsTabClasses () {
-        //     return this.currentView === "" ? this.activeTabClass : this.defaultTabClass;
-        // }
-        /**
-         * Checks if it is possible to enter point of view (POV) mode.
-         * Returns true if `longitude`, `latitude`, and `altitude` properties are defined and truthy, otherwise false.
-         * @returns {boolean} - Indicates whether POV mode is possible.
-         */
-        // povPossible () {
-        //     return Boolean(this.clickCoordinate[0] && this.clickCoordinate[1] && this.clickCoordinate[2]);
-        // }
     },
     watch: {
         /**
