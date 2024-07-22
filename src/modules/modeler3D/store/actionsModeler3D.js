@@ -177,44 +177,6 @@ export default {
         commit("setIsLoading", false);
     },
     /**
-     * Action to hide entities.
-     * @param {Object} context - The context of the Vuex module.
-     * @param {Object[]} hiddenObjects - The hidden objects with layer id and gml id.
-     * @returns {void}
-     */
-    hideEntities ({commit, state}, hiddenObjects) {
-        if (!Array.isArray(hiddenObjects) || !hiddenObjects.length) {
-            return;
-        }
-
-        const clonedStateHiddenObjects = [...state.hiddenObjects],
-            clonedHiddenObjectsWithLayerId = [...state.hiddenObjectsWithLayerId];
-
-
-        hiddenObjects.forEach(object => {
-            if (!object.name) {
-                return;
-            }
-            const tileSetModels = state.updateAllLayers || typeof object.layerId !== "string" ?
-                Radio.request("ModelList", "getModelsByAttributes", {typ: "TileSet3D"}) :
-                Radio.request("ModelList", "getModelsByAttributes", {typ: "TileSet3D", id: object.layerId});
-
-            tileSetModels.forEach(model => model.hideObjects([object.name], state.updateAllLayers));
-
-            clonedStateHiddenObjects.push({
-                name: object.name
-            });
-
-            clonedHiddenObjectsWithLayerId.push({
-                name: object.name,
-                layerId: object.layerId
-            });
-        });
-
-        commit("setHiddenObjects", clonedStateHiddenObjects);
-        commit("setHiddenObjectsWithLayerId", clonedHiddenObjectsWithLayerId);
-    },
-    /**
      * Action to delete an entity.
      * @param {Object} context - The context of the Vuex module.
      * @param {string} id - The ID of the entity to delete.
@@ -741,38 +703,5 @@ export default {
         labelEntities.forEach(label => {
             entities.remove(label);
         });
-    },
-    /**
-     * Resets the state to the original status.
-     * Deletes all the entities.
-     * @param {Object} context - The context of the Vuex module.
-     * @returns {void}
-     */
-    resetAll ({commit, state}) {
-        const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
-            tileSetModels = Radio.request("ModelList", "getModelsByAttributes", {typ: "TileSet3D"});
-
-        entities.removeAll();
-        state.hiddenObjects.forEach(object => {
-            tileSetModels[0].showObjects([object.name]);
-        });
-        commit("setDrawnModels", []);
-        commit("setImportedModels", []);
-        commit("setHiddenObjects", []);
-        commit("setHiddenObjectsWithLayerId", []);
-        commit("setClampToGround", true);
-        commit("setDimensions", true);
-        commit("setSelectedDrawType", "");
-        commit("setCurrentLayout", {
-            fillColor: [255, 255, 255],
-            fillTransparency: 0,
-            strokeColor: [0, 0, 0],
-            strokeWidth: 1,
-            extrudedHeight: 20
-        });
-        commit("setHideObjects", false);
-        commit("setPovActive", false);
-        commit("setScale", 1);
-        commit("setCurrentModelId", null);
     }
 };
