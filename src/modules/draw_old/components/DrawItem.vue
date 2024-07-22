@@ -499,7 +499,7 @@ export default {
 
         /**
          * Shows/hides the draw layer and enables/disables the tools of the draw tool.
-         * @param {Boolean} true: the value of the switch
+         * @param {Boolean} value: the value of the switch
          * @returns {void}
          */
         switchDrawLayerVisible (value) {
