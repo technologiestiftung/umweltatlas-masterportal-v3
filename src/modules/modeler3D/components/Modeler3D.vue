@@ -12,6 +12,7 @@ import crs from "@masterportal/masterportalapi/src/crs";
 import getGfiFeatures from "../../../shared/js/utils/getGfiFeaturesByTileFeature";
 import {adaptCylinderUnclamped} from "../utils/draw";
 import layerCollection from "../../../core/layers/js/layerCollection";
+import initProjections from "../../../shared/js/utils/initProjections";
 
 let eventHandler = null,
     preRenderListener;
@@ -133,7 +134,7 @@ export default {
     mounted () {
         const scene = mapCollection.getMap("3D").getCesiumScene();
 
-        this.initProjections();
+        this.initProjectionsInModeler3D(crs, this.projections, this.namedProjections, this.currentProjection);
         eventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
         eventHandler.setInputAction(this.selectObject, Cesium.ScreenSpaceEventType.LEFT_CLICK);
@@ -257,88 +258,16 @@ export default {
          * Initializes the projections to select. If projection EPSG:4326 is available same is added in decimal-degree.
          * @returns {void}
          */
-        initProjections () {
-            const pr = crs.getProjections(),
-                epsg8395 = [],
-                wgs84Proj = [];
+        initProjectionsInModeler3D () {
+            const projectionsObj = initProjections(crs, this.projections, this.namedProjections, this.currentProjection);
 
-            if (this.projections.length) {
-                return;
+            if (projectionsObj?.currentProjection) {
+                this.setCurrentProjection(projectionsObj.currentProjection);
             }
-            // id is set to the name and in case of decimal "-DG" is appended to name later on
-            // for use in select-box
-            pr.forEach(proj => {
-                proj.id = proj.name;
-                if (proj.name === "EPSG:4326" || proj.name === "http://www.opengis.net/gml/srs/epsg.xml#4326") {
-                    wgs84Proj.push(proj);
-                }
-                if (proj.name === "EPSG:8395" || proj.name === "http://www.opengis.net/gml/srs/epsg.xml#8395") {
-                    epsg8395.push(proj);
-                }
-                if (proj.name.indexOf("#") > -1) { // e.g. "http://www.opengis.net/gml/srs/epsg.xml#25832"
-                    const code = proj.name.substring(proj.name.indexOf("#") + 1, proj.name.length);
 
-                    proj.epsg = "EPSG:" + code;
-                }
-                else {
-                    proj.title = proj.name;
-                }
-                if (proj.id === this.currentProjection.id) {
-                    this.setCurrentProjection(proj);
-                }
-            });
-            if (wgs84Proj.length > 0) {
-                this.addWGS84Decimal(pr, wgs84Proj);
+            if (projectionsObj?.projections) {
+                this.setProjections(projectionsObj.projections);
             }
-            this.namedProjections.find((el) => {
-                if (el[1].includes("ETRS89_3GK3") && epsg8395.length > 0) {
-                    this.addETRS893GK3(pr, el, epsg8395);
-                    return true;
-                }
-                return false;
-            });
-            this.setProjections(pr);
-        },
-        /**
-         * Adds EPSG:4326 in decimal-degree to list of projections.
-         * @param {Array} projections list of all available projections
-         * @param {Object} elementETRS89_3GK3 the WGS84 projection contained in list of projections
-         * @param {Object} epsg8395 the WGS84 projection contained in list of projections
-         * @returns {void}
-         */
-        addETRS893GK3 (projections, elementETRS89_3GK3, epsg8395) {
-            const index = projections.findIndex(proj => proj.name === "EPSG:8395"),
-                etrs89_3GK3Proj = {};
-
-            for (const key in epsg8395[0]) {
-                etrs89_3GK3Proj[key] = epsg8395[0][key];
-            }
-            etrs89_3GK3Proj.name = "ETRS893GK3";
-            etrs89_3GK3Proj.epsg = "EPSG:8395";
-            etrs89_3GK3Proj.id = "http://www.opengis.net/gml/srs/epsg.xml#ETRS893GK3";
-            etrs89_3GK3Proj.title = elementETRS89_3GK3[1].substring(elementETRS89_3GK3[1].lastIndexOf("ETRS"), elementETRS89_3GK3[1].indexOf(" +proj="));
-            etrs89_3GK3Proj.getCode = () => "noEPSGCode";
-            projections.splice(index + 1, 0, etrs89_3GK3Proj);
-        },
-        /**
-         * Adds EPSG:4326 in decimal-degree to list of projections.
-         * @param {Array} projections list of all available projections
-         * @param {Object} wgs84Proj the WGS84 projection contained in list of projections
-         * @returns {void}
-         */
-        addWGS84Decimal (projections, wgs84Proj) {
-            const index = projections.findIndex(proj => proj.name === "EPSG:4326"),
-                wgs84ProjDez = {};
-
-            for (const key in wgs84Proj[0]) {
-                wgs84ProjDez[key] = wgs84Proj[0][key];
-            }
-            wgs84ProjDez.name = "EPSG:4326-DG";
-            wgs84ProjDez.epsg = "EPSG:4326";
-            wgs84ProjDez.id = "http://www.opengis.net/gml/srs/epsg.xml#4326-DG";
-            wgs84ProjDez.title = "WGS84_Lat-Lon (Grad, Dezimal), EPSG 4326";
-            wgs84ProjDez.getCode = () => "EPSG:4326-DG";
-            projections.splice(index + 1, 0, wgs84ProjDez);
         },
         /**
          * Checks the map for pickable Cesium objects and changes the cursor on hover.
