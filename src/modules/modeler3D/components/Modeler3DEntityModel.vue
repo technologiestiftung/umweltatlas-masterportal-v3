@@ -65,14 +65,6 @@ export default {
             "wasDrawn"
         ]),
 
-        nameString: {
-            get () {
-                return this.getModelNameById(this.currentModelId);
-            },
-            set (value) {
-                this.setModelName(value);
-            }
-        },
         showExtrudedHeight () {
             const entities = mapCollection.getMap("3D").getDataSourceDisplay().defaultDataSource.entities,
                 entity = entities.getById(this.currentModelId);
