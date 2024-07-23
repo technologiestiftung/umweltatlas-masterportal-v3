@@ -8,6 +8,7 @@ import {mapActions, mapGetters, mapMutations} from "vuex";
 import {convertColor} from "../../../shared/js/utils/convertColor";
 import {uniqueId} from "../../../shared/js/utils/uniqueId";
 import {calculatePolygonArea} from "../utils/draw";
+import SwitchInput from "../../../shared/modules/checkboxes/components/SwitchInput.vue";
 
 export default {
     name: "Modeler3DEntityModel",
@@ -15,7 +16,8 @@ export default {
         AccordionItem,
         EntityAttribute,
         EntityAttributeSlider,
-        IconButton
+        IconButton,
+        SwitchInput
     },
     inject: {
         toggleDimensions: {
@@ -674,19 +676,14 @@ export default {
                         id="adapt-check"
                         class="form-check pt-4 ms-3"
                     >
-                        <input
+                        <SwitchInput
                             id="adaptHeightCheck"
-                            class="form-check-input check-height"
-                            type="checkbox"
+                            class="check-height"
+                            :label="$t('modules.modeler3D.entity.projections.adaptToHeight')"
+                            :aria="$t('modules.modeler3D.entity.projections.adaptToHeight')"
                             :checked="adaptToHeight"
                             @change="checkedAdapt($event.target.checked)"
-                        >
-                        <label
-                            class="form-check-label"
-                            for="adaptHeightCheck"
-                        >
-                            {{ $t("modules.modeler3D.entity.projections.adaptToHeight") }}
-                        </label>
+                        />
                     </div>
                     <div
                         v-if="showExtrudedHeight"
