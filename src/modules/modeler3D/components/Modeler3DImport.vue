@@ -17,7 +17,6 @@ export default {
         FileUpload,
         SpinnerItem
     },
-    emits: ["moveEntity"],
     computed: {
         ...mapGetters(["namedProjections"]),
         ...mapGetters("Modules/Modeler3D", ["currentModelId", "importedModels", "isLoading", "wasDrawn"]),

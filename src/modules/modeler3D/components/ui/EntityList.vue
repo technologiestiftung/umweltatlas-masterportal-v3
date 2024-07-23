@@ -33,7 +33,7 @@ export default {
             required: false
         }
     },
-    emits: ["zoom-to", "change-visibility", "export-geojson", "update-object-name"],
+    emits: ["zoom-to", "change-visibility", "export-geojson"],
     data () {
         return {
             isHovering: ""
