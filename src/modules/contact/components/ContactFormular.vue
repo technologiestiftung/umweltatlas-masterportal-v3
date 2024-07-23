@@ -161,7 +161,7 @@ export default {
         },
         /**
          * Checks if there are no duplicates in already existing attachments
-         * @param file The new attachment file, which user wants to add.
+         * @param {Object} file The new attachment file, which user wants to add.
          * @returns {Boolean} If it found duplicated attachement or not.
          */
         checkNoDuplicates (file) {
