@@ -391,13 +391,13 @@ describe("src/modules/modeler3D/components/Modeler3D.vue", () => {
     });
 
     describe("Modeler3D.vue methods", () => {
-        it("initProjections adds WGS84 decimal projection", () => {
+        it("initProjectionsInModeler3D adds WGS84 decimal projection", () => {
             let projections = [];
 
             wrapper = shallowMount(Modeler3DComponent, {global: {
                 plugins: [store]
             }});
-            wrapper.vm.initProjections();
+            wrapper.vm.initProjectionsInModeler3D();
 
             projections = store.state.Modules.Modeler3D.projections;
             expect(projections.length).to.be.equals(6);
@@ -405,13 +405,13 @@ describe("src/modules/modeler3D/components/Modeler3D.vue", () => {
             expect(projections.filter(proj => proj.id === "http://www.opengis.net/gml/srs/epsg.xml#4326-DG").length).to.be.equals(1);
         });
 
-        it("initProjections adds ETRS89_3GK3", () => {
+        it("initProjectionsInModeler3D adds ETRS89_3GK3", () => {
             let projections = [];
 
             wrapper = shallowMount(Modeler3DComponent, {global: {
                 plugins: [store]
             }});
-            wrapper.vm.initProjections();
+            wrapper.vm.initProjectionsInModeler3D();
 
             projections = store.state.Modules.Modeler3D.projections;
             expect(projections.length).to.be.equals(6);
@@ -687,7 +687,7 @@ describe("src/modules/modeler3D/components/Modeler3D.vue", () => {
             await wrapper.vm.$nextTick();
 
             wrapper.vm.moveHandler();
-            expect(document.body.style.cursor).to.equal("copy");
+            expect(document.getElementById("map").style.cursor).to.equal("copy");
             expect(wrapper.vm.currentCartesian).to.eql({
                 x: 3739310.9273738265,
                 y: 659341.4057539968,
@@ -790,7 +790,7 @@ describe("src/modules/modeler3D/components/Modeler3D.vue", () => {
             await wrapper.vm.$nextTick();
 
             wrapper.vm.moveHandler();
-            expect(document.body.style.cursor).to.equal("copy");
+            expect(document.getElementById("map").style.cursor).to.equal("copy");
             expect(wrapper.vm.currentCartesian).to.eql({
                 x: 3739310.9273738265,
                 y: 659341.4057539968,
