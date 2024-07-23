@@ -555,8 +555,10 @@ async function migrateFiles (sourcePath, destPath) {
                             if (!parsed[PORTALCONFIG_OLD].mainMenu) {
                                 console.info("\n#############################     migrate     #############################\n");
                                 console.info("--- ATTENTION --- \nthis version will not migrate the following tools: ", toolsNotToMigrate.join(", ") + "\n");
+                                console.info("--- ATTENTION --- \nthis tools are no longer available: ", removed.join(", ") + "\n");
                                 console.info("removed deprecated tools are not migrated:", deprecated.join(", ") + "\n---\n");
                                 console.info("source: ", configJsonSrcFile, "\ndestination: ", configJsonDestFile, "\n");
+                                migratedTools = migratedTools.concat(removed);
                                 getTitleFromHtml(sourceFolder, indexFile).then((titleAndLogo) => {
                                     const gfi = migrateGFI(parsed);
 
