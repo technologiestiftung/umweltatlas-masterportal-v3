@@ -41,7 +41,7 @@ module.exports = function () {
             headers: {
                 "Access-Control-Allow-Origin": "*"
             },
-            https: true,
+            https: false,
             open: false,
             openPage: "portal/master",
             overlay: true,

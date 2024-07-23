@@ -41,6 +41,7 @@
     - Added contact information
 - ContactFormular: 
     - Added the posibility to send attached pdf from the contact us section.
+    - Added check for the sum of all attachments size.
 
 ### Changed
 - Eslint: no-undef eslint rule is switched on.
@@ -80,6 +81,9 @@
 - Cesium library is only loaded, if button to switch to 3D is configured.
 - Layertree: if no button to add layers is configured, layers cannot be removed by drop outside.
 - Issue #1198: WMS link can contain "?".
+- ContactFormular:
+    - removed attachments are not being send.
+    - uploading attachments separately doesn't remove previously added attachments.
 
 ---
 ## 2024-06-27 v3.0.0
