@@ -39,10 +39,11 @@
     - Added link to open imprint in about module.
 - LayerInfo:
     - Added contact information
-- ContactFormular: 
+- ContactFormular:
     - Posibility to send attached pdf from the contact us section.
     - Check for the sum of all attachments size.
     - Check if the same attachment is not already added and don't allow for duplicates.
+- Print: Parameter additionalLayer to add layer (e.g. coordinate grid) during print.
 
 ### Changed
 - Eslint: no-undef eslint rule is switched on.
@@ -58,7 +59,7 @@
 - Fix migration of login module to Masterportal v3
 - Issue #1192: Searchbar: The TopicTree search interface supports the search for folders.
 - Issue #1219: AddWMS: Corrected z-index for imported layers if only on baselayer is initial visible.
-- Issue #1232: Searchbar: The TopicTree search interface does not fail on configured `resultEvents`. 
+- Issue #1232: Searchbar: The TopicTree search interface does not fail on configured `resultEvents`.
 - Added missing parentheses in v-for loops
 - StatisticDashboard:
     - Statistics and Regions are sorted alphabetically.

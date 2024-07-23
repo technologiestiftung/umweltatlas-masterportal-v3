@@ -36,6 +36,14 @@ const mutations = {
     setAutoAdjustScale: (state, checkValue) => {
         state.autoAdjustScale = checkValue;
         state.isScaleSelectedManually = false;
+    },
+
+    setAdditionalLayerActive (state, layerId) {
+        state.additionalLayers.find(layer => layer.id === layerId).active = true;
+    },
+
+    setAdditionalLayerInactive (state, layerId) {
+        state.additionalLayers.find(layer => layer.id === layerId).active = false;
     }
 };
 

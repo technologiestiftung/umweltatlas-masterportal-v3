@@ -61,6 +61,7 @@ const state = {
     supportedMapModes: ["2D", "3D"],
     title: "PrintResult",
     type: "print",
+    additionalLayers: [],
     autoAdjustScale: true,
     currentFormat: "pdf",
     capabilitiesFilter: {},

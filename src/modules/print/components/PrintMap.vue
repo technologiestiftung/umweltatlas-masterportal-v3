@@ -38,6 +38,7 @@ export default {
     },
     computed: {
         ...mapGetters("Modules/Print", [
+            "additionalLayers",
             "autoAdjustScale",
             "capabilitiesFilter",
             "currentFormat",
@@ -671,6 +672,20 @@ export default {
                     :label="$t('common:modules.print.autoAdjustScale')"
                     :checked="autoAdjustScale && !isScaleSelectedManually"
                 />
+            </div>
+            <div
+                v-for="(additionalLayer, i) in additionalLayers"
+                :key="'additionalLayer_'+i"
+            >
+                <div class="form-check form-switch mb-3 d-flex align-items-center">
+                    <SwitchInput
+                        :id="'printLayer_'+additionalLayer.id"
+                        :aria="additionalLayer.label"
+                        :interaction="($event) => $event.target.checked ? setAdditionalLayerActive(additionalLayer.id) : setAdditionalLayerInactive(additionalLayer.id)"
+                        :label="additionalLayer.label"
+                        :checked="additionalLayer.active"
+                    />
+                </div>
             </div>
             <div
                 v-if="isLegendAvailable"

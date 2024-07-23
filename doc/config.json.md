@@ -2921,6 +2921,7 @@ Print module, configurable for 2 print services: *High Resolution PlotService* a
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
+|additionalLayers|nein|**[additionalLayers](#markdown-header-portalconfigmenusectionsmodulesprintadditionallayers)**[]||Defines layers that can be added to print.|false|
 |capabilitiesFilter|no|**[capabilitiesFilter](#markdown-header-portalconfigmenutoolprintcapabilitiesfilter)**||Filter for the response of the configured print service. Possible keys are layouts and outputFormats.|false|
 |currentLayoutName|no|String|"A4 Hochformat"|Defines which layout is the default layout on opening the print tool, e.g. "A4 portrait format". If the given layout is not available oder none is provided, the first layout mentioned in the Capabilities is used.|false|
 |defaultCapabilitiesFilter|no|**[capabilitiesFilter](#markdown-header-portalconfigmenutoolprintcapabilitiesfilter)**||If there is no key set in capabilitiesFilter, the key from this object is taken.|false|
@@ -2975,6 +2976,24 @@ Print module, configurable for 2 print services: *High Resolution PlotService* a
 ```
 
 ***
+
+###### portalConfig.menu.sections.modules.print.additionalLayers
+List of Layers that can be added to the print document.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|active|no|Boolean|false|Defines if the layer is active.|false|
+|id|yes|String||Service-ID of the layer.|false|
+|label|yes|String||Label of the checkbox in the print dialog.|false|
+
+**Example additionalLayers:**
+
+```json
+"additionalLayers": [{
+  "id": "wms_coord_grid_25832",
+  "label": "Coordinate Grid UTM32N - ETRS89"
+}]
+```
 
 ###### portalConfig.menu.sections.modules.print.capabilitiesFilter
 List of layouts and formats that filters the response from the print service in the respective category.
