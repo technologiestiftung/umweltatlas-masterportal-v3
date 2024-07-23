@@ -1,8 +1,12 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
+import SwitchInput from "../../../../shared/modules/checkboxes/components/SwitchInput.vue";
 
 export default {
     name: "EntityList",
+    components: {
+        SwitchInput
+    },
     props: {
         objects: {
             type: Array,
@@ -29,7 +33,7 @@ export default {
             required: false
         }
     },
-    emits: ["zoom-to", "change-visibility", "export-geojson"],
+    emits: ["zoom-to", "change-visibility", "export-geojson", "update-object-name"],
     data () {
         return {
             isHovering: ""
@@ -91,20 +95,24 @@ export default {
                     :class="{active: object.id === currentModelId}"
                     @click="enableCheckboxes ? hasActiveClass($event, object.id) : ''"
                 >
-                    <input
+                    <SwitchInput
                         v-if="enableCheckboxes"
-                        type="checkbox"
-                        :aria-label="object.id"
+                        :id="object.id"
+                        :aria="object.id"
                         :value="object.id"
                         :checked="object.id === currentModelId"
                         class="checkbox-selected-entity"
+                        label=""
                         @change="$event.target.checked ? setCurrentModelId(object.id) : setCurrentModelId(null)"
-                    >
+                    />
                     <input
                         v-if="entity && object.edit"
                         :id="`input-${object.id}`"
                         v-model="object.name"
                         class="input-name editable"
+                        label=""
+                        placeholder=""
+                        @input="$emit('update-object-name', {index, value: object.name })"
                         @blur="object.edit = false"
                         @keyup.enter="object.edit = false"
                     >
