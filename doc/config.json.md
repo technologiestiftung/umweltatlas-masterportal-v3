@@ -1688,6 +1688,11 @@ This module displays specific portal information like description, Masterportal 
 |title|no|String|""|Metadata title |false|
 |version|no|String|""|Version information of the masterportal|false|
 |versionLink|no|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/downloads/"|Link to the masterportal version|false|
+|ustId|no|String|""|Sales tax identification number in accordance with Section 27 of the Sales Tax Act|false|
+|privacyStatementText|no|String|"common:modules.about.privacyStatementText"|Text for data privacy section|false|
+|privacyStatementUrl|no|String|""|URL to data privacy policy site|false|
+|accessibilityText|no|String|"common:modules.about.accessibilityText"|Text for accessibility section|false|
+|accessibilityUrl|no|String|""|URL to the accessibility statement site|false|
 
 **Example**
 

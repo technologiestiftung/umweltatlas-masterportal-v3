@@ -44,7 +44,14 @@
       "description": "Erfahre etwas über dieses Portal",
       "name": "Über dieses Portal",
       "noMetadataLoaded": "Es konnten keine Metadaten geladen werden!",
-      "version": "Version: "
+      "version": "Version: ",
+      "ustId": "Umsatzsteueridentifikationsnummer gem. § 27 Umsatzsteuergesetz:",
+      "imprintTitle": "Impressum",
+      "privacyStatementText": "Datenschutzerklärung und allgemeine Informationen zur Umsetzung der datenschutzrechtlichen Vorgaben der Artikel 12 bis 14 der Datenschutz-Grundverordnung im Landesbetrieb Geoinformation und Vermessung der Freien und Hansestadt Hamburg:",
+      "privacyStatement": "Datenschutzerklärung",
+      "accessibilityText": "Erklärung zur Barrierefreiheit bzgl. § 11 Hamburgisches Gesetz zur Gleichstellung von Menschen mit Behinderungen (Hamburgisches Behindertengleichstellungsgesetz - HmbBGG) vom 19. Dezember 2019:",
+      "accessibilityStatement": "Barrierefreiheitserklärung",
+      "contactButton": "Kontakt aufnehmen"
     },
     "addWMS": {
       "alertTitleSuccess": "Layer erfolgreich hinzugefügt",

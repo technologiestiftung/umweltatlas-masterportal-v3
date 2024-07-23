@@ -1689,6 +1689,11 @@ Mit diesem Modul lassen sich spezifische Portalinformationen anzeigen wie z.B. B
 |title|nein|String|""|Titel der Metadaten|false|
 |version|nein|String|""|Versionangabe des Masterportals|false|
 |versionLink|nein|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/downloads/"|Link zu der Masterportalversion|false|
+|ustId|nein|String|""|Umsatzsteueridentifikationsnummer gem. § 27 Umsatzsteuergesetz|false|
+|privacyStatementText|no|String|"common:modules.about.privacyStatementText"|Text für den Datenschutzabschnitt|false|
+|privacyStatementUrl|no|String|""|URL zu der Datenschutzerklärungsseite|false|
+|accessibilityText|no|String|"common:modules.about.accessibilityText"|Text für den Barrierefreiheitsabschnitt|false|
+|accessibilityUrl|no|String|""|URL zu der Barrierefreiheitserklärungsseite|false|
 
 **Beispiel**
 

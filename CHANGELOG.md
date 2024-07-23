@@ -29,6 +29,14 @@
     - Added change event handler property and disabled property.
 - BaseLayerSwitcher: Added Config-Parameter singleBaseLayer to hide previous selected BaseLayer
 - Shareview: If the portal is not running on HTTPS, a message is displayed because the URL cannot then be copied to the clipboard.
+- AboutModule:
+    - Added data privacy section.
+    - Added accessibility section.
+    - Added imprint title.
+    - Added contact button to open contact module.
+    - Added sales tax identification number.
+- Footer:
+    - Added link to open imprint in about module.
 
 ### Changed
 - Eslint: no-undef eslint rule is switched on.

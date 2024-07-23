@@ -22,6 +22,11 @@
  * @property {String} title the metadata title
  * @property {String} version the current mp version
  * @property {String} versionLink link to the masteprortal downloads
+ * @property {String} ustId Sales tax identification number
+ * @property {String} privacyStatementText Text for data privacy section
+ * @property {String} privacyStatementUrl URL to data privacy policy site
+ * @property {String} accessibilityText Text for accessibility section
+ * @property {String} accessibilityUrl URL to accessibility site
  */
 export default {
     description: "common:modules.about.description",
@@ -43,5 +48,10 @@ export default {
     showAdditionalMetaData: true,
     title: "",
     version: "",
-    versionLink: "https://bitbucket.org/geowerkstatt-hamburg/masterportal/downloads/"
+    versionLink: "https://bitbucket.org/geowerkstatt-hamburg/masterportal/downloads/",
+    ustId: "",
+    privacyStatementText: "",
+    privacyStatementUrl: "",
+    accessibilityText: "",
+    accessibilityUrl: ""
 };

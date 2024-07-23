@@ -44,7 +44,14 @@
       "description": "Learn about this portal",
       "name": "About this Portal",
       "noMetadataLoaded": "No metadata could be loaded!",
-      "version": "Version: "
+      "version": "Version: ",
+      "ustId": "Sales tax identification number in accordance with Section 27 of the Sales Tax Act:",
+      "imprintTitle": "Imprint",
+      "privacyStatementText": "Privacy policy and general information on the implementation of the data protection regulations of Articles 12 to 14 of the General Data Protection Regulation at the Agency for Geoinformation and Surveying of the Free and Hanseatic City of Hamburg:",
+      "privacyStatement": "Data privacy policy",
+      "accessibilityText": "Declaration on accessibility with regard to Section 11 of the Hamburg Act on Equal Opportunities for Persons with Disabilities (Hamburg Disability Equality Act - HmbBGG) of 19 December 2019:",
+      "accessibilityStatement": "Accessibility statement",
+      "contactButton": "Get in contact"
     },
     "addWMS": {
       "alertTitleSuccess": "Layer added successfully",
