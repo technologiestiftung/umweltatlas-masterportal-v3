@@ -109,6 +109,11 @@ export default {
             type: Boolean,
             required: false,
             default: false
+        },
+        maxDecimalPlaces: {
+            type: [Number, Boolean],
+            required: false,
+            default: false
         }
     },
     emits: ["columnSelected", "rowSelected", "setSortedRows"],
@@ -609,10 +614,15 @@ export default {
                             return;
                         }
 
-                        value += item[header.name];
+                        if (typeof this.maxDecimalPlaces === "number") {
+                            value = Number((parseFloat(item[header.name]) + parseFloat(value)).toFixed(this.maxDecimalPlaces));
+                        }
+                        else {
+                            value += item[header.name];
+                        }
                     });
 
-                    totalData.push(typeof value === "number" ? value : "-");
+                    totalData.push(typeof value === "number" && !isNaN(value) ? value : "-");
                 });
             }
 

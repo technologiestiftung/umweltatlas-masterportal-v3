@@ -1708,6 +1708,7 @@ export default {
                     :font-size="'small'"
                     :sortable="sortable"
                     :enable-settings="true"
+                    :max-decimal-places="2"
                     sort-by-numeric-value
                     @set-sorted-rows="setSortedRows"
                     @column-selected="setSelectedColumn"
