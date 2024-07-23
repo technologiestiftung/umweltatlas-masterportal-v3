@@ -40,8 +40,9 @@
 - LayerInfo:
     - Added contact information
 - ContactFormular: 
-    - Added the posibility to send attached pdf from the contact us section.
-    - Added check for the sum of all attachments size.
+    - Posibility to send attached pdf from the contact us section.
+    - Check for the sum of all attachments size.
+    - Check if the same attachment is not already added and don't allow for duplicates.
 
 ### Changed
 - Eslint: no-undef eslint rule is switched on.

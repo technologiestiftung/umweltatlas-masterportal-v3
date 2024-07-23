@@ -119,8 +119,9 @@
         "username": "Bitte nennen Sie uns Ihren Namen."
       },
       "errorIncompleteDeclarations": "Bitte füllen Sie alle Felder des Kontaktformulars korrekt aus damit Ihre Anfrage verschickt werden kann.",
-      "fileFormatMessage": "Die angehängte Datei befindet sich nicht im korrekten Format. Zulässige Formate sind: .jpg, .jpeg und .png",
+      "fileFormatMessage": "Die angehängte Datei befindet sich nicht im korrekten Format. Zulässige Formate sind: .jpg, .jpeg, .png und .pdf",
       "fileSizeMessage": "Die angehängte Datei überschreitet die festgelegte Dateigröße.",
+      "fileDuplicatedMessage": "Es ist nicht möglich hinzuzufügen. Dieselbe Datei ist bereits angehängt.",
       "mailSubject": "Supportanfrage zum Portal ",
       "messageLabel": "Ihre Nachricht",
       "name": "Kontakt aufnehmen",

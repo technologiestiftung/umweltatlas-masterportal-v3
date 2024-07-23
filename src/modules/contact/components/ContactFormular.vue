@@ -81,7 +81,7 @@ export default {
         addFile (files) {
 
             Array.from(files).forEach(file => {
-                if (this.checkValid(file)) {
+                if (this.checkValid(file) && this.checkNoDuplicates(file)) {
                     this.sumFileSize = this.sumFileSize + file.size;
                     const reader = new FileReader();
 
@@ -158,6 +158,27 @@ export default {
             }
 
             return true;
+        },
+        /**
+         * Checks if there are no duplicates in already existing attachments
+         * @param file The new attachment file, which user wants to add.
+         * @returns {Boolean} If it found duplicated attachement or not.
+         */
+        checkNoDuplicates (file) {
+            let notDuplicated = true;
+
+            this.allAttachmentsToSend.forEach(el => {
+                if (el.fileSize === file.size && el.name === file.name) {
+                    notDuplicated = false;
+                }
+            });
+            if (!notDuplicated) {
+                this.addSingleAlert({
+                    category: "error",
+                    content: this.$t("common:modules.contact.fileDuplicatedMessage")
+                });
+            }
+            return notDuplicated;
         }
     }
 };
