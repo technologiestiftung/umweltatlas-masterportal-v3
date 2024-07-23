@@ -59,10 +59,10 @@
 - LayerInformation: The entry `show_doc_url` in the metadata is now used again to retrieve further information.
 - Menu: HTML entities are now decoded for folders in the menu
 - Migrator:
-    - Alt tag for portal logo is now used as tooltip and alt tag.
-    - Placeholder of the search bar is now adopted.
-    - The komoot search interface is now renamed komootPhoton.
--  BaselayerSwitcher works for two layers now
+    - alt tag for portal logo is now used as tooltip and alt tag.
+    - placeholder of the search bar is now adopted.
+    - the komoot search interface is now renamed komootPhoton.
+    - corrected console output concerning not migrated tools.
 
 ---
 ## 2024-06-27 v3.0.0

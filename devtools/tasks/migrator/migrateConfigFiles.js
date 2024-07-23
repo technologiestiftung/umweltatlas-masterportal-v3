@@ -6,8 +6,8 @@ const fs = require("fs").promises,
     {copyDir, deleteTranslateInName, getToolFromOldConfig, migrateIdWithSuffix, replaceInFile, removeAttributesFromTools} = require("./utils"),
     {PORTALCONFIG, PORTALCONFIG_OLD, TOPICS, TOPICS_OLD, BASEMAPS, BASEMAPS_OLD, BASEMAPS_NEW, SUBJECTDATA, SUBJECTDATA_OLD, DATA3D_OLD} = require("./constants"),
     rootPath = path.resolve(__dirname, "../../../"),
-    {deprecated, toolsNotToMigrate, toRemoveFromConfigJs, toRemoveFromTools} = require("./configuration"),
-    migratedTools = toolsNotToMigrate.concat(deprecated);
+    {deprecated, removed, toolsNotToMigrate, toRemoveFromConfigJs, toRemoveFromTools} = require("./configuration");
+let migratedTools = toolsNotToMigrate.concat(deprecated);
 
 /**
  * Migrates the mapView.
@@ -555,8 +555,8 @@ async function migrateFiles (sourcePath, destPath) {
                             if (!parsed[PORTALCONFIG_OLD].mainMenu) {
                                 console.info("\n#############################     migrate     #############################\n");
                                 console.info("--- ATTENTION --- \nthis version will not migrate the following tools: ", toolsNotToMigrate.join(", ") + "\n");
-                                console.info("--- ATTENTION --- \nthis tools are no longer available: ", removed.join(", ") + "\n");
-                                console.info("removed deprecated tools are not migrated:", deprecated.join(", ") + "\n---\n");
+                                console.info("\ntools no longer available are not migrated: ", removed.join(", ") + "\n");
+                                console.info("\ndeprecated tools are not migrated:", deprecated.join(", ") + "\n---\n");
                                 console.info("source: ", configJsonSrcFile, "\ndestination: ", configJsonDestFile, "\n");
                                 migratedTools = migratedTools.concat(removed);
                                 getTitleFromHtml(sourceFolder, indexFile).then((titleAndLogo) => {

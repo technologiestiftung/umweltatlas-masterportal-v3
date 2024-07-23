@@ -62,6 +62,7 @@ const toolsNotToMigrate = [
 
 module.exports = {
     deprecated,
+    removed,
     replacementsInConfigJson,
     toolsNotToMigrate,
     toRemoveFromConfigJs,
