@@ -63,6 +63,9 @@
     - Placeholder of the search bar is now adopted.
     - The komoot search interface is now renamed komootPhoton.
     - Corrected console output concerning not migrated tools.
+- BaselayerSwitcher: if 2 baselayers are configured, switcher is displayed.
+- Cesium library is only loaded, if button to switch to 3D is configured.
+- Layertree: if no button to add layers is configured, layers cannot be removed by drop outside.
 
 ---
 ## 2024-06-27 v3.0.0

@@ -23,10 +23,12 @@ describe("src/modules/layerTree/components/LayerTreeNode.vue", () => {
         layersWithFolder,
         layersBG,
         addLayerButton,
-        treeType;
+        treeType,
+        removeLayerSpy;
 
     beforeEach(() => {
         mapMode = "2D";
+        removeLayerSpy = sinon.spy();
         addLayerButton = {
             active: false
         };
@@ -130,6 +132,12 @@ describe("src/modules/layerTree/components/LayerTreeNode.vue", () => {
                                 delayOnTouchOnly: () => true,
                                 removeOnSpill: () => true,
                                 touchStartThreshold: () => 3
+                            },
+                            actions: {
+                                removeLayer: removeLayerSpy
+                            },
+                            mutations: {
+                                setRemoveOnSpill: sinon.stub()
                             }
                         },
                         LayerSelection: {
@@ -159,6 +167,7 @@ describe("src/modules/layerTree/components/LayerTreeNode.vue", () => {
                         }
                     };
                 },
+                layerConfigsByAttributes: () => () => [],
                 portalConfig: () => {
                     return {
                         tree: {
@@ -244,5 +253,26 @@ describe("src/modules/layerTree/components/LayerTreeNode.vue", () => {
         expect(wrapper.find("#layer-tree-layer-" + layer3D.id).exists()).to.be.true;
         expect(wrapper.find("#layer-tree-layer-" + layerBG_1.id).exists()).to.be.true;
         expect(wrapper.find("#layer-tree-layer-" + layerBG_2.id).exists()).to.be.false;
+    });
+    describe("methods", () => {
+        it("removeLayerOnSpill - calls removeLayer if showLayerAddButton is true", () => {
+            wrapper = mount(LayerTreeNode, {
+                global: {
+                    plugins: [store]
+                }
+            });
+            wrapper.vm.removeLayerOnSpill({oldIndex: 1});
+            expect(removeLayerSpy.notCalled).to.be.true;
+        });
+        it("removeLayerOnSpill - calls not removeLayer if showLayerAddButton is false", () => {
+            addLayerButton.active = true;
+            wrapper = mount(LayerTreeNode, {
+                global: {
+                    plugins: [store]
+                }
+            });
+            wrapper.vm.removeLayerOnSpill({oldIndex: 1});
+            expect(removeLayerSpy.calledOnce).to.be.true;
+        });
     });
 });

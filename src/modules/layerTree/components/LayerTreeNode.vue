@@ -1,6 +1,6 @@
 <script>
 import draggable from "vuedraggable";
-import {mapActions, mapGetters} from "vuex";
+import {mapActions, mapGetters, mapMutations} from "vuex";
 
 import Layer from "./LayerComponent.vue";
 import {sortObjects} from "../../../shared/js/utils/sortObjects";
@@ -62,8 +62,14 @@ export default {
             }
         }
     },
+    mounted () {
+        if (!this.showLayerAddButton) {
+            this.setRemoveOnSpill(false);
+        }
+    },
     methods: {
         ...mapActions("Modules/LayerTree", ["removeLayer", "replaceByIdInLayerConfig"]),
+        ...mapMutations("Modules/LayerTree", ["setRemoveOnSpill"]),
 
         /**
          * Indicates if a conf is a layer and showInlayerTree is true and isNeverVisibleInTree is not true
@@ -84,12 +90,14 @@ export default {
         },
 
         /**
-         * Removes the spilled layer from layer tree.
+         * Removes the spilled layer from layer tree if showLayerAddButton is true.
          * @param {Event} event The spill event.
          * @returns {void}
          */
         removeLayerOnSpill (event) {
-            this.removeLayer(this.sortedLayerConfig[event.oldIndex]);
+            if (this.showLayerAddButton) {
+                this.removeLayer(this.sortedLayerConfig[event.oldIndex]);
+            }
         }
     }
 };

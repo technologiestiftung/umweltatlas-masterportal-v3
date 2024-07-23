@@ -17,7 +17,9 @@ function initializeMaps (mapViewSettings, configJs) {
     create2DMap(mapViewSettings, configJs);
     store.dispatch("Maps/setMapAttributes");
     watchPortalConfig();
-    load3DMap();
+    if (store.getters.controlsConfig?.button3d) {
+        load3DMap();
+    }
     mapMarker.initializeMapMarkers(store.getters.mapMarker);
 }
 
