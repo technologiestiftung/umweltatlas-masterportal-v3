@@ -1395,6 +1395,7 @@ export default {
          */
         flattenRegionHierarchy (region) {
             region.selectedValues = [];
+            region.loadingDataCounter = 0;
             this.flattenedRegions.push(region);
 
             if (Object.prototype.hasOwnProperty.call(region, "child")) {

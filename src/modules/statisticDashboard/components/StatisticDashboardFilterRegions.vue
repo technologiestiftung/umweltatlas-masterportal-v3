@@ -84,6 +84,7 @@ export default {
                 const {url, collection, typ, featureType, featureNS} = rawLayerList.getLayerWhere({id: this.selectedLevel.layerId});
                 let uniqueValues;
 
+                region.child.loadingDataCounter++;
                 if (typ === "OAF") {
                     const filter = this.getFilterOAF(region.attrName, region.selectedValues),
                         features = await getOAFFeature.getOAFFeatureGet(url, collection, 400, filter, this.selectedLevel.oafRequestCRS, this.selectedLevel.oafRequestCRS, [region.child.attrName], true),
@@ -107,6 +108,7 @@ export default {
 
                     uniqueValues = FetchDataHandler.getUniqueValuesFromFeatures(olFeatures, attributesWithType);
                 }
+                region.child.loadingDataCounter--;
 
                 region.child.values = Object.keys(uniqueValues[region.child.attrName]).map(key => {
                     return {label: key, value: key};
@@ -213,9 +215,10 @@ export default {
 </script>
 
 <template>
-    <template
+    <div
         v-for="(region, index) in regions"
         :key="region.attrName"
+        class="region-filter"
     >
         <div
             v-if="hasRegionChild(region) && index === 0"
@@ -262,6 +265,8 @@ export default {
                 :limit-text="count => count + ' ' + $t('common:modules.statisticDashboard.label.more')"
                 :allow-empty="true"
                 :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
+                :loading="region.loadingDataCounter > 0"
+                :disabled="region.loadingDataCounter > 0"
                 label="label"
                 track-by="label"
                 @update:model-value="setSelectedValuesToRegion($event, region)"
@@ -273,15 +278,31 @@ export default {
                 </template>
             </Multiselect>
         </div>
-    </template>
+    </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "~variables";
-    .active-button {
-        background: $light-blue;
-        color: $black;
-        border-color: $light-blue;
+    .region-filter {
+        .active-button {
+            background: $light-blue;
+            color: $black;
+            border-color: $light-blue;
+        }
+
+        .multiselect .multiselect__spinner:after, .multiselect__spinner:before {
+            position: absolute;
+            content: "";
+            top: 50%;
+            left: 50%;
+            margin: -8px 0 0 -8px;
+            width: 16px;
+            height: 16px;
+            border-radius: 100%;
+            border: 2px solid transparent;
+            border-top-color: $dark_grey;
+            box-shadow: 0 0 0 1px transparent;
+        }
     }
 </style>
 
