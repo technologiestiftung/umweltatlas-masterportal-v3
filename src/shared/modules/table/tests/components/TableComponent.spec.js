@@ -301,7 +301,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
             });
 
             await wrapper.vm.$nextTick();
-            await wrapper.setData({showTotalData: true});
+            await wrapper.setData({showTotalData: true, firstColumnName: "foo"});
 
             expect(wrapper.find(".total").exists()).to.be.true;
         });
@@ -1291,6 +1291,8 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                         rowTitle: true,
                         hintText: ""
                     };
+
+                await wrapper.setData({firstColumnName: "foo"});
 
                 await wrapper.vm.$nextTick();
                 expect(wrapper.vm.getTotalData(totalProp, data)).to.deep.equal(

@@ -134,7 +134,8 @@ export default {
             selectedRow: "",
             sortedRows: [],
             showTotal: this.totalProp === true || this.totalProp.enabled,
-            showTotalData: false
+            showTotalData: false,
+            firstColumnName: ""
         };
     },
     computed: {
@@ -234,6 +235,11 @@ export default {
     },
     mounted () {
         this.setupTableData();
+
+        if (this.totalProp !== false && Array.isArray(this.data?.headers)) {
+            this.firstColumnName = this.data?.headers[0]?.name;
+        }
+
         if (this.selectMode === "column" && Array.isArray(this.data?.headers)) {
             this.selectColumn(this.data.headers[1], 1);
         }
@@ -597,14 +603,18 @@ export default {
                 return [];
             }
 
-            const totalData = [this.$t("common:shared.modules.table.total")];
+            const totalData = [];
 
             if (Array.isArray(data?.headers) && Array.isArray(data?.items)) {
+
+                let indexOfFirstColumn = "";
+
                 data.headers.forEach((header, index) => {
-                    if (index === 0) {
-                        return;
-                    }
                     let value = 0;
+
+                    if (Object.values(header).includes(this.firstColumnName)) {
+                        indexOfFirstColumn = index;
+                    }
 
                     if (!header?.name) {
                         return;
@@ -623,7 +633,9 @@ export default {
                     });
 
                     totalData.push(typeof value === "number" && !isNaN(value) ? value : "-");
+
                 });
+                indexOfFirstColumn !== "" ? totalData.splice(indexOfFirstColumn, 1, this.$t("common:shared.modules.table.total")) : "";
             }
 
             return totalData;
@@ -878,10 +890,14 @@ export default {
                     </td>
                 </tr>
                 <template v-if="showTotalData">
-                    <tr ref="totalDataRow">
+                    <tr
+                        ref="totalDataRow"
+                        class="fixed"
+                    >
                         <td
                             v-for="(entry, index) in totalRow"
                             :key="'total-'+index"
+                            :fixed="typeof fixedColumn !== 'undefined'"
                             class="p-2 total"
                             :class="[selectMode === 'column' && index > 0 ? 'selectable' : '', getClassForSelectedColumn(index), typeof entry === 'number' ? 'pull-right' : '']"
                         >
@@ -1023,6 +1039,12 @@ table {
     th.fixedColumn {
         z-index: 3;
     }
+    td:first-child[fixed=true] {
+            position: sticky;
+            left: 0;
+            background-color: $light_blue;
+            z-index: 1;
+            }
 }
 
 .dynamic-column-table {
