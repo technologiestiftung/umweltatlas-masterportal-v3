@@ -24,7 +24,8 @@ export default {
         return {
             sendIcon: "bi-send",
             fileUploaded: false,
-            uploadedImages: []
+            allAttachmentsToSend: [],
+            sumFileSize: 0
         };
     },
     computed: {
@@ -46,6 +47,7 @@ export default {
             "fileUpload",
             "fileArray",
             "maxFileSize",
+            "maxSumFileSize",
             "configuredFileExtensions"
         ])
     },
@@ -77,22 +79,27 @@ export default {
             }
         },
         addFile (files) {
-            const allFiles = [];
 
             Array.from(files).forEach(file => {
                 if (this.checkValid(file)) {
+                    this.sumFileSize = this.sumFileSize + file.size;
                     const reader = new FileReader();
 
                     reader.addEventListener("load", () => {
                         const fileNameSplit = file.name.split("."),
                             fileExtension = fileNameSplit.length > 0 ? fileNameSplit[fileNameSplit.length - 1].toLowerCase() : "";
 
-                        if (fileExtension === "png" || fileExtension === "jpg" || fileExtension === "jpeg" || fileExtension === "pdf" || this.configuredFileExtensions.includes(fileExtension)) {
+                        if (fileExtension === "png" || fileExtension === "jpg" || fileExtension === "jpeg" || this.configuredFileExtensions.includes(fileExtension)) {
                             this.fileUploaded = true;
                             const src = file.type.includes("image") ? reader.result : URL.createObjectURL(file);
 
-                            this.uploadedImages.push({src: src, name: file.name});
-                            allFiles.push({imgString: reader.result, name: file.name, fileExtension: fileExtension});
+                            this.allAttachmentsToSend.push({imgString: reader.result, name: file.name, fileExtension: fileExtension, fileSize: file.size, src: src});
+                        }
+                        else if (fileExtension === "pdf") {
+                            this.fileUploaded = true;
+                            const src = file.type.includes("application/pdf") ? reader.result : URL.createObjectURL(file);
+
+                            this.allAttachmentsToSend.push({imgString: reader.result, name: file.name, fileExtension: fileExtension, fileSize: file.size, src: src});
                         }
                         else {
                             this.addSingleAlert({
@@ -100,7 +107,6 @@ export default {
                                 content: this.$t("common:modules.contact.fileFormatMessage")
                             });
                         }
-
                     }, false);
 
                     if (file) {
@@ -109,21 +115,18 @@ export default {
                     }
                 }
             });
-            this.setFileArray(allFiles);
+            this.setFileArray(this.allAttachmentsToSend);
         },
         removeAttachment (target) {
-            this.fileArray.forEach(image => {
-                if (image.imgString === target) {
-                    const index = this.fileArray[image];
-
-                    this.fileArray.splice(index, 1);
+            this.allAttachmentsToSend.forEach((el, idx) => {
+                if (el.imgString === target.src && el.name === target.name) {
+                    this.allAttachmentsToSend.splice(idx, 1);
+                    this.sumFileSize = this.sumFileSize - el.fileSize;
                 }
             });
-            this.uploadedImages.forEach(image => {
-                if (image === target) {
-                    const index = this.uploadedImages[image];
-
-                    this.uploadedImages.splice(index, 1);
+            this.fileArray.forEach((el, idx) => {
+                if (el.imgString === target.src && el.name === target.name) {
+                    this.fileArray.splice(idx, 1);
                 }
             });
         },
@@ -138,6 +141,15 @@ export default {
             // Check if filesize exceeds configured size
             // Default 1MB
             if (file.size > this.maxFileSize) {
+                this.addSingleAlert({
+                    category: "error",
+                    content: this.$t("common:modules.contact.fileSizeMessage")
+                });
+                return false;
+            }
+            // Check if sum of all file sizes exceeds configured size
+            // Default 6MB
+            if (this.sumFileSize > this.maxSumFileSize) {
                 this.addSingleAlert({
                     category: "error",
                     content: this.$t("common:modules.contact.fileSizeMessage")
@@ -252,7 +264,7 @@ export default {
                                 >
                                     <div v-if="fileUploaded">
                                         <div
-                                            v-for="image in uploadedImages"
+                                            v-for="image in allAttachmentsToSend"
                                             :key="image"
                                             class="row d-flex mb-1"
                                         >

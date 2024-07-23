@@ -58,6 +58,7 @@ const state = {
     fileUpload: false,
     fileArray: [],
     maxFileSize: 1048576,
+    maxSumFileSize: 6291456,
     configuredFileExtensions: []
 };
 
