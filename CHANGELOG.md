@@ -43,6 +43,7 @@
 ### Fixed
 - Fix migration of login module to Masterportal v3
 - Issue #1192: Searchbar: The TopicTree search interface supports the search for folders.
+- Issue #1219: AddWMS: Corrected z-index for imported layers if only on baselayer is initial visible.
 - Added missing parentheses in v-for loops
 - StatisticDashboard:
     - Statistics and Regions are sorted alphabetically.

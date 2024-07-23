@@ -23,7 +23,7 @@ export default {
      * @returns {Boolean} true, if layer was added and false, if layer was contained in layerConfig
      */
     addLayerToLayerConfig ({dispatch, getters, state}, {layerConfig, parentKey}) {
-        let maxZIndex = -1,
+        let maxZIndex = -Infinity,
             configsByParentKey = [];
         const layerContainer = getters.allLayerConfigs.filter(config => Object.prototype.hasOwnProperty.call(config, "zIndex") && typeof config.zIndex === "number"),
             matchingLayer = layerContainer.find(layer =>layer.id === layerConfig.id);
@@ -34,7 +34,12 @@ export default {
         else {
             configsByParentKey = getters.visibleSubjectDataLayerConfigs.filter(config => Object.prototype.hasOwnProperty.call(config, "zIndex") && typeof config.zIndex === "number");
         }
-        maxZIndex = configsByParentKey.length > 0 ? Math.max(...configsByParentKey.map(layerConf => layerConf.zIndex)) : -Infinity;
+        if (configsByParentKey.length === 0) {
+            maxZIndex = Math.max(...layerContainer.map(layerConf => layerConf.zIndex));
+        }
+        else {
+            maxZIndex = Math.max(...configsByParentKey.map(layerConf => layerConf.zIndex));
+        }
         dispatch("updateLayerConfigZIndex", {layerContainer, maxZIndex});
 
         if (matchingLayer === undefined) {
