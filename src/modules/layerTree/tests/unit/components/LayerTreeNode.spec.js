@@ -24,11 +24,13 @@ describe("src/modules/layerTree/components/LayerTreeNode.vue", () => {
         layersBG,
         addLayerButton,
         treeType,
-        removeLayerSpy;
+        removeLayerSpy,
+        setRemoveOnSpillSpy;
 
     beforeEach(() => {
         mapMode = "2D";
         removeLayerSpy = sinon.spy();
+        setRemoveOnSpillSpy = sinon.spy();
         addLayerButton = {
             active: false
         };
@@ -137,7 +139,7 @@ describe("src/modules/layerTree/components/LayerTreeNode.vue", () => {
                                 removeLayer: removeLayerSpy
                             },
                             mutations: {
-                                setRemoveOnSpill: sinon.stub()
+                                setRemoveOnSpill: setRemoveOnSpillSpy
                             }
                         },
                         LayerSelection: {
@@ -228,6 +230,7 @@ describe("src/modules/layerTree/components/LayerTreeNode.vue", () => {
         expect(wrapper.vm.isLayerShowInLayerTree(layerBG_2)).to.be.false;
         expect(wrapper.find("#layer-tree-layer-" + layerBG_1.id).exists()).to.be.true;
         expect(wrapper.find("#layer-tree-layer-" + layerBG_2.id).exists()).to.be.false;
+        expect(setRemoveOnSpillSpy.calledOnce).to.be.true;
     });
 
     it("renders the LayerTree with 3D layers", () => {
@@ -253,6 +256,7 @@ describe("src/modules/layerTree/components/LayerTreeNode.vue", () => {
         expect(wrapper.find("#layer-tree-layer-" + layer3D.id).exists()).to.be.true;
         expect(wrapper.find("#layer-tree-layer-" + layerBG_1.id).exists()).to.be.true;
         expect(wrapper.find("#layer-tree-layer-" + layerBG_2.id).exists()).to.be.false;
+        expect(setRemoveOnSpillSpy.calledOnce).to.be.true;
     });
     describe("methods", () => {
         it("removeLayerOnSpill - calls removeLayer if showLayerAddButton is true", () => {
@@ -273,6 +277,7 @@ describe("src/modules/layerTree/components/LayerTreeNode.vue", () => {
             });
             wrapper.vm.removeLayerOnSpill({oldIndex: 1});
             expect(removeLayerSpy.calledOnce).to.be.true;
+            expect(setRemoveOnSpillSpy.notCalled).to.be.true;
         });
     });
 });
