@@ -87,7 +87,7 @@ export default {
                 url.searchParams.set("request", "GetCapabilities");
                 url.searchParams.set("service", "WMS");
             }
-            return url;
+            return url.href;
         },
         /**
          * Importing the external wms layers
@@ -96,7 +96,7 @@ export default {
         importLayers: function () {
             const url = this.getUrl();
 
-            if (this.invalidUrl === true || url.href.includes("http:") || url.length === 0) {
+            if (this.invalidUrl === true || url.includes("http:") || url.length === 0) {
                 return;
             }
 
@@ -114,7 +114,6 @@ export default {
                             currentExtent = this.mapViewSettings?.extent;
                         let checkExtent = this.getIfInExtent(capability, currentExtent),
                             finalCapability = capability;
-
 
                         if (!checkVersion) {
                             const reversedData = this.getReversedData(data);
