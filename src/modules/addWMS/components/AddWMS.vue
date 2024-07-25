@@ -62,8 +62,7 @@ export default {
          * Creates the url with the given params and checks if it is valid
          * @returns {String} the url.href
          */
-        getUrl: function () {
-            const serviceUrl = this.$el.querySelector("#wmsUrl").value.trim();
+        getUrl: function (serviceUrl) {
             let url;
 
             this.invalidUrl = false;
@@ -94,7 +93,8 @@ export default {
          * @returns {void}
          */
         importLayers: function () {
-            const url = this.getUrl();
+            const serviceUrl = this.$el.querySelector("#wmsUrl").value.trim(),
+                url = this.getUrl(serviceUrl);
 
             if (this.invalidUrl === true || url.includes("http:") || url.length === 0) {
                 return;
