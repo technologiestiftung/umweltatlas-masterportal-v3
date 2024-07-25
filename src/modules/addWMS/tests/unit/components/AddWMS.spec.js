@@ -62,12 +62,6 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
         expect(wrapper.find("#addWMS").exists()).to.be.true;
     });
 
-    // it("rendes the text with empty input", async () => {
-    //     await wrapper.setData({invalidUrl: true});
-
-    //     expect(wrapper.find(".addwms_error").exists()).to.be.true;
-    // });
-
     it("renders the iput field", () => {
         expect(wrapper.find("#wmsUrl").exists()).to.be.true;
     });

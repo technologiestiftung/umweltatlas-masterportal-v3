@@ -60,7 +60,7 @@ export default {
         },
         /**
          * Creates the url with the given params and checks if it is valid
-         * @returns {String} the url
+         * @returns {String} the url.href
          */
         getUrl: function () {
             const serviceUrl = this.$el.querySelector("#wmsUrl").value.trim();
@@ -332,12 +332,6 @@ export default {
         id="addWMS"
         class="row"
     >
-        <!-- <div
-            v-if="invalidUrl"
-            class="addwms_error"
-        >
-            {{ $t('common:modules.addWMS.errorEmptyUrl') }}
-        </div> -->
         <div>
             <input
                 id="wmsUrl"
