@@ -312,7 +312,8 @@ module.exports = [
             "!portal/basic",
             "!portal/master",
             "!portal/auto",
-            "site/"
+            "site/",
+            ".venv/"
         ]
     }
 ];
