@@ -95,38 +95,6 @@
           },
           {
             "type": "news"
-          },
-          {
-            "type": "language"
-          }
-        ],
-        [
-          {
-            "name": "Beispiel Ordner",
-            "icon": "bi-folder-plus",
-            "type": "folder",
-            "elements": [
-              {
-                "type": "fileImport"
-              },
-              {
-                "type": "addWMS"
-              },
-              {
-                "type": "measure",
-                "icon": "bi-bounding-box-circles"
-              },
-              {
-                "type": "draw"
-              },
-              {
-                "type": "coordToolkit"
-              },
-              {
-                "type": "shareView",
-                "qrShare": true
-              }
-            ]
           }
         ]
       ]
