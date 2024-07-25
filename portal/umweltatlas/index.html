@@ -32,8 +32,38 @@
                 font-size: 20px;
             }
         }
+
+        @keyframes spin {
+            0% {
+                transform: rotateY(0deg);
+            }
+            100% {
+                transform: rotateY(360deg);
+            }
+        }
+
+        #loader {
+            width: 100%;
+            height: 100%;
+            top: 40%;
+            position: fixed;
+            text-align: center;
+        }
+        #portal-logo {
+            animation: fade 2s infinite, spin 2s infinite;
+        }
     </style>
     <body>
+        <div id="loader">
+            <h2>Berliner Umweltatlas Map</h2>
+            <div id="portal-logo">
+                <img
+                    src="./resources/img/logo-umweltatlas.svg"
+                    alt="Umweltatlas Map"
+                />
+            </div>
+        </div>
+
         <div id="masterportal-root"></div>
         <script
             type="text/javascript"

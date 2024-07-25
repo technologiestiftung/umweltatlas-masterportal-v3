@@ -4,64 +4,22 @@ Go to Actions on Github and run _Sync Bitbucket dev_vue to GitHub_
 This will update the branch _bitbucket_dev_vue_ by pulling the code from https://bitbucket.org/geowerkstatt-hamburg/masterportal.git from the "main" branch called _dev_vue_.
 Now you can merge the _bitbucket_dev_vue_ branch with the _main_ branch.
 
+## Used Version
+
 nvm use v20.12.2
 
-## Migration Logs
+## Migration can be done like so
 
 npm run migrateConfig source=old_v2_portal/umweltatlas dest=portal/umweltatlas
 
-> masterportal@3.0.0 migrateConfig
-> node devtools/tasks/migrator/migrate.js source=old_v2_portal/umweltatlas dest=portal/umweltatlas
+## canvas has to be deleted when installing
 
-sourcePath= old_v2_portal/umweltatlas
-destPath= portal/umweltatlas
+"canvas": "^2.11.2",
 
-############################# migrate #############################
+## removed prePushHook because it failed due to missing canvas library
 
---- ATTENTION ---
-this version will not migrate the following tools: compareFeatures, saveSelection, quickHelp, addLayerRemotely, bauforum, boris, commuterFlows, cosi, fileImportAddon, formular, geoAnalyze, gfiOnAddress, hochWasserPrint, mietenspiegelFormular, modeler3D, oktagonKartenportal, quickResponseCode, refugeeHomes, resetTree, schoolRoutePlanning, sessionTool, showParcelGFI, tacticalMark, valuationPrint, verkehrsfunctions, vpiDashboard, vueAddon, wholeCityList, staticlinks, vcOblique, coord, styleWMS, addWMS
+    "prePushHook": "node ./node_modules/@masterportal/mpconfigparser/cli.js ./doc/config.json.md ./doc/config.json.de.md && eslint --max-warnings 0 \"./**/*.{vue,js}\" && npm run test",
 
-## removed deprecated tools are not migrated: searchByCoord, supplyCoord, parcelSearch, extendedFilter, wfsFeatureFilter
+# run dev
 
-source: /Users/hns/hack/projects/umweltatlas-masterportal-v3/old_v2_portal/umweltatlas/config.json
-destination: /Users/hns/hack/projects/umweltatlas-masterportal-v3/portal/umweltatlas/config.json
-
-map parameters from config.js
-mapView
-portalFooter
-controls
---- HINT: fill controls into expandable, to expand and collapse controlbar.
---- HINT: use control 'startModule' to start tool by control-icon.
-tree
-mainMenu
-title
-searchbar entry bkg
---- HINT: bkg removed deprecated property zoomToResult, configure resultEvents instead.
-searchbar entry visibleVector
-searchbar entry topicTree
-searchbar entry visibleWfs
-tools
-legend
-newDatasets
-portalTitle
-shareView
-contact
-news
-about
---- HINT: about 'metaUrl' and 'metaId' have to be filled by user.
---- HINT: add nested folders to menu containing menu entries by using type 'folder'.
---- HINT: display HTML or excute action or open url by using type 'customMenuElement'.
-secondaryMenu
-tools
-fileImport
-measure
-draw_old
-coordToolkit
-layerSlider
-layerConfig
-Baselayer
-Fachdaten
-ATTENTION - TODO for User --- remove from config.js by yourself: footer, defaultToolId, gfiWindow, scaleLine, tree.layerIDsToIgnore, tree.layerIDsToStyle, tree.metaIDsToMerge, tree.metaIDsToIgnore
-
-SUCCESSFULLY MIGRATED: /Users/hns/hack/projects/umweltatlas-masterportal-v3/portal/umweltatlas
-ATTENTION --- Removing of loader and logo in index.html failed! Must be done by user.
+npm run start

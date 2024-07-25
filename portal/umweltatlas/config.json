@@ -88,21 +88,10 @@
             "icon": "bi-book"
           },
           {
-            "type": "contact",
-            "serviceId": "80001",
-            "includeSystemInfo": true,
-            "from": [
-              {
-                "email": "lgvgeoportal-hilfe@gv.hamburg.de",
-                "name": "LGVGeoportalHilfe"
-              }
-            ],
-            "to": [
-              {
-                "email": "lgvgeoportal-hilfe@gv.hamburg.de",
-                "name": "LGVGeoportalHilfe"
-              }
-            ]
+            "icon": "bi-envelope",
+            "type": "customMenuElement",
+            "name": "Kontakt",
+            "htmlContent": "<div><p>Header 1p</p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatum esse nostrum optio sint! Placeat harum mollitia quos ipsam. Error beatae amet rerum sint repellat veritatis eum impedit. Tenetur, et repudiandae!<a href=\"https://www.berlin.de/umweltatlas/\" target=\"_blank\">Berliner Umweltatlas</a></div>"
           },
           {
             "type": "news"
@@ -116,7 +105,28 @@
             "name": "Beispiel Ordner",
             "icon": "bi-folder-plus",
             "type": "folder",
-            "elements": []
+            "elements": [
+              {
+                "type": "fileImport"
+              },
+              {
+                "type": "addWMS"
+              },
+              {
+                "type": "measure",
+                "icon": "bi-bounding-box-circles"
+              },
+              {
+                "type": "draw"
+              },
+              {
+                "type": "coordToolkit"
+              },
+              {
+                "type": "shareView",
+                "qrShare": true
+              }
+            ]
           }
         ]
       ]
