@@ -58,10 +58,12 @@ export default {
                 this.importLayers();
             }
         },
+
         /**
          * Creates the url with the given params and checks if it is valid
+         * @param {String} serviceUrl inserted url by user
          * @returns {String} the url.href
-         */
+        */
         getUrl: function (serviceUrl) {
             let url;
 

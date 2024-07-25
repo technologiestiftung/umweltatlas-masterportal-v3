@@ -76,6 +76,7 @@
 - Cesium library is only loaded, if button to switch to 3D is configured.
 - Layertree: if no button to add layers is configured, layers cannot be removed by drop outside.
 - Issue #1198: WMS link can contain "?".
+
 ---
 ## 2024-06-27 v3.0.0
 ### __Breaking Changes__
