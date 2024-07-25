@@ -269,9 +269,10 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
     describe("getUrl", () => {
         const serviceUrl = "https://test/test?map=/storage/mapfiles/test.map";
 
-        it("serviceUrl with '?' returns url only with one '?'", function () {
+        it("creates url correctly'", function () {
             expect(wrapper.vm.getUrl(serviceUrl)).to.equal("https://test/test?map=%2Fstorage%2Fmapfiles%2Ftest.map&request=GetCapabilities&service=WMS");
             expect(wrapper.vm.getUrl(serviceUrl).split("?").length - 1).to.equal(1);
+            expect(wrapper.vm.getUrl(serviceUrl)).to.contain("request=GetCapabilities&service=WMS");
         });
     });
 });
