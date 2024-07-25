@@ -230,15 +230,17 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
             dispatch = sinon.stub().resolves({id: layerId});
             await actions.showInTree({commit, dispatch}, {layerId});
 
-            expect(dispatch.callCount).to.be.equals(3);
+            expect(dispatch.callCount).to.be.equals(4);
             expect(dispatch.firstCall.args[0]).to.equals("retrieveLayerConfig");
             expect(dispatch.firstCall.args[1]).to.be.deep.equals({layerId, source: undefined});
-            expect(dispatch.secondCall.args[0]).to.equals("Modules/LayerSelection/showLayer");
-            expect(dispatch.secondCall.args[1]).to.be.deep.equals({
+            expect(dispatch.secondCall.args[0]).to.equals("Menu/changeCurrentComponent");
+            expect(dispatch.secondCall.args[1]).to.be.deep.equals({type: "layerSelection", side: "mainMenu", props: {}});
+            expect(dispatch.thirdCall.args[0]).to.equals("Modules/LayerSelection/showLayer");
+            expect(dispatch.thirdCall.args[1]).to.be.deep.equals({
                 layerId: "123"
             });
-            expect(dispatch.thirdCall.args[0]).to.equals("Menu/navigateBack");
-            expect(dispatch.thirdCall.args[1]).to.equals("mainMenu");
+            expect(dispatch.getCall(3).args[0]).to.equals("Menu/navigateBack");
+            expect(dispatch.getCall(3).args[1]).to.equals("mainMenu");
             expect(commit.callCount).to.be.equals(2);
             expect(commit.firstCall.args[0]).to.equals("Menu/setNavigationHistoryBySide");
             expect(commit.firstCall.args[1]).to.be.deep.equals(payload);

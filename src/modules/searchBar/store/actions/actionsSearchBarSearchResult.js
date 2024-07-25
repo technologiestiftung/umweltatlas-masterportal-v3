@@ -208,6 +208,7 @@ export default {
         }
         else if (layerConfig) {
             commit("Menu/setNavigationHistoryBySide", {side: "mainMenu", newHistory: [{type: "root", props: []}, typeLayerSelection, typeLayerSelection]}, {root: true});
+            dispatch("Menu/changeCurrentComponent", {type: "layerSelection", side: "mainMenu", props: {}}, {root: true});
             dispatch("Modules/LayerSelection/showLayer", {layerId}, {root: true});
         }
         else {
