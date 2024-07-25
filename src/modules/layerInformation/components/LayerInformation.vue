@@ -2,6 +2,7 @@
 import LegendSingleLayer from "../../legend/components/LegendSingleLayer.vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import {isWebLink} from "../../../shared/js/utils/urlHelper";
+import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
 
 /**
  * The Layer Information that gives the user information, links and the legend for a layer
@@ -16,11 +17,13 @@ import {isWebLink} from "../../../shared/js/utils/urlHelper";
  * @vue-computed {Boolean} showAttachFile - Shows if file type needs to be attached for download.
  * @vue-computed {String} layerUrl - The layer URL.
  * @vue-computed {String} legendURL - The legend URL.
+ * @vue-computed {String} contact - Contact information from pointOfContact if given otherwise from publisher from meta data information.
  */
 export default {
     name: "LayerInformation",
     components: {
-        LegendSingleLayer
+        LegendSingleLayer,
+        AccordionItem
     },
     data () {
         return {
@@ -39,7 +42,9 @@ export default {
             "metaURLs",
             "noMetadataLoaded",
             "periodicityKey",
-            "showUrlGlobal"
+            "showUrlGlobal",
+            "pointOfContact",
+            "publisher"
         ]),
         ...mapGetters("Modules/Legend", [
             "layerInfoLegend"
@@ -73,6 +78,9 @@ export default {
         },
         layerTyp  () {
             return this.layerInfo.typ !== "GROUP" ? `${this.layerInfo.typ}-${this.$t("common:modules.layerInformation.addressSuffix")}` : this.$t("common:modules.layerInformation.addressSuffixes");
+        },
+        contact () {
+            return this.pointOfContact || this.publisher || null;
         }
     },
 
@@ -156,6 +164,35 @@ export default {
             v-html="abstractText"
         />
         <br>
+        <AccordionItem
+            v-if="contact"
+            id="layer-info-contact"
+            :title="$t('common:modules.layerInformation.pointOfContact')"
+            :is-open="false"
+            :font-size="'font-size-base'"
+            :coloured-header="false"
+        >
+            <p>
+                {{ contact.name }}
+            </p>
+            <p
+                v-for="(positionName) in contact.positionName"
+                :key="positionName"
+            >
+                {{ positionName }}
+            </p>
+            <p>
+                {{ contact.street + "  " + contact.postalCode }}
+            </p>
+            <p>
+                {{ contact.city }}
+            </p>
+            <a
+                :href="'mailto:' + contact.email"
+            >
+                {{ contact.email }}
+            </a>
+        </AccordionItem>
         <div v-if="showAdditionalMetaData">
             <p
                 v-for="url in metaURLs"

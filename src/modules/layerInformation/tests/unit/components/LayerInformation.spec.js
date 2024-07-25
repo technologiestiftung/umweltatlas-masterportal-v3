@@ -9,7 +9,9 @@ config.global.mocks.$t = key => key;
 describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
     let store,
         legendAvailable,
-        downloadLinks;
+        downloadLinks,
+        pointOfContact,
+        publisher;
 
     beforeEach(() => {
         downloadLinks = null;
@@ -39,7 +41,9 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
                                 metaURLs: () => [],
                                 currentLayerName: () => "",
                                 legendAvailable: () => legendAvailable,
-                                showUrlGlobal: () => true
+                                showUrlGlobal: () => true,
+                                pointOfContact: () => pointOfContact,
+                                publisher: () => publisher
                             },
                             actions: {
                                 setConfigParams: () => sinon.stub()
@@ -128,5 +132,62 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
             expect(link.attributes("href")).to.include("https://wfs.example.org/?evil=1&SERVICE=WFS&REQUEST=GetCapabilities");
             expect(link.attributes("href")).to.include("https://self.example.org/portal/local.geojson?SERVICE=GeoJSON&REQUEST=GetCapabilities");
         });
+    });
+
+    it("should show point of contact accordion  using content from pointOfContact", async () => {
+        pointOfContact = {
+            "name": "Behörde ABC",
+            "positionName": ["Metadaten-Verantwortlicher"],
+            "street": "XYZ Straße 99",
+            "housenr": "",
+            "postalCode": "D-12345",
+            "city": "Hamburg",
+            "email": "test@gv.hamburg.de",
+            "country": "DEU"
+        };
+        publisher = "";
+
+        const wrapper = mount(LayerInformationComponent, {
+            global: {
+                plugins: [store]
+            }
+        });
+
+        expect(wrapper.find("#accordion-container-layer-info-contact").exists()).to.be.true;
+    });
+
+    it("should not show point of contact accordion", async () => {
+        pointOfContact = "";
+        publisher = "";
+
+        const wrapper = mount(LayerInformationComponent, {
+            global: {
+                plugins: [store]
+            }
+        });
+
+        expect(wrapper.find("#accordion-container-layer-info-contact").exists()).to.be.false;
+    });
+
+    it("should show point of contact accordion  using content from publisher", async () => {
+        pointOfContact = "";
+        publisher = {
+            "name": "Behörde ABC",
+            "positionName": ["Metadaten-Verantwortlicher"],
+            "street": "XYZ Straße 99",
+            "housenr": "",
+            "postalCode": "D-12345",
+            "city": "Hamburg",
+            "email": "test@gv.hamburg.de",
+            "country": "DEU"
+        };
+
+        const wrapper = mount(LayerInformationComponent, {
+            global: {
+                plugins: [store]
+            }
+        });
+
+        expect(wrapper.find("#accordion-container-layer-info-contact").exists()).to.be.true;
     });
 });

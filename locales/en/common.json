@@ -565,7 +565,8 @@
       "name": "Information and legend",
       "noMetadataLoaded": "No metadata could be loaded!",
       "periodicityTitle": "Data update",
-      "publicationCreation": "Publication / Creation"
+      "publicationCreation": "Publication / Creation",
+      "pointOfContact": "Point of contact"
     },
     "layerPills": {
       "next": "Show next layers",

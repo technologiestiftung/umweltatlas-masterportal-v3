@@ -37,6 +37,8 @@
     - Added sales tax identification number.
 - Footer:
     - Added link to open imprint in about module.
+- LayerInfo:
+    - Added contact information
 
 ### Changed
 - Eslint: no-undef eslint rule is switched on.
