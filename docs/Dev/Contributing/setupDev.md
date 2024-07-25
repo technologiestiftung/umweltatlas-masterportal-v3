@@ -1,16 +1,16 @@
 # Developer Setup
 This describes how to set up the local development environment.
 
-## System requirements
+## System Requirements
 
 If you are behind a proxy there are several things to do. In Linux/macOS several settings
-are required (e.g: wget, curl, git, npm, /etc/enviroment....). Mostly in Windows you can
+are required (e.g: wget, curl, git, pip, npm, /etc/enviroment....). Mostly in Windows you can
 set it once at the 'Enviroment Variables'. But the Linux tools (e.g Git Bash) you are
 using on Windows don't know them. So check where to set proxy setting for the program
 you are using. Here are also some hints:
 
 
-## git
+## Git
 
 Install **[git](http://git-scm.com/)**.
 
@@ -34,7 +34,6 @@ If you're working from behind a corporate proxy, you may need to configure a pro
 $ git config --global http.proxy <proxy-url:port>
 $ git config --global https.proxy <proxy-url:port>
 ```
-
 
 ## Node.js
 
@@ -103,27 +102,34 @@ Globally installed packages will be stored in that path. For more information re
 
 
 
-## Masterportal installation
+## Masterportal Installation
+Open a Git Bash shell with administrative rights and navigate to the folder in which you want to clone the repository.
 
-Execute the git bash as admin and navigate to the folder the repository is to be cloned to.
-
-Clone the repository and navigate to the folder created:
-
-```console
+```console title="Clone the repository and navigate inside"
 $ git clone https://bitbucket.org/geowerkstatt-hamburg/masterportal.git
 $ cd masterportal
 ```
 
-Install the `node_modules` required for the Masterportal:
-
-```console
+```console title="Install the `node_modules` required for the Masterportal:"
 $ npm install
 ```
 
-With this, all dependencies are installed.
+Now all npm dependencies are installed.
 
 In case add-ons are to be used, please refer to the **[add-ons documentation](../Tutorials/addOnsVue.md)** for further assistance.
 
+### Python Dependencies
+
+The documentation of this software is generated with mkdocs-material, a tool written in Python.
+To prevent conflicts between Python packages on the system and project level,
+a virtual environment (venv) is recommended.
+
+1. Run `python -m venv .venv` in the root folder of the cloned project to create a new virtual Python environment.
+2. Activate the venv by running either `source .venv/bin/activate` on Linux or `call .venv/Scripts/activate.bat` on Windows.
+3. Now run `pip install -r .\python-dependencies.txt` to install the required Python packages. You may need to pass a [proxy configuration](https://pip.pypa.io/en/stable/user_guide/#using-a-proxy-server) to pip if you are behind a corporate firewall.
+
+
+## npm Commands
 
 ### `npm start`
 
@@ -177,7 +183,7 @@ The produced `examples.zip` and `examples-x.x.x.zip` (versioned) both contain ru
 
 
 
-## Updating dependencies
+## Updating Dependencies
 
 This task belongs to the owner/ package maintainers. If you don't know: Dont call the command.
 
