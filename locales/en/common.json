@@ -139,7 +139,8 @@
       "removeAttachment": "Remove file",
       "sendButton": "Contact us",
       "successMessage": "Your request was sent successfully.",
-      "successTicket": "Your ticket number is: "
+      "successTicket": "Your ticket number is: ",
+      "infoMessage": "Please write to us if you have any tips, questions or problems!"
     },
     "controls": {
       "backForward": {

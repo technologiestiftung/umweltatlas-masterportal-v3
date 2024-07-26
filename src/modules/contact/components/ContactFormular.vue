@@ -48,7 +48,8 @@ export default {
             "fileArray",
             "maxFileSize",
             "maxSumFileSize",
-            "configuredFileExtensions"
+            "configuredFileExtensions",
+            "infoMessage"
         ])
     },
     methods: {
@@ -186,6 +187,13 @@ export default {
                 });
             }
             return notDuplicated;
+        },
+        /**
+         * Checks if a variable is a string and not empty.
+         * @returns {String} Returns the input string if it is typeof string and it is not empty.
+         */
+        checkStringContent (inputString) {
+            return typeof inputString === "string" && inputString.length ? inputString : null;
         }
     }
 };
@@ -200,6 +208,11 @@ export default {
         >
             {{ contactInfo }}
         </div>
+        <p
+            id="contact-info-message"
+        >
+            {{ checkStringContent(infoMessage) || $t("common:modules.contact.infoMessage") }}
+        </p>
         <form
             @submit.prevent="send"
         >

@@ -139,7 +139,8 @@
       "removeAttachment": "Datei entfernen",
       "sendButton": "Kontakt aufnehmen",
       "successMessage": "Ihre Anfrage wurde erfolgreich versendet.",
-      "successTicket": "Ihre Ticketnummer lautet: "
+      "successTicket": "Ihre Ticketnummer lautet: ",
+      "infoMessage": "Sie haben Hinweise, Fragen oder Probleme? Schreiben sie uns!"
     },
     "controls": {
       "backForward": {

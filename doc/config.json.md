@@ -1788,6 +1788,7 @@ The contact form allows users to send messages to a configured mail address. A f
 |to|yes|**[email](#markdown-header-portalconfigmenusectionsmodulescontactemail)**[]||Recipient of the Email. Please mind our **[hints regarding Email safety](#markdown-header-hints-regarding-email-safety)**.|false|
 |type|no|String|"contact"|The type of the module. Defines which module is configured.|false|
 |withTicketNo|no|Boolean|true|Whether successfully sending a email retrieves a ticket number for the user.|false|
+|infoMessage|no|String|"common:modules.contact.infoMessage"|Explanatory note|false|
 ***
 **Example**
 

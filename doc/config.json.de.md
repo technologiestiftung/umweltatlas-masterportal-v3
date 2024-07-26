@@ -1789,6 +1789,7 @@ Mit diesem Modul, kann der Benutzer mit einem definierten Postfach Kontakt aufne
 |to|ja|**[email](#markdown-header-portalconfigmenusectionsmodulescontactemail)**[]||Adressat der Email. Bitte den **[Hinweis zur Email-Sicherheit](#markdown-header-hinweis-zur-email-sicherheit)** beachten.|false|
 |type|nein|String|"contact"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
 |withTicketNo|nein|Boolean|true|Kennzeichen, ob bei erfolgreichem Versand der Anfrage eine Ticketnummer zurückgegeben werden soll.|false|
+|infoMessage|nein|String|"common:modules.contact.infoMessage"|Satz zur Erläuterung|false|
 ***
 **Beispiel**
 

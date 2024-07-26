@@ -370,7 +370,12 @@
             "type": "about",
             "cswUrl": "https://metaver.de/csw",
             "metaUrl": "https://metaver.de/trefferanzeige?docuuid=40D48B03-AD1D-407B-B04D-B5BC6855BE15",
-            "metaId": "40D48B03-AD1D-407B-B04D-B5BC6855BE15"
+            "metaId": "40D48B03-AD1D-407B-B04D-B5BC6855BE15",
+            "ustId": "DE12345",
+            "privacyStatementText": "",
+            "privacyStatementUrl": "https://www.masterportal.org/datenschutz",
+            "accessibilityText": "",
+            "accessibilityUrl": "https://metaver.de/barrierefreiheit;jsessionid=7E3A0FF4EE5BD2359C35CCC46E00C127"
           },
           {
             "type": "legend"
@@ -397,6 +402,7 @@
             "serviceId": "80001",
             "includeSystemInfo": true,
             "fileUpload": true,
+            "infoMessage": "",
             "from": [
               {
                 "email": "lgvgeoportal-hilfe@gv.hamburg.de",
@@ -405,7 +411,7 @@
             ],
             "to": [
               {
-                "email": "lgvgeoportal-hilfe@gv.hamburg.de",
+                "email": "lgvgeoportal-hilfe123@gv.hamburg.de",
                 "name": "LGVGeoportalHilfe"
               }
             ]
@@ -901,8 +907,8 @@
     },
     "subjectlayer": {
       "elements": [
-        { 
-          "id": [ "20501", "20502", "20503", "20504" ], 
+        {
+          "id": [ "20501", "20502", "20503", "20504" ],
           "name": "Gruppe Freizeitrouten und Radfernwege (4 WFS Layer)",
           "styleId": "4515",
           "visibility": true,

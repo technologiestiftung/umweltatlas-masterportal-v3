@@ -24,7 +24,7 @@ function fillFields ({nameInput, mailInput, phoneInput, messageInput}) {
     messageInput.trigger("keyup");
 }
 
-describe("src/modules/contact/components/ContactFormular.vue", () => {
+describe.only("src/modules/contact/components/ContactFormular.vue", () => {
     let store, wrapper;
 
     beforeEach(() => {
@@ -163,6 +163,15 @@ describe("src/modules/contact/components/ContactFormular.vue", () => {
 
         await wrapper.vm.$nextTick();
         expect(wrapper.find("#module-contact-username-input").element).to.equal(document.activeElement);
+    });
+    it("has a info message text", async () => {
+        wrapper = mount(ContactComponent, {
+            global: {
+                plugins: [store]
+            }});
+
+        expect(wrapper.find("#contact-info-message").exists()).to.be.true;
+        expect(wrapper.find("#contact-info-message").text()).to.equals("common:modules.contact.infoMessage");
     });
 
     describe("Methods", () => {

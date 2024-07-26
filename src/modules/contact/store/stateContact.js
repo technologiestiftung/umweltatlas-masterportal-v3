@@ -60,7 +60,8 @@ const state = {
     fileArray: [],
     maxFileSize: 1 * 1024 * 1024,
     maxSumFileSize: 6 * 1024 * 1024,
-    configuredFileExtensions: []
+    configuredFileExtensions: [],
+    infoMessage: ""
 };
 
 export default state;
