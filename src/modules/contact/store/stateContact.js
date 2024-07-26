@@ -57,8 +57,8 @@ const state = {
     type: "contact",
     fileUpload: false,
     fileArray: [],
-    maxFileSize: 1048576,
-    maxSumFileSize: 6291456,
+    maxFileSize: 1 * 1024 * 1024,
+    maxSumFileSize: 6 * 1024 * 1024,
     configuredFileExtensions: []
 };
 
