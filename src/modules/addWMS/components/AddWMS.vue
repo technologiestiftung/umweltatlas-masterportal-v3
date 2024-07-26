@@ -73,10 +73,7 @@ export default {
             }
             catch (e) {
                 this.invalidUrl = true;
-                this.addSingleAlert({
-                    content: this.$t("common:modules.addWMS.errorNotValidUrl"),
-                    category: "error",
-                    title: this.$t("common:modules.addWMS.errorTitle")});
+                this.displayErrorMessage();
             }
             if (url.href.includes("http:")) {
                 this.addSingleAlert({

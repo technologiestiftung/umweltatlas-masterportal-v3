@@ -39,7 +39,6 @@
       "alertTitleSuccess": "",
       "alreadyAdded": "",
       "completeMessage": "&#9989; Шари запитаного WMS були додані в дерево тем в пункті меню < strong>Зовнішні спеціалізовані дані< / strong>!",
-      "errorNotValidUrl": "Будь ласка, введіть WMS-URL адресу   в текстове поле!",
       "errorHttpsMessage": " &#10060; WMS, який ви запитуєте, знаходиться за http-URL адресою . Masterportal може підключати  WMS тільки через https (SSL).",
       "errorMessage": "&#10060; Не вдалося завантажити зазначену службу. Будь ласка, переконайтеся, що URL-адреса вказана правильно.<br><br> якщо проблема все ще виникає, будь ласка, зв'яжіться з оператором служби з наступним повідомленням:<br><strong>необхідно переконатися, що для служби встановлено заголовок CORS-Header. Це рекомендується <a target= '_blank' href='https://www.gdi-de.org/SharedDocs/Downloads/DE/GDI-DE/Dokumente/Architektur_GDI-DE_Bereitstellung_Darstellungsdienste.pdf?__blob=publicationFile'>GDI-DE</a >  в главі 4.7.1.</strong>",
       "errorTitle": "",

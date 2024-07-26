@@ -39,7 +39,6 @@
       "alertTitleSuccess": "",
       "alreadyAdded": "",
       "completeMessage": "&#9989; ¡Las capas del servicio WMS solicitado se han añadido a la lista de capas temáticas bajo el elemento de menú <strong>Datos temáticos extaenos </strong>!.",
-      "errorNotValidUrl": "¡Introduzca aqui por favor la URL de un Servicio WMS!",
       "errorHttpsMessage": " &#10060; El WMS que ha solicitado se encuentra bajo una http-url. El portal principal sólo puede integrar WMS a través de https (SSL).",
       "errorMessage": "&#10060; No se ha podido cargar el servicio especificado. Por favor, asegúrese de que la URL se ha especificado correctamente.<br><br>Si el problema persiste, por favor, póngase en contacto con el operador del servicio con la siguiente nota:<br><strong>Hay que asegurarse de que una cabecera CORS está configurada para el servicio. Así lo recomienda en el capítulo 4.7.1 el <a target='_blank' href='https://www.gdi-de.org/SharedDocs/Downloads/DE/GDI-DE/Dokumente/Architektur_GDI-DE_Bereitstellung_Darstellungsdienste.pdf?__blob=publicationFile'>GDI-DE</a> .</strong>",
       "errorTitle": "",
