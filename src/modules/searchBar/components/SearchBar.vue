@@ -204,7 +204,6 @@ export default {
         ...mapMutations("Modules/SearchBar", [
             "addSuggestionItem",
             "setSearchInput",
-            "setShowAllResults",
             "setSearchResultsActive",
             "setCurrentAvailableCategories",
             "setSearchSuggestions",

@@ -158,17 +158,8 @@ SearchInterfaceTopicTree.prototype.searchInFolder = function (folder, folders) {
  * @returns {Object} The normalized folder search result.
  */
 SearchInterfaceTopicTree.prototype.normalizeFolderResult = function (folder) {
-    const folderResultEvents = {...this.resultEvents},
-        activateLayerIndex = folderResultEvents.onClick.indexOf("activateLayerInTopicTree"),
-        showInTreeIndex = folderResultEvents.buttons.indexOf("showInTree"),
-        showLayerInfoIndex = folderResultEvents.buttons.indexOf("showLayerInfo");
-
-    delete folderResultEvents.onClick[activateLayerIndex];
-    delete folderResultEvents.buttons[showInTreeIndex];
-    delete folderResultEvents.buttons[showLayerInfoIndex];
-
     return {
-        events: this.normalizeResultEvents(folderResultEvents, folder),
+        events: this.normalizeResultEvents({...this.resultEvents}, folder),
         category: i18next.t("common:modules.searchBar.type.folder"),
         icon: "bi-folder",
         id: folder.id,

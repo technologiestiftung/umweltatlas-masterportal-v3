@@ -105,7 +105,12 @@ SearchInterface.prototype.normalizeResultEvents = function (resultEvents, search
 
     Object.keys(resultEventsAsObject).forEach(event => {
         Object.keys(resultEventsAsObject[event]).forEach(action => {
-            resultEventsAsObject[event][action] = possibleActions[action];
+            if (possibleActions[action]) {
+                resultEventsAsObject[event][action] = possibleActions[action];
+            }
+            else {
+                delete resultEventsAsObject[event][action];
+            }
         });
     });
 

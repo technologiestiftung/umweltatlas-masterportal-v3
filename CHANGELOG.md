@@ -52,6 +52,7 @@
 - Fix migration of login module to Masterportal v3
 - Issue #1192: Searchbar: The TopicTree search interface supports the search for folders.
 - Issue #1219: AddWMS: Corrected z-index for imported layers if only on baselayer is initial visible.
+- Issue #1232: Searchbar: The TopicTree search interface does not fail on configured `resultEvents`. 
 - Added missing parentheses in v-for loops
 - StatisticDashboard:
     - Statistics and Regions are sorted alphabetically.
@@ -60,7 +61,6 @@
 - Legend: changed the name in the legend for group and baselayer.
 - OAF-Layer: bbox and bboxCrs are respected when building url.
 - Auto portal: search in LayerSelection works.
-- Issue #1192: Searchbar: The TopicTree search interface supports the search for folders.
 - Print:
     - print mask is now visible for group layer
     - zIndex and transparency from the group layer are also adopted in printing

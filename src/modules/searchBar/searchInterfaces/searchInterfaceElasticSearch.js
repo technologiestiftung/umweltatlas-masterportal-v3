@@ -184,11 +184,13 @@ SearchInterfaceElasticSearch.prototype.normalizeResults = function (searchResult
     const normalizedResults = [];
 
     searchResults.forEach(searchResult => {
+        const id = this.getResultByPath(searchResult, this.hitMap?.id);
+
         normalizedResults.push({
             events: this.normalizeResultEvents(this.resultEvents, searchResult),
             category: this.hitType.startsWith("common:") ? i18next.t(this.hitType) : i18next.t(this.getTranslationByType(this.getResultByPath(searchResult, this.hitType))),
             icon: this.hitIcon,
-            id: this.getResultByPath(searchResult, this.hitMap?.id),
+            id: typeof id === "number" ? String(id) : id,
             name: this.getResultByPath(searchResult, this.hitMap?.name),
             toolTip: this.getResultByPath(searchResult, this.hitMap?.toolTip)
         });
@@ -221,15 +223,19 @@ SearchInterfaceElasticSearch.prototype.getTranslationByType = function (type) {
  * @returns {Object} The possible actions.
  */
 SearchInterfaceElasticSearch.prototype.createPossibleActions = function (searchResult) {
-    let coordinates = this.getResultByPath(searchResult, this.hitMap?.coordinate);
+    let coordinates = this.getResultByPath(searchResult, this.hitMap?.coordinate),
+        layerId = this.getResultByPath(searchResult, this.hitMap?.layerId);
 
     if (coordinates) {
         coordinates = crs.transformToMapProjection(mapCollection.getMap("2D"), this.epsg, [parseFloat(coordinates[0]), parseFloat(coordinates[1])]);
     }
+    if (typeof layerId === "number") {
+        layerId = String(layerId);
+    }
 
     return {
         addLayerToTopicTree: {
-            layerId: this.getResultByPath(searchResult, this.hitMap?.layerId),
+            layerId,
             source: this.getResultByPath(searchResult, this.hitMap?.source)
         },
         setMarker: {
@@ -243,11 +249,11 @@ SearchInterfaceElasticSearch.prototype.createPossibleActions = function (searchR
             name: this.getResultByPath(searchResult, this.hitMap?.name)
         },
         showInTree: {
-            layerId: this.getResultByPath(searchResult, this.hitMap?.layerId),
+            layerId,
             source: this.getResultByPath(searchResult, this.hitMap?.source)
         },
         showLayerInfo: {
-            layerId: this.getResultByPath(searchResult, this.hitMap?.layerId),
+            layerId,
             source: this.getResultByPath(searchResult, this.hitMap?.source)
         }
     };
