@@ -223,7 +223,7 @@
             },
             "resultEvents": {
               "onClick": [
-                "ccsetMarker",
+                "setMarker",
                 "zoomToResult"
               ],
               "onHover": [
@@ -290,23 +290,13 @@
           },
           {
             "type": "topicTree",
-            "hitTemplate": "layer",
-            "resultEvents": {
-              "onClick": [
-                "activateLayerInTopicTree"
-               
-              ],
-            
-              "buttons": [
-                "showInTree", 
-                "showLayerInfo"
-              ]
-            }
+            "hitTemplate": "layer"
           },
           {
             "type": "visibleVector",
             "resultEvents": {
               "onClick": [
+                "openGetFeatureInfo",
                 "setMarker",
                 "zoomToResult"
               ],
