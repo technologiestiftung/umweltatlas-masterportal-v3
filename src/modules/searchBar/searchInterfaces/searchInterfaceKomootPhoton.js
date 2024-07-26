@@ -27,14 +27,18 @@ import {uniqueId} from "../../../shared/js/utils/uniqueId";
  * @returns {void}
  */
 export default function SearchInterfaceKomootPhoton ({serviceId, bbox, hitTemplate, limit, lang, lat, lon, osmTag, resultEvents, searchInterfaceId} = {}) {
-    SearchInterface.call(this,
-        "client",
-        searchInterfaceId || "komootPhoton",
-        resultEvents || {
+    const resultEventsDefault = {
             onClick: ["setMarker", "zoomToResult"],
             onHover: ["setMarker"],
             buttons: ["startRouting"]
         },
+        resultEventsSupported = ["setMarker", "zoomToResult", "startRouting"];
+
+    this.checkConfig(resultEvents, resultEventsSupported, searchInterfaceId);
+    SearchInterface.call(this,
+        "client",
+        searchInterfaceId || "komootPhoton",
+        resultEvents || resultEventsDefault,
         hitTemplate
     );
 

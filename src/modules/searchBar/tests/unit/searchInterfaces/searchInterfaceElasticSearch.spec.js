@@ -8,7 +8,8 @@ import SearchInterfaceElasticSearch from "../../../searchInterfaces/searchInterf
 import store from "../../../../../app-store";
 
 describe("src/modules/searchBar/searchInterfaces/searchInterfaceElasticSearch.js", () => {
-    let SearchInterface1 = null;
+    let SearchInterface1 = null,
+        checkConfigSpy;
 
 
     before(() => {
@@ -19,7 +20,7 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceElasticSearch.js
                 };
             }
         };
-
+        checkConfigSpy = sinon.spy(SearchInterface.prototype, "checkConfig");
         SearchInterface1 = new SearchInterfaceElasticSearch({
             hitMap: {
                 name: "_source.name",
@@ -52,6 +53,8 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceElasticSearch.js
     describe("prototype", () => {
         it("SearchInterfaceElasticSearch should has the prototype SearchInterface", () => {
             expect(SearchInterface1).to.be.an.instanceof(SearchInterface);
+            expect(checkConfigSpy.calledOnce).to.be.true;
+            expect(checkConfigSpy.firstCall.args[1]).to.be.deep.equals(["addLayerToTopicTree", "setMarker", "showInTree", "showLayerInfo", "startRouting", "zoomToResult"]);
         });
     });
 

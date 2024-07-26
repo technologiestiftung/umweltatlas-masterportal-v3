@@ -18,9 +18,11 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceVisibleVector.js
         featureMultiPolygon,
         layer1,
         SearchInterface1 = null,
-        coordinates;
+        coordinates,
+        checkConfigSpy;
 
     before(() => {
+        checkConfigSpy = sinon.spy(SearchInterface.prototype, "checkConfig");
         SearchInterface1 = new SearchInterfaceVisibleVector();
     });
 
@@ -87,6 +89,8 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceVisibleVector.js
     describe("prototype", () => {
         it("SearchInterfaceVisibleVector should has the prototype SearchInterface", () => {
             expect(SearchInterface1).to.be.an.instanceof(SearchInterface);
+            expect(checkConfigSpy.calledOnce).to.be.true;
+            expect(checkConfigSpy.firstCall.args[1]).to.be.deep.equals(["openGetFeatureInfo", "setMarker", "zoomToResult", "startRouting"]);
         });
     });
 

@@ -26,14 +26,18 @@ import {uniqueId} from "../../../shared/js/utils/uniqueId";
  * @returns {void}
  */
 export default function SearchInterfaceOsmNominatim ({serviceId, classes, countryCodes, hitTemplate, limit, resultEvents, searchInterfaceId, states} = {}) {
-    SearchInterface.call(this,
-        "client",
-        searchInterfaceId || "osmNominatim",
-        resultEvents || {
+    const resultEventsDefault = {
             onClick: ["setMarker", "zoomToResult"],
             onHover: ["setMarker"],
             buttons: ["startRouting"]
         },
+        resultEventsSupported = ["setMarker", "zoomToResult", "startRouting"];
+
+    this.checkConfig(resultEvents, resultEventsSupported, searchInterfaceId);
+    SearchInterface.call(this,
+        "client",
+        searchInterfaceId || "osmNominatim",
+        resultEvents || resultEventsDefault,
         hitTemplate
     );
 

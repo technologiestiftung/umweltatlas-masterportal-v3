@@ -9,9 +9,11 @@ import {reset} from "../../../../../shared/js/utils/uniqueId";
 
 describe("src/modules/searchBar/searchInterfaces/searchInterfaceBkg.js", () => {
     let SearchInterface1 = null,
-        searchResults = [];
+        searchResults = [],
+        checkConfigSpy;
 
     before(() => {
+        checkConfigSpy = sinon.spy(SearchInterface.prototype, "checkConfig");
         SearchInterface1 = new SearchInterfaceBkg();
 
         store.getters = {
@@ -80,6 +82,8 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceBkg.js", () => {
     describe("prototype", () => {
         it("SearchInterfaceBkg should has the prototype SearchInterface", () => {
             expect(SearchInterface1).to.be.an.instanceof(SearchInterface);
+            expect(checkConfigSpy.calledOnce).to.be.true;
+            expect(checkConfigSpy.firstCall.args[1]).to.be.deep.equals(["setMarker", "zoomToResult", "startRouting"]);
         });
     });
 

@@ -21,14 +21,18 @@ import store from "../../../app-store";
  * @returns {void}
  */
 export default function SearchInterfaceLocationFinder ({serviceId, classes, epsg, hitTemplate, resultEvents, searchInterfaceId} = {}) {
-    SearchInterface.call(this,
-        "client",
-        searchInterfaceId || "locationFinder",
-        resultEvents || {
+    const resultEventsDefault = {
             onClick: ["setMarker", "zoomToResult"],
             onHover: ["setMarker"],
             buttons: ["startRouting"]
         },
+        resultEventsSupported = ["setMarker", "zoomToResult", "startRouting"];
+
+    this.checkConfig(resultEvents, resultEventsSupported, searchInterfaceId);
+    SearchInterface.call(this,
+        "client",
+        searchInterfaceId || "locationFinder",
+        resultEvents || resultEventsDefault,
         hitTemplate
     );
 

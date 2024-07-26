@@ -31,13 +31,17 @@ import store from "../../../app-store";
  * @returns {void}
  */
 export default function SearchInterfaceElasticSearch ({hitMap, serviceId, epsg, hitIcon, hitTemplate, hitType, payload, responseEntryPath, resultEvents, searchInterfaceId, searchStringAttribute, requestType} = {}) {
-    SearchInterface.call(this,
-        "request",
-        searchInterfaceId || "elasticSearch",
-        resultEvents || {
+    const resultEventsDefault = {
             onClick: ["addLayerToTopicTree"],
             buttons: ["showInTree", "showLayerInfo"]
         },
+        resultEventsSupported = ["addLayerToTopicTree", "setMarker", "showInTree", "showLayerInfo", "startRouting", "zoomToResult"];
+
+    this.checkConfig(resultEvents, resultEventsSupported, searchInterfaceId);
+    SearchInterface.call(this,
+        "request",
+        searchInterfaceId || "elasticSearch",
+        resultEvents || resultEventsDefault,
         hitTemplate
     );
 

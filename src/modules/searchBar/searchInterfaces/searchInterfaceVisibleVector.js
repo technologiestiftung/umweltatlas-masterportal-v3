@@ -21,13 +21,17 @@ import {Icon} from "ol/style.js";
  * @returns {void}
  */
 export default function SearchInterfaceVisibleVector ({hitTemplate, resultEvents, searchInterfaceId} = {}) {
-    SearchInterface.call(this,
-        "client",
-        searchInterfaceId || "visibleVector",
-        resultEvents || {
+    const resultEventsDefault = {
             onClick: ["openGetFeatureInfo", "setMarker", "zoomToResult"],
             onHover: ["setMarker"]
         },
+        resultEventsSupported = ["openGetFeatureInfo", "setMarker", "zoomToResult", "startRouting"];
+
+    this.checkConfig(resultEvents, resultEventsSupported, searchInterfaceId);
+    SearchInterface.call(this,
+        "client",
+        searchInterfaceId || "visibleVector",
+        resultEvents || resultEventsDefault,
         hitTemplate
     );
 }

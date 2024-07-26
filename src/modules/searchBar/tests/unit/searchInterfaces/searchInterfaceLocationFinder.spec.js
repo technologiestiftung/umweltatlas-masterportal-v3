@@ -7,9 +7,11 @@ import SearchInterfaceLocationFinder from "../../../searchInterfaces/searchInter
 
 describe("src/modules/searchBar/searchInterfaces/searchInterfaceLocationFinder.js", () => {
     let error,
-        SearchInterface1 = null;
+        SearchInterface1 = null,
+        checkConfigSpy;
 
     before(() => {
+        checkConfigSpy = sinon.spy(SearchInterface.prototype, "checkConfig");
         SearchInterface1 = new SearchInterfaceLocationFinder();
 
         i18next.init({
@@ -50,6 +52,8 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceLocationFinder.j
     describe("prototype", () => {
         it("SearchInterfaceLocationFinder should has the prototype SearchInterface", () => {
             expect(SearchInterface1).to.be.an.instanceof(SearchInterface);
+            expect(checkConfigSpy.calledOnce).to.be.true;
+            expect(checkConfigSpy.firstCall.args[1]).to.be.deep.equals(["setMarker", "zoomToResult", "startRouting"]);
         });
     });
 

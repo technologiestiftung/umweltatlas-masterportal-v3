@@ -16,13 +16,18 @@ import layerFactory from "../../../core/layers/js/layerFactory";
  * @returns {void}
  */
 export default function SearchInterfaceTopicTree ({hitTemplate, resultEvents, searchInterfaceId, searchType} = {}) {
-    SearchInterface.call(this,
-        "client",
-        searchInterfaceId || "topicTree",
-        resultEvents || {
+    const resultEventsDefault = {
             onClick: ["activateLayerInTopicTree"],
             buttons: ["showInTree", "showLayerInfo"]
         },
+        resultEventsSupported = ["activateLayerInTopicTree", "showInTree", "showLayerInfo"];
+
+    this.checkConfig(resultEvents, resultEventsSupported, searchInterfaceId);
+
+    SearchInterface.call(this,
+        "client",
+        searchInterfaceId || "topicTree",
+        resultEvents || resultEventsDefault,
         hitTemplate
     );
 

@@ -25,14 +25,18 @@ import {search, setGazetteerUrl, setShowGeographicIdentifier} from "@masterporta
  * @returns {void}
  */
 export default function SearchInterfaceGazetteer ({serviceId, hitTemplate, resultEvents, searchAddress, searchDistricts, searchInterfaceId, searchHouseNumbers, searchParcels, searchStreetKey, searchStreets, showGeographicIdentifier} = {}) {
-    SearchInterface.call(this,
-        "client",
-        searchInterfaceId || "gazetteer",
-        resultEvents || {
+    const resultEventsDefault = {
             onClick: ["setMarker", "zoomToResult"],
             onHover: ["setMarker"],
             buttons: ["startRouting"]
         },
+        resultEventsSupported = ["setMarker", "zoomToResult", "startRouting"];
+
+    this.checkConfig(resultEvents, resultEventsSupported, searchInterfaceId);
+    SearchInterface.call(this,
+        "client",
+        searchInterfaceId || "gazetteer",
+        resultEvents || resultEventsDefault,
         hitTemplate
     );
 
