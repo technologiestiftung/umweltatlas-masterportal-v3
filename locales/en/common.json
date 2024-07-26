@@ -58,7 +58,7 @@
       "alreadyAdded": "The layers of the requested WMS have already been added.",
       "completeMessage": "&#9989; The layers of the requested WMS were added to the topic tree under the menu item <strong>External Subject Data</strong>!",
       "description": "Add a Web Map Service (WMS) to the topic tree",
-      "errorEmptyUrl": "Please input an wms Url in the input field!",
+      "errorWrongUrl": "Please enter a valid url.",
       "errorHttpsMessage": "&#10060; The WMS you requested is located under a http-url. The master portal can only integrate WMS via https (SSL).",
       "errorMessage": "&#10060; The specified service could not be loaded. Please make sure that the URL was entered correctly.<br><br> If the problem persists, please contact the operator of the service with the following note:<br><strong>It should be ensured that a CORS header is set for the service. This is recommended by the <a target='_blank' href='https://www.gdi-de.org/SharedDocs/Downloads/DE/GDI-DE/Dokumente/Architektur_GDI-DE_Bereitstellung_Darstellungsdienste.pdf?__blob=publicationFile'>GDI-DE</a> in chapter 4.7.1.</strong>",
       "errorTitle": "Layer could not be added",

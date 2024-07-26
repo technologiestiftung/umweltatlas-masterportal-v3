@@ -39,7 +39,7 @@
       "alertTitleSuccess": "",
       "alreadyAdded": "",
       "completeMessage": "As camadas do WMS solicitado foram adicionadas à Tabela de Conteúdos sob o item de menu <strong>dados externos</strong>!",
-      "errorEmptyUrl": "",
+      "errorWrongUrl": "",
       "errorHttpsMessage": "O WMS que solicitou está localizado sob uma http url. O \"Masterportal\" só pode integrar WMS através de https (SSL).",
       "errorMessage": " serviço especificado não pôde ser carregado. Por favor, certifique-se de que o URL foi especificado correctamente.<br><br> FSe o problema ainda ocorrer, por favor contacte o operador do serviço com a seguinte nota:<br><strong>Deve-se assegurar que um cabeçalho CORS é definido para o serviço. Isto é recomendado pelo <a target='_blank' href='https://www.gdi-de.org/SharedDocs/Downloads/DE/GDI-DE/Dokumente/Architektur_GDI-DE_Bereitstellung_Darstellungsdienste.pdf?__blob=publicationFile'>GDI-DE</a> no capítulo 4.7.1.</strong>",
       "errorTitle": "",

@@ -74,7 +74,7 @@ export default {
             catch (e) {
                 this.invalidUrl = true;
                 this.addSingleAlert({
-                    content: this.$t("common:modules.addWMS.errorEmptyUrl"),
+                    content: this.$t("common:modules.addWMS.errorWrongUrl"),
                     category: "error",
                     title: this.$t("common:modules.addWMS.errorTitle")});
             }
