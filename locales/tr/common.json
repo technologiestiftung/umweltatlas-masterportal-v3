@@ -39,7 +39,7 @@
       "alertTitleSuccess": "",
       "alreadyAdded": "",
       "completeMessage": "Istenilen WMS'nin katmanları, menü öğesinin altındaki konu ağacına <strong>Externe Fachdaten</strong> eklendi!",
-      "errorWrongUrl": "Lütfen metin alanına bir WMS'nin URL'sini girin!",
+      "errorNotValidUrl": "Lütfen metin alanına bir WMS'nin URL'sini girin!",
       "errorHttpsMessage": "talep ettiğiniz WMS bir http url'sinin altında yer almaktadır. Masterportal, WMS'yi yalnızca https (SSL) aracılığıyla entegre edebilir.",
       "errorMessage": "Belirtilen hizmet yüklenemedi. Lütfen URL’nin doğru girildiğinden emin olun.<br><br> Sorun devam ederse, lütfen aşağıdaki notla servis operatörüyle iletişime geçin:<br><strong> Hizmet için bir CORS başlığının ayarlanması sağlanmalıdır.Bu <a target='_blank' href='https://www.gdi-de.org/SharedDocs/Downloads/DE/GDI-DE/Dokumente/Architektur_GDI-DE_Bereitstellung_Darstellungsdienste.pdf?__blob=publicationFile'>GDI-DE</a> 4.7.1 Bölümde tavsiye edilir.</strong>",
       "errorTitle": "",
