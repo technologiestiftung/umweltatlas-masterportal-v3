@@ -1,6 +1,4 @@
->Our git workflow.
-
-# Git workflow
+# Git Workflow
 
 ## Commit
 
@@ -85,7 +83,7 @@ git push
         - **[Developer documentation](../About.md)**
     - Test suites with tests are available:
         - For new functions: A short description of a test case to add it to the test protocol is provided. (Should result from the ticket.)
-        - Unit tests are written: **[Test documentation](../Testing/unitTestVue.md)**
+        - Unit tests are written: **[Test documentation](../unitTestVue.md)**
     - A functional tests on a build portal was executed:
         - According to ticket description.
         - Cross-Browser (Chrome, IE 11, FF) - mobile behavior emulated in the browser.

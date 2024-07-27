@@ -1,4 +1,4 @@
-# Unit tests in Vue
+# Unit Tests in Vue
 
 For an example test suite, see *masterportal/src/modules/tools/scaleSwitcher/tests*. Tests can be started in the Masterportal's root folder by either calling `npm run test:vue` (one-time run) or `npm run test:vue:watch` (updates on file changes).
 

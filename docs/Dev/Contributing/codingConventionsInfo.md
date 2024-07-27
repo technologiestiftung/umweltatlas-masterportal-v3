@@ -1,6 +1,6 @@
-# Coding Conventions Examples
+# Coding Conventions Details
 
-Explanations and examples are given for some points mentioned in the [coding conventions](./codingConventions.md) below.
+Explanations, details and examples are given for some rules from the [coding conventions](./codingConventions.md).
 
 ---
 
@@ -57,7 +57,7 @@ function untestableFunction (param) {
 
 #### A.5.2
 
-For more information on unit tests in Vue, refer to [the Vue unit test documentation](../Testing/unitTestVue.md).
+For more information on unit tests in Vue, refer to [the Vue unit test documentation](../unitTestVue.md).
 
 Tests employ the libraries **[Chai](https://www.chaijs.com/)** and **[Mocha](https://mochajs.org/)**.
 

@@ -113,9 +113,6 @@ nav:
 
     -   'Developer Documentation':
             -   'About': Dev/About.md
-            -   'Tutorials':
-                    - Dev/Tutorials/tutorial.md
-                    - Dev/Tutorials/addOnsVue.md
             -   'Contributing':
                     - Dev/Contributing/setupDev.md
                     - Dev/Contributing/codingConventions.md
@@ -123,11 +120,15 @@ nav:
                     - Dev/Contributing/gitWorkflow.md
                     - Dev/Contributing/versioning.md
             -   'General':
-                    - Dev/fonts.md
                     - Dev/jsdoc.md
+                    - Dev/unitTestVue.md
+                    - Dev/fonts.md
                     - Dev/sensorThings.md
                     - Dev/variables.md
                     - Dev/remoteInterface/remoteInterface.md
+            -   'Tutorials':
+                    - Dev/Tutorials/tutorial.md
+                    - Dev/Tutorials/addOnsVue.md
             -   'Vue Components':
                     - Dev/vueComponents/Alerting.md
                     - Dev/vueComponents/Alerting.md
@@ -137,6 +138,3 @@ nav:
                     - Dev/vueComponents/GraphicalSelect.md
                     - Dev/vueComponents/LayerPreview.md
                     - Dev/vueComponents/layerSelector.md
-            -   'Testing':
-                    -   'Vue': Dev/Testing/unitTestVue.md
-

@@ -10,7 +10,7 @@ A tool to control the map scale is needed. Scales are to be chosen from a drop-d
 
 Switch to the folder `src/modules` and create a new folder. The folder name should indicate the nature of the tool - e.g. `scaleSwitcher`. Create folders `components` and `store` in that folder, and the required files as shown in the example file tree below.
 
->💡 Hint: Testing is not part of this guide, but essential to merge a pull request. See our [testing documentation](../Testing/unitTestVue.md) for more information.
+>💡 Hint: Testing is not part of this guide, but essential to merge a pull request. See our [testing documentation](../unitTestVue.md) for more information.
 
 ```
 src

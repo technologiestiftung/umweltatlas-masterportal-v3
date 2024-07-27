@@ -1,4 +1,4 @@
-# Coding conventions
+# Coding Conventions
 
 ## Introduction
 
@@ -68,7 +68,7 @@ For each module a test file exists with file extension `.spec.js` under tests/un
 #### A.6 Backwards compatibility and configurability
 
 * A.6.1 No hard-coded URLs or paths to external sources exist.
-* A.6.2 Configurable parameters are documented in the `.md` files.
+* A.6.2 Configurable parameters are documented in the `.md` files. See [coding conventions details](./codingConventionsInfo.md#a62-user-documentation) for the specifics.
 * A.6.3 All previously noted configuration parameters can still be used as described.
 * A.6.4 Renamed or deleted parameters are marked `Deprecated`.
 

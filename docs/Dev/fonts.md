@@ -1,4 +1,4 @@
-# Masterportal font usage
+# Fonts
 
 The Masterportal comes bundled with the two fonts *MasterPortalFont* and *MasterPortalFont Bold*. By default, this is the renamed font "Roboto", which is available under the Apache License 2.0 and can be used arbitrarily.
 

@@ -1,4 +1,4 @@
-# Remote interface
+# Remote Interface
 
 !!! warning "Outdated"
     This document is outdated and only valid for Masterportal version 2.
