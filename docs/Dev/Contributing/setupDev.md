@@ -110,7 +110,7 @@ $ git clone https://bitbucket.org/geowerkstatt-hamburg/masterportal.git
 $ cd masterportal
 ```
 
-```console title="Install the `node_modules` required for the Masterportal:"
+```console title="Install the node_modules required for the Masterportal:"
 $ npm install
 ```
 

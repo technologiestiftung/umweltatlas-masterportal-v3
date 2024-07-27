@@ -51,10 +51,16 @@ markdown_extensions:
     - pymdownx.snippets
     - pymdownx.superfences
 
+    # Content Tabs
+    - pymdownx.tabbed:
+          alternate_style: true
+
+    # Code Block Annotations
+    - md_in_html
+
     # Admonitions:
     - admonition
     - pymdownx.details
-    - pymdownx.superfences
 
     # Table of contents:
     -   toc:

@@ -1,4 +1,4 @@
-# Additional information on the coding conventions
+# Coding Conventions Examples
 
 Explanations and examples are given for some points mentioned in the [coding conventions](./codingConventions.md) below.
 
@@ -63,16 +63,43 @@ Tests employ the libraries **[Chai](https://www.chaijs.com/)** and **[Mocha](htt
 
 ---
 
-#### A.6.2
+#### A.6.2 - User Documentation
 
-Extend the `.md` file documentation by following these instructions.
+Extend the `.md` file documentation by following these rules.
+
+It is recommended to preview the generated documentation by launching the mkdocs preview server.
+
+If you set up the development environment like described in [setupDev.md](./setupDev.md#python-dependencies), you can start the preview server with the following commands:
+
+=== "Windows"
+    ```bash
+    call .venv/Scripts/activate.bat #(1)!
+    mkdocs serve --dirtyreload  #(2)!
+    ```
+
+    1. Activates the Python virtual environment in which mkdocs is installed.
+    2. Add `--dirtyreload` if you are primarily working on a single page. This will only reload the changed page instead of the whole documentation.
+    For working on the whole documentation, remove this flag as **it may cause errors with navigation and links.**
+
+
+=== "Linux and Mac"
+    ```bash
+    source .venv/bin/activate #(1)!
+    mkdocs serve --dirtyreload #(2)!
+    ```
+
+    1. Activates the Python virtual environment in which mkdocs is installed.
+    1. Add `--dirtyreload` if you are primarily working on a single page. This will only reload the changed page instead of the whole documentation.
+    For working on the whole documentation, remove this flag as **it may cause errors with navigation and links.**
 
 * For new configuration parameters that do not directly influence the Masterportal UI and displayed layers, or on changes to such existing parameters, extend the file **[config.js.md](../../User/Portal-Config/config.js.md)**.
 * For new configuration parameters regarding the Masterportal UI, or on changes to such existing parameters, extend the **[config.json.md](../../User/Portal-Config/config.json.md)**.
 * The following parameters are mandatory for documenting configuration parameters:
-    |Name|Required|Type|Default|Description|Expert|
-    |-|-|-|-|-|-|
-    The row `Expert` only applies to the **[config.json.md](../../User/Portal-Config/config.json.md)**.
+```markdown
+| Name | Required | Type | Default | Description | Expert |
+|------|----------|------|---------|-------------|--------|
+```
+The row `Expert` is only required in **[config.json.md](../../User/Portal-Config/config.json.md)**.
 * Each parameter in a `.md` file ends on a horizontal separation line produced by e.g. `***` or `---`.
 * The heading to be used depends on the parameter nesting. The top level starts with `#`, the next level with `##`, and so on. Please mind that Markdown only supports up to six chapter levels.
 * Configuration parameters describing an object containing further parameters are modelled in separate chapters and are each linked and described.
@@ -81,38 +108,41 @@ Extend the `.md` file documentation by following these instructions.
 
 For a more formal definition of the **[config.json.md](../../User/Portal-Config/config.json.md)** requirements, see [Masterportal configuration parser](https://bitbucket.org/geowerkstatt-hamburg/mpconfigparser/src/master/README.md).
 
-*Nesting in .json is modeled with the amount of #*
+```markdown title="Example of heading nesting in .json files. The heading level is modeled with the amount of #"
+# config.json
+// This is the top level page heading / title
+Some general description content here...
 
-```
-    # config.json
-    .
-    .
-    .
+## portalConfig
+// Table of Contents Level 1
+Actual page content...
 
-    ## Portalconfig
-```
-
-*Parameters are nested when describing an object themselves:*
-```
-    ## Portalconfig
-    |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-    |----|-------------|---|-------|------------|------|
-    |controls|nein|[controls](#portalconfigcontrols)||Description text.|false|
-    ***
-
-    ### Portalconfig.controls
-
+### portalConfig.map
+// Table of Contents Level 2 / Nested below "portalConfig"
+Content about the map settings...
 ```
 
-*Example of a complex configuration*
+```markdown title="Parameters are nested when describing an object themselves"
+## portalConfig
+
+| Name     | Verpflichtend | Typ                               | Default | Beschreibung      | Expert |
+|----------|---------------|-----------------------------------|---------|-------------------|--------|
+| controls | nein          | [controls](#portalconfigcontrols) |         | Description text. | false  |
+
+***
+
+### portalConfig.controls
+// This setting of the "portalConfig" section is nested in a different heading level
 ```
-    "osm": {
-        "minChars": 3,
-        "serviceId": "10",
-        "limit": 60,
-        "states": "Hamburg, Nordrhein-Westfalen, Niedersachsen, Rhineland-Palatinate Rheinland-Pfalz",
-        "classes": "place,highway,building,shop,historic,leisure,city,county"
-    }
+
+```json title="Example of a complex configuration"
+"osm": {
+    "minChars": 3,
+    "serviceId": "10",
+    "limit": 60,
+    "states": "Hamburg, Nordrhein-Westfalen, Niedersachsen, Rhineland-Palatinate Rheinland-Pfalz",
+    "classes": "place,highway,building,shop,historic,leisure,city,county"
+}
 ```
 
 ---
@@ -127,9 +157,9 @@ On changing, refactoring, or deleting a parameter:
 For example, the following annotations mark the parameter "Baumtyp" within the `config.json` and code as deprecated:
 
 ```md
-|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|-------------|---|-------|------------|------|
-|Baumtyp|nein|enum["light", "default", "custom"]|"light"|Deprecated in x.0.0. Use "treeType" instead.|false|
+| Name    | Verpflichtend | Typ                                | Default | Beschreibung                                 | Expert |
+|---------|---------------|------------------------------------|---------|----------------------------------------------|--------|
+| Baumtyp | nein          | enum["light", "default", "custom"] | "light" | Deprecated in x.0.0. Use "treeType" instead. | false  |
 ```
 
 ```js
