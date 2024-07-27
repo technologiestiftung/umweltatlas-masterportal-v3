@@ -5110,7 +5110,11 @@ Entities3D entities typical attributes are listed here.
 ```
 ***
 
-## Datatypes.Extent {data-toc-label='Extent'}
+## Datatypes
+
+The following datatypes can be used in the configuration.
+
+### Datatypes.Extent {data-toc-label='Extent'}
 
 An extent is an array of four numbers describing a rectangular scope. The rectangle is constructed from the "lower left" and "upper right" corner, so the scheme used is `[Easting lower left, Northing lower left, Easting upper right, Northing upper right]`, or `[minx, miny, maxx, maxy]`.
 
@@ -5122,7 +5126,7 @@ An extent is an array of four numbers describing a rectangular scope. The rectan
 
 ***
 
-## Datatypes.Payload {data-toc-label='Payload'}
+### Datatypes.Payload {data-toc-label='Payload'}
 CustomMenuElement Module `execute` from `payload`. The appropriate payload for the action must be specified. Here is the example of the `Alerting/addSingleAlert`.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -5141,7 +5145,7 @@ CustomMenuElement Module `execute` from `payload`. The appropriate payload for t
 
 ***
 
-## Datatypes.Fill {data-toc-label='Fill'}
+### Datatypes.Fill {data-toc-label='Fill'}
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |color|no|Float[]||Possible setting: color (RGBA)|false|
@@ -5156,7 +5160,7 @@ CustomMenuElement Module `execute` from `payload`. The appropriate payload for t
 
 ***
 
-## Datatypes.Stroke {data-toc-label='Stroke'}
+### Datatypes.Stroke {data-toc-label='Stroke'}
 |Name|Required|Type|Default|Description|Expert|
 |----|-------------|---|-------|------------|------|
 |width|no|Integer||Possible setting: width|false|
@@ -5171,7 +5175,7 @@ CustomMenuElement Module `execute` from `payload`. The appropriate payload for t
 
 ***
 
-## Datatypes.Image {data-toc-label='Image'}
+### Datatypes.Image {data-toc-label='Image'}
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |scale|no|Integer||Possible setting: scale|false|
@@ -5185,7 +5189,7 @@ CustomMenuElement Module `execute` from `payload`. The appropriate payload for t
 ***
 
 
-## Datatypes.Snippets {data-toc-label='Snippets'}
+### Datatypes.Snippets {data-toc-label='Snippets'}
 
 [type:Children]: # (Datatypes.Snippets.Children)
 [type:eParams]: # (Datatypes.Snippets.LocaleCompareParams)
@@ -5538,7 +5542,7 @@ Example of a chart snippet. Queries the features from the configured "service" a
 
 ***
 
-### Datatypes.Snippets.Children {data-toc-label='Children'}
+#### Datatypes.Snippets.Children {data-toc-label='Children'}
 Child snippet configuration.
 The child snippets are configured in the same way as "normal" snippets.
 See [the snippet datatype](#datatypessnippets) for more information.
@@ -5582,7 +5586,7 @@ Example of a dropdown snippet with parent-child relationship. The `cityA` and `c
 
 ***
 
-### Datatypes.Snippets.Timeouts {data-toc-label='Timeouts'}
+#### Datatypes.Snippets.Timeouts {data-toc-label='Timeouts'}
 User experience can be improved with the adjustment of timeouts.
 This is especially true for filters that work with `strategy`: `active`.
 
@@ -5609,7 +5613,7 @@ An example of a sliderRange snippet with accelerated filtering after input into 
 
 ***
 
-### Datatypes.Snippets.Service {data-toc-label='Service'}
+#### Datatypes.Snippets.Service {data-toc-label='Service'}
 
 An object that describes a service for a snippet. All service types that the filter supports can theoretically be used.
 The configuration depends on the type of service.
@@ -5652,7 +5656,7 @@ The configuration depends on the type of service.
 
 ***
 
-### Datatypes.Snippets.ChartConfig {data-toc-label='ChartConfig'}
+#### Datatypes.Snippets.ChartConfig {data-toc-label='ChartConfig'}
 
 An object that describes a chart. Click **[here](https://www.chartjs.org/docs/latest/configuration/)** for more information.
 
@@ -5673,7 +5677,7 @@ The top level structure of Chart.js configuration:
 
 ***
 
-### Datatypes.Snippets.LocaleCompareParams {data-toc-label='LocaleCompareParams'}
+#### Datatypes.Snippets.LocaleCompareParams {data-toc-label='LocaleCompareParams'}
 
 [type:Options]: # (Datatypes.Snippets.LocaleCompareParams.Options)
 
@@ -5703,7 +5707,7 @@ A string or object that supply the parameters for util function localeCompare.
 
 ***
 
-#### Datatypes.Snippets.LocaleCompareParams.Options {data-toc-label='Options'}
+##### Datatypes.Snippets.LocaleCompareParams.Options {data-toc-label='Options'}
 An object for custom control of the localeCompare function used to sort dropdown boxes, the documentation is: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
 
 |Name|Required|Typ|Default|Description|Expert|
@@ -5722,7 +5726,7 @@ An object for custom control of the localeCompare function used to sort dropdown
 
 ***
 
-### Datatypes.Snippets.UniversalSearch {data-toc-label='UniversalSearch'}
+#### Datatypes.Snippets.UniversalSearch {data-toc-label='UniversalSearch'}
 
 An object for configuring a universal search of value
 
@@ -5744,7 +5748,7 @@ An object for configuring a universal search of value
 
 ***
 
-### Datatypes.Snippets.BeautifiedAttrName {data-toc-label='BeautifiedAttrName'}
+#### Datatypes.Snippets.BeautifiedAttrName {data-toc-label='BeautifiedAttrName'}
 
 An object for configuring beautified names for attributes in stack
 
@@ -5764,7 +5768,7 @@ An object for configuring beautified names for attributes in stack
 
 ***
 
-## Datatypes.Bbox {data-toc-label='Bbox'}
+### Datatypes.Bbox {data-toc-label='Bbox'}
 BBOX value according to the speedProfile. Coordinate system depends on the epsg parameter. Geosearch service must support bbox string.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -5781,7 +5785,7 @@ BBOX value according to the speedProfile. Coordinate system depends on the epsg 
 
 ***
 
-## Datatypes.CustomAvoidFeatures {data-toc-label='CustomAvoidFeatures'}
+### Datatypes.CustomAvoidFeatures {data-toc-label='CustomAvoidFeatures'}
 Possibility to define additional avoid features for the different speed profiles (additionally to the BKG service) (requires own modified backend).
 
 |Name|Required|Type|Default|Description|Expert|
@@ -5801,7 +5805,7 @@ Possibility to define additional avoid features for the different speed profiles
 
 ***
 
-## Datatypes.CustomPreferences {data-toc-label='CustomPreferences'}
+### Datatypes.CustomPreferences {data-toc-label='CustomPreferences'}
 Routing-tool directions route customPreferences.
 Possibility to define additional preferences for the different speed profiles (additionally to the BKG service)  (requires own modified backend)
 
@@ -5822,7 +5826,7 @@ Possibility to define additional preferences for the different speed profiles (a
 
 ***
 
-## Datatypes.StyleRoute {data-toc-label='StyleRoute'}
+### Datatypes.StyleRoute {data-toc-label='StyleRoute'}
 Routing-tool directions route style options.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -5851,7 +5855,7 @@ Routing-tool directions route style options.
 
 ***
 
-## Datatypes.StyleWaypoint {data-toc-label='StyleWaypoint'}
+### Datatypes.StyleWaypoint {data-toc-label='StyleWaypoint'}
 Routing-tool directions waypoint style options.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -5884,7 +5888,7 @@ Routing-tool directions waypoint style options.
 
 ***
 
-## Datatypes.StyleAvoidAreas {data-toc-label='StyleAvoidAreas'}
+### Datatypes.StyleAvoidAreas {data-toc-label='StyleAvoidAreas'}
 Routing-tool directions avoid areas style options.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -5913,7 +5917,7 @@ Routing-tool directions avoid areas style options.
 
 ***
 
-## Datatypes.BatchProcessing {data-toc-label='BatchProcessing'}
+### Datatypes.BatchProcessing {data-toc-label='BatchProcessing'}
 Routing-tool directions batch processing options.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -5938,7 +5942,7 @@ Routing-tool directions batch processing options.
 
 ***
 
-## Datatypes.StyleCenter {data-toc-label='StyleCenter'}
+### Datatypes.StyleCenter {data-toc-label='StyleCenter'}
 Routing-tool isochrones centers style options.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -5965,7 +5969,7 @@ Routing-tool isochrones centers style options.
 
 ***
 
-## Datatypes.StyleIsochrones {data-toc-label='StyleIsochrones'}
+### Datatypes.StyleIsochrones {data-toc-label='StyleIsochrones'}
 
 Routing-tool isochrones style options.
 
@@ -5991,7 +5995,7 @@ Routing-tool isochrones style options.
 
 ***
 
-## Datatypes.Literal {data-toc-label='Literal'}
+### Datatypes.Literal {data-toc-label='Literal'}
 
 [type:Clause]: # (Datatypes.Literal.Clause)
 [type:Field]: # (Datatypes.Literal.Field)
@@ -6058,7 +6062,7 @@ However, a `field` needs to be wrapped inside a `clause` (as seen in most exampl
 
 ***
 
-### Datatypes.Literal.Clause {data-toc-label='Clause'}
+#### Datatypes.Literal.Clause {data-toc-label='Clause'}
 
 [type:Literal]: # (Datatypes.Literal)
 
@@ -6099,7 +6103,7 @@ A `clause` defines the way multiple `literals` should be queried together.
 
 ***
 
-### Datatypes.Literal.Field {data-toc-label='Field'}
+#### Datatypes.Literal.Field {data-toc-label='Field'}
 
 [type:Option]: # (Datatypes.Literal.Field.Option)
 
@@ -6216,7 +6220,7 @@ Then the order of the config should look like this:
 
 ***
 
-#### Datatypes.Literal.Field.Option {data-toc-label='Option'}
+##### Datatypes.Literal.Field.Option {data-toc-label='Option'}
 A selectable option for a queryable parameter.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -6260,7 +6264,7 @@ and the corresponding value defines the textual output of that attribute.
 
 ***
 
-## Datatypes.RequestConfig {data-toc-label='RequestConfig'}
+### Datatypes.RequestConfig {data-toc-label='RequestConfig'}
 
 [type:Gazetteer]: # (Datatypes.RequestConfig.Gazetteer)
 [type:LikeFilter]: # (Datatypes.RequestConfig.LikeFilter)
@@ -6291,7 +6295,7 @@ If both are defined `restLayerId` is used.
 
 ***
 
-### Datatypes.RequestConfig.LikeFilter {data-toc-label='LikeFilter'}
+#### Datatypes.RequestConfig.LikeFilter {data-toc-label='LikeFilter'}
 Values inside a filter for a WFS service can be compared with an `equal` or a `like`.
 If the comparison should be with a `like` then the filter needs additional properties. These may vary in value and property definition.
 For the documentation, it is assumed that the properties are called `wildCard`, `singleChar` and `escapeChar`; variations like e.g. `single` and `escape` are possible and need to be configured in line with the service. All key-value pairs are used in the request as given.
@@ -6316,7 +6320,7 @@ In this example case, the key for `escapeChar` deviates.
 
 ***
 
-### Datatypes.RequestConfig.Gazetteer {data-toc-label='Gazetteer'}
+#### Datatypes.RequestConfig.Gazetteer {data-toc-label='Gazetteer'}
 Parameters that are exclusively needed for using a WFS-G (Gazetteer).
 
 |Name|Required|Type|Default|Description|Expert|
@@ -6340,7 +6344,7 @@ Parameters that are exclusively needed for using a WFS-G (Gazetteer).
 
 ***
 
-## Datatypes.Suggestions {data-toc-label='Suggestions'}
+### Datatypes.Suggestions {data-toc-label='Suggestions'}
 Configuration for the suggestions of the user input.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -6350,7 +6354,7 @@ Configuration for the suggestions of the user input.
 
 ***
 
-## Datatypes.Explanations {data-toc-label='Explanations'}
+## Datatypes.Explanations
 
 Can contain an array with explanations of the coordinate reference systems from which a list is created.
 

@@ -5105,7 +5105,11 @@ Hier werden Entities3D Einheiten typische Attribute aufgelistet.
 ```
 ***
 
-## Datatypes.Extent
+## Datatypes
+
+Die folgenden Datentypen können in der Config verwendet werden.
+
+### Datatypes.Extent {data-toc-label='Extent'}
 
 Ein Extent besteht aus einem Array bestehend aus vier Zahlen. Ein Extent beschreibt einen rechteckigen Gültigkeitsbereich. Dabei wird ein Rechteck aufgespannt, das durch die "linke untere" und die "rechte obere" Ecke definiert wird. Das Schema lautet [Hochwert-Links-Unten, Rechtswert-Links-Unten, Hochwert-Rechts-Oben, Rechtswert-Rechts-Oben] oder [minx, miny, maxx, maxy].
 
@@ -5116,7 +5120,7 @@ Ein Extent besteht aus einem Array bestehend aus vier Zahlen. Ein Extent beschre
 
 ***
 
-## Datatypes.Payload
+### Datatypes.Payload {data-toc-label='Payload'}
 Das Payload für ein CustomMenuElement Module. Hier wird im Module `execute` vom `payload` aufgerufen. Der passende payload zu der Aktion muss angegeben werden. Hier das Beispiel des `Alerting/addSingleAlert`.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -5135,7 +5139,7 @@ Das Payload für ein CustomMenuElement Module. Hier wird im Module `execute` vom
 
 ***
 
-## Datatypes.Fill
+### Datatypes.Fill {data-toc-label='Fill'}
 
 Die Füllfarbe für ein Element. Es besteht aus einem Objekt mit einem Array in dem der RGBA Farbcode angegeben ist.
 
@@ -5151,7 +5155,7 @@ Die Füllfarbe für ein Element. Es besteht aus einem Objekt mit einem Array in 
 
 ***
 
-## Datatypes.Stroke
+### Datatypes.Stroke {data-toc-label='Stroke'}
 
 Die Umrandung eines Elements. Es besteht aus einem Objekt mit einem Array in dem der RGBA Farbcode angegeben ist und einer Strichbreite als Zahl.
 
@@ -5169,7 +5173,7 @@ Die Umrandung eines Elements. Es besteht aus einem Objekt mit einem Array in dem
 
 ***
 
-## Datatypes.Image
+### Datatypes.Image {data-toc-label='Image'}
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
@@ -5183,7 +5187,7 @@ Die Umrandung eines Elements. Es besteht aus einem Objekt mit einem Array in dem
 
 ***
 
-## Datatypes.Snippets
+### Datatypes.Snippets {data-toc-label='Snippets'}
 
 [type:Children]: # (Datatypes.Snippets.Children)
 [type:LocaleCompareParams]: # (Datatypes.Snippets.LocaleCompareParams)
@@ -5535,7 +5539,7 @@ Beispiel für ein Chart Snippet. Fragt die Features aus dem konfigurierten "serv
 
 ***
 
-### Datatypes.Snippets.Children
+#### Datatypes.Snippets.Children {data-toc-label='Children'}
 Konfiguration von Kind-Snippets.
 Die Kind-Snippets werden nach derselben Art konfiguriert wie "normale" Snippets.
 Siehe [Snippets](#datatypessnippets).
@@ -5579,7 +5583,7 @@ Beispiel für ein Dropdown-Snippet mit Eltern-Kind-Beziehung. Die `cityA`- und `
 
 ***
 
-### Datatypes.Snippets.Timeouts
+#### Datatypes.Snippets.Timeouts {data-toc-label='Timeouts'}
 Mit der Anpassung von Timeouts kann die User Experience verbessert werden.
 Dies betrifft besonders Filter die mit `strategy`: `active` arbeiten.
 
@@ -5606,7 +5610,7 @@ Ein Beispiel für ein sliderRange-Snippet mit beschleunigter Filterung nach Eing
 
 ***
 
-### Datatypes.Snippets.Service
+#### Datatypes.Snippets.Service {data-toc-label='Service'}
 
 Ein Objekt das einen Service für ein Snippet beschreibt. Alle Servicetypen, die der Filter unterstützt, können theoretisch genutzt werden.
 Die Konfiguration hängt vom Typ des Services ab.
@@ -5648,7 +5652,7 @@ Die Konfiguration hängt vom Typ des Services ab.
 ```
 
 ***
-### Datatypes.Snippets.ChartConfig
+#### Datatypes.Snippets.ChartConfig {data-toc-label='ChartConfig'}
 
 Ein Objekt, das ein Diagramm beschreibt. Für weitere informationen **[hier](https://www.chartjs.org/docs/latest/configuration/)** klicken.
 
@@ -5668,7 +5672,7 @@ Die Top-Level-Struktur der Chart.js-Konfiguration:
 ```
 
 ***
-### Datatypes.Snippets.LocaleCompareParams
+#### Datatypes.Snippets.LocaleCompareParams {data-toc-label='LocaleCompareParams'}
 
 [type:Options]: # (Datatypes.Snippets.LocaleCompareParams.Options)
 
@@ -5698,7 +5702,7 @@ Ein String oder Objekt zur Steuerung der Sortierung von Dropdown-Boxen.
 
 ***
 
-### Datatypes.Snippets.LocaleCompareParams.Options
+#### Datatypes.Snippets.LocaleCompareParams.Options {data-toc-label='Options'}
 Ein Objekt zur benutzerdefinierten Steuerung der verwendeten localeCompare-Funktion zur Sortierung von Dropdown-Boxen, wie sie u.a. hier dokumentiert sind: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
 
 |Name|Required|Typ|Default|Description|Expert|
@@ -5717,7 +5721,7 @@ Ein Objekt zur benutzerdefinierten Steuerung der verwendeten localeCompare-Funkt
 
 ***
 
-### Datatypes.Snippets.UniversalSearch
+#### Datatypes.Snippets.UniversalSearch {data-toc-label='UniversalSearch'}
 
 Ein Objekt zur Suche der Werte im Web
 
@@ -5739,7 +5743,7 @@ Ein Objekt zur Suche der Werte im Web
 
 ***
 
-### Datatypes.Snippets.BeautifiedAttrName
+#### Datatypes.Snippets.BeautifiedAttrName {data-toc-label='BeautifiedAttrName'}
 
 Ein object zur Konfiguration des Attribute-Name
 
@@ -5759,7 +5763,7 @@ Ein object zur Konfiguration des Attribute-Name
 
 ***
 
-## Datatypes.Bbox
+### Datatypes.Bbox {data-toc-label='Bbox'}
 Ein Datentyp des Routings. BBOX-Wert zugeordnet zu einem speedProfile. Koordinatensystem ist abhängig von dem verwendeten epsg-Parameter. Der verwendete geosearch Dienst muss bbox-Werte als String unterstützen.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -5775,7 +5779,7 @@ Ein Datentyp des Routings. BBOX-Wert zugeordnet zu einem speedProfile. Koordinat
 ```
 
 ***
-## Datatypes.CustomAvoidFeatures
+### Datatypes.CustomAvoidFeatures {data-toc-label='CustomAvoidFeatures'}
 Routing-Werkzeug Routenplanung Routen customAvoidFeatures. Möglichkeit eigene Optionen für Verkehrswege meiden (zusätzlich zum BKG-Dienst) für speedProfiles zu definieren (erfordert eigenes Backend).
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -5795,7 +5799,7 @@ Routing-Werkzeug Routenplanung Routen customAvoidFeatures. Möglichkeit eigene O
 
 ***
 
-## Datatypes.CustomPreferences
+### Datatypes.CustomPreferences {data-toc-label='CustomPreferences'}
 Routing-Werkzeug Routenplanung Routen customPreferences.
 Möglichkeit eigene Routenpräferenzen (zusätzlich zum BKG-Dienst) für speedProfiles zu definieren (erfordert eigenes Backend).
 
@@ -5816,7 +5820,7 @@ Möglichkeit eigene Routenpräferenzen (zusätzlich zum BKG-Dienst) für speedPr
 
 ***
 
-## Datatypes.StyleRoute
+### Datatypes.StyleRoute {data-toc-label='StyleRoute'}
 Routing-Werkzeug Routenplanung Routen Style Optionen.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -5845,7 +5849,7 @@ Routing-Werkzeug Routenplanung Routen Style Optionen.
 
 ***
 
-## Datatypes.StyleWaypoint
+### Datatypes.StyleWaypoint {data-toc-label='StyleWaypoint'}
 Routing-Werkzeug Routenplanung Wegpunkt Style Optionen.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -5878,7 +5882,7 @@ Routing-Werkzeug Routenplanung Wegpunkt Style Optionen.
 
 ***
 
-## Datatypes.StyleAvoidAreas
+### Datatypes.StyleAvoidAreas {data-toc-label='StyleAvoidAreas'}
 Routing-Werkzeug Routenplanung Sperrflächen Style Optionen.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -5907,7 +5911,7 @@ Routing-Werkzeug Routenplanung Sperrflächen Style Optionen.
 
 ***
 
-## Datatypes.BatchProcessing
+### Datatypes.BatchProcessing {data-toc-label='BatchProcessing'}
 Routing-Werkzeug Routenplanung und Erreichbarkeitsanalysen Stapelverarbeitung Optionen.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -5933,7 +5937,7 @@ Routing-Werkzeug Routenplanung und Erreichbarkeitsanalysen Stapelverarbeitung Op
 
 ***
 
-## Datatypes.StyleCenter
+### Datatypes.StyleCenter {data-toc-label='StyleCenter'}
 Routing-Werkzeug Erreichbarkeitsanalysen Center Style Optionen.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -5960,7 +5964,7 @@ Routing-Werkzeug Erreichbarkeitsanalysen Center Style Optionen.
 
 ***
 
-## Datatypes.StyleIsochrones
+### Datatypes.StyleIsochrones {data-toc-label='StyleIsochrones'}
 Routing-Werkzeug Erreichbarkeitsanalysen Isochrone Style Optionen.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -5985,7 +5989,7 @@ Routing-Werkzeug Erreichbarkeitsanalysen Isochrone Style Optionen.
 
 ***
 
-## Datatypes.Literal
+### Datatypes.Literal {data-toc-label='Literal'}
 
 [type:Clause]: # (Datatypes.Literal.Clause)
 [type:Field]: # (Datatypes.Literal.Field)
@@ -6053,7 +6057,7 @@ Zu beachten ist jedoch, dass ein Feld innerhalb einer Klausel verpackt sein muss
 
 ***
 
-### Datatypes.Literal.Clause
+#### Datatypes.Literal.Clause {data-toc-label='Clause'}
 
 [type:Literal]: # (Datatypes.Literal)
 
@@ -6094,7 +6098,7 @@ Eine Klausel (`clause`) definiert die Art und Weise wie verschiedene `literals` 
 
 ***
 
-### Datatypes.Literal.Field
+#### Datatypes.Literal.Field {data-toc-label='Field'}
 
 [type:Option]: # (Datatypes.Literal.Field.Option)
 
@@ -6211,7 +6215,7 @@ In diesem Fall sollte die Reihenfolge in der Konfiguration wie folgt aussehen:
 
 ***
 
-#### Datatypes.Literal.Field.Option
+##### Datatypes.Literal.Field.Option {data-toc-label='Option'}
 Eine auswählbare Option für einen anzufragenden Parameter.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -6230,7 +6234,7 @@ Eine auswählbare Option für einen anzufragenden Parameter.
 
 ***
 
-## Datatypes.ResultList
+### Datatypes.ResultList {data-toc-label='ResultList'}
 Einstellungen für die Ausgabe der gefundenen Features in der Ergebnisliste.
 Mit der Angabe von `showAll` werden alle Attribute der gefundenen Feature in ihrer Ursprungsform dargestellt.
 Bei Verwendung eines Objektes können die darzustellenden Attribute festgelegt werden.
@@ -6255,7 +6259,7 @@ Ein Schlüssel des Objektes muss eines der Attribute des Features wiedergeben, w
 
 ***
 
-## Datatypes.RequestConfig
+### Datatypes.RequestConfig {data-toc-label='RequestConfig'}
 
 [type:Gazetteer]: # (Datatypes.RequestConfig.Gazetteer)
 [type:LikeFilter]: # (Datatypes.RequestConfig.LikeFilter)
@@ -6286,7 +6290,7 @@ Falls beide Parameter gesetzt wurden, dann wird `restLayerId` verwendet.
 
 ***
 
-### Datatypes.RequestConfig.LikeFilter
+#### Datatypes.RequestConfig.LikeFilter {data-toc-label='LikeFilter'}
 Innerhalb eines Filters für einen WFS-Dienst können Werte mit einem `equal` oder einem `like` verglichen werden.
 Wenn der Vergleich mit einem `like` durchgeführt werden soll, dann werden weitere Eigenschaften benötigt. Diese können sowohl im Wert, als auch in der Eigenschaftsdefinition variieren.
 Es wird für die Dokumentation angenommen, dass die Eigenschaften `wildCard`, `singleChar` und `escapeChar` heißen; Variationen wie `single` und `escape` sind jedoch auch möglich und müssen dem Dienst entsprechend für den Filter angegeben werden. Die Schlüssel-Wert-Paare des hier übergebenen Objekts werden immer wie angegeben in den Request übertragen.
@@ -6311,7 +6315,7 @@ In diesem Beispiel weicht der Key für `escapeChar` ab.
 
 ***
 
-### Datatypes.RequestConfig.Gazetteer
+#### Datatypes.RequestConfig.Gazetteer {data-toc-label='Gazetteer'}
 Parameter, welche exklusiv für die Verwendung eines WFS-G (Gazetteer) benötigt werden.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -6335,7 +6339,7 @@ Parameter, welche exklusiv für die Verwendung eines WFS-G (Gazetteer) benötigt
 
 ***
 
-## Datatypes.Suggestions
+### Datatypes.Suggestions {data-toc-label='Suggestions'}
 Konfiguration für die Vorschläge von Nutzereingaben.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -6345,8 +6349,8 @@ Konfiguration für die Vorschläge von Nutzereingaben.
 
 ***
 
-## Datatypes.Explanations
+### Datatypes.Explanations {data-toc-label='Explanations'}
 
-Kann ein Array von Erläuterungen zu den Koordinatenreferenzsystemen enthalten aus denen eine Liste erstellt wird.
+Kann ein Array von Erläuterungen zu den Koordinatenreferenzsystemen enthalten, aus denen eine Liste erstellt wird.
 
 ***
