@@ -5003,7 +5003,7 @@ List of attributes typically used for Terrain.
 
 ***
 
-#### layerConfig.elements.layers.Terrain.cesiumTerrainProviderOption {data-toc-label='Cesium TerrainProviderOption'}
+##### layerConfig.elements.layers.Terrain.cesiumTerrainProviderOption {data-toc-label='Cesium TerrainProviderOption'}
 
 [inherits]: # (layerConfig.elements.layers.Terrain)
 
@@ -6354,7 +6354,7 @@ Configuration for the suggestions of the user input.
 
 ***
 
-## Datatypes.Explanations
+## Datatypes.Explanations {data-toc-label='Explanations'}
 
 Can contain an array with explanations of the coordinate reference systems from which a list is created.
 

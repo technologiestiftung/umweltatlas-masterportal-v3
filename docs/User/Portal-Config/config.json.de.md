@@ -1848,7 +1848,7 @@ Email Objekt bestehend aus der Email-Adresse und dem angezeigten Namen.
 
 ***
 
-##### portalConfig.menu.sections.modules.compareMaps
+##### portalConfig.menu.sections.modules.compareMaps {data-toc-label='Compare Maps'}
 
 [inherits]: # (portalConfig.menu.sections.modules)
 
@@ -3517,7 +3517,7 @@ Das ShadowTool bietet eine Oberfläche zur Definition einer Zeitangabe. Über Sl
 
 ***
 
-###### portalConfig.menu.sections.modules.statisticDashboard {data-toc-label='Statistic Dashboard'}
+##### portalConfig.menu.sections.modules.statisticDashboard {data-toc-label='Statistic Dashboard'}
 
 [inherits]: # (portalConfig.menu.sections.modules)
 
@@ -3967,7 +3967,7 @@ Es können mehrere Suchinstanzen (**[SearchInstances](#portalconfigmenusectionsm
 
 ***
 
-##### portalConfig.menu.sections.modules.wfsSearch.searchInstance {data-toc-label='Search Instance'}
+###### portalConfig.menu.sections.modules.wfsSearch.searchInstance {data-toc-label='Search Instance'}
 
 [type:Literal]: # (Datatypes.Literal)
 [type:ResultList]: # (Datatypes.ResultList)
@@ -4130,7 +4130,7 @@ Konfiguration der verschiedenen Transaktionsmethoden für den entsprechenden Lay
 
 ***
 
-#### portalConfig.menu.title {data-toc-label='Title'}
+#### portalConfig.menu.title {data-toc-label='Portal Title'}
 Im Menü kann der Portalname und ein Bild angezeigt werden.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -4892,7 +4892,7 @@ Hier werden VectorTile typische Attribute aufgelistet.
 
 ***
 
-#### layerConfig.elements.layers.VectorTile.vtStyle {data-toc-label='vtStyle'}
+##### layerConfig.elements.layers.VectorTile.vtStyle {data-toc-label='vtStyle'}
 
 [inherits]: # (layerConfig.elements.layers.VectorTile)
 
@@ -4954,7 +4954,7 @@ Hier werden Tileset typische Attribute aufgelistet.
 
 ***
 
-#### layerConfig.elements.layers.Tileset.cesium3DTilesetOption {data-toc-label='cesium3DTilesetOption'}
+##### layerConfig.elements.layers.Tileset.cesium3DTilesetOption {data-toc-label='3D Tileset Option'}
 
 [inherits]: # (layerConfig.elements.layers.Tileset)
 
@@ -4999,7 +4999,7 @@ Hier werden Terrain typische Attribute aufgelistet.
 
 ***
 
-#### layerConfig.elements.layers.Terrain.cesiumTerrainProviderOption {data-toc-label='cesiumTerrainProviderOption'}
+##### layerConfig.elements.layers.Terrain.cesiumTerrainProviderOption {data-toc-label='Terrain Provider Option'}
 
 [inherits]: # (layerConfig.elements.layers.Terrain)
 
@@ -5031,7 +5031,7 @@ Hier werden Entities3D typische Attribute aufgelistet.
 |----|-------------|---|-------|------------|------|
 |entities|ja|**[Attribute](#layerconfigelementslayersentity3dentities)**[]||Liste von darzustellenden Einheiten des Layers.|false|
 
-#### layerConfig.elements.layers.Entity3D.entities {data-toc-label='entities'}
+##### layerConfig.elements.layers.Entity3D.entities {data-toc-label='Entities'}
 
 
 [inherits]: # (layerConfig.elements.layers.Entity3D)
@@ -5087,7 +5087,7 @@ Hier werden Entities3D Einheiten typische Attribute aufgelistet.
 
 ***
 
-#### layerConfig.elements.layers.Entity3D.entities.Attribute {data-toc-label='Attribute'}
+###### layerConfig.elements.layers.Entity3D.entities.Attribute {data-toc-label='Attribute'}
 
 [inherits]: # (layerConfig.elements.layers.Entity3D)
 
@@ -5702,7 +5702,7 @@ Ein String oder Objekt zur Steuerung der Sortierung von Dropdown-Boxen.
 
 ***
 
-#### Datatypes.Snippets.LocaleCompareParams.Options {data-toc-label='Options'}
+##### Datatypes.Snippets.LocaleCompareParams.Options {data-toc-label='Options'}
 Ein Objekt zur benutzerdefinierten Steuerung der verwendeten localeCompare-Funktion zur Sortierung von Dropdown-Boxen, wie sie u.a. hier dokumentiert sind: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
 
 |Name|Required|Typ|Default|Description|Expert|
