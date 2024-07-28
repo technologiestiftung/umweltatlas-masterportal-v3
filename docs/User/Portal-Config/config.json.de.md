@@ -1935,23 +1935,13 @@ Koordinaten-Werkzeug: um zusätzlich zu den 2 dimensionalen Koordinaten die Höh
 
 Listet die Nutzungshinweise der aktiven Layer auf.
 
-|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|-------------|---|-------|------------|------|
-|type|nein|String|"copyrightConstraints"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
+| Name | Verpflichtend | Typ    | Default                | Beschreibung                                                   | Expert |
+|------|---------------|--------|------------------------|----------------------------------------------------------------|--------|
+| type | nein          | String | "copyrightConstraints" | Der type des Moduls. Definiert welches Modul konfiguriert ist. | false  |
 
-**Beispiel**
-
-```json
+```json title="Beispiel"
 {
-    "type": "copyrightConstraints",
-    "name": "Nutzungshinweise",
-    "info": "Bitte beachten Sie die Nutzungshinweise der verwendeten Geodaten",
-    "notSpecified": "Keine Angabe, wenden Sie sich ggf. an",
-    "contactOrganisation": "Organisation",
-    "contactName": "Name",
-    "contactPhone": "Tel.",
-    "contactEmail": "E-Mail",
-    "wait": "Einen Moment bitte"
+    "type": "copyrightConstraints"
 }
 ```
 

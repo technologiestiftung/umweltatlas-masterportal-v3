@@ -1933,23 +1933,13 @@ Coordinates tool: to display the height above sea level in addition to the 2 dim
 
 Lists the copyright constraints of active layers.
 
-|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|-------------|---|-------|------------|------|
-|type|nein|String|"copyrightConstraints"|The type of the module. Defines which module is added. |false|
+| Name | Verpflichtend | Typ    | Default                | Beschreibung                                           | Expert |
+|------|---------------|--------|------------------------|--------------------------------------------------------|--------|
+| type | nein          | String | "copyrightConstraints" | The type of the module. Defines which module is added. | false  |
 
-**Beispiel**
-
-```json
+```json title="Example"
 {
-    "type": "copyrightConstraints",
-    "name": "Copyright Information",
-    "info": "Please note the copyright information.",
-    "notSpecified": "No information available. Please contact:",
-    "contactOrganisation": "Organisation",
-    "contactName": "Name",
-    "contactPhone": "Tel.",
-    "contactEmail": "E-Mail",
-    "wait": "Loading..."
+    "type": "copyrightConstraints"
 }
 ```
 
