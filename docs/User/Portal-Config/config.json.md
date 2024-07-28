@@ -1582,6 +1582,7 @@ The following events exist. Which events can be configured can be found in the d
 [type:addWMS]: # (portalConfig.menu.sections.modules)
 [type:bufferAnalysis]: # (portalConfig.menu.sections.modules)
 [type:contact]: # (portalConfig.menu.sections.modules)
+[type:compareMaps]: # (portalConfig.menu.sections.modules)
 [type:coordToolkit]: # (portalConfig.menu.sections.modules)
 [type:copyrightConstraints]: # (portalConfig.menu.sections.modules)
 [type:customMenuElement]: # (portalConfig.menu.sections.modules)
@@ -1616,6 +1617,7 @@ Modules can be divided into sections. In the menu, sections are divided with a h
 |addWMS|no|**[addWMS](#portalconfigmenusectionsmodulesaddwms)**||This module allows loading specific WMS layers. This is done by providing a URL. All the service's layers are retrieved and offered in the layer tree in section "External technical data".|true|
 |bufferAnalysis|no|**[bufferAnalysis](#portalconfigmenusectionsmodulesbufferanalysis)**||This buffer analysis allows the selection of a source layer, a buffer radius and a target layer. The chosen buffer radius will then be shown around features of the selected source layer. At the moment a target layer is selected, only the features of this layer will be shown, if they are outside the buffer radii. It is also possible to invert the result. In this case the resulting features will only be show if they are inside the radii.|false|
 |contact|no|**[contact](#portalconfigmenusectionsmodulescontact)**||The contact form allows users to send messages to a configured email address. For example, this may be used to allow users to submit errors and suggestions. A file can be appended.|false|
+|compareMaps|no|**[compareMaps](#portalconfigmenusectionsmodulescomparemaps)**||This tool allows users to compare two map layers side by side using a layer swiper. |false|
 |coordToolkit|no|**[coordToolkit](#portalconfigmenusectionsmodulescoordtoolkit)**||Coordinate query: Tool to query coordinates and altitude by mouse click: When clicking in the map, the coordinates are frozen in the display and can also be copied directly to the clipboard. Coordinate search: The coordinate system and the coordinates can be entered via an input mask. The tool then zooms to the corresponding coordinate and places a marker on it. The coordinate systems are obtained from config.js.|false|
 |copyrightConstraints|no|**[copyrightConstraints](#portalconfigmenusectionsmodulescopyrightconstraints)**||This module loads copyright constraints via the CSW API and shows it per layer. If no information is present, the configured fallback contact information is shown.|false|
 |customMenuElement|no|**[customMenuElement](#portalconfigmenusectionsmodulescustommenuelement)**||This module can open a link, display HTML from config.json or an external file, or perform an action. This module can be configured several times in config.json.|false|
@@ -1853,7 +1855,7 @@ Email object containing email address, and display name.
 
 [inherits]: # (portalConfig.menu.sections.modules)
 
-compareMaps Tool: This tool allows users to compare two map layers side by side using a layer swiper. Users select layers from the active, visible layers, and the swiper divides the map to show each layer in separate sections. The tool supports WMS and WFS layers and ensures complete layer updates before allowing swiper movement for accurate comparison.
+This tool allows users to compare two map layers side by side using a layer swiper. Users select layers from the active, visible layers, and the swiper divides the map to show each layer in separate sections. The tool supports WMS and WFS layers and ensures complete layer updates before allowing swiper movement for accurate comparison.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
