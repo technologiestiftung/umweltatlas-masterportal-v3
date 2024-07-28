@@ -90,9 +90,9 @@ Der baselayerSwitcher ermnöglicht ein einfaches Wechseln bzw. Auswählen eines 
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-active|nein|Boolean|false|Definiert, ob der baselayerSwitcher aktiv ist.|false|
-activatedExpandable|nein|Boolean|false|Gibt an, ob der baselayerSwitcher aufgeklappt ist und alle verfügbaren baselayer angezeigt werden oder nur der aktive, welcher sich auf höchster Ebene befindet.|false|
-
+|active|nein|Boolean|false|Definiert, ob der baselayerSwitcher aktiv ist.|false|
+|activatedExpandable|nein|Boolean|false|Gibt an, ob der baselayerSwitcher aufgeklappt ist und alle verfügbaren baselayer angezeigt werden oder nur der aktive, welcher sich auf höchster Ebene befindet.|false|
+|singleBaseLayer|nein|Boolean|false|Definiert ob der bisherige Baselayer ausgeblendet wird.|false|
 **Beispiel**
 
 ```json
@@ -1159,7 +1159,7 @@ Konfiguration des Elastic Search Suchdienstes
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|hitIcon|nein|String|"bi-signpost-2-fill"|CSS Icon Klasse des Suchergebnisses. Wird vor dem Namen angezeigt.|false|
+|hitIcon|nein|String|"bi-signpost-2"|CSS Icon Klasse des Suchergebnisses. Wird vor dem Namen angezeigt.|false|
 |hitMap|nein|**[hitMap](#portalconfigmenusearchbarsearchinterfaceselasticsearchhitmap)**||Mapping Objekt. Mappt die Attribute des Ergebnis Objektes auf den entsprechenden Key.|true|
 |hitTemplate|nein|String|"default"|Template in dem die Suchergebnisse (`alle anzeigen`) angezeigt werden. Möglich sind die Werte "default" und "layer".|false|
 |hitType|nein|String|"common:modules.searchbar.type.subject"|Typ des Suchergebnisses, wird in der Auswahlliste hinter dem Namen angezeigt. Nutzen Sie den Übersetzungskey aus der Übersetzungsdatei|false|
@@ -1340,7 +1340,7 @@ Definition von Klassen, welche als Ergebnis berücksichtigt werden sollen.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|icon|nein|String|"bi-signpost-2-fill"|Visualisierung der Klasse durch ein Icon|false|
+|icon|nein|String|"bi-signpost-2"|Visualisierung der Klasse durch ein Icon|false|
 |name|ja|String||Name der Klasse|false|
 |zoom|nein|String|"center"|Legt fest wie auf einen ausgewählten Treffer gezoomt werden soll. Wenn `center` ausgewählt ist, so wird auf die Zentrumskoordinate (`cx` und `cy`) gezoomt und ein Marker angezeigt. Im Falle von `bbox` wird auf die durch den LocationFinder angegebene BoundingBox (`xmin`, `ymin`, `xmax` und `ymax`) gezoomt. Ein Marker wird in dem Fall nicht angezeigt.|false|
 
@@ -1682,17 +1682,20 @@ Mit diesem Modul lassen sich spezifische Portalinformationen anzeigen wie z.B. B
 |title|nein|String|""|Titel der Metadaten|false|
 |version|nein|String|""|Versionangabe des Masterportals|false|
 |versionLink|nein|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/downloads/"|Link zu der Masterportalversion|false|
+|ustId|nein|String|""|Umsatzsteueridentifikationsnummer gem. § 27 Umsatzsteuergesetz|false|
+|privacyStatementText|no|String|"common:modules.about.privacyStatementText"|Text für den Datenschutzabschnitt|false|
+|privacyStatementUrl|no|String|""|URL zu der Datenschutzerklärungsseite|false|
+|accessibilityText|no|String|"common:modules.about.accessibilityText"|Text für den Barrierefreiheitsabschnitt|false|
+|accessibilityUrl|no|String|""|URL zu der Barrierefreiheitserklärungsseite|false|
 
-**Beispiel**
-
-```json
+```json title="Beispiel"
 {
     "icon": "bi-cloud-circle",
     "name": "common:modules.about.name",
     "type": "about",
     "cswUrl": "https://metaver.de/csw",
-            "metaUrl": "https://metaver.de/trefferanzeige?docuuid=40D48B03-AD1D-407B-B04D-B5BC6855BE15",
-            "metaId": "40D48B03-AD1D-407B-B04D-B5BC6855BE15"
+    "metaUrl": "https://metaver.de/trefferanzeige?docuuid=40D48B03-AD1D-407B-B04D-B5BC6855BE15",
+    "metaId": "40D48B03-AD1D-407B-B04D-B5BC6855BE15"
 }
 ```
 
@@ -3008,7 +3011,7 @@ Routing-Werkzeug. Ermöglicht Nutzern das Planen von Routen zwischen mehreren Pu
 {
     "type": "routing",
     "name": "common:modules.tools.routing",
-    "icon": "bi-signpost-2-fill",
+    "icon": "bi-signpost-2",
     "activeRoutingToolOption": "DIRECTONS",
     "routingToolOptions": ["DIRECTONS", "ISOCHRONES"],
     "download": {
@@ -4213,7 +4216,7 @@ Möglichkeit, um Einstellungen für den Themenbaum vorzunehmen.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|addLayerButton|nein|**[addLayerButton](#portalconfigtreeaddlayerbutton)**|false|Wenn achtive:true, dann wird ein Button zum Hinzufügen von Layern dargestellt. Im Themenbaum werden initial nur sichtbare Layer und Layer mit der property `showInLayerTree = true` dargestellt. Wenn false, dann werden alle konfigurierten Layer im Themenbaum angezeigt. Bei dem tree.type `auto` wird immer ein Hinzufügen-Button angezeigt.|false|
+|addLayerButton|nein|**[addLayerButton](#portalconfigtreeaddlayerbutton)**|false|Wenn active:true, dann wird ein Button zum Hinzufügen von Layern dargestellt. Im Themenbaum werden initial nur sichtbare Layer und Layer mit der property `showInLayerTree = true` dargestellt. Wenn false, dann werden alle konfigurierten Layer im Themenbaum angezeigt. Bei dem tree.type `auto` wird immer ein Hinzufügen-Button angezeigt.|false|
 |categories|nein|**[categories](#portalconfigtreecategories)**||Konfiguration der Kategorien aus den Metadaten. Nur für den tree.type `auto`.|false|
 |highlightedFeatures|nein|**[highlightedFeatures](#portalconfigtreehighlightedfeatures)**||Konfiguration zusätzlich zum Highlighting von Features.|false|
 |layerIDsToIgnore|nein|String[]||Liste von `services.json`-Layer-Ids, die nicht im Baum und in der Karte angezeigt werden sollen. Nur für den tree.type `auto`.|false|

@@ -90,8 +90,9 @@ The baselayerSwitcher allows you to easily switch or select a baselayer.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-active|no|Boolean|false|Defines if the baselayerSwitcher is activated.|false|
-activatedExpandable|no|Boolean|false|Specifies whether the baselayerSwitcher is expanded and all available baselayers are displayed or only the active one which is on the highest level.|false|
+|active|no|Boolean|false|Defines if the baselayerSwitcher is activated.|false|
+|activatedExpandable|no|Boolean|false|Specifies whether the baselayerSwitcher is expanded and all available baselayers are displayed or only the active one which is on the highest level.|false|
+|singleBaseLayer|no|Boolean|false|Switches the previous selected Layer to invisible|false
 
 **Example**
 
@@ -1157,7 +1158,7 @@ Elasticsearch service configuration.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|hitIcon|no|String|"bi-signpost-2-fill"|CSS icon class of search results, shown before the result name.|false|
+|hitIcon|no|String|"bi-signpost-2"|CSS icon class of search results, shown before the result name.|false|
 |hitMap|no|**[hitMap](#portalconfigmenusearchbarsearchinterfaceselasticsearchhitmap)**||Object mapping result object attributes to keys.|true|
 |hitTemplate|no|String|"default"|Template in which the search results (`show all`) are displayed. Possible values are "default" and "layer".|false|
 |hitType|no|String|"common:modules.searchbar.type.subject"|Search result type shown in the result list after the result name. Set to the translation key.|false|
@@ -1338,7 +1339,7 @@ Definition of classes that should be considered with the results.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|icon|no|String|"bi-signpost-2-fill"|Class visualization by a icon|false|
+|icon|no|String|"bi-signpost-2"|Class visualization by a icon|false|
 |name|yes|String||Class name|false|
 |zoom|no|String|"center"|Defines how to zoom to a hit on selection. If `center` is chosen, the center coordinate (`cx`, `cy`) is zoomed to and a marker is placed. If `bbox` is chosen, the LocationFinder's given BoundingBox (`xmin`, `ymin`, `xmax`, `ymax`) is zoomed to, and no marker is shown.|false|
 
@@ -1680,10 +1681,13 @@ This module displays specific portal information like description, Masterportal 
 |title|no|String|""|Metadata title |false|
 |version|no|String|""|Version information of the masterportal|false|
 |versionLink|no|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/downloads/"|Link to the masterportal version|false|
+|ustId|no|String|""|Sales tax identification number in accordance with Section 27 of the Sales Tax Act|false|
+|privacyStatementText|no|String|"common:modules.about.privacyStatementText"|Text for data privacy section|false|
+|privacyStatementUrl|no|String|""|URL to data privacy policy site|false|
+|accessibilityText|no|String|"common:modules.about.accessibilityText"|Text for accessibility section|false|
+|accessibilityUrl|no|String|""|URL to the accessibility statement site|false|
 
-**Example**
-
-```json
+```json title="Example"
 {
     "icon": "bi-cloud-circle",
     "name": "common:modules.about.name",
@@ -3010,7 +3014,7 @@ Routing module. Enables user to plan routes between multiple points with multipl
 {
     "type": "routing",
     "name": "common:modules.routing",
-    "icon": "bi-signpost-2-fill",
+    "icon": "bi-signpost-2",
     "activeRoutingToolOption": "DIRECTIONS",
     "routingToolOptions": ["DIRECTIONS", "ISOCHRONES"],
     "download": {
