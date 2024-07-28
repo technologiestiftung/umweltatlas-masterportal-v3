@@ -1,7 +1,8 @@
-site_name: Masterportal
+site_name: Masterportal Docs
 site_author: Masterportal Open Source Community
 repo_name: BitBucket
 repo_url: https://bitbucket.org/geowerkstatt-hamburg/masterportal/
+edit_uri_template: src/dev_vue/docs/{path}?mode=edit
 docs_dir: docs
 
 theme:
@@ -34,6 +35,7 @@ theme:
                 icon: fontawesome/solid/moon
                 name: Switch to dark mode
     logo: '_media/Logo_Masterportal.svg'
+    favicon: '_media/favicon.ico'
 
 validation:
         omitted_files: warn
