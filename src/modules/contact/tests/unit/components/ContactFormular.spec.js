@@ -24,7 +24,7 @@ function fillFields ({nameInput, mailInput, phoneInput, messageInput}) {
     messageInput.trigger("keyup");
 }
 
-describe.only("src/modules/contact/components/ContactFormular.vue", () => {
+describe("src/modules/contact/components/ContactFormular.vue", () => {
     let store, wrapper;
 
     beforeEach(() => {
@@ -48,16 +48,6 @@ describe.only("src/modules/contact/components/ContactFormular.vue", () => {
                 uiStyle: () => sinon.stub()
             }
         });
-        const elem = document.createElement("div");
-
-        if (document.body) {
-            document.body.appendChild(elem);
-        }
-        wrapper = mount(ContactComponent, {
-            attachTo: elem,
-            global: {
-                plugins: [store]
-            }});
     });
 
     afterEach(() => {
@@ -65,7 +55,10 @@ describe.only("src/modules/contact/components/ContactFormular.vue", () => {
     });
 
     it("has a disabled save button if the form is not completed", () => {
-
+        wrapper = mount(ContactComponent, {
+            global: {
+                plugins: [store]
+            }});
 
         const sendButton = wrapper.find("#module-contact-send-message");
 
@@ -74,6 +67,10 @@ describe.only("src/modules/contact/components/ContactFormular.vue", () => {
     });
 
     it("has an enabled & working save button if the form is completed", async () => {
+        wrapper = mount(ContactComponent, {
+            global: {
+                plugins: [store]
+            }});
 
         const sendButton = wrapper.find("#module-contact-send-message"),
             nameInput = wrapper.find("#module-contact-username-input"),
@@ -92,7 +89,10 @@ describe.only("src/modules/contact/components/ContactFormular.vue", () => {
     });
 
     it("keeps the send button disabled if any field is missing", async () => {
-
+        wrapper = mount(ContactComponent, {
+            global: {
+                plugins: [store]
+            }});
 
         const sendButton = wrapper.find("#module-contact-send-message"),
             nameInput = wrapper.find("#module-contact-username-input"),
@@ -113,10 +113,14 @@ describe.only("src/modules/contact/components/ContactFormular.vue", () => {
         }
     });
 
-    //DESTROYED TEST
-    it.only("optionally renders an additional info field and privacy policy checkbox; must tick checkbox to send form", async () => {
+    it("optionally renders an additional info field and privacy policy checkbox; must tick checkbox to send form", async () => {
         ContactModule.state.contactInfo = "If you live nearby, why not shout the message out from your window at 3AM?";
         ContactModule.state.showPrivacyPolicy = true;
+
+        wrapper = mount(ContactComponent, {
+            global: {
+                plugins: [store]
+            }});
 
         const sendButton = wrapper.find("#module-contact-send-message"),
             nameInput = wrapper.find("#module-contact-username-input"),
@@ -140,6 +144,16 @@ describe.only("src/modules/contact/components/ContactFormular.vue", () => {
     });
 
     it("sets focus to first input control", async () => {
+        const elem = document.createElement("div");
+
+        if (document.body) {
+            document.body.appendChild(elem);
+        }
+        wrapper = mount(ContactComponent, {
+            attachTo: elem,
+            global: {
+                plugins: [store]
+            }});
 
         await wrapper.vm.$nextTick();
         expect(wrapper.find("#module-contact-username-input").element).to.equal(document.activeElement);
