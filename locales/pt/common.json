@@ -97,6 +97,7 @@
       "errorIncompleteDeclarations": "",
       "fileFormatMessage": "",
       "fileSizeMessage": "",
+      "fileDuplicatedMessage": "",
       "mailSubject": "",
       "messageLabel": "",
       "name": "Contacto",

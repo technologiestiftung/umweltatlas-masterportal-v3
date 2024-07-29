@@ -97,6 +97,7 @@
       "errorIncompleteDeclarations": "Si prega di compilare correttamente tutti i campi del modulo di contatto per poter inviare la richiesta.",
       "fileFormatMessage": "",
       "fileSizeMessage": "",
+      "fileDuplicatedMessage": "",
       "mailSubject": "Richiesta di supporto per il portale",
       "messageLabel": "Il vostro messaggio",
       "name": "Contatti",

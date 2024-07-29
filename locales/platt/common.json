@@ -97,6 +97,7 @@
       "errorIncompleteDeclarations": "Dien Fraag ward erst affsend, wenn du all Steden utfüllt hess.",
       "fileFormatMessage": "",
       "fileSizeMessage": "",
+      "fileDuplicatedMessage": "",
       "mailSubject": "Supportanfraag toon Portal ",
       "messageLabel": "Dien Naricht",
       "name": "Kuntakt",

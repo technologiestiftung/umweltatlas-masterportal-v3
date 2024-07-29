@@ -97,6 +97,7 @@
       "errorIncompleteDeclarations": "Будь ласка, правильно заповніть всі поля контактної форми, щоб ваш запит міг бути відправлений.",
       "fileFormatMessage": "",
       "fileSizeMessage": "",
+      "fileDuplicatedMessage": "",
       "mailSubject": "Запит до служби підтримки порталу ",
       "messageLabel": "Ваше повідомлення",
       "name": "Контакт",
