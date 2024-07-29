@@ -254,6 +254,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
 
             store.commit("Modules/StatisticDashboard/setChosenStatisticName", "foo");
             await wrapper.vm.$nextTick();
+            await wrapper.vm.$nextTick();
             expect(spyHandleChartData.calledOnce).to.be.true;
             sinon.restore();
         });

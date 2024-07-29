@@ -183,14 +183,16 @@ export default {
             }
         },
         chosenStatisticName (val) {
-            this.chosenTableData = this.getTableData(this.statisticsData, val);
-            this.handleChartData(
-                this.statisticNameOfChart,
-                this.selectedRegionsValues,
-                this.selectedDatesValues,
-                this.statisticsData,
-                this.selectedReferenceData?.type
-            );
+            this.$nextTick(() => {
+                this.chosenTableData = this.getTableData(this.statisticsData, val);
+                this.handleChartData(
+                    this.statisticNameOfChart,
+                    this.selectedRegionsValues,
+                    this.selectedDatesValues,
+                    this.statisticsData,
+                    this.selectedReferenceData?.type
+                );
+            });
         },
         selectedStatisticsNames (val, oldVal) {
             if (Array.isArray(oldVal) && oldVal.length > 1 && Array.isArray(val) && val.length === 1 && !val.includes(this.chosenStatisticName)) {
