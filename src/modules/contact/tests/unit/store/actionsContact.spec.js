@@ -132,5 +132,42 @@ describe("src/modules/contact/store/actionsContact.js", () => {
                 }
             });
         });
+
+        it("creates httpClient call as expected if called with props", done => {
+            const props = {
+                to: "abc@gv.hamburg.de",
+                from: Symbol.for("from"),
+                subject: "Anfrage zum Datensatz Schulstammdaten und Schülerzahlen der Hamburger Schulen",
+                noConfigProps: true
+            };
+
+            sinon
+                .stub(httpClientModule, "httpClient")
+                .callsFake((url, data) => {
+                    const {from, to, subject, text} = data;
+
+                    expect(url).to.equal("example.com");
+                    expect(from).to.equal(Symbol.for("from"));
+                    expect(to).to.equal("abc@gv.hamburg.de");
+                    expect(subject).to.be.a("string");
+                    expect(text).to.be.a("string");
+
+                    done();
+                });
+
+            send({
+                state,
+                dispatch: sinon.spy(),
+                getters: {
+                    validForm: true
+                },
+                rootGetters: {
+                    portalTitle: "Test",
+                    restServiceById: id => id === "007" ? {url: "example.com"} : {}
+                }
+            },
+            props
+            );
+        });
     });
 });

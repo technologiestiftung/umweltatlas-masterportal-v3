@@ -43,4 +43,26 @@ describe("src/modules/contact/js/createFunctions", function () {
             );
         });
     });
+
+    describe("mailOriginHint", function () {
+        it("include mail origin hint", function () {
+            expect(createMessage({
+                username: "Basil Exposition",
+                mail: "basil@example.com",
+                phone: "555",
+                message: "It just doesn't work."
+            }, null,
+            "origin hint"
+            )).to.equal(
+                "Name: Basil Exposition<br>" +
+                "E-Mail: basil@example.com<br>" +
+                "Tel.:: 555<br>" +
+                "==================<br>" +
+                "It just doesn't work." +
+                "<br>" +
+                "==================<br>" +
+                "origin hint"
+            );
+        });
+    });
 });

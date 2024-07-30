@@ -103,10 +103,12 @@ export default {
         class="d-flex flex-column justify-content-between"
     >
         <div class="content d-flex flex-column">
-            <div
-                class="pb-2 abstract"
-                v-html="abstractText"
-            />
+            <div>
+                <div
+                    class="pb-2 abstract"
+                    v-html="abstractText"
+                />
+            </div>
             <div v-if="showAdditionalMetaData && metaUrl.length > 0">
                 <p
                     class="float-end"

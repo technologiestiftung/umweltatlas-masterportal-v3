@@ -40,10 +40,13 @@
     - Added link to open imprint in about module.
 - LayerInfo:
     - Added contact information
+    -  Added button to open contact form using the address data from the metadata as the addressee (to parameter)
 - ContactFormular:
     - Posibility to send attached pdf from the contact us section.
     - Check for the sum of all attachments size.
     - Check if the same attachment is not already added and don't allow for duplicates.
+    - Added info message at the top of the contact form
+    - Can be opened from other components using props, which allow a different addressee (to) to be used from the one set in config.json
 - Print: Parameter additionalLayer to add layer (e.g. coordinate grid) during print.
 
 ### Changed

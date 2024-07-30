@@ -24,8 +24,17 @@ function fillFields ({nameInput, mailInput, phoneInput, messageInput}) {
     messageInput.trigger("keyup");
 }
 
-describe.only("src/modules/contact/components/ContactFormular.vue", () => {
-    let store, wrapper;
+describe("src/modules/contact/components/ContactFormular.vue", () => {
+    let store,
+        wrapper,
+        mainMenu = {
+            currentComponent: "contact",
+            navigation: {
+                currentComponent: {
+                    type: "contact"
+                }
+            }
+        };
 
     beforeEach(() => {
         ContactModule.actions.send = sinon.spy();
@@ -36,6 +45,7 @@ describe.only("src/modules/contact/components/ContactFormular.vue", () => {
         store = createStore({
             namespaces: true,
             modules: {
+                namespaced: true,
                 Modules: {
                     namespaced: true,
                     modules: {
@@ -47,6 +57,17 @@ describe.only("src/modules/contact/components/ContactFormular.vue", () => {
                     namespaced: true,
                     actions: {
                         addSingleAlert: sinon.spy()
+                    }
+                },
+                Menu: {
+                    namespaced: true,
+                    getters: {
+                        mainMenu: () => mainMenu,
+                        secondaryMenu: () => {
+                            return {
+                                currentComponent: "draw"
+                            };
+                        }
                     }
                 }
             },
@@ -164,7 +185,8 @@ describe.only("src/modules/contact/components/ContactFormular.vue", () => {
         await wrapper.vm.$nextTick();
         expect(wrapper.find("#module-contact-username-input").element).to.equal(document.activeElement);
     });
-    it("has a info message text", async () => {
+
+    it("has an info message standard text", async () => {
         wrapper = mount(ContactComponent, {
             global: {
                 plugins: [store]
@@ -172,6 +194,39 @@ describe.only("src/modules/contact/components/ContactFormular.vue", () => {
 
         expect(wrapper.find("#contact-info-message").exists()).to.be.true;
         expect(wrapper.find("#contact-info-message").text()).to.equals("common:modules.contact.infoMessage");
+    });
+
+    it("has an info message text from props", async () => {
+        mainMenu = {
+            currentComponent: "contact",
+            navigation: {
+                currentComponent: {
+                    type: "contact",
+                    props: {
+                        name: "Kontakt aufnehmen",
+                        to: [
+                            {
+                                email: "abc@gv.hamburg.de",
+                                name: "Behörde für XYZ"
+                            }
+                        ],
+                        infoMessage: "Schreiben sie dem Ansprechpartner des Themas Schulstammdaten und Schülerzahlen der Hamburger Schulen",
+                        includeSystemInfo: false,
+                        subject: "Anfrage zum Datensatz Schulstammdaten und Schülerzahlen der Hamburger Schulen",
+                        withTicketNo: false,
+                        noConfigProps: true
+                    }
+                }
+            }
+        };
+
+        wrapper = mount(ContactComponent, {
+            global: {
+                plugins: [store]
+            }});
+
+        expect(wrapper.find("#contact-info-message").exists()).to.be.true;
+        expect(wrapper.find("#contact-info-message").text()).to.equals("Schreiben sie dem Ansprechpartner des Themas Schulstammdaten und Schülerzahlen der Hamburger Schulen");
     });
 
     describe("Methods", () => {

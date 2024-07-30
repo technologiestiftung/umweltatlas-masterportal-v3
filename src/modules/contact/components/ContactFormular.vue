@@ -50,7 +50,33 @@ export default {
             "maxSumFileSize",
             "configuredFileExtensions",
             "infoMessage"
-        ])
+        ]),
+        ...mapGetters("Menu", [
+            "mainMenu",
+            "secondaryMenu"
+        ]),
+        menuIndicator () {
+            return this.mainMenu.currentComponent === "contact"
+                ? "mainMenu"
+                : "secondaryMenu";
+        },
+        mailProps () {
+            return this.menuIndicator === "mainMenu"
+                ? this.mainMenu.navigation.currentComponent.props
+                : this.secondaryMenu.navigation.currentComponent.props;
+        },
+        useInfoMessage () {
+            if (this.mailProps?.noConfigProps) {
+                return this.mailProps?.infoMessage;
+            }
+
+            return this.checkStringContent(this.infoMessage) || this.$t("common:modules.contact.infoMessage");
+        }
+    },
+    mounted () {
+        if (this.mailProps && this.mailProps?.previousComponent === "layerInformation") {
+            this.setNavigationHistoryBySide({side: this.menuIndicator, newHistory: [{type: "root", props: []}, {type: "layerInformation", props: {name: this.mailProps.layerName}}, {type: "layerInformation", props: {name: this.mailProps.layerName}}]});
+        }
     },
     methods: {
         ...mapMutations("Modules/Contact", [
@@ -63,6 +89,9 @@ export default {
         ]),
         ...mapActions("Modules/Contact", ["send", "importFile"]),
         ...mapActions("Alerting", ["addSingleAlert"]),
+        ...mapMutations("Menu", [
+            "setNavigationHistoryBySide"
+        ]),
         triggerClickOnFileInput (event) {
             if (event.which === 32 || event.which === 13) {
                 this.$refs["upload-input-file"].click();
@@ -194,6 +223,18 @@ export default {
          */
         checkStringContent (inputString) {
             return typeof inputString === "string" && inputString.length ? inputString : null;
+        },
+        /**
+         * Sends the email using props if given when the contact form was opened by another module
+         * @returns {void}
+         */
+        sendMessage () {
+            if (this.mailProps?.noConfigProps) {
+                this.send(this.mailProps);
+            }
+            else {
+                this.send();
+            }
         }
     }
 };
@@ -211,10 +252,10 @@ export default {
         <p
             id="contact-info-message"
         >
-            {{ checkStringContent(infoMessage) || $t("common:modules.contact.infoMessage") }}
+            {{ useInfoMessage }}
         </p>
         <form
-            @submit.prevent="send"
+            @submit.prevent="sendMessage"
         >
             <ContactFormularInput
                 :change-function="setUsername"

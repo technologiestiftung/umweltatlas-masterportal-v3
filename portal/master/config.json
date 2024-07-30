@@ -370,12 +370,7 @@
             "type": "about",
             "cswUrl": "https://metaver.de/csw",
             "metaUrl": "https://metaver.de/trefferanzeige?docuuid=40D48B03-AD1D-407B-B04D-B5BC6855BE15",
-            "metaId": "40D48B03-AD1D-407B-B04D-B5BC6855BE15",
-            "ustId": "DE12345",
-            "privacyStatementText": "",
-            "privacyStatementUrl": "https://www.masterportal.org/datenschutz",
-            "accessibilityText": "",
-            "accessibilityUrl": "https://metaver.de/barrierefreiheit;jsessionid=7E3A0FF4EE5BD2359C35CCC46E00C127"
+            "metaId": "40D48B03-AD1D-407B-B04D-B5BC6855BE15"
           },
           {
             "type": "legend"
@@ -411,7 +406,7 @@
             ],
             "to": [
               {
-                "email": "lgvgeoportal-hilfe123@gv.hamburg.de",
+                "email": "lgvgeoportal-hilfe@gv.hamburg.de",
                 "name": "LGVGeoportalHilfe"
               }
             ]
