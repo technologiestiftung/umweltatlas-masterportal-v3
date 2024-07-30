@@ -659,7 +659,7 @@ export default {
             if (this.classificationMode === "custom") {
                 this.noDataInColumn =
                     FeaturesHandler.getStatisticValuesByDate(this.statisticsData[this.selectedStatisticsNames[0]], this.selectedColumn).length === 0;
-                this.updateFeatureStyle(value, typeof this.selectedReferenceData !== "undefined", this.selectedReferenceData);
+                this.updateAfterLegendChange();
                 return;
             }
 
