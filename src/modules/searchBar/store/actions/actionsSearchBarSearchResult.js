@@ -4,6 +4,7 @@ import WKTUtil from "../../../../shared/js/utils/getWKTGeom";
 import wmsGFIUtil from "../../../../shared/js/utils/getWmsFeaturesByMimeType";
 import {rawLayerList} from "@masterportal/masterportalapi/src";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import {trackMatomo} from "../../../../plugins/matomo";
 
 
 /**
@@ -98,10 +99,12 @@ export default {
                         content: i18next.t("common:modules.searchBar.layerResultNotShown")
                     }, {root: true});
                 }
+                trackMatomo("Layer", "Layer added via Search", rootGetters.layerConfigById(layerId).name + " (layerId: " + layerId + ")");
             });
         }
         else {
             dispatch("activateLayerInTopicTree", {layerId, source});
+            trackMatomo("Layer", "Layer added via Search", rootGetters.layerConfigById(layerId).name + " (layerId: " + layerId + ")");
         }
     },
 

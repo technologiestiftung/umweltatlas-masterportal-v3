@@ -1,3 +1,4 @@
+import {trackMatomo} from "../../../plugins/matomo";
 /**
  * Controls the exchange of the map. E.g. the change from 2D to 3D mode.
  */
@@ -23,6 +24,8 @@ export default {
                 dispatch("activateMap3d");
             }
         }
+
+        trackMatomo("MapMode", "Mapmode switched", "Mapmode switched to " + targetMode);
     },
 
     /**

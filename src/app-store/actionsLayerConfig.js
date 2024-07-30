@@ -6,6 +6,7 @@ import {sortObjects} from "../shared/js/utils/sortObjects";
 import {treeOrder, treeBaselayersKey, treeSubjectsKey} from "../shared/js/utils/constants";
 import layerCollection from "../core/layers/js/layerCollection";
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
+import {trackMatomo} from "../plugins/matomo";
 
 /**
  * The root actions for layer configurations.
@@ -306,6 +307,8 @@ export default {
             subjectDataLayerConfs: layersStructured.elements,
             baselayerConfs: rootGetters.allLayerConfigsStructured(treeBaselayersKey)
         }, {root: true});
+
+        trackMatomo("Layer", "Layertree category switched", i18next.t(category.name));
     },
 
     /**
