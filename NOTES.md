@@ -23,3 +23,9 @@ npm run migrateConfig source=old_v2_portal/umweltatlas dest=portal/umweltatlas
 # run dev
 
 npm run start
+
+# preview img basemap
+
+if _tileMatrixSet_ is added then preview doesn't work
+if _layerAttribution_ is added, info popup appears every time layer is added
+

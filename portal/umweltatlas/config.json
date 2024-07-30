@@ -130,6 +130,38 @@
             "icon": "bi-clock-history",
             "layerIds": [
               {
+                "title": "1928",
+                "layerId": "k_luftbild1928:0"
+              },
+              {
+                "title": "1953",
+                "layerId": "k_luftbild1953:0"
+              },
+              {
+                "title": "2002",
+                "layerId": "k_luftbild2002:0"
+              },
+              {
+                "title": "2004",
+                "layerId": "luftbild2004:0"
+              },
+              {
+                "title": "2006",
+                "layerId": "luftbild2006:0"
+              },
+              {
+                "title": "2007",
+                "layerId": "k_luftbild2007:0"
+              },
+              {
+                "title": "2009",
+                "layerId": "k_luftbild2009_20:0"
+              },
+              {
+                "title": "2010",
+                "layerId": "k_luftbild2010_rgb:0"
+              },
+              {
                 "title": "2011",
                 "layerId": "k_luftbild2011_20:0"
               },
@@ -175,7 +207,11 @@
               },
               {
                 "title": "2023",
-                "layerId": "truedop_2023:truedop_2023:GDIBE:25833"
+                "layerId": "truedop_2023:truedop_2023"
+              },
+              {
+                "title": "2024",
+                "layerId": "truedop_2024:truedop_2024"
               }
             ]
           }
@@ -187,92 +223,39 @@
     "baselayer": {
       "elements": [
         {
-          "id": "truedop_2023:truedop_2023:GDIBE:25833",
-          "name": "Digitale Orthophotos 2023",
-          "shortname": "Orthophotos",
-          "typ": "WMS",
-          "visibility": false,
-          "transparency": 30,
-          "preview": {
-            "zoomLevel": 6,
-            "center": "388042.64,5819524.19",
-            "radius": 500
-          }
-        },
-        {
-          "id": "k5_farbe:k5_sw:gdi_be_25833",
-          "name": "Karte von Berlin 1:5000 (K5 SW-Ausgabe)",
-          "shortname": "Schwarzweiß",
-          "visibility": false,
-          "preview": {
-            "zoomLevel": 6,
-            "center": "388042.64,5819524.19",
-            "radius": 500
-          }
-        },
-        {
-          "id": "k5_farbe:k5_farbe:gdi_be_25833",
-          "name": "Karte von Berlin 1:5000 (K5 Farbausgabe)",
-          "visibility": false,
-          "preview": {
-            "zoomLevel": 6,
-            "center": "388042.64,5819524.19",
-            "radius": 500
-          }
-        },
-        {
           "id": "basemap_raster_farbe",
-          "shortname": "Orthophotos",
-          "visibility": false,
-          "typ": "WMTS",
-          "transparency": 20,
-          "capabilitiesUrl": "https://sgx.geodatenzentrum.de/wmts_basemapde/1.0.0/WMTSCapabilities.xml",
-          "layers": "de_basemapde_web_raster_farbe",
-          "optionsFromCapabilities": true,
-          "preview": {
-            "src": "./resources/img/stp.png"
-          }
+          "shortname": "Farbe",
+          "visibility": true
         },
         {
           "id": "basemap_raster_grau",
+          "shortname": "Grau",
+          "visibility": false
+        },
+        {
+          "id": "webatlas_wms_farb",
+          "shortname": "WebAtlas halbton",
+          "visibility": false
+        },
+        {
+          "id": "webatlas_wms_grau",
+          "shortname": "WebAtlas Grau",
+          "visibility": false
+        },
+        {
+          "id": "truedop_2024:truedop_2024",
+          "shortname": "Luftbild WMS",
           "visibility": false,
           "preview": {
-            "zoomLevel": 6,
-            "center": "388042.64,5819524.19",
-            "radius": 1000,
-            "checkable": true
+            "zoomLevel": 12,
+            "center": "390879.11,5819448.81",
+            "radius": 1000
           }
         }
       ]
     },
     "subjectlayer": {
       "elements": [
-        {
-          "name": "Lufbilder",
-          "type": "folder",
-          "elements": [
-            { "name": "28", "id": "k_luftbild1928:0" },
-            { "name": "53", "id": "k_luftbild1953:0" },
-            { "name": "02", "id": "k_luftbild2002:0" },
-            { "name": "04", "id": "luftbild2004:0" },
-            { "name": "06", "id": "luftbild2006:0" },
-            { "name": "07", "id": "k_luftbild2007:0" },
-            { "name": "09", "id": "k_luftbild2009_20:0" },
-            { "name": "10", "id": "k_luftbild2010_rgb:0" },
-            { "name": "11", "id": "k_luftbild2011_20:0" },
-            { "name": "13", "id": "k_luftbild2013:0" },
-            { "name": "14", "id": "k_luftbild2014:0" },
-            { "name": "15", "id": "k_luftbild2015_rgb:0" },
-            { "name": "16", "id": "k_luftbild2016_rgb:0" },
-            { "name": "17", "id": "k_luftbild2017_rgb:0" },
-            { "name": "18", "id": "k_luftbild2018_rgb:0" },
-            { "name": "19", "id": "k_luftbild2019_rgb:0" },
-            { "name": "20", "id": "k_luftbild2020_rgb:0" },
-            { "name": "21", "id": "k_luftbild2021_rgb:0" },
-            { "name": "22", "id": "k_luftbild2022_true_rgbi:0" },
-            { "name": "23", "id": "truedop_2023:truedop_2023:GDIBE:25833" }
-          ]
-        },
         {
           "name": "Boden",
           "type": "folder",
@@ -8947,6 +8930,97 @@
                   ]
                 }
               ]
+            }
+          ]
+        },
+        {
+          "name": "Luftbilder",
+          "type": "folder",
+          "visibility": false,
+          "elements": [
+            {
+              "name": "1928",
+              "id": "k_luftbild1928:0"
+            },
+            {
+              "name": "1953",
+              "id": "k_luftbild1953:0"
+            },
+            {
+              "name": "2002",
+              "id": "k_luftbild2002:0"
+            },
+            {
+              "name": "2004",
+              "id": "luftbild2004:0"
+            },
+            {
+              "name": "2006",
+              "id": "luftbild2006:0"
+            },
+            {
+              "name": "2007",
+              "id": "k_luftbild2007:0"
+            },
+            {
+              "name": "2009",
+              "id": "k_luftbild2009_20:0"
+            },
+            {
+              "name": "2010",
+              "id": "k_luftbild2010_rgb:0"
+            },
+            {
+              "name": "2011",
+              "id": "k_luftbild2011_20:0"
+            },
+            {
+              "name": "2013",
+              "id": "k_luftbild2013:0"
+            },
+            {
+              "name": "2014",
+              "id": "k_luftbild2014:0"
+            },
+            {
+              "name": "2015",
+              "id": "k_luftbild2015_rgb:0"
+            },
+            {
+              "name": "2016",
+              "id": "k_luftbild2016_rgb:0"
+            },
+            {
+              "name": "2017",
+              "id": "k_luftbild2017_rgb:0"
+            },
+            {
+              "name": "2018",
+              "id": "k_luftbild2018_rgb:0"
+            },
+            {
+              "name": "2019",
+              "id": "k_luftbild2019_rgb:0"
+            },
+            {
+              "name": "2020",
+              "id": "k_luftbild2020_rgb:0"
+            },
+            {
+              "name": "2021",
+              "id": "k_luftbild2021_rgb:0"
+            },
+            {
+              "name": "2022",
+              "id": "k_luftbild2022_true_rgbi:0"
+            },
+            {
+              "name": "2023",
+              "id": "truedop_2023:truedop_2023"
+            },
+            {
+              "name": "2024",
+              "id": "truedop_2024:truedop_2024"
             }
           ]
         }
