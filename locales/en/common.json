@@ -109,7 +109,7 @@
       "vertical": "vertical"
     },
     "contact": {
-      "addFileButton": "Add image",
+      "addFileButton": "Add attachment",
       "description": "Ask questions about this portal or report bugs",
       "error": {
         "mail": "Please input a valid E-mail address",

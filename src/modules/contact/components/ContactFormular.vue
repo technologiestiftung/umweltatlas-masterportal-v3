@@ -273,7 +273,7 @@ export default {
                                 aria-expanded="false"
                                 aria-controls="collapse-contact"
                             >
-                                <i class="bi-image me-2" />
+                                <i class="bi-paperclip me-2" />
                                 {{ $t('common:modules.contact.addFileButton') }}
                             </button>
                         </h2>
