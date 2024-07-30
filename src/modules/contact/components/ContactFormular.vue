@@ -79,34 +79,13 @@ export default {
             }
         },
         addFile (files) {
-
             Array.from(files).forEach(file => {
                 if (this.checkValid(file) && this.checkNoDuplicates(file)) {
                     this.sumFileSize = this.sumFileSize + file.size;
                     const reader = new FileReader();
 
                     reader.addEventListener("load", () => {
-                        const fileNameSplit = file.name.split("."),
-                            fileExtension = fileNameSplit.length > 0 ? fileNameSplit[fileNameSplit.length - 1].toLowerCase() : "";
-
-                        if (fileExtension === "png" || fileExtension === "jpg" || fileExtension === "jpeg" || this.configuredFileExtensions.includes(fileExtension)) {
-                            this.fileUploaded = true;
-                            const src = file.type.includes("image") ? reader.result : URL.createObjectURL(file);
-
-                            this.allAttachmentsToSend.push({imgString: reader.result, name: file.name, fileExtension: fileExtension, fileSize: file.size, src: src});
-                        }
-                        else if (fileExtension === "pdf") {
-                            this.fileUploaded = true;
-                            const src = file.type.includes("application/pdf") ? reader.result : URL.createObjectURL(file);
-
-                            this.allAttachmentsToSend.push({imgString: reader.result, name: file.name, fileExtension: fileExtension, fileSize: file.size, src: src});
-                        }
-                        else {
-                            this.addSingleAlert({
-                                category: "error",
-                                content: this.$t("common:modules.contact.fileFormatMessage")
-                            });
-                        }
+                        this.loadCorrectFileFormat(file, reader);
                     }, false);
 
                     if (file) {
@@ -116,6 +95,34 @@ export default {
                 }
             });
             this.setFileArray(this.allAttachmentsToSend);
+        },
+        /**
+         * Adds new attachment in the correct file format to allAttachmentsToSend.
+         * @param {Object} file The new attachment file, which user wants to add to the email.
+         * @param {Object} reader FileReader.
+         */
+        loadCorrectFileFormat (file, reader) {
+            const fileNameSplit = file.name.split("."),
+                fileExtension = fileNameSplit.length > 0 ? fileNameSplit[fileNameSplit.length - 1].toLowerCase() : "";
+
+            if (fileExtension === "png" || fileExtension === "jpg" || fileExtension === "jpeg" || this.configuredFileExtensions.includes(fileExtension)) {
+                this.fileUploaded = true;
+                const src = file.type.includes("image") ? reader.result : URL.createObjectURL(file);
+
+                this.allAttachmentsToSend.push({imgString: reader.result, name: file.name, fileExtension: fileExtension, fileSize: file.size, src: src});
+            }
+            else if (fileExtension === "pdf") {
+                this.fileUploaded = true;
+                const src = file.type.includes("application/pdf") ? reader.result : URL.createObjectURL(file);
+
+                this.allAttachmentsToSend.push({imgString: reader.result, name: file.name, fileExtension: fileExtension, fileSize: file.size, src: src});
+            }
+            else {
+                this.addSingleAlert({
+                    category: "error",
+                    content: this.$t("common:modules.contact.fileFormatMessage")
+                });
+            }
         },
         removeAttachment (target) {
             this.allAttachmentsToSend.forEach((el, idx) => {
