@@ -200,6 +200,10 @@ describe("src/modules/contact/components/ContactFormular.vue", () => {
                 src: "",
                 type: "xxx"
             };
+            wrapper = mount(ContactComponent, {
+                global: {
+                    plugins: [store]
+                }});
             checkNoDuplicatesSpy = sinon.spy(wrapper.vm, "checkNoDuplicates");
             addSingleAlertSpy = sinon.spy(wrapper.vm, "addSingleAlert");
             checkValidSpy = sinon.spy(wrapper.vm, "checkValid");
@@ -301,6 +305,70 @@ describe("src/modules/contact/components/ContactFormular.vue", () => {
                 expect(addSingleAlertSpy.calledOnce).to.be.false;
                 expect(result).to.be.true;
             });
+
+            describe.only("addFile", () => {
+                let FileReaderMock;
+
+                before(() => {
+                    // Create a global mock for FileReader
+                    FileReaderMock = sinon.stub();
+                    FileReaderMock.prototype.readAsDataURL = sinon.stub().callsFake((file) => {
+                        console.log("FileReaderMock.readAsDataURL called with:", file);
+                    });
+                    FileReaderMock.prototype.addEventListener = sinon.stub().callsFake((event, callback) => {
+                        console.log(`FileReaderMock.addEventListener called with event: ${event}`);
+                        if (event === "load") {
+                            FileReaderMock.prototype.result = "data:image/png;base64,dummydata";
+                            console.log("Simulating FileReader load event with result:", FileReaderMock.prototype.result);
+                            callback();
+                        }
+                    });
+
+                    global.FileReader = FileReaderMock;
+                    console.log("FileReaderMock setup complete.");
+                });
+
+                after(() => {
+                    if (global.FileReader.restore) {
+                        global.FileReader.restore();
+                    }
+                    else {
+                        delete global.FileReader;
+                    }
+                    console.log("FileReaderMock restored.");
+                });
+                it("added file with png extension is in the list of files to send", async () => {
+                    await wrapper.setData({allAttachmentsToSend: [], configuredFileExtensions: [], maxFileSize: 2 * 1024 * 1024});
+                    const addFileSpy = sinon.spy(wrapper.vm, "addFile"),
+                        attachmentFilePng = new File(["dummy content"], "test.png", {type: "image/png", size: 1024, fileSize: 1024});
+
+                    wrapper.vm.addFile([attachmentFilePng]);
+                    // fileReaderMock.addEventListener.callArg(1);
+
+                    await wrapper.vm.$nextTick();
+
+                    expect(addFileSpy.calledOnce).to.be.true;
+                    expect(checkValidSpy.calledOnce).to.be.true;
+                    expect(checkNoDuplicatesSpy.calledOnce).to.be.true;
+                    expect(wrapper.vm.allAttachmentsToSend.length).to.equal(1);
+                    expect(wrapper.vm.allAttachmentsToSend[0]).to.include({
+                        name: "test.png",
+                        fileExtension: "png",
+                        fileSize: 1024
+                    });
+                    expect(wrapper.vm.allAttachmentsToSend[0].src).to.be.a("string");
+                    window.FileReader.restore();
+
+                });
+                it("added file with pdf extension is in the list of files to send", () => {
+                    //
+                });
+                it("the error message is displayed in case of adding wrong extension file", () => {
+                    //
+                });
+            });
+
+
         });
     });
 });
