@@ -9,14 +9,73 @@
 ### Added
 - SearchBar:
     - Added the possibility to zoom to an extent from a search result.
+- StatisticDashboard:
+    - Updated UI of the filter to match the MP 3.0 Design.
+    - Dropdowns now sort the selected entries always at the top.
+    - Statistics from different categories are now listed together in a dropdown when multiple categories are selected.
+    - Legend can now use different classifications to show data for the choropleth map and the legend.
+    - The number of data in the diagrams has been limited to a maximum value as this ensures better clarity. Once the maximum value has been reached, a selection option is provided with which the data can be searched for manually.
+    - Uses the OAF scheme request to load unique values faster.
+    - Added export button for CSV export.
+    - The name of multi selected statistics will be shown in a carousel.
+    - Coordinate reference system and epsg code for OAF services are now configurable with parameter oafRequestCRS and oafDataProjectionCode.
+    - Extended region filter
+- OAF:
+    - Added scheme request function in the api folder for the getOAFFeature file. This can be used for an easy and fast way to gather unique values.
+- ViewPoint:
+    - Migrated from dev to dev_vue.
+- Migrator: supports ids with suffix.
+- InputText:
+    - Added change event handler property and disabled property.
+- BaseLayerSwitcher: Added Config-Parameter singleBaseLayer to hide previous selected BaseLayer
+- Shareview: If the portal is not running on HTTPS, a message is displayed because the URL cannot then be copied to the clipboard.
+- AboutModule:
+    - Added data privacy section.
+    - Added accessibility section.
+    - Added imprint title.
+    - Added contact button to open contact module.
+    - Added sales tax identification number.
+- Footer:
+    - Added link to open imprint in about module.
 
 ### Changed
+- Eslint: no-undef eslint rule is switched on.
+- The following packages have been updated:
+    - dependencies:
+        - @masterportal/masterportalapi: 2.39.0 to 2.40.0
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+- Fix migration of login module to Masterportal v3
+- Issue #1192: Searchbar: The TopicTree search interface supports the search for folders.
+- Issue #1219: AddWMS: Corrected z-index for imported layers if only on baselayer is initial visible.
+- Added missing parentheses in v-for loops
+- StatisticDashboard:
+    - Statistics and Regions are sorted alphabetically.
+    - The information text will show under legend when there are more than one statistics selected.
+- LayerPreview for WMTS uses the crs of the service.
+- Legend: changed the name in the legend for group and baselayer.
+- OAF-Layer: bbox and bboxCrs are respected when building url.
+- Auto portal: search in LayerSelection works.
+- Issue #1192: Searchbar: The TopicTree search interface supports the search for folders.
+- Print:
+    - print mask is now visible for group layer
+    - zIndex and transparency from the group layer are also adopted in printing
+- Filter: onDownloadProgress function will be commented out in axios in filter.
+- LayerInformation: The entry `show_doc_url` in the metadata is now used again to retrieve further information.
+- Menu: HTML entities are now decoded for folders in the menu
+- Migrator:
+    - Alt tag for portal logo is now used as tooltip and alt tag.
+    - Placeholder of the search bar is now adopted.
+    - The komoot search interface is now renamed komootPhoton.
+    - Corrected console output concerning not migrated tools.
+- BaselayerSwitcher: if 2 baselayers are configured, switcher is displayed.
+- Cesium library is only loaded, if button to switch to 3D is configured.
+- Layertree: if no button to add layers is configured, layers cannot be removed by drop outside.
+- Issue #1198: WMS link can contain "?".
 
 ---
 ## 2024-06-27 v3.0.0
@@ -89,6 +148,7 @@ In certain circumstances this means that you have to update your portal files (i
 - Added several WFS-T fixes and improvements.
 - Added `searchType` to treeSearch with default search by name otherwise md_name of dataset can be used.
 - Added possibility to fit layer extent from layer capabilities.
+- Introduced a new `compareMaps` tool that allows users to compare two different layers side by side. This tool provides functionalities for selecting and displaying two layers simultaneously, with a swiper control to adjust the visibility of each layer interactively. Users can switch between vertical and horizontal split directions for better visualization.
 
 ### Changed
 - CoordToolkit: Toast added instead of Alert for feedback after copying coordinates.
@@ -137,6 +197,7 @@ In certain circumstances this means that you have to update your portal files (i
 - Styling for Search Results to match topic tree.
 - GetFeatureInfo: Added mutation removeGfiFeatureByLayerId to remove a GfiFeature by given layerId.
 - Remove only Version 2 relevant information from docs, jsdoc and functions.
+- The `layerSwiper` functionality has been refactored and moved into the shared modules.
 
 ### Deprecated
 - Alerting: removed deprecated property `text`, use `content` instead.

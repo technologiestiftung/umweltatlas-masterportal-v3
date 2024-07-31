@@ -5,12 +5,14 @@ import isObject from "../../../shared/js/utils/isObject";
 import {mapGetters, mapMutations} from "vuex";
 import getters from "../store/gettersStatisticDashboard";
 import mutations from "../store/mutationsStatisticDashboard";
+import ExportButtonCSV from "../../../shared/modules/buttons/components/ExportButtonCSV.vue";
 
 export default {
     name: "StatisticDashboardControls",
     components: {
         DifferenceModal,
-        StatisticSwitcher
+        StatisticSwitcher,
+        ExportButtonCSV
     },
     props: {
         descriptions: {
@@ -21,9 +23,14 @@ export default {
         referenceData: {
             type: Object,
             required: true
+        },
+        enableDownload: {
+            type: Boolean,
+            required: false,
+            default: false
         }
     },
-    emits: ["showChartTable"],
+    emits: ["showChartTable", "download"],
     data () {
         return {
             currentDescriptionIndex: 0,
@@ -38,7 +45,8 @@ export default {
                 icon: "bi bi-bar-chart pe-2"
             }],
             switchValue: "",
-            referenceTag: undefined
+            referenceTag: undefined,
+            indexSelectedStatistics: 0
         };
     },
     computed: {
@@ -73,6 +81,15 @@ export default {
                 return this.buttonGroupControls[0].name;
             }
             return this.buttonGroupControls[1].name;
+        },
+        isStatisticsSelected () {
+            return this.selectedDatesValues.length > 0 && this.selectedRegionsValues.length > 0 && Object.keys(this.selectedStatistics)?.length > 1;
+        },
+        showStatisticnameInChart () {
+            return this.isStatisticsSelected && typeof this.chosenStatisticName === "string" && this.chosenStatisticName !== "" && this.chartTableToggle === "chart";
+        },
+        showStatisticnameInTable () {
+            return this.isStatisticsSelected && this.chartTableToggle === "table";
         }
     },
     watch: {
@@ -163,6 +180,35 @@ export default {
          */
         removeReference () {
             this.setSelectedReferenceData(undefined);
+        },
+        /**
+         * Sets indexSelectedStatistics after clicking previous arrow.
+         * @param {Number} index - The current indexSelectedStatistics.
+         * @param {Object} selectedStatistics - The selected statistics.
+         * @returns {void}
+         */
+        prevStatistic (index, selectedStatistics) {
+            if (!isObject(selectedStatistics) || !Object.keys(selectedStatistics).length) {
+                return;
+            }
+
+
+            this.indexSelectedStatistics = index - 1 >= 0 ? index - 1 : Object.keys(selectedStatistics).length + index - 1;
+            this.setChosenStatisticName(selectedStatistics[Object.keys(selectedStatistics)[this.indexSelectedStatistics]]?.name);
+        },
+        /**
+         * Sets indexSelectedStatistics after clicking next arrow.
+         * @param {Number} index - The current indexSelectedStatistics.
+         * @param {Object} selectedStatistics - The selected statistics.
+         * @returns {void}
+         */
+        nextStatistic (index, selectedStatistics) {
+            if (!isObject(selectedStatistics) || !Object.keys(selectedStatistics).length) {
+                return;
+            }
+
+            this.indexSelectedStatistics = index + 1 < Object.keys(selectedStatistics).length ? index + 1 : index - Object.keys(selectedStatistics).length + 1;
+            this.setChosenStatisticName(selectedStatistics[Object.keys(selectedStatistics)[this.indexSelectedStatistics]]?.name);
         }
     }
 };
@@ -205,19 +251,19 @@ export default {
         </div>
         <!-- Controls -->
         <div class="container">
-            <div class="btn-toolbar row align-items-start">
+            <div class="btn-toolbar row">
                 <StatisticSwitcher
                     :buttons="buttonGroupControls"
                     :pre-checked-value="precheckedViewSwitcher"
-                    class="col col-md btn-table-diagram mb-2"
+                    class="col col-md btn-table-diagram mb-2 p-0"
                     group="dataViews"
                     @show-view="handleView"
                 />
                 <div
-                    class="col col-md mt-0"
+                    class="col col-md-auto mt-0 p-0 pe-1"
                 >
                     <div
-                        class="difference-button mt-0"
+                        class="difference-button mt-0 float-right text-right"
                         data-toggle="tooltip"
                         data-placement="top"
                         :title="$t('common:modules.statisticDashboard.reference.description')"
@@ -225,7 +271,7 @@ export default {
                         <button
                             :aria-label="$t('common:modules.statisticDashboard.button.difference')"
                             icon="bi bi-intersect"
-                            class="btn btn-light btn-sm px-3 py-2 dropdown-toggle"
+                            class="btn btn-light btn-sm px-3 py-2 dropdown-toggle text-right"
                             :class="typeof referenceTag === 'string' ? 'active' : ''"
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
@@ -247,6 +293,21 @@ export default {
                     </div>
                 </div>
                 <div
+                    class="col col-md-auto mt-0 p-0"
+                >
+                    <ExportButtonCSV
+                        id="download-button"
+                        :handler="onsuccesss => $emit('download', onsuccesss)"
+                        :filename="downloadFilename"
+                        :disabled="!enableDownload"
+                        use-semicolon
+                        class="text-nowrap btn-light btn-sm px-3 py-2 dropdown-toggle text-right"
+                    >
+                        <i class="bi bi-cloud-arrow-down-fill" />
+                        {{ $t("common:modules.statisticDashboard.button.download") }}
+                    </ExportButtonCSV>
+                </div>
+                <div
                     v-if="typeof referenceTag === 'string'"
                     class="reference-tag row justify-content-end"
                 >
@@ -266,6 +327,45 @@ export default {
                     </div>
                 </div>
             </div>
+        </div>
+        <div
+            v-if="showStatisticnameInChart"
+            class="back-overview"
+            role="button"
+            tabindex="0"
+            @click="setChosenStatisticName('')"
+            @keydown="setChosenStatisticName('')"
+        >
+            <button
+                class="p-2 fs-5 lh-1 border-0 bg-transparent"
+            >
+                <i class="bi bi-chevron-left" />
+            </button>
+            <span>
+                {{ $t('common:modules.statisticDashboard.backToOverview') }}
+            </span>
+        </div>
+        <div
+            v-if="showStatisticnameInTable"
+            class="container static-name"
+        >
+            <button
+                class="p-2 fs-5 lh-1 border-0 bg-transparent"
+                @click="prevStatistic(indexSelectedStatistics, selectedStatistics)"
+                @keydown.enter="prevStatistic(indexSelectedStatistics, selectedStatistics)"
+            >
+                <i class="bi bi-chevron-left" />
+            </button>
+            <div>
+                {{ chosenStatisticName }}
+            </div>
+            <button
+                class="p-2 fs-5 lh-1 border-0 bg-transparent"
+                @click="nextStatistic(indexSelectedStatistics, selectedStatistics)"
+                @keydown.enter="nextStatistic(indexSelectedStatistics, selectedStatistics)"
+            >
+                <i class="bi bi-chevron-right" />
+            </button>
         </div>
     </div>
 </template>
@@ -300,7 +400,7 @@ export default {
 
 .difference-button {
     display: inline-block;
- }
+}
 
 .dropdown-menu {
     width: 60%;
@@ -329,4 +429,20 @@ export default {
         color: $white;
     }
  }
+
+.back-overview {
+    margin-top: 20px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.static-name {
+    margin-top: 20px;
+    display: flex;
+    div {
+        width: calc(100% - 64px);
+        text-align: center;
+        padding-top: 6px;
+    }
+}
 </style>

@@ -25,21 +25,16 @@ function filterFeaturesByKeyValue (features, key, value) {
  * The number of colors in the scheme indicates the number of classes for the styling.
  * @param {ol/Feature[]} features - The features that are styled.
  * @param {Object} statisticData - The statistic whose values are visualized.
- * @param {Number[]} colorScheme - The color scheme used for styling.
+ * @param {Number[][]} colorScheme - The color scheme used for styling.
  * @param {String} date - The date for which the values are visualized
  * @param {String} regionKey - The key to the region in the feature.
- * @param {string} [classificationMode="quantiles"] Method of dividing the data into classes. "quantiles" or "equalIntervals".
- * @param {Boolean} [allowPositiveNegativeClasses=false] If a class may contain both negative and positive values.
- * @param {number} [numberOfClasses=5] The number of classes for classification.
+ * @param {Number[]} stepValues - The step values used as thresholds for classification.
  * @returns {void}
  */
-function styleFeaturesByStatistic (features, statisticData, colorScheme, date, regionKey, classificationMode = "quantiles", allowPositiveNegativeClasses = false, numberOfClasses = 5) {
-    if (!Array.isArray(features) || !Array.isArray(colorScheme)) {
+function styleFeaturesByStatistic (features, statisticData, colorScheme, date, regionKey, stepValues) {
+    if (!Array.isArray(features) || !Array.isArray(colorScheme) || !Array.isArray(stepValues)) {
         return;
     }
-
-    const stepValues = getStepValue(statisticData, colorScheme, date, classificationMode, allowPositiveNegativeClasses, numberOfClasses);
-
     Object.keys(statisticData).forEach((region) => {
         const index = stepValues.findLastIndex(e => statisticData[region][date] >= e),
             foundFeature = features.find(feature => feature.get(regionKey) === region);
@@ -49,39 +44,33 @@ function styleFeaturesByStatistic (features, statisticData, colorScheme, date, r
 }
 
 /**
- * Sets a feature style as a function.
+ * Sets a feature style.
  * @param {ol/Feature} feature - The feature to style.
  * @param {Number[]} [fillColor = [255, 255, 255, 0.9]] - The fill color.
  * @returns {void}
  */
 function styleFeature (feature, fillColor = [255, 255, 255, 0.9]) {
-    if (typeof feature?.setStyle !== "function") {
-        return;
-    }
-    feature.setStyle(() => {
-        return new Style({
-            fill: new Fill({
-                color: fillColor
-            }),
-            stroke: new Stroke({
-                color: [166, 166, 166, 1],
-                width: 1
-            })
-        });
-    });
+    feature?.setStyle?.(new Style({
+        fill: new Fill({
+            color: fillColor
+        }),
+        stroke: new Stroke({
+            color: [166, 166, 166, 1],
+            width: 1
+        })
+    }));
 }
 
 /**
  * Gets the step value.
  * @param {Object} statisticData - The statistic whose values are visualized.
- * @param {Number[]} colorScheme - The color scheme used for styling.
+ * @param {Number} numberOfClasses - The number of classes for classification.
  * @param {String} date - The date for which the values are visualized
  * @param {string} [classificationMode="quantiles"] - Method of dividing values into classes. "quantiles" or "equalIntervals".
  * @param {Boolean} [allowPositiveNegativeClasses=false] If a class may contain both negative and positive values.
- * @param {number} [numberOfClasses=5] The number of classes for classification.
- * @returns {void}
+ * @returns {Number[]} The step values calculated for the given statistic settings.
  */
-function getStepValue (statisticData, colorScheme, date, classificationMode = "quantiles", allowPositiveNegativeClasses = false, numberOfClasses = 5) {
+function getStepValue (statisticData, numberOfClasses, date, classificationMode = "quantiles", allowPositiveNegativeClasses = false) {
     const statisticsValues = getStatisticValuesByDate(statisticData, date);
 
     return calcStepValues(statisticsValues, numberOfClasses, classificationMode, allowPositiveNegativeClasses);
@@ -242,7 +231,7 @@ function getLegendValue (val) {
 
             if (index === val.value.length - 1) {
                 legendObj = {
-                    "name": i18next.t("common:modules.statisticDashboard.legend.from") + " " + thousandsSeparator(Math.round(data))
+                    "name": i18next.t("common:modules.statisticDashboard.legend.from") + " " + thousandsSeparator(Number(Number(data).toFixed(2)))
                 };
                 style = {
                     "polygonFillColor": val.color[index],
@@ -252,7 +241,7 @@ function getLegendValue (val) {
             }
             else {
                 legendObj = {
-                    "name": i18next.t("common:modules.statisticDashboard.legend.between", {minimum: thousandsSeparator(Math.round(data)), maximum: thousandsSeparator(Math.round(val.value[index + 1]))})
+                    "name": i18next.t("common:modules.statisticDashboard.legend.between", {minimum: thousandsSeparator(Number(Number(data).toFixed(2))), maximum: thousandsSeparator(Number(Number(val.value[index + 1]).toFixed(2)))})
                 };
                 style = {
                     "polygonFillColor": val.color[index],
@@ -273,6 +262,7 @@ export default {
     styleFeaturesByStatistic,
     styleFeature,
     calcStepValues,
+    getStatisticValuesByDate,
     getStepValue,
     getLegendValue,
     prepareLegendForPolygon

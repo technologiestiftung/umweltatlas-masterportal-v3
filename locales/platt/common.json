@@ -39,7 +39,6 @@
       "alertTitleSuccess": "",
       "alreadyAdded": "",
       "completeMessage": "&#9989; Die Layer des angeforderten WMS wurden dem Themenbaum hinzugefügt!",
-      "errorEmptyUrl": "Bidde de URL vun de WMS in dat Textfeld ingeven!",
       "errorHttpsMessage": " &#10060; Das von Ihnen angeforderte WMS befindet sich unter einer http-Url. Das Masterportal kann nur WMS über https (SSL) einbinden.",
       "errorMessage": "&#10060; Der angegebene Dienst konnte nicht geladen werden. Bitte stellen Sie sicher, dass die URL richtig angegeben wurde.<br><br> Falls das Problem weiterhin auftritt, wenden Sie sich bitte an den Betreiber des Dienstes mit folgendem Hinweis:<br><strong>Es soll sichergestellt werden, dass ein CORS-Header für den Dienst gesetzt ist. Dies wird von der <a target='_blank' href='https://www.gdi-de.org/SharedDocs/Downloads/DE/GDI-DE/Dokumente/Architektur_GDI-DE_Bereitstellung_Darstellungsdienste.pdf?__blob=publicationFile'>GDI-DE</a> im Kapitel 4.7.1 empfohlen.</strong>",
       "errorTitle": "",
@@ -73,6 +72,18 @@
       "sourceSelectLabel": "Quell-Layer",
       "targetLayerNotFound": "Der gespeicherte Ziel-Layer mit der ID {{layerId}} wurde nicht gefunden.",
       "targetSelectLabel": "Ziel-Layer"
+    },
+    "compareMaps": {
+      "description": "Twee Karten neveneen oder übereen vergelieken",
+      "firstLayer": "Eerste Layer",
+      "horizontal": "horizontal",
+      "loadingWait": "Bitte warten Sie, dat Tool laadt de Vergleichskarten",
+      "name": "Karten vergelieken",
+      "reset": "Resetten",
+      "secondLayer": "Tweede Layer",
+      "selectLayerOneFirst": "Bitte eerst den eersten Layer utsöken",
+      "splitDirection": "Richtung: ",
+      "vertical": "vertikal"
     },
     "contact": {
       "addFileButton": "",
@@ -719,7 +730,7 @@
         "location": "Ort",
         "parcel": "Flurstück",
         "street": "Stroat",
-        "subject": "Thema (externe Fachdaten)",
+        "subject": "Thema",
         "topic": "Thema (Fachdaten)"
     },
     "specialWFS": {

@@ -324,6 +324,24 @@ describe("src/modules/layerSelection/store/actionsLayerSelection", () => {
                 expect(commit.secondCall.args[0]).to.be.equals("setVisible");
                 expect(commit.secondCall.args[1]).to.be.true;
             });
+
+            it("showLayer, layerConfig is folder", () => {
+                const layerId = "folder-2";
+
+                layerConfig.id = layerId;
+                showLayer({commit, dispatch, rootGetters}, {layerId});
+
+                expect(dispatch.calledTwice).to.be.true;
+                expect(dispatch.firstCall.args[0]).to.be.equals("setNavigationByFolder");
+                expect(dispatch.firstCall.args[1]).to.be.deep.equals({folder});
+                expect(dispatch.secondCall.args[0]).to.be.equals("navigateForward");
+                expect(dispatch.secondCall.args[1]).to.be.deep.equals({lastFolderName: "folderName", subjectDataLayerConfs: [{"id": "folder-2", "parentId": "folder-1"}], baselayerConfs: []});
+                expect(commit.calledTwice).to.be.true;
+                expect(commit.firstCall.args[0]).to.be.equals("setHighlightLayerId");
+                expect(commit.firstCall.args[1]).to.be.equals(layerId);
+                expect(commit.secondCall.args[0]).to.be.equals("setVisible");
+                expect(commit.secondCall.args[1]).to.be.true;
+            });
         });
 
         it("reset", () => {

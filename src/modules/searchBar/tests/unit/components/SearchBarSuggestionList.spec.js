@@ -52,7 +52,7 @@ describe("src/modules/searchBar/components/SearchBarSuggestionList.vue", () => {
                     "exampleSearch"
                 ],
                 exampleCount: 1,
-                exampleIcon: "bi-signpost-2-fill"
+                exampleIcon: "bi-signpost-2"
             },
             currentShowAllList: searchResults
         },

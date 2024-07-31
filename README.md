@@ -26,7 +26,7 @@ Our further Roadmap is to work further on 3.0.0 and to release monthly minor rel
 ### Masterportal 3.x
 * 04.10.2023: Release MP 3.0 beta 1
 * 18.12.2023: Release MP 3.0 beta 2
-* 27.06.2024: Release MP 3.0 stable
+* 28.06.2024: Release MP 3.0 stable
 * During the third quarter of 2024: Release MP 3.0 LTS
 
 ### Support for MP 2.x and MP 3.x

@@ -171,7 +171,7 @@ SearchInterfaceTopicTree.prototype.normalizeFolderResult = function (folder) {
         events: this.normalizeResultEvents(folderResultEvents, folder),
         category: i18next.t("common:modules.searchBar.type.folder"),
         icon: "bi-folder",
-        id: `${folder.type}_${folder.name}`,
+        id: folder.id,
         name: folder.name
     };
 };

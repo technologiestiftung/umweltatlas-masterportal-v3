@@ -98,8 +98,9 @@ The baselayerSwitcher allows you to easily switch or select a baselayer.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-active|no|Boolean|false|Defines if the baselayerSwitcher is activated.|false|
-activatedExpandable|no|Boolean|false|Specifies whether the baselayerSwitcher is expanded and all available baselayers are displayed or only the active one which is on the highest level.|false|
+|active|no|Boolean|false|Defines if the baselayerSwitcher is activated.|false|
+|activatedExpandable|no|Boolean|false|Specifies whether the baselayerSwitcher is expanded and all available baselayers are displayed or only the active one which is on the highest level.|false|
+|singleBaseLayer|no|Boolean|false|Switches the previous selected Layer to invisible|false
 
 **Example**
 
@@ -804,7 +805,7 @@ Defines the initial map view and a background shown when no layer or map is sele
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|backgroundImage|no|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/config.json.md#markdown-header-portalconfigmapview"|Path to an alternative background image.|false|
+|backgroundImage|no|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/config.json.md#markdown-header-portalconfigmapview"|Path to an alternative background image.|false|
 |epsg|no|String|"EPSG:25832"|Coordinate reference system EPSG code. The code must be defined as a `namedProjection`.|false|
 |extent|no|**[Extent](#markdown-header-datatypesextent)**|[510000.0, 5850000.0, 625000.4, 6000000.0]|Map extent - map may not be moved outside these boundaries.|false|
 |mapInteractions|nein|**[mapInteractions](#markdown-header-portalconfigmapmapviewInteractions)**||Overrides the ol map interactions. Provides further configuration possibilities for control behaviour and keyboardEventTarget.|false|
@@ -1165,7 +1166,7 @@ Elasticsearch service configuration.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|hitIcon|no|String|"bi-signpost-2-fill"|CSS icon class of search results, shown before the result name.|false|
+|hitIcon|no|String|"bi-signpost-2"|CSS icon class of search results, shown before the result name.|false|
 |hitMap|no|**[hitMap](#markdown-header-portalconfigsearchbarelasticsearchhitmap)**||Object mapping result object attributes to keys.|true|
 |hitTemplate|no|String|"default"|Template in which the search results (`show all`) are displayed. Possible values are "default" and "layer".|false|
 |hitType|no|String|"common:modules.searchbar.type.subject"|Search result type shown in the result list after the result name. Set to the translation key.|false|
@@ -1346,7 +1347,7 @@ Definition of classes that should be considered with the results.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|icon|no|String|"bi-signpost-2-fill"|Class visualization by a icon|false|
+|icon|no|String|"bi-signpost-2"|Class visualization by a icon|false|
 |name|yes|String||Class name|false|
 |zoom|no|String|"center"|Defines how to zoom to a hit on selection. If `center` is chosen, the center coordinate (`cx`, `cy`) is zoomed to and a marker is placed. If `bbox` is chosen, the LocationFinder's given BoundingBox (`xmin`, `ymin`, `xmax`, `ymax`) is zoomed to, and no marker is shown.|false|
 
@@ -1687,6 +1688,11 @@ This module displays specific portal information like description, Masterportal 
 |title|no|String|""|Metadata title |false|
 |version|no|String|""|Version information of the masterportal|false|
 |versionLink|no|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/downloads/"|Link to the masterportal version|false|
+|ustId|no|String|""|Sales tax identification number in accordance with Section 27 of the Sales Tax Act|false|
+|privacyStatementText|no|String|"common:modules.about.privacyStatementText"|Text for data privacy section|false|
+|privacyStatementUrl|no|String|""|URL to data privacy policy site|false|
+|accessibilityText|no|String|"common:modules.about.accessibilityText"|Text for accessibility section|false|
+|accessibilityUrl|no|String|""|URL to the accessibility statement site|false|
 
 **Example**
 
@@ -1846,6 +1852,26 @@ Email object containing email address, and display name.
 {
     "email": "lgvgeoportal-hilfe@gv.hamburg.de",
     "name":"LGVGeoportalHilfe"
+}
+```
+
+***
+
+##### portalConfig.menu.sections.modules.compareMaps
+
+[inherits]: # (portalConfig.menu.sections.modules)
+
+compareMaps Tool: This tool allows users to compare two map layers side by side using a layer swiper. Users select layers from the active, visible layers, and the swiper divides the map to show each layer in separate sections. The tool supports WMS and WFS layers and ensures complete layer updates before allowing swiper movement for accurate comparison.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|type|no|String|"compareMaps"|The type of the module. Defines which module is configured.|false|
+
+**Example**
+
+```json
+{
+    "type": "compareMaps",
 }
 ```
 
@@ -2991,7 +3017,7 @@ Routing module. Enables user to plan routes between multiple points with multipl
 {
     "type": "routing",
     "name": "common:modules.routing",
-    "icon": "bi-signpost-2-fill",
+    "icon": "bi-signpost-2",
     "activeRoutingToolOption": "DIRECTIONS",
     "routingToolOptions": ["DIRECTIONS", "ISOCHRONES"],
     "download": {
@@ -3518,7 +3544,8 @@ The shadow tool provides a UI element to define a point in time by using sliders
 |minNumberOfClasses|no|Number|2|Minimum selectable number of classes for choropleth map and legend. At least 2.|false|
 |maxNumberOfClasses|no|Number|5|Maximum selectable number of classes for choropleth map and legend. At least 3.|false|
 |numberOfClasses|no|Number|5|Current selected number of classes.|false|
-|selectableColorPalettes|no|**[selectableColorPalettes](#markdown-header-portalconfigmenusectionsmodulesstatisticDashboardselectableColorPalettes)**|{"label": "Blau", "baseColor": [8, 81, 156]}|Available options for color palettes |false
+|selectableColorPalettes|no|**[selectableColorPalettes](#markdown-header-portalconfigmenusectionsmodulesstatisticDashboardselectableColorPalettes)**|{"label": "Blau", "baseColor": [8, 81, 156]}|Available options for color palettes |false|
+|downloadFilename|no|String|"Statistic Dashboard Download"|The filename of the exported csv file.|false|
 
 **Example**
 
@@ -3527,6 +3554,7 @@ The shadow tool provides a UI element to define a point in time by using sliders
     "name": "translate#common:menu.statisticDashboard",
     "subtitle": "common:modules.statisticDashboard.headings.mrhstatistics",
     "icon": "bi-speedometer",
+    "downloadFilename": "Downloaded_Data",
     "colorScheme": {
         "referenceRegion": [155, 155, 155, 0.7],
         "lineCharts": [[74, 0, 30, 1], [117, 18, 50, 1], [189, 47, 83, 1], [198, 81, 84, 1], [228, 121, 97, 1], [240, 168, 130, 1], [250, 212, 172, 1], [157, 185, 171, 1], [137, 192, 196, 1], [87, 158, 185, 1],
@@ -3628,6 +3656,8 @@ The shadow tool provides a UI element to define a point in time by using sliders
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|----|-----------|------|
 |layerId|yes|String|""|The id of the Layer.|false|
+|oafRequestCRS|no|String|""|Only for OAF Service - The coordinate reference system of the response geometries. I.e.: 'http://www.opengis.net/def/crs/EPSG/0/25832'|false|
+|oafDataProjectionCode|no|String|""|Only for OAF Service - The projection code of the data. Is needed to render the features on the map. I.e.: 'EPSG:25832'|false|
 |geometryAttribute|yes|String|""|Type of the geometry attribute.|false|
 |chartDirectionValue|no|String|""|Specifies the number above which the bars in the chart will be switched from vertical to horizontal.|false|
 |timeStepsFilter|yes|**[timeStepsFilter](#markdown-header-portalconfigmenusectionsmodulesstatisticDashboarddatatimeStepsFilter)**|""|An object consisting of keys and values where the key contains the number of time groupings and the value contains the description for the grouping.|false|
@@ -3638,6 +3668,8 @@ The shadow tool provides a UI element to define a point in time by using sliders
 ```json
 {
     "layerId": "28992",
+    "oafRequestCRS": "http://www.opengis.net/def/crs/EPSG/0/25832",
+    "oafDataProjectionCode": "EPSG:25832",
     "geometryAttribute": "geom",
     "chartDirectionValue": 10,
     "timeStepsFilter": {
@@ -3794,7 +3826,7 @@ The shadow tool provides a UI element to define a point in time by using sliders
 ```json
 {
     "attrName": "statistisches_gebiet",
-    "name": "Statistisches Gebiet"
+    "name": "Kreis"
 }
 ```
 

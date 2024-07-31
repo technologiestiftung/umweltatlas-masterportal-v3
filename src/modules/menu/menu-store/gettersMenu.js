@@ -59,12 +59,12 @@ const menuGetters = {
     /**
      * Returns true, if a module with attribute hasMouseMapInteractions will be deactivated.
      * @param {MenuState} state Local vuex state.
-     * @param {Object} _ Local vuex getters (discarded).
-     * @param {Object} __ vuex rootState (discarded).
+     * @param {Object} getters Local vuex getters (discarded).
+     * @param {Object} rootState vuex rootState (discarded).
      * @param {Object} rootGetters vuex rootGetters.
      * @returns {Boolean} Function returning component identified via deactivateModule.
      */
-    deactivateModule: (state, _, __, rootGetters) => type => {
+    deactivateModule: (state, getters, rootState, rootGetters) => type => {
         if (rootGetters[`Modules/${changeCase.upperFirst(type)}/hasMouseMapInteractions`]
             && changeCase.upperFirst(type) !== state.activeModuleMouseMapInteractions
         ) {
@@ -166,11 +166,11 @@ const menuGetters = {
     },
 
     /**
-     * @param {MenuState} _ Local vuex state (discarded).
+     * @param {MenuState} state Local vuex state (discarded).
      * @param {Object} getters Local vuex getters.
      * @returns {(Object|null)} Function returning a section of the menu.
      */
-    section: (_, getters) => path => {
+    section: (state, getters) => path => {
         if (path && getters[path[0]]) {
             const section = idx(getters, path);
 
@@ -196,12 +196,12 @@ const menuGetters = {
     },
 
     /**
-     * @param {MenuState} _ Local vuex state (discarded).
+     * @param {MenuState} state Local vuex state (discarded).
      * @param {Object} getters Local vuex getters.
      * @param {String} side side of the menu.
      * @returns {({title: string, idAppendix: string}|null)} Function returning an object including the title and an appendix for the titles id to make it unique; may return null if no title is configured.
      */
-    titleBySide: (_, getters) => side => {
+    titleBySide: (state, getters) => side => {
         if (side === "mainMenu" && getters.mainTitle) {
             return {...getters.mainTitle, idAppendix: side};
         }
@@ -243,13 +243,13 @@ const menuGetters = {
      * Returns the attributes of a module.
      * If a getters `urlParams` exists in the module the attributes are obtained from it,
      * if none exists all attributes of the state are used.
-     * @param {Object} _ menu store state.
-     * @param {Object} __ menu store getters.
+     * @param {Object} state state of the app-store.
+     * @param {Object} getters menu store getters.
      * @param {Object} rootState root state.
      * @param {Object} rootGetters root getters.
      * @returns {Object} The component attributes.
      */
-    getComponentAttributes: (_, __, rootState, rootGetters) => currentComponent => {
+    getComponentAttributes: (state, getters, rootState, rootGetters) => currentComponent => {
         let moduleAttributes;
 
         if (currentComponent !== "root") {

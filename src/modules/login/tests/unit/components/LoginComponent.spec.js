@@ -47,7 +47,6 @@ describe("src/modules/Modules/Login/components/LoginComponent.vue", () => {
             },
             state: { }
         });
-        store.commit("Modules/Login/setActive", true);
     });
     afterEach(() => {
         sinon.restore();
@@ -98,14 +97,14 @@ describe("src/modules/Modules/Login/components/LoginComponent.vue", () => {
                 }
             });
 
-            wrapper.vm.reloadWindow = sinon.fake();
+            const fake = sinon.fake();
+
+            sandbox.replace(wrapper.vm, "reloadWindow", fake);
             sandbox.spy(wrapper.vm, "logoutButton");
-            sandbox.spy(wrapper.vm, "closeLoginWindow");
 
             await wrapper.find("#login-component button#logout-button").trigger("click");
             expect(wrapper.vm.logoutButton.calledOnce).to.be.true;
-            expect(wrapper.vm.closeLoginWindow.calledOnce).to.be.true;
-            expect(wrapper.vm.reloadWindow.calledOnce).to.be.true;
+            expect(fake.calledOnce).to.be.true;
         });
 
         it("should not be logged in after Login renders", () => {
@@ -155,19 +154,4 @@ describe("src/modules/Modules/Login/components/LoginComponent.vue", () => {
         }).timeout(5000);
 
     });
-
-    describe("LoginComponent methods", () => {
-        it("close sets active to false", async () => {
-            wrapper = shallowMount(LoginComponent, {
-                global: {
-                    plugins: [store]
-                }
-            });
-            wrapper.vm.closeLoginWindow();
-            await wrapper.vm.$nextTick();
-
-            expect(store.state.Modules.Login.active).to.be.false;
-        });
-    });
-
 });

@@ -45,12 +45,14 @@ Layer2dVectorOaf.prototype.createLayer = function (attributes) {
  * @returns {Object} The raw layer attributes.
  */
 Layer2dVectorOaf.prototype.getRawLayerAttributes = function (attributes) {
+    const crs = attributes.crs === false || attributes.crs ? attributes.crs : "http://www.opengis.net/def/crs/EPSG/0/25832";
+
     return {
-        bbox: attributes.bbox,
-        bboxCrs: attributes.bboxCrs,
+        bbox: attributes.bbox || store.getters["Maps/extent"],
+        bboxCrs: attributes.bboxCrs || crs,
         clusterDistance: attributes.clusterDistance,
         collection: attributes.collection,
-        crs: attributes.crs === false || attributes.crs ? attributes.crs : "http://www.opengis.net/def/crs/EPSG/0/25832",
+        crs: crs,
         datetime: attributes.datetime,
         id: attributes.id,
         limit: typeof attributes.limit === "undefined" ? 400 : attributes.limit,
@@ -113,5 +115,12 @@ Layer2dVectorOaf.prototype.createLegend = async function () {
  * @returns {void}
  */
 Layer2dVectorOaf.prototype.loadFeaturesManually = function (attributes) {
-    oaf.loadFeaturesManually(this.getRawLayerAttributes(attributes), this.layer.getSource());
+    const attr = {...this.getRawLayerAttributes(attributes)};
+
+    if (store.getters["Maps/mode"] === "3D") {
+        // do not load bbox, load all features at once
+        // see Issue https://lgv-hamburg.atlassian.net/browse/BG-5669
+        attr.bbox = undefined;
+    }
+    oaf.loadFeaturesManually(attr, this.layer.getSource());
 };

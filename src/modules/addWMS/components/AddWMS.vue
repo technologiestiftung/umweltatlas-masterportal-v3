@@ -60,27 +60,48 @@ export default {
         },
 
         /**
-         * Importing the external wms layers
-         * @returns {void}
-         */
-        importLayers: function () {
-            const url = this.$el.querySelector("#wmsUrl").value.trim();
+         * Creates the url with the given params and checks if it is valid
+         * @param {String} serviceUrl inserted url by user
+         * @returns {String} the url.href
+        */
+        getUrl: function (serviceUrl) {
+            let url;
 
             this.invalidUrl = false;
-            if (url === "") {
-                this.invalidUrl = true;
-                return;
+            try {
+                url = new URL(serviceUrl);
             }
-            else if (url.includes("http:")) {
+            catch (e) {
+                this.invalidUrl = true;
+                this.displayErrorMessage();
+            }
+            if (url.href.includes("http:")) {
                 this.addSingleAlert({
                     content: this.$t("common:modules.addWMS.errorHttpsMessage"),
                     category: "error",
                     title: this.$t("common:modules.addWMS.errorTitle")});
+            }
+            else {
+                url.searchParams.set("request", "GetCapabilities");
+                url.searchParams.set("service", "WMS");
+            }
+            return url.href;
+        },
+        /**
+         * Importing the external wms layers
+         * @returns {void}
+         */
+        importLayers: function () {
+            const serviceUrl = this.$el.querySelector("#wmsUrl").value.trim(),
+                url = this.getUrl(serviceUrl);
+
+            if (this.invalidUrl === true || url.includes("http:") || url.length === 0) {
                 return;
             }
+
             axios({
                 timeout: 4000,
-                url: url + "?request=GetCapabilities&service=WMS"
+                url: url
             })
                 .then(response => response.data)
                 .then((data) => {
@@ -92,7 +113,6 @@ export default {
                             currentExtent = this.mapViewSettings?.extent;
                         let checkExtent = this.getIfInExtent(capability, currentExtent),
                             finalCapability = capability;
-
 
                         if (!checkVersion) {
                             const reversedData = this.getReversedData(data);
@@ -311,15 +331,7 @@ export default {
         id="addWMS"
         class="row"
     >
-        <div
-            v-if="invalidUrl"
-            class="addwms_error"
-        >
-            {{ $t('common:modules.addWMS.errorEmptyUrl') }}
-        </div>
-        <div
-            v-else
-        >
+        <div>
             <input
                 id="wmsUrl"
                 ref="wmsUrl"

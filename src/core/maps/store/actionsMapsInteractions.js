@@ -163,5 +163,25 @@ export default {
         else {
             unlistenByKey(type);
         }
+    },
+
+    /**
+     * Activates the selected view point with calling the zoomToCoordinates function and in case of 3D mode additionally it calls setCamera function.
+     * @param {Object} context the vuex context
+     * @param {Object} context.dispatch the dispatch
+     * @param {Object} context.getters the getters
+     * @param {Number} payload.altitude altitude of the view
+     * @param {Number} payload.heading heading of the view
+     * @param {Number} payload.tilt tilt of the view
+     * @param {Number[]} payload.center center of the view
+     * @param {Number} payload.zoom zoom of the view
+     */
+    activateViewpoint ({dispatch, getters}, {altitude, heading, tilt, center, zoom}) {
+        dispatch("Maps/zoomToCoordinates", {center, zoom}, {root: true});
+        if (getters.mode === "3D") {
+            dispatch("setCamera", {
+                altitude, heading, tilt
+            });
+        }
     }
 };

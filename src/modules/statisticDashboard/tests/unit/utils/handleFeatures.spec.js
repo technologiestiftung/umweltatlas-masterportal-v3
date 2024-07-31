@@ -89,15 +89,15 @@ describe("src/modules/statisticDashboard/utils/handleFeatures.js", () => {
                     }
                 };
 
-            FeatureHandler.styleFeaturesByStatistic([feature1, feature2, feature3], statisticData, colorScheme, "2018", "region");
+            FeatureHandler.styleFeaturesByStatistic([feature1, feature2, feature3], statisticData, colorScheme, "2018", "region", [0, 80, 100]);
 
-            expect(feature1.getStyle()(feature1).getStroke()).to.be.deep.equals(stroke);
-            expect(feature2.getStyle()(feature2).getStroke()).to.be.deep.equals(stroke);
-            expect(feature3.getStyle()(feature3).getStroke()).to.be.deep.equals(stroke);
+            expect(feature1.getStyle().getStroke()).to.be.deep.equals(stroke);
+            expect(feature2.getStyle().getStroke()).to.be.deep.equals(stroke);
+            expect(feature3.getStyle().getStroke()).to.be.deep.equals(stroke);
 
-            expect(feature1.getStyle()(feature1).getFill()).to.be.deep.equals(fill3);
-            expect(feature2.getStyle()(feature2).getFill()).to.be.deep.equals(fill1);
-            expect(feature3.getStyle()(feature3).getFill()).to.be.deep.equals(fill2);
+            expect(feature1.getStyle().getFill()).to.be.deep.equals(fill3);
+            expect(feature2.getStyle().getFill()).to.be.deep.equals(fill1);
+            expect(feature3.getStyle().getFill()).to.be.deep.equals(fill2);
         });
     });
     describe("filterFeaturesByKeyValue", () => {

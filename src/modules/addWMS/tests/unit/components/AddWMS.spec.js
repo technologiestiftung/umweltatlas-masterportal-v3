@@ -62,12 +62,6 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
         expect(wrapper.find("#addWMS").exists()).to.be.true;
     });
 
-    it("rendes the text with empty input", async () => {
-        await wrapper.setData({invalidUrl: true});
-
-        expect(wrapper.find(".addwms_error").exists()).to.be.true;
-    });
-
     it("renders the iput field", () => {
         expect(wrapper.find("#wmsUrl").exists()).to.be.true;
     });
@@ -133,7 +127,7 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
             },
             currentExtent = [];
 
-        it("schould return true if the currentExtent intersects the capability extent", function () {
+        it("should return true if the currentExtent intersects the capability extent", function () {
             currentExtent = [
                 205000,
                 5009000,
@@ -143,7 +137,7 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
             expect(wrapper.vm.getIfInExtent(capability, currentExtent)).to.be.true;
         });
 
-        it("schould return true if the currentExtent intersects the capability extent", function () {
+        it("should return true if the currentExtent intersects the capability extent", function () {
             currentExtent = [
                 205000,
                 5009000,
@@ -270,6 +264,15 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
         it("should replace all SRS with CRS in the xml node and attribute", function () {
             expect(wrapper.vm.getReversedData(dataXml).getElementsByTagName("SRS").length).to.equal(0);
             expect(wrapper.vm.getReversedData(dataXml).getElementsByTagName("CRS").length).not.to.equal(0);
+        });
+    });
+    describe("getUrl", () => {
+        const serviceUrl = "https://test/test?map=/storage/mapfiles/test.map";
+
+        it("creates url correctly'", function () {
+            expect(wrapper.vm.getUrl(serviceUrl)).to.equal("https://test/test?map=%2Fstorage%2Fmapfiles%2Ftest.map&request=GetCapabilities&service=WMS");
+            expect(wrapper.vm.getUrl(serviceUrl).split("?").length - 1).to.equal(1);
+            expect(wrapper.vm.getUrl(serviceUrl)).to.contain("request=GetCapabilities&service=WMS");
         });
     });
 });

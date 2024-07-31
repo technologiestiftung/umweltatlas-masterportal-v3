@@ -69,4 +69,19 @@ describe("src/shared/components/LightButton.vue", () => {
         expect(button.attributes("type")).to.equal("button");
         expect(icon.exists()).to.be.true;
     });
+
+    it("should render a button with html entities", () => {
+        const text = "My List &amp; My Advertising",
+            wrapper = mount(LightButton, {
+                propsData: {text, interaction: interactionSpy}
+            }),
+            button = wrapper.find("button"),
+            icon = button.find("i");
+
+        expect(button.exists()).to.be.true;
+        expect(button.classes()).to.eql(["btn", "btn-light", "d-flex", "align-items-center", "btn-description", "mp-btn-light"]);
+        expect(button.attributes("type")).to.equal("button");
+        expect(button.text()).to.equal("My List & My Advertising");
+        expect(icon.exists()).to.be.false;
+    });
 });

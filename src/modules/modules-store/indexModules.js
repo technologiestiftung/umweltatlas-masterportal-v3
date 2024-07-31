@@ -5,6 +5,7 @@ import AddWMS from "../addWMS/store/indexAddWMS";
 import BaselayerSwitcher from "../baselayerSwitcher/store/indexBaselayerSwitcher";
 import BufferAnalysis from "../bufferAnalysis/store/indexBufferAnalysis";
 import Contact from "../contact/store/indexContact";
+import CompareMaps from "../compareMaps/store/indexCompareMaps";
 import CoordToolkit from "../coordToolkit/store/indexCoordToolkit";
 import CopyrightConstraints from "../copyrightConstraints/store/indexCopyrightConstraints";
 import Draw from "../draw/store/indexDraw";
@@ -21,6 +22,7 @@ import LayerPills from "../layerPills/store/indexLayerPills";
 import LayerPreview from "../../shared/modules/layerPreview/store/indexLayerPreview";
 import LayerSelection from "../layerSelection/store/indexLayerSelection";
 import LayerSlider from "../layerSlider/store/indexLayerSlider";
+import LayerSwiper from "../../shared/modules/layerSwiper/store/indexLayerSwiper";
 import LayerTree from "../layerTree/store/indexLayerTree";
 import Legend from "../legend/store/indexLegend";
 import Login from "../login/store/indexLogin";
@@ -53,6 +55,7 @@ export default {
         BufferAnalysis: {...BufferAnalysis},
         Contact: {...Contact},
         CoordToolkit: {...CoordToolkit},
+        CompareMaps: {...CompareMaps},
         CopyrightConstraints: {...CopyrightConstraints},
         Draw: {...Draw},
         Draw_old: {...Draw_old},
@@ -68,6 +71,7 @@ export default {
         LayerPreview: {...LayerPreview},
         LayerSelection: {...LayerSelection},
         LayerSlider: {...LayerSlider},
+        LayerSwiper: {...LayerSwiper},
         LayerTree: {...LayerTree},
         Legend: {...Legend},
         Login: {...Login},

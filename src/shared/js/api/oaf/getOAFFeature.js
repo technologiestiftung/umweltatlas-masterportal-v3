@@ -1,6 +1,7 @@
 import axios from "axios";
 import isObject from "../../utils/isObject";
 import {GeoJSON} from "ol/format";
+import {getUniqueValuesFromFetchedFeatures} from "../../../../modules/filter/utils/fetchAllOafProperties";
 
 /**
  * Gets all features of given collection.
@@ -13,7 +14,7 @@ import {GeoJSON} from "ol/format";
  * @param {String[]} [propertyNames] The property names to narrow the request.
  * @returns {Promise} An promise which resolves an array of oaf features.
  */
-async function getOAFFeatureGet (baseUrl, collection, limit = 400, filter = undefined, filterCrs = undefined, crs = undefined, propertyNames = undefined) {
+async function getOAFFeatureGet (baseUrl, collection, limit = 400, filter = undefined, filterCrs = undefined, crs = undefined, propertyNames = undefined, skipGeometry = false) {
     if (typeof baseUrl !== "string") {
         return new Promise((resolve, reject) => {
             reject(new Error(`Please provide a valid base url! Got ${baseUrl}`));
@@ -35,6 +36,10 @@ async function getOAFFeatureGet (baseUrl, collection, limit = 400, filter = unde
 
     if (Array.isArray(propertyNames)) {
         extendedUrl += `&properties=${propertyNames.join(",")}`;
+    }
+
+    if (skipGeometry) {
+        extendedUrl += `&skipGeometry=${skipGeometry}`;
     }
 
     return this.oafRecursionHelper(result, extendedUrl);
@@ -118,6 +123,21 @@ function getNextLinkFromFeatureCollection (featureCollection) {
 }
 
 /**
+ * Gets the unique values for given properties.
+ * @param {String} baseUrl The base url.
+ * @param {String} collection The collection name.
+ * @param {Number} limit The limit of features each request should contain.
+ * @param {String[]} propertiesToGetValuesFor The properties to get values for.
+ * @returns {Promise} a promise which resolves the unique values as object or rejects on error.
+ */
+async function getUniqueValuesFromCollection (baseUrl, collection, limit, propertiesToGetValuesFor) {
+    return new Promise((resolve, reject) => {
+        this.getOAFFeatureGet(baseUrl, collection, limit, undefined, undefined, undefined, propertiesToGetValuesFor, true).then(features => {
+            resolve(getUniqueValuesFromFetchedFeatures(features.map(feature => feature?.properties), propertiesToGetValuesFor, true));
+        }).catch(error => reject(error));
+    });
+}
+/**
  * Gets the unique values by a scheme request.
  * @param {String} baseUrl The base url of the dataset.
  * @param {String} collection The collection name.
@@ -135,15 +155,17 @@ async function getUniqueValuesByScheme (baseUrl, collection, propertiesToGetValu
             }
         }),
         result = {};
+    let atLeastOneEnumFound = false;
 
     if (response.status !== 200 || !isObject(response.data?.properties)) {
-        return {};
+        return this.getUniqueValuesFromCollection(baseUrl, collection, 400, propertiesToGetValuesFor);
     }
 
     Object.entries(response.data.properties).forEach(([key, value]) => {
         if (!Object.prototype.hasOwnProperty.call(value, "enum") || (propertiesToGetValuesFor.length && !propertiesToGetValuesFor.includes(key))) {
             return;
         }
+        atLeastOneEnumFound = true;
         const uniqueList = {};
 
         value.enum.forEach(uniqueValue => {
@@ -152,6 +174,9 @@ async function getUniqueValuesByScheme (baseUrl, collection, propertiesToGetValu
         result[key] = uniqueList;
     });
 
+    if (!atLeastOneEnumFound) {
+        return this.getUniqueValuesFromCollection(baseUrl, collection, 400, propertiesToGetValuesFor);
+    }
     return result;
 }
 
@@ -160,5 +185,6 @@ export default {
     readAllOAFToGeoJSON,
     oafRecursionHelper,
     getNextLinkFromFeatureCollection,
+    getUniqueValuesFromCollection,
     getUniqueValuesByScheme
 };

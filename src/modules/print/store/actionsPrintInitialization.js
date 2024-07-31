@@ -226,7 +226,9 @@ export default {
             }
             const canvasLayer = Canvas.getCanvasLayer(state.visibleLayerList);
 
-            commit("setEventListener", canvasLayer.on("postrender", evt => dispatch("createPrintMask", evt)));
+            if (Object.keys(canvasLayer).length > 0) {
+                commit("setEventListener", canvasLayer.on("postrender", evt => dispatch("createPrintMask", evt)));
+            }
             draw3dMask(state, dispatch, ol3d);
         }
 
@@ -391,25 +393,25 @@ export default {
 
     /**
      * draws a mask on the whole map
-     * @param {Object} _ state
+     * @param {Object} context The Vuex action context.
      * @param {Object} drawMaskOpt - context of the postrender event
      * @returns {void}
      */
-    drawMask: function (_, drawMaskOpt) {
+    drawMask: function (context, drawMaskOpt) {
         const mapSize = drawMaskOpt.frameState.size,
-            context = drawMaskOpt.context,
+            postrenderContext = drawMaskOpt.context,
             ration = drawMaskOpt.context.canvas.width > mapSize[0] ? DEVICE_PIXEL_RATIO : 1,
             mapWidth = mapSize[0] * ration,
             mapHeight = mapSize[1] * ration;
 
-        context.beginPath();
+        postrenderContext.beginPath();
         // Outside polygon, must be clockwise
-        context.moveTo(0, 0);
-        context.lineTo(mapWidth, 0);
-        context.lineTo(mapWidth, mapHeight);
-        context.lineTo(0, mapHeight);
-        context.lineTo(0, 0);
-        context.closePath();
+        postrenderContext.moveTo(0, 0);
+        postrenderContext.lineTo(mapWidth, 0);
+        postrenderContext.lineTo(mapWidth, mapHeight);
+        postrenderContext.lineTo(0, mapHeight);
+        postrenderContext.lineTo(0, 0);
+        postrenderContext.closePath();
     },
     /**
      * draws the print page

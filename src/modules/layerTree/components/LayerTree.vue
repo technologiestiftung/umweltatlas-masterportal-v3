@@ -49,7 +49,6 @@ export default {
 </script>
 
 <template lang="html">
-    <hr>
     <div
         id="layer-tree"
         class="layer-tree"

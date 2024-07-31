@@ -146,6 +146,10 @@
       "searchBar": {
         "searchInterfaces": [
           {
+            "type": "topicTree",
+            "hitTemplate": "layer"
+          },
+          {
             "type": "gazetteer",
             "serviceId": "6",
             "searchAddress": true,
@@ -169,7 +173,7 @@
           },
           {
             "type": "elasticSearch",
-            "serviceId": "elasticelastic",
+            "serviceId": "elastic_address",
             "requestType": "POST",
             "epsg": "EPSG:4326",
             "searchStringAttribute": "query_str",
@@ -203,7 +207,7 @@
           },
           {
             "type": "elasticSearch",
-            "serviceId": "elastic",
+            "serviceId": "elastic_prod",
             "requestType": "GET",
             "hitTemplate": "layer",
             "payload": {

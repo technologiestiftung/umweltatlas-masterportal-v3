@@ -98,13 +98,20 @@ describe("src/modules/statisticDashboard/utils/chartProcessor.js", () => {
             const param = [-2],
                 color = ["#E28574", "#89C67F"];
 
-            expect(chartProcessor.getBarChartColors(param, color)).to.deep.equal(["#E28574"]);
+            expect(chartProcessor.getBarChartColors(param, color, "string", false)).to.deep.equal(["#E28574"]);
         });
         it("should return first color if number is positive", () => {
             const param = [2],
                 color = ["#E28574", "#89C67F"];
 
-            expect(chartProcessor.getBarChartColors(param, color)).to.deep.equal(["#89C67F"]);
+            expect(chartProcessor.getBarChartColors(param, color, "string", false)).to.deep.equal(["#89C67F"]);
+        });
+        it("should return colors based on numberOfColouredBars", () => {
+            const param = [2, 3, 4, 5, 6],
+                color = ["#E28574", "#89C67F"],
+                expected = ["#E28574", "#E28574", "#E28574", "#89C67F", "#89C67F"];
+
+            expect(chartProcessor.getBarChartColors(param, color, false, 3)).to.deep.equal(expected);
         });
     });
     describe("splitTextByWordAndChunkSize", () => {

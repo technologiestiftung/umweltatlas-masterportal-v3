@@ -3,11 +3,11 @@ const fs = require("fs").promises,
     path = require("path"),
     createMainMenu = require("./createMainMenu"),
     createSecondaryMenu = require("./createSecondaryMenu"),
-    {copyDir, deleteTranslateInName, getToolFromOldConfig, replaceInFile, removeAttributesFromTools} = require("./utils"),
+    {copyDir, deleteTranslateInName, getToolFromOldConfig, migrateIdWithSuffix, replaceInFile, removeAttributesFromTools} = require("./utils"),
     {PORTALCONFIG, PORTALCONFIG_OLD, TOPICS, TOPICS_OLD, BASEMAPS, BASEMAPS_OLD, BASEMAPS_NEW, SUBJECTDATA, SUBJECTDATA_OLD, DATA3D_OLD} = require("./constants"),
     rootPath = path.resolve(__dirname, "../../../"),
-    {deprecated, toolsNotToMigrate, toRemoveFromConfigJs, toRemoveFromTools} = require("./configuration"),
-    migratedTools = toolsNotToMigrate.concat(deprecated);
+    {deprecated, removed, toolsNotToMigrate, toRemoveFromConfigJs, toRemoveFromTools} = require("./configuration");
+let migratedTools = toolsNotToMigrate.concat(deprecated);
 
 /**
  * Migrates the mapView.
@@ -313,12 +313,14 @@ function migrateBaseMaps (oldData) {
             data.Ordner.forEach(folder => {
                 if (folder.Layer) {
                     createGroupLayer(folder.Layer);
+                    migrateIdWithSuffix(folder.Layer);
                     layers = layers.concat(folder.Layer);
                 }
             });
         }
     }
     if (data.Layer) {
+        migrateIdWithSuffix(data.Layer);
         if (JSON.stringify(data).includes("Oblique")) {
             data.Layer = data.Layer.filter(layer => layer.name !== "Oblique" && layer.typ !== "Oblique");
         }
@@ -359,6 +361,7 @@ function migrateSubjectData (oldSubjectData, old3DData) {
         migrateFolderStructure(oldSubjectData, subjectData.elements);
     }
     else if (oldSubjectData?.Layer) {
+        migrateIdWithSuffix(oldSubjectData.Layer);
         createGroupLayer(oldSubjectData.Layer);
         subjectData.elements = oldSubjectData.Layer;
     }
@@ -405,6 +408,7 @@ function migrateFolderStructure (oldData, elements) {
                 layers = layers.filter(layer => layer.name !== "Oblique" && layer.typ !== "Oblique");
             }
             createGroupLayer(layers);
+            migrateIdWithSuffix(layers);
             newData.elements.push(...layers);
         }
         if (folder.Ordner) {
@@ -551,8 +555,10 @@ async function migrateFiles (sourcePath, destPath) {
                             if (!parsed[PORTALCONFIG_OLD].mainMenu) {
                                 console.info("\n#############################     migrate     #############################\n");
                                 console.info("--- ATTENTION --- \nthis version will not migrate the following tools: ", toolsNotToMigrate.join(", ") + "\n");
-                                console.info("removed deprecated tools are not migrated:", deprecated.join(", ") + "\n---\n");
+                                console.info("\ntools no longer available are not migrated: ", removed.join(", ") + "\n");
+                                console.info("\ndeprecated tools are not migrated:", deprecated.join(", ") + "\n---\n");
                                 console.info("source: ", configJsonSrcFile, "\ndestination: ", configJsonDestFile, "\n");
+                                migratedTools = migratedTools.concat(removed);
                                 getTitleFromHtml(sourceFolder, indexFile).then((titleAndLogo) => {
                                     const gfi = migrateGFI(parsed);
 

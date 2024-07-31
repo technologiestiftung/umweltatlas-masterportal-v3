@@ -228,10 +228,12 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceTopicTree.js", (
                             {
                                 name: "folder first",
                                 type: "folder",
+                                id: "this ID is not awesome",
                                 elements: [
                                     {
                                         name: "Überschwemmungsgebiete",
                                         type: "folder",
+                                        id: "this ID is awesome",
                                         elements: [
                                             {
                                                 id: "1",
@@ -268,7 +270,7 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceTopicTree.js", (
                         buttons: {}
                     },
                     icon: "bi-folder",
-                    id: "folder_Überschwemmungsgebiete",
+                    id: "this ID is awesome",
                     name: "Überschwemmungsgebiete"
                 }
             ]);
@@ -323,6 +325,7 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceTopicTree.js", (
             const folder = {
                 name: "Überschwemmungsgebiete",
                 type: "folder",
+                id: "best ID ever",
                 elements: [{
                     id: "1",
                     name: "Überschwemmungsgebiete",
@@ -343,7 +346,7 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceTopicTree.js", (
                         }
                     },
                     icon: "bi-folder",
-                    id: "folder_Überschwemmungsgebiete",
+                    id: "best ID ever",
                     name: "Überschwemmungsgebiete"
                 }
             );
@@ -395,7 +398,7 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceTopicTree.js", (
     });
 
     describe("searchInTreeWithEmptyFolder", () => {
-        it("should run over empty folter and find following folder", () => {
+        it("should run over empty folder and find following folder", () => {
             const searchInput = "Überschwemmungsgebiete",
                 layerConfig = {
                     subjectlayer: {
@@ -407,6 +410,7 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceTopicTree.js", (
                             {
                                 name: "Überschwemmungsgebiete",
                                 type: "folder",
+                                id: "klara",
                                 elements: [
                                     {
                                         id: "1",
@@ -441,7 +445,7 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceTopicTree.js", (
                         buttons: {}
                     },
                     icon: "bi-folder",
-                    id: "folder_Überschwemmungsgebiete",
+                    id: "klara",
                     name: "Überschwemmungsgebiete"
                 }
             ]);

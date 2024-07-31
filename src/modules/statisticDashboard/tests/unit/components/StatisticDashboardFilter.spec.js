@@ -526,7 +526,7 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilter.vu
                     ], {})
                 ).to.deep.equal([{key: "stat1", name: "Stat eins", category: "Kategorie 1"}]);
             });
-            it("should return the names of the given statistics with the selected ones at first position", async () => {
+            it("should return the names of the given statistics with the right alphabetical position", async () => {
                 const wrapper = shallowMount(StatisticDashboardFilter, {
                     propsData: {
                         categories: [],
@@ -559,8 +559,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilter.vu
                         }
                     }
                 )).to.deep.equal([
-                    {key: "stat2", name: "Stat zwei", category: "Kategorie 2"},
-                    {key: "stat1", name: "Stat eins", category: "Kategorie 1"}
+                    {key: "stat1", name: "Stat eins", category: "Kategorie 1"},
+                    {key: "stat2", name: "Stat zwei", category: "Kategorie 2"}
                 ]);
             });
         });
@@ -668,62 +668,6 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilter.vu
                     {label: "Alle Jahre", value: []},
                     {label: "Die letzten 5 Jahre", value: []},
                     {label: "Die letzten 10 Jahre", value: []}
-                ]);
-            });
-        });
-
-        describe("regionsSorted", () => {
-            it("should return an empty array", () => {
-                const wrapper = shallowMount(StatisticDashboardFilter, {
-                    propsData: {
-                        categories: [],
-                        timeStepsFilter,
-                        regions: [],
-                        areCategoriesGrouped: false,
-                        statistics: false
-                    },
-                    global: {
-                        plugins: [store]
-                    }
-                });
-
-                expect(wrapper.vm.getRegionsSorted()).to.be.an("array").that.is.empty;
-            });
-            it("should return the array with all regions as given", () => {
-                const wrapper = shallowMount(StatisticDashboardFilter, {
-                    propsData: {
-                        categories: [],
-                        timeStepsFilter,
-                        regions,
-                        areCategoriesGrouped: false,
-                        statistics: false
-                    },
-                    global: {
-                        plugins: [store]
-                    }
-                });
-
-                expect(wrapper.vm.getRegionsSorted(regions, [])).to.deep.equal(regions);
-            });
-            it("should return the array with the selected entries at first", () => {
-                const wrapper = shallowMount(StatisticDashboardFilter, {
-                    propsData: {
-                        categories: [],
-                        timeStepsFilter,
-                        regions,
-                        areCategoriesGrouped: false,
-                        statistics: false
-                    },
-                    global: {
-                        plugins: [store]
-                    }
-                });
-
-                expect(wrapper.vm.getRegionsSorted(regions, [{value: ["Harburg", "Lübeck", "Schwerin"], label: "Alle Gebiete"}])).to.deep.equal([
-                    {value: ["Harburg", "Lübeck", "Schwerin"], label: "Alle Gebiete"},
-                    {value: "Harburg", label: "Harburg"},
-                    {value: "Lübeck", label: "Lübeck"},
-                    {value: "Schwerin", label: "Schwerin"}
                 ]);
             });
         });

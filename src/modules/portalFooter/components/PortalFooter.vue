@@ -21,6 +21,12 @@ export default {
             "type",
             "urls"
         ]),
+        ...mapGetters("Menu", [
+            "mainExpanded",
+            "secondaryExpanded",
+            "mainMenu",
+            "secondaryMenu"
+        ]),
         /**
          * Returns the alias length for relevant device mode.
          * @returns {Number} The alias length for the relevant device mode.
@@ -31,13 +37,52 @@ export default {
             }
 
             return this.urls.filter(url => url.alias).length;
+        },
+        /**
+         * Returns the menu where the about module is configured in.
+          * @returns {String, null} The menu where the about module is in.
+         */
+        aboutModuleSide () {
+            if (this.mainMenu.sections[0].find(m => {
+                return m.type === "about";
+            })) {
+                return "mainMenu";
+            }
+            else if (this.secondaryMenu.sections[0].find(m => {
+                return m.type === "about";
+            })) {
+                return "secondaryMenu";
+            }
+
+            return null;
         }
     },
     mounted () {
         this.initializeModule({configPaths: this.configPaths, type: this.type});
     },
     methods: {
-        ...mapActions(["initializeModule"])
+        ...mapActions(["initializeModule"]),
+        ...mapActions("Menu", ["changeCurrentComponent"]),
+        ...mapActions("Menu", ["toggleMenu"]),
+        /**
+         * Opens the about module if it is configured and scrolls to the imprint section.
+         * @returns {void}
+         */
+        openImprint () {
+            if (this.aboutModuleSide === "mainMenu" && !this.mainExpanded) {
+                this.toggleMenu("mainMenu");
+            }
+            else if (this.aboutModuleSide === "secondaryMenu" && !this.secondaryExpanded) {
+                this.toggleMenu("secondaryMenu");
+            }
+
+            this.changeCurrentComponent({type: "about", side: this.aboutModuleSide, props: {name: this.$t("common:modules.about.name")}});
+
+            // timeout is needed to scroll to the correct position of the imprint
+            setTimeout(() => {
+                document.getElementById("imprint").scrollIntoView({behavior: "smooth", block: "start"});
+            }, 500);
+        }
     }
 };
 </script>
@@ -47,6 +92,16 @@ export default {
         id="module-portal-footer"
         class="portal-footer d-flex px-2 py-1"
     >
+        <a
+            v-if="aboutModuleSide"
+            class="impressumLink"
+            role="button"
+            tabindex="0"
+            @click="openImprint"
+            @keydown="openImprint"
+        >
+            {{ $t("common:modules.about.imprintTitle") }}
+        </a>
         <div
             v-for="(url, index) in urls"
             :key="`portal-footer-url-${index}`"
@@ -56,7 +111,7 @@ export default {
                 <a
                     :href="url.url"
                     target="_blank"
-                    class="p-0"
+                    class="p-0 footerUrl"
                 >
                     {{ $t(isMobile ? $t(url.alias_mobile) : $t(url.alias)) }}
                 </a>
@@ -105,6 +160,14 @@ export default {
 
         .spacer {
             flex-grow: 1;
+        }
+
+        .impressumLink {
+            padding-right: 1rem;
+            color: $secondary;
+            &:hover{
+                @include primary_action_hover;
+            }
         }
     }
 

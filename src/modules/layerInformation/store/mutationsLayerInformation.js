@@ -20,7 +20,7 @@ export default {
             cswUrl = layerConf?.datasets?.length > 0 ? layerConf.datasets[0].csw_url : null,
             customMetadata = layerConf?.datasets?.length > 0 ? layerConf.datasets[0].customMetadata : null,
             attributes = layerConf?.datasets?.length > 0 ? layerConf.datasets[0].attributes : null,
-            showDocUrl = layerConf?.datasets?.length > 0 ? layerConf.datasets[0].attributes : null;
+            showDocUrl = layerConf?.datasets?.length > 0 ? layerConf.datasets[0].show_doc_url : null;
         const layerNames = [];
 
         if (layerConf?.typ === "GROUP") {
@@ -41,7 +41,7 @@ export default {
                         attributes = child.datasets[0].attributes;
                     }
                     if (!showDocUrl) {
-                        showDocUrl = child.datasets[0].attributes;
+                        showDocUrl = child.datasets[0].show_doc_url;
                     }
                 }
             });

@@ -27,7 +27,8 @@ module.exports = [
                 Cesium: true,
                 i18next: true,
                 mapCollection: true,
-                moduleCollection: true
+                moduleCollection: true,
+                StreetSmartApi: true
             }
         },
         plugins: {
@@ -122,7 +123,7 @@ module.exports = [
             "vars-on-top": "error",
             "yoda": "error",
             // changes for eslint v9
-            "no-undef": "off",
+            "no-undef": "error",
             "no-unused-vars": ["error",
                 {"caughtErrors": "none"}
             ],

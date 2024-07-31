@@ -14,7 +14,7 @@ describe("src/modules/BaselayerSwitcher.vue", () => {
         visibleBaselayerConfigs,
         originalUpdateLayerVisibilityAndZIndex;
     const vectorTileLayer = {id: "VectorTile", name: "ArcGIS VectorTile", visibility: false, baselayer: true, showInLayerTree: true, zIndex: 1},
-        layer_453 = {id: "453", name: "Geobasiskarten (HamburgDE)", visibility: true, baselayer: true, showInLayerTree: true};
+        layer_453 = {id: "453", name: "Geobasiskarten (HamburgDE)", visibility: true, baselayer: true, showInLayerTree: true, zIndex: 0};
 
     beforeEach(() => {
         baselayerConfigs = [
@@ -73,6 +73,18 @@ describe("src/modules/BaselayerSwitcher.vue", () => {
 
     describe("baselayerSwitcher DOM elements", () => {
         it("renders BaselayerSwitcher", () => {
+            store.commit("Modules/BaselayerSwitcher/setActive", true);
+            wrapper = shallowMount(BaselayerSwitcherComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.find("#baselayer-switcher").exists()).to.be.true;
+        });
+
+        it("renders BaselayerSwitcher for two Baselayers", () => {
+            store.commit("setAllBaselayerConfigs", [vectorTileLayer, layer_453]);
             store.commit("Modules/BaselayerSwitcher/setActive", true);
             wrapper = shallowMount(BaselayerSwitcherComponent, {
                 global: {
@@ -207,6 +219,41 @@ describe("src/modules/BaselayerSwitcher.vue", () => {
             expect(store.state.Modules.BaselayerSwitcher.topBaselayerId).to.deep.equal(layerId);
             expect(store.state.Modules.BaselayerSwitcher.activatedExpandable).to.equal(false);
         });
+        it("old layer stays visible", () => {
+            const layerId = "VectorTile";
+
+            wrapper = shallowMount(BaselayerSwitcherComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.switchActiveBaselayer(layerId);
+
+            expect(BaselayerSwitcher.actions.updateLayerVisibilityAndZIndex.calledOnce).to.equal(true);
+            expect(store.state.Modules.BaselayerSwitcher.topBaselayerId).to.deep.equal(layerId);
+            expect(store.state.Modules.BaselayerSwitcher.activatedExpandable).to.equal(false);
+            expect(layer_453.visibility).to.equal(true);
+        });
+        it("old layer is switched to invisible in singleBaseLayerMode", () => {
+            const layerId = "VectorTile";
+
+            store.commit("Modules/BaselayerSwitcher/setSingleBaseLayer", true);
+
+            wrapper = shallowMount(BaselayerSwitcherComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.switchActiveBaselayer(layerId);
+
+            expect(BaselayerSwitcher.actions.updateLayerVisibilityAndZIndex.calledOnce).to.equal(true);
+            expect(store.state.Modules.BaselayerSwitcher.topBaselayerId).to.deep.equal(layerId);
+            expect(store.state.Modules.BaselayerSwitcher.activatedExpandable).to.equal(false);
+            expect(layer_453.visibility).to.equal(false);
+        });
+
 
     });
 });

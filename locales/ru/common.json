@@ -39,7 +39,6 @@
       "alertTitleSuccess": "",
       "alreadyAdded": "",
       "completeMessage": "&#9989; Слои запрашиваемой WMS были добавлены в тематическое дерево в пункте меню <strong>Внешние предметные данные</strong>!",
-      "errorEmptyUrl": "",
       "errorHttpsMessage": " &#10060; Запрошенная вами WMS находится под http-URL. Мастер-портал может интегрировать WMS только через https (SSL).",
       "errorMessage": "&#10060; Указанная служба не может быть загружена. Пожалуйста убедитесь, что URL-адрес введен правильно.<br><br> Если проблема остается, обратитесь к оператору сервиса со следующим советом:<br><strong>Необходимо убедиться, что для сервиса установлен заголовок CORS. Это рекомендуется от <a target='_blank' href='https://www.gdi-de.org/SharedDocs/Downloads/DE/GDI-DE/Dokumente/Architektur_GDI-DE_Bereitstellung_Darstellungsdienste.pdf?__blob=publicationFile'>GDI-DE</a> в главе 4.7.1.</strong>",
       "errorTitle": "",
@@ -73,6 +72,18 @@
       "sourceSelectLabel": "Источниковый слой",
       "targetLayerNotFound": "Сохраненный целевой слой с идентификатором {{layerId}} не найден",
       "targetSelectLabel": "Целевой слой"
+    },
+    "compareMaps": {
+      "description": "Сравнить две карты рядом друг с другом или одна на другой",
+      "firstLayer": "Первый слой",
+      "horizontal": "горизонтально",
+      "loadingWait": "Пожалуйста, подождите, инструмент загружает карты для сравнения",
+      "name": "Сравнить карты",
+      "reset": "Сбросить",
+      "secondLayer": "Второй слой",
+      "selectLayerOneFirst": "Пожалуйста, сначала выберите первый слой",
+      "splitDirection": "Направление: ",
+      "vertical": "вертикально"
     },
     "contact": {
       "addFileButton": "",

@@ -6,26 +6,31 @@ import {initializeMaps, load3DMap} from "../../../js/maps";
 import store from "../../../../../app-store";
 
 describe("src/core/js/maps/maps.js", () => {
-    let load3DScriptSpy;
+    let load3DScriptSpy,
+        origGetters;
 
     before(() => {
-        mapCollection.clear();
-
-        load3DScriptSpy = sinon.spy(load3DScript, "load3DScript");
+        origGetters = store.getters;
     });
 
     beforeEach(() => {
+        mapCollection.clear();
+        load3DScriptSpy = sinon.spy(load3DScript, "load3DScript");
         store.getters = {
-            cesiumLibrary: "path_to_cesium_library"
+            cesiumLibrary: "path_to_cesium_library",
+            controlsConfig: {
+                button3d: true
+            }
         };
     });
 
     afterEach(() => {
+        store.getters = origGetters;
         sinon.restore();
     });
 
     describe("initializeMaps", () => {
-        it("2D map should exists after createMaps", () => {
+        it("2D map should exists after createMaps and if button3d is configured, Cesium is loaded", () => {
             const portalConfig = {
                     portal: "config"
                 },
@@ -38,6 +43,21 @@ describe("src/core/js/maps/maps.js", () => {
             expect(mapCollection.getMap("2D")).to.be.not.undefined;
             expect(load3DScriptSpy.calledOnce).to.be.true;
         });
+        it("2D map should exists after createMaps and if button3d is not configured, Cesium is not loaded", () => {
+            const portalConfig = {
+                    portal: "config"
+                },
+                configJs = {
+                    config: "js"
+                };
+
+            store.getters.controlsConfig.button3d = undefined;
+            initializeMaps(portalConfig, configJs);
+
+            expect(mapCollection.getMap("2D")).to.be.not.undefined;
+            expect(load3DScriptSpy.notCalled).to.be.true;
+        });
+
     });
 
     describe("load3DMap", () => {

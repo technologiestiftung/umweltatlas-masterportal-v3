@@ -144,6 +144,10 @@ function addSearchbar (data, mainMenu) {
                 searchInterfaces: []
             };
 
+        if (typeof oldSearchbar.placeholder === "string") {
+            newSearchbar.placeholder = oldSearchbar.placeholder;
+        }
+
         Object.entries(oldSearchbar).forEach(([searchName, searchConfig]) => {
             if (typeof searchConfig === "object") {
                 let searchType = searchName;
@@ -156,6 +160,9 @@ function addSearchbar (data, mainMenu) {
                 }
                 if (searchName === "tree") {
                     searchType = "topicTree";
+                }
+                if (searchName === "komoot") {
+                    searchType = "komootPhoton";
                 }
                 if (searchName === "gdi") {
                     console.info("--- HINT: deprecated " + searchType + " is no longer provided, use elastic instead.");
@@ -210,10 +217,21 @@ function addTitle (data, mainMenu, titleAndLogo) {
         delete newTitle.title;
     }
     else {
+        const separator = "\" alt=\"";
+        let logo = titleAndLogo.logo,
+            toolTip = "toolTip";
+
+        if (logo.includes(separator)) {
+            const splittedLogo = logo.split(separator);
+
+            logo = splittedLogo[0];
+            toolTip = splittedLogo[1];
+        }
+
         newTitle.text = titleAndLogo.title;
-        newTitle.logo = titleAndLogo.logo;
+        newTitle.logo = logo;
         newTitle.link = "";
-        newTitle.toolTip = "toolTip";
+        newTitle.toolTip = toolTip;
     }
     mainMenu.title = newTitle;
     console.info("   title");

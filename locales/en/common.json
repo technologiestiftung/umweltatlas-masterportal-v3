@@ -44,14 +44,20 @@
       "description": "Learn about this portal",
       "name": "About this Portal",
       "noMetadataLoaded": "No metadata could be loaded!",
-      "version": "Version: "
+      "version": "Version: ",
+      "ustId": "Sales tax identification number in accordance with Section 27 of the Sales Tax Act:",
+      "imprintTitle": "Imprint",
+      "privacyStatementText": "Privacy policy and general information on the implementation of the data protection regulations of Articles 12 to 14 of the General Data Protection Regulation at the Agency for Geoinformation and Surveying of the Free and Hanseatic City of Hamburg:",
+      "privacyStatement": "Data privacy policy",
+      "accessibilityText": "Declaration on accessibility with regard to Section 11 of the Hamburg Act on Equal Opportunities for Persons with Disabilities (Hamburg Disability Equality Act - HmbBGG) of 19 December 2019:",
+      "accessibilityStatement": "Accessibility statement",
+      "contactButton": "Get in contact"
     },
     "addWMS": {
       "alertTitleSuccess": "Layer added successfully",
       "alreadyAdded": "The layers of the requested WMS have already been added.",
       "completeMessage": "&#9989; The layers of the requested WMS were added to the topic tree under the menu item <strong>External Subject Data</strong>!",
       "description": "Add a Web Map Service (WMS) to the topic tree",
-      "errorEmptyUrl": "Please input an wms Url in the input field!",
       "errorHttpsMessage": "&#10060; The WMS you requested is located under a http-url. The master portal can only integrate WMS via https (SSL).",
       "errorMessage": "&#10060; The specified service could not be loaded. Please make sure that the URL was entered correctly.<br><br> If the problem persists, please contact the operator of the service with the following note:<br><strong>It should be ensured that a CORS header is set for the service. This is recommended by the <a target='_blank' href='https://www.gdi-de.org/SharedDocs/Downloads/DE/GDI-DE/Dokumente/Architektur_GDI-DE_Bereitstellung_Darstellungsdienste.pdf?__blob=publicationFile'>GDI-DE</a> in chapter 4.7.1.</strong>",
       "errorTitle": "Layer could not be added",
@@ -89,6 +95,18 @@
       "sourceSelectLabel": "source layer",
       "targetLayerNotFound": "The saved target layer with the ID {{layerId}} was not found",
       "targetSelectLabel": "target layer"
+    },
+    "compareMaps": {
+      "description": "Compare two maps side by side or on top of each other",
+      "firstLayer": "First Layer",
+      "horizontal": "horizontal",
+      "loadingWait": "Please wait, the tool is loading the comparison maps",
+      "name": "Compare Maps",
+      "reset": "Reset",
+      "secondLayer": "Second Layer",
+      "selectLayerOneFirst": "Please select the first layer first",
+      "splitDirection": "Direction: ",
+      "vertical": "vertical"
     },
     "contact": {
       "addFileButton": "Add image",
@@ -183,6 +201,7 @@
       },
       "coordSystemField": "Coordinate reference system",
       "coordsCopied": "The coordinate(s) were copied to the clipboard.",
+      "coordsPair": "Pair of coordinates",
       "copyCoordBtn": " Copy {{value}}",
       "copyCoordsBtn": "Copy pair of coordinates",
       "copyToClipboard": {
@@ -204,7 +223,7 @@
       },
       "heightLabel": "Height",
       "hintSearch": "Enter the coordinates to search for",
-      "hintSupply": "Click in the map to request coordinates and height",
+      "hintSupply": "Please click the map",
       "influenceFactors": "The displayed values are subject to inaccuracies that are influenced by the following factors, among others, e.g. scale, resolution of the map and the screen.",
       "info": "Information",
       "name": "Coordinates",
@@ -279,7 +298,7 @@
         "pleaseChoose": "Please choose",
         "unknownGeometry": "Unknown geometry: <strong>{{geometry}}</strong>"
       },
-      "drawLayerVisible": "Show/hide drawing",
+      "drawLayerVisible": "Show drawing",
       "drawTypeOptions": {
         "drawArea": "Area",
         "drawCircle": "Circle",
@@ -813,7 +832,7 @@
       "setMarker":"Set marker",
       "zoomToResult":"Zoom to result",
       "startRouting":"Start route",
-      "showInTree":"Show topic",
+      "showInTree":"Show topic in folder",
       "showLayerInfo":"Information and legend"
     },
     "showAllResults": "Show all results",
@@ -856,13 +875,13 @@
     },
     "statisticDashboard": {
       "name": "Statistic dashboard",
-      "description": "Statistic dashboard description ...",
+      "description": "Filter statistics by topic and display associated tables and diagrams.",
       "headings": {
         "mrhstatistics": "MRH Statistics",
         "mrhstatisticsTooltip": "Link to the metadata",
         "addFilter": "Add Filter"
       },
-      "infoText": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+      "infoText": "Note: For many areas, only a part is initially shown in the diagram (based on the table sorting). Additional areas can be added using the field at the bottom.",
       "button": {
         "difference": "Difference",
         "table": "Table",
@@ -881,14 +900,16 @@
         "statistics": "Statistics",
         "communities": "Communities",
         "districts": "Districts",
-        "more": "more"
+        "more": "more",
+        "time": "Timebased filter",
+        "geographical": "Geographical filter"
       },
       "filterInputs": {
         "additional": "Additional"
       },
       "reference": {
         "title": "Reference type",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod",
+        "description": "Differential values, related to a reference year or area.",
         "placeholder": "Please choose at least one option!",
         "tagLabel": "Reference"
       },
@@ -896,7 +917,7 @@
         "under": "under",
         "between": "between {{minimum}} and {{maximum}}",
         "from": "From",
-        "nodata": "Visualization of data from multiple statistics on the map is not yet available.",
+        "nodata": "Visualization of data from multiple statistics on the map is not available.",
         "legend": "Map legend",
         "edit": "Edit",
         "editClassification": "Edit classification",
@@ -910,9 +931,12 @@
         "color": "Color",
         "equalIntervals": "Equal intervals",
         "quantile": "Equal class sizes (quantiles)",
-        "customized": "Customized"
+        "customized": "Customized",
+        "andAbove": "and above",
+        "invalidCustomStepsAlert": "Warning: Threshold values for classification must be ascending numbers!"
       },
-      "totalHint": "Because of the percentage count, the total count is not so meaningful."
+      "totalHint": "Attention: The sum function does not distinguish between absolute numbers, percentages, mean values or relative values (e.g. inhabitants per square meter). The totals are therefore not always interpretable. Please note in the context of the selected statistics.",
+      "backToOverview": "Overview of Diagrams"
     },
     "shadow": {
       "name": "Shadows",
@@ -924,6 +948,7 @@
       "withInfoLabel": "With information"
     },
     "shareView": {
+      "copyErrorAlert": "The <b><a href=\"{{url}}\" target=\"_blank\">current view URL</a></b> could not be copied to the clipboard. This function is only available on secure websites accessible via the HTTPS protocol (https://).<br><br>Please contact the portal operator and request the establishment of a secure connection.",
       "description": "Share a link to the map",
       "downloadQR": "Download QRCode",
       "myMap": "This is my map: ",

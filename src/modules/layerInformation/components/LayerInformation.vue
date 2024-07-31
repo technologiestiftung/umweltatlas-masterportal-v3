@@ -345,6 +345,11 @@ export default {
         margin: 15px 0 10px 0;
     }
 
+    .abstract {
+        max-height: 40vH;
+        overflow-y: auto;
+    }
+
     .abstract > p {
         font-size: $font-size-base;
     }

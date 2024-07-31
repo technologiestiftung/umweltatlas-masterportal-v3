@@ -54,7 +54,7 @@ export default {
             </button>
             <div class="ms-auto mt-1 d-flex">
                 <div
-                    v-for="action, i in Object.keys(actions)"
+                    v-for="(action, i) in Object.keys(actions)"
                     :key="i"
                 >
                     <ActionButton

@@ -1,4 +1,4 @@
-import {config, shallowMount} from "@vue/test-utils";
+import {config, shallowMount, mount} from "@vue/test-utils";
 import {expect} from "chai";
 import {createStore} from "vuex";
 import StatisticDashboardLegend from "../../../components/StatisticDashboardLegend.vue";
@@ -33,6 +33,12 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardLegend.vu
                                 },
                                 setOpacity: (state, options) => {
                                     state.opacity = options;
+                                },
+                                setStepValues: (state, options) => {
+                                    state.stepValues = options;
+                                },
+                                setColorPalette: (state, options) => {
+                                    state.colorPalette = options;
                                 }
                             },
                             getters: {
@@ -43,7 +49,9 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardLegend.vu
                                 numberOfClasses: (state) => state.numberOfClasses,
                                 selectableColorPalettes: () => [{label: "Schwarz"}],
                                 selectedColorPaletteIndex: state => state.selectedColorPaletteIndex,
-                                opacity: state => state.opacity
+                                opacity: state => state.opacity,
+                                stepValues: state => state.stepValues ?? [0, 100],
+                                colorPalette: state => state.colorPalette
                             }
                         }
                     }
@@ -91,14 +99,14 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardLegend.vu
 
             expect(wrapper.find("#custom-color-palette").exists()).to.be.true;
         });
-        it("should render value ranges if classification is 'benutzerdefiniert'", async () => {
+        it("should render value ranges if classification is 'custom'", async () => {
             const wrapper = shallowMount(StatisticDashboardLegend, {
                 global: {
                     plugins: [store]
                 }
             });
 
-            wrapper.vm.setClassificationMode("benutzerdefiniert");
+            wrapper.vm.setClassificationMode("custom");
             wrapper.vm.setNumberOfClasses(1);
             await wrapper.vm.$nextTick();
 
@@ -120,7 +128,7 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardLegend.vu
                 }
             });
 
-            wrapper.vm.setClassificationMode("benutzerdefiniert");
+            wrapper.vm.setClassificationMode("custom");
             wrapper.vm.setNumberOfClasses(5);
             await wrapper.vm.$nextTick();
 
@@ -219,6 +227,77 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardLegend.vu
             await wrapper.find("#opacity").trigger("change");
 
             expect(wrapper.vm.opacity).to.equal(0.6);
+        });
+    });
+    describe("Custom classification", () => {
+        it("should show correct step values according to store", async () => {
+            const wrapper = shallowMount(StatisticDashboardLegend, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.setNumberOfClasses(2);
+            wrapper.vm.setStepValues([0, 10]);
+            wrapper.vm.setClassificationMode("custom");
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.getComponent("#value-range1").vm.value).to.equal("0");
+            expect(wrapper.getComponent("#value-range21").vm.value).to.equal("10");
+            expect(wrapper.getComponent("#value-range2").vm.value).to.equal("10");
+        });
+        it("should change value in store correctly when changed", async () => {
+            const wrapper = mount(StatisticDashboardLegend, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.setNumberOfClasses(2);
+            wrapper.vm.setStepValues([0, 10]);
+            wrapper.vm.setClassificationMode("custom");
+            await wrapper.vm.$nextTick();
+
+            await wrapper.find("#value-range1").setValue(3);
+            await wrapper.find("#value-range1").trigger("change");
+
+            expect(wrapper.vm.stepValues).to.deep.equal([3, 10]);
+        });
+        it("should show correct color value according to store", async () => {
+            const wrapper = shallowMount(StatisticDashboardLegend, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.setNumberOfClasses(2);
+            wrapper.vm.setStepValues([0, 10]);
+            wrapper.vm.setClassificationMode("custom");
+            wrapper.vm.setColorPalette([[255, 0, 0], [0, 255, 0]]);
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.getComponent("#color-range1").vm.value).to.equal("#ff0000");
+            expect(wrapper.getComponent("#color-range2").vm.value).to.equal("#00ff00");
+        });
+        it("should change value in store correctly when changed", async () => {
+            const wrapper = mount(StatisticDashboardLegend, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.setNumberOfClasses(2);
+            wrapper.vm.setStepValues([0, 10]);
+            wrapper.vm.setClassificationMode("custom");
+            wrapper.vm.setColorPalette([[0, 0, 0], [0, 0, 0]]);
+            await wrapper.vm.$nextTick();
+
+            await wrapper.find("#color-range1").setValue("#ff0000");
+            await wrapper.find("#color-range1").trigger("input");
+            await wrapper.find("#color-range2").setValue("#00ff00");
+            await wrapper.find("#color-range2").trigger("input");
+
+            expect(wrapper.vm.colorPalette).to.deep.equal([[255, 0, 0], [0, 255, 0]]);
         });
     });
 });

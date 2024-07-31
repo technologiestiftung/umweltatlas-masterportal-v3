@@ -15,6 +15,8 @@ describe("src/modules/layerPreview/components/LayerPreview.vue", () => {
         wrapper,
         warnSpy,
         layerWMTS,
+        layerWMTS2,
+        WMTSCapabilities,
         layerWMS,
         layerVectorTile,
         layerGroup,
@@ -40,6 +42,15 @@ describe("src/modules/layerPreview/components/LayerPreview.vue", () => {
             capabilitiesUrl: "https://tiles.geoservice.dlr.de/service/wmts?SERVICE=WMTS&REQUEST=GetCapabilities",
             layers: "eoc:basemap",
             optionsFromCapabilities: true
+        };
+        layerWMTS2 = {
+            id: "WMTS2",
+            name: "layerWMTS2",
+            typ: "WMTS",
+            capabilitiesUrl: "https://sg.geodatenzentrum.de/wmts_topplus_open/1.0.0/WMTSCapabilities.xml",
+            optionsFromCapabilities: true,
+            layers: "web",
+            tileMatrixSet: "EU_EPSG_25832_TOPPLUS"
         };
         layerWMS = {
             id: "WMS",
@@ -112,6 +123,9 @@ describe("src/modules/layerPreview/components/LayerPreview.vue", () => {
                     if (id === "WMTS") {
                         return layerWMTS;
                     }
+                    if (id === "WMTS2") {
+                        return layerWMTS2;
+                    }
                     if (id === "WMS") {
                         return layerWMS;
                     }
@@ -127,7 +141,7 @@ describe("src/modules/layerPreview/components/LayerPreview.vue", () => {
             }
         });
         sinon.stub(LayerPreviewComponent.methods, "calculateExtent").returns([1, 2, 3, 4]);
-        getWMTSCapabilitiesStub = sinon.stub(wmts, "getWMTSCapabilities").callsFake(() => new Promise(resolve => resolve({
+        WMTSCapabilities = {
             Contents: {
                 Layer: [
                     {
@@ -176,9 +190,8 @@ describe("src/modules/layerPreview/components/LayerPreview.vue", () => {
                         ]
                     }
                 ]
-            }
-
-        })));
+            }};
+        getWMTSCapabilitiesStub = sinon.stub(wmts, "getWMTSCapabilities").callsFake(() => new Promise(resolve => resolve(WMTSCapabilities)));
         loadSpy = sinon.spy(LayerPreviewComponent.methods, "load");
         sinon.stub(axios, "get").returns(Promise.resolve({status: 200, data: []}));
     });
@@ -263,6 +276,86 @@ describe("src/modules/layerPreview/components/LayerPreview.vue", () => {
         expect(getWMTSCapabilitiesStub.calledOnce).to.be.true;
         expect(getWMTSCapabilitiesStub.firstCall.args[0]).to.be.equals(layerWMTS.capabilitiesUrl);
         expect(wrapper.find("img").attributes().src.indexOf(layerWMTS.capabilitiesUrl.split("?")[0])).to.be.equals(0);
+        expect(loadSpy.calledOnce).to.be.true;
+        expect(loadSpy.firstCall.args[0]).to.be.equals(expectedURL);
+        expect(warnSpy.notCalled).to.be.true;
+    });
+
+    it("do render the LayerPreview for supported layer-typ WMTS with crs 25832", async () => {
+        WMTSCapabilities = {
+            Contents: {
+                Layer: [
+                    {
+                        Title: "TopPlusOpen Graustufen",
+                        Identifier: "web",
+                        Style: [
+                            {
+                                "Identifier": "default",
+                                "isDefault": true
+                            }
+                        ],
+                        Format: [
+                            "image/png"
+                        ],
+                        TileMatrixSetLink: [
+                            {
+                                "TileMatrixSet": "EU_EPSG_25832_TOPPLUS"
+                            }
+                        ],
+                        ResourceURL: [
+                            {
+                                format: "image/png",
+                                template: "https://sg.geodatenzentrum.de/wmts_topplus_open/tile/1.0.0/web/{Style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png",
+                                resourceType: "tile"
+                            }
+                        ]
+                    }
+                ],
+                TileMatrixSet: [
+                    {
+                        Identifier: "EU_EPSG_25832_TOPPLUS",
+                        SupportedCRS: "EPSG:25832",
+                        TileMatrix: [
+                            {
+                                Identifier: "03",
+                                ScaleDenominator: 2183915.0938621783,
+                                TopLeftCorner: [
+                                    -3803165.98427299,
+                                    8805908.08284866
+                                ],
+                                TileWidth: 256,
+                                TileHeight: 256,
+                                MatrixWidth: 48,
+                                MatrixHeight: 40
+                            }
+                        ]
+                    }
+                ]
+            }
+
+        };
+
+        const props = {
+                layerId: "WMTS2",
+                center: [535015, 5673447],
+                zoomLevel: 3
+            },
+            expectedURL = "https://sg.geodatenzentrum.de/wmts_topplus_open/tile/1.0.0/web/default/EU_EPSG_25832_TOPPLUS/03/20/27.png";
+
+        sinon.stub(LayerPreviewComponent.methods, "getPreviewUrl").returns(layerWMTS2.capabilitiesUrl);
+        wrapper = shallowMount(LayerPreviewComponent, {
+            global: {
+                plugins: [store]
+            },
+            props: props
+        });
+        await wrapper.vm.$nextTick();
+        await wrapper.vm.$nextTick();
+
+        expect(wrapper.find(".layerPreview").exists()).to.be.true;
+        expect(getWMTSCapabilitiesStub.calledOnce).to.be.true;
+        expect(getWMTSCapabilitiesStub.firstCall.args[0]).to.be.equals(layerWMTS2.capabilitiesUrl);
+        expect(wrapper.find("img").attributes().src.indexOf(layerWMTS2.capabilitiesUrl.split("?")[0])).to.be.equals(0);
         expect(loadSpy.calledOnce).to.be.true;
         expect(loadSpy.firstCall.args[0]).to.be.equals(expectedURL);
         expect(warnSpy.notCalled).to.be.true;

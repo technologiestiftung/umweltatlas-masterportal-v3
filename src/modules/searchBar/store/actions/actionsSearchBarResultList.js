@@ -20,7 +20,12 @@ export default {
         });
 
         if (actionType === "onClick") {
-            commit("setSearchInput", searchResult.name);
+            if (searchResult.id?.includes("folder-")) {
+                dispatch("showInTree", {layerId: searchResult.id});
+            }
+            else {
+                commit("setSearchInput", searchResult.name);
+            }
         }
     },
 

@@ -513,49 +513,31 @@ export default {
                     :interaction="() => changeMode('search')"
                 />
             </ul>
-            <div
-                v-if="mode === 'supply'"
-                class="hint row my-3"
-            >
-                <i class="bi-lightbulb-fill col-2" />
-                <span class="col-10 align-items-center d-flex">
-                    {{ $t("common:modules.coordToolkit.hintSupply") }}
-                </span>
-            </div>
-            <div
-                v-if="mode === 'search'"
-                class="hint row my-3"
-            >
-                <i class="bi-lightbulb-fill col-2" />
-                <span class="col-10 align-items-center d-flex">
-                    {{ $t("common:modules.coordToolkit.hintSearch") }}
-                </span>
-            </div>
             <p
                 v-if="isCoordInfo()"
-                class="font-bold mb-3"
+                class="font-bold mb-3 mt-3"
             >
                 {{ $t("common:modules.coordToolkit.postionCoordinates") }}
             </p>
-            <div class="form-floating mb-3">
-                <select
-                    id="coordSystemField"
-                    ref="coordSystemField"
-                    class="form-select"
-                    @change="selectionChanged($event)"
+            <div
+                v-if="isEnabled('supply') && !isMobile && showCopyButtons"
+                class="d-flex justify-content-between mb-3"
+            >
+                {{ $t("common:modules.coordToolkit.coordsPair") + ":   " + coordinatesEasting.value + ", " + coordinatesNorthing.value }}
+                <button
+                    id="copyCoordsPairBtn"
+                    type="button"
+                    class="btn btn-outline-default copy px-3"
+                    :title="$t(`common:modules.coordToolkit.copyCoordsBtn`)"
+                    @click="copyCoords(['coordinatesEastingField', 'coordinatesNorthingField'])"
                 >
-                    <option
-                        v-for="(projection, i) in projections"
-                        :key="i"
-                        :value="projection.id"
-                        :SELECTED="isCurrentProjectionSelected(projection)"
+                    <span
+                        class="bootstrap-icon"
+                        aria-hidden="true"
                     >
-                        {{ projection.title ? projection.title : projection.name }}
-                    </option>
-                </select>
-                <label
-                    for="coordSystemField"
-                >{{ $t("common:modules.coordToolkit.coordSystemField") }}</label>
+                        <i class="bi-files" />
+                    </span>
+                </button>
             </div>
             <div :class="getClassForEasting()">
                 <InputText
@@ -652,37 +634,25 @@ export default {
                     {{ $t("common:modules.coordToolkit.errorMsg.example") + coordinatesNorthingExample }}
                 </p>
             </div>
-            <div
-                v-if="isEnabled('supply') && !isMobile && showCopyButtons"
-                class="d-flex justify-content-between mb-3"
-            >
-                {{ $t("common:modules.coordToolkit.name") + ": " + coordinatesEasting.value + ", " + coordinatesNorthing.value }}
-                <button
-                    id="copyCoordsPairBtn"
-                    type="button"
-                    class="btn btn-outline-default copy px-3"
-                    :title="$t(`common:modules.coordToolkit.copyCoordsBtn`)"
-                    @click="copyCoords(['coordinatesEastingField', 'coordinatesNorthingField'])"
+            <div class="form-floating mb-3">
+                <select
+                    id="coordSystemField"
+                    ref="coordSystemField"
+                    class="form-select"
+                    @change="selectionChanged($event)"
                 >
-                    <span
-                        class="bootstrap-icon"
-                        aria-hidden="true"
+                    <option
+                        v-for="(projection, i) in projections"
+                        :key="i"
+                        :value="projection.id"
+                        :SELECTED="isCurrentProjectionSelected(projection)"
                     >
-                        <i class="bi-files" />
-                    </span>
-                </button>
-            </div>
-            <div
-                v-if="isCoordInfo()"
-            >
-                {{ coordInfo?.title }}
-                <li
-                    v-for="explanation in coordInfo?.explanations"
-                    :key="explanation"
-                >
-                    {{ explanation }}
-                </li>
-                <br>
+                        {{ projection.title ? projection.title : projection.name }}
+                    </option>
+                </select>
+                <label
+                    for="coordSystemField"
+                >{{ $t("common:modules.coordToolkit.coordSystemField") }}</label>
             </div>
             <p
                 v-if="isEnabled('supply') && isCoordInfo()"
@@ -751,6 +721,21 @@ export default {
                                     <hr>
                                 </span>
                                 {{ $t("common:modules.coordToolkit.influenceFactors") }}
+                                <div
+                                    v-if="isCoordInfo()"
+                                >
+                                    <hr>
+                                    <p class="mb-2">
+                                        {{ coordInfo?.title + ":" }}
+                                    </p>
+                                    <li
+                                        v-for="explanation in coordInfo?.explanations"
+                                        :key="explanation"
+                                    >
+                                        {{ explanation }}
+                                    </li>
+                                    <br>
+                                </div>
                             </div>
                         </div>
                     </div>

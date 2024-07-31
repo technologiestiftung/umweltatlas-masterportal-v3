@@ -20,7 +20,8 @@ export default {
         /** name text */
         text: {
             type: String,
-            required: true
+            required: false,
+            default: ""
         },
         /** URL of an external website to link to */
         link: {
@@ -53,7 +54,7 @@ export default {
         <img
             v-if="logo"
             :src="logo"
-            :alt="text"
+            :alt="toolTip || text"
         >
         <h1>{{ $t(text) }}</h1>
     </a>

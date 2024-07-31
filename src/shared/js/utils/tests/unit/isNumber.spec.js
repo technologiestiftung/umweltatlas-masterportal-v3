@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import isNumber from "../../isNumber";
 
-describe("src/utils/isNumber", () => {
+describe("src/shared/js/utils/isNumber", () => {
     it("should return false if the given param is not a number", () => {
         expect(isNumber()).to.be.false;
         expect(isNumber([])).to.be.false;
